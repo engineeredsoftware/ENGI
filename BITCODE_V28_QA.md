@@ -1363,6 +1363,28 @@ a synchronous route, raw-prompt Read, or source-leaking preview model.
 | Settle and unlock | Deterministic Share-to-Fee and BTD settlement. | Price is derived from `sum(measurement_weight * measurement_volume * admitted_fit_quality)` and the staging fee schedule. Reader pays BTC fee, BTD range/ownership/license/journal/anchor rows are written and read back, then full AssetPack source/right surface is unlocked. |
 | Full-profile async pipeline | Run the full PTRR profile for long-running audits. | Vercel Sandbox execution may run for dozens of minutes and must push completion artifacts to a server-side stream/socket handler or durable queue; the push is run-id correlated, authenticated, idempotent, and durable before sandbox stop. Terminal can reattach and read final state without the starter route waiting. |
 
+2026-05-18 implementation start for the staged Reading gate:
+
+- `@bitcode/pipeline-asset-pack` now owns a typed `bitcode.read.need`
+  contract with `needId`, `measurementRoot`, requirements, closure criteria,
+  failure modes, target artifact kinds, source constraints, proof
+  expectations, pricing measurement inputs, review state, and feedback
+  history.
+- Strict Need-Fit search blocks before depository candidate recall unless an
+  accepted Need is present. The blocked state is explicit
+  `blocked_readiness` with `accepted_read_need_missing`.
+- The depository search path consumes accepted Need source constraints and
+  measurement roots as the Fit search input, rather than raw prompt text, when
+  `acceptedReadNeed` is supplied.
+- The Vercel Sandbox harness now lists Need stages in the manifest and
+  synthesizes plus accepts a Need before invoking the existing source-bound
+  AssetPack pipeline. This preserves the current proven staging-testnet path
+  while Terminal is split into user-visible Need review and Need-Fit execution
+  steps.
+- `buildShareToFeePreview` provides the initial source-safe quote shape from
+  accepted Need measurement vector and admitted Fit quality:
+  `sum(measurement.weight * measurement.volume * admitted_fit_quality)`.
+
 Observed staging-testnet harness evidence on 2026-05-17:
 
 - Vercel Sandbox run `sbx_ktb5Z6VnP5A16m9k4a0FkBcJg1d3` completed all six

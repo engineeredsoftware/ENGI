@@ -44,6 +44,17 @@ helpers used only by the harness are installed under `.bitcode/pipeline-harness`
 so historical deposited source revisions do not need to carry newer harness
 dependencies.
 
+The harness manifest includes the staged Reading boundary. The active stage
+sequence begins with Need synthesis, Need review, and Need-Fit search before
+candidate ranking and AssetPack synthesis. The live runner synthesizes a
+typed `bitcode.read.need` object from the Read request, source revision, and
+Deposit context, accepts it for the current harness invocation, and passes it
+to the AssetPack pipeline as `acceptedReadNeed` with
+`requireAcceptedReadNeed=true`. Product routes that already have a user-reviewed
+Need should pass that accepted object directly; if strict Need-Fit execution is
+requested without an accepted Need, candidate recall must return
+`blocked_readiness` before searching the depository.
+
 Structured database telemetry is part of the harness contract. A real Read/Fit
 pipeline run must write the deliverable hierarchy:
 `deliverable_pipeline_runs`, `deliverable_pipeline_events`,

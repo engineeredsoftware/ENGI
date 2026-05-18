@@ -49,10 +49,14 @@ export const VERCEL_SANDBOX_HOST_CAPABILITIES: PipelineHostCapabilities = {
 };
 
 export const ASSET_PACK_HARNESS_STAGES: readonly PipelineHarnessStage[] = [
+  'need-synthesis',
+  'need-review',
+  'need-fit-search',
   'deposit-search',
   'candidate-ranking',
   'read-comprehension',
   'asset-pack-synthesis',
+  'source-safe-preview',
   'validation',
   'finish',
   'telemetry-readback',
@@ -106,6 +110,8 @@ export function buildAssetPackPipelineHarnessManifest(input: {
   sourceRevision: PipelineSourceRevision;
   sourceOverlay?: PipelineHarnessSourceOverlay;
   commandEnvironment?: Record<string, string | undefined>;
+  readNeed?: unknown;
+  requireAcceptedReadNeed?: boolean;
   createdAt?: string;
 }): PipelineHarnessManifest {
   assertNonEmpty(input.read.id, 'read.id');
@@ -119,6 +125,8 @@ export function buildAssetPackPipelineHarnessManifest(input: {
     pipelineName: 'asset-pack-read-fit',
     harnessMode: input.mode,
     read: input.read,
+    requireAcceptedReadNeed: input.requireAcceptedReadNeed ?? true,
+    readNeed: input.readNeed,
     deposit: input.deposit,
     sourceRevision: input.sourceRevision,
     sourceOverlay: input.sourceOverlay,

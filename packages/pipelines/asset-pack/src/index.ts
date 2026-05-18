@@ -23,6 +23,11 @@ import {
   buildDepositoryFitResultEvidence,
   runDepositorySearchForPipelineInput,
 } from './depository-search';
+import {
+  isAcceptedReadNeed,
+  resolveReadNeedFromPipelineInput,
+  synthesizeReadNeedForPipelineInput,
+} from './read-need';
 
 // ==================== FACTORIES ====================
 
@@ -73,17 +78,31 @@ function factoryPreprocess(): Executor<any, any> {
     const writtenAssetType = resolveWrittenAssetType(processedInput);
     const writtenAssetRequest = normalizeWrittenAssetRequest(processedInput?.writtenAssetType);
     const deliveryMechanismTemplate = resolveDeliveryMechanismTemplate(processedInput);
+    const suppliedReadNeed = resolveReadNeedFromPipelineInput(processedInput);
+    const synthesizedReadNeed = synthesizeReadNeedForPipelineInput(processedInput);
+    const readNeed = suppliedReadNeed || synthesizedReadNeed;
     try { processedInput.read = expressedRead; } catch {}
     try { processedInput.definitionOfRead = expressedRead; } catch {}
     try { processedInput.writtenAssetType = writtenAssetType; } catch {}
     try { processedInput.writtenAssetRequest = writtenAssetRequest; } catch {}
     try { processedInput.deliveryMechanismTemplate = deliveryMechanismTemplate; } catch {}
+    try { processedInput.readNeed = readNeed; } catch {}
+    if (isAcceptedReadNeed(readNeed)) {
+      try { processedInput.acceptedReadNeed = readNeed; } catch {}
+    }
     execution.store('pipeline', 'input', processedInput);
     execution.store('pipeline', 'writtenAssetType', writtenAssetType);
     execution.store('pipeline', 'writtenAssetRequest', writtenAssetRequest);
     execution.store('pipeline', 'deliveryMechanismTemplate', deliveryMechanismTemplate);
     execution.store('pipeline', 'expressedRead', expressedRead);
     execution.store('read', 'description', expressedRead);
+    execution.store('read/need', 'current', readNeed as any);
+    execution.store('read/need', 'needId', readNeed.needId);
+    execution.store('read/need', 'measurementRoot', readNeed.measurementRoot);
+    execution.store('read/need', 'reviewState', readNeed.reviewState);
+    if (isAcceptedReadNeed(readNeed)) {
+      execution.store('read/need', 'accepted', readNeed as any);
+    }
 
     const depositorySearch = await runDepositorySearchForPipelineInput(processedInput, execution);
     try { processedInput.depositorySearchResult = depositorySearch; } catch {}
@@ -255,5 +274,19 @@ export {
   runComprehendReadAgent,
 } from './agents/setup/asset-pack-comprehend-read-agent';
 export { AssetPackSynthesizeArtifactsAgent } from './agents/implementation/asset-pack-synthesize-artifacts-agent';
+export {
+  acceptReadNeed,
+  admitNeedFitSearch,
+  buildShareToFeePreview,
+  isAcceptedReadNeed,
+  readNeedToDepositorySearchRead,
+  resolveReadNeedFromPipelineInput,
+  shouldRequireAcceptedReadNeed,
+  synthesizeReadNeedForPipelineInput,
+  type ReadNeed,
+  type ReadNeedFitAdmission,
+  type ReadNeedMeasurementDimension,
+  type ReadNeedReviewState,
+} from './read-need';
 export default assetPackPipeline;
 export const runSDIVFPipeline = assetPackPipeline;

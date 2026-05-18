@@ -32,6 +32,10 @@ describe('pipeline harness manifest', () => {
     expect(manifest.host.isolationBoundary).toBe('firecracker-microvm');
     expect(manifest.host.defaultWorkingDirectory).toBe('/vercel/sandbox');
     expect(manifest.stages).toEqual(ASSET_PACK_HARNESS_STAGES);
+    expect(manifest.stages).toEqual(
+      expect.arrayContaining(['need-synthesis', 'need-review', 'need-fit-search'])
+    );
+    expect(manifest.requireAcceptedReadNeed).toBe(true);
     expect(manifest.expectedEvidenceTables).toEqual(ASSET_PACK_HARNESS_EVIDENCE_TABLES);
     expect(manifest.resultStates).toEqual([
       'worthy_fit',

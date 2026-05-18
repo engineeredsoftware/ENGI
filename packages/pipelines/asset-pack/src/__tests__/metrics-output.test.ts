@@ -27,6 +27,48 @@ describe('AssetPack pipeline bring-up (setup + PTRR plan: prepare→reason)', ()
     try {
       const exec = new Execution('asset-pack:test');
       const inserts: any[] = [];
+      const selectedRows = (table: string, filters: Array<[string, any]>) => {
+        return inserts
+          .filter((insert) => insert.table === table)
+          .map((insert) => insert.row)
+          .filter((row) => filters.every(([column, value]) => row?.[column] === value));
+      };
+      const selectBuilder = (table: string) => {
+        const filters: Array<[string, any]> = [];
+        const builder: any = {
+          eq: (column: string, value: any) => {
+            filters.push([column, value]);
+            return builder;
+          },
+          order: () => builder,
+          limit: () => builder,
+          maybeSingle: async () => ({ data: selectedRows(table, filters).at(-1) || null }),
+          then: (resolve: any) => Promise.resolve({ data: selectedRows(table, filters), error: null }).then(resolve),
+        };
+        return builder;
+      };
+      const updateBuilder = (table: string, patch: any) => {
+        const filters: Array<(row: any) => boolean> = [];
+        const apply = async () => {
+          const rows = inserts.filter((insert) => insert.table === table).map((insert) => insert.row);
+          for (const row of rows) {
+            if (filters.every((filter) => filter(row))) Object.assign(row, patch);
+          }
+          return { data: rows.filter((row) => filters.every((filter) => filter(row))), error: null };
+        };
+        const builder: any = {
+          eq: (column: string, value: any) => {
+            filters.push((row) => row?.[column] === value);
+            return builder;
+          },
+          in: (column: string, values: any[]) => {
+            filters.push((row) => values.includes(row?.[column]));
+            return builder;
+          },
+          then: (resolve: any) => apply().then(resolve),
+        };
+        return builder;
+      };
       const supabaseStub: any = {
         from(table: string) {
           return {
@@ -34,8 +76,8 @@ describe('AssetPack pipeline bring-up (setup + PTRR plan: prepare→reason)', ()
               inserts.push({ table, row });
               return { select: (_?: any) => ({ single: () => Promise.resolve({ data: { id: 'id-' + inserts.length } }) }) } as any;
             },
-            update: (_: any) => ({ eq: () => Promise.resolve({}) }),
-            select: () => ({ eq: () => ({ order: () => ({ limit: () => ({ maybeSingle: async () => ({ data: { id: 'id-last' } } as any) }) }) }) })
+            update: (patch: any) => updateBuilder(table, patch),
+            select: () => selectBuilder(table),
           } as any;
         }
       };

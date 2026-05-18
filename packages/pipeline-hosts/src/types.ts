@@ -10,10 +10,14 @@ export type BitcodePipelineResultState =
   | 'blocked_readiness';
 
 export type PipelineHarnessStage =
+  | 'need-synthesis'
+  | 'need-review'
+  | 'need-fit-search'
   | 'deposit-search'
   | 'candidate-ranking'
   | 'read-comprehension'
   | 'asset-pack-synthesis'
+  | 'source-safe-preview'
   | 'validation'
   | 'finish'
   | 'telemetry-readback';
@@ -93,6 +97,8 @@ export interface PipelineHarnessManifest {
   pipelineName: 'asset-pack-read-fit';
   harnessMode: PipelineHarnessMode;
   read: PipelineReadRequest;
+  requireAcceptedReadNeed?: boolean;
+  readNeed?: unknown;
   deposit: PipelineDepositReference;
   sourceRevision: PipelineSourceRevision;
   sourceOverlay?: PipelineHarnessSourceOverlay;

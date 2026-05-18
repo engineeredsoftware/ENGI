@@ -782,6 +782,20 @@ Settlement cannot proceed unless the previewed AssetPack id, fee quote, BTD
 range projection, wallet authorization, BTC fee transaction, ownership boundary,
 journal entry, and ledger/database readback all agree.
 
+The product pipeline now carries a typed `bitcode.read.need` object before
+Need-Fit search. The Need object contains `needId`, `measurementRoot`,
+requirements, closure criteria, failure modes, target artifact kinds, source
+constraints, proof expectations, pricing measurement inputs, review state, and
+feedback history. Strict Need-Fit execution is admitted only when
+`acceptedReadNeed` is present and has `reviewState='accepted'`; otherwise the
+pipeline returns `blocked_readiness` before depository candidate recall. The
+Vercel Sandbox harness synthesizes and accepts a Need before invoking the
+bounded source-bound AssetPack pipeline so the closed staging-testnet evidence
+path remains runnable while Terminal moves to the separate user review step.
+`BITCODE_PIPELINE_REQUIRE_ACCEPTED_READ_NEED=1` or request-level
+`requireAcceptedReadNeed=true` activates the strict boundary for API and route
+callers.
+
 The protocol demonstration carries only the minimal deterministic witness of
 this path: local Need synthesis, explicit Need acceptance, local Need-Fit
 ranking over fixture deposits, source-safe preview, and deterministic fee-quote

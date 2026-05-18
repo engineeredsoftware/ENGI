@@ -1,5 +1,11 @@
 import { createHash } from 'node:crypto';
 import { buildAssetPackEmbeddingPolicy } from './embedding-config';
+import {
+  admitNeedFitSearch,
+  isAcceptedReadNeed,
+  readNeedToDepositorySearchRead,
+  resolveReadNeedFromPipelineInput,
+} from './read-need';
 
 export type AssetPackFitResultState =
   | 'worthy_fit'
@@ -1031,6 +1037,11 @@ export function createLexicalDepositorySearchProvider(): DepositorySearchProvide
 }
 
 export function normalizeDepositorySearchRead(input: unknown): DepositorySearchRead {
+  const acceptedNeed = resolveReadNeedFromPipelineInput(input);
+  if (isAcceptedReadNeed(acceptedNeed)) {
+    return readNeedToDepositorySearchRead(acceptedNeed);
+  }
+
   const record = recordValue(input) || {};
   const readRecord = recordValue(record.read);
   const sourceRevision = recordValue(record.sourceRevision);
@@ -1290,22 +1301,77 @@ function storeDepositorySearchToolResult(
   });
 }
 
+function buildBlockedNeedFitSearchResult(input: {
+  read: DepositorySearchRead;
+  assets: DepositoryAsset[];
+  blockers: string[];
+}): DepositorySearchResult {
+  const embeddingPolicy = buildAssetPackEmbeddingPolicy();
+  const createdAt = new Date().toISOString();
+  const thresholds = { ...DEFAULT_THRESHOLDS };
+  const queryRoot = `sha256:${sha256(stableStringify({
+    read: input.read,
+    thresholds,
+    embeddingPolicy,
+    blockers: input.blockers,
+  }))}`;
+  const rankingRoot = `sha256:${sha256(stableStringify({
+    blockedBeforeRanking: true,
+    blockers: input.blockers,
+    assetCount: input.assets.length,
+  }))}`;
+
+  return {
+    schema: 'bitcode.asset-pack.depository-search',
+    resultState: 'blocked_readiness',
+    resultReasons: [
+      'Need-Fit search requires an accepted Read-Need before depository candidate recall.',
+      ...input.blockers,
+    ],
+    read: input.read,
+    thresholds,
+    searchedAssetCount: input.assets.length,
+    selectedCandidateAssetIds: [],
+    selectedCandidates: [],
+    rejectedCandidates: [],
+    blockedCandidates: [],
+    candidateRanking: [],
+    embeddingPolicy,
+    queryRoot,
+    rankingRoot,
+    createdAt,
+  };
+}
+
 export async function runDepositorySearchForPipelineInput(
   input: unknown,
   execution?: { store?: (namespace: string, key: string, value: unknown) => void; parent?: unknown }
 ): Promise<DepositorySearchResult> {
+  const admission = admitNeedFitSearch(input);
   const read = normalizeDepositorySearchRead(input);
   const assets = normalizePipelineDepositoryAssets(input);
   const providers = [createLexicalDepositorySearchProvider()];
-  const result = await searchDepositoryAssetSpace({
-    read,
-    assets,
-    providers,
-  });
+  const result = admission.admitted
+    ? await searchDepositoryAssetSpace({
+        read,
+        assets,
+        providers,
+      })
+    : buildBlockedNeedFitSearchResult({
+        read,
+        assets,
+        blockers: admission.blockers,
+      });
 
   const fitResult = buildDepositoryFitResultEvidence(result);
   const storeEvidence = (target?: { store?: (namespace: string, key: string, value: unknown) => void }) => {
     if (!target?.store) return;
+    if (admission.acceptedNeed) {
+      target.store('read/need', 'accepted', admission.acceptedNeed);
+      target.store('read/need', 'measurementRoot', admission.acceptedNeed.measurementRoot);
+      target.store('read/need', 'needId', admission.acceptedNeed.needId);
+    }
+    target.store('read/need-fit', 'admission', admission);
     target.store('depository/search', 'result', result);
     target.store('depository/search', 'candidateRanking', result.candidateRanking);
     target.store('depository/search', 'selectedCandidates', result.selectedCandidates);

@@ -34,6 +34,7 @@ const SANDBOX_PNPM_VERSION = '10.33.0';
 export interface BuildAssetPackSandboxHarnessOptions {
   mode?: PipelineHarnessMode;
   read: PipelineReadRequest;
+  readNeed?: unknown;
   deposit: PipelineDepositReference;
   sourceRevision: PipelineSourceRevision;
   source?: PipelineSandboxSource;
@@ -80,6 +81,8 @@ export function buildAssetPackSandboxHarness(
   const manifest = buildAssetPackPipelineHarnessManifest({
     mode,
     read: options.read,
+    readNeed: options.readNeed,
+    requireAcceptedReadNeed: true,
     deposit,
     sourceRevision: options.sourceRevision,
     sourceOverlay,
@@ -1496,7 +1499,7 @@ try {
   manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
   manifestRoot = createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
   userId = process.env.BITCODE_PIPELINE_USER_ID || manifest.deposit?.userId || DEFAULT_USER_ID;
-  const [{ assetPackPipeline }, { enablePipelineStreaming, factoryPipelineExecution }] = await Promise.all([
+  const [{ assetPackPipeline, acceptReadNeed, isAcceptedReadNeed, synthesizeReadNeedForPipelineInput }, { enablePipelineStreaming, factoryPipelineExecution }] = await Promise.all([
     import('../../packages/pipelines/asset-pack/src/index'),
     import('../../packages/pipelines-generics/src/index'),
   ]);
@@ -1540,9 +1543,29 @@ try {
     record({ type: 'artifact-streaming-enabled', stage: 'telemetry-readback' });
   }
 
+  const readNeed = isAcceptedReadNeed(manifest.readNeed)
+    ? manifest.readNeed
+    : acceptReadNeed(synthesizeReadNeedForPipelineInput({
+        read: manifest.read,
+        readRequest: manifest.read,
+        sourceRevision: manifest.sourceRevision,
+        repository: {
+          fullName: manifest.sourceRevision.repositoryFullName,
+          branch: manifest.sourceRevision.branch,
+          commit: manifest.sourceRevision.commit,
+        },
+      }));
+  execution.store('read/need', 'accepted', readNeed);
+  execution.store('read/need', 'needId', readNeed.needId);
+  execution.store('read/need', 'measurementRoot', readNeed.measurementRoot);
+  execution.store('read/need', 'reviewState', readNeed.reviewState);
+
   const input = {
     read: manifest.read.prompt,
     definitionOfRead: manifest.read.prompt,
+    readNeed,
+    acceptedReadNeed: readNeed,
+    requireAcceptedReadNeed: manifest.requireAcceptedReadNeed !== false,
     repository: {
       fullName: manifest.sourceRevision.repositoryFullName,
       branch: manifest.sourceRevision.branch,
