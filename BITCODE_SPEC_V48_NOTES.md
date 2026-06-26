@@ -288,6 +288,54 @@ legacy five read agents, not the canonical three; the deposit input is still
 specified and become the remaining Gate-3 implementation. The measurement-schema
 and BTD-computation grounding is to be drawn from `protocol-demonstration/`.
 
+## V48 Gate 4 in progress: the reading lens of SynthesizeAssetPacks + the read (Buy) surface uplift
+
+Gate 4 (branch `v48/gate-4-reading-lens-and-surface`, stacked on the Gate-3 tip)
+has two workstreams: (a) implement the READ lens of the one SynthesizeAssetPacks
+pipeline — Gate 3 built the deposit lens plus the lens-aware canonical agents,
+conditional registries, AssetPack-as-measured-patch model, and the
+measurement/BTD grounding, so the read lens reuses that spine; and (b) uplift the
+`/read` (Buy) surface to the north-star Buy flow, mirroring the Gate-2/3 `/deposit`
+treatment.
+
+Reading lens build-down (mirrors deposit; the AssetPack model + measurement/BTD
+grounding are already specified in the Gate-3 section above):
+
+- Lens input is the **Need** (the reader's reviewed read request); the canonical
+  agents are the SAME as deposit, lens-varied by the Need (vs the deposit
+  Obfuscations).
+- **Setup**: clone the reading repo + danger-wall + input-comprehension of the
+  Need (the read input-comprehension; the legacy read-comprehension agent is the
+  starting point).
+- **Discovery**: the 3 canonical agents — `codebase-comprehension` (the reading
+  repo), `depository-search` (read = **FIT-FINDING**: query the Depository for the
+  deposited AssetPacks that fit the Need — the read's defining behavior, grounded
+  in `depository-search.ts` + `read-fits-finding-runtime.ts`), and
+  `inherent-regurgitation`. (Gate 3 registered these for deposit; Gate 4 registers
+  them for read with the Need lens.)
+- **Implementation**: synthesize the read AssetPack patch against the **reading**
+  repo from the fit-found deposited AssetPacks (recorded as the
+  contributing-AssetPacks metadata), compute the absolute measurements AND the
+  fit measurements, and the **BTD** = normalized scalar weighted sum of the
+  fit-only measurements (`btd-scalar-volume-quote.ts`) — what is bought for BTC.
+- **Validation**: read quality + fit validation (worthy-fit thresholds,
+  source-safety, coverage) driving the DIV iterate gate.
+- **Finish**: upload the synthesized read AssetPack(s) to Bitcode for purchase
+  review.
+
+Read (Buy) surface uplift: the `/read` surface gets the north-star Buy-flow
+treatment mirroring the `/deposit` redesign — connect knowledge, request a Read,
+review the synthesized Need, review the potential Fits, buy Fit(s) — running the
+full SynthesizeAssetPacks(read) pipeline inline with rich SDIVF telemetry, decoupled
+from the legacy `/terminal` surface.
+
+Open specification decisions (Gate 4, pending — recorded so implementation stays
+reproducible from spec): the read Need input contract + review surface; whether the
+legacy ReadFitsFindingSynthesis discovery/synthesis agents are retired in favor of
+the canonical agents or kept as the read lens's concrete implementations; the fit
+measurement schemas the read depository-search/Implementation emit; and the `/read`
+Buy-flow UX/UI states.
+
 ## Non-goals during V48 opening
 
 - Do not implement V48 product behavior from this notes-only opening.
