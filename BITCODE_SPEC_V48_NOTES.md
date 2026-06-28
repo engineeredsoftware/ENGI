@@ -424,6 +424,29 @@ Garrett, 2026-06-27):
   (`agent-measure-asset-packs-absolutes-for-depositor`,
   `agent-measure-asset-packs-needinesses-for-reader`, etc.).
 
+### Failsafe chunk/stitch precision — recursive, size-variable N (later V48 gate roadmap; Garrett, 2026-06-27)
+
+The Failsafe substeps `chunk` (`factoryChunkThenSum`) and `stitch`
+(`factoryStitchUntilComplete`) are RECURSIVE failsafes whose count N is VARIABLE to the
+DATA SIZE. A later, appropriate V48 gate must complete the PRECISION around those N:
+
+- **chunk N is variable to the INPUT size** (input-overflow guard): split the input
+  into exactly enough chunks that no single chunk overflows the model's INPUT context,
+  recursing (re-chunk a chunk that still overflows) until every chunk fits. N derives
+  from the input token size vs the context budget — not a fixed threshold.
+- **stitch N is variable to the OUTPUT size** (output-overflow guard): produce the full
+  result across exactly enough stitched continuations that it completes despite the
+  model's max-OUTPUT-token limit, recursing (continue stitching) until the output is
+  complete. N derives from the output size vs the max-output budget.
+
+Today these are approximated by a fixed `chunkThreshold` on the plan/try steps. The
+later gate FORMALIZES the precise, recursive N for BOTH axes, so the Failsafe is robust
+to inputs and outputs of ANY size (neither input- nor output-overflow can occur). This
+is a generic-primitive hardening (`agent-generics` / `pipelines-generics`); gate
+placement is flexible — naturally alongside the formal-primitive work (e.g. the Gate-4
+read / needinesses formalization that runs on the same Failsafe ∘ Thricified machinery,
+or a dedicated primitive-robustness chunk).
+
 ### Gate-3 absolutes formalization — implementable contract (Garrett, 2026-06-27)
 
 This is the implementable detail for the Gate-3 obligation above. Measurement is
