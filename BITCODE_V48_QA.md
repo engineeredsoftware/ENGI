@@ -364,6 +364,19 @@ cd uapi && pnpm exec jest depositSourceProvisioning depositSynthesizeOptionsRout
 | Automated baseline green | | | |
 | #25 sandbox in-box (or N/A) | | | |
 
+**Pulling a run's persisted output** (for the COPY targets) — Supabase SQL editor:
+```sql
+select status, context, jsonb_pretty(output->'depositOptionSynthesis') as synthesis
+from executions where id = '<runId>';
+-- per-option absolutes / contents / neediness only:
+select jsonb_pretty(output->'depositOptionSynthesis'->'options') from executions where id = '<runId>';
+```
+or the history API the client uses (authenticated session):
+`GET /api/executions/history/<runId>` → `.output.depositOptionSynthesis`; e.g.
+`… | jq '.output.depositOptionSynthesis.options[] | {title, measurements, contents, neediness}'`
+(source-safe fields only). The `runId` is in the `Synthesized X measured AssetPack options…`
+completion event and the `/deposit` URL after dispatch.
+
 ## Track 3 — Reading
 
 - [ ] Read request on /read
