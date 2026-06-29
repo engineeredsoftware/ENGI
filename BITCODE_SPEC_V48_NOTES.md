@@ -447,6 +447,33 @@ placement is flexible — naturally alongside the formal-primitive work (e.g. th
 read / needinesses formalization that runs on the same Failsafe ∘ Thricified machinery,
 or a dedicated primitive-robustness chunk).
 
+### Obfuscation handling — knowledge boundary, implicit, decided + steerable (later V48 gate roadmap; Garrett, 2026-06-29)
+
+Today deposit obfuscation handling is fail-closed PATH exclusion (excluded/obfuscated
+paths are removed from the inventory before any prompt; any candidate covering an
+excluded/unknown path is dropped; the synthesis agent is told to honor obfuscations +
+protected-IP exclusions absolutely). A later, appropriate V48 gate (deposit lens —
+naturally the Gate-5 ForDepositor finalization, or a deposit-policy gate) enriches it to
+a principled, steerable model:
+
+- **Knowledge boundary (fair game).** Knowledge that CAN be derived from the
+  UNOBFUSCATED source is fair game to synthesize into AssetPacks; knowledge that CANNOT
+  be known without the obfuscated material is NOT — it is withheld. The test is
+  derivability from the non-obfuscated remainder, not mere path membership.
+- **Implicit obfuscations.** Handle not only the depositor's EXPLICIT
+  obfuscations/exclusions but IMPLICIT ones — anything that, though unlisted, would
+  reveal or reconstruct an obfuscated thing (a derivation, a tell, a unique signature).
+  Detect + withhold these too.
+- **Error on the side of obfuscating.** When it is uncertain whether something falls
+  inside the boundary, default to OBFUSCATING (withholding) — conservative / fail-closed.
+- **Decided + reported for steering.** Resynthesis REPORTS the obfuscation decisions:
+  WHAT was obfuscated/withheld and HOW each decision was reached (the reasoning), so the
+  depositor can clearly STEER obfuscation on resynthesize (tighten, relax, or correct
+  specific decisions). The decisions ride the option / synthesis report alongside the
+  measurements + contents.
+- **Source-safety.** The decision report is itself source-safe — it names what was
+  withheld + the rationale at a topic/path level, never the obfuscated material.
+
 ### Gate-3 absolutes formalization — implementable contract (Garrett, 2026-06-27)
 
 This is the implementable detail for the Gate-3 obligation above. Measurement is
