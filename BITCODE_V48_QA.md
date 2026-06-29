@@ -289,6 +289,81 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 - [ ] Approve → Depository admission readback
 - [ ] /packs?type=depository-assetpack shows the admission
 
+### Gate 3 depositing — QA finalization runbook (2026-06-29)
+
+Manual end-to-end verification of the Gate-3 depositing parity matrix
+(`BITCODE_SPEC_V48_NOTES.md` → "Gate-3 depositing PARITY MATRIX"). Copy the named log
+lines / UI values into §6 for the QA record.
+
+**0. Preconditions**
+- Branch `v48/gate-3-synthesis-pipeline-correctness`; `uapi/.env.local` then restart `dev:remote`:
+  - `BITCODE_ASSET_PACK_REAL_INFERENCE=true` — the ONLY required flag. Do NOT set
+    `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE` (profiles removed, F26-A; it is a no-op).
+  - Anthropic key present (default `claude-sonnet-4-6`).
+  - `BITCODE_PIPELINE_HOST` unset (defaults to `inline`) — the dev Node server IS the
+    inline host, so it must have `git` on PATH + a writable temp dir.
+- Supabase staging + a connected GitHub repo (`vcs_repositories` row + an active
+  `user_connections` github row). Pick a small/medium real TS or Python repo (meaningful sizes).
+
+**1. Run (manual)** — `/deposit` → select repo + revision → optionally add obfuscations
++ protected-IP exclusions (e.g. `secret/`) + demand context → Synthesize options → watch
+the streaming accordion log.
+
+**2. Acceptance criteria + log copy points** (line = accordion / `execution_events`; UI = the option card)
+
+| # | What | COPY | PASS |
+|---|---|---|---|
+| Host | `Provisioning {repo}@{ref} on the inline host…` then `Checkout ready: N files (M withheld by K protected-IP exclusions; full source measured, S prompt excerpts).` | the "Checkout ready" line | N = the repo's REAL tracked-file count (full repo, not ≤400/≤10); "full source measured"; M = exclusion-withheld files. FAIL if N≤10 or "samples"/API language → stopgap still active |
+| Pipeline | `Running SynthesizeAssetPacks (deposit mode): Setup → Discovery → Implementation → Validation → Finish…` | the Phase pills from telemetry | all five phases present; Validation never skipped |
+| Absolutes | Validation telemetry shows `AssetPackMeasureAbsolutesAgent:deposit`; card measurements tile: `Functions: <N> functions · <v>% / weight 0.18`, `Types`, `File span`, `Correctness · <v>% / weight 0.28`, `Semantic volume` | the tile values + `output.depositOptionSynthesis.options[i].measurements` | size measures carry `magnitude`(int)+`unit`+`category:'absolute'`; magnitudes are plausible real counts; weights sum to 1. FAIL if `source-coverage`/`demand-alignment`/`reuse-likelihood` appear → placeholders still in use |
+| Card payload | option card emerald panel "If deposited, Bitcode receives": patchSummary + "Synthesized contents · N file(s)" (op-colored create/modify/delete) + "Provenant source · N files available to Bitcode" | `…options[i].contents` (patchSummary, fileChanges, provenantSourcePaths, provenantSourceCount) + screenshot | BOTH the synthesized contents AND the provenant source files shown prominently; fileChanges are path+op only (no raw code) |
+| Neediness | amber tile `Neediness · est. read demand <v>% · demand <d>% · saturation <s>%` + rationale | `…options[i].neediness` | present on deposit options; `volume = clamp01(demand×(0.5+0.5(1−saturation)))`; rationale source-safe |
+| Completion | `Validated candidates fail-closed: A admissible, D dropped.` then `Synthesized X measured AssetPack options (T tokens, Ds s).` | the `executions` row (id=runId): `context` (pipelineCore=`AssetPacksSynthesis`, synthesisMode, optionCount, excludedPathCount, inventoryPathCount) + `output` | status=`completed`; optionCount ≥ 1; options carry absolutes + contents + neediness |
+
+**3. Source-safety (the telemetry contract — all must hold)**
+- Accordion log + `execution_events` + the `executions` row `output`: NO raw source lines,
+  NO raw prompts, NO raw provider responses, NO secrets.
+- Telemetry rows are ONLY LLM-call (`generation`) + Tool-use, each with the full
+  Phase→Agent→Step→Failsafe→Thricified pills; no ```` ```json ````/`{`-fragment rows.
+- In the persisted synthesis: every `options[i].visibility.*` flag is `false`
+  (rawSourceTextVisible, rawPromptVisible, rawProviderResponseVisible, …).
+- Grep the `output` JSON for `PRIVATE_SOURCE_DO_NOT_SERIALIZE`, `BEGIN_PRIVATE_KEY`, and
+  any verbatim ≥40-char source line from the repo → must be ABSENT.
+  (`assertDepositAssetPackOptionSynthesisSourceSafe` runs server-side; this is the manual cross-check.)
+
+**4. Automated baseline** (run before + after the manual pass; expect all green)
+```
+pnpm -C packages/agent-generics exec jest
+pnpm -C packages/pipelines/asset-pack exec jest --config jest.config.cjs    # 45 suites / 227
+pnpm -C packages/pipeline-hosts exec jest --config jest.config.cjs          # 6 suites / 34
+cd uapi && pnpm exec jest depositSourceProvisioning depositSynthesizeOptionsRoute depositPageClient   # 3 / 14
+```
+
+**5. #25 SandboxHost in-box dispatch (deployment-conditional)**
+- Local default is inline. To exercise the sandbox path: `BITCODE_PIPELINE_HOST=sandbox`
+  + `BITCODE_SANDBOX_PROVIDER=vercel` + the sandbox infra (`@vercel/sandbox`, `VERCEL_OIDC_TOKEN`
+  or `VERCEL_TOKEN`/`VERCEL_TEAM_ID`/`VERCEL_PROJECT_ID`, git in the box image).
+- Log: `Dispatching deposit synthesis to the sandbox host (in-box) for {repo}@{ref}…` then
+  `sandbox: sandbox-create-started` / `sandbox-created` / `command-started` / … / `sandbox-stopped`.
+- PASS: the box clones + runs the deposit SDIVF in-box; `evidence.depositOptions` returns;
+  the SAME deposit option synthesis persists as an inline run of the same repo/revision
+  (modulo run-to-run LLM variance). If the sandbox infra isn't deployed, mark N/A — this is
+  the single deployment-pending item.
+
+**6. QA record** (fill per run)
+
+| Criterion | Log/UI copied | Pass/Fail | Run id / notes |
+|---|---|---|---|
+| Host — full checkout | | | |
+| Pipeline — 5 phases, Validation present | | | |
+| Absolutes — real sizes (magnitude+unit+category) | | | |
+| Card — contents + provenant source | | | |
+| Neediness | | | |
+| Completion — persisted synthesis | | | |
+| Source-safety — no leak | | | |
+| Automated baseline green | | | |
+| #25 sandbox in-box (or N/A) | | | |
+
 ## Track 3 — Reading
 
 - [ ] Read request on /read
