@@ -49,6 +49,18 @@ export const assetPackSetupPhaseExecutor: Executor<any, any> = async (input, exe
       'setup:ReadFitsFindingSynthesisSetupPlanAgent',
       async (passthroughInput: any) => passthroughInput,
     );
+    // The danger wall is the Bitcode READ risk-admission (readSafeToMeasure /
+    // assetPackSafeToSynthesize / deliveryMechanismSafeToAttempt, proof- and
+    // delivery-boundary gates) — read-lens admission with no deposit semantics. On a
+    // deposit it has no Read to admit, so it flails to safe:false/high and the
+    // short-circuit wrapper would block synthesis outright. Punt it under the deposit
+    // lens with the same no-LLM passthrough; the depositor's source-safety is already
+    // enforced by the streaming source-safe filter + obfuscation comprehension. The
+    // deposit-lens admission is a later-gate split (…ForDepositor/…ForReader).
+    (execution as any).agents?.registerAgent?.(
+      'setup:asset-pack-danger-wall-agent',
+      async (passthroughInput: any) => passthroughInput,
+    );
   }
   await runSetupPhase(input, execution);
   // PhaseRunner returns PhaseResult; pipeline expects input forward. Use stores for state.

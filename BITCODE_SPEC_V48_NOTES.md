@@ -313,16 +313,23 @@ reading run ~the same agents; the lens carries the variance by adding the Need
 
 The five phases (same agents in both modes, lens-varied — decided 2026-06-25):
 
-- **Setup**: clone the repository, danger-wall (risk admission), and
-  **input-comprehension** (comprehend the Need when reading / the Obfuscations
-  when depositing). The deposit input-comprehension produces structured
-  obfuscation guidance — the source paths and concepts to withhold and how
-  synthesis must honor them — stored at `setup:inputComprehension` for the
-  downstream phases (authoritative alongside the protected-IP exclusions). The
-  read Setup-plan agent (planning Finding Fits from an accepted Read-Need) is
-  read-lens work and is punted under the deposit lens (a passthrough, no row);
-  that fits-finding planning moves to the read-lens **Discovery** phase in the
-  read gate (QA F22).
+- **Setup**: clone the repository, the danger-wall (the Bitcode **read**
+  risk-admission), and **input-comprehension** (comprehend the Need when reading /
+  the Obfuscations when depositing). The deposit input-comprehension produces
+  structured obfuscation guidance — the source paths and concepts to withhold and
+  how synthesis must honor them — stored at `setup:inputComprehension` for the
+  downstream phases (authoritative alongside the protected-IP exclusions). Two
+  Setup agents are **read-lens** and are punted under the deposit lens (each a
+  passthrough — no LLM call, no telemetry row): (1) the Setup-plan agent (planning
+  Finding Fits from an accepted Read-Need) — its fits-finding planning moves to the
+  read-lens **Discovery** phase in the read gate (QA F22); and (2) the danger-wall,
+  whose contract is purely read-framed (`readSafeToMeasure` /
+  `assetPackSafeToSynthesize` / `deliveryMechanismSafeToAttempt`, proof- and
+  delivery-boundary gates) and which has no Read to admit on a deposit — left
+  running it flails to `safe:false`/`high` and its short-circuit wrapper blocks
+  synthesis outright. The depositor's source-safety is enforced instead by the
+  streaming source-safe filter + the obfuscation comprehension; a deposit-lens
+  admission is a later-gate `…ForDepositor`/`…ForReader` split (QA F25, 2026-06-30).
 - **Discovery** — three agents discovering from the codebase, the Depository, and
   the model itself respectively, for the synthesis lens:
   - `discovery:codebase-comprehension` — comprehends the cloned source.
