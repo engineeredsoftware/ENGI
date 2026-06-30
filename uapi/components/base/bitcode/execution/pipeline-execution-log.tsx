@@ -6,6 +6,8 @@ import { ContentVisibility } from '@/components/base/bitcode/perf/ContentVisibil
 import { ProcessingIndicator } from '@/components/base/bitcode/indicators/ProcessingIndicator';
 import {
   CheckCircledIcon,
+  CheckIcon,
+  ClipboardCopyIcon,
   ExclamationTriangleIcon,
   InfoCircledIcon,
   ChevronRightIcon,
@@ -157,6 +159,13 @@ interface PipelineRunLogProps {
   setUserHasScrolled: (value: boolean) => void;
   /** Force compact styling regardless of viewport width */
   compact?: boolean;
+  /**
+   * The full run payload the "Copy raw logs" button copies (all streamed logs, all
+   * inputs, etc. — source-safe). When a string it is copied verbatim; otherwise it is
+   * JSON-stringified. When omitted, the button falls back to the rendered output +
+   * outputDetails + error.
+   */
+  copyData?: unknown;
 }
 
 // Threshold (in px) below which we switch to compact layout automatically.
@@ -364,7 +373,31 @@ interface PhaseGroup {
   iterations: Map<number, LogLine[]>;
 }
 
-export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogProps>(({ 
+/**
+ * Build the text the "Copy raw logs" button copies: the full run payload (`copyData`
+ * — all streamed logs + inputs, source-safe) verbatim/JSON, or a fallback of the
+ * rendered output + details + error. Pure + exported for unit testing.
+ */
+export function buildRawLogCopyText(args: {
+  copyData?: unknown;
+  output?: string;
+  outputDetails?: Record<string, any>;
+  error?: string | null;
+}): string {
+  const { copyData, output, outputDetails, error } = args;
+  if (copyData !== undefined) {
+    return typeof copyData === 'string' ? copyData : JSON.stringify(copyData, null, 2);
+  }
+  return [
+    output || '',
+    outputDetails && Object.keys(outputDetails).length
+      ? `\n\n=== details ===\n${JSON.stringify(outputDetails, null, 2)}`
+      : '',
+    error ? `\n\n=== error ===\n${error}` : '',
+  ].join('');
+}
+
+export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogProps>(({
   output,
   isProcessing,
   error,
@@ -373,11 +406,26 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
   onDismissError,
   userHasScrolled,
   setUserHasScrolled,
-  compact: compactProp
+  compact: compactProp,
+  copyData
 }, ref) => {
   // Automatic compact detection via container width
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [autoCompact, setAutoCompact] = useState(false);
+
+  // "Copy raw logs": copy this run's full information (all streamed logs + inputs).
+  const [copiedRaw, setCopiedRaw] = useState(false);
+  const handleCopyRaw = async () => {
+    try {
+      await navigator.clipboard.writeText(
+        buildRawLogCopyText({ copyData, output, outputDetails, error }),
+      );
+      setCopiedRaw(true);
+      setTimeout(() => setCopiedRaw(false), 1500);
+    } catch {
+      /* clipboard unavailable (e.g. insecure context) — no-op */
+    }
+  };
 
   useLayoutEffect(() => {
     if (typeof window === 'undefined' || typeof ResizeObserver === 'undefined') return;
@@ -734,17 +782,31 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
   };
 
   return (
-    <div
-      ref={(node) => {
-        containerRef.current = node;
-        if (typeof ref === 'function') ref(node);
-        else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
-      }}
-      className="relative px-4 laptop:px-6 py-3 laptop:py-4 overflow-auto custom-scrollbar group/logs w-full min-h-[240px] max-h-[min(65vh,600px)] focus:outline-none"
-      onScroll={handleScroll}
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-    >
+    <div className="relative w-full">
+      <button
+        type="button"
+        onClick={handleCopyRaw}
+        title="Copy raw logs"
+        aria-label="Copy raw logs"
+        className="absolute top-2 right-2 z-30 flex h-7 w-7 items-center justify-center rounded-md border border-white/10 bg-black/40 text-neutral-300 backdrop-blur-sm transition hover:border-emerald-300/40 hover:text-emerald-200 focus:outline-none"
+      >
+        {copiedRaw ? (
+          <CheckIcon className="h-4 w-4 text-emerald-300" />
+        ) : (
+          <ClipboardCopyIcon className="h-4 w-4" />
+        )}
+      </button>
+      <div
+        ref={(node) => {
+          containerRef.current = node;
+          if (typeof ref === 'function') ref(node);
+          else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        }}
+        className="relative px-4 laptop:px-6 py-3 laptop:py-4 overflow-auto custom-scrollbar group/logs w-full min-h-[240px] max-h-[min(65vh,600px)] focus:outline-none"
+        onScroll={handleScroll}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+      >
       <div className="absolute left-0 right-0 top-0 h-8 bg-gradient-to-b from-black/20 to-transparent pointer-events-none opacity-0 transition-opacity duration-200 group-[.can-scroll-up]/logs:opacity-60 z-10" />
       <div className="absolute left-0 right-0 bottom-0 h-8 bg-gradient-to-t from-black/20 to-transparent pointer-events-none opacity-0 transition-opacity duration-200 group-[.can-scroll-down]/logs:opacity-60 z-10" />
 
@@ -786,6 +848,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         {/* Processing indicator */}
         {isProcessing && <ProcessingIndicator />}
       </div>
+    </div>
     </div>
   );
 });

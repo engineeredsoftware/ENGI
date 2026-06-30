@@ -1389,6 +1389,24 @@ export default function DepositPageClient() {
                     onDismissError={() => setSynthesisError(null)}
                     userHasScrolled={synthesisLogScrolled}
                     setUserHasScrolled={setSynthesisLogScrolled}
+                    copyData={{
+                      runId: synthesisRunId,
+                      status: synthesisStatus,
+                      error:
+                        synthesisStatus === "failed"
+                          ? synthesisError
+                          : synthesisActivity.error,
+                      inputs: {
+                        repositoryFullName:
+                          repositoryContext?.selectedRepository?.fullName ?? null,
+                        sourceBranch: repositoryContext?.selectedBranch ?? null,
+                        sourceCommit: repositoryContext?.selectedCommit ?? null,
+                        obfuscations,
+                        protectedIpExclusions: protectedIpExclusionsText,
+                      },
+                      outputDetails: synthesisActivity.outputDetails,
+                      events: synthesisEvents,
+                    }}
                     compact
                   />
                 </div>
