@@ -7,7 +7,10 @@ jest.mock('@/components/base/bitcode/execution/FileDiffViewer', () => ({
   default: () => null,
 }));
 
-import { buildRawLogCopyText } from '@/components/base/bitcode/execution/pipeline-execution-log';
+import {
+  buildRawLogCopyText,
+  copyTextToClipboard,
+} from '@/components/base/bitcode/execution/pipeline-execution-log';
 
 describe('PipelineExecutionLog — Copy raw logs (buildRawLogCopyText)', () => {
   it('copies the full copyData payload (all streamed logs + inputs) verbatim as JSON', () => {
@@ -43,5 +46,51 @@ describe('PipelineExecutionLog — Copy raw logs (buildRawLogCopyText)', () => {
     expect(text).toContain('Validation');
     expect(text).toContain('=== error ===');
     expect(text).toContain('boom');
+  });
+});
+
+describe('copyTextToClipboard — modern + insecure-context fallback', () => {
+  const originalClipboard = (navigator as any).clipboard;
+  const originalExec = (document as any).execCommand;
+  afterEach(() => {
+    Object.assign(navigator, { clipboard: originalClipboard });
+    (document as any).execCommand = originalExec;
+  });
+
+  it('uses navigator.clipboard when available (secure context)', async () => {
+    const writeText = jest.fn().mockResolvedValue(undefined);
+    Object.assign(navigator, { clipboard: { writeText } });
+    const exec = jest.fn().mockReturnValue(true);
+    (document as any).execCommand = exec;
+
+    expect(await copyTextToClipboard('hello')).toBe(true);
+    expect(writeText).toHaveBeenCalledWith('hello');
+    expect(exec).not.toHaveBeenCalled(); // no fallback needed
+  });
+
+  it('falls back to a textarea + execCommand when clipboard is unavailable', async () => {
+    Object.assign(navigator, { clipboard: undefined });
+    const exec = jest.fn().mockReturnValue(true);
+    (document as any).execCommand = exec;
+
+    expect(await copyTextToClipboard('hello')).toBe(true);
+    expect(exec).toHaveBeenCalledWith('copy');
+  });
+
+  it('falls back when navigator.clipboard.writeText rejects (insecure http context)', async () => {
+    Object.assign(navigator, {
+      clipboard: { writeText: jest.fn().mockRejectedValue(new Error('insecure')) },
+    });
+    const exec = jest.fn().mockReturnValue(true);
+    (document as any).execCommand = exec;
+
+    expect(await copyTextToClipboard('x')).toBe(true);
+    expect(exec).toHaveBeenCalledWith('copy');
+  });
+
+  it('returns false when both paths fail', async () => {
+    Object.assign(navigator, { clipboard: undefined });
+    (document as any).execCommand = jest.fn().mockReturnValue(false);
+    expect(await copyTextToClipboard('x')).toBe(false);
   });
 });

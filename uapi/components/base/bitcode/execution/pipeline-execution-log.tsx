@@ -397,6 +397,39 @@ export function buildRawLogCopyText(args: {
   ].join('');
 }
 
+/**
+ * Copy text to the clipboard, returning whether it succeeded. Tries the modern
+ * `navigator.clipboard` (requires a secure context) and, when that is unavailable or
+ * fails (e.g. `/deposit` loaded over plain http on a LAN IP), falls back to a hidden
+ * textarea + `document.execCommand('copy')`. Pure + exported for unit testing.
+ */
+export async function copyTextToClipboard(text: string): Promise<boolean> {
+  try {
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch {
+    /* fall through to the legacy path */
+  }
+  try {
+    if (typeof document === 'undefined') return false;
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.top = '-9999px';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(textarea);
+    return ok;
+  } catch {
+    return false;
+  }
+}
+
 export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogProps>(({
   output,
   isProcessing,
@@ -416,14 +449,12 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
   // "Copy raw logs": copy this run's full information (all streamed logs + inputs).
   const [copiedRaw, setCopiedRaw] = useState(false);
   const handleCopyRaw = async () => {
-    try {
-      await navigator.clipboard.writeText(
-        buildRawLogCopyText({ copyData, output, outputDetails, error }),
-      );
+    const ok = await copyTextToClipboard(
+      buildRawLogCopyText({ copyData, output, outputDetails, error }),
+    );
+    if (ok) {
       setCopiedRaw(true);
       setTimeout(() => setCopiedRaw(false), 1500);
-    } catch {
-      /* clipboard unavailable (e.g. insecure context) — no-op */
     }
   };
 
