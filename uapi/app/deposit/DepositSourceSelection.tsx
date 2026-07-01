@@ -17,6 +17,8 @@ import type { VCSBranch, VCSCommit, VCSRepository } from "@bitcode/vcs-core";
 
 import { VCSRepositorySelector } from "@/components/base/bitcode/vcs/VCSRepositorySelector";
 import { SearchableSelect } from "@/components/base/bitcode/forms/SearchableSelect";
+import BitcodeInlineExplainer from "@/components/base/bitcode/execution/BitcodeInlineExplainer";
+import { DEPOSIT_SECTION_EXPLAINERS } from "@/app/deposit/deposit-explainers";
 import {
   buildTerminalRepositoryAnchorDraft,
   type TerminalActivityRecordDraft,
@@ -417,8 +419,9 @@ export default function DepositSourceSelection({
           <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
             Repository
           </p>
-          <h2 className="mt-2 text-lg font-semibold text-white">
-            Select the repository you are depositing
+          <h2 className="mt-2 flex items-center gap-2 text-lg font-semibold text-white">
+            <span>Select the repository you are depositing</span>
+            <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.repository} />
           </h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-400">
             One connected repository, branch, and commit form the source package
@@ -472,10 +475,11 @@ export default function DepositSourceSelection({
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        <label className="rounded-[1.25rem] border border-white/8 bg-white/5 px-4 py-4">
+        <div className="rounded-[1.25rem] border border-white/8 bg-white/5 px-4 py-4">
           <span className="flex items-center gap-2 text-[0.64rem] uppercase tracking-[0.2em] text-neutral-400">
             <GitBranch className="h-3.5 w-3.5" />
             <span>Branch</span>
+            <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.branch} triggerAriaLabel="More info about this field" />
           </span>
           <div className="mt-3">
             <SearchableSelect
@@ -514,11 +518,12 @@ export default function DepositSourceSelection({
               ? "Loading branches…"
               : "Default branch is selected when available"}
           </p>
-        </label>
+        </div>
 
-        <label className="rounded-[1.25rem] border border-white/8 bg-white/5 px-4 py-4">
+        <div className="rounded-[1.25rem] border border-white/8 bg-white/5 px-4 py-4">
           <span className="flex items-center gap-2 text-[0.64rem] uppercase tracking-[0.2em] text-neutral-400">
             <span>Commit / ref</span>
+            <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.commit} triggerAriaLabel="More info about this field" />
           </span>
           <div className="mt-3">
             <SearchableSelect
@@ -554,7 +559,7 @@ export default function DepositSourceSelection({
               ? "Loading commits…"
               : "Latest branch commit is selected when available"}
           </p>
-        </label>
+        </div>
       </div>
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-white/8 bg-white/[0.025] px-4 py-3">

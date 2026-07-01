@@ -23,6 +23,16 @@ interface BitcodeInlineExplainerProps {
   side?: TooltipSide;
   className?: string;
   triggerClassName?: string;
+  /**
+   * Override the trigger button's aria-label (defaults to `Explain ${title}`).
+   * Use this when the explainer's title matches or contains an adjacent form
+   * field's own label text — `getByLabelText`/screen-reader label lookups
+   * match ANY element whose aria-label contains the query text, not just
+   * elements associated via `<label>`, so a title-derived aria-label next to
+   * a same-named field is ambiguous. A short generic label (e.g. "More info
+   * about the Branch field") avoids the collision.
+   */
+  triggerAriaLabel?: string;
 }
 
 const tooltipViewportMargin = 16;
@@ -123,6 +133,7 @@ export default function BitcodeInlineExplainer({
   side = 'bottom',
   className,
   triggerClassName,
+  triggerAriaLabel,
 }: BitcodeInlineExplainerProps) {
   const [placement, setPlacement] = useState<TooltipPlacement>({
     side,
@@ -265,7 +276,7 @@ export default function BitcodeInlineExplainer({
     >
       <button
         type="button"
-        aria-label={`Explain ${title}`}
+        aria-label={triggerAriaLabel || `Explain ${title}`}
         onClick={(event) => event.preventDefault()}
         className={cn(
           'inline-flex h-[1.125rem] min-h-[1.125rem] w-[1.125rem] min-w-[1.125rem] shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/5 text-[0.62rem] font-semibold leading-none text-neutral-300 transition hover:border-emerald-300/35 hover:bg-emerald-400/10 hover:text-emerald-100 focus-visible:border-emerald-300/35 focus-visible:bg-emerald-400/10 focus-visible:text-emerald-100 focus-visible:outline-none',
