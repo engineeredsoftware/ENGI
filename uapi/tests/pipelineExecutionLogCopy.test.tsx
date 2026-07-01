@@ -9,6 +9,7 @@ jest.mock('@/components/base/bitcode/execution/FileDiffViewer', () => ({
 
 import {
   buildRawLogCopyText,
+  buildProcessingStallLabel,
   copyTextToClipboard,
 } from '@/components/base/bitcode/execution/pipeline-execution-log';
 
@@ -46,6 +47,49 @@ describe('PipelineExecutionLog — Copy raw logs (buildRawLogCopyText)', () => {
     expect(text).toContain('Validation');
     expect(text).toContain('=== error ===');
     expect(text).toContain('boom');
+  });
+});
+
+describe('buildProcessingStallLabel — live stall visibility (QA debug aid)', () => {
+  it('falls back to a bare label when there is no prior line yet', () => {
+    expect(buildProcessingStallLabel(undefined, Date.now())).toEqual({
+      label: 'Processing',
+      likelyStalled: false,
+    });
+  });
+
+  it('renders the hierarchy + elapsed seconds since the last line, not stalled under the threshold', () => {
+    const lastLine = {
+      phase: 'Discovery',
+      agent: 'DepositDepositorySearchAgent',
+      step: 'try',
+      failsafe: 'chunk_then_sum',
+      generation: 'structured_output',
+      timestamp: new Date(1_000_000).toISOString(),
+    };
+    const { label, likelyStalled } = buildProcessingStallLabel(lastLine, 1_000_000 + 30_000);
+    expect(label).toBe(
+      'Running: Discovery → DepositDepositorySearchAgent → try → chunk_then_sum → structured_output · 30s since last update',
+    );
+    expect(likelyStalled).toBe(false);
+  });
+
+  it('flags likelyStalled once elapsed time reaches the LLM call timeout default (90s)', () => {
+    const lastLine = { phase: 'Discovery', agent: 'DepositDepositorySearchAgent', timestamp: new Date(0).toISOString() };
+    const { likelyStalled, label } = buildProcessingStallLabel(lastLine, 90_000);
+    expect(likelyStalled).toBe(true);
+    expect(label).toContain('90s since last update');
+  });
+
+  it('handles a missing/invalid timestamp without throwing', () => {
+    expect(buildProcessingStallLabel({ phase: 'Discovery', timestamp: undefined } as any, Date.now())).toEqual({
+      label: 'Processing',
+      likelyStalled: false,
+    });
+    expect(buildProcessingStallLabel({ phase: 'Discovery', timestamp: 'not-a-date' } as any, Date.now())).toEqual({
+      label: 'Processing',
+      likelyStalled: false,
+    });
   });
 });
 

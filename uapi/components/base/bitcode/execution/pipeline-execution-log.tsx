@@ -397,6 +397,37 @@ export function buildRawLogCopyText(args: {
   ].join('');
 }
 
+// Matches the default BITCODE_LLM_CALL_TIMEOUT_MS (AgentLLMsRegistry /
+// PipelineLLMRegistry) — past this many seconds with no new row, an in-flight
+// LLM call should already have timed out server-side, so continued silence is
+// a genuine-hang signal rather than a merely slow generation.
+const LIKELY_STALL_SECONDS = 90;
+
+/**
+ * Build the live "Running: {hierarchy} · Ns since last update" label for the
+ * processing indicator, from the last known log line + the current tick. Pure
+ * + exported for unit testing. Returns the bare fallback label when there is no
+ * prior line yet (nothing streamed since the run started).
+ */
+export function buildProcessingStallLabel(
+  lastLine: Pick<LogLine, 'phase' | 'agent' | 'step' | 'failsafe' | 'generation' | 'timestamp'> | undefined,
+  nowMs: number,
+): { label: string; likelyStalled: boolean } {
+  if (!lastLine?.timestamp) return { label: 'Processing', likelyStalled: false };
+  const lastMs = new Date(lastLine.timestamp).getTime();
+  if (!Number.isFinite(lastMs)) return { label: 'Processing', likelyStalled: false };
+
+  const elapsedSeconds = Math.max(0, Math.round((nowMs - lastMs) / 1000));
+  const hierarchy = [lastLine.phase, lastLine.agent, lastLine.step, lastLine.failsafe, lastLine.generation]
+    .filter(Boolean)
+    .join(' → ');
+  const likelyStalled = elapsedSeconds >= LIKELY_STALL_SECONDS;
+  const label = hierarchy
+    ? `Running: ${hierarchy} · ${elapsedSeconds}s since last update`
+    : `Processing · ${elapsedSeconds}s since last update`;
+  return { label, likelyStalled };
+}
+
 /**
  * Copy text to the clipboard, returning whether it succeeded. Tries the modern
  * `navigator.clipboard` (requires a secure context) and, when that is unavailable or
@@ -445,6 +476,20 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
   // Automatic compact detection via container width
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [autoCompact, setAutoCompact] = useState(false);
+
+  // Live "stalled since" signal (QA debug aid, V48 Gate 3): while processing, tick
+  // once a second so the processing indicator can show elapsed time since the
+  // last streamed event. This does NOT add a new formal log-line kind (F19's
+  // "exactly LLM calls + Tool uses" contract is unchanged) — it only makes an
+  // in-flight call's silence visible in real time, so a genuine hang (e.g. past
+  // BITCODE_LLM_CALL_TIMEOUT_MS with no new row) is distinguishable from a slow
+  // but progressing run instead of an unexplained blank gap.
+  const [nowTick, setNowTick] = useState(() => Date.now());
+  useEffect(() => {
+    if (!isProcessing) return;
+    const id = setInterval(() => setNowTick(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [isProcessing]);
 
   // "Copy raw logs": copy this run's full information (all streamed logs + inputs).
   const [copiedRaw, setCopiedRaw] = useState(false);
@@ -876,8 +921,13 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
           ),
         )}
 
-        {/* Processing indicator */}
-        {isProcessing && <ProcessingIndicator />}
+        {/* Processing indicator — shows the last known Phase→Agent→Step→Failsafe→
+            Thricified context + elapsed time since the last streamed event, so a
+            genuine hang is visible live instead of an unexplained blank gap. */}
+        {isProcessing && (() => {
+          const { label, likelyStalled } = buildProcessingStallLabel(flatLines[flatLines.length - 1], nowTick);
+          return <ProcessingIndicator label={label} stalled={likelyStalled} />;
+        })()}
       </div>
     </div>
     </div>

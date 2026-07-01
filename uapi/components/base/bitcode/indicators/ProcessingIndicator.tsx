@@ -3,7 +3,14 @@
 import React, { useEffect, useRef } from 'react';
 import '@/styles/processing-indicator.css';
 
-export function ProcessingIndicator({ label = 'Processing' }: { label?: string }) {
+export function ProcessingIndicator({
+  label = 'Processing',
+  stalled = false,
+}: {
+  label?: string;
+  /** True once elapsed time since the last event suggests a genuine hang (vs. a slow but live call) — swaps the label to an amber warning tone. */
+  stalled?: boolean;
+}) {
   const orbRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
 
@@ -26,7 +33,12 @@ export function ProcessingIndicator({ label = 'Processing' }: { label?: string }
         </div>
       </div>
       <div className="relative">
-        <div ref={textRef} className="processing-text text-brand-emerald text-neon">{intelligentLabel}</div>
+        <div
+          ref={textRef}
+          className={`processing-text text-neon ${stalled ? 'text-amber-400' : 'text-brand-emerald'}`}
+        >
+          {intelligentLabel}
+        </div>
         <div className="processing-underline w-full" />
       </div>
     </div>
