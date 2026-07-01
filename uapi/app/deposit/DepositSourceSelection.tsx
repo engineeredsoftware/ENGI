@@ -16,6 +16,7 @@ import { Anchor, GitBranch, Lock, RefreshCw } from "lucide-react";
 import type { VCSBranch, VCSCommit, VCSRepository } from "@bitcode/vcs-core";
 
 import { VCSRepositorySelector } from "@/components/base/bitcode/vcs/VCSRepositorySelector";
+import { SearchableSelect } from "@/components/base/bitcode/forms/SearchableSelect";
 import {
   buildTerminalRepositoryAnchorDraft,
   type TerminalActivityRecordDraft,
@@ -52,12 +53,6 @@ function splitRepositoryFullName(fullName?: string | null) {
   const [owner, repo] = normalized.split("/", 2);
   if (!owner || !repo) return null;
   return { owner, repo };
-}
-
-function formatCommitOption(commit: VCSCommit) {
-  const shortSha = commit.sha.slice(0, 7);
-  const title = commit.message.split("\n")[0]?.trim() || "Commit";
-  return `${shortSha} - ${title}`;
 }
 
 export default function DepositSourceSelection({
@@ -482,32 +477,38 @@ export default function DepositSourceSelection({
             <GitBranch className="h-3.5 w-3.5" />
             <span>Branch</span>
           </span>
-          <select
-            aria-label="Repository source branch"
-            value={selectedBranch || ""}
-            disabled={!selectedRepository || isLoadingBranches || branches.length === 0}
-            onChange={(event) =>
-              updateSourceParams((params) => {
-                if (selectedRepository)
-                  params.set("repo", selectedRepository.fullName);
-                params.set("sourceBranch", event.target.value);
-                params.delete("sourceCommit");
-                params.delete("branch");
-                params.delete("commit");
-              })
-            }
-            className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {branches.length ? null : <option value="">No branches loaded</option>}
-            {branches.map((branch) => (
-              <option key={branch.name} value={branch.name}>
-                {branch.name}
-                {branch.name === (defaultBranch || selectedRepository?.defaultBranch)
-                  ? " · default"
-                  : ""}
-              </option>
-            ))}
-          </select>
+          <div className="mt-3">
+            <SearchableSelect
+              aria-label="Repository source branch"
+              value={selectedBranch || null}
+              disabled={!selectedRepository || isLoadingBranches || branches.length === 0}
+              loading={isLoadingBranches}
+              loadingMessage="Loading branches…"
+              placeholder="Select branch..."
+              searchPlaceholder="Search branches..."
+              emptyMessage="No branches loaded."
+              items={branches.map((branch) => ({
+                key: branch.name,
+                label: branch.name,
+                badge:
+                  branch.name === (defaultBranch || selectedRepository?.defaultBranch)
+                    ? "default"
+                    : null,
+              }))}
+              onSelect={(branchName) =>
+                updateSourceParams((params) => {
+                  if (selectedRepository)
+                    params.set("repo", selectedRepository.fullName);
+                  if (branchName) params.set("sourceBranch", branchName);
+                  else params.delete("sourceBranch");
+                  params.delete("sourceCommit");
+                  params.delete("branch");
+                  params.delete("commit");
+                })
+              }
+              className="rounded-xl border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
+            />
+          </div>
           <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-500">
             {isLoadingBranches
               ? "Loading branches…"
@@ -519,29 +520,35 @@ export default function DepositSourceSelection({
           <span className="flex items-center gap-2 text-[0.64rem] uppercase tracking-[0.2em] text-neutral-400">
             <span>Commit / ref</span>
           </span>
-          <select
-            aria-label="Repository source commit"
-            value={selectedCommit || ""}
-            disabled={!selectedBranch || isLoadingCommits || commits.length === 0}
-            onChange={(event) =>
-              updateSourceParams((params) => {
-                if (selectedRepository)
-                  params.set("repo", selectedRepository.fullName);
-                if (selectedBranch) params.set("sourceBranch", selectedBranch);
-                params.set("sourceCommit", event.target.value);
-                params.delete("branch");
-                params.delete("commit");
-              })
-            }
-            className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {commits.length ? null : <option value="">No commits loaded</option>}
-            {commits.map((commit) => (
-              <option key={commit.sha} value={commit.sha}>
-                {formatCommitOption(commit)}
-              </option>
-            ))}
-          </select>
+          <div className="mt-3">
+            <SearchableSelect
+              aria-label="Repository source commit"
+              value={selectedCommit || null}
+              disabled={!selectedBranch || isLoadingCommits || commits.length === 0}
+              loading={isLoadingCommits}
+              loadingMessage="Loading commits…"
+              placeholder="Select commit..."
+              searchPlaceholder="Search commits..."
+              emptyMessage="No commits loaded."
+              items={commits.map((commit) => ({
+                key: commit.sha,
+                label: commit.sha.slice(0, 7),
+                description: commit.message.split("\n")[0]?.trim() || "Commit",
+              }))}
+              onSelect={(commitSha) =>
+                updateSourceParams((params) => {
+                  if (selectedRepository)
+                    params.set("repo", selectedRepository.fullName);
+                  if (selectedBranch) params.set("sourceBranch", selectedBranch);
+                  if (commitSha) params.set("sourceCommit", commitSha);
+                  else params.delete("sourceCommit");
+                  params.delete("branch");
+                  params.delete("commit");
+                })
+              }
+              className="rounded-xl border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
+            />
+          </div>
           <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-500">
             {isLoadingCommits
               ? "Loading commits…"

@@ -144,6 +144,7 @@ module.exports = {
     '<rootDir>/tests/packActivityModel.test.ts',
     '<rootDir>/tests/depositRouteModel.test.ts',
     '<rootDir>/tests/depositPageClient.test.tsx',
+    '<rootDir>/tests/searchableSelect.test.tsx',
     '<rootDir>/tests/readRouteModel.test.ts',
     '<rootDir>/tests/readPageClient.test.tsx',
     '<rootDir>/tests/exchangeTerminalHandoff.test.ts',
