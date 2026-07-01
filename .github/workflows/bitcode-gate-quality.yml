@@ -49,8 +49,9 @@ jobs:
           if [[ "$PR_BASE_REF" == version/* && "$PR_HEAD_REF" =~ ^v([0-9]+)/gate-([0-9]+)- ]]; then
             expected_version="V${BASH_REMATCH[1]}"
             expected_gate="${BASH_REMATCH[2]}"
-            if [[ ! "$PR_TITLE" =~ ^${expected_version}[[:space:]]+Gate[[:space:]]+${expected_gate}:[[:space:]].+ ]]; then
-              echo "Gate pull request titles must begin with: ${expected_version} Gate ${expected_gate}:"
+            title_re="^${expected_version}[[:space:]]+Gate[[:space:]]+${expected_gate}([[:space:]]\((specification-only|implementation-only|specification-implementation)\))?:[[:space:]].+"
+            if [[ ! "$PR_TITLE" =~ $title_re ]]; then
+              echo "Gate pull request titles must begin with: ${expected_version} Gate ${expected_gate}: or ${expected_version} Gate ${expected_gate} (specification-only|implementation-only|specification-implementation):"
               echo "Observed: ${PR_TITLE}"
               exit 1
             fi
