@@ -121,45 +121,71 @@ export function enablePipelineStreaming(
     (config.structuredToDatabase !== true || process?.env?.BITCODE_PIPELINE_LEGACY_EVENTS_DB === '1');
 
   if (legacyExecutionEventsEnabled && config.supabase) {
-    // Best-effort: ensure an executions row exists if runId looks like a UUID
-    try {
-      const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-      const isUuid = uuidRe.test(String(config.runId || ''));
-      if (isUuid) {
-        const now = new Date().toISOString();
-        // Try insert; ignore duplicate errors
-        config.supabase
-          .from('executions')
-          .insert({
-            id: config.runId,
-            user_id: config.userId,
-            status: 'running',
-            type: 'agentic-execution:asset-pack',
-            started_at: now,
-            created_at: now,
-            updated_at: now
-          } as any)
-          .then(() => {})
-          .catch((e: any) => {
-            if (!String(e?.message || '').toLowerCase().includes('duplicate')) {
-              // swallow non-duplicate as best-effort
-            }
-          });
+    const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    const isUuid = uuidRe.test(String(config.runId || ''));
+
+    // Ensure an `executions` row exists before any `execution_events` row can
+    // reference it (execution_events.run_id has a FK to executions.id). Idempotent
+    // (duplicate insert = row already exists, either way).
+    const ensureExecutionsRowExists = async (): Promise<void> => {
+      if (!isUuid) return;
+      const now = new Date().toISOString();
+      try {
+        await config.supabase.from('executions').insert({
+          id: config.runId,
+          user_id: config.userId,
+          status: 'running',
+          type: 'agentic-execution:asset-pack',
+          started_at: now,
+          created_at: now,
+          updated_at: now,
+        } as any);
+      } catch (e: any) {
+        if (!String(e?.message || '').toLowerCase().includes('duplicate')) {
+          // swallow non-duplicate as best-effort; the retry-on-FK-violation below
+          // is the guaranteed backstop.
+        }
       }
-    } catch {}
+    };
+
+    // Fire immediately (don't block registerStreamer/emitEvent below), but track
+    // the promise so the FIRST event to persist can await it — otherwise the
+    // initial "Pipeline execution started" status event (emitted synchronously
+    // right after this function returns, e.g. by createStreamingExecution) races
+    // this insert and can hit a 23503 FK violation before the row lands.
+    let pendingEnsureRow: Promise<void> | null = ensureExecutionsRowExists();
 
     const eventsModel = new ExecutionEventsModel(config.supabase);
-    
+
     // Subscribe to stream events and persist them
     streamer.subscribe(async (event) => {
-      try {
-        await eventsModel.create({
+      if (pendingEnsureRow) {
+        await pendingEnsureRow;
+        pendingEnsureRow = null;
+      }
+      const persist = () =>
+        eventsModel.create({
           run_id: config.runId,
           event_type: event.type,
           event_data: sourceSafeStreamEvent(event),
           created_at: new Date().toISOString(),
         });
-      } catch (error) {
+      try {
+        await persist();
+      } catch (error: any) {
+        // Self-healing backstop: if the executions row still doesn't exist (any
+        // residual race — slow network, replica lag, concurrent dispatch), ensure
+        // it and retry once before giving up.
+        if (error?.code === '23503') {
+          try {
+            await ensureExecutionsRowExists();
+            await persist();
+            return;
+          } catch (retryError) {
+            console.error('Failed to persist stream event after ensuring executions row:', retryError);
+            return;
+          }
+        }
         console.error('Failed to persist stream event:', error);
       }
     });
