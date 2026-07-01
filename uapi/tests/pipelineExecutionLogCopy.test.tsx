@@ -58,7 +58,7 @@ describe('buildProcessingStallLabel — live stall visibility (QA debug aid)', (
     });
   });
 
-  it('renders the hierarchy + elapsed seconds since the last line, not stalled under the threshold', () => {
+  it('renders a natural-language sentence + elapsed seconds since the last line, not stalled under the threshold', () => {
     const lastLine = {
       phase: 'Discovery',
       agent: 'DepositDepositorySearchAgent',
@@ -69,9 +69,41 @@ describe('buildProcessingStallLabel — live stall visibility (QA debug aid)', (
     };
     const { label, likelyStalled } = buildProcessingStallLabel(lastLine, 1_000_000 + 30_000);
     expect(label).toBe(
-      'Running: Discovery → DepositDepositorySearchAgent → try → chunk_then_sum → structured_output · 30s since last update',
+      'During Discovery, Deposit Depository Search Agent is Trying, by Structuring the Chunk Then Sum · 30s since last update',
     );
     expect(likelyStalled).toBe(false);
+  });
+
+  it('matches the "During {Phase}, {Agent} Agent is {Step}, by {Thricified} the {Failsafe}" template exactly', () => {
+    const lastLine = {
+      phase: 'Setup',
+      agent: 'DepositInputComprehensionAgent',
+      step: 'plan',
+      failsafe: 'prepare_concise_context',
+      generation: 'judge',
+      timestamp: new Date(0).toISOString(),
+    };
+    const { label } = buildProcessingStallLabel(lastLine, 21_000);
+    expect(label).toBe(
+      'During Setup, Deposit Input Comprehension Agent is Planning, by Judging the Prepare Concise Context · 21s since last update',
+    );
+  });
+
+  it('degrades to just the Phase/Agent/Step clause when there is no Failsafe/Thricified yet (e.g. a Tool-use context)', () => {
+    const lastLine = {
+      phase: 'Discovery',
+      agent: 'DepositCodebaseComprehensionAgent',
+      step: 'try',
+      timestamp: new Date(0).toISOString(),
+    };
+    const { label } = buildProcessingStallLabel(lastLine, 5_000);
+    expect(label).toBe('During Discovery, Deposit Codebase Comprehension Agent is Trying · 5s since last update');
+  });
+
+  it('falls back to the bare "Processing" sentence when Phase/Agent/Step are not yet known', () => {
+    const lastLine = { phase: 'Discovery', agent: 'DepositDepositorySearchAgent', timestamp: new Date(0).toISOString() };
+    const { label } = buildProcessingStallLabel(lastLine, 5_000);
+    expect(label).toBe('Processing · 5s since last update');
   });
 
   it('flags likelyStalled once elapsed time reaches the LLM call timeout default (90s)', () => {

@@ -403,11 +403,78 @@ export function buildRawLogCopyText(args: {
 // a genuine-hang signal rather than a merely slow generation.
 const LIKELY_STALL_SECONDS = 90;
 
+// PTRR step -> present-continuous verb ("Plan" -> "Planning").
+const STEP_GERUNDS: Record<string, string> = {
+  plan: 'Planning',
+  try: 'Trying',
+  refine: 'Refining',
+  retry: 'Retrying',
+};
+
+// Thricified generation sub-step -> present-continuous verb (GenerationSubMetaSubStep).
+const THRICIFIED_GERUNDS: Record<string, string> = {
+  reason: 'Reasoning',
+  judge: 'Judging',
+  structured_output: 'Structuring',
+};
+
+function titleCaseWords(value: string): string {
+  return value
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+}
+
+// "prepare_concise_context" -> "Prepare Concise Context"; "Discovery" -> "Discovery".
+function humanizeNounPhrase(value: string): string {
+  return titleCaseWords(value.replace(/_/g, ' '));
+}
+
+// "DepositInputComprehensionAgent" -> "Deposit Input Comprehension" (trailing
+// "Agent" stripped — the sentence template appends the literal word "Agent").
+function humanizeAgentName(value: string): string {
+  const withoutTrailingAgent = value.replace(/Agent$/, '');
+  const spaced = withoutTrailingAgent
+    .replace(/_/g, ' ')
+    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
+    .trim();
+  return titleCaseWords(spaced || withoutTrailingAgent);
+}
+
+function gerundFor(map: Record<string, string>, raw: string): string {
+  return map[raw.trim().toLowerCase()] || humanizeNounPhrase(raw);
+}
+
 /**
- * Build the live "Running: {hierarchy} · Ns since last update" label for the
- * processing indicator, from the last known log line + the current tick. Pure
- * + exported for unit testing. Returns the bare fallback label when there is no
- * prior line yet (nothing streamed since the run started).
+ * Render the live execution context as a natural-language sentence: "During
+ * {Phase}, {Agent} Agent is {Step-ing}, by {Thricified-ing} the {Failsafe}."
+ * Degrades gracefully as fields are unknown (e.g. a Tool-use context only ever
+ * carries Phase/Agent/Step, never Failsafe/Thricified — F19). Returns null
+ * when there isn't enough context yet to say anything meaningful.
+ */
+function describeExecutionContext(ctx: {
+  phase?: string | null;
+  agent?: string | null;
+  step?: string | null;
+  failsafe?: string | null;
+  generation?: string | null;
+}): string | null {
+  if (!ctx.phase || !ctx.agent || !ctx.step) return null;
+  let sentence = `During ${humanizeNounPhrase(ctx.phase)}, ${humanizeAgentName(ctx.agent)} Agent is ${gerundFor(STEP_GERUNDS, ctx.step)}`;
+  if (ctx.generation && ctx.failsafe) {
+    sentence += `, by ${gerundFor(THRICIFIED_GERUNDS, ctx.generation)} the ${humanizeNounPhrase(ctx.failsafe)}`;
+  }
+  return sentence;
+}
+
+/**
+ * Build the live "During {Phase}, {Agent} Agent is {Step}... · Ns since last
+ * update" label for the processing indicator, from the last known log line +
+ * the current tick. Pure + exported for unit testing. Returns the bare
+ * fallback label when there is no prior line yet (nothing streamed since the
+ * run started) or not enough context to describe.
  */
 export function buildProcessingStallLabel(
   lastLine: Pick<LogLine, 'phase' | 'agent' | 'step' | 'failsafe' | 'generation' | 'timestamp'> | undefined,
@@ -418,12 +485,10 @@ export function buildProcessingStallLabel(
   if (!Number.isFinite(lastMs)) return { label: 'Processing', likelyStalled: false };
 
   const elapsedSeconds = Math.max(0, Math.round((nowMs - lastMs) / 1000));
-  const hierarchy = [lastLine.phase, lastLine.agent, lastLine.step, lastLine.failsafe, lastLine.generation]
-    .filter(Boolean)
-    .join(' → ');
+  const sentence = describeExecutionContext(lastLine);
   const likelyStalled = elapsedSeconds >= LIKELY_STALL_SECONDS;
-  const label = hierarchy
-    ? `Running: ${hierarchy} · ${elapsedSeconds}s since last update`
+  const label = sentence
+    ? `${sentence} · ${elapsedSeconds}s since last update`
     : `Processing · ${elapsedSeconds}s since last update`;
   return { label, likelyStalled };
 }
