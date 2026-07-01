@@ -59,6 +59,8 @@ import {
 import { usePipelineExecution } from "@/hooks/usePipelineExecution";
 import { buildTerminalRunActivityFromEvents } from "@/app/terminal/terminal-run-activity";
 import { PipelineExecutionLog } from "@/components/base/bitcode/execution/pipeline-execution-log";
+import BitcodeInlineExplainer from "@/components/base/bitcode/execution/BitcodeInlineExplainer";
+import { DEPOSIT_SECTION_EXPLAINERS } from "@/app/deposit/deposit-explainers";
 import type {
   DepositOptionReviewDecision,
   DepositOptionReviewDecisionState,
@@ -1419,13 +1421,16 @@ export default function DepositPageClient() {
               aria-label="Deposit AssetPack options"
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
-                    Options
-                  </p>
-                  <h2 className="mt-2 text-lg font-semibold text-white">
-                    Source-safe AssetPack proposals
-                  </h2>
+                <div className="flex items-start gap-2">
+                  <div>
+                    <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
+                      Options
+                    </p>
+                    <h2 className="mt-2 text-lg font-semibold text-white">
+                      Source-safe AssetPack proposals
+                    </h2>
+                  </div>
+                  <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.options} />
                 </div>
                 <span className="border border-emerald-300/15 bg-emerald-300/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-emerald-100">
                   {depositRouteSession.synthesis.pipeline}
@@ -1994,13 +1999,18 @@ export default function DepositPageClient() {
           <aside className="grid h-fit gap-5" aria-label="Deposit route state">
             <details className="border border-white/10 bg-white/[0.035] px-4 py-4">
               <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
-                <div>
-                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
-                    Earnings
-                  </p>
-                  <h2 className="mt-2 text-lg font-semibold text-white">
-                    All-repositories supply estimate
-                  </h2>
+                <div className="flex items-start gap-2">
+                  <div>
+                    <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
+                      Earnings
+                    </p>
+                    <h2 className="mt-2 text-lg font-semibold text-white">
+                      All-repositories supply estimate
+                    </h2>
+                  </div>
+                  <span onClick={(event) => event.stopPropagation()} className="shrink-0">
+                    <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.earnings} />
+                  </span>
                 </div>
                 <TrendingUp
                   className="h-5 w-5 text-emerald-200"
@@ -2094,13 +2104,18 @@ export default function DepositPageClient() {
 
             <details className="border border-white/10 bg-white/[0.035] px-4 py-4">
               <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
-                <div>
-                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
-                    Governance
-                  </p>
-                  <h2 className="mt-2 text-lg font-semibold text-white">
-                    Organization authority
-                  </h2>
+                <div className="flex items-start gap-2">
+                  <div>
+                    <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
+                      Governance
+                    </p>
+                    <h2 className="mt-2 text-lg font-semibold text-white">
+                      Organization authority
+                    </h2>
+                  </div>
+                  <span onClick={(event) => event.stopPropagation()} className="shrink-0">
+                    <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.governance} />
+                  </span>
                 </div>
                 <ShieldCheck
                   className="h-5 w-5 text-emerald-200"
@@ -2139,13 +2154,18 @@ export default function DepositPageClient() {
 
             <details className="border border-white/10 bg-white/[0.035] px-4 py-4">
               <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
-                <div>
-                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
-                    Session
-                  </p>
-                  <h2 className="mt-2 text-lg font-semibold text-white">
-                    Source-safe deposit state
-                  </h2>
+                <div className="flex items-start gap-2">
+                  <div>
+                    <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
+                      Session
+                    </p>
+                    <h2 className="mt-2 text-lg font-semibold text-white">
+                      Source-safe deposit state
+                    </h2>
+                  </div>
+                  <span onClick={(event) => event.stopPropagation()} className="shrink-0">
+                    <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.session} />
+                  </span>
                 </div>
                 <ShieldCheck
                   className="h-5 w-5 text-emerald-200"
