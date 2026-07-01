@@ -1,6 +1,6 @@
 // Diagnostics instrumentation utilities (formerly named hooks)
 import type { Execution } from '@bitcode/execution-generics/Execution';
-import { log, writePromptIO, writeStepTraceJSON } from '@bitcode/logger';
+import { log, writePromptIO, writeStepTraceJSON, writeRawLLMIO } from '@bitcode/logger';
 import { DIAG_ENABLED, DIAG_TRACES, DIAG_FULL_TRACES, DIAG_FULL_PROMPTS, DIAG_TRACE_MAX, DIAG_WRITE_PROMPT_IO, DIAG_WRITE_STEP_TRACES } from './config';
 import { collectExecutionTrace, summarizeExecutionTrace } from './trace';
 
@@ -45,6 +45,14 @@ function maybeLogDiagnosticsBanner() {
   } catch {}
 }
 
+// The literal wire-call correlation key for the raw LLM I/O sidecar — the
+// full execution path (which already encodes phase/agent/step/failsafe/
+// gen-N/generation) plus the sequence, so concurrent or repeated calls
+// within the same agent never collide.
+function rawLLMPathKey(ctx: ReturnType<typeof getCtx>): string {
+  return [...(ctx.path || []), ctx.sequence].filter(Boolean).join(':');
+}
+
 export async function logLLMSubstepStart(
   execution: Execution,
   sequence: string,
@@ -54,8 +62,21 @@ export async function logLLMSubstepStart(
   llmConfig?: { model?: string; provider?: string }
 ) {
   maybeLogDiagnosticsBanner();
-  if (!(DIAG_ENABLED || DIAG_FULL_PROMPTS || DIAG_TRACES)) return;
   const ctx = getCtx(execution, sequence);
+
+  // Always attempt the raw wire-exchange sidecar (its own env gate, default
+  // on) — independent of the DIAG_* verbosity flags below, since this is a
+  // local-debugging artifact meant to survive even when nothing else logs.
+  writeRawLLMIO({
+    executionId: String(ctx.correlationId || ''),
+    pathKey: rawLLMPathKey(ctx),
+    kind: 'request',
+    provider: (llmConfig as any)?.provider,
+    model: llmConfig?.model,
+    content: { systemPrompt, userPrompt, combinedPrompt, ...ctx },
+  }).catch(() => {});
+
+  if (!(DIAG_ENABLED || DIAG_FULL_PROMPTS || DIAG_TRACES)) return;
   log('[llm substep] start', 'debug', {
     ...ctx,
     systemLen: systemPrompt.length,
@@ -83,6 +104,16 @@ export async function logLLMSubstepSuccess(
 ) {
   maybeLogDiagnosticsBanner();
   const ctx = getCtx(execution, sequence);
+
+  writeRawLLMIO({
+    executionId: String(ctx.correlationId || ''),
+    pathKey: rawLLMPathKey(ctx),
+    kind: 'response',
+    provider: output?.metadata?.provider,
+    model: output?.metadata?.model,
+    content: { content: output?.content, usage: output?.usage, metadata: output?.metadata },
+  }).catch(() => {});
+
   if (DIAG_ENABLED || DIAG_FULL_PROMPTS || DIAG_TRACES) {
     log('[llm substep] success', 'debug', {
       ...ctx,
@@ -138,8 +169,22 @@ export function logLLMSubstepError(
   err: unknown,
   durationMs?: number
 ) {
-  if (!DIAG_ENABLED) return;
   const ctx = getCtx(execution, sequence);
+
+  // The raw sidecar is the whole point on the failure path — a 413/400/etc.
+  // from the provider is exactly the case where you need to see the literal
+  // request that triggered it, and DIAG_ENABLED (verbose console logging)
+  // being off shouldn't suppress that.
+  writeRawLLMIO({
+    executionId: String(ctx.correlationId || ''),
+    pathKey: rawLLMPathKey(ctx),
+    kind: 'error',
+    provider: ctx.provider,
+    model: ctx.model,
+    content: err,
+  }).catch(() => {});
+
+  if (!DIAG_ENABLED) return;
   const message = err instanceof Error ? err.message : String(err);
   log('[llm substep] error', 'error', {
     ...ctx,
