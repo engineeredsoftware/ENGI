@@ -14,9 +14,11 @@ function getCtx(execution: Execution, sequence?: string) {
   // Surface any provider/model already stored on ancestors (best-effort)
   let providerUp: string | undefined;
   let modelUp: string | undefined;
+  let failsafeUp: string | undefined;
   try { providerUp = (execution as any).findUp?.('llm', 'provider'); } catch {}
   try { modelUp = (execution as any).findUp?.('llm', 'model'); } catch {}
-  return { phase, step, agentName, execId, path, correlationId, sequence, provider: providerUp, model: modelUp };
+  try { failsafeUp = (execution as any).findUp?.('ptrr', 'failsafe'); } catch {}
+  return { phase, step, agentName, execId, path, correlationId, sequence, provider: providerUp, model: modelUp, failsafe: failsafeUp };
 }
 
 let __diagBannerPrinted = false;
@@ -45,12 +47,13 @@ function maybeLogDiagnosticsBanner() {
   } catch {}
 }
 
-// The literal wire-call correlation key for the raw LLM I/O sidecar — the
-// full execution path (which already encodes phase/agent/step/failsafe/
-// gen-N/generation) plus the sequence, so concurrent or repeated calls
-// within the same agent never collide.
+// A human-readable name for the raw LLM I/O sidecar file — phase, agent,
+// step, failsafe, generation (thricified) — mirroring the same hierarchy
+// the processing-indicator sentence reads out loud. writeRawLLMIO prefixes
+// every file with a monotonic counter, so this name only needs to be
+// legible, not unique.
 function rawLLMPathKey(ctx: ReturnType<typeof getCtx>): string {
-  return [...(ctx.path || []), ctx.sequence].filter(Boolean).join(':');
+  return [ctx.phase, ctx.agentName, ctx.step, ctx.failsafe, ctx.sequence].filter(Boolean).join('-');
 }
 
 export async function logLLMSubstepStart(
