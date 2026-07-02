@@ -789,7 +789,7 @@
         "deliveryMechanismTemplate"
       ],
       "missingKeyBehaviorIds": [
-        "deterministic-fallback-when-ptrr-disabled",
+        "always-real-ptrr-no-deterministic-fallback",
         "completion-schema-parse-fails-closed"
       ],
       "toolPromptInjectionIds": [],
@@ -811,7 +811,7 @@
       "requiredPredicateIds": [
         "assetpack-synthesis.uses-ptrr-agent",
         "assetpack-synthesis.has-output-schema",
-        "assetpack-synthesis.has-bounded-real-inference-branch",
+        "assetpack-synthesis.always-real-ptrr-unwraps-envelope",
         "assetpack-completion.has-output-schema",
         "assetpack-completion.parses-output",
         "assetpack-completion.records-btc-fee-fields"
@@ -1186,7 +1186,7 @@
       "passed": true
     },
     {
-      "id": "assetpack-synthesis.has-bounded-real-inference-branch",
+      "id": "assetpack-synthesis.always-real-ptrr-unwraps-envelope",
       "sourcePath": "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
       "passed": true
     },
@@ -1331,7 +1331,7 @@
       "sourcePath": "packages/execution-generics/src/prompts/ExecutionPrompt.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "15c615717113d5ea7eb1daa6"
+      "sourceHash": "956500ea4690f74a744dd228"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/agents/finish/asset-pack-completion-agent.ts",
@@ -1343,7 +1343,7 @@
       "sourcePath": "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "80d7185a2ecedd5d71880a27"
+      "sourceHash": "e4ca2a51636c21a9bf4c911d"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
@@ -1367,7 +1367,7 @@
       "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "eeb93c86b190cd11b3e0c059"
+      "sourceHash": "6876916725c05b93d4a2b424"
     },
     {
       "sourcePath": "packages/prompts/src/execution/PromptExecution.ts",
@@ -1462,11 +1462,11 @@
     "sourceRootPresentCount": 29,
     "missingSourceRoots": [],
     "legacySourceRoots": false,
-    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:296926f1c26d370f7e91a70d",
+    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
     "gate2PromptPartRowCount": 1459,
-    "gate2PromptRowCount": 105,
-    "gate2PromptRowsWithRegistryPaths": 87,
-    "gate2RegistryPathCount": 1135,
+    "gate2PromptRowCount": 110,
+    "gate2PromptRowsWithRegistryPaths": 92,
+    "gate2RegistryPathCount": 1163,
     "gate2V42RoadmapPrepared": true,
     "sourceSafeMetadataOnly": true,
     "rawPromptTextSerialized": false,
@@ -1506,5 +1506,5 @@
   },
   "failures": [],
   "passed": true,
-  "artifactRoot": "v41-registry-interpolation-contract:fb4b99ad86f0cf6f4a9c04c4"
+  "artifactRoot": "v41-registry-interpolation-contract:46320b06f8417ffc0b86c713"
 }

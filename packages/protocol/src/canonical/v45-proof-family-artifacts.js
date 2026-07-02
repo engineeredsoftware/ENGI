@@ -178,8 +178,8 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
         'promptTemplateRoot',
         'telemetryTraceRoot',
       ]),
-      source('packages/pipelines/asset-pack/src/bounded-structured-inference.ts', [
-        'runBoundedStructuredInference',
+      source('packages/pipelines/asset-pack/src/read-need.ts', [
+        'runReadNeedComprehensionInference',
         'ThricifiedGeneration stage 1/3: reason',
         'ThricifiedGeneration stage 2/3: judge',
         'ThricifiedGeneration stage 3/3: structured output',
@@ -193,7 +193,9 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       source('packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts', [
         'ReadFitsFindingSynthesisAssetPackSynthesisAgent',
         'factoryAgentWithPTRR',
-        'runBoundedStructuredInference',
+        'finalOutput',
+      ]),
+      source('packages/pipelines/asset-pack/src/reading-pipeline-contract.ts', [
         'ReadFitsFindingSynthesis.prompt.asset-pack-synthesis',
       ]),
     ],

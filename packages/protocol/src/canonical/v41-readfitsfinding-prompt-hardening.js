@@ -236,12 +236,13 @@ export const V41_READFITSFINDING_PROMPT_HARDENING_ROWS = Object.freeze([
   }),
   row({
     hardeningId: 'readfits-bounded-inference-prompt-context',
-    label: 'ReadFitsFinding bounded inference prompts carry accepted Need, search roots, and source-safe boundaries',
+    label: 'ReadFitsFinding always-real inference prompt contract carries accepted Need, search roots, and source-safe boundaries',
     sourceRoots: [
       SOURCE_ROOTS.setupPlanAgent,
       SOURCE_ROOTS.readComprehensionAgent,
       SOURCE_ROOTS.assetPackSynthesisAgent,
       SOURCE_ROOTS.readingPipelineContract,
+      SOURCE_ROOTS.previewBoundary,
     ],
     promptFamilyIds: ['ReadFitsFindingSynthesis', 'PTRR', 'FailsafeGenerationSequence'],
     promptSurfaceIds: [
@@ -486,14 +487,14 @@ function predicatesForRow(repoRoot, rowData) {
   if (rowId === 'readfits-bounded-inference-prompt-context') {
     const combined = `${setupPlan}\n${readComprehension}\n${synthesis}\n${contract}`;
     return [
-      predicate('bounded.setup-plan-template-id', rowId, SOURCE_ROOTS.setupPlanAgent, /ReadFitsFindingSynthesis\.prompt\.setup-plan/u.test(setupPlan)),
-      predicate('bounded.setup-plan-accepted-need', rowId, SOURCE_ROOTS.setupPlanAgent, /acceptedReadNeed/u.test(setupPlan)),
-      predicate('bounded.setup-plan-search-objectives', rowId, SOURCE_ROOTS.setupPlanAgent, /searchObjectives/u.test(setupPlan) && /many-candidate Depository search/iu.test(setupPlan)),
-      predicate('bounded.read-comprehension-source-constraints', rowId, SOURCE_ROOTS.readComprehensionAgent, /sourceConstraints/u.test(readComprehension)),
-      predicate('bounded.read-comprehension-many-candidate-search', rowId, SOURCE_ROOTS.readComprehensionAgent, /many candidate fit deposits/iu.test(readComprehension) || /many-candidate Depository search/iu.test(readComprehension)),
-      predicate('bounded.assetpack-source-safe-boundary', rowId, SOURCE_ROOTS.assetPackSynthesisAgent, /sourceSafeBoundary/u.test(synthesis) && /forbiddenBeforeSettlement/u.test(synthesis)),
-      predicate('bounded.assetpack-selected-fit-provenance-root', rowId, SOURCE_ROOTS.assetPackSynthesisAgent, /selectedFitProvenanceRoot/u.test(synthesis)),
-      predicate('bounded.assetpack-no-unpaid-source', rowId, SOURCE_ROOTS.assetPackSynthesisAgent, /unpaid AssetPack source/u.test(synthesis)),
+      predicate('bounded.setup-plan-template-id', rowId, SOURCE_ROOTS.readingPipelineContract, /ReadFitsFindingSynthesis\.prompt\.setup-plan/u.test(contract)),
+      predicate('bounded.setup-plan-accepted-need', rowId, SOURCE_ROOTS.readingPipelineContract, /acceptedReadNeed/u.test(contract)),
+      predicate('bounded.setup-plan-search-objectives', rowId, SOURCE_ROOTS.readingPipelineContract, /searchObjectives/u.test(contract) && /many-candidate Depository search/iu.test(contract)),
+      predicate('bounded.read-comprehension-source-constraints', rowId, SOURCE_ROOTS.readingPipelineContract, /sourceConstraints/u.test(contract)),
+      predicate('bounded.read-comprehension-many-candidate-search', rowId, SOURCE_ROOTS.readingPipelineContract, /many candidate fit deposits/iu.test(contract) || /many-candidate Depository search/iu.test(contract)),
+      predicate('bounded.assetpack-source-safe-boundary', rowId, `${SOURCE_ROOTS.readingPipelineContract},${SOURCE_ROOTS.previewBoundary}`, /sourceSafeBoundary/u.test(contract) && /forbiddenBeforeSettlement/u.test(preview)),
+      predicate('bounded.assetpack-selected-fit-provenance-root', rowId, SOURCE_ROOTS.readingPipelineContract, /selectedFitProvenanceRoot/u.test(contract)),
+      predicate('bounded.assetpack-no-unpaid-source', rowId, SOURCE_ROOTS.readingPipelineContract, /unpaid AssetPack source/u.test(contract)),
       predicate('bounded.contract-interpolation-keys-expanded', rowId, SOURCE_ROOTS.readingPipelineContract, /searchObjectives/u.test(contract) && /selectedFitProvenanceRoot/u.test(contract) && /sourceSafeBoundary/u.test(contract)),
       predicate('bounded.contract-fit-quality-selected-provenance', rowId, SOURCE_ROOTS.readingPipelineContract, /selected-fit provenance/iu.test(contract) && /quote posture/iu.test(contract)),
       predicate('bounded.ptrr-failsafe-thricified-composition-present', rowId, SOURCE_ROOTS.readingPipelineContract, /FailsafeGenerationSequence/u.test(combined) || (/failsafe:prepare_context/u.test(combined) && /generation:structured_output/u.test(combined))),

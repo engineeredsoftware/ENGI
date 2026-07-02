@@ -231,18 +231,18 @@ function buildPredicateResults(repoRoot) {
     predicateResult(
       'deposit-client-binds-source-connection-before-synthesis',
       SOURCE_ROOTS.depositClient,
-      sources.depositClient.includes('TerminalRepositoryContextPanel') &&
+      sources.depositClient.includes('DepositSourceSelection') &&
         sources.depositClient.includes('routePath={DEPOSIT_ROUTE}') &&
-        sources.depositClient.includes('disabled={!depositRouteSession.routeState.repositoryFullName}'),
+        sources.depositClient.includes('!depositRouteSession.routeState.repositoryFullName'),
     ),
     predicateResult(
       'deposit-client-records-option-synthesis-execution',
       SOURCE_ROOTS.depositClient,
       sources.depositClient.includes('handleSynthesizeOptions') &&
-        sources.depositClient.includes('pipeline:deposit-option-synthesis') &&
+        sources.depositClient.includes('/api/deposit/synthesize-options') &&
         sources.depositClient.includes('depositOptionSynthesis') &&
-        sources.depositClient.includes('depositorEarningSupplyIntelligence') &&
-        sources.depositClient.includes('sourceSafetyClass'),
+        sources.depositClient.includes('DepositorEarningSupplyIntelligence') &&
+        sources.depositRouteModel.includes('sourceSafetyClass'),
     ),
     predicateResult(
       'deposit-client-renders-source-safe-measurement-review',
@@ -257,13 +257,14 @@ function buildPredicateResults(repoRoot) {
       SOURCE_ROOTS.depositClient,
       sources.depositClient.includes('pipeline:deposit-option-review') &&
         sources.depositClient.includes('pipeline:deposit-option-admission') &&
-        sources.depositClient.includes('Approve for Depository') &&
+        sources.depositClient.includes('Select for deposit') &&
+        sources.depositClient.includes('Deposit selected AssetPacks') &&
         sources.depositClient.includes('Resynthesize'),
     ),
     predicateResult(
       'deposit-client-renders-compensation-authority-readback',
       SOURCE_ROOTS.depositClient,
-      sources.depositClient.includes('Supply opportunity') &&
+      sources.depositClient.includes('Opportunity roots') &&
         sources.depositClient.includes('Organization authority') &&
         sources.depositClient.includes('Expected compensation') &&
         sources.depositClient.includes('Authority root'),
@@ -278,9 +279,10 @@ function buildPredicateResults(repoRoot) {
     predicateResult(
       'deposit-page-test-covers-synthesis-journaling',
       SOURCE_ROOTS.depositPageTest,
-      sources.depositPageTest.includes('records source-safe option synthesis') &&
-        sources.depositPageTest.includes('pipeline:deposit-option-synthesis') &&
-        sources.depositPageTest.includes('depositOptionSynthesis.schema'),
+      sources.depositPageTest.includes('requests real option synthesis') &&
+        sources.depositPageTest.includes('/api/deposit/synthesize-options') &&
+        sources.depositPageTest.includes('/api/executions/history/') &&
+        sources.depositPageTest.includes('depositOptionSynthesis'),
     ),
     predicateResult(
       'deposit-route-model-test-covers-admission-compensation',

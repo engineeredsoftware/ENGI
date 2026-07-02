@@ -101,13 +101,11 @@
       "sourceRoots": [
         "packages/pipelines/asset-pack/src/read-need.ts",
         "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-        "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
         "packages/pipelines/asset-pack/src/runtime-inference-policy.ts"
       ],
       "testPaths": [
         "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
         "packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/bounded-structured-inference.test.ts",
         "packages/pipelines/asset-pack/src/__tests__/runtime-inference-policy.test.ts",
         "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],

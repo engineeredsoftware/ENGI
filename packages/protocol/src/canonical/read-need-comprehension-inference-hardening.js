@@ -63,7 +63,6 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 const SOURCE_ROOTS = Object.freeze({
   readingContract: 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
   readNeed: 'packages/pipelines/asset-pack/src/read-need.ts',
-  boundedStructuredInference: 'packages/pipelines/asset-pack/src/bounded-structured-inference.ts',
   readNeedTests: 'packages/pipelines/asset-pack/src/__tests__/read-need.test.ts',
   readingContractTests: 'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts',
   readReviewRoute: 'uapi/app/api/read-review/route.ts',
@@ -186,7 +185,7 @@ export const V38_READ_NEED_COMPREHENSION_HARDENING_ROWS = Object.freeze([
 
 function buildPredicateResults(repoRoot) {
   const readNeed = readSource(repoRoot, SOURCE_ROOTS.readNeed);
-  const bounded = readSource(repoRoot, SOURCE_ROOTS.boundedStructuredInference);
+  const bounded = readSource(repoRoot, SOURCE_ROOTS.readNeed);
   const contract = readSource(repoRoot, SOURCE_ROOTS.readingContract);
   const tests = readSource(repoRoot, SOURCE_ROOTS.readNeedTests);
   const contractTests = readSource(repoRoot, SOURCE_ROOTS.readingContractTests);
@@ -208,9 +207,9 @@ function buildPredicateResults(repoRoot) {
     predicateResult('read-need.supports-resynthesis-feedback', SOURCE_ROOTS.readNeed, readNeed.includes('supportsResynthesisWithFeedback: true') && readNeed.includes('previousNeedId')),
     predicateResult('read-need.blocks-source-disclosure', SOURCE_ROOTS.readNeed, readNeed.includes('protectedSourceVisible: false') && readNeed.includes('unpaidAssetPackSourceVisible: false')),
     predicateResult('read-need.blocks-credentials', SOURCE_ROOTS.readNeed, readNeed.includes('credentialsSerialized: false')),
-    predicateResult('bounded-inference-records-failsafe-stack', SOURCE_ROOTS.boundedStructuredInference, bounded.includes("'bounded-inference', 'stack'") && bounded.includes('failsafeSequence')),
-    predicateResult('bounded-inference-records-thricified-stages', SOURCE_ROOTS.boundedStructuredInference, bounded.includes('ThricifiedGeneration stage 1/3') && bounded.includes('ThricifiedGeneration stage 2/3') && bounded.includes('ThricifiedGeneration stage 3/3')),
-    predicateResult('bounded-inference-records-prompt-output', SOURCE_ROOTS.boundedStructuredInference, bounded.includes("'llm', 'input'") && bounded.includes("'llm', 'parsedOutput'")),
+    predicateResult('bounded-inference-records-failsafe-stack', SOURCE_ROOTS.readNeed, bounded.includes("'bounded-inference', 'stack'") && bounded.includes('failsafeSequence')),
+    predicateResult('bounded-inference-records-thricified-stages', SOURCE_ROOTS.readNeed, bounded.includes('ThricifiedGeneration stage 1/3') && bounded.includes('ThricifiedGeneration stage 2/3') && bounded.includes('ThricifiedGeneration stage 3/3')),
+    predicateResult('bounded-inference-records-prompt-output', SOURCE_ROOTS.readNeed, bounded.includes("'llm', 'input'") && bounded.includes("'llm', 'parsedOutput'")),
     predicateResult('route-uses-inference-synthesis', SOURCE_ROOTS.readReviewRoute, route.includes('synthesizeReadNeedForPipelineInputWithInference')),
     predicateResult('terminal-supports-resynthesis-feedback', SOURCE_ROOTS.terminalWorkbench, terminal.includes('resynthesize_read_need') && terminal.includes('readNeedFeedback')),
     predicateResult('tests-cover-receipt-counts', SOURCE_ROOTS.readNeedTests, tests.includes('failsafeSequenceIds') && tests.includes('thricifiedGenerationIds') && tests.includes('toHaveLength(48)')),

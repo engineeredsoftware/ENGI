@@ -171,7 +171,7 @@
         "packages/pipelines/asset-pack/src/read-need.ts",
         "packages/pipelines/asset-pack/src/depository-search.ts",
         "packages/pipelines/asset-pack/src/embedding-config.ts",
-        "packages/pipelines/asset-pack/src/bounded-structured-inference.ts"
+        "packages/pipelines/asset-pack/src/runtime-inference-policy.ts"
       ],
       "phaseCount": 7,
       "ptrrAgentCount": 8,
@@ -858,11 +858,6 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
-      "exists": true,
-      "legacy": false
-    },
-    {
       "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
       "exists": true,
       "legacy": false
@@ -962,7 +957,7 @@
       "provider call"
     ],
     "missingPrimitiveIds": [],
-    "sourceRootCount": 29,
+    "sourceRootCount": 28,
     "missingSourceRoots": [],
     "readingPipelineCount": 2,
     "readingPipelineNames": [

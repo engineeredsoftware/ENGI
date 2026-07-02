@@ -432,7 +432,7 @@ export const V41_REGISTRY_INTERPOLATION_CONTRACT_ROWS = Object.freeze([
     registryIds: ['ReadFitsFindingSynthesisAssetPackSynthesisAgent', 'AssetPackCompletionAgent'],
     compositionLevelIds: ['ptrr-agent', 'ptrr-step', 'parser-target'],
     interpolationKeyIds: ['read', 'definitionOfRead', 'requirements', 'discovery', 'deliveryMechanismTemplate'],
-    missingKeyBehaviorIds: ['deterministic-fallback-when-ptrr-disabled', 'completion-schema-parse-fails-closed'],
+    missingKeyBehaviorIds: ['always-real-ptrr-no-deterministic-fallback', 'completion-schema-parse-fails-closed'],
     toolPromptInjectionIds: [],
     contextHandlingIds: ['assetPackSynthesisArtifacts', 'writtenAssets', 'deliveryMechanism', 'processingStats'],
     parserTargetIds: ['AssetPackSynthesisOutputSchema', 'AssetPackCompletionOutputSchema'],
@@ -440,7 +440,7 @@ export const V41_REGISTRY_INTERPOLATION_CONTRACT_ROWS = Object.freeze([
     requiredPredicateIds: [
       'assetpack-synthesis.uses-ptrr-agent',
       'assetpack-synthesis.has-output-schema',
-      'assetpack-synthesis.has-bounded-real-inference-branch',
+      'assetpack-synthesis.always-real-ptrr-unwraps-envelope',
       'assetpack-completion.has-output-schema',
       'assetpack-completion.parses-output',
       'assetpack-completion.records-btc-fee-fields',
@@ -805,10 +805,10 @@ function buildPredicateResults(sourceText, gate2Inventory) {
       sourceText.assetPackSynthesisAgent.includes('AssetPackSynthesisOutputSchema'),
     ),
     predicateResult(
-      'assetpack-synthesis.has-bounded-real-inference-branch',
+      'assetpack-synthesis.always-real-ptrr-unwraps-envelope',
       SOURCE_ROOTS.assetPackSynthesisAgent,
-      sourceText.assetPackSynthesisAgent.includes('runBoundedAssetPackSynthesis')
-        && sourceText.assetPackSynthesisAgent.includes('isAssetPackBoundedRealInferenceProfile'),
+      sourceText.assetPackSynthesisAgent.includes('finalOutput')
+        && sourceText.assetPackSynthesisAgent.includes('factoryAgentWithPTRR'),
     ),
     predicateResult(
       'assetpack-completion.has-output-schema',

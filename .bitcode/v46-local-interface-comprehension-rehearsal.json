@@ -5,7 +5,7 @@
   "currentTarget": "V45",
   "sourceSafetyVerdict": "source-safe-local-interface-comprehension-rehearsal",
   "generatedAt": "deterministic",
-  "artifactRoot": "v46-local-interface-comprehension-rehearsal:9e374e9ee12476c0176e0e0e",
+  "artifactRoot": "v46-local-interface-comprehension-rehearsal:387d7c9948b1c1559f63ee7f",
   "rehearsalStatus": "completed_source_safe_local",
   "passed": true,
   "surfaceIds": [
@@ -211,8 +211,8 @@
       "rowRoot": "v46-local-interface-rehearsal-row:d744aeb10f86283529f10544",
       "sourceRoots": [
         "uapi/app/packs/page.tsx:1b3d7a1cc00500a13042e8dd",
-        "uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
-        "uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1"
+        "uapi/app/packs/PacksPageClient.tsx:b4650917f1b8e9bd621737d9",
+        "uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -305,7 +305,7 @@
       "rowRoot": "v46-local-interface-rehearsal-row:24860b3d7668bfd1be49225b",
       "sourceRoots": [
         "uapi/app/read/page.tsx:37a723ed87feac05c0504249",
-        "uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e"
+        "uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -346,7 +346,7 @@
       "requiredCopyTokens": [
         "source-safe AssetPack deposit options",
         "Source-safe AssetPack proposals",
-        "Criticality, demand, ROI, BTD potential, compensation.",
+        "estimated ROI, BTD potential, compensation metadata.",
         "Withheld: raw source, unpaid AssetPack source"
       ],
       "expectedReadback": "/deposit rehearses source-safe deposit option synthesis, review, policy, admission, BTD potential, and compensation posture without final Need-relative BTD claims.",
@@ -397,7 +397,7 @@
       "rowRoot": "v46-local-interface-rehearsal-row:4353b716ad3db5bd7833d76f",
       "sourceRoots": [
         "uapi/app/deposit/page.tsx:6bab6a9debab3f4350d0ddca",
-        "uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f"
+        "uapi/app/deposit/DepositPageClient.tsx:a2f40f51107ad7500318ec5a"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -685,7 +685,7 @@
       ],
       "rowRoot": "v46-local-interface-rehearsal-row:5dab113b96d09fc833b28ccc",
       "sourceRoots": [
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:bb7e1773303e04b9027ae2c7",
+        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:9d88b27b51e6b4d3a15ce995",
         "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
         "uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d",
         ".bitcode/v46-proof-readback-operator-explanation.json:5fb82dae1fac3711939dcd89"
@@ -711,7 +711,7 @@
       "artifactId": "v46-product-route-comprehension-readback",
       "sourcePath": ".bitcode/v46-product-route-comprehension-readback.json",
       "passed": true,
-      "sourceRoot": ".bitcode/v46-product-route-comprehension-readback.json:c5d1d887915cb920288b18a8"
+      "sourceRoot": ".bitcode/v46-product-route-comprehension-readback.json:fcb6d5406f0ff810cc3013c9"
     },
     {
       "artifactId": "v46-interface-claim-contracts",
@@ -794,38 +794,38 @@
     }
   ],
   "sourceRoots": {
-    "activePointer": "BITCODE_SPEC.txt:820a850b09546da1a1a1c447",
+    "activePointer": "BITCODE_SPEC.txt:8c4fbbb3acf2c3e74be6b449",
     "spec": "BITCODE_SPEC_V46.md:48121ff59f812f15a1b3b1f7",
     "delta": "BITCODE_SPEC_V46_DELTA.md:a16a16db40d4eeae612a0657",
     "notes": "BITCODE_SPEC_V46_NOTES.md:cca70aca3566132e7026351c",
     "parity": "BITCODE_SPEC_V46_PARITY_MATRIX.md:91b47eeaa106639d2d21856b",
-    "roadmap": "SPECIFICATIONS_ROADMAP.md:d77398b3e03ad727d9275b66",
-    "readme": "README.md:d28ec731634e03953d8adfe6",
-    "protocolReadme": "packages/protocol/README.md:f5b175049f4f4e8df179e184",
-    "packageJson": "package.json:47e46090fa44c01d26069bfb",
-    "packageIndex": "packages/protocol/src/index.js:41a9fb2ceea33ad0a2eb5585",
-    "packageTypes": "packages/protocol/src/index.d.ts:0668307b7b1f6262432f32e0",
-    "packageSource": "packages/protocol/src/canonical/v46-local-interface-comprehension-rehearsal.js:79ee15948652b8909022052e",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
+    "readme": "README.md:14085be712ec8e13c811c62a",
+    "protocolReadme": "packages/protocol/README.md:1a81b9507325d3a5da87f627",
+    "packageJson": "package.json:4d9f041eb01a920860a26f75",
+    "packageIndex": "packages/protocol/src/index.js:fdc9c740328fe41b9c7134c8",
+    "packageTypes": "packages/protocol/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "packageSource": "packages/protocol/src/canonical/v46-local-interface-comprehension-rehearsal.js:ae2715a7deb5a01a3c415ba6",
     "packageTest": "packages/protocol/test/v46-local-interface-comprehension-rehearsal.test.js:5b6ad282088791ea76ec2bbf",
     "generator": "scripts/generate-v46-local-interface-comprehension-rehearsal.mjs:d6a9dadb6f8ee51de50a529f",
     "checker": "scripts/check-v46-gate7-local-interface-comprehension-rehearsal.mjs:beb49c72404e73e730640a72",
-    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:0cc93a50c149a253eb60287a",
-    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:31089b944c381ce30c0633db",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:379d7561d515468f9237bf02",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:ab37403273c35c918071e3cd",
     "v46ProtocolArtifact": ".bitcode/v46-protocol-comprehension-object-model.json:b09508f0d7841284effb0e01",
     "v46PublicArtifact": ".bitcode/v46-public-operator-claim-boundaries.json:352e9021ffbe43d650923b98",
-    "v46ProductArtifact": ".bitcode/v46-product-route-comprehension-readback.json:c5d1d887915cb920288b18a8",
+    "v46ProductArtifact": ".bitcode/v46-product-route-comprehension-readback.json:fcb6d5406f0ff810cc3013c9",
     "v46InterfaceArtifact": ".bitcode/v46-interface-claim-contracts.json:85379590a5c5e719d0cc1ed1",
     "v46ProofArtifact": ".bitcode/v46-proof-readback-operator-explanation.json:5fb82dae1fac3711939dcd89",
     "landingPage": "uapi/app/page.tsx:b1b707e58f8917b8a97717b4",
     "docsPage": "uapi/app/docs/page.tsx:75e5011c78a308e60f95cbd5",
     "docsContent": "uapi/app/(root)/components/PublicDocsPageContent.tsx:6efbf77a6f292e9e0c25b70e",
     "packsPage": "uapi/app/packs/page.tsx:1b3d7a1cc00500a13042e8dd",
-    "packsClient": "uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
-    "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
+    "packsClient": "uapi/app/packs/PacksPageClient.tsx:b4650917f1b8e9bd621737d9",
+    "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
     "readPage": "uapi/app/read/page.tsx:37a723ed87feac05c0504249",
-    "readClient": "uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",
+    "readClient": "uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb",
     "depositPage": "uapi/app/deposit/page.tsx:6bab6a9debab3f4350d0ddca",
-    "depositClient": "uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
+    "depositClient": "uapi/app/deposit/DepositPageClient.tsx:a2f40f51107ad7500318ec5a",
     "btdApiSchema": "packages/btd/src/api-schema-compatibility-matrix.ts:21527a4ab84909ce72247fab",
     "btdMcpContract": "packages/btd/src/mcp-tool-contract.ts:ed7ff68bb55bd47afc9c538b",
     "mcpDocsReference": "packages/executions-mcp/src/mcp-server/docs/mcp/mcp-api-reference.md:39ae38737d2c48c96eebb5ea",
@@ -834,7 +834,7 @@
     "conversationHandoff": "uapi/app/conversations/conversation-terminal-handoff.ts:0eb848817ddf44fc2946aa05",
     "conversationTelemetry": "uapi/app/conversations/conversation-telemetry-proof-hooks.ts:44c7ff1620bfa9f329f07c4d",
     "conversationParityTest": "uapi/tests/api/conversationReadingInterfaceParity.test.ts:e31d05980a03ff7c966df485",
-    "pipelineLogUi": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:bb7e1773303e04b9027ae2c7",
+    "pipelineLogUi": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:9d88b27b51e6b4d3a15ce995",
     "v39OperationalTelemetryReadback": "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
     "uapiLedgerStorageSync": "uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d"
   },

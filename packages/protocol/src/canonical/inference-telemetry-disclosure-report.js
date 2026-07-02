@@ -91,10 +91,10 @@ const SOURCE_ROOTS = Object.freeze({
   toolExecution: 'packages/tools-generics/src/execution/ToolExecution.ts',
   readingPipelineContract: 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
   readingPipelineObservability: 'packages/pipelines/asset-pack/src/reading-pipeline-observability.ts',
-  boundedStructuredInference: 'packages/pipelines/asset-pack/src/bounded-structured-inference.ts',
+  readNeedRealInference: 'packages/pipelines/asset-pack/src/read-need.ts',
   disclosure: 'packages/pipelines/asset-pack/src/asset-pack-disclosure.ts',
   observabilityTest: 'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts',
-  boundedInferenceTest: 'packages/pipelines/asset-pack/src/__tests__/bounded-structured-inference.test.ts',
+  readingIntegrationCoverageTest: 'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts',
   terminalHarnessClient: 'uapi/app/terminal/terminal-pipeline-harness-client.ts',
   terminalHarnessClientTest: 'uapi/tests/terminalPipelineHarnessClient.test.ts',
   pipelineExecutionLog: 'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
@@ -259,7 +259,7 @@ export const V38_INFERENCE_TELEMETRY_DISCLOSURE_ROWS = Object.freeze([
     label: 'ThricifiedGeneration Reason/Judge/StructuredOutput rows',
     sourceRoots: [
       SOURCE_ROOTS.thricifiedGeneration,
-      SOURCE_ROOTS.boundedStructuredInference,
+      SOURCE_ROOTS.readNeedRealInference,
       SOURCE_ROOTS.instrumentation,
       SOURCE_ROOTS.executionStreamAdapter,
     ],
@@ -347,7 +347,7 @@ export const V38_INFERENCE_TELEMETRY_DISCLOSURE_ROWS = Object.freeze([
     label: 'Prompt template identity and interpolated prompt boundary rows',
     sourceRoots: [
       SOURCE_ROOTS.readingPipelineObservability,
-      SOURCE_ROOTS.boundedStructuredInference,
+      SOURCE_ROOTS.readNeedRealInference,
       SOURCE_ROOTS.terminalHarnessClient,
       SOURCE_ROOTS.terminalHarnessClientTest,
       SOURCE_ROOTS.gate4PromptBenchmark,
@@ -384,8 +384,8 @@ export const V38_INFERENCE_TELEMETRY_DISCLOSURE_ROWS = Object.freeze([
     label: 'Raw response root, parsed typed output shape, and schema verdict rows',
     sourceRoots: [
       SOURCE_ROOTS.readingPipelineObservability,
-      SOURCE_ROOTS.boundedStructuredInference,
-      SOURCE_ROOTS.boundedInferenceTest,
+      SOURCE_ROOTS.readNeedRealInference,
+      SOURCE_ROOTS.readingIntegrationCoverageTest,
       SOURCE_ROOTS.observabilityTest,
       SOURCE_ROOTS.terminalHarnessClientTest,
     ],
@@ -504,7 +504,7 @@ function buildSourceStats(repoRoot) {
     agentCompleteCount: countMatches(sources.executionStreamAdapter + sources.stepFactories, /agent-complete|AGENT_COMPLETE|agent[.:]complete|'complete'/gu),
     workUpdateCount: countMatches(sources.executionStreamAdapter + sources.stepFactories, /work-update|WORK_UPDATE/gu),
     failsafeEventCount: countMatches(sources.instrumentation + sources.failsafeSequence, /logFailsafeEvent|prepare-context|chunk-then-sum|stitch-until-complete/gu),
-    thricifiedStageCount: countMatches(sources.boundedStructuredInference + sources.thricifiedGeneration, /reason|judge|structured_output|structured-output/gu),
+    thricifiedStageCount: countMatches(sources.readNeedRealInference + sources.thricifiedGeneration, /reason|judge|structured_output|structured-output/gu),
     llmSubstepStartCount: countMatches(sources.instrumentation, /logLLMSubstepStart/gu),
     llmSubstepSuccessCount: countMatches(sources.instrumentation, /logLLMSubstepSuccess/gu),
     llmSubstepErrorCount: countMatches(sources.instrumentation, /logLLMSubstepError/gu),
@@ -564,8 +564,8 @@ function buildPredicateResults(rows, stats, repoRoot) {
 
     if (item.rowId === 'telemetry:thricified-generation-lifecycle') {
       predicates.push(
-        predicateResult('generation.source-stores-prompt-template-and-interpolated-prompt', item.rowId, SOURCE_ROOTS.boundedStructuredInference, stats.promptTemplateFlagCount > 0 && stats.interpolatedPromptFlagCount > 0),
-        predicateResult('generation.source-stores-raw-and-parsed-output', item.rowId, SOURCE_ROOTS.boundedStructuredInference, stats.rawResponseFlagCount > 0 && stats.parsedTypedOutputFlagCount > 0),
+        predicateResult('generation.source-stores-prompt-template-and-interpolated-prompt', item.rowId, SOURCE_ROOTS.readNeedRealInference, stats.promptTemplateFlagCount > 0 && stats.interpolatedPromptFlagCount > 0),
+        predicateResult('generation.source-stores-raw-and-parsed-output', item.rowId, SOURCE_ROOTS.readNeedRealInference, stats.rawResponseFlagCount > 0 && stats.parsedTypedOutputFlagCount > 0),
         predicateResult('generation.adapter-maps-llm-output-to-generation', item.rowId, SOURCE_ROOTS.executionStreamAdapter, stats.sources.executionStreamAdapter.includes("namespace === 'llm'") && stats.sources.executionStreamAdapter.includes('GENERATION')),
         predicateResult('generation.instrumentation-logs-start-success-error', item.rowId, SOURCE_ROOTS.instrumentation, stats.llmSubstepStartCount > 0 && stats.llmSubstepSuccessCount > 0 && stats.llmSubstepErrorCount > 0),
       );
@@ -589,7 +589,7 @@ function buildPredicateResults(rows, stats, repoRoot) {
 
     if (item.rowId === 'telemetry:raw-response-parsed-output-schema') {
       predicates.push(
-        predicateResult('schema.tests-cover-raw-and-parsed-output-evidence', item.rowId, `${SOURCE_ROOTS.boundedInferenceTest},${SOURCE_ROOTS.observabilityTest}`, stats.sources.boundedInferenceTest.includes('parsedTypedOutput') && stats.sources.observabilityTest.includes('rawModelResponsePresent')),
+        predicateResult('schema.tests-cover-raw-and-parsed-output-evidence', item.rowId, `${SOURCE_ROOTS.readingIntegrationCoverageTest},${SOURCE_ROOTS.observabilityTest}`, stats.sources.readingIntegrationCoverageTest.includes('parsedTypedOutput') && stats.sources.observabilityTest.includes('rawModelResponsePresent')),
         predicateResult('schema.observability-records-raw-and-parsed-evidence', item.rowId, SOURCE_ROOTS.readingPipelineObservability, stats.sources.readingPipelineObservability.includes('rawModelResponsePresent') && stats.sources.readingPipelineObservability.includes('parsedTypedOutputPresent')),
         predicateResult('schema.harness-metadata-carries-inference-audit-shape', item.rowId, SOURCE_ROOTS.terminalHarnessClientTest, stats.sources.terminalHarnessClientTest.includes('inferenceAudit') && stats.sources.terminalHarnessClientTest.includes('rawModelResponse')),
       );

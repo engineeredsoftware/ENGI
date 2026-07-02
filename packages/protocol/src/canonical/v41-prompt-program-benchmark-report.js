@@ -89,7 +89,7 @@ const SOURCE_ROOTS = Object.freeze({
   readingPipelineContract: 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
   readingObservability: 'packages/pipelines/asset-pack/src/reading-pipeline-observability.ts',
   readingOperationalTelemetry: 'packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts',
-  boundedStructuredInference: 'packages/pipelines/asset-pack/src/bounded-structured-inference.ts',
+  readNeedRealInference: 'packages/pipelines/asset-pack/src/read-need.ts',
   depositorySearch: 'packages/pipelines/asset-pack/src/depository-search.ts',
   depositorySupplyIndex: 'packages/pipelines/asset-pack/src/depository-supply-index.ts',
   embeddingConfig: 'packages/pipelines/asset-pack/src/embedding-config.ts',
@@ -371,7 +371,7 @@ export const V41_PROMPT_PROGRAM_BENCHMARK_REPORT_ROWS = Object.freeze([
       SOURCE_ROOTS.v38PtrrStackSource,
       SOURCE_ROOTS.v38InferenceTelemetrySource,
       SOURCE_ROOTS.v38InferenceTelemetryArtifact,
-      SOURCE_ROOTS.boundedStructuredInference,
+      SOURCE_ROOTS.readNeedRealInference,
       SOURCE_ROOTS.readingObservability,
     ],
     promptProgramArtifactIds: [
@@ -558,7 +558,7 @@ function buildPredicateResults(repoRoot, context) {
   const readingPipelineContract = readSource(repoRoot, SOURCE_ROOTS.readingPipelineContract);
   const readingObservability = readSource(repoRoot, SOURCE_ROOTS.readingObservability);
   const readingOperationalTelemetry = readSource(repoRoot, SOURCE_ROOTS.readingOperationalTelemetry);
-  const boundedStructuredInference = readSource(repoRoot, SOURCE_ROOTS.boundedStructuredInference);
+  const readNeedRealInference = readSource(repoRoot, SOURCE_ROOTS.readNeedRealInference);
   const depositorySearch = readSource(repoRoot, SOURCE_ROOTS.depositorySearch);
   const embeddingConfig = readSource(repoRoot, SOURCE_ROOTS.embeddingConfig);
   const readFitsRuntime = readSource(repoRoot, SOURCE_ROOTS.readFitsRuntime);
@@ -721,8 +721,8 @@ function buildPredicateResults(repoRoot, context) {
     predicate(
       'bounded-inference-records-raw-and-parsed',
       'failsafe-thricified-inference-receipt-projection',
-      SOURCE_ROOTS.boundedStructuredInference,
-      boundedStructuredInference.includes('rawResponse') && boundedStructuredInference.includes('parsedTypedOutput'),
+      SOURCE_ROOTS.readNeedRealInference,
+      readNeedRealInference.includes('rawResponse') && readNeedRealInference.includes('parsedTypedOutput'),
     ),
     predicate(
       'observability-projects-generation-receipts',
