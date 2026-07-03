@@ -186,7 +186,14 @@ export function buildTerminalRunActivityFromEvents(
   const normalizedIterationUpdates = new Map<number | string, any>();
   const statusEvents = events.filter((entry) => entry.event?.type === 'status');
   const completionEvent = events.find((entry) => entry.event?.type === 'completion');
-  const errorEvent = events.find((entry) => entry.event?.type === 'error');
+  // The run error is a GENUINE terminal error only. A 'validation'-namespace
+  // error is the stitch failsafe recording the schema error it is actively
+  // repairing (streamed as type 'repair' since the ExecutionStreamAdapter fix;
+  // rows persisted before it are still typed 'error') — surfacing it as the
+  // run error marked an actively-repairing run as failed.
+  const errorEvent = events.find(
+    (entry) => entry.event?.type === 'error' && entry.event?.namespace !== 'validation',
+  );
 
   for (const update of iterationUpdates || []) {
     if (update && typeof update.iteration !== 'undefined') {

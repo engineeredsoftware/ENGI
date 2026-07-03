@@ -10,6 +10,22 @@ const TERMINAL_EVENT_TYPES = new Set(['completion', 'error']);
 const TERMINAL_EXECUTION_STATUSES = new Set(['completed', 'failed', 'cancelled']);
 
 /**
+ * A 'validation'-namespace error row is the stitch failsafe recording the
+ * schema error it is actively repairing — in-band failsafe work, not a
+ * terminal failure. New events stream as type 'repair' (ExecutionStreamAdapter),
+ * but rows persisted before that fix are still typed 'error' and must not end
+ * the tail of a run that is still working.
+ */
+function isLegacyRepairErrorRow(eventType: string, eventData: unknown): boolean {
+  return (
+    eventType === 'error' &&
+    Boolean(eventData) &&
+    typeof eventData === 'object' &&
+    (eventData as Record<string, unknown>).namespace === 'validation'
+  );
+}
+
+/**
  * Row-backed frames carry the execution_events row's insert-time `created_at`
  * as the standard SSE `id:` line. The tail filters rows with
  * `created_at > cursor`, so the RECONNECT cursor must be that same insert
@@ -119,7 +135,10 @@ export async function GET(request: Request) {
             for (const event of events || []) {
               cursor = event.created_at;
               send((event.event_data as Record<string, unknown>) || { type: event.event_type }, event.created_at);
-              if (TERMINAL_EVENT_TYPES.has(String(event.event_type))) {
+              if (
+                TERMINAL_EVENT_TYPES.has(String(event.event_type)) &&
+                !isLegacyRepairErrorRow(String(event.event_type), event.event_data)
+              ) {
                 sawTerminalEvent = true;
               }
             }

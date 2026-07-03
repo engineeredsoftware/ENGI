@@ -299,6 +299,44 @@ describe('terminal-run-activity helpers', () => {
     expect(snapshot.iterationUpdates.find((u: any) => u.iteration === 2)?.confidence).toBe(0.8);
   });
 
+  it("ignores a legacy 'error'-typed validation repair event as the run error, but keeps genuine errors", () => {
+    // Rows persisted before the ExecutionStreamAdapter repair fix: the stitch
+    // failsafe's validation error arrived typed 'error' with namespace
+    // 'validation' — the run was still actively repairing, not failed.
+    const repairOnly = buildTerminalRunActivityFromEvents(
+      [
+        {
+          id: 'e1',
+          created_at: '2026-07-03T19:12:29.447Z',
+          event: {
+            type: 'error',
+            namespace: 'validation',
+            key: 'error',
+            message: '[{"path":["options"],"message":"Required"}]',
+          },
+        },
+      ] as any,
+      null,
+      [],
+      null,
+    );
+    expect(repairOnly.error).toBeNull();
+
+    const genuine = buildTerminalRunActivityFromEvents(
+      [
+        {
+          id: 'e2',
+          created_at: '2026-07-03T19:13:00.000Z',
+          event: { type: 'error', message: 'synthesis failed' },
+        },
+      ] as any,
+      null,
+      [],
+      null,
+    );
+    expect(genuine.error).toBe('synthesis failed');
+  });
+
   it('uses explicit stream error and mock snapshots', () => {
     const liveErrorSnapshot = buildTerminalRunActivityFromEvents([], null, [], 'Stream failed');
     expect(liveErrorSnapshot.error).toBe('Stream failed');

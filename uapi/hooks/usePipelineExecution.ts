@@ -159,7 +159,16 @@ export function usePipelineExecution(runId: string | null): UsePipelineExecution
                     if (payload.type === 'work-update') {
                       recordWorkUpdate(payload);
                     }
-                    if (payload.type === 'completion' || payload.type === 'error') {
+                    // Terminal detection: completion, or a genuine error. A
+                    // 'validation'-namespace error is the stitch failsafe
+                    // recording the schema error it is actively repairing —
+                    // new events stream as type 'repair', but rows persisted
+                    // before that fix are still typed 'error' and must not
+                    // close the tail of a run that is still working.
+                    if (
+                      payload.type === 'completion' ||
+                      (payload.type === 'error' && payload.namespace !== 'validation')
+                    ) {
                       sawTerminal = true;
                     }
                     const createdAt =

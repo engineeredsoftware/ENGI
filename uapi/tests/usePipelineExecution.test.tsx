@@ -247,6 +247,49 @@ describe('usePipelineExecution', () => {
     expect(streamUrls.length).toBe(1);
   });
 
+  it("keeps tailing past a legacy 'error'-typed validation repair event (stitch failsafe at work)", async () => {
+    const historyResponse = {
+      run: { id: 'r5b', user_id: 'user-1', created_at: '2026-07-01T00:00:00.000Z', items: [], context: {} },
+      events: [],
+    };
+    const streamUrls: string[] = [];
+
+    global.fetch = jest.fn((request: RequestInfo) => {
+      const url = typeof request === 'string' ? request : (request as Request)?.url ?? '';
+      if (url.startsWith('/api/executions/history/')) {
+        return Promise.resolve({ ok: true, json: async () => historyResponse } as any);
+      }
+      if (url.startsWith('/api/executions/stream')) {
+        streamUrls.push(url);
+        if (streamUrls.length === 1) {
+          // Rows persisted before the ExecutionStreamAdapter repair fix: the
+          // stitch loop's validation error arrived typed 'error' with
+          // namespace 'validation' — the run is still actively repairing.
+          return Promise.resolve(
+            sseResponse([
+              'id: 2026-07-01T00:00:01.000Z\ndata: {"type":"error","namespace":"validation","key":"error","message":"options: Required","timestamp":"2026-07-01T00:00:01.000Z"}\n\n',
+            ]),
+          );
+        }
+        // The tail reconnects and receives the run's real completion.
+        return Promise.resolve(
+          sseResponse([
+            'id: 2026-07-01T00:00:02.000Z\ndata: {"type":"completion","message":"done","timestamp":"2026-07-01T00:00:02.000Z"}\n\n',
+          ]),
+        );
+      }
+      throw new Error(`Unexpected fetch: ${url}`);
+    }) as any;
+
+    let latest: any;
+    render(<Harness runId="r5b" onResult={(state) => (latest = state)} />);
+
+    await waitFor(() =>
+      expect(latest?.events.some((e: any) => e.event?.type === 'completion')).toBe(true),
+    );
+    expect(streamUrls.length).toBeGreaterThanOrEqual(2);
+  });
+
   it('bounds the reconnect loop after repeated empty tail windows', async () => {
     const historyResponse = {
       run: { id: 'r6', user_id: 'user-1', created_at: '2026-07-01T00:00:00.000Z', items: [], context: {} },

@@ -24,6 +24,9 @@ export enum ExecutionStreamEventType {
   COMPLETION = 'completion',
   STATUS = 'status',
   WORK_UPDATE = 'work-update',
+  // In-band failsafe repair work (e.g. the stitch loop recording the
+  // validation error it is about to repair) — NOT a terminal failure.
+  REPAIR = 'repair',
 }
 
 /**
@@ -187,6 +190,16 @@ export class ExecutionStreamAdapter {
     // Thinking/reasoning
     if (namespace === 'thinking' || key.includes('reason')) {
       return ExecutionStreamEventType.THINKING;
+    }
+
+    // Failsafe repair context: the stitch loop stores the schema-validation
+    // error it is ABOUT TO REPAIR ('validation'/'error') before running its
+    // bounded repair generations. That is in-band failsafe work, not a
+    // terminal failure — typing it 'error' made stream consumers treat an
+    // actively-repairing run as failed (tail closed, run marked failed) while
+    // the pipeline kept working.
+    if (namespace === 'validation' && key === 'error') {
+      return ExecutionStreamEventType.REPAIR;
     }
 
     // Errors

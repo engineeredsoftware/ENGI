@@ -108,6 +108,15 @@ describe('ExecutionStreamAdapter — event type inference', () => {
     expect(await inferredType('misc', 'completion')).toBe('completion');
     expect(await inferredType('misc', 'anything')).toBe('status');
   });
+
+  it("classifies the stitch failsafe's validation error as in-band 'repair', not terminal 'error'", async () => {
+    // The stitch loop stores the schema error it is ABOUT TO REPAIR
+    // (store('validation','error', …)); typing it 'error' made stream
+    // consumers mark an actively-repairing run as failed.
+    expect(await inferredType('validation', 'error', 'options: Required')).toBe('repair');
+    // Other validation stores stay status.
+    expect(await inferredType('validation', 'result', { passed: true })).toBe('status');
+  });
 });
 
 describe('ExecutionStreamAdapter — event payload shape', () => {
