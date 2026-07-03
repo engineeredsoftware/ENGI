@@ -27,6 +27,7 @@ import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 import { DEPOSIT_MEASUREMENT_CATALOG } from '../../asset-packs-synthesis';
+import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 import { measureAssetPackAbsolutes } from './agent-measure-absolutes';
 
 const part = (content: string): PromptPart => content as PromptPart;
@@ -284,13 +285,14 @@ export default async function runDepositValidationAgent(input: any, execution: a
     recommendation: issues.length > 0 ? 'iterate' : base.recommendation,
   };
 
-  try {
-    // Feed the AssetPack ReadyToFinish gate: it reads validation/implementation:issues
-    // (a bare string[]) to decide finish vs. review. Match that store exactly.
-    execution.store('validation/implementation', 'issues', result.issues);
-    // Record the full deposit-quality verdict for telemetry / the /deposit surface.
-    execution.store('validation', 'depositQuality', result);
-  } catch {}
+  // Cross-phase artifacts (cross-phase store-visibility law): the ReadyToFinish
+  // gate runs on a DIFFERENT sequential sibling of the validation phase, and the
+  // /deposit surface reads the verdict at the run level.
+  // Feed the AssetPack ReadyToFinish gate: it reads validation/implementation:issues
+  // (a bare string[]) to decide finish vs. review. Match that store exactly.
+  storeCrossPhaseArtifact(execution, 'validation/implementation', 'issues', result.issues);
+  // Record the full deposit-quality verdict for telemetry / the /deposit surface.
+  storeCrossPhaseArtifact(execution, 'validation', 'depositQuality', result);
 
   // V48 Gate 3 — formal ABSOLUTES measurement. Each AssetPack is a measured patch:
   // the patch was synthesized in Implementation; here the formal measure-agent
@@ -335,12 +337,10 @@ export default async function runDepositValidationAgent(input: any, execution: a
         } catch {}
       }),
     );
-    try {
-      // Re-store the measured packs (in-place mutation + explicit re-store) under the
-      // exact keys the route + Finish read.
-      execution.store('implementation', 'options', packs);
-      execution.store('implementation', 'assetPacks', packs);
-    } catch {}
+    // Re-store the measured packs (in-place mutation + explicit re-store) under the
+    // exact keys the route + Finish read — on the SHARED execution (cross-phase law).
+    storeCrossPhaseArtifact(execution, 'implementation', 'options', packs);
+    storeCrossPhaseArtifact(execution, 'implementation', 'assetPacks', packs);
   }
 
   return { ...(input || {}), ...result };

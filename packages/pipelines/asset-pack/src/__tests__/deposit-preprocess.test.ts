@@ -8,6 +8,11 @@
  * are REAL) and pins the deposit-mode preprocess contract:
  *  - mode resolution + storage on the SHARED outer execution (F20) so every
  *    isolated seq-N phase sibling resolves it via the upward walk;
+ *  - CROSS-PHASE STORE-VISIBILITY LAW: preprocess runs on its own isolated
+ *    seq-0 sibling, so EVERYTHING it produces for the phases (pipeline:input,
+ *    the deposit data plane, the route snapshot) is stored on the SHARED
+ *    execution — where the dispatching route reads it directly and every phase
+ *    sibling resolves it via findUp — NOT on the seq-0 sibling;
  *  - repository coordinate normalization (url/name/branch/commit/fullName
  *    fallbacks) stored under the deposit namespace + threaded on the input;
  *  - depositor steering (obfuscations / protectedIpExclusions / demandContext /
@@ -107,13 +112,16 @@ describe('deposit-mode preprocess context assembly', () => {
     expect(synthesizeAssetPacksModeFromExecution(execution)).toBe('deposit');
     expect(synthesizeAssetPacksModeFromExecution(execution.child('probe'))).toBe('deposit');
 
+    // CROSS-PHASE LAW: the deposit data plane lands on the SHARED execution
+    // (the node the route holds), NOT on the isolated seq-0 preprocess sibling.
     const seq0 = preprocessNode(execution);
     expect(seq0).toBeDefined();
+    expect(seq0.get('deposit', 'repository')).toBeUndefined();
 
     // Repository coordinates are normalized through the documented fallbacks:
     // url <- repositoryUrl, name <- repo, branch <- sourceBranch,
     // commit <- sourceCommit, fullName <- owner/name.
-    expect(seq0.get('deposit', 'repository')).toEqual({
+    expect(execution.get('deposit', 'repository')).toEqual({
       url: 'https://github.com/octo/repo-x',
       owner: 'octo',
       name: 'repo-x',
@@ -122,16 +130,19 @@ describe('deposit-mode preprocess context assembly', () => {
       fullName: 'octo/repo-x',
     });
 
-    // Depositor steering is persisted for the SDIVF phases.
-    expect(seq0.get('deposit', 'obfuscations')).toEqual(input.obfuscations);
-    expect(seq0.get('deposit', 'protectedIpExclusions')).toEqual(['src/secret/**']);
-    expect(seq0.get('deposit', 'demandContext')).toEqual([{ topic: 'terminal reads', demand: 'high' }]);
-    expect(seq0.get('deposit', 'inventory')).toEqual({ assetCount: 2 });
-    expect(seq0.get('pipeline', 'synthesizeMode')).toBe('deposit');
-    expect(seq0.get('pipeline', 'input')).toBe(input);
+    // Depositor steering is persisted for the SDIVF phases — on the SHARED
+    // execution, resolvable from every phase sibling via the upward walk.
+    expect(execution.get('deposit', 'obfuscations')).toEqual(input.obfuscations);
+    expect(execution.get('deposit', 'protectedIpExclusions')).toEqual(['src/secret/**']);
+    expect(execution.get('deposit', 'demandContext')).toEqual([{ topic: 'terminal reads', demand: 'high' }]);
+    expect(execution.get('deposit', 'inventory')).toEqual({ assetCount: 2 });
+    expect(execution.get('pipeline', 'synthesizeMode')).toBe('deposit');
+    expect(execution.get('pipeline', 'input')).toBe(input);
+    // Consumer resolution from a phase sibling's subtree.
+    expect(execution.child('probe').findUp('deposit', 'inventory')).toEqual({ assetCount: 2 });
 
     // The preprocessed route snapshot is written for the serving surface.
-    expect(seq0.get('route/preprocessed', 'assetPackWrittenAsset')).toMatchObject({
+    expect(execution.get('route/preprocessed', 'assetPackWrittenAsset')).toMatchObject({
       semanticKind: 'asset-pack-written-asset',
       repository: expect.objectContaining({ name: 'repo-x', branch: 'dev' }),
     });
@@ -160,8 +171,7 @@ describe('deposit-mode preprocess context assembly', () => {
 
     await synthesizeAssetPacksPipeline(input, execution);
 
-    const seq0 = preprocessNode(execution);
-    expect(seq0.get('deposit', 'repository')).toMatchObject({
+    expect(execution.get('deposit', 'repository')).toMatchObject({
       url: 'https://github.com/engineeredsoftware/ENGI',
       owner: 'engineeredsoftware',
       name: 'ENGI',
@@ -169,10 +179,10 @@ describe('deposit-mode preprocess context assembly', () => {
       fullName: 'engineeredsoftware/ENGI',
     });
     // Steering fields default without throwing when the depositor omits them.
-    expect(seq0.get('deposit', 'obfuscations')).toBeNull();
-    expect(seq0.get('deposit', 'protectedIpExclusions')).toEqual([]);
-    expect(seq0.get('deposit', 'demandContext')).toEqual([]);
-    expect(seq0.get('deposit', 'inventory')).toBeUndefined();
+    expect(execution.get('deposit', 'obfuscations')).toBeNull();
+    expect(execution.get('deposit', 'protectedIpExclusions')).toEqual([]);
+    expect(execution.get('deposit', 'demandContext')).toEqual([]);
+    expect(execution.get('deposit', 'inventory')).toBeUndefined();
   });
 
   it('read mode keeps the read-lens preprocess: depository search runs, no deposit stores', async () => {
@@ -188,9 +198,9 @@ describe('deposit-mode preprocess context assembly', () => {
     expect(synthesizeAssetPacksModeFromExecution(execution)).toBe('read');
     expect(depositorySearchMock).toHaveBeenCalledTimes(1);
 
-    const seq0 = preprocessNode(execution);
-    expect(seq0.get('deposit', 'repository')).toBeUndefined();
-    expect(seq0.get('pipeline', 'expressedRead')).toContain('Terminal Read/Fit QA');
-    expect(seq0.get('read/need', 'current')).toBeDefined();
+    expect(execution.get('deposit', 'repository')).toBeUndefined();
+    // The read-lens preprocess products land on the SHARED execution too.
+    expect(execution.get('pipeline', 'expressedRead')).toContain('Terminal Read/Fit QA');
+    expect(execution.get('read/need', 'current')).toBeDefined();
   });
 });

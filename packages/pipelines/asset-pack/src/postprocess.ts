@@ -61,8 +61,8 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   const prUrl =
     enhanced.writtenAsset?.prUrl ||
     deliveryMechanism?.prUrl ||
-    (execution.get('finish', 'prUrl') as string) ||
-    (execution.get('finish', 'pullRequestUrl') as string);
+    (findStoredExecutionValue(execution, 'finish', 'prUrl') as string) ||
+    (findStoredExecutionValue(execution, 'finish', 'pullRequestUrl') as string);
   if (prUrl) {
     enhanced.deliveryMechanism = { ...(deliveryMechanism || {}), prUrl } as any;
     enhanced.shippable = { ...(enhanced.shippable || enhanced.deliveryMechanism || {}), prUrl } as any;
@@ -71,7 +71,7 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   // 2) Backfill artifacts from execution if missing
   const filesModified = enhanced.artifacts?.filesModified?.length
     ? enhanced.artifacts.filesModified
-    : ((execution.get('implementation', 'filesChanged') as string[]) || []);
+    : ((findStoredExecutionValue(execution, 'implementation', 'filesChanged') as string[]) || []);
   if (filesModified?.length) {
     enhanced.artifacts = {
       ...(enhanced.artifacts || ({} as any)),
@@ -95,8 +95,8 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   enhanced.semanticKind = 'asset-pack-written-asset';
   enhanced.read =
     enhanced.read ||
-    (execution.get('pipeline', 'expressedRead') as string) ||
-    (execution.get('read', 'description') as string) ||
+    (findStoredExecutionValue(execution, 'pipeline', 'expressedRead') as string) ||
+    (findStoredExecutionValue(execution, 'read', 'description') as string) ||
     undefined;
   enhanced.writtenAssetType = writtenAssetType;
   enhanced.deliveryMechanismTemplate = deliveryMechanismTemplate;
@@ -240,7 +240,12 @@ export function buildAssetPackPostprocessedResult(
         }
       : null;
 
-  const validationReady = getValidationReadyToFinish(execution, 'asset-pack');
+  // The ReadyToFinish decision is a cross-phase artifact stored on the SHARED
+  // (root) execution (cross-phase store-visibility law) — fall back to it when
+  // the local node has no copy.
+  const validationReady =
+    getValidationReadyToFinish(execution, 'asset-pack') ??
+    getValidationReadyToFinish(((execution as any).getRoot?.() ?? execution) as Execution, 'asset-pack');
   const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
   const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
   const fitResult =
@@ -376,14 +381,14 @@ export function buildAssetPackPostprocessedResult(
       : {}),
     read:
       normalized.read ||
-      (execution.get('pipeline', 'expressedRead') as string) ||
-      (execution.get('read', 'description') as string) ||
+      (findStoredExecutionValue(execution, 'pipeline', 'expressedRead') as string) ||
+      (findStoredExecutionValue(execution, 'read', 'description') as string) ||
       undefined,
     assetPack: {
       read:
         normalized.read ||
-        (execution.get('pipeline', 'expressedRead') as string) ||
-        (execution.get('read', 'description') as string) ||
+        (findStoredExecutionValue(execution, 'pipeline', 'expressedRead') as string) ||
+        (findStoredExecutionValue(execution, 'read', 'description') as string) ||
         undefined,
       writtenAssetType,
       deliveryMechanismTemplate,

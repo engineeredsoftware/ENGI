@@ -57,11 +57,17 @@ describe('runReadFitsFindingSynthesisAssetPackSynthesisAgent', () => {
     expect(result.summary).toBe('Boundary-mock AssetPack synthesis summary.');
     expect(result.assetPackSynthesisArtifacts.summary).toBe('Boundary-mock synthesis artifacts.');
 
-    // The wrapper stores the synthesized AssetPack evidence for downstream phases.
-    expect(phase.get('implementation', 'assetPack')).toMatchObject({
+    // The wrapper stores the synthesized AssetPack evidence for downstream phases
+    // on the SHARED (root) execution (cross-phase store-visibility law) — the
+    // Finish sibling resolves it via the upward walk, never off the producer's
+    // own phase subtree.
+    expect(root.get('implementation', 'assetPack')).toMatchObject({
       read: 'Read the deposited source revision for terminal closure.',
       writtenAssetType: 'read-satisfaction-asset-pack',
     });
-    expect(phase.get('implementation', 'summary')).toBe('Boundary-mock AssetPack synthesis summary.');
+    expect(root.get('implementation', 'summary')).toBe('Boundary-mock AssetPack synthesis summary.');
+    expect(root.child('phase:finish').findUp('implementation', 'summary')).toBe(
+      'Boundary-mock AssetPack synthesis summary.',
+    );
   }, 30000);
 });

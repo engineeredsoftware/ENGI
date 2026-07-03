@@ -3,18 +3,24 @@
 // Context/store contract for the SynthesizeAssetPacks DEPOSIT agents (V48 Gate 3).
 //
 // Pins, for every deposit agent handler:
-//  (a) the typed structured output lands in the execution stores under the EXACT
-//      namespace:key pairs downstream consumers read (implementation reads
+//  (a) the typed structured output lands on the SHARED (root) execution under the
+//      EXACT namespace:key pairs downstream consumers read (implementation reads
 //      discovery:*/setup:inputComprehension; validation reads implementation:options;
 //      the ReadyToFinish gate reads validation/implementation:issues; Finish reads
 //      implementation:options/assetPack/summary; the /deposit route reads
-//      implementation:options),
+//      implementation:options). This is the CROSS-PHASE STORE-VISIBILITY LAW:
+//      sequential() runs every phase on an ISOLATED seq-N sibling and findUp walks
+//      ANCESTORS only, so a producer storing on its own sibling subtree is invisible
+//      to every consumer — producers MUST store cross-phase artifacts on the shared
+//      execution (storeCrossPhaseArtifact → execution.getRoot()), where the
+//      dispatching route reads them with a direct get and every phase sibling
+//      resolves them via the upward walk,
 //  (b) the PTRR envelope unwrap: factoryAgentWithPTRR returns
 //      { context, output, finalOutput } and the typed fields live ONLY inside the
 //      envelope — reading them off the envelope root is undefined (the F26-A/F27
 //      latent-bug class), so handlers MUST unwrap finalOutput ?? output ?? raw,
-//  (c) the cross-phase read law (F20): a store written on the SHARED parent
-//      execution is visible from a sibling phase child via the upward walk, and
+//  (c) the cross-phase read law (F20, generalized): a store written on the SHARED
+//      execution is visible from every sibling phase child via the upward walk, and
 //      the real consumer handlers resolve those stores from there.
 //
 // Inference is non-configurable (F26-A): every deposit agent ALWAYS runs the
@@ -120,17 +126,24 @@ describe('deposit agent context/store contract', () => {
       expect(raw.finalOutput.comprehension).toEqual(comprehension);
       expect(raw.comprehension).toBeUndefined();
 
-      // (a) Handler contract: unwrap + store under the EXACT keys the
-      // implementation and validation agents read (setup:inputComprehension) and
-      // the dedicated obfuscation record (setup:obfuscationComprehension).
+      // (a) Handler contract: unwrap + store on the SHARED execution under the
+      // EXACT keys the implementation and validation agents read
+      // (setup:inputComprehension) and the dedicated obfuscation record
+      // (setup:obfuscationComprehension) — NOT on the producer's seq-1 sibling.
       const result = await runDepositInputComprehensionAgent(
         { obfuscations: 'hide the signing keys', repository: REPOSITORY, inventory: INVENTORY },
         setupExec,
       );
       expect(result.success).toBe(true);
       expect(result.comprehension).toEqual(comprehension);
-      expect(setupExec.get('setup', 'inputComprehension')).toEqual(comprehension);
-      expect(setupExec.get('setup', 'obfuscationComprehension')).toEqual(comprehension);
+      expect(shared.get('setup', 'inputComprehension')).toEqual(comprehension);
+      expect(shared.get('setup', 'obfuscationComprehension')).toEqual(comprehension);
+      // Consumer resolution: the Implementation/Validation phase siblings (and
+      // their own sequential children) resolve the guidance via the upward walk.
+      expect(shared.child('seq-2').findUp('setup', 'inputComprehension')).toEqual(comprehension);
+      expect(shared.child('seq-2').child('seq-0').findUp('setup', 'obfuscationComprehension')).toEqual(
+        comprehension,
+      );
     }, 60000);
   });
 
@@ -162,7 +175,10 @@ describe('deposit agent context/store contract', () => {
       );
       expect(result.success).toBe(true);
       expect(result.comprehension).toEqual(comprehension);
-      expect(discoveryExec.get('discovery', 'codebaseComprehension')).toEqual(comprehension);
+      // Stored on the SHARED execution (cross-phase law), where the synthesis
+      // agent (running under a different sibling) resolves it via the upward walk.
+      expect(shared.get('discovery', 'codebaseComprehension')).toEqual(comprehension);
+      expect(shared.child('seq-2').findUp('discovery', 'codebaseComprehension')).toEqual(comprehension);
     }, 60000);
 
     it('depository search stores discovery:depositorySearch (the key the synthesis agent reads)', async () => {
@@ -183,7 +199,9 @@ describe('deposit agent context/store contract', () => {
       );
       expect(result.success).toBe(true);
       expect(result.guidance).toEqual(guidance);
-      expect(discoveryExec.get('discovery', 'depositorySearch')).toEqual(guidance);
+      // Stored on the SHARED execution (cross-phase law).
+      expect(shared.get('discovery', 'depositorySearch')).toEqual(guidance);
+      expect(shared.child('seq-2').findUp('discovery', 'depositorySearch')).toEqual(guidance);
     }, 60000);
 
     it('inherent regurgitation stores discovery:inherentRegurgitation (the key the synthesis agent reads)', async () => {
@@ -203,7 +221,9 @@ describe('deposit agent context/store contract', () => {
       );
       expect(result.success).toBe(true);
       expect(result.regurgitation).toEqual(regurgitation);
-      expect(discoveryExec.get('discovery', 'inherentRegurgitation')).toEqual(regurgitation);
+      // Stored on the SHARED execution (cross-phase law).
+      expect(shared.get('discovery', 'inherentRegurgitation')).toEqual(regurgitation);
+      expect(shared.child('seq-2').findUp('discovery', 'inherentRegurgitation')).toEqual(regurgitation);
     }, 60000);
   });
 
@@ -243,16 +263,21 @@ describe('deposit agent context/store contract', () => {
       expect(result.summary).toBe('Synthesized 2 measured deposit AssetPack patch(es).');
       expect(result.assetPack).toEqual({ repository: REPOSITORY });
 
-      // implementation:options — the store the /deposit route and the deposit
-      // validation agent read; implementation:assetPacks — the SAME array.
-      expect(divExec.get('implementation', 'options')).toEqual(options);
-      expect(divExec.get('implementation', 'assetPacks')).toEqual(options);
-      expect(divExec.get('implementation', 'options')).toBe(divExec.get('implementation', 'assetPacks'));
-      // implementation:assetPack + implementation:summary — the stores Finish reads.
-      expect(divExec.get('implementation', 'assetPack')).toEqual({ repository: REPOSITORY });
-      expect(divExec.get('implementation', 'summary')).toBe(
+      // implementation:options — the store the /deposit route's completion read
+      // and the deposit validation agent consume; implementation:assetPacks — the
+      // SAME array. Stored on the SHARED execution (cross-phase law): the route
+      // holds the root, so its `execution.get('implementation','options')`
+      // completion read (route.ts) resolves DIRECTLY.
+      expect(shared.get('implementation', 'options')).toEqual(options);
+      expect(shared.get('implementation', 'assetPacks')).toEqual(options);
+      expect(shared.get('implementation', 'options')).toBe(shared.get('implementation', 'assetPacks'));
+      // implementation:assetPack + implementation:summary — the stores Finish reads,
+      // resolvable from the Finish sibling via the upward walk.
+      expect(shared.get('implementation', 'assetPack')).toEqual({ repository: REPOSITORY });
+      expect(shared.get('implementation', 'summary')).toBe(
         'Synthesized 2 measured deposit AssetPack patch(es).',
       );
+      expect(shared.child('seq-3').child('seq-0').findUp('implementation', 'options')).toEqual(options);
     }, 60000);
 
     it('threads cross-phase stores written on the SHARED parent into the synthesis generation context (F20 law)', async () => {
@@ -310,10 +335,12 @@ describe('deposit agent context/store contract', () => {
       expect(result.recommendation).toBe('complete');
 
       // validation/implementation:issues — the exact namespace:key the AssetPack
-      // ReadyToFinish gate contract names (a bare string[]).
-      expect(validationExec.get('validation/implementation', 'issues')).toEqual([]);
+      // ReadyToFinish gate contract names (a bare string[]), stored on the SHARED
+      // execution so the gate (a DIFFERENT sequential sibling) resolves it.
+      expect(shared.get('validation/implementation', 'issues')).toEqual([]);
+      expect(shared.child('seq-1').findUp('validation/implementation', 'issues')).toEqual([]);
       // validation:depositQuality — the full verdict record.
-      expect(validationExec.get('validation', 'depositQuality')).toEqual({
+      expect(shared.get('validation', 'depositQuality')).toEqual({
         issues: [],
         qualityScore: 0.75,
         coverageGaps: [],
@@ -321,10 +348,11 @@ describe('deposit agent context/store contract', () => {
       });
 
       // The formal absolutes are attached to each measured patch in place and the
-      // measured packs are re-stored under the keys the route + Finish read.
-      const restored = validationExec.get('implementation', 'options');
+      // measured packs are re-stored ON THE SHARED EXECUTION under the keys the
+      // route + Finish read.
+      const restored = shared.get('implementation', 'options');
       expect(restored).toBe(packs);
-      expect(validationExec.get('implementation', 'assetPacks')).toBe(packs);
+      expect(shared.get('implementation', 'assetPacks')).toBe(packs);
       expect(Array.isArray(restored[0].absolutes)).toBe(true);
       expect(restored[0].absolutes.length).toBeGreaterThan(0);
       for (const measurement of restored[0].absolutes) {
@@ -361,8 +389,8 @@ describe('deposit agent context/store contract', () => {
       expect(result.issues).toEqual(
         expect.arrayContaining([expect.stringContaining('touches withheld path "src/secret/keys.ts"')]),
       );
-      // The gate store carries the same issues verbatim.
-      expect(validationExec.get('validation/implementation', 'issues')).toEqual(result.issues);
+      // The gate store carries the same issues verbatim — on the SHARED execution.
+      expect(shared.get('validation/implementation', 'issues')).toEqual(result.issues);
     }, 60000);
 
     it('reads implementation:options and the deposit data plane from the SHARED parent (F20 cross-phase consumer read)', async () => {
@@ -415,13 +443,14 @@ describe('deposit agent context/store contract', () => {
       expect(result.assetPack).toEqual({ repository: REPOSITORY });
       expect(result.sourceSummary).toBe('Synthesized 1 measured deposit AssetPack patch(es).');
 
-      // The exact Finish store keys.
-      expect(finishChild.get('finish', 'uploadForReview')).toMatchObject({
+      // The exact Finish store keys — on the SHARED execution (cross-phase law),
+      // where postprocess and the run-level surfaces resolve them.
+      expect(shared.get('finish', 'uploadForReview')).toMatchObject({
         deliveryMechanism: 'bitcode-review-upload',
         review: { surface: '/deposit', reviewFor: 'deposit-admission' },
         options,
       });
-      expect(finishChild.get('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
+      expect(shared.get('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
     });
 
     it('read mode: uploads the implementation synthesis artifacts for /read purchase review', async () => {
@@ -440,7 +469,7 @@ describe('deposit agent context/store contract', () => {
         decision: 'pending-user-review',
       });
       expect(result.artifacts).toBe(artifacts);
-      expect(finishChild.get('finish', 'uploadForReview')).toMatchObject({
+      expect(shared.get('finish', 'uploadForReview')).toMatchObject({
         review: { surface: '/read', reviewFor: 'purchase' },
         artifacts,
       });

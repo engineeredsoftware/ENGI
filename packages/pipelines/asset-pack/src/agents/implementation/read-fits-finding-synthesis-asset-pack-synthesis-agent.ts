@@ -16,6 +16,7 @@ import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_PTRRREFINE_PURPO
 import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_PTRRRETRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrretry_purpose';
 import { z } from 'zod';
 import { AssetPackWrittenAssetType } from '../../types/AssetPackWrittenAssetType';
+import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 
 const AssetPackSynthesisInputSchema = z.object({
   read: z.string().optional(),
@@ -135,12 +136,12 @@ export default async function runReadFitsFindingSynthesisAssetPackSynthesisAgent
     },
   };
 
-  try {
-    execution.store('implementation', 'assetPack', output.assetPack);
-    execution.store('implementation', 'assetPackSynthesisArtifacts', output.assetPackSynthesisArtifacts);
-    execution.store('implementation', 'writtenAssets', output.writtenAssets);
-    execution.store('implementation', 'summary', output.summary);
-  } catch {}
+  // Cross-phase artifacts: the Finish upload-for-review agent and postprocess
+  // read these from other phase siblings (cross-phase store-visibility law).
+  storeCrossPhaseArtifact(execution, 'implementation', 'assetPack', output.assetPack);
+  storeCrossPhaseArtifact(execution, 'implementation', 'assetPackSynthesisArtifacts', output.assetPackSynthesisArtifacts);
+  storeCrossPhaseArtifact(execution, 'implementation', 'writtenAssets', output.writtenAssets);
+  storeCrossPhaseArtifact(execution, 'implementation', 'summary', output.summary);
 
   return output;
 }

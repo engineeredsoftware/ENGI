@@ -5,6 +5,7 @@
  * synthesized and validated.
  */
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 import { z } from 'zod';
 import { createHash } from 'node:crypto';
 import { Prompt } from '@bitcode/prompts/prompt';
@@ -101,7 +102,9 @@ export default async function deliverAssetPackToDestination(input: any, executio
     if (Array.isArray(used)) {
       for (const u of used) {
         if (u?.tool === 'vcs_create_pull_request' && u?.output?.url) {
-          execution.store('finish','pullRequestUrl', String(u.output.url));
+          // Cross-phase artifact: postprocess reads the PR URL from another
+          // sibling (cross-phase store-visibility law).
+          storeCrossPhaseArtifact(execution, 'finish', 'pullRequestUrl', String(u.output.url));
           result.prUrl = String(u.output.url);
         }
       }

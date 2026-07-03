@@ -14,6 +14,7 @@ import {
   createAssetPackValidationReadyToFinishAgentPrompt,
   AssetPackValidationReadyToFinishAgentPromptSteps,
 } from './prompts/asset-pack-validation-ready-to-finish-prompt';
+import { storeCrossPhaseArtifact } from '../synthesize-asset-packs';
 
 const ValidateIssuesOutputSchema = z.object({ issues: z.array(z.string()) });
 
@@ -139,9 +140,9 @@ export async function AssetPackValidationReadyToFinishAgent(
   // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });
   // unwrap it to the agent's typed structured output.
   const output = ((raw as any)?.finalOutput ?? (raw as any)?.output ?? raw) as z.infer<typeof ReadyToFinishOutputSchema>;
-  try {
-    execution?.store?.('validation', 'readyToFinish', output);
-  } catch {}
+  // Cross-phase artifact: the run-level surfaces read the readiness verdict
+  // from outside the validation sibling (cross-phase store-visibility law).
+  storeCrossPhaseArtifact(execution, 'validation', 'readyToFinish', output);
   return output;
 }
 
@@ -155,7 +156,9 @@ export function registerValidationAgentsForType(
       const raw = await AssetPackValidationPhaseValidateLastValidationAgent(input, execution);
       const out = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
       const issues = Array.isArray(out?.issues) ? out.issues : [];
-      try { execution.store('validation/last', 'issues', issues); } catch {}
+      // Cross-phase artifact: the ReadyToFinish gate runs on a different
+      // sequential sibling (cross-phase store-visibility law).
+      storeCrossPhaseArtifact(execution, 'validation/last', 'issues', issues);
       return { issues };
     }
   );
@@ -166,7 +169,8 @@ export function registerValidationAgentsForType(
       const raw = await AssetPackValidationPhaseValidateDiscoveryAgent(input, execution);
       const out = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
       const issues = Array.isArray(out?.issues) ? out.issues : [];
-      try { execution.store('validation/discovery', 'issues', issues); } catch {}
+      // Cross-phase artifact (cross-phase store-visibility law).
+      storeCrossPhaseArtifact(execution, 'validation/discovery', 'issues', issues);
       return { issues };
     }
   );
@@ -177,7 +181,8 @@ export function registerValidationAgentsForType(
       const raw = await AssetPackValidationPhaseValidateSynthesisArtifactsAgent(input, execution);
       const out = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
       const issues = Array.isArray(out?.issues) ? out.issues : [];
-      try { execution.store('validation/implementation', 'issues', issues); } catch {}
+      // Cross-phase artifact (cross-phase store-visibility law).
+      storeCrossPhaseArtifact(execution, 'validation/implementation', 'issues', issues);
       return { issues };
     }
   );

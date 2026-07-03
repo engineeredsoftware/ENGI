@@ -31,6 +31,7 @@ import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 import { DEPOSIT_MEASUREMENT_CATALOG } from '../../asset-packs-synthesis';
+import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 import { AssetPackPatchWriteTool } from './asset-pack-patch-write-tool';
 
 const part = (content: string): PromptPart => content as PromptPart;
@@ -264,15 +265,17 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
     assetPack: { repository },
   };
 
-  try {
-    // Full measured-patch AssetPacks (each option = measured fields + source-safe patch).
-    execution.store('implementation', 'assetPacks', options);
-    // Reviewable options — the SAME array; the route's validateDepositSynthesisOptions
-    // reads only the measured fields and ignores the extra patch field.
-    execution.store('implementation', 'options', options);
-    execution.store('implementation', 'assetPack', output.assetPack);
-    execution.store('implementation', 'summary', output.summary);
-  } catch {}
+  // Cross-phase artifacts (cross-phase store-visibility law): the deposit
+  // Validation agent, the Finish upload-for-review agent, AND the dispatching
+  // /deposit route's completion read all consume these from OUTSIDE this
+  // phase's sibling subtree — they must live on the SHARED execution.
+  // Full measured-patch AssetPacks (each option = measured fields + source-safe patch).
+  storeCrossPhaseArtifact(execution, 'implementation', 'assetPacks', options);
+  // Reviewable options — the SAME array; the route's validateDepositSynthesisOptions
+  // reads only the measured fields and ignores the extra patch field.
+  storeCrossPhaseArtifact(execution, 'implementation', 'options', options);
+  storeCrossPhaseArtifact(execution, 'implementation', 'assetPack', output.assetPack);
+  storeCrossPhaseArtifact(execution, 'implementation', 'summary', output.summary);
 
   return output;
 }

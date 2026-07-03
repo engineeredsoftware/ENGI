@@ -16,6 +16,7 @@ import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
+import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 
 const part = (content: string): PromptPart => content as PromptPart;
 
@@ -133,9 +134,9 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
     readabilityNotes: [],
   };
 
-  try {
-    execution.store('discovery', 'depositorySearch', guidance);
-  } catch {}
+  // Cross-phase artifact: the Implementation synthesis agent grounds the
+  // neediness signals in this guidance (cross-phase store-visibility law).
+  storeCrossPhaseArtifact(execution, 'discovery', 'depositorySearch', guidance);
 
   return { ...(input || {}), success: true, guidance };
 }

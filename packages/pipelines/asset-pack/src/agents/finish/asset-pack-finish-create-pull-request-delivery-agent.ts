@@ -1,4 +1,5 @@
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 import { z } from 'zod';
 import { Prompt } from '@bitcode/prompts/prompt';
 import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
@@ -74,17 +75,17 @@ export default async function assetPackFinishCreatePullRequestDeliveryAgent(inpu
     description: input?.description
   });
   const result = await AssetPackFinishCreatePullRequestDeliveryAgent(prepared, execution);
-  try {
-    if (result?.url) {
-      execution.store('finish', 'pullRequestUrl', result.url);
-    }
-    if (result?.number != null) {
-      execution.store('finish', 'pullRequestNumber', result.number);
-    }
-    if (result?.title) {
-      execution.store('finish', 'pullRequestTitle', result.title);
-    }
-  } catch {}
+  // Cross-phase artifacts: postprocess reads the PR coordinates from another
+  // sibling (cross-phase store-visibility law).
+  if (result?.url) {
+    storeCrossPhaseArtifact(execution, 'finish', 'pullRequestUrl', result.url);
+  }
+  if (result?.number != null) {
+    storeCrossPhaseArtifact(execution, 'finish', 'pullRequestNumber', result.number);
+  }
+  if (result?.title) {
+    storeCrossPhaseArtifact(execution, 'finish', 'pullRequestTitle', result.title);
+  }
   return {
     status: 'created',
     writtenAssetType: 'read-satisfaction-asset-pack',

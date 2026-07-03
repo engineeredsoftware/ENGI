@@ -50,12 +50,15 @@ describe('upload-asset-packs-for-review Finish agent', () => {
     expect(result).not.toHaveProperty('prUrl');
     expect(result).not.toHaveProperty('pullRequest');
 
-    // The upload is recorded on the finish node for downstream completion.
-    expect(finishNode.get('finish', 'uploadForReview')).toMatchObject({
+    // The upload is recorded on the SHARED (root) execution for downstream
+    // completion (cross-phase store-visibility law) — the finish node still
+    // resolves it via the upward walk.
+    expect(root.get('finish', 'uploadForReview')).toMatchObject({
       deliveryMechanism: 'bitcode-review-upload',
       review: { reviewFor: 'deposit-admission' },
     });
-    expect(finishNode.get('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
+    expect(root.get('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
+    expect(finishNode.findUp('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
   });
 
   it('read: uploads the synthesis artifacts for /read purchase review', async () => {

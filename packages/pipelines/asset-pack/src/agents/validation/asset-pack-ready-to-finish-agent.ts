@@ -15,6 +15,7 @@ import {
   createAssetPackValidationReadyToFinishAgentPrompt,
   AssetPackValidationReadyToFinishAgentPromptSteps
 } from '../prompts/asset-pack-validation-ready-to-finish-prompt';
+import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 
 /**
  * Input schema - aggregates ALL validation results
@@ -123,10 +124,14 @@ const readyToFinishAgent = factoryAgentWithPTRR<
  * Export wrapper that adds short-circuit logic
  */
 export default async function readyToFinishWithShortCircuit(input: any, execution: any) {
-  // Prepare input from validation stores (issues-only contract)
-  const di: string[] = (execution.get('validation/discovery', 'issues') as string[]) || [];
-  const ii: string[] = (execution.get('validation/implementation', 'issues') as string[]) || [];
-  const li: string[] = (execution.get('validation/last', 'issues') as string[]) || [];
+  // Prepare input from validation stores (issues-only contract). The validators
+  // run on OTHER sequential siblings and store their issues on the SHARED
+  // execution (cross-phase store-visibility law) — resolve via get ?? findUp.
+  const readIssues = (namespace: string): string[] =>
+    (execution.get?.(namespace, 'issues') ?? execution.findUp?.(namespace, 'issues') ?? []) as string[];
+  const di: string[] = readIssues('validation/discovery');
+  const ii: string[] = readIssues('validation/implementation');
+  const li: string[] = readIssues('validation/last');
 
   const finishInput = {
     discoveryValidation: {
@@ -174,16 +179,15 @@ export default async function readyToFinishWithShortCircuit(input: any, executio
 
   if (shouldShortCircuit) {
     // Persist readiness signal for header rendering
-    try {
-      /**
-       * Store ReadyToFinish decision for header rendering.
-       * Type: Output (structured agent output)
-       */
-    execution.store(NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'approved', false);
-    execution.store(NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'assessment', result.assessment as Output['assessment']);
-    execution.store(NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'confidence', result.confidence as Output['confidence']);
-    execution.store(NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'result', result as Output);
-    } catch {}
+    /**
+     * Store ReadyToFinish decision for header rendering — a cross-phase
+     * artifact postprocess reads from another sibling (cross-phase law).
+     * Type: Output (structured agent output)
+     */
+    storeCrossPhaseArtifact(execution, NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'approved', false);
+    storeCrossPhaseArtifact(execution, NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'assessment', result.assessment as Output['assessment']);
+    storeCrossPhaseArtifact(execution, NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'confidence', result.confidence as Output['confidence']);
+    storeCrossPhaseArtifact(execution, NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'result', result as Output);
     // Build comprehensive reason
     const reasons = [];
     if (!result.ready) reasons.push('Not ready to finish');
@@ -215,17 +219,16 @@ export default async function readyToFinishWithShortCircuit(input: any, executio
   }
 
   // Ready to Finish.
-  try {
-    /**
-     * Store ReadyToFinish decision for header rendering.
-     * Type: Output (structured agent output)
-     */
-    execution.store(NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'approved', true);
-    execution.store(NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'timestamp', new Date().toISOString());
-    execution.store(NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'assessment', result.assessment as Output['assessment']);
-    execution.store(NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'confidence', result.confidence as Output['confidence']);
-    execution.store(NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'result', result as Output);
-  } catch {}
+  /**
+   * Store ReadyToFinish decision for header rendering — a cross-phase
+   * artifact postprocess reads from another sibling (cross-phase law).
+   * Type: Output (structured agent output)
+   */
+  storeCrossPhaseArtifact(execution, NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'approved', true);
+  storeCrossPhaseArtifact(execution, NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'timestamp', new Date().toISOString());
+  storeCrossPhaseArtifact(execution, NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'assessment', result.assessment as Output['assessment']);
+  storeCrossPhaseArtifact(execution, NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'confidence', result.confidence as Output['confidence']);
+  storeCrossPhaseArtifact(execution, NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH, 'result', result as Output);
 
   return result;
 }

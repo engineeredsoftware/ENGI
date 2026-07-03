@@ -11,7 +11,10 @@
  * from the Implementation phase stores and records them as a reviewable upload.
  */
 
-import { synthesizeAssetPacksModeFromExecution } from '../../synthesize-asset-packs';
+import {
+  storeCrossPhaseArtifact,
+  synthesizeAssetPacksModeFromExecution,
+} from '../../synthesize-asset-packs';
 
 function findValue(execution: any, namespace: string, key: string): any {
   const local = execution?.get?.(namespace, key);
@@ -47,10 +50,10 @@ export default async function runUploadAssetPacksForReviewAgent(input: any, exec
     sourceSummary,
   };
 
-  try {
-    execution.store('finish', 'uploadForReview', upload);
-    execution.store('finish', 'deliveryMechanism', 'bitcode-review-upload');
-  } catch {}
+  // Cross-phase artifacts: postprocess and the run-level surfaces read the
+  // upload record from outside the Finish sibling (cross-phase law).
+  storeCrossPhaseArtifact(execution, 'finish', 'uploadForReview', upload);
+  storeCrossPhaseArtifact(execution, 'finish', 'deliveryMechanism', 'bitcode-review-upload');
 
   return { ...(input || {}), ...upload };
 }

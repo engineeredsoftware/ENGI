@@ -13,6 +13,7 @@ import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
+import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 
 const part = (content: string): PromptPart => content as PromptPart;
 
@@ -122,10 +123,11 @@ export default async function runDepositInputComprehensionAgent(input: any, exec
     honorNotes: [],
   };
 
-  try {
-    execution.store('setup', 'inputComprehension', comprehension);
-    execution.store('setup', 'obfuscationComprehension', comprehension);
-  } catch {}
+  // Cross-phase artifacts: the Implementation synthesis agent and the deposit
+  // Validation agent read this obfuscation guidance from OTHER phase siblings,
+  // so it must live on the SHARED execution (cross-phase store-visibility law).
+  storeCrossPhaseArtifact(execution, 'setup', 'inputComprehension', comprehension);
+  storeCrossPhaseArtifact(execution, 'setup', 'obfuscationComprehension', comprehension);
 
   return { ...(input || {}), success: true, comprehension };
 }

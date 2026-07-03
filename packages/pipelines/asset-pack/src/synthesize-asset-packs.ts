@@ -92,3 +92,56 @@ export function isDepositMode(mode: SynthesizeAssetPacksMode): boolean {
 export function isReadMode(mode: SynthesizeAssetPacksMode): boolean {
   return mode === 'read';
 }
+
+// ==================== CROSS-PHASE STORE-VISIBILITY LAW ====================
+//
+// SDIVF phases execute on ISOLATED sibling child nodes: `sequential` runs
+// preprocess and every phase on `execution.child('seq-N')`, and `findUp`
+// walks ANCESTORS only — a sibling subtree can never see another sibling's
+// stores, and the dispatching route (which holds the outer execution) can
+// never see a child's stores. Any artifact one phase produces FOR another
+// phase, for the ReadyToFinish gate, for Finish, for postprocess, or for the
+// dispatching route MUST therefore be stored on the SHARED execution both
+// sides can resolve: the ROOT of the execution tree (the F20 mode-propagation
+// precedent, generalized).
+//
+// The canonical contract:
+//   - producers call `storeCrossPhaseArtifact(execution, ns, key, value)`,
+//     which stores on `execution.getRoot()`;
+//   - consumers read `get(ns, key) ?? findUp(ns, key)`, which resolves the
+//     root store from EVERY node in the tree (the root itself via `get`,
+//     every descendant via the upward walk).
+
+/**
+ * Resolve the SHARED synthesis execution — the root of the execution tree —
+ * that every phase sibling, every nested agent/step node, and the dispatching
+ * route can all resolve (root via `get`, descendants via `findUp`).
+ */
+export function resolveSharedSynthesisExecution(
+  execution: Execution | null | undefined,
+): Execution | null {
+  if (!execution) return null;
+  try {
+    return (execution as { getRoot?: () => Execution }).getRoot?.() ?? execution;
+  } catch {
+    return execution;
+  }
+}
+
+/**
+ * Store a CROSS-PHASE artifact on the shared execution (see the law above).
+ * Best-effort like the producers' historical local stores: storage must never
+ * decide pipeline success.
+ */
+export function storeCrossPhaseArtifact(
+  execution: Execution | null | undefined,
+  namespace: string,
+  key: string,
+  value: unknown,
+): void {
+  const shared = resolveSharedSynthesisExecution(execution);
+  if (!shared) return;
+  try {
+    shared.store(namespace, key, value as never);
+  } catch {}
+}

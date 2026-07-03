@@ -49,12 +49,16 @@ describe('runUploadAssetPacksForReviewAgent', () => {
     // The runner spreads its input into its result (Finish output chain).
     expect(result.runId).toBe('run-1');
 
-    // Stores written on the Finish node.
-    expect(finishExec.get('finish', 'uploadForReview')).toMatchObject({
+    // Cross-phase law: the upload record is stored on the SHARED (root)
+    // execution — where postprocess and the run-level surfaces resolve it —
+    // not on the isolated Finish sibling.
+    expect(outer.get('finish', 'uploadForReview')).toMatchObject({
       deliveryMechanism: 'bitcode-review-upload',
       review: { surface: '/deposit', reviewFor: 'deposit-admission' },
     });
-    expect(finishExec.get('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
+    expect(outer.get('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
+    // Still resolvable from the Finish subtree via the upward walk.
+    expect(finishExec.findUp('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
   });
 
   it('read mode: uploads for /read purchase review and carries the synthesis artifacts', async () => {
@@ -89,7 +93,8 @@ describe('runUploadAssetPacksForReviewAgent', () => {
     const finishExec = outer.child('finish');
 
     const result = await runUploadAssetPacksForReviewAgent({}, finishExec);
-    const stored = finishExec.get('finish', 'uploadForReview');
+    // Cross-phase law: stored on the SHARED (root) execution.
+    const stored = outer.get('finish', 'uploadForReview');
 
     for (const record of [result, stored]) {
       const flat = JSON.stringify(record);
@@ -100,7 +105,7 @@ describe('runUploadAssetPacksForReviewAgent', () => {
     }
     // The upload decision is the user's, pending — never an auto-opened PR.
     expect(stored.review.decision).toBe('pending-user-review');
-    expect(finishExec.get('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
+    expect(outer.get('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
   });
 });
 

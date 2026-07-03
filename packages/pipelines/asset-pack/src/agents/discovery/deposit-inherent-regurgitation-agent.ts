@@ -17,6 +17,7 @@ import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
+import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 
 const part = (content: string): PromptPart => content as PromptPart;
 
@@ -125,9 +126,9 @@ export default async function runDepositInherentRegurgitationAgent(input: any, e
     references: [],
   };
 
-  try {
-    execution.store('discovery', 'inherentRegurgitation', regurgitation);
-  } catch {}
+  // Cross-phase artifact: the Implementation synthesis agent reads this from
+  // another phase sibling (cross-phase store-visibility law).
+  storeCrossPhaseArtifact(execution, 'discovery', 'inherentRegurgitation', regurgitation);
 
   return { ...(input || {}), success: true, regurgitation };
 }

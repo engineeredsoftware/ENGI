@@ -59,6 +59,7 @@ import {
 } from './read-need';
 import {
   resolveSynthesizeAssetPacksMode,
+  storeCrossPhaseArtifact,
   storeSynthesizeAssetPacksMode,
 } from './synthesize-asset-packs';
 
@@ -99,9 +100,10 @@ function storePreprocessedSnapshot(
     },
   };
 
-  try {
-    execution.store('route/preprocessed', 'assetPackWrittenAsset', snapshot);
-  } catch {}
+  // Cross-phase artifact: the serving surface + downstream phases read this
+  // snapshot from outside the preprocess sibling — store it on the SHARED
+  // execution (cross-phase store-visibility law).
+  storeCrossPhaseArtifact(execution, 'route/preprocessed', 'assetPackWrittenAsset', snapshot);
 }
 
 /**
@@ -125,14 +127,18 @@ async function preprocessDepositMode(processedInput: any, execution: Execution):
       (repo.owner && (repo.name || repo.repo) ? `${repo.owner}/${repo.name || repo.repo}` : null),
   };
   try { processedInput.repository = { ...repo, ...repository }; } catch {}
-  execution.store('pipeline', 'input', processedInput);
-  execution.store('pipeline', 'synthesizeMode', 'deposit');
-  execution.store('deposit', 'repository', repository);
-  execution.store('deposit', 'obfuscations', processedInput?.obfuscations || null);
-  execution.store('deposit', 'protectedIpExclusions', processedInput?.protectedIpExclusions || []);
-  execution.store('deposit', 'demandContext', processedInput?.demandContext || []);
+  // Cross-phase artifacts: preprocess runs on its own isolated seq-0 sibling,
+  // so everything it produces FOR the SDIVF phases (the deposit data plane the
+  // Setup/Discovery/Implementation/Validation agents ground in) must land on
+  // the SHARED execution (cross-phase store-visibility law).
+  storeCrossPhaseArtifact(execution, 'pipeline', 'input', processedInput);
+  storeCrossPhaseArtifact(execution, 'pipeline', 'synthesizeMode', 'deposit');
+  storeCrossPhaseArtifact(execution, 'deposit', 'repository', repository);
+  storeCrossPhaseArtifact(execution, 'deposit', 'obfuscations', processedInput?.obfuscations || null);
+  storeCrossPhaseArtifact(execution, 'deposit', 'protectedIpExclusions', processedInput?.protectedIpExclusions || []);
+  storeCrossPhaseArtifact(execution, 'deposit', 'demandContext', processedInput?.demandContext || []);
   if (processedInput?.inventory) {
-    execution.store('deposit', 'inventory', processedInput.inventory);
+    storeCrossPhaseArtifact(execution, 'deposit', 'inventory', processedInput.inventory);
   }
   return processedInput;
 }
@@ -175,18 +181,21 @@ function factoryPreprocess(): Executor<any, any> {
     if (isAcceptedReadNeed(readNeed)) {
       try { processedInput.acceptedReadNeed = readNeed; } catch {}
     }
-    execution.store('pipeline', 'input', processedInput);
-    execution.store('pipeline', 'writtenAssetType', writtenAssetType);
-    execution.store('pipeline', 'writtenAssetRequest', writtenAssetRequest);
-    execution.store('pipeline', 'deliveryMechanismTemplate', deliveryMechanismTemplate);
-    execution.store('pipeline', 'expressedRead', expressedRead);
-    execution.store('read', 'description', expressedRead);
-    execution.store('read/need', 'current', readNeed as any);
-    execution.store('read/need', 'needId', readNeed.needId);
-    execution.store('read/need', 'measurementRoot', readNeed.measurementRoot);
-    execution.store('read/need', 'reviewState', readNeed.reviewState);
+    // Cross-phase artifacts: the read-lens pipeline snapshot the phases +
+    // postprocess resolve from their own sibling subtrees (cross-phase
+    // store-visibility law — same as the deposit data plane above).
+    storeCrossPhaseArtifact(execution, 'pipeline', 'input', processedInput);
+    storeCrossPhaseArtifact(execution, 'pipeline', 'writtenAssetType', writtenAssetType);
+    storeCrossPhaseArtifact(execution, 'pipeline', 'writtenAssetRequest', writtenAssetRequest);
+    storeCrossPhaseArtifact(execution, 'pipeline', 'deliveryMechanismTemplate', deliveryMechanismTemplate);
+    storeCrossPhaseArtifact(execution, 'pipeline', 'expressedRead', expressedRead);
+    storeCrossPhaseArtifact(execution, 'read', 'description', expressedRead);
+    storeCrossPhaseArtifact(execution, 'read/need', 'current', readNeed as any);
+    storeCrossPhaseArtifact(execution, 'read/need', 'needId', readNeed.needId);
+    storeCrossPhaseArtifact(execution, 'read/need', 'measurementRoot', readNeed.measurementRoot);
+    storeCrossPhaseArtifact(execution, 'read/need', 'reviewState', readNeed.reviewState);
     if (isAcceptedReadNeed(readNeed)) {
-      execution.store('read/need', 'accepted', readNeed as any);
+      storeCrossPhaseArtifact(execution, 'read/need', 'accepted', readNeed as any);
     }
 
     const depositorySearch = await runDepositorySearchForPipelineInput(processedInput, execution);
