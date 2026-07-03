@@ -69,7 +69,7 @@ describe('buildProcessingStallLabel — live stall visibility (QA debug aid)', (
     };
     const { label, likelyStalled } = buildProcessingStallLabel(lastLine, 1_000_000 + 30_000);
     expect(label).toBe(
-      'During Discovery, Deposit Depository Search Agent is Trying, by Structuring the large inputs · 30s since last update',
+      'During Discovery, Deposit Depository Search Agent is Trying, by Structuring the Large Inputs · 30s since last update',
     );
     expect(likelyStalled).toBe(false);
   });

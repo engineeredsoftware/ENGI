@@ -89,7 +89,7 @@ describe('ProcessingIndicator — stall label + amber flip at 90s', () => {
     render(<ProcessingIndicator label={label} stalled={likelyStalled} />);
     expect(
       screen.getByText(
-        'During Discovery, Deposit Depository Search Agent is Trying, by Reasoning the large inputs · 30s since last update',
+        'During Discovery, Deposit Depository Search Agent is Trying, by Reasoning over Large Inputs · 30s since last update',
       ),
     ).toBeInTheDocument();
   });

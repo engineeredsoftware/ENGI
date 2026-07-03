@@ -422,10 +422,13 @@ const STEP_GERUNDS: Record<string, string> = {
 };
 
 // Thinkings generation sub-step -> present-continuous verb (GenerationSubMetaSubStep).
+// Each Thinkings generation carries its own connective into the failsafe
+// noun: 'Reasoning over Large Inputs', 'Judging the Large Outputs',
+// 'Structuring the Prepare Concise Context'.
 const THINKINGS_GERUNDS: Record<string, string> = {
-  reason: 'Reasoning',
-  judge: 'Judging',
-  structured_output: 'Structuring',
+  reason: 'Reasoning over',
+  judge: 'Judging the',
+  structured_output: 'Structuring the',
 };
 
 function titleCaseWords(value: string): string {
@@ -441,16 +444,27 @@ function humanizeNounPhrase(value: string): string {
   return titleCaseWords(value.replace(/_/g, ' '));
 }
 
-// Client-side normalized failsafe names: ChunkThenSum is the LARGE INPUTS
-// failsafe, StitchComplete the LARGE OUTPUTS failsafe;
-// PrepareConciseContext keeps its descriptive name.
-const FAILSAFE_DISPLAY_NAMES: Record<string, string> = {
-  chunk_then_sum: 'large inputs',
-  stitch_until_complete: 'large outputs',
+// Client-side normalized failsafe names: ChunkThenSum handles LARGE INPUTS,
+// StitchComplete handles LARGE OUTPUTS; PrepareConciseContext keeps its
+// descriptive name. The log title-line (pill) reads 'handle large inputs';
+// the processing sentence reads title-cased without 'handle'
+// ('Reasoning over Large Inputs').
+const FAILSAFE_PILL_NAMES: Record<string, string> = {
+  chunk_then_sum: 'handle large inputs',
+  stitch_until_complete: 'handle large outputs',
+};
+
+const FAILSAFE_SENTENCE_NAMES: Record<string, string> = {
+  chunk_then_sum: 'Large Inputs',
+  stitch_until_complete: 'Large Outputs',
 };
 
 function formatFailsafeName(value: string): string {
-  return FAILSAFE_DISPLAY_NAMES[value.trim().toLowerCase()] || humanizeNounPhrase(value);
+  return FAILSAFE_PILL_NAMES[value.trim().toLowerCase()] || humanizeNounPhrase(value);
+}
+
+function formatFailsafeSentenceName(value: string): string {
+  return FAILSAFE_SENTENCE_NAMES[value.trim().toLowerCase()] || humanizeNounPhrase(value);
 }
 
 // "DepositInputComprehensionAgent" -> "Deposit Input Comprehension" (trailing
@@ -467,6 +481,12 @@ function humanizeAgentName(value: string): string {
 
 function gerundFor(map: Record<string, string>, raw: string): string {
   return map[raw.trim().toLowerCase()] || humanizeNounPhrase(raw);
+}
+
+// Thinkings gerunds carry their connective; unknown generations fall back to
+// '<Gerund> the' so the sentence stays grammatical.
+function thinkingsGerundPhrase(raw: string): string {
+  return THINKINGS_GERUNDS[raw.trim().toLowerCase()] || `${humanizeNounPhrase(raw)} the`;
 }
 
 /**
@@ -486,7 +506,7 @@ function describeExecutionContext(ctx: {
   if (!ctx.phase || !ctx.agent || !ctx.step) return null;
   let sentence = `During ${humanizeNounPhrase(ctx.phase)}, ${humanizeAgentName(ctx.agent)} Agent is ${gerundFor(STEP_GERUNDS, ctx.step)}`;
   if (ctx.generation && ctx.failsafe) {
-    sentence += `, by ${gerundFor(THINKINGS_GERUNDS, ctx.generation)} the ${formatFailsafeName(ctx.failsafe)}`;
+    sentence += `, by ${thinkingsGerundPhrase(ctx.generation)} ${formatFailsafeSentenceName(ctx.failsafe)}`;
   }
   return sentence;
 }
