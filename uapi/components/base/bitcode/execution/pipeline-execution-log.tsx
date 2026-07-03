@@ -970,21 +970,22 @@ function renderLogLine(
     logLine.type === 'tool-use' || logLine.tool ? 'tool' : 'llm',
   );
   // ONE inline, wrapping row of all call-chain pills (phase, agent, step,
-  // failsafe, generation, tool) — each a rich-tooltip trigger.
-  const PillRow = (
-    <ExecutionContextPillRow
-      phase={logLine.phase}
-      agent={logLine.agent}
-      step={logLine.step}
-      failsafe={logLine.failsafe}
-      generation={logLine.generation}
-      tool={toolLabel}
-      stitchIteration={logLine.stitchIteration}
-      chunkIndex={logLine.chunkIndex}
-      chunkSum={logLine.chunkSum}
-      mode={rowMode}
-    />
-  );
+  // failsafe, generation, tool) — each a rich-tooltip trigger. Rendered per
+  // layout (with a layout-specific className) to the RIGHT of the chevron +
+  // title on the SAME line, wrapping onto following lines only when out of
+  // width.
+  const pillRowProps = {
+    phase: logLine.phase,
+    agent: logLine.agent,
+    step: logLine.step,
+    failsafe: logLine.failsafe,
+    generation: logLine.generation,
+    tool: toolLabel,
+    stitchIteration: logLine.stitchIteration,
+    chunkIndex: logLine.chunkIndex,
+    chunkSum: logLine.chunkSum,
+    mode: rowMode,
+  };
 
   const formatMeta = (m?: string) => {
     const v = String(m || '');
@@ -1010,7 +1011,7 @@ function renderLogLine(
   if (compact) {
     const RowContent = (
       <div
-        className={`relative flex flex-col gap-1.5 w-full rounded-lg pl-7 pr-3 py-2 min-h-[46px] mb-4 last:mb-0 select-none text-[0.78rem] font-medium ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200 border-l-2 ${style.border}`}
+        className={`relative flex items-center gap-1 w-full rounded-lg pl-7 pr-3 py-2 min-h-[34px] mb-4 last:mb-0 select-none text-[0.78rem] font-medium ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200 border-l-2 ${style.border}`}
         data-log-index={index}
         onClick={() => toggleLine(lineId)}
         draggable
@@ -1042,30 +1043,28 @@ function renderLogLine(
           </span>
         </TelemetryExplainerTrigger>
 
-        {/* ONE inline pill row: phase, agent, step, failsafe, generation
-            (+ tool), wrapping when narrow to use the horizontal space. */}
-        {hasPills && PillRow}
+        {/* ONE line: chevron, title, then the inline pill row (phase, agent,
+            step, failsafe, generation, + tool) flowing right — wrapping onto
+            following lines only when out of width — then the timestamp. */}
+        <ChevronRightIcon
+          className={`w-4 h-4 flex-shrink-0 text-current opacity-60 transition-transform duration-300 ${
+            expandedLines[lineId] ? 'rotate-90' : ''
+          }`}
+        />
+        <span
+          title={logLine.text}
+          className={`truncate min-w-0 text-[0.82rem] leading-none m-0 ${hasPills ? 'max-w-[45%]' : 'flex-1'}`}
+        >
+          {logLine.text}
+        </span>
 
-        {/* Chevron + title + timestamp line */}
-        <div className="flex items-center gap-1 w-full min-w-0">
-          <ChevronRightIcon
-            className={`w-4 h-4 flex-shrink-0 text-current opacity-60 transition-transform duration-300 ${
-              expandedLines[lineId] ? 'rotate-90' : ''
-            }`}
-          />
-          <span
-            title={logLine.text}
-            className="truncate flex-1 min-w-0 text-[0.82rem] leading-none m-0"
-          >
-            {logLine.text}
+        {hasPills && <ExecutionContextPillRow {...pillRowProps} className="flex-1 justify-end" />}
+
+        {logLine.timestamp && (
+          <span className="text-[10px] text-gray-500 flex-shrink-0 select-none ml-1">
+            {formatTime(logLine.timestamp)}
           </span>
-
-          {logLine.timestamp && (
-            <span className="text-[10px] text-gray-500 flex-shrink-0 select-none ml-1">
-              {formatTime(logLine.timestamp)}
-            </span>
-          )}
-        </div>
+        )}
       </div>
     );
 
@@ -1192,7 +1191,8 @@ function renderLogLine(
             {logLine.text}
           </span>
 
-          {/* Meta cluster + timestamp: one inline, wrapping row of all pills */}
+          {/* Meta cluster + timestamp: the pill row flows right of the title
+              on the SAME line, wrapping only when out of width. */}
           <div className="hidden laptop:flex items-center flex-wrap justify-end gap-1 laptop:max-w-[50%]">
             {/* Timestamp */}
             {logLine.timestamp && (
@@ -1201,12 +1201,12 @@ function renderLogLine(
               </span>
             )}
 
-            {hasPills && PillRow}
+            {hasPills && <ExecutionContextPillRow {...pillRowProps} className="justify-end" />}
           </div>
         </div>
 
         {/* Mobile / narrow layout */}
-        <div className="laptop:hidden relative w-full pl-12 pr-3 py-2 space-y-1">
+        <div className="laptop:hidden relative w-full pl-12 pr-3 py-2">
           {/* Floating Type Icon (circular bubble) — rich-tooltip trigger */}
           <TelemetryExplainerTrigger
             explainer={rowIconExplainer}
@@ -1224,11 +1224,9 @@ function renderLogLine(
             </span>
           </TelemetryExplainerTrigger>
 
-          {/* ONE inline pill row: phase, agent, step, failsafe, generation (+ tool) */}
-          {hasPills && PillRow}
-
-          {/* Chevron, title, timestamp row */}
-          <div className="flex items-center gap-1 w-full">
+          {/* ONE line: chevron, title, then the inline pill row flowing right
+              (wrapping onto following lines only when out of width), timestamp. */}
+          <div className="flex items-center gap-1 w-full min-w-0">
             <ChevronRightIcon
               className={`laptop:hidden w-3 h-3 flex-shrink-0 text-current opacity-60 transition-transform duration-300 ${
                 expandedLines[lineId] ? 'rotate-90' : ''
@@ -1237,10 +1235,12 @@ function renderLogLine(
 
             <span
               title={logLine.text}
-              className="text-xs font-medium truncate flex-1 min-w-0"
+              className={`text-xs font-medium truncate min-w-0 ${hasPills ? 'max-w-[45%]' : 'flex-1'}`}
             >
               {logLine.text}
             </span>
+
+            {hasPills && <ExecutionContextPillRow {...pillRowProps} className="flex-1 justify-end" />}
 
             {logLine.timestamp && (
               <span className="text-[11px] text-gray-500 flex-shrink-0 select-none">
@@ -1502,7 +1502,7 @@ function renderLogLine(
                         <div className="text-xs font-medium text-emerald-400 mb-1">Steps:</div>
                         <div className="flex flex-wrap gap-1">
                           {['Plan','Try','Refine','Retry'].map(s => (
-                            <TelemetryExplainerTrigger key={s} explainer={getTelemetryPillExplainer('step', s, rowMode)}>
+                            <TelemetryExplainerTrigger key={s} explainer={getTelemetryPillExplainer('step', s, rowMode, { agent: logLine.agent, step: logLine.step })}>
                               <PathPill type="step" label={s} className={s===normalizeStepName(logLine.step) ? '' : 'opacity-25'} />
                             </TelemetryExplainerTrigger>
                           ))}
@@ -1518,7 +1518,7 @@ function renderLogLine(
                             ['Chunk Then Sum', 'chunk_then_sum'],
                             ['Stitch Until Complete', 'stitch_until_complete'],
                           ].map(([m, rawFailsafe]) => (
-                            <TelemetryExplainerTrigger key={m} explainer={getTelemetryPillExplainer('failsafe', rawFailsafe, rowMode)}>
+                            <TelemetryExplainerTrigger key={m} explainer={getTelemetryPillExplainer('failsafe', rawFailsafe, rowMode, { agent: logLine.agent, step: logLine.step })}>
                               <PathPill type="failsafe" label={m} className={m===formatMeta(logLine.failsafe) ? '' : 'opacity-25'} />
                             </TelemetryExplainerTrigger>
                           ))}
@@ -1530,7 +1530,7 @@ function renderLogLine(
                         <div className="text-xs font-medium text-emerald-400 mb-1">Generations:</div>
                         <div className="flex flex-wrap gap-1">
                           {['Reason','Judge','Structured Output'].map(sub => (
-                            <TelemetryExplainerTrigger key={sub} explainer={getTelemetryPillExplainer('generation', sub, rowMode)}>
+                            <TelemetryExplainerTrigger key={sub} explainer={getTelemetryPillExplainer('generation', sub, rowMode, { agent: logLine.agent, step: logLine.step })}>
                               <PathPill type="generation" label={sub} className={sub===formatMeta(logLine.generation) ? '' : 'opacity-25'} />
                             </TelemetryExplainerTrigger>
                           ))}

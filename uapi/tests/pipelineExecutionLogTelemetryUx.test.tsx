@@ -8,7 +8,7 @@ jest.mock('@/components/base/bitcode/execution/FileDiffViewer', () => ({
 
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import {
   FAILSAFE_SENTENCE_NAMES,
@@ -19,9 +19,24 @@ import {
   trimPipelineAgentName,
 } from '@/components/base/bitcode/execution/execution-telemetry-format';
 import { formatRunClock } from '@/components/base/bitcode/execution/RunClock';
-import { buildProcessingStallLabel } from '@/components/base/bitcode/execution/pipeline-execution-log';
+import {
+  PipelineExecutionLog,
+  buildProcessingStallLabel,
+} from '@/components/base/bitcode/execution/pipeline-execution-log';
 import { ExecutionContextPillRow } from '@/components/base/bitcode/execution/ExecutionContextPillRow';
+import { TelemetryExplainerTrigger } from '@/components/base/bitcode/execution/TelemetryExplainerTrigger';
+import {
+  getTelemetryPillExplainer,
+  getTelemetryRowIconExplainer,
+} from '@/components/base/bitcode/execution/telemetry-pill-explainers';
 import { buildTerminalRunActivityFromEvents } from '@/app/terminal/terminal-run-activity';
+
+beforeAll(() => {
+  (global as any).ResizeObserver = class {
+    observe() {}
+    disconnect() {}
+  };
+});
 
 // ---------------------------------------------------------------------------
 // Item 3 — trim the pipeline-name prefix from AGENT names (display only)
@@ -252,5 +267,167 @@ describe('ExecutionContextPillRow', () => {
   it('renders nothing when there is no context at all', () => {
     const { container } = render(<ExecutionContextPillRow />);
     expect(container.firstElementChild).toBeNull();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Tooltip content — the SPECIFIC section states what the exact element is
+// PROMPTED to do and what it RETURNS (output-schema shapes), summarized from
+// the real agent/step/failsafe sources; the generic type copy is separate.
+// ---------------------------------------------------------------------------
+describe('getTelemetryPillExplainer — prompt/return-concrete specific copy', () => {
+  it('failsafe PCC names its selection input/output shapes', () => {
+    const explainer = getTelemetryPillExplainer('failsafe', 'prepare_concise_context');
+    expect(explainer.specific).toContain('pipeline_execution_keys');
+    expect(explainer.specific).toContain('{selectedKeys}');
+    expect(explainer.generic).toContain('Failsafes are the guards');
+  });
+
+  it('failsafe handle-large-inputs states the budget measurement + one-vs-chunked generations', () => {
+    const explainer = getTelemetryPillExplainer('failsafe', 'chunk_then_sum');
+    expect(explainer.specific).toContain('request budget');
+    expect(explainer.specific).toContain('ONE task generation');
+  });
+
+  it("failsafe handle-large-outputs references the surrounding agent's output schema when context is passed", () => {
+    const explainer = getTelemetryPillExplainer('failsafe', 'stitch_until_complete', 'deposit', {
+      agent: 'DepositValidationAgent',
+      step: 'try',
+    });
+    expect(explainer.specific).toContain("the Validation Agent's output schema");
+    expect(explainer.specific).toContain('validation error');
+  });
+
+  it('deposit agent copy summarizes the prompt purpose + the zod return shape', () => {
+    const search = getTelemetryPillExplainer('agent', 'DepositDepositorySearchAgent', 'deposit');
+    expect(search.specific).toContain('{guidance}');
+    expect(search.specific).toContain('likelyReadTopics');
+
+    const comprehension = getTelemetryPillExplainer('agent', 'DepositInputComprehensionAgent', 'deposit');
+    expect(comprehension.specific).toContain('{comprehension}');
+    expect(comprehension.specific).toContain('obfuscatedPaths');
+
+    const synthesis = getTelemetryPillExplainer('agent', 'DepositAssetPackSynthesisAgent', 'deposit');
+    expect(synthesis.specific).toContain('{options}');
+    expect(synthesis.specific).toContain('patchSummary');
+  });
+
+  it("PTRR step copy references the agent's output schema, sharpened by row context", () => {
+    const withContext = getTelemetryPillExplainer('step', 'try', 'deposit', {
+      agent: 'DepositDepositorySearchAgent',
+    });
+    expect(withContext.specific).toContain("the Depository Search Agent's output schema");
+
+    const withoutContext = getTelemetryPillExplainer('step', 'try');
+    expect(withoutContext.specific).toContain("the agent's output schema");
+  });
+
+  it('generation copy names the Thinkings return shapes', () => {
+    expect(getTelemetryPillExplainer('generation', 'reason').specific).toContain(
+      '{analysis, steps, conclusion, confidence}',
+    );
+    expect(getTelemetryPillExplainer('generation', 'judge').specific).toContain(
+      '{quality, issues, suggestions, approved}',
+    );
+    expect(getTelemetryPillExplainer('generation', 'structured_output').specific).toContain(
+      'zod output schema',
+    );
+  });
+
+  it('deposit phase copy states the concrete per-phase SDIVF jobs', () => {
+    const discovery = getTelemetryPillExplainer('phase', 'discovery', 'deposit');
+    expect(discovery.specific).toContain("The Depositing Pipeline's");
+    expect(discovery.specific).toContain('codebase comprehension');
+    expect(discovery.specific).toContain('inherent regurgitation');
+
+    const finish = getTelemetryPillExplainer('phase', 'finish', 'deposit');
+    expect(finish.specific).toContain('depositor review');
+  });
+
+  it('row-icon explainer keeps the specific what-this-row-is copy on the specific field', () => {
+    expect(getTelemetryRowIconExplainer('llm').specific).toContain('This row is one LLM call');
+    expect(getTelemetryRowIconExplainer('tool').specific).toContain('This row is one Tool use');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Tooltip ordering — the SPECIFIC section renders on TOP, the generic type
+// copy BELOW it.
+// ---------------------------------------------------------------------------
+describe('TelemetryExplainerTrigger — specific section above generic', () => {
+  it('renders specific before generic in the tooltip', () => {
+    render(
+      <TelemetryExplainerTrigger
+        explainer={{
+          kicker: 'Failsafe',
+          title: 'Prepare Concise Context',
+          specific: 'SPECIFIC-SECTION-COPY',
+          generic: 'GENERIC-SECTION-COPY',
+        }}
+      >
+        <span>trigger</span>
+      </TelemetryExplainerTrigger>,
+    );
+
+    fireEvent.mouseEnter(screen.getByText('trigger').parentElement as HTMLElement);
+    const tooltip = screen.getByRole('tooltip');
+    const text = tooltip.textContent || '';
+    expect(text.indexOf('SPECIFIC-SECTION-COPY')).toBeGreaterThanOrEqual(0);
+    expect(text.indexOf('SPECIFIC-SECTION-COPY')).toBeLessThan(text.indexOf('GENERIC-SECTION-COPY'));
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Pill placement — the pills render to the RIGHT of the chevron + title on
+// the SAME line (one flex row), not on a row above the title.
+// ---------------------------------------------------------------------------
+describe('PipelineExecutionLog — pills inline with the title line', () => {
+  const line = 'LLM call observed';
+  const outputDetails = {
+    [line]: {
+      type: 'generation',
+      status: {
+        executionState: {
+          phase: 'discovery',
+          agent: 'DepositDepositorySearchAgent',
+          step: 'try',
+          failsafe: 'prepare_concise_context',
+          generation: 'reason',
+          pipelineMode: 'deposit',
+        },
+        timestamp: '2026-07-01T00:00:05.000Z',
+      },
+    },
+  };
+
+  it('compact layout: title and pill row share ONE flex row, pills after the title', () => {
+    render(
+      <PipelineExecutionLog
+        output={`${line}\n`}
+        isProcessing={false}
+        error={null}
+        outputDetails={outputDetails}
+        onRetry={() => {}}
+        onDismissError={() => {}}
+        userHasScrolled={false}
+        setUserHasScrolled={() => {}}
+        compact
+      />,
+    );
+
+    const title = screen.getByText(line);
+    const pillRow = screen.getByText('DISCOVERY').closest('.flex-wrap') as HTMLElement;
+    expect(pillRow).not.toBeNull();
+
+    // Same parent row — NOT a separate pill line above the title.
+    expect(pillRow.parentElement).toBe(title.parentElement);
+    const row = title.parentElement as HTMLElement;
+    expect(row.className).toContain('items-center');
+    expect(row.className).not.toContain('flex-col');
+
+    // Pills come AFTER the title in document order (to its right).
+    expect(
+      title.compareDocumentPosition(pillRow) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
   });
 });
