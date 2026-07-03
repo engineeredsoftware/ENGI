@@ -10,6 +10,11 @@
  *  - phase call order: preprocess → setup → (Discovery → Implementation →
  *    Validation) bounded by maxIterations → finish → postprocess;
  *  - the DIV loop honors maxIterations (never exceeds it);
+ *  - the iterate-vs-complete gate: the loop exits EARLY once Validation
+ *    signals ready-to-finish — via the threaded result (passed/ready/
+ *    finalApproval), via the shared validation:passed store, via the
+ *    cross-phase validation:readyToFinish artifact (finalApproval verdict on
+ *    the ROOT, resolved through findUp), or via a cfg.readyToFinish override;
  *  - input threading: each phase receives the previous phase's return value;
  *  - sequential() topology: preprocess/setup/DIV/finish/postprocess each run on
  *    an ISOLATED seq-N sibling child (the F20 law the shared mode store depends
@@ -20,8 +25,8 @@
  *    pipeline (no swallow, no hang, downstream phases never run).
  *
  * NOTE: the validation stubs here deliberately return a NON-passing result
- * (finalApproval/passed false), so the exact-iteration-count pins stay valid if
- * a validation-passed early exit is ever added to the executor-variant loop.
+ * (finalApproval/passed false), so the exact-iteration-count pins exercise the
+ * bounded (max-iterations) side of the gate.
  */
 import { factorySDIVFExecutorPipeline } from '../sdivf-factory';
 import { Execution } from '../../../../execution-generics/src/Execution';
@@ -100,6 +105,100 @@ describe('factorySDIVFExecutorPipeline (executor-variant SDIVF loop)', () => {
     expect(recorded.calls.filter((c) => c === 'implementation')).toHaveLength(1);
     expect(recorded.calls.filter((c) => c === 'validation')).toHaveLength(1);
     expect(recorded.calls.filter((c) => c === 'finish')).toHaveLength(1);
+  });
+
+  it('exits the DIV loop early when the validation RESULT signals ready-to-finish', async () => {
+    const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
+    const pipeline = factorySDIVFExecutorPipeline('sdivf-gate-result', {
+      ...buildConfig(recorded, {
+        validation: async (input: any, exec: any) => {
+          record(recorded, 'validation', input, exec);
+          const iteration = (input?.validation ?? 0) + 1;
+          // Passes on the SECOND iteration.
+          return { ...input, validation: iteration, finalApproval: iteration >= 2 };
+        },
+      }),
+      maxIterations: 5,
+    });
+
+    const output = await pipeline({}, new Execution('root-gate-result'));
+
+    // Two iterations, not five: the gate stopped the loop as soon as
+    // validation approved.
+    expect(recorded.calls.filter((c) => c === 'discovery')).toHaveLength(2);
+    expect(recorded.calls.filter((c) => c === 'validation')).toHaveLength(2);
+    expect(recorded.calls.filter((c) => c === 'finish')).toHaveLength(1);
+    expect(output.validation).toBe(2);
+    expect(output.finalApproval).toBe(true);
+  });
+
+  it('exits the DIV loop early via the cross-phase validation:readyToFinish artifact on the ROOT', async () => {
+    const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
+    const root = new Execution('root-gate-artifact');
+    const pipeline = factorySDIVFExecutorPipeline('sdivf-gate-artifact', {
+      ...buildConfig(recorded, {
+        validation: async (input: any, exec: any) => {
+          record(recorded, 'validation', input, exec);
+          // Model the AssetPack ReadyToFinish agent: it stores its verdict on
+          // the SHARED root (cross-phase store-visibility law) and its return
+          // does not carry passed/ready flags.
+          exec.getRoot().store('validation', 'readyToFinish', {
+            finalApproval: true,
+            recommendation: 'finish',
+          });
+          return { ...input, validation: (input?.validation ?? 0) + 1 };
+        },
+      }),
+      maxIterations: 4,
+    });
+
+    await pipeline({}, root);
+
+    // One iteration: the gate resolved the root-stored verdict from the DIV
+    // sibling via findUp.
+    expect(recorded.calls.filter((c) => c === 'validation')).toHaveLength(1);
+    expect(recorded.calls.filter((c) => c === 'finish')).toHaveLength(1);
+  });
+
+  it('honors a cfg.readyToFinish override as the gate', async () => {
+    const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
+    const gateCalls: any[] = [];
+    const pipeline = factorySDIVFExecutorPipeline('sdivf-gate-override', {
+      ...buildConfig(recorded),
+      readyToFinish: async (result: any) => {
+        gateCalls.push(result);
+        // Finish after the second validation despite non-passing results.
+        return (result?.validation ?? 0) >= 2;
+      },
+      maxIterations: 5,
+    });
+
+    await pipeline({}, new Execution('root-gate-override'));
+
+    expect(recorded.calls.filter((c) => c === 'validation')).toHaveLength(2);
+    expect(gateCalls).toHaveLength(2);
+    // The override REPLACES the default signal check: the default's
+    // result-flag path was not consulted (validation results carry
+    // finalApproval:false and the loop still exited on the override).
+    expect(gateCalls[1]).toMatchObject({ validation: 2, finalApproval: false });
+  });
+
+  it('records loop observability: per-iteration pass flags and the max-iterations marker', async () => {
+    const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
+    const root = new Execution('root-gate-observe');
+    const pipeline = factorySDIVFExecutorPipeline('sdivf-gate-observe', {
+      ...buildConfig(recorded),
+      maxIterations: 2,
+    });
+
+    await pipeline({}, root);
+
+    const divNode = root.children.get('root-gate-observe/seq-2');
+    expect(divNode.get('iteration', '1')).toMatchObject({ passed: false });
+    expect(divNode.get('iteration', '2')).toMatchObject({ passed: false });
+    expect(divNode.get('pipeline', 'totalIterations')).toBe(2);
+    expect(divNode.get('pipeline', 'validationPassed')).toBe(false);
+    expect(divNode.get('pipeline', 'maxIterationsReached')).toBe(true);
   });
 
   it('threads each phase output into the next phase input', async () => {

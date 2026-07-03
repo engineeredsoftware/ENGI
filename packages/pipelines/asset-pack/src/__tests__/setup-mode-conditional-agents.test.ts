@@ -139,6 +139,38 @@ describe('assetPackSetupPhaseExecutor conditional registry', () => {
     expect(depositComprehensionMock).not.toHaveBeenCalled();
   });
 
+  it('read: a danger-wall SHORT_CIRCUIT fails the pipeline CLOSED (terminal error, not swallowed)', async () => {
+    const { phaseExec } = setupHarness('read', 'pipeline:setup-danger-wall-block');
+    readDangerWallMock.mockImplementation(async () => ({
+      result: { blocked: true },
+      signal: {
+        type: 'SHORT_CIRCUIT',
+        reason: 'Bitcode risk admission blocked setup: unsafe to synthesize.',
+        refundType: 'full',
+        confidence: 0.95,
+        metadata: { phase: 'setup', agent: 'bitcode-read-risk-admission', severity: 'high' },
+      },
+    }));
+
+    await expect(assetPackSetupPhaseExecutor({ read: 'blocked read' }, phaseExec)).rejects.toThrow(
+      /Setup phase short-circuited \(fail closed\).*unsafe to synthesize/,
+    );
+
+    // The short-circuit evidence is stored (the phase runner recorded it) …
+    expect(phaseExec.get('phase/setup', 'shortCircuited')).toBe(true);
+    expect(phaseExec.get('pipeline/short-circuit', 'signal')).toMatchObject({
+      type: 'SHORT_CIRCUIT',
+    });
+    // … and the terminal error state is recorded for the run surfaces.
+    expect(phaseExec.get('pipeline', 'terminalError')).toMatchObject({
+      phase: 'setup',
+      shortCircuited: true,
+      reason: expect.stringContaining('unsafe to synthesize'),
+    });
+    // Fail closed means the sequence stopped at the wall: MCPs init never ran.
+    expect(mcpsMock).not.toHaveBeenCalled();
+  });
+
   it('deposit registrations shadow only the phase subtree — the root registry keeps the read agents', async () => {
     const { root, phaseExec } = setupHarness('deposit', 'pipeline:setup-conditional-shadow');
 

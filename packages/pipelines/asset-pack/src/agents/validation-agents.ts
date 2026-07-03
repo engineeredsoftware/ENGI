@@ -143,7 +143,16 @@ export async function AssetPackValidationReadyToFinishAgent(
   // Cross-phase artifact: the run-level surfaces read the readiness verdict
   // from outside the validation sibling (cross-phase store-visibility law).
   storeCrossPhaseArtifact(execution, 'validation', 'readyToFinish', output);
-  return output;
+  // The gate is the LAST agent in the Validation sequence, so its return value
+  // IS the validation phase result. Spread the threaded input (the synthesis
+  // artifacts flowing Discovery -> Implementation -> Validation -> Finish)
+  // under the typed verdict so the phase result is never starved down to the
+  // verdict alone.
+  const threaded =
+    input && typeof input === 'object' && !Array.isArray(input)
+      ? (input as Record<string, unknown>)
+      : {};
+  return { ...threaded, ...output };
 }
 
 export function registerValidationAgentsForType(

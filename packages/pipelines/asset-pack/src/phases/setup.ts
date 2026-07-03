@@ -62,7 +62,23 @@ export const assetPackSetupPhaseExecutor: Executor<any, any> = async (input, exe
       async (passthroughInput: any) => passthroughInput,
     );
   }
-  await runSetupPhase(input, execution);
+  const phaseResult = await runSetupPhase(input, execution);
+  // A Setup short-circuit is the danger wall (read-lens risk admission)
+  // BLOCKING the run: synthesis is not safe to attempt. That must FAIL the
+  // pipeline closed — a terminal error, not a swallowed PhaseResult that lets
+  // Discovery/Implementation run anyway. (Deposit mode punts the danger wall
+  // to a passthrough above, so a deposit setup never short-circuits here.)
+  if (phaseResult && phaseResult.shortCircuited) {
+    const reason = phaseResult.shortCircuitReason || 'setup admission blocked the pipeline';
+    try {
+      (execution as any).store?.('pipeline', 'terminalError', {
+        phase: 'setup',
+        shortCircuited: true,
+        reason,
+      });
+    } catch {}
+    throw new Error(`Setup phase short-circuited (fail closed): ${reason}`);
+  }
   // PhaseRunner returns PhaseResult; pipeline expects input forward. Use stores for state.
   return input;
 };
