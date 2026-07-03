@@ -59,6 +59,10 @@ import {
 import { usePipelineExecution } from "@/hooks/usePipelineExecution";
 import { buildTerminalRunActivityFromEvents } from "@/app/terminal/terminal-run-activity";
 import { PipelineExecutionLog } from "@/components/base/bitcode/execution/pipeline-execution-log";
+import { ExecutionContextPillRow } from "@/components/base/bitcode/execution/ExecutionContextPillRow";
+import { RunClock } from "@/components/base/bitcode/execution/RunClock";
+import { QuantumOrb } from "@/components/base/bitcode/effects/quantum-orb";
+import { verifiedAccessOrbConfig } from "@/app/(root)/components/landing/marketing-landing-shared";
 import BitcodeInlineExplainer from "@/components/base/bitcode/execution/BitcodeInlineExplainer";
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/app/deposit/deposit-explainers";
 import type {
@@ -147,6 +151,11 @@ export default function DepositPageClient() {
   const [optionsRequested, setOptionsRequested] = useState(false);
   const [synthesisRunId, setSynthesisRunId] = useState<string | null>(null);
   const [synthesisLogScrolled, setSynthesisLogScrolled] = useState(false);
+  // Dispatch timestamp — the run clock's fallback start until the first
+  // streamed event's created_at arrives.
+  const [synthesisDispatchedAtMs, setSynthesisDispatchedAtMs] = useState<
+    number | null
+  >(null);
   const [synthesisStatus, setSynthesisStatus] = useState<
     "idle" | "running" | "complete" | "failed"
   >("idle");
@@ -560,6 +569,26 @@ export default function DepositPageClient() {
       synthesisWorkUpdate,
     ],
   );
+  const synthesisRunning = synthesisStatus === "running";
+  // TOTAL RUN TIME clock bounds: start at the first event's created_at (fall
+  // back to the dispatch timestamp), freeze at the last event's created_at on
+  // completion/error.
+  const synthesisRunStartMs = useMemo(() => {
+    const first = synthesisEvents[0]?.created_at;
+    const parsed = first ? new Date(first).getTime() : Number.NaN;
+    if (Number.isFinite(parsed)) return parsed;
+    return synthesisDispatchedAtMs;
+  }, [synthesisEvents, synthesisDispatchedAtMs]);
+  const synthesisRunEndMs = useMemo(() => {
+    if (synthesisRunning) return null;
+    const last = synthesisEvents[synthesisEvents.length - 1]?.created_at;
+    const parsed = last ? new Date(last).getTime() : Number.NaN;
+    return Number.isFinite(parsed) ? parsed : null;
+  }, [synthesisEvents, synthesisRunning]);
+  // Live header tracker: the CURRENT active call chain, rendered with the
+  // same pills as the log title-lines while the pipeline runs.
+  const synthesisLiveContext =
+    synthesisRunning && !synthesisError ? synthesisActivity.latestContext : null;
 
   // F26-B: the synthesis run is dispatched (decoupled from the request). When the
   // streamed run completes, read the persisted synthesis from the execution row
@@ -778,6 +807,7 @@ export default function DepositPageClient() {
         ? crypto.randomUUID()
         : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
     setSynthesisRunId(runId);
+    setSynthesisDispatchedAtMs(Date.now());
     setSynthesisLogScrolled(false);
 
     try {
@@ -1369,28 +1399,61 @@ export default function DepositPageClient() {
               <section
                 ref={synthesisTelemetryRef}
                 className="min-w-0 overflow-hidden border border-white/10 bg-white/[0.035] px-4 py-4"
-                aria-label="AssetPacksSynthesis run telemetry"
+                aria-label="Asset Pack Synthesis telemetry"
                 data-testid="deposit-synthesis-telemetry"
               >
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
-                      AssetPacksSynthesis
+                      Asset Pack Synthesis
                     </p>
                     <h2 className="mt-2 flex items-center gap-2 text-lg font-semibold text-white">
-                      <span>Synthesis run telemetry</span>
+                      <span>Telemetry</span>
                       <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.synthesisTelemetry} />
                     </h2>
-                    <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-400">
-                      Source-safe pipeline telemetry streamed live from the
-                      running synthesis: phases, agents, generation stages,
-                      provider, model, and usage. Prompt and response content
-                      stays withheld by law.
-                    </p>
+                    {synthesisLiveContext ? (
+                      <div
+                        className="mt-3"
+                        data-testid="deposit-telemetry-live-tracker"
+                      >
+                        <ExecutionContextPillRow
+                          phase={synthesisLiveContext.phase}
+                          agent={synthesisLiveContext.agent}
+                          step={synthesisLiveContext.step}
+                          failsafe={synthesisLiveContext.failsafe}
+                          generation={synthesisLiveContext.generation}
+                          mode="deposit"
+                        />
+                      </div>
+                    ) : (
+                      <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-400">
+                        Source-safe pipeline telemetry streamed live from the
+                        running synthesis: phases, agents, generation stages,
+                        provider, model, and usage. Prompt and response content
+                        stays withheld by law.
+                      </p>
+                    )}
                   </div>
-                  <span className="border border-white/10 bg-black/30 px-3 py-2 font-mono text-[0.62rem] text-neutral-400">
-                    {synthesisRunId}
-                  </span>
+                  <div className="flex items-center gap-3">
+                    <QuantumOrb
+                      key={synthesisRunning ? "telemetry-orb-running" : "telemetry-orb-idle"}
+                      size={24}
+                      config={verifiedAccessOrbConfig}
+                      initialState={synthesisRunning ? "active" : "rest"}
+                      interactive={false}
+                      respectReducedMotion
+                      className="shrink-0"
+                    />
+                    <RunClock
+                      startedAtMs={synthesisRunStartMs}
+                      running={synthesisRunning}
+                      endedAtMs={synthesisRunEndMs}
+                      className="font-mono text-[0.72rem] text-emerald-100/90"
+                    />
+                    <span className="border border-white/10 bg-black/30 px-3 py-2 font-mono text-[0.62rem] text-neutral-400">
+                      {synthesisRunId}
+                    </span>
+                  </div>
                 </div>
                 <div className="mt-4 min-w-0">
                   <PipelineExecutionLog
@@ -1408,6 +1471,7 @@ export default function DepositPageClient() {
                     onDismissError={() => setSynthesisError(null)}
                     userHasScrolled={synthesisLogScrolled}
                     setUserHasScrolled={setSynthesisLogScrolled}
+                    pipelineMode="deposit"
                     copyData={{
                       runId: synthesisRunId,
                       status: synthesisStatus,

@@ -141,8 +141,8 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     },
   }),
   synthesisTelemetry: buildExplainer({
-    kicker: 'AssetPacksSynthesis',
-    title: 'Synthesis run telemetry',
+    kicker: 'Asset Pack Synthesis',
+    title: 'Telemetry',
     summary:
       'A live, source-safe stream of the SynthesizeAssetPacks pipeline actually running — every phase, agent, step, and LLM/tool call, with prompt and response content withheld by law.',
     detail:
