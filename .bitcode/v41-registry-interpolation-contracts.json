@@ -304,7 +304,7 @@
     },
     {
       "contractId": "failsafe-sequence-context-handling",
-      "label": "FailsafeGenerationSequence prepares context, chunks large inputs, and stitches typed outputs",
+      "label": "FailsafeGenerationSequence selects concise context, chunks oversized composed requests, and stitches typed outputs",
       "sourceRoots": [
         "packages/agent-generics/src/steps/failsafe-sequence.ts",
         "packages/agent-generics/src/substeps/factories.ts",
@@ -320,8 +320,8 @@
         "failsafe-substep"
       ],
       "interpolationKeyIds": [
-        "preparedContexts",
-        "currentContext",
+        "selectedKeys",
+        "selectedContext",
         "chunkResults"
       ],
       "missingKeyBehaviorIds": [
@@ -333,9 +333,10 @@
         "prepare-concise-context",
         "chunk-then-sum",
         "stitch-until-complete",
-        "context.full",
-        "context.selectors",
-        "tokenLimit"
+        "context.keys",
+        "context.selectedKeys",
+        "context.selectedContext",
+        "maxRequestTokens"
       ],
       "parserTargetIds": [
         "outputSchema"
@@ -348,7 +349,7 @@
       "requiredPredicateIds": [
         "failsafe.delegates-to-thricified",
         "failsafe.includes-context-chunk-stitch",
-        "failsafe.stores-context-selectors",
+        "failsafe.stores-selected-context",
         "failsafe.stores-ptrr-failsafe",
         "failsafe.prompt-has-handle",
         "failsafe.uses-output-schema"
@@ -1016,7 +1017,7 @@
       "passed": true
     },
     {
-      "id": "failsafe.stores-context-selectors",
+      "id": "failsafe.stores-selected-context",
       "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
       "passed": true
     },
@@ -1307,7 +1308,7 @@
       "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "1412f468654b7e30145cbc6d"
+      "sourceHash": "9dd996b3f76448fbd8b9305e"
     },
     {
       "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
@@ -1319,7 +1320,7 @@
       "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "113cd58c7e68adbe5c140863"
+      "sourceHash": "5121e06c61bf851307d8e781"
     },
     {
       "sourcePath": "packages/execution-generics/src/Execution.ts",
@@ -1343,7 +1344,7 @@
       "sourcePath": "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "e4ca2a51636c21a9bf4c911d"
+      "sourceHash": "32df0b609f8f9c1f7796fa2b"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
@@ -1506,5 +1507,5 @@
   },
   "failures": [],
   "passed": true,
-  "artifactRoot": "v41-registry-interpolation-contract:46320b06f8417ffc0b86c713"
+  "artifactRoot": "v41-registry-interpolation-contract:d185ffe16ec5a0b46e809b54"
 }

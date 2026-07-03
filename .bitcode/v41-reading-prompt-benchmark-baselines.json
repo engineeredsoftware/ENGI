@@ -5,7 +5,7 @@
   "currentTarget": "V40",
   "generatedAt": "2026-05-26T00:00:00.000Z",
   "artifactPath": ".bitcode/v41-reading-prompt-benchmark-baselines.json",
-  "artifactRoot": "v41-reading-prompt-benchmark-baselines:3aa915a7a731a50181d19292",
+  "artifactRoot": "v41-reading-prompt-benchmark-baselines:94701c608d6cc4e21dcaadb6",
   "sourceSafetyVerdict": "source-safe-reading-prompt-benchmark-baseline-metadata",
   "pipelineIds": [
     "ReadNeedComprehensionSynthesis",
@@ -2736,7 +2736,7 @@
   ],
   "dependencyRoots": {
     "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
-    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:46320b06f8417ffc0b86c713",
+    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:d185ffe16ec5a0b46e809b54",
     "v38PromptBenchmarkReportRoot": "v38-prompt-benchmark-report:7c34a5c11c25c490aedf413d",
     "v40PromptBenchmarkSmokeRoot": "v40-prompt-benchmark-smoke-v41-readiness:3164923746757b9b02fc30ae"
   },
@@ -2887,7 +2887,7 @@
     "baselineScoreAverage": 1,
     "sourceSafeMetadataOnly": true,
     "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
-    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:46320b06f8417ffc0b86c713",
+    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:d185ffe16ec5a0b46e809b54",
     "v38PromptBenchmarkReportRoot": "v38-prompt-benchmark-report:7c34a5c11c25c490aedf413d",
     "v40PromptBenchmarkSmokeRoot": "v40-prompt-benchmark-smoke-v41-readiness:3164923746757b9b02fc30ae"
   },

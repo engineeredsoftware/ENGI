@@ -6,7 +6,7 @@
   "generatedAt": "2026-05-26T00:00:00.000Z",
   "artifactPath": ".bitcode/v41-readneed-prompt-hardening.json",
   "sourceSafetyVerdict": "source-safe-readneed-prompt-hardening-metadata",
-  "artifactRoot": "v41-readneed-prompt-hardening:d7746fcf0bd45ddb7b1dd388",
+  "artifactRoot": "v41-readneed-prompt-hardening:43a9851edd69a5b5cd61d5b1",
   "passed": true,
   "failures": [],
   "metricIds": [
@@ -1146,8 +1146,8 @@
   ],
   "dependencyRoots": {
     "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
-    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:46320b06f8417ffc0b86c713",
-    "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:3aa915a7a731a50181d19292"
+    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:d185ffe16ec5a0b46e809b54",
+    "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:94701c608d6cc4e21dcaadb6"
   },
   "coverage": {
     "rowCount": 7,

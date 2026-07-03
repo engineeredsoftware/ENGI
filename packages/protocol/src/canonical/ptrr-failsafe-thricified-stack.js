@@ -379,8 +379,10 @@ function buildPredicateResults(repoRoot, index, gate2Inventory) {
     predicateResult(
       'failsafe.preserves-debug-slicing',
       SOURCE_ROOTS.failsafeSequence,
+      // Failsafe slicing lives in the sequence; generation slicing lives in
+      // the Thinkings generation the sequence delegates to.
       sourceText.failsafeSequence.includes('BITCODE_DEBUG_ONLY_FAILSAFES')
-        && sourceText.failsafeSequence.includes('BITCODE_DEBUG_ONLY_GENERATIONS'),
+        && sourceText.thricifiedGeneration.includes('BITCODE_DEBUG_ONLY_GENERATIONS'),
     ),
     predicateResult(
       'generation.constructs-reason',

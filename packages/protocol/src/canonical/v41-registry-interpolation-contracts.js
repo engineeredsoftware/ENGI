@@ -252,27 +252,28 @@ export const V41_REGISTRY_INTERPOLATION_CONTRACT_ROWS = Object.freeze([
   }),
   row({
     contractId: 'failsafe-sequence-context-handling',
-    label: 'FailsafeGenerationSequence prepares context, chunks large inputs, and stitches typed outputs',
+    label: 'FailsafeGenerationSequence selects concise context, chunks oversized composed requests, and stitches typed outputs',
     sourceRoots: [SOURCE_ROOTS.failsafeSequence, SOURCE_ROOTS.substepFactories, SOURCE_ROOTS.failsafeMetaSubStepPrompt],
     registryIds: ['FailsafeGenerationSequence', 'FailsafeMetaSubStepPrompt', 'FailsafeExecution'],
     compositionLevelIds: ['failsafe-generation-sequence', 'failsafe-substep'],
-    interpolationKeyIds: ['preparedContexts', 'currentContext', 'chunkResults'],
+    interpolationKeyIds: ['selectedKeys', 'selectedContext', 'chunkResults'],
     missingKeyBehaviorIds: ['no-default-llm-throws', 'stitch-schema-parse-fails-closed'],
     toolPromptInjectionIds: [],
     contextHandlingIds: [
       'prepare-concise-context',
       'chunk-then-sum',
       'stitch-until-complete',
-      'context.full',
-      'context.selectors',
-      'tokenLimit',
+      'context.keys',
+      'context.selectedKeys',
+      'context.selectedContext',
+      'maxRequestTokens',
     ],
     parserTargetIds: ['outputSchema'],
     executionAncestryFrameIds: ['step-execution', 'failsafe-execution', 'generation-execution'],
     requiredPredicateIds: [
       'failsafe.delegates-to-thricified',
       'failsafe.includes-context-chunk-stitch',
-      'failsafe.stores-context-selectors',
+      'failsafe.stores-selected-context',
       'failsafe.stores-ptrr-failsafe',
       'failsafe.prompt-has-handle',
       'failsafe.uses-output-schema',
@@ -603,10 +604,13 @@ function buildPredicateResults(sourceText, gate2Inventory) {
         && sourceText.failsafeSequence.includes('factoryStitchUntilComplete'),
     ),
     predicateResult(
-      'failsafe.stores-context-selectors',
+      'failsafe.stores-selected-context',
       SOURCE_ROOTS.substepFactories,
-      sourceText.substepFactories.includes("store('context', 'full'")
-        && sourceText.substepFactories.includes("store('context', 'selectors'"),
+      // PCC selection contract: the keys-only tree, the selected keys, and the
+      // read-in selected values are stored on the failsafe execution.
+      sourceText.substepFactories.includes("store('context', 'keys'")
+        && sourceText.substepFactories.includes("store('context', 'selectedKeys'")
+        && sourceText.substepFactories.includes("store('context', 'selectedContext'"),
     ),
     predicateResult(
       'failsafe.stores-ptrr-failsafe',
