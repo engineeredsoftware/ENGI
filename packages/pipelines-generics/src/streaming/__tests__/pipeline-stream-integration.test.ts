@@ -196,7 +196,7 @@ describe('sourceSafeStreamEvent (telemetry source-safety law, V48)', () => {
   });
 
   // Every content-bearing key either LLM-call path writes under the `llm`
-  // namespace: the formal Thricified substeps store input/prompt/output/
+  // namespace: the formal Thinkings substeps store input/prompt/output/
   // parsedOutput, while AgentLLMsRegistry/PipelineLLMRegistry (direct getLLM
   // calls) store messages/config/response. The allowlist design means each of
   // these MUST be withheld — a new content key can never silently leak.

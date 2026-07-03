@@ -95,7 +95,7 @@ export interface ReadNeedComprehensionSynthesisInferenceReceipt {
   agentIds: string[];
   ptrrStepIds: string[];
   failsafeSequenceIds: string[];
-  thricifiedGenerationIds: string[];
+  thinkingsGenerationIds: string[];
   promptTemplateIds: string[];
   interpolationContextKeys: string[];
   outputSchemaIds: string[];
@@ -468,7 +468,7 @@ function buildReadNeedComprehensionSynthesisInferenceReceipt(
         agent.promptRegistry.agentPromptId,
         ...Object.values(agent.promptRegistry.ptrrStepPromptIds),
         ...agent.ptrrSteps.flatMap((step) => step.prompt?.templateId ? [step.prompt.templateId] : []),
-        ...agent.ptrrSteps.flatMap((step) => step.thricifiedGenerations.flatMap((generation) => [
+        ...agent.ptrrSteps.flatMap((step) => step.thinkingsGenerations.flatMap((generation) => [
           generation.reasonPromptId,
           generation.judgePromptId,
           generation.structuredOutputPromptId,
@@ -491,10 +491,10 @@ function buildReadNeedComprehensionSynthesisInferenceReceipt(
   ]);
   const telemetryEventIds = uniqueStrings(trace.flatMap((entry) => entry.telemetry));
   const ptrrStepIds = trace.map((entry) => entry.ptrrStepId);
-  const thricifiedGenerationIds = uniqueStrings(trace.flatMap((entry) => entry.thricifiedGenerationIds));
+  const thinkingsGenerationIds = uniqueStrings(trace.flatMap((entry) => entry.thinkingsGenerationIds));
   const failsafeSequenceIds = uniqueStrings(
     trace.flatMap((entry) =>
-      entry.thricifiedGenerations.map((generation) =>
+      entry.thinkingsGenerations.map((generation) =>
         `${entry.ptrrStepId}.${generation.failsafe}`
       )
     )
@@ -508,7 +508,7 @@ function buildReadNeedComprehensionSynthesisInferenceReceipt(
     pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
     ptrrStepIds,
     failsafeSequenceIds,
-    thricifiedGenerationIds,
+    thinkingsGenerationIds,
     telemetryEventIds,
   });
   const typedOutputRoot = readNeedReceiptRoot({
@@ -532,7 +532,7 @@ function buildReadNeedComprehensionSynthesisInferenceReceipt(
     agentIds,
     ptrrStepIds,
     failsafeSequenceIds,
-    thricifiedGenerationIds,
+    thinkingsGenerationIds,
     promptTemplateRoot,
     telemetryTraceRoot,
     typedOutputRoot,
@@ -550,7 +550,7 @@ function buildReadNeedComprehensionSynthesisInferenceReceipt(
     agentIds,
     ptrrStepIds,
     failsafeSequenceIds,
-    thricifiedGenerationIds,
+    thinkingsGenerationIds,
     promptTemplateIds,
     interpolationContextKeys,
     outputSchemaIds,
@@ -696,7 +696,7 @@ export function synthesizeReadNeedForPipelineInput(input: ReadNeedSourceInput): 
 //
 // There is no profile and no deterministic fallback: when real inference is
 // enabled (the master /deposit switch), the Need comprehension ALWAYS performs
-// real generation through one ThricifiedGeneration (reason -> judge ->
+// real generation through one ThinkingsGeneration (reason -> judge ->
 // structured output). Determinism for tests comes from mocking the LLM provider
 // at the boundary (execution LLM registry), never from a branch in here.
 // ---------------------------------------------------------------------------
@@ -829,11 +829,11 @@ async function runReadNeedComprehensionInference<T>(params: {
     agentExecution?.store?.('phase', 'current', phase);
     agentExecution?.store?.('agent', 'name', agentName);
     agentExecution?.store?.('step', 'name', step);
-    agentExecution?.store?.('bounded-inference', 'mode', 'thricified-generation');
+    agentExecution?.store?.('bounded-inference', 'mode', 'thinkings-generation');
     agentExecution?.store?.('bounded-inference', 'stack', {
       ptrrStep: step,
       failsafeSequence: ['prepare-concise-context', 'chunk-then-sum', 'stitch-until-complete'],
-      thricifiedGenerationStages: ['reason', 'judge', 'structured_output'],
+      thinkingsGenerationStages: ['reason', 'judge', 'structured_output'],
     });
     agentExecution?.store?.('llm', 'input', {
       messages,
@@ -843,7 +843,7 @@ async function runReadNeedComprehensionInference<T>(params: {
       agent: agentName,
       step,
       failsafeSequence: ['prepare-concise-context', 'chunk-then-sum', 'stitch-until-complete'],
-      generation: 'thricified-generation',
+      generation: 'thinkings-generation',
       generationSequence: ['reason', 'judge', 'structured_output'],
     });
   } catch {}
@@ -873,7 +873,7 @@ async function runReadNeedComprehensionInference<T>(params: {
         {
           role: 'user' as const,
           content: [
-            'ThricifiedGeneration stage 1/3: reason.',
+            'ThinkingsGeneration stage 1/3: reason.',
             'Return only JSON with keys: analysis, steps, conclusion, confidence.',
           ].join('\n'),
         },
@@ -888,7 +888,7 @@ async function runReadNeedComprehensionInference<T>(params: {
         {
           role: 'user' as const,
           content: [
-            'ThricifiedGeneration stage 2/3: judge the prior reasoning.',
+            'ThinkingsGeneration stage 2/3: judge the prior reasoning.',
             'Return only JSON with keys: quality, issues, suggestions, approved.',
             `Reasoning JSON: ${JSON.stringify(reasoning)}`,
           ].join('\n'),
@@ -904,7 +904,7 @@ async function runReadNeedComprehensionInference<T>(params: {
         {
           role: 'user' as const,
           content: [
-            'ThricifiedGeneration stage 3/3: structured output.',
+            'ThinkingsGeneration stage 3/3: structured output.',
             'Use the original task, the reasoning, and the judgment to return only the requested typed JSON.',
             `Reasoning JSON: ${JSON.stringify(reasoning)}`,
             `Judgment JSON: ${JSON.stringify(judgment)}`,
@@ -953,7 +953,7 @@ async function runReadNeedComprehensionInference<T>(params: {
           {
             role: 'user' as const,
             content: [
-              'ThricifiedGeneration stage 3/3 (correction): your previous JSON failed schema validation.',
+              'ThinkingsGeneration stage 3/3 (correction): your previous JSON failed schema validation.',
               `Validation error: ${validationError instanceof Error ? validationError.message : String(validationError)}`,
               'Return ONLY corrected JSON that strictly matches the required shape, including every required top-level key. No markdown, no prose.',
               `Reasoning JSON: ${JSON.stringify(reasoning)}`,

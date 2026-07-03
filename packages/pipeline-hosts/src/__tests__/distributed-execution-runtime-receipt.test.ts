@@ -8,7 +8,7 @@ import {
 const OPENAI_SECRET_PREFIX = `${['sk', 'proj'].join('-')}-`;
 
 describe('distributed execution runtime receipts', () => {
-  it('catalogs pipeline runs, PTRR agents, ThricifiedGenerations, tool calls, ledger operations, wallet operations, proof generation, object-storage writes, and repair jobs', () => {
+  it('catalogs pipeline runs, PTRR agents, ThinkingsGenerations, tool calls, ledger operations, wallet operations, proof generation, object-storage writes, and repair jobs', () => {
     const catalog = buildDistributedExecutionRuntimeReceiptCatalog();
 
     expect(catalog.kind).toBe('bitcode.distributed_execution_runtime_receipt_catalog');
@@ -56,11 +56,11 @@ describe('distributed execution runtime receipts', () => {
     expect(byKind.pipeline_run.proofRoot).toMatch(/^sha256:/);
     expect(byKind.ptrr_agent.agentId).toBe('ReadFitsFindingSynthesisDiscoveryAgent');
     expect(byKind.ptrr_agent.ptrrStep).toBe('plan');
-    expect(byKind.thricified_generation.agentId).toBe(
+    expect(byKind.thinkings_generation.agentId).toBe(
       'ReadFitsFindingSynthesisDiscoveryAgent',
     );
-    expect(byKind.thricified_generation.ptrrStep).toBe('plan');
-    expect(byKind.thricified_generation.thricifiedGenerationStep).toBe('reason');
+    expect(byKind.thinkings_generation.ptrrStep).toBe('plan');
+    expect(byKind.thinkings_generation.thinkingsGenerationStep).toBe('reason');
     expect(byKind.tool_call.toolId).toBe('AssetPackLexicalDepositorySearchTool');
     expect(byKind.ledger_operation.ledgerProjectionRoot).toMatch(/^sha256:/);
     expect(byKind.wallet_operation.walletOperationRoot).toMatch(/^sha256:/);
@@ -123,12 +123,12 @@ describe('distributed execution runtime receipts', () => {
     ).toThrow(/require completedAt/);
   });
 
-  it('fails closed when PTRR and ThricifiedGeneration receipts omit formal step data', () => {
+  it('fails closed when PTRR and ThinkingsGeneration receipts omit formal step data', () => {
     const ptrrAgent = buildDistributedExecutionRuntimeReceiptFixtures().find(
       (receipt) => receipt.workKind === 'ptrr_agent',
     );
     const generation = buildDistributedExecutionRuntimeReceiptFixtures().find(
-      (receipt) => receipt.workKind === 'thricified_generation',
+      (receipt) => receipt.workKind === 'thinkings_generation',
     );
 
     expect(ptrrAgent).toBeTruthy();
@@ -142,9 +142,9 @@ describe('distributed execution runtime receipts', () => {
     expect(() =>
       buildDistributedExecutionRuntimeReceipt({
         ...generation!,
-        thricifiedGenerationStep: undefined,
+        thinkingsGenerationStep: undefined,
       }),
-    ).toThrow(/ThricifiedGeneration receipts require/);
+    ).toThrow(/ThinkingsGeneration receipts require/);
   });
 
   it('fails closed when tool, ledger, wallet, proof, storage, and repair receipts omit their owned roots', () => {

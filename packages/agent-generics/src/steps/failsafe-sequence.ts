@@ -14,7 +14,7 @@ import {
   factoryChunkThenSum,
   factoryStitchUntilComplete
 } from '../substeps/factories';
-import { createThricifiedGeneration } from './thricified-generation';
+import { createThinkingsGeneration } from './thinkings-generation';
 
 export type FailsafeGenerationSequence<TIn = any, TOut = any> = Executor<TIn, TOut>;
 
@@ -33,11 +33,11 @@ export function createFailsafeGenerationSequence<TIn, TOut>(
   options: FailsafeGenerationOptions<TOut>
 ): FailsafeGenerationSequence<TIn, TOut> {
   // Single neutral typed generation (Reason→Judge→StructuredOutput)
-  const thricified = createThricifiedGeneration<TIn, TOut>(options.outputSchema);
-  const children: Executor<any, any>[] = [thricified as Executor<any, any>];
+  const thinkings = createThinkingsGeneration<TIn, TOut>(options.outputSchema);
+  const children: Executor<any, any>[] = [thinkings as Executor<any, any>];
 
   // Optional debug filtering via env or passed arrays
-  // Thricified generation handles internal filtering of reason/judge/structured
+  // Thinkings generation handles internal filtering of reason/judge/structured
   // via BITCODE_DEBUG_ONLY_GENERATIONS. Always include it here.
   const gens = children;
 
@@ -69,11 +69,11 @@ export function createFailsafeGenerationSequence<TIn, TOut>(
 }
 
 // Alias with a name that fully conveys the sequence purpose
-export function createContextfulFailsafedThricifiedGeneration<TIn, TOut>(
+export function createContextfulFailsafedThinkingsGeneration<TIn, TOut>(
   options: FailsafeGenerationOptions<TOut>
 ): FailsafeGenerationSequence<TIn, TOut> {
   return createFailsafeGenerationSequence<TIn, TOut>(options);
 }
 
 // Short alias emphasizing agentic nature
-export const createFailsafedGeneration = createContextfulFailsafedThricifiedGeneration;
+export const createFailsafedGeneration = createContextfulFailsafedThinkingsGeneration;

@@ -63,5 +63,5 @@ export declare class LLMRegistry {
 export declare function factoryLLMRegistry(): LLMRegistry;
 export type { Generation, GenerationPrompt } from './generation';
 export { createGeneration } from './generation';
-export type { ThricifiedGeneration } from './thricified-generation';
-export { createThricifiedGeneration } from './thricified-generation';
+export type { ThinkingsGeneration } from './thinkings-generation';
+export { createThinkingsGeneration } from './thinkings-generation';

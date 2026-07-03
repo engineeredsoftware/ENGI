@@ -26,9 +26,9 @@ export { factoryAgent, factoryAgentWithPTRR, factoryAgentWithSingleStep, factory
 export { factoryAgentWithGenerations, factoryAgentWithPTRRGenerations } from './agents/factories';
 export type { BitcodePTRRFactoryConfig, BitcodePTRRPromptCarrier, BitcodePTRRPromptValue, BitcodePTRRStepName, BitcodePTRRStepPromptCarrier, BitcodePTRRStepPromptRegistry } from './agents/factories';
 export { factoryPlanStep, factoryTryStep, factoryRefineStep, factoryRetryStep, factoryStep } from './steps/factories';
-export { factoryPlanGeneration, factoryTryGeneration, factoryRefineGeneration, factoryRetryGeneration, factoryGeneration, createFailsafedGenerationSequence, createFailsafedThricifiedGeneration, createFailsafedGeneration } from './generations/factories';
-export { createThricifiedGeneration } from './steps/thricified-generation';
-export { createFailsafeGenerationSequence, createContextfulFailsafedThricifiedGeneration } from './steps/failsafe-sequence';
+export { factoryPlanGeneration, factoryTryGeneration, factoryRefineGeneration, factoryRetryGeneration, factoryGeneration, createFailsafedGenerationSequence, createFailsafedThinkingsGeneration, createFailsafedGeneration } from './generations/factories';
+export { createThinkingsGeneration } from './steps/thinkings-generation';
+export { createFailsafeGenerationSequence, createContextfulFailsafedThinkingsGeneration } from './steps/failsafe-sequence';
 export { factoryPrepareConciseContext, factoryChunkThenSum, factoryStitchUntilComplete } from './substeps/factories';
 export { factoryReason, factoryJudge, factoryStructuredOutput, factoryToolsExecution, factoryValidation } from './substeps/factories';
 export { factoryAgentFailsafeSubStepExecution, factoryAgentGenerationSubStepExecution, factoryAgentToolSubStepExecution } from './substeps/factories';

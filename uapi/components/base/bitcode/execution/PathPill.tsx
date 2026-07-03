@@ -32,7 +32,7 @@ const typeToClasses: Record<PillType, string> = {
 // Icon per pill — every pill TYPE renders a consistent icon. The icon is a
 // per-type default, refined by a substring match on the (normalized) label.
 // Labels drift across the pipeline — PTRR steps (Plan/Try/Refine/Retry),
-// Thricified generations (reason/judge/structured_output), failsafe stages, and
+// Thinkings generations (reason/judge/structured_output), failsafe stages, and
 // custom step names like `read-comprehension`/`synthesis` — so matching is by
 // substring and ALWAYS falls back to the type default, guaranteeing an icon.
 import {

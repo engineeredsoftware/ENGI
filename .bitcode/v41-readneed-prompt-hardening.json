@@ -6,7 +6,7 @@
   "generatedAt": "2026-05-26T00:00:00.000Z",
   "artifactPath": ".bitcode/v41-readneed-prompt-hardening.json",
   "sourceSafetyVerdict": "source-safe-readneed-prompt-hardening-metadata",
-  "artifactRoot": "v41-readneed-prompt-hardening:d115fd76048b335da852f799",
+  "artifactRoot": "v41-readneed-prompt-hardening:d7746fcf0bd45ddb7b1dd388",
   "passed": true,
   "failures": [],
   "metricIds": [
@@ -439,7 +439,7 @@
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
-          "sourceHash": "6876916725c05b93d4a2b424"
+          "sourceHash": "3d827283d8dc1234cc31d348"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/runtime-inference-policy.ts",
@@ -447,7 +447,7 @@
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
-          "sourceHash": "5b40e8d5db1cbe996541633d"
+          "sourceHash": "c5d08cd4a465c75a011685d7"
         }
       ],
       "sourceRootsPresent": true,
@@ -602,11 +602,11 @@
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
-          "sourceHash": "6876916725c05b93d4a2b424"
+          "sourceHash": "3d827283d8dc1234cc31d348"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-          "sourceHash": "b19eba649308640b1854dea6"
+          "sourceHash": "4a688c72b552579ba1373a74"
         }
       ],
       "sourceRootsPresent": true,
@@ -749,15 +749,15 @@
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
-          "sourceHash": "6876916725c05b93d4a2b424"
+          "sourceHash": "3d827283d8dc1234cc31d348"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-          "sourceHash": "347bd88040c9456420e03c0e"
+          "sourceHash": "c6556bcccf75a5465c0d25c5"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts",
-          "sourceHash": "33492faf5438a4a21ce2f4c0"
+          "sourceHash": "45afc59d2ec4f4810ca67b64"
         }
       ],
       "sourceRootsPresent": true,
@@ -903,11 +903,11 @@
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
-          "sourceHash": "6876916725c05b93d4a2b424"
+          "sourceHash": "3d827283d8dc1234cc31d348"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-          "sourceHash": "347bd88040c9456420e03c0e"
+          "sourceHash": "c6556bcccf75a5465c0d25c5"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/runtime-inference-policy.ts",

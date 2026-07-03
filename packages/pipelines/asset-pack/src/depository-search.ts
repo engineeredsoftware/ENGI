@@ -314,7 +314,7 @@ export interface ReadFitsFindingSynthesisSearchReceipt {
   agentIds: string[];
   ptrrStepIds: string[];
   failsafeSequenceIds: string[];
-  thricifiedGenerationIds: string[];
+  thinkingsGenerationIds: string[];
   toolIds: string[];
   searchChannelIds: DepositorySearchChannelId[];
   providerIds: string[];
@@ -1215,14 +1215,14 @@ function buildReadFitsFindingSynthesisSearchReceipt(input: {
     phase.agents.map((agent) => agent.agentId)
   );
   const ptrrStepIds = trace.map((entry) => entry.ptrrStepId);
-  const thricifiedGenerationIds = trace.flatMap((entry) => entry.thricifiedGenerationIds);
+  const thinkingsGenerationIds = trace.flatMap((entry) => entry.thinkingsGenerationIds);
   const toolIds = [...new Set(trace.flatMap((entry) => entry.toolIds))];
   const receiptRoot = `sha256:${sha256(stableStringify({
     pipelineName: READ_FITS_FINDING_SYNTHESIS,
     phaseIds,
     agentIds,
     ptrrStepIds,
-    thricifiedGenerationIds,
+    thinkingsGenerationIds,
     toolIds,
     searchChannelIds: input.queryPlan.channelIds,
     providerIds: input.queryPlan.providerIds,
@@ -1249,8 +1249,8 @@ function buildReadFitsFindingSynthesisSearchReceipt(input: {
     phaseIds,
     agentIds,
     ptrrStepIds,
-    failsafeSequenceIds: [...thricifiedGenerationIds],
-    thricifiedGenerationIds,
+    failsafeSequenceIds: [...thinkingsGenerationIds],
+    thinkingsGenerationIds,
     toolIds,
     searchChannelIds: [...input.queryPlan.channelIds],
     providerIds: [...input.queryPlan.providerIds],

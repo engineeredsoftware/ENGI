@@ -382,10 +382,14 @@ function buildHarnessExecutionState(event: TerminalReadFitsFindingSynthesisHarne
     ptrrStepId: readingTelemetry?.ptrrStepId || telemetryEvent?.ptrrStepId,
     ptrrStepName: readingTelemetry?.ptrrStepName || telemetryEvent?.ptrrStepName,
     failsafe:
+      readingTelemetry?.thinkingsFailsafe ||
+      // Historical persisted events carry the pre-rename field name.
       readingTelemetry?.thricifiedFailsafe ||
       telemetryExecutionState?.failsafe ||
       telemetryEvent?.failsafe,
     generation:
+      readingTelemetry?.thinkingsGenerationId ||
+      // Historical persisted events carry the pre-rename field name.
       readingTelemetry?.thricifiedGenerationId ||
       telemetryExecutionState?.generation ||
       telemetryEvent?.generation ||
@@ -549,8 +553,12 @@ function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string 
   const pipelineName = readingTelemetry?.pipelineName || telemetryEvent.pipelineName;
   const phaseId = readingTelemetry?.phaseId || telemetryEvent.phaseId;
   const ptrrStepId = readingTelemetry?.ptrrStepId || telemetryEvent.ptrrStepId;
-  const thricifiedGenerationId =
-    readingTelemetry?.thricifiedGenerationId || telemetryEvent.thricifiedGenerationId;
+  const thinkingsGenerationId =
+    readingTelemetry?.thinkingsGenerationId ||
+    telemetryEvent.thinkingsGenerationId ||
+    // Historical persisted events carry the pre-rename field name.
+    readingTelemetry?.thricifiedGenerationId ||
+    telemetryEvent.thricifiedGenerationId;
   const promptTemplateId = readingTelemetry?.promptTemplateId || telemetryEvent.promptTemplateId;
   const outputSchema = readingTelemetry?.outputSchema || telemetryEvent.outputSchema;
   const returnType = readingTelemetry?.returnType || telemetryEvent.returnType;
@@ -568,8 +576,8 @@ function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string 
     pipelineName ? `pipeline ${String(pipelineName)}` : null,
     phaseId ? `phase ${contractIdentifier(phaseId, 2)}` : null,
     ptrrStepId ? `PTRR ${contractIdentifier(ptrrStepId, 3)}` : null,
-    thricifiedGenerationId
-      ? `ThricifiedGeneration ${contractIdentifier(thricifiedGenerationId, 4)}`
+    thinkingsGenerationId
+      ? `ThinkingsGeneration ${contractIdentifier(thinkingsGenerationId, 4)}`
       : null,
     promptTemplateId ? `prompt ${contractIdentifier(promptTemplateId, 2)}` : null,
     outputSchema ? `schema ${String(outputSchema)}` : returnType ? `return ${String(returnType)}` : null,

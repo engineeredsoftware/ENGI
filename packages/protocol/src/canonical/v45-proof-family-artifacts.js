@@ -180,9 +180,9 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       ]),
       source('packages/pipelines/asset-pack/src/read-need.ts', [
         'runReadNeedComprehensionInference',
-        'ThricifiedGeneration stage 1/3: reason',
-        'ThricifiedGeneration stage 2/3: judge',
-        'ThricifiedGeneration stage 3/3: structured output',
+        'ThinkingsGeneration stage 1/3: reason',
+        'ThinkingsGeneration stage 2/3: judge',
+        'ThinkingsGeneration stage 3/3: structured output',
       ]),
       source('packages/pipelines/asset-pack/src/depository-search.ts', [
         'ReadFitsFindingSynthesisSearchReceipt',

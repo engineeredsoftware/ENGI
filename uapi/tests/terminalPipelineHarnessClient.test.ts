@@ -348,7 +348,7 @@ describe('terminal pipeline harness client', () => {
           stage: 'asset-pack-synthesis',
           namespace: 'llm',
           key: 'parsedOutput',
-          executionPath: ['asset_pack', 'synthesis', 'thricified-generation'],
+          executionPath: ['asset_pack', 'synthesis', 'thinkings-generation'],
           runId: '2bdcd936-a686-4a10-92e2-9c64cbef4f0e',
           dataKeys: ['parsed'],
           readingPipelineTelemetry: {
@@ -358,8 +358,8 @@ describe('terminal pipeline harness client', () => {
             agentId: 'ReadFitsFindingSynthesis.implementation.asset-pack',
             ptrrStepId: 'ReadFitsFindingSynthesis.implementation.asset-pack.try',
             ptrrStepName: 'try',
-            thricifiedGenerationId:
-              'ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.try.prepare-concise-context',
+            thinkingsGenerationId:
+              'ReadFitsFindingSynthesis.thinkings-generation.implementation.asset-pack.try.prepare-concise-context',
             promptTemplateId: 'ReadFitsFindingSynthesis.prompt.asset-pack-synthesis',
             outputSchema: 'AssetPackSynthesisOutput',
             returnType: 'AssetPackSynthesisOutput',
@@ -381,12 +381,12 @@ describe('terminal pipeline harness client', () => {
     expect(summary).toContain('Telemetry line 8');
     expect(summary).toContain('asset-pack-synthesis store');
     expect(summary).toContain('llm.parsedOutput');
-    expect(summary).toContain('path asset_pack > synthesis > thricified-generation');
+    expect(summary).toContain('path asset_pack > synthesis > thinkings-generation');
     expect(summary).toContain('run 2bdcd936-a68...');
     expect(summary).toContain('pipeline ReadFitsFindingSynthesis');
     expect(summary).toContain('phase ReadFitsFindingSynthesis.implementation');
     expect(summary).toContain('PTRR implementation.asset-pack.try');
-    expect(summary).toContain('ThricifiedGeneration implementation.asset-pack.try.prepare-concise-context');
+    expect(summary).toContain('ThinkingsGeneration implementation.asset-pack.try.prepare-concise-context');
     expect(summary).toContain('prompt prompt.asset-pack-synthesis');
     expect(summary).toContain('schema AssetPackSynthesisOutput');
     expect(summary).toContain('inspectable resultState, assetPack');
@@ -397,6 +397,28 @@ describe('terminal pipeline harness client', () => {
     expect(summary).toContain('raw response present');
     expect(summary).toContain('parsed output present');
     expect(summary).toContain('parsed typed output present');
+  });
+
+  it('accepts historical persisted events that carry the pre-rename thricified field names', () => {
+    const summary = summarizeTerminalReadFitsFindingSynthesisHarnessEvent({
+      event: 'harness-event',
+      data: {
+        type: 'telemetry-artifact-event',
+        lineNumber: 9,
+        telemetryEvent: {
+          type: 'pipeline-stream-event',
+          streamEventType: 'store',
+          stage: 'asset-pack-synthesis',
+          readingPipelineTelemetry: {
+            pipelineName: 'ReadFitsFindingSynthesis',
+            thricifiedGenerationId:
+              'ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.try.prepare-concise-context',
+          },
+        },
+      },
+    });
+
+    expect(summary).toContain('ThinkingsGeneration implementation.asset-pack.try.prepare-concise-context');
   });
 
   it('summarizes live tool telemetry with tool name, result state, and input/output posture', () => {
@@ -459,8 +481,8 @@ describe('terminal pipeline harness client', () => {
                 agentId: 'ReadFitsFindingSynthesis.implementation.asset-pack',
                 ptrrStepId: 'ReadFitsFindingSynthesis.implementation.asset-pack.try',
                 ptrrStepName: 'try',
-                thricifiedGenerationId:
-                  'ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.try.prepare-concise-context',
+                thinkingsGenerationId:
+                  'ReadFitsFindingSynthesis.thinkings-generation.implementation.asset-pack.try.prepare-concise-context',
                 promptTemplateId: 'ReadFitsFindingSynthesis.prompt.asset-pack-synthesis',
                 outputSchema: 'AssetPackSynthesisOutput',
                 returnType: 'AssetPackSynthesisOutput',

@@ -28,7 +28,7 @@ import { isAssetPackRealInferenceEnabled } from './runtime-inference-policy';
  *
  * The measurement itself runs on the real Bitcode execution/agent/prompt
  * primitives (asset-packs-synthesis-pipeline.ts): PipelineExecution → phase →
- * factoryAgent → createFailsafeGenerationSequence (Failsafe ∘ Thricified). This
+ * factoryAgent → createFailsafeGenerationSequence (Failsafe ∘ Thinkings). This
  * module owns the lens contract, the candidate schema, and the fail-closed
  * validation; the pipeline module owns the formal inference.
  *
@@ -245,7 +245,7 @@ export interface AssetPacksSynthesisRequest {
    * Optional execution-generics Execution node. When provided (the deposit
    * route passes a streaming Execution), the formal AssetPacksSynthesis
    * pipeline runs as REAL nested child nodes under it (Pipeline → Phase →
-   * Agent → Step → Failsafe → Thricified) and source-safe telemetry streams
+   * Agent → Step → Failsafe → Thinkings) and source-safe telemetry streams
    * live. Prompt and response CONTENT is withheld universally by the streaming
    * layer (sourceSafeStreamEvent), keeping rawPromptVisible /
    * rawProviderResponseVisible false by law. When absent, a detached root

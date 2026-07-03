@@ -85,7 +85,7 @@ const SOURCE_ROOTS = Object.freeze({
   agentFactory: 'packages/agent-generics/src/agents/factories.ts',
   stepFactories: 'packages/agent-generics/src/steps/factories.ts',
   failsafeSequence: 'packages/agent-generics/src/steps/failsafe-sequence.ts',
-  thricifiedGeneration: 'packages/agent-generics/src/steps/thricified-generation.ts',
+  thricifiedGeneration: 'packages/agent-generics/src/steps/thinkings-generation.ts',
   substepFactories: 'packages/agent-generics/src/substeps/factories.ts',
   instrumentation: 'packages/agent-generics/src/diagnostics/instrumentation.ts',
   toolExecution: 'packages/tools-generics/src/execution/ToolExecution.ts',

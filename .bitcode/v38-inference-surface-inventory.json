@@ -681,7 +681,7 @@
         "packages/agent-generics/src/agents/factories.ts",
         "packages/agent-generics/src/steps/factories.ts",
         "packages/agent-generics/src/steps/failsafe-sequence.ts",
-        "packages/agent-generics/src/steps/thricified-generation.ts",
+        "packages/agent-generics/src/steps/thinkings-generation.ts",
         "packages/agent-generics/src/execution/AgentToolsRegistry.ts",
         "packages/tools-generics/src/execution/ToolExecution.ts"
       ],
@@ -813,7 +813,7 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
       "exists": true,
       "legacy": false
     },

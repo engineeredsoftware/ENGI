@@ -106,13 +106,13 @@ export {
   factoryRetryGeneration,
   factoryGeneration,
   createFailsafedGenerationSequence,
-  createFailsafedThricifiedGeneration,
+  createFailsafedThinkingsGeneration,
   createFailsafedGeneration
 } from './generations/factories';
-export { createThricifiedGeneration } from './steps/thricified-generation';
+export { createThinkingsGeneration } from './steps/thinkings-generation';
 export {
   createFailsafeGenerationSequence,
-  createContextfulFailsafedThricifiedGeneration
+  createContextfulFailsafedThinkingsGeneration
 } from './steps/failsafe-sequence';
 
 // ==================== SUBSTEP FACTORIES ====================

@@ -2,7 +2,7 @@
 import { z } from 'zod';
 import { Execution } from '@bitcode/execution-generics';
 import { StepExecution } from '../execution';
-import { createThricifiedGeneration } from '../steps/thricified-generation';
+import { createThinkingsGeneration } from '../steps/thinkings-generation';
 
 const outputSchema = z.object({ title: z.string(), score: z.number() });
 
@@ -55,7 +55,7 @@ function makeRootAndStep(llm: (input: any) => Promise<any>) {
   root.llms = { getDefaultLLM: () => llm, getDefaultConfig: () => ({ maxTokens: 4000 }) };
   root.tools = { getTool: () => undefined };
   root.agents = {};
-  root.store('agent', 'name', 'thricified-test-agent');
+  root.store('agent', 'name', 'thinkings-test-agent');
   root.store('step', 'name', 'plan');
   root.store('phase', 'current', 'discovery');
   root.store('ptrr', 'failsafe', 'prepare_concise_context');
@@ -82,13 +82,13 @@ afterEach(() => {
   delete process.env.BITCODE_DEBUG_ONLY_GENERATIONS;
 });
 
-describe('createThricifiedGeneration sequencing and payload threading', () => {
+describe('createThinkingsGeneration sequencing and payload threading', () => {
   it('runs exactly three LLM calls in Reason -> Judge -> StructuredOutput order', async () => {
     const userPrompts: string[] = [];
     const { step } = makeRootAndStep(makeScriptedLLM(userPrompts));
-    const thricified = createThricifiedGeneration(outputSchema);
+    const thinkings = createThinkingsGeneration(outputSchema);
 
-    await thricified({ read: 'Fit this repository.' }, step);
+    await thinkings({ read: 'Fit this repository.' }, step);
 
     expect(userPrompts).toHaveLength(3);
     expect(userPrompts[0]).toContain('Apply logical reasoning to solve:');
@@ -99,9 +99,9 @@ describe('createThricifiedGeneration sequencing and payload threading', () => {
   it('threads Reason output into Judge, and Reason + Judge outputs into StructuredOutput', async () => {
     const userPrompts: string[] = [];
     const { step } = makeRootAndStep(makeScriptedLLM(userPrompts));
-    const thricified = createThricifiedGeneration(outputSchema);
+    const thinkings = createThinkingsGeneration(outputSchema);
 
-    await thricified({ read: 'Fit this repository.' }, step);
+    await thinkings({ read: 'Fit this repository.' }, step);
 
     // Judge evaluates the original input PLUS the reasoning Reason produced.
     expect(userPrompts[1]).toContain('"read": "Fit this repository."');
@@ -117,9 +117,9 @@ describe('createThricifiedGeneration sequencing and payload threading', () => {
 
   it('returns { ...input, reasoning, judgment, output } with output parsed against the schema', async () => {
     const { step } = makeRootAndStep(makeScriptedLLM([]));
-    const thricified = createThricifiedGeneration(outputSchema);
+    const thinkings = createThinkingsGeneration(outputSchema);
 
-    const result = await thricified({ read: 'Fit this repository.' }, step);
+    const result = await thinkings({ read: 'Fit this repository.' }, step);
 
     expect(result.read).toBe('Fit this repository.');
     expect(result.reasoning).toEqual(reasoningPayload);
@@ -132,9 +132,9 @@ describe('createThricifiedGeneration sequencing and payload threading', () => {
     process.env.BITCODE_DEBUG_ONLY_GENERATIONS = 'judge';
     const userPrompts: string[] = [];
     const { step } = makeRootAndStep(makeScriptedLLM(userPrompts));
-    const thricified = createThricifiedGeneration(outputSchema);
+    const thinkings = createThinkingsGeneration(outputSchema);
 
-    const result = await thricified({ read: 'anything' }, step);
+    const result = await thinkings({ read: 'anything' }, step);
 
     expect(userPrompts).toHaveLength(1);
     expect(userPrompts[0]).toContain('Evaluate the quality and correctness of:');
@@ -147,21 +147,21 @@ describe('createThricifiedGeneration sequencing and payload threading', () => {
     process.env.BITCODE_DEBUG_ONLY_GENERATIONS = 'bogus-generation';
     const userPrompts: string[] = [];
     const { step } = makeRootAndStep(makeScriptedLLM(userPrompts));
-    const thricified = createThricifiedGeneration(outputSchema);
+    const thinkings = createThinkingsGeneration(outputSchema);
 
-    const result = await thricified({ read: 'anything' }, step);
+    const result = await thinkings({ read: 'anything' }, step);
 
     expect(userPrompts).toHaveLength(3);
     expect(result.output).toEqual(structuredPayload);
   });
 });
 
-describe('createThricifiedGeneration execution-state stores', () => {
+describe('createThinkingsGeneration execution-state stores', () => {
   it('each generation node stores ptrr:generation, timing:duration and the llm:* key set', async () => {
     const { root, step } = makeRootAndStep(makeScriptedLLM([]));
-    const thricified = createThricifiedGeneration(outputSchema);
+    const thinkings = createThinkingsGeneration(outputSchema);
 
-    await thricified({ read: 'Fit this repository.' }, step);
+    await thinkings({ read: 'Fit this repository.' }, step);
 
     const nodes = generationNodes(root);
     expect([...nodes.keys()].sort()).toEqual(['judge', 'reason', 'structured_output']);
@@ -183,15 +183,15 @@ describe('createThricifiedGeneration execution-state stores', () => {
 
   it('llm:output carries only content plus the findUp ancestry meta (source-safe shape)', async () => {
     const { root, step } = makeRootAndStep(makeScriptedLLM([]));
-    const thricified = createThricifiedGeneration(outputSchema);
+    const thinkings = createThinkingsGeneration(outputSchema);
 
-    await thricified({ read: 'Fit this repository.' }, step);
+    await thinkings({ read: 'Fit this repository.' }, step);
 
     const reasonNode = generationNodes(root).get('reason');
     expect(reasonNode.get('llm', 'output')).toEqual({
       content: JSON.stringify(reasoningPayload),
       phase: 'discovery',
-      agent: 'thricified-test-agent',
+      agent: 'thinkings-test-agent',
       step: 'plan',
       failsafe: 'prepare_concise_context',
       generation: 'reason',
@@ -202,9 +202,9 @@ describe('createThricifiedGeneration execution-state stores', () => {
 
   it('llm:input and llm:parsedOutput carry the same ancestry meta and the parsed object', async () => {
     const { root, step } = makeRootAndStep(makeScriptedLLM([]));
-    const thricified = createThricifiedGeneration(outputSchema);
+    const thinkings = createThinkingsGeneration(outputSchema);
 
-    const result = await thricified({ read: 'Fit this repository.' }, step);
+    const result = await thinkings({ read: 'Fit this repository.' }, step);
 
     const structuredNode = generationNodes(root).get('structured_output');
     const input = structuredNode.get('llm', 'input');
@@ -212,7 +212,7 @@ describe('createThricifiedGeneration execution-state stores', () => {
     expect(input.generation).toBe('structured_output');
     expect(input.failsafe).toBe('prepare_concise_context');
     expect(input.phase).toBe('discovery');
-    expect(input.agent).toBe('thricified-test-agent');
+    expect(input.agent).toBe('thinkings-test-agent');
     expect(input.step).toBe('plan');
 
     const parsedOutput = structuredNode.get('llm', 'parsedOutput');
@@ -228,9 +228,9 @@ describe('createThricifiedGeneration execution-state stores', () => {
 
   it('stores per-generation llm:usage that sums across the three calls', async () => {
     const { root, step } = makeRootAndStep(makeScriptedLLM([]));
-    const thricified = createThricifiedGeneration(outputSchema);
+    const thinkings = createThinkingsGeneration(outputSchema);
 
-    await thricified({ read: 'Fit this repository.' }, step);
+    await thinkings({ read: 'Fit this repository.' }, step);
 
     const nodes = generationNodes(root);
     let total = 0;
@@ -243,14 +243,14 @@ describe('createThricifiedGeneration execution-state stores', () => {
   });
 });
 
-describe('createThricifiedGeneration error propagation', () => {
+describe('createThinkingsGeneration error propagation', () => {
   it('rejects with the original error when the Judge LLM call rejects, keeping Reason stores intact', async () => {
     const boom = new Error('provider exploded');
     const userPrompts: string[] = [];
     const { root, step } = makeRootAndStep(makeScriptedLLM(userPrompts, { failOn: 'judge', error: boom }));
-    const thricified = createThricifiedGeneration(outputSchema);
+    const thinkings = createThinkingsGeneration(outputSchema);
 
-    await expect(thricified({ read: 'anything' }, step)).rejects.toThrow('provider exploded');
+    await expect(thinkings({ read: 'anything' }, step)).rejects.toThrow('provider exploded');
 
     // The structured_output generation never ran.
     expect(userPrompts).toHaveLength(2);

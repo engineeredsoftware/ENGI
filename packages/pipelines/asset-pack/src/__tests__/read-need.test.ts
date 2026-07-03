@@ -122,7 +122,7 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
     expect(need.inferenceReceipt?.agentIds).toHaveLength(4);
     expect(need.inferenceReceipt?.ptrrStepIds).toHaveLength(16);
     expect(need.inferenceReceipt?.failsafeSequenceIds).toHaveLength(48);
-    expect(need.inferenceReceipt?.thricifiedGenerationIds).toHaveLength(48);
+    expect(need.inferenceReceipt?.thinkingsGenerationIds).toHaveLength(48);
     expect(need.inferenceReceipt?.promptTemplateIds).toEqual(
       expect.arrayContaining([
         'ReadNeedComprehensionSynthesis.prompt.comprehend.need-synthesizer.agent',
@@ -181,7 +181,7 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
     });
   });
 
-  it('runs real-inference ReadNeedComprehension through one ThricifiedGeneration contract when enabled', async () => {
+  it('runs real-inference ReadNeedComprehension through one ThinkingsGeneration contract when enabled', async () => {
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
     const llm = jest
       .fn()
@@ -213,7 +213,7 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
           ],
           failureModes: ['protected_source_disclosed_before_settlement'],
           targetArtifactKinds: ['asset-pack-evidence', 'proof-root'],
-          proofExpectations: ['ThricifiedGeneration telemetry contains reasoning, judgment, and typed output.'],
+          proofExpectations: ['ThinkingsGeneration telemetry contains reasoning, judgment, and typed output.'],
         }),
       });
     const execution = fakeInferenceExecution(llm);
@@ -226,7 +226,7 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
     expect(need.failureModes).toContain('protected_source_disclosed_before_settlement');
     expect(need.targetArtifactKinds).toEqual(['asset-pack-evidence', 'proof-root']);
     expect(need.proofExpectations).toContain(
-      'ThricifiedGeneration telemetry contains reasoning, judgment, and typed output.'
+      'ThinkingsGeneration telemetry contains reasoning, judgment, and typed output.'
     );
     expect(need.reviewState).toBe('needs_acceptance');
     expect(need.inferenceReceipt).toMatchObject({
@@ -235,13 +235,13 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
       needId: need.needId,
       reviewState: 'needs_acceptance',
     });
-    expect(execution.store).toHaveBeenCalledWith('bounded-inference', 'mode', 'thricified-generation');
+    expect(execution.store).toHaveBeenCalledWith('bounded-inference', 'mode', 'thinkings-generation');
     expect(execution.store).toHaveBeenCalledWith(
       'bounded-inference',
       'stack',
       expect.objectContaining({
         failsafeSequence: ['prepare-concise-context', 'chunk-then-sum', 'stitch-until-complete'],
-        thricifiedGenerationStages: ['reason', 'judge', 'structured_output'],
+        thinkingsGenerationStages: ['reason', 'judge', 'structured_output'],
       })
     );
     expect(execution.store).toHaveBeenCalledWith('bounded-inference', 'status', 'success');

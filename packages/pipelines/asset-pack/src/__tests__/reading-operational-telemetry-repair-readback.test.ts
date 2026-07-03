@@ -43,7 +43,7 @@ const readInput = {
   targetArtifactKinds: ['asset-pack', 'proof-root', 'settlement-proof', 'pull-request'],
   closureCriteria: [
     'ReadNeedComprehensionSynthesis telemetry is source-safe.',
-    'ReadFitsFindingSynthesis telemetry includes phase, agent, PTRR step, Failsafe, ThricifiedGeneration, and tool evidence.',
+    'ReadFitsFindingSynthesis telemetry includes phase, agent, PTRR step, Failsafe, ThinkingsGeneration, and tool evidence.',
     'Ledger, wallet, storage, delivery, UI, and repair events are replayable from proof roots.',
   ],
 };
@@ -64,7 +64,7 @@ function depositoryAsset(assetId: string): DepositoryAsset {
         unitId: `${assetId}:unit-1`,
         unitKind: 'asset-pack',
         text:
-          'Reading telemetry proof root Failsafe ThricifiedGeneration tool storage ledger wallet delivery repair operator readback.',
+          'Reading telemetry proof root Failsafe ThinkingsGeneration tool storage ledger wallet delivery repair operator readback.',
         unitHash: `sha256:${assetId}-unit`,
       },
     ],
@@ -162,7 +162,7 @@ describe('Reading operational telemetry repair readback', () => {
       'ptrr-step',
       'repair',
       'storage',
-      'thricified-generation',
+      'thinkings-generation',
       'tool',
       'ui',
       'wallet',

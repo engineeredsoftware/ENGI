@@ -6,7 +6,7 @@
   "sourceSafetyVerdict": "source-safe-conversation-tool-interface-prompt-rewrite-metadata",
   "artifactPath": ".bitcode/v41-conversation-tool-interface-prompt-rewrite.json",
   "generatedAt": "2026-05-26T00:00:00.000Z",
-  "artifactRoot": "v41-conversation-tool-interface-prompt-rewrite:7b251f6b61ceb2d88986fd3c",
+  "artifactRoot": "v41-conversation-tool-interface-prompt-rewrite:d064df3adfcedd5a35a2b777",
   "passed": true,
   "failures": [],
   "metricIds": [
@@ -150,7 +150,7 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts": "e9a890f6fc8bb33c5205c70f",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts": "cb04b9ba4b01cd81cec89376",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_usage_guidance.ts": "f8cfc824a9d3f39de3df5fb3",
-        "packages/conversations-generics/src/agent/ConversationAgent.ts": "812890951c93fa4b4efbb7dc"
+        "packages/conversations-generics/src/agent/ConversationAgent.ts": "c1fb960ed573bdf1f5adfa33"
       }
     },
     {
@@ -342,8 +342,8 @@
       "sourceHashes": {
         "packages/api/src/conversations/stream-events.ts": "049a26286565e121f20c6874",
         "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "bb7e1773303e04b9027ae2c7",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "7ba7c3135c5e04d1eb1a7771",
+        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99",
+        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
         "packages/api/src/conversations/__tests__/stream-events.test.ts": "b8cf51cd980b71ef83c4f7ab",
         "packages/api/src/conversations/__tests__/telemetry.test.ts": "b39d24fe1ad77a65eca15b1f",
         "uapi/tests/conversationStreamPipelineLog.test.tsx": "73e3ba9c6f058ffe4418b3e4"
@@ -527,7 +527,7 @@
       "sourceHashes": {
         "packages/tools-generics/src/execution/ToolPromptRegistry.ts": "2458e94a4816b24aa3fe7275",
         "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts": "0a1f0025946b1a169c2e7f09",
-        "packages/protocol/src/canonical/v41-registry-interpolation-contracts.js": "b2853d91a04f7dd4b40d77fc"
+        "packages/protocol/src/canonical/v41-registry-interpolation-contracts.js": "768a5f3eb42a527d303c57f6"
       }
     },
     {
@@ -625,7 +625,7 @@
         "packages/btd/__tests__/mcp-tool-contract.test.ts": "27ef7ecf25bdbcb8420466d8",
         "packages/btd/src/api-boundaries.ts": "f5fc231ed68d390c3102f0c7",
         "packages/api/src/routes/__tests__/btd-crypto.test.ts": "c0c94cbd3006b1eb181d3dde",
-        "uapi/app/docs/bitcode-docs-content.ts": "ec63bbcf3f10020357679fab"
+        "uapi/app/docs/bitcode-docs-content.ts": "5c7e56156db21c2d368277e6"
       }
     },
     {
@@ -821,7 +821,7 @@
         "uapi/app/api/conversations/_shared.ts": "66789580a62df36a6ff2ff12",
         "packages/api/src/routes/conversations.ts": "5e58470bbe10ab4eb0e1f54a",
         "uapi/app/terminal/terminal-commercial-launch-readiness.ts": "57a4003516368404a5f3756d",
-        "uapi/app/docs/bitcode-docs-content.ts": "ec63bbcf3f10020357679fab"
+        "uapi/app/docs/bitcode-docs-content.ts": "5c7e56156db21c2d368277e6"
       }
     },
     {
@@ -921,20 +921,20 @@
       "passed": true,
       "hardeningScore": 1,
       "sourceHashes": {
-        "packages/protocol/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "969c9f2daf4ce2865902a978",
+        "packages/protocol/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "5d0746b8c2be1ef518496281",
         "packages/protocol/test/v41-conversation-tool-interface-prompt-rewrite.test.js": "0f36d8bf304ccc54f6eae328",
         "scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs": "16b23544d652ac6d7e1afa81",
         "scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs": "b304b421d52d19c8de34e163",
-        "BITCODE_SPEC_V41.md": "3f175df2d8a0e338c26b2e64",
-        "BITCODE_SPEC_V41_DELTA.md": "fc6702e82ebeccbbc4d8ef88",
-        "BITCODE_SPEC_V41_NOTES.md": "94abe5cb7e5ef4cdf3f74b74",
-        "BITCODE_SPEC_V41_PARITY_MATRIX.md": "19077212c19df64c25fce9fa",
-        "SPECIFICATIONS_ROADMAP.md": "a1daa5f38dbb21982cbc413a",
-        "README.md": "4db3fe0b356b6e33624183bf",
-        "packages/protocol/README.md": "7df84eed1d322a7666597fde",
-        "package.json": "6dca79ddc21de7395c58cbda",
-        ".github/workflows/bitcode-gate-quality.yml": "8e67691df2a7efeb8d50e68d",
-        ".github/workflows/bitcode-canon-quality.yml": "78f46bc6a2fb81c41d999b79"
+        "BITCODE_SPEC_V41.md": "9174742d79d0b0045bb0eebf",
+        "BITCODE_SPEC_V41_DELTA.md": "a368d8732b02b4f943017df9",
+        "BITCODE_SPEC_V41_NOTES.md": "38e4d70e19dff8c367acf279",
+        "BITCODE_SPEC_V41_PARITY_MATRIX.md": "5f49852cfb6323d19db8be1c",
+        "SPECIFICATIONS_ROADMAP.md": "2400ea79d304ff28b7fd8e7a",
+        "README.md": "14085be712ec8e13c811c62a",
+        "packages/protocol/README.md": "1a81b9507325d3a5da87f627",
+        "package.json": "4d9f041eb01a920860a26f75",
+        ".github/workflows/bitcode-gate-quality.yml": "379d7561d515468f9237bf02",
+        ".github/workflows/bitcode-canon-quality.yml": "ab37403273c35c918071e3cd"
       }
     }
   ],
@@ -1301,12 +1301,12 @@
     }
   ],
   "dependencyRoots": {
-    "v38ConversationToolPromptInferenceParityRoot": "v38-conversation-tool-prompt-inference-parity:563369d6be3809384f847a43",
-    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:296926f1c26d370f7e91a70d",
-    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:fb4b99ad86f0cf6f4a9c04c4",
-    "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:82e956682fa1353ed9df6cff",
-    "gate5ReadNeedPromptHardeningRoot": "v41-readneed-prompt-hardening:e93084e4403cc37d87fca2cf",
-    "gate6ReadFitsFindingPromptHardeningRoot": "v41-readfitsfinding-prompt-hardening:23a95503d097ffbbf4ef4739"
+    "v38ConversationToolPromptInferenceParityRoot": "v38-conversation-tool-prompt-inference-parity:7d674fb4a75188f34ae07e2c",
+    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
+    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:46320b06f8417ffc0b86c713",
+    "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:3aa915a7a731a50181d19292",
+    "gate5ReadNeedPromptHardeningRoot": "v41-readneed-prompt-hardening:d7746fcf0bd45ddb7b1dd388",
+    "gate6ReadFitsFindingPromptHardeningRoot": "v41-readfitsfinding-prompt-hardening:0584cc9e2385dfe150b0b96a"
   },
   "coverage": {
     "rowCount": 9,

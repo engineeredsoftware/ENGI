@@ -555,7 +555,7 @@ const agentDiagnosticsConfigSource = readFileSync(new URL('../../packages/agent-
 const agentDiagnosticsInstrumentationSource = readFileSync(new URL('../../packages/agent-generics/src/diagnostics/instrumentation.ts', import.meta.url), 'utf8');
 const agentExecutionSource = readFileSync(new URL('../../packages/agent-generics/src/execution/AgentExecution.ts', import.meta.url), 'utf8');
 const agentFactoriesSource = readFileSync(new URL('../../packages/agent-generics/src/agents/factories.ts', import.meta.url), 'utf8');
-const agentThricifiedGenerationSource = readFileSync(new URL('../../packages/agent-generics/src/steps/thricified-generation.ts', import.meta.url), 'utf8');
+const agentThinkingsGenerationSource = readFileSync(new URL('../../packages/agent-generics/src/steps/thinkings-generation.ts', import.meta.url), 'utf8');
 const agentFailsafeSequenceSource = readFileSync(new URL('../../packages/agent-generics/src/steps/failsafe-sequence.ts', import.meta.url), 'utf8');
 const agentSubstepsFactoriesSource = readFileSync(new URL('../../packages/agent-generics/src/substeps/factories.ts', import.meta.url), 'utf8');
 const agentNormalizeStepNameSource = readFileSync(new URL('../../packages/agent-generics/src/phaseHelpers/normalizeStepName.ts', import.meta.url), 'utf8');
@@ -2757,7 +2757,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.match(agentFactoriesSource, /BITCODE_DEBUG_ONLY_PHASE/);
   assert.match(agentFactoriesSource, /BITCODE_DEBUG_ONLY_AGENT/);
   assert.doesNotMatch(agentFactoriesSource, /BITCODE_DEBUG_STOP_AFTER_PLAN/);
-  assert.match(agentThricifiedGenerationSource, /BITCODE_DEBUG_ONLY_GENERATIONS/);
+  assert.match(agentThinkingsGenerationSource, /BITCODE_DEBUG_ONLY_GENERATIONS/);
   assert.match(agentFailsafeSequenceSource, /BITCODE_DEBUG_/);
   assert.match(agentSubstepsFactoriesSource, /BITCODE_LLM_ONE_SHOT/);
   assert.match(agentSubstepsFactoriesSource, /__BITCODE_DEBUG_STOP_AFTER_FIRST_REASON__/);
@@ -2800,7 +2800,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(agentFactoriesSource, /ENGI_DEBUG_ONLY_STEP/);
   assert.doesNotMatch(agentFactoriesSource, /ENGI_DEBUG_ONLY_PHASE/);
   assert.doesNotMatch(agentFactoriesSource, /ENGI_DEBUG_ONLY_AGENT/);
-  assert.doesNotMatch(agentThricifiedGenerationSource, /ENGI_DEBUG_ONLY_GENERATIONS/);
+  assert.doesNotMatch(agentThinkingsGenerationSource, /ENGI_DEBUG_ONLY_GENERATIONS/);
   assert.doesNotMatch(agentFailsafeSequenceSource, /ENGI_DEBUG_/);
   assert.doesNotMatch(agentSubstepsFactoriesSource, /ENGI_LLM_ONE_SHOT/);
   assert.doesNotMatch(agentSubstepsFactoriesSource, /__ENGI_DEBUG_STOP_AFTER_FIRST_REASON__/);

@@ -1,8 +1,8 @@
 import type { Generation, GenerationPrompt } from './generation';
 
-export type ThricifiedGeneration<TOut = any> = Generation<TOut>;
+export type ThinkingsGeneration<TOut = any> = Generation<TOut>;
 
-export function createThricifiedGeneration<TReason, TJudgment, TOut>(
+export function createThinkingsGeneration<TReason, TJudgment, TOut>(
   reason: Generation<TReason>,
   judge: Generation<TJudgment>,
   structured: Generation<TOut>,
@@ -10,7 +10,7 @@ export function createThricifiedGeneration<TReason, TJudgment, TOut>(
     composeJudgePrompt: (base: GenerationPrompt, reason: TReason) => GenerationPrompt;
     composeStructuredPrompt: (base: GenerationPrompt, reason: TReason, judgment: TJudgment) => GenerationPrompt;
   }
-): ThricifiedGeneration<TOut> {
+): ThinkingsGeneration<TOut> {
   return async (prompt: GenerationPrompt): Promise<TOut> => {
     const r = await reason(prompt);
     const judgePrompt = composers.composeJudgePrompt(prompt, r);

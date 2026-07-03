@@ -411,8 +411,8 @@ const STEP_GERUNDS: Record<string, string> = {
   retry: 'Retrying',
 };
 
-// Thricified generation sub-step -> present-continuous verb (GenerationSubMetaSubStep).
-const THRICIFIED_GERUNDS: Record<string, string> = {
+// Thinkings generation sub-step -> present-continuous verb (GenerationSubMetaSubStep).
+const THINKINGS_GERUNDS: Record<string, string> = {
   reason: 'Reasoning',
   judge: 'Judging',
   structured_output: 'Structuring',
@@ -449,9 +449,9 @@ function gerundFor(map: Record<string, string>, raw: string): string {
 
 /**
  * Render the live execution context as a natural-language sentence: "During
- * {Phase}, {Agent} Agent is {Step-ing}, by {Thricified-ing} the {Failsafe}."
+ * {Phase}, {Agent} Agent is {Step-ing}, by {Thinkings-ing} the {Failsafe}."
  * Degrades gracefully as fields are unknown (e.g. a Tool-use context only ever
- * carries Phase/Agent/Step, never Failsafe/Thricified — F19). Returns null
+ * carries Phase/Agent/Step, never Failsafe/Thinkings — F19). Returns null
  * when there isn't enough context yet to say anything meaningful.
  */
 function describeExecutionContext(ctx: {
@@ -464,7 +464,7 @@ function describeExecutionContext(ctx: {
   if (!ctx.phase || !ctx.agent || !ctx.step) return null;
   let sentence = `During ${humanizeNounPhrase(ctx.phase)}, ${humanizeAgentName(ctx.agent)} Agent is ${gerundFor(STEP_GERUNDS, ctx.step)}`;
   if (ctx.generation && ctx.failsafe) {
-    sentence += `, by ${gerundFor(THRICIFIED_GERUNDS, ctx.generation)} the ${humanizeNounPhrase(ctx.failsafe)}`;
+    sentence += `, by ${gerundFor(THINKINGS_GERUNDS, ctx.generation)} the ${humanizeNounPhrase(ctx.failsafe)}`;
   }
   return sentence;
 }
@@ -987,7 +987,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         )}
 
         {/* Processing indicator — shows the last known Phase→Agent→Step→Failsafe→
-            Thricified context + elapsed time since the last streamed event, so a
+            Thinkings context + elapsed time since the last streamed event, so a
             genuine hang is visible live instead of an unexplained blank gap. */}
         {isProcessing && (() => {
           const { label, likelyStalled } = buildProcessingStallLabel(flatLines[flatLines.length - 1], nowTick);

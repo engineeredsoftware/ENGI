@@ -1,5 +1,5 @@
 /**
- * ThricifiedGeneration - A single Generation composed of three child LLM calls
+ * ThinkingsGeneration - A single Generation composed of three child LLM calls
  * in strict order: Reason → Judge → StructuredOutput.
  *
  * This is the atomic typed "Generation" used by steps. Failsafe wrappers
@@ -10,9 +10,9 @@ import { sequential, type Executor } from '@bitcode/execution-generics';
 import { z } from 'zod';
 import { factoryReason, factoryJudge, factoryStructuredOutput } from '../substeps/factories';
 
-export type ThricifiedGeneration<TIn = any, TOut = any> = Executor<TIn, TOut>;
+export type ThinkingsGeneration<TIn = any, TOut = any> = Executor<TIn, TOut>;
 
-export function createThricifiedGeneration<TIn, TOut>(outputSchema: z.ZodType<TOut>): ThricifiedGeneration<TIn, TOut> {
+export function createThinkingsGeneration<TIn, TOut>(outputSchema: z.ZodType<TOut>): ThinkingsGeneration<TIn, TOut> {
   // The three neutral generation calls; tooling selection is deferred to caller
   const genReason = factoryReason();
   const genJudge = factoryJudge();
@@ -39,8 +39,8 @@ export function createThricifiedGeneration<TIn, TOut>(outputSchema: z.ZodType<TO
         genStructured as Executor<any, any>
       ];
 
-  const fn = sequential<any>(...seq) as unknown as ThricifiedGeneration<TIn, TOut>;
+  const fn = sequential<any>(...seq) as unknown as ThinkingsGeneration<TIn, TOut>;
   // Mark for introspection
-  (fn as any).__gen = 'thricified';
+  (fn as any).__gen = 'thinkings';
   return fn;
 }

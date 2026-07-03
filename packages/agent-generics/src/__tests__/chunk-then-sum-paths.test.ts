@@ -164,7 +164,7 @@ describe('large multi-namespace context chunks with a bounded LLM call count', (
     expect(chunked).toBe(true);
     expect(chunkCount).toBeGreaterThan(1);
 
-    // Prepare runs one thricified pass (3 calls); chunk runs one per chunk
+    // Prepare runs one thinkings pass (3 calls); chunk runs one per chunk
     // plus the sum pass (3*(chunkCount+1)); a schema-valid output means
     // stitch adds zero calls. Bounded, never unbounded.
     expect(counter.calls).toBe(3 + 3 * (chunkCount + 1));

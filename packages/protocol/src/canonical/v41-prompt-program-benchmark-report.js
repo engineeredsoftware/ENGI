@@ -728,7 +728,7 @@ function buildPredicateResults(repoRoot, context) {
       'observability-projects-generation-receipts',
       'failsafe-thricified-inference-receipt-projection',
       SOURCE_ROOTS.readingObservability,
-      readingObservability.includes('thricifiedGenerationId') && readingObservability.includes('generationPromptIds'),
+      readingObservability.includes('thinkingsGenerationId') && readingObservability.includes('generationPromptIds'),
     ),
     predicate(
       'failsafe-thricified-source-safe',

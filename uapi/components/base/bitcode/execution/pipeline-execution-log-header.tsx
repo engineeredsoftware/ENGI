@@ -17,7 +17,7 @@ interface PipelineRunLogHeaderProps {
     agentId?: string;
     ptrrStepId?: string;
     ptrrStepName?: string;
-    thricifiedGenerationId?: string;
+    thinkingsGenerationId?: string;
     promptTemplateId?: string;
     outputSchema?: string;
     returnType?: string;

@@ -252,7 +252,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('tests-cover-query-plan-and-receipt', SOURCE_ROOTS.depositorySearchTests, searchTests.includes('searchReceipt') && searchTests.includes('queryPlan') && searchTests.includes('selectedFitProvenanceRoot')),
     predicateResult('tests-cover-many-fit-limit', SOURCE_ROOTS.depositorySearchTests, searchTests.includes('maxSelectedCandidates).toBe(12)')),
     predicateResult('tests-cover-embedding-policy', SOURCE_ROOTS.embeddingConfigTests, embeddingTests.includes("text-embedding-3-small") && embeddingTests.includes('match_deliverable_vectors')),
-    predicateResult('contract-tests-cover-read-fits-counts', SOURCE_ROOTS.readingContractTests, contractTests.includes('ptrrStepCount: 32') && contractTests.includes('thricifiedGenerationCount: 96')),
+    predicateResult('contract-tests-cover-read-fits-counts', SOURCE_ROOTS.readingContractTests, contractTests.includes('ptrrStepCount: 32') && contractTests.includes('thinkingsGenerationCount: 96')),
     predicateResult('terminal-streams-read-fits-harness', SOURCE_ROOTS.terminalWorkbench, terminal.includes('streamTerminalReadFitsFindingSynthesisHarness') && terminal.includes('ReadFitsFindingSynthesis')),
   ];
 }

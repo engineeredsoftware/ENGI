@@ -52,7 +52,7 @@ function maybeLogDiagnosticsBanner() {
 }
 
 // A human-readable name for the raw LLM I/O sidecar file — phase, agent,
-// step, failsafe, generation (thricified) — mirroring the same hierarchy
+// step, failsafe, generation (thinkings) — mirroring the same hierarchy
 // the processing-indicator sentence reads out loud. writeRawLLMIO prefixes
 // every file with a monotonic counter, so this name only needs to be
 // legible, not unique.
@@ -307,7 +307,7 @@ export function shouldDebugStopAfterFirstStructuredOutput(substepExec: Execution
     const pathArr = (substepExec as any).getPath?.() || [];
     const isPlanStep = pathArr.includes('plan');
     const inPrepareFailsafe = pathArr.some((p: string) => String(p).includes('prepare_concise_context'));
-    // The structured_output substep runs inside the first thricified
+    // The structured_output substep runs inside the first thinkings
     // generation node (gen-0); the sequence gate above already pins the kind.
     const isFirstStructured = pathArr.includes('gen-0');
     const ctx = getCtx(substepExec);

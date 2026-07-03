@@ -30,7 +30,7 @@ export interface PipelineStreamConfig {
 // or provider responses (rawPromptVisible/rawProviderResponseVisible=false). Raw
 // prompt/response content auto-streams via Execution.store under the `llm`
 // namespace, but the content-bearing key NAMES drift between the two LLM-call
-// paths: the formal Thricified substeps store `input`/`prompt`/`output`/
+// paths: the formal Thinkings substeps store `input`/`prompt`/`output`/
 // `parsedOutput`, while AgentLLMsRegistry/PipelineLLMRegistry (direct getLLM
 // calls) store `messages`/`config`/`response`. A content-key denylist silently
 // missed `response`, so a raw model response leaked through as a status-event

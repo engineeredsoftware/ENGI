@@ -19,5 +19,5 @@ export interface FailsafeGenerationOptions<TOut> {
  * createFailsafeGenerationSequence - Build the default 3×3 + tools step
  */
 export declare function createFailsafeGenerationSequence<TIn, TOut>(options: FailsafeGenerationOptions<TOut>): FailsafeGenerationSequence<TIn, TOut>;
-export declare function createContextfulFailsafedThricifiedGeneration<TIn, TOut>(options: FailsafeGenerationOptions<TOut>): FailsafeGenerationSequence<TIn, TOut>;
-export declare const createFailsafedGeneration: typeof createContextfulFailsafedThricifiedGeneration;
+export declare function createContextfulFailsafedThinkingsGeneration<TIn, TOut>(options: FailsafeGenerationOptions<TOut>): FailsafeGenerationSequence<TIn, TOut>;
+export declare const createFailsafedGeneration: typeof createContextfulFailsafedThinkingsGeneration;

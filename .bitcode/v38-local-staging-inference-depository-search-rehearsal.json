@@ -5,7 +5,7 @@
   "currentTarget": "V37",
   "sourceSafetyVerdict": "source-safe-local-staging-inference-depository-search-rehearsal-metadata",
   "generatedAt": "deterministic",
-  "artifactRoot": "v38-local-staging-inference-depository-search-rehearsal:ab290716621a38a49c14aa1a",
+  "artifactRoot": "v38-local-staging-inference-depository-search-rehearsal:340133a7113830ec90cd48ff",
   "passed": true,
   "rows": [
     {
@@ -598,11 +598,11 @@
       ".bitcode/v38-inference-surface-inventory.json": "v38-inference-surface-inventory:3f50930549dee560db576a9a",
       ".bitcode/v38-ptrr-failsafe-thricified-stack.json": "v38-ptrr-failsafe-thricified-stack:af3a75b196d4b52e921c0130",
       ".bitcode/v38-prompt-benchmark-report.json": "v38-prompt-benchmark-report:7c34a5c11c25c490aedf413d",
-      ".bitcode/v38-disclosure-boundary-report.json": "v38-inference-telemetry-disclosure-report:b55a6ec83a421313cde9483c",
-      ".bitcode/v38-read-need-comprehension-inference-hardening.json": "v38-read-need-comprehension-hardening:113d48d4b8be28d0cfd9b9e2",
-      ".bitcode/v38-read-fits-finding-search-embeddings.json": "v38-read-fits-finding-search:f3b69abcfaac5d98f30d66d3",
+      ".bitcode/v38-disclosure-boundary-report.json": "v38-inference-telemetry-disclosure-report:6b52c044d55df62ac1b0db97",
+      ".bitcode/v38-read-need-comprehension-inference-hardening.json": "v38-read-need-comprehension-hardening:8a511d23d56bc6f1dc216802",
+      ".bitcode/v38-read-fits-finding-search-embeddings.json": "v38-read-fits-finding-search:d1998a4214e173e2a59a56ab",
       ".bitcode/v38-assetpack-synthesis-economic-traceability.json": "v38-assetpack-synthesis-economic-traceability:f4b654137d6b9dc1cd0dbea9",
-      ".bitcode/v38-conversation-tool-prompt-inference-parity.json": "v38-conversation-tool-prompt-inference-parity:563369d6be3809384f847a43"
+      ".bitcode/v38-conversation-tool-prompt-inference-parity.json": "v38-conversation-tool-prompt-inference-parity:7d674fb4a75188f34ae07e2c"
     },
     "localRehearsalCovered": true,
     "stagingTestnetRehearsalCovered": true,

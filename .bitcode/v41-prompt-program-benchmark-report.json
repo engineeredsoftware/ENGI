@@ -5,7 +5,7 @@
   "currentTarget": "V40",
   "generatedAt": "2026-05-26T00:00:00.000Z",
   "artifactPath": ".bitcode/v41-prompt-program-benchmark-report.json",
-  "artifactRoot": "v41-prompt-program-benchmark-report:07b6184eb94aa36fc5f5c431",
+  "artifactRoot": "v41-prompt-program-benchmark-report:884b9fd6b8a9156695b1d8b5",
   "sourceSafetyVerdict": "source-safe-prompt-program-benchmark-telemetry-metadata",
   "metricIds": [
     "post_rewrite_promptpart_delta",
@@ -131,10 +131,10 @@
         "sourceRootPresentCount": 5,
         "sourceFileCount": 5,
         "sourceFileHashes": {
-          ".bitcode/v41-conversation-tool-interface-prompt-rewrite.json": "3578376af061082b903261f7",
-          ".bitcode/v41-promptpart-prompt-inventory.json": "927738d4b3bdab4f2f9734e7",
-          ".bitcode/v41-readfitsfinding-prompt-hardening.json": "f959895553736e3d0546b0fc",
-          ".bitcode/v41-readneed-prompt-hardening.json": "e5dfc7cff400a66683895685",
+          ".bitcode/v41-conversation-tool-interface-prompt-rewrite.json": "727c9991d03969ad6b13bb9a",
+          ".bitcode/v41-promptpart-prompt-inventory.json": "807e7d7d8b39786e32cd51e1",
+          ".bitcode/v41-readfitsfinding-prompt-hardening.json": "e729ad0133513f67654ddae4",
+          ".bitcode/v41-readneed-prompt-hardening.json": "d26d4bdca49dfe6505b9c9d2",
           "packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js": "75952a25cc72ee8b58d5a956"
         }
       },
@@ -230,12 +230,12 @@
         "sourceRootPresentCount": 6,
         "sourceFileCount": 6,
         "sourceFileHashes": {
-          ".bitcode/v41-reading-prompt-benchmark-baselines.json": "ee3f4a7261aeea5da1ccb95c",
-          ".bitcode/v41-readneed-prompt-hardening.json": "e5dfc7cff400a66683895685",
-          "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts": "b19eba649308640b1854dea6",
-          "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "3cc1dbd2a18b7db46440d0ba",
-          "packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js": "983d97655980b9a56e1481f0",
-          "packages/protocol/src/canonical/v41-readneed-prompt-hardening.js": "b20ac65c3e46f185ef9338a4"
+          ".bitcode/v41-reading-prompt-benchmark-baselines.json": "2a3cb69f485bc68a4226953b",
+          ".bitcode/v41-readneed-prompt-hardening.json": "d26d4bdca49dfe6505b9c9d2",
+          "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
+          "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+          "packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32",
+          "packages/protocol/src/canonical/v41-readneed-prompt-hardening.js": "b27719097ae70a129c6fa5aa"
         }
       },
       "requiredPredicateCount": 5,
@@ -333,14 +333,14 @@
         "sourceRootPresentCount": 8,
         "sourceFileCount": 8,
         "sourceFileHashes": {
-          ".bitcode/v41-readfitsfinding-prompt-hardening.json": "f959895553736e3d0546b0fc",
-          ".bitcode/v41-reading-prompt-benchmark-baselines.json": "ee3f4a7261aeea5da1ccb95c",
-          "packages/pipelines/asset-pack/src/depository-search.ts": "e983ef9a11ae67d867ebaa99",
+          ".bitcode/v41-readfitsfinding-prompt-hardening.json": "e729ad0133513f67654ddae4",
+          ".bitcode/v41-reading-prompt-benchmark-baselines.json": "2a3cb69f485bc68a4226953b",
+          "packages/pipelines/asset-pack/src/depository-search.ts": "8c79c6f9c479ba664206175d",
           "packages/pipelines/asset-pack/src/embedding-config.ts": "e1dc97ae0aafc3cf8464ba4a",
-          "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts": "4e89eacdc2b73bd6bc70a085",
-          "packages/protocol/src/canonical/read-fits-finding-search-embeddings.js": "fcc347d81355cc1168d01247",
+          "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts": "6b91862fe0c4c802b9a19e15",
+          "packages/protocol/src/canonical/read-fits-finding-search-embeddings.js": "4b37e8da18a4838d825789b8",
           "packages/protocol/src/canonical/v41-readfitsfinding-prompt-hardening.js": "a89d1e83c1eb187787d521f0",
-          "packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js": "983d97655980b9a56e1481f0"
+          "packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32"
         }
       },
       "requiredPredicateCount": 5,
@@ -434,12 +434,12 @@
         "sourceRootPresentCount": 6,
         "sourceFileCount": 6,
         "sourceFileHashes": {
-          ".bitcode/v41-conversation-tool-interface-prompt-rewrite.json": "3578376af061082b903261f7",
+          ".bitcode/v41-conversation-tool-interface-prompt-rewrite.json": "727c9991d03969ad6b13bb9a",
           "packages/api/src/conversations/stream-events.ts": "049a26286565e121f20c6874",
           "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
           "packages/protocol/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "5d0746b8c2be1ef518496281",
-          "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "7ba7c3135c5e04d1eb1a7771",
-          "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "9d88b27b51e6b4d3a15ce995"
+          "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
+          "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99"
         }
       },
       "requiredPredicateCount": 5,
@@ -533,11 +533,11 @@
         "sourceRootPresentCount": 5,
         "sourceFileCount": 5,
         "sourceFileHashes": {
-          ".bitcode/v41-registry-interpolation-contracts.json": "2137e974dbaa74940a1f11f9",
-          "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts": "b19eba649308640b1854dea6",
+          ".bitcode/v41-registry-interpolation-contracts.json": "81bd514a492f142f6244f18a",
+          "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
           "packages/prompts/src/benchmarking/runner.ts": "dfe65501927783fca7cd3305",
           "packages/prompts/src/benchmarking/types.ts": "e996cfbbcf4906498f2821b0",
-          "packages/protocol/src/canonical/v41-registry-interpolation-contracts.js": "40cb355e67bd307da8f5305d"
+          "packages/protocol/src/canonical/v41-registry-interpolation-contracts.js": "768a5f3eb42a527d303c57f6"
         }
       },
       "requiredPredicateCount": 5,
@@ -638,11 +638,11 @@
         "sourceRootPresentCount": 5,
         "sourceFileCount": 5,
         "sourceFileHashes": {
-          ".bitcode/v38-disclosure-boundary-report.json": "d71a4dda219c03d5fc031ee2",
-          "packages/pipelines/asset-pack/src/read-need.ts": "6876916725c05b93d4a2b424",
-          "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "3cc1dbd2a18b7db46440d0ba",
-          "packages/protocol/src/canonical/inference-telemetry-disclosure-report.js": "20aab1a622fd0f435b7abff5",
-          "packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js": "535a9e2a4e4f2fc9fa8a808c"
+          ".bitcode/v38-disclosure-boundary-report.json": "aca461f0fc6f08c221fe7be5",
+          "packages/pipelines/asset-pack/src/read-need.ts": "3d827283d8dc1234cc31d348",
+          "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+          "packages/protocol/src/canonical/inference-telemetry-disclosure-report.js": "b254b893e52f30c9530b3718",
+          "packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js": "d60b3e5d7bde4d4ffe3a5fd6"
         }
       },
       "requiredPredicateCount": 6,
@@ -741,10 +741,10 @@
         "sourceFileHashes": {
           "packages/api/src/conversations/stream-events.ts": "049a26286565e121f20c6874",
           "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
-          "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts": "4b0d32180a32720cb0086ffe",
-          "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "3cc1dbd2a18b7db46440d0ba",
-          "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "7ba7c3135c5e04d1eb1a7771",
-          "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "9d88b27b51e6b4d3a15ce995",
+          "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
+          "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+          "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
+          "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99",
           "uapi/tests/conversationStreamPipelineLog.test.tsx": "73e3ba9c6f058ffe4418b3e4",
           "uapi/tests/pipelineExecutionLogHeader.test.tsx": "4835ee31e6397899e58b4183"
         }
@@ -842,9 +842,9 @@
         "sourceFileHashes": {
           ".bitcode/v39-operational-telemetry-repair-readback.json": "7522f7709b545d11b7f9ba74",
           "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
-          "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts": "4b0d32180a32720cb0086ffe",
-          "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "3cc1dbd2a18b7db46440d0ba",
-          "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js": "1647b3a170af58333c1553a3"
+          "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
+          "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+          "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js": "bcb00519d05408c295c53d1c"
         }
       },
       "requiredPredicateCount": 5,
@@ -957,7 +957,7 @@
           "SPECIFICATIONS_ROADMAP.md": "2400ea79d304ff28b7fd8e7a",
           "package.json": "4d9f041eb01a920860a26f75",
           "packages/protocol/README.md": "1a81b9507325d3a5da87f627",
-          "packages/protocol/src/canonical/v41-prompt-program-benchmark-report.js": "f1659f6e3f58924c977149d9",
+          "packages/protocol/src/canonical/v41-prompt-program-benchmark-report.js": "e03ee6e821a7521283805568",
           "packages/protocol/test/v41-prompt-program-benchmark-report.test.js": "d0d2609b55c61933ca16a63a",
           "scripts/check-v41-gate8-prompt-program-benchmark-report.mjs": "dc363ce2e84dbcd76a566995",
           "scripts/generate-v41-prompt-program-benchmark-report.mjs": "d3c64e23a5ce6cda60bec813"
@@ -975,7 +975,7 @@
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "b6fb979d592616ff665d5f58"
+      "sourceRootHash": "1975933961b96149dbd73858"
     },
     {
       "sourcePath": ".bitcode/v39-operational-telemetry-repair-readback.json",
@@ -989,42 +989,42 @@
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "91cefad5f61496cd7382281b"
+      "sourceRootHash": "f1aac913ce0e7f97e1743bae"
     },
     {
       "sourcePath": ".bitcode/v41-promptpart-prompt-inventory.json",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "e00ab96a2e02f039f623470c"
+      "sourceRootHash": "a3dc09018478a0da7d7c5764"
     },
     {
       "sourcePath": ".bitcode/v41-readfitsfinding-prompt-hardening.json",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "328718db756a788370142678"
+      "sourceRootHash": "fd09e7d227c6bfccfa67d503"
     },
     {
       "sourcePath": ".bitcode/v41-reading-prompt-benchmark-baselines.json",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "d1b7f3a864b2e9080b587a4e"
+      "sourceRootHash": "d44958c610e70827f97ccd49"
     },
     {
       "sourcePath": ".bitcode/v41-readneed-prompt-hardening.json",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "b71f639c40813dc6ea0feed1"
+      "sourceRootHash": "706599052107d50eadb76acd"
     },
     {
       "sourcePath": ".bitcode/v41-registry-interpolation-contracts.json",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "123f33f5b175fa95f6bd711e"
+      "sourceRootHash": "dfe5e1c34b014782c109f336"
     },
     {
       "sourcePath": ".github/workflows/bitcode-canon-quality.yml",
@@ -1108,7 +1108,7 @@
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "203e1fad5fd26e518421c024"
+      "sourceRootHash": "f5c24b4d292e9025fd35131a"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/embedding-config.ts",
@@ -1122,35 +1122,35 @@
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "5dd5c7e3e2fbfee87dcf5560"
+      "sourceRootHash": "9c9bab0d4b8591aba6589173"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "022732811145b2eda4df46bf"
+      "sourceRootHash": "7fc546f4cc0d49f656399b80"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "94220ec79a066d950348f74d"
+      "sourceRootHash": "1b12c27c83154d3db95598aa"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "4bf982618ce45ebc06343c81"
+      "sourceRootHash": "f979cd718be5c41eadcf772f"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "f456521f2ce76cc8000539fd"
+      "sourceRootHash": "c5885e35495f80af1738e425"
     },
     {
       "sourcePath": "packages/prompts/src/benchmarking/runner.ts",
@@ -1178,28 +1178,28 @@
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "877dd9e6cd2118dc226a3e30"
+      "sourceRootHash": "b6de9916dc293d41438da2ca"
     },
     {
       "sourcePath": "packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "a5a0a0cbd1779ab1fe13e304"
+      "sourceRootHash": "aabf4a83280a7f6ac27e4bc5"
     },
     {
       "sourcePath": "packages/protocol/src/canonical/read-fits-finding-search-embeddings.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "01ef8feac03caea21f3b9df3"
+      "sourceRootHash": "1e03594a99fafcde545b743b"
     },
     {
       "sourcePath": "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "0269806cf9b3ddb0454aca93"
+      "sourceRootHash": "da2a6968f864cdfcaa489b95"
     },
     {
       "sourcePath": "packages/protocol/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
@@ -1213,7 +1213,7 @@
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "a39e9c243dd3d241640a229e"
+      "sourceRootHash": "649d8a537c3fe63ef8ee21c7"
     },
     {
       "sourcePath": "packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js",
@@ -1234,21 +1234,21 @@
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "2c1ed8985639259fe13d0cf0"
+      "sourceRootHash": "8a506a2c0c412f6d182e6d5e"
     },
     {
       "sourcePath": "packages/protocol/src/canonical/v41-readneed-prompt-hardening.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "c5242be0bd4e2e52270fb6ea"
+      "sourceRootHash": "eb7a551315b37056810187c5"
     },
     {
       "sourcePath": "packages/protocol/src/canonical/v41-registry-interpolation-contracts.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "b1988191fe3de86eaa2ac960"
+      "sourceRootHash": "ab20815066f8b1d5bf512aa7"
     },
     {
       "sourcePath": "packages/protocol/test/v41-prompt-program-benchmark-report.test.js",
@@ -1276,14 +1276,14 @@
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "f9c3d094eb331f25026cc948"
+      "sourceRootHash": "7b519f4bb914bc58a33c5d19"
     },
     {
       "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
-      "sourceRootHash": "73379a342cf681e69c0bfb4a"
+      "sourceRootHash": "1d6e5d2eda94b3befa2641d6"
     },
     {
       "sourcePath": "uapi/tests/conversationStreamPipelineLog.test.tsx",
@@ -1306,10 +1306,10 @@
       "sourceRootPresentCount": 5,
       "sourceFileCount": 5,
       "sourceFileHashes": {
-        ".bitcode/v41-conversation-tool-interface-prompt-rewrite.json": "3578376af061082b903261f7",
-        ".bitcode/v41-promptpart-prompt-inventory.json": "927738d4b3bdab4f2f9734e7",
-        ".bitcode/v41-readfitsfinding-prompt-hardening.json": "f959895553736e3d0546b0fc",
-        ".bitcode/v41-readneed-prompt-hardening.json": "e5dfc7cff400a66683895685",
+        ".bitcode/v41-conversation-tool-interface-prompt-rewrite.json": "727c9991d03969ad6b13bb9a",
+        ".bitcode/v41-promptpart-prompt-inventory.json": "807e7d7d8b39786e32cd51e1",
+        ".bitcode/v41-readfitsfinding-prompt-hardening.json": "e729ad0133513f67654ddae4",
+        ".bitcode/v41-readneed-prompt-hardening.json": "d26d4bdca49dfe6505b9c9d2",
         "packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js": "75952a25cc72ee8b58d5a956"
       }
     },
@@ -1318,12 +1318,12 @@
       "sourceRootPresentCount": 6,
       "sourceFileCount": 6,
       "sourceFileHashes": {
-        ".bitcode/v41-reading-prompt-benchmark-baselines.json": "ee3f4a7261aeea5da1ccb95c",
-        ".bitcode/v41-readneed-prompt-hardening.json": "e5dfc7cff400a66683895685",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts": "b19eba649308640b1854dea6",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "3cc1dbd2a18b7db46440d0ba",
-        "packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js": "983d97655980b9a56e1481f0",
-        "packages/protocol/src/canonical/v41-readneed-prompt-hardening.js": "b20ac65c3e46f185ef9338a4"
+        ".bitcode/v41-reading-prompt-benchmark-baselines.json": "2a3cb69f485bc68a4226953b",
+        ".bitcode/v41-readneed-prompt-hardening.json": "d26d4bdca49dfe6505b9c9d2",
+        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
+        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+        "packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32",
+        "packages/protocol/src/canonical/v41-readneed-prompt-hardening.js": "b27719097ae70a129c6fa5aa"
       }
     },
     "readfitsfinding-post-rewrite-benchmark-delta": {
@@ -1331,14 +1331,14 @@
       "sourceRootPresentCount": 8,
       "sourceFileCount": 8,
       "sourceFileHashes": {
-        ".bitcode/v41-readfitsfinding-prompt-hardening.json": "f959895553736e3d0546b0fc",
-        ".bitcode/v41-reading-prompt-benchmark-baselines.json": "ee3f4a7261aeea5da1ccb95c",
-        "packages/pipelines/asset-pack/src/depository-search.ts": "e983ef9a11ae67d867ebaa99",
+        ".bitcode/v41-readfitsfinding-prompt-hardening.json": "e729ad0133513f67654ddae4",
+        ".bitcode/v41-reading-prompt-benchmark-baselines.json": "2a3cb69f485bc68a4226953b",
+        "packages/pipelines/asset-pack/src/depository-search.ts": "8c79c6f9c479ba664206175d",
         "packages/pipelines/asset-pack/src/embedding-config.ts": "e1dc97ae0aafc3cf8464ba4a",
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts": "4e89eacdc2b73bd6bc70a085",
-        "packages/protocol/src/canonical/read-fits-finding-search-embeddings.js": "fcc347d81355cc1168d01247",
+        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts": "6b91862fe0c4c802b9a19e15",
+        "packages/protocol/src/canonical/read-fits-finding-search-embeddings.js": "4b37e8da18a4838d825789b8",
         "packages/protocol/src/canonical/v41-readfitsfinding-prompt-hardening.js": "a89d1e83c1eb187787d521f0",
-        "packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js": "983d97655980b9a56e1481f0"
+        "packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32"
       }
     },
     "conversation-interface-post-rewrite-benchmark-delta": {
@@ -1346,12 +1346,12 @@
       "sourceRootPresentCount": 6,
       "sourceFileCount": 6,
       "sourceFileHashes": {
-        ".bitcode/v41-conversation-tool-interface-prompt-rewrite.json": "3578376af061082b903261f7",
+        ".bitcode/v41-conversation-tool-interface-prompt-rewrite.json": "727c9991d03969ad6b13bb9a",
         "packages/api/src/conversations/stream-events.ts": "049a26286565e121f20c6874",
         "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
         "packages/protocol/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "5d0746b8c2be1ef518496281",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "7ba7c3135c5e04d1eb1a7771",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "9d88b27b51e6b4d3a15ce995"
+        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
+        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99"
       }
     },
     "registry-lineage-version-telemetry-binding": {
@@ -1359,11 +1359,11 @@
       "sourceRootPresentCount": 5,
       "sourceFileCount": 5,
       "sourceFileHashes": {
-        ".bitcode/v41-registry-interpolation-contracts.json": "2137e974dbaa74940a1f11f9",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts": "b19eba649308640b1854dea6",
+        ".bitcode/v41-registry-interpolation-contracts.json": "81bd514a492f142f6244f18a",
+        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
         "packages/prompts/src/benchmarking/runner.ts": "dfe65501927783fca7cd3305",
         "packages/prompts/src/benchmarking/types.ts": "e996cfbbcf4906498f2821b0",
-        "packages/protocol/src/canonical/v41-registry-interpolation-contracts.js": "40cb355e67bd307da8f5305d"
+        "packages/protocol/src/canonical/v41-registry-interpolation-contracts.js": "768a5f3eb42a527d303c57f6"
       }
     },
     "failsafe-thricified-inference-receipt-projection": {
@@ -1371,11 +1371,11 @@
       "sourceRootPresentCount": 5,
       "sourceFileCount": 5,
       "sourceFileHashes": {
-        ".bitcode/v38-disclosure-boundary-report.json": "d71a4dda219c03d5fc031ee2",
-        "packages/pipelines/asset-pack/src/read-need.ts": "6876916725c05b93d4a2b424",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "3cc1dbd2a18b7db46440d0ba",
-        "packages/protocol/src/canonical/inference-telemetry-disclosure-report.js": "20aab1a622fd0f435b7abff5",
-        "packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js": "535a9e2a4e4f2fc9fa8a808c"
+        ".bitcode/v38-disclosure-boundary-report.json": "aca461f0fc6f08c221fe7be5",
+        "packages/pipelines/asset-pack/src/read-need.ts": "3d827283d8dc1234cc31d348",
+        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+        "packages/protocol/src/canonical/inference-telemetry-disclosure-report.js": "b254b893e52f30c9530b3718",
+        "packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js": "d60b3e5d7bde4d4ffe3a5fd6"
       }
     },
     "rich-stream-source-safe-telemetry-projection": {
@@ -1385,10 +1385,10 @@
       "sourceFileHashes": {
         "packages/api/src/conversations/stream-events.ts": "049a26286565e121f20c6874",
         "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts": "4b0d32180a32720cb0086ffe",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "3cc1dbd2a18b7db46440d0ba",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "7ba7c3135c5e04d1eb1a7771",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "9d88b27b51e6b4d3a15ce995",
+        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
+        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
+        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99",
         "uapi/tests/conversationStreamPipelineLog.test.tsx": "73e3ba9c6f058ffe4418b3e4",
         "uapi/tests/pipelineExecutionLogHeader.test.tsx": "4835ee31e6397899e58b4183"
       }
@@ -1400,9 +1400,9 @@
       "sourceFileHashes": {
         ".bitcode/v39-operational-telemetry-repair-readback.json": "7522f7709b545d11b7f9ba74",
         "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts": "4b0d32180a32720cb0086ffe",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "3cc1dbd2a18b7db46440d0ba",
-        "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js": "1647b3a170af58333c1553a3"
+        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
+        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+        "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js": "bcb00519d05408c295c53d1c"
       }
     },
     "gate8-tests-docs-workflows": {
@@ -1420,7 +1420,7 @@
         "SPECIFICATIONS_ROADMAP.md": "2400ea79d304ff28b7fd8e7a",
         "package.json": "4d9f041eb01a920860a26f75",
         "packages/protocol/README.md": "1a81b9507325d3a5da87f627",
-        "packages/protocol/src/canonical/v41-prompt-program-benchmark-report.js": "f1659f6e3f58924c977149d9",
+        "packages/protocol/src/canonical/v41-prompt-program-benchmark-report.js": "e03ee6e821a7521283805568",
         "packages/protocol/test/v41-prompt-program-benchmark-report.test.js": "d0d2609b55c61933ca16a63a",
         "scripts/check-v41-gate8-prompt-program-benchmark-report.mjs": "dc363ce2e84dbcd76a566995",
         "scripts/generate-v41-prompt-program-benchmark-report.mjs": "d3c64e23a5ce6cda60bec813"
@@ -1737,17 +1737,17 @@
   ],
   "dependencyRoots": {
     "v38PromptBenchmarkReportRoot": "v38-prompt-benchmark-report:7c34a5c11c25c490aedf413d",
-    "v38InferenceTelemetryDisclosureRoot": "v38-inference-telemetry-disclosure-report:07d2e8dab3e70b9484061f9b",
+    "v38InferenceTelemetryDisclosureRoot": "v38-inference-telemetry-disclosure-report:5e8c72b05d72ec677dca6061",
     "v38PtrrFailsafeThricifiedStackRoot": "v38-ptrr-failsafe-thricified-stack:af3a75b196d4b52e921c0130",
-    "v38ReadFitsFindingSearchEmbeddingsRoot": "v38-read-fits-finding-search:f3b69abcfaac5d98f30d66d3",
+    "v38ReadFitsFindingSearchEmbeddingsRoot": "v38-read-fits-finding-search:d1998a4214e173e2a59a56ab",
     "v39OperationalTelemetryRepairReadbackRoot": "v39-operational-telemetry-repair-readback:bc8e2495bbe81b73a2cdb8dc",
     "v40PromptBenchmarkSmokeRoot": "v40-prompt-benchmark-smoke-v41-readiness:3164923746757b9b02fc30ae",
     "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
     "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:46320b06f8417ffc0b86c713",
     "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:3aa915a7a731a50181d19292",
-    "gate5ReadNeedPromptHardeningRoot": "v41-readneed-prompt-hardening:d115fd76048b335da852f799",
-    "gate6ReadFitsFindingPromptHardeningRoot": "v41-readfitsfinding-prompt-hardening:b5109be492d6b64373cda3f6",
-    "gate7ConversationToolInterfacePromptRewriteRoot": "v41-conversation-tool-interface-prompt-rewrite:4df4d90a5c1c25e6aa5a6aa1"
+    "gate5ReadNeedPromptHardeningRoot": "v41-readneed-prompt-hardening:d7746fcf0bd45ddb7b1dd388",
+    "gate6ReadFitsFindingPromptHardeningRoot": "v41-readfitsfinding-prompt-hardening:0584cc9e2385dfe150b0b96a",
+    "gate7ConversationToolInterfacePromptRewriteRoot": "v41-conversation-tool-interface-prompt-rewrite:d064df3adfcedd5a35a2b777"
   },
   "sourceSafety": {
     "sourceSafetyClass": "source_safe_prompt_program_benchmark_telemetry_metadata",
@@ -1850,17 +1850,17 @@
     "dependenciesPassing": true,
     "dependencyRoots": {
       "v38PromptBenchmarkReportRoot": "v38-prompt-benchmark-report:7c34a5c11c25c490aedf413d",
-      "v38InferenceTelemetryDisclosureRoot": "v38-inference-telemetry-disclosure-report:07d2e8dab3e70b9484061f9b",
+      "v38InferenceTelemetryDisclosureRoot": "v38-inference-telemetry-disclosure-report:5e8c72b05d72ec677dca6061",
       "v38PtrrFailsafeThricifiedStackRoot": "v38-ptrr-failsafe-thricified-stack:af3a75b196d4b52e921c0130",
-      "v38ReadFitsFindingSearchEmbeddingsRoot": "v38-read-fits-finding-search:f3b69abcfaac5d98f30d66d3",
+      "v38ReadFitsFindingSearchEmbeddingsRoot": "v38-read-fits-finding-search:d1998a4214e173e2a59a56ab",
       "v39OperationalTelemetryRepairReadbackRoot": "v39-operational-telemetry-repair-readback:bc8e2495bbe81b73a2cdb8dc",
       "v40PromptBenchmarkSmokeRoot": "v40-prompt-benchmark-smoke-v41-readiness:3164923746757b9b02fc30ae",
       "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
       "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:46320b06f8417ffc0b86c713",
       "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:3aa915a7a731a50181d19292",
-      "gate5ReadNeedPromptHardeningRoot": "v41-readneed-prompt-hardening:d115fd76048b335da852f799",
-      "gate6ReadFitsFindingPromptHardeningRoot": "v41-readfitsfinding-prompt-hardening:b5109be492d6b64373cda3f6",
-      "gate7ConversationToolInterfacePromptRewriteRoot": "v41-conversation-tool-interface-prompt-rewrite:4df4d90a5c1c25e6aa5a6aa1"
+      "gate5ReadNeedPromptHardeningRoot": "v41-readneed-prompt-hardening:d7746fcf0bd45ddb7b1dd388",
+      "gate6ReadFitsFindingPromptHardeningRoot": "v41-readfitsfinding-prompt-hardening:0584cc9e2385dfe150b0b96a",
+      "gate7ConversationToolInterfacePromptRewriteRoot": "v41-conversation-tool-interface-prompt-rewrite:d064df3adfcedd5a35a2b777"
     },
     "v38PromptBenchmarkRowCount": 7,
     "v38InferenceTelemetryLevelCount": 13,

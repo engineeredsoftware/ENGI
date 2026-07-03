@@ -107,7 +107,7 @@ describe('Conversation and Terminal integration coverage', () => {
                 pipelineName: 'ReadFitsFindingSynthesis',
                 phaseId: 'discovery',
                 ptrrStepId: 'try',
-                thricifiedGenerationId: 'conversation-terminal-handoff-tool-call',
+                thinkingsGenerationId: 'conversation-terminal-handoff-tool-call',
                 outputSchema: 'ConversationStreamEvent:tool_call',
               },
               dataKeys: ['eventId', 'proofRoots', 'readingStage'],

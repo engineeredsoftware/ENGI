@@ -325,7 +325,7 @@ function hasAllOperationalEvents(readback: ReadingOperationalTelemetryRepairRead
     'ptrr-agent',
     'ptrr-step',
     'failsafe',
-    'thricified-generation',
+    'thinkings-generation',
     'tool',
     'storage',
     'ledger',
@@ -489,7 +489,7 @@ export function buildReadingLocalStagingRehearsal(
       rowKind: 'telemetry',
       laneId: 'local-and-staging-testnet',
       status: rowStatus(hasAllOperationalEvents(operationalReadback), Boolean(operationalReadback)),
-      purpose: 'Prove rich log streaming/readback covers phases, PTRR agents, PTRR steps, Failsafes, ThricifiedGenerations, tools, storage, ledger, wallet, delivery, UI, and repairs.',
+      purpose: 'Prove rich log streaming/readback covers phases, PTRR agents, PTRR steps, Failsafes, ThinkingsGenerations, tools, storage, ledger, wallet, delivery, UI, and repairs.',
       evidence: eventKinds(operationalReadback).map((kind) => `event:${kind}`),
       requiredRoots: [
         operationalReadback?.proofRoots.eventStreamRoot,

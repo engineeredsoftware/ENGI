@@ -369,7 +369,7 @@
       "requiredTestMarkers": [
         "pipeline ReadFitsFindingSynthesis",
         "telemetry 72 lines",
-        "ThricifiedGeneration"
+        "ThinkingsGeneration"
       ],
       "expectedCounts": {
         "harnessEventProjectionRequired": true,

@@ -6,7 +6,7 @@
   "generatedAt": "2026-05-26T00:00:00.000Z",
   "artifactPath": ".bitcode/v41-readfitsfinding-prompt-hardening.json",
   "sourceSafetyVerdict": "source-safe-readfitsfinding-prompt-hardening-metadata",
-  "artifactRoot": "v41-readfitsfinding-prompt-hardening:b5109be492d6b64373cda3f6",
+  "artifactRoot": "v41-readfitsfinding-prompt-hardening:0584cc9e2385dfe150b0b96a",
   "passed": true,
   "failures": [],
   "metricIds": [
@@ -333,7 +333,7 @@
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-          "sourceHash": "b19eba649308640b1854dea6"
+          "sourceHash": "4a688c72b552579ba1373a74"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
@@ -506,11 +506,11 @@
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
-          "sourceHash": "e983ef9a11ae67d867ebaa99"
+          "sourceHash": "8c79c6f9c479ba664206175d"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
-          "sourceHash": "b663fa7253cbc4d8b09e6028"
+          "sourceHash": "f67631d6826e305b99ac1c36"
         }
       ],
       "sourceRootsPresent": true,
@@ -681,11 +681,11 @@
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-          "sourceHash": "4e89eacdc2b73bd6bc70a085"
+          "sourceHash": "6b91862fe0c4c802b9a19e15"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
-          "sourceHash": "a96bc67c970ac946694658a7"
+          "sourceHash": "58db4f0377fdbd4440e6de7a"
         }
       ],
       "sourceRootsPresent": true,
@@ -1295,11 +1295,11 @@
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
-          "sourceHash": "b663fa7253cbc4d8b09e6028"
+          "sourceHash": "f67631d6826e305b99ac1c36"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
-          "sourceHash": "a96bc67c970ac946694658a7"
+          "sourceHash": "58db4f0377fdbd4440e6de7a"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
@@ -1413,7 +1413,7 @@
     "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
     "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:46320b06f8417ffc0b86c713",
     "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:3aa915a7a731a50181d19292",
-    "gate5ReadNeedPromptHardeningRoot": "v41-readneed-prompt-hardening:d115fd76048b335da852f799"
+    "gate5ReadNeedPromptHardeningRoot": "v41-readneed-prompt-hardening:d7746fcf0bd45ddb7b1dd388"
   },
   "coverage": {
     "rowCount": 8,

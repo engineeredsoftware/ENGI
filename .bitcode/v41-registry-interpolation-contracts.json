@@ -381,7 +381,7 @@
       "contractId": "thricified-generation-final-resolution",
       "label": "ThricifiedGeneration resolves final Reason, Judge, and StructuredOutput call chain and typed parser target",
       "sourceRoots": [
-        "packages/agent-generics/src/steps/thricified-generation.ts",
+        "packages/agent-generics/src/steps/thinkings-generation.ts",
         "packages/agent-generics/src/substeps/factories.ts",
         "packages/agent-generics/src/prompts/AgentGenerationSubStepPrompt.ts"
       ],
@@ -1037,7 +1037,7 @@
     },
     {
       "id": "thricified.sequences-reason-judge-structured-output",
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
       "passed": true
     },
     {
@@ -1241,7 +1241,7 @@
       "sourcePath": ".bitcode/v41-promptpart-prompt-inventory.json",
       "exists": true,
       "legacy": false,
-      "sourceHash": "927738d4b3bdab4f2f9734e7"
+      "sourceHash": "807e7d7d8b39786e32cd51e1"
     },
     {
       "sourcePath": "packages/agent-generics/src/agents/factories.ts",
@@ -1307,19 +1307,19 @@
       "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "dd28f94fb8e57edede3bb862"
+      "sourceHash": "1412f468654b7e30145cbc6d"
     },
     {
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "f42ff0db669cb60e4bfbf7f4"
+      "sourceHash": "5e0f26f6d071b2df5a651cfd"
     },
     {
       "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "34250a4942e59bd0a9b5e78d"
+      "sourceHash": "113cd58c7e68adbe5c140863"
     },
     {
       "sourcePath": "packages/execution-generics/src/Execution.ts",
@@ -1349,25 +1349,25 @@
       "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "e983ef9a11ae67d867ebaa99"
+      "sourceHash": "8c79c6f9c479ba664206175d"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "4e89eacdc2b73bd6bc70a085"
+      "sourceHash": "6b91862fe0c4c802b9a19e15"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "347bd88040c9456420e03c0e"
+      "sourceHash": "c6556bcccf75a5465c0d25c5"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "6876916725c05b93d4a2b424"
+      "sourceHash": "3d827283d8dc1234cc31d348"
     },
     {
       "sourcePath": "packages/prompts/src/execution/PromptExecution.ts",

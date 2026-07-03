@@ -1,6 +1,6 @@
 // @ts-nocheck
 /**
- * Pins the @bitcode/parsing seam the thricified generations depend on
+ * Pins the @bitcode/parsing seam the thinkings generations depend on
  * (factoryReason/factoryJudge/factoryStructuredOutput all funnel raw LLM
  * content through parseResponse). packages/parsing has no jest harness of its
  * own; this suite runs under agent-generics' moduleNameMapper which resolves

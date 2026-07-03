@@ -74,7 +74,7 @@ describe('buildProcessingStallLabel — live stall visibility (QA debug aid)', (
     expect(likelyStalled).toBe(false);
   });
 
-  it('matches the "During {Phase}, {Agent} Agent is {Step}, by {Thricified} the {Failsafe}" template exactly', () => {
+  it('matches the "During {Phase}, {Agent} Agent is {Step}, by {Thinkings} the {Failsafe}" template exactly', () => {
     const lastLine = {
       phase: 'Setup',
       agent: 'DepositInputComprehensionAgent',
@@ -89,7 +89,7 @@ describe('buildProcessingStallLabel — live stall visibility (QA debug aid)', (
     );
   });
 
-  it('degrades to just the Phase/Agent/Step clause when there is no Failsafe/Thricified yet (e.g. a Tool-use context)', () => {
+  it('degrades to just the Phase/Agent/Step clause when there is no Failsafe/Thinkings yet (e.g. a Tool-use context)', () => {
     const lastLine = {
       phase: 'Discovery',
       agent: 'DepositCodebaseComprehensionAgent',

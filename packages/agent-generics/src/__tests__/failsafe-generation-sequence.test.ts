@@ -54,7 +54,7 @@ describe('createFailsafeGenerationSequence composition', () => {
 
     const result = await sequence({ read: 'Fit this repository.' }, step);
 
-    // Prepare + chunk each run one full thricified pass (3 calls each); a
+    // Prepare + chunk each run one full thinkings pass (3 calls each); a
     // schema-valid output means stitch breaks immediately with no LLM calls.
     expect(counter.calls).toBe(6);
 
@@ -105,7 +105,7 @@ describe('createFailsafeGenerationSequence composition', () => {
 
     const result = await sequence({ read: 'Fit this repository.' }, step);
 
-    expect(counter.calls).toBe(3); // a single thricified pass
+    expect(counter.calls).toBe(3); // a single thinkings pass
     expect(result.preparedContexts).toBeDefined(); // prepare's contribution
     expect(result.output).toEqual(structuredPayload);
     expect(result.finalOutput).toBeUndefined(); // stitch (envelope builder) skipped

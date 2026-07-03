@@ -133,7 +133,7 @@ export const V40_READING_PIPELINE_INTEGRATION_ROWS = Object.freeze([
     requiredTestMarkers: [
       'ReadNeedComprehensionSynthesis',
       'ReadFitsFindingSynthesis',
-      'thricifiedGenerationCount',
+      'thinkingsGenerationCount',
     ],
     expectedCounts: { ...V40_READING_PIPELINE_EXPECTED_TOTALS },
     coverageTier: 'promotion-required',
@@ -313,7 +313,7 @@ export const V40_READING_PIPELINE_INTEGRATION_ROWS = Object.freeze([
       'PipelineExecutionLog',
     ],
     requiredTestMarkers: [
-      'ThricifiedGeneration',
+      'ThinkingsGeneration',
       'source-safe',
       'PipelineExecutionLog',
     ],
@@ -371,7 +371,7 @@ export const V40_READING_PIPELINE_INTEGRATION_ROWS = Object.freeze([
       'packages/pipelines-generics/src/streaming/pipeline-stream-integration.ts',
       'packages/agent-generics/src/agents/factories.ts',
       'packages/agent-generics/src/steps/failsafe-sequence.ts',
-      'packages/agent-generics/src/steps/thricified-generation.ts',
+      'packages/agent-generics/src/steps/thinkings-generation.ts',
       'packages/pipeline-hosts/src/asset-pack-harness.ts',
       'packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts',
     ],
@@ -390,7 +390,7 @@ export const V40_READING_PIPELINE_INTEGRATION_ROWS = Object.freeze([
       'PipelineAgentRegistry',
       'factoryAgentWithPTRR',
       'createFailsafeGenerationSequence',
-      'createThricifiedGeneration',
+      'createThinkingsGeneration',
       'ReadFitsFindingSynthesis',
     ],
     requiredTestMarkers: [

@@ -47,7 +47,7 @@ const SOURCE_ROOTS = Object.freeze({
   agentFactory: 'packages/agent-generics/src/agents/factories.ts',
   stepFactories: 'packages/agent-generics/src/steps/factories.ts',
   failsafeSequence: 'packages/agent-generics/src/steps/failsafe-sequence.ts',
-  thricifiedGeneration: 'packages/agent-generics/src/steps/thricified-generation.ts',
+  thricifiedGeneration: 'packages/agent-generics/src/steps/thinkings-generation.ts',
   substepFactories: 'packages/agent-generics/src/substeps/factories.ts',
   readingContract: 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
   gate2Inventory: 'packages/protocol/src/canonical/inference-surface-inventory.js',
@@ -354,7 +354,7 @@ function buildPredicateResults(repoRoot, index, gate2Inventory) {
     predicateResult(
       'failsafe.delegates-to-thricified',
       SOURCE_ROOTS.failsafeSequence,
-      sourceText.failsafeSequence.includes('createThricifiedGeneration'),
+      sourceText.failsafeSequence.includes('createThinkingsGeneration'),
     ),
     predicateResult(
       'failsafe.includes-prepare',
@@ -415,7 +415,7 @@ function buildPredicateResults(repoRoot, index, gate2Inventory) {
     predicateResult(
       'generation.marks-introspection',
       SOURCE_ROOTS.thricifiedGeneration,
-      sourceText.thricifiedGeneration.includes("__gen = 'thricified'"),
+      sourceText.thricifiedGeneration.includes("__gen = 'thinkings'"),
     ),
     predicateResult(
       'substep.creates-failsafe-execution',

@@ -2,7 +2,7 @@
  * Deposit SDIVF agent prompt contracts (V48 Gate 3).
  *
  * For each deposit-mode SynthesizeAssetPacks agent, run the REAL PTRR machinery
- * (factoryAgentWithPTRR -> Plan/Try/Refine/Retry, each Failsafe x Thricified)
+ * (factoryAgentWithPTRR -> Plan/Try/Refine/Retry, each Failsafe x Thinkings)
  * against a synthetic deposit execution tree with the LLM mocked at the boundary
  * (F26-A), capture every wire system prompt exactly as buildHierarchicalPrompt
  * composed it, and pin the prompt contract:
@@ -292,7 +292,7 @@ describe('Deposit SDIVF agent prompt contracts (boundary-mocked PTRR)', () => {
         const calls = await runAgentAndCapture(spec);
 
         // The full PTRR hierarchy actually ran (plan/try/refine/retry, each a
-        // Failsafe x Thricified generation => many boundary LLM calls).
+        // Failsafe x Thinkings generation => many boundary LLM calls).
         expect(calls.length).toBeGreaterThanOrEqual(4);
 
         // (a) The hierarchical system prompt reaches EVERY LLM call: each wire

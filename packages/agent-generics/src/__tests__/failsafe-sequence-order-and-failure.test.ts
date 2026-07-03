@@ -87,7 +87,7 @@ describe('createFailsafeGenerationSequence failure propagation', () => {
     const llm = async (input: any) => {
       counter.calls++;
       if (counter.calls === 4) {
-        // Prepare consumed calls 1-3 (its thricified pass); call 4 is the
+        // Prepare consumed calls 1-3 (its thinkings pass); call 4 is the
         // first generation of ChunkThenSum.
         throw new Error('LLM call timed out after 90000ms');
       }

@@ -5,7 +5,7 @@
   "currentTarget": "V37",
   "generatedAt": "2026-05-24T00:00:00.000Z",
   "artifactPath": ".bitcode/v38-disclosure-boundary-report.json",
-  "artifactRoot": "v38-inference-telemetry-disclosure-report:d2f5fdb3a1b1f892b3098904",
+  "artifactRoot": "v38-inference-telemetry-disclosure-report:6b52c044d55df62ac1b0db97",
   "sourceSafetyVerdict": "source-safe-inference-telemetry-disclosure-metadata",
   "passed": true,
   "failures": [],
@@ -296,7 +296,7 @@
       "eventKindId": "thricified-generation-lifecycle",
       "label": "ThricifiedGeneration Reason/Judge/StructuredOutput rows",
       "sourceRoots": [
-        "packages/agent-generics/src/steps/thricified-generation.ts",
+        "packages/agent-generics/src/steps/thinkings-generation.ts",
         "packages/pipelines/asset-pack/src/read-need.ts",
         "packages/agent-generics/src/diagnostics/instrumentation.ts",
         "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts"
@@ -765,7 +765,7 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
       "exists": true,
       "legacy": false
     },
@@ -1018,7 +1018,7 @@
     {
       "id": "telemetry:thricified-generation-lifecycle.source-roots-present",
       "rowId": "telemetry:thricified-generation-lifecycle",
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts,packages/pipelines/asset-pack/src/read-need.ts,packages/agent-generics/src/diagnostics/instrumentation.ts,packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts,packages/pipelines/asset-pack/src/read-need.ts,packages/agent-generics/src/diagnostics/instrumentation.ts,packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
       "passed": true
     },
     {
@@ -1343,7 +1343,7 @@
     "interpolatedPromptFlagCount": 17,
     "rawResponseFlagCount": 24,
     "parsedTypedOutputFlagCount": 19,
-    "schemaVerdictCount": 167
+    "schemaVerdictCount": 170
   },
   "upstreamProofRoots": {
     "v35TelemetryTaxonomyRoot": "telemetry-taxonomy-catalog:39e4b53d0c25aa4fdfd7e038",

@@ -5,7 +5,7 @@
  * hand-rolled inference loop:
  *   PipelineExecution → phase → factoryAgent (AgentExecution) → step
  *     → createFailsafeGenerationSequence  (Failsafe[prepare|chunk|stitch] ∘
- *        Thricified[reason|judge|structured_output])
+ *        Thinkings[reason|judge|structured_output])
  *
  * Every LLM call's prompt is built UPWARDS through the execution's prompt
  * registry: layered PromptParts registered on the AgentExecution.prompt
@@ -237,7 +237,7 @@ export async function synthesizeAssetPackCandidatesFormal(
   const phaseExec = pipelineExec.child(`phase:${request.lens}`);
 
   // A custom orchestration step (register layered prompts + run the formal
-  // Failsafe∘Thricified generation). Typed as a plain Executor; factoryAgent
+  // Failsafe∘Thinkings generation). Typed as a plain Executor; factoryAgent
   // only invokes it as a function, so it is cast to AgentStep at the call site.
   const measureStep = async (
     _input: unknown,

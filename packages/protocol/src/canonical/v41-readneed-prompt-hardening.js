@@ -454,7 +454,7 @@ function predicatesForRow(repoRoot, rowData) {
       predicate('inference.uses-real-thricified-inference', rowId, SOURCE_ROOTS.readNeed, /runReadNeedComprehensionInference/u.test(readNeed)),
       predicate('inference.prompt-template-id-bound', rowId, SOURCE_ROOTS.readNeed, /ReadNeedComprehensionSynthesis\.prompt\.need-synthesis/u.test(readNeed)),
       predicate('inference.fails-closed-without-llm', rowId, SOURCE_ROOTS.readNeed, /isAssetPackRealInferenceEnabled/u.test(readNeed) && /no configured LLM could be resolved/u.test(readNeed)),
-      predicate('test.real-inference-covers-thricified-generation', rowId, SOURCE_ROOTS.readNeedUnitTest, /real-inference ReadNeedComprehension through one ThricifiedGeneration/u.test(source)),
+      predicate('test.real-inference-covers-thricified-generation', rowId, SOURCE_ROOTS.readNeedUnitTest, /real-inference ReadNeedComprehension through one ThinkingsGeneration/u.test(source)),
     ];
   }
 

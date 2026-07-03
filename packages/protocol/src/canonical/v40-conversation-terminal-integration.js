@@ -331,7 +331,7 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
     requiredTestMarkers: [
       'pipeline ReadFitsFindingSynthesis',
       'telemetry 72 lines',
-      'ThricifiedGeneration',
+      'ThinkingsGeneration',
     ],
     expectedCounts: {
       harnessEventProjectionRequired: true,

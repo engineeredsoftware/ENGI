@@ -71,7 +71,7 @@ export interface ReadFitsFindingTelemetryReceipt {
   agentIds: string[];
   ptrrStepIds: string[];
   failsafeSequenceIds: string[];
-  thricifiedGenerationIds: string[];
+  thinkingsGenerationIds: string[];
   toolIds: string[];
   outputSchemaIds: string[];
   root: string;
@@ -238,9 +238,9 @@ function telemetryReceipt(result: DepositorySearchResult): ReadFitsFindingTeleme
   );
   const ptrrStepIds = trace.map((entry) => entry.ptrrStepId);
   const failsafeSequenceIds = trace.flatMap((entry) =>
-    entry.thricifiedGenerations.map((generation) => `${entry.ptrrStepId}.${generation.failsafe}`)
+    entry.thinkingsGenerations.map((generation) => `${entry.ptrrStepId}.${generation.failsafe}`)
   );
-  const thricifiedGenerationIds = trace.flatMap((entry) => entry.thricifiedGenerationIds);
+  const thinkingsGenerationIds = trace.flatMap((entry) => entry.thinkingsGenerationIds);
   const toolIds = [...new Set(trace.flatMap((entry) => entry.toolIds))].sort();
   const outputSchemaIds = [...new Set(trace.map((entry) => entry.outputType))].sort();
   const root = rootOf({
@@ -249,7 +249,7 @@ function telemetryReceipt(result: DepositorySearchResult): ReadFitsFindingTeleme
     agentIds,
     ptrrStepIds,
     failsafeSequenceIds,
-    thricifiedGenerationIds,
+    thinkingsGenerationIds,
     toolIds,
     outputSchemaIds,
     queryRoot: result.queryRoot,
@@ -264,7 +264,7 @@ function telemetryReceipt(result: DepositorySearchResult): ReadFitsFindingTeleme
     agentIds,
     ptrrStepIds,
     failsafeSequenceIds,
-    thricifiedGenerationIds,
+    thinkingsGenerationIds,
     toolIds,
     outputSchemaIds,
     root,

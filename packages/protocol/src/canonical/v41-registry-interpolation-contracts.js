@@ -87,7 +87,7 @@ const SOURCE_ROOTS = Object.freeze({
   agentFactory: 'packages/agent-generics/src/agents/factories.ts',
   stepFactories: 'packages/agent-generics/src/steps/factories.ts',
   failsafeSequence: 'packages/agent-generics/src/steps/failsafe-sequence.ts',
-  thricifiedGeneration: 'packages/agent-generics/src/steps/thricified-generation.ts',
+  thricifiedGeneration: 'packages/agent-generics/src/steps/thinkings-generation.ts',
   substepFactories: 'packages/agent-generics/src/substeps/factories.ts',
   promptOverlays: 'packages/agent-generics/src/execution/prompt-overlays.ts',
   docCodeToolDecorator: 'packages/tools-generics/src/doc-code-tool/DocCodeToolDecorator.ts',
@@ -593,7 +593,7 @@ function buildPredicateResults(sourceText, gate2Inventory) {
     predicateResult(
       'failsafe.delegates-to-thricified',
       SOURCE_ROOTS.failsafeSequence,
-      sourceText.failsafeSequence.includes('createThricifiedGeneration'),
+      sourceText.failsafeSequence.includes('createThinkingsGeneration'),
     ),
     predicateResult(
       'failsafe.includes-context-chunk-stitch',

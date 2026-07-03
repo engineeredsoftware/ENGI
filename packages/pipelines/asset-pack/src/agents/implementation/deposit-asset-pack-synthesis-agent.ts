@@ -8,7 +8,7 @@
  * descriptor. The agent reasons over the Discovery comprehension stores (codebase
  * comprehension, depository-fit search, inherent regurgitation) and obfuscation
  * guidance — not raw source. Runs on the formal PTRR machinery
- * (factoryAgentWithPTRR → Plan/Try/Refine/Retry, each a Failsafe × Thricified
+ * (factoryAgentWithPTRR → Plan/Try/Refine/Retry, each a Failsafe × Thinkings
  * generation) so every call renders in the SDIVF telemetry. Each synthesized
  * patch is then recorded through the formal AssetPackPatchWriteTool code-edit
  * primitive (a tracked materialization, not an fs-write).

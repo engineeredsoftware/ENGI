@@ -59,7 +59,7 @@ function toSafeSingleLine(value: string): string {
 //
 // The rich telemetry renders EXACTLY two formal log-line kinds, plus a few
 // terminal/high-level signals — nothing else:
-//   • LLM call  — the inference leaf. Canonically the Thricified substep output
+//   • LLM call  — the inference leaf. Canonically the Thinkings substep output
 //     (`llm/output`, stream type `generation`), whose value carries the full
 //     hierarchy {phase, agent, step, failsafe, generation}. Rendered with all
 //     five pills + source-safe content + provider/model/usage metadata.
@@ -69,7 +69,7 @@ function toSafeSingleLine(value: string): string {
 // Every other store event (step/agent/phase name stores, prompt-side llm keys,
 // `llm/response` registry copies, cwd paths, generation markers, tool sub-keys)
 // is intermediate CONTEXT: it updates the rolling hierarchy but never becomes a
-// row. This is what stops `try` / `setup-plan` / `thricified-generation` / path
+// row. This is what stops `try` / `setup-plan` / `thinkings-generation` / path
 // fragments from fragmenting the log and stabilizes the pipeline↔UI contract.
 // ---------------------------------------------------------------------------
 
@@ -137,13 +137,13 @@ function classifyFormalLogLine(payload: any): FormalLogLineKind | null {
   const key = String(payload?.key || '');
 
   // The rich telemetry renders ONLY the ultimate LLM-call layer and Tool uses —
-  // each with its complete hierarchy (LLM: Phase/Agent/Step/Failsafe/Thricified;
+  // each with its complete hierarchy (LLM: Phase/Agent/Step/Failsafe/Thinkings;
   // Tool: Phase/Agent/Step + tool). Everything else (informational status, phase
   // banners, completion/error notices) advances the rolling context but never
   // becomes a row; run completion is surfaced by the processing indicator and
   // errors by the log's error banner, not by accordion rows.
 
-  // Formal LLM call: the Thricified substep output is canonical (full hierarchy).
+  // Formal LLM call: the Thinkings substep output is canonical (full hierarchy).
   if (type === 'generation') return 'llm';
   if (ns === 'llm' && key === 'output') return 'llm';
 
@@ -256,7 +256,7 @@ export function buildTerminalRunActivityFromEvents(
       const acc = toolByNode.get(nodeId) || {};
       const toolName =
         acc.name || payload?.data?.tool || payload?.metadata?.toolName || (key === 'error' ? 'tool (failed)' : 'tool');
-      // Tool uses have Phase/Agent/Step but no Failsafe/Thricified.
+      // Tool uses have Phase/Agent/Step but no Failsafe/Thinkings.
       const merged: ExecContext = {
         phase: rollingContext.phase ?? null,
         agent: rollingContext.agent ?? null,

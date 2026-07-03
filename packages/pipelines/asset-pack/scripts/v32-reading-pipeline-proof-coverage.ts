@@ -59,7 +59,7 @@ type ReadingPipelineProofCoverageArtifact = {
       ptrrAgents: number;
       ptrrSteps: number;
       modelStructuredPtrrSteps: number;
-      thricifiedGenerations: number;
+      thinkingsGenerations: number;
       tools: number;
     };
     readFitsFinding: {
@@ -67,7 +67,7 @@ type ReadingPipelineProofCoverageArtifact = {
       ptrrAgents: number;
       ptrrSteps: number;
       modelStructuredPtrrSteps: number;
-      thricifiedGenerations: number;
+      thinkingsGenerations: number;
       tools: number;
     };
   };
@@ -107,12 +107,12 @@ type ReadingPipelineProofCoverageArtifact = {
       parsedTypedOutput: boolean;
     };
   }>;
-  thricifiedGenerationCoverage: Array<{
+  thinkingsGenerationCoverage: Array<{
     pipelineName: string;
     phaseId: string;
     agentId: string;
     ptrrStepId: string;
-    thricifiedGenerationId: string;
+    thinkingsGenerationId: string;
     failsafe: string;
     reasonPromptId: string;
     judgePromptId: string;
@@ -249,14 +249,14 @@ export function buildV32ReadingPipelineProofCoverage(): ReadingPipelineProofCove
         parsedTypedOutput: step.telemetry.some((entry) => entry.includes('parsed-typed-output')),
       },
     }));
-  const thricifiedGenerationCoverage = READING_PIPELINE_CONTRACTS.flatMap((contract) =>
+  const thinkingsGenerationCoverage = READING_PIPELINE_CONTRACTS.flatMap((contract) =>
     listReadingPipelineTelemetryTrace(contract).flatMap((trace) =>
-      trace.thricifiedGenerations.map((generation) => ({
+      trace.thinkingsGenerations.map((generation) => ({
         pipelineName: trace.pipelineName,
         phaseId: trace.phaseId,
         agentId: trace.agentId,
         ptrrStepId: trace.ptrrStepId,
-        thricifiedGenerationId: generation.thricifiedGenerationId,
+        thinkingsGenerationId: generation.thinkingsGenerationId,
         failsafe: generation.failsafe,
         reasonPromptId: generation.reasonPromptId,
         judgePromptId: generation.judgePromptId,
@@ -352,7 +352,7 @@ export function buildV32ReadingPipelineProofCoverage(): ReadingPipelineProofCove
         ptrrAgents: 4,
         ptrrSteps: 16,
         modelStructuredPtrrSteps: 4,
-        thricifiedGenerations: 48,
+        thinkingsGenerations: 48,
         tools: 0,
       },
       readFitsFinding: {
@@ -360,7 +360,7 @@ export function buildV32ReadingPipelineProofCoverage(): ReadingPipelineProofCove
         ptrrAgents: 8,
         ptrrSteps: 32,
         modelStructuredPtrrSteps: 16,
-        thricifiedGenerations: 96,
+        thinkingsGenerations: 96,
         tools: 4,
       },
     },
@@ -368,7 +368,7 @@ export function buildV32ReadingPipelineProofCoverage(): ReadingPipelineProofCove
     phaseCoverage,
     ptrrAgentCoverage,
     modelStructuredStepCoverage,
-    thricifiedGenerationCoverage,
+    thinkingsGenerationCoverage,
     toolCoverage,
     boundaryCoverage,
     validationCommands: [
@@ -394,11 +394,11 @@ function validateV32ReadingPipelineProofCoverage(artifact: ReadingPipelineProofC
   if (artifact.totals.phases !== 11) failures.push('expected eleven Reading phases');
   if (artifact.totals.ptrrAgents !== 12) failures.push('expected twelve PTRR agents');
   if (artifact.totals.ptrrSteps !== 48) failures.push('expected forty-eight PTRR steps');
-  if (artifact.totals.thricifiedGenerations !== 144) failures.push('expected one hundred forty-four ThricifiedGenerations');
+  if (artifact.totals.thinkingsGenerations !== 144) failures.push('expected one hundred forty-four ThinkingsGenerations');
   if (artifact.totals.promptTemplates !== 5) failures.push('expected five prompt templates');
   if (artifact.totals.tools !== 4) failures.push('expected four tools');
   if (artifact.modelStructuredStepCoverage.length !== 20) failures.push('expected twenty model-structured PTRR steps');
-  if (artifact.thricifiedGenerationCoverage.length !== 144) failures.push('expected every ThricifiedGeneration to be inventoried');
+  if (artifact.thinkingsGenerationCoverage.length !== 144) failures.push('expected every ThinkingsGeneration to be inventoried');
   if (artifact.toolCoverage.length !== 4) failures.push('expected every Reading tool to be inventoried once');
   if (artifact.boundaryCoverage.some((boundary) => boundary.passed !== true)) {
     failures.push('all Reading disclosure and delivery boundary assertions must pass');
@@ -409,9 +409,9 @@ function validateV32ReadingPipelineProofCoverage(artifact: ReadingPipelineProofC
     if (step.interpolatedContextKeys.length === 0) failures.push(`${step.ptrrStepId} missing interpolated context keys`);
     if (!Object.values(step.telemetryReady).every(Boolean)) failures.push(`${step.ptrrStepId} missing model telemetry`);
   }
-  for (const generation of artifact.thricifiedGenerationCoverage) {
-    if (!generation.storesTypedOutput) failures.push(`${generation.thricifiedGenerationId} missing typed-output storage`);
-    if (!generation.telemetryTypedOutput) failures.push(`${generation.thricifiedGenerationId} missing typed-output telemetry`);
+  for (const generation of artifact.thinkingsGenerationCoverage) {
+    if (!generation.storesTypedOutput) failures.push(`${generation.thinkingsGenerationId} missing typed-output storage`);
+    if (!generation.telemetryTypedOutput) failures.push(`${generation.thinkingsGenerationId} missing typed-output telemetry`);
   }
   for (const tool of artifact.toolCoverage) {
     if (!tool.tryStepOnly) failures.push(`${tool.toolId} must be bound to exactly one try step`);

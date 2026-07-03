@@ -5,7 +5,7 @@
   "currentTarget": "V40",
   "generatedAt": "2026-05-26T00:00:00.000Z",
   "artifactPath": ".bitcode/v41-reading-prompt-benchmark-baselines.json",
-  "artifactRoot": "v41-reading-prompt-benchmark-baselines:82e956682fa1353ed9df6cff",
+  "artifactRoot": "v41-reading-prompt-benchmark-baselines:3aa915a7a731a50181d19292",
   "sourceSafetyVerdict": "source-safe-reading-prompt-benchmark-baseline-metadata",
   "pipelineIds": [
     "ReadNeedComprehensionSynthesis",
@@ -133,7 +133,7 @@
           "ReadNeedComprehensionSynthesis"
         ],
         "promptPartRowCount": 63,
-        "promptRowCount": 8,
+        "promptRowCount": 6,
         "benchmarkFixtureIds": [
           "fixture.generic-ptrr.reason-judge-structured-output",
           "fixture.interface.source-safe-user-visible-prompting",
@@ -162,10 +162,10 @@
           "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
           "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-validation-ready-to-finish-prompt.ts"
         ],
-        "promptTemplateIdCount": 9,
+        "promptTemplateIdCount": 10,
         "interpolatedContextKeyCount": 7,
         "ptrrAgentFactoryCount": 15,
-        "thricifiedGenerationCount": 30,
+        "thricifiedGenerationCount": 31,
         "toolContractCount": 6,
         "parserTargetsPresent": [
           "ReadNeed",
@@ -173,7 +173,7 @@
           "ReadNeedSourceInput"
         ],
         "parserTargetPresentCount": 3,
-        "zodSchemaCount": 11,
+        "zodSchemaCount": 21,
         "telemetryCount": 102,
         "sourceSafetyCount": 18,
         "benchmarkDefinitionCount": 22,
@@ -284,7 +284,7 @@
           "ReadNeedComprehensionSynthesis"
         ],
         "promptPartRowCount": 63,
-        "promptRowCount": 8,
+        "promptRowCount": 6,
         "benchmarkFixtureIds": [
           "fixture.generic-ptrr.reason-judge-structured-output",
           "fixture.interface.source-safe-user-visible-prompting",
@@ -304,10 +304,10 @@
           "packages/pipelines/asset-pack/src/read-need.ts",
           "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
         ],
-        "promptTemplateIdCount": 11,
+        "promptTemplateIdCount": 12,
         "interpolatedContextKeyCount": 7,
         "ptrrAgentFactoryCount": 15,
-        "thricifiedGenerationCount": 37,
+        "thricifiedGenerationCount": 38,
         "toolContractCount": 6,
         "parserTargetsPresent": [
           "AcceptedReadNeed",
@@ -316,7 +316,7 @@
           "ResynthesisRequestedReadNeed"
         ],
         "parserTargetPresentCount": 4,
-        "zodSchemaCount": 11,
+        "zodSchemaCount": 21,
         "telemetryCount": 129,
         "sourceSafetyCount": 34,
         "benchmarkDefinitionCount": 0,
@@ -423,7 +423,7 @@
           "ReadNeedComprehensionSynthesis"
         ],
         "promptPartRowCount": 63,
-        "promptRowCount": 8,
+        "promptRowCount": 6,
         "benchmarkFixtureIds": [
           "fixture.generic-ptrr.reason-judge-structured-output",
           "fixture.interface.source-safe-user-visible-prompting",
@@ -442,10 +442,10 @@
           "packages/pipelines/asset-pack/src/read-need.ts",
           "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
         ],
-        "promptTemplateIdCount": 9,
+        "promptTemplateIdCount": 10,
         "interpolatedContextKeyCount": 7,
         "ptrrAgentFactoryCount": 15,
-        "thricifiedGenerationCount": 30,
+        "thricifiedGenerationCount": 31,
         "toolContractCount": 6,
         "parserTargetsPresent": [
           "ReadNeedMeasurementDimension",
@@ -453,7 +453,7 @@
           "ShareToFeeQuote"
         ],
         "parserTargetPresentCount": 3,
-        "zodSchemaCount": 11,
+        "zodSchemaCount": 21,
         "telemetryCount": 102,
         "sourceSafetyCount": 18,
         "benchmarkDefinitionCount": 0,
@@ -572,7 +572,7 @@
           "ReadFitsFindingSynthesis"
         ],
         "promptPartRowCount": 490,
-        "promptRowCount": 47,
+        "promptRowCount": 52,
         "benchmarkFixtureIds": [
           "fixture.conversation.terminal-system-boundary",
           "fixture.generic-ptrr.reason-judge-structured-output",
@@ -614,15 +614,15 @@
         "parserTargetPresentCount": 4,
         "zodSchemaCount": 2,
         "telemetryCount": 126,
-        "sourceSafetyCount": 94,
+        "sourceSafetyCount": 96,
         "benchmarkDefinitionCount": 0,
         "queryPlanCount": 121,
-        "embeddingPolicyCount": 131,
+        "embeddingPolicyCount": 132,
         "rankingCount": 183,
-        "previewCount": 19,
+        "previewCount": 43,
         "quoteCount": 6,
-        "settlementCount": 30,
-        "repairCount": 42
+        "settlementCount": 42,
+        "repairCount": 44
       },
       "metricScores": {
         "many_candidate_fit_recall": 1,
@@ -726,7 +726,7 @@
           "ReadFitsFindingSynthesis"
         ],
         "promptPartRowCount": 490,
-        "promptRowCount": 47,
+        "promptRowCount": 52,
         "benchmarkFixtureIds": [
           "fixture.conversation.terminal-system-boundary",
           "fixture.generic-ptrr.reason-judge-structured-output",
@@ -762,15 +762,15 @@
         "parserTargetPresentCount": 4,
         "zodSchemaCount": 2,
         "telemetryCount": 126,
-        "sourceSafetyCount": 94,
+        "sourceSafetyCount": 96,
         "benchmarkDefinitionCount": 0,
         "queryPlanCount": 121,
-        "embeddingPolicyCount": 121,
+        "embeddingPolicyCount": 122,
         "rankingCount": 183,
-        "previewCount": 19,
+        "previewCount": 43,
         "quoteCount": 6,
-        "settlementCount": 30,
-        "repairCount": 42
+        "settlementCount": 42,
+        "repairCount": 44
       },
       "metricScores": {
         "many_candidate_fit_recall": 1,
@@ -878,7 +878,7 @@
           "ReadFitsFindingSynthesis"
         ],
         "promptPartRowCount": 490,
-        "promptRowCount": 47,
+        "promptRowCount": 52,
         "benchmarkFixtureIds": [
           "fixture.conversation.terminal-system-boundary",
           "fixture.generic-ptrr.reason-judge-structured-output",
@@ -908,9 +908,9 @@
           "packages/pipelines/asset-pack/src/agents/prompts/analyze-parallel-prompt.ts",
           "packages/pipelines/asset-pack/src/agents/prompts/assess-complexity-prompt.ts"
         ],
-        "promptTemplateIdCount": 7,
+        "promptTemplateIdCount": 6,
         "interpolatedContextKeyCount": 6,
-        "ptrrAgentFactoryCount": 17,
+        "ptrrAgentFactoryCount": 18,
         "thricifiedGenerationCount": 22,
         "toolContractCount": 6,
         "parserTargetsPresent": [
@@ -920,16 +920,16 @@
           "ReadyToFinishOutput"
         ],
         "parserTargetPresentCount": 4,
-        "zodSchemaCount": 16,
-        "telemetryCount": 90,
-        "sourceSafetyCount": 9,
+        "zodSchemaCount": 15,
+        "telemetryCount": 89,
+        "sourceSafetyCount": 6,
         "benchmarkDefinitionCount": 22,
-        "queryPlanCount": 4,
-        "embeddingPolicyCount": 9,
-        "rankingCount": 19,
-        "previewCount": 20,
-        "quoteCount": 9,
-        "settlementCount": 22,
+        "queryPlanCount": 1,
+        "embeddingPolicyCount": 5,
+        "rankingCount": 8,
+        "previewCount": 16,
+        "quoteCount": 6,
+        "settlementCount": 11,
         "repairCount": 0
       },
       "metricScores": {
@@ -1032,7 +1032,7 @@
           "ReadFitsFindingSynthesis"
         ],
         "promptPartRowCount": 490,
-        "promptRowCount": 47,
+        "promptRowCount": 52,
         "benchmarkFixtureIds": [
           "fixture.conversation.terminal-system-boundary",
           "fixture.generic-ptrr.reason-judge-structured-output",
@@ -1054,10 +1054,10 @@
           "packages/pipelines/asset-pack/src/read-need.ts",
           "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
         ],
-        "promptTemplateIdCount": 9,
+        "promptTemplateIdCount": 10,
         "interpolatedContextKeyCount": 7,
         "ptrrAgentFactoryCount": 15,
-        "thricifiedGenerationCount": 30,
+        "thricifiedGenerationCount": 31,
         "toolContractCount": 6,
         "parserTargetsPresent": [
           "AssetPackDisclosureReview",
@@ -1066,7 +1066,7 @@
           "ShareToFeeQuote"
         ],
         "parserTargetPresentCount": 4,
-        "zodSchemaCount": 11,
+        "zodSchemaCount": 21,
         "telemetryCount": 102,
         "sourceSafetyCount": 72,
         "benchmarkDefinitionCount": 0,
@@ -1178,7 +1178,7 @@
           "ReadFitsFindingSynthesis"
         ],
         "promptPartRowCount": 490,
-        "promptRowCount": 47,
+        "promptRowCount": 52,
         "benchmarkFixtureIds": [
           "fixture.conversation.terminal-system-boundary",
           "fixture.generic-ptrr.reason-judge-structured-output",
@@ -1225,10 +1225,10 @@
         "queryPlanCount": 1,
         "embeddingPolicyCount": 5,
         "rankingCount": 11,
-        "previewCount": 157,
-        "quoteCount": 32,
-        "settlementCount": 292,
-        "repairCount": 45
+        "previewCount": 163,
+        "quoteCount": 42,
+        "settlementCount": 362,
+        "repairCount": 47
       },
       "metricScores": {
         "settlement_quote_explainability": 1,
@@ -1339,7 +1339,7 @@
           "ReadFitsFindingSynthesis"
         ],
         "promptPartRowCount": 490,
-        "promptRowCount": 49,
+        "promptRowCount": 54,
         "benchmarkFixtureIds": [
           "fixture.conversation.terminal-system-boundary",
           "fixture.generic-ptrr.reason-judge-structured-output",
@@ -1498,7 +1498,7 @@
           "ReadFitsFindingSynthesis"
         ],
         "promptPartRowCount": 490,
-        "promptRowCount": 49,
+        "promptRowCount": 54,
         "benchmarkFixtureIds": [
           "fixture.conversation.terminal-system-boundary",
           "fixture.generic-ptrr.reason-judge-structured-output",
@@ -1540,10 +1540,10 @@
         "queryPlanCount": 53,
         "embeddingPolicyCount": 10,
         "rankingCount": 55,
-        "previewCount": 349,
-        "quoteCount": 109,
-        "settlementCount": 427,
-        "repairCount": 209
+        "previewCount": 355,
+        "quoteCount": 119,
+        "settlementCount": 497,
+        "repairCount": 211
       },
       "metricScores": {
         "need_boundary_precision": 1,
@@ -1574,10 +1574,10 @@
         "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
         "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-validation-ready-to-finish-prompt.ts"
       ],
-      "promptTemplateIdCount": 9,
+      "promptTemplateIdCount": 10,
       "interpolatedContextKeyCount": 7,
       "ptrrAgentFactoryCount": 15,
-      "thricifiedGenerationCount": 30,
+      "thricifiedGenerationCount": 31,
       "toolContractCount": 6,
       "parserTargetsPresent": [
         "ReadNeed",
@@ -1585,7 +1585,7 @@
         "ReadNeedSourceInput"
       ],
       "parserTargetPresentCount": 3,
-      "zodSchemaCount": 11,
+      "zodSchemaCount": 21,
       "telemetryCount": 102,
       "sourceSafetyCount": 18,
       "benchmarkDefinitionCount": 22,
@@ -1606,10 +1606,10 @@
         "packages/pipelines/asset-pack/src/read-need.ts",
         "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
       ],
-      "promptTemplateIdCount": 11,
+      "promptTemplateIdCount": 12,
       "interpolatedContextKeyCount": 7,
       "ptrrAgentFactoryCount": 15,
-      "thricifiedGenerationCount": 37,
+      "thricifiedGenerationCount": 38,
       "toolContractCount": 6,
       "parserTargetsPresent": [
         "AcceptedReadNeed",
@@ -1618,7 +1618,7 @@
         "ResynthesisRequestedReadNeed"
       ],
       "parserTargetPresentCount": 4,
-      "zodSchemaCount": 11,
+      "zodSchemaCount": 21,
       "telemetryCount": 129,
       "sourceSafetyCount": 34,
       "benchmarkDefinitionCount": 0,
@@ -1638,10 +1638,10 @@
         "packages/pipelines/asset-pack/src/read-need.ts",
         "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
       ],
-      "promptTemplateIdCount": 9,
+      "promptTemplateIdCount": 10,
       "interpolatedContextKeyCount": 7,
       "ptrrAgentFactoryCount": 15,
-      "thricifiedGenerationCount": 30,
+      "thricifiedGenerationCount": 31,
       "toolContractCount": 6,
       "parserTargetsPresent": [
         "ReadNeedMeasurementDimension",
@@ -1649,7 +1649,7 @@
         "ShareToFeeQuote"
       ],
       "parserTargetPresentCount": 3,
-      "zodSchemaCount": 11,
+      "zodSchemaCount": 21,
       "telemetryCount": 102,
       "sourceSafetyCount": 18,
       "benchmarkDefinitionCount": 0,
@@ -1691,15 +1691,15 @@
       "parserTargetPresentCount": 4,
       "zodSchemaCount": 2,
       "telemetryCount": 126,
-      "sourceSafetyCount": 94,
+      "sourceSafetyCount": 96,
       "benchmarkDefinitionCount": 0,
       "queryPlanCount": 121,
-      "embeddingPolicyCount": 131,
+      "embeddingPolicyCount": 132,
       "rankingCount": 183,
-      "previewCount": 19,
+      "previewCount": 43,
       "quoteCount": 6,
-      "settlementCount": 30,
-      "repairCount": 42
+      "settlementCount": 42,
+      "repairCount": 44
     },
     "readfits-many-candidate-ranking-baseline": {
       "baselineId": "readfits-many-candidate-ranking-baseline",
@@ -1725,15 +1725,15 @@
       "parserTargetPresentCount": 4,
       "zodSchemaCount": 2,
       "telemetryCount": 126,
-      "sourceSafetyCount": 94,
+      "sourceSafetyCount": 96,
       "benchmarkDefinitionCount": 0,
       "queryPlanCount": 121,
-      "embeddingPolicyCount": 121,
+      "embeddingPolicyCount": 122,
       "rankingCount": 183,
-      "previewCount": 19,
+      "previewCount": 43,
       "quoteCount": 6,
-      "settlementCount": 30,
-      "repairCount": 42
+      "settlementCount": 42,
+      "repairCount": 44
     },
     "readfits-assetpack-context-synthesis-baseline": {
       "baselineId": "readfits-assetpack-context-synthesis-baseline",
@@ -1753,9 +1753,9 @@
         "packages/pipelines/asset-pack/src/agents/prompts/analyze-parallel-prompt.ts",
         "packages/pipelines/asset-pack/src/agents/prompts/assess-complexity-prompt.ts"
       ],
-      "promptTemplateIdCount": 7,
+      "promptTemplateIdCount": 6,
       "interpolatedContextKeyCount": 6,
-      "ptrrAgentFactoryCount": 17,
+      "ptrrAgentFactoryCount": 18,
       "thricifiedGenerationCount": 22,
       "toolContractCount": 6,
       "parserTargetsPresent": [
@@ -1765,16 +1765,16 @@
         "ReadyToFinishOutput"
       ],
       "parserTargetPresentCount": 4,
-      "zodSchemaCount": 16,
-      "telemetryCount": 90,
-      "sourceSafetyCount": 9,
+      "zodSchemaCount": 15,
+      "telemetryCount": 89,
+      "sourceSafetyCount": 6,
       "benchmarkDefinitionCount": 22,
-      "queryPlanCount": 4,
-      "embeddingPolicyCount": 9,
-      "rankingCount": 19,
-      "previewCount": 20,
-      "quoteCount": 9,
-      "settlementCount": 22,
+      "queryPlanCount": 1,
+      "embeddingPolicyCount": 5,
+      "rankingCount": 8,
+      "previewCount": 16,
+      "quoteCount": 6,
+      "settlementCount": 11,
       "repairCount": 0
     },
     "assetpack-preview-disclosure-quote-baseline": {
@@ -1787,10 +1787,10 @@
         "packages/pipelines/asset-pack/src/read-need.ts",
         "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
       ],
-      "promptTemplateIdCount": 9,
+      "promptTemplateIdCount": 10,
       "interpolatedContextKeyCount": 7,
       "ptrrAgentFactoryCount": 15,
-      "thricifiedGenerationCount": 30,
+      "thricifiedGenerationCount": 31,
       "toolContractCount": 6,
       "parserTargetsPresent": [
         "AssetPackDisclosureReview",
@@ -1799,7 +1799,7 @@
         "ShareToFeeQuote"
       ],
       "parserTargetPresentCount": 4,
-      "zodSchemaCount": 11,
+      "zodSchemaCount": 21,
       "telemetryCount": 102,
       "sourceSafetyCount": 72,
       "benchmarkDefinitionCount": 0,
@@ -1846,10 +1846,10 @@
       "queryPlanCount": 1,
       "embeddingPolicyCount": 5,
       "rankingCount": 11,
-      "previewCount": 157,
-      "quoteCount": 32,
-      "settlementCount": 292,
-      "repairCount": 45
+      "previewCount": 163,
+      "quoteCount": 42,
+      "settlementCount": 362,
+      "repairCount": 47
     },
     "reading-telemetry-summary-baseline": {
       "baselineId": "reading-telemetry-summary-baseline",
@@ -1914,10 +1914,10 @@
       "queryPlanCount": 53,
       "embeddingPolicyCount": 10,
       "rankingCount": 55,
-      "previewCount": 349,
-      "quoteCount": 109,
-      "settlementCount": 427,
-      "repairCount": 209
+      "previewCount": 355,
+      "quoteCount": 119,
+      "settlementCount": 497,
+      "repairCount": 211
     }
   },
   "sourcePredicateResults": [
@@ -2735,8 +2735,8 @@
     }
   ],
   "dependencyRoots": {
-    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:296926f1c26d370f7e91a70d",
-    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:fb4b99ad86f0cf6f4a9c04c4",
+    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
+    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:46320b06f8417ffc0b86c713",
     "v38PromptBenchmarkReportRoot": "v38-prompt-benchmark-report:7c34a5c11c25c490aedf413d",
     "v40PromptBenchmarkSmokeRoot": "v40-prompt-benchmark-smoke-v41-readiness:3164923746757b9b02fc30ae"
   },
@@ -2880,14 +2880,14 @@
     "readNeedBaselineRowCount": 3,
     "readFitsBaselineRowCount": 7,
     "readNeedInventoryPromptPartRowCount": 63,
-    "readNeedInventoryPromptRowCount": 8,
+    "readNeedInventoryPromptRowCount": 6,
     "readFitsInventoryPromptPartRowCount": 490,
-    "readFitsInventoryPromptRowCount": 47,
+    "readFitsInventoryPromptRowCount": 52,
     "baselineScoreMinimum": 1,
     "baselineScoreAverage": 1,
     "sourceSafeMetadataOnly": true,
-    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:296926f1c26d370f7e91a70d",
-    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:fb4b99ad86f0cf6f4a9c04c4",
+    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
+    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:46320b06f8417ffc0b86c713",
     "v38PromptBenchmarkReportRoot": "v38-prompt-benchmark-report:7c34a5c11c25c490aedf413d",
     "v40PromptBenchmarkSmokeRoot": "v40-prompt-benchmark-smoke-v41-readiness:3164923746757b9b02fc30ae"
   },
