@@ -42,6 +42,7 @@ import { AgentVariationStep } from '../types';
 import { z } from 'zod';
 import { logStepTrace, logStepStart, logStepError } from '../diagnostics/instrumentation';
 import { createFailsafeGenerationSequence } from './failsafe-sequence';
+import { PlanStepOutputSchema } from './step-schemas';
 
 function formatStepPromptCarrier(prompt: any): any {
   if (!prompt) return prompt;
@@ -119,11 +120,15 @@ function publishAgentStepWorkUpdate(
 
 /**
  * Plan Step Factory - analyzes the Read and creates an execution plan.
- * 
+ *
  * Uses failsafe parent architecture:
  * 1. PrepareConciseContext (parent) -> runs Reason-Judge-StructuredOutput (children)
  * 2. ChunkThenSum (parent) -> handles any chunking needed
  * 3. StitchUntilComplete (parent) -> ensures complete output
+ *
+ * `outputSchema` is the PLAN STEP's schema — the plan shape the step is
+ * prompted to produce (canonically `PlanStepOutputSchema`), NOT the agent's
+ * full output schema. Step outputs validate against step schemas.
  */
 export function factoryPlanStep<TInput, TOutput>(
   outputSchema: z.ZodType<TOutput>,
@@ -465,7 +470,12 @@ export function factoryRetryStep<TInput, TOutput>(
 // ==================== STEP FACTORY ====================
 
 /**
- * Create a PTRR step based on type
+ * Create a PTRR step based on type.
+ *
+ * Step outputs validate against STEP schemas: `outputSchema` here is the
+ * agent's output schema and applies to Try/Refine/Retry; the Plan step
+ * validates against the canonical `PlanStepOutputSchema` (override via
+ * `options.outputSchema`).
  */
 export function factoryStep<TInput, TOutput>(
   type: AgentVariationStep,
@@ -474,17 +484,17 @@ export function factoryStep<TInput, TOutput>(
 ): StepExecutor<TInput, TOutput> {
   switch (type) {
     case AgentVariationStep.PLAN:
-      return factoryPlanStep(outputSchema);
-      
+      return factoryPlanStep(options?.outputSchema ?? PlanStepOutputSchema, options) as any;
+
     case AgentVariationStep.TRY:
       return factoryTryStep(outputSchema, options);
-      
+
     case AgentVariationStep.REFINE:
-      return factoryRefineStep(outputSchema);
-      
+      return factoryRefineStep(outputSchema, options);
+
     case AgentVariationStep.RETRY:
       return factoryRetryStep(outputSchema, options);
-      
+
     default:
       throw new Error(`Unknown step type: ${type}`);
   }
@@ -504,9 +514,10 @@ export function factoryPTRRAction<TInput, TOutput>(
   }
 ): AgentStep<TInput, TOutput> {
   const steps: StepExecutor<any, any>[] = [
-    // Always start with Plan
-    factoryPlanStep(config.outputSchema),
-    
+    // Always start with Plan — validated against the PLAN STEP schema (the
+    // plan shape), not the agent's output schema.
+    factoryPlanStep(PlanStepOutputSchema),
+
     // Try to execute
     factoryTryStep(config.outputSchema, {
       chunkThreshold: config.chunkThreshold

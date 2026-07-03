@@ -98,6 +98,9 @@ export {
   factoryRetryStep,
   factoryStep
 } from './steps/factories';
+// Canonical PTRR STEP output schemas (step outputs validate against STEP
+// schemas, not the full agent schema — Plan's default plan shape lives here)
+export { PlanStepOutputSchema, type PlanStepOutput } from './steps/step-schemas';
 // Generation-first aliases
 export {
   factoryPlanGeneration,

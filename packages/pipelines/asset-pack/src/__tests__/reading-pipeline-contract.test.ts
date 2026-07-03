@@ -82,7 +82,9 @@ describe('Reading pipeline contracts', () => {
     expect(modelSteps).toHaveLength(4);
     for (const modelStep of modelSteps) {
       expect(modelStep.prompt?.templateId).toBe('ReadNeedComprehensionSynthesis.prompt.need-synthesis');
-      expect(modelStep.outputType).toBe('ReadNeed');
+      // Step outputs validate against STEP schemas: the plan step returns the
+      // canonical plan shape; try/refine/retry return the agent output type.
+      expect(modelStep.outputType).toBe(modelStep.ptrrStepName === 'plan' ? 'PlanStepOutput' : 'ReadNeed');
     }
   });
 

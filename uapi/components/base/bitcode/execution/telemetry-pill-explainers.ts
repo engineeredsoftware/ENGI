@@ -192,9 +192,12 @@ const AGENT_SPECIFICS: Array<[match: string, copy: ModeVariants]> = [
 // PTRR step specifics: what each step is prompted to do, generating against
 // the surrounding agent's output schema (the possessive comes from the row
 // context when the trigger passes one).
+// Step outputs validate against STEP schemas, not the full agent schema:
+// Plan returns its own typed plan shape; Try/Refine/Retry return the agent's
+// typed output (the agent's result is the last step's output).
 const STEP_SPECIFICS: Record<string, (agentPossessive: string) => string> = {
   plan: (a) =>
-    `Prompted with ${a} Plan guidance to analyze the request and draft the approach before the main attempt. Like every PTRR step it generates through the full failsafe sequence and returns a result typed against ${a} output schema.`,
+    `Prompted with ${a} Plan guidance to analyze the request and draft the approach before the main attempt. Generates through the full failsafe sequence and returns the Plan step's own typed plan ({approach, steps, considerations}) — not ${a} full output schema.`,
   try: (a) =>
     `Prompted with ${a} Try guidance to execute the planned work — the main generation attempt. Returns the full typed output against ${a} output schema.`,
   refine: (a) =>
@@ -216,7 +219,7 @@ const FAILSAFE_SPECIFICS: Record<string, (agentPossessive: string) => string> = 
   chunk_then_sum: () =>
     'Measures the composed request against the request budget. When it fits, exactly ONE task generation runs; when it triggers, the selected values are chunked — one task generation per chunk — and a summing pass combines the partial results into one typed answer.',
   stitch_until_complete: (a) =>
-    `Validates the response against ${a} output schema. An incomplete or truncated output triggers bounded repair generations, each carrying the exact validation error, until the output parses whole.`,
+    `Validates the response against the running STEP's output schema — ${a} full output schema on Try/Refine/Retry, the plan shape on Plan. An incomplete or truncated output triggers bounded repair generations, each carrying the exact validation error, until the output parses whole.`,
 };
 
 const GENERATION_SPECIFICS: Record<string, (agentPossessive: string) => string> = {
@@ -225,7 +228,7 @@ const GENERATION_SPECIFICS: Record<string, (agentPossessive: string) => string> 
   judge: () =>
     'Prompted with the reasoning and returns an advisory verdict {quality, issues, suggestions, approved} over it. A failed judgment steers Refine and Retry — it does not halt the run.',
   structured_output: (a) =>
-    `Prompted to convert the accepted reasoning into the typed result, validated against ${a} zod output schema — the value downstream consumers actually read.`,
+    `Prompted to convert the accepted reasoning into the typed result, validated against the running step's zod output schema (${a} full output schema on Try/Refine/Retry; the plan shape on Plan) — the value downstream consumers actually read.`,
 };
 
 function normalizeKey(value: string): string {

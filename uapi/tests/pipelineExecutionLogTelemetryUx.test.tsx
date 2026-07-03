@@ -329,12 +329,14 @@ describe('getTelemetryPillExplainer — prompt/return-concrete specific copy', (
     expect(explainer.specific).toContain('ONE task generation');
   });
 
-  it("failsafe handle-large-outputs references the surrounding agent's output schema when context is passed", () => {
+  it("failsafe handle-large-outputs validates against the STEP's schema, referencing the agent when context is passed", () => {
     const explainer = getTelemetryPillExplainer('failsafe', 'stitch_until_complete', 'deposit', {
       agent: 'DepositValidationAgent',
       step: 'try',
     });
-    expect(explainer.specific).toContain("the Validation Agent's output schema");
+    expect(explainer.specific).toContain("the running STEP's output schema");
+    expect(explainer.specific).toContain("the Validation Agent's full output schema");
+    expect(explainer.specific).toContain('the plan shape on Plan');
     expect(explainer.specific).toContain('validation error');
   });
 
@@ -360,6 +362,14 @@ describe('getTelemetryPillExplainer — prompt/return-concrete specific copy', (
 
     const withoutContext = getTelemetryPillExplainer('step', 'try');
     expect(withoutContext.specific).toContain("the agent's output schema");
+  });
+
+  it("Plan step copy states the step-schema law: a typed plan, not the agent's full output schema", () => {
+    const plan = getTelemetryPillExplainer('step', 'plan', 'deposit', {
+      agent: 'DepositAssetPackSynthesisAgent',
+    });
+    expect(plan.specific).toContain('{approach, steps, considerations}');
+    expect(plan.specific).toContain("not the Asset Pack Synthesis Agent's full output schema");
   });
 
   it('generation copy names the Thinkings return shapes', () => {

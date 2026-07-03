@@ -240,7 +240,11 @@ function ptrrAgent(config: PTRRAgentConfig): ReadingPipelineAgentContract {
     returnType: config.returnType,
     promptRegistry: ptrrPromptRegistry(config.pipelineName, config.phaseKey, config.agentKey),
     ptrrSteps: PTRR_STEP_NAMES.map((ptrrStepName) => {
-      const thinkingsGenerations = thinkingsGenerationsForPtrrStep(config, ptrrStepName, outputType);
+      // Step outputs validate against STEP schemas, not the full agent
+      // schema: the plan step returns the canonical plan shape
+      // (PlanStepOutput); try/refine/retry return the agent's output type.
+      const stepOutputType = ptrrStepName === 'plan' ? 'PlanStepOutput' : outputType;
+      const thinkingsGenerations = thinkingsGenerationsForPtrrStep(config, ptrrStepName, stepOutputType);
       return {
         ptrrStepName,
         ptrrStepId: `${agentId}.${ptrrStepName}`,
@@ -251,7 +255,7 @@ function ptrrAgent(config: PTRRAgentConfig): ReadingPipelineAgentContract {
         prompt: config.prompt,
         tools: ptrrStepName === 'try' ? config.tools || [] : [],
         inputType: config.inputType,
-        outputType,
+        outputType: stepOutputType,
         stores: config.stores,
         telemetry: config.telemetry,
       };

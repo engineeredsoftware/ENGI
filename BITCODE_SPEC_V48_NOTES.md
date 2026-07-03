@@ -502,6 +502,29 @@ inventory/exclusions, setup obfuscation guidance — all invisible to their cons
 to the route's completion read); the Gate-3 correction re-homes cross-phase artifacts
 onto the shared execution and pins the producer/consumer store contract with tests.
 
+### PTRR step output schemas — steps validate against STEP schemas (Garrett, 2026-07-03)
+
+Step outputs validate against STEP schemas, not the full agent schema — for all
+PTRR steps. Each step's Thinkings structured output (and its StitchComplete
+guard) validates against what THAT step is prompted to produce:
+
+- **Plan** → the canonical plan-step schema `{ approach: string, steps: string[],
+  considerations?: string[] }` (`PlanStepOutputSchema`,
+  `agent-generics/src/steps/step-schemas.ts`) — the execution strategy the Plan
+  objective asks for, kept small so the structured-output hint stays whole.
+- **Try / Refine / Retry** → the agent's output schema. Try is the main typed
+  attempt; Refine improves it against the same schema; Retry is the last bounded
+  chance — and because an agent's result is its LAST step's output, the agent's
+  typed output contract is preserved.
+- Every step accepts an explicit `outputSchema` override in its per-step config
+  (`config.plan.outputSchema` etc.); the defaults above are the law.
+
+Observed defect this corrects (run `61c3b0cf`, 2026-07-03): every step was handed
+the agent's full schema, so the synthesis agent's PLAN step was required to emit
+`{"options": [...]}`, failed schema validation BY CONSTRUCTION, and burned SC
+stitch repairs before Try even started — a standing repair tax on every PTRR
+agent's plan step in every run.
+
 ### Failsafe chunk/stitch precision — recursive, size-variable N (later V48 gate roadmap; Garrett, 2026-06-27)
 
 The Failsafe substeps `chunk` (`factoryChunkThenSum`) and `stitch`

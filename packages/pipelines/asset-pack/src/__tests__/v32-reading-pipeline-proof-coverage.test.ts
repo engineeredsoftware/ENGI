@@ -95,7 +95,16 @@ describe('V32 Reading pipeline proof coverage', () => {
       .find((phase) => phase.phaseId === 'ReadNeedComprehensionSynthesis.review')!
       .agents[0];
     expect(reviewAgent.returnType).toBe('ReadNeedReviewState');
-    expect(reviewAgent.ptrrSteps.every((step) => step.outputType === 'AcceptedReadNeed | RejectedReadNeed | ResynthesisRequestedReadNeed')).toBe(true);
+    // Step outputs validate against STEP schemas: plan returns the canonical
+    // plan shape; try/refine/retry return the agent output type.
+    expect(
+      reviewAgent.ptrrSteps.every((step) =>
+        step.outputType ===
+        (step.ptrrStepName === 'plan'
+          ? 'PlanStepOutput'
+          : 'AcceptedReadNeed | RejectedReadNeed | ResynthesisRequestedReadNeed'),
+      ),
+    ).toBe(true);
 
     const admitTry = READ_FITS_FINDING_SYNTHESIS_CONTRACT.phases
       .find((phase) => phase.phaseId === 'ReadFitsFindingSynthesis.admit')!
