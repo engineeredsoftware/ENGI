@@ -10,7 +10,11 @@ function getCtx(execution: Execution, sequence?: string) {
   const agentName = (execution as any).findUp?.('agent', 'name');
   const execId = (execution as any).id;
   const path = (execution as any).getPath?.() || [];
-  const correlationId = (execution as any).findUp?.('pipeline', 'correlationId');
+  // The run id lives at the streaming root: canonically under
+  // execution/correlationId, with the root execution id (== runId for
+  // createStreamingExecution roots) as the fallback.
+  const correlationId = (execution as any).findUp?.('execution', 'correlationId')
+    ?? (execution as any).getRoot?.()?.id;
   // Surface any provider/model already stored on ancestors (best-effort)
   let providerUp: string | undefined;
   let modelUp: string | undefined;

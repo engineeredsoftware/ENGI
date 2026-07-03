@@ -666,7 +666,12 @@ export function createStreamingExecution(
   config: PipelineStreamConfig & { parent?: Execution }
 ): Execution {
       const execution = new Execution(config.runId, config.parent);
-  
+
+  // Canonical run identity: substep diagnostics (e.g. the raw LLM I/O
+  // sidecar directory) resolve the run id via findUp('execution',
+  // 'correlationId') from arbitrarily deep child nodes.
+  execution.store('execution', 'correlationId', config.runId);
+
   // Enable streaming
   enablePipelineStreaming(execution, config);
   

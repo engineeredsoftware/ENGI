@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Execution } from '@bitcode/execution-generics';
-import { enablePipelineStreaming, sourceSafeStreamEvent } from '../../streaming/pipeline-stream-integration';
+import { createStreamingExecution, enablePipelineStreaming, sourceSafeStreamEvent } from '../../streaming/pipeline-stream-integration';
 
 // Mock ORM model so we can assert persistence without a real DB
 const createdEvents: any[] = [];
@@ -47,6 +47,22 @@ describe('pipeline-stream-integration', () => {
     expect(createdEvents.length).toBeGreaterThanOrEqual(2);
     expect(createdEvents[0].run_id).toBe('run-123');
     expect(createdEvents[0].event_type).toBeDefined();
+  });
+
+  it('createStreamingExecution stores the run id as the canonical correlationId, resolvable from deep children', () => {
+    const exec = createStreamingExecution({
+      runId: 'run-correlation-1',
+      userId: 'user-1',
+      supabase: {} as any,
+      streamToDatabase: false,
+      streamToSSE: false,
+    });
+
+    expect(exec.get('execution', 'correlationId')).toBe('run-correlation-1');
+    // Substep diagnostics (raw LLM I/O sidecar directory naming) resolve the
+    // run id via findUp from arbitrarily deep child nodes.
+    const deepChild = exec.child('phase:discovery').child('agent:search').child('step:plan');
+    expect(deepChild.findUp('execution', 'correlationId')).toBe('run-correlation-1');
   });
 });
 
