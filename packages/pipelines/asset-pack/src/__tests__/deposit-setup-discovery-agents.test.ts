@@ -212,9 +212,10 @@ describe('deposit Discovery lens agents (boundary-mocked PTRR)', () => {
       expect(typeof settled.value.guidance.summary).toBe('string');
       expectNoEnvelopeLeak(settled.value);
     }
-    // Bounded runtime note: each failed parse waits parseResponse's fixed
-    // 1s+2s repair delays, so this run takes ~25s of deterministic backoff —
-    // the generous timeout below is headroom, not an invitation to spin.
+    // Bounded runtime note: parseResponse is single-pass now (its old fixed
+    // 1s+2s re-parse sleeps were removed as dead latency), so this run is
+    // bounded by the generation machinery alone — the generous timeout below
+    // is headroom, not an invitation to spin.
   }, 120000);
 
   it('depository-search guidance lands where the Implementation synthesis agent reads it', async () => {

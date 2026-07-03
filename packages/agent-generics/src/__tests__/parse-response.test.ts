@@ -7,17 +7,13 @@
  * @bitcode/parsing to ../parsing/src/parsing.ts.
  */
 import { z } from 'zod';
-import { parseResponse, extractAllJsonObjects } from '@bitcode/parsing';
+import { parseResponse, extractAllJsonObjects, extractJsonFromResponse } from '@bitcode/parsing';
 
 const schema = z.object({ title: z.string(), score: z.number() });
 const callerFallback = () => ({ title: 'CALLER-FALLBACK', score: -1 });
 
-afterEach(() => {
-  jest.useRealTimers();
-});
-
 describe('parseResponse candidate selection', () => {
-  it('returns the schema-valid object among multiple embedded JSON objects on the first attempt', async () => {
+  it('returns the schema-valid object among multiple embedded JSON objects', async () => {
     const response = [
       'Echoing your input {"query": "find assets", "mode": "deposit"} first.',
       'Final answer:',
@@ -29,30 +25,36 @@ describe('parseResponse candidate selection', () => {
     expect(result).toEqual({ title: 'Pack', score: 2 });
   });
 
+  it('parses a schema-valid object nested deeper than the old 3-level regex limit', async () => {
+    const deepSchema = z.object({
+      title: z.string(),
+      tree: z.object({ a: z.object({ b: z.object({ c: z.object({ d: z.number() }) }) }) }),
+    });
+    // 5 levels of brace nesting: the old fixed regex could not match this
+    // object at all, so it fell through to the fallback chain.
+    const response = 'Result: {"title": "Deep", "tree": {"a": {"b": {"c": {"d": 7}}}}} done.';
+
+    const result = await parseResponse(response, deepSchema, () => ({
+      title: 'CALLER-FALLBACK',
+      tree: { a: { b: { c: { d: -1 } } } },
+    }));
+
+    expect(result).toEqual({ title: 'Deep', tree: { a: { b: { c: { d: 7 } } } } });
+  });
+
   it('never throws on a near-miss candidate and returns a schema-valid result without _metadata', async () => {
-    // NOTE (bug, reported not pinned): the deepMergeDefaults coerce path and
-    // inferSchemaRequiredKeys both read `_def.shape` as a plain object, but
-    // zod 3 stores it as a lazy function — so the merge/key-coverage machinery
-    // is dead code and the near-miss content ("Only Title") is silently lost
-    // to the fallback chain. We pin only the stable contract here.
-    jest.useFakeTimers();
     const response = 'Partial result: {"title": "Only Title", "unexpected": true}';
 
-    const promise = parseResponse(response, schema, callerFallback);
-    await jest.runAllTimersAsync();
-    const result = await promise;
+    const result = await parseResponse(response, schema, callerFallback);
 
     expect(() => schema.parse(result)).not.toThrow();
     expect(result._metadata).toBeUndefined();
   });
 
   it('never lets a zero-required-key-coverage candidate become the answer', async () => {
-    jest.useFakeTimers();
     const response = 'Here is something unrelated {"unrelated": 1} with no answer.';
 
-    const promise = parseResponse(response, schema, callerFallback);
-    await jest.runAllTimersAsync();
-    const result = await promise;
+    const result = await parseResponse(response, schema, callerFallback);
 
     // The unrelated object is never returned; the result is schema-valid.
     expect(result.unrelated).toBeUndefined();
@@ -60,32 +62,35 @@ describe('parseResponse candidate selection', () => {
   });
 });
 
-describe('parseResponse retry + fallback ordering', () => {
-  it('re-parses the same response with bounded 1s/2s sleeps, then falls back without throwing', async () => {
-    jest.useFakeTimers();
+describe('parseResponse single-pass + fallback ordering', () => {
+  it('parses in a single deterministic pass — no re-parse sleeps on the immutable input', async () => {
+    // The old implementation re-parsed the SAME string with escalating
+    // 1s/2s sleeps (~3s dead latency per malformed generation). Removed:
+    // deterministic input, deterministic outcome, zero timers.
     const setTimeoutSpy = jest.spyOn(global, 'setTimeout');
     const response = 'I have no JSON for you at all, sorry.';
 
-    const promise = parseResponse(response, schema, callerFallback);
-    await jest.runAllTimersAsync();
-    const result = await promise;
+    const result = await parseResponse(response, schema, callerFallback);
 
-    // Deterministic input, deterministic outcome: a schema-valid fallback.
     expect(() => schema.parse(result)).not.toThrow();
-    // Bounded retries: exactly the two escalating sleeps (1s then 2s).
-    const delays = setTimeoutSpy.mock.calls.map(c => c[1]).filter(d => d === 1000 || d === 2000);
-    expect(delays).toEqual([1000, 2000]);
+    expect(setTimeoutSpy).not.toHaveBeenCalled();
     setTimeoutSpy.mockRestore();
   });
 
-  it('a strict schema rejects the _metadata-injected generic fallback and falls through to the caller fallback', async () => {
-    jest.useFakeTimers();
-    const strictSchema = z.object({ title: z.string(), score: z.number() }).strict();
-    const response = 'Still no JSON, apologies.';
+  it('a non-strict schema receives the generic schema-shaped fallback (zod-3 lazy shape resolved)', async () => {
+    // `_def.shape` is a lazy function in zod 3; the generic fallback now
+    // resolves it, so required keys are defaulted instead of falling all the
+    // way to the caller fallback (and _metadata is stripped by schema.parse).
+    const result = await parseResponse('Still no JSON, apologies.', schema, callerFallback);
 
-    const promise = parseResponse(response, strictSchema, callerFallback);
-    await jest.runAllTimersAsync();
-    const result = await promise;
+    expect(result).toEqual({ title: '', score: 0 });
+    expect(result._metadata).toBeUndefined();
+  });
+
+  it('a strict schema rejects the _metadata-injected generic fallback and falls through to the caller fallback', async () => {
+    const strictSchema = z.object({ title: z.string(), score: z.number() }).strict();
+
+    const result = await parseResponse('Still no JSON, apologies.', strictSchema, callerFallback);
 
     expect(result).toEqual({ title: 'CALLER-FALLBACK', score: -1 });
   });
@@ -108,7 +113,35 @@ describe('extractAllJsonObjects', () => {
     expect(inlineCount).toBe(1);
   });
 
+  it('extracts objects nested beyond 3 levels as one balanced span', async () => {
+    const deep = '{"l1": {"l2": {"l3": {"l4": {"l5": true}}}}}';
+    const candidates = extractAllJsonObjects(`prefix ${deep} suffix`);
+
+    expect(candidates).toContain(deep);
+    expect(() => JSON.parse(candidates[0])).not.toThrow();
+  });
+
+  it('does not split on braces inside string literals', async () => {
+    const tricky = '{"note": "closing } and opening { inside", "n": {"deep": "also }"}}';
+    const candidates = extractAllJsonObjects(`text ${tricky} tail`);
+
+    expect(candidates).toContain(tricky);
+  });
+
   it('returns the trimmed raw response when no JSON object is present', async () => {
     expect(extractAllJsonObjects('  plain prose only  ')).toEqual(['plain prose only']);
+  });
+});
+
+describe('extractJsonFromResponse', () => {
+  it('returns a deeply nested object verbatim (no 3-level regex ceiling)', () => {
+    const deep = '{"a": {"b": {"c": {"d": {"e": {"f": 1}}}}}}';
+    expect(extractJsonFromResponse(`Sure! ${deep}`)).toBe(deep);
+    expect(JSON.parse(extractJsonFromResponse(`Sure! ${deep}`))).toEqual({ a: { b: { c: { d: { e: { f: 1 } } } } } });
+  });
+
+  it('skips invalid balanced spans and returns the first valid JSON object', () => {
+    const response = 'bad: {broken: yes} good: {"ok": {"deep": {"deeper": {"deepest": 4}}}}';
+    expect(extractJsonFromResponse(response)).toBe('{"ok": {"deep": {"deeper": {"deepest": 4}}}}');
   });
 });

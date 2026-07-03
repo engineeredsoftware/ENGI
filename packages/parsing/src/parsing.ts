@@ -4,6 +4,69 @@ import { z } from 'zod';
 import { log } from '@bitcode/logger';
 
 /**
+ * Resolve a ZodObject's shape across zod versions. zod 3 stores `_def.shape`
+ * as a LAZY FUNCTION (`() => shape`), so reading it as a plain object —
+ * `Object.keys(def.shape)` / `Object.entries(def.shape)` — silently yields
+ * nothing. Every shape read in this module goes through this helper.
+ */
+function resolveObjectShape(schema: z.ZodTypeAny): Record<string, z.ZodTypeAny> | null {
+  try {
+    const def: any = (schema as any)?._def;
+    if (!def || def.typeName !== z.ZodFirstPartyTypeKind.ZodObject || !def.shape) return null;
+    const shape = typeof def.shape === 'function' ? def.shape() : def.shape;
+    return shape && typeof shape === 'object' ? (shape as Record<string, z.ZodTypeAny>) : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Scan for balanced top-level `{...}` spans with a real depth counter,
+ * respecting JSON string literals and escapes. Replaces the old fixed regex,
+ * which hard-coded THREE levels of brace nesting and simply could not match
+ * any object nested deeper — deep generations fell through to the lenient
+ * brace-patching heuristics and usually the fallback chain.
+ */
+function scanBalancedJsonObjects(text: string): string[] {
+  const spans: string[] = [];
+  let depth = 0;
+  let start = -1;
+  let inString = false;
+  let escaped = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (depth === 0) {
+      if (ch === '{') {
+        depth = 1;
+        start = i;
+      }
+      continue;
+    }
+    if (inString) {
+      if (escaped) escaped = false;
+      else if (ch === '\\') escaped = true;
+      else if (ch === '"') inString = false;
+      continue;
+    }
+    if (ch === '"') {
+      inString = true;
+    } else if (ch === '{') {
+      depth++;
+    } else if (ch === '}') {
+      depth--;
+      if (depth === 0 && start >= 0) {
+        spans.push(text.slice(start, i + 1));
+        start = -1;
+        inString = false;
+        escaped = false;
+      }
+    }
+  }
+  return spans;
+}
+
+/**
  * Generic function to extract JSON content from LLM responses with fallbacks
  */
 export function extractJsonFromResponse(response: string): string {
@@ -14,16 +77,14 @@ export function extractJsonFromResponse(response: string): string {
       return codeBlockMatch[1].trim();
     }
 
-    // Try to find any JSON object in the response with a more robust regex
-    // This looks for objects with balanced braces
-    const jsonObjectRegex = /(\{(?:[^{}]|(?:\{(?:[^{}]|(?:\{[^{}]*\}))*\}))*\})/g;
-    const matches = [...response.matchAll(jsonObjectRegex)];
+    // Scan for balanced-brace objects at any nesting depth
+    const matches = scanBalancedJsonObjects(response);
 
     if (matches.length > 0) {
       // Try each match to find valid JSON
       for (const match of matches) {
         try {
-          const potentialJson = match[0].trim();
+          const potentialJson = match.trim();
           // Verify it's valid JSON by parsing it
           JSON.parse(potentialJson);
           return potentialJson;
@@ -35,7 +96,7 @@ export function extractJsonFromResponse(response: string): string {
 
       // If no valid JSON found but we have matches, return the last match
       // (which is likely the most complete one)
-      return matches[matches.length - 1][0].trim();
+      return matches[matches.length - 1].trim();
     }
 
     // Look for JSON-like patterns with a more lenient approach
@@ -82,7 +143,8 @@ export function extractJsonFromResponse(response: string): string {
 
 /**
  * Extract all JSON object candidates from a response.
- * Tries code blocks first; then scans for balanced-brace objects and returns all matches.
+ * Tries code blocks first; then scans for balanced-brace objects (any nesting
+ * depth) and returns all matches.
  */
 export function extractAllJsonObjects(response: string): string[] {
   const candidates: string[] = [];
@@ -92,8 +154,7 @@ export function extractAllJsonObjects(response: string): string[] {
     candidates.push(...codeBlocks);
   } catch {}
   try {
-    const jsonObjectRegex = /(\{(?:[^{}]|(?:\{(?:[^{}]|(?:\{[^{}]*\}))*\}))*\})/g;
-    const matches = [...response.matchAll(jsonObjectRegex)].map(m => (m[0] || '').trim()).filter(Boolean);
+    const matches = scanBalancedJsonObjects(response).map(m => m.trim()).filter(Boolean);
     candidates.push(...matches);
   } catch {}
   const seen = new Set<string>();
@@ -101,34 +162,30 @@ export function extractAllJsonObjects(response: string): string[] {
   return unique.length ? unique : [response.trim()];
 }
 /**
- * Generic response parser with retries and schema validation
+ * Generic response parser with schema validation and a schema-shaped fallback
+ * chain. Parsing is a SINGLE deterministic pass: the input string is immutable,
+ * so the old bounded re-parse retries (1s/2s sleeps between identical attempts
+ * on the same string) were pure dead latency (~3s per malformed generation)
+ * and have been removed.
  */
 export async function parseResponse<T>(
   response: string,
   schema: z.ZodType<T>,
-  fallback: () => T,
-  options?: {
-    maxRetries?: number;
-    retryDelay?: number;
-  }
+  fallback: () => T
 ): Promise<T> {
-  const maxRetries = options?.maxRetries ?? 2;
-  const retryDelay = options?.retryDelay ?? 1000;
   let lastError: Error | undefined;
   const LOG_FULL = process?.env?.BITCODE_LOG_FULL_PROMPTS === '1';
   let lastExtractedJson: string | undefined;
 
   // Enhanced logging for better debugging
   const schemaDescription = schema.description || 'NO SCHEMA DESCRIPTION PROVIDED';
-  const schemaShape = Object.keys((schema as any)._def?.shape || {});
+  const resolvedShape = resolveObjectShape(schema as any) || {};
+  const schemaShape = Object.keys(resolvedShape);
 
   // Check for required fields in schema
-  const requiredFields = (schema as any)._def?.shape ?
-    Object.entries((schema as any)._def.shape)
-      .filter(([_, fieldSchema]: [string, any]) =>
-        !(fieldSchema instanceof z.ZodOptional))
-      .map(([key, _]) => key) :
-    [];
+  const requiredFields = Object.entries(resolvedShape)
+    .filter(([_, fieldSchema]: [string, any]) => !(fieldSchema instanceof z.ZodOptional))
+    .map(([key, _]) => key);
 
   log('[parsing parseResponse] Parsing string response to schema...', 'info', {
     schema: schemaDescription,
@@ -141,141 +198,108 @@ export async function parseResponse<T>(
     hasCodeBlock: response.includes('```')
   });
 
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
-    try {
-      // Extract best JSON content (try multiple candidates)
-      const candidates = extractAllJsonObjects(response);
-      let best: { content: string; errorCount: number; keyScore: number } | null = null;
-      const reqKeys = inferSchemaRequiredKeys(schema as any);
-      for (const candidate of candidates) {
-        try {
-          const parsed = JSON.parse(candidate);
-          const result = (schema as any).safeParse(parsed);
-          if (result.success) {
-            if (LOG_FULL && attempt === 0) {
-              log('[parsing] selected-candidate (full, validated)', 'debug', { schema: schemaDescription, jsonLength: candidate.length, json: candidate });
-            }
-            return result.data as T;
+  try {
+    // Extract best JSON content (try multiple candidates)
+    const candidates = extractAllJsonObjects(response);
+    for (const candidate of candidates) {
+      try {
+        const parsed = JSON.parse(candidate);
+        const result = (schema as any).safeParse(parsed);
+        if (result.success) {
+          if (LOG_FULL) {
+            log('[parsing] selected-candidate (full, validated)', 'debug', { schema: schemaDescription, jsonLength: candidate.length, json: candidate });
           }
-          const errorCount = Array.isArray(result.error?.issues) ? result.error.issues.length : 9999;
-          const keyScore = scoreKeyCoverage(parsed, reqKeys);
-          // Ignore candidates with zero coverage of required keys (likely echoes of input or unrelated JSON)
-          if (keyScore > 0) {
-            if (!best || errorCount < best.errorCount || (errorCount === best.errorCount && keyScore > best.keyScore)) {
-              best = { content: candidate, errorCount, keyScore };
-            }
-          }
-        } catch {}
-      }
-      if (best) {
-        lastExtractedJson = best.content;
-        try {
-          const parsed = JSON.parse(best.content);
-          const coercedBase: any = createGenericFallback(schema as any, new Error('coerce'));
-          const merged = deepMergeDefaults(coercedBase, parsed);
-          const validated = (schema as any).parse(merged);
-          if (LOG_FULL && attempt === 0) {
-            log('[parsing] selected-candidate (full, coerced)', 'debug', { schema: schemaDescription, jsonLength: best.content.length, json: best.content });
-          }
-          return validated as T;
-        } catch {}
-      }
-      // Fallback to former single-extract approach
-      const jsonContent = extractJsonFromResponse(response);
-      lastExtractedJson = jsonContent;
-      // Optional full logging for debugging
-      if (LOG_FULL && attempt === 0) {
-        log('[parsing] extracted-json (full)', 'debug', {
-          schema: schemaDescription,
-          jsonLength: jsonContent.length,
-          json: jsonContent,
-        });
-      }
-
-      // Parse JSON
-      const parsed = JSON.parse(jsonContent);
-
-      // Validate with schema, will throw if fails
-      const validated = schema.parse(parsed);
-
-      log(`Successfully parsed and validated response of type ${typeof validated}!`, 'debug', {
-        attempt: attempt + 1,
-        validateType: typeof validated
+          return result.data as T;
+        }
+      } catch {}
+    }
+    // Fallback to former single-extract approach
+    const jsonContent = extractJsonFromResponse(response);
+    lastExtractedJson = jsonContent;
+    // Optional full logging for debugging
+    if (LOG_FULL) {
+      log('[parsing] extracted-json (full)', 'debug', {
+        schema: schemaDescription,
+        jsonLength: jsonContent.length,
+        json: jsonContent,
       });
+    }
 
-      return validated;
+    // Parse JSON
+    const parsed = JSON.parse(jsonContent);
 
-    } catch (error) {
-      lastError = error instanceof Error ? error : new Error(String(error));
+    // Validate with schema, will throw if fails
+    const validated = schema.parse(parsed);
 
-      // Determine error type and extract relevant details
-      const errorDetails = {
-        type: error instanceof SyntaxError ? 'JSON Syntax Error' :
-          error instanceof z.ZodError ? 'Schema Validation Error' :
-            'Unknown Error',
-        attempt: attempt + 1,
-        maxRetries,
-        schemaDescription: schema.description || 'unnamed schema'
-      };
+    log(`Successfully parsed and validated response of type ${typeof validated}!`, 'debug', {
+      validateType: typeof validated
+    });
 
-      // Full error payload logging on first failure if enabled
-      if (LOG_FULL && attempt === 0) {
-        log('[parsing] parse-error (full)', 'error', {
-          ...errorDetails,
-          errorMessage: lastError.message,
-          extractedJson: lastExtractedJson,
-          originalResponsePreview: response.length > 1000 ? `${response.slice(0, 500)}...${response.slice(-500)}` : response,
-        });
-      }
+    return validated;
 
-      // Enhanced error reporting based on error type
-      if (error instanceof SyntaxError) {
-        log('JSON Parse Error', 'warn', {
-          ...errorDetails,
-          message: error.message,
-          position: error.message.match(/position (\d+)/)?.[1] || 'unknown',
-          inputPreview: {
-            around: response.slice(Math.max(0, Number(error.message.match(/position (\d+)/)?.[1] || 0) - 50),
-              Number(error.message.match(/position (\d+)/)?.[1] || 0) + 50),
-            fullInput: response.length > 1000 ? `${response.slice(0, 500)}...${response.slice(-500)}` : response
-          }
-        });
-      } else if (error instanceof z.ZodError) {
-        let inputShape: any = 'Invalid JSON';
-        try {
-          if (typeof lastExtractedJson === 'string') {
-            const parsed = JSON.parse(lastExtractedJson);
-            inputShape = typeof parsed === 'object' && parsed !== null ? Object.keys(parsed) : 'Invalid JSON';
-          }
-        } catch {}
-        log('Schema Validation Error', 'warn', {
-          ...errorDetails,
-          validationErrors: error.issues.map(err => ({
-            path: err.path.join('.'),
-            code: err.code,
-            message: err.message
-          })),
-          schemaShape: Object.keys((schema as any)._def?.shape || {}),
-          inputShape
-        });
-      } else {
-        log('Parsing Error', 'warn', {
-          ...errorDetails,
-          error: lastError.message,
-          inputPreview: response.length > 1000 ?
-            `${response.slice(0, 500)}...${response.slice(-500)}` :
-            response
-        });
-      }
+  } catch (error) {
+    lastError = error instanceof Error ? error : new Error(String(error));
 
-      if (attempt < maxRetries) {
-        await new Promise(resolve => setTimeout(resolve, retryDelay * (attempt + 1)));
-        continue;
-      }
+    // Determine error type and extract relevant details
+    const errorDetails = {
+      type: error instanceof SyntaxError ? 'JSON Syntax Error' :
+        error instanceof z.ZodError ? 'Schema Validation Error' :
+          'Unknown Error',
+      schemaDescription: schema.description || 'unnamed schema'
+    };
+
+    // Full error payload logging if enabled
+    if (LOG_FULL) {
+      log('[parsing] parse-error (full)', 'error', {
+        ...errorDetails,
+        errorMessage: lastError.message,
+        extractedJson: lastExtractedJson,
+        originalResponsePreview: response.length > 1000 ? `${response.slice(0, 500)}...${response.slice(-500)}` : response,
+      });
+    }
+
+    // Enhanced error reporting based on error type
+    if (error instanceof SyntaxError) {
+      log('JSON Parse Error', 'warn', {
+        ...errorDetails,
+        message: error.message,
+        position: error.message.match(/position (\d+)/)?.[1] || 'unknown',
+        inputPreview: {
+          around: response.slice(Math.max(0, Number(error.message.match(/position (\d+)/)?.[1] || 0) - 50),
+            Number(error.message.match(/position (\d+)/)?.[1] || 0) + 50),
+          fullInput: response.length > 1000 ? `${response.slice(0, 500)}...${response.slice(-500)}` : response
+        }
+      });
+    } else if (error instanceof z.ZodError) {
+      let inputShape: any = 'Invalid JSON';
+      try {
+        if (typeof lastExtractedJson === 'string') {
+          const parsed = JSON.parse(lastExtractedJson);
+          inputShape = typeof parsed === 'object' && parsed !== null ? Object.keys(parsed) : 'Invalid JSON';
+        }
+      } catch {}
+      log('Schema Validation Error', 'warn', {
+        ...errorDetails,
+        validationErrors: error.issues.map(err => ({
+          path: err.path.join('.'),
+          code: err.code,
+          message: err.message
+        })),
+        schemaShape,
+        inputShape
+      });
+    } else {
+      log('Parsing Error', 'warn', {
+        ...errorDetails,
+        error: lastError.message,
+        inputPreview: response.length > 1000 ?
+          `${response.slice(0, 500)}...${response.slice(-500)}` :
+          response
+      });
     }
   }
 
-  log('All parsing attempts failed - Using fallback', 'error', {
+  log('Parsing failed - Using fallback', 'error', {
     finalError: {
       message: lastError?.message,
       type: lastError instanceof SyntaxError ? 'JSON Syntax Error' :
@@ -289,7 +313,7 @@ export async function parseResponse<T>(
     },
     schema: {
       description: schema.description || 'unnamed schema',
-      shape: Object.keys((schema as any)._def?.shape || {})
+      shape: schemaShape
     },
     inputPreview: response.length > 1000 ?
       `${response.slice(0, 500)}...${response.slice(-500)}` :
@@ -303,8 +327,7 @@ export async function parseResponse<T>(
 
   // Use a generic approach to create a fallback based on schema shape
   try {
-    const schemaShape = (schema as any)._def?.shape;
-    if (schemaShape) {
+    if (resolveObjectShape(schema as any)) {
       const genericFallback = createGenericFallback(schema, lastError);
 
       // Try to validate the fallback against the schema
@@ -343,13 +366,12 @@ export async function parseResponse<T>(
  */
 function createGenericFallback(schema: z.ZodType<any>, error?: Error): any {
   try {
-    const def: any = (schema as any)?._def;
     // Only handle ZodObject shapes here; otherwise return minimal
-    if (!def || def.typeName !== z.ZodFirstPartyTypeKind.ZodObject || !def.shape) {
+    const shape = resolveObjectShape(schema as any);
+    if (!shape) {
       return {};
     }
 
-    const shape: Record<string, any> = def.shape as Record<string, any>;
     const out: Record<string, any> = {
       _metadata: {
         fallbackUsed: true,
@@ -393,9 +415,12 @@ function createGenericFallback(schema: z.ZodType<any>, error?: Error): any {
           out[key] = Array.isArray(values) && values.length ? values[0] : null;
           break;
         }
-        case z.ZodFirstPartyTypeKind.ZodObject:
-          out[key] = createGenericFallback(inner as any, error);
+        case z.ZodFirstPartyTypeKind.ZodObject: {
+          const nested = createGenericFallback(inner as any, error);
+          delete nested._metadata;
+          out[key] = nested;
           break;
+        }
         default:
           out[key] = null;
       }
@@ -455,9 +480,8 @@ export function createFallbackResponse<T>(
     };
 
     // Add required fields based on schema shape
-    const def: any = (schema as any)?._def;
-    if (def?.typeName === z.ZodFirstPartyTypeKind.ZodObject && def.shape) {
-      const shape: Record<string, any> = def.shape as Record<string, any>;
+    const shape = resolveObjectShape(schema as any);
+    if (shape) {
       for (const [key, field] of Object.entries(shape)) {
         if (key === 'success' || key === 'error' || key === 'taskType') continue;
         const fieldDef: any = (field as any)?._def;
@@ -497,7 +521,7 @@ export function createFallbackResponse<T>(
     }
 
     // Add nextStepsToolsPlans if it's required by the schema
-    if (def?.shape && (def.shape as any).nextStepsToolsPlans && !fallback.nextStepsToolsPlans) {
+    if (shape && (shape as any).nextStepsToolsPlans && !fallback.nextStepsToolsPlans) {
       fallback.nextStepsToolsPlans = [];
     }
 
@@ -527,45 +551,4 @@ export function createFallbackResponse<T>(
       return {} as T;
     }
   }
-}
-
-
-// ---------------------------------------------------------------------------
-// Candidate selection helpers for structured parsing
-// ---------------------------------------------------------------------------
-function inferSchemaRequiredKeys(schema: z.ZodTypeAny): string[] {
-  try {
-    const def: any = (schema as any)?._def;
-    if (def?.typeName === z.ZodFirstPartyTypeKind.ZodObject && def.shape) {
-      const shape = def.shape as Record<string, z.ZodTypeAny>;
-      const keys: string[] = [];
-      for (const [k, v] of Object.entries(shape)) {
-        const t = (v as any)?._def?.typeName;
-        if (t !== z.ZodFirstPartyTypeKind.ZodOptional) keys.push(k);
-      }
-      return keys;
-    }
-  } catch {}
-  return [];
-}
-
-function scoreKeyCoverage(parsed: any, requiredKeys: string[]): number {
-  try {
-    if (typeof parsed !== 'object' || parsed === null) return 0;
-    let score = 0;
-    for (const k of requiredKeys) if (Object.prototype.hasOwnProperty.call(parsed, k)) score++;
-    return score;
-  } catch { return 0; }
-}
-
-function deepMergeDefaults(base: any, overlay: any): any {
-  if (Array.isArray(base) || Array.isArray(overlay)) return overlay ?? base;
-  if (typeof base === 'object' && base && typeof overlay === 'object' && overlay) {
-    const out: any = { ...base };
-    for (const k of Object.keys(overlay)) {
-      out[k] = deepMergeDefaults(base?.[k], overlay[k]);
-    }
-    return out;
-  }
-  return overlay ?? base;
 }
