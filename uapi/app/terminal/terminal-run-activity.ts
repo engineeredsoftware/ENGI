@@ -203,6 +203,29 @@ export function buildTerminalRunActivityFromEvents(
     },
   });
 
+  // Failsafe-repair markers derived from the execution path: a stitch-repair
+  // generation runs under a 'stitch-<N>-gen-*' segment, a chunk task
+  // generation under the 'chunks' subtree, and the chunk summing generation
+  // under 'sum-gen-*'. Stamped into the row's executionState so the renderer
+  // badges real failsafe-handling work (>0 stitches, >1 chunks).
+  const deriveFailsafeRepairMarkers = (payload: any): Record<string, unknown> => {
+    const path: unknown[] = Array.isArray(payload?.executionPath) ? payload.executionPath : [];
+    const markers: Record<string, unknown> = {};
+    for (let i = 0; i < path.length; i++) {
+      const segment = String(path[i] ?? '');
+      const stitch = segment.match(/^stitch-(\d+)-gen-/);
+      if (stitch) markers.stitchIteration = Number(stitch[1]);
+      if (segment.startsWith('sum-gen')) markers.chunkSum = true;
+      if (segment === 'chunks') {
+        const next = String(path[i + 1] ?? '');
+        const trailingIndex = next.match(/(\d+)$/);
+        // Child ids under 'chunks' are zero-based (seq-0, par-0, ...) — badge 1-based.
+        markers.chunkIndex = trailingIndex ? Number(trailingIndex[1]) + 1 : 1;
+      }
+    }
+    return markers;
+  };
+
   for (const entry of events) {
     const payload = entry.event || {};
     if (payload?.type === 'work-update' && payload.update) {
@@ -248,7 +271,7 @@ export function buildTerminalRunActivityFromEvents(
         generation: own.generation ?? null,
       };
       const text = String(payload?.message || payload?.status?.message || '[content withheld — source-safe]');
-      pushRow(text, stampExecutionState(merged, { ...payload, type: 'generation' }));
+      pushRow(text, stampExecutionState(merged, { ...payload, type: 'generation' }, deriveFailsafeRepairMarkers(payload)));
       continue;
     }
 

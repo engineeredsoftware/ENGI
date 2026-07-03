@@ -183,6 +183,13 @@ interface LogLine {
   ptrrStepName?: string;
   failsafe?: string;
   generation?: string;
+  // Failsafe-repair markers: a stitch-repair generation (iteration N), a chunk
+  // task generation (index within the chunked run), or the chunk summing
+  // generation. Rendered on the failsafe pill so a real failsafe-handling
+  // case (>0 stitches, >1 chunks) is visible per row.
+  stitchIteration?: number;
+  chunkIndex?: number;
+  chunkSum?: boolean;
   tool?: any;
   promptTemplateId?: string;
   outputSchema?: string;
@@ -248,6 +255,9 @@ function applyExecutionStateToLogLine(logLine: LogLine, executionState: any, sto
   logLine.ptrrStepName = ptrrStepName;
   logLine.failsafe = failsafe;
   logLine.generation = generation;
+  if (typeof (executionState || {}).stitchIteration === 'number') logLine.stitchIteration = executionState.stitchIteration;
+  if (typeof (executionState || {}).chunkIndex === 'number') logLine.chunkIndex = executionState.chunkIndex;
+  if ((executionState || {}).chunkSum === true) logLine.chunkSum = true;
   logLine.tool = tool;
   logLine.promptTemplateId = promptTemplateId;
   logLine.outputSchema = outputSchema;
@@ -431,6 +441,18 @@ function humanizeNounPhrase(value: string): string {
   return titleCaseWords(value.replace(/_/g, ' '));
 }
 
+// Client-side normalized failsafe names: ChunkThenSum is the LARGE INPUTS
+// failsafe, StitchComplete the LARGE OUTPUTS failsafe;
+// PrepareConciseContext keeps its descriptive name.
+const FAILSAFE_DISPLAY_NAMES: Record<string, string> = {
+  chunk_then_sum: 'large inputs',
+  stitch_until_complete: 'large outputs',
+};
+
+function formatFailsafeName(value: string): string {
+  return FAILSAFE_DISPLAY_NAMES[value.trim().toLowerCase()] || humanizeNounPhrase(value);
+}
+
 // "DepositInputComprehensionAgent" -> "Deposit Input Comprehension" (trailing
 // "Agent" stripped — the sentence template appends the literal word "Agent").
 function humanizeAgentName(value: string): string {
@@ -464,7 +486,7 @@ function describeExecutionContext(ctx: {
   if (!ctx.phase || !ctx.agent || !ctx.step) return null;
   let sentence = `During ${humanizeNounPhrase(ctx.phase)}, ${humanizeAgentName(ctx.agent)} Agent is ${gerundFor(STEP_GERUNDS, ctx.step)}`;
   if (ctx.generation && ctx.failsafe) {
-    sentence += `, by ${gerundFor(THINKINGS_GERUNDS, ctx.generation)} the ${humanizeNounPhrase(ctx.failsafe)}`;
+    sentence += `, by ${gerundFor(THINKINGS_GERUNDS, ctx.generation)} the ${formatFailsafeName(ctx.failsafe)}`;
   }
   return sentence;
 }
@@ -1053,7 +1075,20 @@ function renderLogLine(
 
     const tagsBottom: { type: any; label: any }[] = [];
     if (logLine.step) tagsBottom.push({ type: 'step', label: normalizeStepName(logLine.step) });
-    if (logLine.failsafe) tagsBottom.push({ type: 'failsafe', label: formatMeta(logLine.failsafe) });
+    if (logLine.failsafe) {
+      // Badge real failsafe-handling work on the pill: 'stitch ×N' marks the
+      // Nth stitch repair; 'chunk N' a chunk task generation; 'sum' the
+      // chunk summing generation. Absent markers = the non-triggering path.
+      let failsafeLabel = formatFailsafeName(logLine.failsafe);
+      if (typeof logLine.stitchIteration === 'number' && logLine.stitchIteration > 0) {
+        failsafeLabel = `${failsafeLabel} · stitch ×${logLine.stitchIteration}`;
+      } else if (logLine.chunkSum) {
+        failsafeLabel = `${failsafeLabel} · sum`;
+      } else if (typeof logLine.chunkIndex === 'number') {
+        failsafeLabel = `${failsafeLabel} · chunk ${logLine.chunkIndex}`;
+      }
+      tagsBottom.push({ type: 'failsafe', label: failsafeLabel });
+    }
     if (logLine.generation) tagsBottom.push({ type: 'generation', label: formatMeta(logLine.generation) });
 
     const RowContent = (

@@ -76,6 +76,9 @@ const FAILSAFE_ICON_RULES: IconRule[] = [
   ['prepare', StackIcon],
   ['chunk', ScissorsIcon],
   ['stitch', LayersIcon],
+  // Normalized client-side failsafe names: CS = 'large inputs', SC = 'large outputs'.
+  ['large input', ScissorsIcon],
+  ['large output', LayersIcon],
 ];
 
 const GENERATION_ICON_RULES: IconRule[] = [

@@ -568,6 +568,10 @@ export function factoryChunkThenSum<T extends { selectedContext?: Record<string,
       const baseChars = systemPrompt.length + estimateSerializedSize(taskInput);
       const perChunkBudget = Math.max(1000, requestBudgetChars - baseChars);
       const chunks = chunkSelectedContextEntries(selectedEntries, perChunkBudget);
+      // The count of chunk task-generations (the sum generation excluded) —
+      // rich telemetry renders it so a real chunk-handling case (>1) is
+      // visible per step.
+      failsafeExec.store('chunking', 'count', chunks.length);
 
       const chunkExecutors = chunks.map((chunk, idx) =>
         sequential(
@@ -617,7 +621,8 @@ export function factoryChunkThenSum<T extends { selectedContext?: Record<string,
         // Oversized but no selected values to split — log and run single.
         try { logFailsafeEvent(execution, 'chunk-then-sum', { unsplittable: true, composedRequestChars, requestBudgetChars }); } catch { }
       }
-      // Non-triggering: exactly ONE task generation pass.
+      // Non-triggering: exactly ONE task generation pass (zero chunk runs).
+      failsafeExec.store('chunking', 'count', 0);
       let result: any = input;
 
       for (let i = 0; i < generationSubSteps.length; i++) {
@@ -723,6 +728,9 @@ export function factoryStitchUntilComplete<T>(
 
       // Run generation substeps to continue/stitch
       stitchCount++;
+      // Live per-iteration marker: rich telemetry shows a real stitch-repair
+      // case (>=1) as it happens, not only in the post-loop count.
+      try { failsafeExec.store('stitching', 'iteration', stitchCount); } catch { }
       const minimalPartial = (currentResult && (currentResult as any).output !== undefined)
         ? (currentResult as any).output
         : currentResult;
