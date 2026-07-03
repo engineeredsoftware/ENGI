@@ -88,10 +88,30 @@ export function resolveExecutionStateKeyPath(
   root: Execution,
   keyPath: string
 ): ResolvedExecutionStateKey {
-  if (typeof keyPath !== 'string') return { found: false };
+  if (typeof keyPath !== 'string' || !keyPath.length) return { found: false };
   const hashAt = keyPath.indexOf(EXECUTION_STATE_KEY_PATH_SEPARATOR);
-  if (hashAt < 0) return { found: false };
 
+  if (hashAt >= 0) {
+    const strict = resolveStrictKeyPath(root, keyPath, hashAt);
+    if (strict.found) return strict;
+  }
+
+  // Lenient fallback: selection models routinely emit shorthand instead of the
+  // canonical '<execution-path>#<namespace>:<key>' — observed live:
+  // 'deposit#obfuscations' (namespace before the '#'). Reinterpret the whole
+  // string as '<namespace>:<key>' and resolve it against the first node
+  // (depth-first from the root) that carries it.
+  const namespaceAndKey =
+    hashAt >= 0 ? keyPath.replace(EXECUTION_STATE_KEY_PATH_SEPARATOR, ':') : keyPath;
+  if (!namespaceAndKey.includes(':')) return { found: false };
+  return resolveNamespaceAndKeyDepthFirst(root, namespaceAndKey);
+}
+
+function resolveStrictKeyPath(
+  root: Execution,
+  keyPath: string,
+  hashAt: number
+): ResolvedExecutionStateKey {
   const execPath = keyPath.slice(0, hashAt);
   const namespaceAndKey = keyPath.slice(hashAt + 1);
   const segments = execPath.length ? execPath.split('/') : [];
@@ -114,6 +134,13 @@ export function resolveExecutionStateKeyPath(
   }
   if (!node) return { found: false };
 
+  return resolveNamespaceAndKeyOnNode(node, namespaceAndKey);
+}
+
+function resolveNamespaceAndKeyOnNode(
+  node: Execution,
+  namespaceAndKey: string
+): ResolvedExecutionStateKey {
   const namespaces = node
     .getNamespaces()
     .filter((namespace) => namespaceAndKey.startsWith(`${namespace}:`))
@@ -127,5 +154,18 @@ export function resolveExecutionStateKeyPath(
     }
   }
 
+  return { found: false };
+}
+
+function resolveNamespaceAndKeyDepthFirst(
+  node: Execution,
+  namespaceAndKey: string
+): ResolvedExecutionStateKey {
+  const local = resolveNamespaceAndKeyOnNode(node, namespaceAndKey);
+  if (local.found) return local;
+  for (const child of node.children.values()) {
+    const resolved = resolveNamespaceAndKeyDepthFirst(child, namespaceAndKey);
+    if (resolved.found) return resolved;
+  }
   return { found: false };
 }

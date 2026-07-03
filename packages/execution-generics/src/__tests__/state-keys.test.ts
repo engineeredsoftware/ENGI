@@ -106,6 +106,31 @@ describe('resolveExecutionStateKeyPath', () => {
     });
   });
 
+  it('leniently resolves selection-model shorthand (observed live: namespace before the #)', () => {
+    const root = buildTree();
+
+    // Run 3703f48f: the selection model emitted 'deposit#obfuscations'-style
+    // paths ('<namespace>#<key>') and every selected key failed strict
+    // resolution — the whole selection was silently dropped.
+    expect(resolveExecutionStateKeyPath(root, 'repository#owner')).toEqual({
+      found: true,
+      value: 'acme',
+    });
+    expect(resolveExecutionStateKeyPath(root, 'repository:owner')).toEqual({
+      found: true,
+      value: 'acme',
+    });
+    // Shorthand for a namespace living on a NON-root node resolves depth-first.
+    expect(resolveExecutionStateKeyPath(root, 'discovery#comprehension')).toEqual({
+      found: true,
+      value: 'SECRET-AGENT-VALUE',
+    });
+    expect(resolveExecutionStateKeyPath(root, 'preprocess:inventory')).toEqual({
+      found: true,
+      value: ['a.ts', 'b.ts'],
+    });
+  });
+
   it('is fail-soft on every miss shape', () => {
     const root = buildTree();
 
