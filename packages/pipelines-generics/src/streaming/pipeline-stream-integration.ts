@@ -52,41 +52,88 @@ const SOURCE_SAFE_LLM_METADATA_KEYS = new Set([
   'error',
 ]);
 
+// Content-bearing NON-llm stores that can carry verbatim depositor source and
+// must therefore also be withheld (same allowlist philosophy — the withheld
+// projection keeps only fixed source-safe metadata):
+//  - pipeline:input      the full pipeline input, which on a deposit carries
+//                        the verbatim inventory (inventory.sources[*].content);
+//  - deposit:inventory   the verbatim depositor source inventory itself;
+//  - tool:input/result   ExecutionTool.execute raw tool args/results
+//                        (repository reads flow straight through these);
+//  - tools:invocation/result  the Thinkings tool-loop's per-invocation
+//                        args/results stores.
+// Tool telemetry keeps its name/duration/status metadata: those live in the
+// SEPARATE tool:name/startTime/endTime/status stores (each store() call is its
+// own event) plus the safe projection fields below.
+const SOURCE_CONTENT_BEARING_KEYS_BY_NAMESPACE: Record<string, Set<string>> = {
+  pipeline: new Set(['input']),
+  deposit: new Set(['inventory']),
+  tool: new Set(['input', 'result']),
+  tools: new Set(['invocation', 'result']),
+};
+
 export function sourceSafeStreamEvent(event: any): any {
   if (!event || typeof event !== 'object') return event;
-  const namespace = (event as any).namespace;
-  const key = (event as any).key;
-  // Only llm-namespace stores carry raw prompt/response content. Anything that
-  // is an llm metadata store, or any non-llm event, passes through unchanged.
-  if (namespace !== 'llm' || SOURCE_SAFE_LLM_METADATA_KEYS.has(String(key))) {
+  const namespace = String((event as any).namespace ?? '');
+  const key = String((event as any).key ?? '');
+  // llm-namespace stores carry raw prompt/response content: withhold every llm
+  // store EXCEPT the fixed metadata allowlist. A fixed set of non-llm stores
+  // (pipeline input / deposit inventory / tool args+results) carries verbatim
+  // source content and is withheld too. Everything else passes through
+  // unchanged.
+  const isLlmContent = namespace === 'llm' && !SOURCE_SAFE_LLM_METADATA_KEYS.has(key);
+  const isSourceContent =
+    SOURCE_CONTENT_BEARING_KEYS_BY_NAMESPACE[namespace]?.has(key) === true;
+  if (!isLlmContent && !isSourceContent) {
     return event;
   }
   const data =
     (event as any).data && typeof (event as any).data === 'object'
       ? ((event as any).data as Record<string, any>)
       : {};
-  const contentChars =
-    typeof (event as any).data === 'string'
-      ? (event as any).data.length
-      : typeof data.content === 'string'
-        ? data.content.length
-        : typeof data.prompt === 'string'
-          ? data.prompt.length
-          : null;
+  let contentChars: number | null = null;
+  if (typeof (event as any).data === 'string') {
+    contentChars = (event as any).data.length;
+  } else if (typeof data.content === 'string') {
+    contentChars = data.content.length;
+  } else if (typeof data.prompt === 'string') {
+    contentChars = data.prompt.length;
+  } else if ((event as any).data && typeof (event as any).data === 'object') {
+    try {
+      contentChars = JSON.stringify((event as any).data).length;
+    } catch {
+      contentChars = null;
+    }
+  }
   const state =
     (event as any).executionState && typeof (event as any).executionState === 'object'
       ? (event as any).executionState
       : {};
+  // The stream adapter mirrors content into metadata.stores (toolEvents /
+  // generations snapshots) — strip it so withheld content cannot leak through
+  // the enrichment side channel.
+  const metadata =
+    (event as any).metadata && typeof (event as any).metadata === 'object'
+      ? (() => {
+          const { stores: _stores, ...rest } = (event as any).metadata as Record<string, any>;
+          return rest;
+        })()
+      : (event as any).metadata;
   return {
     ...event,
+    metadata,
     message: '[content withheld — source-safe]',
     data: {
       contentWithheld: true,
       sourceSafetyClass: 'source_safe',
       stage: key,
+      namespace,
       generation: data.generation ?? state.generation ?? null,
       provider: data.provider ?? null,
       model: data.model ?? null,
+      // Tool metadata survives: name + outcome, never args/results.
+      tool: typeof data.tool === 'string' ? data.tool : null,
+      ok: typeof data.ok === 'boolean' ? data.ok : null,
       contentChars,
       phase: data.phase ?? state.phase ?? null,
       agent: data.agent ?? state.agent ?? null,

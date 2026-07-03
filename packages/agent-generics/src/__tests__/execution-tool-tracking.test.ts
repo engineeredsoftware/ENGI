@@ -7,6 +7,12 @@
  *   bound tools create a `tool:<ClassName>` tracking child recording
  *   name/startTime/input then result/status/endTime, and error capture
  *   RETHROWS after recording status='failed'.
+ *   SOURCE-SAFETY NOTE: the tool:input / tool:result stores hold RAW
+ *   args/results on the EXECUTION TREE only (agents need them). When those
+ *   stores stream toward execution_events, the universal chokepoint
+ *   (pipelines-generics sourceSafeStreamEvent) withholds their content and
+ *   keeps only name/duration/status metadata — pinned in
+ *   pipelines-generics/src/streaming/__tests__/pipeline-stream-integration.test.ts.
  * - AgentToolsRegistry: same-priority re-registration replaces, highest
  *   priority wins regardless of registration order, getTool binds the
  *   resolved tool to the registry's execution, hierarchical parent lookup,

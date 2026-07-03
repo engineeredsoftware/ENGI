@@ -254,6 +254,159 @@ describe('sourceSafeStreamEvent (telemetry source-safety law, V48)', () => {
   });
 });
 
+describe('sourceSafeStreamEvent — non-llm content-bearing stores (deposit inventory + tool args/results)', () => {
+  const SOURCE_LINE = 'INVENTORY-SOURCE-MARKER const secret = readDepositorFile();';
+
+  it('withholds deposit:inventory (the verbatim depositor source inventory)', () => {
+    const safe = sourceSafeStreamEvent({
+      type: 'status',
+      namespace: 'deposit',
+      key: 'inventory',
+      data: { sources: [{ path: 'src/secret.ts', content: SOURCE_LINE }] },
+    });
+    expect(safe.message).toBe('[content withheld — source-safe]');
+    expect(safe.data.contentWithheld).toBe(true);
+    expect(safe.data.namespace).toBe('deposit');
+    expect(safe.data.stage).toBe('inventory');
+    expect(typeof safe.data.contentChars).toBe('number');
+    expect(JSON.stringify(safe)).not.toContain('INVENTORY-SOURCE-MARKER');
+  });
+
+  it('withholds pipeline:input (carries inventory.sources verbatim on a deposit)', () => {
+    const safe = sourceSafeStreamEvent({
+      type: 'status',
+      namespace: 'pipeline',
+      key: 'input',
+      data: {
+        repository: { fullName: 'octo/repo' },
+        inventory: { sources: [{ path: 'src/secret.ts', content: SOURCE_LINE }] },
+      },
+    });
+    expect(safe.data.contentWithheld).toBe(true);
+    expect(JSON.stringify(safe)).not.toContain('INVENTORY-SOURCE-MARKER');
+  });
+
+  it('passes through OTHER pipeline/deposit metadata keys unchanged (allowlist is key-scoped)', () => {
+    const pattern = { type: 'status', namespace: 'pipeline', key: 'pattern', data: 'SDIVF' };
+    expect(sourceSafeStreamEvent(pattern)).toBe(pattern);
+    const repo = {
+      type: 'status',
+      namespace: 'deposit',
+      key: 'repository',
+      data: { fullName: 'octo/repo', branch: 'main' },
+    };
+    expect(sourceSafeStreamEvent(repo)).toBe(repo);
+  });
+
+  it.each([
+    ['tool', 'input'],
+    ['tool', 'result'],
+    ['tools', 'invocation'],
+    ['tools', 'result'],
+  ])('withholds %s/%s content while keeping tool-name metadata', (namespace, key) => {
+    const safe = sourceSafeStreamEvent({
+      type: namespace === 'tools' && key === 'result' ? 'tool-use' : 'status',
+      namespace,
+      key,
+      data: { tool: 'repository-read', ok: true, input: { path: 'src/secret.ts' }, output: SOURCE_LINE },
+      metadata: { stores: { toolEvents: { [key]: [{ output: SOURCE_LINE }] } } },
+    });
+    expect(safe.message).toBe('[content withheld — source-safe]');
+    expect(safe.data.contentWithheld).toBe(true);
+    // Tool metadata survives (name + outcome), content does not.
+    expect(safe.data.tool).toBe('repository-read');
+    expect(safe.data.ok).toBe(true);
+    // The metadata.stores mirror (adapter enrichment side channel) is stripped.
+    expect(safe.metadata?.stores).toBeUndefined();
+    expect(JSON.stringify(safe)).not.toContain('INVENTORY-SOURCE-MARKER');
+    expect(JSON.stringify(safe)).not.toContain('src/secret.ts');
+  });
+
+  it('tool duration/status metadata stores pass through unchanged (separate store events)', () => {
+    for (const key of ['name', 'startTime', 'endTime', 'status']) {
+      const event = { type: 'status', namespace: 'tool', key, data: key === 'name' ? 'EchoTool' : 123 };
+      expect(sourceSafeStreamEvent(event)).toBe(event);
+    }
+  });
+
+  it('strips the metadata.stores generations mirror on withheld llm events too', () => {
+    const safe = sourceSafeStreamEvent({
+      type: 'generation',
+      namespace: 'llm',
+      key: 'output',
+      data: { content: SOURCE_LINE, failsafe: 'chunk', generation: 'g1' },
+      metadata: { stores: { generations: { chunk: { g1: { llm: { output: { content: SOURCE_LINE } } } } } } },
+    });
+    expect(safe.metadata?.stores).toBeUndefined();
+    expect(JSON.stringify(safe)).not.toContain('INVENTORY-SOURCE-MARKER');
+  });
+
+  it('REGRESSION: a stored inventory source line never reaches persisted execution_events', async () => {
+    const exec = new Execution('pipeline:inventory-safety');
+    const streamer = enablePipelineStreaming(exec, {
+      runId: 'run-inventory-safety',
+      userId: 'user-1',
+      supabase: {} as any,
+      streamToDatabase: true,
+      streamToSSE: false,
+    });
+    expect(streamer).toBeDefined();
+
+    const before = createdEvents.length;
+    // Model the deposit preprocess cross-phase stores on the SHARED root
+    // (storeCrossPhaseArtifact → root.store): full verbatim inventory.
+    exec.store('deposit', 'inventory', {
+      sources: [{ path: 'src/secret.ts', content: SOURCE_LINE }],
+    });
+    exec.store('pipeline', 'input', {
+      repository: { fullName: 'octo/repo' },
+      inventory: { sources: [{ path: 'src/secret.ts', content: SOURCE_LINE }] },
+    });
+    // store() → adapter emit → persistence is fire-and-forget: let it flush.
+    await new Promise((r) => setTimeout(r, 50));
+
+    const rows = createdEvents.slice(before);
+    expect(rows.length).toBe(2);
+    for (const row of rows) {
+      expect(row.event_data.data.contentWithheld).toBe(true);
+      expect(JSON.stringify(row)).not.toContain('INVENTORY-SOURCE-MARKER');
+    }
+  });
+
+  it('REGRESSION: ExecutionTool.execute raw args/results never reach persisted execution_events', async () => {
+    const exec = new Execution('pipeline:tool-safety');
+    enablePipelineStreaming(exec, {
+      runId: 'run-tool-safety',
+      userId: 'user-1',
+      supabase: {} as any,
+      streamToDatabase: true,
+      streamToSSE: false,
+    });
+
+    const before = createdEvents.length;
+    // Model ExecutionTool.execute's tracking child stores (AgentToolsRegistry).
+    const toolExec = exec.child('tool:RepositoryReadTool');
+    toolExec.store('tool', 'name', 'RepositoryReadTool');
+    toolExec.store('tool', 'startTime', Date.now());
+    toolExec.store('tool', 'input', [{ path: 'src/secret.ts' }]);
+    toolExec.store('tool', 'result', { content: SOURCE_LINE });
+    toolExec.store('tool', 'status', 'success');
+    toolExec.store('tool', 'endTime', Date.now());
+    await new Promise((r) => setTimeout(r, 50));
+
+    const rows = createdEvents.slice(before);
+    expect(rows.length).toBe(6);
+    const persisted = JSON.stringify(rows);
+    expect(persisted).not.toContain('INVENTORY-SOURCE-MARKER');
+    expect(persisted).not.toContain('src/secret.ts');
+    // Name/duration/status metadata still lands.
+    expect(persisted).toContain('RepositoryReadTool');
+    expect(persisted).toContain('success');
+    const withheld = rows.filter((row) => row.event_data?.data?.contentWithheld === true);
+    expect(withheld).toHaveLength(2);
+  });
+});
+
 describe('legacy execution_events persistence applies the source-safe filter to every row', () => {
   it('persists llm content events with content withheld (raw text never reaches execution_events)', async () => {
     const exec = new Execution('pipeline:source-safety');
