@@ -65,11 +65,13 @@ const PHASE_ICON_RULES: IconRule[] = [
 
 const STEP_ICON_RULES: IconRule[] = [
   ['plan', ClipboardIcon],
+  // 'retry' must precede 'try': rules are substring-matched in order and
+  // 'retry'.includes('try'), so the broader rule would claim Retry labels.
+  ['retry', LightningBoltIcon],
+  ['intensify', LightningBoltIcon],
   ['try', MagicWandIcon],
   ['generate', MagicWandIcon],
   ['refine', MixerHorizontalIcon],
-  ['retry', LightningBoltIcon],
-  ['intensify', LightningBoltIcon],
 ];
 
 const FAILSAFE_ICON_RULES: IconRule[] = [

@@ -16,6 +16,7 @@ import {
   formatFailsafeName,
   formatFailsafeSentenceName,
   humanizeAgentName,
+  normalizeStepName,
   trimPipelineAgentName,
 } from '@/components/base/bitcode/execution/execution-telemetry-format';
 import { formatRunClock } from '@/components/base/bitcode/execution/RunClock';
@@ -83,7 +84,7 @@ describe('trimPipelineAgentName — client-side pipeline prefix trim', () => {
 
 // ---------------------------------------------------------------------------
 // Item 1 — prepare_concise_context reads 'Context' in the SENTENCE while the
-// PILL keeps the full 'Prepare Concise Context' name.
+// PILL reads the normalized 'Prepare Context' name ('Concise' stays internal).
 // ---------------------------------------------------------------------------
 describe('failsafe naming — sentence vs pill', () => {
   it("maps prepare_concise_context to 'Context' in the sentence", () => {
@@ -92,13 +93,47 @@ describe('failsafe naming — sentence vs pill', () => {
     expect(formatFailsafeSentenceName('prepare-concise-context')).toBe('Context');
   });
 
-  it("keeps the pill name 'Prepare Concise Context'", () => {
-    expect(formatFailsafeName('prepare_concise_context')).toBe('Prepare Concise Context');
+  it("normalizes the pill name to 'Prepare Context'", () => {
+    expect(formatFailsafeName('prepare_concise_context')).toBe('Prepare Context');
+    expect(formatFailsafeName('prepare-concise-context')).toBe('Prepare Context');
   });
 
   it('keeps the large-input/output pill names', () => {
     expect(formatFailsafeName('chunk_then_sum')).toBe('handle large inputs');
     expect(formatFailsafeName('stitch_until_complete')).toBe('handle large outputs');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// PTRR step labels — 'retry' must normalize to 'Retry', never 'Try'
+// ('retry'.includes('try') made the broader match relabel every Retry step as
+// Try, which read as a Try-after-Refine sequencing bug in the log).
+// ---------------------------------------------------------------------------
+describe('normalizeStepName — PTRR step labels', () => {
+  it('labels every PTRR step by its own name', () => {
+    expect(normalizeStepName('plan')).toBe('Plan');
+    expect(normalizeStepName('try')).toBe('Try');
+    expect(normalizeStepName('refine')).toBe('Refine');
+    expect(normalizeStepName('retry')).toBe('Retry');
+  });
+
+  it("normalizes 'retry' variants to 'Retry', not 'Try'", () => {
+    expect(normalizeStepName('retry')).toBe('Retry');
+    expect(normalizeStepName('Retry')).toBe('Retry');
+    expect(normalizeStepName('step:retry')).toBe('Retry');
+    expect(normalizeStepName('intensify')).toBe('Retry');
+  });
+
+  it("renders the Retry step pill as 'RETRY'", () => {
+    render(<ExecutionContextPillRow step="retry" />);
+    expect(screen.getByText('RETRY')).toBeInTheDocument();
+    expect(screen.queryByText('TRY')).not.toBeInTheDocument();
+  });
+
+  it("resolves the Retry step tooltip to the Retry specific copy, not Try's", () => {
+    const explainer = getTelemetryPillExplainer('step', 'retry');
+    expect(explainer.title).toBe('Retry');
+    expect(explainer.specific).toContain('Retry guidance');
   });
 });
 
@@ -249,7 +284,7 @@ describe('ExecutionContextPillRow', () => {
     expect(screen.getByText('DISCOVERY')).toBeInTheDocument();
     expect(screen.getByText('DEPOSITORY SEARCH AGENT')).toBeInTheDocument();
     expect(screen.getByText('TRY')).toBeInTheDocument();
-    expect(screen.getByText('PREPARE CONCISE CONTEXT')).toBeInTheDocument();
+    expect(screen.getByText('PREPARE CONTEXT')).toBeInTheDocument();
     expect(screen.getByText('REASON')).toBeInTheDocument();
 
     // ONE wrapping row, not a top/bottom split.
@@ -281,6 +316,11 @@ describe('getTelemetryPillExplainer — prompt/return-concrete specific copy', (
     expect(explainer.specific).toContain('pipeline_execution_keys');
     expect(explainer.specific).toContain('{selectedKeys}');
     expect(explainer.generic).toContain('Failsafes are the guards');
+  });
+
+  it("failsafe PCC tooltip titles as the normalized 'Prepare Context'", () => {
+    const explainer = getTelemetryPillExplainer('failsafe', 'prepare_concise_context');
+    expect(explainer.title).toBe('Prepare Context');
   });
 
   it('failsafe handle-large-inputs states the budget measurement + one-vs-chunked generations', () => {
@@ -360,7 +400,7 @@ describe('TelemetryExplainerTrigger — specific section above generic', () => {
       <TelemetryExplainerTrigger
         explainer={{
           kicker: 'Failsafe',
-          title: 'Prepare Concise Context',
+          title: 'Prepare Context',
           specific: 'SPECIFIC-SECTION-COPY',
           generic: 'GENERIC-SECTION-COPY',
         }}

@@ -65,7 +65,7 @@ const GENERIC_COPY: Record<TelemetryExplainerKind, string> = {
   agent: "Agents are the PTRR workers that plan, try, refine, and retry a phase's work.",
   step: 'Steps are the PTRR moves an agent works through in order: Plan, Try, Refine, and Retry.',
   failsafe:
-    'Failsafes are the guards wrapped around every LLM call: Prepare Concise Context selects the context; handle large inputs chunks oversized requests; handle large outputs repairs incomplete responses.',
+    'Failsafes are the guards wrapped around every LLM call: Prepare Context selects the context; handle large inputs chunks oversized requests; handle large outputs repairs incomplete responses.',
   generation: 'Generations are the Thinkings sequence: Reason, Judge, Structured Output.',
   tool: 'Tools are the concrete abilities an agent invokes during a step; arguments and results stay source-safe.',
   'row-icon':
@@ -203,6 +203,13 @@ const STEP_SPECIFICS: Record<string, (agentPossessive: string) => string> = {
     `Prompted with ${a} Retry guidance to re-run the work with intensified, conservative instructions after a failed judgment. The last bounded chance to return a valid output against ${a} output schema.`,
 };
 
+// Display-title overrides for failsafes whose humanized internal id is not
+// the label law: PrepareConciseContext displays as 'Prepare Context' (the
+// 'Concise' qualifier stays internal-only).
+const FAILSAFE_TITLES: Record<string, string> = {
+  prepare_concise_context: 'Prepare Context',
+};
+
 const FAILSAFE_SPECIFICS: Record<string, (agentPossessive: string) => string> = {
   prepare_concise_context: () =>
     'Prompted with {preparation, system, pipeline_execution_keys} — a keys-only tree of the execution state — and returns {selectedKeys}: the context keys this call actually needs. The harness then reads in only the selected values, keeping the request focused and source-safe.',
@@ -313,7 +320,7 @@ export function getTelemetryPillExplainer(
       const specific = FAILSAFE_SPECIFICS[key];
       return {
         kicker: 'Failsafe',
-        title: humanizeNounPhrase(value),
+        title: FAILSAFE_TITLES[key] || humanizeNounPhrase(value),
         generic: GENERIC_COPY.failsafe,
         specific: specific
           ? specific(agentPossessive(context))

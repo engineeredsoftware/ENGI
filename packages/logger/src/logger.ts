@@ -265,11 +265,14 @@ export async function writeRawLLMIO(opts: {
     // exercises this same LLM-substep code path with mocked LLMs.
     if (process?.env?.NODE_ENV === 'test') return undefined;
 
-    const runDir = joinPath(RAW_LLM_LOG_BASE_DIR, sanitizeId(opts.executionId || 'run'));
-    try { await fs.mkdir(runDir, { recursive: true }); } catch {}
-
+    // Claim the sequence number before any await: callers fire-and-forget, so
+    // an await ahead of the increment lets concurrent writes swap numbers and
+    // the on-disk ordering stops reflecting call order.
     const safe = (s: any) => String(s || '').toLowerCase().replace(/[^a-z0-9-_]+/g, '-').slice(0, 160) || 'na';
     const seq = String(++__rawLLMIOSeq).padStart(5, '0');
+
+    const runDir = joinPath(RAW_LLM_LOG_BASE_DIR, sanitizeId(opts.executionId || 'run'));
+    try { await fs.mkdir(runDir, { recursive: true }); } catch {}
     const filename = joinPath(runDir, `${seq}-${safe(opts.pathKey)}.${opts.kind}.json`);
 
     const payload = opts.kind === 'error'

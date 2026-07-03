@@ -9,6 +9,9 @@ jest.mock('@/components/base/bitcode/execution/FileDiffViewer', () => ({
 
 import {
   buildRawLogCopyText,
+  buildTerseLogCopyText,
+  compactTerseEvent,
+  distillTerseValue,
   buildProcessingStallLabel,
   copyTextToClipboard,
 } from '@/components/base/bitcode/execution/pipeline-execution-log';
@@ -47,6 +50,136 @@ describe('PipelineExecutionLog — Copy raw logs (buildRawLogCopyText)', () => {
     expect(text).toContain('Validation');
     expect(text).toContain('=== error ===');
     expect(text).toContain('boom');
+  });
+});
+
+describe('PipelineExecutionLog — Copy terse logs (buildTerseLogCopyText)', () => {
+  const bigBody = 'x'.repeat(5_000);
+  const copyData = {
+    runId: 'run-1',
+    status: 'failed',
+    error: 'synthesis broke: ' + 'e'.repeat(500),
+    inputs: {
+      repositoryFullName: 'engineeredsoftware/demo',
+      obfuscations: 'hide internal names — ' + 'o'.repeat(1_000),
+    },
+    outputDetails: { 'row one': { status: { executionState: { phase: 'implementation' } }, body: bigBody } },
+    events: [
+      {
+        id: 'evt-1',
+        created_at: '2026-07-03T17:31:00.000Z',
+        event: {
+          type: 'generation',
+          namespace: 'llm',
+          key: 'response',
+          value: bigBody,
+          status: {
+            executionState: {
+              pipeline: 'AssetPacksSynthesis',
+              phase: 'implementation',
+              agent: 'DepositAssetPackSynthesisAgent',
+              step: 'retry',
+              failsafe: 'prepare_concise_context',
+              generation: 'reason',
+              stitchIteration: 2,
+            },
+            usage: { inputTokens: 1200, outputTokens: 340 },
+            model: 'claude-sonnet-5',
+            provider: 'anthropic',
+          },
+        },
+      },
+      {
+        id: 'evt-2',
+        created_at: '2026-07-03T17:31:30.000Z',
+        event: {
+          type: 'status',
+          namespace: 'llm',
+          key: 'usage',
+          message: '[content withheld — source-safe]',
+          data: { inputTokens: 900, outputTokens: 120, provider: 'anthropic', model: 'claude-sonnet-5' },
+        },
+      },
+      {
+        id: 'evt-3',
+        created_at: '2026-07-03T17:32:06.000Z',
+        event: { type: 'error', error: { message: 'credit balance is too low', stack: 's'.repeat(3_000) } },
+      },
+    ],
+  };
+
+  it('keeps the run header, hierarchy, ordering, usage, and error bodies', () => {
+    const text = buildTerseLogCopyText({ copyData });
+    const parsed = JSON.parse(text);
+    expect(parsed.runId).toBe('run-1');
+    expect(parsed.status).toBe('failed');
+    expect(parsed.error).toContain('synthesis broke');
+    expect(parsed.eventCount).toBe(3);
+    expect(parsed.firstEventAt).toBe('2026-07-03T17:31:00.000Z');
+    expect(parsed.lastEventAt).toBe('2026-07-03T17:32:06.000Z');
+    const [first, usageRow, second] = parsed.events;
+    expect(usageRow).toMatchObject({
+      type: 'status',
+      namespace: 'llm',
+      key: 'usage',
+      provider: 'anthropic',
+      model: 'claude-sonnet-5',
+      usage: { inputTokens: 900, outputTokens: 120 },
+    });
+    expect(first).toMatchObject({
+      created_at: '2026-07-03T17:31:00.000Z',
+      type: 'generation',
+      namespace: 'llm',
+      key: 'response',
+      pipeline: 'AssetPacksSynthesis',
+      phase: 'implementation',
+      agent: 'DepositAssetPackSynthesisAgent',
+      step: 'retry',
+      failsafe: 'prepare_concise_context',
+      generation: 'reason',
+      stitchIteration: 2,
+      provider: 'anthropic',
+      model: 'claude-sonnet-5',
+      usage: { inputTokens: 1200, outputTokens: 340 },
+    });
+    expect(second.type).toBe('error');
+    expect(second.error.message).toContain('credit balance is too low');
+  });
+
+  it('drops the bulk: stored values, outputDetails duplication, oversized strings', () => {
+    const text = buildTerseLogCopyText({ copyData });
+    const parsed = JSON.parse(text);
+    expect(parsed.events[0].value).toBeUndefined();
+    expect(parsed.outputDetails).toContain('omitted');
+    expect(text).not.toContain(bigBody);
+    expect(text.length).toBeLessThan(buildRawLogCopyText({ copyData }).length / 2);
+  });
+
+  it('truncates long strings with a size marker, keeping larger error budgets', () => {
+    const longPlain = distillTerseValue('p'.repeat(300)) as string;
+    expect(longPlain).toContain('… [+100 chars]');
+    const longError = distillTerseValue('e'.repeat(300), 'error') as string;
+    expect(longError).toBe('e'.repeat(300));
+    const hugeStack = distillTerseValue('s'.repeat(3_000), 'stack') as string;
+    expect(hugeStack).toContain('… [+1000 chars]');
+  });
+
+  it('compacts a bare payload without an events wrapper gracefully', () => {
+    const row = compactTerseEvent({ type: 'completion', message: 'done' });
+    expect(row).toEqual({ type: 'completion', message: 'done' });
+  });
+
+  it('distills the fallback output/details/error when no copyData is passed', () => {
+    const text = buildTerseLogCopyText({
+      output: 'line one\n' + 'z'.repeat(1_000),
+      outputDetails: { phase: 'Validation' },
+      error: 'boom',
+    });
+    const parsed = JSON.parse(text);
+    expect(parsed.output).toContain('line one');
+    expect(parsed.output).toContain('… [+');
+    expect(parsed.outputDetails.phase).toBe('Validation');
+    expect(parsed.error).toBe('boom');
   });
 });
 

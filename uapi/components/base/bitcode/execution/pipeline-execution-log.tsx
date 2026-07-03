@@ -11,6 +11,7 @@ import {
   ExclamationTriangleIcon,
   InfoCircledIcon,
   ChevronRightIcon,
+  ListBulletIcon,
 } from '@radix-ui/react-icons';
 import FileDiffViewer from './FileDiffViewer';
 import type { FileDiff, FileTreeChange } from '@bitcode/streams';
@@ -362,6 +363,162 @@ export function buildRawLogCopyText(args: {
   ].join('');
 }
 
+// "Copy terse logs" string budgets: ordinary string fields truncate to
+// TERSE_STRING_LIMIT; fields whose key looks error-ish (error/message/stack)
+// keep TERSE_ERROR_STRING_LIMIT so failure forensics survive the distillation.
+const TERSE_STRING_LIMIT = 200;
+const TERSE_ERROR_STRING_LIMIT = 2000;
+const TERSE_ERROR_KEY = /error|message|stack/i;
+
+/**
+ * Recursively distill a copy payload for the "Copy terse logs" button: every
+ * string over its budget is truncated to a preview + '… [+N chars]' marker,
+ * while structure, ordering, counts, numbers, and short fields (the run's
+ * phase/agent/step/failsafe hierarchy, statuses, usage, timestamps) survive
+ * whole. Pure + exported for unit testing.
+ */
+export function distillTerseValue(value: unknown, keyHint?: string): unknown {
+  if (typeof value === 'string') {
+    const limit = keyHint && TERSE_ERROR_KEY.test(keyHint) ? TERSE_ERROR_STRING_LIMIT : TERSE_STRING_LIMIT;
+    return value.length > limit ? `${value.slice(0, limit)}… [+${value.length - limit} chars]` : value;
+  }
+  if (Array.isArray(value)) return value.map((item) => distillTerseValue(item, keyHint));
+  if (value && typeof value === 'object') {
+    const out: Record<string, unknown> = {};
+    for (const [key, entry] of Object.entries(value as Record<string, unknown>)) {
+      out[key] = distillTerseValue(entry, key);
+    }
+    return out;
+  }
+  return value;
+}
+
+/**
+ * Compact one streamed run event ({id, created_at, event} or a bare payload)
+ * into a terse row: timestamp, canonical type, store identity (namespace/key),
+ * the full Phase→Agent→Step→Failsafe→Generation call chain + repair markers,
+ * provider/model/usage, a bounded message preview, and (near-)complete error
+ * bodies. Everything else — the raw stored values, executionState duplicates,
+ * metadata snapshots — is the payload bulk and is dropped.
+ */
+export function compactTerseEvent(entry: unknown): Record<string, unknown> {
+  const record = entry && typeof entry === 'object' ? (entry as Record<string, any>) : null;
+  const payload = record && 'event' in record ? record.event : entry;
+  const compact: Record<string, unknown> = {};
+  if (record?.created_at) compact.created_at = record.created_at;
+  if (!payload || typeof payload !== 'object') {
+    if (payload !== undefined && payload !== null) compact.value = distillTerseValue(payload);
+    return compact;
+  }
+  if (payload.type) compact.type = payload.type;
+  // Store identity: names WHAT was stored — tiny and load-bearing for ordering
+  // forensics (which agent/step/failsafe emitted what, in what sequence).
+  if (payload.namespace) compact.namespace = payload.namespace;
+  if (payload.key) compact.key = payload.key;
+  const executionState = extractExecutionState(payload) || {};
+  const CHAIN_FIELDS = [
+    'pipeline',
+    'phase',
+    'agent',
+    'step',
+    'failsafe',
+    'generation',
+    'tool',
+    'ptrrStepName',
+    'promptTemplateId',
+    'outputSchema',
+    'returnType',
+  ] as const;
+  for (const field of CHAIN_FIELDS) {
+    const value = executionState[field];
+    if (value !== undefined && value !== null && value !== '') compact[field] = value;
+  }
+  if (typeof executionState.stitchIteration === 'number') compact.stitchIteration = executionState.stitchIteration;
+  if (typeof executionState.chunkIndex === 'number') compact.chunkIndex = executionState.chunkIndex;
+  if (executionState.chunkSum === true) compact.chunkSum = true;
+  const status = payload.status || {};
+  // The source-safe stream projection carries its metadata under `data`
+  // (provider/model/tool/phase/agent/step/generation, plus contentChars for
+  // withheld bodies); `llm:usage` store events carry the usage object AS data.
+  const data = payload.data && typeof payload.data === 'object' ? payload.data : {};
+  for (const field of ['phase', 'agent', 'step', 'generation', 'tool'] as const) {
+    if (compact[field] === undefined && data[field] !== undefined && data[field] !== null && data[field] !== '') {
+      compact[field] = data[field];
+    }
+  }
+  const provider = payload.provider ?? status.provider ?? data.provider ?? executionState.provider;
+  const model = payload.model ?? status.model ?? data.model ?? executionState.model;
+  const usage =
+    payload.usage ??
+    status.usage ??
+    (payload.namespace === 'llm' && payload.key === 'usage' ? payload.data : undefined) ??
+    executionState.usage;
+  if (provider) compact.provider = provider;
+  if (model) compact.model = model;
+  if (usage !== undefined && usage !== null) compact.usage = distillTerseValue(usage);
+  if (typeof data.contentChars === 'number') compact.contentChars = data.contentChars;
+  if (typeof data.ok === 'boolean') compact.ok = data.ok;
+  const message = payload.message ?? status.message ?? payload.text;
+  // 'message' keyHint: event messages carry stall/failure text, so they get
+  // the larger error budget the __terse note promises for message fields.
+  if (typeof message === 'string' && message) compact.message = distillTerseValue(message, 'message');
+  const errorBody = payload.error ?? status.error;
+  if (errorBody !== undefined && errorBody !== null) compact.error = distillTerseValue(errorBody, 'error');
+  return compact;
+}
+
+/**
+ * Build the text the "Copy terse logs" button copies: the same run payload as
+ * "Copy raw logs", distilled to a much smaller but still debugging-useful
+ * form. When `copyData` carries an `events` array (the /deposit shape), every
+ * event compacts to its terse row (`compactTerseEvent`) and the
+ * `outputDetails` duplication is omitted; other payload fields keep their
+ * structure with long strings truncated (`distillTerseValue`) — error bodies
+ * keep a much larger budget. Pure + exported for unit testing.
+ */
+export function buildTerseLogCopyText(args: {
+  copyData?: unknown;
+  output?: string;
+  outputDetails?: Record<string, any>;
+  error?: string | null;
+}): string {
+  const { copyData, output, outputDetails, error } = args;
+  const note =
+    `Terse copy: run events are compacted to timestamp/type/call-chain/usage/error rows and long strings ` +
+    `are truncated to a preview + '… [+N chars]' (error/message/stack fields keep up to ` +
+    `${TERSE_ERROR_STRING_LIMIT} chars); ordering and counts are complete. Use 'Copy raw logs' for full bodies.`;
+  if (
+    copyData !== undefined &&
+    copyData &&
+    typeof copyData === 'object' &&
+    !Array.isArray(copyData) &&
+    Array.isArray((copyData as Record<string, any>).events)
+  ) {
+    const { events, outputDetails: duplicatedDetails, ...header } = copyData as Record<string, any>;
+    void duplicatedDetails;
+    const wrapped = {
+      __terse: note,
+      ...(distillTerseValue(header) as Record<string, unknown>),
+      outputDetails: '[omitted — duplicates the events; use Copy raw logs for full bodies]',
+      eventCount: events.length,
+      firstEventAt: events[0]?.created_at ?? null,
+      lastEventAt: events[events.length - 1]?.created_at ?? null,
+      events: events.map(compactTerseEvent),
+    };
+    return JSON.stringify(wrapped, null, 2);
+  }
+  const source =
+    copyData !== undefined
+      ? copyData
+      : { output: output || '', outputDetails: outputDetails ?? {}, error: error ?? null };
+  const distilled = distillTerseValue(typeof source === 'string' ? { output: source } : source);
+  const wrapped =
+    distilled && typeof distilled === 'object' && !Array.isArray(distilled)
+      ? { __terse: note, ...(distilled as Record<string, unknown>) }
+      : { __terse: note, data: distilled };
+  return JSON.stringify(wrapped, null, 2);
+}
+
 // Matches the default BITCODE_LLM_CALL_TIMEOUT_MS (AgentLLMsRegistry /
 // PipelineLLMRegistry) — past this many seconds with no new row, an in-flight
 // LLM call should already have timed out server-side, so continued silence is
@@ -468,6 +625,19 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
     if (ok) {
       setCopiedRaw(true);
       setTimeout(() => setCopiedRaw(false), 1500);
+    }
+  };
+
+  // "Copy terse logs": the same run payload distilled — long strings truncated,
+  // hierarchy/ordering/errors kept — for a much smaller but still useful copy.
+  const [copiedTerse, setCopiedTerse] = useState(false);
+  const handleCopyTerse = async () => {
+    const ok = await copyTextToClipboard(
+      buildTerseLogCopyText({ copyData, output, outputDetails, error }),
+    );
+    if (ok) {
+      setCopiedTerse(true);
+      setTimeout(() => setCopiedTerse(false), 1500);
     }
   };
 
@@ -828,19 +998,34 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
 
   return (
     <div className="relative w-full">
-      <button
-        type="button"
-        onClick={handleCopyRaw}
-        title="Copy raw logs"
-        aria-label="Copy raw logs"
-        className="absolute top-2 right-2 z-30 flex h-7 w-7 items-center justify-center rounded-md border border-white/10 bg-black/40 text-neutral-300 backdrop-blur-sm transition hover:border-emerald-300/40 hover:text-emerald-200 focus:outline-none"
-      >
-        {copiedRaw ? (
-          <CheckIcon className="h-4 w-4 text-emerald-300" />
-        ) : (
-          <ClipboardCopyIcon className="h-4 w-4" />
-        )}
-      </button>
+      <div className="absolute top-2 right-2 z-30 flex items-center gap-1">
+        <button
+          type="button"
+          onClick={handleCopyTerse}
+          title="Copy terse logs"
+          aria-label="Copy terse logs"
+          className="flex h-7 w-7 items-center justify-center rounded-md border border-white/10 bg-black/40 text-neutral-300 backdrop-blur-sm transition hover:border-emerald-300/40 hover:text-emerald-200 focus:outline-none"
+        >
+          {copiedTerse ? (
+            <CheckIcon className="h-4 w-4 text-emerald-300" />
+          ) : (
+            <ListBulletIcon className="h-4 w-4" />
+          )}
+        </button>
+        <button
+          type="button"
+          onClick={handleCopyRaw}
+          title="Copy raw logs"
+          aria-label="Copy raw logs"
+          className="flex h-7 w-7 items-center justify-center rounded-md border border-white/10 bg-black/40 text-neutral-300 backdrop-blur-sm transition hover:border-emerald-300/40 hover:text-emerald-200 focus:outline-none"
+        >
+          {copiedRaw ? (
+            <CheckIcon className="h-4 w-4 text-emerald-300" />
+          ) : (
+            <ClipboardCopyIcon className="h-4 w-4" />
+          )}
+        </button>
+      </div>
       <div
         ref={(node) => {
           containerRef.current = node;
@@ -1448,10 +1633,11 @@ function renderLogLine(
                   try {
                     const stores = logLine.details?.status?.metadata?.stores || logLine.details?.metadata?.stores;
                     const stepLower = String(logLine.step || '').toLowerCase();
+                    // 'retry' must be tested before 'try' ('retry'.includes('try')).
                     const stepName = stepLower.includes('plan') ? 'plan'
+                      : stepLower.includes('retry') || stepLower.includes('intensify') ? 'retry'
                       : stepLower.includes('try') || stepLower.includes('generate') ? 'try'
                       : stepLower.includes('refine') ? 'refine'
-                      : stepLower.includes('retry') || stepLower.includes('intensify') ? 'retry'
                       : undefined;
                     if (!stores || !logLine.phase || !logLine.agent || !stepName) return null;
                     const vm = buildStepViewModel({ phase: logLine.phase, agent: logLine.agent, step: stepName as any }, stores);
@@ -1465,7 +1651,7 @@ function renderLogLine(
                           <div>
                             <span className="text-gray-500 mr-1">Failsafes:</span>
                             {vm.failsafes.map(f => (
-                              <span key={f.failsafe} className="inline-block mr-2 text-emerald-300">{f.failsafe}</span>
+                              <span key={f.failsafe} className="inline-block mr-2 text-emerald-300">{formatMeta(f.failsafe)}</span>
                             ))}
                           </div>
                           {vm.tools.used.length > 0 && (

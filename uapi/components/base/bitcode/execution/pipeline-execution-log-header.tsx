@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { ExecutionPhase, ExecutionStep, FailsafeStep, GenerationStep } from '@bitcode/streams';
+import { normalizeStepName } from './execution-telemetry-format';
 import styles from './pipeline-execution-log-header.module.css';
 
 interface PipelineRunLogHeaderProps {
@@ -127,7 +128,7 @@ export function PipelineExecutionLogHeader({
               {/* Show current step if available and different from agent name */}
               {step && step !== agent && (
                 <span className="text-xs font-medium bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded whitespace-nowrap">
-                  {step}
+                  {normalizeStepName(step)}
                 </span>
               )}
             </div>
@@ -146,7 +147,7 @@ export function PipelineExecutionLogHeader({
 
                 {/* Step */}
                 <span className="px-1.5 py-0.5 rounded bg-gray-800 text-gray-300 font-medium border border-gray-700/50 text-[0.65rem]">
-                  {step || "Step NA"}
+                  {step ? normalizeStepName(step) : "Step NA"}
                 </span>
 
                 <svg className="w-2.5 h-2.5 text-gray-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">

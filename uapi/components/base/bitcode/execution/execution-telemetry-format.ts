@@ -40,19 +40,20 @@ export function titleCaseWords(value: string): string {
     .join(' ');
 }
 
-// "prepare_concise_context" -> "Prepare Concise Context"; "Discovery" -> "Discovery".
+// "chunk_then_sum" -> "Chunk Then Sum"; "Discovery" -> "Discovery".
 export function humanizeNounPhrase(value: string): string {
   return titleCaseWords(value.replace(/[_-]/g, ' '));
 }
 
 // Client-side normalized failsafe names: ChunkThenSum handles LARGE INPUTS,
-// StitchComplete handles LARGE OUTPUTS; PrepareConciseContext keeps its
-// descriptive name on the pill. The log title-line (pill) reads 'handle large
+// StitchComplete handles LARGE OUTPUTS; PrepareConciseContext displays as
+// 'Prepare Context' (the 'Concise' qualifier is an internal naming detail,
+// dropped from the label). The log title-line (pill) reads 'handle large
 // inputs'; the processing sentence reads title-cased without 'handle'
 // ('Reasoning over Large Inputs'). PrepareConciseContext reads simply
-// 'Context' in the sentence ('Reasoning over Context') while the pill keeps
-// the full 'Prepare Concise Context' name.
+// 'Context' in the sentence ('Reasoning over Context').
 export const FAILSAFE_PILL_NAMES: Record<string, string> = {
+  prepare_concise_context: 'Prepare Context',
   chunk_then_sum: 'handle large inputs',
   stitch_until_complete: 'handle large outputs',
 };
@@ -146,9 +147,11 @@ export function normalizeStepName(step: string | undefined): string {
   const stepLower = step.toLowerCase();
 
   if (stepLower.includes('plan')) return 'Plan';
+  // 'retry' must be tested before 'try': 'retry'.includes('try') is true, so
+  // the broader match would relabel every Retry step as Try.
+  if (stepLower.includes('retry')) return 'Retry';
   if (stepLower.includes('try')) return 'Try';
   if (stepLower.includes('refine')) return 'Refine';
-  if (stepLower.includes('retry')) return 'Retry';
   if (stepLower.includes('generate')) return 'Try';
   if (stepLower.includes('intensify')) return 'Retry';
   if (stepLower.includes('initialize')) return 'Initialize';

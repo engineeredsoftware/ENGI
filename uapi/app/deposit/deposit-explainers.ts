@@ -146,11 +146,12 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     summary:
       'A live, source-safe stream of the SynthesizeAssetPacks pipeline actually running — every phase, agent, step, and LLM/tool call, with prompt and response content withheld by law.',
     detail:
-      'Rows appear only for completed LLM calls and tool uses, each carrying its full Phase→Agent→Step→Failsafe→Thinkings hierarchy; the processing indicator underneath shows what is currently running and how long since the last update, so a genuine stall is visible instead of an unexplained gap. Use "Copy raw logs" to grab the full run for support/debugging.',
+      'Rows appear only for completed LLM calls and tool uses, each carrying its full Phase→Agent→Step→Failsafe→Thinkings hierarchy; the processing indicator underneath shows what is currently running and how long since the last update, so a genuine stall is visible instead of an unexplained gap. Use "Copy raw logs" to grab the full run for support/debugging, or "Copy terse logs" for a compact distillation (hierarchy, ordering, usage, and errors — long bodies truncated).',
     points: [
       'Watch which phase/agent is running in real time',
       'The processing indicator flags a likely stall after ~90s of silence',
       'Copy raw logs exports the full source-safe run for debugging',
+      'Copy terse logs exports a compact distillation — call chains, ordering, usage, errors',
     ],
     references: {
       source: [

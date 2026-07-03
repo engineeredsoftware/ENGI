@@ -14,9 +14,11 @@ export function normalizeStepName(step?: string): string {
   const lower = step.toLowerCase();
 
   if (lower.includes('plan')) return 'Plan';
+  // 'retry' must be tested before 'try': 'retry'.includes('try') is true, so
+  // the broader match would relabel every Retry step as Try.
+  if (lower.includes('retry')) return 'Retry';
   if (lower.includes('try')) return 'Try';
   if (lower.includes('refine')) return 'Refine';
-  if (lower.includes('retry')) return 'Retry';
   if (lower.includes('generate')) return 'Try';
   if (lower.includes('intensify')) return 'Retry';
 
