@@ -194,4 +194,122 @@ describe('sourceSafeStreamEvent (telemetry source-safety law, V48)', () => {
     const event = { type: 'phase-start', namespace: 'phase', key: 'start', message: 'Setup phase started' };
     expect(sourceSafeStreamEvent(event)).toBe(event);
   });
+
+  // Every content-bearing key either LLM-call path writes under the `llm`
+  // namespace: the formal Thricified substeps store input/prompt/output/
+  // parsedOutput, while AgentLLMsRegistry/PipelineLLMRegistry (direct getLLM
+  // calls) store messages/config/response. The allowlist design means each of
+  // these MUST be withheld — a new content key can never silently leak.
+  const LLM_CONTENT_KEYS = [
+    'input',
+    'prompt',
+    'output',
+    'parsedOutput',
+    'messages',
+    'config',
+    'response',
+  ];
+
+  it.each(LLM_CONTENT_KEYS)('withholds llm/%s (content-bearing store)', (key) => {
+    const safe = sourceSafeStreamEvent({
+      type: 'status',
+      namespace: 'llm',
+      key,
+      message: 'RAW-SOURCE-MARKER prose',
+      data: { content: 'RAW-SOURCE-MARKER prose', nested: { deep: 'RAW-SOURCE-MARKER prose' } },
+      executionState: { phase: 'discovery', agent: 'measure', step: 'try' },
+    });
+    expect(safe.message).toBe('[content withheld — source-safe]');
+    expect(safe.data.contentWithheld).toBe(true);
+    expect(safe.data.stage).toBe(key);
+    // PTRR context survives as safe metadata.
+    expect(safe.data.phase).toBe('discovery');
+    expect(safe.data.agent).toBe('measure');
+    expect(JSON.stringify(safe)).not.toContain('RAW-SOURCE-MARKER');
+  });
+
+  // The fixed source-safe metadata allowlist: these keys pass through
+  // UNCHANGED (same object reference — no rewriting of safe telemetry).
+  const SOURCE_SAFE_METADATA_KEYS = [
+    'startTime',
+    'endTime',
+    'duration',
+    'usage',
+    'status',
+    'provider',
+    'model',
+    'configKey',
+    'stopReason',
+    'error',
+  ];
+
+  it.each(SOURCE_SAFE_METADATA_KEYS)('passes through llm/%s (metadata allowlist)', (key) => {
+    const event = {
+      type: 'status',
+      namespace: 'llm',
+      key,
+      data: { value: 'safe-metadata' },
+    };
+    expect(sourceSafeStreamEvent(event)).toBe(event);
+  });
+});
+
+describe('legacy execution_events persistence applies the source-safe filter to every row', () => {
+  it('persists llm content events with content withheld (raw text never reaches execution_events)', async () => {
+    const exec = new Execution('pipeline:source-safety');
+    const RAW = 'RAW-DEPOSITOR-SOURCE function secretImplementation() { return 42; }';
+
+    const streamer = enablePipelineStreaming(exec, {
+      runId: 'run-source-safety',
+      userId: 'user-1',
+      supabase: {} as any, // unused by the mocked ExecutionEventsModel
+      streamToDatabase: true,
+      streamToSSE: false,
+    });
+
+    const before = createdEvents.length;
+    await streamer.writeData(
+      JSON.stringify({
+        type: 'status',
+        namespace: 'llm',
+        key: 'output',
+        message: RAW,
+        data: { content: RAW },
+      }),
+    );
+    await new Promise((r) => setTimeout(r, 10));
+
+    expect(createdEvents.length).toBe(before + 1);
+    const row = createdEvents[createdEvents.length - 1];
+    expect(row.run_id).toBe('run-source-safety');
+    expect(row.event_data.data.contentWithheld).toBe(true);
+    expect(row.event_data.message).toBe('[content withheld — source-safe]');
+    expect(JSON.stringify(row)).not.toContain('RAW-DEPOSITOR-SOURCE');
+  });
+
+  it('persists safe llm metadata rows unfiltered on the same path', async () => {
+    const exec = new Execution('pipeline:source-safety-metadata');
+    const streamer = enablePipelineStreaming(exec, {
+      runId: 'run-source-safety-metadata',
+      userId: 'user-1',
+      supabase: {} as any,
+      streamToDatabase: true,
+      streamToSSE: false,
+    });
+
+    const before = createdEvents.length;
+    await streamer.writeData(
+      JSON.stringify({
+        type: 'status',
+        namespace: 'llm',
+        key: 'usage',
+        data: { promptTokens: 11, completionTokens: 5 },
+      }),
+    );
+    await new Promise((r) => setTimeout(r, 10));
+
+    expect(createdEvents.length).toBe(before + 1);
+    const row = createdEvents[createdEvents.length - 1];
+    expect(row.event_data.data).toEqual({ promptTokens: 11, completionTokens: 5 });
+  });
 });

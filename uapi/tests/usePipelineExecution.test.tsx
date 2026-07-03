@@ -124,6 +124,154 @@ describe('usePipelineExecution', () => {
     expect(llmEvent?.event?.executionState).toMatchObject({ phase: 'setup', step: 'plan', generation: 'reason' });
   });
 
+  // ---------------------------------------------------------------------------
+  // Live-tail reconnect contract (V48 Gate 3, commit df9d2d08): the stream route
+  // caps each connection at a fixed budget and closes cleanly WITHOUT a terminal
+  // payload; the hook must reconnect with its last-seen cursor and keep tailing
+  // instead of freezing. Only a terminal completion/error payload (or a bounded
+  // run of empty reconnects) ends the loop.
+  // ---------------------------------------------------------------------------
+  function sseResponse(chunks: string[]) {
+    let index = 0;
+    return {
+      ok: true,
+      headers: { get: () => 'text/event-stream; charset=utf-8' },
+      body: {
+        getReader: () => ({
+          read: async () =>
+            index < chunks.length
+              ? { done: false, value: encoder.encode(chunks[index++]) }
+              : { done: true, value: undefined },
+        }),
+      },
+    } as any;
+  }
+
+  it('reconnects after a budget close (no terminal payload) and resumes rows without duplicating them', async () => {
+    const historyResponse = {
+      run: { id: 'r4', user_id: 'user-1', created_at: '2026-07-01T00:00:00.000Z', items: [], context: {} },
+      events: [],
+    };
+    const streamUrls: string[] = [];
+
+    global.fetch = jest.fn((request: RequestInfo) => {
+      const url = typeof request === 'string' ? request : (request as Request)?.url ?? '';
+      if (url.startsWith('/api/executions/history/')) {
+        return Promise.resolve({ ok: true, json: async () => historyResponse } as any);
+      }
+      if (url.startsWith('/api/executions/stream')) {
+        streamUrls.push(url);
+        if (streamUrls.length === 1) {
+          // First tail window: one LLM row, then the server's clean budget close
+          // (reader done, no completion/error payload).
+          return Promise.resolve(
+            sseResponse([
+              'data: {"type":"generation","namespace":"llm","key":"output","message":"call one","timestamp":"2026-07-01T00:00:01.000Z"}\n\n',
+            ]),
+          );
+        }
+        // Reconnected window: the server resumes strictly after the cursor —
+        // a new row plus the terminal completion.
+        return Promise.resolve(
+          sseResponse([
+            'data: {"type":"generation","namespace":"llm","key":"output","message":"call two","timestamp":"2026-07-01T00:00:02.000Z"}\n\n' +
+              'data: {"type":"completion","timestamp":"2026-07-01T00:00:03.000Z"}\n\n',
+          ]),
+        );
+      }
+      throw new Error(`Unexpected fetch: ${url}`);
+    }) as any;
+
+    let latest: any;
+    render(<Harness runId="r4" onResult={(state) => (latest = state)} />);
+
+    // The clean close is NOT treated as terminal: a second connection opens,
+    // carrying a non-empty lastTs cursor from the already-seen tail.
+    await waitFor(() => expect(streamUrls.length).toBe(2));
+    const secondUrl = new URL(streamUrls[1], 'http://localhost');
+    expect(secondUrl.searchParams.get('runId')).toBe('r4');
+    expect(secondUrl.searchParams.get('lastTs')).toBeTruthy();
+
+    await waitFor(() =>
+      expect(latest.events.some((e: any) => e.event?.type === 'completion')).toBe(true),
+    );
+    // Rows resumed across the reconnect without duplication.
+    expect(latest.events.filter((e: any) => e.event?.message === 'call one')).toHaveLength(1);
+    expect(latest.events.filter((e: any) => e.event?.message === 'call two')).toHaveLength(1);
+    // Every live event id is unique (no key collisions in the accordion).
+    const ids = latest.events.map((e: any) => e.id);
+    expect(new Set(ids).size).toBe(ids.length);
+
+    // The terminal completion ends the loop: no further reconnects.
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    expect(streamUrls.length).toBe(2);
+  });
+
+  it('stops tailing immediately once a terminal error payload arrives', async () => {
+    const historyResponse = {
+      run: { id: 'r5', user_id: 'user-1', created_at: '2026-07-01T00:00:00.000Z', items: [], context: {} },
+      events: [],
+    };
+    const streamUrls: string[] = [];
+
+    global.fetch = jest.fn((request: RequestInfo) => {
+      const url = typeof request === 'string' ? request : (request as Request)?.url ?? '';
+      if (url.startsWith('/api/executions/history/')) {
+        return Promise.resolve({ ok: true, json: async () => historyResponse } as any);
+      }
+      if (url.startsWith('/api/executions/stream')) {
+        streamUrls.push(url);
+        return Promise.resolve(
+          sseResponse([
+            'data: {"type":"error","message":"synthesis failed","timestamp":"2026-07-01T00:00:01.000Z"}\n\n',
+          ]),
+        );
+      }
+      throw new Error(`Unexpected fetch: ${url}`);
+    }) as any;
+
+    let latest: any;
+    render(<Harness runId="r5" onResult={(state) => (latest = state)} />);
+
+    await waitFor(() =>
+      expect(latest?.events.some((e: any) => e.event?.type === 'error')).toBe(true),
+    );
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    expect(streamUrls.length).toBe(1);
+  });
+
+  it('bounds the reconnect loop after repeated empty tail windows', async () => {
+    const historyResponse = {
+      run: { id: 'r6', user_id: 'user-1', created_at: '2026-07-01T00:00:00.000Z', items: [], context: {} },
+      events: [],
+    };
+    const streamUrls: string[] = [];
+
+    global.fetch = jest.fn((request: RequestInfo) => {
+      const url = typeof request === 'string' ? request : (request as Request)?.url ?? '';
+      if (url.startsWith('/api/executions/history/')) {
+        return Promise.resolve({ ok: true, json: async () => historyResponse } as any);
+      }
+      if (url.startsWith('/api/executions/stream')) {
+        streamUrls.push(url);
+        // Every window closes empty: no payloads at all.
+        return Promise.resolve(sseResponse([]));
+      }
+      throw new Error(`Unexpected fetch: ${url}`);
+    }) as any;
+
+    let latest: any;
+    render(<Harness runId="r6" onResult={(state) => (latest = state)} />);
+
+    // 6 consecutive empty connections exhaust the bound (> 5 empties breaks).
+    await waitFor(() => expect(streamUrls.length).toBe(6), { timeout: 5000 });
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    expect(streamUrls.length).toBe(6);
+    // The dead tail is not an error condition — history remains the fallback.
+    expect(latest.error).toBeNull();
+    expect(latest.events).toEqual([]);
+  });
+
   it('handles history fetch failure gracefully', async () => {
     global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500 });
 

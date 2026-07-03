@@ -113,6 +113,21 @@ describe('buildProcessingStallLabel — live stall visibility (QA debug aid)', (
     expect(label).toContain('90s since last update');
   });
 
+  it('is NOT stalled one second under the threshold (89s boundary)', () => {
+    const lastLine = { phase: 'Discovery', agent: 'DepositDepositorySearchAgent', timestamp: new Date(0).toISOString() };
+    const { likelyStalled, label } = buildProcessingStallLabel(lastLine, 89_000);
+    expect(likelyStalled).toBe(false);
+    expect(label).toContain('89s since last update');
+  });
+
+  it('clamps negative clock skew to 0s and never flags a stall', () => {
+    // Last event timestamped AFTER the current tick (server/client clock skew).
+    const lastLine = { phase: 'Discovery', agent: 'DepositDepositorySearchAgent', timestamp: new Date(60_000).toISOString() };
+    const { likelyStalled, label } = buildProcessingStallLabel(lastLine, 0);
+    expect(likelyStalled).toBe(false);
+    expect(label).toContain('0s since last update');
+  });
+
   it('handles a missing/invalid timestamp without throwing', () => {
     expect(buildProcessingStallLabel({ phase: 'Discovery', timestamp: undefined } as any, Date.now())).toEqual({
       label: 'Processing',

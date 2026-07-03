@@ -449,4 +449,326 @@ describe("DepositPageClient", () => {
     ).toHaveTextContent("5,421 tokens");
     expect(screen.getByText("src/app.py")).toBeInTheDocument();
   });
+
+  // -------------------------------------------------------------------------
+  // Full synthetic option render: the deposit-decision payload (V48 Gate 3) —
+  // AP contents (patch descriptor), provenant source, the neediness preview
+  // tile, and the absolutes measurement tiles (magnitude+unit vs volume/weight).
+  // -------------------------------------------------------------------------
+  function buildMeasuredSynthesisFixture() {
+    const option = {
+      schema: "bitcode.deposit.asset-pack-option",
+      optionId: "deposit-option-real-9-ffff9999",
+      kind: "capability-slice",
+      title: "Ledger reconciliation capability slice",
+      summary:
+        "A measured, source-safe slice covering the ledger reconciliation capability.",
+      sourceBinding: {
+        repositoryFullName: "engineeredsoftware/ENGI",
+        sourceBranch: "main",
+        sourceCommit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
+        sourcePathRoots: ["deposit-option-source-path:11111111"],
+        sourcePathCount: 2,
+        rawSourceStoredExternally: true,
+        protectedSourceVisibleInOption: false,
+      },
+      demandAlignment: {
+        posture: "source-safe-demand-signals-only",
+        depositorySignalRoots: [],
+        readingSignalRoots: [],
+        existingDepositorySignalRoots: [],
+        confidence: 0.8,
+      },
+      measurements: [
+        {
+          id: "deposit-option-real-9:function-count",
+          label: "Function count",
+          measurementKind: "function-count",
+          category: "absolute",
+          weight: 0.4,
+          volume: 0.55,
+          magnitude: 12,
+          unit: "functions",
+          evidenceRoot: "deposit-option-measurement:aa11aa11",
+        },
+        {
+          id: "deposit-option-real-9:semantic-volume",
+          label: "Semantic volume",
+          measurementKind: "semantic-volume",
+          category: "absolute",
+          weight: 0.25,
+          volume: 0.48,
+          unit: "normalized",
+          evidenceRoot: "deposit-option-measurement:bb22bb22",
+        },
+      ],
+      contents: {
+        patchSummary:
+          "Adds a reconciliation module wiring ledger entries to journal proofs.",
+        fileChanges: [
+          { op: "create", path: "src/ledger/reconcile.ts" },
+          { op: "update", path: "src/ledger/index.ts" },
+          { op: "delete", path: "src/ledger/legacy-sync.ts" },
+        ],
+        provenantSourcePaths: ["src/ledger/journal.ts"],
+        provenantSourceCount: 1,
+      },
+      neediness: {
+        volume: 0.62,
+        demand: 0.7,
+        saturation: 0.2,
+        rationale: "Readers repeatedly probe reconciliation flows with no fit AssetPack.",
+      },
+      reviewBoundary: {
+        state: "reviewable-source-safe-option",
+        decision: "pending-depositor-review",
+        depositAdmissionBoundary: "not-admitted-until-depositor-approval",
+        btdMintBoundary: "not-minted-by-deposit-option",
+        settlementBoundary:
+          "future-reader-settlement-required-for-source-bearing-assetpack",
+      },
+      policyBoundary: {
+        sourceCriticalityPolicy: "deferred-to-gate6",
+        demandRoiPolicy: "deferred-to-gate6",
+        compensationPolicy: "deferred-to-gate6",
+      },
+      visibility: {
+        sourceSafeMetadataOnly: true,
+        protectedSourceVisible: false,
+        rawSourceTextVisible: false,
+        unpaidAssetPackSourceVisible: false,
+        rawPromptVisible: false,
+        interpolatedPromptVisible: false,
+        rawProviderResponseVisible: false,
+        walletPrivateMaterialVisible: false,
+      },
+      roots: {
+        optionRoot: "deposit-asset-pack-option:99999999",
+        sourceBindingRoot: "deposit-option-source-binding:44444444",
+        demandAlignmentRoot: "deposit-option-demand-alignment:55555555",
+        measurementRoot: "deposit-option-measurements:66666666",
+        contentsRoot: "deposit-option-contents:cc33cc33",
+        needinessRoot: "deposit-option-neediness:dd44dd44",
+        reviewBoundaryRoot: "deposit-option-review-boundary:77777777",
+      },
+    };
+    return {
+      schema: "bitcode.deposit.asset-pack-option-synthesis",
+      pipeline: "DepositAssetPackOptionSynthesis",
+      requestId: "deposit-option-request:99999999",
+      createdAt: "2026-07-01T22:00:00.000Z",
+      request: {
+        repositoryFullName: "engineeredsoftware/ENGI",
+        sourceBranch: "main",
+        sourceCommit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
+        depositorInstructionRoot: null,
+        sourcePathRoots: ["deposit-option-source-path:11111111"],
+      },
+      options: [option],
+      optionCount: 1,
+      sourceSafety: {
+        sourceSafeMetadataOnly: true,
+        protectedSourceVisible: false,
+        rawSourceTextVisible: false,
+        unpaidAssetPackSourceVisible: false,
+        rawPromptVisible: false,
+        interpolatedPromptVisible: false,
+        rawProviderResponseVisible: false,
+        walletPrivateMaterialVisible: false,
+      },
+      reviewBoundary: {
+        route: "/deposit",
+        defaultDecisionState: "pending-depositor-review",
+        approvedOptionsAdmittedBy: "future-gate7-deposit-option-review",
+        sourceCriticalityDemandRoiPolicyOwnedBy: "future-gate6-policy",
+      },
+      roots: {
+        requestRoot: "deposit-option-request:99999999",
+        synthesisRoot: "deposit-asset-pack-option-synthesis:88888888",
+        optionRoots: ["deposit-asset-pack-option:99999999"],
+      },
+      synthesisMode: "real-bounded-inference",
+      pipelineCore: "AssetPacksSynthesis",
+      inference: {
+        provider: "anthropic",
+        model: "claude-haiku-4-5-20251001",
+        totalTokens: 9012,
+        durationMs: 22150,
+      },
+    };
+  }
+
+  async function dispatchSynthesis() {
+    render(<DepositPageClient />);
+    const synthesizeButton = await screen.findByRole("button", {
+      name: "Synthesize options",
+    });
+    await waitFor(() => expect(synthesizeButton).not.toBeDisabled());
+    fireEvent.click(synthesizeButton);
+  }
+
+  it("renders the full measured option card: contents panel, provenant source, neediness tile, absolutes tiles", async () => {
+    const synthesis = buildMeasuredSynthesisFixture();
+    global.fetch = jest.fn(async (url: string) => {
+      if (url === "/api/deposit/synthesize-options") {
+        return {
+          ok: true,
+          json: async () => ({ ok: true, runId: "measured-run-1", status: "dispatched" }),
+        };
+      }
+      if (url.startsWith("/api/executions/history/")) {
+        return {
+          ok: true,
+          json: async () => ({
+            run: {
+              id: "measured-run-1",
+              output: { depositOptionSynthesis: synthesis, reviewProjections: [] },
+            },
+            events: [
+              { id: "c1", event: { type: "completion" }, created_at: "2026-07-01T22:00:05.000Z" },
+            ],
+          }),
+        };
+      }
+      return { ok: true, json: async () => ({}) };
+    }) as unknown as typeof fetch;
+
+    await dispatchSynthesis();
+
+    const card = await screen.findByTestId("deposit-option-capability-slice");
+    const text = (card.textContent || "").replace(/\s+/g, " ");
+
+    // Title + the deposit-decision payload header.
+    expect(text).toContain("Ledger reconciliation capability slice");
+    expect(text).toContain("If deposited, Bitcode receives");
+    expect(text).toContain(
+      "Adds a reconciliation module wiring ledger entries to journal proofs.",
+    );
+
+    // Synthesized contents: one line per file change with its op.
+    expect(text).toContain("Synthesized contents · 3 files");
+    expect(text).toContain("create");
+    expect(text).toContain("src/ledger/reconcile.ts");
+    expect(text).toContain("update");
+    expect(text).toContain("src/ledger/index.ts");
+    expect(text).toContain("delete");
+    expect(text).toContain("src/ledger/legacy-sync.ts");
+
+    // Provenant source panel (singular form for one file).
+    expect(text).toContain("Provenant source · 1 file available to Bitcode");
+    expect(text).toContain("src/ledger/journal.ts");
+
+    // Neediness preview tile: volume, demand, saturation percentages + rationale.
+    expect(text).toContain("Neediness · est. read demand");
+    expect(text).toContain("62% · demand 70% · saturation 20%");
+    expect(text).toContain(
+      "Readers repeatedly probe reconciliation flows with no fit AssetPack.",
+    );
+
+    // Absolutes tiles: magnitude+unit rendering vs pure volume/weight rendering.
+    expect(text).toContain("Function count");
+    expect(text).toContain("12 functions · 55% / weight 0.40");
+    expect(text).toContain("Semantic volume");
+    // unit "normalized" is suppressed — volume/weight only.
+    expect(text).toContain("48% / weight 0.25");
+    expect(text).not.toContain("normalized");
+
+    // The await-synthesis placeholder is gone once real options render.
+    expect(
+      screen.queryByTestId("deposit-options-await-synthesis"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("flips to failed with a role=alert banner when the run streams a terminal error event", async () => {
+    global.fetch = jest.fn(async (url: string) => {
+      if (url === "/api/deposit/synthesize-options") {
+        return {
+          ok: true,
+          json: async () => ({ ok: true, runId: "failed-run-1", status: "dispatched" }),
+        };
+      }
+      if (url.startsWith("/api/executions/history/")) {
+        return {
+          ok: true,
+          json: async () => ({
+            run: { id: "failed-run-1", output: {} },
+            events: [
+              {
+                id: "e1",
+                event: { type: "error", message: "Provider exploded mid-synthesis" },
+                created_at: "2026-07-01T22:00:05.000Z",
+              },
+            ],
+          }),
+        };
+      }
+      return { ok: true, json: async () => ({}) };
+    }) as unknown as typeof fetch;
+
+    await dispatchSynthesis();
+
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent("Provider exploded mid-synthesis");
+    // No options surfaced; the grid still shows the await-synthesis state.
+    expect(
+      screen.getByTestId("deposit-options-await-synthesis"),
+    ).toBeInTheDocument();
+    // The synthesize action is re-enabled for a retry (not stuck in running).
+    expect(
+      screen.getByRole("button", { name: "Synthesize options" }),
+    ).not.toBeDisabled();
+  });
+
+  it("fails with the not-found message when completion arrives but the run output has no synthesis", async () => {
+    global.fetch = jest.fn(async (url: string) => {
+      if (url === "/api/deposit/synthesize-options") {
+        return {
+          ok: true,
+          json: async () => ({ ok: true, runId: "empty-run-1", status: "dispatched" }),
+        };
+      }
+      if (url.startsWith("/api/executions/history/")) {
+        return {
+          ok: true,
+          json: async () => ({
+            run: { id: "empty-run-1", output: {} },
+            events: [
+              { id: "c1", event: { type: "completion" }, created_at: "2026-07-01T22:00:05.000Z" },
+            ],
+          }),
+        };
+      }
+      return { ok: true, json: async () => ({}) };
+    }) as unknown as typeof fetch;
+
+    await dispatchSynthesis();
+
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent(
+      "Synthesized options were not found for this run.",
+    );
+    expect(
+      screen.getByTestId("deposit-options-await-synthesis"),
+    ).toBeInTheDocument();
+  });
+
+  it("fails the dispatch itself when the synthesize route rejects the request", async () => {
+    global.fetch = jest.fn(async (url: string) => {
+      if (url === "/api/deposit/synthesize-options") {
+        return {
+          ok: false,
+          json: async () => ({ ok: false, error: "Repository ownership check failed." }),
+        };
+      }
+      if (url.startsWith("/api/executions/history/")) {
+        return { ok: false, status: 404, json: async () => ({}) };
+      }
+      return { ok: true, json: async () => ({}) };
+    }) as unknown as typeof fetch;
+
+    await dispatchSynthesis();
+
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent("Repository ownership check failed.");
+  });
 });

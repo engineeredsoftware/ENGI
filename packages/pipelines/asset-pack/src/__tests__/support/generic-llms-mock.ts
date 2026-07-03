@@ -36,9 +36,44 @@ const REASON_JUDGE_SAFE_DEFAULTS = {
   approved: true,
 };
 
+// Emit the canned JSON inside a ```json code fence, exactly like a real provider
+// response. The fence matters: @bitcode/parsing tries fenced-block extraction
+// FIRST (arbitrary nesting), while its bare balanced-brace regex only matches 3
+// levels of `{}` nesting — deep structured outputs (e.g. options[].patch.fileChanges[])
+// would otherwise never surface as a whole-object candidate.
+function asLLMContent(payload: Record<string, unknown>): string {
+  return '```json\n' + JSON.stringify(payload, null, 2) + '\n```';
+}
+
 const holder: { content: string } = {
-  content: JSON.stringify(REASON_JUDGE_SAFE_DEFAULTS),
+  content: asLLMContent(REASON_JUDGE_SAFE_DEFAULTS),
 };
+
+type BoundaryLLMCall = { messages: Array<{ role?: string; content?: string }> };
+
+const calls: BoundaryLLMCall[] = [];
+
+/**
+ * Every prompt the boundary LLM received (in call order). Lets tests assert
+ * WHAT context actually reached generation (e.g. cross-phase store reads that
+ * were threaded into the agent input) without touching the non-configurable
+ * inference machinery.
+ */
+export function getBoundaryLLMCalls(): BoundaryLLMCall[] {
+  return calls;
+}
+
+/** Concatenated content of every message across all boundary LLM calls. */
+export function getBoundaryLLMPromptText(): string {
+  return calls
+    .map((call) => call.messages.map((message) => String(message?.content ?? '')).join('\n'))
+    .join('\n');
+}
+
+/** Reset the captured boundary LLM calls. */
+export function resetBoundaryLLMCalls(): void {
+  calls.length = 0;
+}
 
 /**
  * Set the structured output the boundary LLM returns for the agent under test.
@@ -46,21 +81,24 @@ const holder: { content: string } = {
  * for every generation kind.
  */
 export function setBoundaryLLMOutput(structuredOutput: Record<string, unknown>): void {
-  holder.content = JSON.stringify({ ...REASON_JUDGE_SAFE_DEFAULTS, ...structuredOutput });
+  holder.content = asLLMContent({ ...REASON_JUDGE_SAFE_DEFAULTS, ...structuredOutput });
 }
 
 /** Reset the boundary output to the bare reason/judge-safe defaults. */
 export function resetBoundaryLLMOutput(): void {
-  holder.content = JSON.stringify(REASON_JUDGE_SAFE_DEFAULTS);
+  holder.content = asLLMContent(REASON_JUDGE_SAFE_DEFAULTS);
 }
 
 /** The mock module shape for `jest.mock('@bitcode/generic-llms', ...)`. */
 export function makeGenericLLMsMock() {
-  const cannedLLM = async () => ({
-    content: holder.content,
-    usage: { promptTokens: 1, completionTokens: 1, totalTokens: 2 },
-    metadata: { provider: 'mock', model: 'mock', stopReason: 'stop' },
-  });
+  const cannedLLM = async (input?: { messages?: Array<{ role?: string; content?: string }> }) => {
+    calls.push({ messages: Array.isArray(input?.messages) ? input!.messages! : [] });
+    return {
+      content: holder.content,
+      usage: { promptTokens: 1, completionTokens: 1, totalTokens: 2 },
+      metadata: { provider: 'mock', model: 'mock', stopReason: 'stop' },
+    };
+  };
   const registry = {
     setDefaultProvider() {},
     configure() {},

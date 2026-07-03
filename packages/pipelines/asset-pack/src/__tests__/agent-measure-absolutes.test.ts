@@ -1,4 +1,15 @@
 // @ts-nocheck
+// Boundary determinism (F26-A): the real-inference path always runs the formal
+// measure-agent PTRR hierarchy; the ONLY sanctioned test seam is the boundary
+// LLM mock. The inference switch is mocked to a mutable flag so this file can
+// exercise BOTH the deterministic and the real (boundary-mocked) paths.
+let mockRealInference = false;
+jest.mock('../runtime-inference-policy', () => ({
+  isAssetPackRealInferenceEnabled: () => mockRealInference,
+}));
+jest.mock('@bitcode/generic-llms', () => require('./support/generic-llms-mock').makeGenericLLMsMock());
+
+import { Execution } from '@bitcode/execution-generics';
 import {
   computeDeterministicAbsolutes,
   computeAbsolutesFromReport,
@@ -8,11 +19,13 @@ import {
   factoryAssetPackMeasureAbsolutesAgent,
   type MeasurableAssetPackPatch,
 } from '../agents/validation/agent-measure-absolutes';
+import { SourceStaticAnalysisTool } from '../agents/validation/source-static-analysis-tool';
 import {
   ASSET_PACK_ABSOLUTES_CATALOG,
   ASSET_PACK_ABSOLUTE_KINDS,
   validateDepositSynthesisOptions,
 } from '../asset-packs-synthesis';
+import { setBoundaryLLMOutput, resetBoundaryLLMOutput } from './support/generic-llms-mock';
 
 const PATCH: MeasurableAssetPackPatch = {
   title: 'Auth capability slice',
@@ -152,6 +165,18 @@ describe('tool-grounded absolutes (legitimate static-analysis sizes)', () => {
     expect(heuristic.find((m) => m.measurementKind === 'function-count')?.magnitude).toBe(6);
   });
 
+  it('mergeReportAndReadings clamps agent judgment readings into [0,1]', () => {
+    const patch: MeasurableAssetPackPatch = {
+      title: 'x', summary: 'y', coveredSourcePaths: ['a.ts'], fileChanges: [{ path: 'a.ts', op: 'modify' }], confidence: 0.5,
+    };
+    const merged = mergeReportAndReadings(computeDeterministicAbsolutes(patch), [
+      { measurementKind: 'correctness-estimate', volume: 7 }, // clamped down
+      { measurementKind: 'semantic-volume', volume: -3 }, // clamped up
+    ]);
+    expect(merged.find((m) => m.measurementKind === 'correctness-estimate')?.volume).toBe(1);
+    expect(merged.find((m) => m.measurementKind === 'semantic-volume')?.volume).toBe(0);
+  });
+
   it('mergeReportAndReadings keeps sizes authoritative, takes agent judgment', () => {
     const patch: MeasurableAssetPackPatch = {
       title: 'x', summary: 'y', coveredSourcePaths: ['a.ts'], fileChanges: [{ path: 'a.ts', op: 'modify' }], confidence: 0.5,
@@ -167,4 +192,81 @@ describe('tool-grounded absolutes (legitimate static-analysis sizes)', () => {
     expect(merged.find((m) => m.measurementKind === 'correctness-estimate')?.volume).toBe(0.91);
     expect(merged.find((m) => m.measurementKind === 'semantic-volume')?.volume).toBe(0.4);
   });
+});
+
+describe('measureAssetPackAbsolutes real-inference path (boundary-mocked measure-agent)', () => {
+  const PATCH: MeasurableAssetPackPatch = {
+    title: 'Auth slice',
+    summary: 'auth capability',
+    coveredSourcePaths: ['a.ts'],
+    fileChanges: [{ path: 'a.ts', op: 'modify' }],
+    confidence: 0.7,
+  };
+  const SOURCES = [
+    { path: 'a.ts', content: 'function f(){}\nfunction g(){}\ninterface T{ x: number }' },
+  ];
+
+  beforeEach(() => {
+    mockRealInference = true;
+  });
+  afterEach(() => {
+    mockRealInference = false;
+    resetBoundaryLLMOutput();
+    jest.restoreAllMocks();
+  });
+
+  it('takes the agent judgment readings, keeps sizes tool-authoritative, and never calls tool.execute', async () => {
+    const executeSpy = jest.spyOn(SourceStaticAnalysisTool.prototype, 'execute');
+    setBoundaryLLMOutput({
+      measurements: [
+        // Judgment readings — taken from the agent (pins the envelope unwrap: if the
+        // PTRR envelope were read directly these would be lost and correctness would
+        // fall back to the confidence-derived 0.7).
+        { measurementKind: 'correctness-estimate', volume: 0.91, rationale: 'Grounded in the measured counts.' },
+        { measurementKind: 'semantic-volume', volume: 0.44, rationale: 'Moderate legible knowledge volume.' },
+        // A size reading — MUST be ignored: sizes are static-analysis-authoritative.
+        { measurementKind: 'function-count', volume: 0.99, magnitude: 999, rationale: 'Inflated size reading.' },
+      ],
+      summary: 'Measured the absolutes of the patch descriptor.',
+    });
+
+    const absolutes = await measureAssetPackAbsolutes(PATCH, {
+      lens: 'deposit',
+      execution: new Execution('validation-node'),
+      sources: SOURCES,
+    });
+
+    expect(absolutes.map((m) => m.measurementKind).sort()).toEqual([...ASSET_PACK_ABSOLUTE_KINDS].sort());
+    // Sizes stay tool-grounded (2 functions in the provided source, not the agent's 999).
+    const fn = absolutes.find((m) => m.measurementKind === 'function-count');
+    expect(fn?.magnitude).toBe(2);
+    expect(fn?.volume).toBe(0.05); // 2 / 40 normalizer
+    // Agent judgment readings are taken.
+    expect(absolutes.find((m) => m.measurementKind === 'correctness-estimate')?.volume).toBe(0.91);
+    expect(absolutes.find((m) => m.measurementKind === 'semantic-volume')?.volume).toBe(0.44);
+    // Source-safety: only use() runs (in-memory samples); execute() would persist the
+    // raw source args into a tool child execution and must never be called.
+    expect(executeSpy).not.toHaveBeenCalled();
+  }, 30000);
+
+  it('falls back to the report absolutes when the agent readings match no catalog kind', async () => {
+    setBoundaryLLMOutput({
+      measurements: [
+        { measurementKind: 'unknown-kind', volume: 0.9, rationale: 'Not a catalog measurement.' },
+      ],
+      summary: 'Readings that ground nothing.',
+    });
+
+    const absolutes = await measureAssetPackAbsolutes(PATCH, {
+      lens: 'deposit',
+      execution: new Execution('validation-node'),
+      sources: SOURCES,
+    });
+
+    // Identical to the deterministic report-derived absolutes: correctness stays
+    // confidence-derived, sizes stay measured.
+    expect(absolutes.find((m) => m.measurementKind === 'correctness-estimate')?.volume).toBe(0.7);
+    expect(absolutes.find((m) => m.measurementKind === 'function-count')?.magnitude).toBe(2);
+    expect(absolutes.find((m) => m.measurementKind === 'type-count')?.magnitude).toBe(1);
+  }, 30000);
 });
