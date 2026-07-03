@@ -70,6 +70,11 @@ const SOURCE_CONTENT_BEARING_KEYS_BY_NAMESPACE: Record<string, Set<string>> = {
   deposit: new Set(['inventory']),
   tool: new Set(['input', 'result']),
   tools: new Set(['invocation', 'result']),
+  // PCC's read-in re-carries the resolved VALUES of the selected keys — when
+  // the selection includes the inventory, selectedContext holds verbatim
+  // source (observed live, run 59504a3e). context:keys/selectedKeys/
+  // missingKeys stay visible: key NAMES are source-safe.
+  context: new Set(['selectedContext', 'full']),
 };
 
 export function sourceSafeStreamEvent(event: any): any {

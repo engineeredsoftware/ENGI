@@ -286,6 +286,32 @@ describe('sourceSafeStreamEvent — non-llm content-bearing stores (deposit inve
     expect(JSON.stringify(safe)).not.toContain('INVENTORY-SOURCE-MARKER');
   });
 
+  it('withholds context:selectedContext (PCC read-in re-carries resolved values incl. the inventory — live leak, run 59504a3e)', () => {
+    const safe = sourceSafeStreamEvent({
+      type: 'status',
+      namespace: 'context',
+      key: 'selectedContext',
+      data: {
+        'deposit#inventory': {
+          sources: [{ path: 'src/secret.ts', content: SOURCE_LINE }],
+        },
+        'deposit#obfuscations': 'guidance text',
+      },
+    });
+    expect(safe.data.contentWithheld).toBe(true);
+    expect(JSON.stringify(safe)).not.toContain('INVENTORY-SOURCE-MARKER');
+  });
+
+  it('passes through the key-NAME context stores (keys/selectedKeys/missingKeys are source-safe)', () => {
+    const selectedKeys = {
+      type: 'status',
+      namespace: 'context',
+      key: 'selectedKeys',
+      data: ['deposit#obfuscations', 'deposit#inventory'],
+    };
+    expect(sourceSafeStreamEvent(selectedKeys)).toBe(selectedKeys);
+  });
+
   it('passes through OTHER pipeline/deposit metadata keys unchanged (allowlist is key-scoped)', () => {
     const pattern = { type: 'status', namespace: 'pipeline', key: 'pattern', data: 'SDIVF' };
     expect(sourceSafeStreamEvent(pattern)).toBe(pattern);
