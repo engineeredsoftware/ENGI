@@ -23,9 +23,10 @@ interface TelemetryExplainerTriggerProps {
 
 /**
  * Wraps a telemetry pill (or row icon) as a rich-tooltip trigger: hover /
- * focus / touch shows a two-section explainer (generic type copy + the
- * specific value's copy) in a portal, using the exact placement machinery of
- * BitcodeInlineExplainer — but with the wrapped element itself as the
+ * focus / touch shows a two-section explainer — the SPECIFIC copy for this
+ * exact value on TOP (what it is prompted to do + what it returns), the
+ * generic type copy BELOW — in a portal, using the exact placement machinery
+ * of BitcodeInlineExplainer — but with the wrapped element itself as the
  * trigger instead of a separate "i" button, so the title-line stays clean.
  * Non-intrusive: no extra tab stops, clicks pass through to the row.
  */
@@ -81,10 +82,10 @@ export function TelemetryExplainerTrigger({
             {explainer.title}
           </strong>
           <span className="relative mt-2 block text-sm font-normal normal-case tracking-normal leading-6 text-neutral-200">
-            {explainer.generic}
+            {explainer.specific}
           </span>
           <span className="relative mt-3 block border-t border-white/8 pt-3 text-sm font-normal normal-case tracking-normal leading-6 text-neutral-400">
-            {explainer.specific}
+            {explainer.generic}
           </span>
         </span>,
         document.body,

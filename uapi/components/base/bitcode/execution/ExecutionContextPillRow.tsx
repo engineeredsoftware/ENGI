@@ -92,7 +92,7 @@ export function ExecutionContextPillRow({
       {pills.map((pill) => (
         <TelemetryExplainerTrigger
           key={pill.type}
-          explainer={getTelemetryPillExplainer(pill.type, pill.raw, mode)}
+          explainer={getTelemetryPillExplainer(pill.type, pill.raw, mode, { agent, step })}
         >
           <PathPill type={pill.type} label={pill.label} />
         </TelemetryExplainerTrigger>

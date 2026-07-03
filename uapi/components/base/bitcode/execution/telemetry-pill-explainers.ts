@@ -3,13 +3,17 @@
  * corner row icon (LLM call / Tool use) and each pill (phase, agent, step,
  * failsafe, generation, tool).
  *
- * Every explainer has TWO sections:
- *   (a) `generic`  — repeated across all tooltips of that type ("Phases are
- *       the five SDIVF stages…"), and
- *   (b) `specific` — one to two sentences about the concrete value ("The
- *       Depositing Pipeline's Discovery Phase searches the depository…").
- * Unknown values fall back to a graceful generic-specific sentence. All copy
- * is source-safe: it describes the machinery, never the content.
+ * Every explainer has TWO sections, rendered in this order:
+ *   (a) `specific` — TOP: the concrete meaning of this exact element — a
+ *       human-comprehension summary of what it is PROMPTED to do and what it
+ *       RETURNS (its output-schema expectations), written from the real agent
+ *       / step / failsafe sources ("Prompted to comprehend the depositor's
+ *       Obfuscations…; returns {comprehension} with …"), and
+ *   (b) `generic` — BELOW: the type copy repeated across all tooltips of that
+ *       kind ("Phases are the five SDIVF stages…").
+ * Unknown values fall back to a graceful specific sentence. All copy is
+ * SOURCE-SAFE: it describes prompt purposes and output SHAPES — never
+ * depositor content, raw source, or prompt text.
  */
 
 import {
@@ -35,14 +39,24 @@ export interface TelemetryPillExplainer {
   kicker: string;
   /** The concrete value, humanized (e.g. 'Discovery', 'Depository Search Agent'). */
   title: string;
-  /** Section (a): the generic what-is-this copy repeated across the type. */
-  generic: string;
-  /** Section (b): the specific copy for this concrete value. */
+  /** Section (a), TOP: what this exact element is prompted to do + returns. */
   specific: string;
+  /** Section (b), BELOW: the generic what-is-this copy repeated across the type. */
+  generic: string;
+}
+
+/**
+ * The surrounding row context a trigger may pass so the specific copy can
+ * reference the concrete agent/step (e.g. "…against the Depository Search
+ * Agent's output schema"). Optional — copy degrades gracefully without it.
+ */
+export interface TelemetryExplainerContext {
+  agent?: string | null;
+  step?: string | null;
 }
 
 // ---------------------------------------------------------------------------
-// Section (a): generic copy per type.
+// Section (b): generic type copy, rendered BELOW the specific section.
 // ---------------------------------------------------------------------------
 
 const GENERIC_COPY: Record<TelemetryExplainerKind, string> = {
@@ -54,59 +68,157 @@ const GENERIC_COPY: Record<TelemetryExplainerKind, string> = {
     'Failsafes are the guards wrapped around every LLM call: Prepare Concise Context selects the context; handle large inputs chunks oversized requests; handle large outputs repairs incomplete responses.',
   generation: 'Generations are the Thinkings sequence: Reason, Judge, Structured Output.',
   tool: 'Tools are the concrete abilities an agent invokes during a step; arguments and results stay source-safe.',
-  'row-icon': 'This row is one LLM call.',
+  'row-icon':
+    "The log is exactly the run's LLM calls and Tool uses — every model inference and every tool invocation renders as one row.",
 };
 
 // ---------------------------------------------------------------------------
-// Section (b): specific copy per normalized value.
+// Section (a): specific copy per normalized value — what the element is
+// PROMPTED to do and what it RETURNS, summarized from the real sources.
 // ---------------------------------------------------------------------------
 
-// Phase specifics are written pipeline-aware: when the mode is known the copy
-// opens with "The Depositing Pipeline's …" / "The Reading Pipeline's …".
-const PHASE_SPECIFICS: Record<string, string> = {
-  setup: 'Setup Phase admits the request, comprehends the inputs, and provisions the workspace before any synthesis work begins.',
-  discovery: 'Discovery Phase searches the depository and comprehends the codebase before implementation.',
-  implementation: 'Implementation Phase synthesizes the AssetPack itself — a measured, source-safe patch.',
-  validation: 'Validation Phase checks the synthesized artifacts and measures the absolutes before finish.',
-  finish: 'Finish Phase concludes the run and uploads the synthesized AssetPacks for review.',
+type ModeVariants = { deposit?: string; read?: string; any: string };
+
+// Phase specifics are pipeline-aware: when the mode is known the copy opens
+// with "The Depositing Pipeline's …" / "The Reading Pipeline's …" and states
+// that lens's concrete per-phase jobs.
+const PHASE_SPECIFICS: Record<string, ModeVariants> = {
+  setup: {
+    deposit:
+      "Setup Phase clones the repository into an isolated workspace, comprehends the depositor's Obfuscations into structured guidance ({comprehension} with obfuscatedPaths, obfuscatedConcepts, honorNotes), and initializes the run.",
+    read: "Setup Phase admits the read request and comprehends the reader's Need before any synthesis work begins.",
+    any: 'Setup Phase admits the request, comprehends the inputs, and provisions the workspace before any synthesis work begins.',
+  },
+  discovery: {
+    deposit:
+      "Discovery Phase runs three lenses: codebase comprehension (a source-safe knowledge map), depository search (read-demand guidance), and inherent regurgitation (what the model already knows) — the comprehension Implementation synthesizes from.",
+    read: 'Discovery Phase searches the depository and comprehends the candidate sources that could fit the Need.',
+    any: 'Discovery Phase searches the depository and comprehends the codebase before implementation.',
+  },
+  implementation: {
+    deposit:
+      'Implementation Phase synthesizes 2-4 distinct, measured AssetPack patch options — each source-safe metadata plus a patch descriptor of file paths and change ops, never raw source.',
+    read: 'Implementation Phase synthesizes the Need-fitting AssetPack — a measured, source-safe patch.',
+    any: 'Implementation Phase synthesizes the AssetPack itself — a measured, source-safe patch.',
+  },
+  validation: {
+    deposit:
+      "Validation Phase validates the candidates fail-closed (quality, distinctness, source-safety, obfuscation compliance), measures each pack's absolutes, and gates ready-to-finish.",
+    read: 'Validation Phase checks the synthesized artifacts and measures the absolutes before finish.',
+    any: 'Validation Phase checks the synthesized artifacts and measures the absolutes before finish.',
+  },
+  finish: {
+    deposit:
+      'Finish Phase uploads the synthesized AssetPack options to Bitcode for depositor review before any admission into the Depository.',
+    read: 'Finish Phase uploads the synthesized AssetPacks for reader review before purchase.',
+    any: 'Finish Phase concludes the run and uploads the synthesized AssetPacks for review.',
+  },
 };
 
-// Per-agent one-liners, matched by substring against the normalized
-// (pipeline-prefix-trimmed, lowercased, alphanumeric-only) agent name so the
-// deposit and read variants of a role share copy.
-const AGENT_SPECIFICS: Array<[match: string, copy: string]> = [
-  ['inputcomprehension', 'Comprehends the deposit request: what to synthesize, what to obfuscate, and which paths stay protected.'],
-  ['clonevcsrepository', 'Clones the source repository into an isolated workspace so later phases can read it.'],
-  ['codebasecomprehension', 'Builds a source-safe understanding of the codebase — structure, capabilities, and conventions.'],
-  ['depositorysearch', 'Searches the depository for existing AssetPacks and demand signals relevant to this source.'],
-  ['inherentregurgitation', 'Checks what the base model already knows inherently, so the deposit covers only genuinely novel knowledge.'],
-  ['assetpacksynthesis', 'Synthesizes the AssetPack option itself — a measured, source-safe patch candidate.'],
-  ['measureabsolutes', 'Measures the absolutes: tool-measured sizes and counts stamped onto each option.'],
-  ['validation', 'Validates the synthesized artifacts against the request and the source-safety laws.'],
-  ['uploadassetpacksforreview', 'Uploads the synthesized AssetPack options for depositor review.'],
-  ['uploadforreview', 'Uploads the synthesized AssetPack options for depositor review.'],
+// Per-agent prompt/return summaries, matched by substring against the
+// normalized (pipeline-prefix-trimmed, lowercased, alphanumeric-only) agent
+// name. Copy is summarized from each agent's real prompt constants + zod
+// outputSchema; lens-specific variants apply when the mode is known.
+const AGENT_SPECIFICS: Array<[match: string, copy: ModeVariants]> = [
+  [
+    'inputcomprehension',
+    {
+      deposit:
+        "Prompted to comprehend the depositor's Obfuscations — the free-text declaration of what to withhold — against the cloned repository inventory. Returns {comprehension} with a summary, obfuscatedPaths, obfuscatedConcepts, and honorNotes that downstream synthesis honors absolutely.",
+      any: "Prompted to comprehend the request's inputs into structured guidance for the rest of the run; returns {comprehension} with a structured, source-safe summary of what it understood.",
+    },
+  ],
+  [
+    'clonevcsrepository',
+    {
+      any: 'Prompted to clone the named repository (provider, owner, name, ref) into an isolated workspace through the formal clone tool. Returns {success, repository, workspacePath, status, metadata} so later phases can read the checkout.',
+    },
+  ],
+  [
+    'codebasecomprehension',
+    {
+      any: 'Prompted to comprehend the cloned repository inventory into a source-safe codebase knowledge map — describing knowledge and capability, never quoting source. Returns {comprehension} with a summary, capabilities, knowledgeAreas, and notableModules.',
+    },
+  ],
+  [
+    'depositorysearch',
+    {
+      any: "Prompted to reason about what reading demand the repository's knowledge would satisfy in the Depository. Returns {guidance} with a summary, likelyReadTopics, demandAlignment, underservedTopics, and readabilityNotes that frame the packs for future readers.",
+    },
+  ],
+  [
+    'inherentregurgitation',
+    {
+      any: "Prompted to surface, from the model's own training data, the generally-known patterns and knowledge relevant to this repository — so the deposit covers only genuinely novel knowledge. Returns {regurgitation} with a summary, relevantKnowledge, patterns, and references.",
+    },
+  ],
+  [
+    'assetpacksynthesis',
+    {
+      deposit:
+        'Prompted to synthesize 2-4 distinct, measured AssetPack patch options from the Discovery comprehension, honoring obfuscations and protected-IP exclusions absolutely. Returns {options} where each option carries kind, title, summary, coveredSourcePaths, honest 0..1 measurements, confidence, a source-safe patch descriptor ({fileChanges: path+op, patchSummary}), and a needinessSignal.',
+      read: 'Prompted to synthesize the Need-fitting AssetPack artifacts from the explored sources. Returns the synthesis record ({assetPack, assetPackSynthesisArtifacts}) for validation and upload.',
+      any: 'Prompted to synthesize the AssetPack itself — a measured, source-safe patch; returns the synthesized candidate options for review.',
+    },
+  ],
+  [
+    'measureabsolutes',
+    {
+      any: 'Prompted to MEASURE an already-synthesized AssetPack patch, never to alter it: the size absolutes come from the static-analysis tool, and the agent judges correctness-estimate and semantic-volume grounded in those counts. Returns {measurements, summary} — one 0..1 volume (plus a raw magnitude for count units) per absolute, each with a source-safe rationale.',
+    },
+  ],
+  [
+    'validation',
+    {
+      deposit:
+        "Prompted to validate the synthesized AssetPacks' quality: measurement honesty, distinctness, source-safety, obfuscation/exclusion compliance, patch coherence, and coverage. Returns {issues, qualityScore, coverageGaps, recommendation} — any concrete issue forces an 'iterate' verdict, the fail-closed gate before Finish.",
+      any: 'Prompted to validate the synthesized artifacts against the request and the source-safety laws; returns a source-safe issues list and an iterate-vs-complete recommendation.',
+    },
+  ],
+  [
+    'uploadassetpacksforreview',
+    {
+      any: 'A simple finalization agent (no LLM prompt): it reads the synthesized options and artifacts from the Implementation stores and records them as a reviewable Bitcode upload. Returns the upload record ({review, options, artifacts, summary}) pending review.',
+    },
+  ],
+  [
+    'uploadforreview',
+    {
+      any: 'A simple finalization agent (no LLM prompt): it reads the synthesized options and artifacts from the Implementation stores and records them as a reviewable Bitcode upload. Returns the upload record ({review, options, artifacts, summary}) pending review.',
+    },
+  ],
 ];
 
-const STEP_SPECIFICS: Record<string, string> = {
-  plan: "Plan drafts the approach for this agent's work before anything is generated.",
-  try: 'Try executes the planned work — the main generation attempt.',
-  refine: 'Refine improves the Try output using judgment feedback.',
-  retry: 'Retry re-runs the work with intensified guidance after a failed judgment.',
+// PTRR step specifics: what each step is prompted to do, generating against
+// the surrounding agent's output schema (the possessive comes from the row
+// context when the trigger passes one).
+const STEP_SPECIFICS: Record<string, (agentPossessive: string) => string> = {
+  plan: (a) =>
+    `Prompted with ${a} Plan guidance to analyze the request and draft the approach before the main attempt. Like every PTRR step it generates through the full failsafe sequence and returns a result typed against ${a} output schema.`,
+  try: (a) =>
+    `Prompted with ${a} Try guidance to execute the planned work — the main generation attempt. Returns the full typed output against ${a} output schema.`,
+  refine: (a) =>
+    `Prompted with ${a} Refine guidance plus the Judge's feedback (quality, issues, suggestions) to improve the Try output. Re-generates against the same output schema, bounded to a few attempts.`,
+  retry: (a) =>
+    `Prompted with ${a} Retry guidance to re-run the work with intensified, conservative instructions after a failed judgment. The last bounded chance to return a valid output against ${a} output schema.`,
 };
 
-const FAILSAFE_SPECIFICS: Record<string, string> = {
-  prepare_concise_context:
-    'Prepare Concise Context selects only the context this call actually needs, keeping the request focused and source-safe.',
-  chunk_then_sum:
-    'Handle large inputs splits an oversized request into chunks and sums the partial results into one answer.',
-  stitch_until_complete:
-    'Handle large outputs detects an incomplete response and stitches continuation calls until the output is whole.',
+const FAILSAFE_SPECIFICS: Record<string, (agentPossessive: string) => string> = {
+  prepare_concise_context: () =>
+    'Prompted with {preparation, system, pipeline_execution_keys} — a keys-only tree of the execution state — and returns {selectedKeys}: the context keys this call actually needs. The harness then reads in only the selected values, keeping the request focused and source-safe.',
+  chunk_then_sum: () =>
+    'Measures the composed request against the request budget. When it fits, exactly ONE task generation runs; when it triggers, the selected values are chunked — one task generation per chunk — and a summing pass combines the partial results into one typed answer.',
+  stitch_until_complete: (a) =>
+    `Validates the response against ${a} output schema. An incomplete or truncated output triggers bounded repair generations, each carrying the exact validation error, until the output parses whole.`,
 };
 
-const GENERATION_SPECIFICS: Record<string, string> = {
-  reason: 'Reason is the open thinking pass where the model works the problem.',
-  judge: 'Judge evaluates the reasoning and decides whether it stands or needs another pass.',
-  structured_output: 'Structured Output converts the accepted reasoning into the typed result schema.',
+const GENERATION_SPECIFICS: Record<string, (agentPossessive: string) => string> = {
+  reason: () =>
+    'Prompted to work the problem free-form; returns an analysis JSON {analysis, steps, conclusion, confidence} (optionally naming tools to use). Nothing typed is produced yet — this is the open thinking pass.',
+  judge: () =>
+    'Prompted with the reasoning and returns an advisory verdict {quality, issues, suggestions, approved} over it. A failed judgment steers Refine and Retry — it does not halt the run.',
+  structured_output: (a) =>
+    `Prompted to convert the accepted reasoning into the typed result, validated against ${a} zod output schema — the value downstream consumers actually read.`,
 };
 
 function normalizeKey(value: string): string {
@@ -119,35 +231,55 @@ function normalizeAgentKey(value: string): string {
     .replace(/[^a-z0-9]/g, '');
 }
 
-function pipelinePossessive(mode?: SynthesisPipelineMode | string | null): string {
+function resolveMode(mode?: SynthesisPipelineMode | string | null): 'deposit' | 'read' | null {
   const normalized = String(mode || '').trim().toLowerCase();
-  if (normalized === 'deposit') return "The Depositing Pipeline's ";
-  if (normalized === 'read') return "The Reading Pipeline's ";
+  if (normalized === 'deposit' || normalized === 'read') return normalized;
+  return null;
+}
+
+function pickModeVariant(variants: ModeVariants, mode?: SynthesisPipelineMode | string | null): string {
+  const resolved = resolveMode(mode);
+  return (resolved ? variants[resolved] : undefined) ?? variants.any;
+}
+
+function pipelinePossessive(mode?: SynthesisPipelineMode | string | null): string {
+  const resolved = resolveMode(mode);
+  if (resolved === 'deposit') return "The Depositing Pipeline's ";
+  if (resolved === 'read') return "The Reading Pipeline's ";
   return 'The ';
+}
+
+/** "the Depository Search Agent's" when the row context names the agent, else "the agent's". */
+function agentPossessive(context?: TelemetryExplainerContext): string {
+  const agent = String(context?.agent || '').trim();
+  return agent ? `the ${humanizeAgentName(agent)} Agent's` : "the agent's";
 }
 
 /**
  * Look up the two-section tooltip copy for a pill. `rawValue` is the raw
  * streamed value (untrimmed agent names, snake/kebab failsafe ids, …); the
  * lookup normalizes internally and falls back gracefully for unknown values.
+ * `mode` sharpens phase/agent copy to the active pipeline lens; `context`
+ * (the surrounding row's agent/step) sharpens step/failsafe/generation copy.
  */
 export function getTelemetryPillExplainer(
   type: Exclude<TelemetryExplainerKind, 'row-icon'>,
   rawValue: string,
   mode?: SynthesisPipelineMode | string | null,
+  context?: TelemetryExplainerContext,
 ): TelemetryPillExplainer {
   const value = String(rawValue || '');
 
   switch (type) {
     case 'phase': {
       const normalized = normalizePhaseName(value) || humanizeNounPhrase(value);
-      const specific = PHASE_SPECIFICS[normalized.toLowerCase()];
+      const variants = PHASE_SPECIFICS[normalized.toLowerCase()];
       return {
         kicker: 'Phase',
         title: normalized,
         generic: GENERIC_COPY.phase,
-        specific: specific
-          ? `${pipelinePossessive(mode)}${specific}`
+        specific: variants
+          ? `${pipelinePossessive(mode)}${pickModeVariant(variants, mode)}`
           : `${normalized} is the stage of the pipeline this row ran under.`,
       };
     }
@@ -159,7 +291,9 @@ export function getTelemetryPillExplainer(
         kicker: 'Agent',
         title,
         generic: GENERIC_COPY.agent,
-        specific: matched ? matched[1] : `${title} is the worker that produced this row's work inside its phase.`,
+        specific: matched
+          ? pickModeVariant(matched[1], mode)
+          : `${title} is the worker that produced this row's work inside its phase.`,
       };
     }
     case 'step': {
@@ -169,7 +303,9 @@ export function getTelemetryPillExplainer(
         kicker: 'Step',
         title: normalized,
         generic: GENERIC_COPY.step,
-        specific: specific || `${normalized} is the agent move this row ran under.`,
+        specific: specific
+          ? specific(agentPossessive(context))
+          : `${normalized} is the agent move this row ran under.`,
       };
     }
     case 'failsafe': {
@@ -179,7 +315,9 @@ export function getTelemetryPillExplainer(
         kicker: 'Failsafe',
         title: humanizeNounPhrase(value),
         generic: GENERIC_COPY.failsafe,
-        specific: specific || `${humanizeNounPhrase(value)} is the guard this LLM call ran under.`,
+        specific: specific
+          ? specific(agentPossessive(context))
+          : `${humanizeNounPhrase(value)} is the guard this LLM call ran under.`,
       };
     }
     case 'generation': {
@@ -189,7 +327,9 @@ export function getTelemetryPillExplainer(
         kicker: 'Generation',
         title: humanizeNounPhrase(value),
         generic: GENERIC_COPY.generation,
-        specific: specific || `${humanizeNounPhrase(value)} is the Thinkings pass this LLM call performed.`,
+        specific: specific
+          ? specific(agentPossessive(context))
+          : `${humanizeNounPhrase(value)} is the Thinkings pass this LLM call performed.`,
       };
     }
     case 'tool':
@@ -197,7 +337,7 @@ export function getTelemetryPillExplainer(
         kicker: 'Tool',
         title: value || 'Tool',
         generic: GENERIC_COPY.tool,
-        specific: `${value || 'This tool'} is the tool this row invoked; expand the row for its source-safe metadata.`,
+        specific: `${value || 'This tool'} is the tool this step invoked after its generations requested it; expand the row for its source-safe arguments shape and result metadata.`,
       };
   }
 }
@@ -208,15 +348,16 @@ export function getTelemetryRowIconExplainer(rowKind: 'llm' | 'tool'): Telemetry
     return {
       kicker: 'Log line',
       title: 'One Tool use',
-      generic: 'This row is one Tool use — a single tool invocation inside a step, with its Phase → Agent → Step context.',
-      specific: 'Expand the row to inspect the tool name, arguments shape, and result metadata — content stays source-safe.',
+      specific:
+        'This row is one Tool use — a single tool invocation inside a step, with its Phase → Agent → Step context. Expand it for the tool name, arguments shape, and result metadata — content stays source-safe.',
+      generic: GENERIC_COPY['row-icon'],
     };
   }
   return {
     kicker: 'Log line',
     title: 'One LLM call',
-    generic:
-      'This row is one LLM call — a single model inference carrying its full Phase → Agent → Step → Failsafe → Generation chain.',
-    specific: 'Expand the row to inspect the execution state and provider metadata; prompt and response content stays withheld by law.',
+    specific:
+      'This row is one LLM call — a single model inference carrying its full Phase → Agent → Step → Failsafe → Generation chain. Expand it for the execution state and provider metadata; prompt and response content stays withheld by law.',
+    generic: GENERIC_COPY['row-icon'],
   };
 }
