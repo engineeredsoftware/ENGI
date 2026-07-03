@@ -38,6 +38,17 @@ export {
 
 // The Executor type - the heart of everything
 export type { Executor } from './types';
+
+// Keys-only execution-state projection (PrepareConciseContext selection input)
+export {
+  walkExecutionStateKeys,
+  resolveExecutionStateKeyPath,
+  formatExecutionStateKeyPath,
+  executionStateSegment,
+  EXECUTION_STATE_KEY_PATH_SEPARATOR,
+  type ExecutionStateKeysTree,
+  type ResolvedExecutionStateKey
+} from './state-keys';
 // Store Keys/Namespaces Registry (typed helpers)
 export * from './store/registry';
 
