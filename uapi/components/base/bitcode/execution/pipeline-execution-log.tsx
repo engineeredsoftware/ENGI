@@ -1032,7 +1032,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
           if (typeof ref === 'function') ref(node);
           else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
         }}
-        className="relative px-4 laptop:px-6 py-3 laptop:py-4 overflow-auto custom-scrollbar group/logs w-full min-h-[240px] max-h-[min(65vh,600px)] focus:outline-none"
+        className="relative px-4 laptop:px-6 pb-3 laptop:pb-4 pt-11 overflow-auto custom-scrollbar group/logs w-full min-h-[240px] max-h-[min(65vh,600px)] focus:outline-none"
         onScroll={handleScroll}
         onKeyDown={handleKeyDown}
         tabIndex={0}
