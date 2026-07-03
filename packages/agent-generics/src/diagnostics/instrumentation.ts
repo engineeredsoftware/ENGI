@@ -303,7 +303,9 @@ export function shouldDebugStopAfterFirstStructuredOutput(substepExec: Execution
     const pathArr = (substepExec as any).getPath?.() || [];
     const isPlanStep = pathArr.includes('plan');
     const inPrepareFailsafe = pathArr.some((p: string) => String(p).includes('prepare_concise_context'));
-    const isFirstStructured = pathArr.includes('gen-2');
+    // The structured_output substep runs inside the first thricified
+    // generation node (gen-0); the sequence gate above already pins the kind.
+    const isFirstStructured = pathArr.includes('gen-0');
     const ctx = getCtx(substepExec);
     const agentFilter = process?.env?.BITCODE_DEBUG_STOP_AGENT_FILTER;
     const agentMatches = agentFilter ? String(ctx.agentName || '').includes(String(agentFilter)) : true;

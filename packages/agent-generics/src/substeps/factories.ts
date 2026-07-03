@@ -290,20 +290,21 @@ function factoryLLMSubStep<TInput, TOutput>(
       try { substep.store('llm', 'provider', (output as any)?.metadata?.provider); } catch { }
       try { substep.store('llm', 'model', (output as any)?.metadata?.model); } catch { }
 
-      // Optional debug stop (centralized)
-      try {
-        if (shouldDebugStopAfterFirstReason(substep, String(sequence))) {
-          substep.store('debug', 'stop_after_first_reason', true);
-          throw new Error('__BITCODE_DEBUG_STOP_AFTER_FIRST_REASON__');
-        }
-      } catch { }
+      // Optional debug stop (centralized). Only the predicate is guarded —
+      // the stop throw itself must escape this substep.
+      let debugStopAfterFirstReason = false;
+      try { debugStopAfterFirstReason = shouldDebugStopAfterFirstReason(substep, String(sequence)); } catch { }
+      if (debugStopAfterFirstReason) {
+        try { substep.store('debug', 'stop_after_first_reason', true); } catch { }
+        throw new Error('__BITCODE_DEBUG_STOP_AFTER_FIRST_REASON__');
+      }
 
-      try {
-        if (shouldDebugStopAfterFirstStructuredOutput(substep, String(sequence))) {
-          substep.store('debug', 'stop_after_first_structured_output', true);
-          throw new Error('__BITCODE_DEBUG_STOP_AFTER_FIRST_STRUCTURED_OUTPUT__');
-        }
-      } catch { }
+      let debugStopAfterFirstStructuredOutput = false;
+      try { debugStopAfterFirstStructuredOutput = shouldDebugStopAfterFirstStructuredOutput(substep, String(sequence)); } catch { }
+      if (debugStopAfterFirstStructuredOutput) {
+        try { substep.store('debug', 'stop_after_first_structured_output', true); } catch { }
+        throw new Error('__BITCODE_DEBUG_STOP_AFTER_FIRST_STRUCTURED_OUTPUT__');
+      }
 
       // 9. Parse output if parser provided
       if (config.parseOutput) {
@@ -628,11 +629,24 @@ export function factoryStitchUntilComplete<T>(
       }
     }
 
-    failsafeExec.store('stitching', 'count', stitchCount);
-    try { logFailsafeEvent(execution, 'stitch-until-complete', { complete: true, stitchCount, exceeded: stitchCount >= maxStitches }); } catch { }
+    // The iteration that reaches maxStitches exits the loop before the
+    // top-of-loop validation can inspect its result, so re-validate here —
+    // a schema-valid final stitch is a success, not an exceeded failure.
+    const finalStitchValid = (() => {
+      if (!outputSchema || stitchCount < maxStitches) return false;
+      const candidate = (currentResult && (currentResult as any).output !== undefined)
+        ? (currentResult as any).output
+        : currentResult;
+      try { outputSchema.parse(candidate); return true; } catch { }
+      try { outputSchema.parse(currentResult); return true; } catch { }
+      return false;
+    })();
 
-    // Check if we exceeded max stitches
-    if (stitchCount >= maxStitches) {
+    failsafeExec.store('stitching', 'count', stitchCount);
+    try { logFailsafeEvent(execution, 'stitch-until-complete', { complete: true, stitchCount, exceeded: stitchCount >= maxStitches && !finalStitchValid }); } catch { }
+
+    // Check if we exceeded max stitches without ending on a valid output
+    if (stitchCount >= maxStitches && !finalStitchValid) {
       const error = new Error(
         `StitchUntilComplete exceeded maximum stitch attempts (${maxStitches}). ` +
         `Output may be incomplete or truncated. Consider increasing maxTokens or ` +
