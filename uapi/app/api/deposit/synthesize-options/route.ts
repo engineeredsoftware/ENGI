@@ -27,6 +27,7 @@ import {
   bitcodeServerTelemetry,
   compactBitcodeServerId,
 } from '@/lib/bitcode-server-telemetry';
+import { sweepOrphanedExecutions } from '@/lib/execution-orphan-sweep';
 
 export const runtime = 'nodejs';
 export const maxDuration = 300;
@@ -111,6 +112,11 @@ export async function POST(request: Request) {
   }
   const requestedRunId = readString(body.runId);
   const runId = requestedRunId && UUID_PATTERN.test(requestedRunId) ? requestedRunId : randomUUID();
+
+  // Fire-and-forget: finalize runs orphaned by server restarts/crashed hosts
+  // (rows stuck `running` with no stream activity) so they read as
+  // `interrupted` instead of running forever.
+  void sweepOrphanedExecutions(supabaseAdmin).catch(() => {});
   const sourceBranch = readString(body.sourceBranch);
   const sourceCommit = readString(body.sourceCommit);
   const obfuscations = readString(body.obfuscations);
