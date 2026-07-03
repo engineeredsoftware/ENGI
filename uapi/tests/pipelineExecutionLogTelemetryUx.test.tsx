@@ -232,7 +232,7 @@ describe('ExecutionContextPillRow', () => {
 
     // Pill labels render uppercase (PathPill uppercases string labels).
     expect(screen.getByText('DISCOVERY')).toBeInTheDocument();
-    expect(screen.getByText('DEPOSITORYSEARCHAGENT')).toBeInTheDocument();
+    expect(screen.getByText('DEPOSITORY SEARCH AGENT')).toBeInTheDocument();
     expect(screen.getByText('TRY')).toBeInTheDocument();
     expect(screen.getByText('PREPARE CONCISE CONTEXT')).toBeInTheDocument();
     expect(screen.getByText('REASON')).toBeInTheDocument();

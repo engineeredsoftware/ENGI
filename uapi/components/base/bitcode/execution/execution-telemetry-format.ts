@@ -102,6 +102,20 @@ export function trimPipelineAgentName(value: string): string {
   return trimmed || String(value || '');
 }
 
+// Pill label: pipeline prefix trimmed AND CamelCase split into words, keeping
+// the trailing 'Agent' — 'DepositInputComprehensionAgent' -> 'Input
+// Comprehension Agent' (the pill's CSS uppercases it to word-spaced caps).
+export function formatAgentPillName(value: string): string {
+  const trimmed = trimPipelineAgentName(value);
+  const spaced = trimmed
+    .replace(/[_-]/g, ' ')
+    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+  return spaced || trimmed;
+}
+
 // "DepositInputComprehensionAgent" -> "Input Comprehension" (pipeline prefix
 // trimmed, trailing "Agent" stripped — the sentence template appends the
 // literal word "Agent").

@@ -6,11 +6,11 @@ import { PathPill, type PillType } from './PathPill';
 import { TelemetryExplainerTrigger } from './TelemetryExplainerTrigger';
 import { getTelemetryPillExplainer } from './telemetry-pill-explainers';
 import {
+  formatAgentPillName,
   formatFailsafeName,
   formatGenerationName,
   normalizePhaseName,
   normalizeStepName,
-  trimPipelineAgentName,
   type SynthesisPipelineMode,
 } from './execution-telemetry-format';
 
@@ -73,7 +73,7 @@ export function ExecutionContextPillRow({
 }: ExecutionContextPillRowProps) {
   const pills: { type: PillType; label: string; raw: string }[] = [];
   if (phase) pills.push({ type: 'phase', label: normalizePhaseName(phase) || phase, raw: phase });
-  if (agent) pills.push({ type: 'agent', label: trimPipelineAgentName(agent), raw: agent });
+  if (agent) pills.push({ type: 'agent', label: formatAgentPillName(agent), raw: agent });
   if (step) pills.push({ type: 'step', label: normalizeStepName(step), raw: step });
   if (failsafe) {
     pills.push({
