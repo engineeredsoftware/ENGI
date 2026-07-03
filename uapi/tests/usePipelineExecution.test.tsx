@@ -163,10 +163,13 @@ describe('usePipelineExecution', () => {
         streamUrls.push(url);
         if (streamUrls.length === 1) {
           // First tail window: one LLM row, then the server's clean budget close
-          // (reader done, no completion/error payload).
+          // (reader done, no completion/error payload). The frame carries the
+          // row's INSERT-time created_at as the SSE `id:` line — deliberately
+          // later than the payload's emit-time `timestamp`, exactly the drift
+          // that used to duplicate rows on reconnect.
           return Promise.resolve(
             sseResponse([
-              'data: {"type":"generation","namespace":"llm","key":"output","message":"call one","timestamp":"2026-07-01T00:00:01.000Z"}\n\n',
+              'id: 2026-07-01T00:00:01.500Z\ndata: {"type":"generation","namespace":"llm","key":"output","message":"call one","timestamp":"2026-07-01T00:00:01.000Z"}\n\n',
             ]),
           );
         }
@@ -174,8 +177,8 @@ describe('usePipelineExecution', () => {
         // a new row plus the terminal completion.
         return Promise.resolve(
           sseResponse([
-            'data: {"type":"generation","namespace":"llm","key":"output","message":"call two","timestamp":"2026-07-01T00:00:02.000Z"}\n\n' +
-              'data: {"type":"completion","timestamp":"2026-07-01T00:00:03.000Z"}\n\n',
+            'id: 2026-07-01T00:00:02.500Z\ndata: {"type":"generation","namespace":"llm","key":"output","message":"call two","timestamp":"2026-07-01T00:00:02.000Z"}\n\n' +
+              'id: 2026-07-01T00:00:03.500Z\ndata: {"type":"completion","timestamp":"2026-07-01T00:00:03.000Z"}\n\n',
           ]),
         );
       }
@@ -190,7 +193,11 @@ describe('usePipelineExecution', () => {
     await waitFor(() => expect(streamUrls.length).toBe(2));
     const secondUrl = new URL(streamUrls[1], 'http://localhost');
     expect(secondUrl.searchParams.get('runId')).toBe('r4');
-    expect(secondUrl.searchParams.get('lastTs')).toBeTruthy();
+    // The reconnect cursor is the server row's INSERT-time created_at (the SSE
+    // `id:` line the stream route filters on), NOT the payload's emit-time
+    // timestamp — emit-time drift against the `created_at > lastTs` filter is
+    // what produced duplicated/skipped rows across reconnects.
+    expect(secondUrl.searchParams.get('lastTs')).toBe('2026-07-01T00:00:01.500Z');
 
     await waitFor(() =>
       expect(latest.events.some((e: any) => e.event?.type === 'completion')).toBe(true),
@@ -271,6 +278,70 @@ describe('usePipelineExecution', () => {
     expect(latest.error).toBeNull();
     expect(latest.events).toEqual([]);
   });
+
+  // ---------------------------------------------------------------------------
+  // Dispatch->history 404 race: dispatch returns the runId before the
+  // executions row lands, so the first history fetch can 404. The hook retries
+  // that status (bounded) instead of throwing — a thrown 404 also skipped the
+  // live tail entirely.
+  // ---------------------------------------------------------------------------
+  it('retries the initial history 404 (dispatch race) and still opens the live tail', async () => {
+    const historyResponse = {
+      run: { id: 'r7', user_id: 'user-1', created_at: '2026-07-01T00:00:00.000Z', items: [], context: {} },
+      events: [],
+    };
+    let historyCalls = 0;
+    const streamUrls: string[] = [];
+
+    global.fetch = jest.fn((request: RequestInfo) => {
+      const url = typeof request === 'string' ? request : (request as Request)?.url ?? '';
+      if (url.startsWith('/api/executions/history/')) {
+        historyCalls += 1;
+        if (historyCalls <= 2) {
+          return Promise.resolve({ ok: false, status: 404 } as any);
+        }
+        return Promise.resolve({ ok: true, json: async () => historyResponse } as any);
+      }
+      if (url.startsWith('/api/executions/stream')) {
+        streamUrls.push(url);
+        return Promise.resolve(
+          sseResponse(['id: 2026-07-01T00:00:01.000Z\ndata: {"type":"completion"}\n\n']),
+        );
+      }
+      throw new Error(`Unexpected fetch: ${url}`);
+    }) as any;
+
+    let latest: any;
+    render(<Harness runId="r7" onResult={(state) => (latest = state)} />);
+
+    await waitFor(() => expect(latest?.execution?.id).toBe('r7'), { timeout: 5000 });
+    expect(historyCalls).toBe(3);
+    expect(latest.error).toBeNull();
+    // The tail opened after the retried hydration succeeded.
+    await waitFor(() => expect(streamUrls.length).toBe(1), { timeout: 5000 });
+    await waitFor(() => expect(latest.events.some((e: any) => e.event?.type === 'completion')).toBe(true));
+  });
+
+  it('surfaces an error once the bounded 404 retries are exhausted', async () => {
+    let historyCalls = 0;
+    global.fetch = jest.fn((request: RequestInfo) => {
+      const url = typeof request === 'string' ? request : (request as Request)?.url ?? '';
+      if (url.startsWith('/api/executions/history/')) {
+        historyCalls += 1;
+        return Promise.resolve({ ok: false, status: 404 } as any);
+      }
+      throw new Error(`Unexpected fetch: ${url}`);
+    }) as any;
+
+    let latest: any;
+    render(<Harness runId="r8" onResult={(state) => (latest = state)} />);
+
+    await waitFor(() => expect(latest?.error).toContain('404'), { timeout: 8000 });
+    // Initial attempt + HISTORY_RETRY_LIMIT retries, then it stops for good.
+    expect(historyCalls).toBe(6);
+    expect(latest.execution).toBeNull();
+    expect(latest.isLoading).toBe(false);
+  }, 10000);
 
   it('handles history fetch failure gracefully', async () => {
     global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500 });

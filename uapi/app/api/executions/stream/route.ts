@@ -9,8 +9,17 @@ const MAX_TAIL_MS = 5 * 60 * 1000;
 const TERMINAL_EVENT_TYPES = new Set(['completion', 'error']);
 const TERMINAL_EXECUTION_STATUSES = new Set(['completed', 'failed', 'cancelled']);
 
-function encodeSse(payload: Record<string, unknown>) {
-  return `data: ${JSON.stringify(payload)}\n\n`;
+/**
+ * Row-backed frames carry the execution_events row's insert-time `created_at`
+ * as the standard SSE `id:` line. The tail filters rows with
+ * `created_at > cursor`, so the RECONNECT cursor must be that same insert
+ * timestamp — the payload's own emit-time `timestamp` (stamped by the producer
+ * before the row was inserted) drifts from it and causes duplicated or skipped
+ * rows across reconnects.
+ */
+function encodeSse(payload: Record<string, unknown>, id?: string) {
+  const idLine = id ? `id: ${id}\n` : '';
+  return `${idLine}data: ${JSON.stringify(payload)}\n\n`;
 }
 
 /**
@@ -57,10 +66,10 @@ export async function GET(request: Request) {
     async start(controller) {
       let cursor = lastTs && !Number.isNaN(Date.parse(lastTs)) ? lastTs : null;
       let closed = false;
-      const send = (payload: Record<string, unknown>) => {
+      const send = (payload: Record<string, unknown>, id?: string) => {
         if (closed) return;
         try {
-          controller.enqueue(encoder.encode(encodeSse(payload)));
+          controller.enqueue(encoder.encode(encodeSse(payload, id)));
         } catch {
           closed = true;
         }
@@ -109,7 +118,7 @@ export async function GET(request: Request) {
 
             for (const event of events || []) {
               cursor = event.created_at;
-              send((event.event_data as Record<string, unknown>) || { type: event.event_type });
+              send((event.event_data as Record<string, unknown>) || { type: event.event_type }, event.created_at);
               if (TERMINAL_EVENT_TYPES.has(String(event.event_type))) {
                 sawTerminalEvent = true;
               }

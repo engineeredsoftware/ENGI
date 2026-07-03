@@ -13,6 +13,13 @@ interface ExecutionEvent {
   created_at: string;
 }
 
+// Dispatch responds with the runId before the executions/execution_events rows
+// land, so the very first history fetch can race a 404. Retry that (and only
+// that) status a bounded number of times before surfacing an error — a thrown
+// 404 here used to also skip opening the live tail entirely.
+const HISTORY_RETRY_LIMIT = 5;
+const HISTORY_RETRY_DELAY_MS = 500;
+
 interface UsePipelineExecutionReturn {
   execution: PipelineExecution | null;
   events: ExecutionEvent[];
@@ -44,14 +51,24 @@ export function usePipelineExecution(runId: string | null): UsePipelineExecution
       return;
     }
 
+    const controller = new AbortController();
+    streamAbortRef.current?.abort();
+    streamAbortRef.current = controller;
+
     const fetchExecution = async () => {
       setIsLoading(true);
       setError(null);
       setLatestWorkUpdate(null);
 
       try {
-        const response = await fetch(`/api/executions/history/${runId}`);
-        if (!response.ok) throw new Error(`Failed to fetch execution: ${response.status}`);
+        let response: { ok: boolean; status: number; json: () => Promise<any> } | null = null;
+        for (let attempt = 0; ; attempt++) {
+          response = await fetch(`/api/executions/history/${runId}`, { signal: controller.signal });
+          if (response.ok || response.status !== 404 || attempt >= HISTORY_RETRY_LIMIT) break;
+          await new Promise((resolve) => setTimeout(resolve, HISTORY_RETRY_DELAY_MS));
+          if (controller.signal.aborted) return;
+        }
+        if (!response?.ok) throw new Error(`Failed to fetch execution: ${response?.status}`);
 
         const data = await response.json();
         setExecution(data.run);
@@ -75,8 +92,6 @@ export function usePipelineExecution(runId: string | null): UsePipelineExecution
         try {
           const last = (data.events || []).slice(-1)[0];
           let cursorTs = last?.created_at || '';
-          const controller = new AbortController();
-          streamAbortRef.current = controller;
           let liveSeq = 0;
           let sawTerminal = false;
           let consecutiveEmptyReconnects = 0;
@@ -121,7 +136,18 @@ export function usePipelineExecution(runId: string | null): UsePipelineExecution
                   // Re-parsing through parseStreamChunk here used to flatten events into
                   // namespace-less `status`/`message` shapes, which leaked every
                   // intermediate store as a fragment row.
-                  const lines = chunk.split('\n').filter((l) => l.startsWith('data: ')).map((l) => l.substring(6));
+                  // Cursor semantics: the server filters rows with
+                  // `created_at > lastTs` (insert time) and carries each row's
+                  // created_at as the SSE `id:` line. Reconnect with THAT
+                  // value — cursoring on the payload's emit-time `timestamp`
+                  // (stamped before the row insert) drifts from the server's
+                  // filter column and duplicates or skips rows on reconnect.
+                  let rowCreatedAt: string | null = null;
+                  const lines: string[] = [];
+                  for (const rawLine of chunk.split('\n')) {
+                    if (rawLine.startsWith('id: ')) rowCreatedAt = rawLine.substring(4).trim() || null;
+                    else if (rawLine.startsWith('data: ')) lines.push(rawLine.substring(6));
+                  }
                   for (const line of lines) {
                     let payload: any;
                     try {
@@ -136,7 +162,8 @@ export function usePipelineExecution(runId: string | null): UsePipelineExecution
                     if (payload.type === 'completion' || payload.type === 'error') {
                       sawTerminal = true;
                     }
-                    const createdAt = typeof payload.timestamp === 'string' ? payload.timestamp : new Date().toISOString();
+                    const createdAt =
+                      rowCreatedAt ?? (typeof payload.timestamp === 'string' ? payload.timestamp : new Date().toISOString());
                     cursorTs = createdAt;
                     receivedAnyThisConnection = true;
                     setEvents(prev => prev.concat([{ id: `live:${Date.now()}:${liveSeq++}`, event: payload, created_at: createdAt }]));
@@ -157,6 +184,7 @@ export function usePipelineExecution(runId: string | null): UsePipelineExecution
           // Persisted execution history remains the fallback when no live stream is available.
         }
       } catch (err) {
+        if (controller.signal.aborted) return;
         setError(err instanceof Error ? err.message : 'Failed to fetch execution');
         setExecution(null);
         setEvents([]);
