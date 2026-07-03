@@ -1463,6 +1463,60 @@ export default function DepositPageClient() {
                     </span>
                   </div>
                 </div>
+                {synthesisActivity.readyToFinishVerdicts.length > 0 &&
+                  (() => {
+                    const verdicts = synthesisActivity.readyToFinishVerdicts;
+                    const latest = verdicts[verdicts.length - 1];
+                    const prior = verdicts.slice(0, -1);
+                    const approved = latest.finalApproval === true;
+                    return (
+                      <div
+                        data-testid="deposit-telemetry-readiness-verdict"
+                        className={`mt-3 border px-3 py-2 text-xs leading-5 ${
+                          approved
+                            ? "border-emerald-300/20 bg-emerald-300/5 text-emerald-100/90"
+                            : "border-amber-300/20 bg-amber-300/5 text-amber-100/90"
+                        }`}
+                      >
+                        <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em]">
+                          {`iter ${latest.iteration ?? "—"} verdict · `}
+                          {approved
+                            ? "ready to finish"
+                            : `iterate${latest.recommendation ? ` (${latest.recommendation})` : ""}`}
+                          {typeof latest.qualityScore === "number" &&
+                            ` · quality ${latest.qualityScore.toFixed(2)}`}
+                          {typeof latest.overallConfidence === "number" &&
+                            ` · confidence ${latest.overallConfidence.toFixed(2)}`}
+                          {latest.warningsCount > 0 && ` · ${latest.warningsCount} warnings`}
+                        </p>
+                        {approved
+                          ? latest.summary && (
+                              <p className="mt-1 max-w-4xl text-neutral-300">{latest.summary}</p>
+                            )
+                          : latest.reasons.length > 0 && (
+                              <ul className="mt-1 max-w-4xl list-disc space-y-1 pl-4 text-neutral-300">
+                                {latest.reasons.map((reason, index) => (
+                                  <li key={index}>{reason}</li>
+                                ))}
+                              </ul>
+                            )}
+                        {prior.length > 0 && (
+                          <p className="mt-2 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">
+                            {prior
+                              .map(
+                                (verdict) =>
+                                  `iter ${verdict.iteration ?? "—"}: ${
+                                    verdict.finalApproval === true
+                                      ? "ready"
+                                      : `iterate (${verdict.recommendation ?? "not approved"}, ${verdict.reasons.length} reasons)`
+                                  }`,
+                              )
+                              .join(" · ")}
+                          </p>
+                        )}
+                      </div>
+                    );
+                  })()}
                 <div className="mt-4 min-w-0">
                   <PipelineExecutionLog
                     output={synthesisActivity.output}

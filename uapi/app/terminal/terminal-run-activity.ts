@@ -35,6 +35,14 @@ export interface TerminalRunActivitySnapshot {
    */
   currentIteration: number | null;
   /**
+   * One ReadyToFinish verdict per DIV iteration (chronological), captured
+   * from the cross-phase validation/readyToFinish artifact with its decision
+   * reason(s) INFERRED — failed critical checks first, then the concrete
+   * final blockers; an approval carries its summary instead. Drives the
+   * Telemetry readiness-verdict rendering.
+   */
+  readyToFinishVerdicts: ReadyToFinishVerdictView[];
+  /**
    * The CURRENT active call-chain: the rolling Phase→Agent→Step→Failsafe→
    * Generation context after the last streamed event — drives live header
    * trackers without re-parsing the log.
@@ -46,6 +54,55 @@ export interface TerminalRunActivitySnapshot {
     failsafe: string | null;
     generation: string | null;
   } | null;
+}
+
+export interface ReadyToFinishVerdictView {
+  /** DIV iteration the verdict gated (1-based; null when never latched). */
+  iteration: number | null;
+  finalApproval: boolean | null;
+  recommendation: string | null;
+  qualityScore: number | null;
+  overallConfidence: number | null;
+  warningsCount: number;
+  /** Inferred decision reason(s): failed critical checks, then blockers. */
+  reasons: string[];
+  summary: string | null;
+}
+
+const CRITICAL_CHECK_LABELS: Record<string, string> = {
+  requirementsMet: 'requirements met',
+  testsPass: 'tests pass',
+  noSecurityIssues: 'no security issues',
+  documentationComplete: 'documentation complete',
+  performanceAcceptable: 'performance acceptable',
+};
+
+/**
+ * Infer the decision reason(s) behind a ReadyToFinish verdict. A rejection's
+ * reasons are its failed critical checks (named) followed by its concrete
+ * finalBlockers; an approval needs no reasons beyond its summary. Falls back
+ * to the summary when a rejection carries no structured reasons.
+ */
+export function inferReadyToFinishReasons(verdict: any): string[] {
+  if (!verdict || typeof verdict !== 'object') return [];
+  if (verdict.finalApproval === true) return [];
+  const reasons: string[] = [];
+  const checks =
+    verdict.criticalChecks && typeof verdict.criticalChecks === 'object' ? verdict.criticalChecks : {};
+  const failedChecks = Object.entries(checks)
+    .filter(([, passed]) => passed === false)
+    .map(([check]) => CRITICAL_CHECK_LABELS[check] || check);
+  if (failedChecks.length) reasons.push(`critical checks failed: ${failedChecks.join(', ')}`);
+  const blockers = Array.isArray(verdict.finalBlockers)
+    ? verdict.finalBlockers.filter(
+        (blocker: unknown): blocker is string => typeof blocker === 'string' && blocker.trim().length > 0,
+      )
+    : [];
+  reasons.push(...blockers);
+  if (!reasons.length && typeof verdict.summary === 'string' && verdict.summary.trim()) {
+    reasons.push(verdict.summary.trim());
+  }
+  return reasons;
 }
 
 export type MockRunActivitySnapshot = {
@@ -225,6 +282,7 @@ export function buildTerminalRunActivityFromEvents(
   // become rows; every other event just advances the rolling context.
   const rollingContext: ExecContext = {};
   const toolByNode = new Map<string, { name?: string; input?: unknown }>();
+  const readyToFinishVerdicts: ReadyToFinishVerdictView[] = [];
   let rowSeq = 0;
   // Pipeline mode latched from the 'synthesize-asset-packs'/'mode' store —
   // stamped onto subsequent rows (the processing indicator's 'While
@@ -304,6 +362,29 @@ export function buildTerminalRunActivityFromEvents(
     if (ns === 'synthesize-asset-packs' && key === 'mode' && typeof payload?.data === 'string') {
       const candidate = payload.data.trim().toLowerCase();
       if (candidate === 'deposit' || candidate === 'read') pipelineMode = candidate;
+    }
+
+    // Capture each iteration's ReadyToFinish verdict (the cross-phase
+    // validation/readyToFinish artifact) with its inferred decision reasons.
+    if (
+      ns === 'validation' &&
+      key === 'readyToFinish' &&
+      payload?.data &&
+      typeof payload.data === 'object' &&
+      !(payload.data as Record<string, unknown>).contentWithheld
+    ) {
+      const verdict = payload.data as Record<string, any>;
+      readyToFinishVerdicts.push({
+        iteration: rollingContext.iteration ?? null,
+        finalApproval: typeof verdict.finalApproval === 'boolean' ? verdict.finalApproval : null,
+        recommendation: typeof verdict.recommendation === 'string' ? verdict.recommendation : null,
+        qualityScore: typeof verdict.qualityScore === 'number' ? verdict.qualityScore : null,
+        overallConfidence:
+          typeof verdict.overallConfidence === 'number' ? verdict.overallConfidence : null,
+        warningsCount: Array.isArray(verdict.finalWarnings) ? verdict.finalWarnings.length : 0,
+        reasons: inferReadyToFinishReasons(verdict),
+        summary: typeof verdict.summary === 'string' ? verdict.summary : null,
+      });
     }
     if ((ns === 'tool' || ns === 'tools') && nodeId) {
       if (key === 'name' && typeof payload?.data === 'string') {
@@ -401,6 +482,7 @@ export function buildTerminalRunActivityFromEvents(
       }
       : null,
     currentIteration: rollingContext.iteration ?? null,
+    readyToFinishVerdicts,
   };
 }
 
@@ -433,5 +515,6 @@ export function buildTerminalRunActivityFromMock(
     mode: null,
     latestContext: null,
     currentIteration: null,
+    readyToFinishVerdicts: [],
   };
 }
