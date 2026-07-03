@@ -276,6 +276,28 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 - Repair (2026-06-30, `phases/setup.ts`): the deposit branch now re-registers `setup:asset-pack-danger-wall-agent` with the same no-LLM passthrough as the Setup-plan punt. The deposit Setup is now clone → comprehend Obfuscations → init — no read danger-wall row, no short-circuit. Read keeps the danger-wall unchanged. The depositor's source-safety is already enforced by the streaming source-safe filter + the obfuscation comprehension; a deposit-lens admission is a later-gate `…ForDepositor`/`…ForReader` split. Spec: `BITCODE_SPEC_V48_NOTES.md` Setup-phase note. Verified: asset-pack tsc 0; setup-agents + deposit-asset-pack-options + deposit-asset-pack-option-admission suites green (10/10).
 - Liveness aside: F25's per-call timeout (`BITCODE_LLM_CALL_TIMEOUT_MS`, default 90000ms) should have bounded the hung Try generation but did not — the run stayed frozen ~8 min past the last event. The punt removes this locus for deposits, but the operator should confirm `BITCODE_LLM_CALL_TIMEOUT_MS` is not `0` in the run env; if it is non-zero and a generation still hangs unbounded, the in-box harness LLM path bypassing the F25 wrapper is a follow-up (read lens + remaining deposit agents still depend on that bound).
 
+### F29 — First live run of the redesigned Failsafes (3703f48f, 2026-07-03): machinery works; PCC selection shorthand was silently dropped (FIXED)
+
+- Observed working end-to-end on the first post-wave run: the keys-only execution-state
+  tree streamed (values never present); the PCC selection Thinkings ran (reason/judge/
+  structured_output, ~14s/14s/2s, small selection output); CS measured the composed
+  request (6,582 chars vs the 600k budget → correctly non-triggering, single task
+  generation); cross-phase `deposit:*`/`pipeline:*` stores landed on the ROOT node;
+  the per-run sidecar dir `~/.bitcode/logs/executions/<runId>/` materialized; and the
+  Implementation plan step converged in ONE stitch cycle whose repair request carried
+  the literal schema-validation error (vs the pre-fix five-cycles-to-death).
+- Defect: the selection model chose exactly the right context (deposit obfuscations/
+  inventory/protectedIpExclusions/demandContext + mode) but emitted `deposit#obfuscations`
+  shorthand (`<namespace>#<key>`), while the resolver demanded the canonical
+  `<execution-path>#<namespace>:<key>` — all five selected keys missed, `selectedContext`
+  came back empty (fail-soft), and every downstream generation ran without its selected
+  context for the whole run.
+- Repair (2026-07-03): strict resolution stays first; on a miss the resolver reinterprets
+  the string as `<namespace>:<key>` and resolves it depth-first from the root
+  (`packages/execution-generics/src/state-keys.ts`; regression-pinned against the five
+  live-run misses). Follow-up candidates: canonical-path examples in the PCC selection
+  prompt part; `context:selectedKeys` non-empty as a QA acceptance row (added to §2).
+
 ## Track 1 — Identity / Authentication / Auxillaries — COMPLETE 2026-06-12 (email deferred by decision; F2/F9 and legacy eradication queued for gates)
 
 - [x] Sign up / sign in via Connect Wallet (nav CTA → SignUpWindow → wallet signature on testnet4 → `custom:bitcode-bitcoin` session → `/tps/supabase/callback`) — verified 2026-06-12 after F5 fix; lands on `/packs`. Re-verified from fully nuked state (purged user + cleared site data): created 19:29:21 → session 19:29:25 → binding auto-written 19:29:29 by the bridge on `/packs` mount with no Auxillaries visit; UI consistent across nav, Wallet, and Profile panes.
@@ -307,11 +329,16 @@ lines / UI values into §6 for the QA record.
 - Branch `v48/gate-3-synthesis-pipeline-correctness`; `uapi/.env.local` then restart `dev:remote`:
   - `BITCODE_ASSET_PACK_REAL_INFERENCE=true` — the ONLY required flag. Do NOT set
     `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE` (profiles removed, F26-A; it is a no-op).
-  - Anthropic key present (default `claude-sonnet-4-6`).
+  - Anthropic key present (default `claude-haiku-4-5` since 2026-07-03; `BITCODE_LLM_MODEL` overrides).
   - `BITCODE_PIPELINE_HOST` unset (defaults to `inline`) — the dev Node server IS the
     inline host, so it must have `git` on PATH + a writable temp dir.
-- Supabase staging + a connected GitHub repo (`vcs_repositories` row + an active
-  `user_connections` github row). Pick a small/medium real TS or Python repo (meaningful sizes).
+- Supabase LOCAL (decided 2026-07-03): `uapi/.env.local` points at the local stack
+  (`127.0.0.1:54321`, `supabase start`/Docker running); `dev:remote` serves against it directly.
+  A connected GitHub repo (`vcs_repositories` row + an active `user_connections` github row).
+  Pick a small/medium real TS or Python repo (meaningful sizes).
+- Restart `dev:remote` AFTER pulling the 2026-07-02/03 correctness wave (stitch self-repair,
+  store topology, PCC keys-selection, Thinkings rename, haiku default) — a server predating
+  it runs stale code.
 
 **1. Run (manual)** — `/deposit` → select repo + revision → optionally add obfuscations
 + protected-IP exclusions (e.g. `secret/`) + demand context → Synthesize options → watch
@@ -326,7 +353,10 @@ the streaming accordion log.
 | Absolutes | Validation telemetry shows `AssetPackMeasureAbsolutesAgent:deposit`; card measurements tile: `Functions: <N> functions · <v>% / weight 0.18`, `Types`, `File span`, `Correctness · <v>% / weight 0.28`, `Semantic volume` | the tile values + `output.depositOptionSynthesis.options[i].measurements` | size measures carry `magnitude`(int)+`unit`+`category:'absolute'`; magnitudes are plausible real counts; weights sum to 1. FAIL if `source-coverage`/`demand-alignment`/`reuse-likelihood` appear → placeholders still in use |
 | Card payload | option card emerald panel "If deposited, Bitcode receives": patchSummary + "Synthesized contents · N file(s)" (op-colored create/modify/delete) + "Provenant source · N files available to Bitcode" | `…options[i].contents` (patchSummary, fileChanges, provenantSourcePaths, provenantSourceCount) + screenshot | BOTH the synthesized contents AND the provenant source files shown prominently; fileChanges are path+op only (no raw code) |
 | Neediness | amber tile `Neediness · est. read demand <v>% · demand <d>% · saturation <s>%` + rationale | `…options[i].neediness` | present on deposit options; `volume = clamp01(demand×(0.5+0.5(1−saturation)))`; rationale source-safe |
-| Completion | `Validated candidates fail-closed: A admissible, D dropped.` then `Synthesized X measured AssetPack options (T tokens, Ds s).` | the `executions` row (id=runId): `context` (pipelineCore=`AssetPacksSynthesis`, synthesisMode, optionCount, excludedPathCount, inventoryPathCount) + `output` | status=`completed`; optionCount ≥ 1; options carry absolutes + contents + neediness |
+| Completion | `Validated candidates fail-closed: A admissible, D dropped.` then `Synthesized X measured AssetPack options (T tokens, Ds s).` | the `executions` row (id=runId): `context` (pipelineCore=`AssetPacksSynthesis`, synthesisMode, optionCount, excludedPathCount, inventoryPathCount) + `output` | status=`completed`; optionCount ≥ 1; options carry absolutes + contents + neediness. The options MUST materialize from the route's completion read (`GET /api/executions/history/<runId>` → `.output.depositOptionSynthesis.options`) — zero options with a completed pipeline = the store-topology regression (fixed 2026-07-03, test-pinned) |
+| Sidecar | `~/.bitcode/logs/executions/<runId>/` exists (the REAL run id, not `run`), files named `NNNNN-phase-agent-step-failsafe-generation.{request\|response\|error}.json` | `ls` the dir | per-run dir present; any failure writes `.error.json` with the literal request on disk |
+| PCC selection | telemetry shows the `prepare_concise_context` selection generations then `context:selectedKeys` non-empty; `context:missingKeys` absent or small | the `context` namespace events | selected keys resolve (lenient resolver, 2026-07-03); an all-missing selection = the shorthand-resolution regression |
+| Failsafe badges | failsafe pills read `handle large inputs` / `handle large outputs`; real failsafe work badges as `· chunk N` / `· sum` / `· stitch ×N` | screenshot of a badged row (if any triggered) | stitch ×N converges in ≤2 (self-repair carries the schema error); no `exceeded maximum stitch attempts` failure |
 
 **3. Source-safety (the telemetry contract — all must hold)**
 - Accordion log + `execution_events` + the `executions` row `output`: NO raw source lines,
