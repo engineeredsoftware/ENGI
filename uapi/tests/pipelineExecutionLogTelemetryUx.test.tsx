@@ -453,6 +453,53 @@ describe('TelemetryExplainerTrigger — specific section above generic', () => {
 // Pill placement — the pills render to the RIGHT of the chevron + title on
 // the SAME line (one flex row), not on a row above the title.
 // ---------------------------------------------------------------------------
+describe('PipelineExecutionLog — pre-first-row processing indicator', () => {
+  it('reads the live call-chain sentence before any row lands, matching the header pills', () => {
+    render(
+      <PipelineExecutionLog
+        output=""
+        isProcessing
+        error={null}
+        outputDetails={{}}
+        onRetry={() => {}}
+        onDismissError={() => {}}
+        userHasScrolled={false}
+        setUserHasScrolled={() => {}}
+        compact
+        pipelineMode="deposit"
+        liveContext={{
+          phase: 'setup',
+          agent: 'DepositInputComprehensionAgent',
+          step: 'plan',
+          failsafe: null,
+          generation: null,
+        }}
+      />,
+    );
+    expect(
+      screen.getByText('While Depositing, during Setup, agent Input Comprehension is Planning'),
+    ).toBeInTheDocument();
+  });
+
+  it("falls back to bare 'Processing' when no live context exists yet", () => {
+    render(
+      <PipelineExecutionLog
+        output=""
+        isProcessing
+        error={null}
+        outputDetails={{}}
+        onRetry={() => {}}
+        onDismissError={() => {}}
+        userHasScrolled={false}
+        setUserHasScrolled={() => {}}
+        compact
+        pipelineMode="deposit"
+      />,
+    );
+    expect(screen.getByText('Processing')).toBeInTheDocument();
+  });
+});
+
 describe('PipelineExecutionLog — pills inline with the title line', () => {
   const line = 'LLM call observed';
   const outputDetails = {

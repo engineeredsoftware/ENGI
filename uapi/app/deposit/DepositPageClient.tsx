@@ -1534,6 +1534,7 @@ export default function DepositPageClient() {
                     userHasScrolled={synthesisLogScrolled}
                     setUserHasScrolled={setSynthesisLogScrolled}
                     pipelineMode="deposit"
+                    liveContext={synthesisLiveContext}
                     copyData={{
                       runId: synthesisRunId,
                       status: synthesisStatus,

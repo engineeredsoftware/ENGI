@@ -118,6 +118,20 @@ interface PipelineRunLogProps {
    * the sentence renders without the prefix.
    */
   pipelineMode?: SynthesisPipelineMode | null;
+  /**
+   * The CURRENT live call chain (the same rolling context the page's header
+   * tracker renders). Rows only appear for COMPLETED LLM/tool calls, so before
+   * the first row lands the processing indicator would otherwise read a bare
+   * 'Processing' while the header already shows Phase→Agent→Step pills — this
+   * keeps the two surfaces telling one story.
+   */
+  liveContext?: {
+    phase: string | null;
+    agent: string | null;
+    step: string | null;
+    failsafe: string | null;
+    generation: string | null;
+  } | null;
 }
 
 // Threshold (in px) below which we switch to compact layout automatically.
@@ -599,7 +613,8 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
   setUserHasScrolled,
   compact: compactProp,
   copyData,
-  pipelineMode
+  pipelineMode,
+  liveContext
 }, ref) => {
   // Automatic compact detection via container width
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -1076,9 +1091,17 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
 
         {/* Processing indicator — shows the last known Phase→Agent→Step→Failsafe→
             Thinkings context + elapsed time since the last streamed event, so a
-            genuine hang is visible live instead of an unexplained blank gap. */}
+            genuine hang is visible live instead of an unexplained blank gap.
+            Before the FIRST row lands (rows are completed calls only), fall
+            back to the page's live call-chain context so this line and the
+            header pills tell one story instead of a bare 'Processing'. */}
         {isProcessing && (() => {
-          const { label, likelyStalled } = buildProcessingStallLabel(flatLines[flatLines.length - 1], nowTick, pipelineMode);
+          const lastLine = flatLines[flatLines.length - 1];
+          if (!lastLine && liveContext) {
+            const sentence = describeExecutionContext({ ...liveContext, mode: pipelineMode ?? null });
+            if (sentence) return <ProcessingIndicator label={sentence} stalled={false} />;
+          }
+          const { label, likelyStalled } = buildProcessingStallLabel(lastLine, nowTick, pipelineMode);
           return <ProcessingIndicator label={label} stalled={likelyStalled} />;
         })()}
       </div>
