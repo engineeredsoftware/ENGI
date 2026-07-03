@@ -166,10 +166,13 @@ Accepted V48 architecture law (decided 2026-06-25):
   Pipeline+Phase+Agent+Step+Generation and runs on the formal primitives, not
   hand-rolled inference: `PipelineExecution` -> phase -> `factoryAgent`/
   `factoryAgentWithPTRR` -> step -> Failsafe(prepare|chunk|stitch) of
-  Thricified(reason|judge|structured_output). The pipeline is N agents
+  **Thinkings**(reason|judge|structured_output) — renamed from "Thricified"
+  (2026-07-02): the reason and judge[-reasoning] generations are the thinking
+  generations of that sequence. The pipeline is N agents
   (mostly PTRR, some Simple — both are base `Agent` implementations) across the
-  5 phases; each PTRR agent renders 4 steps x 3 failsafe x 3 thricified = 36
-  formal LLM calls. Every call renders in the rich SDIVF telemetry with correct
+  5 phases; each PTRR agent renders 4 steps x 3 failsafe x 3 thinkings = 36
+  formal LLM calls (the Failsafes-sequence clarification below revises the
+  per-step shape to selection → task(×chunks) → repair-only). Every call renders in the rich SDIVF telemetry with correct
   phase/agent/step/failsafe/generation labels, because the formal executors
   populate the execution state (the lightweight path's `undefined` labels were
   a symptom of bypassing them).
@@ -430,6 +433,74 @@ Garrett, 2026-06-27):
   — breaking the lens-configured implementations into per-role variants
   (`agent-measure-asset-packs-absolutes-for-depositor`,
   `agent-measure-asset-packs-needinesses-for-reader`, etc.).
+
+### The Failsafes sequence — formal clarification + the PrepareConciseContext contract (Garrett, 2026-07-02)
+
+A Step's generation is the Failsafes sequence: THREE failsafes in fixed order, each
+with a DISTINCT trigger and a DISTINCT job. "Thricified" is RENAMED **Thinkings** —
+the atomic typed generation-sequence Reason → Judge → StructuredOutput, named for the
+thinking generations (reason and judge[-reasoning]) that precede the typed output.
+
+1. **PrepareConciseContext (PCC — the context failsafe; ALWAYS runs; selection-only).**
+   The pipeline's full execution context accumulates without bound (every phase,
+   agent, step, and generation stores state below the root), so inference quality
+   demands state-cleaning: PCC is the FILTER that reduces noisy context to exactly
+   what the task at hand needs. Its contract:
+   - INPUT: `{ preparation, system, pipeline_execution_keys }` where
+     `preparation` = the composed task prompt(s) it is preparing for (pipeline system
+     prompt + agent system prompt + step prompt — e.g.
+     `Implement-WriteAssetPacksDiffs-Refine`), `system` = PCC's own instructions
+     (what is PCC requesting to be inferred?), and `pipeline_execution_keys` = the
+     FULL root execution state tree rendered as **keys only**
+     (`{ phase1: { agent1: { step1: ... } ... } ... }`) — never the values.
+   - OUTPUT: the selected KEYS. PCC's inference is a Thinkings generation against the
+     key-selection schema — NOT the step's output schema (PCC never attempts the task).
+   - READ-IN: the harness then reads the VALUES of exactly the selected keys from the
+     execution state and provides them as the task context to the subsequent
+     generations (CS, SC).
+2. **ChunkThenSum (CS — the input failsafe; trigger = the composed request exceeds the
+   request/context limit).** Non-triggering (the composed prompt — hierarchical system
+   prompt + task input including the PCC-selected values — fits the request limit):
+   exactly ONE Thinkings task generation, no chunking. Triggering: split the selected
+   context values into chunks that each fit, run the task generation per chunk, then
+   ONE summing generation over the chunk results.
+3. **StitchComplete (SC, `factoryStitchUntilComplete` — the output failsafe; trigger =
+   the response is schema-INCOMPLETE, i.e. missing expected keys of the output schema,
+   or truncated).** Non-triggering (the response parses complete against the expected
+   schema): zero additional generations — the CS result passes through. Triggering:
+   stitch-repair generations, each carrying the EXACT validation failure (the schema
+   error names the missing/invalid fields — a repair prompted only with "continue"
+   cannot fix a schema gap), bounded, with the final attempt validated rather than
+   discarded.
+
+Testing law: CS and SC are each tested on BOTH paths — triggering (input exceeds the
+request limit; response missing expected schema keys) and non-triggering (input fits;
+response schema-complete) — with deterministic boundary LLM mocks.
+
+AUDIT (2026-07-02, of the shipped implementation vs this contract): SC conforms after
+the stitch corrections (schema-incomplete trigger, error-carrying repairs, bounded with
+final-attempt validation). PCC and CS do NOT yet conform: PCC snapshots a FIXED set of
+root namespaces (repository/source/read/config/attachments/instructions/
+evidence_documents/pipeline.input) with full VALUES — no keys-only tree, no selection
+inference (its generation runs the step's output schema, producing a discarded full
+task attempt), and the deterministic size-based `prepareConciseContext` chunker stands
+in for selection; CS triggers on that snapshot's serialized size (against the model's
+max-OUTPUT tokens, not the request limit) instead of measuring the composed request,
+and its chunked path threads the full accumulated input into every chunk call. The
+Gate-3 correction aligns the implementation to this contract: PCC becomes the keys-only
+selection inference + value read-in; CS measures the actual composed request and chunks
+only the selected values; the three failsafes stop wrapping three identical task
+generations (the current 3×3 shape) and become selection → task(×chunks) → repair-only.
+
+**Cross-phase store-visibility law (same decision).** SDIVF phases execute on isolated
+sibling child nodes (`seq-N`), and `findUp` walks ANCESTORS only — so any artifact one
+phase produces for another (or for the dispatching route) MUST be stored on the SHARED
+outer pipeline execution (the F20 mode-propagation precedent), never on the producer's
+own sibling subtree. The 2026-07-02 sweep found the deposit flow violating this
+end-to-end (implementation options, discovery comprehensions, preprocess
+inventory/exclusions, setup obfuscation guidance — all invisible to their consumers and
+to the route's completion read); the Gate-3 correction re-homes cross-phase artifacts
+onto the shared execution and pins the producer/consumer store contract with tests.
 
 ### Failsafe chunk/stitch precision — recursive, size-variable N (later V48 gate roadmap; Garrett, 2026-06-27)
 
