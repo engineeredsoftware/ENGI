@@ -561,6 +561,10 @@ export function factoryStitchUntilComplete<T>(
     let currentResult = input;
     let stitchCount = 0;
     const maxStitches = 5; // Prevent infinite loops
+    // The most recent schema-validation failure. A stitch prompted only with
+    // "continue" cannot repair a schema gap (e.g. a field the model never
+    // emits) — the model must be told exactly what failed validation.
+    let lastValidationError: string | undefined;
 
     // Check if output appears truncated (measure the structured output if present)
     const checkTruncation = (candidate: any): boolean => {
@@ -583,8 +587,9 @@ export function factoryStitchUntilComplete<T>(
             : currentResult;
           outputSchema.parse(candidate);
           break; // Valid complete output; no stitching required
-        } catch {
+        } catch (e) {
           // Fall through to truncation/stitching logic
+          lastValidationError = e instanceof Error ? e.message : String(e);
         }
       }
 
@@ -599,11 +604,8 @@ export function factoryStitchUntilComplete<T>(
             break; // Valid complete output
           } catch (e) {
             // Output incomplete, needs stitching
-            failsafeExec.store(
-              'validation',
-              'error',
-              e instanceof Error ? e.message : String(e)
-            );
+            lastValidationError = e instanceof Error ? e.message : String(e);
+            failsafeExec.store('validation', 'error', lastValidationError);
           }
         } else {
           break; // No schema to validate against
@@ -618,7 +620,10 @@ export function factoryStitchUntilComplete<T>(
       const stitchInput = {
         context: buildStitchContext(input),
         partialOutput: minimalPartial,
-        instruction: 'Continue and complete the previous output'
+        instruction: lastValidationError
+          ? `The previous output failed schema validation: ${lastValidationError.slice(0, 600)}. ` +
+            'Return the full corrected JSON object with every required field present and within its constraints.'
+          : 'Continue and complete the previous output'
       } as any;
 
       for (let i = 0; i < generationSubSteps.length; i++) {
@@ -830,8 +835,11 @@ function inferField(v: z.ZodTypeAny): string {
     case z.ZodFirstPartyTypeKind.ZodObject: {
       const shape = getZodObjectShape(v);
       if (!shape) return '{ ... }';
-      const keys = Object.entries(shape).slice(0, 6);
-      return `{ ${keys.map(([key, value]) => `"${key}": ${inferField(value)}`).join(', ')}${Object.keys(shape).length > keys.length ? ', ...' : ''} }`;
+      // Render EVERY field: a truncated shape hides required fields from the
+      // model, which then systematically omits them and no amount of
+      // stitching/retrying can converge on a schema-valid output.
+      const keys = Object.entries(shape);
+      return `{ ${keys.map(([key, value]) => `"${key}": ${inferField(value)}`).join(', ')} }`;
     }
     case z.ZodFirstPartyTypeKind.ZodRecord: return '{ [key: string]: any }';
     case z.ZodFirstPartyTypeKind.ZodEnum: {
