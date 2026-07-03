@@ -5,17 +5,39 @@
  * PROMPTPART_* constants from deep raw_promptparts modules. A re-export of a
  * name the target module does not actually export resolves to `undefined` at
  * runtime (the "shipped re-exports of nonexistent names" regression class), so
- * this suite imports the whole index and pins that every PROMPTPART_* export
+ * this suite imports the barrel and pins that every PROMPTPART_* export
  * resolves to a real, non-empty prompt string.
+ *
+ * The pins run against BOTH barrels:
+ * - the TS source barrel (src/index.ts) — the curated source surface; and
+ * - the COMPILED barrel (src/index.js) when present — plain-node consumers
+ *   resolve it first, and it has drifted stale before (it kept exporting the
+ *   old PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_* names after the
+ *   source renamed them to ...ASSET_PACK_*, so those getters returned
+ *   undefined). The compiled mirrors are gitignored build artifacts, so the
+ *   compiled leg is skipped when no src/index.js exists (fresh checkout / CI).
  */
 
-// Import the TS source barrel explicitly: bare '../index' resolves to the
-// compiled src/index.js artifact first under this package's Jest resolution,
-// and the pinned contract here is the CURRENT curated source surface.
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const promptsIndex = require('../index.ts') as Record<string, unknown>;
+import * as fs from 'fs';
+import * as path from 'path';
 
-describe('@bitcode/prompts root index PROMPTPART re-exports', () => {
+const COMPILED_BARREL = path.join(__dirname, '..', 'index.js');
+const hasCompiledBarrel = fs.existsSync(COMPILED_BARREL);
+
+// Import each barrel by its EXPLICIT extension: bare '../index' would resolve
+// to whichever artifact jest's resolution order prefers, and the contract here
+// is per-barrel.
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const tsBarrel = require('../index.ts') as Record<string, unknown>;
+const compiledBarrel = hasCompiledBarrel
+  ? // eslint-disable-next-line @typescript-eslint/no-var-requires
+    (require(COMPILED_BARREL) as Record<string, unknown>)
+  : null;
+
+const barrels: Array<[string, Record<string, unknown>]> = [['ts source barrel (index.ts)', tsBarrel]];
+if (compiledBarrel) barrels.push(['compiled barrel (index.js)', compiledBarrel]);
+
+describe.each(barrels)('@bitcode/prompts root index PROMPTPART re-exports — %s', (_label, promptsIndex) => {
   const promptPartEntries = Object.entries(promptsIndex).filter(([name]) =>
     name.startsWith('PROMPTPART_'),
   );
@@ -69,5 +91,24 @@ describe('@bitcode/prompts root index PROMPTPART re-exports', () => {
     expect(promptsIndex.isPromptPart).toBeDefined();
     expect(promptsIndex.hierarchicalFormatter).toBeDefined();
     expect(promptsIndex.PromptExecution).toBeDefined();
+  });
+});
+
+(hasCompiledBarrel ? describe : describe.skip)('compiled barrel parity with the ts source barrel', () => {
+  it('exports exactly the same PROMPTPART_* name set (no stale compiled drift)', () => {
+    const tsNames = Object.keys(tsBarrel).filter((n) => n.startsWith('PROMPTPART_')).sort();
+    const jsNames = Object.keys(compiledBarrel as Record<string, unknown>)
+      .filter((n) => n.startsWith('PROMPTPART_'))
+      .sort();
+    expect(jsNames).toEqual(tsNames);
+  });
+});
+
+describe('raw_promptparts index barrels', () => {
+  it('never re-export ".d" module specifiers (they crash plain-node requires and ambiguate the ts barrel)', () => {
+    for (const rel of ['../raw_promptparts/generic/index.ts', '../raw_promptparts/specific/index.ts']) {
+      const source = fs.readFileSync(path.join(__dirname, rel), 'utf8');
+      expect(source).not.toMatch(/from\s+["'][^"']*\.d["']/);
+    }
   });
 });
