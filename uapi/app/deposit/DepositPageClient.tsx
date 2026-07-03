@@ -1450,6 +1450,14 @@ export default function DepositPageClient() {
                       endedAtMs={synthesisRunEndMs}
                       className="font-mono text-[0.72rem] text-emerald-100/90"
                     />
+                    {typeof synthesisActivity.currentIteration === "number" && (
+                      <span
+                        title="DIV loop iteration (Discovery → Implementation → Validation)"
+                        className="border border-emerald-300/15 bg-emerald-300/10 px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-emerald-100"
+                      >
+                        iter {synthesisActivity.currentIteration}
+                      </span>
+                    )}
                     <span className="border border-white/10 bg-black/30 px-3 py-2 font-mono text-[0.62rem] text-neutral-400">
                       {synthesisRunId}
                     </span>

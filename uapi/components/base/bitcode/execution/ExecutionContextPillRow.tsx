@@ -31,9 +31,10 @@ export interface ExecutionContextPillRowProps {
 }
 
 /**
- * Badge real failsafe-handling work on the pill label: 'stitch ×N' marks the
- * Nth stitch repair; 'chunk N' a chunk task generation; 'sum' the chunk
- * summing generation. Absent markers = the non-triggering path.
+ * Badge real failsafe-handling work on the pill label with one shared ×N
+ * pattern: CS counts chunks ('chunk ×N' = the Nth chunk task generation,
+ * 'sum' the combining generation), SC counts stitches ('stitch ×N' = the Nth
+ * repair). Absent markers = the non-triggering path.
  */
 export function buildFailsafePillLabel(args: {
   failsafe: string;
@@ -47,7 +48,7 @@ export function buildFailsafePillLabel(args: {
   } else if (args.chunkSum) {
     label = `${label} · sum`;
   } else if (typeof args.chunkIndex === 'number') {
-    label = `${label} · chunk ${args.chunkIndex}`;
+    label = `${label} · chunk ×${args.chunkIndex}`;
   }
   return label;
 }

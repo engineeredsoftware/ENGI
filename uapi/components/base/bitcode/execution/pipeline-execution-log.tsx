@@ -214,6 +214,9 @@ function applyExecutionStateToLogLine(logLine: LogLine, executionState: any, sto
   if (typeof (executionState || {}).stitchIteration === 'number') logLine.stitchIteration = executionState.stitchIteration;
   if (typeof (executionState || {}).chunkIndex === 'number') logLine.chunkIndex = executionState.chunkIndex;
   if ((executionState || {}).chunkSum === true) logLine.chunkSum = true;
+  // DIV-loop iteration (1-based, latched from pipeline/currentIteration by the
+  // activity builder) — rendered as the row's 'iter N' marker.
+  if (typeof (executionState || {}).iteration === 'number') logLine.iteration = executionState.iteration;
   logLine.tool = tool;
   logLine.promptTemplateId = promptTemplateId;
   logLine.outputSchema = outputSchema;
@@ -1045,18 +1048,13 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
           <div className="text-center text-gray-400 py-8">No logs available</div>
         )}
 
-        {/* Empty state placeholder when processing but no logs yet */}
+        {/* Empty state placeholder when processing but no logs yet — styled
+            exactly like a collapsed log row (same bar, no chevron: there is
+            no detail payload to expand). */}
         {isProcessing && flatLines.length === 0 && (
-          <div className="border-l-2 border-emerald-500/20 pl-4 mb-6">
-            <div className="flex items-center space-x-3 py-2 px-3 bg-sky-500/10 rounded-md">
-              <span className="select-none text-gray-300 text-lg opacity-40">›</span>
-              <div className="flex-1 flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <span className="text-lg font-semibold text-emerald-400 opacity-50">Initializing</span>
-                </div>
-                <span className="text-xs text-gray-500">preparing</span>
-              </div>
-            </div>
+          <div className="relative flex items-center gap-1 w-full rounded-lg pl-7 pr-3 py-2 min-h-[34px] mb-4 select-none text-[0.78rem] font-medium text-emerald-200 backdrop-blur-md bg-white/5 dark:bg-white/2 border-l-2 border-emerald-400/25">
+            <span className="truncate min-w-0 text-[0.82rem] leading-none m-0 flex-1">Initializing</span>
+            <span className="text-[10px] text-gray-500 flex-shrink-0 select-none ml-1">preparing</span>
           </div>
         )}
 
@@ -1193,12 +1191,16 @@ function renderLogLine(
     logLine.phase || logLine.agent || logLine.step || logLine.failsafe || logLine.generation || toolLabel,
   );
 
+  // A row is expandable (chevron + click-to-toggle) only when there is a
+  // detail payload to reveal — a chevron on a payload-less row is a lie.
+  const hasDetails = Boolean(logLine.details);
+
   if (compact) {
     const RowContent = (
       <div
         className={`relative flex items-center gap-1 w-full rounded-lg pl-7 pr-3 py-2 min-h-[34px] mb-4 last:mb-0 select-none text-[0.78rem] font-medium ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200 border-l-2 ${style.border}`}
         data-log-index={index}
-        onClick={() => toggleLine(lineId)}
+        onClick={hasDetails ? () => toggleLine(lineId) : undefined}
         draggable
           onDragStart={(e) => {
             const payload = {
@@ -1228,14 +1230,17 @@ function renderLogLine(
           </span>
         </TelemetryExplainerTrigger>
 
-        {/* ONE line: chevron, title, then the inline pill row (phase, agent,
-            step, failsafe, generation, + tool) flowing right — wrapping onto
-            following lines only when out of width — then the timestamp. */}
-        <ChevronRightIcon
-          className={`w-4 h-4 flex-shrink-0 text-current opacity-60 transition-transform duration-300 ${
-            expandedLines[lineId] ? 'rotate-90' : ''
-          }`}
-        />
+        {/* ONE line: chevron (only when a detail payload exists), title, then
+            the inline pill row (phase, agent, step, failsafe, generation,
+            + tool) flowing right — wrapping onto following lines only when
+            out of width — then the DIV-loop iteration marker + timestamp. */}
+        {hasDetails && (
+          <ChevronRightIcon
+            className={`w-4 h-4 flex-shrink-0 text-current opacity-60 transition-transform duration-300 ${
+              expandedLines[lineId] ? 'rotate-90' : ''
+            }`}
+          />
+        )}
         <span
           title={logLine.text}
           className={`truncate min-w-0 text-[0.82rem] leading-none m-0 ${hasPills ? 'max-w-[45%]' : 'flex-1'}`}
@@ -1245,6 +1250,14 @@ function renderLogLine(
 
         {hasPills && <ExecutionContextPillRow {...pillRowProps} className="flex-1 justify-end" />}
 
+        {typeof logLine.iteration === 'number' && (
+          <span
+            title={`DIV loop iteration ${logLine.iteration}`}
+            className="text-[10px] text-emerald-300/80 flex-shrink-0 select-none ml-1 font-mono"
+          >
+            iter {logLine.iteration}
+          </span>
+        )}
         {logLine.timestamp && (
           <span className="text-[10px] text-gray-500 flex-shrink-0 select-none ml-1">
             {formatTime(logLine.timestamp)}
@@ -1328,7 +1341,7 @@ function renderLogLine(
           e.dataTransfer.setData('application/json', JSON.stringify(payload));
           e.dataTransfer.effectAllowed = 'copy';
         }}
-        onClick={() => toggleLine(lineId)}
+        onClick={hasDetails ? () => toggleLine(lineId) : undefined}
         className={`
           relative flex flex-col tablet:flex-row items-start tablet:items-center gap-2 tablet:gap-4 w-full rounded-lg px-3 tablet:px-4 desktop:px-5 py-2 tablet:py-3 laptop:py-4 cursor-pointer select-none text-xs tablet:text-sm desktop:text-base font-medium
           ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200
@@ -1342,7 +1355,7 @@ function renderLogLine(
           ...(iterColor ? { '--iter-color': iterColor } as React.CSSProperties : {}),
         }}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+          if (hasDetails && (e.key === 'Enter' || e.key === ' ')) {
             e.preventDefault();
             toggleLine(lineId);
           }
@@ -1351,12 +1364,14 @@ function renderLogLine(
         {/* Iteration bullet (drawn before arrow to align) */}
         {hasIteration && isFirstInIter && <span className="hidden laptop:inline-block iter-bullet" />}
 
-        {/* Accordion arrow (hidden on xs)*/}
-        <ChevronRightIcon
-          className={`hidden laptop:block w-4 h-4 laptop:w-5 laptop:h-5 text-current opacity-60 transition-transform duration-300 mx-auto ${
-            expandedLines[lineId] ? 'rotate-90' : ''
-          }`}
-        />
+        {/* Accordion arrow (hidden on xs; only when a detail payload exists) */}
+        {hasDetails && (
+          <ChevronRightIcon
+            className={`hidden laptop:block w-4 h-4 laptop:w-5 laptop:h-5 text-current opacity-60 transition-transform duration-300 mx-auto ${
+              expandedLines[lineId] ? 'rotate-90' : ''
+            }`}
+          />
+        )}
 
         {/* Mobile chevron indicator handled inside mobile layout now */}
 
@@ -1412,11 +1427,13 @@ function renderLogLine(
           {/* ONE line: chevron, title, then the inline pill row flowing right
               (wrapping onto following lines only when out of width), timestamp. */}
           <div className="flex items-center gap-1 w-full min-w-0">
-            <ChevronRightIcon
-              className={`laptop:hidden w-3 h-3 flex-shrink-0 text-current opacity-60 transition-transform duration-300 ${
-                expandedLines[lineId] ? 'rotate-90' : ''
-              }`}
-            />
+            {hasDetails && (
+              <ChevronRightIcon
+                className={`laptop:hidden w-3 h-3 flex-shrink-0 text-current opacity-60 transition-transform duration-300 ${
+                  expandedLines[lineId] ? 'rotate-90' : ''
+                }`}
+              />
+            )}
 
             <span
               title={logLine.text}

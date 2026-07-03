@@ -45,23 +45,24 @@ export function humanizeNounPhrase(value: string): string {
   return titleCaseWords(value.replace(/[_-]/g, ' '));
 }
 
-// Client-side normalized failsafe names: ChunkThenSum handles LARGE INPUTS,
-// StitchComplete handles LARGE OUTPUTS; PrepareConciseContext displays as
-// 'Prepare Context' (the 'Concise' qualifier is an internal naming detail,
-// dropped from the label). The log title-line (pill) reads 'handle large
-// inputs'; the processing sentence reads title-cased without 'handle'
-// ('Reasoning over Large Inputs'). PrepareConciseContext reads simply
-// 'Context' in the sentence ('Reasoning over Context').
+// Client-side normalized failsafe names: ChunkThenSum handles the PROMPT side
+// (oversized requests), StitchComplete the COMPLETION side (incomplete
+// responses); PrepareConciseContext displays as 'Prepare Context' (the
+// 'Concise' qualifier is an internal naming detail, dropped from the label).
+// The log title-line (pill) reads 'Handle Prompts' / 'Handle Completions';
+// the processing sentence reads the bare noun ('Reasoning over Prompts',
+// 'Judging the Completions'). PrepareConciseContext reads simply 'Context'
+// in the sentence ('Reasoning over Context').
 export const FAILSAFE_PILL_NAMES: Record<string, string> = {
   prepare_concise_context: 'Prepare Context',
-  chunk_then_sum: 'handle large inputs',
-  stitch_until_complete: 'handle large outputs',
+  chunk_then_sum: 'Handle Prompts',
+  stitch_until_complete: 'Handle Completions',
 };
 
 export const FAILSAFE_SENTENCE_NAMES: Record<string, string> = {
   prepare_concise_context: 'Context',
-  chunk_then_sum: 'Large Inputs',
-  stitch_until_complete: 'Large Outputs',
+  chunk_then_sum: 'Prompts',
+  stitch_until_complete: 'Completions',
 };
 
 function normalizeFailsafeKey(value: string): string {
@@ -76,9 +77,15 @@ export function formatFailsafeSentenceName(value: string): string {
   return FAILSAFE_SENTENCE_NAMES[normalizeFailsafeKey(value)] || humanizeNounPhrase(value);
 }
 
-// "structured_output" -> "Structured Output" for the generation pill.
+// Thinkings generation pill names: 'structured_output' reads 'Structure';
+// 'reason'/'judge' humanize to 'Reason'/'Judge'.
+export const GENERATION_PILL_NAMES: Record<string, string> = {
+  structured_output: 'Structure',
+};
+
 export function formatGenerationName(value: string): string {
-  return humanizeNounPhrase(value);
+  const key = value.trim().toLowerCase().replace(/[\s-]+/g, '_');
+  return GENERATION_PILL_NAMES[key] || humanizeNounPhrase(value);
 }
 
 /**
@@ -103,32 +110,53 @@ export function trimPipelineAgentName(value: string): string {
   return trimmed || String(value || '');
 }
 
-// Pill label: pipeline prefix trimmed AND CamelCase split into words, keeping
-// the trailing 'Agent' — 'DepositInputComprehensionAgent' -> 'Input
-// Comprehension Agent' (the pill's CSS uppercases it to word-spaced caps).
+// Display-name overrides applied after humanization (raw/machine agent names
+// are unchanged): the regurgitation lens displays as TRAINING regurgitation.
+const AGENT_DISPLAY_OVERRIDES: Record<string, string> = {
+  'inherent regurgitation': 'Training Regurgitation',
+};
+
+function applyAgentDisplayOverrides(spacedName: string): string {
+  return AGENT_DISPLAY_OVERRIDES[spacedName.trim().toLowerCase()] || spacedName;
+}
+
+// Strip display-noise suffixes from an already pipeline-trimmed agent name:
+// the ':deposit'/':read' lens qualifier and the trailing 'Agent' word (every
+// pill/sentence names agents WITHOUT the 'Agent' suffix).
+function stripAgentSuffixes(value: string): string {
+  return value
+    .replace(/:[a-z][a-z0-9_-]*$/i, '')
+    .replace(/Agent$/, '')
+    .replace(/[-_]agent$/i, '')
+    .trim();
+}
+
+// Pill label: pipeline prefix + ':lens' qualifier + trailing 'Agent' trimmed,
+// CamelCase split into words — 'DepositInputComprehensionAgent' -> 'Input
+// Comprehension'; 'AssetPackMeasureAbsolutesAgent:deposit' -> 'Asset Pack
+// Measure Absolutes' (the pill's CSS uppercases it to word-spaced caps).
 export function formatAgentPillName(value: string): string {
-  const trimmed = trimPipelineAgentName(value);
+  const trimmed = stripAgentSuffixes(trimPipelineAgentName(value));
   const spaced = trimmed
     .replace(/[_-]/g, ' ')
     .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
     .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
     .replace(/\s{2,}/g, ' ')
     .trim();
-  return spaced || trimmed;
+  return applyAgentDisplayOverrides(spaced || trimmed);
 }
 
-// "DepositInputComprehensionAgent" -> "Input Comprehension" (pipeline prefix
-// trimmed, trailing "Agent" stripped — the sentence template appends the
-// literal word "Agent").
+// "DepositInputComprehensionAgent" -> "Input Comprehension" (pipeline prefix,
+// ':lens' qualifier, and trailing "Agent" stripped — the sentence template
+// prefixes the literal word "agent").
 export function humanizeAgentName(value: string): string {
-  const withoutPipeline = trimPipelineAgentName(value);
-  const withoutTrailingAgent = withoutPipeline.replace(/Agent$/, '').replace(/-agent$/, '');
-  const spaced = withoutTrailingAgent
+  const withoutSuffixes = stripAgentSuffixes(trimPipelineAgentName(value));
+  const spaced = withoutSuffixes
     .replace(/[_-]/g, ' ')
     .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
     .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
     .trim();
-  return titleCaseWords(spaced || withoutTrailingAgent);
+  return applyAgentDisplayOverrides(titleCaseWords(spaced || withoutSuffixes));
 }
 
 export function gerundFor(map: Record<string, string>, raw: string): string {
@@ -214,7 +242,7 @@ export function normalizePhaseName(phase: string | undefined): string {
 
 /**
  * Render the live execution context as a natural-language sentence:
- * "While {Depositing|Reading}, during {Phase}, {Agent} Agent is {Step-ing},
+ * "While {Depositing|Reading}, during {Phase}, agent {Name} is {Step-ing},
  * by {Thinkings-ing} the {Failsafe}." The 'While {Pipeline}, ' prefix is only
  * added when the pipeline mode is known (latched from the stream or passed by
  * the page); without it the sentence starts at 'During {Phase}, '. Degrades
@@ -233,7 +261,7 @@ export function describeExecutionContext(ctx: {
   if (!ctx.phase || !ctx.agent || !ctx.step) return null;
   const modeKey = String(ctx.mode || '').trim().toLowerCase() as SynthesisPipelineMode;
   const pipelineGerund = PIPELINE_GERUNDS[modeKey];
-  const during = `uring ${humanizeNounPhrase(ctx.phase)}, ${humanizeAgentName(ctx.agent)} Agent is ${gerundFor(STEP_GERUNDS, ctx.step)}`;
+  const during = `uring ${humanizeNounPhrase(ctx.phase)}, agent ${humanizeAgentName(ctx.agent)} is ${gerundFor(STEP_GERUNDS, ctx.step)}`;
   let sentence = pipelineGerund ? `While ${pipelineGerund}, d${during}` : `D${during}`;
   if (ctx.generation && ctx.failsafe) {
     sentence += `, by ${thinkingsGerundPhrase(ctx.generation)} ${formatFailsafeSentenceName(ctx.failsafe)}`;

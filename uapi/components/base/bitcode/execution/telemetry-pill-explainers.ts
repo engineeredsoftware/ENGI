@@ -65,7 +65,7 @@ const GENERIC_COPY: Record<TelemetryExplainerKind, string> = {
   agent: "Agents are the PTRR workers that plan, try, refine, and retry a phase's work.",
   step: 'Steps are the PTRR moves an agent works through in order: Plan, Try, Refine, and Retry.',
   failsafe:
-    'Failsafes are the guards wrapped around every LLM call: Prepare Context selects the context; handle large inputs chunks oversized requests; handle large outputs repairs incomplete responses.',
+    'Failsafes are the guards wrapped around every LLM call: Prepare Context selects the context; Handle Prompts chunks oversized requests; Handle Completions repairs incomplete responses.',
   generation: 'Generations are the Thinkings sequence: Reason, Judge, Structured Output.',
   tool: 'Tools are the concrete abilities an agent invokes during a step; arguments and results stay source-safe.',
   'row-icon':

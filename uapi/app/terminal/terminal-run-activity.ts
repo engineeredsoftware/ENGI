@@ -29,6 +29,12 @@ export interface TerminalRunActivitySnapshot {
    */
   mode: 'deposit' | 'read' | null;
   /**
+   * The DIV loop's CURRENT iteration (1-based, latched from the
+   * pipeline/currentIteration store) — null before the loop starts and once
+   * the finish phase begins. Drives the header's 'iter N' marker.
+   */
+  currentIteration: number | null;
+  /**
    * The CURRENT active call-chain: the rolling Phase→Agent→Step→Failsafe→
    * Generation context after the last streamed event — drives live header
    * trackers without re-parsing the log.
@@ -104,6 +110,8 @@ interface ExecContext {
   step?: string | null;
   failsafe?: string | null;
   generation?: string | null;
+  /** DIV-loop iteration (1-based), latched from pipeline/currentIteration. */
+  iteration?: number | null;
 }
 
 function readEventExecutionState(payload: any): ExecContext {
@@ -145,6 +153,17 @@ function updateRollingContext(ctx: ExecContext, payload: any): void {
   }
   if (payload?.type === 'phase' && payload?.phase) ctx.phase = String(payload.phase);
   if (payload?.type === 'agent' && payload?.agent) ctx.agent = String(payload.agent);
+
+  // DIV-loop iteration (1-based): the SDIVF executor variant stores
+  // phase/iteration at each observed D/I/V phase start; the classic variant
+  // stores pipeline/currentIteration at the top of each pass. Setup precedes
+  // the first store and Finish runs outside the loop, so clear the latch once
+  // the finish phase starts.
+  if ((ns === 'phase' && key === 'iteration') || (ns === 'pipeline' && key === 'currentIteration')) {
+    const iteration = Number(value);
+    if (Number.isFinite(iteration) && iteration > 0) ctx.iteration = iteration;
+  }
+  if (String(ctx.phase || '').toLowerCase().includes('finish')) ctx.iteration = null;
 }
 
 type FormalLogLineKind = 'llm' | 'tool';
@@ -311,6 +330,7 @@ export function buildTerminalRunActivityFromEvents(
         step: own.step ?? rollingContext.step ?? null,
         failsafe: own.failsafe ?? null,
         generation: own.generation ?? null,
+        iteration: rollingContext.iteration ?? null,
       };
       const text = String(payload?.message || payload?.status?.message || '[content withheld — source-safe]');
       pushRow(text, stampExecutionState(merged, { ...payload, type: 'generation' }, deriveFailsafeRepairMarkers(payload)));
@@ -319,13 +339,27 @@ export function buildTerminalRunActivityFromEvents(
 
     if (kind === 'tool') {
       const acc = toolByNode.get(nodeId) || {};
+      // The execution node id carries the tool identity ('…/tool:<Name>')
+      // deterministically; the name-store accumulator is only a fallback —
+      // same-millisecond event scrambling can deliver a call's 'name' store
+      // after its 'result', which used to leave rows named just 'tool'.
+      const nodeToolSegment = nodeId
+        .split('/')
+        .reverse()
+        .find((segment) => segment.startsWith('tool:'));
+      const toolNameFromNode = nodeToolSegment ? nodeToolSegment.slice('tool:'.length) : '';
       const toolName =
-        acc.name || payload?.data?.tool || payload?.metadata?.toolName || (key === 'error' ? 'tool (failed)' : 'tool');
+        toolNameFromNode ||
+        acc.name ||
+        payload?.data?.tool ||
+        payload?.metadata?.toolName ||
+        (key === 'error' ? 'tool (failed)' : 'tool');
       // Tool uses have Phase/Agent/Step but no Failsafe/Thinkings.
       const merged: ExecContext = {
         phase: rollingContext.phase ?? null,
         agent: rollingContext.agent ?? null,
         step: rollingContext.step ?? null,
+        iteration: rollingContext.iteration ?? null,
       };
       const enriched = stampExecutionState(merged, { ...payload, type: 'tool-use' }, { tool: toolName });
       enriched.metadata = {
@@ -366,6 +400,7 @@ export function buildTerminalRunActivityFromEvents(
         generation: rollingContext.generation ?? null,
       }
       : null,
+    currentIteration: rollingContext.iteration ?? null,
   };
 }
 
@@ -397,5 +432,6 @@ export function buildTerminalRunActivityFromMock(
     iterationUpdates: snapshot.iterationUpdates || [],
     mode: null,
     latestContext: null,
+    currentIteration: null,
   };
 }

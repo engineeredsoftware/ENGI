@@ -24,7 +24,7 @@ import {
   PipelineExecutionLog,
   buildProcessingStallLabel,
 } from '@/components/base/bitcode/execution/pipeline-execution-log';
-import { ExecutionContextPillRow } from '@/components/base/bitcode/execution/ExecutionContextPillRow';
+import { ExecutionContextPillRow, buildFailsafePillLabel } from '@/components/base/bitcode/execution/ExecutionContextPillRow';
 import { TelemetryExplainerTrigger } from '@/components/base/bitcode/execution/TelemetryExplainerTrigger';
 import {
   getTelemetryPillExplainer,
@@ -99,8 +99,8 @@ describe('failsafe naming — sentence vs pill', () => {
   });
 
   it('keeps the large-input/output pill names', () => {
-    expect(formatFailsafeName('chunk_then_sum')).toBe('handle large inputs');
-    expect(formatFailsafeName('stitch_until_complete')).toBe('handle large outputs');
+    expect(formatFailsafeName('chunk_then_sum')).toBe('Handle Prompts');
+    expect(formatFailsafeName('stitch_until_complete')).toBe('Handle Completions');
   });
 });
 
@@ -154,14 +154,14 @@ describe("processing sentence — 'While Depositing, during …' prefix", () => 
   it('composes the full item-11 sentence with an explicit pipelineMode prop', () => {
     const { label } = buildProcessingStallLabel(lastLine, 6_000, 'deposit');
     expect(label).toBe(
-      'While Depositing, during Discovery, Depository Search Agent is Trying, by Reasoning over Context · 6s since last update',
+      'While Depositing, during Discovery, agent Depository Search is Trying, by Reasoning over Context · 6s since last update',
     );
   });
 
   it('falls back to the mode latched onto the last line when no prop is given', () => {
     const { label } = buildProcessingStallLabel({ ...lastLine, pipelineMode: 'read' }, 6_000);
     expect(label).toBe(
-      'While Reading, during Discovery, Depository Search Agent is Trying, by Reasoning over Context · 6s since last update',
+      'While Reading, during Discovery, agent Depository Search is Trying, by Reasoning over Context · 6s since last update',
     );
   });
 
@@ -173,14 +173,14 @@ describe("processing sentence — 'While Depositing, during …' prefix", () => 
   it('renders no prefix when the mode is unknown', () => {
     const { label } = buildProcessingStallLabel(lastLine, 6_000);
     expect(label).toBe(
-      'During Discovery, Depository Search Agent is Trying, by Reasoning over Context · 6s since last update',
+      'During Discovery, agent Depository Search is Trying, by Reasoning over Context · 6s since last update',
     );
   });
 
   it('describeExecutionContext ignores unrecognized modes', () => {
     expect(
       describeExecutionContext({ phase: 'Setup', agent: 'A', step: 'plan', mode: 'bogus' }),
-    ).toBe('During Setup, A Agent is Planning');
+    ).toBe('During Setup, agent A is Planning');
   });
 });
 
@@ -282,7 +282,7 @@ describe('ExecutionContextPillRow', () => {
 
     // Pill labels render uppercase (PathPill uppercases string labels).
     expect(screen.getByText('DISCOVERY')).toBeInTheDocument();
-    expect(screen.getByText('DEPOSITORY SEARCH AGENT')).toBeInTheDocument();
+    expect(screen.getByText('DEPOSITORY SEARCH')).toBeInTheDocument();
     expect(screen.getByText('TRY')).toBeInTheDocument();
     expect(screen.getByText('PREPARE CONTEXT')).toBeInTheDocument();
     expect(screen.getByText('REASON')).toBeInTheDocument();
@@ -296,12 +296,34 @@ describe('ExecutionContextPillRow', () => {
     render(
       <ExecutionContextPillRow failsafe="stitch_until_complete" stitchIteration={2} />,
     );
-    expect(screen.getByText('HANDLE LARGE OUTPUTS · STITCH ×2')).toBeInTheDocument();
+    expect(screen.getByText('HANDLE COMPLETIONS · STITCH ×2')).toBeInTheDocument();
   });
 
   it('renders nothing when there is no context at all', () => {
     const { container } = render(<ExecutionContextPillRow />);
     expect(container.firstElementChild).toBeNull();
+  });
+
+  it('strips the Agent suffix and the :lens qualifier from agent pills', () => {
+    render(<ExecutionContextPillRow agent="AssetPackMeasureAbsolutesAgent:deposit" />);
+    expect(screen.getByText('ASSET PACK MEASURE ABSOLUTES')).toBeInTheDocument();
+  });
+
+  it("displays the regurgitation lens as 'Training Regurgitation'", () => {
+    expect(humanizeAgentName('DepositInherentRegurgitationAgent')).toBe('Training Regurgitation');
+    render(<ExecutionContextPillRow agent="discovery:inherent-regurgitation" />);
+    expect(screen.getByText('TRAINING REGURGITATION')).toBeInTheDocument();
+  });
+
+  it("names the Structure pill and badges CS chunks with the shared ×N pattern", () => {
+    render(<ExecutionContextPillRow generation="structured_output" />);
+    expect(screen.getByText('STRUCTURE')).toBeInTheDocument();
+    expect(buildFailsafePillLabel({ failsafe: 'chunk_then_sum', chunkIndex: 2 })).toBe(
+      'Handle Prompts · chunk ×2',
+    );
+    expect(buildFailsafePillLabel({ failsafe: 'stitch_until_complete', stitchIteration: 3 })).toBe(
+      'Handle Completions · stitch ×3',
+    );
   });
 });
 
