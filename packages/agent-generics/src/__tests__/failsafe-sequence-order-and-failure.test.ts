@@ -20,7 +20,10 @@ const structuredPayload = { title: 'Asset pack option', score: 42 };
 function scriptedContent(llmInput: any): string {
   const user = (llmInput.messages || []).find((m: any) => m.role === 'user')?.content ?? '';
   let payload: any = reasoningPayload;
-  if (user.includes('Generate structured output for:')) payload = structuredPayload;
+  if (user.includes('Generate structured output for:')) {
+    // PCC's SELECTION structured call renders the key-selection schema shape.
+    payload = user.includes('"selectedKeys": string[]') ? { selectedKeys: [] } : structuredPayload;
+  }
   else if (user.includes('Evaluate the quality and correctness of:') || user.includes('Judge the quality')) payload = judgmentPayload;
   return JSON.stringify(payload);
 }
@@ -87,8 +90,8 @@ describe('createFailsafeGenerationSequence failure propagation', () => {
     const llm = async (input: any) => {
       counter.calls++;
       if (counter.calls === 4) {
-        // Prepare consumed calls 1-3 (its thinkings pass); call 4 is the
-        // first generation of ChunkThenSum.
+        // Prepare consumed calls 1-3 (its SELECTION thinkings pass); call 4
+        // is the first TASK generation of ChunkThenSum.
         throw new Error('LLM call timed out after 90000ms');
       }
       return {

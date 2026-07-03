@@ -1,4 +1,11 @@
 // @ts-nocheck
+/**
+ * Pins for createFailsafeGenerationSequence — the Failsafes sequence is
+ * selection (PCC) -> task (CS, xchunks when triggered) -> repair-only (SC):
+ * - PCC always runs ONE selection Thinkings (key-selection schema, keys only)
+ * - CS runs ONE task Thinkings when the composed request fits
+ * - SC adds ZERO generations when the task output is schema-complete
+ */
 import { z } from 'zod';
 import { Execution } from '@bitcode/execution-generics';
 import { StepExecution } from '../execution';
@@ -10,13 +17,17 @@ const outputSchema = z.object({ title: z.string(), score: z.number() });
 const reasoningPayload = { analysis: 'a', steps: ['s'], conclusion: 'c', confidence: 0.9 };
 const judgmentPayload = { quality: 0.9, issues: [], suggestions: [], approved: true };
 const structuredPayload = { title: 'Asset pack option', score: 42 };
+const selectionPayload = { selectedKeys: [] };
 
 function makeScriptedLLM(counter: { calls: number }) {
   return async (llmInput: any) => {
     counter.calls++;
     const user = (llmInput.messages || []).find((m: any) => m.role === 'user')?.content ?? '';
     let payload: any = reasoningPayload;
-    if (user.includes('Generate structured output for:')) payload = structuredPayload;
+    if (user.includes('Generate structured output for:')) {
+      // Selection structured calls render the key-selection schema shape.
+      payload = user.includes('"selectedKeys": string[]') ? selectionPayload : structuredPayload;
+    }
     else if (user.includes('Evaluate the quality and correctness of:') || user.includes('Judge the quality')) payload = judgmentPayload;
     return {
       content: JSON.stringify(payload),
@@ -47,15 +58,16 @@ afterEach(() => {
 });
 
 describe('createFailsafeGenerationSequence composition', () => {
-  it('runs prepare -> chunk -> stitch and returns the {context, output, finalOutput} envelope', async () => {
+  it('runs selection -> task -> repair-only and returns the {context, output, finalOutput} envelope', async () => {
     const counter = { calls: 0 };
     const { root, step } = makeRootAndStep(makeScriptedLLM(counter));
     const sequence = createFailsafeGenerationSequence({ outputSchema });
 
     const result = await sequence({ read: 'Fit this repository.' }, step);
 
-    // Prepare + chunk each run one full thinkings pass (3 calls each); a
-    // schema-valid output means stitch breaks immediately with no LLM calls.
+    // PCC runs ONE selection Thinkings (3 calls) and CS runs ONE task
+    // Thinkings (3 calls); a schema-valid output means stitch adds zero.
+    // The failsafes no longer wrap three identical task generations.
     expect(counter.calls).toBe(6);
 
     // The envelope consumers unwrap via finalOutput ?? output (F26-A contract).
@@ -83,7 +95,7 @@ describe('createFailsafeGenerationSequence composition', () => {
     }
   });
 
-  it('stores chunking:required=false for small contexts and stitching:count=0 for valid output', async () => {
+  it('stores chunking:required=false for fitting requests and stitching:count=0 for valid output', async () => {
     const counter = { calls: 0 };
     const { root, step } = makeRootAndStep(makeScriptedLLM(counter));
     const sequence = createFailsafeGenerationSequence({ outputSchema });
@@ -97,7 +109,7 @@ describe('createFailsafeGenerationSequence composition', () => {
     expect(stitchNode.get('stitching', 'count')).toBe(0);
   });
 
-  it("BITCODE_DEBUG_ONLY_FAILSAFES='prepare' runs exactly one failsafe", async () => {
+  it("BITCODE_DEBUG_ONLY_FAILSAFES='prepare' runs exactly the selection failsafe", async () => {
     process.env.BITCODE_DEBUG_ONLY_FAILSAFES = 'prepare';
     const counter = { calls: 0 };
     const { root, step } = makeRootAndStep(makeScriptedLLM(counter));
@@ -105,9 +117,12 @@ describe('createFailsafeGenerationSequence composition', () => {
 
     const result = await sequence({ read: 'Fit this repository.' }, step);
 
-    expect(counter.calls).toBe(3); // a single thinkings pass
-    expect(result.preparedContexts).toBeDefined(); // prepare's contribution
-    expect(result.output).toEqual(structuredPayload);
+    expect(counter.calls).toBe(3); // the single selection thinkings pass
+    // PCC's contribution: the selected keys + read-in values, no task attempt.
+    expect(result.read).toBe('Fit this repository.');
+    expect(result.selectedKeys).toEqual([]);
+    expect(result.selectedContext).toEqual({});
+    expect(result.output).toBeUndefined(); // PCC never attempts the task
     expect(result.finalOutput).toBeUndefined(); // stitch (envelope builder) skipped
 
     const nodes = collectNodes(root);
@@ -118,36 +133,41 @@ describe('createFailsafeGenerationSequence composition', () => {
 });
 
 describe('factoryChunkThenSum chunked path', () => {
-  it('runs the generations once per prepared context plus a sum pass, threading chunkResults', async () => {
-    const seen: any[] = [];
-    const gen = async (input: any) => {
-      seen.push(input);
-      if (input.chunkResults) return { ...input, summed: true };
-      return { ...input, processedChunk: input.currentContext.context.part };
-    };
-    const { root, step } = makeRootAndStep(async () => { throw new Error('LLM must not be called'); });
+  it('runs the generations once per chunk plus a sum pass, threading chunkResults', async () => {
+    process.env.BITCODE_LLM_MAX_REQUEST_TOKENS = '50';
+    try {
+      const seen: any[] = [];
+      const gen = async (input: any) => {
+        seen.push(input);
+        if (input.chunkResults) return { ...input, summed: true };
+        return { ...input, processedChunk: Object.keys(input.selectedContext)[0] };
+      };
+      const { root, step } = makeRootAndStep(async () => { throw new Error('LLM must not be called'); });
 
-    const preparedContexts = [
-      { context: { part: 'one' } },
-      { context: { part: 'two' } },
-    ];
-    const chunkThenSum = factoryChunkThenSum([gen], { parallel: true });
-    const result = await chunkThenSum({ read: 'big input', preparedContexts }, step);
+      const selectedContext = {
+        one: 'A'.repeat(700),
+        two: 'B'.repeat(700),
+      };
+      const chunkThenSum = factoryChunkThenSum([gen], { parallel: true });
+      const result = await chunkThenSum({ read: 'big input', selectedContext }, step);
 
-    // Two chunk passes (each with its own currentContext) + one sum pass.
-    expect(seen).toHaveLength(3);
-    const chunkInputs = seen.filter(i => i.currentContext);
-    expect(chunkInputs.map(i => i.currentContext.context.part).sort()).toEqual(['one', 'two']);
-    const sumInput = seen.find(i => i.chunkResults);
-    expect(sumInput.chunkResults).toHaveLength(2);
-    expect(sumInput.chunkResults.map((r: any) => r.processedChunk).sort()).toEqual(['one', 'two']);
+      // Two chunk passes (each with only its chunk) + one sum pass.
+      expect(seen).toHaveLength(3);
+      const chunkInputs = seen.filter(i => i.chunk);
+      expect(chunkInputs.map(i => Object.keys(i.selectedContext)[0]).sort()).toEqual(['one', 'two']);
+      const sumInput = seen.find(i => i.chunkResults);
+      expect(sumInput.chunkResults).toHaveLength(2);
+      expect(sumInput.chunkResults.map((r: any) => r.processedChunk).sort()).toEqual(['one', 'two']);
 
-    expect(result.summed).toBe(true);
-    expect(result.processedResult).toEqual(expect.objectContaining({ summed: true }));
+      expect(result.summed).toBe(true);
+      expect(result.processedResult).toEqual(expect.objectContaining({ summed: true }));
 
-    const nodes = collectNodes(root);
-    const chunkNode = nodes.find(n => String(n.id).includes('failsafe:chunk_then_sum'));
-    expect(chunkNode.get('chunking', 'required')).toBe(true);
+      const nodes = collectNodes(root);
+      const chunkNode = nodes.find(n => String(n.id).includes('failsafe:chunk_then_sum'));
+      expect(chunkNode.get('chunking', 'required')).toBe(true);
+    } finally {
+      delete process.env.BITCODE_LLM_MAX_REQUEST_TOKENS;
+    }
   });
 });
 

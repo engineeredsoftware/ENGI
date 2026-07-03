@@ -46,6 +46,12 @@ export interface LLMConfig {
   model?: string;
   temperature?: number;
   maxTokens?: number;
+  /**
+   * Request/context budget in tokens for the COMPOSED request (system prompt +
+   * serialized task input). Consumed by the ChunkThenSum input failsafe;
+   * falls back to BITCODE_LLM_MAX_REQUEST_TOKENS, then a conservative default.
+   */
+  maxRequestTokens?: number;
   topP?: number;
   frequencyPenalty?: number;
   presencePenalty?: number;

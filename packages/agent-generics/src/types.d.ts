@@ -19,11 +19,14 @@ export declare enum AgentVariationStep {
 }
 /**
  * FailsafeMetaSubStep - Parent executions handling EXACTLY three concerns:
- * 1. CONTEXT SIGNAL/NOISE - PrepareConciseContext filters and prepares
- * 2. BIG INPUT - ChunkThenSum handles input that exceeds token limits
- * 3. CONVERSATIONSUTPUT - StitchUntilComplete handles output that exceeds token limits
+ * 1. CONTEXT SIGNAL/NOISE - PrepareConciseContext SELECTS the execution-state
+ *    keys the task needs (keys-only selection inference + value read-in)
+ * 2. BIG INPUT - ChunkThenSum runs the task generation; when the composed
+ *    request exceeds the request limit it chunks the selected context values
+ * 3. BIG OUTPUT - StitchUntilComplete repairs schema-incomplete/truncated output
  *
- * CRITICAL: Each runs the EXACT SAME generation sequence as children
+ * CRITICAL: The sequence is selection -> task(xchunks) -> repair-only — the
+ * three failsafes do NOT wrap three identical task generations.
  */
 export declare enum FailsafeMetaSubStep {
     PREPARE_CONCISE_CONTEXT = "prepare_concise_context",// CONTEXT SIGNAL/NOISE handling
@@ -65,13 +68,13 @@ export interface PTRRSubStepArchitecture {
 export interface FailsafeContext {
     [FailsafeMetaSubStep.PREPARE_CONCISE_CONTEXT]: {
         purpose: 'CONTEXT SIGNAL/NOISE';
-        input: 'Raw execution context from pipeline root';
-        output: 'PreparedContext[] - single or chunked';
+        input: 'Keys-only tree of the FULL root execution state (values never included)';
+        output: 'Selected keys + the read-in selected context values';
     };
     [FailsafeMetaSubStep.CHUNK_THEN_SUM]: {
         purpose: 'BIG INPUT';
-        input: 'PreparedContext[] from previous step';
-        output: 'Processed result (chunked parallel or single)';
+        input: 'Task input + PCC-selected context values';
+        output: 'Task result (one pass, or per-chunk passes + one summing pass)';
     };
     [FailsafeMetaSubStep.STITCH_UNTIL_COMPLETE]: {
         purpose: 'CONVERSATIONSUTPUT';

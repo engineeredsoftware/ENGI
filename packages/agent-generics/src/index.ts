@@ -121,7 +121,9 @@ export {
 export {
   factoryPrepareConciseContext,
   factoryChunkThenSum,
-  factoryStitchUntilComplete
+  factoryStitchUntilComplete,
+  PCC_KEY_SELECTION_SCHEMA,
+  type PrepareConciseContextSelectionInput
 } from './substeps/factories';
 
 // Generation substeps

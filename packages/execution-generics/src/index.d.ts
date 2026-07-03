@@ -21,6 +21,7 @@
 export { Execution, createExecution } from './Execution';
 export { registerExecution, getExecution, unregisterExecution, hasExecution, getActiveExecutionCount } from './execution-registry';
 export type { Executor } from './types';
+export { walkExecutionStateKeys, resolveExecutionStateKeyPath, formatExecutionStateKeyPath, executionStateSegment, EXECUTION_STATE_KEY_PATH_SEPARATOR, type ExecutionStateKeysTree, type ResolvedExecutionStateKey } from './state-keys';
 export * from './store/registry';
 export { sequential } from './executors/sequential_executor';
 export { parallel } from './executors/parallel_executor';
