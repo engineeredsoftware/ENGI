@@ -6,9 +6,9 @@ import { createPortal } from 'react-dom';
 import { cn } from '@bitcode/styling';
 import type { BitcodeExplainer } from './bitcode-transaction-types';
 
-type TooltipSide = 'top' | 'bottom';
+export type TooltipSide = 'top' | 'bottom';
 
-interface TooltipPlacement {
+export interface TooltipPlacement {
   side: TooltipSide;
   left: number;
   width: number;
@@ -46,7 +46,7 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
-function resolveExplainerPlacement(trigger: HTMLElement, preferredSide: TooltipSide): TooltipPlacement {
+export function resolveExplainerPlacement(trigger: HTMLElement, preferredSide: TooltipSide): TooltipPlacement {
   if (typeof window === 'undefined') {
     return {
       side: preferredSide,
@@ -110,7 +110,7 @@ function resolveExplainerPlacement(trigger: HTMLElement, preferredSide: TooltipS
   };
 }
 
-function tooltipPositionStyle(placement: TooltipPlacement): React.CSSProperties {
+export function tooltipPositionStyle(placement: TooltipPlacement): React.CSSProperties {
   return {
     left: placement.left,
     width: placement.width,
@@ -119,7 +119,7 @@ function tooltipPositionStyle(placement: TooltipPlacement): React.CSSProperties 
   };
 }
 
-function tooltipArrowClassName({ side }: TooltipPlacement) {
+export function tooltipArrowClassName({ side }: TooltipPlacement) {
   const sideClassName =
     side === 'bottom'
       ? '-top-[7px] border-x-[7px] border-b-[7px] border-x-transparent border-b-[rgba(4,8,18,0.98)]'

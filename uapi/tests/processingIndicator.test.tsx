@@ -82,14 +82,14 @@ describe('ProcessingIndicator — stall label + amber flip at 90s', () => {
     expect(screen.getByText(state.label)).toHaveClass('text-amber-400');
   });
 
-  it('renders the natural-language sentence label verbatim', () => {
+  it('renders the natural-language sentence label verbatim (pipeline-name prefix trimmed from the agent)', () => {
     jest.setSystemTime(lastLineMs + 30_000);
     const { label, likelyStalled } = renderIndicatorAtNow();
     expect(likelyStalled).toBe(false);
     render(<ProcessingIndicator label={label} stalled={likelyStalled} />);
     expect(
       screen.getByText(
-        'During Discovery, Deposit Depository Search Agent is Trying, by Reasoning over Large Inputs · 30s since last update',
+        'During Discovery, Depository Search Agent is Trying, by Reasoning over Large Inputs · 30s since last update',
       ),
     ).toBeInTheDocument();
   });

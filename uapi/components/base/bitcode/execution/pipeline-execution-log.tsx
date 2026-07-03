@@ -66,74 +66,17 @@ function formatTime(ts?: string) {
   }
 }
 
-function normalizeStepName(step: string | undefined): string {
-  if (!step) return '';
-
-  const stepLower = step.toLowerCase();
-
-  if (stepLower.includes('plan')) return 'Plan';
-  if (stepLower.includes('try')) return 'Try';
-  if (stepLower.includes('refine')) return 'Refine';
-  if (stepLower.includes('retry')) return 'Retry';
-  if (stepLower.includes('generate')) return 'Try';
-  if (stepLower.includes('intensify')) return 'Retry';
-  if (stepLower.includes('initialize')) return 'Initialize';
-  if (stepLower.includes('setup')) return 'Setup';
-  if (stepLower.includes('discovery')) return 'Discovery';
-  if (stepLower.includes('implementation')) return 'Implementation';
-  if (stepLower.includes('validation')) return 'Validation';
-  if (stepLower.includes('finish')) return 'Finish';
-
-  return step.charAt(0).toUpperCase() + step.slice(1);
-}
-
-function normalizePhaseName(phase: string | undefined): string {
-  if (!phase) return '';
-
-  const phaseLower = phase.toLowerCase();
-
-  if (phaseLower.includes('setup') || phaseLower.includes('admission') || phaseLower.includes('preflight')) {
-    return 'Setup';
-  }
-  if (
-    phaseLower.includes('discovery') ||
-    phaseLower.includes('search') ||
-    phaseLower.includes('recall') ||
-    phaseLower.includes('candidate')
-  ) {
-    return 'Discovery';
-  }
-  if (
-    phaseLower.includes('implementation') ||
-    phaseLower.includes('synthesis') ||
-    phaseLower.includes('asset-pack') ||
-    phaseLower.includes('write')
-  ) {
-    return 'Implementation';
-  }
-  if (
-    phaseLower.includes('validation') ||
-    phaseLower.includes('evaluate') ||
-    phaseLower.includes('quality') ||
-    phaseLower.includes('readiness')
-  ) {
-    return 'Validation';
-  }
-  if (
-    phaseLower.includes('finish') ||
-    phaseLower.includes('delivery') ||
-    phaseLower.includes('settlement') ||
-    phaseLower.includes('finality') ||
-    phaseLower.includes('readback')
-  ) {
-    return 'Finish';
-  }
-
-  return PHASES.includes(phase) ? phase : '';
-}
-
 import { PathPill } from './PathPill';
-import { TagOverflowList } from './TagOverflowList';
+import { ExecutionContextPillRow, buildFailsafePillLabel } from './ExecutionContextPillRow';
+import { TelemetryExplainerTrigger } from './TelemetryExplainerTrigger';
+import { getTelemetryPillExplainer, getTelemetryRowIconExplainer } from './telemetry-pill-explainers';
+import {
+  SDIVF_PHASES,
+  describeExecutionContext,
+  normalizePhaseName,
+  normalizeStepName,
+  type SynthesisPipelineMode,
+} from './execution-telemetry-format';
 import { buildStepViewModel } from '@/app/executions/utilities/execution-step-viewmodel';
 
 // ---------------------------------------------------------------------------
@@ -146,7 +89,7 @@ import { buildStepViewModel } from '@/app/executions/utilities/execution-step-vi
 // Phases are still useful when we want to infer metadata, however the UI no
 // longer surfaces them as first-class sections.  Keep the canonical list for
 // lightweight inference / tagging only.
-const PHASES = ['Setup', 'Discovery', 'Implementation', 'Validation', 'Finish'];
+const PHASES = SDIVF_PHASES;
 
 interface PipelineRunLogProps {
   output: string;
@@ -166,6 +109,14 @@ interface PipelineRunLogProps {
    * outputDetails + error.
    */
   copyData?: unknown;
+  /**
+   * The synthesis pipeline mode when the page knows it ('/deposit' passes
+   * 'deposit'). Prefixes the processing sentence with 'While Depositing, …' /
+   * 'While Reading, …'. When omitted, falls back to the mode latched from the
+   * stream (stamped onto rows by the activity builder); when neither is known
+   * the sentence renders without the prefix.
+   */
+  pipelineMode?: SynthesisPipelineMode | null;
 }
 
 // Threshold (in px) below which we switch to compact layout automatically.
@@ -190,6 +141,9 @@ interface LogLine {
   stitchIteration?: number;
   chunkIndex?: number;
   chunkSum?: boolean;
+  // Pipeline mode ('deposit' | 'read') latched from the stream by the activity
+  // builder — the processing indicator's 'While Depositing, …' prefix fallback.
+  pipelineMode?: string;
   tool?: any;
   promptTemplateId?: string;
   outputSchema?: string;
@@ -247,6 +201,7 @@ function applyExecutionStateToLogLine(logLine: LogLine, executionState: any, sto
   } = executionState || {};
   logLine.phase = normalizePhaseName(phase);
   logLine.pipeline = pipeline;
+  if (typeof (executionState || {}).pipelineMode === 'string') logLine.pipelineMode = executionState.pipelineMode;
   logLine.phaseId = phaseId;
   logLine.agent = agent;
   logLine.agentId = agentId;
@@ -413,121 +368,26 @@ export function buildRawLogCopyText(args: {
 // a genuine-hang signal rather than a merely slow generation.
 const LIKELY_STALL_SECONDS = 90;
 
-// PTRR step -> present-continuous verb ("Plan" -> "Planning").
-const STEP_GERUNDS: Record<string, string> = {
-  plan: 'Planning',
-  try: 'Trying',
-  refine: 'Refining',
-  retry: 'Retrying',
-};
-
-// Thinkings generation sub-step -> present-continuous verb (GenerationSubMetaSubStep).
-// Each Thinkings generation carries its own connective into the failsafe
-// noun: 'Reasoning over Large Inputs', 'Judging the Large Outputs',
-// 'Structuring the Prepare Concise Context'.
-const THINKINGS_GERUNDS: Record<string, string> = {
-  reason: 'Reasoning over',
-  judge: 'Judging the',
-  structured_output: 'Structuring the',
-};
-
-function titleCaseWords(value: string): string {
-  return value
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
-}
-
-// "prepare_concise_context" -> "Prepare Concise Context"; "Discovery" -> "Discovery".
-function humanizeNounPhrase(value: string): string {
-  return titleCaseWords(value.replace(/_/g, ' '));
-}
-
-// Client-side normalized failsafe names: ChunkThenSum handles LARGE INPUTS,
-// StitchComplete handles LARGE OUTPUTS; PrepareConciseContext keeps its
-// descriptive name. The log title-line (pill) reads 'handle large inputs';
-// the processing sentence reads title-cased without 'handle'
-// ('Reasoning over Large Inputs').
-const FAILSAFE_PILL_NAMES: Record<string, string> = {
-  chunk_then_sum: 'handle large inputs',
-  stitch_until_complete: 'handle large outputs',
-};
-
-const FAILSAFE_SENTENCE_NAMES: Record<string, string> = {
-  chunk_then_sum: 'Large Inputs',
-  stitch_until_complete: 'Large Outputs',
-};
-
-function formatFailsafeName(value: string): string {
-  return FAILSAFE_PILL_NAMES[value.trim().toLowerCase()] || humanizeNounPhrase(value);
-}
-
-function formatFailsafeSentenceName(value: string): string {
-  return FAILSAFE_SENTENCE_NAMES[value.trim().toLowerCase()] || humanizeNounPhrase(value);
-}
-
-// "DepositInputComprehensionAgent" -> "Deposit Input Comprehension" (trailing
-// "Agent" stripped — the sentence template appends the literal word "Agent").
-function humanizeAgentName(value: string): string {
-  const withoutTrailingAgent = value.replace(/Agent$/, '');
-  const spaced = withoutTrailingAgent
-    .replace(/_/g, ' ')
-    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
-    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
-    .trim();
-  return titleCaseWords(spaced || withoutTrailingAgent);
-}
-
-function gerundFor(map: Record<string, string>, raw: string): string {
-  return map[raw.trim().toLowerCase()] || humanizeNounPhrase(raw);
-}
-
-// Thinkings gerunds carry their connective; unknown generations fall back to
-// '<Gerund> the' so the sentence stays grammatical.
-function thinkingsGerundPhrase(raw: string): string {
-  return THINKINGS_GERUNDS[raw.trim().toLowerCase()] || `${humanizeNounPhrase(raw)} the`;
-}
-
 /**
- * Render the live execution context as a natural-language sentence: "During
- * {Phase}, {Agent} Agent is {Step-ing}, by {Thinkings-ing} the {Failsafe}."
- * Degrades gracefully as fields are unknown (e.g. a Tool-use context only ever
- * carries Phase/Agent/Step, never Failsafe/Thinkings — F19). Returns null
- * when there isn't enough context yet to say anything meaningful.
- */
-function describeExecutionContext(ctx: {
-  phase?: string | null;
-  agent?: string | null;
-  step?: string | null;
-  failsafe?: string | null;
-  generation?: string | null;
-}): string | null {
-  if (!ctx.phase || !ctx.agent || !ctx.step) return null;
-  let sentence = `During ${humanizeNounPhrase(ctx.phase)}, ${humanizeAgentName(ctx.agent)} Agent is ${gerundFor(STEP_GERUNDS, ctx.step)}`;
-  if (ctx.generation && ctx.failsafe) {
-    sentence += `, by ${thinkingsGerundPhrase(ctx.generation)} ${formatFailsafeSentenceName(ctx.failsafe)}`;
-  }
-  return sentence;
-}
-
-/**
- * Build the live "During {Phase}, {Agent} Agent is {Step}... · Ns since last
- * update" label for the processing indicator, from the last known log line +
- * the current tick. Pure + exported for unit testing. Returns the bare
- * fallback label when there is no prior line yet (nothing streamed since the
- * run started) or not enough context to describe.
+ * Build the live "While {Depositing|Reading}, during {Phase}, {Agent} Agent is
+ * {Step}... · Ns since last update" label for the processing indicator, from
+ * the last known log line + the current tick. Pure + exported for unit
+ * testing. Returns the bare fallback label when there is no prior line yet
+ * (nothing streamed since the run started) or not enough context to describe.
+ * The pipeline prefix uses the explicit `pipelineMode` when the page passed
+ * one, else the mode latched from the stream onto the last line, else none.
  */
 export function buildProcessingStallLabel(
-  lastLine: Pick<LogLine, 'phase' | 'agent' | 'step' | 'failsafe' | 'generation' | 'timestamp'> | undefined,
+  lastLine: Pick<LogLine, 'phase' | 'agent' | 'step' | 'failsafe' | 'generation' | 'timestamp' | 'pipelineMode'> | undefined,
   nowMs: number,
+  pipelineMode?: SynthesisPipelineMode | null,
 ): { label: string; likelyStalled: boolean } {
   if (!lastLine?.timestamp) return { label: 'Processing', likelyStalled: false };
   const lastMs = new Date(lastLine.timestamp).getTime();
   if (!Number.isFinite(lastMs)) return { label: 'Processing', likelyStalled: false };
 
   const elapsedSeconds = Math.max(0, Math.round((nowMs - lastMs) / 1000));
-  const sentence = describeExecutionContext(lastLine);
+  const sentence = describeExecutionContext({ ...lastLine, mode: pipelineMode ?? lastLine.pipelineMode ?? null });
   const likelyStalled = elapsedSeconds >= LIKELY_STALL_SECONDS;
   const label = sentence
     ? `${sentence} · ${elapsedSeconds}s since last update`
@@ -578,7 +438,8 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
   userHasScrolled,
   setUserHasScrolled,
   compact: compactProp,
-  copyData
+  copyData,
+  pipelineMode
 }, ref) => {
   // Automatic compact detection via container width
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -734,6 +595,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
           logLine.step = normalizeStepName(executionState.step);
           logLine.failsafe = executionState.failsafe;
           logLine.generation = executionState.generation;
+          if (typeof executionState.pipelineMode === 'string') logLine.pipelineMode = executionState.pipelineMode;
         }
         logLine.details = storedChunk;
         logLine.timestamp = timestamp;
@@ -1025,6 +887,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
             expandedLines,
             getLineClass,
             compact,
+            pipelineMode,
           ),
         )}
 
@@ -1032,7 +895,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
             Thinkings context + elapsed time since the last streamed event, so a
             genuine hang is visible live instead of an unexplained blank gap. */}
         {isProcessing && (() => {
-          const { label, likelyStalled } = buildProcessingStallLabel(flatLines[flatLines.length - 1], nowTick);
+          const { label, likelyStalled } = buildProcessingStallLabel(flatLines[flatLines.length - 1], nowTick, pipelineMode);
           return <ProcessingIndicator label={label} stalled={likelyStalled} />;
         })()}
       </div>
@@ -1040,6 +903,38 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
     </div>
   );
 });
+
+/**
+ * Copy button for one expanded log line's Details JSON: copies exactly that
+ * log-detail payload, pretty-printed, via the same clipboard helper as the
+ * "Copy raw logs" button (modern clipboard + insecure-context execCommand
+ * fallback).
+ */
+function DetailsCopyButton({ payload }: { payload: unknown }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      type="button"
+      title="Copy details JSON"
+      aria-label="Copy details JSON"
+      onClick={async (event) => {
+        event.stopPropagation();
+        const ok = await copyTextToClipboard(JSON.stringify(payload, null, 2));
+        if (ok) {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1500);
+        }
+      }}
+      className="inline-flex h-5 w-5 items-center justify-center rounded border border-white/10 bg-black/30 text-neutral-400 transition hover:border-emerald-300/40 hover:text-emerald-200 focus:outline-none"
+    >
+      {copied ? (
+        <CheckIcon className="h-3 w-3 text-emerald-300" />
+      ) : (
+        <ClipboardCopyIcon className="h-3 w-3" />
+      )}
+    </button>
+  );
+}
 
 // Helper function to render a log line
 function renderLogLine(
@@ -1051,6 +946,7 @@ function renderLogLine(
   expandedLines: Record<string, boolean>,
   getLineClass: (logLine: LogLine) => string,
   compact: boolean,
+  pipelineMode?: SynthesisPipelineMode | null,
 ) {
   const style = TYPE_STYLES[logLine.type || ''] || {
     bg: 'bg-gray-800/40',
@@ -1060,6 +956,35 @@ function renderLogLine(
   };
 
   const Icon = style.Icon;
+
+  // Shared across layouts: the row's tool label, the mode used by the pill
+  // tooltips (explicit page mode > latched stream mode), and the corner-icon
+  // explainer (one LLM call vs one Tool use — F19's only two formal rows).
+  const toolLabel = logLine.tool
+    ? typeof logLine.tool === 'string'
+      ? logLine.tool
+      : logLine.tool.name || String(logLine.tool)
+    : null;
+  const rowMode = pipelineMode ?? (logLine.pipelineMode as SynthesisPipelineMode | undefined) ?? null;
+  const rowIconExplainer = getTelemetryRowIconExplainer(
+    logLine.type === 'tool-use' || logLine.tool ? 'tool' : 'llm',
+  );
+  // ONE inline, wrapping row of all call-chain pills (phase, agent, step,
+  // failsafe, generation, tool) — each a rich-tooltip trigger.
+  const PillRow = (
+    <ExecutionContextPillRow
+      phase={logLine.phase}
+      agent={logLine.agent}
+      step={logLine.step}
+      failsafe={logLine.failsafe}
+      generation={logLine.generation}
+      tool={toolLabel}
+      stitchIteration={logLine.stitchIteration}
+      chunkIndex={logLine.chunkIndex}
+      chunkSum={logLine.chunkSum}
+      mode={rowMode}
+    />
+  );
 
   const formatMeta = (m?: string) => {
     const v = String(m || '');
@@ -1078,42 +1003,14 @@ function renderLogLine(
     return parts.length > segments ? parts.slice(-segments).join('.') : parts.join('.') || String(value || '');
   };
 
+  const hasPills = Boolean(
+    logLine.phase || logLine.agent || logLine.step || logLine.failsafe || logLine.generation || toolLabel,
+  );
+
   if (compact) {
-    // Build tag arrays first
-    const tagsTop: { type: any; label: any }[] = [];
-    if (logLine.phase) tagsTop.push({ type: 'phase', label: logLine.phase });
-    if (logLine.agent) tagsTop.push({ type: 'agent', label: logLine.agent });
-    if (logLine.tool) {
-      tagsTop.push({
-        type: 'tool',
-        label:
-          typeof logLine.tool === 'string'
-            ? logLine.tool
-            : logLine.tool.name || String(logLine.tool),
-      });
-    }
-
-    const tagsBottom: { type: any; label: any }[] = [];
-    if (logLine.step) tagsBottom.push({ type: 'step', label: normalizeStepName(logLine.step) });
-    if (logLine.failsafe) {
-      // Badge real failsafe-handling work on the pill: 'stitch ×N' marks the
-      // Nth stitch repair; 'chunk N' a chunk task generation; 'sum' the
-      // chunk summing generation. Absent markers = the non-triggering path.
-      let failsafeLabel = formatFailsafeName(logLine.failsafe);
-      if (typeof logLine.stitchIteration === 'number' && logLine.stitchIteration > 0) {
-        failsafeLabel = `${failsafeLabel} · stitch ×${logLine.stitchIteration}`;
-      } else if (logLine.chunkSum) {
-        failsafeLabel = `${failsafeLabel} · sum`;
-      } else if (typeof logLine.chunkIndex === 'number') {
-        failsafeLabel = `${failsafeLabel} · chunk ${logLine.chunkIndex}`;
-      }
-      tagsBottom.push({ type: 'failsafe', label: failsafeLabel });
-    }
-    if (logLine.generation) tagsBottom.push({ type: 'generation', label: formatMeta(logLine.generation) });
-
     const RowContent = (
       <div
-        className={`relative flex items-center gap-1 w-full rounded-lg pl-7 pr-3 py-2 min-h-[46px] mb-6 last:mb-0 select-none text-[0.78rem] font-medium ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200 border-l-2 ${style.border}`}
+        className={`relative flex flex-col gap-1.5 w-full rounded-lg pl-7 pr-3 py-2 min-h-[46px] mb-4 last:mb-0 select-none text-[0.78rem] font-medium ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200 border-l-2 ${style.border}`}
         data-log-index={index}
         onClick={() => toggleLine(lineId)}
         draggable
@@ -1131,30 +1028,26 @@ function renderLogLine(
             e.dataTransfer.effectAllowed = 'copy';
           }}
       >
-        {/* Floating badge */}
-        {/* Row-type badge (straddles outside top-left corner) */}
-        <span
-          className={`absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center ${style.text} rounded-full shadow-lg backdrop-blur-sm`}
-          style={{ width: 28, height: 28, backgroundColor: 'currentColor' }}
+        {/* Row-type badge (straddles outside top-left corner) — rich-tooltip
+            trigger: 'one LLM call' / 'one Tool use'. */}
+        <TelemetryExplainerTrigger
+          explainer={rowIconExplainer}
+          className="absolute left-0 top-0 z-10 -translate-x-1/2 -translate-y-1/2"
         >
-          <Icon className="w-[16px] h-[16px] text-gray-900 dark:text-gray-900/90" />
-        </span>
+          <span
+            className={`flex items-center justify-center ${style.text} rounded-full shadow-lg backdrop-blur-sm`}
+            style={{ width: 28, height: 28, backgroundColor: 'currentColor' }}
+          >
+            <Icon className="w-[16px] h-[16px] text-gray-900 dark:text-gray-900/90" />
+          </span>
+        </TelemetryExplainerTrigger>
 
-        {/* Tag rows – absolute top & bottom, taking no extra space */}
-        {/* Tag rows float half outside the row for more breathing room */}
-        {tagsTop.length > 0 && (
-          <div className="absolute top-0 left-8 right-3 -translate-y-1/2">
-            <TagOverflowList tags={tagsTop} />
-          </div>
-        )}
-        {tagsBottom.length > 0 && (
-          <div className="absolute bottom-0 left-8 right-3 translate-y-1/2">
-            <TagOverflowList tags={tagsBottom} />
-          </div>
-        )}
+        {/* ONE inline pill row: phase, agent, step, failsafe, generation
+            (+ tool), wrapping when narrow to use the horizontal space. */}
+        {hasPills && PillRow}
 
-        {/* Chevron + title cluster */}
-        <div className="flex items-center gap-1 flex-1 min-w-0">
+        {/* Chevron + title + timestamp line */}
+        <div className="flex items-center gap-1 w-full min-w-0">
           <ChevronRightIcon
             className={`w-4 h-4 flex-shrink-0 text-current opacity-60 transition-transform duration-300 ${
               expandedLines[lineId] ? 'rotate-90' : ''
@@ -1166,13 +1059,13 @@ function renderLogLine(
           >
             {logLine.text}
           </span>
-        </div>
 
-        {logLine.timestamp && (
-          <span className="text-[10px] text-gray-500 flex-shrink-0 select-none ml-1">
-            {formatTime(logLine.timestamp)}
-          </span>
-        )}
+          {logLine.timestamp && (
+            <span className="text-[10px] text-gray-500 flex-shrink-0 select-none ml-1">
+              {formatTime(logLine.timestamp)}
+            </span>
+          )}
+        </div>
       </div>
     );
 
@@ -1195,7 +1088,10 @@ function renderLogLine(
             )}
             {logLine.details && (
               <div>
-                <div className="text-emerald-400 font-semibold mb-0.5">Details</div>
+                <div className="mb-0.5 flex items-center justify-between gap-2">
+                  <span className="text-emerald-400 font-semibold">Details</span>
+                  <DetailsCopyButton payload={logLine.details} />
+                </div>
                 <pre className="whitespace-pre-wrap break-words select-text cursor-text">
                   {JSON.stringify(logLine.details, null, 2)}
                 </pre>
@@ -1280,8 +1176,10 @@ function renderLogLine(
 
         {/* Mobile chevron indicator handled inside mobile layout now */}
 
-        {/* Type icon */}
-        <Icon className="hidden laptop:block w-6 h-6 laptop:w-7 laptop:h-7 text-current mx-auto" />
+        {/* Type icon — rich-tooltip trigger ('one LLM call' / 'one Tool use') */}
+        <TelemetryExplainerTrigger explainer={rowIconExplainer} className="hidden laptop:inline-flex mx-auto">
+          <Icon className="w-6 h-6 laptop:w-7 laptop:h-7 text-current" />
+        </TelemetryExplainerTrigger>
 
         {/* Desktop inline row */}
         <div className="hidden laptop:flex flex-1 items-center justify-between min-w-0">
@@ -1294,7 +1192,7 @@ function renderLogLine(
             {logLine.text}
           </span>
 
-          {/* Meta cluster + timestamp */}
+          {/* Meta cluster + timestamp: one inline, wrapping row of all pills */}
           <div className="hidden laptop:flex items-center flex-wrap justify-end gap-1 laptop:max-w-[50%]">
             {/* Timestamp */}
             {logLine.timestamp && (
@@ -1303,57 +1201,31 @@ function renderLogLine(
               </span>
             )}
 
-            {logLine.phase && <PathPill type="phase" label={logLine.phase} />}
-            {logLine.agent && <PathPill type="agent" label={logLine.agent} />}
-            {logLine.step && <PathPill type="step" label={normalizeStepName(logLine.step)} />}
-            {logLine.failsafe && <PathPill type="failsafe" label={formatMeta(logLine.failsafe)} />}
-            {logLine.generation && <PathPill type="generation" label={formatMeta(logLine.generation)} />}
-            {logLine.tool && (
-              <PathPill
-                type="tool"
-                label={
-                  typeof logLine.tool === 'string'
-                    ? logLine.tool
-                    : logLine.tool.name || String(logLine.tool)
-                }
-              />
-            )}
+            {hasPills && PillRow}
           </div>
         </div>
 
         {/* Mobile / narrow layout */}
         <div className="laptop:hidden relative w-full pl-12 pr-3 py-2 space-y-1">
-          {/* Floating Type Icon (circular bubble) */}
-          <span
-            className={`absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center ${style.text} rounded-full shadow-md`}
-            style={{
-              width: '20px',
-              height: '20px',
-              backgroundColor: 'currentColor',
-            }}
+          {/* Floating Type Icon (circular bubble) — rich-tooltip trigger */}
+          <TelemetryExplainerTrigger
+            explainer={rowIconExplainer}
+            className="absolute left-3 top-1/2 -translate-y-1/2"
           >
-            <Icon className="w-3 h-3 text-gray-900 dark:text-gray-900/90" />
-          </span>
+            <span
+              className={`flex items-center justify-center ${style.text} rounded-full shadow-md`}
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: 'currentColor',
+              }}
+            >
+              <Icon className="w-3 h-3 text-gray-900 dark:text-gray-900/90" />
+            </span>
+          </TelemetryExplainerTrigger>
 
-          {/* Top Tag row */}
-          {(() => {
-            const tagsTop: { type: any; label: any }[] = [];
-            if (logLine.phase) tagsTop.push({ type: 'phase', label: logLine.phase });
-            if (logLine.agent) tagsTop.push({ type: 'agent', label: logLine.agent });
-            if (logLine.tool) {
-              tagsTop.push({
-                type: 'tool',
-                label:
-                  typeof logLine.tool === 'string'
-                    ? logLine.tool
-                    : logLine.tool.name || String(logLine.tool),
-              });
-            }
-
-            return tagsTop.length > 0 ? (
-              <TagOverflowList tags={tagsTop} />
-            ) : null;
-          })()}
+          {/* ONE inline pill row: phase, agent, step, failsafe, generation (+ tool) */}
+          {hasPills && PillRow}
 
           {/* Chevron, title, timestamp row */}
           <div className="flex items-center gap-1 w-full">
@@ -1376,18 +1248,6 @@ function renderLogLine(
               </span>
             )}
           </div>
-
-          {/* Bottom Tag row */}
-          {(() => {
-            const tagsBottom: { type: any; label: any }[] = [];
-            if (logLine.step) tagsBottom.push({ type: 'step', label: normalizeStepName(logLine.step) });
-            if (logLine.failsafe) tagsBottom.push({ type: 'failsafe', label: formatMeta(logLine.failsafe) });
-            if (logLine.generation) tagsBottom.push({ type: 'generation', label: formatMeta(logLine.generation) });
-
-            return tagsBottom.length > 0 ? (
-              <TagOverflowList tags={tagsBottom} />
-            ) : null;
-          })()}
         </div>
       </div>
 
@@ -1630,7 +1490,9 @@ function renderLogLine(
                         <div className="text-xs font-medium text-emerald-400 mb-1">Phases:</div>
                         <div className="flex flex-wrap gap-1">
                           {['Setup','Discovery','Implementation','Validation','Finish'].map(p => (
-                            <PathPill key={p} type="phase" label={p} className={p===logLine.phase ? '' : 'opacity-25'} />
+                            <TelemetryExplainerTrigger key={p} explainer={getTelemetryPillExplainer('phase', p, rowMode)}>
+                              <PathPill type="phase" label={p} className={p===logLine.phase ? '' : 'opacity-25'} />
+                            </TelemetryExplainerTrigger>
                           ))}
                         </div>
                       </div>
@@ -1640,7 +1502,9 @@ function renderLogLine(
                         <div className="text-xs font-medium text-emerald-400 mb-1">Steps:</div>
                         <div className="flex flex-wrap gap-1">
                           {['Plan','Try','Refine','Retry'].map(s => (
-                            <PathPill key={s} type="step" label={s} className={s===normalizeStepName(logLine.step) ? '' : 'opacity-25'} />
+                            <TelemetryExplainerTrigger key={s} explainer={getTelemetryPillExplainer('step', s, rowMode)}>
+                              <PathPill type="step" label={s} className={s===normalizeStepName(logLine.step) ? '' : 'opacity-25'} />
+                            </TelemetryExplainerTrigger>
                           ))}
                         </div>
                       </div>
@@ -1649,8 +1513,14 @@ function renderLogLine(
                       <div>
                         <div className="text-xs font-medium text-emerald-400 mb-1">Failsafes:</div>
                         <div className="flex flex-wrap gap-1">
-                          {['Prepare Context','Chunk Then Sum','Stitch Until Complete'].map(m => (
-                            <PathPill key={m} type="failsafe" label={m} className={m===formatMeta(logLine.failsafe) ? '' : 'opacity-25'} />
+                          {[
+                            ['Prepare Context', 'prepare_concise_context'],
+                            ['Chunk Then Sum', 'chunk_then_sum'],
+                            ['Stitch Until Complete', 'stitch_until_complete'],
+                          ].map(([m, rawFailsafe]) => (
+                            <TelemetryExplainerTrigger key={m} explainer={getTelemetryPillExplainer('failsafe', rawFailsafe, rowMode)}>
+                              <PathPill type="failsafe" label={m} className={m===formatMeta(logLine.failsafe) ? '' : 'opacity-25'} />
+                            </TelemetryExplainerTrigger>
                           ))}
                         </div>
                       </div>
@@ -1660,7 +1530,9 @@ function renderLogLine(
                         <div className="text-xs font-medium text-emerald-400 mb-1">Generations:</div>
                         <div className="flex flex-wrap gap-1">
                           {['Reason','Judge','Structured Output'].map(sub => (
-                            <PathPill key={sub} type="generation" label={sub} className={sub===formatMeta(logLine.generation) ? '' : 'opacity-25'} />
+                            <TelemetryExplainerTrigger key={sub} explainer={getTelemetryPillExplainer('generation', sub, rowMode)}>
+                              <PathPill type="generation" label={sub} className={sub===formatMeta(logLine.generation) ? '' : 'opacity-25'} />
+                            </TelemetryExplainerTrigger>
                           ))}
                         </div>
                       </div>
@@ -1712,7 +1584,10 @@ function renderLogLine(
                 <div className="space-y-1 mt-4 pt-4 border-t border-emerald-500/10">
                   <div className="text-xs font-medium text-gray-500 flex items-center justify-between">
                     <span>Raw Data</span>
-                    <span className="text-[10px] text-gray-600">For debugging</span>
+                    <span className="flex items-center gap-2">
+                      <span className="text-[10px] text-gray-600">For debugging</span>
+                      <DetailsCopyButton payload={logLine.details} />
+                    </span>
                   </div>
                   <div className="text-sm pl-2 border-l-2 border-gray-700/30 py-1">
                     <pre className="text-xs overflow-x-auto whitespace-pre-wrap break-words max-h-[150px] overflow-y-auto custom-scrollbar text-gray-500 select-text cursor-text">

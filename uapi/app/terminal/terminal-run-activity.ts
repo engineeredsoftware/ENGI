@@ -22,6 +22,24 @@ export interface TerminalRunActivitySnapshot {
   error: string | null;
   latestWorkUpdate: any | null;
   iterationUpdates: any[];
+  /**
+   * The synthesis pipeline mode latched from the stream (the
+   * 'synthesize-asset-packs' namespace 'mode' store carries 'deposit'|'read').
+   * Null until the store event arrives.
+   */
+  mode: 'deposit' | 'read' | null;
+  /**
+   * The CURRENT active call-chain: the rolling Phase→Agent→Step→Failsafe→
+   * Generation context after the last streamed event — drives live header
+   * trackers without re-parsing the log.
+   */
+  latestContext: {
+    phase: string | null;
+    agent: string | null;
+    step: string | null;
+    failsafe: string | null;
+    generation: string | null;
+  } | null;
 }
 
 export type MockRunActivitySnapshot = {
@@ -182,6 +200,10 @@ export function buildTerminalRunActivityFromEvents(
   const rollingContext: ExecContext = {};
   const toolByNode = new Map<string, { name?: string; input?: unknown }>();
   let rowSeq = 0;
+  // Pipeline mode latched from the 'synthesize-asset-packs'/'mode' store —
+  // stamped onto subsequent rows (the processing indicator's 'While
+  // Depositing, …' prefix fallback) and surfaced on the snapshot.
+  let pipelineMode: 'deposit' | 'read' | null = null;
 
   const pushRow = (displayText: string, enriched: any) => {
     const text = toSafeSingleLine(displayText);
@@ -194,14 +216,21 @@ export function buildTerminalRunActivityFromEvents(
     outputDetails[rowKey] = enriched;
   };
 
-  const stampExecutionState = (state: ExecContext, payload: any, extra?: Record<string, unknown>) => ({
-    ...payload,
-    executionState: { ...state, ...(extra || {}) },
-    status: {
-      ...(payload?.status && typeof payload.status === 'object' ? payload.status : {}),
-      executionState: { ...state, ...(extra || {}) },
-    },
-  });
+  const stampExecutionState = (state: ExecContext, payload: any, extra?: Record<string, unknown>) => {
+    const stamped = {
+      ...state,
+      ...(pipelineMode ? { pipelineMode } : {}),
+      ...(extra || {}),
+    };
+    return {
+      ...payload,
+      executionState: stamped,
+      status: {
+        ...(payload?.status && typeof payload.status === 'object' ? payload.status : {}),
+        executionState: stamped,
+      },
+    };
+  };
 
   // Failsafe-repair markers derived from the execution path: a stitch-repair
   // generation runs under a 'stitch-<N>-gen-*' segment, a chunk task
@@ -244,6 +273,12 @@ export function buildTerminalRunActivityFromEvents(
     const ns = String(payload?.namespace || '');
     const key = String(payload?.key || '');
     const nodeId = String(payload?.executionNodeId || '');
+
+    // Latch the synthesis pipeline mode ('deposit' | 'read') from its store.
+    if (ns === 'synthesize-asset-packs' && key === 'mode' && typeof payload?.data === 'string') {
+      const candidate = payload.data.trim().toLowerCase();
+      if (candidate === 'deposit' || candidate === 'read') pipelineMode = candidate;
+    }
     if ((ns === 'tool' || ns === 'tools') && nodeId) {
       if (key === 'name' && typeof payload?.data === 'string') {
         const acc = toolByNode.get(nodeId) || {};
@@ -299,6 +334,10 @@ export function buildTerminalRunActivityFromEvents(
 
   const latestStatusEvent = statusEvents[statusEvents.length - 1];
 
+  const hasLatestContext = Boolean(
+    rollingContext.phase || rollingContext.agent || rollingContext.step,
+  );
+
   return {
     output: outputLines.join('\n'),
     outputDetails,
@@ -310,6 +349,16 @@ export function buildTerminalRunActivityFromEvents(
     error: streamError || errorEvent?.event?.message || errorEvent?.event?.error || null,
     latestWorkUpdate,
     iterationUpdates: Array.from(normalizedIterationUpdates.values()),
+    mode: pipelineMode,
+    latestContext: hasLatestContext
+      ? {
+        phase: rollingContext.phase ?? null,
+        agent: rollingContext.agent ?? null,
+        step: rollingContext.step ?? null,
+        failsafe: rollingContext.failsafe ?? null,
+        generation: rollingContext.generation ?? null,
+      }
+      : null,
   };
 }
 
@@ -339,5 +388,7 @@ export function buildTerminalRunActivityFromMock(
     error: snapshot.error ?? null,
     latestWorkUpdate: snapshot.latestWorkUpdate ?? null,
     iterationUpdates: snapshot.iterationUpdates || [],
+    mode: null,
+    latestContext: null,
   };
 }

@@ -69,12 +69,12 @@ describe('buildProcessingStallLabel — live stall visibility (QA debug aid)', (
     };
     const { label, likelyStalled } = buildProcessingStallLabel(lastLine, 1_000_000 + 30_000);
     expect(label).toBe(
-      'During Discovery, Deposit Depository Search Agent is Trying, by Structuring the Large Inputs · 30s since last update',
+      'During Discovery, Depository Search Agent is Trying, by Structuring the Large Inputs · 30s since last update',
     );
     expect(likelyStalled).toBe(false);
   });
 
-  it('matches the "During {Phase}, {Agent} Agent is {Step}, by {Thinkings} the {Failsafe}" template exactly', () => {
+  it('matches the "During {Phase}, {Agent} Agent is {Step}, by {Thinkings} the {Failsafe}" template exactly (prepare_concise_context reads "Context")', () => {
     const lastLine = {
       phase: 'Setup',
       agent: 'DepositInputComprehensionAgent',
@@ -85,7 +85,7 @@ describe('buildProcessingStallLabel — live stall visibility (QA debug aid)', (
     };
     const { label } = buildProcessingStallLabel(lastLine, 21_000);
     expect(label).toBe(
-      'During Setup, Deposit Input Comprehension Agent is Planning, by Judging the Prepare Concise Context · 21s since last update',
+      'During Setup, Input Comprehension Agent is Planning, by Judging the Context · 21s since last update',
     );
   });
 
@@ -97,7 +97,7 @@ describe('buildProcessingStallLabel — live stall visibility (QA debug aid)', (
       timestamp: new Date(0).toISOString(),
     };
     const { label } = buildProcessingStallLabel(lastLine, 5_000);
-    expect(label).toBe('During Discovery, Deposit Codebase Comprehension Agent is Trying · 5s since last update');
+    expect(label).toBe('During Discovery, Codebase Comprehension Agent is Trying · 5s since last update');
   });
 
   it('falls back to the bare "Processing" sentence when Phase/Agent/Step are not yet known', () => {

@@ -181,6 +181,7 @@ module.exports = {
     '<rootDir>/tests/conversationWritingWorkspace.test.tsx',
     '<rootDir>/tests/pipelineExecutionLogHeader.test.tsx',
     '<rootDir>/tests/pipelineExecutionLogCopy.test.tsx',
+    '<rootDir>/tests/pipelineExecutionLogTelemetryUx.test.tsx',
     '<rootDir>/tests/processingIndicator.test.tsx',
     '<rootDir>/tests/terminalJournalReconciliation.test.ts',
     '<rootDir>/tests/terminalOrganizationAuthority.test.ts',
