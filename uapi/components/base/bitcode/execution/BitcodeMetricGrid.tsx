@@ -33,7 +33,7 @@ export default function BitcodeMetricGrid({
       <div
         className={
           emptyClassName ||
-          'rounded-[1.1rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-300'
+          ' border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-300'
         }
       >
         {emptyMessage}
@@ -46,7 +46,7 @@ export default function BitcodeMetricGrid({
       {metrics.map((metric) => (
         <div
           key={`${metric.label}-${metric.value}`}
-          className={itemClassName || 'rounded-[1.1rem] border border-white/8 bg-white/5 px-4 py-4'}
+          className={itemClassName || ' border border-white/8 bg-white/5 px-4 py-4'}
         >
           <p className={labelClassName || 'text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500'}>
             {metric.label}

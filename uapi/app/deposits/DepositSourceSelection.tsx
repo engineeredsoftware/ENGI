@@ -438,7 +438,7 @@ export default function DepositSourceSelection({
           onClick={() => {
             void handleAnchorRepository();
           }}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-300/10 disabled:cursor-not-allowed disabled:opacity-40"
+          className="flex h-9 w-9 items-center justify-center border border-white/10 bg-white/5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-300/10 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {isRecording ? (
             <RefreshCw className="h-4 w-4 animate-spin" />
@@ -448,7 +448,7 @@ export default function DepositSourceSelection({
         </button>
       </div>
 
-      <div className="mt-3 grid gap-3 lg:grid-cols-[minmax(0,240px)_minmax(0,1fr)]">
+      <div className="mt-3 grid gap-3 tablet:grid-cols-2 desktop:grid-cols-[minmax(0,180px)_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)]">
         <div>
           <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
             <span>Provider</span>
@@ -519,10 +519,7 @@ export default function DepositSourceSelection({
             />
           </div>
         </div>
-      </div>
-
-      <div className="mt-3 grid gap-3 tablet:grid-cols-2">
-        <div className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-2.5">
+        <div>
           <span className="flex items-center gap-2 text-[0.64rem] uppercase tracking-[0.2em] text-neutral-400">
             <GitBranch className="h-3.5 w-3.5" />
             <span>Branch</span>
@@ -557,7 +554,7 @@ export default function DepositSourceSelection({
                   params.delete("commit");
                 })
               }
-              className="h-9 rounded-xl border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
+              className="h-9 border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
             />
           </div>
           <p className="mt-1.5 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
@@ -567,7 +564,7 @@ export default function DepositSourceSelection({
           </p>
         </div>
 
-        <div className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-2.5">
+        <div>
           <span className="flex items-center gap-2 text-[0.64rem] uppercase tracking-[0.2em] text-neutral-400">
             <span>Commit / ref</span>
             <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.commit} triggerAriaLabel="More info about this field" />
@@ -598,7 +595,7 @@ export default function DepositSourceSelection({
                   params.delete("commit");
                 })
               }
-              className="h-9 rounded-xl border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
+              className="h-9 border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
             />
           </div>
           <p className="mt-1.5 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">

@@ -483,7 +483,7 @@ export function ProductRouteProofDetail({
                 </p>
               </>
             );
-            const rowClass = "border border-white/10 bg-black/20 px-3 py-2";
+            const rowClass = "border-b border-white/10 px-0 py-2 last:border-b-0";
             return proofRoot.description ? (
               <TelemetryExplainerTrigger
                 key={`${proofRoot.id}:${proofRoot.root}`}

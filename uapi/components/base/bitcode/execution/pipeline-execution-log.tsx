@@ -1022,7 +1022,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
           onClick={handleCopyTerse}
           title="Copy terse logs"
           aria-label="Copy terse logs"
-          className="flex h-7 w-7 items-center justify-center rounded-md border border-white/10 bg-black/40 text-neutral-300 backdrop-blur-sm transition hover:border-emerald-300/40 hover:text-emerald-200 focus:outline-none"
+          className="flex h-7 w-7 items-center justify-center border border-white/10 bg-black/40 text-neutral-300 backdrop-blur-sm transition hover:border-emerald-300/40 hover:text-emerald-200 focus:outline-none"
         >
           {copiedTerse ? (
             <CheckIcon className="h-4 w-4 text-emerald-300" />
@@ -1035,7 +1035,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
           onClick={handleCopyRaw}
           title="Copy raw logs"
           aria-label="Copy raw logs"
-          className="flex h-7 w-7 items-center justify-center rounded-md border border-white/10 bg-black/40 text-neutral-300 backdrop-blur-sm transition hover:border-emerald-300/40 hover:text-emerald-200 focus:outline-none"
+          className="flex h-7 w-7 items-center justify-center border border-white/10 bg-black/40 text-neutral-300 backdrop-blur-sm transition hover:border-emerald-300/40 hover:text-emerald-200 focus:outline-none"
         >
           {copiedRaw ? (
             <CheckIcon className="h-4 w-4 text-emerald-300" />
@@ -1067,7 +1067,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
             exactly like a collapsed log row (same bar, no chevron: there is
             no detail payload to expand). */}
         {isProcessing && flatLines.length === 0 && (
-          <div className="relative flex items-center gap-1 w-full rounded-lg pl-7 pr-3 py-2 min-h-[34px] mb-4 select-none text-[0.78rem] font-medium text-emerald-200 backdrop-blur-md bg-white/5 dark:bg-white/2 border-l-2 border-emerald-400/25">
+          <div className="relative flex items-center gap-1 w-full pl-7 pr-3 py-2 min-h-[34px] mb-4 select-none text-[0.78rem] font-medium text-emerald-200 backdrop-blur-md bg-white/5 dark:bg-white/2 border-l-2 border-emerald-400/25">
             <span className="truncate min-w-0 text-[0.82rem] leading-none m-0 flex-1">Initializing</span>
             <span className="text-[10px] text-gray-500 flex-shrink-0 select-none ml-1">preparing</span>
           </div>
@@ -1131,7 +1131,7 @@ function DetailsCopyButton({ payload }: { payload: unknown }) {
           setTimeout(() => setCopied(false), 1500);
         }
       }}
-      className="inline-flex h-5 w-5 items-center justify-center rounded border border-white/10 bg-black/30 text-neutral-400 transition hover:border-emerald-300/40 hover:text-emerald-200 focus:outline-none"
+      className="inline-flex h-5 w-5 items-center justify-center border border-white/10 bg-black/30 text-neutral-400 transition hover:border-emerald-300/40 hover:text-emerald-200 focus:outline-none"
     >
       {copied ? (
         <CheckIcon className="h-3 w-3 text-emerald-300" />
@@ -1221,7 +1221,7 @@ function renderLogLine(
   if (compact) {
     const RowContent = (
       <div
-        className={`relative flex items-center gap-1 w-full rounded-lg pl-7 pr-3 py-2 min-h-[34px] mb-4 last:mb-0 select-none text-[0.78rem] font-medium ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200 border-l-2 ${style.border}`}
+        className={`relative flex items-center gap-1 w-full pl-7 pr-3 py-2 min-h-[34px] mb-4 last:mb-0 select-none text-[0.78rem] font-medium ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200 border-l-2 ${style.border}`}
         data-log-index={index}
         onClick={hasDetails ? () => toggleLine(lineId) : undefined}
         draggable
@@ -1246,7 +1246,7 @@ function renderLogLine(
           className="absolute left-0 top-0 z-10 -translate-x-1/2 -translate-y-1/2"
         >
           <span
-            className={`flex items-center justify-center ${style.text} rounded-full shadow-lg backdrop-blur-sm`}
+            className={`flex items-center justify-center ${style.text} shadow-lg backdrop-blur-sm`}
             style={{ width: 28, height: 28, backgroundColor: 'currentColor' }}
           >
             <Icon className="w-[16px] h-[16px] text-gray-900 dark:text-gray-900/90" />
@@ -1297,7 +1297,7 @@ function renderLogLine(
         }`}
       >
         {expandedLines[lineId] && (
-          <div className="pl-6 pr-4 py-3 ml-4 border-l border-emerald-500/20 rounded-r bg-emerald-500/[0.02] text-gray-400/90 text-[11px] space-y-2 max-h-[380px] overflow-y-auto custom-scrollbar">
+          <div className="pl-6 pr-4 py-3 ml-4 border-l border-emerald-500/20 bg-emerald-500/[0.02] text-gray-400/90 text-[11px] space-y-2 max-h-[380px] overflow-y-auto custom-scrollbar">
             {logLine.text && (
               <div>
                 <div className="text-emerald-400 font-semibold mb-0.5">Text</div>
@@ -1366,7 +1366,7 @@ function renderLogLine(
         }}
         onClick={hasDetails ? () => toggleLine(lineId) : undefined}
         className={`
-          relative flex flex-col tablet:flex-row items-start tablet:items-center gap-2 tablet:gap-4 w-full rounded-lg px-3 tablet:px-4 desktop:px-5 py-2 tablet:py-3 laptop:py-4 cursor-pointer select-none text-xs tablet:text-sm desktop:text-base font-medium
+          relative flex flex-col tablet:flex-row items-start tablet:items-center gap-2 tablet:gap-4 w-full px-3 tablet:px-4 desktop:px-5 py-2 tablet:py-3 laptop:py-4 cursor-pointer select-none text-xs tablet:text-sm desktop:text-base font-medium
           ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200
           border-l-[3px] ${style.border}
           ${style.glow ? 'ring-glow' : ''}
@@ -1436,7 +1436,7 @@ function renderLogLine(
             className="absolute left-3 top-1/2 -translate-y-1/2"
           >
             <span
-              className={`flex items-center justify-center ${style.text} rounded-full shadow-md`}
+              className={`flex items-center justify-center ${style.text} shadow-md`}
               style={{
                 width: '20px',
                 height: '20px',
@@ -1483,7 +1483,7 @@ function renderLogLine(
           ${expandedLines[lineId] ? 'max-h-[800px] opacity-100 mt-2' : 'max-h-0 opacity-0'}
         `}
       >
-        <div className="pl-6 pr-4 py-3 ml-4 border-l border-emerald-500/20 rounded-r bg-emerald-500/[0.02] text-gray-400/90">
+        <div className="pl-6 pr-4 py-3 ml-4 border-l border-emerald-500/20 bg-emerald-500/[0.02] text-gray-400/90">
           <ContentVisibility className="space-y-3 overflow-y-auto custom-scrollbar max-h-[600px] pr-2">
             {/* Agent info */}
             {logLine.agent && (
@@ -1780,7 +1780,7 @@ function renderLogLine(
                           logLine.details.paths || []).map((f: string, fIdx: number) => (
                             <div
                               key={fIdx}
-                              className="flex items-center space-x-2 px-3 py-1.5 bg-[#1f2937]/30 rounded-md border border-[#1f2937] group/file hover:border-[#67feb7]/30 transition-all duration-200"
+                              className="flex items-center space-x-2 px-3 py-1.5 bg-[#1f2937]/30 border border-[#1f2937] group/file hover:border-[#67feb7]/30 transition-all duration-200"
                             >
                               <svg className="w-3.5 h-3.5 text-[#67feb7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

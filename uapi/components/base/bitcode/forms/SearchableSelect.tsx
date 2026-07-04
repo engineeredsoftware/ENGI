@@ -123,7 +123,7 @@ export function SearchableSelect({
           aria-expanded={open}
           aria-label={ariaLabel}
           disabled={disabled}
-          className={cn('w-full justify-between font-normal', className)}
+          className={cn('w-full justify-between rounded-none font-normal', className)}
         >
           {selected ? (
             <span className="flex min-w-0 items-center gap-2 truncate">
@@ -137,7 +137,7 @@ export function SearchableSelect({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className={cn('w-[--radix-popover-trigger-width] min-w-[280px] p-0', contentClassName)}
+        className={cn('w-[--radix-popover-trigger-width] min-w-[280px] rounded-none p-0', contentClassName)}
         align="start"
       >
         <Command shouldFilter={false}>

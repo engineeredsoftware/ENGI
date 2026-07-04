@@ -20,7 +20,7 @@ interface BitcodeTransactionsFilterBarProps {
 // The one rich searchable dropdown (SearchableSelect, extracted from the
 // repository picker) styled for the dark filter mosaic.
 const FILTER_TRIGGER_CLASS =
-  'mt-1.5 h-9 rounded-xl border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-white/10 hover:text-white';
+  'mt-1.5 h-9 border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-white/10 hover:text-white';
 
 function FilterCell({
   label,
@@ -34,7 +34,7 @@ function FilterCell({
   className?: string;
 }) {
   return (
-    <div className={`rounded-[1rem] border border-white/8 bg-white/5 px-2.5 py-2 ${className ?? ''}`}>
+    <div className={className}>
       <span className="flex items-center gap-2 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
         <span>{label}</span>
         <BitcodeInlineExplainer explainer={explainer} />
@@ -70,12 +70,12 @@ export default function BitcodeTransactionsFilterBar({
 
   return (
     // Compact mosaic: multi-column at every width (never a one-filter-per-row
-    // stack) so the bar spends horizontal space instead of vertical.
-    <div className="mt-4 grid grid-cols-2 gap-2 tablet:grid-cols-4 xl:grid-cols-[minmax(0,1.6fr)_repeat(7,minmax(0,0.8fr))]">
+    // stack) so the bar spends horizontal space instead of vertical. Search
+    // is the FIRST filter card in the flow, same size as the rest.
+    <div className="mt-4 grid grid-cols-2 gap-2 tablet:grid-cols-4 xl:grid-cols-8">
       <FilterCell
         label="Search transactions"
         explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.search}
-        className="col-span-2 tablet:col-span-4 xl:col-span-1"
       >
         <input
           aria-label="Search transactions"
@@ -86,7 +86,7 @@ export default function BitcodeTransactionsFilterBar({
             updateFilter('searchTerm', nextValue);
           }}
           placeholder="Search ids, repos, branches, proof posture, participants…"
-          className="mt-1.5 h-9 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
+          className="mt-1.5 h-9 w-full border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
         />
       </FilterCell>
 
@@ -190,17 +190,6 @@ export default function BitcodeTransactionsFilterBar({
         />
       </FilterCell>
 
-      {onResetFilters ? (
-        <div className="col-span-full">
-          <button
-            type="button"
-            onClick={onResetFilters}
-            className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[0.64rem] uppercase tracking-[0.18em] text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
-          >
-            Reset transaction filters
-          </button>
-        </div>
-      ) : null}
     </div>
   );
 }

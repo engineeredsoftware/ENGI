@@ -119,7 +119,7 @@ export function VCSRepositorySource({
           
           {/* Show selected repository details */}
           {selectedRepository && (
-            <div className="p-3 rounded-md border bg-muted/50">
+            <div className="p-3 border bg-muted/50">
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
@@ -158,7 +158,7 @@ export function VCSRepositorySource({
                     value={selectedBranch}
                     onChange={(e) => setSelectedBranch(e.target.value)}
                     placeholder="Branch name"
-                    className="flex-1 px-2 py-1 text-sm border rounded-md"
+                    className="flex-1 px-2 py-1 text-sm border"
                   />
                 </div>
               )}
@@ -172,7 +172,7 @@ export function VCSRepositorySource({
                     value={selectedPath}
                     onChange={(e) => setSelectedPath(e.target.value)}
                     placeholder="Path (optional, e.g., /src)"
-                    className="flex-1 px-2 py-1 text-sm border rounded-md"
+                    className="flex-1 px-2 py-1 text-sm border"
                   />
                 </div>
               )}

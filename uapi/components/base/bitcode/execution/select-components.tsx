@@ -37,7 +37,7 @@ export const NoOptionsMessage = (props: any) => {
   return (
     <components.NoOptionsMessage {...props}>
       <div className="relative px-3 py-2 my-1">
-        <div className="absolute inset-0 bg-emerald-500/5 rounded-md" />
+        <div className="absolute inset-0 bg-emerald-500/5" />
         <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/[0.02] via-emerald-500/[0.05] to-emerald-500/[0.02] animate-gradient" />
         <div className="relative flex items-center space-x-2">
           <span className="opacity-70">{icon}</span>

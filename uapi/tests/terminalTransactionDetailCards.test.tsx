@@ -221,10 +221,10 @@ describe('Terminal transaction detail cards', () => {
 
     const closureCard = screen
       .getByText('Closure summary, settlement, and branch follow-through')
-      .closest('div.rounded-\\[1\\.3rem\\]');
+      .closest('div.bg-black\\/20');
     const proofsCard = screen
       .getByText('Bounded proof stays with the selected activity')
-      .closest('div.rounded-\\[1\\.3rem\\]');
+      .closest('div.bg-black\\/20');
 
     expect(closureCard).toBeTruthy();
     expect(proofsCard).toBeTruthy();

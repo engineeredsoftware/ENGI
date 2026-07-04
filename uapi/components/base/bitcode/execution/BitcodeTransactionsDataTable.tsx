@@ -50,7 +50,7 @@ export default function BitcodeTransactionsDataTable({
   return (
     <div
       data-testid="bitcode-transactions-data-table-shell"
-      className="mt-4 min-h-[20rem] overflow-hidden rounded-[1.15rem] border border-white/8 bg-[rgba(4,8,18,0.84)]"
+      className="mt-4 min-h-[20rem] overflow-hidden border border-white/8 bg-[rgba(4,8,18,0.84)]"
     >
       {isLoading ? (
         <div
@@ -130,13 +130,13 @@ export default function BitcodeTransactionsDataTable({
                       </button>
                     </td>
                     <td className="px-3 py-3 align-top">
-                      <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-200">
+                      <span className=" border border-white/10 bg-white/5 px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-200">
                         {record.transactionLens}
                       </span>
                     </td>
                     <td className="px-3 py-3 align-top">
                       <span
-                        className={`rounded-full border px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.18em] ${statusTone(record.status)}`}
+                        className={` border px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.18em] ${statusTone(record.status)}`}
                       >
                         {record.status}
                       </span>

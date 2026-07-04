@@ -201,7 +201,7 @@ const AttachmentItem = ({ label, type, subLabel, status, onRemove }: AttachmentI
 
   return (
     <div className={`
-      flex items-center gap-2 px-2 py-1 rounded-md
+      flex items-center gap-2 px-2 py-1
       ${bgColor} ${borderColor} border
       group hover:bg-opacity-20 transition-all duration-200
     `}>
@@ -221,7 +221,7 @@ const AttachmentItem = ({ label, type, subLabel, status, onRemove }: AttachmentI
       <button
         onClick={onRemove}
         className={`
-          ml-1 p-0.5 rounded-full
+          ml-1 p-0.5
           opacity-50 hover:opacity-100
           ${textColor} hover:bg-opacity-20
           transition-all duration-200

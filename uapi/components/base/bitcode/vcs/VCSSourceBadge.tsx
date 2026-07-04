@@ -146,7 +146,7 @@ export function VCSSourceBadge({
 
     return (
       <div className={cn(
-        "inline-flex items-center gap-2 px-3 py-1.5 rounded-md border",
+        "inline-flex items-center gap-2 px-3 py-1.5 border",
         config.bgColor,
         config.textColor,
         config.borderColor,
@@ -200,7 +200,7 @@ export function VCSSourceBadge({
           
           {/* Provider tabs if multiple connections */}
           {connections.length > 1 && (
-            <div className="flex gap-1 p-1 bg-muted rounded-md">
+            <div className="flex gap-1 p-1 bg-muted">
               {connections.map((connection) => {
                 const provider = connection.provider as VCSProviderType;
                 const config = providerConfig[provider];
@@ -212,7 +212,7 @@ export function VCSSourceBadge({
                     key={connection.id}
                     onClick={() => setSelectedProvider(provider)}
                     className={cn(
-                      "flex-1 flex items-center justify-center gap-2 px-3 py-1.5 rounded text-sm font-medium transition-colors",
+                      "flex-1 flex items-center justify-center gap-2 px-3 py-1.5 text-sm font-medium transition-colors",
                       isSelected ? cn("bg-background shadow-sm", config.textColor) : "text-muted-foreground hover:text-foreground"
                     )}
                   >

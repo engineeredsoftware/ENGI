@@ -82,7 +82,7 @@ function buildChildren(value: unknown) {
 
 function renderTypeBadge(kind: string) {
   return (
-    <span className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.16em] text-neutral-400">
+    <span className=" border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.16em] text-neutral-400">
       {kind}
     </span>
   );
@@ -101,7 +101,7 @@ function renderPayloadTreeNode({
 
   if (!isComposite) {
     return (
-      <div className="rounded-[0.9rem] border border-white/8 bg-[rgba(4,8,18,0.66)] px-3 py-2.5">
+      <div className=" border border-white/8 bg-[rgba(4,8,18,0.66)] px-3 py-2.5">
         <div className="flex flex-wrap items-center gap-2">
           <span className="font-medium text-white">{label}</span>
           {renderTypeBadge(kind)}
@@ -118,7 +118,7 @@ function renderPayloadTreeNode({
 
   return (
     <details
-      className="rounded-[0.9rem] border border-white/8 bg-[rgba(4,8,18,0.66)]"
+      className=" border border-white/8 bg-[rgba(4,8,18,0.66)]"
       open={defaultOpen}
     >
       <summary className="cursor-pointer list-none px-3 py-2.5">
@@ -131,7 +131,7 @@ function renderPayloadTreeNode({
 
       <div className="space-y-3 border-t border-white/8 px-3 py-3">
         {depthLimited ? (
-          <div className="rounded-[0.9rem] border border-dashed border-white/10 bg-black/20 px-3 py-3 text-xs leading-6 text-neutral-400">
+          <div className=" border border-dashed border-white/10 bg-black/20 px-3 py-3 text-xs leading-6 text-neutral-400">
             Maximum visual depth reached. Use raw JSON for the remaining nested payload.
           </div>
         ) : (
@@ -149,7 +149,7 @@ function renderPayloadTreeNode({
         )}
 
         {remainingChildCount ? (
-          <div className="rounded-[0.9rem] border border-dashed border-white/10 bg-black/20 px-3 py-3 text-xs leading-6 text-neutral-400">
+          <div className=" border border-dashed border-white/10 bg-black/20 px-3 py-3 text-xs leading-6 text-neutral-400">
             +{remainingChildCount} more {kind === 'array' ? 'items' : 'fields'} remain in this payload branch.
           </div>
         ) : null}
@@ -167,7 +167,7 @@ export default function BitcodePayloadTree({
   if (payload === undefined) return null;
 
   return (
-    <div className={cn('rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3', className)}>
+    <div className={cn(' border border-white/8 bg-white/5 px-3 py-3', className)}>
       <div className="flex items-center gap-2">
         <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">Payload field tree</p>
         <BitcodeInlineExplainer

@@ -19,7 +19,7 @@ export const FileAttachments = ({
           px-2 py-[6px]
           bg-[#030816]/90 
           border border-emerald-500/10
-          rounded-full
+         
           transition-all duration-200
           hover:border-emerald-500/30 
           hover:shadow-[0_0_12px_rgba(103,254,183,0.15)]

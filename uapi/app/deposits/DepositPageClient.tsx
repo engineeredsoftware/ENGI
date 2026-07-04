@@ -157,12 +157,7 @@ export default function DepositPageClient() {
   const [obfuscations, setObfuscations] = useState(
     "Note anything to obfuscate or withhold from the synthesized options: internal names, proprietary framing, or sensitive specifics the source-safe AssetPacks should avoid surfacing.",
   );
-  const [sourcePathHintsText, setSourcePathHintsText] = useState(
-    [
-      "uapi/app/terminal/TerminalDepositComposer.tsx",
-      "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-    ].join("\n"),
-  );
+  const [sourcePathHintsText, setSourcePathHintsText] = useState("");
   const [protectedIpExclusionsText, setProtectedIpExclusionsText] = useState("");
   const [optionsRequested, setOptionsRequested] = useState(false);
   const [synthesisRunId, setSynthesisRunId] = useState<string | null>(null);
@@ -1363,18 +1358,12 @@ export default function DepositPageClient() {
                   surface="pipelines"
                 />
               </div>
-              <Link
-                href="/packs?type=depository-assetpack"
-                className="mt-3 inline-flex w-full items-center justify-center border border-emerald-300/20 bg-emerald-300/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/40 hover:bg-emerald-300/15"
-              >
-                Open pack activity
-              </Link>
             </>
           )}
             {synthesisRunId ? (
             <section
               ref={synthesisTelemetryRef}
-              className="mt-4 min-w-0 overflow-hidden border border-white/10 bg-black/20 px-4 py-4"
+              className="mt-4 min-w-0 overflow-hidden"
               aria-label="Asset Pack Synthesis telemetry"
               data-testid="deposit-synthesis-telemetry"
             >
@@ -1589,7 +1578,8 @@ export default function DepositPageClient() {
                     className="mt-2 min-h-[8rem] w-full border border-white/10 bg-black/30 px-3 py-3 text-sm leading-6 text-neutral-100 outline-none transition focus:border-emerald-300/35"
                   />
                 </div>
-                <div className="mt-4 block">
+                <div className="mt-4 grid gap-4 tablet:grid-cols-2">
+                <div className="block">
                   <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
                     <label htmlFor="deposit-source-path-hints-input">Source path hints</label>
                     <span onClick={(event) => event.stopPropagation()}>
@@ -1602,10 +1592,11 @@ export default function DepositPageClient() {
                     onChange={(event) =>
                       setSourcePathHintsText(event.target.value)
                     }
+                    placeholder={"e.g. uapi/app/terminal/TerminalDepositComposer.tsx\npackages/pipelines/asset-pack/src/depository-supply-index.ts"}
                     className="mt-2 min-h-[6rem] w-full border border-white/10 bg-black/30 px-3 py-3 font-mono text-xs leading-5 text-neutral-100 outline-none transition focus:border-emerald-300/35"
                   />
                 </div>
-                <div className="mt-4 block">
+                <div className="block">
                   <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
                     <label htmlFor="deposit-protected-ip-exclusions-input">
                       Protected IP exclusions (one per line)
@@ -1629,6 +1620,7 @@ export default function DepositPageClient() {
                     measurement, and candidates that touch them are dropped
                     fail-closed.
                   </span>
+                </div>
                 </div>
                 <button
                   type="button"
@@ -1674,7 +1666,7 @@ export default function DepositPageClient() {
                   </h2>
                 </div>
                 <span className="border border-emerald-300/15 bg-emerald-300/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-emerald-100">
-                  {depositRouteSession.synthesis.pipeline}
+                  {depositRouteSession.synthesis.pipeline.replace(/([a-z])([A-Z])/g, "$1 $2")}
                 </span>
               </div>
               {realSynthesis?.synthesis?.inference ? (
@@ -1771,7 +1763,7 @@ export default function DepositPageClient() {
                                 },
                               });
                             }}
-                            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-neutral-300 transition hover:border-emerald-300/35 hover:bg-emerald-300/10"
+                            className="flex h-7 w-7 shrink-0 items-center justify-center border border-white/10 bg-white/5 text-neutral-300 transition hover:border-emerald-300/35 hover:bg-emerald-300/10"
                           >
                             <Anchor className="h-3.5 w-3.5" />
                           </button>
@@ -2129,7 +2121,7 @@ export default function DepositPageClient() {
                                     setResynthesisInstructions(event.target.value)
                                   }
                                   placeholder="Steer the re-run, or leave blank to resynthesize with current instructions…"
-                                  className="w-full rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-xs text-white outline-none transition focus:border-amber-300/40"
+                                  className="w-full border border-white/10 bg-black/30 px-3 py-2 text-xs text-white outline-none transition focus:border-amber-300/40"
                                 />
                                 <button
                                   type="button"
@@ -2245,8 +2237,8 @@ export default function DepositPageClient() {
             className="grid h-fit items-start gap-5 tablet:grid-cols-3 xl:grid-cols-1"
             aria-label="Deposit route state"
           >
-            <details className="border border-white/10 bg-white/[0.035] px-4 py-4">
-              <summary className="flex cursor-pointer list-none items-start justify-between gap-3 outline-none">
+            <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
+              <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
                     Earnings
@@ -2262,11 +2254,11 @@ export default function DepositPageClient() {
                   className="h-5 w-5 text-emerald-200"
                   aria-hidden="true"
                 />
-              </summary>
+              </div>
               <dl className="mt-4 grid gap-2">
                 <TelemetryExplainerTrigger
                   as="div"
-                  className="border border-emerald-300/15 bg-emerald-300/[0.04] px-3 py-2"
+                  className="border-b border-emerald-300/15 px-0 py-2"
                   explainer={{
                     kicker: "Earning intelligence",
                     title: "Likely demand",
@@ -2287,7 +2279,7 @@ export default function DepositPageClient() {
                 </TelemetryExplainerTrigger>
                 <TelemetryExplainerTrigger
                   as="div"
-                  className="border border-white/8 bg-black/20 px-3 py-2"
+                  className="border-b border-white/8 px-0 py-2 last:border-b-0"
                   explainer={{
                     kicker: "Earning intelligence",
                     title: "Unfit Need opportunities",
@@ -2311,7 +2303,7 @@ export default function DepositPageClient() {
                 </TelemetryExplainerTrigger>
                 <TelemetryExplainerTrigger
                   as="div"
-                  className="border border-white/8 bg-black/20 px-3 py-2"
+                  className="border-b border-white/8 px-0 py-2 last:border-b-0"
                   explainer={{
                     kicker: "Earning intelligence",
                     title: "Expected compensation",
@@ -2335,7 +2327,7 @@ export default function DepositPageClient() {
                 </TelemetryExplainerTrigger>
                 <TelemetryExplainerTrigger
                   as="div"
-                  className="border border-white/8 bg-black/20 px-3 py-2"
+                  className="border-b border-white/8 px-0 py-2 last:border-b-0"
                   explainer={{
                     kicker: "Earning intelligence",
                     title: "Supply recommendations",
@@ -2386,10 +2378,10 @@ export default function DepositPageClient() {
                   )}
                 </dl>
               </details>
-            </details>
+            </section>
 
-            <details className="border border-white/10 bg-white/[0.035] px-4 py-4">
-              <summary className="flex cursor-pointer list-none items-start justify-between gap-3 outline-none">
+            <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
+              <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
                     Governance
@@ -2405,13 +2397,13 @@ export default function DepositPageClient() {
                   className="h-5 w-5 text-emerald-200"
                   aria-hidden="true"
                 />
-              </summary>
+              </div>
               <dl className="mt-4 grid gap-2">
                 {authorityRows.map((row) => (
                   <TelemetryExplainerTrigger
                     key={row.label}
                     as="div"
-                    className="border border-white/8 bg-black/20 px-3 py-2"
+                    className="border-b border-white/8 px-0 py-2 last:border-b-0"
                     explainer={{
                       kicker: "Governance",
                       title: row.label,
@@ -2443,10 +2435,10 @@ export default function DepositPageClient() {
                   </ProductRouteDisclosure>
                 </div>
               ) : null}
-            </details>
+            </section>
 
-            <details className="border border-white/10 bg-white/[0.035] px-4 py-4">
-              <summary className="flex cursor-pointer list-none items-start justify-between gap-3 outline-none">
+            <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
+              <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
                     Session
@@ -2462,13 +2454,13 @@ export default function DepositPageClient() {
                   className="h-5 w-5 text-emerald-200"
                   aria-hidden="true"
                 />
-              </summary>
+              </div>
               <dl className="mt-4 grid gap-2">
                 {sessionRows.map((row) => (
                   <TelemetryExplainerTrigger
                     key={row.label}
                     as="div"
-                    className="border border-white/8 bg-black/20 px-3 py-2"
+                    className="border-b border-white/8 px-0 py-2 last:border-b-0"
                     explainer={{
                       kicker: "Session state",
                       title: row.label,
@@ -2549,7 +2541,7 @@ export default function DepositPageClient() {
                   ]}
                 />
               </div>
-            </details>
+            </section>
           </aside>
         </section>
       </ProductRouteShell>

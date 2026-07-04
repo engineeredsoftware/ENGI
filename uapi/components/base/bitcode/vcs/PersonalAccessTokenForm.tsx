@@ -135,7 +135,7 @@ export function PersonalAccessTokenForm({
               </Button>
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-4 space-y-3">
-              <div className="rounded-lg border p-4 space-y-3">
+              <div className=" border p-4 space-y-3">
                 <p className="text-sm">
                   1. Go to your {providerInfo.label} token settings:
                 </p>

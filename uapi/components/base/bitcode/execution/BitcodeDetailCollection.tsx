@@ -37,7 +37,7 @@ export default function BitcodeDetailCollection({
       <div
         className={
           emptyClassName ||
-          'rounded-[1.1rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-300'
+          ' border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-300'
         }
       >
         {emptyMessage}
@@ -50,7 +50,7 @@ export default function BitcodeDetailCollection({
       {items.map((item) => (
         <div
           key={item.id}
-          className={itemClassName || 'rounded-[1.1rem] border border-white/8 bg-white/5 px-4 py-4'}
+          className={itemClassName || ' border border-white/8 bg-white/5 px-4 py-4'}
         >
           <p className={titleClassName || 'font-medium text-white'}>{item.title}</p>
           {item.summary ? <p className={`mt-1 ${summaryClassName || 'text-neutral-300'}`.trim()}>{item.summary}</p> : null}

@@ -720,10 +720,7 @@ export default function ReadPageClient() {
             </div>
           )}
           {selectedRun && !selectedPipelineRunId ? (
-            <div
-              data-testid="reads-run-summary"
-              className="mt-4 border border-white/10 bg-black/20 px-4 py-4"
-            >
+            <div data-testid="reads-run-summary" className="mt-4">
               <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
                 Run detail
               </p>

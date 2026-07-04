@@ -77,20 +77,16 @@ export default function BitcodeTransactionsTable({
       : 'Terminal uses this shared activity table as a focused result surface for recent Deposit, Read, proof, and closure work. Select a row to read its AssetPack evidence, proof posture, history, and execution updates.';
 
   return (
+    // No double-nesting: on the pipelines surface the page section already
+    // provides the card chrome and the header, so the shell renders flat —
+    // overview stats only, no second border/title/summary.
     <section
       data-testid="bitcode-transactions-table-shell"
-      aria-labelledby="bitcodeTransactionsTableTitle"
-      className="rounded-[1.35rem] border border-white/8 bg-black/20 px-4 py-4"
+      aria-labelledby={isPipelinesSurface ? undefined : "bitcodeTransactionsTableTitle"}
+      aria-label={isPipelinesSurface ? tableTitle : undefined}
+      className={isPipelinesSurface ? "" : "border border-white/8 bg-black/20 px-4 py-4"}
     >
-      <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
-        <div className="max-w-3xl">
-          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">{tableKicker}</p>
-          <h3 id="bitcodeTransactionsTableTitle" className="mt-1.5 text-lg font-semibold text-white">{tableTitle}</h3>
-          <p className="mt-2 text-sm leading-6 text-neutral-300">
-            {tableSummary}
-          </p>
-        </div>
-
+      {isPipelinesSurface ? (
         <BitcodeTransactionsOverview
           recordCount={filteredRecordCount}
           ownTransactionCount={ownTransactionCount}
@@ -98,7 +94,25 @@ export default function BitcodeTransactionsTable({
           selectedTransactionId={selectedTransactionId}
           dataMode={dataMode}
         />
-      </div>
+      ) : (
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+          <div className="max-w-3xl">
+            <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">{tableKicker}</p>
+            <h3 id="bitcodeTransactionsTableTitle" className="mt-1.5 text-lg font-semibold text-white">{tableTitle}</h3>
+            <p className="mt-2 text-sm leading-6 text-neutral-300">
+              {tableSummary}
+            </p>
+          </div>
+
+          <BitcodeTransactionsOverview
+            recordCount={filteredRecordCount}
+            ownTransactionCount={ownTransactionCount}
+            visibleTokenTotal={visibleTokenTotal}
+            selectedTransactionId={selectedTransactionId}
+            dataMode={dataMode}
+          />
+        </div>
+      )}
 
       <BitcodeTransactionsFilterBar
         filters={filters}

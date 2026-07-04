@@ -224,7 +224,7 @@ export default function BitcodeInlineExplainer({
         onMouseEnter={cancelScheduledHide}
         onMouseLeave={hideTooltipNow}
         className={cn(
-          'pointer-events-auto fixed z-[90] overflow-y-auto overscroll-contain rounded-[1.15rem] border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left text-sm font-normal normal-case tracking-normal opacity-100 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out',
+          'pointer-events-auto fixed z-[90] overflow-y-auto overscroll-contain border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left text-sm font-normal normal-case tracking-normal opacity-100 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out',
         )}
         style={tooltipPositionStyle(placement)}
       >
@@ -251,7 +251,7 @@ export default function BitcodeInlineExplainer({
             <ul className="mt-2 space-y-1.5 text-sm font-normal normal-case tracking-normal leading-6 text-neutral-200">
             {points.map((point) => (
               <li key={`${title}-${point}`} className="flex gap-2">
-                <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300/70" />
+                <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 bg-emerald-300/70" />
                 <span>{point}</span>
               </li>
             ))}
@@ -269,7 +269,7 @@ export default function BitcodeInlineExplainer({
                   {sourceRefs.map((ref) => (
                     <span
                       key={`${title}-source-${ref}`}
-                      className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-200"
+                      className=" border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-200"
                     >
                       {ref}
                     </span>
@@ -286,7 +286,7 @@ export default function BitcodeInlineExplainer({
                   {canonRefs.map((ref) => (
                     <span
                       key={`${title}-canon-${ref}`}
-                      className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-200"
+                      className=" border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-200"
                     >
                       {ref}
                     </span>
@@ -315,7 +315,7 @@ export default function BitcodeInlineExplainer({
         aria-label={triggerAriaLabel || `Explain ${title}`}
         onClick={(event) => event.preventDefault()}
         className={cn(
-          'inline-flex h-[1.125rem] min-h-[1.125rem] w-[1.125rem] min-w-[1.125rem] shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/5 text-[0.62rem] font-semibold leading-none text-neutral-300 transition hover:border-emerald-300/35 hover:bg-emerald-400/10 hover:text-emerald-100 focus-visible:border-emerald-300/35 focus-visible:bg-emerald-400/10 focus-visible:text-emerald-100 focus-visible:outline-none',
+          'inline-flex h-[1.125rem] min-h-[1.125rem] w-[1.125rem] min-w-[1.125rem] shrink-0 items-center justify-center border border-white/12 bg-white/5 text-[0.62rem] font-semibold leading-none text-neutral-300 transition hover:border-emerald-300/35 hover:bg-emerald-400/10 hover:text-emerald-100 focus-visible:border-emerald-300/35 focus-visible:bg-emerald-400/10 focus-visible:text-emerald-100 focus-visible:outline-none',
           triggerClassName,
         )}
       >

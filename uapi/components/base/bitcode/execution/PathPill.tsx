@@ -19,7 +19,7 @@ interface PathPillProps {
 // Utility class generator – keeps style footprint tiny while allowing
 // future token-based overrides.
 const BASE =
-  'inline-flex items-center justify-center px-2 py-[1px] text-[0.67rem] font-medium uppercase tracking-wider rounded-sm ring-1 ring-inset flex-shrink-0 select-none shadow-[inset_0_0_4px_var(--tw-ring-color)]';
+  'inline-flex items-center justify-center px-2 py-[1px] text-[0.67rem] font-medium uppercase tracking-wider ring-1 ring-inset flex-shrink-0 select-none shadow-[inset_0_0_4px_var(--tw-ring-color)]';
 
 const typeToClasses: Record<PillType, string> = {
   phase: `${BASE} bg-gradient-to-r from-gray-600/30 to-gray-600/10 text-gray-100 ring-gray-500/40`,

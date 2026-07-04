@@ -25,7 +25,7 @@ describe('BitcodeTransactionsActiveFilters', () => {
       />,
     );
 
-    expect(screen.getByText('Active filter posture')).toBeTruthy();
+    expect(screen.getByText('3 active filters')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Search: proof bundle ×' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Status: completed ×' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Participant: garrett ×' })).toBeTruthy();

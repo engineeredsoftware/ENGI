@@ -85,7 +85,7 @@ export function VCSProviderSelector({
 
   if (loading) {
     return (
-      <div className={cn("h-10 bg-muted animate-pulse rounded-md", className)} />
+      <div className={cn("h-10 bg-muted animate-pulse", className)} />
     );
   }
 
@@ -108,7 +108,7 @@ export function VCSProviderSelector({
 
     return (
       <div className={cn(
-        "inline-flex items-center gap-2 px-3 py-1.5 rounded-md border",
+        "inline-flex items-center gap-2 px-3 py-1.5 border",
         config.borderColor,
         className
       )}>

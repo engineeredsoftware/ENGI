@@ -112,7 +112,7 @@ export function TelemetryExplainerTrigger({
           ref={tooltipRef}
           onMouseEnter={cancelScheduledHide}
           onMouseLeave={hideTooltipNow}
-          className="pointer-events-auto fixed z-[90] overflow-y-auto overscroll-contain rounded-[1.15rem] border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left text-sm font-normal normal-case tracking-normal opacity-100 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out"
+          className="pointer-events-auto fixed z-[90] overflow-y-auto overscroll-contain border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left text-sm font-normal normal-case tracking-normal opacity-100 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out"
           style={tooltipPositionStyle(placement)}
         >
           <span
