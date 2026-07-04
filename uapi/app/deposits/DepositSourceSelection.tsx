@@ -87,6 +87,7 @@ export default function DepositSourceSelection({
   const [commits, setCommits] = useState<VCSCommit[]>([]);
   const [defaultBranch, setDefaultBranch] = useState<string | null>(null);
   const [isLoadingRepositories, setIsLoadingRepositories] = useState(false);
+  const [isLoadingConnection, setIsLoadingConnection] = useState(true);
   const [isLoadingBranches, setIsLoadingBranches] = useState(false);
   const [isLoadingCommits, setIsLoadingCommits] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -124,6 +125,7 @@ export default function DepositSourceSelection({
   useEffect(() => {
     let disposed = false;
     setError(null);
+    setIsLoadingConnection(true);
     fetch(`/api/vcs/${provider}/connection`)
       .then(async (response) => {
         const payload = await readJsonResponse(response);
@@ -142,6 +144,9 @@ export default function DepositSourceSelection({
             ? nextError.message
             : "Unable to load repository connection posture.",
         );
+      })
+      .finally(() => {
+        if (!disposed) setIsLoadingConnection(false);
       });
     return () => {
       disposed = true;
@@ -462,9 +467,11 @@ export default function DepositSourceSelection({
                 label: getProviderLabel(option),
                 description:
                   option === provider
-                    ? connectionStatus?.connected
-                      ? "Connected"
-                      : "Not connected"
+                    ? isLoadingConnection
+                      ? "Checking connection…"
+                      : connectionStatus?.connected
+                        ? "Connected"
+                        : "Not connected"
                     : null,
               }))}
               value={provider}
@@ -513,7 +520,9 @@ export default function DepositSourceSelection({
               placeholder={
                 connectionStatus?.connected
                   ? "Select repository supply..."
-                  : "Connect a repository provider first..."
+                  : isLoadingConnection
+                    ? "Checking provider connection..."
+                    : "Connect a repository provider first..."
               }
               className="w-full"
             />
@@ -642,6 +651,7 @@ export default function DepositSourceSelection({
       <button
         type="button"
         aria-label="Refresh repository inventory"
+        disabled={isLoadingConnection || isLoadingRepositories}
         onClick={() => {
           setConnectionStatus(null);
           setRepositories([]);
@@ -652,9 +662,16 @@ export default function DepositSourceSelection({
           setSourceSelectionError(null);
           setRefreshNonce((value) => value + 1);
         }}
-        className="mt-3 inline-flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-500 transition hover:text-neutral-300"
+        className="mt-3 inline-flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-500 transition hover:text-neutral-300 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        <RefreshCw className="h-3 w-3" /> Refresh inventory
+        <RefreshCw
+          className={`h-3 w-3 ${
+            isLoadingConnection || isLoadingRepositories ? "animate-spin" : ""
+          }`}
+        />{" "}
+        {isLoadingConnection || isLoadingRepositories
+          ? "Refreshing inventory…"
+          : "Refresh inventory"}
       </button>
     </section>
   );
