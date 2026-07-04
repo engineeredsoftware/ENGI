@@ -206,18 +206,11 @@ describe("DepositPageClient", () => {
     expect(
       screen.getByRole("heading", { name: "Depositing" }),
     ).toBeInTheDocument();
+    // The route step grid is removed from /deposits — the route header, the
+    // pipelines master-detail, and the flow sections carry the journey.
     expect(
-      screen.getByTestId("deposit-route-step-connect-source"),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId("deposit-route-step-synthesize-options"),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId("deposit-route-step-review-options"),
-    ).toHaveAttribute("data-deposit-step-state", "current");
-    expect(
-      screen.getByTestId("deposit-route-step-review-options"),
-    ).toHaveAttribute("aria-current", "step");
+      screen.queryByTestId("deposit-route-step-connect-source"),
+    ).not.toBeInTheDocument();
     expect(screen.getByText("Source-safe deposit state")).toBeInTheDocument();
     expect(screen.getByText("Disclosure boundary")).toBeInTheDocument();
     expect(

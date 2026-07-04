@@ -21,7 +21,6 @@ import {
   ProductRouteProofDetail,
   ProductRouteShell,
   ProductRouteStatePanel,
-  ProductRouteStepGrid,
 } from "@/components/base/bitcode/routes/product-route-shell";
 import { useUserData } from "@/hooks/useUserData";
 import { fetchPipelineExecutionHistory } from "@/networking/api-client";
@@ -1281,31 +1280,6 @@ export default function DepositPageClient() {
           },
         ]}
       >
-        <ProductRouteStepGrid
-          ariaLabel="Deposit steps"
-          activeStepId={depositRouteSession.activeStepId}
-          steps={depositRouteSession.steps}
-          tone="emerald"
-          testIdPrefix="deposit-route-step"
-          stateDataAttribute="data-deposit-step-state"
-          compact
-          onSelect={(stepId) => {
-            replaceDepositSearchParams(
-              writeDepositRouteStage(readCurrentSearchParams(), stepId),
-            );
-            if (typeof document === "undefined") return;
-            const targetId =
-              stepId.includes("connect") || stepId.includes("source")
-                ? "deposit-section-source"
-                : stepId.includes("synth")
-                  ? "deposit-section-synthesize"
-                  : "deposit-section-review";
-            document
-              .getElementById(targetId)
-              ?.scrollIntoView({ behavior: "smooth", block: "start" });
-          }}
-        />
-
         <section
           className="border border-white/10 bg-white/[0.035] px-4 py-4"
           aria-label="Deposit pipelines"
