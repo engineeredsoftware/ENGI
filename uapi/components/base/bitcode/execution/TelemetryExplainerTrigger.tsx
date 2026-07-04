@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { cn } from '@bitcode/styling';
@@ -45,37 +45,74 @@ export function TelemetryExplainerTrigger({
 }: TelemetryExplainerTriggerProps) {
   const [placement, setPlacement] = useState<TooltipPlacement | null>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const tooltipRef = useRef<HTMLSpanElement | null>(null);
+  const hideTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
+  const cancelScheduledHide = useCallback(() => {
+    if (hideTimeoutRef.current !== null) {
+      window.clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => cancelScheduledHide, [cancelScheduledHide]);
+
+  const hideTooltipNow = useCallback(() => {
+    cancelScheduledHide();
+    setPlacement(null);
+  }, [cancelScheduledHide]);
+
   useEffect(() => {
     if (!placement) return undefined;
-    const hideTooltip = () => setPlacement(null);
-    window.addEventListener('scroll', hideTooltip, true);
-    window.addEventListener('resize', hideTooltip);
-    return () => {
-      window.removeEventListener('scroll', hideTooltip, true);
-      window.removeEventListener('resize', hideTooltip);
+    // Scrolls INSIDE the tooltip must not dismiss it — that is how
+    // overflowing content is read (the tooltip is viewport-height capped
+    // and scrolls). Page scrolls and resizes still dismiss.
+    const hideOnViewportChange = (event: Event) => {
+      if (
+        tooltipRef.current &&
+        event.target instanceof Node &&
+        tooltipRef.current.contains(event.target)
+      ) {
+        return;
+      }
+      hideTooltipNow();
     };
-  }, [placement]);
+    window.addEventListener('scroll', hideOnViewportChange, true);
+    window.addEventListener('resize', hideTooltipNow);
+    return () => {
+      window.removeEventListener('scroll', hideOnViewportChange, true);
+      window.removeEventListener('resize', hideTooltipNow);
+    };
+  }, [hideTooltipNow, placement]);
 
   const showTooltip = useCallback(
     (event: React.SyntheticEvent<HTMLElement>) => {
+      cancelScheduledHide();
       setPlacement(resolveExplainerPlacement(event.currentTarget, side));
     },
-    [side],
+    [cancelScheduledHide, side],
   );
 
-  const hideTooltip = useCallback(() => setPlacement(null), []);
+  // Grace period so the pointer can travel from the trigger into the
+  // tooltip to scroll overflowing content without the tooltip vanishing.
+  const hideTooltip = useCallback(() => {
+    cancelScheduledHide();
+    hideTimeoutRef.current = window.setTimeout(() => setPlacement(null), 160);
+  }, [cancelScheduledHide]);
 
   const tooltipMarkup =
     isMounted && placement
       ? createPortal(
         <span
           role="tooltip"
-          className="pointer-events-none fixed z-[90] overflow-y-auto rounded-[1.15rem] border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left text-sm font-normal normal-case tracking-normal opacity-100 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out"
+          ref={tooltipRef}
+          onMouseEnter={cancelScheduledHide}
+          onMouseLeave={hideTooltipNow}
+          className="pointer-events-auto fixed z-[90] overflow-y-auto overscroll-contain rounded-[1.15rem] border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left text-sm font-normal normal-case tracking-normal opacity-100 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out"
           style={tooltipPositionStyle(placement)}
         >
           <span
