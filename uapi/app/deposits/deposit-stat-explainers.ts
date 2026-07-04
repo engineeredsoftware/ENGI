@@ -97,3 +97,18 @@ export const DEPOSIT_DISCLOSURE_BOUNDARY_EXPLAINER =
 
 export const DEPOSIT_AUTHORITY_BLOCKERS_EXPLAINER =
   "The concrete deposit actions the organization authority currently denies, and why. Repairing these unblocks the Submit deposit stage.";
+
+/**
+ * Section (b) generic copy for the stat tooltips — the what-is-this-type
+ * text rendered below the specific copy, per tooltip kicker.
+ */
+export const DEPOSIT_STAT_TOOLTIP_GENERICS = {
+  sessionState:
+    "Session state rows are the source-safe state of this deposit route — derived from the connected source package and this session's measurements, never from withheld source content.",
+  governance:
+    "Governance rows come from the organization policy + wallet authority evaluation that gates every deposit action; denied actions list their blockers.",
+  earningIntelligence:
+    "Earning intelligence rows come from the DepositorEarningSupplyIntelligence measurement: network demand, unfit-Need opportunities, and expected compensation for this supply.",
+  opportunityRoot:
+    "Proof roots are source-safe hashes anchoring measurements into proof readback — auditable without revealing withheld content.",
+} as const;

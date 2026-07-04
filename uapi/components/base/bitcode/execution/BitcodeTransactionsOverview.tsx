@@ -27,6 +27,12 @@ export default function BitcodeTransactionsOverview({
   const modeLabel = getTransactionDataModeLabel(dataMode);
   const modeDescription = getTransactionDataModeDescription(dataMode);
 
+  // Section (b) generic copy for the overview's rich tooltips.
+  const tableStatGeneric =
+    'Table stats summarize the rows currently visible under the active filters and lens.';
+  const tableStateGeneric =
+    'Table state pills describe how this table is fed, filtered, and selected right now.';
+
   const statCardClass =
     'flex items-baseline gap-2 border border-white/8 bg-white/5 px-2.5 py-1';
   const pillClass =
@@ -43,6 +49,7 @@ export default function BitcodeTransactionsOverview({
             title: 'Activity',
             specific:
               'How many rows the table currently shows after filters — every execution row this account can read for the active lens.',
+            generic: tableStatGeneric,
           }}
         >
           <p className="text-emerald-300/85">Activity</p>
@@ -56,6 +63,7 @@ export default function BitcodeTransactionsOverview({
             title: 'Own visible',
             specific:
               'How many of the visible rows are your own transactions — runs where this account is the depositor or reader.',
+            generic: tableStatGeneric,
           }}
         >
           <p className="text-emerald-300/85">Own visible</p>
@@ -69,6 +77,7 @@ export default function BitcodeTransactionsOverview({
             title: 'Visible tokens',
             specific:
               'Total measured tokens across the visible rows — the size of the work the listed runs performed.',
+            generic: tableStatGeneric,
           }}
         >
           <p className="text-emerald-300/85">Visible tokens</p>
@@ -80,6 +89,7 @@ export default function BitcodeTransactionsOverview({
             title: 'Selection',
             specific:
               'Whether a row is currently selected. Selecting a row opens its detail in place of the table; Back returns here.',
+            generic: tableStateGeneric,
           }}
         >
           <span className={pillClass}>
@@ -91,6 +101,7 @@ export default function BitcodeTransactionsOverview({
             kicker: 'Table state',
             title: `Mode ${modeLabel}`,
             specific: modeDescription,
+            generic: tableStateGeneric,
           }}
         >
           <span className={pillClass}>mode {modeLabel}</span>
@@ -101,6 +112,7 @@ export default function BitcodeTransactionsOverview({
             title: 'Data source',
             specific:
               'Where the rows come from in the current mode — live rows read the executions history feed; mock rows are review fixtures.',
+            generic: tableStateGeneric,
           }}
         >
           <span className={pillClass}>{modeDescription}</span>
@@ -111,6 +123,7 @@ export default function BitcodeTransactionsOverview({
             title: 'Search coverage',
             specific:
               'The free-text search filter matches run ids, repositories, branches, participants, proof posture, and run summaries.',
+            generic: tableStateGeneric,
           }}
         >
           <span className={pillClass}>

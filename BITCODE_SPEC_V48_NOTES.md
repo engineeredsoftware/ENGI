@@ -604,6 +604,17 @@ shared transactions/telemetry components) is governed by these laws:
   (copy: `uapi/app/deposits/deposit-stat-explainers.ts`). Tooltips are
   viewport-height capped and INTERACTIVE: overflow scrolls inside the
   tooltip (pointer can travel in; inner scrolls do not dismiss it).
+- **All tooltips carry ALL their sections.** Two tooltip families, each
+  with a complete required section set:
+  - Hover stat/pill tooltips (`TelemetryPillExplainer`): kicker + title +
+    SPECIFIC copy (this exact value) + GENERIC type copy below the divider.
+    `generic` is TYPE-REQUIRED — a tooltip without the second section does
+    not compile.
+  - Inline (i) explainers (`BitcodeExplainer`): kicker, title, summary,
+    detail, 'Use this to' points, and references (current source files +
+    current canon). Every explainer entry on the product surfaces
+    (transaction filters/table, deposit sections, terminal workspace)
+    carries all six.
 - **The one rich dropdown.** Every pick-one control is the shared
   SearchableSelect combobox (square, text-searchable): all seven table
   filters, provider, repository, branch, and commit. The deposit source

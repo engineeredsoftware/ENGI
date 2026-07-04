@@ -72,6 +72,7 @@ import BitcodeInlineExplainer from "@/components/base/bitcode/execution/BitcodeI
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/app/deposits/deposit-explainers";
 import {
   DEPOSIT_AUTHORITY_BLOCKERS_EXPLAINER,
+  DEPOSIT_STAT_TOOLTIP_GENERICS,
   DEPOSIT_AUTHORITY_ROW_EXPLAINERS,
   DEPOSIT_DISCLOSURE_BOUNDARY_EXPLAINER,
   DEPOSIT_EARNING_ROW_EXPLAINERS,
@@ -2279,6 +2280,7 @@ export default function DepositPageClient() {
                     kicker: "Earning intelligence",
                     title: "Likely demand",
                     specific: DEPOSIT_EARNING_ROW_EXPLAINERS["Likely demand"],
+                    generic: DEPOSIT_STAT_TOOLTIP_GENERICS.earningIntelligence,
                   }}
                 >
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
@@ -2300,6 +2302,7 @@ export default function DepositPageClient() {
                     kicker: "Earning intelligence",
                     title: "Unfit Need opportunities",
                     specific: DEPOSIT_EARNING_ROW_EXPLAINERS["Unfit Need opportunities"],
+                    generic: DEPOSIT_STAT_TOOLTIP_GENERICS.earningIntelligence,
                   }}
                 >
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
@@ -2324,6 +2327,7 @@ export default function DepositPageClient() {
                     kicker: "Earning intelligence",
                     title: "Expected compensation",
                     specific: DEPOSIT_EARNING_ROW_EXPLAINERS["Expected compensation"],
+                    generic: DEPOSIT_STAT_TOOLTIP_GENERICS.earningIntelligence,
                   }}
                 >
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
@@ -2348,6 +2352,7 @@ export default function DepositPageClient() {
                     kicker: "Earning intelligence",
                     title: "Supply recommendations",
                     specific: DEPOSIT_EARNING_ROW_EXPLAINERS["Supply recommendations"],
+                    generic: DEPOSIT_STAT_TOOLTIP_GENERICS.earningIntelligence,
                   }}
                 >
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
@@ -2381,6 +2386,7 @@ export default function DepositPageClient() {
                           kicker: "Opportunity root",
                           title: opportunity.label,
                           specific: DEPOSIT_OPPORTUNITY_ROOT_EXPLAINER,
+                          generic: DEPOSIT_STAT_TOOLTIP_GENERICS.opportunityRoot,
                         }}
                       >
                         <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">
@@ -2426,6 +2432,7 @@ export default function DepositPageClient() {
                       specific:
                         DEPOSIT_AUTHORITY_ROW_EXPLAINERS[row.label] ??
                         "Organization authority state for this deposit route.",
+                      generic: DEPOSIT_STAT_TOOLTIP_GENERICS.governance,
                     }}
                   >
                     <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
@@ -2483,6 +2490,7 @@ export default function DepositPageClient() {
                       specific:
                         DEPOSIT_SESSION_ROW_EXPLAINERS[row.label] ??
                         "Source-safe session state for this deposit route.",
+                      generic: DEPOSIT_STAT_TOOLTIP_GENERICS.sessionState,
                     }}
                   >
                     <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">

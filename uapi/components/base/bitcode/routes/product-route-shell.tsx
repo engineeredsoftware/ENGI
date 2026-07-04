@@ -13,6 +13,14 @@ import {
 
 type ProductRouteTone = "emerald" | "sky" | "violet";
 
+// Section (b) generic copy for the shell's rich tooltips.
+const ROUTE_METRIC_TOOLTIP_GENERIC =
+  "Route metrics are the compact live posture of this page's session, rendered as chips in the route header.";
+const ROUTE_PANEL_TOOLTIP_GENERIC =
+  "Panels group related source-safe state; expanding the disclosure shows the full detail.";
+const PROOF_ROOT_TOOLTIP_GENERIC =
+  "Proof roots are source-safe hashes anchoring measurements into proof readback — auditable without revealing withheld content.";
+
 type ToneClasses = {
   page: string;
   headerBorder: string;
@@ -144,6 +152,7 @@ export function ProductRouteShell({
                     kicker: "Route metric",
                     title: metric.label,
                     specific: metric.description,
+                    generic: ROUTE_METRIC_TOOLTIP_GENERIC,
                   }}
                 >
                   {chipBody}
@@ -299,6 +308,7 @@ export function ProductRouteDisclosure({
               kicker: "Panel",
               title,
               specific: summaryDescription,
+              generic: ROUTE_PANEL_TOOLTIP_GENERIC,
             }}
           >
             {title}
@@ -493,6 +503,7 @@ export function ProductRouteProofDetail({
                   kicker: "Proof root",
                   title: proofRoot.label,
                   specific: proofRoot.description,
+                  generic: PROOF_ROOT_TOOLTIP_GENERIC,
                 }}
               >
                 {rowBody}

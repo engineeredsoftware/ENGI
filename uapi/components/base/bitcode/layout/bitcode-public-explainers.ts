@@ -15,6 +15,13 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'Searches and filters source-safe pack activity',
       'Keeps proof and settlement detail expandable without exposing unpaid source',
     ],
+    references: {
+      source: [
+        'uapi/components/base/bitcode/layout/nav.tsx',
+        'uapi/app/packs/page.tsx',
+      ],
+      canon: ['BITCODE_SPEC_V48_NOTES.md — product routes pluralize + master-detail pipelines'],
+    },
   }),
   read: buildExplainer({
     kicker: 'Bitcode Read',
@@ -26,6 +33,13 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'Separates Read-Need review from Finding Fits',
       'Keeps AssetPack preview source-safe until paid read rights unlock delivery',
     ],
+    references: {
+      source: [
+        'uapi/components/base/bitcode/layout/nav.tsx',
+        'uapi/app/reads/ReadPageClient.tsx',
+      ],
+      canon: ['BITCODE_SPEC_V48_NOTES.md — product routes pluralize + master-detail pipelines'],
+    },
   }),
   deposit: buildExplainer({
     kicker: 'Bitcode Deposit',
@@ -37,6 +51,13 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'Synthesize reviewable AssetPack options before admission',
       'Keeps criticality, ROI, compensation policy, and admission boundaries explicit',
     ],
+    references: {
+      source: [
+        'uapi/components/base/bitcode/layout/nav.tsx',
+        'uapi/app/deposits/DepositPageClient.tsx',
+      ],
+      canon: ['BITCODE_SPEC_V48_NOTES.md — product routes pluralize + master-detail pipelines'],
+    },
   }),
   transactions: buildExplainer({
     kicker: 'Proof readback',
@@ -48,6 +69,12 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'Loads selected execution detail, proofs, history, and closure posture',
       'Keeps source-bearing AssetPack contents withheld until finality, rights transfer, and repository delivery',
     ],
+    references: {
+      source: [
+        'uapi/components/base/bitcode/layout/footer.tsx',
+      ],
+      canon: ['BITCODE_SPEC_V48_NOTES.md — product routes pluralize + master-detail pipelines'],
+    },
   }),
   docs: buildExplainer({
     kicker: 'Teaching surface',
@@ -59,6 +86,12 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'Keeps walkthroughs and explainers under one documentation area',
       'Preserves pedagogical prose instead of flattening the system into a brochure',
     ],
+    references: {
+      source: [
+        'uapi/app/docs/bitcode-docs-content.ts',
+      ],
+      canon: ['BITCODE_SPEC_V48_NOTES.md — product routes pluralize + master-detail pipelines'],
+    },
   }),
   openOrbitals: buildExplainer({
     kicker: 'Identity + interface',
@@ -70,6 +103,12 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'Opens the contained auxillary shell',
       'Keeps Auxillaries distinct from Packs, Deposit, Read, and Docs',
     ],
+    references: {
+      source: [
+        'uapi/components/base/bitcode/layout/nav.tsx',
+      ],
+      canon: ['BITCODE_SPEC_V48_NOTES.md — product routes pluralize + master-detail pipelines'],
+    },
   }),
   protocolSpec: buildExplainer({
     kicker: 'Protocol reference',
@@ -82,5 +121,11 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'Protocol law and proof readback decide state',
       'Useful for partners, researchers, and implementation review',
     ],
+    references: {
+      source: [
+        'uapi/components/base/bitcode/layout/footer.tsx',
+      ],
+      canon: ['BITCODE_SPEC_V48_NOTES.md — product routes pluralize + master-detail pipelines'],
+    },
   }),
 } as const;
