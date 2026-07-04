@@ -282,10 +282,43 @@ describe("DepositPageClient", () => {
     expect(
       screen.queryByTestId("deposit-selected-packs"),
     ).not.toBeInTheDocument();
-    // Master-detail: the Deposits page lists pipeline runs in a table; row
-    // selection connects the Telemetry + Options detail.
+    // Drill-in master-detail: the selected run (deposit-1) REPLACES the
+    // table with its run detail once adoption settles; Back returns to the
+    // table.
     expect(screen.getByText("Deposit pipelines")).toBeInTheDocument();
-    expect(screen.getByTestId("deposits-pipelines-table")).toBeInTheDocument();
+    await waitFor(() =>
+      expect(
+        screen.getByTestId("deposit-synthesis-telemetry"),
+      ).toBeInTheDocument(),
+    );
+    expect(
+      screen.queryByTestId("deposits-pipelines-table"),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Back to Deposit pipelines" }),
+    ).toBeInTheDocument();
+  });
+
+  it("returns from the run detail to the pipelines table via Back", async () => {
+    render(<DepositPageClient />);
+
+    const backButton = await screen.findByRole("button", {
+      name: "Back to Deposit pipelines",
+    });
+    fireEvent.click(backButton);
+
+    // Back detaches the run (detail unmounts, table returns) and clears the
+    // URL selection.
+    await waitFor(() =>
+      expect(
+        screen.getByTestId("deposits-pipelines-table"),
+      ).toBeInTheDocument(),
+    );
+    expect(
+      screen.queryByTestId("deposit-synthesis-telemetry"),
+    ).not.toBeInTheDocument();
+    const lastHref = String(mockReplace.mock.calls.at(-1)?.[0] ?? "");
+    expect(lastHref).not.toContain("transactionId=");
   });
 
   it("resumes a completed synthesis run's results when its row is selected (master-detail)", async () => {

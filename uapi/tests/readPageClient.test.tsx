@@ -8,7 +8,7 @@ jest.mock("@/components/base/bitcode/execution/FileDiffViewer", () => ({
 
 import React from "react";
 import "@testing-library/jest-dom";
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 import ReadPageClient from "@/app/reads/ReadPageClient";
 
@@ -234,10 +234,46 @@ describe("ReadPageClient", () => {
     );
     expect(workbench).toHaveAttribute("data-route-stage", "request-fit");
     expect(workbench).toHaveAttribute("data-demonstration", "false");
-    // Master-detail: the Reads page lists pipeline runs in a table; row
-    // selection connects the telemetry detail.
+    // Drill-in master-detail: the selected run (read-admission-1, not a
+    // formal pipeline execution) REPLACES the table with its run summary
+    // detail; Back returns to the table.
     expect(screen.getByText("Read pipelines")).toBeInTheDocument();
-    expect(screen.getByTestId("reads-pipelines-table")).toBeInTheDocument();
+    expect(
+      screen.queryByTestId("reads-pipelines-table"),
+    ).not.toBeInTheDocument();
+    const summary = screen.getByTestId("reads-run-summary");
+    expect(summary).toHaveTextContent("read-admission-1");
+    expect(summary).toHaveTextContent("agentic-execution:read-measurement");
+    expect(
+      screen.getByRole("button", { name: "Back to Read pipelines" }),
+    ).toBeInTheDocument();
+  });
+
+  it("returns from the run detail to the pipelines table via Back", async () => {
+    mockQuery = "";
+    render(<ReadPageClient />);
+
+    // No selection: the master table shows, no detail and no Back button.
+    expect(
+      await screen.findByTestId("reads-pipelines-table"),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId("reads-run-summary")).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Back to Read pipelines" }),
+    ).not.toBeInTheDocument();
+
+    // Selecting a run (URL selection) swaps the table for the detail; Back
+    // clears the URL selection.
+    mockQuery = "transactionId=read-admission-1";
+    const { unmount } = render(<ReadPageClient />);
+    const backButton = await screen.findByRole("button", {
+      name: "Back to Read pipelines",
+    });
+    fireEvent.click(backButton);
+    await waitFor(() => expect(mockReplace).toHaveBeenCalled());
+    const lastHref = String(mockReplace.mock.calls.at(-1)?.[0] ?? "");
+    expect(lastHref).not.toContain("transactionId=");
+    unmount();
   });
 
   it("renders buyer fit measurement review and settlement/rights/delivery readback", async () => {

@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Anchor,
+  ArrowLeft,
   Boxes,
   RefreshCw,
   ShieldCheck,
@@ -36,10 +37,10 @@ import {
 } from "@/app/terminal/terminal-activity-history";
 import type { TerminalRepositoryContextState } from "@/app/terminal/terminal-repository-context";
 import {
+  clearTerminalTransactionId,
   readTerminalTransactionId,
   writeTerminalTransactionId,
 } from "@/app/terminal/terminal-transaction-query";
-import { shouldRecoverTerminalTransactionRoute } from "@/app/terminal/terminal-transaction-query";
 import type { WorkspaceRun } from "@/app/terminal/terminal-run-data";
 import TerminalTransactionsTable from "@/app/terminal/TerminalTransactionsTable";
 import {
@@ -274,6 +275,18 @@ export default function DepositPageClient() {
     [readCurrentSearchParams, replaceDepositSearchParams],
   );
 
+  // Back from the run detail (drill-in sub-page) to the pipelines table:
+  // clear the URL selection and detach the run so the master table returns.
+  const closePipelineDetail = useCallback(() => {
+    replaceDepositSearchParams(
+      clearTerminalTransactionId(readCurrentSearchParams()),
+    );
+    setSynthesisRunId(null);
+    setSynthesisStatus("idle");
+    setSynthesisError(null);
+    setSynthesisDispatchedAtMs(null);
+  }, [readCurrentSearchParams, replaceDepositSearchParams]);
+
   const refreshLiveRuns = useCallback(async () => {
     setIsLoadingRuns(true);
     setRunsLoadError(null);
@@ -300,23 +313,12 @@ export default function DepositPageClient() {
     void refreshLiveRuns();
   }, [refreshLiveRuns]);
 
-  useEffect(() => {
-    if (
-      !shouldRecoverTerminalTransactionRoute({
-        transactionIds: liveRuns.map((run) => run.id),
-        selectedTransactionId,
-      })
-    ) {
-      return;
-    }
-    replaceDepositRouteTransaction(liveRuns[0].id);
-  }, [liveRuns, replaceDepositRouteTransaction, selectedTransactionId]);
-
+  // Selection is EXPLICIT (drill-in sub-page model): no auto-recovery to the
+  // newest run and no first-row fallback — with nothing selected the master
+  // table shows, and selecting a row replaces it with the run detail.
   const selectedRun = useMemo(
     () =>
-      liveRuns.find((run) => run.id === selectedTransactionId) ||
-      liveRuns[0] ||
-      null,
+      liveRuns.find((run) => run.id === selectedTransactionId) || null,
     [liveRuns, selectedTransactionId],
   );
 
@@ -1309,14 +1311,27 @@ export default function DepositPageClient() {
           aria-label="Deposit pipelines"
         >
           <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="text-[0.68rem] uppercase tracking-[0.22em] text-neutral-500">
-                Pipelines
-              </p>
-              <h2 className="mt-2 flex items-center gap-2 text-lg font-semibold text-white">
-                <span>Deposit pipelines</span>
-                <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.readback} />
-              </h2>
+            <div className="flex items-start gap-3">
+              {synthesisRunId ? (
+                <button
+                  type="button"
+                  onClick={closePipelineDetail}
+                  className="inline-flex h-9 items-center gap-2 border border-white/10 bg-white/[0.04] px-3 text-xs font-medium uppercase tracking-[0.14em] text-neutral-200 transition hover:border-emerald-300/30 hover:bg-emerald-300/10"
+                  aria-label="Back to Deposit pipelines"
+                >
+                  <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+                  Back
+                </button>
+              ) : null}
+              <div>
+                <p className="text-[0.68rem] uppercase tracking-[0.22em] text-neutral-500">
+                  Pipelines
+                </p>
+                <h2 className="mt-2 flex items-center gap-2 text-lg font-semibold text-white">
+                  <span>Deposit pipelines</span>
+                  <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.readback} />
+                </h2>
+              </div>
             </div>
             <button
               type="button"
@@ -1329,37 +1344,206 @@ export default function DepositPageClient() {
               <RefreshCw className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>
-          {/* Master table of Deposit pipeline runs — selecting a row writes
-              the URL transactionId; a synthesis run's selection connects the
-              Telemetry + Options detail below (live stream when running,
-              resumed results when completed). */}
-          <div className="mt-4" data-testid="deposits-pipelines-table">
-            <TerminalTransactionsTable
-              runs={liveRuns}
-              selectedTransactionId={selectedRun?.id ?? null}
-              onSelectTransaction={replaceDepositRouteTransaction}
-              filters={pipelineFilters}
-              onFiltersChange={setPipelineFilters}
-              onResetFilters={() =>
-                setPipelineFilters({
-                  ...DEFAULT_TRANSACTION_FILTERS,
-                  transactionLens: "deposit",
-                })
-              }
-              pagination={pipelinePagination}
-              onPaginationChange={setPipelinePagination}
-              isLoadingRuns={isLoadingRuns}
-              runsError={runsLoadError}
-              transactionDataMode="live"
-              surface="pipelines"
-            />
-          </div>
-          <Link
-            href="/packs?type=depository-assetpack"
-            className="mt-3 inline-flex w-full items-center justify-center border border-emerald-300/20 bg-emerald-300/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/40 hover:bg-emerald-300/15"
-          >
-            Open pack activity
-          </Link>
+          {/* Drill-in master-detail: with no selection the master table shows
+              (row selection writes the URL transactionId); selecting a run
+              REPLACES the table with that run's detail (telemetry + resumed
+              results), and Back returns to the table. */}
+          {synthesisRunId ? null : (
+            <>
+              <div className="mt-4" data-testid="deposits-pipelines-table">
+                <TerminalTransactionsTable
+                  runs={liveRuns}
+                  selectedTransactionId={selectedRun?.id ?? null}
+                  onSelectTransaction={replaceDepositRouteTransaction}
+                  filters={pipelineFilters}
+                  onFiltersChange={setPipelineFilters}
+                  onResetFilters={() =>
+                    setPipelineFilters({
+                      ...DEFAULT_TRANSACTION_FILTERS,
+                      transactionLens: "deposit",
+                    })
+                  }
+                  pagination={pipelinePagination}
+                  onPaginationChange={setPipelinePagination}
+                  isLoadingRuns={isLoadingRuns}
+                  runsError={runsLoadError}
+                  transactionDataMode="live"
+                  surface="pipelines"
+                />
+              </div>
+              <Link
+                href="/packs?type=depository-assetpack"
+                className="mt-3 inline-flex w-full items-center justify-center border border-emerald-300/20 bg-emerald-300/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/40 hover:bg-emerald-300/15"
+              >
+                Open pack activity
+              </Link>
+            </>
+          )}
+            {synthesisRunId ? (
+            <section
+              ref={synthesisTelemetryRef}
+              className="mt-4 min-w-0 overflow-hidden border border-white/10 bg-black/20 px-4 py-4"
+              aria-label="Asset Pack Synthesis telemetry"
+              data-testid="deposit-synthesis-telemetry"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
+                    {synthesisRunExpectsOptions
+                      ? "Asset Pack Synthesis"
+                      : "Pipeline run"}
+                  </p>
+                  <h2 className="mt-2 flex items-center gap-2 text-lg font-semibold text-white">
+                    <span>Telemetry</span>
+                    <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.synthesisTelemetry} />
+                  </h2>
+                  {synthesisLiveContext ? (
+                    <div
+                      className="mt-3"
+                      data-testid="deposit-telemetry-live-tracker"
+                    >
+                      <ExecutionContextPillRow
+                        phase={synthesisLiveContext.phase}
+                        agent={synthesisLiveContext.agent}
+                        step={synthesisLiveContext.step}
+                        failsafe={synthesisLiveContext.failsafe}
+                        generation={synthesisLiveContext.generation}
+                        mode="deposit"
+                      />
+                    </div>
+                  ) : (
+                    <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-400">
+                      Source-safe pipeline telemetry streamed live from the
+                      running synthesis: phases, agents, generation stages,
+                      provider, model, and usage. Prompt and response content
+                      stays withheld by law.
+                    </p>
+                  )}
+                </div>
+                <div className="flex items-center gap-3">
+                  <QuantumOrb
+                    key={synthesisRunning ? "telemetry-orb-running" : "telemetry-orb-idle"}
+                    size={24}
+                    config={verifiedAccessOrbConfig}
+                    initialState={synthesisRunning ? "active" : "rest"}
+                    interactive={false}
+                    respectReducedMotion
+                    className="shrink-0"
+                  />
+                  <RunClock
+                    startedAtMs={synthesisRunStartMs}
+                    running={synthesisRunning}
+                    endedAtMs={synthesisRunEndMs}
+                    className="font-mono text-[0.72rem] text-emerald-100/90"
+                  />
+                  {typeof synthesisActivity.currentIteration === "number" && (
+                    <span
+                      title="DIV loop iteration (Discovery → Implementation → Validation)"
+                      className="border border-emerald-300/15 bg-emerald-300/10 px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-emerald-100"
+                    >
+                      iter {synthesisActivity.currentIteration}
+                    </span>
+                  )}
+                  <span className="border border-white/10 bg-black/30 px-3 py-2 font-mono text-[0.62rem] text-neutral-400">
+                    {synthesisRunId}
+                  </span>
+                </div>
+              </div>
+              {synthesisActivity.readyToFinishVerdicts.length > 0 &&
+                (() => {
+                  const verdicts = synthesisActivity.readyToFinishVerdicts;
+                  const latest = verdicts[verdicts.length - 1];
+                  const prior = verdicts.slice(0, -1);
+                  const approved = latest.finalApproval === true;
+                  return (
+                    <div
+                      data-testid="deposit-telemetry-readiness-verdict"
+                      className={`mt-3 border px-3 py-2 text-xs leading-5 ${
+                        approved
+                          ? "border-emerald-300/20 bg-emerald-300/5 text-emerald-100/90"
+                          : "border-amber-300/20 bg-amber-300/5 text-amber-100/90"
+                      }`}
+                    >
+                      <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em]">
+                        {`iter ${latest.iteration ?? "—"} verdict · `}
+                        {approved
+                          ? "ready to finish"
+                          : `iterate${latest.recommendation ? ` (${latest.recommendation})` : ""}`}
+                        {typeof latest.qualityScore === "number" &&
+                          ` · quality ${latest.qualityScore.toFixed(2)}`}
+                        {typeof latest.overallConfidence === "number" &&
+                          ` · confidence ${latest.overallConfidence.toFixed(2)}`}
+                        {latest.warningsCount > 0 && ` · ${latest.warningsCount} warnings`}
+                      </p>
+                      {approved
+                        ? latest.summary && (
+                            <p className="mt-1 max-w-4xl text-neutral-300">{latest.summary}</p>
+                          )
+                        : latest.reasons.length > 0 && (
+                            <ul className="mt-1 max-w-4xl list-disc space-y-1 pl-4 text-neutral-300">
+                              {latest.reasons.map((reason, index) => (
+                                <li key={index}>{reason}</li>
+                              ))}
+                            </ul>
+                          )}
+                      {prior.length > 0 && (
+                        <p className="mt-2 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">
+                          {prior
+                            .map(
+                              (verdict) =>
+                                `iter ${verdict.iteration ?? "—"}: ${
+                                  verdict.finalApproval === true
+                                    ? "ready"
+                                    : `iterate (${verdict.recommendation ?? "not approved"}, ${verdict.reasons.length} reasons)`
+                                }`,
+                            )
+                            .join(" · ")}
+                        </p>
+                      )}
+                    </div>
+                  );
+                })()}
+              <div className="mt-4 min-w-0">
+                <PipelineExecutionLog
+                  output={synthesisActivity.output}
+                  outputDetails={synthesisActivity.outputDetails}
+                  isProcessing={synthesisStatus === "running"}
+                  error={
+                    synthesisStatus === "failed"
+                      ? synthesisError
+                      : synthesisActivity.error
+                  }
+                  onRetry={() => {
+                    void handleSynthesizeOptions();
+                  }}
+                  onDismissError={() => setSynthesisError(null)}
+                  userHasScrolled={synthesisLogScrolled}
+                  setUserHasScrolled={setSynthesisLogScrolled}
+                  pipelineMode="deposit"
+                  liveContext={synthesisLiveContext}
+                  copyData={{
+                    runId: synthesisRunId,
+                    status: synthesisStatus,
+                    error:
+                      synthesisStatus === "failed"
+                        ? synthesisError
+                        : synthesisActivity.error,
+                    inputs: {
+                      repositoryFullName:
+                        repositoryContext?.selectedRepository?.fullName ?? null,
+                      sourceBranch: repositoryContext?.selectedBranch ?? null,
+                      sourceCommit: repositoryContext?.selectedCommit ?? null,
+                      obfuscations,
+                      protectedIpExclusions: protectedIpExclusionsText,
+                    },
+                    outputDetails: synthesisActivity.outputDetails,
+                    events: synthesisEvents,
+                  }}
+                  compact
+                />
+              </div>
+            </section>
+          ) : null}
         </section>
 
         <section className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]">
@@ -1480,171 +1664,7 @@ export default function DepositPageClient() {
               </section>
             </div>
 
-            {synthesisRunId ? (
-              <section
-                ref={synthesisTelemetryRef}
-                className="min-w-0 overflow-hidden border border-white/10 bg-white/[0.035] px-4 py-4"
-                aria-label="Asset Pack Synthesis telemetry"
-                data-testid="deposit-synthesis-telemetry"
-              >
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
-                      {synthesisRunExpectsOptions
-                        ? "Asset Pack Synthesis"
-                        : "Pipeline run"}
-                    </p>
-                    <h2 className="mt-2 flex items-center gap-2 text-lg font-semibold text-white">
-                      <span>Telemetry</span>
-                      <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.synthesisTelemetry} />
-                    </h2>
-                    {synthesisLiveContext ? (
-                      <div
-                        className="mt-3"
-                        data-testid="deposit-telemetry-live-tracker"
-                      >
-                        <ExecutionContextPillRow
-                          phase={synthesisLiveContext.phase}
-                          agent={synthesisLiveContext.agent}
-                          step={synthesisLiveContext.step}
-                          failsafe={synthesisLiveContext.failsafe}
-                          generation={synthesisLiveContext.generation}
-                          mode="deposit"
-                        />
-                      </div>
-                    ) : (
-                      <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-400">
-                        Source-safe pipeline telemetry streamed live from the
-                        running synthesis: phases, agents, generation stages,
-                        provider, model, and usage. Prompt and response content
-                        stays withheld by law.
-                      </p>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <QuantumOrb
-                      key={synthesisRunning ? "telemetry-orb-running" : "telemetry-orb-idle"}
-                      size={24}
-                      config={verifiedAccessOrbConfig}
-                      initialState={synthesisRunning ? "active" : "rest"}
-                      interactive={false}
-                      respectReducedMotion
-                      className="shrink-0"
-                    />
-                    <RunClock
-                      startedAtMs={synthesisRunStartMs}
-                      running={synthesisRunning}
-                      endedAtMs={synthesisRunEndMs}
-                      className="font-mono text-[0.72rem] text-emerald-100/90"
-                    />
-                    {typeof synthesisActivity.currentIteration === "number" && (
-                      <span
-                        title="DIV loop iteration (Discovery → Implementation → Validation)"
-                        className="border border-emerald-300/15 bg-emerald-300/10 px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-emerald-100"
-                      >
-                        iter {synthesisActivity.currentIteration}
-                      </span>
-                    )}
-                    <span className="border border-white/10 bg-black/30 px-3 py-2 font-mono text-[0.62rem] text-neutral-400">
-                      {synthesisRunId}
-                    </span>
-                  </div>
-                </div>
-                {synthesisActivity.readyToFinishVerdicts.length > 0 &&
-                  (() => {
-                    const verdicts = synthesisActivity.readyToFinishVerdicts;
-                    const latest = verdicts[verdicts.length - 1];
-                    const prior = verdicts.slice(0, -1);
-                    const approved = latest.finalApproval === true;
-                    return (
-                      <div
-                        data-testid="deposit-telemetry-readiness-verdict"
-                        className={`mt-3 border px-3 py-2 text-xs leading-5 ${
-                          approved
-                            ? "border-emerald-300/20 bg-emerald-300/5 text-emerald-100/90"
-                            : "border-amber-300/20 bg-amber-300/5 text-amber-100/90"
-                        }`}
-                      >
-                        <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em]">
-                          {`iter ${latest.iteration ?? "—"} verdict · `}
-                          {approved
-                            ? "ready to finish"
-                            : `iterate${latest.recommendation ? ` (${latest.recommendation})` : ""}`}
-                          {typeof latest.qualityScore === "number" &&
-                            ` · quality ${latest.qualityScore.toFixed(2)}`}
-                          {typeof latest.overallConfidence === "number" &&
-                            ` · confidence ${latest.overallConfidence.toFixed(2)}`}
-                          {latest.warningsCount > 0 && ` · ${latest.warningsCount} warnings`}
-                        </p>
-                        {approved
-                          ? latest.summary && (
-                              <p className="mt-1 max-w-4xl text-neutral-300">{latest.summary}</p>
-                            )
-                          : latest.reasons.length > 0 && (
-                              <ul className="mt-1 max-w-4xl list-disc space-y-1 pl-4 text-neutral-300">
-                                {latest.reasons.map((reason, index) => (
-                                  <li key={index}>{reason}</li>
-                                ))}
-                              </ul>
-                            )}
-                        {prior.length > 0 && (
-                          <p className="mt-2 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">
-                            {prior
-                              .map(
-                                (verdict) =>
-                                  `iter ${verdict.iteration ?? "—"}: ${
-                                    verdict.finalApproval === true
-                                      ? "ready"
-                                      : `iterate (${verdict.recommendation ?? "not approved"}, ${verdict.reasons.length} reasons)`
-                                  }`,
-                              )
-                              .join(" · ")}
-                          </p>
-                        )}
-                      </div>
-                    );
-                  })()}
-                <div className="mt-4 min-w-0">
-                  <PipelineExecutionLog
-                    output={synthesisActivity.output}
-                    outputDetails={synthesisActivity.outputDetails}
-                    isProcessing={synthesisStatus === "running"}
-                    error={
-                      synthesisStatus === "failed"
-                        ? synthesisError
-                        : synthesisActivity.error
-                    }
-                    onRetry={() => {
-                      void handleSynthesizeOptions();
-                    }}
-                    onDismissError={() => setSynthesisError(null)}
-                    userHasScrolled={synthesisLogScrolled}
-                    setUserHasScrolled={setSynthesisLogScrolled}
-                    pipelineMode="deposit"
-                    liveContext={synthesisLiveContext}
-                    copyData={{
-                      runId: synthesisRunId,
-                      status: synthesisStatus,
-                      error:
-                        synthesisStatus === "failed"
-                          ? synthesisError
-                          : synthesisActivity.error,
-                      inputs: {
-                        repositoryFullName:
-                          repositoryContext?.selectedRepository?.fullName ?? null,
-                        sourceBranch: repositoryContext?.selectedBranch ?? null,
-                        sourceCommit: repositoryContext?.selectedCommit ?? null,
-                        obfuscations,
-                        protectedIpExclusions: protectedIpExclusionsText,
-                      },
-                      outputDetails: synthesisActivity.outputDetails,
-                      events: synthesisEvents,
-                    }}
-                    compact
-                  />
-                </div>
-              </section>
-            ) : null}
+
 
             <section
               id="deposit-section-review"

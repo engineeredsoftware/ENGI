@@ -73,7 +73,7 @@ export default function BitcodeTransactionsTable({
   const tableSummary = isExchangeSurface
     ? 'The Exchange master table is searchable and filterable across market activity or your own activity. Select any row to load AssetPack evidence, proofs, history, and execution detail in the Exchange detail pane.'
     : isPipelinesSurface
-      ? 'Every pipeline run for this account, searchable and filterable. Select a running row to attach its live telemetry stream, or a completed row to resume its persisted results in the detail below.'
+      ? 'Every pipeline run for this account, searchable and filterable. Selecting a row opens the run detail in place — live telemetry stream when running, resumed results when completed — and Back returns to this table.'
       : 'Terminal uses this shared activity table as a focused result surface for recent Deposit, Read, proof, and closure work. Select a row to read its AssetPack evidence, proof posture, history, and execution updates.';
 
   return (

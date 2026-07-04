@@ -512,6 +512,12 @@ become MASTER-DETAIL:
 - **Master: a pipelines table** (the shared transactions-table stack,
   lens-preset filters) over the account's executions rows; row selection is
   the URL `transactionId` (runId alias), so selection survives reload.
+- **Drill-in sub-page:** the detail REPLACES the table on selection, with a
+  Back button returning to the table (Back clears the URL selection and
+  detaches the run). Selection is EXPLICIT — no auto-recovery to the newest
+  run and no first-row fallback; with nothing selected the master table
+  shows. On /reads a selected non-pipeline run (no streamed telemetry)
+  renders a run-summary detail instead.
 - **Detail: selection connects to the run.** Selecting a RUNNING synthesis
   run reattaches its live stream (the history+stream tail attaches to any
   runId); selecting a COMPLETED run resumes its persisted results from the

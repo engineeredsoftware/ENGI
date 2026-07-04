@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  ArrowLeft,
   BadgeDollarSign,
   Clock3,
   RefreshCw,
@@ -39,10 +40,10 @@ import {
 } from "@/app/terminal/terminal-activity-history";
 import type { TerminalRepositoryContextState } from "@/app/terminal/terminal-repository-context";
 import {
+  clearTerminalTransactionId,
   readTerminalTransactionId,
   writeTerminalTransactionId,
 } from "@/app/terminal/terminal-transaction-query";
-import { shouldRecoverTerminalTransactionRoute } from "@/app/terminal/terminal-transaction-query";
 import type { WorkspaceRun } from "@/app/terminal/terminal-run-data";
 import { buildReadHref } from "@/app/terminal/terminal-routes";
 import TerminalTransactionsTable from "@/app/terminal/TerminalTransactionsTable";
@@ -145,6 +146,13 @@ export default function ReadPageClient() {
     [readCurrentSearchParams, replaceReadSearchParams],
   );
 
+  // Back from the run detail (drill-in sub-page) to the pipelines table.
+  const closePipelineDetail = useCallback(() => {
+    replaceReadSearchParams(
+      clearTerminalTransactionId(readCurrentSearchParams()),
+    );
+  }, [readCurrentSearchParams, replaceReadSearchParams]);
+
   const refreshLiveRuns = useCallback(async () => {
     setIsLoadingRuns(true);
     setRunsLoadError(null);
@@ -171,23 +179,12 @@ export default function ReadPageClient() {
     void refreshLiveRuns();
   }, [refreshLiveRuns]);
 
-  useEffect(() => {
-    if (
-      !shouldRecoverTerminalTransactionRoute({
-        transactionIds: liveRuns.map((run) => run.id),
-        selectedTransactionId,
-      })
-    ) {
-      return;
-    }
-    replaceReadRouteTransaction(liveRuns[0].id);
-  }, [liveRuns, replaceReadRouteTransaction, selectedTransactionId]);
-
+  // Selection is EXPLICIT (drill-in sub-page model): no auto-recovery to the
+  // newest run and no first-row fallback — with nothing selected the master
+  // table shows, and selecting a row replaces it with the run detail.
   const selectedRun = useMemo(
     () =>
-      liveRuns.find((run) => run.id === selectedTransactionId) ||
-      liveRuns[0] ||
-      null,
+      liveRuns.find((run) => run.id === selectedTransactionId) || null,
     [liveRuns, selectedTransactionId],
   );
 
@@ -656,13 +653,26 @@ export default function ReadPageClient() {
           className="border border-white/10 bg-white/[0.035] px-4 py-4"
         >
           <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="text-[0.68rem] uppercase tracking-[0.22em] text-neutral-500">
-                Pipelines
-              </p>
-              <h2 className="mt-2 text-lg font-semibold text-white">
-                Read pipelines
-              </h2>
+            <div className="flex items-start gap-3">
+              {selectedRun ? (
+                <button
+                  type="button"
+                  onClick={closePipelineDetail}
+                  className="inline-flex h-9 items-center gap-2 border border-white/10 bg-white/[0.04] px-3 text-xs font-medium uppercase tracking-[0.14em] text-neutral-200 transition hover:border-sky-300/30 hover:bg-sky-300/10"
+                  aria-label="Back to Read pipelines"
+                >
+                  <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+                  Back
+                </button>
+              ) : null}
+              <div>
+                <p className="text-[0.68rem] uppercase tracking-[0.22em] text-neutral-500">
+                  Pipelines
+                </p>
+                <h2 className="mt-2 text-lg font-semibold text-white">
+                  Read pipelines
+                </h2>
+              </div>
             </div>
             <button
               type="button"
@@ -675,175 +685,218 @@ export default function ReadPageClient() {
               <RefreshCw className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>
-          {/* Master table of Read pipeline runs — selecting a row writes the
-              URL transactionId; a pipeline run's selection connects the
-              Telemetry detail below (live stream when running, replayed
-              history when terminal). */}
-          <div className="mt-4" data-testid="reads-pipelines-table">
-            <TerminalTransactionsTable
-              runs={liveRuns}
-              selectedTransactionId={selectedRun?.id ?? null}
-              onSelectTransaction={replaceReadRouteTransaction}
-              filters={pipelineFilters}
-              onFiltersChange={setPipelineFilters}
-              onResetFilters={() => setPipelineFilters(DEFAULT_TRANSACTION_FILTERS)}
-              pagination={pipelinePagination}
-              onPaginationChange={setPipelinePagination}
-              isLoadingRuns={isLoadingRuns}
-              runsError={runsLoadError}
-              transactionDataMode="live"
-              surface="pipelines"
-            />
-          </div>
-        </section>
-
-        {selectedPipelineRunId ? (
-          <section
-            aria-label="Read pipeline telemetry"
-            className="border border-white/10 bg-white/[0.035] px-4 py-4"
-          >
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
-                  Telemetry
-                </p>
-                <h2 className="mt-2 text-lg font-semibold text-white">
-                  Read pipeline telemetry
-                </h2>
-                {readRunIsProcessing && readRunActivity.latestContext ? (
-                  <div className="mt-3" data-testid="reads-telemetry-live-tracker">
-                    <ExecutionContextPillRow
-                      phase={readRunActivity.latestContext.phase}
-                      agent={readRunActivity.latestContext.agent}
-                      step={readRunActivity.latestContext.step}
-                      failsafe={readRunActivity.latestContext.failsafe}
-                      generation={readRunActivity.latestContext.generation}
-                      mode={readRunMode}
-                    />
-                  </div>
-                ) : (
-                  <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-400">
-                    Source-safe pipeline telemetry for the selected run:
-                    phases, agents, generation stages, provider, model, and
-                    usage. Prompt and response content stays withheld by law.
-                  </p>
-                )}
-              </div>
-              <div className="flex items-center gap-3">
-                {typeof readRunActivity.currentIteration === "number" && (
-                  <span
-                    title="DIV loop iteration (Discovery → Implementation → Validation)"
-                    className="border border-sky-300/15 bg-sky-300/10 px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-sky-100"
-                  >
-                    iter {readRunActivity.currentIteration}
-                  </span>
-                )}
-                <RunClock
-                  startedAtMs={readRunStartMs}
-                  running={readRunIsProcessing}
-                  endedAtMs={readRunEndMs}
-                  className="font-mono text-[0.72rem] text-sky-100/90"
-                />
-                <span className="border border-white/10 bg-black/30 px-3 py-2 font-mono text-[0.62rem] text-neutral-400">
-                  {selectedPipelineRunId}
-                </span>
-              </div>
-            </div>
-            {readRunActivity.readyToFinishVerdicts.length > 0 &&
-              (() => {
-                const verdicts = readRunActivity.readyToFinishVerdicts;
-                const latest = verdicts[verdicts.length - 1];
-                const approved = latest.finalApproval === true;
-                return (
-                  <div
-                    data-testid="reads-telemetry-readiness-verdict"
-                    className={`mt-3 border px-3 py-2 text-xs leading-5 ${
-                      approved
-                        ? "border-emerald-300/20 bg-emerald-300/5 text-emerald-100/90"
-                        : "border-amber-300/20 bg-amber-300/5 text-amber-100/90"
-                    }`}
-                  >
-                    <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em]">
-                      {`iter ${latest.iteration ?? "—"} verdict · `}
-                      {approved
-                        ? "ready to finish"
-                        : `iterate${latest.recommendation ? ` (${latest.recommendation})` : ""}`}
-                      {latest.warningsCount > 0 && ` · ${latest.warningsCount} warnings`}
-                    </p>
-                    {approved
-                      ? latest.summary && (
-                          <p className="mt-1 max-w-4xl text-neutral-300">{latest.summary}</p>
-                        )
-                      : latest.reasons.length > 0 && (
-                          <ul className="mt-1 max-w-4xl list-disc space-y-1 pl-4 text-neutral-300">
-                            {latest.reasons.map((reason, index) => (
-                              <li key={index}>{reason}</li>
-                            ))}
-                          </ul>
-                        )}
-                  </div>
-                );
-              })()}
-            <div className="mt-4 min-w-0">
-              <PipelineExecutionLog
-                output={readRunActivity.output}
-                outputDetails={readRunActivity.outputDetails}
-                isProcessing={Boolean(readRunIsProcessing)}
-                error={readRunTelemetryError}
-                onRetry={() => {
-                  void refreshLiveRuns();
-                }}
-                onDismissError={() => setDismissedTelemetryErrorRunId(selectedPipelineRunId)}
-                userHasScrolled={readLogScrolled}
-                setUserHasScrolled={setReadLogScrolled}
-                compact
-                pipelineMode={readRunMode}
-                liveContext={readRunActivity.latestContext}
-                copyData={{
-                  runId: selectedPipelineRunId,
-                  status: selectedRun?.status ?? null,
-                  error: readRunActivity.error,
-                  outputDetails: readRunActivity.outputDetails,
-                  events: readRunEvents,
-                }}
+          {/* Drill-in master-detail: with no selection the master table shows
+              (row selection writes the URL transactionId); selecting a run
+              REPLACES the table with that run's detail — telemetry + resumed
+              results for pipeline runs, a run summary otherwise — and Back
+              returns to the table. */}
+          {selectedRun ? null : (
+            <div className="mt-4" data-testid="reads-pipelines-table">
+              <TerminalTransactionsTable
+                runs={liveRuns}
+                selectedTransactionId={null}
+                onSelectTransaction={replaceReadRouteTransaction}
+                filters={pipelineFilters}
+                onFiltersChange={setPipelineFilters}
+                onResetFilters={() => setPipelineFilters(DEFAULT_TRANSACTION_FILTERS)}
+                pagination={pipelinePagination}
+                onPaginationChange={setPipelinePagination}
+                isLoadingRuns={isLoadingRuns}
+                runsError={runsLoadError}
+                transactionDataMode="live"
+                surface="pipelines"
               />
             </div>
-            {selectedRunPacks?.runId === selectedPipelineRunId ? (
-              <div
-                data-testid="reads-synthesized-packs"
-                className="mt-4 border border-emerald-300/15 bg-emerald-300/[0.05] px-3 py-3"
-              >
-                <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-emerald-200/80">
-                  Synthesized AssetPacks · {selectedRunPacks.options.length}
-                </p>
-                <ul className="mt-2 space-y-1 text-sm leading-6 text-neutral-200">
-                  {selectedRunPacks.options.map((option) => (
-                    <li
-                      key={option.optionId}
-                      className="flex flex-wrap items-baseline gap-x-3 gap-y-1"
+          )}
+          {selectedRun && !selectedPipelineRunId ? (
+            <div
+              data-testid="reads-run-summary"
+              className="mt-4 border border-white/10 bg-black/20 px-4 py-4"
+            >
+              <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
+                Run detail
+              </p>
+              <dl className="mt-3 grid gap-3 text-sm leading-6 text-neutral-200 tablet:grid-cols-2">
+                <div>
+                  <dt className="text-xs uppercase tracking-[0.14em] text-neutral-500">Run</dt>
+                  <dd className="font-mono text-xs">{selectedRun.id}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs uppercase tracking-[0.14em] text-neutral-500">Type</dt>
+                  <dd>{selectedRun.type}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs uppercase tracking-[0.14em] text-neutral-500">Status</dt>
+                  <dd>{selectedRun.status}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs uppercase tracking-[0.14em] text-neutral-500">Proof</dt>
+                  <dd>{selectedRun.proofStatus || "—"}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs uppercase tracking-[0.14em] text-neutral-500">Closure</dt>
+                  <dd>{selectedRun.closureFocus || "—"}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs uppercase tracking-[0.14em] text-neutral-500">Repository</dt>
+                  <dd>{selectedRun.repository || "—"}</dd>
+                </div>
+              </dl>
+              <p className="mt-3 text-xs leading-5 text-neutral-500">
+                This run is not a formal pipeline execution, so there is no
+                streamed telemetry to replay; its readback lives in the flow
+                panels below.
+              </p>
+            </div>
+          ) : null}
+          {selectedPipelineRunId ? (
+            <section
+              aria-label="Read pipeline telemetry"
+              className="mt-4 border border-white/10 bg-black/20 px-4 py-4"
+            >
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
+                    Telemetry
+                  </p>
+                  <h2 className="mt-2 text-lg font-semibold text-white">
+                    Read pipeline telemetry
+                  </h2>
+                  {readRunIsProcessing && readRunActivity.latestContext ? (
+                    <div className="mt-3" data-testid="reads-telemetry-live-tracker">
+                      <ExecutionContextPillRow
+                        phase={readRunActivity.latestContext.phase}
+                        agent={readRunActivity.latestContext.agent}
+                        step={readRunActivity.latestContext.step}
+                        failsafe={readRunActivity.latestContext.failsafe}
+                        generation={readRunActivity.latestContext.generation}
+                        mode={readRunMode}
+                      />
+                    </div>
+                  ) : (
+                    <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-400">
+                      Source-safe pipeline telemetry for the selected run:
+                      phases, agents, generation stages, provider, model, and
+                      usage. Prompt and response content stays withheld by law.
+                    </p>
+                  )}
+                </div>
+                <div className="flex items-center gap-3">
+                  {typeof readRunActivity.currentIteration === "number" && (
+                    <span
+                      title="DIV loop iteration (Discovery → Implementation → Validation)"
+                      className="border border-sky-300/15 bg-sky-300/10 px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-sky-100"
                     >
-                      <span className="font-mono text-[0.68rem] text-neutral-500">
-                        {option.optionId}
-                      </span>
-                      <span>{option.title}</span>
-                      {option.coveredSourcePathCount > 0 ? (
-                        <span className="text-xs text-neutral-500">
-                          {option.coveredSourcePathCount} source paths
-                        </span>
-                      ) : null}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href={`/deposits?transactionId=${encodeURIComponent(selectedRunPacks.runId)}&depositStage=review-options`}
-                  className="mt-3 inline-flex items-center border border-emerald-300/20 bg-emerald-300/10 px-3 py-2 text-xs font-medium text-emerald-100 transition hover:border-emerald-200/40 hover:bg-emerald-300/15"
-                >
-                  Review in Deposits
-                </Link>
+                      iter {readRunActivity.currentIteration}
+                    </span>
+                  )}
+                  <RunClock
+                    startedAtMs={readRunStartMs}
+                    running={readRunIsProcessing}
+                    endedAtMs={readRunEndMs}
+                    className="font-mono text-[0.72rem] text-sky-100/90"
+                  />
+                  <span className="border border-white/10 bg-black/30 px-3 py-2 font-mono text-[0.62rem] text-neutral-400">
+                    {selectedPipelineRunId}
+                  </span>
+                </div>
               </div>
-            ) : null}
-          </section>
-        ) : null}
+              {readRunActivity.readyToFinishVerdicts.length > 0 &&
+                (() => {
+                  const verdicts = readRunActivity.readyToFinishVerdicts;
+                  const latest = verdicts[verdicts.length - 1];
+                  const approved = latest.finalApproval === true;
+                  return (
+                    <div
+                      data-testid="reads-telemetry-readiness-verdict"
+                      className={`mt-3 border px-3 py-2 text-xs leading-5 ${
+                        approved
+                          ? "border-emerald-300/20 bg-emerald-300/5 text-emerald-100/90"
+                          : "border-amber-300/20 bg-amber-300/5 text-amber-100/90"
+                      }`}
+                    >
+                      <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em]">
+                        {`iter ${latest.iteration ?? "—"} verdict · `}
+                        {approved
+                          ? "ready to finish"
+                          : `iterate${latest.recommendation ? ` (${latest.recommendation})` : ""}`}
+                        {latest.warningsCount > 0 && ` · ${latest.warningsCount} warnings`}
+                      </p>
+                      {approved
+                        ? latest.summary && (
+                            <p className="mt-1 max-w-4xl text-neutral-300">{latest.summary}</p>
+                          )
+                        : latest.reasons.length > 0 && (
+                            <ul className="mt-1 max-w-4xl list-disc space-y-1 pl-4 text-neutral-300">
+                              {latest.reasons.map((reason, index) => (
+                                <li key={index}>{reason}</li>
+                              ))}
+                            </ul>
+                          )}
+                    </div>
+                  );
+                })()}
+              <div className="mt-4 min-w-0">
+                <PipelineExecutionLog
+                  output={readRunActivity.output}
+                  outputDetails={readRunActivity.outputDetails}
+                  isProcessing={Boolean(readRunIsProcessing)}
+                  error={readRunTelemetryError}
+                  onRetry={() => {
+                    void refreshLiveRuns();
+                  }}
+                  onDismissError={() => setDismissedTelemetryErrorRunId(selectedPipelineRunId)}
+                  userHasScrolled={readLogScrolled}
+                  setUserHasScrolled={setReadLogScrolled}
+                  compact
+                  pipelineMode={readRunMode}
+                  liveContext={readRunActivity.latestContext}
+                  copyData={{
+                    runId: selectedPipelineRunId,
+                    status: selectedRun?.status ?? null,
+                    error: readRunActivity.error,
+                    outputDetails: readRunActivity.outputDetails,
+                    events: readRunEvents,
+                  }}
+                />
+              </div>
+              {selectedRunPacks?.runId === selectedPipelineRunId ? (
+                <div
+                  data-testid="reads-synthesized-packs"
+                  className="mt-4 border border-emerald-300/15 bg-emerald-300/[0.05] px-3 py-3"
+                >
+                  <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-emerald-200/80">
+                    Synthesized AssetPacks · {selectedRunPacks.options.length}
+                  </p>
+                  <ul className="mt-2 space-y-1 text-sm leading-6 text-neutral-200">
+                    {selectedRunPacks.options.map((option) => (
+                      <li
+                        key={option.optionId}
+                        className="flex flex-wrap items-baseline gap-x-3 gap-y-1"
+                      >
+                        <span className="font-mono text-[0.68rem] text-neutral-500">
+                          {option.optionId}
+                        </span>
+                        <span>{option.title}</span>
+                        {option.coveredSourcePathCount > 0 ? (
+                          <span className="text-xs text-neutral-500">
+                            {option.coveredSourcePathCount} source paths
+                          </span>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    href={`/deposits?transactionId=${encodeURIComponent(selectedRunPacks.runId)}&depositStage=review-options`}
+                    className="mt-3 inline-flex items-center border border-emerald-300/20 bg-emerald-300/10 px-3 py-2 text-xs font-medium text-emerald-100 transition hover:border-emerald-200/40 hover:bg-emerald-300/15"
+                  >
+                    Review in Deposits
+                  </Link>
+                </div>
+              ) : null}
+            </section>
+          ) : null}
+        </section>
 
         <section className="grid gap-5 xl:grid-cols-[minmax(0,1.4fr)_minmax(360px,0.6fr)]">
           <div className="grid min-w-0 gap-5">

@@ -233,6 +233,13 @@ export function writeTerminalTransactionId(searchParams: URLSearchParams, transa
   return nextParams;
 }
 
+export function clearTerminalTransactionId(searchParams: URLSearchParams) {
+  const nextParams = new URLSearchParams(searchParams.toString());
+  nextParams.delete(SEARCH_PARAM_KEYS.transactionId);
+  nextParams.delete(SEARCH_PARAM_KEYS.runIdAlias);
+  return nextParams;
+}
+
 export function writeTerminalEnvironmentMode(
   searchParams: URLSearchParams,
   environmentMode: TerminalEnvironmentMode | null,
