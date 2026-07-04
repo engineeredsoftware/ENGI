@@ -95,6 +95,19 @@ export function usePipelineExecution(runId: string | null): UsePipelineExecution
         // initial history hydration, not the tail's lifetime.
         setIsLoading(false);
 
+        // A terminal row's history IS the complete telemetry: replay it
+        // without opening the live tail (the run can produce no further
+        // events, so the tail would only burn empty reconnects).
+        const rowStatus = String((data.run as { status?: string } | null)?.status || '').toLowerCase();
+        if (
+          rowStatus === 'completed' ||
+          rowStatus === 'failed' ||
+          rowStatus === 'interrupted' ||
+          rowStatus === 'cancelled'
+        ) {
+          return;
+        }
+
         try {
           const last = (data.events || []).slice(-1)[0];
           let cursorTs = last?.created_at || '';

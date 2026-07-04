@@ -171,7 +171,28 @@ describe("DepositPageClient", () => {
         items: [],
       },
     ]);
-    global.fetch = jest.fn();
+    // Selecting any pipeline run adopts it into the Telemetry detail, whose
+    // tail hydrates from the history endpoint — the default mock answers
+    // those with a bare completed row (echoing the requested id) so tests
+    // that never dispatch still settle cleanly.
+    global.fetch = jest.fn((input: unknown) => {
+      const url = String(input);
+      if (url.includes("/api/executions/history/")) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: async () => ({
+            run: { id: url.split("/").pop(), status: "completed", output: {} },
+            events: [],
+          }),
+        });
+      }
+      return Promise.resolve({
+        ok: false,
+        status: 404,
+        json: async () => null,
+      });
+    }) as unknown as typeof fetch;
   });
 
   afterEach(() => {
@@ -896,5 +917,24 @@ describe("DepositPageClient", () => {
 
     const alert = await screen.findByRole("alert");
     expect(alert).toHaveTextContent("Repository ownership check failed.");
+  });
+
+  it("adopts a selected non-synthesis pipeline run as a telemetry-only detail (no options, no failure)", async () => {
+    // Default fixtures: selection deposit-1, a COMPLETED composer run (not an
+    // option synthesis). Selecting it must attach its replayed telemetry at
+    // its terminal status without attempting an options resume.
+    render(<DepositPageClient />);
+
+    const telemetry = await screen.findByTestId("deposit-synthesis-telemetry");
+    expect(telemetry).toHaveTextContent("Pipeline run");
+    expect(telemetry).not.toHaveTextContent("Asset Pack Synthesis");
+    expect(telemetry).toHaveTextContent("deposit-1");
+    await waitFor(() =>
+      expect(screen.getByTestId("pipeline-execution-log")).toHaveAttribute(
+        "data-processing",
+        "false",
+      ),
+    );
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
   });
 });

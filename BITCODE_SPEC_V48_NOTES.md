@@ -533,6 +533,22 @@ become MASTER-DETAIL:
   fallback (completed rows without a completion event; interrupted rows via
   the orphan sweeper — 'interrupted' is now a terminal status for the SSE
   tail).
+- **Selection ALWAYS loads the execution's telemetry:** selecting ANY
+  pipeline run adopts it into the detail — a live run [re-]connects its
+  stream, a historic run replays its persisted events (the tail hook skips
+  the SSE tail entirely when the history row is already terminal). A
+  synthesis run additionally resumes its synthesized AssetPack options into
+  review; any other run is a telemetry-only detail (kicker 'Pipeline run')
+  that completes without an options fetch. Terminal rows adopt AT their
+  terminal status — never through a transient 'running' (which would
+  disable the dispatch button and animate the orb until hydration). An
+  actively dispatched run owns the detail until the user actually changes
+  selection. On /reads, a completed run's persisted output additionally
+  surfaces a 'Synthesized AssetPacks' summary linking back to the /deposits
+  review detail.
+- **Nav route labels are plural** ('Deposits', 'Reads') — matching the
+  routes they open; action verbs elsewhere (terminal actions, footer flow
+  steps, docs prose) stay singular.
 - **Known read-gate gap:** read-lens pipeline runs dispatched through the
   sandbox harness do not yet persist their own lens-stamped executions rows
   (structured mode); the /reads table lists what exists and the telemetry

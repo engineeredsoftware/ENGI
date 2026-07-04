@@ -155,6 +155,11 @@ export default function DepositPageClient() {
   const [protectedIpExclusionsText, setProtectedIpExclusionsText] = useState("");
   const [optionsRequested, setOptionsRequested] = useState(false);
   const [synthesisRunId, setSynthesisRunId] = useState<string | null>(null);
+  // Whether the attached run is an option synthesis (its completed output
+  // carries synthesized AssetPack options to resume into review) or any
+  // other pipeline execution (telemetry-only detail).
+  const [synthesisRunExpectsOptions, setSynthesisRunExpectsOptions] =
+    useState(true);
   // Master-detail pipelines table: lens-preset filters + pagination for the
   // Deposits run table (selection itself lives in the URL transactionId).
   const [pipelineFilters, setPipelineFilters] = useState<TransactionFilters>({
@@ -616,7 +621,16 @@ export default function DepositPageClient() {
   // streamed run completes, read the persisted synthesis from the execution row
   // output and surface the reviewable options; a streamed error fails the run.
   useEffect(() => {
-    if (synthesisStatus !== "running" || !synthesisRunId || realSynthesis) return;
+    // Runs while a run is attached and its results are not resumed yet:
+    // 'running' covers live tails, 'complete' covers adopted terminal rows
+    // whose persisted output still needs loading (realSynthesis guards
+    // against re-fetch loops once the options are in).
+    if (
+      (synthesisStatus !== "running" && synthesisStatus !== "complete") ||
+      !synthesisRunId ||
+      realSynthesis
+    )
+      return;
     // A hook-level fetch error (history unavailable) fails the run outright;
     // an event-derived error counts only once the events are attributed to
     // THIS run (execution match) — otherwise a previously selected run's
@@ -635,6 +649,12 @@ export default function DepositPageClient() {
       String((synthesisExecution as { status?: string } | null)?.status || "").toLowerCase() ===
       "completed";
     if (!synthesisActivity.isStreamingComplete && !rowCompleted) return;
+    if (!synthesisRunExpectsOptions) {
+      // Telemetry-only run (not an option synthesis): the replayed history
+      // IS the resumed result — freeze the clock, nothing to load.
+      setSynthesisStatus("complete");
+      return;
+    }
     let cancelled = false;
     void (async () => {
       try {
@@ -674,6 +694,7 @@ export default function DepositPageClient() {
   }, [
     synthesisStatus,
     synthesisRunId,
+    synthesisRunExpectsOptions,
     realSynthesis,
     synthesisActivity.isStreamingComplete,
     synthesisActivity.error,
@@ -701,27 +722,36 @@ export default function DepositPageClient() {
     }
   }, [liveRuns, synthesisRunId, synthesisStatus]);
 
-  // Master-detail adoption: selecting a synthesis pipeline run in the table
-  // connects the Telemetry + Options detail to it. A RUNNING run reattaches
-  // its live stream (usePipelineExecution tails any runId); a COMPLETED run
-  // resumes its persisted results through the same completion effect (its
-  // history already carries the terminal event, so the effect resolves
-  // immediately); a failed/interrupted run surfaces its terminal state with
-  // the historical log attached. Adoption fires only on SELECTION-ID
-  // transitions: a fresh dispatch changes synthesisRunId while the URL
-  // selection is still the previous run, and re-adopting that stale
-  // selection would clobber the just-dispatched run.
+  // Master-detail adoption: selecting ANY pipeline run in the table connects
+  // the Telemetry detail to it. A RUNNING run reattaches its live stream
+  // (usePipelineExecution tails any runId); a COMPLETED run replays its
+  // persisted history, and a synthesis run additionally resumes its
+  // synthesized options into review through the completion effect; a
+  // failed/interrupted run surfaces its terminal state with the historical
+  // log attached. Adoption fires only on SELECTION-ID transitions: a fresh
+  // dispatch changes synthesisRunId while the URL selection is still the
+  // previous run, and re-adopting that stale selection would clobber the
+  // just-dispatched run.
   const lastAdoptedSelectionIdRef = useRef<string | null>(null);
   useEffect(() => {
     const run = selectedRun;
-    if (!run?.id || run.contextSource !== "deposit-option-synthesis") {
-      lastAdoptedSelectionIdRef.current = run?.id ?? null;
+    if (!run?.id) {
+      lastAdoptedSelectionIdRef.current = null;
       return;
     }
     if (lastAdoptedSelectionIdRef.current === run.id) return;
     lastAdoptedSelectionIdRef.current = run.id;
     if (run.id === synthesisRunId) return;
+    // An actively dispatched run owns the detail until the user actually
+    // changes selection — the FIRST liveRuns arrival after a fast dispatch
+    // must not re-point the detail at a historical row.
+    if (synthesisDispatchedAtMs !== null && synthesisStatus === "running") {
+      return;
+    }
     setSynthesisRunId(run.id);
+    setSynthesisRunExpectsOptions(
+      run.contextSource === "deposit-option-synthesis",
+    );
     setSynthesisDispatchedAtMs(null);
     setSynthesisLogScrolled(false);
     setRealSynthesis(null);
@@ -733,10 +763,16 @@ export default function DepositPageClient() {
       setSynthesisError(
         run.summary ? `Run ${status} — ${run.summary}` : `Run ${status}.`,
       );
+    } else if (status === "completed") {
+      // Adopt a completed row AT its terminal status — never pass through a
+      // transient 'running' (it would relabel/disable the dispatch button
+      // and animate the orb until the tail hydrates). The completion effect
+      // also resumes from 'complete' while options are not loaded yet.
+      setSynthesisStatus("complete");
     } else {
       setSynthesisStatus("running");
     }
-  }, [selectedRun, synthesisRunId]);
+  }, [selectedRun, synthesisRunId, synthesisDispatchedAtMs, synthesisStatus]);
 
   const sessionRows = [
     {
@@ -885,6 +921,7 @@ export default function DepositPageClient() {
         ? crypto.randomUUID()
         : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
     setSynthesisRunId(runId);
+    setSynthesisRunExpectsOptions(true);
     setSynthesisDispatchedAtMs(Date.now());
     setSynthesisLogScrolled(false);
 
@@ -955,13 +992,16 @@ export default function DepositPageClient() {
     synthesizeOptionsRef.current = handleSynthesizeOptions;
   }, [handleSynthesizeOptions]);
 
+  // Auto-scroll to Telemetry only for DISPATCHED runs (dispatch stamps the
+  // timestamp; table adoption clears it) — adopting a row on page load or a
+  // table click must not yank the viewport away from where the user is.
   useEffect(() => {
-    if (!synthesisRunId) return;
+    if (!synthesisRunId || synthesisDispatchedAtMs === null) return;
     synthesisTelemetryRef.current?.scrollIntoView?.({
       behavior: "smooth",
       block: "start",
     });
-  }, [synthesisRunId]);
+  }, [synthesisRunId, synthesisDispatchedAtMs]);
 
   // Secondary per-option actions only: Archive (rejected-by-depositor) and
   // Resynthesize. Approval/deposit is a single batch call (handleDepositSelected).
@@ -1450,7 +1490,9 @@ export default function DepositPageClient() {
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="min-w-0">
                     <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
-                      Asset Pack Synthesis
+                      {synthesisRunExpectsOptions
+                        ? "Asset Pack Synthesis"
+                        : "Pipeline run"}
                     </p>
                     <h2 className="mt-2 flex items-center gap-2 text-lg font-semibold text-white">
                       <span>Telemetry</span>

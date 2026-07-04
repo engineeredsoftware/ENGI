@@ -151,7 +151,26 @@ describe("ReadPageClient", () => {
         items: [],
       },
     ]);
-    global.fetch = jest.fn();
+    // Selecting a pipeline run attaches its telemetry tail (history fetch);
+    // the default mock answers with a bare completed row echoing the id.
+    global.fetch = jest.fn((input: unknown) => {
+      const url = String(input);
+      if (url.includes("/api/executions/history/")) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: async () => ({
+            run: { id: url.split("/").pop(), status: "completed", output: {} },
+            events: [],
+          }),
+        });
+      }
+      return Promise.resolve({
+        ok: false,
+        status: 404,
+        json: async () => null,
+      });
+    }) as unknown as typeof fetch;
   });
 
   afterEach(() => {
@@ -251,5 +270,75 @@ describe("ReadPageClient", () => {
     expect(
       screen.getByRole("link", { name: "Open pack activity" }),
     ).toHaveAttribute("href", "/packs?type=read-need-fit-preview");
+  });
+
+  it("resumes a completed run's synthesized AssetPacks alongside the replayed telemetry", async () => {
+    mockQuery = "transactionId=synth-run-1";
+    mockFetchPipelineExecutionHistory.mockResolvedValue([
+      {
+        id: "synth-run-1",
+        created_at: "2026-07-01T10:00:00.000Z",
+        status: "completed",
+        type: "agentic-execution:asset-pack",
+        agentic_execution: {
+          canonicalType: "agentic-execution:asset-pack",
+          lens: "deposit",
+          proofStatus: "options synthesized",
+          closureFocus: "deposit posture",
+        },
+        context: { source: "deposit-option-synthesis" },
+        repo_snapshot: null,
+        output: {},
+        items: [],
+      },
+    ]);
+    global.fetch = jest.fn((input: unknown) => {
+      const url = String(input);
+      if (url.includes("/api/executions/history/")) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: async () => ({
+            run: {
+              id: url.split("/").pop(),
+              status: "completed",
+              output: {
+                depositOptionSynthesis: { options: [] },
+                reviewProjections: [
+                  {
+                    optionId: "option-1",
+                    title: "Ledger reconciliation capability slice",
+                    coveredSourcePaths: ["src/ledger/reconcile.ts", "src/ledger/index.ts"],
+                    measurementRationale: "measured",
+                  },
+                ],
+              },
+            },
+            events: [
+              {
+                id: "c1",
+                event: { type: "completion" },
+                created_at: "2026-07-01T10:05:00.000Z",
+              },
+            ],
+          }),
+        });
+      }
+      return Promise.resolve({ ok: false, status: 404, json: async () => null });
+    }) as unknown as typeof fetch;
+
+    render(<ReadPageClient />);
+
+    const packs = await screen.findByTestId("reads-synthesized-packs");
+    const text = (packs.textContent || "").replace(/\s+/g, " ");
+    expect(text).toContain("Synthesized AssetPacks · 1");
+    expect(text).toContain("Ledger reconciliation capability slice");
+    expect(text).toContain("2 source paths");
+    expect(
+      screen.getByRole("link", { name: "Review in Deposits" }),
+    ).toHaveAttribute(
+      "href",
+      "/deposits?transactionId=synth-run-1&depositStage=review-options",
+    );
   });
 });

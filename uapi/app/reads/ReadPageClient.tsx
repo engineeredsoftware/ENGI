@@ -109,6 +109,16 @@ export default function ReadPageClient() {
   // Telemetry error dismissal is per selected run.
   const [dismissedTelemetryErrorRunId, setDismissedTelemetryErrorRunId] =
     useState<string | null>(null);
+  // Resumed results for a COMPLETED selected run: its persisted output may
+  // carry synthesized AssetPack options (a synthesis run selected here).
+  const [selectedRunPacks, setSelectedRunPacks] = useState<{
+    runId: string;
+    options: Array<{
+      optionId: string;
+      title: string;
+      coveredSourcePathCount: number;
+    }>;
+  } | null>(null);
 
   const readCurrentSearchParams = useCallback(
     () =>
@@ -226,6 +236,61 @@ export default function ReadPageClient() {
     const parsed = last ? new Date(last).getTime() : Number.NaN;
     return Number.isFinite(parsed) ? parsed : null;
   }, [readRunEvents, readRunIsProcessing]);
+
+  // Resume a completed run's synthesized AssetPacks: load the persisted
+  // output and summarize the options alongside the replayed telemetry (the
+  // full review/admission detail lives on /deposits). Best-effort — a run
+  // without synthesized options simply shows telemetry only.
+  useEffect(() => {
+    setSelectedRunPacks(null);
+    if (!selectedPipelineRunId || selectedRun?.status !== "completed") return;
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch(
+          `/api/executions/history/${selectedPipelineRunId}`,
+        );
+        const data = await res.json().catch(() => null);
+        if (cancelled || !res?.ok) return;
+        const output = data?.run?.output as {
+          depositOptionSynthesis?: {
+            options?: Array<{ optionId?: string; title?: string }>;
+          };
+          reviewProjections?: Array<{
+            optionId?: string;
+            title?: string;
+            coveredSourcePaths?: string[];
+          }>;
+        } | null;
+        const projections = Array.isArray(output?.reviewProjections)
+          ? output.reviewProjections
+          : [];
+        const fallback = Array.isArray(output?.depositOptionSynthesis?.options)
+          ? output.depositOptionSynthesis.options
+          : [];
+        const options = (projections.length > 0 ? projections : fallback)
+          .map((option) => ({
+            optionId: String(option?.optionId || ""),
+            title: String(option?.title || "Untitled AssetPack option"),
+            coveredSourcePathCount: Array.isArray(
+              (option as { coveredSourcePaths?: string[] })
+                ?.coveredSourcePaths,
+            )
+              ? (option as { coveredSourcePaths: string[] })
+                  .coveredSourcePaths.length
+              : 0,
+          }))
+          .filter((option) => option.optionId);
+        if (cancelled || options.length === 0) return;
+        setSelectedRunPacks({ runId: selectedPipelineRunId, options });
+      } catch {
+        // Telemetry replay stands on its own; the packs summary is additive.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedPipelineRunId, selectedRun?.status]);
 
   const depositedSourceRevision =
     useMemo<TerminalDepositedSourceRevision | null>(() => {
@@ -743,6 +808,40 @@ export default function ReadPageClient() {
                 }}
               />
             </div>
+            {selectedRunPacks?.runId === selectedPipelineRunId ? (
+              <div
+                data-testid="reads-synthesized-packs"
+                className="mt-4 border border-emerald-300/15 bg-emerald-300/[0.05] px-3 py-3"
+              >
+                <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-emerald-200/80">
+                  Synthesized AssetPacks · {selectedRunPacks.options.length}
+                </p>
+                <ul className="mt-2 space-y-1 text-sm leading-6 text-neutral-200">
+                  {selectedRunPacks.options.map((option) => (
+                    <li
+                      key={option.optionId}
+                      className="flex flex-wrap items-baseline gap-x-3 gap-y-1"
+                    >
+                      <span className="font-mono text-[0.68rem] text-neutral-500">
+                        {option.optionId}
+                      </span>
+                      <span>{option.title}</span>
+                      {option.coveredSourcePathCount > 0 ? (
+                        <span className="text-xs text-neutral-500">
+                          {option.coveredSourcePathCount} source paths
+                        </span>
+                      ) : null}
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href={`/deposits?transactionId=${encodeURIComponent(selectedRunPacks.runId)}&depositStage=review-options`}
+                  className="mt-3 inline-flex items-center border border-emerald-300/20 bg-emerald-300/10 px-3 py-2 text-xs font-medium text-emerald-100 transition hover:border-emerald-200/40 hover:bg-emerald-300/15"
+                >
+                  Review in Deposits
+                </Link>
+              </div>
+            ) : null}
           </section>
         ) : null}
 
