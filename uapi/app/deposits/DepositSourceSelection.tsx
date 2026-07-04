@@ -27,7 +27,9 @@ import {
   deriveSelectedBranch,
   deriveSelectedCommit,
   deriveSelectedRepository,
+  getProviderLabel,
   normalizeRepositoryProvider,
+  TERMINAL_REPOSITORY_PROVIDERS,
   type TerminalRepositoryConnectionStatus,
   type TerminalRepositoryContextState,
   type TerminalRepositoryInventorySource,
@@ -446,32 +448,75 @@ export default function DepositSourceSelection({
         </button>
       </div>
 
-      <div className="mt-4">
-        <VCSRepositorySelector
-          provider={provider}
-          repositories={repositories}
-          loading={isLoadingRepositories}
-          value={selectedRepository?.fullName}
-          onSelect={(repository) =>
-            updateSourceParams((params) => {
-              if (repository) {
-                params.set("repo", repository.fullName);
-              } else {
-                params.delete("repo");
+      <div className="mt-4 grid gap-3 lg:grid-cols-[minmax(0,240px)_minmax(0,1fr)]">
+        <div>
+          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+            Provider
+          </span>
+          <div className="mt-1.5">
+            <SearchableSelect
+              aria-label="Repository provider"
+              items={TERMINAL_REPOSITORY_PROVIDERS.map((option) => ({
+                key: option,
+                label: getProviderLabel(option),
+                description:
+                  option === provider
+                    ? connectionStatus?.connected
+                      ? "Connected"
+                      : "Not connected"
+                    : null,
+              }))}
+              value={provider}
+              onSelect={(key) => {
+                const nextProvider = key ?? "github";
+                updateSourceParams((params) => {
+                  params.set("provider", nextProvider);
+                  params.delete("repo");
+                  params.delete("sourceBranch");
+                  params.delete("sourceCommit");
+                  params.delete("branch");
+                  params.delete("commit");
+                });
+              }}
+              placeholder="Select provider..."
+              searchPlaceholder="Search providers..."
+              emptyMessage="No providers found."
+              className="w-full"
+            />
+          </div>
+        </div>
+        <div>
+          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+            Repository
+          </span>
+          <div className="mt-1.5">
+            <VCSRepositorySelector
+              provider={provider}
+              repositories={repositories}
+              loading={isLoadingRepositories}
+              value={selectedRepository?.fullName}
+              onSelect={(repository) =>
+                updateSourceParams((params) => {
+                  if (repository) {
+                    params.set("repo", repository.fullName);
+                  } else {
+                    params.delete("repo");
+                  }
+                  params.delete("sourceBranch");
+                  params.delete("sourceCommit");
+                  params.delete("branch");
+                  params.delete("commit");
+                })
               }
-              params.delete("sourceBranch");
-              params.delete("sourceCommit");
-              params.delete("branch");
-              params.delete("commit");
-            })
-          }
-          placeholder={
-            connectionStatus?.connected
-              ? "Select repository supply..."
-              : "Connect a repository provider first..."
-          }
-          className="w-full"
-        />
+              placeholder={
+                connectionStatus?.connected
+                  ? "Select repository supply..."
+                  : "Connect a repository provider first..."
+              }
+              className="w-full"
+            />
+          </div>
+        </div>
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
