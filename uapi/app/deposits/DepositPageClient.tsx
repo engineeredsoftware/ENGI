@@ -73,6 +73,7 @@ import { DEPOSIT_SECTION_EXPLAINERS } from "@/app/deposits/deposit-explainers";
 import {
   DEPOSIT_AUTHORITY_BLOCKERS_EXPLAINER,
   DEPOSIT_STAT_TOOLTIP_GENERICS,
+  DEPOSIT_STAT_TOOLTIP_SECTIONS,
   DEPOSIT_AUTHORITY_ROW_EXPLAINERS,
   DEPOSIT_DISCLOSURE_BOUNDARY_EXPLAINER,
   DEPOSIT_EARNING_ROW_EXPLAINERS,
@@ -2281,6 +2282,11 @@ export default function DepositPageClient() {
                     title: "Likely demand",
                     specific: DEPOSIT_EARNING_ROW_EXPLAINERS["Likely demand"],
                     generic: DEPOSIT_STAT_TOOLTIP_GENERICS.earningIntelligence,
+                    points: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.earningIntelligence.points],
+                    references: {
+                      source: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.earningIntelligence.references.source],
+                      canon: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.earningIntelligence.references.canon],
+                    },
                   }}
                 >
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
@@ -2303,6 +2309,11 @@ export default function DepositPageClient() {
                     title: "Unfit Need opportunities",
                     specific: DEPOSIT_EARNING_ROW_EXPLAINERS["Unfit Need opportunities"],
                     generic: DEPOSIT_STAT_TOOLTIP_GENERICS.earningIntelligence,
+                    points: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.earningIntelligence.points],
+                    references: {
+                      source: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.earningIntelligence.references.source],
+                      canon: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.earningIntelligence.references.canon],
+                    },
                   }}
                 >
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
@@ -2328,6 +2339,11 @@ export default function DepositPageClient() {
                     title: "Expected compensation",
                     specific: DEPOSIT_EARNING_ROW_EXPLAINERS["Expected compensation"],
                     generic: DEPOSIT_STAT_TOOLTIP_GENERICS.earningIntelligence,
+                    points: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.earningIntelligence.points],
+                    references: {
+                      source: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.earningIntelligence.references.source],
+                      canon: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.earningIntelligence.references.canon],
+                    },
                   }}
                 >
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
@@ -2353,6 +2369,11 @@ export default function DepositPageClient() {
                     title: "Supply recommendations",
                     specific: DEPOSIT_EARNING_ROW_EXPLAINERS["Supply recommendations"],
                     generic: DEPOSIT_STAT_TOOLTIP_GENERICS.earningIntelligence,
+                    points: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.earningIntelligence.points],
+                    references: {
+                      source: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.earningIntelligence.references.source],
+                      canon: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.earningIntelligence.references.canon],
+                    },
                   }}
                 >
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
@@ -2387,6 +2408,11 @@ export default function DepositPageClient() {
                           title: opportunity.label,
                           specific: DEPOSIT_OPPORTUNITY_ROOT_EXPLAINER,
                           generic: DEPOSIT_STAT_TOOLTIP_GENERICS.opportunityRoot,
+                          points: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.opportunityRoot.points],
+                          references: {
+                            source: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.opportunityRoot.references.source],
+                            canon: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.opportunityRoot.references.canon],
+                          },
                         }}
                       >
                         <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">
@@ -2433,6 +2459,11 @@ export default function DepositPageClient() {
                         DEPOSIT_AUTHORITY_ROW_EXPLAINERS[row.label] ??
                         "Organization authority state for this deposit route.",
                       generic: DEPOSIT_STAT_TOOLTIP_GENERICS.governance,
+                      points: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.governance.points],
+                      references: {
+                        source: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.governance.references.source],
+                        canon: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.governance.references.canon],
+                      },
                     }}
                   >
                     <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
@@ -2491,6 +2522,11 @@ export default function DepositPageClient() {
                         DEPOSIT_SESSION_ROW_EXPLAINERS[row.label] ??
                         "Source-safe session state for this deposit route.",
                       generic: DEPOSIT_STAT_TOOLTIP_GENERICS.sessionState,
+                      points: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.sessionState.points],
+                      references: {
+                        source: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.sessionState.references.source],
+                        canon: [...DEPOSIT_STAT_TOOLTIP_SECTIONS.sessionState.references.canon],
+                      },
                     }}
                   >
                     <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">

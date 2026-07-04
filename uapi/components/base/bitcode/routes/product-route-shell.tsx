@@ -20,6 +20,39 @@ const ROUTE_PANEL_TOOLTIP_GENERIC =
   "Panels group related source-safe state; expanding the disclosure shows the full detail.";
 const PROOF_ROOT_TOOLTIP_GENERIC =
   "Proof roots are source-safe hashes anchoring measurements into proof readback — auditable without revealing withheld content.";
+const SHELL_TOOLTIP_CANON = [
+  "BITCODE_SPEC_V48_NOTES.md § Deposit/Read product-surface presentation laws",
+];
+const ROUTE_METRIC_TOOLTIP_SECTIONS = {
+  points: [
+    "Read the session's posture without leaving the header",
+    "Spot a blocked stage (authority, options, admissions) at a glance",
+  ],
+  references: {
+    source: ["uapi/components/base/bitcode/routes/product-route-shell.tsx"],
+    canon: SHELL_TOOLTIP_CANON,
+  },
+};
+const ROUTE_PANEL_TOOLTIP_SECTIONS = {
+  points: [
+    "Expand the disclosure to read the full source-safe detail",
+    "Hover the rows inside for their own explanations",
+  ],
+  references: {
+    source: ["uapi/components/base/bitcode/routes/product-route-shell.tsx"],
+    canon: SHELL_TOOLTIP_CANON,
+  },
+};
+const PROOF_ROOT_TOOLTIP_SECTIONS = {
+  points: [
+    "Verify a measurement against proof readback by its root",
+    "Cite the root in reviews without exposing withheld content",
+  ],
+  references: {
+    source: ["uapi/components/base/bitcode/routes/product-route-shell.tsx"],
+    canon: SHELL_TOOLTIP_CANON,
+  },
+};
 
 type ToneClasses = {
   page: string;
@@ -153,6 +186,7 @@ export function ProductRouteShell({
                     title: metric.label,
                     specific: metric.description,
                     generic: ROUTE_METRIC_TOOLTIP_GENERIC,
+                    ...ROUTE_METRIC_TOOLTIP_SECTIONS,
                   }}
                 >
                   {chipBody}
@@ -309,6 +343,7 @@ export function ProductRouteDisclosure({
               title,
               specific: summaryDescription,
               generic: ROUTE_PANEL_TOOLTIP_GENERIC,
+              ...ROUTE_PANEL_TOOLTIP_SECTIONS,
             }}
           >
             {title}
@@ -504,6 +539,7 @@ export function ProductRouteProofDetail({
                   title: proofRoot.label,
                   specific: proofRoot.description,
                   generic: PROOF_ROOT_TOOLTIP_GENERIC,
+                  ...PROOF_ROOT_TOOLTIP_SECTIONS,
                 }}
               >
                 {rowBody}

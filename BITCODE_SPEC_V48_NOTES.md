@@ -604,17 +604,20 @@ shared transactions/telemetry components) is governed by these laws:
   (copy: `uapi/app/deposits/deposit-stat-explainers.ts`). Tooltips are
   viewport-height capped and INTERACTIVE: overflow scrolls inside the
   tooltip (pointer can travel in; inner scrolls do not dismiss it).
-- **All tooltips carry ALL their sections.** Two tooltip families, each
-  with a complete required section set:
-  - Hover stat/pill tooltips (`TelemetryPillExplainer`): kicker + title +
-    SPECIFIC copy (this exact value) + GENERIC type copy below the divider.
-    `generic` is TYPE-REQUIRED — a tooltip without the second section does
-    not compile.
-  - Inline (i) explainers (`BitcodeExplainer`): kicker, title, summary,
-    detail, 'Use this to' points, and references (current source files +
-    current canon). Every explainer entry on the product surfaces
-    (transaction filters/table, deposit sections, terminal workspace)
-    carries all six.
+- **All tooltips carry ALL their sections.** BOTH tooltip families carry
+  the same complete six-section set — kicker, title, specific/summary,
+  generic/detail, 'Use this to' points, and references (current source
+  files + current canon):
+  - Hover stat/pill tooltips (`TelemetryPillExplainer`): `generic`,
+    `points`, and `references` are TYPE-REQUIRED — a tooltip missing any
+    section does not compile. Telemetry pill kinds get their sections from
+    a per-kind table (PILL_SECTIONS); stat families (session state,
+    governance, earning intelligence, proof/opportunity roots, route
+    metrics, panels, table stats/state) from per-family section consts.
+  - Inline (i) explainers (`BitcodeExplainer`): every explainer entry on
+    the product surfaces (transaction filters/table, deposit sections,
+    terminal workspace, auxillary panes, public nav/footer) carries all
+    six sections.
 - **The one rich dropdown.** Every pick-one control is the shared
   SearchableSelect combobox (square, text-searchable): all seven table
   filters, provider, repository, branch, and commit. The deposit source

@@ -32,6 +32,27 @@ export default function BitcodeTransactionsOverview({
     'Table stats summarize the rows currently visible under the active filters and lens.';
   const tableStateGeneric =
     'Table state pills describe how this table is fed, filtered, and selected right now.';
+  const tableTooltipReferences = {
+    source: [
+      'uapi/components/base/bitcode/execution/BitcodeTransactionsOverview.tsx',
+      'uapi/app/terminal/terminal-activity-history.ts',
+    ],
+    canon: ['BITCODE_SPEC_V48_NOTES.md § Deposit/Read product-surface presentation laws'],
+  };
+  const tableStatSections = {
+    points: [
+      'Sanity-check the filters against the row counts they produce',
+      'Gauge the measured size of the visible work by token total',
+    ],
+    references: tableTooltipReferences,
+  };
+  const tableStateSections = {
+    points: [
+      'Confirm which feed and mode the rows come from',
+      'Know what the free-text search actually matches',
+    ],
+    references: tableTooltipReferences,
+  };
 
   const statCardClass =
     'flex items-baseline gap-2 border border-white/8 bg-white/5 px-2.5 py-1';
@@ -50,6 +71,7 @@ export default function BitcodeTransactionsOverview({
             specific:
               'How many rows the table currently shows after filters — every execution row this account can read for the active lens.',
             generic: tableStatGeneric,
+            ...tableStatSections,
           }}
         >
           <p className="text-emerald-300/85">Activity</p>
@@ -64,6 +86,7 @@ export default function BitcodeTransactionsOverview({
             specific:
               'How many of the visible rows are your own transactions — runs where this account is the depositor or reader.',
             generic: tableStatGeneric,
+            ...tableStatSections,
           }}
         >
           <p className="text-emerald-300/85">Own visible</p>
@@ -78,6 +101,7 @@ export default function BitcodeTransactionsOverview({
             specific:
               'Total measured tokens across the visible rows — the size of the work the listed runs performed.',
             generic: tableStatGeneric,
+            ...tableStatSections,
           }}
         >
           <p className="text-emerald-300/85">Visible tokens</p>
@@ -90,6 +114,7 @@ export default function BitcodeTransactionsOverview({
             specific:
               'Whether a row is currently selected. Selecting a row opens its detail in place of the table; Back returns here.',
             generic: tableStateGeneric,
+            ...tableStateSections,
           }}
         >
           <span className={pillClass}>
@@ -102,6 +127,7 @@ export default function BitcodeTransactionsOverview({
             title: `Mode ${modeLabel}`,
             specific: modeDescription,
             generic: tableStateGeneric,
+            ...tableStateSections,
           }}
         >
           <span className={pillClass}>mode {modeLabel}</span>
@@ -113,6 +139,7 @@ export default function BitcodeTransactionsOverview({
             specific:
               'Where the rows come from in the current mode — live rows read the executions history feed; mock rows are review fixtures.',
             generic: tableStateGeneric,
+            ...tableStateSections,
           }}
         >
           <span className={pillClass}>{modeDescription}</span>
@@ -124,6 +151,7 @@ export default function BitcodeTransactionsOverview({
             specific:
               'The free-text search filter matches run ids, repositories, branches, participants, proof posture, and run summaries.',
             generic: tableStateGeneric,
+            ...tableStateSections,
           }}
         >
           <span className={pillClass}>

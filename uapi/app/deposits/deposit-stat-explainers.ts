@@ -112,3 +112,59 @@ export const DEPOSIT_STAT_TOOLTIP_GENERICS = {
   opportunityRoot:
     "Proof roots are source-safe hashes anchoring measurements into proof readback — auditable without revealing withheld content.",
 } as const;
+
+/** Sections (c)+(d) per stat family — spread into every stat tooltip. */
+export const DEPOSIT_STAT_TOOLTIP_SECTIONS = {
+  sessionState: {
+    points: [
+      "Confirm the exact source package (repository · branch · commit) a synthesis measured",
+      "Find the run id the pipelines table and telemetry detail attach to",
+    ],
+    references: {
+      source: [
+        "uapi/app/deposits/DepositPageClient.tsx",
+        "uapi/app/deposits/deposit-route-model.ts",
+      ],
+      canon: ["BITCODE_SPEC_V48_NOTES.md § Deposit/Read product-surface presentation laws"],
+    },
+  },
+  governance: {
+    points: [
+      "See why depositing is allowed or denied right now",
+      "Trace a denial to its concrete blockers before repairing",
+    ],
+    references: {
+      source: [
+        "uapi/app/deposits/DepositPageClient.tsx",
+        "packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts",
+      ],
+      canon: ["BITCODE_SPEC_V48_NOTES.md § Deposit/Read product-surface presentation laws"],
+    },
+  },
+  earningIntelligence: {
+    points: [
+      "Gauge demand and expected compensation before spending synthesis effort",
+      "Spot approve-ready versus repair-required supply recommendations",
+    ],
+    references: {
+      source: [
+        "uapi/app/deposits/DepositPageClient.tsx",
+        "packages/pipelines/asset-pack/src/depositor-earning-supply-intelligence.ts",
+      ],
+      canon: ["BITCODE_SPEC_V48_NOTES.md § Deposit/Read product-surface presentation laws"],
+    },
+  },
+  opportunityRoot: {
+    points: [
+      "Audit an opportunity against proof readback without seeing withheld content",
+      "Cite the root when discussing the opportunity with the network",
+    ],
+    references: {
+      source: [
+        "uapi/app/deposits/DepositPageClient.tsx",
+        "packages/pipelines/asset-pack/src/depositor-earning-supply-intelligence.ts",
+      ],
+      canon: ["BITCODE_SPEC_V48_NOTES.md § Deposit/Read product-surface presentation laws"],
+    },
+  },
+} as const;

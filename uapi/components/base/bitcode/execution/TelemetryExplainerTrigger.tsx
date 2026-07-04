@@ -133,6 +133,63 @@ export function TelemetryExplainerTrigger({
               {explainer.generic}
             </span>
           ) : null}
+          {explainer.points?.length ? (
+            <span className="relative mt-3 block border-t border-white/8 pt-3">
+              <span className="block text-[0.62rem] uppercase tracking-[0.18em] text-emerald-300/75">
+                Use this to
+              </span>
+              <span className="mt-2 block space-y-1.5">
+                {explainer.points.map((point) => (
+                  <span
+                    key={point}
+                    className="flex gap-2 text-sm font-normal normal-case tracking-normal leading-6 text-neutral-200"
+                  >
+                    <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 bg-emerald-300/70" />
+                    <span>{point}</span>
+                  </span>
+                ))}
+              </span>
+            </span>
+          ) : null}
+          {explainer.references &&
+          (explainer.references.source.length || explainer.references.canon.length) ? (
+            <span className="relative mt-3 block border-t border-white/8 pt-3">
+              {explainer.references.source.length ? (
+                <span className="block">
+                  <span className="block text-[0.62rem] uppercase tracking-[0.18em] text-emerald-300/75">
+                    Current source
+                  </span>
+                  <span className="mt-2 flex flex-wrap gap-1.5">
+                    {explainer.references.source.map((reference) => (
+                      <span
+                        key={reference}
+                        className="border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-200"
+                      >
+                        {reference}
+                      </span>
+                    ))}
+                  </span>
+                </span>
+              ) : null}
+              {explainer.references.canon.length ? (
+                <span className="mt-2 block">
+                  <span className="block text-[0.62rem] uppercase tracking-[0.18em] text-emerald-300/75">
+                    Current canon
+                  </span>
+                  <span className="mt-2 flex flex-wrap gap-1.5">
+                    {explainer.references.canon.map((reference) => (
+                      <span
+                        key={reference}
+                        className="border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-200"
+                      >
+                        {reference}
+                      </span>
+                    ))}
+                  </span>
+                </span>
+              ) : null}
+            </span>
+          ) : null}
         </span>,
         document.body,
       )

@@ -41,9 +41,95 @@ export interface TelemetryPillExplainer {
   title: string;
   /** Section (a), TOP: what this exact element is prompted to do + returns. */
   specific: string;
-  /** Section (b), BELOW: the generic what-is-this copy repeated across the type. REQUIRED — every rich tooltip carries both sections. */
+  /** Section (b): the generic what-is-this copy repeated across the type. */
   generic: string;
+  /** Section (c): 'Use this to' bullets. REQUIRED — every rich tooltip carries all sections. */
+  points: string[];
+  /** Section (d): current source files + current canon references. */
+  references: { source: string[]; canon: string[] };
 }
+
+/** Sections (c)+(d) per pill kind — attached to every pill tooltip. */
+const PILL_SOURCE_REFS = [
+  'uapi/app/terminal/terminal-run-activity.ts',
+  'uapi/components/base/bitcode/execution/execution-telemetry-format.ts',
+  'packages/execution-generics/src/storage/ExecutionStreamAdapter.ts',
+];
+const PILL_SECTIONS: Record<
+  TelemetryExplainerKind,
+  { points: string[]; references: { source: string[]; canon: string[] } }
+> = {
+  phase: {
+    points: [
+      'Track which SDIVF stage the run is working through',
+      'Spot a stage that is looping or stalled before the clock does',
+    ],
+    references: {
+      source: PILL_SOURCE_REFS,
+      canon: ['BITCODE_SPEC_V48_NOTES.md § Gate 3 in progress: synthesis pipeline algorithmic + telemetric correctness'],
+    },
+  },
+  agent: {
+    points: [
+      'See which PTRR worker produced this row',
+      'Follow one agent across its Plan → Try → Refine → Retry moves',
+    ],
+    references: {
+      source: PILL_SOURCE_REFS,
+      canon: ['BITCODE_SPEC_V48_NOTES.md § Gate 3 in progress: synthesis pipeline algorithmic + telemetric correctness'],
+    },
+  },
+  step: {
+    points: [
+      'Verify PTRR ordering — Try must never follow Refine',
+      'See which step schema this output validated against',
+    ],
+    references: {
+      source: [...PILL_SOURCE_REFS, 'packages/agent-generics/src/steps/step-schemas.ts'],
+      canon: ['BITCODE_SPEC_V48_NOTES.md § PTRR step output schemas — steps validate against STEP schemas'],
+    },
+  },
+  failsafe: {
+    points: [
+      'See which guard wrapped this LLM call',
+      'Read chunk ×N / stitch ×N badges as repair progress, not failures',
+    ],
+    references: {
+      source: PILL_SOURCE_REFS,
+      canon: ['BITCODE_SPEC_V48_NOTES.md § The Failsafes sequence — formal clarification + the PrepareConciseContext contract'],
+    },
+  },
+  generation: {
+    points: [
+      'Track the Thinkings move (Reason → Judge → Structure) inside a step',
+      'Spot which generation a repair loop is stuck on',
+    ],
+    references: {
+      source: PILL_SOURCE_REFS,
+      canon: ['BITCODE_SPEC_V48_NOTES.md § Gate 3 in progress: synthesis pipeline algorithmic + telemetric correctness'],
+    },
+  },
+  tool: {
+    points: [
+      'See which concrete ability the agent invoked',
+      'Expand the row for source-safe argument and result shapes',
+    ],
+    references: {
+      source: PILL_SOURCE_REFS,
+      canon: ['BITCODE_SPEC_V48_NOTES.md § Gate 3 in progress: synthesis pipeline algorithmic + telemetric correctness'],
+    },
+  },
+  'row-icon': {
+    points: [
+      'Tell one LLM call from one Tool use at a glance',
+      'Expand the row for execution state and provider metadata',
+    ],
+    references: {
+      source: PILL_SOURCE_REFS,
+      canon: ['BITCODE_SPEC_V48_NOTES.md § Gate 3 in progress: synthesis pipeline algorithmic + telemetric correctness'],
+    },
+  },
+};
 
 /**
  * The surrounding row context a trigger may pass so the specific copy can
@@ -278,6 +364,15 @@ export function getTelemetryPillExplainer(
   mode?: SynthesisPipelineMode | string | null,
   context?: TelemetryExplainerContext,
 ): TelemetryPillExplainer {
+  return { ...buildTelemetryPillCopy(type, rawValue, mode, context), ...PILL_SECTIONS[type] };
+}
+
+function buildTelemetryPillCopy(
+  type: Exclude<TelemetryExplainerKind, 'row-icon'>,
+  rawValue: string,
+  mode?: SynthesisPipelineMode | string | null,
+  context?: TelemetryExplainerContext,
+): Omit<TelemetryPillExplainer, 'points' | 'references'> {
   const value = String(rawValue || '');
 
   switch (type) {
@@ -356,6 +451,7 @@ export function getTelemetryPillExplainer(
 export function getTelemetryRowIconExplainer(rowKind: 'llm' | 'tool'): TelemetryPillExplainer {
   if (rowKind === 'tool') {
     return {
+      ...PILL_SECTIONS['row-icon'],
       kicker: 'Log line',
       title: 'One Tool use',
       specific:
@@ -364,6 +460,7 @@ export function getTelemetryRowIconExplainer(rowKind: 'llm' | 'tool'): Telemetry
     };
   }
   return {
+    ...PILL_SECTIONS['row-icon'],
     kicker: 'Log line',
     title: 'One LLM call',
     specific:
