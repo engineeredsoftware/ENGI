@@ -81,6 +81,7 @@ import {
   DEPOSIT_SESSION_ROW_EXPLAINERS,
 } from "@/app/deposits/deposit-stat-explainers";
 import { TelemetryExplainerTrigger } from "@/components/base/bitcode/execution/TelemetryExplainerTrigger";
+import { VCSFileTreePicker } from "@/components/base/bitcode/vcs/VCSFileTreePicker";
 import type {
   DepositOptionReviewDecision,
   DepositOptionReviewDecisionState,
@@ -157,8 +158,10 @@ export default function DepositPageClient() {
   const [obfuscations, setObfuscations] = useState(
     "Note anything to obfuscate or withhold from the synthesized options: internal names, proprietary framing, or sensitive specifics the source-safe AssetPacks should avoid surfacing.",
   );
-  const [sourcePathHintsText, setSourcePathHintsText] = useState("");
-  const [protectedIpExclusionsText, setProtectedIpExclusionsText] = useState("");
+  // Picked from the repository file tree (selected repo·branch·commit);
+  // hints and exclusions are mutually exclusive path sets.
+  const [sourcePathHints, setSourcePathHints] = useState<string[]>([]);
+  const [protectedIpExclusions, setProtectedIpExclusions] = useState<string[]>([]);
   const [optionsRequested, setOptionsRequested] = useState(false);
   const [synthesisRunId, setSynthesisRunId] = useState<string | null>(null);
   // Whether the attached run is an option synthesis (its completed output
@@ -386,14 +389,6 @@ export default function DepositPageClient() {
     ],
   );
 
-  const sourcePathHints = useMemo(
-    () =>
-      sourcePathHintsText
-        .split(/\r?\n|,/u)
-        .map((entry) => entry.trim())
-        .filter(Boolean),
-    [sourcePathHintsText],
-  );
   const sourceCriticalitySignals = useMemo(
     () => [
       {
@@ -943,7 +938,7 @@ export default function DepositPageClient() {
           sourceBranch: repositoryContext?.selectedBranch || null,
           sourceCommit: repositoryContext?.selectedCommit || null,
           obfuscations: effectiveInstructions,
-          protectedIpExclusions: protectedIpExclusionsText,
+          protectedIpExclusions,
           demandContext: [
             ...depositRouteInput.depositoryDemandSignals.map(
               (signal) => signal.label,
@@ -989,7 +984,7 @@ export default function DepositPageClient() {
     depositRouteInput.depositoryDemandSignals,
     depositRouteInput.existingDepositorySignals,
     depositRouteInput.readingDemandSignals,
-    protectedIpExclusionsText,
+    protectedIpExclusions,
     refreshLiveRuns,
     replaceDepositRouteTransaction,
     repositoryContext,
@@ -1515,7 +1510,7 @@ export default function DepositPageClient() {
                       sourceBranch: repositoryContext?.selectedBranch ?? null,
                       sourceCommit: repositoryContext?.selectedCommit ?? null,
                       obfuscations,
-                      protectedIpExclusions: protectedIpExclusionsText,
+                      protectedIpExclusions,
                     },
                     outputDetails: synthesisActivity.outputDetails,
                     events: synthesisEvents,
@@ -1578,47 +1573,68 @@ export default function DepositPageClient() {
                     className="mt-2 min-h-[8rem] w-full border border-white/10 bg-black/30 px-3 py-3 text-sm leading-6 text-neutral-100 outline-none transition focus:border-emerald-300/35"
                   />
                 </div>
+                {/* File-tree pickers over the selected repository·branch·
+                    commit. Hints and exclusions are MUTUALLY EXCLUSIVE — a
+                    path picked on one side is disabled on the other.
+                    Concept-level withholding belongs to Obfuscations above. */}
                 <div className="mt-4 grid gap-4 tablet:grid-cols-2">
                 <div className="block">
                   <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
-                    <label htmlFor="deposit-source-path-hints-input">Source path hints</label>
+                    <span>Source path hints</span>
                     <span onClick={(event) => event.stopPropagation()}>
                       <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.sourcePathHints} triggerAriaLabel="More info about this field" />
                     </span>
                   </span>
-                  <textarea
-                    id="deposit-source-path-hints-input"
-                    value={sourcePathHintsText}
-                    onChange={(event) =>
-                      setSourcePathHintsText(event.target.value)
-                    }
-                    placeholder={"e.g. uapi/app/terminal/TerminalDepositComposer.tsx\npackages/pipelines/asset-pack/src/depository-supply-index.ts"}
-                    className="mt-2 min-h-[6rem] w-full border border-white/10 bg-black/30 px-3 py-3 font-mono text-xs leading-5 text-neutral-100 outline-none transition focus:border-emerald-300/35"
-                  />
+                  <div className="mt-2">
+                    <VCSFileTreePicker
+                      aria-label="Source path hints file tree"
+                      provider={repositoryContext?.provider ?? "github"}
+                      repositoryFullName={
+                        repositoryContext?.selectedRepository?.fullName ?? null
+                      }
+                      treeRef={
+                        repositoryContext?.selectedCommit ||
+                        repositoryContext?.selectedBranch ||
+                        null
+                      }
+                      selectedPaths={sourcePathHints}
+                      onChange={setSourcePathHints}
+                      conflictingPaths={protectedIpExclusions}
+                      conflictLabel="Already a protected IP exclusion"
+                    />
+                  </div>
                 </div>
                 <div className="block">
                   <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
-                    <label htmlFor="deposit-protected-ip-exclusions-input">
-                      Protected IP exclusions (one per line)
-                    </label>
+                    <span>Protected IP exclusions</span>
                     <span onClick={(event) => event.stopPropagation()}>
                       <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.protectedIpExclusions} triggerAriaLabel="More info about this field" />
                     </span>
                   </span>
-                  <textarea
-                    id="deposit-protected-ip-exclusions-input"
-                    value={protectedIpExclusionsText}
-                    onChange={(event) =>
-                      setProtectedIpExclusionsText(event.target.value)
-                    }
-                    placeholder={"e.g. src/secret-engine/\ninternal pricing model"}
-                    className="mt-2 min-h-[6rem] w-full border border-amber-300/15 bg-black/30 px-3 py-3 font-mono text-xs leading-5 text-neutral-100 outline-none transition focus:border-amber-300/40"
-                  />
+                  <div className="mt-2">
+                    <VCSFileTreePicker
+                      aria-label="Protected IP exclusions file tree"
+                      provider={repositoryContext?.provider ?? "github"}
+                      repositoryFullName={
+                        repositoryContext?.selectedRepository?.fullName ?? null
+                      }
+                      treeRef={
+                        repositoryContext?.selectedCommit ||
+                        repositoryContext?.selectedBranch ||
+                        null
+                      }
+                      selectedPaths={protectedIpExclusions}
+                      onChange={setProtectedIpExclusions}
+                      conflictingPaths={sourcePathHints}
+                      conflictLabel="Already a source path hint"
+                    />
+                  </div>
                   <span className="mt-1 block text-xs leading-5 text-neutral-500">
-                    Excluded paths and concepts never enter AssetPack knowledge
-                    synthesis: they are removed from the source inventory before
+                    Excluded paths never enter AssetPack knowledge synthesis:
+                    they are removed from the source inventory before
                     measurement, and candidates that touch them are dropped
-                    fail-closed.
+                    fail-closed. Concept-level withholding belongs in
+                    Obfuscations above.
                   </span>
                 </div>
                 </div>

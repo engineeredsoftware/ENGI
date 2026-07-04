@@ -1,6 +1,6 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 
 import DepositPageClient from "@/app/deposits/DepositPageClient";
 
@@ -562,6 +562,14 @@ describe("DepositPageClient", () => {
           json: async () => ({ ok: true, runId: "real-synthesis-execution-1", executionId: "real-synthesis-execution-1", status: "dispatched" }),
         };
       }
+      if (url.startsWith("/api/vcs?")) {
+        return {
+          ok: true,
+          json: async () => ({
+            items: [{ path: "secret-engine", type: "tree", sha: "t-secret" }],
+          }),
+        };
+      }
       if (url.startsWith("/api/executions/history/")) {
         return {
           ok: true,
@@ -582,12 +590,15 @@ describe("DepositPageClient", () => {
 
     render(<DepositPageClient />);
 
-    const exclusionsField = await screen.findByLabelText(
-      /Protected IP exclusions/,
+    // Pick the exclusion from the repository file tree (fetched at the
+    // selected repo·branch·commit); a directory selects its prefix.
+    const exclusionsTree = await screen.findByLabelText(
+      "Protected IP exclusions file tree",
     );
-    fireEvent.change(exclusionsField, {
-      target: { value: "secret-engine/" },
-    });
+    const secretEngineRow = await within(exclusionsTree).findByText(
+      "secret-engine/",
+    );
+    fireEvent.click(secretEngineRow);
 
     const synthesizeButton = await screen.findByRole("button", {
       name: "Synthesize options",
@@ -606,7 +617,7 @@ describe("DepositPageClient", () => {
     );
     const body = JSON.parse(String(synthesisCall?.[1]?.body));
     expect(body.repositoryFullName).toBe("engineeredsoftware/ENGI");
-    expect(body.protectedIpExclusions).toBe("secret-engine/");
+    expect(body.protectedIpExclusions).toEqual(["secret-engine/"]);
     expect(Array.isArray(body.demandContext)).toBe(true);
 
     await waitFor(() =>

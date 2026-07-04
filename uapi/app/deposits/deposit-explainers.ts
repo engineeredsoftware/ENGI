@@ -129,7 +129,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     kicker: 'Option synthesis',
     title: 'Source path hints',
     summary:
-      'Optional pointers (one per line or comma-separated) to paths or concepts worth flagging — used to estimate this deposit\'s criticality and cost, not to change what synthesis measures.',
+      'Optional pointers picked from the repository file tree (at the selected branch and commit) to paths worth flagging — used to estimate this deposit\'s criticality and cost, not to change what synthesis measures.',
     detail:
       'Hints that look sensitive (mentioning secrets, credentials, wallets, auth, keys, payments, or settlement) raise a review warning and nudge the deposit\'s estimated development cost and expected settlement upward — a client-side heuristic, not a synthesis-time exclusion.',
     points: [
@@ -140,7 +140,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
   }),
   protectedIpExclusions: buildExplainer({
     kicker: 'Option synthesis',
-    title: 'Protected IP exclusions (one per line)',
+    title: 'Protected IP exclusions',
     summary:
       'The hard, fail-closed boundary: paths and concepts listed here never enter AssetPack knowledge synthesis at all.',
     detail:

@@ -611,8 +611,17 @@ shared transactions/telemetry components) is governed by these laws:
   TERMINAL_REPOSITORY_PROVIDERS with live connection state as the item
   description; switching provider rewrites the provider param and clears
   repo/branch/commit).
-- **Examples are placeholders.** Form fields never prefill example values —
-  source path hints ships empty with the examples as placeholder text.
+- **Examples are placeholders.** Form fields never prefill example values.
+- **Path inputs are file-tree pickers.** Source path hints and Protected IP
+  exclusions are picked from the repository FILE TREE fetched at the
+  selected repository·branch·commit (new VCS `tree` resource →
+  `VCSService.getRepositoryContent`, lazy per-directory), never typed:
+  a file selects its exact path, a directory selects its prefix (`dir/`).
+  The two selections are MUTUALLY EXCLUSIVE — a path picked on one side is
+  disabled on the other, labeled with why. The dispatch payload carries the
+  exclusions as an array (the route accepts arrays or newline strings).
+  Concept-level withholding belongs to the Obfuscations field, not the
+  exclusion picker.
 - **Aside cards are non-collapsible.** The Earnings / Governance / Session
   cards are plain sections; only their inner disclosures (Opportunity
   roots, Authority blockers, Disclosure boundary, Deposit proof detail)
