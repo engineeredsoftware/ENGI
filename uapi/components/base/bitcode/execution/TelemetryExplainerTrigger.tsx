@@ -15,10 +15,16 @@ import type { TelemetryPillExplainer } from './telemetry-pill-explainers';
 
 interface TelemetryExplainerTriggerProps {
   explainer: TelemetryPillExplainer;
-  /** The visible trigger — a PathPill or the row's corner icon. */
+  /** The visible trigger — a PathPill, a stat row, or the row's corner icon. */
   children: React.ReactNode;
   className?: string;
   side?: TooltipSide;
+  /**
+   * Wrapper element. 'span' (default) for inline pills; 'div' when the
+   * trigger IS a block row/chip (e.g. a <dl> child wrapping dt/dd, where a
+   * span wrapper would be invalid markup and break the row layout).
+   */
+  as?: 'span' | 'div';
 }
 
 /**
@@ -35,6 +41,7 @@ export function TelemetryExplainerTrigger({
   children,
   className,
   side = 'bottom',
+  as: Wrapper = 'span',
 }: TelemetryExplainerTriggerProps) {
   const [placement, setPlacement] = useState<TooltipPlacement | null>(null);
   const [isMounted, setIsMounted] = useState(false);
@@ -84,17 +91,22 @@ export function TelemetryExplainerTrigger({
           <span className="relative mt-2 block text-sm font-normal normal-case tracking-normal leading-6 text-neutral-200">
             {explainer.specific}
           </span>
-          <span className="relative mt-3 block border-t border-white/8 pt-3 text-sm font-normal normal-case tracking-normal leading-6 text-neutral-400">
-            {explainer.generic}
-          </span>
+          {explainer.generic ? (
+            <span className="relative mt-3 block border-t border-white/8 pt-3 text-sm font-normal normal-case tracking-normal leading-6 text-neutral-400">
+              {explainer.generic}
+            </span>
+          ) : null}
         </span>,
         document.body,
       )
       : null;
 
   return (
-    <span
-      className={cn('inline-flex min-w-0 items-center', className)}
+    <Wrapper
+      className={cn(
+        Wrapper === 'span' ? 'inline-flex min-w-0 items-center' : 'block min-w-0',
+        className,
+      )}
       onMouseEnter={showTooltip}
       onMouseLeave={hideTooltip}
       onFocus={showTooltip}
@@ -104,6 +116,6 @@ export function TelemetryExplainerTrigger({
     >
       {children}
       {tooltipMarkup}
-    </span>
+    </Wrapper>
   );
 }

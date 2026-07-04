@@ -31,6 +31,23 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       canon: DEPOSIT_CANON_REFS,
     },
   }),
+  provider: buildExplainer({
+    kicker: 'Provider',
+    title: 'Repository provider',
+    summary:
+      'The version-control host Bitcode reads your repositories from. GitHub is the supported provider today; the selection drives which account connection and repository inventory the deposit route uses.',
+    detail:
+      'Switching provider clears the selected repository, branch, and commit — the source package re-derives from the new provider connection. The item description shows whether the provider connection is currently live.',
+    points: [
+      'Pick the host whose repositories you want to deposit from',
+      'Connection state is checked live against the provider session',
+      'More providers (GitLab, Bitbucket) slot in through the same selector',
+    ],
+    references: {
+      source: [...DEPOSIT_SOURCE_REFS, 'uapi/app/terminal/terminal-repository-context.ts'],
+      canon: DEPOSIT_CANON_REFS,
+    },
+  }),
   repository: buildExplainer({
     kicker: 'Repository',
     title: 'Select the repository you are depositing',

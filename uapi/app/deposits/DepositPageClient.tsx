@@ -70,6 +70,17 @@ import { QuantumOrb } from "@/components/base/bitcode/effects/quantum-orb";
 import { verifiedAccessOrbConfig } from "@/app/(root)/components/landing/marketing-landing-shared";
 import BitcodeInlineExplainer from "@/components/base/bitcode/execution/BitcodeInlineExplainer";
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/app/deposits/deposit-explainers";
+import {
+  DEPOSIT_AUTHORITY_BLOCKERS_EXPLAINER,
+  DEPOSIT_AUTHORITY_ROW_EXPLAINERS,
+  DEPOSIT_DISCLOSURE_BOUNDARY_EXPLAINER,
+  DEPOSIT_EARNING_ROW_EXPLAINERS,
+  DEPOSIT_HEADER_METRIC_EXPLAINERS,
+  DEPOSIT_OPPORTUNITY_ROOT_EXPLAINER,
+  DEPOSIT_PROOF_ROOT_EXPLAINERS,
+  DEPOSIT_SESSION_ROW_EXPLAINERS,
+} from "@/app/deposits/deposit-stat-explainers";
+import { TelemetryExplainerTrigger } from "@/components/base/bitcode/execution/TelemetryExplainerTrigger";
 import type {
   DepositOptionReviewDecision,
   DepositOptionReviewDecisionState,
@@ -1246,33 +1257,40 @@ export default function DepositPageClient() {
         metrics={[
           {
             label: "Stage",
+            description: DEPOSIT_HEADER_METRIC_EXPLAINERS["Stage"],
             value: depositRouteSession.activeStepId.replace(/-/g, " "),
           },
           {
             label: "Options",
+            description: DEPOSIT_HEADER_METRIC_EXPLAINERS["Options"],
             value: depositRouteSession.synthesis.optionCount,
           },
           {
             label: "Positive ROI",
+            description: DEPOSIT_HEADER_METRIC_EXPLAINERS["Positive ROI"],
             value: depositRouteSession.policy.reviewablePositiveRoiCount,
           },
           {
             label: "Admitted",
+            description: DEPOSIT_HEADER_METRIC_EXPLAINERS["Admitted"],
             value: depositRouteSession.admission.admittedCount,
           },
           {
             label: "Network",
+            description: DEPOSIT_HEADER_METRIC_EXPLAINERS["Network"],
             value:
               networkDepositoryCount === null ? "—" : networkDepositoryCount,
           },
           {
             label: "Authority",
+            description: DEPOSIT_HEADER_METRIC_EXPLAINERS["Authority"],
             value:
               depositRouteSession.organizationPolicyWalletAuthority.aggregate
                 .state,
           },
           {
             label: "Earning estimate",
+            description: DEPOSIT_HEADER_METRIC_EXPLAINERS["Earning estimate"],
             value: formatSats(
               depositRouteSession.earningSupplyIntelligence.aggregate
                 .totalExpectedCompensationSats,
@@ -2239,7 +2257,15 @@ export default function DepositPageClient() {
                 />
               </summary>
               <dl className="mt-4 grid gap-2">
-                <div className="border border-emerald-300/15 bg-emerald-300/[0.04] px-3 py-2">
+                <TelemetryExplainerTrigger
+                  as="div"
+                  className="border border-emerald-300/15 bg-emerald-300/[0.04] px-3 py-2"
+                  explainer={{
+                    kicker: "Earning intelligence",
+                    title: "Likely demand",
+                    specific: DEPOSIT_EARNING_ROW_EXPLAINERS["Likely demand"],
+                  }}
+                >
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
                     Likely demand
                   </dt>
@@ -2251,8 +2277,16 @@ export default function DepositPageClient() {
                     )}
                     %
                   </dd>
-                </div>
-                <div className="border border-white/8 bg-black/20 px-3 py-2">
+                </TelemetryExplainerTrigger>
+                <TelemetryExplainerTrigger
+                  as="div"
+                  className="border border-white/8 bg-black/20 px-3 py-2"
+                  explainer={{
+                    kicker: "Earning intelligence",
+                    title: "Unfit Need opportunities",
+                    specific: DEPOSIT_EARNING_ROW_EXPLAINERS["Unfit Need opportunities"],
+                  }}
+                >
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
                     Unfit Need opportunities
                   </dt>
@@ -2267,8 +2301,16 @@ export default function DepositPageClient() {
                         .unfitNeedOpportunities.state
                     }
                   </dd>
-                </div>
-                <div className="border border-white/8 bg-black/20 px-3 py-2">
+                </TelemetryExplainerTrigger>
+                <TelemetryExplainerTrigger
+                  as="div"
+                  className="border border-white/8 bg-black/20 px-3 py-2"
+                  explainer={{
+                    kicker: "Earning intelligence",
+                    title: "Expected compensation",
+                    specific: DEPOSIT_EARNING_ROW_EXPLAINERS["Expected compensation"],
+                  }}
+                >
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
                     Expected compensation
                   </dt>
@@ -2283,8 +2325,16 @@ export default function DepositPageClient() {
                         .expectedCompensationRangeSats.high,
                     )}
                   </dd>
-                </div>
-                <div className="border border-white/8 bg-black/20 px-3 py-2">
+                </TelemetryExplainerTrigger>
+                <TelemetryExplainerTrigger
+                  as="div"
+                  className="border border-white/8 bg-black/20 px-3 py-2"
+                  explainer={{
+                    kicker: "Earning intelligence",
+                    title: "Supply recommendations",
+                    specific: DEPOSIT_EARNING_ROW_EXPLAINERS["Supply recommendations"],
+                  }}
+                >
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
                     Supply recommendations
                   </dt>
@@ -2300,7 +2350,7 @@ export default function DepositPageClient() {
                     }{" "}
                     repair
                   </dd>
-                </div>
+                </TelemetryExplainerTrigger>
               </dl>
               <details className="mt-3 border border-emerald-300/15 bg-emerald-300/[0.04] px-3 py-3">
                 <summary className="cursor-pointer text-[0.62rem] uppercase tracking-[0.16em] text-emerald-100/85">
@@ -2309,14 +2359,22 @@ export default function DepositPageClient() {
                 <dl className="mt-2 grid gap-2">
                   {depositRouteSession.earningSupplyIntelligence.unfitNeedOpportunities.opportunities.map(
                     (opportunity) => (
-                      <div key={opportunity.id}>
+                      <TelemetryExplainerTrigger
+                        key={opportunity.id}
+                        as="div"
+                        explainer={{
+                          kicker: "Opportunity root",
+                          title: opportunity.label,
+                          specific: DEPOSIT_OPPORTUNITY_ROOT_EXPLAINER,
+                        }}
+                      >
                         <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">
                           {opportunity.label}
                         </dt>
                         <dd className="break-all font-mono text-[0.66rem] text-neutral-300">
                           {opportunity.opportunityRoot}
                         </dd>
-                      </div>
+                      </TelemetryExplainerTrigger>
                     ),
                   )}
                 </dl>
@@ -2343,9 +2401,17 @@ export default function DepositPageClient() {
               </summary>
               <dl className="mt-4 grid gap-2">
                 {authorityRows.map((row) => (
-                  <div
+                  <TelemetryExplainerTrigger
                     key={row.label}
+                    as="div"
                     className="border border-white/8 bg-black/20 px-3 py-2"
+                    explainer={{
+                      kicker: "Governance",
+                      title: row.label,
+                      specific:
+                        DEPOSIT_AUTHORITY_ROW_EXPLAINERS[row.label] ??
+                        "Organization authority state for this deposit route.",
+                    }}
                   >
                     <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
                       {row.label}
@@ -2353,7 +2419,7 @@ export default function DepositPageClient() {
                     <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-200">
                       {row.value}
                     </dd>
-                  </div>
+                  </TelemetryExplainerTrigger>
                 ))}
               </dl>
               {depositRouteSession.organizationPolicyWalletAuthority.aggregate
@@ -2362,6 +2428,7 @@ export default function DepositPageClient() {
                   <ProductRouteDisclosure
                     title="Authority blockers"
                     tone="emerald"
+                    summaryDescription={DEPOSIT_AUTHORITY_BLOCKERS_EXPLAINER}
                   >
                     {depositRouteSession.organizationPolicyWalletAuthority.aggregate.blockers.join(
                       "; ",
@@ -2391,9 +2458,17 @@ export default function DepositPageClient() {
               </summary>
               <dl className="mt-4 grid gap-2">
                 {sessionRows.map((row) => (
-                  <div
+                  <TelemetryExplainerTrigger
                     key={row.label}
+                    as="div"
                     className="border border-white/8 bg-black/20 px-3 py-2"
+                    explainer={{
+                      kicker: "Session state",
+                      title: row.label,
+                      specific:
+                        DEPOSIT_SESSION_ROW_EXPLAINERS[row.label] ??
+                        "Source-safe session state for this deposit route.",
+                    }}
                   >
                     <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
                       {row.label}
@@ -2401,13 +2476,14 @@ export default function DepositPageClient() {
                     <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-200">
                       {row.value}
                     </dd>
-                  </div>
+                  </TelemetryExplainerTrigger>
                 ))}
               </dl>
               <div className="mt-3">
                 <ProductRouteDisclosure
                   title="Disclosure boundary"
                   tone="emerald"
+                  summaryDescription={DEPOSIT_DISCLOSURE_BOUNDARY_EXPLAINER}
                 >
                   Visible: measurements, demand roots, source path roots, policy
                   roots, estimated ROI, BTD potential, compensation metadata.
@@ -2424,27 +2500,32 @@ export default function DepositPageClient() {
                   roots={[
                     {
                       id: "route-session-root",
+                      description: DEPOSIT_PROOF_ROOT_EXPLAINERS["route-session-root"],
                       label: "Route session root",
                       root: depositRouteSession.proofRoot,
                     },
                     {
                       id: "synthesis-root",
+                      description: DEPOSIT_PROOF_ROOT_EXPLAINERS["synthesis-root"],
                       label: "Synthesis root",
                       root: depositRouteSession.synthesis.roots.synthesisRoot,
                     },
                     {
                       id: "policy-root",
+                      description: DEPOSIT_PROOF_ROOT_EXPLAINERS["policy-root"],
                       label: "Policy root",
                       root: depositRouteSession.policy.roots.policyReportRoot,
                     },
                     {
                       id: "admission-root",
+                      description: DEPOSIT_PROOF_ROOT_EXPLAINERS["admission-root"],
                       label: "Admission root",
                       root:
                         depositRouteSession.admission.roots.admissionReportRoot,
                     },
                     {
                       id: "earning-root",
+                      description: DEPOSIT_PROOF_ROOT_EXPLAINERS["earning-root"],
                       label: "Earning intelligence root",
                       root:
                         depositRouteSession.earningSupplyIntelligence.roots
@@ -2452,6 +2533,7 @@ export default function DepositPageClient() {
                     },
                     {
                       id: "authority-root",
+                      description: DEPOSIT_PROOF_ROOT_EXPLAINERS["authority-root"],
                       label: "Authority root",
                       root:
                         depositRouteSession.organizationPolicyWalletAuthority

@@ -575,15 +575,26 @@ export default function ReadPageClient() {
         metrics={[
           {
             label: "Stage",
+            description:
+              "Where this reading session currently sits in the journey: request read, review the synthesized Need, request fit, review the synthesized AssetPack, then buy and settle.",
             value: readRouteSession.activeStepId.replace(/-/g, " "),
           },
           {
             label: "Rows",
+            description:
+              "How many pipeline runs this account can read in the Read pipelines table below.",
             value: isLoadingRuns ? "reading" : String(liveRuns.length),
           },
-          { label: "Boundary", value: "source-safe" },
+          {
+            label: "Boundary",
+            description:
+              "The disclosure boundary for this page: measurements and proofs are visible; source-bearing AssetPack contents stay withheld until BTC finality and BTD rights transfer.",
+            value: "source-safe",
+          },
           {
             label: "Quote",
+            description:
+              "The deterministic BTC-testnet quote basis (sats) for the current read under the procurement budget policy.",
             value: formatSats(
               readRouteSession.procurementGovernance.budgetPolicy.quoteSats,
             ),

@@ -41,8 +41,8 @@ export interface TelemetryPillExplainer {
   title: string;
   /** Section (a), TOP: what this exact element is prompted to do + returns. */
   specific: string;
-  /** Section (b), BELOW: the generic what-is-this copy repeated across the type. */
-  generic: string;
+  /** Section (b), BELOW: the generic what-is-this copy repeated across the type. Optional for stat tooltips. */
+  generic?: string;
 }
 
 /**

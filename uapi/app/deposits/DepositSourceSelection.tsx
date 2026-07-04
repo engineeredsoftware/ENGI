@@ -448,10 +448,11 @@ export default function DepositSourceSelection({
         </button>
       </div>
 
-      <div className="mt-4 grid gap-3 lg:grid-cols-[minmax(0,240px)_minmax(0,1fr)]">
+      <div className="mt-3 grid gap-3 lg:grid-cols-[minmax(0,240px)_minmax(0,1fr)]">
         <div>
-          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
-            Provider
+          <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+            <span>Provider</span>
+            <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.provider} triggerAriaLabel="More info about this field" />
           </span>
           <div className="mt-1.5">
             <SearchableSelect
@@ -486,8 +487,9 @@ export default function DepositSourceSelection({
           </div>
         </div>
         <div>
-          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
-            Repository
+          <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
+            <span>Repository</span>
+            <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.repository} triggerAriaLabel="More info about this field" />
           </span>
           <div className="mt-1.5">
             <VCSRepositorySelector
@@ -519,14 +521,14 @@ export default function DepositSourceSelection({
         </div>
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        <div className="rounded-[1.25rem] border border-white/8 bg-white/5 px-4 py-4">
+      <div className="mt-3 grid gap-3 tablet:grid-cols-2">
+        <div className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-2.5">
           <span className="flex items-center gap-2 text-[0.64rem] uppercase tracking-[0.2em] text-neutral-400">
             <GitBranch className="h-3.5 w-3.5" />
             <span>Branch</span>
             <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.branch} triggerAriaLabel="More info about this field" />
           </span>
-          <div className="mt-3">
+          <div className="mt-2">
             <SearchableSelect
               aria-label="Repository source branch"
               value={selectedBranch || null}
@@ -555,22 +557,22 @@ export default function DepositSourceSelection({
                   params.delete("commit");
                 })
               }
-              className="rounded-xl border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
+              className="h-9 rounded-xl border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
             />
           </div>
-          <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-500">
+          <p className="mt-1.5 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
             {isLoadingBranches
               ? "Loading branches…"
               : "Default branch is selected when available"}
           </p>
         </div>
 
-        <div className="rounded-[1.25rem] border border-white/8 bg-white/5 px-4 py-4">
+        <div className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-2.5">
           <span className="flex items-center gap-2 text-[0.64rem] uppercase tracking-[0.2em] text-neutral-400">
             <span>Commit / ref</span>
             <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.commit} triggerAriaLabel="More info about this field" />
           </span>
-          <div className="mt-3">
+          <div className="mt-2">
             <SearchableSelect
               aria-label="Repository source commit"
               value={selectedCommit || null}
@@ -596,10 +598,10 @@ export default function DepositSourceSelection({
                   params.delete("commit");
                 })
               }
-              className="rounded-xl border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
+              className="h-9 rounded-xl border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
             />
           </div>
-          <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-500">
+          <p className="mt-1.5 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
             {isLoadingCommits
               ? "Loading commits…"
               : "Latest branch commit is selected when available"}
@@ -607,7 +609,7 @@ export default function DepositSourceSelection({
         </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-white/8 bg-white/[0.025] px-4 py-3">
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-3 border border-white/8 bg-white/[0.025] px-3 py-2.5">
         <span className="flex items-center gap-2 text-sm text-neutral-300">
           {connectionStatus?.connected ? null : (
             <Lock className="h-3.5 w-3.5 text-neutral-500" />
