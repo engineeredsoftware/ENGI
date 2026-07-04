@@ -1,8 +1,16 @@
+// FileDiffViewer (imported through PipelineExecutionLog for the pipelines
+// master-detail telemetry) pulls react-syntax-highlighter ESM jest can't
+// parse; mock it so the page module loads.
+jest.mock("@/components/base/bitcode/execution/FileDiffViewer", () => ({
+  __esModule: true,
+  default: () => null,
+}));
+
 import React from "react";
 import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 
-import ReadPageClient from "@/app/read/ReadPageClient";
+import ReadPageClient from "@/app/reads/ReadPageClient";
 
 const mockReplace = jest.fn();
 const mockFetchPipelineExecutionHistory = jest.fn();
@@ -150,7 +158,7 @@ describe("ReadPageClient", () => {
     jest.restoreAllMocks();
   });
 
-  it("renders the five-step /read route with source-safe session state and live workbench ownership", async () => {
+  it("renders the five-step /reads route with source-safe session state and live workbench ownership", async () => {
     render(<ReadPageClient />);
 
     expect(screen.getByTestId("route-shell-read")).toBeInTheDocument();
@@ -207,7 +215,10 @@ describe("ReadPageClient", () => {
     );
     expect(workbench).toHaveAttribute("data-route-stage", "request-fit");
     expect(workbench).toHaveAttribute("data-demonstration", "false");
-    expect(screen.getByText("Recent Reading activity")).toBeInTheDocument();
+    // Master-detail: the Reads page lists pipeline runs in a table; row
+    // selection connects the telemetry detail.
+    expect(screen.getByText("Read pipelines")).toBeInTheDocument();
+    expect(screen.getByTestId("reads-pipelines-table")).toBeInTheDocument();
   });
 
   it("renders buyer fit measurement review and settlement/rights/delivery readback", async () => {

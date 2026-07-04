@@ -69,7 +69,7 @@ describe("PacksPageClient", () => {
             },
             governance: {
               state: "allowed",
-              route: "/read",
+              route: "/reads",
               walletState: "verified",
               spendState: "within-limit",
               depositState: "not-applicable",
@@ -144,7 +144,7 @@ describe("PacksPageClient", () => {
           },
           governance: {
             state: "allowed",
-            route: "/read",
+            route: "/reads",
             walletState: "verified",
             spendState: "within-limit",
             depositState: "not-applicable",

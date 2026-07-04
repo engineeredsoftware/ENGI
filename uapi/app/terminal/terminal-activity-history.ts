@@ -658,7 +658,7 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     repository:
       repoSnapshot
         ? `${repoSnapshot.org}/${repoSnapshot.repo}`
-        : null,
+        : contextString('repositoryFullName'),
     branch: repoSnapshot?.branch || contextString('sourceBranch'),
     sourceCommit: repoSnapshot?.commit || contextString('sourceCommit'),
     contextSource: contextString('source'),
@@ -702,7 +702,16 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
       contextString('depositoryIndexState') || readNestedString(run.output, ['depositoryEvidence', 'indexState', 'vector']),
     participant: repoSnapshot?.org || 'connected account',
     isOwnTransaction: true,
-    transactionLens: agenticExecution.lens,
+    // Lens: the stored type alone is ambiguous (deposit AND read pipeline
+    // runs are 'agentic-execution:asset-pack'), so the dispatch-stamped
+    // context decides when present: deposit-option-synthesis rows are the
+    // deposit lens; a synthesisMode of 'read' marks the read lens.
+    transactionLens:
+      contextString('source') === 'deposit-option-synthesis'
+        ? 'deposit'
+        : contextString('synthesisMode') === 'read'
+          ? 'read'
+          : agenticExecution.lens,
     itemCount: run.items?.length || 0,
     tokenTotal:
       run.processing_stats?.tokens?.total ?? run.asset_pack_completion?.processingStats?.tokens?.total ?? null,

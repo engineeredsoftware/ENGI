@@ -323,7 +323,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
       walletPrivateMaterialVisible: false,
     },
     reviewBoundary: {
-      route: '/deposit',
+      route: '/deposits',
       defaultDecisionState: 'pending-depositor-review',
       approvedOptionsAdmittedBy: 'future-gate7-deposit-option-review',
       sourceCriticalityDemandRoiPolicyOwnedBy: 'future-gate6-policy',

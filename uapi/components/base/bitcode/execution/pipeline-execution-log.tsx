@@ -111,7 +111,7 @@ interface PipelineRunLogProps {
    */
   copyData?: unknown;
   /**
-   * The synthesis pipeline mode when the page knows it ('/deposit' passes
+   * The synthesis pipeline mode when the page knows it ('/deposits' passes
    * 'deposit'). Prefixes the processing sentence with 'While Depositing, …' /
    * 'While Reading, …'. When omitted, falls back to the mode latched from the
    * stream (stamped onto rows by the activity builder); when neither is known
@@ -487,7 +487,7 @@ export function compactTerseEvent(entry: unknown): Record<string, unknown> {
 /**
  * Build the text the "Copy terse logs" button copies: the same run payload as
  * "Copy raw logs", distilled to a much smaller but still debugging-useful
- * form. When `copyData` carries an `events` array (the /deposit shape), every
+ * form. When `copyData` carries an `events` array (the /deposits shape), every
  * event compacts to its terse row (`compactTerseEvent`) and the
  * `outputDetails` duplication is omitted; other payload fields keep their
  * structure with long strings truncated (`distillTerseValue`) — error bodies
@@ -572,7 +572,7 @@ export function buildProcessingStallLabel(
 /**
  * Copy text to the clipboard, returning whether it succeeded. Tries the modern
  * `navigator.clipboard` (requires a secure context) and, when that is unavailable or
- * fails (e.g. `/deposit` loaded over plain http on a LAN IP), falls back to a hidden
+ * fails (e.g. `/deposits` loaded over plain http on a LAN IP), falls back to a hidden
  * textarea + `document.execCommand('copy')`. Pure + exported for unit testing.
  */
 export async function copyTextToClipboard(text: string): Promise<boolean> {

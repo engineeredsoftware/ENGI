@@ -12,7 +12,7 @@ function reviewablePolicyReport() {
     sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
     obfuscations: 'Prepare source-safe options likely to satisfy unfit Reading demand.',
     sourcePathHints: [
-      'uapi/app/deposit/DepositPageClient.tsx',
+      'uapi/app/deposits/DepositPageClient.tsx',
       'packages/pipelines/asset-pack/src/depository-supply-index.ts',
     ],
     depositoryDemandSignals: [
@@ -57,7 +57,7 @@ describe('Depositor earning supply intelligence', () => {
 
     expect(intelligence.schema).toBe('bitcode.deposit.earning-supply-intelligence');
     expect(intelligence.intelligence).toBe('DepositorEarningSupplyIntelligence');
-    expect(intelligence.route).toBe('/deposit');
+    expect(intelligence.route).toBe('/deposits');
     expect(intelligence.likelyDemand.state).toBe('strong-demand-opportunity');
     expect(intelligence.unfitNeedOpportunities.opportunityCount).toBe(1);
     expect(intelligence.earningStatements).toHaveLength(3);

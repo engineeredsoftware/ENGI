@@ -5,8 +5,8 @@ function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
 }
 
 const DEPOSIT_SOURCE_REFS = [
-  'uapi/app/deposit/DepositPageClient.tsx',
-  'uapi/app/deposit/deposit-route-model.ts',
+  'uapi/app/deposits/DepositPageClient.tsx',
+  'uapi/app/deposits/deposit-route-model.ts',
 ] as const;
 
 const DEPOSIT_CANON_REFS = [
@@ -27,7 +27,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       'Jump back into an in-progress deposit from where you left off',
     ],
     references: {
-      source: [...DEPOSIT_SOURCE_REFS, 'uapi/app/deposit/deposit-route-model.ts'],
+      source: [...DEPOSIT_SOURCE_REFS, 'uapi/app/deposits/deposit-route-model.ts'],
       canon: DEPOSIT_CANON_REFS,
     },
   }),
@@ -44,7 +44,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       'A private repository still measures fully — only synthesis outputs are ever reviewed',
     ],
     references: {
-      source: ['uapi/app/deposit/DepositSourceSelection.tsx', 'uapi/app/terminal/terminal-repository-context.ts'],
+      source: ['uapi/app/deposits/DepositSourceSelection.tsx', 'uapi/app/terminal/terminal-repository-context.ts'],
       canon: [
         ...DEPOSIT_CANON_REFS,
         'BITCODE_SPEC_V48_NOTES.md § Gate-3 HOST architecture — the primitive Host, its kinds, in-host execution',
@@ -59,7 +59,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     detail:
       'Changing branch reloads the commit list for that branch and clears any previously selected commit, since a commit only makes sense in the context of the branch it belongs to.',
     points: ['Defaults to the repository\'s default branch', 'Reloads commits for the newly selected branch'],
-    references: { source: ['uapi/app/deposit/DepositSourceSelection.tsx'], canon: DEPOSIT_CANON_REFS },
+    references: { source: ['uapi/app/deposits/DepositSourceSelection.tsx'], canon: DEPOSIT_CANON_REFS },
   }),
   commit: buildExplainer({
     kicker: 'Commit / ref',
@@ -69,7 +69,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     detail:
       'The branch\'s latest commit is selected automatically when available. Picking an older commit is useful for reproducing or auditing a prior synthesis run against the exact state it saw.',
     points: ['Pins synthesis to one immutable revision', 'Useful for reproducing a past run\'s exact source state'],
-    references: { source: ['uapi/app/deposit/DepositSourceSelection.tsx'], canon: DEPOSIT_CANON_REFS },
+    references: { source: ['uapi/app/deposits/DepositSourceSelection.tsx'], canon: DEPOSIT_CANON_REFS },
   }),
   obfuscations: buildExplainer({
     kicker: 'Option synthesis',

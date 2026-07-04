@@ -177,7 +177,7 @@ function HeroClientInner() {
     }));
     // Signed-in operators should land in the V47 Reading path.
     if (isOnboardingComplete) {
-      router.push('/read');
+      router.push('/reads');
     } else {
       openAuxillaries('auxillaries');
     }

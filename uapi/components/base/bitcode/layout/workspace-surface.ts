@@ -20,8 +20,8 @@ export function getPublicShellSurface(pathname: string | null | undefined): Publ
   if (!pathname) return null;
   if (pathname === '/') return 'home';
   if (pathname.startsWith('/packs') || pathname.startsWith('/exchange')) return 'network';
-  if (pathname.startsWith('/deposit')) return 'deposit';
-  if (pathname.startsWith('/read')) return 'read';
+  if (pathname.startsWith('/deposits')) return 'deposit';
+  if (pathname.startsWith('/reads')) return 'read';
   if (pathname.startsWith('/docs') || pathname.startsWith('/demo-video') || pathname.startsWith('/edgetimes')) return 'docs';
   return null;
 }

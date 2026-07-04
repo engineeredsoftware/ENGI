@@ -21,7 +21,7 @@ const DEPOSIT_OPTIONS = [
 ];
 
 describe('upload-asset-packs-for-review Finish agent', () => {
-  it('deposit: uploads the synthesized options for /deposit admission review (no PR fields)', async () => {
+  it('deposit: uploads the synthesized options for /deposits admission review (no PR fields)', async () => {
     const root = new Execution('pipeline:finish-upload-deposit');
     storeSynthesizeAssetPacksMode(root, 'deposit');
     root.store('implementation', 'options', DEPOSIT_OPTIONS);
@@ -37,7 +37,7 @@ describe('upload-asset-packs-for-review Finish agent', () => {
       carried: 'from-validation', // input is spread through
       deliveryMechanism: 'bitcode-review-upload',
       review: {
-        surface: '/deposit',
+        surface: '/deposits',
         reviewFor: 'deposit-admission',
         decision: 'pending-user-review',
       },
@@ -61,7 +61,7 @@ describe('upload-asset-packs-for-review Finish agent', () => {
     expect(finishNode.findUp('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
   });
 
-  it('read: uploads the synthesis artifacts for /read purchase review', async () => {
+  it('read: uploads the synthesis artifacts for /reads purchase review', async () => {
     const root = new Execution('pipeline:finish-upload-read');
     storeSynthesizeAssetPacksMode(root, 'read');
     const artifacts = {
@@ -75,7 +75,7 @@ describe('upload-asset-packs-for-review Finish agent', () => {
     expect(result).toMatchObject({
       deliveryMechanism: 'bitcode-review-upload',
       review: {
-        surface: '/read',
+        surface: '/reads',
         reviewFor: 'purchase',
         decision: 'pending-user-review',
       },
@@ -89,7 +89,7 @@ describe('upload-asset-packs-for-review Finish agent', () => {
 
     const result = await runUploadAssetPacksForReviewAgent({}, root);
 
-    expect(result.review.surface).toBe('/read');
+    expect(result.review.surface).toBe('/reads');
     expect(result.review.reviewFor).toBe('purchase');
   });
 

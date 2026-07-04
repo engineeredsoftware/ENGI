@@ -15,7 +15,7 @@ describe('Interface disclosure boundary', () => {
     expect(boundary).toMatchObject({
       schema: 'bitcode.interface-disclosure-boundary',
       routeVocabulary: {
-        currentProductRoutes: ['/deposit', '/read', '/packs'],
+        currentProductRoutes: ['/deposits', '/reads', '/packs'],
         compatibilityRedirects: {
           '/exchange': '/packs',
         },
@@ -122,7 +122,7 @@ describe('Interface disclosure boundary', () => {
       rowCount: boundary.rowCount,
     });
     expect(execution.get('interfaces/disclosure', 'routeVocabulary')).toMatchObject({
-      currentProductRoutes: ['/deposit', '/read', '/packs'],
+      currentProductRoutes: ['/deposits', '/reads', '/packs'],
     });
     expect(execution.get('interfaces/disclosure', 'proofRoots')).toMatchObject({
       boundaryRoot: expect.stringMatching(/^sha256:/u),

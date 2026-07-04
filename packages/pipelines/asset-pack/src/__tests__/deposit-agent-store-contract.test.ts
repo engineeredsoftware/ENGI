@@ -7,7 +7,7 @@
 //      EXACT namespace:key pairs downstream consumers read (implementation reads
 //      discovery:*/setup:inputComprehension; validation reads implementation:options;
 //      the ReadyToFinish gate reads validation/implementation:issues; Finish reads
-//      implementation:options/assetPack/summary; the /deposit route reads
+//      implementation:options/assetPack/summary; the /deposits route reads
 //      implementation:options). This is the CROSS-PHASE STORE-VISIBILITY LAW:
 //      sequential() runs every phase on an ISOLATED seq-N sibling and findUp walks
 //      ANCESTORS only, so a producer storing on its own sibling subtree is invisible
@@ -263,7 +263,7 @@ describe('deposit agent context/store contract', () => {
       expect(result.summary).toBe('Synthesized 2 measured deposit AssetPack patch(es).');
       expect(result.assetPack).toEqual({ repository: REPOSITORY });
 
-      // implementation:options — the store the /deposit route's completion read
+      // implementation:options — the store the /deposits route's completion read
       // and the deposit validation agent consume; implementation:assetPacks — the
       // SAME array. Stored on the SHARED execution (cross-phase law): the route
       // holds the root, so its `execution.get('implementation','options')`
@@ -419,7 +419,7 @@ describe('deposit agent context/store contract', () => {
   });
 
   describe('Finish — runUploadAssetPacksForReviewAgent', () => {
-    it('deposit mode: uploads implementation:options read from the shared parent for /deposit admission review', async () => {
+    it('deposit mode: uploads implementation:options read from the shared parent for /deposits admission review', async () => {
       const shared = new Execution('pipeline-root');
       storeSynthesizeAssetPacksMode(shared, 'deposit');
       const options = [measuredPatchOption()];
@@ -435,7 +435,7 @@ describe('deposit agent context/store contract', () => {
       expect(result.success).toBe(true);
       expect(result.deliveryMechanism).toBe('bitcode-review-upload');
       expect(result.review).toEqual({
-        surface: '/deposit',
+        surface: '/deposits',
         reviewFor: 'deposit-admission',
         decision: 'pending-user-review',
       });
@@ -447,13 +447,13 @@ describe('deposit agent context/store contract', () => {
       // where postprocess and the run-level surfaces resolve them.
       expect(shared.get('finish', 'uploadForReview')).toMatchObject({
         deliveryMechanism: 'bitcode-review-upload',
-        review: { surface: '/deposit', reviewFor: 'deposit-admission' },
+        review: { surface: '/deposits', reviewFor: 'deposit-admission' },
         options,
       });
       expect(shared.get('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
     });
 
-    it('read mode: uploads the implementation synthesis artifacts for /read purchase review', async () => {
+    it('read mode: uploads the implementation synthesis artifacts for /reads purchase review', async () => {
       const shared = new Execution('pipeline-root');
       storeSynthesizeAssetPacksMode(shared, 'read');
       const artifacts = { summary: 'Read synthesis artifacts.', proofEvidence: ['evidence'] };
@@ -464,13 +464,13 @@ describe('deposit agent context/store contract', () => {
       const result = await runUploadAssetPacksForReviewAgent({}, finishChild);
 
       expect(result.review).toEqual({
-        surface: '/read',
+        surface: '/reads',
         reviewFor: 'purchase',
         decision: 'pending-user-review',
       });
       expect(result.artifacts).toBe(artifacts);
       expect(shared.get('finish', 'uploadForReview')).toMatchObject({
-        review: { surface: '/read', reviewFor: 'purchase' },
+        review: { surface: '/reads', reviewFor: 'purchase' },
         artifacts,
       });
     });

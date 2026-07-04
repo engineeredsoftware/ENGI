@@ -39,7 +39,7 @@ export default async function runUploadAssetPacksForReviewAgent(input: any, exec
     success: true,
     deliveryMechanism: 'bitcode-review-upload' as const,
     review: {
-      surface: mode === 'deposit' ? '/deposit' : '/read',
+      surface: mode === 'deposit' ? '/deposits' : '/reads',
       reviewFor: mode === 'deposit' ? ('deposit-admission' as const) : ('purchase' as const),
       decision: 'pending-user-review' as const,
     },

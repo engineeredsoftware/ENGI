@@ -11,7 +11,7 @@ function reviewableSynthesis() {
     sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
     obfuscations: 'Prepare source-safe deposit AssetPack options for non-critical reusable proof infrastructure.',
     sourcePathHints: [
-      'uapi/app/deposit/DepositPageClient.tsx',
+      'uapi/app/deposits/DepositPageClient.tsx',
       'packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts',
     ],
     depositoryDemandSignals: [{ id: 'depository-gap', label: 'Depository needs reviewable source supply', weight: 0.8 }],
@@ -39,7 +39,7 @@ describe('Deposit AssetPack option policy', () => {
 
     expect(report.schema).toBe('bitcode.deposit.asset-pack-option-policy-report');
     expect(report.policy).toBe('DepositAssetPackOptionPolicy');
-    expect(report.route).toBe('/deposit');
+    expect(report.route).toBe('/deposits');
     expect(report.optionCount).toBe(3);
     expect(report.reviewablePositiveRoiCount).toBeGreaterThan(0);
     expect(report.aggregatePolicy).toMatchObject({

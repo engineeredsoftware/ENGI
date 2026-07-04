@@ -6,7 +6,7 @@ import {
 describe('OrganizationPolicyWalletAuthority', () => {
   it('allows budgeted Reading BTC payment with role, grant, wallet authority, and approval', () => {
     const statement = buildOrganizationPolicyWalletAuthority({
-      route: '/read',
+      route: '/reads',
       actorId: 'user-1',
       organizationId: 'org-1',
       teamId: 'team-core',
@@ -32,7 +32,7 @@ describe('OrganizationPolicyWalletAuthority', () => {
     });
 
     expect(statement.schema).toBe('bitcode.organization.policy-wallet-authority');
-    expect(statement.route).toBe('/read');
+    expect(statement.route).toBe('/reads');
     expect(statement.budgetApproval.state).toBe('within-limit');
     expect(statement.walletAuthority.state).toBe('verified');
     expect(statement.actionStatements.find((entry) => entry.action === 'pay_btc_fee')).toMatchObject({
@@ -52,7 +52,7 @@ describe('OrganizationPolicyWalletAuthority', () => {
 
   it('fails Reading payment closed when wallet authority is missing', () => {
     const statement = buildOrganizationPolicyWalletAuthority({
-      route: '/read',
+      route: '/reads',
       actorId: 'user-1',
       organizationId: 'org-1',
       organizationRole: 'admin',
@@ -76,7 +76,7 @@ describe('OrganizationPolicyWalletAuthority', () => {
 
   it('allows deposit submission only after source criticality, deposit approval, wallet, and policy admit it', () => {
     const statement = buildOrganizationPolicyWalletAuthority({
-      route: '/deposit',
+      route: '/deposits',
       actorId: 'user-1',
       organizationId: 'org-1',
       teamId: 'team-supply',
@@ -106,7 +106,7 @@ describe('OrganizationPolicyWalletAuthority', () => {
 
   it('blocks critical source deposit approval without exposing source-bearing payloads', () => {
     const statement = buildOrganizationPolicyWalletAuthority({
-      route: '/deposit',
+      route: '/deposits',
       actorId: 'user-1',
       organizationId: 'org-1',
       organizationRole: 'admin',

@@ -206,7 +206,7 @@ export type ReadProcurementGovernance = {
 
 export type ReadRouteSession = {
   schema: 'bitcode.read.route-session';
-  route: '/read';
+  route: '/reads';
   stageCount: 5;
   activeStepId: ReadRouteStepId;
   steps: ReturnType<typeof buildTerminalEnterpriseReadingUxState>['steps'];
@@ -610,7 +610,7 @@ export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRo
   const fitMeasurementReview = buildReadFitMeasurementReview(input);
   const settlementRightsDelivery = buildReadSettlementRightsDelivery(input);
   const organizationPolicyWalletAuthority = buildOrganizationPolicyWalletAuthority({
-    route: '/read',
+    route: '/reads',
     actorId: normalizedText(input.actorId),
     organizationId: normalizedText(input.organizationId),
     teamId: normalizedText(input.teamId),
@@ -630,7 +630,7 @@ export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRo
     settlementState: input.hasDeliveryReadback ? 'settled' : 'pending',
     accountAdmitted: Boolean(input.actorId || input.repositoryFullName),
     interfaceAdmitted: true,
-    targetAnchor: normalizedText(input.settlementQuoteId) || normalizedText(input.transactionId) || '/read',
+    targetAnchor: normalizedText(input.settlementQuoteId) || normalizedText(input.transactionId) || '/reads',
   });
   const seed = JSON.stringify({
     activeStepId: enterpriseState.activeStepId,
@@ -650,7 +650,7 @@ export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRo
 
   return {
     schema: 'bitcode.read.route-session',
-    route: '/read',
+    route: '/reads',
     stageCount: 5,
     activeStepId: enterpriseState.activeStepId,
     steps: enterpriseState.steps,
@@ -739,7 +739,7 @@ export function assertReadRouteSessionSourceSafe(session: ReadRouteSession) {
     enterpriseSafety.admitted &&
     organizationSafety.admitted &&
     session.schema === 'bitcode.read.route-session' &&
-    session.route === '/read' &&
+    session.route === '/reads' &&
     session.stageCount === 5 &&
     fitReview.schema === 'bitcode.read.fit-measurement-review' &&
     fitReview.quoteBasis.deterministic === true &&
@@ -769,7 +769,7 @@ export function assertReadRouteSessionSourceSafe(session: ReadRouteSession) {
     session.procurementGovernance.prePurchaseReview.walletPrivateMaterialVisible === false &&
     session.procurementGovernance.prePurchaseReview.settlementPrivatePayloadVisible === false &&
     session.organizationPolicyWalletAuthority.schema === 'bitcode.organization.policy-wallet-authority' &&
-    session.organizationPolicyWalletAuthority.route === '/read' &&
+    session.organizationPolicyWalletAuthority.route === '/reads' &&
     session.organizationPolicyWalletAuthority.disclosure.sourceSafeMetadataOnly === true &&
     session.organizationPolicyWalletAuthority.disclosure.protectedSourceVisible === false &&
     session.organizationPolicyWalletAuthority.disclosure.walletPrivateMaterialVisible === false &&

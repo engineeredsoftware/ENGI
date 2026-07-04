@@ -64,7 +64,7 @@ describe('pack-activity-model', () => {
       organizationPolicyWalletAuthority: {
         schema: 'bitcode.organization.policy-wallet-authority',
         statement: 'OrganizationPolicyWalletAuthority',
-        route: '/read',
+        route: '/reads',
         walletAuthority: {
           state: 'verified',
         },
@@ -128,7 +128,7 @@ describe('pack-activity-model', () => {
     });
     expect(record.governance).toMatchObject({
       state: 'allowed',
-      route: '/read',
+      route: '/reads',
       walletState: 'verified',
       spendState: 'within-limit',
       authorityRoot: 'organization-authority-root-abc',

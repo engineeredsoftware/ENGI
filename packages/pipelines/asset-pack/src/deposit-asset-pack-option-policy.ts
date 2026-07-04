@@ -131,7 +131,7 @@ export interface DepositAssetPackOptionPolicyReport {
   policy: 'DepositAssetPackOptionPolicy';
   reportId: string;
   createdAt: string;
-  route: '/deposit';
+  route: '/deposits';
   synthesisRequestId: string;
   optionCount: number;
   reviewablePositiveRoiCount: number;
@@ -558,7 +558,7 @@ export function buildDepositAssetPackOptionPolicyReport(
     policy: 'DepositAssetPackOptionPolicy',
     reportId: policyReportRoot,
     createdAt,
-    route: '/deposit',
+    route: '/deposits',
     synthesisRequestId: input.synthesis.requestId,
     optionCount: evaluations.length,
     reviewablePositiveRoiCount: evaluations.filter((evaluation) => evaluation.policyDecision === 'reviewable-positive-roi').length,
@@ -594,7 +594,7 @@ export function assertDepositAssetPackOptionPolicyReportSourceSafe(
   const sourceSafe =
     report.schema === 'bitcode.deposit.asset-pack-option-policy-report' &&
     report.policy === 'DepositAssetPackOptionPolicy' &&
-    report.route === '/deposit' &&
+    report.route === '/deposits' &&
     report.aggregatePolicy.admissionAndIndexingOwnedBy === 'future-gate7-deposit-option-review' &&
     report.sourceSafety.sourceSafeMetadataOnly === true &&
     report.sourceSafety.protectedSourceVisible === false &&

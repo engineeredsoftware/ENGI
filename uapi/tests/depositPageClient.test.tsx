@@ -2,7 +2,7 @@ import React from "react";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
-import DepositPageClient from "@/app/deposit/DepositPageClient";
+import DepositPageClient from "@/app/deposits/DepositPageClient";
 
 const mockReplace = jest.fn();
 const mockFetchPipelineExecutionHistory = jest.fn();
@@ -63,7 +63,7 @@ jest.mock("@/app/terminal/terminal-shell-bridge", () => ({
   }),
 }));
 
-jest.mock("@/app/deposit/DepositSourceSelection", () => ({
+jest.mock("@/app/deposits/DepositSourceSelection", () => ({
   __esModule: true,
   default: ({
     onContextChange,
@@ -178,7 +178,7 @@ describe("DepositPageClient", () => {
     jest.restoreAllMocks();
   });
 
-  it("renders /deposit with option synthesis, source-safe state, and live deposit composer ownership", async () => {
+  it("renders /deposits with option synthesis, source-safe state, and live deposit composer ownership", async () => {
     render(<DepositPageClient />);
 
     expect(screen.getByTestId("route-shell-deposit")).toBeInTheDocument();
@@ -251,7 +251,7 @@ describe("DepositPageClient", () => {
     await waitFor(() =>
       expect(
         screen.getByLabelText("Deposit source selection"),
-      ).toHaveAttribute("data-route-path", "/deposit"),
+      ).toHaveAttribute("data-route-path", "/deposits"),
     );
     // The legacy instant-write composer is removed; the single batch-deposit
     // action only appears after a real AssetPacksSynthesis run returns options.
@@ -261,7 +261,125 @@ describe("DepositPageClient", () => {
     expect(
       screen.queryByTestId("deposit-selected-packs"),
     ).not.toBeInTheDocument();
-    expect(screen.getByText("Recent Deposit activity")).toBeInTheDocument();
+    // Master-detail: the Deposits page lists pipeline runs in a table; row
+    // selection connects the Telemetry + Options detail.
+    expect(screen.getByText("Deposit pipelines")).toBeInTheDocument();
+    expect(screen.getByTestId("deposits-pipelines-table")).toBeInTheDocument();
+  });
+
+  it("resumes a completed synthesis run's results when its row is selected (master-detail)", async () => {
+    // A completed AssetPacksSynthesis run selected via the URL transactionId:
+    // adoption attaches the run, the history hydrate carries its terminal
+    // completion event, and the completion effect resumes the persisted
+    // results (execution row output) without any new dispatch.
+    mockQuery = "transactionId=resume-run-1";
+    mockFetchPipelineExecutionHistory.mockResolvedValue([
+      {
+        id: "resume-run-1",
+        created_at: "2026-07-03T10:00:00.000Z",
+        status: "completed",
+        type: "agentic-execution:asset-pack",
+        agentic_execution: {
+          canonicalType: "agentic-execution:asset-pack",
+          lens: "deposit",
+          proofStatus: null,
+          closureFocus: null,
+        },
+        context: {
+          source: "deposit-option-synthesis",
+          workbench: "deposit-option-synthesis",
+          route: "/deposits",
+          pipelineCore: "AssetPacksSynthesis",
+          repositoryFullName: "engineeredsoftware/ENGI",
+          sourceBranch: "main",
+          sourceCommit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
+        },
+        output: {},
+        items: [],
+      },
+    ]);
+    const fetchMock = jest.fn(async (url: string) => {
+      if (url === "/api/executions/history/resume-run-1") {
+        return {
+          ok: true,
+          json: async () => ({
+            run: {
+              id: "resume-run-1",
+              output: {
+                depositOptionSynthesis: {
+                  schema: "bitcode.deposit.asset-pack-option-synthesis",
+                  pipeline: "DepositAssetPackOptionSynthesis",
+                  requestId: "deposit-option-request:resume0001",
+                  createdAt: "2026-07-03T10:00:00.000Z",
+                  request: {
+                    repositoryFullName: "engineeredsoftware/ENGI",
+                    sourceBranch: "main",
+                    sourceCommit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
+                    depositorInstructionRoot: null,
+                    sourcePathRoots: [],
+                  },
+                  options: [],
+                  optionCount: 0,
+                  sourceSafety: {
+                    sourceSafeMetadataOnly: true,
+                    protectedSourceVisible: false,
+                    rawSourceTextVisible: false,
+                    unpaidAssetPackSourceVisible: false,
+                    rawPromptVisible: false,
+                    interpolatedPromptVisible: false,
+                    rawProviderResponseVisible: false,
+                    walletPrivateMaterialVisible: false,
+                  },
+                  reviewBoundary: {
+                    route: "/deposits",
+                    defaultDecisionState: "pending-depositor-review",
+                    approvedOptionsAdmittedBy: "future-gate7-deposit-option-review",
+                    sourceCriticalityDemandRoiPolicyOwnedBy: "future-gate6-policy",
+                  },
+                  roots: {
+                    requestRoot: "deposit-option-request:resume0001",
+                    synthesisRoot: "deposit-asset-pack-option-synthesis:resume01",
+                    optionRoots: [],
+                  },
+                  synthesisMode: "real-bounded-inference",
+                  pipelineCore: "AssetPacksSynthesis",
+                },
+                reviewProjections: [],
+              },
+            },
+            events: [
+              {
+                id: "completion-1",
+                event: { type: "completion" },
+                created_at: "2026-07-03T10:12:00.000Z",
+              },
+            ],
+          }),
+        };
+      }
+      return { ok: true, json: async () => ({}) };
+    });
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    render(<DepositPageClient />);
+
+    // Adoption + resume: the run's persisted history is read (hook hydrate +
+    // completion effect) and the route stage advances to review-options —
+    // with NO dispatch call.
+    await waitFor(() =>
+      expect(fetchMock).toHaveBeenCalledWith("/api/executions/history/resume-run-1"),
+    );
+    await waitFor(() =>
+      expect(mockReplace).toHaveBeenCalledWith(
+        expect.stringContaining("depositStage=review-options"),
+        expect.anything(),
+      ),
+    );
+    expect(fetchMock).not.toHaveBeenCalledWith(
+      "/api/deposit/synthesize-options",
+      expect.anything(),
+    );
+    mockQuery = "transactionId=deposit-1&depositStage=review-options";
   });
 
   it("requests real option synthesis from the AssetPacksSynthesis route with exclusions", async () => {
@@ -354,7 +472,7 @@ describe("DepositPageClient", () => {
         walletPrivateMaterialVisible: false,
       },
       reviewBoundary: {
-        route: "/deposit",
+        route: "/deposits",
         defaultDecisionState: "pending-depositor-review",
         approvedOptionsAdmittedBy: "future-gate7-deposit-option-review",
         sourceCriticalityDemandRoiPolicyOwnedBy: "future-gate6-policy",
@@ -402,7 +520,7 @@ describe("DepositPageClient", () => {
           ok: true,
           json: async () => ({
             run: {
-              id: "real-synthesis-execution-1",
+              id: url.split("/").pop(),
               output: { depositOptionSynthesis: synthesis, reviewProjections },
             },
             events: [
@@ -585,7 +703,7 @@ describe("DepositPageClient", () => {
         walletPrivateMaterialVisible: false,
       },
       reviewBoundary: {
-        route: "/deposit",
+        route: "/deposits",
         defaultDecisionState: "pending-depositor-review",
         approvedOptionsAdmittedBy: "future-gate7-deposit-option-review",
         sourceCriticalityDemandRoiPolicyOwnedBy: "future-gate6-policy",
@@ -629,7 +747,7 @@ describe("DepositPageClient", () => {
           ok: true,
           json: async () => ({
             run: {
-              id: "measured-run-1",
+              id: url.split("/").pop(),
               output: { depositOptionSynthesis: synthesis, reviewProjections: [] },
             },
             events: [
@@ -699,7 +817,7 @@ describe("DepositPageClient", () => {
         return {
           ok: true,
           json: async () => ({
-            run: { id: "failed-run-1", output: {} },
+            run: { id: url.split("/").pop(), output: {} },
             events: [
               {
                 id: "e1",
@@ -739,7 +857,7 @@ describe("DepositPageClient", () => {
         return {
           ok: true,
           json: async () => ({
-            run: { id: "empty-run-1", output: {} },
+            run: { id: url.split("/").pop(), output: {} },
             events: [
               { id: "c1", event: { type: "completion" }, created_at: "2026-07-01T22:00:05.000Z" },
             ],

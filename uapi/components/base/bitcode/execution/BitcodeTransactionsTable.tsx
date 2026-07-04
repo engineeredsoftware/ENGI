@@ -34,7 +34,7 @@ interface BitcodeTransactionsTableProps {
   isLoading: boolean;
   error: string | null;
   dataMode: TransactionDataMode;
-  surface?: 'terminal' | 'exchange';
+  surface?: 'terminal' | 'exchange' | 'pipelines';
 }
 
 export default function BitcodeTransactionsTable({
@@ -59,11 +59,22 @@ export default function BitcodeTransactionsTable({
   surface = 'terminal',
 }: BitcodeTransactionsTableProps) {
   const isExchangeSurface = surface === 'exchange';
-  const tableKicker = isExchangeSurface ? 'Exchange master-detail' : 'Terminal activity';
-  const tableTitle = isExchangeSurface ? 'Searchable Exchange activity table' : 'Recent Terminal activity';
+  const isPipelinesSurface = surface === 'pipelines';
+  const tableKicker = isExchangeSurface
+    ? 'Exchange master-detail'
+    : isPipelinesSurface
+      ? 'Pipelines master-detail'
+      : 'Terminal activity';
+  const tableTitle = isExchangeSurface
+    ? 'Searchable Exchange activity table'
+    : isPipelinesSurface
+      ? 'Pipeline runs'
+      : 'Recent Terminal activity';
   const tableSummary = isExchangeSurface
     ? 'The Exchange master table is searchable and filterable across market activity or your own activity. Select any row to load AssetPack evidence, proofs, history, and execution detail in the Exchange detail pane.'
-    : 'Terminal uses this shared activity table as a focused result surface for recent Deposit, Read, proof, and closure work. Select a row to read its AssetPack evidence, proof posture, history, and execution updates.';
+    : isPipelinesSurface
+      ? 'Every pipeline run for this account, searchable and filterable. Select a running row to attach its live telemetry stream, or a completed row to resume its persisted results in the detail below.'
+      : 'Terminal uses this shared activity table as a focused result surface for recent Deposit, Read, proof, and closure work. Select a row to read its AssetPack evidence, proof posture, history, and execution updates.';
 
   return (
     <section

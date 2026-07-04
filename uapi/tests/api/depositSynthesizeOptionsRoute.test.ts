@@ -123,9 +123,16 @@ function installSupabaseMocks(options: {
     },
   });
 
+  // Executions builder: the dispatch guard SELECTs the runId first (no
+  // existing row by default), then the dispatch/finalize upserts write rows.
   const executionRow = {
     upsert: jest.fn().mockResolvedValue({ error: null }),
+    select: jest.fn(),
+    eq: jest.fn(),
+    maybeSingle: jest.fn().mockResolvedValue({ data: null, error: null }),
   };
+  executionRow.select.mockReturnValue(executionRow);
+  executionRow.eq.mockReturnValue(executionRow);
 
   (supabaseAdmin.from as jest.Mock).mockImplementation((table: string) => {
     if (table === 'vcs_repositories') {

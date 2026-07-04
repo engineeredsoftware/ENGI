@@ -153,8 +153,72 @@ export async function POST(request: Request) {
     );
   }
 
+  const startedAt = Date.now();
+  const startedAtIso = new Date(startedAt).toISOString();
+
+  // The client may supply the runId (so its log can tail from the first
+  // event), which means the id must be guarded BEFORE any write — including
+  // the streaming-execution setup below, whose row insert fires at creation:
+  // a chosen id colliding with an existing row would otherwise hijack or
+  // overwrite another run (the dispatch upsert writes user_id/status/context
+  // wholesale), and a duplicate POST of the same id would double-run the
+  // pipeline into one row.
+  const { data: existingRun } = await supabaseAdmin
+    .from('executions')
+    .select('id, user_id, status')
+    .eq('id', runId)
+    .maybeSingle();
+  if (existingRun) {
+    return NextResponse.json(
+      {
+        error:
+          existingRun.user_id === user.id
+            ? 'This run id has already been dispatched.'
+            : 'This run id is not available.',
+        code: 'run_id_conflict',
+      },
+      { status: 409 },
+    );
+  }
+
+  // Master-detail lens identity AT DISPATCH: the streaming-execution insert
+  // is a bare running row (type only, context null), which left running rows
+  // lens-ambiguous in the pipelines tables until completion. Upsert the
+  // synthesis identity + source coordinates first, so a running row is
+  // selectable/attachable as a Deposit synthesis run from the first refresh
+  // (the streaming setup's duplicate bare insert is swallowed); the
+  // completion upsert overwrites this with the full context.
+  const { error: dispatchContextError } = await supabaseAdmin.from('executions').upsert(
+    {
+      id: runId,
+      user_id: user.id,
+      type: 'agentic-execution:asset-pack',
+      status: 'running',
+      created_at: startedAtIso,
+      started_at: startedAtIso,
+      updated_at: new Date().toISOString(),
+      context: {
+        source: 'deposit-option-synthesis',
+        workbench: 'deposit-option-synthesis',
+        route: '/deposits',
+        pipelineCore: 'AssetPacksSynthesis',
+        synthesisMode: 'deposit',
+        repositoryFullName,
+        sourceBranch,
+        sourceCommit,
+      },
+    },
+    { onConflict: 'id' },
+  );
+  if (dispatchContextError) {
+    bitcodeServerTelemetry('warn', 'deposit-synthesize-options', 'dispatch-context-write-failed', {
+      userId: compactBitcodeServerId(user.id),
+      message: dispatchContextError.message,
+    });
+  }
+
   // Streaming execution: a running executions row plus live execution_events
-  // the /deposit accordion log tails. Only source-safe telemetry streams
+  // the /deposits accordion log tails. Only source-safe telemetry streams
   // (phase/agent/stage/provider/model/usage); prompt and response content is
   // withheld by the synthesis bridge.
   const execution = createStreamingExecution({
@@ -167,8 +231,6 @@ export async function POST(request: Request) {
   const emitStatus = (message: string, extra: Record<string, unknown> = {}) =>
     ExecutionStreamAdapter.emitEvent(execution.id, 'status' as never, { message, ...extra });
 
-  const startedAt = Date.now();
-  const startedAtIso = new Date(startedAt).toISOString();
   const finalizeExecutionRow = async (row: Record<string, unknown>) => {
     const { error: rowError } = await supabaseAdmin.from('executions').upsert(
       {
@@ -354,7 +416,7 @@ export async function POST(request: Request) {
       context: {
         source: 'deposit-option-synthesis',
         workbench: 'deposit-option-synthesis',
-        route: '/deposit',
+        route: '/deposits',
         pipelineCore: 'AssetPacksSynthesis',
         synthesisMode: synthesis.synthesisMode,
         repositoryFullName,
@@ -406,7 +468,7 @@ export async function POST(request: Request) {
       error: { message },
       context: {
         source: 'deposit-option-synthesis',
-        route: '/deposit',
+        route: '/deposits',
         pipelineCore: 'AssetPacksSynthesis',
         repositoryFullName,
         sourceBranch,

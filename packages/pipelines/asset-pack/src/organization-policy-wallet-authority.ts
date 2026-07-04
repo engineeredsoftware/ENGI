@@ -10,7 +10,7 @@ import {
   type BtdSettlementAuthorityState,
 } from '@bitcode/btd';
 
-export type OrganizationPolicyRoute = '/read' | '/deposit' | '/packs';
+export type OrganizationPolicyRoute = '/reads' | '/deposits' | '/packs';
 
 export type OrganizationPolicySpendState =
   | 'not-applicable'
@@ -167,7 +167,7 @@ export interface OrganizationPolicyWalletAuthority {
 }
 
 const ROUTE_ACTIONS: Record<OrganizationPolicyRoute, BtdOrganizationPermissionAction[]> = {
-  '/read': [
+  '/reads': [
     'request_read',
     'review_need',
     'request_finding_fits',
@@ -176,7 +176,7 @@ const ROUTE_ACTIONS: Record<OrganizationPolicyRoute, BtdOrganizationPermissionAc
     'unlock_asset_pack_source',
     'deliver_asset_pack',
   ],
-  '/deposit': [
+  '/deposits': [
     'synthesize_deposit_options',
     'approve_deposit_option',
     'submit_deposit',
@@ -233,7 +233,7 @@ function positiveInteger(value: number | null | undefined, fallback: number) {
 }
 
 function normalizeRoute(value: OrganizationPolicyRoute | null | undefined): OrganizationPolicyRoute {
-  return value === '/deposit' || value === '/packs' ? value : '/read';
+  return value === '/deposits' || value === '/packs' ? value : '/reads';
 }
 
 function normalizeRole(value: BtdOrganizationRole | string | null | undefined): BtdOrganizationRole | null {
@@ -374,14 +374,14 @@ function requiredActionsForRoute(
   input: OrganizationPolicyWalletAuthorityInput,
 ) {
   const required = new Set<BtdOrganizationPermissionAction>();
-  if (route === '/read') {
+  if (route === '/reads') {
     required.add('request_read');
     if (positiveInteger(input.quoteSats, 0) > 0) required.add('pay_btc_fee');
     if (input.settlementState === 'settled') {
       required.add('unlock_asset_pack_source');
       required.add('deliver_asset_pack');
     }
-  } else if (route === '/deposit') {
+  } else if (route === '/deposits') {
     required.add('synthesize_deposit_options');
     if (input.depositApproved || input.sourceCriticalityApproved) {
       required.add('approve_deposit_option');

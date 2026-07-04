@@ -147,7 +147,7 @@ export interface DepositAssetPackOptionSynthesis {
     walletPrivateMaterialVisible: false;
   };
   reviewBoundary: {
-    route: '/deposit';
+    route: '/deposits';
     defaultDecisionState: 'pending-depositor-review';
     approvedOptionsAdmittedBy: 'future-gate7-deposit-option-review';
     sourceCriticalityDemandRoiPolicyOwnedBy: 'future-gate6-policy';
@@ -443,7 +443,7 @@ export function buildDepositAssetPackOptionSynthesis(
       walletPrivateMaterialVisible: false,
     },
     reviewBoundary: {
-      route: '/deposit',
+      route: '/deposits',
       defaultDecisionState: 'pending-depositor-review',
       approvedOptionsAdmittedBy: 'future-gate7-deposit-option-review',
       sourceCriticalityDemandRoiPolicyOwnedBy: 'future-gate6-policy',
@@ -464,7 +464,7 @@ export function assertDepositAssetPackOptionSynthesisSourceSafe(
   const sourceSafe =
     synthesis.schema === 'bitcode.deposit.asset-pack-option-synthesis' &&
     synthesis.pipeline === 'DepositAssetPackOptionSynthesis' &&
-    synthesis.reviewBoundary.route === '/deposit' &&
+    synthesis.reviewBoundary.route === '/deposits' &&
     synthesis.sourceSafety.sourceSafeMetadataOnly === true &&
     synthesis.sourceSafety.protectedSourceVisible === false &&
     synthesis.sourceSafety.rawSourceTextVisible === false &&

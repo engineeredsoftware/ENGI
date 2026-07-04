@@ -1,33 +1,25 @@
-import type { Metadata } from 'next';
-import { Suspense } from 'react';
+import { permanentRedirect } from 'next/navigation';
 
-import PublicShellFrame from '@/app/(root)/components/PublicShellFrame';
-
-import DepositPageClient from './DepositPageClient';
-
-export const metadata: Metadata = {
-  title: 'Bitcode Deposit',
-  description:
-    'Connect repository source, synthesize source-safe AssetPack deposit options, review measurements, and submit source supply into Bitcode.',
-  alternates: {
-    canonical: '/deposit',
-  },
+// Compatibility shim: the Deposits product route moved from /deposit to
+// /deposits (V48). Old links and in-flight auth next-paths land here and are
+// forwarded with their query intact.
+type DepositCompatibilityPageProps = {
+  searchParams?: Record<string, string | string[] | undefined>;
 };
 
-export default function DepositPage() {
-  return (
-    <PublicShellFrame>
-      <Suspense
-        fallback={
-          <main className="min-h-screen bg-[#02050d] px-4 pb-24 pt-32 text-neutral-100 tablet:px-6 desktop:px-8">
-            <div className="border border-white/10 bg-white/[0.03] px-6 py-10 text-sm text-neutral-300">
-              Loading Depositing...
-            </div>
-          </main>
-        }
-      >
-        <DepositPageClient />
-      </Suspense>
-    </PublicShellFrame>
-  );
+function serializeSearchParams(searchParams: DepositCompatibilityPageProps['searchParams']) {
+  const next = new URLSearchParams();
+  for (const [key, value] of Object.entries(searchParams || {})) {
+    if (Array.isArray(value)) {
+      value.forEach((entry) => next.append(key, entry));
+    } else if (value !== undefined) {
+      next.set(key, value);
+    }
+  }
+  const query = next.toString();
+  return query ? `?${query}` : '';
+}
+
+export default function DepositCompatibilityPage({ searchParams }: DepositCompatibilityPageProps) {
+  permanentRedirect(`/deposits${serializeSearchParams(searchParams)}`);
 }

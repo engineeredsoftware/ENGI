@@ -77,7 +77,7 @@ export interface DepositorEarningSupplyIntelligence {
   schema: 'bitcode.deposit.earning-supply-intelligence';
   intelligence: 'DepositorEarningSupplyIntelligence';
   createdAt: string;
-  route: '/deposit';
+  route: '/deposits';
   synthesisRequestId: string;
   optionCount: number;
   likelyDemand: {
@@ -375,7 +375,7 @@ export function buildDepositorEarningSupplyIntelligence(
     schema: 'bitcode.deposit.earning-supply-intelligence',
     intelligence: 'DepositorEarningSupplyIntelligence',
     createdAt,
-    route: '/deposit',
+    route: '/deposits',
     synthesisRequestId: input.policyReport.synthesisRequestId,
     optionCount: input.policyReport.optionCount,
     likelyDemand: {
@@ -445,7 +445,7 @@ export function assertDepositorEarningSupplyIntelligenceSourceSafe(
     noForbiddenMarkers &&
     intelligence.schema === 'bitcode.deposit.earning-supply-intelligence' &&
     intelligence.intelligence === 'DepositorEarningSupplyIntelligence' &&
-    intelligence.route === '/deposit' &&
+    intelligence.route === '/deposits' &&
     intelligence.aggregate.valueLabel === 'estimate' &&
     intelligence.earningStatements.every(
       (statement) =>

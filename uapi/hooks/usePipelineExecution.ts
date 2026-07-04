@@ -43,10 +43,16 @@ export function usePipelineExecution(runId: string | null): UsePipelineExecution
   }, []);
 
   useEffect(() => {
+    // Reset on EVERY runId change, not just null: switching run A → run B used
+    // to leave A's events/execution/error in state until B's (404-retried)
+    // history fetch resolved, so consumers deriving terminal state from the
+    // events array read the PREVIOUS run's completion/error against the new
+    // runId (cross-run poisoning).
+    setExecution(null);
+    setEvents([]);
+    setLatestWorkUpdate(null);
+    setError(null);
     if (!runId) {
-      setExecution(null);
-      setEvents([]);
-      setLatestWorkUpdate(null);
       streamAbortRef.current?.abort();
       return;
     }

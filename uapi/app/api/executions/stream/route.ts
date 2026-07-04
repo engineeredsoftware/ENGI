@@ -7,7 +7,7 @@ export const maxDuration = 300;
 const POLL_INTERVAL_MS = 1000;
 const MAX_TAIL_MS = 5 * 60 * 1000;
 const TERMINAL_EVENT_TYPES = new Set(['completion', 'error']);
-const TERMINAL_EXECUTION_STATUSES = new Set(['completed', 'failed', 'cancelled']);
+const TERMINAL_EXECUTION_STATUSES = new Set(['completed', 'failed', 'cancelled', 'interrupted']);
 
 /**
  * A 'validation'-namespace error row is the stitch failsafe recording the

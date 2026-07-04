@@ -6,8 +6,8 @@ import {
 } from './commercial-mvp.helpers';
 
 /**
- * V47 Gate 7 browser proof: selling IP into Bitcode on /deposit, buying
- * synthesized IP on /read, and auditing settlement, BTD rights, delivery,
+ * V47 Gate 7 browser proof: selling IP into Bitcode on /deposits, buying
+ * synthesized IP on /reads, and auditing settlement, BTD rights, delivery,
  * compensation, and repair readback on /packs — all in deterministic mock
  * mode with source-safe assertions only.
  */
@@ -147,7 +147,7 @@ test.describe('commercial MVP IP exchange browser proof', () => {
     const history = await installExecutionHistoryMock(page, []);
 
     await page.goto(
-      `/deposit?provider=github&repo=${encodeURIComponent(E2E_REPOSITORY)}&sourceBranch=${E2E_BRANCH}`,
+      `/deposits?provider=github&repo=${encodeURIComponent(E2E_REPOSITORY)}&sourceBranch=${E2E_BRANCH}`,
     );
     await expect(page.getByTestId('route-shell-deposit')).toBeVisible({ timeout: 90_000 });
 
@@ -172,7 +172,7 @@ test.describe('commercial MVP IP exchange browser proof', () => {
     });
 
     // Compensation visibility and /packs synchronization remain reachable.
-    await expect(page.getByText('Recent Deposit activity')).toBeVisible();
+    await expect(page.getByText('Deposit pipelines')).toBeVisible();
     await expect(page.getByRole('link', { name: 'Open pack activity' })).toHaveAttribute(
       'href',
       '/packs?type=depository-assetpack',
@@ -189,14 +189,14 @@ test.describe('commercial MVP IP exchange browser proof', () => {
     await trap.assertClean();
   });
 
-  test('IP buyer reads measurements, quote basis, settlement finality, BTD rights, and repository delivery on /read', async ({
+  test('IP buyer reads measurements, quote basis, settlement finality, BTD rights, and repository delivery on /reads', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
     await installExecutionHistoryMock(page, [settledAssetPackSeed(), readAdmissionSeed()]);
 
     await page.goto(
-      `/read?provider=github&repo=${encodeURIComponent(E2E_REPOSITORY)}&sourceBranch=${E2E_BRANCH}&transactionId=e2e-read-settled`,
+      `/reads?provider=github&repo=${encodeURIComponent(E2E_REPOSITORY)}&sourceBranch=${E2E_BRANCH}&transactionId=e2e-read-settled`,
     );
     await expect(page.getByTestId('route-shell-read')).toBeVisible({ timeout: 90_000 });
 

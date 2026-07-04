@@ -5,8 +5,6 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import {
   Anchor,
   Boxes,
-  GitBranch,
-  GitCommitHorizontal,
   RefreshCw,
   ShieldCheck,
   Sparkles,
@@ -28,7 +26,7 @@ import { useUserData } from "@/hooks/useUserData";
 import { fetchPipelineExecutionHistory } from "@/networking/api-client";
 import type { PipelineExecution } from "@/types/api";
 
-import DepositSourceSelection from "@/app/deposit/DepositSourceSelection";
+import DepositSourceSelection from "@/app/deposits/DepositSourceSelection";
 import {
   buildTerminalExecutionHistoryRequest,
   mapExecutionHistoryRunToWorkspaceRun,
@@ -43,6 +41,13 @@ import {
 } from "@/app/terminal/terminal-transaction-query";
 import { shouldRecoverTerminalTransactionRoute } from "@/app/terminal/terminal-transaction-query";
 import type { WorkspaceRun } from "@/app/terminal/terminal-run-data";
+import TerminalTransactionsTable from "@/app/terminal/TerminalTransactionsTable";
+import {
+  DEFAULT_TRANSACTION_FILTERS,
+  DEFAULT_TRANSACTION_PAGINATION,
+  type TransactionFilters,
+  type TransactionPagination,
+} from "@/components/base/bitcode/execution/bitcode-transaction-types";
 import {
   buildDepositHref,
   DEPOSIT_ROUTE,
@@ -64,7 +69,7 @@ import { RunClock } from "@/components/base/bitcode/execution/RunClock";
 import { QuantumOrb } from "@/components/base/bitcode/effects/quantum-orb";
 import { verifiedAccessOrbConfig } from "@/app/(root)/components/landing/marketing-landing-shared";
 import BitcodeInlineExplainer from "@/components/base/bitcode/execution/BitcodeInlineExplainer";
-import { DEPOSIT_SECTION_EXPLAINERS } from "@/app/deposit/deposit-explainers";
+import { DEPOSIT_SECTION_EXPLAINERS } from "@/app/deposits/deposit-explainers";
 import type {
   DepositOptionReviewDecision,
   DepositOptionReviewDecisionState,
@@ -150,6 +155,14 @@ export default function DepositPageClient() {
   const [protectedIpExclusionsText, setProtectedIpExclusionsText] = useState("");
   const [optionsRequested, setOptionsRequested] = useState(false);
   const [synthesisRunId, setSynthesisRunId] = useState<string | null>(null);
+  // Master-detail pipelines table: lens-preset filters + pagination for the
+  // Deposits run table (selection itself lives in the URL transactionId).
+  const [pipelineFilters, setPipelineFilters] = useState<TransactionFilters>({
+    ...DEFAULT_TRANSACTION_FILTERS,
+    transactionLens: "deposit",
+  });
+  const [pipelinePagination, setPipelinePagination] =
+    useState<TransactionPagination>(DEFAULT_TRANSACTION_PAGINATION);
   const [synthesisLogScrolled, setSynthesisLogScrolled] = useState(false);
   // Dispatch timestamp — the run clock's fallback start until the first
   // streamed event's created_at arrives.
@@ -549,11 +562,20 @@ export default function DepositPageClient() {
   // Live tail of the AssetPacksSynthesis run: execution_events stream into
   // the rich accordion log while the route works.
   const {
+    execution: synthesisExecution,
     events: synthesisEvents,
     latestWorkUpdate: synthesisWorkUpdate,
     iterationUpdates: synthesisIterationUpdates,
     error: synthesisStreamError,
   } = usePipelineExecution(synthesisRunId);
+  // Terminal-state attribution guard: the activity snapshot is derived from
+  // the hook's events, which belong to the CURRENT run only once its history
+  // hydrate resolved (the hook resets on runId change, but within the same
+  // commit the memo still reads the previous render's events). Only trust
+  // terminal signals attributed to this run.
+  const synthesisExecutionMatchesRun = Boolean(
+    synthesisRunId && (synthesisExecution as { id?: string } | null)?.id === synthesisRunId,
+  );
   const synthesisActivity = useMemo(
     () =>
       buildTerminalRunActivityFromEvents(
@@ -595,12 +617,24 @@ export default function DepositPageClient() {
   // output and surface the reviewable options; a streamed error fails the run.
   useEffect(() => {
     if (synthesisStatus !== "running" || !synthesisRunId || realSynthesis) return;
-    if (synthesisActivity.error) {
+    // A hook-level fetch error (history unavailable) fails the run outright;
+    // an event-derived error counts only once the events are attributed to
+    // THIS run (execution match) — otherwise a previously selected run's
+    // failure would poison a freshly adopted/dispatched run.
+    if (synthesisActivity.error && (synthesisExecutionMatchesRun || synthesisStreamError)) {
       setSynthesisStatus("failed");
       setSynthesisError(synthesisActivity.error);
       return;
     }
-    if (!synthesisActivity.isStreamingComplete) return;
+    if (!synthesisExecutionMatchesRun) return;
+    // Terminal detection: the streamed completion event, or the persisted
+    // row already marked completed (an adopted historical run whose events
+    // were trimmed or whose completion event never landed must not hang the
+    // detail in 'running' forever).
+    const rowCompleted =
+      String((synthesisExecution as { status?: string } | null)?.status || "").toLowerCase() ===
+      "completed";
+    if (!synthesisActivity.isStreamingComplete && !rowCompleted) return;
     let cancelled = false;
     void (async () => {
       try {
@@ -643,10 +677,66 @@ export default function DepositPageClient() {
     realSynthesis,
     synthesisActivity.isStreamingComplete,
     synthesisActivity.error,
+    synthesisExecution,
+    synthesisExecutionMatchesRun,
+    synthesisStreamError,
     readCurrentSearchParams,
     refreshLiveRuns,
     replaceDepositSearchParams,
   ]);
+
+  // Row-status reconciliation: an attached run whose executions row turns
+  // terminal WITHOUT observable events (the orphan sweeper marks stale
+  // running rows 'interrupted'; a failure row may carry no error event)
+  // must not stay 'running' in the detail forever. liveRuns refreshes carry
+  // the authoritative row status.
+  useEffect(() => {
+    if (synthesisStatus !== "running" || !synthesisRunId) return;
+    const run = liveRuns.find((candidate) => candidate.id === synthesisRunId);
+    if (!run) return;
+    const status = String(run.status || "").toLowerCase();
+    if (status === "failed" || status === "interrupted" || status === "cancelled") {
+      setSynthesisStatus("failed");
+      setSynthesisError(run.summary ? `Run ${status} — ${run.summary}` : `Run ${status}.`);
+    }
+  }, [liveRuns, synthesisRunId, synthesisStatus]);
+
+  // Master-detail adoption: selecting a synthesis pipeline run in the table
+  // connects the Telemetry + Options detail to it. A RUNNING run reattaches
+  // its live stream (usePipelineExecution tails any runId); a COMPLETED run
+  // resumes its persisted results through the same completion effect (its
+  // history already carries the terminal event, so the effect resolves
+  // immediately); a failed/interrupted run surfaces its terminal state with
+  // the historical log attached. Adoption fires only on SELECTION-ID
+  // transitions: a fresh dispatch changes synthesisRunId while the URL
+  // selection is still the previous run, and re-adopting that stale
+  // selection would clobber the just-dispatched run.
+  const lastAdoptedSelectionIdRef = useRef<string | null>(null);
+  useEffect(() => {
+    const run = selectedRun;
+    if (!run?.id || run.contextSource !== "deposit-option-synthesis") {
+      lastAdoptedSelectionIdRef.current = run?.id ?? null;
+      return;
+    }
+    if (lastAdoptedSelectionIdRef.current === run.id) return;
+    lastAdoptedSelectionIdRef.current = run.id;
+    if (run.id === synthesisRunId) return;
+    setSynthesisRunId(run.id);
+    setSynthesisDispatchedAtMs(null);
+    setSynthesisLogScrolled(false);
+    setRealSynthesis(null);
+    setSynthesisError(null);
+    setOptionsRequested(false);
+    const status = String(run.status || "").toLowerCase();
+    if (status === "failed" || status === "interrupted" || status === "cancelled") {
+      setSynthesisStatus("failed");
+      setSynthesisError(
+        run.summary ? `Run ${status} — ${run.summary}` : `Run ${status}.`,
+      );
+    } else {
+      setSynthesisStatus("running");
+    }
+  }, [selectedRun, synthesisRunId]);
 
   const sessionRows = [
     {
@@ -717,18 +807,6 @@ export default function DepositPageClient() {
       value: depositRouteSession.organizationPolicyWalletAuthority.roots.authorityRoot,
     },
   ];
-
-  const recentDepositRuns = useMemo(
-    () =>
-      liveRuns
-        .filter(
-          (run) =>
-            run.contextSource === "terminal-deposit-composer" ||
-            run.transactionLens === "deposit",
-        )
-        .slice(0, 6),
-    [liveRuns],
-  );
 
   const handleRecordActivity = useCallback(
     async (draft: TerminalActivityRecordDraft) => {
@@ -848,6 +926,12 @@ export default function DepositPageClient() {
       // inline — the full pipeline runs to completion in the background while
       // telemetry streams). Stay 'running'; the completion effect reads the
       // persisted synthesis from the execution row and flips to 'complete'.
+      // Master-detail: the running row was inserted before the route
+      // responded — surface it in the pipelines table and select it so the
+      // detail follows this run (and so a reload can reattach from the URL).
+      void refreshLiveRuns().then(() => {
+        replaceDepositRouteTransaction(runId);
+      });
     } catch (error) {
       setSynthesisStatus("failed");
       setSynthesisError(
@@ -862,9 +946,8 @@ export default function DepositPageClient() {
     depositRouteInput.existingDepositorySignals,
     depositRouteInput.readingDemandSignals,
     protectedIpExclusionsText,
-    readCurrentSearchParams,
     refreshLiveRuns,
-    replaceDepositSearchParams,
+    replaceDepositRouteTransaction,
     repositoryContext,
   ]);
 
@@ -1183,15 +1266,15 @@ export default function DepositPageClient() {
 
         <section
           className="border border-white/10 bg-white/[0.035] px-4 py-4"
-          aria-label="Recent Deposit activity"
+          aria-label="Deposit pipelines"
         >
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-[0.68rem] uppercase tracking-[0.22em] text-neutral-500">
-                Readback
+                Pipelines
               </p>
               <h2 className="mt-2 flex items-center gap-2 text-lg font-semibold text-white">
-                <span>Recent Deposit activity</span>
+                <span>Deposit pipelines</span>
                 <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.readback} />
               </h2>
             </div>
@@ -1201,73 +1284,35 @@ export default function DepositPageClient() {
                 void refreshLiveRuns();
               }}
               className="inline-flex h-9 w-9 items-center justify-center border border-white/10 bg-white/[0.04] text-neutral-200 transition hover:border-emerald-300/30 hover:bg-emerald-300/10"
-              aria-label="Refresh Deposit activity"
+              aria-label="Refresh Deposit pipelines"
             >
               <RefreshCw className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>
-          {runsLoadError ? (
-            <div className="mt-3">
-              <ProductRouteStatePanel
-                compact
-                variant="error"
-                title="Deposit activity unavailable"
-                message={runsLoadError}
-              />
-            </div>
-          ) : null}
-          <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-            {recentDepositRuns.length ? (
-              recentDepositRuns.map((run) => (
-                <Link
-                  key={run.id}
-                  href={buildDepositHref(
-                    writeTerminalTransactionId(
-                      readCurrentSearchParams(),
-                      run.id,
-                    ),
-                  )}
-                  className="border border-white/8 bg-black/20 px-3 py-3 transition hover:border-emerald-300/25 hover:bg-emerald-300/[0.05]"
-                >
-                  <span className="flex items-center justify-between gap-2 text-xs uppercase tracking-[0.16em] text-neutral-500">
-                    <span>{run.type}</span>
-                    <span>{run.status}</span>
-                  </span>
-                  <span className="mt-2 block text-sm font-medium text-neutral-100">
-                    {run.summary || run.id}
-                  </span>
-                  <span className="mt-2 flex flex-wrap gap-2 text-[0.68rem] text-neutral-400">
-                    <span className="inline-flex items-center gap-1">
-                      <GitBranch className="h-3.5 w-3.5" aria-hidden="true" />
-                      {run.branch || "branch pending"}
-                    </span>
-                    <span className="inline-flex items-center gap-1">
-                      <GitCommitHorizontal
-                        className="h-3.5 w-3.5"
-                        aria-hidden="true"
-                      />
-                      {shortIdentifier(run.sourceCommit)}
-                    </span>
-                    <span>{formatDate(run.created_at)}</span>
-                  </span>
-                </Link>
-              ))
-            ) : (
-              <ProductRouteStatePanel
-                compact
-                variant={isLoadingRuns ? "loading" : "empty"}
-                title={
-                  isLoadingRuns
-                    ? "Loading Deposit activity"
-                    : "No Deposit activity"
-                }
-                message={
-                  isLoadingRuns
-                    ? "Recent pipeline rows are loading."
-                    : "Connect source and synthesize reviewable options."
-                }
-              />
-            )}
+          {/* Master table of Deposit pipeline runs — selecting a row writes
+              the URL transactionId; a synthesis run's selection connects the
+              Telemetry + Options detail below (live stream when running,
+              resumed results when completed). */}
+          <div className="mt-4" data-testid="deposits-pipelines-table">
+            <TerminalTransactionsTable
+              runs={liveRuns}
+              selectedTransactionId={selectedRun?.id ?? null}
+              onSelectTransaction={replaceDepositRouteTransaction}
+              filters={pipelineFilters}
+              onFiltersChange={setPipelineFilters}
+              onResetFilters={() =>
+                setPipelineFilters({
+                  ...DEFAULT_TRANSACTION_FILTERS,
+                  transactionLens: "deposit",
+                })
+              }
+              pagination={pipelinePagination}
+              onPaginationChange={setPipelinePagination}
+              isLoadingRuns={isLoadingRuns}
+              runsError={runsLoadError}
+              transactionDataMode="live"
+              surface="pipelines"
+            />
           </div>
           <Link
             href="/packs?type=depository-assetpack"

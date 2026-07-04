@@ -151,16 +151,16 @@ const whatIsBitcodeSections = [
   {
     id: 'product-map',
     eyebrow: 'Product map',
-    title: '/deposit, /read, /packs, Protocol, and interfaces are one system',
+    title: '/deposits, /reads, /packs, Protocol, and interfaces are one system',
     summary:
-      '/deposit prepares AssetPack supply, /read expresses demand and receives paid delivery, and /packs rereads activity. Protocol is the rulebook and proof contract. Interfaces such as MCP, ChatGPT App, Bitcode Chat, GitHub, and webhooks are admitted ways to read or write against that same system.',
+      '/deposits prepares AssetPack supply, /reads expresses demand and receives paid delivery, and /packs rereads activity. Protocol is the rulebook and proof contract. Interfaces such as MCP, ChatGPT App, Bitcode Chat, GitHub, and webhooks are admitted ways to read or write against that same system.',
     detail:
       'The important rule is that none of the interfaces become separate products. They must read and write the same source-safe route state, follow the same Protocol boundaries, and leave proof readback authority that /packs and authorized delivery can reread.',
     reason:
       'New users read one map before learning details. Otherwise routes, MCP, ChatGPT App, Bitcode Chat, and Auxillaries can look like separate products instead of coordinated surfaces over AssetPacks.',
     points: [
       '/packs owns activity reread, proof roots, settlement posture, compensation state, delivery state, and repair state.',
-      '/deposit and /read own the shortest current user paths for supply and demand.',
+      '/deposits and /reads own the shortest current user paths for supply and demand.',
       'Protocol owns semantics, proof families, fail-closed rules, and promotion truth.',
     ],
   },
@@ -171,12 +171,12 @@ const whatIsBitcodeSections = [
     summary:
       'A first-time operator should understand Bitcode as a short path: deposit source, measure Read, inspect fit, produce proof, settle in BTC, transfer BTD rights, and deliver the AssetPack.',
     detail:
-      '/deposit, /read, and /packs keep the path visible as focused product loops. You write only when a bounded state change is intended, then read the result before moving deeper into proof, settlement, rights transfer, or connected-interface delivery.',
+      '/deposits, /reads, and /packs keep the path visible as focused product loops. You write only when a bounded state change is intended, then read the result before moving deeper into proof, settlement, rights transfer, or connected-interface delivery.',
     reason:
       'The product becomes easier to learn when every button is read as part of the value path rather than as miscellaneous dashboard furniture.',
     steps: [
       'Start with AssetPacks so the market object is clear.',
-      'Open /deposit, /read, and /packs so the product surfaces are familiar.',
+      'Open /deposits, /reads, and /packs so the product surfaces are familiar.',
       'Read the action guide before trusting write controls.',
       'Use the proof and interface chapters when operating against real integrations.',
     ],
@@ -233,7 +233,7 @@ const sourceSharesSections = [
     summary:
       'The market path is intentionally linear for a new reader: source is given, Need is measured, fits are reviewed, proofs are produced, BTC settlement is read, BTD rights transfer, and repository delivery completes.',
     detail:
-      '/deposit, /read, and /packs expose each stage so an operator can see both the write action that changes state and the read surface that proves what happened next.',
+      '/deposits, /reads, and /packs expose each stage so an operator can see both the write action that changes state and the read surface that proves what happened next.',
     reason:
       'The linear path is a teaching model. The under-the-hood system remains richer, but every advanced interface still has to preserve this chain.',
     points: [
@@ -288,7 +288,7 @@ const exchangeSections = [
     reason:
       'AssetPacks require state that can be audited later by a different surface, not just local UI continuity.',
     steps: [
-      'Write through /deposit, /read, Bitcode Chat, MCP, or another admitted interface.',
+      'Write through /deposits, /reads, Bitcode Chat, MCP, or another admitted interface.',
       'Persist normalized evidence and activity context into source-safe activity state.',
       'Reread the activity and selected detail in /packs before trusting fit, proof, or settlement.',
     ],
@@ -1627,7 +1627,7 @@ export const BITCODE_DOCS_PAGES = [
     summary:
       'Begin with the zero-to-hero map: what AssetPack commodities are, how BTD scalar volume and rights work, why BTC settlement money matters, and where Protocol and interfaces fit.',
     detail:
-      'This is the first page for readers who know nothing about Bitcode. It keeps the model plain before introducing /deposit, /read, /packs, proof, and interface pages.',
+      'This is the first page for readers who know nothing about Bitcode. It keeps the model plain before introducing /deposits, /reads, /packs, proof, and interface pages.',
     learningOutcome:
       'You can explain Bitcode as knowledge-commoditization infrastructure and name the major product surfaces without reading implementation history.',
     primaryCta: { href: '/docs/source-shares', label: 'Continue to AssetPacks' },
@@ -1636,7 +1636,7 @@ export const BITCODE_DOCS_PAGES = [
       {
         id: 'product-surfaces',
         eyebrow: 'Component vocabulary',
-        title: '/deposit, /read, /packs, Protocol, interfaces',
+        title: '/deposits, /reads, /packs, Protocol, interfaces',
         summary:
           'The docs use the same card and explainer pattern as the product routes so the mental model transfers into the commercial surfaces.',
         explainer: TERMINAL_WORKSPACE_EXPLAINERS.experienceMap,
@@ -1756,7 +1756,7 @@ export const BITCODE_DOCS_PAGES = [
       'Use this as the practical manual for product operation. It follows the same model as the exhaustive tooltips: write deliberately, then verify the resulting read surface before moving deeper.',
     learningOutcome:
       'You can identify the write, the expected read, and the proof signal for each major action.',
-    primaryCta: { href: '/read', label: 'Use Read' },
+    primaryCta: { href: '/reads', label: 'Use Read' },
     sections: terminalActionSections,
     embeddedUi: [
       {
@@ -2053,7 +2053,7 @@ export const BITCODE_DOCS_CHAPTERS = [
     id: 'start',
     number: '00',
     title: 'Start Here',
-    summary: 'A zero-to-hero introduction to AssetPacks, BTD scalar volume and rights, BTC settlement, /deposit, /read, /packs, and the product map.',
+    summary: 'A zero-to-hero introduction to AssetPacks, BTD scalar volume and rights, BTC settlement, /deposits, /reads, /packs, and the product map.',
     pages: docsPagesFor(['what-is-bitcode', 'source-shares']),
   },
   {

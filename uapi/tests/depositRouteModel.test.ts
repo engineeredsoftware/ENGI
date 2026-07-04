@@ -3,7 +3,7 @@ import {
   buildDepositRouteSession,
   readDepositRouteStage,
   writeDepositRouteStage,
-} from '@/app/deposit/deposit-route-model';
+} from '@/app/deposits/deposit-route-model';
 
 describe('deposit-route-model', () => {
   it('builds a source-safe five-step DepositRouteSession with option synthesis ownership', () => {
@@ -14,7 +14,7 @@ describe('deposit-route-model', () => {
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       obfuscations: 'Create bounded source-safe AssetPack options for review.',
-      sourcePathHints: ['uapi/app/deposit/DepositPageClient.tsx'],
+      sourcePathHints: ['uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [
         {
           id: 'sub-critical-route-test',
@@ -34,7 +34,7 @@ describe('deposit-route-model', () => {
     });
 
     expect(session.schema).toBe('bitcode.deposit.route-session');
-    expect(session.route).toBe('/deposit');
+    expect(session.route).toBe('/deposits');
     expect(session.stageCount).toBe(5);
     expect(session.steps.map((step) => step.id)).toEqual([
       'connect-source',
@@ -63,7 +63,7 @@ describe('deposit-route-model', () => {
     expect(session.earningSupplyIntelligence.schema).toBe('bitcode.deposit.earning-supply-intelligence');
     expect(session.earningSupplyIntelligence.intelligence).toBe('DepositorEarningSupplyIntelligence');
     expect(session.organizationPolicyWalletAuthority.schema).toBe('bitcode.organization.policy-wallet-authority');
-    expect(session.organizationPolicyWalletAuthority.route).toBe('/deposit');
+    expect(session.organizationPolicyWalletAuthority.route).toBe('/deposits');
     expect(session.earningSupplyIntelligence.aggregate.valueLabel).toBe('estimate');
     expect(session.earningSupplyIntelligence.earningStatements).toHaveLength(3);
     expect(session.earningSupplyIntelligence.supplyRecommendations).toHaveLength(3);
@@ -139,7 +139,7 @@ describe('deposit-route-model', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      sourcePathHints: ['uapi/app/deposit/DepositPageClient.tsx'],
+      sourcePathHints: ['uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.9 }],
       unfitNeedOpportunitySignals: [
         {
@@ -175,7 +175,7 @@ describe('deposit-route-model', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      sourcePathHints: ['uapi/app/deposit/DepositPageClient.tsx'],
+      sourcePathHints: ['uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.85 }],
       depositorWalletId: 'wallet-depositor-1',
       optionsRequested: true,
@@ -184,7 +184,7 @@ describe('deposit-route-model', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      sourcePathHints: ['uapi/app/deposit/DepositPageClient.tsx'],
+      sourcePathHints: ['uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.85 }],
       depositorWalletId: 'wallet-depositor-1',
       actorId: 'user-1',

@@ -18,7 +18,7 @@ import type { VCSBranch, VCSCommit, VCSRepository } from "@bitcode/vcs-core";
 import { VCSRepositorySelector } from "@/components/base/bitcode/vcs/VCSRepositorySelector";
 import { SearchableSelect } from "@/components/base/bitcode/forms/SearchableSelect";
 import BitcodeInlineExplainer from "@/components/base/bitcode/execution/BitcodeInlineExplainer";
-import { DEPOSIT_SECTION_EXPLAINERS } from "@/app/deposit/deposit-explainers";
+import { DEPOSIT_SECTION_EXPLAINERS } from "@/app/deposits/deposit-explainers";
 import {
   buildTerminalRepositoryAnchorDraft,
   type TerminalActivityRecordDraft,

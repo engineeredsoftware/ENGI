@@ -42,7 +42,7 @@ describe('Deposit AssetPack option synthesis', () => {
     expect(synthesis.schema).toBe('bitcode.deposit.asset-pack-option-synthesis');
     expect(synthesis.pipeline).toBe('DepositAssetPackOptionSynthesis');
     expect(synthesis.reviewBoundary).toMatchObject({
-      route: '/deposit',
+      route: '/deposits',
       defaultDecisionState: 'pending-depositor-review',
       approvedOptionsAdmittedBy: 'future-gate7-deposit-option-review',
       sourceCriticalityDemandRoiPolicyOwnedBy: 'future-gate6-policy',

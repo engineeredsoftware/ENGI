@@ -4,8 +4,8 @@
 
 Current Bitcode product routes are:
 
-- `/deposit`: create and review source-safe AssetPack supply options.
-- `/read`: request Reading, review the synthesized Need, request Finding Fits, review the source-safe AssetPack preview, and settle.
+- `/deposits`: create and review source-safe AssetPack supply options.
+- `/reads`: request Reading, review the synthesized Need, request Finding Fits, review the source-safe AssetPack preview, and settle.
 - `/packs`: reread activity, proof roots, BTD scalar volume and rights, BTC settlement money, compensation, delivery, and repair state.
 
 This directory must not contain current-product Exchange language, independent state ownership, or source-bearing detail rendering. It has no separate settlement authority, proof authority, or disclosure authority. `/packs` owns the current master-detail activity readback, and source-bearing AssetPack contents remain withheld until BTC finality, BTD rights transfer, and repository delivery to the entitled reader.

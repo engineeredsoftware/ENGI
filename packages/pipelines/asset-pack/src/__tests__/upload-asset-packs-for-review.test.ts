@@ -24,7 +24,7 @@ const OPTIONS = [
  * carry review semantics and NO PR side effects.
  */
 describe('runUploadAssetPacksForReviewAgent', () => {
-  it('deposit mode: records a bitcode-review-upload for /deposit admission review', async () => {
+  it('deposit mode: records a bitcode-review-upload for /deposits admission review', async () => {
     const outer = new Execution('synthesize-asset-packs');
     storeSynthesizeAssetPacksMode(outer, 'deposit');
     // Implementation stores resolved via the upward walk (ancestor of the Finish node).
@@ -38,7 +38,7 @@ describe('runUploadAssetPacksForReviewAgent', () => {
     expect(result.success).toBe(true);
     expect(result.deliveryMechanism).toBe('bitcode-review-upload');
     expect(result.review).toEqual({
-      surface: '/deposit',
+      surface: '/deposits',
       reviewFor: 'deposit-admission',
       decision: 'pending-user-review',
     });
@@ -54,14 +54,14 @@ describe('runUploadAssetPacksForReviewAgent', () => {
     // not on the isolated Finish sibling.
     expect(outer.get('finish', 'uploadForReview')).toMatchObject({
       deliveryMechanism: 'bitcode-review-upload',
-      review: { surface: '/deposit', reviewFor: 'deposit-admission' },
+      review: { surface: '/deposits', reviewFor: 'deposit-admission' },
     });
     expect(outer.get('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
     // Still resolvable from the Finish subtree via the upward walk.
     expect(finishExec.findUp('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
   });
 
-  it('read mode: uploads for /read purchase review and carries the synthesis artifacts', async () => {
+  it('read mode: uploads for /reads purchase review and carries the synthesis artifacts', async () => {
     const outer = new Execution('synthesize-asset-packs');
     storeSynthesizeAssetPacksMode(outer, 'read');
     const artifacts = [{ artifact: 'fits-finding' }];
@@ -71,7 +71,7 @@ describe('runUploadAssetPacksForReviewAgent', () => {
     const result = await runUploadAssetPacksForReviewAgent({}, finishExec);
 
     expect(result.review).toEqual({
-      surface: '/read',
+      surface: '/reads',
       reviewFor: 'purchase',
       decision: 'pending-user-review',
     });
@@ -82,7 +82,7 @@ describe('runUploadAssetPacksForReviewAgent', () => {
   it('defaults to read review when no mode was stored', async () => {
     const exec = new Execution('finish-node');
     const result = await runUploadAssetPacksForReviewAgent({}, exec);
-    expect(result.review.surface).toBe('/read');
+    expect(result.review.surface).toBe('/reads');
     expect(result.review.reviewFor).toBe('purchase');
   });
 

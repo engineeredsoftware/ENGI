@@ -2,7 +2,7 @@
  * Pure client-side formatting helpers for the synthesis telemetry surfaces
  * (PipelineExecutionLog title-lines, the processing-indicator sentence, and
  * the live header tracker). Extracted from pipeline-execution-log.tsx so the
- * page-level surfaces (e.g. /deposit's header tracker) can share the exact
+ * page-level surfaces (e.g. /deposits' header tracker) can share the exact
  * same display normalization without importing the heavy log component.
  */
 

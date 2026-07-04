@@ -57,11 +57,11 @@ describe('Footer public shell', () => {
     );
     expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute(
       'href',
-      '/deposit',
+      '/deposits',
     );
     expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute(
       'href',
-      '/read',
+      '/reads',
     );
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute(
       'href',

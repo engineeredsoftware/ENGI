@@ -502,6 +502,47 @@ inventory/exclusions, setup obfuscation guidance — all invisible to their cons
 to the route's completion read); the Gate-3 correction re-homes cross-phase artifacts
 onto the shared execution and pins the producer/consumer store contract with tests.
 
+### Product routes pluralize + master-detail pipelines (Garrett, 2026-07-03)
+
+The lens routes RENAME to plural — `/deposit` → `/deposits`, `/read` → `/reads`
+(param-preserving redirect shims stay at the old paths for stale links and
+in-flight auth next-paths; `/api/*` route paths are unchanged). Both pages
+become MASTER-DETAIL:
+
+- **Master: a pipelines table** (the shared transactions-table stack,
+  lens-preset filters) over the account's executions rows; row selection is
+  the URL `transactionId` (runId alias), so selection survives reload.
+- **Detail: selection connects to the run.** Selecting a RUNNING synthesis
+  run reattaches its live stream (the history+stream tail attaches to any
+  runId); selecting a COMPLETED run resumes its persisted results from the
+  execution row output; failed/interrupted runs surface their terminal state
+  with the historical log attached. On /deposits the detail is the Telemetry
+  + Options review; /reads gains the same Telemetry stack (log, pills, run
+  clock, iteration marker, readiness verdict) for the selected pipeline run.
+- **Lens identity at dispatch:** the deposit dispatch route stamps the
+  synthesis context (source/workbench/route/pipelineCore/synthesisMode +
+  repository coordinates) onto the executions row AT DISPATCH (upsert), so
+  running rows are lens-identifiable in the tables instead of context-null
+  until completion. New rows stamp `route: '/deposits'`. Because the client
+  may supply the runId, the route guards the id BEFORE any write: an id
+  colliding with an existing row (any owner) is rejected 409
+  `run_id_conflict` — no hijack, no double-dispatch into one row.
+- **Terminal-state attribution:** the run tail resets on every runId change
+  and the detail only trusts terminal signals attributed to the attached run
+  (execution-row match), with the persisted row status as the terminal
+  fallback (completed rows without a completion event; interrupted rows via
+  the orphan sweeper — 'interrupted' is now a terminal status for the SSE
+  tail).
+- **Known read-gate gap:** read-lens pipeline runs dispatched through the
+  sandbox harness do not yet persist their own lens-stamped executions rows
+  (structured mode); the /reads table lists what exists and the telemetry
+  detail attaches to any asset-pack pipeline row, labeled by the RUN's lens.
+  Read dispatch persistence lands with the read gate.
+
+Checker posture: all gate checkers literal-matching the old routes are
+era-pinned (V43–V47) and do not run at the current pointer; frozen `.bitcode/`
+era artifacts and promoted spec families keep the historical route names.
+
 ### PTRR step output schemas — steps validate against STEP schemas (Garrett, 2026-07-03)
 
 Step outputs validate against STEP schemas, not the full agent schema — for all

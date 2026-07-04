@@ -57,7 +57,7 @@ test.describe('commercial MVP conversations and docs experiences', () => {
     await expect(page.getByText(/Start with AssetPacks/i)).toBeVisible();
     await expect(
       page.getByText(
-        'Then learn /deposit, /read, and /packs before opening value-bearing controls.',
+        'Then learn /deposits, /reads, and /packs before opening value-bearing controls.',
       ),
     ).toBeVisible();
     await expect(page.getByText(/Action manual/i)).toBeVisible();

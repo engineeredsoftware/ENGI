@@ -14,7 +14,7 @@ const mockUseAuth = jest.fn();
 const mockUseUserData = jest.fn();
 
 jest.mock('next/navigation', () => ({
-  usePathname: () => '/read',
+  usePathname: () => '/reads',
   useRouter: () => ({ push: mockPush, replace: mockReplace }),
 }));
 
@@ -102,8 +102,8 @@ describe('Nav product chrome', () => {
     const createButton = screen.getByRole('button', { name: 'Connect Wallet' });
 
     expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
-    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposit');
-    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/read');
+    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposits');
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/reads');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
     fireEvent.mouseEnter(accessButton);
     fireEvent.click(accessButton);
@@ -145,8 +145,8 @@ describe('Nav product chrome', () => {
     render(<Nav />);
 
     expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
-    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposit');
-    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/read');
+    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposits');
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/reads');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
     expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
     expect(screen.getByText('Notifications')).toBeInTheDocument();

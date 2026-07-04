@@ -84,7 +84,7 @@ export interface DepositRouteStep {
 
 export interface DepositRouteSession {
   schema: 'bitcode.deposit.route-session';
-  route: '/deposit';
+  route: '/deposits';
   stageCount: 5;
   activeStepId: DepositRouteStepId;
   steps: DepositRouteStep[];
@@ -291,7 +291,7 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
     admission.admittedCount > 0 ||
     Boolean(input.hasSubmittedDeposit);
   const organizationPolicyWalletAuthority = buildOrganizationPolicyWalletAuthority({
-    route: '/deposit',
+    route: '/deposits',
     actorId: normalizedText(input.actorId) || normalizedText(input.reviewerId),
     organizationId: normalizedText(input.organizationId),
     teamId: normalizedText(input.teamId),
@@ -309,7 +309,7 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
     depositLimitSats: input.depositLimitSats,
     accountAdmitted: Boolean(input.actorId || input.reviewerId || repositoryFullName),
     interfaceAdmitted: true,
-    targetAnchor: normalizedText(input.transactionId) || repositoryFullName || '/deposit',
+    targetAnchor: normalizedText(input.transactionId) || repositoryFullName || '/deposits',
     createdAt: input.createdAt,
   });
   const activeStepId = resolveActiveStep(input, admission.admittedCount);
@@ -334,7 +334,7 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
 
   return {
     schema: 'bitcode.deposit.route-session',
-    route: '/deposit',
+    route: '/deposits',
     stageCount: 5,
     activeStepId,
     steps,
@@ -392,7 +392,7 @@ export function assertDepositRouteSessionSourceSafe(session: DepositRouteSession
     earningSupplySafety.admitted &&
     organizationSafety.admitted &&
     session.schema === 'bitcode.deposit.route-session' &&
-    session.route === '/deposit' &&
+    session.route === '/deposits' &&
     session.stageCount === 5 &&
     session.pipelineOwnership.depositOptionPipeline === 'DepositAssetPackOptionSynthesis' &&
     session.pipelineOwnership.depositOptionPolicy === 'DepositAssetPackOptionPolicy' &&
@@ -410,7 +410,7 @@ export function assertDepositRouteSessionSourceSafe(session: DepositRouteSession
     session.pipelineOwnership.sourceCriticalityDemandRoiPolicySourceSafe === true &&
     session.pipelineOwnership.admissionAndIndexingPolicyPresent === true &&
     session.organizationPolicyWalletAuthority.schema === 'bitcode.organization.policy-wallet-authority' &&
-    session.organizationPolicyWalletAuthority.route === '/deposit' &&
+    session.organizationPolicyWalletAuthority.route === '/deposits' &&
     session.organizationPolicyWalletAuthority.disclosure.sourceSafeMetadataOnly === true &&
     session.organizationPolicyWalletAuthority.disclosure.protectedSourceVisible === false &&
     session.organizationPolicyWalletAuthority.disclosure.walletPrivateMaterialVisible === false &&

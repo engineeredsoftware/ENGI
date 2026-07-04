@@ -25,7 +25,7 @@ Run in the Supabase SQL editor; all auto-target the most recent `custom:bitcode-
 | `v48_qa_03_user_connections_token_safe` | wallet binding write or GitHub install callback |
 | `v48_qa_04_repository_inventory` | Externals pane load post-GitHub-connect (repo sync) |
 | `v48_qa_05_track1_readiness_rollup` | anytime — one-row Track 1 summary |
-| `v48_qa_06_deposit_activity` | each /deposit action (connect, synthesize, approve, deposit) |
+| `v48_qa_06_deposit_activity` | each /deposits action (connect, synthesize, approve, deposit) |
 | `v48_qa_07_depository_admission_evidence` | deposit approval (Depository admission roots/index state) |
 | `v48_qa_08_recent_errors` | whenever a flow misbehaves or qa06 shows has_error |
 
@@ -107,7 +107,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 
 - Severity: medium (legacy surface reachable post-launch; post-auth callback landed there until pinned to `/packs`)
 - Observed: first successful wallet sign-in landed on `/terminal` — `buildAuxillariesRoutePath` builds `/terminal?auxillary-open-to=…` via `AUXILLARY_OVERLAY_ROUTE_ROOT = '/terminal'` (`uapi/app/auxillaries/components/auxillary-pane-meta.ts:18`), and the legacy terminal page still renders.
-- Canon: `/terminal` functionality was split into `/packs`, `/read`, and `/deposit`. A V48 gate should (a) verify each terminal capability was properly ported to the three routes, (b) retarget or remove `AUXILLARY_OVERLAY_ROUTE_ROOT` and remaining `/terminal` links, and (c) remove the unused terminal page/code (relates to F4 — another surface the V47 feature-excess audit never classified).
+- Canon: `/terminal` functionality was split into `/packs`, `/reads`, and `/deposits`. A V48 gate should (a) verify each terminal capability was properly ported to the three routes, (b) retarget or remove `AUXILLARY_OVERLAY_ROUTE_ROOT` and remaining `/terminal` links, and (c) remove the unused terminal page/code (relates to F4 — another surface the V47 feature-excess audit never classified).
 - Interim fix: wallet sign-in post-auth destination pinned to `/packs` in `AuxillariesWalletConnectionPanel`; GitHub connect redirect retargeted to `/packs?auxillary-open-to=externals` in `tps/github/_callback-handler.ts`; all seven `auxillaries-contract.ts` repair/recovery routes retargeted from `/terminal?auxillary-open-to=…` to `/packs?auxillary-open-to=…` after "Add Email" landed on the legacy terminal page with no email experience (the `AuxillariesProvider` reads the open-to param on any route, so panes open over `/packs`; the v40 browser-proof checker pins only `bitcode-browser-proof.ts` route states, untouched). Remaining `/terminal` consumers (orbitals links, browser-proof paths, `AUXILLARY_OVERLAY_ROUTE_ROOT`/`buildAuxillariesRoutePath` itself) stay for the F8 gate.
 
 ### F9 — Organization Authority permanently Denied for solo operators; no bootstrap path exists
@@ -139,9 +139,9 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 
 - Severity: high (Track 2 core; the commercial deposit experience is not real)
 - Observed: options appeared instantly after connect+notes; every execution row has `total_tokens: null`, `duration_ms: null`, `created_at == completed_at`; the three option titles are fixed archetypes.
-- Trace: `/deposit` option synthesis runs `deposit-route-model.ts` → `buildDepositAssetPackOptions` (`packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts`) — three hardcoded `OPTION_BLUEPRINTS` with constant `measurementBias` (0.72/0.66/0.61) and FNV-hash pseudo-roots; the file still carries `approvedOptionsAdmittedBy: 'future-gate7-deposit-option-review'` scaffolding markers from an earlier version. `BITCODE_ASSET_PACK_REAL_INFERENCE` reaches only the pipeline-harness QA routes (`/api/pipeline-harness/asset-pack`), never the `/deposit` flow — the env flags change nothing for depositing. Admission/rejection rows are journal writes over the blueprints; the qa7 sha256 roots are the composer execution's deterministic evidence.
-- Gate 2 core work: wire `/deposit` option synthesis to the real asset-pack measurement pipeline under the bounded real-inference profile, producing measured options (real measurement vectors, token/cost/duration accounting, depositor-notes-conditioned synthesis) with the blueprint path retained only as an explicit mock/bring-up mode.
-- IMPLEMENTED (first increment, 2026-06-12): the **AssetPacksSynthesis** pipeline core (`packages/pipelines/asset-pack/src/asset-packs-synthesis.ts`) — Bitcode's single synthesis/measurement pipeline, lens-parameterized (deposit | read) per the accepted V48 architecture law (steering prompts + measurement catalogs carry the variance; one run creates multiple packs). The deposit lens adapter (`deposit-option-real-synthesis.ts`) translates candidates into the promoted V43/V47 option law (same schema/roots/review boundaries, so policy + admission consume them unchanged). `POST /api/deposit/synthesize-options` builds an exclusion-filtered source inventory from the connected GitHub source (session + repo-ownership checked, server-derived token), runs bounded structured inference fail-closed (`real_inference_required` without the flags), persists the execution with REAL `total_tokens`/`duration_ms`, and the `/deposit` UI now requests synthesis from it (async with status; blueprint path unreachable from the surface). Gate 2 charter elevation: consolidate remaining pipelines onto AssetPacksSynthesis, clean all legacy terminal code, correct pipeline-execution actualities (data, Vercel sandbox actually running pipelines) — reading lens migration lands with Track 3.
+- Trace: `/deposits` option synthesis runs `deposit-route-model.ts` → `buildDepositAssetPackOptions` (`packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts`) — three hardcoded `OPTION_BLUEPRINTS` with constant `measurementBias` (0.72/0.66/0.61) and FNV-hash pseudo-roots; the file still carries `approvedOptionsAdmittedBy: 'future-gate7-deposit-option-review'` scaffolding markers from an earlier version. `BITCODE_ASSET_PACK_REAL_INFERENCE` reaches only the pipeline-harness QA routes (`/api/pipeline-harness/asset-pack`), never the `/deposits` flow — the env flags change nothing for depositing. Admission/rejection rows are journal writes over the blueprints; the qa7 sha256 roots are the composer execution's deterministic evidence.
+- Gate 2 core work: wire `/deposits` option synthesis to the real asset-pack measurement pipeline under the bounded real-inference profile, producing measured options (real measurement vectors, token/cost/duration accounting, depositor-notes-conditioned synthesis) with the blueprint path retained only as an explicit mock/bring-up mode.
+- IMPLEMENTED (first increment, 2026-06-12): the **AssetPacksSynthesis** pipeline core (`packages/pipelines/asset-pack/src/asset-packs-synthesis.ts`) — Bitcode's single synthesis/measurement pipeline, lens-parameterized (deposit | read) per the accepted V48 architecture law (steering prompts + measurement catalogs carry the variance; one run creates multiple packs). The deposit lens adapter (`deposit-option-real-synthesis.ts`) translates candidates into the promoted V43/V47 option law (same schema/roots/review boundaries, so policy + admission consume them unchanged). `POST /api/deposit/synthesize-options` builds an exclusion-filtered source inventory from the connected GitHub source (session + repo-ownership checked, server-derived token), runs bounded structured inference fail-closed (`real_inference_required` without the flags), persists the execution with REAL `total_tokens`/`duration_ms`, and the `/deposits` UI now requests synthesis from it (async with status; blueprint path unreachable from the surface). Gate 2 charter elevation: consolidate remaining pipelines onto AssetPacksSynthesis, clean all legacy terminal code, correct pipeline-execution actualities (data, Vercel sandbox actually running pipelines) — reading lens migration lands with Track 3.
 
 ### F13 — Deposit option decision semantics: approve is irreversibly final with no confirmation; reject should be archive
 
@@ -154,7 +154,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 
 - Severity: medium-high (source-safety law surface)
 - Gap: the deposit composer accepts depositor notes but offers no way to declare which IP in the connected source must be protected and excluded from AssetPack knowledge synthesis. The synthesis pipeline (once real, F12) must accept and honor exclusion instructions as a fail-closed boundary (excluded paths/concepts never enter measurement, prompts, or option summaries).
-- IMPLEMENTED (2026-06-12): "Protected IP exclusions" field on `/deposit`; exclusions are honored fail-closed at both ends of AssetPacksSynthesis — excluded paths removed from the source inventory before any prompt is built, and candidates whose covered paths violate exclusions (or cite paths outside the real inventory) dropped after inference. Exclusion roots + withheld-path counts surface in the synthesis exclusion posture and the executions row.
+- IMPLEMENTED (2026-06-12): "Protected IP exclusions" field on `/deposits`; exclusions are honored fail-closed at both ends of AssetPacksSynthesis — excluded paths removed from the source inventory before any prompt is built, and candidates whose covered paths violate exclusions (or cite paths outside the real inventory) dropped after inference. Exclusion roots + withheld-path counts surface in the synthesis exclusion posture and the executions row.
 
 ### F16 — Depository state persists into a git-tracked repo file, not the database
 
@@ -174,14 +174,14 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 ### F17 — Synthesized AssetPack option cards overflow into the right panel; per-option action buttons overlap
 
 - Severity: low (Gate 3 deposit review UX)
-- Observed (2026-06-26): on `/deposit`, synthesized AssetPack option cards overflow their column rightward into the 380px telemetry/activity panel, visually x-overlapping the per-option action buttons (Select for deposit / Archive / Resynthesize) with the right column.
+- Observed (2026-06-26): on `/deposits`, synthesized AssetPack option cards overflow their column rightward into the 380px telemetry/activity panel, visually x-overlapping the per-option action buttons (Select for deposit / Archive / Resynthesize) with the right column.
 - Cause: the option `<article>` (a grid item in the `xl:grid-cols-3` options grid) lacked `min-w-0`, and the `font-mono` covered-source-paths list lacked `break-all`, so a card with long unbreakable mono content refused to shrink below its content's min-content width and overflowed the `minmax(0,1.45fr)` left column.
 - Repair (2026-06-26, `DepositPageClient.tsx`): `min-w-0` on the option card + `break-all` on the covered-paths list (the Option-roots `<dd>` already wrapped). The card now shrinks to its grid column and long paths/roots wrap rather than forcing overflow.
 
 ### F18 — Synthesis run telemetry leaks the raw model response and x-overflows the page (one accordion row per content line)
 
 - Severity: high (source-safety law) + low (layout). Telemetry must never expose raw prompts/responses (`rawProviderResponseVisible=false`).
-- Observed (2026-06-26): during `/deposit` "Synthesize options", the Synthesis run telemetry accordion rendered the raw model output line-by-line — ` ```json `, `{`, `"analysis": "…"`, `"steps": [`, `"1. ANCHOR IDENTITY: …"` each became their own row — and the long unwrapped `"analysis"`/step lines x-overflowed the entire page (page shifted right, panel toggle clipped). The raw content was the setup-plan agent's plan prose (a provider response).
+- Observed (2026-06-26): during `/deposits` "Synthesize options", the Synthesis run telemetry accordion rendered the raw model output line-by-line — ` ```json `, `{`, `"analysis": "…"`, `"steps": [`, `"1. ANCHOR IDENTITY: …"` each became their own row — and the long unwrapped `"analysis"`/step lines x-overflowed the entire page (page shifted right, panel toggle clipped). The raw content was the setup-plan agent's plan prose (a provider response).
 - Cause (root, source-safety): the formal Thricified substeps store LLM content under `llm/input|prompt|output|parsedOutput`, but `AgentLLMsRegistry`/`PipelineLLMRegistry` (direct `getLLM` calls, used by the setup-plan agent) store the raw prompt under `llm/messages` and the raw response under **`llm/response`** (`output.content`). The universal streaming filter `sourceSafeStreamEvent` withheld only the substep key names, so `llm/response` (a raw string) passed through as a `status`-event `message` and reached `execution_events` unredacted.
 - Cause (display): `buildTerminalRunActivityFromEvents` joins event messages with `\n` and `PipelineExecutionLog` splits `output` on `\n` (one row per line), so the multi-line leak fragmented into many rows; the compact/desktop title spans lacked `min-w-0`, so a long line's min-content width escaped the `overflow-auto` log container and widened the page.
 - Repair (2026-06-26):
@@ -205,7 +205,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 ### F20 — Deposit synthesis runs the READ-lens agents (mode never reaches the phases)
 
 - Severity: high (the deposit pipeline isn't actually depositing). Surfaced as "Read" verbiage in a deposit run, but the cause is that the read agents execute.
-- Observed (2026-06-26): a `/deposit` run ("SynthesizeAssetPacks (deposit mode)") rendered read-lens agents in telemetry — `ReadFitsFindingSynthesisReadComprehensionAgent` with a `read-comprehension` step, `ReadFitsFindingSynthesisAssetPackSynthesisAgent` with a `synthesis` step — and ended with "Pipeline yielded no admissible options; falling back to bounded deposit synthesis." The agent pills are each agent's real `config.name`, so the read agents were genuinely running.
+- Observed (2026-06-26): a `/deposits` run ("SynthesizeAssetPacks (deposit mode)") rendered read-lens agents in telemetry — `ReadFitsFindingSynthesisReadComprehensionAgent` with a `read-comprehension` step, `ReadFitsFindingSynthesisAssetPackSynthesisAgent` with a `synthesis` step — and ended with "Pipeline yielded no admissible options; falling back to bounded deposit synthesis." The agent pills are each agent's real `config.name`, so the read agents were genuinely running.
 - Cause: `factorySDIVFExecutorPipeline` composes the phases with `sequential`, which runs preprocess and every phase on ISOLATED sibling child executions (`execution.child('seq-N')`). `factoryPreprocess` stored the resolved mode on its own child (`seq-0`); the phases run on `seq-1`/`seq-2` and resolve the mode with `synthesizeAssetPacksModeFromExecution`, which only walks ANCESTORS — never sideways to `seq-0`. So every phase resolved `null → 'read'`, took the read branch, and resolved the init-registered read agents. The agents registry is already shared (the read implementation agent is registered by the phase and resolves), so the only gap was the mode.
 - Repair (2026-06-26, `index.ts`): the `factorySynthesizeAssetPacksPipeline` wrapper now resolves the mode and stores it on the shared outer execution (the parent of all `seq-N` phase children) before running the SDIVF executor, so every phase resolves it via the upward walk. Once the phases see `deposit`, their mode-conditional registrations (setup comprehension override, deposit Discovery agents, deposit Implementation/Validation) take effect on the shared registry and the deposit-lens agents run — which also makes the telemetry verbiage deposit-correct at the root. Read mode is unchanged (default was already read). Regression test added (sibling isolation reproduced; shared-parent storage resolves). Needs a live deposit run to confirm end-to-end.
 
@@ -243,7 +243,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 - Motivation (Garrett, 2026-06-26): depository search during depositing estimates the *potential* fit value of the packs being synthesized — which packs are worth making correspond to what is likely to be read. Surface it to the depositor as a per-pack "neediness" preview (and a new AP measurement).
 - Model: `neediness` ∈ [0,1] = a deposit-lens PREVIEW measurement (separate from the absolute composite) of the pack's future read Need-fit / earning potential. `neediness = clamp01(demand × (0.5 + 0.5·(1 − saturation)))` — demand gates, scarcity boosts.
 - v0 signals (no new infra; LLM-grounded): the deposit `discovery:depository-search` agent emits `underservedTopics` (supply-scarcity hint) alongside its demand guidance; the deposit Implementation synthesis agent emits a per-pack `needinessSignal {demand, saturation, rationale}` grounded in that guidance; `computeNeediness` derives the scalar deterministically in `validateDepositSynthesisOptions`.
-- Flow: synthesis agent → `implementation:options` (carry `needinessSignal`) → route `validateDepositSynthesisOptions` (attaches `neediness`) → `buildRealDepositAssetPackOptionSynthesis` (projects `neediness` + `needinessRoot` onto the deposit option) → `/deposit` option card previews it (amber tile: volume %, demand/saturation, rationale).
+- Flow: synthesis agent → `implementation:options` (carry `needinessSignal`) → route `validateDepositSynthesisOptions` (attaches `neediness`) → `buildRealDepositAssetPackOptionSynthesis` (projects `neediness` + `needinessRoot` onto the deposit option) → `/deposits` option card previews it (amber tile: volume %, demand/saturation, rationale).
 - Source-safety: derived scalars + topic-level rationale only (no raw source). v1 seam (spec): replace `saturation` with a real embedding-vector probe of the pack against the Depository supply index, and `demand` with a search against an accrued Read-Need / demand corpus; realized read `need-fit` + BTD later calibrate it.
 - Implemented over two commits (spec + lib core; then agents + projection + UI). Verified: asset-pack tsc 0 + full suite (214) green incl. a new neediness test; uapi tsc 0 + deposit UI/model tests green; spec checker green.
 - Neediness **v1 is deferred to Gate 7** (Garrett, 2026-06-26): the real embedding-vector supply-index probe + Read-Need/demand-corpus search + realized-need-fit/BTD calibration.
@@ -252,7 +252,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 
 - Severity: high (interactive deposit usability).
 - Observed (2026-06-26, run `0f9d2421-de2b-48c3-aa08-5ad6c27e000c`): a deposit run (deposit agents correctly running, post-F20) stuck for many minutes on a single generation — the `DepositDepositorySearchAgent` Plan → PrepareContext → StructuredOutput row — with no progress.
-- Cause (acute): the pipeline LLM wrappers (`AgentLLMsRegistry` / `PipelineLLMRegistry`) `await llm(input)` with NO timeout; the provider SDK sets no short bound, so a hung/very-slow generation stalls the entire INLINE synthesis. The `/deposit` synthesize-options route runs the pipeline inline under `maxDuration = 300s`, so a stall just freezes the UI on the last telemetry row.
+- Cause (acute): the pipeline LLM wrappers (`AgentLLMsRegistry` / `PipelineLLMRegistry`) `await llm(input)` with NO timeout; the provider SDK sets no short bound, so a hung/very-slow generation stalls the entire INLINE synthesis. The `/deposits` synthesize-options route runs the pipeline inline under `maxDuration = 300s`, so a stall just freezes the UI on the last telemetry row.
 - Cause (throughput, related): the deposit agents (`deposit-codebase-comprehension`, `deposit-depository-search`, `deposit-inherent-regurgitation`, `deposit-input-comprehension`, `deposit-asset-pack-synthesis`) call `factoryAgentWithPTRR` directly and ALWAYS run the full PTRR × Failsafe × Thricified fan-out — they do NOT gate on the bounded profile (unlike the read agents' `shouldUseDiscoveryPtrr` deterministic/bounded fast-path). So even with `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded` the deposit pipeline issues dozens of LLM calls and can exceed the 300s inline budget.
 - Repair (2026-06-26, acute): `AgentLLMsRegistry` + `PipelineLLMRegistry` now wrap the base LLM call in a timeout (`BITCODE_LLM_CALL_TIMEOUT_MS`, default 90s; 0 disables). On timeout the call rejects and the existing failsafe/PTRR retry handles it — a clean failure surfaced to the UI, never an indefinite hang.
 - Resolution (Garrett, 2026-06-26): both — remove inference profiles entirely (always-full hierarchy + real generation; F26-A) AND run the synthesis decoupled via the pipeline harness (F26-B). Spec: F26 (`BITCODE_SPEC_V48_NOTES.md`).
@@ -313,7 +313,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 
 - Environment: add to `uapi/.env.local` and restart `dev:remote` — `BITCODE_ASSET_PACK_REAL_INFERENCE=true` and `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded` (provider keys already present; without the flags, synthesis runs deterministic bring-up branches, and the pipeline harness preflight rejects Read/Fit QA). `BITCODE_ENABLE_PIPELINE_HARNESS_API` is unnecessary locally (the harness route is open on non-production deployments).
 
-- [ ] Connect repository on /deposit
+- [ ] Connect repository on /deposits
 - [ ] Synthesize AssetPack options (real inference if enabled)
 - [ ] Source-safe measurement review renders
 - [ ] Approve → Depository admission readback
@@ -340,7 +340,7 @@ lines / UI values into §6 for the QA record.
   store topology, PCC keys-selection, Thinkings rename, haiku default) — a server predating
   it runs stale code.
 
-**1. Run (manual)** — `/deposit` → select repo + revision → optionally add obfuscations
+**1. Run (manual)** — `/deposits` → select repo + revision → optionally add obfuscations
 + protected-IP exclusions (e.g. `secret/`) + demand context → Synthesize options → watch
 the streaming accordion log.
 
@@ -413,11 +413,11 @@ or the history API the client uses (authenticated session):
 `GET /api/executions/history/<runId>` → `.output.depositOptionSynthesis`; e.g.
 `… | jq '.output.depositOptionSynthesis.options[] | {title, measurements, contents, neediness}'`
 (source-safe fields only). The `runId` is in the `Synthesized X measured AssetPack options…`
-completion event and the `/deposit` URL after dispatch.
+completion event and the `/deposits` URL after dispatch.
 
 ## Track 3 — Reading
 
-- [ ] Read request on /read
+- [ ] Read request on /reads
 - [ ] Need synthesis + review
 - [ ] Finding Fits + fit measurement review + BTC-testnet quote
 - [ ] Settle (testnet) → observation → finality → BTD rights readback
