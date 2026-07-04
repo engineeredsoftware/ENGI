@@ -565,6 +565,62 @@ Checker posture: all gate checkers literal-matching the old routes are
 era-pinned (V43–V47) and do not run at the current pointer; frozen `.bitcode/`
 era artifacts and promoted spec families keep the historical route names.
 
+### Deposit/Read product-surface presentation laws (Garrett, 2026-07-04)
+
+The 2026-07-04 UI wave on the product surfaces (/deposits, /reads, and the
+shared transactions/telemetry components) is governed by these laws:
+
+- **All-square theme.** Product surfaces use square corners — no `rounded-*`
+  chrome on cards, inputs, pills, tooltips, tables, buttons, or popovers.
+  The only circles are genuinely circular effects (the orb, orbital
+  background, blurred glow effects).
+- **No double-nesting.** One level of card chrome. A surface rendered inside
+  a carded section renders FLAT: the pipelines table shell has no second
+  border/title/summary under the page section (the section owns the card
+  and the header), filter cells and branch/commit cells put no card around
+  already-bordered controls, telemetry detail wrappers are chrome-less
+  inside their section, and stat rows (session, authority, earning, proof
+  roots) are divider rows, not boxes-in-cards.
+- **One-row layouts.** Horizontal space before vertical: the filter bar is
+  a mosaic with SEARCH as the FIRST same-size card (2 cols base / 4 at
+  tablet / 8 at xl); the table overview (stat chips + state pills) is one
+  wrapping row ABOVE the table; pagination is one row; active filters are
+  one row (count · removable chips · clear-all) replacing the posture card
+  and the filter bar's duplicate reset button; provider · repository ·
+  branch · commit form one four-column row; source path hints + protected
+  IP exclusions pair on one row; the deposit route-state cards (Earnings /
+  Governance / Session) are one row of three columns from tablet up
+  (single column in the narrow xl rail).
+- **Compact route header.** The ProductRouteShell header is one wrapping
+  row — eyebrow + title + one-line summary left, metrics as inline
+  label·value CHIPS right — never a stacked metric-card grid. The route
+  step grid is REMOVED from /deposits (the header, the pipelines
+  drill-in, and the flow sections carry the journey).
+- **Every stat explains itself (rich-tooltip law).** Header metric chips,
+  session/authority/earning/opportunity rows, proof-detail roots,
+  disclosure summaries, table overview chips and state pills all carry the
+  shared rich hover tooltip (the telemetry-pill trigger, generalized), each
+  leading with what the specific value means and where it comes from
+  (copy: `uapi/app/deposits/deposit-stat-explainers.ts`). Tooltips are
+  viewport-height capped and INTERACTIVE: overflow scrolls inside the
+  tooltip (pointer can travel in; inner scrolls do not dismiss it).
+- **The one rich dropdown.** Every pick-one control is the shared
+  SearchableSelect combobox (square, text-searchable): all seven table
+  filters, provider, repository, branch, and commit. The deposit source
+  selection LEADS with a Provider dropdown (providers listed via
+  TERMINAL_REPOSITORY_PROVIDERS with live connection state as the item
+  description; switching provider rewrites the provider param and clears
+  repo/branch/commit).
+- **Examples are placeholders.** Form fields never prefill example values —
+  source path hints ships empty with the examples as placeholder text.
+- **Aside cards are non-collapsible.** The Earnings / Governance / Session
+  cards are plain sections; only their inner disclosures (Opportunity
+  roots, Authority blockers, Disclosure boundary, Deposit proof detail)
+  collapse. The 'Open pack activity' shortcut button is removed from the
+  pipelines section.
+- **Camel-cased ids word-space in pills** (e.g. 'DEPOSIT ASSET PACK OPTION
+  SYNTHESIS'), matching the telemetry pill-label law.
+
 ### PTRR step output schemas — steps validate against STEP schemas (Garrett, 2026-07-03)
 
 Step outputs validate against STEP schemas, not the full agent schema — for all
