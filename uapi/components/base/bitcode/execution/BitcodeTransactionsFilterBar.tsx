@@ -4,6 +4,7 @@ import React from 'react';
 
 import BitcodeInlineExplainer from './BitcodeInlineExplainer';
 import { BITCODE_TRANSACTION_FILTER_EXPLAINERS } from './bitcode-transaction-explainers';
+import { SearchableSelect } from '@/components/base/bitcode/forms/SearchableSelect';
 import type { TransactionFilters, TransactionOwnership, TransactionSort } from './bitcode-transaction-types';
 
 interface BitcodeTransactionsFilterBarProps {
@@ -14,6 +15,33 @@ interface BitcodeTransactionsFilterBarProps {
   repositoryOptions: string[];
   participantOptions: string[];
   proofStatusOptions: string[];
+}
+
+// The one rich searchable dropdown (SearchableSelect, extracted from the
+// repository picker) styled for the dark filter mosaic.
+const FILTER_TRIGGER_CLASS =
+  'mt-1.5 h-9 rounded-xl border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-white/10 hover:text-white';
+
+function FilterCell({
+  label,
+  explainer,
+  children,
+  className,
+}: {
+  label: string;
+  explainer: (typeof BITCODE_TRANSACTION_FILTER_EXPLAINERS)[keyof typeof BITCODE_TRANSACTION_FILTER_EXPLAINERS];
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`rounded-[1rem] border border-white/8 bg-white/5 px-2.5 py-2 ${className ?? ''}`}>
+      <span className="flex items-center gap-2 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+        <span>{label}</span>
+        <BitcodeInlineExplainer explainer={explainer} />
+      </span>
+      {children}
+    </div>
+  );
 }
 
 export default function BitcodeTransactionsFilterBar({
@@ -35,13 +63,20 @@ export default function BitcodeTransactionsFilterBar({
     onFiltersChange({ ...filters, [key]: value });
   };
 
+  const withAll = (allLabel: string, options: string[]) => [
+    { key: 'all', label: allLabel },
+    ...options.map((option) => ({ key: option, label: option })),
+  ];
+
   return (
-    <div className="mt-4 grid gap-2 xl:grid-cols-[minmax(0,1.4fr)_repeat(6,minmax(0,0.76fr))]">
-      <label className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-2.5">
-        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
-          <span>Search transactions</span>
-          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.search} />
-        </span>
+    // Compact mosaic: multi-column at every width (never a one-filter-per-row
+    // stack) so the bar spends horizontal space instead of vertical.
+    <div className="mt-4 grid grid-cols-2 gap-2 tablet:grid-cols-4 xl:grid-cols-[minmax(0,1.6fr)_repeat(7,minmax(0,0.8fr))]">
+      <FilterCell
+        label="Search transactions"
+        explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.search}
+        className="col-span-2 tablet:col-span-4 xl:col-span-1"
+      >
         <input
           aria-label="Search transactions"
           value={searchValue}
@@ -51,145 +86,112 @@ export default function BitcodeTransactionsFilterBar({
             updateFilter('searchTerm', nextValue);
           }}
           placeholder="Search ids, repos, branches, proof posture, participants…"
-          className="mt-2 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-2 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
+          className="mt-1.5 h-9 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
         />
-      </label>
+      </FilterCell>
 
-      <label className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-2.5">
-        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
-          <span>Status</span>
-          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.status} />
-        </span>
-        <select
+      <FilterCell label="Status" explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.status}>
+        <SearchableSelect
           aria-label="Status"
+          items={withAll('All statuses', statusOptions)}
           value={filters.status}
-          onChange={(event) => updateFilter('status', event.target.value)}
-          className="mt-2 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-2 text-sm text-white outline-none transition focus:border-emerald-400/40"
-        >
-          <option value="all">All statuses</option>
-          {statusOptions.map((status) => (
-            <option key={status} value={status}>
-              {status}
-            </option>
-          ))}
-        </select>
-      </label>
+          onSelect={(key) => updateFilter('status', key ?? 'all')}
+          placeholder="All statuses"
+          searchPlaceholder="Search statuses…"
+          className={FILTER_TRIGGER_CLASS}
+        />
+      </FilterCell>
 
-      <label className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-2.5">
-        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
-          <span>Ownership</span>
-          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.ownership} />
-        </span>
-        <select
+      <FilterCell label="Ownership" explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.ownership}>
+        <SearchableSelect
           aria-label="Ownership"
+          items={[
+            { key: 'all', label: 'All participants' },
+            { key: 'mine', label: 'My transactions' },
+            { key: 'network', label: 'Exchange transactions' },
+          ]}
           value={filters.ownership}
-          onChange={(event) => updateFilter('ownership', event.target.value as TransactionOwnership)}
-          className="mt-2 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-2 text-sm text-white outline-none transition focus:border-emerald-400/40"
-        >
-          <option value="all">All participants</option>
-          <option value="mine">My transactions</option>
-          <option value="network">Exchange transactions</option>
-        </select>
-      </label>
+          onSelect={(key) => updateFilter('ownership', (key ?? 'all') as TransactionOwnership)}
+          placeholder="All participants"
+          searchPlaceholder="Search ownership…"
+          className={FILTER_TRIGGER_CLASS}
+        />
+      </FilterCell>
 
-      <label className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-2.5">
-        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
-          <span>Action lens</span>
-          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.transactionLens} />
-        </span>
-        <select
+      <FilterCell label="Action lens" explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.transactionLens}>
+        <SearchableSelect
           aria-label="Action lens"
+          items={[
+            { key: 'all', label: 'All lenses' },
+            { key: 'deposit', label: 'Deposit' },
+            { key: 'read', label: 'Read' },
+            { key: 'closure', label: 'Closure' },
+          ]}
           value={filters.transactionLens}
-          onChange={(event) => updateFilter('transactionLens', event.target.value as TransactionFilters['transactionLens'])}
-          className="mt-2 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-2 text-sm text-white outline-none transition focus:border-emerald-400/40"
-        >
-          <option value="all">All lenses</option>
-          <option value="deposit">Deposit</option>
-          <option value="read">Read</option>
-          <option value="closure">Closure</option>
-        </select>
-      </label>
+          onSelect={(key) =>
+            updateFilter('transactionLens', (key ?? 'all') as TransactionFilters['transactionLens'])
+          }
+          placeholder="All lenses"
+          searchPlaceholder="Search lenses…"
+          className={FILTER_TRIGGER_CLASS}
+        />
+      </FilterCell>
 
-      <label className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-2.5">
-        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
-          <span>Repository</span>
-          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.repository} />
-        </span>
-        <select
+      <FilterCell label="Repository" explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.repository}>
+        <SearchableSelect
           aria-label="Repository"
+          items={withAll('All repositories', repositoryOptions)}
           value={filters.repository}
-          onChange={(event) => updateFilter('repository', event.target.value)}
-          className="mt-2 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-2 text-sm text-white outline-none transition focus:border-emerald-400/40"
-        >
-          <option value="all">All repositories</option>
-          {repositoryOptions.map((repository) => (
-            <option key={repository} value={repository}>
-              {repository}
-            </option>
-          ))}
-        </select>
-      </label>
+          onSelect={(key) => updateFilter('repository', key ?? 'all')}
+          placeholder="All repositories"
+          searchPlaceholder="Search repositories…"
+          className={FILTER_TRIGGER_CLASS}
+        />
+      </FilterCell>
 
-      <label className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-2.5">
-        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
-          <span>Participant</span>
-          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.participant} />
-        </span>
-        <select
+      <FilterCell label="Participant" explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.participant}>
+        <SearchableSelect
           aria-label="Participant"
+          items={withAll('All participants', participantOptions)}
           value={filters.participant}
-          onChange={(event) => updateFilter('participant', event.target.value)}
-          className="mt-2 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-2 text-sm text-white outline-none transition focus:border-emerald-400/40"
-        >
-          <option value="all">All participants</option>
-          {participantOptions.map((participant) => (
-            <option key={participant} value={participant}>
-              {participant}
-            </option>
-          ))}
-        </select>
-      </label>
+          onSelect={(key) => updateFilter('participant', key ?? 'all')}
+          placeholder="All participants"
+          searchPlaceholder="Search participants…"
+          className={FILTER_TRIGGER_CLASS}
+        />
+      </FilterCell>
 
-      <label className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-2.5">
-        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
-          <span>Proof posture</span>
-          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.proofStatus} />
-        </span>
-        <select
+      <FilterCell label="Proof posture" explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.proofStatus}>
+        <SearchableSelect
           aria-label="Proof posture"
+          items={withAll('All proof states', proofStatusOptions)}
           value={filters.proofStatus}
-          onChange={(event) => updateFilter('proofStatus', event.target.value)}
-          className="mt-2 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-2 text-sm text-white outline-none transition focus:border-emerald-400/40"
-        >
-          <option value="all">All proof states</option>
-          {proofStatusOptions.map((proofStatus) => (
-            <option key={proofStatus} value={proofStatus}>
-              {proofStatus}
-            </option>
-          ))}
-        </select>
-      </label>
+          onSelect={(key) => updateFilter('proofStatus', key ?? 'all')}
+          placeholder="All proof states"
+          searchPlaceholder="Search proof states…"
+          className={FILTER_TRIGGER_CLASS}
+        />
+      </FilterCell>
 
-      <label className="rounded-[1rem] border border-white/8 bg-white/5 px-3 py-2.5 xl:col-start-7">
-        <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
-          <span>Sort</span>
-          <BitcodeInlineExplainer explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.sort} />
-        </span>
-        <select
+      <FilterCell label="Sort" explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.sort}>
+        <SearchableSelect
           aria-label="Sort"
+          items={[
+            { key: 'newest', label: 'Newest first' },
+            { key: 'oldest', label: 'Oldest first' },
+            { key: 'most-tokens', label: 'Most tokens' },
+            { key: 'highest-btc-fee-basis', label: 'Highest BTC Fee Basis' },
+          ]}
           value={filters.sort}
-          onChange={(event) => updateFilter('sort', event.target.value as TransactionSort)}
-          className="mt-2 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-2 text-sm text-white outline-none transition focus:border-emerald-400/40"
-        >
-          <option value="newest">Newest first</option>
-          <option value="oldest">Oldest first</option>
-          <option value="most-tokens">Most tokens</option>
-          <option value="highest-btc-fee-basis">Highest BTC Fee Basis</option>
-        </select>
-      </label>
+          onSelect={(key) => updateFilter('sort', (key ?? 'newest') as TransactionSort)}
+          placeholder="Newest first"
+          searchPlaceholder="Search sort orders…"
+          className={FILTER_TRIGGER_CLASS}
+        />
+      </FilterCell>
 
       {onResetFilters ? (
-        <div className="xl:col-span-full">
+        <div className="col-span-full">
           <button
             type="button"
             onClick={onResetFilters}
