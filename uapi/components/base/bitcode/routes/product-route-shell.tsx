@@ -100,31 +100,34 @@ export function ProductRouteShell({
       className={`min-h-screen ${toneClasses.page} px-4 pb-24 pt-32 text-neutral-100 tablet:px-6 desktop:px-8`}
     >
       <div className="mx-auto grid w-full max-w-[1800px] gap-5">
+        {/* Compact route header: one wrapping row — title block left, metric
+            CHIPS (label · value inline) right — instead of a tall stacked
+            card grid. */}
         <header
-          className={`grid gap-5 border ${toneClasses.headerBorder} bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-5 py-5 shadow-[0_30px_100px_rgba(0,0,0,0.34)] xl:grid-cols-[minmax(0,1fr)_minmax(340px,0.6fr)] xl:items-end`}
+          className={`flex flex-wrap items-center gap-x-6 gap-y-3 border ${toneClasses.headerBorder} bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-5 py-3.5 shadow-[0_30px_100px_rgba(0,0,0,0.34)]`}
         >
-          <div>
+          <div className="min-w-0">
             <p
-              className={`flex items-center gap-2 text-[0.72rem] uppercase tracking-[0.34em] ${toneClasses.eyebrow}`}
+              className={`flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.3em] ${toneClasses.eyebrow}`}
             >
-              <Icon className="h-4 w-4" aria-hidden="true" />
+              <Icon className="h-3.5 w-3.5" aria-hidden="true" />
               {label}
             </p>
-            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-4xl">
+            <h1 className="mt-1 text-xl font-semibold tracking-tight text-white tablet:text-2xl">
               {title}
             </h1>
-            <p className="mt-3 max-w-4xl text-sm leading-7 text-neutral-300 tablet:text-base">
+            <p className="mt-1 max-w-3xl text-xs leading-5 text-neutral-400 tablet:text-sm">
               {summary}
             </p>
           </div>
-          <dl className="grid gap-2 text-xs uppercase tracking-[0.18em] text-neutral-300 tablet:grid-cols-3">
+          <dl className="ml-auto flex flex-wrap items-center gap-2 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-300">
             {metrics.map((metric) => (
               <div
                 key={metric.label}
-                className="border border-white/10 bg-white/[0.045] px-4 py-3"
+                className="flex items-baseline gap-2 border border-white/10 bg-white/[0.045] px-2.5 py-1.5"
               >
                 <dt className="text-neutral-500">{metric.label}</dt>
-                <dd className="mt-1 text-sm font-semibold text-white">
+                <dd className="text-xs font-semibold text-white">
                   {metric.value}
                 </dd>
               </div>
