@@ -2237,7 +2237,14 @@ export default function DepositPageClient() {
             </section>
           </div>
 
-          <aside className="grid h-fit gap-5" aria-label="Deposit route state">
+          {/* One row, three columns (Earnings / Governance / Session) when the
+              aside spans the page; back to a single column inside the narrow
+              xl side rail. items-start keeps an expanded card from
+              stretching its collapsed neighbors. */}
+          <aside
+            className="grid h-fit items-start gap-5 tablet:grid-cols-3 xl:grid-cols-1"
+            aria-label="Deposit route state"
+          >
             <details className="border border-white/10 bg-white/[0.035] px-4 py-4">
               <summary className="flex cursor-pointer list-none items-start justify-between gap-3 outline-none">
                 <div>
