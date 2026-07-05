@@ -50,7 +50,11 @@ do_vercel_env() {
     fi
     # Remove existing value for the target first so re-runs update cleanly.
     vercel env rm "$name" "$VERCEL_TARGET" --yes >/dev/null 2>&1 || true
-    printf '%s' "$value" | vercel env add "$name" "$VERCEL_TARGET"
+    # stdin keeps secrets out of argv and carries multiline values (the
+    # GitHub private key); --yes answers the preview-target "which git
+    # branch?" prompt with all-branches. Requires Vercel CLI >= 54.20 —
+    # 54.1.0 returned git_branch_required for preview even with --yes.
+    printf '%s' "$value" | vercel env add "$name" "$VERCEL_TARGET" --yes >/dev/null
     echo "SET  $name -> $VERCEL_TARGET"
   }
 

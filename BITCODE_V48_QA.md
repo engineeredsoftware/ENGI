@@ -16,6 +16,12 @@ TWO deployed environments plus local:
   (https://github.com/apps/bitcode-github-auxillary — renamed 2026-07-05 from
   `bitcode-github-app-auxillary`; the code fallback
   `BITCODE_GITHUB_APP_PUBLIC_URL` names this app); mainnet posture.
+  **Production == staging FOR NOW (Garrett, 2026-07-05):** the Vercel
+  production environment is configured AS staging-testnet entirely — the full
+  staging matrix (staging Supabase project, testnet4 network, stag-test GitHub
+  App + public URL, shared wallet-OAuth secret) was pushed to BOTH
+  `staginglocal-testnet` and `production` targets. The mainnet matrix returns
+  at mainnet relaunch; until then bitcode.exchange serves the testnet posture.
 - **staging-testnet** — THE single non-production clone (Vercel custom
   environment `staginglocal-testnet` with domain `testnet.bitcode.exchange`,
   Supabase project `mwugicjpxmrtctvjghjg`, GitHub App
@@ -34,12 +40,23 @@ Vercel env matrix pushed to `staginglocal-testnet` (Supabase URL/keys, shared
 wallet-OAuth secret, GitHub App id/client/secret/private key,
 testnet4 network, GoTrue callback URL); local `.env.local` flipped to the
 staging-testnet project (old staging values retained as comments);
-`SUPABASE_JWT_SECRET` confirmed vestigial (no app code reads it). Pending
-manual: dashboard URL config + custom provider + GoTrue GitHub provider,
-GitHub App callback URLs, Vercel redeploy + stale-var sweep, and a
-`vercel-env` re-run to push `NEXT_PUBLIC_GITHUB_APP_PUBLIC_URL` (added
-2026-07-05 — staging surfaces must link the stag-test app now that the code
-fallback names the renamed production app `bitcode-github-auxillary`).
+`SUPABASE_JWT_SECRET` confirmed vestigial (no app code reads it). The
+2026-07-05 `vercel-env` run pushed the full matrix — including
+`NEXT_PUBLIC_GITHUB_APP_PUBLIC_URL` (staging surfaces link the stag-test app
+now that the code fallback names the renamed production app
+`bitcode-github-auxillary`) and the stag-test `GITHUB_PRIVATE_KEY` (pem in
+`~/Documents/`) — to ALL THREE Vercel targets: `staginglocal-testnet`,
+`production` (the production==staging decision above), AND `preview` (the
+target every git push to a non-`main` branch builds against — see F30).
+Pushing to the `preview` target requires Vercel CLI ≥ 54.20 (54.1.0 returned
+`git_branch_required` for preview even with `--yes`; the local CLI was
+upgraded 54.1.0 → 54.20.1). `GITHUB_WEBHOOK_SECRET` stays unfilled pending the
+F11 webhook handler. Pending manual: dashboard URL config + custom provider +
+GoTrue GitHub provider, GitHub App callback URLs, and the stale-var sweep
+(production retains non-matrix vars from its mainnet configuration). A fresh
+production/staging deploy picks up the new matrix; CLI `vercel deploy` from
+this repo is impractical (2.3 GB local upload → EPIPE), so deploys go through
+git push (Vercel clones) or `vercel redeploy`.
 
 Bring-up automation: `scripts/bringup-staging-testnet.sh`
 (migrate | vercel-env | verify) with secrets in
@@ -454,6 +471,35 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
   (`packages/execution-generics/src/state-keys.ts`; regression-pinned against the five
   live-run misses). Follow-up candidates: canonical-path examples in the PCC selection
   prompt part; `context:selectedKeys` non-empty as a QA acceptance row (added to §2).
+
+### F30 — Vercel Preview builds fail: `Supabase env vars … are missing` at static prerender (env, not routing; FIXED)
+
+- Severity: high (every git-push build to the gate branch errored, blocking deploys).
+- Observed (2026-07-05, commit `4fbc67e`, Preview builds): `Generating static pages`
+  threw `Error: Supabase env vars (NEXT_PUBLIC_SUPABASE_URL or SUPABASE_URL / …ANON_KEY /
+  …PUBLISHABLE_KEY) are missing` while prerendering ~30 pages — `/deposits`, `/reads`,
+  `/packs`, `/auxillaries`, all `/docs/[slug]`, and the legacy `/terminal`, `/orbitals/*`,
+  `/executions`, `/edgetimes`, `/demo-video` — then `Command "pnpm run build" exited with 1`.
+- Cause: the throw is in `packages/supabase/src/ssr/client.ts` (`createClient`), which
+  raises ONLY when both the URL and the anon/publishable key are absent from the
+  environment. Next statically prerenders these client-component pages at build time,
+  inlining `NEXT_PUBLIC_*` from the BUILD environment. The two provisioned environments
+  were production-mainnet and the `staginglocal-testnet` custom environment; the **Preview**
+  target (which every push to a non-`main` branch builds against) was never given the
+  Supabase keys, so every prerender that constructs a client threw. NOT a routing defect
+  (the listed legacy routes physically exist as `uapi/app/*` dirs — F4/F8 eradication
+  residue — and merely surfaced in the error list because they too call `createClient` at
+  prerender) and NOT related to the Engi→Bitcode repo/dir/dashboard rename (the git
+  integration clones `advancedengineeredsoftware/Bitcode` correctly).
+- Repair (2026-07-05): pushed the full env matrix to the `preview` target (verified all
+  Supabase + GitHub vars present). Confirmed by `vercel redeploy` of the previously-errored
+  commit `4fbc67e` → **Ready** (green), same source, only the env vars changed.
+- Hardening candidate (deferred, not yet law): builds should not DEPEND on env presence to
+  prerender. `packages/supabase/src/index.ts` already uses a build-safe dummy-value fallback
+  ("prevents build-time crashes when env vars are missing"); `ssr/client.ts`/`ssr/server.ts`
+  throw instead. Mirroring the dummy-value fallback there (or marking the authenticated
+  pages `export const dynamic = 'force-dynamic'` so they are not prerendered) makes builds
+  env-independent. Weigh against the value of a loud fail when a real deployment lacks config.
 
 ## Track 1 — Identity / Authentication / Auxillaries — COMPLETE 2026-06-12 (email deferred by decision; F2/F9 and legacy eradication queued for gates)
 
