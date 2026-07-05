@@ -21,7 +21,7 @@ PROJECT_REF="mwugicjpxmrtctvjghjg"
 SUPABASE_URL="https://${PROJECT_REF}.supabase.co"
 SECRETS_FILE="$(dirname "$0")/.env.staging-testnet"
 # Vercel custom environment the testnet.bitcode.exchange domain is attached to.
-VERCEL_TARGET="${VERCEL_TARGET:-staging-testnet}"
+VERCEL_TARGET="${VERCEL_TARGET:-staginglocal-testnet}"
 
 require_secrets() {
   if [[ ! -f "$SECRETS_FILE" ]]; then
