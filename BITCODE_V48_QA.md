@@ -12,7 +12,10 @@
 TWO deployed environments plus local:
 
 - **production-mainnet** — bitcode.exchange + the original Supabase project;
-  mainnet posture.
+  GitHub App `bitcode-github-auxillary`
+  (https://github.com/apps/bitcode-github-auxillary — renamed 2026-07-05 from
+  `bitcode-github-app-auxillary`; the code fallback
+  `BITCODE_GITHUB_APP_PUBLIC_URL` names this app); mainnet posture.
 - **staging-testnet** — THE single non-production clone (Vercel custom
   environment `staginglocal-testnet` with domain `testnet.bitcode.exchange`,
   Supabase project `mwugicjpxmrtctvjghjg`, GitHub App
@@ -33,7 +36,10 @@ testnet4 network, GoTrue callback URL); local `.env.local` flipped to the
 staging-testnet project (old staging values retained as comments);
 `SUPABASE_JWT_SECRET` confirmed vestigial (no app code reads it). Pending
 manual: dashboard URL config + custom provider + GoTrue GitHub provider,
-GitHub App callback URLs, Vercel redeploy + stale-var sweep.
+GitHub App callback URLs, Vercel redeploy + stale-var sweep, and a
+`vercel-env` re-run to push `NEXT_PUBLIC_GITHUB_APP_PUBLIC_URL` (added
+2026-07-05 — staging surfaces must link the stag-test app now that the code
+fallback names the renamed production app `bitcode-github-auxillary`).
 
 Bring-up automation: `scripts/bringup-staging-testnet.sh`
 (migrate | vercel-env | verify) with secrets in
