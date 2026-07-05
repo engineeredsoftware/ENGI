@@ -128,10 +128,10 @@ function readStringField(source: unknown, ...keys: string[]) {
   return null;
 }
 
-// The obfuscations field's initial guidance text. Named so the dispatch
-// analytics can tell "left the guidance untouched" apart from "authored real
-// obfuscations" without carrying any of the text off-surface.
-const DEPOSIT_OBFUSCATIONS_DEFAULT =
+// Guidance for the obfuscations field. A PLACEHOLDER, never a prefilled
+// value (the "examples are placeholders" presentation law): only text the
+// depositor actually authors reaches the synthesis as Obfuscations input.
+const DEPOSIT_OBFUSCATIONS_PLACEHOLDER =
   "Note anything to obfuscate or withhold from the synthesized options: internal names, proprietary framing, or sensitive specifics the source-safe AssetPacks should avoid surfacing.";
 
 export default function DepositPageClient() {
@@ -164,9 +164,7 @@ export default function DepositPageClient() {
   const [runsLoadError, setRunsLoadError] = useState<string | null>(null);
   const [repositoryContext, setRepositoryContext] =
     useState<TerminalRepositoryContextState | null>(null);
-  const [obfuscations, setObfuscations] = useState(
-    DEPOSIT_OBFUSCATIONS_DEFAULT,
-  );
+  const [obfuscations, setObfuscations] = useState("");
   // Picked from the repository file tree (selected repo·branch·commit);
   // hints and exclusions are mutually exclusive path sets.
   const [sourcePathHints, setSourcePathHints] = useState<string[]>([]);
@@ -1028,10 +1026,7 @@ export default function DepositPageClient() {
       trackProductEvent({
         name: "deposit_synthesis_dispatched",
         data: {
-          // "Customized" — authored beyond the untouched default guidance.
-          hasObfuscations:
-            Boolean(effectiveInstructions.trim()) &&
-            effectiveInstructions.trim() !== DEPOSIT_OBFUSCATIONS_DEFAULT,
+          hasObfuscations: Boolean(effectiveInstructions.trim()),
           protectedExclusionCount: protectedIpExclusions.length,
           demandSignalCount:
             depositRouteInput.depositoryDemandSignals.length +
@@ -1655,6 +1650,7 @@ export default function DepositPageClient() {
                     onChange={(event) =>
                       setObfuscations(event.target.value)
                     }
+                    placeholder={DEPOSIT_OBFUSCATIONS_PLACEHOLDER}
                     className="mt-2 min-h-[8rem] w-full border border-white/10 bg-black/30 px-3 py-3 text-sm leading-6 text-neutral-100 outline-none transition focus:border-emerald-300/35"
                   />
                 </div>

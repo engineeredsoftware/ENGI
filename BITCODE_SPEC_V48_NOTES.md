@@ -671,8 +671,9 @@ Rich product analytics over the commercial surfaces, in two layers:
 - **Depositing funnel events** (the Gate-3 instrumentation):
   `deposit_source_selected` (provider + branch/commit pin shape; once per
   distinct repository per mount), `deposit_synthesis_dispatched`
-  (obfuscations-customized boolean [authored beyond the untouched default
-  guidance], protected-exclusion count, demand-signal count),
+  (obfuscations-authored boolean [the field starts EMPTY — its guidance is a
+  PLACEHOLDER per the examples-are-placeholders law, so only depositor-authored
+  text reaches synthesis], protected-exclusion count, demand-signal count),
   `deposit_synthesis_completed` (optionCount + durationMs),
   `deposit_synthesis_failed` (stage `dispatch` | `run` | `resume` +
   durationMs), `deposit_option_review` (decision enum + admitted),
