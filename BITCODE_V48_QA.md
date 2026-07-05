@@ -13,14 +13,27 @@ TWO deployed environments plus local:
 
 - **production-mainnet** — bitcode.exchange + the original Supabase project;
   mainnet posture.
-- **staging-testnet** — THE single non-production clone (Vercel environment
-  with domain `testnet.bitcode.exchange`, Supabase project
-  `mwugicjpxmrtctvjghjg`, GitHub App `bitcode-github-auxillary-stag-test`);
-  testnet4 posture.
+- **staging-testnet** — THE single non-production clone (Vercel custom
+  environment `staginglocal-testnet` with domain `testnet.bitcode.exchange`,
+  Supabase project `mwugicjpxmrtctvjghjg`, GitHub App
+  `bitcode-github-auxillary-stag-test`, app id 4224019); testnet4 posture.
 - **local** — develops AGAINST staging-testnet as much as possible
   (`localhost:3000` for every browser-facing hop; `testnet.bitcode.exchange`
   only for flows requiring hosting, e.g. Supabase-cloud-reachable OAuth
-  endpoints).
+  endpoints). Vercel allows one custom environment, so
+  `staginglocal-testnet` serves both postures; a separate local-testnet
+  Supabase project is DEFERRED — local points at the staging-testnet
+  project for now.
+
+Bring-up state (2026-07-05): all 10 migrations applied to
+`mwugicjpxmrtctvjghjg` (schema + asset-pack-artifacts bucket verified live);
+Vercel env matrix pushed to `staginglocal-testnet` (Supabase URL/keys, shared
+wallet-OAuth secret, GitHub App id/client/secret/private key,
+testnet4 network, GoTrue callback URL); local `.env.local` flipped to the
+staging-testnet project (old staging values retained as comments);
+`SUPABASE_JWT_SECRET` confirmed vestigial (no app code reads it). Pending
+manual: dashboard URL config + custom provider + GoTrue GitHub provider,
+GitHub App callback URLs, Vercel redeploy + stale-var sweep.
 
 Bring-up automation: `scripts/bringup-staging-testnet.sh`
 (migrate | vercel-env | verify) with secrets in
