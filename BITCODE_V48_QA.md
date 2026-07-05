@@ -7,6 +7,44 @@
 - Posture: interactive local experiential QA of the first live commercial (testnet) experience; app runs locally (`pnpm -C uapi dev:remote`) against the staging Supabase project; wallet network testnet4
 - Source-safety posture: source-safe evidence only; no secrets, protected source, provider payloads, wallet material, service-role keys, database credentials, or raw private prompts are serialized here.
 
+## Local-development auth environment (decided 2026-07-05)
+
+A DEDICATED Supabase project for local development, replacing the shared
+staging project for local QA. Topology law: `localhost:3000` for as much as
+possible; `testnet.bitcode.exchange` only for functionality Supabase's cloud
+must reach server-to-server.
+
+- **Auth URL configuration (new project):** Site URL `http://localhost:3000`;
+  Redirect URLs (exact, query-free per the allow-list law):
+  `http://localhost:3000/tps/supabase/callback` (+ `:3001` variant if used).
+- **Custom provider `custom:bitcode-bitcoin` (manual configuration):**
+  - Authorization URL: `http://localhost:3000/tps/wallet/authorize` —
+    BROWSER hop, so localhost works and the wallet-proof page runs local code
+    with local wallets.
+  - Token URL: `https://testnet.bitcode.exchange/api/wallet/oauth/token` —
+    called SERVER-side by Supabase cloud; must be publicly reachable.
+  - Userinfo URL: `https://testnet.bitcode.exchange/api/wallet/oauth/userinfo`
+    — same server-side constraint.
+  - JWKS URI: `https://testnet.bitcode.exchange/.well-known/jwks.json`.
+  - Client ID `bitcode-bitcoin-wallet`; Allow users without email: on.
+- **Shared-secret law:** the authorization code is a stateless HMAC token, so
+  ONE `BITCODE_BITCOIN_OAUTH_CLIENT_SECRET` value must be shared by (a) the
+  provider Client Secret in the new Supabase project, (b) the
+  `testnet.bitcode.exchange` deployment env, and (c) local `.env.local` —
+  a locally minted code must verify at the testnet token endpoint.
+- **testnet host requirement:** `testnet.bitcode.exchange`'s env must accept
+  the new project's callback as a redirect target
+  (`NEXT_PUBLIC_SUPABASE_URL`/`SUPABASE_URL` pointing at the new project, or
+  the project origin listed in `BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_ORIGINS`)
+  — `isAllowedBitcoinWalletOAuthRedirectUri` reads those.
+- **Local `.env.local` switch:** `NEXT_PUBLIC_SUPABASE_URL` + anon key → the
+  new project; `BITCODE_BITCOIN_OAUTH_CLIENT_SECRET` → the shared value.
+- **Browser prerequisite (root-caused 2026-07-05):** Chrome's "Pop-ups and
+  redirects" must be allowed for the app origin — "Don't allow" silently
+  cancels the programmatic `signInWithOAuth` navigation (URL built, request
+  never leaves the page; the panel's 8s watchdog + manual-continuation link
+  surface exactly this).
+
 ## Testnet BTC resources
 
 - Faucet (testnet4): https://coinfaucet.eu/en/btc-testnet4/
