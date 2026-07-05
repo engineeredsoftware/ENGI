@@ -45,6 +45,83 @@ must reach server-to-server.
   never leaves the page; the panel's 8s watchdog + manual-continuation link
   surface exactly this).
 
+### Concrete setup — project `mwugicjpxmrtctvjghjg` (created 2026-07-05)
+
+Project URL `https://mwugicjpxmrtctvjghjg.supabase.co`; GoTrue callback
+`https://mwugicjpxmrtctvjghjg.supabase.co/auth/v1/callback`. Data API enabled.
+
+**Dashboard checklist (new project):**
+1. Apply the repo schema: run `supabase/migrations/*` against the new project
+   (9 files, `001_v26_production.sql` onward), then the `v48_qa_*` scripts
+   work as on staging.
+2. Auth → URL Configuration: Site URL `http://localhost:3000`; Redirect URLs
+   (exact, query-free): `http://localhost:3000/tps/supabase/callback`,
+   `http://localhost:3001/tps/supabase/callback`,
+   `https://testnet.bitcode.exchange/tps/supabase/callback`.
+3. Auth → Custom provider (`custom:bitcode-bitcoin`, manual configuration):
+   - Display name: Bitcode Bitcoin Wallet
+   - Authorization URL: `http://localhost:3000/tps/wallet/authorize`
+     (browser hop — flip to `https://testnet.bitcode.exchange/tps/wallet/authorize`
+     when QAing the hosted surface; the setting is project-global)
+   - Token URL: `https://testnet.bitcode.exchange/api/wallet/oauth/token`
+   - Userinfo URL: `https://testnet.bitcode.exchange/api/wallet/oauth/userinfo`
+   - JWKS URI: leave empty — the app serves no `/.well-known/jwks.json`
+     (oauth2 type; no id_token is issued, GoTrue uses the userinfo endpoint)
+   - Client ID `bitcode-bitcoin-wallet`; Client Secret = the shared HMAC
+     secret; Scopes `profile, wallet:bitcoin`; Allow users without email ON.
+4. Storage → Files: create bucket `asset-pack-artifacts` (PRIVATE) — the raw
+   AssetPack artifact store; see the artifact-storage contract below.
+5. Database SSL enforcement: fine off for dev; enable before any production
+   promotion of this project's pattern.
+
+**Vercel env (testnet.bitcode.exchange environment):**
+- `NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_URL` = `https://mwugicjpxmrtctvjghjg.supabase.co`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` + `SUPABASE_ANON_KEY` /
+  `SUPABASE_PUBLISHABLE_KEY` = new project anon/publishable key
+- `SUPABASE_SERVICE_ROLE_KEY` (+ `SUPABASE_SECRET_KEY` where read) = new
+  project service-role/secret key
+- `SUPABASE_JWT_SECRET` = new project JWT secret
+- `BITCODE_BITCOIN_OAUTH_CLIENT_SECRET` = the shared HMAC secret (same value
+  as the dashboard provider Client Secret and local `.env.local`)
+- `BITCODE_BITCOIN_OAUTH_SUPABASE_CALLBACK_URL` =
+  `https://mwugicjpxmrtctvjghjg.supabase.co/auth/v1/callback`
+- `NEXT_PUBLIC_BITCODE_BITCOIN_NETWORK` = `testnet4`
+- carry over the non-Supabase vars (GitHub app, provider keys) from staging.
+  No `BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_ORIGINS` needed — the redirect
+  allow-check derives from `SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_URL`.
+
+**Local `.env.local`:** prepared commented block sits under the Supabase
+section (six values flip to the new project + callback URL); uncomment and
+paste keys, restart dev.
+
+**Code edits:** none required for the auth flow — the wallet authorize page,
+authorization-code mint, token, and userinfo endpoints are host-agnostic
+(env-driven). JWKS is intentionally unset (no such route exists).
+
+### Raw AssetPack artifact storage (decided 2026-07-05)
+
+Raw AssetPack artifacts are ALWAYS `.patch` files (an AssetPack is a measured
+patch) and are stored in Supabase Storage FILE buckets, not in database rows:
+
+- Bucket `asset-pack-artifacts`, PRIVATE. Object path law:
+  `<user_id>/<run_id>/<option_id>.patch` — owner id first segment so RLS
+  stays trivial.
+- RLS: owner-only insert/select via
+  `(storage.foldername(name))[1] = auth.uid()::text` AND
+  `storage.extension(name) = 'patch'`; buyers get time-limited signed URLs
+  minted server-side (service role) only after settlement — the source-safety
+  law (withheld until BTC finality + BTD rights transfer) is enforced by the
+  bucket being private, never by obscurity.
+- Bucket-level upload restrictions: allowed content type `text/x-patch` /
+  `text/plain`; conservative max object size.
+- Implementation lands with the upload/delivery work in Gates 4-5 (the read
+  Finish→upload step and /packs deliveries write to and read from this
+  bucket).
+
+Subsequent-gate note: depository VECTORS (search embeddings) move to Supabase
+**Vector buckets** (S3-backed similarity indexes) in a later V48 gate — the
+current pgvector/document-root posture stays until that gate opens.
+
 ## Testnet BTC resources
 
 - Faucet (testnet4): https://coinfaucet.eu/en/btc-testnet4/
