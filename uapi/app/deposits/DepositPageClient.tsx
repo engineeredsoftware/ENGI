@@ -23,6 +23,7 @@ import {
   ProductRouteStatePanel,
 } from "@/components/base/bitcode/routes/product-route-shell";
 import { useUserData } from "@/hooks/useUserData";
+import { trackProductEvent } from "@/lib/product-analytics";
 import { fetchPipelineExecutionHistory } from "@/networking/api-client";
 import type { PipelineExecution } from "@/types/api";
 
@@ -127,6 +128,12 @@ function readStringField(source: unknown, ...keys: string[]) {
   return null;
 }
 
+// The obfuscations field's initial guidance text. Named so the dispatch
+// analytics can tell "left the guidance untouched" apart from "authored real
+// obfuscations" without carrying any of the text off-surface.
+const DEPOSIT_OBFUSCATIONS_DEFAULT =
+  "Note anything to obfuscate or withhold from the synthesized options: internal names, proprietary framing, or sensitive specifics the source-safe AssetPacks should avoid surfacing.";
+
 export default function DepositPageClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -158,7 +165,7 @@ export default function DepositPageClient() {
   const [repositoryContext, setRepositoryContext] =
     useState<TerminalRepositoryContextState | null>(null);
   const [obfuscations, setObfuscations] = useState(
-    "Note anything to obfuscate or withhold from the synthesized options: internal names, proprietary framing, or sensitive specifics the source-safe AssetPacks should avoid surfacing.",
+    DEPOSIT_OBFUSCATIONS_DEFAULT,
   );
   // Picked from the repository file tree (selected repo·branch·commit);
   // hints and exclusions are mutually exclusive path sets.
@@ -642,6 +649,14 @@ export default function DepositPageClient() {
     if (synthesisActivity.error && (synthesisExecutionMatchesRun || synthesisStreamError)) {
       setSynthesisStatus("failed");
       setSynthesisError(synthesisActivity.error);
+      // Funnel analytics fire only for runs dispatched in THIS session
+      // (adopting a historical row must not emit funnel telemetry).
+      if (synthesisDispatchedAtMs !== null) {
+        trackProductEvent({
+          name: "deposit_synthesis_failed",
+          data: { stage: "run", durationMs: Date.now() - synthesisDispatchedAtMs },
+        });
+      }
       return;
     }
     if (!synthesisExecutionMatchesRun) return;
@@ -680,6 +695,16 @@ export default function DepositPageClient() {
         });
         setOptionsRequested(true);
         setSynthesisStatus("complete");
+        if (synthesisDispatchedAtMs !== null) {
+          const options = (synthesis as { options?: unknown[] }).options;
+          trackProductEvent({
+            name: "deposit_synthesis_completed",
+            data: {
+              optionCount: Array.isArray(options) ? options.length : 0,
+              durationMs: Date.now() - synthesisDispatchedAtMs,
+            },
+          });
+        }
         replaceDepositSearchParams(
           writeDepositRouteStage(readCurrentSearchParams(), "review-options"),
         );
@@ -690,6 +715,12 @@ export default function DepositPageClient() {
         setSynthesisError(
           error instanceof Error ? error.message : "Synthesis result not found.",
         );
+        if (synthesisDispatchedAtMs !== null) {
+          trackProductEvent({
+            name: "deposit_synthesis_failed",
+            data: { stage: "resume", durationMs: Date.now() - synthesisDispatchedAtMs },
+          });
+        }
       }
     })();
     return () => {
@@ -702,6 +733,7 @@ export default function DepositPageClient() {
     realSynthesis,
     synthesisActivity.isStreamingComplete,
     synthesisActivity.error,
+    synthesisDispatchedAtMs,
     synthesisExecution,
     synthesisExecutionMatchesRun,
     synthesisStreamError,
@@ -723,8 +755,14 @@ export default function DepositPageClient() {
     if (status === "failed" || status === "interrupted" || status === "cancelled") {
       setSynthesisStatus("failed");
       setSynthesisError(run.summary ? `Run ${status} — ${run.summary}` : `Run ${status}.`);
+      if (synthesisDispatchedAtMs !== null) {
+        trackProductEvent({
+          name: "deposit_synthesis_failed",
+          data: { stage: "run", durationMs: Date.now() - synthesisDispatchedAtMs },
+        });
+      }
     }
-  }, [liveRuns, synthesisRunId, synthesisStatus]);
+  }, [liveRuns, synthesisDispatchedAtMs, synthesisRunId, synthesisStatus]);
 
   // Master-detail adoption: selecting ANY pipeline run in the table connects
   // the Telemetry detail to it. A RUNNING run reattaches its live stream
@@ -777,6 +815,23 @@ export default function DepositPageClient() {
       setSynthesisStatus("running");
     }
   }, [selectedRun, synthesisRunId, synthesisDispatchedAtMs, synthesisStatus]);
+
+  // Funnel analytics: one source-safe event per distinct repository selection
+  // per mount — provider + pin shape only, never the repository name.
+  const lastTrackedSourceRef = useRef<string | null>(null);
+  useEffect(() => {
+    const fullName = repositoryContext?.selectedRepository?.fullName || null;
+    if (!fullName || lastTrackedSourceRef.current === fullName) return;
+    lastTrackedSourceRef.current = fullName;
+    trackProductEvent({
+      name: "deposit_source_selected",
+      data: {
+        provider: repositoryContext?.provider || "unknown",
+        pinnedBranch: Boolean(repositoryContext?.selectedBranch),
+        pinnedCommit: Boolean(repositoryContext?.selectedCommit),
+      },
+    });
+  }, [repositoryContext]);
 
   const sessionRows = [
     {
@@ -970,6 +1025,19 @@ export default function DepositPageClient() {
       // Master-detail: the running row was inserted before the route
       // responded — surface it in the pipelines table and select it so the
       // detail follows this run (and so a reload can reattach from the URL).
+      trackProductEvent({
+        name: "deposit_synthesis_dispatched",
+        data: {
+          // "Customized" — authored beyond the untouched default guidance.
+          hasObfuscations:
+            Boolean(effectiveInstructions.trim()) &&
+            effectiveInstructions.trim() !== DEPOSIT_OBFUSCATIONS_DEFAULT,
+          protectedExclusionCount: protectedIpExclusions.length,
+          demandSignalCount:
+            depositRouteInput.depositoryDemandSignals.length +
+            depositRouteInput.readingDemandSignals.length,
+        },
+      });
       void refreshLiveRuns().then(() => {
         replaceDepositRouteTransaction(runId);
       });
@@ -980,6 +1048,10 @@ export default function DepositPageClient() {
           ? error.message
           : "Deposit option synthesis failed.",
       );
+      trackProductEvent({
+        name: "deposit_synthesis_failed",
+        data: { stage: "dispatch", durationMs: null },
+      });
     }
   }, [
     obfuscations,
@@ -1039,6 +1111,10 @@ export default function DepositPageClient() {
         (entry) => entry.optionId === optionId,
       );
       const admitted = receipt?.admission.state === "admitted-to-depository";
+      trackProductEvent({
+        name: "deposit_option_review",
+        data: { decision, admitted },
+      });
       replaceDepositSearchParams(
         writeDepositRouteStage(
           readCurrentSearchParams(),
@@ -1152,6 +1228,13 @@ export default function DepositPageClient() {
         idsToDeposit.includes(entry.optionId) &&
         entry.admission.state === "admitted-to-depository",
     );
+    trackProductEvent({
+      name: "deposit_admission",
+      data: {
+        selectedCount: idsToDeposit.length,
+        admittedCount: admittedReceipts.length,
+      },
+    });
     replaceDepositSearchParams(
       writeDepositRouteStage(
         readCurrentSearchParams(),

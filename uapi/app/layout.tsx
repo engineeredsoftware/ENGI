@@ -12,7 +12,9 @@ import "@/styles/orbital-global.css";
 import "@/styles/auxillaries-bitcode.css";
 import "@/styles/skeleton-shine.css";
 import "@/styles/components.css";
-import { Analytics } from "@vercel/analytics/react"
+// The Next-specific Analytics entry reports the framework route pattern
+// alongside the page path, unlocking the Route dimension in Web Analytics.
+import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { GoogleAnalytics } from '@next/third-parties/google'
 import AnalyticsEventsClient from '@/components/base/bitcode/analytics/AnalyticsEventsClient';

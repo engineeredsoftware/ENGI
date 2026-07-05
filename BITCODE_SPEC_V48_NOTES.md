@@ -644,6 +644,46 @@ shared transactions/telemetry components) is governed by these laws:
 - **Camel-cased ids word-space in pills** (e.g. 'DEPOSIT ASSET PACK OPTION
   SYNTHESIS'), matching the telemetry pill-label law.
 
+### Product analytics — source-safe baseline + depositing funnel (Garrett, 2026-07-05)
+
+Rich product analytics over the commercial surfaces, in two layers:
+
+- **Baseline.** Vercel Web Analytics (pageviews) + Speed Insights mount in the
+  root layout; the Analytics component is the Next-specific entry
+  (`@vercel/analytics/next`) so Web Analytics reports the framework ROUTE
+  pattern alongside the page path (the Route dimension). GA4 keeps its
+  `page_view` + delegated-click safety net unchanged.
+- **Custom events go through ONE audited module** —
+  `uapi/lib/product-analytics.ts`: a TYPED event union (`ProductEvent`)
+  fanned out to Vercel Web Analytics (`track`) and GA4 (`trackEvent`) under
+  the same snake_case event names, so both dashboards carry the same funnel.
+  Direct `track` calls outside the module are prohibited; the union is the
+  audit surface for what leaves Bitcode.
+- **Source-safety law for third-party telemetry.** Analytics events leave
+  Bitcode for third-party dashboards, so payloads are FLAT source-safe
+  scalars — counts, booleans, enum states, durations — NEVER repository
+  names/paths, obfuscation or prompt text, option contents/measurements,
+  wallet material, or user/run identifiers. (The legacy landing-CTA event's
+  user-id payload is retired under this law; the CTA reports presence
+  booleans only, as `landing_use_bitcode_click`.) Tracking failures are
+  swallowed — analytics never breaks the product surface — and the module
+  no-ops outside the browser.
+- **Depositing funnel events** (the Gate-3 instrumentation):
+  `deposit_source_selected` (provider + branch/commit pin shape; once per
+  distinct repository per mount), `deposit_synthesis_dispatched`
+  (obfuscations-customized boolean [authored beyond the untouched default
+  guidance], protected-exclusion count, demand-signal count),
+  `deposit_synthesis_completed` (optionCount + durationMs),
+  `deposit_synthesis_failed` (stage `dispatch` | `run` | `resume` +
+  durationMs), `deposit_option_review` (decision enum + admitted),
+  `deposit_admission` (selected vs admitted counts).
+- **Dispatch-attribution law.** Funnel completion/failure events fire ONLY
+  for runs dispatched in the CURRENT session (the dispatch timestamp is
+  stamped at dispatch and cleared on table adoption) — adopting a historical
+  row into the master-detail never emits funnel telemetry.
+- The reading lens receives the mirrored funnel (`read_*`) when the read
+  gate opens its surfaces.
+
 ### PTRR step output schemas — steps validate against STEP schemas (Garrett, 2026-07-03)
 
 Step outputs validate against STEP schemas, not the full agent schema — for all

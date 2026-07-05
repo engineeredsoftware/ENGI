@@ -8,6 +8,7 @@ const mockReplace = jest.fn();
 const mockFetchPipelineExecutionHistory = jest.fn();
 const mockUseAuth = jest.fn();
 const mockUseUserData = jest.fn();
+const mockTrackProductEvent = jest.fn();
 let mockQuery = "transactionId=deposit-1&depositStage=review-options";
 
 jest.mock("next/navigation", () => ({
@@ -25,6 +26,13 @@ jest.mock("@/hooks/useUserData", () => ({
 
 jest.mock("@/networking/api-client", () => ({
   fetchPipelineExecutionHistory: () => mockFetchPipelineExecutionHistory(),
+}));
+
+// Funnel analytics fan out through the one audited module; the funnel
+// contract (which events fire, and that adoption fires none) is asserted
+// against this spy.
+jest.mock("@/lib/product-analytics", () => ({
+  trackProductEvent: (event: unknown) => mockTrackProductEvent(event),
 }));
 
 // The miniature run orb pulls framer-motion + canvas layers that jsdom cannot
@@ -122,6 +130,7 @@ jest.mock("@/app/terminal/TerminalDepositComposer", () => ({
 describe("DepositPageClient", () => {
   beforeEach(() => {
     mockReplace.mockReset();
+    mockTrackProductEvent.mockReset();
     mockQuery = "transactionId=deposit-1&depositStage=review-options";
     mockUseAuth.mockReturnValue({ user: { id: "user-1" } });
     mockUseUserData.mockReturnValue({
@@ -206,6 +215,14 @@ describe("DepositPageClient", () => {
     expect(
       screen.getByRole("heading", { name: "Depositing" }),
     ).toBeInTheDocument();
+    // Selecting a repository source fires the funnel event with the provider
+    // + pin SHAPE only — never the repository name.
+    await waitFor(() =>
+      expect(mockTrackProductEvent).toHaveBeenCalledWith({
+        name: "deposit_source_selected",
+        data: { provider: "github", pinnedBranch: true, pinnedCommit: true },
+      }),
+    );
     // The route step grid is removed from /deposits — the route header, the
     // pipelines master-detail, and the flow sections carry the journey.
     expect(
@@ -426,6 +443,11 @@ describe("DepositPageClient", () => {
       "/api/deposit/synthesize-options",
       expect.anything(),
     );
+    // Adopting a historical row must not emit funnel telemetry — completion
+    // events are reserved for runs dispatched in THIS session.
+    expect(mockTrackProductEvent).not.toHaveBeenCalledWith(
+      expect.objectContaining({ name: "deposit_synthesis_completed" }),
+    );
     mockQuery = "transactionId=deposit-1&depositStage=review-options";
   });
 
@@ -620,10 +642,27 @@ describe("DepositPageClient", () => {
     expect(body.protectedIpExclusions).toEqual(["secret-engine/"]);
     expect(Array.isArray(body.demandContext)).toBe(true);
 
+    // Funnel analytics: the dispatch emits its input SHAPE only (no
+    // repository name, no obfuscation text) and completion carries the
+    // option count — both fire because THIS session dispatched the run.
+    expect(mockTrackProductEvent).toHaveBeenCalledWith({
+      name: "deposit_synthesis_dispatched",
+      data: expect.objectContaining({
+        hasObfuscations: false,
+        protectedExclusionCount: 1,
+      }),
+    });
+
     await waitFor(() =>
       expect(
         screen.getByText("Real measured capability slice"),
       ).toBeInTheDocument(),
+    );
+    await waitFor(() =>
+      expect(mockTrackProductEvent).toHaveBeenCalledWith({
+        name: "deposit_synthesis_completed",
+        data: expect.objectContaining({ optionCount: 1 }),
+      }),
     );
     expect(
       screen.getByTestId("deposit-synthesis-inference"),
@@ -901,6 +940,10 @@ describe("DepositPageClient", () => {
     expect(
       screen.getByRole("button", { name: "Synthesize options" }),
     ).not.toBeDisabled();
+    expect(mockTrackProductEvent).toHaveBeenCalledWith({
+      name: "deposit_synthesis_failed",
+      data: expect.objectContaining({ stage: "run" }),
+    });
   });
 
   it("fails with the not-found message when completion arrives but the run output has no synthesis", async () => {
@@ -934,6 +977,10 @@ describe("DepositPageClient", () => {
     expect(
       screen.getByTestId("deposit-options-await-synthesis"),
     ).toBeInTheDocument();
+    expect(mockTrackProductEvent).toHaveBeenCalledWith({
+      name: "deposit_synthesis_failed",
+      data: expect.objectContaining({ stage: "resume" }),
+    });
   });
 
   it("fails the dispatch itself when the synthesize route rejects the request", async () => {
@@ -954,6 +1001,10 @@ describe("DepositPageClient", () => {
 
     const alert = await screen.findByRole("alert");
     expect(alert).toHaveTextContent("Repository ownership check failed.");
+    expect(mockTrackProductEvent).toHaveBeenCalledWith({
+      name: "deposit_synthesis_failed",
+      data: { stage: "dispatch", durationMs: null },
+    });
   });
 
   it("adopts a selected non-synthesis pipeline run as a telemetry-only detail (no options, no failure)", async () => {
