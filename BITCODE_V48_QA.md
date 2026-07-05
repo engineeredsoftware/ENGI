@@ -7,12 +7,31 @@
 - Posture: interactive local experiential QA of the first live commercial (testnet) experience; app runs locally (`pnpm -C uapi dev:remote`) against the staging Supabase project; wallet network testnet4
 - Source-safety posture: source-safe evidence only; no secrets, protected source, provider payloads, wallet material, service-role keys, database credentials, or raw private prompts are serialized here.
 
-## Local-development auth environment (decided 2026-07-05)
+## Environments (decided 2026-07-05)
 
-A DEDICATED Supabase project for local development, replacing the shared
-staging project for local QA. Topology law: `localhost:3000` for as much as
-possible; `testnet.bitcode.exchange` only for functionality Supabase's cloud
-must reach server-to-server.
+TWO deployed environments plus local:
+
+- **production-mainnet** — bitcode.exchange + the original Supabase project;
+  mainnet posture.
+- **staging-testnet** — THE single non-production clone (Vercel environment
+  with domain `testnet.bitcode.exchange`, Supabase project
+  `mwugicjpxmrtctvjghjg`, GitHub App `bitcode-github-auxillary-stag-test`);
+  testnet4 posture.
+- **local** — develops AGAINST staging-testnet as much as possible
+  (`localhost:3000` for every browser-facing hop; `testnet.bitcode.exchange`
+  only for flows requiring hosting, e.g. Supabase-cloud-reachable OAuth
+  endpoints).
+
+Bring-up automation: `scripts/bringup-staging-testnet.sh`
+(migrate | vercel-env | verify) with secrets in
+`scripts/.env.staging-testnet` (gitignored; template committed as
+`.example`). The `asset-pack-artifacts` bucket + RLS ship as migration
+`20260705190000_asset_pack_artifacts_bucket.sql`, so `migrate` covers
+storage setup too.
+
+Topology law: `localhost:3000` for as much as possible;
+`testnet.bitcode.exchange` only for functionality Supabase's cloud must
+reach server-to-server.
 
 - **Auth URL configuration (new project):** Site URL `http://localhost:3000`;
   Redirect URLs (exact, query-free per the allow-list law):
@@ -71,7 +90,11 @@ Project URL `https://mwugicjpxmrtctvjghjg.supabase.co`; GoTrue callback
      secret; Scopes `profile, wallet:bitcoin`; Allow users without email ON.
 4. Storage → Files: create bucket `asset-pack-artifacts` (PRIVATE) — the raw
    AssetPack artifact store; see the artifact-storage contract below.
-5. Database SSL enforcement: fine off for dev; enable before any production
+5. Auth → GitHub provider (GoTrue): client id/secret from the
+   `bitcode-github-auxillary-stag-test` app's OAuth credentials; the app's
+   callback/setup URLs point at `https://testnet.bitcode.exchange` (webhook
+   likewise if used).
+6. Database SSL enforcement: fine off for dev; enable before any production
    promotion of this project's pattern.
 
 **Vercel env (testnet.bitcode.exchange environment):**
