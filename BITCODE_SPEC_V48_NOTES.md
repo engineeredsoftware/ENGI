@@ -578,6 +578,37 @@ realization still stands. The proofs are NOT re-pointed at the plural routes —
 Gate 3 rewrote those files, so their historical content predicates would not
 match, and the frozen proofs attest their own era.
 
+### Legacy terminal browser-proof eradication (Garrett, 2026-07-05)
+
+The legacy `/terminal` cockpit **browser proofs** are eradicated and the active
+browser-proof coverage is repointed at the current product surfaces:
+
+- The two ACTIVE browser-proof contracts (`uapi/app/bitcode-browser-proof.ts`,
+  `uapi/app/bitcode-browser-accessibility-responsive-proof.ts`) drop the
+  `terminal` surface (routes `/terminal…`) and instead prove `deposits`
+  (`/deposits`) and `reads` (`/reads`) — real routes, real testids
+  (`route-shell-deposit`/`deposits-pipelines-table`/`deposit-synthesis-telemetry`,
+  `route-shell-read`/`reads-pipelines-table`/`reads-synthesized-packs`) — with the
+  Auxillaries routes moved from `/terminal?auxillary-open-to=` to
+  `/packs?auxillary-open-to=`. Their jest contract tests and the (opt-in,
+  gate-var-guarded) Playwright specs are repointed to match.
+- The V29-era terminal-ux browser proof is DELETED:
+  `uapi/app/terminal/terminal-ux-browser-proof.ts`,
+  `uapi/tests/terminalUxBrowserProof.test.tsx`, and
+  `uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts` — removed from the Gate
+  Quality jest step, the `jest.config.cjs` allowlist, and the `test:e2e:terminal-ux`
+  package script; the accessibility script is renamed
+  `test:e2e:v32-browser-proof` → `test:e2e:accessibility-responsive-proof`, and the
+  CI step names drop "Terminal".
+- Frozen V39/V40 canonical proofs that read those deleted files as evidence
+  (`v39-enterprise-reading-ux-state`, `v40-browser-e2e-visual-proof`,
+  `v40-test-inventory-coverage-matrix`) are era-pinned via a second shim,
+  `packages/protocol/test/era-pinned-superseded-browser-proofs.js`, which skips
+  WITH A REASON once the terminal-ux proof is absent (and runs unchanged on the
+  promoted V39/V40 canon). The era-pinned V29/V32 `.mjs` checker scripts and the
+  historical canon-promotion workflows keep their references (inert at the current
+  pointer) — their deep removal belongs to the broader F8 `/terminal` eradication.
+
 ### Deposit/Read product-surface presentation laws (Garrett, 2026-07-04)
 
 The 2026-07-04 UI wave on the product surfaces (/deposits, /reads, and the

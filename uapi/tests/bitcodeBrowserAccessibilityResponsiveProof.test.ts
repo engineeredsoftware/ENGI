@@ -18,18 +18,19 @@ describe('Bitcode browser accessibility responsive proof contract', () => {
     'i',
   );
 
-  it('covers Terminal and Auxillaries default, guided, and detail states across responsive viewports', () => {
+  it('covers Deposits, Reads, and Auxillaries default, guided, and detail states across responsive viewports', () => {
     expect(summarizeBitcodeBrowserAccessibilityResponsiveProofContract()).toEqual({
-      surfaceCount: 2,
-      routeCount: 6,
+      surfaceCount: 3,
+      routeCount: 9,
       viewportCount: 4,
       assertionCount: 8,
       visualStrategyCount: 4,
-      evidenceFileCount: 5,
+      evidenceFileCount: 6,
       sourceSafe: true,
     });
     expect(BITCODE_BROWSER_ACCESSIBILITY_RESPONSIVE_PROOF_SURFACES.map((surface) => surface.id)).toEqual([
-      'terminal',
+      'deposits',
+      'reads',
       'auxillaries',
     ]);
     for (const surface of BITCODE_BROWSER_ACCESSIBILITY_RESPONSIVE_PROOF_SURFACES) {

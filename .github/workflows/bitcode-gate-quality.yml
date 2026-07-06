@@ -926,24 +926,19 @@ jobs:
             tests/protocolCommercialBoundary.test.ts \
             tests/terminalTransactionDetailCards.test.tsx \
             tests/terminalTransactionDetailSnapshot.test.ts \
-            tests/terminalUxBrowserProof.test.tsx \
             tests/bitcodeBrowserProof.test.ts \
             tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts \
             tests/readingOperationalTelemetryPipelineLog.test.tsx \
             tests/pipelineExecutionLogHeader.test.tsx \
             --runInBand
 
-      - name: Install Terminal browser proof browser
+      - name: Install browser-proof browser
         if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'
         run: pnpm --dir uapi exec playwright install chromium --with-deps
 
-      - name: Browser proof Terminal cockpit
+      - name: Browser proof Deposits, Reads, and Auxillaries responsive accessibility
         if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'
-        run: pnpm --dir uapi run test:e2e:terminal-ux
-
-      - name: Browser proof Terminal and Auxillaries responsive accessibility
-        if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'
-        run: pnpm --dir uapi run test:e2e:v32-browser-proof
+        run: pnpm --dir uapi run test:e2e:accessibility-responsive-proof
 
       - name: Browser proof product surfaces
         if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'

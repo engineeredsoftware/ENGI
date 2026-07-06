@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import test from './era-pinned-superseded-browser-proofs.js';
 
 import {
   V40_BROWSER_E2E_VISUAL_EXPECTED_TOTALS,

@@ -18,27 +18,52 @@ export const BITCODE_BROWSER_ACCESSIBILITY_RESPONSIVE_PROOF_ASSERTIONS = [
 
 export const BITCODE_BROWSER_ACCESSIBILITY_RESPONSIVE_PROOF_SURFACES = [
   {
-    id: 'terminal',
-    label: 'Bitcode Terminal',
+    id: 'deposits',
+    label: 'Bitcode Deposits',
     routes: [
-      { id: 'default', path: '/terminal', state: 'default' },
+      { id: 'default', path: '/deposits', state: 'default' },
       {
         id: 'guided',
-        path: '/terminal',
+        path: '/deposits',
         state: 'guided',
-        selector: '[data-testid="terminal-transaction-workspace"]',
+        selector: '[data-testid="deposits-pipelines-table"]',
       },
       {
         id: 'detail',
-        path: '/terminal?transactionId=mock-run-branch-remediation&transactionDetail=activity',
+        path: '/deposits?transactionId=mock-run-branch-remediation',
         state: 'detail',
-        selector: '[data-testid="terminal-selected-activity-detail"]',
+        selector: '[data-testid="deposit-synthesis-telemetry"]',
       },
     ],
     landmarks: ['main', 'region', 'group'],
     evidenceFiles: [
-      'uapi/tests/terminalUxBrowserProof.test.tsx',
-      'uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
+      'uapi/tests/depositPageClient.test.tsx',
+      'uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
+      'uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
+    ],
+  },
+  {
+    id: 'reads',
+    label: 'Bitcode Reads',
+    routes: [
+      { id: 'default', path: '/reads', state: 'default' },
+      {
+        id: 'guided',
+        path: '/reads',
+        state: 'guided',
+        selector: '[data-testid="reads-pipelines-table"]',
+      },
+      {
+        id: 'detail',
+        path: '/reads?transactionId=mock-run-branch-remediation',
+        state: 'detail',
+        selector: '[data-testid="reads-synthesized-packs"]',
+      },
+    ],
+    landmarks: ['main', 'region', 'group'],
+    evidenceFiles: [
+      'uapi/tests/readPageClient.test.tsx',
+      'uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
       'uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
     ],
   },
@@ -46,16 +71,16 @@ export const BITCODE_BROWSER_ACCESSIBILITY_RESPONSIVE_PROOF_SURFACES = [
     id: 'auxillaries',
     label: 'Bitcode Auxillaries',
     routes: [
-      { id: 'default', path: '/terminal?auxillary-open-to=wallet', state: 'default' },
+      { id: 'default', path: '/packs?auxillary-open-to=wallet', state: 'default' },
       {
         id: 'guided',
-        path: '/terminal?auxillary-open-to=profile',
+        path: '/packs?auxillary-open-to=profile',
         state: 'guided',
         selector: '[data-testid="auxillaries-pane-navigation"]',
       },
       {
         id: 'detail',
-        path: '/terminal?auxillary-open-to=interfaces',
+        path: '/packs?auxillary-open-to=interfaces',
         state: 'detail',
         selector: '[data-testid="auxillaries-active-pane-region"]',
       },

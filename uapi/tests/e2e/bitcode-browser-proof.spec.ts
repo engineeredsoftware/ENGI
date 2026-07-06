@@ -31,36 +31,41 @@ test.describe('Bitcode browser proof across product surfaces', () => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
   });
 
-  test('Terminal five-stage Reading and selected activity states remain semantic', async ({
+  test('Deposits and Reads product surfaces and selected telemetry remain semantic', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
     for (const viewport of PROOF_VIEWPORTS) {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
-      await openCommercialRoute(
-        page,
-        '/terminal',
-        /The Bitcode Terminal is where operators prepare Deposit and Read work/i,
-      );
 
-      await expect(page.getByRole('main', { name: /Deposit, Read, and read recent Bitcode activity/i })).toBeVisible();
-      await expect(page.getByTestId('terminal-enterprise-reading-step-request-read')).toBeVisible();
-      await expect(page.getByTestId('terminal-enterprise-reading-step-review-synthesized-need')).toBeVisible();
-      await expect(page.getByTestId('terminal-enterprise-reading-step-request-fit')).toBeVisible();
-      await expect(page.getByTestId('terminal-enterprise-reading-step-review-synthesized-asset-pack')).toBeVisible();
-      await expect(page.getByTestId('terminal-enterprise-reading-step-buy-asset-pack-settle')).toBeVisible();
-      await expect(page.getByTestId('terminal-transaction-status-strip')).toHaveAttribute('role', 'status');
-      await expectNoHorizontalOverflow(page, `terminal-five-stage Reading-${viewport.id}`);
+      await openCommercialRoute(page, '/deposits', /Depositing/i);
+      await expect(page.getByTestId('route-shell-deposit')).toBeVisible();
+      await expect(page.getByTestId('deposits-pipelines-table')).toBeVisible();
+      await expect(page.getByRole('main')).toBeVisible();
+      await expectNoHorizontalOverflow(page, `deposits-pipelines-${viewport.id}`);
 
       await openCommercialRoute(
         page,
-        '/terminal?transactionId=mock-run-branch-remediation&transactionDetail=activity',
-        /Prepared the active branch artifact pack/i,
+        '/deposits?transactionId=mock-run-branch-remediation',
+        /Depositing/i,
       );
-      await expect(page.getByTestId('terminal-activity-stream-surface')).toBeVisible();
-      await expect(page.getByRole('group', { name: /Selected activity detail sections/i })).toBeVisible();
-      await expectNoHorizontalOverflow(page, `terminal-activity-${viewport.id}`);
+      await expect(page.getByTestId('route-shell-deposit')).toBeVisible();
+      await expectNoHorizontalOverflow(page, `deposits-selected-telemetry-${viewport.id}`);
+
+      await openCommercialRoute(page, '/reads', /Reading/i);
+      await expect(page.getByTestId('route-shell-read')).toBeVisible();
+      await expect(page.getByTestId('reads-pipelines-table')).toBeVisible();
+      await expect(page.getByRole('main')).toBeVisible();
+      await expectNoHorizontalOverflow(page, `reads-pipelines-${viewport.id}`);
+
+      await openCommercialRoute(
+        page,
+        '/reads?transactionId=mock-run-branch-remediation',
+        /Reading/i,
+      );
+      await expect(page.getByTestId('route-shell-read')).toBeVisible();
+      await expectNoHorizontalOverflow(page, `reads-selected-telemetry-${viewport.id}`);
     }
 
     await trap.assertClean();
@@ -105,7 +110,7 @@ test.describe('Bitcode browser proof across product surfaces', () => {
 
     for (const viewport of PROOF_VIEWPORTS) {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
-      await openCommercialRoute(page, '/terminal?auxillary-open-to=wallet', /Wallet Auxillary/i);
+      await openCommercialRoute(page, '/packs?auxillary-open-to=wallet', /Wallet Auxillary/i);
 
       await expect(page.getByRole('main', { name: 'Bitcode Auxillaries support plane' })).toBeVisible();
       await expect(page.getByRole('link', { name: 'Skip to active support pane' })).toBeVisible();

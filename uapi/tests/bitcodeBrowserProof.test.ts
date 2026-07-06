@@ -19,21 +19,22 @@ describe('Bitcode browser proof contract', () => {
     'i',
   );
 
-  it('covers Terminal, Conversations, Auxillaries, Exchange, and Docs routes', () => {
+  it('covers Deposits, Reads, Conversations, Auxillaries, Exchange, and Docs routes', () => {
     expect(summarizeBitcodeBrowserProofContract()).toEqual({
-      surfaceCount: 5,
-      routeCount: 13,
+      surfaceCount: 6,
+      routeCount: 14,
       viewportCount: 4,
       assertionCount: 8,
       visualStrategyCount: 5,
-      interactionStateCount: 18,
+      interactionStateCount: 22,
       evidenceFileCount: 16,
       sourceSafe: true,
       screenshotOnlyApproval: false,
     });
 
     expect(BITCODE_BROWSER_PROOF_SURFACES.map((surface) => surface.id)).toEqual([
-      'terminal',
+      'deposits',
+      'reads',
       'conversations',
       'auxillaries',
       'exchange',
@@ -45,8 +46,10 @@ describe('Bitcode browser proof contract', () => {
       ),
     ).toEqual(
       expect.arrayContaining([
-        'terminal:request-read',
-        'terminal:selected-activity',
+        'deposits:pipelines',
+        'deposits:selected-telemetry',
+        'reads:pipelines',
+        'reads:selected-telemetry',
         'conversations:terminal-handoff',
         'auxillaries:interfaces',
         'exchange:buy-existing-btd',
@@ -82,16 +85,23 @@ describe('Bitcode browser proof contract', () => {
   });
 
   it('keeps five-stage Reading and source-safe preview states visible without source disclosure', () => {
-    const terminal = BITCODE_BROWSER_PROOF_SURFACES.find((surface) => surface.id === 'terminal');
+    const deposits = BITCODE_BROWSER_PROOF_SURFACES.find((surface) => surface.id === 'deposits');
+    const reads = BITCODE_BROWSER_PROOF_SURFACES.find((surface) => surface.id === 'reads');
     const exchange = BITCODE_BROWSER_PROOF_SURFACES.find((surface) => surface.id === 'exchange');
     const docs = BITCODE_BROWSER_PROOF_SURFACES.find((surface) => surface.id === 'docs');
 
-    expect(terminal?.interactionStates).toEqual([
+    expect(reads?.interactionStates).toEqual([
       'request-read',
       'review-synthesized-need',
       'request-fit',
       'review-synthesized-asset-pack',
       'buy-asset-pack-settle',
+    ]);
+    expect(deposits?.interactionStates).toEqual([
+      'connect-source',
+      'synthesize-options',
+      'review-measurements',
+      'admit-to-depository',
     ]);
     expect(exchange?.interactionStates).toContain('preserve-source-safe-preview');
     expect(docs?.routes.map((route) => route.state)).toContain('source-safe public docs');

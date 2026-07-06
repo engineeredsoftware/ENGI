@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import test from './era-pinned-superseded-browser-proofs.js';
 
 import {
   V40_TEST_INVENTORY_COVERAGE_MATRIX_ARTIFACT_PATH,
