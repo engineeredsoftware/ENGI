@@ -7,9 +7,7 @@ import {
   ArrowLeft,
   Boxes,
   RefreshCw,
-  ShieldCheck,
   Sparkles,
-  TrendingUp,
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -252,7 +250,7 @@ export default function DepositPageClient() {
             Array.isArray(payload.records) ? payload.records.length : null,
           );
         })
-        .catch(() => {});
+        .catch(() => { });
     }
     return () => {
       disposed = true;
@@ -267,7 +265,7 @@ export default function DepositPageClient() {
   const readCurrentSearchParams = useCallback(
     () =>
       typeof window !== "undefined" &&
-      window.location.pathname === DEPOSIT_ROUTE
+        window.location.pathname === DEPOSIT_ROUTE
         ? new URLSearchParams(window.location.search)
         : new URLSearchParams(searchParams.toString()),
     [searchParams],
@@ -343,7 +341,7 @@ export default function DepositPageClient() {
       : null;
   const walletBinding =
     profileRecord?.wallet_binding &&
-    typeof profileRecord.wallet_binding === "object"
+      typeof profileRecord.wallet_binding === "object"
       ? (profileRecord.wallet_binding as Record<string, unknown>)
       : null;
   const preferredSignerAddress = useMemo(() => {
@@ -378,7 +376,7 @@ export default function DepositPageClient() {
           hasWalletConnection ||
           Boolean(
             readStringField(profileRecord, "wallet_address") ||
-              readStringField(walletBinding, "address"),
+            readStringField(walletBinding, "address"),
           ),
         hasVerifiedWalletBinding: hasVerifiedWalletConnection,
         hasStoredVerifiedWalletBinding: hasStoredVerifiedWalletConnection,
@@ -409,14 +407,14 @@ export default function DepositPageClient() {
         /secret|credential|wallet|auth|key|payment|settlement/iu.test(path),
       )
         ? [
-            {
-              id: "source-path-sensitive-scope-warning",
-              label:
-                "Source path hints include sensitive operational terms requiring review.",
-              severity: "warning" as const,
-              weight: 0.64,
-            },
-          ]
+          {
+            id: "source-path-sensitive-scope-warning",
+            label:
+              "Source path hints include sensitive operational terms requiring review.",
+            severity: "warning" as const,
+            weight: 0.64,
+          },
+        ]
         : []),
     ],
     [sourcePathHints],
@@ -443,8 +441,8 @@ export default function DepositPageClient() {
           run.contextSource === "terminal-deposit-composer" &&
           Boolean(
             run.depositorySearchDocumentRoot ||
-              run.vectorDocumentRoot ||
-              run.compensationPreviewRoot,
+            run.vectorDocumentRoot ||
+            run.compensationPreviewRoot,
           ),
       ),
     [liveRuns],
@@ -1242,9 +1240,8 @@ export default function DepositPageClient() {
       await handleRecordActivity({
         type: "pipeline:deposit-option-admission",
         status: "completed",
-        summary: `Admitted ${admittedReceipts.length} AssetPack${
-          admittedReceipts.length === 1 ? "" : "s"
-        } to the Depository.`,
+        summary: `Admitted ${admittedReceipts.length} AssetPack${admittedReceipts.length === 1 ? "" : "s"
+          } to the Depository.`,
         selectAfterRecord: true,
         output: {
           assetPackTitle: admittedReceipts.map((entry) => entry.title).join("; "),
@@ -1435,7 +1432,7 @@ export default function DepositPageClient() {
               </div>
             </>
           )}
-            {synthesisRunId ? (
+          {synthesisRunId ? (
             <section
               ref={synthesisTelemetryRef}
               className="mt-4 min-w-0 overflow-hidden"
@@ -1514,11 +1511,10 @@ export default function DepositPageClient() {
                   return (
                     <div
                       data-testid="deposit-telemetry-readiness-verdict"
-                      className={`mt-3 border px-3 py-2 text-xs leading-5 ${
-                        approved
-                          ? "border-emerald-300/20 bg-emerald-300/5 text-emerald-100/90"
-                          : "border-amber-300/20 bg-amber-300/5 text-amber-100/90"
-                      }`}
+                      className={`mt-3 border px-3 py-2 text-xs leading-5 ${approved
+                        ? "border-emerald-300/20 bg-emerald-300/5 text-emerald-100/90"
+                        : "border-amber-300/20 bg-amber-300/5 text-amber-100/90"
+                        }`}
                     >
                       <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em]">
                         {`iter ${latest.iteration ?? "—"} verdict · `}
@@ -1533,24 +1529,23 @@ export default function DepositPageClient() {
                       </p>
                       {approved
                         ? latest.summary && (
-                            <p className="mt-1 max-w-4xl text-neutral-300">{latest.summary}</p>
-                          )
+                          <p className="mt-1 max-w-4xl text-neutral-300">{latest.summary}</p>
+                        )
                         : latest.reasons.length > 0 && (
-                            <ul className="mt-1 max-w-4xl list-disc space-y-1 pl-4 text-neutral-300">
-                              {latest.reasons.map((reason, index) => (
-                                <li key={index}>{reason}</li>
-                              ))}
-                            </ul>
-                          )}
+                          <ul className="mt-1 max-w-4xl list-disc space-y-1 pl-4 text-neutral-300">
+                            {latest.reasons.map((reason, index) => (
+                              <li key={index}>{reason}</li>
+                            ))}
+                          </ul>
+                        )}
                       {prior.length > 0 && (
                         <p className="mt-2 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">
                           {prior
                             .map(
                               (verdict) =>
-                                `iter ${verdict.iteration ?? "—"}: ${
-                                  verdict.finalApproval === true
-                                    ? "ready"
-                                    : `iterate (${verdict.recommendation ?? "not approved"}, ${verdict.reasons.length} reasons)`
+                                `iter ${verdict.iteration ?? "—"}: ${verdict.finalApproval === true
+                                  ? "ready"
+                                  : `iterate (${verdict.recommendation ?? "not approved"}, ${verdict.reasons.length} reasons)`
                                 }`,
                             )
                             .join(" · ")}
@@ -1659,65 +1654,65 @@ export default function DepositPageClient() {
                     path picked on one side is disabled on the other.
                     Concept-level withholding belongs to Obfuscations above. */}
                 <div className="mt-4 grid gap-4 tablet:grid-cols-2">
-                <div className="block">
-                  <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
-                    <span>Source path hints</span>
-                    <span onClick={(event) => event.stopPropagation()}>
-                      <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.sourcePathHints} triggerAriaLabel="More info about this field" />
+                  <div className="block">
+                    <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
+                      <span>Source path hints</span>
+                      <span onClick={(event) => event.stopPropagation()}>
+                        <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.sourcePathHints} triggerAriaLabel="More info about this field" />
+                      </span>
                     </span>
-                  </span>
-                  <div className="mt-2">
-                    <VCSFileTreePicker
-                      aria-label="Source path hints file tree"
-                      provider={repositoryContext?.provider ?? "github"}
-                      repositoryFullName={
-                        repositoryContext?.selectedRepository?.fullName ?? null
-                      }
-                      treeRef={
-                        repositoryContext?.selectedCommit ||
-                        repositoryContext?.selectedBranch ||
-                        null
-                      }
-                      selectedPaths={sourcePathHints}
-                      onChange={setSourcePathHints}
-                      conflictingPaths={protectedIpExclusions}
-                      conflictLabel="Already a protected IP exclusion"
-                    />
+                    <div className="mt-2">
+                      <VCSFileTreePicker
+                        aria-label="Source path hints file tree"
+                        provider={repositoryContext?.provider ?? "github"}
+                        repositoryFullName={
+                          repositoryContext?.selectedRepository?.fullName ?? null
+                        }
+                        treeRef={
+                          repositoryContext?.selectedCommit ||
+                          repositoryContext?.selectedBranch ||
+                          null
+                        }
+                        selectedPaths={sourcePathHints}
+                        onChange={setSourcePathHints}
+                        conflictingPaths={protectedIpExclusions}
+                        conflictLabel="Already a protected IP exclusion"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="block">
-                  <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
-                    <span>Protected IP exclusions</span>
-                    <span onClick={(event) => event.stopPropagation()}>
-                      <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.protectedIpExclusions} triggerAriaLabel="More info about this field" />
+                  <div className="block">
+                    <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
+                      <span>Protected IP exclusions</span>
+                      <span onClick={(event) => event.stopPropagation()}>
+                        <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.protectedIpExclusions} triggerAriaLabel="More info about this field" />
+                      </span>
                     </span>
-                  </span>
-                  <div className="mt-2">
-                    <VCSFileTreePicker
-                      aria-label="Protected IP exclusions file tree"
-                      provider={repositoryContext?.provider ?? "github"}
-                      repositoryFullName={
-                        repositoryContext?.selectedRepository?.fullName ?? null
-                      }
-                      treeRef={
-                        repositoryContext?.selectedCommit ||
-                        repositoryContext?.selectedBranch ||
-                        null
-                      }
-                      selectedPaths={protectedIpExclusions}
-                      onChange={setProtectedIpExclusions}
-                      conflictingPaths={sourcePathHints}
-                      conflictLabel="Already a source path hint"
-                    />
+                    <div className="mt-2">
+                      <VCSFileTreePicker
+                        aria-label="Protected IP exclusions file tree"
+                        provider={repositoryContext?.provider ?? "github"}
+                        repositoryFullName={
+                          repositoryContext?.selectedRepository?.fullName ?? null
+                        }
+                        treeRef={
+                          repositoryContext?.selectedCommit ||
+                          repositoryContext?.selectedBranch ||
+                          null
+                        }
+                        selectedPaths={protectedIpExclusions}
+                        onChange={setProtectedIpExclusions}
+                        conflictingPaths={sourcePathHints}
+                        conflictLabel="Already a source path hint"
+                      />
+                    </div>
+                    <span className="mt-1 block text-xs leading-5 text-neutral-500">
+                      Excluded paths never enter AssetPack knowledge synthesis:
+                      they are removed from the source inventory before
+                      measurement, and candidates that touch them are dropped
+                      fail-closed. Concept-level withholding belongs in
+                      Obfuscations above.
+                    </span>
                   </div>
-                  <span className="mt-1 block text-xs leading-5 text-neutral-500">
-                    Excluded paths never enter AssetPack knowledge synthesis:
-                    they are removed from the source inventory before
-                    measurement, and candidates that touch them are dropped
-                    fail-closed. Concept-level withholding belongs in
-                    Obfuscations above.
-                  </span>
-                </div>
                 </div>
                 <button
                   type="button"
@@ -1762,9 +1757,9 @@ export default function DepositPageClient() {
                     <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.options} />
                   </h2>
                 </div>
-                <span className="border border-emerald-300/15 bg-emerald-300/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-emerald-100">
+                {/* <span className="border border-emerald-300/15 bg-emerald-300/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-emerald-100">
                   {depositRouteSession.synthesis.pipeline.replace(/([a-z])([A-Z])/g, "$1 $2")}
-                </span>
+                </span> */}
               </div>
               {realSynthesis?.synthesis?.inference ? (
                 <p
@@ -1774,11 +1769,11 @@ export default function DepositPageClient() {
                   Measured by AssetPacksSynthesis (deposit lens):{" "}
                   {realSynthesis.synthesis.inference.model || "configured model"}
                   {typeof realSynthesis.synthesis.inference.totalTokens ===
-                  "number"
+                    "number"
                     ? ` · ${realSynthesis.synthesis.inference.totalTokens.toLocaleString()} tokens`
                     : ""}
                   {typeof realSynthesis.synthesis.inference.durationMs ===
-                  "number"
+                    "number"
                     ? ` · ${(realSynthesis.synthesis.inference.durationMs / 1000).toFixed(1)}s`
                     : ""}
                   {realSynthesis.synthesis.exclusionPosture
@@ -1827,11 +1822,10 @@ export default function DepositPageClient() {
                     <article
                       key={option.optionId}
                       data-testid={`deposit-option-${option.kind}`}
-                      className={`grid min-w-0 gap-4 border px-4 py-4 ${
-                        reviewed
-                          ? "border-emerald-300/38 bg-emerald-300/10"
-                          : "border-white/10 bg-black/20"
-                      }`}
+                      className={`grid min-w-0 gap-4 border px-4 py-4 ${reviewed
+                        ? "border-emerald-300/38 bg-emerald-300/10"
+                        : "border-white/10 bg-black/20"
+                        }`}
                     >
                       <div>
                         <div className="flex items-start justify-between gap-2">
@@ -1897,13 +1891,12 @@ export default function DepositPageClient() {
                                       className="flex items-baseline gap-1.5"
                                     >
                                       <span
-                                        className={`shrink-0 uppercase ${
-                                          change.op === "create"
-                                            ? "text-emerald-300/80"
-                                            : change.op === "delete"
-                                              ? "text-rose-300/80"
-                                              : "text-amber-300/80"
-                                        }`}
+                                        className={`shrink-0 uppercase ${change.op === "create"
+                                          ? "text-emerald-300/80"
+                                          : change.op === "delete"
+                                            ? "text-rose-300/80"
+                                            : "text-amber-300/80"
+                                          }`}
                                       >
                                         {change.op}
                                       </span>
@@ -2109,8 +2102,8 @@ export default function DepositPageClient() {
                                 <>
                                   {measurement.magnitude}
                                   {measurement.unit &&
-                                  measurement.unit !== "normalized" &&
-                                  measurement.unit !== "estimate"
+                                    measurement.unit !== "normalized" &&
+                                    measurement.unit !== "estimate"
                                     ? ` ${measurement.unit}`
                                     : ""}
                                   <span className="text-neutral-500">
@@ -2165,11 +2158,10 @@ export default function DepositPageClient() {
                                 option.optionId,
                               )}
                               onClick={() => handleToggleSelect(option.optionId)}
-                              className={`border px-4 py-3 text-sm font-medium transition ${
-                                selectedPackIds.includes(option.optionId)
-                                  ? "border-emerald-300/45 bg-emerald-300/18 text-emerald-100 hover:border-emerald-200/60 hover:bg-emerald-300/24"
-                                  : "border-white/15 bg-white/[0.04] text-neutral-200 hover:border-emerald-300/35 hover:bg-emerald-300/10"
-                              }`}
+                              className={`border px-4 py-3 text-sm font-medium transition ${selectedPackIds.includes(option.optionId)
+                                ? "border-emerald-300/45 bg-emerald-300/18 text-emerald-100 hover:border-emerald-200/60 hover:bg-emerald-300/24"
+                                : "border-white/15 bg-white/[0.04] text-neutral-200 hover:border-emerald-300/35 hover:bg-emerald-300/10"
+                                }`}
                             >
                               {selectedPackIds.includes(option.optionId)
                                 ? "Selected for deposit ✓"
@@ -2286,9 +2278,8 @@ export default function DepositPageClient() {
                     <p className="text-sm text-neutral-300">
                       {selectedPackIds.length === 0
                         ? "Select the AssetPacks you want to deposit, then deposit the set in one step."
-                        : `${selectedPackIds.length} AssetPack${
-                            selectedPackIds.length === 1 ? "" : "s"
-                          } selected for deposit.`}
+                        : `${selectedPackIds.length} AssetPack${selectedPackIds.length === 1 ? "" : "s"
+                        } selected for deposit.`}
                     </p>
                     <button
                       type="button"
@@ -2297,20 +2288,17 @@ export default function DepositPageClient() {
                       onClick={() => {
                         void handleDepositSelected();
                       }}
-                      className={`border px-5 py-3 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-40 ${
-                        confirmingBatchDeposit
-                          ? "border-amber-300/45 bg-amber-300/15 text-amber-100 hover:border-amber-200/60 hover:bg-amber-300/20"
-                          : "border-emerald-300/30 bg-emerald-300/14 text-emerald-100 hover:border-emerald-200/50 hover:bg-emerald-300/20"
-                      }`}
+                      className={`border px-5 py-3 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-40 ${confirmingBatchDeposit
+                        ? "border-amber-300/45 bg-amber-300/15 text-amber-100 hover:border-amber-200/60 hover:bg-amber-300/20"
+                        : "border-emerald-300/30 bg-emerald-300/14 text-emerald-100 hover:border-emerald-200/50 hover:bg-emerald-300/20"
+                        }`}
                     >
                       {confirmingBatchDeposit
-                        ? `Confirm deposit of ${selectedPackIds.length} AssetPack${
-                            selectedPackIds.length === 1 ? "" : "s"
-                          }`
+                        ? `Confirm deposit of ${selectedPackIds.length} AssetPack${selectedPackIds.length === 1 ? "" : "s"
+                        }`
                         : selectedPackIds.length
-                          ? `Deposit ${selectedPackIds.length} selected AssetPack${
-                              selectedPackIds.length === 1 ? "" : "s"
-                            }`
+                          ? `Deposit ${selectedPackIds.length} selected AssetPack${selectedPackIds.length === 1 ? "" : "s"
+                          }`
                           : "Deposit selected AssetPacks"}
                     </button>
                   </div>
@@ -2347,10 +2335,6 @@ export default function DepositPageClient() {
                     </span>
                   </h2>
                 </div>
-                <TrendingUp
-                  className="h-5 w-5 text-emerald-200"
-                  aria-hidden="true"
-                />
               </div>
               <dl className="mt-4 grid gap-2">
                 <TelemetryExplainerTrigger
@@ -2520,10 +2504,6 @@ export default function DepositPageClient() {
                     </span>
                   </h2>
                 </div>
-                <ShieldCheck
-                  className="h-5 w-5 text-emerald-200"
-                  aria-hidden="true"
-                />
               </div>
               <dl className="mt-4 grid gap-2">
                 {authorityRows.map((row) => (
@@ -2583,10 +2563,6 @@ export default function DepositPageClient() {
                     </span>
                   </h2>
                 </div>
-                <ShieldCheck
-                  className="h-5 w-5 text-emerald-200"
-                  aria-hidden="true"
-                />
               </div>
               <dl className="mt-4 grid gap-2">
                 {sessionRows.map((row) => (
