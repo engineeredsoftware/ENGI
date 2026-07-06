@@ -7,32 +7,45 @@
 - Posture: interactive local experiential QA of the first live commercial (testnet) experience; app runs locally (`pnpm -C uapi dev:remote`) against the staging Supabase project; wallet network testnet4
 - Source-safety posture: source-safe evidence only; no secrets, protected source, provider payloads, wallet material, service-role keys, database credentials, or raw private prompts are serialized here.
 
-## Environments (decided 2026-07-05)
+## Environments (project map corrected 2026-07-06)
 
-TWO deployed environments plus local:
+**THREE Supabase projects (Garrett, 2026-07-06 — supersedes the earlier
+two-project model that mislabeled `mwugicjpxmrtctvjghjg` as staging-testnet):**
 
-- **production-mainnet** — bitcode.exchange + the original Supabase project;
-  GitHub App `bitcode-github-auxillary`
-  (https://github.com/apps/bitcode-github-auxillary — renamed 2026-07-05 from
-  `bitcode-github-app-auxillary`; the code fallback
-  `BITCODE_GITHUB_APP_PUBLIC_URL` names this app); mainnet posture.
-  **Production == staging FOR NOW (Garrett, 2026-07-05):** the Vercel
-  production environment is configured AS staging-testnet entirely — the full
-  staging matrix (staging Supabase project, testnet4 network, stag-test GitHub
-  App + public URL, shared wallet-OAuth secret) was pushed to BOTH
-  `staginglocal-testnet` and `production` targets. The mainnet matrix returns
-  at mainnet relaunch; until then bitcode.exchange serves the testnet posture.
-- **staging-testnet** — THE single non-production clone (Vercel custom
-  environment `staginglocal-testnet` with domain `testnet.bitcode.exchange`,
-  Supabase project `mwugicjpxmrtctvjghjg`, GitHub App
-  `bitcode-github-auxillary-stag-test`, app id 4224019); testnet4 posture.
-- **local** — develops AGAINST staging-testnet as much as possible
-  (`localhost:3000` for every browser-facing hop; `testnet.bitcode.exchange`
-  only for flows requiring hosting, e.g. Supabase-cloud-reachable OAuth
-  endpoints). Vercel allows one custom environment, so
-  `staginglocal-testnet` serves both postures; a separate local-testnet
-  Supabase project is DEFERRED — local points at the staging-testnet
-  project for now.
+- **staging-testnet** — Supabase **`tkpyosihuouusyaxtbau`**; the LIVE
+  `custom:bitcode-bitcoin` wallet auth provider is configured here (authorize →
+  302). Its provider OAuth endpoints point at `bitcode.exchange`
+  (Authorization/Token/Userinfo/JWKS). Schema is BEHIND the current branch: it
+  has the full execution + BTD-ledger schema (59 tables — `executions`,
+  `user_connections`, `vcs_repositories`, `btd_*`) but still carries
+  `deliverable_pipeline_otf_instructions` (Gate 3 drops it), has no `profiles`
+  table, and has no `asset-pack-artifacts` bucket — the current migrations must
+  be applied to it (needs its DB password + `supabase link`).
+- **local-testnet** — Supabase **`mwugicjpxmrtctvjghjg`** (created 2026-07-05).
+  This is where the 2026-07-05 bring-up actually landed: all 10 current
+  migrations + the `asset-pack-artifacts` bucket. (The bring-up notes below
+  that say "staging-testnet = mwugicjpxmrtctvjghjg" are the OLD mislabel —
+  read them as local-testnet.)
+- **production-mainnet** — Supabase **`rinalyjfecxnmyczrpzo`** + the
+  `bitcode.exchange` / `www.bitcode.exchange` domains; GitHub App
+  `bitcode-github-auxillary` (the `BITCODE_GITHUB_APP_PUBLIC_URL` code
+  fallback names this app); mainnet posture. NOTE: the 2026-07-05
+  "production == staging" Vercel push pointed the `production` env's
+  `SUPABASE_URL` at `mwugicjpxmrtctvjghjg` (local-testnet) — that must be
+  corrected to `rinalyjfecxnmyczrpzo` when mainnet returns.
+
+- **local** — for Gate-3 deposit QA, `localhost:3000` develops AGAINST
+  **staging-testnet (`tkpyosihuouusyaxtbau`)** so the wallet auth provider is
+  available; browser-facing hops stay on `localhost:3000`, and the wallet
+  OAuth server endpoints resolve through `www.bitcode.exchange` (the provider's
+  `bitcode.exchange` URLs 307→www, method-preserving). `uapi/.env.local` was
+  repointed to `tkpyosihuouusyaxtbau` on 2026-07-06 (Supabase URL + anon /
+  service / publishable / secret keys synced from `uapi/.env.local.remote`;
+  `SUPABASE_JWT_SECRET` left as its placeholder — vestigial, no app code reads
+  it), the stag-test GitHub App creds (`GITHUB_APP_ID=4224019`, base64 private
+  key, `GITHUB_APP_CLIENT_ID/SECRET`), `NEXT_PUBLIC_GITHUB_APP_PUBLIC_URL` =
+  the stag-test app, and `NEXT_PUBLIC_BITCODE_BITCOIN_NETWORK=testnet4`.
+  `.env.local.bak.*` backups retain the prior state.
 
 Bring-up state (2026-07-05): all 10 migrations applied to
 `mwugicjpxmrtctvjghjg` (schema + asset-pack-artifacts bucket verified live);
