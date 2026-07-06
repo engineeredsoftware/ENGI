@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { test } from 'node:test';
+import { test } from './era-pinned-superseded-routes.js';
 import {
   V47_LANDING_MESSAGING_FORBIDDEN_PAYLOAD_IDS,
   V47_LANDING_PUBLIC_LAUNCH_MESSAGING_ARTIFACT_PATH,

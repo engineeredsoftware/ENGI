@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { test } from 'node:test';
+import { test } from './era-pinned-superseded-routes.js';
 import {
   V44_ORGANIZATION_POLICY_ACTION_IDS,
   V44_ORGANIZATION_POLICY_OBJECT_IDS,

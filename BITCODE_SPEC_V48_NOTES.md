@@ -563,7 +563,20 @@ become MASTER-DETAIL:
 
 Checker posture: all gate checkers literal-matching the old routes are
 era-pinned (V43–V47) and do not run at the current pointer; frozen `.bitcode/`
-era artifacts and promoted spec families keep the historical route names.
+era artifacts and promoted spec families keep the historical route names. The
+standalone `.mjs` gate checkers are pointer-gated in the workflow; the
+`@bitcode/protocol` **test suite** (`node --test test/*.test.js`, run
+unconditionally by Gate Quality) was NOT — its V43–V47 route-realization proofs
+read the historical singular-route source in place and moved to `false !== true`
+once the pluralization moved the files to `uapi/app/deposits|reads`. Those 16
+superseded proof files import `test` from
+`packages/protocol/test/era-pinned-superseded-routes.js` (a `node:test` shim)
+instead of `node:test`: it skips every test WITH A REASON when the current
+plural realization is present (`uapi/app/deposits/DepositPageClient.tsx` exists)
+and runs them unchanged on the promoted V47 canon where the singular
+realization still stands. The proofs are NOT re-pointed at the plural routes —
+Gate 3 rewrote those files, so their historical content predicates would not
+match, and the frozen proofs attest their own era.
 
 ### Deposit/Read product-surface presentation laws (Garrett, 2026-07-04)
 

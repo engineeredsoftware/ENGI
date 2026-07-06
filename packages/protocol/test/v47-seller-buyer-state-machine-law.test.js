@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { test } from 'node:test';
+import { test } from './era-pinned-superseded-routes.js';
 import {
   V47_IP_BUYER_STATE_IDS,
   V47_IP_SELLER_STATE_IDS,

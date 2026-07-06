@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import test from './era-pinned-superseded-routes.js';
 
 import {
   V43_CROSS_ROUTE_REHEARSAL_ARTIFACT_PATH,
