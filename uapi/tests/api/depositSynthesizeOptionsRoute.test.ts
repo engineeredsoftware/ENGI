@@ -89,7 +89,26 @@ const RAW_OPTIONS = [
     summary:
       'A source-safe slice describing the demo application capability, its entry points, and operational behavior for future reading demand.',
     coveredSourcePaths: ['README.md', 'src/app.py'],
-    measurements: { 'source-coverage': 0.6, 'demand-alignment': 0.7, 'reuse-likelihood': 0.5 },
+    // Formal absolutes (Validation measure-agent) are required by product projection.
+    absolutes: [
+      {
+        measurementKind: 'function-count',
+        label: 'Functions',
+        weight: 0.12,
+        volume: 0.5,
+        category: 'absolute',
+        magnitude: 6,
+        unit: 'functions',
+      },
+      {
+        measurementKind: 'correctness-estimate',
+        label: 'Correctness',
+        weight: 0.18,
+        volume: 0.72,
+        category: 'absolute',
+        unit: 'estimate',
+      },
+    ],
     measurementRationale: 'Covers the primary application path and documentation.',
     confidence: 0.8,
     patch: {

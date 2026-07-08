@@ -21,12 +21,14 @@ export function DepositIncludePathsIcon({
   className?: string;
   title?: string;
 }) {
+  // Lucide icons do not accept `title`; wrap so hover tooltips still work.
   return (
-    <FolderPlus
-      className={className ?? `${ICON_CLASS} text-emerald-300/80`}
-      aria-hidden="true"
-      title={title}
-    />
+    <span title={title} className="inline-flex shrink-0">
+      <FolderPlus
+        className={className ?? `${ICON_CLASS} text-emerald-300/80`}
+        aria-hidden="true"
+      />
+    </span>
   );
 }
 
@@ -39,11 +41,12 @@ export function DepositExcludePathsIcon({
   title?: string;
 }) {
   return (
-    <FolderMinus
-      className={className ?? `${ICON_CLASS} text-rose-300/80`}
-      aria-hidden="true"
-      title={title}
-    />
+    <span title={title} className="inline-flex shrink-0">
+      <FolderMinus
+        className={className ?? `${ICON_CLASS} text-rose-300/80`}
+        aria-hidden="true"
+      />
+    </span>
   );
 }
 

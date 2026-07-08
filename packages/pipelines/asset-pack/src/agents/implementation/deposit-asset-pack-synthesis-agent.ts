@@ -70,8 +70,10 @@ const candidateSchema = z.object({
   // Absolute measurements (quantity + quality material properties) are produced
   // by agent-measure-absolutes in Validation — NOT self-scored here. Optional
   // legacy record accepted for back-compat but ignored when absolutes attach.
-  measurements: z.record(z.string(), z.coerce.number().min(0).max(1)).optional().default({}),
-  measurementRationale: z.string().max(700).optional().default(''),
+  // Keep input/output Zod types aligned (no .default that widens _input vs output)
+  // so factoryAgentWithPTRR accepts the schema under tsc.
+  measurements: z.record(z.string(), z.coerce.number().min(0).max(1)).optional(),
+  measurementRationale: z.string().max(700).optional(),
   confidence: z.coerce.number().min(0).max(1),
   // Synthesized patch descriptor (path+op + summary) — Validation measures it.
   patch: patchSchema,
