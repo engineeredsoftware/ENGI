@@ -323,6 +323,37 @@ export default function DepositPageClient() {
   // Detail owns the page when composing a new deposit OR viewing a run.
   const isDepositDetailOpen = Boolean(synthesisRunId) || isComposeOpen;
 
+  // Activity-ledger rows (Obfuscations / repository anchors) feed Load-anchor
+  // dropdowns but are NOT pipeline executions — exclude them from the pipelines
+  // table so selecting them cannot open empty "Telemetry / No logs" detail.
+  const ACTIVITY_LEDGER_SOURCES = useMemo(
+    () =>
+      new Set([
+        "deposit-obfuscations-anchor",
+        "terminal-repository-context-panel",
+      ]),
+    [],
+  );
+  const pipelineTableRuns = useMemo(
+    () =>
+      liveRuns.filter(
+        (run) =>
+          !run.contextSource || !ACTIVITY_LEDGER_SOURCES.has(run.contextSource),
+      ),
+    [liveRuns, ACTIVITY_LEDGER_SOURCES],
+  );
+  const selectedDetailRun = useMemo(
+    () =>
+      synthesisRunId
+        ? liveRuns.find((run) => run.id === synthesisRunId) || null
+        : null,
+    [liveRuns, synthesisRunId],
+  );
+  const isActivityLedgerDetail = Boolean(
+    selectedDetailRun?.contextSource &&
+      ACTIVITY_LEDGER_SOURCES.has(selectedDetailRun.contextSource),
+  );
+
   const refreshLiveRuns = useCallback(async () => {
     setIsLoadingRuns(true);
     setRunsLoadError(null);
@@ -1597,7 +1628,7 @@ export default function DepositPageClient() {
           {!isDepositDetailOpen ? (
             <div className="mt-4" data-testid="deposits-pipelines-table">
               <TerminalTransactionsTable
-                runs={liveRuns}
+                runs={pipelineTableRuns}
                 selectedTransactionId={selectedRun?.id ?? null}
                 onSelectTransaction={replaceDepositRouteTransaction}
                 filters={pipelineFilters}
@@ -1983,7 +2014,46 @@ export default function DepositPageClient() {
               </section>
             </div>
 
-            {synthesisRunId ? (
+            {synthesisRunId && isActivityLedgerDetail ? (
+              <section
+                className="min-w-0 overflow-hidden border border-white/10 bg-white/[0.035] px-4 py-4"
+                aria-label="Activity ledger record"
+                data-testid="deposit-activity-ledger-detail"
+              >
+                <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
+                  Activity ledger
+                </p>
+                <h2 className="mt-2 text-lg font-semibold text-white">
+                  {selectedDetailRun?.contextSource ===
+                  "deposit-obfuscations-anchor"
+                    ? "Obfuscations anchor"
+                    : selectedDetailRun?.contextSource ===
+                        "terminal-repository-context-panel"
+                      ? "Repository anchor"
+                      : "Activity record"}
+                </h2>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-400">
+                  This row is a saved configuration bookmark, not a pipeline
+                  run. Pipeline telemetry (phases, agents, generations) only
+                  appears for Asset Pack Synthesis executions. Use Load
+                  anchor on a New deposit to apply this configuration, or Back
+                  to return to the pipelines table.
+                </p>
+                {selectedDetailRun?.summary ? (
+                  <p
+                    className="mt-4 border border-white/10 bg-black/30 px-3 py-3 text-sm leading-6 text-neutral-200"
+                    data-testid="deposit-activity-ledger-summary"
+                  >
+                    {selectedDetailRun.summary}
+                  </p>
+                ) : null}
+                <p className="mt-3 font-mono text-[0.62rem] text-neutral-500">
+                  {synthesisRunId}
+                </p>
+              </section>
+            ) : null}
+
+            {synthesisRunId && !isActivityLedgerDetail ? (
               <section
                 ref={synthesisTelemetryRef}
                 className="min-w-0 overflow-hidden border border-white/10 bg-white/[0.035] px-4 py-4"
