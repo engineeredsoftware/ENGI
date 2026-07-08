@@ -372,7 +372,7 @@ export default function DepositPageClient() {
           {
             id: "source-path-sensitive-scope-warning",
             label:
-              "Source path hints include sensitive operational terms requiring review.",
+              "Forced Inclusion paths include sensitive operational terms requiring review.",
             severity: "warning" as const,
             weight: 0.64,
           },
@@ -1048,6 +1048,38 @@ export default function DepositPageClient() {
     sourcePathHints,
   ]);
 
+  // Delete a saved Obfuscations anchor from the activity ledger (hover-trash
+  // on the Load-anchor dropdown). Optimistic local removal; server is the
+  // fail-closed authority (own row + anchor-source only).
+  const handleDeleteObfuscationsAnchor = useCallback(async (anchorId: string) => {
+    if (!anchorId) return;
+    const previousRuns = liveRuns;
+    setLiveRuns((current) => current.filter((run) => run.id !== anchorId));
+    setObfuscationsAnchorMessage(null);
+    try {
+      const response = await fetch(
+        `/api/executions/history/${encodeURIComponent(anchorId)}`,
+        { method: "DELETE" },
+      );
+      if (!response.ok) {
+        const payload = (await response.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+        throw new Error(
+          payload?.error || "Unable to delete the Obfuscations anchor.",
+        );
+      }
+      setObfuscationsAnchorMessage("Obfuscations anchor deleted.");
+    } catch (error) {
+      setLiveRuns(previousRuns);
+      setObfuscationsAnchorMessage(
+        error instanceof Error
+          ? error.message
+          : "Unable to delete the Obfuscations anchor.",
+      );
+    }
+  }, [liveRuns]);
+
   // Real option synthesis via the AssetPacksSynthesis pipeline (deposit
   // lens). The server route builds the exclusion-filtered source inventory,
   // runs bounded inference, persists the execution row with real
@@ -1722,6 +1754,7 @@ export default function DepositPageClient() {
                             ]
                               .filter(Boolean)
                               .join(" "),
+                            deletable: true,
                           }))}
                           value={null}
                           onSelect={(key) => {
@@ -1734,6 +1767,12 @@ export default function DepositPageClient() {
                             setSourcePathHints(anchor.sourcePathHints);
                             setProtectedIpExclusions(anchor.protectedIpExclusions);
                           }}
+                          onDeleteItem={(key) => {
+                            void handleDeleteObfuscationsAnchor(key);
+                          }}
+                          // One-shot load-in: always shows the placeholder, never
+                          // a selected value — no check indicator in the list.
+                          showSelectionIndicator={false}
                           placeholder="Load anchor..."
                           searchPlaceholder="Search anchors..."
                           emptyMessage="No anchors yet."
@@ -1891,21 +1930,21 @@ export default function DepositPageClient() {
                   ) : null}
                 </div>
                 {/* File-tree pickers over the selected repository·branch·
-                    commit. Hints and exclusions are MUTUALLY EXCLUSIVE — a
-                    path picked on one side is disabled on the other.
-                    Concept-level withholding belongs to Obfuscations above. */}
+                    commit. Forced Inclusion and Forced Exclusions are MUTUALLY
+                    EXCLUSIVE — a path picked on one side is disabled on the
+                    other. Concept-level withholding belongs to Obfuscations. */}
                 <div className="mt-4 grid gap-4 tablet:grid-cols-2">
                   <div className="block">
                     <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
                       <DepositIncludePathsIcon />
-                      <span>Source path hints</span>
+                      <span>Forced Inclusion</span>
                       <span onClick={(event) => event.stopPropagation()}>
                         <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.sourcePathHints} triggerAriaLabel="More info about this field" />
                       </span>
                     </span>
                     <div className="mt-2">
                       <VCSFileTreePicker
-                        aria-label="Source path hints file tree"
+                        aria-label="Forced Inclusion file tree"
                         provider={repositoryContext?.provider ?? "github"}
                         repositoryFullName={
                           repositoryContext?.selectedRepository?.fullName ?? null
@@ -1918,21 +1957,21 @@ export default function DepositPageClient() {
                         selectedPaths={sourcePathHints}
                         onChange={setSourcePathHints}
                         conflictingPaths={protectedIpExclusions}
-                        conflictLabel="Already a protected IP exclusion"
+                        conflictLabel="Already a Forced Exclusion"
                       />
                     </div>
                   </div>
                   <div className="block">
                     <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
                       <DepositExcludePathsIcon />
-                      <span>Protected IP exclusions</span>
+                      <span>Forced Exclusions</span>
                       <span onClick={(event) => event.stopPropagation()}>
                         <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.protectedIpExclusions} triggerAriaLabel="More info about this field" />
                       </span>
                     </span>
                     <div className="mt-2">
                       <VCSFileTreePicker
-                        aria-label="Protected IP exclusions file tree"
+                        aria-label="Forced Exclusions file tree"
                         provider={repositoryContext?.provider ?? "github"}
                         repositoryFullName={
                           repositoryContext?.selectedRepository?.fullName ?? null
@@ -1945,14 +1984,14 @@ export default function DepositPageClient() {
                         selectedPaths={protectedIpExclusions}
                         onChange={setProtectedIpExclusions}
                         conflictingPaths={sourcePathHints}
-                        conflictLabel="Already a source path hint"
+                        conflictLabel="Already a Forced Inclusion"
                       />
                     </div>
                     <span className="mt-1 block text-xs leading-5 text-neutral-500">
-                      Excluded paths never enter AssetPack knowledge synthesis:
-                      they are removed from the source inventory before
-                      measurement, and candidates that touch them are dropped
-                      fail-closed. Concept-level withholding belongs in
+                      Forced Exclusions never enter AssetPack knowledge
+                      synthesis: they are removed from the source inventory
+                      before measurement, and candidates that touch them are
+                      dropped fail-closed. Concept-level withholding belongs in
                       Obfuscations above.
                     </span>
                   </div>
@@ -1985,7 +2024,7 @@ export default function DepositPageClient() {
                   >
                     {synthesisStatus === "running"
                       ? "Synthesizing with AssetPacksSynthesis…"
-                      : "Synthesize options"}
+                      : "Synthesize AssetPack Options"}
                   </button>
                 )}
               </section>
@@ -2001,10 +2040,10 @@ export default function DepositPageClient() {
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
-                    Options
+                    Source-Safe Proposals
                   </p>
                   <h2 className="mt-2 flex items-center gap-2 text-lg font-semibold text-white">
-                    <span>Source-safe AssetPack proposals</span>
+                    <span>AssetPack Options</span>
                     <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.options} />
                   </h2>
                 </div>

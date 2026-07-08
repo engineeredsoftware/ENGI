@@ -153,7 +153,7 @@ test.describe('commercial MVP IP exchange browser proof', () => {
 
     // Source connection precedes synthesis: the synthesize action stays
     // disabled until the route session resolves a repository source.
-    const synthesizeButton = page.getByRole('button', { name: 'Synthesize options' });
+    const synthesizeButton = page.getByRole('button', { name: 'Synthesize AssetPack Options' });
     await expect(synthesizeButton).toBeEnabled({ timeout: 30_000 });
 
     await synthesizeButton.click();

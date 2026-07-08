@@ -361,7 +361,7 @@ describe("DepositPageClient", () => {
     expect(lastHref).not.toContain("transactionId=");
   });
 
-  it("hides the Synthesize options button while a run's detail owns the page", async () => {
+  it("hides the Synthesize AssetPack Options button while a run's detail owns the page", async () => {
     // A run is adopted by default (mockQuery) — dispatching from here would
     // yank the viewer off the loaded run's telemetry/results mid-review.
     render(<DepositPageClient />);
@@ -369,7 +369,7 @@ describe("DepositPageClient", () => {
       await screen.findByTestId("deposit-synthesis-telemetry"),
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole("button", { name: "Synthesize options" }),
+      screen.queryByRole("button", { name: "Synthesize AssetPack Options" }),
     ).not.toBeInTheDocument();
     expect(
       screen.getByTestId("deposit-obfuscations-run-loaded-note"),
@@ -380,7 +380,7 @@ describe("DepositPageClient", () => {
       await screen.findByRole("button", { name: "Back to Deposit pipelines" }),
     );
     expect(
-      await screen.findByRole("button", { name: "Synthesize options" }),
+      await screen.findByRole("button", { name: "Synthesize AssetPack Options" }),
     ).toBeInTheDocument();
     expect(
       screen.queryByTestId("deposit-obfuscations-run-loaded-note"),
@@ -679,7 +679,7 @@ describe("DepositPageClient", () => {
     // Pick the exclusion from the repository file tree (fetched at the
     // selected repo·branch·commit); a directory selects its prefix.
     const exclusionsTree = await screen.findByLabelText(
-      "Protected IP exclusions file tree",
+      "Forced Exclusions file tree",
     );
     const secretEngineRow = await within(exclusionsTree).findByText(
       "secret-engine/",
@@ -687,7 +687,7 @@ describe("DepositPageClient", () => {
     fireEvent.click(secretEngineRow);
 
     const synthesizeButton = await screen.findByRole("button", {
-      name: "Synthesize options",
+      name: "Synthesize AssetPack Options",
     });
     await waitFor(() => expect(synthesizeButton).not.toBeDisabled());
     fireEvent.click(synthesizeButton);
@@ -894,7 +894,7 @@ describe("DepositPageClient", () => {
       await screen.findByRole("button", { name: "Back to Deposit pipelines" }),
     );
     const synthesizeButton = await screen.findByRole("button", {
-      name: "Synthesize options",
+      name: "Synthesize AssetPack Options",
     });
     await waitFor(() => expect(synthesizeButton).not.toBeDisabled());
     fireEvent.click(synthesizeButton);
@@ -1236,10 +1236,10 @@ describe("DepositPageClient", () => {
         within(listbox).getByText("Withhold the billing module internals."),
       ).toBeInTheDocument();
       expect(
-        within(listbox).getByLabelText("2 hint files"),
+        within(listbox).getByLabelText("2 forced inclusion paths"),
       ).toBeInTheDocument();
       expect(
-        within(listbox).getByLabelText("1 exclusion file"),
+        within(listbox).getByLabelText("1 forced exclusion path"),
       ).toBeInTheDocument();
       fireEvent.click(within(listbox).getByText("Billing withhold"));
 
@@ -1254,6 +1254,61 @@ describe("DepositPageClient", () => {
         (screen.getByLabelText("Obfuscations anchor name") as HTMLInputElement)
           .value,
       ).toBe("Billing withhold");
+    });
+
+    it("deletes an Obfuscations anchor from the load dropdown without loading it", async () => {
+      withAnchorFixtures();
+      const fetchMock = jest.fn(async (url: string, init?: RequestInit) => {
+        if (
+          typeof url === "string" &&
+          url.includes("/api/executions/history/obfuscations-anchor-1") &&
+          init?.method === "DELETE"
+        ) {
+          return {
+            ok: true,
+            status: 200,
+            json: async () => ({ deleted: true, id: "obfuscations-anchor-1" }),
+          };
+        }
+        return { ok: true, json: async () => ({}) };
+      });
+      global.fetch = fetchMock as unknown as typeof fetch;
+
+      render(<DepositPageClient />);
+
+      const anchorSelect = await screen.findByRole("combobox", {
+        name: "Load a previously anchored Obfuscations configuration",
+      });
+      fireEvent.click(anchorSelect);
+      const listbox = await screen.findByRole("listbox");
+      expect(within(listbox).getByText("Billing withhold")).toBeInTheDocument();
+
+      fireEvent.click(
+        within(listbox).getByRole("button", {
+          name: "Delete Billing withhold",
+        }),
+      );
+
+      await waitFor(() =>
+        expect(fetchMock).toHaveBeenCalledWith(
+          "/api/executions/history/obfuscations-anchor-1",
+          expect.objectContaining({ method: "DELETE" }),
+        ),
+      );
+      await waitFor(() =>
+        expect(
+          screen.queryByRole("option", { name: /Billing withhold/i }),
+        ).not.toBeInTheDocument(),
+      );
+      expect(
+        await screen.findByText("Obfuscations anchor deleted."),
+      ).toBeInTheDocument();
+      // Delete must not load the anchor body into the textarea.
+      expect(
+        (screen.getByLabelText(
+          "What to obfuscate or withhold",
+        ) as HTMLTextAreaElement).value,
+      ).toBe("");
     });
 
     it("anchors the current Obfuscations text into the activity ledger with its name", async () => {
