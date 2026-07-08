@@ -319,7 +319,16 @@ export class VCSConnections {
         ...connectionData,
         access_token: tokens.accessToken,
         refresh_token: tokens.refreshToken || readString(connectionData.refresh_token),
-        token_expires_at: tokens.expiresAt?.toISOString()
+        token_expires_at: tokens.expiresAt?.toISOString(),
+        // This is the ONLY caller of updateTokens, and it's the GitHub App
+        // installation-token regeneration path in getAuthFromConnection below
+        // — which decides "is the token expired" by reading
+        // installation_token_expires_at (V48-Gate3-F33), not token_expires_at.
+        // Writing only token_expires_at here left that check permanently
+        // stale: every regeneration "succeeded" but the field the NEXT check
+        // reads never moved, so it re-triggered a full regeneration on every
+        // single call forever. Keep both fields in lockstep.
+        installation_token_expires_at: tokens.expiresAt?.toISOString()
       } as Database['public']['Tables']['user_connections']['Update']['connection_data'];
       
       await this.connections.update(connectionId, {

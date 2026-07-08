@@ -64,13 +64,23 @@ export const GET = createRouteWrapper(async (request: Request, context: Provider
 
   const instanceUrl = readInstanceUrl(request);
   const valid = await validateStoredConnection(manager, provider, connection, instanceUrl).catch(() => false);
-  const connectionStatus = buildStoredConnectionStatus(provider, connection, valid);
+  // V48-Gate3-F33: validateStoredConnection may have just regenerated and
+  // persisted a fresh GitHub App installation token (getAuthFromConnection).
+  // `connection` above was fetched BEFORE that write, so building the status
+  // from it would show the pre-regeneration token_expires_at/metadata for
+  // this whole response — one Refresh click behind reality. Re-fetch so a
+  // successful silent regeneration is visible immediately, not on the next
+  // click.
+  const refreshedConnection = valid
+    ? (await manager.getConnection(user.id, provider).catch(() => null)) || connection
+    : connection;
+  const connectionStatus = buildStoredConnectionStatus(provider, refreshedConnection, valid);
 
   return NextResponse.json({
     ...connectionStatus,
     providerReadiness: buildAuxillariesConnectionReadiness({
       provider,
-      connection: connection.connectionData,
+      connection: refreshedConnection.connectionData,
       connectionStatus,
       repositories: valid ? [{}] : [],
     }),
