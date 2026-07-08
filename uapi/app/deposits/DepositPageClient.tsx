@@ -6,6 +6,7 @@ import {
   Anchor,
   ArrowLeft,
   Boxes,
+  Plus,
   RefreshCw,
   Sparkles,
 } from "lucide-react";
@@ -169,6 +170,9 @@ export default function DepositPageClient() {
   const [protectedIpExclusions, setProtectedIpExclusions] = useState<string[]>([]);
   const [optionsRequested, setOptionsRequested] = useState(false);
   const [synthesisRunId, setSynthesisRunId] = useState<string | null>(null);
+  // Master-detail: pipelines table is master; compose (new deposit) or a
+  // selected run replaces the table with the configuration/detail experience.
+  const [isComposeOpen, setIsComposeOpen] = useState(false);
   // Whether the attached run is an option synthesis (its completed output
   // carries synthesized AssetPack options to resume into review) or any
   // other pipeline execution (telemetry-only detail).
@@ -289,9 +293,22 @@ export default function DepositPageClient() {
     [readCurrentSearchParams, replaceDepositSearchParams],
   );
 
-  // Back from the run detail (drill-in sub-page) to the pipelines table:
-  // clear the URL selection and detach the run so the master table returns.
+  // Back from compose or run detail to the pipelines table: clear the URL
+  // selection, detach any run, and leave compose so the master table returns.
   const closePipelineDetail = useCallback(() => {
+    replaceDepositSearchParams(
+      clearTerminalTransactionId(readCurrentSearchParams()),
+    );
+    setIsComposeOpen(false);
+    setSynthesisRunId(null);
+    setSynthesisStatus("idle");
+    setSynthesisError(null);
+    setSynthesisDispatchedAtMs(null);
+  }, [readCurrentSearchParams, replaceDepositSearchParams]);
+
+  // Open the new-deposit configuration detail (replaces the table, same
+  // drill-in shape as selecting a run row — but editable, no run locked yet).
+  const openComposeDetail = useCallback(() => {
     replaceDepositSearchParams(
       clearTerminalTransactionId(readCurrentSearchParams()),
     );
@@ -299,7 +316,12 @@ export default function DepositPageClient() {
     setSynthesisStatus("idle");
     setSynthesisError(null);
     setSynthesisDispatchedAtMs(null);
+    setRealSynthesis(null);
+    setIsComposeOpen(true);
   }, [readCurrentSearchParams, replaceDepositSearchParams]);
+
+  // Detail owns the page when composing a new deposit OR viewing a run.
+  const isDepositDetailOpen = Boolean(synthesisRunId) || isComposeOpen;
 
   const refreshLiveRuns = useCallback(async () => {
     setIsLoadingRuns(true);
@@ -1519,16 +1541,16 @@ export default function DepositPageClient() {
       >
         <section
           className="border border-white/10 bg-white/[0.035] px-4 py-4"
-          aria-label="Deposit pipelines"
+          aria-label="Deposit"
         >
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-start gap-3">
-              {synthesisRunId ? (
+              {isDepositDetailOpen ? (
                 <button
                   type="button"
                   onClick={closePipelineDetail}
                   className="inline-flex h-9 items-center gap-2 border border-white/10 bg-white/[0.04] px-3 text-xs font-medium uppercase tracking-[0.14em] text-neutral-200 transition hover:border-emerald-300/30 hover:bg-emerald-300/10"
-                  aria-label="Back to Deposit pipelines"
+                  aria-label="Back to Deposit"
                 >
                   <ArrowLeft className="h-4 w-4" aria-hidden="true" />
                   Back
@@ -1539,59 +1561,72 @@ export default function DepositPageClient() {
                   Pipelines
                 </p>
                 <h2 className="mt-2 flex items-center gap-2 text-lg font-semibold text-white">
-                  <span>Deposit pipelines</span>
+                  <span>Deposit</span>
                   <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.readback} />
                 </h2>
               </div>
             </div>
-            <button
-              type="button"
-              onClick={() => {
-                void refreshLiveRuns();
-              }}
-              className="inline-flex h-9 w-9 items-center justify-center border border-white/10 bg-white/[0.04] text-neutral-200 transition hover:border-emerald-300/30 hover:bg-emerald-300/10"
-              aria-label="Refresh Deposit pipelines"
-            >
-              <RefreshCw className="h-4 w-4" aria-hidden="true" />
-            </button>
+            <div className="flex items-center gap-2">
+              {!isDepositDetailOpen ? (
+                <button
+                  type="button"
+                  onClick={openComposeDetail}
+                  className="inline-flex h-9 w-9 items-center justify-center border border-white/10 bg-white/[0.04] text-neutral-200 transition hover:border-emerald-300/30 hover:bg-emerald-300/10"
+                  aria-label="New deposit"
+                  title="New deposit"
+                  data-testid="deposit-open-compose"
+                >
+                  <Plus className="h-4 w-4" aria-hidden="true" />
+                </button>
+              ) : null}
+              <button
+                type="button"
+                onClick={() => {
+                  void refreshLiveRuns();
+                }}
+                className="inline-flex h-9 w-9 items-center justify-center border border-white/10 bg-white/[0.04] text-neutral-200 transition hover:border-emerald-300/30 hover:bg-emerald-300/10"
+                aria-label="Refresh Deposit"
+              >
+                <RefreshCw className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </div>
           </div>
-          {/* Drill-in master-detail: with no selection the master table shows
-              (row selection writes the URL transactionId); selecting a run
-              REPLACES the table with that run's detail (telemetry + resumed
-              results), and Back returns to the table. */}
-          {synthesisRunId ? null : (
-            <>
-              <div className="mt-4" data-testid="deposits-pipelines-table">
-                <TerminalTransactionsTable
-                  runs={liveRuns}
-                  selectedTransactionId={selectedRun?.id ?? null}
-                  onSelectTransaction={replaceDepositRouteTransaction}
-                  filters={pipelineFilters}
-                  onFiltersChange={setPipelineFilters}
-                  onResetFilters={() =>
-                    setPipelineFilters({
-                      ...DEFAULT_TRANSACTION_FILTERS,
-                      transactionLens: "deposit",
-                    })
-                  }
-                  pagination={pipelinePagination}
-                  onPaginationChange={setPipelinePagination}
-                  isLoadingRuns={isLoadingRuns}
-                  runsError={runsLoadError}
-                  transactionDataMode="live"
-                  surface="pipelines"
-                />
-              </div>
-            </>
-          )}
+          {/* Drill-in master-detail: master = pipelines table. Detail (compose
+              or selected run) REPLACES the table; Back returns to the table.
+              New (+) opens compose; row selection opens run detail. */}
+          {!isDepositDetailOpen ? (
+            <div className="mt-4" data-testid="deposits-pipelines-table">
+              <TerminalTransactionsTable
+                runs={liveRuns}
+                selectedTransactionId={selectedRun?.id ?? null}
+                onSelectTransaction={replaceDepositRouteTransaction}
+                filters={pipelineFilters}
+                onFiltersChange={setPipelineFilters}
+                onResetFilters={() =>
+                  setPipelineFilters({
+                    ...DEFAULT_TRANSACTION_FILTERS,
+                    transactionLens: "deposit",
+                  })
+                }
+                pagination={pipelinePagination}
+                onPaginationChange={setPipelinePagination}
+                isLoadingRuns={isLoadingRuns}
+                runsError={runsLoadError}
+                transactionDataMode="live"
+                surface="pipelines"
+              />
+            </div>
+          ) : null}
         </section>
 
-        {/* Run configuration lives ABOVE telemetry. Once a run is submitted
-            (page is run detail), the configuration that produced it is locked. */}
+        {/* Configuration + telemetry + options only in detail (compose or run).
+            Once a run is attached, configuration locks above telemetry. */}
+        {isDepositDetailOpen ? (
         <section
           className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]"
           data-testid="deposit-run-configuration"
           data-locked={synthesisRunId ? "true" : "false"}
+          data-compose={isComposeOpen && !synthesisRunId ? "true" : "false"}
         >
           <div className="grid min-w-0 gap-5">
             <div className="grid gap-5 xl:grid-cols-2">
@@ -1926,7 +1961,7 @@ export default function DepositPageClient() {
                     className="mt-4 text-xs leading-5 text-neutral-500"
                   >
                     Run configuration is locked for this pipeline detail.
-                    Select Back on Deposit pipelines to start a new synthesis.
+                    Select Back on Deposit to start a new synthesis.
                   </p>
                 ) : (
                   <button
@@ -3051,6 +3086,7 @@ export default function DepositPageClient() {
             </section>
           </aside>
         </section>
+        ) : null}
       </ProductRouteShell>
     </TerminalShellBridgeProvider>
   );

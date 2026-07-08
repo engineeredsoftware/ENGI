@@ -172,7 +172,7 @@ test.describe('commercial MVP IP exchange browser proof', () => {
     });
 
     // Compensation visibility and /packs synchronization remain reachable.
-    await expect(page.getByText('Deposit pipelines')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Deposit' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Open pack activity' })).toHaveAttribute(
       'href',
       '/packs?type=depository-assetpack',

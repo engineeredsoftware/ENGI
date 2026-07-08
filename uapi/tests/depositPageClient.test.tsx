@@ -162,6 +162,14 @@ jest.mock("@/app/terminal/TerminalDepositComposer", () => ({
   ),
 }));
 
+/** Open the new-deposit compose detail (replaces pipelines table). */
+async function openComposeDetail() {
+  fireEvent.click(await screen.findByTestId("deposit-open-compose"));
+  expect(
+    await screen.findByTestId("deposit-run-configuration"),
+  ).toBeInTheDocument();
+}
+
 describe("DepositPageClient", () => {
   beforeEach(() => {
     mockReplace.mockReset();
@@ -330,7 +338,9 @@ describe("DepositPageClient", () => {
     // Drill-in master-detail: the selected run (deposit-1) REPLACES the
     // table with its run detail once adoption settles; Back returns to the
     // table.
-    expect(screen.getByText("Deposit pipelines")).toBeInTheDocument();
+    // Section title is "Deposit" (was "Deposit pipelines"); scoped via region.
+    const depositRegion = screen.getByRole("region", { name: "Deposit" });
+    expect(within(depositRegion).getByText("Deposit", { selector: "h2 span" })).toBeInTheDocument();
     await waitFor(() =>
       expect(
         screen.getByTestId("deposit-synthesis-telemetry"),
@@ -340,7 +350,7 @@ describe("DepositPageClient", () => {
       screen.queryByTestId("deposits-pipelines-table"),
     ).not.toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Back to Deposit pipelines" }),
+      screen.getByRole("button", { name: "Back to Deposit" }),
     ).toBeInTheDocument();
   });
 
@@ -348,7 +358,7 @@ describe("DepositPageClient", () => {
     render(<DepositPageClient />);
 
     const backButton = await screen.findByRole("button", {
-      name: "Back to Deposit pipelines",
+      name: "Back to Deposit",
     });
     fireEvent.click(backButton);
 
@@ -398,10 +408,21 @@ describe("DepositPageClient", () => {
       ) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
 
-    // Back clears the selection; the button returns for a fresh dispatch.
+    // Back returns to the master table; compose is opened via New deposit.
     fireEvent.click(
-      await screen.findByRole("button", { name: "Back to Deposit pipelines" }),
+      await screen.findByRole("button", { name: "Back to Deposit" }),
     );
+    expect(
+      await screen.findByTestId("deposits-pipelines-table"),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByTestId("deposit-run-configuration"),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "New deposit" }),
+    ).toBeInTheDocument();
+
+    await openComposeDetail();
     expect(
       await screen.findByRole("button", { name: "Synthesize AssetPack Options" }),
     ).toBeInTheDocument();
@@ -715,13 +736,12 @@ describe("DepositPageClient", () => {
 
     render(<DepositPageClient />);
 
-    // A run is adopted by default (mockQuery); the Synthesize options button
-    // is hidden while a run's detail owns the page (V48 Gate 3 — clicking it
-    // must never yank the viewer off a loaded run's results). Back returns to
-    // the pipelines table, where a fresh dispatch is available.
+    // A run is adopted by default (mockQuery); Back to table, then New deposit
+    // opens compose for a fresh dispatch.
     fireEvent.click(
-      await screen.findByRole("button", { name: "Back to Deposit pipelines" }),
+      await screen.findByRole("button", { name: "Back to Deposit" }),
     );
+    await openComposeDetail();
 
     // Pick the exclusion from the repository file tree (fetched at the
     // selected repo·branch·commit); a directory selects its prefix.
@@ -934,12 +954,12 @@ describe("DepositPageClient", () => {
 
   async function dispatchSynthesis() {
     render(<DepositPageClient />);
-    // A run is adopted by default (mockQuery); Back returns to the pipelines
-    // table, where the Synthesize options button is available (V48 Gate 3 —
-    // the button is hidden while a run's detail owns the page).
+    // A run is adopted by default (mockQuery); Back to table, then New deposit
+    // for compose + Synthesize.
     fireEvent.click(
-      await screen.findByRole("button", { name: "Back to Deposit pipelines" }),
+      await screen.findByRole("button", { name: "Back to Deposit" }),
     );
+    await openComposeDetail();
     const synthesizeButton = await screen.findByRole("button", {
       name: "Synthesize AssetPack Options",
     });
@@ -1230,6 +1250,7 @@ describe("DepositPageClient", () => {
       // unit-tested directly in depositSourceSelection.test.tsx.
       withAnchorFixtures();
       render(<DepositPageClient />);
+      await openComposeDetail();
 
       const anchors = await screen.findByTestId(
         "deposit-source-selection-repository-anchors",
@@ -1247,6 +1268,7 @@ describe("DepositPageClient", () => {
     it("clears the Obfuscations textarea via Clear", async () => {
       withAnchorFixtures();
       render(<DepositPageClient />);
+      await openComposeDetail();
 
       const textarea = (await screen.findByLabelText(
         "What to obfuscate or withhold",
@@ -1263,6 +1285,7 @@ describe("DepositPageClient", () => {
     it("offers a previously anchored Obfuscations configuration and loads it on selection", async () => {
       withAnchorFixtures();
       render(<DepositPageClient />);
+      await openComposeDetail();
 
       const textarea = (await screen.findByLabelText(
         "What to obfuscate or withhold",
@@ -1324,6 +1347,7 @@ describe("DepositPageClient", () => {
       global.fetch = fetchMock as unknown as typeof fetch;
 
       render(<DepositPageClient />);
+      await openComposeDetail();
 
       const anchorSelect = await screen.findByRole("combobox", {
         name: "Load a previously anchored Obfuscations configuration",
@@ -1406,6 +1430,7 @@ describe("DepositPageClient", () => {
       global.fetch = fetchMock as unknown as typeof fetch;
 
       render(<DepositPageClient />);
+      await openComposeDetail();
 
       const textarea = (await screen.findByLabelText(
         "What to obfuscate or withhold",
