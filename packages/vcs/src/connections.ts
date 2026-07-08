@@ -35,6 +35,9 @@ interface PersistedConnectionData {
   installation_token_expires_at?: unknown;
   oauth_token?: unknown;
   instance_url?: unknown;
+  /** V48-Gate3-F34: source-safe reason the last regeneration attempt failed, or null on success. */
+  last_regeneration_error?: unknown;
+  last_regeneration_at?: unknown;
   [key: string]: unknown;
 }
 
@@ -206,7 +209,7 @@ export class VCSConnections {
             const { GitHubAppAuth } = await import('@bitcode/github');
             const appId = process.env.GITHUB_APP_ID;
             const privateKey = process.env.GITHUB_PRIVATE_KEY;
-            
+
             if (appId && privateKey) {
               const githubApp = new GitHubAppAuth({
                 appId,
@@ -214,32 +217,52 @@ export class VCSConnections {
                 clientId: process.env.GITHUB_APP_CLIENT_ID,
                 clientSecret: process.env.GITHUB_APP_CLIENT_SECRET
               });
-              
+
               // Don't request specific permissions - use whatever the installation has granted
               // This avoids 422 errors when requesting permissions not available to the installation
               const tokenData = await githubApp.generateInstallationToken(
                 Number(installationConnectionId)
                 // Omitting permissions parameter to use installation's granted permissions
               );
-              
+
               accessToken = tokenData.token;
-              
+
               // Update the connection with new token
               await this.updateTokens(connection.id, {
                 accessToken: tokenData.token,
                 expiresAt: tokenData.expiresAt
               });
-              
+              // Clear any prior failure diagnostic now that regeneration succeeded.
+              await this.recordRegenerationDiagnostic(connection.id, null);
+
               log('GitHub installation token regenerated successfully', 'info', {
                 connectionId,
                 expiresAt: tokenData.expiresAt
               });
+            } else {
+              // V48-Gate3-F34: env misconfiguration (missing GITHUB_APP_ID/
+              // GITHUB_PRIVATE_KEY on this deployment target) silently no-op'd
+              // here before — the stale token then failed live validation with
+              // no trace of WHY, indistinguishable from a genuinely revoked
+              // installation. Persist a source-safe reason so Invalid is
+              // diagnosable without server log access.
+              await this.recordRegenerationDiagnostic(
+                connection.id,
+                'github_app_credentials_not_configured',
+              );
             }
           } catch (error) {
+            const reason = error instanceof Error ? error.message : 'unknown_regeneration_error';
             log('Failed to regenerate GitHub installation token', 'error', {
               connectionId,
               error
             });
+            // V48-Gate3-F34: persist WHY regeneration failed (source-safe —
+            // GitHub's own API error text, e.g. installation suspended/
+            // uninstalled — no tokens/secrets) so a stuck-Invalid connection
+            // is diagnosable from the connection status alone, without
+            // needing server logs.
+            await this.recordRegenerationDiagnostic(connection.id, reason);
             // Fall back to OAuth token if available
             accessToken = readString(connectionData.oauth_token);
           }
@@ -344,7 +367,36 @@ export class VCSConnections {
       );
     }
   }
-  
+
+  /**
+   * V48-Gate3-F34: persist the outcome of the last GitHub App installation
+   * token regeneration attempt (source-safe reason text only — never a
+   * token/secret) so a connection stuck on "Invalid" is diagnosable from the
+   * stored connection alone. Best-effort: a failure here must never mask the
+   * original regeneration error, so it's swallowed.
+   */
+  private async recordRegenerationDiagnostic(
+    connectionId: string,
+    reason: string | null
+  ): Promise<void> {
+    try {
+      const connection = await this.connections.getById(connectionId);
+      if (!connection) return;
+      const connectionData = asConnectionData(connection.connection_data);
+      const nextConnectionData = {
+        ...connectionData,
+        last_regeneration_error: reason,
+        last_regeneration_at: new Date().toISOString()
+      } as Database['public']['Tables']['user_connections']['Update']['connection_data'];
+
+      await this.connections.update(connectionId, {
+        connection_data: nextConnectionData
+      });
+    } catch (error) {
+      log('Failed to record regeneration diagnostic', 'warn', { error, connectionId });
+    }
+  }
+
   /**
    * Delete a connection
    */

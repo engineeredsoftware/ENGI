@@ -227,7 +227,30 @@ export function VCSConnectionCard({
                 </div>
               )}
             </div>
-            
+
+            {/* V48-Gate3-F34: Refresh already retries installation-token
+                regeneration silently — if it still fails, surface WHY
+                (source-safe: GitHub's own API error text, no tokens) instead
+                of leaving "Invalid" with no explanation. A 404/"Not Found"
+                here means the GitHub App installation itself was removed,
+                which Refresh can never fix — only reinstalling the app can. */}
+            {!status.valid && status.metadata?.last_regeneration_error && (
+              <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+                <p className="font-medium">Last reconnect attempt failed:</p>
+                <p className="mt-1 break-words">
+                  {status.metadata.last_regeneration_error === 'github_app_credentials_not_configured'
+                    ? 'The Bitcode GitHub App credentials are not configured on this deployment.'
+                    : String(status.metadata.last_regeneration_error)}
+                </p>
+                {/\b40[134]\b/.test(String(status.metadata.last_regeneration_error)) && (
+                  <p className="mt-1 text-destructive/80">
+                    This usually means the GitHub App installation was removed —
+                    Refresh can&apos;t fix that; reinstalling the app will.
+                  </p>
+                )}
+              </div>
+            )}
+
             <div className="flex gap-2">
               <Button
                 variant="outline"

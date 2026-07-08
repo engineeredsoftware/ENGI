@@ -153,6 +153,7 @@ module.exports = {
     '<rootDir>/tests/productAnalytics.test.ts',
     '<rootDir>/tests/searchableSelect.test.tsx',
     '<rootDir>/tests/vcsFileTreePicker.test.tsx',
+    '<rootDir>/tests/vcsConnectionCard.test.tsx',
     '<rootDir>/tests/bitcodeInlineExplainerAriaLabel.test.tsx',
     '<rootDir>/tests/readRouteModel.test.ts',
     '<rootDir>/tests/readPageClient.test.tsx',
