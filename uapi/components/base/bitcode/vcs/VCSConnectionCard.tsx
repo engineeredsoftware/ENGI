@@ -263,7 +263,15 @@ export function VCSConnectionCard({
             )}
 
             <div className="flex gap-2">
+              {/* V48-Gate3-F36: explicit type="button" — shadcn's Button doesn't
+                  default one, so a bare <button> falls back to the browser's
+                  native type="submit". No <form> ancestor was found for this
+                  card, so this shouldn't currently matter, but it's a
+                  zero-risk hardening against exactly that class of bug (a
+                  click "doing nothing"/submitting instead of firing onClick)
+                  regardless of whether it's the cause of the live hang. */}
               <Button
+                type="button"
                 variant="outline"
                 size="sm"
                 onClick={handleRefresh}
@@ -272,10 +280,11 @@ export function VCSConnectionCard({
                 <RefreshCw className={`mr-2 h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
                 Refresh
               </Button>
-              
+
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button
+                    type="button"
                     variant="outline"
                     size="sm"
                     disabled={isDisconnecting}
