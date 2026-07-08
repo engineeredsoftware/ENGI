@@ -176,6 +176,8 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     // Implementation Phase
     'ReadFitsFindingSynthesisAssetPackSynthesisAgent': [],
     'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent': [],
+    'implementation:deposit-asset-pack-synthesis': [],
+    'deposit-asset-pack-synthesis': [],
 
     // Validation Phase
     'asset-pack-validate-last-iterations-validation-phase-agent': optionalTools(lspSemanticAnalysisEngine),

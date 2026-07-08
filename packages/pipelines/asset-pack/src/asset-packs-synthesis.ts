@@ -601,7 +601,6 @@ export function validateDepositSynthesisOptions(
     candidateKinds: string[];
   },
 ): { candidates: AssetPackCandidate[]; droppedCandidateCount: number; exclusionViolations: string[] } {
-  const catalog = measurementCatalogForLens(context.lens);
   const inventoryPathSet = new Set(context.inventoryPaths);
   const allowedKinds = new Set(context.candidateKinds);
   const exclusionViolations: string[] = [];
@@ -622,28 +621,27 @@ export function validateDepositSynthesisOptions(
       );
       continue;
     }
-    // Prefer the FORMAL absolutes (agent-measure-absolutes, Validation phase) when
-    // present; otherwise map the legacy inline record through the lens catalog.
+    // Product SDIVF Validation attaches formal absolutes (quantity Tool + quality
+    // measure-agent). Fail closed when they are missing — never silently project
+    // the legacy DEPOSIT_MEASUREMENT_CATALOG placeholder kinds onto deposit cards.
     const formalAbsolutes = Array.isArray(option.absolutes) ? option.absolutes : null;
-    const measurements: AssetPackCandidateMeasurement[] =
-      formalAbsolutes && formalAbsolutes.length > 0
-        ? formalAbsolutes.map((m) => ({
-            measurementKind: String(m.measurementKind),
-            label: String(m.label ?? m.measurementKind),
-            weight: Number.isFinite(m.weight) ? Number(m.weight) : 0,
-            volume: clampVolume(Number(m.volume) || 0),
-            category: m.category === 'neediness' ? 'neediness' : 'absolute',
-            ...(Number.isFinite(m.magnitude as number)
-              ? { magnitude: Math.max(0, Math.round(Number(m.magnitude))) }
-              : {}),
-            ...(m.unit ? { unit: String(m.unit) } : {}),
-          }))
-        : catalog.map((spec) => ({
-            measurementKind: spec.measurementKind,
-            label: spec.label,
-            weight: spec.weight,
-            volume: clampVolume(option.measurements?.[spec.measurementKind] ?? 0),
-          }));
+    if (!formalAbsolutes || formalAbsolutes.length === 0) {
+      exclusionViolations.push(
+        `${option.title}: missing formal absolute measurements (Validation measure-agent)`,
+      );
+      continue;
+    }
+    const measurements: AssetPackCandidateMeasurement[] = formalAbsolutes.map((m) => ({
+      measurementKind: String(m.measurementKind),
+      label: String(m.label ?? m.measurementKind),
+      weight: Number.isFinite(m.weight) ? Number(m.weight) : 0,
+      volume: clampVolume(Number(m.volume) || 0),
+      category: m.category === 'neediness' ? 'neediness' : 'absolute',
+      ...(Number.isFinite(m.magnitude as number)
+        ? { magnitude: Math.max(0, Math.round(Number(m.magnitude))) }
+        : {}),
+      ...(m.unit ? { unit: String(m.unit) } : {}),
+    }));
     // Carry the source-safe patch descriptor (the synthesized AP contents) for the
     // deposit card — path+op + summary only, never raw source.
     const rawFileChanges = Array.isArray(option.patch?.fileChanges) ? option.patch!.fileChanges! : [];

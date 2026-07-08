@@ -144,12 +144,11 @@ describe('validateDepositSynthesisOptions absolutes wiring', () => {
     expect(measurements.map((m) => m.measurementKind)).not.toContain('source-coverage');
   });
 
-  it('falls back to the placeholder catalog when no absolutes are present', () => {
+  it('fail-closes when formal absolutes are missing (no placeholder catalog fallback)', () => {
     const out = validateDepositSynthesisOptions([baseOption], context);
-    const kinds = out.candidates[0].measurements.map((m) => m.measurementKind);
-    expect(kinds).toContain('source-coverage');
-    expect(kinds).toContain('demand-alignment');
-    expect(kinds).toContain('reuse-likelihood');
+    expect(out.candidates).toHaveLength(0);
+    expect(out.droppedCandidateCount).toBe(1);
+    expect(out.exclusionViolations[0]).toMatch(/missing formal absolute measurements/i);
   });
 });
 

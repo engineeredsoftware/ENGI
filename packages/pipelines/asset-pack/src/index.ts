@@ -390,43 +390,59 @@ function factoryPostprocess(): Executor<any, any> {
   };
 }
 
+/**
+ * Under NODE_ENV=test the five SDIVF phase runtimes are no-ops by default so
+ * unit tests that only need preprocess/postprocess stay fast. Opt into the
+ * real phase runtimes (with boundary-mocked LLMs) via either:
+ *   - BITCODE_ENABLE_ASSET_PACK_SDIVF_RUNTIME_IN_TEST=1  (all five phases)
+ *   - BITCODE_ENABLE_ASSET_PACK_SETUP_PHASE_RUNTIME_IN_TEST=1  (setup only; legacy)
+ */
+function isAssetPackSdivfRuntimeEnabledInTest(): boolean {
+  return process?.env?.BITCODE_ENABLE_ASSET_PACK_SDIVF_RUNTIME_IN_TEST === '1';
+}
+
+function isAssetPackSetupRuntimeEnabledInTest(): boolean {
+  return (
+    isAssetPackSdivfRuntimeEnabledInTest() ||
+    process?.env?.BITCODE_ENABLE_ASSET_PACK_SETUP_PHASE_RUNTIME_IN_TEST === '1'
+  );
+}
+
 function factorySynthesizeAssetPacksPipeline(
   pipelineName: string = 'synthesize-asset-packs',
 ): Executor<any, any> {
   const maxIterations = 3;
   const setupPhase: Executor<any, any> = async (input, execution) => {
     const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
-    const enableSetupRuntimeInTest =
-      process?.env?.BITCODE_ENABLE_ASSET_PACK_SETUP_PHASE_RUNTIME_IN_TEST === '1';
-    if (isTest && !enableSetupRuntimeInTest) {
+    if (isTest && !isAssetPackSetupRuntimeEnabledInTest()) {
       return input;
     }
     return assetPackPhases.setup(input, execution);
   };
   const discoveryPhase: Executor<any, any> = async (input, execution) => {
     const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
-    if (isTest) {
+    if (isTest && !isAssetPackSdivfRuntimeEnabledInTest()) {
       return input;
     }
     return assetPackPhases.discovery(input, execution);
   };
   const implementationPhase: Executor<any, any> = async (input, execution) => {
     const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
-    if (isTest) {
+    if (isTest && !isAssetPackSdivfRuntimeEnabledInTest()) {
       return input;
     }
     return assetPackPhases.implementation(input, execution);
   };
   const validationPhase: Executor<any, any> = async (input, execution) => {
     const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
-    if (isTest) {
+    if (isTest && !isAssetPackSdivfRuntimeEnabledInTest()) {
       return input;
     }
     return assetPackPhases.validation(input, execution);
   };
   const finishPhase: Executor<any, any> = async (input, execution) => {
     const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
-    if (isTest) {
+    if (isTest && !isAssetPackSdivfRuntimeEnabledInTest()) {
       const pullRequestShippable = { prUrl: 'https://github.com/test/repo/pull/1' };
       return {
         success: true,

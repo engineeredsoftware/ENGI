@@ -199,6 +199,27 @@ describe('deposit lens adapter', () => {
           measurements: { 'source-coverage': 0.6, 'demand-alignment': 0.7, 'reuse-likelihood': 0.5 },
           measurementRationale: 'Covers the auth path.',
           confidence: 0.8,
+          // Formal absolutes (Validation measure-agent) are required — no
+          // placeholder catalog fallback on the product projection path.
+          absolutes: [
+            {
+              measurementKind: 'function-count',
+              label: 'Functions',
+              weight: 0.12,
+              volume: 0.5,
+              category: 'absolute',
+              magnitude: 8,
+              unit: 'functions',
+            },
+            {
+              measurementKind: 'correctness-estimate',
+              label: 'Correctness',
+              weight: 0.18,
+              volume: 0.7,
+              category: 'absolute',
+              unit: 'estimate',
+            },
+          ],
           patch: {
             fileChanges: [
               { path: 'src/app.py', op: 'modify' },

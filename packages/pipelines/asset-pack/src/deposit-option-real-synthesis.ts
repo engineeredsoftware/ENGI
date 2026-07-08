@@ -56,6 +56,12 @@ export interface DepositOptionReviewProjection {
   measurementRationale: string;
 }
 
+/**
+ * @deprecated Product deposit synthesis is `synthesizeAssetPacksPipeline` (full
+ * SDIVF) via `/api/deposit/synthesize-options`. This single-agent formal path
+ * remains only for non-product unit fixtures that mock
+ * `synthesizeAssetPackCandidatesFormal` — do not call it from product routes.
+ */
 export async function synthesizeRealDepositOptionCandidates(input: {
   repositoryFullName: string;
   sourceBranch: string | null;

@@ -34,20 +34,21 @@ export function registerImplementationAgentsForType(
 
 export function registerImplementationAgents(
   agentRegistry: any,
-  // Conditional runtime registry: deposit registers the deposit synthesis agent
-  // (source-safe AP patches from the depositor repo); read keeps the fits
-  // synthesis agent. Both register under the same key so the Implementation
-  // phase resolves the mode-appropriate agent transparently.
+  // Conditional runtime registry: deposit registers under a deposit-named key;
+  // read keeps the historical ReadFitsFindingSynthesis implementation key.
   mode?: SynthesizeAssetPacksMode,
 ): void {
-  const implementationKey = 'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent';
   if (mode === 'deposit') {
-    agentRegistry.registerAgent(implementationKey, () =>
+    agentRegistry.registerAgent('implementation:deposit-asset-pack-synthesis', () =>
       import('../agents/implementation/deposit-asset-pack-synthesis-agent').then(m => m.default),
     );
     return;
   }
-  agentRegistry.registerAgent(implementationKey, () =>
-    import('../agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent').then(m => m.default),
+  agentRegistry.registerAgent(
+    'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent',
+    () =>
+      import('../agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent').then(
+        (m) => m.default,
+      ),
   );
 }

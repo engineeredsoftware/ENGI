@@ -71,7 +71,13 @@ export const discoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (asy
 export const implementationPhase: PhaseDelegator<DiscoveryOutput, ImplementationOutput> = (async (input: any, execution: any) => {
   const mode = synthesizeAssetPacksModeFromExecution(execution) ?? 'read';
   try { registerImplementationAgents((execution as any).agents, mode); } catch {}
-  const synthesize = createAgentExecutor('implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent');
+  // Deposit uses a deposit-named key for telemetry clarity; read keeps the
+  // historical ReadFitsFindingSynthesis implementation key.
+  const synthesize = createAgentExecutor(
+    mode === 'deposit'
+      ? 'implementation:deposit-asset-pack-synthesis'
+      : 'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent',
+  );
   return await synthesize(input, execution);
 }) as unknown as PhaseDelegator<DiscoveryOutput, ImplementationOutput>;
 

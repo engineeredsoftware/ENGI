@@ -157,16 +157,20 @@ export default async function readyToFinishWithShortCircuit(input: any, executio
     qualityMetrics: {}
   };
 
-  // Execute the agent
-  const result = await readyToFinishAgent(finishInput, execution);
+  // Execute the agent — factoryAgentWithPTRR returns an envelope
+  // {context, output, finalOutput}; typed fields live ONLY inside it (F26-A/F27).
+  const raw = await readyToFinishAgent(finishInput, execution);
+  const result = ((raw as any)?.finalOutput ??
+    (raw as any)?.output ??
+    raw) as Output;
 
   // Define critical failure thresholds
   const QUALITY_THRESHOLD = 0.5;
   const CONFIDENCE_THRESHOLD = 0.6;
-  const CRITICAL_RISK = result.assessment.riskLevel === 'critical';
-  const POOR_QUALITY = result.assessment.qualityLevel === 'poor';
-  const LOW_CONFIDENCE = result.confidence < CONFIDENCE_THRESHOLD;
-  const LOW_QUALITY = result.metrics.overallScore < QUALITY_THRESHOLD;
+  const CRITICAL_RISK = result.assessment?.riskLevel === 'critical';
+  const POOR_QUALITY = result.assessment?.qualityLevel === 'poor';
+  const LOW_CONFIDENCE = (result.confidence ?? 0) < CONFIDENCE_THRESHOLD;
+  const LOW_QUALITY = (result.metrics?.overallScore ?? 0) < QUALITY_THRESHOLD;
 
   // Check if we should short-circuit
   const shouldShortCircuit =
@@ -175,7 +179,7 @@ export default async function readyToFinishWithShortCircuit(input: any, executio
     POOR_QUALITY ||
     LOW_CONFIDENCE ||
     LOW_QUALITY ||
-    result.criticalIssues.length > 0;
+    (result.criticalIssues?.length ?? 0) > 0;
 
   if (shouldShortCircuit) {
     // Persist readiness signal for header rendering
@@ -195,7 +199,7 @@ export default async function readyToFinishWithShortCircuit(input: any, executio
     if (POOR_QUALITY) reasons.push('Poor quality assessment');
     if (LOW_CONFIDENCE) reasons.push(`Low confidence (${result.confidence.toFixed(2)})`);
     if (LOW_QUALITY) reasons.push(`Low quality score (${result.metrics.overallScore.toFixed(2)})`);
-    if (result.criticalIssues.length > 0) {
+    if ((result.criticalIssues?.length ?? 0) > 0) {
       reasons.push(`Critical issues: ${result.criticalIssues.slice(0, 3).join(', ')}`);
     }
 

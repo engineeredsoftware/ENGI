@@ -90,19 +90,20 @@ describe('per-mode agent rosters (conditional runtime registries)', () => {
     },
   );
 
-  it('implementation registers the mode-appropriate synthesis agent under the SHARED key', async () => {
-    const sharedKey = 'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent';
+  it('implementation registers deposit-named vs read-era synthesis keys by mode', async () => {
+    const depositKey = 'implementation:deposit-asset-pack-synthesis';
+    const readKey = 'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent';
 
     const depositRegistry = fakeRegistry();
     registerImplementationAgents(depositRegistry, 'deposit');
-    expect(Array.from(depositRegistry.entries.keys())).toEqual([sharedKey]);
-    expect(await resolveEntry(depositRegistry.entries.get(sharedKey)))
+    expect(Array.from(depositRegistry.entries.keys())).toEqual([depositKey]);
+    expect(await resolveEntry(depositRegistry.entries.get(depositKey)))
       .toBe(depositAssetPackSynthesisAgent);
 
     const readRegistry = fakeRegistry();
     registerImplementationAgents(readRegistry, 'read');
-    expect(Array.from(readRegistry.entries.keys())).toEqual([sharedKey]);
-    expect(await resolveEntry(readRegistry.entries.get(sharedKey)))
+    expect(Array.from(readRegistry.entries.keys())).toEqual([readKey]);
+    expect(await resolveEntry(readRegistry.entries.get(readKey)))
       .toBe(readFitsFindingSynthesisAssetPackSynthesisAgent);
   });
 
@@ -228,7 +229,8 @@ const READ_DISCOVERY_KEYS = [
   'discovery:plan-implementation',
   'discovery:assess-complexity',
 ];
-const IMPLEMENTATION_KEY = 'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent';
+const DEPOSIT_IMPLEMENTATION_KEY = 'implementation:deposit-asset-pack-synthesis';
+const READ_IMPLEMENTATION_KEY = 'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent';
 const READ_VALIDATION_KEYS = [
   'validation:validate-last-iterations-validation-phase',
   'validation:validate-discovery-phase',
@@ -271,12 +273,14 @@ describe('phase delegators execute the mode roster in order (execution-tree walk
     expect(calls).toEqual(READ_DISCOVERY_KEYS);
   });
 
-  it('implementation resolves the single shared synthesis key in both modes', async () => {
+  it('implementation resolves the mode-appropriate synthesis key', async () => {
     for (const mode of ['deposit', 'read'] as const) {
-      const { calls, root } = harness(mode, [IMPLEMENTATION_KEY]);
+      const key =
+        mode === 'deposit' ? DEPOSIT_IMPLEMENTATION_KEY : READ_IMPLEMENTATION_KEY;
+      const { calls, root } = harness(mode, [key]);
       const output = await implementationPhase({ seed: true }, root.child('seq-2'));
-      expect(calls).toEqual([IMPLEMENTATION_KEY]);
-      expect(output[`ran:${IMPLEMENTATION_KEY}`]).toBe(true);
+      expect(calls).toEqual([key]);
+      expect(output[`ran:${key}`]).toBe(true);
     }
   });
 
