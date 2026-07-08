@@ -13,7 +13,7 @@
  */
 
 import React, { useMemo, useState } from 'react';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { Check, ChevronsUpDown, Trash2 } from 'lucide-react';
 import { cn } from '@bitcode/styling';
 import { Button } from '@/components/base/shadcn/button';
 import {
@@ -45,6 +45,11 @@ export interface SearchableSelectItem {
   searchText?: string | null;
   icon?: React.ReactNode;
   disabled?: boolean;
+  /**
+   * When true and `onDeleteItem` is provided, a trash control appears on row
+   * hover (red on its own hover) and calls `onDeleteItem` without selecting.
+   */
+  deletable?: boolean;
 }
 
 export interface SearchableSelectProps {
@@ -52,6 +57,17 @@ export interface SearchableSelectProps {
   /** The selected item's key, or null/undefined for no selection. */
   value?: string | null;
   onSelect: (key: string | null) => void;
+  /**
+   * Optional per-row delete. Fired for items with `deletable: true` when the
+   * trash control is clicked; does not close the popover or select the row.
+   */
+  onDeleteItem?: (key: string) => void;
+  /**
+   * When false, hide the left-side check indicator. Use for one-shot "load in"
+   * pickers that always show a placeholder (value stays null) rather than a
+   * persistent selection. Default true.
+   */
+  showSelectionIndicator?: boolean;
   placeholder?: string;
   searchPlaceholder?: string;
   emptyMessage?: string;
@@ -72,6 +88,8 @@ export function SearchableSelect({
   items,
   value,
   onSelect,
+  onDeleteItem,
+  showSelectionIndicator = true,
   placeholder = 'Select...',
   searchPlaceholder = 'Search...',
   emptyMessage = 'No results found.',
@@ -158,46 +176,85 @@ export function SearchableSelect({
               <CommandEmpty>{emptyMessage}</CommandEmpty>
             ) : (
               <CommandGroup>
-                {filteredItems.map((item) => (
-                  <CommandItem
-                    key={item.key}
-                    value={item.key}
-                    disabled={item.disabled}
-                    onSelect={() => handleSelect(item)}
-                  >
-                    <Check
-                      className={cn(
-                        'mr-2 h-4 w-4 shrink-0',
-                        selected?.key === item.key ? 'opacity-100' : 'opacity-0',
-                      )}
-                    />
-                    <div className="min-w-0 flex-1 overflow-hidden">
-                      <div className="flex items-center gap-2">
-                        {item.icon}
-                        <span className="truncate font-medium">{item.label}</span>
+                {filteredItems.map((item) => {
+                  const showDelete = Boolean(item.deletable && onDeleteItem);
+                  return (
+                    <CommandItem
+                      key={item.key}
+                      value={item.key}
+                      disabled={item.disabled}
+                      onSelect={() => handleSelect(item)}
+                      className="group/item"
+                    >
+                      {/* Left gutter: hover-trash when deletable; optional check
+                          only for true persistent selection pickers. */}
+                      {showDelete ? (
+                        <button
+                          type="button"
+                          aria-label={`Delete ${item.label}`}
+                          title={`Delete ${item.label}`}
+                          // Keep the row from selecting / the command from
+                          // swallowing the click when the trash is used.
+                          onPointerDown={(event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                          }}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            onDeleteItem?.(item.key);
+                          }}
+                          className={cn(
+                            'mr-2 flex h-7 w-7 shrink-0 items-center justify-center rounded-none border border-transparent text-neutral-400 transition',
+                            'opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100',
+                            'hover:border-rose-300/40 hover:bg-rose-400/10 hover:text-rose-300',
+                            'focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rose-300/50',
+                          )}
+                        >
+                          <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
+                        </button>
+                      ) : showSelectionIndicator ? (
+                        <Check
+                          className={cn(
+                            'mr-2 h-4 w-4 shrink-0',
+                            selected?.key === item.key
+                              ? 'opacity-100'
+                              : 'opacity-0',
+                          )}
+                        />
+                      ) : null}
+                      <div className="min-w-0 flex-1 overflow-hidden">
+                        <div className="flex items-center gap-2">
+                          {item.icon}
+                          <span className="truncate font-medium">
+                            {item.label}
+                          </span>
+                        </div>
+                        {item.description ? (
+                          // Single line: overflow clips; rich descriptions (e.g.
+                          // obfuscation-anchor icon counts) keep their own nowrap layout.
+                          <div className="min-w-0 overflow-hidden text-xs text-muted-foreground">
+                            {item.description}
+                          </div>
+                        ) : null}
+                        {item.badge || item.meta ? (
+                          <div className="mt-1 flex items-center gap-2">
+                            {item.badge ? (
+                              <Badge variant="secondary" className="text-xs">
+                                {item.badge}
+                              </Badge>
+                            ) : null}
+                            {item.meta ? (
+                              <span className="text-xs text-muted-foreground">
+                                {item.meta}
+                              </span>
+                            ) : null}
+                          </div>
+                        ) : null}
                       </div>
-                      {item.description ? (
-                        // Single line: overflow clips; rich descriptions (e.g.
-                        // obfuscation-anchor icon counts) keep their own nowrap layout.
-                        <div className="min-w-0 overflow-hidden text-xs text-muted-foreground">
-                          {item.description}
-                        </div>
-                      ) : null}
-                      {item.badge || item.meta ? (
-                        <div className="mt-1 flex items-center gap-2">
-                          {item.badge ? (
-                            <Badge variant="secondary" className="text-xs">
-                              {item.badge}
-                            </Badge>
-                          ) : null}
-                          {item.meta ? (
-                            <span className="text-xs text-muted-foreground">{item.meta}</span>
-                          ) : null}
-                        </div>
-                      ) : null}
-                    </div>
-                  </CommandItem>
-                ))}
+                    </CommandItem>
+                  );
+                })}
               </CommandGroup>
             )}
           </CommandList>
