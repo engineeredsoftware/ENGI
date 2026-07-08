@@ -24,7 +24,7 @@ jest.mock('@bitcode/generic-llms', () =>
   require('./support/generic-llms-prompt-capture-mock').makeGenericLLMsMock());
 
 import { Execution } from '@bitcode/execution-generics';
-import { DEPOSIT_MEASUREMENT_CATALOG } from '../asset-packs-synthesis';
+import { ASSET_PACK_ABSOLUTES_CATALOG } from '../asset-packs-synthesis';
 import { DepositInputComprehensionAgent } from '../agents/setup/deposit-input-comprehension-agent';
 import { DepositCodebaseComprehensionAgent } from '../agents/discovery/deposit-codebase-comprehension-agent';
 import { DepositDepositorySearchAgent } from '../agents/discovery/deposit-depository-search-agent';
@@ -196,18 +196,16 @@ const SPECS: DepositAgentPromptSpec[] = [
     input: {},
   },
   {
-    title: 'DepositAssetPackSynthesisAgent (Implementation: measured patches)',
+    title: 'DepositAssetPackSynthesisAgent (Implementation: digital material patches)',
     agent: DepositAssetPackSynthesisAgent,
     identity: 'You are SynthesizeAssetPacks in DEPOSIT mode.',
-    requirements: 'Ground every candidate in the provided Discovery comprehension',
-    wrapper: 'Return ONLY {"options":[ ... ]} — the top-level key MUST be "options".',
+    requirements: 'Ground every candidate in Discovery comprehension',
+    wrapper: 'Return ONLY {"options":[ ... ]} — top-level key MUST be "options".',
     schemaFields: [
       'kind',
       'title',
       'summary',
       'coveredSourcePaths',
-      'measurements',
-      'measurementRationale',
       'confidence',
       'patch',
       'fileChanges',
@@ -219,9 +217,9 @@ const SPECS: DepositAgentPromptSpec[] = [
     ],
     ptrr: [
       'Plan: from the explored repository inventory, the Discovery comprehension, and depositor steering',
-      'Try: synthesize each candidate as a measured patch',
+      'Try: synthesize each candidate as digital material',
       'Refine: ensure each option is distinct, source-safe, obfuscation- and exclusion-honoring',
-      'Retry: complete any missing option as a minimal valid source-safe measured patch',
+      'Retry: complete any missing option as a minimal valid source-safe patch',
     ],
     boundaryOutput: {
       options: [
@@ -246,7 +244,7 @@ const SPECS: DepositAgentPromptSpec[] = [
     title: 'DepositValidationAgent (Validation: deposit supply quality)',
     agent: DepositValidationAgent,
     identity: 'You are the SynthesizeAssetPacks Validation agent in DEPOSIT mode.',
-    requirements: 'Validate the synthesized deposit AssetPacks against these checks',
+    requirements: 'Data is digital material; material has properties',
     wrapper:
       'Return ONLY {"issues":[...],"qualityScore":n,"coverageGaps":[...],"recommendation":"complete"|"iterate"}',
     schemaFields: ['issues', 'qualityScore', 'coverageGaps', 'recommendation'],
@@ -339,9 +337,9 @@ describe('Deposit SDIVF agent prompt contracts (boundary-mocked PTRR)', () => {
     );
   }
 
-  it('DepositAssetPackSynthesisAgent + DepositValidationAgent instructions carry the deposit measurement catalog', async () => {
-    // The deposit lens measures with the DEPOSIT catalog kinds (never the read
-    // lens's need-fit measurement) — pin the catalog into both prompt contracts.
+  it('synthesis synthesizes material; validation names absolute material-property kinds', async () => {
+    // Implementation no longer self-scores absolute volumes; Validation's
+    // measure-agent catalog (quantity + quality) is pinned in the validation prompt.
     const synthesisSpec = SPECS.find((spec) => spec.agent === DepositAssetPackSynthesisAgent)!;
     const validationSpec = SPECS.find((spec) => spec.agent === DepositValidationAgent)!;
 
@@ -350,10 +348,14 @@ describe('Deposit SDIVF agent prompt contracts (boundary-mocked PTRR)', () => {
     const validationCalls = await runAgentAndCapture(validationSpec);
     const validationSystem = validationCalls[0].system;
 
-    expect(DEPOSIT_MEASUREMENT_CATALOG.length).toBeGreaterThan(0);
-    for (const measurementSpec of DEPOSIT_MEASUREMENT_CATALOG) {
-      expect(synthesisSystem).toContain(measurementSpec.measurementKind);
+    expect(synthesisSystem).toMatch(/digital material/i);
+    expect(synthesisSystem).toMatch(/do NOT invent measurement volumes/i);
+    expect(ASSET_PACK_ABSOLUTES_CATALOG.length).toBeGreaterThan(0);
+    for (const measurementSpec of ASSET_PACK_ABSOLUTES_CATALOG) {
       expect(validationSystem).toContain(measurementSpec.measurementKind);
     }
+    // Placeholder catalog kinds must not drive synthesis prompts.
+    expect(synthesisSystem).not.toContain('source-coverage');
+    expect(synthesisSystem).not.toContain('demand-alignment');
   }, 60000);
 });

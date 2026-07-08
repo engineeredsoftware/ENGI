@@ -63,19 +63,42 @@ describe('agent-measure-absolutes', () => {
   it('maps agent readings onto the catalog and falls back per-missing-reading', () => {
     const readings = [
       { measurementKind: 'function-count', volume: 0.5, magnitude: 20 },
-      { measurementKind: 'semantic-volume', volume: 0.66 },
-      // type-count, file-span, correctness-estimate omitted -> deterministic fallback
+      { measurementKind: 'objectives-fidelity', volume: 0.66 },
+      // other kinds omitted -> deterministic fallback
     ];
     const measurements = mapReadingsToAbsoluteMeasurements(readings, PATCH);
     expect(measurements).toHaveLength(ASSET_PACK_ABSOLUTES_CATALOG.length);
     const fn = measurements.find((m) => m.measurementKind === 'function-count');
     expect(fn?.volume).toBe(0.5);
     expect(fn?.magnitude).toBe(20);
-    const sem = measurements.find((m) => m.measurementKind === 'semantic-volume');
-    expect(sem?.volume).toBe(0.66);
+    const objectives = measurements.find((m) => m.measurementKind === 'objectives-fidelity');
+    expect(objectives?.volume).toBe(0.66);
     // omitted file-span falls back to the deterministic exact count (2)
     const fileSpan = measurements.find((m) => m.measurementKind === 'file-span');
     expect(fileSpan?.magnitude).toBe(2);
+  });
+
+  it('catalog splits quantity vs quality material properties', () => {
+    const quantity = ASSET_PACK_ABSOLUTES_CATALOG.filter((s) => s.propertyClass === 'quantity');
+    const quality = ASSET_PACK_ABSOLUTES_CATALOG.filter((s) => s.propertyClass === 'quality');
+    expect(quantity.map((s) => s.measurementKind)).toEqual(
+      expect.arrayContaining([
+        'function-count',
+        'type-count',
+        'file-span',
+        'symbolic-richness',
+        'modularity',
+      ]),
+    );
+    expect(quality.map((s) => s.measurementKind)).toEqual(
+      expect.arrayContaining([
+        'correctness-estimate',
+        'objectives-fidelity',
+        'computational-usage',
+      ]),
+    );
+    expect(quantity.every((s) => s.hasMagnitude)).toBe(true);
+    expect(quality.every((s) => !s.hasMagnitude)).toBe(true);
   });
 
   it('builds a lens-parameterized measurer agent', () => {
@@ -107,12 +130,12 @@ describe('validateDepositSynthesisOptions absolutes wiring', () => {
 
   it('prefers the formal absolutes over the placeholder catalog', () => {
     const absolutes = [
-      { measurementKind: 'function-count', label: 'Functions', weight: 0.18, volume: 0.5, category: 'absolute', magnitude: 12, unit: 'functions' },
-      { measurementKind: 'semantic-volume', label: 'Semantic volume', weight: 0.28, volume: 0.66, category: 'absolute', unit: 'normalized' },
+      { measurementKind: 'function-count', label: 'Functions', weight: 0.12, volume: 0.5, category: 'absolute', magnitude: 12, unit: 'functions' },
+      { measurementKind: 'correctness-estimate', label: 'Correctness', weight: 0.18, volume: 0.66, category: 'absolute', unit: 'estimate' },
     ];
     const out = validateDepositSynthesisOptions([{ ...baseOption, absolutes }], context);
     const measurements = out.candidates[0].measurements;
-    expect(measurements.map((m) => m.measurementKind)).toEqual(['function-count', 'semantic-volume']);
+    expect(measurements.map((m) => m.measurementKind)).toEqual(['function-count', 'correctness-estimate']);
     const fn = measurements.find((m) => m.measurementKind === 'function-count');
     expect(fn?.magnitude).toBe(12);
     expect(fn?.category).toBe('absolute');
@@ -154,43 +177,60 @@ describe('tool-grounded absolutes (legitimate static-analysis sizes)', () => {
       title: 'x', summary: 'y', coveredSourcePaths: ['a.ts', 'b.ts'], confidence: 0.6,
     };
     const measured = computeAbsolutesFromReport(
-      { measuredFromSamples: true, estimatedFunctionCount: 30, estimatedTypeCount: 12, targetFileCount: 2,
-        sampledFileCount: 2, lineCount: 0, tokenCount: 0, functionCount: 30, typeCount: 12, symbolCount: 0,
-        configKeyCount: 0, languageDensities: [], targetLanguageBreakdown: {}, coverageRatio: 1 } as any,
+      {
+        measuredFromSamples: true,
+        estimatedFunctionCount: 30,
+        estimatedTypeCount: 12,
+        estimatedSymbolCount: 100,
+        moduleCount: 2,
+        targetFileCount: 2,
+        sampledFileCount: 2,
+        lineCount: 0,
+        tokenCount: 0,
+        functionCount: 30,
+        typeCount: 12,
+        symbolCount: 100,
+        configKeyCount: 0,
+        languageDensities: [],
+        targetLanguageBreakdown: {},
+        coverageRatio: 1,
+      } as any,
       patch,
     );
     expect(measured.find((m) => m.measurementKind === 'function-count')?.magnitude).toBe(30);
+    expect(measured.find((m) => m.measurementKind === 'symbolic-richness')?.magnitude).toBe(100);
+    expect(measured.find((m) => m.measurementKind === 'modularity')?.magnitude).toBe(2);
     // no source -> heuristic from covered-path span (2 paths * 3 = 6)
     const heuristic = computeDeterministicAbsolutes(patch);
     expect(heuristic.find((m) => m.measurementKind === 'function-count')?.magnitude).toBe(6);
   });
 
-  it('mergeReportAndReadings clamps agent judgment readings into [0,1]', () => {
+  it('mergeReportAndReadings clamps agent quality readings into [0,1]', () => {
     const patch: MeasurableAssetPackPatch = {
       title: 'x', summary: 'y', coveredSourcePaths: ['a.ts'], fileChanges: [{ path: 'a.ts', op: 'modify' }], confidence: 0.5,
     };
     const merged = mergeReportAndReadings(computeDeterministicAbsolutes(patch), [
       { measurementKind: 'correctness-estimate', volume: 7 }, // clamped down
-      { measurementKind: 'semantic-volume', volume: -3 }, // clamped up
+      { measurementKind: 'objectives-fidelity', volume: -3 }, // clamped up
     ]);
     expect(merged.find((m) => m.measurementKind === 'correctness-estimate')?.volume).toBe(1);
-    expect(merged.find((m) => m.measurementKind === 'semantic-volume')?.volume).toBe(0);
+    expect(merged.find((m) => m.measurementKind === 'objectives-fidelity')?.volume).toBe(0);
   });
 
-  it('mergeReportAndReadings keeps sizes authoritative, takes agent judgment', () => {
+  it('mergeReportAndReadings keeps quantity tool-authoritative, takes agent quality', () => {
     const patch: MeasurableAssetPackPatch = {
       title: 'x', summary: 'y', coveredSourcePaths: ['a.ts'], fileChanges: [{ path: 'a.ts', op: 'modify' }], confidence: 0.5,
     };
     const base = computeDeterministicAbsolutes(patch);
     const baseFnVolume = base.find((m) => m.measurementKind === 'function-count')!.volume;
     const merged = mergeReportAndReadings(base, [
-      { measurementKind: 'function-count', volume: 0.99 }, // ignored — size is tool-authoritative
+      { measurementKind: 'function-count', volume: 0.99 }, // ignored — quantity is tool-authoritative
       { measurementKind: 'correctness-estimate', volume: 0.91 }, // taken
-      { measurementKind: 'semantic-volume', volume: 0.4 }, // taken
+      { measurementKind: 'computational-usage', volume: 0.4 }, // taken
     ]);
     expect(merged.find((m) => m.measurementKind === 'function-count')?.volume).toBe(baseFnVolume);
     expect(merged.find((m) => m.measurementKind === 'correctness-estimate')?.volume).toBe(0.91);
-    expect(merged.find((m) => m.measurementKind === 'semantic-volume')?.volume).toBe(0.4);
+    expect(merged.find((m) => m.measurementKind === 'computational-usage')?.volume).toBe(0.4);
   });
 });
 
@@ -219,15 +259,14 @@ describe('measureAssetPackAbsolutes real-inference path (boundary-mocked measure
     const executeSpy = jest.spyOn(SourceStaticAnalysisTool.prototype, 'execute');
     setBoundaryLLMOutput({
       measurements: [
-        // Judgment readings — taken from the agent (pins the envelope unwrap: if the
-        // PTRR envelope were read directly these would be lost and correctness would
-        // fall back to the confidence-derived 0.7).
+        // Quality readings — taken from the agent (pins the envelope unwrap).
         { measurementKind: 'correctness-estimate', volume: 0.91, rationale: 'Grounded in the measured counts.' },
-        { measurementKind: 'semantic-volume', volume: 0.44, rationale: 'Moderate legible knowledge volume.' },
-        // A size reading — MUST be ignored: sizes are static-analysis-authoritative.
+        { measurementKind: 'objectives-fidelity', volume: 0.44, rationale: 'Aligned with deposit objectives.' },
+        { measurementKind: 'computational-usage', volume: 0.33, rationale: 'Moderate complexity surface.' },
+        // A quantity reading — MUST be ignored: quantities are tool-authoritative.
         { measurementKind: 'function-count', volume: 0.99, magnitude: 999, rationale: 'Inflated size reading.' },
       ],
-      summary: 'Measured the absolutes of the patch descriptor.',
+      summary: 'Measured the absolute material properties of the patch.',
     });
 
     const absolutes = await measureAssetPackAbsolutes(PATCH, {
@@ -237,13 +276,14 @@ describe('measureAssetPackAbsolutes real-inference path (boundary-mocked measure
     });
 
     expect(absolutes.map((m) => m.measurementKind).sort()).toEqual([...ASSET_PACK_ABSOLUTE_KINDS].sort());
-    // Sizes stay tool-grounded (2 functions in the provided source, not the agent's 999).
+    // Quantity stays tool-grounded (2 functions in the provided source, not the agent's 999).
     const fn = absolutes.find((m) => m.measurementKind === 'function-count');
     expect(fn?.magnitude).toBe(2);
     expect(fn?.volume).toBe(0.05); // 2 / 40 normalizer
-    // Agent judgment readings are taken.
+    // Agent quality readings are taken.
     expect(absolutes.find((m) => m.measurementKind === 'correctness-estimate')?.volume).toBe(0.91);
-    expect(absolutes.find((m) => m.measurementKind === 'semantic-volume')?.volume).toBe(0.44);
+    expect(absolutes.find((m) => m.measurementKind === 'objectives-fidelity')?.volume).toBe(0.44);
+    expect(absolutes.find((m) => m.measurementKind === 'computational-usage')?.volume).toBe(0.33);
     // Source-safety: only use() runs (in-memory samples); execute() would persist the
     // raw source args into a tool child execution and must never be called.
     expect(executeSpy).not.toHaveBeenCalled();

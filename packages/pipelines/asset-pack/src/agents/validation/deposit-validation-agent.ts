@@ -26,7 +26,7 @@ import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
-import { DEPOSIT_MEASUREMENT_CATALOG } from '../../asset-packs-synthesis';
+import { ASSET_PACK_ABSOLUTES_CATALOG } from '../../asset-packs-synthesis';
 import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 import { measureAssetPackAbsolutes } from './agent-measure-absolutes';
 
@@ -60,17 +60,19 @@ const IDENTITY = part(
 
 const REQUIREMENTS = part(
   [
-    'Validate the synthesized deposit AssetPacks against these checks and report ' +
-      'every concrete problem as a short, source-safe issue string:',
-    '- Quality threshold: each pack carries honest 0..1 measurements (an object whose ' +
-      'values are in [0,1]) over the expected measurement kinds (' +
-      DEPOSIT_MEASUREMENT_CATALOG.map((spec) => spec.measurementKind).join(', ') +
-      ') with a confidence in [0,1] that is reasonable for the evidence; flag inflated, ' +
-      'out-of-range, or unjustified measurements/confidence.',
+    'Data is digital material; material has properties. Absolute measurements of that ' +
+      'material (quantity: size, symbolic richness, modularity; quality: objectives, ' +
+      'correctness, computational-usage) are attached by the measure-agent Tool stack ' +
+      'after your qualitative pass — kinds: ' +
+      ASSET_PACK_ABSOLUTES_CATALOG.map((spec) => spec.measurementKind).join(', ') +
+      '. Validate the synthesized deposit AssetPacks and report every concrete problem ' +
+      'as a short, source-safe issue string:',
+    '- Material coherence: each pack is a coherent digital material artifact with a ' +
+      'confidence in [0,1] that is reasonable for the evidence; flag unjustified confidence.',
     '- Distinctness: the packs are genuinely distinct, complementary knowledge slices, ' +
       'not duplicative or near-identical; flag overlap or repetition.',
     '- Source-safety: NO raw source, code, diffs, secrets, or file contents appear in any ' +
-      'title, summary, measurementRationale, or patchSummary; flag any leakage.',
+      'title, summary, or patchSummary; flag any leakage.',
     '- Obfuscation/exclusion compliance: no coveredSourcePaths and no patch fileChanges ' +
       'path touches an obfuscated path/concept (from the obfuscation guidance) or a ' +
       'protected-IP exclusion; flag any violation by path.',
@@ -294,14 +296,12 @@ export default async function runDepositValidationAgent(input: any, execution: a
   // Record the full deposit-quality verdict for telemetry / the /deposit surface.
   storeCrossPhaseArtifact(execution, 'validation', 'depositQuality', result);
 
-  // V48 Gate 3 — formal ABSOLUTES measurement. Each AssetPack is a measured patch:
-  // the patch was synthesized in Implementation; here the formal measure-agent
-  // (agent-measure-absolutes) MEASURES its absolutes (sizes / correctness /
-  // semantic-volume) and attaches them to the pack in place. Real inference runs
-  // the measure-agent (its PTRR substeps render in the SDIVF telemetry, content
-  // withheld); otherwise the deterministic descriptor-derived fallback applies.
-  // Per pack in parallel so wall-clock ≈ one measurement; each LLM call is bounded
-  // by the F25 per-call timeout.
+  // V48 Gate 3 — formal ABSOLUTES measurement of digital material properties.
+  // Implementation synthesizes the patch; here Tools (static analysis) measure
+  // QUANTITY properties and the measure-agent judges QUALITY properties
+  // (objectives, correctness, computational-usage), attaching absolutes in place.
+  // Real inference runs the measure-agent PTRR hierarchy (telemetry content
+  // withheld); otherwise tool/report-derived absolutes apply.
   if (packs.length > 0) {
     // The source for static analysis: the FULL checkout content (inventory.sources —
     // every tracked file, verbatim, provisioned by the Host) so the covered files are

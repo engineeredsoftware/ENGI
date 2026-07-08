@@ -567,4 +567,11 @@ export {
   type ShareToFeeQuote,
 } from './read-need';
 export default assetPackPipeline;
-export const runSDIVFPipeline = assetPackPipeline;
+/** Canonical SDIVF synthesis entry (deposit | read). Prefer this over the DDD router. */
+export const runSynthesizeAssetPacksPipeline = synthesizeAssetPacksPipeline;
+/**
+ * @deprecated Name historically pointed at the DDD gate router. Now aliases the
+ * true SDIVF SynthesizeAssetPacks pipeline so callers that import runSDIVFPipeline
+ * get the unified synthesis stack. Use runSynthesizeAssetPacksPipeline / synthesizeAssetPacksPipeline.
+ */
+export const runSDIVFPipeline = synthesizeAssetPacksPipeline;

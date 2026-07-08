@@ -19,10 +19,14 @@ import {
 } from './measure-agent';
 
 const ABSOLUTES_FRAMING =
-  'You measure ABSOLUTES — INTRINSIC properties of the artifact itself: its sizes, ' +
-  'its correctness, and the amount of knowledge it encodes. Absolutes depend ONLY on ' +
-  'the artifact, never on any reader, demand, market, or buyer. Measure what IS ' +
-  'present, not what anyone wants or would pay for.';
+  'You measure ABSOLUTES — INTRINSIC properties of digital material. Data is digital ' +
+  'material; material has properties. QUANTITY properties include size, symbolic ' +
+  'richness, modularity (often tool-measured counts). QUALITY properties include ' +
+  'objectives fidelity, correctness, computational-usage requirements (judgment ' +
+  'readings you ground in the tool-measured quantities + the source-safe descriptor). ' +
+  'Absolutes depend ONLY on the artifact, never on any reader, demand, market, or buyer. ' +
+  'Measure what IS present, not what anyone wants or would pay for. Prefer tool-measured ' +
+  'magnitudes for quantity; do not invent sizes that contradict static-analysis counts.';
 
 export interface MeasureAgentAbsolutesConfig {
   name: string;

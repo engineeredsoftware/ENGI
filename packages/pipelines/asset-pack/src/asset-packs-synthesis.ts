@@ -96,64 +96,110 @@ export function measurementCatalogForLens(lens: AssetPacksSynthesisLens): AssetP
 }
 
 /**
- * The ABSOLUTES catalog (V48 Gate 3 — the formalized non-needinesses category).
- * Intrinsic, reader-independent measures of a synthesized AssetPack patch, read
- * by agent-measure-absolutes (the formal measure-agent), superseding the legacy
- * placeholder catalog. Grounded in the demonstration's static-measurement notion
- * (`protocol-demonstration/`: normalizedBitcodeVolume / semantic volume). A
- * MeasurementSpec plus a composite `weight` (weights sum to 1).
+ * The ABSOLUTES catalog (V48 Gate 3 — formalized non-needinesses).
  *
- * Lens-shared in Gate 3 (the read-lens finalization is Gate 4); the concrete
- * agent is lens-parameterized so Gate 4 only finalizes, not restructures.
+ * Bitcode law: **data is digital material; material that has properties.**
+ *
+ * Absolute measurements are INTRINSIC properties of that material (the synthesized
+ * AssetPack patch), independent of any reader/Need/market:
+ *
+ *   - **Quantity properties** — size, symbolic richness, modularity, … (often
+ *     count magnitudes from Tools such as SourceStaticAnalysisTool)
+ *   - **Quality properties** — objectives fidelity, correctness, computational
+ *     usage requirements, … (judgment readings from the measure-agent, grounded
+ *     in tool-measured quantities + Discovery comprehension)
+ *
+ * Measured by agent-measure-absolutes (factoryMeasureAgentAbsolutes + static-
+ * analysis Tool). Weights sum to 1. Lens-shared in Gate 3; Gate 4 finalizes read.
  */
+export type AbsolutePropertyClass = 'quantity' | 'quality';
+
 export interface AssetPackAbsoluteSpec extends MeasurementSpec {
-  /** Weight in the absolute weighted composite. */
+  /** Weight in the absolute weighted composite (Σ = 1). */
   weight: number;
+  /** Quantity (how much / how large) vs quality (how good / how fit-for-purpose). */
+  propertyClass: AbsolutePropertyClass;
 }
 
 export const ASSET_PACK_ABSOLUTES_CATALOG: AssetPackAbsoluteSpec[] = [
+  // —— Quantity properties (Tool-authoritative sizes / structure) ——
   {
     measurementKind: 'function-count',
     label: 'Functions',
     unit: 'functions',
     hasMagnitude: true,
-    weight: 0.18,
+    weight: 0.12,
+    propertyClass: 'quantity',
     guidance:
-      'How many distinct functions/behaviors the synthesized patch encodes (a size). magnitude = the count.',
+      'QUANTITY · size: how many distinct functions/behaviors the synthesized patch encodes. magnitude = the count (static analysis).',
   },
   {
     measurementKind: 'type-count',
     label: 'Types',
     unit: 'types',
     hasMagnitude: true,
-    weight: 0.14,
+    weight: 0.1,
+    propertyClass: 'quantity',
     guidance:
-      'How many distinct types/interfaces/schemas the patch defines (a size). magnitude = the count.',
+      'QUANTITY · size: how many distinct types/interfaces/schemas the patch defines. magnitude = the count (static analysis).',
   },
   {
     measurementKind: 'file-span',
     label: 'File span',
     unit: 'files',
     hasMagnitude: true,
-    weight: 0.12,
+    weight: 0.08,
+    propertyClass: 'quantity',
     guidance:
-      'How many files the patch creates/modifies (a size — derivable from the patch descriptor). magnitude = the count.',
+      'QUANTITY · size: how many files the patch creates/modifies (patch descriptor). magnitude = the count.',
   },
+  {
+    measurementKind: 'symbolic-richness',
+    label: 'Symbolic richness',
+    unit: 'symbols',
+    hasMagnitude: true,
+    weight: 0.12,
+    propertyClass: 'quantity',
+    guidance:
+      'QUANTITY · symbolic richness: how dense the material is in distinct symbols/identifiers (static analysis). magnitude = unique symbol count; volume normalizes richness per file.',
+  },
+  {
+    measurementKind: 'modularity',
+    label: 'Modularity',
+    unit: 'modules',
+    hasMagnitude: true,
+    weight: 0.08,
+    propertyClass: 'quantity',
+    guidance:
+      'QUANTITY · modularity: how modular the material is (distinct path modules / top-level packages touched). magnitude = module count; volume rewards multi-module structure without sprawl.',
+  },
+  // —— Quality properties (measure-agent judgment, grounded in quantities) ——
   {
     measurementKind: 'correctness-estimate',
     label: 'Correctness',
     unit: 'estimate',
-    weight: 0.28,
+    weight: 0.18,
+    propertyClass: 'quality',
     guidance:
-      'A 0..1 estimate of the synthesized knowledge’s fidelity and internal coherence — the patch is faithful to the comprehension it was synthesized from and would build.',
+      'QUALITY · correctness: 0..1 fidelity and internal coherence of the synthesized knowledge — faithful to Discovery comprehension and buildable as described.',
   },
   {
-    measurementKind: 'semantic-volume',
-    label: 'Semantic volume',
-    unit: 'normalized',
-    weight: 0.28,
+    measurementKind: 'objectives-fidelity',
+    label: 'Objectives fidelity',
+    unit: 'estimate',
+    weight: 0.16,
+    propertyClass: 'quality',
     guidance:
-      'A 0..1 measure of HOW MUCH commercially-legible knowledge the pack encodes — the normalized bitcode-volume analog (monotone in the sizes). What the BTD volume later grounds on.',
+      'QUALITY · objectives: 0..1 how well the pack serves the deposit/read objectives (obfuscation guidance, demand context, Discovery intent) without leaking withheld material.',
+  },
+  {
+    measurementKind: 'computational-usage',
+    label: 'Computational usage',
+    unit: 'estimate',
+    weight: 0.16,
+    propertyClass: 'quality',
+    guidance:
+      'QUALITY · computational-usage requirements: 0..1 estimated computational demand of the material (complexity of the knowledge surface: denser/richer packs score higher usage requirements).',
   },
 ];
 

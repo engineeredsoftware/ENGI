@@ -61,6 +61,10 @@ export interface StaticAnalysisReport {
   /** Density applied to the covered set (exact where the covered file was sampled). */
   estimatedFunctionCount: number;
   estimatedTypeCount: number;
+  /** Unique-symbol estimate for covered files (symbolic richness magnitude). */
+  estimatedSymbolCount: number;
+  /** Distinct top-level path modules among covered paths (modularity magnitude). */
+  moduleCount: number;
   /** Fraction of covered files that were directly sampled (0..1). */
   coverageRatio: number;
   /** False when no source was available (counts are zero / path-only). */
@@ -199,7 +203,9 @@ export function analyzeStaticSource(args: StaticAnalysisArgs): StaticAnalysisRep
   const targetLanguageBreakdown: Record<string, number> = {};
   let estFunctions = 0;
   let estTypes = 0;
+  let estSymbols = 0;
   let sampledTargets = 0;
+  const globalSymbolsPerFile = analyses.length ? symbolCount / analyses.length : 0;
   for (const path of targetPaths) {
     const ext = extOf(path);
     targetLanguageBreakdown[ext] = (targetLanguageBreakdown[ext] ?? 0) + 1;
@@ -208,11 +214,21 @@ export function analyzeStaticSource(args: StaticAnalysisArgs): StaticAnalysisRep
       sampledTargets += 1;
       estFunctions += sampled.functions;
       estTypes += sampled.types;
+      estSymbols += sampled.symbols;
     } else {
       const d = densityFor(ext);
       estFunctions += d.fn;
       estTypes += d.type;
+      estSymbols += globalSymbolsPerFile;
     }
+  }
+
+  // Modularity: distinct top-level path segments among covered files.
+  const modules = new Set<string>();
+  for (const path of targetPaths) {
+    const normalized = path.replace(/^\/+/, '');
+    const slash = normalized.indexOf('/');
+    modules.add(slash === -1 ? normalized : normalized.slice(0, slash));
   }
 
   return {
@@ -228,6 +244,8 @@ export function analyzeStaticSource(args: StaticAnalysisArgs): StaticAnalysisRep
     targetLanguageBreakdown,
     estimatedFunctionCount: Math.round(estFunctions),
     estimatedTypeCount: Math.round(estTypes),
+    estimatedSymbolCount: Math.round(estSymbols),
+    moduleCount: modules.size || targetPaths.length || 0,
     coverageRatio: targetPaths.length ? Number((sampledTargets / targetPaths.length).toFixed(2)) : 0,
     measuredFromSamples: analyses.length > 0,
   };

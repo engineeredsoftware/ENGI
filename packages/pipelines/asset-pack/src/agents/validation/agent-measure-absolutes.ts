@@ -1,27 +1,17 @@
 /**
  * agent-measure-absolutes — the asset-pack concrete absolutes measurer (V48 Gate 3).
  *
- * Bases the generic-agents factoryMeasureAgentAbsolutes with the asset-pack
- * ABSOLUTES catalog (sizes / correctness / semantic-volume), lens-parameterized
- * (deposit | read) so the Gate-4 read finalization only finalizes — it does not
- * restructure. Run in the Validation phase over each synthesized AssetPack patch:
- * an AssetPack is a measured patch = a patch (synthesized in Implementation)
- * MEASURED here. This replaces the synthesis agent's inline self-scoring of the
- * placeholder catalog with a formal, separate measurement.
+ * Bases factoryMeasureAgentAbsolutes with the asset-pack ABSOLUTES catalog —
+ * material properties of digital material:
+ *   quantity (Tool): function/type/file sizes, symbolic richness, modularity
+ *   quality  (Agent): correctness, objectives fidelity, computational usage
  *
- * Legitimate sizes: the SIZE absolutes (functions / types / file-span) are MEASURED
- * by the SourceStaticAnalysisTool over the available source (real, deterministic
- * static analysis — not model guesses). The agent contributes only the JUDGMENT
- * absolutes (correctness-estimate, semantic-volume), grounded in the measured
- * counts + the Discovery comprehension.
+ * Lens-parameterized (deposit | read). Run in Validation over each synthesized
+ * AssetPack patch: Implementation synthesizes the patch; this measurer MEASURES it.
  *
- * Source-safety: the static-analysis tool's `use` is called DIRECTLY with in-memory
- * samples (never `execute`, which persists raw args), so raw source never enters
- * telemetry; only the source-safe COUNT report grounds the agent. The agent itself
- * reasons over the patch descriptor + the counts — never raw source.
- *
- * Deterministic fallback: when real inference is disabled the absolutes are derived
- * from the static-analysis report alone — the no-network, source-safe preview path.
+ * Quantity magnitudes are MEASURED by SourceStaticAnalysisTool (deterministic
+ * static analysis). Quality volumes are judgment from the measure-agent, grounded
+ * in those counts + the source-safe descriptor — never raw source in telemetry.
  */
 
 import { factoryMeasureAgentAbsolutes, type MeasureAgent } from '@bitcode/agent-generics';
@@ -52,8 +42,16 @@ export interface MeasurableAssetPackPatch {
   patchSummary?: string;
 }
 
-/** The size measurement kinds — authoritative from static analysis, not the agent. */
-const SIZE_KINDS = new Set(['function-count', 'type-count', 'file-span']);
+/** Quantity kinds — Tool-authoritative (static analysis + patch descriptor). */
+const QUANTITY_KINDS = new Set([
+  'function-count',
+  'type-count',
+  'file-span',
+  'symbolic-richness',
+  'modularity',
+]);
+/** @deprecated alias — use QUANTITY_KINDS */
+const SIZE_KINDS = QUANTITY_KINDS;
 
 const LENS_SUBJECT: Record<AssetPacksSynthesisLens, string> = {
   deposit:
@@ -61,12 +59,16 @@ const LENS_SUBJECT: Record<AssetPacksSynthesisLens, string> = {
   read: 'a synthesized source-safe Need-fitting AssetPack the reader will review and buy',
 };
 
-/** Per-size normalizer: magnitude / divisor → 0..1 volume (saturates at the divisor). */
-const SIZE_NORMALIZER: Record<string, number> = {
+/** Per-quantity normalizer: magnitude / divisor → 0..1 volume (saturates at the divisor). */
+const QUANTITY_NORMALIZER: Record<string, number> = {
   'function-count': 40,
   'type-count': 24,
   'file-span': 10,
+  'symbolic-richness': 200,
+  modularity: 12,
 };
+/** @deprecated alias */
+const SIZE_NORMALIZER = QUANTITY_NORMALIZER;
 
 function clamp01(value: number): number {
   const n = Number.isFinite(value) ? value : 0;
@@ -82,7 +84,7 @@ export function factoryAssetPackMeasureAbsolutesAgent(
 ): MeasureAgent {
   return factoryMeasureAgentAbsolutes({
     name: `AssetPackMeasureAbsolutesAgent:${lens}`,
-    description: `Measures the absolutes (sizes, correctness, semantic volume) of ${LENS_SUBJECT[lens]}.`,
+    description: `Measures absolute material properties (quantity + quality) of ${LENS_SUBJECT[lens]}.`,
     subject: LENS_SUBJECT[lens],
     measurements: ASSET_PACK_ABSOLUTES_CATALOG,
     plan: { chunkThreshold: 1500 },
@@ -120,6 +122,8 @@ function toDescriptor(patch: MeasurableAssetPackPatch, report: StaticAnalysisRep
       coverageRatio: report.coverageRatio,
       measuredFromSamples: report.measuredFromSamples,
       languages: Object.keys(report.targetLanguageBreakdown),
+      moduleCount: report.moduleCount,
+      symbolicRichness: report.estimatedSymbolCount,
     },
   };
 }
@@ -132,6 +136,21 @@ function toDescriptor(patch: MeasurableAssetPackPatch, report: StaticAnalysisRep
  * is monotone in the sizes. This is both the deterministic fallback AND the size
  * source the agent path builds on.
  */
+/**
+ * Distinct top-level modules touched by the patch (path prefix before first `/`
+ * or the full path when flat). Pure quantity signal for modularity.
+ */
+export function countModulesFromPaths(paths: string[]): number {
+  const modules = new Set<string>();
+  for (const raw of paths || []) {
+    const path = String(raw || '').replace(/^\/+/, '').trim();
+    if (!path) continue;
+    const slash = path.indexOf('/');
+    modules.add(slash === -1 ? path : path.slice(0, slash));
+  }
+  return modules.size;
+}
+
 export function computeAbsolutesFromReport(
   report: StaticAnalysisReport,
   patch: MeasurableAssetPackPatch,
@@ -143,27 +162,63 @@ export function computeAbsolutesFromReport(
   const typeCount = measured
     ? Math.max(0, report.estimatedTypeCount)
     : Math.max(1, Math.round(patch.coveredSourcePaths.length * 1.5));
-  const fileSpan = (patch.fileChanges?.length ?? 0) || report.targetFileCount || patch.coveredSourcePaths.length;
+  const fileSpan =
+    (patch.fileChanges?.length ?? 0) ||
+    report.targetFileCount ||
+    patch.coveredSourcePaths.length;
+  const symbolCount = measured
+    ? Math.max(0, report.estimatedSymbolCount ?? report.symbolCount)
+    : Math.max(1, Math.round(patch.coveredSourcePaths.length * 8));
+  const moduleCount = Math.max(
+    1,
+    report.moduleCount ||
+      countModulesFromPaths([
+        ...patch.coveredSourcePaths,
+        ...(patch.fileChanges || []).map((c) => c.path),
+      ]),
+  );
+
+  // Quality defaults (deterministic path): grounded in confidence + quantities.
   const correctness = clamp01(patch.confidence ?? 0.6);
-  const semanticVolume = clamp01((functionCount + typeCount * 1.5 + fileSpan * 2) / 80);
+  const quantityComposite = clamp01(
+    (functionCount / QUANTITY_NORMALIZER['function-count'] +
+      typeCount / QUANTITY_NORMALIZER['type-count'] +
+      fileSpan / QUANTITY_NORMALIZER['file-span'] +
+      symbolCount / QUANTITY_NORMALIZER['symbolic-richness'] +
+      moduleCount / QUANTITY_NORMALIZER.modularity) /
+      5,
+  );
+  const objectivesFidelity = clamp01(0.55 * correctness + 0.45 * quantityComposite);
+  const computationalUsage = clamp01(
+    0.4 * (symbolCount / QUANTITY_NORMALIZER['symbolic-richness']) +
+      0.35 * (functionCount / QUANTITY_NORMALIZER['function-count']) +
+      0.25 * (fileSpan / QUANTITY_NORMALIZER['file-span']),
+  );
 
   const magnitudeByKind: Record<string, number> = {
     'function-count': functionCount,
     'type-count': typeCount,
     'file-span': fileSpan,
+    'symbolic-richness': symbolCount,
+    modularity: moduleCount,
   };
   const volumeByKind: Record<string, number> = {
-    'function-count': clamp01(functionCount / SIZE_NORMALIZER['function-count']),
-    'type-count': clamp01(typeCount / SIZE_NORMALIZER['type-count']),
-    'file-span': clamp01(fileSpan / SIZE_NORMALIZER['file-span']),
+    'function-count': clamp01(functionCount / QUANTITY_NORMALIZER['function-count']),
+    'type-count': clamp01(typeCount / QUANTITY_NORMALIZER['type-count']),
+    'file-span': clamp01(fileSpan / QUANTITY_NORMALIZER['file-span']),
+    'symbolic-richness': clamp01(symbolCount / QUANTITY_NORMALIZER['symbolic-richness']),
+    modularity: clamp01(moduleCount / QUANTITY_NORMALIZER.modularity),
     'correctness-estimate': correctness,
-    'semantic-volume': semanticVolume,
+    'objectives-fidelity': objectivesFidelity,
+    'computational-usage': computationalUsage,
   };
 
-  return ASSET_PACK_ABSOLUTES_CATALOG.map((spec) => buildMeasurement(spec, {
-    volume: volumeByKind[spec.measurementKind] ?? 0,
-    magnitude: magnitudeByKind[spec.measurementKind],
-  }));
+  return ASSET_PACK_ABSOLUTES_CATALOG.map((spec) =>
+    buildMeasurement(spec, {
+      volume: volumeByKind[spec.measurementKind] ?? 0,
+      magnitude: magnitudeByKind[spec.measurementKind],
+    }),
+  );
 }
 
 /**
@@ -228,9 +283,9 @@ export function mapReadingsToAbsoluteMeasurements(
 }
 
 /**
- * Merge the measured report-based absolutes with the agent's readings: SIZES stay
- * authoritative from the static analysis; the JUDGMENT measures (correctness,
- * semantic-volume) take the agent's reading when valid, else the report value.
+ * Merge tool-measured QUANTITY absolutes with agent QUALITY readings:
+ * quantity kinds stay tool-authoritative; quality kinds take the agent volume
+ * when valid, else the report-derived default.
  */
 export function mergeReportAndReadings(
   reportAbsolutes: AssetPackCandidateMeasurement[],
@@ -241,7 +296,7 @@ export function mergeReportAndReadings(
     if (reading && typeof reading.measurementKind === 'string') byKind.set(reading.measurementKind, reading);
   }
   return reportAbsolutes.map((measurement) => {
-    if (SIZE_KINDS.has(measurement.measurementKind)) return measurement; // tool-authoritative
+    if (QUANTITY_KINDS.has(measurement.measurementKind)) return measurement; // tool-authoritative
     const reading = byKind.get(measurement.measurementKind);
     const volume = Number(reading?.volume);
     if (reading && Number.isFinite(volume)) return { ...measurement, volume: clamp01(volume) };
@@ -268,12 +323,11 @@ async function measureStaticAnalysis(
 }
 
 /**
- * Measure the absolutes of ONE synthesized patch. The SIZES are MEASURED by the
- * static-analysis tool over the available source; the real path additionally runs
- * the measure-agent for the judgment measures (correctness, semantic-volume),
- * grounded in the measured counts (its PTRR substeps render in the SDIVF telemetry,
- * content withheld). The deterministic path returns the report-derived absolutes.
- * Always returns the complete absolutes set.
+ * Measure the absolutes of ONE synthesized patch.
+ * Quantity: SourceStaticAnalysisTool (+ patch descriptor).
+ * Quality: measure-agent judgment grounded in those quantities (when real
+ * inference is enabled); otherwise report-derived quality defaults.
+ * Always returns the complete absolutes catalog.
  */
 export async function measureAssetPackAbsolutes(
   patch: MeasurableAssetPackPatch,

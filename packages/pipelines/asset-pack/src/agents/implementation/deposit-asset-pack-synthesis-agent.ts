@@ -30,7 +30,6 @@ import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
-import { DEPOSIT_MEASUREMENT_CATALOG } from '../../asset-packs-synthesis';
 import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 import { AssetPackPatchWriteTool } from './asset-pack-patch-write-tool';
 
@@ -68,11 +67,13 @@ const candidateSchema = z.object({
   title: z.string().min(8).max(160),
   summary: z.string().min(40).max(900),
   coveredSourcePaths: z.array(z.string().min(1)).min(1).max(40),
-  measurements: z.record(z.string(), z.coerce.number().min(0).max(1)),
-  measurementRationale: z.string().min(20).max(700),
+  // Absolute measurements (quantity + quality material properties) are produced
+  // by agent-measure-absolutes in Validation — NOT self-scored here. Optional
+  // legacy record accepted for back-compat but ignored when absolutes attach.
+  measurements: z.record(z.string(), z.coerce.number().min(0).max(1)).optional().default({}),
+  measurementRationale: z.string().max(700).optional().default(''),
   confidence: z.coerce.number().min(0).max(1),
-  // Each AssetPack is a MEASURED PATCH: the measured option fields above PLUS the
-  // source-safe patch descriptor below (patch + measurements + metadata).
+  // Synthesized patch descriptor (path+op + summary) — Validation measures it.
   patch: patchSchema,
   // Deposit neediness preview (v0): the read-demand signal for this pack.
   needinessSignal: needinessSignalSchema.optional(),
@@ -87,45 +88,32 @@ export type DepositSynthesisOptions = z.infer<typeof candidateSetSchema>;
 const DEPOSIT_IDENTITY = part(
   'You are SynthesizeAssetPacks in DEPOSIT mode. A depositor supplies their ' +
     'repository knowledge as AssetPacks — bounded, source-safe slices the ' +
-    'Depository holds as supply, where future readers find Need-fitting packs. ' +
-    'Each AssetPack is a completely synthesized artifact = a MEASURED PATCH ' +
-    '(patch + measurements + metadata). Synthesize 2-4 DISTINCT, measured ' +
-    'AssetPack patches from the explored repository the depositor can review and ' +
-    'admit, reasoning over the Discovery comprehension (codebase comprehension, ' +
-    'depository-fit search, inherent regurgitation) and obfuscation guidance you ' +
-    'are given. Describe knowledge and capability and the SHAPE of the patch — ' +
-    'never quote raw source, code, secrets, or file contents. Honor the depositor ' +
-    'obfuscations and protected-IP exclusions absolutely.',
+    'Depository holds as supply. Data is digital material; you SYNTHESIZE the ' +
+    'material (the patch). Absolute material properties (quantity: size, symbolic ' +
+    'richness, modularity; quality: objectives, correctness, computational-usage) ' +
+    'are MEASURED later by the Validation measure-agent + static-analysis Tool — ' +
+    'do NOT invent measurement volumes here. Synthesize 2-4 DISTINCT AssetPack ' +
+    'patches from Discovery comprehension and obfuscation guidance. Describe ' +
+    'knowledge and the SHAPE of the patch — never quote raw source, code, secrets, ' +
+    'or file contents. Honor obfuscations and protected-IP exclusions absolutely.',
 );
 
 const DEPOSIT_REQUIREMENTS = part(
   [
-    'Ground every candidate in the provided Discovery comprehension — the codebase',
-    'comprehension, the depository-fit search, and the inherent regurgitation — and',
-    'honor the obfuscation guidance and protected-IP exclusions absolutely.',
-    'Each candidate is a distinct, commercially-legible knowledge slice — a MEASURED',
-    'PATCH (measured option fields + a source-safe patch descriptor):',
+    'Ground every candidate in Discovery comprehension (codebase, depository-search,',
+    'inherent regurgitation) and honor obfuscation guidance + protected-IP exclusions.',
+    'Each candidate is a distinct commercially-legible knowledge slice:',
     `- kind: one of ${DEPOSIT_OPTION_KINDS.join(', ')}.`,
     '- title + source-safe summary (knowledge/capability, never raw text).',
-    '- coveredSourcePaths: chosen ONLY from the provided inventory paths, exactly as written.',
-    '- measurements: an object with EXACTLY these 0..1 keys, each an honest volume:',
-    ...DEPOSIT_MEASUREMENT_CATALOG.map((spec) => `    ${spec.measurementKind}: ${spec.guidance}`),
-    '- measurementRationale justifying every measurement; confidence 0..1.',
-    '- patch: the SOURCE-SAFE patch DESCRIPTOR for this AssetPack — the code edits it',
-    '  contributes, derived from your Discovery comprehension:',
-    '    - fileChanges: a non-empty list of { path, op } where op is create | modify | delete,',
-    '      naming which files the AssetPack creates/modifies/deletes (paths from the inventory,',
-    '      honoring obfuscations + exclusions). Provide ONLY path + op — NEVER code, diffs, or contents.',
-    '    - patchSummary: a source-safe natural-language summary of the synthesized knowledge the',
-    '      patch encodes (what it does and why it is legible to a buyer) — NEVER raw source or code.',
-    '- needinessSignal: the read-demand preview for this pack, GROUNDED in the depository-search',
-    '  Discovery guidance (likelyReadTopics / demandAlignment / underservedTopics):',
-    '    - demand (0..1): how much reading demand this pack’s knowledge would satisfy (higher when it',
-    '      matches likelyReadTopics / demandAlignment).',
-    '    - saturation (0..1): how much the Depository already supplies this topic (LOWER when the pack',
-    '      addresses an underservedTopic — scarce, therefore more needed).',
-    '    - rationale: a short source-safe justification. (Neediness is COMPUTED from these downstream.)',
-    'Return ONLY {"options":[ ... ]} — the top-level key MUST be "options".',
+    '- coveredSourcePaths: ONLY from the provided inventory paths, exactly as written.',
+    '- confidence: 0..1 self-estimate of synthesis fidelity (used as a soft prior for quality measurement).',
+    '- patch: SOURCE-SAFE descriptor of the digital material you synthesize:',
+    '    - fileChanges: non-empty { path, op } list (create|modify|delete); path+op ONLY — never code/diffs.',
+    '    - patchSummary: source-safe natural-language summary of the knowledge the patch encodes.',
+    '- needinessSignal (read-demand preview), GROUNDED in depository-search guidance:',
+    '    - demand (0..1), saturation (0..1), rationale (source-safe). Neediness is COMPUTED downstream.',
+    'Do NOT emit absolute measurement volumes (functions/types/correctness/etc.) — Validation measures those.',
+    'Return ONLY {"options":[ ... ]} — top-level key MUST be "options".',
   ].join('\n'),
 );
 
@@ -135,17 +123,17 @@ const DEPOSIT_PLAN = part(
     'repository supports.',
 );
 const DEPOSIT_TRY = part(
-  'Try: synthesize each candidate as a measured patch — kind, title, source-safe ' +
-    'summary, covered source paths, honest measurements, a measurement rationale, ' +
-    'and the source-safe patch descriptor (fileChanges path+op + patchSummary).',
+  'Try: synthesize each candidate as digital material — kind, title, source-safe ' +
+    'summary, covered source paths, confidence, the source-safe patch descriptor ' +
+    '(fileChanges path+op + patchSummary), and needinessSignal. Do not invent absolute volumes.',
 );
 const DEPOSIT_REFINE = part(
   'Refine: ensure each option is distinct, source-safe, obfuscation- and ' +
     'exclusion-honoring, and legible to a future buyer; verify the patch descriptor ' +
-    'names only inventory paths (no code/contents) and measurements are honest 0..1 volumes.',
+    'names only inventory paths (no code/contents).',
 );
 const DEPOSIT_RETRY = part(
-  'Retry: complete any missing option as a minimal valid source-safe measured patch ' +
+  'Retry: complete any missing option as a minimal valid source-safe patch ' +
     '(at least one fileChange + a patchSummary) rather than failing the synthesis.',
 );
 
