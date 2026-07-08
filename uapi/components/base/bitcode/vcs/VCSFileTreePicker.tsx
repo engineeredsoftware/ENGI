@@ -11,7 +11,7 @@
  * given conflict label. Square theme, no card-in-card chrome.
  */
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronDown, ChevronRight, FileText, Folder } from 'lucide-react';
 import type { VCSProviderType } from '@bitcode/vcs-core';
 
@@ -45,6 +45,27 @@ function baseName(path: string) {
   return index === -1 ? trimmed : trimmed.slice(index + 1);
 }
 
+function normalizeTreeItems(raw: unknown): VCSFileTreePickerTreeItem[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter(
+      (item: { path?: unknown; type?: unknown }) =>
+        typeof item?.path === 'string' &&
+        (item?.type === 'blob' || item?.type === 'tree'),
+    )
+    .map((item: { path: string; type: 'blob' | 'tree' }) => ({
+      path: item.path,
+      type: item.type,
+    }))
+    .sort((a, b) =>
+      a.type === b.type
+        ? a.path.localeCompare(b.path)
+        : a.type === 'tree'
+          ? -1
+          : 1,
+    );
+}
+
 export function VCSFileTreePicker({
   provider,
   repositoryFullName,
@@ -63,6 +84,13 @@ export function VCSFileTreePicker({
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [loadError, setLoadError] = useState<string | null>(null);
 
+  // Bumped on every tree-identity change (repo/ref) and on unmount so
+  // in-flight fetches from a prior package cannot write empty/error results
+  // over a later successful load (the flicker-to-empty race). Same pattern
+  // DepositSourceSelection uses with its disposed flags.
+  const loadGenerationRef = useRef(0);
+  const abortControllerRef = useRef<AbortController | null>(null);
+
   const [owner, repo] = useMemo(() => {
     const [ownerPart, repoPart] = (repositoryFullName || '').split('/');
     return [ownerPart || null, repoPart || null];
@@ -75,9 +103,15 @@ export function VCSFileTreePicker({
   const selectedSet = useMemo(() => new Set(selectedPaths), [selectedPaths]);
 
   const loadDirectory = useCallback(
-    async (path: string) => {
+    async (path: string, generation: number, signal: AbortSignal) => {
       if (!owner || !repo) return;
-      setChildrenByPath((previous) => ({ ...previous, [path]: previous[path] ?? null }));
+      // Only mark loading when we don't already have items for this path —
+      // keeps the tree painted during a soft re-fetch of an expanded dir.
+      setChildrenByPath((previous) =>
+        previous[path] === undefined
+          ? { ...previous, [path]: null }
+          : previous,
+      );
       try {
         const params = new URLSearchParams({
           resource: 'tree',
@@ -87,41 +121,80 @@ export function VCSFileTreePicker({
         });
         if (path) params.set('path', path);
         if (treeRef) params.set('ref', treeRef);
-        const response = await fetch(`/api/vcs?${params.toString()}`);
-        const payload = response?.ok ? await response.json().catch(() => null) : null;
-        const items: VCSFileTreePickerTreeItem[] = Array.isArray(payload?.items)
-          ? payload.items
-              .filter(
-                (item: { path?: unknown; type?: unknown }) =>
-                  typeof item?.path === 'string' &&
-                  (item?.type === 'blob' || item?.type === 'tree'),
-              )
-              .sort(
-                (a: VCSFileTreePickerTreeItem, b: VCSFileTreePickerTreeItem) =>
-                  a.type === b.type
-                    ? a.path.localeCompare(b.path)
-                    : a.type === 'tree'
-                      ? -1
-                      : 1,
-              )
-          : [];
+        const response = await fetch(`/api/vcs?${params.toString()}`, {
+          signal,
+        });
+        if (generation !== loadGenerationRef.current || signal.aborted) return;
+        const payload = response?.ok
+          ? await response.json().catch(() => null)
+          : null;
+        if (generation !== loadGenerationRef.current || signal.aborted) return;
+        if (!payload) {
+          // Failed read: keep any previously-good paint; only write empty
+          // when we never had items (null/undefined). Avoids the
+          // success→stale-failure→Empty directory flicker.
+          setChildrenByPath((previous) => {
+            const existing = previous[path];
+            if (Array.isArray(existing) && existing.length > 0) return previous;
+            return { ...previous, [path]: [] };
+          });
+          setLoadError('Unable to read the repository file tree.');
+          return;
+        }
+        const items = normalizeTreeItems(payload.items);
         setChildrenByPath((previous) => ({ ...previous, [path]: items }));
-        if (!payload) setLoadError('Unable to read the repository file tree.');
-      } catch {
-        setChildrenByPath((previous) => ({ ...previous, [path]: [] }));
+        setLoadError(null);
+      } catch (error) {
+        const aborted =
+          signal.aborted ||
+          (error instanceof Error && error.name === 'AbortError');
+        if (generation !== loadGenerationRef.current || aborted) {
+          return;
+        }
+        setChildrenByPath((previous) => {
+          const existing = previous[path];
+          if (Array.isArray(existing) && existing.length > 0) return previous;
+          return { ...previous, [path]: [] };
+        });
         setLoadError('Unable to read the repository file tree.');
       }
     },
     [owner, provider, repo, treeRef],
   );
 
-  // Reset + load the root whenever the source package changes.
+  // Reset + load the root whenever the source package (owner/repo/ref) changes.
+  // treeRef thrashing is expected: DepositSourceSelection publishes branch
+  // first, then head commit once commits load — without abort + generation
+  // guards the branch-fetch can land after the commit-fetch and wipe it.
   useEffect(() => {
-    setChildrenByPath({});
+    const generation = loadGenerationRef.current + 1;
+    loadGenerationRef.current = generation;
+    abortControllerRef.current?.abort();
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     setExpanded({});
     setLoadError(null);
-    if (!owner || !repo) return;
-    void loadDirectory('');
+    if (!owner || !repo) {
+      setChildrenByPath({});
+      return () => {
+        controller.abort();
+      };
+    }
+
+    // Root reloads to Loading (null), not Empty ([]). Keeping a prior tree
+    // painted during ref hops would flash the wrong revision, so clear —
+    // but never seed with [] (that is the "Empty directory" state).
+    setChildrenByPath({ '': null });
+    void loadDirectory('', generation, controller.signal);
+
+    return () => {
+      // Invalidate every in-flight response for this package.
+      if (loadGenerationRef.current === generation) {
+        loadGenerationRef.current = generation + 1;
+      }
+      controller.abort();
+    };
   }, [loadDirectory, owner, repo]);
 
   const toggleExpanded = (path: string) => {
@@ -129,7 +202,12 @@ export function VCSFileTreePicker({
       const next = { ...previous, [path]: !previous[path] };
       return next;
     });
-    if (childrenByPath[path] === undefined) void loadDirectory(path);
+    if (childrenByPath[path] === undefined) {
+      const controller = abortControllerRef.current;
+      if (controller && !controller.signal.aborted) {
+        void loadDirectory(path, loadGenerationRef.current, controller.signal);
+      }
+    }
   };
 
   const toggleSelected = (selectionPath: string) => {

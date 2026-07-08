@@ -177,4 +177,83 @@ describe('VCSFileTreePicker', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Clear all' }));
     expect(onChange).toHaveBeenCalledWith([]);
   });
+
+  it('ignores a stale tree response when treeRef hops (no empty flicker)', async () => {
+    // Reproduce the deposit source-selection thrash: branch name is published
+    // first, then the head commit once commits load. A slow branch response
+    // that lands AFTER the commit package is active must not wipe the tree
+    // to "Empty directory".
+    let resolveBranch: ((value: unknown) => void) | null = null;
+    let resolveCommit: ((value: unknown) => void) | null = null;
+    global.fetch = jest.fn((input: unknown) => {
+      const url = String(input);
+      const params = new URLSearchParams(url.split('?')[1] || '');
+      const ref = params.get('ref') || '';
+      if (ref === 'main') {
+        return new Promise((resolve) => {
+          resolveBranch = resolve;
+        });
+      }
+      if (ref === 'abc123') {
+        return new Promise((resolve) => {
+          resolveCommit = resolve;
+        });
+      }
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        json: async () => ({ items: [] }),
+      });
+    }) as unknown as typeof fetch;
+
+    const { rerender } = render(
+      <VCSFileTreePicker
+        provider="github"
+        repositoryFullName="engineeredsoftware/ENGI"
+        treeRef="main"
+        selectedPaths={[]}
+        onChange={jest.fn()}
+      />,
+    );
+
+    // Tree identity hops to the head commit before the branch fetch settles.
+    rerender(
+      <VCSFileTreePicker
+        provider="github"
+        repositoryFullName="engineeredsoftware/ENGI"
+        treeRef="abc123"
+        selectedPaths={[]}
+        onChange={jest.fn()}
+      />,
+    );
+
+    // Commit package wins with real items.
+    expect(resolveCommit).toBeTruthy();
+    resolveCommit!({
+      ok: true,
+      status: 200,
+      json: async () => ({
+        items: [
+          { path: 'src', type: 'tree', sha: 't1' },
+          { path: 'README.md', type: 'blob', sha: 'b1', size: 10 },
+        ],
+      }),
+    });
+    await waitFor(() => expect(screen.getByText('src/')).toBeInTheDocument());
+    expect(screen.getByText('README.md')).toBeInTheDocument();
+    expect(screen.queryByText('Empty directory')).not.toBeInTheDocument();
+
+    // Stale branch response arrives late — empty / failed. Must not overwrite.
+    expect(resolveBranch).toBeTruthy();
+    resolveBranch!({
+      ok: false,
+      status: 404,
+      json: async () => ({ error: 'not found' }),
+    });
+    // Give the stale promise a tick to misbehave if the guard is broken.
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(screen.getByText('src/')).toBeInTheDocument();
+    expect(screen.getByText('README.md')).toBeInTheDocument();
+    expect(screen.queryByText('Empty directory')).not.toBeInTheDocument();
+  });
 });
