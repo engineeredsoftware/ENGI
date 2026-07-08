@@ -200,6 +200,64 @@ function readNestedString(value: unknown, path: string[]): string | null {
   return typeof cursor === 'string' && cursor.trim() ? cursor.trim() : null;
 }
 
+function readNestedStringArray(value: unknown, path: string[]): string[] {
+  let cursor: unknown = value;
+  for (const part of path) {
+    if (!isRecord(cursor)) return [];
+    cursor = cursor[part];
+  }
+  if (!Array.isArray(cursor)) return [];
+  return [
+    ...new Set(
+      cursor
+        .map((entry) => (typeof entry === 'string' ? entry.trim() : ''))
+        .filter(Boolean),
+    ),
+  ];
+}
+
+/** Normalize path selections for Obfuscations anchors (source-safe path strings only). */
+export function normalizeObfuscationsAnchorPaths(
+  value: string[] | null | undefined,
+): string[] {
+  if (!Array.isArray(value)) return [];
+  return [
+    ...new Set(
+      value
+        .map((entry) => (typeof entry === 'string' ? entry.trim() : ''))
+        .filter(Boolean),
+    ),
+  ];
+}
+
+/**
+ * Plain-text dropdown sub-text for an Obfuscations anchor (search / a11y /
+ * tests). The UI prefers the iconized `ObfuscationsAnchorDescription` node
+ * from `deposit-obfuscations-path-icons.tsx`, which reuses the same counts:
+ * `[Clipped Obfuscation Text] | [# hint files] | [# exclusion files]`.
+ */
+export function formatObfuscationsAnchorDescription(input: {
+  text: string;
+  sourcePathHints?: string[] | null;
+  protectedIpExclusions?: string[] | null;
+  /** Max characters of the Obfuscations body before an ellipsis (default 40). */
+  textClipLength?: number;
+}): string {
+  const clipAt = Math.max(8, input.textClipLength ?? 40);
+  const raw = typeof input.text === 'string' ? input.text.trim().replace(/\s+/g, ' ') : '';
+  const clipped =
+    raw.length > clipAt ? `${raw.slice(0, clipAt).trimEnd()}…` : raw || '(empty)';
+  const hintCount = normalizeObfuscationsAnchorPaths(input.sourcePathHints).length;
+  const exclusionCount = normalizeObfuscationsAnchorPaths(
+    input.protectedIpExclusions,
+  ).length;
+  const hintsLabel = `${hintCount} hint ${hintCount === 1 ? 'file' : 'files'}`;
+  const exclusionsLabel = `${exclusionCount} exclusion ${
+    exclusionCount === 1 ? 'file' : 'files'
+  }`;
+  return `${clipped} | ${hintsLabel} | ${exclusionsLabel}`;
+}
+
 export function buildTerminalExecutionHistoryRequest(
   draft: TerminalActivityRecordDraft,
   options: {
@@ -599,22 +657,44 @@ export function buildTerminalRepositoryAnchorDraft(
  * V48-Gate3-F13/F18: Obfuscations anchoring. Mirrors the repository anchor
  * pattern (`buildTerminalRepositoryAnchorDraft`) so a depositor can save the
  * current Obfuscations configuration into the activity ledger and reload it
- * on a later run — for the same repository, or a fresh one.
+ * on a later run — for the same repository, or a fresh one. An optional
+ * display `name` labels the anchor in the Load-anchor dropdown; the source-path
+ * hints and protected-IP exclusions ride along so the dropdown sub-text can
+ * show their counts and so a reload restores the full steering package.
  */
 export function buildTerminalObfuscationsAnchorDraft(input: {
   obfuscations: string;
+  /** Optional human label for the anchor (shown in the Load-anchor dropdown). */
+  name?: string | null;
   repositoryFullName?: string | null;
+  sourcePathHints?: string[] | null;
+  protectedIpExclusions?: string[] | null;
 }): TerminalActivityRecordDraft {
   const text = input.obfuscations.trim();
+  const name =
+    typeof input.name === 'string' && input.name.trim()
+      ? input.name.trim().slice(0, 80)
+      : null;
+  const sourcePathHints = normalizeObfuscationsAnchorPaths(input.sourcePathHints);
+  const protectedIpExclusions = normalizeObfuscationsAnchorPaths(
+    input.protectedIpExclusions,
+  );
+  const namedPrefix = name ? `"${name}" ` : '';
+  const repoSuffix = input.repositoryFullName
+    ? ` (last used with ${input.repositoryFullName})`
+    : '';
   return {
     type: 'agentic-execution:asset-pack',
     detailSection: 'transaction',
-    summary: `Anchored an Obfuscations configuration${
-      input.repositoryFullName ? ` (last used with ${input.repositoryFullName})` : ''
-    }.`,
+    summary: `Anchored ${namedPrefix}Obfuscations configuration${repoSuffix}.`,
     output: {
       obfuscationsAnchor: {
         text,
+        name,
+        sourcePathHints,
+        protectedIpExclusions,
+        sourcePathHintCount: sourcePathHints.length,
+        protectedIpExclusionCount: protectedIpExclusions.length,
         repositoryFullName: input.repositoryFullName || null,
         anchoredAt: new Date().toISOString(),
       },
@@ -622,6 +702,10 @@ export function buildTerminalObfuscationsAnchorDraft(input: {
     context: {
       source: 'deposit-obfuscations-anchor',
       repositoryFullName: input.repositoryFullName || null,
+      // Source-safe label + counts only — never the full Obfuscations body.
+      obfuscationsAnchorName: name,
+      sourcePathHintCount: sourcePathHints.length,
+      protectedIpExclusionCount: protectedIpExclusions.length,
     },
   };
 }
@@ -696,6 +780,17 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     contextWorkbench: contextString('workbench'),
     candidateAssetId: contextString('candidateAssetId'),
     obfuscationsAnchorText: readNestedString(run.output, ['obfuscationsAnchor', 'text']),
+    obfuscationsAnchorName:
+      readNestedString(run.output, ['obfuscationsAnchor', 'name']) ||
+      contextString('obfuscationsAnchorName'),
+    obfuscationsAnchorSourcePathHints: readNestedStringArray(run.output, [
+      'obfuscationsAnchor',
+      'sourcePathHints',
+    ]),
+    obfuscationsAnchorProtectedIpExclusions: readNestedStringArray(run.output, [
+      'obfuscationsAnchor',
+      'protectedIpExclusions',
+    ]),
     depositProofRoot:
       contextString('depositProofRoot') || readNestedString(run.output, ['depositoryEvidence', 'proofRoot']),
     depositMeasurementRoot:

@@ -1156,10 +1156,16 @@ describe("DepositPageClient", () => {
           context: {
             source: "deposit-obfuscations-anchor",
             repositoryFullName: "engineeredsoftware/ENGI",
+            obfuscationsAnchorName: "Billing withhold",
           },
           output: {
             obfuscationsAnchor: {
+              name: "Billing withhold",
               text: "Withhold the billing module internals.",
+              sourcePathHints: ["src/billing/", "src/payments/invoice.ts"],
+              protectedIpExclusions: ["secret/"],
+              sourcePathHintCount: 2,
+              protectedIpExclusionCount: 1,
               repositoryFullName: "engineeredsoftware/ENGI",
               anchoredAt: "2026-07-02T10:00:00.000Z",
             },
@@ -1212,20 +1218,45 @@ describe("DepositPageClient", () => {
       const textarea = (await screen.findByLabelText(
         "What to obfuscate or withhold",
       )) as HTMLTextAreaElement;
+      // Name field lives in the Anchor popover — not always visible.
+      expect(
+        screen.queryByLabelText("Obfuscations anchor name"),
+      ).not.toBeInTheDocument();
       const anchorSelect = await screen.findByRole("combobox", {
         name: "Load a previously anchored Obfuscations configuration",
       });
       fireEvent.click(anchorSelect);
-      // "engineeredsoftware/ENGI" (the anchor's label) also appears in the
-      // mocked source-selection readback elsewhere on the page — scope to
-      // the open dropdown's own listbox to disambiguate.
+      // Named anchors use the name as the list item label; sub-text is
+      // clipped body | hint-file count | exclusion-file count (all visible).
       const listbox = await screen.findByRole("listbox");
-      fireEvent.click(within(listbox).getByText("engineeredsoftware/ENGI"));
+      expect(within(listbox).getByText("Billing withhold")).toBeInTheDocument();
+      // Sub-text: clipped body + include/exclude icons with counts (shared
+      // with the picker section headers).
+      expect(
+        within(listbox).getByText("Withhold the billing module internals."),
+      ).toBeInTheDocument();
+      expect(
+        within(listbox).getByLabelText("2 hint files"),
+      ).toBeInTheDocument();
+      expect(
+        within(listbox).getByLabelText("1 exclusion file"),
+      ).toBeInTheDocument();
+      fireEvent.click(within(listbox).getByText("Billing withhold"));
 
       expect(textarea.value).toBe("Withhold the billing module internals.");
+      // Loading a named anchor pre-fills the draft name for the next Save.
+      fireEvent.click(
+        screen.getByRole("button", {
+          name: "Anchor obfuscations to the activity ledger",
+        }),
+      );
+      expect(
+        (screen.getByLabelText("Obfuscations anchor name") as HTMLInputElement)
+          .value,
+      ).toBe("Billing withhold");
     });
 
-    it("anchors the current Obfuscations text into the activity ledger", async () => {
+    it("anchors the current Obfuscations text into the activity ledger with its name", async () => {
       withAnchorFixtures();
       const fetchMock = jest.fn(async (url: string) => {
         if (url === "/api/executions/history") {
@@ -1237,10 +1268,18 @@ describe("DepositPageClient", () => {
                 created_at: "2026-07-03T10:00:00.000Z",
                 status: "completed",
                 type: "agentic-execution:asset-pack",
-                context: { source: "deposit-obfuscations-anchor" },
+                context: {
+                  source: "deposit-obfuscations-anchor",
+                  obfuscationsAnchorName: "Payments withhold",
+                },
                 output: {
                   obfuscationsAnchor: {
+                    name: "Payments withhold",
                     text: "Withhold the payments module.",
+                    sourcePathHints: [],
+                    protectedIpExclusions: [],
+                    sourcePathHintCount: 0,
+                    protectedIpExclusionCount: 0,
                     repositoryFullName: "engineeredsoftware/ENGI",
                     anchoredAt: "2026-07-03T10:00:00.000Z",
                   },
@@ -1271,10 +1310,17 @@ describe("DepositPageClient", () => {
         target: { value: "Withhold the payments module." },
       });
 
+      // Anchor button opens the name popover; Save anchor commits.
       fireEvent.click(
         screen.getByRole("button", {
           name: "Anchor obfuscations to the activity ledger",
         }),
+      );
+      fireEvent.change(screen.getByLabelText("Obfuscations anchor name"), {
+        target: { value: "Payments withhold" },
+      });
+      fireEvent.click(
+        screen.getByRole("button", { name: "Save anchor" }),
       );
 
       await waitFor(() =>
@@ -1290,12 +1336,24 @@ describe("DepositPageClient", () => {
       expect(body.output.obfuscationsAnchor.text).toBe(
         "Withhold the payments module.",
       );
+      expect(body.output.obfuscationsAnchor.name).toBe("Payments withhold");
+      expect(body.output.obfuscationsAnchor.sourcePathHints).toEqual([]);
+      expect(body.output.obfuscationsAnchor.protectedIpExclusions).toEqual([]);
+      expect(body.output.obfuscationsAnchor.sourcePathHintCount).toBe(0);
+      expect(body.output.obfuscationsAnchor.protectedIpExclusionCount).toBe(0);
       expect(body.context.source).toBe("deposit-obfuscations-anchor");
+      expect(body.context.obfuscationsAnchorName).toBe("Payments withhold");
       expect(
         await screen.findByText(
-          "Obfuscations configuration anchored into the Bitcode activity ledger.",
+          'Obfuscations anchor "Payments withhold" saved into the Bitcode activity ledger.',
         ),
       ).toBeInTheDocument();
+      // Popover closes after a successful save.
+      await waitFor(() =>
+        expect(
+          screen.queryByLabelText("Obfuscations anchor name"),
+        ).not.toBeInTheDocument(),
+      );
     });
   });
 });

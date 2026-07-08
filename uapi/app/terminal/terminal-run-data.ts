@@ -36,9 +36,13 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   closureFocus?: string | null;
   protocolProjectionDetail?: TerminalRunDetailSnapshot | null;
   // V48-Gate3-F13/F18: populated only when contextSource is
-  // 'deposit-obfuscations-anchor' — the anchored Obfuscations text itself,
-  // for the Obfuscations "load a previous anchor" selector.
+  // 'deposit-obfuscations-anchor' — the anchored Obfuscations text itself
+  // (plus optional display name and path selections) for the Obfuscations
+  // "load a previous anchor" selector.
   obfuscationsAnchorText?: string | null;
+  obfuscationsAnchorName?: string | null;
+  obfuscationsAnchorSourcePathHints?: string[] | null;
+  obfuscationsAnchorProtectedIpExclusions?: string[] | null;
 };
 
 export const MOCK_RUNS: WorkspaceRun[] = [

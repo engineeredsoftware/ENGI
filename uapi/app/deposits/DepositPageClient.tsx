@@ -28,11 +28,17 @@ import DepositSourceSelection, {
 import {
   buildTerminalExecutionHistoryRequest,
   buildTerminalObfuscationsAnchorDraft,
+  formatObfuscationsAnchorDescription,
   mapExecutionHistoryRunToWorkspaceRun,
   readTerminalRouteError,
   type TerminalActivityRecordDraft,
   upsertWorkspaceRun,
 } from "@/app/terminal/terminal-activity-history";
+import {
+  DepositExcludePathsIcon,
+  DepositIncludePathsIcon,
+  ObfuscationsAnchorDescription,
+} from "@/app/deposits/deposit-obfuscations-path-icons";
 import type { TerminalRepositoryContextState } from "@/app/terminal/terminal-repository-context";
 import {
   clearTerminalTransactionId,
@@ -82,6 +88,11 @@ import {
 import { TelemetryExplainerTrigger } from "@/components/base/bitcode/execution/TelemetryExplainerTrigger";
 import { VCSFileTreePicker } from "@/components/base/bitcode/vcs/VCSFileTreePicker";
 import { SearchableSelect } from "@/components/base/bitcode/forms/SearchableSelect";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/base/shadcn/popover";
 import type {
   DepositOptionReviewDecision,
   DepositOptionReviewDecisionState,
@@ -147,6 +158,11 @@ export default function DepositPageClient() {
   const [repositoryContext, setRepositoryContext] =
     useState<TerminalRepositoryContextState | null>(null);
   const [obfuscations, setObfuscations] = useState("");
+  // Optional display name drafted in the Anchor popover (and restored when a
+  // named anchor is loaded from the activity ledger).
+  const [obfuscationsAnchorName, setObfuscationsAnchorName] = useState("");
+  const [isObfuscationsAnchorPopoverOpen, setIsObfuscationsAnchorPopoverOpen] =
+    useState(false);
   // Picked from the repository file tree (selected repo·branch·commit);
   // hints and exclusions are mutually exclusive path sets.
   const [sourcePathHints, setSourcePathHints] = useState<string[]>([]);
@@ -422,22 +438,55 @@ export default function DepositPageClient() {
   }, [liveRuns]);
   // V48-Gate3-F13/F18: previously anchored Obfuscations configurations,
   // newest first — same derivation pattern as repositoryAnchors above.
+  // Dedupe by name+text so two differently-named saves of the same body
+  // both remain selectable.
   const obfuscationsAnchors = useMemo(() => {
     const seen = new Set<string>();
-    const anchors: Array<{ id: string; text: string; repositoryFullName: string | null; createdAt: string }> = [];
+    const anchors: Array<{
+      id: string;
+      name: string | null;
+      text: string;
+      sourcePathHints: string[];
+      protectedIpExclusions: string[];
+      repositoryFullName: string | null;
+      createdAt: string;
+    }> = [];
     for (const run of [...liveRuns].sort(
       (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
     )) {
       if (
         run.contextSource !== "deposit-obfuscations-anchor" ||
-        !run.obfuscationsAnchorText ||
-        seen.has(run.obfuscationsAnchorText)
+        !run.obfuscationsAnchorText
       )
         continue;
-      seen.add(run.obfuscationsAnchorText);
+      const name =
+        typeof run.obfuscationsAnchorName === "string" &&
+        run.obfuscationsAnchorName.trim()
+          ? run.obfuscationsAnchorName.trim()
+          : null;
+      const sourcePathHints = Array.isArray(run.obfuscationsAnchorSourcePathHints)
+        ? run.obfuscationsAnchorSourcePathHints.filter(
+            (path): path is string =>
+              typeof path === "string" && path.trim().length > 0,
+          )
+        : [];
+      const protectedIpExclusions = Array.isArray(
+        run.obfuscationsAnchorProtectedIpExclusions,
+      )
+        ? run.obfuscationsAnchorProtectedIpExclusions.filter(
+            (path): path is string =>
+              typeof path === "string" && path.trim().length > 0,
+          )
+        : [];
+      const dedupeKey = `${name || ""}\u0000${run.obfuscationsAnchorText}\u0000${sourcePathHints.join(",")}\u0000${protectedIpExclusions.join(",")}`;
+      if (seen.has(dedupeKey)) continue;
+      seen.add(dedupeKey);
       anchors.push({
         id: run.id,
+        name,
         text: run.obfuscationsAnchorText,
+        sourcePathHints,
+        protectedIpExclusions,
         repositoryFullName: run.repository || null,
         createdAt: run.created_at,
       });
@@ -959,6 +1008,7 @@ export default function DepositPageClient() {
   // V48-Gate3-F13/F18: anchor the CURRENT Obfuscations text into the activity
   // ledger (mirrors handleAnchorRepository in DepositSourceSelection), so it
   // can be reloaded on a later run via the "Load anchor" selector below.
+  // Optional display name (from the Anchor popover) labels the dropdown entry.
   const handleAnchorObfuscations = useCallback(async () => {
     if (!obfuscations.trim()) return;
     setIsAnchoringObfuscations(true);
@@ -967,13 +1017,19 @@ export default function DepositPageClient() {
       await handleRecordActivity(
         buildTerminalObfuscationsAnchorDraft({
           obfuscations,
+          name: obfuscationsAnchorName,
           repositoryFullName:
             repositoryContext?.selectedRepository?.fullName || null,
+          sourcePathHints,
+          protectedIpExclusions,
         }),
       );
       setObfuscationsAnchorMessage(
-        "Obfuscations configuration anchored into the Bitcode activity ledger.",
+        obfuscationsAnchorName.trim()
+          ? `Obfuscations anchor "${obfuscationsAnchorName.trim()}" saved into the Bitcode activity ledger.`
+          : "Obfuscations configuration anchored into the Bitcode activity ledger.",
       );
+      setIsObfuscationsAnchorPopoverOpen(false);
     } catch (error) {
       setObfuscationsAnchorMessage(
         error instanceof Error
@@ -983,7 +1039,14 @@ export default function DepositPageClient() {
     } finally {
       setIsAnchoringObfuscations(false);
     }
-  }, [handleRecordActivity, obfuscations, repositoryContext]);
+  }, [
+    handleRecordActivity,
+    obfuscations,
+    obfuscationsAnchorName,
+    protectedIpExclusions,
+    repositoryContext,
+    sourcePathHints,
+  ]);
 
   // Real option synthesis via the AssetPacksSynthesis pipeline (deposit
   // lens). The server route builds the exclusion-filtered source inventory,
@@ -1625,25 +1688,51 @@ export default function DepositPageClient() {
                       <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.obfuscations} />
                     </h2>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center justify-end gap-2">
                     {obfuscationsAnchors.length > 0 ? (
-                      <div className="w-40">
+                      <div className="w-56">
                         <SearchableSelect
                           aria-label="Load a previously anchored Obfuscations configuration"
                           items={obfuscationsAnchors.map((anchor) => ({
                             key: anchor.id,
-                            label: anchor.repositoryFullName || "Obfuscations anchor",
-                            description:
-                              anchor.text.length > 60
-                                ? `${anchor.text.slice(0, 60)}…`
-                                : anchor.text,
+                            label:
+                              anchor.name ||
+                              anchor.repositoryFullName ||
+                              "Obfuscations anchor",
+                            // Sub-text: clipped body | include icon+count | exclude
+                            // icon+count — same icons as the picker section headers.
+                            description: (
+                              <ObfuscationsAnchorDescription
+                                text={anchor.text}
+                                sourcePathHints={anchor.sourcePathHints}
+                                protectedIpExclusions={
+                                  anchor.protectedIpExclusions
+                                }
+                              />
+                            ),
+                            searchText: [
+                              anchor.name,
+                              anchor.repositoryFullName,
+                              formatObfuscationsAnchorDescription({
+                                text: anchor.text,
+                                sourcePathHints: anchor.sourcePathHints,
+                                protectedIpExclusions:
+                                  anchor.protectedIpExclusions,
+                              }),
+                            ]
+                              .filter(Boolean)
+                              .join(" "),
                           }))}
                           value={null}
                           onSelect={(key) => {
                             const anchor = obfuscationsAnchors.find(
                               (entry) => entry.id === key,
                             );
-                            if (anchor) setObfuscations(anchor.text);
+                            if (!anchor) return;
+                            setObfuscations(anchor.text);
+                            setObfuscationsAnchorName(anchor.name || "");
+                            setSourcePathHints(anchor.sourcePathHints);
+                            setProtectedIpExclusions(anchor.protectedIpExclusions);
                           }}
                           placeholder="Load anchor..."
                           searchPlaceholder="Search anchors..."
@@ -1656,28 +1745,123 @@ export default function DepositPageClient() {
                       type="button"
                       aria-label="Clear obfuscations"
                       title="Clear obfuscations"
-                      disabled={!obfuscations}
-                      onClick={() => setObfuscations("")}
+                      disabled={
+                        !obfuscations &&
+                        !obfuscationsAnchorName &&
+                        sourcePathHints.length === 0 &&
+                        protectedIpExclusions.length === 0
+                      }
+                      onClick={() => {
+                        setObfuscations("");
+                        setObfuscationsAnchorName("");
+                        setSourcePathHints([]);
+                        setProtectedIpExclusions([]);
+                        setIsObfuscationsAnchorPopoverOpen(false);
+                      }}
                       className="border border-white/10 px-2.5 py-1.5 text-[0.66rem] uppercase tracking-[0.14em] text-neutral-300 transition hover:border-rose-300/35 hover:text-rose-100 disabled:cursor-not-allowed disabled:opacity-40"
                     >
                       Clear
                     </button>
-                    <button
-                      type="button"
-                      aria-label="Anchor obfuscations to the activity ledger"
-                      title="Anchor obfuscations to the activity ledger"
-                      disabled={!obfuscations.trim() || isAnchoringObfuscations}
-                      onClick={() => {
-                        void handleAnchorObfuscations();
+                    <Popover
+                      open={isObfuscationsAnchorPopoverOpen}
+                      onOpenChange={(open) => {
+                        // Require Obfuscations body before opening the name popover.
+                        if (open && !obfuscations.trim()) return;
+                        if (isAnchoringObfuscations) return;
+                        setIsObfuscationsAnchorPopoverOpen(open);
                       }}
-                      className="flex h-9 w-9 items-center justify-center border border-white/10 bg-white/5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-300/10 disabled:cursor-not-allowed disabled:opacity-40"
                     >
-                      {isAnchoringObfuscations ? (
-                        <RefreshCw className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <Anchor className="h-4 w-4" />
-                      )}
-                    </button>
+                      <PopoverTrigger asChild>
+                        <button
+                          type="button"
+                          aria-label="Anchor obfuscations to the activity ledger"
+                          title="Anchor obfuscations to the activity ledger"
+                          disabled={
+                            !obfuscations.trim() || isAnchoringObfuscations
+                          }
+                          className="flex h-9 w-9 items-center justify-center border border-white/10 bg-white/5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-300/10 disabled:cursor-not-allowed disabled:opacity-40"
+                        >
+                          {isAnchoringObfuscations ? (
+                            <RefreshCw className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Anchor className="h-4 w-4" />
+                          )}
+                        </button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        align="end"
+                        sideOffset={6}
+                        className="w-64 border-white/10 bg-neutral-950 p-3 text-neutral-100 shadow-xl"
+                      >
+                        <p className="text-[0.62rem] uppercase tracking-[0.14em] text-neutral-500">
+                          Name this anchor
+                        </p>
+                        <input
+                          id="deposit-obfuscations-anchor-name"
+                          type="text"
+                          value={obfuscationsAnchorName}
+                          onChange={(event) =>
+                            setObfuscationsAnchorName(
+                              event.target.value.slice(0, 80),
+                            )
+                          }
+                          onKeyDown={(event) => {
+                            if (event.key === "Enter") {
+                              event.preventDefault();
+                              void handleAnchorObfuscations();
+                            }
+                            if (event.key === "Escape") {
+                              event.preventDefault();
+                              setIsObfuscationsAnchorPopoverOpen(false);
+                            }
+                          }}
+                          placeholder="Optional name"
+                          maxLength={80}
+                          autoFocus
+                          aria-label="Obfuscations anchor name"
+                          className="mt-2 h-9 w-full border border-white/10 bg-black/40 px-2.5 text-xs text-neutral-100 outline-none transition placeholder:text-neutral-500 focus:border-emerald-300/35"
+                        />
+                        <p className="mt-1.5 text-[0.68rem] leading-4 text-neutral-500">
+                          Shown as the label when reloading. Leave blank to use
+                          the repository name.
+                        </p>
+                        <div className="mt-3 flex items-center justify-end gap-2">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setIsObfuscationsAnchorPopoverOpen(false)
+                            }
+                            disabled={isAnchoringObfuscations}
+                            className="border border-white/10 px-2.5 py-1.5 text-[0.62rem] uppercase tracking-[0.14em] text-neutral-300 transition hover:border-white/25 disabled:opacity-40"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              void handleAnchorObfuscations();
+                            }}
+                            disabled={
+                              !obfuscations.trim() || isAnchoringObfuscations
+                            }
+                            className="inline-flex items-center gap-1.5 border border-emerald-300/30 bg-emerald-300/12 px-2.5 py-1.5 text-[0.62rem] uppercase tracking-[0.14em] text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18 disabled:cursor-not-allowed disabled:opacity-40"
+                          >
+                            {isAnchoringObfuscations ? (
+                              <RefreshCw
+                                className="h-3 w-3 animate-spin"
+                                aria-hidden="true"
+                              />
+                            ) : (
+                              <Anchor
+                                className="h-3 w-3"
+                                aria-hidden="true"
+                              />
+                            )}
+                            Save anchor
+                          </button>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
                     <Sparkles
                       className="h-5 w-5 text-emerald-200"
                       aria-hidden="true"
@@ -1713,6 +1897,7 @@ export default function DepositPageClient() {
                 <div className="mt-4 grid gap-4 tablet:grid-cols-2">
                   <div className="block">
                     <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
+                      <DepositIncludePathsIcon />
                       <span>Source path hints</span>
                       <span onClick={(event) => event.stopPropagation()}>
                         <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.sourcePathHints} triggerAriaLabel="More info about this field" />
@@ -1739,6 +1924,7 @@ export default function DepositPageClient() {
                   </div>
                   <div className="block">
                     <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
+                      <DepositExcludePathsIcon />
                       <span>Protected IP exclusions</span>
                       <span onClick={(event) => event.stopPropagation()}>
                         <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.protectedIpExclusions} triggerAriaLabel="More info about this field" />

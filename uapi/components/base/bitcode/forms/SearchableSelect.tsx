@@ -35,7 +35,8 @@ export interface SearchableSelectItem {
   /** Unique, stable identifier — this is what onSelect receives. */
   key: string;
   label: string;
-  description?: string | null;
+  /** Secondary line under the label — string or rich node (e.g. icon counts). */
+  description?: React.ReactNode;
   /** Short tag rendered as a badge (e.g. a language, a "default" marker). */
   badge?: string | null;
   /** Trailing meta text (e.g. "Updated 2/29/2024"). */
@@ -100,7 +101,11 @@ export function SearchableSelect({
     const query = searchQuery.trim().toLowerCase();
     if (!query) return items;
     return items.filter((item) =>
-      [item.label, item.description, item.searchText]
+      [
+        item.label,
+        typeof item.description === 'string' ? item.description : null,
+        item.searchText,
+      ]
         .filter((text): text is string => Boolean(text))
         .some((text) => text.toLowerCase().includes(query)),
     );
@@ -172,7 +177,11 @@ export function SearchableSelect({
                         <span className="truncate font-medium">{item.label}</span>
                       </div>
                       {item.description ? (
-                        <p className="truncate text-xs text-muted-foreground">{item.description}</p>
+                        // Single line: overflow clips; rich descriptions (e.g.
+                        // obfuscation-anchor icon counts) keep their own nowrap layout.
+                        <div className="min-w-0 overflow-hidden text-xs text-muted-foreground">
+                          {item.description}
+                        </div>
                       ) : null}
                       {item.badge || item.meta ? (
                         <div className="mt-1 flex items-center gap-2">
