@@ -151,8 +151,9 @@ test.describe('commercial MVP IP exchange browser proof', () => {
     );
     await expect(page.getByTestId('route-shell-deposit')).toBeVisible({ timeout: 90_000 });
 
-    // Source connection precedes synthesis: the synthesize action stays
-    // disabled until the route session resolves a repository source.
+    // Master-detail: open compose (New deposit) to replace the pipelines table
+    // with configuration, then synthesize once the route session has a source.
+    await page.getByRole('button', { name: 'New deposit' }).click();
     const synthesizeButton = page.getByRole('button', { name: 'Synthesize AssetPack Options' });
     await expect(synthesizeButton).toBeEnabled({ timeout: 30_000 });
 
