@@ -46,14 +46,32 @@ jest.mock("@/components/base/bitcode/effects/quantum-orb", () => ({
 // PipelineExecutionLog pulls react-syntax-highlighter ESM styles that jest
 // cannot transform; the telemetry panel contract is asserted via the stub.
 jest.mock("@/components/base/bitcode/execution/pipeline-execution-log", () => ({
+  // Mirrors the real component's error-banner contract (QA F19): the error
+  // (with its Retry/Dismiss actions) renders WITHIN the log (role="alert"),
+  // not as a separate stub prop, so tests asserting on the alert exercise
+  // the same "errors live in telemetry, not the Obfuscations pane"
+  // placement — and the same Retry/Dismiss wiring — as production.
   PipelineExecutionLog: ({
     output,
     isProcessing,
+    error,
+    onRetry,
+    onDismissError,
   }: {
     output: string;
     isProcessing: boolean;
+    error?: string | null;
+    onRetry?: () => void;
+    onDismissError?: () => void;
   }) => (
     <div data-testid="pipeline-execution-log" data-processing={String(isProcessing)}>
+      {error ? (
+        <p role="alert">
+          {error}
+          <button type="button" onClick={onRetry}>Retry</button>
+          <button type="button" onClick={onDismissError}>Dismiss</button>
+        </p>
+      ) : null}
       {output}
     </div>
   ),
@@ -76,9 +94,11 @@ jest.mock("@/app/deposits/DepositSourceSelection", () => ({
   default: ({
     onContextChange,
     routePath,
+    repositoryAnchors,
   }: {
     onContextChange: (value: unknown) => void;
     routePath?: string;
+    repositoryAnchors?: Array<{ repositoryFullName: string }>;
   }) => {
     React.useEffect(() => {
       onContextChange({
@@ -106,6 +126,16 @@ jest.mock("@/app/deposits/DepositSourceSelection", () => ({
         data-route-path={routePath}
       >
         Deposit source selection
+        {/* Exposes the repositoryAnchors DERIVATION (DepositPageClient's
+            useMemo over liveRuns) for testing — the real selector UI that
+            CONSUMES this prop is unit-tested directly in
+            depositSourceSelection.test.tsx, since this component is mocked
+            here. */}
+        <ul data-testid="deposit-source-selection-repository-anchors">
+          {(repositoryAnchors || []).map((anchor) => (
+            <li key={anchor.repositoryFullName}>{anchor.repositoryFullName}</li>
+          ))}
+        </ul>
       </section>
     );
   },
@@ -329,6 +359,32 @@ describe("DepositPageClient", () => {
     ).not.toBeInTheDocument();
     const lastHref = String(mockReplace.mock.calls.at(-1)?.[0] ?? "");
     expect(lastHref).not.toContain("transactionId=");
+  });
+
+  it("hides the Synthesize options button while a run's detail owns the page", async () => {
+    // A run is adopted by default (mockQuery) — dispatching from here would
+    // yank the viewer off the loaded run's telemetry/results mid-review.
+    render(<DepositPageClient />);
+    expect(
+      await screen.findByTestId("deposit-synthesis-telemetry"),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Synthesize options" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByTestId("deposit-obfuscations-run-loaded-note"),
+    ).toBeInTheDocument();
+
+    // Back clears the selection; the button returns for a fresh dispatch.
+    fireEvent.click(
+      await screen.findByRole("button", { name: "Back to Deposit pipelines" }),
+    );
+    expect(
+      await screen.findByRole("button", { name: "Synthesize options" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByTestId("deposit-obfuscations-run-loaded-note"),
+    ).not.toBeInTheDocument();
   });
 
   it("resumes a completed synthesis run's results when its row is selected (master-detail)", async () => {
@@ -574,7 +630,7 @@ describe("DepositPageClient", () => {
         measurementRationale: "Covers the primary capability path.",
       },
     ];
-    // F26-B: the route DISPATCHES the run (returns dispatched, no synthesis); the
+    // V48-Gate3-F26-B: the route DISPATCHES the run (returns dispatched, no synthesis); the
     // client tails telemetry and, on the completion event, reads the persisted
     // synthesis from the execution row history.
     const fetchMock = jest.fn(async (url: string) => {
@@ -611,6 +667,14 @@ describe("DepositPageClient", () => {
     global.fetch = fetchMock as unknown as typeof fetch;
 
     render(<DepositPageClient />);
+
+    // A run is adopted by default (mockQuery); the Synthesize options button
+    // is hidden while a run's detail owns the page (V48 Gate 3 — clicking it
+    // must never yank the viewer off a loaded run's results). Back returns to
+    // the pipelines table, where a fresh dispatch is available.
+    fireEvent.click(
+      await screen.findByRole("button", { name: "Back to Deposit pipelines" }),
+    );
 
     // Pick the exclusion from the repository file tree (fetched at the
     // selected repo·branch·commit); a directory selects its prefix.
@@ -823,6 +887,12 @@ describe("DepositPageClient", () => {
 
   async function dispatchSynthesis() {
     render(<DepositPageClient />);
+    // A run is adopted by default (mockQuery); Back returns to the pipelines
+    // table, where the Synthesize options button is available (V48 Gate 3 —
+    // the button is hidden while a run's detail owns the page).
+    fireEvent.click(
+      await screen.findByRole("button", { name: "Back to Deposit pipelines" }),
+    );
     const synthesizeButton = await screen.findByRole("button", {
       name: "Synthesize options",
     });
@@ -936,9 +1006,11 @@ describe("DepositPageClient", () => {
     expect(
       screen.getByTestId("deposit-options-await-synthesis"),
     ).toBeInTheDocument();
-    // The synthesize action is re-enabled for a retry (not stuck in running).
+    // The error's own Retry action is enabled (not stuck in running) — the
+    // top-level Synthesize options button stays hidden while this failed
+    // run's telemetry owns the page; Retry lives with the error instead.
     expect(
-      screen.getByRole("button", { name: "Synthesize options" }),
+      screen.getByRole("button", { name: "Retry" }),
     ).not.toBeDisabled();
     expect(mockTrackProductEvent).toHaveBeenCalledWith({
       name: "deposit_synthesis_failed",
@@ -1024,5 +1096,206 @@ describe("DepositPageClient", () => {
       ),
     );
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  });
+
+  describe("V48 Gate 3 — repository and Obfuscations anchoring", () => {
+    function withAnchorFixtures() {
+      mockFetchPipelineExecutionHistory.mockResolvedValue([
+        {
+          id: "deposit-1",
+          created_at: "2026-05-29T10:00:00.000Z",
+          status: "completed",
+          type: "agentic-execution:asset-pack",
+          agentic_execution: {
+            canonicalType: "agentic-execution:asset-pack",
+            lens: "deposit",
+            proofStatus: "depository proof ready",
+            closureFocus: "deposit posture",
+          },
+          context: { source: "terminal-deposit-composer" },
+          repo_snapshot: {
+            org: "engineeredsoftware",
+            repo: "ENGI",
+            branch: "main",
+            commit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
+          },
+          output: {},
+          items: [],
+        },
+        {
+          id: "repo-anchor-1",
+          created_at: "2026-07-01T10:00:00.000Z",
+          status: "completed",
+          type: "agentic-execution:asset-pack",
+          agentic_execution: {
+            canonicalType: "agentic-execution:asset-pack",
+            lens: "deposit",
+            proofStatus: null,
+            closureFocus: null,
+          },
+          context: {
+            source: "terminal-repository-context-panel",
+            repositoryFullName: "engineeredsoftware/OtherRepo",
+            sourceBranch: "develop",
+            sourceCommit: "abc1234567",
+          },
+          output: {},
+          items: [],
+        },
+        {
+          id: "obfuscations-anchor-1",
+          created_at: "2026-07-02T10:00:00.000Z",
+          status: "completed",
+          type: "agentic-execution:asset-pack",
+          agentic_execution: {
+            canonicalType: "agentic-execution:asset-pack",
+            lens: "deposit",
+            proofStatus: null,
+            closureFocus: null,
+          },
+          context: {
+            source: "deposit-obfuscations-anchor",
+            repositoryFullName: "engineeredsoftware/ENGI",
+          },
+          output: {
+            obfuscationsAnchor: {
+              text: "Withhold the billing module internals.",
+              repositoryFullName: "engineeredsoftware/ENGI",
+              anchoredAt: "2026-07-02T10:00:00.000Z",
+            },
+          },
+          items: [],
+        },
+      ]);
+    }
+
+    it("derives the previously anchored repository from liveRuns and passes it down", async () => {
+      // DepositSourceSelection is mocked in this suite (it exposes the
+      // received prop as a list); the selector UI that CONSUMES this prop is
+      // unit-tested directly in depositSourceSelection.test.tsx.
+      withAnchorFixtures();
+      render(<DepositPageClient />);
+
+      const anchors = await screen.findByTestId(
+        "deposit-source-selection-repository-anchors",
+      );
+      expect(
+        within(anchors).getByText("engineeredsoftware/OtherRepo"),
+      ).toBeInTheDocument();
+      // The default fixture's own "terminal-deposit-composer" run is not a
+      // repository-anchor record and must not appear.
+      expect(
+        within(anchors).queryByText("engineeredsoftware/ENGI"),
+      ).not.toBeInTheDocument();
+    });
+
+    it("clears the Obfuscations textarea via Clear", async () => {
+      withAnchorFixtures();
+      render(<DepositPageClient />);
+
+      const textarea = (await screen.findByLabelText(
+        "What to obfuscate or withhold",
+      )) as HTMLTextAreaElement;
+      fireEvent.change(textarea, { target: { value: "Withhold X." } });
+      expect(textarea.value).toBe("Withhold X.");
+
+      fireEvent.click(
+        screen.getByRole("button", { name: "Clear obfuscations" }),
+      );
+      expect(textarea.value).toBe("");
+    });
+
+    it("offers a previously anchored Obfuscations configuration and loads it on selection", async () => {
+      withAnchorFixtures();
+      render(<DepositPageClient />);
+
+      const textarea = (await screen.findByLabelText(
+        "What to obfuscate or withhold",
+      )) as HTMLTextAreaElement;
+      const anchorSelect = await screen.findByRole("combobox", {
+        name: "Load a previously anchored Obfuscations configuration",
+      });
+      fireEvent.click(anchorSelect);
+      // "engineeredsoftware/ENGI" (the anchor's label) also appears in the
+      // mocked source-selection readback elsewhere on the page — scope to
+      // the open dropdown's own listbox to disambiguate.
+      const listbox = await screen.findByRole("listbox");
+      fireEvent.click(within(listbox).getByText("engineeredsoftware/ENGI"));
+
+      expect(textarea.value).toBe("Withhold the billing module internals.");
+    });
+
+    it("anchors the current Obfuscations text into the activity ledger", async () => {
+      withAnchorFixtures();
+      const fetchMock = jest.fn(async (url: string) => {
+        if (url === "/api/executions/history") {
+          return {
+            ok: true,
+            json: async () => ({
+              execution: {
+                id: "obfuscations-anchor-2",
+                created_at: "2026-07-03T10:00:00.000Z",
+                status: "completed",
+                type: "agentic-execution:asset-pack",
+                context: { source: "deposit-obfuscations-anchor" },
+                output: {
+                  obfuscationsAnchor: {
+                    text: "Withhold the payments module.",
+                    repositoryFullName: "engineeredsoftware/ENGI",
+                    anchoredAt: "2026-07-03T10:00:00.000Z",
+                  },
+                },
+              },
+            }),
+          };
+        }
+        if (url.startsWith("/api/executions/history/")) {
+          return {
+            ok: true,
+            json: async () => ({
+              run: { id: url.split("/").pop(), status: "completed", output: {} },
+              events: [],
+            }),
+          };
+        }
+        return { ok: true, json: async () => ({}) };
+      });
+      global.fetch = fetchMock as unknown as typeof fetch;
+
+      render(<DepositPageClient />);
+
+      const textarea = (await screen.findByLabelText(
+        "What to obfuscate or withhold",
+      )) as HTMLTextAreaElement;
+      fireEvent.change(textarea, {
+        target: { value: "Withhold the payments module." },
+      });
+
+      fireEvent.click(
+        screen.getByRole("button", {
+          name: "Anchor obfuscations to the activity ledger",
+        }),
+      );
+
+      await waitFor(() =>
+        expect(fetchMock).toHaveBeenCalledWith(
+          "/api/executions/history",
+          expect.objectContaining({ method: "POST" }),
+        ),
+      );
+      const call = fetchMock.mock.calls.find(
+        ([url]) => url === "/api/executions/history",
+      );
+      const body = JSON.parse(String(call?.[1]?.body));
+      expect(body.output.obfuscationsAnchor.text).toBe(
+        "Withhold the payments module.",
+      );
+      expect(body.context.source).toBe("deposit-obfuscations-anchor");
+      expect(
+        await screen.findByText(
+          "Obfuscations configuration anchored into the Bitcode activity ledger.",
+        ),
+      ).toBeInTheDocument();
+    });
   });
 });

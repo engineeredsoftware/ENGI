@@ -500,6 +500,53 @@ describe('PipelineExecutionLog — pre-first-row processing indicator', () => {
   });
 });
 
+describe('PipelineExecutionLog — error banner (QA F19: errors live in telemetry)', () => {
+  it('renders the error as a dismissible, retryable alert', () => {
+    const onRetry = jest.fn();
+    const onDismissError = jest.fn();
+    render(
+      <PipelineExecutionLog
+        output=""
+        isProcessing={false}
+        error="Deposit option synthesis failed."
+        outputDetails={{}}
+        onRetry={onRetry}
+        onDismissError={onDismissError}
+        userHasScrolled={false}
+        setUserHasScrolled={() => {}}
+        compact
+        pipelineMode="deposit"
+      />,
+    );
+    const alert = screen.getByRole('alert');
+    expect(alert).toHaveTextContent('Deposit option synthesis failed.');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Retry' }));
+    expect(onRetry).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Dismiss error' }));
+    expect(onDismissError).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders no alert when there is no error', () => {
+    render(
+      <PipelineExecutionLog
+        output=""
+        isProcessing={false}
+        error={null}
+        outputDetails={{}}
+        onRetry={() => {}}
+        onDismissError={() => {}}
+        userHasScrolled={false}
+        setUserHasScrolled={() => {}}
+        compact
+        pipelineMode="deposit"
+      />,
+    );
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  });
+});
+
 describe('PipelineExecutionLog — pills inline with the title line', () => {
   const line = 'LLM call observed';
   const outputDetails = {

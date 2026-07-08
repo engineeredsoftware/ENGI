@@ -1059,6 +1059,35 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
       <div className="absolute left-0 right-0 bottom-0 h-8 bg-gradient-to-t from-black/20 to-transparent pointer-events-none opacity-0 transition-opacity duration-200 group-[.can-scroll-down]/logs:opacity-60 z-10" />
 
       <div className="pb-4 w-full">
+        {/* The log's own error banner (QA F19): errors render here, not in a
+            separate pane, so the telemetry surface is the single place a run's
+            terminal failure is visible. Dismiss clears it; Retry re-dispatches
+            (the caller's onRetry — typically a fresh synthesis run). */}
+        {error && (
+          <div
+            role="alert"
+            className="mb-4 flex flex-wrap items-start justify-between gap-3 border border-rose-300/25 bg-rose-300/10 px-3 py-2 text-xs leading-5 text-rose-100"
+          >
+            <p className="min-w-0 flex-1 break-words">{error}</p>
+            <div className="flex shrink-0 items-center gap-2">
+              <button
+                type="button"
+                onClick={onRetry}
+                className="border border-rose-200/35 px-2 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-rose-100 transition hover:border-rose-100/55 hover:bg-rose-300/10"
+              >
+                Retry
+              </button>
+              <button
+                type="button"
+                onClick={onDismissError}
+                aria-label="Dismiss error"
+                className="border border-rose-200/35 px-2 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-rose-100 transition hover:border-rose-100/55 hover:bg-rose-300/10"
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+        )}
         {flatLines.length === 0 && !isProcessing && (
           <div className="text-center text-gray-400 py-8">No logs available</div>
         )}

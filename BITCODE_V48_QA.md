@@ -349,7 +349,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 - Observed: the live deposit QA session wrote ~1,200 lines of runtime depository state (assets, options, roots for the "Some Python" deposit) into `packages/protocol/data/state.json`, a tracked file that historically changes only at canonical promotions. Runtime commerce state does not belong in git: it cannot serve concurrent users, deployments reset it, and QA sessions dirty the working tree (one such mutation was accidentally committed in `569c6e19` and reverted immediately after).
 - Gate 2 work: move depository/ledger runtime state to the database (executions/ledger tables + object storage roots already exist for this), keeping `state.json` as promotion-managed demonstration canon only.
 
-### F15 — Packs master-detail rows are not selectable; type taxonomy unclear
+### V48-Gate2-F15 — Packs master-detail rows are not selectable; type taxonomy unclear
 
 - Severity: medium (Track 4 UX, surfaced during Track 2)
 - Observed: pack activity rows render but cannot be selected to open their detail view (the master-detail contract's most critical interaction). The TYPE column shows generic "Executions" for everything; the conceptual taxonomy should read as: Deposit Request ("Some Python" — parity with Read Request) → synthesized AssetPack options → per-option decisions (admitted/archived).
@@ -358,14 +358,14 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 
 - Environment note (by design, not a finding): `www.bitcode.exchange` and localhost both point at the staging-testnet Supabase project — the testnet launch IS the production deployment. QA users/data therefore land in live data; keep QA to dedicated testnet wallets.
 
-### F17 — Synthesized AssetPack option cards overflow into the right panel; per-option action buttons overlap
+### V48-Gate3-F17 — Synthesized AssetPack option cards overflow into the right panel; per-option action buttons overlap
 
 - Severity: low (Gate 3 deposit review UX)
 - Observed (2026-06-26): on `/deposits`, synthesized AssetPack option cards overflow their column rightward into the 380px telemetry/activity panel, visually x-overlapping the per-option action buttons (Select for deposit / Archive / Resynthesize) with the right column.
 - Cause: the option `<article>` (a grid item in the `xl:grid-cols-3` options grid) lacked `min-w-0`, and the `font-mono` covered-source-paths list lacked `break-all`, so a card with long unbreakable mono content refused to shrink below its content's min-content width and overflowed the `minmax(0,1.45fr)` left column.
 - Repair (2026-06-26, `DepositPageClient.tsx`): `min-w-0` on the option card + `break-all` on the covered-paths list (the Option-roots `<dd>` already wrapped). The card now shrinks to its grid column and long paths/roots wrap rather than forcing overflow.
 
-### F18 — Synthesis run telemetry leaks the raw model response and x-overflows the page (one accordion row per content line)
+### V48-Gate3-F18 — Synthesis run telemetry leaks the raw model response and x-overflows the page (one accordion row per content line)
 
 - Severity: high (source-safety law) + low (layout). Telemetry must never expose raw prompts/responses (`rawProviderResponseVisible=false`).
 - Observed (2026-06-26): during `/deposits` "Synthesize options", the Synthesis run telemetry accordion rendered the raw model output line-by-line — ` ```json `, `{`, `"analysis": "…"`, `"steps": [`, `"1. ANCHOR IDENTITY: …"` each became their own row — and the long unwrapped `"analysis"`/step lines x-overflowed the entire page (page shifted right, panel toggle clipped). The raw content was the setup-plan agent's plan prose (a provider response).
@@ -377,7 +377,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
   - `pipeline-execution-log.tsx` + `DepositPageClient.tsx` — `min-w-0` on the compact/desktop title spans and on the telemetry panel section/wrapper (+ `overflow-hidden` on the panel) so a long line truncates within its row instead of x-overflowing the page.
 - Related observation (not yet filed): the deposit run executes `ReadFitsFindingSynthesisSetupPlanAgent` planning a "Read-Need" — a read-lens setup agent running under the deposit lens. Telemetry is now source-safe regardless, but the deposit setup-plan agent identity should be confirmed/queued as a separate correctness finding.
 
-### F19 — Rich telemetry fragments the hierarchy across rows; lock it to LLM calls + Tool uses only
+### V48-Gate3-F19 — Rich telemetry fragments the hierarchy across rows; lock it to LLM calls + Tool uses only
 
 - Severity: medium (telemetry correctness + pipeline↔UI contract stability).
 - Observed (2026-06-26): after F18 the raw-content rows were gone, but the Synthesis run telemetry still rendered intermediate store values as standalone rows — `try`, `setup-plan`, `thricified-generation`, a cwd path, a bare agent name — and the hierarchy was split across rows (Phase on one, Step+Generation on another, Agent on a third) instead of consolidated onto one rich log line.
@@ -389,14 +389,14 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
   - `usePipelineExecution.ts` (the second half — fragments persisted live) — the live SSE tail re-parsed each frame through `parseStreamChunk`, which flattened the structured onStore event into a namespace-less `{type:'status', status:{message}}` shape; the activity-builder classifier keys off `namespace` to suppress fragments, so namespace-stripped live events leaked every store as a row (the history path, which relays raw `event_data`, was already correct). The tail now relays raw `event_data` verbatim — identical in shape to history — so the contract holds during streaming, not just on reload.
 - Verified: uapi tsc 0; F19 activity-builder contract test + a `usePipelineExecution` test asserting the live tail preserves `namespace`/`key`/`executionState` + 10-suite telemetry/terminal/deposit regression batch — all green.
 
-### F20 — Deposit synthesis runs the READ-lens agents (mode never reaches the phases)
+### V48-Gate3-F20 — Deposit synthesis runs the READ-lens agents (mode never reaches the phases)
 
 - Severity: high (the deposit pipeline isn't actually depositing). Surfaced as "Read" verbiage in a deposit run, but the cause is that the read agents execute.
 - Observed (2026-06-26): a `/deposits` run ("SynthesizeAssetPacks (deposit mode)") rendered read-lens agents in telemetry — `ReadFitsFindingSynthesisReadComprehensionAgent` with a `read-comprehension` step, `ReadFitsFindingSynthesisAssetPackSynthesisAgent` with a `synthesis` step — and ended with "Pipeline yielded no admissible options; falling back to bounded deposit synthesis." The agent pills are each agent's real `config.name`, so the read agents were genuinely running.
 - Cause: `factorySDIVFExecutorPipeline` composes the phases with `sequential`, which runs preprocess and every phase on ISOLATED sibling child executions (`execution.child('seq-N')`). `factoryPreprocess` stored the resolved mode on its own child (`seq-0`); the phases run on `seq-1`/`seq-2` and resolve the mode with `synthesizeAssetPacksModeFromExecution`, which only walks ANCESTORS — never sideways to `seq-0`. So every phase resolved `null → 'read'`, took the read branch, and resolved the init-registered read agents. The agents registry is already shared (the read implementation agent is registered by the phase and resolves), so the only gap was the mode.
 - Repair (2026-06-26, `index.ts`): the `factorySynthesizeAssetPacksPipeline` wrapper now resolves the mode and stores it on the shared outer execution (the parent of all `seq-N` phase children) before running the SDIVF executor, so every phase resolves it via the upward walk. Once the phases see `deposit`, their mode-conditional registrations (setup comprehension override, deposit Discovery agents, deposit Implementation/Validation) take effect on the shared registry and the deposit-lens agents run — which also makes the telemetry verbiage deposit-correct at the root. Read mode is unchanged (default was already read). Regression test added (sibling isolation reproduced; shared-parent storage resolves). Needs a live deposit run to confirm end-to-end.
 
-### F21 — Telemetry pill icons + reduce rows to the ultimate LLM-call layer
+### V48-Gate3-F21 — Telemetry pill icons + reduce rows to the ultimate LLM-call layer
 
 - Severity: low (telemetry consistency).
 - Observed (2026-06-26): the Agent pill had no icon; Step/Failsafe/Thricified pills frequently had no icon (the icon maps were keyed by labels that don't match the real values — `Try`, `read-comprehension`, `synthesis`, `structured_output`). Informational rows ("AssetPacksSynthesis started", "Building source inventory", "Inventory ready…", "Running SynthesizeAssetPacks…", "Pipeline yielded no admissible options…") still rendered alongside the LLM-call rows.
@@ -406,7 +406,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
   - `terminal-run-activity.ts` — the formal-log-line classifier now returns only `llm` and `tool`; informational status / completion / error rows are dropped from the accordion (run completion is shown by the processing indicator, errors by the log's error banner). The dead `normalizeEventMessage` helper is removed.
 - Verified: uapi tsc 0; terminalTransactionActivity (tightened) + 7-suite telemetry batch green.
 
-### F22 — Setup-plan agent is read fits-finding work; punt it under the deposit lens + give the log rows breathing room
+### V48-Gate3-F22 — Setup-plan agent is read fits-finding work; punt it under the deposit lens + give the log rows breathing room
 
 - Severity: low (deposit correctness + telemetry polish).
 - Observed (2026-06-26, after F20): with the deposit agents now running, the only remaining read-named row was `ReadFitsFindingSynthesisSetupPlanAgent` — a name that merges phase (Setup) + step (Plan) and, worse, plans "Finding Fits from an accepted Read-Need," which is read work that is irrelevant to a deposit. Separately, the overhanging pills crowded the adjacent log rows.
@@ -417,7 +417,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 - Gate-4 (read lens) directive: move the read setup-plan (fits-finding planning) into the read-lens Discovery phase, with a deposit-free agent name; do not reintroduce a deposit setup-plan.
 - Verified: asset-pack tsc 0 + setup-agents suite green; uapi tsc 0 + telemetry render tests green.
 
-### F23 — Telemetry log doesn't auto-follow; pin to bottom unless the user has scrolled away
+### V48-Gate3-F23 — Telemetry log doesn't auto-follow; pin to bottom unless the user has scrolled away
 
 - Severity: low (telemetry UX).
 - Observed (2026-06-26): the synthesis log tracked `userHasScrolled` but never scrolled, so new streamed rows didn't pin to the bottom — the user couldn't watch passively.
@@ -425,7 +425,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 - Repair (2026-06-26, `pipeline-execution-log.tsx`): a follow effect scrolls the internal scroll container to the latest line on new rows when `!userHasScrolled` (rAF-deferred). `handleScroll` now uses a modest near-bottom band (48px) — momentum/rounding still counts as following; a deliberate scroll up sets `userHasScrolled` and pauses the follow until the user returns to the bottom.
 - Verified: uapi tsc 0 + telemetry render tests green.
 
-### F24 — Neediness v0: deposit-side preview of read Need-fit (depository search during depositing)
+### V48-Gate3-F24 — Neediness v0: deposit-side preview of read Need-fit (depository search during depositing)
 
 - Motivation (Garrett, 2026-06-26): depository search during depositing estimates the *potential* fit value of the packs being synthesized — which packs are worth making correspond to what is likely to be read. Surface it to the depositor as a per-pack "neediness" preview (and a new AP measurement).
 - Model: `neediness` ∈ [0,1] = a deposit-lens PREVIEW measurement (separate from the absolute composite) of the pack's future read Need-fit / earning potential. `neediness = clamp01(demand × (0.5 + 0.5·(1 − saturation)))` — demand gates, scarcity boosts.
@@ -435,7 +435,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 - Implemented over two commits (spec + lib core; then agents + projection + UI). Verified: asset-pack tsc 0 + full suite (214) green incl. a new neediness test; uapi tsc 0 + deposit UI/model tests green; spec checker green.
 - Neediness **v1 is deferred to Gate 7** (Garrett, 2026-06-26): the real embedding-vector supply-index probe + Read-Need/demand-corpus search + realized-need-fit/BTD calibration.
 
-### F25 — Deposit synthesis stalls indefinitely; bound the pipeline LLM call + (throughput) deposit runs full PTRR
+### V48-Gate3-F25 — Deposit synthesis stalls indefinitely; bound the pipeline LLM call + (throughput) deposit runs full PTRR
 
 - Severity: high (interactive deposit usability).
 - Observed (2026-06-26, run `0f9d2421-de2b-48c3-aa08-5ad6c27e000c`): a deposit run (deposit agents correctly running, post-F20) stuck for many minutes on a single generation — the `DepositDepositorySearchAgent` Plan → PrepareContext → StructuredOutput row — with no progress.
@@ -444,18 +444,18 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 - Repair (2026-06-26, acute): `AgentLLMsRegistry` + `PipelineLLMRegistry` now wrap the base LLM call in a timeout (`BITCODE_LLM_CALL_TIMEOUT_MS`, default 90s; 0 disables). On timeout the call rejects and the existing failsafe/PTRR retry handles it — a clean failure surfaced to the UI, never an indefinite hang.
 - Resolution (Garrett, 2026-06-26): both — remove inference profiles entirely (always-full hierarchy + real generation; F26-A) AND run the synthesis decoupled via the pipeline harness (F26-B). Spec: F26 (`BITCODE_SPEC_V48_NOTES.md`).
 
-### F26 — Non-configurable inference + decoupled harness execution for SynthesizeAssetPacks
+### V48-Gate3-F26 — Non-configurable inference + decoupled harness execution for SynthesizeAssetPacks
 
 - Design (committed spec, F26): inference is non-configurable (no profiles/`shouldUsePtrr`/bounded/deterministic in-agent branches — always the full Pipeline→Phase→Agent→Step→Failsafe→Thricified→Generation hierarchy, always real inference; test determinism via boundary LLM mocks). And SynthesizeAssetPacks runs via the pipeline HARNESS, decoupled from the dispatching request: the route validates + dispatches, the harness runs to completion while telemetry streams, the client reads the persisted synthesis on the completion event. Hosts: local in-process (dev) + Vercel Sandbox (prod).
 - **F26-B (done — local decoupling)**: `synthesize-options/route.ts` now dispatches the run as a background task (`void runSynthesis()`) and returns `{ runId, status: 'dispatched' }` immediately; the synthesis (+ reviewProjections + inference) is persisted to the execution row `output` BEFORE the completion event. `DepositPageClient` no longer reads the synthesis from the response — a completion effect, on `isStreamingComplete`, fetches `/api/executions/history/{runId}` and renders the options (a streamed error fails the run). Verified: uapi tsc 0; depositPageClient test reworked to drive the dispatched→completion→history flow (+ deposit/telemetry batch green). The Vercel Sandbox host (prod durability) is the existing `pipeline-hosts` host — not wired in this commit (needs a cloud run to verify). Pre-existing: `tests/api/depositSynthesizeOptionsRoute.test.ts` fails to LOAD (its `@bitcode/pipelines-generics` mock omits `createPhaseRunner`, which the route now pulls in via the full pipeline) AND its assertions assume the inline contract; both need addressing when the load is fixed.
 - **F26-A (done)**: `runtime-inference-policy` gutted to only `isAssetPackRealInferenceEnabled` (the master switch — kept; not a profile); `bounded-structured-inference` deleted; the 8 read-lens consumers (setup-plan, read-comprehension, read synthesis, danger-wall, deliver, validation ×3, discovery ×5, read-need) de-gated to ALWAYS run their formal PTRR core (deterministic + bounded branches removed). Boundary LLM-mock test infra built (`src/__tests__/support/generic-llms-mock.ts` — `jest.mock('@bitcode/generic-llms')` seam) and the read-agent tests reworked to assert via the mock. **Latent bug fixed along the way**: the PTRR wrappers read `result.summary`/`.options`/`.finalApproval`/`.issues` directly, but `factoryAgentWithPTRR` returns an envelope `{context, output, finalOutput}` — so real inference output was silently dropped (masked by the deterministic defaults). The read/validation wrappers now unwrap `finalOutput ?? output ?? raw`. Verified: asset-pack tsc 0 + full suite 210/210; uapi tsc 0. (Dead `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE`/`*_USE_PTRR` env STRING references remain in `uapi` harness/route files — no-ops, no imports of the removed fns; flagged for a follow-up scrub.)
-### F27 — Deposit agents drop their real PTRR output to the fallback defaults (envelope not unwrapped)
+### V48-Gate3-F27 — Deposit agents drop their real PTRR output to the fallback defaults (envelope not unwrapped)
 
 - Severity: high (deposit-critical — the likely reason deposit synthesis "yielded no admissible options" even after F20 made the deposit agents run).
 - Cause: `factoryAgentWithPTRR` returns an envelope `{ context, output, finalOutput }`, but the six deposit agents read the typed fields straight off it — `deposit-input-comprehension` (`result.comprehension`), `deposit-codebase-comprehension` (`.comprehension`), `deposit-depository-search` (`.guidance`), `deposit-inherent-regurgitation` (`.regurgitation`), `deposit-asset-pack-synthesis` (`.options`), `deposit-validation` (`agentOutput.issues`). Each was therefore `undefined`, so every agent silently fell back to its `?? {default}` / empty-options branch — the real inference output never reached the synthesis (and Implementation's empty `options` triggered the route's bounded fallback). Same class as the F26-A read-agent bug, in the deposit lens.
 - Repair (2026-06-26): unwrap `(raw)?.finalOutput ?? (raw)?.output ?? raw` in all six deposit agents before reading the typed output. asset-pack tsc 0 + full suite 210/210 (deposit agents aren't test-exercised — the pipeline short-circuits in tests — so this is verified by compile + the read-agent pattern; needs a live deposit run to confirm options now materialize).
 
-### F28 — Deposit Setup runs (and is blocked/hung by) the read danger-wall; punt it under the deposit lens
+### V48-Gate3-F28 — Deposit Setup runs (and is blocked/hung by) the read danger-wall; punt it under the deposit lens
 
 - Severity: high (deposit-blocking — the deposit cannot produce options).
 - Observed (2026-06-30, run `3e82ddd1-bf24-41cb-9a9a-58e9f6a35335`): a deposit run got through clone → `DepositInputComprehensionAgent` (obfuscation comprehension) and then stalled in Setup on `bitcode-read-risk-admission` — its **Plan** step alone ran 132s, its **Try** step dispatched a generation that never returned, and the run sat in `status:running` with no further telemetry.
@@ -463,7 +463,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 - Repair (2026-06-30, `phases/setup.ts`): the deposit branch now re-registers `setup:asset-pack-danger-wall-agent` with the same no-LLM passthrough as the Setup-plan punt. The deposit Setup is now clone → comprehend Obfuscations → init — no read danger-wall row, no short-circuit. Read keeps the danger-wall unchanged. The depositor's source-safety is already enforced by the streaming source-safe filter + the obfuscation comprehension; a deposit-lens admission is a later-gate `…ForDepositor`/`…ForReader` split. Spec: `BITCODE_SPEC_V48_NOTES.md` Setup-phase note. Verified: asset-pack tsc 0; setup-agents + deposit-asset-pack-options + deposit-asset-pack-option-admission suites green (10/10).
 - Liveness aside: F25's per-call timeout (`BITCODE_LLM_CALL_TIMEOUT_MS`, default 90000ms) should have bounded the hung Try generation but did not — the run stayed frozen ~8 min past the last event. The punt removes this locus for deposits, but the operator should confirm `BITCODE_LLM_CALL_TIMEOUT_MS` is not `0` in the run env; if it is non-zero and a generation still hangs unbounded, the in-box harness LLM path bypassing the F25 wrapper is a follow-up (read lens + remaining deposit agents still depend on that bound).
 
-### F29 — First live run of the redesigned Failsafes (3703f48f, 2026-07-03): machinery works; PCC selection shorthand was silently dropped (FIXED)
+### V48-Gate3-F29 — First live run of the redesigned Failsafes (3703f48f, 2026-07-03): machinery works; PCC selection shorthand was silently dropped (FIXED)
 
 - Observed working end-to-end on the first post-wave run: the keys-only execution-state
   tree streamed (values never present); the PCC selection Thinkings ran (reason/judge/
@@ -485,7 +485,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
   live-run misses). Follow-up candidates: canonical-path examples in the PCC selection
   prompt part; `context:selectedKeys` non-empty as a QA acceptance row (added to §2).
 
-### F30 — Vercel Preview builds fail: `Supabase env vars … are missing` at static prerender (env, not routing; FIXED)
+### V48-Gate3-F30 — Vercel Preview builds fail: `Supabase env vars … are missing` at static prerender (env, not routing; FIXED)
 
 - Severity: high (every git-push build to the gate branch errored, blocking deploys).
 - Observed (2026-07-05, commit `4fbc67e`, Preview builds): `Generating static pages`
@@ -513,6 +513,12 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
   throw instead. Mirroring the dummy-value fallback there (or marking the authenticated
   pages `export const dynamic = 'force-dynamic'` so they are not prerendered) makes builds
   env-independent. Weigh against the value of a loud fail when a real deployment lacks config.
+
+### V48-Gate3-F31 — Deposit synthesis dispatch relied on undocumented post-response continuation on Vercel (FIXED)
+
+- Severity: high (reported live as "errors running deposit pipelines" — intermittent by nature, so hard to pin from symptoms alone).
+- Cause: `POST /api/deposit/synthesize-options` (V48-Gate3-F26-B) dispatches the run then returns `{status:'dispatched'}` immediately, with the actual multi-agent synthesis (`runSynthesis()`) continuing as a bare `void runSynthesis()` promise after the response completes. Vercel Functions (including Fluid Compute) do not guarantee an instance stays alive to finish work started before the response but not awaited by it — the platform is free to freeze/recycle the instance once the response is flushed, unless the continuation is registered via `waitUntil()`. This is the same failure class `execution-orphan-sweep.ts`'s own header comment already names as the reason its sweep exists ("dev-server restarts (and crashed serverless boxes) kill in-process pipelines … leaving them running forever" — QA runs `7f023f23` and the 2026-07-03 pre-restart orphans): that sweep detects and relabels the resulting stuck-`running` rows as `interrupted`, but nothing previously stopped the box from being killed mid-run in the first place. The same bare-`void` pattern was also on the orphan sweep's own fire-and-forget call at dispatch time.
+- Repair: added `@vercel/functions` and wrapped both fire-and-forget continuations in `waitUntil()` — the `runSynthesis()` background run and the `sweepOrphanedExecutions()` call in `uapi/app/api/deposit/synthesize-options/route.ts`. This keeps the Function instance alive until the promise settles, so a dispatched run either completes or fails and finalizes its row through the normal `finalizeExecutionRow`/error-banner path, instead of being silently killed mid-flight. Checked the only sibling background-dispatch route (`/api/pipeline-harness/asset-pack`) and confirmed it does NOT have this defect: its continuation runs inside an open `ReadableStream` (SSE), whose lifetime keeps the Function instance alive by construction — no `waitUntil` needed there. Verified: `tsc --noEmit` 0; `depositSynthesizeOptionsRoute.test.ts` 6/6 green.
 
 ## Track 1 — Identity / Authentication / Auxillaries — COMPLETE 2026-06-12 (email deferred by decision; F2/F9 and legacy eradication queued for gates)
 

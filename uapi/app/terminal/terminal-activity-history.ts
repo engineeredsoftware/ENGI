@@ -595,6 +595,37 @@ export function buildTerminalRepositoryAnchorDraft(
   };
 }
 
+/**
+ * V48-Gate3-F13/F18: Obfuscations anchoring. Mirrors the repository anchor
+ * pattern (`buildTerminalRepositoryAnchorDraft`) so a depositor can save the
+ * current Obfuscations configuration into the activity ledger and reload it
+ * on a later run — for the same repository, or a fresh one.
+ */
+export function buildTerminalObfuscationsAnchorDraft(input: {
+  obfuscations: string;
+  repositoryFullName?: string | null;
+}): TerminalActivityRecordDraft {
+  const text = input.obfuscations.trim();
+  return {
+    type: 'agentic-execution:asset-pack',
+    detailSection: 'transaction',
+    summary: `Anchored an Obfuscations configuration${
+      input.repositoryFullName ? ` (last used with ${input.repositoryFullName})` : ''
+    }.`,
+    output: {
+      obfuscationsAnchor: {
+        text,
+        repositoryFullName: input.repositoryFullName || null,
+        anchoredAt: new Date().toISOString(),
+      },
+    },
+    context: {
+      source: 'deposit-obfuscations-anchor',
+      repositoryFullName: input.repositoryFullName || null,
+    },
+  };
+}
+
 export function buildTerminalExternalInterfacingDraft(
   snapshot: TerminalExternalRuntimeSnapshot,
 ): TerminalActivityRecordDraft {
@@ -664,6 +695,7 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     contextSource: contextString('source'),
     contextWorkbench: contextString('workbench'),
     candidateAssetId: contextString('candidateAssetId'),
+    obfuscationsAnchorText: readNestedString(run.output, ['obfuscationsAnchor', 'text']),
     depositProofRoot:
       contextString('depositProofRoot') || readNestedString(run.output, ['depositoryEvidence', 'proofRoot']),
     depositMeasurementRoot:

@@ -183,7 +183,7 @@ describe('/api/activity GET', () => {
     expect(payload.records[1]).toEqual(
       expect.objectContaining({
         kind: 'execution',
-        // F15 scope taxonomy (V48 Gate 2): only AssetPacks admitted to the
+        // V48-Gate2-F15 scope taxonomy: only AssetPacks admitted to the
         // Depository and settled/read APs are network-scope; the account's own
         // executions (e.g. proof refreshes) are personal.
         scope: 'personal',

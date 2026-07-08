@@ -14,20 +14,20 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/components/base/bitcode/auth/AuthProvider";
 import {
   ProductRouteDisclosure,
-  ProductRouteEnterpriseSummary,
-  ProductRouteKeyboardHint,
   ProductRouteProofDetail,
   ProductRouteShell,
-  ProductRouteStatePanel,
 } from "@/components/base/bitcode/routes/product-route-shell";
 import { useUserData } from "@/hooks/useUserData";
 import { trackProductEvent } from "@/lib/product-analytics";
 import { fetchPipelineExecutionHistory } from "@/networking/api-client";
 import type { PipelineExecution } from "@/types/api";
 
-import DepositSourceSelection from "@/app/deposits/DepositSourceSelection";
+import DepositSourceSelection, {
+  type DepositRepositoryAnchor,
+} from "@/app/deposits/DepositSourceSelection";
 import {
   buildTerminalExecutionHistoryRequest,
+  buildTerminalObfuscationsAnchorDraft,
   mapExecutionHistoryRunToWorkspaceRun,
   readTerminalRouteError,
   type TerminalActivityRecordDraft,
@@ -52,8 +52,6 @@ import {
   DEPOSIT_ROUTE,
 } from "@/app/terminal/terminal-routes";
 import { TerminalShellBridgeProvider } from "@/app/terminal/terminal-shell-bridge";
-import { deriveTerminalTransactionReadiness } from "@/app/terminal/terminal-transaction-readiness-source";
-
 import {
   buildDepositRouteSession,
   readDepositRouteStage,
@@ -83,6 +81,7 @@ import {
 } from "@/app/deposits/deposit-stat-explainers";
 import { TelemetryExplainerTrigger } from "@/components/base/bitcode/execution/TelemetryExplainerTrigger";
 import { VCSFileTreePicker } from "@/components/base/bitcode/vcs/VCSFileTreePicker";
+import { SearchableSelect } from "@/components/base/bitcode/forms/SearchableSelect";
 import type {
   DepositOptionReviewDecision,
   DepositOptionReviewDecisionState,
@@ -97,18 +96,6 @@ const DEPOSITOR_EARNING_SUPPLY_INTELLIGENCE_ID =
 function shortIdentifier(value: string | null | undefined) {
   if (!value) return "pending";
   return value.length > 18 ? `${value.slice(0, 12)}...` : value;
-}
-
-function formatDate(value: string | null | undefined) {
-  if (!value) return "pending";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value;
-  return date.toLocaleString(undefined, {
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
 }
 
 function formatSats(value: number | null | undefined) {
@@ -138,11 +125,8 @@ export default function DepositPageClient() {
   const { user } = useAuth();
   const {
     data: userData,
-    hasGitHubConnection,
     hasValidGitHubConnection,
-    hasWalletConnection,
     hasVerifiedWalletConnection,
-    hasStoredVerifiedWalletConnection,
     walletConnectionStatus,
   } = useUserData();
   const routeSearchParams = useMemo(
@@ -339,11 +323,6 @@ export default function DepositPageClient() {
     userData?.profile && typeof userData.profile === "object"
       ? (userData.profile as Record<string, unknown>)
       : null;
-  const walletBinding =
-    profileRecord?.wallet_binding &&
-      typeof profileRecord.wallet_binding === "object"
-      ? (profileRecord.wallet_binding as Record<string, unknown>)
-      : null;
   const preferredSignerAddress = useMemo(() => {
     const profileAuthAddress = readStringField(profileRecord, "auth_address");
     const profileWalletAddress = readStringField(
@@ -361,39 +340,6 @@ export default function DepositPageClient() {
       null
     );
   }, [profileRecord, walletConnectionStatus]);
-  const preferredSignerLabel = walletConnectionStatus?.provider
-    ? `${walletConnectionStatus.provider} wallet`
-    : "connected wallet";
-  const transactionReadiness = useMemo(
-    () =>
-      deriveTerminalTransactionReadiness({
-        signedIn: Boolean(user),
-        repositoryContext,
-        repositoryConnectionStatus: repositoryContext?.connectionStatus || null,
-        hasRepositoryProviderAttachment: hasGitHubConnection,
-        hasValidRepositoryProviderAttachment: hasValidGitHubConnection,
-        hasWalletBinding:
-          hasWalletConnection ||
-          Boolean(
-            readStringField(profileRecord, "wallet_address") ||
-            readStringField(walletBinding, "address"),
-          ),
-        hasVerifiedWalletBinding: hasVerifiedWalletConnection,
-        hasStoredVerifiedWalletBinding: hasStoredVerifiedWalletConnection,
-      }).readiness,
-    [
-      hasGitHubConnection,
-      hasStoredVerifiedWalletConnection,
-      hasValidGitHubConnection,
-      hasVerifiedWalletConnection,
-      hasWalletConnection,
-      profileRecord,
-      repositoryContext,
-      user,
-      walletBinding,
-    ],
-  );
-
   const sourceCriticalitySignals = useMemo(
     () => [
       {
@@ -447,6 +393,61 @@ export default function DepositPageClient() {
       ),
     [liveRuns],
   );
+  // V48-Gate3-F17: previously anchored repositories, newest first, one per
+  // distinct repository — derived from the SAME activity history fetch this
+  // page already loads (liveRuns), no extra request.
+  const repositoryAnchors = useMemo<DepositRepositoryAnchor[]>(() => {
+    const newestByRepository = new Map<string, WorkspaceRun>();
+    for (const run of liveRuns) {
+      if (
+        run.contextSource !== "terminal-repository-context-panel" ||
+        !run.repository
+      )
+        continue;
+      const existing = newestByRepository.get(run.repository);
+      if (!existing || new Date(run.created_at) > new Date(existing.created_at)) {
+        newestByRepository.set(run.repository, run);
+      }
+    }
+    return Array.from(newestByRepository.values())
+      .sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+      )
+      .map((run) => ({
+        id: run.id,
+        repositoryFullName: run.repository as string,
+        branch: run.branch || null,
+        commit: run.sourceCommit || null,
+      }));
+  }, [liveRuns]);
+  // V48-Gate3-F13/F18: previously anchored Obfuscations configurations,
+  // newest first — same derivation pattern as repositoryAnchors above.
+  const obfuscationsAnchors = useMemo(() => {
+    const seen = new Set<string>();
+    const anchors: Array<{ id: string; text: string; repositoryFullName: string | null; createdAt: string }> = [];
+    for (const run of [...liveRuns].sort(
+      (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    )) {
+      if (
+        run.contextSource !== "deposit-obfuscations-anchor" ||
+        !run.obfuscationsAnchorText ||
+        seen.has(run.obfuscationsAnchorText)
+      )
+        continue;
+      seen.add(run.obfuscationsAnchorText);
+      anchors.push({
+        id: run.id,
+        text: run.obfuscationsAnchorText,
+        repositoryFullName: run.repository || null,
+        createdAt: run.created_at,
+      });
+    }
+    return anchors;
+  }, [liveRuns]);
+  const [isAnchoringObfuscations, setIsAnchoringObfuscations] = useState(false);
+  const [obfuscationsAnchorMessage, setObfuscationsAnchorMessage] = useState<
+    string | null
+  >(null);
   const optionReviewDecisionRecords = useMemo<DepositOptionReviewDecision[]>(
     () =>
       Object.entries(optionReviewDecisions).map(([optionId, decision]) => ({
@@ -624,7 +625,7 @@ export default function DepositPageClient() {
   const synthesisLiveContext =
     synthesisRunning && !synthesisError ? synthesisActivity.latestContext : null;
 
-  // F26-B: the synthesis run is dispatched (decoupled from the request). When the
+  // V48-Gate3-F26-B: the synthesis run is dispatched (decoupled from the request). When the
   // streamed run completes, read the persisted synthesis from the execution row
   // output and surface the reviewable options; a streamed error fails the run.
   useEffect(() => {
@@ -955,6 +956,35 @@ export default function DepositPageClient() {
     ],
   );
 
+  // V48-Gate3-F13/F18: anchor the CURRENT Obfuscations text into the activity
+  // ledger (mirrors handleAnchorRepository in DepositSourceSelection), so it
+  // can be reloaded on a later run via the "Load anchor" selector below.
+  const handleAnchorObfuscations = useCallback(async () => {
+    if (!obfuscations.trim()) return;
+    setIsAnchoringObfuscations(true);
+    setObfuscationsAnchorMessage(null);
+    try {
+      await handleRecordActivity(
+        buildTerminalObfuscationsAnchorDraft({
+          obfuscations,
+          repositoryFullName:
+            repositoryContext?.selectedRepository?.fullName || null,
+        }),
+      );
+      setObfuscationsAnchorMessage(
+        "Obfuscations configuration anchored into the Bitcode activity ledger.",
+      );
+    } catch (error) {
+      setObfuscationsAnchorMessage(
+        error instanceof Error
+          ? error.message
+          : "Unable to anchor the Obfuscations configuration.",
+      );
+    } finally {
+      setIsAnchoringObfuscations(false);
+    }
+  }, [handleRecordActivity, obfuscations, repositoryContext]);
+
   // Real option synthesis via the AssetPacksSynthesis pipeline (deposit
   // lens). The server route builds the exclusion-filtered source inventory,
   // runs bounded inference, persists the execution row with real
@@ -1014,7 +1044,7 @@ export default function DepositPageClient() {
             : "Deposit option synthesis failed.",
         );
       }
-      // F26-B: the route DISPATCHED the run (it no longer returns the synthesis
+      // V48-Gate3-F26-B: the route DISPATCHED the run (it no longer returns the synthesis
       // inline — the full pipeline runs to completion in the background while
       // telemetry streams). Stay 'running'; the completion effect reads the
       // persisted synthesis from the execution row and flips to 'complete'.
@@ -1278,39 +1308,6 @@ export default function DepositPageClient() {
     selectedPackIds,
     user?.id,
   ]);
-
-  const handleRepositorySourceBranchChange = useCallback(
-    (branch: string) => {
-      const nextParams = readCurrentSearchParams();
-      if (repositoryContext?.provider)
-        nextParams.set("provider", repositoryContext.provider);
-      if (repositoryContext?.selectedRepository?.fullName)
-        nextParams.set("repo", repositoryContext.selectedRepository.fullName);
-      nextParams.set("sourceBranch", branch);
-      nextParams.delete("sourceCommit");
-      nextParams.delete("branch");
-      nextParams.delete("commit");
-      replaceDepositSearchParams(nextParams);
-    },
-    [readCurrentSearchParams, replaceDepositSearchParams, repositoryContext],
-  );
-
-  const handleRepositorySourceCommitChange = useCallback(
-    (commit: string) => {
-      const nextParams = readCurrentSearchParams();
-      if (repositoryContext?.provider)
-        nextParams.set("provider", repositoryContext.provider);
-      if (repositoryContext?.selectedRepository?.fullName)
-        nextParams.set("repo", repositoryContext.selectedRepository.fullName);
-      if (repositoryContext?.selectedBranch)
-        nextParams.set("sourceBranch", repositoryContext.selectedBranch);
-      nextParams.set("sourceCommit", commit);
-      nextParams.delete("branch");
-      nextParams.delete("commit");
-      replaceDepositSearchParams(nextParams);
-    },
-    [readCurrentSearchParams, replaceDepositSearchParams, repositoryContext],
-  );
 
   return (
     <TerminalShellBridgeProvider>
@@ -1611,6 +1608,7 @@ export default function DepositPageClient() {
                     depositRouteSession.earningSupplyIntelligence.aggregate
                       .totalExpectedCompensationSats
                   }
+                  repositoryAnchors={repositoryAnchors}
                 />
               </div>
               <section
@@ -1627,10 +1625,64 @@ export default function DepositPageClient() {
                       <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.obfuscations} />
                     </h2>
                   </div>
-                  <Sparkles
-                    className="h-5 w-5 text-emerald-200"
-                    aria-hidden="true"
-                  />
+                  <div className="flex items-center gap-2">
+                    {obfuscationsAnchors.length > 0 ? (
+                      <div className="w-40">
+                        <SearchableSelect
+                          aria-label="Load a previously anchored Obfuscations configuration"
+                          items={obfuscationsAnchors.map((anchor) => ({
+                            key: anchor.id,
+                            label: anchor.repositoryFullName || "Obfuscations anchor",
+                            description:
+                              anchor.text.length > 60
+                                ? `${anchor.text.slice(0, 60)}…`
+                                : anchor.text,
+                          }))}
+                          value={null}
+                          onSelect={(key) => {
+                            const anchor = obfuscationsAnchors.find(
+                              (entry) => entry.id === key,
+                            );
+                            if (anchor) setObfuscations(anchor.text);
+                          }}
+                          placeholder="Load anchor..."
+                          searchPlaceholder="Search anchors..."
+                          emptyMessage="No anchors yet."
+                          className="h-9"
+                        />
+                      </div>
+                    ) : null}
+                    <button
+                      type="button"
+                      aria-label="Clear obfuscations"
+                      title="Clear obfuscations"
+                      disabled={!obfuscations}
+                      onClick={() => setObfuscations("")}
+                      className="border border-white/10 px-2.5 py-1.5 text-[0.66rem] uppercase tracking-[0.14em] text-neutral-300 transition hover:border-rose-300/35 hover:text-rose-100 disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      Clear
+                    </button>
+                    <button
+                      type="button"
+                      aria-label="Anchor obfuscations to the activity ledger"
+                      title="Anchor obfuscations to the activity ledger"
+                      disabled={!obfuscations.trim() || isAnchoringObfuscations}
+                      onClick={() => {
+                        void handleAnchorObfuscations();
+                      }}
+                      className="flex h-9 w-9 items-center justify-center border border-white/10 bg-white/5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-300/10 disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      {isAnchoringObfuscations ? (
+                        <RefreshCw className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <Anchor className="h-4 w-4" />
+                      )}
+                    </button>
+                    <Sparkles
+                      className="h-5 w-5 text-emerald-200"
+                      aria-hidden="true"
+                    />
+                  </div>
                 </div>
                 <div className="mt-4 block">
                   <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
@@ -1648,6 +1700,11 @@ export default function DepositPageClient() {
                     placeholder={DEPOSIT_OBFUSCATIONS_PLACEHOLDER}
                     className="mt-2 min-h-[8rem] w-full border border-white/10 bg-black/30 px-3 py-3 text-sm leading-6 text-neutral-100 outline-none transition focus:border-emerald-300/35"
                   />
+                  {obfuscationsAnchorMessage ? (
+                    <p className="mt-2 text-xs leading-5 text-neutral-400">
+                      {obfuscationsAnchorMessage}
+                    </p>
+                  ) : null}
                 </div>
                 {/* File-tree pickers over the selected repository·branch·
                     commit. Hints and exclusions are MUTUALLY EXCLUSIVE — a
@@ -1714,29 +1771,37 @@ export default function DepositPageClient() {
                     </span>
                   </div>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    void handleSynthesizeOptions();
-                  }}
-                  disabled={
-                    !depositRouteSession.routeState.repositoryFullName ||
-                    synthesisStatus === "running"
-                  }
-                  className="mt-4 inline-flex w-full items-center justify-center border border-emerald-300/25 bg-emerald-300/12 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/[0.03] disabled:text-neutral-500"
-                >
-                  {synthesisStatus === "running"
-                    ? "Synthesizing with AssetPacksSynthesis…"
-                    : "Synthesize options"}
-                </button>
-                {synthesisStatus === "failed" && synthesisError ? (
+                {synthesisRunId ? (
+                  // V48-Gate3: a loaded run owns the detail (Telemetry below).
+                  // Re-dispatching from here would jump the viewer to a brand
+                  // new run out from under them mid-review — Back (which
+                  // clears the URL selection) is the explicit path to a new
+                  // synthesis. The Obfuscations config above stays editable so
+                  // the next run can be prepared while this one is reviewed.
                   <p
-                    role="alert"
-                    className="mt-3 border border-rose-300/25 bg-rose-300/10 px-3 py-2 text-xs leading-5 text-rose-100"
+                    data-testid="deposit-obfuscations-run-loaded-note"
+                    className="mt-4 text-xs leading-5 text-neutral-500"
                   >
-                    {synthesisError}
+                    Viewing a loaded pipeline run. Select Back on Deposit
+                    pipelines to dispatch a new synthesis.
                   </p>
-                ) : null}
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      void handleSynthesizeOptions();
+                    }}
+                    disabled={
+                      !depositRouteSession.routeState.repositoryFullName ||
+                      synthesisStatus === "running"
+                    }
+                    className="mt-4 inline-flex w-full items-center justify-center border border-emerald-300/25 bg-emerald-300/12 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/[0.03] disabled:text-neutral-500"
+                  >
+                    {synthesisStatus === "running"
+                      ? "Synthesizing with AssetPacksSynthesis…"
+                      : "Synthesize options"}
+                  </button>
+                )}
               </section>
             </div>
 

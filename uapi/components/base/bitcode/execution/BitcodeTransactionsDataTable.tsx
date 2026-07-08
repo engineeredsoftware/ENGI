@@ -120,14 +120,21 @@ export default function BitcodeTransactionsDataTable({
                 return (
                   <tr
                     key={record.id}
-                    className={`border-t border-white/6 transition ${isSelected ? 'bg-emerald-400/10' : 'hover:bg-white/5'}`}
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={isSelected}
+                    onClick={() => onSelectTransaction(record.id)}
+                    onKeyDown={(event) => {
+                      if (event.key !== 'Enter' && event.key !== ' ') return;
+                      event.preventDefault();
+                      onSelectTransaction(record.id);
+                    }}
+                    className={`cursor-pointer border-t border-white/6 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/55 ${isSelected ? 'bg-emerald-400/10' : 'hover:bg-white/5'}`}
                   >
                     <td className="px-3 py-3 align-top">
-                      <button type="button" onClick={() => onSelectTransaction(record.id)} className="w-full text-left">
-                        <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-neutral-500">{record.id}</p>
-                        <p className="mt-1.5 text-sm font-medium text-white">{formatTypeLabel(record.type, record.typeLabel)}</p>
-                        <p className="mt-1 max-w-[24rem] text-sm leading-5 text-neutral-300">{record.summary}</p>
-                      </button>
+                      <p className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-neutral-500">{record.id}</p>
+                      <p className="mt-1.5 text-sm font-medium text-white">{formatTypeLabel(record.type, record.typeLabel)}</p>
+                      <p className="mt-1 max-w-[24rem] text-sm leading-5 text-neutral-300">{record.summary}</p>
                     </td>
                     <td className="px-3 py-3 align-top">
                       <span className=" border border-white/10 bg-white/5 px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.18em] text-neutral-200">

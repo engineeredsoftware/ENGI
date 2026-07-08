@@ -122,4 +122,59 @@ describe('VCSFileTreePicker', () => {
     fireEvent.click(conflictButton);
     expect(onChange).not.toHaveBeenCalled();
   });
+
+  it('selects every root-level file and directory prefix via Select all', async () => {
+    mockTreeFetch();
+    const onChange = jest.fn();
+    render(
+      <VCSFileTreePicker
+        provider="github"
+        repositoryFullName="engineeredsoftware/ENGI"
+        selectedPaths={[]}
+        onChange={onChange}
+      />,
+    );
+
+    await waitFor(() => expect(screen.getByText('src/')).toBeInTheDocument());
+    fireEvent.click(screen.getByRole('button', { name: 'Select all' }));
+    // Directory prefixes cover their subtree downstream, so root-level
+    // selection is full-repo coverage without recursively fetching src/.
+    expect(onChange).toHaveBeenCalledWith(['src/', 'README.md']);
+  });
+
+  it('Select all skips paths already conflicting or already selected', async () => {
+    mockTreeFetch();
+    const onChange = jest.fn();
+    render(
+      <VCSFileTreePicker
+        provider="github"
+        repositoryFullName="engineeredsoftware/ENGI"
+        selectedPaths={['README.md']}
+        onChange={onChange}
+        conflictingPaths={['src/']}
+      />,
+    );
+
+    await waitFor(() => expect(screen.getByText('src/')).toBeInTheDocument());
+    fireEvent.click(screen.getByRole('button', { name: 'Select all' }));
+    // 'src/' is conflicting and 'README.md' is already selected — nothing new.
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('Clear all removes every selection in one click', async () => {
+    mockTreeFetch();
+    const onChange = jest.fn();
+    render(
+      <VCSFileTreePicker
+        provider="github"
+        repositoryFullName="engineeredsoftware/ENGI"
+        selectedPaths={['README.md', 'src/']}
+        onChange={onChange}
+      />,
+    );
+
+    await waitFor(() => expect(screen.getByText('src/')).toBeInTheDocument());
+    fireEvent.click(screen.getByRole('button', { name: 'Clear all' }));
+    expect(onChange).toHaveBeenCalledWith([]);
+  });
 });

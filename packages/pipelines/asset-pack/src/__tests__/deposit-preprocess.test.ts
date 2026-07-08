@@ -107,7 +107,7 @@ describe('deposit-mode preprocess context assembly', () => {
 
     await synthesizeAssetPacksPipeline(input, execution);
 
-    // F20: the mode lives on the SHARED outer execution, resolvable from any
+    // V48-Gate3-F20: the mode lives on the SHARED outer execution, resolvable from any
     // phase sibling via the upward walk.
     expect(synthesizeAssetPacksModeFromExecution(execution)).toBe('deposit');
     expect(synthesizeAssetPacksModeFromExecution(execution.child('probe'))).toBe('deposit');

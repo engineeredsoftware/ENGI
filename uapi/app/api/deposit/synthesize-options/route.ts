@@ -1,6 +1,7 @@
 import { randomUUID } from 'crypto';
 
 import { NextResponse } from 'next/server';
+import { waitUntil } from '@vercel/functions';
 
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
@@ -115,8 +116,10 @@ export async function POST(request: Request) {
 
   // Fire-and-forget: finalize runs orphaned by server restarts/crashed hosts
   // (rows stuck `running` with no stream activity) so they read as
-  // `interrupted` instead of running forever.
-  void sweepOrphanedExecutions(supabaseAdmin).catch(() => {});
+  // `interrupted` instead of running forever. waitUntil (V48-Gate3-F31) keeps
+  // this Vercel Function instance alive for the sweep even though the
+  // response below doesn't wait on it.
+  waitUntil(sweepOrphanedExecutions(supabaseAdmin).catch(() => {}));
   const sourceBranch = readString(body.sourceBranch);
   const sourceCommit = readString(body.sourceCommit);
   const obfuscations = readString(body.obfuscations);
@@ -252,13 +255,22 @@ export async function POST(request: Request) {
     }
   };
 
-  // F26-B: the synthesis runs the full formal hierarchy (many LLM calls), so it
+  // V48-Gate3-F26-B: the synthesis runs the full formal hierarchy (many LLM calls), so it
   // must NOT be bound to this request's maxDuration. Dispatch it as a background
   // run (the local in-process harness host) and return the runId immediately; the
   // client tails source-safe telemetry and, on the completion event, reads the
   // persisted synthesis from the execution row output. Prod durability is the
   // Vercel Sandbox host (pipeline-hosts). The F25 per-call LLM timeout remains the
   // safety bound within the run.
+  //
+  // V48-Gate3-F31: the JSON response below returns (and the request completes)
+  // long before this finishes. On Vercel, a Function instance is free to be
+  // frozen/recycled once its response is sent — a bare `void runSynthesis()`
+  // has no guarantee of surviving past that point, which is exactly how the
+  // "crashed serverless boxes" orphaned runs above got orphaned in the first
+  // place (see execution-orphan-sweep.ts). waitUntil keeps this invocation
+  // alive until the promise settles, so the run either completes or fails
+  // (and finalizes its row) instead of being silently killed mid-flight.
   const runSynthesis = async () => {
    try {
     await emitPhaseTransition(execution as never, 'deposit-option-synthesis', 'start', {
@@ -487,6 +499,6 @@ export async function POST(request: Request) {
    }
   };
 
-  void runSynthesis();
+  waitUntil(runSynthesis());
   return NextResponse.json({ ok: true, executionId: runId, runId, status: 'dispatched' });
 }

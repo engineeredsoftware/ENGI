@@ -30,6 +30,15 @@ jest.mock('@bitcode/execution-generics', () => ({
   },
 }));
 
+// V48-Gate3-F31: the route's background continuations (the sweep + the
+// synthesis run itself) must be registered via waitUntil, not dispatched as
+// a bare `void promise`, or Vercel is free to freeze this Function instance
+// before they finish. The spy passes the promise through unchanged so the
+// rest of this suite's behavior (flushBackground) is unaffected.
+jest.mock('@vercel/functions', () => ({
+  waitUntil: jest.fn((promise: Promise<unknown>) => promise),
+}));
+
 jest.mock('@bitcode/pipeline-asset-pack/runtime-inference-policy', () => ({
   isAssetPackRealInferenceEnabled: jest.fn(() => true),
 }));
@@ -60,6 +69,7 @@ import {
   runDepositInBoxHarness,
   selectDepositHostKind,
 } from '@/lib/deposit-source-provisioning';
+import { waitUntil } from '@vercel/functions';
 import { POST } from '@/app/api/deposit/synthesize-options/route';
 
 const mockRealInference = isAssetPackRealInferenceEnabled as jest.Mock;
@@ -68,6 +78,7 @@ const mockCreateExecution = createStreamingExecution as jest.Mock;
 const mockProvision = provisionDepositSourceInventory as jest.Mock;
 const mockSelectKind = selectDepositHostKind as jest.Mock;
 const mockRunHarness = runDepositInBoxHarness as jest.Mock;
+const mockWaitUntil = waitUntil as jest.Mock;
 
 // The synthesized options the pipeline leaves at implementation:options. The route's
 // validateDepositSynthesisOptions (real) turns these into measured deposit options.
@@ -286,6 +297,26 @@ describe('POST /api/deposit/synthesize-options', () => {
     expect(option.contents.provenantSourcePaths).toEqual(['README.md', 'src/app.py']);
     expect(option.contents.fileChanges).toEqual([{ path: 'src/app.py', op: 'modify' }]);
     expect(completed.output.reviewProjections[0].coveredSourcePaths).toEqual(['README.md', 'src/app.py']);
+  });
+
+  it('registers both the orphan sweep and the synthesis run via waitUntil (V48-Gate3-F31)', async () => {
+    const { executionRow } = installSupabaseMocks({});
+    installExecutionMock();
+
+    await POST(createRequest());
+    await flushBackground(() =>
+      executionRow.upsert.mock.calls.some((call) => call[0]?.status === 'completed'),
+    );
+
+    // Bare `void promise` dispatch (no waitUntil) is exactly what let a
+    // Vercel Function instance be frozen/recycled mid-run before this fix —
+    // the run's own execution row is the evidence trail, but nothing forced
+    // the box to stay alive to write it. Pin that both continuations go
+    // through waitUntil so this can't silently regress back to bare void.
+    expect(mockWaitUntil).toHaveBeenCalledTimes(2);
+    mockWaitUntil.mock.calls.forEach(([passed]) => {
+      expect(passed).toBeInstanceOf(Promise);
+    });
   });
 
   it('runs the synthesis in-box on the sandbox host when configured (#25)', async () => {

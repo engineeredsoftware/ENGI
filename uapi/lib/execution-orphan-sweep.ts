@@ -10,6 +10,13 @@
  * dispatch, works identically on the dev server and serverless hosts (no
  * startup-hook machinery). In-flight runs are safe: they write execution
  * events continuously, so their latest event is always fresh.
+ *
+ * This is a detector, not a preventer: it relabels rows that already got
+ * orphaned. V48-Gate3-F31 closed the specific cause where the deposit
+ * dispatch route's own background continuation could be frozen by Vercel
+ * right after its response was sent (fixed there via `waitUntil`); this
+ * sweep still earns its keep for the causes that remain — real crashes,
+ * restarts, deploys rolling out mid-run, maxDuration ceilings, etc.
  */
 
 type SupabaseClient = any;

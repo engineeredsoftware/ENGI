@@ -10,7 +10,7 @@
  * data-contract helpers, but carries no terminal-UI dependency.
  */
 
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Anchor, GitBranch, Lock, RefreshCw } from "lucide-react";
 import type { VCSBranch, VCSCommit, VCSRepository } from "@bitcode/vcs-core";
@@ -35,6 +35,14 @@ import {
   type TerminalRepositoryInventorySource,
 } from "@/app/terminal/terminal-repository-context";
 
+/** A previously anchored repository·branch·commit, ready to reload. */
+export interface DepositRepositoryAnchor {
+  id: string;
+  repositoryFullName: string;
+  branch: string | null;
+  commit: string | null;
+}
+
 type DepositSourceSelectionProps = {
   preferredRepository?: string | null;
   onContextChange?: (context: TerminalRepositoryContextState) => void;
@@ -43,6 +51,8 @@ type DepositSourceSelectionProps = {
   buildRouteHref: (params?: URLSearchParams | string | null) => string;
   /** Full-repo earnings estimate (sats) for the selected source, if available. */
   repoEarningEstimateSats?: number | null;
+  /** V48-Gate3-F17: previously anchored repositories, newest first. */
+  repositoryAnchors?: DepositRepositoryAnchor[];
 };
 
 async function readJsonResponse(response: Response) {
@@ -66,6 +76,7 @@ export default function DepositSourceSelection({
   routePath,
   buildRouteHref,
   repoEarningEstimateSats,
+  repositoryAnchors = [],
 }: DepositSourceSelectionProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -435,22 +446,58 @@ export default function DepositSourceSelection({
             the rest of the Deposit reads.
           </p>
         </div>
-        <button
-          type="button"
-          aria-label="Anchor repository to the activity ledger"
-          title="Anchor repository to the activity ledger"
-          disabled={!selectedRepository || isRecording}
-          onClick={() => {
-            void handleAnchorRepository();
-          }}
-          className="flex h-9 w-9 items-center justify-center border border-white/10 bg-white/5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-300/10 disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          {isRecording ? (
-            <RefreshCw className="h-4 w-4 animate-spin" />
-          ) : (
-            <Anchor className="h-4 w-4" />
-          )}
-        </button>
+        <div className="flex items-center gap-2">
+          {repositoryAnchors.length > 0 ? (
+            <div className="w-48">
+              <SearchableSelect
+                aria-label="Load a previously anchored repository"
+                items={repositoryAnchors.map((anchor) => ({
+                  key: anchor.id,
+                  label: anchor.repositoryFullName,
+                  description: anchor.branch
+                    ? `${anchor.branch}${
+                        anchor.commit ? ` · ${anchor.commit.slice(0, 7)}` : ""
+                      }`
+                    : null,
+                }))}
+                value={null}
+                onSelect={(key) => {
+                  const anchor = repositoryAnchors.find((entry) => entry.id === key);
+                  if (!anchor) return;
+                  updateSourceParams((params) => {
+                    params.set("repo", anchor.repositoryFullName);
+                    if (anchor.branch) params.set("sourceBranch", anchor.branch);
+                    else params.delete("sourceBranch");
+                    if (anchor.commit) params.set("sourceCommit", anchor.commit);
+                    else params.delete("sourceCommit");
+                    params.delete("branch");
+                    params.delete("commit");
+                  });
+                }}
+                placeholder="Load anchor..."
+                searchPlaceholder="Search anchors..."
+                emptyMessage="No anchors yet."
+                className="h-9"
+              />
+            </div>
+          ) : null}
+          <button
+            type="button"
+            aria-label="Anchor repository to the activity ledger"
+            title="Anchor repository to the activity ledger"
+            disabled={!selectedRepository || isRecording}
+            onClick={() => {
+              void handleAnchorRepository();
+            }}
+            className="flex h-9 w-9 items-center justify-center border border-white/10 bg-white/5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-300/10 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            {isRecording ? (
+              <RefreshCw className="h-4 w-4 animate-spin" />
+            ) : (
+              <Anchor className="h-4 w-4" />
+            )}
+          </button>
+        </div>
       </div>
 
       <div className="mt-3 grid gap-3 tablet:grid-cols-2 desktop:grid-cols-[minmax(0,180px)_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)]">

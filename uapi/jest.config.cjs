@@ -149,6 +149,7 @@ module.exports = {
     '<rootDir>/tests/packActivityModel.test.ts',
     '<rootDir>/tests/depositRouteModel.test.ts',
     '<rootDir>/tests/depositPageClient.test.tsx',
+    '<rootDir>/tests/depositSourceSelection.test.tsx',
     '<rootDir>/tests/productAnalytics.test.ts',
     '<rootDir>/tests/searchableSelect.test.tsx',
     '<rootDir>/tests/vcsFileTreePicker.test.tsx',
@@ -222,6 +223,7 @@ module.exports = {
     '<rootDir>/tests/footerPublicShell.test.tsx',
     '<rootDir>/tests/bitcodeTransactionsFilterBar.test.tsx',
     '<rootDir>/tests/bitcodeTransactionsActiveFilters.test.tsx',
+    '<rootDir>/tests/bitcodeTransactionsDataTable.test.tsx',
     '<rootDir>/tests/navWorkspaceChrome.test.tsx'
   ],
   // Setup mocks and global configurations

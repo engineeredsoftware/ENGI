@@ -141,6 +141,25 @@ export function VCSFileTreePicker({
     );
   };
 
+  // Select all / clear all — root-level only. A directory selection is
+  // already a PREFIX match downstream (isPathExcluded/inventory filtering),
+  // so selecting every root-level file + top-level directory prefix covers
+  // the entire repository without recursively fetching every subtree.
+  const rootItems = childrenByPath[''] ?? [];
+  const rootSelectionPaths = rootItems.map((item) =>
+    item.type === 'tree' ? directoryKey(item.path) : item.path,
+  );
+  const canSelectAll = rootSelectionPaths.some(
+    (path) => !conflictSet.has(path) && !selectedSet.has(path),
+  );
+  const handleSelectAll = () => {
+    const additions = rootSelectionPaths.filter(
+      (path) => !conflictSet.has(path) && !selectedSet.has(path),
+    );
+    if (additions.length) onChange([...selectedPaths, ...additions]);
+  };
+  const handleClearAll = () => onChange([]);
+
   const renderItems = (path: string, depth: number): React.ReactNode => {
     const items = childrenByPath[path];
     if (items === null || items === undefined) {
@@ -224,6 +243,26 @@ export function VCSFileTreePicker({
 
   return (
     <div aria-label={ariaLabel}>
+      {owner && repo ? (
+        <div className="mb-1.5 flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleSelectAll}
+            disabled={!canSelectAll}
+            className="border border-white/10 px-1.5 py-0.5 text-[0.62rem] uppercase tracking-[0.14em] text-neutral-300 transition hover:border-emerald-300/35 hover:text-emerald-100 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Select all
+          </button>
+          <button
+            type="button"
+            onClick={handleClearAll}
+            disabled={selectedPaths.length === 0}
+            className="border border-white/10 px-1.5 py-0.5 text-[0.62rem] uppercase tracking-[0.14em] text-neutral-300 transition hover:border-rose-300/35 hover:text-rose-100 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Clear all
+          </button>
+        </div>
+      ) : null}
       {selectedPaths.length ? (
         <div className="mb-1.5 flex flex-wrap gap-1">
           {selectedPaths.map((path) => (
