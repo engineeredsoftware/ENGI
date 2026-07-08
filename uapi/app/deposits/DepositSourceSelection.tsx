@@ -19,6 +19,7 @@ import { VCSRepositorySelector } from "@/components/base/bitcode/vcs/VCSReposito
 import { SearchableSelect } from "@/components/base/bitcode/forms/SearchableSelect";
 import BitcodeInlineExplainer from "@/components/base/bitcode/execution/BitcodeInlineExplainer";
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/app/deposits/deposit-explainers";
+import TerminalOpenAuxillariesButton from "@/app/terminal/TerminalOpenAuxillariesButton";
 import {
   buildTerminalRepositoryAnchorDraft,
   type TerminalActivityRecordDraft,
@@ -130,6 +131,14 @@ export default function DepositSourceSelection({
   const selectedCommit = useMemo(
     () => deriveSelectedCommit(commits, requestedCommit),
     [commits, requestedCommit],
+  );
+  // Repositories list from stored inventory regardless of token validity
+  // (below), but branches/commits require a LIVE, valid session — a stale
+  // installation token (they expire ~hourly) leaves this true while a
+  // repository is still selectable, which otherwise reads as "broken":
+  // Branch/Commit silently stay empty and disabled with no explanation.
+  const connectionNeedsReconnect = Boolean(
+    connectionStatus?.connected && !connectionStatus.valid,
   );
 
   // Connection posture.
@@ -500,6 +509,22 @@ export default function DepositSourceSelection({
         </div>
       </div>
 
+      {connectionNeedsReconnect ? (
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-3 border border-amber-300/24 bg-amber-400/10 px-3 py-2.5 text-sm text-amber-100">
+          <span className="flex items-center gap-2">
+            <RefreshCw className="h-4 w-4 shrink-0" />
+            Saved {getProviderLabel(provider)} attachment found, but the live session
+            needs to reconnect — Branch and Commit stay empty (and non-interactive)
+            until then; the Repository list above is read from stored inventory only.
+          </span>
+          <TerminalOpenAuxillariesButton
+            step="externals"
+            label={`Reconnect ${getProviderLabel(provider)}`}
+            className="shrink-0 border border-amber-300/24 bg-amber-400/12 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-amber-50 transition hover:border-amber-300/42 hover:bg-amber-400/18"
+          />
+        </div>
+      ) : null}
+
       <div className="mt-3 grid gap-3 tablet:grid-cols-2 desktop:grid-cols-[minmax(0,180px)_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)]">
         <div>
           <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
@@ -616,7 +641,9 @@ export default function DepositSourceSelection({
           <p className="mt-1.5 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
             {isLoadingBranches
               ? "Loading branches…"
-              : "Default branch is selected when available"}
+              : connectionNeedsReconnect
+                ? "Reconnect required to load branches"
+                : "Default branch is selected when available"}
           </p>
         </div>
 
@@ -657,7 +684,9 @@ export default function DepositSourceSelection({
           <p className="mt-1.5 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
             {isLoadingCommits
               ? "Loading commits…"
-              : "Latest branch commit is selected when available"}
+              : connectionNeedsReconnect
+                ? "Reconnect required to load commits"
+                : "Latest branch commit is selected when available"}
           </p>
         </div>
       </div>

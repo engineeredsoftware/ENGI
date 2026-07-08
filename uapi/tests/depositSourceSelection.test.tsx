@@ -11,14 +11,15 @@ jest.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(""),
 }));
 
-function mockVcsFetch() {
+function mockVcsFetch(options: { connectionValid?: boolean } = {}) {
+  const connectionValid = options.connectionValid ?? true;
   global.fetch = jest.fn((input: unknown) => {
     const url = String(input);
     if (url.includes("/connection")) {
       return Promise.resolve({
         ok: true,
         status: 200,
-        json: async () => ({ connected: true, valid: true }),
+        json: async () => ({ connected: true, valid: connectionValid }),
       });
     }
     if (url.includes("/repositories")) {
@@ -126,5 +127,44 @@ describe("DepositSourceSelection — V48-Gate3-F17 repository anchoring", () => 
     const lastHref = String(mockReplace.mock.calls.at(-1)?.[0] ?? "");
     expect(lastHref).not.toContain("sourceBranch=");
     expect(lastHref).not.toContain("sourceCommit=");
+  });
+});
+
+describe("DepositSourceSelection — stale connection surfaces a reconnect notice (repro: branch/commit silently stuck empty)", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+    mockReplace.mockReset();
+  });
+
+  it("shows no reconnect notice when the connection is connected and valid", async () => {
+    mockVcsFetch({ connectionValid: true });
+    render(
+      <DepositSourceSelection
+        routePath="/"
+        buildRouteHref={(params) => `/deposits?${params?.toString() ?? ""}`}
+      />,
+    );
+
+    await screen.findByLabelText("Repository provider");
+    expect(
+      screen.queryByText(/needs to reconnect/i),
+    ).not.toBeInTheDocument();
+  });
+
+  it("surfaces a reconnect notice (and why Branch/Commit stay empty) when connected but not valid", async () => {
+    mockVcsFetch({ connectionValid: false });
+    render(
+      <DepositSourceSelection
+        routePath="/"
+        buildRouteHref={(params) => `/deposits?${params?.toString() ?? ""}`}
+      />,
+    );
+
+    await screen.findByText(/needs to reconnect/i);
+    expect(
+      screen.getByRole("button", { name: /Reconnect GitHub/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Reconnect required to load branches/i)).toBeInTheDocument();
+    expect(screen.getByText(/Reconnect required to load commits/i)).toBeInTheDocument();
   });
 });
