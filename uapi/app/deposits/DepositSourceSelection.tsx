@@ -10,7 +10,7 @@
  * data-contract helpers, but carries no terminal-UI dependency.
  */
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Anchor, GitBranch, Lock, RefreshCw } from "lucide-react";
 import type { VCSBranch, VCSCommit, VCSRepository } from "@bitcode/vcs-core";
@@ -18,17 +18,23 @@ import type { VCSBranch, VCSCommit, VCSRepository } from "@bitcode/vcs-core";
 import { VCSRepositorySelector } from "@/components/base/bitcode/vcs/VCSRepositorySelector";
 import { SearchableSelect } from "@/components/base/bitcode/forms/SearchableSelect";
 import BitcodeInlineExplainer from "@/components/base/bitcode/execution/BitcodeInlineExplainer";
-import { DEPOSIT_SECTION_EXPLAINERS } from "@/app/deposits/deposit-explainers";
+import { TelemetryExplainerTrigger } from "@/components/base/bitcode/execution/TelemetryExplainerTrigger";
+import {
+  DEPOSIT_SECTION_EXPLAINERS,
+  toRichHoverExplainer,
+} from "@/app/deposits/deposit-explainers";
 import TerminalOpenAuxillariesButton from "@/app/terminal/TerminalOpenAuxillariesButton";
 import {
   buildTerminalRepositoryAnchorDraft,
   type TerminalActivityRecordDraft,
 } from "@/app/terminal/terminal-activity-history";
 import {
+  DEPOSIT_COMMIT_LATEST_REF,
   deriveSelectedBranch,
   deriveSelectedCommit,
   deriveSelectedRepository,
   getProviderLabel,
+  isLatestCommitRef,
   normalizeRepositoryProvider,
   TERMINAL_REPOSITORY_PROVIDERS,
   type TerminalRepositoryConnectionStatus,
@@ -70,6 +76,41 @@ function splitRepositoryFullName(fullName?: string | null) {
   return { owner, repo };
 }
 
+/** Shared square refresh control for source-selection lists. */
+function SourceListRefreshButton({
+  ariaLabel,
+  explainer,
+  disabled,
+  loading,
+  onRefresh,
+}: {
+  ariaLabel: string;
+  explainer: (typeof DEPOSIT_SECTION_EXPLAINERS)[keyof typeof DEPOSIT_SECTION_EXPLAINERS];
+  disabled?: boolean;
+  loading?: boolean;
+  onRefresh: () => void;
+}) {
+  return (
+    <TelemetryExplainerTrigger
+      side="bottom"
+      explainer={toRichHoverExplainer(explainer)}
+    >
+      <button
+        type="button"
+        aria-label={loading ? `Refreshing ${ariaLabel}` : ariaLabel}
+        disabled={disabled || loading}
+        onClick={onRefresh}
+        className="flex h-9 w-9 shrink-0 items-center justify-center border border-white/10 bg-white/5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-300/10 disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        <RefreshCw
+          className={`h-4 w-4 ${loading ? "animate-spin" : ""}`}
+          aria-hidden="true"
+        />
+      </button>
+    </TelemetryExplainerTrigger>
+  );
+}
+
 export default function DepositSourceSelection({
   preferredRepository,
   onContextChange,
@@ -106,7 +147,15 @@ export default function DepositSourceSelection({
   const [sourceSelectionError, setSourceSelectionError] = useState<
     string | null
   >(null);
-  const [refreshNonce, setRefreshNonce] = useState(0);
+  // Independent refresh nonces so each column can soft-refresh its own list.
+  const [connectionRefreshNonce, setConnectionRefreshNonce] = useState(0);
+  const [repositoriesRefreshNonce, setRepositoriesRefreshNonce] = useState(0);
+  const [branchesRefreshNonce, setBranchesRefreshNonce] = useState(0);
+  const [commitsRefreshNonce, setCommitsRefreshNonce] = useState(0);
+  // Identities for soft-refresh (same package → keep painted list).
+  const repositoriesIdentityRef = useRef<string>("");
+  const branchesIdentityRef = useRef<string>("");
+  const commitsIdentityRef = useRef<string>("");
   const [recordMessage, setRecordMessage] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState(false);
 
@@ -128,10 +177,15 @@ export default function DepositSourceSelection({
       ),
     [branches, requestedBranch, defaultBranch, selectedRepository],
   );
+  // Default is "Latest" (track branch head). Resolved SHA still flows to
+  // synthesis via selectedCommit; the URL keeps the `latest` sentinel while
+  // that mode is active so Refresh can re-resolve head.
+  const isLatestCommitMode = isLatestCommitRef(requestedCommit);
   const selectedCommit = useMemo(
     () => deriveSelectedCommit(commits, requestedCommit),
     [commits, requestedCommit],
   );
+  const headCommit = commits[0] || null;
   // Repositories list from stored inventory regardless of token validity
   // (below), but branches/commits require a LIVE, valid session — a stale
   // installation token (they expire ~hourly) leaves this true while a
@@ -171,7 +225,7 @@ export default function DepositSourceSelection({
     return () => {
       disposed = true;
     };
-  }, [provider, refreshNonce]);
+  }, [provider, connectionRefreshNonce]);
 
   // Repository inventory.
   useEffect(() => {
@@ -182,9 +236,16 @@ export default function DepositSourceSelection({
       setBranches([]);
       setCommits([]);
       setDefaultBranch(null);
+      repositoriesIdentityRef.current = "";
       return () => {
         disposed = true;
       };
+    }
+    const identity = `${provider}:repos:${connectionStatus.valid ? "valid" : "invalid"}`;
+    const softRefresh = repositoriesIdentityRef.current === identity;
+    repositoriesIdentityRef.current = identity;
+    if (!softRefresh) {
+      setRepositories([]);
     }
     setIsLoadingRepositories(true);
     setError(null);
@@ -207,8 +268,10 @@ export default function DepositSourceSelection({
       })
       .catch((nextError) => {
         if (disposed) return;
-        setRepositories([]);
-        setInventorySource(null);
+        if (!softRefresh) {
+          setRepositories([]);
+          setInventorySource(null);
+        }
         setError(
           nextError instanceof Error
             ? nextError.message
@@ -221,20 +284,34 @@ export default function DepositSourceSelection({
     return () => {
       disposed = true;
     };
-  }, [connectionStatus?.connected, connectionStatus?.valid, provider, refreshNonce]);
+  }, [
+    connectionStatus?.connected,
+    connectionStatus?.valid,
+    provider,
+    repositoriesRefreshNonce,
+  ]);
 
   // Branches for the selected repository.
   useEffect(() => {
     let disposed = false;
     const coordinates = splitRepositoryFullName(selectedRepository?.fullName);
-    setBranches([]);
-    setCommits([]);
-    setDefaultBranch(selectedRepository?.defaultBranch || null);
     setSourceSelectionError(null);
     if (!coordinates || !connectionStatus?.connected || !connectionStatus.valid) {
+      setBranches([]);
+      setCommits([]);
+      setDefaultBranch(selectedRepository?.defaultBranch || null);
+      branchesIdentityRef.current = "";
       return () => {
         disposed = true;
       };
+    }
+    const identity = `${provider}:${coordinates.owner}/${coordinates.repo}:branches`;
+    const softRefresh = branchesIdentityRef.current === identity;
+    branchesIdentityRef.current = identity;
+    if (!softRefresh) {
+      setBranches([]);
+      setCommits([]);
+      setDefaultBranch(selectedRepository?.defaultBranch || null);
     }
     setIsLoadingBranches(true);
     fetch(
@@ -261,8 +338,10 @@ export default function DepositSourceSelection({
       })
       .catch((nextError) => {
         if (disposed) return;
-        setBranches([]);
-        setDefaultBranch(selectedRepository?.defaultBranch || null);
+        if (!softRefresh) {
+          setBranches([]);
+          setDefaultBranch(selectedRepository?.defaultBranch || null);
+        }
         setSourceSelectionError(
           nextError instanceof Error
             ? nextError.message
@@ -275,13 +354,18 @@ export default function DepositSourceSelection({
     return () => {
       disposed = true;
     };
-  }, [connectionStatus?.connected, connectionStatus?.valid, provider, refreshNonce, selectedRepository]);
+  }, [
+    branchesRefreshNonce,
+    connectionStatus?.connected,
+    connectionStatus?.valid,
+    provider,
+    selectedRepository,
+  ]);
 
-  // Commits for the selected branch.
+  // Commits for the selected branch (also re-run by the refresh control).
   useEffect(() => {
     let disposed = false;
     const coordinates = splitRepositoryFullName(selectedRepository?.fullName);
-    setCommits([]);
     setSourceSelectionError(null);
     if (
       !coordinates ||
@@ -289,9 +373,19 @@ export default function DepositSourceSelection({
       !connectionStatus?.connected ||
       !connectionStatus.valid
     ) {
+      setCommits([]);
+      commitsIdentityRef.current = "";
       return () => {
         disposed = true;
       };
+    }
+    const identity = `${provider}:${coordinates.owner}/${coordinates.repo}@${selectedBranch}`;
+    // Soft refresh (same branch, refresh button): keep the painted list so
+    // Latest·sha does not flicker empty. Hard reload (repo/branch change): clear.
+    const softRefresh = commitsIdentityRef.current === identity;
+    commitsIdentityRef.current = identity;
+    if (!softRefresh) {
+      setCommits([]);
     }
     setIsLoadingCommits(true);
     fetch(
@@ -312,7 +406,11 @@ export default function DepositSourceSelection({
       })
       .catch((nextError) => {
         if (disposed) return;
-        setCommits([]);
+        // Only wipe the list on hard failure when we had no prior paint —
+        // soft-refresh errors keep the last good list.
+        if (!softRefresh) {
+          setCommits([]);
+        }
         setSourceSelectionError(
           nextError instanceof Error
             ? nextError.message
@@ -325,7 +423,14 @@ export default function DepositSourceSelection({
     return () => {
       disposed = true;
     };
-  }, [connectionStatus?.connected, connectionStatus?.valid, provider, refreshNonce, selectedBranch, selectedRepository]);
+  }, [
+    commitsRefreshNonce,
+    connectionStatus?.connected,
+    connectionStatus?.valid,
+    provider,
+    selectedBranch,
+    selectedRepository,
+  ]);
 
   // Publish the selection context to the deposit page (same contract as the
   // legacy panel, so downstream synthesis/admission read one source).
@@ -379,23 +484,44 @@ export default function DepositSourceSelection({
         changed = true;
       }
     }
-    if (
-      selectedRepository &&
-      selectedBranch &&
-      selectedCommit &&
-      !isLoadingCommits
-    ) {
-      if (nextParams.get("sourceCommit") !== selectedCommit) {
-        nextParams.set("sourceCommit", selectedCommit);
-        nextParams.delete("commit");
-        changed = true;
+    if (selectedRepository && selectedBranch && !isLoadingCommits) {
+      // Keep the `latest` sentinel in the URL while tracking head — do NOT
+      // rewrite it to the resolved SHA (that would pin the selection).
+      if (isLatestCommitMode) {
+        if (
+          nextParams.get("sourceCommit") !== DEPOSIT_COMMIT_LATEST_REF ||
+          nextParams.has("commit")
+        ) {
+          nextParams.set("sourceCommit", DEPOSIT_COMMIT_LATEST_REF);
+          nextParams.delete("commit");
+          changed = true;
+        }
+      } else if (selectedCommit) {
+        if (nextParams.get("sourceCommit") !== selectedCommit) {
+          nextParams.set("sourceCommit", selectedCommit);
+          nextParams.delete("commit");
+          changed = true;
+        }
       }
     }
     if (!changed) return;
     if (typeof window !== "undefined" && window.location.pathname !== routePath)
       return;
     router.replace(buildRouteHref(nextParams), { scroll: false });
-  }, [buildRouteHref, isLoadingBranches, isLoadingCommits, provider, requestedBranch, router, searchParams, selectedBranch, selectedCommit, selectedRepository, routePath]);
+  }, [
+    buildRouteHref,
+    isLatestCommitMode,
+    isLoadingBranches,
+    isLoadingCommits,
+    provider,
+    requestedBranch,
+    router,
+    searchParams,
+    selectedBranch,
+    selectedCommit,
+    selectedRepository,
+    routePath,
+  ]);
 
   const updateSourceParams = (mutate: (params: URLSearchParams) => void) => {
     const nextParams = new URLSearchParams(searchParams.toString());
@@ -483,6 +609,8 @@ export default function DepositSourceSelection({
                     params.delete("commit");
                   });
                 }}
+                // One-shot load-in (always placeholder) — no selection check.
+                showSelectionIndicator={false}
                 placeholder="Load anchor..."
                 searchPlaceholder="Search anchors..."
                 emptyMessage="No anchors yet."
@@ -490,22 +618,28 @@ export default function DepositSourceSelection({
               />
             </div>
           ) : null}
-          <button
-            type="button"
-            aria-label="Anchor repository to the activity ledger"
-            title="Anchor repository to the activity ledger"
-            disabled={!selectedRepository || isRecording}
-            onClick={() => {
-              void handleAnchorRepository();
-            }}
-            className="flex h-9 w-9 items-center justify-center border border-white/10 bg-white/5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-300/10 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            {isRecording ? (
-              <RefreshCw className="h-4 w-4 animate-spin" />
-            ) : (
-              <Anchor className="h-4 w-4" />
+          <TelemetryExplainerTrigger
+            side="bottom"
+            explainer={toRichHoverExplainer(
+              DEPOSIT_SECTION_EXPLAINERS.repositoryAnchor,
             )}
-          </button>
+          >
+            <button
+              type="button"
+              aria-label="Anchor repository to the activity ledger"
+              disabled={!selectedRepository || isRecording}
+              onClick={() => {
+                void handleAnchorRepository();
+              }}
+              className="flex h-9 w-9 items-center justify-center border border-white/10 bg-white/5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-300/10 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              {isRecording ? (
+                <RefreshCw className="h-4 w-4 animate-spin" />
+              ) : (
+                <Anchor className="h-4 w-4" />
+              )}
+            </button>
+          </TelemetryExplainerTrigger>
         </div>
       </div>
 
@@ -531,74 +665,120 @@ export default function DepositSourceSelection({
             <span>Provider</span>
             <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.provider} triggerAriaLabel="More info about this field" />
           </span>
-          <div className="mt-1.5">
-            <SearchableSelect
-              aria-label="Repository provider"
-              items={TERMINAL_REPOSITORY_PROVIDERS.map((option) => ({
-                key: option,
-                label: getProviderLabel(option),
-                description:
-                  option === provider
-                    ? isLoadingConnection
-                      ? "Checking connection…"
-                      : connectionStatus?.connected
-                        ? "Connected"
-                        : "Not connected"
-                    : null,
-              }))}
-              value={provider}
-              onSelect={(key) => {
-                const nextProvider = key ?? "github";
-                updateSourceParams((params) => {
-                  params.set("provider", nextProvider);
-                  params.delete("repo");
-                  params.delete("sourceBranch");
-                  params.delete("sourceCommit");
-                  params.delete("branch");
-                  params.delete("commit");
-                });
-              }}
-              placeholder="Select provider..."
-              searchPlaceholder="Search providers..."
-              emptyMessage="No providers found."
-              className="w-full"
+          <div className="mt-1.5 flex items-center gap-2">
+            <div className="min-w-0 flex-1">
+              <SearchableSelect
+                aria-label="Repository provider"
+                items={TERMINAL_REPOSITORY_PROVIDERS.map((option) => ({
+                  key: option,
+                  label: getProviderLabel(option),
+                  description:
+                    option === provider
+                      ? isLoadingConnection
+                        ? "Checking connection…"
+                        : connectionStatus?.connected
+                          ? "Connected"
+                          : "Not connected"
+                      : null,
+                }))}
+                value={provider}
+                onSelect={(key) => {
+                  const nextProvider = key ?? "github";
+                  updateSourceParams((params) => {
+                    params.set("provider", nextProvider);
+                    params.delete("repo");
+                    params.delete("sourceBranch");
+                    params.delete("sourceCommit");
+                    params.delete("branch");
+                    params.delete("commit");
+                  });
+                }}
+                placeholder="Select provider..."
+                searchPlaceholder="Search providers..."
+                emptyMessage="No providers found."
+                className="w-full"
+              />
+            </div>
+            <SourceListRefreshButton
+              ariaLabel="Refresh provider connection"
+              explainer={DEPOSIT_SECTION_EXPLAINERS.refreshProviderConnection}
+              loading={isLoadingConnection}
+              onRefresh={() =>
+                setConnectionRefreshNonce((nonce) => nonce + 1)
+              }
             />
           </div>
+          <p className="mt-1.5 truncate text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+            {isLoadingConnection
+              ? "Refreshing…"
+              : connectionStatus?.connected
+                ? connectionStatus.valid
+                  ? "Connected"
+                  : "Reconnect required"
+                : "Not connected"}
+          </p>
         </div>
         <div>
           <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500">
             <span>Repository</span>
             <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.repository} triggerAriaLabel="More info about this field" />
           </span>
-          <div className="mt-1.5">
-            <VCSRepositorySelector
-              provider={provider}
-              repositories={repositories}
+          <div className="mt-1.5 flex items-center gap-2">
+            <div className="min-w-0 flex-1">
+              <VCSRepositorySelector
+                provider={provider}
+                repositories={repositories}
+                loading={isLoadingRepositories && repositories.length === 0}
+                value={selectedRepository?.fullName}
+                onSelect={(repository) =>
+                  updateSourceParams((params) => {
+                    if (repository) {
+                      params.set("repo", repository.fullName);
+                    } else {
+                      params.delete("repo");
+                    }
+                    params.delete("sourceBranch");
+                    params.delete("sourceCommit");
+                    params.delete("branch");
+                    params.delete("commit");
+                  })
+                }
+                placeholder={
+                  connectionStatus?.connected
+                    ? "Select repository supply..."
+                    : isLoadingConnection
+                      ? "Checking provider connection..."
+                      : "Connect a repository provider first..."
+                }
+                className="w-full"
+              />
+            </div>
+            <SourceListRefreshButton
+              ariaLabel="Refresh repository inventory"
+              explainer={DEPOSIT_SECTION_EXPLAINERS.refreshRepositoryInventory}
+              disabled={!connectionStatus?.connected}
               loading={isLoadingRepositories}
-              value={selectedRepository?.fullName}
-              onSelect={(repository) =>
-                updateSourceParams((params) => {
-                  if (repository) {
-                    params.set("repo", repository.fullName);
-                  } else {
-                    params.delete("repo");
-                  }
-                  params.delete("sourceBranch");
-                  params.delete("sourceCommit");
-                  params.delete("branch");
-                  params.delete("commit");
-                })
-              }
-              placeholder={
-                connectionStatus?.connected
-                  ? "Select repository supply..."
-                  : isLoadingConnection
-                    ? "Checking provider connection..."
-                    : "Connect a repository provider first..."
-              }
-              className="w-full"
+              onRefresh={() => {
+                // Hard-refresh inventory next to the inventory select (resets
+                // soft-refresh identities for repos → branches → commits).
+                repositoriesIdentityRef.current = "";
+                branchesIdentityRef.current = "";
+                commitsIdentityRef.current = "";
+                setError(null);
+                setSourceSelectionError(null);
+                setRepositoriesRefreshNonce((nonce) => nonce + 1);
+                setBranchesRefreshNonce((nonce) => nonce + 1);
+                setCommitsRefreshNonce((nonce) => nonce + 1);
+              }}
             />
           </div>
+          <p className="mt-1.5 truncate text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+            {isLoadingRepositories
+              ? repositories.length > 0
+                ? "Refreshing inventory…"
+                : "Loading repositories…"
+              : null}
+          </p>
         </div>
         <div>
           <span className="flex items-center gap-2 text-[0.64rem] uppercase tracking-[0.2em] text-neutral-400">
@@ -606,44 +786,60 @@ export default function DepositSourceSelection({
             <span>Branch</span>
             <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.branch} triggerAriaLabel="More info about this field" />
           </span>
-          <div className="mt-2">
-            <SearchableSelect
-              aria-label="Repository source branch"
-              value={selectedBranch || null}
-              disabled={!selectedRepository || isLoadingBranches || branches.length === 0}
+          <div className="mt-2 flex items-center gap-2">
+            <div className="min-w-0 flex-1">
+              <SearchableSelect
+                aria-label="Repository source branch"
+                value={selectedBranch || null}
+                disabled={
+                  !selectedRepository ||
+                  connectionNeedsReconnect ||
+                  (!isLoadingBranches && branches.length === 0)
+                }
+                loading={isLoadingBranches && branches.length === 0}
+                loadingMessage="Loading branches…"
+                placeholder="Select branch..."
+                searchPlaceholder="Search branches..."
+                emptyMessage="No branches loaded."
+                items={branches.map((branch) => ({
+                  key: branch.name,
+                  label: branch.name,
+                  badge:
+                    branch.name ===
+                    (defaultBranch || selectedRepository?.defaultBranch)
+                      ? "default"
+                      : null,
+                }))}
+                onSelect={(branchName) =>
+                  updateSourceParams((params) => {
+                    if (selectedRepository)
+                      params.set("repo", selectedRepository.fullName);
+                    if (branchName) params.set("sourceBranch", branchName);
+                    else params.delete("sourceBranch");
+                    params.delete("sourceCommit");
+                    params.delete("branch");
+                    params.delete("commit");
+                  })
+                }
+                className="h-9 border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
+              />
+            </div>
+            <SourceListRefreshButton
+              ariaLabel="Refresh branches list"
+              explainer={DEPOSIT_SECTION_EXPLAINERS.refreshBranches}
+              disabled={!selectedRepository || connectionNeedsReconnect}
               loading={isLoadingBranches}
-              loadingMessage="Loading branches…"
-              placeholder="Select branch..."
-              searchPlaceholder="Search branches..."
-              emptyMessage="No branches loaded."
-              items={branches.map((branch) => ({
-                key: branch.name,
-                label: branch.name,
-                badge:
-                  branch.name === (defaultBranch || selectedRepository?.defaultBranch)
-                    ? "default"
-                    : null,
-              }))}
-              onSelect={(branchName) =>
-                updateSourceParams((params) => {
-                  if (selectedRepository)
-                    params.set("repo", selectedRepository.fullName);
-                  if (branchName) params.set("sourceBranch", branchName);
-                  else params.delete("sourceBranch");
-                  params.delete("sourceCommit");
-                  params.delete("branch");
-                  params.delete("commit");
-                })
-              }
-              className="h-9 border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
+              onRefresh={() => setBranchesRefreshNonce((nonce) => nonce + 1)}
             />
           </div>
-          <p className="mt-1.5 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+          <p className="mt-1.5 truncate text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
             {isLoadingBranches
-              ? "Loading branches…"
+              ? branches.length > 0
+                ? "Refreshing…"
+                : "Loading branches…"
               : connectionNeedsReconnect
-                ? "Reconnect required to load branches"
-                : "Default branch is selected when available"}
+                ? "Reconnect required"
+                : "Default when available"}
           </p>
         </div>
 
@@ -652,41 +848,96 @@ export default function DepositSourceSelection({
             <span>Commit / ref</span>
             <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.commit} triggerAriaLabel="More info about this field" />
           </span>
-          <div className="mt-2">
-            <SearchableSelect
-              aria-label="Repository source commit"
-              value={selectedCommit || null}
-              disabled={!selectedBranch || isLoadingCommits || commits.length === 0}
+          <div className="mt-2 flex items-center gap-2">
+            <div className="min-w-0 flex-1">
+              <SearchableSelect
+                aria-label="Repository source commit"
+                value={
+                  selectedBranch
+                    ? isLatestCommitMode
+                      ? DEPOSIT_COMMIT_LATEST_REF
+                      : selectedCommit || null
+                    : null
+                }
+                disabled={
+                  !selectedBranch ||
+                  connectionNeedsReconnect ||
+                  (!isLoadingCommits && commits.length === 0)
+                }
+                // Soft refresh keeps items painted — only show the loading
+                // sheet when we have nothing to display yet.
+                loading={isLoadingCommits && commits.length === 0}
+                loadingMessage="Loading commits…"
+                placeholder="Select commit..."
+                searchPlaceholder="Search commits..."
+                emptyMessage="No commits loaded."
+                items={[
+                  {
+                    key: DEPOSIT_COMMIT_LATEST_REF,
+                    // Trigger + list label both carry the short SHA so "Latest"
+                    // is never opaque once head is resolved.
+                    label: headCommit
+                      ? `Latest · ${headCommit.sha.slice(0, 7)}`
+                      : isLoadingCommits
+                        ? "Latest · …"
+                        : "Latest",
+                    description: headCommit
+                      ? isLoadingCommits
+                        ? "Refreshing…"
+                        : headCommit.message.split("\n")[0]?.trim() ||
+                          "Branch head"
+                      : isLoadingCommits
+                        ? "Resolving branch head…"
+                        : "Head of the selected branch",
+                    badge: "default",
+                    searchText: headCommit
+                      ? `latest ${headCommit.sha} ${headCommit.message}`
+                      : "latest head",
+                  },
+                  ...commits.map((commit) => ({
+                    key: commit.sha,
+                    label: commit.sha.slice(0, 7),
+                    description:
+                      commit.message.split("\n")[0]?.trim() || "Commit",
+                    searchText: `${commit.sha} ${commit.message}`,
+                  })),
+                ]}
+                onSelect={(commitKey) =>
+                  updateSourceParams((params) => {
+                    if (selectedRepository)
+                      params.set("repo", selectedRepository.fullName);
+                    if (selectedBranch)
+                      params.set("sourceBranch", selectedBranch);
+                    if (!commitKey || commitKey === DEPOSIT_COMMIT_LATEST_REF) {
+                      params.set("sourceCommit", DEPOSIT_COMMIT_LATEST_REF);
+                    } else {
+                      params.set("sourceCommit", commitKey);
+                    }
+                    params.delete("branch");
+                    params.delete("commit");
+                  })
+                }
+                className="h-9 border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
+              />
+            </div>
+            <SourceListRefreshButton
+              ariaLabel="Refresh commits list"
+              explainer={DEPOSIT_SECTION_EXPLAINERS.refreshLatestCommit}
+              disabled={!selectedBranch || connectionNeedsReconnect}
               loading={isLoadingCommits}
-              loadingMessage="Loading commits…"
-              placeholder="Select commit..."
-              searchPlaceholder="Search commits..."
-              emptyMessage="No commits loaded."
-              items={commits.map((commit) => ({
-                key: commit.sha,
-                label: commit.sha.slice(0, 7),
-                description: commit.message.split("\n")[0]?.trim() || "Commit",
-              }))}
-              onSelect={(commitSha) =>
-                updateSourceParams((params) => {
-                  if (selectedRepository)
-                    params.set("repo", selectedRepository.fullName);
-                  if (selectedBranch) params.set("sourceBranch", selectedBranch);
-                  if (commitSha) params.set("sourceCommit", commitSha);
-                  else params.delete("sourceCommit");
-                  params.delete("branch");
-                  params.delete("commit");
-                })
-              }
-              className="h-9 border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
+              onRefresh={() => setCommitsRefreshNonce((nonce) => nonce + 1)}
             />
           </div>
-          <p className="mt-1.5 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+          <p className="mt-1.5 truncate text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
             {isLoadingCommits
-              ? "Loading commits…"
+              ? commits.length > 0
+                ? "Refreshing…"
+                : "Loading commits…"
               : connectionNeedsReconnect
-                ? "Reconnect required to load commits"
-                : "Latest branch commit is selected when available"}
+                ? "Reconnect required"
+                : isLatestCommitMode
+                  ? "Tracks branch head"
+                  : "Pinned SHA"}
           </p>
         </div>
       </div>
@@ -723,32 +974,6 @@ export default function DepositSourceSelection({
           Resolving full source package (repository · branch · commit)…
         </p>
       ) : null}
-
-      <button
-        type="button"
-        aria-label="Refresh repository inventory"
-        disabled={isLoadingConnection || isLoadingRepositories}
-        onClick={() => {
-          setConnectionStatus(null);
-          setRepositories([]);
-          setBranches([]);
-          setCommits([]);
-          setDefaultBranch(null);
-          setError(null);
-          setSourceSelectionError(null);
-          setRefreshNonce((value) => value + 1);
-        }}
-        className="mt-3 inline-flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-500 transition hover:text-neutral-300 disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        <RefreshCw
-          className={`h-3 w-3 ${
-            isLoadingConnection || isLoadingRepositories ? "animate-spin" : ""
-          }`}
-        />{" "}
-        {isLoadingConnection || isLoadingRepositories
-          ? "Refreshing inventory…"
-          : "Refresh inventory"}
-      </button>
     </section>
   );
 }

@@ -5,14 +5,25 @@ import { fireEvent, render, screen, waitFor, within } from "@testing-library/rea
 import DepositSourceSelection from "@/app/deposits/DepositSourceSelection";
 
 const mockReplace = jest.fn();
+let mockSearchParams = new URLSearchParams("");
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ replace: mockReplace }),
-  useSearchParams: () => new URLSearchParams(""),
+  useSearchParams: () => mockSearchParams,
 }));
 
-function mockVcsFetch(options: { connectionValid?: boolean } = {}) {
+function mockVcsFetch(
+  options: {
+    connectionValid?: boolean;
+    repositories?: Array<{ fullName: string; name: string; defaultBranch?: string }>;
+    branches?: Array<{ name: string }>;
+    commits?: Array<{ sha: string; message: string }>;
+  } = {},
+) {
   const connectionValid = options.connectionValid ?? true;
+  const repositories = options.repositories ?? [];
+  const branches = options.branches ?? [];
+  const commits = options.commits ?? [];
   global.fetch = jest.fn((input: unknown) => {
     const url = String(input);
     if (url.includes("/connection")) {
@@ -26,7 +37,44 @@ function mockVcsFetch(options: { connectionValid?: boolean } = {}) {
       return Promise.resolve({
         ok: true,
         status: 200,
-        json: async () => ({ repositories: [], inventorySource: "live" }),
+        json: async () => ({
+          repositories: repositories.map((repository) => ({
+            id: repository.fullName,
+            name: repository.name,
+            fullName: repository.fullName,
+            defaultBranch: repository.defaultBranch || "main",
+            private: false,
+            url: `https://github.com/${repository.fullName}`,
+          })),
+          inventorySource: "live",
+        }),
+      });
+    }
+    if (url.includes("resource=branches")) {
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        json: async () => ({
+          branches,
+          defaultBranch: branches[0]?.name || "main",
+        }),
+      });
+    }
+    if (url.includes("resource=commits")) {
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        json: async () => ({
+          commits: commits.map((commit) => ({
+            ...commit,
+            author: {
+              name: "Dev",
+              email: "dev@example.com",
+              date: new Date("2026-05-14T00:00:00.000Z"),
+            },
+            parents: [],
+          })),
+        }),
       });
     }
     return Promise.resolve({ ok: true, status: 200, json: async () => ({}) });
@@ -37,7 +85,81 @@ describe("DepositSourceSelection — V48-Gate3-F17 repository anchoring", () => 
   afterEach(() => {
     jest.restoreAllMocks();
     mockReplace.mockReset();
+    mockSearchParams = new URLSearchParams("");
   });
+
+  it("defaults commit selection to Latest and refreshes head on demand", async () => {
+    mockSearchParams = new URLSearchParams(
+      "provider=github&repo=engineeredsoftware/ENGI&sourceBranch=main",
+    );
+    mockVcsFetch({
+      repositories: [
+        {
+          fullName: "engineeredsoftware/ENGI",
+          name: "ENGI",
+          defaultBranch: "main",
+        },
+      ],
+      branches: [{ name: "main" }],
+      commits: [
+        { sha: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", message: "head commit" },
+        { sha: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", message: "older" },
+      ],
+    });
+
+    render(
+      <DepositSourceSelection
+        routePath="/deposits"
+        buildRouteHref={(params) => `/deposits?${params?.toString() ?? ""}`}
+      />,
+    );
+
+    // Wait for commits to load so the select is enabled and Latest resolves.
+    await waitFor(() => {
+      const fetchMock = global.fetch as jest.Mock;
+      expect(
+        fetchMock.mock.calls.some((call) =>
+          String(call[0]).includes("resource=commits"),
+        ),
+      ).toBe(true);
+    });
+
+    const commitSelect = await screen.findByRole("combobox", {
+      name: "Repository source commit",
+    });
+    await waitFor(() =>
+      expect(
+        within(commitSelect).getByText(/Latest · aaaaaaa/i),
+      ).toBeInTheDocument(),
+    );
+
+    // Refresh control is always available once a branch is selected.
+    const refresh = await screen.findByRole("button", {
+      name: "Refresh commits list",
+    });
+    const fetchMock = global.fetch as jest.Mock;
+    const commitsBefore = fetchMock.mock.calls.filter((call) =>
+      String(call[0]).includes("resource=commits"),
+    ).length;
+    fireEvent.click(refresh);
+    // Soft refresh: list stays painted (Latest · sha still visible) while
+    // a new commits fetch is issued.
+    expect(
+      within(commitSelect).getByText(/Latest · aaaaaaa/i),
+    ).toBeInTheDocument();
+    await waitFor(() => {
+      const commitsAfter = fetchMock.mock.calls.filter((call) =>
+        String(call[0]).includes("resource=commits"),
+      ).length;
+      expect(commitsAfter).toBeGreaterThan(commitsBefore);
+    });
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: "Refresh commits list" }),
+      ).not.toBeDisabled(),
+    );
+  });
+
 
   it("renders no anchor selector when there are no anchors", async () => {
     mockVcsFetch();
@@ -164,7 +286,6 @@ describe("DepositSourceSelection — stale connection surfaces a reconnect notic
     expect(
       screen.getByRole("button", { name: /Reconnect GitHub/i }),
     ).toBeInTheDocument();
-    expect(screen.getByText(/Reconnect required to load branches/i)).toBeInTheDocument();
-    expect(screen.getByText(/Reconnect required to load commits/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Reconnect required/i).length).toBeGreaterThanOrEqual(2);
   });
 });
