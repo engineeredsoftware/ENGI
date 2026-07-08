@@ -169,6 +169,13 @@ export interface SandboxCreateOptions {
   teamId?: string;
   projectId?: string;
   token?: string;
+  /**
+   * When false, the sandbox is ephemeral (no snapshot storage on stop).
+   * Deposit one-shot synthesis should prefer non-persistent boxes.
+   */
+  persistent?: boolean;
+  /** Optional stable name for Sandbox.get / resume (unique per project). */
+  name?: string;
 }
 
 export interface PipelineHarnessFile {
@@ -247,6 +254,14 @@ export interface SandboxSession {
 
 export interface SandboxFactory {
   create(options: SandboxCreateOptions): Promise<SandboxSession>;
+  /** Optional: resume/stop an existing sandbox by id or name (SDK-dependent). */
+  get?(options: {
+    sandboxId?: string;
+    name?: string;
+    teamId?: string;
+    projectId?: string;
+    token?: string;
+  }): Promise<SandboxSession>;
 }
 
 export type PipelineHarnessHostEvent =
@@ -261,6 +276,12 @@ export type PipelineHarnessHostEvent =
       timestamp: string;
       sandboxId?: string;
       status?: string;
+    }
+  | {
+      type: 'sandbox-cancelled';
+      timestamp: string;
+      sandboxId?: string;
+      reason?: string;
     }
   | {
       type: 'harness-files-written';
@@ -326,6 +347,6 @@ export interface PipelineHarnessRunResult {
     evidence: unknown | null;
     telemetry: string | null;
   };
-  outcome: 'completed' | 'failed';
+  outcome: 'completed' | 'failed' | 'cancelled';
   stopped: boolean;
 }

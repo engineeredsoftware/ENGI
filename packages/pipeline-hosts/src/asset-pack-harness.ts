@@ -53,6 +53,11 @@ export interface BuildAssetPackSandboxHarnessOptions {
     protectedIpExclusions?: string[];
     demandContext?: string[];
   };
+  /**
+   * When false, create a non-persistent (ephemeral) sandbox — no snapshot on stop.
+   * Deposit one-shot synthesis defaults to false when synthesizeMode is deposit.
+   */
+  persistent?: boolean;
 }
 
 export function buildAssetPackSandboxHarness(
@@ -113,6 +118,13 @@ export function buildAssetPackSandboxHarness(
       timeout: options.timeoutMs ?? DEFAULT_LONG_TIMEOUT_MS,
       networkPolicy: options.networkPolicy ?? 'allow-all',
       source: options.source,
+      // Deposit one-shots are ephemeral; read/QA harness may opt into persistence.
+      persistent:
+        typeof options.persistent === 'boolean'
+          ? options.persistent
+          : options.synthesizeMode === 'deposit'
+            ? false
+            : undefined,
     },
     manifest,
     files: [

@@ -342,7 +342,11 @@ describe('POST /api/deposit/synthesize-options', () => {
     const { executionRow } = installSupabaseMocks({});
     installExecutionMock();
     mockSelectKind.mockReturnValue('sandbox');
-    mockRunHarness.mockResolvedValue(RAW_OPTIONS);
+    mockRunHarness.mockResolvedValue({
+      options: RAW_OPTIONS,
+      sandboxId: 'sbx_deposit_test',
+      outcome: 'completed',
+    });
 
     const response = await POST(createRequest());
     expect(response.status).toBe(200);

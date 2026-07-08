@@ -26,6 +26,12 @@ import {
   selectDepositHostKind,
 } from '@/lib/deposit-source-provisioning';
 import {
+  assertExecutionNotCancelled,
+  ExecutionCancelledError,
+  isExecutionCancelled,
+  isExecutionCancelledError,
+} from '@/lib/execution-cancel';
+import {
   bitcodeServerTelemetry,
   compactBitcodeServerId,
 } from '@/lib/bitcode-server-telemetry';
@@ -273,7 +279,36 @@ export async function POST(request: Request) {
   // alive until the promise settles, so the run either completes or fails
   // (and finalizes its row) instead of being silently killed mid-flight.
   const runSynthesis = async () => {
+   // Cooperative cancel: poll executions.status between major stages and inside
+   // the sandbox detached poll (shouldAbort). Never overwrite a cancelled row.
+   const assertNotCancelled = () =>
+     assertExecutionNotCancelled(supabaseAdmin, runId);
+   const mergeDispatchContext = async (patch: Record<string, unknown>) => {
+     try {
+       const { data: existing } = await supabaseAdmin
+         .from('executions')
+         .select('context')
+         .eq('id', runId)
+         .maybeSingle();
+       const prev =
+         existing?.context && typeof existing.context === 'object'
+           ? (existing.context as Record<string, unknown>)
+           : {};
+       await supabaseAdmin
+         .from('executions')
+         .update({
+           context: { ...prev, ...patch },
+           updated_at: new Date().toISOString(),
+         })
+         .eq('id', runId)
+         .eq('status', 'running');
+     } catch {
+       // Best-effort: cancel can still stop by row status alone.
+     }
+   };
+
    try {
+    await assertNotCancelled();
     await emitPhaseTransition(execution as never, 'deposit-option-synthesis', 'start', {
       repositoryFullName,
       sourceBranch,
@@ -299,12 +334,14 @@ export async function POST(request: Request) {
     // for the sandbox path the box held the inventory, so a minimal shape is rebuilt
     // from the returned options (exclusions were already enforced in-box).
     let inventory: AssetPacksSynthesisSourceInventory;
+    let boundSandboxId: string | null = null;
 
     if (hostKind === 'sandbox') {
+      await assertNotCancelled();
       await emitStatus(
         `Dispatching deposit synthesis to the sandbox host (in-box) for ${repositoryFullName}@${reference}…`,
       );
-      rawOptions = (await runDepositInBoxHarness({
+      const harnessResult = await runDepositInBoxHarness({
         repositoryFullName,
         revision: reference,
         branch: sourceBranch,
@@ -313,10 +350,25 @@ export async function POST(request: Request) {
         obfuscations,
         protectedIpExclusions,
         demandContext,
+        shouldAbort: () => isExecutionCancelled(supabaseAdmin, runId),
         onEvent: (event) => {
           void emitStatus(`sandbox: ${event.type}`);
+          if (event.type === 'sandbox-created' && event.sandboxId) {
+            boundSandboxId = event.sandboxId;
+            void mergeDispatchContext({
+              sandboxId: event.sandboxId,
+              hostKind: 'sandbox',
+            });
+          }
         },
-      })) as Parameters<typeof validateDepositSynthesisOptions>[0];
+      });
+      boundSandboxId = harnessResult.sandboxId ?? boundSandboxId;
+      if (harnessResult.outcome === 'cancelled') {
+        throw new ExecutionCancelledError(runId);
+      }
+      rawOptions = harnessResult.options as Parameters<
+        typeof validateDepositSynthesisOptions
+      >[0];
       // The in-box run validated covered paths against the real inventory; the route's
       // re-validation enforces exclusions over the options' own covered paths.
       inventoryPaths = [
@@ -330,6 +382,7 @@ export async function POST(request: Request) {
         excludedPathCount: 0,
       };
     } else {
+      await assertNotCancelled();
       const host = await resolveDepositPipelineHost();
       await emitStatus(
         `Provisioning ${repositoryFullName}@${reference} on the ${host.capabilities.hostKind} host…`,
@@ -341,6 +394,7 @@ export async function POST(request: Request) {
         revision: reference,
         token: auth.accessToken,
       });
+      await assertNotCancelled();
       inventory = applyExclusionsToInventory(provisioned, protectedIpExclusions);
       await emitStatus(
         `Checkout ready: ${inventory.paths.length} files (${inventory.excludedPathCount} withheld by ${protectedIpExclusions.length} protected-IP exclusions; full source measured, ${inventory.samples.length} prompt excerpts).`,
@@ -348,6 +402,7 @@ export async function POST(request: Request) {
       await emitStatus(
         'Running SynthesizeAssetPacks (deposit mode): Setup → Discovery → Implementation → Validation → Finish…',
       );
+      await assertNotCancelled();
       const [owner, name] = repositoryFullName.split('/');
       await synthesizeAssetPacksPipeline(
         {
@@ -379,6 +434,7 @@ export async function POST(request: Request) {
       inventoryPaths = inventory.paths;
     }
 
+    await assertNotCancelled();
     const validated = validateDepositSynthesisOptions(rawOptions, {
       lens: 'deposit',
       inventoryPaths,
@@ -487,30 +543,45 @@ export async function POST(request: Request) {
       durationMs,
     });
    } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    try {
-      await ExecutionStreamAdapter.emitEvent(execution.id, 'error' as never, { message, runId });
-    } catch {}
-    await finalizeExecutionRow({
-      status: 'failed',
-      completed_at: new Date().toISOString(),
-      error: { message },
-      context: {
-        source: 'deposit-option-synthesis',
-        route: '/deposits',
-        pipelineCore: 'AssetPacksSynthesis',
+    if (isExecutionCancelledError(error) || (await isExecutionCancelled(supabaseAdmin, runId))) {
+      // Cancel API already wrote status=cancelled; do not overwrite with failed.
+      try {
+        await emitStatus('Run cancelled — synthesis stopped cooperatively.');
+      } catch {}
+      bitcodeServerTelemetry('info', 'deposit-synthesize-options', 'cancelled', {
+        userId: compactBitcodeServerId(user.id),
         repositoryFullName,
-        sourceBranch,
-        sourceCommit,
-      },
-      duration_ms: Date.now() - startedAt,
-    });
-    bitcodeServerTelemetry('warn', 'deposit-synthesize-options', 'failed', {
-      userId: compactBitcodeServerId(user.id),
-      repositoryFullName,
-      runId,
-      message,
-    });
+        runId,
+      });
+    } else {
+      const message = error instanceof Error ? error.message : String(error);
+      try {
+        await ExecutionStreamAdapter.emitEvent(execution.id, 'error' as never, { message, runId });
+      } catch {}
+      // Only fail if still running (cancel may have raced the catch path).
+      if (!(await isExecutionCancelled(supabaseAdmin, runId))) {
+        await finalizeExecutionRow({
+          status: 'failed',
+          completed_at: new Date().toISOString(),
+          error: { message },
+          context: {
+            source: 'deposit-option-synthesis',
+            route: '/deposits',
+            pipelineCore: 'AssetPacksSynthesis',
+            repositoryFullName,
+            sourceBranch,
+            sourceCommit,
+          },
+          duration_ms: Date.now() - startedAt,
+        });
+      }
+      bitcodeServerTelemetry('warn', 'deposit-synthesize-options', 'failed', {
+        userId: compactBitcodeServerId(user.id),
+        repositoryFullName,
+        runId,
+        message,
+      });
+    }
    } finally {
     ExecutionStreamAdapter.unregisterStreamer(execution.id);
    }

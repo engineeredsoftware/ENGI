@@ -189,8 +189,9 @@ export default function DepositPageClient() {
     number | null
   >(null);
   const [synthesisStatus, setSynthesisStatus] = useState<
-    "idle" | "running" | "complete" | "failed"
+    "idle" | "running" | "complete" | "failed" | "cancelled"
   >("idle");
+  const [isCancellingSynthesis, setIsCancellingSynthesis] = useState(false);
   const [synthesisError, setSynthesisError] = useState<string | null>(null);
   const [realSynthesis, setRealSynthesis] = useState<{
     synthesis: DepositRouteSession["synthesis"] & {
@@ -654,6 +655,54 @@ export default function DepositPageClient() {
     ],
   );
   const synthesisRunning = synthesisStatus === "running";
+
+  const handleCancelSynthesis = useCallback(async () => {
+    if (!synthesisRunId || !synthesisRunning || isCancellingSynthesis) return;
+    setIsCancellingSynthesis(true);
+    try {
+      const response = await fetch(
+        `/api/executions/${encodeURIComponent(synthesisRunId)}/cancel`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ reason: "Run cancelled by depositor." }),
+        },
+      );
+      const payload = await response.json().catch(() => null);
+      if (!response.ok || !payload?.ok) {
+        throw new Error(
+          typeof payload?.error === "string"
+            ? payload.error
+            : "Unable to cancel the synthesis run.",
+        );
+      }
+      setSynthesisStatus("cancelled");
+      setSynthesisError(null);
+      const durationMs =
+        synthesisDispatchedAtMs !== null
+          ? Date.now() - synthesisDispatchedAtMs
+          : null;
+      trackProductEvent({
+        name: "deposit_synthesis_cancelled",
+        data: { durationMs },
+      });
+      void refreshLiveRuns();
+    } catch (error) {
+      setSynthesisError(
+        error instanceof Error
+          ? error.message
+          : "Unable to cancel the synthesis run.",
+      );
+    } finally {
+      setIsCancellingSynthesis(false);
+    }
+  }, [
+    isCancellingSynthesis,
+    refreshLiveRuns,
+    synthesisDispatchedAtMs,
+    synthesisRunId,
+    synthesisRunning,
+  ]);
   // TOTAL RUN TIME clock bounds: start at the first event's created_at (fall
   // back to the dispatch timestamp), freeze at the last event's created_at on
   // completion/error.
@@ -798,7 +847,18 @@ export default function DepositPageClient() {
     const run = liveRuns.find((candidate) => candidate.id === synthesisRunId);
     if (!run) return;
     const status = String(run.status || "").toLowerCase();
-    if (status === "failed" || status === "interrupted" || status === "cancelled") {
+    if (status === "cancelled") {
+      setSynthesisStatus("cancelled");
+      setSynthesisError(null);
+      if (synthesisDispatchedAtMs !== null) {
+        trackProductEvent({
+          name: "deposit_synthesis_cancelled",
+          data: { durationMs: Date.now() - synthesisDispatchedAtMs },
+        });
+      }
+      return;
+    }
+    if (status === "failed" || status === "interrupted") {
       setSynthesisStatus("failed");
       setSynthesisError(run.summary ? `Run ${status} — ${run.summary}` : `Run ${status}.`);
       if (synthesisDispatchedAtMs !== null) {
@@ -1953,6 +2013,28 @@ export default function DepositPageClient() {
                         iter {synthesisActivity.currentIteration}
                       </span>
                     )}
+                    {synthesisRunning ? (
+                      <button
+                        type="button"
+                        data-testid="deposit-cancel-synthesis"
+                        aria-label="Cancel synthesis run"
+                        disabled={isCancellingSynthesis}
+                        onClick={() => {
+                          void handleCancelSynthesis();
+                        }}
+                        className="border border-rose-300/30 bg-rose-300/10 px-3 py-2 text-[0.62rem] font-medium uppercase tracking-[0.14em] text-rose-100 transition hover:border-rose-200/45 hover:bg-rose-300/18 disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        {isCancellingSynthesis ? "Cancelling…" : "Cancel run"}
+                      </button>
+                    ) : null}
+                    {synthesisStatus === "cancelled" ? (
+                      <span
+                        data-testid="deposit-synthesis-cancelled-badge"
+                        className="border border-rose-300/25 bg-rose-300/10 px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-rose-100"
+                      >
+                        Cancelled
+                      </span>
+                    ) : null}
                     <span className="border border-white/10 bg-black/30 px-3 py-2 font-mono text-[0.62rem] text-neutral-400">
                       {synthesisRunId}
                     </span>

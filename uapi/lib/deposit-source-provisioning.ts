@@ -17,6 +17,7 @@
 import {
   InlineHost,
   VercelSandboxPipelineHost,
+  assertVercelSandboxAuthAvailable,
   buildAssetPackSandboxHarness,
   loadVercelSandboxFactory,
   readWorkspaceSources,
@@ -76,17 +77,19 @@ export function selectDepositHostKind(env: NodeJS.ProcessEnv = process.env): Bit
 }
 
 /**
- * Resolve the deposit pipeline Host. The pipeline runs WITHIN the resolved host.
- * InlineHost runs the synthesis in the current box (provision + pipeline in-process).
- * SandboxHost runs the synthesis IN a provisioned box (the harness) — that in-box
- * deposit dispatch is specified but not yet wired, so it is rejected here rather than
- * falling back to a cross-boundary read. Configure `BITCODE_PIPELINE_HOST=inline`.
+ * Resolve the INLINE deposit Host for provision + in-process SDIVF.
+ *
+ * Sandbox deposit does NOT use this primitive: the pipeline runs IN the box via
+ * `runDepositInBoxHarness` / `VercelSandboxPipelineHost` (Gate-3 #25). Callers
+ * that need sandbox must branch on `selectDepositHostKind()` and use the harness
+ * path — never treat this as a generic multi-host resolver.
  */
 export async function resolveDepositPipelineHost(): Promise<BitcodePipelineHost> {
   if (selectDepositHostKind() === 'sandbox') {
     throw new Error(
-      'SandboxHost deposit runs the synthesis pipeline IN the box (the harness); in-box ' +
-        'deposit dispatch is specified but not yet wired. Set BITCODE_PIPELINE_HOST=inline.',
+      'Sandbox deposit uses runDepositInBoxHarness (VercelSandboxPipelineHost), not ' +
+        'resolveDepositPipelineHost. Set BITCODE_PIPELINE_HOST=inline for InlineHost ' +
+        'provision + in-process SDIVF, or use the route sandbox branch.',
     );
   }
   return new InlineHost();
@@ -97,12 +100,21 @@ export interface DepositInBoxHarnessHost {
   runHarness(plan: unknown): Promise<PipelineHarnessRunResult>;
 }
 
+export interface DepositInBoxHarnessResult {
+  options: unknown[];
+  sandboxId: string | null;
+  outcome: PipelineHarnessRunResult['outcome'];
+}
+
 /**
  * Run the deposit synthesis IN the sandbox box (#25). Builds an asset-pack harness in
  * DEPOSIT mode (git source for the revision + steering), dispatches it on the sandbox
  * host (the pipeline runs in the box, reading its local checkout), and returns the
  * synthesized options surfaced in the evidence (`depositOptions`). The host is
  * injectable so the dispatch is unit-tested without a real sandbox.
+ *
+ * Cooperative cancel: pass `shouldAbort` (typically polling executions.status).
+ * Non-persistent boxes by default (no snapshot storage on stop).
  */
 export async function runDepositInBoxHarness(input: {
   repositoryFullName: string;
@@ -114,11 +126,13 @@ export async function runDepositInBoxHarness(input: {
   protectedIpExclusions: string[];
   demandContext: string[];
   onEvent?: (event: PipelineHarnessHostEvent) => void;
+  shouldAbort?: () => boolean | Promise<boolean>;
   hostFactory?: () => Promise<DepositInBoxHarnessHost>;
-}): Promise<unknown[]> {
+}): Promise<DepositInBoxHarnessResult> {
   const plan = buildAssetPackSandboxHarness({
     mode: 'asset_pack_pipeline',
     synthesizeMode: 'deposit',
+    persistent: false,
     read: { id: `deposit-read-${input.repositoryFullName}`, prompt: 'Deposit synthesis (no read need).' },
     deposit: { id: `deposit-${input.repositoryFullName}` },
     sourceRevision: {
@@ -140,15 +154,34 @@ export async function runDepositInBoxHarness(input: {
       demandContext: input.demandContext,
     },
   });
-  const host = input.hostFactory
-    ? await input.hostFactory()
-    : new VercelSandboxPipelineHost({
-        sandboxFactory: await loadVercelSandboxFactory(),
-        onEvent: input.onEvent,
-      });
+  let host: DepositInBoxHarnessHost;
+  if (input.hostFactory) {
+    host = await input.hostFactory();
+  } else {
+    assertVercelSandboxAuthAvailable();
+    host = new VercelSandboxPipelineHost({
+      sandboxFactory: await loadVercelSandboxFactory(),
+      onEvent: input.onEvent,
+      shouldAbort: input.shouldAbort,
+    });
+  }
+
   const result = await host.runHarness(plan);
+  if (result?.outcome === 'cancelled') {
+    return {
+      options: [],
+      sandboxId: result.sandboxId ?? null,
+      outcome: 'cancelled',
+    };
+  }
   const evidence = result?.artifacts?.evidence as { depositOptions?: unknown } | null;
-  return evidence && Array.isArray(evidence.depositOptions) ? evidence.depositOptions : [];
+  const options =
+    evidence && Array.isArray(evidence.depositOptions) ? evidence.depositOptions : [];
+  return {
+    options,
+    sandboxId: result?.sandboxId ?? null,
+    outcome: result?.outcome ?? 'failed',
+  };
 }
 
 /**

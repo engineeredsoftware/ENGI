@@ -104,9 +104,11 @@ describe('resolveDepositPipelineHost', () => {
     expect(host.capabilities.hostKind).toBe('inline');
   });
 
-  it('rejects sandbox deposit (in-box dispatch not yet wired)', async () => {
+  it('rejects resolveDepositPipelineHost for sandbox (harness path is separate)', async () => {
     process.env.BITCODE_PIPELINE_HOST = 'sandbox';
-    await expect(resolveDepositPipelineHost()).rejects.toThrow(/not yet wired/i);
+    await expect(resolveDepositPipelineHost()).rejects.toThrow(
+      /runDepositInBoxHarness/i,
+    );
   });
 });
 
@@ -117,6 +119,7 @@ describe('runDepositInBoxHarness (#25)', () => {
       runHarness: async (plan: any) => {
         receivedPlan = plan;
         return {
+          sandboxId: 'sbx_test_1',
           artifacts: { evidence: { depositOptions: [{ title: 'Auth slice', coveredSourcePaths: ['src/auth.ts'] }] }, telemetry: null },
           outcome: 'completed',
           stopped: true,
@@ -125,7 +128,7 @@ describe('runDepositInBoxHarness (#25)', () => {
         };
       },
     };
-    const options = await runDepositInBoxHarness({
+    const result = await runDepositInBoxHarness({
       repositoryFullName: 'engineeredsoftware/demo',
       revision: 'abc123',
       branch: 'main',
@@ -137,21 +140,32 @@ describe('runDepositInBoxHarness (#25)', () => {
       hostFactory: async () => fakeHost,
     });
 
-    expect(options).toEqual([{ title: 'Auth slice', coveredSourcePaths: ['src/auth.ts'] }]);
+    expect(result.options).toEqual([{ title: 'Auth slice', coveredSourcePaths: ['src/auth.ts'] }]);
+    expect(result.sandboxId).toBe('sbx_test_1');
+    expect(result.outcome).toBe('completed');
     // The dispatched plan ran the deposit lens in-box, with a git source + steering.
     expect(receivedPlan.manifest.synthesizeMode).toBe('deposit');
     expect(receivedPlan.manifest.depositSteering).toMatchObject({ protectedIpExclusions: ['secret/'] });
     expect(receivedPlan.createOptions.source).toMatchObject({ type: 'git', revision: 'abc123' });
+    expect(receivedPlan.createOptions.persistent).toBe(false);
   });
 
-  it('returns [] when the evidence has no depositOptions', async () => {
+  it('returns empty options when the evidence has no depositOptions', async () => {
     const fakeHost = {
-      runHarness: async () => ({ artifacts: { evidence: {}, telemetry: null }, outcome: 'completed', stopped: true, manifest: {}, commands: [] }),
+      runHarness: async () => ({
+        sandboxId: null,
+        artifacts: { evidence: {}, telemetry: null },
+        outcome: 'completed',
+        stopped: true,
+        manifest: {},
+        commands: [],
+      }),
     };
-    const options = await runDepositInBoxHarness({
+    const result = await runDepositInBoxHarness({
       repositoryFullName: 'o/r', revision: 'main', branch: 'main', commit: null,
       obfuscations: null, protectedIpExclusions: [], demandContext: [], hostFactory: async () => fakeHost,
     });
-    expect(options).toEqual([]);
+    expect(result.options).toEqual([]);
+    expect(result.outcome).toBe('completed');
   });
 });

@@ -635,14 +635,23 @@ cd uapi && pnpm exec jest depositSourceProvisioning depositSynthesizeOptionsRout
 
 **5. #25 SandboxHost in-box dispatch (deployment-conditional)**
 - Local default is inline. To exercise the sandbox path: `BITCODE_PIPELINE_HOST=sandbox`
-  + `BITCODE_SANDBOX_PROVIDER=vercel` + the sandbox infra (`@vercel/sandbox`, `VERCEL_OIDC_TOKEN`
-  or `VERCEL_TOKEN`/`VERCEL_TEAM_ID`/`VERCEL_PROJECT_ID`, git in the box image).
+  + sandbox auth (`VERCEL_OIDC_TOKEN` via `vercel env pull`, or
+  `VERCEL_TOKEN`/`VERCEL_TEAM_ID`/`VERCEL_PROJECT_ID`) + `@vercel/sandbox` + git in the box image.
+  Missing auth must fail closed with a clear message (not a silent hang).
+- Deposit boxes are **non-persistent** (`persistent: false` — no snapshot billing).
 - Log: `Dispatching deposit synthesis to the sandbox host (in-box) for {repo}@{ref}…` then
   `sandbox: sandbox-create-started` / `sandbox-created` / `command-started` / … / `sandbox-stopped`.
-- PASS: the box clones + runs the deposit SDIVF in-box; `evidence.depositOptions` returns;
-  the SAME deposit option synthesis persists as an inline run of the same repo/revision
-  (modulo run-to-run LLM variance). If the sandbox infra isn't deployed, mark N/A — this is
-  the single deployment-pending item.
+  On create, `executions.context.sandboxId` must be set while status is still `running`.
+- PASS: the box clones + runs the deposit SDIVF in-box; `evidence.depositOptions` returns with
+  formal absolutes; the SAME deposit option synthesis persists as an inline run of the same
+  repo/revision (modulo run-to-run LLM variance). If the sandbox infra isn't deployed, mark N/A.
+
+**5b. #26 Cooperative cancel**
+- Start a synthesis (inline or sandbox). While Telemetry shows **Cancel run**, click it.
+- PASS: `POST /api/executions/<runId>/cancel` → 200; row `status=cancelled`; UI Cancelled badge;
+  background does not flip the row to `failed`; sandbox path stops the box (Observability →
+  Sandboxes, or `sandbox: sandbox-cancelled` / `sandbox-stopped` status lines). Completing a
+  run that finished before cancel must remain `completed` (409 not_running on cancel).
 
 **6. QA record** (fill per run)
 
@@ -657,6 +666,7 @@ cd uapi && pnpm exec jest depositSourceProvisioning depositSynthesizeOptionsRout
 | Source-safety — no leak | | | |
 | Automated baseline green | | | |
 | #25 sandbox in-box (or N/A) | | | |
+| #26 cancel run | | | |
 
 **Pulling a run's persisted output** (for the COPY targets) — Supabase SQL editor:
 ```sql

@@ -1015,13 +1015,13 @@ is named in spec for closure):
 - **Config.** `BITCODE_DEPOSIT_SYNTHESIS_PIPELINE` removed (full SDIVF pipeline only;
   Validation — measurement + quality — never skipped).
 
-### Gate-3 #25 — SandboxHost in-box deposit dispatch (Garrett, 2026-06-27)
+### Gate-3 #25 — SandboxHost in-box deposit dispatch (Garrett, 2026-06-27; cancel+auth hardened 2026-07-08)
 
 SandboxHost deposit runs the synthesis pipeline INSIDE the box (the asset-pack
 harness already runs `assetPackPipeline` in-box for read-fit via a runner that imports
 the live packages and executes the full SDIVF). Deposit reuses that mechanism:
 
-- **Harness deposit mode.** `buildAssetPackSandboxHarness` accepts `synthesisMode`
+- **Harness deposit mode.** `buildAssetPackSandboxHarness` accepts `synthesizeMode`
   (`'deposit' | 'read'`) + the deposit STEERING (obfuscations, protected-IP exclusions,
   demand context); these flow into `PipelineHarnessManifest` and the in-box runner
   INPUT (`synthesizeMode`, steering). The in-box pipeline resolves deposit mode
@@ -1031,19 +1031,66 @@ the live packages and executes the full SDIVF). Deposit reuses that mechanism:
   surfaces the synthesized `implementation:options` in `evidence.json` as
   `depositOptions` (source-safe option metadata; the measure-agent's absolutes are
   already attached by the Validation phase IN the box).
-- **Route dispatch.** When the configured HostKind is `sandbox`, the deposit route
-  dispatches the deposit harness (a git `source` for the revision) via
-  `VercelSandboxPipelineHost.runHarness` (provider Vercel) instead of the in-process
-  InlineHost path; it reads `evidence.depositOptions`, runs the SAME pure projection
-  (`validateDepositSynthesisOptions` + `buildRealDepositAssetPackOptionSynthesis`) and
-  persists the deposit option synthesis to the execution row — identical to the inline
-  path. Source-safe telemetry streams from the harness telemetry artifact to
-  `execution_events`.
-- **Parity of result.** InlineHost (in current box) and SandboxHost (in the provisioned
-  box) produce the SAME deposit option synthesis; only WHERE the pipeline runs differs.
-  Real-sandbox execution is verified against deployed sandbox infra (`@vercel/sandbox`,
-  `VERCEL_*`, git in the box image); the harness plan-building + the route dispatch +
-  the option projection are unit-tested with a mocked host.
+- **Ephemeral boxes.** Deposit one-shots create sandboxes with `persistent: false`
+  (no snapshot storage on stop). Auth: prefer `VERCEL_OIDC_TOKEN` (local: `vercel env
+  pull`; automatic on Vercel); fallback `VERCEL_TOKEN` + `VERCEL_TEAM_ID` +
+  `VERCEL_PROJECT_ID`. `assertVercelSandboxAuthAvailable` fails closed before create.
+- **Route dispatch.** When `BITCODE_PIPELINE_HOST=sandbox`, the deposit route
+  dispatches via `runDepositInBoxHarness` → `VercelSandboxPipelineHost.runHarness`
+  instead of InlineHost provision + in-process SDIVF; it reads `evidence.depositOptions`,
+  runs the SAME pure projection (`validateDepositSynthesisOptions` +
+  `buildRealDepositAssetPackOptionSynthesis`) and persists the deposit option
+  synthesis. `resolveDepositPipelineHost` is **inline-only** (throws if hostKind is
+  sandbox — callers must use the harness path). On `sandbox-created`, the route
+  persists `context.sandboxId` on the running execution row for cancel.
+- **Cooperative cancel.** See Gate-3 #26.
+- **Parity of result.** InlineHost and SandboxHost produce the SAME deposit option
+  synthesis; only WHERE the pipeline runs differs. Real-sandbox execution is verified
+  against deployed sandbox infra; harness plan-building + route dispatch + projection
+  are unit-tested with a mocked host.
+
+### Gate-3 #26 — Cooperative run cancel (Garrett, 2026-07-08)
+
+Deposit (and any agentic) runs are cancelable without killing mid-token LLM streams.
+
+**Law**
+
+1. **User authority.** A depositor who owns the `executions` row may cancel while
+   `status === 'running'`. Terminal rows (`completed` | `failed` | `interrupted` |
+   `cancelled`) are not re-cancelled (already-cancelled is idempotent 200).
+2. **Row is authority.** Cancel writes `executions.status = 'cancelled'`,
+   `completed_at`, source-safe `error.message`, and `context.cancelledAt` /
+   `context.cancelReason`. Background workers MUST NOT overwrite a cancelled row
+   with `failed` or `completed`.
+3. **Event.** A source-safe `execution_events` status row (`message`, `cancelled: true`)
+   is inserted so the deposit telemetry accordion shows the cancel.
+4. **Cooperative abort.** Background deposit `runSynthesis` polls
+   `assertExecutionNotCancelled` between major stages (auth, provision, pipeline,
+   validate). Sandbox detached command polls call `shouldAbort` each interval and
+   return exit code 130 / outcome `'cancelled'`, then `sandbox.stop()`.
+5. **Sandbox stop.** If `context.sandboxId` is present, cancel best-effort stops the
+   box via `Sandbox.get` + `stop` (in addition to harness `finally` stop).
+6. **UI.** While a synthesis is running, Telemetry shows **Cancel run**; on success
+   the detail shows a Cancelled badge and analytics fires
+   `deposit_synthesis_cancelled` (duration only — no identifiers).
+7. **Not cancel.** Orphan sweep still maps silent stuck rows → `interrupted` (not
+   cancelled). Deleting activity anchors is unrelated.
+
+**API**
+
+- `POST /api/executions/[runId]/cancel` body optional `{ reason?: string }` (≤280 chars)
+- Auth: session user must own the row
+- Responses: 200 cancelled (or already cancelled), 401 unauthenticated, 404 not
+  found/not owned, 409 not running
+
+**Implementation symbols**
+
+- `uapi/lib/execution-cancel.ts` — `cancelUserExecution`, `assertExecutionNotCancelled`,
+  `ExecutionCancelledError`, `isExecutionCancelled`
+- `uapi/app/api/executions/[runId]/cancel/route.ts`
+- Deposit route cooperative checks + sandbox `shouldAbort`
+- `VercelSandboxPipelineHost` `shouldAbort` + `sandbox-cancelled` events
+- `DepositPageClient` Cancel run control
 
 ### Gate-3 depositing PARITY MATRIX (gate-closure audit; Garrett, 2026-06-27)
 
@@ -1077,17 +1124,26 @@ Parity: ✅ specified + implemented + tested · 🟦 specified + implemented as 
 | 22 | HostKind selection (configured, not env) | `selectDepositHostKind` / `resolveDepositPipelineHost` | depositSourceProvisioning.test | ✅ |
 | 23 | full inventory (sources+samples) + fail-closed exclusions | `provisionDepositSourceInventory` / `applyExclusionsToInventory` | depositSourceProvisioning.test, asset-packs-synthesis.test | ✅ |
 | 24 | deposit provisions full checkout via Host | deposit route + `InlineHost` path | depositSynthesizeOptionsRoute.test | ✅ |
-| 25 | SandboxHost IN-BOX deposit dispatch (run the pipeline in the box) | harness deposit mode (`synthesizeMode` + steering → in-box runner; `depositOptions` in evidence) + `runDepositInBoxHarness` + route hostKind branch | asset-pack-harness.test, depositSourceProvisioning.test, depositSynthesizeOptionsRoute.test | ✅* |
+| 25 | SandboxHost IN-BOX deposit dispatch (run the pipeline in the box) | harness deposit mode (`synthesizeMode` + steering → in-box runner; `depositOptions` in evidence) + `runDepositInBoxHarness` + route hostKind branch; ephemeral `persistent:false`; OIDC/token auth fail-closed | asset-pack-harness.test, depositSourceProvisioning.test, depositSynthesizeOptionsRoute.test, vercel-sandbox-host.test | ✅* |
+| 26 | Cooperative run cancel | `POST /api/executions/[runId]/cancel` + `execution-cancel.ts` + deposit route polls + sandbox `shouldAbort` + UI Cancel run + `deposit_synthesis_cancelled` analytics | executionCancelRoute.test, vercel-sandbox-host.test (abort), depositPageClient (cancel control) | ✅ |
+| 27 | Run configuration locked above telemetry in run detail | `DepositPageClient` config above telemetry; `disabled` when `synthesisRunId` set | depositPageClient.test | ✅ |
+| 28 | Formal absolutes fail-closed (no placeholder catalog fallback) | `validateDepositSynthesisOptions` requires `absolutes[]` | agent-measure-absolutes.test, asset-packs-synthesis.test | ✅ |
+| 29 | Map-tree LLM token rollup | `sumLlmTokensFromExecutionTree` | asset-packs-synthesis-pipeline.test | ✅ |
+| 30 | Full deposit SDIVF integration under test (boundary LLM mock) | `BITCODE_ENABLE_ASSET_PACK_SDIVF_RUNTIME_IN_TEST` + deposit-sdivf-pipeline-integration.test | deposit-sdivf-pipeline-integration.test | ✅ |
+| 31 | Deposit implementation agent key (telemetry clarity) | `implementation:deposit-asset-pack-synthesis` | synthesize-asset-packs-phase-rosters.test | ✅ |
 
 ✅* = wired + unit-tested with a mocked host (harness plan-building, the dispatch, the
 option projection); real in-sandbox execution is verified against deployed sandbox infra.
 
 **Open items for full gate-3 depositing closure (deployment + verification, not code):**
 - **Deployment config**: the Vercel sandbox provider's runtime deps (`@vercel/sandbox`,
-  `VERCEL_*`, git in the box image); the AWS provider (#20) beyond the stub.
+  OIDC or `VERCEL_TOKEN`+team+project, git in the box image); set
+  `BITCODE_PIPELINE_HOST=sandbox` on prod for durable in-box runs; the AWS provider
+  (#20) beyond the stub.
 - **Live verification**: a real deposit run — on the InlineHost (in-process) and on the
-  SandboxHost (in-box) — confirming measured sizes + the decision panel end-to-end and
-  that both hosts produce the same deposit option synthesis.
+  SandboxHost (in-box) — confirming measured sizes + the decision panel end-to-end,
+  that both hosts produce the same deposit option synthesis, and that Cancel run stops
+  a live sandbox (Observability → Sandboxes).
 
 ## Non-goals during V48 opening
 

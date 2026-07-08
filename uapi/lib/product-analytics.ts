@@ -54,6 +54,11 @@ export type ProductEvent =
       name: "deposit_synthesis_failed";
       data: { stage: DepositSynthesisFailureStage; durationMs: number | null };
     }
+  /** A running synthesis was cancelled by the depositor (no identifiers). */
+  | {
+      name: "deposit_synthesis_cancelled";
+      data: { durationMs: number | null };
+    }
   /** A per-option review decision (enum state only — never option contents). */
   | {
       name: "deposit_option_review";

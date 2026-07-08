@@ -69,6 +69,53 @@ class DetachedFakeSandbox extends FakeSandbox {
 }
 
 describe('VercelSandboxPipelineHost', () => {
+  it('aborts a detached poll when shouldAbort becomes true and returns cancelled', async () => {
+    let polls = 0;
+    class NeverExitSandbox extends DetachedFakeSandbox {
+      async readFileToBuffer(file: { path: string }): Promise<Buffer | null> {
+        // Never produce an exit code so the poll continues until shouldAbort.
+        if (file.path.includes('exit')) return null;
+        return super.readFileToBuffer(file);
+      }
+    }
+    const fakeSandbox = new NeverExitSandbox();
+    const host = new VercelSandboxPipelineHost({
+      sandboxFactory: {
+        create: async () => fakeSandbox,
+      },
+      shouldAbort: async () => {
+        polls += 1;
+        return polls >= 2;
+      },
+    });
+    const plan = buildAssetPackSandboxHarness({
+      read: { id: 'read-1', prompt: 'Read.' },
+      deposit: { id: 'deposit-1' },
+      sourceRevision: {
+        repositoryFullName: 'engineeredsoftware/ENGI',
+        branch: 'main',
+        commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      },
+    });
+    plan.commands = [
+      {
+        label: 'detached-run',
+        cmd: 'sh',
+        args: ['-lc', 'long command'],
+        detached: true,
+        exitCodePath: '.bitcode/pipeline-harness/pipeline.exit-code',
+        stdoutPath: '.bitcode/pipeline-harness/pipeline.stdout.log',
+        stderrPath: '.bitcode/pipeline-harness/pipeline.stderr.log',
+        pollIntervalMs: 5,
+        maxWaitMs: 5_000,
+      },
+    ];
+
+    const result = await host.runHarness(plan);
+    expect(result.outcome).toBe('cancelled');
+    expect(fakeSandbox.stopped).toBe(true);
+  });
+
   it('creates the sandbox, writes harness files, runs commands, reads artifacts, and stops', async () => {
     const fakeSandbox = new FakeSandbox();
     const createOptions: SandboxCreateOptions[] = [];
