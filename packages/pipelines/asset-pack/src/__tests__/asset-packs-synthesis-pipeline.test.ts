@@ -2,7 +2,10 @@ import { ExecutionPrompt } from '@bitcode/execution-generics/prompts/ExecutionPr
 import { hierarchicalFormatter } from '@bitcode/prompts/formatters';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
-import { buildSynthesisPromptLayers } from '../asset-packs-synthesis-pipeline';
+import {
+  buildSynthesisPromptLayers,
+  sumLlmTokensFromExecutionTree,
+} from '../asset-packs-synthesis-pipeline';
 import { measurementCatalogForLens, type AssetPacksSynthesisLens } from '../asset-packs-synthesis';
 
 // Satisfy the ExecutionPrompt root requirements exactly as AgentExecution does
@@ -76,5 +79,32 @@ describe('AssetPacksSynthesis formal prompt build-up (Gate 3 chunk F)', () => {
     expect(read).toContain('need-fit');
     expect(deposit).not.toContain('need-fit');
     expect(deposit).toContain('demand-alignment');
+  });
+});
+
+describe('sumLlmTokensFromExecutionTree', () => {
+  function node(usage: Record<string, number> | null, children: any[] = []) {
+    const map = new Map<string, any>();
+    for (let i = 0; i < children.length; i += 1) map.set(`c${i}`, children[i]);
+    return {
+      get: (namespace: string, key: string) =>
+        namespace === 'llm' && key === 'usage' ? usage : undefined,
+      children: map,
+    };
+  }
+
+  it('sums nested Map children (SDIVF PTRR trees), not only array children', () => {
+    const root = node({ promptTokens: 10, completionTokens: 5 }, [
+      node({ promptTokens: 20, completionTokens: 8 }, [
+        node({ totalTokens: 100 }),
+      ]),
+      node({ prompt_tokens: 3, completion_tokens: 2 }),
+    ]);
+    // 15 + 28 + 100 + 5 = 148
+    expect(sumLlmTokensFromExecutionTree(root)).toBe(148);
+  });
+
+  it('returns null when no usage is present anywhere', () => {
+    expect(sumLlmTokensFromExecutionTree(node(null, [node(null)]))).toBeNull();
   });
 });
