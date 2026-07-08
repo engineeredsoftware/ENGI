@@ -667,6 +667,75 @@ export async function getExecutionHistoryRunRoute(
   });
 }
 
+/**
+ * Delete a user-owned activity-anchor execution row (Obfuscations anchors and
+ * similar ledger bookmarks). Pipeline synthesis runs are NOT deletable here —
+ * only rows whose context.source is an explicit anchor source. Events cascade.
+ */
+const DELETABLE_ACTIVITY_ANCHOR_SOURCES = new Set([
+  'deposit-obfuscations-anchor',
+  'terminal-repository-context-panel',
+]);
+
+export async function deleteExecutionHistoryRunRoute(
+  _request: Request,
+  params: { runId?: string | null | undefined },
+) {
+  const userId = await requireExecutionRouteUserId();
+  if (!userId) {
+    return createJsonResponse({ error: 'unauthenticated' }, 401);
+  }
+
+  const runId = String(params?.runId || '').trim();
+  if (!runId) {
+    return createJsonResponse({ error: 'Missing runId parameter' }, 400);
+  }
+
+  const { data: run, error: runError } = await supabaseAdmin
+    .from('executions')
+    .select('id, user_id, context')
+    .eq('id', runId)
+    .maybeSingle();
+
+  if (runError) {
+    return createJsonResponse(
+      { error: toErrorMessage(runError, 'Failed to load execution for delete') },
+      500,
+    );
+  }
+
+  if (!run || run.user_id !== userId) {
+    return createJsonResponse({ error: 'Execution not found or access denied' }, 404);
+  }
+
+  const context = asRecord(run.context);
+  const source = typeof context?.source === 'string' ? context.source : null;
+  if (!source || !DELETABLE_ACTIVITY_ANCHOR_SOURCES.has(source)) {
+    return createJsonResponse(
+      {
+        error:
+          'Only activity anchors (Obfuscations / repository) can be deleted from this endpoint.',
+      },
+      403,
+    );
+  }
+
+  const { error: deleteError } = await supabaseAdmin
+    .from('executions')
+    .delete()
+    .eq('id', runId)
+    .eq('user_id', userId);
+
+  if (deleteError) {
+    return createJsonResponse(
+      { error: toErrorMessage(deleteError, 'Failed to delete activity anchor') },
+      500,
+    );
+  }
+
+  return createJsonResponse({ deleted: true, id: runId });
+}
+
 function readNormalizedLedgerSettlement(run: JsonRecord) {
   return (
     asRecord(run.ledger_settlement) ||
