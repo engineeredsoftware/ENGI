@@ -95,10 +95,12 @@ jest.mock("@/app/deposits/DepositSourceSelection", () => ({
     onContextChange,
     routePath,
     repositoryAnchors,
+    disabled,
   }: {
     onContextChange: (value: unknown) => void;
     routePath?: string;
     repositoryAnchors?: Array<{ repositoryFullName: string }>;
+    disabled?: boolean;
   }) => {
     React.useEffect(() => {
       onContextChange({
@@ -123,7 +125,10 @@ jest.mock("@/app/deposits/DepositSourceSelection", () => ({
     return (
       <section
         aria-label="Deposit source selection"
+        data-testid="deposit-source-selection"
         data-route-path={routePath}
+        data-locked={disabled ? "true" : "false"}
+        aria-disabled={disabled || undefined}
       >
         Deposit source selection
         {/* Exposes the repositoryAnchors DERIVATION (DepositPageClient's
@@ -375,6 +380,24 @@ describe("DepositPageClient", () => {
       screen.getByTestId("deposit-obfuscations-run-loaded-note"),
     ).toBeInTheDocument();
 
+    // Run configuration is locked and lives above telemetry in run detail.
+    const configuration = screen.getByTestId("deposit-run-configuration");
+    expect(configuration).toHaveAttribute("data-locked", "true");
+    expect(screen.getByTestId("deposit-source-selection")).toHaveAttribute(
+      "data-locked",
+      "true",
+    );
+    expect(screen.getByLabelText("What to obfuscate or withhold")).toBeDisabled();
+    expect(
+      screen.getByRole("button", { name: "Clear obfuscations" }),
+    ).toBeDisabled();
+    // Configuration DOM precedes telemetry DOM (layout: config above telemetry).
+    expect(
+      configuration.compareDocumentPosition(
+        screen.getByTestId("deposit-synthesis-telemetry"),
+      ) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+
     // Back clears the selection; the button returns for a fresh dispatch.
     fireEvent.click(
       await screen.findByRole("button", { name: "Back to Deposit pipelines" }),
@@ -385,6 +408,17 @@ describe("DepositPageClient", () => {
     expect(
       screen.queryByTestId("deposit-obfuscations-run-loaded-note"),
     ).not.toBeInTheDocument();
+    expect(screen.getByTestId("deposit-run-configuration")).toHaveAttribute(
+      "data-locked",
+      "false",
+    );
+    expect(screen.getByTestId("deposit-source-selection")).toHaveAttribute(
+      "data-locked",
+      "false",
+    );
+    expect(
+      screen.getByLabelText("What to obfuscate or withhold"),
+    ).not.toBeDisabled();
   });
 
   it("resumes a completed synthesis run's results when its row is selected (master-detail)", async () => {
@@ -1100,6 +1134,8 @@ describe("DepositPageClient", () => {
 
   describe("V48 Gate 3 — repository and Obfuscations anchoring", () => {
     function withAnchorFixtures() {
+      // Config editing requires no adopted run (run detail locks configuration).
+      mockQuery = "depositStage=review-options";
       mockFetchPipelineExecutionHistory.mockResolvedValue([
         {
           id: "deposit-1",

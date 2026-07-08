@@ -32,6 +32,8 @@ interface VCSFileTreePickerProps {
   /** Why a conflicting row is disabled (e.g. 'Already a Forced Inclusion'). */
   conflictLabel?: string;
   emptyLabel?: string;
+  /** When true, selection is frozen (run-detail lock). Expand still works. */
+  disabled?: boolean;
   'aria-label'?: string;
 }
 
@@ -75,6 +77,7 @@ export function VCSFileTreePicker({
   conflictingPaths = [],
   conflictLabel = 'selected in the other picker',
   emptyLabel = 'Connect a repository to browse its files.',
+  disabled = false,
   'aria-label': ariaLabel,
 }: VCSFileTreePickerProps) {
   // Children by directory path ('' = repository root); null while loading.
@@ -291,13 +294,19 @@ export function VCSFileTreePicker({
             <button
               type="button"
               onClick={() => toggleSelected(selectionPath)}
-              disabled={isConflicting}
-              title={isConflicting ? conflictLabel : undefined}
+              disabled={disabled || isConflicting}
+              title={
+                disabled
+                  ? 'Configuration locked for this run'
+                  : isConflicting
+                    ? conflictLabel
+                    : undefined
+              }
               aria-pressed={isSelected}
               className={`flex min-w-0 flex-1 items-center gap-1.5 border px-1.5 py-0.5 text-left font-mono text-xs transition ${
                 isSelected
                   ? 'border-emerald-300/35 bg-emerald-300/10 text-emerald-100'
-                  : isConflicting
+                  : isConflicting || disabled
                     ? 'cursor-not-allowed border-transparent text-neutral-600 line-through'
                     : 'border-transparent text-neutral-200 hover:border-white/15 hover:bg-white/5'
               }`}
@@ -326,7 +335,7 @@ export function VCSFileTreePicker({
           <button
             type="button"
             onClick={handleSelectAll}
-            disabled={!canSelectAll}
+            disabled={disabled || !canSelectAll}
             className="border border-white/10 px-1.5 py-0.5 text-[0.62rem] uppercase tracking-[0.14em] text-neutral-300 transition hover:border-emerald-300/35 hover:text-emerald-100 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Select all
@@ -334,7 +343,7 @@ export function VCSFileTreePicker({
           <button
             type="button"
             onClick={handleClearAll}
-            disabled={selectedPaths.length === 0}
+            disabled={disabled || selectedPaths.length === 0}
             className="border border-white/10 px-1.5 py-0.5 text-[0.62rem] uppercase tracking-[0.14em] text-neutral-300 transition hover:border-rose-300/35 hover:text-rose-100 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Clear all
@@ -347,8 +356,13 @@ export function VCSFileTreePicker({
             <button
               key={path}
               type="button"
-              onClick={() => onChange(selectedPaths.filter((entry) => entry !== path))}
-              className="border border-emerald-300/25 bg-emerald-300/10 px-1.5 py-0.5 font-mono text-[0.66rem] text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/15"
+              onClick={() =>
+                disabled
+                  ? undefined
+                  : onChange(selectedPaths.filter((entry) => entry !== path))
+              }
+              disabled={disabled}
+              className="border border-emerald-300/25 bg-emerald-300/10 px-1.5 py-0.5 font-mono text-[0.66rem] text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/15 disabled:cursor-not-allowed disabled:opacity-60"
               aria-label={`Remove ${path}`}
             >
               {path} ×

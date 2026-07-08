@@ -60,6 +60,11 @@ type DepositSourceSelectionProps = {
   repoEarningEstimateSats?: number | null;
   /** V48-Gate3-F17: previously anchored repositories, newest first. */
   repositoryAnchors?: DepositRepositoryAnchor[];
+  /**
+   * When true (run detail / post-submit), freeze repository·branch·commit
+   * selection — the configuration that produced the loaded run is read-only.
+   */
+  disabled?: boolean;
 };
 
 async function readJsonResponse(response: Response) {
@@ -119,6 +124,7 @@ export default function DepositSourceSelection({
   buildRouteHref,
   repoEarningEstimateSats,
   repositoryAnchors = [],
+  disabled = false,
 }: DepositSourceSelectionProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -564,8 +570,13 @@ export default function DepositSourceSelection({
 
   return (
     <section
-      className="border border-white/10 bg-white/[0.035] px-4 py-4"
+      className={`border border-white/10 bg-white/[0.035] px-4 py-4 ${
+        disabled ? "opacity-80" : ""
+      }`}
       aria-label="Select deposit repository"
+      data-testid="deposit-source-selection"
+      data-locked={disabled ? "true" : "false"}
+      aria-disabled={disabled || undefined}
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
@@ -577,8 +588,9 @@ export default function DepositSourceSelection({
             <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.repository} />
           </h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-400">
-            One connected repository, branch, and commit form the source package
-            the rest of the Deposit reads.
+            {disabled
+              ? "Source package that produced this run — locked while reviewing run detail."
+              : "One connected repository, branch, and commit form the source package the rest of the Deposit reads."}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -596,7 +608,9 @@ export default function DepositSourceSelection({
                     : null,
                 }))}
                 value={null}
+                disabled={disabled}
                 onSelect={(key) => {
+                  if (disabled) return;
                   const anchor = repositoryAnchors.find((entry) => entry.id === key);
                   if (!anchor) return;
                   updateSourceParams((params) => {
@@ -627,7 +641,7 @@ export default function DepositSourceSelection({
             <button
               type="button"
               aria-label="Anchor repository to the activity ledger"
-              disabled={!selectedRepository || isRecording}
+              disabled={disabled || !selectedRepository || isRecording}
               onClick={() => {
                 void handleAnchorRepository();
               }}
@@ -682,7 +696,9 @@ export default function DepositSourceSelection({
                       : null,
                 }))}
                 value={provider}
+                disabled={disabled}
                 onSelect={(key) => {
+                  if (disabled) return;
                   const nextProvider = key ?? "github";
                   updateSourceParams((params) => {
                     params.set("provider", nextProvider);
@@ -702,6 +718,7 @@ export default function DepositSourceSelection({
             <SourceListRefreshButton
               ariaLabel="Refresh provider connection"
               explainer={DEPOSIT_SECTION_EXPLAINERS.refreshProviderConnection}
+              disabled={disabled}
               loading={isLoadingConnection}
               onRefresh={() =>
                 setConnectionRefreshNonce((nonce) => nonce + 1)
@@ -730,7 +747,9 @@ export default function DepositSourceSelection({
                 repositories={repositories}
                 loading={isLoadingRepositories && repositories.length === 0}
                 value={selectedRepository?.fullName}
-                onSelect={(repository) =>
+                disabled={disabled}
+                onSelect={(repository) => {
+                  if (disabled) return;
                   updateSourceParams((params) => {
                     if (repository) {
                       params.set("repo", repository.fullName);
@@ -741,8 +760,8 @@ export default function DepositSourceSelection({
                     params.delete("sourceCommit");
                     params.delete("branch");
                     params.delete("commit");
-                  })
-                }
+                  });
+                }}
                 placeholder={
                   connectionStatus?.connected
                     ? "Select repository supply..."
@@ -756,7 +775,7 @@ export default function DepositSourceSelection({
             <SourceListRefreshButton
               ariaLabel="Refresh repository inventory"
               explainer={DEPOSIT_SECTION_EXPLAINERS.refreshRepositoryInventory}
-              disabled={!connectionStatus?.connected}
+              disabled={disabled || !connectionStatus?.connected}
               loading={isLoadingRepositories}
               onRefresh={() => {
                 // Hard-refresh inventory next to the inventory select (resets
@@ -792,6 +811,7 @@ export default function DepositSourceSelection({
                 aria-label="Repository source branch"
                 value={selectedBranch || null}
                 disabled={
+                  disabled ||
                   !selectedRepository ||
                   connectionNeedsReconnect ||
                   (!isLoadingBranches && branches.length === 0)
@@ -810,7 +830,8 @@ export default function DepositSourceSelection({
                       ? "default"
                       : null,
                 }))}
-                onSelect={(branchName) =>
+                onSelect={(branchName) => {
+                  if (disabled) return;
                   updateSourceParams((params) => {
                     if (selectedRepository)
                       params.set("repo", selectedRepository.fullName);
@@ -819,15 +840,17 @@ export default function DepositSourceSelection({
                     params.delete("sourceCommit");
                     params.delete("branch");
                     params.delete("commit");
-                  })
-                }
+                  });
+                }}
                 className="h-9 border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
               />
             </div>
             <SourceListRefreshButton
               ariaLabel="Refresh branches list"
               explainer={DEPOSIT_SECTION_EXPLAINERS.refreshBranches}
-              disabled={!selectedRepository || connectionNeedsReconnect}
+              disabled={
+                disabled || !selectedRepository || connectionNeedsReconnect
+              }
               loading={isLoadingBranches}
               onRefresh={() => setBranchesRefreshNonce((nonce) => nonce + 1)}
             />
@@ -860,6 +883,7 @@ export default function DepositSourceSelection({
                     : null
                 }
                 disabled={
+                  disabled ||
                   !selectedBranch ||
                   connectionNeedsReconnect ||
                   (!isLoadingCommits && commits.length === 0)
@@ -902,7 +926,8 @@ export default function DepositSourceSelection({
                     searchText: `${commit.sha} ${commit.message}`,
                   })),
                 ]}
-                onSelect={(commitKey) =>
+                onSelect={(commitKey) => {
+                  if (disabled) return;
                   updateSourceParams((params) => {
                     if (selectedRepository)
                       params.set("repo", selectedRepository.fullName);
@@ -915,15 +940,15 @@ export default function DepositSourceSelection({
                     }
                     params.delete("branch");
                     params.delete("commit");
-                  })
-                }
+                  });
+                }}
                 className="h-9 border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
               />
             </div>
             <SourceListRefreshButton
               ariaLabel="Refresh commits list"
               explainer={DEPOSIT_SECTION_EXPLAINERS.refreshLatestCommit}
-              disabled={!selectedBranch || connectionNeedsReconnect}
+              disabled={disabled || !selectedBranch || connectionNeedsReconnect}
               loading={isLoadingCommits}
               onRefresh={() => setCommitsRefreshNonce((nonce) => nonce + 1)}
             />

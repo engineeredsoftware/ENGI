@@ -250,6 +250,21 @@ describe("DepositSourceSelection — V48-Gate3-F17 repository anchoring", () => 
     expect(lastHref).not.toContain("sourceBranch=");
     expect(lastHref).not.toContain("sourceCommit=");
   });
+
+  it("locks provider/repository controls when disabled (run-detail freeze)", async () => {
+    mockVcsFetch();
+    render(
+      <DepositSourceSelection
+        routePath="/"
+        buildRouteHref={(params) => `/deposits?${params?.toString() ?? ""}`}
+        disabled
+      />,
+    );
+
+    const root = await screen.findByTestId("deposit-source-selection");
+    expect(root).toHaveAttribute("data-locked", "true");
+    expect(screen.getByLabelText("Repository provider")).toBeDisabled();
+  });
 });
 
 describe("DepositSourceSelection — stale connection surfaces a reconnect notice (repro: branch/commit silently stuck empty)", () => {

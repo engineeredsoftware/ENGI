@@ -15,6 +15,8 @@ interface VCSRepositorySelectorProps {
   className?: string;
   repositories?: VCSRepository[] | null;
   loading?: boolean;
+  /** When true, the selector is non-interactive (run-detail lock). */
+  disabled?: boolean;
 }
 
 export function VCSRepositorySelector({
@@ -26,6 +28,7 @@ export function VCSRepositorySelector({
   className,
   repositories: providedRepositories,
   loading: providedLoading,
+  disabled = false,
 }: VCSRepositorySelectorProps) {
   const [open, setOpen] = useState(false);
   const [fetchedRepositories, setFetchedRepositories] = useState<VCSRepository[]>([]);
@@ -117,8 +120,9 @@ export function VCSRepositorySelector({
       loading={isLoading}
       loadingMessage="Loading repositories..."
       className={className}
-      open={open}
-      onOpenChange={setOpen}
+      open={disabled ? false : open}
+      onOpenChange={disabled ? undefined : setOpen}
+      disabled={disabled}
     />
   );
 }
