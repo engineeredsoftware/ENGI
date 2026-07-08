@@ -29,7 +29,7 @@ interface VCSFileTreePickerProps {
   onChange: (nextPaths: string[]) => void;
   /** Paths selected by the counterpart picker — disabled here. */
   conflictingPaths?: string[];
-  /** Why a conflicting row is disabled (e.g. 'already a source path hint'). */
+  /** Why a conflicting row is disabled (e.g. 'Already a Forced Inclusion'). */
   conflictLabel?: string;
   emptyLabel?: string;
   'aria-label'?: string;

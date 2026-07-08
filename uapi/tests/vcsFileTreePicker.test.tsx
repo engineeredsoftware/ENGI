@@ -104,7 +104,7 @@ describe('VCSFileTreePicker', () => {
         selectedPaths={[]}
         onChange={onChange}
         conflictingPaths={['README.md']}
-        conflictLabel="Already a source path hint"
+        conflictLabel="Already a Forced Inclusion"
       />,
     );
 
@@ -117,7 +117,7 @@ describe('VCSFileTreePicker', () => {
     expect(conflictButton).toBeDisabled();
     expect(conflictButton).toHaveAttribute(
       'title',
-      'Already a source path hint',
+      'Already a Forced Inclusion',
     );
     fireEvent.click(conflictButton);
     expect(onChange).not.toHaveBeenCalled();

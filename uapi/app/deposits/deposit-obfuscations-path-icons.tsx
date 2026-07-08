@@ -1,9 +1,9 @@
 /**
  * Shared include/exclude path icons for the deposit Obfuscations surface.
  *
- * Used on the Source path hints / Protected IP exclusions section headers
- * and again in the saved-anchors dropdown sub-text so the two surfaces share
- * one visual language.
+ * Used on the Forced Inclusion / Forced Exclusions section headers and again
+ * in the saved-anchors dropdown sub-text so the two surfaces share one visual
+ * language.
  */
 
 import React from 'react';
@@ -13,10 +13,10 @@ import { normalizeObfuscationsAnchorPaths } from '@/app/terminal/terminal-activi
 
 const ICON_CLASS = 'h-3.5 w-3.5 shrink-0';
 
-/** Include / source-path-hints affordance (emerald). */
+/** Forced Inclusion affordance (emerald). */
 export function DepositIncludePathsIcon({
   className,
-  title = 'Source path hints (include)',
+  title = 'Forced Inclusion',
 }: {
   className?: string;
   title?: string;
@@ -30,10 +30,10 @@ export function DepositIncludePathsIcon({
   );
 }
 
-/** Exclude / protected-IP-exclusions affordance (rose). */
+/** Forced Exclusions affordance (rose). */
 export function DepositExcludePathsIcon({
   className,
-  title = 'Protected IP exclusions (exclude)',
+  title = 'Forced Exclusions',
 }: {
   className?: string;
   title?: string;
@@ -78,9 +78,11 @@ export function ObfuscationsAnchorDescription({
   const exclusionCount = normalizeObfuscationsAnchorPaths(
     protectedIpExclusions,
   ).length;
-  const hintsAria = `${hintCount} hint ${hintCount === 1 ? 'file' : 'files'}`;
-  const exclusionsAria = `${exclusionCount} exclusion ${
-    exclusionCount === 1 ? 'file' : 'files'
+  const hintsAria = `${hintCount} forced inclusion ${
+    hintCount === 1 ? 'path' : 'paths'
+  }`;
+  const exclusionsAria = `${exclusionCount} forced exclusion ${
+    exclusionCount === 1 ? 'path' : 'paths'
   }`;
 
   // Single line always: clipped body truncates; icon counts stay pinned on the right.
