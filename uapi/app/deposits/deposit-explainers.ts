@@ -1,7 +1,23 @@
 import type { BitcodeExplainer } from '@/components/base/bitcode/execution/bitcode-transaction-types';
+import type { TelemetryPillExplainer } from '@/components/base/bitcode/execution/telemetry-pill-explainers';
 
 function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
   return explainer;
+}
+
+/** Map a section BitcodeExplainer into the hover-trigger rich-tooltip shape. */
+export function toRichHoverExplainer(explainer: BitcodeExplainer): TelemetryPillExplainer {
+  return {
+    kicker: explainer.kicker || explainer.title,
+    title: explainer.title,
+    specific: explainer.summary,
+    generic: explainer.detail || '',
+    points: [...(explainer.points || [])],
+    references: {
+      source: [...(explainer.references?.source || [])],
+      canon: [...(explainer.references?.canon || [])],
+    },
+  };
 }
 
 const DEPOSIT_SOURCE_REFS = [
@@ -82,11 +98,103 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     kicker: 'Commit / ref',
     title: 'Repository source commit',
     summary:
-      'The exact commit synthesis measures against — pins the source package to one immutable revision rather than a moving branch head.',
+      'The exact commit synthesis measures against. Defaults to Latest (branch head); pick a SHA to pin an immutable revision.',
     detail:
-      'The branch\'s latest commit is selected automatically when available. Picking an older commit is useful for reproducing or auditing a prior synthesis run against the exact state it saw.',
-    points: ['Pins synthesis to one immutable revision', 'Useful for reproducing a past run\'s exact source state'],
+      'Latest tracks the selected branch head and can be re-fetched with Refresh. Picking an older commit pins that SHA until you choose Latest again — useful for reproducing a prior synthesis against the exact state it saw.',
+    points: [
+      'Latest is the default and resolves to the live branch head',
+      'Pin a SHA when you need a fixed revision',
+      'Refresh re-fetches the head while Latest is selected',
+    ],
     references: { source: ['uapi/app/deposits/DepositSourceSelection.tsx'], canon: DEPOSIT_CANON_REFS },
+  }),
+  repositoryAnchor: buildExplainer({
+    kicker: 'Repository',
+    title: 'Anchor repository',
+    summary:
+      'Save this repository · branch · commit package into your activity ledger so you can reload it later from Load anchor.',
+    detail:
+      'The anchor is a source-safe bookmark of the current source selection — not a deposit and not a synthesis. Load it later to restore the same repository (and branch/commit when they were recorded) without re-searching inventory.',
+    points: [
+      'Requires a repository to be selected first',
+      'Appears under Load anchor on this surface for one-shot reload',
+      'Does not start synthesis or change Depository state',
+    ],
+    references: {
+      source: [
+        'uapi/app/deposits/DepositSourceSelection.tsx',
+        'uapi/app/terminal/terminal-activity-history.ts',
+      ],
+      canon: DEPOSIT_CANON_REFS,
+    },
+  }),
+  refreshProviderConnection: buildExplainer({
+    kicker: 'Provider',
+    title: 'Refresh connection',
+    summary:
+      'Re-check the provider connection posture for the selected host.',
+    detail:
+      'Refreshes whether the GitHub (or other) App session is connected and valid without leaving the deposit surface. Use after reconnecting in Auxillaries so Branch and Commit unlock.',
+    points: [
+      'Re-queries the provider connection endpoint',
+      'Updates connected / valid state used by Branch and Commit',
+      'Does not change the selected provider, repository, or revision',
+    ],
+    references: {
+      source: ['uapi/app/deposits/DepositSourceSelection.tsx'],
+      canon: DEPOSIT_CANON_REFS,
+    },
+  }),
+  refreshRepositoryInventory: buildExplainer({
+    kicker: 'Repository',
+    title: 'Refresh repositories',
+    summary:
+      'Re-fetch the repository inventory for the connected provider account.',
+    detail:
+      'Soft-refreshes the list while keeping the current selection painted. Use after granting the App access to new repositories or changing installation scope.',
+    points: [
+      'Re-queries the provider inventory endpoint',
+      'Keeps the current selection visible while loading',
+      'Does not clear branch or commit until you pick a different repository',
+    ],
+    references: {
+      source: ['uapi/app/deposits/DepositSourceSelection.tsx'],
+      canon: DEPOSIT_CANON_REFS,
+    },
+  }),
+  refreshBranches: buildExplainer({
+    kicker: 'Branch',
+    title: 'Refresh branches',
+    summary:
+      'Re-fetch the branch list for the selected repository from the provider.',
+    detail:
+      'Soft-refreshes the list while keeping the current branch painted. Use after new branches are pushed or the default branch changes on the remote.',
+    points: [
+      'Re-queries the provider branches endpoint for this repository',
+      'Keeps the current branch selection while loading',
+      'Default-branch badge updates from the refreshed default',
+    ],
+    references: {
+      source: ['uapi/app/deposits/DepositSourceSelection.tsx'],
+      canon: DEPOSIT_CANON_REFS,
+    },
+  }),
+  refreshLatestCommit: buildExplainer({
+    kicker: 'Commit / ref',
+    title: 'Refresh commits',
+    summary:
+      'Re-fetch the commit list for the selected branch from the provider.',
+    detail:
+      'Always available once a branch is selected. Soft-refreshes so Latest can re-resolve to the current head and pinned SHAs stay in the list when they still exist.',
+    points: [
+      'Re-queries the provider for the selected branch commit list',
+      'Latest mode re-resolves to the new branch head after refresh',
+      'Pinned mode keeps the selected SHA when it is still in the list',
+    ],
+    references: {
+      source: ['uapi/app/deposits/DepositSourceSelection.tsx'],
+      canon: DEPOSIT_CANON_REFS,
+    },
   }),
   obfuscations: buildExplainer({
     kicker: 'Option synthesis',
@@ -118,8 +226,8 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     summary:
       'Free-text guidance on what synthesis should avoid surfacing — naming, business logic, or concepts you would rather AssetPack summaries not reference directly.',
     detail:
-      'This is guidance for the model\'s framing, not a hard technical boundary — for a guaranteed, fail-closed exclusion, use Protected IP exclusions below instead. The Setup phase\'s input-comprehension agent turns this into structured guidance the rest of the pipeline honors.',
-    points: ['Shapes how synthesized options are framed and worded', 'Pair with Protected IP exclusions for a hard boundary'],
+      'This is guidance for the model\'s framing, not a hard technical boundary — for a guaranteed, fail-closed exclusion, use Forced Exclusions below instead. The Setup phase\'s input-comprehension agent turns this into structured guidance the rest of the pipeline honors.',
+    points: ['Shapes how synthesized options are framed and worded', 'Pair with Forced Exclusions for a hard boundary'],
     references: {
       source: ['packages/pipelines/asset-pack/src/agents/setup/deposit-input-comprehension-agent.ts'],
       canon: DEPOSIT_CANON_REFS,
@@ -127,24 +235,24 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
   }),
   sourcePathHints: buildExplainer({
     kicker: 'Option synthesis',
-    title: 'Source path hints',
+    title: 'Forced Inclusion',
     summary:
-      'Optional pointers picked from the repository file tree (at the selected branch and commit) to paths worth flagging — used to estimate this deposit\'s criticality and cost, not to change what synthesis measures.',
+      'Paths picked from the repository file tree that synthesis must treat as in-scope — forced into measurement framing for this deposit.',
     detail:
-      'Hints that look sensitive (mentioning secrets, credentials, wallets, auth, keys, payments, or settlement) raise a review warning and nudge the deposit\'s estimated development cost and expected settlement upward — a client-side heuristic, not a synthesis-time exclusion.',
+      'Forced Inclusion paths that look sensitive (secrets, credentials, wallets, auth, keys, payments, or settlement) raise a review warning and nudge estimated development cost and expected settlement upward. Mutually exclusive with Forced Exclusions: a path cannot be both included and excluded.',
     points: [
-      'Distinct from Protected IP exclusions — this only informs review/cost estimates',
-      'Sensitive-sounding hints trigger a "requires review" warning',
+      'Distinct from Forced Exclusions — this forces inclusion, not withholding',
+      'Sensitive-sounding paths trigger a "requires review" warning',
     ],
     references: { source: DEPOSIT_SOURCE_REFS, canon: DEPOSIT_CANON_REFS },
   }),
   protectedIpExclusions: buildExplainer({
     kicker: 'Option synthesis',
-    title: 'Protected IP exclusions',
+    title: 'Forced Exclusions',
     summary:
-      'The hard, fail-closed boundary: paths and concepts listed here never enter AssetPack knowledge synthesis at all.',
+      'The hard, fail-closed boundary: paths listed here never enter AssetPack knowledge synthesis at all.',
     detail:
-      'Excluded paths are removed from the source inventory before any prompt is built, and any candidate whose covered paths touch an exclusion (or cite paths outside the real inventory) is dropped after inference — enforced independently at both ends of the pipeline, not just by model instruction-following.',
+      'Forced Exclusion paths are removed from the source inventory before any prompt is built, and any candidate whose covered paths touch an exclusion (or cite paths outside the real inventory) is dropped after inference — enforced independently at both ends of the pipeline. Mutually exclusive with Forced Inclusion.',
     points: [
       'Excluded content never reaches the model, not even as a prompt reference',
       'Violating candidates are dropped after synthesis as a second, independent check',
@@ -183,8 +291,8 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     },
   }),
   options: buildExplainer({
-    kicker: 'Options',
-    title: 'Source-safe AssetPack proposals',
+    kicker: 'Source-Safe Proposals',
+    title: 'AssetPack Options',
     summary:
       'Each card is one measured AssetPack option that SynthesizeAssetPacks produced from your connected source — a synthesized patch plus its absolute measurements, never a raw slice of your code.',
     detail:
