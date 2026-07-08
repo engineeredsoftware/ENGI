@@ -5,9 +5,12 @@ import type { MeasurementSpec } from '@bitcode/agent-generics';
 
 import {
   synthesizeAssetPackCandidatesFormal,
+  sumLlmTokensFromExecutionTree,
   type FormalSynthesisRawOption,
 } from './asset-packs-synthesis-pipeline';
 import { isAssetPackRealInferenceEnabled } from './runtime-inference-policy';
+
+export { sumLlmTokensFromExecutionTree };
 
 /**
  * AssetPacksSynthesis — the single Bitcode synthesis/measurement pipeline

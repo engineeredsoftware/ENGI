@@ -11,6 +11,7 @@ import { createStreamingExecution, emitPhaseTransition } from '@bitcode/pipeline
 import {
   applyExclusionsToInventory,
   normalizeProtectedIpExclusions,
+  sumLlmTokensFromExecutionTree,
   validateDepositSynthesisOptions,
   type AssetPacksSynthesisResult,
   type AssetPacksSynthesisSourceInventory,
@@ -384,39 +385,8 @@ export async function POST(request: Request) {
       protectedIpExclusions,
       candidateKinds: DEPOSIT_OPTION_KINDS,
     });
-    // Roll up usage from the SDIVF execution tree when available.
-    let rolledTokens: number | null = null;
-    try {
-      let total = 0;
-      let seen = false;
-      const walk = (node: any) => {
-        if (!node) return;
-        try {
-          const usage = node.get?.('llm', 'usage');
-          if (usage && typeof usage === 'object') {
-            const prompt =
-              usage.promptTokens ?? usage.prompt_tokens ?? usage.inputTokens ?? usage.input_tokens ?? 0;
-            const completion =
-              usage.completionTokens ??
-              usage.completion_tokens ??
-              usage.outputTokens ??
-              usage.output_tokens ??
-              0;
-            const n = Number(prompt) + Number(completion);
-            if (Number.isFinite(n) && n > 0) {
-              total += n;
-              seen = true;
-            }
-          }
-        } catch {}
-        const children = node.children ?? node._children ?? [];
-        if (Array.isArray(children)) for (const child of children) walk(child);
-      };
-      walk(execution);
-      rolledTokens = seen ? total : null;
-    } catch {
-      rolledTokens = null;
-    }
+    // Roll up usage from the full SDIVF execution tree (Map children + nested PTRR).
+    const rolledTokens = sumLlmTokensFromExecutionTree(execution as never);
     const result: AssetPacksSynthesisResult = {
       lens: 'deposit',
       candidates: validated.candidates,
@@ -432,6 +402,15 @@ export async function POST(request: Request) {
     await emitStatus(
       `Validated candidates fail-closed: ${result.candidates.length} admissible, ${result.droppedCandidateCount} dropped.`,
     );
+    if (result.candidates.length === 0) {
+      const detail =
+        result.exclusionViolations.length > 0
+          ? result.exclusionViolations.slice(0, 5).join('; ')
+          : 'no admissible measured candidates survived Validation absolutes / source-safety checks';
+      throw new Error(
+        `AssetPacksSynthesis produced zero admissible options (fail-closed): ${detail}`,
+      );
+    }
 
     const { synthesis, reviewProjections } = buildRealDepositAssetPackOptionSynthesis(
       {

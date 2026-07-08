@@ -183,12 +183,21 @@ export interface FormalSynthesisOutcome {
   totalTokens: number | null;
 }
 
-function sumLlmTokens(execution: Execution): number | null {
+/**
+ * Sum LLM usage across an Execution tree (Map children + array fallbacks).
+ * Used by formal synthesis and by the deposit synthesize-options route so
+ * nested PTRR/Failsafe generation usage is not missed.
+ */
+export function sumLlmTokensFromExecutionTree(execution: {
+  get?: (namespace: string, key: string) => unknown;
+  children?: Map<string, unknown> | unknown[] | { values?: () => IterableIterator<unknown> };
+}): number | null {
   let total = 0;
   let seen = false;
-  const walk = (node: Execution) => {
+  const walk = (node: any) => {
+    if (!node) return;
     try {
-      const usage = node.get<Record<string, number>>('llm', 'usage');
+      const usage = node.get?.('llm', 'usage') as Record<string, number> | undefined;
       if (usage && typeof usage === 'object') {
         const prompt =
           usage.promptTokens ?? usage.prompt_tokens ?? usage.inputTokens ?? usage.input_tokens ?? 0;
@@ -210,10 +219,23 @@ function sumLlmTokens(execution: Execution): number | null {
         }
       }
     } catch {}
-    for (const child of node.children.values()) walk(child);
+    const children = node.children;
+    if (!children) return;
+    if (typeof children.values === 'function') {
+      for (const child of children.values()) walk(child);
+      return;
+    }
+    if (Array.isArray(children)) {
+      for (const child of children) walk(child);
+    }
   };
   walk(execution);
   return seen ? total : null;
+}
+
+/** @deprecated alias — use sumLlmTokensFromExecutionTree */
+function sumLlmTokens(execution: Execution): number | null {
+  return sumLlmTokensFromExecutionTree(execution);
 }
 
 export async function synthesizeAssetPackCandidatesFormal(
