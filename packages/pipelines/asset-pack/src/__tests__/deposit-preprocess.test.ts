@@ -135,9 +135,19 @@ describe('deposit-mode preprocess context assembly', () => {
     expect(execution.get('deposit', 'obfuscations')).toEqual(input.obfuscations);
     expect(execution.get('deposit', 'forcedExclusions')).toEqual(['src/secret/**']);
     expect(execution.get('deposit', 'demandContext')).toEqual([{ topic: 'terminal reads', demand: 'high' }]);
+    // Full inventory stays on the deposit data plane for measurement tools.
     expect(execution.get('deposit', 'inventory')).toEqual({ assetCount: 2 });
     expect(execution.get('pipeline', 'synthesizeMode')).toBe('deposit');
-    expect(execution.get('pipeline', 'input')).toBe(input);
+    // pipeline:input is telemetried — inventory is projected without sources
+    // (path/sample counts only). Full sources live only on deposit:inventory.
+    expect(execution.get('pipeline', 'input')).toMatchObject({
+      mode: 'deposit',
+      inventory: {
+        sourceFileCount: 0,
+      },
+    });
+    expect(execution.get('pipeline', 'input').inventory).not.toHaveProperty('sources');
+    expect(execution.get('pipeline', 'input').inventory).not.toHaveProperty('assetCount');
     // Consumer resolution from a phase sibling's subtree.
     expect(execution.child('probe').findUp('deposit', 'inventory')).toEqual({ assetCount: 2 });
 

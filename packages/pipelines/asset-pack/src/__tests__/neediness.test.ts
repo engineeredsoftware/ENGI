@@ -37,6 +37,25 @@ describe('neediness (deposit preview of read Need-fit, v0)', () => {
   });
 
   it('attaches neediness to deposit candidates and omits it for read', () => {
+    // Gate 3 Validation attaches formal absolutes; the validator fails closed without them.
+    const formalAbsolutes = [
+      {
+        measurementKind: 'function-count',
+        label: 'Functions',
+        weight: 0.12,
+        volume: 0.7,
+        category: 'absolute' as const,
+        magnitude: 4,
+        unit: 'functions',
+      },
+      {
+        measurementKind: 'correctness-estimate',
+        label: 'Correctness',
+        weight: 0.18,
+        volume: 0.8,
+        category: 'absolute' as const,
+      },
+    ];
     const raw = [
       {
         kind: 'capability-slice',
@@ -46,6 +65,7 @@ describe('neediness (deposit preview of read Need-fit, v0)', () => {
         measurements: { 'source-coverage': 0.7, 'demand-alignment': 0.6, 'reuse-likelihood': 0.5 },
         measurementRationale: 'Covers the auth module thoroughly.',
         confidence: 0.8,
+        absolutes: formalAbsolutes,
         needinessSignal: { demand: 0.9, saturation: 0.2, rationale: 'High demand, few existing suppliers.' },
       },
     ];
@@ -62,6 +82,10 @@ describe('neediness (deposit preview of read Need-fit, v0)', () => {
     // neediness is NOT a member of the absolute composite (the measurements array).
     expect(deposit.candidates[0].measurements.map((m) => m.measurementKind)).not.toContain(
       DEPOSIT_NEEDINESS_MEASUREMENT.measurementKind,
+    );
+    // Formal absolutes project onto the candidate measurements array.
+    expect(deposit.candidates[0].measurements.map((m) => m.measurementKind)).toEqual(
+      expect.arrayContaining(['function-count', 'correctness-estimate']),
     );
 
     const read = validateDepositSynthesisOptions(raw, { ...context, lens: 'read' });
