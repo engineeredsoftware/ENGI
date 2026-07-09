@@ -7,6 +7,7 @@ import { formatAgenticExecutionLabel } from '@bitcode/api/src/executions/agentic
 import BitcodeInlineExplainer from './BitcodeInlineExplainer';
 import { BITCODE_TRANSACTION_COLUMN_EXPLAINERS } from './bitcode-transaction-explainers';
 import type { TransactionRecord } from './bitcode-transaction-types';
+import { TransactionStatusHoverBadge } from './TransactionStatusHoverBadge';
 
 function formatTimestamp(value: string) {
   try {
@@ -24,12 +25,6 @@ function formatTimestamp(value: string) {
 
 function formatTypeLabel(value: string, label?: string) {
   return label || formatAgenticExecutionLabel(value);
-}
-
-function statusTone(status: string) {
-  if (status === 'completed') return 'border-emerald-500/30 bg-emerald-500/10 text-emerald-200';
-  if (status === 'error' || status === 'failed') return 'border-red-500/30 bg-red-500/10 text-red-200';
-  return 'border-amber-500/30 bg-amber-500/10 text-amber-100';
 }
 
 interface BitcodeTransactionsDataTableProps {
@@ -142,11 +137,12 @@ export default function BitcodeTransactionsDataTable({
                       </span>
                     </td>
                     <td className="px-3 py-3 align-top">
-                      <span
-                        className={` border px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.18em] ${statusTone(record.status)}`}
-                      >
-                        {record.status}
-                      </span>
+                      <TransactionStatusHoverBadge
+                        runId={record.id}
+                        status={record.status}
+                        errorMessage={record.errorMessage}
+                        summary={record.summary}
+                      />
                     </td>
                     <td className="px-3 py-3 align-top text-sm text-neutral-200">
                       <p>{record.participant}</p>

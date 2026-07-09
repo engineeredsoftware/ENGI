@@ -26,6 +26,8 @@ export interface TerminalTransactionRecord {
   isOwnTransaction: boolean;
   transactionLens: Exclude<TerminalTransactionLens, 'all'>;
   searchableText: string;
+  /** Source-safe failure text for failed/cancelled hover previews. */
+  errorMessage?: string | null;
 }
 
 export interface TerminalTransactionFilters {
@@ -65,6 +67,11 @@ export function normalizeTerminalTransactions(runs: WorkspaceRun[]): TerminalTra
     const summary =
       normalizeWhitespace(run.summary) || 'Inspect this Bitcode execution from the central Bitcode Terminal detail surface.';
     const status = normalizeStatus(run.status);
+    const errorMessage =
+      normalizeWhitespace(run.errorMessage) ||
+      (status === 'failed' || status === 'cancelled' || status === 'interrupted'
+        ? normalizeWhitespace(run.summary)
+        : null);
     const proofStatus = normalizeWhitespace(run.proofStatus) || agenticExecution.proofStatus;
     const closureFocus = normalizeWhitespace(run.closureFocus) || agenticExecution.closureFocus;
     const transactionLens = run.transactionLens || agenticExecution.lens;
@@ -76,6 +83,7 @@ export function normalizeTerminalTransactions(runs: WorkspaceRun[]): TerminalTra
       type,
       typeLabel,
       status,
+      errorMessage,
       repository,
       branch,
       participant,
@@ -105,6 +113,7 @@ export function normalizeTerminalTransactions(runs: WorkspaceRun[]): TerminalTra
       isOwnTransaction: Boolean(run.isOwnTransaction),
       transactionLens,
       searchableText,
+      errorMessage,
     };
   });
 }

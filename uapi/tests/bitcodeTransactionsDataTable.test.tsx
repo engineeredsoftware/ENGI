@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import BitcodeTransactionsDataTable from '@/components/base/bitcode/execution/BitcodeTransactionsDataTable';
 import type { TransactionRecord } from '@/components/base/bitcode/execution/bitcode-transaction-types';
@@ -22,6 +22,14 @@ function buildRecord(overrides: Partial<TransactionRecord> = {}): TransactionRec
     ...overrides,
   };
 }
+
+// PathPill / ExecutionContextPillRow pull explainers that are fine in jsdom;
+// only the hover fetch needs a stub.
+const fetchMock = jest.fn();
+beforeEach(() => {
+  fetchMock.mockReset();
+  (global as any).fetch = fetchMock;
+});
 
 describe('BitcodeTransactionsDataTable — fully clickable rows', () => {
   it('selects the transaction when any cell in the row is clicked, not only the first', () => {
@@ -77,5 +85,62 @@ describe('BitcodeTransactionsDataTable — fully clickable rows', () => {
     expect(
       screen.getByRole('button', { name: /selected-run/ }),
     ).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('on failed status hover loads the event tail and shows error + last call chain', async () => {
+    fetchMock.mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        run: {
+          id: 'failed-run',
+          summary: 'Run failed — host killed mid-pipeline',
+          error: { message: 'Run failed — host killed mid-pipeline' },
+        },
+        events: [
+          {
+            created_at: '2026-07-09T03:00:00.000Z',
+            event: {
+              type: 'generation',
+              executionState: {
+                phase: 'discovery',
+                agent: 'DepositCodebaseComprehensionAgent',
+                step: 'refine',
+                failsafe: 'chunk_then_sum',
+                generation: 'structured_output',
+              },
+            },
+          },
+        ],
+      }),
+    });
+
+    render(
+      <BitcodeTransactionsDataTable
+        records={[
+          buildRecord({
+            id: 'failed-run',
+            status: 'failed',
+            errorMessage: 'Run failed — host killed mid-pipeline',
+          }),
+        ]}
+        selectedTransactionId={null}
+        onSelectTransaction={jest.fn()}
+        isLoading={false}
+        error={null}
+      />,
+    );
+
+    fireEvent.mouseEnter(screen.getByTestId('transaction-status-hover'));
+    await waitFor(() =>
+      expect(fetchMock).toHaveBeenCalledWith(
+        '/api/executions/history/failed-run?tail=24',
+      ),
+    );
+    expect(
+      await screen.findByTestId('transaction-status-failure-error'),
+    ).toHaveTextContent('Run failed — host killed mid-pipeline');
+    expect(
+      screen.getByTestId('transaction-status-failure-lines'),
+    ).toBeInTheDocument();
   });
 });

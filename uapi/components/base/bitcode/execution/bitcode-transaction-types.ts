@@ -75,4 +75,6 @@ export interface TransactionRecord {
   tokenTotal?: number | null;
   isOwnTransaction: boolean;
   transactionLens: Exclude<TransactionLens, 'all'>;
+  /** Source-safe failure text for failed/cancelled hover previews. */
+  errorMessage?: string | null;
 }
