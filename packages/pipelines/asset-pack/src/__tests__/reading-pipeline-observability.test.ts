@@ -21,7 +21,7 @@ describe('Reading pipeline observability projection', () => {
       'phase',
       'ptrr-agent',
       'ptrr-step',
-      'thricified-generation',
+      'thinkings-generation',
       'prompt',
       'tool',
       'raw-output',
@@ -32,15 +32,15 @@ describe('Reading pipeline observability projection', () => {
       phases: 11,
       ptrrAgents: 12,
       ptrrSteps: 48,
-      thricifiedGenerations: 144,
+      thinkingsGenerations: 144,
       promptTemplates: 5,
-      thricifiedGenerationPrompts: 432,
+      thinkingsGenerationPrompts: 432,
       tools: 4,
     });
     expect(inventory.traceEntries).toHaveLength(48);
   });
 
-  it('projects LLM prompt telemetry onto the precise PTRR and ThricifiedGeneration contract', () => {
+  it('projects LLM prompt telemetry onto the precise PTRR and ThinkingsGeneration contract', () => {
     const projection = resolveReadingPipelineTelemetryProjection({
       type: 'pipeline-stream-event',
       streamEventType: 'store',
@@ -50,8 +50,8 @@ describe('Reading pipeline observability projection', () => {
       phaseId: 'ReadFitsFindingSynthesis.implementation',
       agentId: 'ReadFitsFindingSynthesis.implementation.asset-pack',
       ptrrStepId: 'ReadFitsFindingSynthesis.implementation.asset-pack.try',
-      thricifiedGenerationId:
-        'ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.try.prepare-concise-context',
+      thinkingsGenerationId:
+        'ReadFitsFindingSynthesis.thinkings-generation.implementation.asset-pack.try.prepare-concise-context',
       promptTemplatePresent: true,
       interpolatedPromptPresent: true,
     });
@@ -63,9 +63,9 @@ describe('Reading pipeline observability projection', () => {
       agentId: 'ReadFitsFindingSynthesis.implementation.asset-pack',
       ptrrStepId: 'ReadFitsFindingSynthesis.implementation.asset-pack.try',
       ptrrStepName: 'try',
-      thricifiedGenerationId:
-        'ReadFitsFindingSynthesis.thricified-generation.implementation.asset-pack.try.prepare-concise-context',
-      thricifiedFailsafe: 'prepare-concise-context',
+      thinkingsGenerationId:
+        'ReadFitsFindingSynthesis.thinkings-generation.implementation.asset-pack.try.prepare-concise-context',
+      thinkingsFailsafe: 'prepare-concise-context',
       promptTemplateId: 'ReadFitsFindingSynthesis.prompt.asset-pack-synthesis',
       returnType: 'AssetPackSynthesisOutput',
       outputSchema: 'AssetPackSynthesisOutput',
@@ -134,8 +134,8 @@ describe('Reading pipeline observability projection', () => {
       },
       {
         pipelineName: READ_FITS_FINDING_SYNTHESIS,
-        thricifiedGenerationId:
-          'ReadFitsFindingSynthesis.thricified-generation.discovery.finding-fits.try.prepare-concise-context',
+        thinkingsGenerationId:
+          'ReadFitsFindingSynthesis.thinkings-generation.discovery.finding-fits.try.prepare-concise-context',
       },
       {
         pipelineName: READ_FITS_FINDING_SYNTHESIS,

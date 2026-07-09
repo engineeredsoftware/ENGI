@@ -40,19 +40,16 @@ type PacksActivityPayload = {
   error?: string;
 };
 
+// /packs shows ONLY actual AssetPacks — the network-scope commodity ledger
+// (admitted Depository AssetPacks + settled/read APs). Every other activity
+// type (deposit options under review, settlement/compensation/delivery/repair
+// sub-events, executions, notifications) is personal-scope pipeline activity
+// and stays on /deposits, which shows the full transaction activity stream.
 const TYPE_OPTIONS: Array<{ value: PackActivityType | "all"; label: string }> =
   [
-    { value: "all", label: "All activity" },
-    { value: "deposit-option", label: "Deposit options" },
+    { value: "all", label: "All AssetPacks" },
     { value: "depository-assetpack", label: "Depository AssetPacks" },
-    { value: "read-need-fit-preview", label: "Read previews" },
     { value: "settled-assetpack", label: "Settled AssetPacks" },
-    { value: "settlement", label: "Settlement" },
-    { value: "compensation", label: "Compensation" },
-    { value: "delivery", label: "Delivery" },
-    { value: "repair", label: "Repair" },
-    { value: "execution", label: "Executions" },
-    { value: "notification", label: "Notifications" },
   ];
 
 const SORT_OPTIONS: Array<{ value: PackActivitySortKey; label: string }> = [
@@ -145,7 +142,6 @@ export default function PacksPageClient() {
     | PackActivityType
     | "all";
   const state = readParam(routeParams, "state", "all");
-  const scope = readParam(routeParams, "scope", "all");
   const sort = readParam(
     routeParams,
     "sort",
@@ -178,6 +174,10 @@ export default function PacksPageClient() {
     setError(null);
     const params = new URLSearchParams(routeParams);
     params.set("limit", params.get("limit") || "80");
+    // /packs is ALWAYS the network-scope AssetPack ledger (admitted Depository
+    // AssetPacks + settled/read APs) — never user-widenable back to personal
+    // pipeline activity, which is /deposits' job.
+    params.set("scope", "network");
 
     try {
       const response = await fetch(`/api/packs/activity?${params.toString()}`, {
@@ -448,18 +448,6 @@ export default function PacksPageClient() {
                   {option.label}
                 </option>
               ))}
-            </select>
-            <select
-              value={scope}
-              onChange={(event) =>
-                writeParams({ scope: event.currentTarget.value })
-              }
-              className="h-11 border border-white/10 bg-black/30 px-3 text-sm text-neutral-200 outline-none focus:border-emerald-300/45"
-              aria-label="Visibility scope"
-            >
-              <option value="all">All scopes</option>
-              <option value="network">Network — deposited and read AssetPacks</option>
-              <option value="personal">Mine — archived options, sources, requests</option>
             </select>
             <input
               value={state === "all" ? "" : state}

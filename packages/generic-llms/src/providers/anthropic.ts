@@ -27,7 +27,7 @@ export const anthropicProvider: LLMProvider = {
       const finalConfig = { ...config, ...input.config };
       
       const request: AnthropicRequest = {
-        model: finalConfig.model || 'claude-sonnet-4-6',
+        model: finalConfig.model || 'claude-haiku-4-5',
         messages: input.messages,
         max_tokens: finalConfig.maxTokens || 4096,
         temperature: finalConfig.temperature,

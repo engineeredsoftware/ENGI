@@ -195,7 +195,7 @@ export const ExecutionReadInput = ({
       <div className={`${glassyInputStyles.cornerDot} ${glassyInputStyles.br}`} />
 
       <textarea data-testid="execution-read-definition-input"
-        className="w-full min-h-[366px] px-4 py-4 bg-transparent text-gray-100 placeholder-gray-500 font-mono resize-none focus:outline-none rounded-md"
+        className="w-full min-h-[366px] px-4 py-4 bg-transparent text-gray-100 placeholder-gray-500 font-mono resize-none focus:outline-none"
         placeholder={placeholder}
         value={definitionOfRead}
         onChange={(e) => onChange(e.target.value)}
@@ -216,7 +216,7 @@ export const ExecutionReadInput = ({
           onMouseLeave={onEnhanceMouseLeave}
           disabled={!ENABLE_ENHANCE_NEED_DEFINITION || isEnhancing || isProcessing || !definitionOfRead.trim()}
           className={`
-            flex items-center justify-center w-10 h-10 rounded-full
+            flex items-center justify-center w-10 h-10
             transition-all duration-300
             ${definitionOfRead.trim() && ENABLE_ENHANCE_NEED_DEFINITION ? 'opacity-80 hover:opacity-100' : 'opacity-30 cursor-not-allowed'}
             ${isEnhancing ? 'bg-gray-500/20' : ENABLE_ENHANCE_NEED_DEFINITION ? 'bg-purple-500/10' : 'bg-gray-500/10'}
@@ -249,10 +249,10 @@ export const ExecutionReadInput = ({
           )}
 
           {/* Quantum glow effect */}
-          <div className="absolute inset-0 rounded-full bg-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
+          <div className="absolute inset-0 bg-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
 
           {/* Orbital ring */}
-          <div className="absolute inset-0 rounded-full border border-purple-500/20 opacity-0 group-hover:opacity-100 animate-orbital-glow"></div>
+          <div className="absolute inset-0 border border-purple-500/20 opacity-0 group-hover:opacity-100 animate-orbital-glow"></div>
         </button>
 
           {/* Save as Template Button */}
@@ -265,7 +265,7 @@ export const ExecutionReadInput = ({
             onClick={handleSaveTemplate}
             disabled={!definitionOfRead.trim() || isProcessing || definitionOfRead === initialDefinitionOfNeed}
           className={`
-            flex items-center justify-center w-10 h-10 rounded-full
+            flex items-center justify-center w-10 h-10
             transition-all duration-300
             ${definitionOfRead.trim() ? 'opacity-80 hover:opacity-100' : 'opacity-30 cursor-not-allowed'}
             bg-purple-500/10 border border-purple-500/20
@@ -290,10 +290,10 @@ export const ExecutionReadInput = ({
           </svg>
 
           {/* Quantum glow effect */}
-          <div className="absolute inset-0 rounded-full bg-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
+          <div className="absolute inset-0 bg-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
 
           {/* Orbital ring */}
-          <div className="absolute inset-0 rounded-full border border-purple-500/20 opacity-0 group-hover:opacity-100 animate-orbital-glow"></div>
+          <div className="absolute inset-0 border border-purple-500/20 opacity-0 group-hover:opacity-100 animate-orbital-glow"></div>
           </button>
           </div>
       </div>
@@ -305,7 +305,7 @@ export const ExecutionReadInput = ({
           onClick={handleEnhanceWriting}
           disabled={!ENABLE_ENHANCE_NEED_DEFINITION || isEnhancing || isProcessing || !definitionOfRead.trim()}
           className={`
-            flex items-center justify-center w-10 h-10 rounded-full
+            flex items-center justify-center w-10 h-10
             transition-all duration-300
             ${definitionOfRead.trim() && ENABLE_ENHANCE_NEED_DEFINITION ? 'opacity-80 hover:opacity-100' : 'opacity-30 cursor-not-allowed'}
             ${isEnhancing ? 'bg-gray-500/20' : ENABLE_ENHANCE_NEED_DEFINITION ? 'bg-purple-500/10' : 'bg-gray-500/10'}
@@ -343,7 +343,7 @@ export const ExecutionReadInput = ({
           onClick={handleSaveTemplate}
           disabled={!definitionOfRead.trim() || isProcessing || definitionOfRead === initialDefinitionOfNeed}
           className={`
-            flex items-center justify-center w-10 h-10 rounded-full
+            flex items-center justify-center w-10 h-10
             transition-all duration-300
             ${definitionOfRead.trim() ? 'opacity-80 hover:opacity-100' : 'opacity-30 cursor-not-allowed'}
             bg-purple-500/10 border border-purple-500/20
@@ -386,7 +386,7 @@ export const ExecutionReadInput = ({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-slate-900/95 backdrop-blur-md border border-brand-purple-glow-subtle rounded-xl p-4 w-full max-w-sm shadow-xl z-[100]"
+              className="bg-slate-900/95 backdrop-blur-md border border-brand-purple-glow-subtle p-4 w-full max-w-sm shadow-xl z-[100]"
               style={{
                 boxShadow: `
                   0 10px 30px theme(colors.brand.black-translucent),
@@ -397,13 +397,13 @@ export const ExecutionReadInput = ({
             >
               {saveSuccess ? (
                 <div className="flex flex-col items-center justify-center py-4">
-                  <div className="w-12 h-12 bg-brand-emerald-glow-subtle rounded-full flex items-center justify-center mb-3 relative">
+                  <div className="w-12 h-12 bg-brand-emerald-glow-subtle flex items-center justify-center mb-3 relative">
                     <svg className="h-6 w-6 text-brand-emerald-bright" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
                     {/* Success animation rings */}
-                    <div className="absolute inset-0 rounded-full border border-brand-emerald-glow animate-ping-slow"></div>
-                    <div className="absolute inset-0 rounded-full border-2 border-brand-emerald-glow-subtle animate-pulse-subtle"></div>
+                    <div className="absolute inset-0 border border-brand-emerald-glow animate-ping-slow"></div>
+                    <div className="absolute inset-0 border-2 border-brand-emerald-glow-subtle animate-pulse-subtle"></div>
                   </div>
                   <h3 className="text-base font-medium text-brand-emerald-bright mb-1">Template Saved!</h3>
                   <p className="text-gray-400 text-xs text-center">
@@ -421,7 +421,7 @@ export const ExecutionReadInput = ({
                     </h3>
                     <button
                       onClick={() => setShowSaveModal(false)}
-                      className="text-gray-400 hover:text-white transition-colors rounded-full hover:bg-purple-500/10 p-0.5"
+                      className="text-gray-400 hover:text-white transition-colors hover:bg-purple-500/10 p-0.5"
                     >
                       <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -439,7 +439,7 @@ export const ExecutionReadInput = ({
                         id="template-name"
                         value={templateName}
                         onChange={(e) => setTemplateName(e.target.value)}
-                        className="w-full px-2.5 py-1.5 bg-brand-black-translucent border border-brand-purple-glow-subtle rounded-md text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-brand-purple-glow-subtle focus:border-brand-purple-glow-subtle transition-all duration-300"
+                        className="w-full px-2.5 py-1.5 bg-brand-black-translucent border border-brand-purple-glow-subtle text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-brand-purple-glow-subtle focus:border-brand-purple-glow-subtle transition-all duration-300"
                         placeholder="Enter a name for your template"
                       />
                     </div>
@@ -453,7 +453,7 @@ export const ExecutionReadInput = ({
                           <div
                             key={category.id}
                             className={`
-                              flex items-center p-2 rounded-md border transition-all duration-300 cursor-pointer
+                              flex items-center p-2 border transition-all duration-300 cursor-pointer
                               ${category.checked
                                 ? 'border-brand-purple-glow bg-brand-purple-glow-subtle shadow-glow-purple-subtle'
                                 : 'border-gray-700/50 bg-brand-black-translucent hover:border-brand-purple-glow-subtle hover:bg-brand-purple-glow-subtle'}
@@ -461,7 +461,7 @@ export const ExecutionReadInput = ({
                             onClick={() => toggleCategory(category.id)}
                           >
                             <div className={`
-                              w-3.5 h-3.5 rounded-sm mr-1.5 flex items-center justify-center
+                              w-3.5 h-3.5 mr-1.5 flex items-center justify-center
                               ${category.checked
                                 ? 'bg-brand-purple-glow border border-brand-purple-bright'
                                 : 'bg-brand-black-translucent border border-gray-600/50'}
@@ -494,7 +494,7 @@ export const ExecutionReadInput = ({
                         onClick={handleSaveConfirm}
                         disabled={!templateName.trim() || !templateCategories.some(cat => cat.checked)}
                         className={`
-                          w-full flex items-center justify-center space-x-1.5 px-3 py-2 rounded-md
+                          w-full flex items-center justify-center space-x-1.5 px-3 py-2
                           text-xs font-medium transition-all duration-300
                           bg-brand-purple-glow-subtle text-brand-purple-bright border border-brand-purple-glow
                           hover:bg-brand-purple-glow hover:border-brand-purple-bright hover:text-brand-purple-bright

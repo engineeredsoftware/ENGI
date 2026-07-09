@@ -17,6 +17,7 @@
     "./deposit-asset-pack-option-policy": "./src/deposit-asset-pack-option-policy.ts",
     "./deposit-asset-pack-option-admission": "./src/deposit-asset-pack-option-admission.ts",
     "./depositor-earning-supply-intelligence": "./src/depositor-earning-supply-intelligence.ts",
+    "./depository-settled-demand-estimate": "./src/depository-settled-demand-estimate.ts",
     "./btd-btc-compensation-statements": "./src/btd-btc-compensation-statements.ts",
     "./asset-pack-commodity-state": "./src/asset-pack-commodity-state.ts",
     "./btd-scalar-volume-quote": "./src/btd-scalar-volume-quote.ts",

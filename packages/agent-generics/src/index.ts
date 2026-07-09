@@ -67,6 +67,27 @@ export type {
   BitcodePTRRStepPromptRegistry
 } from './agents/factories';
 
+// ==================== MEASURE AGENTS ====================
+
+// The measurement base hierarchy: measure-agent (PTRR base) ->
+// measure-agent-absolutes (+ measure-agent-needinesses, Gate 4) -> the asset-pack
+// concrete measurers. Layered factories, not class inheritance.
+export {
+  factoryMeasureAgent,
+  MeasurementReadingSchema,
+  MeasureAgentOutputSchema
+} from './agents/measure-agent';
+export type {
+  MeasureAgent,
+  MeasureAgentConfig,
+  MeasureAgentOutput,
+  MeasurementCategory,
+  MeasurementReading,
+  MeasurementSpec
+} from './agents/measure-agent';
+export { factoryMeasureAgentAbsolutes } from './agents/measure-agent-absolutes';
+export type { MeasureAgentAbsolutesConfig } from './agents/measure-agent-absolutes';
+
 // ==================== STEP FACTORIES ====================
 
 // PTRR step creation
@@ -77,6 +98,9 @@ export {
   factoryRetryStep,
   factoryStep
 } from './steps/factories';
+// Canonical PTRR STEP output schemas (step outputs validate against STEP
+// schemas, not the full agent schema — Plan's default plan shape lives here)
+export { PlanStepOutputSchema, type PlanStepOutput } from './steps/step-schemas';
 // Generation-first aliases
 export {
   factoryPlanGeneration,
@@ -85,13 +109,13 @@ export {
   factoryRetryGeneration,
   factoryGeneration,
   createFailsafedGenerationSequence,
-  createFailsafedThricifiedGeneration,
+  createFailsafedThinkingsGeneration,
   createFailsafedGeneration
 } from './generations/factories';
-export { createThricifiedGeneration } from './steps/thricified-generation';
+export { createThinkingsGeneration } from './steps/thinkings-generation';
 export {
   createFailsafeGenerationSequence,
-  createContextfulFailsafedThricifiedGeneration
+  createContextfulFailsafedThinkingsGeneration
 } from './steps/failsafe-sequence';
 
 // ==================== SUBSTEP FACTORIES ====================
@@ -100,7 +124,9 @@ export {
 export {
   factoryPrepareConciseContext,
   factoryChunkThenSum,
-  factoryStitchUntilComplete
+  factoryStitchUntilComplete,
+  PCC_KEY_SELECTION_SCHEMA,
+  type PrepareConciseContextSelectionInput
 } from './substeps/factories';
 
 // Generation substeps

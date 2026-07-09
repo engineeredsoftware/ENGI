@@ -75,7 +75,7 @@ describe('ReadNeed review, resynthesis, and admission runtime', () => {
       reviewState: 'needs_acceptance',
     });
     expect(runtime.telemetryReceipts[0].ptrrStepIds).toHaveLength(16);
-    expect(runtime.telemetryReceipts[0].thricifiedGenerationIds).toHaveLength(48);
+    expect(runtime.telemetryReceipts[0].thinkingsGenerationIds).toHaveLength(48);
     expect(runtime.proofRoots.runtimeRoot).toMatch(/^sha256:/);
     expect(runtime.nextProtocolAction).toMatch(/accept the synthesized Read-Need/i);
   });
@@ -183,7 +183,7 @@ describe('ReadNeed review, resynthesis, and admission runtime', () => {
         pipelineName: 'ReadNeedComprehensionSynthesis',
         phaseCount: 4,
         ptrrStepCount: 16,
-        thricifiedGenerationCount: 48,
+        thinkingsGenerationCount: 48,
       },
     });
   });

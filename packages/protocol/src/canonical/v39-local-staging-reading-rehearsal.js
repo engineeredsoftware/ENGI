@@ -275,7 +275,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('read-fits-runtime-present', SOURCE_ROOTS.readFitsRuntime, readFitsRuntime.includes('buildReadFitsFindingRuntime') && readFitsRuntime.includes('selectedFitProvenanceRoot')),
     predicateResult('preview-boundary-present', SOURCE_ROOTS.previewBoundary, previewBoundary.includes('buildAssetPackPreviewBoundary') && previewBoundary.includes('source_safe_assetpack_preview_quote_boundary')),
     predicateResult('settlement-boundary-present', SOURCE_ROOTS.settlementBoundary, settlementBoundary.includes('buildAssetPackSettlementRightsDeliveryBoundary') && settlementBoundary.includes('source_bearing_pull_request_ready')),
-    predicateResult('operational-readback-present', SOURCE_ROOTS.operationalReadback, operationalReadback.includes('buildReadingOperationalTelemetryRepairReadback') && operationalReadback.includes('thricified-generation')),
+    predicateResult('operational-readback-present', SOURCE_ROOTS.operationalReadback, operationalReadback.includes('buildReadingOperationalTelemetryRepairReadback') && operationalReadback.includes('thinkings-generation')),
     predicateResult('interface-parity-present', SOURCE_ROOTS.interfaceParity, interfaceParity.includes('buildReadingInterfaceProductParity') && interfaceParity.includes('source_bearing_delivery_locked_until_settlement_and_rights')),
     predicateResult('depository-many-fits-present', SOURCE_ROOTS.depositorySearch, depositorySearch.includes('maxSelectedCandidates: 12') && depositorySearch.includes('selectedFitProvenanceRoot')),
     predicateResult('harness-streams-reading-events', SOURCE_ROOTS.harness, harness.includes('readingPipelineTelemetry') && harness.includes('pipeline-stream-event')),

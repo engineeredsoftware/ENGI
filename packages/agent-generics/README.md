@@ -26,7 +26,7 @@ export const InitializeSomething = factoryQuickAgent({
 ALL generic agents now follow the **exact same declarative pattern**:
 - **Agents define ONLY schemas and prompts**
 - **Factories handle ALL execution automatically**
-- **Every generation runs the SAME failsafed thricified sequence**
+- **Every generation runs the SAME failsafed thinkings sequence**
 - **Tools execute conditionally based on output schemas (postprocess)**
 
 ## Failsafed Generation Architecture
@@ -65,17 +65,17 @@ import { createFailsafeGenerationSequence } from '@bitcode/agent-generics/src/st
 
 const core = createFailsafeGenerationSequence({ outputSchema, enableParallelChunks: true });
 
-### ThricifiedGeneration
+### ThinkingsGeneration
 
-A ThricifiedGeneration is the atomic typed generation used by agents: Reason → Judge → StructuredOutput. It wraps three LLM calls into a single Generation.
+A ThinkingsGeneration is the atomic typed generation used by agents: Reason → Judge → StructuredOutput. It wraps three LLM calls into a single Generation.
 
 ```ts
-import { createThricifiedGeneration } from '@bitcode/agent-generics/src/steps/thricified-generation';
+import { createThinkingsGeneration } from '@bitcode/agent-generics/src/steps/thinkings-generation';
 
-const gen = createThricifiedGeneration(outputSchema);
+const gen = createThinkingsGeneration(outputSchema);
 ```
 
-PTRR failsafes execute this ThricifiedGeneration under three different “parents” (Prepare/Chunk/Stitch). Agents compose failsafes; QuickAgents can also use thricified generations directly for one-off typed calls.
+PTRR failsafes execute this ThinkingsGeneration under three different “parents” (Prepare/Chunk/Stitch). Agents compose failsafes; QuickAgents can also use thinkings generations directly for one-off typed calls.
 ```
 
 ## Prompt Hierarchy

@@ -304,7 +304,7 @@
     },
     {
       "contractId": "failsafe-sequence-context-handling",
-      "label": "FailsafeGenerationSequence prepares context, chunks large inputs, and stitches typed outputs",
+      "label": "FailsafeGenerationSequence selects concise context, chunks oversized composed requests, and stitches typed outputs",
       "sourceRoots": [
         "packages/agent-generics/src/steps/failsafe-sequence.ts",
         "packages/agent-generics/src/substeps/factories.ts",
@@ -320,8 +320,8 @@
         "failsafe-substep"
       ],
       "interpolationKeyIds": [
-        "preparedContexts",
-        "currentContext",
+        "selectedKeys",
+        "selectedContext",
         "chunkResults"
       ],
       "missingKeyBehaviorIds": [
@@ -333,9 +333,10 @@
         "prepare-concise-context",
         "chunk-then-sum",
         "stitch-until-complete",
-        "context.full",
-        "context.selectors",
-        "tokenLimit"
+        "context.keys",
+        "context.selectedKeys",
+        "context.selectedContext",
+        "maxRequestTokens"
       ],
       "parserTargetIds": [
         "outputSchema"
@@ -348,7 +349,7 @@
       "requiredPredicateIds": [
         "failsafe.delegates-to-thricified",
         "failsafe.includes-context-chunk-stitch",
-        "failsafe.stores-context-selectors",
+        "failsafe.stores-selected-context",
         "failsafe.stores-ptrr-failsafe",
         "failsafe.prompt-has-handle",
         "failsafe.uses-output-schema"
@@ -381,7 +382,7 @@
       "contractId": "thricified-generation-final-resolution",
       "label": "ThricifiedGeneration resolves final Reason, Judge, and StructuredOutput call chain and typed parser target",
       "sourceRoots": [
-        "packages/agent-generics/src/steps/thricified-generation.ts",
+        "packages/agent-generics/src/steps/thinkings-generation.ts",
         "packages/agent-generics/src/substeps/factories.ts",
         "packages/agent-generics/src/prompts/AgentGenerationSubStepPrompt.ts"
       ],
@@ -789,7 +790,7 @@
         "deliveryMechanismTemplate"
       ],
       "missingKeyBehaviorIds": [
-        "deterministic-fallback-when-ptrr-disabled",
+        "always-real-ptrr-no-deterministic-fallback",
         "completion-schema-parse-fails-closed"
       ],
       "toolPromptInjectionIds": [],
@@ -811,7 +812,7 @@
       "requiredPredicateIds": [
         "assetpack-synthesis.uses-ptrr-agent",
         "assetpack-synthesis.has-output-schema",
-        "assetpack-synthesis.has-bounded-real-inference-branch",
+        "assetpack-synthesis.always-real-ptrr-unwraps-envelope",
         "assetpack-completion.has-output-schema",
         "assetpack-completion.parses-output",
         "assetpack-completion.records-btc-fee-fields"
@@ -1016,7 +1017,7 @@
       "passed": true
     },
     {
-      "id": "failsafe.stores-context-selectors",
+      "id": "failsafe.stores-selected-context",
       "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
       "passed": true
     },
@@ -1037,7 +1038,7 @@
     },
     {
       "id": "thricified.sequences-reason-judge-structured-output",
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
       "passed": true
     },
     {
@@ -1186,7 +1187,7 @@
       "passed": true
     },
     {
-      "id": "assetpack-synthesis.has-bounded-real-inference-branch",
+      "id": "assetpack-synthesis.always-real-ptrr-unwraps-envelope",
       "sourcePath": "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
       "passed": true
     },
@@ -1241,7 +1242,7 @@
       "sourcePath": ".bitcode/v41-promptpart-prompt-inventory.json",
       "exists": true,
       "legacy": false,
-      "sourceHash": "927738d4b3bdab4f2f9734e7"
+      "sourceHash": "807e7d7d8b39786e32cd51e1"
     },
     {
       "sourcePath": "packages/agent-generics/src/agents/factories.ts",
@@ -1307,19 +1308,19 @@
       "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "dd28f94fb8e57edede3bb862"
+      "sourceHash": "9dd996b3f76448fbd8b9305e"
     },
     {
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "f42ff0db669cb60e4bfbf7f4"
+      "sourceHash": "5e0f26f6d071b2df5a651cfd"
     },
     {
       "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "34250a4942e59bd0a9b5e78d"
+      "sourceHash": "5121e06c61bf851307d8e781"
     },
     {
       "sourcePath": "packages/execution-generics/src/Execution.ts",
@@ -1331,7 +1332,7 @@
       "sourcePath": "packages/execution-generics/src/prompts/ExecutionPrompt.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "15c615717113d5ea7eb1daa6"
+      "sourceHash": "956500ea4690f74a744dd228"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/agents/finish/asset-pack-completion-agent.ts",
@@ -1343,31 +1344,31 @@
       "sourcePath": "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "80d7185a2ecedd5d71880a27"
+      "sourceHash": "32df0b609f8f9c1f7796fa2b"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "e983ef9a11ae67d867ebaa99"
+      "sourceHash": "8c79c6f9c479ba664206175d"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "4e89eacdc2b73bd6bc70a085"
+      "sourceHash": "6b91862fe0c4c802b9a19e15"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "347bd88040c9456420e03c0e"
+      "sourceHash": "c6556bcccf75a5465c0d25c5"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "eeb93c86b190cd11b3e0c059"
+      "sourceHash": "3d827283d8dc1234cc31d348"
     },
     {
       "sourcePath": "packages/prompts/src/execution/PromptExecution.ts",
@@ -1462,11 +1463,11 @@
     "sourceRootPresentCount": 29,
     "missingSourceRoots": [],
     "legacySourceRoots": false,
-    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:296926f1c26d370f7e91a70d",
+    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
     "gate2PromptPartRowCount": 1459,
-    "gate2PromptRowCount": 105,
-    "gate2PromptRowsWithRegistryPaths": 87,
-    "gate2RegistryPathCount": 1135,
+    "gate2PromptRowCount": 110,
+    "gate2PromptRowsWithRegistryPaths": 92,
+    "gate2RegistryPathCount": 1163,
     "gate2V42RoadmapPrepared": true,
     "sourceSafeMetadataOnly": true,
     "rawPromptTextSerialized": false,
@@ -1506,5 +1507,5 @@
   },
   "failures": [],
   "passed": true,
-  "artifactRoot": "v41-registry-interpolation-contract:fb4b99ad86f0cf6f4a9c04c4"
+  "artifactRoot": "v41-registry-interpolation-contract:d185ffe16ec5a0b46e809b54"
 }

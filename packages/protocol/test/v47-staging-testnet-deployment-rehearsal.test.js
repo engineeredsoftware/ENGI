@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { test } from 'node:test';
+import { test } from './era-pinned-superseded-routes.js';
 import {
   V47_STAGING_TESTNET_DEPLOYMENT_SURFACE_IDS,
   V47_STAGING_TESTNET_FORBIDDEN_PAYLOAD_IDS,

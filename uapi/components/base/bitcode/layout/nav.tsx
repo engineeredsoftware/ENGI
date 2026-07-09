@@ -394,8 +394,8 @@ export default function Nav() {
     <ul className="flex w-full flex-wrap items-center gap-2 phone:gap-3 tablet:ml-8 tablet:w-auto tablet:flex-1 tablet:flex-nowrap tablet:justify-center tablet:gap-4 laptop:ml-12 laptop:gap-6">
       {BITCODE_PUBLIC_COPY.publicNav.links.map(({ href, label }, index) => {
         const isPacksRoute = href === '/packs';
-        const isDepositRoute = href === '/deposit';
-        const isReadRoute = href === '/read';
+        const isDepositRoute = href === '/deposits';
+        const isReadRoute = href === '/reads';
         const isDisabledRoute = isPacksRoute && disableExchangeLink;
         const isActiveRoute =
           isPacksRoute

@@ -36,7 +36,7 @@ function renderTools(tools: ToolUsageUpdate[]): React.ReactNode {
     <ul className="space-y-1 text-sm text-gray-200">
       {tools.map((tool) => (
         <li key={`${tool.name}-${tool.metadata?.id ?? ''}`} className="flex items-center gap-2">
-          <span className="inline-flex items-center justify-center h-5 px-2 rounded-full bg-purple-900/30 text-purple-200 text-xs font-medium">
+          <span className="inline-flex items-center justify-center h-5 px-2 bg-purple-900/30 text-purple-200 text-xs font-medium">
             {tool.name}
           </span>
           <span className="text-gray-300">
@@ -65,7 +65,7 @@ export function WorkUpdatePanel({ variant, update, className }: WorkUpdatePanelP
     <section
       data-testid="work-update-panel"
       className={clsx(
-        'rounded-xl border border-emerald-500/20 bg-black/40 px-4 py-4 shadow-sm backdrop-blur-sm',
+        ' border border-emerald-500/20 bg-black/40 px-4 py-4 shadow-sm backdrop-blur-sm',
         isIteration ? 'border-indigo-500/20' : 'border-emerald-500/20',
         className
       )}
@@ -73,7 +73,7 @@ export function WorkUpdatePanel({ variant, update, className }: WorkUpdatePanelP
       <header className="flex items-center justify-between gap-4 mb-3">
         <div className="flex items-center gap-2">
           <span className={clsx(
-            'inline-flex h-2 w-2 rounded-full',
+            'inline-flex h-2 w-2',
             isIteration ? 'bg-indigo-300' : 'bg-emerald-300'
           )} />
           <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-200">

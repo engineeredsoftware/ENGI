@@ -19,11 +19,7 @@ jest.mock('@bitcode/api/src/vcs/github-service', () => ({
 }));
 
 jest.mock('@bitcode/pipelines-generics', () => ({
-  createStreamingExecution: jest.fn(() => ({
-    id: 'streaming-execution-1',
-    store: jest.fn(),
-    child: jest.fn(),
-  })),
+  createStreamingExecution: jest.fn(),
   emitPhaseTransition: jest.fn(async () => undefined),
 }));
 
@@ -34,26 +30,136 @@ jest.mock('@bitcode/execution-generics', () => ({
   },
 }));
 
+// V48-Gate3-F31: the route's background continuations (the sweep + the
+// synthesis run itself) must be registered via waitUntil, not dispatched as
+// a bare `void promise`, or Vercel is free to freeze this Function instance
+// before they finish. The spy passes the promise through unchanged so the
+// rest of this suite's behavior (flushBackground) is unaffected.
+jest.mock('@vercel/functions', () => ({
+  waitUntil: jest.fn((promise: Promise<unknown>) => promise),
+}));
+
 jest.mock('@bitcode/pipeline-asset-pack/runtime-inference-policy', () => ({
   isAssetPackRealInferenceEnabled: jest.fn(() => true),
 }));
 
-jest.mock('@bitcode/pipeline-asset-pack/deposit-option-real-synthesis', () => {
-  const actual = jest.requireActual('@bitcode/pipeline-asset-pack/deposit-option-real-synthesis');
-  return {
-    ...actual,
-    synthesizeRealDepositOptionCandidates: jest.fn(),
-  };
-});
+// Mock the heavy pipeline INDEX so its phase graph (phases/*) does not load in the
+// uapi jest env. The deposit route runs the full SDIVF pipeline here; we assert it
+// is dispatched + that its persisted output is built from the real lens adapter.
+// Also stub neediness grounding (settled Depository search) for unit isolation.
+jest.mock('@bitcode/pipeline-asset-pack', () => ({
+  synthesizeAssetPacksPipeline: jest.fn(async () => undefined),
+  groundOptionNeedinessFromSettledDepository: jest.fn((options: unknown[]) => options),
+}));
+
+// The Host provisioning (full checkout) is mocked: we assert the route provisions on
+// a Host and feeds the full inventory to the pipeline (no real git clone in jest).
+jest.mock('@/lib/deposit-source-provisioning', () => ({
+  resolveDepositPipelineHost: jest.fn(() => ({ capabilities: { hostKind: 'inline' } })),
+  provisionDepositSourceInventory: jest.fn(),
+  selectDepositHostKind: jest.fn(() => 'inline'),
+  runDepositInBoxHarness: jest.fn(),
+}));
+
+// Settled-Depository demand grounding after synthesis (empty corpus → Unestimatable).
+jest.mock('@/lib/depository-settled-demand', () => ({
+  loadSettledDepositoryPacks: jest.fn(async () => []),
+  loadDepositorySettledDemandEstimate: jest.fn(async () => ({
+    estimatable: false,
+    state: 'unestimatable-demand',
+    demand: null,
+    saturation: null,
+    needinessVolume: null,
+    settledPackCount: 0,
+    matchedPackCount: 0,
+    rationale: 'Unestimatable: test fixture has no settled packs.',
+    matchedPackIds: [],
+  })),
+  settledDemandEstimateToSignals: jest.fn(() => ({
+    depositoryDemandSignals: [],
+    readingDemandSignals: [],
+    existingDepositorySignals: [],
+    unfitNeedOpportunitySignals: [],
+  })),
+}));
 
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
+import { createStreamingExecution } from '@bitcode/pipelines-generics';
+import { synthesizeAssetPacksPipeline } from '@bitcode/pipeline-asset-pack';
 import { isAssetPackRealInferenceEnabled } from '@bitcode/pipeline-asset-pack/runtime-inference-policy';
-import { synthesizeRealDepositOptionCandidates } from '@bitcode/pipeline-asset-pack/deposit-option-real-synthesis';
+import {
+  provisionDepositSourceInventory,
+  runDepositInBoxHarness,
+  selectDepositHostKind,
+} from '@/lib/deposit-source-provisioning';
+import { waitUntil } from '@vercel/functions';
 import { POST } from '@/app/api/deposit/synthesize-options/route';
 
-const mockSynthesize = synthesizeRealDepositOptionCandidates as jest.Mock;
 const mockRealInference = isAssetPackRealInferenceEnabled as jest.Mock;
+const mockPipeline = synthesizeAssetPacksPipeline as jest.Mock;
+const mockCreateExecution = createStreamingExecution as jest.Mock;
+const mockProvision = provisionDepositSourceInventory as jest.Mock;
+const mockSelectKind = selectDepositHostKind as jest.Mock;
+const mockRunHarness = runDepositInBoxHarness as jest.Mock;
+const mockWaitUntil = waitUntil as jest.Mock;
+
+// The synthesized options the pipeline leaves at implementation:options. The route's
+// validateDepositSynthesisOptions (real) turns these into measured deposit options.
+const RAW_OPTIONS = [
+  {
+    kind: 'capability-slice',
+    title: 'Demo Python capability slice',
+    summary:
+      'A source-safe slice describing the demo application capability, its entry points, and operational behavior for future reading demand.',
+    coveredSourcePaths: ['README.md', 'src/app.py'],
+    // Formal absolutes (Validation measure-agent) are required by product projection.
+    absolutes: [
+      {
+        measurementKind: 'function-count',
+        label: 'Functions',
+        weight: 0.12,
+        volume: 0.5,
+        category: 'absolute',
+        magnitude: 6,
+        unit: 'functions',
+      },
+      {
+        measurementKind: 'correctness-estimate',
+        label: 'Correctness',
+        weight: 0.18,
+        volume: 0.72,
+        category: 'absolute',
+        unit: 'estimate',
+      },
+    ],
+    measurementRationale: 'Covers the primary application path and documentation.',
+    confidence: 0.8,
+    patch: {
+      fileChanges: [{ path: 'src/app.py', op: 'modify' }],
+      patchSummary: 'Encodes the demo application capability and its entry points.',
+    },
+  },
+];
+
+function installExecutionMock(options: { failPipeline?: boolean } = {}) {
+  if (options.failPipeline) {
+    mockPipeline.mockRejectedValueOnce(new Error('pipeline boom'));
+  } else {
+    mockPipeline.mockResolvedValueOnce(undefined);
+  }
+  const execution = {
+    id: 'streaming-execution-1',
+    store: jest.fn(),
+    child: jest.fn(),
+    get: jest.fn((namespace: string, key: string) =>
+      namespace === 'implementation' && key === 'options' ? RAW_OPTIONS : undefined,
+    ),
+    findUp: jest.fn(),
+  };
+  mockCreateExecution.mockReturnValue(execution);
+  return execution;
+}
 
 function installSupabaseMocks(options: {
   user?: { id: string } | null;
@@ -71,14 +177,16 @@ function installSupabaseMocks(options: {
     },
   });
 
-  const executionInsert = {
-    insert: jest.fn().mockReturnValue({
-      select: jest.fn().mockReturnValue({
-        single: jest.fn().mockResolvedValue({ data: { id: 'execution-1' }, error: null }),
-      }),
-    }),
+  // Executions builder: the dispatch guard SELECTs the runId first (no
+  // existing row by default), then the dispatch/finalize upserts write rows.
+  const executionRow = {
     upsert: jest.fn().mockResolvedValue({ error: null }),
+    select: jest.fn(),
+    eq: jest.fn(),
+    maybeSingle: jest.fn().mockResolvedValue({ data: null, error: null }),
   };
+  executionRow.select.mockReturnValue(executionRow);
+  executionRow.eq.mockReturnValue(executionRow);
 
   (supabaseAdmin.from as jest.Mock).mockImplementation((table: string) => {
     if (table === 'vcs_repositories') {
@@ -111,35 +219,25 @@ function installSupabaseMocks(options: {
       builder.eq.mockReturnValue(builder);
       return builder;
     }
-    if (table === 'executions') return executionInsert;
+    if (table === 'executions') return executionRow;
     throw new Error(`Unexpected table ${table}`);
   });
 
-  return { executionInsert };
+  return { executionRow };
 }
 
-function githubTreeResponse() {
-  return {
-    ok: true,
-    json: async () => ({
-      tree: [
-        { type: 'blob', path: 'README.md' },
-        { type: 'blob', path: 'src/app.py' },
-        { type: 'blob', path: 'secret/keys.py' },
-      ],
-    }),
-  };
-}
-
-function githubContentResponse() {
-  return {
-    ok: true,
-    json: async () => ({
-      encoding: 'base64',
-      content: Buffer.from('A demo python project.').toString('base64'),
-    }),
-  };
-}
+// The full checkout the Host provisions (incl. an excluded secret/ path the route
+// must withhold). The route applies protected-IP exclusions to it.
+const PROVISIONED = {
+  paths: ['README.md', 'src/app.py', 'secret/keys.py'],
+  samples: [{ path: 'README.md', excerpt: 'A demo python project.' }],
+  sources: [
+    { path: 'README.md', content: 'A demo python project.' },
+    { path: 'src/app.py', content: 'def main():\n    pass' },
+    { path: 'secret/keys.py', content: 'KEY = 1' },
+  ],
+  truncated: false,
+};
 
 function createRequest(overrides: Record<string, unknown> = {}) {
   return new Request('http://localhost/api/deposit/synthesize-options', {
@@ -148,45 +246,32 @@ function createRequest(overrides: Record<string, unknown> = {}) {
       repositoryFullName: 'engineeredsoftware/demo-python',
       sourceBranch: 'main',
       sourceCommit: 'abc123',
-      depositorInstructions: 'demo instructions',
-      protectedIpExclusions: 'secret/',
+      obfuscations: 'demo instructions',
+      forcedExclusions: 'secret/',
       ...overrides,
     }),
   });
 }
 
-function synthesisResult() {
-  return {
-    lens: 'deposit',
-    candidates: [
-      {
-        kind: 'capability-slice',
-        title: 'Demo Python capability slice',
-        summary:
-          'A source-safe slice describing the demo application capability, its entry points, and operational behavior for future reading demand.',
-        coveredSourcePaths: ['README.md', 'src/app.py'],
-        measurements: [
-          { measurementKind: 'source-coverage', label: 'Source coverage', weight: 0.36, volume: 0.6 },
-          { measurementKind: 'demand-alignment', label: 'Demand alignment', weight: 0.4, volume: 0.7 },
-          { measurementKind: 'reuse-likelihood', label: 'Reuse likelihood', weight: 0.24, volume: 0.5 },
-        ],
-        measurementRationale: 'Covers the primary application path and documentation.',
-        confidence: 0.8,
-      },
-    ],
-    droppedCandidateCount: 0,
-    exclusionViolations: [],
-    inference: { provider: 'anthropic', model: 'test-model', totalTokens: 4200, durationMs: 9000 },
-  };
+// The route dispatches the synthesis as a background run (void runSynthesis()).
+// Flush macrotasks until the predicate holds (or give up after a bound).
+async function flushBackground(predicate: () => boolean, max = 50) {
+  for (let i = 0; i < max; i += 1) {
+    if (predicate()) return;
+    await new Promise((resolve) => setImmediate(resolve));
+  }
 }
 
 describe('POST /api/deposit/synthesize-options', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    // Reset queued .once() implementations (clearAllMocks does not) so a pipeline/
+    // harness mock queued by one test never leaks into the next.
+    mockPipeline.mockReset();
+    mockRunHarness.mockReset();
     mockRealInference.mockReturnValue(true);
-    global.fetch = jest.fn(async (url: string) =>
-      url.includes('/git/trees/') ? githubTreeResponse() : githubContentResponse(),
-    ) as unknown as typeof fetch;
+    mockProvision.mockResolvedValue(PROVISIONED);
+    mockSelectKind.mockReturnValue('inline');
   });
 
   it('requires a session', async () => {
@@ -214,51 +299,153 @@ describe('POST /api/deposit/synthesize-options', () => {
     );
   });
 
-  it('synthesizes measured options, filters exclusions from inventory, and persists real accounting', async () => {
-    const { executionInsert } = installSupabaseMocks({});
-    mockSynthesize.mockResolvedValue(synthesisResult());
+  it('dispatches the full pipeline and persists measured options with decision payload', async () => {
+    const { executionRow } = installSupabaseMocks({});
+    installExecutionMock();
 
     const response = await POST(createRequest());
     expect(response.status).toBe(200);
     const payload = await response.json();
-
     expect(payload.ok).toBe(true);
-    expect(payload.synthesis.synthesisMode).toBe('real-bounded-inference');
-    expect(payload.synthesis.pipelineCore).toBe('AssetPacksSynthesis');
-    expect(payload.synthesis.optionCount).toBe(1);
-    expect(payload.synthesis.exclusionPosture.excludedPathCount).toBe(1);
-    expect(payload.reviewProjections[0].coveredSourcePaths).toEqual(['README.md', 'src/app.py']);
-
-    const synthesizeInput = mockSynthesize.mock.calls[0][0];
-    expect(synthesizeInput.inventory.paths).toEqual(['README.md', 'src/app.py']);
-    expect(synthesizeInput.protectedIpExclusions).toEqual(['secret/']);
-
-    expect(executionInsert.upsert).toHaveBeenCalledWith(
-      expect.objectContaining({
-        user_id: 'user-1',
-        type: 'agentic-execution:asset-pack',
-        status: 'completed',
-        total_tokens: 4200,
-        context: expect.objectContaining({
-          source: 'deposit-option-synthesis',
-          pipelineCore: 'AssetPacksSynthesis',
-          synthesisMode: 'real-bounded-inference',
-          exclusionCount: 1,
-        }),
-      }),
-      { onConflict: 'id' },
-    );
+    expect(payload.status).toBe('dispatched');
     expect(payload.runId).toMatch(/^[0-9a-f-]{36}$/i);
+
+    // The background run completes: the full pipeline ran, options were validated +
+    // built from the real lens adapter, and the completed row was persisted.
+    await flushBackground(() =>
+      executionRow.upsert.mock.calls.some((call) => call[0]?.status === 'completed'),
+    );
+    expect(mockPipeline).toHaveBeenCalledTimes(1);
+    // The route provisioned the full checkout on the Host (clone URL + revision + token).
+    expect(mockProvision).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: 'https://github.com/engineeredsoftware/demo-python.git',
+        revision: 'abc123',
+        token: 'ghs_installation_token',
+      }),
+    );
+    // The pipeline received the exclusion-filtered inventory (secret/ withheld) —
+    // both the path list AND the full verbatim source.
+    const pipelineInput = mockPipeline.mock.calls[0][0];
+    expect(pipelineInput.mode).toBe('deposit');
+    expect(pipelineInput.inventory.paths).toEqual(['README.md', 'src/app.py']);
+    expect(pipelineInput.inventory.sources.map((s: any) => s.path)).toEqual(['README.md', 'src/app.py']);
+    expect(pipelineInput.forcedExclusions).toEqual(['secret/']);
+    expect(pipelineInput.forcedInclusions).toEqual([]);
+
+    const completed = executionRow.upsert.mock.calls.find((call) => call[0]?.status === 'completed')![0];
+    expect(completed.context.pipelineCore).toBe('AssetPacksSynthesis');
+    expect(completed.output.depositOptionSynthesis.optionCount).toBe(1);
+    // The deposit-decision payload: synthesized contents + provenant source.
+    const option = completed.output.depositOptionSynthesis.options[0];
+    expect(option.contents.provenantSourcePaths).toEqual(['README.md', 'src/app.py']);
+    expect(option.contents.fileChanges).toEqual([{ path: 'src/app.py', op: 'modify' }]);
+    expect(completed.output.reviewProjections[0].coveredSourcePaths).toEqual(['README.md', 'src/app.py']);
   });
 
-  it('returns 502 with the failure reason when synthesis fails', async () => {
-    installSupabaseMocks({});
-    mockSynthesize.mockRejectedValue(new Error('AssetPacksSynthesis produced no admissible candidates.'));
+  it('scopes inventory by Forced Inclusion roots before the pipeline runs', async () => {
+    const { executionRow } = installSupabaseMocks({});
+    // Options must only cover in-scope paths so Validation admits them.
+    mockPipeline.mockResolvedValueOnce(undefined);
+    const execution = {
+      id: 'streaming-execution-scope',
+      store: jest.fn(),
+      child: jest.fn(),
+      get: jest.fn((namespace: string, key: string) =>
+        namespace === 'implementation' && key === 'options'
+          ? [
+              {
+                ...RAW_OPTIONS[0],
+                coveredSourcePaths: ['src/app.py'],
+                patch: {
+                  fileChanges: [{ path: 'src/app.py', op: 'modify' }],
+                  patchSummary: 'Scoped capability under Forced Inclusion.',
+                },
+              },
+            ]
+          : undefined,
+      ),
+      findUp: jest.fn(),
+    };
+    mockCreateExecution.mockReturnValue(execution);
+
+    const response = await POST(
+      createRequest({
+        forcedInclusions: ['src/'],
+        forcedExclusions: [],
+      }),
+    );
+    expect(response.status).toBe(200);
+    await flushBackground(() =>
+      executionRow.upsert.mock.calls.some((call) => call[0]?.status === 'completed'),
+    );
+    const pipelineInput = mockPipeline.mock.calls[0][0];
+    expect(pipelineInput.forcedInclusions).toEqual(['src/']);
+    expect(pipelineInput.inventory.paths).toEqual(['src/app.py']);
+    expect(pipelineInput.inventory.sources.map((s: any) => s.path)).toEqual(['src/app.py']);
+  });
+
+  it('registers both the orphan sweep and the synthesis run via waitUntil (V48-Gate3-F31)', async () => {
+    const { executionRow } = installSupabaseMocks({});
+    installExecutionMock();
+
+    await POST(createRequest());
+    await flushBackground(() =>
+      executionRow.upsert.mock.calls.some((call) => call[0]?.status === 'completed'),
+    );
+
+    // Bare `void promise` dispatch (no waitUntil) is exactly what let a
+    // Vercel Function instance be frozen/recycled mid-run before this fix —
+    // the run's own execution row is the evidence trail, but nothing forced
+    // the box to stay alive to write it. Pin that both continuations go
+    // through waitUntil so this can't silently regress back to bare void.
+    expect(mockWaitUntil).toHaveBeenCalledTimes(2);
+    mockWaitUntil.mock.calls.forEach(([passed]) => {
+      expect(passed).toBeInstanceOf(Promise);
+    });
+  });
+
+  it('runs the synthesis in-box on the sandbox host when configured (#25)', async () => {
+    const { executionRow } = installSupabaseMocks({});
+    installExecutionMock();
+    mockSelectKind.mockReturnValue('sandbox');
+    mockRunHarness.mockResolvedValue({
+      options: RAW_OPTIONS,
+      sandboxId: 'sbx_deposit_test',
+      outcome: 'completed',
+    });
 
     const response = await POST(createRequest());
-    expect(response.status).toBe(502);
-    await expect(response.json()).resolves.toEqual(
-      expect.objectContaining({ code: 'deposit_option_synthesis_failed' }),
+    expect(response.status).toBe(200);
+
+    await flushBackground(() =>
+      executionRow.upsert.mock.calls.some((call) => call[0]?.status === 'completed'),
     );
+    // Dispatched to the in-box harness; the in-process pipeline + provisioning were NOT run.
+    expect(mockRunHarness).toHaveBeenCalledTimes(1);
+    expect(mockPipeline).not.toHaveBeenCalled();
+    expect(mockProvision).not.toHaveBeenCalled();
+    const completed = executionRow.upsert.mock.calls.find((call) => call[0]?.status === 'completed')![0];
+    expect(completed.output.depositOptionSynthesis.optionCount).toBe(1);
+    expect(completed.output.depositOptionSynthesis.options[0].contents.provenantSourcePaths).toEqual([
+      'README.md',
+      'src/app.py',
+    ]);
+  });
+
+  it('persists a failed row when the background synthesis throws', async () => {
+    const { executionRow } = installSupabaseMocks({});
+    installExecutionMock({ failPipeline: true });
+
+    const response = await POST(createRequest());
+    // The route still dispatches; the failure is handled in the background run.
+    expect(response.status).toBe(200);
+
+    await flushBackground(() =>
+      executionRow.upsert.mock.calls.some((call) => call[0]?.status === 'failed'),
+    );
+    const failed = executionRow.upsert.mock.calls.find((call) => call[0]?.status === 'failed')![0];
+    expect(failed.status).toBe('failed');
+    expect(failed.error.message).toContain('pipeline boom');
   });
 });

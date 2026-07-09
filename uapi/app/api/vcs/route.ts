@@ -18,6 +18,7 @@ const resourceSchema = z.enum([
   'branches',
   'commits',
   'issues',
+  'tree',
 ]);
 const providerSchema = z.enum(['github', 'gitlab', 'bitbucket']);
 
@@ -51,6 +52,8 @@ function buildEmptyResourcePayload(resource: z.infer<typeof resourceSchema>) {
       return { commits: [] };
     case 'issues':
       return { issues: [] };
+    case 'tree':
+      return { items: [] };
   }
 }
 
@@ -131,6 +134,13 @@ function buildMockPayload(resource: z.infer<typeof resourceSchema>, provider: VC
             html_url: 'https://github.com/bitcode/bitcode/pull/202',
             pull_request: {},
           },
+        ],
+      };
+    case 'tree':
+      return {
+        items: [
+          { path: 'src', type: 'tree', sha: 'mock-tree-src' },
+          { path: 'README.md', type: 'blob', sha: 'mock-blob-readme', size: 2048 },
         ],
       };
   }
@@ -235,6 +245,19 @@ export async function GET(request: Request) {
         if (!owner || !repo || !branch) return NextResponse.json(buildEmptyResourcePayload(resource));
         const commits = await vcsService.listCommits(connectionHandle, owner, repo, { branch });
         return NextResponse.json({ commits });
+      }
+      case 'tree': {
+        if (!owner || !repo) return NextResponse.json(buildEmptyResourcePayload(resource));
+        const treePath = url.searchParams.get('path') || '';
+        const ref = url.searchParams.get('ref') || undefined;
+        const items = await vcsService.getRepositoryContent(
+          connectionHandle,
+          owner,
+          repo,
+          treePath,
+          ref,
+        );
+        return NextResponse.json({ items });
       }
       case 'issues': {
         if (!owner || !repo) return NextResponse.json(buildEmptyResourcePayload(resource));

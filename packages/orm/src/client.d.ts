@@ -15,7 +15,7 @@ import { MessageAttachmentsModel } from './models/message-attachments';
 import { UserConnectionsModel } from './models/user-connections';
 import { UserBtdBalancesModel } from './models/user-btd-balances';
 import { BtdRegistryModel } from './models/btd-registry';
-import { AssetPackGeneratedAssetsModel, AssetPackPhaseExecutionsModel, AssetPackRunInstructionsModel, AssetPackRunJobsModel, AssetPackStreamLogsModel, AssetPackVectorsModel, BitcodeActivityEventsModel, BitcodeErrorLogsModel, BitcodeTokenCostsModel } from './models/bitcode-execution-storage';
+import { AssetPackGeneratedAssetsModel, AssetPackPhaseExecutionsModel, AssetPackRunJobsModel, AssetPackStreamLogsModel, AssetPackVectorsModel, BitcodeActivityEventsModel, BitcodeErrorLogsModel, BitcodeTokenCostsModel } from './models/bitcode-execution-storage';
 /**
  * Standard client interface
  */
@@ -30,7 +30,6 @@ export interface BitcodeOrmClient {
     assetPackVectors: AssetPackVectorsModel;
     assetPackPhaseExecutions: AssetPackPhaseExecutionsModel;
     assetPackRunJobs: AssetPackRunJobsModel;
-    assetPackRunInstructions: AssetPackRunInstructionsModel;
     assetPackStreamLogs: AssetPackStreamLogsModel;
     assetPackGeneratedAssets: AssetPackGeneratedAssetsModel;
     bitcodeActivityEvents: BitcodeActivityEventsModel;

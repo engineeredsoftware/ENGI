@@ -183,7 +183,10 @@ describe('/api/activity GET', () => {
     expect(payload.records[1]).toEqual(
       expect.objectContaining({
         kind: 'execution',
-        scope: 'network',
+        // V48-Gate2-F15 scope taxonomy: only AssetPacks admitted to the
+        // Depository and settled/read APs are network-scope; the account's own
+        // executions (e.g. proof refreshes) are personal.
+        scope: 'personal',
         title: 'Proof execution',
         summary: 'Refreshed proof family.',
         state: 'completed',
@@ -218,8 +221,8 @@ describe('/api/activity GET', () => {
       transactions: 0,
       executions: 1,
       notifications: 1,
-      network: 1,
-      personal: 1,
+      network: 0,
+      personal: 2,
     });
   });
 });

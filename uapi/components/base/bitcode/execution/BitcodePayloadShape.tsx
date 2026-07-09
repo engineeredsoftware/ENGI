@@ -158,7 +158,7 @@ export default function BitcodePayloadShape({
   const { metrics, items } = buildPayloadShape(payload, maxItems);
 
   return (
-    <div className={`rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3 ${className || ''}`.trim()}>
+    <div className={` border border-white/8 bg-white/5 px-3 py-3 ${className || ''}`.trim()}>
       <div className="flex items-center gap-2">
         <p className="text-[0.64rem] uppercase tracking-[0.16em] text-neutral-500">Structured payload shape</p>
         <BitcodeInlineExplainer
@@ -171,7 +171,7 @@ export default function BitcodePayloadShape({
         metrics={metrics}
         className="mt-3"
         columnsClassName="sm:grid-cols-3"
-        itemClassName="rounded-[0.9rem] border border-white/8 bg-[rgba(4,8,18,0.68)] px-3 py-2.5"
+        itemClassName=" border border-white/8 bg-[rgba(4,8,18,0.68)] px-3 py-2.5"
         labelClassName="text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500"
         valueClassName="mt-2 text-sm font-semibold text-white"
       />
@@ -179,7 +179,7 @@ export default function BitcodePayloadShape({
       <BitcodeDetailCollection
         items={items}
         className="mt-3"
-        itemClassName="rounded-[0.9rem] border border-white/8 bg-[rgba(4,8,18,0.68)] px-3 py-2.5"
+        itemClassName=" border border-white/8 bg-[rgba(4,8,18,0.68)] px-3 py-2.5"
         titleClassName="font-medium text-white"
         summaryClassName="mt-1 text-neutral-200"
         supportingTextClassName="mt-1 text-neutral-500"

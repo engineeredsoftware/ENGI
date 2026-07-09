@@ -55,7 +55,7 @@ export interface ReadNeedReviewTelemetryReceipt {
   agentIds: string[];
   ptrrStepIds: string[];
   failsafeSequenceIds: string[];
-  thricifiedGenerationIds: string[];
+  thinkingsGenerationIds: string[];
   promptTemplateIds: string[];
   outputSchemaIds: string[];
   root: string;
@@ -174,9 +174,9 @@ function telemetryReceipt(
   const agentIds = receipt?.agentIds || READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases.flatMap((phase) => phase.agents.map((agent) => agent.agentId));
   const ptrrStepIds = receipt?.ptrrStepIds || trace.map((entry) => entry.ptrrStepId);
   const failsafeSequenceIds = receipt?.failsafeSequenceIds || trace.flatMap((entry) =>
-    entry.thricifiedGenerations.map((generation) => `${entry.ptrrStepId}.${generation.failsafe}`)
+    entry.thinkingsGenerations.map((generation) => `${entry.ptrrStepId}.${generation.failsafe}`)
   );
-  const thricifiedGenerationIds = receipt?.thricifiedGenerationIds || trace.flatMap((entry) => entry.thricifiedGenerationIds);
+  const thinkingsGenerationIds = receipt?.thinkingsGenerationIds || trace.flatMap((entry) => entry.thinkingsGenerationIds);
   const promptTemplateIds = receipt?.promptTemplateIds || READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases.flatMap((phase) =>
     phase.agents.flatMap((agent) => [
       agent.promptRegistry.agentPromptId,
@@ -196,7 +196,7 @@ function telemetryReceipt(
     agentIds,
     ptrrStepIds,
     failsafeSequenceIds,
-    thricifiedGenerationIds,
+    thinkingsGenerationIds,
     promptTemplateIds,
     outputSchemaIds,
   });
@@ -212,7 +212,7 @@ function telemetryReceipt(
     agentIds,
     ptrrStepIds,
     failsafeSequenceIds,
-    thricifiedGenerationIds,
+    thinkingsGenerationIds,
     promptTemplateIds,
     outputSchemaIds,
     root,

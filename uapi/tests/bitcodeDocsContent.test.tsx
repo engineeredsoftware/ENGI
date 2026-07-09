@@ -15,8 +15,8 @@ describe('Bitcode docs content model', () => {
     expect(serialized).toContain('BTD scalar volume and rights');
     expect(serialized).toContain('BTC settlement money');
     expect(serialized).toContain('proof readback authority');
-    expect(serialized).toContain('/deposit');
-    expect(serialized).toContain('/read');
+    expect(serialized).toContain('/deposits');
+    expect(serialized).toContain('/reads');
     expect(serialized).toContain('/packs');
     expect(serialized).toContain('/exchange is a compatibility redirect to /packs');
     expect(serialized).not.toContain(['Source Shares', 'and the Bitcode Exchange'].join(' '));

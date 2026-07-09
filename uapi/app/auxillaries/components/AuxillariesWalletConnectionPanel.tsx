@@ -95,6 +95,11 @@ export default function AuxillariesWalletConnectionPanel({
   const [walletAuthError, setWalletAuthError] = useState<string | null>(null);
   const [walletAuthNotice, setWalletAuthNotice] = useState<string | null>(null);
   const [walletAuthStatus, setWalletAuthStatus] = useState<'idle' | 'requesting' | 'signed'>('idle');
+  const walletAuthStatusRef = useRef(walletAuthStatus);
+  useEffect(() => {
+    walletAuthStatusRef.current = walletAuthStatus;
+  }, [walletAuthStatus]);
+  const [pendingAuthorizeUrl, setPendingAuthorizeUrl] = useState<string | null>(null);
   const [walletProviderOptions, setWalletProviderOptions] = useState<BitcoinWalletProviderSummary[]>([]);
   const [walletProviderScanStatus, setWalletProviderScanStatus] = useState<'checking' | 'ready' | 'none'>('checking');
   const [walletIdentityDetails, setWalletIdentityDetails] = useState<LocalBitcodeWalletIdentity | null>(() =>
@@ -176,7 +181,17 @@ export default function AuxillariesWalletConnectionPanel({
 
     const supabase = createClient();
     try {
-      const existing = await supabase.auth.getUser();
+      // A hanging auth network call must not freeze the connect flow — the
+      // buttons would sit in 'requesting' forever with zero feedback.
+      const existing = await Promise.race([
+        supabase.auth.getUser(),
+        new Promise<never>((_resolve, reject) =>
+          setTimeout(
+            () => reject(new Error('Supabase session check timed out. Confirm the configured Supabase URL is reachable.')),
+            8_000,
+          ),
+        ),
+      ]);
       if (existing.data.user) {
         return { ready: true as const };
       }
@@ -189,6 +204,9 @@ export default function AuxillariesWalletConnectionPanel({
         options: {
           redirectTo,
           scopes: BITCODE_BITCOIN_SUPABASE_SCOPES,
+          // We navigate ourselves so a missing URL is a diagnosable error
+          // instead of a silent no-op.
+          skipBrowserRedirect: true,
           queryParams: {
             bitcode_wallet_provider: providerId ?? '',
             wallet_provider: providerId ?? '',
@@ -204,11 +222,17 @@ export default function AuxillariesWalletConnectionPanel({
         };
       }
 
-      if (data?.url) {
-        window.location.assign(data.url);
+      if (!data?.url) {
+        return {
+          ready: false as const,
+          error:
+            'Supabase did not return a Bitcoin authentication URL. The custom:bitcode-bitcoin provider may not be configured on the Supabase this environment points at.',
+        };
       }
 
-      return { ready: false as const, pendingRedirect: true as const };
+      bitcodeQaTelemetry('info', 'wallet-auxillary', 'oauth-redirect', { url: data.url });
+      window.location.assign(data.url);
+      return { ready: false as const, pendingRedirect: true as const, authorizeUrl: data.url };
     } catch (error) {
       return {
         ready: false as const,
@@ -369,6 +393,7 @@ export default function AuxillariesWalletConnectionPanel({
 
   const handleConnectBitcoinWallet = async (providerId?: BitcoinWalletProviderId) => {
     setWalletAuthError(null);
+    setPendingAuthorizeUrl(null);
     const providerLabel =
       walletProviderOptions.find((provider) => provider.id === providerId)?.label ??
       (providerId ? providerId : 'first available Bitcoin wallet');
@@ -385,6 +410,18 @@ export default function AuxillariesWalletConnectionPanel({
       if (!sessionReadiness.ready) {
         if ('pendingRedirect' in sessionReadiness && sessionReadiness.pendingRedirect) {
           setWalletAuthNotice('Opening Bitcode Bitcoin authentication with Supabase.');
+          window.setTimeout(() => {
+            if (walletAuthStatusRef.current !== 'requesting') return;
+            setWalletAuthStatus('idle');
+            setWalletAuthNotice(null);
+            setPendingAuthorizeUrl(sessionReadiness.authorizeUrl ?? null);
+            setWalletAuthError(
+              'The Supabase Bitcoin authentication redirect has not completed — the request never left this page. Continue manually below, and check the [Bitcode QA] console trace (?bitcode_verbose=true) for the exact redirect target.',
+            );
+            bitcodeQaTelemetry('warn', 'wallet-auxillary', 'oauth-redirect-stalled', {
+              url: sessionReadiness.authorizeUrl ?? null,
+            });
+          }, 8_000);
           return;
         }
         setWalletAuthStatus('idle');
@@ -566,10 +603,23 @@ export default function AuxillariesWalletConnectionPanel({
         >
           Stage Bitcoin address
         </button>
-        {walletAuthError ? (
-          <p className="text-sm leading-6 text-amber-200/82">{walletAuthError}</p>
-        ) : null}
       </div>
+      {walletAuthError ? (
+        <div
+          role="alert"
+          className="mt-3 border border-amber-300/24 bg-amber-400/10 px-4 py-3 text-sm leading-6 text-amber-100"
+        >
+          <p>{walletAuthError}</p>
+          {pendingAuthorizeUrl ? (
+            <a
+              href={pendingAuthorizeUrl}
+              className="mt-2 inline-flex items-center border border-amber-300/34 bg-amber-400/14 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-50 transition hover:border-amber-300/54 hover:bg-amber-400/22"
+            >
+              Open Bitcoin authentication manually
+            </a>
+          ) : null}
+        </div>
+      ) : null}
       <div className="mt-3 rounded-2xl border border-white/10 bg-black/18 px-4 py-3 text-sm leading-6 text-white/68">
         <span className="font-semibold text-white/82">
           {walletProviderScanStatus === 'checking'

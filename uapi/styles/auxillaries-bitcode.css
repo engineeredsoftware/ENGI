@@ -48,6 +48,15 @@
   transform: none !important;
 }
 
+/* The fixed Close/Sign Out row shares the overlay's top-right origin with the
+   active pane's own content (the pane carries no top clearance of its own),
+   so its readiness chips ("Ready" / "N panes available") render underneath
+   the ~2.5rem-tall buttons. Reserve matching clearance so the pane's content
+   starts below them instead. */
+.auxillaries-bitcode-surface.orbital-system-overlay .auxillaries-bitcode-pane {
+  padding-top: 3.25rem;
+}
+
 .auxillaries-bitcode-surface.orbital-system-overlay .auxillaries-bitcode-shell {
   width: min(100%, 92rem);
   height: calc(100dvh - var(--aux-bc-overlay-pad));

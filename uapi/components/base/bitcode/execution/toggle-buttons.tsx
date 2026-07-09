@@ -63,7 +63,7 @@ export const ToggleButton = ({ enabled, onToggle, type, disabled = false, tracki
           className={`
             orbital-ring absolute
             border border-emerald-500/20
-            rounded-full
+           
             transition-all duration-500 ease-out
             group-hover/${type}:border-emerald-500/30
             ${enabled ? 'orbital-ring-activated' : 'group-hover/${type}:scale-105'}
@@ -83,7 +83,7 @@ export const ToggleButton = ({ enabled, onToggle, type, disabled = false, tracki
               className={`
                 quantum-point absolute
                 w-1 h-1 laptop:w-1.5 laptop:h-1.5
-                rounded-full bg-emerald-500/40
+                bg-emerald-500/40
                 ${enabled ? 'quantum-point-activated' : ''}
               `}
               style={{
@@ -99,7 +99,7 @@ export const ToggleButton = ({ enabled, onToggle, type, disabled = false, tracki
 
       {/* Background glow effect */}
       <div className={`
-        absolute inset-0 rounded-full blur-md
+        absolute inset-0 blur-md
         transition-all duration-500
         bg-emerald-500/5
         group-hover/${type}:bg-emerald-500/10
@@ -238,7 +238,7 @@ export const ToggleButton = ({ enabled, onToggle, type, disabled = false, tracki
         absolute inset-[-50%]
         transition-all duration-500
         bg-emerald-500/20 blur-xl
-        rounded-full
+       
         ${enabled ? 'opacity-70 scale-100' : 'opacity-0 scale-50'}
       `} />
     </button>

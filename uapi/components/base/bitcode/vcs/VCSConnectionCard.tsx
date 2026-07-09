@@ -227,9 +227,51 @@ export function VCSConnectionCard({
                 </div>
               )}
             </div>
-            
+
+            {/* V48-Gate3-F34/F35: Refresh already retries installation-token
+                regeneration silently — if it still fails, surface WHY
+                (source-safe: GitHub's own API error text, no tokens) instead
+                of leaving "Invalid" with no explanation. A 404 here does NOT
+                reliably mean the installation was removed from GitHub — it
+                also happens when this connection's stored installation
+                belongs to a DIFFERENT Bitcode GitHub App than the one this
+                deployment is configured with (there can be more than one:
+                production vs. a staging/test app registration). GitHub still
+                showing the app installed does not rule this out. Disconnect
+                + reconnect is the cheap thing to try first — it re-runs the
+                install/authorize flow against THIS deployment's app and
+                writes a fresh installation id, no GitHub-side changes
+                needed. */}
+            {!status.valid && status.metadata?.last_regeneration_error && (
+              <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+                <p className="font-medium">Last reconnect attempt failed:</p>
+                <p className="mt-1 break-words">
+                  {status.metadata.last_regeneration_error === 'github_app_credentials_not_configured'
+                    ? 'The Bitcode GitHub App credentials are not configured on this deployment.'
+                    : String(status.metadata.last_regeneration_error)}
+                </p>
+                {/\b40[134]\b/.test(String(status.metadata.last_regeneration_error)) && (
+                  <p className="mt-1 text-destructive/80">
+                    A 40x here usually means this connection&apos;s stored GitHub
+                    App installation isn&apos;t one this deployment can use —
+                    even if GitHub still shows an app installed. Try
+                    Disconnect below, then reconnect (no need to touch
+                    anything on GitHub first).
+                  </p>
+                )}
+              </div>
+            )}
+
             <div className="flex gap-2">
+              {/* V48-Gate3-F36: explicit type="button" — shadcn's Button doesn't
+                  default one, so a bare <button> falls back to the browser's
+                  native type="submit". No <form> ancestor was found for this
+                  card, so this shouldn't currently matter, but it's a
+                  zero-risk hardening against exactly that class of bug (a
+                  click "doing nothing"/submitting instead of firing onClick)
+                  regardless of whether it's the cause of the live hang. */}
               <Button
+                type="button"
                 variant="outline"
                 size="sm"
                 onClick={handleRefresh}
@@ -238,10 +280,11 @@ export function VCSConnectionCard({
                 <RefreshCw className={`mr-2 h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
                 Refresh
               </Button>
-              
+
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button
+                    type="button"
                     variant="outline"
                     size="sm"
                     disabled={isDisconnecting}

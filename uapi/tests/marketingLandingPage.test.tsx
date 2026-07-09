@@ -84,7 +84,7 @@ describe('MarketingLandingPage', () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: 'Request Read' }),
-    ).toHaveAttribute('href', '/read');
+    ).toHaveAttribute('href', '/reads');
     expect(screen.getByRole('link', { name: 'Read docs' })).toHaveAttribute(
       'href',
       '/docs',
@@ -123,11 +123,11 @@ describe('MarketingLandingPage', () => {
     ).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /01\s*Deposit IP/u })).toHaveAttribute(
       'href',
-      '/deposit',
+      '/deposits',
     );
     expect(screen.getByRole('link', { name: /02\s*Read and buy/u })).toHaveAttribute(
       'href',
-      '/read',
+      '/reads',
     );
     expect(screen.getByRole('link', { name: /03\s*Audit on Packs/u })).toHaveAttribute(
       'href',

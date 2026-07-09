@@ -56,7 +56,7 @@
       "requiredTestMarkers": [
         "ReadNeedComprehensionSynthesis",
         "ReadFitsFindingSynthesis",
-        "thricifiedGenerationCount"
+        "thinkingsGenerationCount"
       ],
       "expectedCounts": {
         "pipelineCount": 2,
@@ -101,13 +101,11 @@
       "sourceRoots": [
         "packages/pipelines/asset-pack/src/read-need.ts",
         "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-        "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
         "packages/pipelines/asset-pack/src/runtime-inference-policy.ts"
       ],
       "testPaths": [
         "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
         "packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/bounded-structured-inference.test.ts",
         "packages/pipelines/asset-pack/src/__tests__/runtime-inference-policy.test.ts",
         "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],
@@ -374,7 +372,7 @@
         "PipelineExecutionLog"
       ],
       "requiredTestMarkers": [
-        "ThricifiedGeneration",
+        "ThinkingsGeneration",
         "source-safe",
         "PipelineExecutionLog"
       ],
@@ -483,7 +481,7 @@
         "packages/pipelines-generics/src/streaming/pipeline-stream-integration.ts",
         "packages/agent-generics/src/agents/factories.ts",
         "packages/agent-generics/src/steps/failsafe-sequence.ts",
-        "packages/agent-generics/src/steps/thricified-generation.ts",
+        "packages/agent-generics/src/steps/thinkings-generation.ts",
         "packages/pipeline-hosts/src/asset-pack-harness.ts",
         "packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts"
       ],
@@ -506,7 +504,7 @@
         "PipelineAgentRegistry",
         "factoryAgentWithPTRR",
         "createFailsafeGenerationSequence",
-        "createThricifiedGeneration",
+        "createThinkingsGeneration",
         "ReadFitsFindingSynthesis"
       ],
       "requiredTestMarkers": [

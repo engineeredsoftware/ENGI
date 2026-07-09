@@ -1,6 +1,7 @@
 import { randomUUID } from 'crypto';
 
 import { NextResponse } from 'next/server';
+import { waitUntil } from '@vercel/functions';
 
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
@@ -8,25 +9,45 @@ import { GitHubService } from '@bitcode/api/src/vcs/github-service';
 import { ExecutionStreamAdapter } from '@bitcode/execution-generics';
 import { createStreamingExecution, emitPhaseTransition } from '@bitcode/pipelines-generics';
 import {
-  applyExclusionsToInventory,
-  normalizeProtectedIpExclusions,
+  applyInventoryScope,
+  normalizeForcedPathList,
+  sumLlmTokensFromExecutionTree,
+  validateDepositSynthesisOptions,
+  type AssetPacksSynthesisResult,
+  type AssetPacksSynthesisSourceInventory,
 } from '@bitcode/pipeline-asset-pack/asset-packs-synthesis';
 import {
-  buildRealDepositAssetPackOptionSynthesis,
-  synthesizeRealDepositOptionCandidates,
-} from '@bitcode/pipeline-asset-pack/deposit-option-real-synthesis';
+  groundOptionNeedinessFromSettledDepository,
+  synthesizeAssetPacksPipeline,
+} from '@bitcode/pipeline-asset-pack';
+import { buildRealDepositAssetPackOptionSynthesis } from '@bitcode/pipeline-asset-pack/deposit-option-real-synthesis';
 import { isAssetPackRealInferenceEnabled } from '@bitcode/pipeline-asset-pack/runtime-inference-policy';
+import {
+  provisionDepositSourceInventory,
+  resolveDepositPipelineHost,
+  runDepositInBoxHarness,
+  selectDepositHostKind,
+} from '@/lib/deposit-source-provisioning';
+import { loadSettledDepositoryPacks } from '@/lib/depository-settled-demand';
+import {
+  assertExecutionNotCancelled,
+  ExecutionCancelledError,
+  isExecutionCancelled,
+  isExecutionCancelledError,
+} from '@/lib/execution-cancel';
 import {
   bitcodeServerTelemetry,
   compactBitcodeServerId,
 } from '@/lib/bitcode-server-telemetry';
+import { sweepOrphanedExecutions } from '@/lib/execution-orphan-sweep';
 
 export const runtime = 'nodejs';
-export const maxDuration = 300;
+// Full-repo deposit synthesis (setup+discovery alone) regularly exceeds 5
+// minutes of LLM work. Vercel waitUntil is capped by maxDuration — too-low
+// values kill the host mid-pipeline with no catch finalize (UI: stalled
+// "Run failed." with empty error event). Keep this high for deposit.
+export const maxDuration = 800;
 
-const MAX_INVENTORY_PATHS = 400;
-const MAX_SAMPLE_FILES = 10;
-const MAX_SAMPLE_CHARS = 1600;
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 type SynthesizeOptionsBody = {
@@ -34,8 +55,10 @@ type SynthesizeOptionsBody = {
   repositoryFullName?: unknown;
   sourceBranch?: unknown;
   sourceCommit?: unknown;
-  depositorInstructions?: unknown;
-  protectedIpExclusions?: unknown;
+  obfuscations?: unknown;
+  /** Forced Inclusion roots — when non-empty, inventory is scoped to these paths. */
+  forcedInclusions?: unknown;
+  forcedExclusions?: unknown;
   demandContext?: unknown;
   depositoryDemandSignals?: unknown;
   readingDemandSignals?: unknown;
@@ -69,78 +92,6 @@ function readSignals(value: unknown) {
     }));
 }
 
-const SAMPLE_PRIORITY_PATTERNS = [
-  /^readme/i,
-  /^package\.json$/i,
-  /^pyproject\.toml$/i,
-  /^cargo\.toml$/i,
-  /^go\.mod$/i,
-  /^setup\.(py|cfg)$/i,
-  /^requirements.*\.txt$/i,
-];
-
-function pickSamplePaths(paths: string[]): string[] {
-  const prioritized = paths.filter((path) =>
-    SAMPLE_PRIORITY_PATTERNS.some((pattern) => pattern.test(path.split('/').pop() || '')),
-  );
-  const sourceLike = paths.filter(
-    (path) =>
-      !prioritized.includes(path) &&
-      /\.(ts|tsx|js|jsx|py|rs|go|rb|java|cs|swift|sol|md)$/i.test(path) &&
-      path.split('/').length <= 3,
-  );
-  return [...prioritized, ...sourceLike].slice(0, MAX_SAMPLE_FILES);
-}
-
-async function githubJson(token: string, url: string) {
-  const response = await fetch(url, {
-    headers: {
-      authorization: `Bearer ${token}`,
-      accept: 'application/vnd.github+json',
-      'x-github-api-version': '2022-11-28',
-    },
-    cache: 'no-store',
-  });
-  if (!response.ok) {
-    throw new Error(`GitHub API ${response.status} for ${url.replace(/\?.*$/, '')}`);
-  }
-  return response.json() as Promise<Record<string, unknown>>;
-}
-
-async function buildSourceInventory(input: {
-  token: string;
-  repositoryFullName: string;
-  reference: string;
-}) {
-  const tree = await githubJson(
-    input.token,
-    `https://api.github.com/repos/${input.repositoryFullName}/git/trees/${encodeURIComponent(input.reference)}?recursive=1`,
-  );
-  const entries = Array.isArray(tree.tree) ? (tree.tree as Array<Record<string, unknown>>) : [];
-  const paths = entries
-    .filter((entry) => entry.type === 'blob' && typeof entry.path === 'string')
-    .map((entry) => entry.path as string)
-    .slice(0, MAX_INVENTORY_PATHS);
-
-  const samples: Array<{ path: string; excerpt: string }> = [];
-  for (const path of pickSamplePaths(paths)) {
-    try {
-      const content = await githubJson(
-        input.token,
-        `https://api.github.com/repos/${input.repositoryFullName}/contents/${encodeURI(path)}?ref=${encodeURIComponent(input.reference)}`,
-      );
-      if (typeof content.content === 'string' && content.encoding === 'base64') {
-        const text = Buffer.from(content.content, 'base64').toString('utf8');
-        samples.push({ path, excerpt: text.slice(0, MAX_SAMPLE_CHARS) });
-      }
-    } catch {
-      // A missing or oversized sample never blocks synthesis.
-    }
-  }
-
-  return { paths, samples, truncated: entries.length > MAX_INVENTORY_PATHS };
-}
-
 export async function POST(request: Request) {
   const supabase = await createClient();
   const {
@@ -159,7 +110,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error:
-          'Real deposit option synthesis requires BITCODE_ASSET_PACK_REAL_INFERENCE (with BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded) so options carry real measurements.',
+          'Real deposit option synthesis requires BITCODE_ASSET_PACK_REAL_INFERENCE so options carry real measurements.',
         code: 'real_inference_required',
       },
       { status: 422 },
@@ -179,10 +130,29 @@ export async function POST(request: Request) {
   }
   const requestedRunId = readString(body.runId);
   const runId = requestedRunId && UUID_PATTERN.test(requestedRunId) ? requestedRunId : randomUUID();
+
+  // Fire-and-forget: finalize runs orphaned by server restarts/crashed hosts
+  // (rows stuck `running` with no stream activity) so they read as
+  // `interrupted` instead of running forever. waitUntil (V48-Gate3-F31) keeps
+  // this Vercel Function instance alive for the sweep even though the
+  // response below doesn't wait on it.
+  waitUntil(sweepOrphanedExecutions(supabaseAdmin).catch(() => {}));
   const sourceBranch = readString(body.sourceBranch);
   const sourceCommit = readString(body.sourceCommit);
-  const depositorInstructions = readString(body.depositorInstructions);
-  const protectedIpExclusions = normalizeProtectedIpExclusions(readStringList(body.protectedIpExclusions));
+  const obfuscations = readString(body.obfuscations);
+  // Prefer canonical names; accept legacy body keys once for in-flight clients.
+  const forcedInclusions = normalizeForcedPathList(
+    readStringList(
+      body.forcedInclusions ??
+        (body as { sourcePathHints?: unknown }).sourcePathHints,
+    ),
+  );
+  const forcedExclusions = normalizeForcedPathList(
+    readStringList(
+      body.forcedExclusions ??
+        (body as { protectedIpExclusions?: unknown }).protectedIpExclusions,
+    ),
+  );
   const demandContext = readStringList(body.demandContext);
 
   const { data: ownedRepository, error: repositoryError } = await supabaseAdmin
@@ -215,8 +185,76 @@ export async function POST(request: Request) {
     );
   }
 
+  const startedAt = Date.now();
+  const startedAtIso = new Date(startedAt).toISOString();
+
+  // The client may supply the runId (so its log can tail from the first
+  // event), which means the id must be guarded BEFORE any write — including
+  // the streaming-execution setup below, whose row insert fires at creation:
+  // a chosen id colliding with an existing row would otherwise hijack or
+  // overwrite another run (the dispatch upsert writes user_id/status/context
+  // wholesale), and a duplicate POST of the same id would double-run the
+  // pipeline into one row.
+  const { data: existingRun } = await supabaseAdmin
+    .from('executions')
+    .select('id, user_id, status')
+    .eq('id', runId)
+    .maybeSingle();
+  if (existingRun) {
+    return NextResponse.json(
+      {
+        error:
+          existingRun.user_id === user.id
+            ? 'This run id has already been dispatched.'
+            : 'This run id is not available.',
+        code: 'run_id_conflict',
+      },
+      { status: 409 },
+    );
+  }
+
+  // Master-detail lens identity AT DISPATCH: the streaming-execution insert
+  // is a bare running row (type only, context null), which left running rows
+  // lens-ambiguous in the pipelines tables until completion. Upsert the
+  // synthesis identity + source coordinates first, so a running row is
+  // selectable/attachable as a Deposit synthesis run from the first refresh
+  // (the streaming setup's duplicate bare insert is swallowed); the
+  // completion upsert overwrites this with the full context.
+  const { error: dispatchContextError } = await supabaseAdmin.from('executions').upsert(
+    {
+      id: runId,
+      user_id: user.id,
+      type: 'agentic-execution:asset-pack',
+      status: 'running',
+      created_at: startedAtIso,
+      started_at: startedAtIso,
+      updated_at: new Date().toISOString(),
+      context: {
+        source: 'deposit-option-synthesis',
+        workbench: 'deposit-option-synthesis',
+        route: '/deposits',
+        pipelineCore: 'AssetPacksSynthesis',
+        synthesisMode: 'deposit',
+        repositoryFullName,
+        sourceBranch,
+        sourceCommit,
+        // Steering shape only (paths/counts) — never obfuscations prose.
+        forcedInclusionCount: forcedInclusions.length,
+        forcedExclusionCount: forcedExclusions.length,
+        hasObfuscations: Boolean(obfuscations),
+      },
+    },
+    { onConflict: 'id' },
+  );
+  if (dispatchContextError) {
+    bitcodeServerTelemetry('warn', 'deposit-synthesize-options', 'dispatch-context-write-failed', {
+      userId: compactBitcodeServerId(user.id),
+      message: dispatchContextError.message,
+    });
+  }
+
   // Streaming execution: a running executions row plus live execution_events
-  // the /deposit accordion log tails. Only source-safe telemetry streams
+  // the /deposits accordion log tails. Only source-safe telemetry streams
   // (phase/agent/stage/provider/model/usage); prompt and response content is
   // withheld by the synthesis bridge.
   const execution = createStreamingExecution({
@@ -229,8 +267,6 @@ export async function POST(request: Request) {
   const emitStatus = (message: string, extra: Record<string, unknown> = {}) =>
     ExecutionStreamAdapter.emitEvent(execution.id, 'status' as never, { message, ...extra });
 
-  const startedAt = Date.now();
-  const startedAtIso = new Date(startedAt).toISOString();
   const finalizeExecutionRow = async (row: Record<string, unknown>) => {
     const { error: rowError } = await supabaseAdmin.from('executions').upsert(
       {
@@ -252,7 +288,53 @@ export async function POST(request: Request) {
     }
   };
 
-  try {
+  // V48-Gate3-F26-B: the synthesis runs the full formal hierarchy (many LLM calls), so it
+  // must NOT be bound to this request's maxDuration. Dispatch it as a background
+  // run (the local in-process harness host) and return the runId immediately; the
+  // client tails source-safe telemetry and, on the completion event, reads the
+  // persisted synthesis from the execution row output. Prod durability is the
+  // Vercel Sandbox host (pipeline-hosts). The F25 per-call LLM timeout remains the
+  // safety bound within the run.
+  //
+  // V48-Gate3-F31: the JSON response below returns (and the request completes)
+  // long before this finishes. On Vercel, a Function instance is free to be
+  // frozen/recycled once its response is sent — a bare `void runSynthesis()`
+  // has no guarantee of surviving past that point, which is exactly how the
+  // "crashed serverless boxes" orphaned runs above got orphaned in the first
+  // place (see execution-orphan-sweep.ts). waitUntil keeps this invocation
+  // alive until the promise settles, so the run either completes or fails
+  // (and finalizes its row) instead of being silently killed mid-flight.
+  const runSynthesis = async () => {
+   // Cooperative cancel: poll executions.status between major stages and inside
+   // the sandbox detached poll (shouldAbort). Never overwrite a cancelled row.
+   const assertNotCancelled = () =>
+     assertExecutionNotCancelled(supabaseAdmin, runId);
+   const mergeDispatchContext = async (patch: Record<string, unknown>) => {
+     try {
+       const { data: existing } = await supabaseAdmin
+         .from('executions')
+         .select('context')
+         .eq('id', runId)
+         .maybeSingle();
+       const prev =
+         existing?.context && typeof existing.context === 'object'
+           ? (existing.context as Record<string, unknown>)
+           : {};
+       await supabaseAdmin
+         .from('executions')
+         .update({
+           context: { ...prev, ...patch },
+           updated_at: new Date().toISOString(),
+         })
+         .eq('id', runId)
+         .eq('status', 'running');
+     } catch {
+       // Best-effort: cancel can still stop by row status alone.
+     }
+   };
+
+   try {
+    await assertNotCancelled();
     await emitPhaseTransition(execution as never, 'deposit-option-synthesis', 'start', {
       repositoryFullName,
       sourceBranch,
@@ -266,47 +348,191 @@ export async function POST(request: Request) {
       supabaseAdmin,
     );
     const reference = sourceCommit || sourceBranch || 'HEAD';
-    await emitStatus(`Building source inventory from ${repositoryFullName}@${reference}…`);
-    const rawInventory = await buildSourceInventory({
-      token: auth.accessToken,
-      repositoryFullName,
-      reference,
-    });
-    const inventory = applyExclusionsToInventory(rawInventory, protectedIpExclusions);
-    await emitStatus(
-      `Inventory ready: ${inventory.paths.length} paths (${inventory.excludedPathCount} withheld by ${protectedIpExclusions.length} protected-IP exclusions; ${inventory.samples.length} excerpts sampled).`,
-    );
+    const DEPOSIT_OPTION_KINDS = ['capability-slice', 'implementation-pattern', 'proof-operations-slice'];
+    // The synthesis runs WITHIN the configured Host. InlineHost runs it in this box
+    // (provision the full checkout + run the pipeline in-process). SandboxHost runs it
+    // IN the box (#25): the harness dispatches the deposit pipeline into the sandbox,
+    // which clones + runs over its local checkout; the options come back in evidence.
+    const hostKind = selectDepositHostKind();
+    let rawOptions: Parameters<typeof validateDepositSynthesisOptions>[0];
+    let inventoryPaths: string[];
+    // The inventory the option projection + persistence reference. Real for inline;
+    // for the sandbox path the box held the inventory, so a minimal shape is rebuilt
+    // from the returned options (exclusions were already enforced in-box).
+    let inventory: AssetPacksSynthesisSourceInventory;
+    let boundSandboxId: string | null = null;
 
-    await emitStatus('Running bounded structured inference (reason → judge → structured output)…');
-    const result = await synthesizeRealDepositOptionCandidates({
-      repositoryFullName,
-      sourceBranch,
-      sourceCommit,
-      depositorInstructions,
-      protectedIpExclusions,
-      demandContext,
-      inventory,
-      execution: execution as never,
+    if (hostKind === 'sandbox') {
+      await assertNotCancelled();
+      await emitStatus(
+        `Dispatching deposit synthesis to the sandbox host (in-box) for ${repositoryFullName}@${reference}…`,
+      );
+      const harnessResult = await runDepositInBoxHarness({
+        repositoryFullName,
+        revision: reference,
+        branch: sourceBranch,
+        commit: sourceCommit,
+        token: auth.accessToken,
+        obfuscations,
+        // Sandbox harness currently steers exclusions; Forced Inclusion is
+        // enforced on the inline inventory path and re-validated on options.
+        forcedExclusions,
+        demandContext,
+        shouldAbort: () => isExecutionCancelled(supabaseAdmin, runId),
+        onEvent: (event) => {
+          void emitStatus(`sandbox: ${event.type}`);
+          if (event.type === 'sandbox-created' && event.sandboxId) {
+            boundSandboxId = event.sandboxId;
+            void mergeDispatchContext({
+              sandboxId: event.sandboxId,
+              hostKind: 'sandbox',
+            });
+          }
+        },
+      });
+      boundSandboxId = harnessResult.sandboxId ?? boundSandboxId;
+      if (harnessResult.outcome === 'cancelled') {
+        throw new ExecutionCancelledError(runId);
+      }
+      rawOptions = harnessResult.options as Parameters<
+        typeof validateDepositSynthesisOptions
+      >[0];
+      // The in-box run validated covered paths against the real inventory; the route's
+      // re-validation enforces exclusions over the options' own covered paths.
+      inventoryPaths = [
+        ...new Set((rawOptions || []).flatMap((option: any) => option?.coveredSourcePaths || [])),
+      ] as string[];
+      inventory = {
+        paths: inventoryPaths,
+        samples: [],
+        sources: [],
+        totalPathCount: inventoryPaths.length,
+        excludedPathCount: 0,
+      };
+    } else {
+      await assertNotCancelled();
+      const host = await resolveDepositPipelineHost();
+      await emitStatus(
+        `Provisioning ${repositoryFullName}@${reference} on the ${host.capabilities.hostKind} host…`,
+      );
+      const provisioned = await provisionDepositSourceInventory({
+        host,
+        repositoryFullName,
+        url: `https://github.com/${repositoryFullName}.git`,
+        revision: reference,
+        token: auth.accessToken,
+      });
+      await assertNotCancelled();
+      // Forced Inclusion scopes measurement to selected roots; Forced Exclusion
+      // removes protected-IP paths fail-closed. Both bound the full sources blob
+      // so monorepo checkouts do not materialize multi-hundred-MB inventories
+      // into pipeline stores/events (Invalid string length).
+      inventory = applyInventoryScope(provisioned, {
+        inclusions: forcedInclusions,
+        exclusions: forcedExclusions,
+      });
+      await emitStatus(
+        `Checkout ready: ${inventory.paths.length} files (${inventory.excludedPathCount} out of scope — ${forcedInclusions.length} Forced Inclusion root(s), ${forcedExclusions.length} Forced Exclusion(s); full source measured, ${inventory.samples.length} prompt excerpts).`,
+      );
+      await emitStatus(
+        'Running SynthesizeAssetPacks (deposit mode): Setup → Discovery → Implementation → Validation → Finish…',
+      );
+      await assertNotCancelled();
+      const [owner, name] = repositoryFullName.split('/');
+      await synthesizeAssetPacksPipeline(
+        {
+          mode: 'deposit',
+          synthesizeMode: 'deposit',
+          repositoryFullName,
+          sourceBranch,
+          sourceCommit,
+          repository: {
+            owner,
+            name,
+            repo: name,
+            branch: sourceBranch,
+            commit: sourceCommit,
+            fullName: repositoryFullName,
+            url: `https://github.com/${repositoryFullName}`,
+          },
+          obfuscations,
+          forcedInclusions,
+          forcedExclusions,
+          demandContext,
+          inventory,
+          candidateKinds: DEPOSIT_OPTION_KINDS,
+        } as never,
+        execution as never,
+      );
+      rawOptions = ((execution as any).get?.('implementation', 'options') ??
+        (execution as any).findUp?.('implementation', 'options') ??
+        []) as Parameters<typeof validateDepositSynthesisOptions>[0];
+      inventoryPaths = inventory.paths;
+    }
+
+    await assertNotCancelled();
+    const validated = validateDepositSynthesisOptions(rawOptions, {
+      lens: 'deposit',
+      inventoryPaths,
+      forcedExclusions,
+      candidateKinds: DEPOSIT_OPTION_KINDS,
     });
+    // Roll up usage from the full SDIVF execution tree (Map children + nested PTRR).
+    const rolledTokens = sumLlmTokensFromExecutionTree(execution as never);
+    const result: AssetPacksSynthesisResult = {
+      lens: 'deposit',
+      candidates: validated.candidates,
+      droppedCandidateCount: validated.droppedCandidateCount,
+      exclusionViolations: validated.exclusionViolations,
+      inference: {
+        provider: null,
+        model: null,
+        totalTokens: rolledTokens,
+        durationMs: Date.now() - startedAt,
+      },
+    };
     await emitStatus(
       `Validated candidates fail-closed: ${result.candidates.length} admissible, ${result.droppedCandidateCount} dropped.`,
     );
+    if (result.candidates.length === 0) {
+      const detail =
+        result.exclusionViolations.length > 0
+          ? result.exclusionViolations.slice(0, 5).join('; ')
+          : 'no admissible measured candidates survived Validation absolutes / source-safety checks';
+      throw new Error(
+        `AssetPacksSynthesis produced zero admissible options (fail-closed): ${detail}`,
+      );
+    }
 
-    const { synthesis, reviewProjections } = buildRealDepositAssetPackOptionSynthesis(
-      {
-        repositoryFullName,
-        sourceBranch,
-        sourceCommit,
-        depositorInstructions,
-        protectedIpExclusions,
-        depositoryDemandSignals: readSignals(body.depositoryDemandSignals),
-        readingDemandSignals: readSignals(body.readingDemandSignals),
-        existingDepositorySignals: readSignals(body.existingDepositorySignals),
-        createdAt: new Date().toISOString(),
-      },
-      result,
-      inventory,
+    const { synthesis: rawSynthesis, reviewProjections } =
+      buildRealDepositAssetPackOptionSynthesis(
+        {
+          repositoryFullName,
+          sourceBranch,
+          sourceCommit,
+          obfuscations,
+          forcedInclusions,
+          forcedExclusions,
+          depositoryDemandSignals: readSignals(body.depositoryDemandSignals),
+          readingDemandSignals: readSignals(body.readingDemandSignals),
+          existingDepositorySignals: readSignals(body.existingDepositorySignals),
+          createdAt: new Date().toISOString(),
+        },
+        result,
+        inventory,
+      );
+
+    // Ground option neediness from settled Depository AssetPacks (not LLM invention).
+    // Fail-soft: empty corpus → neediness rationale is "Unestimatable: …".
+    const settledPacks = await loadSettledDepositoryPacks(80);
+    const groundedOptions = groundOptionNeedinessFromSettledDepository(
+      rawSynthesis.options,
+      settledPacks,
     );
+    const synthesis = {
+      ...rawSynthesis,
+      options: groundedOptions,
+    };
 
     const durationMs = Date.now() - startedAt;
     await emitStatus(
@@ -315,18 +541,17 @@ export async function POST(request: Request) {
     await emitPhaseTransition(execution as never, 'deposit-option-synthesis', 'complete', {
       optionCount: synthesis.optionCount,
     });
-    await ExecutionStreamAdapter.emitEvent(execution.id, 'completion' as never, {
-      message: `AssetPacksSynthesis completed with ${synthesis.optionCount} measured options.`,
-      runId,
-    });
 
+    // Persist the synthesis BEFORE the completion event so the client's
+    // completion-triggered history fetch always finds it (the reviewProjections
+    // ride along on the output now that the route no longer returns them inline).
     await finalizeExecutionRow({
       status: 'completed',
       completed_at: new Date().toISOString(),
       context: {
         source: 'deposit-option-synthesis',
         workbench: 'deposit-option-synthesis',
-        route: '/deposit',
+        route: '/deposits',
         pipelineCore: 'AssetPacksSynthesis',
         synthesisMode: synthesis.synthesisMode,
         repositoryFullName,
@@ -334,7 +559,8 @@ export async function POST(request: Request) {
         sourceCommit,
         optionCount: synthesis.optionCount,
         synthesisRoot: synthesis.roots.synthesisRoot,
-        exclusionCount: synthesis.exclusionPosture.protectedIpExclusionCount,
+        forcedInclusionCount: forcedInclusions.length,
+        exclusionCount: synthesis.exclusionPosture.forcedExclusionCount,
         excludedPathCount: synthesis.exclusionPosture.excludedPathCount,
         droppedCandidateCount: synthesis.exclusionPosture.droppedCandidateCount,
         inventoryPathCount: inventory.paths.length,
@@ -344,13 +570,19 @@ export async function POST(request: Request) {
       output: {
         summary: `Synthesized ${synthesis.optionCount} measured AssetPack options for ${repositoryFullName} via AssetPacksSynthesis (deposit lens).`,
         depositOptionSynthesis: synthesis,
+        reviewProjections,
+        inference: { ...result.inference, durationMs },
+        exclusionViolations: result.exclusionViolations,
       },
       items: [],
       total_tokens: result.inference.totalTokens,
       duration_ms: durationMs,
     });
 
-    ExecutionStreamAdapter.unregisterStreamer(execution.id);
+    await ExecutionStreamAdapter.emitEvent(execution.id, 'completion' as never, {
+      message: `AssetPacksSynthesis completed with ${synthesis.optionCount} measured options.`,
+      runId,
+    });
 
     bitcodeServerTelemetry('info', 'deposit-synthesize-options', 'synthesized', {
       userId: compactBitcodeServerId(user.id),
@@ -361,45 +593,63 @@ export async function POST(request: Request) {
       totalTokens: result.inference.totalTokens,
       durationMs,
     });
-
-    return NextResponse.json({
-      ok: true,
-      executionId: runId,
-      runId,
-      synthesis,
-      reviewProjections,
-      inference: { ...result.inference, durationMs },
-      exclusionViolations: result.exclusionViolations,
-    });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    try {
-      await ExecutionStreamAdapter.emitEvent(execution.id, 'error' as never, { message, runId });
-    } catch {}
-    await finalizeExecutionRow({
-      status: 'failed',
-      completed_at: new Date().toISOString(),
-      error: { message },
-      context: {
-        source: 'deposit-option-synthesis',
-        route: '/deposit',
-        pipelineCore: 'AssetPacksSynthesis',
+   } catch (error) {
+    if (isExecutionCancelledError(error) || (await isExecutionCancelled(supabaseAdmin, runId))) {
+      // Cancel API already wrote status=cancelled; do not overwrite with failed.
+      try {
+        await emitStatus('Run cancelled — synthesis stopped cooperatively.');
+      } catch {}
+      bitcodeServerTelemetry('info', 'deposit-synthesize-options', 'cancelled', {
+        userId: compactBitcodeServerId(user.id),
         repositoryFullName,
-        sourceBranch,
-        sourceCommit,
-      },
-      duration_ms: Date.now() - startedAt,
-    });
+        runId,
+      });
+    } else {
+      const message =
+        (error instanceof Error && error.message.trim()) ||
+        (typeof error === 'string' && error.trim()) ||
+        'Deposit option synthesis failed (no message).';
+      try {
+        await ExecutionStreamAdapter.emitEvent(execution.id, 'error' as never, {
+          message,
+          runId,
+        });
+      } catch {}
+      // Only fail if still running (cancel may have raced the catch path).
+      if (!(await isExecutionCancelled(supabaseAdmin, runId))) {
+        await finalizeExecutionRow({
+          status: 'failed',
+          completed_at: new Date().toISOString(),
+          error: { message, name: error instanceof Error ? error.name : 'Error' },
+          // Also mirror into output.summary so list/history summary builders
+          // surface the failure even when error JSON is dropped by a mapper.
+          output: {
+            summary: message,
+          },
+          context: {
+            source: 'deposit-option-synthesis',
+            route: '/deposits',
+            pipelineCore: 'AssetPacksSynthesis',
+            repositoryFullName,
+            sourceBranch,
+            sourceCommit,
+            failureMessage: message,
+          },
+          duration_ms: Date.now() - startedAt,
+        });
+      }
+      bitcodeServerTelemetry('warn', 'deposit-synthesize-options', 'failed', {
+        userId: compactBitcodeServerId(user.id),
+        repositoryFullName,
+        runId,
+        message,
+      });
+    }
+   } finally {
     ExecutionStreamAdapter.unregisterStreamer(execution.id);
-    bitcodeServerTelemetry('warn', 'deposit-synthesize-options', 'failed', {
-      userId: compactBitcodeServerId(user.id),
-      repositoryFullName,
-      runId,
-      message,
-    });
-    return NextResponse.json(
-      { error: message, code: 'deposit_option_synthesis_failed', runId },
-      { status: 502 },
-    );
-  }
+   }
+  };
+
+  waitUntil(runSynthesis());
+  return NextResponse.json({ ok: true, executionId: runId, runId, status: 'dispatched' });
 }

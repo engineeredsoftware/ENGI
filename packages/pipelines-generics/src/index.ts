@@ -117,9 +117,6 @@ export {
   type GateExecutionContext
 } from './execution/route-pipeline-execution';
 
-// Execution utilities
-export { waitForInstruction, calculateInstructionTimeout } from './executors/wait-for-instruction';
-
 // Pipeline DB aliases (built from ORM types)
 export type {
   DPPhaseDelegation,

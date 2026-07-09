@@ -6,7 +6,7 @@
   "generatedAt": "2026-05-26T00:00:00.000Z",
   "artifactPath": ".bitcode/v41-readneed-prompt-hardening.json",
   "sourceSafetyVerdict": "source-safe-readneed-prompt-hardening-metadata",
-  "artifactRoot": "v41-readneed-prompt-hardening:e93084e4403cc37d87fca2cf",
+  "artifactRoot": "v41-readneed-prompt-hardening:43a9851edd69a5b5cd61d5b1",
   "passed": true,
   "failures": [],
   "metricIds": [
@@ -357,10 +357,10 @@
     },
     {
       "hardeningId": "readneed-real-inference-return-type-hardening",
-      "label": "ReadNeed real inference uses strict typed schema, bounded inference, and fallback",
+      "label": "ReadNeed real inference uses strict typed schema and always-real ThricifiedGeneration that fails closed without an LLM",
       "sourceRoots": [
         "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
+        "packages/pipelines/asset-pack/src/runtime-inference-policy.ts",
         "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts"
       ],
       "promptFamilyIds": [
@@ -391,9 +391,9 @@
         "schema.failure-modes-array",
         "schema.target-artifact-kinds-array",
         "schema.proof-expectations-array",
-        "inference.uses-bounded-structured-inference",
+        "inference.uses-real-thricified-inference",
         "inference.prompt-template-id-bound",
-        "inference.has-fallback",
+        "inference.fails-closed-without-llm",
         "test.real-inference-covers-thricified-generation"
       ],
       "rowRoot": "v41-readneed-prompt-hardening-row:eb67e265566934cfced5b031",
@@ -433,21 +433,21 @@
       ],
       "sourceFiles": [
         "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
+        "packages/pipelines/asset-pack/src/runtime-inference-policy.ts",
         "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts"
       ],
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
-          "sourceHash": "eeb93c86b190cd11b3e0c059"
+          "sourceHash": "3d827283d8dc1234cc31d348"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
-          "sourceHash": "c918c2d3ef7da0ab94a2a7ed"
+          "sourcePath": "packages/pipelines/asset-pack/src/runtime-inference-policy.ts",
+          "sourceHash": "f86a3e1c536deeb22b9ed84d"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
-          "sourceHash": "5b40e8d5db1cbe996541633d"
+          "sourceHash": "c5d08cd4a465c75a011685d7"
         }
       ],
       "sourceRootsPresent": true,
@@ -495,7 +495,7 @@
           "passed": true
         },
         {
-          "id": "inference.uses-bounded-structured-inference",
+          "id": "inference.uses-real-thricified-inference",
           "rowId": "readneed-real-inference-return-type-hardening",
           "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
           "passed": true
@@ -507,7 +507,7 @@
           "passed": true
         },
         {
-          "id": "inference.has-fallback",
+          "id": "inference.fails-closed-without-llm",
           "rowId": "readneed-real-inference-return-type-hardening",
           "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
           "passed": true
@@ -602,11 +602,11 @@
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
-          "sourceHash": "eeb93c86b190cd11b3e0c059"
+          "sourceHash": "3d827283d8dc1234cc31d348"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-          "sourceHash": "b19eba649308640b1854dea6"
+          "sourceHash": "4a688c72b552579ba1373a74"
         }
       ],
       "sourceRootsPresent": true,
@@ -749,15 +749,15 @@
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
-          "sourceHash": "eeb93c86b190cd11b3e0c059"
+          "sourceHash": "3d827283d8dc1234cc31d348"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-          "sourceHash": "347bd88040c9456420e03c0e"
+          "sourceHash": "c6556bcccf75a5465c0d25c5"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts",
-          "sourceHash": "c77f58a0e908874740c47589"
+          "sourceHash": "45afc59d2ec4f4810ca67b64"
         }
       ],
       "sourceRootsPresent": true,
@@ -828,7 +828,7 @@
       "sourceRoots": [
         "packages/pipelines/asset-pack/src/read-need.ts",
         "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-        "packages/pipelines/asset-pack/src/bounded-structured-inference.ts"
+        "packages/pipelines/asset-pack/src/runtime-inference-policy.ts"
       ],
       "promptFamilyIds": [
         "ReadNeedComprehensionSynthesis",
@@ -898,20 +898,20 @@
       "sourceFiles": [
         "packages/pipelines/asset-pack/src/read-need.ts",
         "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-        "packages/pipelines/asset-pack/src/bounded-structured-inference.ts"
+        "packages/pipelines/asset-pack/src/runtime-inference-policy.ts"
       ],
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
-          "sourceHash": "eeb93c86b190cd11b3e0c059"
+          "sourceHash": "3d827283d8dc1234cc31d348"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-          "sourceHash": "347bd88040c9456420e03c0e"
+          "sourceHash": "c6556bcccf75a5465c0d25c5"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
-          "sourceHash": "c918c2d3ef7da0ab94a2a7ed"
+          "sourcePath": "packages/pipelines/asset-pack/src/runtime-inference-policy.ts",
+          "sourceHash": "f86a3e1c536deeb22b9ed84d"
         }
       ],
       "sourceRootsPresent": true,
@@ -1145,9 +1145,9 @@
     }
   ],
   "dependencyRoots": {
-    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:296926f1c26d370f7e91a70d",
-    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:fb4b99ad86f0cf6f4a9c04c4",
-    "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:82e956682fa1353ed9df6cff"
+    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
+    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:d185ffe16ec5a0b46e809b54",
+    "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:94701c608d6cc4e21dcaadb6"
   },
   "coverage": {
     "rowCount": 7,
@@ -1220,7 +1220,7 @@
     "failingRowIds": [],
     "hardeningScoreMinimum": 1,
     "readNeedInventoryPromptPartRowCount": 63,
-    "readNeedInventoryPromptRowCount": 8,
+    "readNeedInventoryPromptRowCount": 6,
     "gate4ReadNeedBaselineRowCount": 3
   },
   "sourceSafety": {

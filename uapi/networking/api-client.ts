@@ -197,40 +197,6 @@ export const fetchPostprocessed = async (runId: string): Promise<PostprocessedRe
   const data = await res.json();
   return data?.postprocessed || null;
 };
-// -----------------------------------------------------------------------------
-// On-the-Fly Instructions
-// -----------------------------------------------------------------------------
-/**
- * Fetch on-the-fly instructions for an AssetPack/Shippable-producing run.
- */
-export const fetchShippableInstructions = async (runId: string): Promise<any[]> => {
-  const response = await fetch(`/api/executions/instructions?runId=${runId}`);
-  if (!response.ok) {
-    const err = await response.text();
-    throw new Error(err || `Failed to fetch instructions for run ${runId}`);
-  }
-  return response.json();
-};
-/**
- * Submit an on-the-fly instruction for an AssetPack/Shippable-producing run.
- */
-export const postShippableInstruction = async (
-  runId: string,
-  content: string,
-  attachments?: any
-): Promise<any> => {
-  const response = await fetch('/api/executions/instructions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ runId, content, attachments }),
-  });
-  if (!response.ok) {
-    const err = await response.text();
-    throw new Error(err || `Failed to post instruction for run ${runId}`);
-  }
-  return response.json();
-};
-
 
 // -----------------------------------------------------------------------------
 // Notifications wrappers

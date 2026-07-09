@@ -37,16 +37,16 @@ describe('Reading pipeline contracts', () => {
           }
           for (const ptrrStep of agent.ptrrSteps) {
             expect(ptrrStep.ptrrStepId.startsWith(`${contract.pipelineName}.`)).toBe(true);
-            expect(ptrrStep.thricifiedGenerations).toHaveLength(3);
-            for (const thricifiedGenerationId of ptrrStep.thricifiedGenerationIds) {
-              expect(thricifiedGenerationId.startsWith(`${contract.pipelineName}.thricified-generation.`)).toBe(true);
+            expect(ptrrStep.thinkingsGenerations).toHaveLength(3);
+            for (const thinkingsGenerationId of ptrrStep.thinkingsGenerationIds) {
+              expect(thinkingsGenerationId.startsWith(`${contract.pipelineName}.thinkings-generation.`)).toBe(true);
             }
-            for (const thricifiedGeneration of ptrrStep.thricifiedGenerations) {
-              expect(thricifiedGeneration.thricifiedGenerationId.startsWith(`${contract.pipelineName}.thricified-generation.`)).toBe(true);
-              expect(thricifiedGeneration.reasonPromptId.startsWith(`${contract.pipelineName}.prompt.`)).toBe(true);
-              expect(thricifiedGeneration.judgePromptId.startsWith(`${contract.pipelineName}.prompt.`)).toBe(true);
-              expect(thricifiedGeneration.structuredOutputPromptId.startsWith(`${contract.pipelineName}.prompt.`)).toBe(true);
-              expect(thricifiedGeneration.returnTypes).toEqual({
+            for (const thinkingsGeneration of ptrrStep.thinkingsGenerations) {
+              expect(thinkingsGeneration.thinkingsGenerationId.startsWith(`${contract.pipelineName}.thinkings-generation.`)).toBe(true);
+              expect(thinkingsGeneration.reasonPromptId.startsWith(`${contract.pipelineName}.prompt.`)).toBe(true);
+              expect(thinkingsGeneration.judgePromptId.startsWith(`${contract.pipelineName}.prompt.`)).toBe(true);
+              expect(thinkingsGeneration.structuredOutputPromptId.startsWith(`${contract.pipelineName}.prompt.`)).toBe(true);
+              expect(thinkingsGeneration.returnTypes).toEqual({
                 reason: 'Reasoning',
                 judge: 'Judgment',
                 structuredOutput: ptrrStep.outputType,
@@ -82,7 +82,9 @@ describe('Reading pipeline contracts', () => {
     expect(modelSteps).toHaveLength(4);
     for (const modelStep of modelSteps) {
       expect(modelStep.prompt?.templateId).toBe('ReadNeedComprehensionSynthesis.prompt.need-synthesis');
-      expect(modelStep.outputType).toBe('ReadNeed');
+      // Step outputs validate against STEP schemas: the plan step returns the
+      // canonical plan shape; try/refine/retry return the agent output type.
+      expect(modelStep.outputType).toBe(modelStep.ptrrStepName === 'plan' ? 'PlanStepOutput' : 'ReadNeed');
     }
   });
 
@@ -124,7 +126,7 @@ describe('Reading pipeline contracts', () => {
         ptrrAgentCount: 4,
         ptrrStepCount: 16,
         modelStructuredPtrrStepCount: 4,
-        thricifiedGenerationCount: 48,
+        thinkingsGenerationCount: 48,
         toolCount: 0,
       }),
       expect.objectContaining({
@@ -134,13 +136,13 @@ describe('Reading pipeline contracts', () => {
         ptrrAgentCount: 8,
         ptrrStepCount: 32,
         modelStructuredPtrrStepCount: 16,
-        thricifiedGenerationCount: 96,
+        thinkingsGenerationCount: 96,
         toolCount: 4,
       }),
     ]);
   });
 
-  it('lists every PTRR step as telemetry-ready trace entries with ThricifiedGeneration substeps', () => {
+  it('lists every PTRR step as telemetry-ready trace entries with ThinkingsGeneration substeps', () => {
     const readNeedTrace = listReadingPipelineTelemetryTrace(READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT);
     const fitsFindingTrace = listReadingPipelineTelemetryTrace(READ_FITS_FINDING_SYNTHESIS_CONTRACT);
 
@@ -152,8 +154,8 @@ describe('Reading pipeline contracts', () => {
 
     for (const entry of [...readNeedTrace, ...fitsFindingTrace]) {
       expect(entry.agentId.startsWith(`${entry.pipelineName}.`)).toBe(true);
-      expect(entry.thricifiedGenerationIds).toHaveLength(3);
-      expect(entry.thricifiedGenerations).toHaveLength(3);
+      expect(entry.thinkingsGenerationIds).toHaveLength(3);
+      expect(entry.thinkingsGenerations).toHaveLength(3);
       expect(entry.telemetry.every((telemetry) => telemetry.startsWith(`${entry.pipelineName}.telemetry.`))).toBe(true);
     }
   });

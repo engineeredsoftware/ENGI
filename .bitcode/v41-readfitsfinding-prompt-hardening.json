@@ -6,7 +6,7 @@
   "generatedAt": "2026-05-26T00:00:00.000Z",
   "artifactPath": ".bitcode/v41-readfitsfinding-prompt-hardening.json",
   "sourceSafetyVerdict": "source-safe-readfitsfinding-prompt-hardening-metadata",
-  "artifactRoot": "v41-readfitsfinding-prompt-hardening:23a95503d097ffbbf4ef4739",
+  "artifactRoot": "v41-readfitsfinding-prompt-hardening:0584cc9e2385dfe150b0b96a",
   "passed": true,
   "failures": [],
   "metricIds": [
@@ -222,12 +222,13 @@
     },
     {
       "hardeningId": "readfits-bounded-inference-prompt-context",
-      "label": "ReadFitsFinding bounded inference prompts carry accepted Need, search roots, and source-safe boundaries",
+      "label": "ReadFitsFinding always-real inference prompt contract carries accepted Need, search roots, and source-safe boundaries",
       "sourceRoots": [
         "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
         "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
         "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts"
       ],
       "promptFamilyIds": [
         "ReadFitsFindingSynthesis",
@@ -314,24 +315,29 @@
         "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
         "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
         "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts"
       ],
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
-          "sourceHash": "2188782b86b311739970d665"
+          "sourceHash": "c10ce62aeee327689683d323"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
-          "sourceHash": "27d85ee5142f698a4c892a95"
+          "sourceHash": "c13740504e7ad4f3b6bd3bce"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
-          "sourceHash": "80d7185a2ecedd5d71880a27"
+          "sourceHash": "e4ca2a51636c21a9bf4c911d"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-          "sourceHash": "b19eba649308640b1854dea6"
+          "sourceHash": "4a688c72b552579ba1373a74"
+        },
+        {
+          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+          "sourceHash": "1319dd4223292e03b795ab87"
         }
       ],
       "sourceRootsPresent": true,
@@ -339,49 +345,49 @@
         {
           "id": "bounded.setup-plan-template-id",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
+          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "bounded.setup-plan-accepted-need",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
+          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "bounded.setup-plan-search-objectives",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
+          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "bounded.read-comprehension-source-constraints",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
+          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "bounded.read-comprehension-many-candidate-search",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
+          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "bounded.assetpack-source-safe-boundary",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
           "passed": true
         },
         {
           "id": "bounded.assetpack-selected-fit-provenance-root",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "bounded.assetpack-no-unpaid-source",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
@@ -500,11 +506,11 @@
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
-          "sourceHash": "e983ef9a11ae67d867ebaa99"
+          "sourceHash": "8c79c6f9c479ba664206175d"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
-          "sourceHash": "b663fa7253cbc4d8b09e6028"
+          "sourceHash": "f67631d6826e305b99ac1c36"
         }
       ],
       "sourceRootsPresent": true,
@@ -675,11 +681,11 @@
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-          "sourceHash": "4e89eacdc2b73bd6bc70a085"
+          "sourceHash": "6b91862fe0c4c802b9a19e15"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
-          "sourceHash": "4fda807fffa117394d6455ab"
+          "sourceHash": "58db4f0377fdbd4440e6de7a"
         }
       ],
       "sourceRootsPresent": true,
@@ -1116,7 +1122,7 @@
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-          "sourceHash": "4e5eebe66c2075acef628682"
+          "sourceHash": "3d2b0984fc9e2c3c108d6eb0"
         }
       ],
       "sourceRootsPresent": true,
@@ -1289,55 +1295,55 @@
       "sourceHashes": [
         {
           "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
-          "sourceHash": "b663fa7253cbc4d8b09e6028"
+          "sourceHash": "f67631d6826e305b99ac1c36"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
-          "sourceHash": "4fda807fffa117394d6455ab"
+          "sourceHash": "58db4f0377fdbd4440e6de7a"
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
-          "sourceHash": "a81dd182bb016a93819d45b1"
+          "sourceHash": "e2e172cbbb050fa57eb16c0d"
         },
         {
           "sourcePath": "BITCODE_SPEC_V41.md",
-          "sourceHash": "3f175df2d8a0e338c26b2e64"
+          "sourceHash": "9174742d79d0b0045bb0eebf"
         },
         {
           "sourcePath": "BITCODE_SPEC_V41_DELTA.md",
-          "sourceHash": "fc6702e82ebeccbbc4d8ef88"
+          "sourceHash": "a368d8732b02b4f943017df9"
         },
         {
           "sourcePath": "BITCODE_SPEC_V41_NOTES.md",
-          "sourceHash": "94abe5cb7e5ef4cdf3f74b74"
+          "sourceHash": "38e4d70e19dff8c367acf279"
         },
         {
           "sourcePath": "BITCODE_SPEC_V41_PARITY_MATRIX.md",
-          "sourceHash": "19077212c19df64c25fce9fa"
+          "sourceHash": "5f49852cfb6323d19db8be1c"
         },
         {
           "sourcePath": "SPECIFICATIONS_ROADMAP.md",
-          "sourceHash": "a1daa5f38dbb21982cbc413a"
+          "sourceHash": "2400ea79d304ff28b7fd8e7a"
         },
         {
           "sourcePath": "README.md",
-          "sourceHash": "4db3fe0b356b6e33624183bf"
+          "sourceHash": "14085be712ec8e13c811c62a"
         },
         {
           "sourcePath": "packages/protocol/README.md",
-          "sourceHash": "7df84eed1d322a7666597fde"
+          "sourceHash": "1a81b9507325d3a5da87f627"
         },
         {
           "sourcePath": "package.json",
-          "sourceHash": "6dca79ddc21de7395c58cbda"
+          "sourceHash": "4d9f041eb01a920860a26f75"
         },
         {
           "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
-          "sourceHash": "8e67691df2a7efeb8d50e68d"
+          "sourceHash": "379d7561d515468f9237bf02"
         },
         {
           "sourcePath": ".github/workflows/bitcode-canon-quality.yml",
-          "sourceHash": "78f46bc6a2fb81c41d999b79"
+          "sourceHash": "ab37403273c35c918071e3cd"
         }
       ],
       "sourceRootsPresent": true,
@@ -1404,10 +1410,10 @@
     }
   ],
   "dependencyRoots": {
-    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:296926f1c26d370f7e91a70d",
-    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:fb4b99ad86f0cf6f4a9c04c4",
-    "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:82e956682fa1353ed9df6cff",
-    "gate5ReadNeedPromptHardeningRoot": "v41-readneed-prompt-hardening:e93084e4403cc37d87fca2cf"
+    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
+    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:46320b06f8417ffc0b86c713",
+    "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:3aa915a7a731a50181d19292",
+    "gate5ReadNeedPromptHardeningRoot": "v41-readneed-prompt-hardening:d7746fcf0bd45ddb7b1dd388"
   },
   "coverage": {
     "rowCount": 8,
@@ -1482,7 +1488,7 @@
     "failingRowIds": [],
     "hardeningScoreMinimum": 1,
     "readFitsInventoryPromptPartRowCount": 490,
-    "readFitsInventoryPromptRowCount": 47,
+    "readFitsInventoryPromptRowCount": 52,
     "gate4ReadFitsBaselineRowCount": 7,
     "gate5ReadNeedHardeningRowCount": 7
   },

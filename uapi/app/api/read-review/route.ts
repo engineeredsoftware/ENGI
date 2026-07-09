@@ -76,7 +76,7 @@ export async function POST(request: Request) {
           phaseId: 'ReadNeedComprehensionSynthesis.comprehend',
           agentId: 'ReadNeedComprehensionSynthesis.comprehend.need-synthesizer',
           ptrrStepId: synthesisStep?.ptrrStepId || 'ReadNeedComprehensionSynthesis.comprehend.need-synthesizer.try',
-          thricifiedGenerationIds: synthesisStep?.thricifiedGenerationIds || [],
+          thinkingsGenerationIds: synthesisStep?.thinkingsGenerationIds || [],
           promptTemplate: synthesisStep?.prompt || null,
           promptInput: readNeed.read,
           interpolatedContext: {
@@ -97,7 +97,7 @@ export async function POST(request: Request) {
             outputKind: 'typed-protocol-synthesis',
             content: readNeed,
           },
-          thricifiedGeneration: {
+          thinkingsGeneration: {
             mode: inferenceCapture.value('bounded-inference', 'mode') || 'deterministic-typed-witness',
             status: inferenceCapture.value('bounded-inference', 'status') || 'deterministic-fallback',
             provider: inferenceCapture.value('bounded-inference', 'provider') || null,
@@ -178,7 +178,7 @@ export async function POST(request: Request) {
           phaseId: 'ReadNeedComprehensionSynthesis.review',
           agentId: 'ReadNeedComprehensionSynthesis.review.operator-review',
           ptrrStepId: acceptanceStep?.ptrrStepId || 'ReadNeedComprehensionSynthesis.review.operator-review.try',
-          thricifiedGenerationIds: acceptanceStep?.thricifiedGenerationIds || [],
+          thinkingsGenerationIds: acceptanceStep?.thinkingsGenerationIds || [],
           needId: acceptedReadNeed.needId,
           measurementRoot: acceptedReadNeed.measurementRoot,
           reviewState: acceptedReadNeed.reviewState,
@@ -256,7 +256,7 @@ export async function POST(request: Request) {
           phaseId: 'ReadNeedComprehensionSynthesis.review',
           agentId: 'ReadNeedComprehensionSynthesis.review.operator-review',
           ptrrStepId: reviewStep?.ptrrStepId || 'ReadNeedComprehensionSynthesis.review.operator-review.try',
-          thricifiedGenerationIds: reviewStep?.thricifiedGenerationIds || [],
+          thinkingsGenerationIds: reviewStep?.thinkingsGenerationIds || [],
           needId: rejectedReadNeed.needId,
           measurementRoot: rejectedReadNeed.measurementRoot,
           reviewState: rejectedReadNeed.reviewState,

@@ -24,7 +24,6 @@ import '@/styles/animations.css';
 import '@/styles/components.css';
 import type { UrlEntry } from '@/types/api';
 import { IssueSelector } from '@/components/base/bitcode/execution/issue-selector';
-import ExecutionsInstructions from '@/app/executions/components/ExecutionsInstructions';
 import { ExecutionsExecuteButton as ExecuteButton } from '@/app/executions/components/ExecutionsExecuteButton';
 import { IterationSlider } from '@/components/base/bitcode/interactions/IterationSlider';
 import FlipText from '@/components/base/bitcode/layout/sidebars/FlipText';
@@ -575,12 +574,6 @@ export function ExecutionsClient() {
         onNavigateToExecution={(id) => router.push(`/executions?runId=${id}`)}
         workUpdatesClassName="mt-6 space-y-4"
       />
-      {/** Inline OTF instructions below logs for active executions */}
-      { (activeRunId || runId) && (
-        <div className="mt-6">
-          <ExecutionsInstructions runId={(activeRunId || runId)!} runKind="asset-pack" />
-        </div>
-      )}
 
       {/* Action area */}
       <div className={`max-w-4xl mx-auto px-4 z-20 ${isProcessing ? 'mt-2 mb-4' : combinedError ? 'mt-2 mb-2' : 'mt-8 mb-14'}`}>

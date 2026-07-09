@@ -245,8 +245,8 @@ export const DeliverButton = ({
       {(measuredBtdEstimate || estimatedDuration) && overallConfidence > 0.5 && (
         <div className="resource-indicator absolute -top-8 left-1/2 transform -translate-x-1/2">
           <div className="text-xs text-gray-400 bg-brand-cosmic-light/80 backdrop-blur-sm 
-                         px-2 py-1 rounded-full border border-brand-emerald-glow-subtle
-                         flex items-center space-x-2">
+ px-2 py-1 border border-brand-emerald-glow-subtle
+ flex items-center space-x-2">
             {measuredBtdEstimate && (
               <span className="text-brand-emerald">
                 {measuredBtdEstimate} measured $BTD
@@ -275,7 +275,7 @@ export const DeliverButton = ({
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
             <div className="bg-brand-cosmic-light/95 backdrop-blur-md border border-brand-emerald-glow-subtle 
-                           rounded-lg p-3 shadow-xl max-w-xs">
+ p-3 shadow-xl max-w-xs">
               <div className="text-center mb-2">
                 <span className="text-xs font-medium text-brand-emerald">Ready to create:</span>
               </div>
@@ -307,7 +307,7 @@ export const DeliverButton = ({
               {/* Confidence indicator */}
               <div className="flex items-center justify-center mt-2 pt-2 border-t border-brand-emerald-glow-subtle">
                 <div className="flex items-center space-x-1 text-xs">
-                  <div className={`w-2 h-2 rounded-full ${
+                  <div className={`w-2 h-2 ${
                     confidenceLevel === 'high' ? 'bg-ai-celebration-gold' :
                     confidenceLevel === 'medium' ? 'bg-brand-emerald' :
                     'bg-yellow-500'
@@ -322,7 +322,7 @@ export const DeliverButton = ({
             {/* Preview arrow */}
             <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
               <div className="w-2 h-2 bg-brand-cosmic-light border-r border-b 
-                             border-brand-emerald-glow-subtle transform rotate-45" />
+ border-brand-emerald-glow-subtle transform rotate-45" />
             </div>
           </motion.div>
         )}
@@ -330,9 +330,9 @@ export const DeliverButton = ({
       
       {/* High confidence glow enhancement */}
       {!disabled && confidenceLevel === 'high' && DELIGHT_QUALITY_MULTIPLIER > 0.7 && (
-        <div className="confidence-ambient-glow absolute inset-[-8px] pointer-events-none rounded-lg">
+        <div className="confidence-ambient-glow absolute inset-[-8px] pointer-events-none">
           <div
-            className="absolute inset-0 rounded-lg opacity-20"
+            className="absolute inset-0 opacity-20"
             style={{
               background: `radial-gradient(circle, rgba(245, 158, 11, 0.3) 0%, transparent 70%)`,
               animation: `confidence-pulse 2s ease-in-out infinite`,

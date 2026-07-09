@@ -125,7 +125,9 @@ describe('GET /api/executions/history/[runId]', () => {
     const eventsBuilder: any = {
       select: jest.fn().mockReturnThis(),
       eq: jest.fn().mockReturnThis(),
-      order: jest.fn().mockResolvedValue({
+      order: jest.fn().mockReturnThis(),
+      // Paginated history: .range() ends the chain (PostgREST 1000-row pages).
+      range: jest.fn().mockResolvedValue({
         data: [
           {
             id: '1',
@@ -224,9 +226,15 @@ describe('GET /api/executions/history/[runId]', () => {
     expect(res.status).toBe(200);
 
     const json = await res.json();
+    expect(eventsBuilder.range).toHaveBeenCalledWith(0, 999);
+    expect(json.eventCount).toBe(2);
+    expect(json.events).toHaveLength(2);
+    expect(json.tail).toBeNull();
     expect(json.run).toEqual(
       expect.objectContaining({
         id: 'run-1',
+        started_at: '2026-04-22T11:58:00.000Z',
+        completed_at: '2026-04-22T12:04:00.000Z',
         summary: 'Persisted closure posture.',
         guide: 'refresh proof families',
         repo_snapshot: {
@@ -313,6 +321,86 @@ describe('GET /api/executions/history/[runId]', () => {
       phase: 'settlement',
       timestamp: '2026-04-22T12:04:00.000Z',
     });
+  });
+
+  it('supports ?tail=N for last-N events without full pagination or journal', async () => {
+    mockGetUser.mockResolvedValue({ data: { user: mockUser }, error: null });
+
+    const runBuilder: any = {
+      select: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      maybeSingle: jest.fn().mockResolvedValue({
+        data: {
+          id: 'run-tail',
+          user_id: mockUser.id,
+          created_at: '2026-04-22T12:00:00.000Z',
+          started_at: '2026-04-22T11:58:00.000Z',
+          completed_at: '2026-04-22T12:04:00.000Z',
+          status: 'failed',
+          type: 'agentic-execution:asset-pack',
+          input: {},
+          output: { summary: 'boom' },
+          context: { source: 'deposit-option-synthesis' },
+          items: [],
+          error: { message: 'boom' },
+          total_tokens: null,
+          total_cost: null,
+          duration_ms: 1000,
+        },
+        error: null,
+      }),
+    };
+
+    const eventsBuilder: any = {
+      select: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      order: jest.fn().mockReturnThis(),
+      // Newest-first page for tail=2 (desc), then route reverses to chrono order.
+      range: jest.fn().mockResolvedValue({
+        data: [
+          {
+            id: 'newer',
+            run_id: 'run-tail',
+            event_type: 'error',
+            event_data: { type: 'error', message: 'boom' },
+            created_at: '2026-04-22T12:04:00.000Z',
+            agent_name: null,
+            phase: null,
+          },
+          {
+            id: 'older',
+            run_id: 'run-tail',
+            event_type: 'status',
+            event_data: {
+              type: 'status',
+              executionState: { phase: 'discovery', agent: 'A', generation: 'reason' },
+            },
+            created_at: '2026-04-22T12:03:00.000Z',
+            agent_name: 'A',
+            phase: 'discovery',
+          },
+        ],
+        error: null,
+      }),
+    };
+
+    (supabaseAdmin.from as jest.Mock).mockImplementation((table: string) => {
+      if (table === 'executions') return runBuilder;
+      if (table === 'execution_events') return eventsBuilder;
+      throw new Error(`unexpected table ${table}`);
+    });
+
+    const req = new Request('http://localhost/api/executions/history/run-tail?tail=2');
+    const res = await getRunHistory(req, { params: { runId: 'run-tail' } });
+    expect(res.status).toBe(200);
+    const json = await res.json();
+    expect(json.tail).toBe(2);
+    expect(json.events).toHaveLength(2);
+    // Reversed to chronological: older then newer.
+    expect(json.events[0].id).toBe('older');
+    expect(json.events[1].id).toBe('newer');
+    expect(json.terminal_journal).toBeUndefined();
+    expect(eventsBuilder.range).toHaveBeenCalledWith(0, 1);
   });
 
   it('fails closed when the selected run is not owned by the authenticated user', async () => {

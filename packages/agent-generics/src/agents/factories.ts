@@ -18,6 +18,7 @@ import {
 } from '../execution';
 import { Agent, AgentStep, AgentVariationStep } from '../types';
 import { factoryPlanStep, factoryTryStep, factoryRefineStep, factoryRetryStep } from '../steps/factories';
+import { PlanStepOutputSchema } from '../steps/step-schemas';
 import { z } from 'zod';
 
 export type BitcodePTRRStepName = 'plan' | 'try' | 'refine' | 'retry';
@@ -55,19 +56,29 @@ export type BitcodePTRRFactoryConfig<TOutput> = BitcodePTRRPromptCarrier & {
   tools?: any[];
   requiredTools?: string[];
   enforceLLM?: boolean;
+  // Step outputs validate against STEP schemas, not the full agent schema:
+  // each step's `outputSchema` overrides its canonical default — Plan
+  // defaults to `PlanStepOutputSchema` (the execution strategy the Plan
+  // objective asks for); Try/Refine/Retry default to the agent's
+  // `outputSchema` (their job IS the typed output, and the agent's result is
+  // the last step's output).
   plan?: {
     chunkThreshold?: number;
+    outputSchema?: z.ZodType<any>;
   };
   try?: {
     chunkThreshold?: number;
     enableParallelChunks?: boolean;
+    outputSchema?: z.ZodType<any>;
   };
   refine?: {
     maxAttempts?: number;
+    outputSchema?: z.ZodType<any>;
   };
   retry?: {
     maxAttempts?: number;
     backoff?: number;
+    outputSchema?: z.ZodType<any>;
   };
 };
 
@@ -204,29 +215,39 @@ export function factoryAgentWithPTRR<TInput, TOutput>(
   // Debug pattern (env-gated): skip semantics via ONLY_* filters
   const onlyStepEnv = String(process?.env?.BITCODE_DEBUG_ONLY_STEP || '').toLowerCase();
 
+  // Step outputs validate against STEP schemas, not the full agent schema:
+  // Plan produces the plan (canonical PlanStepOutputSchema); Try/Refine/Retry
+  // produce the agent's typed output. Each is overridable per step.
+  const stepSchemas = {
+    plan: config.plan?.outputSchema ?? PlanStepOutputSchema,
+    try: config.try?.outputSchema ?? config.outputSchema,
+    refine: config.refine?.outputSchema ?? config.outputSchema,
+    retry: config.retry?.outputSchema ?? config.outputSchema
+  };
+
   const steps: AgentStep<any, any>[] = [
     // Plan step - failsafe understanding
-    factoryPlanStep(config.outputSchema, {
+    factoryPlanStep(stepSchemas.plan, {
       prompt: stepPrompts.plan,
       tools: config.tools,
       chunkThreshold: config.plan?.chunkThreshold
     }),
     // Try step - initial generation attempt
-    factoryTryStep(config.outputSchema, {
+    factoryTryStep(stepSchemas.try, {
       ...config.try,
       prompt: stepPrompts.try,
       tools: config.tools
     }),
-    
+
     // Refine step - improve if needed
-    factoryRefineStep(config.outputSchema, {
+    factoryRefineStep(stepSchemas.refine, {
       prompt: stepPrompts.refine,
       tools: config.tools,
       maxAttempts: config.refine?.maxAttempts
     }),
-    
+
     // Retry step - failsafe completion
-    factoryRetryStep(config.outputSchema, {
+    factoryRetryStep(stepSchemas.retry, {
       ...config.retry,
       prompt: stepPrompts.retry,
       tools: config.tools
@@ -445,10 +466,10 @@ export function factoryAgentWithPTRRGenerations<TInput, TOutput>(config: {
   tools?: any[];
   requiredTools?: string[];
   enforceLLM?: boolean;
-  plan?: { chunkThreshold?: number };
-  try?: { chunkThreshold?: number; enableParallelChunks?: boolean };
-  refine?: { maxAttempts?: number };
-  retry?: { maxAttempts?: number; backoff?: number };
+  plan?: { chunkThreshold?: number; outputSchema?: z.ZodType<any> };
+  try?: { chunkThreshold?: number; enableParallelChunks?: boolean; outputSchema?: z.ZodType<any> };
+  refine?: { maxAttempts?: number; outputSchema?: z.ZodType<any> };
+  retry?: { maxAttempts?: number; backoff?: number; outputSchema?: z.ZodType<any> };
 }): Agent<TInput, TOutput> {
   const stepPrompts = config.generationPrompts;
   return factoryAgentWithPTRR<TInput, TOutput>({

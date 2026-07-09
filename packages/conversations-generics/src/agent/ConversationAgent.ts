@@ -253,7 +253,7 @@ const comprehensiveConversationVariation = factoryAgentWithPTRR<
 
 /**
  * Quick response variation
- * Uses the same PTRR/Failsafe/Thricified stack as the comprehensive
+ * Uses the same PTRR/Failsafe/Thinkings stack as the comprehensive
  * conversation path, with smaller chunk thresholds for lightweight turns.
  */
 const quickResponseVariation = factoryAgentWithPTRR<

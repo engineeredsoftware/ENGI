@@ -122,7 +122,6 @@ export const EDGETIMES_TOPOLOGY = {
     'asset_pack_vectors',
     'asset_pack_phase_executions',
     'run_jobs',
-    'run_otf_instructions',
     'stream_logs',
     'generated_assets',
     'events',

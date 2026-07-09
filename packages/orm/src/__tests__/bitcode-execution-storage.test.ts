@@ -1,7 +1,6 @@
 import {
   AssetPackGeneratedAssetsModel,
   AssetPackPhaseExecutionsModel,
-  AssetPackRunInstructionsModel,
   AssetPackRunJobsModel,
   AssetPackStreamLogsModel,
   AssetPackVectorsModel,
@@ -47,7 +46,6 @@ describe('Bitcode execution storage ORM parity', () => {
       assetPackPhaseExecutions: 'phase_executions',
       assetPackVectors: 'deliverable_vectors',
       run_jobs: 'run_jobs',
-      run_otf_instructions: 'run_otf_instructions',
       stream_logs: 'stream_logs',
       generated_assets: 'generated_assets',
       events: 'events',
@@ -59,7 +57,6 @@ describe('Bitcode execution storage ORM parity', () => {
   it.each([
     [AssetPackVectorsModel, 'deliverable_vectors', 'listByAssetPackEvidenceId', ['deliverable_id', 'asset-pack-1']],
     [AssetPackPhaseExecutionsModel, 'phase_executions', 'listByRunId', ['run_id', 'run-1']],
-    [AssetPackRunInstructionsModel, 'run_otf_instructions', 'listByRunId', ['run_id', 'run-1']],
     [AssetPackGeneratedAssetsModel, 'generated_assets', 'listByRunId', ['run_id', 'run-1']],
     [AssetPackStreamLogsModel, 'stream_logs', 'listByStreamId', ['stream_id', 'stream-1']],
     [BitcodeActivityEventsModel, 'events', 'listByUserId', ['user_id', 'user-1']],

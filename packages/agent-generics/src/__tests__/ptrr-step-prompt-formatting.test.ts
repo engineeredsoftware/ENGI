@@ -54,7 +54,9 @@ describe('PTRR step prompt formatting', () => {
   });
 
   it('renders function-backed Zod object schema keys in structured output prompts', async () => {
-    process.env.BITCODE_DEBUG_ONLY_FAILSAFES = 'prepare';
+    // The TASK generation (which renders the step's output schema) runs under
+    // the chunk failsafe; prepare runs only the key-SELECTION generation.
+    process.env.BITCODE_DEBUG_ONLY_FAILSAFES = 'chunk';
     process.env.BITCODE_DEBUG_ONLY_GENERATIONS = 'structured_output';
 
     const execution = new AgentExecution('agent:test') as any;

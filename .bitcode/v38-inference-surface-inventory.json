@@ -171,7 +171,7 @@
         "packages/pipelines/asset-pack/src/read-need.ts",
         "packages/pipelines/asset-pack/src/depository-search.ts",
         "packages/pipelines/asset-pack/src/embedding-config.ts",
-        "packages/pipelines/asset-pack/src/bounded-structured-inference.ts"
+        "packages/pipelines/asset-pack/src/runtime-inference-policy.ts"
       ],
       "phaseCount": 7,
       "ptrrAgentCount": 8,
@@ -681,7 +681,7 @@
         "packages/agent-generics/src/agents/factories.ts",
         "packages/agent-generics/src/steps/factories.ts",
         "packages/agent-generics/src/steps/failsafe-sequence.ts",
-        "packages/agent-generics/src/steps/thricified-generation.ts",
+        "packages/agent-generics/src/steps/thinkings-generation.ts",
         "packages/agent-generics/src/execution/AgentToolsRegistry.ts",
         "packages/tools-generics/src/execution/ToolExecution.ts"
       ],
@@ -813,7 +813,7 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
       "exists": true,
       "legacy": false
     },
@@ -854,11 +854,6 @@
     },
     {
       "sourcePath": "packages/pipelines-generics/src/execution/PipelinePromptRegistry.ts",
-      "exists": true,
-      "legacy": false
-    },
-    {
-      "sourcePath": "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
       "exists": true,
       "legacy": false
     },
@@ -962,7 +957,7 @@
       "provider call"
     ],
     "missingPrimitiveIds": [],
-    "sourceRootCount": 29,
+    "sourceRootCount": 28,
     "missingSourceRoots": [],
     "readingPipelineCount": 2,
     "readingPipelineNames": [

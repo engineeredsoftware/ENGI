@@ -51,7 +51,7 @@ export interface InterfaceDisclosureSourceSafety {
 }
 
 export interface InterfaceDisclosureRouteVocabulary {
-  currentProductRoutes: ['/deposit', '/read', '/packs'];
+  currentProductRoutes: ['/deposits', '/reads', '/packs'];
   compatibilityRedirects: {
     '/exchange': '/packs';
   };
@@ -152,7 +152,7 @@ const SOURCE_SAFETY: InterfaceDisclosureSourceSafety = {
 };
 
 const ROUTE_VOCABULARY: InterfaceDisclosureRouteVocabulary = {
-  currentProductRoutes: ['/deposit', '/read', '/packs'],
+  currentProductRoutes: ['/deposits', '/reads', '/packs'],
   compatibilityRedirects: {
     '/exchange': '/packs',
   },
@@ -314,8 +314,8 @@ function surfaceKind(surface: InterfaceDisclosureBoundarySurface): InterfaceDisc
 }
 
 function routePath(surface: InterfaceDisclosureBoundarySurface): string | null {
-  if (surface === 'deposit_route') return '/deposit';
-  if (surface === 'read_route') return '/read';
+  if (surface === 'deposit_route') return '/deposits';
+  if (surface === 'read_route') return '/reads';
   if (surface === 'packs_route') return '/packs';
   if (surface === 'exchange_redirect') return '/exchange';
   return null;

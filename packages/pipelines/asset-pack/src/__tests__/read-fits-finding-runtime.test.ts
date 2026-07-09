@@ -149,7 +149,7 @@ describe('ReadFitsFinding runtime, ranking, and replay', () => {
     expect(runtime.telemetryReceipts[0].agentIds).toHaveLength(8);
     expect(runtime.telemetryReceipts[0].ptrrStepIds).toHaveLength(32);
     expect(runtime.telemetryReceipts[0].failsafeSequenceIds).toHaveLength(96);
-    expect(runtime.telemetryReceipts[0].thricifiedGenerationIds).toHaveLength(96);
+    expect(runtime.telemetryReceipts[0].thinkingsGenerationIds).toHaveLength(96);
     expect(runtime.replayReceipt).toMatchObject({
       schema: 'bitcode.read-fits-finding.replay-receipt',
       replayMode: 'source-safe-query-ranking-selected-fit-replay',
@@ -319,7 +319,7 @@ describe('ReadFitsFinding runtime, ranking, and replay', () => {
         phaseCount: 7,
         ptrrAgentCount: 8,
         ptrrStepCount: 32,
-        thricifiedGenerationCount: 96,
+        thinkingsGenerationCount: 96,
       },
     });
     expect(JSON.stringify(summary)).not.toContain('Terminal path Deposit Read Finding Fits');

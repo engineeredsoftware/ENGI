@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
 import {
   getAuxillaryOpenActionLabel,

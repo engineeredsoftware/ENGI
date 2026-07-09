@@ -1,10 +1,12 @@
 import { createHash } from 'node:crypto';
 import { z } from 'zod';
+import { extractJsonFromResponse } from '@bitcode/parsing';
+import { factoryLLMRegistryWithProviders, resolveDefaultLLMConfig } from '@bitcode/generic-llms';
+import type { LLM } from '@bitcode/llm-generics';
 import type {
   DepositoryFitResultEvidence,
   DepositorySearchRead,
 } from './depository-search';
-import { runBoundedStructuredInference } from './bounded-structured-inference';
 import { isAssetPackRealInferenceEnabled } from './runtime-inference-policy';
 import {
   READ_NEED_COMPREHENSION_SYNTHESIS,
@@ -93,7 +95,7 @@ export interface ReadNeedComprehensionSynthesisInferenceReceipt {
   agentIds: string[];
   ptrrStepIds: string[];
   failsafeSequenceIds: string[];
-  thricifiedGenerationIds: string[];
+  thinkingsGenerationIds: string[];
   promptTemplateIds: string[];
   interpolationContextKeys: string[];
   outputSchemaIds: string[];
@@ -466,7 +468,7 @@ function buildReadNeedComprehensionSynthesisInferenceReceipt(
         agent.promptRegistry.agentPromptId,
         ...Object.values(agent.promptRegistry.ptrrStepPromptIds),
         ...agent.ptrrSteps.flatMap((step) => step.prompt?.templateId ? [step.prompt.templateId] : []),
-        ...agent.ptrrSteps.flatMap((step) => step.thricifiedGenerations.flatMap((generation) => [
+        ...agent.ptrrSteps.flatMap((step) => step.thinkingsGenerations.flatMap((generation) => [
           generation.reasonPromptId,
           generation.judgePromptId,
           generation.structuredOutputPromptId,
@@ -489,10 +491,10 @@ function buildReadNeedComprehensionSynthesisInferenceReceipt(
   ]);
   const telemetryEventIds = uniqueStrings(trace.flatMap((entry) => entry.telemetry));
   const ptrrStepIds = trace.map((entry) => entry.ptrrStepId);
-  const thricifiedGenerationIds = uniqueStrings(trace.flatMap((entry) => entry.thricifiedGenerationIds));
+  const thinkingsGenerationIds = uniqueStrings(trace.flatMap((entry) => entry.thinkingsGenerationIds));
   const failsafeSequenceIds = uniqueStrings(
     trace.flatMap((entry) =>
-      entry.thricifiedGenerations.map((generation) =>
+      entry.thinkingsGenerations.map((generation) =>
         `${entry.ptrrStepId}.${generation.failsafe}`
       )
     )
@@ -506,7 +508,7 @@ function buildReadNeedComprehensionSynthesisInferenceReceipt(
     pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,
     ptrrStepIds,
     failsafeSequenceIds,
-    thricifiedGenerationIds,
+    thinkingsGenerationIds,
     telemetryEventIds,
   });
   const typedOutputRoot = readNeedReceiptRoot({
@@ -530,7 +532,7 @@ function buildReadNeedComprehensionSynthesisInferenceReceipt(
     agentIds,
     ptrrStepIds,
     failsafeSequenceIds,
-    thricifiedGenerationIds,
+    thinkingsGenerationIds,
     promptTemplateRoot,
     telemetryTraceRoot,
     typedOutputRoot,
@@ -548,7 +550,7 @@ function buildReadNeedComprehensionSynthesisInferenceReceipt(
     agentIds,
     ptrrStepIds,
     failsafeSequenceIds,
-    thricifiedGenerationIds,
+    thinkingsGenerationIds,
     promptTemplateIds,
     interpolationContextKeys,
     outputSchemaIds,
@@ -689,6 +691,302 @@ export function synthesizeReadNeedForPipelineInput(input: ReadNeedSourceInput): 
   return withReadNeedInferenceReceipt(need);
 }
 
+// ---------------------------------------------------------------------------
+// ReadNeedComprehensionSynthesis real inference (non-configurable)
+//
+// There is no profile and no deterministic fallback: when real inference is
+// enabled (the master /deposit switch), the Need comprehension ALWAYS performs
+// real generation through one ThinkingsGeneration (reason -> judge ->
+// structured output). Determinism for tests comes from mocking the LLM provider
+// at the boundary (execution LLM registry), never from a branch in here.
+// ---------------------------------------------------------------------------
+
+type ReadNeedResolvedLLM = { llm: LLM; model?: string; provider?: string; source: string };
+
+const readNeedStringListSchema = z.preprocess(
+  (value) => (typeof value === 'string' ? [value] : value),
+  z.array(z.string()).default([]),
+);
+
+const ReadNeedReasoningSchema = z.object({
+  analysis: z.string().default(''),
+  steps: readNeedStringListSchema,
+  conclusion: z.string().default(''),
+  confidence: z.coerce.number().min(0).max(1).catch(0),
+  useTools: z.array(z.any()).optional(),
+});
+
+const ReadNeedJudgmentSchema = z.object({
+  quality: z.coerce.number().min(0).max(1).catch(0),
+  issues: readNeedStringListSchema,
+  suggestions: readNeedStringListSchema,
+  approved: z.preprocess((value) => {
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase();
+      if (normalized === 'true') return true;
+      if (normalized === 'false') return false;
+    }
+    return value;
+  }, z.boolean().default(false)),
+});
+
+function createReadNeedInferenceNode(execution: any, agentName: string): any {
+  if (typeof execution?.child === 'function') {
+    return execution.child(`agent:${agentName}:inference`);
+  }
+  return execution;
+}
+
+function resolveReadNeedConfiguredLLM(execution: any, agentExecution: any): ReadNeedResolvedLLM | undefined {
+  const candidates = [
+    execution?.getRoot?.(),
+    execution,
+    agentExecution?.getRoot?.(),
+    agentExecution,
+  ];
+  for (const candidate of candidates) {
+    try {
+      const llm = candidate?.llms?.getDefaultLLM?.();
+      if (llm) return { llm, source: 'execution-registry' };
+    } catch {}
+  }
+  return undefined;
+}
+
+function readNeedHasProviderCredential(provider: string): boolean {
+  switch (provider.toLowerCase()) {
+    case 'openai':
+      return Boolean(process.env.OPENAI_API_KEY);
+    case 'anthropic':
+      return Boolean(process.env.ANTHROPIC_API_KEY);
+    case 'google':
+      return Boolean(
+        process.env.GOOGLE_GENERATIVE_AI_API_KEY ||
+        process.env.GEMINI_API_KEY ||
+        process.env.GOOGLE_API_KEY
+      );
+    default:
+      return true;
+  }
+}
+
+function resolveReadNeedEnvironmentLLM(): ReadNeedResolvedLLM | undefined {
+  const { provider, model } = resolveDefaultLLMConfig();
+  if (!readNeedHasProviderCredential(provider)) return undefined;
+  try {
+    const registry = factoryLLMRegistryWithProviders();
+    if (typeof (registry as any).setDefaultProvider === 'function') {
+      (registry as any).setDefaultProvider(provider);
+    }
+    registry.configure('*', {
+      model,
+      responseFormat: 'json',
+      temperature: 0.2,
+      maxTokens: 4096,
+    });
+    return {
+      llm: registry.getLLM(['*'], provider),
+      provider,
+      model,
+      source: 'environment-registry',
+    };
+  } catch {
+    return undefined;
+  }
+}
+
+function mergeReadNeedUsage(...usages: Array<Record<string, number> | undefined>): Record<string, number> | undefined {
+  const merged: Record<string, number> = {};
+  for (const usage of usages) {
+    if (!usage) continue;
+    for (const [key, value] of Object.entries(usage)) {
+      if (typeof value === 'number' && Number.isFinite(value)) {
+        merged[key] = (merged[key] || 0) + value;
+      }
+    }
+  }
+  return Object.keys(merged).length ? merged : undefined;
+}
+
+async function runReadNeedComprehensionInference<T>(params: {
+  agentName: string;
+  phase: string;
+  step?: string;
+  systemPrompt: string;
+  userPrompt: string;
+  promptTemplate?: { system?: string; user?: string; templateId?: string };
+  schema: z.ZodType<T>;
+  execution: any;
+}): Promise<T> {
+  const { agentName, phase, step = 'try', systemPrompt, userPrompt, promptTemplate, schema, execution } = params;
+  const agentExecution = createReadNeedInferenceNode(execution, agentName);
+  const messages = [
+    { role: 'system' as const, content: systemPrompt },
+    { role: 'user' as const, content: userPrompt },
+  ];
+
+  try {
+    agentExecution?.store?.('phase', 'current', phase);
+    agentExecution?.store?.('agent', 'name', agentName);
+    agentExecution?.store?.('step', 'name', step);
+    agentExecution?.store?.('bounded-inference', 'mode', 'thinkings-generation');
+    agentExecution?.store?.('bounded-inference', 'stack', {
+      ptrrStep: step,
+      failsafeSequence: ['prepare-concise-context', 'chunk-then-sum', 'stitch-until-complete'],
+      thinkingsGenerationStages: ['reason', 'judge', 'structured_output'],
+    });
+    agentExecution?.store?.('llm', 'input', {
+      messages,
+      promptTemplate: promptTemplate || { system: systemPrompt, user: userPrompt },
+      interpolatedPrompt: { system: systemPrompt, user: userPrompt },
+      phase,
+      agent: agentName,
+      step,
+      failsafeSequence: ['prepare-concise-context', 'chunk-then-sum', 'stitch-until-complete'],
+      generation: 'thinkings-generation',
+      generationSequence: ['reason', 'judge', 'structured_output'],
+    });
+  } catch {}
+
+  const resolvedLLM = resolveReadNeedConfiguredLLM(execution, agentExecution) ?? resolveReadNeedEnvironmentLLM();
+  if (!resolvedLLM) {
+    const error = 'Real AssetPack inference is enabled, but no configured LLM could be resolved.';
+    try {
+      agentExecution?.store?.('bounded-inference', 'status', 'blocked-no-llm');
+      agentExecution?.store?.('bounded-inference', 'error', error);
+    } catch {}
+    throw new Error(error);
+  }
+
+  try {
+    try {
+      agentExecution?.store?.('bounded-inference', 'provider', {
+        source: resolvedLLM.source,
+        provider: resolvedLLM.provider,
+        model: resolvedLLM.model,
+      });
+    } catch {}
+
+    const reasoningOutput = await resolvedLLM.llm({
+      messages: [
+        ...messages,
+        {
+          role: 'user' as const,
+          content: [
+            'ThinkingsGeneration stage 1/3: reason.',
+            'Return only JSON with keys: analysis, steps, conclusion, confidence.',
+          ].join('\n'),
+        },
+      ],
+      config: { responseFormat: 'json', temperature: 0.2, maxTokens: 2048 },
+    });
+    const reasoning = ReadNeedReasoningSchema.parse(JSON.parse(extractJsonFromResponse(reasoningOutput.content)));
+
+    const judgmentOutput = await resolvedLLM.llm({
+      messages: [
+        ...messages,
+        {
+          role: 'user' as const,
+          content: [
+            'ThinkingsGeneration stage 2/3: judge the prior reasoning.',
+            'Return only JSON with keys: quality, issues, suggestions, approved.',
+            `Reasoning JSON: ${JSON.stringify(reasoning)}`,
+          ].join('\n'),
+        },
+      ],
+      config: { responseFormat: 'json', temperature: 0.2, maxTokens: 2048 },
+    });
+    const judgment = ReadNeedJudgmentSchema.parse(JSON.parse(extractJsonFromResponse(judgmentOutput.content)));
+
+    const output = await resolvedLLM.llm({
+      messages: [
+        ...messages,
+        {
+          role: 'user' as const,
+          content: [
+            'ThinkingsGeneration stage 3/3: structured output.',
+            'Use the original task, the reasoning, and the judgment to return only the requested typed JSON.',
+            `Reasoning JSON: ${JSON.stringify(reasoning)}`,
+            `Judgment JSON: ${JSON.stringify(judgment)}`,
+          ].join('\n'),
+        },
+      ],
+      config: { responseFormat: 'json', temperature: 0.2, maxTokens: 4096 },
+    });
+    try {
+      agentExecution?.store?.('llm', 'reasoningOutput', {
+        content: reasoningOutput.content,
+        rawResponse: reasoningOutput.content,
+        parsedTypedOutput: reasoning,
+        phase, agent: agentName, step, generation: 'reason',
+        provider: reasoningOutput.metadata?.provider ?? resolvedLLM.provider,
+        model: reasoningOutput.metadata?.model ?? resolvedLLM.model,
+      });
+      agentExecution?.store?.('llm', 'judgmentOutput', {
+        content: judgmentOutput.content,
+        rawResponse: judgmentOutput.content,
+        parsedTypedOutput: judgment,
+        phase, agent: agentName, step, generation: 'judge',
+        provider: judgmentOutput.metadata?.provider ?? resolvedLLM.provider,
+        model: judgmentOutput.metadata?.model ?? resolvedLLM.model,
+      });
+      agentExecution?.store?.('llm', 'output', {
+        content: output.content,
+        rawResponse: output.content,
+        phase, agent: agentName, step, generation: 'structured_output',
+        reasoning, judgment,
+        provider: output.metadata?.provider ?? resolvedLLM.provider,
+        model: output.metadata?.model ?? resolvedLLM.model,
+      });
+      agentExecution?.store?.('llm', 'usage', mergeReadNeedUsage(reasoningOutput.usage, judgmentOutput.usage, output.usage));
+    } catch {}
+
+    let parsed: T;
+    try {
+      parsed = schema.parse(JSON.parse(extractJsonFromResponse(output.content)));
+    } catch (validationError) {
+      // One corrective pass: feed the validation error back so the model can fix
+      // the shape instead of failing the run.
+      const corrected = await resolvedLLM.llm({
+        messages: [
+          ...messages,
+          {
+            role: 'user' as const,
+            content: [
+              'ThinkingsGeneration stage 3/3 (correction): your previous JSON failed schema validation.',
+              `Validation error: ${validationError instanceof Error ? validationError.message : String(validationError)}`,
+              'Return ONLY corrected JSON that strictly matches the required shape, including every required top-level key. No markdown, no prose.',
+              `Reasoning JSON: ${JSON.stringify(reasoning)}`,
+              `Judgment JSON: ${JSON.stringify(judgment)}`,
+            ].join('\n'),
+          },
+        ],
+        config: { responseFormat: 'json', temperature: 0.1, maxTokens: 4096 },
+      });
+      try { agentExecution?.store?.('bounded-inference', 'status', 'corrected-retry'); } catch {}
+      parsed = schema.parse(JSON.parse(extractJsonFromResponse(corrected.content)));
+    }
+    try {
+      agentExecution?.store?.('llm', 'parsedOutput', {
+        parsed,
+        parsedTypedOutput: parsed,
+        phase, agent: agentName, step, generation: 'structured_output',
+        reasoning, judgment,
+        provider: output.metadata?.provider ?? resolvedLLM.provider,
+        model: output.metadata?.model ?? resolvedLLM.model,
+      });
+      agentExecution?.store?.('bounded-inference', 'status', 'success');
+    } catch {}
+    return parsed;
+  } catch (error) {
+    try {
+      agentExecution?.store?.('bounded-inference', 'status', 'failed');
+      agentExecution?.store?.('bounded-inference', 'error', error instanceof Error ? error.message : String(error));
+    } catch {}
+    throw error;
+  }
+}
+
 export async function synthesizeReadNeedForPipelineInputWithInference(
   input: ReadNeedSourceInput,
   execution?: any,
@@ -706,14 +1004,7 @@ export async function synthesizeReadNeedForPipelineInputWithInference(
     ...stringArray(recordValue(input.readRequest)?.closureCriteria),
     ...stringArray(recordValue(input.readMeasurement)?.closureCriteria),
   ];
-  const fallbackStructured = {
-    requirements: fallbackNeed.requirements,
-    closureCriteria: fallbackNeed.closureCriteria,
-    failureModes: fallbackNeed.failureModes,
-    targetArtifactKinds: fallbackNeed.targetArtifactKinds,
-    proofExpectations: fallbackNeed.proofExpectations,
-  };
-  const inferred = await runBoundedStructuredInference({
+  const inferred = await runReadNeedComprehensionInference({
     agentName: 'ReadNeedComprehensionSynthesis.comprehend.need-synthesizer',
     phase: 'ReadNeedComprehensionSynthesis.comprehend',
     step: 'try',
@@ -742,7 +1033,6 @@ export async function synthesizeReadNeedForPipelineInputWithInference(
       user: 'Read request, source constraints, closure criteria, target artifact kinds, failure modes, and feedback history.',
     },
     schema: ReadNeedComprehensionSynthesisSchema,
-    fallback: () => fallbackStructured,
     execution,
   });
 

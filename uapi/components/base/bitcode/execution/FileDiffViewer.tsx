@@ -87,7 +87,7 @@ const FilePathBreadcrumb: React.FC<{ path: string; action: string }> = ({ path, 
         <span className="text-gray-400 text-sm font-mono">{dirPath}/</span>
       )}
       <span className="text-white text-sm font-mono font-semibold">{fileName}</span>
-      <span className={`px-2 py-0.5 rounded text-xs font-medium border ${actionStyles[action as keyof typeof actionStyles]}`}>
+      <span className={`px-2 py-0.5 text-xs font-medium border ${actionStyles[action as keyof typeof actionStyles]}`}>
         {action}
       </span>
     </div>
@@ -150,7 +150,7 @@ const UnifiedDiffView: React.FC<{ file: FileDiff }> = ({ file }) => {
   };
 
   return (
-    <div className="border border-gray-700 rounded-lg overflow-hidden">
+    <div className="border border-gray-700 overflow-hidden">
       {renderLineDiff()}
     </div>
   );
@@ -162,7 +162,7 @@ const SplitDiffView: React.FC<{ file: FileDiff }> = ({ file }) => {
   return (
     <div className="grid grid-cols-2 gap-4">
       {/* Old/Before */}
-      <div className="border border-gray-700 rounded-lg overflow-hidden">
+      <div className="border border-gray-700 overflow-hidden">
         <div className="bg-red-900/20 border-b border-red-700/30 px-3 py-2 text-xs font-medium text-red-300">
           Before {file.action === 'deleted' && '(deleted)'}
         </div>
@@ -180,7 +180,7 @@ const SplitDiffView: React.FC<{ file: FileDiff }> = ({ file }) => {
       </div>
 
       {/* New/After */}
-      <div className="border border-gray-700 rounded-lg overflow-hidden">
+      <div className="border border-gray-700 overflow-hidden">
         <div className="bg-emerald-900/20 border-b border-emerald-700/30 px-3 py-2 text-xs font-medium text-emerald-300">
           After {file.action === 'created' && '(new)'}
         </div>
@@ -249,7 +249,7 @@ export const FileDiffViewer: React.FC<FileDiffViewerProps> = ({
           const isExpanded = expandedFiles.has(file.path);
 
           return (
-            <div key={file.path} className="bg-gray-800/40 rounded-lg border border-gray-700/50">
+            <div key={file.path} className="bg-gray-800/40 border border-gray-700/50">
               {/* File Header */}
               <button
                 onClick={() => toggleFile(file.path)}

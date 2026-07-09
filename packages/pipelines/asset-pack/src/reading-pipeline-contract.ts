@@ -7,7 +7,7 @@ export type ReadingPipelineName =
 
 export type ReadingPipelinePtrrStepName = 'plan' | 'try' | 'refine' | 'retry';
 
-export type ReadingPipelineThricifiedFailsafe =
+export type ReadingPipelineThinkingsFailsafe =
   | 'prepare-concise-context'
   | 'chunk-then-sum'
   | 'stitch-until-complete';
@@ -31,9 +31,9 @@ export type ReadingPipelineToolContract = {
   outputType: string;
 };
 
-export type ReadingPipelineThricifiedGenerationContract = {
-  thricifiedGenerationId: string;
-  failsafe: ReadingPipelineThricifiedFailsafe;
+export type ReadingPipelineThinkingsGenerationContract = {
+  thinkingsGenerationId: string;
+  failsafe: ReadingPipelineThinkingsFailsafe;
   reasonPromptId: string;
   judgePromptId: string;
   structuredOutputPromptId: string;
@@ -50,8 +50,8 @@ export type ReadingPipelinePtrrStepContract = {
   ptrrStepName: ReadingPipelinePtrrStepName;
   ptrrStepId: string;
   purpose: string;
-  thricifiedGenerationIds: string[];
-  thricifiedGenerations: ReadingPipelineThricifiedGenerationContract[];
+  thinkingsGenerationIds: string[];
+  thinkingsGenerations: ReadingPipelineThinkingsGenerationContract[];
   kind: ReadingPipelinePtrrStepKind;
   prompt?: ReadingPipelinePromptContract;
   tools: ReadingPipelineToolContract[];
@@ -101,7 +101,7 @@ export type ReadingPipelineContractSummary = {
   ptrrAgentCount: number;
   ptrrStepCount: number;
   modelStructuredPtrrStepCount: number;
-  thricifiedGenerationCount: number;
+  thinkingsGenerationCount: number;
   toolCount: number;
   returnTypes: string[];
 };
@@ -117,8 +117,8 @@ export type ReadingPipelineTelemetryTraceEntry = {
   outputType: string;
   returnType: string;
   toolIds: string[];
-  thricifiedGenerationIds: string[];
-  thricifiedGenerations: ReadingPipelineThricifiedGenerationContract[];
+  thinkingsGenerationIds: string[];
+  thinkingsGenerations: ReadingPipelineThinkingsGenerationContract[];
   stores: string[];
   telemetry: string[];
 };
@@ -142,7 +142,7 @@ const readNeedTelemetry = (suffix: string) => `${READ_NEED_COMPREHENSION_SYNTHES
 const readFitsFindingTelemetry = (suffix: string) => `${READ_FITS_FINDING_SYNTHESIS}.telemetry.${suffix}`;
 
 const PTRR_STEP_NAMES: ReadingPipelinePtrrStepName[] = ['plan', 'try', 'refine', 'retry'];
-const THRICIFIED_FAILSAFES: ReadingPipelineThricifiedFailsafe[] = [
+const THINKINGS_FAILSAFES: ReadingPipelineThinkingsFailsafe[] = [
   'prepare-concise-context',
   'chunk-then-sum',
   'stitch-until-complete',
@@ -195,16 +195,16 @@ function ptrrPromptRegistry(
   };
 }
 
-function thricifiedGenerationsForPtrrStep(
+function thinkingsGenerationsForPtrrStep(
   config: PTRRAgentConfig,
   ptrrStepName: ReadingPipelinePtrrStepName,
   outputType: string,
-): ReadingPipelineThricifiedGenerationContract[] {
-  return THRICIFIED_FAILSAFES.map((failsafe) => {
-    const baseId = `${config.pipelineName}.thricified-generation.${config.phaseKey}.${config.agentKey}.${ptrrStepName}.${failsafe}`;
+): ReadingPipelineThinkingsGenerationContract[] {
+  return THINKINGS_FAILSAFES.map((failsafe) => {
+    const baseId = `${config.pipelineName}.thinkings-generation.${config.phaseKey}.${config.agentKey}.${ptrrStepName}.${failsafe}`;
     const promptBaseId = `${config.pipelineName}.prompt.${config.phaseKey}.${config.agentKey}.${ptrrStepName}.${failsafe}`;
     return {
-      thricifiedGenerationId: baseId,
+      thinkingsGenerationId: baseId,
       failsafe,
       reasonPromptId: `${promptBaseId}.reason`,
       judgePromptId: `${promptBaseId}.judge`,
@@ -240,18 +240,22 @@ function ptrrAgent(config: PTRRAgentConfig): ReadingPipelineAgentContract {
     returnType: config.returnType,
     promptRegistry: ptrrPromptRegistry(config.pipelineName, config.phaseKey, config.agentKey),
     ptrrSteps: PTRR_STEP_NAMES.map((ptrrStepName) => {
-      const thricifiedGenerations = thricifiedGenerationsForPtrrStep(config, ptrrStepName, outputType);
+      // Step outputs validate against STEP schemas, not the full agent
+      // schema: the plan step returns the canonical plan shape
+      // (PlanStepOutput); try/refine/retry return the agent's output type.
+      const stepOutputType = ptrrStepName === 'plan' ? 'PlanStepOutput' : outputType;
+      const thinkingsGenerations = thinkingsGenerationsForPtrrStep(config, ptrrStepName, stepOutputType);
       return {
         ptrrStepName,
         ptrrStepId: `${agentId}.${ptrrStepName}`,
         purpose: PTRR_STEP_PURPOSE[ptrrStepName],
-        thricifiedGenerationIds: thricifiedGenerations.map((generation) => generation.thricifiedGenerationId),
-        thricifiedGenerations,
+        thinkingsGenerationIds: thinkingsGenerations.map((generation) => generation.thinkingsGenerationId),
+        thinkingsGenerations,
         kind: config.kind,
         prompt: config.prompt,
         tools: ptrrStepName === 'try' ? config.tools || [] : [],
         inputType: config.inputType,
-        outputType,
+        outputType: stepOutputType,
         stores: config.stores,
         telemetry: config.telemetry,
       };
@@ -635,7 +639,7 @@ export function summarizeReadingPipelineContract(
 ): ReadingPipelineContractSummary {
   const agents = contract.phases.flatMap((phase) => phase.agents);
   const steps = agents.flatMap((agent) => agent.ptrrSteps);
-  const thricifiedGenerations = steps.flatMap((step) => step.thricifiedGenerations);
+  const thinkingsGenerations = steps.flatMap((step) => step.thinkingsGenerations);
   const tools = steps.flatMap((step) => step.tools);
   const returnTypes = [...new Set(agents.map((agent) => agent.returnType).concat(steps.map((step) => step.outputType)))].sort();
   return {
@@ -645,7 +649,7 @@ export function summarizeReadingPipelineContract(
     ptrrAgentCount: agents.filter((agent) => agent.kind === 'ptrr-agent').length,
     ptrrStepCount: steps.length,
     modelStructuredPtrrStepCount: steps.filter((step) => step.kind === 'model-structured').length,
-    thricifiedGenerationCount: thricifiedGenerations.length,
+    thinkingsGenerationCount: thinkingsGenerations.length,
     toolCount: tools.length,
     returnTypes,
   };
@@ -671,8 +675,8 @@ export function listReadingPipelineTelemetryTrace(
         outputType: ptrrStep.outputType,
         returnType: agent.returnType,
         toolIds: ptrrStep.tools.map((tool) => tool.toolId),
-        thricifiedGenerationIds: ptrrStep.thricifiedGenerationIds,
-        thricifiedGenerations: ptrrStep.thricifiedGenerations,
+        thinkingsGenerationIds: ptrrStep.thinkingsGenerationIds,
+        thinkingsGenerations: ptrrStep.thinkingsGenerations,
         stores: [...new Set([...phase.stores, ...ptrrStep.stores])],
         telemetry: [...new Set(ptrrStep.telemetry)],
       })),

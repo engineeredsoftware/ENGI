@@ -12,6 +12,7 @@
 
 import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
 import { registerDiscoveryAgents as registerCanonicalDiscoveryAgents } from '../agents/discovery-agents';
+import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
 /**
  * Discovery phase configuration with parallel execution groups
@@ -37,6 +38,24 @@ export const runDiscoveryPhase = createPhaseRunner(discoveryPhaseConfig);
  * Discovery phase agent registration
  * Called after setup phase to register discovery agents
  */
-export function registerDiscoveryAgents(agentRegistry: any): void {
+export function registerDiscoveryAgents(
+  agentRegistry: any,
+  // mode drives conditional runtime registration; deposit-mode discovery explores
+  // the depositor repository through three lenses (codebase / depository / model).
+  // Read = default (the canonical 5-agent discovery sequence).
+  mode?: SynthesizeAssetPacksMode,
+): void {
+  if (mode === 'deposit') {
+    agentRegistry.registerAgent('discovery:codebase-comprehension', () =>
+      import('../agents/discovery/deposit-codebase-comprehension-agent').then(m => m.default),
+    );
+    agentRegistry.registerAgent('discovery:depository-search', () =>
+      import('../agents/discovery/deposit-depository-search-agent').then(m => m.default),
+    );
+    agentRegistry.registerAgent('discovery:inherent-regurgitation', () =>
+      import('../agents/discovery/deposit-inherent-regurgitation-agent').then(m => m.default),
+    );
+    return;
+  }
   registerCanonicalDiscoveryAgents(agentRegistry);
 }

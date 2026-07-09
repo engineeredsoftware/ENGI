@@ -1,5 +1,30 @@
 import type { ParsedStreamData } from '../types/stream';
 
+/**
+ * Collapse a (possibly multi-line) telemetry message to a single line so one
+ * pipeline event renders as exactly one accordion row. The accumulated stream
+ * `text` is newline-delimited (one line per event); embedded newlines in a
+ * generation/tool payload would otherwise fragment a single event into many
+ * rows. The full payload remains available in the event's executionState/details
+ * for the expandable content.
+ */
+function toSingleLine(value: unknown): string {
+  return String(value ?? '').replace(/\s*\r?\n\s*/g, ' ').trim();
+}
+
+/**
+ * Build the `[phase → agent → step → failsafe → generation]` execution tag,
+ * null-guarded: only the populated layers appear (no literal "undefined" when a
+ * pipeline emits partial executionState). Returns a trailing-spaced tag or ''.
+ */
+function formatExecutionTag(ctx: any): string {
+  if (!ctx) return '';
+  const parts = [ctx.phase, ctx.agent, ctx.step, ctx.failsafe, ctx.generation]
+    .map((part) => (part == null ? '' : String(part).trim()))
+    .filter(Boolean);
+  return parts.length ? `[${parts.join(' → ')}] ` : '';
+}
+
 function pickCanonicalProcessingStats(processingStats: any) {
   if (!processingStats || typeof processingStats !== 'object') {
     return processingStats;
@@ -194,11 +219,8 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
         case 'generation': {
           // Generation log: show LLM invocation and context
           const ctx = data.executionState;
-          const fs = ctx?.failsafe;
-          const gn = ctx?.generation;
-          const tag = ctx ?
-            `[${ctx.phase} → ${ctx.agent} → ${ctx.step} → ${fs} → ${gn}]` : '';
-          parsedData.text += `🤖 Generation: ${tag} ${data.message}${data.detail ? ` (${data.detail})` : ''}\n`;
+          const tag = formatExecutionTag(ctx);
+          parsedData.text += `🤖 Generation: ${tag}${toSingleLine(data.message)}${data.detail ? ` (${toSingleLine(data.detail)})` : ''}\n`;
           parsedData.type = 'generation';
           parsedData.executionState = ctx;
           if (data.metadata) (parsedData as any).metadata = data.metadata;
@@ -207,12 +229,9 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
         case 'tool-use': {
           // Tool usage log: show tool name and context
           const ctx = data.executionState;
-          const fs = ctx?.failsafe;
-          const gn = ctx?.generation;
-          const tag = ctx ?
-            `[${ctx.phase} → ${ctx.agent} → ${ctx.step} → ${fs} → ${gn}]` : '';
+          const tag = formatExecutionTag(ctx);
           const toolName = data.metadata?.toolName || 'tool';
-          parsedData.text += `🛠 Tool Use: ${tag} ${toolName}${data.detail ? ` (${data.detail})` : ''}\n`;
+          parsedData.text += `🛠 Tool Use: ${tag}${toolName}${data.detail ? ` (${toSingleLine(data.detail)})` : ''}\n`;
           parsedData.type = 'tool-use';
           parsedData.executionState = ctx;
           if (data.metadata) (parsedData as any).metadata = data.metadata;
@@ -221,11 +240,8 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
         case 'thinking': {
           // Agent thinking log: show reasoning/thought and context
           const ctx = data.executionState;
-          const fs = ctx?.failsafe;
-          const gn = ctx?.generation;
-          const tag = ctx ?
-            `[${ctx.phase} → ${ctx.agent} → ${ctx.step} → ${fs} → ${gn}]` : '';
-          parsedData.text += `💭 Thinking: ${tag} ${data.message || ''}${data.detail ? ` (${data.detail})` : ''}\n`;
+          const tag = formatExecutionTag(ctx);
+          parsedData.text += `💭 Thinking: ${tag}${toSingleLine(data.message)}${data.detail ? ` (${toSingleLine(data.detail)})` : ''}\n`;
           parsedData.type = 'thinking';
           parsedData.executionState = ctx;
           if (data.metadata) (parsedData as any).metadata = data.metadata;
@@ -319,24 +335,6 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
           }
           break;
         }
-      case 'otf_instructions': {
-        parsedData.type = 'otf_instructions';
-        // instructions array of { id, content, attachments, state, created_at }
-        parsedData.instructions = Array.isArray(data.metadata?.instructions)
-          ? data.metadata.instructions
-          : [];
-        break;
-      }
-      case 'otf_adherence': {
-        parsedData.type = 'otf_adherence';
-        // metadata: { score, thoughts }
-        const { score, thoughts } = data.metadata || {};
-        parsedData.adherence = { score, thoughts };
-        if (score !== undefined && thoughts) {
-          parsedData.text += `📏 Adherence ${score.toFixed(2)}: ${thoughts}\n`;
-        }
-        break;
-      }
 
       // ---------------------------------------------------------
       // Ad-hoc pipeline events (Conversations quick tasks)

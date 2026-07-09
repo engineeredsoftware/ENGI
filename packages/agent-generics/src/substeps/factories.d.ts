@@ -1,8 +1,9 @@
+import { type ExecutionStateKeysTree } from '@bitcode/execution-generics';
 import type { Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
 import { SubStepExecution } from '../execution';
 import { z } from 'zod';
-import { PreparedContext, Reasoning, UseTool, Judgment, UsedTool } from '../types';
+import { Reasoning, UseTool, Judgment, UsedTool } from '../types';
 /**
  * Factory for Failsafe SubStep Executions
  */
@@ -16,28 +17,53 @@ export declare function factoryAgentGenerationSubStepExecution(name: string, exe
  */
 export declare function factoryAgentToolSubStepExecution(execution: Execution): SubStepExecution;
 /**
- * PrepareConciseContext - Parent execution that prepares context
+ * Key-selection schema — PCC's selection inference runs against THIS schema,
+ * never the step's output schema (PCC never attempts the task).
+ */
+export declare const PCC_KEY_SELECTION_SCHEMA: z.ZodObject<{
+    selectedKeys: z.ZodArray<z.ZodString, "many">;
+}, "strip", z.ZodTypeAny, {
+    selectedKeys?: string[];
+}, {
+    selectedKeys?: string[];
+}>;
+/** The keys-only selection input shape (values NEVER included). */
+export interface PrepareConciseContextSelectionInput {
+    preparation: string;
+    system: string;
+    pipeline_execution_keys: ExecutionStateKeysTree;
+}
+/**
+ * PrepareConciseContext - the CONTEXT failsafe (ALWAYS runs; selection-only)
  *
  * CRITICAL: This is a PARENT execution that:
- * 1. Finds the greatest-grandparent execution to get full context
- * 2. Determines if chunking is needed based on token limits
- * 3. Returns array of prepared contexts if chunking required
- * 4. Runs generation substeps as children
+ * 1. Renders the FULL root execution state as a keys-only tree
+ *    (walkExecutionStateKeys — values never enter the selection prompt)
+ * 2. Runs ONE selection Thinkings generation against the key-selection schema
+ *    with input { preparation, system, pipeline_execution_keys }
+ * 3. READS IN the values of exactly the selected keys from the execution
+ *    state (misses are omitted, fail-soft, logged)
+ * 4. Returns the original task input + the selected context for the task
+ *    generation (ChunkThenSum) to consume
  */
-export declare function factoryPrepareConciseContext<T>(generationSubSteps: Executor<any, any>[]): Executor<T, T & {
-    preparedContexts: PreparedContext[];
+export declare function factoryPrepareConciseContext<T>(selectionGeneration?: Executor<any, any>): Executor<T, T & {
+    selectedKeys: string[];
+    selectedContext: Record<string, unknown>;
 }>;
 /**
- * ChunkThenSum - Parent execution that handles large inputs
+ * ChunkThenSum - the INPUT failsafe (trigger = the COMPOSED REQUEST exceeds
+ * the request limit)
  *
  * CRITICAL: This is a PARENT execution that:
- * 1. Checks if input was chunked by PrepareConciseContext
- * 2. If chunked: runs generation substeps in parallel/sequential per chunk, then sums
- * 3. If not chunked: runs generation substeps once without chunking prompts
- * 4. Always engages generation sequence regardless of chunking
+ * 1. Measures the ACTUAL composed request: the rendered hierarchical system
+ *    prompt + the serialized task input INCLUDING the PCC-selected values
+ * 2. Non-triggering (fits the request budget): exactly ONE task generation
+ * 3. Triggering: chunks ONLY the selected context values — each chunk call
+ *    gets the task input + ONLY its chunk (never the full accumulated input) —
+ *    then ONE summing generation over the chunk results
  */
 export declare function factoryChunkThenSum<T extends {
-    preparedContexts: PreparedContext[];
+    selectedContext?: Record<string, unknown>;
 }>(generationSubSteps: Executor<any, any>[], options?: {
     parallel?: boolean;
 }): Executor<T, T & {

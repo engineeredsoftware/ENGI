@@ -147,10 +147,10 @@ export { PROMPTPART_SPECIFIC_AGENT_APPLYFILE_RETRY_STRATEGY } from './raw_prompt
 export { PROMPTPART_SPECIFIC_AGENT_APPLYFILE_RETRY_ERRORHANDLING } from './raw_promptparts/specific/promptpart_specific_agent_applyfile_retry_errorhandling';
 
 // AssetPack Tool PromptParts (Repository Setup additions)
-export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_METADATA_PIPELINE } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_metadata_pipeline';
-export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_METADATA_PHASE_SETUP } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_metadata_phase_setup';
-export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_PURPOSE_ADDENDUM } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_purpose_addendum';
-export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_CAPABILITIES_ADDENDUM } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_capabilities_addendum';
+export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSET_PACK_METADATA_PIPELINE } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_metadata_pipeline';
+export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSET_PACK_METADATA_PHASE_SETUP } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_metadata_phase_setup';
+export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSET_PACK_PURPOSE_ADDENDUM } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_purpose_addendum';
+export { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSET_PACK_CAPABILITIES_ADDENDUM } from './raw_promptparts/specific/promptpart_specific_tool_repositorysetup_assetpack_capabilities_addendum';
 
 // AssetPack Agent PromptParts (Clone VCS Repository)
 export { PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_SYSTEM_IDENTITY } from './raw_promptparts/specific/promptpart_specific_agent_assetpackpipeline_clonevcsrepository_system_identity';

@@ -103,7 +103,7 @@ export function TagOverflowList({
 
       {hiddenCount > 0 && (
         <span
-          className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-gray-600/20 text-[10px] leading-none text-gray-300"
+          className="inline-flex items-center px-1.5 py-0.5 bg-gray-600/20 text-[10px] leading-none text-gray-300"
           title={tags
             .slice(visibleCount)
             .map((t) => (typeof t.label === 'string' ? t.label : String(t.label)))

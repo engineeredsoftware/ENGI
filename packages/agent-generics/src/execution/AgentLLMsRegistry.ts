@@ -15,6 +15,39 @@ import { LLM, LLMConfig, LLMInput, LLMOutput, LLMRegistry } from '@bitcode/llm-g
 import { Execution } from '@bitcode/execution-generics/Execution';
 
 /**
+ * Pipeline LLM calls must be time-bounded. The provider SDK sets no short
+ * timeout, so a hung or very-slow generation would stall the entire inline
+ * synthesis indefinitely (QA: a deposit run stuck for minutes on one
+ * structured-output call). On timeout the call rejects and the failsafe/PTRR
+ * retry handles it (a clean failure, never an indefinite hang). Tunable via
+ * BITCODE_LLM_CALL_TIMEOUT_MS (default 180000 for monorepo deposit chunks);
+ * set 0 to disable the bound.
+ */
+function resolveLlmCallTimeoutMs(): number {
+  const raw = Number(process?.env?.BITCODE_LLM_CALL_TIMEOUT_MS);
+  if (Number.isFinite(raw)) return raw > 0 ? raw : 0;
+  return 180_000;
+}
+
+async function callLlmWithTimeout(call: Promise<LLMOutput>, model: string): Promise<LLMOutput> {
+  const timeoutMs = resolveLlmCallTimeoutMs();
+  if (timeoutMs <= 0) return call;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(
+      () => reject(new Error(`LLM call (${model}) timed out after ${timeoutMs}ms`)),
+      timeoutMs,
+    );
+    (timer as any)?.unref?.();
+  });
+  try {
+    return await Promise.race([call, timeout]);
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+}
+
+/**
  * AgentLLMsRegistry - Hierarchical LLM configuration registry for agents
  * 
  * Stores LLM configurations in the execution tree.
@@ -145,8 +178,17 @@ export class AgentLLMsRegistry extends RegistryImpl<LLMConfig> {
    */
   private wrapWithExecutionTracking(llm: LLM, configKey: string): LLM {
     return async (input: LLMInput): Promise<LLMOutput> => {
-      // Create child execution for this LLM call
-      const model = input.config?.model || 'unknown';
+      // Prefer call-site model, then registered hierarchy config (avoids "unknown"
+      // timeout banners when the provider config is only on the registry path).
+      const registered = this.findConfigInHierarchy(configKey) || this.findConfigInHierarchy('default');
+      const model =
+        (typeof input.config?.model === 'string' && input.config.model.trim()
+          ? input.config.model.trim()
+          : null) ||
+        (typeof registered?.model === 'string' && registered.model.trim()
+          ? registered.model.trim()
+          : null) ||
+        'unknown';
       const llmExec = this.execution.child(`llm:${configKey}:${model}`);
       
       // Track execution
@@ -157,8 +199,9 @@ export class AgentLLMsRegistry extends RegistryImpl<LLMConfig> {
       llmExec.store('llm', 'configKey', configKey);
       
       try {
-        // Call the base LLM
-        const output = await llm(input);
+        // Call the base LLM, time-bounded so a hung provider call can't stall
+        // the inline pipeline indefinitely.
+        const output = await callLlmWithTimeout(llm(input), model);
 
         // Provider-agnostic normalization: ensure metadata.stopReason exists
         try {

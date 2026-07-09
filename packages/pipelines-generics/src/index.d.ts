@@ -36,6 +36,5 @@ export type { MetaPhase, PhaseLower, PhaseTitle, StepLower, StepTitle, MetaStep,
 export { toPhaseLower, toPhaseTitle, toStepLower, isMetaStep, isSubStep } from './types/primitives';
 export * from './gate-system';
 export { createGuidedPipelineExecution, storeGateState, getCurrentGate, getGateState, transitionToNextGate, gatePreprocess, isCollaborativeGate, getSelfInstructThreshold, type GateExecutionContext } from './execution/route-pipeline-execution';
-export { waitForInstruction, calculateInstructionTimeout } from './executors/wait-for-instruction';
 export type { DPPhaseDelegation, DPPhaseDelegationInsert, DPAgentStep, DPAgentStepInsert, DPGeneration, DPGenerationInsert, DPToolExec, DPToolExecInsert } from './types/db';
 export { createPhaseRunner, type PhaseConfig, type AgentStep } from './execution/PipelineExecutor';

@@ -101,13 +101,13 @@ const MarketingPricingSection: React.FC = () => {
           shareAsset: 'BTD',
           btdSemantics: 'non-fungible asset-pack scalar-volume and settled-rights carrier',
           paths: [
-            { mode: 'read-assetpack', target: '/read?intent=submit-read-for-btd', gate: 'V47' },
+            { mode: 'read-assetpack', target: '/reads?intent=submit-read-for-btd', gate: 'V47' },
             { mode: 'packs-existing-btd', target: '/packs?intent=buy-existing-btd', gate: 'V47' },
           ],
           createdAt: new Date().toISOString(),
         })
       );
-      window.location.assign('/read?intent=acquire-btd');
+      window.location.assign('/reads?intent=acquire-btd');
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Error opening BTD acquisition intent';
       setAcquisitionError(msg);

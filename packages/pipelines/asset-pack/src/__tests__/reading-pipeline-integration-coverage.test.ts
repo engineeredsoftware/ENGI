@@ -102,7 +102,7 @@ describe('Reading pipeline integration coverage', () => {
       },
     });
     expect(need.inferenceReceipt?.ptrrStepIds).toHaveLength(16);
-    expect(need.inferenceReceipt?.thricifiedGenerationIds).toHaveLength(48);
+    expect(need.inferenceReceipt?.thinkingsGenerationIds).toHaveLength(48);
     expect(need.reviewState).toBe('accepted');
     expect(need.sourceConstraints.protectedSourceDisclosure).toBe('forbidden_before_settlement');
 
@@ -146,12 +146,12 @@ describe('Reading pipeline integration coverage', () => {
       ]),
     });
     expect(readFitsRuntime.telemetryReceipts[0].ptrrStepIds).toHaveLength(32);
-    expect(readFitsRuntime.telemetryReceipts[0].thricifiedGenerationIds).toHaveLength(96);
+    expect(readFitsRuntime.telemetryReceipts[0].thinkingsGenerationIds).toHaveLength(96);
     expect(summarizeReadFitsFindingRuntime(readFitsRuntime).pipelineContract).toMatchObject({
       phaseCount: 7,
       ptrrAgentCount: 8,
       ptrrStepCount: 32,
-      thricifiedGenerationCount: 96,
+      thinkingsGenerationCount: 96,
     });
 
     const previewBoundary = buildAssetPackPreviewBoundary({
@@ -216,9 +216,9 @@ describe('Reading pipeline integration coverage', () => {
       phases: 11,
       ptrrAgents: 12,
       ptrrSteps: 48,
-      thricifiedGenerations: 144,
+      thinkingsGenerations: 144,
       promptTemplates: 5,
-      thricifiedGenerationPrompts: 432,
+      thinkingsGenerationPrompts: 432,
       tools: 4,
     });
 
@@ -229,8 +229,8 @@ describe('Reading pipeline integration coverage', () => {
       { pipelineName: READ_FITS_FINDING_SYNTHESIS, ptrrStepId: 'ReadFitsFindingSynthesis.discovery.finding-fits.try' },
       {
         pipelineName: READ_FITS_FINDING_SYNTHESIS,
-        thricifiedGenerationId:
-          'ReadFitsFindingSynthesis.thricified-generation.discovery.finding-fits.try.prepare-concise-context',
+        thinkingsGenerationId:
+          'ReadFitsFindingSynthesis.thinkings-generation.discovery.finding-fits.try.prepare-concise-context',
       },
       {
         pipelineName: READ_FITS_FINDING_SYNTHESIS,

@@ -26,20 +26,50 @@ export const BITCODE_BROWSER_PROOF_VISUAL_STRATEGY = [
 
 export const BITCODE_BROWSER_PROOF_SURFACES = [
   {
-    id: 'terminal',
-    label: 'Bitcode Terminal',
+    id: 'deposits',
+    label: 'Bitcode Deposits',
     routes: [
-      { id: 'request-read', path: '/terminal', state: 'five-stage Reading request' },
       {
-        id: 'selected-activity',
-        path: '/terminal?transactionId=mock-run-branch-remediation&transactionDetail=activity',
-        state: 'transaction activity detail',
-        selector: '[data-testid="terminal-activity-stream-surface"]',
+        id: 'pipelines',
+        path: '/deposits',
+        state: 'deposit pipelines and option synthesis',
+        selector: '[data-testid="deposits-pipelines-table"]',
       },
       {
-        id: 'blocked-console',
-        path: '/terminal?transactionId=mock-run-branch-remediation&transactionDetail=console',
-        state: 'blocked source-safe console detail',
+        id: 'selected-telemetry',
+        path: '/deposits?transactionId=mock-run-branch-remediation',
+        state: 'selected synthesis telemetry detail',
+        selector: '[data-testid="deposit-synthesis-telemetry"]',
+      },
+    ],
+    landmarks: ['main', 'region', 'group', 'status'],
+    interactionStates: [
+      'connect-source',
+      'synthesize-options',
+      'review-measurements',
+      'admit-to-depository',
+    ],
+    evidenceFiles: [
+      'uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
+      'uapi/tests/e2e/bitcode-browser-proof.spec.ts',
+      'uapi/tests/depositPageClient.test.tsx',
+    ],
+  },
+  {
+    id: 'reads',
+    label: 'Bitcode Reads',
+    routes: [
+      {
+        id: 'pipelines',
+        path: '/reads',
+        state: 'five-stage Reading request and pipelines',
+        selector: '[data-testid="reads-pipelines-table"]',
+      },
+      {
+        id: 'selected-telemetry',
+        path: '/reads?transactionId=mock-run-branch-remediation',
+        state: 'selected read telemetry detail',
+        selector: '[data-testid="reads-synthesized-packs"]',
       },
     ],
     landmarks: ['main', 'region', 'group', 'status'],
@@ -51,10 +81,9 @@ export const BITCODE_BROWSER_PROOF_SURFACES = [
       'buy-asset-pack-settle',
     ],
     evidenceFiles: [
-      'uapi/tests/e2e/commercial-mvp.terminal.spec.ts',
-      'uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
+      'uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
       'uapi/tests/e2e/bitcode-browser-proof.spec.ts',
-      'uapi/tests/terminalUxBrowserProof.test.tsx',
+      'uapi/tests/readPageClient.test.tsx',
     ],
   },
   {
@@ -77,9 +106,9 @@ export const BITCODE_BROWSER_PROOF_SURFACES = [
     id: 'auxillaries',
     label: 'Bitcode Auxillaries',
     routes: [
-      { id: 'wallet', path: '/terminal?auxillary-open-to=wallet', state: 'wallet support pane' },
-      { id: 'profile', path: '/terminal?auxillary-open-to=profile', state: 'profile support pane' },
-      { id: 'interfaces', path: '/terminal?auxillary-open-to=interfaces', state: 'interfaces support pane' },
+      { id: 'wallet', path: '/packs?auxillary-open-to=wallet', state: 'wallet support pane' },
+      { id: 'profile', path: '/packs?auxillary-open-to=profile', state: 'profile support pane' },
+      { id: 'interfaces', path: '/packs?auxillary-open-to=interfaces', state: 'interfaces support pane' },
     ],
     landmarks: ['main', 'navigation', 'region', 'status'],
     interactionStates: ['skip-to-active-pane', 'pane-tabs', 'expandable-audit-detail'],

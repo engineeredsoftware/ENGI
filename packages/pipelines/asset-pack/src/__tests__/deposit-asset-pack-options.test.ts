@@ -9,9 +9,9 @@ describe('Deposit AssetPack option synthesis', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      depositorInstructions:
+      obfuscations:
         'Prefer reusable source-bound AssetPacks that can satisfy Reading demand without exposing critical private implementation source before settlement.',
-      sourcePathHints: [
+      forcedInclusions: [
         'uapi/app/terminal/TerminalDepositComposer.tsx',
         'packages/pipelines/asset-pack/src/depository-supply-index.ts',
       ],
@@ -42,7 +42,7 @@ describe('Deposit AssetPack option synthesis', () => {
     expect(synthesis.schema).toBe('bitcode.deposit.asset-pack-option-synthesis');
     expect(synthesis.pipeline).toBe('DepositAssetPackOptionSynthesis');
     expect(synthesis.reviewBoundary).toMatchObject({
-      route: '/deposit',
+      route: '/deposits',
       defaultDecisionState: 'pending-depositor-review',
       approvedOptionsAdmittedBy: 'future-gate7-deposit-option-review',
       sourceCriticalityDemandRoiPolicyOwnedBy: 'future-gate6-policy',
@@ -99,7 +99,7 @@ describe('Deposit AssetPack option synthesis', () => {
 
   it('blocks review posture when source binding is missing without leaking source', () => {
     const synthesis = buildDepositAssetPackOptionSynthesis({
-      depositorInstructions: 'PRIVATE_SOURCE_DO_NOT_SERIALIZE do not include this marker in synthesized output',
+      obfuscations: 'PRIVATE_SOURCE_DO_NOT_SERIALIZE do not include this marker in synthesized output',
     });
 
     expect(synthesis.options.every((option) => option.reviewBoundary.state === 'blocked-source-binding')).toBe(true);

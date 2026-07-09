@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { test } from 'node:test';
+import { test } from './era-pinned-superseded-routes.js';
 import {
   V47_E2E_IP_EXCHANGE_SCENARIO_IDS,
   V47_E2E_IP_EXCHANGE_ROUTE_IDS,

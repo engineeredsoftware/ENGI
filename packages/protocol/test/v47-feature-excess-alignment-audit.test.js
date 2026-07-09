@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { test } from 'node:test';
+import { test } from './era-pinned-superseded-routes.js';
 import {
   V47_DEFERRED_SURFACE_IDS,
   V47_FEATURE_EXCESS_ALIGNMENT_AUDIT_ARTIFACT_PATH,

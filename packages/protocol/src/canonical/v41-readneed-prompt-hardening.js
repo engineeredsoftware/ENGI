@@ -62,7 +62,7 @@ const SOURCE_ROOTS = Object.freeze({
   readNeed: 'packages/pipelines/asset-pack/src/read-need.ts',
   readNeedReview: 'packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts',
   readingPipelineContract: 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-  boundedStructuredInference: 'packages/pipelines/asset-pack/src/bounded-structured-inference.ts',
+  runtimeInferencePolicy: 'packages/pipelines/asset-pack/src/runtime-inference-policy.ts',
   comprehendReadPrompt: 'packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts',
   comprehendReadOverlayPrompt:
     'packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts',
@@ -251,10 +251,10 @@ export const V41_READNEED_PROMPT_HARDENING_ROWS = Object.freeze([
   }),
   row({
     hardeningId: 'readneed-real-inference-return-type-hardening',
-    label: 'ReadNeed real inference uses strict typed schema, bounded inference, and fallback',
+    label: 'ReadNeed real inference uses strict typed schema and always-real ThricifiedGeneration that fails closed without an LLM',
     sourceRoots: [
       SOURCE_ROOTS.readNeed,
-      SOURCE_ROOTS.boundedStructuredInference,
+      SOURCE_ROOTS.runtimeInferencePolicy,
       SOURCE_ROOTS.readNeedUnitTest,
     ],
     promptFamilyIds: ['ReadNeedComprehensionSynthesis', 'ThricifiedGeneration'],
@@ -278,9 +278,9 @@ export const V41_READNEED_PROMPT_HARDENING_ROWS = Object.freeze([
       'schema.failure-modes-array',
       'schema.target-artifact-kinds-array',
       'schema.proof-expectations-array',
-      'inference.uses-bounded-structured-inference',
+      'inference.uses-real-thricified-inference',
       'inference.prompt-template-id-bound',
-      'inference.has-fallback',
+      'inference.fails-closed-without-llm',
       'test.real-inference-covers-thricified-generation',
     ],
   }),
@@ -345,7 +345,7 @@ export const V41_READNEED_PROMPT_HARDENING_ROWS = Object.freeze([
     sourceRoots: [
       SOURCE_ROOTS.readNeed,
       SOURCE_ROOTS.readNeedReview,
-      SOURCE_ROOTS.boundedStructuredInference,
+      SOURCE_ROOTS.runtimeInferencePolicy,
     ],
     promptFamilyIds: ['ReadNeedComprehensionSynthesis', 'Telemetry'],
     promptSurfaceIds: ['ReadNeedComprehensionSynthesis.telemetry'],
@@ -451,10 +451,10 @@ function predicatesForRow(repoRoot, rowData) {
       predicate('schema.failure-modes-array', rowId, SOURCE_ROOTS.readNeed, /failureModes:\s*inferredStringListSchema/u.test(readNeed)),
       predicate('schema.target-artifact-kinds-array', rowId, SOURCE_ROOTS.readNeed, /targetArtifactKinds:\s*inferredStringListSchema/u.test(readNeed)),
       predicate('schema.proof-expectations-array', rowId, SOURCE_ROOTS.readNeed, /proofExpectations:\s*inferredStringListSchema/u.test(readNeed)),
-      predicate('inference.uses-bounded-structured-inference', rowId, SOURCE_ROOTS.readNeed, /runBoundedStructuredInference/u.test(readNeed)),
+      predicate('inference.uses-real-thricified-inference', rowId, SOURCE_ROOTS.readNeed, /runReadNeedComprehensionInference/u.test(readNeed)),
       predicate('inference.prompt-template-id-bound', rowId, SOURCE_ROOTS.readNeed, /ReadNeedComprehensionSynthesis\.prompt\.need-synthesis/u.test(readNeed)),
-      predicate('inference.has-fallback', rowId, SOURCE_ROOTS.readNeed, /fallback:\s*\(\)\s*=>\s*fallbackStructured/u.test(readNeed)),
-      predicate('test.real-inference-covers-thricified-generation', rowId, SOURCE_ROOTS.readNeedUnitTest, /real-inference ReadNeedComprehension through one ThricifiedGeneration/u.test(source)),
+      predicate('inference.fails-closed-without-llm', rowId, SOURCE_ROOTS.readNeed, /isAssetPackRealInferenceEnabled/u.test(readNeed) && /no configured LLM could be resolved/u.test(readNeed)),
+      predicate('test.real-inference-covers-thricified-generation', rowId, SOURCE_ROOTS.readNeedUnitTest, /real-inference ReadNeedComprehension through one ThinkingsGeneration/u.test(source)),
     ];
   }
 

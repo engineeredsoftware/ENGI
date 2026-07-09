@@ -165,6 +165,9 @@ export interface PipelineExecution {
   /** Optional markdown summary stored by backend */
   summary?: string | null;
 
+  /** Terminal failure payload from executions.error (source-safe message). */
+  error?: { message?: string | null } | string | null;
+
   /** Execution metrics (time, tokens, measured $BTD, BTC fee posture, latency) */
   processing_stats?: {
     time: string;

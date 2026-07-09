@@ -1,45 +1,127 @@
+// Inference is non-configurable: the ready-to-finish validator ALWAYS runs the
+// formal PTRR core with real generation. Determinism comes from mocking the LLM
+// provider at the boundary (F26-A); the old deterministic-fallback branch (and
+// its source-overlay warning logic) was removed with the inference profiles.
+jest.mock('@bitcode/generic-llms', () => require('./support/generic-llms-mock').makeGenericLLMsMock());
+
+import { Execution } from '@bitcode/execution-generics';
 import { AssetPackValidationReadyToFinishAgent } from '../agents/validation-agents';
+import runDepositValidationAgent from '../agents/validation/deposit-validation-agent';
+import { registerValidationAgentsForType } from '../phases/validation';
+import { setBoundaryLLMOutput, resetBoundaryLLMOutput } from './support/generic-llms-mock';
 
-describe('AssetPackValidationReadyToFinishAgent deterministic fallback', () => {
-  const originalOverlayFlag = process.env.BITCODE_PIPELINE_SOURCE_OVERLAY_APPLIED;
+describe('AssetPackValidationReadyToFinishAgent (boundary-mocked PTRR)', () => {
+  afterEach(() => resetBoundaryLLMOutput());
 
-  afterEach(() => {
-    if (originalOverlayFlag === undefined) {
-      delete process.env.BITCODE_PIPELINE_SOURCE_OVERLAY_APPLIED;
-    } else {
-      process.env.BITCODE_PIPELINE_SOURCE_OVERLAY_APPLIED = originalOverlayFlag;
-    }
-  });
-
-  it('does not warn about source overlays for source-bound runs', async () => {
-    delete process.env.BITCODE_PIPELINE_SOURCE_OVERLAY_APPLIED;
-
-    const result = await AssetPackValidationReadyToFinishAgent({}, {
-      get: jest.fn(),
-      store: jest.fn(),
+  it('runs the PTRR core and returns the boundary-mocked typed assessment', async () => {
+    setBoundaryLLMOutput({
+      finalApproval: true,
+      overallConfidence: 0.9,
+      qualityScore: 0.92,
+      criticalChecks: {
+        requirementsMet: true,
+        testsPass: true,
+        noSecurityIssues: true,
+        documentationComplete: true,
+        performanceAcceptable: true,
+      },
+      finalBlockers: [],
+      finalWarnings: ['BTC fee and BTD ledger rows must be read back before settlement trust.'],
+      recommendation: 'finish',
+      summary: 'Boundary-mock approved AssetPack finish readiness.',
     });
+
+    const exec = new Execution('pipeline:asset-pack');
+    const result = await AssetPackValidationReadyToFinishAgent({}, exec);
 
     expect(result.finalApproval).toBe(true);
-    expect(result.finalWarnings).not.toContain(
-      'Source overlay runs are QA-only until the same revision is deployed cleanly.'
-    );
-    expect(result.finalWarnings).toContain(
-      'BTC fee and BTD ledger rows must be read back before settlement trust.'
-    );
-  });
+    expect(result.recommendation).toBe('finish');
+    expect(result.summary).toBe('Boundary-mock approved AssetPack finish readiness.');
+    expect(result.criticalChecks.requirementsMet).toBe(true);
 
-  it('warns about source overlays only when overlay evidence is present', async () => {
-    const result = await AssetPackValidationReadyToFinishAgent({}, {
-      get: jest.fn((namespace: string, key: string) => (
-        namespace === 'harness' && key === 'sourceOverlay'
-          ? { admissibility: 'qa-only-not-source-revision-evidence' }
-          : undefined
-      )),
-      store: jest.fn(),
+    // The agent stores its typed assessment for downstream Finish readiness checks.
+    expect(exec.get('validation', 'readyToFinish')).toMatchObject({
+      finalApproval: true,
+      recommendation: 'finish',
+      summary: 'Boundary-mock approved AssetPack finish readiness.',
+    });
+  }, 30000);
+
+  it('surfaces a blocking assessment when the boundary output recommends review', async () => {
+    setBoundaryLLMOutput({
+      finalApproval: false,
+      overallConfidence: 0.55,
+      qualityScore: 0.5,
+      criticalChecks: {
+        requirementsMet: false,
+        testsPass: true,
+        noSecurityIssues: true,
+        documentationComplete: true,
+        performanceAcceptable: true,
+      },
+      finalBlockers: ['AssetPack proof evidence incomplete.'],
+      finalWarnings: [],
+      recommendation: 'review',
+      summary: 'Boundary-mock found blockers that require review before finish.',
     });
 
-    expect(result.finalWarnings).toContain(
-      'Source overlay runs are QA-only until the same revision is deployed cleanly.'
+    const exec = new Execution('pipeline:asset-pack');
+    const result = await AssetPackValidationReadyToFinishAgent({}, exec);
+
+    expect(result.finalApproval).toBe(false);
+    expect(result.recommendation).toBe('review');
+    expect(result.finalBlockers).toContain('AssetPack proof evidence incomplete.');
+  }, 30000);
+});
+
+describe('registerValidationAgentsForType (mode-conditional Validation registry)', () => {
+  function captureRegistry() {
+    const registrations = new Map<string, any>();
+    return {
+      registrations,
+      registry: {
+        registerAgent: (key: string, handler: any) => registrations.set(key, handler),
+      },
+    };
+  }
+
+  it('deposit mode registers the deposit-quality validator plus the envelope-unwrapping ReadyToFinish gate', async () => {
+    const { registrations, registry } = captureRegistry();
+
+    registerValidationAgentsForType('read-satisfaction-asset-pack', registry, 'deposit');
+
+    expect([...registrations.keys()].sort()).toEqual([
+      'validation:asset-pack-ready-to-finish-agent',
+      'validation:deposit-quality',
+    ]);
+
+    // The gate is the wrapper that unwraps the PTRR envelope (validation-agents.ts),
+    // NOT the orphaned readyToFinishWithShortCircuit module that reads typed fields
+    // straight off the envelope.
+    expect(registrations.get('validation:asset-pack-ready-to-finish-agent')).toBe(
+      AssetPackValidationReadyToFinishAgent,
+    );
+
+    // The deposit-quality key lazily resolves to the deposit validation runner.
+    const loader = registrations.get('validation:deposit-quality');
+    const resolved = await loader();
+    expect(resolved).toBe(runDepositValidationAgent);
+  });
+
+  it('read mode (no deposit) registers the canonical validator roster and no deposit-quality agent', () => {
+    const { registrations, registry } = captureRegistry();
+
+    registerValidationAgentsForType('read-satisfaction-asset-pack', registry);
+
+    expect([...registrations.keys()].sort()).toEqual([
+      'validation:asset-pack-ready-to-finish-agent',
+      'validation:validate-asset-pack-synthesis-artifacts',
+      'validation:validate-discovery-phase',
+      'validation:validate-last-iterations-validation-phase',
+    ]);
+    expect(registrations.has('validation:deposit-quality')).toBe(false);
+    expect(registrations.get('validation:asset-pack-ready-to-finish-agent')).toBe(
+      AssetPackValidationReadyToFinishAgent,
     );
   });
 });

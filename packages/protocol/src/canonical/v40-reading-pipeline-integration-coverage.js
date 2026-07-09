@@ -133,7 +133,7 @@ export const V40_READING_PIPELINE_INTEGRATION_ROWS = Object.freeze([
     requiredTestMarkers: [
       'ReadNeedComprehensionSynthesis',
       'ReadFitsFindingSynthesis',
-      'thricifiedGenerationCount',
+      'thinkingsGenerationCount',
     ],
     expectedCounts: { ...V40_READING_PIPELINE_EXPECTED_TOTALS },
     coverageTier: 'promotion-required',
@@ -146,13 +146,11 @@ export const V40_READING_PIPELINE_INTEGRATION_ROWS = Object.freeze([
     sourceRoots: [
       'packages/pipelines/asset-pack/src/read-need.ts',
       'packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts',
-      'packages/pipelines/asset-pack/src/bounded-structured-inference.ts',
       'packages/pipelines/asset-pack/src/runtime-inference-policy.ts',
     ],
     testPaths: [
       'packages/pipelines/asset-pack/src/__tests__/read-need.test.ts',
       'packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts',
-      'packages/pipelines/asset-pack/src/__tests__/bounded-structured-inference.test.ts',
       'packages/pipelines/asset-pack/src/__tests__/runtime-inference-policy.test.ts',
       'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts',
     ],
@@ -315,7 +313,7 @@ export const V40_READING_PIPELINE_INTEGRATION_ROWS = Object.freeze([
       'PipelineExecutionLog',
     ],
     requiredTestMarkers: [
-      'ThricifiedGeneration',
+      'ThinkingsGeneration',
       'source-safe',
       'PipelineExecutionLog',
     ],
@@ -373,7 +371,7 @@ export const V40_READING_PIPELINE_INTEGRATION_ROWS = Object.freeze([
       'packages/pipelines-generics/src/streaming/pipeline-stream-integration.ts',
       'packages/agent-generics/src/agents/factories.ts',
       'packages/agent-generics/src/steps/failsafe-sequence.ts',
-      'packages/agent-generics/src/steps/thricified-generation.ts',
+      'packages/agent-generics/src/steps/thinkings-generation.ts',
       'packages/pipeline-hosts/src/asset-pack-harness.ts',
       'packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts',
     ],
@@ -392,7 +390,7 @@ export const V40_READING_PIPELINE_INTEGRATION_ROWS = Object.freeze([
       'PipelineAgentRegistry',
       'factoryAgentWithPTRR',
       'createFailsafeGenerationSequence',
-      'createThricifiedGeneration',
+      'createThinkingsGeneration',
       'ReadFitsFindingSynthesis',
     ],
     requiredTestMarkers: [

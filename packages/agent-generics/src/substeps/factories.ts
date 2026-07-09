@@ -39,26 +39,150 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '
 import { PROMPTPART_GENERIC_AGENT_GENERATION_TOP_LEVEL_KEYS_HINT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_top_level_keys_hint';
 /**
  * SubStep Executor Factories - PTRR Architecture Implementation
- * 
+ *
  * CRITICAL ARCHITECTURE:
  * - Failsafe SubSteps are PARENT executions that orchestrate child executions
  * - Generation SubSteps are CHILD executions that run WITHIN failsafe parents
  * - This creates the hierarchy: Step -> Failsafe SubStep -> Generation SubStep
- * 
- * The 7 SubSteps per PTRR step:
- * - 3 Failsafe SubSteps (parents): PrepareConciseContext, ChunkThenSum, StitchUntilComplete
- * - 3 Generation SubSteps (children): Reason, Judge, StructuredOutput  
- * - 1 Tool SubStep (conditional based on Generation sequence output)
+ *
+ * The Failsafes sequence (three failsafes, each with a DISTINCT trigger and job):
+ * 1. PrepareConciseContext (context failsafe; ALWAYS runs; selection-only):
+ *    a keys-only SELECTION inference over the FULL root execution state, then
+ *    the value read-in of exactly the selected keys.
+ * 2. ChunkThenSum (input failsafe; trigger = the COMPOSED REQUEST exceeds the
+ *    request limit): one task Thinkings when it fits; otherwise the selected
+ *    context values are chunked (task generation per chunk) + one summing pass.
+ * 3. StitchUntilComplete (output failsafe; trigger = schema-INCOMPLETE or
+ *    truncated output): error-carrying repair generations, bounded.
  */
 
-import { createContextSelectors, prepareConciseContext } from '@bitcode/context';
-import { sequential, parallel, conditional } from '@bitcode/execution-generics';
+import { estimateSerializedSize } from '@bitcode/context';
+import {
+  sequential,
+  parallel,
+  conditional,
+  walkExecutionStateKeys,
+  resolveExecutionStateKeyPath,
+  type ExecutionStateKeysTree
+} from '@bitcode/execution-generics';
 import type { Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
 import { SubStepExecution, AgentExecution, FailsafeExecution, GenerationExecution } from '../execution';
 import { LLMInput } from '@bitcode/llm-generics';
 import { parseResponse } from '@bitcode/parsing';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+
+// ---- Prompt-safe serialization (deposit inventory must never enter prompts) ----
+// Full-repo inventory.sources can be hundreds of MB. JSON.stringify of that
+// throws RangeError: Invalid string length (live deposit runs 5439863e / 6e0c5f45
+// crashed in buildUserPrompt after PrepareConciseContext selected deposit#inventory).
+const PROMPT_REDACT_KEYS = new Set([
+  'sources', // inventory.sources — full verbatim checkout
+  'fullContent',
+  'rawData',
+  'embeddings',
+  'tokens',
+]);
+const MAX_PROMPT_STRING_CHARS = 4_000;
+const MAX_PROMPT_JSON_CHARS = 200_000;
+const MAX_PROMPT_ARRAY_ITEMS = 200;
+const MAX_PROMPT_OBJECT_KEYS = 80;
+const MAX_PROMPT_PATH_LIST = 500;
+
+/**
+ * Project a value into a bounded, source-safe shape suitable for LLM prompts.
+ * Strips inventory.sources and other content-bearing blobs; truncates long
+ * strings and large arrays. Safe to call on the full execution state.
+ */
+export function projectPromptSafeValue(value: unknown, depth = 0): unknown {
+  if (value == null) return value;
+  if (depth > 12) return '[truncated-depth]';
+  if (typeof value === 'string') {
+    if (value.length <= MAX_PROMPT_STRING_CHARS) return value;
+    return `${value.slice(0, MAX_PROMPT_STRING_CHARS)}… [+${value.length - MAX_PROMPT_STRING_CHARS} chars]`;
+  }
+  if (typeof value === 'number' || typeof value === 'boolean') return value;
+  if (typeof value === 'bigint') return String(value);
+  if (Array.isArray(value)) {
+    const slice = value.slice(0, MAX_PROMPT_ARRAY_ITEMS);
+    const projected = slice.map((item) => projectPromptSafeValue(item, depth + 1));
+    if (value.length > MAX_PROMPT_ARRAY_ITEMS) {
+      projected.push(`… [+${value.length - MAX_PROMPT_ARRAY_ITEMS} items]`);
+    }
+    return projected;
+  }
+  if (typeof value === 'object') {
+    const obj = value as Record<string, unknown>;
+    // Inventory shape: keep paths + bounded samples; never sources content.
+    if (Array.isArray(obj.sources) && (Array.isArray(obj.paths) || Array.isArray(obj.samples))) {
+      const paths = Array.isArray(obj.paths) ? obj.paths : [];
+      return {
+        pathCount: paths.length,
+        paths: projectPromptSafeValue(paths.slice(0, MAX_PROMPT_PATH_LIST), depth + 1),
+        ...(paths.length > MAX_PROMPT_PATH_LIST
+          ? { pathsOmitted: paths.length - MAX_PROMPT_PATH_LIST }
+          : {}),
+        samples: projectPromptSafeValue(obj.samples, depth + 1),
+        totalPathCount: obj.totalPathCount ?? paths.length,
+        excludedPathCount: obj.excludedPathCount ?? 0,
+        sourceFileCount: obj.sources.length,
+        sources: `[${obj.sources.length} source files withheld from prompt — use paths/samples]`,
+      };
+    }
+    const out: Record<string, unknown> = {};
+    let keys = 0;
+    for (const [k, v] of Object.entries(obj)) {
+      if (keys >= MAX_PROMPT_OBJECT_KEYS) {
+        out['…'] = '[+more keys]';
+        break;
+      }
+      if (PROMPT_REDACT_KEYS.has(k)) {
+        if (Array.isArray(v)) {
+          out[k] = `[${v.length} items withheld from prompt]`;
+        } else if (typeof v === 'string') {
+          out[k] = `[${v.length} chars withheld from prompt]`;
+        } else if (v && typeof v === 'object') {
+          out[k] = '[withheld from prompt]';
+        } else {
+          out[k] = '[withheld from prompt]';
+        }
+        keys += 1;
+        continue;
+      }
+      out[k] = projectPromptSafeValue(v, depth + 1);
+      keys += 1;
+    }
+    return out;
+  }
+  try {
+    return String(value);
+  } catch {
+    return '[unserializable]';
+  }
+}
+
+/**
+ * JSON for user prompts — never throws Invalid string length on huge inventories.
+ */
+export function safePromptJson(value: unknown, space: number | null = 2): string {
+  try {
+    const projected = projectPromptSafeValue(value);
+    let text =
+      space === null || space === 0
+        ? JSON.stringify(projected)
+        : JSON.stringify(projected, null, space);
+    if (typeof text !== 'string') return 'null';
+    if (text.length > MAX_PROMPT_JSON_CHARS) {
+      const compact = JSON.stringify(projected);
+      if (compact.length <= MAX_PROMPT_JSON_CHARS) return compact;
+      return `${compact.slice(0, MAX_PROMPT_JSON_CHARS)}\n… [prompt JSON truncated, +${compact.length - MAX_PROMPT_JSON_CHARS} chars]`;
+    }
+    return text;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    return `{"error":"prompt serialization failed","message":${JSON.stringify(message)}}`;
+  }
+}
 
 // Import generic agent PromptParts directly from their files
 // TODO: why are these imports used but below unused?
@@ -290,20 +414,21 @@ function factoryLLMSubStep<TInput, TOutput>(
       try { substep.store('llm', 'provider', (output as any)?.metadata?.provider); } catch { }
       try { substep.store('llm', 'model', (output as any)?.metadata?.model); } catch { }
 
-      // Optional debug stop (centralized)
-      try {
-        if (shouldDebugStopAfterFirstReason(substep, String(sequence))) {
-          substep.store('debug', 'stop_after_first_reason', true);
-          throw new Error('__BITCODE_DEBUG_STOP_AFTER_FIRST_REASON__');
-        }
-      } catch { }
+      // Optional debug stop (centralized). Only the predicate is guarded —
+      // the stop throw itself must escape this substep.
+      let debugStopAfterFirstReason = false;
+      try { debugStopAfterFirstReason = shouldDebugStopAfterFirstReason(substep, String(sequence)); } catch { }
+      if (debugStopAfterFirstReason) {
+        try { substep.store('debug', 'stop_after_first_reason', true); } catch { }
+        throw new Error('__BITCODE_DEBUG_STOP_AFTER_FIRST_REASON__');
+      }
 
-      try {
-        if (shouldDebugStopAfterFirstStructuredOutput(substep, String(sequence))) {
-          substep.store('debug', 'stop_after_first_structured_output', true);
-          throw new Error('__BITCODE_DEBUG_STOP_AFTER_FIRST_STRUCTURED_OUTPUT__');
-        }
-      } catch { }
+      let debugStopAfterFirstStructuredOutput = false;
+      try { debugStopAfterFirstStructuredOutput = shouldDebugStopAfterFirstStructuredOutput(substep, String(sequence)); } catch { }
+      if (debugStopAfterFirstStructuredOutput) {
+        try { substep.store('debug', 'stop_after_first_structured_output', true); } catch { }
+        throw new Error('__BITCODE_DEBUG_STOP_AFTER_FIRST_STRUCTURED_OUTPUT__');
+      }
 
       // 9. Parse output if parser provided
       if (config.parseOutput) {
@@ -335,24 +460,37 @@ function factoryLLMSubStep<TInput, TOutput>(
 // ==================== FAILSAFE SUBSTEPS (PARENT EXECUTIONS) ====================
 
 /**
- * PrepareConciseContext - Parent execution that prepares context
- * 
+ * Key-selection schema — PCC's selection inference runs against THIS schema,
+ * never the step's output schema (PCC never attempts the task).
+ */
+export const PCC_KEY_SELECTION_SCHEMA = z.object({
+  selectedKeys: z.array(z.string())
+}).describe('{ "selectedKeys": string[] }');
+
+/** The keys-only selection input shape (values NEVER included). */
+export interface PrepareConciseContextSelectionInput {
+  preparation: string;
+  system: string;
+  pipeline_execution_keys: ExecutionStateKeysTree;
+}
+
+/**
+ * PrepareConciseContext - the CONTEXT failsafe (ALWAYS runs; selection-only)
+ *
  * CRITICAL: This is a PARENT execution that:
- * 1. Finds the greatest-grandparent execution to get full context
- * 2. Determines if chunking is needed based on token limits
- * 3. Returns array of prepared contexts if chunking required
- * 4. Runs generation substeps as children
+ * 1. Renders the FULL root execution state as a keys-only tree
+ *    (walkExecutionStateKeys — values never enter the selection prompt)
+ * 2. Runs ONE selection Thinkings generation against the key-selection schema
+ *    with input { preparation, system, pipeline_execution_keys }
+ * 3. READS IN the values of exactly the selected keys from the execution
+ *    state (misses are omitted, fail-soft, logged)
+ * 4. Returns the original task input + the selected context for the task
+ *    generation (ChunkThenSum) to consume
  */
 export function factoryPrepareConciseContext<T>(
-  generationSubSteps: Executor<any, any>[]
-): Executor<T, T & { preparedContexts: PreparedContext[] }> {
+  selectionGeneration?: Executor<any, any>
+): Executor<T, T & { selectedKeys: string[]; selectedContext: Record<string, unknown> }> {
   return async (input: T, execution: Execution) => {
-    // Ensure we have access to registries (AgentExecution or compatible)
-    const hasRegistries = (() => {
-      try { return !!(execution as any).llms && !!(execution as any).tools && !!(execution as any).agents; } catch { return false; }
-    })();
-    // Do not hard fail here; Step/SubStep executions proxy registries from AgentExecution/PipelineExecution.
-
     // Create failsafe parent execution as SubStepExecution for proper registry proxying
     const failsafeExec = factoryAgentFailsafeSubStepExecution(
       FailsafeMetaSubStep.PREPARE_CONCISE_CONTEXT,
@@ -363,88 +501,130 @@ export function factoryPrepareConciseContext<T>(
     try { execution.store('ptrr', 'failsafe', FailsafeMetaSubStep.PREPARE_CONCISE_CONTEXT as any); } catch {}
     try { logFailsafeEvent(execution, 'prepare-context', { start: true }); } catch {}
 
-    // Find greatest parent (pipeline root) and synthesize a comprehensive
-    // context snapshot from canonical namespaces.
-    const greatestParent = findGreatestParent(execution);
-    const toObject = (m?: Map<string, any>) => {
-      const o: any = {};
-      if (!m) return o;
-      for (const [k, v] of m.entries()) o[k] = v;
-      return o;
+    // 1. The FULL root execution state, keys only.
+    const root = findGreatestParent(execution);
+    const pipelineExecutionKeys = walkExecutionStateKeys(root);
+    try { failsafeExec.store('context', 'keys', pipelineExecutionKeys as any); } catch {}
+
+    // 2. Selection inference input: the composed task prompt this failsafe is
+    // preparing context for, PCC's own instructions, and the keys-only tree.
+    const selectionInput: PrepareConciseContextSelectionInput = {
+      preparation: buildHierarchicalPrompt(failsafeExec),
+      system: String(PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT),
+      pipeline_execution_keys: pipelineExecutionKeys
     };
-    const attachments = (greatestParent as any).get?.('attachments', 'list') || [];
-    const instructions = (greatestParent as any).get?.('instructions', 'all') || [];
-    const evidenceDocuments = (greatestParent as any).get?.('evidence_documents', 'list') || [];
-    const pipelineInput = (greatestParent as any).get?.('pipeline', 'input');
 
-    const fullContext = {
-      repository: toObject(greatestParent.getAll('repository')),
-      source: toObject(greatestParent.getAll('source')),
-      read: toObject(greatestParent.getAll('read')),
-      readDefinition: toObject(greatestParent.getAll('read-definition')),
-      config: toObject(greatestParent.getAll('config')),
-      attachments,
-      instructions,
-      evidence_documents: evidenceDocuments,
-      pipeline: pipelineInput ? { input: pipelineInput } : undefined
-    } as any;
+    const selection = selectionGeneration
+      ?? (require('../steps/thinkings-generation').createThinkingsGeneration(
+        PCC_KEY_SELECTION_SCHEMA
+      ) as Executor<any, any>);
+    const selectionResult: any = await selection(selectionInput, failsafeExec.child('selection'));
+    const requestedKeys: string[] = Array.isArray(selectionResult?.output?.selectedKeys)
+      ? selectionResult.output.selectedKeys.filter((k: any) => typeof k === 'string')
+      : [];
 
-    const selectors = createContextSelectors(
-      [
-        { namespace: 'repository', data: greatestParent.getAll('repository') },
-        { namespace: 'source', data: greatestParent.getAll('source') },
-        { namespace: 'read', data: greatestParent.getAll('read') },
-        { namespace: 'read-definition', data: greatestParent.getAll('read-definition') },
-        { namespace: 'config', data: greatestParent.getAll('config') }
-      ],
-      [
-        { namespace: 'attachments', key: 'list', value: attachments },
-        { namespace: 'instructions', key: 'all', value: instructions },
-        { namespace: 'evidence_documents', key: 'list', value: evidenceDocuments },
-        ...(pipelineInput ? [{ namespace: 'pipeline', key: 'input', value: pipelineInput }] : [])
-      ]
-    );
-
-    // Store full context reference
-    // Persist under the reserved failsafe-local 'context' namespace
-    // (context is reserved exclusively for Prepare Concise Context usage)
-    failsafeExec.store('context', 'full', fullContext);
-    failsafeExec.store('context', 'selectors', selectors as any);
-
-    // Run generation substeps as children to analyze context needs
-    let result = input;
-    for (let i = 0; i < generationSubSteps.length; i++) {
-      result = await generationSubSteps[i](result, failsafeExec.child(`gen-${i}`));
+    // 3. READ-IN: the values of exactly the selected keys. Selected-key misses
+    // resolve to omitted (fail-soft) and are logged.
+    const selectedKeys: string[] = [];
+    const missingKeys: string[] = [];
+    const selectedContext: Record<string, unknown> = {};
+    for (const keyPath of requestedKeys) {
+      const resolved = resolveExecutionStateKeyPath(root, keyPath);
+      if (resolved.found) {
+        selectedKeys.push(keyPath);
+        // Project at read-in: deposit#inventory / pipeline#input can carry
+        // multi-hundred-MB inventory.sources. Task generations (reason/judge/
+        // structured_output) JSON-serialize selectedContext into the user
+        // prompt — never pass verbatim sources into that path.
+        selectedContext[keyPath] = projectPromptSafeValue(resolved.value) as any;
+      } else {
+        missingKeys.push(keyPath);
+      }
     }
 
-    const tokenLimit = (failsafeExec as any).llms?.getDefaultConfig?.()?.maxTokens || 4000;
-    const concise = prepareConciseContext(fullContext, { tokenLimit });
+    try { failsafeExec.store('context', 'selectedKeys', selectedKeys as any); } catch {}
+    try { failsafeExec.store('context', 'selectedContext', selectedContext as any); } catch {}
+    if (missingKeys.length) {
+      try { failsafeExec.store('context', 'missingKeys', missingKeys as any); } catch {}
+    }
     try {
       logFailsafeEvent(execution, 'prepare-context', {
-        chunked: concise.chunked,
-        chunkCount: concise.chunkCount,
-        tokenLimit,
-        contextSize: concise.contextSize
+        complete: true,
+        requestedKeys: requestedKeys.length,
+        selectedKeys: selectedKeys.length,
+        missingKeys
       });
     } catch {}
 
+    // 4. The prepared task context: the original task input + the selected values.
     return {
-      ...result,
-      preparedContexts: concise.preparedContexts
+      ...(input as any),
+      selectedKeys,
+      selectedContext
     };
   };
 }
 
+/** Conservative default request budget (~4 chars/token). */
+const DEFAULT_MAX_REQUEST_TOKENS = 150_000;
+const APPROX_CHARS_PER_TOKEN = 4;
+
 /**
- * ChunkThenSum - Parent execution that handles large inputs
- * 
- * CRITICAL: This is a PARENT execution that:
- * 1. Checks if input was chunked by PrepareConciseContext
- * 2. If chunked: runs generation substeps in parallel/sequential per chunk, then sums
- * 3. If not chunked: runs generation substeps once without chunking prompts
- * 4. Always engages generation sequence regardless of chunking
+ * Resolve the request-token budget: registry config when available
+ * (llms.getDefaultConfig().maxRequestTokens), then the
+ * BITCODE_LLM_MAX_REQUEST_TOKENS env, then the conservative default.
  */
-export function factoryChunkThenSum<T extends { preparedContexts: PreparedContext[] }>(
+function resolveMaxRequestTokens(execution: Execution): number {
+  try {
+    const fromConfig = Number((execution as any).llms?.getDefaultConfig?.()?.maxRequestTokens);
+    if (Number.isFinite(fromConfig) && fromConfig > 0) return fromConfig;
+  } catch { }
+  const fromEnv = Number(process?.env?.BITCODE_LLM_MAX_REQUEST_TOKENS);
+  if (Number.isFinite(fromEnv) && fromEnv > 0) return fromEnv;
+  return DEFAULT_MAX_REQUEST_TOKENS;
+}
+
+/**
+ * Greedily pack the selected-context entries into chunks that each fit the
+ * per-chunk character budget. An entry that alone exceeds the budget gets its
+ * own chunk (recursive intra-value splitting is a later-gate precision).
+ */
+function chunkSelectedContextEntries(
+  entries: Array<[string, unknown]>,
+  budgetChars: number
+): Array<Record<string, unknown>> {
+  const chunks: Array<Record<string, unknown>> = [];
+  let current: Record<string, unknown> = {};
+  let currentSize = 0;
+
+  for (const [key, value] of entries) {
+    const entrySize = estimateSerializedSize({ [key]: value });
+    if (currentSize > 0 && currentSize + entrySize > budgetChars) {
+      chunks.push(current);
+      current = {};
+      currentSize = 0;
+    }
+    current[key] = value;
+    currentSize += entrySize;
+  }
+  if (Object.keys(current).length > 0) chunks.push(current);
+
+  return chunks.length ? chunks : [Object.fromEntries(entries)];
+}
+
+/**
+ * ChunkThenSum - the INPUT failsafe (trigger = the COMPOSED REQUEST exceeds
+ * the request limit)
+ *
+ * CRITICAL: This is a PARENT execution that:
+ * 1. Measures the ACTUAL composed request: the rendered hierarchical system
+ *    prompt + the serialized task input INCLUDING the PCC-selected values
+ * 2. Non-triggering (fits the request budget): exactly ONE task generation
+ * 3. Triggering: chunks ONLY the selected context values — each chunk call
+ *    gets the task input + ONLY its chunk (never the full accumulated input) —
+ *    then ONE summing generation over the chunk results
+ */
+export function factoryChunkThenSum<T extends { selectedContext?: Record<string, unknown> }>(
   generationSubSteps: Executor<any, any>[],
   options?: { parallel?: boolean }
 ): Executor<T, T & { processedResult: any }> {
@@ -458,31 +638,91 @@ export function factoryChunkThenSum<T extends { preparedContexts: PreparedContex
     try { failsafeExec.store('ptrr', 'failsafe', FailsafeMetaSubStep.CHUNK_THEN_SUM as any); } catch {}
     try { execution.store('ptrr', 'failsafe', FailsafeMetaSubStep.CHUNK_THEN_SUM as any); } catch {}
 
-    const isChunked = input.preparedContexts.length > 1;
+    // TRIGGER MEASUREMENT: the composed request the task generation would send.
+    const systemPrompt = buildHierarchicalPrompt(failsafeExec);
+    const inputChars = estimateSerializedSize(input);
+    const composedRequestChars = systemPrompt.length + inputChars;
+    const maxRequestTokens = resolveMaxRequestTokens(failsafeExec);
+    const requestBudgetChars = maxRequestTokens * APPROX_CHARS_PER_TOKEN;
+
+    const selectedContext = (input as any)?.selectedContext;
+    const selectedEntries: Array<[string, unknown]> =
+      selectedContext && typeof selectedContext === 'object' && !Array.isArray(selectedContext)
+        ? Object.entries(selectedContext)
+        : [];
+
+    const overBudget = composedRequestChars > requestBudgetChars;
+    // Chunking can only help when there are selected context values to split;
+    // an oversized but unsplittable request runs the single path (fail-soft).
+    const isChunked = overBudget && selectedEntries.length > 0;
+
     failsafeExec.store('chunking', 'required', isChunked);
-    try { logFailsafeEvent(execution, 'chunk-then-sum', { start: true, isChunked, contexts: input.preparedContexts.length }); } catch { }
+    try {
+      failsafeExec.store('chunking', 'measurement', {
+        composedRequestChars,
+        requestBudgetChars,
+        maxRequestTokens,
+        systemPromptChars: systemPrompt.length,
+        inputChars,
+        selectedEntryCount: selectedEntries.length
+      } as any);
+    } catch {}
+    try {
+      logFailsafeEvent(execution, 'chunk-then-sum', {
+        start: true,
+        isChunked,
+        overBudget,
+        composedRequestChars,
+        requestBudgetChars
+      });
+    } catch { }
 
     if (isChunked) {
-      // Process chunks
-      const chunkExecutors = input.preparedContexts.map((context, idx) =>
-        sequential(...generationSubSteps.map(gen =>
-          (chunkInput: any, exec: Execution) => gen(
-            { ...chunkInput, currentContext: context },
-            exec
-          )
-        ))
+      // The task input WITHOUT the selected values — each chunk call receives
+      // the task input + ONLY its own chunk of the selected context.
+      const { selectedContext: _allSelected, ...taskInput } = input as any;
+      const baseChars = systemPrompt.length + estimateSerializedSize(taskInput);
+      const perChunkBudget = Math.max(1000, requestBudgetChars - baseChars);
+      const chunks = chunkSelectedContextEntries(selectedEntries, perChunkBudget);
+      // The count of chunk task-generations (the sum generation excluded) —
+      // rich telemetry renders it so a real chunk-handling case (>1) is
+      // visible per step.
+      failsafeExec.store('chunking', 'count', chunks.length);
+
+      const chunkExecutors = chunks.map((chunk, idx) =>
+        sequential(
+          (async (_ignored: any) => ({
+            ...taskInput,
+            selectedContext: chunk,
+            chunk: { index: idx + 1, count: chunks.length }
+          })) as Executor<any, any>,
+          ...generationSubSteps
+        )
       );
 
       // Run chunks in parallel or sequential
       const doParallel = options?.parallel ?? true;
-      const chunkResults = doParallel
-        ? await parallel(...chunkExecutors)(input, failsafeExec.child('chunks'))
-        : await sequential(...chunkExecutors)(input, failsafeExec.child('chunks'));
+      let chunkResults: any[];
+      if (doParallel) {
+        chunkResults = await parallel(...chunkExecutors)(input, failsafeExec.child('chunks'));
+      } else {
+        chunkResults = [];
+        const chunksExec = failsafeExec.child('chunks');
+        for (let i = 0; i < chunkExecutors.length; i++) {
+          chunkResults.push(await chunkExecutors[i](input, chunksExec.child(`seq-${i}`)));
+        }
+      }
 
-      // Sum the results using generation substeps with summing prompt
-      const sumInput = { ...input, chunkResults };
-      let sumResult = sumInput;
+      // Keep the summing request bounded: each chunk contributes its typed
+      // output when present, not the whole accumulated generation envelope.
+      const chunkOutputs = chunkResults.map((result) =>
+        result && typeof result === 'object' && (result as any).output !== undefined
+          ? (result as any).output
+          : result
+      );
 
+      // Sum the results using ONE summing generation over the chunk results
+      let sumResult: any = { ...taskInput, chunkResults: chunkOutputs };
       for (let i = 0; i < generationSubSteps.length; i++) {
         sumResult = await generationSubSteps[i](
           sumResult,
@@ -490,18 +730,16 @@ export function factoryChunkThenSum<T extends { preparedContexts: PreparedContex
         );
       }
 
-      try {
-        const { log } = require('@bitcode/logger');
-        const phase = (execution as any).findUp?.('phase', 'current');
-        const agentName = (execution as any).findUp?.('agent', 'name');
-        const step = (execution as any).findUp?.('step', 'name');
-        const correlationId = (execution as any).findUp?.('pipeline', 'correlationId');
-        try { logFailsafeEvent(execution, 'chunk-then-sum', { complete: true, mode: 'chunked', chunkCount: input.preparedContexts.length }); } catch { }
-      } catch { }
+      try { logFailsafeEvent(execution, 'chunk-then-sum', { complete: true, mode: 'chunked', chunkCount: chunks.length }); } catch { }
       return { ...sumResult, processedResult: sumResult };
     } else {
-      // No chunking needed - run generation substeps once
-      let result = input;
+      if (overBudget) {
+        // Oversized but no selected values to split — log and run single.
+        try { logFailsafeEvent(execution, 'chunk-then-sum', { unsplittable: true, composedRequestChars, requestBudgetChars }); } catch { }
+      }
+      // Non-triggering: exactly ONE task generation pass (zero chunk runs).
+      failsafeExec.store('chunking', 'count', 0);
+      let result: any = input;
 
       for (let i = 0; i < generationSubSteps.length; i++) {
         result = await generationSubSteps[i](
@@ -510,14 +748,7 @@ export function factoryChunkThenSum<T extends { preparedContexts: PreparedContex
         );
       }
 
-      try {
-        const { log } = require('@bitcode/logger');
-        const phase = (execution as any).findUp?.('phase', 'current');
-        const agentName = (execution as any).findUp?.('agent', 'name');
-        const step = (execution as any).findUp?.('step', 'name');
-        const correlationId = (execution as any).findUp?.('pipeline', 'correlationId');
-        try { logFailsafeEvent(execution, 'chunk-then-sum', { complete: true, mode: 'single' }); } catch { }
-      } catch { }
+      try { logFailsafeEvent(execution, 'chunk-then-sum', { complete: true, mode: 'single' }); } catch { }
       return { ...result, processedResult: result };
     }
   };
@@ -560,6 +791,10 @@ export function factoryStitchUntilComplete<T>(
     let currentResult = input;
     let stitchCount = 0;
     const maxStitches = 5; // Prevent infinite loops
+    // The most recent schema-validation failure. A stitch prompted only with
+    // "continue" cannot repair a schema gap (e.g. a field the model never
+    // emits) — the model must be told exactly what failed validation.
+    let lastValidationError: string | undefined;
 
     // Check if output appears truncated (measure the structured output if present)
     const checkTruncation = (candidate: any): boolean => {
@@ -569,8 +804,13 @@ export function factoryStitchUntilComplete<T>(
       if (typeof toMeasure === 'string') {
         return toMeasure.length >= maxOutputTokens * 3; // Rough token→char estimate
       }
-      const serialized = JSON.stringify(toMeasure);
-      return serialized.length >= maxOutputTokens * 3;
+      try {
+        // Use prompt-safe projection so inventory.sources never blows stringify.
+        const serialized = safePromptJson(toMeasure, null);
+        return serialized.length >= maxOutputTokens * 3;
+      } catch {
+        return false;
+      }
     };
 
     while (stitchCount < maxStitches) {
@@ -582,8 +822,9 @@ export function factoryStitchUntilComplete<T>(
             : currentResult;
           outputSchema.parse(candidate);
           break; // Valid complete output; no stitching required
-        } catch {
+        } catch (e) {
           // Fall through to truncation/stitching logic
+          lastValidationError = e instanceof Error ? e.message : String(e);
         }
       }
 
@@ -598,11 +839,8 @@ export function factoryStitchUntilComplete<T>(
             break; // Valid complete output
           } catch (e) {
             // Output incomplete, needs stitching
-            failsafeExec.store(
-              'validation',
-              'error',
-              e instanceof Error ? e.message : String(e)
-            );
+            lastValidationError = e instanceof Error ? e.message : String(e);
+            failsafeExec.store('validation', 'error', lastValidationError);
           }
         } else {
           break; // No schema to validate against
@@ -611,13 +849,19 @@ export function factoryStitchUntilComplete<T>(
 
       // Run generation substeps to continue/stitch
       stitchCount++;
+      // Live per-iteration marker: rich telemetry shows a real stitch-repair
+      // case (>=1) as it happens, not only in the post-loop count.
+      try { failsafeExec.store('stitching', 'iteration', stitchCount); } catch { }
       const minimalPartial = (currentResult && (currentResult as any).output !== undefined)
         ? (currentResult as any).output
         : currentResult;
       const stitchInput = {
         context: buildStitchContext(input),
         partialOutput: minimalPartial,
-        instruction: 'Continue and complete the previous output'
+        instruction: lastValidationError
+          ? `The previous output failed schema validation: ${lastValidationError.slice(0, 600)}. ` +
+            'Return the full corrected JSON object with every required field present and within its constraints.'
+          : 'Continue and complete the previous output'
       } as any;
 
       for (let i = 0; i < generationSubSteps.length; i++) {
@@ -628,11 +872,24 @@ export function factoryStitchUntilComplete<T>(
       }
     }
 
-    failsafeExec.store('stitching', 'count', stitchCount);
-    try { logFailsafeEvent(execution, 'stitch-until-complete', { complete: true, stitchCount, exceeded: stitchCount >= maxStitches }); } catch { }
+    // The iteration that reaches maxStitches exits the loop before the
+    // top-of-loop validation can inspect its result, so re-validate here —
+    // a schema-valid final stitch is a success, not an exceeded failure.
+    const finalStitchValid = (() => {
+      if (!outputSchema || stitchCount < maxStitches) return false;
+      const candidate = (currentResult && (currentResult as any).output !== undefined)
+        ? (currentResult as any).output
+        : currentResult;
+      try { outputSchema.parse(candidate); return true; } catch { }
+      try { outputSchema.parse(currentResult); return true; } catch { }
+      return false;
+    })();
 
-    // Check if we exceeded max stitches
-    if (stitchCount >= maxStitches) {
+    failsafeExec.store('stitching', 'count', stitchCount);
+    try { logFailsafeEvent(execution, 'stitch-until-complete', { complete: true, stitchCount, exceeded: stitchCount >= maxStitches && !finalStitchValid }); } catch { }
+
+    // Check if we exceeded max stitches without ending on a valid output
+    if (stitchCount >= maxStitches && !finalStitchValid) {
       const error = new Error(
         `StitchUntilComplete exceeded maximum stitch attempts (${maxStitches}). ` +
         `Output may be incomplete or truncated. Consider increasing maxTokens or ` +
@@ -669,9 +926,9 @@ export function factoryJudge<T>(): Executor<T, T & { judgment: Judgment }> {
         // Check if we're in a sum context
         const isSum = typedInput.chunkResults !== undefined;
         if (isSum) {
-          return `Judge the quality of these chunked results:\n\n${JSON.stringify(typedInput.chunkResults, null, 2)}`;
+          return `Judge the quality of these chunked results:\n\n${safePromptJson(typedInput.chunkResults)}`;
         }
-        return `Evaluate the quality and correctness of:\n\n${JSON.stringify(input, null, 2)}`;
+        return `Evaluate the quality and correctness of:\n\n${safePromptJson(input)}`;
       },
 
       parseOutput: async (output, input) => {
@@ -709,14 +966,14 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
 
         if (isStitch) {
           const context = typedInput.context && Object.keys(typedInput.context).length
-            ? `\n\nOriginal task context:\n\n${JSON.stringify(typedInput.context, null, 2)}`
+            ? `\n\nOriginal task context:\n\n${safePromptJson(typedInput.context)}`
             : '';
-          return `Continue reasoning from this partial output:\n\n${JSON.stringify(typedInput.partialOutput, null, 2)}${context}`;
+          return `Continue reasoning from this partial output:\n\n${safePromptJson(typedInput.partialOutput)}${context}`;
         }
         if (isSum) {
-          return `Reason about how to combine these chunk results:\n\n${JSON.stringify(typedInput.chunkResults, null, 2)}`;
+          return `Reason about how to combine these chunk results:\n\n${safePromptJson(typedInput.chunkResults)}`;
         }
-        return `Apply logical reasoning to solve:\n\n${JSON.stringify(input ?? null, null, 2)}`;
+        return `Apply logical reasoning to solve:\n\n${safePromptJson(input ?? null)}`;
       },
 
       parseOutput: async (output, input) => {
@@ -759,7 +1016,7 @@ export function factoryStructuredOutput<T, TSchema>(
           String(PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY),
           '',
           'Generate structured output for:',
-          JSON.stringify(input, null, 2),
+          safePromptJson(input),
         ].filter(Boolean).join('\n');
       },
 
@@ -816,8 +1073,11 @@ function inferField(v: z.ZodTypeAny): string {
     case z.ZodFirstPartyTypeKind.ZodObject: {
       const shape = getZodObjectShape(v);
       if (!shape) return '{ ... }';
-      const keys = Object.entries(shape).slice(0, 6);
-      return `{ ${keys.map(([key, value]) => `"${key}": ${inferField(value)}`).join(', ')}${Object.keys(shape).length > keys.length ? ', ...' : ''} }`;
+      // Render EVERY field: a truncated shape hides required fields from the
+      // model, which then systematically omits them and no amount of
+      // stitching/retrying can converge on a schema-valid output.
+      const keys = Object.entries(shape);
+      return `{ ${keys.map(([key, value]) => `"${key}": ${inferField(value)}`).join(', ')} }`;
     }
     case z.ZodFirstPartyTypeKind.ZodRecord: return '{ [key: string]: any }';
     case z.ZodFirstPartyTypeKind.ZodEnum: {
@@ -917,9 +1177,11 @@ function buildStitchContext(input: unknown): Record<string, unknown> {
   put('fitResult', value.fitResult ?? value.depositorySearchResult ?? value.context?.fitResult);
   put('assetPackIntent', value.assetPackIntent ?? value.context?.assetPackIntent);
   put('deliveryMechanism', value.deliveryMechanism ?? value.context?.deliveryMechanism);
-  if (Array.isArray(value.preparedContexts)) {
-    put('preparedContextCount', value.preparedContexts.length);
-    put('preparedContextSummaries', value.preparedContexts.slice(0, 3).map(summarize));
+  if (Array.isArray(value.selectedKeys) && value.selectedKeys.length) {
+    put('selectedKeys', value.selectedKeys);
+  }
+  if (value.selectedContext && typeof value.selectedContext === 'object') {
+    put('selectedContextSummary', summarize(value.selectedContext));
   }
 
   return context;

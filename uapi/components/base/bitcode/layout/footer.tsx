@@ -23,8 +23,8 @@ import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disab
 import { BITCODE_GITHUB_APP_PUBLIC_URL } from '@/lib/github-app-url';
 
 const PACKS_URL = '/packs';
-const DEPOSIT_URL = '/deposit';
-const READ_URL = '/read';
+const DEPOSIT_URL = '/deposits';
+const READ_URL = '/reads';
 const DEFAULT_OPERATOR_GUIDE_URL =
   process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() || '/docs';
 const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/BITCODE_SPEC.txt';

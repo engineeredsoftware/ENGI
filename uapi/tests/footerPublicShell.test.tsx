@@ -55,13 +55,13 @@ describe('Footer public shell', () => {
       'href',
       '/packs',
     );
-    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Deposits' })).toHaveAttribute(
       'href',
-      '/deposit',
+      '/deposits',
     );
-    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Reads' })).toHaveAttribute(
       'href',
-      '/read',
+      '/reads',
     );
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute(
       'href',

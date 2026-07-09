@@ -551,8 +551,6 @@ export type MockPipelineEventType =
   | 'phase_start'
   | 'phase_end'
   | 'agent_switch'
-  | 'otf_instruction'
-  | 'otf_adherence'
   | 'progress_update'
   | 'debug_info'
   | 'performance_metric'

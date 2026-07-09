@@ -10,7 +10,7 @@ export const BITCODE_PUBLIC_COPY = {
     'DOCS',
   ],
   primaryCta: {
-    href: '/read',
+    href: '/reads',
     label: 'Request Read',
   },
   secondaryCta: {
@@ -53,14 +53,14 @@ export const BITCODE_PUBLIC_COPY = {
       {
         step: '01',
         label: 'Deposit IP',
-        href: '/deposit',
+        href: '/deposits',
         detail:
           'Connect a repository, review source-safe AssetPack measurements, and approve Depository admission.',
       },
       {
         step: '02',
         label: 'Read and buy',
-        href: '/read',
+        href: '/reads',
         detail:
           'Accept a synthesized Need, review fit measurements and the BTC-testnet quote basis, then settle.',
       },
@@ -105,8 +105,8 @@ export const BITCODE_PUBLIC_COPY = {
     userCta: 'Open Auxillaries',
     links: {
       network: 'Packs',
-      deposit: 'Deposit',
-      read: 'Read',
+      deposit: 'Deposits',
+      read: 'Reads',
       transactions: 'Packs',
       docs: 'Docs',
       github: 'Bitcode on GitHub',
@@ -115,8 +115,8 @@ export const BITCODE_PUBLIC_COPY = {
   publicNav: {
     links: [
       { href: '/packs', label: 'Packs' },
-      { href: '/deposit', label: 'Deposit' },
-      { href: '/read', label: 'Read' },
+      { href: '/deposits', label: 'Deposits' },
+      { href: '/reads', label: 'Reads' },
       { href: '/docs', label: 'Docs' },
     ],
     guestPrimaryCta: 'Open Auxillaries',
@@ -126,7 +126,7 @@ export const BITCODE_PUBLIC_COPY = {
     eyebrow: 'Bitcode docs',
     heading: 'Learn Bitcode from AssetPacks to proof.',
     body:
-      'Docs teaches the complete system in user order: AssetPacks, BTD scalar volume and rights, BTC settlement money, proof readback authority, /deposit, /read, /packs, MCP/API, ChatGPT App, Bitcode Chat, and connected interfaces.',
+      'Docs teaches the complete system in user order: AssetPacks, BTD scalar volume and rights, BTC settlement money, proof readback authority, /deposits, /reads, /packs, MCP/API, ChatGPT App, Bitcode Chat, and connected interfaces.',
     checkingVideoTitle: 'Recorded walkthrough',
     checkingVideoBody:
       'Checking the recorded Bitcode walkthrough for inline playback inside the docs.',

@@ -9,6 +9,9 @@ uapi/tmp
 .env.*
 !.env.example
 !**/.env.example
+# Example templates carry placeholders only — always committable.
+!.env.*.example
+!**/.env.*.example
 
 # Playwright test artifacts
 **/playwright-report/**
@@ -92,3 +95,4 @@ uapi/tailwind.config.js
 .vercel
 .env*.local
 .bitcode/pipeline-harness-runs/
+scripts/.env.staging-testnet

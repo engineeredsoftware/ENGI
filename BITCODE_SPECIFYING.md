@@ -229,6 +229,30 @@ At minimum, the current `SPEC` must enumerate where applicable:
 
 If a reviewer would read to open source or generated JSON just to discover what is in one of those current canonical sets, the spec is not yet precise enough.
 
+## 2.8 Specification/Implementation Commit Categorization
+
+Complete Implementation Derivability is enforced commit by commit. Every commit
+and gate pull-request title declares its specification/implementation category —
+exactly one of `specification-only`, `implementation-only`, or
+`specification-implementation` — as a parenthetical immediately after the version
+and gate prefix, for example `V48 Gate 3 (implementation-only): ...`.
+
+- `specification-only` changes touch only specification artifacts (the
+  `BITCODE_SPEC_*` family and the version notes).
+- `implementation-only` changes touch only implementation (source, tests,
+  tooling, scripts).
+- `specification-implementation` changes touch both in the same commit, keeping
+  the implementation derivable from the specification.
+
+A change that alters both kinds is committed as a single
+`specification-implementation` commit, or split into a `specification-only` and
+an `implementation-only` commit — never an unlabeled mix. An `implementation-only`
+change that introduces behavior not yet derivable from the current specification
+is incomplete: the specification must be brought to cover it (as
+`specification-only` or `specification-implementation`) so that no implementation
+outruns its spec. The specification↔implementation relationship of every change is
+thereby auditable from the commit history alone.
+
 ---
 
 # 3. Canonical File Family

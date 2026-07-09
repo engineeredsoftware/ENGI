@@ -4,6 +4,8 @@ import type { TerminalRunDetailSnapshot } from './terminal-transaction-detail-sn
 
 export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' | 'agentic_execution' | 'status'> & {
   summary?: string | null;
+  /** Source-safe failure message from executions.error (failed/interrupted). */
+  errorMessage?: string | null;
   repository?: string | null;
   branch?: string | null;
   sourceCommit?: string | null;
@@ -35,6 +37,14 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   proofStatus?: string | null;
   closureFocus?: string | null;
   protocolProjectionDetail?: TerminalRunDetailSnapshot | null;
+  // V48-Gate3-F13/F18: populated only when contextSource is
+  // 'deposit-obfuscations-anchor' — the anchored Obfuscations text itself
+  // (plus optional display name and path selections) for the Obfuscations
+  // "load a previous anchor" selector.
+  obfuscationsAnchorText?: string | null;
+  obfuscationsAnchorName?: string | null;
+  obfuscationsAnchorForcedInclusions?: string[] | null;
+  obfuscationsAnchorForcedExclusions?: string[] | null;
 };
 
 export const MOCK_RUNS: WorkspaceRun[] = [

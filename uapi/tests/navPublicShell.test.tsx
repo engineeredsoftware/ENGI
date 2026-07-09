@@ -112,8 +112,8 @@ describe('Nav public shell', () => {
     expect(screen.getByText('Brand home')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
     expect(screen.getByRole('link', { name: 'Packs' })).not.toHaveAttribute('aria-current');
-    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposit');
-    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/read');
+    expect(screen.getByRole('link', { name: 'Deposits' })).toHaveAttribute('href', '/deposits');
+    expect(screen.getByRole('link', { name: 'Reads' })).toHaveAttribute('href', '/reads');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
     expect(screen.getByRole('button', { name: 'Explain Packs' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Deposit' })).toBeInTheDocument();
@@ -160,8 +160,8 @@ describe('Nav public shell', () => {
     render(<Nav />);
 
     expect(screen.getByText('Brand home')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposit');
-    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/read');
+    expect(screen.getByRole('link', { name: 'Deposits' })).toHaveAttribute('href', '/deposits');
+    expect(screen.getByRole('link', { name: 'Reads' })).toHaveAttribute('href', '/reads');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
     expect(screen.getByText('Notifications')).toBeInTheDocument();
 
@@ -190,23 +190,23 @@ describe('Nav public shell', () => {
   });
 
   it('renders read brand posture and active nav on read routes', () => {
-    mockPathname = '/read';
+    mockPathname = '/reads';
 
     render(<Nav />);
 
     expect(screen.getByText('Brand read')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/read');
-    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: 'Reads' })).toHaveAttribute('href', '/reads');
+    expect(screen.getByRole('link', { name: 'Reads' })).toHaveAttribute('aria-current', 'page');
   });
 
   it('renders deposit brand posture and active nav on deposit routes', () => {
-    mockPathname = '/deposit';
+    mockPathname = '/deposits';
 
     render(<Nav />);
 
     expect(screen.getByText('Brand deposit')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposit');
-    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: 'Deposits' })).toHaveAttribute('href', '/deposits');
+    expect(screen.getByRole('link', { name: 'Deposits' })).toHaveAttribute('aria-current', 'page');
   });
 
   it('treats /edgetimes as a docs-branded public route', () => {

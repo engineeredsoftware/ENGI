@@ -6,7 +6,7 @@ import {
   type ReadingPipelinePtrrStepContract,
   type ReadingPipelinePtrrStepName,
   type ReadingPipelineTelemetryTraceEntry,
-  type ReadingPipelineThricifiedFailsafe,
+  type ReadingPipelineThinkingsFailsafe,
   type ReadingPipelineToolContract,
   listReadingPipelineContractSummaries,
   listReadingPipelineTelemetryTrace,
@@ -17,7 +17,7 @@ export const READING_PIPELINE_TELEMETRY_LEVELS = [
   'phase',
   'ptrr-agent',
   'ptrr-step',
-  'thricified-generation',
+  'thinkings-generation',
   'prompt',
   'tool',
   'raw-output',
@@ -34,8 +34,8 @@ export type ReadingPipelineTelemetryProjection = {
   agentId: string | null;
   ptrrStepId: string | null;
   ptrrStepName: ReadingPipelinePtrrStepName | null;
-  thricifiedGenerationId: string | null;
-  thricifiedFailsafe: ReadingPipelineThricifiedFailsafe | null;
+  thinkingsGenerationId: string | null;
+  thinkingsFailsafe: ReadingPipelineThinkingsFailsafe | null;
   promptTemplateId: string | null;
   generationPromptIds: {
     reasonPromptId: string | null;
@@ -73,9 +73,9 @@ export type ReadingPipelineObservabilityInventory = {
     phases: number;
     ptrrAgents: number;
     ptrrSteps: number;
-    thricifiedGenerations: number;
+    thinkingsGenerations: number;
     promptTemplates: number;
-    thricifiedGenerationPrompts: number;
+    thinkingsGenerationPrompts: number;
     tools: number;
   };
   traceEntries: ReadingPipelineTelemetryTraceEntry[];
@@ -109,7 +109,7 @@ type ProjectionSource = {
   explicitPhaseId: string | null;
   explicitAgentId: string | null;
   explicitPtrrStepId: string | null;
-  explicitThricifiedGenerationId: string | null;
+  explicitThinkingsGenerationId: string | null;
   explicitToolId: string | null;
 };
 
@@ -138,10 +138,10 @@ export function buildReadingPipelineObservabilityInventory(): ReadingPipelineObs
   const phases = READING_PIPELINE_CONTRACTS.flatMap((contract) => contract.phases);
   const agents = phases.flatMap((phase) => phase.agents);
   const ptrrSteps = agents.flatMap((agent) => agent.ptrrSteps);
-  const thricifiedGenerations = ptrrSteps.flatMap((step) => step.thricifiedGenerations);
+  const thinkingsGenerations = ptrrSteps.flatMap((step) => step.thinkingsGenerations);
   const promptTemplateIds = new Set(ptrrSteps.map((step) => step.prompt?.templateId).filter(Boolean));
-  const thricifiedGenerationPromptIds = new Set(
-    thricifiedGenerations.flatMap((generation) => [
+  const thinkingsGenerationPromptIds = new Set(
+    thinkingsGenerations.flatMap((generation) => [
       generation.reasonPromptId,
       generation.judgePromptId,
       generation.structuredOutputPromptId,
@@ -159,9 +159,9 @@ export function buildReadingPipelineObservabilityInventory(): ReadingPipelineObs
       phases: phases.length,
       ptrrAgents: agents.length,
       ptrrSteps: ptrrSteps.length,
-      thricifiedGenerations: thricifiedGenerations.length,
+      thinkingsGenerations: thinkingsGenerations.length,
       promptTemplates: promptTemplateIds.size,
-      thricifiedGenerationPrompts: thricifiedGenerationPromptIds.size,
+      thinkingsGenerationPrompts: thinkingsGenerationPromptIds.size,
       tools: toolIds.size,
     },
     traceEntries: TRACE_INDEX.map(({ agentKey, phaseKey, ptrrStep, ...trace }) => trace),
@@ -173,7 +173,7 @@ export function resolveReadingPipelineTelemetryProjection(
 ): ReadingPipelineTelemetryProjection {
   const source = normalizeProjectionSource(eventLike);
   const matchedTrace = findMatchingTrace(source);
-  const generation = findMatchingThricifiedGeneration(source, matchedTrace);
+  const generation = findMatchingThinkingsGeneration(source, matchedTrace);
   const tool = findMatchingTool(source, matchedTrace);
   const ptrrStep = matchedTrace?.ptrrStep || null;
   const pipelineName = source.explicitPipelineName || matchedTrace?.pipelineName || inferPipelineName(source) || null;
@@ -187,11 +187,11 @@ export function resolveReadingPipelineTelemetryProjection(
     agentId: source.explicitAgentId || matchedTrace?.agentId || null,
     ptrrStepId: source.explicitPtrrStepId || matchedTrace?.ptrrStepId || null,
     ptrrStepName: matchedTrace?.ptrrStepName || stepNameFromId(source.explicitPtrrStepId),
-    thricifiedGenerationId:
-      source.explicitThricifiedGenerationId ||
-      generation?.thricifiedGenerationId ||
+    thinkingsGenerationId:
+      source.explicitThinkingsGenerationId ||
+      generation?.thinkingsGenerationId ||
       null,
-    thricifiedFailsafe: generation?.failsafe || failsafeFromId(source.explicitThricifiedGenerationId),
+    thinkingsFailsafe: generation?.failsafe || failsafeFromId(source.explicitThinkingsGenerationId),
     promptTemplateId: valueAsString(source.data?.promptTemplateId) || ptrrStep?.prompt?.templateId || null,
     generationPromptIds: {
       reasonPromptId: generation?.reasonPromptId || null,
@@ -292,10 +292,10 @@ function normalizeProjectionSource(eventLike: unknown): ProjectionSource {
     valueAsString(normalizedData.tool) ||
     valueAsString(normalizedData.toolName) ||
     null;
-  const explicitThricifiedGenerationId =
-    valueAsString(normalizedData.thricifiedGenerationId) ||
+  const explicitThinkingsGenerationId =
+    valueAsString(normalizedData.thinkingsGenerationId) ||
     valueAsString(normalizedData.generationId) ||
-    valueAsString(executionState?.thricifiedGenerationId) ||
+    valueAsString(executionState?.thinkingsGenerationId) ||
     null;
   const textCandidates = [
     valueAsString(normalizedData.pipelineName),
@@ -303,7 +303,7 @@ function normalizeProjectionSource(eventLike: unknown): ProjectionSource {
     valueAsString(normalizedData.agentId),
     valueAsString(normalizedData.ptrrStepId),
     valueAsString(normalizedData.ptrrStepName),
-    valueAsString(normalizedData.thricifiedGenerationId),
+    valueAsString(normalizedData.thinkingsGenerationId),
     valueAsString(normalizedData.promptTemplateId),
     valueAsString(normalizedData.namespace),
     valueAsString(normalizedData.key),
@@ -316,7 +316,7 @@ function normalizeProjectionSource(eventLike: unknown): ProjectionSource {
     valueAsString(executionState?.step),
     valueAsString(executionState?.generation),
     explicitToolId,
-    explicitThricifiedGenerationId,
+    explicitThinkingsGenerationId,
     ...executionPath,
   ].filter(Boolean) as string[];
 
@@ -334,7 +334,7 @@ function normalizeProjectionSource(eventLike: unknown): ProjectionSource {
       valueAsString(normalizedData.ptrrStepId) ||
       valueAsString(executionState?.ptrrStepId) ||
       null,
-    explicitThricifiedGenerationId,
+    explicitThinkingsGenerationId,
     explicitToolId,
   };
 }
@@ -362,8 +362,8 @@ function findMatchingTrace(source: ProjectionSource): IndexedTrace | null {
   const scopedTraces = source.explicitPipelineName
     ? TRACE_INDEX.filter((trace) => trace.pipelineName === source.explicitPipelineName)
     : TRACE_INDEX;
-  const byGeneration = source.explicitThricifiedGenerationId
-    ? scopedTraces.find((trace) => trace.thricifiedGenerationIds.includes(source.explicitThricifiedGenerationId as string))
+  const byGeneration = source.explicitThinkingsGenerationId
+    ? scopedTraces.find((trace) => trace.thinkingsGenerationIds.includes(source.explicitThinkingsGenerationId as string))
     : null;
   if (byGeneration) return byGeneration;
 
@@ -386,21 +386,21 @@ function findMatchingTrace(source: ProjectionSource): IndexedTrace | null {
   );
 }
 
-function findMatchingThricifiedGeneration(
+function findMatchingThinkingsGeneration(
   source: ProjectionSource,
   trace: IndexedTrace | null,
-): IndexedTrace['thricifiedGenerations'][number] | null {
+): IndexedTrace['thinkingsGenerations'][number] | null {
   if (!trace) return null;
-  if (source.explicitThricifiedGenerationId) {
-    const direct = trace.thricifiedGenerations.find(
-      (generation) => generation.thricifiedGenerationId === source.explicitThricifiedGenerationId,
+  if (source.explicitThinkingsGenerationId) {
+    const direct = trace.thinkingsGenerations.find(
+      (generation) => generation.thinkingsGenerationId === source.explicitThinkingsGenerationId,
     );
     if (direct) return direct;
   }
   const candidateText = normalizeText(source.textCandidates.join(' '));
   return (
-    trace.thricifiedGenerations.find((generation) =>
-      candidateText.includes(normalizeText(generation.thricifiedGenerationId)) ||
+    trace.thinkingsGenerations.find((generation) =>
+      candidateText.includes(normalizeText(generation.thinkingsGenerationId)) ||
       candidateText.includes(normalizeText(generation.failsafe)),
     ) || null
   );
@@ -447,7 +447,7 @@ function resolveTelemetryLevel(
     return 'prompt';
   }
   if (hasTool || streamEventType.includes('tool') || namespace.includes('tool')) return 'tool';
-  if (hasGeneration || namespace === 'llm' || streamEventType.includes('generation')) return 'thricified-generation';
+  if (hasGeneration || namespace === 'llm' || streamEventType.includes('generation')) return 'thinkings-generation';
   if (source.explicitPtrrStepId) return 'ptrr-step';
   if (source.explicitAgentId) return 'ptrr-agent';
   if (source.explicitPhaseId) return 'phase';
@@ -470,7 +470,7 @@ function stepNameFromId(value: unknown): ReadingPipelinePtrrStepName | null {
     : null;
 }
 
-function failsafeFromId(value: unknown): ReadingPipelineThricifiedFailsafe | null {
+function failsafeFromId(value: unknown): ReadingPipelineThinkingsFailsafe | null {
   const text = String(value || '');
   if (text.includes('prepare-concise-context')) return 'prepare-concise-context';
   if (text.includes('chunk-then-sum')) return 'chunk-then-sum';

@@ -20,6 +20,9 @@ module.exports = {
     '^@/.+\\.txt$': '<rootDir>/tests/textMock.js',
     '^@/.+\\.css$': '<rootDir>/tests/styleMock.js',
     '\\.css$': '<rootDir>/tests/styleMock.js',
+    // jsdom's `browser` export condition resolves the untransformed ESM
+    // build; pin the package to a passive stub (tests jest.mock over it).
+    '^@vercel/analytics$': '<rootDir>/tests/mocks/vercelAnalytics.ts',
 
     // ---------- explicit maps for shared pipeline libs ----------
     // -------------------------------------------------------------------
@@ -84,10 +87,15 @@ module.exports = {
     '^@/lib/bitcoin-wallet-client$': '<rootDir>/lib/bitcoin-wallet-client.ts',
     '^@/lib/github-app-url$': '<rootDir>/lib/github-app-url.ts',
     '^@/lib/bitcode-server-telemetry$': '<rootDir>/lib/bitcode-server-telemetry.ts',
+    '^@/lib/deposit-source-provisioning$': '<rootDir>/lib/deposit-source-provisioning.ts',
+    '^@/lib/depository-settled-demand$': '<rootDir>/lib/depository-settled-demand.ts',
+    '^@/lib/execution-orphan-sweep$': '<rootDir>/lib/execution-orphan-sweep.ts',
+    '^@/lib/execution-cancel$': '<rootDir>/lib/execution-cancel.ts',
     '^@/lib/bitcode-qa-telemetry$': '<rootDir>/lib/bitcode-qa-telemetry.ts',
     '^@/lib/bitcode-wallet-local$': '<rootDir>/lib/bitcode-wallet-local.ts',
     '^@/lib/supabase-auth-redirect$': '<rootDir>/lib/supabase-auth-redirect.ts',
     '^@/lib/mock-review-mode$': '<rootDir>/lib/mock-review-mode.ts',
+    '^@/lib/product-analytics$': '<rootDir>/lib/product-analytics.ts',
     '^@/lib/logger$': '<rootDir>/../packages/pipelines-generics/src/logger.ts',
     '^@/lib/engine/pipeline$': '<rootDir>/../packages/pipelines-generics/src/pipeline/index.ts',
     '^@/lib/engine/(.*)$': '<rootDir>/../packages/pipelines-generics/src/pipeline/$1',
@@ -108,6 +116,8 @@ module.exports = {
     // Include API integration tests for AssetPack and Shippable routes
     '<rootDir>/tests/api/**/*.test.ts',
     '<rootDir>/tests/api/**/*.test.tsx',
+    // Library unit tests (deposit source provisioning, …)
+    '<rootDir>/tests/lib/**/*.test.ts',
     '<rootDir>/tests/webhookRoute.test.ts',
     // Include mock system tests
     '<rootDir>/tests/MockOrchestrator.test.ts',
@@ -141,6 +151,12 @@ module.exports = {
     '<rootDir>/tests/packActivityModel.test.ts',
     '<rootDir>/tests/depositRouteModel.test.ts',
     '<rootDir>/tests/depositPageClient.test.tsx',
+    '<rootDir>/tests/depositSourceSelection.test.tsx',
+    '<rootDir>/tests/productAnalytics.test.ts',
+    '<rootDir>/tests/searchableSelect.test.tsx',
+    '<rootDir>/tests/vcsFileTreePicker.test.tsx',
+    '<rootDir>/tests/vcsConnectionCard.test.tsx',
+    '<rootDir>/tests/bitcodeInlineExplainerAriaLabel.test.tsx',
     '<rootDir>/tests/readRouteModel.test.ts',
     '<rootDir>/tests/readPageClient.test.tsx',
     '<rootDir>/tests/exchangeTerminalHandoff.test.ts',
@@ -175,8 +191,12 @@ module.exports = {
     '<rootDir>/tests/conversationSourceSelector.test.tsx',
     '<rootDir>/tests/conversationWritingWorkspace.test.tsx',
     '<rootDir>/tests/pipelineExecutionLogHeader.test.tsx',
+    '<rootDir>/tests/pipelineExecutionLogCopy.test.tsx',
+    '<rootDir>/tests/pipelineExecutionLogTelemetryUx.test.tsx',
+    '<rootDir>/tests/processingIndicator.test.tsx',
     '<rootDir>/tests/terminalJournalReconciliation.test.ts',
     '<rootDir>/tests/terminalOrganizationAuthority.test.ts',
+    '<rootDir>/tests/terminalTransactionActivity.test.ts',
     '<rootDir>/tests/terminalTransactionActivitySurface.test.tsx',
     '<rootDir>/tests/terminalTransactionDetail.test.ts',
     '<rootDir>/tests/terminalTransactionDetailCards.test.tsx',
@@ -186,7 +206,6 @@ module.exports = {
     '<rootDir>/tests/bitcodeBrowserProof.test.ts',
     '<rootDir>/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts',
     '<rootDir>/tests/bitcodeLedgerStorageSync.test.ts',
-    '<rootDir>/tests/terminalUxBrowserProof.test.tsx',
     '<rootDir>/tests/terminalWalletBtcOperation.test.ts',
     '<rootDir>/tests/terminalCoreNativeSections.test.tsx',
     '<rootDir>/tests/terminalDepositComposer.test.ts',
@@ -207,6 +226,7 @@ module.exports = {
     '<rootDir>/tests/footerPublicShell.test.tsx',
     '<rootDir>/tests/bitcodeTransactionsFilterBar.test.tsx',
     '<rootDir>/tests/bitcodeTransactionsActiveFilters.test.tsx',
+    '<rootDir>/tests/bitcodeTransactionsDataTable.test.tsx',
     '<rootDir>/tests/navWorkspaceChrome.test.tsx'
   ],
   // Setup mocks and global configurations

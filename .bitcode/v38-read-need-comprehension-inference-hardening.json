@@ -5,7 +5,7 @@
   "currentTarget": "V37",
   "sourceSafetyVerdict": "source-safe-read-need-comprehension-inference-hardening-metadata",
   "generatedAt": "deterministic",
-  "artifactRoot": "v38-read-need-comprehension-hardening:113d48d4b8be28d0cfd9b9e2",
+  "artifactRoot": "v38-read-need-comprehension-hardening:8a511d23d56bc6f1dc216802",
   "passed": true,
   "rows": [
     {
@@ -302,17 +302,17 @@
     },
     {
       "id": "bounded-inference-records-failsafe-stack",
-      "sourcePath": "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
+      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
       "passed": true
     },
     {
       "id": "bounded-inference-records-thricified-stages",
-      "sourcePath": "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
+      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
       "passed": true
     },
     {
       "id": "bounded-inference-records-prompt-output",
-      "sourcePath": "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
+      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
       "passed": true
     },
     {
@@ -355,7 +355,7 @@
     "gate2InventoryRoot": "v38-inference-surface-inventory:3f50930549dee560db576a9a",
     "gate3StackRoot": "v38-ptrr-failsafe-thricified-stack:af3a75b196d4b52e921c0130",
     "gate4PromptBenchmarkRoot": "v38-prompt-benchmark-report:7c34a5c11c25c490aedf413d",
-    "gate5DisclosureRoot": "v38-inference-telemetry-disclosure-report:b55a6ec83a421313cde9483c",
+    "gate5DisclosureRoot": "v38-inference-telemetry-disclosure-report:6b52c044d55df62ac1b0db97",
     "sourceSafeMetadataOnly": true,
     "protectedSourceVisible": false,
     "rawProviderResponseVisible": false,
@@ -370,7 +370,6 @@
   "sourceRoots": {
     "readingContract": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
     "readNeed": "packages/pipelines/asset-pack/src/read-need.ts",
-    "boundedStructuredInference": "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
     "readNeedTests": "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
     "readingContractTests": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
     "readReviewRoute": "uapi/app/api/read-review/route.ts",

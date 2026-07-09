@@ -9,7 +9,7 @@ export {
 
 export {
   createFailsafeGenerationSequence as createFailsafedGenerationSequence,
-  createContextfulFailsafedThricifiedGeneration as createFailsafedThricifiedGeneration,
+  createContextfulFailsafedThinkingsGeneration as createFailsafedThinkingsGeneration,
   createFailsafedGeneration
 } from '../steps/failsafe-sequence';
 

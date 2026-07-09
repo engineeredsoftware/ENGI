@@ -46,7 +46,7 @@ VCSLoadingSpinner.displayName = 'VCSLoadingSpinner';
  * Skeleton loader for selects
  */
 export const VCSSelectSkeleton = React.memo(() => (
-  <div className="w-48 h-9 bg-muted animate-pulse rounded-md" />
+  <div className="w-48 h-9 bg-muted animate-pulse" />
 ));
 
 VCSSelectSkeleton.displayName = 'VCSSelectSkeleton';

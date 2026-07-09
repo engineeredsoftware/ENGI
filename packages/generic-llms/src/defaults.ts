@@ -4,6 +4,10 @@ export function resolveDefaultLLMProvider(env: BitcodeLLMEnvironment = process.e
   const configured = normalizeEnvValue(env.BITCODE_LLM_PROVIDER);
   if (configured) return configured.toLowerCase();
 
+  // Prefer xAI / Grok when a key is present (product default when configured).
+  if (normalizeEnvValue(env.XAI_API_KEY) || normalizeEnvValue(env.GROK_API_KEY)) {
+    return 'xai';
+  }
   if (normalizeEnvValue(env.OPENAI_API_KEY)) return 'openai';
   if (normalizeEnvValue(env.ANTHROPIC_API_KEY)) return 'anthropic';
   if (
@@ -25,10 +29,14 @@ export function resolveDefaultLLMModel(
   if (configured) return configured;
 
   switch (provider.toLowerCase()) {
+    case 'xai':
+    case 'grok':
+      // Product default: grok-build-0.1 (overridable via BITCODE_LLM_MODEL).
+      return 'grok-build-0.1';
     case 'google':
       return 'gemini-2.5-flash';
     case 'anthropic':
-      return 'claude-sonnet-4-6';
+      return 'claude-haiku-4-5';
     case 'openai':
     default:
       return 'gpt-4.1-mini';

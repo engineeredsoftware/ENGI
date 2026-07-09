@@ -7,6 +7,7 @@
  */
 
 import { createPhaseRunner, type AgentStep, type PhaseConfig } from '@bitcode/pipelines-generics';
+import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
 function createImplementationSequence(_assetPackWrittenAssetType: string): AgentStep[] {
   return [{ agent: 'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent' }];
@@ -31,9 +32,23 @@ export function registerImplementationAgentsForType(
   registerImplementationAgents(agentRegistry);
 }
 
-export function registerImplementationAgents(agentRegistry: any): void {
+export function registerImplementationAgents(
+  agentRegistry: any,
+  // Conditional runtime registry: deposit registers under a deposit-named key;
+  // read keeps the historical ReadFitsFindingSynthesis implementation key.
+  mode?: SynthesizeAssetPacksMode,
+): void {
+  if (mode === 'deposit') {
+    agentRegistry.registerAgent('implementation:deposit-asset-pack-synthesis', () =>
+      import('../agents/implementation/deposit-asset-pack-synthesis-agent').then(m => m.default),
+    );
+    return;
+  }
   agentRegistry.registerAgent(
     'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent',
-    () => import('../agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent').then(m => m.default)
+    () =>
+      import('../agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent').then(
+        (m) => m.default,
+      ),
   );
 }

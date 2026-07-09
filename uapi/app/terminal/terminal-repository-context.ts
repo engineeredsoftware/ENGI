@@ -94,20 +94,36 @@ export function deriveSelectedBranch(
   return branches[0]?.name || null;
 }
 
+/** Sentinel for "track the branch head" commit selection (not a git object id). */
+export const DEPOSIT_COMMIT_LATEST_REF = 'latest';
+
+/** True when the URL/request wants the live branch head (default). */
+export function isLatestCommitRef(value?: string | null): boolean {
+  const normalized = value?.trim().toLowerCase();
+  return !normalized || normalized === DEPOSIT_COMMIT_LATEST_REF;
+}
+
+/**
+ * Resolve the effective commit SHA for synthesis / checkout.
+ * - `latest` / empty → head of the loaded commits list (`commits[0]`)
+ * - explicit sha → that sha (even if the list has not loaded yet)
+ */
 export function deriveSelectedCommit(
   commits: VCSCommit[],
   requestedCommit?: string | null,
 ) {
-  const normalizedRequestedCommit = requestedCommit?.trim();
-  if (!commits.length) return normalizedRequestedCommit || null;
+  if (isLatestCommitRef(requestedCommit)) {
+    return commits[0]?.sha || null;
+  }
 
-  const byRequested =
-    normalizedRequestedCommit &&
-    commits.find((commit) => commit.sha === normalizedRequestedCommit);
+  const normalizedRequestedCommit = requestedCommit!.trim();
+  if (!commits.length) return normalizedRequestedCommit;
+
+  const byRequested = commits.find(
+    (commit) => commit.sha === normalizedRequestedCommit,
+  );
   if (byRequested) return byRequested.sha;
-  if (normalizedRequestedCommit) return normalizedRequestedCommit;
-
-  return commits[0]?.sha || null;
+  return normalizedRequestedCommit;
 }
 
 export function getProviderLabel(provider: VCSProviderType) {

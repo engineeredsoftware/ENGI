@@ -18,7 +18,7 @@ export type ReadingOperationalTelemetryEventKind =
   | 'ptrr-agent'
   | 'ptrr-step'
   | 'failsafe'
-  | 'thricified-generation'
+  | 'thinkings-generation'
   | 'tool'
   | 'storage'
   | 'ledger'
@@ -68,7 +68,7 @@ export interface ReadingOperationalExecutionState {
   ptrrStepName?: string;
   failsafe?: string;
   generation?: string;
-  thricifiedGenerationId?: string;
+  thinkingsGenerationId?: string;
   tool?: string | { name?: string; toolId?: string };
   promptTemplateId?: string;
   outputSchema?: string;
@@ -328,13 +328,13 @@ function pipelineTraceEvents(input: {
       metadata: { stores: trace.stores, telemetry: trace.telemetry, kind: trace.kind },
     }));
 
-    for (const generation of trace.thricifiedGenerations) {
+    for (const generation of trace.thinkingsGenerations) {
       events.push(streamEvent({
         runId: input.runId,
         timestamp: input.timestamp,
         eventKind: 'failsafe',
         progress: 'completed',
-        message: `${generation.thricifiedGenerationId} Failsafe context observed`,
+        message: `${generation.thinkingsGenerationId} Failsafe context observed`,
         executionState: {
           pipeline: input.pipelineName,
           phaseId: trace.phaseId,
@@ -346,7 +346,7 @@ function pipelineTraceEvents(input: {
           returnType: generation.returnTypes.structuredOutput,
         },
         metadata: {
-          thricifiedGenerationId: generation.thricifiedGenerationId,
+          thinkingsGenerationId: generation.thinkingsGenerationId,
           stores: generation.stores,
           telemetry: generation.telemetry,
         },
@@ -367,9 +367,9 @@ function pipelineTraceEvents(input: {
         events.push(streamEvent({
           runId: input.runId,
           timestamp: input.timestamp,
-          eventKind: 'thricified-generation',
+          eventKind: 'thinkings-generation',
           progress: 'completed',
-          message: `${generation.thricifiedGenerationId}.${generationName} typed inference observed`,
+          message: `${generation.thinkingsGenerationId}.${generationName} typed inference observed`,
           executionState: {
             pipeline: input.pipelineName,
             phaseId: trace.phaseId,
@@ -378,7 +378,7 @@ function pipelineTraceEvents(input: {
             step: trace.ptrrStepName,
             failsafe: generation.failsafe,
             generation: generationName,
-            thricifiedGenerationId: generation.thricifiedGenerationId,
+            thinkingsGenerationId: generation.thinkingsGenerationId,
             promptTemplateId,
             outputSchema: returnType,
             returnType,
@@ -645,7 +645,7 @@ function runbookHooksFor(input: ReadingOperationalTelemetryRepairReadbackInput):
     {
       hookId: 'open-rich-execution-log',
       label: 'Open the rich execution log and inspect source-safe event metadata.',
-      triggerEventKinds: ['phase', 'ptrr-agent', 'ptrr-step', 'failsafe', 'thricified-generation', 'tool'],
+      triggerEventKinds: ['phase', 'ptrr-agent', 'ptrr-step', 'failsafe', 'thinkings-generation', 'tool'],
       repairActions: ['inspect_source_safe_execution_state'],
     },
     {
@@ -712,7 +712,7 @@ function eventCounts(events: ReadingOperationalTelemetryEvent[]): Record<Reading
     'ptrr-agent': 0,
     'ptrr-step': 0,
     failsafe: 0,
-    'thricified-generation': 0,
+    'thinkings-generation': 0,
     tool: 0,
     storage: 0,
     ledger: 0,

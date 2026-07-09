@@ -27,11 +27,6 @@ import { PROMPTPART_GENERIC_FORMATTING_GIVENTHEFOLLOWING } from '@bitcode/prompt
 import { PROMPTPART_GENERIC_FORMATTING_EXECUTETHE_FOLLOWING } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_executethe_following';
 import { PROMPTPART_GENERIC_FORMATTING_BASEDONTHE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_basedonthe';
 import { PROMPTPART_GENERIC_FORMATTING_AFTERENCOUNTERING } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_formatting_afterencountering';
-import { runBoundedStructuredInference } from '../../bounded-structured-inference';
-import {
-  isAssetPackBoundedRealInferenceProfile,
-  shouldUseAssetPackPtrr,
-} from '../../runtime-inference-policy';
 
 const PlanSchema = z.object({
   plan: z.string().describe('High-level plan for Setup context')
@@ -119,97 +114,19 @@ export const ReadFitsFindingSynthesisSetupPlanAgent = factoryAgentWithPTRR<any, 
   refine: { },
   retry: { }
 });
-// Bring-up path: provide a fast stub in test/debug-only mode.
+// Default runner: ALWAYS run the formal PTRR agent. A fast lifecycle stub is
+// kept ONLY under NODE_ENV==='test' (or the explicit debug-only env) so unit
+// tests never reach a live provider; real determinism comes from a boundary
+// LLM mock, never from an inference profile.
 export default async function runReadFitsFindingSynthesisSetupPlanAgent(input: any, execution: any) {
-  const shouldUsePtrr = shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_SETUP_PLAN_USE_PTRR');
-  if (!shouldUsePtrr && isAssetPackBoundedRealInferenceProfile()) {
-    const baseline = buildDeterministicSetupPlan(input, execution);
-    const inferred = await runBoundedStructuredInference({
-      agentName: 'ReadFitsFindingSynthesisSetupPlanAgent',
-      phase: 'setup',
-      step: 'setup-plan',
-      execution,
-      schema: PlanSchema,
-      fallback: () => baseline,
-      promptTemplate: {
-        templateId: 'ReadFitsFindingSynthesis.prompt.setup-plan',
-        system: [
-          'You are the ReadFitsFindingSynthesis setup-plan agent.',
-          'Produce one concise source-bound plan for Finding Fits from an accepted Read-Need through many-candidate Depository search, ranking, AssetPack synthesis context, source-safe preview, and settlement readiness.',
-          'Preserve repository/source revision constraints, accepted Need identity, query/ranking/provenance roots when present, and the distinction between fit deposits and source-bearing AssetPack delivery.',
-          'Do not claim settlement, delivery, BTC finality, BTD rights transfer, or protected source visibility before later phases validate, settle, and finish.',
-          'Respond only with JSON shaped as { "plan": string }.',
-        ].join('\n'),
-        user: JSON.stringify({
-          acceptedReadNeed: '{{acceptedReadNeed}}',
-          read: '{{read}}',
-          repository: '{{repository}}',
-          sourceRevision: '{{sourceRevision}}',
-          fitResult: '{{fitResult}}',
-          searchObjectives: '{{searchObjectives}}',
-          baselinePlan: '{{baselinePlan}}',
-        }, null, 2),
-      },
-      systemPrompt: [
-        'You are the ReadFitsFindingSynthesis setup-plan agent.',
-        'Produce one concise source-bound plan for Finding Fits from an accepted Read-Need through many-candidate Depository search, ranking, AssetPack synthesis context, source-safe preview, and settlement readiness.',
-        'Preserve repository/source revision constraints, accepted Need identity, query/ranking/provenance roots when present, and the distinction between fit deposits and source-bearing AssetPack delivery.',
-        'Do not claim settlement, delivery, BTC finality, BTD rights transfer, or protected source visibility before later phases validate, settle, and finish.',
-        'Respond only with JSON shaped as { "plan": string }.',
-      ].join('\n'),
-      userPrompt: JSON.stringify({
-        acceptedReadNeed: input?.acceptedReadNeed,
-        read: input?.read ?? input?.definitionOfRead,
-        repository: input?.repository ?? input?.sourceRevision,
-        sourceRevision: input?.sourceRevision,
-        fitResult: {
-          resultState: input?.fitResult?.resultState ?? input?.depositorySearchResult?.resultState,
-          selectedCandidateAssetIds:
-            input?.fitResult?.selectedCandidateAssetIds ??
-            input?.depositorySearchResult?.selectedCandidateAssetIds,
-          fitDepositAssetIds:
-            input?.fitResult?.fitDepositAssetIds ??
-            input?.depositorySearchResult?.fitDepositAssetIds,
-          queryRoot: input?.fitResult?.queryRoot ?? input?.depositorySearchResult?.queryRoot,
-          rankingRoot: input?.fitResult?.rankingRoot ?? input?.depositorySearchResult?.rankingRoot,
-          selectedFitProvenanceRoot:
-            input?.fitResult?.selectedFitProvenanceRoot ??
-            input?.depositorySearchResult?.searchReceipt?.selectedFitProvenanceRoot,
-        },
-        searchObjectives: [
-          'derive multi-channel Depository queries from the accepted Need',
-          'search for every candidate above threshold rather than the first fit',
-          'rank candidates with source-safe proof, measurement, and readback evidence',
-          'carry selected fit deposits into AssetPack synthesis without exposing unpaid source',
-        ],
-        baselinePlan: baseline.plan,
-      }, null, 2),
-    });
-    const result = { plan: typeof inferred?.plan === 'string' && inferred.plan.trim() ? inferred.plan : baseline.plan };
-    try {
-      execution?.store?.('setup', 'plan', result.plan);
-      execution?.store?.('setup/plan', 'result', result);
-    } catch {}
-    return result;
-  }
-
-  if (!shouldUsePtrr) {
-    const result = buildDeterministicSetupPlan(input, execution);
-
-    try {
-      execution?.store?.('setup', 'plan', result.plan);
-      execution?.store?.('setup/plan', 'result', result);
-    } catch {}
-
-    return result;
-  }
-
   const onlyFails = String(process?.env?.BITCODE_DEBUG_ONLY_FAILSAFES || '');
   const onlyGens = String(process?.env?.BITCODE_DEBUG_ONLY_GENERATIONS || '');
   const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
   const emitStubLifecycle =
     process?.env?.BITCODE_ENABLE_ASSET_PACK_SETUP_PHASE_RUNTIME_IN_TEST === '1';
   const useStub = isTest || (onlyFails.length > 0 && onlyGens.length > 0);
+
+  let result: z.infer<typeof PlanSchema>;
   if (useStub) {
     if (emitStubLifecycle) {
       try {
@@ -220,7 +137,7 @@ export default async function runReadFitsFindingSynthesisSetupPlanAgent(input: a
         } as any);
       } catch {}
     }
-    const result = { plan: 'Prepare concise context; Reason about setup; Return minimal plan.' };
+    result = { plan: 'Prepare concise context; Reason about setup; Return minimal plan.' };
     if (emitStubLifecycle) {
       try {
         execution?.store?.('agent:ReadFitsFindingSynthesisSetupPlanAgent', 'complete', {
@@ -230,54 +147,18 @@ export default async function runReadFitsFindingSynthesisSetupPlanAgent(input: a
         } as any);
       } catch {}
     }
-    return result;
+  } else {
+    const raw = await ReadFitsFindingSynthesisSetupPlanAgent(input, execution);
+    // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });
+    // unwrap it to the agent's typed structured output.
+    const unwrapped = ((raw as any)?.finalOutput ?? (raw as any)?.output ?? raw) as z.infer<typeof PlanSchema>;
+    result = { plan: typeof unwrapped?.plan === 'string' ? unwrapped.plan : '' };
   }
-  return await ReadFitsFindingSynthesisSetupPlanAgent(input, execution);
-}
 
-function buildDeterministicSetupPlan(input: any, execution: any): z.infer<typeof PlanSchema> {
-  const read =
-    input?.read ??
-    input?.definitionOfRead ??
-    execution?.get?.('pipeline', 'expressedRead') ??
-    execution?.get?.('read', 'description') ??
-    'unspecified Bitcode Read';
-  const repository =
-    input?.repository?.fullName ??
-    input?.sourceRevision?.repositoryFullName ??
-    [
-      execution?.get?.('repository', 'owner'),
-      execution?.get?.('repository', 'name')
-    ].filter(Boolean).join('/') ??
-    'unknown repository';
-  const branch =
-    input?.repository?.branch ??
-    input?.sourceRevision?.branch ??
-    execution?.get?.('repository', 'branch') ??
-    'unknown branch';
-  const commit =
-    input?.repository?.commit ??
-    input?.sourceRevision?.commit ??
-    execution?.get?.('repository', 'commit') ??
-    'unknown commit';
-  const fitState =
-    input?.fitResult?.resultState ??
-    input?.depositorySearchResult?.resultState ??
-    'not-yet-classified';
-  const selectedCandidates =
-    input?.fitResult?.selectedCandidateAssetIds ??
-    input?.depositorySearchResult?.selectedCandidateAssetIds ??
-    [];
-  const candidateText =
-    Array.isArray(selectedCandidates) && selectedCandidates.length
-      ? selectedCandidates.join(', ')
-      : 'no selected candidate';
-  const plan = [
-    `Read: ${String(read)}`,
-    `Repository: ${repository}@${branch}:${commit}`,
-    `Fit state: ${fitState}; candidate assets: ${candidateText}.`,
-    'Setup plan: preserve accepted Read-Need and source revision evidence, derive multi-channel Depository search, rank every candidate above threshold with query/ranking/provenance roots, synthesize one source-safe Read-satisfaction AssetPack only from selected fit deposits, validate proof and preview boundaries, then finish with auditable settlement and delivery evidence after payment unlock.'
-  ].join('\n');
+  try {
+    execution?.store?.('setup', 'plan', result.plan);
+    execution?.store?.('setup/plan', 'result', result);
+  } catch {}
 
-  return { plan };
+  return result;
 }

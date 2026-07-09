@@ -5,7 +5,7 @@ import {
 } from '../reading-pipeline-contract';
 
 describe('V32 Reading pipeline proof coverage', () => {
-  it('keeps every Reading agent as a PTRR agent with four typed steps and three ThricifiedGeneration substeps', () => {
+  it('keeps every Reading agent as a PTRR agent with four typed steps and three ThinkingsGeneration substeps', () => {
     for (const contract of READING_PIPELINE_CONTRACTS) {
       for (const phase of contract.phases) {
         for (const agent of phase.agents) {
@@ -14,10 +14,10 @@ describe('V32 Reading pipeline proof coverage', () => {
           for (const step of agent.ptrrSteps) {
             expect(step.inputType).toBeTruthy();
             expect(step.outputType).toBeTruthy();
-            expect(step.thricifiedGenerations).toHaveLength(3);
-            for (const generation of step.thricifiedGenerations) {
-              const expectedPromptBaseId = generation.thricifiedGenerationId.replace(
-                '.thricified-generation.',
+            expect(step.thinkingsGenerations).toHaveLength(3);
+            for (const generation of step.thinkingsGenerations) {
+              const expectedPromptBaseId = generation.thinkingsGenerationId.replace(
+                '.thinkings-generation.',
                 '.prompt.',
               );
               expect(generation.returnTypes).toEqual({
@@ -95,7 +95,16 @@ describe('V32 Reading pipeline proof coverage', () => {
       .find((phase) => phase.phaseId === 'ReadNeedComprehensionSynthesis.review')!
       .agents[0];
     expect(reviewAgent.returnType).toBe('ReadNeedReviewState');
-    expect(reviewAgent.ptrrSteps.every((step) => step.outputType === 'AcceptedReadNeed | RejectedReadNeed | ResynthesisRequestedReadNeed')).toBe(true);
+    // Step outputs validate against STEP schemas: plan returns the canonical
+    // plan shape; try/refine/retry return the agent output type.
+    expect(
+      reviewAgent.ptrrSteps.every((step) =>
+        step.outputType ===
+        (step.ptrrStepName === 'plan'
+          ? 'PlanStepOutput'
+          : 'AcceptedReadNeed | RejectedReadNeed | ResynthesisRequestedReadNeed'),
+      ),
+    ).toBe(true);
 
     const admitTry = READ_FITS_FINDING_SYNTHESIS_CONTRACT.phases
       .find((phase) => phase.phaseId === 'ReadFitsFindingSynthesis.admit')!

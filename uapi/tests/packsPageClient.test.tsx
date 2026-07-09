@@ -69,7 +69,7 @@ describe("PacksPageClient", () => {
             },
             governance: {
               state: "allowed",
-              route: "/read",
+              route: "/reads",
               walletState: "verified",
               spendState: "within-limit",
               depositState: "not-applicable",
@@ -144,7 +144,7 @@ describe("PacksPageClient", () => {
           },
           governance: {
             state: "allowed",
-            route: "/read",
+            route: "/reads",
             walletState: "verified",
             spendState: "within-limit",
             depositState: "not-applicable",
@@ -293,12 +293,45 @@ describe("PacksPageClient", () => {
       { scroll: false },
     );
 
+    // /packs is the actual-AssetPacks ledger (V48 Gate 3): the type dropdown
+    // only offers the two real-AssetPack types, not every pipeline activity
+    // kind (those stay on /deposits).
     fireEvent.change(screen.getByLabelText("Activity type"), {
-      target: { value: "settlement" },
+      target: { value: "settled-assetpack" },
     });
     expect(mockReplace).toHaveBeenCalledWith(
-      "/packs?q=rollback&type=settlement",
+      "/packs?q=rollback&type=settled-assetpack",
       { scroll: false },
     );
+  });
+
+  it("always queries network scope, even if the URL carries a different scope (V48 Gate 3)", async () => {
+    // /packs is ALWAYS the actual-AssetPacks (network-scope) ledger — never
+    // user- or URL-widenable back to personal pipeline activity, which is
+    // /deposits' job.
+    mockQuery = "q=rollback&scope=personal";
+    const fetchMock = jest.fn(async () => ({
+      ok: true,
+      json: async () => ({
+        ok: true,
+        records: [],
+        detail: null,
+        summary: { total: 0, types: {}, settlementReady: 0, compensationReady: 0 },
+        marketIntelligence: { positions: [], signals: [] },
+      }),
+    }));
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    render(<PacksPageClient />);
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalled());
+    const requestedUrl = new URL(
+      String(fetchMock.mock.calls[0][0]),
+      "http://localhost",
+    );
+    expect(requestedUrl.searchParams.get("scope")).toBe("network");
+
+    // The scope dropdown is gone entirely — there is nothing to widen back.
+    expect(screen.queryByLabelText("Visibility scope")).not.toBeInTheDocument();
   });
 });

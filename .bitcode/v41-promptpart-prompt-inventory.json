@@ -5,7 +5,7 @@
   "currentTarget": "V40",
   "generatedAt": "2026-05-26T00:00:00.000Z",
   "artifactPath": ".bitcode/v41-promptpart-prompt-inventory.json",
-  "artifactRoot": "v41-promptpart-prompt-inventory:296926f1c26d370f7e91a70d",
+  "artifactRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
   "sourceSafetyVerdict": "source-safe-promptpart-prompt-inventory-metadata",
   "sourceSafety": {
     "sourceSafeMetadataOnly": true,
@@ -196,8 +196,8 @@
       "raw_provider_response_private"
     ],
     "promptPartRowCount": 1459,
-    "promptRowCount": 105,
-    "totalRowCount": 1564,
+    "promptRowCount": 110,
+    "totalRowCount": 1569,
     "genericPromptPartCount": 59,
     "specificPromptPartCount": 1400,
     "promptRowsByKind": {
@@ -205,7 +205,7 @@
       "PTRRAgentPrompt": 15,
       "ConversationPrompt": 1,
       "BenchmarkPrompt": 9,
-      "ComposedPrompt": 10
+      "ComposedPrompt": 15
     },
     "promptPartRowsByFamily": {
       "GenericPTRRFailsafeThricifiedPromptParts": 59,
@@ -220,20 +220,20 @@
       "Conversation": 2,
       "GenericPTRRFailsafeThricifiedPromptParts": 79,
       "PromptBenchmark": 9,
-      "ReadFitsFindingSynthesis": 7,
+      "ReadFitsFindingSynthesis": 12,
       "ToolDefinition": 5
     },
-    "readingPromptRowCount": 49,
+    "readingPromptRowCount": 54,
     "conversationPromptRowCount": 2,
     "toolPromptRowCount": 74,
     "interfacePromptRowCount": 10,
     "promptPartRowsWithDocComments": 1459,
     "promptRowsWithDocComments": 79,
     "promptPartExportCount": 1459,
-    "promptConstructionCount": 186,
-    "promptRowsWithRegistryPaths": 87,
-    "registryPathCount": 1135,
-    "templateVariableNameCount": 14,
+    "promptConstructionCount": 190,
+    "promptRowsWithRegistryPaths": 92,
+    "registryPathCount": 1163,
+    "templateVariableNameCount": 2,
     "benchmarkFixtureCount": 8,
     "sourceRootCount": 27,
     "sourceRootPresentCount": 27,
@@ -51315,7 +51315,7 @@
       "rowRoot": "v41-prompt-inventory-row:573be5be0e048abd8a2a6d27",
       "kind": "PTRRAgentPrompt",
       "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
-      "sourceHash": "812890951c93fa4b4efbb7dc",
+      "sourceHash": "c1fb960ed573bdf1f5adfa33",
       "exportNames": [],
       "classNames": [],
       "registryOwner": "ConversationPromptRegistry",
@@ -56341,6 +56341,114 @@
       "sourceSafeMetadataOnly": true
     },
     {
+      "inventoryId": "prompt:deposit-codebase-comprehension-agent",
+      "rowRoot": "v41-prompt-inventory-row:dfc0b3b6f6cfae61b0acfb65",
+      "kind": "ComposedPrompt",
+      "sourcePath": "packages/pipelines/asset-pack/src/agents/discovery/deposit-codebase-comprehension-agent.ts",
+      "sourceHash": "57b25281dc9bb3427df8de04",
+      "exportNames": [],
+      "classNames": [],
+      "registryOwner": "ReadPipelinePromptRegistry",
+      "semanticPurposeId": "deposit-codebase-comprehension-agent",
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis"
+      ],
+      "composedPromptMemberships": [],
+      "promptPartReferenceIds": [],
+      "registryPathIds": [
+        "agent:identity",
+        "agent:requirements",
+        "ptrr:plan",
+        "ptrr:refine",
+        "ptrr:retry",
+        "ptrr:try"
+      ],
+      "registryPathCount": 6,
+      "templateVariableNames": [],
+      "benchmarkFixtureIds": [
+        "fixture.read-fits.find-many-candidates-and-preserve-source-safety"
+      ],
+      "disclosureTier": "prompt_identity_source_safe",
+      "validationCommand": "pnpm run check:v41-gate6",
+      "docCommentPresent": false,
+      "promptConstructionCount": 1,
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "sourceSafeMetadataOnly": true
+    },
+    {
+      "inventoryId": "prompt:deposit-depository-search-agent",
+      "rowRoot": "v41-prompt-inventory-row:ab31e4f43f8aaf3e33a5a720",
+      "kind": "ComposedPrompt",
+      "sourcePath": "packages/pipelines/asset-pack/src/agents/discovery/deposit-depository-search-agent.ts",
+      "sourceHash": "2243f52d27532bd26aabd781",
+      "exportNames": [],
+      "classNames": [],
+      "registryOwner": "ReadPipelinePromptRegistry",
+      "semanticPurposeId": "deposit-depository-search-agent",
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis"
+      ],
+      "composedPromptMemberships": [],
+      "promptPartReferenceIds": [],
+      "registryPathIds": [
+        "agent:identity",
+        "agent:requirements",
+        "ptrr:plan",
+        "ptrr:refine",
+        "ptrr:retry",
+        "ptrr:try"
+      ],
+      "registryPathCount": 6,
+      "templateVariableNames": [],
+      "benchmarkFixtureIds": [
+        "fixture.read-fits.find-many-candidates-and-preserve-source-safety"
+      ],
+      "disclosureTier": "prompt_identity_source_safe",
+      "validationCommand": "pnpm run check:v41-gate6",
+      "docCommentPresent": false,
+      "promptConstructionCount": 1,
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "sourceSafeMetadataOnly": true
+    },
+    {
+      "inventoryId": "prompt:deposit-inherent-regurgitation-agent",
+      "rowRoot": "v41-prompt-inventory-row:3608b0072da08d51bc53a6d8",
+      "kind": "ComposedPrompt",
+      "sourcePath": "packages/pipelines/asset-pack/src/agents/discovery/deposit-inherent-regurgitation-agent.ts",
+      "sourceHash": "803feef8f81d6baa0074d863",
+      "exportNames": [],
+      "classNames": [],
+      "registryOwner": "ReadPipelinePromptRegistry",
+      "semanticPurposeId": "deposit-inherent-regurgitation-agent",
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis"
+      ],
+      "composedPromptMemberships": [],
+      "promptPartReferenceIds": [],
+      "registryPathIds": [
+        "agent:identity",
+        "agent:requirements",
+        "ptrr:plan",
+        "ptrr:refine",
+        "ptrr:retry",
+        "ptrr:try"
+      ],
+      "registryPathCount": 6,
+      "templateVariableNames": [],
+      "benchmarkFixtureIds": [
+        "fixture.read-fits.find-many-candidates-and-preserve-source-safety"
+      ],
+      "disclosureTier": "prompt_identity_source_safe",
+      "validationCommand": "pnpm run check:v41-gate6",
+      "docCommentPresent": false,
+      "promptConstructionCount": 1,
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "sourceSafeMetadataOnly": true
+    },
+    {
       "inventoryId": "prompt:asset-pack-finish-create-pull-request-delivery-agent",
       "rowRoot": "v41-prompt-inventory-row:e29c10d7683981a81b5b6bd3",
       "kind": "ComposedPrompt",
@@ -56511,7 +56619,7 @@
       "rowRoot": "v41-prompt-inventory-row:6184668cb7cae7dae681bd4a",
       "kind": "ComposedPrompt",
       "sourcePath": "packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts",
-      "sourceHash": "8d6bec0fe0e326f2e6d4c15a",
+      "sourceHash": "79e1ab448ff36b5a82a724e6",
       "exportNames": [],
       "classNames": [],
       "registryOwner": "ReadPipelinePromptRegistry",
@@ -56555,18 +56663,53 @@
       "sourceSafeMetadataOnly": true
     },
     {
+      "inventoryId": "prompt:deposit-asset-pack-synthesis-agent",
+      "rowRoot": "v41-prompt-inventory-row:7d88426064b26c01be15b0de",
+      "kind": "ComposedPrompt",
+      "sourcePath": "packages/pipelines/asset-pack/src/agents/implementation/deposit-asset-pack-synthesis-agent.ts",
+      "sourceHash": "a4460af98092aac5b2d2a198",
+      "exportNames": [],
+      "classNames": [],
+      "registryOwner": "ReadPipelinePromptRegistry",
+      "semanticPurposeId": "deposit-asset-pack-synthesis-agent",
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis"
+      ],
+      "composedPromptMemberships": [],
+      "promptPartReferenceIds": [],
+      "registryPathIds": [
+        "agent:identity",
+        "agent:requirements",
+        "ptrr:plan",
+        "ptrr:refine",
+        "ptrr:retry",
+        "ptrr:try"
+      ],
+      "registryPathCount": 6,
+      "templateVariableNames": [],
+      "benchmarkFixtureIds": [
+        "fixture.read-fits.find-many-candidates-and-preserve-source-safety"
+      ],
+      "disclosureTier": "prompt_identity_source_safe",
+      "validationCommand": "pnpm run check:v41-gate6",
+      "docCommentPresent": false,
+      "promptConstructionCount": 1,
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "sourceSafeMetadataOnly": true
+    },
+    {
       "inventoryId": "prompt:read-fits-finding-synthesis-asset-pack-synthesis-agent",
       "rowRoot": "v41-prompt-inventory-row:d7936c9e095da81af9c49cc0",
       "kind": "ComposedPrompt",
       "sourcePath": "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
-      "sourceHash": "80d7185a2ecedd5d71880a27",
+      "sourceHash": "e4ca2a51636c21a9bf4c911d",
       "exportNames": [],
       "classNames": [],
       "registryOwner": "ReadPipelinePromptRegistry",
       "semanticPurposeId": "read-fits-finding-synthesis-asset-pack-synthesis-agent",
       "promptFamilyIds": [
-        "ReadFitsFindingSynthesis",
-        "ReadNeedComprehensionSynthesis"
+        "ReadFitsFindingSynthesis"
       ],
       "composedPromptMemberships": [
         "PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_IDENTITY_DEFINITION",
@@ -56593,23 +56736,12 @@
         "ptrr:try"
       ],
       "registryPathCount": 6,
-      "templateVariableNames": [
-        "acceptedReadNeed",
-        "baselineProofEvidence",
-        "deliveryMechanismTemplate",
-        "fitResult",
-        "read",
-        "requestedShape",
-        "selectedFitProvenanceRoot",
-        "sourceRevision",
-        "sourceSafeBoundary"
-      ],
+      "templateVariableNames": [],
       "benchmarkFixtureIds": [
-        "fixture.read-fits.find-many-candidates-and-preserve-source-safety",
-        "fixture.read-need.need-boundary-precision"
+        "fixture.read-fits.find-many-candidates-and-preserve-source-safety"
       ],
       "disclosureTier": "prompt_identity_source_safe",
-      "validationCommand": "pnpm run check:v41-gate5",
+      "validationCommand": "pnpm run check:v41-gate6",
       "docCommentPresent": false,
       "promptConstructionCount": 1,
       "rawPromptTextSerialized": false,
@@ -58173,19 +58305,54 @@
       "sourceSafeMetadataOnly": true
     },
     {
+      "inventoryId": "prompt:deposit-input-comprehension-agent",
+      "rowRoot": "v41-prompt-inventory-row:08ca9d9445638bc694fd2863",
+      "kind": "ComposedPrompt",
+      "sourcePath": "packages/pipelines/asset-pack/src/agents/setup/deposit-input-comprehension-agent.ts",
+      "sourceHash": "2bc7a20d54150140853eefd5",
+      "exportNames": [],
+      "classNames": [],
+      "registryOwner": "ReadPipelinePromptRegistry",
+      "semanticPurposeId": "deposit-input-comprehension-agent",
+      "promptFamilyIds": [
+        "ReadFitsFindingSynthesis"
+      ],
+      "composedPromptMemberships": [],
+      "promptPartReferenceIds": [],
+      "registryPathIds": [
+        "agent:identity",
+        "agent:requirements",
+        "ptrr:plan",
+        "ptrr:refine",
+        "ptrr:retry",
+        "ptrr:try"
+      ],
+      "registryPathCount": 6,
+      "templateVariableNames": [],
+      "benchmarkFixtureIds": [
+        "fixture.read-fits.find-many-candidates-and-preserve-source-safety"
+      ],
+      "disclosureTier": "prompt_identity_source_safe",
+      "validationCommand": "pnpm run check:v41-gate6",
+      "docCommentPresent": false,
+      "promptConstructionCount": 1,
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "sourceSafeMetadataOnly": true
+    },
+    {
       "inventoryId": "prompt:read-fits-finding-synthesis-setup-plan-agent",
       "rowRoot": "v41-prompt-inventory-row:400b113f7127027ca8c5fd10",
       "kind": "ComposedPrompt",
       "sourcePath": "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
-      "sourceHash": "2188782b86b311739970d665",
+      "sourceHash": "c10ce62aeee327689683d323",
       "exportNames": [],
       "classNames": [],
       "registryOwner": "ReadPipelinePromptRegistry",
       "semanticPurposeId": "read-fits-finding-synthesis-setup-plan-agent",
       "promptFamilyIds": [
         "GenericPTRRFailsafeThricifiedPromptParts",
-        "ReadFitsFindingSynthesis",
-        "ReadNeedComprehensionSynthesis"
+        "ReadFitsFindingSynthesis"
       ],
       "composedPromptMemberships": [
         "PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT",
@@ -58236,22 +58403,13 @@
         "pipeline"
       ],
       "registryPathCount": 12,
-      "templateVariableNames": [
-        "acceptedReadNeed",
-        "baselinePlan",
-        "fitResult",
-        "read",
-        "repository",
-        "searchObjectives",
-        "sourceRevision"
-      ],
+      "templateVariableNames": [],
       "benchmarkFixtureIds": [
         "fixture.generic-ptrr.reason-judge-structured-output",
-        "fixture.read-fits.find-many-candidates-and-preserve-source-safety",
-        "fixture.read-need.need-boundary-precision"
+        "fixture.read-fits.find-many-candidates-and-preserve-source-safety"
       ],
       "disclosureTier": "prompt_identity_source_safe",
-      "validationCommand": "pnpm run check:v41-gate5",
+      "validationCommand": "pnpm run check:v41-gate6",
       "docCommentPresent": false,
       "promptConstructionCount": 5,
       "rawPromptTextSerialized": false,
@@ -58263,7 +58421,7 @@
       "rowRoot": "v41-prompt-inventory-row:f4bafebeff37fd66cb7ae5d4",
       "kind": "PTRRAgentPrompt",
       "sourcePath": "packages/pipelines/asset-pack/src/agents/validation-agents.ts",
-      "sourceHash": "1c9731a3863317ba330f4de7",
+      "sourceHash": "aea57cc0c132771f93728cbc",
       "exportNames": [],
       "classNames": [],
       "registryOwner": "ReadPipelinePromptRegistry",
@@ -58295,31 +58453,29 @@
       "sourceSafeMetadataOnly": true
     },
     {
-      "inventoryId": "prompt:asset-pack-ready-to-instruct-agent",
-      "rowRoot": "v41-prompt-inventory-row:7bf243cfc2a9a79f5073186e",
+      "inventoryId": "prompt:deposit-validation-agent",
+      "rowRoot": "v41-prompt-inventory-row:eb292539c7a3c6dd87ca86b5",
       "kind": "ComposedPrompt",
-      "sourcePath": "packages/pipelines/asset-pack/src/agents/validation/asset-pack-ready-to-instruct-agent.ts",
-      "sourceHash": "505d464172816ff84353c8b7",
+      "sourcePath": "packages/pipelines/asset-pack/src/agents/validation/deposit-validation-agent.ts",
+      "sourceHash": "13021ff40403e5bcdfdfd0a7",
       "exportNames": [],
       "classNames": [],
       "registryOwner": "ReadPipelinePromptRegistry",
-      "semanticPurposeId": "asset-pack-ready-to-instruct-agent",
+      "semanticPurposeId": "deposit-validation-agent",
       "promptFamilyIds": [
         "ReadFitsFindingSynthesis"
       ],
       "composedPromptMemberships": [],
       "promptPartReferenceIds": [],
       "registryPathIds": [
-        "agent/constraints",
-        "agent/identity",
-        "agent/purpose",
-        "ptrr/plan/purpose",
-        "ptrr/refine/purpose",
-        "ptrr/retry/purpose",
-        "ptrr/try/purpose",
-        "step/purpose"
+        "agent:identity",
+        "agent:requirements",
+        "ptrr:plan",
+        "ptrr:refine",
+        "ptrr:retry",
+        "ptrr:try"
       ],
-      "registryPathCount": 8,
+      "registryPathCount": 6,
       "templateVariableNames": [],
       "benchmarkFixtureIds": [
         "fixture.read-fits.find-many-candidates-and-preserve-source-safety"
@@ -58327,7 +58483,7 @@
       "disclosureTier": "prompt_identity_source_safe",
       "validationCommand": "pnpm run check:v41-gate6",
       "docCommentPresent": false,
-      "promptConstructionCount": 2,
+      "promptConstructionCount": 1,
       "rawPromptTextSerialized": false,
       "rawProviderResponseSerialized": false,
       "sourceSafeMetadataOnly": true

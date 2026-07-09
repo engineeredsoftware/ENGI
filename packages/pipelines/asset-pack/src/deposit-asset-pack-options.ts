@@ -19,8 +19,8 @@ export interface DepositOptionSynthesisRequest {
   repositoryFullName?: string | null;
   sourceBranch?: string | null;
   sourceCommit?: string | null;
-  depositorInstructions?: string | null;
-  sourcePathHints?: string[] | null;
+  obfuscations?: string | null;
+  forcedInclusions?: string[] | null;
   depositoryDemandSignals?: DepositOptionDemandSignal[] | null;
   readingDemandSignals?: DepositOptionDemandSignal[] | null;
   existingDepositorySignals?: DepositOptionDemandSignal[] | null;
@@ -30,9 +30,18 @@ export interface DepositOptionSynthesisRequest {
 export interface DepositAssetPackOptionMeasurement {
   id: string;
   label: string;
-  measurementKind: 'source-coverage' | 'demand-alignment' | 'reuse-likelihood';
+  // V48 Gate 3: widened to the absolutes catalog kinds (function-count, type-count,
+  // file-span, correctness-estimate, semantic-volume) — the formal measurements —
+  // as well as the legacy placeholder kinds the deterministic blueprint emits.
+  measurementKind: string;
   weight: number;
   volume: number;
+  /** Which measurement category — absolutes form the weighted composite. */
+  category?: 'absolute' | 'neediness';
+  /** Raw count for size measurements (functions / types / files). */
+  magnitude?: number;
+  /** functions | types | files | estimate | normalized. */
+  unit?: string;
   evidenceRoot: string;
 }
 
@@ -59,6 +68,27 @@ export interface DepositAssetPackOption {
     confidence: number;
   };
   measurements: DepositAssetPackOptionMeasurement[];
+  // V48 Gate 3 — the deposit-decision payload: what Bitcode RECEIVES if this AP is
+  // deposited. The synthesized AP CONTENTS (source-safe patch descriptor) and the
+  // PROVENANT SOURCE (covered files that become available for future reader
+  // settlement). Shown to the depositor, who owns the source. Source-safe: path+op
+  // + summary + the depositor's own paths only — never raw source/code. Absent
+  // (null) on the deterministic blueprint synthesis.
+  contents?: {
+    patchSummary: string;
+    fileChanges: Array<{ path: string; op: string }>;
+    provenantSourcePaths: string[];
+    provenantSourceCount: number;
+  } | null;
+  // Deposit neediness PREVIEW (v0): the read-demand estimate (0..1) — the
+  // deposit-side preview of read Need-fit / earning potential. Separate from the
+  // absolute `measurements` composite; absent (null) when no signal was produced.
+  neediness?: {
+    volume: number;
+    demand: number;
+    saturation: number;
+    rationale: string;
+  } | null;
   reviewBoundary: {
     state: DepositAssetPackOptionReviewState;
     decision: 'pending-depositor-review';
@@ -86,6 +116,8 @@ export interface DepositAssetPackOption {
     sourceBindingRoot: string;
     demandAlignmentRoot: string;
     measurementRoot: string;
+    contentsRoot?: string | null;
+    needinessRoot?: string | null;
     reviewBoundaryRoot: string;
   };
 }
@@ -115,7 +147,7 @@ export interface DepositAssetPackOptionSynthesis {
     walletPrivateMaterialVisible: false;
   };
   reviewBoundary: {
-    route: '/deposit';
+    route: '/deposits';
     defaultDecisionState: 'pending-depositor-review';
     approvedOptionsAdmittedBy: 'future-gate7-deposit-option-review';
     sourceCriticalityDemandRoiPolicyOwnedBy: 'future-gate6-policy';
@@ -270,12 +302,12 @@ export function buildDepositAssetPackOptionSynthesis(
   const repositoryFullName = normalizedText(request.repositoryFullName);
   const sourceBranch = normalizedText(request.sourceBranch);
   const sourceCommit = normalizedText(request.sourceCommit);
-  const depositorInstructions = normalizedText(request.depositorInstructions);
-  const sourcePathHints = normalizedList(request.sourcePathHints);
+  const obfuscations = normalizedText(request.obfuscations);
+  const forcedInclusions = normalizedList(request.forcedInclusions);
   const depositoryDemandSignals = normalizedSignals(request.depositoryDemandSignals);
   const readingDemandSignals = normalizedSignals(request.readingDemandSignals);
   const existingDepositorySignals = normalizedSignals(request.existingDepositorySignals);
-  const sourcePathRoots = sourcePathHints.map((path) => root('deposit-option-source-path', path));
+  const sourcePathRoots = forcedInclusions.map((path) => root('deposit-option-source-path', path));
   const hasRepository = Boolean(repositoryFullName);
   const hasRevision = Boolean(sourceBranch && sourceCommit);
   const signalCount =
@@ -285,7 +317,7 @@ export function buildDepositAssetPackOptionSynthesis(
     repositoryFullName,
     sourceBranch,
     sourceCommit,
-    depositorInstructionRoot: depositorInstructions ? root('deposit-option-instructions', depositorInstructions) : null,
+    depositorInstructionRoot: obfuscations ? root('deposit-option-instructions', obfuscations) : null,
     sourcePathRoots,
     depositoryDemandSignals,
     readingDemandSignals,
@@ -395,7 +427,7 @@ export function buildDepositAssetPackOptionSynthesis(
       repositoryFullName,
       sourceBranch,
       sourceCommit,
-      depositorInstructionRoot: depositorInstructions ? root('deposit-option-instructions', depositorInstructions) : null,
+      depositorInstructionRoot: obfuscations ? root('deposit-option-instructions', obfuscations) : null,
       sourcePathRoots,
     },
     options,
@@ -411,7 +443,7 @@ export function buildDepositAssetPackOptionSynthesis(
       walletPrivateMaterialVisible: false,
     },
     reviewBoundary: {
-      route: '/deposit',
+      route: '/deposits',
       defaultDecisionState: 'pending-depositor-review',
       approvedOptionsAdmittedBy: 'future-gate7-deposit-option-review',
       sourceCriticalityDemandRoiPolicyOwnedBy: 'future-gate6-policy',
@@ -432,7 +464,7 @@ export function assertDepositAssetPackOptionSynthesisSourceSafe(
   const sourceSafe =
     synthesis.schema === 'bitcode.deposit.asset-pack-option-synthesis' &&
     synthesis.pipeline === 'DepositAssetPackOptionSynthesis' &&
-    synthesis.reviewBoundary.route === '/deposit' &&
+    synthesis.reviewBoundary.route === '/deposits' &&
     synthesis.sourceSafety.sourceSafeMetadataOnly === true &&
     synthesis.sourceSafety.protectedSourceVisible === false &&
     synthesis.sourceSafety.rawSourceTextVisible === false &&

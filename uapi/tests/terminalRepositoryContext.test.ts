@@ -84,6 +84,26 @@ describe('Terminal repository context helpers', () => {
         null,
       ),
     ).toBe('abc123');
+    // Explicit "latest" sentinel also resolves to the branch head.
+    expect(
+      deriveSelectedCommit(
+        [
+          {
+            sha: 'abc123',
+            message: 'head',
+            author: { name: 'Dev', email: 'dev@example.com', date: new Date('2026-05-14T00:00:00.000Z') },
+            parents: [],
+          },
+          {
+            sha: 'def456',
+            message: 'older',
+            author: { name: 'Dev', email: 'dev@example.com', date: new Date('2026-05-13T00:00:00.000Z') },
+            parents: [],
+          },
+        ],
+        'latest',
+      ),
+    ).toBe('abc123');
     expect(
       deriveSelectedCommit(
         [
@@ -100,5 +120,6 @@ describe('Terminal repository context helpers', () => {
     expect(deriveSelectedCommit([], '07de275b3d97679321f1f596c16e48105d81d51b')).toBe(
       '07de275b3d97679321f1f596c16e48105d81d51b',
     );
+    expect(deriveSelectedCommit([], 'latest')).toBeNull();
   });
 });

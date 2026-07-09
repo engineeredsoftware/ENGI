@@ -5,7 +5,7 @@
   "currentTarget": "V37",
   "generatedAt": "2026-05-24T00:00:00.000Z",
   "artifactPath": ".bitcode/v38-disclosure-boundary-report.json",
-  "artifactRoot": "v38-inference-telemetry-disclosure-report:b55a6ec83a421313cde9483c",
+  "artifactRoot": "v38-inference-telemetry-disclosure-report:6b52c044d55df62ac1b0db97",
   "sourceSafetyVerdict": "source-safe-inference-telemetry-disclosure-metadata",
   "passed": true,
   "failures": [],
@@ -296,8 +296,8 @@
       "eventKindId": "thricified-generation-lifecycle",
       "label": "ThricifiedGeneration Reason/Judge/StructuredOutput rows",
       "sourceRoots": [
-        "packages/agent-generics/src/steps/thricified-generation.ts",
-        "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
+        "packages/agent-generics/src/steps/thinkings-generation.ts",
+        "packages/pipelines/asset-pack/src/read-need.ts",
         "packages/agent-generics/src/diagnostics/instrumentation.ts",
         "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts"
       ],
@@ -468,7 +468,7 @@
       "label": "Prompt template identity and interpolated prompt boundary rows",
       "sourceRoots": [
         "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
-        "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
+        "packages/pipelines/asset-pack/src/read-need.ts",
         "uapi/app/terminal/terminal-pipeline-harness-client.ts",
         "uapi/tests/terminalPipelineHarnessClient.test.ts",
         "packages/protocol/src/canonical/prompt-benchmark-report.js"
@@ -544,8 +544,8 @@
       "label": "Raw response root, parsed typed output shape, and schema verdict rows",
       "sourceRoots": [
         "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
-        "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
-        "packages/pipelines/asset-pack/src/__tests__/bounded-structured-inference.test.ts",
+        "packages/pipelines/asset-pack/src/read-need.ts",
+        "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts",
         "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts",
         "uapi/tests/terminalPipelineHarnessClient.test.ts"
       ],
@@ -765,7 +765,7 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
       "exists": true,
       "legacy": false
     },
@@ -795,7 +795,7 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
+      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
       "exists": true,
       "legacy": false
     },
@@ -810,7 +810,7 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/bounded-structured-inference.test.ts",
+      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts",
       "exists": true,
       "legacy": false
     },
@@ -1018,7 +1018,7 @@
     {
       "id": "telemetry:thricified-generation-lifecycle.source-roots-present",
       "rowId": "telemetry:thricified-generation-lifecycle",
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts,packages/pipelines/asset-pack/src/bounded-structured-inference.ts,packages/agent-generics/src/diagnostics/instrumentation.ts,packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts,packages/pipelines/asset-pack/src/read-need.ts,packages/agent-generics/src/diagnostics/instrumentation.ts,packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
       "passed": true
     },
     {
@@ -1048,13 +1048,13 @@
     {
       "id": "generation.source-stores-prompt-template-and-interpolated-prompt",
       "rowId": "telemetry:thricified-generation-lifecycle",
-      "sourcePath": "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
+      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
       "passed": true
     },
     {
       "id": "generation.source-stores-raw-and-parsed-output",
       "rowId": "telemetry:thricified-generation-lifecycle",
-      "sourcePath": "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
+      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
       "passed": true
     },
     {
@@ -1120,7 +1120,7 @@
     {
       "id": "telemetry:prompt-template-interpolation.source-roots-present",
       "rowId": "telemetry:prompt-template-interpolation",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts,packages/pipelines/asset-pack/src/bounded-structured-inference.ts,uapi/app/terminal/terminal-pipeline-harness-client.ts,uapi/tests/terminalPipelineHarnessClient.test.ts,packages/protocol/src/canonical/prompt-benchmark-report.js",
+      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts,packages/pipelines/asset-pack/src/read-need.ts,uapi/app/terminal/terminal-pipeline-harness-client.ts,uapi/tests/terminalPipelineHarnessClient.test.ts,packages/protocol/src/canonical/prompt-benchmark-report.js",
       "passed": true
     },
     {
@@ -1168,7 +1168,7 @@
     {
       "id": "telemetry:raw-response-parsed-output-schema.source-roots-present",
       "rowId": "telemetry:raw-response-parsed-output-schema",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts,packages/pipelines/asset-pack/src/bounded-structured-inference.ts,packages/pipelines/asset-pack/src/__tests__/bounded-structured-inference.test.ts,packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts,uapi/tests/terminalPipelineHarnessClient.test.ts",
+      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts,packages/pipelines/asset-pack/src/read-need.ts,packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts,packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts,uapi/tests/terminalPipelineHarnessClient.test.ts",
       "passed": true
     },
     {
@@ -1198,7 +1198,7 @@
     {
       "id": "schema.tests-cover-raw-and-parsed-output-evidence",
       "rowId": "telemetry:raw-response-parsed-output-schema",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/bounded-structured-inference.test.ts,packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts",
+      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts,packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts",
       "passed": true
     },
     {
@@ -1339,11 +1339,11 @@
     "sanitizeDeleteCount": 4,
     "readingTelemetryCount": 20,
     "inferenceAuditCount": 4,
-    "promptTemplateFlagCount": 51,
-    "interpolatedPromptFlagCount": 18,
-    "rawResponseFlagCount": 20,
-    "parsedTypedOutputFlagCount": 23,
-    "schemaVerdictCount": 163
+    "promptTemplateFlagCount": 53,
+    "interpolatedPromptFlagCount": 17,
+    "rawResponseFlagCount": 24,
+    "parsedTypedOutputFlagCount": 19,
+    "schemaVerdictCount": 170
   },
   "upstreamProofRoots": {
     "v35TelemetryTaxonomyRoot": "telemetry-taxonomy-catalog:39e4b53d0c25aa4fdfd7e038",

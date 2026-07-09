@@ -5,6 +5,7 @@
  * synthesized and validated.
  */
 import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 import { z } from 'zod';
 import { createHash } from 'node:crypto';
 import { Prompt } from '@bitcode/prompts/prompt';
@@ -21,7 +22,6 @@ import {
   resolveDeliveryMechanismTemplateFromExecution,
   resolveWrittenAssetTypeFromExecution,
 } from '../../semantic-resolution';
-import { shouldUseAssetPackPtrr } from '../../runtime-inference-policy';
 
 const FinishDeliveryOutputSchema = z.object({
   status: z.enum(['delivered','partial','blocked_readiness']).default('delivered'),
@@ -82,26 +82,19 @@ export default async function deliverAssetPackToDestination(input: any, executio
     });
   }
 
-  const result = shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_FINISH_DELIVER_USE_PTRR')
-    ? await AssetPackFinishDeliverAgent(
-        {
-          writtenAssetType: dtype,
-          deliveryMechanismTemplate,
-          workspacePath: findExecutionValue(execution, 'repository', 'workspacePath'),
-          owner: findExecutionValue(execution, 'repository', 'owner') || '',
-          repo: findExecutionValue(execution, 'repository', 'name') || '',
-          provider: findExecutionValue(execution, 'repository', 'provider') || 'github',
-          connectionId: findExecutionValue(execution, 'repository', 'connectionId'),
-          input,
-        },
-        execution
-      )
-    : {
-        status: 'partial' as const,
-        writtenAssetType: dtype,
-        deliveryMechanismTemplate,
-        reason: `Unsupported delivery mechanism template: ${deliveryMechanismTemplate || 'none'}.`,
-      };
+  const result = await AssetPackFinishDeliverAgent(
+    {
+      writtenAssetType: dtype,
+      deliveryMechanismTemplate,
+      workspacePath: findExecutionValue(execution, 'repository', 'workspacePath'),
+      owner: findExecutionValue(execution, 'repository', 'owner') || '',
+      repo: findExecutionValue(execution, 'repository', 'name') || '',
+      provider: findExecutionValue(execution, 'repository', 'provider') || 'github',
+      connectionId: findExecutionValue(execution, 'repository', 'connectionId'),
+      input,
+    },
+    execution
+  );
 
   // Best-effort: infer URLs from usedTools (if any)
   try {
@@ -109,7 +102,9 @@ export default async function deliverAssetPackToDestination(input: any, executio
     if (Array.isArray(used)) {
       for (const u of used) {
         if (u?.tool === 'vcs_create_pull_request' && u?.output?.url) {
-          execution.store('finish','pullRequestUrl', String(u.output.url));
+          // Cross-phase artifact: postprocess reads the PR URL from another
+          // sibling (cross-phase store-visibility law).
+          storeCrossPhaseArtifact(execution, 'finish', 'pullRequestUrl', String(u.output.url));
           result.prUrl = String(u.output.url);
         }
       }

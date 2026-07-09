@@ -1,7 +1,9 @@
 import {
   applyExclusionsToInventory,
+  applyInventoryScope,
   isPathExcluded,
-  normalizeProtectedIpExclusions,
+  isPathForcedIncluded,
+  normalizeForcedPathList,
   synthesizeAssetPackCandidates,
   type AssetPackCandidate,
   type AssetPacksSynthesisInferenceAccounting,
@@ -28,7 +30,13 @@ import type {
  * existing policy and admission builders consume it unchanged.
  */
 
-export { applyExclusionsToInventory, isPathExcluded, normalizeProtectedIpExclusions };
+export {
+  applyExclusionsToInventory,
+  applyInventoryScope,
+  isPathExcluded,
+  isPathForcedIncluded,
+  normalizeForcedPathList,
+};
 export type { AssetPacksSynthesisSourceInventory as DepositOptionSourceInventory };
 
 const DEPOSIT_OPTION_KINDS: DepositAssetPackOptionKind[] = [
@@ -42,7 +50,7 @@ export interface RealDepositAssetPackOptionSynthesis extends DepositAssetPackOpt
   pipelineCore: 'AssetPacksSynthesis';
   inference: AssetPacksSynthesisInferenceAccounting;
   exclusionPosture: {
-    protectedIpExclusionCount: number;
+    forcedExclusionCount: number;
     exclusionRoots: string[];
     excludedPathCount: number;
     droppedCandidateCount: number;
@@ -56,15 +64,21 @@ export interface DepositOptionReviewProjection {
   measurementRationale: string;
 }
 
+/**
+ * @deprecated Product deposit synthesis is `synthesizeAssetPacksPipeline` (full
+ * SDIVF) via `/api/deposit/synthesize-options`. This single-agent formal path
+ * remains only for non-product unit fixtures that mock
+ * `synthesizeAssetPackCandidatesFormal` — do not call it from product routes.
+ */
 export async function synthesizeRealDepositOptionCandidates(input: {
   repositoryFullName: string;
   sourceBranch: string | null;
   sourceCommit: string | null;
-  depositorInstructions: string | null;
-  protectedIpExclusions: string[];
+  obfuscations: string | null;
+  forcedExclusions: string[];
   demandContext: string[];
   inventory: AssetPacksSynthesisSourceInventory;
-  execution?: import('./asset-packs-synthesis').SourceSafeStreamTarget | null;
+  execution?: import('@bitcode/execution-generics/Execution').Execution | null;
 }): Promise<AssetPacksSynthesisResult> {
   return synthesizeAssetPackCandidates({
     lens: 'deposit',
@@ -72,8 +86,8 @@ export async function synthesizeRealDepositOptionCandidates(input: {
     sourceBranch: input.sourceBranch,
     sourceCommit: input.sourceCommit,
     steering: {
-      instructions: input.depositorInstructions,
-      protectedIpExclusions: input.protectedIpExclusions,
+      instructions: input.obfuscations,
+      forcedExclusions: input.forcedExclusions,
       demandContext: input.demandContext,
     },
     inventory: input.inventory,
@@ -135,27 +149,27 @@ function candidateKind(candidate: AssetPackCandidate): DepositAssetPackOptionKin
 }
 
 export function buildRealDepositAssetPackOptionSynthesis(
-  request: DepositOptionSynthesisRequest & { protectedIpExclusions?: string[] | null },
+  request: DepositOptionSynthesisRequest & { forcedExclusions?: string[] | null },
   result: AssetPacksSynthesisResult,
   inventory: AssetPacksSynthesisSourceInventory,
 ): { synthesis: RealDepositAssetPackOptionSynthesis; reviewProjections: DepositOptionReviewProjection[] } {
   const repositoryFullName = normalizedText(request.repositoryFullName);
   const sourceBranch = normalizedText(request.sourceBranch);
   const sourceCommit = normalizedText(request.sourceCommit);
-  const depositorInstructions = normalizedText(request.depositorInstructions);
-  const protectedIpExclusions = normalizeProtectedIpExclusions(request.protectedIpExclusions);
+  const obfuscations = normalizedText(request.obfuscations);
+  const forcedExclusions = normalizeForcedPathList(request.forcedExclusions);
   const depositoryDemandSignals = normalizedSignals(request.depositoryDemandSignals);
   const readingDemandSignals = normalizedSignals(request.readingDemandSignals);
   const existingDepositorySignals = normalizedSignals(request.existingDepositorySignals);
-  const exclusionRoots = protectedIpExclusions.map((entry) => root('deposit-option-ip-exclusion', entry));
+  const exclusionRoots = forcedExclusions.map((entry) => root('deposit-option-ip-exclusion', entry));
   const createdAt = normalizedText(request.createdAt) || new Date().toISOString();
 
   const requestRoot = root('deposit-option-request', {
     repositoryFullName,
     sourceBranch,
     sourceCommit,
-    depositorInstructionRoot: depositorInstructions
-      ? root('deposit-option-instructions', depositorInstructions)
+    depositorInstructionRoot: obfuscations
+      ? root('deposit-option-instructions', obfuscations)
       : null,
     synthesisMode: 'real-bounded-inference',
     pipelineCore: 'AssetPacksSynthesis',
@@ -180,9 +194,13 @@ export function buildRealDepositAssetPackOptionSynthesis(
     const measurements: DepositAssetPackOptionMeasurement[] = candidate.measurements.map((measurement) => ({
       id: `${optionId}:${measurement.measurementKind}`,
       label: measurement.label,
-      measurementKind: measurement.measurementKind as DepositAssetPackOptionMeasurement['measurementKind'],
+      measurementKind: measurement.measurementKind,
       weight: measurement.weight,
       volume: measurement.volume,
+      // V48 Gate 3: carry the absolutes provenance (category + size magnitude/unit).
+      ...(measurement.category ? { category: measurement.category } : {}),
+      ...(typeof measurement.magnitude === 'number' ? { magnitude: measurement.magnitude } : {}),
+      ...(measurement.unit ? { unit: measurement.unit } : {}),
       evidenceRoot: root('deposit-option-measurement', {
         measurementKind: measurement.measurementKind,
         weight: measurement.weight,
@@ -214,6 +232,27 @@ export function buildRealDepositAssetPackOptionSynthesis(
       btdMintBoundary: 'not-minted-by-deposit-option' as const,
       settlementBoundary: 'future-reader-settlement-required-for-source-bearing-assetpack' as const,
     };
+    // Deposit neediness preview (v0): carry the read-demand estimate the
+    // depository-search lens produced for this candidate (computed by
+    // validateDepositSynthesisOptions). Null when no signal was produced.
+    const neediness = candidate.neediness
+      ? {
+          volume: candidate.neediness.volume,
+          demand: candidate.neediness.demand,
+          saturation: candidate.neediness.saturation,
+          rationale: candidate.neediness.rationale,
+        }
+      : null;
+    // The deposit-decision payload: what Bitcode RECEIVES if deposited — the
+    // synthesized AP contents (source-safe patch descriptor) + the provenant source
+    // (covered files). Shown to the depositor; source-safe (path+op + summary + the
+    // depositor's own paths).
+    const contents = {
+      patchSummary: candidate.patch?.patchSummary ?? '',
+      fileChanges: (candidate.patch?.fileChanges ?? []).map((fc) => ({ path: fc.path, op: fc.op })),
+      provenantSourcePaths: candidate.coveredSourcePaths,
+      provenantSourceCount: candidate.coveredSourcePaths.length,
+    };
     const optionBase = {
       optionId,
       kind: candidateKind(candidate),
@@ -222,6 +261,8 @@ export function buildRealDepositAssetPackOptionSynthesis(
       sourceBinding,
       demandAlignment,
       measurements,
+      contents,
+      neediness,
       reviewBoundary,
     };
 
@@ -255,6 +296,8 @@ export function buildRealDepositAssetPackOptionSynthesis(
         sourceBindingRoot: root('deposit-option-source-binding', sourceBinding),
         demandAlignmentRoot: root('deposit-option-demand-alignment', demandAlignment),
         measurementRoot: root('deposit-option-measurements', measurements),
+        contentsRoot: root('deposit-option-contents', contents),
+        needinessRoot: neediness ? root('deposit-option-neediness', neediness) : null,
         reviewBoundaryRoot: root('deposit-option-review-boundary', reviewBoundary),
       },
     };
@@ -276,8 +319,8 @@ export function buildRealDepositAssetPackOptionSynthesis(
       repositoryFullName,
       sourceBranch,
       sourceCommit,
-      depositorInstructionRoot: depositorInstructions
-        ? root('deposit-option-instructions', depositorInstructions)
+      depositorInstructionRoot: obfuscations
+        ? root('deposit-option-instructions', obfuscations)
         : null,
       sourcePathRoots: [...new Set(options.flatMap((option) => option.sourceBinding.sourcePathRoots))],
     },
@@ -294,7 +337,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
       walletPrivateMaterialVisible: false,
     },
     reviewBoundary: {
-      route: '/deposit',
+      route: '/deposits',
       defaultDecisionState: 'pending-depositor-review',
       approvedOptionsAdmittedBy: 'future-gate7-deposit-option-review',
       sourceCriticalityDemandRoiPolicyOwnedBy: 'future-gate6-policy',
@@ -308,7 +351,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
     pipelineCore: 'AssetPacksSynthesis',
     inference: result.inference,
     exclusionPosture: {
-      protectedIpExclusionCount: protectedIpExclusions.length,
+      forcedExclusionCount: forcedExclusions.length,
       exclusionRoots,
       excludedPathCount: inventory.excludedPathCount,
       droppedCandidateCount: result.droppedCandidateCount,

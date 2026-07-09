@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { cn } from '@bitcode/styling';
 import type { BitcodeExplainer } from './bitcode-transaction-types';
 
-type TooltipSide = 'top' | 'bottom';
+export type TooltipSide = 'top' | 'bottom';
 
-interface TooltipPlacement {
+export interface TooltipPlacement {
   side: TooltipSide;
   left: number;
   width: number;
@@ -23,6 +23,16 @@ interface BitcodeInlineExplainerProps {
   side?: TooltipSide;
   className?: string;
   triggerClassName?: string;
+  /**
+   * Override the trigger button's aria-label (defaults to `Explain ${title}`).
+   * Use this when the explainer's title matches or contains an adjacent form
+   * field's own label text — `getByLabelText`/screen-reader label lookups
+   * match ANY element whose aria-label contains the query text, not just
+   * elements associated via `<label>`, so a title-derived aria-label next to
+   * a same-named field is ambiguous. A short generic label (e.g. "More info
+   * about the Branch field") avoids the collision.
+   */
+  triggerAriaLabel?: string;
 }
 
 const tooltipViewportMargin = 16;
@@ -36,7 +46,7 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
-function resolveExplainerPlacement(trigger: HTMLElement, preferredSide: TooltipSide): TooltipPlacement {
+export function resolveExplainerPlacement(trigger: HTMLElement, preferredSide: TooltipSide): TooltipPlacement {
   if (typeof window === 'undefined') {
     return {
       side: preferredSide,
@@ -100,7 +110,7 @@ function resolveExplainerPlacement(trigger: HTMLElement, preferredSide: TooltipS
   };
 }
 
-function tooltipPositionStyle(placement: TooltipPlacement): React.CSSProperties {
+export function tooltipPositionStyle(placement: TooltipPlacement): React.CSSProperties {
   return {
     left: placement.left,
     width: placement.width,
@@ -109,7 +119,7 @@ function tooltipPositionStyle(placement: TooltipPlacement): React.CSSProperties 
   };
 }
 
-function tooltipArrowClassName({ side }: TooltipPlacement) {
+export function tooltipArrowClassName({ side }: TooltipPlacement) {
   const sideClassName =
     side === 'bottom'
       ? '-top-[7px] border-x-[7px] border-b-[7px] border-x-transparent border-b-[rgba(4,8,18,0.98)]'
@@ -123,6 +133,7 @@ export default function BitcodeInlineExplainer({
   side = 'bottom',
   className,
   triggerClassName,
+  triggerAriaLabel,
 }: BitcodeInlineExplainerProps) {
   const [placement, setPlacement] = useState<TooltipPlacement>({
     side,
@@ -145,39 +156,75 @@ export default function BitcodeInlineExplainer({
     setIsMounted(true);
   }, []);
 
+  const tooltipRef = useRef<HTMLSpanElement | null>(null);
+  const hideTimeoutRef = useRef<number | null>(null);
+
+  const cancelScheduledHide = useCallback(() => {
+    if (hideTimeoutRef.current !== null) {
+      window.clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => cancelScheduledHide, [cancelScheduledHide]);
+
+  const hideTooltipNow = useCallback(() => {
+    cancelScheduledHide();
+    setIsVisible(false);
+  }, [cancelScheduledHide]);
+
   useEffect(() => {
     if (!isVisible) return undefined;
 
-    const hideTooltip = () => setIsVisible(false);
-    window.addEventListener('scroll', hideTooltip, true);
-    window.addEventListener('resize', hideTooltip);
-    return () => {
-      window.removeEventListener('scroll', hideTooltip, true);
-      window.removeEventListener('resize', hideTooltip);
+    // Scrolls INSIDE the tooltip must not dismiss it — that is how
+    // overflowing explainer content is read (the tooltip is viewport-height
+    // capped and scrolls). Page scrolls and resizes still dismiss.
+    const hideOnViewportChange = (event: Event) => {
+      if (
+        tooltipRef.current &&
+        event.target instanceof Node &&
+        tooltipRef.current.contains(event.target)
+      ) {
+        return;
+      }
+      hideTooltipNow();
     };
-  }, [isVisible]);
+    window.addEventListener('scroll', hideOnViewportChange, true);
+    window.addEventListener('resize', hideTooltipNow);
+    return () => {
+      window.removeEventListener('scroll', hideOnViewportChange, true);
+      window.removeEventListener('resize', hideTooltipNow);
+    };
+  }, [hideTooltipNow, isVisible]);
 
   const showTooltip = useCallback(
     (event: React.SyntheticEvent<HTMLElement>) => {
+      cancelScheduledHide();
       const trigger = event.currentTarget.querySelector('button');
       if (trigger instanceof HTMLElement) {
         setPlacement(resolveExplainerPlacement(trigger, side));
         setIsVisible(true);
       }
     },
-    [side],
+    [cancelScheduledHide, side],
   );
 
+  // Grace period so the pointer can travel from the trigger into the
+  // tooltip to scroll overflowing content without the tooltip vanishing.
   const hideTooltip = useCallback(() => {
-    setIsVisible(false);
-  }, []);
+    cancelScheduledHide();
+    hideTimeoutRef.current = window.setTimeout(() => setIsVisible(false), 160);
+  }, [cancelScheduledHide]);
 
   const tooltipMarkup = isMounted && isVisible
     ? createPortal(
       <span
         role="tooltip"
+        ref={tooltipRef}
+        onMouseEnter={cancelScheduledHide}
+        onMouseLeave={hideTooltipNow}
         className={cn(
-          'pointer-events-none fixed z-[90] overflow-y-auto rounded-[1.15rem] border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left text-sm font-normal normal-case tracking-normal opacity-100 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out',
+          'pointer-events-auto fixed z-[90] overflow-y-auto overscroll-contain border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left text-sm font-normal normal-case tracking-normal opacity-100 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out',
         )}
         style={tooltipPositionStyle(placement)}
       >
@@ -204,7 +251,7 @@ export default function BitcodeInlineExplainer({
             <ul className="mt-2 space-y-1.5 text-sm font-normal normal-case tracking-normal leading-6 text-neutral-200">
             {points.map((point) => (
               <li key={`${title}-${point}`} className="flex gap-2">
-                <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300/70" />
+                <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 bg-emerald-300/70" />
                 <span>{point}</span>
               </li>
             ))}
@@ -222,7 +269,7 @@ export default function BitcodeInlineExplainer({
                   {sourceRefs.map((ref) => (
                     <span
                       key={`${title}-source-${ref}`}
-                      className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-200"
+                      className=" border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-200"
                     >
                       {ref}
                     </span>
@@ -239,7 +286,7 @@ export default function BitcodeInlineExplainer({
                   {canonRefs.map((ref) => (
                     <span
                       key={`${title}-canon-${ref}`}
-                      className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-200"
+                      className=" border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-200"
                     >
                       {ref}
                     </span>
@@ -265,10 +312,10 @@ export default function BitcodeInlineExplainer({
     >
       <button
         type="button"
-        aria-label={`Explain ${title}`}
+        aria-label={triggerAriaLabel || `Explain ${title}`}
         onClick={(event) => event.preventDefault()}
         className={cn(
-          'inline-flex h-[1.125rem] min-h-[1.125rem] w-[1.125rem] min-w-[1.125rem] shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/5 text-[0.62rem] font-semibold leading-none text-neutral-300 transition hover:border-emerald-300/35 hover:bg-emerald-400/10 hover:text-emerald-100 focus-visible:border-emerald-300/35 focus-visible:bg-emerald-400/10 focus-visible:text-emerald-100 focus-visible:outline-none',
+          'inline-flex h-[1.125rem] min-h-[1.125rem] w-[1.125rem] min-w-[1.125rem] shrink-0 items-center justify-center border border-white/12 bg-white/5 text-[0.62rem] font-semibold leading-none text-neutral-300 transition hover:border-emerald-300/35 hover:bg-emerald-400/10 hover:text-emerald-100 focus-visible:border-emerald-300/35 focus-visible:bg-emerald-400/10 focus-visible:text-emerald-100 focus-visible:outline-none',
           triggerClassName,
         )}
       >

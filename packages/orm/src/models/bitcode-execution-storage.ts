@@ -6,7 +6,6 @@ export const BITCODE_EXECUTION_STORAGE_SCHEMA_PARITY = {
   assetPackPhaseExecutions: 'phase_executions',
   assetPackVectors: 'deliverable_vectors',
   run_jobs: 'run_jobs',
-  run_otf_instructions: 'run_otf_instructions',
   stream_logs: 'stream_logs',
   generated_assets: 'generated_assets',
   events: 'events',
@@ -25,10 +24,6 @@ export type AssetPackPhaseExecutionUpdate = Updatable<'phase_executions'>;
 export type AssetPackRunJob = Tables<'run_jobs'>;
 export type AssetPackRunJobInsert = Insertable<'run_jobs'>;
 export type AssetPackRunJobUpdate = Updatable<'run_jobs'>;
-
-export type AssetPackRunInstruction = Tables<'run_otf_instructions'>;
-export type AssetPackRunInstructionInsert = Insertable<'run_otf_instructions'>;
-export type AssetPackRunInstructionUpdate = Updatable<'run_otf_instructions'>;
 
 export type AssetPackStreamLog = Tables<'stream_logs'>;
 export type AssetPackStreamLogInsert = Insertable<'stream_logs'>;
@@ -52,7 +47,6 @@ export type BitcodeTokenCostUpdate = Updatable<'token_costs'>;
 
 type RunScopedTable =
   | 'phase_executions'
-  | 'run_otf_instructions'
   | 'generated_assets'
   | 'token_costs';
 
@@ -136,12 +130,6 @@ export class AssetPackRunJobsModel extends BaseModel<'run_jobs'> {
     const { data, error } = await query;
     if (error) throw error;
     return (data || []) as AssetPackRunJob[];
-  }
-}
-
-export class AssetPackRunInstructionsModel extends RunScopedModel<'run_otf_instructions'> {
-  constructor(supabase: SupabaseClient<Database>) {
-    super(supabase, 'run_otf_instructions');
   }
 }
 

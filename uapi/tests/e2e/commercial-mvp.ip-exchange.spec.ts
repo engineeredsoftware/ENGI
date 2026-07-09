@@ -6,8 +6,8 @@ import {
 } from './commercial-mvp.helpers';
 
 /**
- * V47 Gate 7 browser proof: selling IP into Bitcode on /deposit, buying
- * synthesized IP on /read, and auditing settlement, BTD rights, delivery,
+ * V47 Gate 7 browser proof: selling IP into Bitcode on /deposits, buying
+ * synthesized IP on /reads, and auditing settlement, BTD rights, delivery,
  * compensation, and repair readback on /packs — all in deterministic mock
  * mode with source-safe assertions only.
  */
@@ -147,13 +147,14 @@ test.describe('commercial MVP IP exchange browser proof', () => {
     const history = await installExecutionHistoryMock(page, []);
 
     await page.goto(
-      `/deposit?provider=github&repo=${encodeURIComponent(E2E_REPOSITORY)}&sourceBranch=${E2E_BRANCH}`,
+      `/deposits?provider=github&repo=${encodeURIComponent(E2E_REPOSITORY)}&sourceBranch=${E2E_BRANCH}`,
     );
     await expect(page.getByTestId('route-shell-deposit')).toBeVisible({ timeout: 90_000 });
 
-    // Source connection precedes synthesis: the synthesize action stays
-    // disabled until the route session resolves a repository source.
-    const synthesizeButton = page.getByRole('button', { name: 'Synthesize options' });
+    // Master-detail: open compose (New deposit) to replace the pipelines table
+    // with configuration, then synthesize once the route session has a source.
+    await page.getByRole('button', { name: 'New deposit' }).click();
+    const synthesizeButton = page.getByRole('button', { name: 'Synthesize AssetPack Options' });
     await expect(synthesizeButton).toBeEnabled({ timeout: 30_000 });
 
     await synthesizeButton.click();
@@ -172,7 +173,7 @@ test.describe('commercial MVP IP exchange browser proof', () => {
     });
 
     // Compensation visibility and /packs synchronization remain reachable.
-    await expect(page.getByText('Recent Deposit activity')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Deposit' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Open pack activity' })).toHaveAttribute(
       'href',
       '/packs?type=depository-assetpack',
@@ -189,14 +190,14 @@ test.describe('commercial MVP IP exchange browser proof', () => {
     await trap.assertClean();
   });
 
-  test('IP buyer reads measurements, quote basis, settlement finality, BTD rights, and repository delivery on /read', async ({
+  test('IP buyer reads measurements, quote basis, settlement finality, BTD rights, and repository delivery on /reads', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
     await installExecutionHistoryMock(page, [settledAssetPackSeed(), readAdmissionSeed()]);
 
     await page.goto(
-      `/read?provider=github&repo=${encodeURIComponent(E2E_REPOSITORY)}&sourceBranch=${E2E_BRANCH}&transactionId=e2e-read-settled`,
+      `/reads?provider=github&repo=${encodeURIComponent(E2E_REPOSITORY)}&sourceBranch=${E2E_BRANCH}&transactionId=e2e-read-settled`,
     );
     await expect(page.getByTestId('route-shell-read')).toBeVisible({ timeout: 90_000 });
 

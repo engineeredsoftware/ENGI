@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { test } from 'node:test';
+import { test } from './era-pinned-superseded-routes.js';
 import {
   V47_READER_WEBSITE_COMPLETION_ARTIFACT_PATH,
   V47_READER_WEBSITE_COMPLETION_ROWS,

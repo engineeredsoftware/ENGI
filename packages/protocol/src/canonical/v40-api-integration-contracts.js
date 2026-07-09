@@ -116,13 +116,11 @@ export const V40_API_INTEGRATION_CONTRACT_ROWS = Object.freeze([
       'uapi/app/api/executions',
       'uapi/app/api/executions/history',
       'uapi/app/api/executions/stream',
-      'uapi/app/api/executions/instructions',
     ],
     sourceRoots: [
       'uapi/app/api/executions/route.ts',
       'uapi/app/api/executions/history/route.ts',
       'uapi/app/api/executions/stream/route.ts',
-      'uapi/app/api/executions/instructions/route.ts',
     ],
     testPaths: [
       'uapi/tests/api/executionsHistoryRoute.test.ts',

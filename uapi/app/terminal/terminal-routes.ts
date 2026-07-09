@@ -1,7 +1,7 @@
 export const TERMINAL_ROUTE = '/terminal' as const;
 export const PACKS_ROUTE = '/packs' as const;
-export const READ_ROUTE = '/read' as const;
-export const DEPOSIT_ROUTE = '/deposit' as const;
+export const READ_ROUTE = '/reads' as const;
+export const DEPOSIT_ROUTE = '/deposits' as const;
 export const EXCHANGE_ROUTE = PACKS_ROUTE;
 
 export function buildTerminalHref(params?: URLSearchParams | string | null) {

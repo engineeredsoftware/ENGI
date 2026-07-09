@@ -323,11 +323,44 @@ export interface SDIVFExecutorConfig<TInput = any, TOutput = any> {
   finish?: Executor<any, TOutput>;
   // Loop controls
   maxIterations?: number; // default: 3
+  /**
+   * Iterate-vs-complete gate: runs after each Validation phase with the
+   * validation result. Returning true exits the DIV loop early (ready to
+   * finish); returning false iterates again (bounded by maxIterations).
+   * Defaults to the shared validation-signal check (see
+   * executorValidationSignalsReadyToFinish).
+   */
+  readyToFinish?: Executor<any, boolean>;
   // Optional preprocess/postprocess hooks
   preprocess?: Executor<TInput, TInput>;
   // Runs at the start of each DIV loop iteration (before Discovery)
   iterationPreprocess?: Executor<any, any>;
   postprocess?: Executor<TOutput, TOutput>;
+}
+
+/**
+ * Default iterate-vs-complete signal for the executor-variant DIV loop.
+ *
+ * Mirrors the factorySDIVFPipeline gate (validation:passed store, or
+ * passed/ready on the threaded result), extended with the CROSS-PHASE
+ * readiness artifact the AssetPack ReadyToFinish agent stores on the SHARED
+ * root execution (`validation:readyToFinish` with a `finalApproval` verdict) —
+ * resolvable from the DIV sibling via the ancestors-only findUp walk.
+ */
+function executorValidationSignalsReadyToFinish(result: any, exec: any): boolean {
+  const readShared = (namespace: string, key: string): unknown => {
+    try {
+      return exec?.get?.(namespace, key) ?? exec?.findUp?.(namespace, key);
+    } catch {
+      return undefined;
+    }
+  };
+  const readiness = readShared('validation', 'readyToFinish') as
+    | { finalApproval?: unknown }
+    | undefined;
+  if (readiness && (readiness as any).finalApproval === true) return true;
+  if (readShared('validation', 'passed') === true) return true;
+  return result?.passed === true || result?.ready === true || result?.finalApproval === true;
 }
 
 /**
@@ -369,11 +402,15 @@ export function factorySDIVFExecutorPipeline<TInput, TOutput>(
       } catch {}
       return runObservedExecutorPhase('setup', input, exec as Execution, cfg.setup as any);
     },
-    // Repeat DIV sequence up to max iterations
+    // Repeat DIV sequence up to max iterations, exiting early once Validation
+    // signals ready-to-finish (iterate-vs-complete gate).
     async (input, exec) => {
       let current: any = input;
-      for (let i = 0; i < maxIter; i++) {
+      let validationPassed = false;
+      let iterations = 0;
+      for (let i = 0; i < maxIter && !validationPassed; i++) {
         const iteration = i + 1;
+        iterations = iteration;
         // Optional per-iteration preprocess (e.g., fetch Evidence Document updates for context)
         if (cfg.iterationPreprocess) {
           try { current = await cfg.iterationPreprocess(current, exec); } catch {}
@@ -381,7 +418,21 @@ export function factorySDIVFExecutorPipeline<TInput, TOutput>(
         current = await runObservedExecutorPhase('discovery', current, exec as Execution, discovery as any, iteration);
         current = await runObservedExecutorPhase('implementation', current, exec as Execution, implementation as any, iteration);
         current = await runObservedExecutorPhase('validation', current, exec as Execution, validation as any, iteration);
+        // Iterate-vs-complete gate: stop looping the moment validation is ready.
+        validationPassed = cfg.readyToFinish
+          ? (await cfg.readyToFinish(current, exec)) === true
+          : executorValidationSignalsReadyToFinish(current, exec);
+        try {
+          (exec as Execution).store('iteration', String(iteration), { passed: validationPassed } as any);
+        } catch {}
       }
+      try {
+        (exec as Execution).store('pipeline', 'totalIterations', iterations);
+        (exec as Execution).store('pipeline', 'validationPassed', validationPassed);
+        if (!validationPassed) {
+          (exec as Execution).store('pipeline', 'maxIterationsReached', true);
+        }
+      } catch {}
       return current;
     },
     async (input, exec) => runObservedExecutorPhase('finish', input, exec as Execution, finish as any),

@@ -7,6 +7,7 @@
 
 import { Executor } from '@bitcode/execution-generics';
 import { createPhaseRunner, type PhaseConfig } from '@bitcode/pipelines-generics';
+import { synthesizeAssetPacksModeFromExecution } from '../synthesize-asset-packs';
 
 const setupPhaseConfig: PhaseConfig = {
   phaseName: 'setup',
@@ -28,7 +29,56 @@ const setupPhaseConfig: PhaseConfig = {
 const runSetupPhase = createPhaseRunner(setupPhaseConfig);
 
 export const assetPackSetupPhaseExecutor: Executor<any, any> = async (input, execution) => {
-  await runSetupPhase(input, execution);
+  // Conditional runtime registry: the deposit lens comprehends the depositor's
+  // Obfuscations via the deposit input-comprehension agent (registered under the
+  // comprehension key); read keeps its Need-comprehension agent.
+  const mode = synthesizeAssetPacksModeFromExecution(execution) ?? 'read';
+  if (mode === 'deposit') {
+    try {
+      const depositComprehend = (await import('../agents/setup/deposit-input-comprehension-agent')).default as any;
+      (execution as any).agents?.registerAgent?.(
+        'setup:ReadFitsFindingSynthesisReadComprehensionAgent',
+        depositComprehend,
+      );
+    } catch {}
+    // The Setup plan agent plans Finding Fits from an accepted Read-Need — read
+    // work, deposit-irrelevant. Punt it under the deposit lens with a passthrough
+    // (no LLM call, no telemetry row). Read keeps it for now; the read fits-finding
+    // planning moves to the read-lens Discovery phase in the subsequent (read) gate.
+    (execution as any).agents?.registerAgent?.(
+      'setup:ReadFitsFindingSynthesisSetupPlanAgent',
+      async (passthroughInput: any) => passthroughInput,
+    );
+    // The danger wall is the Bitcode READ risk-admission (readSafeToMeasure /
+    // assetPackSafeToSynthesize / deliveryMechanismSafeToAttempt, proof- and
+    // delivery-boundary gates) — read-lens admission with no deposit semantics. On a
+    // deposit it has no Read to admit, so it flails to safe:false/high and the
+    // short-circuit wrapper would block synthesis outright. Punt it under the deposit
+    // lens with the same no-LLM passthrough; the depositor's source-safety is already
+    // enforced by the streaming source-safe filter + obfuscation comprehension. The
+    // deposit-lens admission is a later-gate split (…ForDepositor/…ForReader).
+    (execution as any).agents?.registerAgent?.(
+      'setup:asset-pack-danger-wall-agent',
+      async (passthroughInput: any) => passthroughInput,
+    );
+  }
+  const phaseResult = await runSetupPhase(input, execution);
+  // A Setup short-circuit is the danger wall (read-lens risk admission)
+  // BLOCKING the run: synthesis is not safe to attempt. That must FAIL the
+  // pipeline closed — a terminal error, not a swallowed PhaseResult that lets
+  // Discovery/Implementation run anyway. (Deposit mode punts the danger wall
+  // to a passthrough above, so a deposit setup never short-circuits here.)
+  if (phaseResult && phaseResult.shortCircuited) {
+    const reason = phaseResult.shortCircuitReason || 'setup admission blocked the pipeline';
+    try {
+      (execution as any).store?.('pipeline', 'terminalError', {
+        phase: 'setup',
+        shortCircuited: true,
+        reason,
+      });
+    } catch {}
+    throw new Error(`Setup phase short-circuited (fail closed): ${reason}`);
+  }
   // PhaseRunner returns PhaseResult; pipeline expects input forward. Use stores for state.
   return input;
 };

@@ -171,13 +171,15 @@ function HeroClientInner() {
   }, []);
 
   const handleUseClick = () => {
-    import('@vercel/analytics').then(m => m.track('Landing Page Button Click', { 
-      user: user?.id || 'unknown',
-      onboarded: isOnboardingComplete 
+    // Source-safe product analytics: presence booleans only, never the user id
+    // (identifiers must not reach third-party dashboards).
+    import('@/lib/product-analytics').then(m => m.trackProductEvent({
+      name: 'landing_use_bitcode_click',
+      data: { signedIn: Boolean(user), onboarded: Boolean(isOnboardingComplete) },
     }));
     // Signed-in operators should land in the V47 Reading path.
     if (isOnboardingComplete) {
-      router.push('/read');
+      router.push('/reads');
     } else {
       openAuxillaries('auxillaries');
     }

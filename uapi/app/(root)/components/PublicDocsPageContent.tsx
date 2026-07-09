@@ -25,7 +25,7 @@ const firstReadingPath = [
   },
   {
     label: 'Learn the product surfaces',
-    body: 'Then learn /deposit, /read, and /packs before opening value-bearing controls.',
+    body: 'Then learn /deposits, /reads, and /packs before opening value-bearing controls.',
     href: '/docs/source-shares',
   },
   {
@@ -69,13 +69,13 @@ const quickRouteCards = [
     summary: BITCODE_PUBLIC_EXPLAINERS.network.summary,
   },
   {
-    href: '/read',
+    href: '/reads',
     eyebrow: 'Read',
     title: 'Request Reading',
     summary: BITCODE_PUBLIC_EXPLAINERS.read.summary,
   },
   {
-    href: '/deposit',
+    href: '/deposits',
     eyebrow: 'Deposit',
     title: 'Prepare supply',
     summary: BITCODE_PUBLIC_EXPLAINERS.deposit.summary,
@@ -124,7 +124,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
             <p className="mt-5 max-w-[58rem] text-[17px] leading-8 text-white/82">
               Bitcode docs teach the complete path: what an AssetPack commodity is,
               how BTD measures scalar volume and rights, why BTC settlement money and
-              proof readback authority matter, and how /deposit, /read, /packs, MCP,
+              proof readback authority matter, and how /deposits, /reads, /packs, MCP,
               ChatGPT App, and Bitcode Chat stay source-safe.
             </p>
             <div className="mt-6 grid gap-3 tablet:grid-cols-3">
@@ -251,7 +251,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
               Protocol docs map back to active law. Public docs explain; proof readback decides.
               The public docs teach the current product routes in user order:
               AssetPack commodity, BTD scalar volume and rights, BTC settlement money,
-              proof readback authority, /deposit, /read, /packs, interfaces, and configuration.
+              proof readback authority, /deposits, /reads, /packs, interfaces, and configuration.
             </p>
             <div className="mt-5 grid gap-3">
               {specCoverageCards.map((card) => (

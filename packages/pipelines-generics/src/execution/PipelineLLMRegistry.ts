@@ -15,6 +15,37 @@ import { LLM, LLMConfig, LLMInput, LLMOutput, LLMRegistry } from '@bitcode/llm-g
 import { Execution } from '@bitcode/execution-generics/Execution';
 
 /**
+ * Pipeline LLM calls must be time-bounded — the provider SDK sets no short
+ * timeout, so a hung/very-slow generation stalls the entire inline synthesis.
+ * On timeout the call rejects and the failsafe/PTRR retry handles it. Tunable
+ * via BITCODE_LLM_CALL_TIMEOUT_MS (default 180000 for monorepo deposit chunks);
+ * set 0 to disable.
+ */
+function resolveLlmCallTimeoutMs(): number {
+  const raw = Number(process?.env?.BITCODE_LLM_CALL_TIMEOUT_MS);
+  if (Number.isFinite(raw)) return raw > 0 ? raw : 0;
+  return 180_000;
+}
+
+async function callLlmWithTimeout(call: Promise<LLMOutput>, model: string): Promise<LLMOutput> {
+  const timeoutMs = resolveLlmCallTimeoutMs();
+  if (timeoutMs <= 0) return call;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(
+      () => reject(new Error(`LLM call (${model}) timed out after ${timeoutMs}ms`)),
+      timeoutMs,
+    );
+    (timer as any)?.unref?.();
+  });
+  try {
+    return await Promise.race([call, timeout]);
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+}
+
+/**
  * PipelineLLMRegistry - Hierarchical LLM configuration registry
  * 
  * Stores LLM configurations in the execution tree.
@@ -115,8 +146,9 @@ export class PipelineLLMRegistry extends RegistryImpl<LLMConfig> {
       llmExec.store('llm', 'config', input.config);
       
       try {
-        // Call the base LLM
-        const output = await llm(input);
+        // Call the base LLM, time-bounded so a hung provider call can't stall
+        // the inline pipeline indefinitely.
+        const output = await callLlmWithTimeout(llm(input), model);
 
         // Provider-agnostic normalization: ensure metadata.stopReason exists
         try {

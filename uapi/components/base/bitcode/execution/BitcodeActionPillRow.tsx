@@ -38,7 +38,7 @@ export default function BitcodeActionPillRow({
           onClick={action.onClick}
           disabled={action.disabled}
           title={action.title}
-          className={`rounded-full border px-3 py-2 text-[0.72rem] uppercase tracking-[0.18em] transition ${getActionToneClassName(action.tone)} disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/5 disabled:text-neutral-500`}
+          className={` border px-3 py-2 text-[0.72rem] uppercase tracking-[0.18em] transition ${getActionToneClassName(action.tone)} disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/5 disabled:text-neutral-500`}
         >
           {action.label}
         </button>

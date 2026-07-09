@@ -10,7 +10,7 @@ import { ProcessLogHeader } from '@/app/executions/components/ExecutionProcessLo
 // ---------------------------------------------------------------------------
 
 // Helper to generate an output string that contains all canonical line types
-// we want to preview (generation, tool-use, otf_instructions) repeated a few
+// we want to preview (generation, tool-use, thinking) repeated a few
 // times so the scrollbar is active even in compact layouts.
 
 type ExecState = {
@@ -28,7 +28,7 @@ const generations = ['reason', 'judge', 'structured_output'];
 
 interface SampleLine {
   text: string;
-  type: 'generation' | 'tool-use' | 'otf_instructions' | 'thinking';
+  type: 'generation' | 'tool-use' | 'thinking';
   exec?: ExecState;
 }
 
@@ -58,12 +58,6 @@ function buildSamples(repeat = 4): { output: string; details: Record<string, any
         agent: `Agent-${i + 1}`,
         step: steps[i % steps.length],
       },
-    });
-
-    // OTF instruction
-    lines.push({
-      text: `OTF Instruction – "Tighten summary batch ${i + 1}"`,
-      type: 'otf_instructions',
     });
 
     // Thinking line

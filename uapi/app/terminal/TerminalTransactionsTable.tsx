@@ -28,7 +28,7 @@ interface TerminalTransactionsTableProps {
   isLoadingRuns: boolean;
   runsError: string | null;
   transactionDataMode: TransactionDataMode;
-  surface?: 'terminal' | 'exchange';
+  surface?: 'terminal' | 'exchange' | 'pipelines';
 }
 
 export default function TerminalTransactionsTable({

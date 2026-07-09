@@ -18,6 +18,12 @@ export const auxillaryPaneExplainers: Record<
       "Keep MCP API and ChatGPT App entry posture predictable",
       "Decide whether proofs open visually, mixed, or as raw evidence",
     ],
+    references: {
+      source: [
+        "uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx",
+      ],
+      canon: ["BITCODE_SPEC_V48_NOTES.md — deposit/read product-surface presentation laws"],
+    },
   },
   interfacesPrompt: {
     kicker: "Interfaces auxillary",
@@ -31,6 +37,12 @@ export const auxillaryPaneExplainers: Record<
       "Bias toward throughput, quality, or balanced review",
       "Preserve one reusable non-ledgerized instruction surface",
     ],
+    references: {
+      source: [
+        "uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx",
+      ],
+      canon: ["BITCODE_SPEC_V48_NOTES.md — deposit/read product-surface presentation laws"],
+    },
   },
   interfacesModels: {
     kicker: "Interfaces auxillary",
@@ -44,6 +56,12 @@ export const auxillaryPaneExplainers: Record<
       "Keep provider and model evidence in telemetry",
       "Treat conversation-only model choice as outside settlement authority",
     ],
+    references: {
+      source: [
+        "uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx",
+      ],
+      canon: ["BITCODE_SPEC_V48_NOTES.md — deposit/read product-surface presentation laws"],
+    },
   },
   btdWallet: {
     kicker: "Wallet auxillary",
@@ -57,6 +75,12 @@ export const auxillaryPaneExplainers: Record<
       "Surface whether BTC and wallet binding are already attached",
       "Keep team and membership posture visible beside fee and share posture",
     ],
+    references: {
+      source: [
+        "uapi/app/auxillaries/components/AuxillariesWalletPane.tsx",
+      ],
+      canon: ["BITCODE_SPEC_V48_NOTES.md — deposit/read product-surface presentation laws"],
+    },
   },
   btdShares: {
     kicker: "Wallet auxillary",
@@ -70,6 +94,12 @@ export const auxillaryPaneExplainers: Record<
       "Keep settlement reading explicit before closure",
       "Control how BTD-specific detail re-enters Terminal and interface surfaces",
     ],
+    references: {
+      source: [
+        "uapi/app/auxillaries/components/AuxillariesWalletPane.tsx",
+      ],
+      canon: ["BITCODE_SPEC_V48_NOTES.md — deposit/read product-surface presentation laws"],
+    },
   },
   btdAdvanced: {
     kicker: "Wallet auxillary",
@@ -83,5 +113,11 @@ export const auxillaryPaneExplainers: Record<
       "Decide how BTD detail should open back into transaction views",
       "Keep replay and closure posture aligned to one account preference",
     ],
+    references: {
+      source: [
+        "uapi/app/auxillaries/components/AuxillariesWalletPane.tsx",
+      ],
+      canon: ["BITCODE_SPEC_V48_NOTES.md — deposit/read product-surface presentation laws"],
+    },
   },
 };

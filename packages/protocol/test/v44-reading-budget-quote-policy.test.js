@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import test from './era-pinned-superseded-routes.js';
 
 import {
   V44_READING_BUDGET_QUOTE_FORBIDDEN_PAYLOAD_IDS,

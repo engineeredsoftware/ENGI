@@ -88,7 +88,7 @@ export function VCSIconSelector({
         onClick={() => setIsOpen(!isOpen)}
         disabled={disabled}
         className={cn(
-          "flex items-center justify-center w-9 h-9 rounded-full transition-all",
+          "flex items-center justify-center w-9 h-9 transition-all",
           "bg-[rgba(3,8,22,0.9)] border border-[rgba(103,254,183,0.1)]",
           "hover:border-[rgba(103,254,183,0.3)] hover:shadow-[0_0_12px_rgba(103,254,183,0.2)]",
           "cursor-pointer",
@@ -102,7 +102,7 @@ export function VCSIconSelector({
       </button>
 
       {isOpen && (
-        <div className="absolute top-full mt-1 left-0 z-50 min-w-[150px] rounded-md border border-gray-700 bg-[#030816] shadow-lg">
+        <div className="absolute top-full mt-1 left-0 z-50 min-w-[150px] border border-gray-700 bg-[#030816] shadow-lg">
           {Object.entries(providerConfig).map(([providerKey, config]) => {
             const provider = providerKey as VCSProviderType;
             const ItemIcon = config.icon;

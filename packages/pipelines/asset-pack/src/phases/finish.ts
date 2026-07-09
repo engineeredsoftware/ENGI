@@ -9,6 +9,7 @@
  */
 
 import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
+import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
 /**
  * Create the canonical Finish sequence for AssetPack runs.
@@ -48,14 +49,18 @@ export function runFinishPhase(deliveryMechanismTemplate: string) {
  */
 export function registerFinishAgentsForType(
   _deliveryMechanismTemplate: string,
-  agentRegistry: any
+  agentRegistry: any,
+  // BOTH synthesis modes Finish by uploading the synthesized artifacts to
+  // Bitcode for user review (deposit: before Depository admission; read: before
+  // purchase). Opening a pull request is NO LONGER part of synthesis — PR /
+  // settlement delivery moves to the future Gate-6 SettleAssetPacks pipeline
+  // (the legacy deliver-asset-pack-to-destination-agent is retained for it).
+  _mode?: SynthesizeAssetPacksMode,
 ): void {
-  agentRegistry.registerAgent(
-    'finish:deliver-asset-pack-to-destination-agent',
-    () => import('../agents/finish/deliver-asset-pack-to-destination-agent').then(m => m.default)
+  agentRegistry.registerAgent('finish:deliver-asset-pack-to-destination-agent', () =>
+    import('../agents/finish/upload-asset-packs-for-review-agent').then(m => m.default),
   );
-  agentRegistry.registerAgent(
-    'finish:asset-pack-completion',
-    () => import('../agents/finish/asset-pack-completion-agent').then(m => m.default)
+  agentRegistry.registerAgent('finish:asset-pack-completion', () =>
+    import('../agents/finish/asset-pack-completion-agent').then(m => m.default),
   );
 }

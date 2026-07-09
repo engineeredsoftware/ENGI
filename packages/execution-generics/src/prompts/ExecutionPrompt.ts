@@ -29,15 +29,7 @@ export class ExecutionPrompt extends Prompt {
   setPreprocess(path: string, prompt: PromptPart): this {
     return this.setGenericSystem(`preprocess:${path}`, prompt);
   }
-  
-  /**
-   * Record on-the-fly instructions under system prompts
-   * Example path: otf/list or otf/summary
-   */
-  setOnTheFly(path: string, prompt: PromptPart): this {
-    return this.setGenericSystem(`otf:${path}`, prompt);
-  }
-  
+
   /**
    * Set a generic system prompt
    */

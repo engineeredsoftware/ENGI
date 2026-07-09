@@ -216,14 +216,14 @@ describe('/api/read-review', () => {
       pipelineName: 'ReadNeedComprehensionSynthesis',
       phaseCount: 4,
       ptrrStepCount: 16,
-      thricifiedGenerationCount: 48,
+      thinkingsGenerationCount: 48,
     });
     expect(payload.telemetry.pipelineTrace).toHaveLength(16);
     expect(payload.telemetry.pipelineTrace[0]).toMatchObject({
       pipelineName: 'ReadNeedComprehensionSynthesis',
-      thricifiedGenerationIds: expect.any(Array),
+      thinkingsGenerationIds: expect.any(Array),
     });
-    expect(payload.telemetry.pipelineTrace[0].thricifiedGenerationIds).toHaveLength(3);
+    expect(payload.telemetry.pipelineTrace[0].thinkingsGenerationIds).toHaveLength(3);
     expect(payload.telemetry.promptTemplate.templateId).toBe(
       'ReadNeedComprehensionSynthesis.prompt.need-synthesis',
     );

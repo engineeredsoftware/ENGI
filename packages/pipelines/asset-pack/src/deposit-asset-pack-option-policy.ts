@@ -12,7 +12,8 @@ export type DepositOptionCriticalityState =
 export type DepositOptionDemandState =
   | 'strong-likely-demand'
   | 'moderate-likely-demand'
-  | 'weak-likely-demand';
+  | 'weak-likely-demand'
+  | 'unestimatable-demand';
 
 export type DepositOptionRoiState =
   | 'positive-expected-value'
@@ -45,6 +46,8 @@ export interface DepositAssetPackOptionPolicyInput {
   expectedSettlementSats?: number | null;
   depositorWalletId?: string | null;
   createdAt?: string | null;
+  /** Ground demand in settled Depository AssetPack search; unestimatable fails closed. */
+  settledDemand?: { estimatable: boolean; demand: number | null } | null;
 }
 
 export interface DepositAssetPackOptionPolicyEvaluation {
@@ -131,7 +134,7 @@ export interface DepositAssetPackOptionPolicyReport {
   policy: 'DepositAssetPackOptionPolicy';
   reportId: string;
   createdAt: string;
-  route: '/deposit';
+  route: '/deposits';
   synthesisRequestId: string;
   optionCount: number;
   reviewablePositiveRoiCount: number;
@@ -273,21 +276,51 @@ function sourceCriticalityFor(input: {
   };
 }
 
-function demandFor(option: DepositAssetPackOption) {
-  const weightedDemand = Number(Math.max(0, Math.min(1, option.demandAlignment.confidence)).toFixed(2));
-  const state: DepositOptionDemandState = weightedDemand >= 0.76
-    ? 'strong-likely-demand'
-    : weightedDemand >= 0.56
-      ? 'moderate-likely-demand'
-      : 'weak-likely-demand';
+function demandFor(
+  option: DepositAssetPackOption,
+  settledDemand?: { estimatable: boolean; demand: number | null } | null,
+) {
+  // Prefer settled-Depository search. If unestimatable, do not fall back to
+  // synthetic confidence from hardcoded demand signals.
+  if (settledDemand && settledDemand.estimatable === false) {
+    return {
+      state: 'unestimatable-demand' as const,
+      confidence: 0,
+      weightedDemand: 0,
+      demandRoot: root('deposit-policy-demand', {
+        optionId: option.optionId,
+        estimatable: false,
+        depositorySignalRoots: option.demandAlignment.depositorySignalRoots,
+      }),
+    };
+  }
+  const settled =
+    settledDemand?.estimatable && typeof settledDemand.demand === 'number'
+      ? Math.max(0, Math.min(1, settledDemand.demand))
+      : null;
+  // Blend option alignment confidence with settled-corpus demand when present.
+  const base = option.demandAlignment.confidence;
+  const weightedDemand = Number(
+    Math.max(
+      0,
+      Math.min(1, settled == null ? base : settled * 0.72 + base * 0.28),
+    ).toFixed(2),
+  );
+  const state: DepositOptionDemandState =
+    weightedDemand >= 0.76
+      ? 'strong-likely-demand'
+      : weightedDemand >= 0.56
+        ? 'moderate-likely-demand'
+        : 'weak-likely-demand';
 
   return {
     state,
-    confidence: option.demandAlignment.confidence,
+    confidence: weightedDemand,
     weightedDemand,
     demandRoot: root('deposit-policy-demand', {
       optionId: option.optionId,
-      confidence: option.demandAlignment.confidence,
+      confidence: weightedDemand,
+      settledDemand: settled,
       depositorySignalRoots: option.demandAlignment.depositorySignalRoots,
       readingSignalRoots: option.demandAlignment.readingSignalRoots,
       existingDepositorySignalRoots: option.demandAlignment.existingDepositorySignalRoots,
@@ -314,8 +347,22 @@ function roiFor(input: {
     : input.criticality.state === 'review-warning'
       ? 0.76
       : 0;
+  // Demand honesty: when settled demand is unestimatable, do not invent a demand
+  // percentage — but still rank ROI from measurement volume × provisional
+  // settlement so reviewable options are not all forced to negative ROI (full-stack
+  // incompleteness: option roots > 0 with positive ROI options stuck at 0).
+  const demandUnestimatable = input.demand.state === 'unestimatable-demand';
+  const demandWeight = demandUnestimatable
+    ? Math.max(0.45, measurementVolume)
+    : input.demand.weightedDemand;
+  const settlementBase = demandUnestimatable
+    ? Math.max(
+        input.expectedSettlementSats,
+        Math.round(input.developmentCostSats * 1.55 + 900),
+      )
+    : input.expectedSettlementSats;
   const estimatedGrossSats = Math.round(
-    input.expectedSettlementSats * input.demand.weightedDemand * (0.62 + measurementVolume * 0.38) * kindMultiplier * criticalityDiscount,
+    settlementBase * demandWeight * (0.62 + measurementVolume * 0.38) * kindMultiplier * criticalityDiscount,
   );
   const expectedNetSats = estimatedGrossSats - input.developmentCostSats;
   const roiMultiple = Number((input.developmentCostSats > 0 ? estimatedGrossSats / input.developmentCostSats : 0).toFixed(2));
@@ -333,6 +380,7 @@ function roiFor(input: {
     estimatedDevelopmentCostSats: input.developmentCostSats,
     expectedNetSats,
     roiMultiple,
+    demandUnestimatable,
   });
 
   return {
@@ -383,6 +431,7 @@ function compensationFor(input: {
   criticality: ReturnType<typeof sourceCriticalityFor>;
   roi: ReturnType<typeof roiFor>;
   depositorWalletId: string | null;
+  demandUnestimatable?: boolean;
 }) {
   const blockers = [
     ...input.criticality.blockers,
@@ -390,15 +439,21 @@ function compensationFor(input: {
     ...(input.roi.state === 'blocked-criticality' ? ['criticality_blocks_compensation'] : []),
     ...(!input.depositorWalletId ? ['depositor_wallet_missing'] : []),
     ...(input.option.reviewBoundary.state !== 'reviewable-source-safe-option' ? ['option_not_reviewable'] : []),
+    // Demand unestimatable is honesty for earnings display — not a hard admission
+    // block (warn only). Settlement compensation remains estimate-labeled.
   ];
   const warnings = [
     ...input.criticality.warnings,
     ...(input.roi.state === 'marginal-expected-value' ? ['marginal_expected_value'] : []),
+    ...(input.demandUnestimatable
+      ? ['demand_unestimatable_from_settled_depository']
+      : []),
   ];
   const eligibleIfApprovedAndSelected = blockers.length === 0;
   const state: DepositOptionCompensationState = eligibleIfApprovedAndSelected
     ? 'eligible-if-approved-and-selected'
-    : input.criticality.state === 'blocked-critical-source' || input.roi.state === 'negative-expected-value'
+    : input.criticality.state === 'blocked-critical-source' ||
+        input.roi.state === 'negative-expected-value'
       ? 'blocked-before-compensation'
       : 'repair-required-before-compensation';
   const compensationRoute = {
@@ -445,7 +500,16 @@ function policyDecisionFor(input: {
   ) {
     return 'blocked-before-admission';
   }
-  if (input.criticality.state === 'review-warning' || input.roi.state === 'marginal-expected-value' || input.compensation.warnings.length) {
+  // Demand-unestimatable is honesty for earnings, not a demotion of measured
+  // options out of reviewable-positive-roi (full-stack completeness).
+  const materialWarnings = input.compensation.warnings.filter(
+    (warning) => warning !== 'demand_unestimatable_from_settled_depository',
+  );
+  if (
+    input.criticality.state === 'review-warning' ||
+    input.roi.state === 'marginal-expected-value' ||
+    materialWarnings.length
+  ) {
     return 'review-warning-before-admission';
   }
   return 'reviewable-positive-roi';
@@ -475,7 +539,7 @@ export function buildDepositAssetPackOptionPolicyReport(
 
   const evaluations = input.synthesis.options.map((option): DepositAssetPackOptionPolicyEvaluation => {
     const sourceCriticality = sourceCriticalityFor({ option, signals: sourceCriticalitySignals });
-    const demand = demandFor(option);
+    const demand = demandFor(option, input.settledDemand);
     const roi = roiFor({
       option,
       demand,
@@ -484,7 +548,13 @@ export function buildDepositAssetPackOptionPolicyReport(
       expectedSettlementSats,
     });
     const btdPotential = btdPotentialFor({ option, demand, roi, criticality: sourceCriticality });
-    const compensation = compensationFor({ option, criticality: sourceCriticality, roi, depositorWalletId });
+    const compensation = compensationFor({
+      option,
+      criticality: sourceCriticality,
+      roi,
+      depositorWalletId,
+      demandUnestimatable: demand.state === 'unestimatable-demand',
+    });
     const policyDecision = policyDecisionFor({ criticality: sourceCriticality, roi, compensation });
     const admissionBoundary = {
       depositApprovalRequired: true as const,
@@ -558,7 +628,7 @@ export function buildDepositAssetPackOptionPolicyReport(
     policy: 'DepositAssetPackOptionPolicy',
     reportId: policyReportRoot,
     createdAt,
-    route: '/deposit',
+    route: '/deposits',
     synthesisRequestId: input.synthesis.requestId,
     optionCount: evaluations.length,
     reviewablePositiveRoiCount: evaluations.filter((evaluation) => evaluation.policyDecision === 'reviewable-positive-roi').length,
@@ -594,7 +664,7 @@ export function assertDepositAssetPackOptionPolicyReportSourceSafe(
   const sourceSafe =
     report.schema === 'bitcode.deposit.asset-pack-option-policy-report' &&
     report.policy === 'DepositAssetPackOptionPolicy' &&
-    report.route === '/deposit' &&
+    report.route === '/deposits' &&
     report.aggregatePolicy.admissionAndIndexingOwnedBy === 'future-gate7-deposit-option-review' &&
     report.sourceSafety.sourceSafeMetadataOnly === true &&
     report.sourceSafety.protectedSourceVisible === false &&

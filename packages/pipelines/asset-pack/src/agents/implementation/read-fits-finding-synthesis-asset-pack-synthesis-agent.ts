@@ -16,11 +16,7 @@ import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_PTRRREFINE_PURPO
 import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_PTRRRETRY_PURPOSE } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_ptrrretry_purpose';
 import { z } from 'zod';
 import { AssetPackWrittenAssetType } from '../../types/AssetPackWrittenAssetType';
-import { runBoundedStructuredInference } from '../../bounded-structured-inference';
-import {
-  isAssetPackBoundedRealInferenceProfile,
-  shouldUseAssetPackPtrr,
-} from '../../runtime-inference-policy';
+import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 
 const AssetPackSynthesisInputSchema = z.object({
   read: z.string().optional(),
@@ -106,21 +102,20 @@ export default async function runReadFitsFindingSynthesisAssetPackSynthesisAgent
     execution?.get?.('pipeline', 'deliveryMechanismTemplate') ??
     execution?.findUp?.('pipeline', 'deliveryMechanismTemplate') ??
     storedPipelineInput?.deliveryMechanismTemplate;
-  const result = isAssetPackBoundedRealInferenceProfile()
-    ? await runBoundedAssetPackSynthesis(input, execution, read, deliveryMechanismTemplate)
-    : shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_SYNTHESIS_USE_PTRR')
-      ? await ReadFitsFindingSynthesisAssetPackSynthesisAgent(
-      {
-        ...input,
-        read,
-        discovery: {
-          context: execution?.get?.('discovery', 'context'),
-          plan: execution?.get?.('discovery', 'plan'),
-        },
+  const raw = await ReadFitsFindingSynthesisAssetPackSynthesisAgent(
+    {
+      ...input,
+      read,
+      discovery: {
+        context: execution?.get?.('discovery', 'context'),
+        plan: execution?.get?.('discovery', 'plan'),
       },
-      execution
-    )
-      : buildDeterministicAssetPackSynthesis(input, execution, read, deliveryMechanismTemplate);
+    },
+    execution
+  );
+  // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });
+  // unwrap it to the agent's typed structured output.
+  const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
   const assetPackSynthesisArtifacts = result?.assetPackSynthesisArtifacts ??
     result?.writtenAssets ?? {
       summary: result?.summary ?? 'AssetPack synthesis artifact evidence was produced.',
@@ -141,321 +136,14 @@ export default async function runReadFitsFindingSynthesisAssetPackSynthesisAgent
     },
   };
 
-  try {
-    execution.store('implementation', 'assetPack', output.assetPack);
-    execution.store('implementation', 'assetPackSynthesisArtifacts', output.assetPackSynthesisArtifacts);
-    execution.store('implementation', 'writtenAssets', output.writtenAssets);
-    execution.store('implementation', 'summary', output.summary);
-  } catch {}
+  // Cross-phase artifacts: the Finish upload-for-review agent and postprocess
+  // read these from other phase siblings (cross-phase store-visibility law).
+  storeCrossPhaseArtifact(execution, 'implementation', 'assetPack', output.assetPack);
+  storeCrossPhaseArtifact(execution, 'implementation', 'assetPackSynthesisArtifacts', output.assetPackSynthesisArtifacts);
+  storeCrossPhaseArtifact(execution, 'implementation', 'writtenAssets', output.writtenAssets);
+  storeCrossPhaseArtifact(execution, 'implementation', 'summary', output.summary);
 
   return output;
-}
-
-async function runBoundedAssetPackSynthesis(
-  input: any,
-  execution: any,
-  read: string,
-  deliveryMechanismTemplate: string | undefined
-) {
-  const baseline = buildDeterministicAssetPackSynthesis(input, execution, read, deliveryMechanismTemplate);
-  const fitResult = resolveFitResult(input, execution);
-  const sourceRevision = resolveSourceRevision(input, execution);
-  const inferred = await runBoundedStructuredInference({
-    agentName: 'ReadFitsFindingSynthesisAssetPackSynthesisAgent',
-    phase: 'implementation',
-    step: 'synthesis',
-    execution,
-    schema: AssetPackSynthesisOutputSchema,
-    fallback: () => baseline,
-    promptTemplate: {
-      templateId: 'ReadFitsFindingSynthesis.prompt.asset-pack-synthesis',
-      system: [
-        'You are the ReadFitsFindingSynthesis AssetPack synthesis agent.',
-        'Synthesize one Read-satisfaction AssetPack from the accepted Read-Need and source-bound Depository fit deposits selected above threshold.',
-        'Use query root, ranking root, selected fit provenance root, fit deposit asset ids, embedding policy, source revision, and proof/readback evidence as synthesis context.',
-        'Expose only source-safe preview measurements, review notes, and proof roots before settlement; do not expose unpaid AssetPack source.',
-        'Do not invent files, external proof, pull requests, BTC broadcasts, BTD rights transfer, ledger settlement, or delivery unlock.',
-        'Return only typed JSON that can be validated and finished by the pipeline.',
-      ].join('\n'),
-      user: JSON.stringify({
-        requestedShape: '{{requestedShape}}',
-        acceptedReadNeed: '{{acceptedReadNeed}}',
-        read: '{{read}}',
-        deliveryMechanismTemplate: '{{deliveryMechanismTemplate}}',
-        sourceRevision: '{{sourceRevision}}',
-        fitResult: '{{fitResult}}',
-        selectedFitProvenanceRoot: '{{selectedFitProvenanceRoot}}',
-        sourceSafeBoundary: '{{sourceSafeBoundary}}',
-        baselineProofEvidence: '{{baselineProofEvidence}}',
-      }, null, 2),
-    },
-    systemPrompt: [
-      'You are the ReadFitsFindingSynthesis AssetPack synthesis agent.',
-      'Synthesize one Read-satisfaction AssetPack from the accepted Read-Need and source-bound Depository fit deposits selected above threshold.',
-      'Use query root, ranking root, selected fit provenance root, fit deposit asset ids, embedding policy, source revision, and proof/readback evidence as synthesis context.',
-      'Expose only source-safe preview measurements, review notes, and proof roots before settlement; do not expose unpaid AssetPack source.',
-      'Do not invent files, external proof, pull requests, BTC broadcasts, BTD rights transfer, ledger settlement, or delivery unlock.',
-      'Return only typed JSON that can be validated and finished by the pipeline.',
-    ].join('\n'),
-    userPrompt: JSON.stringify({
-      requestedShape: {
-        success: true,
-        semanticKind: 'asset-pack-written-asset',
-        writtenAssetType: AssetPackWrittenAssetType.ReadSatisfactionAssetPack,
-        summary: 'string',
-        assetPackSynthesisArtifacts: {
-          summary: 'string',
-          fileChanges: 'object optional',
-          proofEvidence: ['string'],
-          reviewNotes: ['string'],
-        },
-        writtenAssets: {
-          summary: 'string',
-          proofEvidence: ['string'],
-          reviewNotes: ['string'],
-        },
-        assetPack: {
-          read: 'string',
-          writtenAssetType: AssetPackWrittenAssetType.ReadSatisfactionAssetPack,
-          deliveryMechanismTemplate: 'string',
-          proofEvidence: ['string'],
-        },
-      },
-      acceptedReadNeed:
-        input?.acceptedReadNeed ??
-        findExecutionValue(execution, 'read/need', 'accepted'),
-      read,
-      deliveryMechanismTemplate,
-      sourceRevision,
-      fitResult: compactFitResult(fitResult),
-      selectedFitProvenanceRoot:
-        fitResult?.selectedFitProvenanceRoot ??
-        fitResult?.searchReceipt?.selectedFitProvenanceRoot ??
-        findExecutionValue(execution, 'depository/search', 'selectedFitProvenanceRoot'),
-      sourceSafeBoundary: {
-        preSettlementVisible: [
-          'AssetPack measurements',
-          'fit deposit asset ids',
-          'query/ranking/provenance roots',
-          'quote and disclosure posture',
-          'source-safe proof/readback roots',
-        ],
-        forbiddenBeforeSettlement: [
-          'unpaid AssetPack source',
-          'protected source payloads',
-          'raw provider responses',
-          'wallet private material',
-          'settlement private payloads',
-        ],
-        deliveryUnlock: 'source-bearing pull-request delivery only after settlement and BTD rights readback',
-      },
-      baselineProofEvidence: baseline.assetPack.proofEvidence,
-    }, null, 2),
-  });
-
-  return normalizeBoundedSynthesis(inferred, baseline, read, deliveryMechanismTemplate);
-}
-
-function buildDeterministicAssetPackSynthesis(
-  input: any,
-  execution: any,
-  read: string,
-  deliveryMechanismTemplate: string | undefined
-) {
-  const storedPipelineInput = findExecutionValue(execution, 'pipeline', 'input');
-  const storedSourceRevision = findExecutionValue(execution, 'harness', 'sourceRevision');
-  const storedReadRequest = findExecutionValue(execution, 'read', 'request');
-  const fitResult =
-    input?.fitResult ??
-    input?.depositorySearchResult ??
-    storedPipelineInput?.fitResult ??
-    storedPipelineInput?.depositorySearchResult ??
-    findExecutionValue(execution, 'fit', 'result') ??
-    findExecutionValue(execution, 'depository/search', 'result') ??
-    {};
-  const fitDepositAssetIds = Array.isArray(fitResult?.fitDepositAssetIds)
-    ? fitResult.fitDepositAssetIds
-    : Array.isArray(fitResult?.selectedCandidateAssetIds)
-      ? fitResult.selectedCandidateAssetIds
-      : [];
-  const repository =
-    input?.repository ??
-    input?.sourceRevision ??
-    storedPipelineInput?.repository ??
-    storedPipelineInput?.sourceRevision ??
-    storedSourceRevision ??
-    {};
-  const repositoryLabel = [
-    repository.repositoryFullName ?? repository.fullName ?? storedReadRequest?.repositoryFullName ?? 'unknown repository',
-    repository.branch ?? 'unknown branch',
-    repository.commit ?? 'unknown commit'
-  ].join('@');
-  const proofEvidence = [
-    `Read: ${read}`,
-    `Repository revision: ${repositoryLabel}`,
-    `Fit result: ${fitResult?.resultState ?? 'not-yet-classified'}`,
-    `Fit deposit assets: ${fitDepositAssetIds.join(', ') || 'none'}`,
-    `Query root: ${fitResult?.queryRoot ?? 'not recorded'}`,
-    `Ranking root: ${fitResult?.rankingRoot ?? 'not recorded'}`,
-    `Selected fit provenance root: ${fitResult?.selectedFitProvenanceRoot ?? fitResult?.searchReceipt?.selectedFitProvenanceRoot ?? 'not recorded'}`,
-    `Embedding policy: ${fitResult?.embeddingPolicy?.provider ?? 'unknown'} ${fitResult?.embeddingPolicy?.model ?? ''}`.trim()
-  ];
-  const summary = [
-    'Source-bound Read-satisfaction AssetPack synthesized by the staging pipeline.',
-    `The pack binds the admitted Read to ${repositoryLabel}.`,
-    `Finding Fits posture: ${fitResult?.resultState ?? 'not-yet-classified'} with ${fitDepositAssetIds.length} qualifying fit deposit(s).`,
-    'Validation must preserve proof, telemetry, source-safe preview, quote, BTD rights, delivery, and ledger readback before settlement trust or source-bearing visibility.'
-  ].join(' ');
-  return {
-    success: true,
-    semanticKind: 'asset-pack-written-asset' as const,
-    writtenAssetType: AssetPackWrittenAssetType.ReadSatisfactionAssetPack,
-    summary,
-    assetPackSynthesisArtifacts: {
-      summary,
-      fileChanges: {
-        edited: 0,
-        created: 1,
-        deleted: 0,
-        paths: ['AssetPack:read-satisfaction-summary']
-      },
-      proofEvidence,
-      reviewNotes: [
-        'This AssetPack is synthesized from source-bound depository fit evidence.',
-        'Only measurements, roots, quote, and source-safe preview metadata are visible before settlement.',
-        'Source-bearing delivery remains withheld until payment finality, BTD rights transfer, and delivery unlock.'
-      ]
-    },
-    writtenAssets: {
-      summary,
-      proofEvidence,
-      reviewNotes: [
-        'Finding Fits deposit evidence carried forward for validation and finish.'
-      ]
-    },
-    assetPack: {
-      read,
-      writtenAssetType: AssetPackWrittenAssetType.ReadSatisfactionAssetPack,
-      deliveryMechanismTemplate,
-      proofEvidence
-    }
-  };
-}
-
-function normalizeBoundedSynthesis(
-  inferred: any,
-  baseline: any,
-  read: string,
-  deliveryMechanismTemplate: string | undefined
-) {
-  const assetPackSynthesisArtifacts = normalizeArtifacts(
-    inferred?.assetPackSynthesisArtifacts,
-    baseline.assetPackSynthesisArtifacts
-  );
-  const writtenAssets = normalizeArtifacts(
-    inferred?.writtenAssets,
-    baseline.writtenAssets ?? assetPackSynthesisArtifacts
-  );
-  const proofEvidence = normalizeStringArray(
-    inferred?.assetPack?.proofEvidence,
-    baseline.assetPack.proofEvidence ?? assetPackSynthesisArtifacts.proofEvidence ?? []
-  );
-
-  return {
-    ...baseline,
-    ...inferred,
-    success: inferred?.success ?? true,
-    semanticKind: 'asset-pack-written-asset' as const,
-    writtenAssetType: AssetPackWrittenAssetType.ReadSatisfactionAssetPack,
-    summary: normalizeText(inferred?.summary) || baseline.summary,
-    assetPackSynthesisArtifacts,
-    writtenAssets,
-    assetPack: {
-      ...(baseline.assetPack || {}),
-      ...(inferred?.assetPack || {}),
-      read,
-      writtenAssetType: AssetPackWrittenAssetType.ReadSatisfactionAssetPack,
-      deliveryMechanismTemplate,
-      proofEvidence,
-    },
-  };
-}
-
-function normalizeArtifacts(inferred: any, baseline: any) {
-  return {
-    ...baseline,
-    ...(inferred || {}),
-    summary: normalizeText(inferred?.summary) || baseline.summary,
-    proofEvidence: normalizeStringArray(inferred?.proofEvidence, baseline.proofEvidence ?? []),
-    reviewNotes: normalizeStringArray(inferred?.reviewNotes, baseline.reviewNotes ?? []),
-  };
-}
-
-function normalizeStringArray(value: unknown, fallback: string[]): string[] {
-  if (Array.isArray(value)) {
-    const normalized = value
-      .map((entry) => normalizeText(entry))
-      .filter(Boolean);
-    if (normalized.length) return normalized;
-  }
-  return fallback;
-}
-
-function normalizeText(value: unknown): string {
-  if (typeof value === 'string') return value.trim();
-  if (Array.isArray(value)) return value.filter((entry) => typeof entry === 'string').join('\n').trim();
-  return '';
-}
-
-function resolveFitResult(input: any, execution: any) {
-  const storedPipelineInput = findExecutionValue(execution, 'pipeline', 'input');
-  return (
-    input?.fitResult ??
-    input?.depositorySearchResult ??
-    storedPipelineInput?.fitResult ??
-    storedPipelineInput?.depositorySearchResult ??
-    findExecutionValue(execution, 'fit', 'result') ??
-    findExecutionValue(execution, 'depository/search', 'result') ??
-    {}
-  );
-}
-
-function resolveSourceRevision(input: any, execution: any) {
-  const storedPipelineInput = findExecutionValue(execution, 'pipeline', 'input');
-  return (
-    input?.sourceRevision ??
-    input?.repository ??
-    storedPipelineInput?.sourceRevision ??
-    storedPipelineInput?.repository ??
-    findExecutionValue(execution, 'harness', 'sourceRevision') ??
-    {}
-  );
-}
-
-function compactFitResult(fitResult: any) {
-  if (!fitResult || typeof fitResult !== 'object') return undefined;
-  return {
-    resultState: fitResult.resultState,
-    resultReasons: fitResult.resultReasons,
-    fitDepositAssetIds: fitResult.fitDepositAssetIds || fitResult.selectedCandidateAssetIds,
-    selectedCandidateAssetIds: fitResult.selectedCandidateAssetIds,
-    searchedAssetCount: fitResult.searchedAssetCount,
-    queryRoot: fitResult.queryRoot,
-    rankingRoot: fitResult.rankingRoot,
-    embeddingPolicy: fitResult.embeddingPolicy,
-    selectedCandidates: Array.isArray(fitResult.selectedCandidates)
-      ? fitResult.selectedCandidates.map((candidate: any) => ({
-        assetId: candidate.assetId,
-        title: candidate.title,
-        useTier: candidate.useTier,
-        verification: candidate.verification,
-        ranking: candidate.ranking,
-        proofEvidence: candidate.proofEvidence,
-        measurementEvidence: candidate.measurementEvidence,
-        readbackEvidence: candidate.readbackEvidence,
-      }))
-      : undefined,
-  };
 }
 
 function findExecutionValue(execution: any, namespace: string, key: string): any {

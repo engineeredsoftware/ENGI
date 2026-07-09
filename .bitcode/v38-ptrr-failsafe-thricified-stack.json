@@ -422,7 +422,7 @@
       "familyId": "thricified_generation",
       "label": "ThricifiedGeneration Reason/Judge/StructuredOutput chain",
       "sourceRoots": [
-        "packages/agent-generics/src/steps/thricified-generation.ts"
+        "packages/agent-generics/src/steps/thinkings-generation.ts"
       ],
       "ptrrStepIds": [
         "plan",
@@ -854,32 +854,32 @@
     },
     {
       "id": "generation.constructs-reason",
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
       "passed": true
     },
     {
       "id": "generation.constructs-judge",
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
       "passed": true
     },
     {
       "id": "generation.constructs-structured-output",
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
       "passed": true
     },
     {
       "id": "generation.sequences-in-order",
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
       "passed": true
     },
     {
       "id": "generation.fallbacks-to-all-stages",
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
       "passed": true
     },
     {
       "id": "generation.marks-introspection",
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
       "passed": true
     },
     {
@@ -970,7 +970,7 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/agent-generics/src/steps/thricified-generation.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
       "exists": true,
       "legacy": false
     },

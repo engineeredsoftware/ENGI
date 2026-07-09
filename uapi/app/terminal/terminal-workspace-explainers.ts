@@ -381,11 +381,17 @@ export const TERMINAL_WORKSPACE_EXPLAINERS = TERMINAL_SURFACE_EXPLAINERS;
 
 export const TERMINAL_INLINE_EXPLAINERS = {
   readWindow: buildExplainer({
+    kicker: 'Reading surface',
     title: 'Read window',
     summary:
       'The main Bitcode Terminal read window is recent activity plus the selected Terminal result, not the Exchange master-detail table.',
     detail:
       'Exchange owns the market-wide master-detail loop. Terminal keeps a focused read/write loop for recent Deposit, Read, proof, and closure results; deeper proof, conversation, and auxillary surfaces should remain deliberate follow-through rather than parallel primaries.',
+    points: [
+      'Read recent Deposit, Read, proof, and closure results without leaving the Terminal',
+      'Keep the selected Terminal result primary instead of the Exchange master-detail table',
+      'Open deeper proof, conversation, and auxillary surfaces as deliberate follow-through',
+    ],
     references: {
       source: [
         'uapi/app/terminal/TerminalExperienceFrame.tsx',
@@ -395,11 +401,17 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   writePosture: buildExplainer({
+    kicker: 'Ledger writes',
     title: 'Write posture',
     summary:
       'Deposit, read, and transactional follow-through are the active write posture of the Bitcode Terminal.',
     detail:
       'This is where click-based and chat-based write paths meet. Conversations can draft, but the ledger-facing write posture still belongs to deposit, read, deposit, branch, and closure so writes land in Bitcode Exchange and remain auditable against Bitcode Protocol canon.',
+    points: [
+      'Land ledger-facing writes through deposit, read, branch, and closure',
+      'Draft in conversations while keeping the auditable write path explicit',
+      'Keep every write auditable against Bitcode Protocol canon',
+    ],
     references: {
       source: [
         'uapi/app/terminal/TerminalExperienceFrame.tsx',
@@ -410,11 +422,16 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   scenario: buildExplainer({
+    kicker: 'Flow control',
     title: 'Scenario',
     summary:
       'Scenario chooses the currently measured read or operating frame that the rest of the Bitcode flow should honor.',
     detail:
       'Changing the scenario should immediately change what deposit, fit, branch, and closure are reasoning against. It is not a cosmetic filter.',
+    points: [
+      'Switch the measured read or operating frame the rest of the flow honors',
+      'Change what deposit, fit, branch, and closure reason against in one move',
+    ],
     references: {
       source: [
         'uapi/app/terminal/TerminalCommandDeck.tsx',
@@ -424,22 +441,32 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   projection: buildExplainer({
+    kicker: 'Flow control',
     title: 'Projection',
     summary:
       'Projection determines how the current Bitcode flow is read and staged before materialization.',
     detail:
       'It keeps the operator honest about whether the terminal is previewing, staging, or readying a stronger materialized posture.',
+    points: [
+      'Check whether the terminal is previewing, staging, or readying materialization',
+      'Stage the current flow deliberately before committing a materialized posture',
+    ],
     references: {
       source: ['uapi/app/terminal/TerminalCommandDeck.tsx'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
   branchMode: buildExplainer({
+    kicker: 'Execution posture',
     title: 'Branch mode',
     summary:
       'Branch mode sets the exact AssetPack execution posture that the terminal will materialize when you commit the flow.',
     detail:
       'This keeps branch creation as a visible Bitcode decision with direct settlement and proof consequences instead of a hidden platform default.',
+    points: [
+      'Set the exact AssetPack execution posture the terminal will materialize',
+      'Keep branch creation a visible decision with settlement and proof consequences',
+    ],
     references: {
       source: [
         'uapi/app/terminal/TerminalCommandDeck.tsx',
@@ -449,11 +476,17 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   transactionReadiness: buildExplainer({
+    kicker: 'Readiness gate',
     title: 'Transaction readiness',
     summary:
       'Transaction readiness is the shared operator contract for wallet identity, verified signing access, repository scope, and anchor posture.',
     detail:
       'When readiness is incomplete, review continuity can stay open but branch, Depositing, and closure should fail closed. Manual wallet identity can still support drafting, but signed settlement stays staged until verified wallet-provider access is present. This explainer should always describe the exact blocker set because signed-transaction posture is a Bitcode Exchange precondition taught by Bitcode Protocol canon.',
+    points: [
+      'Read the exact blocker set before branch, Depositing, or closure writes',
+      'Confirm verified wallet-provider access before signed settlement leaves staging',
+      'Keep review continuity open while incomplete readiness fails closed',
+    ],
     references: {
       source: [
         'uapi/app/terminal/bitcode-transaction-readiness.ts',
@@ -469,11 +502,16 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   providerRepository: buildExplainer({
+    kicker: 'Repository context',
     title: 'Provider and repository',
     summary:
       'This is the deposit-side boundary selector for the repository supply that Bitcode can actually work against.',
     detail:
       'Provider and repository are not incidental settings. They determine the source perimeter for searchable supply, Depositing provenance, and later signed transaction follow-through, while third-party connections and attachments enter here as ingress/input context rather than redefining Bitcode outputs.',
+    points: [
+      'Set the source perimeter for searchable supply and Depositing provenance',
+      'Keep third-party connections and attachments as ingress/input context only',
+    ],
     references: {
       source: [
         'uapi/app/terminal/TerminalRepositoryContextPanel.tsx',
@@ -483,11 +521,16 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   repositoryAnchor: buildExplainer({
+    kicker: 'Repository context',
     title: 'Record repository anchor',
     summary:
       'Recording the repository anchor writes the selected source perimeter into recent Bitcode Terminal activity.',
     detail:
       'This keeps source posture rereadable in recent Terminal activity alongside deposit, read, proof, and settlement instead of leaving the repository choice as ephemeral UI state.',
+    points: [
+      'Write the selected source perimeter into recent Bitcode Terminal activity',
+      'Reread source posture later alongside deposit, read, proof, and settlement',
+    ],
     references: {
       source: [
         'uapi/app/terminal/TerminalRepositoryContextPanel.tsx',
@@ -497,11 +540,16 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   authSession: buildExplainer({
+    kicker: 'Execution identity',
     title: 'Auth session',
     summary:
       'The auth session is the current repo-bound execution identity for deposit-side supply selection.',
     detail:
       'Changing the session changes which authenticated inventory Bitcode can read and later cite in Depositing and branch records.',
+    points: [
+      'Bind supply selection to the current repo-bound execution identity',
+      'Control which authenticated inventory Bitcode reads and later cites',
+    ],
     references: {
       source: [
         'uapi/app/terminal/TerminalSupplySelectionPanel.tsx',
@@ -511,11 +559,16 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   artifactKind: buildExplainer({
+    kicker: 'Supply filter',
     title: 'Artifact kind',
     summary:
       'Artifact kind narrows the deposit-side inventory to the kinds of share candidates you actually want to work with.',
     detail:
       'It should help the operator shape the selected supply set before Depositing, not act as hidden backend filtering.',
+    points: [
+      'Narrow deposit-side inventory to the share-candidate kinds you want',
+      'Shape the selected supply set before Depositing instead of relying on hidden filtering',
+    ],
     references: {
       source: [
         'uapi/app/terminal/TerminalSupplySelectionPanel.tsx',
@@ -525,11 +578,16 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   inventorySearch: buildExplainer({
+    kicker: 'Supply search',
     title: 'Inventory search',
     summary:
       'Inventory search is the fast path for narrowing repository supply inside the Bitcode Terminal.',
     detail:
       'It should preserve continuity with repository anchor and selected supply so the operator can move from search straight into Deposit without rebuilding context.',
+    points: [
+      'Narrow repository supply quickly inside the Bitcode Terminal',
+      'Move from search straight into Deposit without rebuilding context',
+    ],
     references: {
       source: [
         'uapi/app/terminal/TerminalSupplySelectionPanel.tsx',
@@ -538,11 +596,16 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   activeNeed: buildExplainer({
+    kicker: 'Read measurement',
     title: 'Record active read',
     summary:
       'Recording the active read writes the currently measured demand frame into recent Bitcode Terminal activity.',
     detail:
       'This makes the selected read rereadable from the same Terminal activity result path that later shows fit, proof, and settlement.',
+    points: [
+      'Write the currently measured demand frame into recent Terminal activity',
+      'Reread the selected read from the same result path that shows fit, proof, and settlement',
+    ],
     references: {
       source: [
         'uapi/app/terminal/TerminalReadScenarioPanel.tsx',
@@ -552,11 +615,16 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   sourceRepo: buildExplainer({
+    kicker: 'Source package',
     title: 'Source repo',
     summary:
       'Source repo keeps deposit provenance and repository anchor aligned when a draft needs an explicit repo override.',
     detail:
       'Use it only when the deposit must name a more exact repo boundary than the current selection already provides.',
+    points: [
+      'Name a more exact repo boundary when a draft needs an explicit override',
+      'Keep deposit provenance aligned with the current repository anchor',
+    ],
     references: {
       source: [
         'uapi/app/terminal/TerminalDepositComposer.tsx',
@@ -566,22 +634,32 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   sourceCommit: buildExplainer({
+    kicker: 'Source package',
     title: 'Source commit / ref',
     summary:
       'Source commit or ref pins the deposit to a concrete revision when provenance must be exact.',
     detail:
       'This is one of the operator-visible bridges between repository posture, source materialization, and later proof or settlement follow-through.',
+    points: [
+      'Pin the deposit to a concrete revision when provenance must be exact',
+      'Bridge repository posture into later proof and settlement follow-through',
+    ],
     references: {
       source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
   sourceBranch: buildExplainer({
+    kicker: 'Source package',
     title: 'Source branch',
     summary:
       'Source branch scopes the commit list and keeps repository materialization tied to the branch the operator selected.',
     detail:
       'Terminal source selection is repository, branch, and commit together. Changing repository re-reads branches; changing branch re-reads commits so downstream materialization can fetch the exact source snapshot.',
+    points: [
+      'Scope the commit list to the branch the operator selected',
+      'Re-read commits after a branch change so materialization fetches the exact snapshot',
+    ],
     references: {
       source: [
         'uapi/app/terminal/TerminalRepositoryContextPanel.tsx',
@@ -591,11 +669,16 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   signerAddress: buildExplainer({
+    kicker: 'Signing identity',
     title: 'Signer address',
     summary:
       'Signer address ties deposit posture to the wallet-connected identity expected for signed Bitcode transactions.',
     detail:
       'It is a readiness-bearing field, not free metadata. Once signed transaction closure lands fully, this field remains part of the operator-visible provenance chain.',
+    points: [
+      'Tie deposit posture to the wallet-connected identity for signed transactions',
+      'Treat the field as readiness-bearing provenance, not free metadata',
+    ],
     references: {
       source: [
         'uapi/app/terminal/TerminalDepositComposer.tsx',
@@ -608,11 +691,16 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   depositSubmission: buildExplainer({
+    kicker: 'Deposit submission',
     title: 'Submit deposit to Bitcode',
     summary:
       'Deposit submission should bind selected supply, provenance, and optional raw content into the same Bitcode activity chain.',
     detail:
       'The operator should be able to submit, reread the ledger row, and continue into fit and closure without leaving the Bitcode Terminal model.',
+    points: [
+      'Bind selected supply, provenance, and optional raw content into one activity chain',
+      'Submit, reread the ledger row, and continue into fit and closure in place',
+    ],
     references: {
       source: [
         'uapi/app/terminal/TerminalDepositComposer.tsx',
@@ -623,99 +711,145 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     },
   }),
   assetTitleOverride: buildExplainer({
+    kicker: 'Optional metadata',
     title: 'Asset title override',
     summary:
       'Optional. Leave blank to use the selected repository and source revision as the deposit title.',
     detail:
       'Use this only when the visible title should be more specific than the selected repository, branch, and commit already make it.',
+    points: [
+      'Leave blank to title the deposit from the selected repository and revision',
+      'Override only when the visible title must be more specific than the selection makes it',
+    ],
     references: {
       source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
   authorOverride: buildExplainer({
+    kicker: 'Optional metadata',
     title: 'Author override',
     summary:
       'Optional. Leave blank to use the authenticated repository session and connected operator identity.',
     detail:
       'This field is for a human-readable issuer label when the default GitHub/account context is not enough.',
+    points: [
+      'Leave blank to use the authenticated session and connected operator identity',
+      'Add a human-readable issuer label when the default account context is not enough',
+    ],
     references: {
       source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
   artifactType: buildExplainer({
+    kicker: 'Optional metadata',
     title: 'Artifact type',
     summary:
       'Optional. Leave blank unless the selected source needs a format label such as markdown, yaml, ts, or bundle.',
     detail:
       'Artifact type helps later reads understand the shape of the provided source material without changing the selected repository snapshot.',
+    points: [
+      'Label the provided source format (markdown, yaml, ts, bundle) for later reads',
+      'Leave the selected repository snapshot unchanged either way',
+    ],
     references: {
       source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
   workflowRunId: buildExplainer({
+    kicker: 'Optional provenance',
     title: 'Workflow run override',
     summary:
       'Optional. Leave blank unless the deposit should cite a specific CI or workflow run id.',
     detail:
       'This is supporting provenance only; repository, branch, and commit remain the required source selector for materialization.',
+    points: [
+      'Cite a specific CI or workflow run id when the deposit should carry it',
+      'Keep repository, branch, and commit as the required source selector',
+    ],
     references: {
       source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
   visualPreview: buildExplainer({
+    kicker: 'Optional metadata',
     title: 'Visual preview',
     summary:
       'Optional. Leave blank unless this deposit needs a short operator-facing preview summary.',
     detail:
       'The preview should help a reviewer scan the deposit record. It is not a replacement for the selected source revision.',
+    points: [
+      'Give reviewers a short operator-facing summary to scan the deposit record',
+      'Keep the selected source revision as the substance the preview never replaces',
+    ],
     references: {
       source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
   workingNote: buildExplainer({
+    kicker: 'Optional metadata',
     title: 'Working note',
     summary:
       'Optional. Leave blank unless the active deposit draft needs an internal note for review continuity.',
     detail:
       'Working notes should explain operator intent or unusual context without weakening source, wallet, or repository requirements.',
+    points: [
+      'Record operator intent or unusual context for review continuity',
+      'Annotate without weakening source, wallet, or repository requirements',
+    ],
     references: {
       source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
   tags: buildExplainer({
+    kicker: 'Optional metadata',
     title: 'Tags',
     summary:
       'Optional. Leave blank or provide comma-separated labels for later filtering.',
     detail:
       'Tags are metadata for search and review. They do not change source selection or signing posture.',
+    points: [
+      'Add comma-separated labels for later filtering and review',
+      'Tag freely without changing source selection or signing posture',
+    ],
     references: {
       source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
   rawFallbackContent: buildExplainer({
+    kicker: 'Fallback input',
     title: 'Raw fallback content',
     summary:
       'Optional when repository source is selected. Use only when manual content is needed in addition to or instead of inventory.',
     detail:
       'In the normal staging-testnet flow, repository, branch, and commit are the source of truth. Raw fallback content keeps the draft usable when repository inventory is unavailable.',
+    points: [
+      'Keep the draft usable when repository inventory is unavailable',
+      'Add manual content alongside or instead of selected inventory',
+      'Prefer repository, branch, and commit as source of truth in the normal flow',
+    ],
     references: {
       source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
   closureAction: buildExplainer({
+    kicker: 'Closure',
     title: 'Closure action',
     summary:
       'Closure action is the visible bridge from Read-review posture into verification, branch, settlement, and ledger follow-through.',
     detail:
       'It should remain adjacent to status, readiness, and closure follow-through links so the operator always understands what the next write will do.',
+    points: [
+      'Bridge Read-review posture into verification, branch, settlement, and ledger follow-through',
+      'Read status, readiness, and follow-through links before committing the next write',
+    ],
     references: {
       source: [
         'uapi/app/terminal/TerminalClosureControlDeck.tsx',

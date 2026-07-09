@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { test } from 'node:test';
+import { test } from './era-pinned-superseded-routes.js';
 
 import {
   V45_SOURCE_SAFE_E2E_REHEARSAL_ARTIFACT_PATH,

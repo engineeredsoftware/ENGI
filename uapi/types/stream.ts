@@ -30,8 +30,6 @@ export interface ParsedStreamData {
   type?: string;
   /** For Evidence Document suggestion messages, list of relevant Evidence Documents. */
   evidence_documents?: any[];
-  /** For on-the-fly instruction messages, list of user instructions */
-  instructions?: any[];
   /** For work-update events (agent step / iteration) */
   update?: any;
   scope?: string;
@@ -40,8 +38,6 @@ export interface ParsedStreamData {
   runId?: string | null;
   /** Current guide (Design/Develop/Digest) when provided */
   guide?: string | null;
-  /** On-the-fly adherence payload for instruction-following streams */
-  adherence?: { score?: number; thoughts?: string } | null;
   /** Generic ad-hoc event payload used by conversation-triggered pipeline events */
   event?: Record<string, unknown> | null;
 }

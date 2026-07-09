@@ -88,7 +88,7 @@ export const IssueSelector = ({
             <components.Option {...props}>
               <div className="flex items-center space-x-2">
                 <div
-                  className={`w-2 h-2 rounded-full ${props.data.isPR ? 'bg-purple-400' : 'bg-emerald-400'}`}
+                  className={`w-2 h-2 ${props.data.isPR ? 'bg-purple-400' : 'bg-emerald-400'}`}
                 />
                 <span>{props.data.label}</span>
               </div>

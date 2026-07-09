@@ -15,6 +15,7 @@ import {
   resolveDeliveryMechanismTemplateFromExecution,
   resolveWrittenAssetTypeFromExecution,
 } from '../semantic-resolution';
+import { synthesizeAssetPacksModeFromExecution } from '../synthesize-asset-packs';
 import type {
   AssetPackInput,
   AssetPackOutput,
@@ -41,14 +42,21 @@ export const setupPhase = assetPackSetupPhaseExecutor as unknown as PhaseDelegat
  */
 // Disable other phases during bring-up (no-op delegators)
 export const discoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (async (input: AssetPackInput, execution: any) => {
-  try { registerDiscoveryAgents((execution as any).agents); } catch {}
-  const exec: Executor<any, any> = sequential(
-    createAgentExecutor('discovery:gather-context'),
-    createAgentExecutor('discovery:understand-requirements'),
-    createAgentExecutor('discovery:research-approach'),
-    createAgentExecutor('discovery:plan-implementation'),
-    createAgentExecutor('discovery:assess-complexity')
-  );
+  const mode = synthesizeAssetPacksModeFromExecution(execution) ?? 'read';
+  try { registerDiscoveryAgents((execution as any).agents, mode); } catch {}
+  const exec: Executor<any, any> = mode === 'deposit'
+    ? sequential(
+        createAgentExecutor('discovery:codebase-comprehension'),
+        createAgentExecutor('discovery:depository-search'),
+        createAgentExecutor('discovery:inherent-regurgitation')
+      )
+    : sequential(
+        createAgentExecutor('discovery:gather-context'),
+        createAgentExecutor('discovery:understand-requirements'),
+        createAgentExecutor('discovery:research-approach'),
+        createAgentExecutor('discovery:plan-implementation'),
+        createAgentExecutor('discovery:assess-complexity')
+      );
   return await exec(input, execution);
 }) as unknown as PhaseDelegator<SetupOutput, DiscoveryOutput>;
 
@@ -61,8 +69,15 @@ export const discoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (asy
  * templates. They do not choose implementation behavior.
  */
 export const implementationPhase: PhaseDelegator<DiscoveryOutput, ImplementationOutput> = (async (input: any, execution: any) => {
-  try { registerImplementationAgents((execution as any).agents); } catch {}
-  const synthesize = createAgentExecutor('implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent');
+  const mode = synthesizeAssetPacksModeFromExecution(execution) ?? 'read';
+  try { registerImplementationAgents((execution as any).agents, mode); } catch {}
+  // Deposit uses a deposit-named key for telemetry clarity; read keeps the
+  // historical ReadFitsFindingSynthesis implementation key.
+  const synthesize = createAgentExecutor(
+    mode === 'deposit'
+      ? 'implementation:deposit-asset-pack-synthesis'
+      : 'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent',
+  );
   return await synthesize(input, execution);
 }) as unknown as PhaseDelegator<DiscoveryOutput, ImplementationOutput>;
 
@@ -73,8 +88,9 @@ export const implementationPhase: PhaseDelegator<DiscoveryOutput, Implementation
  * Danger-wall has been moved to Setup phase
  */
 export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOutput> = (async (input: any, execution: any) => {
+  const mode = synthesizeAssetPacksModeFromExecution(execution) ?? 'read';
   const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
-  try { registerValidationAgentsForType(writtenAssetType, (execution as any).agents); } catch {}
+  try { registerValidationAgentsForType(writtenAssetType, (execution as any).agents, mode); } catch {}
 
   const parallelValidators = parallel(
     createAgentExecutor('validation:validate-last-iterations-validation-phase'),
@@ -86,31 +102,21 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
   //  - validation/discovery:issues
   //  - validation/implementation:issues
   // The final ReadyToFinish agent reads from these stores to decide.
-  // Sequential: validators -> ready-to-instruct -> wait (if needed) -> ReadyToFinish
-  const readyToInstruct = createAgentExecutor('validation:asset-pack-ready-to-instruct');
+  // Sequential: validators -> ReadyToFinish
   const readyToFinish = createAgentExecutor('validation:asset-pack-ready-to-finish-agent');
 
-  // Wait for instruction if confidence < threshold
-  const waitIfNeeded = async (input: any, exec: any) => {
-    const selfInstruct = exec.get('validation', 'selfInstruction');
-
-    if (selfInstruct && selfInstruct.confidence < 0.8) {
-      const { waitForInstruction } = await import('@bitcode/pipelines-generics');
-
-      return waitForInstruction({
-        confidence: selfInstruct.confidence
-      })(input, exec);
-    }
-
-    return input;  // High confidence, proceed immediately
-  };
-
-  const exec: Executor<any, any> = sequential(
-    parallelValidators as any,
-    readyToInstruct,  // Generates selfInstructConfidence
-    waitIfNeeded,     // Pauses if confidence < 0.8
-    readyToFinish     // Final go/no-go before Finish
-  );
+  // Deposit lens: validate the synthesized AssetPacks for quality (the deposit
+  // validator writes validation/implementation:issues), then the same ReadyToFinish
+  // gate. Read lens keeps the canonical parallel validators -> ReadyToFinish.
+  const exec: Executor<any, any> = mode === 'deposit'
+    ? sequential(
+        createAgentExecutor('validation:deposit-quality'),
+        readyToFinish     // Final go/no-go before Finish
+      )
+    : sequential(
+        parallelValidators as any,
+        readyToFinish     // Final go/no-go before Finish
+      );
   return await exec(input, execution);
 }) as unknown as PhaseDelegator<ImplementationOutput, ValidationOutput>;
 
@@ -121,8 +127,9 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
  * AssetPackPartials through pull-request shippables.
  */
 export const finishPhase: PhaseDelegator<ValidationOutput, AssetPackOutput> = (async (input: any, execution: any) => {
+  const mode = synthesizeAssetPacksModeFromExecution(execution) ?? 'read';
   const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
-  try { registerFinishAgentsForType(deliveryMechanismTemplate, (execution as any).agents); } catch {}
+  try { registerFinishAgentsForType(deliveryMechanismTemplate, (execution as any).agents, mode); } catch {}
   const exec: Executor<any, any> = sequential(
     createAgentExecutor('finish:deliver-asset-pack-to-destination-agent'),
     createAgentExecutor('finish:asset-pack-completion')

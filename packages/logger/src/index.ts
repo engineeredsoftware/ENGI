@@ -1,1 +1,1 @@
-export { log, writePromptIO, writeStepTraceJSON } from './logger';
+export { log, writePromptIO, writeStepTraceJSON, writeRawLLMIO } from './logger';

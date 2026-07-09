@@ -10,9 +10,9 @@ function reviewablePolicyReport() {
     repositoryFullName: 'engineeredsoftware/ENGI',
     sourceBranch: 'main',
     sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-    depositorInstructions: 'Prepare source-safe options likely to satisfy unfit Reading demand.',
-    sourcePathHints: [
-      'uapi/app/deposit/DepositPageClient.tsx',
+    obfuscations: 'Prepare source-safe options likely to satisfy unfit Reading demand.',
+    forcedInclusions: [
+      'uapi/app/deposits/DepositPageClient.tsx',
       'packages/pipelines/asset-pack/src/depository-supply-index.ts',
     ],
     depositoryDemandSignals: [
@@ -57,7 +57,7 @@ describe('Depositor earning supply intelligence', () => {
 
     expect(intelligence.schema).toBe('bitcode.deposit.earning-supply-intelligence');
     expect(intelligence.intelligence).toBe('DepositorEarningSupplyIntelligence');
-    expect(intelligence.route).toBe('/deposit');
+    expect(intelligence.route).toBe('/deposits');
     expect(intelligence.likelyDemand.state).toBe('strong-demand-opportunity');
     expect(intelligence.unfitNeedOpportunities.opportunityCount).toBe(1);
     expect(intelligence.earningStatements).toHaveLength(3);
@@ -88,7 +88,7 @@ describe('Depositor earning supply intelligence', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      sourcePathHints: ['packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts'],
+      forcedInclusions: ['packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts'],
       readingDemandSignals: [{ id: 'demand', label: 'Demand exists.', weight: 0.8 }],
     });
     const policyReport = buildDepositAssetPackOptionPolicyReport({
@@ -105,5 +105,31 @@ describe('Depositor earning supply intelligence', () => {
     expect(intelligence.supplyRecommendations.every((recommendation) => recommendation.action === 'withhold-critical-source')).toBe(true);
     expect(assertDepositorEarningSupplyIntelligenceSourceSafe(intelligence).admitted).toBe(true);
     expect(JSON.stringify(intelligence)).not.toContain('PRIVATE_SOURCE_DO_NOT_SERIALIZE');
+  });
+
+  it('marks likely demand and compensation unestimatable without inventing placeholders', () => {
+    const intelligence = buildDepositorEarningSupplyIntelligence({
+      policyReport: reviewablePolicyReport(),
+      demandUnestimatable: true,
+      demandUnestimatableRationale:
+        'Unestimatable: the Depository has no settled AssetPacks to search for comparable demand.',
+      unfitNeedOpportunitySignals: [
+        {
+          id: 'should-be-ignored',
+          label: 'Must not surface when demand is unestimatable.',
+          weight: 0.99,
+        },
+      ],
+    });
+
+    expect(intelligence.likelyDemand.state).toBe('unestimatable-demand');
+    expect(intelligence.likelyDemand.averageConfidence).toBe(0);
+    expect(intelligence.unfitNeedOpportunities.state).toBe('unestimatable-demand');
+    expect(intelligence.unfitNeedOpportunities.opportunityCount).toBe(0);
+    expect(
+      intelligence.earningStatements.every((statement) => statement.state === 'unestimatable-demand'),
+    ).toBe(true);
+    expect(intelligence.aggregate.totalExpectedCompensationSats).toBe(0);
+    expect(intelligence.aggregate.eligibleEarningStatementCount).toBe(0);
   });
 });

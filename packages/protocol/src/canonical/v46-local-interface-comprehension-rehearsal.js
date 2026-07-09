@@ -317,7 +317,7 @@ export const V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_ROWS = Object.freeze([
     requiredCopyTokens: [
       'source-safe AssetPack deposit options',
       'Source-safe AssetPack proposals',
-      'Criticality, demand, ROI, BTD potential, compensation.',
+      'estimated ROI, BTD potential, compensation metadata.',
       'Withheld: raw source, unpaid AssetPack source',
     ],
     expectedReadback:

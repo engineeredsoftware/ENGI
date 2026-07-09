@@ -22,7 +22,7 @@ export default function BitcodeChipCloud({
       <div
         className={
           emptyClassName ||
-          'rounded-[1.1rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-300'
+          ' border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-300'
         }
       >
         {emptyMessage}
@@ -37,7 +37,7 @@ export default function BitcodeChipCloud({
           key={chip}
           className={
             chipClassName ||
-            'rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200'
+            ' border border-white/10 bg-black/20 px-2.5 py-1 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200'
           }
         >
           {chip}

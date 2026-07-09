@@ -124,7 +124,7 @@ export interface DepositAssetPackOptionAdmissionReport {
   schema: 'bitcode.deposit.asset-pack-option-admission-report';
   report: 'DepositAssetPackOptionAdmissionReport';
   reportId: string;
-  route: '/deposit';
+  route: '/deposits';
   packsRoute: '/packs';
   createdAt: string;
   synthesisRequestId: string;
@@ -495,7 +495,7 @@ export function buildDepositAssetPackOptionAdmissionReport(
     schema: 'bitcode.deposit.asset-pack-option-admission-report',
     report: 'DepositAssetPackOptionAdmissionReport',
     reportId: reportRoot,
-    route: '/deposit',
+    route: '/deposits',
     packsRoute: '/packs',
     createdAt,
     synthesisRequestId: input.synthesis.requestId,
@@ -542,7 +542,7 @@ export function assertDepositAssetPackOptionAdmissionReportSourceSafe(
   const noForbiddenMarkers = FORBIDDEN_SOURCE_MARKERS.every((marker) => !serialized.includes(marker));
   const sourceSafe =
     report.schema === 'bitcode.deposit.asset-pack-option-admission-report' &&
-    report.route === '/deposit' &&
+    report.route === '/deposits' &&
     report.packsRoute === '/packs' &&
     report.sourceSafety.sourceSafeMetadataOnly === true &&
     report.sourceSafety.protectedSourceVisible === false &&

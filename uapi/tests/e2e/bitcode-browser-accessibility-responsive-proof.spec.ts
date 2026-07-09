@@ -22,7 +22,7 @@ async function expectNoHorizontalOverflow(page: Page, label: string) {
   expect(metrics.overflow, `${label} horizontal overflow`).toBeLessThanOrEqual(48);
 }
 
-test.describe('V32 browser accessibility responsive proof', () => {
+test.describe('Bitcode browser accessibility responsive proof', () => {
   test.setTimeout(120_000);
 
   test.beforeEach(async ({ page }) => {
@@ -30,36 +30,41 @@ test.describe('V32 browser accessibility responsive proof', () => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
   });
 
-  test('Terminal default, guided, and detail states stay semantic and responsive', async ({
+  test('Deposits and Reads default and selected states stay semantic and responsive', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
     for (const viewport of PROOF_VIEWPORTS) {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
-      await openCommercialRoute(page, '/terminal', /Bitcode Terminal/i);
 
-      await expect(page.getByRole('main', { name: /Deposit, Read, and read recent Bitcode activity/i })).toBeVisible();
-      await expect(page.getByRole('link', { name: /Skip to selected Terminal activity/i })).toBeVisible();
-      await expect(page.getByTestId('terminal-transaction-workspace')).toBeVisible();
-      await expect(page.getByTestId('terminal-transaction-status-strip')).toHaveAttribute('role', 'status');
-
-      const skipLink = page.getByRole('link', { name: /Skip to selected Terminal activity/i });
-      await skipLink.focus();
-      await expect(skipLink).toBeFocused();
-      await page.keyboard.press('Enter');
-      await expect(page.locator('#terminalTransactionWorkspace')).toBeInViewport();
-      await expectNoHorizontalOverflow(page, `terminal-${viewport.id}-default`);
+      await openCommercialRoute(page, '/deposits', /Depositing/i);
+      await expect(page.getByRole('main')).toBeVisible();
+      await expect(page.getByTestId('route-shell-deposit')).toBeVisible();
+      await expect(page.getByTestId('deposits-pipelines-table')).toBeVisible();
+      await expectNoHorizontalOverflow(page, `deposits-${viewport.id}-default`);
 
       await openCommercialRoute(
         page,
-        '/terminal?transactionId=mock-run-branch-remediation&transactionDetail=activity',
-        /Prepared the active branch artifact pack/i,
+        '/deposits?transactionId=mock-run-branch-remediation',
+        /Depositing/i,
       );
-      await expect(page.getByTestId('terminal-selected-activity-detail')).toBeVisible();
-      await expect(page.getByRole('group', { name: /Selected activity detail sections/i })).toBeVisible();
-      await expect(page.getByTestId('terminal-activity-stream-surface')).toBeVisible();
-      await expectNoHorizontalOverflow(page, `terminal-${viewport.id}-detail`);
+      await expect(page.getByTestId('route-shell-deposit')).toBeVisible();
+      await expectNoHorizontalOverflow(page, `deposits-${viewport.id}-detail`);
+
+      await openCommercialRoute(page, '/reads', /Reading/i);
+      await expect(page.getByRole('main')).toBeVisible();
+      await expect(page.getByTestId('route-shell-read')).toBeVisible();
+      await expect(page.getByTestId('reads-pipelines-table')).toBeVisible();
+      await expectNoHorizontalOverflow(page, `reads-${viewport.id}-default`);
+
+      await openCommercialRoute(
+        page,
+        '/reads?transactionId=mock-run-branch-remediation',
+        /Reading/i,
+      );
+      await expect(page.getByTestId('route-shell-read')).toBeVisible();
+      await expectNoHorizontalOverflow(page, `reads-${viewport.id}-detail`);
     }
 
     await expectNoFrameworkOverlay(page);
@@ -73,7 +78,7 @@ test.describe('V32 browser accessibility responsive proof', () => {
 
     for (const viewport of PROOF_VIEWPORTS) {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
-      await openCommercialRoute(page, '/terminal?auxillary-open-to=wallet', /Wallet Auxillary/i);
+      await openCommercialRoute(page, '/packs?auxillary-open-to=wallet', /Wallet Auxillary/i);
 
       await expect(page.getByRole('main', { name: 'Bitcode Auxillaries support plane' })).toBeVisible();
       await expect(page.getByRole('link', { name: 'Skip to active support pane' })).toBeVisible();
@@ -81,14 +86,14 @@ test.describe('V32 browser accessibility responsive proof', () => {
       await expect(page.getByRole('region', { name: /Wallet active support pane/i })).toBeVisible();
       await expectNoHorizontalOverflow(page, `auxillaries-${viewport.id}-default`);
 
-      await openCommercialRoute(page, '/terminal?auxillary-open-to=profile', /Profile Auxillary/i);
+      await openCommercialRoute(page, '/packs?auxillary-open-to=profile', /Profile Auxillary/i);
       const activePane = page.getByRole('region', { name: /Profile active support pane/i });
       await expect(activePane).toHaveAttribute('aria-live', 'polite');
       await expect(activePane).toHaveAttribute('aria-busy', 'false');
       await expect(page.getByText('Audit detail')).toBeVisible();
       await expectNoHorizontalOverflow(page, `auxillaries-${viewport.id}-guided`);
 
-      await openCommercialRoute(page, '/terminal?auxillary-open-to=interfaces', /Interfaces Auxillary/i);
+      await openCommercialRoute(page, '/packs?auxillary-open-to=interfaces', /Interfaces Auxillary/i);
       await expect(page.getByTestId('interfaces-pane-container')).toBeVisible();
       await expect(page.getByTestId('auxillaries-interface-admission-catalog')).toBeVisible();
       await expect(page.getByTestId('auxillaries-audit-detail')).toContainText('source-safe summary only');

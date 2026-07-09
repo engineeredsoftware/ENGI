@@ -2,6 +2,7 @@
 
 import React from "react";
 import type { LucideIcon } from "lucide-react";
+import { TelemetryExplainerTrigger } from "@/components/base/bitcode/execution/TelemetryExplainerTrigger";
 import {
   AlertCircle,
   CircleDashed,
@@ -11,6 +12,47 @@ import {
 } from "lucide-react";
 
 type ProductRouteTone = "emerald" | "sky" | "violet";
+
+// Section (b) generic copy for the shell's rich tooltips.
+const ROUTE_METRIC_TOOLTIP_GENERIC =
+  "Route metrics are the compact live posture of this page's session, rendered as chips in the route header.";
+const ROUTE_PANEL_TOOLTIP_GENERIC =
+  "Panels group related source-safe state; expanding the disclosure shows the full detail.";
+const PROOF_ROOT_TOOLTIP_GENERIC =
+  "Proof roots are source-safe hashes anchoring measurements into proof readback — auditable without revealing withheld content.";
+const SHELL_TOOLTIP_CANON = [
+  "BITCODE_SPEC_V48_NOTES.md § Deposit/Read product-surface presentation laws",
+];
+const ROUTE_METRIC_TOOLTIP_SECTIONS = {
+  points: [
+    "Read the session's posture without leaving the header",
+    "Spot a blocked stage (authority, options, admissions) at a glance",
+  ],
+  references: {
+    source: ["uapi/components/base/bitcode/routes/product-route-shell.tsx"],
+    canon: SHELL_TOOLTIP_CANON,
+  },
+};
+const ROUTE_PANEL_TOOLTIP_SECTIONS = {
+  points: [
+    "Expand the disclosure to read the full source-safe detail",
+    "Hover the rows inside for their own explanations",
+  ],
+  references: {
+    source: ["uapi/components/base/bitcode/routes/product-route-shell.tsx"],
+    canon: SHELL_TOOLTIP_CANON,
+  },
+};
+const PROOF_ROOT_TOOLTIP_SECTIONS = {
+  points: [
+    "Verify a measurement against proof readback by its root",
+    "Cite the root in reviews without exposing withheld content",
+  ],
+  references: {
+    source: ["uapi/components/base/bitcode/routes/product-route-shell.tsx"],
+    canon: SHELL_TOOLTIP_CANON,
+  },
+};
 
 type ToneClasses = {
   page: string;
@@ -62,6 +104,8 @@ const TONE_CLASSES: Record<ProductRouteTone, ToneClasses> = {
 export type ProductRouteMetric = {
   label: string;
   value: React.ReactNode;
+  /** Rich-tooltip body shown on hover over the header chip. */
+  description?: string;
 };
 
 export type ProductRouteStep<StepId extends string = string> = {
@@ -100,35 +144,59 @@ export function ProductRouteShell({
       className={`min-h-screen ${toneClasses.page} px-4 pb-24 pt-32 text-neutral-100 tablet:px-6 desktop:px-8`}
     >
       <div className="mx-auto grid w-full max-w-[1800px] gap-5">
+        {/* Compact route header: one wrapping row — title block left, metric
+            CHIPS (label · value inline) right — instead of a tall stacked
+            card grid. */}
         <header
-          className={`grid gap-5 border ${toneClasses.headerBorder} bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-5 py-5 shadow-[0_30px_100px_rgba(0,0,0,0.34)] xl:grid-cols-[minmax(0,1fr)_minmax(340px,0.6fr)] xl:items-end`}
+          className={`flex flex-wrap items-center gap-x-6 gap-y-3 border ${toneClasses.headerBorder} bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-5 py-3.5 shadow-[0_30px_100px_rgba(0,0,0,0.34)]`}
         >
-          <div>
+          <div className="min-w-0">
             <p
-              className={`flex items-center gap-2 text-[0.72rem] uppercase tracking-[0.34em] ${toneClasses.eyebrow}`}
+              className={`flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.3em] ${toneClasses.eyebrow}`}
             >
-              <Icon className="h-4 w-4" aria-hidden="true" />
+              <Icon className="h-3.5 w-3.5" aria-hidden="true" />
               {label}
             </p>
-            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white tablet:text-4xl">
+            <h1 className="mt-1 text-xl font-semibold tracking-tight text-white tablet:text-2xl">
               {title}
             </h1>
-            <p className="mt-3 max-w-4xl text-sm leading-7 text-neutral-300 tablet:text-base">
+            <p className="mt-1 max-w-3xl text-xs leading-5 text-neutral-400 tablet:text-sm">
               {summary}
             </p>
           </div>
-          <dl className="grid gap-2 text-xs uppercase tracking-[0.18em] text-neutral-300 tablet:grid-cols-3">
-            {metrics.map((metric) => (
-              <div
-                key={metric.label}
-                className="border border-white/10 bg-white/[0.045] px-4 py-3"
-              >
-                <dt className="text-neutral-500">{metric.label}</dt>
-                <dd className="mt-1 text-sm font-semibold text-white">
-                  {metric.value}
-                </dd>
-              </div>
-            ))}
+          <dl className="ml-auto flex flex-wrap items-center gap-2 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-300">
+            {metrics.map((metric) => {
+              const chipBody = (
+                <>
+                  <dt className="text-neutral-500">{metric.label}</dt>
+                  <dd className="text-xs font-semibold text-white">
+                    {metric.value}
+                  </dd>
+                </>
+              );
+              const chipClass =
+                "flex items-baseline gap-2 border border-white/10 bg-white/[0.045] px-2.5 py-1.5";
+              return metric.description ? (
+                <TelemetryExplainerTrigger
+                  key={metric.label}
+                  as="div"
+                  className={chipClass}
+                  explainer={{
+                    kicker: "Route metric",
+                    title: metric.label,
+                    specific: metric.description,
+                    generic: ROUTE_METRIC_TOOLTIP_GENERIC,
+                    ...ROUTE_METRIC_TOOLTIP_SECTIONS,
+                  }}
+                >
+                  {chipBody}
+                </TelemetryExplainerTrigger>
+              ) : (
+                <div key={metric.label} className={chipClass}>
+                  {chipBody}
+                </div>
+              );
+            })}
           </dl>
         </header>
         {children}
@@ -249,6 +317,8 @@ type ProductRouteDisclosureProps = {
   tone: ProductRouteTone;
   children: React.ReactNode;
   defaultOpen?: boolean;
+  /** Rich-tooltip body shown on hover over the summary line. */
+  summaryDescription?: string;
 };
 
 export function ProductRouteDisclosure({
@@ -256,6 +326,7 @@ export function ProductRouteDisclosure({
   tone,
   children,
   defaultOpen = false,
+  summaryDescription,
 }: ProductRouteDisclosureProps) {
   const toneClasses = TONE_CLASSES[tone];
 
@@ -265,7 +336,21 @@ export function ProductRouteDisclosure({
       open={defaultOpen}
     >
       <summary className="cursor-pointer text-[0.62rem] uppercase tracking-[0.16em]">
-        {title}
+        {summaryDescription ? (
+          <TelemetryExplainerTrigger
+            explainer={{
+              kicker: "Panel",
+              title,
+              specific: summaryDescription,
+              generic: ROUTE_PANEL_TOOLTIP_GENERIC,
+              ...ROUTE_PANEL_TOOLTIP_SECTIONS,
+            }}
+          >
+            {title}
+          </TelemetryExplainerTrigger>
+        ) : (
+          title
+        )}
       </summary>
       <div className="mt-2 text-xs leading-5 text-neutral-300">{children}</div>
     </details>
@@ -401,6 +486,8 @@ export type ProductRouteProofRoot = {
   id: string;
   label: string;
   root: string | null | undefined;
+  /** Rich-tooltip body shown on hover over the root row. */
+  description?: string;
 };
 
 type ProductRouteProofDetailProps = {
@@ -430,19 +517,39 @@ export function ProductRouteProofDetail({
         className="grid gap-2"
       >
         {visibleRoots.length ? (
-          visibleRoots.map((proofRoot) => (
-            <div
-              key={`${proofRoot.id}:${proofRoot.root}`}
-              className="border border-white/10 bg-black/20 px-3 py-2"
-            >
-              <p className="text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
-                {proofRoot.label}
-              </p>
-              <p className="mt-1 break-all font-mono text-xs text-neutral-100">
-                {proofRoot.root}
-              </p>
-            </div>
-          ))
+          visibleRoots.map((proofRoot) => {
+            const rowBody = (
+              <>
+                <p className="text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+                  {proofRoot.label}
+                </p>
+                <p className="mt-1 break-all font-mono text-xs text-neutral-100">
+                  {proofRoot.root}
+                </p>
+              </>
+            );
+            const rowClass = "border-b border-white/10 px-0 py-2 last:border-b-0";
+            return proofRoot.description ? (
+              <TelemetryExplainerTrigger
+                key={`${proofRoot.id}:${proofRoot.root}`}
+                as="div"
+                className={rowClass}
+                explainer={{
+                  kicker: "Proof root",
+                  title: proofRoot.label,
+                  specific: proofRoot.description,
+                  generic: PROOF_ROOT_TOOLTIP_GENERIC,
+                  ...PROOF_ROOT_TOOLTIP_SECTIONS,
+                }}
+              >
+                {rowBody}
+              </TelemetryExplainerTrigger>
+            ) : (
+              <div key={`${proofRoot.id}:${proofRoot.root}`} className={rowClass}>
+                {rowBody}
+              </div>
+            );
+          })
         ) : (
           <p className="text-xs text-neutral-400">{emptyMessage}</p>
         )}

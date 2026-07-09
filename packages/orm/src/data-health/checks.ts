@@ -44,7 +44,6 @@ export const CANONICAL_APPLICATION_TABLES = [
   'deliverable_pipeline_phase_delegations',
   'deliverable_pipeline_agent_steps',
   'deliverable_pipeline_generations',
-  'deliverable_pipeline_otf_instructions',
   'deliverable_pipeline_substeps',
   'deliverable_pipeline_tool_executions',
   'error_logs',

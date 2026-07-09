@@ -36,7 +36,6 @@ export type { AssetPackEvidenceRecord } from './models/asset-pack-evidence';
 export {
   AssetPackGeneratedAssetsModel,
   AssetPackPhaseExecutionsModel,
-  AssetPackRunInstructionsModel,
   AssetPackRunJobsModel,
   AssetPackStreamLogsModel,
   AssetPackVectorsModel,
@@ -113,9 +112,6 @@ export type {
   AssetPackPhaseExecution,
   AssetPackPhaseExecutionInsert,
   AssetPackPhaseExecutionUpdate,
-  AssetPackRunInstruction,
-  AssetPackRunInstructionInsert,
-  AssetPackRunInstructionUpdate,
   AssetPackRunJob,
   AssetPackRunJobInsert,
   AssetPackRunJobUpdate,

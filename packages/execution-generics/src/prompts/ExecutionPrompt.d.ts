@@ -20,11 +20,6 @@ export declare class ExecutionPrompt extends Prompt {
      */
     setPreprocess(path: string, prompt: PromptPart): this;
     /**
-     * Record on-the-fly instructions under system prompts
-     * Example path: otf/list or otf/summary
-     */
-    setOnTheFly(path: string, prompt: PromptPart): this;
-    /**
      * Set a generic system prompt
      */
     setGenericSystem(path: string, prompt: PromptPart): this;

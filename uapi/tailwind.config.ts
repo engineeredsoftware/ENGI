@@ -29,7 +29,7 @@ const config = {
 
     // Brand color system - dynamic usage patterns
     { pattern: /^(bg|text|border)-brand-(emerald|purple|orange|blue)(-glow|-bright|-soft|-subtle|-strong|-light|-lighter|-overlay)?$/ },
-    { pattern: /^(bg|text|border)-ai-(thinking|processing|complete|error|tool-use|otf-insight|otf-adherence|pattern-recognition|consciousness-awakening|celebration-gold|mastery-purple|learning-glow)$/ },
+    { pattern: /^(bg|text|border)-ai-(thinking|processing|complete|error|tool-use|pattern-recognition|consciousness-awakening|celebration-gold|mastery-purple|learning-glow)$/ },
     { pattern: /^(bg|text|border)-quantum-(particle|dust|star|star-blue|trail)$/ },
     
     // Retained shadow patterns used by existing grouped hover states.
@@ -130,8 +130,6 @@ const config = {
           complete: '#10B981',    // emerald-500 - AI finished
           error: '#EF4444',       // red-500 - AI error
           'tool-use': '#F97316',  // orange-500 - Tool execution
-          'otf-insight': '#EC4899', // pink-500 - OTF insights
-          'otf-adherence': '#0EA5E9', // sky-500 - OTF adherence
           
           // Intelligence enhancement colors
           'pattern-recognition': '#34D399', // emerald-400 - Pattern detected

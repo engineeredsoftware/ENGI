@@ -6,7 +6,7 @@ import {
   buildReadSettlementRightsDelivery,
   readReadRouteStage,
   writeReadRouteStage,
-} from '@/app/read/read-route-model';
+} from '@/app/reads/read-route-model';
 
 describe('read-route-model', () => {
   it('builds a source-safe five-step ReadRouteSession', () => {
@@ -23,7 +23,7 @@ describe('read-route-model', () => {
     });
 
     expect(session.schema).toBe('bitcode.read.route-session');
-    expect(session.route).toBe('/read');
+    expect(session.route).toBe('/reads');
     expect(session.stageCount).toBe(5);
     expect(session.steps.map((step) => step.id)).toEqual([
       'request-read',
@@ -39,7 +39,7 @@ describe('read-route-model', () => {
     expect(session.pipelineOwnership.deliveryRequiresPaidReadRights).toBe(true);
     expect(session.procurementGovernance.schema).toBe('bitcode.read.procurement-governance');
     expect(session.organizationPolicyWalletAuthority.schema).toBe('bitcode.organization.policy-wallet-authority');
-    expect(session.organizationPolicyWalletAuthority.route).toBe('/read');
+    expect(session.organizationPolicyWalletAuthority.route).toBe('/reads');
     expect(session.procurementGovernance.quotePolicy.pricingVersion).toBe('measurement-weight-volume');
     expect(session.procurementGovernance.quotePolicy.shareToFee.deterministic).toBe(true);
     expect(session.disclosure.protectedSourceVisible).toBe(false);

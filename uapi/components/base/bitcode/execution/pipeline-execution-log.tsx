@@ -5,11 +5,13 @@ import React, { useRef, useState, useEffect, useLayoutEffect, forwardRef } from 
 import { ContentVisibility } from '@/components/base/bitcode/perf/ContentVisibility';
 import { ProcessingIndicator } from '@/components/base/bitcode/indicators/ProcessingIndicator';
 import {
-  ChatBubbleIcon,
   CheckCircledIcon,
+  CheckIcon,
+  ClipboardCopyIcon,
   ExclamationTriangleIcon,
   InfoCircledIcon,
   ChevronRightIcon,
+  ListBulletIcon,
 } from '@radix-ui/react-icons';
 import FileDiffViewer from './FileDiffViewer';
 import type { FileDiff, FileTreeChange } from '@bitcode/streams';
@@ -65,74 +67,17 @@ function formatTime(ts?: string) {
   }
 }
 
-function normalizeStepName(step: string | undefined): string {
-  if (!step) return '';
-
-  const stepLower = step.toLowerCase();
-
-  if (stepLower.includes('plan')) return 'Plan';
-  if (stepLower.includes('try')) return 'Try';
-  if (stepLower.includes('refine')) return 'Refine';
-  if (stepLower.includes('retry')) return 'Retry';
-  if (stepLower.includes('generate')) return 'Try';
-  if (stepLower.includes('intensify')) return 'Retry';
-  if (stepLower.includes('initialize')) return 'Initialize';
-  if (stepLower.includes('setup')) return 'Setup';
-  if (stepLower.includes('discovery')) return 'Discovery';
-  if (stepLower.includes('implementation')) return 'Implementation';
-  if (stepLower.includes('validation')) return 'Validation';
-  if (stepLower.includes('finish')) return 'Finish';
-
-  return step.charAt(0).toUpperCase() + step.slice(1);
-}
-
-function normalizePhaseName(phase: string | undefined): string {
-  if (!phase) return '';
-
-  const phaseLower = phase.toLowerCase();
-
-  if (phaseLower.includes('setup') || phaseLower.includes('admission') || phaseLower.includes('preflight')) {
-    return 'Setup';
-  }
-  if (
-    phaseLower.includes('discovery') ||
-    phaseLower.includes('search') ||
-    phaseLower.includes('recall') ||
-    phaseLower.includes('candidate')
-  ) {
-    return 'Discovery';
-  }
-  if (
-    phaseLower.includes('implementation') ||
-    phaseLower.includes('synthesis') ||
-    phaseLower.includes('asset-pack') ||
-    phaseLower.includes('write')
-  ) {
-    return 'Implementation';
-  }
-  if (
-    phaseLower.includes('validation') ||
-    phaseLower.includes('evaluate') ||
-    phaseLower.includes('quality') ||
-    phaseLower.includes('readiness')
-  ) {
-    return 'Validation';
-  }
-  if (
-    phaseLower.includes('finish') ||
-    phaseLower.includes('delivery') ||
-    phaseLower.includes('settlement') ||
-    phaseLower.includes('finality') ||
-    phaseLower.includes('readback')
-  ) {
-    return 'Finish';
-  }
-
-  return PHASES.includes(phase) ? phase : '';
-}
-
 import { PathPill } from './PathPill';
-import { TagOverflowList } from './TagOverflowList';
+import { ExecutionContextPillRow, buildFailsafePillLabel } from './ExecutionContextPillRow';
+import { TelemetryExplainerTrigger } from './TelemetryExplainerTrigger';
+import { getTelemetryPillExplainer, getTelemetryRowIconExplainer } from './telemetry-pill-explainers';
+import {
+  SDIVF_PHASES,
+  describeExecutionContext,
+  normalizePhaseName,
+  normalizeStepName,
+  type SynthesisPipelineMode,
+} from './execution-telemetry-format';
 import { buildStepViewModel } from '@/app/executions/utilities/execution-step-viewmodel';
 
 // ---------------------------------------------------------------------------
@@ -145,7 +90,7 @@ import { buildStepViewModel } from '@/app/executions/utilities/execution-step-vi
 // Phases are still useful when we want to infer metadata, however the UI no
 // longer surfaces them as first-class sections.  Keep the canonical list for
 // lightweight inference / tagging only.
-const PHASES = ['Setup', 'Discovery', 'Implementation', 'Validation', 'Finish'];
+const PHASES = SDIVF_PHASES;
 
 interface PipelineRunLogProps {
   output: string;
@@ -158,6 +103,35 @@ interface PipelineRunLogProps {
   setUserHasScrolled: (value: boolean) => void;
   /** Force compact styling regardless of viewport width */
   compact?: boolean;
+  /**
+   * The full run payload the "Copy raw logs" button copies (all streamed logs, all
+   * inputs, etc. — source-safe). When a string it is copied verbatim; otherwise it is
+   * JSON-stringified. When omitted, the button falls back to the rendered output +
+   * outputDetails + error.
+   */
+  copyData?: unknown;
+  /**
+   * The synthesis pipeline mode when the page knows it ('/deposits' passes
+   * 'deposit'). Prefixes the processing sentence with 'While Depositing, …' /
+   * 'While Reading, …'. When omitted, falls back to the mode latched from the
+   * stream (stamped onto rows by the activity builder); when neither is known
+   * the sentence renders without the prefix.
+   */
+  pipelineMode?: SynthesisPipelineMode | null;
+  /**
+   * The CURRENT live call chain (the same rolling context the page's header
+   * tracker renders). Rows only appear for COMPLETED LLM/tool calls, so before
+   * the first row lands the processing indicator would otherwise read a bare
+   * 'Processing' while the header already shows Phase→Agent→Step pills — this
+   * keeps the two surfaces telling one story.
+   */
+  liveContext?: {
+    phase: string | null;
+    agent: string | null;
+    step: string | null;
+    failsafe: string | null;
+    generation: string | null;
+  } | null;
 }
 
 // Threshold (in px) below which we switch to compact layout automatically.
@@ -175,6 +149,16 @@ interface LogLine {
   ptrrStepName?: string;
   failsafe?: string;
   generation?: string;
+  // Failsafe-repair markers: a stitch-repair generation (iteration N), a chunk
+  // task generation (index within the chunked run), or the chunk summing
+  // generation. Rendered on the failsafe pill so a real failsafe-handling
+  // case (>0 stitches, >1 chunks) is visible per row.
+  stitchIteration?: number;
+  chunkIndex?: number;
+  chunkSum?: boolean;
+  // Pipeline mode ('deposit' | 'read') latched from the stream by the activity
+  // builder — the processing indicator's 'While Depositing, …' prefix fallback.
+  pipelineMode?: string;
   tool?: any;
   promptTemplateId?: string;
   outputSchema?: string;
@@ -232,6 +216,7 @@ function applyExecutionStateToLogLine(logLine: LogLine, executionState: any, sto
   } = executionState || {};
   logLine.phase = normalizePhaseName(phase);
   logLine.pipeline = pipeline;
+  if (typeof (executionState || {}).pipelineMode === 'string') logLine.pipelineMode = executionState.pipelineMode;
   logLine.phaseId = phaseId;
   logLine.agent = agent;
   logLine.agentId = agentId;
@@ -240,6 +225,12 @@ function applyExecutionStateToLogLine(logLine: LogLine, executionState: any, sto
   logLine.ptrrStepName = ptrrStepName;
   logLine.failsafe = failsafe;
   logLine.generation = generation;
+  if (typeof (executionState || {}).stitchIteration === 'number') logLine.stitchIteration = executionState.stitchIteration;
+  if (typeof (executionState || {}).chunkIndex === 'number') logLine.chunkIndex = executionState.chunkIndex;
+  if ((executionState || {}).chunkSum === true) logLine.chunkSum = true;
+  // DIV-loop iteration (1-based, latched from pipeline/currentIteration by the
+  // activity builder) — rendered as the row's 'iter N' marker.
+  if (typeof (executionState || {}).iteration === 'number') logLine.iteration = executionState.iteration;
   logLine.tool = tool;
   logLine.promptTemplateId = promptTemplateId;
   logLine.outputSchema = outputSchema;
@@ -314,13 +305,6 @@ const TYPE_STYLES: Record<
     border: 'border-purple-400/25',
     Icon: WrenchIcon,
   },
-  'otf_instructions': {
-    bg: 'bg-gradient-to-r from-orange-700/25 to-orange-700/10',
-    text: 'text-orange-200',
-    border: 'border-orange-400/25',
-    Icon: ChatBubbleIcon,
-    glow: true,
-  },
   'reading-telemetry': {
     bg: 'bg-gradient-to-r from-sky-700/20 to-emerald-700/10',
     text: 'text-sky-200',
@@ -351,13 +335,6 @@ const TYPE_STYLES: Record<
     border: 'border-red-400/20',
     Icon: ExclamationTriangleIcon,
   },
-  otf_adherence: {
-    bg: 'bg-gradient-to-r from-sky-700/15 to-sky-700/5',
-    text: 'text-sky-200',
-    border: 'border-sky-400/20',
-    Icon: InfoCircledIcon,
-    glow: true,
-  },
   'file-diff': {
     bg: 'bg-gradient-to-r from-indigo-700/25 to-indigo-700/10',
     text: 'text-indigo-200',
@@ -379,7 +356,253 @@ interface PhaseGroup {
   iterations: Map<number, LogLine[]>;
 }
 
-export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogProps>(({ 
+/**
+ * Build the text the "Copy raw logs" button copies: the full run payload (`copyData`
+ * — all streamed logs + inputs, source-safe) verbatim/JSON, or a fallback of the
+ * rendered output + details + error. Pure + exported for unit testing.
+ */
+export function buildRawLogCopyText(args: {
+  copyData?: unknown;
+  output?: string;
+  outputDetails?: Record<string, any>;
+  error?: string | null;
+}): string {
+  const { copyData, output, outputDetails, error } = args;
+  if (copyData !== undefined) {
+    return typeof copyData === 'string' ? copyData : JSON.stringify(copyData, null, 2);
+  }
+  return [
+    output || '',
+    outputDetails && Object.keys(outputDetails).length
+      ? `\n\n=== details ===\n${JSON.stringify(outputDetails, null, 2)}`
+      : '',
+    error ? `\n\n=== error ===\n${error}` : '',
+  ].join('');
+}
+
+// "Copy terse logs" string budgets: ordinary string fields truncate to
+// TERSE_STRING_LIMIT; fields whose key looks error-ish (error/message/stack)
+// keep TERSE_ERROR_STRING_LIMIT so failure forensics survive the distillation.
+const TERSE_STRING_LIMIT = 200;
+const TERSE_ERROR_STRING_LIMIT = 2000;
+const TERSE_ERROR_KEY = /error|message|stack/i;
+
+/**
+ * Recursively distill a copy payload for the "Copy terse logs" button: every
+ * string over its budget is truncated to a preview + '… [+N chars]' marker,
+ * while structure, ordering, counts, numbers, and short fields (the run's
+ * phase/agent/step/failsafe hierarchy, statuses, usage, timestamps) survive
+ * whole. Pure + exported for unit testing.
+ */
+export function distillTerseValue(value: unknown, keyHint?: string): unknown {
+  if (typeof value === 'string') {
+    const limit = keyHint && TERSE_ERROR_KEY.test(keyHint) ? TERSE_ERROR_STRING_LIMIT : TERSE_STRING_LIMIT;
+    return value.length > limit ? `${value.slice(0, limit)}… [+${value.length - limit} chars]` : value;
+  }
+  if (Array.isArray(value)) return value.map((item) => distillTerseValue(item, keyHint));
+  if (value && typeof value === 'object') {
+    const out: Record<string, unknown> = {};
+    for (const [key, entry] of Object.entries(value as Record<string, unknown>)) {
+      out[key] = distillTerseValue(entry, key);
+    }
+    return out;
+  }
+  return value;
+}
+
+/**
+ * Compact one streamed run event ({id, created_at, event} or a bare payload)
+ * into a terse row: timestamp, canonical type, store identity (namespace/key),
+ * the full Phase→Agent→Step→Failsafe→Generation call chain + repair markers,
+ * provider/model/usage, a bounded message preview, and (near-)complete error
+ * bodies. Everything else — the raw stored values, executionState duplicates,
+ * metadata snapshots — is the payload bulk and is dropped.
+ */
+export function compactTerseEvent(entry: unknown): Record<string, unknown> {
+  const record = entry && typeof entry === 'object' ? (entry as Record<string, any>) : null;
+  const payload = record && 'event' in record ? record.event : entry;
+  const compact: Record<string, unknown> = {};
+  if (record?.created_at) compact.created_at = record.created_at;
+  if (!payload || typeof payload !== 'object') {
+    if (payload !== undefined && payload !== null) compact.value = distillTerseValue(payload);
+    return compact;
+  }
+  if (payload.type) compact.type = payload.type;
+  // Store identity: names WHAT was stored — tiny and load-bearing for ordering
+  // forensics (which agent/step/failsafe emitted what, in what sequence).
+  if (payload.namespace) compact.namespace = payload.namespace;
+  if (payload.key) compact.key = payload.key;
+  const executionState = extractExecutionState(payload) || {};
+  const CHAIN_FIELDS = [
+    'pipeline',
+    'phase',
+    'agent',
+    'step',
+    'failsafe',
+    'generation',
+    'tool',
+    'ptrrStepName',
+    'promptTemplateId',
+    'outputSchema',
+    'returnType',
+  ] as const;
+  for (const field of CHAIN_FIELDS) {
+    const value = executionState[field];
+    if (value !== undefined && value !== null && value !== '') compact[field] = value;
+  }
+  if (typeof executionState.stitchIteration === 'number') compact.stitchIteration = executionState.stitchIteration;
+  if (typeof executionState.chunkIndex === 'number') compact.chunkIndex = executionState.chunkIndex;
+  if (executionState.chunkSum === true) compact.chunkSum = true;
+  const status = payload.status || {};
+  // The source-safe stream projection carries its metadata under `data`
+  // (provider/model/tool/phase/agent/step/generation, plus contentChars for
+  // withheld bodies); `llm:usage` store events carry the usage object AS data.
+  const data = payload.data && typeof payload.data === 'object' ? payload.data : {};
+  for (const field of ['phase', 'agent', 'step', 'generation', 'tool'] as const) {
+    if (compact[field] === undefined && data[field] !== undefined && data[field] !== null && data[field] !== '') {
+      compact[field] = data[field];
+    }
+  }
+  const provider = payload.provider ?? status.provider ?? data.provider ?? executionState.provider;
+  const model = payload.model ?? status.model ?? data.model ?? executionState.model;
+  const usage =
+    payload.usage ??
+    status.usage ??
+    (payload.namespace === 'llm' && payload.key === 'usage' ? payload.data : undefined) ??
+    executionState.usage;
+  if (provider) compact.provider = provider;
+  if (model) compact.model = model;
+  if (usage !== undefined && usage !== null) compact.usage = distillTerseValue(usage);
+  if (typeof data.contentChars === 'number') compact.contentChars = data.contentChars;
+  if (typeof data.ok === 'boolean') compact.ok = data.ok;
+  const message = payload.message ?? status.message ?? payload.text;
+  // 'message' keyHint: event messages carry stall/failure text, so they get
+  // the larger error budget the __terse note promises for message fields.
+  if (typeof message === 'string' && message) compact.message = distillTerseValue(message, 'message');
+  const errorBody = payload.error ?? status.error;
+  if (errorBody !== undefined && errorBody !== null) compact.error = distillTerseValue(errorBody, 'error');
+  return compact;
+}
+
+/**
+ * Build the text the "Copy terse logs" button copies: the same run payload as
+ * "Copy raw logs", distilled to a much smaller but still debugging-useful
+ * form. When `copyData` carries an `events` array (the /deposits shape), every
+ * event compacts to its terse row (`compactTerseEvent`) and the
+ * `outputDetails` duplication is omitted; other payload fields keep their
+ * structure with long strings truncated (`distillTerseValue`) — error bodies
+ * keep a much larger budget. Pure + exported for unit testing.
+ */
+export function buildTerseLogCopyText(args: {
+  copyData?: unknown;
+  output?: string;
+  outputDetails?: Record<string, any>;
+  error?: string | null;
+}): string {
+  const { copyData, output, outputDetails, error } = args;
+  const note =
+    `Terse copy: run events are compacted to timestamp/type/call-chain/usage/error rows and long strings ` +
+    `are truncated to a preview + '… [+N chars]' (error/message/stack fields keep up to ` +
+    `${TERSE_ERROR_STRING_LIMIT} chars); ordering and counts are complete. Use 'Copy raw logs' for full bodies.`;
+  if (
+    copyData !== undefined &&
+    copyData &&
+    typeof copyData === 'object' &&
+    !Array.isArray(copyData) &&
+    Array.isArray((copyData as Record<string, any>).events)
+  ) {
+    const { events, outputDetails: duplicatedDetails, ...header } = copyData as Record<string, any>;
+    void duplicatedDetails;
+    const wrapped = {
+      __terse: note,
+      ...(distillTerseValue(header) as Record<string, unknown>),
+      outputDetails: '[omitted — duplicates the events; use Copy raw logs for full bodies]',
+      eventCount: events.length,
+      firstEventAt: events[0]?.created_at ?? null,
+      lastEventAt: events[events.length - 1]?.created_at ?? null,
+      events: events.map(compactTerseEvent),
+    };
+    return JSON.stringify(wrapped, null, 2);
+  }
+  const source =
+    copyData !== undefined
+      ? copyData
+      : { output: output || '', outputDetails: outputDetails ?? {}, error: error ?? null };
+  const distilled = distillTerseValue(typeof source === 'string' ? { output: source } : source);
+  const wrapped =
+    distilled && typeof distilled === 'object' && !Array.isArray(distilled)
+      ? { __terse: note, ...(distilled as Record<string, unknown>) }
+      : { __terse: note, data: distilled };
+  return JSON.stringify(wrapped, null, 2);
+}
+
+// Matches the default BITCODE_LLM_CALL_TIMEOUT_MS (AgentLLMsRegistry /
+// PipelineLLMRegistry, 180s) — past this many seconds with no new row, an
+// in-flight LLM call should already have timed out server-side, so continued
+// silence is a genuine-hang signal rather than a merely slow generation.
+const LIKELY_STALL_SECONDS = 180;
+
+/**
+ * Build the live "While {Depositing|Reading}, during {Phase}, {Agent} Agent is
+ * {Step}... · Ns since last update" label for the processing indicator, from
+ * the last known log line + the current tick. Pure + exported for unit
+ * testing. Returns the bare fallback label when there is no prior line yet
+ * (nothing streamed since the run started) or not enough context to describe.
+ * The pipeline prefix uses the explicit `pipelineMode` when the page passed
+ * one, else the mode latched from the stream onto the last line, else none.
+ */
+export function buildProcessingStallLabel(
+  lastLine: Pick<LogLine, 'phase' | 'agent' | 'step' | 'failsafe' | 'generation' | 'timestamp' | 'pipelineMode'> | undefined,
+  nowMs: number,
+  pipelineMode?: SynthesisPipelineMode | null,
+): { label: string; likelyStalled: boolean } {
+  if (!lastLine?.timestamp) return { label: 'Processing', likelyStalled: false };
+  const lastMs = new Date(lastLine.timestamp).getTime();
+  if (!Number.isFinite(lastMs)) return { label: 'Processing', likelyStalled: false };
+
+  const elapsedSeconds = Math.max(0, Math.round((nowMs - lastMs) / 1000));
+  const sentence = describeExecutionContext({ ...lastLine, mode: pipelineMode ?? lastLine.pipelineMode ?? null });
+  const likelyStalled = elapsedSeconds >= LIKELY_STALL_SECONDS;
+  const label = sentence
+    ? `${sentence} · ${elapsedSeconds}s since last update`
+    : `Processing · ${elapsedSeconds}s since last update`;
+  return { label, likelyStalled };
+}
+
+/**
+ * Copy text to the clipboard, returning whether it succeeded. Tries the modern
+ * `navigator.clipboard` (requires a secure context) and, when that is unavailable or
+ * fails (e.g. `/deposits` loaded over plain http on a LAN IP), falls back to a hidden
+ * textarea + `document.execCommand('copy')`. Pure + exported for unit testing.
+ */
+export async function copyTextToClipboard(text: string): Promise<boolean> {
+  try {
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch {
+    /* fall through to the legacy path */
+  }
+  try {
+    if (typeof document === 'undefined') return false;
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.top = '-9999px';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(textarea);
+    return ok;
+  } catch {
+    return false;
+  }
+}
+
+export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogProps>(({
   output,
   isProcessing,
   error,
@@ -388,11 +611,53 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
   onDismissError,
   userHasScrolled,
   setUserHasScrolled,
-  compact: compactProp
+  compact: compactProp,
+  copyData,
+  pipelineMode,
+  liveContext
 }, ref) => {
   // Automatic compact detection via container width
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [autoCompact, setAutoCompact] = useState(false);
+
+  // Live "stalled since" signal (QA debug aid, V48 Gate 3): while processing, tick
+  // once a second so the processing indicator can show elapsed time since the
+  // last streamed event. This does NOT add a new formal log-line kind (F19's
+  // "exactly LLM calls + Tool uses" contract is unchanged) — it only makes an
+  // in-flight call's silence visible in real time, so a genuine hang (e.g. past
+  // BITCODE_LLM_CALL_TIMEOUT_MS with no new row) is distinguishable from a slow
+  // but progressing run instead of an unexplained blank gap.
+  const [nowTick, setNowTick] = useState(() => Date.now());
+  useEffect(() => {
+    if (!isProcessing) return;
+    const id = setInterval(() => setNowTick(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [isProcessing]);
+
+  // "Copy raw logs": copy this run's full information (all streamed logs + inputs).
+  const [copiedRaw, setCopiedRaw] = useState(false);
+  const handleCopyRaw = async () => {
+    const ok = await copyTextToClipboard(
+      buildRawLogCopyText({ copyData, output, outputDetails, error }),
+    );
+    if (ok) {
+      setCopiedRaw(true);
+      setTimeout(() => setCopiedRaw(false), 1500);
+    }
+  };
+
+  // "Copy terse logs": the same run payload distilled — long strings truncated,
+  // hierarchy/ordering/errors kept — for a much smaller but still useful copy.
+  const [copiedTerse, setCopiedTerse] = useState(false);
+  const handleCopyTerse = async () => {
+    const ok = await copyTextToClipboard(
+      buildTerseLogCopyText({ copyData, output, outputDetails, error }),
+    );
+    if (ok) {
+      setCopiedTerse(true);
+      setTimeout(() => setCopiedTerse(false), 1500);
+    }
+  };
 
   useLayoutEffect(() => {
     if (typeof window === 'undefined' || typeof ResizeObserver === 'undefined') return;
@@ -478,14 +743,19 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
 
     // Process each line
     lines.forEach(line => {
-      const logLine: LogLine & { type?: string } = { text: line } as any;
-      const storedChunk = outputDetails?.[line.trim()];
+      // A row key may carry a unique suffix after a null separator (so distinct
+      // LLM/tool calls with identical withheld text never collapse under the
+      // text-keyed de-dup). Display only the text before the separator; look up
+      // details by the full key.
+      const sepIdx = line.indexOf('\u0000');
+      const displayText = sepIdx >= 0 ? line.slice(0, sepIdx) : line;
+      const logLine: LogLine & { type?: string } = { text: displayText } as any;
+      const storedChunk =
+        outputDetails?.[line] ?? outputDetails?.[line.trim()] ?? outputDetails?.[displayText.trim()];
 
       // Preserve canonical stream message `type` if available for colour-coding
       if (storedChunk?.type) {
-        // Normalise custom aliases used in some mock/staging data
-        if (storedChunk.type === 'user_otf_instruction') logLine.type = 'otf_instructions';
-        else logLine.type = storedChunk.type;
+        logLine.type = storedChunk.type;
       } else if (storedChunk?.schema === 'bitcode.reading.operational-operator-readback') {
         logLine.type = 'operator-readback';
       } else if (storedChunk?.eventKind === 'repair') {
@@ -494,11 +764,10 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         logLine.type = 'reading-telemetry';
       } else {
         // Heuristic fallback when mock data lacks explicit type
-        const lower = line.toLowerCase();
+        const lower = displayText.toLowerCase();
         if (lower.includes('thinking')) logLine.type = 'thinking';
         else if (lower.includes('tool')) logLine.type = 'tool-use';
         else if (lower.includes('ai call') || lower.includes('(ai') || lower.includes('generation')) logLine.type = 'generation';
-        else if (lower.includes('on-the-fly') || lower.includes('otf')) logLine.type = 'otf_instructions';
         else if (lower.includes('error')) logLine.type = 'error';
         else if (lower.includes('complete') || lower.includes('finalizing')) logLine.type = 'completion';
         else logLine.type = undefined;
@@ -514,6 +783,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
           logLine.step = normalizeStepName(executionState.step);
           logLine.failsafe = executionState.failsafe;
           logLine.generation = executionState.generation;
+          if (typeof executionState.pipelineMode === 'string') logLine.pipelineMode = executionState.pipelineMode;
         }
         logLine.details = storedChunk;
         logLine.timestamp = timestamp;
@@ -530,7 +800,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         }
 
         // Try to extract iteration from the line or metadata
-        const iterationMatch = line.match(/iteration[:\s]*(\d+)/i);
+        const iterationMatch = displayText.match(/iteration[:\s]*(\d+)/i);
         if (iterationMatch) {
           logLine.iteration = parseInt(iterationMatch[1], 10);
         } else if (storedChunk.status?.metadata?.iteration) {
@@ -550,28 +820,28 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
       }
 
       // Clean up the log line text - remove any timestamp suffixes
-      const textParts = line.split('_');
+      const textParts = displayText.split('_');
       if (textParts.length > 1 && /^\d+$/.test(textParts[textParts.length - 1])) {
         // Remove timestamp suffix
         logLine.text = textParts.slice(0, -1).join('_');
       }
 
       // Determine line type
-      logLine.isError = line.toLowerCase().includes('error') ||
+      logLine.isError = displayText.toLowerCase().includes('error') ||
         (storedChunk?.status?.progress === 'error') ||
         storedChunk?.progress === 'blocked' ||
         storedChunk?.progress === 'repair-required';
-      logLine.isSuccess = line.toLowerCase().includes('success') ||
-        line.toLowerCase().includes('completed') ||
+      logLine.isSuccess = displayText.toLowerCase().includes('success') ||
+        displayText.toLowerCase().includes('completed') ||
         (storedChunk?.status?.progress === 'success') ||
         storedChunk?.progress === 'completed';
-      logLine.isInfo = line.toLowerCase().includes('info') ||
-        line.toLowerCase().includes('processing') ||
+      logLine.isInfo = displayText.toLowerCase().includes('info') ||
+        displayText.toLowerCase().includes('processing') ||
         (storedChunk?.status?.progress === 'in-progress') ||
         storedChunk?.progress === 'running' ||
         storedChunk?.progress === 'planned';
-      logLine.isComplete = line.toLowerCase().includes('complete') ||
-        line.toLowerCase().includes('completed') ||
+      logLine.isComplete = displayText.toLowerCase().includes('complete') ||
+        displayText.toLowerCase().includes('completed') ||
         (storedChunk?.status?.progress === 'success');
 
       // If phase is not specified, try to infer from the line text or stored chunk
@@ -583,7 +853,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         } else {
           // Then try to infer from text
           for (const phase of PHASES) {
-            if (line.includes(phase)) {
+            if (displayText.includes(phase)) {
               logLine.phase = phase;
               break;
             }
@@ -597,8 +867,11 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
       // Add to the appropriate phase group
       const phaseGroup = phaseGroups.get(phase);
       if (phaseGroup) {
-        // Check for duplicate messages - only add if unique
-        const isDuplicate = phaseGroup.lines.some(existingLine => {
+        // Uniquely-keyed rows (separator-suffixed by the activity builder) are
+        // distinct formal log lines — distinct LLM/tool calls can share withheld
+        // text, so they must never be de-duped. Only legacy text-only lines fall
+        // through to message de-dup.
+        const isDuplicate = sepIdx < 0 && phaseGroup.lines.some(existingLine => {
           return existingLine.text === logLine.text &&
             existingLine.agent === logLine.agent &&
             existingLine.step === logLine.step &&
@@ -657,17 +930,36 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
     setFlatLines(sortedFlat);
   }, [output, outputDetails]);
 
-  // Handle scroll events
+  // Handle scroll events. A modest "near bottom" band (not exact-pixel) means
+  // momentum/rounding still counts as following, while a deliberate scroll up to
+  // read an earlier line or an open accordion stops the auto-follow; returning to
+  // the bottom resumes it.
+  const BOTTOM_FOLLOW_THRESHOLD_PX = 48;
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.currentTarget;
-    const isAtBottom = Math.abs(target.scrollHeight - target.clientHeight - target.scrollTop) < 1;
+    const distanceFromBottom = target.scrollHeight - target.clientHeight - target.scrollTop;
 
-    if (!isAtBottom) {
+    if (distanceFromBottom > BOTTOM_FOLLOW_THRESHOLD_PX) {
       setUserHasScrolled(true);
     } else {
       setUserHasScrolled(false);
     }
   };
+
+  // Auto-follow: pin the log to the latest line as rows stream in so the user can
+  // watch passively — UNLESS they have scrolled away from the bottom, in which
+  // case we respect their position and never yank them back. `userHasScrolled`
+  // (maintained by handleScroll) flips back to false when they return to the
+  // bottom, which resumes the follow here.
+  useEffect(() => {
+    if (userHasScrolled) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const id = requestAnimationFrame(() => {
+      el.scrollTop = el.scrollHeight;
+    });
+    return () => cancelAnimationFrame(id);
+  }, [flatLines, isProcessing, userHasScrolled]);
 
   // Toggle phase expansion
   const togglePhase = (phase: string) => {
@@ -707,8 +999,6 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         return 'text-emerald-400'; // Bitcode green
       case 'tool-use':
         return 'text-purple-400';  // Bitcode purple
-      case 'otf_instructions':
-        return 'text-orange-400';  // orange
       case 'reading-telemetry':
         return 'text-sky-300';
       case 'operator-readback':
@@ -725,37 +1015,90 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
   };
 
   return (
-    <div
-      ref={(node) => {
-        containerRef.current = node;
-        if (typeof ref === 'function') ref(node);
-        else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
-      }}
-      className="relative px-4 laptop:px-6 py-3 laptop:py-4 overflow-auto custom-scrollbar group/logs w-full min-h-[240px] max-h-[min(65vh,600px)] focus:outline-none"
-      onScroll={handleScroll}
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-    >
+    <div className="relative w-full">
+      <div className="absolute top-2 right-2 z-30 flex items-center gap-1">
+        <button
+          type="button"
+          onClick={handleCopyTerse}
+          title="Copy terse logs"
+          aria-label="Copy terse logs"
+          className="flex h-7 w-7 items-center justify-center border border-white/10 bg-black/40 text-neutral-300 backdrop-blur-sm transition hover:border-emerald-300/40 hover:text-emerald-200 focus:outline-none"
+        >
+          {copiedTerse ? (
+            <CheckIcon className="h-4 w-4 text-emerald-300" />
+          ) : (
+            <ListBulletIcon className="h-4 w-4" />
+          )}
+        </button>
+        <button
+          type="button"
+          onClick={handleCopyRaw}
+          title="Copy raw logs"
+          aria-label="Copy raw logs"
+          className="flex h-7 w-7 items-center justify-center border border-white/10 bg-black/40 text-neutral-300 backdrop-blur-sm transition hover:border-emerald-300/40 hover:text-emerald-200 focus:outline-none"
+        >
+          {copiedRaw ? (
+            <CheckIcon className="h-4 w-4 text-emerald-300" />
+          ) : (
+            <ClipboardCopyIcon className="h-4 w-4" />
+          )}
+        </button>
+      </div>
+      <div
+        ref={(node) => {
+          containerRef.current = node;
+          if (typeof ref === 'function') ref(node);
+          else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        }}
+        className="relative px-4 laptop:px-6 pb-3 laptop:pb-4 pt-11 overflow-auto custom-scrollbar group/logs w-full min-h-[240px] max-h-[min(65vh,600px)] focus:outline-none"
+        onScroll={handleScroll}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+      >
       <div className="absolute left-0 right-0 top-0 h-8 bg-gradient-to-b from-black/20 to-transparent pointer-events-none opacity-0 transition-opacity duration-200 group-[.can-scroll-up]/logs:opacity-60 z-10" />
       <div className="absolute left-0 right-0 bottom-0 h-8 bg-gradient-to-t from-black/20 to-transparent pointer-events-none opacity-0 transition-opacity duration-200 group-[.can-scroll-down]/logs:opacity-60 z-10" />
 
       <div className="pb-4 w-full">
+        {/* The log's own error banner (QA F19): errors render here, not in a
+            separate pane, so the telemetry surface is the single place a run's
+            terminal failure is visible. Dismiss clears it; Retry re-dispatches
+            (the caller's onRetry — typically a fresh synthesis run). */}
+        {error && (
+          <div
+            role="alert"
+            className="mb-4 flex flex-wrap items-start justify-between gap-3 border border-rose-300/25 bg-rose-300/10 px-3 py-2 text-xs leading-5 text-rose-100"
+          >
+            <p className="min-w-0 flex-1 break-words">{error}</p>
+            <div className="flex shrink-0 items-center gap-2">
+              <button
+                type="button"
+                onClick={onRetry}
+                className="border border-rose-200/35 px-2 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-rose-100 transition hover:border-rose-100/55 hover:bg-rose-300/10"
+              >
+                Retry
+              </button>
+              <button
+                type="button"
+                onClick={onDismissError}
+                aria-label="Dismiss error"
+                className="border border-rose-200/35 px-2 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.14em] text-rose-100 transition hover:border-rose-100/55 hover:bg-rose-300/10"
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+        )}
         {flatLines.length === 0 && !isProcessing && (
           <div className="text-center text-gray-400 py-8">No logs available</div>
         )}
 
-        {/* Empty state placeholder when processing but no logs yet */}
+        {/* Empty state placeholder when processing but no logs yet — styled
+            exactly like a collapsed log row (same bar, no chevron: there is
+            no detail payload to expand). */}
         {isProcessing && flatLines.length === 0 && (
-          <div className="border-l-2 border-emerald-500/20 pl-4 mb-6">
-            <div className="flex items-center space-x-3 py-2 px-3 bg-sky-500/10 rounded-md">
-              <span className="select-none text-gray-300 text-lg opacity-40">›</span>
-              <div className="flex-1 flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <span className="text-lg font-semibold text-emerald-400 opacity-50">Initializing</span>
-                </div>
-                <span className="text-xs text-gray-500">preparing</span>
-              </div>
-            </div>
+          <div className="relative flex items-center gap-1 w-full pl-7 pr-3 py-2 min-h-[34px] mb-4 select-none text-[0.78rem] font-medium text-emerald-200 backdrop-blur-md bg-white/5 dark:bg-white/2 border-l-2 border-emerald-400/25">
+            <span className="truncate min-w-0 text-[0.82rem] leading-none m-0 flex-1">Initializing</span>
+            <span className="text-[10px] text-gray-500 flex-shrink-0 select-none ml-1">preparing</span>
           </div>
         )}
 
@@ -771,15 +1114,62 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
             expandedLines,
             getLineClass,
             compact,
+            pipelineMode,
           ),
         )}
 
-        {/* Processing indicator */}
-        {isProcessing && <ProcessingIndicator />}
+        {/* Processing indicator — shows the last known Phase→Agent→Step→Failsafe→
+            Thinkings context + elapsed time since the last streamed event, so a
+            genuine hang is visible live instead of an unexplained blank gap.
+            Before the FIRST row lands (rows are completed calls only), fall
+            back to the page's live call-chain context so this line and the
+            header pills tell one story instead of a bare 'Processing'. */}
+        {isProcessing && (() => {
+          const lastLine = flatLines[flatLines.length - 1];
+          if (!lastLine && liveContext) {
+            const sentence = describeExecutionContext({ ...liveContext, mode: pipelineMode ?? null });
+            if (sentence) return <ProcessingIndicator label={sentence} stalled={false} />;
+          }
+          const { label, likelyStalled } = buildProcessingStallLabel(lastLine, nowTick, pipelineMode);
+          return <ProcessingIndicator label={label} stalled={likelyStalled} />;
+        })()}
       </div>
+    </div>
     </div>
   );
 });
+
+/**
+ * Copy button for one expanded log line's Details JSON: copies exactly that
+ * log-detail payload, pretty-printed, via the same clipboard helper as the
+ * "Copy raw logs" button (modern clipboard + insecure-context execCommand
+ * fallback).
+ */
+function DetailsCopyButton({ payload }: { payload: unknown }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      type="button"
+      title="Copy details JSON"
+      aria-label="Copy details JSON"
+      onClick={async (event) => {
+        event.stopPropagation();
+        const ok = await copyTextToClipboard(JSON.stringify(payload, null, 2));
+        if (ok) {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1500);
+        }
+      }}
+      className="inline-flex h-5 w-5 items-center justify-center border border-white/10 bg-black/30 text-neutral-400 transition hover:border-emerald-300/40 hover:text-emerald-200 focus:outline-none"
+    >
+      {copied ? (
+        <CheckIcon className="h-3 w-3 text-emerald-300" />
+      ) : (
+        <ClipboardCopyIcon className="h-3 w-3" />
+      )}
+    </button>
+  );
+}
 
 // Helper function to render a log line
 function renderLogLine(
@@ -791,6 +1181,7 @@ function renderLogLine(
   expandedLines: Record<string, boolean>,
   getLineClass: (logLine: LogLine) => string,
   compact: boolean,
+  pipelineMode?: SynthesisPipelineMode | null,
 ) {
   const style = TYPE_STYLES[logLine.type || ''] || {
     bg: 'bg-gray-800/40',
@@ -800,6 +1191,36 @@ function renderLogLine(
   };
 
   const Icon = style.Icon;
+
+  // Shared across layouts: the row's tool label, the mode used by the pill
+  // tooltips (explicit page mode > latched stream mode), and the corner-icon
+  // explainer (one LLM call vs one Tool use — F19's only two formal rows).
+  const toolLabel = logLine.tool
+    ? typeof logLine.tool === 'string'
+      ? logLine.tool
+      : logLine.tool.name || String(logLine.tool)
+    : null;
+  const rowMode = pipelineMode ?? (logLine.pipelineMode as SynthesisPipelineMode | undefined) ?? null;
+  const rowIconExplainer = getTelemetryRowIconExplainer(
+    logLine.type === 'tool-use' || logLine.tool ? 'tool' : 'llm',
+  );
+  // ONE inline, wrapping row of all call-chain pills (phase, agent, step,
+  // failsafe, generation, tool) — each a rich-tooltip trigger. Rendered per
+  // layout (with a layout-specific className) to the RIGHT of the chevron +
+  // title on the SAME line, wrapping onto following lines only when out of
+  // width.
+  const pillRowProps = {
+    phase: logLine.phase,
+    agent: logLine.agent,
+    step: logLine.step,
+    failsafe: logLine.failsafe,
+    generation: logLine.generation,
+    tool: toolLabel,
+    stitchIteration: logLine.stitchIteration,
+    chunkIndex: logLine.chunkIndex,
+    chunkSum: logLine.chunkSum,
+    mode: rowMode,
+  };
 
   const formatMeta = (m?: string) => {
     const v = String(m || '');
@@ -818,31 +1239,20 @@ function renderLogLine(
     return parts.length > segments ? parts.slice(-segments).join('.') : parts.join('.') || String(value || '');
   };
 
+  const hasPills = Boolean(
+    logLine.phase || logLine.agent || logLine.step || logLine.failsafe || logLine.generation || toolLabel,
+  );
+
+  // A row is expandable (chevron + click-to-toggle) only when there is a
+  // detail payload to reveal — a chevron on a payload-less row is a lie.
+  const hasDetails = Boolean(logLine.details);
+
   if (compact) {
-    // Build tag arrays first
-    const tagsTop: { type: any; label: any }[] = [];
-    if (logLine.phase) tagsTop.push({ type: 'phase', label: logLine.phase });
-    if (logLine.agent) tagsTop.push({ type: 'agent', label: logLine.agent });
-    if (logLine.tool) {
-      tagsTop.push({
-        type: 'tool',
-        label:
-          typeof logLine.tool === 'string'
-            ? logLine.tool
-            : logLine.tool.name || String(logLine.tool),
-      });
-    }
-
-    const tagsBottom: { type: any; label: any }[] = [];
-    if (logLine.step) tagsBottom.push({ type: 'step', label: normalizeStepName(logLine.step) });
-    if (logLine.failsafe) tagsBottom.push({ type: 'failsafe', label: formatMeta(logLine.failsafe) });
-    if (logLine.generation) tagsBottom.push({ type: 'generation', label: formatMeta(logLine.generation) });
-
     const RowContent = (
       <div
-        className={`relative flex items-center gap-1 w-full rounded-lg pl-7 pr-3 py-2 min-h-[46px] mb-3 last:mb-0 select-none text-[0.78rem] font-medium ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200 border-l-2 ${style.border}`}
+        className={`relative flex items-center gap-1 w-full pl-7 pr-3 py-2 min-h-[34px] mb-4 last:mb-0 select-none text-[0.78rem] font-medium ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200 border-l-2 ${style.border}`}
         data-log-index={index}
-        onClick={() => toggleLine(lineId)}
+        onClick={hasDetails ? () => toggleLine(lineId) : undefined}
         draggable
           onDragStart={(e) => {
             const payload = {
@@ -858,43 +1268,48 @@ function renderLogLine(
             e.dataTransfer.effectAllowed = 'copy';
           }}
       >
-        {/* Floating badge */}
-        {/* Row-type badge (straddles outside top-left corner) */}
-        <span
-          className={`absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center ${style.text} rounded-full shadow-lg backdrop-blur-sm`}
-          style={{ width: 28, height: 28, backgroundColor: 'currentColor' }}
+        {/* Row-type badge (straddles outside top-left corner) — rich-tooltip
+            trigger: 'one LLM call' / 'one Tool use'. */}
+        <TelemetryExplainerTrigger
+          explainer={rowIconExplainer}
+          className="absolute left-0 top-0 z-10 -translate-x-1/2 -translate-y-1/2"
         >
-          <Icon className="w-[16px] h-[16px] text-gray-900 dark:text-gray-900/90" />
-        </span>
+          <span
+            className={`flex items-center justify-center ${style.text} shadow-lg backdrop-blur-sm`}
+            style={{ width: 28, height: 28, backgroundColor: 'currentColor' }}
+          >
+            <Icon className="w-[16px] h-[16px] text-gray-900 dark:text-gray-900/90" />
+          </span>
+        </TelemetryExplainerTrigger>
 
-        {/* Tag rows – absolute top & bottom, taking no extra space */}
-        {/* Tag rows float half outside the row for more breathing room */}
-        {tagsTop.length > 0 && (
-          <div className="absolute top-0 left-8 right-3 -translate-y-1/2">
-            <TagOverflowList tags={tagsTop} />
-          </div>
-        )}
-        {tagsBottom.length > 0 && (
-          <div className="absolute bottom-0 left-8 right-3 translate-y-1/2">
-            <TagOverflowList tags={tagsBottom} />
-          </div>
-        )}
-
-        {/* Chevron + title cluster */}
-        <div className="flex items-center gap-1 flex-1 min-w-0">
+        {/* ONE line: chevron (only when a detail payload exists), title, then
+            the inline pill row (phase, agent, step, failsafe, generation,
+            + tool) flowing right — wrapping onto following lines only when
+            out of width — then the DIV-loop iteration marker + timestamp. */}
+        {hasDetails && (
           <ChevronRightIcon
             className={`w-4 h-4 flex-shrink-0 text-current opacity-60 transition-transform duration-300 ${
               expandedLines[lineId] ? 'rotate-90' : ''
             }`}
           />
-          <span
-            title={logLine.text}
-            className="truncate flex-1 text-[0.82rem] leading-none m-0"
-          >
-            {logLine.text}
-          </span>
-        </div>
+        )}
+        <span
+          title={logLine.text}
+          className={`truncate min-w-0 text-[0.82rem] leading-none m-0 ${hasPills ? 'max-w-[45%]' : 'flex-1'}`}
+        >
+          {logLine.text}
+        </span>
 
+        {hasPills && <ExecutionContextPillRow {...pillRowProps} className="flex-1 justify-end" />}
+
+        {typeof logLine.iteration === 'number' && (
+          <span
+            title={`DIV loop iteration ${logLine.iteration}`}
+            className="text-[10px] text-emerald-300/80 flex-shrink-0 select-none ml-1 font-mono"
+          >
+            iter {logLine.iteration}
+          </span>
+        )}
         {logLine.timestamp && (
           <span className="text-[10px] text-gray-500 flex-shrink-0 select-none ml-1">
             {formatTime(logLine.timestamp)}
@@ -911,7 +1326,7 @@ function renderLogLine(
         }`}
       >
         {expandedLines[lineId] && (
-          <div className="pl-6 pr-4 py-3 ml-4 border-l border-emerald-500/20 rounded-r bg-emerald-500/[0.02] text-gray-400/90 text-[11px] space-y-2 max-h-[380px] overflow-y-auto custom-scrollbar">
+          <div className="pl-6 pr-4 py-3 ml-4 border-l border-emerald-500/20 bg-emerald-500/[0.02] text-gray-400/90 text-[11px] space-y-2 max-h-[380px] overflow-y-auto custom-scrollbar">
             {logLine.text && (
               <div>
                 <div className="text-emerald-400 font-semibold mb-0.5">Text</div>
@@ -922,7 +1337,10 @@ function renderLogLine(
             )}
             {logLine.details && (
               <div>
-                <div className="text-emerald-400 font-semibold mb-0.5">Details</div>
+                <div className="mb-0.5 flex items-center justify-between gap-2">
+                  <span className="text-emerald-400 font-semibold">Details</span>
+                  <DetailsCopyButton payload={logLine.details} />
+                </div>
                 <pre className="whitespace-pre-wrap break-words select-text cursor-text">
                   {JSON.stringify(logLine.details, null, 2)}
                 </pre>
@@ -975,9 +1393,9 @@ function renderLogLine(
           e.dataTransfer.setData('application/json', JSON.stringify(payload));
           e.dataTransfer.effectAllowed = 'copy';
         }}
-        onClick={() => toggleLine(lineId)}
+        onClick={hasDetails ? () => toggleLine(lineId) : undefined}
         className={`
-          relative flex flex-col tablet:flex-row items-start tablet:items-center gap-2 tablet:gap-4 w-full rounded-lg px-3 tablet:px-4 desktop:px-5 py-2 tablet:py-3 laptop:py-4 cursor-pointer select-none text-xs tablet:text-sm desktop:text-base font-medium
+          relative flex flex-col tablet:flex-row items-start tablet:items-center gap-2 tablet:gap-4 w-full px-3 tablet:px-4 desktop:px-5 py-2 tablet:py-3 laptop:py-4 cursor-pointer select-none text-xs tablet:text-sm desktop:text-base font-medium
           ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200
           border-l-[3px] ${style.border}
           ${style.glow ? 'ring-glow' : ''}
@@ -989,7 +1407,7 @@ function renderLogLine(
           ...(iterColor ? { '--iter-color': iterColor } as React.CSSProperties : {}),
         }}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+          if (hasDetails && (e.key === 'Enter' || e.key === ' ')) {
             e.preventDefault();
             toggleLine(lineId);
           }
@@ -998,30 +1416,35 @@ function renderLogLine(
         {/* Iteration bullet (drawn before arrow to align) */}
         {hasIteration && isFirstInIter && <span className="hidden laptop:inline-block iter-bullet" />}
 
-        {/* Accordion arrow (hidden on xs)*/}
-        <ChevronRightIcon
-          className={`hidden laptop:block w-4 h-4 laptop:w-5 laptop:h-5 text-current opacity-60 transition-transform duration-300 mx-auto ${
-            expandedLines[lineId] ? 'rotate-90' : ''
-          }`}
-        />
+        {/* Accordion arrow (hidden on xs; only when a detail payload exists) */}
+        {hasDetails && (
+          <ChevronRightIcon
+            className={`hidden laptop:block w-4 h-4 laptop:w-5 laptop:h-5 text-current opacity-60 transition-transform duration-300 mx-auto ${
+              expandedLines[lineId] ? 'rotate-90' : ''
+            }`}
+          />
+        )}
 
         {/* Mobile chevron indicator handled inside mobile layout now */}
 
-        {/* Type icon */}
-        <Icon className="hidden laptop:block w-6 h-6 laptop:w-7 laptop:h-7 text-current mx-auto" />
+        {/* Type icon — rich-tooltip trigger ('one LLM call' / 'one Tool use') */}
+        <TelemetryExplainerTrigger explainer={rowIconExplainer} className="hidden laptop:inline-flex mx-auto">
+          <Icon className="w-6 h-6 laptop:w-7 laptop:h-7 text-current" />
+        </TelemetryExplainerTrigger>
 
         {/* Desktop inline row */}
         <div className="hidden laptop:flex flex-1 items-center justify-between min-w-0">
           {/* Main text */}
           <span
             title={logLine.text}
-            className="select-text cursor-text truncate pr-3 text-xs tablet:text-sm laptop:text-[0.94rem] desktop:text-base font-medium leading-none h-5 flex items-center gap-1"
+            className="select-text cursor-text truncate min-w-0 flex-1 pr-3 text-xs tablet:text-sm laptop:text-[0.94rem] desktop:text-base font-medium leading-none h-5 flex items-center gap-1"
           >
             <Icon className="inline-block laptop:hidden w-4 h-4 text-current" />
             {logLine.text}
           </span>
 
-          {/* Meta cluster + timestamp */}
+          {/* Meta cluster + timestamp: the pill row flows right of the title
+              on the SAME line, wrapping only when out of width. */}
           <div className="hidden laptop:flex items-center flex-wrap justify-end gap-1 laptop:max-w-[50%]">
             {/* Timestamp */}
             {logLine.timestamp && (
@@ -1030,72 +1453,48 @@ function renderLogLine(
               </span>
             )}
 
-            {logLine.phase && <PathPill type="phase" label={logLine.phase} />}
-            {logLine.agent && <PathPill type="agent" label={logLine.agent} />}
-            {logLine.step && <PathPill type="step" label={normalizeStepName(logLine.step)} />}
-            {logLine.failsafe && <PathPill type="failsafe" label={formatMeta(logLine.failsafe)} />}
-            {logLine.generation && <PathPill type="generation" label={formatMeta(logLine.generation)} />}
-            {logLine.tool && (
-              <PathPill
-                type="tool"
-                label={
-                  typeof logLine.tool === 'string'
-                    ? logLine.tool
-                    : logLine.tool.name || String(logLine.tool)
-                }
-              />
-            )}
+            {hasPills && <ExecutionContextPillRow {...pillRowProps} className="justify-end" />}
           </div>
         </div>
 
         {/* Mobile / narrow layout */}
-        <div className="laptop:hidden relative w-full pl-12 pr-3 py-2 space-y-1">
-          {/* Floating Type Icon (circular bubble) */}
-          <span
-            className={`absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center ${style.text} rounded-full shadow-md`}
-            style={{
-              width: '20px',
-              height: '20px',
-              backgroundColor: 'currentColor',
-            }}
+        <div className="laptop:hidden relative w-full pl-12 pr-3 py-2">
+          {/* Floating Type Icon (circular bubble) — rich-tooltip trigger */}
+          <TelemetryExplainerTrigger
+            explainer={rowIconExplainer}
+            className="absolute left-3 top-1/2 -translate-y-1/2"
           >
-            <Icon className="w-3 h-3 text-gray-900 dark:text-gray-900/90" />
-          </span>
+            <span
+              className={`flex items-center justify-center ${style.text} shadow-md`}
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: 'currentColor',
+              }}
+            >
+              <Icon className="w-3 h-3 text-gray-900 dark:text-gray-900/90" />
+            </span>
+          </TelemetryExplainerTrigger>
 
-          {/* Top Tag row */}
-          {(() => {
-            const tagsTop: { type: any; label: any }[] = [];
-            if (logLine.phase) tagsTop.push({ type: 'phase', label: logLine.phase });
-            if (logLine.agent) tagsTop.push({ type: 'agent', label: logLine.agent });
-            if (logLine.tool) {
-              tagsTop.push({
-                type: 'tool',
-                label:
-                  typeof logLine.tool === 'string'
-                    ? logLine.tool
-                    : logLine.tool.name || String(logLine.tool),
-              });
-            }
-
-            return tagsTop.length > 0 ? (
-              <TagOverflowList tags={tagsTop} />
-            ) : null;
-          })()}
-
-          {/* Chevron, title, timestamp row */}
-          <div className="flex items-center gap-1 w-full">
-            <ChevronRightIcon
-              className={`laptop:hidden w-3 h-3 flex-shrink-0 text-current opacity-60 transition-transform duration-300 ${
-                expandedLines[lineId] ? 'rotate-90' : ''
-              }`}
-            />
+          {/* ONE line: chevron, title, then the inline pill row flowing right
+              (wrapping onto following lines only when out of width), timestamp. */}
+          <div className="flex items-center gap-1 w-full min-w-0">
+            {hasDetails && (
+              <ChevronRightIcon
+                className={`laptop:hidden w-3 h-3 flex-shrink-0 text-current opacity-60 transition-transform duration-300 ${
+                  expandedLines[lineId] ? 'rotate-90' : ''
+                }`}
+              />
+            )}
 
             <span
               title={logLine.text}
-              className="text-xs font-medium truncate flex-1 min-w-0"
+              className={`text-xs font-medium truncate min-w-0 ${hasPills ? 'max-w-[45%]' : 'flex-1'}`}
             >
               {logLine.text}
             </span>
+
+            {hasPills && <ExecutionContextPillRow {...pillRowProps} className="flex-1 justify-end" />}
 
             {logLine.timestamp && (
               <span className="text-[11px] text-gray-500 flex-shrink-0 select-none">
@@ -1103,18 +1502,6 @@ function renderLogLine(
               </span>
             )}
           </div>
-
-          {/* Bottom Tag row */}
-          {(() => {
-            const tagsBottom: { type: any; label: any }[] = [];
-            if (logLine.step) tagsBottom.push({ type: 'step', label: normalizeStepName(logLine.step) });
-            if (logLine.failsafe) tagsBottom.push({ type: 'failsafe', label: formatMeta(logLine.failsafe) });
-            if (logLine.generation) tagsBottom.push({ type: 'generation', label: formatMeta(logLine.generation) });
-
-            return tagsBottom.length > 0 ? (
-              <TagOverflowList tags={tagsBottom} />
-            ) : null;
-          })()}
         </div>
       </div>
 
@@ -1125,7 +1512,7 @@ function renderLogLine(
           ${expandedLines[lineId] ? 'max-h-[800px] opacity-100 mt-2' : 'max-h-0 opacity-0'}
         `}
       >
-        <div className="pl-6 pr-4 py-3 ml-4 border-l border-emerald-500/20 rounded-r bg-emerald-500/[0.02] text-gray-400/90">
+        <div className="pl-6 pr-4 py-3 ml-4 border-l border-emerald-500/20 bg-emerald-500/[0.02] text-gray-400/90">
           <ContentVisibility className="space-y-3 overflow-y-auto custom-scrollbar max-h-[600px] pr-2">
             {/* Agent info */}
             {logLine.agent && (
@@ -1315,10 +1702,11 @@ function renderLogLine(
                   try {
                     const stores = logLine.details?.status?.metadata?.stores || logLine.details?.metadata?.stores;
                     const stepLower = String(logLine.step || '').toLowerCase();
+                    // 'retry' must be tested before 'try' ('retry'.includes('try')).
                     const stepName = stepLower.includes('plan') ? 'plan'
+                      : stepLower.includes('retry') || stepLower.includes('intensify') ? 'retry'
                       : stepLower.includes('try') || stepLower.includes('generate') ? 'try'
                       : stepLower.includes('refine') ? 'refine'
-                      : stepLower.includes('retry') || stepLower.includes('intensify') ? 'retry'
                       : undefined;
                     if (!stores || !logLine.phase || !logLine.agent || !stepName) return null;
                     const vm = buildStepViewModel({ phase: logLine.phase, agent: logLine.agent, step: stepName as any }, stores);
@@ -1332,7 +1720,7 @@ function renderLogLine(
                           <div>
                             <span className="text-gray-500 mr-1">Failsafes:</span>
                             {vm.failsafes.map(f => (
-                              <span key={f.failsafe} className="inline-block mr-2 text-emerald-300">{f.failsafe}</span>
+                              <span key={f.failsafe} className="inline-block mr-2 text-emerald-300">{formatMeta(f.failsafe)}</span>
                             ))}
                           </div>
                           {vm.tools.used.length > 0 && (
@@ -1357,7 +1745,9 @@ function renderLogLine(
                         <div className="text-xs font-medium text-emerald-400 mb-1">Phases:</div>
                         <div className="flex flex-wrap gap-1">
                           {['Setup','Discovery','Implementation','Validation','Finish'].map(p => (
-                            <PathPill key={p} type="phase" label={p} className={p===logLine.phase ? '' : 'opacity-25'} />
+                            <TelemetryExplainerTrigger key={p} explainer={getTelemetryPillExplainer('phase', p, rowMode)}>
+                              <PathPill type="phase" label={p} className={p===logLine.phase ? '' : 'opacity-25'} />
+                            </TelemetryExplainerTrigger>
                           ))}
                         </div>
                       </div>
@@ -1367,7 +1757,9 @@ function renderLogLine(
                         <div className="text-xs font-medium text-emerald-400 mb-1">Steps:</div>
                         <div className="flex flex-wrap gap-1">
                           {['Plan','Try','Refine','Retry'].map(s => (
-                            <PathPill key={s} type="step" label={s} className={s===normalizeStepName(logLine.step) ? '' : 'opacity-25'} />
+                            <TelemetryExplainerTrigger key={s} explainer={getTelemetryPillExplainer('step', s, rowMode, { agent: logLine.agent, step: logLine.step })}>
+                              <PathPill type="step" label={s} className={s===normalizeStepName(logLine.step) ? '' : 'opacity-25'} />
+                            </TelemetryExplainerTrigger>
                           ))}
                         </div>
                       </div>
@@ -1376,8 +1768,14 @@ function renderLogLine(
                       <div>
                         <div className="text-xs font-medium text-emerald-400 mb-1">Failsafes:</div>
                         <div className="flex flex-wrap gap-1">
-                          {['Prepare Context','Chunk Then Sum','Stitch Until Complete'].map(m => (
-                            <PathPill key={m} type="failsafe" label={m} className={m===formatMeta(logLine.failsafe) ? '' : 'opacity-25'} />
+                          {[
+                            ['Prepare Context', 'prepare_concise_context'],
+                            ['Chunk Then Sum', 'chunk_then_sum'],
+                            ['Stitch Until Complete', 'stitch_until_complete'],
+                          ].map(([m, rawFailsafe]) => (
+                            <TelemetryExplainerTrigger key={m} explainer={getTelemetryPillExplainer('failsafe', rawFailsafe, rowMode, { agent: logLine.agent, step: logLine.step })}>
+                              <PathPill type="failsafe" label={m} className={m===formatMeta(logLine.failsafe) ? '' : 'opacity-25'} />
+                            </TelemetryExplainerTrigger>
                           ))}
                         </div>
                       </div>
@@ -1387,7 +1785,9 @@ function renderLogLine(
                         <div className="text-xs font-medium text-emerald-400 mb-1">Generations:</div>
                         <div className="flex flex-wrap gap-1">
                           {['Reason','Judge','Structured Output'].map(sub => (
-                            <PathPill key={sub} type="generation" label={sub} className={sub===formatMeta(logLine.generation) ? '' : 'opacity-25'} />
+                            <TelemetryExplainerTrigger key={sub} explainer={getTelemetryPillExplainer('generation', sub, rowMode, { agent: logLine.agent, step: logLine.step })}>
+                              <PathPill type="generation" label={sub} className={sub===formatMeta(logLine.generation) ? '' : 'opacity-25'} />
+                            </TelemetryExplainerTrigger>
                           ))}
                         </div>
                       </div>
@@ -1409,7 +1809,7 @@ function renderLogLine(
                           logLine.details.paths || []).map((f: string, fIdx: number) => (
                             <div
                               key={fIdx}
-                              className="flex items-center space-x-2 px-3 py-1.5 bg-[#1f2937]/30 rounded-md border border-[#1f2937] group/file hover:border-[#67feb7]/30 transition-all duration-200"
+                              className="flex items-center space-x-2 px-3 py-1.5 bg-[#1f2937]/30 border border-[#1f2937] group/file hover:border-[#67feb7]/30 transition-all duration-200"
                             >
                               <svg className="w-3.5 h-3.5 text-[#67feb7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -1439,7 +1839,10 @@ function renderLogLine(
                 <div className="space-y-1 mt-4 pt-4 border-t border-emerald-500/10">
                   <div className="text-xs font-medium text-gray-500 flex items-center justify-between">
                     <span>Raw Data</span>
-                    <span className="text-[10px] text-gray-600">For debugging</span>
+                    <span className="flex items-center gap-2">
+                      <span className="text-[10px] text-gray-600">For debugging</span>
+                      <DetailsCopyButton payload={logLine.details} />
+                    </span>
                   </div>
                   <div className="text-sm pl-2 border-l-2 border-gray-700/30 py-1">
                     <pre className="text-xs overflow-x-auto whitespace-pre-wrap break-words max-h-[150px] overflow-y-auto custom-scrollbar text-gray-500 select-text cursor-text">

@@ -44,8 +44,8 @@ export default function ModelOptions() {
           <div className="min-w-0 flex-auto">
             <div className="flex items-center justify-end gap-x-3">
               {/* @ts-ignore */}
-              <div className={classNames(statuses[deployment.status], 'flex-none rounded-full p-1')}>
-                <div className="h-2 w-2 rounded-full bg-current" />
+              <div className={classNames(statuses[deployment.status], 'flex-none p-1')}>
+                <div className="h-2 w-2 bg-current" />
               </div>
               <h2 className="min-w-0 text-sm font-semibold leading-6 text-white">
                 <a href={deployment.href} className="flex gap-x-2">
@@ -58,7 +58,7 @@ export default function ModelOptions() {
                 className={classNames(
                   // @ts-ignore
                   environments[deployment.environment],
-                  'rounded-full flex-none py-1 px-2 text-xs font-medium ring-1 ring-inset'
+                  ' flex-none py-1 px-2 text-xs font-medium ring-1 ring-inset'
                 )}
               >
                 {deployment.environment}

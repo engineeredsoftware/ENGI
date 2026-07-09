@@ -156,7 +156,7 @@ describe('AssetPack depository search', () => {
     expect(result.searchReceipt.agentIds).toHaveLength(8);
     expect(result.searchReceipt.ptrrStepIds).toHaveLength(32);
     expect(result.searchReceipt.failsafeSequenceIds).toHaveLength(96);
-    expect(result.searchReceipt.thricifiedGenerationIds).toHaveLength(96);
+    expect(result.searchReceipt.thinkingsGenerationIds).toHaveLength(96);
     expect(result.searchReceipt.roots.receiptRoot).toMatch(/^sha256:/);
     expect(result.searchReceipt.selectedFitProvenanceRoot).toMatch(/^sha256:/);
     expect(result.candidateRanking[0].ranking.channelScores).toMatchObject({

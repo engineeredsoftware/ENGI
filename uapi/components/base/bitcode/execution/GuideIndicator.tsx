@@ -63,7 +63,7 @@ export const GuideIndicator: React.FC<GuideIndicatorProps> = ({
   if (compact) {
     return (
       <div className={`flex items-center gap-2 ${className}`}>
-        <div className={`h-2 w-2 rounded-full ${config.dotColor} animate-pulse`} />
+        <div className={`h-2 w-2 ${config.dotColor} animate-pulse`} />
         <span className={`text-xs font-medium ${config.textColor}`}>
           {config.label}
         </span>
@@ -81,7 +81,7 @@ export const GuideIndicator: React.FC<GuideIndicatorProps> = ({
       className={`
         bg-gradient-to-r from-gray-800/50 to-gray-900/50
         border border-gray-700/50
-        rounded-lg px-6 py-4
+        px-6 py-4
         ${className}
       `}
     >
@@ -100,7 +100,7 @@ export const GuideIndicator: React.FC<GuideIndicatorProps> = ({
                 {/* Step Number/Status */}
                 <div className={`
                   relative flex items-center justify-center
-                  w-10 h-10 rounded-full font-bold text-sm
+                  w-10 h-10 font-bold text-sm
                   transition-all duration-300
                   ${isComplete
                     ? 'bg-green-500 text-white'
@@ -118,7 +118,7 @@ export const GuideIndicator: React.FC<GuideIndicatorProps> = ({
                   {/* Active pulse effect */}
                   {isActive && (
                     <motion.div
-                      className={`absolute inset-0 ${guideConfig.dotColor} rounded-full`}
+                      className={`absolute inset-0 ${guideConfig.dotColor}`}
                       animate={{
                         scale: [1, 1.3, 1],
                         opacity: [0.3, 0, 0.3],
@@ -170,7 +170,7 @@ export const GuideIndicator: React.FC<GuideIndicatorProps> = ({
               {config.label} Guide
             </span>
             {collaborative && (
-              <span className="px-2 py-0.5 rounded text-xs font-medium bg-gray-700/50 text-gray-300 border border-gray-600/50">
+              <span className="px-2 py-0.5 text-xs font-medium bg-gray-700/50 text-gray-300 border border-gray-600/50">
                 Collaborative
               </span>
             )}

@@ -1,8 +1,16 @@
+// FileDiffViewer (imported through PipelineExecutionLog for the pipelines
+// master-detail telemetry) pulls react-syntax-highlighter ESM jest can't
+// parse; mock it so the page module loads.
+jest.mock("@/components/base/bitcode/execution/FileDiffViewer", () => ({
+  __esModule: true,
+  default: () => null,
+}));
+
 import React from "react";
 import "@testing-library/jest-dom";
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
-import ReadPageClient from "@/app/read/ReadPageClient";
+import ReadPageClient from "@/app/reads/ReadPageClient";
 
 const mockReplace = jest.fn();
 const mockFetchPipelineExecutionHistory = jest.fn();
@@ -143,14 +151,33 @@ describe("ReadPageClient", () => {
         items: [],
       },
     ]);
-    global.fetch = jest.fn();
+    // Selecting a pipeline run attaches its telemetry tail (history fetch);
+    // the default mock answers with a bare completed row echoing the id.
+    global.fetch = jest.fn((input: unknown) => {
+      const url = String(input);
+      if (url.includes("/api/executions/history/")) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: async () => ({
+            run: { id: url.split("/").pop(), status: "completed", output: {} },
+            events: [],
+          }),
+        });
+      }
+      return Promise.resolve({
+        ok: false,
+        status: 404,
+        json: async () => null,
+      });
+    }) as unknown as typeof fetch;
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
   });
 
-  it("renders the five-step /read route with source-safe session state and live workbench ownership", async () => {
+  it("renders the five-step /reads route with source-safe session state and live workbench ownership", async () => {
     render(<ReadPageClient />);
 
     expect(screen.getByTestId("route-shell-read")).toBeInTheDocument();
@@ -207,7 +234,46 @@ describe("ReadPageClient", () => {
     );
     expect(workbench).toHaveAttribute("data-route-stage", "request-fit");
     expect(workbench).toHaveAttribute("data-demonstration", "false");
-    expect(screen.getByText("Recent Reading activity")).toBeInTheDocument();
+    // Drill-in master-detail: the selected run (read-admission-1, not a
+    // formal pipeline execution) REPLACES the table with its run summary
+    // detail; Back returns to the table.
+    expect(screen.getByText("Read pipelines")).toBeInTheDocument();
+    expect(
+      screen.queryByTestId("reads-pipelines-table"),
+    ).not.toBeInTheDocument();
+    const summary = screen.getByTestId("reads-run-summary");
+    expect(summary).toHaveTextContent("read-admission-1");
+    expect(summary).toHaveTextContent("agentic-execution:read-measurement");
+    expect(
+      screen.getByRole("button", { name: "Back to Read pipelines" }),
+    ).toBeInTheDocument();
+  });
+
+  it("returns from the run detail to the pipelines table via Back", async () => {
+    mockQuery = "";
+    render(<ReadPageClient />);
+
+    // No selection: the master table shows, no detail and no Back button.
+    expect(
+      await screen.findByTestId("reads-pipelines-table"),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId("reads-run-summary")).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Back to Read pipelines" }),
+    ).not.toBeInTheDocument();
+
+    // Selecting a run (URL selection) swaps the table for the detail; Back
+    // clears the URL selection.
+    mockQuery = "transactionId=read-admission-1";
+    const { unmount } = render(<ReadPageClient />);
+    const backButton = await screen.findByRole("button", {
+      name: "Back to Read pipelines",
+    });
+    fireEvent.click(backButton);
+    await waitFor(() => expect(mockReplace).toHaveBeenCalled());
+    const lastHref = String(mockReplace.mock.calls.at(-1)?.[0] ?? "");
+    expect(lastHref).not.toContain("transactionId=");
+    unmount();
   });
 
   it("renders buyer fit measurement review and settlement/rights/delivery readback", async () => {
@@ -240,5 +306,75 @@ describe("ReadPageClient", () => {
     expect(
       screen.getByRole("link", { name: "Open pack activity" }),
     ).toHaveAttribute("href", "/packs?type=read-need-fit-preview");
+  });
+
+  it("resumes a completed run's synthesized AssetPacks alongside the replayed telemetry", async () => {
+    mockQuery = "transactionId=synth-run-1";
+    mockFetchPipelineExecutionHistory.mockResolvedValue([
+      {
+        id: "synth-run-1",
+        created_at: "2026-07-01T10:00:00.000Z",
+        status: "completed",
+        type: "agentic-execution:asset-pack",
+        agentic_execution: {
+          canonicalType: "agentic-execution:asset-pack",
+          lens: "deposit",
+          proofStatus: "options synthesized",
+          closureFocus: "deposit posture",
+        },
+        context: { source: "deposit-option-synthesis" },
+        repo_snapshot: null,
+        output: {},
+        items: [],
+      },
+    ]);
+    global.fetch = jest.fn((input: unknown) => {
+      const url = String(input);
+      if (url.includes("/api/executions/history/")) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: async () => ({
+            run: {
+              id: url.split("/").pop(),
+              status: "completed",
+              output: {
+                depositOptionSynthesis: { options: [] },
+                reviewProjections: [
+                  {
+                    optionId: "option-1",
+                    title: "Ledger reconciliation capability slice",
+                    coveredSourcePaths: ["src/ledger/reconcile.ts", "src/ledger/index.ts"],
+                    measurementRationale: "measured",
+                  },
+                ],
+              },
+            },
+            events: [
+              {
+                id: "c1",
+                event: { type: "completion" },
+                created_at: "2026-07-01T10:05:00.000Z",
+              },
+            ],
+          }),
+        });
+      }
+      return Promise.resolve({ ok: false, status: 404, json: async () => null });
+    }) as unknown as typeof fetch;
+
+    render(<ReadPageClient />);
+
+    const packs = await screen.findByTestId("reads-synthesized-packs");
+    const text = (packs.textContent || "").replace(/\s+/g, " ");
+    expect(text).toContain("Synthesized AssetPacks · 1");
+    expect(text).toContain("Ledger reconciliation capability slice");
+    expect(text).toContain("2 source paths");
+    expect(
+      screen.getByRole("link", { name: "Review in Deposits" }),
+    ).toHaveAttribute(
+      "href",
+      "/deposits?transactionId=synth-run-1&depositStage=review-options",
+    );
   });
 });

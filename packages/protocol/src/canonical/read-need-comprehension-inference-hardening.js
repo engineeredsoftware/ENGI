@@ -63,7 +63,6 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 const SOURCE_ROOTS = Object.freeze({
   readingContract: 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
   readNeed: 'packages/pipelines/asset-pack/src/read-need.ts',
-  boundedStructuredInference: 'packages/pipelines/asset-pack/src/bounded-structured-inference.ts',
   readNeedTests: 'packages/pipelines/asset-pack/src/__tests__/read-need.test.ts',
   readingContractTests: 'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts',
   readReviewRoute: 'uapi/app/api/read-review/route.ts',
@@ -186,7 +185,7 @@ export const V38_READ_NEED_COMPREHENSION_HARDENING_ROWS = Object.freeze([
 
 function buildPredicateResults(repoRoot) {
   const readNeed = readSource(repoRoot, SOURCE_ROOTS.readNeed);
-  const bounded = readSource(repoRoot, SOURCE_ROOTS.boundedStructuredInference);
+  const bounded = readSource(repoRoot, SOURCE_ROOTS.readNeed);
   const contract = readSource(repoRoot, SOURCE_ROOTS.readingContract);
   const tests = readSource(repoRoot, SOURCE_ROOTS.readNeedTests);
   const contractTests = readSource(repoRoot, SOURCE_ROOTS.readingContractTests);
@@ -198,7 +197,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('contract.has-four-phases', SOURCE_ROOTS.readingContract, V38_READ_NEED_COMPREHENSION_REQUIRED_PHASE_IDS.every((phaseId) => contract.includes(phaseId))),
     predicateResult('contract.has-four-ptrr-steps', SOURCE_ROOTS.readingContract, contract.includes("['plan', 'try', 'refine', 'retry']")),
     predicateResult('contract.has-three-failsafe-stages', SOURCE_ROOTS.readingContract, contract.includes('prepare-concise-context') && contract.includes('chunk-then-sum') && contract.includes('stitch-until-complete')),
-    predicateResult('contract.has-thricified-generation-contract', SOURCE_ROOTS.readingContract, contract.includes('ReadingPipelineThricifiedGenerationContract')),
+    predicateResult('contract.has-thricified-generation-contract', SOURCE_ROOTS.readingContract, contract.includes('ReadingPipelineThinkingsGenerationContract')),
     predicateResult('read-need.imports-contract-trace', SOURCE_ROOTS.readNeed, readNeed.includes('READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT') && readNeed.includes('listReadingPipelineTelemetryTrace')),
     predicateResult('read-need.defines-receipt-type', SOURCE_ROOTS.readNeed, readNeed.includes('ReadNeedComprehensionSynthesisInferenceReceipt')),
     predicateResult('read-need.builds-receipt', SOURCE_ROOTS.readNeed, readNeed.includes('buildReadNeedComprehensionSynthesisInferenceReceipt')),
@@ -208,14 +207,14 @@ function buildPredicateResults(repoRoot) {
     predicateResult('read-need.supports-resynthesis-feedback', SOURCE_ROOTS.readNeed, readNeed.includes('supportsResynthesisWithFeedback: true') && readNeed.includes('previousNeedId')),
     predicateResult('read-need.blocks-source-disclosure', SOURCE_ROOTS.readNeed, readNeed.includes('protectedSourceVisible: false') && readNeed.includes('unpaidAssetPackSourceVisible: false')),
     predicateResult('read-need.blocks-credentials', SOURCE_ROOTS.readNeed, readNeed.includes('credentialsSerialized: false')),
-    predicateResult('bounded-inference-records-failsafe-stack', SOURCE_ROOTS.boundedStructuredInference, bounded.includes("'bounded-inference', 'stack'") && bounded.includes('failsafeSequence')),
-    predicateResult('bounded-inference-records-thricified-stages', SOURCE_ROOTS.boundedStructuredInference, bounded.includes('ThricifiedGeneration stage 1/3') && bounded.includes('ThricifiedGeneration stage 2/3') && bounded.includes('ThricifiedGeneration stage 3/3')),
-    predicateResult('bounded-inference-records-prompt-output', SOURCE_ROOTS.boundedStructuredInference, bounded.includes("'llm', 'input'") && bounded.includes("'llm', 'parsedOutput'")),
+    predicateResult('bounded-inference-records-failsafe-stack', SOURCE_ROOTS.readNeed, bounded.includes("'bounded-inference', 'stack'") && bounded.includes('failsafeSequence')),
+    predicateResult('bounded-inference-records-thricified-stages', SOURCE_ROOTS.readNeed, bounded.includes('ThinkingsGeneration stage 1/3') && bounded.includes('ThinkingsGeneration stage 2/3') && bounded.includes('ThinkingsGeneration stage 3/3')),
+    predicateResult('bounded-inference-records-prompt-output', SOURCE_ROOTS.readNeed, bounded.includes("'llm', 'input'") && bounded.includes("'llm', 'parsedOutput'")),
     predicateResult('route-uses-inference-synthesis', SOURCE_ROOTS.readReviewRoute, route.includes('synthesizeReadNeedForPipelineInputWithInference')),
     predicateResult('terminal-supports-resynthesis-feedback', SOURCE_ROOTS.terminalWorkbench, terminal.includes('resynthesize_read_need') && terminal.includes('readNeedFeedback')),
-    predicateResult('tests-cover-receipt-counts', SOURCE_ROOTS.readNeedTests, tests.includes('failsafeSequenceIds') && tests.includes('thricifiedGenerationIds') && tests.includes('toHaveLength(48)')),
+    predicateResult('tests-cover-receipt-counts', SOURCE_ROOTS.readNeedTests, tests.includes('failsafeSequenceIds') && tests.includes('thinkingsGenerationIds') && tests.includes('toHaveLength(48)')),
     predicateResult('tests-cover-real-inference-receipt', SOURCE_ROOTS.readNeedTests, tests.includes("mode: 'real-inference'") && tests.includes("'read-need-comprehension'")),
-    predicateResult('contract-tests-cover-read-need-counts', SOURCE_ROOTS.readingContractTests, contractTests.includes('ptrrStepCount: 16') && contractTests.includes('thricifiedGenerationCount: 48')),
+    predicateResult('contract-tests-cover-read-need-counts', SOURCE_ROOTS.readingContractTests, contractTests.includes('ptrrStepCount: 16') && contractTests.includes('thinkingsGenerationCount: 48')),
   ];
 }
 

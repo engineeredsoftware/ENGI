@@ -222,7 +222,10 @@ function buildPredicateResults(repoRoot) {
   const canonWorkflow = readSource(repoRoot, SOURCE_ROOTS.canonWorkflow);
 
   return [
-    predicateResult('readback-defines-event-kinds', SOURCE_ROOTS.readback, V39_OPERATIONAL_TELEMETRY_EVENT_KIND_IDS.every((kind) => readback.includes(`'${kind}'`))),
+    // The V39-era 'thricified-generation' event kind is named 'thinkings-generation'
+    // in the live readback source (V48 Thinkings rename); the artifact keeps the
+    // historical kind id while the live pin follows the renamed source.
+    predicateResult('readback-defines-event-kinds', SOURCE_ROOTS.readback, V39_OPERATIONAL_TELEMETRY_EVENT_KIND_IDS.every((kind) => readback.includes(`'${kind === 'thricified-generation' ? 'thinkings-generation' : kind}'`))),
     predicateResult('readback-defines-core-types', SOURCE_ROOTS.readback, readback.includes('ReadingOperationalTelemetryRepairReadback') && readback.includes('ReadingOperationalOperatorReadback') && readback.includes('ReadingOperationalRepairRunbookHook')),
     predicateResult('readback-streams-pipeline-contract', SOURCE_ROOTS.readback, readback.includes('listReadingPipelineTelemetryTrace') && readback.includes('READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT') && readback.includes('READ_FITS_FINDING_SYNTHESIS_CONTRACT')),
     predicateResult('readback-source-safety', SOURCE_ROOTS.readback, readback.includes('source_safe_reading_operational_telemetry_repair_readback_metadata') && readback.includes('rawInterpolatedPromptVisible: false') && readback.includes('credentialsSerialized: false')),
@@ -230,7 +233,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('postprocess-emits-readback', SOURCE_ROOTS.postprocess, postprocess.includes('ensureReadingOperationalTelemetryRepairReadback') && postprocess.includes('readingOperationalTelemetryRepairReadback')),
     predicateResult('pipeline-preprocess-emits-readback', SOURCE_ROOTS.packageIndex, packageIndex.includes('buildReadingOperationalTelemetryRepairReadback') && packageIndex.includes('readingOperationalStreamEvents')),
     predicateResult('package-exports-readback', SOURCE_ROOTS.packageJson, packageJson.includes('./reading-operational-telemetry-repair-readback') && packageIndex.includes("export * from './reading-operational-telemetry-repair-readback'")),
-    predicateResult('reading-contract-has-failsafe-and-thricified', SOURCE_ROOTS.readingContract, readingContract.includes('ReadingPipelineThricifiedGenerationContract') && readingContract.includes('prepare-concise-context') && readingContract.includes('structured-output')),
+    predicateResult('reading-contract-has-failsafe-and-thricified', SOURCE_ROOTS.readingContract, readingContract.includes('ReadingPipelineThinkingsGenerationContract') && readingContract.includes('prepare-concise-context') && readingContract.includes('structured-output')),
     predicateResult('tests-cover-event-kinds-source-safety', SOURCE_ROOTS.readbackTest, readbackTest.includes('streams source-safe pipeline') && readbackTest.includes('operatorReadback.eventCounts')),
     predicateResult('tests-cover-repair-finality', SOURCE_ROOTS.readbackTest, readbackTest.includes('marks settlement finality as repairable') && readbackTest.includes('observe-btc-payment-finality')),
     predicateResult('tests-cover-persistence', SOURCE_ROOTS.readbackTest, readbackTest.includes('persists operator readback') && readbackTest.includes('sourceSafeStreamEvents')),

@@ -112,6 +112,8 @@ export function buildAssetPackPipelineHarnessManifest(input: {
   commandEnvironment?: Record<string, string | undefined>;
   readNeed?: unknown;
   requireAcceptedReadNeed?: boolean;
+  synthesizeMode?: 'deposit' | 'read';
+  depositSteering?: PipelineHarnessManifest['depositSteering'];
   createdAt?: string;
 }): PipelineHarnessManifest {
   assertNonEmpty(input.read.id, 'read.id');
@@ -130,6 +132,8 @@ export function buildAssetPackPipelineHarnessManifest(input: {
     deposit: input.deposit,
     sourceRevision: input.sourceRevision,
     sourceOverlay: input.sourceOverlay,
+    synthesizeMode: input.synthesizeMode ?? 'read',
+    depositSteering: input.depositSteering,
     host: {
       hostKind: VERCEL_SANDBOX_HOST_CAPABILITIES.hostKind,
       provider: VERCEL_SANDBOX_HOST_CAPABILITIES.provider,

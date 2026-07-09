@@ -663,7 +663,7 @@ function buildSourceStats(repoRoot, rows) {
           promptTemplateIdCount: countMatches(joinedSource, /\btemplateId\b/gu),
           interpolatedContextKeyCount: countMatches(joinedSource, /\binterpolatedContextKeys\b/gu),
           ptrrAgentFactoryCount: countMatches(joinedSource, /factoryAgentWithPTRR|ptrrAgent\s*\(/gu),
-          thricifiedGenerationCount: countMatches(joinedSource, /thricifiedGeneration/gu),
+          thricifiedGenerationCount: countMatches(joinedSource, /thinkingsGeneration/gu),
           toolContractCount: countMatches(joinedSource, /\btoolId\b/gu),
           parserTargetsPresent: parserTargets,
           parserTargetPresentCount: parserTargets.length,

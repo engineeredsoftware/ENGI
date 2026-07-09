@@ -1,6 +1,6 @@
 // Diagnostics instrumentation utilities (formerly named hooks)
 import type { Execution } from '@bitcode/execution-generics/Execution';
-import { log, writePromptIO, writeStepTraceJSON } from '@bitcode/logger';
+import { log, writePromptIO, writeStepTraceJSON, writeRawLLMIO } from '@bitcode/logger';
 import { DIAG_ENABLED, DIAG_TRACES, DIAG_FULL_TRACES, DIAG_FULL_PROMPTS, DIAG_TRACE_MAX, DIAG_WRITE_PROMPT_IO, DIAG_WRITE_STEP_TRACES } from './config';
 import { collectExecutionTrace, summarizeExecutionTrace } from './trace';
 
@@ -10,13 +10,19 @@ function getCtx(execution: Execution, sequence?: string) {
   const agentName = (execution as any).findUp?.('agent', 'name');
   const execId = (execution as any).id;
   const path = (execution as any).getPath?.() || [];
-  const correlationId = (execution as any).findUp?.('pipeline', 'correlationId');
+  // The run id lives at the streaming root: canonically under
+  // execution/correlationId, with the root execution id (== runId for
+  // createStreamingExecution roots) as the fallback.
+  const correlationId = (execution as any).findUp?.('execution', 'correlationId')
+    ?? (execution as any).getRoot?.()?.id;
   // Surface any provider/model already stored on ancestors (best-effort)
   let providerUp: string | undefined;
   let modelUp: string | undefined;
+  let failsafeUp: string | undefined;
   try { providerUp = (execution as any).findUp?.('llm', 'provider'); } catch {}
   try { modelUp = (execution as any).findUp?.('llm', 'model'); } catch {}
-  return { phase, step, agentName, execId, path, correlationId, sequence, provider: providerUp, model: modelUp };
+  try { failsafeUp = (execution as any).findUp?.('ptrr', 'failsafe'); } catch {}
+  return { phase, step, agentName, execId, path, correlationId, sequence, provider: providerUp, model: modelUp, failsafe: failsafeUp };
 }
 
 let __diagBannerPrinted = false;
@@ -45,6 +51,15 @@ function maybeLogDiagnosticsBanner() {
   } catch {}
 }
 
+// A human-readable name for the raw LLM I/O sidecar file — phase, agent,
+// step, failsafe, generation (thinkings) — mirroring the same hierarchy
+// the processing-indicator sentence reads out loud. writeRawLLMIO prefixes
+// every file with a monotonic counter, so this name only needs to be
+// legible, not unique.
+function rawLLMPathKey(ctx: ReturnType<typeof getCtx>): string {
+  return [ctx.phase, ctx.agentName, ctx.step, ctx.failsafe, ctx.sequence].filter(Boolean).join('-');
+}
+
 export async function logLLMSubstepStart(
   execution: Execution,
   sequence: string,
@@ -54,8 +69,21 @@ export async function logLLMSubstepStart(
   llmConfig?: { model?: string; provider?: string }
 ) {
   maybeLogDiagnosticsBanner();
-  if (!(DIAG_ENABLED || DIAG_FULL_PROMPTS || DIAG_TRACES)) return;
   const ctx = getCtx(execution, sequence);
+
+  // Always attempt the raw wire-exchange sidecar (its own env gate, default
+  // on) — independent of the DIAG_* verbosity flags below, since this is a
+  // local-debugging artifact meant to survive even when nothing else logs.
+  writeRawLLMIO({
+    executionId: String(ctx.correlationId || ''),
+    pathKey: rawLLMPathKey(ctx),
+    kind: 'request',
+    provider: (llmConfig as any)?.provider,
+    model: llmConfig?.model,
+    content: { systemPrompt, userPrompt, combinedPrompt, ...ctx },
+  }).catch(() => {});
+
+  if (!(DIAG_ENABLED || DIAG_FULL_PROMPTS || DIAG_TRACES)) return;
   log('[llm substep] start', 'debug', {
     ...ctx,
     systemLen: systemPrompt.length,
@@ -83,6 +111,16 @@ export async function logLLMSubstepSuccess(
 ) {
   maybeLogDiagnosticsBanner();
   const ctx = getCtx(execution, sequence);
+
+  writeRawLLMIO({
+    executionId: String(ctx.correlationId || ''),
+    pathKey: rawLLMPathKey(ctx),
+    kind: 'response',
+    provider: output?.metadata?.provider,
+    model: output?.metadata?.model,
+    content: { content: output?.content, usage: output?.usage, metadata: output?.metadata },
+  }).catch(() => {});
+
   if (DIAG_ENABLED || DIAG_FULL_PROMPTS || DIAG_TRACES) {
     log('[llm substep] success', 'debug', {
       ...ctx,
@@ -138,8 +176,22 @@ export function logLLMSubstepError(
   err: unknown,
   durationMs?: number
 ) {
-  if (!DIAG_ENABLED) return;
   const ctx = getCtx(execution, sequence);
+
+  // The raw sidecar is the whole point on the failure path — a 413/400/etc.
+  // from the provider is exactly the case where you need to see the literal
+  // request that triggered it, and DIAG_ENABLED (verbose console logging)
+  // being off shouldn't suppress that.
+  writeRawLLMIO({
+    executionId: String(ctx.correlationId || ''),
+    pathKey: rawLLMPathKey(ctx),
+    kind: 'error',
+    provider: ctx.provider,
+    model: ctx.model,
+    content: err,
+  }).catch(() => {});
+
+  if (!DIAG_ENABLED) return;
   const message = err instanceof Error ? err.message : String(err);
   log('[llm substep] error', 'error', {
     ...ctx,
@@ -255,7 +307,9 @@ export function shouldDebugStopAfterFirstStructuredOutput(substepExec: Execution
     const pathArr = (substepExec as any).getPath?.() || [];
     const isPlanStep = pathArr.includes('plan');
     const inPrepareFailsafe = pathArr.some((p: string) => String(p).includes('prepare_concise_context'));
-    const isFirstStructured = pathArr.includes('gen-2');
+    // The structured_output substep runs inside the first thinkings
+    // generation node (gen-0); the sequence gate above already pins the kind.
+    const isFirstStructured = pathArr.includes('gen-0');
     const ctx = getCtx(substepExec);
     const agentFilter = process?.env?.BITCODE_DEBUG_STOP_AGENT_FILTER;
     const agentMatches = agentFilter ? String(ctx.agentName || '').includes(String(agentFilter)) : true;
