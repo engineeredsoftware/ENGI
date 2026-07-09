@@ -151,14 +151,13 @@ Accepted V48 architecture law (decided 2026-06-12):
   work (rule accepted 2026-06-12), with the dedicated F8 sweep retiring the
   remainder.
 
-## V48 Gate 3 closing: synthesis pipeline algorithmic + telemetric correctness, and the SynthesizeAssetPacks SDIVF unification
+## V48 Gate 3 closed (specification + implementation): synthesis pipeline algorithmic + telemetric correctness
 
-**Canon posture:** V48 remains a **notes-backed draft opening** until the full
-hand-authored family (`BITCODE_SPEC_V48.md` + DELTA + PARITY + PROVEN) is opened
-in a dedicated specification gate. **This notes file is the single V48 draft
-carrier for Gate 3 product law** — binding for deposit SDIVF, full-stack option
-stats, demand honesty, defaults (`grok-build-0.1`, maxIterations 1, 180s timeout),
-and telemetry. Do not treat superseded version specs as live V48 product law.
+**Canon:** `BITCODE_SPEC_V48.md` is the **single full-system SPEC** for Complete
+Implementation Derivability through Gate 3 — rebuild deposit SDIVF, storage,
+hosts, agents/tools/prompts/telemetry, and `/deposits` from that file alone
+(§ Gate 3 G3-1…G3-15). This notes companion records architecture history and
+the depositing parity matrix; it is not stronger than the SPEC.
 
 Gate 3 (branch `v48/gate-3-synthesis-pipeline-correctness`) is the synthesis
 pipeline correctness gate, driven by interactive QA of the deposit synthesis
@@ -1170,15 +1169,13 @@ option projection); real in-sandbox execution is verified against deployed sandb
 - Full-stack: unestimatable demand does not force Positive ROI options = 0; sub-critical
   deposit authority does not force permanent Required denials = 2 before review.
 
-**Open items after code close (ops verification, not more product surface):**
-- **Deployment config**: the Vercel sandbox provider's runtime deps (`@vercel/sandbox`,
-  OIDC or `VERCEL_TOKEN`+team+project, git in the box image); set
-  `BITCODE_PIPELINE_HOST=sandbox` on prod for durable in-box runs; the AWS provider
-  (#20) beyond the stub.
-- **Live verification**: a real deposit run — on the InlineHost (in-process) and on the
-  SandboxHost (in-box) — confirming measured sizes + the decision panel end-to-end,
-  that both hosts produce the same deposit option synthesis, and that Cancel run stops
-  a live sandbox (Observability → Sandboxes).
+**Gate 3 closed for product law + implementation.** Remaining ops (optional):
+- **Deployment config**: set `BITCODE_PIPELINE_HOST=sandbox` on prod when durable
+  in-box runs are desired (`@vercel/sandbox`, OIDC or token+team+project).
+- **Live operator smoke**: one scoped deposit (Forced Inclusions recommended on
+  large monorepos) + cancel smoke; fill `BITCODE_V48_QA.md` §6 runbook when convenient.
+
+These ops items do **not** block Gate 3 PR merge into `version/v48` once CI is green.
 
 ## Non-goals during V48 opening
 

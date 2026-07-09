@@ -2,6 +2,13 @@
 
 ## Status
 
+Gate 3 (synthesis pipeline correctness / deposit full-stack) is **closed for
+product law + implementation** on `v48/gate-3-synthesis-pipeline-correctness`
+with rebuild-alone canon in `BITCODE_SPEC_V48.md` §G3-1…G3-15. Optional live
+smoke remains in the Gate 3 runbook §6; it does not block version-branch merge
+when CI is green.
+
+
 - Version: `V48`
 - Active canon during QA: `V47`
 - Posture: interactive local experiential QA of the first live commercial (testnet) experience; app runs locally (`pnpm -C uapi dev:remote`) against the staging Supabase project; wallet network testnet4

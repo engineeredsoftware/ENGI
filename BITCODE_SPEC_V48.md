@@ -259,67 +259,250 @@ No measurement, no price. No price, no settlement. No settlement, no market.
 
 ## V48 Gate 3 SynthesizeAssetPacks SDIVF and deposit full-stack law
 
-This section is binding product law for Gate 3 and must be sufficient, with the
-rest of this SPEC, to rebuild deposit synthesis without consulting superseded
-version files.
+This section is **binding product law** for Gate 3. Together with the rest of
+this SPEC it is sufficient to **rebuild deposit synthesis and `/deposits` from
+zero** without consulting superseded version files, `protocol-demonstration/`,
+or implementation tribal knowledge. Implementation paths are listed so a rebuild
+can locate the living system; the **law** is this SPEC.
 
-### Pipeline identity
+### G3-1 Pipeline identity
 
-- Pipeline name: `SynthesizeAssetPacks` (legacy Develop-gate alias retained for observability only).
-- Phases: Setup → Discovery → Implementation → Validation → Finish (SDIVF).
-- Modes: `deposit` | `read`. Mode is stored on the shared pipeline execution parent of all phase children.
-- Conditional runtime registries select agents/tools/prompts per mode.
-- Inference is non-configurable: full formal hierarchy always; tests mock the LLM provider boundary only.
-- DIV `maxIterations` = **1** for product deposit (single D→I→V pass).
-- Default xAI model: **`grok-build-0.1`** when `XAI_API_KEY` is configured (`BITCODE_LLM_MODEL` overrides).
-- Per-call LLM timeout: `BITCODE_LLM_CALL_TIMEOUT_MS` default **180000**.
-- Execution: route dispatches `runId`; InlineHost or Vercel Sandbox harness runs pipeline; client loads synthesis from execution output on completion.
+| Law | Value |
+|---|---|
+| Pipeline name | `SynthesizeAssetPacks` |
+| Legacy alias | Develop-gate / `runSDIVFPipeline` (same executor; observability ids may still say `develop.*`) |
+| Phases | Setup → Discovery → Implementation → Validation → Finish |
+| DIV loop | **maxIterations = 1** (one D→I→V pass; no multi-iteration product loop) |
+| Modes | `deposit` \| `read` |
+| Mode storage | On the **shared pipeline execution** (parent of all `seq-N` phase children). Mode resolution walks **ancestors only** — never store mode only on preprocess sibling (QA F20). |
+| Inference | Non-configurable: always full formal hierarchy; always real generation at leaf. Tests mock LLM at provider boundary only. |
+| Default LLM | Provider `xai` when `XAI_API_KEY` set; model **`grok-build-0.1`** (`BITCODE_LLM_MODEL` override). |
+| Per-call timeout | `BITCODE_LLM_CALL_TIMEOUT_MS` default **180000**; reject cleanly (no hang). |
+| Entry | `synthesizeAssetPacksPipeline` in `packages/pipelines/asset-pack/src/index.ts` |
+| Formal hierarchy | PipelineExecution → Phase → Agent (`factoryAgent` / `factoryAgentWithPTRR`) → Step (plan/try/refine/retry) → Failsafe (prepare_concise_context → chunk_then_sum → stitch_until_complete) → Thinkings (reason → judge → structured_output) |
 
-### Deposit lens inputs and scope
+### G3-2 Data storage schemas (deposit persistence)
+
+Migration authority: `supabase/migrations/20260515010000_terminal_execution_history.sql` (plus RLS/service policies as in that migration family).
+
+#### `public.executions`
+
+| Column | Type | Deposit use |
+|---|---|---|
+| `id` | uuid PK | `runId` returned to client |
+| `user_id` | uuid → auth.users | Owner; cancel/history scoped |
+| `type` | text | e.g. deposit synthesis workbench type |
+| `status` | text | `pending` → `running` → `completed` \| `failed` \| `cancelled` \| `interrupted` |
+| `input` | jsonb | Source-safe request summary (never full monorepo sources) |
+| `output` | jsonb | On complete: `depositOptionSynthesis`, `reviewProjections`, `inference`, exclusion violations |
+| `context` | jsonb | `source`, `route`, `pipelineCore`, `synthesisMode`, `repositoryFullName`, `sourceBranch`, `sourceCommit`, `optionCount`, `sandboxId` (if any), cancel fields |
+| `error` | jsonb | Source-safe `{ message }` on fail/cancel |
+| `total_tokens`, `duration_ms` | numbers | Accounting |
+| `started_at`, `completed_at`, `created_at`, `updated_at` | timestamptz | Run clock |
+
+RLS: owner select/insert/update; service_role all. Cancel law: once `status=cancelled`, background workers must not overwrite with `failed`/`completed`.
+
+#### `public.execution_events`
+
+| Column | Type | Deposit use |
+|---|---|---|
+| `id` | uuid PK | Event id |
+| `run_id` | uuid → executions | Stream tail / history |
+| `event_type` | text | `status`, `generation`, `tool`, `error`, `agent-complete`, `phase-complete`, … |
+| `event_data` | jsonb | **Always** passed through `sourceSafeStreamEvent` before persist/stream |
+| `agent_name`, `phase` | text | Optional denormalized labels |
+| `created_at` | timestamptz | Ordering + RunClock |
+
+Indexes: `(user_id, created_at DESC)` on executions; `(run_id, created_at)` on events.
+
+Settled demand search may scan `executions` for admitted/settled AssetPack rows (`context.admissionState`, `context.settlementState`, `type`, deposit-option-review-admission source) — source-safe metadata only.
+
+### G3-3 HTTP / API surface (rebuild routes)
+
+| Method | Path | Law |
+|---|---|---|
+| POST | `/api/deposit/synthesize-options` | Auth required. Validate body (`repositoryFullName`, branch, commit, obfuscations, forcedInclusions, forcedExclusions, demand signals). Create `executions` row `running`. Register `waitUntil` continuation. Return `{ runId, status: 'dispatched' }` immediately. `maxDuration` high enough for deposit (800s class). Background: provision host → run SDIVF or sandbox harness → validate candidates → build real option synthesis → ground neediness from settled packs → persist `output` **before** completion event. Fail-closed messages on zero options / cancel / timeout. |
+| GET | `/api/deposit/demand-estimate` | Auth required. Query settled Depository packs; return `{ ok, estimate, signals }`. `estimatable:false` when corpus thin. |
+| GET | `/api/executions/history` | List owner runs (deposit lens filters). |
+| GET | `/api/executions/history/[runId]` | Full row + optional event page; support `?tail=N` for last N events. |
+| GET | `/api/executions/stream/[runId]` | SSE live tail of source-safe events. |
+| POST | `/api/executions/[runId]/cancel` | Owner cancel; set `cancelled`; insert status event; best-effort sandbox stop. |
+
+Dispatch must use Vercel `waitUntil` (QA F31) — bare `void` after response is illegal on serverless.
+
+### G3-4 Hosts and provisioning
+
+| HostKind | Implementation | Law |
+|---|---|---|
+| `inline` | `packages/pipeline-hosts` InlineHost + `uapi/lib/deposit-source-provisioning` | Default when `BITCODE_PIPELINE_HOST` unset. Real `git clone` of full tree; Node fs workspace; inventory `paths` + `sources` + `samples`. |
+| `sandbox` | `VercelSandboxPipelineHost` + asset-pack harness | When `BITCODE_PIPELINE_HOST=sandbox`. Auth: OIDC or `VERCEL_TOKEN`+team+project — fail closed if missing. Deposit boxes **`persistent: false`**. Create → run harness in-box → stop/delete. Persist `context.sandboxId` while running for cancel. Events: `sandbox-create-started`, `sandbox-created`, `command-started`, `sandbox-stopped`, `sandbox-cancelled`. |
+
+Inventory scope after provision: `applyInventoryScope({ inclusions: forcedInclusions, exclusions: forcedExclusions })`. Prompt path uses `projectInventoryForPrompt` (paths+samples only — never full `sources` in prompts).
+
+### G3-5 Deposit lens inputs
 
 | Input | Law |
 |---|---|
-| Repository · branch · commit | GitHub-connected source via Auxillaries |
-| Obfuscations | Free-text withhold guidance. Empty string → skip Setup input-comprehension LLM; store empty guidance. Forced Exclusions remain fail-closed. |
-| Forced Inclusions | When non-empty, only those path roots are in-scope for inventory paths/sources/samples |
-| Forced Exclusions | Fail-closed path exclusion from inventory |
+| `repositoryFullName`, `sourceBranch`, `sourceCommit` | Required for synthesis |
+| `obfuscations` | Free-text withhold guidance. **Empty/whitespace → skip Setup input-comprehension LLM**; store empty guidance (`comprehensionMode: empty-obfuscations-skip-llm`). Forced Exclusions still authoritative. |
+| `forcedInclusions` | Non-empty → only those roots in-scope |
+| `forcedExclusions` | Fail-closed exclusion from inventory |
+| Demand signal arrays | Optional; product preferred path is settled-Depository estimate |
 
-### Deposit phase agents (rebuild roster)
+Preprocess stores on **shared** execution (cross-phase store-visibility law): `pipeline:input` (sources stripped), `pipeline:synthesizeMode=deposit`, `deposit:repository`, `deposit:obfuscations`, `deposit:forcedInclusions`, `deposit:forcedExclusions`, `deposit:demandContext`, `deposit:inventory` (full sources for measurement tools only).
 
-- Setup: clone VCS repository; deposit input-comprehension (Obfuscations); MCP init. Read Setup-plan and danger-wall are punted (no-LLM passthrough) under deposit mode.
-- Discovery: codebase comprehension; depository-search; inherent regurgitation.
-- Implementation: `implementation:deposit-asset-pack-synthesis` (2–4 measured patch options).
-- Validation: formal absolutes measure-agent + static analysis; fail-closed if zero admissible options.
-- Finish: upload-for-review (no PR in synthesis).
+### G3-6 Agent roster (deposit mode)
 
-### AssetPack and measurement
+Registry keys and modules under `packages/pipelines/asset-pack/src/`:
 
-An AssetPack is always a synthesized artifact (patch descriptor + measurements + metadata), never a raw source slice. Deposit packs carry absolute measurements (`category: absolute`, sizes with magnitude+unit). Neediness is a deposit-side preview of read demand: `neediness = clamp01(demand × (0.5 + 0.5×(1−saturation)))`, grounded from settled Depository AssetPack search when estimatable, otherwise **Unestimatable**.
+| Phase | Registry key / agent | Module | Notes |
+|---|---|---|---|
+| Setup | `setup:asset-pack-clone-vcs-repository-agent` | `agents/setup/asset-pack-clone-vcs-repository-agent.ts` | Clone into host workspace |
+| Setup | `setup:ReadFitsFindingSynthesisReadComprehensionAgent` | **deposit** `agents/setup/deposit-input-comprehension-agent.ts` | Obfuscations comprehension; empty skip |
+| Setup | `setup:ReadFitsFindingSynthesisSetupPlanAgent` | **punt** passthrough | Read fits-finding plan — no deposit LLM |
+| Setup | `setup:asset-pack-danger-wall-agent` | **punt** passthrough | Read risk-admission — no deposit LLM |
+| Setup | `setup:asset-pack-initialize-mcps-tools-agent` | setup MCP init | Tools registration |
+| Discovery | deposit codebase | `agents/discovery/deposit-codebase-comprehension-agent.ts` | Knowledge map |
+| Discovery | deposit depository-search | `agents/discovery/deposit-depository-search-agent.ts` | Read-demand guidance + underservedTopics |
+| Discovery | deposit inherent-regurgitation | `agents/discovery/deposit-inherent-regurgitation-agent.ts` | Prior knowledge patterns |
+| Implementation | `implementation:deposit-asset-pack-synthesis` | `agents/implementation/deposit-asset-pack-synthesis-agent.ts` | 2–4 patch options + needinessSignal |
+| Implementation tools | patch write | `agents/implementation/asset-pack-patch-write-tool.ts` | Source-safe path+op |
+| Validation | deposit validation | `agents/validation/deposit-validation-agent.ts` | Quality / iterate gate |
+| Validation | measure absolutes | `agents/validation/agent-measure-absolutes.ts` | Formal absolute measures |
+| Validation tools | static analysis | `agents/validation/source-static-analysis-tool.ts` | Size/symbolic quantities |
+| Finish | upload-for-review | finish phase agents | No PR in synthesis |
 
-### Deposit route full-stack session
+**PTRR unwrap law (F27):** every agent wrapper must read `finalOutput ?? output ?? raw` — never assume bare schema fields on the factory envelope.
 
-Rebuild order for `/deposits` after synthesis:
+### G3-7 Tools, prompts, generations, running context
 
-1. Synthesis options (source-safe cards: contents, measurements, neediness).
-2. Policy (criticality, demand, ROI, BTD potential, compensation, policy decision).
-3. Admission receipts after depositor approval.
-4. Earning supply intelligence (likely demand, unfit need, compensation ranges).
-5. Organization policy + wallet authority.
+- **Prompts:** Agent-level identity/requirements + PTRR step prompts via `@bitcode/prompts` Prompt registry; progressive specificity Pipeline→Phase→Agent→Step→Generation.
+- **Generations:** Thinkings triple = reason → judge → structured_output; each is an LLM call with execution child `llm:<key>:<model>`.
+- **Failsafes:** prepare_concise_context (selection → task) then chunk_then_sum then stitch_until_complete; selection must resolve `context:selectedKeys` (F29).
+- **Running context / stores:** Cross-phase artifacts via `storeCrossPhaseArtifact` on shared execution: `setup:inputComprehension` / `obfuscationComprehension`, `discovery:codebaseComprehension`, `discovery:depositorySearch`, `discovery:inherentRegurgitation`, `implementation:options`, validation absolutes attachment.
+- **Tools telemetry:** `tool|tools` result/error events become Tool-use log rows (Phase→Agent→Step + tool name).
 
-Full-stack completeness:
+### G3-8 AssetPack option product shape
 
-- Option roots = synthesis option count.
-- Positive ROI options may be non-zero when demand is Unestimatable (provisional ROI ranking from measurements; earnings **display** remains Unestimatable).
-- Required denials must not permanently equal 2 solely because `depositApproved` is false pre-review; sub-critical + under limit ⇒ deposit authority ready for approve/submit when grants, wallet, and role admit.
-- Demand estimates search settled/admitted Depository AssetPacks only; never hardcode demand weights in product UI.
+An AssetPack is always a **synthesized** artifact (never a raw source slice).
 
-### Telemetry and source-safety
+After pipeline + projection (`buildRealDepositAssetPackOptionSynthesis` + `validateDepositSynthesisOptions`):
 
-Exactly two formal log-line kinds: LLM generation leaves and Tool uses. Content withheld by metadata allowlist as `[content withheld — source-safe]`. Auto-follow unless user scrolls away. Failed/cancelled rows expose last call-chain + error on hover. Cooperative cancel via `POST /api/executions/[runId]/cancel`.
+| Field | Law |
+|---|---|
+| `kind` | capability-slice \| implementation-pattern \| proof-operations-slice |
+| `title`, `summary` | Source-safe commercial language |
+| `measurements[]` | Formal **absolutes** with `category:'absolute'`, weights Σ=1; sizes have `magnitude`+`unit` |
+| `contents` | `{ patchSummary, fileChanges[{path,op}], provenantSourcePaths, provenantSourceCount }` — path+op only, no code |
+| `neediness` | Preview; grounded from settled Depository search post-synthesis; else Unestimatable rationale |
+| `visibility.*` | All raw/source flags **false** |
+| Roots | optionRoot, sourceBindingRoot, demandAlignmentRoot, measurementRoot, contentsRoot, needinessRoot, reviewBoundaryRoot |
 
-### Hosts
+Neediness formula: `volume = clamp01(demand × (0.5 + 0.5×(1−saturation)))`.
 
-InlineHost (default/dev) and Vercel Sandbox (prod durable; deposit boxes `persistent: false`).
+### G3-9 Full-stack route session after options exist
+
+Rebuild order in `buildDepositRouteSession` / `DepositPageClient`:
+
+1. **Synthesis** — options from precomputed real synthesis or blueprint fallback.
+2. **Policy** — criticality, demand (settled-grounded or unestimatable), ROI, BTD potential, compensation, policyDecision.
+3. **Admission** — review decisions → receipts (`admitted-to-depository` when approved).
+4. **Earning supply intelligence** — likely demand, unfit need, compensation ranges (zeroed when unestimatable), recommendations.
+5. **Organization policy + wallet authority** — required actions for `/deposits`.
+
+**Full-stack completeness stats:**
+
+| Stat | Law |
+|---|---|
+| Option roots | = synthesis.optionCount |
+| Positive ROI options | May be >0 when demand Unestimatable (provisional measurement-ranked ROI); earnings **UI** still Unestimatable |
+| Admitted options | Increments only after approval → admission |
+| Required denials | Must not stick at 2 solely because `depositApproved` is false; sub-critical + under limit + grants + wallet + role ⇒ approve/submit allowed |
+
+**Demand law:** search settled/admitted Depository AssetPacks only (`estimateDepositorySettledDemand`); floor of settled packs; no hardcoded client weights; UI **Unestimatable** when not estimatable.
+
+### G3-10 Telemetry, observability, debugging
+
+| Concern | Law |
+|---|---|
+| Source-safety gate | `sourceSafeStreamEvent` — metadata allowlist for `llm` stores; withhold message/content; structural summary only |
+| Log row kinds | **Only** (1) LLM generation leaves (2) Tool uses — no intermediate store fragment rows |
+| Pills | Phase → Agent → Step → Failsafe → Thinkings (generation) |
+| Live SSE | Relay raw `event_data` with namespace/key/executionState intact |
+| History reload | Paginate events; `?tail=N` for end; RunClock from event timestamps |
+| Auto-follow | Pin to bottom unless user scrolled away |
+| Failure UX | Banner with error message; hover failed/cancelled rows → last call-chain + error |
+| Stall indicator | Amber when silence ≥ LLM call timeout default (180s) |
+| Cancel | UI Cancel run → cancel API; cooperative polls in deposit background |
+
+### G3-11 `/deposits` UI MVP completeness
+
+| Surface | Law |
+|---|---|
+| Master table | Deposit-lens pipelines; filters; select → URL `transactionId` |
+| Compose (+) | Open new deposit configuration |
+| Config | Editable until synthesis dispatched; Obfuscations + Forced Inclusions + Forced Exclusions |
+| Telemetry accordion | Source-safe SDIVF stream for attached run |
+| Options cards | Kind, title, summary, contents panel, absolutes, neediness, policy, earning estimate, approve/archive |
+| Earnings panel | All-repos supply: Likely demand / Unfit Need / Expected compensation — Unestimatable when required |
+| Authority panel | Wallet, deposit policy, required denials, roots |
+| Activity anchors | Obfuscations anchors; option anchors to ledger |
+
+### G3-12 Error handling and fail-closed postures
+
+| Failure | Posture |
+|---|---|
+| Zero admissible options | Fail run; clear message; no silent empty complete |
+| LLM timeout | Per-call reject; agent/pipeline fails; surface message with model id when known |
+| Missing sandbox auth | Fail closed before create |
+| Cancel mid-run | `cancelled`; no flip to failed |
+| Orphan stuck running | Sweep → `interrupted` (not cancelled) |
+| Prompt too large / Invalid string length | Scope inventory; safePromptJson; never put full sources in prompts |
+| Empty obfuscations on monorepo | Skip input-comprehension LLM (no thrash) |
+| Thin Depository demand | Unestimatable — never invent % |
+
+### G3-13 Environment rebuild checklist
+
+| Variable | Gate 3 law |
+|---|---|
+| `BITCODE_ASSET_PACK_REAL_INFERENCE` | `true` for live deposit |
+| `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | `xai` / `grok-build-0.1` default when key present |
+| `BITCODE_LLM_CALL_TIMEOUT_MS` | `180000` |
+| `BITCODE_PIPELINE_HOST` | unset=inline; `sandbox`=in-box |
+| `XAI_API_KEY` | Required for xAI |
+| Vercel sandbox auth | OIDC or token+team+project when sandbox host |
+| Supabase | executions + execution_events migrations applied |
+
+### G3-14 Implementation source map (rebuild index)
+
+| Area | Path |
+|---|---|
+| Pipeline entry | `packages/pipelines/asset-pack/src/index.ts` |
+| Phases | `packages/pipelines/asset-pack/src/phases/*` |
+| Deposit agents | `packages/pipelines/asset-pack/src/agents/{setup,discovery,implementation,validation}/deposit-*.ts` |
+| Absolutes / neediness | `asset-packs-synthesis.ts`, `agent-measure-absolutes.ts` |
+| Real option projection | `deposit-option-real-synthesis.ts` |
+| Policy / admission / earnings | `deposit-asset-pack-option-policy.ts`, `deposit-asset-pack-option-admission.ts`, `depositor-earning-supply-intelligence.ts` |
+| Settled demand | `depository-settled-demand-estimate.ts`, `uapi/lib/depository-settled-demand.ts` |
+| Hosts | `packages/pipeline-hosts/src/{inline-host,vercel-sandbox-host,asset-pack-harness,host}.ts` |
+| Provisioning | `uapi/lib/deposit-source-provisioning.ts` |
+| Synthesize route | `uapi/app/api/deposit/synthesize-options/route.ts` |
+| Demand route | `uapi/app/api/deposit/demand-estimate/route.ts` |
+| Cancel | `uapi/lib/execution-cancel.ts`, `uapi/app/api/executions/[runId]/cancel` |
+| Stream safety | `packages/pipelines-generics/src/streaming/*` |
+| UI | `uapi/app/deposits/DepositPageClient.tsx`, `deposit-route-model.ts` |
+| LLM defaults | `packages/generic-llms/src/defaults.ts`, `providers/xai.ts` |
+| DB | `supabase/migrations/20260515010000_terminal_execution_history.sql` |
+
+### G3-15 Gate 3 completion condition
+
+Gate 3 is closed when:
+
+1. This SPEC family states rebuild law for deposit SDIVF end-to-end (this section + companions).
+2. Implementation matches G3-1…G3-14 on branch `v48/gate-3-synthesis-pipeline-correctness`.
+3. Automated tests for package + uapi deposit/route/telemetry suites pass; Gate Quality CI green on PR into `version/v48`.
+4. Demand honesty (Unestimatable or settled-grounded) and full-stack stats (ROI/denials) do not present incomplete zeros for healthy sub-critical options with wallet authority.
+5. No requirement to read superseded `BITCODE_SPEC_V*.md` files to rebuild Gate 3 depositing.
 
 
 ## V48 whole Bitcode operator chain
