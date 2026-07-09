@@ -3,27 +3,46 @@
 ## Status
 
 - Version: `V48`
-- Canonical pointer: `BITCODE_SPEC.txt` -> `V47`
-- Active canonical anchor: `BITCODE_SPEC_V47.md`
-- Active generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md`
+- Canonical pointer on `main`: `BITCODE_SPEC.txt` -> `V47` until V48 promotion
+- Draft family anchor: `BITCODE_SPEC_V48.md` (single-canon rebuild authority for the full stack through Gate 3)
+- Draft generated proof appendix: `BITCODE_SPEC_V48_PROVEN.md`
 - Current canonical/latest target: `V47`
-- Prior canonical anchor: `BITCODE_SPEC_V46.md`
-- Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
-- V48 state: notes-only draft opening
-- Scope: V48 starts as the interactive local experiential QA target over promoted V47 commercial website testnet launch canon.
-- QA findings ledger: `BITCODE_V48_QA.md` (the running record of accepted V48 findings and repairs)
-- Gate 1 (in progress): identity and authentication interactive QA on branch `v48/gate-1-identity-auth-interactive-qa`
-- Full draft family (`BITCODE_SPEC_V48.md`, `BITCODE_SPEC_V48_DELTA.md`, `BITCODE_SPEC_V48_PARITY_MATRIX.md`) opens in a dedicated specification-authoring gate once the interactive QA tracks have accumulated the specification intent; Gate 1 closed as the identity/authentication QA-and-repairs gate
+- Prior canonical anchor: `BITCODE_SPEC_V47.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md`
+- V48 state: draft full-stack single-canon family open; Gate 3 synthesis pipeline correctness closing
+- Generated structured artifact inventory: draft V48 family (`.bitcode/v48-spec-family-report.json`, `.bitcode/v48-canonical-input-report.json`, `.bitcode/v48-canon-posture-drift-report.json` when regenerated), Gate 3 depositing parity evidence, and `BITCODE_SPEC_V48_PROVEN.md`
+- Source parity state: V48 Gate 1–3 identity, deposit SDIVF synthesis, telemetry, demand honesty, organization/wallet authority, and commercial website surfaces are specified for rebuild from `BITCODE_SPEC_V48.md`; this notes companion records architecture decisions and the depositing parity matrix
+- Scope: V48 full-system draft notes companion for Complete Implementation Derivability through Gate 3
+- QA findings ledger: `BITCODE_V48_QA.md`
+- Spec companion: `BITCODE_SPEC_V48.md`
+- Delta companion: `BITCODE_SPEC_V48_DELTA.md`
+- Parity companion: `BITCODE_SPEC_V48_PARITY_MATRIX.md`
 
-## Notes-only draft rule
+## Notes companion rule
 
-These notes make the V48 draft target visible to strict spec-quality checks
-after V47 promotion. They are not first-gate implementation authority, not a
-full V48 specification family, and not permission to bypass the V47 canon. V48
-work must continue by exercising the live commercial testnet experience
-interactively, recording accepted findings, creating an explicit parity
-matrix, and then opening scoped gate branches only after the QA-driven
-specification intent is clear.
+These notes accompany the V48 draft specification family. They are not stronger
+than `BITCODE_SPEC_V48.md`. Binding rebuild law for the entire Bitcode stack
+through Gate 3 lives in the single SPEC file. Notes record architecture
+decisions, Gate 3 SDIVF details, the depositing parity matrix, and QA-driven
+intent. Do not treat superseded version files as live V48 product law when
+implementing V48 gates.
+
+## Concise current-system reading
+
+V48 is the full-stack draft target: wallet/GitHub identity, `/deposits`
+SynthesizeAssetPacks SDIVF (maxIterations 1, grok-build-0.1 default, settled
+demand honesty), `/reads` reading contracts retained for later gates, `/packs`
+activity master-detail, Auxillaries, source-safe telemetry, and testnet-only
+value semantics. Gate 3 closes synthesis pipeline algorithmic + telemetric
+correctness and deposit full-stack option stats (roots, positive ROI,
+admission, required denials).
+
+## Simplified-spec reading rule
+
+If a surface does not help a depositor synthesize measured AssetPack options,
+review them source-safely, admit them, track authority/earnings honestly, or
+help a reader later settle Need-fit AssetPacks, it is out of Gate 3 scope.
+Unestimatable demand must say Unestimatable — never invent demand percentages.
 
 ## Deferred from V47
 
