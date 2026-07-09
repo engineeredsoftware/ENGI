@@ -47,7 +47,7 @@ describe('factoryLLMRegistryWithProviders', () => {
 
     expect(defaults).toEqual({
       provider: 'xai',
-      model: 'grok-4.5',
+      model: 'grok-build-0.1',
     });
   });
 

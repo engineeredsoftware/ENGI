@@ -31,7 +31,8 @@ export function resolveDefaultLLMModel(
   switch (provider.toLowerCase()) {
     case 'xai':
     case 'grok':
-      return 'grok-4.5';
+      // Product default: grok-build-0.1 (overridable via BITCODE_LLM_MODEL).
+      return 'grok-build-0.1';
     case 'google':
       return 'gemini-2.5-flash';
     case 'anthropic':

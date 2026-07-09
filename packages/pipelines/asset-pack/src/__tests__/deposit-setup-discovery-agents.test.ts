@@ -127,6 +127,31 @@ describe('deposit Setup input-comprehension agent (boundary-mocked PTRR)', () =>
     expect(exec.get('setup', 'obfuscationComprehension')).toEqual(MOCK_OBFUSCATION_COMPREHENSION);
     expect(getBoundaryLLMCalls().length).toBeGreaterThan(0);
   }, 30000);
+
+  it('skips LLM when Obfuscations are empty (no monorepo inventory thrash / timeout)', async () => {
+    resetBoundaryLLMCalls();
+    const exec = new Execution('setup-node-empty-obfuscations');
+    const out = await runDepositInputComprehensionAgent(
+      {
+        ...DEPOSIT_INPUT,
+        obfuscations: '',
+      },
+      exec,
+    );
+
+    expect(out.success).toBe(true);
+    expect(out.comprehensionMode).toBe('empty-obfuscations-skip-llm');
+    expect(out.comprehension).toMatchObject({
+      obfuscatedPaths: [],
+      obfuscatedConcepts: [],
+      honorNotes: [],
+    });
+    expect(out.comprehension.summary).toMatch(/No explicit obfuscations/i);
+    expect(exec.get('setup', 'inputComprehension')).toEqual(out.comprehension);
+    expect(exec.get('setup', 'obfuscationComprehension')).toEqual(out.comprehension);
+    // Zero provider calls — this is the fix for empty-obfuscation deposit timeouts.
+    expect(getBoundaryLLMCalls().length).toBe(0);
+  });
 });
 
 describe('deposit Discovery lens agents (boundary-mocked PTRR)', () => {

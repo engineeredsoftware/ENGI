@@ -4,7 +4,7 @@ import { LLMProvider, LLMConfig, LLMInput, LLMOutput } from '@bitcode/llm-generi
  * xAI / Grok provider — OpenAI-compatible client against https://api.x.ai/v1.
  *
  * Auth: XAI_API_KEY (preferred) or GROK_API_KEY.
- * Default model: grok-4.5 (overridable via BITCODE_LLM_MODEL).
+ * Default model: grok-build-0.1 (overridable via BITCODE_LLM_MODEL).
  *
  * Uses chat.completions (OpenAI-compatible surface on xAI). The Responses API
  * is also available on the same base URL; chat is sufficient for Bitcode's
@@ -12,7 +12,7 @@ import { LLMProvider, LLMConfig, LLMInput, LLMOutput } from '@bitcode/llm-generi
  */
 
 const XAI_BASE_URL = 'https://api.x.ai/v1';
-const DEFAULT_XAI_MODEL = 'grok-4.5';
+const DEFAULT_XAI_MODEL = 'grok-build-0.1';
 
 function resolveXaiApiKey(env: NodeJS.ProcessEnv = process.env): string | undefined {
   const key = env.XAI_API_KEY || env.GROK_API_KEY;

@@ -103,10 +103,41 @@ function findValue(execution: any, namespace: string, key: string): any {
   return execution?.findUp?.(namespace, key);
 }
 
+const EMPTY_OBFUSCATION_COMPREHENSION: DepositObfuscationComprehension = {
+  summary:
+    'No explicit obfuscations declared; synthesis honors the protected-IP exclusions as authoritative.',
+  obfuscatedPaths: [],
+  obfuscatedConcepts: [],
+  honorNotes: [],
+};
+
+function hasDeclaredObfuscations(value: unknown): boolean {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+
 export default async function runDepositInputComprehensionAgent(input: any, execution: any) {
   const obfuscations = input?.obfuscations ?? findValue(execution, 'deposit', 'obfuscations') ?? null;
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
   const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
+
+  // Empty Obfuscations: no LLM work. Full monorepo inventory + PTRR plan/try
+  // against blank text was burning minutes and timing out (90s per call) with
+  // nothing to map. Protected-IP exclusions remain authoritative downstream.
+  if (!hasDeclaredObfuscations(obfuscations)) {
+    storeCrossPhaseArtifact(execution, 'setup', 'inputComprehension', EMPTY_OBFUSCATION_COMPREHENSION);
+    storeCrossPhaseArtifact(
+      execution,
+      'setup',
+      'obfuscationComprehension',
+      EMPTY_OBFUSCATION_COMPREHENSION,
+    );
+    return {
+      ...(input || {}),
+      success: true,
+      comprehension: EMPTY_OBFUSCATION_COMPREHENSION,
+      comprehensionMode: 'empty-obfuscations-skip-llm',
+    };
+  }
 
   // Prompt path: paths + samples only. Full inventory.sources stays on the
   // shared execution store for measurement; never enter PTRR user prompts
@@ -126,13 +157,8 @@ export default async function runDepositInputComprehensionAgent(input: any, exec
   // unwrap it to the agent's typed structured output (F27).
   const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
-  const comprehension: DepositObfuscationComprehension = (result as any)?.comprehension ?? {
-    summary:
-      'No explicit obfuscations declared; synthesis honors the protected-IP exclusions as authoritative.',
-    obfuscatedPaths: [],
-    obfuscatedConcepts: [],
-    honorNotes: [],
-  };
+  const comprehension: DepositObfuscationComprehension =
+    (result as any)?.comprehension ?? EMPTY_OBFUSCATION_COMPREHENSION;
 
   // Cross-phase artifacts: the Implementation synthesis agent and the deposit
   // Validation agent read this obfuscation guidance from OTHER phase siblings,

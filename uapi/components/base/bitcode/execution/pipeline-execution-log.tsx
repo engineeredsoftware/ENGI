@@ -537,10 +537,10 @@ export function buildTerseLogCopyText(args: {
 }
 
 // Matches the default BITCODE_LLM_CALL_TIMEOUT_MS (AgentLLMsRegistry /
-// PipelineLLMRegistry) — past this many seconds with no new row, an in-flight
-// LLM call should already have timed out server-side, so continued silence is
-// a genuine-hang signal rather than a merely slow generation.
-const LIKELY_STALL_SECONDS = 90;
+// PipelineLLMRegistry, 180s) — past this many seconds with no new row, an
+// in-flight LLM call should already have timed out server-side, so continued
+// silence is a genuine-hang signal rather than a merely slow generation.
+const LIKELY_STALL_SECONDS = 180;
 
 /**
  * Build the live "While {Depositing|Reading}, during {Phase}, {Agent} Agent is

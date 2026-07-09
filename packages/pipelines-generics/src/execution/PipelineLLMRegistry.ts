@@ -18,12 +18,13 @@ import { Execution } from '@bitcode/execution-generics/Execution';
  * Pipeline LLM calls must be time-bounded — the provider SDK sets no short
  * timeout, so a hung/very-slow generation stalls the entire inline synthesis.
  * On timeout the call rejects and the failsafe/PTRR retry handles it. Tunable
- * via BITCODE_LLM_CALL_TIMEOUT_MS (default 90000); set 0 to disable.
+ * via BITCODE_LLM_CALL_TIMEOUT_MS (default 180000 for monorepo deposit chunks);
+ * set 0 to disable.
  */
 function resolveLlmCallTimeoutMs(): number {
   const raw = Number(process?.env?.BITCODE_LLM_CALL_TIMEOUT_MS);
   if (Number.isFinite(raw)) return raw > 0 ? raw : 0;
-  return 90_000;
+  return 180_000;
 }
 
 async function callLlmWithTimeout(call: Promise<LLMOutput>, model: string): Promise<LLMOutput> {
