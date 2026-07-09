@@ -196,6 +196,9 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
   const obfuscationGuidance =
     input?.obfuscationGuidance ?? findValue(execution, 'setup', 'inputComprehension');
 
+  const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
+  const inventoryForPrompt = projectInventoryForPrompt(inventory);
+
   const raw = await DepositAssetPackSynthesisAgent(
     {
       ...input,
@@ -203,9 +206,10 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
       instructions: obfuscations,
       protectedIpExclusions,
       demandContext,
-      inventory,
-      inventoryPaths: inventory?.paths,
-      excerpts: inventory?.samples,
+      // Paths + samples only for PTRR prompts; full sources stay on deposit:inventory for Validation measurement.
+      inventory: inventoryForPrompt,
+      inventoryPaths: inventoryForPrompt?.paths ?? inventory?.paths,
+      excerpts: inventoryForPrompt?.samples ?? inventory?.samples,
       obfuscationGuidance,
       discovery: {
         context: execution?.get?.('discovery', 'context'),

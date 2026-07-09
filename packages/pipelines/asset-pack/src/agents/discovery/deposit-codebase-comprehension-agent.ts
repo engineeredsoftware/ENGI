@@ -108,9 +108,17 @@ function findValue(execution: any, namespace: string, key: string): any {
 export default async function runDepositCodebaseComprehensionAgent(input: any, execution: any) {
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
   const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
+  const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
+  const inventoryForPrompt = projectInventoryForPrompt(inventory);
 
   const raw = await DepositCodebaseComprehensionAgent(
-    { ...input, repository, inventory, inventoryPaths: inventory?.paths, excerpts: inventory?.samples },
+    {
+      ...input,
+      repository,
+      inventory: inventoryForPrompt,
+      inventoryPaths: inventoryForPrompt?.paths ?? inventory?.paths,
+      excerpts: inventoryForPrompt?.samples ?? inventory?.samples,
+    },
     execution,
   );
   // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput }); unwrap (F27).

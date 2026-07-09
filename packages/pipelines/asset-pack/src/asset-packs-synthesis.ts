@@ -395,6 +395,28 @@ export function isPathExcluded(path: string, exclusions: string[]): boolean {
   });
 }
 
+/**
+ * Forced Inclusion (sourcePathHints): when non-empty, a path is in-scope only if
+ * it equals or sits under one of the inclusion roots (prefix match). Empty
+ * inclusions mean the full inventory remains in-scope (minus exclusions).
+ */
+export function isPathForcedIncluded(path: string, inclusions: string[]): boolean {
+  if (!Array.isArray(inclusions) || inclusions.length === 0) return true;
+  const normalizedPath = path.trim().replace(/^\.\//, '').toLowerCase();
+  if (!normalizedPath) return false;
+  return inclusions.some((inclusion) => {
+    const normalized = inclusion
+      .trim()
+      .replace(/^\.\//, '')
+      .toLowerCase()
+      .replace(/\*+/g, '');
+    if (!normalized) return false;
+    const root = normalized.replace(/\/+$/, '');
+    if (!root) return false;
+    return normalizedPath === root || normalizedPath.startsWith(`${root}/`);
+  });
+}
+
 export function applyExclusionsToInventory(
   inventory: {
     paths: string[];
@@ -403,13 +425,100 @@ export function applyExclusionsToInventory(
   },
   exclusions: string[],
 ): AssetPacksSynthesisSourceInventory {
-  const keptPaths = inventory.paths.filter((path) => !isPathExcluded(path, exclusions));
-  const keptSamples = inventory.samples.filter((sample) => !isPathExcluded(sample.path, exclusions));
-  // Protected-IP exclusions are honored on the FULL source too (fail-closed): an
-  // excluded file is never measured, sampled, or otherwise carried forward.
+  return applyInventoryScope(inventory, { exclusions });
+}
+
+/**
+ * Prompt-safe inventory projection: paths + samples only. Never includes
+ * `sources` (full verbatim checkout) — those are for measurement tools only.
+ * Deposit agents must pass this into PTRR so PrepareConciseContext / reason /
+ * judge / structured_output never JSON.stringify multi-hundred-MB sources.
+ */
+export function projectInventoryForPrompt(
+  inventory: AssetPacksSynthesisSourceInventory | null | undefined,
+): {
+  paths: string[];
+  pathCount: number;
+  samples: AssetPacksSynthesisSourceSample[];
+  totalPathCount: number;
+  excludedPathCount: number;
+  sourceFileCount: number;
+} | null {
+  if (!inventory || typeof inventory !== 'object') return null;
+  const paths = Array.isArray(inventory.paths) ? inventory.paths : [];
+  const samples = Array.isArray(inventory.samples) ? inventory.samples : [];
+  const sources = Array.isArray(inventory.sources) ? inventory.sources : [];
+  return {
+    paths,
+    pathCount: paths.length,
+    samples,
+    totalPathCount: inventory.totalPathCount ?? paths.length,
+    excludedPathCount: inventory.excludedPathCount ?? 0,
+    sourceFileCount: sources.length,
+  };
+}
+
+/** Re-derive bounded prompt excerpts from in-scope sources after scoping. */
+export function pickInventorySamples(
+  sources: AssetPacksSynthesisSourceFile[],
+  maxFiles = 24,
+  maxChars = 4000,
+): AssetPacksSynthesisSourceSample[] {
+  if (!Array.isArray(sources) || sources.length === 0) return [];
+  const byPath = new Map(sources.map((file) => [file.path, file.content]));
+  const allPaths = sources.map((file) => file.path);
+  const priority = [
+    /^readme/i,
+    /^package\.json$/i,
+    /^pyproject\.toml$/i,
+    /^cargo\.toml$/i,
+    /^go\.mod$/i,
+    /^setup\.(py|cfg)$/i,
+    /^requirements.*\.txt$/i,
+  ];
+  const prioritized = allPaths.filter((path) =>
+    priority.some((pattern) => pattern.test(path.split('/').pop() || '')),
+  );
+  const sourceLike = allPaths.filter(
+    (path) =>
+      !prioritized.includes(path) &&
+      /\.(ts|tsx|js|jsx|py|rs|go|rb|java|cs|swift|sol|md)$/i.test(path) &&
+      path.split('/').length <= 4,
+  );
+  return [...prioritized, ...sourceLike]
+    .slice(0, maxFiles)
+    .map((path) => ({ path, excerpt: (byPath.get(path) || '').slice(0, maxChars) }));
+}
+
+export function applyInventoryScope(
+  inventory: {
+    paths: string[];
+    samples: AssetPacksSynthesisSourceSample[];
+    sources?: AssetPacksSynthesisSourceFile[];
+  },
+  scope: {
+    inclusions?: string[] | null;
+    exclusions?: string[] | null;
+  } = {},
+): AssetPacksSynthesisSourceInventory {
+  const inclusions = normalizeProtectedIpExclusions(scope.inclusions ?? []);
+  const exclusions = normalizeProtectedIpExclusions(scope.exclusions ?? []);
+  const inScope = (path: string) =>
+    isPathForcedIncluded(path, inclusions) && !isPathExcluded(path, exclusions);
+  const keptPaths = inventory.paths.filter(inScope);
+  let keptSamples = inventory.samples.filter((sample) => inScope(sample.path));
+  // Protected-IP exclusions + Forced Inclusion bounds are honored on the FULL
+  // source too (fail-closed): out-of-scope files are never measured, sampled,
+  // or otherwise carried forward.
   const keptSources = Array.isArray(inventory.sources)
-    ? inventory.sources.filter((file) => !isPathExcluded(file.path, exclusions))
+    ? inventory.sources.filter((file) => inScope(file.path))
     : undefined;
+  // After Forced Inclusion, pre-scope samples often drop to zero (they were
+  // picked from monorepo manifests outside the inclusion roots). Re-sample
+  // from the kept sources so deposit agents always get prompt excerpts.
+  if (keptSources && keptSources.length > 0 && keptSamples.length === 0) {
+    keptSamples = pickInventorySamples(keptSources);
+  }
   return {
     ...(keptSources ? { sources: keptSources } : {}),
     paths: keptPaths,

@@ -13,6 +13,7 @@ import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
+import { projectInventoryForPrompt } from '../../asset-packs-synthesis';
 import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 
 const part = (content: string): PromptPart => content as PromptPart;
@@ -107,8 +108,18 @@ export default async function runDepositInputComprehensionAgent(input: any, exec
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
   const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
 
+  // Prompt path: paths + samples only. Full inventory.sources stays on the
+  // shared execution store for measurement; never enter PTRR user prompts
+  // (JSON.stringify of monorepo sources → Invalid string length).
+  const inventoryForPrompt = projectInventoryForPrompt(inventory);
   const raw = await DepositInputComprehensionAgent(
-    { ...input, obfuscations, repository, inventory, inventoryPaths: inventory?.paths },
+    {
+      ...input,
+      obfuscations,
+      repository,
+      inventory: inventoryForPrompt,
+      inventoryPaths: inventoryForPrompt?.paths ?? inventory?.paths,
+    },
     execution,
   );
   // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });

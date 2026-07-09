@@ -1,6 +1,8 @@
 import {
   applyExclusionsToInventory,
+  applyInventoryScope,
   isPathExcluded,
+  isPathForcedIncluded,
   normalizeProtectedIpExclusions,
   synthesizeAssetPackCandidates,
   type AssetPackCandidate,
@@ -28,7 +30,13 @@ import type {
  * existing policy and admission builders consume it unchanged.
  */
 
-export { applyExclusionsToInventory, isPathExcluded, normalizeProtectedIpExclusions };
+export {
+  applyExclusionsToInventory,
+  applyInventoryScope,
+  isPathExcluded,
+  isPathForcedIncluded,
+  normalizeProtectedIpExclusions,
+};
 export type { AssetPacksSynthesisSourceInventory as DepositOptionSourceInventory };
 
 const DEPOSIT_OPTION_KINDS: DepositAssetPackOptionKind[] = [

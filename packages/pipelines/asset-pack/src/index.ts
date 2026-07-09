@@ -131,10 +131,32 @@ async function preprocessDepositMode(processedInput: any, execution: Execution):
   // so everything it produces FOR the SDIVF phases (the deposit data plane the
   // Setup/Discovery/Implementation/Validation agents ground in) must land on
   // the SHARED execution (cross-phase store-visibility law).
-  storeCrossPhaseArtifact(execution, 'pipeline', 'input', processedInput);
+  // pipeline:input is telemetried — never attach inventory.sources here (64MB+
+  // monorepo sources). Full sources live only on deposit:inventory for measurement.
+  const inventory = processedInput?.inventory;
+  const pipelineInputForStore =
+    inventory && typeof inventory === 'object'
+      ? {
+          ...processedInput,
+          inventory: {
+            paths: inventory.paths,
+            samples: inventory.samples,
+            totalPathCount: inventory.totalPathCount,
+            excludedPathCount: inventory.excludedPathCount,
+            sourceFileCount: Array.isArray(inventory.sources) ? inventory.sources.length : 0,
+          },
+        }
+      : processedInput;
+  storeCrossPhaseArtifact(execution, 'pipeline', 'input', pipelineInputForStore);
   storeCrossPhaseArtifact(execution, 'pipeline', 'synthesizeMode', 'deposit');
   storeCrossPhaseArtifact(execution, 'deposit', 'repository', repository);
   storeCrossPhaseArtifact(execution, 'deposit', 'obfuscations', processedInput?.obfuscations || null);
+  storeCrossPhaseArtifact(
+    execution,
+    'deposit',
+    'sourcePathHints',
+    processedInput?.sourcePathHints || [],
+  );
   storeCrossPhaseArtifact(execution, 'deposit', 'protectedIpExclusions', processedInput?.protectedIpExclusions || []);
   storeCrossPhaseArtifact(execution, 'deposit', 'demandContext', processedInput?.demandContext || []);
   if (processedInput?.inventory) {

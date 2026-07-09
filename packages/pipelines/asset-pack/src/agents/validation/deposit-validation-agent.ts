@@ -247,12 +247,16 @@ export default async function runDepositValidationAgent(input: any, execution: a
   const obfuscatedPaths = asPathList((obfuscationGuidance as any)?.obfuscatedPaths);
   const packs = Array.isArray(assetPacks) ? assetPacks : [];
 
+  const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
+  // LLM qualitative validation: paths only. Static-analysis measurement below
+  // still reads full inventory.sources from the shared store.
+  const inventoryForPrompt = projectInventoryForPrompt(inventory);
   const raw = await DepositValidationAgent(
     {
       ...input,
       assetPacks: packs,
-      inventory,
-      inventoryPaths: inventory?.paths,
+      inventory: inventoryForPrompt,
+      inventoryPaths: inventoryForPrompt?.paths ?? inventory?.paths,
       obfuscationGuidance,
       protectedIpExclusions,
     },

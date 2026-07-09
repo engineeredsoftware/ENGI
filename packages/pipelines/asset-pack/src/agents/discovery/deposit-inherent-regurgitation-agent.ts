@@ -111,8 +111,15 @@ export default async function runDepositInherentRegurgitationAgent(input: any, e
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
   const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
 
+  const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
+  const inventoryForPrompt = projectInventoryForPrompt(inventory);
   const raw = await DepositInherentRegurgitationAgent(
-    { ...input, repository, inventory, inventoryPaths: inventory?.paths },
+    {
+      ...input,
+      repository,
+      inventory: inventoryForPrompt,
+      inventoryPaths: inventoryForPrompt?.paths ?? inventory?.paths,
+    },
     execution,
   );
   // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput }); unwrap (F27).

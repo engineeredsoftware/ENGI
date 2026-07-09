@@ -117,8 +117,16 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
   const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
   const demandContext = input?.demandContext ?? findValue(execution, 'deposit', 'demandContext') ?? [];
 
+  const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
+  const inventoryForPrompt = projectInventoryForPrompt(inventory);
   const raw = await DepositDepositorySearchAgent(
-    { ...input, repository, inventory, inventoryPaths: inventory?.paths, demandContext },
+    {
+      ...input,
+      repository,
+      inventory: inventoryForPrompt,
+      inventoryPaths: inventoryForPrompt?.paths ?? inventory?.paths,
+      demandContext,
+    },
     execution,
   );
   // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });

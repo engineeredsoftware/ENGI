@@ -8,8 +8,11 @@ jest.mock('../runtime-inference-policy', () => ({
 import { synthesizeAssetPackCandidatesFormal } from '../asset-packs-synthesis-pipeline';
 import {
   applyExclusionsToInventory,
+  applyInventoryScope,
   isPathExcluded,
+  isPathForcedIncluded,
   normalizeProtectedIpExclusions,
+  projectInventoryForPrompt,
   synthesizeAssetPackCandidates,
   validateDepositSynthesisOptions,
   DEPOSIT_MEASUREMENT_CATALOG,
@@ -70,6 +73,60 @@ describe('AssetPacksSynthesis core', () => {
     expect(filtered.excludedPathCount).toBe(1);
     expect(isPathExcluded('secret/keys.py', exclusions)).toBe(true);
     expect(isPathExcluded('src/app.py', exclusions)).toBe(false);
+  });
+
+  it('scopes inventory by Forced Inclusion roots then Forced Exclusions', () => {
+    const scoped = applyInventoryScope(INVENTORY, {
+      inclusions: ['src/'],
+      exclusions: ['src/utils.py'],
+    });
+    expect(scoped.paths).toEqual(['src/app.py']);
+    expect(scoped.samples).toEqual([]);
+    expect(scoped.excludedPathCount).toBe(3);
+    expect(isPathForcedIncluded('src/app.py', ['src/'])).toBe(true);
+    expect(isPathForcedIncluded('README.md', ['src/'])).toBe(false);
+    // Empty inclusions leave the full tree in-scope (minus exclusions).
+    expect(isPathForcedIncluded('README.md', [])).toBe(true);
+  });
+
+  it('projectInventoryForPrompt omits sources content for PTRR prompts', () => {
+    const withSources = {
+      ...INVENTORY,
+      sources: [
+        { path: 'README.md', content: 'SECRET-README-BODY' },
+        { path: 'src/app.py', content: 'SECRET-APP-BODY' },
+      ],
+      totalPathCount: 4,
+      excludedPathCount: 0,
+    };
+    const forPrompt = projectInventoryForPrompt(withSources);
+    expect(forPrompt).toMatchObject({
+      pathCount: 4,
+      sourceFileCount: 2,
+    });
+    expect(forPrompt).not.toHaveProperty('sources');
+    expect(JSON.stringify(forPrompt)).not.toContain('SECRET-');
+  });
+
+  it('re-samples prompt excerpts after Forced Inclusion empties pre-scope samples', () => {
+    // Pre-scope samples only from out-of-root paths (the monorepo case).
+    const provisioned = {
+      paths: ['README.md', 'uapi/app.ts', 'uapi/lib.ts', 'secret/keys.py'],
+      samples: [{ path: 'README.md', excerpt: 'root readme' }],
+      sources: [
+        { path: 'README.md', content: '# root' },
+        { path: 'uapi/app.ts', content: 'export const app = 1' },
+        { path: 'uapi/lib.ts', content: 'export const lib = 2' },
+        { path: 'secret/keys.py', content: 'KEY=1' },
+      ],
+    };
+    const scoped = applyInventoryScope(provisioned, {
+      inclusions: ['uapi/'],
+      exclusions: [],
+    });
+    expect(scoped.paths).toEqual(['uapi/app.ts', 'uapi/lib.ts']);
+    expect(scoped.samples.length).toBeGreaterThan(0);
+    expect(scoped.samples.every((s) => s.path.startsWith('uapi/'))).toBe(true);
   });
 
   it('maps inference candidates through the lens measurement catalog', async () => {
