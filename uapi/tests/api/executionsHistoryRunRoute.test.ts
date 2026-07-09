@@ -125,7 +125,9 @@ describe('GET /api/executions/history/[runId]', () => {
     const eventsBuilder: any = {
       select: jest.fn().mockReturnThis(),
       eq: jest.fn().mockReturnThis(),
-      order: jest.fn().mockResolvedValue({
+      order: jest.fn().mockReturnThis(),
+      // Paginated history: .range() ends the chain (PostgREST 1000-row pages).
+      range: jest.fn().mockResolvedValue({
         data: [
           {
             id: '1',
@@ -224,9 +226,14 @@ describe('GET /api/executions/history/[runId]', () => {
     expect(res.status).toBe(200);
 
     const json = await res.json();
+    expect(eventsBuilder.range).toHaveBeenCalledWith(0, 999);
+    expect(json.eventCount).toBe(2);
+    expect(json.events).toHaveLength(2);
     expect(json.run).toEqual(
       expect.objectContaining({
         id: 'run-1',
+        started_at: '2026-04-22T11:58:00.000Z',
+        completed_at: '2026-04-22T12:04:00.000Z',
         summary: 'Persisted closure posture.',
         guide: 'refresh proof families',
         repo_snapshot: {

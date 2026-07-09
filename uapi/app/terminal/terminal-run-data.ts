@@ -4,6 +4,8 @@ import type { TerminalRunDetailSnapshot } from './terminal-transaction-detail-sn
 
 export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' | 'agentic_execution' | 'status'> & {
   summary?: string | null;
+  /** Source-safe failure message from executions.error (failed/interrupted). */
+  errorMessage?: string | null;
   repository?: string | null;
   branch?: string | null;
   sourceCommit?: string | null;

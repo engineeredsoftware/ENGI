@@ -741,6 +741,17 @@ export function buildTerminalExternalInterfacingDraft(
   };
 }
 
+function readExecutionErrorMessage(error: unknown): string | null {
+  if (typeof error === 'string' && error.trim()) return error.trim();
+  if (!error || typeof error !== 'object' || Array.isArray(error)) return null;
+  const record = error as Record<string, unknown>;
+  for (const key of ['message', 'error', 'reason'] as const) {
+    const value = record[key];
+    if (typeof value === 'string' && value.trim()) return value.trim();
+  }
+  return null;
+}
+
 export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): WorkspaceRun {
   const agenticExecution =
     run.agentic_execution ||
@@ -754,6 +765,14 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     const value = context?.[key];
     return typeof value === 'string' && value.trim() ? value.trim() : null;
   };
+  const errorMessage = readExecutionErrorMessage((run as { error?: unknown }).error);
+  const statusLower = String(run.status || '').toLowerCase();
+  const failureSummary =
+    statusLower === 'failed' ||
+    statusLower === 'interrupted' ||
+    statusLower === 'cancelled'
+      ? errorMessage
+      : null;
 
   return {
     id: run.id,
@@ -762,6 +781,7 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     type: agenticExecution.canonicalType,
     agentic_execution: agenticExecution,
     sourceModel: 'execution-history',
+    errorMessage,
     summary:
       run.summary ||
       run.asset_pack_completion?.summary ||
@@ -769,6 +789,7 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
       run.asset_pack_completion?.writtenAssets?.summary ||
       run.asset_pack_completion?.shippables?.summary ||
       run.asset_pack_completion?.deliveryMechanism?.summary ||
+      failureSummary ||
       null,
     repository:
       repoSnapshot

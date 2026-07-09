@@ -355,12 +355,30 @@ function buildRepoSnapshot(row: ExecutionHistoryRow) {
   };
 }
 
+/**
+ * Extract a human-readable failure message from executions.error JSON.
+ * Failed/interrupted rows often have no output.summary — without this the
+ * deposit UI falls through to the generic "Run failed." banner (QA: c7b84ad5).
+ */
+function readErrorMessage(error: unknown): string | null {
+  if (typeof error === 'string' && error.trim()) return error.trim();
+  if (!error || typeof error !== 'object' || Array.isArray(error)) return null;
+  const record = error as JsonRecord;
+  const message = asString(record.message) || asString(record.error) || asString(record.reason);
+  return message;
+}
+
 function buildSummary(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const context = readContextRecord(row);
   const assetPackCompletion = readAssetPackCompletion(row);
   const assetPackSynthesisArtifacts = buildAssetPackSynthesisArtifacts(row);
   const writtenAssets = buildWrittenAssets(row);
+  const status = String(row.status || '').toLowerCase();
+  const terminalFailure =
+    status === 'failed' || status === 'interrupted' || status === 'cancelled'
+      ? readErrorMessage(row.error)
+      : null;
 
   return (
     asString(output?.summary) ||
@@ -368,6 +386,7 @@ function buildSummary(row: ExecutionHistoryRow) {
     asString(assetPackSynthesisArtifacts?.summary) ||
     asString(writtenAssets?.summary) ||
     asString(context?.summary) ||
+    terminalFailure ||
     null
   );
 }
@@ -484,6 +503,9 @@ export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
     asset_pack_completion: buildNormalizedAssetPackCompletion(row),
     ledger_settlement: buildLedgerSettlement(row),
     error: row.error ?? null,
+    // Wall-clock for run timers on refresh (not derived from truncated event windows).
+    duration_ms: row.duration_ms ?? null,
+    total_tokens: row.total_tokens ?? null,
   };
 }
 
@@ -641,17 +663,34 @@ export async function getExecutionHistoryRunRoute(
     return createJsonResponse({ error: 'Execution not found or access denied' }, 404);
   }
 
-  const { data: events, error: eventsError } = await supabaseAdmin
-    .from('execution_events')
-    .select('id, run_id, event_type, event_data, created_at, agent_name, phase')
-    .eq('run_id', runId)
-    .order('created_at', { ascending: true });
+  // PostgREST/Supabase defaults to max 1000 rows. Deposit synthesis runs produce
+  // multi-thousand event streams (QA: refresh dropped the second half of a
+  // ~30m run and halved the clock because only the first 1000 events loaded).
+  // Page through the full event history in order.
+  const EVENT_PAGE_SIZE = 1000;
+  const events: ExecutionEventRow[] = [];
+  let eventOffset = 0;
+  for (;;) {
+    const { data: page, error: eventsError } = await supabaseAdmin
+      .from('execution_events')
+      .select('id, run_id, event_type, event_data, created_at, agent_name, phase')
+      .eq('run_id', runId)
+      .order('created_at', { ascending: true })
+      .order('id', { ascending: true })
+      .range(eventOffset, eventOffset + EVENT_PAGE_SIZE - 1);
 
-  if (eventsError) {
-    return createJsonResponse(
-      { error: toErrorMessage(eventsError, 'Failed to fetch execution event history') },
-      500,
-    );
+    if (eventsError) {
+      return createJsonResponse(
+        { error: toErrorMessage(eventsError, 'Failed to fetch execution event history') },
+        500,
+      );
+    }
+    const batch = Array.isArray(page) ? (page as ExecutionEventRow[]) : [];
+    events.push(...batch);
+    if (batch.length < EVENT_PAGE_SIZE) break;
+    eventOffset += EVENT_PAGE_SIZE;
+    // Hard ceiling so a runaway table cannot unbounded-read the API process.
+    if (eventOffset >= 50_000) break;
   }
 
   const normalizedRun = normalizeExecutionHistoryRow(run);
@@ -662,7 +701,9 @@ export async function getExecutionHistoryRunRoute(
       ...normalizedRun,
       terminal_journal: terminalJournal,
     },
-    events: (events || []).map(normalizeExecutionEventRow),
+    events: events.map(normalizeExecutionEventRow),
+    eventCount: events.length,
+    eventsTruncated: eventOffset >= 50_000,
     terminal_journal: terminalJournal,
   });
 }

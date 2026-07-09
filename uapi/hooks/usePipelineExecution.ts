@@ -3,8 +3,13 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 interface PipelineExecution {
   id: string;
   created_at: string;
+  started_at?: string | null;
+  completed_at?: string | null;
+  duration_ms?: number | null;
+  status?: string | null;
   items: any[];
   context: any;
+  error?: unknown;
 }
 
 interface ExecutionEvent {
