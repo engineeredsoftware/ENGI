@@ -52,14 +52,14 @@ describe('asset-pack sandbox harness plan', () => {
       synthesizeMode: 'deposit',
       depositSteering: {
         obfuscations: 'hide internal names',
-        protectedIpExclusions: ['secret/'],
+        forcedExclusions: ['secret/'],
         demandContext: ['auth'],
       },
     });
     expect(plan.manifest.synthesizeMode).toBe('deposit');
     expect(plan.manifest.depositSteering).toEqual({
       obfuscations: 'hide internal names',
-      protectedIpExclusions: ['secret/'],
+      forcedExclusions: ['secret/'],
       demandContext: ['auth'],
     });
   });

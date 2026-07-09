@@ -223,7 +223,7 @@ function createRequest(overrides: Record<string, unknown> = {}) {
       sourceBranch: 'main',
       sourceCommit: 'abc123',
       obfuscations: 'demo instructions',
-      protectedIpExclusions: 'secret/',
+      forcedExclusions: 'secret/',
       ...overrides,
     }),
   });
@@ -306,8 +306,8 @@ describe('POST /api/deposit/synthesize-options', () => {
     expect(pipelineInput.mode).toBe('deposit');
     expect(pipelineInput.inventory.paths).toEqual(['README.md', 'src/app.py']);
     expect(pipelineInput.inventory.sources.map((s: any) => s.path)).toEqual(['README.md', 'src/app.py']);
-    expect(pipelineInput.protectedIpExclusions).toEqual(['secret/']);
-    expect(pipelineInput.sourcePathHints).toEqual([]);
+    expect(pipelineInput.forcedExclusions).toEqual(['secret/']);
+    expect(pipelineInput.forcedInclusions).toEqual([]);
 
     const completed = executionRow.upsert.mock.calls.find((call) => call[0]?.status === 'completed')![0];
     expect(completed.context.pipelineCore).toBe('AssetPacksSynthesis');
@@ -347,8 +347,8 @@ describe('POST /api/deposit/synthesize-options', () => {
 
     const response = await POST(
       createRequest({
-        sourcePathHints: ['src/'],
-        protectedIpExclusions: [],
+        forcedInclusions: ['src/'],
+        forcedExclusions: [],
       }),
     );
     expect(response.status).toBe(200);
@@ -356,7 +356,7 @@ describe('POST /api/deposit/synthesize-options', () => {
       executionRow.upsert.mock.calls.some((call) => call[0]?.status === 'completed'),
     );
     const pipelineInput = mockPipeline.mock.calls[0][0];
-    expect(pipelineInput.sourcePathHints).toEqual(['src/']);
+    expect(pipelineInput.forcedInclusions).toEqual(['src/']);
     expect(pipelineInput.inventory.paths).toEqual(['src/app.py']);
     expect(pipelineInput.inventory.sources.map((s: any) => s.path)).toEqual(['src/app.py']);
   });

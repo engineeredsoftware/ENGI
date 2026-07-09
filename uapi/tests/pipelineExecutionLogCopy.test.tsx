@@ -23,7 +23,7 @@ describe('PipelineExecutionLog — Copy raw logs (buildRawLogCopyText)', () => {
       inputs: {
         repositoryFullName: 'engineeredsoftware/demo',
         obfuscations: 'hide internal names',
-        protectedIpExclusions: 'secret/',
+        forcedExclusions: 'secret/',
       },
       events: [
         { type: 'status', message: 'started' },

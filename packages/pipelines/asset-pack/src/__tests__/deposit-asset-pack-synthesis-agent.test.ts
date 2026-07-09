@@ -61,7 +61,7 @@ const INPUT = {
     paths: ['src/auth/session.ts', 'src/auth/token.ts', 'src/net/retry.ts'],
     samples: [],
   },
-  protectedIpExclusions: ['src/protected'],
+  forcedExclusions: ['src/protected'],
 };
 
 describe('runDepositAssetPackSynthesisAgent (boundary-mocked PTRR)', () => {

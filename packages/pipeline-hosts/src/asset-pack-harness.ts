@@ -67,7 +67,7 @@ export interface BuildAssetPackSandboxHarnessOptions {
   /** Deposit steering for the in-box deposit synthesis (source-safe). */
   depositSteering?: {
     obfuscations?: string | null;
-    protectedIpExclusions?: string[];
+    forcedExclusions?: string[];
     demandContext?: string[];
   };
   /**
@@ -1830,7 +1830,7 @@ try {
     harness: manifest,
     synthesizeMode: manifest.synthesizeMode || 'read',
     obfuscations: (manifest.depositSteering && manifest.depositSteering.obfuscations) || null,
-    protectedIpExclusions: (manifest.depositSteering && manifest.depositSteering.protectedIpExclusions) || [],
+    forcedExclusions: (manifest.depositSteering && manifest.depositSteering.forcedExclusions) || [],
     demandContext: (manifest.depositSteering && manifest.depositSteering.demandContext) || [],
   };
 

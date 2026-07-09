@@ -684,7 +684,7 @@ describe("DepositPageClient", () => {
         durationMs: 18450,
       },
       exclusionPosture: {
-        protectedIpExclusionCount: 1,
+        forcedExclusionCount: 1,
         exclusionRoots: ["deposit-option-ip-exclusion:aaaaaaaa"],
         excludedPathCount: 2,
         droppedCandidateCount: 0,
@@ -770,9 +770,9 @@ describe("DepositPageClient", () => {
     );
     const body = JSON.parse(String(synthesisCall?.[1]?.body));
     expect(body.repositoryFullName).toBe("engineeredsoftware/ENGI");
-    expect(body.protectedIpExclusions).toEqual(["secret-engine/"]);
+    expect(body.forcedExclusions).toEqual(["secret-engine/"]);
     // Forced Inclusion is always present on the synthesize POST (empty when none picked).
-    expect(body.sourcePathHints).toEqual([]);
+    expect(body.forcedInclusions).toEqual([]);
     expect(Array.isArray(body.demandContext)).toBe(true);
 
     // Funnel analytics: the dispatch emits its input SHAPE only (no
@@ -782,8 +782,8 @@ describe("DepositPageClient", () => {
       name: "deposit_synthesis_dispatched",
       data: expect.objectContaining({
         hasObfuscations: false,
-        sourcePathHintCount: 0,
-        protectedExclusionCount: 1,
+        forcedInclusionCount: 0,
+        forcedExclusionCount: 1,
       }),
     });
 
@@ -1234,10 +1234,10 @@ describe("DepositPageClient", () => {
             obfuscationsAnchor: {
               name: "Billing withhold",
               text: "Withhold the billing module internals.",
-              sourcePathHints: ["src/billing/", "src/payments/invoice.ts"],
-              protectedIpExclusions: ["secret/"],
-              sourcePathHintCount: 2,
-              protectedIpExclusionCount: 1,
+              forcedInclusions: ["src/billing/", "src/payments/invoice.ts"],
+              forcedExclusions: ["secret/"],
+              forcedInclusionCount: 2,
+              forcedExclusionCount: 1,
               repositoryFullName: "engineeredsoftware/ENGI",
               anchoredAt: "2026-07-02T10:00:00.000Z",
             },
@@ -1407,10 +1407,10 @@ describe("DepositPageClient", () => {
                   obfuscationsAnchor: {
                     name: "Payments withhold",
                     text: "Withhold the payments module.",
-                    sourcePathHints: [],
-                    protectedIpExclusions: [],
-                    sourcePathHintCount: 0,
-                    protectedIpExclusionCount: 0,
+                    forcedInclusions: [],
+                    forcedExclusions: [],
+                    forcedInclusionCount: 0,
+                    forcedExclusionCount: 0,
                     repositoryFullName: "engineeredsoftware/ENGI",
                     anchoredAt: "2026-07-03T10:00:00.000Z",
                   },
@@ -1469,10 +1469,10 @@ describe("DepositPageClient", () => {
         "Withhold the payments module.",
       );
       expect(body.output.obfuscationsAnchor.name).toBe("Payments withhold");
-      expect(body.output.obfuscationsAnchor.sourcePathHints).toEqual([]);
-      expect(body.output.obfuscationsAnchor.protectedIpExclusions).toEqual([]);
-      expect(body.output.obfuscationsAnchor.sourcePathHintCount).toBe(0);
-      expect(body.output.obfuscationsAnchor.protectedIpExclusionCount).toBe(0);
+      expect(body.output.obfuscationsAnchor.forcedInclusions).toEqual([]);
+      expect(body.output.obfuscationsAnchor.forcedExclusions).toEqual([]);
+      expect(body.output.obfuscationsAnchor.forcedInclusionCount).toBe(0);
+      expect(body.output.obfuscationsAnchor.forcedExclusionCount).toBe(0);
       expect(body.context.source).toBe("deposit-obfuscations-anchor");
       expect(body.context.obfuscationsAnchorName).toBe("Payments withhold");
       expect(

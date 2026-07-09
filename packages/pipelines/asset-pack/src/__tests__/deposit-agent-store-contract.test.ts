@@ -251,7 +251,7 @@ describe('deposit agent context/store contract', () => {
         {
           repository: REPOSITORY,
           inventory: INVENTORY,
-          protectedIpExclusions: ['src/protected'],
+          forcedExclusions: ['src/protected'],
           demandContext: ['session auth reads'],
         },
         divExec,
@@ -288,7 +288,7 @@ describe('deposit agent context/store contract', () => {
       // parent so sibling phase children resolve them via the upward walk.
       shared.store('deposit', 'repository', REPOSITORY);
       shared.store('deposit', 'obfuscations', 'obfuscations-marker: hide the signing keys');
-      shared.store('deposit', 'protectedIpExclusions', ['src/protected/exclusion-marker.ts']);
+      shared.store('deposit', 'forcedExclusions', ['src/protected/exclusion-marker.ts']);
       shared.store('deposit', 'inventory', INVENTORY);
       shared.store('deposit', 'demandContext', ['demand-marker: session auth reads']);
       shared.store('setup', 'inputComprehension', {
@@ -324,7 +324,7 @@ describe('deposit agent context/store contract', () => {
       const validationExec = shared.child('seq-2');
       const packs = [measuredPatchOption()];
       const result = await runDepositValidationAgent(
-        { assetPacks: packs, inventory: INVENTORY, protectedIpExclusions: [] },
+        { assetPacks: packs, inventory: INVENTORY, forcedExclusions: [] },
         validationExec,
       );
 
@@ -380,7 +380,7 @@ describe('deposit agent context/store contract', () => {
           assetPacks: [violating],
           inventory: INVENTORY,
           obfuscationGuidance: { summary: 'withhold secrets', obfuscatedPaths: ['src/secret'] },
-          protectedIpExclusions: [],
+          forcedExclusions: [],
         },
         validationExec,
       );
@@ -402,7 +402,7 @@ describe('deposit agent context/store contract', () => {
       // on the SHARED parent, where every sibling phase child can findUp them.
       shared.store('implementation', 'options', packs);
       shared.store('deposit', 'inventory', INVENTORY);
-      shared.store('deposit', 'protectedIpExclusions', []);
+      shared.store('deposit', 'forcedExclusions', []);
       shared.store('setup', 'inputComprehension', { summary: 'no obfuscations', obfuscatedPaths: [] });
 
       const validationChild = shared.child('seq-2').child('seq-0');

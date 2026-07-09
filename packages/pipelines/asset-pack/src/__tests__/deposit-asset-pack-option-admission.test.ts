@@ -11,7 +11,7 @@ describe('deposit-asset-pack-option-admission', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      sourcePathHints: ['uapi/app/deposits/DepositPageClient.tsx'],
+      forcedInclusions: ['uapi/app/deposits/DepositPageClient.tsx'],
       depositoryDemandSignals: [{ id: 'depository-demand', weight: 0.8 }],
       readingDemandSignals: [{ id: 'reading-demand', weight: 0.86 }],
     });
@@ -81,7 +81,7 @@ describe('deposit-asset-pack-option-admission', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      sourcePathHints: ['packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts'],
+      forcedInclusions: ['packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts'],
     });
     const policy = buildDepositAssetPackOptionPolicyReport({
       synthesis,

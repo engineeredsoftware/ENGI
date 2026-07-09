@@ -182,7 +182,7 @@ describe('deposit SDIVF pipeline integration (boundary-mocked LLMs)', () => {
             url: 'https://github.com/engineeredsoftware/ENGI',
           },
           obfuscations: 'Withhold secret signing internals.',
-          protectedIpExclusions: [],
+          forcedExclusions: [],
           demandContext: ['authentication'],
           inventory: INVENTORY,
           candidateKinds: [
@@ -213,7 +213,7 @@ describe('deposit SDIVF pipeline integration (boundary-mocked LLMs)', () => {
       const validated = validateDepositSynthesisOptions(options, {
         lens: 'deposit',
         inventoryPaths: INVENTORY.paths,
-        protectedIpExclusions: [],
+        forcedExclusions: [],
         candidateKinds: [
           'capability-slice',
           'implementation-pattern',

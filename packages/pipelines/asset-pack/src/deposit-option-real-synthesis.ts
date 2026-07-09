@@ -3,7 +3,7 @@ import {
   applyInventoryScope,
   isPathExcluded,
   isPathForcedIncluded,
-  normalizeProtectedIpExclusions,
+  normalizeForcedPathList,
   synthesizeAssetPackCandidates,
   type AssetPackCandidate,
   type AssetPacksSynthesisInferenceAccounting,
@@ -35,7 +35,7 @@ export {
   applyInventoryScope,
   isPathExcluded,
   isPathForcedIncluded,
-  normalizeProtectedIpExclusions,
+  normalizeForcedPathList,
 };
 export type { AssetPacksSynthesisSourceInventory as DepositOptionSourceInventory };
 
@@ -50,7 +50,7 @@ export interface RealDepositAssetPackOptionSynthesis extends DepositAssetPackOpt
   pipelineCore: 'AssetPacksSynthesis';
   inference: AssetPacksSynthesisInferenceAccounting;
   exclusionPosture: {
-    protectedIpExclusionCount: number;
+    forcedExclusionCount: number;
     exclusionRoots: string[];
     excludedPathCount: number;
     droppedCandidateCount: number;
@@ -75,7 +75,7 @@ export async function synthesizeRealDepositOptionCandidates(input: {
   sourceBranch: string | null;
   sourceCommit: string | null;
   obfuscations: string | null;
-  protectedIpExclusions: string[];
+  forcedExclusions: string[];
   demandContext: string[];
   inventory: AssetPacksSynthesisSourceInventory;
   execution?: import('@bitcode/execution-generics/Execution').Execution | null;
@@ -87,7 +87,7 @@ export async function synthesizeRealDepositOptionCandidates(input: {
     sourceCommit: input.sourceCommit,
     steering: {
       instructions: input.obfuscations,
-      protectedIpExclusions: input.protectedIpExclusions,
+      forcedExclusions: input.forcedExclusions,
       demandContext: input.demandContext,
     },
     inventory: input.inventory,
@@ -149,7 +149,7 @@ function candidateKind(candidate: AssetPackCandidate): DepositAssetPackOptionKin
 }
 
 export function buildRealDepositAssetPackOptionSynthesis(
-  request: DepositOptionSynthesisRequest & { protectedIpExclusions?: string[] | null },
+  request: DepositOptionSynthesisRequest & { forcedExclusions?: string[] | null },
   result: AssetPacksSynthesisResult,
   inventory: AssetPacksSynthesisSourceInventory,
 ): { synthesis: RealDepositAssetPackOptionSynthesis; reviewProjections: DepositOptionReviewProjection[] } {
@@ -157,11 +157,11 @@ export function buildRealDepositAssetPackOptionSynthesis(
   const sourceBranch = normalizedText(request.sourceBranch);
   const sourceCommit = normalizedText(request.sourceCommit);
   const obfuscations = normalizedText(request.obfuscations);
-  const protectedIpExclusions = normalizeProtectedIpExclusions(request.protectedIpExclusions);
+  const forcedExclusions = normalizeForcedPathList(request.forcedExclusions);
   const depositoryDemandSignals = normalizedSignals(request.depositoryDemandSignals);
   const readingDemandSignals = normalizedSignals(request.readingDemandSignals);
   const existingDepositorySignals = normalizedSignals(request.existingDepositorySignals);
-  const exclusionRoots = protectedIpExclusions.map((entry) => root('deposit-option-ip-exclusion', entry));
+  const exclusionRoots = forcedExclusions.map((entry) => root('deposit-option-ip-exclusion', entry));
   const createdAt = normalizedText(request.createdAt) || new Date().toISOString();
 
   const requestRoot = root('deposit-option-request', {
@@ -351,7 +351,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
     pipelineCore: 'AssetPacksSynthesis',
     inference: result.inference,
     exclusionPosture: {
-      protectedIpExclusionCount: protectedIpExclusions.length,
+      forcedExclusionCount: forcedExclusions.length,
       exclusionRoots,
       excludedPathCount: inventory.excludedPathCount,
       droppedCandidateCount: result.droppedCandidateCount,

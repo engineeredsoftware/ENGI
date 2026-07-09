@@ -474,7 +474,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
   Implementation plan step converged in ONE stitch cycle whose repair request carried
   the literal schema-validation error (vs the pre-fix five-cycles-to-death).
 - Defect: the selection model chose exactly the right context (deposit obfuscations/
-  inventory/protectedIpExclusions/demandContext + mode) but emitted `deposit#obfuscations`
+  inventory/forcedExclusions/demandContext + mode) but emitted `deposit#obfuscations`
   shorthand (`<namespace>#<key>`), while the resolver demanded the canonical
   `<execution-path>#<namespace>:<key>` — all five selected keys missed, `selectedContext`
   came back empty (fail-soft), and every downstream generation ran without its selected

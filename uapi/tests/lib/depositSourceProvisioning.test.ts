@@ -135,7 +135,7 @@ describe('runDepositInBoxHarness (#25)', () => {
       commit: 'abc123',
       token: 'ghs_tok',
       obfuscations: 'hide internal names',
-      protectedIpExclusions: ['secret/'],
+      forcedExclusions: ['secret/'],
       demandContext: ['auth'],
       hostFactory: async () => fakeHost,
     });
@@ -145,7 +145,7 @@ describe('runDepositInBoxHarness (#25)', () => {
     expect(result.outcome).toBe('completed');
     // The dispatched plan ran the deposit lens in-box, with a git source + steering.
     expect(receivedPlan.manifest.synthesizeMode).toBe('deposit');
-    expect(receivedPlan.manifest.depositSteering).toMatchObject({ protectedIpExclusions: ['secret/'] });
+    expect(receivedPlan.manifest.depositSteering).toMatchObject({ forcedExclusions: ['secret/'] });
     expect(receivedPlan.createOptions.source).toMatchObject({ type: 'git', revision: 'abc123' });
     // Vercel Sandbox v2: persistence is default — deposit must opt out.
     expect(receivedPlan.createOptions.persistent).toBe(false);
@@ -166,7 +166,7 @@ describe('runDepositInBoxHarness (#25)', () => {
     };
     const result = await runDepositInBoxHarness({
       repositoryFullName: 'o/r', revision: 'main', branch: 'main', commit: null,
-      obfuscations: null, protectedIpExclusions: [], demandContext: [], hostFactory: async () => fakeHost,
+      obfuscations: null, forcedExclusions: [], demandContext: [], hostFactory: async () => fakeHost,
     });
     expect(result.options).toEqual([]);
     expect(result.outcome).toBe('completed');

@@ -183,8 +183,11 @@ function findValue(execution: any, namespace: string, key: string): any {
 export default async function runDepositAssetPackSynthesisAgent(input: any, execution: any) {
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
   const obfuscations = input?.instructions ?? findValue(execution, 'deposit', 'obfuscations') ?? null;
-  const protectedIpExclusions =
-    input?.protectedIpExclusions ?? findValue(execution, 'deposit', 'protectedIpExclusions') ?? [];
+  const forcedExclusions =
+    input?.forcedExclusions ??
+    findValue(execution, 'deposit', 'forcedExclusions') ??
+    findValue(execution, 'deposit', 'protectedIpExclusions') ??
+    [];
   const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
   const demandContext = input?.demandContext ?? findValue(execution, 'deposit', 'demandContext') ?? [];
 
@@ -204,7 +207,7 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
       ...input,
       repository,
       instructions: obfuscations,
-      protectedIpExclusions,
+      forcedExclusions,
       demandContext,
       // Paths + samples only for PTRR prompts; full sources stay on deposit:inventory for Validation measurement.
       inventory: inventoryForPrompt,

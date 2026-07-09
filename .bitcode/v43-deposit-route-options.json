@@ -30,7 +30,7 @@
     "repositoryFullName",
     "sourceBranch",
     "sourceCommit",
-    "sourcePathRoots",
+    "forcedInclusionRoots",
     "depositorInstructionRoot",
     "demandSignalRoots",
     "optionMeasurements",

@@ -107,7 +107,7 @@ export interface PipelineHarnessManifest {
   /** Deposit steering for the in-box deposit synthesis (source-safe). */
   depositSteering?: {
     obfuscations?: string | null;
-    protectedIpExclusions?: string[];
+    forcedExclusions?: string[];
     demandContext?: string[];
   };
   host: Pick<

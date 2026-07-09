@@ -11,7 +11,7 @@ describe('Deposit AssetPack option synthesis', () => {
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       obfuscations:
         'Prefer reusable source-bound AssetPacks that can satisfy Reading demand without exposing critical private implementation source before settlement.',
-      sourcePathHints: [
+      forcedInclusions: [
         'uapi/app/terminal/TerminalDepositComposer.tsx',
         'packages/pipelines/asset-pack/src/depository-supply-index.ts',
       ],

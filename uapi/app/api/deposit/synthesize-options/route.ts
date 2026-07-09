@@ -10,7 +10,7 @@ import { ExecutionStreamAdapter } from '@bitcode/execution-generics';
 import { createStreamingExecution, emitPhaseTransition } from '@bitcode/pipelines-generics';
 import {
   applyInventoryScope,
-  normalizeProtectedIpExclusions,
+  normalizeForcedPathList,
   sumLlmTokensFromExecutionTree,
   validateDepositSynthesisOptions,
   type AssetPacksSynthesisResult,
@@ -53,8 +53,8 @@ type SynthesizeOptionsBody = {
   sourceCommit?: unknown;
   obfuscations?: unknown;
   /** Forced Inclusion roots — when non-empty, inventory is scoped to these paths. */
-  sourcePathHints?: unknown;
-  protectedIpExclusions?: unknown;
+  forcedInclusions?: unknown;
+  forcedExclusions?: unknown;
   demandContext?: unknown;
   depositoryDemandSignals?: unknown;
   readingDemandSignals?: unknown;
@@ -136,8 +136,19 @@ export async function POST(request: Request) {
   const sourceBranch = readString(body.sourceBranch);
   const sourceCommit = readString(body.sourceCommit);
   const obfuscations = readString(body.obfuscations);
-  const sourcePathHints = normalizeProtectedIpExclusions(readStringList(body.sourcePathHints));
-  const protectedIpExclusions = normalizeProtectedIpExclusions(readStringList(body.protectedIpExclusions));
+  // Prefer canonical names; accept legacy body keys once for in-flight clients.
+  const forcedInclusions = normalizeForcedPathList(
+    readStringList(
+      body.forcedInclusions ??
+        (body as { sourcePathHints?: unknown }).sourcePathHints,
+    ),
+  );
+  const forcedExclusions = normalizeForcedPathList(
+    readStringList(
+      body.forcedExclusions ??
+        (body as { protectedIpExclusions?: unknown }).protectedIpExclusions,
+    ),
+  );
   const demandContext = readStringList(body.demandContext);
 
   const { data: ownedRepository, error: repositoryError } = await supabaseAdmin
@@ -224,8 +235,8 @@ export async function POST(request: Request) {
         sourceBranch,
         sourceCommit,
         // Steering shape only (paths/counts) — never obfuscations prose.
-        sourcePathHintCount: sourcePathHints.length,
-        protectedIpExclusionCount: protectedIpExclusions.length,
+        forcedInclusionCount: forcedInclusions.length,
+        forcedExclusionCount: forcedExclusions.length,
         hasObfuscations: Boolean(obfuscations),
       },
     },
@@ -361,7 +372,7 @@ export async function POST(request: Request) {
         obfuscations,
         // Sandbox harness currently steers exclusions; Forced Inclusion is
         // enforced on the inline inventory path and re-validated on options.
-        protectedIpExclusions,
+        forcedExclusions,
         demandContext,
         shouldAbort: () => isExecutionCancelled(supabaseAdmin, runId),
         onEvent: (event) => {
@@ -413,11 +424,11 @@ export async function POST(request: Request) {
       // so monorepo checkouts do not materialize multi-hundred-MB inventories
       // into pipeline stores/events (Invalid string length).
       inventory = applyInventoryScope(provisioned, {
-        inclusions: sourcePathHints,
-        exclusions: protectedIpExclusions,
+        inclusions: forcedInclusions,
+        exclusions: forcedExclusions,
       });
       await emitStatus(
-        `Checkout ready: ${inventory.paths.length} files (${inventory.excludedPathCount} out of scope — ${sourcePathHints.length} Forced Inclusion root(s), ${protectedIpExclusions.length} Forced Exclusion(s); full source measured, ${inventory.samples.length} prompt excerpts).`,
+        `Checkout ready: ${inventory.paths.length} files (${inventory.excludedPathCount} out of scope — ${forcedInclusions.length} Forced Inclusion root(s), ${forcedExclusions.length} Forced Exclusion(s); full source measured, ${inventory.samples.length} prompt excerpts).`,
       );
       await emitStatus(
         'Running SynthesizeAssetPacks (deposit mode): Setup → Discovery → Implementation → Validation → Finish…',
@@ -441,8 +452,8 @@ export async function POST(request: Request) {
             url: `https://github.com/${repositoryFullName}`,
           },
           obfuscations,
-          sourcePathHints,
-          protectedIpExclusions,
+          forcedInclusions,
+          forcedExclusions,
           demandContext,
           inventory,
           candidateKinds: DEPOSIT_OPTION_KINDS,
@@ -459,7 +470,7 @@ export async function POST(request: Request) {
     const validated = validateDepositSynthesisOptions(rawOptions, {
       lens: 'deposit',
       inventoryPaths,
-      protectedIpExclusions,
+      forcedExclusions,
       candidateKinds: DEPOSIT_OPTION_KINDS,
     });
     // Roll up usage from the full SDIVF execution tree (Map children + nested PTRR).
@@ -495,8 +506,8 @@ export async function POST(request: Request) {
         sourceBranch,
         sourceCommit,
         obfuscations,
-        sourcePathHints,
-        protectedIpExclusions,
+        forcedInclusions,
+        forcedExclusions,
         depositoryDemandSignals: readSignals(body.depositoryDemandSignals),
         readingDemandSignals: readSignals(body.readingDemandSignals),
         existingDepositorySignals: readSignals(body.existingDepositorySignals),
@@ -531,8 +542,8 @@ export async function POST(request: Request) {
         sourceCommit,
         optionCount: synthesis.optionCount,
         synthesisRoot: synthesis.roots.synthesisRoot,
-        sourcePathHintCount: sourcePathHints.length,
-        exclusionCount: synthesis.exclusionPosture.protectedIpExclusionCount,
+        forcedInclusionCount: forcedInclusions.length,
+        exclusionCount: synthesis.exclusionPosture.forcedExclusionCount,
         excludedPathCount: synthesis.exclusionPosture.excludedPathCount,
         droppedCandidateCount: synthesis.exclusionPosture.droppedCandidateCount,
         inventoryPathCount: inventory.paths.length,

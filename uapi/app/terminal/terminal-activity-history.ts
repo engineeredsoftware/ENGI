@@ -238,8 +238,8 @@ export function normalizeObfuscationsAnchorPaths(
  */
 export function formatObfuscationsAnchorDescription(input: {
   text: string;
-  sourcePathHints?: string[] | null;
-  protectedIpExclusions?: string[] | null;
+  forcedInclusions?: string[] | null;
+  forcedExclusions?: string[] | null;
   /** Max characters of the Obfuscations body before an ellipsis (default 40). */
   textClipLength?: number;
 }): string {
@@ -247,9 +247,9 @@ export function formatObfuscationsAnchorDescription(input: {
   const raw = typeof input.text === 'string' ? input.text.trim().replace(/\s+/g, ' ') : '';
   const clipped =
     raw.length > clipAt ? `${raw.slice(0, clipAt).trimEnd()}…` : raw || '(empty)';
-  const hintCount = normalizeObfuscationsAnchorPaths(input.sourcePathHints).length;
+  const hintCount = normalizeObfuscationsAnchorPaths(input.forcedInclusions).length;
   const exclusionCount = normalizeObfuscationsAnchorPaths(
-    input.protectedIpExclusions,
+    input.forcedExclusions,
   ).length;
   const hintsLabel = `${hintCount} hint ${hintCount === 1 ? 'file' : 'files'}`;
   const exclusionsLabel = `${exclusionCount} exclusion ${
@@ -667,17 +667,17 @@ export function buildTerminalObfuscationsAnchorDraft(input: {
   /** Optional human label for the anchor (shown in the Load-anchor dropdown). */
   name?: string | null;
   repositoryFullName?: string | null;
-  sourcePathHints?: string[] | null;
-  protectedIpExclusions?: string[] | null;
+  forcedInclusions?: string[] | null;
+  forcedExclusions?: string[] | null;
 }): TerminalActivityRecordDraft {
   const text = input.obfuscations.trim();
   const name =
     typeof input.name === 'string' && input.name.trim()
       ? input.name.trim().slice(0, 80)
       : null;
-  const sourcePathHints = normalizeObfuscationsAnchorPaths(input.sourcePathHints);
-  const protectedIpExclusions = normalizeObfuscationsAnchorPaths(
-    input.protectedIpExclusions,
+  const forcedInclusions = normalizeObfuscationsAnchorPaths(input.forcedInclusions);
+  const forcedExclusions = normalizeObfuscationsAnchorPaths(
+    input.forcedExclusions,
   );
   const namedPrefix = name ? `"${name}" ` : '';
   const repoSuffix = input.repositoryFullName
@@ -691,10 +691,10 @@ export function buildTerminalObfuscationsAnchorDraft(input: {
       obfuscationsAnchor: {
         text,
         name,
-        sourcePathHints,
-        protectedIpExclusions,
-        sourcePathHintCount: sourcePathHints.length,
-        protectedIpExclusionCount: protectedIpExclusions.length,
+        forcedInclusions,
+        forcedExclusions,
+        forcedInclusionCount: forcedInclusions.length,
+        forcedExclusionCount: forcedExclusions.length,
         repositoryFullName: input.repositoryFullName || null,
         anchoredAt: new Date().toISOString(),
       },
@@ -704,8 +704,8 @@ export function buildTerminalObfuscationsAnchorDraft(input: {
       repositoryFullName: input.repositoryFullName || null,
       // Source-safe label + counts only — never the full Obfuscations body.
       obfuscationsAnchorName: name,
-      sourcePathHintCount: sourcePathHints.length,
-      protectedIpExclusionCount: protectedIpExclusions.length,
+      forcedInclusionCount: forcedInclusions.length,
+      forcedExclusionCount: forcedExclusions.length,
     },
   };
 }
@@ -804,14 +804,28 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     obfuscationsAnchorName:
       readNestedString(run.output, ['obfuscationsAnchor', 'name']) ||
       contextString('obfuscationsAnchorName'),
-    obfuscationsAnchorSourcePathHints: readNestedStringArray(run.output, [
-      'obfuscationsAnchor',
-      'sourcePathHints',
-    ]),
-    obfuscationsAnchorProtectedIpExclusions: readNestedStringArray(run.output, [
-      'obfuscationsAnchor',
-      'protectedIpExclusions',
-    ]),
+    // Prefer renamed keys; fall back to pre-rename anchor payloads still on disk.
+    obfuscationsAnchorForcedInclusions: (() => {
+      const next = readNestedStringArray(run.output, [
+        'obfuscationsAnchor',
+        'forcedInclusions',
+      ]);
+      return next.length
+        ? next
+        : readNestedStringArray(run.output, ['obfuscationsAnchor', 'sourcePathHints']);
+    })(),
+    obfuscationsAnchorForcedExclusions: (() => {
+      const next = readNestedStringArray(run.output, [
+        'obfuscationsAnchor',
+        'forcedExclusions',
+      ]);
+      return next.length
+        ? next
+        : readNestedStringArray(run.output, [
+            'obfuscationsAnchor',
+            'protectedIpExclusions',
+          ]);
+    })(),
     depositProofRoot:
       contextString('depositProofRoot') || readNestedString(run.output, ['depositoryEvidence', 'proofRoot']),
     depositMeasurementRoot:

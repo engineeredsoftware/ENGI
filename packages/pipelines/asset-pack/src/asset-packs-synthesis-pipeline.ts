@@ -276,7 +276,7 @@ export async function synthesizeAssetPackCandidatesFormal(
         inventory = await tool.execute({
           paths: request.inventory.paths,
           samples: request.inventory.samples,
-          exclusions: request.steering.protectedIpExclusions,
+          exclusions: request.steering.forcedExclusions,
         });
       }
     } catch {}
@@ -303,7 +303,7 @@ export async function synthesizeAssetPackCandidatesFormal(
       branch: request.sourceBranch ?? 'unknown',
       commit: request.sourceCommit ?? 'unknown',
       steeringInstructions: request.steering.instructions,
-      protectedIpExclusions: request.steering.protectedIpExclusions,
+      forcedExclusions: request.steering.forcedExclusions,
       demandContext: request.steering.demandContext,
       inventoryPaths: inventory.paths,
       excerpts: inventory.samples,

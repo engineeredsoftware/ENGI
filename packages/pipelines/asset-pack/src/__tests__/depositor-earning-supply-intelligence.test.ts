@@ -11,7 +11,7 @@ function reviewablePolicyReport() {
     sourceBranch: 'main',
     sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
     obfuscations: 'Prepare source-safe options likely to satisfy unfit Reading demand.',
-    sourcePathHints: [
+    forcedInclusions: [
       'uapi/app/deposits/DepositPageClient.tsx',
       'packages/pipelines/asset-pack/src/depository-supply-index.ts',
     ],
@@ -88,7 +88,7 @@ describe('Depositor earning supply intelligence', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      sourcePathHints: ['packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts'],
+      forcedInclusions: ['packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts'],
       readingDemandSignals: [{ id: 'demand', label: 'Demand exists.', weight: 0.8 }],
     });
     const policyReport = buildDepositAssetPackOptionPolicyReport({

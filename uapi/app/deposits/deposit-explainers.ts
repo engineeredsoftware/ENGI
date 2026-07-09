@@ -233,7 +233,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       canon: DEPOSIT_CANON_REFS,
     },
   }),
-  sourcePathHints: buildExplainer({
+  forcedInclusions: buildExplainer({
     kicker: 'Option synthesis',
     title: 'Forced Inclusion',
     summary:
@@ -247,7 +247,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     ],
     references: { source: DEPOSIT_SOURCE_REFS, canon: DEPOSIT_CANON_REFS },
   }),
-  protectedIpExclusions: buildExplainer({
+  forcedExclusions: buildExplainer({
     kicker: 'Option synthesis',
     title: 'Forced Exclusions',
     summary:

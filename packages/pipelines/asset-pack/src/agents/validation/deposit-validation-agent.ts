@@ -36,7 +36,7 @@ const DepositValidationInputSchema = z.object({
   assetPacks: z.any().optional(),
   inventory: z.any().optional(),
   obfuscationGuidance: z.any().optional(),
-  protectedIpExclusions: z.any().optional(),
+  forcedExclusions: z.any().optional(),
 });
 
 const DepositValidationOutputSchema = z.object({
@@ -161,7 +161,7 @@ function pathViolates(path: string, entry: string): boolean {
 // always surfaces an issue, independent of the model's qualitative pass.
 function smokeCheckAssetPacks(
   assetPacks: any[],
-  protectedIpExclusions: string[],
+  forcedExclusions: string[],
   obfuscatedPaths: string[],
 ): string[] {
   const issues: string[] = [];
@@ -169,7 +169,7 @@ function smokeCheckAssetPacks(
     issues.push('No AssetPacks were synthesized to validate.');
     return issues;
   }
-  const forbidden = [...protectedIpExclusions, ...obfuscatedPaths];
+  const forbidden = [...forcedExclusions, ...obfuscatedPaths];
   const seenTitles = new Map<string, number>();
 
   assetPacks.forEach((pack: any, index: number) => {
@@ -241,8 +241,11 @@ export default async function runDepositValidationAgent(input: any, execution: a
   const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
   const obfuscationGuidance =
     input?.obfuscationGuidance ?? findValue(execution, 'setup', 'inputComprehension');
-  const protectedIpExclusions = asPathList(
-    input?.protectedIpExclusions ?? findValue(execution, 'deposit', 'protectedIpExclusions') ?? [],
+  const forcedExclusions = asPathList(
+    input?.forcedExclusions ??
+      findValue(execution, 'deposit', 'forcedExclusions') ??
+      findValue(execution, 'deposit', 'protectedIpExclusions') ??
+      [],
   );
   const obfuscatedPaths = asPathList((obfuscationGuidance as any)?.obfuscatedPaths);
   const packs = Array.isArray(assetPacks) ? assetPacks : [];
@@ -258,7 +261,7 @@ export default async function runDepositValidationAgent(input: any, execution: a
       inventory: inventoryForPrompt,
       inventoryPaths: inventoryForPrompt?.paths ?? inventory?.paths,
       obfuscationGuidance,
-      protectedIpExclusions,
+      forcedExclusions,
     },
     execution,
   );
@@ -267,7 +270,7 @@ export default async function runDepositValidationAgent(input: any, execution: a
   const agentOutput = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
   // Deterministic smoke/sanity checks ground the model's qualitative pass.
-  const smokeIssues = smokeCheckAssetPacks(packs, protectedIpExclusions, obfuscatedPaths);
+  const smokeIssues = smokeCheckAssetPacks(packs, forcedExclusions, obfuscatedPaths);
 
   // Default-fallback to a clean "complete" verdict when the agent returns nothing;
   // the deterministic smoke issues are always merged so the gate stays grounded.

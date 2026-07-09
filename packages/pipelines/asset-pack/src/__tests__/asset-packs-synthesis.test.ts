@@ -11,7 +11,7 @@ import {
   applyInventoryScope,
   isPathExcluded,
   isPathForcedIncluded,
-  normalizeProtectedIpExclusions,
+  normalizeForcedPathList,
   projectInventoryForPrompt,
   synthesizeAssetPackCandidates,
   validateDepositSynthesisOptions,
@@ -64,7 +64,7 @@ describe('AssetPacksSynthesis core', () => {
   });
 
   it('normalizes exclusions and filters inventory fail-closed before inference', () => {
-    const exclusions = normalizeProtectedIpExclusions('secret/\n\n  secret/  ');
+    const exclusions = normalizeForcedPathList('secret/\n\n  secret/  ');
     expect(exclusions).toEqual(['secret/']);
 
     const filtered = applyExclusionsToInventory(INVENTORY, exclusions);
@@ -137,7 +137,7 @@ describe('AssetPacksSynthesis core', () => {
       repositoryFullName: 'engineeredsoftware/demo-python',
       sourceBranch: 'main',
       sourceCommit: 'abc123',
-      steering: { instructions: 'demo', protectedIpExclusions: [], demandContext: ['demand'] },
+      steering: { instructions: 'demo', forcedExclusions: [], demandContext: ['demand'] },
       inventory: { ...INVENTORY, totalPathCount: 4, excludedPathCount: 0 },
       candidateKinds: ['capability-slice', 'implementation-pattern', 'proof-operations-slice'],
     });
@@ -166,7 +166,7 @@ describe('AssetPacksSynthesis core', () => {
       repositoryFullName: 'engineeredsoftware/demo-python',
       sourceBranch: 'main',
       sourceCommit: 'abc123',
-      steering: { instructions: null, protectedIpExclusions: ['secret/'], demandContext: [] },
+      steering: { instructions: null, forcedExclusions: ['secret/'], demandContext: [] },
       inventory: { ...INVENTORY, totalPathCount: 4, excludedPathCount: 0 },
       candidateKinds: ['capability-slice'],
     });
@@ -187,7 +187,7 @@ describe('AssetPacksSynthesis core', () => {
         repositoryFullName: 'engineeredsoftware/demo-python',
         sourceBranch: 'main',
         sourceCommit: 'abc123',
-        steering: { instructions: null, protectedIpExclusions: ['secret/'], demandContext: [] },
+        steering: { instructions: null, forcedExclusions: ['secret/'], demandContext: [] },
         inventory: { ...INVENTORY, totalPathCount: 4, excludedPathCount: 0 },
         candidateKinds: ['capability-slice'],
       }),
@@ -208,7 +208,7 @@ describe('deposit lens adapter', () => {
       repositoryFullName: 'engineeredsoftware/demo-python',
       sourceBranch: 'main',
       sourceCommit: 'abc123',
-      steering: { instructions: 'demo', protectedIpExclusions: ['secret/'], demandContext: [] },
+      steering: { instructions: 'demo', forcedExclusions: ['secret/'], demandContext: [] },
       inventory,
       candidateKinds: ['capability-slice'],
     });
@@ -219,7 +219,7 @@ describe('deposit lens adapter', () => {
         sourceBranch: 'main',
         sourceCommit: 'abc123',
         obfuscations: 'demo',
-        protectedIpExclusions: ['secret/'],
+        forcedExclusions: ['secret/'],
         createdAt: '2026-06-12T22:00:00.000Z',
       },
       result,
@@ -233,7 +233,7 @@ describe('deposit lens adapter', () => {
     expect(synthesis.optionCount).toBe(1);
     expect(synthesis.options[0].measurements.map((m) => m.volume)).toEqual([0.6, 0.7, 0.5]);
     expect(synthesis.options[0].roots.optionRoot).toMatch(/^deposit-asset-pack-option:[0-9a-f]{8}$/);
-    expect(synthesis.exclusionPosture.protectedIpExclusionCount).toBe(1);
+    expect(synthesis.exclusionPosture.forcedExclusionCount).toBe(1);
     expect(synthesis.exclusionPosture.excludedPathCount).toBe(1);
     expect(reviewProjections[0].coveredSourcePaths).toEqual(['README.md', 'src/app.py']);
     // The deposit-decision payload: provenant source becomes available to Bitcode.
@@ -289,7 +289,7 @@ describe('deposit lens adapter', () => {
       {
         lens: 'deposit',
         inventoryPaths: ['README.md', 'src/app.py'],
-        protectedIpExclusions: [],
+        forcedExclusions: [],
         candidateKinds: ['capability-slice'],
       },
     );

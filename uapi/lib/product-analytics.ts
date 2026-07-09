@@ -41,8 +41,8 @@ export type ProductEvent =
       data: {
         hasObfuscations: boolean;
         /** Forced Inclusion path count (scope shape only). */
-        sourcePathHintCount: number;
-        protectedExclusionCount: number;
+        forcedInclusionCount: number;
+        forcedExclusionCount: number;
         demandSignalCount: number;
       };
     }

@@ -14,7 +14,7 @@ describe('deposit-route-model', () => {
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       obfuscations: 'Create bounded source-safe AssetPack options for review.',
-      sourcePathHints: ['uapi/app/deposits/DepositPageClient.tsx'],
+      forcedInclusions: ['uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [
         {
           id: 'sub-critical-route-test',
@@ -93,7 +93,7 @@ describe('deposit-route-model', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      sourcePathHints: ['packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts'],
+      forcedInclusions: ['packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts'],
       sourceCriticalitySignals: [{ id: 'warning', severity: 'warning', weight: 0.5 }],
       optionsRequested: true,
       hasReviewedOption: false,
@@ -114,7 +114,7 @@ describe('deposit-route-model', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      sourcePathHints: ['packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts'],
+      forcedInclusions: ['packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts'],
       sourceCriticalitySignals: [{ id: 'critical', severity: 'critical', weight: 1 }],
       developmentCostSats: 9000,
       expectedSettlementSats: 1000,
@@ -139,7 +139,7 @@ describe('deposit-route-model', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      sourcePathHints: ['uapi/app/deposits/DepositPageClient.tsx'],
+      forcedInclusions: ['uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.9 }],
       unfitNeedOpportunitySignals: [
         {
@@ -175,7 +175,7 @@ describe('deposit-route-model', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      sourcePathHints: ['uapi/app/deposits/DepositPageClient.tsx'],
+      forcedInclusions: ['uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.85 }],
       depositorWalletId: 'wallet-depositor-1',
       optionsRequested: true,
@@ -184,7 +184,7 @@ describe('deposit-route-model', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      sourcePathHints: ['uapi/app/deposits/DepositPageClient.tsx'],
+      forcedInclusions: ['uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.85 }],
       depositorWalletId: 'wallet-depositor-1',
       actorId: 'user-1',

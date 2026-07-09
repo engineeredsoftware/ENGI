@@ -166,8 +166,8 @@ export default function DepositPageClient() {
     useState(false);
   // Picked from the repository file tree (selected repo·branch·commit);
   // hints and exclusions are mutually exclusive path sets.
-  const [sourcePathHints, setSourcePathHints] = useState<string[]>([]);
-  const [protectedIpExclusions, setProtectedIpExclusions] = useState<string[]>([]);
+  const [forcedInclusions, setForcedInclusions] = useState<string[]>([]);
+  const [forcedExclusions, setForcedExclusions] = useState<string[]>([]);
   const [optionsRequested, setOptionsRequested] = useState(false);
   const [synthesisRunId, setSynthesisRunId] = useState<string | null>(null);
   // Master-detail: pipelines table is master; compose (new deposit) or a
@@ -207,7 +207,7 @@ export default function DepositPageClient() {
         durationMs: number | null;
       };
       exclusionPosture?: {
-        protectedIpExclusionCount: number;
+        forcedExclusionCount: number;
         excludedPathCount: number;
         droppedCandidateCount: number;
       };
@@ -431,7 +431,7 @@ export default function DepositPageClient() {
         severity: "sub-critical" as const,
         weight: 0.74,
       },
-      ...(sourcePathHints.some((path) =>
+      ...(forcedInclusions.some((path) =>
         /secret|credential|wallet|auth|key|payment|settlement/iu.test(path),
       )
         ? [
@@ -445,7 +445,7 @@ export default function DepositPageClient() {
         ]
         : []),
     ],
-    [sourcePathHints],
+    [forcedInclusions],
   );
   const hasSubmittedDeposit = useMemo(() => {
     const selectedRepository = repositoryContext?.selectedRepository || null;
@@ -512,8 +512,8 @@ export default function DepositPageClient() {
       id: string;
       name: string | null;
       text: string;
-      sourcePathHints: string[];
-      protectedIpExclusions: string[];
+      forcedInclusions: string[];
+      forcedExclusions: string[];
       repositoryFullName: string | null;
       createdAt: string;
     }> = [];
@@ -530,29 +530,29 @@ export default function DepositPageClient() {
         run.obfuscationsAnchorName.trim()
           ? run.obfuscationsAnchorName.trim()
           : null;
-      const sourcePathHints = Array.isArray(run.obfuscationsAnchorSourcePathHints)
-        ? run.obfuscationsAnchorSourcePathHints.filter(
+      const forcedInclusions = Array.isArray(run.obfuscationsAnchorForcedInclusions)
+        ? run.obfuscationsAnchorForcedInclusions.filter(
             (path): path is string =>
               typeof path === "string" && path.trim().length > 0,
           )
         : [];
-      const protectedIpExclusions = Array.isArray(
-        run.obfuscationsAnchorProtectedIpExclusions,
+      const forcedExclusions = Array.isArray(
+        run.obfuscationsAnchorForcedExclusions,
       )
-        ? run.obfuscationsAnchorProtectedIpExclusions.filter(
+        ? run.obfuscationsAnchorForcedExclusions.filter(
             (path): path is string =>
               typeof path === "string" && path.trim().length > 0,
           )
         : [];
-      const dedupeKey = `${name || ""}\u0000${run.obfuscationsAnchorText}\u0000${sourcePathHints.join(",")}\u0000${protectedIpExclusions.join(",")}`;
+      const dedupeKey = `${name || ""}\u0000${run.obfuscationsAnchorText}\u0000${forcedInclusions.join(",")}\u0000${forcedExclusions.join(",")}`;
       if (seen.has(dedupeKey)) continue;
       seen.add(dedupeKey);
       anchors.push({
         id: run.id,
         name,
         text: run.obfuscationsAnchorText,
-        sourcePathHints,
-        protectedIpExclusions,
+        forcedInclusions,
+        forcedExclusions,
         repositoryFullName: run.repository || null,
         createdAt: run.created_at,
       });
@@ -581,7 +581,7 @@ export default function DepositPageClient() {
       sourceBranch: repositoryContext?.selectedBranch || null,
       sourceCommit: repositoryContext?.selectedCommit || null,
       obfuscations,
-      sourcePathHints,
+      forcedInclusions,
       depositoryDemandSignals: [
         {
           id: "depository-gap-source-safe-pack-options",
@@ -621,10 +621,10 @@ export default function DepositPageClient() {
         },
       ],
       sourceCriticalitySignals,
-      developmentCostSats: Math.max(1600, 1200 + sourcePathHints.length * 240),
+      developmentCostSats: Math.max(1600, 1200 + forcedInclusions.length * 240),
       expectedSettlementSats: Math.max(
         4200,
-        3600 + sourcePathHints.length * 360 + liveRuns.length * 90,
+        3600 + forcedInclusions.length * 360 + liveRuns.length * 90,
       ),
       depositorWalletId: preferredSignerAddress
         ? "connected-depositor-wallet"
@@ -674,7 +674,7 @@ export default function DepositPageClient() {
       selectedRun?.id,
       selectedTransactionId,
       sourceCriticalitySignals,
-      sourcePathHints,
+      forcedInclusions,
       user?.id,
     ],
   );
@@ -1204,8 +1204,8 @@ export default function DepositPageClient() {
           name: obfuscationsAnchorName,
           repositoryFullName:
             repositoryContext?.selectedRepository?.fullName || null,
-          sourcePathHints,
-          protectedIpExclusions,
+          forcedInclusions,
+          forcedExclusions,
         }),
       );
       setObfuscationsAnchorMessage(
@@ -1227,9 +1227,9 @@ export default function DepositPageClient() {
     handleRecordActivity,
     obfuscations,
     obfuscationsAnchorName,
-    protectedIpExclusions,
+    forcedExclusions,
     repositoryContext,
-    sourcePathHints,
+    forcedInclusions,
   ]);
 
   // Delete a saved Obfuscations anchor from the activity ledger (hover-trash
@@ -1302,8 +1302,8 @@ export default function DepositPageClient() {
           obfuscations: effectiveInstructions,
           // Forced Inclusion / Forced Exclusion — always from current compose
           // state so scoped measurement reaches the server (never omit).
-          sourcePathHints,
-          protectedIpExclusions,
+          forcedInclusions,
+          forcedExclusions,
           demandContext: [
             ...depositRouteInput.depositoryDemandSignals.map(
               (signal) => signal.label,
@@ -1337,8 +1337,8 @@ export default function DepositPageClient() {
         name: "deposit_synthesis_dispatched",
         data: {
           hasObfuscations: Boolean(effectiveInstructions.trim()),
-          sourcePathHintCount: sourcePathHints.length,
-          protectedExclusionCount: protectedIpExclusions.length,
+          forcedInclusionCount: forcedInclusions.length,
+          forcedExclusionCount: forcedExclusions.length,
           demandSignalCount:
             depositRouteInput.depositoryDemandSignals.length +
             depositRouteInput.readingDemandSignals.length,
@@ -1364,11 +1364,11 @@ export default function DepositPageClient() {
     depositRouteInput.depositoryDemandSignals,
     depositRouteInput.existingDepositorySignals,
     depositRouteInput.readingDemandSignals,
-    protectedIpExclusions,
+    forcedExclusions,
     refreshLiveRuns,
     replaceDepositRouteTransaction,
     repositoryContext,
-    sourcePathHints,
+    forcedInclusions,
   ]);
 
   useEffect(() => {
@@ -1785,9 +1785,9 @@ export default function DepositPageClient() {
                             description: (
                               <ObfuscationsAnchorDescription
                                 text={anchor.text}
-                                sourcePathHints={anchor.sourcePathHints}
-                                protectedIpExclusions={
-                                  anchor.protectedIpExclusions
+                                forcedInclusions={anchor.forcedInclusions}
+                                forcedExclusions={
+                                  anchor.forcedExclusions
                                 }
                               />
                             ),
@@ -1796,9 +1796,9 @@ export default function DepositPageClient() {
                               anchor.repositoryFullName,
                               formatObfuscationsAnchorDescription({
                                 text: anchor.text,
-                                sourcePathHints: anchor.sourcePathHints,
-                                protectedIpExclusions:
-                                  anchor.protectedIpExclusions,
+                                forcedInclusions: anchor.forcedInclusions,
+                                forcedExclusions:
+                                  anchor.forcedExclusions,
                               }),
                             ]
                               .filter(Boolean)
@@ -1815,8 +1815,8 @@ export default function DepositPageClient() {
                             if (!anchor) return;
                             setObfuscations(anchor.text);
                             setObfuscationsAnchorName(anchor.name || "");
-                            setSourcePathHints(anchor.sourcePathHints);
-                            setProtectedIpExclusions(anchor.protectedIpExclusions);
+                            setForcedInclusions(anchor.forcedInclusions);
+                            setForcedExclusions(anchor.forcedExclusions);
                           }}
                           onDeleteItem={
                             isConfigLocked
@@ -1843,14 +1843,14 @@ export default function DepositPageClient() {
                         isConfigLocked ||
                         (!obfuscations &&
                           !obfuscationsAnchorName &&
-                          sourcePathHints.length === 0 &&
-                          protectedIpExclusions.length === 0)
+                          forcedInclusions.length === 0 &&
+                          forcedExclusions.length === 0)
                       }
                       onClick={() => {
                         setObfuscations("");
                         setObfuscationsAnchorName("");
-                        setSourcePathHints([]);
-                        setProtectedIpExclusions([]);
+                        setForcedInclusions([]);
+                        setForcedExclusions([]);
                         setIsObfuscationsAnchorPopoverOpen(false);
                       }}
                       className="border border-white/10 px-2.5 py-1.5 text-[0.66rem] uppercase tracking-[0.14em] text-neutral-300 transition hover:border-rose-300/35 hover:text-rose-100 disabled:cursor-not-allowed disabled:opacity-40"
@@ -2000,7 +2000,7 @@ export default function DepositPageClient() {
                       <DepositIncludePathsIcon />
                       <span>Forced Inclusion</span>
                       <span onClick={(event) => event.stopPropagation()}>
-                        <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.sourcePathHints} triggerAriaLabel="More info about this field" />
+                        <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.forcedInclusions} triggerAriaLabel="More info about this field" />
                       </span>
                     </span>
                     <div className="mt-2">
@@ -2015,9 +2015,9 @@ export default function DepositPageClient() {
                           repositoryContext?.selectedBranch ||
                           null
                         }
-                        selectedPaths={sourcePathHints}
-                        onChange={setSourcePathHints}
-                        conflictingPaths={protectedIpExclusions}
+                        selectedPaths={forcedInclusions}
+                        onChange={setForcedInclusions}
+                        conflictingPaths={forcedExclusions}
                         conflictLabel="Already a Forced Exclusion"
                         disabled={isConfigLocked}
                       />
@@ -2028,7 +2028,7 @@ export default function DepositPageClient() {
                       <DepositExcludePathsIcon />
                       <span>Forced Exclusions</span>
                       <span onClick={(event) => event.stopPropagation()}>
-                        <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.protectedIpExclusions} triggerAriaLabel="More info about this field" />
+                        <BitcodeInlineExplainer explainer={DEPOSIT_SECTION_EXPLAINERS.forcedExclusions} triggerAriaLabel="More info about this field" />
                       </span>
                     </span>
                     <div className="mt-2">
@@ -2043,9 +2043,9 @@ export default function DepositPageClient() {
                           repositoryContext?.selectedBranch ||
                           null
                         }
-                        selectedPaths={protectedIpExclusions}
-                        onChange={setProtectedIpExclusions}
-                        conflictingPaths={sourcePathHints}
+                        selectedPaths={forcedExclusions}
+                        onChange={setForcedExclusions}
+                        conflictingPaths={forcedInclusions}
                         conflictLabel="Already a Forced Inclusion"
                         disabled={isConfigLocked}
                       />
@@ -2304,8 +2304,8 @@ export default function DepositPageClient() {
                         sourceBranch: repositoryContext?.selectedBranch ?? null,
                         sourceCommit: repositoryContext?.selectedCommit ?? null,
                         obfuscations,
-                        sourcePathHints,
-                        protectedIpExclusions,
+                        forcedInclusions,
+                        forcedExclusions,
                       },
                       outputDetails: synthesisActivity.outputDetails,
                       events: synthesisEvents,
@@ -2351,7 +2351,7 @@ export default function DepositPageClient() {
                     ? ` · ${(realSynthesis.synthesis.inference.durationMs / 1000).toFixed(1)}s`
                     : ""}
                   {realSynthesis.synthesis.exclusionPosture
-                    ? ` · ${realSynthesis.synthesis.exclusionPosture.protectedIpExclusionCount} exclusions, ${realSynthesis.synthesis.exclusionPosture.excludedPathCount} paths withheld`
+                    ? ` · ${realSynthesis.synthesis.exclusionPosture.forcedExclusionCount} exclusions, ${realSynthesis.synthesis.exclusionPosture.excludedPathCount} paths withheld`
                     : ""}
                 </p>
               ) : null}

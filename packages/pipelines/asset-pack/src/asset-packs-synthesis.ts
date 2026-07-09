@@ -277,7 +277,7 @@ export interface AssetPacksSynthesisSourceInventory {
 
 export interface AssetPacksSynthesisSteering {
   instructions: string | null;
-  protectedIpExclusions: string[];
+  forcedExclusions: string[];
   demandContext: string[];
 }
 
@@ -379,7 +379,7 @@ export interface AssetPacksSynthesisResult {
   inference: AssetPacksSynthesisInferenceAccounting;
 }
 
-export function normalizeProtectedIpExclusions(value: string[] | string | null | undefined): string[] {
+export function normalizeForcedPathList(value: string[] | string | null | undefined): string[] {
   const entries = Array.isArray(value) ? value : typeof value === 'string' ? value.split(/\r?\n/) : [];
   return [...new Set(entries.map((entry) => entry.trim()).filter(Boolean))].sort();
 }
@@ -396,7 +396,7 @@ export function isPathExcluded(path: string, exclusions: string[]): boolean {
 }
 
 /**
- * Forced Inclusion (sourcePathHints): when non-empty, a path is in-scope only if
+ * Forced Inclusion (forcedInclusions): when non-empty, a path is in-scope only if
  * it equals or sits under one of the inclusion roots (prefix match). Empty
  * inclusions mean the full inventory remains in-scope (minus exclusions).
  */
@@ -501,8 +501,8 @@ export function applyInventoryScope(
     exclusions?: string[] | null;
   } = {},
 ): AssetPacksSynthesisSourceInventory {
-  const inclusions = normalizeProtectedIpExclusions(scope.inclusions ?? []);
-  const exclusions = normalizeProtectedIpExclusions(scope.exclusions ?? []);
+  const inclusions = normalizeForcedPathList(scope.inclusions ?? []);
+  const exclusions = normalizeForcedPathList(scope.exclusions ?? []);
   const inScope = (path: string) =>
     isPathForcedIncluded(path, inclusions) && !isPathExcluded(path, exclusions);
   const keptPaths = inventory.paths.filter(inScope);
@@ -624,7 +624,7 @@ export async function synthesizeAssetPackCandidates(
     const coveredSourcePaths = [...new Set(option.coveredSourcePaths.map((path) => path.trim()).filter(Boolean))];
     const unknownPaths = coveredSourcePaths.filter((path) => !inventoryPathSet.has(path));
     const excludedPaths = coveredSourcePaths.filter((path) =>
-      isPathExcluded(path, request.steering.protectedIpExclusions),
+      isPathExcluded(path, request.steering.forcedExclusions),
     );
     if (unknownPaths.length > 0 || excludedPaths.length > 0 || coveredSourcePaths.length === 0) {
       exclusionViolations.push(
@@ -709,7 +709,7 @@ export function validateDepositSynthesisOptions(
   context: {
     lens: AssetPacksSynthesisLens;
     inventoryPaths: string[];
-    protectedIpExclusions: string[];
+    forcedExclusions: string[];
     candidateKinds: string[];
   },
 ): { candidates: AssetPackCandidate[]; droppedCandidateCount: number; exclusionViolations: string[] } {
@@ -723,7 +723,7 @@ export function validateDepositSynthesisOptions(
     ];
     const unknownPaths = coveredSourcePaths.filter((path) => !inventoryPathSet.has(path));
     const excludedPaths = coveredSourcePaths.filter((path) =>
-      isPathExcluded(path, context.protectedIpExclusions),
+      isPathExcluded(path, context.forcedExclusions),
     );
     if (unknownPaths.length > 0 || excludedPaths.length > 0 || coveredSourcePaths.length === 0) {
       exclusionViolations.push(

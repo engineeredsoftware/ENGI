@@ -59,7 +59,7 @@
       ],
       "requiredEvidence": [
         "sourceSafeTextRoot",
-        "sourcePathRoots",
+        "forcedInclusionRoots",
         "symbolRoots",
         "constraintRoots"
       ],

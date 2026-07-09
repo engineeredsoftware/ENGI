@@ -154,10 +154,10 @@ async function preprocessDepositMode(processedInput: any, execution: Execution):
   storeCrossPhaseArtifact(
     execution,
     'deposit',
-    'sourcePathHints',
-    processedInput?.sourcePathHints || [],
+    'forcedInclusions',
+    processedInput?.forcedInclusions || [],
   );
-  storeCrossPhaseArtifact(execution, 'deposit', 'protectedIpExclusions', processedInput?.protectedIpExclusions || []);
+  storeCrossPhaseArtifact(execution, 'deposit', 'forcedExclusions', processedInput?.forcedExclusions || []);
   storeCrossPhaseArtifact(execution, 'deposit', 'demandContext', processedInput?.demandContext || []);
   if (processedInput?.inventory) {
     storeCrossPhaseArtifact(execution, 'deposit', 'inventory', processedInput.inventory);

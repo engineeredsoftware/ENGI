@@ -252,7 +252,7 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
           sourceBranch,
           sourceCommit,
           obfuscations: input.obfuscations,
-          sourcePathHints: input.sourcePathHints,
+          forcedInclusions: input.forcedInclusions,
           depositoryDemandSignals: input.depositoryDemandSignals,
           readingDemandSignals: input.readingDemandSignals,
           existingDepositorySignals: input.existingDepositorySignals,

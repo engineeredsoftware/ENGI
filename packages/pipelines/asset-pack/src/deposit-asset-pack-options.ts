@@ -20,7 +20,7 @@ export interface DepositOptionSynthesisRequest {
   sourceBranch?: string | null;
   sourceCommit?: string | null;
   obfuscations?: string | null;
-  sourcePathHints?: string[] | null;
+  forcedInclusions?: string[] | null;
   depositoryDemandSignals?: DepositOptionDemandSignal[] | null;
   readingDemandSignals?: DepositOptionDemandSignal[] | null;
   existingDepositorySignals?: DepositOptionDemandSignal[] | null;
@@ -303,11 +303,11 @@ export function buildDepositAssetPackOptionSynthesis(
   const sourceBranch = normalizedText(request.sourceBranch);
   const sourceCommit = normalizedText(request.sourceCommit);
   const obfuscations = normalizedText(request.obfuscations);
-  const sourcePathHints = normalizedList(request.sourcePathHints);
+  const forcedInclusions = normalizedList(request.forcedInclusions);
   const depositoryDemandSignals = normalizedSignals(request.depositoryDemandSignals);
   const readingDemandSignals = normalizedSignals(request.readingDemandSignals);
   const existingDepositorySignals = normalizedSignals(request.existingDepositorySignals);
-  const sourcePathRoots = sourcePathHints.map((path) => root('deposit-option-source-path', path));
+  const sourcePathRoots = forcedInclusions.map((path) => root('deposit-option-source-path', path));
   const hasRepository = Boolean(repositoryFullName);
   const hasRevision = Boolean(sourceBranch && sourceCommit);
   const signalCount =

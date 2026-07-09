@@ -127,7 +127,7 @@ export async function runDepositInBoxHarness(input: {
   commit: string | null;
   token?: string;
   obfuscations: string | null;
-  protectedIpExclusions: string[];
+  forcedExclusions: string[];
   demandContext: string[];
   onEvent?: (event: PipelineHarnessHostEvent) => void;
   shouldAbort?: () => boolean | Promise<boolean>;
@@ -155,7 +155,7 @@ export async function runDepositInBoxHarness(input: {
     },
     depositSteering: {
       obfuscations: input.obfuscations,
-      protectedIpExclusions: input.protectedIpExclusions,
+      forcedExclusions: input.forcedExclusions,
       demandContext: input.demandContext,
     },
   });

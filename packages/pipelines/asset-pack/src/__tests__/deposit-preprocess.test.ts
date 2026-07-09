@@ -15,7 +15,7 @@
  *    sibling resolves it via findUp — NOT on the seq-0 sibling;
  *  - repository coordinate normalization (url/name/branch/commit/fullName
  *    fallbacks) stored under the deposit namespace + threaded on the input;
- *  - depositor steering (obfuscations / protectedIpExclusions / demandContext /
+ *  - depositor steering (obfuscations / forcedExclusions / demandContext /
  *    inventory) persisted for the phases;
  *  - the read-lens depository search is SKIPPED under deposit (and still runs
  *    under read);
@@ -100,7 +100,7 @@ describe('deposit-mode preprocess context assembly', () => {
       sourceBranch: 'dev',
       sourceCommit: 'abc123def456',
       obfuscations: { rules: [{ match: 'src/secret/**', action: 'redact' }] },
-      protectedIpExclusions: ['src/secret/**'],
+      forcedExclusions: ['src/secret/**'],
       demandContext: [{ topic: 'terminal reads', demand: 'high' }],
       inventory: { assetCount: 2 },
     };
@@ -133,7 +133,7 @@ describe('deposit-mode preprocess context assembly', () => {
     // Depositor steering is persisted for the SDIVF phases — on the SHARED
     // execution, resolvable from every phase sibling via the upward walk.
     expect(execution.get('deposit', 'obfuscations')).toEqual(input.obfuscations);
-    expect(execution.get('deposit', 'protectedIpExclusions')).toEqual(['src/secret/**']);
+    expect(execution.get('deposit', 'forcedExclusions')).toEqual(['src/secret/**']);
     expect(execution.get('deposit', 'demandContext')).toEqual([{ topic: 'terminal reads', demand: 'high' }]);
     expect(execution.get('deposit', 'inventory')).toEqual({ assetCount: 2 });
     expect(execution.get('pipeline', 'synthesizeMode')).toBe('deposit');
@@ -180,7 +180,7 @@ describe('deposit-mode preprocess context assembly', () => {
     });
     // Steering fields default without throwing when the depositor omits them.
     expect(execution.get('deposit', 'obfuscations')).toBeNull();
-    expect(execution.get('deposit', 'protectedIpExclusions')).toEqual([]);
+    expect(execution.get('deposit', 'forcedExclusions')).toEqual([]);
     expect(execution.get('deposit', 'demandContext')).toEqual([]);
     expect(execution.get('deposit', 'inventory')).toBeUndefined();
   });

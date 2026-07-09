@@ -67,19 +67,19 @@ export function clipObfuscationsAnchorText(
  */
 export function ObfuscationsAnchorDescription({
   text,
-  sourcePathHints,
-  protectedIpExclusions,
+  forcedInclusions,
+  forcedExclusions,
   textClipLength,
 }: {
   text: string;
-  sourcePathHints?: string[] | null;
-  protectedIpExclusions?: string[] | null;
+  forcedInclusions?: string[] | null;
+  forcedExclusions?: string[] | null;
   textClipLength?: number;
 }) {
   const clipped = clipObfuscationsAnchorText(text, textClipLength);
-  const hintCount = normalizeObfuscationsAnchorPaths(sourcePathHints).length;
+  const hintCount = normalizeObfuscationsAnchorPaths(forcedInclusions).length;
   const exclusionCount = normalizeObfuscationsAnchorPaths(
-    protectedIpExclusions,
+    forcedExclusions,
   ).length;
   const hintsAria = `${hintCount} forced inclusion ${
     hintCount === 1 ? 'path' : 'paths'
