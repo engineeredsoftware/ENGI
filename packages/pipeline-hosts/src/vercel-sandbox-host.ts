@@ -39,25 +39,34 @@ export class VercelSandboxPipelineHost {
   async runHarness(plan: PipelineHarnessPlan): Promise<PipelineHarnessRunResult> {
     // Auth is enforced by product callers (runDepositInBoxHarness) before
     // constructing a real factory; unit tests inject mock factories without env.
+    //
+    // Vercel Sandbox v2: persistence is DEFAULT. createOptions.persistent must
+    // be explicit false for one-shot deposit/read harnesses (Snapshot Storage
+    // is billed separately). normalizeCreateOptions enforces that + a unique name.
+    const createOptions = normalizeCreateOptions(plan.createOptions);
     await this.emit({
       type: 'sandbox-create-started',
       timestamp: new Date().toISOString(),
-      runtime: plan.createOptions.runtime,
+      runtime: createOptions.runtime,
       mode: plan.manifest.harnessMode,
     });
     const sandbox = await withTimeout(
-      this.sandboxFactory.create(withVercelAccessTokenAuth(plan.createOptions)),
+      this.sandboxFactory.create(withVercelAccessTokenAuth(createOptions)),
       this.sandboxCreateTimeoutMs,
       `Vercel Sandbox create did not complete within ${this.sandboxCreateTimeoutMs}ms.`
     );
+    const sandboxIdentity = resolveSandboxIdentity(sandbox, createOptions.name);
     await this.emit({
       type: 'sandbox-created',
       timestamp: new Date().toISOString(),
-      sandboxId: sandbox.sandboxId,
+      sandboxId: sandboxIdentity.id,
+      name: sandboxIdentity.name,
+      persistent: createOptions.persistent === true,
       status: sandbox.status,
     });
     const commands: PipelineHarnessCommandResult[] = [];
     let stopped = false;
+    let deleted = false;
     let outcome: PipelineHarnessRunResult['outcome'] = 'completed';
     let evidence: unknown | null = null;
     let telemetry: string | null = null;
@@ -68,7 +77,8 @@ export class VercelSandboxPipelineHost {
         await this.emit({
           type: 'sandbox-cancelled',
           timestamp: new Date().toISOString(),
-          sandboxId: sandbox.sandboxId,
+          sandboxId: sandboxIdentity.id,
+          name: sandboxIdentity.name,
           reason: 'cancelled before harness commands',
         });
       } else {
@@ -85,7 +95,8 @@ export class VercelSandboxPipelineHost {
             await this.emit({
               type: 'sandbox-cancelled',
               timestamp: new Date().toISOString(),
-              sandboxId: sandbox.sandboxId,
+              sandboxId: sandboxIdentity.id,
+              name: sandboxIdentity.name,
               reason: `cancelled before command ${command.label}`,
             });
             break;
@@ -121,9 +132,34 @@ export class VercelSandboxPipelineHost {
         }
       }
     } finally {
+      // stop() ends the session (persistent → auto-snapshot; non-persistent →
+      // discard FS). For ephemeral harnesses, also delete() so the named entity
+      // and any residual snapshots do not linger / bill Snapshot Storage.
       if (this.stopAfterRun && sandbox.stop) {
-        await sandbox.stop({ blocking: true });
-        stopped = true;
+        try {
+          await sandbox.stop({ blocking: true });
+          stopped = true;
+        } catch {
+          // Best-effort stop; still attempt delete for non-persistent.
+        }
+      }
+      if (
+        this.stopAfterRun &&
+        createOptions.persistent !== true &&
+        typeof sandbox.delete === 'function'
+      ) {
+        try {
+          await sandbox.delete();
+          deleted = true;
+          await this.emit({
+            type: 'sandbox-deleted',
+            timestamp: new Date().toISOString(),
+            sandboxId: sandboxIdentity.id,
+            name: sandboxIdentity.name,
+          });
+        } catch {
+          // delete may be unsupported on older SDK builds — stop is enough.
+        }
       }
       await this.emit({
         type: 'sandbox-stopped',
@@ -133,7 +169,7 @@ export class VercelSandboxPipelineHost {
     }
 
     return {
-      sandboxId: sandbox.sandboxId,
+      sandboxId: sandboxIdentity.id,
       finalStatus: sandbox.status,
       manifest: plan.manifest,
       commands,
@@ -142,7 +178,7 @@ export class VercelSandboxPipelineHost {
         telemetry,
       },
       outcome,
-      stopped,
+      stopped: stopped || deleted,
     };
   }
 
@@ -246,7 +282,8 @@ export class VercelSandboxPipelineHost {
         await this.emit({
           type: 'sandbox-cancelled',
           timestamp: new Date().toISOString(),
-          sandboxId: sandbox.sandboxId,
+          sandboxId: sandbox.sandboxId ?? sandbox.name,
+          name: sandbox.name,
           reason: `cancelled while waiting for ${command.label}`,
         });
         return {
@@ -392,6 +429,40 @@ function withVercelAccessTokenAuth(createOptions: PipelineHarnessPlan['createOpt
     teamId: createOptions.teamId ?? process.env.VERCEL_TEAM_ID,
     projectId: createOptions.projectId ?? process.env.VERCEL_PROJECT_ID,
   };
+}
+
+/**
+ * Enforce explicit create options for Vercel Sandbox v2:
+ * - `persistent` defaults FALSE for Bitcode harnesses (v2 SDK default is true)
+ * - unique `name` always present for identity/logs
+ */
+export function normalizeCreateOptions(
+  createOptions: PipelineHarnessPlan['createOptions'],
+): PipelineHarnessPlan['createOptions'] {
+  const persistent = createOptions.persistent === true;
+  const name =
+    (typeof createOptions.name === 'string' && createOptions.name.trim()) ||
+    `bitcode-harness-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+  return {
+    ...createOptions,
+    persistent,
+    name,
+  };
+}
+
+function resolveSandboxIdentity(
+  sandbox: SandboxSession,
+  fallbackName?: string,
+): { id?: string; name?: string } {
+  const name =
+    (typeof sandbox.name === 'string' && sandbox.name.trim()) ||
+    (typeof fallbackName === 'string' && fallbackName.trim()) ||
+    undefined;
+  const id =
+    (typeof sandbox.sandboxId === 'string' && sandbox.sandboxId.trim()) ||
+    name ||
+    undefined;
+  return { id, name };
 }
 
 /**

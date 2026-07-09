@@ -1,5 +1,8 @@
 import { buildAssetPackSandboxHarness } from '../asset-pack-harness';
-import { VercelSandboxPipelineHost } from '../vercel-sandbox-host';
+import {
+  normalizeCreateOptions,
+  VercelSandboxPipelineHost,
+} from '../vercel-sandbox-host';
 import type {
   PipelineHarnessFile,
   PipelineHarnessHostEvent,
@@ -10,10 +13,12 @@ import type {
 
 class FakeSandbox {
   sandboxId = 'sbx_test';
+  name?: string;
   status = 'running';
   readonly writtenFiles: PipelineHarnessFile[] = [];
   readonly commands: { cmd: string; args: string[] }[] = [];
   stopped = false;
+  deleted = false;
 
   async writeFiles(files: PipelineHarnessFile[]): Promise<void> {
     this.writtenFiles.push(...files);
@@ -41,6 +46,11 @@ class FakeSandbox {
   async stop(): Promise<void> {
     this.stopped = true;
     this.status = 'stopped';
+  }
+
+  async delete(): Promise<void> {
+    this.deleted = true;
+    this.status = 'deleted';
   }
 }
 
@@ -191,8 +201,14 @@ describe('VercelSandboxPipelineHost', () => {
       'command-started',
       'command-completed',
       'artifacts-read',
+      // Ephemeral harnesses stop then delete (v2: avoid Snapshot Storage linger).
+      'sandbox-deleted',
       'sandbox-stopped',
     ]);
+    expect(events.find((e) => e.type === 'sandbox-created')).toMatchObject({
+      persistent: false,
+      name: expect.any(String),
+    });
     expect(events.find((event) => event.type === 'command-completed')).toMatchObject({
       stdoutLength: expect.any(Number),
       stderrLength: expect.any(Number),
@@ -300,13 +316,49 @@ describe('VercelSandboxPipelineHost', () => {
         token: 'test-token',
         teamId: 'team_test',
         projectId: 'prj_test',
+        // v2 default is persistent=true; Bitcode harnesses force false.
+        persistent: false,
       });
+      expect(typeof createOptions[0].name).toBe('string');
+      expect(createOptions[0].name!.length).toBeGreaterThan(8);
+      expect(fakeSandbox.stopped).toBe(true);
+      expect(fakeSandbox.deleted).toBe(true);
     } finally {
       restoreEnv('VERCEL_TOKEN', previous.VERCEL_TOKEN);
       restoreEnv('VERCEL_TEAM_ID', previous.VERCEL_TEAM_ID);
       restoreEnv('VERCEL_PROJECT_ID', previous.VERCEL_PROJECT_ID);
       restoreEnv('VERCEL_OIDC_TOKEN', previous.VERCEL_OIDC_TOKEN);
     }
+  });
+
+  it('normalizeCreateOptions forces ephemeral unless persistent is explicitly true', () => {
+    expect(normalizeCreateOptions({}).persistent).toBe(false);
+    expect(normalizeCreateOptions({ persistent: false }).persistent).toBe(false);
+    expect(normalizeCreateOptions({ persistent: true, name: 'keep-me' })).toMatchObject({
+      persistent: true,
+      name: 'keep-me',
+    });
+    const named = normalizeCreateOptions({ name: '  ' });
+    expect(named.persistent).toBe(false);
+    expect(named.name).toMatch(/^bitcode-harness-/);
+  });
+
+  it('deposit harness createOptions are non-persistent with a unique name', () => {
+    const plan = buildAssetPackSandboxHarness({
+      mode: 'asset_pack_pipeline',
+      synthesizeMode: 'deposit',
+      persistent: false,
+      read: { id: 'read-1', prompt: 'n/a' },
+      deposit: { id: 'deposit-demo' },
+      sourceRevision: {
+        repositoryFullName: 'engineeredsoftware/demo',
+        branch: 'main',
+        commit: 'abc',
+      },
+      source: { type: 'git', url: 'https://github.com/engineeredsoftware/demo.git', revision: 'abc' },
+    });
+    expect(plan.createOptions.persistent).toBe(false);
+    expect(plan.createOptions.name).toMatch(/^bitcode-deposit-/);
   });
 
   it('bounds sandbox creation so auth/API hangs are observable', async () => {

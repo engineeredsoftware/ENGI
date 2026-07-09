@@ -31,6 +31,23 @@ const SANDBOX_WORKING_DIRECTORY = '/vercel/sandbox' as const;
 const DEFAULT_LONG_TIMEOUT_MS = 45 * 60 * 1000;
 const SANDBOX_PNPM_VERSION = '10.33.0';
 
+/**
+ * Unique name per harness create (Vercel project-scoped). Even non-persistent
+ * sandboxes take a name for dashboard/log correlation; names are not reused.
+ */
+export function buildEphemeralSandboxName(
+  synthesizeMode: 'deposit' | 'read',
+  depositId?: string | null,
+): string {
+  const slug = String(depositId || 'harness')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 40);
+  const stamp = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+  return `bitcode-${synthesizeMode}-${slug || 'run'}-${stamp}`.slice(0, 96);
+}
+
 export interface BuildAssetPackSandboxHarnessOptions {
   mode?: PipelineHarnessMode;
   read: PipelineReadRequest;
@@ -54,10 +71,13 @@ export interface BuildAssetPackSandboxHarnessOptions {
     demandContext?: string[];
   };
   /**
-   * When false, create a non-persistent (ephemeral) sandbox — no snapshot on stop.
-   * Deposit one-shot synthesis defaults to false when synthesizeMode is deposit.
+   * Vercel Sandbox v2 defaults to persistent (auto-snapshot + Snapshot Storage
+   * billing). Bitcode harness runs are one-shot — default `false` unless a
+   * caller explicitly opts into a long-lived named workspace.
    */
   persistent?: boolean;
+  /** Optional stable name (unique per Vercel project). Auto-generated when omitted. */
+  sandboxName?: string;
 }
 
 export function buildAssetPackSandboxHarness(
@@ -111,6 +131,14 @@ export function buildAssetPackSandboxHarness(
     sourceOverlayPatch !== null
   );
 
+  // Vercel Sandbox v2: persistence is ON by default. Never leave `persistent`
+  // undefined for harness creates — that would silently bill Snapshot Storage
+  // for one-shot deposit/read synthesis. Opt-in only when the caller sets true.
+  const persistent = options.persistent === true;
+  const sandboxName =
+    (typeof options.sandboxName === 'string' && options.sandboxName.trim()) ||
+    buildEphemeralSandboxName(options.synthesizeMode ?? 'read', options.deposit?.id);
+
   return {
     capabilities: VERCEL_SANDBOX_HOST_CAPABILITIES,
     createOptions: {
@@ -118,13 +146,8 @@ export function buildAssetPackSandboxHarness(
       timeout: options.timeoutMs ?? DEFAULT_LONG_TIMEOUT_MS,
       networkPolicy: options.networkPolicy ?? 'allow-all',
       source: options.source,
-      // Deposit one-shots are ephemeral; read/QA harness may opt into persistence.
-      persistent:
-        typeof options.persistent === 'boolean'
-          ? options.persistent
-          : options.synthesizeMode === 'deposit'
-            ? false
-            : undefined,
+      persistent,
+      name: sandboxName,
     },
     manifest,
     files: [

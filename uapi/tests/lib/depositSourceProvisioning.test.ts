@@ -147,7 +147,10 @@ describe('runDepositInBoxHarness (#25)', () => {
     expect(receivedPlan.manifest.synthesizeMode).toBe('deposit');
     expect(receivedPlan.manifest.depositSteering).toMatchObject({ protectedIpExclusions: ['secret/'] });
     expect(receivedPlan.createOptions.source).toMatchObject({ type: 'git', revision: 'abc123' });
+    // Vercel Sandbox v2: persistence is default — deposit must opt out.
     expect(receivedPlan.createOptions.persistent).toBe(false);
+    expect(typeof receivedPlan.createOptions.name).toBe('string');
+    expect(receivedPlan.createOptions.name).toMatch(/^bitcode-deposit-/);
   });
 
   it('returns empty options when the evidence has no depositOptions', async () => {

@@ -170,12 +170,32 @@ export interface SandboxCreateOptions {
   projectId?: string;
   token?: string;
   /**
-   * When false, the sandbox is ephemeral (no snapshot storage on stop).
-   * Deposit one-shot synthesis should prefer non-persistent boxes.
+   * Vercel Sandbox v2: persistence is DEFAULT (auto-snapshot on stop, billed
+   * Snapshot Storage). Bitcode pipeline harnesses are one-shot CI-style work —
+   * always pass `false` unless a caller explicitly opts into a long-lived
+   * named workspace. See Vercel docs: Persistent sandboxes / Opt out.
    */
   persistent?: boolean;
-  /** Optional stable name for Sandbox.get / resume (unique per project). */
+  /**
+   * Unique name within the Vercel project (v2 primary identity; v1 used
+   * sandboxId). Ephemeral deposit runs still set a unique name for logs/
+   * dashboard correlation even when `persistent: false`.
+   */
   name?: string;
+  /**
+   * Optional TTL for automatic snapshots when persistent (ms from last use).
+   * Only relevant when `persistent: true`.
+   */
+  snapshotExpiration?: number;
+  /**
+   * Retention for persistent sandboxes (keep N most recent snapshots).
+   * Only relevant when `persistent: true`.
+   */
+  keepLastSnapshots?: {
+    count: number;
+    expiration?: number;
+    deleteEvicted?: boolean;
+  };
 }
 
 export interface PipelineHarnessFile {
@@ -238,7 +258,10 @@ export interface SandboxRunCommandObject {
 }
 
 export interface SandboxSession {
+  /** v1 identity; still present on many SDK builds. */
   sandboxId?: string;
+  /** v2 primary identity (unique per project). */
+  name?: string;
   status?: string;
   writeFiles(files: PipelineHarnessFile[]): Promise<void>;
   runCommand(
@@ -248,19 +271,32 @@ export interface SandboxSession {
   ): Promise<SandboxCommandResult>;
   runCommand(params: SandboxRunCommandObject): Promise<SandboxCommandResult>;
   readFileToBuffer(file: { path: string; cwd?: string }): Promise<Buffer | null>;
+  /**
+   * End the current session. Persistent sandboxes auto-snapshot; non-persistent
+   * discard the filesystem. Does not permanently remove the sandbox entity.
+   */
   stop?(opts?: { blocking?: boolean }): Promise<unknown>;
+  /** Permanent remove (sandbox + snapshots + sessions). Prefer after ephemeral stop. */
+  delete?(): Promise<unknown>;
   snapshot?(opts?: { expiration?: number }): Promise<{ snapshotId: string }>;
+  update?(opts: Record<string, unknown>): Promise<unknown>;
 }
 
 export interface SandboxFactory {
   create(options: SandboxCreateOptions): Promise<SandboxSession>;
-  /** Optional: resume/stop an existing sandbox by id or name (SDK-dependent). */
+  /** Resume/retrieve by name (v2) or sandboxId (v1). */
   get?(options: {
     sandboxId?: string;
     name?: string;
     teamId?: string;
     projectId?: string;
     token?: string;
+    resume?: boolean;
+  }): Promise<SandboxSession>;
+  getOrCreate?(options: SandboxCreateOptions & {
+    onCreate?: (sandbox: SandboxSession) => void | Promise<void>;
+    onResume?: (sandbox: SandboxSession) => void | Promise<void>;
+    resume?: boolean;
   }): Promise<SandboxSession>;
 }
 
@@ -275,13 +311,23 @@ export type PipelineHarnessHostEvent =
       type: 'sandbox-created';
       timestamp: string;
       sandboxId?: string;
+      /** v2 name when available. */
+      name?: string;
+      persistent?: boolean;
       status?: string;
     }
   | {
       type: 'sandbox-cancelled';
       timestamp: string;
       sandboxId?: string;
+      name?: string;
       reason?: string;
+    }
+  | {
+      type: 'sandbox-deleted';
+      timestamp: string;
+      sandboxId?: string;
+      name?: string;
     }
   | {
       type: 'harness-files-written';

@@ -114,7 +114,11 @@ export interface DepositInBoxHarnessResult {
  * injectable so the dispatch is unit-tested without a real sandbox.
  *
  * Cooperative cancel: pass `shouldAbort` (typically polling executions.status).
- * Non-persistent boxes by default (no snapshot storage on stop).
+ *
+ * Vercel Sandbox v2 defaults to *persistent* sandboxes (auto-snapshot on stop,
+ * Snapshot Storage billed separately). Deposit synthesis is a one-shot CI-style
+ * workload — always `persistent: false` so stop discards the FS and we do not
+ * accrue snapshot storage. The host also best-effort `delete()`s after stop.
  */
 export async function runDepositInBoxHarness(input: {
   repositoryFullName: string;
@@ -132,6 +136,7 @@ export async function runDepositInBoxHarness(input: {
   const plan = buildAssetPackSandboxHarness({
     mode: 'asset_pack_pipeline',
     synthesizeMode: 'deposit',
+    // Explicit opt-out of v2 default persistence (one-shot deposit synthesis).
     persistent: false,
     read: { id: `deposit-read-${input.repositoryFullName}`, prompt: 'Deposit synthesis (no read need).' },
     deposit: { id: `deposit-${input.repositoryFullName}` },
