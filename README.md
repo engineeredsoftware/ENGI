@@ -174,9 +174,26 @@ grounded is **Unestimatable**, not invented.
 
 ---
 
+## Promoted V47 verification (active pointer on `main`)
+
+Active canon on `main` is **V47**. Gate-quality CI still validates V47 promotion
+surfaces. Documented entrypoints:
+
+```bash
+# V47 Gate 10 promotion readiness (commercial website testnet launch close)
+pnpm run check:v47-gate10
+# or: node scripts/check-v47-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
+
+# V47 canon promotion workflow (CI): .github/workflows/v47-canon-promotion.yml
+```
+
+Related: `generate:v47-promotion-readiness`, `.bitcode/v47-promotion-readiness-report.json`,
+`BITCODE_SPEC_V47_PROVEN.md`. Draft work after V47 uses **V48** (`BITCODE_SPEC_V48.md`).
+
 ## Helpful links
 
-- Spec family: `BITCODE_SPEC_V48.md`
+- Spec family (draft): `BITCODE_SPEC_V48.md`
+- Spec family (active): `BITCODE_SPEC_V47.md`
 - QA: `BITCODE_V48_QA.md`
 - Agent rules: `AGENTS.md`
 - Specifying standard: `BITCODE_SPECIFYING.md`
