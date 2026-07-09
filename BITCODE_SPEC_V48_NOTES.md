@@ -151,17 +151,18 @@ Accepted V48 architecture law (decided 2026-06-12):
   work (rule accepted 2026-06-12), with the dedicated F8 sweep retiring the
   remainder.
 
-## V48 Gate 3 closed (specification + implementation): synthesis pipeline algorithmic + telemetric correctness
+## V48 Gate 3 closed (specification + implementation): Deposit systems MVP
 
 **Canon:** `BITCODE_SPEC_V48.md` is the **single full-system SPEC** for Complete
-Implementation Derivability through Gate 3 — rebuild deposit SDIVF, storage,
-hosts, agents/tools/prompts/telemetry, and `/deposits` from that file alone
-(§ Gate 3 G3-1…G3-15). This notes companion records architecture history and
-the depositing parity matrix; it is not stronger than the SPEC.
+Implementation Derivability through Gate 3 — rebuild the **deposit systems MVP**
+(`/deposits`, SynthesizeAssetPacks SDIVF, storage, hosts, agents/tools/prompts/
+telemetry, option full-stack) from that file alone (§ Gate 3 G3-1…G3-15). This
+notes companion records architecture history and the depositing parity matrix;
+it is not stronger than the SPEC.
 
-Gate 3 (branch `v48/gate-3-synthesis-pipeline-correctness`) is the synthesis
-pipeline correctness gate, driven by interactive QA of the deposit synthesis
-telemetry. It pursues both algorithmic correctness (the pipeline runs on the
+Gate 3 (branch `v48/gate-3-synthesis-pipeline-correctness`) is the **deposit
+systems MVP** gate: algorithmic + telemetric correctness of deposit synthesis
+driven by interactive QA on `/deposits`. It pursues both algorithmic correctness (the pipeline runs on the
 real Bitcode execution/agent/prompt primitives rather than a hand-rolled
 inference loop) and telemetric correctness (every LLM call renders decipherably
 in the rich SDIVF telemetry), and in doing so unifies and formalizes the
