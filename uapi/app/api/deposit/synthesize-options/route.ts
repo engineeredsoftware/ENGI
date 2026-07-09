@@ -16,9 +16,11 @@ import {
   type AssetPacksSynthesisResult,
   type AssetPacksSynthesisSourceInventory,
 } from '@bitcode/pipeline-asset-pack/asset-packs-synthesis';
-import { synthesizeAssetPacksPipeline } from '@bitcode/pipeline-asset-pack';
+import {
+  groundOptionNeedinessFromSettledDepository,
+  synthesizeAssetPacksPipeline,
+} from '@bitcode/pipeline-asset-pack';
 import { buildRealDepositAssetPackOptionSynthesis } from '@bitcode/pipeline-asset-pack/deposit-option-real-synthesis';
-import { groundOptionNeedinessFromSettledDepository } from '@bitcode/pipeline-asset-pack/depository-settled-demand-estimate';
 import { isAssetPackRealInferenceEnabled } from '@bitcode/pipeline-asset-pack/runtime-inference-policy';
 import {
   provisionDepositSourceInventory,

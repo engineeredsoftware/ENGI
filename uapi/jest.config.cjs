@@ -88,6 +88,7 @@ module.exports = {
     '^@/lib/github-app-url$': '<rootDir>/lib/github-app-url.ts',
     '^@/lib/bitcode-server-telemetry$': '<rootDir>/lib/bitcode-server-telemetry.ts',
     '^@/lib/deposit-source-provisioning$': '<rootDir>/lib/deposit-source-provisioning.ts',
+    '^@/lib/depository-settled-demand$': '<rootDir>/lib/depository-settled-demand.ts',
     '^@/lib/execution-orphan-sweep$': '<rootDir>/lib/execution-orphan-sweep.ts',
     '^@/lib/execution-cancel$': '<rootDir>/lib/execution-cancel.ts',
     '^@/lib/bitcode-qa-telemetry$': '<rootDir>/lib/bitcode-qa-telemetry.ts',

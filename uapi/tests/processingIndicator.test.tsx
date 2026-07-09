@@ -16,8 +16,8 @@ import { buildProcessingStallLabel } from '@/components/base/bitcode/execution/p
 // nowTick feed buildProcessingStallLabel, whose result renders as
 // <ProcessingIndicator label=… stalled=…/>. This suite drives that pairing with
 // fake timers pinned to a system clock, asserting the amber flip at exactly the
-// 90s LLM-call-timeout threshold.
-describe('ProcessingIndicator — stall label + amber flip at 90s', () => {
+// 180s LLM-call-timeout threshold.
+describe('ProcessingIndicator — stall label + amber flip at 180s', () => {
   const lastLine = {
     phase: 'Discovery',
     agent: 'DepositDepositorySearchAgent',
@@ -41,11 +41,11 @@ describe('ProcessingIndicator — stall label + amber flip at 90s', () => {
     return { label, likelyStalled };
   }
 
-  it('stays emerald (not stalled) at 89s since the last event', () => {
-    jest.setSystemTime(lastLineMs + 89_000);
+  it('stays emerald (not stalled) at 179s since the last event', () => {
+    jest.setSystemTime(lastLineMs + 179_000);
     const { label, likelyStalled } = renderIndicatorAtNow();
     expect(likelyStalled).toBe(false);
-    expect(label).toContain('89s since last update');
+    expect(label).toContain('179s since last update');
 
     render(<ProcessingIndicator label={label} stalled={likelyStalled} />);
     const text = screen.getByText(label);
@@ -53,11 +53,11 @@ describe('ProcessingIndicator — stall label + amber flip at 90s', () => {
     expect(text).not.toHaveClass('text-amber-400');
   });
 
-  it('flips to the amber warning tone at exactly 90s (the LLM call timeout default)', () => {
-    jest.setSystemTime(lastLineMs + 90_000);
+  it('flips to the amber warning tone at exactly 180s (the LLM call timeout default)', () => {
+    jest.setSystemTime(lastLineMs + 180_000);
     const { label, likelyStalled } = renderIndicatorAtNow();
     expect(likelyStalled).toBe(true);
-    expect(label).toContain('90s since last update');
+    expect(label).toContain('180s since last update');
 
     render(<ProcessingIndicator label={label} stalled={likelyStalled} />);
     const text = screen.getByText(label);
@@ -66,19 +66,19 @@ describe('ProcessingIndicator — stall label + amber flip at 90s', () => {
   });
 
   it('keeps the amber tone as the silence stretches past the threshold', () => {
-    jest.setSystemTime(lastLineMs + 90_000);
+    jest.setSystemTime(lastLineMs + 180_000);
     let state = renderIndicatorAtNow();
     const { rerender } = render(
       <ProcessingIndicator label={state.label} stalled={state.likelyStalled} />,
     );
 
-    // Two more minutes of silence: still stalled, elapsed keeps counting.
-    jest.setSystemTime(lastLineMs + 210_000);
+    // More silence past the bound: still stalled, elapsed keeps counting.
+    jest.setSystemTime(lastLineMs + 300_000);
     state = renderIndicatorAtNow();
     rerender(<ProcessingIndicator label={state.label} stalled={state.likelyStalled} />);
 
     expect(state.likelyStalled).toBe(true);
-    expect(state.label).toContain('210s since last update');
+    expect(state.label).toContain('300s since last update');
     expect(screen.getByText(state.label)).toHaveClass('text-amber-400');
   });
 

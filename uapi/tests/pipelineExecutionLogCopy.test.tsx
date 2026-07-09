@@ -239,18 +239,18 @@ describe('buildProcessingStallLabel — live stall visibility (QA debug aid)', (
     expect(label).toBe('Processing · 5s since last update');
   });
 
-  it('flags likelyStalled once elapsed time reaches the LLM call timeout default (90s)', () => {
+  it('flags likelyStalled once elapsed time reaches the LLM call timeout default (180s)', () => {
     const lastLine = { phase: 'Discovery', agent: 'DepositDepositorySearchAgent', timestamp: new Date(0).toISOString() };
-    const { likelyStalled, label } = buildProcessingStallLabel(lastLine, 90_000);
+    const { likelyStalled, label } = buildProcessingStallLabel(lastLine, 180_000);
     expect(likelyStalled).toBe(true);
-    expect(label).toContain('90s since last update');
+    expect(label).toContain('180s since last update');
   });
 
-  it('is NOT stalled one second under the threshold (89s boundary)', () => {
+  it('is NOT stalled one second under the threshold (179s boundary)', () => {
     const lastLine = { phase: 'Discovery', agent: 'DepositDepositorySearchAgent', timestamp: new Date(0).toISOString() };
-    const { likelyStalled, label } = buildProcessingStallLabel(lastLine, 89_000);
+    const { likelyStalled, label } = buildProcessingStallLabel(lastLine, 179_000);
     expect(likelyStalled).toBe(false);
-    expect(label).toContain('89s since last update');
+    expect(label).toContain('179s since last update');
   });
 
   it('clamps negative clock skew to 0s and never flags a stall', () => {

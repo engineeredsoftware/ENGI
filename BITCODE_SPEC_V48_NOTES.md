@@ -134,10 +134,12 @@ Accepted V48 architecture law (decided 2026-06-12):
 
 ## V48 Gate 3 closing: synthesis pipeline algorithmic + telemetric correctness, and the SynthesizeAssetPacks SDIVF unification
 
-**Canon:** `BITCODE_SPEC_V48.md` is the single V48 system specification (full Bitcode
-for this version line — not an addendum to prior version files). Gate 3 law is
-fully specified there §3–§6; this notes file records architecture decisions and
-the depositing parity matrix.
+**Canon posture:** V48 remains a **notes-backed draft opening** until the full
+hand-authored family (`BITCODE_SPEC_V48.md` + DELTA + PARITY + PROVEN) is opened
+in a dedicated specification gate. **This notes file is the single V48 draft
+carrier for Gate 3 product law** — binding for deposit SDIVF, full-stack option
+stats, demand honesty, defaults (`grok-build-0.1`, maxIterations 1, 180s timeout),
+and telemetry. Do not treat superseded version specs as live V48 product law.
 
 Gate 3 (branch `v48/gate-3-synthesis-pipeline-correctness`) is the synthesis
 pipeline correctness gate, driven by interactive QA of the deposit synthesis

@@ -9,7 +9,7 @@ import {
   settledDemandEstimateToSignals,
   type DepositorySettledDemandEstimate,
   type SettledDepositoryPackSummary,
-} from '@bitcode/pipeline-asset-pack/depository-settled-demand-estimate';
+} from '@bitcode/pipeline-asset-pack';
 
 function asRecord(value: unknown): Record<string, unknown> | null {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
