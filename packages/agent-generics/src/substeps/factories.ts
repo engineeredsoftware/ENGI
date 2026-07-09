@@ -72,6 +72,118 @@ import { LLMInput } from '@bitcode/llm-generics';
 import { parseResponse } from '@bitcode/parsing';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
+// ---- Prompt-safe serialization (deposit inventory must never enter prompts) ----
+// Full-repo inventory.sources can be hundreds of MB. JSON.stringify of that
+// throws RangeError: Invalid string length (live deposit runs 5439863e / 6e0c5f45
+// crashed in buildUserPrompt after PrepareConciseContext selected deposit#inventory).
+const PROMPT_REDACT_KEYS = new Set([
+  'sources', // inventory.sources — full verbatim checkout
+  'fullContent',
+  'rawData',
+  'embeddings',
+  'tokens',
+]);
+const MAX_PROMPT_STRING_CHARS = 4_000;
+const MAX_PROMPT_JSON_CHARS = 200_000;
+const MAX_PROMPT_ARRAY_ITEMS = 200;
+const MAX_PROMPT_OBJECT_KEYS = 80;
+const MAX_PROMPT_PATH_LIST = 500;
+
+/**
+ * Project a value into a bounded, source-safe shape suitable for LLM prompts.
+ * Strips inventory.sources and other content-bearing blobs; truncates long
+ * strings and large arrays. Safe to call on the full execution state.
+ */
+export function projectPromptSafeValue(value: unknown, depth = 0): unknown {
+  if (value == null) return value;
+  if (depth > 12) return '[truncated-depth]';
+  if (typeof value === 'string') {
+    if (value.length <= MAX_PROMPT_STRING_CHARS) return value;
+    return `${value.slice(0, MAX_PROMPT_STRING_CHARS)}… [+${value.length - MAX_PROMPT_STRING_CHARS} chars]`;
+  }
+  if (typeof value === 'number' || typeof value === 'boolean') return value;
+  if (typeof value === 'bigint') return String(value);
+  if (Array.isArray(value)) {
+    const slice = value.slice(0, MAX_PROMPT_ARRAY_ITEMS);
+    const projected = slice.map((item) => projectPromptSafeValue(item, depth + 1));
+    if (value.length > MAX_PROMPT_ARRAY_ITEMS) {
+      projected.push(`… [+${value.length - MAX_PROMPT_ARRAY_ITEMS} items]`);
+    }
+    return projected;
+  }
+  if (typeof value === 'object') {
+    const obj = value as Record<string, unknown>;
+    // Inventory shape: keep paths + bounded samples; never sources content.
+    if (Array.isArray(obj.sources) && (Array.isArray(obj.paths) || Array.isArray(obj.samples))) {
+      const paths = Array.isArray(obj.paths) ? obj.paths : [];
+      return {
+        pathCount: paths.length,
+        paths: projectPromptSafeValue(paths.slice(0, MAX_PROMPT_PATH_LIST), depth + 1),
+        ...(paths.length > MAX_PROMPT_PATH_LIST
+          ? { pathsOmitted: paths.length - MAX_PROMPT_PATH_LIST }
+          : {}),
+        samples: projectPromptSafeValue(obj.samples, depth + 1),
+        totalPathCount: obj.totalPathCount ?? paths.length,
+        excludedPathCount: obj.excludedPathCount ?? 0,
+        sourceFileCount: obj.sources.length,
+        sources: `[${obj.sources.length} source files withheld from prompt — use paths/samples]`,
+      };
+    }
+    const out: Record<string, unknown> = {};
+    let keys = 0;
+    for (const [k, v] of Object.entries(obj)) {
+      if (keys >= MAX_PROMPT_OBJECT_KEYS) {
+        out['…'] = '[+more keys]';
+        break;
+      }
+      if (PROMPT_REDACT_KEYS.has(k)) {
+        if (Array.isArray(v)) {
+          out[k] = `[${v.length} items withheld from prompt]`;
+        } else if (typeof v === 'string') {
+          out[k] = `[${v.length} chars withheld from prompt]`;
+        } else if (v && typeof v === 'object') {
+          out[k] = '[withheld from prompt]';
+        } else {
+          out[k] = '[withheld from prompt]';
+        }
+        keys += 1;
+        continue;
+      }
+      out[k] = projectPromptSafeValue(v, depth + 1);
+      keys += 1;
+    }
+    return out;
+  }
+  try {
+    return String(value);
+  } catch {
+    return '[unserializable]';
+  }
+}
+
+/**
+ * JSON for user prompts — never throws Invalid string length on huge inventories.
+ */
+export function safePromptJson(value: unknown, space: number | null = 2): string {
+  try {
+    const projected = projectPromptSafeValue(value);
+    let text =
+      space === null || space === 0
+        ? JSON.stringify(projected)
+        : JSON.stringify(projected, null, space);
+    if (typeof text !== 'string') return 'null';
+    if (text.length > MAX_PROMPT_JSON_CHARS) {
+      const compact = JSON.stringify(projected);
+      if (compact.length <= MAX_PROMPT_JSON_CHARS) return compact;
+      return `${compact.slice(0, MAX_PROMPT_JSON_CHARS)}\n… [prompt JSON truncated, +${compact.length - MAX_PROMPT_JSON_CHARS} chars]`;
+    }
+    return text;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    return `{"error":"prompt serialization failed","message":${JSON.stringify(message)}}`;
+  }
+}
+
 // Import generic agent PromptParts directly from their files
 // TODO: why are these imports used but below unused?
 
@@ -420,7 +532,11 @@ export function factoryPrepareConciseContext<T>(
       const resolved = resolveExecutionStateKeyPath(root, keyPath);
       if (resolved.found) {
         selectedKeys.push(keyPath);
-        selectedContext[keyPath] = resolved.value as any;
+        // Project at read-in: deposit#inventory / pipeline#input can carry
+        // multi-hundred-MB inventory.sources. Task generations (reason/judge/
+        // structured_output) JSON-serialize selectedContext into the user
+        // prompt — never pass verbatim sources into that path.
+        selectedContext[keyPath] = projectPromptSafeValue(resolved.value) as any;
       } else {
         missingKeys.push(keyPath);
       }
@@ -688,8 +804,13 @@ export function factoryStitchUntilComplete<T>(
       if (typeof toMeasure === 'string') {
         return toMeasure.length >= maxOutputTokens * 3; // Rough token→char estimate
       }
-      const serialized = JSON.stringify(toMeasure);
-      return serialized.length >= maxOutputTokens * 3;
+      try {
+        // Use prompt-safe projection so inventory.sources never blows stringify.
+        const serialized = safePromptJson(toMeasure, null);
+        return serialized.length >= maxOutputTokens * 3;
+      } catch {
+        return false;
+      }
     };
 
     while (stitchCount < maxStitches) {
@@ -805,9 +926,9 @@ export function factoryJudge<T>(): Executor<T, T & { judgment: Judgment }> {
         // Check if we're in a sum context
         const isSum = typedInput.chunkResults !== undefined;
         if (isSum) {
-          return `Judge the quality of these chunked results:\n\n${JSON.stringify(typedInput.chunkResults, null, 2)}`;
+          return `Judge the quality of these chunked results:\n\n${safePromptJson(typedInput.chunkResults)}`;
         }
-        return `Evaluate the quality and correctness of:\n\n${JSON.stringify(input, null, 2)}`;
+        return `Evaluate the quality and correctness of:\n\n${safePromptJson(input)}`;
       },
 
       parseOutput: async (output, input) => {
@@ -845,14 +966,14 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
 
         if (isStitch) {
           const context = typedInput.context && Object.keys(typedInput.context).length
-            ? `\n\nOriginal task context:\n\n${JSON.stringify(typedInput.context, null, 2)}`
+            ? `\n\nOriginal task context:\n\n${safePromptJson(typedInput.context)}`
             : '';
-          return `Continue reasoning from this partial output:\n\n${JSON.stringify(typedInput.partialOutput, null, 2)}${context}`;
+          return `Continue reasoning from this partial output:\n\n${safePromptJson(typedInput.partialOutput)}${context}`;
         }
         if (isSum) {
-          return `Reason about how to combine these chunk results:\n\n${JSON.stringify(typedInput.chunkResults, null, 2)}`;
+          return `Reason about how to combine these chunk results:\n\n${safePromptJson(typedInput.chunkResults)}`;
         }
-        return `Apply logical reasoning to solve:\n\n${JSON.stringify(input ?? null, null, 2)}`;
+        return `Apply logical reasoning to solve:\n\n${safePromptJson(input ?? null)}`;
       },
 
       parseOutput: async (output, input) => {
@@ -895,7 +1016,7 @@ export function factoryStructuredOutput<T, TSchema>(
           String(PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY),
           '',
           'Generate structured output for:',
-          JSON.stringify(input, null, 2),
+          safePromptJson(input),
         ].filter(Boolean).join('\n');
       },
 

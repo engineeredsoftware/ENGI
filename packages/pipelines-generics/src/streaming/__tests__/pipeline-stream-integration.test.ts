@@ -1,6 +1,11 @@
 // @ts-nocheck
 import { Execution } from '@bitcode/execution-generics';
-import { createStreamingExecution, enablePipelineStreaming, sourceSafeStreamEvent } from '../../streaming/pipeline-stream-integration';
+import {
+  createStreamingExecution,
+  enablePipelineStreaming,
+  estimateSerializedChars,
+  sourceSafeStreamEvent,
+} from '../../streaming/pipeline-stream-integration';
 
 // Mock ORM model so we can assert persistence without a real DB
 const createdEvents: any[] = [];
@@ -251,6 +256,21 @@ describe('sourceSafeStreamEvent (telemetry source-safety law, V48)', () => {
       data: { value: 'safe-metadata' },
     };
     expect(sourceSafeStreamEvent(event)).toBe(event);
+  });
+});
+
+describe('estimateSerializedChars (no giant JSON.stringify)', () => {
+  it('walks nested strings without building a single huge string', () => {
+    const payload = {
+      sources: Array.from({ length: 50 }, (_, i) => ({
+        path: `src/f${i}.ts`,
+        content: 'x'.repeat(1000),
+      })),
+    };
+    const chars = estimateSerializedChars(payload);
+    expect(chars).toBeGreaterThan(50_000);
+    // Must not throw even for multi-megabyte walks (budget caps work).
+    expect(estimateSerializedChars(payload, 10_000)).toBeLessThanOrEqual(10_000 + 2000);
   });
 });
 

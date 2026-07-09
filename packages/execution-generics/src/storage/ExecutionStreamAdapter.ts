@@ -39,6 +39,32 @@ export interface ExecutionStreamConfig {
   userId?: string;
 }
 
+// Content-bearing stores that must never enter the stream payload with
+// verbatim bodies (deposit inventory.sources, pipeline:input, llm prompts,
+// tool args/results, PCC selectedContext). Mirrored from the pipelines-generics
+// sourceSafeStreamEvent allowlist so redaction happens BEFORE emit — full-repo
+// inventories (~hundreds of MB) previously crashed with "Invalid string length"
+// when JSON.stringify'd for telemetry.
+const SOURCE_SAFE_LLM_METADATA_KEYS = new Set([
+  'startTime',
+  'endTime',
+  'duration',
+  'usage',
+  'status',
+  'provider',
+  'model',
+  'configKey',
+  'stopReason',
+  'error',
+]);
+const SOURCE_CONTENT_BEARING_KEYS_BY_NAMESPACE: Record<string, Set<string>> = {
+  pipeline: new Set(['input']),
+  deposit: new Set(['inventory']),
+  tool: new Set(['input', 'result']),
+  tools: new Set(['invocation', 'result']),
+  context: new Set(['selectedContext', 'full']),
+};
+
 /**
  * Adapter for streaming execution events
  */
@@ -63,6 +89,72 @@ export class ExecutionStreamAdapter {
   }
 
   /**
+   * Estimate serialized character weight without building a giant string.
+   * Used so huge inventory stores report contentChars without JSON.stringify.
+   */
+  private static estimateSerializedChars(value: unknown, budget = 50_000_000): number {
+    let total = 0;
+    const visit = (node: unknown, keyHint = ''): void => {
+      if (total >= budget) return;
+      if (node == null) {
+        total += 4;
+        return;
+      }
+      const t = typeof node;
+      if (t === 'string') {
+        total += (node as string).length + 2;
+        return;
+      }
+      if (t === 'number' || t === 'boolean') {
+        total += String(node).length;
+        return;
+      }
+      if (Array.isArray(node)) {
+        // inventory.sources: sum content lengths without deep-walking every file blob.
+        if (keyHint === 'sources' && node.length > 0 && node[0] && typeof node[0] === 'object') {
+          total += 2;
+          for (const item of node) {
+            if (!item || typeof item !== 'object') continue;
+            const file = item as { path?: unknown; content?: unknown };
+            total +=
+              20 +
+              (typeof file.path === 'string' ? file.path.length : 0) +
+              (typeof file.content === 'string' ? file.content.length : 0);
+            if (total >= budget) return;
+          }
+          return;
+        }
+        total += 2;
+        for (let i = 0; i < node.length; i += 1) {
+          visit(node[i], keyHint);
+          total += 1;
+          if (total >= budget) return;
+        }
+        return;
+      }
+      if (t === 'object') {
+        total += 2;
+        for (const [k, v] of Object.entries(node as Record<string, unknown>)) {
+          total += k.length + 3;
+          visit(v, k);
+          if (total >= budget) return;
+        }
+      }
+    };
+    try {
+      visit(value);
+    } catch {
+      return total > 0 ? total : 0;
+    }
+    return total;
+  }
+
+  private static isContentBearingStore(namespace: string, key: string): boolean {
+    if (namespace === 'llm' && !SOURCE_SAFE_LLM_METADATA_KEYS.has(key)) return true;
+    return SOURCE_CONTENT_BEARING_KEYS_BY_NAMESPACE[namespace]?.has(key) === true;
+  }
+
+  /**
    * Hook called when execution stores data
    * Emits appropriate stream events based on the storage namespace and key
    */
@@ -81,46 +173,71 @@ export class ExecutionStreamAdapter {
     const eventType = this.inferEventType(namespace, key, value);
     if (!eventType) return;
 
-    // Best-effort metadata enrichment for UI (attach step stores when present)
+    const contentBearing = this.isContentBearingStore(namespace, key);
+
+    // Best-effort metadata enrichment for UI (attach step stores when present).
+    // Skip for content-bearing stores — never mirror raw inventory/prompt bodies
+    // into metadata.stores (sourceSafeStreamEvent strips this channel too).
     const metadata: Record<string, any> = {};
-    try {
-      const stores: any = {};
-      if (value && typeof value === 'object') {
-        if (Array.isArray((value as any).usableTools)) {
-          stores.tools = stores.tools || {};
-          stores.tools.usable = (value as any).usableTools;
-        }
-        if (Array.isArray((value as any).useTools)) {
-          stores.tools = stores.tools || {};
-          stores.tools.use = (value as any).useTools;
-        }
-        if (Array.isArray((value as any).usedTools)) {
-          stores.tools = stores.tools || {};
-          stores.tools.used = (value as any).usedTools;
-        }
-        // Attach single tool invocation/result events as arrays if applicable
-        if (namespace === 'tools' && key === 'invocation') {
-          stores.toolEvents = stores.toolEvents || {};
-          stores.toolEvents.invocation = [this.sanitizeData(value)];
-        }
-        if (namespace === 'tools' && key === 'result') {
-          stores.toolEvents = stores.toolEvents || {};
-          stores.toolEvents.result = [this.sanitizeData(value)];
-        }
-        // Attach generation output snapshots keyed by failsafe/generation
-        if (namespace === 'llm') {
-          const es = this.extractExecutionState(value);
-          const fs = es.failsafe;
-          const gn = es.generation;
-          if (fs && gn) {
-            stores.generations = stores.generations || {};
-            stores.generations[fs] = stores.generations[fs] || {};
-            (stores.generations[fs] as any)[gn] = { llm: key === 'output' ? { output: this.sanitizeData(value) } : { input: this.sanitizeData(value) } };
+    if (!contentBearing) {
+      try {
+        const stores: any = {};
+        if (value && typeof value === 'object') {
+          if (Array.isArray((value as any).usableTools)) {
+            stores.tools = stores.tools || {};
+            stores.tools.usable = (value as any).usableTools;
+          }
+          if (Array.isArray((value as any).useTools)) {
+            stores.tools = stores.tools || {};
+            stores.tools.use = (value as any).useTools;
+          }
+          if (Array.isArray((value as any).usedTools)) {
+            stores.tools = stores.tools || {};
+            stores.tools.used = (value as any).usedTools;
+          }
+          // Attach single tool invocation/result events as arrays if applicable
+          if (namespace === 'tools' && key === 'invocation') {
+            stores.toolEvents = stores.toolEvents || {};
+            stores.toolEvents.invocation = [this.sanitizeData(value)];
+          }
+          if (namespace === 'tools' && key === 'result') {
+            stores.toolEvents = stores.toolEvents || {};
+            stores.toolEvents.result = [this.sanitizeData(value)];
+          }
+          // Attach generation output snapshots keyed by failsafe/generation
+          if (namespace === 'llm') {
+            const es = this.extractExecutionState(value);
+            const fs = es.failsafe;
+            const gn = es.generation;
+            if (fs && gn) {
+              stores.generations = stores.generations || {};
+              stores.generations[fs] = stores.generations[fs] || {};
+              (stores.generations[fs] as any)[gn] = {
+                llm:
+                  key === 'output'
+                    ? { output: this.sanitizeData(value) }
+                    : { input: this.sanitizeData(value) },
+              };
+            }
           }
         }
-      }
-      if (Object.keys(stores).length > 0) metadata.stores = stores;
-    } catch {}
+        if (Object.keys(stores).length > 0) metadata.stores = stores;
+      } catch {}
+    }
+
+    // Content-bearing stores: emit a source-safe stub only. Never put
+    // inventory.sources / pipeline input / llm bodies on the stream (they stay
+    // in the in-memory Execution store for agents/measurement).
+    const streamData = contentBearing
+      ? {
+          contentWithheld: true,
+          sourceSafetyClass: 'source_safe',
+          stage: key,
+          namespace,
+          contentChars: this.estimateSerializedChars(value),
+          ...this.extractExecutionState(value),
+        }
+      : this.sanitizeData(value);
 
     // Build stream message
     const message = {
@@ -133,8 +250,10 @@ export class ExecutionStreamAdapter {
       key,
       timestamp: new Date().toISOString(),
       executionState: this.extractExecutionState(value),
-      message: this.extractMessage(value),
-      data: this.sanitizeData(value),
+      message: contentBearing
+        ? '[content withheld — source-safe]'
+        : this.extractMessage(value),
+      data: streamData,
       metadata,
     };
 

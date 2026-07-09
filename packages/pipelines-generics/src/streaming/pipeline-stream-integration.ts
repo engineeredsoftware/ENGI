@@ -77,6 +77,76 @@ const SOURCE_CONTENT_BEARING_KEYS_BY_NAMESPACE: Record<string, Set<string>> = {
   context: new Set(['selectedContext', 'full']),
 };
 
+/**
+ * Estimate serialized character weight without building a giant string.
+ * Full-repo deposit inventories can exceed V8 string limits when
+ * JSON.stringify'd (~hundreds of MB of inventory.sources[*].content), which
+ * previously crashed runs with "Invalid string length" during telemetry.
+ */
+export function estimateSerializedChars(
+  value: unknown,
+  budget = 50_000_000,
+): number {
+  let total = 0;
+  const visit = (node: unknown, keyHint = ''): void => {
+    if (total >= budget) return;
+    if (node == null) {
+      total += 4;
+      return;
+    }
+    const t = typeof node;
+    if (t === 'string') {
+      total += (node as string).length + 2;
+      return;
+    }
+    if (t === 'number' || t === 'boolean') {
+      total += String(node).length;
+      return;
+    }
+    if (t === 'bigint') {
+      total += String(node).length + 1;
+      return;
+    }
+    if (Array.isArray(node)) {
+      // inventory.sources — O(n) length sum, not deep string walks of every blob.
+      if (keyHint === 'sources' && node.length > 0 && node[0] && typeof node[0] === 'object') {
+        total += 2;
+        for (const item of node) {
+          if (!item || typeof item !== 'object') continue;
+          const file = item as { path?: unknown; content?: unknown };
+          total +=
+            20 +
+            (typeof file.path === 'string' ? file.path.length : 0) +
+            (typeof file.content === 'string' ? file.content.length : 0);
+          if (total >= budget) return;
+        }
+        return;
+      }
+      total += 2;
+      for (let i = 0; i < node.length; i += 1) {
+        visit(node[i], keyHint);
+        total += 1;
+        if (total >= budget) return;
+      }
+      return;
+    }
+    if (t === 'object') {
+      total += 2;
+      for (const [k, v] of Object.entries(node as Record<string, unknown>)) {
+        total += k.length + 3;
+        visit(v, k);
+        if (total >= budget) return;
+      }
+    }
+  };
+  try {
+    visit(value);
+  } catch {
+    return total > 0 ? total : 0;
+  }
+  return total;
+}
+
 export function sourceSafeStreamEvent(event: any): any {
   if (!event || typeof event !== 'object') return event;
   const namespace = String((event as any).namespace ?? '');
@@ -96,18 +166,22 @@ export function sourceSafeStreamEvent(event: any): any {
     (event as any).data && typeof (event as any).data === 'object'
       ? ((event as any).data as Record<string, any>)
       : {};
-  let contentChars: number | null = null;
-  if (typeof (event as any).data === 'string') {
-    contentChars = (event as any).data.length;
-  } else if (typeof data.content === 'string') {
-    contentChars = data.content.length;
-  } else if (typeof data.prompt === 'string') {
-    contentChars = data.prompt.length;
-  } else if ((event as any).data && typeof (event as any).data === 'object') {
-    try {
-      contentChars = JSON.stringify((event as any).data).length;
-    } catch {
-      contentChars = null;
+  // Prefer an already-computed contentChars from an upstream redaction (onStore
+  // stubs huge inventories so the stream never holds verbatim sources).
+  let contentChars: number | null =
+    typeof data.contentChars === 'number' && Number.isFinite(data.contentChars)
+      ? data.contentChars
+      : null;
+  if (contentChars == null) {
+    if (typeof (event as any).data === 'string') {
+      contentChars = (event as any).data.length;
+    } else if (typeof data.content === 'string') {
+      contentChars = data.content.length;
+    } else if (typeof data.prompt === 'string') {
+      contentChars = data.prompt.length;
+    } else if ((event as any).data && typeof (event as any).data === 'object') {
+      // Walk-only size estimate — never JSON.stringify multi-hundred-MB inventories.
+      contentChars = estimateSerializedChars((event as any).data);
     }
   }
   const state =
