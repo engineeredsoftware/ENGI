@@ -82,6 +82,9 @@
       "@bitcode/pipeline-asset-pack/deposit-option-real-synthesis": [
         "../packages/pipelines/asset-pack/src/deposit-option-real-synthesis.ts"
       ],
+      "@bitcode/pipeline-asset-pack/depository-settled-demand-estimate": [
+        "../packages/pipelines/asset-pack/src/depository-settled-demand-estimate.ts"
+      ],
       "@bitcode/pipeline-asset-pack/runtime-inference-policy": [
         "../packages/pipelines/asset-pack/src/runtime-inference-policy.ts"
       ],

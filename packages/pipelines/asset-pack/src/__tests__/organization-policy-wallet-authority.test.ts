@@ -104,6 +104,39 @@ describe('OrganizationPolicyWalletAuthority', () => {
     expect(statement.disclosure.protectedSourceVisible).toBe(false);
   });
 
+  it('authorizes approve/submit when sub-critical without requiring depositApproved first (no permanent Required denials)', () => {
+    const statement = buildOrganizationPolicyWalletAuthority({
+      route: '/deposits',
+      actorId: 'user-1',
+      organizationId: 'org-1',
+      organizationRole: 'admin',
+      organizationPermissionGrants: [
+        'deposit:synthesize_options',
+        'deposit:approve_option',
+        'deposit:submit',
+      ],
+      walletId: 'wallet-depositor',
+      walletAuthorityPresent: true,
+      sourceCriticalityState: 'sub-critical',
+      sourceCriticalityApproved: true,
+      depositApproved: false,
+      expectedSettlementSats: 5_200,
+      depositLimitSats: 100_000,
+      accountAdmitted: true,
+      interfaceAdmitted: true,
+    });
+
+    expect(statement.depositApproval.state).toBe('sub-critical-approved');
+    expect(statement.aggregate.requiredDeniedActionCount).toBe(0);
+    expect(statement.aggregate.state).toBe('allowed');
+    expect(
+      statement.actionStatements.find((entry) => entry.action === 'approve_deposit_option'),
+    ).toMatchObject({ allowed: true });
+    expect(
+      statement.actionStatements.find((entry) => entry.action === 'submit_deposit'),
+    ).toMatchObject({ allowed: true });
+  });
+
   it('blocks critical source deposit approval without exposing source-bearing payloads', () => {
     const statement = buildOrganizationPolicyWalletAuthority({
       route: '/deposits',

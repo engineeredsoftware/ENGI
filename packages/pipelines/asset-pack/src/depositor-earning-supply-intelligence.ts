@@ -7,12 +7,14 @@ import type { DepositOptionDemandSignal } from './deposit-asset-pack-options';
 export type DepositorDemandOpportunityState =
   | 'strong-demand-opportunity'
   | 'moderate-demand-opportunity'
-  | 'weak-demand-opportunity';
+  | 'weak-demand-opportunity'
+  | 'unestimatable-demand';
 
 export type DepositorEarningRangeState =
   | 'compensation-range-estimated'
   | 'repair-required-before-earning'
-  | 'blocked-critical-source';
+  | 'blocked-critical-source'
+  | 'unestimatable-demand';
 
 export type DepositorSupplyRecommendationAction =
   | 'approve-for-depository-review'
@@ -24,6 +26,15 @@ export interface DepositorEarningSupplyIntelligenceInput {
   policyReport: DepositAssetPackOptionPolicyReport;
   unfitNeedOpportunitySignals?: DepositOptionDemandSignal[] | null;
   createdAt?: string | null;
+  /**
+   * When true (or when no demand signals and no settled estimate), likely demand
+   * and compensation are marked unestimatable rather than inventing placeholders.
+   */
+  demandUnestimatable?: boolean | null;
+  demandUnestimatableRationale?: string | null;
+  /** Settled-corpus demand 0..1 when estimatable; ignored when unestimatable. */
+  settledDemand?: number | null;
+  settledPackCount?: number | null;
 }
 
 export interface DepositorUnfitNeedOpportunity {
@@ -272,30 +283,63 @@ export function buildDepositorEarningSupplyIntelligence(
   input: DepositorEarningSupplyIntelligenceInput,
 ): DepositorEarningSupplyIntelligence {
   const createdAt = normalizedText(input.createdAt) || input.policyReport.createdAt || 'deterministic';
-  const opportunities = normalizedOpportunitySignals(input.unfitNeedOpportunitySignals);
-  const optionDemandAverage = input.policyReport.evaluations.length
-    ? Number(
-        (
-          input.policyReport.evaluations.reduce(
-            (sum, evaluation) => sum + evaluation.demand.weightedDemand,
-            0,
-          ) / input.policyReport.evaluations.length
-        ).toFixed(2),
-      )
-    : 0;
-  const strongestEvaluation = [...input.policyReport.evaluations].sort(
-    (left, right) => right.demand.weightedDemand - left.demand.weightedDemand,
-  )[0];
-  const likelyDemandState = opportunityStateFor(optionDemandAverage);
+  const demandUnestimatable = input.demandUnestimatable === true;
+  const opportunities = demandUnestimatable
+    ? []
+    : normalizedOpportunitySignals(input.unfitNeedOpportunitySignals);
+  const optionDemandAverage = demandUnestimatable
+    ? 0
+    : input.policyReport.evaluations.length
+      ? Number(
+          (
+            input.policyReport.evaluations.reduce(
+              (sum, evaluation) => sum + evaluation.demand.weightedDemand,
+              0,
+            ) / input.policyReport.evaluations.length
+          ).toFixed(2),
+        )
+      : typeof input.settledDemand === 'number' && Number.isFinite(input.settledDemand)
+        ? boundedUnit(input.settledDemand, 0)
+        : 0;
+  const strongestEvaluation = demandUnestimatable
+    ? undefined
+    : [...input.policyReport.evaluations].sort(
+        (left, right) => right.demand.weightedDemand - left.demand.weightedDemand,
+      )[0];
+  const likelyDemandState: DepositorDemandOpportunityState = demandUnestimatable
+    ? 'unestimatable-demand'
+    : opportunityStateFor(optionDemandAverage);
   const opportunitiesAverage = opportunities.length
     ? opportunities.reduce((sum, opportunity) => sum + opportunity.weight, 0) / opportunities.length
     : optionDemandAverage;
-  const unfitNeedState = opportunityStateFor(Number(opportunitiesAverage.toFixed(2)));
+  const unfitNeedState: DepositorDemandOpportunityState = demandUnestimatable
+    ? 'unestimatable-demand'
+    : opportunityStateFor(Number(opportunitiesAverage.toFixed(2)));
 
   const earningStatements = input.policyReport.evaluations.map((evaluation) => {
-    const expectedCompensationRangeSats = compensationRangeFor(evaluation);
-    const expectedNetRangeSats = netRangeFor(expectedCompensationRangeSats, evaluation);
-    const state = statementStateFor(evaluation);
+    // Critical-source blocking outranks unestimatable demand so depositor
+    // guidance still names the stronger policy gate first.
+    const criticalBlocked =
+      evaluation.sourceCriticality.state === 'blocked-critical-source';
+    const expectedCompensationRangeSats =
+      demandUnestimatable || criticalBlocked
+        ? {
+            low: 0,
+            expected: 0,
+            high: 0,
+            priceAsset: 'BTC' as const,
+            rangeBasis: 'estimated-future-reader-settlement-share' as const,
+          }
+        : compensationRangeFor(evaluation);
+    const expectedNetRangeSats =
+      demandUnestimatable || criticalBlocked
+        ? { low: 0, expected: 0, high: 0 }
+        : netRangeFor(expectedCompensationRangeSats, evaluation);
+    const state: DepositorEarningRangeState = criticalBlocked
+      ? 'blocked-critical-source'
+      : demandUnestimatable
+        ? 'unestimatable-demand'
+        : statementStateFor(evaluation);
     const blockers = [...new Set(evaluation.compensation.blockers)].sort();
     const warnings = [...new Set(evaluation.compensation.warnings)].sort();
     const statementSeed = {

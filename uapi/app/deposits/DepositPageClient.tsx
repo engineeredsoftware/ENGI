@@ -168,6 +168,28 @@ export default function DepositPageClient() {
   // hints and exclusions are mutually exclusive path sets.
   const [forcedInclusions, setForcedInclusions] = useState<string[]>([]);
   const [forcedExclusions, setForcedExclusions] = useState<string[]>([]);
+  // Settled Depository AssetPack demand (search-grounded). Defaults unestimatable
+  // until the demand-estimate route returns — never invent placeholder demand.
+  const [settledDemandEstimate, setSettledDemandEstimate] = useState<{
+    estimatable: boolean;
+    demand: number | null;
+    saturation: number | null;
+    needinessVolume: number | null;
+    settledPackCount: number;
+    matchedPackCount: number;
+    rationale: string;
+  } | null>(null);
+  const [settledDemandSignals, setSettledDemandSignals] = useState<{
+    depositoryDemandSignals: Array<{ id: string; label: string; weight: number }>;
+    readingDemandSignals: Array<{ id: string; label: string; weight: number }>;
+    existingDepositorySignals: Array<{ id: string; label: string; weight: number }>;
+    unfitNeedOpportunitySignals: Array<{ id: string; label: string; weight: number }>;
+  }>({
+    depositoryDemandSignals: [],
+    readingDemandSignals: [],
+    existingDepositorySignals: [],
+    unfitNeedOpportunitySignals: [],
+  });
   const [optionsRequested, setOptionsRequested] = useState(false);
   const [synthesisRunId, setSynthesisRunId] = useState<string | null>(null);
   // Master-detail: pipelines table is master; compose (new deposit) or a
@@ -582,50 +604,48 @@ export default function DepositPageClient() {
       sourceCommit: repositoryContext?.selectedCommit || null,
       obfuscations,
       forcedInclusions,
-      depositoryDemandSignals: [
-        {
-          id: "depository-gap-source-safe-pack-options",
-          label:
-            "Depository benefits from reviewable source-safe AssetPack supply options.",
-          weight: 0.72,
-        },
-      ],
-      readingDemandSignals: [
-        {
-          id: "reading-demand-fit-ready-source-supply",
-          label:
-            "Reading demand needs searchable, proof-bearing source supply for Finding Fits.",
-          weight: 0.8,
-        },
-      ],
-      existingDepositorySignals: [
-        {
-          id: "existing-supply-compensation-route",
-          label:
-            "Existing supply expects proof roots, vector projections, and compensation previews.",
-          weight: 0.58,
-        },
-      ],
-      unfitNeedOpportunitySignals: [
-        {
-          id: "unfit-need-route-proof-supply",
-          label:
-            "Unfit Reads need more source-safe route proof and delivery supply.",
-          weight: 0.82,
-        },
-        {
-          id: "unfit-need-depository-search-supply",
-          label:
-            "Finding Fits benefits from more indexed Depository implementation patterns.",
-          weight: 0.74,
-        },
-      ],
+      // Demand signals only from settled-Depository search (never hardcoded).
+      depositoryDemandSignals: settledDemandSignals.depositoryDemandSignals,
+      readingDemandSignals: settledDemandSignals.readingDemandSignals,
+      existingDepositorySignals: settledDemandSignals.existingDepositorySignals,
+      unfitNeedOpportunitySignals:
+        settledDemandSignals.unfitNeedOpportunitySignals,
+      settledDemandEstimate: settledDemandEstimate
+        ? {
+            estimatable: settledDemandEstimate.estimatable,
+            demand: settledDemandEstimate.demand,
+            saturation: settledDemandEstimate.saturation,
+            settledPackCount: settledDemandEstimate.settledPackCount,
+            matchedPackCount: settledDemandEstimate.matchedPackCount,
+            rationale: settledDemandEstimate.rationale,
+          }
+        : {
+            estimatable: false,
+            demand: null,
+            settledPackCount: 0,
+            rationale:
+              "Unestimatable: settled Depository demand has not been measured yet.",
+          },
       sourceCriticalitySignals,
       developmentCostSats: Math.max(1600, 1200 + forcedInclusions.length * 240),
-      expectedSettlementSats: Math.max(
-        4200,
-        3600 + forcedInclusions.length * 360 + liveRuns.length * 90,
-      ),
+      // Provisional settlement for ROI/policy ranking. Earnings display still
+      // shows Unestimatable when settled demand is not estimatable.
+      expectedSettlementSats:
+        settledDemandEstimate?.estimatable &&
+        typeof settledDemandEstimate.demand === "number"
+          ? Math.max(
+              1200,
+              Math.round(
+                1800 +
+                  settledDemandEstimate.demand * 4200 +
+                  forcedInclusions.length * 240 +
+                  liveRuns.length * 40,
+              ),
+            )
+          : Math.max(
+              2000,
+              1200 + forcedInclusions.length * 240 + liveRuns.length * 40,
+            ),
       depositorWalletId: preferredSignerAddress
         ? "connected-depositor-wallet"
         : null,
@@ -673,11 +693,81 @@ export default function DepositPageClient() {
       routeDepositStage,
       selectedRun?.id,
       selectedTransactionId,
+      settledDemandEstimate,
+      settledDemandSignals,
       sourceCriticalitySignals,
       forcedInclusions,
       user?.id,
     ],
   );
+
+  // Load demand from settled Depository AssetPacks (search-grounded).
+  useEffect(() => {
+    let cancelled = false;
+    const fullName = repositoryContext?.selectedRepository?.fullName || "";
+    const params = new URLSearchParams();
+    if (fullName) params.set("repositoryFullName", fullName);
+    void (async () => {
+      try {
+        const res = await fetch(
+          `/api/deposit/demand-estimate?${params.toString()}`,
+        );
+        const data = await res.json().catch(() => null);
+        if (cancelled) return;
+        if (!res.ok || !data?.ok || !data?.estimate) {
+          setSettledDemandEstimate({
+            estimatable: false,
+            demand: null,
+            saturation: null,
+            needinessVolume: null,
+            settledPackCount: 0,
+            matchedPackCount: 0,
+            rationale:
+              typeof data?.error === "string"
+                ? data.error
+                : "Unestimatable: could not load settled Depository demand.",
+          });
+          setSettledDemandSignals({
+            depositoryDemandSignals: [],
+            readingDemandSignals: [],
+            existingDepositorySignals: [],
+            unfitNeedOpportunitySignals: [],
+          });
+          return;
+        }
+        setSettledDemandEstimate(data.estimate);
+        setSettledDemandSignals(
+          data.signals || {
+            depositoryDemandSignals: [],
+            readingDemandSignals: [],
+            existingDepositorySignals: [],
+            unfitNeedOpportunitySignals: [],
+          },
+        );
+      } catch {
+        if (cancelled) return;
+        setSettledDemandEstimate({
+          estimatable: false,
+          demand: null,
+          saturation: null,
+          needinessVolume: null,
+          settledPackCount: 0,
+          matchedPackCount: 0,
+          rationale:
+            "Unestimatable: settled Depository demand request failed.",
+        });
+        setSettledDemandSignals({
+          depositoryDemandSignals: [],
+          readingDemandSignals: [],
+          existingDepositorySignals: [],
+          unfitNeedOpportunitySignals: [],
+        });
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [repositoryContext?.selectedRepository?.fullName]);
   const depositRouteSession = useMemo(
     () =>
       buildDepositRouteSession({
@@ -2552,7 +2642,14 @@ export default function DepositPageClient() {
                                   Demand
                                 </dt>
                                 <dd className="mt-1 text-sm text-neutral-200">
-                                  {policyEvaluation.demand.state}
+                                  {policyEvaluation.demand.state ===
+                                  "unestimatable-demand" ? (
+                                    <span className="text-amber-100/95">
+                                      Unestimatable
+                                    </span>
+                                  ) : (
+                                    policyEvaluation.demand.state
+                                  )}
                                 </dd>
                               </div>
                             </div>
@@ -2619,15 +2716,30 @@ export default function DepositPageClient() {
                                   Earning estimate
                                 </dt>
                                 <dd className="mt-1 text-sm text-neutral-200">
-                                  {
-                                    earningStatement
-                                      .expectedCompensationRangeSats.low
-                                  }
-                                  -{
-                                    earningStatement
-                                      .expectedCompensationRangeSats.high
-                                  }{" "}
-                                  sats / {earningStatement.state}
+                                  {earningStatement.state ===
+                                  "unestimatable-demand" ? (
+                                    <span className="text-amber-100/95">
+                                      Unestimatable
+                                      {settledDemandEstimate?.rationale ? (
+                                        <span className="mt-1 block text-[0.7rem] leading-5 text-neutral-400">
+                                          {settledDemandEstimate.rationale}
+                                        </span>
+                                      ) : null}
+                                    </span>
+                                  ) : (
+                                    <>
+                                      {
+                                        earningStatement
+                                          .expectedCompensationRangeSats.low
+                                      }
+                                      -
+                                      {
+                                        earningStatement
+                                          .expectedCompensationRangeSats.high
+                                      }{" "}
+                                      sats / {earningStatement.state}
+                                    </>
+                                  )}
                                 </dd>
                               </div>
                             ) : null}
@@ -2643,26 +2755,97 @@ export default function DepositPageClient() {
                             ) : null}
                           </>
                         ) : null}
-                        {option.neediness ? (
-                          <div className="min-w-0 border border-amber-300/25 bg-amber-300/[0.06] px-3 py-2">
-                            <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-amber-200/85">
-                              Neediness · est. read demand
-                            </dt>
-                            <dd className="mt-1 text-sm text-neutral-100">
-                              {(option.neediness.volume * 100).toFixed(0)}%
-                              <span className="text-neutral-500">
-                                {" "}
-                                · demand {(option.neediness.demand * 100).toFixed(0)}% · saturation{" "}
-                                {(option.neediness.saturation * 100).toFixed(0)}%
-                              </span>
-                            </dd>
-                            {option.neediness.rationale ? (
-                              <dd className="mt-1 break-words text-[0.7rem] leading-5 text-neutral-400">
-                                {option.neediness.rationale}
+                        {(() => {
+                          // Prefer settled-Depository grounding over LLM-invented neediness.
+                          const rationale =
+                            option.neediness?.rationale ||
+                            settledDemandEstimate?.rationale ||
+                            "";
+                          const unestimatable =
+                            settledDemandEstimate?.estimatable === false ||
+                            policyEvaluation?.demand.state ===
+                              "unestimatable-demand" ||
+                            rationale.startsWith("Unestimatable");
+                          if (unestimatable) {
+                            return (
+                              <div className="min-w-0 border border-amber-300/25 bg-amber-300/[0.06] px-3 py-2">
+                                <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-amber-200/85">
+                                  Neediness · est. read demand
+                                </dt>
+                                <dd className="mt-1 text-sm text-amber-100/95">
+                                  Unestimatable
+                                </dd>
+                                {rationale ? (
+                                  <dd className="mt-1 break-words text-[0.7rem] leading-5 text-neutral-400">
+                                    {rationale}
+                                  </dd>
+                                ) : (
+                                  <dd className="mt-1 break-words text-[0.7rem] leading-5 text-neutral-400">
+                                    Unestimatable: settled Depository AssetPack
+                                    demand has not been measured for this option.
+                                  </dd>
+                                )}
+                              </div>
+                            );
+                          }
+                          // Settled-grounded display: prefer option neediness when
+                          // already grounded; else fall back to corpus estimate.
+                          const demand =
+                            option.neediness?.demand ??
+                            settledDemandEstimate?.demand ??
+                            null;
+                          const saturation =
+                            option.neediness?.saturation ??
+                            settledDemandEstimate?.saturation ??
+                            null;
+                          const volume =
+                            option.neediness?.volume ??
+                            settledDemandEstimate?.needinessVolume ??
+                            (typeof demand === "number" &&
+                            typeof saturation === "number"
+                              ? demand * (0.5 + 0.5 * (1 - saturation))
+                              : null);
+                          if (
+                            typeof volume !== "number" ||
+                            typeof demand !== "number" ||
+                            typeof saturation !== "number"
+                          ) {
+                            return (
+                              <div className="min-w-0 border border-amber-300/25 bg-amber-300/[0.06] px-3 py-2">
+                                <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-amber-200/85">
+                                  Neediness · est. read demand
+                                </dt>
+                                <dd className="mt-1 text-sm text-amber-100/95">
+                                  Unestimatable
+                                </dd>
+                                <dd className="mt-1 break-words text-[0.7rem] leading-5 text-neutral-400">
+                                  Unestimatable: no settled Depository neediness
+                                  signal for this AssetPack option.
+                                </dd>
+                              </div>
+                            );
+                          }
+                          return (
+                            <div className="min-w-0 border border-amber-300/25 bg-amber-300/[0.06] px-3 py-2">
+                              <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-amber-200/85">
+                                Neediness · est. read demand
+                              </dt>
+                              <dd className="mt-1 text-sm text-neutral-100">
+                                {(volume * 100).toFixed(0)}%
+                                <span className="text-neutral-500">
+                                  {" "}
+                                  · demand {(demand * 100).toFixed(0)}% ·
+                                  saturation {(saturation * 100).toFixed(0)}%
+                                </span>
                               </dd>
-                            ) : null}
-                          </div>
-                        ) : null}
+                              {rationale || settledDemandEstimate?.rationale ? (
+                                <dd className="mt-1 break-words text-[0.7rem] leading-5 text-neutral-400">
+                                  {rationale || settledDemandEstimate?.rationale}
+                                </dd>
+                              ) : null}
+                            </div>
+                          );
+                        })()}
                         {option.measurements.map((measurement) => (
                           <div
                             key={measurement.id}
@@ -2930,12 +3113,42 @@ export default function DepositPageClient() {
                     Likely demand
                   </dt>
                   <dd className="mt-1 text-sm text-emerald-100">
-                    {depositRouteSession.earningSupplyIntelligence.likelyDemand.state} /{" "}
-                    {Math.round(
-                      depositRouteSession.earningSupplyIntelligence.likelyDemand
-                        .averageConfidence * 100,
+                    {depositRouteSession.earningSupplyIntelligence.likelyDemand
+                      .state === "unestimatable-demand" ? (
+                      <span className="text-amber-100/95">
+                        Unestimatable
+                        {settledDemandEstimate?.rationale ? (
+                          <span className="mt-1 block text-[0.7rem] leading-5 text-neutral-400">
+                            {settledDemandEstimate.rationale}
+                          </span>
+                        ) : null}
+                      </span>
+                    ) : (
+                      <>
+                        {
+                          depositRouteSession.earningSupplyIntelligence
+                            .likelyDemand.state
+                        }{" "}
+                        /{" "}
+                        {Math.round(
+                          depositRouteSession.earningSupplyIntelligence
+                            .likelyDemand.averageConfidence * 100,
+                        )}
+                        %
+                        {settledDemandEstimate?.estimatable ? (
+                          <span className="mt-1 block text-[0.7rem] leading-5 text-neutral-400">
+                            From {settledDemandEstimate.settledPackCount} settled
+                            Depository AssetPack
+                            {settledDemandEstimate.settledPackCount === 1
+                              ? ""
+                              : "s"}
+                            {settledDemandEstimate.matchedPackCount
+                              ? ` · ${settledDemandEstimate.matchedPackCount} topic match${settledDemandEstimate.matchedPackCount === 1 ? "" : "es"}`
+                              : ""}
+                          </span>
+                        ) : null}
+                      </>
                     )}
-                    %
                   </dd>
                 </TelemetryExplainerTrigger>
                 <TelemetryExplainerTrigger
@@ -2957,15 +3170,29 @@ export default function DepositPageClient() {
                     Unfit Need opportunities
                   </dt>
                   <dd className="mt-1 text-sm text-neutral-200">
-                    {
-                      depositRouteSession.earningSupplyIntelligence
-                        .unfitNeedOpportunities.opportunityCount
-                    }{" "}
-                    /{" "}
-                    {
-                      depositRouteSession.earningSupplyIntelligence
-                        .unfitNeedOpportunities.state
-                    }
+                    {depositRouteSession.earningSupplyIntelligence
+                      .unfitNeedOpportunities.state === "unestimatable-demand" ? (
+                      <span className="text-amber-100/95">
+                        Unestimatable
+                        {settledDemandEstimate?.rationale ? (
+                          <span className="mt-1 block text-[0.7rem] leading-5 text-neutral-400">
+                            {settledDemandEstimate.rationale}
+                          </span>
+                        ) : null}
+                      </span>
+                    ) : (
+                      <>
+                        {
+                          depositRouteSession.earningSupplyIntelligence
+                            .unfitNeedOpportunities.opportunityCount
+                        }{" "}
+                        /{" "}
+                        {
+                          depositRouteSession.earningSupplyIntelligence
+                            .unfitNeedOpportunities.state
+                        }
+                      </>
+                    )}
                   </dd>
                 </TelemetryExplainerTrigger>
                 <TelemetryExplainerTrigger
@@ -2987,14 +3214,31 @@ export default function DepositPageClient() {
                     Expected compensation
                   </dt>
                   <dd className="mt-1 text-sm text-neutral-200">
-                    {formatSats(
-                      depositRouteSession.earningSupplyIntelligence.aggregate
-                        .expectedCompensationRangeSats.low,
-                    )}{" "}
-                    -{" "}
-                    {formatSats(
-                      depositRouteSession.earningSupplyIntelligence.aggregate
-                        .expectedCompensationRangeSats.high,
+                    {depositRouteSession.earningSupplyIntelligence.earningStatements.some(
+                      (statement) => statement.state === "unestimatable-demand",
+                    ) ||
+                    depositRouteSession.earningSupplyIntelligence.likelyDemand
+                      .state === "unestimatable-demand" ? (
+                      <span className="text-amber-100/95">
+                        Unestimatable
+                        {settledDemandEstimate?.rationale ? (
+                          <span className="mt-1 block text-[0.7rem] leading-5 text-neutral-400">
+                            {settledDemandEstimate.rationale}
+                          </span>
+                        ) : null}
+                      </span>
+                    ) : (
+                      <>
+                        {formatSats(
+                          depositRouteSession.earningSupplyIntelligence.aggregate
+                            .expectedCompensationRangeSats.low,
+                        )}{" "}
+                        -{" "}
+                        {formatSats(
+                          depositRouteSession.earningSupplyIntelligence.aggregate
+                            .expectedCompensationRangeSats.high,
+                        )}
+                      </>
                     )}
                   </dd>
                 </TelemetryExplainerTrigger>

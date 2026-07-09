@@ -5,6 +5,17 @@ import {
   writeDepositRouteStage,
 } from '@/app/deposits/deposit-route-model';
 
+/** Fixture: settled-Depository demand is estimatable (no invented placeholders). */
+const SETTLED_DEMAND_ESTIMATABLE = {
+  estimatable: true as const,
+  demand: 0.78,
+  saturation: 0.32,
+  settledPackCount: 10,
+  matchedPackCount: 3,
+  rationale:
+    'Estimated from 3 of 10 settled Depository AssetPacks with topic affinity (test fixture).',
+};
+
 describe('deposit-route-model', () => {
   it('builds a source-safe five-step DepositRouteSession with option synthesis ownership', () => {
     const session = buildDepositRouteSession({
@@ -23,6 +34,15 @@ describe('deposit-route-model', () => {
           weight: 0.75,
         },
       ],
+      settledDemandEstimate: SETTLED_DEMAND_ESTIMATABLE,
+      depositoryDemandSignals: [
+        {
+          id: 'settled-depository-topic-demand',
+          label: 'Settled Depository topic demand fixture.',
+          weight: 0.78,
+        },
+      ],
+      expectedSettlementSats: 5200,
       depositorWalletId: 'wallet-depositor-1',
       optionsRequested: true,
       optionReviewDecisions: [
@@ -116,6 +136,7 @@ describe('deposit-route-model', () => {
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       forcedInclusions: ['packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts'],
       sourceCriticalitySignals: [{ id: 'critical', severity: 'critical', weight: 1 }],
+      settledDemandEstimate: SETTLED_DEMAND_ESTIMATABLE,
       developmentCostSats: 9000,
       expectedSettlementSats: 1000,
       optionsRequested: true,
@@ -141,6 +162,30 @@ describe('deposit-route-model', () => {
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       forcedInclusions: ['uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.9 }],
+      // Demand must be grounded in settled Depository search — provide an estimatable corpus signal.
+      settledDemandEstimate: {
+        estimatable: true,
+        demand: 0.82,
+        saturation: 0.28,
+        settledPackCount: 12,
+        matchedPackCount: 4,
+        rationale:
+          'Estimated from 4 of 12 settled Depository AssetPacks with topic affinity (test fixture).',
+      },
+      depositoryDemandSignals: [
+        {
+          id: 'settled-depository-topic-demand',
+          label: 'Settled Depository topic demand fixture.',
+          weight: 0.82,
+        },
+      ],
+      readingDemandSignals: [
+        {
+          id: 'settled-reading-demand-from-depository',
+          label: 'Settled reading demand fixture.',
+          weight: 0.82,
+        },
+      ],
       unfitNeedOpportunitySignals: [
         {
           id: 'unfit-need-route-proof',
@@ -170,6 +215,49 @@ describe('deposit-route-model', () => {
     expect(assertDepositRouteSessionSourceSafe(session).admitted).toBe(true);
   });
 
+  it('marks earnings unestimatable when settled Depository demand is unavailable', () => {
+    const session = buildDepositRouteSession({
+      repositoryFullName: 'engineeredsoftware/ENGI',
+      sourceBranch: 'main',
+      sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      forcedInclusions: ['uapi/app/deposits/DepositPageClient.tsx'],
+      sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.9 }],
+      settledDemandEstimate: {
+        estimatable: false,
+        demand: null,
+        settledPackCount: 0,
+        rationale:
+          'Unestimatable: the Depository has no settled AssetPacks to search for comparable demand.',
+      },
+      // Invented client signals must not resurrect numeric demand.
+      depositoryDemandSignals: [
+        { id: 'fake', label: 'Should be ignored when unestimatable.', weight: 0.99 },
+      ],
+      unfitNeedOpportunitySignals: [
+        { id: 'fake-unfit', label: 'Should be ignored when unestimatable.', weight: 0.99 },
+      ],
+      depositorWalletId: 'wallet-depositor-1',
+      developmentCostSats: 1500,
+      expectedSettlementSats: 6200,
+      optionsRequested: true,
+    });
+
+    expect(session.earningSupplyIntelligence.likelyDemand.state).toBe('unestimatable-demand');
+    expect(session.earningSupplyIntelligence.unfitNeedOpportunities.state).toBe(
+      'unestimatable-demand',
+    );
+    expect(session.earningSupplyIntelligence.unfitNeedOpportunities.opportunityCount).toBe(0);
+    expect(session.earningSupplyIntelligence.aggregate.totalExpectedCompensationSats).toBe(0);
+    expect(
+      session.policy.evaluations.every(
+        (evaluation) => evaluation.demand.state === 'unestimatable-demand',
+      ),
+    ).toBe(true);
+    // Full-stack completeness: unestimatable demand must NOT zero positive-ROI
+    // option policy — operators can still review/approve measured options.
+    expect(session.policy.reviewablePositiveRoiCount).toBeGreaterThan(0);
+  });
+
   it('admits approved policy-eligible deposit options into source-safe Depository projections', () => {
     const initial = buildDepositRouteSession({
       repositoryFullName: 'engineeredsoftware/ENGI',
@@ -177,6 +265,8 @@ describe('deposit-route-model', () => {
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       forcedInclusions: ['uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.85 }],
+      settledDemandEstimate: SETTLED_DEMAND_ESTIMATABLE,
+      expectedSettlementSats: 5200,
       depositorWalletId: 'wallet-depositor-1',
       optionsRequested: true,
     });
@@ -186,6 +276,8 @@ describe('deposit-route-model', () => {
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       forcedInclusions: ['uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.85 }],
+      settledDemandEstimate: SETTLED_DEMAND_ESTIMATABLE,
+      expectedSettlementSats: 5200,
       depositorWalletId: 'wallet-depositor-1',
       actorId: 'user-1',
       organizationId: 'org-1',

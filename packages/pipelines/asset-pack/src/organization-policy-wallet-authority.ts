@@ -316,10 +316,11 @@ function depositPolicy(input: OrganizationPolicyWalletAuthorityInput) {
     } else if (expectedSettlementSats > depositLimitSats) {
       state = 'limit-exceeded';
       blockers.push('expected settlement exceeds organization deposit limit');
-    } else if (!depositApproved) {
-      state = 'deposit-approval-required';
-      blockers.push('deposit approval required');
     } else {
+      // Sub-critical (or criticality-approved) and under limit: the operator is
+      // authorized to approve/submit. `depositApproved` is product history
+      // ("already submitted"), not a readiness gate — requiring it here forced
+      // permanent Required denials=2 (approve + submit) before any review.
       state = 'sub-critical-approved';
     }
   }

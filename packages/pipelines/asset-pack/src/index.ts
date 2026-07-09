@@ -433,7 +433,9 @@ function isAssetPackSetupRuntimeEnabledInTest(): boolean {
 function factorySynthesizeAssetPacksPipeline(
   pipelineName: string = 'synthesize-asset-packs',
 ): Executor<any, any> {
-  const maxIterations = 3;
+  // Gate 3 MVP: single DIV pass (Setup → D → I → V → Finish). Iteration loops
+  // are deferred — max 1 keeps deposit wall-time bounded and telemetric.
+  const maxIterations = 1;
   const setupPhase: Executor<any, any> = async (input, execution) => {
     const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
     if (isTest && !isAssetPackSetupRuntimeEnabledInTest()) {
@@ -565,6 +567,7 @@ export * from './deposit-asset-pack-options';
 export * from './deposit-asset-pack-option-policy';
 export * from './deposit-asset-pack-option-admission';
 export * from './depositor-earning-supply-intelligence';
+export * from './depository-settled-demand-estimate';
 export * from './btd-btc-compensation-statements';
 export * from './asset-pack-commodity-state';
 export * from './btd-scalar-volume-quote';

@@ -18,6 +18,7 @@ import {
 } from '@bitcode/pipeline-asset-pack/asset-packs-synthesis';
 import { synthesizeAssetPacksPipeline } from '@bitcode/pipeline-asset-pack';
 import { buildRealDepositAssetPackOptionSynthesis } from '@bitcode/pipeline-asset-pack/deposit-option-real-synthesis';
+import { groundOptionNeedinessFromSettledDepository } from '@bitcode/pipeline-asset-pack/depository-settled-demand-estimate';
 import { isAssetPackRealInferenceEnabled } from '@bitcode/pipeline-asset-pack/runtime-inference-policy';
 import {
   provisionDepositSourceInventory,
@@ -25,6 +26,7 @@ import {
   runDepositInBoxHarness,
   selectDepositHostKind,
 } from '@/lib/deposit-source-provisioning';
+import { loadSettledDepositoryPacks } from '@/lib/depository-settled-demand';
 import {
   assertExecutionNotCancelled,
   ExecutionCancelledError,
@@ -500,22 +502,35 @@ export async function POST(request: Request) {
       );
     }
 
-    const { synthesis, reviewProjections } = buildRealDepositAssetPackOptionSynthesis(
-      {
-        repositoryFullName,
-        sourceBranch,
-        sourceCommit,
-        obfuscations,
-        forcedInclusions,
-        forcedExclusions,
-        depositoryDemandSignals: readSignals(body.depositoryDemandSignals),
-        readingDemandSignals: readSignals(body.readingDemandSignals),
-        existingDepositorySignals: readSignals(body.existingDepositorySignals),
-        createdAt: new Date().toISOString(),
-      },
-      result,
-      inventory,
+    const { synthesis: rawSynthesis, reviewProjections } =
+      buildRealDepositAssetPackOptionSynthesis(
+        {
+          repositoryFullName,
+          sourceBranch,
+          sourceCommit,
+          obfuscations,
+          forcedInclusions,
+          forcedExclusions,
+          depositoryDemandSignals: readSignals(body.depositoryDemandSignals),
+          readingDemandSignals: readSignals(body.readingDemandSignals),
+          existingDepositorySignals: readSignals(body.existingDepositorySignals),
+          createdAt: new Date().toISOString(),
+        },
+        result,
+        inventory,
+      );
+
+    // Ground option neediness from settled Depository AssetPacks (not LLM invention).
+    // Fail-soft: empty corpus → neediness rationale is "Unestimatable: …".
+    const settledPacks = await loadSettledDepositoryPacks(80);
+    const groundedOptions = groundOptionNeedinessFromSettledDepository(
+      rawSynthesis.options,
+      settledPacks,
     );
+    const synthesis = {
+      ...rawSynthesis,
+      options: groundedOptions,
+    };
 
     const durationMs = Date.now() - startedAt;
     await emitStatus(

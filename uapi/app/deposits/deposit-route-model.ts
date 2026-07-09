@@ -50,6 +50,15 @@ export interface DepositRouteSessionInput extends DepositOptionSynthesisRequest 
   precomputedOptionSynthesis?: DepositAssetPackOptionSynthesis | null;
   sourceCriticalitySignals?: DepositOptionCriticalitySignal[] | null;
   unfitNeedOpportunitySignals?: DepositOptionDemandSignal[] | null;
+  /** Settled Depository AssetPack demand estimate (search-grounded). */
+  settledDemandEstimate?: {
+    estimatable: boolean;
+    demand: number | null;
+    saturation?: number | null;
+    settledPackCount?: number | null;
+    matchedPackCount?: number | null;
+    rationale?: string | null;
+  } | null;
   developmentCostSats?: number | null;
   expectedSettlementSats?: number | null;
   depositorWalletId?: string | null;
@@ -258,13 +267,26 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
           existingDepositorySignals: input.existingDepositorySignals,
           createdAt: input.createdAt,
         });
+  const settledDemand = input.settledDemandEstimate
+    ? {
+        estimatable: input.settledDemandEstimate.estimatable === true,
+        demand:
+          typeof input.settledDemandEstimate.demand === 'number'
+            ? input.settledDemandEstimate.demand
+            : null,
+      }
+    : // No settled-corpus estimate provided → fail closed (do not invent demand).
+      { estimatable: false, demand: null };
   const policy = buildDepositAssetPackOptionPolicyReport({
     synthesis,
     sourceCriticalitySignals: input.sourceCriticalitySignals,
     developmentCostSats: input.developmentCostSats,
+    // Provisional settlement for ROI ranking even when demand is unestimatable;
+    // earnings intelligence still zeros compensation ranges when unestimatable.
     expectedSettlementSats: input.expectedSettlementSats,
     depositorWalletId: input.depositorWalletId,
     createdAt: input.createdAt,
+    settledDemand,
   });
   const admission = buildDepositAssetPackOptionAdmissionReport({
     synthesis,
@@ -276,8 +298,15 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
   });
   const earningSupplyIntelligence = buildDepositorEarningSupplyIntelligence({
     policyReport: policy,
-    unfitNeedOpportunitySignals: input.unfitNeedOpportunitySignals,
+    unfitNeedOpportunitySignals:
+      settledDemand.estimatable === false ? [] : input.unfitNeedOpportunitySignals,
     createdAt: input.createdAt,
+    demandUnestimatable: settledDemand.estimatable === false,
+    demandUnestimatableRationale:
+      input.settledDemandEstimate?.rationale ||
+      'Unestimatable: settled Depository AssetPack demand has not been measured.',
+    settledDemand: settledDemand.demand,
+    settledPackCount: input.settledDemandEstimate?.settledPackCount ?? null,
   });
   const sourceCriticalityState =
     policy.blockedCount > 0

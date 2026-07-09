@@ -106,4 +106,30 @@ describe('Depositor earning supply intelligence', () => {
     expect(assertDepositorEarningSupplyIntelligenceSourceSafe(intelligence).admitted).toBe(true);
     expect(JSON.stringify(intelligence)).not.toContain('PRIVATE_SOURCE_DO_NOT_SERIALIZE');
   });
+
+  it('marks likely demand and compensation unestimatable without inventing placeholders', () => {
+    const intelligence = buildDepositorEarningSupplyIntelligence({
+      policyReport: reviewablePolicyReport(),
+      demandUnestimatable: true,
+      demandUnestimatableRationale:
+        'Unestimatable: the Depository has no settled AssetPacks to search for comparable demand.',
+      unfitNeedOpportunitySignals: [
+        {
+          id: 'should-be-ignored',
+          label: 'Must not surface when demand is unestimatable.',
+          weight: 0.99,
+        },
+      ],
+    });
+
+    expect(intelligence.likelyDemand.state).toBe('unestimatable-demand');
+    expect(intelligence.likelyDemand.averageConfidence).toBe(0);
+    expect(intelligence.unfitNeedOpportunities.state).toBe('unestimatable-demand');
+    expect(intelligence.unfitNeedOpportunities.opportunityCount).toBe(0);
+    expect(
+      intelligence.earningStatements.every((statement) => statement.state === 'unestimatable-demand'),
+    ).toBe(true);
+    expect(intelligence.aggregate.totalExpectedCompensationSats).toBe(0);
+    expect(intelligence.aggregate.eligibleEarningStatementCount).toBe(0);
+  });
 });
