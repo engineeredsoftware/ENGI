@@ -40,6 +40,8 @@ export type ProductEvent =
       name: "deposit_synthesis_dispatched";
       data: {
         hasObfuscations: boolean;
+        /** Forced Inclusion path count (scope shape only). */
+        sourcePathHintCount: number;
         protectedExclusionCount: number;
         demandSignalCount: number;
       };

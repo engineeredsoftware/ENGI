@@ -26,6 +26,7 @@ describe("trackProductEvent", () => {
       name: "deposit_synthesis_dispatched",
       data: {
         hasObfuscations: true,
+        sourcePathHintCount: 1,
         protectedExclusionCount: 2,
         demandSignalCount: 3,
       },
@@ -33,12 +34,14 @@ describe("trackProductEvent", () => {
 
     expect(mockTrack).toHaveBeenCalledWith("deposit_synthesis_dispatched", {
       hasObfuscations: true,
+      sourcePathHintCount: 1,
       protectedExclusionCount: 2,
       demandSignalCount: 3,
     });
     expect(mockTrackEvent).toHaveBeenCalledWith("deposit_synthesis_dispatched", {
       event_category: "product",
       hasObfuscations: true,
+      sourcePathHintCount: 1,
       protectedExclusionCount: 2,
       demandSignalCount: 3,
     });
