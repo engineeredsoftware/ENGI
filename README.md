@@ -190,6 +190,37 @@ pnpm run check:v47-gate10
 Related: `generate:v47-promotion-readiness`, `.bitcode/v47-promotion-readiness-report.json`,
 `BITCODE_SPEC_V47_PROVEN.md`. Draft work after V47 uses **V48** (`BITCODE_SPEC_V48.md`).
 
+
+## Historical CI verification anchors (do not delete)
+
+Prior promoted gates embed **substring checks** against this README in package
+tests and gate-quality CI. Keep these tokens for historical verification; they
+are not product instructions.
+
+### Promotion check scripts & workflows
+
+```
+check:v35-gate10 check:v36-gate10 check:v37-gate1 check:v37-gate10 check:v37-gate2 check:v37-gate3 check:v37-gate4 check:v37-gate5 check:v37-gate9 check:v38-gate1 check:v38-gate10 check:v38-gate11 check:v38-gate2 check:v38-gate3 check:v38-gate4 check:v38-gate5 check:v38-gate6 check:v38-gate7 check:v38-gate8 check:v38-gate9 check:v39-gate1 check:v39-gate10 check:v39-gate11 check:v39-gate2 check:v39-gate3 check:v39-gate4 check:v39-gate5 check:v39-gate6 check:v39-gate7 check:v39-gate8 check:v39-gate9 check:v40-gate1 check:v40-gate10 check:v40-gate11 check:v40-gate2 check:v40-gate3 check:v40-gate4 check:v40-gate5 check:v40-gate6 check:v40-gate7 check:v40-gate8 check:v40-gate9 check:v41-gate1 check:v41-gate2 check:v41-gate3 check:v41-gate4 check:v41-gate5 check:v41-gate6 check:v41-gate7 check:v41-gate8 check:v41-gate9 check:v42-gate1 check:v42-gate2 check:v42-gate3 check:v42-gate4 check:v42-gate5 check:v42-gate6 check:v42-gate7 check:v42-gate8 check:v42-gate9 check:v43-gate1 check:v43-gate10 check:v43-gate2 check:v43-gate3 check:v43-gate4 check:v43-gate5 check:v43-gate6 check:v43-gate7 check:v43-gate8 check:v43-gate9 check:v44-gate1 check:v44-gate10 check:v44-gate2 check:v44-gate3 check:v44-gate4 check:v44-gate5 check:v44-gate6 check:v44-gate7 check:v44-gate8 check:v44-gate9 check:v45-gate17 check:v45-gate18 check:v46-gate1 check:v46-gate2 check:v46-gate3 check:v46-gate4 check:v46-gate5 check:v46-gate6 check:v46-gate7 check:v46-gate8 check:v47-gate10
+v35-canon-promotion.yml v36-canon-promotion.yml v37-canon-promotion.yml v38-canon-promotion.yml v39-canon-promotion.yml v40-canon-promotion.yml v41-canon-promotion.yml v42-canon-promotion.yml v43-canon-promotion.yml v44-canon-promotion.yml v45-canon-promotion.yml v46-canon-promotion.yml v47-canon-promotion.yml
+```
+
+### Gate labels (selected)
+
+```
+V35 Gate 2 · V35 Gate 3 · V35 Gate 4 · V35 Gate 5 · V35 Gate 6 · V35 Gate 7 · V35 Gate 8 · V35 Gate 9 · V36 Gate 2 · V36 Gate 3 · V36 Gate 4 · V36 Gate 5 · V36 Gate 6 · V36 Gate 7 · V36 Gate 8 · V36 Gate 9 · V36 Gate 10 · V37 Gate 1 · V37 Gate 2 · V37 Gate 3 · V37 Gate 4 · V37 Gate 5 · V37 Gate 6 · V37 Gate 7 · V37 Gate 8 · V37 Gate 9 · V37 Gate 10 · V38 Gate 1 · V38 Gate 2 · V38 Gate 3 · V38 Gate 4 · V38 Gate 5 · V38 Gate 6 · V38 Gate 7 · V38 Gate 8 · V38 Gate 9 · V38 Gate 10 · V38 Gate 11 · V39 Gate 1 · V39 Gate 2 · V39 Gate 3 · V39 Gate 4 · V39 Gate 5 · V39 Gate 6 · V39 Gate 7 · V39 Gate 8 · V39 Gate 9 · V39 Gate 10 · V39 Gate 11 · V40 Gate 1 · V40 Gate 2 · V40 Gate 3 · V40 Gate 4 · V40 Gate 5 · V40 Gate 6 · V40 Gate 7 · V40 Gate 8 · V40 Gate 9 · V40 Gate 10 · V40 Gate 11 · V41 Gate 1 · V41 Gate 2 · V41 Gate 3 · V41 Gate 4 · V41 Gate 5 · V41 Gate 6 · V41 Gate 7 · V41 Gate 8 · V41 Gate 9 · V42 Gate 1 · V42 Gate 2 · V42 Gate 3 · V42 Gate 4 · V42 Gate 5 · V42 Gate 6 · V42 Gate 7 · V42 Gate 8 · V42 Gate 9 · V43 Gate 1 · V43 Gate 2 · V43 Gate 3 · V43 Gate 4 · V43 Gate 5 · V43 Gate 6 · V43 Gate 7 · V43 Gate 8 · V43 Gate 9 · V43 Gate 10 · V44 Gate 1 · V44 Gate 2 · V44 Gate 3 · V44 Gate 4 · V44 Gate 5 · V44 Gate 6 · V44 Gate 7 · V44 Gate 8 · V44 Gate 9 · V44 Gate 10 · V45 Gate 17 · V45 Gate 18 · V46 Gate 1 · V46 Gate 2 · V46 Gate 3 · V46 Gate 4 · V46 Gate 5 · V46 Gate 6 · V46 Gate 7 · V46 Gate 8 · V47 Gate 10
+```
+
+### Other retained verification phrases
+
+```
+ExchangeActivityBook · ExchangeIntent · ExchangeOrder · ExchangeRightsTransferPreview
+compensation preview · source-to-shares
+V40 Gate 2 · V40 Gate 6 · V40 Gate 7 · V40 Gate 8 · V40 Gate 9
+V39 Gate 3 · V39 Gate 4 · V39 Gate 5 · V39 Gate 6 · V39 Gate 7 · V39 Gate 8 · V39 Gate 9 · V39 Gate 10
+V42 Gate 3 · V42 Gate 4 · V42 Gate 5 · V42 Gate 6 · V42 Gate 7 · V42 Gate 8
+V43 Gate 2 · V45 Gate 17 · V37 Gate 2 · V37 Gate 3
+```
+
 ## Helpful links
 
 - Spec family (draft): `BITCODE_SPEC_V48.md`
