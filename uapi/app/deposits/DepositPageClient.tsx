@@ -323,6 +323,18 @@ export default function DepositPageClient() {
   // Detail owns the page when composing a new deposit OR viewing a run.
   const isDepositDetailOpen = Boolean(synthesisRunId) || isComposeOpen;
 
+  // Config is always editable before synthesizing. Lock only while a run is
+  // actively executing, or when reviewing a selected historical pipeline row
+  // (master-detail, not compose). A failed dispatch that still has compose open
+  // stays editable so Forced Inclusion / Exclusions / Obfuscations can be fixed
+  // and re-dispatched without Back → New deposit.
+  const isRunReviewLocked =
+    Boolean(synthesisRunId) &&
+    !isComposeOpen &&
+    synthesisStatus !== "running";
+  const isConfigLocked =
+    synthesisStatus === "running" || isRunReviewLocked;
+
   // Activity-ledger rows (Obfuscations / repository anchors) feed Load-anchor
   // dropdowns but are NOT pipeline executions — exclude them from the pipelines
   // table so selecting them cannot open empty "Telemetry / No logs" detail.
@@ -756,21 +768,43 @@ export default function DepositPageClient() {
     synthesisRunId,
     synthesisRunning,
   ]);
-  // TOTAL RUN TIME clock bounds: start at the first event's created_at (fall
-  // back to the dispatch timestamp), freeze at the last event's created_at on
-  // completion/error.
+  // TOTAL RUN TIME: prefer the executions row wall-clock (started_at /
+  // completed_at / duration_ms). Falling back to first/last *loaded* event
+  // under-counts when history was truncated (Supabase 1000-row default —
+  // refresh used to show ~half the live duration).
   const synthesisRunStartMs = useMemo(() => {
+    const rowStart = (synthesisExecution as { started_at?: string | null } | null)
+      ?.started_at;
+    const fromRow = rowStart ? new Date(rowStart).getTime() : Number.NaN;
+    if (Number.isFinite(fromRow)) return fromRow;
     const first = synthesisEvents[0]?.created_at;
     const parsed = first ? new Date(first).getTime() : Number.NaN;
     if (Number.isFinite(parsed)) return parsed;
     return synthesisDispatchedAtMs;
-  }, [synthesisEvents, synthesisDispatchedAtMs]);
+  }, [synthesisEvents, synthesisDispatchedAtMs, synthesisExecution]);
   const synthesisRunEndMs = useMemo(() => {
     if (synthesisRunning) return null;
+    const row = synthesisExecution as {
+      completed_at?: string | null;
+      duration_ms?: number | null;
+      started_at?: string | null;
+    } | null;
+    const completedAt = row?.completed_at
+      ? new Date(row.completed_at).getTime()
+      : Number.NaN;
+    if (Number.isFinite(completedAt)) return completedAt;
+    const durationMs =
+      typeof row?.duration_ms === "number" && Number.isFinite(row.duration_ms)
+        ? row.duration_ms
+        : null;
+    const startedAt = row?.started_at ? new Date(row.started_at).getTime() : Number.NaN;
+    if (durationMs !== null && Number.isFinite(startedAt)) {
+      return startedAt + durationMs;
+    }
     const last = synthesisEvents[synthesisEvents.length - 1]?.created_at;
     const parsed = last ? new Date(last).getTime() : Number.NaN;
     return Number.isFinite(parsed) ? parsed : null;
-  }, [synthesisEvents, synthesisRunning]);
+  }, [synthesisEvents, synthesisRunning, synthesisExecution]);
   // Live header tracker: the CURRENT active call chain, rendered with the
   // same pills as the log title-lines while the pipeline runs.
   const synthesisLiveContext =
@@ -913,7 +947,21 @@ export default function DepositPageClient() {
     }
     if (status === "failed" || status === "interrupted") {
       setSynthesisStatus("failed");
-      setSynthesisError(run.summary ? `Run ${status} — ${run.summary}` : `Run ${status}.`);
+      // Prefer concrete failure text (executions.error.message / summary) over
+      // the generic "Run failed." that left stalled hosts opaque (QA c7b84ad5).
+      const detail =
+        (typeof run.errorMessage === "string" && run.errorMessage.trim()) ||
+        (typeof run.summary === "string" && run.summary.trim()) ||
+        null;
+      setSynthesisError(
+        detail
+          ? detail.startsWith("Run ")
+            ? detail
+            : `Run ${status} — ${detail}`
+          : status === "interrupted"
+            ? "Run interrupted — host stopped mid-pipeline (restart, maxDuration, or crash). Check server logs."
+            : "Run failed — no error message was persisted. The host may have been killed mid-pipeline.",
+      );
       if (synthesisDispatchedAtMs !== null) {
         trackProductEvent({
           name: "deposit_synthesis_failed",
@@ -922,6 +970,17 @@ export default function DepositPageClient() {
       }
     }
   }, [liveRuns, synthesisDispatchedAtMs, synthesisRunId, synthesisStatus]);
+
+  // While a synthesis is running, poll the executions list so terminal row
+  // status (failed/interrupted with error.message) surfaces even when the SSE
+  // tail goes quiet (maxDuration kill, process death, empty reconnects).
+  useEffect(() => {
+    if (synthesisStatus !== "running" || !synthesisRunId) return;
+    const interval = window.setInterval(() => {
+      void refreshLiveRuns();
+    }, 15_000);
+    return () => window.clearInterval(interval);
+  }, [refreshLiveRuns, synthesisRunId, synthesisStatus]);
 
   // Master-detail adoption: selecting ANY pipeline run in the table connects
   // the Telemetry detail to it. A RUNNING run reattaches its live stream
@@ -961,8 +1020,20 @@ export default function DepositPageClient() {
     const status = String(run.status || "").toLowerCase();
     if (status === "failed" || status === "interrupted" || status === "cancelled") {
       setSynthesisStatus("failed");
+      const detail =
+        (typeof run.errorMessage === "string" && run.errorMessage.trim()) ||
+        (typeof run.summary === "string" && run.summary.trim()) ||
+        null;
       setSynthesisError(
-        run.summary ? `Run ${status} — ${run.summary}` : `Run ${status}.`,
+        detail
+          ? detail.startsWith("Run ")
+            ? detail
+            : `Run ${status} — ${detail}`
+          : status === "interrupted"
+            ? "Run interrupted — host stopped mid-pipeline (restart, maxDuration, or crash)."
+            : status === "cancelled"
+              ? "Run cancelled."
+              : "Run failed — no error message was persisted.",
       );
     } else if (status === "completed") {
       // Adopt a completed row AT its terminal status — never pass through a
@@ -1229,6 +1300,9 @@ export default function DepositPageClient() {
           sourceBranch: repositoryContext?.selectedBranch || null,
           sourceCommit: repositoryContext?.selectedCommit || null,
           obfuscations: effectiveInstructions,
+          // Forced Inclusion / Forced Exclusion — always from current compose
+          // state so scoped measurement reaches the server (never omit).
+          sourcePathHints,
           protectedIpExclusions,
           demandContext: [
             ...depositRouteInput.depositoryDemandSignals.map(
@@ -1263,6 +1337,7 @@ export default function DepositPageClient() {
         name: "deposit_synthesis_dispatched",
         data: {
           hasObfuscations: Boolean(effectiveInstructions.trim()),
+          sourcePathHintCount: sourcePathHints.length,
           protectedExclusionCount: protectedIpExclusions.length,
           demandSignalCount:
             depositRouteInput.depositoryDemandSignals.length +
@@ -1293,6 +1368,7 @@ export default function DepositPageClient() {
     refreshLiveRuns,
     replaceDepositRouteTransaction,
     repositoryContext,
+    sourcePathHints,
   ]);
 
   useEffect(() => {
@@ -1656,8 +1732,8 @@ export default function DepositPageClient() {
         <section
           className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]"
           data-testid="deposit-run-configuration"
-          data-locked={synthesisRunId ? "true" : "false"}
-          data-compose={isComposeOpen && !synthesisRunId ? "true" : "false"}
+          data-locked={isConfigLocked ? "true" : "false"}
+          data-compose={isComposeOpen && !isRunReviewLocked ? "true" : "false"}
         >
           <div className="grid min-w-0 gap-5">
             <div className="grid gap-5 xl:grid-cols-2">
@@ -1673,15 +1749,15 @@ export default function DepositPageClient() {
                       .totalExpectedCompensationSats
                   }
                   repositoryAnchors={repositoryAnchors}
-                  disabled={Boolean(synthesisRunId)}
+                  disabled={isConfigLocked}
                 />
               </div>
               <section
                 id="deposit-section-synthesize"
                 className={`border border-white/10 bg-white/[0.035] px-4 py-4 ${
-                  synthesisRunId ? "opacity-80" : ""
+                  isConfigLocked ? "opacity-80" : ""
                 }`}
-                aria-disabled={synthesisRunId ? true : undefined}
+                aria-disabled={isConfigLocked ? true : undefined}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
@@ -1730,9 +1806,9 @@ export default function DepositPageClient() {
                             deletable: true,
                           }))}
                           value={null}
-                          disabled={Boolean(synthesisRunId)}
+                          disabled={isConfigLocked}
                           onSelect={(key) => {
-                            if (synthesisRunId) return;
+                            if (isConfigLocked) return;
                             const anchor = obfuscationsAnchors.find(
                               (entry) => entry.id === key,
                             );
@@ -1743,7 +1819,7 @@ export default function DepositPageClient() {
                             setProtectedIpExclusions(anchor.protectedIpExclusions);
                           }}
                           onDeleteItem={
-                            synthesisRunId
+                            isConfigLocked
                               ? undefined
                               : (key) => {
                                   void handleDeleteObfuscationsAnchor(key);
@@ -1764,7 +1840,7 @@ export default function DepositPageClient() {
                       aria-label="Clear obfuscations"
                       title="Clear obfuscations"
                       disabled={
-                        Boolean(synthesisRunId) ||
+                        isConfigLocked ||
                         (!obfuscations &&
                           !obfuscationsAnchorName &&
                           sourcePathHints.length === 0 &&
@@ -1785,7 +1861,7 @@ export default function DepositPageClient() {
                       open={isObfuscationsAnchorPopoverOpen}
                       onOpenChange={(open) => {
                         // Require Obfuscations body before opening the name popover.
-                        if (synthesisRunId) return;
+                        if (isConfigLocked) return;
                         if (open && !obfuscations.trim()) return;
                         if (isAnchoringObfuscations) return;
                         setIsObfuscationsAnchorPopoverOpen(open);
@@ -1797,7 +1873,7 @@ export default function DepositPageClient() {
                           aria-label="Anchor obfuscations to the activity ledger"
                           title="Anchor obfuscations to the activity ledger"
                           disabled={
-                            Boolean(synthesisRunId) ||
+                            isConfigLocked ||
                             !obfuscations.trim() ||
                             isAnchoringObfuscations
                           }
@@ -1903,8 +1979,8 @@ export default function DepositPageClient() {
                     onChange={(event) =>
                       setObfuscations(event.target.value)
                     }
-                    readOnly={Boolean(synthesisRunId)}
-                    disabled={Boolean(synthesisRunId)}
+                    readOnly={isConfigLocked}
+                    disabled={isConfigLocked}
                     placeholder={DEPOSIT_OBFUSCATIONS_PLACEHOLDER}
                     className="mt-2 min-h-[8rem] w-full border border-white/10 bg-black/30 px-3 py-3 text-sm leading-6 text-neutral-100 outline-none transition focus:border-emerald-300/35 disabled:cursor-not-allowed disabled:opacity-70"
                   />
@@ -1943,7 +2019,7 @@ export default function DepositPageClient() {
                         onChange={setSourcePathHints}
                         conflictingPaths={protectedIpExclusions}
                         conflictLabel="Already a Forced Exclusion"
-                        disabled={Boolean(synthesisRunId)}
+                        disabled={isConfigLocked}
                       />
                     </div>
                   </div>
@@ -1971,7 +2047,7 @@ export default function DepositPageClient() {
                         onChange={setProtectedIpExclusions}
                         conflictingPaths={sourcePathHints}
                         conflictLabel="Already a Forced Inclusion"
-                        disabled={Boolean(synthesisRunId)}
+                        disabled={isConfigLocked}
                       />
                     </div>
                     <span className="mt-1 block text-xs leading-5 text-neutral-500">
@@ -1983,10 +2059,10 @@ export default function DepositPageClient() {
                     </span>
                   </div>
                 </div>
-                {synthesisRunId ? (
-                  // V48-Gate3: run detail freezes the configuration that
-                  // produced this run (above). Telemetry follows below.
-                  // Back clears the URL selection for a new synthesis.
+                {isRunReviewLocked ? (
+                  // Historical run detail freezes the configuration that
+                  // produced that run. Compose (incl. post-failure re-edit)
+                  // stays editable until the next synthesize.
                   <p
                     data-testid="deposit-obfuscations-run-loaded-note"
                     className="mt-4 text-xs leading-5 text-neutral-500"
@@ -2228,6 +2304,7 @@ export default function DepositPageClient() {
                         sourceBranch: repositoryContext?.selectedBranch ?? null,
                         sourceCommit: repositoryContext?.selectedCommit ?? null,
                         obfuscations,
+                        sourcePathHints,
                         protectedIpExclusions,
                       },
                       outputDetails: synthesisActivity.outputDetails,

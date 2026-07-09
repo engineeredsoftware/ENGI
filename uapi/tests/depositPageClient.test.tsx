@@ -771,6 +771,8 @@ describe("DepositPageClient", () => {
     const body = JSON.parse(String(synthesisCall?.[1]?.body));
     expect(body.repositoryFullName).toBe("engineeredsoftware/ENGI");
     expect(body.protectedIpExclusions).toEqual(["secret-engine/"]);
+    // Forced Inclusion is always present on the synthesize POST (empty when none picked).
+    expect(body.sourcePathHints).toEqual([]);
     expect(Array.isArray(body.demandContext)).toBe(true);
 
     // Funnel analytics: the dispatch emits its input SHAPE only (no
@@ -780,6 +782,7 @@ describe("DepositPageClient", () => {
       name: "deposit_synthesis_dispatched",
       data: expect.objectContaining({
         hasObfuscations: false,
+        sourcePathHintCount: 0,
         protectedExclusionCount: 1,
       }),
     });

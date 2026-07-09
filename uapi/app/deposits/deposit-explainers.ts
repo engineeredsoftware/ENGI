@@ -237,11 +237,12 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     kicker: 'Option synthesis',
     title: 'Forced Inclusion',
     summary:
-      'Paths picked from the repository file tree that synthesis must treat as in-scope — forced into measurement framing for this deposit.',
+      'Paths picked from the repository file tree that bound measurement scope — when set, only these roots (and their descendants) enter the deposit inventory.',
     detail:
-      'Forced Inclusion paths that look sensitive (secrets, credentials, wallets, auth, keys, payments, or settlement) raise a review warning and nudge estimated development cost and expected settlement upward. Mutually exclusive with Forced Exclusions: a path cannot be both included and excluded.',
+      'Forced Inclusion scopes the host checkout before measurement and prompts: out-of-root files never enter inventory.sources or candidates. Empty Forced Inclusion leaves the full tree in-scope (minus Forced Exclusions). Sensitive-sounding paths raise a review warning and nudge estimated development cost and expected settlement upward. Mutually exclusive with Forced Exclusions: a path cannot be both included and excluded.',
     points: [
-      'Distinct from Forced Exclusions — this forces inclusion, not withholding',
+      'When non-empty, inventory is scoped to these roots only (prefix match)',
+      'Use this on monorepos to keep measurement bounded (e.g. uapi/)',
       'Sensitive-sounding paths trigger a "requires review" warning',
     ],
     references: { source: DEPOSIT_SOURCE_REFS, canon: DEPOSIT_CANON_REFS },

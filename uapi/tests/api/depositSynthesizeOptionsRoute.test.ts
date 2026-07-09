@@ -307,6 +307,7 @@ describe('POST /api/deposit/synthesize-options', () => {
     expect(pipelineInput.inventory.paths).toEqual(['README.md', 'src/app.py']);
     expect(pipelineInput.inventory.sources.map((s: any) => s.path)).toEqual(['README.md', 'src/app.py']);
     expect(pipelineInput.protectedIpExclusions).toEqual(['secret/']);
+    expect(pipelineInput.sourcePathHints).toEqual([]);
 
     const completed = executionRow.upsert.mock.calls.find((call) => call[0]?.status === 'completed')![0];
     expect(completed.context.pipelineCore).toBe('AssetPacksSynthesis');
@@ -316,6 +317,48 @@ describe('POST /api/deposit/synthesize-options', () => {
     expect(option.contents.provenantSourcePaths).toEqual(['README.md', 'src/app.py']);
     expect(option.contents.fileChanges).toEqual([{ path: 'src/app.py', op: 'modify' }]);
     expect(completed.output.reviewProjections[0].coveredSourcePaths).toEqual(['README.md', 'src/app.py']);
+  });
+
+  it('scopes inventory by Forced Inclusion roots before the pipeline runs', async () => {
+    const { executionRow } = installSupabaseMocks({});
+    // Options must only cover in-scope paths so Validation admits them.
+    mockPipeline.mockResolvedValueOnce(undefined);
+    const execution = {
+      id: 'streaming-execution-scope',
+      store: jest.fn(),
+      child: jest.fn(),
+      get: jest.fn((namespace: string, key: string) =>
+        namespace === 'implementation' && key === 'options'
+          ? [
+              {
+                ...RAW_OPTIONS[0],
+                coveredSourcePaths: ['src/app.py'],
+                patch: {
+                  fileChanges: [{ path: 'src/app.py', op: 'modify' }],
+                  patchSummary: 'Scoped capability under Forced Inclusion.',
+                },
+              },
+            ]
+          : undefined,
+      ),
+      findUp: jest.fn(),
+    };
+    mockCreateExecution.mockReturnValue(execution);
+
+    const response = await POST(
+      createRequest({
+        sourcePathHints: ['src/'],
+        protectedIpExclusions: [],
+      }),
+    );
+    expect(response.status).toBe(200);
+    await flushBackground(() =>
+      executionRow.upsert.mock.calls.some((call) => call[0]?.status === 'completed'),
+    );
+    const pipelineInput = mockPipeline.mock.calls[0][0];
+    expect(pipelineInput.sourcePathHints).toEqual(['src/']);
+    expect(pipelineInput.inventory.paths).toEqual(['src/app.py']);
+    expect(pipelineInput.inventory.sources.map((s: any) => s.path)).toEqual(['src/app.py']);
   });
 
   it('registers both the orphan sweep and the synthesis run via waitUntil (V48-Gate3-F31)', async () => {

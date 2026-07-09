@@ -9,7 +9,7 @@ import { GitHubService } from '@bitcode/api/src/vcs/github-service';
 import { ExecutionStreamAdapter } from '@bitcode/execution-generics';
 import { createStreamingExecution, emitPhaseTransition } from '@bitcode/pipelines-generics';
 import {
-  applyExclusionsToInventory,
+  applyInventoryScope,
   normalizeProtectedIpExclusions,
   sumLlmTokensFromExecutionTree,
   validateDepositSynthesisOptions,
@@ -38,7 +38,11 @@ import {
 import { sweepOrphanedExecutions } from '@/lib/execution-orphan-sweep';
 
 export const runtime = 'nodejs';
-export const maxDuration = 300;
+// Full-repo deposit synthesis (setup+discovery alone) regularly exceeds 5
+// minutes of LLM work. Vercel waitUntil is capped by maxDuration — too-low
+// values kill the host mid-pipeline with no catch finalize (UI: stalled
+// "Run failed." with empty error event). Keep this high for deposit.
+export const maxDuration = 800;
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -48,6 +52,8 @@ type SynthesizeOptionsBody = {
   sourceBranch?: unknown;
   sourceCommit?: unknown;
   obfuscations?: unknown;
+  /** Forced Inclusion roots — when non-empty, inventory is scoped to these paths. */
+  sourcePathHints?: unknown;
   protectedIpExclusions?: unknown;
   demandContext?: unknown;
   depositoryDemandSignals?: unknown;
@@ -130,6 +136,7 @@ export async function POST(request: Request) {
   const sourceBranch = readString(body.sourceBranch);
   const sourceCommit = readString(body.sourceCommit);
   const obfuscations = readString(body.obfuscations);
+  const sourcePathHints = normalizeProtectedIpExclusions(readStringList(body.sourcePathHints));
   const protectedIpExclusions = normalizeProtectedIpExclusions(readStringList(body.protectedIpExclusions));
   const demandContext = readStringList(body.demandContext);
 
@@ -216,6 +223,10 @@ export async function POST(request: Request) {
         repositoryFullName,
         sourceBranch,
         sourceCommit,
+        // Steering shape only (paths/counts) — never obfuscations prose.
+        sourcePathHintCount: sourcePathHints.length,
+        protectedIpExclusionCount: protectedIpExclusions.length,
+        hasObfuscations: Boolean(obfuscations),
       },
     },
     { onConflict: 'id' },
@@ -348,6 +359,8 @@ export async function POST(request: Request) {
         commit: sourceCommit,
         token: auth.accessToken,
         obfuscations,
+        // Sandbox harness currently steers exclusions; Forced Inclusion is
+        // enforced on the inline inventory path and re-validated on options.
         protectedIpExclusions,
         demandContext,
         shouldAbort: () => isExecutionCancelled(supabaseAdmin, runId),
@@ -395,9 +408,16 @@ export async function POST(request: Request) {
         token: auth.accessToken,
       });
       await assertNotCancelled();
-      inventory = applyExclusionsToInventory(provisioned, protectedIpExclusions);
+      // Forced Inclusion scopes measurement to selected roots; Forced Exclusion
+      // removes protected-IP paths fail-closed. Both bound the full sources blob
+      // so monorepo checkouts do not materialize multi-hundred-MB inventories
+      // into pipeline stores/events (Invalid string length).
+      inventory = applyInventoryScope(provisioned, {
+        inclusions: sourcePathHints,
+        exclusions: protectedIpExclusions,
+      });
       await emitStatus(
-        `Checkout ready: ${inventory.paths.length} files (${inventory.excludedPathCount} withheld by ${protectedIpExclusions.length} protected-IP exclusions; full source measured, ${inventory.samples.length} prompt excerpts).`,
+        `Checkout ready: ${inventory.paths.length} files (${inventory.excludedPathCount} out of scope — ${sourcePathHints.length} Forced Inclusion root(s), ${protectedIpExclusions.length} Forced Exclusion(s); full source measured, ${inventory.samples.length} prompt excerpts).`,
       );
       await emitStatus(
         'Running SynthesizeAssetPacks (deposit mode): Setup → Discovery → Implementation → Validation → Finish…',
@@ -421,6 +441,7 @@ export async function POST(request: Request) {
             url: `https://github.com/${repositoryFullName}`,
           },
           obfuscations,
+          sourcePathHints,
           protectedIpExclusions,
           demandContext,
           inventory,
@@ -474,6 +495,7 @@ export async function POST(request: Request) {
         sourceBranch,
         sourceCommit,
         obfuscations,
+        sourcePathHints,
         protectedIpExclusions,
         depositoryDemandSignals: readSignals(body.depositoryDemandSignals),
         readingDemandSignals: readSignals(body.readingDemandSignals),
@@ -509,6 +531,7 @@ export async function POST(request: Request) {
         sourceCommit,
         optionCount: synthesis.optionCount,
         synthesisRoot: synthesis.roots.synthesisRoot,
+        sourcePathHintCount: sourcePathHints.length,
         exclusionCount: synthesis.exclusionPosture.protectedIpExclusionCount,
         excludedPathCount: synthesis.exclusionPosture.excludedPathCount,
         droppedCandidateCount: synthesis.exclusionPosture.droppedCandidateCount,
@@ -554,16 +577,27 @@ export async function POST(request: Request) {
         runId,
       });
     } else {
-      const message = error instanceof Error ? error.message : String(error);
+      const message =
+        (error instanceof Error && error.message.trim()) ||
+        (typeof error === 'string' && error.trim()) ||
+        'Deposit option synthesis failed (no message).';
       try {
-        await ExecutionStreamAdapter.emitEvent(execution.id, 'error' as never, { message, runId });
+        await ExecutionStreamAdapter.emitEvent(execution.id, 'error' as never, {
+          message,
+          runId,
+        });
       } catch {}
       // Only fail if still running (cancel may have raced the catch path).
       if (!(await isExecutionCancelled(supabaseAdmin, runId))) {
         await finalizeExecutionRow({
           status: 'failed',
           completed_at: new Date().toISOString(),
-          error: { message },
+          error: { message, name: error instanceof Error ? error.name : 'Error' },
+          // Also mirror into output.summary so list/history summary builders
+          // surface the failure even when error JSON is dropped by a mapper.
+          output: {
+            summary: message,
+          },
           context: {
             source: 'deposit-option-synthesis',
             route: '/deposits',
@@ -571,6 +605,7 @@ export async function POST(request: Request) {
             repositoryFullName,
             sourceBranch,
             sourceCommit,
+            failureMessage: message,
           },
           duration_ms: Date.now() - startedAt,
         });
