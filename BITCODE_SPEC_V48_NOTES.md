@@ -132,7 +132,12 @@ Accepted V48 architecture law (decided 2026-06-12):
   work (rule accepted 2026-06-12), with the dedicated F8 sweep retiring the
   remainder.
 
-## V48 Gate 3 in progress: synthesis pipeline algorithmic + telemetric correctness, and the SynthesizeAssetPacks SDIVF unification
+## V48 Gate 3 closing: synthesis pipeline algorithmic + telemetric correctness, and the SynthesizeAssetPacks SDIVF unification
+
+**Canon:** `BITCODE_SPEC_V48.md` is the single V48 system specification (full Bitcode
+for this version line — not an addendum to prior version files). Gate 3 law is
+fully specified there §3–§6; this notes file records architecture decisions and
+the depositing parity matrix.
 
 Gate 3 (branch `v48/gate-3-synthesis-pipeline-correctness`) is the synthesis
 pipeline correctness gate, driven by interactive QA of the deposit synthesis
@@ -1135,7 +1140,16 @@ Parity: ✅ specified + implemented + tested · 🟦 specified + implemented as 
 ✅* = wired + unit-tested with a mocked host (harness plan-building, the dispatch, the
 option projection); real in-sandbox execution is verified against deployed sandbox infra.
 
-**Open items for full gate-3 depositing closure (deployment + verification, not code):**
+**Gate-3 product defaults (closing wave):**
+- Default xAI model: **`grok-build-0.1`** (`packages/generic-llms` defaults + xAI provider).
+- DIV **maxIterations = 1** (single Discovery→Implementation→Validation pass).
+- LLM call timeout default **180s** (`BITCODE_LLM_CALL_TIMEOUT_MS`).
+- Empty Obfuscations: **skip** Setup input-comprehension LLM (empty guidance stored).
+- Settled-Depository demand: estimatable or **Unestimatable** (no hardcoded demand).
+- Full-stack: unestimatable demand does not force Positive ROI options = 0; sub-critical
+  deposit authority does not force permanent Required denials = 2 before review.
+
+**Open items after code close (ops verification, not more product surface):**
 - **Deployment config**: the Vercel sandbox provider's runtime deps (`@vercel/sandbox`,
   OIDC or `VERCEL_TOKEN`+team+project, git in the box image); set
   `BITCODE_PIPELINE_HOST=sandbox` on prod for durable in-box runs; the AWS provider
