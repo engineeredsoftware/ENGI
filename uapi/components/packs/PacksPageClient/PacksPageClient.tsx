@@ -50,23 +50,7 @@ import {
   formatType,
   statusPill,
 } from "@/components/packs/models/packs-format";
-
-function DetailSection({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="border-t border-white/10 pt-4">
-      <h3 className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-emerald-200/80">
-        {title}
-      </h3>
-      <div className="mt-3">{children}</div>
-    </section>
-  );
-}
+import { PacksDetailSection as DetailSection } from "@/components/packs/PacksDetailSection/PacksDetailSection";
 
 export default function PacksPageClient() {
   const router = useRouter();
