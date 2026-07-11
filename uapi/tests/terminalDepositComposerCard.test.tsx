@@ -74,7 +74,7 @@ jest.mock('@/app/terminal/terminal-shell-reading', () => ({
   jumpToShellSection: jest.fn(),
 }));
 
-jest.mock('@/app/terminal/terminal-shell-bridge', () => ({
+jest.mock('@/components/bitcode/layout/bitcode-shell-bridge', () => ({
   useTerminalShellBridge: () => ({
     snapshot: {},
     runControl: jest.fn(),
@@ -97,7 +97,7 @@ jest.mock('@/app/terminal/terminal-deposit-composer', () => ({
   }),
 }));
 
-jest.mock('@/app/terminal/terminal-activity-history', () => ({
+jest.mock('@/components/bitcode/pipeline/models/pipeline-activity-history', () => ({
   readTerminalRouteError: jest.fn(async () => 'route error'),
 }));
 

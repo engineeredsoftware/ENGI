@@ -34,7 +34,7 @@ import {
   readTerminalRouteError,
   type TerminalActivityRecordDraft,
   upsertWorkspaceRun,
-} from "@/app/terminal/terminal-activity-history";
+} from "@/components/bitcode/pipeline/models/pipeline-activity-history";
 import {
   DepositExcludePathsIcon,
   DepositIncludePathsIcon,
@@ -58,7 +58,7 @@ import {
   buildDepositHref,
   DEPOSIT_ROUTE,
 } from "@/components/bitcode/routes/product-routes";
-import { TerminalShellBridgeProvider } from "@/app/terminal/terminal-shell-bridge";
+import { BitcodeShellBridgeProvider } from "@/components/bitcode/layout/bitcode-shell-bridge";
 import {
   buildDepositRouteSession,
   readDepositRouteStage,
@@ -1684,7 +1684,7 @@ export default function DepositPageClient() {
   ]);
 
   return (
-    <TerminalShellBridgeProvider>
+    <BitcodeShellBridgeProvider>
       <ProductRouteShell
         testId="route-shell-deposit"
         tone="emerald"
@@ -3479,6 +3479,6 @@ export default function DepositPageClient() {
         </section>
         ) : null}
       </ProductRouteShell>
-    </TerminalShellBridgeProvider>
+    </BitcodeShellBridgeProvider>
   );
 }

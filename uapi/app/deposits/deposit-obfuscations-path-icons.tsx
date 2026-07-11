@@ -9,7 +9,7 @@
 import React from 'react';
 import { FolderMinus, FolderPlus } from 'lucide-react';
 
-import { normalizeObfuscationsAnchorPaths } from '@/app/terminal/terminal-activity-history';
+import { normalizeObfuscationsAnchorPaths } from '@/components/bitcode/pipeline/models/pipeline-activity-history';
 
 const ICON_CLASS = 'h-3.5 w-3.5 shrink-0';
 

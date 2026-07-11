@@ -27,7 +27,7 @@ import AuxillariesOpenButton from "@/components/auxillaries/AuxillariesOpenButto
 import {
   buildTerminalRepositoryAnchorDraft,
   type TerminalActivityRecordDraft,
-} from "@/app/terminal/terminal-activity-history";
+} from "@/components/bitcode/pipeline/models/pipeline-activity-history";
 import {
   DEPOSIT_COMMIT_LATEST_REF,
   deriveSelectedBranch,

@@ -25,8 +25,8 @@ jest.mock("@/networking/api-client", () => ({
   fetchPipelineExecutionHistory: () => mockFetchPipelineExecutionHistory(),
 }));
 
-jest.mock("@/app/terminal/terminal-shell-bridge", () => ({
-  TerminalShellBridgeProvider: ({
+jest.mock("@/components/bitcode/layout/bitcode-shell-bridge", () => ({
+  BitcodeShellBridgeProvider: ({
     children,
   }: {
     children: React.ReactNode;

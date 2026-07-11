@@ -1285,6 +1285,10 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 - `pipeline-selection-query` (was terminal-transaction-query) →
   `bitcode/pipeline/models/pipeline-selection-query.ts`
 - `enterprise-reading-ux-state` → `components/reads/models/`
-- **Still live under Terminal for product surfaces:** activity-history,
-  shell-bridge, deposit-read-workbench panels, repository context panel,
-  read scenario panel.
+- `pipeline-activity-history` (was terminal-activity-history) →
+  `bitcode/pipeline/models/pipeline-activity-history.ts`
+- `bitcode-shell-bridge` (was terminal-shell-bridge) →
+  `bitcode/layout/bitcode-shell-bridge.tsx` (`BitcodeShellBridgeProvider`)
+- **Still live under Terminal for product surfaces:** deposit-read-workbench
+  model + panels, repository context panel, read scenario panel; conversations
+  still uses `buildTerminalHref` until Phase 5.

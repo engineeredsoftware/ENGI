@@ -29,7 +29,7 @@ import {
 import TerminalDepositReadWorkbench from "@/app/terminal/TerminalDepositReadWorkbench";
 import TerminalRepositoryContextPanel from "@/app/terminal/TerminalRepositoryContextPanel";
 import TerminalReadScenarioPanel from "@/app/terminal/TerminalReadScenarioPanel";
-import { TerminalShellBridgeProvider } from "@/app/terminal/terminal-shell-bridge";
+import { BitcodeShellBridgeProvider } from "@/components/bitcode/layout/bitcode-shell-bridge";
 import type { TerminalDepositedSourceRevision } from "@/app/terminal/terminal-deposit-read-workbench";
 import {
   buildTerminalExecutionHistoryRequest,
@@ -37,7 +37,7 @@ import {
   readTerminalRouteError,
   type TerminalActivityRecordDraft,
   upsertWorkspaceRun,
-} from "@/app/terminal/terminal-activity-history";
+} from "@/components/bitcode/pipeline/models/pipeline-activity-history";
 import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import {
   clearTerminalTransactionId,
@@ -564,7 +564,7 @@ export default function ReadPageClient() {
   ];
 
   return (
-    <TerminalShellBridgeProvider>
+    <BitcodeShellBridgeProvider>
       <ProductRouteShell
         testId="route-shell-read"
         tone="sky"
@@ -1357,6 +1357,6 @@ export default function ReadPageClient() {
           </aside>
         </section>
       </ProductRouteShell>
-    </TerminalShellBridgeProvider>
+    </BitcodeShellBridgeProvider>
   );
 }
