@@ -5,7 +5,7 @@ import {
   buildTerminalEnterpriseReadingUxState,
   type TerminalEnterpriseReadingStepId,
   type TerminalEnterpriseReadingUxStateInput,
-} from '@/app/terminal/terminal-enterprise-reading-ux-state';
+} from '@/components/reads/models/enterprise-reading-ux-state';
 import {
   assertOrganizationPolicyWalletAuthoritySourceSafe,
   buildOrganizationPolicyWalletAuthority,

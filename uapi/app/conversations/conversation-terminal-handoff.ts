@@ -1,6 +1,7 @@
-import type { TerminalTransactionDetailSection } from '@/app/terminal/terminal-transaction-query';
+import type { TerminalTransactionDetailSection } from '@/components/bitcode/pipeline/models/pipeline-selection-query';
+// Compatibility: handoff still targets /terminal until Phase 5 redirect/eradication.
 import { buildTerminalHref } from '@/app/terminal/terminal-routes';
-import type { TerminalEnterpriseReadingStepId } from '@/app/terminal/terminal-enterprise-reading-ux-state';
+import type { TerminalEnterpriseReadingStepId } from '@/components/reads/models/enterprise-reading-ux-state';
 
 import type { ConversationSourceSelectorPreview } from './conversation-source-selector';
 

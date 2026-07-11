@@ -158,6 +158,7 @@ module.exports = {
     '<rootDir>/tests/repositoryContext.test.ts',
     '<rootDir>/tests/pipelineRunData.test.ts',
     '<rootDir>/tests/transactionReadiness.test.ts',
+    '<rootDir>/tests/pipelineSelectionQuery.test.ts',
     '<rootDir>/tests/searchableSelect.test.tsx',
     '<rootDir>/tests/vcsFileTreePicker.test.tsx',
     '<rootDir>/tests/vcsConnectionCard.test.tsx',

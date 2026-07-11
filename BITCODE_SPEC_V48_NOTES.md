@@ -1282,6 +1282,9 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
   `components/auxillaries/`
 - Deposits / Reads / Auxillaries product surfaces import the Bitcode paths for
   the above; `app/terminal/*` retains shims for residual cockpit callers.
+- `pipeline-selection-query` (was terminal-transaction-query) →
+  `bitcode/pipeline/models/pipeline-selection-query.ts`
+- `enterprise-reading-ux-state` → `components/reads/models/`
 - **Still live under Terminal for product surfaces:** activity-history,
-  transaction-query, shell-bridge, deposit-read-workbench panels,
-  enterprise-reading-ux-state, repository context panel, read scenario panel.
+  shell-bridge, deposit-read-workbench panels, repository context panel,
+  read scenario panel.

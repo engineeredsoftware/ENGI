@@ -45,7 +45,7 @@ import {
   clearTerminalTransactionId,
   readTerminalTransactionId,
   writeTerminalTransactionId,
-} from "@/app/terminal/terminal-transaction-query";
+} from "@/components/bitcode/pipeline/models/pipeline-selection-query";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
 import BitcodePipelinesTable from "@/components/bitcode/pipeline/BitcodePipelinesTable";
 import {
