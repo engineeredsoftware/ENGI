@@ -13,7 +13,8 @@ import {
   Wallet,
   Workflow,
 } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useReadRouteParams } from "./hooks/use-read-route-params";
 
 import { fetchPipelineExecutionHistory } from "@/networking/api-client";
 import type { PipelineExecution } from "@/types/api";
@@ -42,7 +43,6 @@ import {
 import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import {
   clearTerminalTransactionId,
-  readTerminalTransactionId,
   writeTerminalTransactionId,
 } from "@/components/bitcode/pipeline/models/pipeline-selection-query";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
@@ -62,25 +62,13 @@ import { RunClock } from "@/components/bitcode/pipeline/RunClock/RunClock";
 
 import {
   buildReadRouteSession,
-  readReadRouteStage,
   writeReadRouteStage,
 } from "@/components/reads/models/read-route-model";
 
 export default function ReadPageClient() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const routeSearchParams = useMemo(
-    () => new URLSearchParams(searchParams.toString()),
-    [searchParams],
-  );
-  const selectedTransactionId = useMemo(
-    () => readTerminalTransactionId(routeSearchParams),
-    [routeSearchParams],
-  );
-  const routeReadingStage = useMemo(
-    () => readReadRouteStage(routeSearchParams),
-    [routeSearchParams],
-  );
+  const { searchParams, routeSearchParams, selectedTransactionId, routeReadingStage } =
+    useReadRouteParams();
   const [liveRuns, setLiveRuns] = useState<WorkspaceRun[]>([]);
   const [isLoadingRuns, setIsLoadingRuns] = useState(true);
   const [runsLoadError, setRunsLoadError] = useState<string | null>(null);

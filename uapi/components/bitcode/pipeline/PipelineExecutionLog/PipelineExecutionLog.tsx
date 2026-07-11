@@ -17,6 +17,8 @@ import {
   extractExecutionState,
   applyExecutionStateToLogLine,
 } from './pipeline-execution-log-state';
+import { copyTextToClipboard } from './pipeline-execution-log-clipboard';
+import { DetailsCopyButton } from './pipeline-execution-log-details-copy-button';
 
 export {
   buildRawLogCopyText,
@@ -25,6 +27,7 @@ export {
   distillTerseValue,
   compactTerseEvent,
 } from './pipeline-execution-log-copy';
+export { copyTextToClipboard } from './pipeline-execution-log-clipboard';
 
 import React, { useRef, useState, useEffect, useLayoutEffect, forwardRef } from 'react';
 import { ContentVisibility } from '@/components/bitcode/perf/ContentVisibility/ContentVisibility';
@@ -309,32 +312,6 @@ interface PhaseGroup {
  * fails (e.g. `/deposits` loaded over plain http on a LAN IP), falls back to a hidden
  * textarea + `document.execCommand('copy')`. Pure + exported for unit testing.
  */
-export async function copyTextToClipboard(text: string): Promise<boolean> {
-  try {
-    if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(text);
-      return true;
-    }
-  } catch {
-    /* fall through to the legacy path */
-  }
-  try {
-    if (typeof document === 'undefined') return false;
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    textarea.setAttribute('readonly', '');
-    textarea.style.position = 'fixed';
-    textarea.style.top = '-9999px';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    textarea.select();
-    const ok = document.execCommand('copy');
-    document.body.removeChild(textarea);
-    return ok;
-  } catch {
-    return false;
-  }
-}
 
 export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogProps>(({
   output,
@@ -872,38 +849,6 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
     </div>
   );
 });
-
-/**
- * Copy button for one expanded log line's Details JSON: copies exactly that
- * log-detail payload, pretty-printed, via the same clipboard helper as the
- * "Copy raw logs" button (modern clipboard + insecure-context execCommand
- * fallback).
- */
-function DetailsCopyButton({ payload }: { payload: unknown }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <button
-      type="button"
-      title="Copy details JSON"
-      aria-label="Copy details JSON"
-      onClick={async (event) => {
-        event.stopPropagation();
-        const ok = await copyTextToClipboard(JSON.stringify(payload, null, 2));
-        if (ok) {
-          setCopied(true);
-          setTimeout(() => setCopied(false), 1500);
-        }
-      }}
-      className="inline-flex h-5 w-5 items-center justify-center border border-white/10 bg-black/30 text-neutral-400 transition hover:border-emerald-300/40 hover:text-emerald-200 focus:outline-none"
-    >
-      {copied ? (
-        <CheckIcon className="h-3 w-3 text-emerald-300" />
-      ) : (
-        <ClipboardCopyIcon className="h-3 w-3" />
-      )}
-    </button>
-  );
-}
 
 // Helper function to render a log line
 function renderLogLine(
