@@ -18,11 +18,13 @@ import {
 import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDepositRouteParams } from "./hooks/use-deposit-route-params";
+import { useDepositSynthesisActivity } from "./hooks/use-deposit-synthesis-activity";
 import { DepositRouteStateAside } from "@/components/deposits/DepositRouteStateAside/DepositRouteStateAside";
 import { DepositPipelinesMaster } from "@/components/deposits/DepositPipelinesMaster/DepositPipelinesMaster";
 import { DepositSynthesisTelemetry } from "@/components/deposits/DepositSynthesisTelemetry/DepositSynthesisTelemetry";
 import { DepositAssetPackOptions } from "@/components/deposits/DepositAssetPackOptions/DepositAssetPackOptions";
 import { DepositObfuscationsPanel } from "@/components/deposits/DepositObfuscationsPanel/DepositObfuscationsPanel";
+import { DepositActivityLedgerDetail } from "@/components/deposits/DepositActivityLedgerDetail/DepositActivityLedgerDetail";
 import { Boxes } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -78,8 +80,6 @@ import {
   writeDepositRouteStage,
   type DepositRouteSession,
 } from "@/components/deposits/models/deposit-route-model";
-import { usePipelineExecution } from "@/hooks/usePipelineExecution";
-import { buildPipelineRunActivityFromEvents } from "@/components/bitcode/pipeline/models/pipeline-run-activity";
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/components/deposits/models/deposit-explainers";
 import {
@@ -189,7 +189,6 @@ export default function DepositPageClient() {
   const [synthesisStatus, setSynthesisStatus] = useState<
     "idle" | "running" | "complete" | "failed" | "cancelled"
   >("idle");
-  const [isCancellingSynthesis, setIsCancellingSynthesis] = useState(false);
   const [synthesisError, setSynthesisError] = useState<string | null>(null);
   const [realSynthesis, setRealSynthesis] = useState<{
     synthesis: DepositRouteSession["synthesis"] & {
@@ -749,128 +748,27 @@ export default function DepositPageClient() {
     [depositRouteInput, optionReviewDecisionRecords],
   );
 
-  // Live tail of the AssetPacksSynthesis run: execution_events stream into
-  // the rich accordion log while the route works.
   const {
-    execution: synthesisExecution,
-    events: synthesisEvents,
-    latestWorkUpdate: synthesisWorkUpdate,
-    iterationUpdates: synthesisIterationUpdates,
-    error: synthesisStreamError,
-  } = usePipelineExecution(synthesisRunId);
-  // Terminal-state attribution guard: the activity snapshot is derived from
-  // the hook's events, which belong to the CURRENT run only once its history
-  // hydrate resolved (the hook resets on runId change, but within the same
-  // commit the memo still reads the previous render's events). Only trust
-  // terminal signals attributed to this run.
-  const synthesisExecutionMatchesRun = Boolean(
-    synthesisRunId && (synthesisExecution as { id?: string } | null)?.id === synthesisRunId,
-  );
-  const synthesisActivity = useMemo(
-    () =>
-      buildPipelineRunActivityFromEvents(
-        synthesisEvents,
-        synthesisWorkUpdate,
-        synthesisIterationUpdates,
-        synthesisStreamError,
-      ),
-    [
-      synthesisEvents,
-      synthesisIterationUpdates,
-      synthesisStreamError,
-      synthesisWorkUpdate,
-    ],
-  );
-  const synthesisRunning = synthesisStatus === "running";
-
-  const handleCancelSynthesis = useCallback(async () => {
-    if (!synthesisRunId || !synthesisRunning || isCancellingSynthesis) return;
-    setIsCancellingSynthesis(true);
-    try {
-      const response = await fetch(
-        `/api/executions/${encodeURIComponent(synthesisRunId)}/cancel`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ reason: "Run cancelled by depositor." }),
-        },
-      );
-      const payload = await response.json().catch(() => null);
-      if (!response.ok || !payload?.ok) {
-        throw new Error(
-          typeof payload?.error === "string"
-            ? payload.error
-            : "Unable to cancel the synthesis run.",
-        );
-      }
-      setSynthesisStatus("cancelled");
-      setSynthesisError(null);
-      const durationMs =
-        synthesisDispatchedAtMs !== null
-          ? Date.now() - synthesisDispatchedAtMs
-          : null;
-      trackProductEvent({
-        name: "deposit_synthesis_cancelled",
-        data: { durationMs },
-      });
-      void refreshLiveRuns();
-    } catch (error) {
-      setSynthesisError(
-        error instanceof Error
-          ? error.message
-          : "Unable to cancel the synthesis run.",
-      );
-    } finally {
-      setIsCancellingSynthesis(false);
-    }
-  }, [
-    isCancellingSynthesis,
-    refreshLiveRuns,
-    synthesisDispatchedAtMs,
-    synthesisRunId,
+    synthesisExecution,
+    synthesisEvents,
+    synthesisStreamError,
+    synthesisExecutionMatchesRun,
+    synthesisActivity,
     synthesisRunning,
-  ]);
-  // TOTAL RUN TIME: prefer the executions row wall-clock (started_at /
-  // completed_at / duration_ms). Falling back to first/last *loaded* event
-  // under-counts when history was truncated (Supabase 1000-row default —
-  // refresh used to show ~half the live duration).
-  const synthesisRunStartMs = useMemo(() => {
-    const rowStart = (synthesisExecution as { started_at?: string | null } | null)
-      ?.started_at;
-    const fromRow = rowStart ? new Date(rowStart).getTime() : Number.NaN;
-    if (Number.isFinite(fromRow)) return fromRow;
-    const first = synthesisEvents[0]?.created_at;
-    const parsed = first ? new Date(first).getTime() : Number.NaN;
-    if (Number.isFinite(parsed)) return parsed;
-    return synthesisDispatchedAtMs;
-  }, [synthesisEvents, synthesisDispatchedAtMs, synthesisExecution]);
-  const synthesisRunEndMs = useMemo(() => {
-    if (synthesisRunning) return null;
-    const row = synthesisExecution as {
-      completed_at?: string | null;
-      duration_ms?: number | null;
-      started_at?: string | null;
-    } | null;
-    const completedAt = row?.completed_at
-      ? new Date(row.completed_at).getTime()
-      : Number.NaN;
-    if (Number.isFinite(completedAt)) return completedAt;
-    const durationMs =
-      typeof row?.duration_ms === "number" && Number.isFinite(row.duration_ms)
-        ? row.duration_ms
-        : null;
-    const startedAt = row?.started_at ? new Date(row.started_at).getTime() : Number.NaN;
-    if (durationMs !== null && Number.isFinite(startedAt)) {
-      return startedAt + durationMs;
-    }
-    const last = synthesisEvents[synthesisEvents.length - 1]?.created_at;
-    const parsed = last ? new Date(last).getTime() : Number.NaN;
-    return Number.isFinite(parsed) ? parsed : null;
-  }, [synthesisEvents, synthesisRunning, synthesisExecution]);
-  // Live header tracker: the CURRENT active call chain, rendered with the
-  // same pills as the log title-lines while the pipeline runs.
-  const synthesisLiveContext =
-    synthesisRunning && !synthesisError ? synthesisActivity.latestContext : null;
+    isCancellingSynthesis,
+    handleCancelSynthesis,
+    synthesisRunStartMs,
+    synthesisRunEndMs,
+    synthesisLiveContext,
+  } = useDepositSynthesisActivity({
+    synthesisRunId,
+    synthesisStatus,
+    setSynthesisStatus,
+    setSynthesisError,
+    synthesisDispatchedAtMs,
+    synthesisError,
+    refreshLiveRuns,
+  });
 
   // V48-Gate3-F26-B: the synthesis run is dispatched (decoupled from the request). When the
   // streamed run completes, read the persisted synthesis from the execution row
@@ -1726,42 +1624,19 @@ export default function DepositPageClient() {
             </div>
 
             {synthesisRunId && isActivityLedgerDetail ? (
-              <section
-                className="min-w-0 overflow-hidden border border-white/10 bg-white/[0.035] px-4 py-4"
-                aria-label="Activity ledger record"
-                data-testid="deposit-activity-ledger-detail"
-              >
-                <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
-                  Activity ledger
-                </p>
-                <h2 className="mt-2 text-lg font-semibold text-white">
-                  {selectedDetailRun?.contextSource ===
+              <DepositActivityLedgerDetail
+                runId={synthesisRunId}
+                title={
+                  selectedDetailRun?.contextSource ===
                   "deposit-obfuscations-anchor"
                     ? "Obfuscations anchor"
                     : selectedDetailRun?.contextSource ===
                         "terminal-repository-context-panel"
                       ? "Repository anchor"
-                      : "Activity record"}
-                </h2>
-                <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-400">
-                  This row is a saved configuration bookmark, not a pipeline
-                  run. Pipeline telemetry (phases, agents, generations) only
-                  appears for Asset Pack Synthesis executions. Use Load
-                  anchor on a New deposit to apply this configuration, or Back
-                  to return to the pipelines table.
-                </p>
-                {selectedDetailRun?.summary ? (
-                  <p
-                    className="mt-4 border border-white/10 bg-black/30 px-3 py-3 text-sm leading-6 text-neutral-200"
-                    data-testid="deposit-activity-ledger-summary"
-                  >
-                    {selectedDetailRun.summary}
-                  </p>
-                ) : null}
-                <p className="mt-3 font-mono text-[0.62rem] text-neutral-500">
-                  {synthesisRunId}
-                </p>
-              </section>
+                      : "Activity record"
+                }
+                summary={selectedDetailRun?.summary ?? null}
+              />
             ) : null}
 
             {synthesisRunId && !isActivityLedgerDetail ? (
