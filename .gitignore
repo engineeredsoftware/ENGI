@@ -96,3 +96,4 @@ uapi/tailwind.config.js
 .env*.local
 .bitcode/pipeline-harness-runs/
 scripts/.env.staging-testnet
+.aider**

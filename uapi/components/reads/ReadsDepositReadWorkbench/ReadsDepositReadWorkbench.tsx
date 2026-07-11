@@ -1027,33 +1027,6 @@ export default function ReadsDepositReadWorkbench({
           stages={stageCards}
           activeStageId={activeReadingStage}
         />
-                <p className="mt-2 leading-5 text-neutral-400">{stage.lowDetailGuidance}</p>
-                <details className="mt-3 rounded-[0.75rem] border border-white/8 bg-black/20 px-3 py-2">
-                  <summary className="cursor-pointer text-[0.6rem] uppercase tracking-[0.14em] text-sky-200/80">
-                    Source-safe detail
-                  </summary>
-                  <p className="mt-2 text-xs leading-5 text-neutral-300">{stage.expandableDetail}</p>
-                  <dl className="mt-2 grid gap-1.5">
-                    <div>
-                      <dt className="text-[0.55rem] uppercase tracking-[0.12em] text-neutral-500">visible</dt>
-                      <dd className="mt-0.5 break-words font-mono text-[0.62rem] text-neutral-300">
-                        {stage.sourceSafeVisibleFields.join(', ')}
-                      </dd>
-                    </div>
-                    {stage.blockers.length ? (
-                      <div>
-                        <dt className="text-[0.55rem] uppercase tracking-[0.12em] text-neutral-500">blocked by</dt>
-                        <dd className="mt-0.5 break-words font-mono text-[0.62rem] text-neutral-300">
-                          {stage.blockers.join(', ')}
-                        </dd>
-                      </div>
-                    ) : null}
-                  </dl>
-                </details>
-              </div>
-            );
-          })}
-        </div>
 
         <div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(18rem,0.7fr)]">
           <div className="rounded-[1.1rem] border border-white/8 bg-black/20 px-4 py-4">
