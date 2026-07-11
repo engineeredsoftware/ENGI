@@ -41,91 +41,22 @@ import {
 import { useBitcodeShellBridge } from '@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge';
 import { jumpToShellSection } from '@/components/bitcode/pipeline/ShellReading/shell-reading';
 
-function readMetricValue(metrics: Array<{ label: string; value: string }>, label: string) {
-  return metrics.find((metric) => metric.label === label)?.value || '0';
-}
+import {
+  readMetricValue,
+  readRowValue,
+  objectValue,
+  textValue,
+  shortIdentifier,
+  stringList,
+  countList,
+  numericValue,
+  terminalReadNeed,
+  type ReadFitsFindingProgressState,
+  type TerminalReadNeedState,
+  type TerminalReadNeedReviewRuntimeState,
+} from '@/components/reads/models/read-workbench-values';
 
-function readRowValue(rows: Array<{ label: string; value: string }>, label: string) {
-  return rows.find((row) => row.label === label)?.value || '—';
-}
-
-function objectValue(value: unknown): Record<string, unknown> | null {
-  return value && typeof value === 'object' && !Array.isArray(value)
-    ? (value as Record<string, unknown>)
-    : null;
-}
-
-function textValue(value: unknown): string | null {
-  return typeof value === 'string' && value.trim() ? value.trim() : null;
-}
-
-function shortIdentifier(value: unknown): string | null {
-  const text = textValue(value);
-  if (!text) return null;
-  return text.length > 18 ? `${text.slice(0, 12)}...` : text;
-}
-
-function stringList(value: unknown): string[] {
-  return Array.isArray(value)
-    ? value.map((entry) => String(entry || '').trim()).filter(Boolean)
-    : [];
-}
-
-function countList(value: unknown): number {
-  return Array.isArray(value) ? value.length : 0;
-}
-
-function numericValue(value: unknown): number | null {
-  return typeof value === 'number' && Number.isFinite(value) ? value : null;
-}
-
-function terminalReadNeed(value: unknown): TerminalReadNeedState | null {
-  const record = objectValue(value);
-  return record?.schema === 'bitcode.read.need' ? record as TerminalReadNeedState : null;
-}
-
-type ReadFitsFindingProgressState = 'draft' | 'measured' | 'admitted' | 'fit-recorded';
 type ReadingStageId = TerminalEnterpriseReadingStepId;
-
-type TerminalReadNeedState = Record<string, unknown> & {
-  schema?: 'bitcode.read.need';
-  needId?: string;
-  reviewState?: string;
-  measurementRoot?: string;
-  request?: {
-    requestId?: string;
-    previousNeedId?: string | null;
-    feedbackHistory?: string[];
-  };
-  requirements?: string[];
-  closureCriteria?: string[];
-  failureModes?: string[];
-  targetArtifactKinds?: string[];
-  proofExpectations?: string[];
-  feedbackHistory?: string[];
-  pricingMeasurementInputs?: {
-    weightedRequestedVolume?: number;
-    measurementVector?: Array<{ dimension?: string; weight?: number; volume?: number }>;
-  };
-};
-
-type TerminalReadNeedReviewRuntimeState = Record<string, unknown> & {
-  schema?: 'bitcode.read-need-review-resynthesis-runtime';
-  runtimeId?: string;
-  action?: string;
-  reviewState?: string;
-  findingFitsAdmission?: {
-    admitted?: boolean;
-    blockers?: string[];
-  };
-  reviewLoop?: Record<string, unknown>;
-  proofRoots?: {
-    runtimeRoot?: string;
-    storageRoot?: string;
-    telemetryRoot?: string;
-    readRequestRoot?: string;
-  };
-};
 
 interface TerminalDepositReadWorkbenchProps {
   repositoryContext?: TerminalRepositoryContextState | null;
