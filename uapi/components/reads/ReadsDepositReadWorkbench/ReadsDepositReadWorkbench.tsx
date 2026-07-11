@@ -993,40 +993,16 @@ export default function ReadsDepositReadWorkbench({
         </div>
       ) : null}
 
-      <div className="mt-6 grid gap-5 xl:grid-cols-2">
-        <BitcodeActionWorkbenchCard
-          id="terminalDepositWorkbench"
-          badge="deposit"
-          title="Repository supply and technical-intelligence posture"
-          summary={workbench.deposit.summary}
-          metrics={workbench.deposit.metrics}
-          rows={workbench.deposit.rows}
-          chips={selectedEntryChips.length ? selectedEntryChips : workbench.deposit.artifactKinds}
-          actionLabel="Focus deposit draft"
-          actionTarget="terminalDepositComposer"
-          secondaryActionLabel={recordingKey === 'deposit' ? 'Recording…' : 'Record deposit posture'}
-          secondaryActionDisabled={recordingKey !== null}
-          onSecondaryAction={() => {
-            void handleRecord('deposit');
-          }}
-        />
-        <BitcodeActionWorkbenchCard
-          id="terminalReadWorkbench"
-          badge="read"
-          title="Read measurement and scenario posture"
-          summary={workbench.read.summary}
-          metrics={workbench.read.metrics}
-          rows={workbench.read.rows}
-          chips={workbench.read.closureCriteria.length ? workbench.read.closureCriteria : workbench.read.targetKinds}
-          actionLabel={showDemonstrationWorkbench ? 'Focus read scenarios' : 'Review measured Read'}
-          actionTarget={showDemonstrationWorkbench ? 'terminalReadScenarios' : 'terminalReadWorkbench'}
-          secondaryActionLabel={recordingKey === 'read' ? 'Recording…' : 'Record read posture'}
-          secondaryActionDisabled={recordingKey !== null}
-          onSecondaryAction={() => {
-            void handleRecord('read');
-          }}
-        />
-      </div>
+      <ReadsDepositWorkbenchSupplyCards
+        deposit={workbench.deposit}
+        read={workbench.read}
+        selectedEntryChips={selectedEntryChips}
+        recordingKey={recordingKey}
+        showDemonstrationWorkbench={showDemonstrationWorkbench}
+        onRecord={(key) => {
+          void handleRecord(key);
+        }}
+      />
 
       <section
         className="mt-5 rounded-[1.45rem] border border-sky-300/18 bg-sky-300/[0.06] px-5 py-5"
