@@ -5,7 +5,6 @@ import Link from "next/link";
 import React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  ArrowLeft,
   BadgeDollarSign,
   Clock3,
   RefreshCw,
@@ -31,6 +30,7 @@ import {
 import ReadsDepositReadWorkbench from "@/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench";
 import ReadsRepositoryContextPanel from "@/components/reads/ReadsRepositoryContextPanel/ReadsRepositoryContextPanel";
 import ReadsReadScenarioPanel from "@/components/reads/ReadsReadScenarioPanel/ReadsReadScenarioPanel";
+import { ReadsPipelinesMaster } from "@/components/reads/ReadsPipelinesMaster/ReadsPipelinesMaster";
 import { BitcodeShellBridgeProvider } from "@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge";
 import type { TerminalDepositedSourceRevision } from "@/components/reads/models/deposit-read-workbench";
 import {
@@ -642,62 +642,22 @@ export default function ReadPageClient() {
           aria-label="Read pipelines"
           className="border border-white/10 bg-white/[0.035] px-4 py-4"
         >
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex items-start gap-3">
-              {selectedRun ? (
-                <button
-                  type="button"
-                  onClick={closePipelineDetail}
-                  className="inline-flex h-9 items-center gap-2 border border-white/10 bg-white/[0.04] px-3 text-xs font-medium uppercase tracking-[0.14em] text-neutral-200 transition hover:border-sky-300/30 hover:bg-sky-300/10"
-                  aria-label="Back to Read pipelines"
-                >
-                  <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-                  Back
-                </button>
-              ) : null}
-              <div>
-                <p className="text-[0.68rem] uppercase tracking-[0.22em] text-neutral-500">
-                  Pipelines
-                </p>
-                <h2 className="mt-2 text-lg font-semibold text-white">
-                  Read pipelines
-                </h2>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                void refreshLiveRuns();
-              }}
-              className="inline-flex h-9 w-9 items-center justify-center border border-white/10 bg-white/[0.04] text-neutral-200 transition hover:border-sky-300/30 hover:bg-sky-300/10"
-              aria-label="Refresh Read pipelines"
-            >
-              <RefreshCw className="h-4 w-4" aria-hidden="true" />
-            </button>
-          </div>
-          {/* Drill-in master-detail: with no selection the master table shows
-              (row selection writes the URL transactionId); selecting a run
-              REPLACES the table with that run's detail — telemetry + resumed
-              results for pipeline runs, a run summary otherwise — and Back
-              returns to the table. */}
-          {selectedRun ? null : (
-            <div className="mt-4" data-testid="reads-pipelines-table">
-              <BitcodePipelinesTable
-                runs={liveRuns}
-                selectedTransactionId={null}
-                onSelectTransaction={replaceReadRouteTransaction}
-                filters={pipelineFilters}
-                onFiltersChange={setPipelineFilters}
-                onResetFilters={() => setPipelineFilters(DEFAULT_TRANSACTION_FILTERS)}
-                pagination={pipelinePagination}
-                onPaginationChange={setPipelinePagination}
-                isLoadingRuns={isLoadingRuns}
-                runsError={runsLoadError}
-                transactionDataMode="live"
-                surface="pipelines"
-              />
-            </div>
-          )}
+          {/* Drill-in master-detail: master table vs selected run detail. */}
+          <ReadsPipelinesMaster
+            selectedRun={selectedRun}
+            onCloseDetail={closePipelineDetail}
+            onRefresh={() => {
+              void refreshLiveRuns();
+            }}
+            runs={liveRuns}
+            onSelectTransaction={replaceReadRouteTransaction}
+            filters={pipelineFilters}
+            onFiltersChange={setPipelineFilters}
+            pagination={pipelinePagination}
+            onPaginationChange={setPipelinePagination}
+            isLoadingRuns={isLoadingRuns}
+            runsError={runsLoadError}
+          />
           {selectedRun && !selectedPipelineRunId ? (
             <div data-testid="reads-run-summary" className="mt-4">
               <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
