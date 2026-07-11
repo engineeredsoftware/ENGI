@@ -1,7 +1,7 @@
 // FileDiffViewer pulls react-syntax-highlighter + lucide-react ESM that jest can't
 // parse; mock it so the pipeline-execution-log module (which exports the pure
 // stall-label builder) loads.
-jest.mock('@/components/bitcode/pipeline/FileDiffViewer', () => ({
+jest.mock('@/components/bitcode/pipeline/FileDiffViewer/FileDiffViewer', () => ({
   __esModule: true,
   default: () => null,
 }));
@@ -9,8 +9,8 @@ jest.mock('@/components/bitcode/pipeline/FileDiffViewer', () => ({
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { ProcessingIndicator } from '@/components/bitcode/indicators/ProcessingIndicator';
-import { buildProcessingStallLabel } from '@/components/bitcode/pipeline/pipeline-execution-log';
+import { ProcessingIndicator } from '@/components/bitcode/indicators/ProcessingIndicator/ProcessingIndicator';
+import { buildProcessingStallLabel } from '@/components/bitcode/pipeline/PipelineExecutionLog/PipelineExecutionLog';
 
 // The live stall wiring (PipelineExecutionLog): the last streamed line + a 1s
 // nowTick feed buildProcessingStallLabel, whose result renders as

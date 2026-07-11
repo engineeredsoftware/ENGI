@@ -1,8 +1,8 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import ConversationCard from '@/app/conversations/components/ConversationsCard';
-import MessageWaterfall from '@/app/conversations/components/ConversationsMessageWaterfall';
-import EnhancedRichTextInput from '@/app/conversations/components/ConversationsEnhancedRichTextInput';
+import ConversationCard from '@/components/conversations/ConversationsCard/ConversationsCard';
+import MessageWaterfall from '@/components/conversations/ConversationsMessageWaterfall/ConversationsMessageWaterfall';
+import EnhancedRichTextInput from '@/components/conversations/ConversationsEnhancedRichTextInput/ConversationsEnhancedRichTextInput';
 
 const meta = {
   title: 'Conversations/Conversation Interface',

@@ -1,10 +1,10 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import PullRequestCard, { PullRequestData } from '@/components/shippables/PullRequestCard';
-import IssueCard, { IssueData } from '@/components/shippables/IssueCard';
-import ReviewCard, { ReviewData } from '@/components/shippables/ReviewCard';
-import CommentCard, { CommentData } from '@/components/shippables/CommentCard';
+import PullRequestCard, { PullRequestData } from '@/components/shippables/PullRequestCard/PullRequestCard';
+import IssueCard, { IssueData } from '@/components/shippables/IssueCard/IssueCard';
+import ReviewCard, { ReviewData } from '@/components/shippables/ReviewCard/ReviewCard';
+import CommentCard, { CommentData } from '@/components/shippables/CommentCard/CommentCard';
 
 // ---------------------------------------------------------------------------
 //  Meta

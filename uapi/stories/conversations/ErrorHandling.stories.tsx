@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import ConversationCard from '@/app/conversations/components/ConversationsCard';
-import EnhancedRichTextInput from '@/app/conversations/components/ConversationsEnhancedRichTextInput';
+import ConversationCard from '@/components/conversations/ConversationsCard/ConversationsCard';
+import EnhancedRichTextInput from '@/components/conversations/ConversationsEnhancedRichTextInput/ConversationsEnhancedRichTextInput';
 
 const meta = {
   title: 'Conversations/Error Handling & Edge Cases',

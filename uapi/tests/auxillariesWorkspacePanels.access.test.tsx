@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import AuxillariesWorkspacePanels from '@/app/auxillaries/components/shared/AuxillariesWorkspacePanels';
+import AuxillariesWorkspacePanels from '@/components/auxillaries/shared/AuxillariesWorkspacePanels/AuxillariesWorkspacePanels';
 
 describe('AuxillariesWorkspacePanels', () => {
   it('renders contained auxillary panels with user-facing layer labels and only opens ready auxillaries', () => {

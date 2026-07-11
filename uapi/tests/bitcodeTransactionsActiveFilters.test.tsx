@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import BitcodeTransactionsActiveFilters from '@/components/bitcode/pipeline/BitcodeTransactionsActiveFilters';
+import BitcodeTransactionsActiveFilters from '@/components/bitcode/pipeline/BitcodeTransactionsActiveFilters/BitcodeTransactionsActiveFilters';
 
 describe('BitcodeTransactionsActiveFilters', () => {
   it('renders active chips and clears one filter at a time', () => {

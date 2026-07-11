@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import BitcodeDetailPanel from '@/components/bitcode/pipeline/BitcodeDetailPanel';
+import BitcodeDetailPanel from '@/components/bitcode/pipeline/BitcodeDetailPanel/BitcodeDetailPanel';
 
 describe('BitcodeDetailPanel', () => {
   it('renders summary, metrics, rows, and action follow-through', () => {

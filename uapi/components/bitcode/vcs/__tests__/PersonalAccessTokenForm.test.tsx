@@ -20,19 +20,19 @@ jest.mock('lucide-react', () => ({
 }));
 
 // Mock UI components
-jest.mock('@/components/shadcn/button', () => ({
+jest.mock('@/components/shadcn/Button/Button', () => ({
   Button: ({ children, ...props }: any) => <button {...props}>{children}</button>
 }));
 
-jest.mock('@/components/shadcn/input', () => ({
+jest.mock('@/components/shadcn/Input/Input', () => ({
   Input: (props: any) => <input {...props} />
 }));
 
-jest.mock('@/components/shadcn/label', () => ({
+jest.mock('@/components/shadcn/Label/Label', () => ({
   Label: ({ children, ...props }: any) => <label {...props}>{children}</label>
 }));
 
-jest.mock('@/components/shadcn/alert', () => ({
+jest.mock('@/components/shadcn/Alert/Alert', () => ({
   Alert: ({ children, ...props }: any) => <div role="alert" {...props}>{children}</div>,
   AlertDescription: ({ children }: any) => <div>{children}</div>
 }));

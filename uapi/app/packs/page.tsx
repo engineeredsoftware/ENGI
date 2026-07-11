@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
-import PublicShellFrame from '@/app/(root)/components/PublicShellFrame';
+import PublicShellFrame from '@/components/marketing/PublicShellFrame/PublicShellFrame';
 
 import PacksPageClient from './PacksPageClient';
 

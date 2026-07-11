@@ -3,7 +3,7 @@
  * Relocated from app/terminal/terminal-deposit-read-workbench.
  */
 
-import type { KeyValueRow, Metric } from '@/components/bitcode/pipeline/shell-reading';
+import type { KeyValueRow, Metric } from '@/components/bitcode/pipeline/ShellReading/shell-reading';
 import type { TerminalRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
 export {
   TERMINAL_ENTERPRISE_READING_STEPS,

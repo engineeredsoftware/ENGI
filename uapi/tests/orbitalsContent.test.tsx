@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import OrbitalsContent from '@/app/auxillaries/components/AuxillariesContent';
+import OrbitalsContent from '@/components/auxillaries/AuxillariesContent/AuxillariesContent';
 
 describe('OrbitalsContent', () => {
   it('keeps the contained orbital workspace layout active even when access uses tab navigation', () => {

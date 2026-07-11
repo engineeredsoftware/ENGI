@@ -9,7 +9,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.useConversationsPerformanceMonitor = useConversationsPerformanceMonitor;
 const react_1 = require("react");
-const edge_case_handler_1 = require("@/app/conversations/utilities/edge-case-handler");
+const edge_case_handler_1 = require("@/components/conversations/utilities/edge-case-handler");
 const DEFAULT_CONFIG = {
     maxRenderTime: 1000, // 1 second max render time
     memoryThreshold: 0.8, // 80% memory usage threshold

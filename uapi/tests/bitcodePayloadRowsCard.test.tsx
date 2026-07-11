@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import BitcodePayloadRowsCard from '@/components/bitcode/pipeline/BitcodePayloadRowsCard';
+import BitcodePayloadRowsCard from '@/components/bitcode/pipeline/BitcodePayloadRowsCard/BitcodePayloadRowsCard';
 
 describe('BitcodePayloadRowsCard', () => {
   it('renders shared payload detail with rows and actions', () => {

@@ -2,11 +2,11 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import ConversationSourceSelector from '@/app/conversations/components/ConversationSourceSelector';
+import ConversationSourceSelector from '@/components/conversations/ConversationSourceSelector/ConversationSourceSelector';
 import {
   buildConversationSourceSelectorPreview,
   redactConversationSourceSelectorRef,
-} from '@/app/conversations/conversation-source-selector';
+} from '@/components/conversations/models/conversation-source-selector';
 
 describe('ConversationSourceSelector', () => {
   it('selects source-safe repository context with proof and event metadata', async () => {

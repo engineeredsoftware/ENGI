@@ -8,7 +8,7 @@ import {
   TableHead,
   TableCell,
   TableCaption,
-} from '@/components/shadcn/table';
+} from '@/components/shadcn/Table/Table';
 
 const meta = {
   title: 'UI/Table',

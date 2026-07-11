@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import GlassyInput from '@/components/bitcode/inputs/GlassyInput';
+import GlassyInput from '@/components/bitcode/inputs/GlassyInput/GlassyInput';
 
 const meta: Meta<typeof GlassyInput> = {
   title: 'Base/GlassyInput',

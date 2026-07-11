@@ -8,7 +8,7 @@ exports.useUserData = useUserData;
 // tracker, auxillaries, etc.) share a single source of truth and avoid
 // inconsistent intermediate states.
 const react_1 = require("react");
-const auxillary_pane_meta_1 = require("@/app/auxillaries/components/auxillary-pane-meta");
+const auxillary_pane_meta_1 = require("@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta");
 const orm_1 = require("@bitcode/orm");
 const ANONYMOUS_USER_DATA = {
     profile: null,

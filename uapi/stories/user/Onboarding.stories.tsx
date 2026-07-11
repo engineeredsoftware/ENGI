@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import AuxillariesContent from '@/app/auxillaries/components/AuxillariesContent';
+import AuxillariesContent from '@/components/auxillaries/AuxillariesContent/AuxillariesContent';
 
 type OnboardingStep = 'profile' | 'github' | 'payment' | 'completed';
 

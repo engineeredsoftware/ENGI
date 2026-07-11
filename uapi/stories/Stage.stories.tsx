@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { ProcessLogHeader } from '@/app/executions/components/ExecutionProcessLogHeader';
-import { ProcessLog } from '@/app/executions/components/ExecutionProcessLog';
+import { ProcessLogHeader } from '@/components/bitcode/pipeline/ExecutionsProcessLog/ExecutionsProcessLogHeader';
+import { ProcessLog } from '@/components/bitcode/pipeline/ExecutionsProcessLog/ExecutionsProcessLog';
 
 const sampleOutput = `
 Setup: Initializing run... (Generation)

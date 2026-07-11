@@ -2,11 +2,11 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import ConversationWritingWorkspace from '@/app/conversations/components/ConversationWritingWorkspace';
+import ConversationWritingWorkspace from '@/components/conversations/ConversationWritingWorkspace/ConversationWritingWorkspace';
 import {
   buildConversationWritingWorkspaceHandoff,
   summarizeConversationWritingWorkspaceDraft,
-} from '@/app/conversations/conversation-writing-workspace';
+} from '@/components/conversations/models/conversation-writing-workspace';
 
 describe('ConversationWritingWorkspace', () => {
   beforeEach(() => {

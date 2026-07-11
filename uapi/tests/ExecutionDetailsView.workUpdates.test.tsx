@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { ExecutionDetailsView } from '@/app/executions/components/ExecutionDetailsView';
+import { ExecutionDetailsView } from '@/components/bitcode/pipeline/ExecutionDetailsView/ExecutionDetailsView';
 
 jest.mock('next/navigation', () => ({
   useRouter: () => ({ push: jest.fn() }),
@@ -10,11 +10,11 @@ jest.mock('@/hooks/usePipelineExecution', () => ({
   usePipelineExecution: jest.fn(),
 }));
 
-jest.mock('@/components/bitcode/pipeline/pipeline-execution-log', () => ({
+jest.mock('@/components/bitcode/pipeline/PipelineExecutionLog/PipelineExecutionLog', () => ({
   PipelineExecutionLog: () => <div data-testid="log" />,
 }));
 
-jest.mock('@/components/bitcode/pipeline/pipeline-execution-log-header', () => ({
+jest.mock('@/components/bitcode/pipeline/PipelineExecutionLogHeader/PipelineExecutionLogHeader', () => ({
   PipelineExecutionLogHeader: () => <div data-testid="log-header" />,
 }));
 

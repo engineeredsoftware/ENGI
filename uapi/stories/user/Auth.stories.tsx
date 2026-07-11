@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import AuxillariesLoginPane from '@/app/auxillaries/components/AuxillariesLoginPane';
+import AuxillariesLoginPane from '@/components/auxillaries/AuxillariesLoginPane/AuxillariesLoginPane';
 
 // NOTE: LoginPane already embeds the animated headline, quantum bg and the
 // LoginForm with its multi-stage flow.  For Storybook we simply mount it – the

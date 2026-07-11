@@ -5,7 +5,7 @@ import {
   assertConversationPersistencePreviewSourceSafe,
   buildConversationPersistencePreview,
   redactConversationPersistencePreviewText,
-} from '@/app/conversations/conversation-persistence-privacy-redaction';
+} from '@/components/conversations/models/conversation-persistence-privacy-redaction';
 
 describe('Conversation persistence privacy redaction', () => {
   it('covers all visibility tiers and persistence operations', () => {

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Dock, DockIcon } from '@/components/bitcode/dock';
+import { Dock, DockIcon } from '@/components/bitcode/Dock/Dock';
 import { Sun, Moon } from 'lucide-react';
 
 const meta = {

@@ -8,12 +8,12 @@
 
 import React from 'react';
 
-import BitcodeChipCloud from '@/components/bitcode/pipeline/BitcodeChipCloud';
-import BitcodeDetailRowList from '@/components/bitcode/pipeline/BitcodeDetailRowList';
-import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid';
-import { DisabledTooltipWrapper } from '@/components/bitcode/overlays/disabled-tooltip-wrapper';
+import BitcodeChipCloud from '@/components/bitcode/pipeline/BitcodeChipCloud/BitcodeChipCloud';
+import BitcodeDetailRowList from '@/components/bitcode/pipeline/BitcodeDetailRowList/BitcodeDetailRowList';
+import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid/BitcodeMetricGrid';
+import { DisabledTooltipWrapper } from '@/components/bitcode/overlays/DisabledTooltipWrapper/DisabledTooltipWrapper';
 
-import { jumpToShellSection } from '@/components/bitcode/pipeline/shell-reading';
+import { jumpToShellSection } from '@/components/bitcode/pipeline/ShellReading/shell-reading';
 
 interface BitcodeActionWorkbenchCardProps {
   id?: string;

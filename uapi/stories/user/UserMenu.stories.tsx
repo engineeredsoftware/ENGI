@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { UserMenu } from '@/components/bitcode/layout/user-menu';
+import { UserMenu } from '@/components/bitcode/layout/UserMenu/UserMenu';
 
 // ---------------------------------------------------------------------------
 // Mock Supabase user object – only fields accessed by UserMenu are email and

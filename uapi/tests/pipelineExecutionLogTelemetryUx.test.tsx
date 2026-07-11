@@ -1,7 +1,7 @@
 // FileDiffViewer pulls react-syntax-highlighter + lucide-react ESM that jest
 // can't parse; mock it so the pipeline-execution-log module (which exports the
 // pure stall-label builder) loads.
-jest.mock('@/components/bitcode/pipeline/FileDiffViewer', () => ({
+jest.mock('@/components/bitcode/pipeline/FileDiffViewer/FileDiffViewer', () => ({
   __esModule: true,
   default: () => null,
 }));
@@ -18,18 +18,18 @@ import {
   humanizeAgentName,
   normalizeStepName,
   trimPipelineAgentName,
-} from '@/components/bitcode/pipeline/execution-telemetry-format';
-import { formatRunClock } from '@/components/bitcode/pipeline/RunClock';
+} from '@/components/bitcode/pipeline/ExecutionTelemetryFormat/execution-telemetry-format';
+import { formatRunClock } from '@/components/bitcode/pipeline/RunClock/RunClock';
 import {
   PipelineExecutionLog,
   buildProcessingStallLabel,
-} from '@/components/bitcode/pipeline/pipeline-execution-log';
-import { ExecutionContextPillRow, buildFailsafePillLabel } from '@/components/bitcode/pipeline/ExecutionContextPillRow';
-import { TelemetryExplainerTrigger } from '@/components/bitcode/pipeline/TelemetryExplainerTrigger';
+} from '@/components/bitcode/pipeline/PipelineExecutionLog/PipelineExecutionLog';
+import { ExecutionContextPillRow, buildFailsafePillLabel } from '@/components/bitcode/pipeline/ExecutionContextPillRow/ExecutionContextPillRow';
+import { TelemetryExplainerTrigger } from '@/components/bitcode/pipeline/TelemetryExplainerTrigger/TelemetryExplainerTrigger';
 import {
   getTelemetryPillExplainer,
   getTelemetryRowIconExplainer,
-} from '@/components/bitcode/pipeline/telemetry-pill-explainers';
+} from '@/components/bitcode/pipeline/TelemetryPillExplainers/telemetry-pill-explainers';
 import { buildTerminalRunActivityFromEvents } from '@/components/bitcode/pipeline/models/pipeline-run-activity';
 
 beforeAll(() => {

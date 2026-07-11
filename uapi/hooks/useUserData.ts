@@ -6,7 +6,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
-import { normalizeAuxillarySteps } from '@/app/auxillaries/components/auxillary-pane-meta';
+import { normalizeAuxillarySteps } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 import { bitcodeQaTelemetry, compactBitcodeAddress } from '../lib/bitcode-qa-telemetry';
 import {
   BITCODE_LOCAL_WALLET_EVENT,

@@ -4,7 +4,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import Nav from '@/components/bitcode/layout/nav';
+import Nav from '@/components/bitcode/layout/Nav/Nav';
 
 const mockPush = jest.fn();
 const mockReplace = jest.fn();
@@ -19,7 +19,7 @@ jest.mock('next/navigation', () => ({
   useRouter: () => ({ push: mockPush, replace: mockReplace }),
 }));
 
-jest.mock('@/components/bitcode/auth/AuthProvider', () => ({
+jest.mock('@/components/bitcode/auth/AuthProvider/AuthProvider', () => ({
   useAuth: () => mockUseAuth(),
 }));
 
@@ -27,7 +27,7 @@ jest.mock('@/hooks/useUserData', () => ({
   useUserData: () => mockUseUserData(),
 }));
 
-jest.mock('@/app/auxillaries/components/AuxillariesProvider', () => ({
+jest.mock('@/components/auxillaries/AuxillariesProvider/AuxillariesProvider', () => ({
   openAuxillaries: (...args: unknown[]) => mockOpenOrbital(...args),
   prefetchAuxillaries: () => mockPrefetchOrbital(),
 }));
@@ -40,7 +40,7 @@ jest.mock('@/config/features', () => ({
   },
 }));
 
-jest.mock('@/components/bitcode/layout/NavBrand', () => ({
+jest.mock('@/components/bitcode/layout/NavBrand/NavBrand', () => ({
   __esModule: true,
   default: ({
     onClick,
@@ -55,15 +55,15 @@ jest.mock('@/components/bitcode/layout/NavBrand', () => ({
   ),
 }));
 
-jest.mock('@/components/bitcode/btd/btd-tracker', () => ({
+jest.mock('@/components/bitcode/btd/BtdTracker/BtdTracker', () => ({
   BTDTracker: () => <div>BTD</div>,
 }));
 
-jest.mock('@/components/bitcode/notifications/NotificationsWidget', () => ({
+jest.mock('@/components/bitcode/notifications/NotificationsWidget/NotificationsWidget', () => ({
   NotificationsWidget: () => <div>Notifications</div>,
 }));
 
-jest.mock('@/components/bitcode/layout/user-menu', () => ({
+jest.mock('@/components/bitcode/layout/UserMenu/UserMenu', () => ({
   UserMenu: ({
     onOpenAuxillaries,
   }: {
@@ -75,11 +75,11 @@ jest.mock('@/components/bitcode/layout/user-menu', () => ({
   ),
 }));
 
-jest.mock('@/components/bitcode/overlays/disabled-tooltip-wrapper', () => ({
+jest.mock('@/components/bitcode/overlays/DisabledTooltipWrapper/DisabledTooltipWrapper', () => ({
   DisabledTooltipWrapper: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
-jest.mock('@/components/bitcode/nav/AuxillariesUseButton', () => ({
+jest.mock('@/components/bitcode/nav/AuxillariesUseButton/AuxillariesUseButton', () => ({
   AuxillariesUseButton: () => <div>Use button</div>,
 }));
 

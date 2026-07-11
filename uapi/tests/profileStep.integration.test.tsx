@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
-import ProfileStep from '@/app/auxillaries/components/AuxillariesProfileStep';
+import ProfileStep from '@/components/auxillaries/AuxillariesProfileStep/AuxillariesProfileStep';
 
 describe('ProfileStep interactions', () => {
   it('adds a new team member and calls onSave with updated members', () => {

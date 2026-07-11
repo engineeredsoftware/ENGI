@@ -3,7 +3,7 @@ import {
   getHeaderWrittenAssets,
   mergeHeaderShippables,
   type HeaderAssetPackCompletion,
-} from '@/app/executions/components/ExecutionsCompleteHeaderContent';
+} from '@/components/bitcode/pipeline/ExecutionsCompleteHeaderContent/ExecutionsCompleteHeaderContent';
 
 describe('executions header semantic mirrors', () => {
   it('prefers AssetPack synthesis artifacts for summary and file changes while preserving delivery mechanisms', () => {

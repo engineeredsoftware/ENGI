@@ -9,7 +9,7 @@
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { ConversationRichResponseMetrics, ConversationRichResponse } from '../types/conversations-rich-response';
-import { conversationEdgeCaseHandler } from '@/app/conversations/utilities/edge-case-handler';
+import { conversationEdgeCaseHandler } from '@/components/conversations/utilities/edge-case-handler';
 
 interface PerformanceConfig {
   maxRenderTime: number;

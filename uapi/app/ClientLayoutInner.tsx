@@ -6,18 +6,18 @@ import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@bitcode/supabase/ssr/client'
 import type { Session, User } from '@supabase/supabase-js'
-import { AuthProvider } from '@/components/bitcode/auth/AuthProvider'
-import AuxillariesProvider from '@/app/auxillaries/components/AuxillariesProvider'
+import { AuthProvider } from '@/components/bitcode/auth/AuthProvider/AuthProvider'
+import AuxillariesProvider from '@/components/auxillaries/AuxillariesProvider/AuxillariesProvider'
 import { useQueryClient } from '@tanstack/react-query'
 import { prefetchAuthData, updateCachedUser, useOnboarding } from '@/hooks/use-auth-query'
 import { FEATURE_FLAGS } from '@/config/features'
 import { buildMockReviewUser, isAuxillariesMockMode } from '@/lib/mock-review-mode'
-import { shouldHideWorkspaceFooter } from '@/components/bitcode/layout/workspace-surface'
+import { shouldHideWorkspaceFooter } from '@/components/bitcode/layout/WorkspaceSurface/workspace-surface'
 
 // Lazy-load toast infrastructure to avoid increasing initial JS bundle – the
 // component itself is tiny but pulls in Radix primitives.
 const Toaster = dynamic(
-  () => import('@/components/shadcn/sonner').then(m => m.Toaster),
+  () => import('@/components/shadcn/Sonner/Sonner').then(m => m.Toaster),
   { ssr: false }
 )
 
@@ -34,7 +34,7 @@ function useLoginErrorToast() {
       params.delete('loginErrorDescription');
       const newUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : '') + window.location.hash;
       window.history.replaceState({}, '', newUrl);
-      import('@/components/shadcn/sonner').then(({ toast }) => {
+      import('@/components/shadcn/Sonner/Sonner').then(({ toast }) => {
         const errorLabel = decodeURIComponent(err);
         const detail = description ? decodeURIComponent(description) : '';
         toast.error(detail ? `${errorLabel}: ${detail}` : errorLabel);
@@ -44,7 +44,7 @@ function useLoginErrorToast() {
 }
 
 // Dynamically import Conversations overlay with loading optimization
-const Conversation = dynamic(() => import('@/app/conversations/components/ConversationsOverlay'), {
+const Conversation = dynamic(() => import('@/components/conversations/ConversationsOverlay/ConversationsOverlay'), {
   ssr: false,
   loading: () => null,
   suspense: true,
@@ -59,7 +59,7 @@ const prefetchHeavyComponents = () => {
     setTimeout(() => {
       if (conversationsEnabled && !(window as any).__conversationsPrefetched) {
         (window as any).__conversationsPrefetched = true;
-        import('@/app/conversations/components/ConversationsOverlay').catch(() => {});
+        import('@/components/conversations/ConversationsOverlay/ConversationsOverlay').catch(() => {});
       }
     }, 2000);
     
@@ -67,7 +67,7 @@ const prefetchHeavyComponents = () => {
     setTimeout(() => {
       if (conversationsEnabled && !window.__sidebarsPrefetched) {
         window.__sidebarsPrefetched = true;
-        import('@/components/bitcode/layout/sidebars/right-sidebar').catch(() => {});
+        import('@/components/bitcode/layout/sidebars/RightSidebar/RightSidebar').catch(() => {});
       }
     }, 3000);
   }
@@ -81,7 +81,7 @@ declare global {
 }
 
 const RightSidebar = dynamic(
-  () => import('@/components/bitcode/layout/sidebars/right-sidebar'),
+  () => import('@/components/bitcode/layout/sidebars/RightSidebar/RightSidebar'),
   { ssr: false, loading: () => null }
 )
 
@@ -91,10 +91,10 @@ const NavSkeleton = () => (
   <div className="h-36 w-full skeleton-shine" />
 );
 const Nav = dynamic(
-  () => import('@/components/bitcode/layout/nav'),
+  () => import('@/components/bitcode/layout/Nav/Nav'),
   { ssr: false, loading: () => <NavSkeleton /> }
 )
-const Footer = dynamic(() => import('@/components/bitcode/layout/footer'), { ssr: false })
+const Footer = dynamic(() => import('@/components/bitcode/layout/Footer/Footer'), { ssr: false })
 
 // Content skeleton
 // eslint-disable-next-line react/no-multi-comp

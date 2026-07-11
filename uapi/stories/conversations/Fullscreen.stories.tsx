@@ -1,10 +1,10 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import FullscreenPortal from '@/app/conversations/components/ConversationsFullscreenPortal';
-import ExecutionReadInput from '@/components/bitcode/pipeline/ExecutionReadInput';
-import { ProcessLog } from '@/app/executions/components/ExecutionProcessLog';
-import { ProcessLogHeader } from '@/app/executions/components/ExecutionProcessLogHeader';
+import FullscreenPortal from '@/components/conversations/ConversationsFullscreenPortal/ConversationsFullscreenPortal';
+import ExecutionReadInput from '@/components/bitcode/pipeline/ExecutionReadInput/ExecutionReadInput';
+import { ProcessLog } from '@/components/bitcode/pipeline/ExecutionsProcessLog/ExecutionsProcessLog';
+import { ProcessLogHeader } from '@/components/bitcode/pipeline/ExecutionsProcessLog/ExecutionsProcessLogHeader';
 
 const meta = {
   title: 'Conversations/Fullscreen',

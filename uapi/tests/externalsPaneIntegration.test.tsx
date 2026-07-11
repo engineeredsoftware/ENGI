@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import ExternalsPane from '@/app/auxillaries/components/AuxillariesExternals';
+import ExternalsPane from '@/components/auxillaries/AuxillariesExternals/AuxillariesExternals';
 
 describe('ExternalsPane Integration (SSR)', () => {
   it('renders Figma and Notion sections when configured', () => {

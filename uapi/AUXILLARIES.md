@@ -63,7 +63,7 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
 ## Example Usage
 
 ```ts
-import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
+import { openAuxillaries } from '@/components/auxillaries/AuxillariesProvider/AuxillariesProvider';
 
 // Open onboarding (SignUp) directly to Externals pane
 openAuxillaries('SignUpWindow', 'externals');

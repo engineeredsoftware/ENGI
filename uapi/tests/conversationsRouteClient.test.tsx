@@ -11,7 +11,7 @@ jest.mock('next/navigation', () => ({
   }),
 }));
 
-jest.mock('@/app/conversations/components/ConversationsOverlay', () => ({
+jest.mock('@/components/conversations/ConversationsOverlay/ConversationsOverlay', () => ({
   __esModule: true,
   default: ({
     forceOpen,
@@ -37,7 +37,7 @@ jest.mock('@/app/conversations/components/ConversationsOverlay', () => ({
   },
 }));
 
-import ConversationsRouteClient from '@/app/conversations/ConversationsRouteClient';
+import ConversationsRouteClient from '@/components/conversations/ConversationsRouteClient/ConversationsRouteClient';
 
 describe('ConversationsRouteClient', () => {
   beforeEach(() => {

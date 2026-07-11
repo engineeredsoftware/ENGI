@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import ExternalsPane from '@/app/auxillaries/components/AuxillariesExternals';
+import ExternalsPane from '@/components/auxillaries/AuxillariesExternals/AuxillariesExternals';
 
 describe('ExternalsPane (SSR)', () => {
   it('renders summary card with dynamic organization and repositories', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import SplitGrid from '@/app/conversations/components/ConversationsSplitGrid';
-import FullscreenPortal from '@/app/conversations/components/ConversationsFullscreenPortal';
+import SplitGrid from '@/components/conversations/ConversationsSplitGrid/ConversationsSplitGrid';
+import FullscreenPortal from '@/components/conversations/ConversationsFullscreenPortal/ConversationsFullscreenPortal';
 
 const meta = {
   title: 'Conversations/Complete System Demo',

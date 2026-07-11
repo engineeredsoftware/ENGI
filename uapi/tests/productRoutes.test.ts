@@ -15,7 +15,7 @@ import {
   buildDepositsHref,
   buildDepositHref,
   buildExchangeHref,
-} from '@/components/bitcode/routes/product-routes';
+} from '@/components/bitcode/routes/ProductRoutes/product-routes';
 
 describe('product-routes', () => {
   it('exposes plural product routes as the canonical paths', () => {
@@ -46,7 +46,7 @@ describe('product-routes', () => {
   });
 
   it('does not export Terminal route helpers', async () => {
-    const mod = await import('@/components/bitcode/routes/product-routes');
+    const mod = await import('@/components/bitcode/routes/ProductRoutes/product-routes');
     expect('TERMINAL_ROUTE' in mod).toBe(false);
     expect('buildTerminalHref' in mod).toBe(false);
   });

@@ -1,1 +1,1 @@
-export { usePipelineStream } from '@/app/conversations/hooks/usePipelineStream';
+export { usePipelineStream } from '@/components/conversations/hooks/usePipelineStream';

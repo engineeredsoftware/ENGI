@@ -5,7 +5,7 @@ import {
   buildAuxillariesRoutePath,
   getAuxillaryDescriptor,
   normalizeAuxillaryPane,
-} from '@/app/auxillaries/components/auxillary-pane-meta';
+} from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 
 type AuxillariesPanePageProps = {
   params: {

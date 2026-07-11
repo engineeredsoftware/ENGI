@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import MarketingLandingPage from '@/app/(root)/components/MarketingLandingPage';
+import MarketingLandingPage from '@/components/marketing/MarketingLandingPage/MarketingLandingPage';
 
 jest.mock('framer-motion', () => {
   const makeComponent = () =>
@@ -21,22 +21,22 @@ jest.mock('framer-motion', () => {
   };
 });
 
-jest.mock('@/components/bitcode/layout/footer', () => ({
+jest.mock('@/components/bitcode/layout/Footer/Footer', () => ({
   __esModule: true,
   default: () => <div>Footer</div>,
 }));
 
-jest.mock('@/components/bitcode/branding/bitcode-pill', () => ({
+jest.mock('@/components/bitcode/branding/BitcodePill/BitcodePill', () => ({
   __esModule: true,
   default: ({ children }: React.PropsWithChildren) => <div>{children}</div>,
 }));
 
-jest.mock('@/components/bitcode/branding/bitcode-software-svg-logo', () => ({
+jest.mock('@/components/bitcode/branding/BitcodeSoftwareSvgLogo/BitcodeSoftwareSvgLogo', () => ({
   __esModule: true,
   default: () => <div>Software logo</div>,
 }));
 
-jest.mock('@/components/bitcode/branding/logo', () => ({
+jest.mock('@/components/bitcode/branding/Logo/Logo', () => ({
   __esModule: true,
   default: () => <div>Logo</div>,
 }));
@@ -46,19 +46,19 @@ jest.mock('@/components/bitcode/effects/quantum-orb', () => ({
   minimalPreset: {},
 }));
 
-jest.mock('@/components/bitcode/multi-line-typing-animation', () => ({
+jest.mock('@/components/bitcode/MultiLineTypingAnimation/MultiLineTypingAnimation', () => ({
   __esModule: true,
   default: ({ text }: { text: string }) => <>{text}</>,
 }));
 
-jest.mock('@/components/bitcode/layout/demonstration-witness-runtime', () => ({
+jest.mock('@/components/bitcode/layout/DemonstrationWitnessRuntime/demonstration-witness-runtime', () => ({
   mountBitcodeDemonstrationShell: jest.fn(async () => jest.fn()),
   readBitcodeDemonstrationShellSnapshot: jest.fn(),
   readBitcodeDemonstrationShellControls: jest.fn(),
 }));
 
 const { mountBitcodeDemonstrationShell } = jest.requireMock(
-  '@/components/bitcode/layout/demonstration-witness-runtime',
+  '@/components/bitcode/layout/DemonstrationWitnessRuntime/demonstration-witness-runtime',
 ) as {
   mountBitcodeDemonstrationShell: jest.Mock;
 };

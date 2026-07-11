@@ -8,7 +8,7 @@ import {
   SelectItem,
   SelectSeparator,
   SelectLabel,
-} from '@/components/shadcn/select';
+} from '@/components/shadcn/Select/Select';
 
 const meta = {
   title: 'UI/Select',

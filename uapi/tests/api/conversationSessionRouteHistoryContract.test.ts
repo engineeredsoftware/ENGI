@@ -5,7 +5,7 @@
 import {
   CONVERSATION_SESSION_ROUTE_HISTORY_CONTRACTS,
   assertSourceSafeConversationRouteHistoryPayload,
-} from '@/app/conversations/conversation-session-route-history';
+} from '@/components/conversations/models/conversation-session-route-history';
 import { buildMockConversationStreamEnvelope } from '@/app/api/conversations/_shared';
 
 describe('conversation route-history source-safe envelope contracts', () => {

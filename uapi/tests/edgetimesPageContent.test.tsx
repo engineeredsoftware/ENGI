@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 
 import EdgetimesPageContent from '@/app/edgetimes/EdgetimesPageContent';
 
-jest.mock('@/components/bitcode/layout/footer', () => ({
+jest.mock('@/components/bitcode/layout/Footer/Footer', () => ({
   __esModule: true,
   default: () => <div>Footer</div>,
 }));

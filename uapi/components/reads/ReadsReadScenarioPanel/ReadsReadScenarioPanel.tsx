@@ -5,10 +5,10 @@
 
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineExplainer';
-import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid';
+import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer';
+import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid/BitcodeMetricGrid';
 
 import BitcodeWorkspaceCard from '@/components/bitcode/pipeline/BitcodeWorkspaceCard/BitcodeWorkspaceCard';
 import {
@@ -27,7 +27,7 @@ import {
   type TerminalReadScenariosState,
 } from '@/components/reads/models/read-scenarios';
 import { useBitcodeShellBridge } from '@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge';
-import { jumpToShellSection } from '@/components/bitcode/pipeline/shell-reading';
+import { jumpToShellSection } from '@/components/bitcode/pipeline/ShellReading/shell-reading';
 
 interface TerminalReadScenarioPanelProps {
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;

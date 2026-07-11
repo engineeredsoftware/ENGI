@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import AuxillariesPaneTabs from '@/app/auxillaries/components/shared/AuxillariesPaneTabs';
+import AuxillariesPaneTabs from '@/components/auxillaries/shared/AuxillariesPaneTabs/AuxillariesPaneTabs';
 
 describe('AuxillariesPaneTabs', () => {
   it('renders calmer auxillaries tabs and only fires for available steps', () => {

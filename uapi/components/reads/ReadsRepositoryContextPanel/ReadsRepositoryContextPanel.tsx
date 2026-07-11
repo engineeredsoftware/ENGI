@@ -10,8 +10,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowUpRight, CheckCircle2, FolderGit2, GitBranch, Lock, RefreshCw, ShieldCheck } from 'lucide-react';
 import type { VCSBranch, VCSCommit, VCSRepository } from '@bitcode/vcs-core';
 
-import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineExplainer';
-import { VCSRepositorySelector } from '@/components/bitcode/vcs/VCSRepositorySelector';
+import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer';
+import { VCSRepositorySelector } from '@/components/bitcode/vcs/VCSRepositorySelector/VCSRepositorySelector';
 
 import AuxillariesOpenButton from '@/components/auxillaries/AuxillariesOpenButton/AuxillariesOpenButton';
 import BitcodeWorkspaceCard from '@/components/bitcode/pipeline/BitcodeWorkspaceCard/BitcodeWorkspaceCard';
@@ -35,8 +35,8 @@ import {
   getProviderLabel,
   normalizeRepositoryProvider,
 } from '@/components/bitcode/pipeline/models/repository-context';
-import { buildPacksHref, PACKS_ROUTE } from '@/components/bitcode/routes/product-routes';
-import { jumpToShellSection } from '@/components/bitcode/pipeline/shell-reading';
+import { buildPacksHref, PACKS_ROUTE } from '@/components/bitcode/routes/ProductRoutes/product-routes';
+import { jumpToShellSection } from '@/components/bitcode/pipeline/ShellReading/shell-reading';
 
 async function readJsonResponse(response: Response) {
   const contentType = response.headers?.get?.('content-type') || '';

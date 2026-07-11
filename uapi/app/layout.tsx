@@ -17,8 +17,8 @@ import "@/styles/components.css";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { GoogleAnalytics } from '@next/third-parties/google'
-import AnalyticsEventsClient from '@/components/bitcode/analytics/AnalyticsEventsClient';
-import PageAnalyticsClient from '@/components/bitcode/analytics/PageAnalyticsClient';
+import AnalyticsEventsClient from '@/components/bitcode/analytics/AnalyticsEventsClient/AnalyticsEventsClient';
+import PageAnalyticsClient from '@/components/bitcode/analytics/PageAnalyticsClient/PageAnalyticsClient';
 import WalletSessionPersistenceBridge from './WalletSessionPersistenceBridge';
 import { init as initSentry } from '@bitcode/sentry';
 

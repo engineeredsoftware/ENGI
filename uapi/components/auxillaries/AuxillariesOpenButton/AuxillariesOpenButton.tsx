@@ -7,13 +7,13 @@
  */
 
 import React from 'react';
-import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
+import { openAuxillaries } from '@/components/auxillaries/AuxillariesProvider/AuxillariesProvider';
 import {
   getAuxillaryOpenActionLabel,
   type ConcreteAuxillaryPane,
-} from '@/app/auxillaries/components/auxillary-pane-meta';
+} from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 import { FEATURE_FLAGS } from '@/config/features';
-import { DisabledTooltipWrapper } from '@/components/bitcode/overlays/disabled-tooltip-wrapper';
+import { DisabledTooltipWrapper } from '@/components/bitcode/overlays/DisabledTooltipWrapper/DisabledTooltipWrapper';
 
 export interface AuxillariesOpenButtonProps {
   className?: string;

@@ -5,11 +5,11 @@
 import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useLayoutEffect, useState, useRef, useMemo, Suspense } from 'react';
-import MultiLineTypingAnimation from '@/components/bitcode/multi-line-typing-animation';
-import QuantumButton from '@/components/bitcode/quantum-button';
+import MultiLineTypingAnimation from '@/components/bitcode/MultiLineTypingAnimation/MultiLineTypingAnimation';
+import QuantumButton from '@/components/bitcode/QuantumButton/QuantumButton';
 import ScrollDown from './(root)/components/MarketingScrollDown';
 const OrbitalRings = dynamic(() => import('@/components/bitcode/auxillaries/orbital-rings'), { loading: () => null });
-import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
+import { openAuxillaries } from '@/components/auxillaries/AuxillariesProvider/AuxillariesProvider';
 import { FEATURE_FLAGS } from '@/config/features';
 import { useUserData } from '@/hooks/useUserData';
 

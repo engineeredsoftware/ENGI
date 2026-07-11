@@ -109,7 +109,7 @@ export const ConversationHistory: Story = {
 };
 
 // 4. Waterfall + RichTextInput demo
-import RichTextInput from '@/app/conversations/components/ConversationsRichTextInput';
+import RichTextInput from '@/components/conversations/ConversationsRichTextInput/ConversationsRichTextInput';
 
 export const WithInput: Story = {
   render: () => {

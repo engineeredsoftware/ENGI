@@ -1,11 +1,11 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 
-import WalletPane from '@/app/auxillaries/components/AuxillariesWalletPane';
-import { useAuth } from '@/components/bitcode/auth/AuthProvider';
+import WalletPane from '@/components/auxillaries/AuxillariesWalletPane/AuxillariesWalletPane';
+import { useAuth } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
-jest.mock('@/components/bitcode/auth/AuthProvider', () => ({
+jest.mock('@/components/bitcode/auth/AuthProvider/AuthProvider', () => ({
   useAuth: jest.fn(),
 }));
 

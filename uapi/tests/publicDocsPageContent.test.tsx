@@ -2,14 +2,14 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import PublicDocsPageContent from '@/app/(root)/components/PublicDocsPageContent';
+import PublicDocsPageContent from '@/components/marketing/PublicDocsPageContent/PublicDocsPageContent';
 
-jest.mock('@/components/bitcode/layout/footer', () => ({
+jest.mock('@/components/bitcode/layout/Footer/Footer', () => ({
   __esModule: true,
   default: () => <div>Footer</div>,
 }));
 
-jest.mock('@/app/(root)/components/MarketingOperatorGuideCard', () => ({
+jest.mock('@/components/marketing/MarketingOperatorGuideCard/MarketingOperatorGuideCard', () => ({
   __esModule: true,
   default: ({ initialSourcePlayable }: { initialSourcePlayable: boolean }) => (
     <div>{initialSourcePlayable ? 'Guide playable' : 'Guide fallback'}</div>

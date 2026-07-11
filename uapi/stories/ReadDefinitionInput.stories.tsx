@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState, useEffect } from 'react';
-import { ReadDefinitionInput } from '@/components/bitcode/inputs/read-definition-input';
+import { ReadDefinitionInput } from '@/components/bitcode/inputs/ReadDefinitionInput/ReadDefinitionInput';
 
 const meta: Meta<typeof ReadDefinitionInput> = {
   title: 'Bitcode/Surprise & Delight/Definition of Read Input',

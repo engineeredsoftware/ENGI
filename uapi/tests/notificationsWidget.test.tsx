@@ -14,12 +14,12 @@ const mockOpenOrbital = jest.fn();
 jest.mock('@bitcode/supabase/ssr/client', () => ({
   createClient: jest.fn()
 }));
-jest.mock('@/app/auxillaries/components/AuxillariesProvider', () => ({
+jest.mock('@/components/auxillaries/AuxillariesProvider/AuxillariesProvider', () => ({
   openAuxillaries: (...args: unknown[]) => mockOpenOrbital(...args),
 }));
 import { createClient } from '@bitcode/supabase/ssr/client';
 
-import { NotificationsWidget } from '@/components/bitcode/notifications/NotificationsWidget';
+import { NotificationsWidget } from '@/components/bitcode/notifications/NotificationsWidget/NotificationsWidget';
 
 describe('NotificationsWidget', () => {
   const mockChannel = {

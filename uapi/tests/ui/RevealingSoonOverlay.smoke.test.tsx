@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import RevealingSoonOverlay from '@/components/bitcode/overlays/RevealingSoonOverlay';
+import RevealingSoonOverlay from '@/components/bitcode/overlays/RevealingSoonOverlay/RevealingSoonOverlay';
 
 describe('RevealingSoonOverlay (smoke)', () => {
   it('renders in a container without crashing', () => {

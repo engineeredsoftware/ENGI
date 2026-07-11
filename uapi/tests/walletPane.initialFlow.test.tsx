@@ -2,18 +2,18 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 
-import WalletPane from '@/app/auxillaries/components/AuxillariesWalletPane';
-import { useAuth } from '@/components/bitcode/auth/AuthProvider';
+import WalletPane from '@/components/auxillaries/AuxillariesWalletPane/AuxillariesWalletPane';
+import { useAuth } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
-jest.mock('@/app/auxillaries/components/AuxillariesDataSharingPanel', () => ({
+jest.mock('@/components/auxillaries/AuxillariesDataSharingPanel/AuxillariesDataSharingPanel', () => ({
   __esModule: true,
   default: function MockDataSharingPanel() {
     return null;
   },
 }));
 
-jest.mock('@/components/bitcode/auth/AuthProvider', () => ({
+jest.mock('@/components/bitcode/auth/AuthProvider/AuthProvider', () => ({
   useAuth: jest.fn(),
 }));
 

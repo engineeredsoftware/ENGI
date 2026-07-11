@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
-import PublicShellFrame from '@/app/(root)/components/PublicShellFrame';
+import PublicShellFrame from '@/components/marketing/PublicShellFrame/PublicShellFrame';
 
 import DocsArticlePage from '../DocsArticlePage';
 import { BITCODE_DOCS_PAGE_SLUGS, getBitcodeDocsPage } from '../bitcode-docs-content';

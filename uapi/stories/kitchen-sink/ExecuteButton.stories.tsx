@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import ExecuteButton from '@/components/bitcode/pipeline/execute-button';
+import ExecuteButton from '@/components/bitcode/pipeline/ExecuteButton/ExecuteButton';
 
 const meta = {
   title: 'Executions/ExecuteButton',

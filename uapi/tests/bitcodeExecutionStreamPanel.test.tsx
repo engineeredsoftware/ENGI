@@ -3,15 +3,15 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import BitcodeExecutionStreamPanel from '@/components/bitcode/pipeline/BitcodeExecutionStreamPanel';
+import BitcodeExecutionStreamPanel from '@/components/bitcode/pipeline/BitcodeExecutionStreamPanel/BitcodeExecutionStreamPanel';
 
-jest.mock('@/components/bitcode/pipeline/pipeline-execution-log-header', () => ({
+jest.mock('@/components/bitcode/pipeline/PipelineExecutionLogHeader/PipelineExecutionLogHeader', () => ({
   PipelineExecutionLogHeader: ({ runId, generationCount, error }: any) => (
     <div data-testid="execution-stream-header">{`${runId || 'no-run'} · ${generationCount} · ${error || 'ok'}`}</div>
   ),
 }));
 
-jest.mock('@/components/bitcode/pipeline/pipeline-execution-log', () => {
+jest.mock('@/components/bitcode/pipeline/PipelineExecutionLog/PipelineExecutionLog', () => {
   const React = require('react');
   return {
     PipelineExecutionLog: React.forwardRef(({ output, compact }: any, ref: React.Ref<HTMLDivElement>) => (
@@ -20,7 +20,7 @@ jest.mock('@/components/bitcode/pipeline/pipeline-execution-log', () => {
   };
 });
 
-jest.mock('@/components/bitcode/pipeline/WorkUpdatePanel', () => ({
+jest.mock('@/components/bitcode/pipeline/WorkUpdatePanel/WorkUpdatePanel', () => ({
   __esModule: true,
   default: ({ variant, update, className }: any) => (
     <div data-testid={`work-update-${variant}`} data-class-name={className || ''}>

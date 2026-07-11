@@ -1,5 +1,5 @@
-import type { BitcodeExplainer } from '@/components/bitcode/pipeline/bitcode-transaction-types';
-import type { TelemetryPillExplainer } from '@/components/bitcode/pipeline/telemetry-pill-explainers';
+import type { BitcodeExplainer } from '@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types';
+import type { TelemetryPillExplainer } from '@/components/bitcode/pipeline/TelemetryPillExplainers/telemetry-pill-explainers';
 
 function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
   return explainer;

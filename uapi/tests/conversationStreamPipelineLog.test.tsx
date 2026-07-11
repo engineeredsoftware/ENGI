@@ -1,12 +1,12 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-jest.mock('@/components/bitcode/pipeline/FileDiffViewer', () => ({
+jest.mock('@/components/bitcode/pipeline/FileDiffViewer/FileDiffViewer', () => ({
   __esModule: true,
   default: () => <div data-testid="mock-file-diff-viewer" />,
 }));
 
-import { PipelineExecutionLog } from '@/components/bitcode/pipeline/pipeline-execution-log';
+import { PipelineExecutionLog } from '@/components/bitcode/pipeline/PipelineExecutionLog/PipelineExecutionLog';
 
 beforeAll(() => {
   (global as any).ResizeObserver = class {

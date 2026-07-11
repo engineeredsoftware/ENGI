@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import EnhancedRichTextInput from '@/app/conversations/components/ConversationsEnhancedRichTextInput';
+import EnhancedRichTextInput from '@/components/conversations/ConversationsEnhancedRichTextInput/ConversationsEnhancedRichTextInput';
 
 const meta = {
   title: 'Conversations/Rich Text Input',

@@ -2,11 +2,11 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import AuxillariesExternalsPane from '@/app/auxillaries/components/AuxillariesExternalsPane';
-import { useAuth } from '@/components/bitcode/auth/AuthProvider';
+import AuxillariesExternalsPane from '@/components/auxillaries/AuxillariesExternalsPane/AuxillariesExternalsPane';
+import { useAuth } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
-jest.mock('@/components/bitcode/auth/AuthProvider', () => ({
+jest.mock('@/components/bitcode/auth/AuthProvider/AuthProvider', () => ({
   useAuth: jest.fn(),
 }));
 
@@ -14,20 +14,20 @@ jest.mock('@/hooks/useUserData', () => ({
   useUserData: jest.fn(),
 }));
 
-jest.mock('@/components/bitcode/vcs/VCSIntegrationPanel', () => ({
+jest.mock('@/components/bitcode/vcs/VCSIntegrationPanel/VCSIntegrationPanel', () => ({
   VCSIntegrationPanel: function MockVCSIntegrationPanel() {
     return <div data-testid="mock-vcs-integration-panel">VCS integration panel</div>;
   },
 }));
 
-jest.mock('@/app/auxillaries/components/AuxillariesDataSharingPanel', () => ({
+jest.mock('@/components/auxillaries/AuxillariesDataSharingPanel/AuxillariesDataSharingPanel', () => ({
   __esModule: true,
   default: function MockAuxillariesDataSharingPanel() {
     return <div data-testid="mock-externals-data-sharing-panel">Read-space knowledge sharing</div>;
   },
 }));
 
-jest.mock('@/app/auxillaries/components/headers/AuxillariesExternalsPaneHeader', () => ({
+jest.mock('@/components/auxillaries/headers/AuxillariesExternalsPaneHeader/AuxillariesExternalsPaneHeader', () => ({
   __esModule: true,
   default: function MockAuxillariesExternalsPaneHeader() {
     return <div data-testid="mock-externals-header">Externals header</div>;

@@ -2,8 +2,8 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import MarketingOperatorGuideCard from '@/app/(root)/components/MarketingOperatorGuideCard';
-import { MARKETING_OPERATOR_GUIDE_SOURCE } from '@/app/(root)/components/marketing-operator-guide-assets';
+import MarketingOperatorGuideCard from '@/components/marketing/MarketingOperatorGuideCard/MarketingOperatorGuideCard';
+import { MARKETING_OPERATOR_GUIDE_SOURCE } from '@/components/marketing/MarketingOperatorGuideAssets/marketing-operator-guide-assets';
 
 describe('MarketingOperatorGuideCard', () => {
   it('renders the Bitcode operator guide posture', async () => {

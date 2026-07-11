@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-jest.mock('@/components/bitcode/auth/LoginForm', () => ({
+jest.mock('@/components/bitcode/auth/LoginForm/LoginForm', () => ({
   __esModule: true,
   default: ({ surfaceVariant }: { surfaceVariant?: string }) => (
     <div data-testid="login-form" data-surface-variant={surfaceVariant || 'default'}>
@@ -11,7 +11,7 @@ jest.mock('@/components/bitcode/auth/LoginForm', () => ({
   ),
 }));
 
-import OrbitalsLoginPane from '@/app/auxillaries/components/AuxillariesLoginPane';
+import OrbitalsLoginPane from '@/components/auxillaries/AuxillariesLoginPane/AuxillariesLoginPane';
 
 describe('OrbitalsLoginPane', () => {
   it('renders the terminal-owned orbital access shell', () => {

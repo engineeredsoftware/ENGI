@@ -1,4 +1,4 @@
-import { mapConversationDetailToChat } from '@/app/conversations/components/conversation-chat-mapping';
+import { mapConversationDetailToChat } from '@/components/conversations/ConversationChatMapping/ConversationChatMapping';
 
 describe('ConversationsOverlay attachment hydration', () => {
   it('rehydrates source, destination, and execution attachments into chat tokens', () => {

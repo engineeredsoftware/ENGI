@@ -4,7 +4,7 @@
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
 import { buildAgenticExecutionSummary } from '@bitcode/api/src/executions/agentic-execution';
-import { DEFAULT_TRANSACTION_FILTERS } from '@/components/bitcode/pipeline/bitcode-transaction-types';
+import { DEFAULT_TRANSACTION_FILTERS } from '@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types';
 
 import type { WorkspaceRun } from './pipeline-run-data';
 

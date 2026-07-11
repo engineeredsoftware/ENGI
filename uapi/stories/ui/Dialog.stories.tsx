@@ -7,8 +7,8 @@ import {
   DialogFooter,
   DialogTitle,
   DialogDescription,
-} from '@/components/shadcn/dialog';
-import { Button } from '@/components/shadcn/button';
+} from '@/components/shadcn/Dialog/Dialog';
+import { Button } from '@/components/shadcn/Button/Button';
 
 const meta = {
   title: 'UI/Dialog',

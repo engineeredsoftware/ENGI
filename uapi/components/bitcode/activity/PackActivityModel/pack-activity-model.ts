@@ -1,0 +1,1071 @@
+import type {
+  BitcodeActivityRecord,
+  BitcodeActivityScope,
+} from '@/components/bitcode/activity/BitcodeActivityModel/bitcode-activity-model';
+import {
+  assertAssetPackCommodityStateProjection,
+  buildAssetPackCommodityStateProjection,
+  projectAssetPackCommodityStateForPayload,
+  toSourceSafeAssetPackCommodityStateDisplay,
+  type AssetPackCommodityStateDisplay,
+} from '@bitcode/pipeline-asset-pack/asset-pack-commodity-state';
+
+export type PackActivityType =
+  | 'deposit-option'
+  | 'depository-assetpack'
+  | 'read-need-fit-preview'
+  | 'settled-assetpack'
+  | 'settlement'
+  | 'compensation'
+  | 'delivery'
+  | 'repair'
+  | 'execution'
+  | 'notification';
+
+export type PackActivitySortKey =
+  | 'timestamp'
+  | 'title'
+  | 'value'
+  | 'settlementState'
+  | 'compensationState'
+  | 'deliveryState'
+  | 'repairState';
+
+export type PackActivitySortDirection = 'asc' | 'desc';
+
+export interface PackActivityMeasurement {
+  id: string;
+  label: string;
+  value: number | string;
+  unit: string | null;
+  root: string | null;
+}
+
+export interface PackActivityValue {
+  id: string;
+  label: string;
+  amount: number | string;
+  unit: string;
+}
+
+export interface PackActivityProofRoot {
+  id: string;
+  label: string;
+  root: string;
+}
+
+export interface PackActivitySourceSafety {
+  sourceSafeMetadataOnly: true;
+  protectedSourceVisible: false;
+  unpaidAssetPackSourceVisible: false;
+  rawPromptVisible: false;
+  interpolatedPromptVisible: false;
+  rawProviderResponseVisible: false;
+  sourceSnippetVisible: false;
+}
+
+export interface PackActivityAccountingReadback {
+  state: string | null;
+  btdRangeState: string | null;
+  btcSettlementState: string | null;
+  compensationState: string | null;
+  reconciliationState: string | null;
+  treasuryRouteState: string | null;
+  contributorCount: number;
+  depositorCount: number;
+  finalSettlementSats: number;
+  allocatedContributorSats: number;
+  statementRoot: string | null;
+}
+
+export interface PackActivityGovernanceReadback {
+  state: string | null;
+  route: string | null;
+  walletState: string | null;
+  spendState: string | null;
+  depositState: string | null;
+  requiredDeniedActionCount: number;
+  blockerCount: number;
+  authorityRoot: string | null;
+}
+
+export interface PackActivityRecord {
+  id: string;
+  type: PackActivityType;
+  scope: BitcodeActivityScope;
+  title: string;
+  description: string;
+  timestamp: string | null;
+  state: string | null;
+  repository: string | null;
+  assetPackTitle: string | null;
+  settlementState: string | null;
+  rightsState: string | null;
+  compensationState: string | null;
+  deliveryState: string | null;
+  repairState: string | null;
+  measurements: PackActivityMeasurement[];
+  values: PackActivityValue[];
+  proofRoots: PackActivityProofRoot[];
+  commodityState: AssetPackCommodityStateDisplay;
+  accounting: PackActivityAccountingReadback | null;
+  governance: PackActivityGovernanceReadback | null;
+  sourceSafety: PackActivitySourceSafety;
+  metadata: Record<string, unknown>;
+}
+
+export interface PackActivityFilters {
+  type?: PackActivityType | 'all';
+  scope?: BitcodeActivityScope | 'all';
+  state?: string | 'all';
+  settlementState?: string | 'all';
+  compensationState?: string | 'all';
+  deliveryState?: string | 'all';
+  repairState?: string | 'all';
+  repository?: string | 'all';
+}
+
+export interface PackActivityQuery {
+  search?: string | null;
+  filters?: PackActivityFilters;
+  sort?: {
+    key?: PackActivitySortKey;
+    direction?: PackActivitySortDirection;
+  };
+}
+
+export interface PackActivityDetailProjection {
+  id: string;
+  type: PackActivityType;
+  title: string;
+  description: string;
+  timestamp: string | null;
+  sourceSafety: PackActivitySourceSafety;
+  overview: {
+    state: string | null;
+    scope: BitcodeActivityScope;
+    repository: string | null;
+    assetPackTitle: string | null;
+  };
+  measurements: PackActivityMeasurement[];
+  values: PackActivityValue[];
+  proofRoots: PackActivityProofRoot[];
+  commodityState: AssetPackCommodityStateDisplay;
+  accounting: PackActivityAccountingReadback | null;
+  governance: PackActivityGovernanceReadback | null;
+  states: {
+    settlement: string | null;
+    rights: string | null;
+    compensation: string | null;
+    delivery: string | null;
+    repair: string | null;
+  };
+  telemetry: {
+    sourceEventId: string;
+    sourceKind: string | null;
+    sourceChannel: string | null;
+  };
+  metadata: Record<string, unknown>;
+}
+
+export interface PackActivitySummary {
+  total: number;
+  types: Record<PackActivityType, number>;
+  states: Record<string, number>;
+  repositories: string[];
+  settlementReady: number;
+  compensationReady: number;
+  deliveryReady: number;
+  repairOpen: number;
+}
+
+export type PackMarketSignalKind =
+  | 'demand'
+  | 'supply'
+  | 'unfit-need'
+  | 'settlement'
+  | 'compensation'
+  | 'delivery'
+  | 'repair';
+
+export interface PackSavedFilterPreset {
+  id: string;
+  label: string;
+  description: string;
+  query: Record<string, string>;
+  signalKind: PackMarketSignalKind | 'portfolio';
+}
+
+export interface PackPortfolioPositionProjection {
+  id: string;
+  organizationView: string;
+  repository: string;
+  assetPackTitle: string;
+  state: string;
+  activityCount: number;
+  lastActivityAt: string | null;
+  valueTotalSats: number;
+  btdEstimate: number;
+  proofRootCount: number;
+  demandSignalCount: number;
+  supplySignalCount: number;
+  unfitNeedSignalCount: number;
+  settlementState: string | null;
+  compensationState: string | null;
+  deliveryState: string | null;
+  repairState: string | null;
+  sourceSafety: PackActivitySourceSafety;
+}
+
+export interface PackMarketSignalProjection {
+  id: string;
+  kind: PackMarketSignalKind;
+  label: string;
+  description: string;
+  strength: number;
+  state: string;
+  repository: string | null;
+  relatedRecordIds: string[];
+  proofRoots: PackActivityProofRoot[];
+  sourceSafety: PackActivitySourceSafety;
+}
+
+export interface PackPortfolioFacetSummary {
+  settlement: Record<string, number>;
+  compensation: Record<string, number>;
+  delivery: Record<string, number>;
+  repair: Record<string, number>;
+}
+
+export interface PackPortfolioMarketIntelligence {
+  positions: PackPortfolioPositionProjection[];
+  signals: PackMarketSignalProjection[];
+  savedFilters: PackSavedFilterPreset[];
+  facets: PackPortfolioFacetSummary;
+  sourceSafety: PackActivitySourceSafety;
+}
+
+const SOURCE_SAFETY: PackActivitySourceSafety = {
+  sourceSafeMetadataOnly: true,
+  protectedSourceVisible: false,
+  unpaidAssetPackSourceVisible: false,
+  rawPromptVisible: false,
+  interpolatedPromptVisible: false,
+  rawProviderResponseVisible: false,
+  sourceSnippetVisible: false,
+};
+
+const PACK_ACTIVITY_TYPES: PackActivityType[] = [
+  'deposit-option',
+  'depository-assetpack',
+  'read-need-fit-preview',
+  'settled-assetpack',
+  'settlement',
+  'compensation',
+  'delivery',
+  'repair',
+  'execution',
+  'notification',
+];
+
+const SOURCE_BEARING_KEY_PATTERN =
+  /(^|_|\b)(protectedsource|unpaidassetpacksource|sourcesnippet|sourcecode|sourcetext|sourcepayload|rawprompt|interpolatedprompt|rawresponse|providerresponse|rawproviderresponse|credential|secret|privatekey|walletprivate|filecontents|patch|diff|codebody)($|_|\b)/iu;
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : {};
+}
+
+function readString(source: unknown, ...keys: string[]) {
+  const record = asRecord(source);
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value === 'string' && value.trim()) return value.trim();
+    if (typeof value === 'number' && Number.isFinite(value)) return String(value);
+  }
+  return null;
+}
+
+function findFirstString(source: unknown, keys: string[], depth = 0): string | null {
+  if (depth > 7 || source === null || source === undefined) return null;
+  if (Array.isArray(source)) {
+    for (const item of source) {
+      const found = findFirstString(item, keys, depth + 1);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  const record = asRecord(source);
+  for (const key of keys) {
+    const direct = readString(record, key);
+    if (direct) return direct;
+  }
+
+  for (const value of Object.values(record)) {
+    const found = findFirstString(value, keys, depth + 1);
+    if (found) return found;
+  }
+  return null;
+}
+
+function findFirstNumber(source: unknown, keys: string[], depth = 0): number | null {
+  if (depth > 7 || source === null || source === undefined) return null;
+  if (Array.isArray(source)) {
+    for (const item of source) {
+      const found = findFirstNumber(item, keys, depth + 1);
+      if (found !== null) return found;
+    }
+    return null;
+  }
+
+  const record = asRecord(source);
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value === 'number' && Number.isFinite(value)) return value;
+    if (typeof value === 'string' && value.trim() && Number.isFinite(Number(value))) return Number(value);
+  }
+
+  for (const value of Object.values(record)) {
+    const found = findFirstNumber(value, keys, depth + 1);
+    if (found !== null) return found;
+  }
+  return null;
+}
+
+function findFirstRecord(
+  source: unknown,
+  predicate: (record: Record<string, unknown>) => boolean,
+  depth = 0,
+): Record<string, unknown> | null {
+  if (depth > 7 || source === null || source === undefined) return null;
+  if (Array.isArray(source)) {
+    for (const item of source) {
+      const found = findFirstRecord(item, predicate, depth + 1);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  const record = asRecord(source);
+  if (Object.keys(record).length > 0 && predicate(record)) return record;
+  for (const value of Object.values(record)) {
+    const found = findFirstRecord(value, predicate, depth + 1);
+    if (found) return found;
+  }
+  return null;
+}
+
+function normalizeLabel(value: string) {
+  return value
+    .replace(/([a-z])([A-Z])/gu, '$1 $2')
+    .replace(/[-_]+/gu, ' ')
+    .replace(/\s+/gu, ' ')
+    .trim()
+    .replace(/^./u, (char) => char.toUpperCase());
+}
+
+function compareText(left: string | null | undefined, right: string | null | undefined) {
+  const a = String(left || '');
+  const b = String(right || '');
+  if (a < b) return -1;
+  if (a > b) return 1;
+  return 0;
+}
+
+function includesAny(text: string, tokens: string[]) {
+  return tokens.some((token) => text.includes(token));
+}
+
+function inferPackActivityType(record: BitcodeActivityRecord): PackActivityType {
+  const payload = asRecord(record.payload);
+  const haystack = [
+    record.kind,
+    record.title,
+    record.summary,
+    record.state,
+    readString(payload, 'type', 'status', 'kind', 'eventType'),
+    findFirstString(payload, ['canonicalType', 'family', 'label', 'reviewStage']),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  if (
+    includesAny(haystack, [
+      'depository assetpack',
+      'depository asset pack',
+      'deposit admission',
+      'deposit-option-admission',
+      'admitted to the depository',
+    ])
+  ) {
+    return 'depository-assetpack';
+  }
+  if (includesAny(haystack, ['deposit option', 'deposit-option', 'option synthesis'])) return 'deposit-option';
+  if (includesAny(haystack, ['finding fits', 'fits finding', 'read-fits', 'fit preview', 'assetpack preview'])) return 'read-need-fit-preview';
+  if (includesAny(haystack, ['settled assetpack', 'settled asset pack', 'rights transfer'])) return 'settled-assetpack';
+  if (includesAny(haystack, ['settlement', 'btc', 'finality'])) return 'settlement';
+  if (includesAny(haystack, ['compensation', 'source-to-shares', 'shares allocation'])) return 'compensation';
+  if (includesAny(haystack, ['delivery', 'pull request', 'pr delivery', 'repository delivery'])) return 'delivery';
+  if (includesAny(haystack, ['repair', 'reconcile', 'reconciliation'])) return 'repair';
+  return record.kind === 'notification' ? 'notification' : 'execution';
+}
+
+function inferRepository(record: BitcodeActivityRecord) {
+  const payload = asRecord(record.payload);
+  const snapshot = asRecord(payload.repo_snapshot ?? payload.repoSnapshot ?? payload.repositorySnapshot);
+  const org = readString(snapshot, 'org', 'owner', 'organization');
+  const repo = readString(snapshot, 'repo', 'name');
+  if (org && repo) return `${org}/${repo}`;
+
+  return (
+    findFirstString(payload, [
+      'repositoryFullName',
+      'repositoryAnchor',
+      'repository',
+      'repoFullName',
+      'repo',
+    ]) || null
+  );
+}
+
+function inferAssetPackTitle(record: BitcodeActivityRecord) {
+  return (
+    findFirstString(record.payload, [
+      'assetPackTitle',
+      'asset_pack_title',
+      'packTitle',
+      'title',
+      'summary',
+    ]) || (record.kind === 'notification' ? record.title : null)
+  );
+}
+
+function buildMeasurements(record: BitcodeActivityRecord): PackActivityMeasurement[] {
+  const payload = asRecord(record.payload);
+  const measurements: PackActivityMeasurement[] = [];
+
+  const candidates: Array<[string, string[], string | null]> = [
+    ['measured-btd', ['measuredBtd', 'measured_btd', 'btdVolume', 'weightedRequestedVolume'], 'BTD'],
+    ['token-total', ['total_tokens', 'tokenTotal', 'totalTokens'], 'tokens'],
+    ['duration', ['duration_ms', 'durationMs', 'runtimeMs'], 'ms'],
+    ['cost', ['total_cost', 'totalCost'], 'USD'],
+    ['candidate-count', ['candidateCount', 'fitCandidateCount', 'targetKindCount', 'optionCount'], 'count'],
+    ['admitted-count', ['admittedCount'], 'count'],
+    ['closure-criteria', ['closureCriteriaCount', 'closureCount'], 'count'],
+  ];
+
+  for (const [id, keys, unit] of candidates) {
+    const value = findFirstNumber(payload, keys);
+    if (value !== null) {
+      measurements.push({ id, label: normalizeLabel(id), value, unit, root: null });
+    }
+  }
+
+  const measurementRoot = findFirstString(payload, [
+    'measurementRoot',
+    'depositMeasurementRoot',
+    'assetPackMeasurementRoot',
+    'readNeedMeasurementRoot',
+    'admissionReportRoot',
+    'admissionRoot',
+  ]);
+  if (measurementRoot) {
+    measurements.push({
+      id: 'measurement-root',
+      label: 'Measurement root',
+      value: measurementRoot,
+      unit: null,
+      root: measurementRoot,
+    });
+  }
+
+  return measurements;
+}
+
+function buildValues(record: BitcodeActivityRecord): PackActivityValue[] {
+  const payload = asRecord(record.payload);
+  const values: PackActivityValue[] = [];
+  const candidates: Array<[string, string[], string]> = [
+    ['btc-fee', ['btcFee', 'btc_fee', 'btcFeeSats', 'feeSats'], 'sats'],
+    ['usd-equivalent', ['btcFeeUsdEquivalent', 'usdEquivalent', 'total_cost'], 'USD'],
+    ['btd-potential', ['btdPotential', 'estimatedBtdPotential', 'measuredBtd'], 'BTD'],
+    ['settlement-price', ['settlementPrice', 'quoteAmount', 'amountSats'], 'sats'],
+  ];
+
+  for (const [id, keys, unit] of candidates) {
+    const value = findFirstNumber(payload, keys);
+    if (value !== null) values.push({ id, label: normalizeLabel(id), amount: value, unit });
+  }
+
+  return values;
+}
+
+function buildAccountingReadback(record: BitcodeActivityRecord): PackActivityAccountingReadback | null {
+  const payload = asRecord(record.payload);
+  const statements = findFirstRecord(
+    payload,
+    (candidate) =>
+      candidate.schema === 'bitcode.asset-pack.btd-btc-compensation-statements' ||
+      candidate.statements === 'BtdBtcCompensationStatements',
+  );
+  const aggregate = asRecord(statements?.aggregate);
+  const btdRange = asRecord(statements?.btdRange);
+  const btcSettlement = asRecord(statements?.btcSettlement);
+  const reconciliation = asRecord(statements?.reconciliation);
+  const firstTreasuryRoute = findFirstRecord(
+    statements?.treasuryRoutes,
+    (candidate) => candidate.schema === 'bitcode.asset-pack.treasury-route-statement',
+  );
+  const roots = asRecord(statements?.roots);
+  const hasAccounting =
+    Boolean(statements) ||
+    Boolean(readString(payload, 'accountingState', 'btdBtcAccountingState')) ||
+    Boolean(findFirstString(payload, ['accountingRoot', 'btdBtcAccountingRoot']));
+
+  if (!hasAccounting) return null;
+
+  return {
+    state: readString(statements, 'state') || readString(payload, 'accountingState', 'btdBtcAccountingState'),
+    btdRangeState: readString(btdRange, 'rangeState'),
+    btcSettlementState: readString(btcSettlement, 'state'),
+    compensationState: readString(payload, 'compensationState', 'compensation_state', 'sourceToSharesState'),
+    reconciliationState: readString(reconciliation, 'state') || readString(payload, 'reconciliationState'),
+    treasuryRouteState: readString(firstTreasuryRoute, 'routeState'),
+    contributorCount: findFirstNumber(aggregate, ['contributorCount']) || 0,
+    depositorCount: findFirstNumber(aggregate, ['depositorCount']) || 0,
+    finalSettlementSats: findFirstNumber(aggregate, ['finalSettlementSats']) || 0,
+    allocatedContributorSats: findFirstNumber(aggregate, ['allocatedContributorSats']) || 0,
+    statementRoot:
+      readString(roots, 'accountingRoot') ||
+      findFirstString(payload, ['accountingRoot', 'btdBtcAccountingRoot', 'packEconomicStatementRoot']),
+  };
+}
+
+function buildGovernanceReadback(record: BitcodeActivityRecord): PackActivityGovernanceReadback | null {
+  const payload = asRecord(record.payload);
+  const statement = findFirstRecord(
+    payload,
+    (candidate) =>
+      candidate.schema === 'bitcode.organization.policy-wallet-authority' ||
+      candidate.statement === 'OrganizationPolicyWalletAuthority',
+  );
+  const aggregate = asRecord(statement?.aggregate);
+  const walletAuthority = asRecord(statement?.walletAuthority);
+  const budgetApproval = asRecord(statement?.budgetApproval);
+  const depositApproval = asRecord(statement?.depositApproval);
+  const roots = asRecord(statement?.roots);
+  const hasGovernance =
+    Boolean(statement) ||
+    Boolean(readString(payload, 'organizationAuthorityState', 'governanceState')) ||
+    Boolean(findFirstString(payload, ['organizationAuthorityRoot', 'governanceAuthorityRoot']));
+
+  if (!hasGovernance) return null;
+
+  return {
+    state: readString(aggregate, 'state') || readString(payload, 'organizationAuthorityState', 'governanceState'),
+    route: readString(statement, 'route') || readString(payload, 'governanceRoute'),
+    walletState: readString(walletAuthority, 'state') || readString(payload, 'walletAuthorityState'),
+    spendState: readString(budgetApproval, 'state') || readString(payload, 'spendAuthorityState'),
+    depositState: readString(depositApproval, 'state') || readString(payload, 'depositAuthorityState'),
+    requiredDeniedActionCount: findFirstNumber(aggregate, ['requiredDeniedActionCount']) || 0,
+    blockerCount: findFirstNumber(aggregate, ['blockerCount']) || 0,
+    authorityRoot:
+      readString(roots, 'authorityRoot') ||
+      findFirstString(payload, ['organizationAuthorityRoot', 'governanceAuthorityRoot']),
+  };
+}
+
+function collectProofRoots(source: unknown, roots = new Map<string, PackActivityProofRoot>(), depth = 0) {
+  if (depth > 7 || source === null || source === undefined) return roots;
+
+  if (Array.isArray(source)) {
+    source.forEach((item) => collectProofRoots(item, roots, depth + 1));
+    return roots;
+  }
+
+  const record = asRecord(source);
+  for (const [key, value] of Object.entries(record)) {
+    if (typeof value === 'string' && /(root|hash|receipt|witness|anchor)$/iu.test(key) && value.trim()) {
+      const id = key.replace(/[^a-z0-9]+/giu, '-').toLowerCase();
+      roots.set(`${id}:${value}`, {
+        id,
+        label: normalizeLabel(key),
+        root: value.trim(),
+      });
+      continue;
+    }
+
+    if (value && typeof value === 'object') collectProofRoots(value, roots, depth + 1);
+  }
+
+  return roots;
+}
+
+function redactMetadata(source: unknown, depth = 0): unknown {
+  if (depth > 5) return '[withheld:depth-limit]';
+  if (source === null || source === undefined) return source;
+  if (typeof source === 'string') return source.length > 500 ? `${source.slice(0, 500)}...` : source;
+  if (typeof source === 'number' || typeof source === 'boolean') return source;
+  if (Array.isArray(source)) return source.slice(0, 40).map((item) => redactMetadata(item, depth + 1));
+
+  const record = asRecord(source);
+  const redacted: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(record)) {
+    const normalizedKey = key.replace(/[^a-z0-9]/giu, '').toLowerCase();
+    if (SOURCE_BEARING_KEY_PATTERN.test(normalizedKey)) {
+      redacted[key] = '[withheld:source-safe]';
+      continue;
+    }
+    redacted[key] = redactMetadata(value, depth + 1);
+  }
+  return redacted;
+}
+
+function readState(record: BitcodeActivityRecord, keys: string[]) {
+  return findFirstString(record.payload, keys);
+}
+
+function buildCommodityStateDisplay(payload: unknown): AssetPackCommodityStateDisplay {
+  const projection = projectAssetPackCommodityStateForPayload(payload);
+  try {
+    return toSourceSafeAssetPackCommodityStateDisplay(assertAssetPackCommodityStateProjection(projection));
+  } catch (error) {
+    const repairProjection = buildAssetPackCommodityStateProjection({ payload, repairRequired: true });
+    const repairDisplay = toSourceSafeAssetPackCommodityStateDisplay(repairProjection);
+    const reason = error instanceof Error ? error.message : String(error);
+    return {
+      ...repairDisplay,
+      blockers: [...new Set([...projection.blockers, ...repairDisplay.blockers, reason])],
+    };
+  }
+}
+
+export function normalizePackActivityRecord(record: BitcodeActivityRecord): PackActivityRecord {
+  const type = inferPackActivityType(record);
+  const metadata = redactMetadata(record.payload) as Record<string, unknown>;
+  const commodityState = buildCommodityStateDisplay(record.payload);
+  const settlementState = readState(record, ['settlementState', 'settlement_state', 'finalityState']) || commodityState.btcState;
+  const rightsState =
+    readState(record, ['rightsState', 'rights_state', 'btdRightsState']) ||
+    (['btd-rights-transferred', 'btd-source-to-shares-allocated'].includes(commodityState.btdState)
+      ? commodityState.btdState
+      : null);
+  const compensationState =
+    readState(record, ['compensationState', 'compensation_state', 'sourceToSharesState']) ||
+    (commodityState.assetPackState === 'compensated-and-reconciled' ? commodityState.assetPackState : null);
+  const deliveryState =
+    readState(record, ['deliveryState', 'delivery_state', 'pullRequestState']) ||
+    (commodityState.assetPackState === 'source-unlocked-delivery' ? commodityState.assetPackState : null);
+  const repairState =
+    readState(record, ['repairState', 'repair_state', 'reconciliationState']) ||
+    (commodityState.repairRequired ? 'repair-required' : null);
+
+  return {
+    id: record.id,
+    type,
+    scope: record.scope,
+    title: record.title || normalizeLabel(type),
+    description: record.summary || 'Pack activity',
+    timestamp: record.timestamp,
+    state: record.state || commodityState.assetPackState,
+    repository: inferRepository(record),
+    assetPackTitle: inferAssetPackTitle(record),
+    settlementState,
+    rightsState,
+    compensationState,
+    deliveryState,
+    repairState,
+    measurements: buildMeasurements(record),
+    values: buildValues(record),
+    proofRoots: [...collectProofRoots(record.payload).values()].slice(0, 24),
+    commodityState,
+    accounting: buildAccountingReadback(record),
+    governance: buildGovernanceReadback(record),
+    sourceSafety: SOURCE_SAFETY,
+    metadata,
+  };
+}
+
+export function assertPackActivitySourceSafe(record: PackActivityRecord | PackActivityDetailProjection) {
+  const serialized = JSON.stringify(record).toLowerCase();
+  const unsafeNeedles = [
+    'protected source body',
+    'unpaid assetpack source',
+    'raw prompt text',
+    'interpolated prompt text',
+    'raw provider response',
+    'source snippet',
+  ];
+
+  return (
+    record.sourceSafety.sourceSafeMetadataOnly === true &&
+    record.sourceSafety.protectedSourceVisible === false &&
+    record.sourceSafety.unpaidAssetPackSourceVisible === false &&
+    record.sourceSafety.rawPromptVisible === false &&
+    record.sourceSafety.interpolatedPromptVisible === false &&
+    record.sourceSafety.rawProviderResponseVisible === false &&
+    record.sourceSafety.sourceSnippetVisible === false &&
+    unsafeNeedles.every((needle) => !serialized.includes(needle))
+  );
+}
+
+function matchesFilter(value: string | null, filter: string | undefined) {
+  return !filter || filter === 'all' || String(value || '') === filter;
+}
+
+function buildSearchText(record: PackActivityRecord) {
+  return [
+    record.id,
+    record.type,
+    record.title,
+    record.description,
+    record.state,
+    record.repository,
+    record.assetPackTitle,
+    record.settlementState,
+    record.compensationState,
+    record.deliveryState,
+    record.repairState,
+    record.commodityState.assetPackState,
+    record.commodityState.btdState,
+    record.commodityState.btcState,
+    record.commodityState.disclosureBoundary,
+    ...record.measurements.flatMap((measurement) => [
+      measurement.id,
+      measurement.label,
+      String(measurement.value),
+      measurement.unit,
+      measurement.root,
+    ]),
+    ...record.values.flatMap((value) => [value.id, value.label, String(value.amount), value.unit]),
+    ...record.proofRoots.flatMap((proofRoot) => [proofRoot.id, proofRoot.label, proofRoot.root]),
+    record.accounting?.state,
+    record.accounting?.btdRangeState,
+    record.accounting?.btcSettlementState,
+    record.accounting?.compensationState,
+    record.accounting?.reconciliationState,
+    record.accounting?.treasuryRouteState,
+    record.accounting?.statementRoot,
+    record.governance?.state,
+    record.governance?.route,
+    record.governance?.walletState,
+    record.governance?.spendState,
+    record.governance?.depositState,
+    record.governance?.authorityRoot,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+}
+
+function firstValueTotalSats(record: PackActivityRecord) {
+  return record.values.reduce((total, value) => {
+    if (value.unit !== 'sats') return total;
+    const amount = Number(value.amount);
+    return Number.isFinite(amount) ? total + amount : total;
+  }, 0);
+}
+
+function firstBtdEstimate(record: PackActivityRecord) {
+  const measurement = record.measurements.find((entry) => entry.unit === 'BTD');
+  const value = Number(measurement?.value ?? 0);
+  return Number.isFinite(value) ? value : 0;
+}
+
+function isOpenRepairState(value: string | null) {
+  return Boolean(value && !/(not_required|closed|complete|completed|none)/iu.test(value));
+}
+
+function inferSignalKinds(record: PackActivityRecord): PackMarketSignalKind[] {
+  const text = buildSearchText(record);
+  const kinds = new Set<PackMarketSignalKind>();
+  if (record.type === 'read-need-fit-preview' || includesAny(text, ['read demand', 'need demand', 'finding fits'])) {
+    kinds.add('demand');
+  }
+  if (
+    record.type === 'deposit-option' ||
+    record.type === 'depository-assetpack' ||
+    includesAny(text, ['supply opportunity', 'deposit supply', 'depository supply'])
+  ) {
+    kinds.add('supply');
+  }
+  if (includesAny(text, ['unfit', 'no worthy fit', 'no_worthy_fit', 'no fit', 'blocked readiness'])) {
+    kinds.add('unfit-need');
+  }
+  if (record.type === 'settlement' || record.settlementState) kinds.add('settlement');
+  if (record.type === 'compensation' || record.compensationState) kinds.add('compensation');
+  if (record.type === 'delivery' || record.deliveryState) kinds.add('delivery');
+  if (record.type === 'repair' || isOpenRepairState(record.repairState)) kinds.add('repair');
+  return [...kinds];
+}
+
+function incrementFacet(target: Record<string, number>, value: string | null) {
+  const key = value || 'not-recorded';
+  target[key] = (target[key] || 0) + 1;
+}
+
+export function filterPackActivityRecords(
+  records: PackActivityRecord[],
+  filters: PackActivityFilters = {},
+  search?: string | null,
+) {
+  const normalizedSearch = String(search || '').trim().toLowerCase();
+  return records.filter((record) => {
+    if (filters.type && filters.type !== 'all' && record.type !== filters.type) return false;
+    if (filters.scope && filters.scope !== 'all' && record.scope !== filters.scope) return false;
+    if (!matchesFilter(record.state, filters.state)) return false;
+    if (!matchesFilter(record.settlementState, filters.settlementState)) return false;
+    if (!matchesFilter(record.compensationState, filters.compensationState)) return false;
+    if (!matchesFilter(record.deliveryState, filters.deliveryState)) return false;
+    if (!matchesFilter(record.repairState, filters.repairState)) return false;
+    if (!matchesFilter(record.repository, filters.repository)) return false;
+    if (normalizedSearch && !buildSearchText(record).includes(normalizedSearch)) return false;
+    return true;
+  });
+}
+
+export function sortPackActivityRecords(
+  records: PackActivityRecord[],
+  sort: PackActivityQuery['sort'] = {},
+) {
+  const key = sort?.key || 'timestamp';
+  const direction = sort?.direction || 'desc';
+  const multiplier = direction === 'asc' ? 1 : -1;
+
+  return [...records].sort((left, right) => {
+    if (key === 'value') {
+      const leftValue = left.values[0]?.amount ?? left.measurements[0]?.value ?? 0;
+      const rightValue = right.values[0]?.amount ?? right.measurements[0]?.value ?? 0;
+      return (Number(leftValue) - Number(rightValue)) * multiplier;
+    }
+
+    const leftText =
+      key === 'title'
+        ? left.title
+        : key === 'settlementState'
+          ? left.settlementState
+          : key === 'compensationState'
+            ? left.compensationState
+            : key === 'deliveryState'
+              ? left.deliveryState
+              : key === 'repairState'
+                ? left.repairState
+                : left.timestamp;
+    const rightText =
+      key === 'title'
+        ? right.title
+        : key === 'settlementState'
+          ? right.settlementState
+          : key === 'compensationState'
+            ? right.compensationState
+            : key === 'deliveryState'
+              ? right.deliveryState
+              : key === 'repairState'
+                ? right.repairState
+                : right.timestamp;
+    return compareText(leftText, rightText) * multiplier || compareText(left.id, right.id);
+  });
+}
+
+export function buildPackActivityDetailProjection(
+  record: PackActivityRecord,
+): PackActivityDetailProjection {
+  return {
+    id: record.id,
+    type: record.type,
+    title: record.title,
+    description: record.description,
+    timestamp: record.timestamp,
+    sourceSafety: record.sourceSafety,
+    overview: {
+      state: record.state,
+      scope: record.scope,
+      repository: record.repository,
+      assetPackTitle: record.assetPackTitle,
+    },
+    measurements: record.measurements,
+    values: record.values,
+    proofRoots: record.proofRoots,
+    commodityState: record.commodityState,
+    accounting: record.accounting,
+    governance: record.governance,
+    states: {
+      settlement: record.settlementState,
+      rights: record.rightsState,
+      compensation: record.compensationState,
+      delivery: record.deliveryState,
+      repair: record.repairState,
+    },
+    telemetry: {
+      sourceEventId: record.id,
+      sourceKind: String(record.metadata.kind || record.metadata.type || '') || null,
+      sourceChannel: String(record.metadata.channel || '') || null,
+    },
+    metadata: record.metadata,
+  };
+}
+
+export function summarizePackActivityRecords(records: PackActivityRecord[]): PackActivitySummary {
+  const types = Object.fromEntries(PACK_ACTIVITY_TYPES.map((type) => [type, 0])) as Record<
+    PackActivityType,
+    number
+  >;
+  const states: Record<string, number> = {};
+  const repositories = new Set<string>();
+
+  for (const record of records) {
+    types[record.type] += 1;
+    if (record.state) states[record.state] = (states[record.state] || 0) + 1;
+    if (record.repository) repositories.add(record.repository);
+  }
+
+  return {
+    total: records.length,
+    types,
+    states,
+    repositories: [...repositories].sort(compareText),
+    settlementReady: records.filter((record) => /ready|settled|final/i.test(record.settlementState || '')).length,
+    compensationReady: records.filter((record) => /ready|allocated|paid/i.test(record.compensationState || '')).length,
+    deliveryReady: records.filter((record) => /ready|delivered|pull/i.test(record.deliveryState || '')).length,
+    repairOpen: records.filter((record) => /open|repair|reconcile|failed/i.test(record.repairState || '')).length,
+  };
+}
+
+export function buildPackPortfolioMarketIntelligence(
+  records: PackActivityRecord[],
+): PackPortfolioMarketIntelligence {
+  const positionsByKey = new Map<string, PackPortfolioPositionProjection>();
+  const signals: PackMarketSignalProjection[] = [];
+  const facets: PackPortfolioFacetSummary = {
+    settlement: {},
+    compensation: {},
+    delivery: {},
+    repair: {},
+  };
+
+  for (const record of records.filter(assertPackActivitySourceSafe)) {
+    incrementFacet(facets.settlement, record.settlementState);
+    incrementFacet(facets.compensation, record.compensationState);
+    incrementFacet(facets.delivery, record.deliveryState);
+    incrementFacet(facets.repair, record.repairState);
+
+    const positionKey = [
+      record.repository || 'network',
+      record.assetPackTitle || record.title,
+    ].join(':');
+    const current = positionsByKey.get(positionKey);
+    const signalKinds = inferSignalKinds(record);
+    const lastActivityAt =
+      !current?.lastActivityAt || compareText(record.timestamp, current.lastActivityAt) > 0
+        ? record.timestamp
+        : current.lastActivityAt;
+
+    positionsByKey.set(positionKey, {
+      id: `pack-position:${positionKey.toLowerCase().replace(/[^a-z0-9]+/giu, '-')}`,
+      organizationView: record.scope === 'personal' ? 'personal' : 'network',
+      repository: record.repository || 'network',
+      assetPackTitle: record.assetPackTitle || record.title,
+      state: record.state || current?.state || 'observed',
+      activityCount: (current?.activityCount || 0) + 1,
+      lastActivityAt,
+      valueTotalSats: (current?.valueTotalSats || 0) + firstValueTotalSats(record),
+      btdEstimate: (current?.btdEstimate || 0) + firstBtdEstimate(record),
+      proofRootCount: (current?.proofRootCount || 0) + record.proofRoots.length,
+      demandSignalCount:
+        (current?.demandSignalCount || 0) + (signalKinds.includes('demand') ? 1 : 0),
+      supplySignalCount:
+        (current?.supplySignalCount || 0) + (signalKinds.includes('supply') ? 1 : 0),
+      unfitNeedSignalCount:
+        (current?.unfitNeedSignalCount || 0) + (signalKinds.includes('unfit-need') ? 1 : 0),
+      settlementState: record.settlementState || current?.settlementState || null,
+      compensationState: record.compensationState || current?.compensationState || null,
+      deliveryState: record.deliveryState || current?.deliveryState || null,
+      repairState: record.repairState || current?.repairState || null,
+      sourceSafety: SOURCE_SAFETY,
+    });
+
+    for (const kind of signalKinds) {
+      signals.push({
+        id: `pack-signal:${kind}:${record.id}`,
+        kind,
+        label: normalizeLabel(kind),
+        description: record.description,
+        strength: Math.min(
+          100,
+          20 + record.proofRoots.length * 8 + record.measurements.length * 6 + record.values.length * 6,
+        ),
+        state: record.state || record.settlementState || record.compensationState || record.repairState || 'observed',
+        repository: record.repository,
+        relatedRecordIds: [record.id],
+        proofRoots: record.proofRoots.slice(0, 4),
+        sourceSafety: SOURCE_SAFETY,
+      });
+    }
+  }
+
+  return {
+    positions: [...positionsByKey.values()]
+      .sort((left, right) => compareText(right.lastActivityAt, left.lastActivityAt))
+      .slice(0, 24),
+    signals: signals.sort((left, right) => right.strength - left.strength).slice(0, 32),
+    savedFilters: [
+      {
+        id: 'portfolio-open-repair',
+        label: 'Repair cases',
+        description: 'Open reconciliation and repair states across portfolio positions.',
+        query: { type: 'repair', repairState: 'open_reconciliation' },
+        signalKind: 'repair',
+      },
+      {
+        id: 'market-demand',
+        label: 'Demand signals',
+        description: 'Read Need and Finding Fits activity that indicates buyer demand.',
+        query: { type: 'read-need-fit-preview' },
+        signalKind: 'demand',
+      },
+      {
+        id: 'market-supply',
+        label: 'Supply signals',
+        description: 'Deposit options and admitted Depository AssetPacks.',
+        query: { type: 'depository-assetpack' },
+        signalKind: 'supply',
+      },
+      {
+        id: 'economic-settlement',
+        label: 'Settlement facets',
+        description: 'Quote, payment, finality, and settlement-state readback.',
+        query: { sort: 'settlementState' },
+        signalKind: 'settlement',
+      },
+      {
+        id: 'economic-compensation',
+        label: 'Compensation facets',
+        description: 'Source-to-shares and contributor compensation readback.',
+        query: { sort: 'compensationState' },
+        signalKind: 'compensation',
+      },
+    ],
+    facets,
+    sourceSafety: SOURCE_SAFETY,
+  };
+}
+
+export function queryPackActivityRecords(records: PackActivityRecord[], query: PackActivityQuery = {}) {
+  const filtered = filterPackActivityRecords(records, query.filters || {}, query.search);
+  const sorted = sortPackActivityRecords(filtered, query.sort || {});
+  return {
+    records: sorted,
+    summary: summarizePackActivityRecords(sorted),
+    query: {
+      search: query.search || '',
+      filters: query.filters || {},
+      sort: {
+        key: query.sort?.key || 'timestamp',
+        direction: query.sort?.direction || 'desc',
+      },
+    },
+  };
+}

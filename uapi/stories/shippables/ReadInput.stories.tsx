@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import ExecutionReadInput from '@/components/bitcode/pipeline/ExecutionReadInput';
+import ExecutionReadInput from '@/components/bitcode/pipeline/ExecutionReadInput/ExecutionReadInput';
 
 const meta = {
   title: 'Shippables/ReadInput',

@@ -2,8 +2,8 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { ProcessLog } from '@/app/executions/components/ExecutionProcessLog';
-import { ProcessLogHeader } from '@/app/executions/components/ExecutionProcessLogHeader';
+import { ProcessLog } from '@/components/bitcode/pipeline/ExecutionsProcessLog/ExecutionsProcessLog';
+import { ProcessLogHeader } from '@/components/bitcode/pipeline/ExecutionsProcessLog/ExecutionsProcessLogHeader';
 
 // ---------------------------------------------------------------------------
 //  Densely-populated demo showcases – one click visual sanity checks

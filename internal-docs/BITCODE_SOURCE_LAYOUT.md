@@ -335,9 +335,26 @@ bitcode/
 
 ## 10. Migration posture
 
-Existing files may still use flatter layouts. **New work** uses §3–§4.
-When touching a legacy file, prefer extracting toward co-location in the same
-commit if scope stays bounded.
+**V48 modular co-location is the active layout.** Component units use
+`ComponentName/ComponentName.tsx` under:
+
+- `uapi/components/shadcn/` — primitives (`Button/Button.tsx`, …)
+- `uapi/components/bitcode/` — shared base (pipeline, auth, layout, …)
+- `uapi/components/{marketing,packs,reads,deposits,docs,conversations,auxillaries}/`
+
+`uapi/app/*` route files are thin shells (metadata + Suspense + re-exports).
+Page clients live under the matching experience component tree.
+
+When touching a remaining large monofile, extract pure helpers and section
+components into co-located units in the same change if scope stays bounded.
 
 Agents: after structural moves, update imports, co-locate or retarget tests,
 and keep typecheck/jest greenable.
+
+---
+
+## 11. Package layer notes
+
+- Domain packages under `packages/*` own pure logic; never import from `uapi`.
+- Generated artifacts (e.g. ORM `database.generated.ts`) stay whole; do not hand-split.
+- Prefer extracting new package modules over growing god files when logic is reusable.

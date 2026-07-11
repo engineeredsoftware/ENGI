@@ -16,7 +16,7 @@ jest.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(mockQuery),
 }));
 
-jest.mock("@/components/bitcode/auth/AuthProvider", () => ({
+jest.mock("@/components/bitcode/auth/AuthProvider/AuthProvider", () => ({
   useAuth: () => mockUseAuth(),
 }));
 
@@ -45,7 +45,7 @@ jest.mock("@/components/bitcode/effects/quantum-orb", () => ({
 
 // PipelineExecutionLog pulls react-syntax-highlighter ESM styles that jest
 // cannot transform; the telemetry panel contract is asserted via the stub.
-jest.mock("@/components/bitcode/pipeline/pipeline-execution-log", () => ({
+jest.mock("@/components/bitcode/pipeline/PipelineExecutionLog/PipelineExecutionLog", () => ({
   // Mirrors the real component's error-banner contract (QA F19): the error
   // (with its Retry/Dismiss actions) renders WITHIN the log (role="alert"),
   // not as a separate stub prop, so tests asserting on the alert exercise

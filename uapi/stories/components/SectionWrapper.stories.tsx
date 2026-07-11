@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import SectionWrapper from '@/app/(root)/components/SectionWrapper';
+import SectionWrapper from '@/components/marketing/SectionWrapper/SectionWrapper';
 
 const meta: Meta<typeof SectionWrapper> = {
   title: 'Components/SectionWrapper',

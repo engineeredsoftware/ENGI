@@ -2,7 +2,7 @@ import {
   CONVERSATION_SESSION_ROUTE_HISTORY_CONTRACTS,
   assertSourceSafeConversationRouteHistoryPayload,
   getConversationSessionRouteHistoryContract,
-} from '@/app/conversations/conversation-session-route-history';
+} from '@/components/conversations/models/conversation-session-route-history';
 
 describe('ConversationSession route-history contracts', () => {
   it('covers create, restore, stream, retry, branch, and redaction route-local operations', () => {

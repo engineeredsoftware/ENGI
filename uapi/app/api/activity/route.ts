@@ -8,7 +8,7 @@ import {
   buildBitcodeActivityRecordFromExecutionHistory,
   buildBitcodeActivityRecordFromNotification,
   summarizeBitcodeActivityKinds,
-} from '@/components/bitcode/activity/bitcode-activity-model';
+} from '@/components/bitcode/activity/BitcodeActivityModel/bitcode-activity-model';
 import { MOCK_RUNS } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 import {
   getMockOrbitalNotifications,

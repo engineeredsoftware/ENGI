@@ -3,7 +3,7 @@
  * Screenshot: uptime-placeholder.png
  */
 import React from 'react';
-import HealthDashboard from '@/components/bitcode/health/HealthDashboard';
+import HealthDashboard from '@/components/bitcode/health/HealthDashboard/HealthDashboard';
 
 export default {
   title: 'Docs/AutoScreenshots/Sla/Uptime',

@@ -13,7 +13,7 @@ import {
   readInstanceUrl,
   type ProviderRouteContext,
 } from '@/app/api/vcs/_shared';
-import { AUXILLARY_OPEN_QUERY_PARAM } from '@/app/auxillaries/components/auxillary-pane-meta';
+import { AUXILLARY_OPEN_QUERY_PARAM } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 
 type OptionalUserContext = Awaited<ReturnType<typeof getRouteSupabaseUser>>;
 

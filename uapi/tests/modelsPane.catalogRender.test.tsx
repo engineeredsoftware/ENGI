@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import ModelsPane from '@/app/auxillaries/components/AuxillariesInterfacesPane';
+import ModelsPane from '@/components/auxillaries/AuxillariesInterfacesPane/AuxillariesInterfacesPane';
 import { useUserData } from '@/hooks/useUserData';
 import { SUPPORTED_LLM_MODELS } from '@/utils/model-pricing';
 

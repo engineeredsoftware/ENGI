@@ -2,7 +2,7 @@ import {
   getWorkspaceSurface,
   shouldHideWorkspaceFooter,
   usesWorkspaceChrome,
-} from '@/components/bitcode/layout/workspace-surface';
+} from '@/components/bitcode/layout/WorkspaceSurface/workspace-surface';
 
 describe('workspaceSurface helpers', () => {
   it('classifies operator workspace routes consistently', () => {

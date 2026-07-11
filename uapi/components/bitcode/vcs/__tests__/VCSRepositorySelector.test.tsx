@@ -19,11 +19,11 @@ jest.mock('lucide-react', () => ({
 }));
 
 // Mock UI components
-jest.mock('@/components/shadcn/button', () => ({
+jest.mock('@/components/shadcn/Button/Button', () => ({
   Button: ({ children, ...props }: any) => <button {...props}>{children}</button>
 }));
 
-jest.mock('@/components/shadcn/command', () => ({
+jest.mock('@/components/shadcn/Command/Command', () => ({
   Command: ({ children }: any) => <div data-testid="command">{children}</div>,
   CommandInput: (props: any) => <input data-testid="command-input" {...props} />,
   CommandEmpty: ({ children }: any) => <div data-testid="command-empty">{children}</div>,
@@ -33,7 +33,7 @@ jest.mock('@/components/shadcn/command', () => ({
   )
 }));
 
-jest.mock('@/components/shadcn/popover', () => ({
+jest.mock('@/components/shadcn/Popover/Popover', () => ({
   Popover: ({ children }: any) => <div>{children}</div>,
   PopoverTrigger: ({ children }: any) => <div data-testid="popover-trigger">{children}</div>,
   PopoverContent: ({ children }: any) => <div data-testid="popover-content">{children}</div>

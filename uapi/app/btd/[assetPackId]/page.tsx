@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-import PublicShellFrame from '@/app/(root)/components/PublicShellFrame';
+import PublicShellFrame from '@/components/marketing/PublicShellFrame/PublicShellFrame';
 
 type BtdRangePageProps = {
   params: {

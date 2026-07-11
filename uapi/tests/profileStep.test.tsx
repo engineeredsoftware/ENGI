@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import ProfileStep from '@/app/auxillaries/components/AuxillariesProfileStep';
+import ProfileStep from '@/components/auxillaries/AuxillariesProfileStep/AuxillariesProfileStep';
 
 describe('ProfileStep (SSR)', () => {
   it('renders initial user profile fields and team members', () => {

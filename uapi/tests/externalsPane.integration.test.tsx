@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import ExternalsPane from '@/app/auxillaries/components/AuxillariesExternals';
+import ExternalsPane from '@/components/auxillaries/AuxillariesExternals/AuxillariesExternals';
 
 describe('ExternalsPane interactions', () => {
   beforeAll(() => {

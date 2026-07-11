@@ -8,7 +8,7 @@ import {
   summarizeBitcodeActivityKinds,
   type BitcodeActivityKind,
   type BitcodeActivityRecord,
-} from '@/components/bitcode/activity/bitcode-activity-model';
+} from '@/components/bitcode/activity/BitcodeActivityModel/bitcode-activity-model';
 
 type ExecutionEvent = {
   id?: string;

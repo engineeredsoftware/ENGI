@@ -1,7 +1,7 @@
 import {
   assertConversationTelemetryProofPreviewSourceSafe,
   buildConversationTelemetryProofPreview,
-} from '@/app/conversations/conversation-telemetry-proof-hooks';
+} from '@/components/conversations/models/conversation-telemetry-proof-hooks';
 
 describe('conversation telemetry proof hook preview', () => {
   it('binds source-safe telemetry families to dashboard and runbook posture', () => {

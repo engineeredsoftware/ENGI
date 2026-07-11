@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import AccountOrbital from '@/app/orbitals/components/OrbitalsAccount';
+import AccountOrbital from '@/components/bitcode/orbitals/OrbitalsAccount/OrbitalsAccount';
 
 const meta = {
   title: 'Bitcode/Auxillaries/Account Orbital',

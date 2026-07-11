@@ -8,12 +8,12 @@
 
 import React, { useEffect, useMemo } from 'react';
 
-import BitcodeTransactionsTable from '@/components/bitcode/pipeline/BitcodeTransactionsTable';
+import BitcodeTransactionsTable from '@/components/bitcode/pipeline/BitcodeTransactionsTable/BitcodeTransactionsTable';
 import type {
   TransactionDataMode,
   TransactionFilters,
   TransactionPagination,
-} from '@/components/bitcode/pipeline/bitcode-transaction-types';
+} from '@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types';
 
 import {
   buildTerminalTransactionFilterOptions,

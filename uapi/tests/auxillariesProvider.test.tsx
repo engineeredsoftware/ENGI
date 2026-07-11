@@ -29,7 +29,7 @@ jest.mock('next/dynamic', () => {
 import AuxillariesProvider, {
   closeAuxillaries,
   openAuxillaries,
-} from '@/app/auxillaries/components/AuxillariesProvider';
+} from '@/components/auxillaries/AuxillariesProvider/AuxillariesProvider';
 
 describe('AuxillariesProvider', () => {
   beforeEach(() => {

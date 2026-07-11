@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import BitcodePayloadShape from '@/components/bitcode/pipeline/BitcodePayloadShape';
+import BitcodePayloadShape from '@/components/bitcode/pipeline/BitcodePayloadShape/BitcodePayloadShape';
 
 describe('BitcodePayloadShape', () => {
   it('summarizes object payloads through shared metrics and field previews', () => {

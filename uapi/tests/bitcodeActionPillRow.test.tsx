@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import BitcodeActionPillRow from '@/components/bitcode/pipeline/BitcodeActionPillRow';
+import BitcodeActionPillRow from '@/components/bitcode/pipeline/BitcodeActionPillRow/BitcodeActionPillRow';
 
 describe('BitcodeActionPillRow', () => {
   it('renders reusable action pills and dispatches clicks', () => {

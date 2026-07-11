@@ -1,12 +1,12 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import ConversationsEnhancedRichTextInput from '@/app/conversations/components/ConversationsEnhancedRichTextInput';
+import ConversationsEnhancedRichTextInput from '@/components/conversations/ConversationsEnhancedRichTextInput/ConversationsEnhancedRichTextInput';
 
-jest.mock('@/app/conversations/components/pickers/shippable-picker', () => () => null);
-jest.mock('@/app/conversations/components/pickers/attachment-picker', () => () => null);
-jest.mock('@/app/conversations/components/pickers/vcs-source-picker', () => () => null);
-jest.mock('@/app/conversations/components/pickers/pipeline-run-picker', () => ({
+jest.mock('@/components/conversations/pickers/ShippablePicker/ShippablePicker', () => () => null);
+jest.mock('@/components/conversations/pickers/AttachmentPicker/AttachmentPicker', () => () => null);
+jest.mock('@/components/conversations/pickers/VcsSourcePicker/VcsSourcePicker', () => () => null);
+jest.mock('@/components/conversations/pickers/PipelineRunPicker/PipelineRunPicker', () => ({
   __esModule: true,
   default: function MockPipelineRunPicker({ onSelect }: { onSelect: (target: any) => void }) {
     return (

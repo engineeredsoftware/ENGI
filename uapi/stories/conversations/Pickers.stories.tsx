@@ -1,9 +1,9 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import SourcePicker from '@/app/conversations/components/ConversationsSourcePicker';
-import AttachmentPicker from '@/app/conversations/components/ConversationsAttachmentPicker';
-import ShippablePicker from '@/app/conversations/components/ConversationsShippablePicker';
-import UpgradePicker from '@/app/conversations/components/ConversationsUpgradePicker';
+import SourcePicker from '@/components/conversations/ConversationsSourcePicker/ConversationsSourcePicker';
+import AttachmentPicker from '@/components/conversations/ConversationsAttachmentPicker/ConversationsAttachmentPicker';
+import ShippablePicker from '@/components/conversations/ConversationsShippablePicker/ConversationsShippablePicker';
+import UpgradePicker from '@/components/conversations/components/ConversationsUpgradePicker';
 // CommandMenu overlay removed; stories pruned.
 
 // Source Picker Stories

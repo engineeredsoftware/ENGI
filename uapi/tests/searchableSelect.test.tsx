@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
-import { SearchableSelect, type SearchableSelectItem } from '@/components/bitcode/forms/SearchableSelect';
+import { SearchableSelect, type SearchableSelectItem } from '@/components/bitcode/forms/SearchableSelect/SearchableSelect';
 
 const ITEMS: SearchableSelectItem[] = [
   { key: 'main', label: 'main', badge: 'default' },

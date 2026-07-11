@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { buildAuxillariesRoutePath } from '@/app/auxillaries/components/auxillary-pane-meta';
+import { buildAuxillariesRoutePath } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 
 export default function OrbitalsPage() {
   redirect(buildAuxillariesRoutePath('profile'));

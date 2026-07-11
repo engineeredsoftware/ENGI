@@ -8,8 +8,8 @@
 
 import React, { type ReactNode } from 'react';
 
-import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineExplainer';
-import type { BitcodeExplainer } from '@/components/bitcode/pipeline/bitcode-transaction-types';
+import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer';
+import type { BitcodeExplainer } from '@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types';
 
 interface BitcodeWorkspaceCardProps {
   id?: string;

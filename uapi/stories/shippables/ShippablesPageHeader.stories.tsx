@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import ExecutionPageHeader from '@/app/executions/components/ExecutionsPageHeader';
+import ExecutionPageHeader from '@/components/bitcode/pipeline/ExecutionsPageHeader/ExecutionsPageHeader';
 import { templates as defaultTemplates } from '@/config/templates';
 
 const sampleShippables = {

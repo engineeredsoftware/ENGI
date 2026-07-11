@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import ExecuteButton from '@/components/bitcode/pipeline/execute-button';
+import ExecuteButton from '@/components/bitcode/pipeline/ExecuteButton/ExecuteButton';
 import { useState } from 'react';
 
 const meta = {

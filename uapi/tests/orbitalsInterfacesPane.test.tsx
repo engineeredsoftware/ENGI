@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import OrbitalsInterfacesPane from '@/app/auxillaries/components/AuxillariesInterfacesPane';
+import OrbitalsInterfacesPane from '@/components/auxillaries/AuxillariesInterfacesPane/AuxillariesInterfacesPane';
 import { useUserData } from '@/hooks/useUserData';
 
 jest.mock('@/hooks/useUserData', () => ({

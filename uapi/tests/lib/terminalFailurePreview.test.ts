@@ -1,7 +1,7 @@
 import {
   buildTerminalFailurePreviewFromEvents,
   isTerminalFailureStatus,
-} from '@/components/bitcode/pipeline/terminal-failure-preview';
+} from '@/components/bitcode/pipeline/TerminalFailurePreview/terminal-failure-preview';
 
 describe('buildTerminalFailurePreviewFromEvents', () => {
   it('keeps the last distinct phase/agent/step/failsafe/generation chains', () => {

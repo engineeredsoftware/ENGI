@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import ConversationPersistencePrivacyPanel from '@/app/conversations/components/ConversationPersistencePrivacyPanel';
+import ConversationPersistencePrivacyPanel from '@/components/conversations/ConversationPersistencePrivacyPanel/ConversationPersistencePrivacyPanel';
 
 describe('ConversationPersistencePrivacyPanel', () => {
   it('shows source-safe persistence posture and redacts protected text', async () => {

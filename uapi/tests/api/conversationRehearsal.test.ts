@@ -1,7 +1,7 @@
 import {
   assertConversationRehearsalPreviewSourceSafe,
   buildConversationRehearsalPreview,
-} from '@/app/conversations/conversation-rehearsal';
+} from '@/components/conversations/models/conversation-rehearsal';
 
 describe('conversation rehearsal preview', () => {
   it('redacts source-bearing and secret-shaped text', () => {

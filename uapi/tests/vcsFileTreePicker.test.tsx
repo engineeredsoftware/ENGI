@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import { VCSFileTreePicker } from '@/components/bitcode/vcs/VCSFileTreePicker';
+import { VCSFileTreePicker } from '@/components/bitcode/vcs/VCSFileTreePicker/VCSFileTreePicker';
 
 function mockTreeFetch() {
   global.fetch = jest.fn((input: unknown) => {

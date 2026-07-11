@@ -2,8 +2,8 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import AuxillariesWalletPane from '@/app/auxillaries/components/AuxillariesWalletPane';
-import { useAuth } from '@/components/bitcode/auth/AuthProvider';
+import AuxillariesWalletPane from '@/components/auxillaries/AuxillariesWalletPane/AuxillariesWalletPane';
+import { useAuth } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
 jest.mock('@bitcode/orm', () => ({
@@ -28,7 +28,7 @@ jest.mock('@bitcode/orm', () => ({
   },
 }));
 
-jest.mock('@/components/bitcode/auth/AuthProvider', () => ({
+jest.mock('@/components/bitcode/auth/AuthProvider/AuthProvider', () => ({
   useAuth: jest.fn(),
 }));
 
@@ -36,14 +36,14 @@ jest.mock('@/hooks/useUserData', () => ({
   useUserData: jest.fn(),
 }));
 
-jest.mock('@/app/auxillaries/components/AuxillariesDataSharingPanel', () => ({
+jest.mock('@/components/auxillaries/AuxillariesDataSharingPanel/AuxillariesDataSharingPanel', () => ({
   __esModule: true,
   default: function MockAuxillariesDataSharingPanel() {
     return <div data-testid="mock-data-sharing-panel">Data sharing panel</div>;
   },
 }));
 
-jest.mock('@/app/auxillaries/components/AuxillariesWalletConnectionPanel', () => ({
+jest.mock('@/components/auxillaries/AuxillariesWalletConnectionPanel/AuxillariesWalletConnectionPanel', () => ({
   __esModule: true,
   default: function MockAuxillariesWalletConnectionPanel() {
     return <div data-testid="mock-wallet-connection-panel">Wallet connection panel</div>;

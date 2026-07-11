@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import ConversationRehearsalPanel from '@/app/conversations/components/ConversationRehearsalPanel';
+import ConversationRehearsalPanel from '@/components/conversations/ConversationRehearsalPanel/ConversationRehearsalPanel';
 
 describe('ConversationRehearsalPanel', () => {
   it('shows source-safe rehearsal posture and blocks value-bearing mainnet', async () => {

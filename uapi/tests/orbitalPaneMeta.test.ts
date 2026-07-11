@@ -4,7 +4,7 @@ import {
   getAuxillaryRouteSegment,
   readAuxillaryOverlayStep,
   normalizeAuxillaryPane,
-} from '@/app/auxillaries/components/auxillary-pane-meta';
+} from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 
 describe('auxillary-pane-meta canonical routing', () => {
   it('uses profile as the canonical profile route segment', () => {

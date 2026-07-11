@@ -5,10 +5,10 @@
 
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid';
-import BitcodeExecutionStreamPanel from '@/components/bitcode/pipeline/BitcodeExecutionStreamPanel';
+import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid/BitcodeMetricGrid';
+import BitcodeExecutionStreamPanel from '@/components/bitcode/pipeline/BitcodeExecutionStreamPanel/BitcodeExecutionStreamPanel';
 
 import BitcodeActionWorkbenchCard from '@/components/bitcode/pipeline/BitcodeActionWorkbenchCard/BitcodeActionWorkbenchCard';
 import BitcodeWorkspaceCard from '@/components/bitcode/pipeline/BitcodeWorkspaceCard/BitcodeWorkspaceCard';
@@ -37,9 +37,9 @@ import {
   streamTerminalReadFitsFindingSynthesisHarness,
   summarizeTerminalReadFitsFindingSynthesisHarnessEvent,
   type TerminalReadFitsFindingSynthesisHarnessEvent,
-} from '@/components/bitcode/pipeline/pipeline-harness-client';
+} from '@/components/bitcode/pipeline/PipelineHarnessClient/pipeline-harness-client';
 import { useBitcodeShellBridge } from '@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge';
-import { jumpToShellSection } from '@/components/bitcode/pipeline/shell-reading';
+import { jumpToShellSection } from '@/components/bitcode/pipeline/ShellReading/shell-reading';
 
 function readMetricValue(metrics: Array<{ label: string; value: string }>, label: string) {
   return metrics.find((metric) => metric.label === label)?.value || '0';

@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import AuxillariesWorkspacePanels from '@/app/auxillaries/components/shared/AuxillariesWorkspacePanels';
+import AuxillariesWorkspacePanels from '@/components/auxillaries/shared/AuxillariesWorkspacePanels/AuxillariesWorkspacePanels';
 
 describe('AuxillariesWorkspacePanels', () => {
   it('renders lane state as visual indicators instead of joined raw state text', () => {

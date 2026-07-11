@@ -6,7 +6,7 @@ import {
   AUXILLARIES_UX_ACCESSIBILITY_PROOF_CONTRACT,
   summarizeAuxillariesUxAccessibilityProofContract,
 } from '@/app/auxillaries/auxillaries-ux-accessibility-proof';
-import AuxillariesContent from '@/app/auxillaries/components/AuxillariesContent';
+import AuxillariesContent from '@/components/auxillaries/AuxillariesContent/AuxillariesContent';
 
 jest.mock('framer-motion', () => {
   const React = require('react');

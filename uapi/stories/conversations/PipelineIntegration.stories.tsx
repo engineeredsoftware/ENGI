@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import MessageWaterfall from '@/app/conversations/components/ConversationsMessageWaterfall';
-import SidebarLogs from '@/app/conversations/components/ConversationsSidebarLogs';
+import MessageWaterfall from '@/components/conversations/ConversationsMessageWaterfall/ConversationsMessageWaterfall';
+import SidebarLogs from '@/components/conversations/ConversationsSidebarLogs/ConversationsSidebarLogs';
 
 const meta = {
   title: 'Conversations/Pipeline Integration',

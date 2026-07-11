@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import ModelOptions from '@/components/bitcode/pipeline/model-options';
+import ModelOptions from '@/components/bitcode/pipeline/ModelOptions/ModelOptions';
 import { SUPPORTED_LLM_MODELS } from '@/utils/model-pricing';
 
 describe('ModelOptions uses centralized model catalog', () => {

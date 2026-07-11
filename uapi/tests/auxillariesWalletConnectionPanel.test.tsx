@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import AuxillariesWalletConnectionPanel from '@/app/auxillaries/components/AuxillariesWalletConnectionPanel';
+import AuxillariesWalletConnectionPanel from '@/components/auxillaries/AuxillariesWalletConnectionPanel/AuxillariesWalletConnectionPanel';
 import { BITCODE_LOCAL_WALLET_STORAGE_KEY } from '@/lib/bitcode-wallet-local';
 import { mutateUserData } from '@/hooks/useUserData';
 

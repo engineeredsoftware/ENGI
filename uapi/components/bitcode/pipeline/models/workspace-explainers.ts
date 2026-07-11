@@ -3,7 +3,7 @@
  * @see BITCODE_SPEC_V48.md frontend architecture workstream
  */
 
-import type { BitcodeExplainer } from '@/components/bitcode/pipeline/bitcode-transaction-types';
+import type { BitcodeExplainer } from '@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types';
 
 function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
   return explainer;

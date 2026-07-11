@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 // Use the actual Testing Library implementation, not the virtual mock from setupTests
 const { render, screen, fireEvent, waitFor } = jest.requireActual('@testing-library/react');
-import ExternalsPane from '@/app/auxillaries/components/AuxillariesExternals';
+import ExternalsPane from '@/components/auxillaries/AuxillariesExternals/AuxillariesExternals';
 
 // Skipping interactive verify flow tests due to lack of full DOM in SSR test environment
 describe.skip('ExternalsPane Verify Flow (interactive)', () => {

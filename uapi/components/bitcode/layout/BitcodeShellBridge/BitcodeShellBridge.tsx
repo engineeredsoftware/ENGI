@@ -22,7 +22,7 @@ import {
 import {
   readBitcodeDemonstrationShellControls,
   readBitcodeDemonstrationShellSnapshot,
-} from '@/components/bitcode/layout/demonstration-witness-runtime';
+} from '@/components/bitcode/layout/DemonstrationWitnessRuntime/demonstration-witness-runtime';
 
 export type BitcodeShellSnapshot = Awaited<ReturnType<typeof readBitcodeDemonstrationShellSnapshot>>;
 /** @deprecated Prefer BitcodeShellSnapshot */
