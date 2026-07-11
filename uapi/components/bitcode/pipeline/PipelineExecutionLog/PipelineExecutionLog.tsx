@@ -1,11 +1,14 @@
 /* eslint-disable react/no-multi-comp */
 "use client";
 
+import React, { useRef, useState, useEffect, useLayoutEffect, forwardRef } from 'react';
+import { ContentVisibility } from '@/components/bitcode/perf/ContentVisibility/ContentVisibility';
+import { ProcessingIndicator } from '@/components/bitcode/indicators/ProcessingIndicator/ProcessingIndicator';
 import {
-  RobotIcon,
-  WrenchIcon,
-  ThoughtBubbleIcon,
-} from './pipeline-execution-log-icons';
+  CheckIcon,
+  ClipboardCopyIcon,
+  ListBulletIcon,
+} from '@radix-ui/react-icons';
 import {
   buildRawLogCopyText,
   buildTerseLogCopyText,
@@ -18,7 +21,6 @@ import {
   applyExecutionStateToLogLine,
 } from './pipeline-execution-log-state';
 import { copyTextToClipboard } from './pipeline-execution-log-clipboard';
-import { DetailsCopyButton } from './pipeline-execution-log-details-copy-button';
 import { renderLogLine, TYPE_STYLES } from './pipeline-execution-log-render-line';
 
 export {
@@ -30,24 +32,6 @@ export {
 } from './pipeline-execution-log-copy';
 export { copyTextToClipboard } from './pipeline-execution-log-clipboard';
 
-import React, { useRef, useState, useEffect, useLayoutEffect, forwardRef } from 'react';
-import { ContentVisibility } from '@/components/bitcode/perf/ContentVisibility/ContentVisibility';
-import { ProcessingIndicator } from '@/components/bitcode/indicators/ProcessingIndicator/ProcessingIndicator';
-import {
-  CheckCircledIcon,
-  CheckIcon,
-  ClipboardCopyIcon,
-  ExclamationTriangleIcon,
-  InfoCircledIcon,
-  ChevronRightIcon,
-  ListBulletIcon,
-} from '@radix-ui/react-icons';
-import FileDiffViewer from '@/components/bitcode/pipeline/FileDiffViewer/FileDiffViewer';
-import type { FileDiff, FileTreeChange } from '@bitcode/streams';
-import { PathPill } from '@/components/bitcode/pipeline/PathPill/PathPill';
-import { ExecutionContextPillRow, buildFailsafePillLabel } from '@/components/bitcode/pipeline/ExecutionContextPillRow/ExecutionContextPillRow';
-import { TelemetryExplainerTrigger } from '@/components/bitcode/pipeline/TelemetryExplainerTrigger/TelemetryExplainerTrigger';
-import { getTelemetryPillExplainer, getTelemetryRowIconExplainer } from '@/components/bitcode/pipeline/TelemetryPillExplainers/telemetry-pill-explainers';
 import {
   SDIVF_PHASES,
   describeExecutionContext,
@@ -55,18 +39,6 @@ import {
   normalizeStepName,
   type SynthesisPipelineMode,
 } from '@/components/bitcode/pipeline/ExecutionTelemetryFormat/execution-telemetry-format';
-import { buildStepViewModel } from '@/components/bitcode/pipeline/utilities/execution-step-viewmodel';
-
-// ---------------------------------------------------------------------------
-// NOTE: This component originally grouped log entries by Phase / Iteration.
-// The backend now streams already–normalized `StreamMessage` objects where
-// every chunk is a *single* "line".  UIs should therefore treat each message
-// independently and display an accordion per-line – no phase grouping.
-// ---------------------------------------------------------------------------
-
-// Phases are still useful when we want to infer metadata, however the UI no
-// longer surfaces them as first-class sections.  Keep the canonical list for
-// lightweight inference / tagging only.
 
 const PHASES = SDIVF_PHASES;
 
