@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState, useEffect } from 'react';
-import { ErrorRecoveryGrace } from '@/components/base/bitcode/overlays/error-recovery-grace';
+import { ErrorRecoveryGrace } from '@/components/bitcode/overlays/error-recovery-grace';
 
 const meta: Meta<typeof ErrorRecoveryGrace> = {
   title: 'Bitcode/Surprise & Delight/Error Recovery Grace',

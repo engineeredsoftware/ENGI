@@ -142,7 +142,7 @@ function main() {
     'packages/api/src/conversations/__tests__/stream-events.test.ts',
     'packages/api/src/conversations/__tests__/telemetry.test.ts',
     'uapi/tests/conversationStreamPipelineLog.test.tsx',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
+    'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
     'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
     'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
     'packages/tools-generics/src/execution/ToolPromptRegistry.ts',

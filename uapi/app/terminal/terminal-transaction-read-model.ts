@@ -1,6 +1,6 @@
 import type {
   TransactionDataMode,
-} from '@/components/base/bitcode/execution/bitcode-transaction-types';
+} from '@/components/bitcode/execution/bitcode-transaction-types';
 import { buildExchangeHref, buildTerminalHref } from './terminal-routes';
 import {
   readTerminalTransactionId,

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from 'react';
-import { NavProcessingIndicator } from '@/components/base/bitcode/indicators/NavProcessingIndicator';
+import { NavProcessingIndicator } from '@/components/bitcode/indicators/NavProcessingIndicator';
 // Animation helpers
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 
@@ -39,7 +39,7 @@ const cardVariants = {
 } as const;
 import MarketingSectionWrapper from './MarketingSectionWrapper';
 import MarketingPlaceholderImage from './MarketingPlaceholderImage';
-import RevealingSoonOverlay from '@/components/base/bitcode/overlays/RevealingSoonOverlay';
+import RevealingSoonOverlay from '@/components/bitcode/overlays/RevealingSoonOverlay';
 
 // Heroicons
 import {

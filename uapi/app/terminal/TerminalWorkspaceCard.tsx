@@ -2,8 +2,8 @@
 
 import React, { type ReactNode } from 'react';
 
-import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
-import type { BitcodeExplainer } from '@/components/base/bitcode/execution/bitcode-transaction-types';
+import BitcodeInlineExplainer from '@/components/bitcode/execution/BitcodeInlineExplainer';
+import type { BitcodeExplainer } from '@/components/bitcode/execution/bitcode-transaction-types';
 
 interface TerminalWorkspaceCardProps {
   id?: string;

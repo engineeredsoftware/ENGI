@@ -2,7 +2,7 @@
 
 import React, { type ReactNode } from 'react';
 
-import type { BitcodeExplainer } from '@/components/base/bitcode/execution/bitcode-transaction-types';
+import type { BitcodeExplainer } from '@/components/bitcode/execution/bitcode-transaction-types';
 
 import TerminalWorkspaceCard from './TerminalWorkspaceCard';
 

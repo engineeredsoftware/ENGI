@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import GlassyInput from '@/components/base/bitcode/inputs/GlassyInput';
+import GlassyInput from '@/components/bitcode/inputs/GlassyInput';
 
 describe('GlassyInput (smoke)', () => {
   it('renders children inside container', () => {

@@ -1,7 +1,7 @@
 'use client';
 
-import { ProcessingIndicator } from '@/components/base/bitcode/indicators/ProcessingIndicator';
-import TypingAnimation from '@/components/base/bitcode/typing-animation';
+import { ProcessingIndicator } from '@/components/bitcode/indicators/ProcessingIndicator';
+import TypingAnimation from '@/components/bitcode/typing-animation';
 import { useEffect, useRef, useState, useMemo, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 

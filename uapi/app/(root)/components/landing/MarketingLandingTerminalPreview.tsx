@@ -4,9 +4,9 @@ import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRightIcon, CircleStackIcon, EyeIcon } from '@heroicons/react/24/outline';
 
-import BitcodePill from '@/components/base/bitcode/branding/bitcode-pill';
-import { QuantumOrb } from '@/components/base/bitcode/effects/quantum-orb';
-import { BITCODE_PUBLIC_COPY } from '@/components/base/bitcode/layout/bitcode-public-copy';
+import BitcodePill from '@/components/bitcode/branding/bitcode-pill';
+import { QuantumOrb } from '@/components/bitcode/effects/quantum-orb';
+import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/bitcode-public-copy';
 
 import {
   animatedMotionStyle,

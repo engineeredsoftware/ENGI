@@ -13,7 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { trackEvent } from '@bitcode/google-analytics';
 import { createClient } from '@bitcode/supabase/ssr/client';
 import { reportError } from '@bitcode/errors';
-import { toast } from '@/components/base/shadcn/sonner';
+import { toast } from '@/components/shadcn/sonner';
 import { PhoneConnect } from './phone-connect';
 
 interface OrbitalsConnectsOrbitalPhoneConnectionProps {

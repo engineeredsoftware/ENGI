@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/base/shadcn/tooltip';
-import { Button } from '@/components/base/shadcn/button';
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/shadcn/tooltip';
+import { Button } from '@/components/shadcn/button';
 
 const meta = {
   title: 'UI/Tooltip',

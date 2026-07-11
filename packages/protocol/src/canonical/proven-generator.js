@@ -115,9 +115,9 @@ const V26_SECOND_GATE_TERMINAL_FILES = [
   'uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx',
   'uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx',
   'uapi/app/auxillaries/components/AuxillariesBTDPane.tsx',
-  'uapi/components/base/bitcode/layout/nav.tsx',
-  'uapi/components/base/bitcode/layout/user-menu.tsx',
-  'uapi/components/base/bitcode/notifications/NotificationsWidget.tsx',
+  'uapi/components/bitcode/layout/nav.tsx',
+  'uapi/components/bitcode/layout/user-menu.tsx',
+  'uapi/components/bitcode/notifications/NotificationsWidget.tsx',
   'uapi/styles/orbital.css'
 ];
 const V26_SECOND_GATE_PROOF_FILES = [
@@ -140,8 +140,8 @@ const V26_SECOND_GATE_DOCUMENTATION_FILES = [
   'protocol-demonstration/README.md',
   'uapi/app/terminal/README.md',
   'uapi/app/orbitals/README.md',
-  'uapi/components/base/bitcode/README.md',
-  'uapi/components/base/bitcode/execution/README.md',
+  'uapi/components/bitcode/README.md',
+  'uapi/components/bitcode/execution/README.md',
   'protocol-demonstration/V26_TERMINAL_SYSTEMS.md',
   'protocol-demonstration/V26_PROOF_SURFACES.md'
 ];
@@ -161,11 +161,11 @@ const V26_THIRD_GATE_TERMINAL_FILES = [
   'uapi/app/(root)/components/MarketingLandingPage.tsx',
   'uapi/app/(root)/components/PublicDocsPageContent.tsx',
   'uapi/app/(root)/components/MarketingOperatorGuideCard.tsx',
-  'uapi/components/base/bitcode/layout/nav.tsx',
-  'uapi/components/base/bitcode/layout/footer.tsx',
-  'uapi/components/base/bitcode/layout/NavBrand.tsx',
-  'uapi/components/base/bitcode/layout/bitcode-public-copy.ts',
-  'uapi/components/base/bitcode/layout/bitcode-public-explainers.ts'
+  'uapi/components/bitcode/layout/nav.tsx',
+  'uapi/components/bitcode/layout/footer.tsx',
+  'uapi/components/bitcode/layout/NavBrand.tsx',
+  'uapi/components/bitcode/layout/bitcode-public-copy.ts',
+  'uapi/components/bitcode/layout/bitcode-public-explainers.ts'
 ];
 const V26_THIRD_GATE_PROOF_FILES = [
   'uapi/tests/marketingLandingPage.test.tsx',
@@ -249,7 +249,7 @@ const V26_FOURTH_GATE_CONVERSATION_FILES = [
   'uapi/tests/conversationsRouteClient.test.tsx'
 ];
 const V26_FOURTH_GATE_ACTIVITY_FILES = [
-  'uapi/components/base/bitcode/activity/bitcode-activity-model.ts',
+  'uapi/components/bitcode/activity/bitcode-activity-model.ts',
   'uapi/app/terminal/terminal-run-activity.ts',
   'uapi/app/terminal/TerminalTransactionActivitySurface.tsx',
   'uapi/app/api/activity/route.ts',
@@ -4773,7 +4773,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
       'packages/api/src/routes/shippables.ts',
       'packages/execution-generics/src/store/registry.ts',
       'uapi/app/executions/components/ExecutionsPageClient.tsx',
-      'uapi/components/base/bitcode/execution/execution-option-toggle.tsx',
+      'uapi/components/bitcode/execution/execution-option-toggle.tsx',
       'protocol-demonstration/test/v26-active-product-naming.test.js'
     ]
   },

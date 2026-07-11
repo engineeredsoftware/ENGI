@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-import BitcodeSoftwareSvgLogo from '@/components/base/bitcode/branding/bitcode-software-svg-logo';
+import BitcodeSoftwareSvgLogo from '@/components/bitcode/branding/bitcode-software-svg-logo';
 
 import {
   entranceEase,

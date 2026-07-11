@@ -22,5 +22,6 @@ Shadcn*  →  Bitcode*  →  Experience*
 **Import rules:** experiences import Bitcode only; Bitcode imports Shadcn only;
 pages compose experiences/Bitcode. No experience imports another experience.
 
-**Migration:** current shadcn/bitcode sources still live under `base/` until
-Phase 1 tree move. Prefer new files under the target directories above.
+**Migration:** Phase 1 moved shadcn/bitcode out of `base/` into these trees.
+Experience directories hold READMEs until page-local components relocate
+(Phase 4). Prefer new files under the target directories above.

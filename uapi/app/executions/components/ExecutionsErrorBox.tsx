@@ -1,1 +1,1 @@
-export { ErrorBox as default } from '@/components/base/bitcode/execution/error-box';
+export { ErrorBox as default } from '@/components/bitcode/execution/error-box';

@@ -98,7 +98,7 @@ const SOURCE_ROOTS = Object.freeze({
   btdSettlement: 'packages/btd/src/settlement.ts',
   btdReceipts: 'packages/btd/src/receipts.ts',
   btdReconciliation: 'packages/btd/src/reconciliation.ts',
-  packActivityModel: 'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+  packActivityModel: 'uapi/components/bitcode/activity/pack-activity-model.ts',
   packsClient: 'uapi/app/packs/PacksPageClient.tsx',
   packActivityModelTest: 'uapi/tests/packActivityModel.test.ts',
   packsClientTest: 'uapi/tests/packsPageClient.test.tsx',

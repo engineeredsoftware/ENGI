@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import BitcodeTransactionsFilterBar from '@/components/base/bitcode/execution/BitcodeTransactionsFilterBar';
+import BitcodeTransactionsFilterBar from '@/components/bitcode/execution/BitcodeTransactionsFilterBar';
 
 const BASE_FILTERS = {
   searchTerm: '',

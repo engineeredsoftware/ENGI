@@ -108,7 +108,7 @@ const SOURCE_ROOTS = Object.freeze({
   packsApi: 'uapi/app/api/packs/activity/route.ts',
   readModel: 'uapi/app/read/read-route-model.ts',
   depositModel: 'uapi/app/deposit/deposit-route-model.ts',
-  pipelineLogUi: 'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
+  pipelineLogUi: 'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
   compensationBoundary: 'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
   depositAdmission: 'packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts',
   operationalReadback: 'packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts',

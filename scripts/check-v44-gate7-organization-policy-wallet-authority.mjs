@@ -99,7 +99,7 @@ function main() {
     'uapi/tests/depositRouteModel.test.ts',
     'uapi/app/deposit/DepositPageClient.tsx',
     'uapi/tests/depositPageClient.test.tsx',
-    'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+    'uapi/components/bitcode/activity/pack-activity-model.ts',
     'uapi/app/packs/PacksPageClient.tsx',
     'uapi/tests/packActivityModel.test.ts',
     'uapi/tests/packsPageClient.test.tsx',

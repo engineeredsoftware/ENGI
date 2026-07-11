@@ -1251,14 +1251,22 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 `TerminalReadScenarioPanel`, `TerminalDepositReadWorkbench`,
 `TerminalOpenAuxillariesButton`.
 
-### Phase 0 landing (this commit)
+### Phase 0 landing
 
 - SPEC: frontend component + Terminal eradication law.
 - DELTA/NOTES/PARITY: workstream recorded.
 - Docs: `internal-docs/BITCODE_FRONTEND_ARCHITECTURE.md`,
   `uapi/ARCHITECTURE.md`, `internal-docs/TERMINOLOGY.md` updated.
-- Scaffold: `uapi/components/{shadcn,bitcode,...}` READMEs (tree migration
-  continues in Phase 1 while `components/base/*` still holds current files).
+- Scaffold: `uapi/components/{shadcn,bitcode,...}` READMEs.
 - Implementation: `product-routes` as Bitcode-owned route helpers;
   `@bitcode/btd` `journal` + `operational-health` as canonical names with
   Terminal-named shims for callers.
+
+### Phase 1 landing (tree move)
+
+- Moved `uapi/components/base/shadcn/*` → `uapi/components/shadcn/*`.
+- Moved `uapi/components/base/bitcode/*` → `uapi/components/bitcode/*`.
+- Rewrote imports (`@/components/base/{shadcn,bitcode}` →
+  `@/components/{shadcn,bitcode}`) across uapi/packages/docs.
+- Removed empty `uapi/components/base/`.
+- Deferred: `Shadcn*` export renames; `execution/` → `pipeline/` (Phase 2).

@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
-import BitcodeExecutionStreamPanel from '@/components/base/bitcode/execution/BitcodeExecutionStreamPanel';
+import BitcodeMetricGrid from '@/components/bitcode/execution/BitcodeMetricGrid';
+import BitcodeExecutionStreamPanel from '@/components/bitcode/execution/BitcodeExecutionStreamPanel';
 
 import TerminalActionWorkbenchCard from './TerminalActionWorkbenchCard';
 import TerminalWorkspaceCard from './TerminalWorkspaceCard';

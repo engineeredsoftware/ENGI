@@ -1,7 +1,7 @@
 // FileDiffViewer (imported through PipelineExecutionLog for the pipelines
 // master-detail telemetry) pulls react-syntax-highlighter ESM jest can't
 // parse; mock it so the page module loads.
-jest.mock("@/components/base/bitcode/execution/FileDiffViewer", () => ({
+jest.mock("@/components/bitcode/execution/FileDiffViewer", () => ({
   __esModule: true,
   default: () => null,
 }));

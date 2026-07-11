@@ -62,7 +62,7 @@ const SOURCE_ROOTS = Object.freeze({
   packageJson: 'package.json',
   gateWorkflow: '.github/workflows/bitcode-gate-quality.yml',
   canonWorkflow: '.github/workflows/bitcode-canon-quality.yml',
-  productRouteShell: 'uapi/components/base/bitcode/routes/product-route-shell.tsx',
+  productRouteShell: 'uapi/components/bitcode/routes/product-route-shell.tsx',
   packsClient: 'uapi/app/packs/PacksPageClient.tsx',
   readClient: 'uapi/app/read/ReadPageClient.tsx',
   depositClient: 'uapi/app/deposit/DepositPageClient.tsx',

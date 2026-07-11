@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import NavBrand from '@/components/base/bitcode/layout/NavBrand';
+import NavBrand from '@/components/bitcode/layout/NavBrand';
 
 describe('NavBrand', () => {
   it('renders product-surface copy for the terminal workspace', () => {

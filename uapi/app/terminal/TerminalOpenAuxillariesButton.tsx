@@ -7,7 +7,7 @@ import {
   type ConcreteAuxillaryPane,
 } from '@/app/auxillaries/components/auxillary-pane-meta';
 import { FEATURE_FLAGS } from '@/config/features';
-import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disabled-tooltip-wrapper';
+import { DisabledTooltipWrapper } from '@/components/bitcode/overlays/disabled-tooltip-wrapper';
 
 interface TerminalOpenAuxillariesButtonProps {
   className?: string;

@@ -718,7 +718,7 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
         'AssetPack',
         'Depository',
       ]),
-      source('uapi/components/base/bitcode/activity/pack-activity-model.ts', [
+      source('uapi/components/bitcode/activity/pack-activity-model.ts', [
         'normalizePackActivityRecord',
         'sourceSafeMetadataOnly',
         '[withheld:source-safe]',

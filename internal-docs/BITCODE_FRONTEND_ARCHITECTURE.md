@@ -33,8 +33,9 @@ Shadcn*  →  Bitcode*  →  Experience*
 3. **Experience** — page-specific composition. Imports Bitcode only. Never
    imports another experience or raw Shadcn.
 
-During migration, current files may still live under
-`uapi/components/base/{shadcn,bitcode}/` until Phase 1 tree move completes.
+Shadcn and Bitcode sources live under `uapi/components/{shadcn,bitcode}/`
+(Phase 1 complete). `Shadcn*` export renames and experience component relocation
+continue in later phases.
 
 ## Naming law
 

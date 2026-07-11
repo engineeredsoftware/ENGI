@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import WordRotate from "@/components/base/bitcode/word-rotate";
+import WordRotate from "@/components/bitcode/word-rotate";
 import "@/styles/shippable-template-text.css";
 
 interface ShippableTemplate {

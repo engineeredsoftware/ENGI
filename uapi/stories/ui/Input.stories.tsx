@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Input } from '@/components/base/shadcn/input';
+import { Input } from '@/components/shadcn/input';
 
 const meta = {
   title: 'UI/Input',

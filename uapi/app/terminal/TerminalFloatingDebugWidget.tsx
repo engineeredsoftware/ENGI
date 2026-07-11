@@ -4,7 +4,7 @@ import React from 'react';
 import { Bug, ChevronDown, ChevronUp, X } from 'lucide-react';
 import { useState } from 'react';
 
-import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
+import type { TransactionDataMode } from '@/components/bitcode/execution/bitcode-transaction-types';
 
 import type { TerminalEnvironmentMode } from './terminal-transaction-query';
 

@@ -1,12 +1,12 @@
 'use client';
 
 /* eslint-disable react/no-multi-comp */
-import { Button } from "@/components/base/shadcn/button";
+import { Button } from "@/components/shadcn/button";
 import { cn } from '@bitcode/styling';
 import { ReactNode } from "react";
 import { ScaleIcon } from '@heroicons/react/24/outline'
 import { RichContextBeams } from "./rich-context-beams";
-import { Calendar } from "@/components/base/shadcn/calendar";
+import { Calendar } from "@/components/shadcn/calendar";
 import {
   Command,
   CommandEmpty,
@@ -14,9 +14,9 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/base/shadcn/command";
-import Globe from "@/components/base/bitcode/magicui/globe";
-import Marquee from "@/components/base/bitcode/magicui/marquee";
+} from "@/components/shadcn/command";
+import Globe from "@/components/bitcode/magicui/globe";
+import Marquee from "@/components/bitcode/magicui/marquee";
 import {
   MixIcon,
   RocketIcon,

@@ -58,7 +58,7 @@ const SOURCE_ROOTS = Object.freeze({
   conversationStreamEventsTest: 'packages/api/src/conversations/__tests__/stream-events.test.ts',
   conversationTelemetryTest: 'packages/api/src/conversations/__tests__/telemetry.test.ts',
   conversationStreamUiTest: 'uapi/tests/conversationStreamPipelineLog.test.tsx',
-  conversationStreamUi: 'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
+  conversationStreamUi: 'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
   docCodeToolPrompt: 'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
   formatUsableTools: 'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
   toolPromptRegistry: 'packages/tools-generics/src/execution/ToolPromptRegistry.ts',

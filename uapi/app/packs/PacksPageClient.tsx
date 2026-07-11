@@ -20,7 +20,7 @@ import {
   ProductRouteProofDetail,
   ProductRouteShell,
   ProductRouteStatePanel,
-} from "@/components/base/bitcode/routes/product-route-shell";
+} from "@/components/bitcode/routes/product-route-shell";
 import type {
   PackActivityDetailProjection,
   PackActivityRecord,
@@ -29,7 +29,7 @@ import type {
   PackActivitySortDirection,
   PackActivitySortKey,
   PackPortfolioMarketIntelligence,
-} from "@/components/base/bitcode/activity/pack-activity-model";
+} from "@/components/bitcode/activity/pack-activity-model";
 
 type PacksActivityPayload = {
   ok: boolean;

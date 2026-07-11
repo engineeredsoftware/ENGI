@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import BitcodeTransactionsPagination from '@/components/base/bitcode/execution/BitcodeTransactionsPagination';
+import BitcodeTransactionsPagination from '@/components/bitcode/execution/BitcodeTransactionsPagination';
 
 describe('BitcodeTransactionsPagination', () => {
   it('reports the current range and emits next page plus page-size changes', () => {

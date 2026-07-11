@@ -1,1 +1,1 @@
-export { default } from '@/components/base/bitcode/execution/model-options';
+export { default } from '@/components/bitcode/execution/model-options';

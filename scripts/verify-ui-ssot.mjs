@@ -55,7 +55,7 @@ assertZero("rg -n " + JSON.stringify("<GPUAcceleration className=\"conversations
 assertZero("rg -n " + JSON.stringify("<GPUAcceleration className=\"conversations-fullscreen\"") + " uapi/app/conversations/components/conversations/index.tsx || true", "No GPUAcceleration on .conversations-fullscreen");
 
 // 5) Bitcode execution primitives route scroll regions through the shared scrollbar utility.
-assertSome("rg -n " + JSON.stringify("custom-scrollbar") + " uapi/components/base/bitcode/execution uapi/components/base/bitcode/panels || true", "Bitcode execution scroll regions use shared scrollbar classes");
+assertSome("rg -n " + JSON.stringify("custom-scrollbar") + " uapi/components/bitcode/execution uapi/components/bitcode/panels || true", "Bitcode execution scroll regions use shared scrollbar classes");
 
 // 6) Conversations split/message surfaces use content-vis + custom-scrollbar.
 assertSome("rg -n " + JSON.stringify("content-vis") + " uapi/app/conversations/components/ConversationsSplitGrid.tsx || true", "Conversations split grid uses content-vis");

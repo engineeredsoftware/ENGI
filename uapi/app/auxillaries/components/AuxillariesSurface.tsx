@@ -9,9 +9,9 @@ import { createClient } from '@bitcode/supabase/ssr/client';
 import type { Session } from '@supabase/supabase-js';
 
 import { useOnboarding, useProfile, useUser } from '@/hooks/use-auth-query';
-import OrbitalRings from "@/components/base/bitcode/orbitals/orbital-rings";
-import { GPUAcceleration } from '@/components/base/bitcode/perf/GPUAcceleration';
-import { ContentVisibility } from '@/components/base/bitcode/perf/ContentVisibility';
+import OrbitalRings from "@/components/bitcode/orbitals/orbital-rings";
+import { GPUAcceleration } from '@/components/bitcode/perf/GPUAcceleration';
+import { ContentVisibility } from '@/components/bitcode/perf/ContentVisibility';
 import {
   getAuxillaryRingIndex,
   isAuxillariesPath,
@@ -36,7 +36,7 @@ const reportError = (...args: any[]) => {
   import('@bitcode/errors').then((module) => (module as any).reportError?.(...args));
 };
 
-const FlipText = dynamic(() => import("@/components/base/bitcode/layout/sidebars/FlipText"), {
+const FlipText = dynamic(() => import("@/components/bitcode/layout/sidebars/FlipText"), {
   ssr: false,
   loading: () => <span className="inline-block">Login</span>,
 });

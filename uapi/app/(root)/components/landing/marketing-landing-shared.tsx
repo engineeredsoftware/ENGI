@@ -13,8 +13,8 @@ import {
   Squares2X2Icon,
 } from '@heroicons/react/24/outline';
 
-import { minimalPreset } from '@/components/base/bitcode/effects/quantum-orb';
-import { BITCODE_PUBLIC_COPY } from '@/components/base/bitcode/layout/bitcode-public-copy';
+import { minimalPreset } from '@/components/bitcode/effects/quantum-orb';
+import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/bitcode-public-copy';
 
 export const entranceEase = [0.16, 1, 0.3, 1] as const;
 

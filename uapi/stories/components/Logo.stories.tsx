@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Logo from '@/components/base/bitcode/branding/logo';
-import XLogo from '@/components/base/bitcode/branding/x-logo';
+import Logo from '@/components/bitcode/branding/logo';
+import XLogo from '@/components/bitcode/branding/x-logo';
 
 const meta: Meta<typeof Logo> = {
   title: 'Components/Logo',

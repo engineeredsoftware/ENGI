@@ -1,4 +1,4 @@
-import LogoMarquee from "@/components/base/bitcode/magicui/logo-marquee";
+import LogoMarquee from "@/components/bitcode/magicui/logo-marquee";
 import { ReactNode } from "react";
 
 // TODO: magicui only supports a small handful of company logos (they are high quality though). move to more expansive co logo set

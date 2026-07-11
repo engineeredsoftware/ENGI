@@ -2,7 +2,7 @@ import {
   buildBitcodeActivityRecordFromExecutionEvent,
   buildBitcodeActivityRecordFromNotification,
   summarizeBitcodeActivityKinds,
-} from '@/components/base/bitcode/activity/bitcode-activity-model';
+} from '@/components/bitcode/activity/bitcode-activity-model';
 
 describe('bitcode-activity-model', () => {
   it('builds an execution activity record from an execution event', () => {

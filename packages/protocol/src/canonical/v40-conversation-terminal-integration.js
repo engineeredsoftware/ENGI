@@ -147,8 +147,8 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
     integrationKind: 'stream-to-log-rendering',
     sourceRoots: [
       'packages/api/src/conversations/stream-events.ts',
-      'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
-      'uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx',
+      'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
+      'uapi/components/bitcode/execution/pipeline-execution-log-header.tsx',
       'uapi/app/conversations/components/ConversationsSidebarLogs.tsx',
     ],
     testPaths: [
@@ -310,8 +310,8 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
     sourceRoots: [
       'uapi/app/terminal/terminal-pipeline-harness-client.ts',
       'uapi/app/api/pipeline-harness/asset-pack/route.ts',
-      'uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx',
-      'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
+      'uapi/components/bitcode/execution/BitcodeExecutionStreamPanel.tsx',
+      'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
     ],
     testPaths: [
       'uapi/tests/terminalPipelineHarnessClient.test.ts',

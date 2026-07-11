@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import Footer from '@/components/base/bitcode/layout/footer';
+import Footer from '@/components/bitcode/layout/footer';
 
 import { MarketingLandingHero } from './landing/MarketingLandingHero';
 import { MarketingLandingTerminalPreview } from './landing/MarketingLandingTerminalPreview';

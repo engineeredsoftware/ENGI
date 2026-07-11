@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
-import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
+import BitcodeInlineExplainer from '@/components/bitcode/execution/BitcodeInlineExplainer';
+import BitcodeMetricGrid from '@/components/bitcode/execution/BitcodeMetricGrid';
 
 import TerminalWorkspaceCard from './TerminalWorkspaceCard';
 import {

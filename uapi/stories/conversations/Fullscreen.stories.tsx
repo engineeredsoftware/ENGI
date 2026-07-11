@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import FullscreenPortal from '@/app/conversations/components/ConversationsFullscreenPortal';
-import ExecutionReadInput from '@/components/base/bitcode/execution/ExecutionReadInput';
+import ExecutionReadInput from '@/components/bitcode/execution/ExecutionReadInput';
 import { ProcessLog } from '@/app/executions/components/ExecutionProcessLog';
 import { ProcessLogHeader } from '@/app/executions/components/ExecutionProcessLogHeader';
 

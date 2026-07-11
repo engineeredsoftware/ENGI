@@ -89,7 +89,7 @@ const SOURCE_ROOTS = Object.freeze({
   readPage: 'uapi/app/read/page.tsx',
   readRouteModelTest: 'uapi/tests/readRouteModel.test.ts',
   readPageTest: 'uapi/tests/readPageClient.test.tsx',
-  packActivityModel: 'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+  packActivityModel: 'uapi/components/bitcode/activity/pack-activity-model.ts',
   previewBoundaryModel: 'packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts',
   settlementRightsDeliveryModel:
     'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',

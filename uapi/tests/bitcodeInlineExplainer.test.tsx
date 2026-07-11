@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
+import BitcodeInlineExplainer from '@/components/bitcode/execution/BitcodeInlineExplainer';
 
 describe('BitcodeInlineExplainer', () => {
   it('renders current source and current canon reference groups', () => {

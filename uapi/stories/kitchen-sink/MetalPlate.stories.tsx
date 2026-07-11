@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import MetalPlate from '@/components/base/bitcode/metal-plate';
+import MetalPlate from '@/components/bitcode/metal-plate';
 
 const meta = {
   title: 'Kitchen-Sink/MetalPlate',

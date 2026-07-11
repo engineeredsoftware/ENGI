@@ -97,7 +97,7 @@ function main() {
     'packages/btd/src/mcp-tool-contract.ts',
     'packages/btd/src/chatgpt-app-action-contract.ts',
     'uapi/app/conversations/conversation-terminal-handoff.ts',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
+    'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',

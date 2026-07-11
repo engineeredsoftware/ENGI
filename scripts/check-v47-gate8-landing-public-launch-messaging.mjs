@@ -96,7 +96,7 @@ function main() {
     'BITCODE_SPEC_V47_NOTES.md',
     'BITCODE_SPEC_V47_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
-    'uapi/components/base/bitcode/layout/bitcode-public-copy.ts',
+    'uapi/components/bitcode/layout/bitcode-public-copy.ts',
     'uapi/app/(root)/components/MarketingLandingPage.tsx',
     'uapi/app/(root)/components/landing/MarketingLandingTestnetSection.tsx',
     'uapi/app/docs/bitcode-docs-content.ts',

@@ -4,11 +4,11 @@ import type {
   TransactionOwnership,
   TransactionPagination,
   TransactionSort,
-} from '@/components/base/bitcode/execution/bitcode-transaction-types';
+} from '@/components/bitcode/execution/bitcode-transaction-types';
 import {
   BITCODE_TRANSACTION_PAGE_SIZES,
   DEFAULT_TRANSACTION_PAGINATION,
-} from '@/components/base/bitcode/execution/bitcode-transaction-types';
+} from '@/components/bitcode/execution/bitcode-transaction-types';
 import type { TerminalEnterpriseReadingStepId } from './terminal-enterprise-reading-ux-state';
 
 import { buildTerminalTransactionFilters } from './terminal-transactions';

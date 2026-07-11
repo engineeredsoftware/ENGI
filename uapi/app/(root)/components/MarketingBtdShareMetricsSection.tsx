@@ -2,8 +2,8 @@
 
 import React, { useMemo, useRef, useState, useEffect } from "react";
 import styles from './marketing-btd-share-metrics-section.module.css';
-import BitcodePill from "@/components/base/bitcode/branding/bitcode-pill";
-import RevealingSoonOverlay from "@/components/base/bitcode/overlays/RevealingSoonOverlay";
+import BitcodePill from "@/components/bitcode/branding/bitcode-pill";
+import RevealingSoonOverlay from "@/components/bitcode/overlays/RevealingSoonOverlay";
 
 export default function MarketingBtdShareMetricsSection() {
   // ------------------------------------------------------------------

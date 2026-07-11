@@ -1,10 +1,10 @@
 "use client";
 
 import { cn } from '@bitcode/styling';
-import { AnimatedBeam } from "@/components/base/bitcode/magicui/animated-beam";
+import { AnimatedBeam } from "@/components/bitcode/magicui/animated-beam";
 import React, { forwardRef, useRef } from "react";
 import { NotionLogoIcon, FigmaLogoIcon, GitHubLogoIcon, CommitIcon, ChatBubbleIcon } from "@radix-ui/react-icons";
-import Logo from "@/components/base/bitcode/branding/logo";
+import Logo from "@/components/bitcode/branding/logo";
 
 const Circle = forwardRef<
   HTMLDivElement,

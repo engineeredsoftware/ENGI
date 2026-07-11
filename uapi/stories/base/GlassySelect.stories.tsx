@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Select from 'react-select';
-import { glassyStyles } from '@/components/base/bitcode/selects/glassy-select-styles';
+import { glassyStyles } from '@/components/bitcode/selects/glassy-select-styles';
 
 const meta: Meta = {
   title: 'Base/GlassySelect',

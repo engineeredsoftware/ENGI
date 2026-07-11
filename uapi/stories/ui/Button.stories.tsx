@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from '@/components/base/shadcn/button';
+import { Button } from '@/components/shadcn/button';
 import { ArrowRightIcon } from '@radix-ui/react-icons';
 
 const meta = {

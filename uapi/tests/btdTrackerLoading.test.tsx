@@ -2,9 +2,9 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { BTDTracker } from '@/components/base/bitcode/btd/btd-tracker';
+import { BTDTracker } from '@/components/bitcode/btd/btd-tracker';
 
-jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
+jest.mock('@/components/bitcode/auth/AuthProvider', () => ({
   useAuth: () => ({
     user: {
       id: 'mock-bitcode-review-user',
@@ -13,7 +13,7 @@ jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
   }),
 }));
 
-jest.mock('@/components/base/bitcode/branding/logo', () => ({
+jest.mock('@/components/bitcode/branding/logo', () => ({
   __esModule: true,
   default: () => <span data-testid="mock-bitcode-logo" />,
 }));

@@ -1,4 +1,4 @@
-import type { BitcodeExplainer } from '@/components/base/bitcode/execution/bitcode-transaction-types';
+import type { BitcodeExplainer } from '@/components/bitcode/execution/bitcode-transaction-types';
 
 function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
   return explainer;
@@ -13,7 +13,7 @@ const TERMINAL_CANON_REFS = [
 const TERMINAL_SOURCE_REFS = [
   'uapi/app/terminal/TerminalPageClient.tsx',
   'uapi/app/terminal/terminal-activity-history.ts',
-  'uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx',
+  'uapi/components/bitcode/execution/BitcodeInlineExplainer.tsx',
   'packages/protocol/public/app.js',
 ] as const;
 

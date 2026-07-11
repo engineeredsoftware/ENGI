@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import RevealingSoonOverlay from '@/components/base/bitcode/overlays/RevealingSoonOverlay';
+import RevealingSoonOverlay from '@/components/bitcode/overlays/RevealingSoonOverlay';
 
 const meta: Meta<typeof RevealingSoonOverlay> = {
   title: 'Base/RevealingSoonOverlay',

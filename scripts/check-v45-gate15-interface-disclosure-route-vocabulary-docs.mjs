@@ -96,8 +96,8 @@ function main() {
     'uapi/app/page.tsx',
     'uapi/app/exchange/README.md',
     'uapi/app/(root)/components/PublicDocsPageContent.tsx',
-    'uapi/components/base/bitcode/layout/bitcode-public-copy.ts',
-    'uapi/components/base/bitcode/layout/bitcode-public-explainers.ts',
+    'uapi/components/bitcode/layout/bitcode-public-copy.ts',
+    'uapi/components/bitcode/layout/bitcode-public-explainers.ts',
     'uapi/tests/publicDocsPageContent.test.tsx',
     'uapi/tests/bitcodeDocsContent.test.tsx',
     'uapi/tests/marketingLandingPage.test.tsx',
@@ -119,8 +119,8 @@ function main() {
   const publicDocs = [
     read(root, 'uapi/app/docs/bitcode-docs-content.ts'),
     read(root, 'uapi/app/(root)/components/PublicDocsPageContent.tsx'),
-    read(root, 'uapi/components/base/bitcode/layout/bitcode-public-copy.ts'),
-    read(root, 'uapi/components/base/bitcode/layout/bitcode-public-explainers.ts'),
+    read(root, 'uapi/components/bitcode/layout/bitcode-public-copy.ts'),
+    read(root, 'uapi/components/bitcode/layout/bitcode-public-explainers.ts'),
     read(root, 'uapi/app/page.tsx'),
   ].join('\n');
   const exchangeReadme = read(root, 'uapi/app/exchange/README.md');

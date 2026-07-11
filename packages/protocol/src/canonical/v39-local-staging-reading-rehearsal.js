@@ -75,7 +75,7 @@ const SOURCE_ROOTS = Object.freeze({
   harness: 'packages/pipeline-hosts/src/asset-pack-harness.ts',
   routeRunner: 'uapi/app/api/pipeline-harness/asset-pack/runner.ts',
   routePreflight: 'uapi/app/api/pipeline-harness/asset-pack/preflight.ts',
-  pipelineLogUi: 'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
+  pipelineLogUi: 'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
   protocolIndex: 'packages/protocol/src/index.js',
   protocolTypes: 'packages/protocol/src/index.d.ts',
   protocolReadme: 'packages/protocol/README.md',

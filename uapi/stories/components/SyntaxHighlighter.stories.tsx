@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import CodeBlock from '@/components/base/bitcode/media/syntax-highlighter';
+import CodeBlock from '@/components/bitcode/media/syntax-highlighter';
 
 const sampleCode = `function hello(name) {
   console.log('Hello, ' + name);

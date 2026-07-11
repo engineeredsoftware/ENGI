@@ -2,7 +2,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import ExternalsPane from '@/app/auxillaries/components/AuxillariesExternals';
 
-jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
+jest.mock('@/components/bitcode/auth/AuthProvider', () => ({
   useAuth: () => ({ user: null }),
 }));
 
@@ -15,7 +15,7 @@ jest.mock('@/hooks/useUserData', () => ({
   }),
 }));
 
-jest.mock('@/components/base/bitcode/vcs/VCSIntegrationPanel', () => ({
+jest.mock('@/components/bitcode/vcs/VCSIntegrationPanel', () => ({
   VCSIntegrationPanel: () => <div>GitHub panel</div>,
 }));
 

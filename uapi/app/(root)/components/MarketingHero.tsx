@@ -2,7 +2,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import MarketingButtonShimmer from '@/components/base/bitcode/effects/button-shimmer';
+import MarketingButtonShimmer from '@/components/bitcode/effects/button-shimmer';
 import MarketingTextShimmer from './MarketingTextShimmer'
 import { ChevronRight } from 'lucide-react'
 import { createClient } from '@bitcode/supabase/ssr/client'

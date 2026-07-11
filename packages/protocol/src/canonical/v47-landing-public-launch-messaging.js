@@ -60,7 +60,7 @@ const SOURCE_ROOTS = Object.freeze({
   notes: 'BITCODE_SPEC_V47_NOTES.md',
   parity: 'BITCODE_SPEC_V47_PARITY_MATRIX.md',
   roadmap: 'SPECIFICATIONS_ROADMAP.md',
-  publicCopy: 'uapi/components/base/bitcode/layout/bitcode-public-copy.ts',
+  publicCopy: 'uapi/components/bitcode/layout/bitcode-public-copy.ts',
   landingPage: 'uapi/app/(root)/components/MarketingLandingPage.tsx',
   testnetSection: 'uapi/app/(root)/components/landing/MarketingLandingTestnetSection.tsx',
   landingShared: 'uapi/app/(root)/components/landing/marketing-landing-shared.tsx',

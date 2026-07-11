@@ -7,10 +7,10 @@ import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDeta
 import {
   getTransactionDataModeLabel,
   isMockTransactionDataMode,
-} from '@/components/base/bitcode/execution/bitcode-transaction-data-mode';
-import ShippablesCardsPanel from '@/components/base/bitcode/execution/ShippablesCardsPanel';
-import ShippablesDocPanel from '@/components/base/bitcode/execution/ShippablesDocPanel';
-import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
+} from '@/components/bitcode/execution/bitcode-transaction-data-mode';
+import ShippablesCardsPanel from '@/components/bitcode/execution/ShippablesCardsPanel';
+import ShippablesDocPanel from '@/components/bitcode/execution/ShippablesDocPanel';
+import type { TransactionDataMode } from '@/components/bitcode/execution/bitcode-transaction-types';
 
 import TerminalTransactionDetailActionBar from './TerminalTransactionDetailActionBar';
 import TerminalTransactionActivitySurface from './TerminalTransactionActivitySurface';

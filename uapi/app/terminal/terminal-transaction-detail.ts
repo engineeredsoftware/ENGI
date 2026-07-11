@@ -4,7 +4,7 @@ import type {
   TerminalClosureProofFamily,
   TerminalClosureState,
 } from './terminal-closure-state';
-import type { ShippablesDoc } from '@/components/base/bitcode/execution/ShippablesDocPanel';
+import type { ShippablesDoc } from '@/components/bitcode/execution/ShippablesDocPanel';
 import type { TerminalRunDetailSnapshot } from './terminal-transaction-detail-snapshot';
 import type { WorkspaceRun } from './terminal-run-data';
 

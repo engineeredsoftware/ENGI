@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import Footer from '@/components/base/bitcode/layout/footer';
+import Footer from '@/components/bitcode/layout/footer';
 import { FEATURE_FLAGS } from '@/config/features';
 
 import { EDGETIMES_TOPOLOGY, getEdgetimesTopologySummary } from './edgetimes-topology';

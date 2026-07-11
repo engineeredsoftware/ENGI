@@ -1,16 +1,16 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button } from "@/components/base/shadcn/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/base/shadcn/card"
-import { Input } from "@/components/base/shadcn/input"
-import { Label } from "@/components/base/shadcn/label"
-import { Badge } from "@/components/base/shadcn/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/base/shadcn/avatar"
-import { Switch } from "@/components/base/shadcn/switch"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/base/shadcn/tabs"
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/base/shadcn/alert-dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/base/shadcn/select"
+import { Button } from "@/components/shadcn/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/shadcn/card"
+import { Input } from "@/components/shadcn/input"
+import { Label } from "@/components/shadcn/label"
+import { Badge } from "@/components/shadcn/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/shadcn/avatar"
+import { Switch } from "@/components/shadcn/switch"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/shadcn/tabs"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/shadcn/alert-dialog"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcn/select"
 import { toast } from "sonner"
 import {
   AlertTriangle,

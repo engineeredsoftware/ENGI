@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { cn } from '@bitcode/styling';
-import GridPattern from "@/components/base/bitcode/magicui/grid-pattern";
-import RevealingSoonOverlay from "@/components/base/bitcode/overlays/RevealingSoonOverlay";
+import GridPattern from "@/components/bitcode/magicui/grid-pattern";
+import RevealingSoonOverlay from "@/components/bitcode/overlays/RevealingSoonOverlay";
 
 import { ChevronRight } from "lucide-react";
 

@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 
-import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
-import { VCSIntegrationPanel } from '@/components/base/bitcode/vcs/VCSIntegrationPanel';
+import { useAuth } from '@/components/bitcode/auth/AuthProvider';
+import { VCSIntegrationPanel } from '@/components/bitcode/vcs/VCSIntegrationPanel';
 import { getRepositoryInventorySourceLabel } from '@/app/terminal/terminal-repository-context';
 import { deriveBitcodeTransactionReadiness } from '@/app/terminal/bitcode-transaction-readiness';
 import { useUserData } from '@/hooks/useUserData';

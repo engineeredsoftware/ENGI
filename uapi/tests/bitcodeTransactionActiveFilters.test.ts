@@ -1,8 +1,8 @@
 import {
   buildBitcodeTransactionActiveFilterChips,
   clearBitcodeTransactionFilter,
-} from '@/components/base/bitcode/execution/bitcode-transaction-active-filters';
-import { DEFAULT_TRANSACTION_FILTERS } from '@/components/base/bitcode/execution/bitcode-transaction-types';
+} from '@/components/bitcode/execution/bitcode-transaction-active-filters';
+import { DEFAULT_TRANSACTION_FILTERS } from '@/components/bitcode/execution/bitcode-transaction-types';
 
 describe('bitcode transaction active filters', () => {
   it('builds readable active filter chips from non-default transaction filters', () => {

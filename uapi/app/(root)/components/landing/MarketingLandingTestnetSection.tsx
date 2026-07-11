@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ShieldCheckIcon } from '@heroicons/react/24/outline';
 
-import { BITCODE_PUBLIC_COPY } from '@/components/base/bitcode/layout/bitcode-public-copy';
+import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/bitcode-public-copy';
 
 export function MarketingLandingTestnetSection() {
   const copy = BITCODE_PUBLIC_COPY.testnetLaunch;

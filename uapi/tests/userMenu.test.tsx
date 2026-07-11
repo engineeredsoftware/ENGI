@@ -35,7 +35,7 @@ jest.mock('@radix-ui/react-dropdown-menu', () => {
   };
 });
 
-import { UserMenu } from '@/components/base/bitcode/layout/user-menu';
+import { UserMenu } from '@/components/bitcode/layout/user-menu';
 
 describe('UserMenu', () => {
   const mockUser = {

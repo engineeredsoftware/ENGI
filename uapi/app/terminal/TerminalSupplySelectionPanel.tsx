@@ -3,9 +3,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipCloud';
-import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
-import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
+import BitcodeChipCloud from '@/components/bitcode/execution/BitcodeChipCloud';
+import BitcodeInlineExplainer from '@/components/bitcode/execution/BitcodeInlineExplainer';
+import BitcodeMetricGrid from '@/components/bitcode/execution/BitcodeMetricGrid';
 
 import TerminalWorkspaceCard from './TerminalWorkspaceCard';
 import {

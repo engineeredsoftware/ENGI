@@ -1,1 +1,1 @@
-export { FileAttachments as default } from '@/components/base/bitcode/execution/file-attachments';
+export { FileAttachments as default } from '@/components/bitcode/execution/file-attachments';

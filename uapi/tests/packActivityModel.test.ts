@@ -4,8 +4,8 @@ import {
   buildPackPortfolioMarketIntelligence,
   normalizePackActivityRecord,
   queryPackActivityRecords,
-} from '@/components/base/bitcode/activity/pack-activity-model';
-import type { BitcodeActivityRecord } from '@/components/base/bitcode/activity/bitcode-activity-model';
+} from '@/components/bitcode/activity/pack-activity-model';
+import type { BitcodeActivityRecord } from '@/components/bitcode/activity/bitcode-activity-model';
 
 describe('pack-activity-model', () => {
   const baseRecord: BitcodeActivityRecord = {

@@ -1,1 +1,1 @@
-export { IntegrationsSelector as default } from '@/components/base/bitcode/execution/integrations-selector';
+export { IntegrationsSelector as default } from '@/components/bitcode/execution/integrations-selector';

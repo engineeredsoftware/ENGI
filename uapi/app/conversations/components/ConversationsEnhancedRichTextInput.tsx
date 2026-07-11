@@ -8,7 +8,7 @@ import AttachmentPicker from './pickers/attachment-picker';
 import VCSSourcePicker from './pickers/vcs-source-picker';
 import PipelineRunPicker from './pickers/pipeline-run-picker';
 import '@/styles/conversations/rich-text-input.css';
-import glassyInputStyles from '@/components/base/bitcode/inputs/glassy-input.module.css';
+import glassyInputStyles from '@/components/bitcode/inputs/glassy-input.module.css';
 
 interface Token {
   id: string;

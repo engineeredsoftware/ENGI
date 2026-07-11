@@ -92,8 +92,8 @@ function main() {
     'uapi/app/terminal/TerminalTransactionDetailHero.tsx',
     'uapi/app/terminal/TerminalTransactionDetailActionBar.tsx',
     'uapi/app/terminal/TerminalTransactionActivitySurface.tsx',
-    'uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx',
-    'uapi/components/base/bitcode/execution/BitcodeTransactionsDataTable.tsx',
+    'uapi/components/bitcode/execution/BitcodeTransactionsTable.tsx',
+    'uapi/components/bitcode/execution/BitcodeTransactionsDataTable.tsx',
     'uapi/tests/terminalUxBrowserProof.test.tsx',
     'uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
     'uapi/playwright.config.ts',
@@ -119,8 +119,8 @@ function main() {
   const detailHero = read(root, 'uapi/app/terminal/TerminalTransactionDetailHero.tsx');
   const actionBar = read(root, 'uapi/app/terminal/TerminalTransactionDetailActionBar.tsx');
   const activitySurface = read(root, 'uapi/app/terminal/TerminalTransactionActivitySurface.tsx');
-  const table = read(root, 'uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx');
-  const dataTable = read(root, 'uapi/components/base/bitcode/execution/BitcodeTransactionsDataTable.tsx');
+  const table = read(root, 'uapi/components/bitcode/execution/BitcodeTransactionsTable.tsx');
+  const dataTable = read(root, 'uapi/components/bitcode/execution/BitcodeTransactionsDataTable.tsx');
   const jestTest = read(root, 'uapi/tests/terminalUxBrowserProof.test.tsx');
   const e2eTest = read(root, 'uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts');
   const playwrightConfig = read(root, 'uapi/playwright.config.ts');

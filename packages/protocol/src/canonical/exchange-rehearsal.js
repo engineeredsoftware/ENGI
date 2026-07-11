@@ -200,7 +200,7 @@ const rehearsalRows = Object.freeze([
     flowIds: ['list', 'history'],
     sourceRoots: [
       'uapi/app/packs/PacksPageClient.tsx',
-      'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+      'uapi/components/bitcode/activity/pack-activity-model.ts',
       'uapi/app/terminal/TerminalTransactionActivitySurface.tsx',
       'uapi/tests/pipelineExecutionLogHeader.test.tsx',
       'packages/protocol/src/canonical/exchange-ux-proof.js',

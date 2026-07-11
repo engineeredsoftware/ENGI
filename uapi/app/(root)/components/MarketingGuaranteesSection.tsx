@@ -2,7 +2,7 @@
 
 import React from 'react';
 import MarketingSectionWrapper from './MarketingSectionWrapper';
-import { NavProcessingIndicator } from '@/components/base/bitcode/indicators/NavProcessingIndicator';
+import { NavProcessingIndicator } from '@/components/bitcode/indicators/NavProcessingIndicator';
 
 export default function MarketingGuaranteesSection() {
   // File-local class constants for clarity and reuse

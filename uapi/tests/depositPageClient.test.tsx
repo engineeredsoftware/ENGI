@@ -16,7 +16,7 @@ jest.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(mockQuery),
 }));
 
-jest.mock("@/components/base/bitcode/auth/AuthProvider", () => ({
+jest.mock("@/components/bitcode/auth/AuthProvider", () => ({
   useAuth: () => mockUseAuth(),
 }));
 
@@ -38,14 +38,14 @@ jest.mock("@/lib/product-analytics", () => ({
 // The miniature run orb pulls framer-motion + canvas layers that jsdom cannot
 // animate; the header contract (orb present next to the clock + run id) is
 // asserted via the stub.
-jest.mock("@/components/base/bitcode/effects/quantum-orb", () => ({
+jest.mock("@/components/bitcode/effects/quantum-orb", () => ({
   QuantumOrb: () => <div data-testid="quantum-orb-stub" />,
   minimalPreset: {},
 }));
 
 // PipelineExecutionLog pulls react-syntax-highlighter ESM styles that jest
 // cannot transform; the telemetry panel contract is asserted via the stub.
-jest.mock("@/components/base/bitcode/execution/pipeline-execution-log", () => ({
+jest.mock("@/components/bitcode/execution/pipeline-execution-log", () => ({
   // Mirrors the real component's error-banner contract (QA F19): the error
   // (with its Retry/Dismiss actions) renders WITHIN the log (role="alert"),
   // not as a separate stub prop, so tests asserting on the alert exercise

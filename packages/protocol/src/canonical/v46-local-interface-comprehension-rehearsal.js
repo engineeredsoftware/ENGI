@@ -82,7 +82,7 @@ const SOURCE_PATHS = Object.freeze({
   docsContent: 'uapi/app/(root)/components/PublicDocsPageContent.tsx',
   packsPage: 'uapi/app/packs/page.tsx',
   packsClient: 'uapi/app/packs/PacksPageClient.tsx',
-  packActivityModel: 'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+  packActivityModel: 'uapi/components/bitcode/activity/pack-activity-model.ts',
   readPage: 'uapi/app/read/page.tsx',
   readClient: 'uapi/app/read/ReadPageClient.tsx',
   depositPage: 'uapi/app/deposit/page.tsx',
@@ -95,7 +95,7 @@ const SOURCE_PATHS = Object.freeze({
   conversationHandoff: 'uapi/app/conversations/conversation-terminal-handoff.ts',
   conversationTelemetry: 'uapi/app/conversations/conversation-telemetry-proof-hooks.ts',
   conversationParityTest: 'uapi/tests/api/conversationReadingInterfaceParity.test.ts',
-  pipelineLogUi: 'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
+  pipelineLogUi: 'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
   v39OperationalTelemetryReadback:
     'packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js',
   uapiLedgerStorageSync: 'uapi/app/bitcode-ledger-storage-sync.ts',

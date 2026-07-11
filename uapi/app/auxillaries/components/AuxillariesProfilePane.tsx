@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import LoadingSpinner from '@/components/base/bitcode/indicators/LoadingSpinner';
+import LoadingSpinner from '@/components/bitcode/indicators/LoadingSpinner';
 import { trackEvent } from '@bitcode/google-analytics';
 import { reportError } from '@bitcode/errors';
 import { createClient } from '@bitcode/supabase/ssr/client';

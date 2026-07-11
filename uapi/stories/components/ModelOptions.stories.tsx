@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import ModelOptions from '@/components/base/bitcode/execution/model-options';
+import ModelOptions from '@/components/bitcode/execution/model-options';
 
 const meta: Meta<typeof ModelOptions> = {
   title: 'Components/ModelOptions',

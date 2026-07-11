@@ -4,8 +4,8 @@ import React from "react";
 import Select from "react-select";
 import RichTextInput from "./ConversationsRichTextInput";
 import ConversationsGitHubSourceSelector from "./ConversationsGitHubSourceSelector";
-import { glassyStyles, glassyPillStyles } from "@/components/base/bitcode/selects/glassy-select-styles";
-import { NoOptionsMessage } from "@/components/base/bitcode/execution/select-components";
+import { glassyStyles, glassyPillStyles } from "@/components/bitcode/selects/glassy-select-styles";
+import { NoOptionsMessage } from "@/components/bitcode/execution/select-components";
 
 import { motion } from "framer-motion";
 import { CodeIcon, ReloadIcon } from "@radix-ui/react-icons";

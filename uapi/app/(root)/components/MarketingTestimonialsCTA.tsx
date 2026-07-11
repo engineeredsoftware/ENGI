@@ -1,11 +1,11 @@
 
 /* eslint-disable react/no-multi-comp */
-import { buttonVariants } from "@/components/base/shadcn/button";
+import { buttonVariants } from "@/components/shadcn/button";
 import { cn } from '@bitcode/styling';
-import Marquee from "@/components/base/bitcode/magicui/marquee";
+import Marquee from "@/components/bitcode/magicui/marquee";
 import { ChevronRight, HeartHandshake } from "lucide-react";
-import MarketingButtonShimmer from '@/components/base/bitcode/effects/button-shimmer';
-import Logo from "@/components/base/bitcode/branding/logo";
+import MarketingButtonShimmer from '@/components/bitcode/effects/button-shimmer';
+import Logo from "@/components/bitcode/branding/logo";
 import { useState, useEffect, useMemo } from "react";
 import { createClient } from '@bitcode/supabase/ssr/client';
 import type { Session, User } from '@supabase/supabase-js';

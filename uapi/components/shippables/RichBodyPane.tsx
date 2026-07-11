@@ -5,7 +5,7 @@
 
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import CodeBlock from '@/components/base/bitcode/media/syntax-highlighter';
+import CodeBlock from '@/components/bitcode/media/syntax-highlighter';
 
 interface Props {
   children: string; // raw markdown

@@ -3,10 +3,10 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import WalletPane from '@/app/auxillaries/components/AuxillariesWalletPane';
-import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
+import { useAuth } from '@/components/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
-jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
+jest.mock('@/components/bitcode/auth/AuthProvider', () => ({
   useAuth: jest.fn(),
 }));
 

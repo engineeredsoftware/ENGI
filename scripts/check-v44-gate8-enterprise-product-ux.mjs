@@ -87,7 +87,7 @@ function main() {
 
   for (const relativePath of [
     V44_ENTERPRISE_PRODUCT_UX_ARTIFACT_PATH,
-    'uapi/components/base/bitcode/routes/product-route-shell.tsx',
+    'uapi/components/bitcode/routes/product-route-shell.tsx',
     'uapi/app/packs/PacksPageClient.tsx',
     'uapi/app/read/ReadPageClient.tsx',
     'uapi/app/deposit/DepositPageClient.tsx',

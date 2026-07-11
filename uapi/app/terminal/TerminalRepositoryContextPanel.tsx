@@ -5,8 +5,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowUpRight, CheckCircle2, FolderGit2, GitBranch, Lock, RefreshCw, ShieldCheck } from 'lucide-react';
 import type { VCSBranch, VCSCommit, VCSRepository } from '@bitcode/vcs-core';
 
-import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
-import { VCSRepositorySelector } from '@/components/base/bitcode/vcs/VCSRepositorySelector';
+import BitcodeInlineExplainer from '@/components/bitcode/execution/BitcodeInlineExplainer';
+import { VCSRepositorySelector } from '@/components/bitcode/vcs/VCSRepositorySelector';
 
 import TerminalOpenAuxillariesButton from './TerminalOpenAuxillariesButton';
 import TerminalWorkspaceCard from './TerminalWorkspaceCard';

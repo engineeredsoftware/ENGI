@@ -41,10 +41,10 @@ uapi/
 └── stories/                     # Storybook
 ```
 
-Migration note: until Phase 1 completes, shadcn/bitcode sources may still live
-under `components/base/{shadcn,bitcode}/`. Experience components may still be
-colocated under `app/*` until Phase 4. Legacy `app/terminal/` is eradicated
-after live modules relocate (see V48 NOTES workstream).
+Migration note: Phase 1 moved shadcn/bitcode to the target directories above.
+Experience components may still be colocated under `app/*` until Phase 4.
+Legacy `app/terminal/` is eradicated after live modules relocate (see V48 NOTES
+workstream).
 
 ## Component import direction
 

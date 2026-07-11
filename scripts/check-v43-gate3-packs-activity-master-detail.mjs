@@ -81,7 +81,7 @@ function main() {
 
   for (const relativePath of [
     V43_PACKS_ACTIVITY_MASTER_DETAIL_ARTIFACT_PATH,
-    'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+    'uapi/components/bitcode/activity/pack-activity-model.ts',
     'uapi/app/api/packs/activity/route.ts',
     'uapi/app/packs/page.tsx',
     'uapi/app/packs/PacksPageClient.tsx',

@@ -2,8 +2,8 @@
 
 import React from "react";
 
-import BitcodeInlineExplainer from "@/components/base/bitcode/execution/BitcodeInlineExplainer";
-import type { BitcodeExplainer } from "@/components/base/bitcode/execution/bitcode-transaction-types";
+import BitcodeInlineExplainer from "@/components/bitcode/execution/BitcodeInlineExplainer";
+import type { BitcodeExplainer } from "@/components/bitcode/execution/bitcode-transaction-types";
 import { cn } from "@bitcode/styling";
 
 type AuxillariesWorkspaceTone = "default" | "emerald" | "sky" | "violet" | "amber";

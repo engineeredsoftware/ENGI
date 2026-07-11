@@ -3,10 +3,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import type { VCSBranch, VCSCommit, VCSProviderType } from '@bitcode/vcs-core';
 
-import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipCloud';
-import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
-import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
-import type { BitcodeExplainer } from '@/components/base/bitcode/execution/bitcode-transaction-types';
+import BitcodeChipCloud from '@/components/bitcode/execution/BitcodeChipCloud';
+import BitcodeInlineExplainer from '@/components/bitcode/execution/BitcodeInlineExplainer';
+import BitcodeMetricGrid from '@/components/bitcode/execution/BitcodeMetricGrid';
+import type { BitcodeExplainer } from '@/components/bitcode/execution/bitcode-transaction-types';
 import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
 import {
   buildBitcoinWalletDepositAuthorizationMessage,

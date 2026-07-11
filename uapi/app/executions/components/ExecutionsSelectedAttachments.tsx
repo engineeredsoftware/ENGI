@@ -1,1 +1,1 @@
-export { SelectedAttachments as default } from '@/components/base/bitcode/execution/selected-attachments';
+export { SelectedAttachments as default } from '@/components/bitcode/execution/selected-attachments';

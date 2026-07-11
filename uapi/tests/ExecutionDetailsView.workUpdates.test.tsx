@@ -10,11 +10,11 @@ jest.mock('@/hooks/usePipelineExecution', () => ({
   usePipelineExecution: jest.fn(),
 }));
 
-jest.mock('@/components/base/bitcode/execution/pipeline-execution-log', () => ({
+jest.mock('@/components/bitcode/execution/pipeline-execution-log', () => ({
   PipelineExecutionLog: () => <div data-testid="log" />,
 }));
 
-jest.mock('@/components/base/bitcode/execution/pipeline-execution-log-header', () => ({
+jest.mock('@/components/bitcode/execution/pipeline-execution-log-header', () => ({
   PipelineExecutionLogHeader: () => <div data-testid="log-header" />,
 }));
 

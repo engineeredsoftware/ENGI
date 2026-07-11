@@ -6,7 +6,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import './marketing-marketplace-section.module.css';
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import BitcodePill from "@/components/base/bitcode/branding/bitcode-pill";
+import BitcodePill from "@/components/bitcode/branding/bitcode-pill";
 import {
   ArrowTrendingUpIcon,
   WrenchScrewdriverIcon,
@@ -30,7 +30,7 @@ import {
   SiSwift,
 } from "react-icons/si";
 
-import BitcodeSoftwareSvgLogo from "@/components/base/bitcode/branding/bitcode-software-svg-logo";
+import BitcodeSoftwareSvgLogo from "@/components/bitcode/branding/bitcode-software-svg-logo";
 
 /* ------------------------------------------------------------------
    Marketplace Color Constants - Design System Integration
@@ -821,4 +821,4 @@ export default function MarketingMarketplaceSection({ disableTickerFetch = false
   );
 }
 // Route-scoped marketing component (presentational only).
-// Do not reuse cross-route; shared helpers live under components/base/bitcode.
+// Do not reuse cross-route; shared helpers live under components/bitcode.

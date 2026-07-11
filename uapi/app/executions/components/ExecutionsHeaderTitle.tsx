@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
-import MultiLineTypingAnimation from '@/components/base/bitcode/multi-line-typing-animation';
+import MultiLineTypingAnimation from '@/components/bitcode/multi-line-typing-animation';
 import '@/styles/smooth-typing.css';
 import { cn } from '@bitcode/styling';
 

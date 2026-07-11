@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
-import Logo from '@/components/base/bitcode/branding/logo';
-import { BITCODE_PUBLIC_COPY } from '@/components/base/bitcode/layout/bitcode-public-copy';
-import MultiLineTypingAnimation from '@/components/base/bitcode/multi-line-typing-animation';
+import Logo from '@/components/bitcode/branding/logo';
+import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/bitcode-public-copy';
+import MultiLineTypingAnimation from '@/components/bitcode/multi-line-typing-animation';
 
 import { MarketingLandingGuideCard } from './MarketingLandingGuideCard';
 import { MarketingLandingPillarCard } from './MarketingLandingPillarCard';

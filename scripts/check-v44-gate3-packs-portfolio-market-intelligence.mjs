@@ -87,7 +87,7 @@ function main() {
 
   for (const relativePath of [
     V44_PACKS_PORTFOLIO_MARKET_INTELLIGENCE_ARTIFACT_PATH,
-    'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+    'uapi/components/bitcode/activity/pack-activity-model.ts',
     'uapi/app/api/packs/activity/route.ts',
     'uapi/app/packs/PacksPageClient.tsx',
     'uapi/tests/packActivityModel.test.ts',

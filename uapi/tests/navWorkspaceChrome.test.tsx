@@ -4,7 +4,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import Nav from '@/components/base/bitcode/layout/nav';
+import Nav from '@/components/bitcode/layout/nav';
 
 const mockPush = jest.fn();
 const mockReplace = jest.fn();
@@ -18,7 +18,7 @@ jest.mock('next/navigation', () => ({
   useRouter: () => ({ push: mockPush, replace: mockReplace }),
 }));
 
-jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
+jest.mock('@/components/bitcode/auth/AuthProvider', () => ({
   useAuth: () => mockUseAuth(),
 }));
 
@@ -39,7 +39,7 @@ jest.mock('@/config/features', () => ({
   },
 }));
 
-jest.mock('@/components/base/bitcode/layout/NavBrand', () => ({
+jest.mock('@/components/bitcode/layout/NavBrand', () => ({
   __esModule: true,
   default: ({ onClick }: { onClick: () => void }) => (
     <button type="button" onClick={onClick}>
@@ -48,15 +48,15 @@ jest.mock('@/components/base/bitcode/layout/NavBrand', () => ({
   ),
 }));
 
-jest.mock('@/components/base/bitcode/btd/btd-tracker', () => ({
+jest.mock('@/components/bitcode/btd/btd-tracker', () => ({
   BTDTracker: () => <div>BTD</div>,
 }));
 
-jest.mock('@/components/base/bitcode/notifications/NotificationsWidget', () => ({
+jest.mock('@/components/bitcode/notifications/NotificationsWidget', () => ({
   NotificationsWidget: () => <div>Notifications</div>,
 }));
 
-jest.mock('@/components/base/bitcode/layout/user-menu', () => ({
+jest.mock('@/components/bitcode/layout/user-menu', () => ({
   UserMenu: ({
     onOpenAuxillaries,
   }: {
@@ -68,11 +68,11 @@ jest.mock('@/components/base/bitcode/layout/user-menu', () => ({
   ),
 }));
 
-jest.mock('@/components/base/bitcode/overlays/disabled-tooltip-wrapper', () => ({
+jest.mock('@/components/bitcode/overlays/disabled-tooltip-wrapper', () => ({
   DisabledTooltipWrapper: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
-jest.mock('@/components/base/bitcode/nav/AuxillariesUseButton', () => ({
+jest.mock('@/components/bitcode/nav/AuxillariesUseButton', () => ({
   AuxillariesUseButton: () => <div>Use button</div>,
 }));
 

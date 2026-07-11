@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 
-import Footer from '@/components/base/bitcode/layout/footer';
-import { BITCODE_PUBLIC_COPY } from '@/components/base/bitcode/layout/bitcode-public-copy';
-import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/base/bitcode/layout/bitcode-public-explainers';
+import Footer from '@/components/bitcode/layout/footer';
+import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/bitcode-public-copy';
+import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/bitcode/layout/bitcode-public-explainers';
 import {
   BITCODE_DOCS_CHAPTERS,
   BITCODE_DOCS_PAGES,

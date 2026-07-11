@@ -4,8 +4,8 @@ import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
-import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
+import type { TransactionDataMode } from '@/components/bitcode/execution/bitcode-transaction-types';
+import { useAuth } from '@/components/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 import { fetchPipelineExecutionHistory } from '@/networking/api-client';
 import { isAuxillariesMockMode } from '@/lib/mock-review-mode';

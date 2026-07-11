@@ -1,5 +1,5 @@
 /**
- * Codemod: migrate imports from `@/components/ui/<mod>` to `@/components/base/shadcn/<mod>`
+ * Codemod: migrate imports from `@/components/ui/<mod>` to `@/components/shadcn/<mod>`
  *
  * Usage (dry run):
  *   npx jscodeshift -d -p -t scripts/codemods/migrate-ui-imports-to-base-shadcn.js  *     'uapi/app/**/*.tsx' 'uapi/components/vcs/**/*.tsx'
@@ -20,7 +20,7 @@ export default function transformer(fileInfo, api) {
     .forEach(path => {
       const oldSource = path.value.source.value;
       // Straight map: ui/<mod> -> base/shadcn/<mod>
-      const mapped = oldSource.replace('@/components/ui/', '@/components/base/shadcn/');
+      const mapped = oldSource.replace('@/components/ui/', '@/components/shadcn/');
       path.value.source = j.literal(mapped);
     })
     .size() > 0;

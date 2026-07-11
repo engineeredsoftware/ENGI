@@ -73,7 +73,7 @@ const SOURCE_ROOTS = Object.freeze({
   gateWorkflow: '.github/workflows/bitcode-gate-quality.yml',
   canonWorkflow: '.github/workflows/bitcode-canon-quality.yml',
   economicModel: 'packages/protocol/src/canonical/v44-economic-domain-model.js',
-  model: 'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+  model: 'uapi/components/bitcode/activity/pack-activity-model.ts',
   route: 'uapi/app/api/packs/activity/route.ts',
   client: 'uapi/app/packs/PacksPageClient.tsx',
   uapiTest: 'uapi/tests/packActivityModel.test.ts',

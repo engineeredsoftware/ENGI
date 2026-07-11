@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import menuStyles from '@/components/base/bitcode/menus/glassy-menu.module.css';
+import menuStyles from '@/components/bitcode/menus/glassy-menu.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Attachment {

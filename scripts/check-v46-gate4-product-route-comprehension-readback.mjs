@@ -93,7 +93,7 @@ function main() {
     'uapi/app/packs/PacksPageClient.tsx',
     'uapi/app/read/ReadPageClient.tsx',
     'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/components/base/bitcode/routes/product-route-shell.tsx',
+    'uapi/components/bitcode/routes/product-route-shell.tsx',
     'uapi/tests/packsPageClient.test.tsx',
     'uapi/tests/readPageClient.test.tsx',
     'uapi/tests/depositPageClient.test.tsx',

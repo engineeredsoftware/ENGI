@@ -1,12 +1,12 @@
 'use client'
 
 import React from 'react'
-import { Button } from "@/components/base/shadcn/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/base/shadcn/card"
-import { Badge } from "@/components/base/shadcn/badge"
-import { Avatar, AvatarFallback } from "@/components/base/shadcn/avatar"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/base/shadcn/tabs"
-import { Progress } from "@/components/base/shadcn/progress"
+import { Button } from "@/components/shadcn/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/shadcn/card"
+import { Badge } from "@/components/shadcn/badge"
+import { Avatar, AvatarFallback } from "@/components/shadcn/avatar"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/shadcn/tabs"
+import { Progress } from "@/components/shadcn/progress"
 import {
   ArrowDownRight,
   ArrowUpRight,

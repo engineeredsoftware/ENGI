@@ -6,16 +6,16 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   getTransactionDataModeLabel,
   isMockTransactionDataMode,
-} from '@/components/base/bitcode/execution/bitcode-transaction-data-mode';
-import BitcodeDetailPanel from '@/components/base/bitcode/execution/BitcodeDetailPanel';
+} from '@/components/bitcode/execution/bitcode-transaction-data-mode';
+import BitcodeDetailPanel from '@/components/bitcode/execution/BitcodeDetailPanel';
 import type {
   TransactionDataMode,
   TransactionFilters,
   TransactionPagination,
-} from '@/components/base/bitcode/execution/bitcode-transaction-types';
-import type { ShippablesDoc } from '@/components/base/bitcode/execution/ShippablesDocPanel';
-import type { BitcodeDetailRow } from '@/components/base/bitcode/execution/BitcodeDetailRowList';
-import type { BitcodeMetric } from '@/components/base/bitcode/execution/BitcodeMetricGrid';
+} from '@/components/bitcode/execution/bitcode-transaction-types';
+import type { ShippablesDoc } from '@/components/bitcode/execution/ShippablesDocPanel';
+import type { BitcodeDetailRow } from '@/components/bitcode/execution/BitcodeDetailRowList';
+import type { BitcodeMetric } from '@/components/bitcode/execution/BitcodeMetricGrid';
 
 import TerminalTransactionDetailSurface from './TerminalTransactionDetailSurface';
 import type { TerminalActivityRecordDraft } from './terminal-activity-history';

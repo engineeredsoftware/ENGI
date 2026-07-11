@@ -15,10 +15,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Anchor, GitBranch, Lock, RefreshCw } from "lucide-react";
 import type { VCSBranch, VCSCommit, VCSRepository } from "@bitcode/vcs-core";
 
-import { VCSRepositorySelector } from "@/components/base/bitcode/vcs/VCSRepositorySelector";
-import { SearchableSelect } from "@/components/base/bitcode/forms/SearchableSelect";
-import BitcodeInlineExplainer from "@/components/base/bitcode/execution/BitcodeInlineExplainer";
-import { TelemetryExplainerTrigger } from "@/components/base/bitcode/execution/TelemetryExplainerTrigger";
+import { VCSRepositorySelector } from "@/components/bitcode/vcs/VCSRepositorySelector";
+import { SearchableSelect } from "@/components/bitcode/forms/SearchableSelect";
+import BitcodeInlineExplainer from "@/components/bitcode/execution/BitcodeInlineExplainer";
+import { TelemetryExplainerTrigger } from "@/components/bitcode/execution/TelemetryExplainerTrigger";
 import {
   DEPOSIT_SECTION_EXPLAINERS,
   toRichHoverExplainer,

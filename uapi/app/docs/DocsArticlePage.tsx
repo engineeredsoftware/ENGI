@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import TerminalWorkspaceCard from '@/app/terminal/TerminalWorkspaceCard';
-import Footer from '@/components/base/bitcode/layout/footer';
+import Footer from '@/components/bitcode/layout/footer';
 import { BITCODE_GITHUB_APP_PUBLIC_URL } from '@/lib/github-app-url';
 
 import {

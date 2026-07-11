@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@bitcode/supabase';
 
 import { GET as getActivity } from '@/app/api/activity/route';
-import { buildBitcodeActivityRecordFromExecutionHistory } from '@/components/base/bitcode/activity/bitcode-activity-model';
+import { buildBitcodeActivityRecordFromExecutionHistory } from '@/components/bitcode/activity/bitcode-activity-model';
 import {
   assertPackActivitySourceSafe,
   buildPackActivityDetailProjection,
@@ -15,8 +15,8 @@ import {
   type PackActivitySortDirection,
   type PackActivitySortKey,
   type PackActivityType,
-} from '@/components/base/bitcode/activity/pack-activity-model';
-import type { BitcodeActivityRecord } from '@/components/base/bitcode/activity/bitcode-activity-model';
+} from '@/components/bitcode/activity/pack-activity-model';
+import type { BitcodeActivityRecord } from '@/components/bitcode/activity/bitcode-activity-model';
 
 export const runtime = 'nodejs';
 

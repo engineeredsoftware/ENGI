@@ -19,7 +19,7 @@
 
 import React from "react";
 import styles from './marketing-invisible-interfaces-group.module.css';
-import { NavProcessingIndicator } from "@/components/base/bitcode/indicators/NavProcessingIndicator";
+import { NavProcessingIndicator } from "@/components/bitcode/indicators/NavProcessingIndicator";
 
 /*
  * Border animation: we craft a single CSS class that uses four gradient

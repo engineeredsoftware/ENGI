@@ -154,7 +154,7 @@ function main() {
     'uapi/tests/api/pipelineHarnessPreflight.test.ts',
     'uapi/tests/terminalPipelineHarnessClient.test.ts',
     'uapi/tests/pipelineExecutionLogHeader.test.tsx',
-    'uapi/components/base/bitcode/execution/pipeline-execution-log.tsx',
+    'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
     'BITCODE_SPEC_V38.md',
     'BITCODE_SPEC_V38_DELTA.md',
     'BITCODE_SPEC_V38_NOTES.md',

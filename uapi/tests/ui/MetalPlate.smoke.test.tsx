@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import MetalPlate from '@/components/base/bitcode/metal-plate';
+import MetalPlate from '@/components/bitcode/metal-plate';
 
 describe('MetalPlate (smoke)', () => {
   it('renders headline and children', () => {

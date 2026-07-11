@@ -21,32 +21,32 @@ jest.mock('framer-motion', () => {
   };
 });
 
-jest.mock('@/components/base/bitcode/layout/footer', () => ({
+jest.mock('@/components/bitcode/layout/footer', () => ({
   __esModule: true,
   default: () => <div>Footer</div>,
 }));
 
-jest.mock('@/components/base/bitcode/branding/bitcode-pill', () => ({
+jest.mock('@/components/bitcode/branding/bitcode-pill', () => ({
   __esModule: true,
   default: ({ children }: React.PropsWithChildren) => <div>{children}</div>,
 }));
 
-jest.mock('@/components/base/bitcode/branding/bitcode-software-svg-logo', () => ({
+jest.mock('@/components/bitcode/branding/bitcode-software-svg-logo', () => ({
   __esModule: true,
   default: () => <div>Software logo</div>,
 }));
 
-jest.mock('@/components/base/bitcode/branding/logo', () => ({
+jest.mock('@/components/bitcode/branding/logo', () => ({
   __esModule: true,
   default: () => <div>Logo</div>,
 }));
 
-jest.mock('@/components/base/bitcode/effects/quantum-orb', () => ({
+jest.mock('@/components/bitcode/effects/quantum-orb', () => ({
   QuantumOrb: () => <div>QuantumOrb</div>,
   minimalPreset: {},
 }));
 
-jest.mock('@/components/base/bitcode/multi-line-typing-animation', () => ({
+jest.mock('@/components/bitcode/multi-line-typing-animation', () => ({
   __esModule: true,
   default: ({ text }: { text: string }) => <>{text}</>,
 }));

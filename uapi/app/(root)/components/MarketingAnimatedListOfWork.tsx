@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from '@bitcode/styling';
-import { AnimatedList } from "@/components/base/bitcode/magicui/animated-list";
+import { AnimatedList } from "@/components/bitcode/magicui/animated-list";
 
 interface Item {
   name: string;

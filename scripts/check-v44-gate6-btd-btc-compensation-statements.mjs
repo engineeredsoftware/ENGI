@@ -94,7 +94,7 @@ function main() {
     'packages/btd/src/settlement.ts',
     'packages/btd/src/receipts.ts',
     'packages/btd/src/reconciliation.ts',
-    'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+    'uapi/components/bitcode/activity/pack-activity-model.ts',
     'uapi/app/packs/PacksPageClient.tsx',
     'uapi/tests/packActivityModel.test.ts',
     'uapi/tests/packsPageClient.test.tsx',

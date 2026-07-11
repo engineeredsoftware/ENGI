@@ -1,1 +1,1 @@
-export { ExecutionOptionToggle as default } from '@/components/base/bitcode/execution/execution-option-toggle';
+export { ExecutionOptionToggle as default } from '@/components/bitcode/execution/execution-option-toggle';

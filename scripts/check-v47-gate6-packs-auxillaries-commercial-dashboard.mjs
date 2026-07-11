@@ -97,7 +97,7 @@ function main() {
     'BITCODE_SPEC_V47_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+    'uapi/components/bitcode/activity/pack-activity-model.ts',
     'uapi/app/api/packs/activity/route.ts',
     'uapi/app/auxillaries/page.tsx',
     'uapi/app/auxillaries/components/auxillary-pane-meta.ts',

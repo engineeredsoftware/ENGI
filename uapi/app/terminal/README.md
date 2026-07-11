@@ -322,6 +322,6 @@ not redesign Reading, and does not add versioned routes.
 
 ## Related shared systems
 
-- [../../components/base/bitcode/execution/README.md](../../components/base/bitcode/execution/README.md)
+- [../../components/bitcode/execution/README.md](../../components/bitcode/execution/README.md)
 - [../auxillaries/README.md](../auxillaries/README.md)
 - [../../../protocol-demonstration/README.md](../../../protocol-demonstration/README.md)

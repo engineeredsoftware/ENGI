@@ -1,5 +1,5 @@
 import { ENABLE_MOCKS } from '@/config/featureFlags';
-import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
+import type { TransactionDataMode } from '@/components/bitcode/execution/bitcode-transaction-types';
 
 import { isMockWorkspaceRunId, MOCK_RUNS, type WorkspaceRun } from './terminal-run-data';
 import { mergeProtocolProjectedRun } from './terminal-protocol-projection';

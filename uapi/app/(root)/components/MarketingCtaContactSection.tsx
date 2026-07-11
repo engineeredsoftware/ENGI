@@ -4,7 +4,7 @@ import React, { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 
 import Image from 'next/image';
 import MarketingSectionWrapper from './MarketingSectionWrapper';
-import MarketingButtonShimmer from '@/components/base/bitcode/effects/button-shimmer';
+import MarketingButtonShimmer from '@/components/bitcode/effects/button-shimmer';
 import { FEATURE_FLAGS } from '@/config/features';
 
 import {
@@ -345,4 +345,4 @@ const MarketingCtaContactSection: React.FC = () => {
 
 export default MarketingCtaContactSection;
 // Route-scoped marketing component (presentational only).
-// Do not reuse cross-route; shared helpers live under components/base/bitcode.
+// Do not reuse cross-route; shared helpers live under components/bitcode.

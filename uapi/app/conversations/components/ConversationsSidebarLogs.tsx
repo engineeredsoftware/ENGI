@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import BitcodeExecutionStreamPanel from "@/components/base/bitcode/execution/BitcodeExecutionStreamPanel";
+import BitcodeExecutionStreamPanel from "@/components/bitcode/execution/BitcodeExecutionStreamPanel";
 
 interface SidebarLogsProps {
   show: boolean;

@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 
-import { VCSConnectionCard } from "@/components/base/bitcode/vcs/VCSConnectionCard";
+import { VCSConnectionCard } from "@/components/bitcode/vcs/VCSConnectionCard";
 
 // V48-Gate3-F34: when a stored GitHub connection is Invalid, Refresh already
 // silently retries installation-token regeneration (V48-Gate3-F33) — but if

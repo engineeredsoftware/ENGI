@@ -11,25 +11,25 @@ import dynamic from "next/dynamic";
 // the summary, so there is no visible delay.
 const ReactMarkdown = dynamic(() => import("react-markdown"), { ssr: false });
 import ExecutionsHeaderTitle from '@/app/executions/components/ExecutionsHeaderTitle';
-import { ScrollContainer } from '@/components/base/bitcode/panels/ScrollContainer';
-import Logo from '@/components/base/bitcode/branding/logo';
-import WordRotate from "@/components/base/bitcode/word-rotate";
-import GuideIndicator from "@/components/base/bitcode/execution/GuideIndicator";
-import InstructionConfidenceTimer from "@/components/base/bitcode/execution/InstructionConfidenceTimer";
+import { ScrollContainer } from '@/components/bitcode/panels/ScrollContainer';
+import Logo from '@/components/bitcode/branding/logo';
+import WordRotate from "@/components/bitcode/word-rotate";
+import GuideIndicator from "@/components/bitcode/execution/GuideIndicator";
+import InstructionConfidenceTimer from "@/components/bitcode/execution/InstructionConfidenceTimer";
 import type { HeaderProcessingStats } from '@/app/executions/components/ExecutionsCompleteHeaderContent';
 // Load the heavy prism-based code highlighter lazily so the header bundle
 // stays small until a markdown section with a <code> block is actually
 // rendered.
-const CodeBlock = dynamic(() => import("@/components/base/bitcode/media/syntax-highlighter"), {
+const CodeBlock = dynamic(() => import("@/components/bitcode/media/syntax-highlighter"), {
   ssr: false,
 });
-import { ProcessingIndicator } from "@/components/base/bitcode/indicators/processing-indicator";
+import { ProcessingIndicator } from "@/components/bitcode/indicators/processing-indicator";
 // global styles for the header
 import "@/styles/shippables-header.css";
 
 // Extracted component & styles
 import ShippableTemplateText from "@/app/executions/components/ExecutionsShippableTemplateText";
-  import { PageHeaderSection } from '@/components/base/bitcode/page-header/PageHeaderSection';
+  import { PageHeaderSection } from '@/components/bitcode/page-header/PageHeaderSection';
   import { CompleteHeaderContent } from '@/app/executions/components/ExecutionsCompleteHeaderContent';
 
 // ---------------------------------------------------------------------------
@@ -903,7 +903,7 @@ export default function ExecutionsPageHeader({
   );
 }
 
-// Removed unused local MetalPlate (shared variant lives at components/base/bitcode/metal-plate)
+// Removed unused local MetalPlate (shared variant lives at components/bitcode/metal-plate)
 
 function EducationBodyWithLogo() {
   return (

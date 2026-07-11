@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 
 // Dynamically import QuantumOrb for better performance
-const QuantumOrb = dynamic(() => import('@/components/base/bitcode/effects/quantum-orb').then(mod => ({ default: mod.QuantumOrb })), {
+const QuantumOrb = dynamic(() => import('@/components/bitcode/effects/quantum-orb').then(mod => ({ default: mod.QuantumOrb })), {
   ssr: false,
   loading: () => null
 });

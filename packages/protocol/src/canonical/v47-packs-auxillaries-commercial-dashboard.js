@@ -76,7 +76,7 @@ const SOURCE_ROOTS = Object.freeze({
   roadmap: 'SPECIFICATIONS_ROADMAP.md',
   packsClient: 'uapi/app/packs/PacksPageClient.tsx',
   packsPage: 'uapi/app/packs/page.tsx',
-  packActivityModel: 'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+  packActivityModel: 'uapi/components/bitcode/activity/pack-activity-model.ts',
   packsActivityApi: 'uapi/app/api/packs/activity/route.ts',
   auxillariesPage: 'uapi/app/auxillaries/page.tsx',
   auxillariesPaneMeta: 'uapi/app/auxillaries/components/auxillary-pane-meta.ts',

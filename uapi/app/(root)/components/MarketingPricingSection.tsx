@@ -6,8 +6,8 @@ import { createClient } from '@bitcode/supabase/ssr/client';
 import MarketingSectionWrapper from './MarketingSectionWrapper';
 // Bundle presets are intentionally absent: V47 routes acquisition through Read
 // and Packs paths, not fungible checkout bundles.
-import { ProcessingIndicator } from '@/components/base/bitcode/indicators/ProcessingIndicator';
-import BTDPrices from '@/components/base/bitcode/btd/BTDPrices';
+import { ProcessingIndicator } from '@/components/bitcode/indicators/ProcessingIndicator';
+import BTDPrices from '@/components/bitcode/btd/BTDPrices';
 
 const MarketingPricingSection: React.FC = () => {
   // Supabase client for auth check

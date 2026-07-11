@@ -19,7 +19,7 @@ jest.mock('@/app/auxillaries/components/AuxillariesProvider', () => ({
 }));
 import { createClient } from '@bitcode/supabase/ssr/client';
 
-import { NotificationsWidget } from '@/components/base/bitcode/notifications/NotificationsWidget';
+import { NotificationsWidget } from '@/components/bitcode/notifications/NotificationsWidget';
 
 describe('NotificationsWidget', () => {
   const mockChannel = {

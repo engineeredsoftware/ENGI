@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Card from '@/components/base/bitcode/panels/card';
+import Card from '@/components/bitcode/panels/card';
 import { Sun } from 'lucide-react';
 
 const meta: Meta<typeof Card> = {

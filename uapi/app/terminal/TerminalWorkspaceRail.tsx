@@ -5,8 +5,8 @@ import { formatAgenticExecutionLabel } from '@bitcode/api/src/executions/agentic
 import {
   getTransactionDataModeLabel,
   isMockTransactionDataMode,
-} from '@/components/base/bitcode/execution/bitcode-transaction-data-mode';
-import type { TransactionDataMode } from '@/components/base/bitcode/execution/bitcode-transaction-types';
+} from '@/components/bitcode/execution/bitcode-transaction-data-mode';
+import type { TransactionDataMode } from '@/components/bitcode/execution/bitcode-transaction-types';
 
 import TerminalOpenConversationsButton from './TerminalOpenConversationsButton';
 import TerminalOpenAuxillariesButton from './TerminalOpenAuxillariesButton';

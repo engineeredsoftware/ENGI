@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 
 import PublicDocsPageContent from '@/app/(root)/components/PublicDocsPageContent';
 
-jest.mock('@/components/base/bitcode/layout/footer', () => ({
+jest.mock('@/components/bitcode/layout/footer', () => ({
   __esModule: true,
   default: () => <div>Footer</div>,
 }));

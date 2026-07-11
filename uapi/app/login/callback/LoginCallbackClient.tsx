@@ -2,8 +2,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useMotionValue, useMotionTemplate } from 'framer-motion';
-import QuantumEffect from '@/components/base/bitcode/effects/QuantumEffect';
-import TypingAnimation from '@/components/base/bitcode/typing-animation';
+import QuantumEffect from '@/components/bitcode/effects/QuantumEffect';
+import TypingAnimation from '@/components/bitcode/typing-animation';
 import { consumeAuthNextPath } from '@/lib/supabase-auth-redirect';
 
 interface LoginCallbackClientProps {

@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 
 import RichTextInput from '@/app/conversations/components/ConversationsRichTextInput';
-import QuantumOrb from '@/components/base/bitcode/effects/quantum-orb/QuantumOrb';
+import QuantumOrb from '@/components/bitcode/effects/quantum-orb/QuantumOrb';
 import MarketingPlaceholderImage from './MarketingPlaceholderImage';
 import MarketingFullScreenGallery from './MarketingFullScreenGallery';
 import type { Screenshot } from './marketing-types';

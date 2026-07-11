@@ -108,7 +108,7 @@ const SOURCE_ROOTS = Object.freeze({
   depositRouteTest: 'uapi/tests/depositRouteModel.test.ts',
   depositClient: 'uapi/app/deposit/DepositPageClient.tsx',
   depositClientTest: 'uapi/tests/depositPageClient.test.tsx',
-  packActivityModel: 'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+  packActivityModel: 'uapi/components/bitcode/activity/pack-activity-model.ts',
   packsClient: 'uapi/app/packs/PacksPageClient.tsx',
   packActivityModelTest: 'uapi/tests/packActivityModel.test.ts',
   packsClientTest: 'uapi/tests/packsPageClient.test.tsx',

@@ -3,10 +3,10 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 
 import AuxillariesExternalsPane from '@/app/auxillaries/components/AuxillariesExternalsPane';
-import { useAuth } from '@/components/base/bitcode/auth/AuthProvider';
+import { useAuth } from '@/components/bitcode/auth/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
 
-jest.mock('@/components/base/bitcode/auth/AuthProvider', () => ({
+jest.mock('@/components/bitcode/auth/AuthProvider', () => ({
   useAuth: jest.fn(),
 }));
 
@@ -14,7 +14,7 @@ jest.mock('@/hooks/useUserData', () => ({
   useUserData: jest.fn(),
 }));
 
-jest.mock('@/components/base/bitcode/vcs/VCSIntegrationPanel', () => ({
+jest.mock('@/components/bitcode/vcs/VCSIntegrationPanel', () => ({
   VCSIntegrationPanel: function MockVCSIntegrationPanel() {
     return <div data-testid="mock-vcs-integration-panel">VCS integration panel</div>;
   },

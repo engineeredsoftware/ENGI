@@ -6,10 +6,10 @@ import dynamic from "next/dynamic";
 
 // Defer loading of the SVG path/animation logic until the component mounts in the browser.
 const AnimatedBeam = dynamic(
-  () => import("@/components/base/bitcode/magicui/animated-beam").then((mod) => mod.AnimatedBeam),
+  () => import("@/components/bitcode/magicui/animated-beam").then((mod) => mod.AnimatedBeam),
   { ssr: false }
 );
-import BitcodePill from "@/components/base/bitcode/branding/bitcode-pill";
+import BitcodePill from "@/components/bitcode/branding/bitcode-pill";
 import {
   ArrowRightIcon,
   CursorArrowRaysIcon,

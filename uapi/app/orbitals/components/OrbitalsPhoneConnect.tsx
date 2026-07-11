@@ -13,7 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { trackEvent } from '@bitcode/google-analytics';
 import { supabase } from '@bitcode/supabase';
 import { reportError } from '@bitcode/errors';
-import { toast } from '@/components/base/shadcn/sonner';
+import { toast } from '@/components/shadcn/sonner';
 
 interface PhoneConnectProps {
   userId: string;

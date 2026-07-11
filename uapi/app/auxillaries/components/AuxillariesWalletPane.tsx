@@ -11,8 +11,8 @@ import {
   DEFAULT_TRANSACTION_PAGINATION,
   type TransactionFilters,
   type TransactionPagination,
-} from '@/components/base/bitcode/execution/bitcode-transaction-types';
-import { useAuth } from "@/components/base/bitcode/auth/AuthProvider";
+} from '@/components/bitcode/execution/bitcode-transaction-types';
+import { useAuth } from "@/components/bitcode/auth/AuthProvider";
 import { useUserData } from "@/hooks/useUserData";
 
 import AuxillariesWalletPaneHeader from "@/app/auxillaries/components/headers/AuxillariesWalletPaneHeader";

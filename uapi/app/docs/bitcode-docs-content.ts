@@ -1,6 +1,6 @@
-import type { BitcodeExplainer } from '@/components/base/bitcode/execution/bitcode-transaction-types';
+import type { BitcodeExplainer } from '@/components/bitcode/execution/bitcode-transaction-types';
 import { TERMINAL_INLINE_EXPLAINERS, TERMINAL_WORKSPACE_EXPLAINERS } from '@/app/terminal/terminal-workspace-explainers';
-import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/base/bitcode/layout/bitcode-public-explainers';
+import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/bitcode/layout/bitcode-public-explainers';
 
 type DocsGuideCard = {
   id: string;

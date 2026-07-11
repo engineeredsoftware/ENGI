@@ -1,4 +1,4 @@
-import { ProcessingIndicator as BaseProcessingIndicator } from '@/components/base/bitcode/indicators/ProcessingIndicator';
+import { ProcessingIndicator as BaseProcessingIndicator } from '@/components/bitcode/indicators/ProcessingIndicator';
 
 interface ProcessingIndicatorProps {
   label?: string;

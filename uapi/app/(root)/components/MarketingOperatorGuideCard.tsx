@@ -4,7 +4,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { Play } from 'lucide-react';
 import Link from 'next/link';
-import { BITCODE_PUBLIC_COPY } from '@/components/base/bitcode/layout/bitcode-public-copy';
+import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/bitcode-public-copy';
 import { MARKETING_OPERATOR_GUIDE_SOURCE } from './marketing-operator-guide-assets';
 
 type MarketingOperatorGuideCardProps = {

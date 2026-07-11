@@ -99,7 +99,7 @@ const SOURCE_ROOTS = Object.freeze({
   roadmap: 'SPECIFICATIONS_ROADMAP.md',
   depositRouteModel: 'uapi/app/deposit/deposit-route-model.ts',
   readRouteModel: 'uapi/app/read/read-route-model.ts',
-  packActivityModel: 'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+  packActivityModel: 'uapi/components/bitcode/activity/pack-activity-model.ts',
   btdReceipts: 'packages/btd/src/receipts.ts',
   btdSettlement: 'packages/btd/src/settlement.ts',
   btdSourceToShares: 'packages/btd/src/source-to-shares.ts',

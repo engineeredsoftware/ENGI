@@ -86,7 +86,7 @@ function main() {
     'packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-option-admission.test.ts',
     'uapi/app/deposit/deposit-route-model.ts',
     'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+    'uapi/components/bitcode/activity/pack-activity-model.ts',
     'uapi/tests/depositRouteModel.test.ts',
     'uapi/tests/depositPageClient.test.tsx',
     'uapi/tests/packActivityModel.test.ts',

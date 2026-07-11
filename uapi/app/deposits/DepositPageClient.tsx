@@ -12,12 +12,12 @@ import {
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { useAuth } from "@/components/base/bitcode/auth/AuthProvider";
+import { useAuth } from "@/components/bitcode/auth/AuthProvider";
 import {
   ProductRouteDisclosure,
   ProductRouteProofDetail,
   ProductRouteShell,
-} from "@/components/base/bitcode/routes/product-route-shell";
+} from "@/components/bitcode/routes/product-route-shell";
 import { useUserData } from "@/hooks/useUserData";
 import { trackProductEvent } from "@/lib/product-analytics";
 import { fetchPipelineExecutionHistory } from "@/networking/api-client";
@@ -53,7 +53,7 @@ import {
   DEFAULT_TRANSACTION_PAGINATION,
   type TransactionFilters,
   type TransactionPagination,
-} from "@/components/base/bitcode/execution/bitcode-transaction-types";
+} from "@/components/bitcode/execution/bitcode-transaction-types";
 import {
   buildDepositHref,
   DEPOSIT_ROUTE,
@@ -67,12 +67,12 @@ import {
 } from "./deposit-route-model";
 import { usePipelineExecution } from "@/hooks/usePipelineExecution";
 import { buildTerminalRunActivityFromEvents } from "@/app/terminal/terminal-run-activity";
-import { PipelineExecutionLog } from "@/components/base/bitcode/execution/pipeline-execution-log";
-import { ExecutionContextPillRow } from "@/components/base/bitcode/execution/ExecutionContextPillRow";
-import { RunClock } from "@/components/base/bitcode/execution/RunClock";
-import { QuantumOrb } from "@/components/base/bitcode/effects/quantum-orb";
+import { PipelineExecutionLog } from "@/components/bitcode/execution/pipeline-execution-log";
+import { ExecutionContextPillRow } from "@/components/bitcode/execution/ExecutionContextPillRow";
+import { RunClock } from "@/components/bitcode/execution/RunClock";
+import { QuantumOrb } from "@/components/bitcode/effects/quantum-orb";
 import { verifiedAccessOrbConfig } from "@/app/(root)/components/landing/marketing-landing-shared";
-import BitcodeInlineExplainer from "@/components/base/bitcode/execution/BitcodeInlineExplainer";
+import BitcodeInlineExplainer from "@/components/bitcode/execution/BitcodeInlineExplainer";
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/app/deposits/deposit-explainers";
 import {
   DEPOSIT_AUTHORITY_BLOCKERS_EXPLAINER,
@@ -86,14 +86,14 @@ import {
   DEPOSIT_PROOF_ROOT_EXPLAINERS,
   DEPOSIT_SESSION_ROW_EXPLAINERS,
 } from "@/app/deposits/deposit-stat-explainers";
-import { TelemetryExplainerTrigger } from "@/components/base/bitcode/execution/TelemetryExplainerTrigger";
-import { VCSFileTreePicker } from "@/components/base/bitcode/vcs/VCSFileTreePicker";
-import { SearchableSelect } from "@/components/base/bitcode/forms/SearchableSelect";
+import { TelemetryExplainerTrigger } from "@/components/bitcode/execution/TelemetryExplainerTrigger";
+import { VCSFileTreePicker } from "@/components/bitcode/vcs/VCSFileTreePicker";
+import { SearchableSelect } from "@/components/bitcode/forms/SearchableSelect";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/base/shadcn/popover";
+} from "@/components/shadcn/popover";
 import type {
   DepositOptionReviewDecision,
   DepositOptionReviewDecisionState,

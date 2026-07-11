@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { ExecutionOptionToggle } from '@/components/base/bitcode/execution/execution-option-toggle';
+import { ExecutionOptionToggle } from '@/components/bitcode/execution/execution-option-toggle';
 
 describe('ExecutionOptionToggle component', () => {
   it('calls onToggle when clicked', () => {

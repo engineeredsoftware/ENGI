@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-jest.mock('@/components/base/bitcode/auth/LoginForm', () => ({
+jest.mock('@/components/bitcode/auth/LoginForm', () => ({
   __esModule: true,
   default: ({ surfaceVariant }: { surfaceVariant?: string }) => (
     <div data-testid="login-form" data-surface-variant={surfaceVariant || 'default'}>

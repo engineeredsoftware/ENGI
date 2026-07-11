@@ -6,18 +6,18 @@ import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@bitcode/supabase/ssr/client'
 import type { Session, User } from '@supabase/supabase-js'
-import { AuthProvider } from '@/components/base/bitcode/auth/AuthProvider'
+import { AuthProvider } from '@/components/bitcode/auth/AuthProvider'
 import AuxillariesProvider from '@/app/auxillaries/components/AuxillariesProvider'
 import { useQueryClient } from '@tanstack/react-query'
 import { prefetchAuthData, updateCachedUser, useOnboarding } from '@/hooks/use-auth-query'
 import { FEATURE_FLAGS } from '@/config/features'
 import { buildMockReviewUser, isAuxillariesMockMode } from '@/lib/mock-review-mode'
-import { shouldHideWorkspaceFooter } from '@/components/base/bitcode/layout/workspace-surface'
+import { shouldHideWorkspaceFooter } from '@/components/bitcode/layout/workspace-surface'
 
 // Lazy-load toast infrastructure to avoid increasing initial JS bundle – the
 // component itself is tiny but pulls in Radix primitives.
 const Toaster = dynamic(
-  () => import('@/components/base/shadcn/sonner').then(m => m.Toaster),
+  () => import('@/components/shadcn/sonner').then(m => m.Toaster),
   { ssr: false }
 )
 
@@ -34,7 +34,7 @@ function useLoginErrorToast() {
       params.delete('loginErrorDescription');
       const newUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : '') + window.location.hash;
       window.history.replaceState({}, '', newUrl);
-      import('@/components/base/shadcn/sonner').then(({ toast }) => {
+      import('@/components/shadcn/sonner').then(({ toast }) => {
         const errorLabel = decodeURIComponent(err);
         const detail = description ? decodeURIComponent(description) : '';
         toast.error(detail ? `${errorLabel}: ${detail}` : errorLabel);
@@ -67,7 +67,7 @@ const prefetchHeavyComponents = () => {
     setTimeout(() => {
       if (conversationsEnabled && !window.__sidebarsPrefetched) {
         window.__sidebarsPrefetched = true;
-        import('@/components/base/bitcode/layout/sidebars/right-sidebar').catch(() => {});
+        import('@/components/bitcode/layout/sidebars/right-sidebar').catch(() => {});
       }
     }, 3000);
   }
@@ -81,7 +81,7 @@ declare global {
 }
 
 const RightSidebar = dynamic(
-  () => import('@/components/base/bitcode/layout/sidebars/right-sidebar'),
+  () => import('@/components/bitcode/layout/sidebars/right-sidebar'),
   { ssr: false, loading: () => null }
 )
 
@@ -91,10 +91,10 @@ const NavSkeleton = () => (
   <div className="h-36 w-full skeleton-shine" />
 );
 const Nav = dynamic(
-  () => import('@/components/base/bitcode/layout/nav'),
+  () => import('@/components/bitcode/layout/nav'),
   { ssr: false, loading: () => <NavSkeleton /> }
 )
-const Footer = dynamic(() => import('@/components/base/bitcode/layout/footer'), { ssr: false })
+const Footer = dynamic(() => import('@/components/bitcode/layout/footer'), { ssr: false })
 
 // Content skeleton
 // eslint-disable-next-line react/no-multi-comp

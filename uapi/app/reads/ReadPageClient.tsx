@@ -25,7 +25,7 @@ import {
   ProductRouteShell,
   ProductRouteStatePanel,
   ProductRouteStepGrid,
-} from "@/components/base/bitcode/routes/product-route-shell";
+} from "@/components/bitcode/routes/product-route-shell";
 import TerminalDepositReadWorkbench from "@/app/terminal/TerminalDepositReadWorkbench";
 import TerminalRepositoryContextPanel from "@/app/terminal/TerminalRepositoryContextPanel";
 import TerminalReadScenarioPanel from "@/app/terminal/TerminalReadScenarioPanel";
@@ -52,12 +52,12 @@ import {
   DEFAULT_TRANSACTION_PAGINATION,
   type TransactionFilters,
   type TransactionPagination,
-} from "@/components/base/bitcode/execution/bitcode-transaction-types";
+} from "@/components/bitcode/execution/bitcode-transaction-types";
 import { usePipelineExecution } from "@/hooks/usePipelineExecution";
 import { buildTerminalRunActivityFromEvents } from "@/app/terminal/terminal-run-activity";
-import { PipelineExecutionLog } from "@/components/base/bitcode/execution/pipeline-execution-log";
-import { ExecutionContextPillRow } from "@/components/base/bitcode/execution/ExecutionContextPillRow";
-import { RunClock } from "@/components/base/bitcode/execution/RunClock";
+import { PipelineExecutionLog } from "@/components/bitcode/execution/pipeline-execution-log";
+import { ExecutionContextPillRow } from "@/components/bitcode/execution/ExecutionContextPillRow";
+import { RunClock } from "@/components/bitcode/execution/RunClock";
 
 import {
   buildReadRouteSession,

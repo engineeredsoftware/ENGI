@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { Calendar } from '@/components/base/shadcn/calendar';
+import { Calendar } from '@/components/shadcn/calendar';
 
 const meta = {
   title: 'UI/Calendar',

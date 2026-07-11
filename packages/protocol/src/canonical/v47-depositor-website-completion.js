@@ -83,7 +83,7 @@ const SOURCE_ROOTS = Object.freeze({
   depositPage: 'uapi/app/deposit/page.tsx',
   depositRouteModelTest: 'uapi/tests/depositRouteModel.test.ts',
   depositPageTest: 'uapi/tests/depositPageClient.test.tsx',
-  packActivityModel: 'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+  packActivityModel: 'uapi/components/bitcode/activity/pack-activity-model.ts',
   optionModel: 'packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts',
   policyModel: 'packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts',
   admissionModel: 'packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts',

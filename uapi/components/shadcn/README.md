@@ -1,7 +1,10 @@
 # Shadcn layer (`Shadcn*`)
 
-Root UI primitives. Re-export or implement as `ShadcnButton`, `ShadcnDialog`,
-etc. No Bitcode product knowledge.
+Root UI primitives. No Bitcode product knowledge.
 
-**Migration:** active sources currently live in `../base/shadcn/`. Phase 1 moves
-them here and renames exports to the `Shadcn*` prefix.
+**Status (Phase 1):** sources live here (moved from `components/base/shadcn/`).
+Export symbols may still use unprefixed names (`Button`, `Dialog`); subsequent
+commits rename public exports to the `Shadcn*` prefix and update call sites.
+
+**Import rule:** only Radix/shadcn primitives and `@bitcode/styling` (or
+equivalent pure utils).

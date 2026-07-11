@@ -2,10 +2,10 @@
 
 import React from 'react';
 
-import BitcodeChipCloud from '@/components/base/bitcode/execution/BitcodeChipCloud';
-import BitcodeDetailRowList from '@/components/base/bitcode/execution/BitcodeDetailRowList';
-import BitcodeMetricGrid from '@/components/base/bitcode/execution/BitcodeMetricGrid';
-import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disabled-tooltip-wrapper';
+import BitcodeChipCloud from '@/components/bitcode/execution/BitcodeChipCloud';
+import BitcodeDetailRowList from '@/components/bitcode/execution/BitcodeDetailRowList';
+import BitcodeMetricGrid from '@/components/bitcode/execution/BitcodeMetricGrid';
+import { DisabledTooltipWrapper } from '@/components/bitcode/overlays/disabled-tooltip-wrapper';
 
 import { jumpToShellSection } from './terminal-shell-reading';
 

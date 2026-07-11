@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disabled-tooltip-wrapper';
+import { DisabledTooltipWrapper } from '@/components/bitcode/overlays/disabled-tooltip-wrapper';
 
 import type { TerminalTransactionDetailSection } from './terminal-transaction-query';
 

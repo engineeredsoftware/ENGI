@@ -57,8 +57,8 @@ import { useSSEConnection, createReconnectingEventSource } from './hooks/useSSEC
 import { usePipelineState } from './hooks/usePipelineState';
 
 // Components
-import SidebarTitleBar from '@/components/base/bitcode/layout/sidebars/SidebarTitleBar';
-import FlipText from '@/components/base/bitcode/layout/sidebars/FlipText';
+import SidebarTitleBar from '@/components/bitcode/layout/sidebars/SidebarTitleBar';
+import FlipText from '@/components/bitcode/layout/sidebars/FlipText';
 import ConversationsChat from './ConversationsChat';
 import ConversationsGitHubSourceSelector from './ConversationsGitHubSourceSelector';
 import SourceDivider from './ConversationsSourceDivider';
@@ -77,7 +77,7 @@ import ConversationRehearsalPanel from './ConversationRehearsalPanel';
 import ConversationWritingWorkspace from './ConversationWritingWorkspace';
 import type { ConversationSourceSelectorPreview } from '../conversation-source-selector';
 import type { ConversationWritingWorkspaceMode } from '../conversation-writing-workspace';
-import BitcodeExecutionStreamPanel from '@/components/base/bitcode/execution/BitcodeExecutionStreamPanel';
+import BitcodeExecutionStreamPanel from '@/components/bitcode/execution/BitcodeExecutionStreamPanel';
 import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDetailsView';
 // NOTE: Avoid wrapping the Big‑O container in GPUAcceleration because
 // transform on an ancestor breaks position: sticky on header/input.
@@ -111,7 +111,7 @@ const sidebarShadowRight = '';
 
 
 // Dynamically import QuantumOrb for better performance
-const QuantumOrb = dynamic(() => import('@/components/base/bitcode/effects/quantum-orb').then(mod => ({ default: mod.QuantumOrb })), {
+const QuantumOrb = dynamic(() => import('@/components/bitcode/effects/quantum-orb').then(mod => ({ default: mod.QuantumOrb })), {
   ssr: false,
   loading: () => null
 });

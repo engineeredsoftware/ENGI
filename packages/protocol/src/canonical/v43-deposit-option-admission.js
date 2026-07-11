@@ -72,7 +72,7 @@ const SOURCE_ROOTS = Object.freeze({
   client: 'uapi/app/deposit/DepositPageClient.tsx',
   routeModelTest: 'uapi/tests/depositRouteModel.test.ts',
   pageTest: 'uapi/tests/depositPageClient.test.tsx',
-  packActivityModel: 'uapi/components/base/bitcode/activity/pack-activity-model.ts',
+  packActivityModel: 'uapi/components/bitcode/activity/pack-activity-model.ts',
   packActivityModelTest: 'uapi/tests/packActivityModel.test.ts',
   uapiJestConfig: 'uapi/jest.config.cjs',
   packageIndex: 'packages/pipelines/asset-pack/src/index.ts',

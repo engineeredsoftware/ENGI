@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import MetalPlate from '@/components/base/bitcode/metal-plate';
+import MetalPlate from '@/components/bitcode/metal-plate';
 import RichBodyPane from './RichBodyPane';
 
 export interface CommentData {

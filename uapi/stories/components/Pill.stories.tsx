@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Pill from '@/components/base/bitcode/branding/pill';
+import Pill from '@/components/bitcode/branding/pill';
 
 const meta: Meta<typeof Pill> = {
   title: 'Components/Pill',

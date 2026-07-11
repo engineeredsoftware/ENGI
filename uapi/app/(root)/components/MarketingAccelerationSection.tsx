@@ -17,7 +17,7 @@ import {
 import { motion, AnimatePresence, useInView, useReducedMotion } from 'framer-motion';
 
 /* AccelerationSection – Highlights the parallelizable acceleration gains across quality, speed, and cost. */
-import { NavProcessingIndicator } from '@/components/base/bitcode/indicators/NavProcessingIndicator';
+import { NavProcessingIndicator } from '@/components/bitcode/indicators/NavProcessingIndicator';
 import dynamic from 'next/dynamic';
 
 // Load heavy gallery code on demand only

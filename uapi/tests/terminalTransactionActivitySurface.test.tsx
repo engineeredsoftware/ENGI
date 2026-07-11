@@ -5,7 +5,7 @@ import TerminalTransactionActivitySurface from '@/app/terminal/TerminalTransacti
 import type { WorkspaceRun } from '@/app/terminal/terminal-run-data';
 import type { TerminalRunDetailSnapshot } from '@/app/terminal/terminal-transaction-detail-snapshot';
 
-jest.mock('@/components/base/bitcode/execution/BitcodeExecutionStreamPanel', () => ({
+jest.mock('@/components/bitcode/execution/BitcodeExecutionStreamPanel', () => ({
   __esModule: true,
   default: () => <div data-testid="execution-stream-panel">execution stream</div>,
 }));

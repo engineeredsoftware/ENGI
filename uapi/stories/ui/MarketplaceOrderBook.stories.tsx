@@ -6,7 +6,7 @@ import {
   TableRow,
   TableHead,
   TableCell,
-} from '@/components/base/shadcn/table';
+} from '@/components/shadcn/table';
 
 const meta = {
   title: 'Marketplace/OrderBook',

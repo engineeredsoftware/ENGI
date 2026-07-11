@@ -4,8 +4,8 @@ import React from 'react';
 import { useMemo, useState } from 'react';
 import type { VCSProviderType } from '@bitcode/vcs-core';
 
-import BitcodeInlineExplainer from '@/components/base/bitcode/execution/BitcodeInlineExplainer';
-import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disabled-tooltip-wrapper';
+import BitcodeInlineExplainer from '@/components/bitcode/execution/BitcodeInlineExplainer';
+import { DisabledTooltipWrapper } from '@/components/bitcode/overlays/disabled-tooltip-wrapper';
 
 import TerminalWorkspaceCard from './TerminalWorkspaceCard';
 import {

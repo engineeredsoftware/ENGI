@@ -1,5 +1,5 @@
 import { buildAgenticExecutionSummary } from '@bitcode/api/src/executions/agentic-execution';
-import { DEFAULT_TRANSACTION_FILTERS } from '@/components/base/bitcode/execution/bitcode-transaction-types';
+import { DEFAULT_TRANSACTION_FILTERS } from '@/components/bitcode/execution/bitcode-transaction-types';
 
 import type { WorkspaceRun } from './terminal-run-data';
 

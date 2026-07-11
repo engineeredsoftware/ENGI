@@ -1,6 +1,6 @@
 "use client";
 
-import type { BitcodeExplainer } from "@/components/base/bitcode/execution/bitcode-transaction-types";
+import type { BitcodeExplainer } from "@/components/bitcode/execution/bitcode-transaction-types";
 
 export const auxillaryPaneExplainers: Record<
   "interfacesDefaults" | "interfacesPrompt" | "interfacesModels" | "btdWallet" | "btdShares" | "btdAdvanced",
