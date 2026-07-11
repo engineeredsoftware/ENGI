@@ -3,14 +3,14 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { CheckIcon, ReloadIcon, Share1Icon } from '@radix-ui/react-icons';
 
-import type { ConversationSourceSelectorPreview } from '@/components/conversations/ConversationSourceSelector/ConversationSourceSelector';
+import type { ConversationSourceSelectorPreview } from '@/components/conversations/models/conversation-source-selector';
 import {
   CONVERSATION_TERMINAL_HANDOFF_WORKFLOWS,
   buildConversationTerminalHandoffEnvelope,
   getConversationTerminalHandoffWorkflow,
   type ConversationTerminalHandoffEnvelope,
   type ConversationTerminalHandoffWorkflow,
-} from '@/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff';
+} from '@/components/conversations/models/conversation-terminal-handoff';
 
 type ConversationTerminalHandoffProps = {
   conversationId?: string | null;

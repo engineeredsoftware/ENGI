@@ -12,7 +12,7 @@ import {
   type ConversationWritingWorkspaceHandoff,
   type ConversationWritingWorkspaceMode,
   type ConversationWritingWorkspaceSummary,
-} from '@/components/conversations/ConversationWritingWorkspace/ConversationWritingWorkspace';
+} from '@/components/conversations/models/conversation-writing-workspace';
 
 type ConversationWritingWorkspaceProps = {
   conversationId?: string;

@@ -11,7 +11,7 @@ import {
   type ConversationPersistenceOperation,
   type ConversationPersistencePreview,
   type ConversationPersistenceVisibilityTier,
-} from '../conversation-persistence-privacy-redaction';
+} from '@/components/conversations/models/conversation-persistence-privacy-redaction';
 
 type ConversationPersistencePrivacyPanelProps = {
   conversationId?: string | null;

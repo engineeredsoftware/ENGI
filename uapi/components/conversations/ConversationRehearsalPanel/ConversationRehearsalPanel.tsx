@@ -10,7 +10,7 @@ import {
   type ConversationRehearsalFlow,
   type ConversationRehearsalLane,
   type ConversationRehearsalPreview,
-} from '../conversation-rehearsal';
+} from '@/components/conversations/models/conversation-rehearsal';
 
 type ConversationRehearsalPanelProps = {
   conversationId?: string | null;

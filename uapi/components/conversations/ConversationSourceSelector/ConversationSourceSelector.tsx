@@ -12,7 +12,7 @@ import {
   type ConversationSourceSelectorInput,
   type ConversationSourceSelectorKind,
   type ConversationSourceSelectorPreview,
-} from '@/components/conversations/ConversationSourceSelector/ConversationSourceSelector';
+} from '@/components/conversations/models/conversation-source-selector';
 
 type ConversationSourceSelectorProps = {
   initialKind?: ConversationSourceSelectorKind;

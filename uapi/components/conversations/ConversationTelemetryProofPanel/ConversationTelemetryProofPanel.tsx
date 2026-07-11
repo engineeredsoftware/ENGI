@@ -10,7 +10,7 @@ import {
   type ConversationTelemetryEventFamily,
   type ConversationTelemetryProofPreview,
   type ConversationTelemetryVisibilityTier,
-} from '../conversation-telemetry-proof-hooks';
+} from '@/components/conversations/models/conversation-telemetry-proof-hooks';
 
 type ConversationTelemetryProofPanelProps = {
   conversationId?: string | null;
