@@ -3,7 +3,7 @@
  * @see BITCODE_SPEC_V48.md frontend architecture workstream
  */
 
-import type { BitcodeExplainer } from '@/components/bitcode/execution/bitcode-transaction-types';
+import type { BitcodeExplainer } from '@/components/bitcode/pipeline/bitcode-transaction-types';
 
 function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
   return explainer;
@@ -18,7 +18,7 @@ const TERMINAL_CANON_REFS = [
 const TERMINAL_SOURCE_REFS = [
   'uapi/app/terminal/TerminalPageClient.tsx',
   'uapi/app/terminal/terminal-activity-history.ts',
-  'uapi/components/bitcode/execution/BitcodeInlineExplainer.tsx',
+  'uapi/components/bitcode/pipeline/BitcodeInlineExplainer.tsx',
   'packages/protocol/public/app.js',
 ] as const;
 

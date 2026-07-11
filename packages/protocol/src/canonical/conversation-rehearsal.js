@@ -208,8 +208,8 @@ const rehearsalRows = Object.freeze([
       'uapi/app/conversations/components/ConversationWritingWorkspace.tsx',
       'uapi/app/conversations/components/ConversationSourceSelector.tsx',
       'uapi/app/conversations/components/ConversationTerminalHandoff.tsx',
-      'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
-      'uapi/components/bitcode/execution/pipeline-execution-log-header.tsx',
+      'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+      'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
     ],
     routeUiChecks: [
       'conversation.stream-row-expanded-metadata-source-safe.root',

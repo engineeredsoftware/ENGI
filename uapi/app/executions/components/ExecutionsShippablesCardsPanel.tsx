@@ -1,1 +1,1 @@
-export { default } from '@/components/bitcode/execution/ShippablesCardsPanel';
+export { default } from '@/components/bitcode/pipeline/ShippablesCardsPanel';

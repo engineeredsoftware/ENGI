@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import BitcodeMetricGrid from '@/components/bitcode/execution/BitcodeMetricGrid';
+import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid';
 
 interface TerminalTransactionDetailHeroProps {
   title: string;

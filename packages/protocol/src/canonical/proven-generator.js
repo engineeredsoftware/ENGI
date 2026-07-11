@@ -141,7 +141,7 @@ const V26_SECOND_GATE_DOCUMENTATION_FILES = [
   'uapi/app/terminal/README.md',
   'uapi/app/orbitals/README.md',
   'uapi/components/bitcode/README.md',
-  'uapi/components/bitcode/execution/README.md',
+  'uapi/components/bitcode/pipeline/README.md',
   'protocol-demonstration/V26_TERMINAL_SYSTEMS.md',
   'protocol-demonstration/V26_PROOF_SURFACES.md'
 ];
@@ -4773,7 +4773,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
       'packages/api/src/routes/shippables.ts',
       'packages/execution-generics/src/store/registry.ts',
       'uapi/app/executions/components/ExecutionsPageClient.tsx',
-      'uapi/components/bitcode/execution/execution-option-toggle.tsx',
+      'uapi/components/bitcode/pipeline/execution-option-toggle.tsx',
       'protocol-demonstration/test/v26-active-product-naming.test.js'
     ]
   },

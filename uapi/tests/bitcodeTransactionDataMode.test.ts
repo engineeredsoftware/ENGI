@@ -2,7 +2,7 @@ import {
   getTransactionDataModeDescription,
   getTransactionDataModeLabel,
   isMockTransactionDataMode,
-} from '@/components/bitcode/execution/bitcode-transaction-data-mode';
+} from '@/components/bitcode/pipeline/bitcode-transaction-data-mode';
 
 describe('bitcode-transaction-data-mode', () => {
   it('reports live, mock-review, and review-fallback labels', () => {

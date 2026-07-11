@@ -165,7 +165,7 @@ function main() {
     'uapi/app/read/ReadPageClient.tsx',
     'uapi/app/packs/PacksPageClient.tsx',
     'uapi/app/api/packs/activity/route.ts',
-    'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
+    'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
     'BITCODE_SPEC_V43.md',
     'BITCODE_SPEC_V43_DELTA.md',
     'BITCODE_SPEC_V43_NOTES.md',

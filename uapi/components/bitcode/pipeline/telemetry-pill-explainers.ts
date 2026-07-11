@@ -52,7 +52,7 @@ export interface TelemetryPillExplainer {
 /** Sections (c)+(d) per pill kind — attached to every pill tooltip. */
 const PILL_SOURCE_REFS = [
   'uapi/app/terminal/terminal-run-activity.ts',
-  'uapi/components/bitcode/execution/execution-telemetry-format.ts',
+  'uapi/components/bitcode/pipeline/execution-telemetry-format.ts',
   'packages/execution-generics/src/storage/ExecutionStreamAdapter.ts',
 ];
 const PILL_SECTIONS: Record<

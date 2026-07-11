@@ -5,8 +5,8 @@ import Select, { components } from "react-select";
 import styles from './ConversationsGithubSourceSelector.module.css';
 import '@/styles/conversations/github-source-selector.css';
 import { useGitHubData } from "@/hooks/useGitHubData";
-import { GitHubSelectors } from "@/components/bitcode/execution/github-selectors";
-import { NoOptionsMessage } from "@/components/bitcode/execution/select-components";
+import { GitHubSelectors } from "@/components/bitcode/pipeline/github-selectors";
+import { NoOptionsMessage } from "@/components/bitcode/pipeline/select-components";
 
 interface Props {
   /** Initial full repo slug (e.g. "owner/repo") */

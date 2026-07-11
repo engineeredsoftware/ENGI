@@ -296,8 +296,8 @@ export const V40_READING_PIPELINE_INTEGRATION_ROWS = Object.freeze([
     sourceRoots: [
       'packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts',
       'packages/pipelines/asset-pack/src/reading-interface-product-parity.ts',
-      'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
-      'uapi/components/bitcode/execution/pipeline-execution-log-header.tsx',
+      'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+      'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
       'uapi/app/executions/utilities/pipeline-telemetry.ts',
     ],
     testPaths: [

@@ -3,7 +3,7 @@
  * Relocated from app/terminal — not Terminal-product vocabulary.
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
-import type { ShippablesDoc } from '@/components/bitcode/execution/ShippablesDocPanel';
+import type { ShippablesDoc } from '@/components/bitcode/pipeline/ShippablesDocPanel';
 import type { PipelineExecution } from '@/types/api';
 // Detail snapshot remains under terminal until its Phase 3 relocate.
 import type { TerminalRunDetailSnapshot } from '@/app/terminal/terminal-transaction-detail-snapshot';

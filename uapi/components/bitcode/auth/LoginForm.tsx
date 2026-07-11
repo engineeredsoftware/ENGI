@@ -17,7 +17,7 @@ import GitlabIcon from '@/components/bitcode/icons/social/Gitlab.svg'
 import TwitterIcon from '@/components/bitcode/icons/social/Twitter.svg'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
-import ExecuteButton from '@/components/bitcode/execution/execute-button'
+import ExecuteButton from '@/components/bitcode/pipeline/execute-button'
 import { createClient } from '@bitcode/supabase/ssr/client'
 import SocialLoginButton from '@/components/bitcode/auth/SocialLoginButton'
 

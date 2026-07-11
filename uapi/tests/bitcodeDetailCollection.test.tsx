@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import BitcodeDetailCollection from '@/components/bitcode/execution/BitcodeDetailCollection';
+import BitcodeDetailCollection from '@/components/bitcode/pipeline/BitcodeDetailCollection';
 
 describe('BitcodeDetailCollection', () => {
   it('renders collection items with title, summary, and supporting text', () => {

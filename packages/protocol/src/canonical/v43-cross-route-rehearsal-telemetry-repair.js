@@ -69,7 +69,7 @@ const SOURCE_ROOTS = Object.freeze({
   readModel: 'uapi/app/read/read-route-model.ts',
   packsClient: 'uapi/app/packs/PacksPageClient.tsx',
   packsApi: 'uapi/app/api/packs/activity/route.ts',
-  pipelineLogUi: 'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
+  pipelineLogUi: 'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
   productRouteShell: 'uapi/components/bitcode/routes/product-route-shell.tsx',
   depositAdmission: 'packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts',
   previewBoundary: 'packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts',

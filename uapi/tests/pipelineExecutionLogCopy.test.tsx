@@ -2,7 +2,7 @@
 // parse; mock it so the pipeline-execution-log module loads. (The full component is
 // not rendered here — its auto-follow scroll effect loops in jsdom — so we unit-test
 // the pure copy-text builder the "Copy raw logs" button uses.)
-jest.mock('@/components/bitcode/execution/FileDiffViewer', () => ({
+jest.mock('@/components/bitcode/pipeline/FileDiffViewer', () => ({
   __esModule: true,
   default: () => null,
 }));
@@ -14,7 +14,7 @@ import {
   distillTerseValue,
   buildProcessingStallLabel,
   copyTextToClipboard,
-} from '@/components/bitcode/execution/pipeline-execution-log';
+} from '@/components/bitcode/pipeline/pipeline-execution-log';
 
 describe('PipelineExecutionLog — Copy raw logs (buildRawLogCopyText)', () => {
   it('copies the full copyData payload (all streamed logs + inputs) verbatim as JSON', () => {

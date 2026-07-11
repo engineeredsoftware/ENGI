@@ -1,5 +1,5 @@
-import type { BitcodeExplainer } from '@/components/bitcode/execution/bitcode-transaction-types';
-import type { TelemetryPillExplainer } from '@/components/bitcode/execution/telemetry-pill-explainers';
+import type { BitcodeExplainer } from '@/components/bitcode/pipeline/bitcode-transaction-types';
+import type { TelemetryPillExplainer } from '@/components/bitcode/pipeline/telemetry-pill-explainers';
 
 function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
   return explainer;
@@ -283,7 +283,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       source: [
         ...DEPOSIT_SOURCE_REFS,
         'packages/pipelines-generics/src/streaming/pipeline-stream-integration.ts',
-        'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
+        'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
       ],
       canon: [
         ...DEPOSIT_CANON_REFS,

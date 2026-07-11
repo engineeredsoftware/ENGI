@@ -1,5 +1,5 @@
 import React from 'react';
-import ExecuteButtonBase from '@/components/bitcode/execution/execute-button';
+import ExecuteButtonBase from '@/components/bitcode/pipeline/execute-button';
 
 export type ExecutionsExecuteButtonProps = React.ComponentProps<typeof ExecuteButtonBase>;
 

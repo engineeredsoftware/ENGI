@@ -5,8 +5,8 @@ function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
 }
 
 const TRANSACTION_EXPLAINER_SOURCE_REFS = [
-  'uapi/components/bitcode/execution/BitcodeTransactionsTable.tsx',
-  'uapi/components/bitcode/execution/BitcodeTransactionsFilterBar.tsx',
+  'uapi/components/bitcode/pipeline/BitcodeTransactionsTable.tsx',
+  'uapi/components/bitcode/pipeline/BitcodeTransactionsFilterBar.tsx',
   'uapi/app/terminal/terminal-transaction-query.ts',
 ] as const;
 const TRANSACTION_EXPLAINER_CANON_REFS = [
@@ -92,7 +92,7 @@ export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {
     references: {
       source: [
         ...TRANSACTION_EXPLAINER_SOURCE_REFS,
-        'uapi/components/bitcode/execution/BitcodeTransactionsPagination.tsx',
+        'uapi/components/bitcode/pipeline/BitcodeTransactionsPagination.tsx',
       ],
       canon: [...TRANSACTION_EXPLAINER_CANON_REFS],
     },
@@ -168,7 +168,7 @@ export const BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS = {
     references: {
       source: [
         ...TRANSACTION_EXPLAINER_SOURCE_REFS,
-        'uapi/components/bitcode/execution/BitcodePayloadInspector.tsx',
+        'uapi/components/bitcode/pipeline/BitcodePayloadInspector.tsx',
       ],
       canon: [...TRANSACTION_EXPLAINER_CANON_REFS],
     },
@@ -182,7 +182,7 @@ export const BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS = {
     references: {
       source: [
         ...TRANSACTION_EXPLAINER_SOURCE_REFS,
-        'uapi/components/bitcode/execution/BitcodePayloadShape.tsx',
+        'uapi/components/bitcode/pipeline/BitcodePayloadShape.tsx',
       ],
       canon: [...TRANSACTION_EXPLAINER_CANON_REFS],
     },
@@ -196,7 +196,7 @@ export const BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS = {
     references: {
       source: [
         ...TRANSACTION_EXPLAINER_SOURCE_REFS,
-        'uapi/components/bitcode/execution/BitcodePayloadTree.tsx',
+        'uapi/components/bitcode/pipeline/BitcodePayloadTree.tsx',
       ],
       canon: [...TRANSACTION_EXPLAINER_CANON_REFS],
     },
@@ -210,7 +210,7 @@ export const BITCODE_PAYLOAD_INSPECTOR_EXPLAINERS = {
     references: {
       source: [
         ...TRANSACTION_EXPLAINER_SOURCE_REFS,
-        'uapi/components/bitcode/execution/BitcodePayloadInspector.tsx',
+        'uapi/components/bitcode/pipeline/BitcodePayloadInspector.tsx',
       ],
       canon: [...TRANSACTION_EXPLAINER_CANON_REFS],
     },

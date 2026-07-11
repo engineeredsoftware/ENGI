@@ -7,8 +7,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import BitcodeMetricGrid from '@/components/bitcode/execution/BitcodeMetricGrid';
-import BitcodeExecutionStreamPanel from '@/components/bitcode/execution/BitcodeExecutionStreamPanel';
+import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid';
+import BitcodeExecutionStreamPanel from '@/components/bitcode/pipeline/BitcodeExecutionStreamPanel';
 
 import BitcodeActionWorkbenchCard from '@/components/bitcode/pipeline/cards/BitcodeActionWorkbenchCard';
 import BitcodeWorkspaceCard from '@/components/bitcode/pipeline/cards/BitcodeWorkspaceCard';

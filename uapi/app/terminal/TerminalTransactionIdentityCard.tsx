@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import BitcodePayloadRowsCard from '@/components/bitcode/execution/BitcodePayloadRowsCard';
+import BitcodePayloadRowsCard from '@/components/bitcode/pipeline/BitcodePayloadRowsCard';
 
 interface TerminalTransactionIdentityCardProps {
   startedAt: string;

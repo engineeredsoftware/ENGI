@@ -153,7 +153,7 @@ function main() {
     'packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts',
     'packages/chatgptapp/src/tools.ts',
     'uapi/prompts/bitcode-terminal-system-prompt.ts',
-    'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
+    'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
     'BITCODE_SPEC_V41.md',
     'BITCODE_SPEC_V41_DELTA.md',
     'BITCODE_SPEC_V41_NOTES.md',

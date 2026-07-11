@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import BitcodeMetricGrid from '@/components/bitcode/execution/BitcodeMetricGrid';
+import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid';
 
 describe('BitcodeMetricGrid', () => {
   it('renders metrics in a shared grid carrier', () => {

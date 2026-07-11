@@ -1,4 +1,4 @@
-import type { ShippablesDoc } from '@/components/bitcode/execution/ShippablesDocPanel';
+import type { ShippablesDoc } from '@/components/bitcode/pipeline/ShippablesDocPanel';
 import {
   buildTerminalRunDetailFromSelectedRun,
   normalizeTerminalRunDetailPayload,

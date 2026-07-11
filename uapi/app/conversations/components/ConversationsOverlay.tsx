@@ -77,7 +77,7 @@ import ConversationRehearsalPanel from './ConversationRehearsalPanel';
 import ConversationWritingWorkspace from './ConversationWritingWorkspace';
 import type { ConversationSourceSelectorPreview } from '../conversation-source-selector';
 import type { ConversationWritingWorkspaceMode } from '../conversation-writing-workspace';
-import BitcodeExecutionStreamPanel from '@/components/bitcode/execution/BitcodeExecutionStreamPanel';
+import BitcodeExecutionStreamPanel from '@/components/bitcode/pipeline/BitcodeExecutionStreamPanel';
 import { ExecutionDetailsView } from '@/app/executions/components/ExecutionsDetailsView';
 // NOTE: Avoid wrapping the Big‑O container in GPUAcceleration because
 // transform on an ancestor breaks position: sticky on header/input.

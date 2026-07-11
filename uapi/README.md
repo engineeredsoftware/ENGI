@@ -183,7 +183,7 @@ The current interface doc set is:
 - [app/exchange/README.md](app/exchange/README.md)
 - [app/auxillaries/README.md](app/auxillaries/README.md)
 - [components/bitcode/README.md](components/bitcode/README.md)
-- [components/bitcode/execution/README.md](components/bitcode/execution/README.md)
+- [components/bitcode/pipeline/README.md](components/bitcode/pipeline/README.md)
 
 Those markdown carriers are part of the interface implementation/proof boundary.
 If the route/package/component owners change, this doc set is expected to move with them.

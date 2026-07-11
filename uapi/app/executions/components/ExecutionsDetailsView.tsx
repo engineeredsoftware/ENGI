@@ -4,7 +4,7 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { usePipelineExecution } from '@/hooks/usePipelineExecution';
-import BitcodeExecutionStreamPanel from '@/components/bitcode/execution/BitcodeExecutionStreamPanel';
+import BitcodeExecutionStreamPanel from '@/components/bitcode/pipeline/BitcodeExecutionStreamPanel';
 import {
   getHeaderShippables,
   getHeaderWrittenAssets,

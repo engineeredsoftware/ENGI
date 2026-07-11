@@ -4,13 +4,13 @@ import React from 'react';
 import { useMemo, useState } from 'react';
 
 import { getBitcodeActivityKindLabel } from '@/components/bitcode/activity/bitcode-activity-model';
-import BitcodeChipCloud from '@/components/bitcode/execution/BitcodeChipCloud';
-import BitcodeDetailRowList from '@/components/bitcode/execution/BitcodeDetailRowList';
-import { isMockTransactionDataMode } from '@/components/bitcode/execution/bitcode-transaction-data-mode';
-import BitcodeExecutionStreamPanel from '@/components/bitcode/execution/BitcodeExecutionStreamPanel';
-import BitcodeMetricGrid from '@/components/bitcode/execution/BitcodeMetricGrid';
-import BitcodePayloadDetailCard from '@/components/bitcode/execution/BitcodePayloadDetailCard';
-import type { TransactionDataMode } from '@/components/bitcode/execution/bitcode-transaction-types';
+import BitcodeChipCloud from '@/components/bitcode/pipeline/BitcodeChipCloud';
+import BitcodeDetailRowList from '@/components/bitcode/pipeline/BitcodeDetailRowList';
+import { isMockTransactionDataMode } from '@/components/bitcode/pipeline/bitcode-transaction-data-mode';
+import BitcodeExecutionStreamPanel from '@/components/bitcode/pipeline/BitcodeExecutionStreamPanel';
+import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid';
+import BitcodePayloadDetailCard from '@/components/bitcode/pipeline/BitcodePayloadDetailCard';
+import type { TransactionDataMode } from '@/components/bitcode/pipeline/bitcode-transaction-types';
 import { usePipelineExecution } from '@/hooks/usePipelineExecution';
 
 import { buildTerminalRunActivityFromEvents, buildTerminalRunActivityFromMock } from './terminal-run-activity';

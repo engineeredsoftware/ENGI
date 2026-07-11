@@ -52,12 +52,12 @@ import {
   DEFAULT_TRANSACTION_PAGINATION,
   type TransactionFilters,
   type TransactionPagination,
-} from "@/components/bitcode/execution/bitcode-transaction-types";
+} from "@/components/bitcode/pipeline/bitcode-transaction-types";
 import { usePipelineExecution } from "@/hooks/usePipelineExecution";
 import { buildPipelineRunActivityFromEvents } from "@/components/bitcode/pipeline/models/pipeline-run-activity";
-import { PipelineExecutionLog } from "@/components/bitcode/execution/pipeline-execution-log";
-import { ExecutionContextPillRow } from "@/components/bitcode/execution/ExecutionContextPillRow";
-import { RunClock } from "@/components/bitcode/execution/RunClock";
+import { PipelineExecutionLog } from "@/components/bitcode/pipeline/pipeline-execution-log";
+import { ExecutionContextPillRow } from "@/components/bitcode/pipeline/ExecutionContextPillRow";
+import { RunClock } from "@/components/bitcode/pipeline/RunClock";
 
 import {
   buildReadRouteSession,

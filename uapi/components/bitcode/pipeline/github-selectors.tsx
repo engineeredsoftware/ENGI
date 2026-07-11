@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Select, { components } from 'react-select';
 import { glassyStyles, glassyPillStyles } from '@/components/bitcode/selects/glassy-select-styles';
-import { NoOptionsMessage } from '@/components/bitcode/execution/select-components';
+import { NoOptionsMessage } from '@/components/bitcode/pipeline/select-components';
 import type { Account, Repository } from '@/types/api';
 
 interface GitHubSelectorsProps {

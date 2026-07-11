@@ -1,1 +1,1 @@
-export { ExecutionReadInput as default } from '@/components/bitcode/execution/ExecutionReadInput';
+export { ExecutionReadInput as default } from '@/components/bitcode/pipeline/ExecutionReadInput';

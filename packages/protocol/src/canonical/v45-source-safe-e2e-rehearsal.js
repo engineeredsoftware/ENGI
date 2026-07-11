@@ -114,7 +114,7 @@ const SOURCE_ROOTS = Object.freeze({
   readClient: 'uapi/app/read/ReadPageClient.tsx',
   depositClient: 'uapi/app/deposit/DepositPageClient.tsx',
   packsClient: 'uapi/app/packs/PacksPageClient.tsx',
-  pipelineLogUi: 'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
+  pipelineLogUi: 'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
   proofFamilySource: 'packages/protocol/src/canonical/v45-proof-family-artifacts.js',
   source: 'packages/protocol/src/canonical/v45-source-safe-e2e-rehearsal.js',
   test: 'packages/protocol/test/v45-source-safe-e2e-rehearsal.test.js',

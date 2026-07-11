@@ -10,11 +10,11 @@ import type {
   TransactionOwnership,
   TransactionPagination,
   TransactionSort,
-} from '@/components/bitcode/execution/bitcode-transaction-types';
+} from '@/components/bitcode/pipeline/bitcode-transaction-types';
 import {
   BITCODE_TRANSACTION_PAGE_SIZES,
   DEFAULT_TRANSACTION_PAGINATION,
-} from '@/components/bitcode/execution/bitcode-transaction-types';
+} from '@/components/bitcode/pipeline/bitcode-transaction-types';
 import type { TerminalEnterpriseReadingStepId } from '@/components/reads/models/enterprise-reading-ux-state';
 
 import { buildTerminalTransactionFilters } from '@/components/bitcode/pipeline/models/pipeline-transactions';

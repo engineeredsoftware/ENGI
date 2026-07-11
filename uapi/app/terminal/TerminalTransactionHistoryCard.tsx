@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import BitcodePayloadCollectionCard from '@/components/bitcode/execution/BitcodePayloadCollectionCard';
+import BitcodePayloadCollectionCard from '@/components/bitcode/pipeline/BitcodePayloadCollectionCard';
 
 import type { TerminalClosureHistoryEntry } from './terminal-closure-state';
 

@@ -2,9 +2,9 @@
 
 import { useMemo } from 'react';
 
-import BitcodeChipCloud from '@/components/bitcode/execution/BitcodeChipCloud';
-import BitcodeDetailRowList from '@/components/bitcode/execution/BitcodeDetailRowList';
-import BitcodeMetricGrid from '@/components/bitcode/execution/BitcodeMetricGrid';
+import BitcodeChipCloud from '@/components/bitcode/pipeline/BitcodeChipCloud';
+import BitcodeDetailRowList from '@/components/bitcode/pipeline/BitcodeDetailRowList';
+import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid';
 
 import TerminalWorkspaceCard from './TerminalWorkspaceCard';
 import { TERMINAL_WORKSPACE_EXPLAINERS } from './terminal-workspace-explainers';

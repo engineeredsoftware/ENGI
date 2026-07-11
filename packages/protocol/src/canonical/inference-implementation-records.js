@@ -834,7 +834,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     executionImplementation: {
       owners: [
         'packages/executions-mcp/src/index.ts',
-        'uapi/components/bitcode/execution/BitcodeExecutionStreamPanel.tsx'
+        'uapi/components/bitcode/pipeline/BitcodeExecutionStreamPanel.tsx'
       ],
       carriers: ['queue/run/execution creation', 'provider ingress', 'operator reread']
     },
@@ -855,7 +855,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/executions-mcp/src/mcp-server/package.json',
       'packages/executions-mcp/src/mcp-server/tsconfig.typecheck.json',
       'packages/tools-generics/src/mcp/MCPToolWrapper.ts',
-      'uapi/components/bitcode/execution/BitcodeExecutionStreamPanel.tsx',
+      'uapi/components/bitcode/pipeline/BitcodeExecutionStreamPanel.tsx',
       'protocol-demonstration/V26_TERMINAL_SYSTEMS.md'
     ]
   }

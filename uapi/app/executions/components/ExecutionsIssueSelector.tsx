@@ -1,1 +1,1 @@
-export { IssueSelector as default } from '@/components/bitcode/execution/issue-selector';
+export { IssueSelector as default } from '@/components/bitcode/pipeline/issue-selector';

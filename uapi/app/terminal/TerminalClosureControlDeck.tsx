@@ -3,8 +3,8 @@
 import React from 'react';
 import { useMemo, useState } from 'react';
 
-import BitcodeInlineExplainer from '@/components/bitcode/execution/BitcodeInlineExplainer';
-import BitcodeMetricGrid from '@/components/bitcode/execution/BitcodeMetricGrid';
+import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineExplainer';
+import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid';
 import { DisabledTooltipWrapper } from '@/components/bitcode/overlays/disabled-tooltip-wrapper';
 
 import TerminalWorkspaceCard from './TerminalWorkspaceCard';

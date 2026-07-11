@@ -2,7 +2,7 @@
 
 import React from "react";
 import type { LucideIcon } from "lucide-react";
-import { TelemetryExplainerTrigger } from "@/components/bitcode/execution/TelemetryExplainerTrigger";
+import { TelemetryExplainerTrigger } from "@/components/bitcode/pipeline/TelemetryExplainerTrigger";
 import {
   AlertCircle,
   CircleDashed,

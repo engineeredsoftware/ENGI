@@ -25,11 +25,11 @@ jest.mock('@/hooks/usePipelineExecution', () => ({
 }));
 
 // Mock PipelineExecutionLog to surface the "output" prop
-jest.mock('@/components/bitcode/execution/pipeline-execution-log', () => ({
+jest.mock('@/components/bitcode/pipeline/pipeline-execution-log', () => ({
   PipelineExecutionLog: ({ output }: any) => <pre data-testid="log-output">{output}</pre>
 }));
 
-jest.mock('@/components/bitcode/execution/pipeline-execution-log-header', () => ({
+jest.mock('@/components/bitcode/pipeline/pipeline-execution-log-header', () => ({
   PipelineExecutionLogHeader: () => <div data-testid="log-header" />
 }));
 

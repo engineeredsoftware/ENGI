@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import ExecutionReadInput from '@/components/bitcode/execution/ExecutionReadInput';
+import ExecutionReadInput from '@/components/bitcode/pipeline/ExecutionReadInput';
 
 const meta = {
   title: 'Kitchen-Sink/ExecutionReadInput',

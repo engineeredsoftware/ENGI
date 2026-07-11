@@ -6,7 +6,7 @@ import { VCSProviderType } from '@bitcode/vcs-core';
 import { VCSProviderSelector } from './VCSProviderSelector';
 import { Github, GitBranch } from 'lucide-react';
 import { customStyles, pillStyles } from '@/styles/select-styles';
-import { NoOptionsMessage } from '@/components/bitcode/execution/select-components';
+import { NoOptionsMessage } from '@/components/bitcode/pipeline/select-components';
 import { useVCSSelections } from '@/hooks/useVCSSelections';
 
 /**

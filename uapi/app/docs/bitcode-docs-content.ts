@@ -1,4 +1,4 @@
-import type { BitcodeExplainer } from '@/components/bitcode/execution/bitcode-transaction-types';
+import type { BitcodeExplainer } from '@/components/bitcode/pipeline/bitcode-transaction-types';
 import { TERMINAL_INLINE_EXPLAINERS, TERMINAL_WORKSPACE_EXPLAINERS } from '@/components/bitcode/pipeline/models/workspace-explainers';
 import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/bitcode/layout/bitcode-public-explainers';
 

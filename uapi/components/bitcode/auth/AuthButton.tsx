@@ -4,7 +4,7 @@ import { createClient } from '@bitcode/supabase/ssr/client'
 import { openAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider'
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import ExecuteButton from '@/components/bitcode/execution/execute-button'
+import ExecuteButton from '@/components/bitcode/pipeline/execute-button'
 
 export default function AuthButton() {
   const [user, setUser] = useState<any>(null)

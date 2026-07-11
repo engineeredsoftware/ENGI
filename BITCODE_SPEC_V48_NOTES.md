@@ -1310,3 +1310,9 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 - `TERMINAL_ROUTE` / `buildTerminalHref` alias Packs in product-routes.
 - Cockpit modules may remain as shims/dead residual under `app/terminal/` until
   fully deleted; no product surface depends on the Terminal page client.
+
+### Phase 2 landing (execution → pipeline UI tree)
+
+- Moved `uapi/components/bitcode/execution/*` into `uapi/components/bitcode/pipeline/`.
+- Rewrote imports `@/components/bitcode/execution/` → `.../pipeline/`.
+- Agent/package `execution-generics` intentionally unchanged (not product Pipeline).

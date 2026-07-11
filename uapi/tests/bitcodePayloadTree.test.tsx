@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import BitcodePayloadTree from '@/components/bitcode/execution/BitcodePayloadTree';
+import BitcodePayloadTree from '@/components/bitcode/pipeline/BitcodePayloadTree';
 
 describe('BitcodePayloadTree', () => {
   it('renders a nested payload tree with shared explainer copy', () => {

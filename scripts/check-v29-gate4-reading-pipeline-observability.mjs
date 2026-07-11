@@ -90,13 +90,13 @@ function main() {
     'packages/pipeline-hosts/src/asset-pack-harness.ts',
     'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts',
     'uapi/app/terminal/terminal-pipeline-harness-client.ts',
-    'uapi/components/bitcode/execution/BitcodeExecutionStreamPanel.tsx',
-    'uapi/components/bitcode/execution/pipeline-execution-log-header.tsx',
-    'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
+    'uapi/components/bitcode/pipeline/BitcodeExecutionStreamPanel.tsx',
+    'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
+    'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
     'uapi/tests/terminalPipelineHarnessClient.test.ts',
     'uapi/tests/pipelineExecutionLogHeader.test.tsx',
     'uapi/app/terminal/README.md',
-    'uapi/components/bitcode/execution/README.md',
+    'uapi/components/bitcode/pipeline/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -114,12 +114,12 @@ function main() {
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-harness.ts');
   const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts');
   const terminalClient = read(root, 'uapi/app/terminal/terminal-pipeline-harness-client.ts');
-  const header = read(root, 'uapi/components/bitcode/execution/pipeline-execution-log-header.tsx');
-  const log = read(root, 'uapi/components/bitcode/execution/pipeline-execution-log.tsx');
+  const header = read(root, 'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx');
+  const log = read(root, 'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx');
   const terminalTest = read(root, 'uapi/tests/terminalPipelineHarnessClient.test.ts');
   const headerTest = read(root, 'uapi/tests/pipelineExecutionLogHeader.test.tsx');
   const terminalReadme = read(root, 'uapi/app/terminal/README.md');
-  const executionReadme = read(root, 'uapi/components/bitcode/execution/README.md');
+  const executionReadme = read(root, 'uapi/components/bitcode/pipeline/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 

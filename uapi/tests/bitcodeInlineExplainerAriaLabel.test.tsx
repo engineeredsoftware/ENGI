@@ -2,8 +2,8 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import BitcodeInlineExplainer from '@/components/bitcode/execution/BitcodeInlineExplainer';
-import type { BitcodeExplainer } from '@/components/bitcode/execution/bitcode-transaction-types';
+import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineExplainer';
+import type { BitcodeExplainer } from '@/components/bitcode/pipeline/bitcode-transaction-types';
 
 const EXPLAINER: BitcodeExplainer = {
   kicker: 'Option synthesis',

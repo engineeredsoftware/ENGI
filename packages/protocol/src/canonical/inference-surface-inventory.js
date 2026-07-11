@@ -77,7 +77,7 @@ const SOURCE_ROOTS = Object.freeze({
   conversationSystemPrompt: 'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
   conversationRoute: 'packages/api/src/routes/conversations.ts',
   conversationStreamEvents: 'packages/api/src/conversations/stream-events.ts',
-  conversationStreamUi: 'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
+  conversationStreamUi: 'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
   pipelineExecution: 'packages/pipelines-generics/src/execution/PipelineExecution.ts',
   pipelinePromptRegistry: 'packages/pipelines-generics/src/execution/PipelinePromptRegistry.ts',
   pipelineAgentRegistry: 'packages/pipelines-generics/src/execution/PipelineAgentRegistry.ts',

@@ -22,7 +22,7 @@ jest.mock('@/components/bitcode/pipeline/cards/BitcodeWorkspaceCard', () => ({
   },
 }));
 
-jest.mock('@/components/bitcode/execution/BitcodeInlineExplainer', () => ({
+jest.mock('@/components/bitcode/pipeline/BitcodeInlineExplainer', () => ({
   __esModule: true,
   default: function MockBitcodeInlineExplainer() {
     return null;

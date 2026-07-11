@@ -53,7 +53,7 @@ import {
   DEFAULT_TRANSACTION_PAGINATION,
   type TransactionFilters,
   type TransactionPagination,
-} from "@/components/bitcode/execution/bitcode-transaction-types";
+} from "@/components/bitcode/pipeline/bitcode-transaction-types";
 import {
   buildDepositHref,
   DEPOSIT_ROUTE,
@@ -67,12 +67,12 @@ import {
 } from "./deposit-route-model";
 import { usePipelineExecution } from "@/hooks/usePipelineExecution";
 import { buildPipelineRunActivityFromEvents } from "@/components/bitcode/pipeline/models/pipeline-run-activity";
-import { PipelineExecutionLog } from "@/components/bitcode/execution/pipeline-execution-log";
-import { ExecutionContextPillRow } from "@/components/bitcode/execution/ExecutionContextPillRow";
-import { RunClock } from "@/components/bitcode/execution/RunClock";
+import { PipelineExecutionLog } from "@/components/bitcode/pipeline/pipeline-execution-log";
+import { ExecutionContextPillRow } from "@/components/bitcode/pipeline/ExecutionContextPillRow";
+import { RunClock } from "@/components/bitcode/pipeline/RunClock";
 import { QuantumOrb } from "@/components/bitcode/effects/quantum-orb";
 import { verifiedAccessOrbConfig } from "@/app/(root)/components/landing/marketing-landing-shared";
-import BitcodeInlineExplainer from "@/components/bitcode/execution/BitcodeInlineExplainer";
+import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer";
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/app/deposits/deposit-explainers";
 import {
   DEPOSIT_AUTHORITY_BLOCKERS_EXPLAINER,
@@ -86,7 +86,7 @@ import {
   DEPOSIT_PROOF_ROOT_EXPLAINERS,
   DEPOSIT_SESSION_ROW_EXPLAINERS,
 } from "@/app/deposits/deposit-stat-explainers";
-import { TelemetryExplainerTrigger } from "@/components/bitcode/execution/TelemetryExplainerTrigger";
+import { TelemetryExplainerTrigger } from "@/components/bitcode/pipeline/TelemetryExplainerTrigger";
 import { VCSFileTreePicker } from "@/components/bitcode/vcs/VCSFileTreePicker";
 import { SearchableSelect } from "@/components/bitcode/forms/SearchableSelect";
 import {

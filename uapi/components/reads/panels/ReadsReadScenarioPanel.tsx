@@ -7,8 +7,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-import BitcodeInlineExplainer from '@/components/bitcode/execution/BitcodeInlineExplainer';
-import BitcodeMetricGrid from '@/components/bitcode/execution/BitcodeMetricGrid';
+import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineExplainer';
+import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid';
 
 import BitcodeWorkspaceCard from '@/components/bitcode/pipeline/cards/BitcodeWorkspaceCard';
 import {

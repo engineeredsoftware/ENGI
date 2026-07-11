@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { PipelineExecutionLogHeader } from '@/components/bitcode/execution/pipeline-execution-log-header';
+import { PipelineExecutionLogHeader } from '@/components/bitcode/pipeline/pipeline-execution-log-header';
 
 describe('PipelineExecutionLogHeader', () => {
   it('renders current tool identity when the stream execution state includes a tool', () => {

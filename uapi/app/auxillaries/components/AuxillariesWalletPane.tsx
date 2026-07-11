@@ -11,7 +11,7 @@ import {
   DEFAULT_TRANSACTION_PAGINATION,
   type TransactionFilters,
   type TransactionPagination,
-} from '@/components/bitcode/execution/bitcode-transaction-types';
+} from '@/components/bitcode/pipeline/bitcode-transaction-types';
 import { useAuth } from "@/components/bitcode/auth/AuthProvider";
 import { useUserData } from "@/hooks/useUserData";
 

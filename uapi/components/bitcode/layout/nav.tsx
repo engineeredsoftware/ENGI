@@ -15,7 +15,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { DisabledTooltipWrapper } from "@/components/bitcode/overlays/disabled-tooltip-wrapper";
 import { BITCODE_PUBLIC_COPY } from "@/components/bitcode/layout/bitcode-public-copy";
 import { getPublicShellSurface, getWorkspaceSurface, usesPublicShellChrome } from "@/components/bitcode/layout/workspace-surface";
-import BitcodeInlineExplainer from "@/components/bitcode/execution/BitcodeInlineExplainer";
+import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer";
 import { BITCODE_PUBLIC_EXPLAINERS } from "@/components/bitcode/layout/bitcode-public-explainers";
 import { bitcodeQaTelemetry, compactBitcodeAddress } from "../../../../lib/bitcode-qa-telemetry";
 import { clearLocalBitcodeWalletIdentity } from "../../../../lib/bitcode-wallet-local";

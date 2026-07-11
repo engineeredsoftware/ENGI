@@ -145,8 +145,8 @@ function main() {
     'uapi/app/api/conversations/_shared.ts',
     'uapi/hooks/useConversationStream.ts',
     'uapi/app/conversations/components/hooks/usePipelineState.ts',
-    'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
-    'uapi/components/bitcode/execution/pipeline-execution-log-header.tsx',
+    'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+    'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
     'uapi/tests/api/conversationStreamEventContract.test.ts',
     'uapi/tests/conversationStreamPipelineLog.test.tsx',
     'uapi/tests/pipelineExecutionLogHeader.test.tsx',
@@ -285,7 +285,7 @@ function main() {
   const streamEvents = read(root, 'packages/api/src/conversations/stream-events.ts');
   const streamHook = read(root, 'uapi/hooks/useConversationStream.ts');
   const pipelineState = read(root, 'uapi/app/conversations/components/hooks/usePipelineState.ts');
-  const logHeader = read(root, 'uapi/components/bitcode/execution/pipeline-execution-log-header.tsx');
+  const logHeader = read(root, 'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx');
 
   for (const phrase of [
     'ConversationStreamEvent',

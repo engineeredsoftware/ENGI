@@ -45,7 +45,7 @@ jest.mock("@/components/bitcode/effects/quantum-orb", () => ({
 
 // PipelineExecutionLog pulls react-syntax-highlighter ESM styles that jest
 // cannot transform; the telemetry panel contract is asserted via the stub.
-jest.mock("@/components/bitcode/execution/pipeline-execution-log", () => ({
+jest.mock("@/components/bitcode/pipeline/pipeline-execution-log", () => ({
   // Mirrors the real component's error-banner contract (QA F19): the error
   // (with its Retry/Dismiss actions) renders WITHIN the log (role="alert"),
   // not as a separate stub prop, so tests asserting on the alert exercise

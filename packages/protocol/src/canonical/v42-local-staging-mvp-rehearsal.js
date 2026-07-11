@@ -67,7 +67,7 @@ const SOURCE_ROOTS = Object.freeze({
   previewBoundary: 'packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts',
   settlementBoundary: 'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
   operationalReadback: 'packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts',
-  pipelineLogUi: 'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
+  pipelineLogUi: 'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
   terminalWorkbench: 'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
   harnessRunner: 'uapi/app/api/pipeline-harness/asset-pack/runner.ts',
   harnessPreflight: 'uapi/app/api/pipeline-harness/asset-pack/preflight.ts',

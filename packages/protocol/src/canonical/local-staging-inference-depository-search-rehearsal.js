@@ -73,7 +73,7 @@ const SOURCE_ROOTS = Object.freeze({
   assetPackDisclosureTest: 'packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts',
   terminalPipelineHarnessClientTest: 'uapi/tests/terminalPipelineHarnessClient.test.ts',
   pipelineExecutionLogHeaderTest: 'uapi/tests/pipelineExecutionLogHeader.test.tsx',
-  pipelineExecutionLogUi: 'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
+  pipelineExecutionLogUi: 'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
 });
 
 function digest(value) {

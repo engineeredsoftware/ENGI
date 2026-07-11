@@ -1,8 +1,8 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { ExecutionOptionToggle } from '@/components/bitcode/execution/execution-option-toggle';
-import ExecuteButton from '@/components/bitcode/execution/execute-button';
+import { ExecutionOptionToggle } from '@/components/bitcode/pipeline/execution-option-toggle';
+import ExecuteButton from '@/components/bitcode/pipeline/execute-button';
 
 const meta = {
   title: 'Executions/Actions',

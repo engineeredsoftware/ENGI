@@ -17,8 +17,8 @@ import type { VCSBranch, VCSCommit, VCSRepository } from "@bitcode/vcs-core";
 
 import { VCSRepositorySelector } from "@/components/bitcode/vcs/VCSRepositorySelector";
 import { SearchableSelect } from "@/components/bitcode/forms/SearchableSelect";
-import BitcodeInlineExplainer from "@/components/bitcode/execution/BitcodeInlineExplainer";
-import { TelemetryExplainerTrigger } from "@/components/bitcode/execution/TelemetryExplainerTrigger";
+import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer";
+import { TelemetryExplainerTrigger } from "@/components/bitcode/pipeline/TelemetryExplainerTrigger";
 import {
   DEPOSIT_SECTION_EXPLAINERS,
   toRichHoverExplainer,

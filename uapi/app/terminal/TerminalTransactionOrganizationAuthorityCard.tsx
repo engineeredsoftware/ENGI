@@ -2,9 +2,9 @@
 
 import React from 'react';
 
-import BitcodeDetailCollection from '@/components/bitcode/execution/BitcodeDetailCollection';
-import BitcodeMetricGrid from '@/components/bitcode/execution/BitcodeMetricGrid';
-import BitcodePayloadDetailCard from '@/components/bitcode/execution/BitcodePayloadDetailCard';
+import BitcodeDetailCollection from '@/components/bitcode/pipeline/BitcodeDetailCollection';
+import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid';
+import BitcodePayloadDetailCard from '@/components/bitcode/pipeline/BitcodePayloadDetailCard';
 
 import type { TerminalOrganizationAuthorityProjection } from './terminal-organization-authority';
 

@@ -2,8 +2,8 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import BitcodeTransactionsDataTable from '@/components/bitcode/execution/BitcodeTransactionsDataTable';
-import type { TransactionRecord } from '@/components/bitcode/execution/bitcode-transaction-types';
+import BitcodeTransactionsDataTable from '@/components/bitcode/pipeline/BitcodeTransactionsDataTable';
+import type { TransactionRecord } from '@/components/bitcode/pipeline/bitcode-transaction-types';
 
 function buildRecord(overrides: Partial<TransactionRecord> = {}): TransactionRecord {
   return {

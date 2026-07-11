@@ -26,21 +26,21 @@ jest.mock('@/app/auxillaries/components/AuxillariesProvider', () => ({
   openAuxillaries: jest.fn(),
 }));
 
-jest.mock('@/components/bitcode/execution/BitcodeInlineExplainer', () => ({
+jest.mock('@/components/bitcode/pipeline/BitcodeInlineExplainer', () => ({
   __esModule: true,
   default: function MockBitcodeInlineExplainer() {
     return null;
   },
 }));
 
-jest.mock('@/components/bitcode/execution/BitcodeMetricGrid', () => ({
+jest.mock('@/components/bitcode/pipeline/BitcodeMetricGrid', () => ({
   __esModule: true,
   default: function MockBitcodeMetricGrid() {
     return null;
   },
 }));
 
-jest.mock('@/components/bitcode/execution/BitcodeChipCloud', () => ({
+jest.mock('@/components/bitcode/pipeline/BitcodeChipCloud', () => ({
   __esModule: true,
   default: function MockBitcodeChipCloud() {
     return null;

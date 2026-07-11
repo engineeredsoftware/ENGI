@@ -8,9 +8,9 @@
 
 import React from 'react';
 
-import BitcodeChipCloud from '@/components/bitcode/execution/BitcodeChipCloud';
-import BitcodeDetailRowList from '@/components/bitcode/execution/BitcodeDetailRowList';
-import BitcodeMetricGrid from '@/components/bitcode/execution/BitcodeMetricGrid';
+import BitcodeChipCloud from '@/components/bitcode/pipeline/BitcodeChipCloud';
+import BitcodeDetailRowList from '@/components/bitcode/pipeline/BitcodeDetailRowList';
+import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid';
 import { DisabledTooltipWrapper } from '@/components/bitcode/overlays/disabled-tooltip-wrapper';
 
 import { jumpToShellSection } from '@/components/bitcode/pipeline/shell-reading';

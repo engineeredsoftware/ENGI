@@ -165,7 +165,7 @@ function main() {
     'packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts',
     'uapi/app/api/pipeline-harness/asset-pack/preflight.ts',
     'uapi/app/api/pipeline-harness/asset-pack/runner.ts',
-    'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
+    'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
     'BITCODE_SPEC_V42.md',
     'BITCODE_SPEC_V42_DELTA.md',
     'BITCODE_SPEC_V42_NOTES.md',

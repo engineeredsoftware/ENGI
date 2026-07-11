@@ -10,7 +10,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowUpRight, CheckCircle2, FolderGit2, GitBranch, Lock, RefreshCw, ShieldCheck } from 'lucide-react';
 import type { VCSBranch, VCSCommit, VCSRepository } from '@bitcode/vcs-core';
 
-import BitcodeInlineExplainer from '@/components/bitcode/execution/BitcodeInlineExplainer';
+import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineExplainer';
 import { VCSRepositorySelector } from '@/components/bitcode/vcs/VCSRepositorySelector';
 
 import AuxillariesOpenButton from '@/components/auxillaries/AuxillariesOpenButton';

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ExecutionOptionToggle } from '@/components/bitcode/execution/execution-option-toggle';
+import { ExecutionOptionToggle } from '@/components/bitcode/pipeline/execution-option-toggle';
 
 const meta = {
   title: 'Kitchen-Sink/ExecutionOptionToggle',

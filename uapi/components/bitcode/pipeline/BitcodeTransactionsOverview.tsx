@@ -34,7 +34,7 @@ export default function BitcodeTransactionsOverview({
     'Table state pills describe how this table is fed, filtered, and selected right now.';
   const tableTooltipReferences = {
     source: [
-      'uapi/components/bitcode/execution/BitcodeTransactionsOverview.tsx',
+      'uapi/components/bitcode/pipeline/BitcodeTransactionsOverview.tsx',
       'uapi/app/terminal/terminal-activity-history.ts',
     ],
     canon: ['BITCODE_SPEC_V48_NOTES.md § Deposit/Read product-surface presentation laws'],

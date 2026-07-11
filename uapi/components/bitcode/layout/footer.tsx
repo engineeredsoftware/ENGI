@@ -17,7 +17,7 @@ import type { Session, User } from '@supabase/supabase-js';
 import BitcodeSoftwareSvgLogo from '@/components/bitcode/branding/bitcode-software-svg-logo';
 import { openAuxillaries, prefetchAuxillaries } from '@/app/auxillaries/components/AuxillariesProvider';
 import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/bitcode-public-copy';
-import BitcodeInlineExplainer from '@/components/bitcode/execution/BitcodeInlineExplainer';
+import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineExplainer';
 import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/bitcode/layout/bitcode-public-explainers';
 import { DisabledTooltipWrapper } from '@/components/bitcode/overlays/disabled-tooltip-wrapper';
 import { BITCODE_GITHUB_APP_PUBLIC_URL } from '@/lib/github-app-url';

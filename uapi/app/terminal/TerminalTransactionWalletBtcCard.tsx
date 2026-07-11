@@ -2,9 +2,9 @@
 
 import React from 'react';
 
-import BitcodeDetailRowList from '@/components/bitcode/execution/BitcodeDetailRowList';
-import BitcodeMetricGrid from '@/components/bitcode/execution/BitcodeMetricGrid';
-import BitcodePayloadDetailCard from '@/components/bitcode/execution/BitcodePayloadDetailCard';
+import BitcodeDetailRowList from '@/components/bitcode/pipeline/BitcodeDetailRowList';
+import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid';
+import BitcodePayloadDetailCard from '@/components/bitcode/pipeline/BitcodePayloadDetailCard';
 
 import type { TerminalWalletBtcOperationProjection } from './terminal-wallet-btc-operation';
 

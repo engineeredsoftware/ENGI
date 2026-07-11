@@ -1,6 +1,6 @@
 'use client';
 
-import BitcodeInlineExplainer from '@/components/bitcode/execution/BitcodeInlineExplainer';
+import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineExplainer';
 
 import TerminalWorkspaceCard from './TerminalWorkspaceCard';
 import TerminalOpenConversationsButton from './TerminalOpenConversationsButton';

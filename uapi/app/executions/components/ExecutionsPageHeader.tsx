@@ -14,8 +14,8 @@ import ExecutionsHeaderTitle from '@/app/executions/components/ExecutionsHeaderT
 import { ScrollContainer } from '@/components/bitcode/panels/ScrollContainer';
 import Logo from '@/components/bitcode/branding/logo';
 import WordRotate from "@/components/bitcode/word-rotate";
-import GuideIndicator from "@/components/bitcode/execution/GuideIndicator";
-import InstructionConfidenceTimer from "@/components/bitcode/execution/InstructionConfidenceTimer";
+import GuideIndicator from "@/components/bitcode/pipeline/GuideIndicator";
+import InstructionConfidenceTimer from "@/components/bitcode/pipeline/InstructionConfidenceTimer";
 import type { HeaderProcessingStats } from '@/app/executions/components/ExecutionsCompleteHeaderContent';
 // Load the heavy prism-based code highlighter lazily so the header bundle
 // stays small until a markdown section with a <code> block is actually

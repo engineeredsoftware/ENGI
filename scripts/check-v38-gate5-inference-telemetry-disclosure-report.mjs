@@ -168,7 +168,7 @@ function main() {
     'packages/agent-generics/src/diagnostics/instrumentation.ts',
     'packages/pipelines/asset-pack/src/reading-pipeline-observability.ts',
     'uapi/app/terminal/terminal-pipeline-harness-client.ts',
-    'uapi/components/bitcode/execution/pipeline-execution-log.tsx',
+    'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
     'BITCODE_SPEC_V38.md',
     'BITCODE_SPEC_V38_DELTA.md',
     'BITCODE_SPEC_V38_NOTES.md',
