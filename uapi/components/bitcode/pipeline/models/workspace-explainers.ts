@@ -16,8 +16,8 @@ const TERMINAL_CANON_REFS = [
 ] as const;
 
 const TERMINAL_SOURCE_REFS = [
-  'uapi/app/terminal/TerminalPageClient.tsx',
-  'uapi/app/terminal/terminal-activity-history.ts',
+  'uapi/components/bitcode/pipeline/',
+  'uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
   'uapi/components/bitcode/pipeline/BitcodeInlineExplainer.tsx',
   'packages/protocol/public/app.js',
 ] as const;
@@ -38,7 +38,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalExperienceFrame.tsx',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: [
         ...TERMINAL_CANON_REFS,
@@ -61,8 +61,8 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalCommandDeck.tsx',
-        'uapi/app/terminal/TerminalFlowGuideCard.tsx',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -82,8 +82,8 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalReadScenarioPanel.tsx',
-        'uapi/app/terminal/terminal-read-scenarios.ts',
+        'uapi/components/reads/panels/ReadsReadScenarioPanel.tsx',
+        'uapi/components/reads/models/read-scenarios.ts',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -103,8 +103,8 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalSupplySelectionPanel.tsx',
-        'uapi/app/terminal/terminal-supply-selection.ts',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -124,7 +124,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalDepositComposer.tsx',
+        'uapi/components/bitcode/pipeline/',
         'uapi/app/api/deposits/route.ts',
       ],
       canon: TERMINAL_CANON_REFS,
@@ -145,8 +145,8 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-        'uapi/app/terminal/TerminalActionWorkbenchCard.tsx',
+        'uapi/components/reads/panels/ReadsDepositReadWorkbench.tsx',
+        'uapi/components/bitcode/pipeline/cards/BitcodeActionWorkbenchCard.tsx',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -166,8 +166,8 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalClosureControlDeck.tsx',
-        'uapi/app/terminal/terminal-closure-controls.ts',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -187,8 +187,8 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalTransactionDetailSurface.tsx',
-        'uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -207,7 +207,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalTransactionActivitySurface.tsx',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -227,7 +227,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalExternalInterfacingPanel.tsx',
+        'uapi/components/bitcode/pipeline/',
         'uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx',
       ],
       canon: [
@@ -250,7 +250,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalTransactionWorkspace.tsx',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -270,8 +270,8 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalRepositoryContextPanel.tsx',
-        'uapi/app/terminal/terminal-repository-context.ts',
+        'uapi/components/reads/panels/ReadsRepositoryContextPanel.tsx',
+        'uapi/components/bitcode/pipeline/models/repository-context.ts',
       ],
       canon: [
         ...TERMINAL_CANON_REFS,
@@ -294,7 +294,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+        'uapi/components/reads/panels/ReadsDepositReadWorkbench.tsx',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -313,8 +313,8 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalTransactionDetailSurface.tsx',
-        'uapi/app/terminal/TerminalSourcePathPanel.tsx',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -334,7 +334,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalSupportRail.tsx',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -354,7 +354,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalSupportRail.tsx',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -374,8 +374,8 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/app/terminal/TerminalSupportRail.tsx',
-        'uapi/app/terminal/TerminalSelectedActivityCard.tsx',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -399,7 +399,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/TerminalExperienceFrame.tsx',
+        'uapi/components/bitcode/pipeline/',
         ...TERMINAL_SOURCE_REFS,
       ],
       canon: TERMINAL_CANON_REFS,
@@ -419,7 +419,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/TerminalExperienceFrame.tsx',
+        'uapi/components/bitcode/pipeline/',
         'uapi/app/conversations/components/ConversationsOverlay.tsx',
         ...TERMINAL_SOURCE_REFS,
       ],
@@ -439,8 +439,8 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/TerminalCommandDeck.tsx',
-        'uapi/app/terminal/TerminalReadScenarioPanel.tsx',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/reads/panels/ReadsReadScenarioPanel.tsx',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -457,7 +457,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
       'Stage the current flow deliberately before committing a materialized posture',
     ],
     references: {
-      source: ['uapi/app/terminal/TerminalCommandDeck.tsx'],
+      source: ['uapi/components/bitcode/pipeline/'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
@@ -474,8 +474,8 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/TerminalCommandDeck.tsx',
-        'uapi/app/terminal/TerminalClosureControlDeck.tsx',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -494,10 +494,10 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/bitcode-transaction-readiness.ts',
-        'uapi/app/terminal/TerminalCommandDeck.tsx',
-        'uapi/app/terminal/TerminalDepositComposer.tsx',
-        'uapi/app/terminal/TerminalClosureControlDeck.tsx',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/bitcode/pipeline/',
         'uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx',
       ],
       canon: [
@@ -519,8 +519,8 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/TerminalRepositoryContextPanel.tsx',
-        'uapi/app/terminal/terminal-repository-context.ts',
+        'uapi/components/reads/panels/ReadsRepositoryContextPanel.tsx',
+        'uapi/components/bitcode/pipeline/models/repository-context.ts',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -538,8 +538,8 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/TerminalRepositoryContextPanel.tsx',
-        'uapi/app/terminal/terminal-activity-history.ts',
+        'uapi/components/reads/panels/ReadsRepositoryContextPanel.tsx',
+        'uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -557,8 +557,8 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/TerminalSupplySelectionPanel.tsx',
-        'uapi/app/terminal/terminal-supply-selection.ts',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -576,8 +576,8 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/TerminalSupplySelectionPanel.tsx',
-        'uapi/app/terminal/TerminalDepositComposer.tsx',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -595,7 +595,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/TerminalSupplySelectionPanel.tsx',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -613,8 +613,8 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/TerminalReadScenarioPanel.tsx',
-        'uapi/app/terminal/terminal-activity-history.ts',
+        'uapi/components/reads/panels/ReadsReadScenarioPanel.tsx',
+        'uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -632,8 +632,8 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/TerminalDepositComposer.tsx',
-        'uapi/app/terminal/TerminalRepositoryContextPanel.tsx',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/reads/panels/ReadsRepositoryContextPanel.tsx',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -650,7 +650,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
       'Bridge repository posture into later proof and settlement follow-through',
     ],
     references: {
-      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      source: ['uapi/components/bitcode/pipeline/'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
@@ -667,8 +667,8 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/TerminalRepositoryContextPanel.tsx',
-        'uapi/app/terminal/TerminalDepositComposer.tsx',
+        'uapi/components/reads/panels/ReadsRepositoryContextPanel.tsx',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -686,8 +686,8 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/TerminalDepositComposer.tsx',
-        'uapi/app/terminal/bitcode-transaction-readiness.ts',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: [
         ...TERMINAL_CANON_REFS,
@@ -708,9 +708,9 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/TerminalDepositComposer.tsx',
+        'uapi/components/bitcode/pipeline/',
         'uapi/app/api/deposits/route.ts',
-        'uapi/app/terminal/terminal-activity-history.ts',
+        'uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -727,7 +727,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
       'Override only when the visible title must be more specific than the selection makes it',
     ],
     references: {
-      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      source: ['uapi/components/bitcode/pipeline/'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
@@ -743,7 +743,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
       'Add a human-readable issuer label when the default account context is not enough',
     ],
     references: {
-      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      source: ['uapi/components/bitcode/pipeline/'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
@@ -759,7 +759,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
       'Leave the selected repository snapshot unchanged either way',
     ],
     references: {
-      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      source: ['uapi/components/bitcode/pipeline/'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
@@ -775,7 +775,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
       'Keep repository, branch, and commit as the required source selector',
     ],
     references: {
-      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      source: ['uapi/components/bitcode/pipeline/'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
@@ -791,7 +791,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
       'Keep the selected source revision as the substance the preview never replaces',
     ],
     references: {
-      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      source: ['uapi/components/bitcode/pipeline/'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
@@ -807,7 +807,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
       'Annotate without weakening source, wallet, or repository requirements',
     ],
     references: {
-      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      source: ['uapi/components/bitcode/pipeline/'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
@@ -823,7 +823,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
       'Tag freely without changing source selection or signing posture',
     ],
     references: {
-      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      source: ['uapi/components/bitcode/pipeline/'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
@@ -840,7 +840,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
       'Prefer repository, branch, and commit as source of truth in the normal flow',
     ],
     references: {
-      source: ['uapi/app/terminal/TerminalDepositComposer.tsx'],
+      source: ['uapi/components/bitcode/pipeline/'],
       canon: TERMINAL_CANON_REFS,
     },
   }),
@@ -857,8 +857,8 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/app/terminal/TerminalClosureControlDeck.tsx',
-        'uapi/app/terminal/terminal-closure-controls.ts',
+        'uapi/components/bitcode/pipeline/',
+        'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,
     },

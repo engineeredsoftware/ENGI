@@ -6,7 +6,6 @@
 import type { ShippablesDoc } from '@/components/bitcode/pipeline/ShippablesDocPanel';
 import type { PipelineExecution } from '@/types/api';
 // Detail snapshot remains under terminal until its Phase 3 relocate.
-import type { TerminalRunDetailSnapshot } from '@/app/terminal/terminal-transaction-detail-snapshot';
 
 export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' | 'agentic_execution' | 'status'> & {
   summary?: string | null;
@@ -42,7 +41,7 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   averageLatencyMs?: number | null;
   proofStatus?: string | null;
   closureFocus?: string | null;
-  protocolProjectionDetail?: TerminalRunDetailSnapshot | null;
+  protocolProjectionDetail?: unknown | null;
   // V48-Gate3-F13/F18: populated only when contextSource is
   // 'deposit-obfuscations-anchor' — the anchored Obfuscations text itself
   // (plus optional display name and path selections) for the Obfuscations

@@ -205,7 +205,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
   const isContainedSurface = surfaceVariant === 'contained'
   const nextWorkspacePath =
     nextParam.startsWith('/auxillaries') ||
-    nextParam.startsWith('/packs') || nextParam.startsWith('/terminal')
+    nextParam.startsWith('/packs')
       ? nextParam
       : '/packs'
   

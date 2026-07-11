@@ -43,8 +43,8 @@ uapi/
 
 Migration note: Phase 1 moved shadcn/bitcode to the target directories above.
 Experience components may still be colocated under `app/*` until Phase 4.
-Legacy `app/terminal/` is eradicated after live modules relocate (see V48 NOTES
-workstream).
+The legacy `app/terminal/` cockpit has been **deleted**. Product surfaces are
+`/packs`, `/deposits`, `/reads`, Auxillaries, Docs, Conversations (see V48 NOTES).
 
 ## Component import direction
 

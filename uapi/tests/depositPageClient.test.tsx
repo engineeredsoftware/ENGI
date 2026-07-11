@@ -146,21 +146,6 @@ jest.mock("@/components/deposits/panels/DepositSourceSelection", () => ({
   },
 }));
 
-jest.mock("@/app/terminal/TerminalDepositComposer", () => ({
-  __esModule: true,
-  default: ({
-    showDemonstrationDraft,
-  }: {
-    showDemonstrationDraft?: boolean;
-  }) => (
-    <section
-      aria-label="Deposit composer"
-      data-demonstration={showDemonstrationDraft ? "true" : "false"}
-    >
-      Deposit composer
-    </section>
-  ),
-}));
 
 /** Open the new-deposit compose detail (replaces pipelines table). */
 async function openComposeDetail() {

@@ -55,9 +55,9 @@ describe('ConversationsRouteClient', () => {
       }),
     ).toBeTruthy();
     expect(screen.getByText(/Step back into the Bitcode activity ledger/i)).toBeTruthy();
-    expect(screen.getByRole('link', { name: /Open Bitcode Terminal/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /Open Packs/i })).toHaveAttribute(
       'href',
-      '/terminal',
+      '/packs',
     );
     expect(
       screen.getByText(/Overlay forceOpen=true forceFullscreen=true floatingOrb=false/i),
@@ -65,6 +65,6 @@ describe('ConversationsRouteClient', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Close overlay' }));
 
-    expect(mockPush).toHaveBeenCalledWith('/terminal');
+    expect(mockPush).toHaveBeenCalledWith('/packs');
   });
 });

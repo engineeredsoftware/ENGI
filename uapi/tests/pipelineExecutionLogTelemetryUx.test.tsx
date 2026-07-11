@@ -30,7 +30,7 @@ import {
   getTelemetryPillExplainer,
   getTelemetryRowIconExplainer,
 } from '@/components/bitcode/pipeline/telemetry-pill-explainers';
-import { buildTerminalRunActivityFromEvents } from '@/app/terminal/terminal-run-activity';
+import { buildTerminalRunActivityFromEvents } from '@/components/bitcode/pipeline/models/pipeline-run-activity';
 
 beforeAll(() => {
   (global as any).ResizeObserver = class {

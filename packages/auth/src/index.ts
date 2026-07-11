@@ -41,3 +41,9 @@ export async function authenticateRequest(request: Request): Promise<{ userId: s
   }
   return { userId: user.id };
 }
+
+export * from './bitcode-wallet-local';
+export * from './bitcoin-wallet-client';
+export * from './bitcoin-wallet-oauth-provider';
+export * from './supabase-auth-redirect';
+export * from './qa-telemetry';

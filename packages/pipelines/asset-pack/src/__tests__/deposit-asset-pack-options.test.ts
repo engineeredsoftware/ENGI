@@ -12,7 +12,7 @@ describe('Deposit AssetPack option synthesis', () => {
       obfuscations:
         'Prefer reusable source-bound AssetPacks that can satisfy Reading demand without exposing critical private implementation source before settlement.',
       forcedInclusions: [
-        'uapi/app/terminal/TerminalDepositComposer.tsx',
+        'uapi/components/deposits/panels/DepositSourceSelection.tsx',
         'packages/pipelines/asset-pack/src/depository-supply-index.ts',
       ],
       depositoryDemandSignals: [

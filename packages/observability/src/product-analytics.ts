@@ -1,4 +1,3 @@
-/** Portable source of truth also at @bitcode/observability/product-analytics. */
 /*
  * Bitcode product analytics — the ONE audited path for custom analytics
  * events. Every event fans out to Vercel Web Analytics (`track`) and GA4

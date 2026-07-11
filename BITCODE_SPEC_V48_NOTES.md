@@ -1344,3 +1344,26 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 | 6 Executions → Packs redirects | closed |
 | 7 Package extractions | deferred follow-up (wallet/lib package-ify still planned) |
 | 8 Spec/parity ledger | updated in lockstep each commit |
+
+### Phase 5 complete — Terminal deleted (no redirect)
+
+- **`uapi/app/terminal/` removed entirely** — no page, no redirect, no shims.
+- Product entrypoints use Packs/Deposits/Reads only; `TERMINAL_ROUTE` /
+  `buildTerminalHref` removed from product-routes.
+- Workspace surface no longer recognizes `/terminal`.
+- Terminal-only jest tests and e2e specs deleted; jest allowlist cleaned.
+- Residual type coupling removed from pipeline-activity-history (local
+  processing-stats type; dead draft builders removed).
+
+### Phase 7 package extractions
+
+| Module | Package path |
+| --- | --- |
+| execution cancel | `@bitcode/api/pipelines/cancel` (`packages/api/src/pipelines/cancel.ts`) |
+| orphan sweep | `@bitcode/api/pipelines/orphan-sweep` |
+| product analytics | `@bitcode/observability/product-analytics` (+ uapi/lib copy for app/jest) |
+| wallet local/client/oauth | `@bitcode/auth/{wallet-local,bitcoin-wallet-client,bitcoin-wallet-oauth-provider}` |
+| supabase auth redirect | `@bitcode/auth/supabase-auth-redirect` |
+| QA telemetry | `@bitcode/auth/qa-telemetry` |
+
+uapi/lib retains thin re-export shims (or full analytics copy) for import stability.

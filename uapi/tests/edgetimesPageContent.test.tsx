@@ -20,7 +20,7 @@ describe('EdgetimesPageContent', () => {
     expect(screen.getByText('@bitcode/supabase')).toBeInTheDocument();
     expect(screen.getByText('run_jobs')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Return to docs' })).toHaveAttribute('href', '/docs');
-    expect(screen.getByRole('link', { name: 'Open Bitcode Terminal' })).toHaveAttribute('href', '/terminal');
+    expect(screen.getByRole('link', { name: 'Open Packs' })).toHaveAttribute('href', '/packs');
     expect(screen.getByRole('link', { name: 'Open conversations' })).toHaveAttribute('href', '/conversations');
   });
 });

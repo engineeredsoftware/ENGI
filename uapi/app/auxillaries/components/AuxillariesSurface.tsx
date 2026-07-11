@@ -106,7 +106,7 @@ export default function AuxillariesSurface({
   const router = useRouter();
   const pathname = usePathname();
   const routeStep = useMemo(() => parseAuxillaryPath(pathname), [pathname]);
-  const isTerminalRoute = Boolean(pathname?.startsWith('/terminal') || pathname?.startsWith('/packs'));
+  const isTerminalRoute = Boolean(pathname?.startsWith('/packs'));
   const isDedicatedAuxillariesRoute = isAuxillariesPath(pathname) || isAuxillariesCompatPath(pathname);
   const usesTerminalOverlay = isTerminalRoute;
   const usesPortalOverlay = Boolean(onClose);

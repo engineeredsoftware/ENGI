@@ -123,7 +123,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     references: {
       source: [
         'uapi/components/deposits/panels/DepositSourceSelection.tsx',
-        'uapi/app/terminal/terminal-activity-history.ts',
+        'uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
       ],
       canon: DEPOSIT_CANON_REFS,
     },

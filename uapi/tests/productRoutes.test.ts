@@ -45,9 +45,9 @@ describe('product-routes', () => {
     expect(buildExchangeHref(params)).toBe(buildPacksHref(params));
   });
 
-  it('aliases legacy Terminal route helpers to Packs (eradication)', async () => {
+  it('does not export Terminal route helpers', async () => {
     const mod = await import('@/components/bitcode/routes/product-routes');
-    expect(mod.TERMINAL_ROUTE).toBe(mod.PACKS_ROUTE);
-    expect(mod.buildTerminalHref('x=1')).toBe(mod.buildPacksHref('x=1'));
+    expect('TERMINAL_ROUTE' in mod).toBe(false);
+    expect('buildTerminalHref' in mod).toBe(false);
   });
 });

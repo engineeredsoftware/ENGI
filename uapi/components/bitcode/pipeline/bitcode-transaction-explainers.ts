@@ -7,7 +7,7 @@ function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
 const TRANSACTION_EXPLAINER_SOURCE_REFS = [
   'uapi/components/bitcode/pipeline/BitcodeTransactionsTable.tsx',
   'uapi/components/bitcode/pipeline/BitcodeTransactionsFilterBar.tsx',
-  'uapi/app/terminal/terminal-transaction-query.ts',
+  'uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts',
 ] as const;
 const TRANSACTION_EXPLAINER_CANON_REFS = [
   'BITCODE_SPEC_V48_NOTES.md — product routes pluralize + master-detail pipelines',

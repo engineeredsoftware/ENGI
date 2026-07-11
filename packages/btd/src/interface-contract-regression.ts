@@ -130,7 +130,7 @@ export function buildBtdInterfaceContractRegressionFixtures(): BtdInterfaceContr
       surface: 'terminal',
       status: 'active_contract',
       boundaryKind: 'terminal_ui',
-      contractOwner: 'uapi/app/terminal',
+      contractOwner: 'uapi/components/bitcode/pipeline',
       fixturePath: 'uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
       authBoundary: 'authenticated_route',
       policyDenial: 'terminal-detail-denies-protected-source-before-paid-unlock',

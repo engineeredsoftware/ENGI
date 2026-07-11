@@ -32,7 +32,7 @@ function records(): BtdInterfaceIntegrationRecordInput[] {
       surface: 'terminal',
       consumerId: 'terminal-transaction-cockpit',
       packageExport: '@bitcode/btd/interface-integration-contract',
-      adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+      adapterPath: 'uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts',
       objectFamilies: ['btd_registry', 'read_access', 'terminal_journal'],
     }),
     record({
@@ -60,21 +60,21 @@ function records(): BtdInterfaceIntegrationRecordInput[] {
       surface: 'auxillaries_hook',
       consumerId: 'auxillaries-interface-hook',
       packageExport: '@bitcode/btd/interface-integration-contract',
-      adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+      adapterPath: 'uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts',
       objectFamilies: ['btd_registry', 'organization_authority'],
     }),
     record({
       surface: 'exchange_hook',
       consumerId: 'exchange-interface-hook',
       packageExport: '@bitcode/btd/interface-integration-contract',
-      adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+      adapterPath: 'uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts',
       objectFamilies: ['btd_receipts', 'btc_fee_operation', 'ledger_projection'],
     }),
     record({
       surface: 'conversations_hook',
       consumerId: 'conversations-interface-hook',
       packageExport: '@bitcode/btd/interface-integration-contract',
-      adapterPath: 'uapi/app/terminal/terminal-interface-integration-regression.ts',
+      adapterPath: 'uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts',
       objectFamilies: ['read_access', 'organization_authority', 'protocol_telemetry'],
     }),
   ];

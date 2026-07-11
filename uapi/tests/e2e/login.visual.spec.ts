@@ -79,7 +79,7 @@ test.describe('@profile UI Visual - Login Flows', () => {
       })
     );
     // Navigate to the Bitcode Terminal review surface.
-    await page.goto('/terminal?transactionId=test-run');
+    await page.goto('/packs?transactionId=test-run');
     // Open login modal
     await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     // Enter email and send code
@@ -89,7 +89,7 @@ test.describe('@profile UI Visual - Login Flows', () => {
     await page.waitForSelector('[data-testid="login-otp-input"]');
     await page.fill('[data-testid="login-otp-input"]', '123456');
     await page.click('[data-testid="login-verify-code"]');
-    await page.waitForURL('**/terminal?transactionId=test-run');
+    await page.waitForURL('**/packs?transactionId=test-run');
     // Open notifications dropdown
     const notifButton = page.locator('[data-testid="notifications-toggle"]');
     await notifButton.click();

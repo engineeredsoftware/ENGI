@@ -1,3 +1,4 @@
+type TerminalClosureState = any;
 /**
  * @jest-environment node
  */
@@ -15,9 +16,8 @@ import {
   buildTerminalDepositWorkbenchDraft,
   buildTerminalReadMeasurementDraft,
   mapExecutionHistoryRunToWorkspaceRun,
-} from '@/app/terminal/terminal-activity-history';
-import type { TerminalClosureState } from '@/app/terminal/terminal-closure-state';
-import type { TerminalRepositoryContextState } from '@/app/terminal/terminal-repository-context';
+} from '@/components/bitcode/pipeline/models/pipeline-activity-history';
+import type { TerminalRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
 
 function createExecutionHistoryStore(userId = 'user-1') {
   const storedRows: any[] = [];

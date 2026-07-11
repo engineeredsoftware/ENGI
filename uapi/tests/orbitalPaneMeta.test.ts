@@ -27,8 +27,8 @@ describe('auxillary-pane-meta canonical routing', () => {
   });
 
   it('builds overlay targets instead of standalone auxillaries pages', () => {
-    expect(buildAuxillariesRoutePath('wallet')).toBe('/terminal?auxillary-open-to=wallet');
-    expect(buildAuxillariesRoutePath('connects')).toBe('/terminal?auxillary-open-to=externals');
+    expect(buildAuxillariesRoutePath('wallet')).toBe('/packs?auxillary-open-to=wallet');
+    expect(buildAuxillariesRoutePath('connects')).toBe('/packs?auxillary-open-to=externals');
     expect(readAuxillaryOverlayStep(new URLSearchParams('auxillary-open-to=btd'))).toBe('wallet');
   });
 });

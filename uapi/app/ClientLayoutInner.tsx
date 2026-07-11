@@ -234,7 +234,7 @@ export default function ClientLayoutInner({ children }: { children: ReactNode })
         <React.Suspense fallback={null}>
           {/* Desktop supporting overlays. Auxillaries stays portal-only for V28. */}
           <div className="hidden laptop:block">
-            {authLoaded && user && !mockMode && pathname !== '/terminal' && pathname !== '/conversations' && isOnboardingComplete && conversationsEnabled && (
+            {authLoaded && user && !mockMode && pathname !== '/conversations' && isOnboardingComplete && conversationsEnabled && (
               <>
                 <Conversation
                   position="bottom-right"

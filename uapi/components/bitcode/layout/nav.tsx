@@ -175,7 +175,7 @@ export default function Nav() {
   const usesWorkspaceChrome = navSurface !== null;
   const usesPublicChrome = usesPublicShellChrome(pathname);
   const usesProductChrome =
-    usesPublicChrome || navSurface === 'terminal' || navSurface === 'packs';
+    usesPublicChrome || navSurface === 'packs';
   const usesWorkspaceOnlyChrome = usesWorkspaceChrome && !usesProductChrome;
   const profileRecord =
     userData?.profile && typeof userData.profile === 'object'

@@ -1,10 +1,9 @@
-export type WorkspaceSurface = 'terminal' | 'packs' | 'conversations' | null;
+export type WorkspaceSurface = 'packs' | 'conversations' | null;
 export type PublicShellSurface = 'home' | 'network' | 'deposit' | 'read' | 'docs' | null;
 
 export function getWorkspaceSurface(pathname: string | null | undefined): WorkspaceSurface {
   if (!pathname) return null;
-  // Terminal eradicated → packs is the workspace shell carrier (legacy /terminal redirects).
-  if (pathname.startsWith('/packs') || pathname.startsWith('/terminal')) return 'packs';
+  if (pathname.startsWith('/packs')) return 'packs';
   if (pathname.startsWith('/conversations')) return 'conversations';
   return null;
 }

@@ -68,7 +68,7 @@ export default function ConversationTerminalHandoff({
     setPrepared(envelope);
     await onPrepared?.(envelope);
     if (typeof window !== 'undefined') {
-      window.open(envelope.terminalRoute, '_blank', 'noopener');
+      window.open(envelope.packsRoute, '_blank', 'noopener');
     }
     setStatus(`${workflowConfig.label} opened in Terminal.`);
   }, [envelope, onPrepared, workflowConfig.label]);
@@ -141,7 +141,7 @@ export default function ConversationTerminalHandoff({
         <dl>
           <div>
             <dt>Route</dt>
-            <dd>{visibleEnvelope.terminalRoute}</dd>
+            <dd>{visibleEnvelope.packsRoute}</dd>
           </div>
           <div>
             <dt>Proof</dt>

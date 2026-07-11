@@ -71,7 +71,7 @@ test.describe('@sso flows', () => {
     await page.goto('/tps/supabase/callback?token_hash=abc123&next=%2Fterminal')
 
     await page.waitForURL('**/terminal')
-    expect(page.url()).toContain('/terminal')
+    expect(page.url()).toContain('/packs')
   })
 
   test('GitHub OAuth happy path redirects to root', async ({ page }) => {
@@ -86,6 +86,6 @@ test.describe('@sso flows', () => {
     await page.goto('/tps/supabase/callback?code=google123&next=%2Fterminal')
 
     await page.waitForURL('**/terminal')
-    expect(page.url()).toContain('/terminal')
+    expect(page.url()).toContain('/packs')
   })
 })

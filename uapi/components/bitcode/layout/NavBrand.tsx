@@ -4,7 +4,7 @@ import React from "react";
 
 import Logo from "@/components/bitcode/branding/logo";
 
-export type NavSurface = "terminal" | "packs" | "auxillaries" | "conversations" | null;
+export type NavSurface = "packs" | "auxillaries" | "conversations" | null;
 export type NavBrandSurface = Exclude<NavSurface, null> | 'home' | 'network' | 'deposit' | 'read' | 'docs' | null;
 
 interface NavBrandProps {

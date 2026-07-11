@@ -36,3 +36,6 @@ export * as shippables from './routes/shippables';
 
 // Additional business logic modules will be added here as they're migrated
 // from routes to this package
+
+export * from './pipelines/cancel';
+export * from './pipelines/orphan-sweep';

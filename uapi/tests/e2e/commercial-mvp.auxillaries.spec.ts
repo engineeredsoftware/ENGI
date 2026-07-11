@@ -48,7 +48,7 @@ test.describe('commercial MVP Auxillaries experience', () => {
       await openCommercialRoute(page, auxillary.path, auxillary.heading);
 
       await expect(page.getByTestId(auxillary.container)).toBeVisible();
-      await expect(page.getByText('Open Bitcode Terminal')).toBeVisible();
+      await expect(page.getByText('Open Packs')).toBeVisible();
       await expect(page.getByText('Current route')).toBeVisible();
       await expect(page.locator('text=/lane(active|ready|locked)/i')).toHaveCount(0);
       await expect(page.locator('.orbital-ring')).toHaveCount(0);
@@ -187,7 +187,7 @@ test.describe('commercial MVP Auxillaries experience', () => {
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/terminal', /Bitcode Terminal/i);
+    await openCommercialRoute(page, '/packs', /Bitcode Terminal/i);
 
     await page.evaluate(() => {
       window.dispatchEvent(
@@ -211,7 +211,7 @@ test.describe('commercial MVP Auxillaries experience', () => {
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/terminal', /Bitcode Terminal/i);
+    await openCommercialRoute(page, '/packs', /Bitcode Terminal/i);
 
     await page.getByRole('button', { name: /Open Auxillaries fullscreen/i }).click();
     const shell = page.locator('.auxillaries-bitcode-shell');

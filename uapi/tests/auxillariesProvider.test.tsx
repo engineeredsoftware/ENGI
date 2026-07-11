@@ -33,7 +33,7 @@ import AuxillariesProvider, {
 
 describe('AuxillariesProvider', () => {
   beforeEach(() => {
-    window.history.replaceState({}, '', '/terminal');
+    window.history.replaceState({}, '', '/packs');
     Object.defineProperty(window, '__auxillariesPrefetched', {
       configurable: true,
       value: true,
@@ -95,7 +95,7 @@ describe('AuxillariesProvider', () => {
   });
 
   it('opens the requested pane from the overlay query parameter without rendering a route page', () => {
-    window.history.replaceState({}, '', '/terminal?auxillary-open-to=wallet');
+    window.history.replaceState({}, '', '/packs?auxillary-open-to=wallet');
 
     render(
       <AuxillariesProvider>

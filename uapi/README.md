@@ -39,10 +39,10 @@ Contained auxillary rails should converge on the shared panel-plus-tabs carriers
 
 ## Main route systems
 
-- `app/terminal/`
+- `components/bitcode/pipeline/`
   `/terminal` route-local composition, route-owned transaction query state, flow-guide/runtime bridge, Deposit/Read workbench, and transaction detail.
   Gate 7 operations readiness is rendered by
-  `app/terminal/TerminalOperationalHealthPanel.tsx` from the
+  `components/bitcode/pipeline/operational health (packages/btd).tsx` from the
   `@bitcode/btd/terminal-operational-health` package read; do not replace it
   with UI-only lane or telemetry fixtures.
 - `app/exchange/`
@@ -163,7 +163,7 @@ Focused lint:
 
 ```bash
 cd uapi
-pnpm exec next lint --file app/terminal/TerminalPageClient.tsx
+pnpm exec next lint --file components/bitcode/pipeline/DepositPageClient.tsx
 ```
 
 Focused Jest examples:
@@ -179,7 +179,7 @@ pnpm exec jest --runInBand --testMatch '<rootDir>/tests/auxillariesProvider.test
 The current interface doc set is:
 
 - [README.md](../README.md)
-- [app/terminal/README.md](app/terminal/README.md)
+- [components/bitcode/pipeline/README.md](components/bitcode/pipeline/README.md)
 - [app/exchange/README.md](app/exchange/README.md)
 - [app/auxillaries/README.md](app/auxillaries/README.md)
 - [components/bitcode/README.md](components/bitcode/README.md)

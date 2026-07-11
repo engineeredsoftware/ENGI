@@ -55,7 +55,7 @@ describe('ProfileStep (SSR)', () => {
                 repairRoute: {
                   issueId: 'preferences.templates_missing',
                   pane: 'interfaces',
-                  route: '/terminal?auxillary-open-to=interfaces',
+                  route: '/packs?auxillary-open-to=interfaces',
                   label: 'Configure Templates',
                   retryPolicy: 'after_repair',
                 },
@@ -133,7 +133,7 @@ describe('ProfileStep (SSR)', () => {
           policyDecision: 'allowed',
           denialReason: null,
           denialReasons: [],
-          recoveryRoute: '/terminal?auxillary-open-to=profile',
+          recoveryRoute: '/packs?auxillary-open-to=profile',
           sourceVisibility: 'source_safe_preview',
           sourceSafetyClass: 'source_safe',
           authorityRoot: 'btd-proof-root:organization-policy-authority:def456',
@@ -155,7 +155,7 @@ describe('ProfileStep (SSR)', () => {
     expect(html).toContain('settlement:pay_btc_fee');
     expect(html).toContain('Needs repair');
     expect(html).toContain('Template preference is not configured.');
-    expect(html).toContain('/terminal?auxillary-open-to=interfaces');
+    expect(html).toContain('/packs?auxillary-open-to=interfaces');
     // Avatar choices render from the pane-owned generated palette.
     expect(html).toContain('Select avatar 1');
     // Team member table should include the member displayName and role

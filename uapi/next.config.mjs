@@ -179,12 +179,7 @@ let nextConfig = {
   },
   async redirects() {
     return [
-      // V48 Terminal eradication: legacy cockpit → Packs (preserve path for middleware-less hops)
-      {
-        source: '/terminal',
-        destination: '/packs',
-        permanent: false,
-      },
+
       {
         source: '/executions',
         destination: '/packs',

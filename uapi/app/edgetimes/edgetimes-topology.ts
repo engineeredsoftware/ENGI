@@ -57,7 +57,7 @@ export const EDGETIMES_TOPOLOGY = {
         'uapi/app/api/edgetimes/route.ts',
         'uapi/app/api/conversations/*',
         'uapi/app/api/executions/history*',
-        'uapi/app/terminal/*',
+        'uapi/components/bitcode/pipeline/*',
         'uapi/app/conversations/*',
       ],
     },

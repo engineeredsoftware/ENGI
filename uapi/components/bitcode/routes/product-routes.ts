@@ -70,11 +70,3 @@ export function buildExchangeHref(
 ): string {
   return buildPacksHref(params);
 }
-
-/** @deprecated Legacy cockpit path — always redirect/prefer PACKS_ROUTE. */
-export const TERMINAL_ROUTE = PACKS_ROUTE;
-
-/** @deprecated Prefer buildPacksHref — Terminal eradicated. */
-export function buildTerminalHref(params?: URLSearchParams | string | null): string {
-  return buildPacksHref(params);
-}

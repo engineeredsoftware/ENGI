@@ -145,7 +145,7 @@ export function buildBtdInterfaceContractCatalogRows(): BtdInterfaceContractCata
       interfaceId: 'terminal_handoff',
       status: 'active_contract',
       bindingKind: 'terminal_handoff',
-      ownerPackage: 'uapi/app/terminal',
+      ownerPackage: 'uapi/components/bitcode/pipeline',
       actionId: 'terminal.reading.handoff',
       schemaId: 'bitcode.interface.terminalReadingHandoff.v1',
       authPolicyId: 'interface.authorization.reader-session',

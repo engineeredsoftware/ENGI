@@ -12,7 +12,7 @@ describe('BitcodeInlineExplainer', () => {
           summary: 'Shared readiness posture for Bitcode branch, deposit, and closure actions.',
           detail: 'Review continuity stays open, but transactable actions fail closed until readiness is complete.',
           references: {
-            source: ['uapi/app/terminal/bitcode-transaction-readiness.ts'],
+            source: ['uapi/components/bitcode/pipeline/'],
             canon: ['BITCODE_SPEC_V26.md § Wallet and signed transaction posture'],
           },
         }}
@@ -21,7 +21,7 @@ describe('BitcodeInlineExplainer', () => {
 
     expect(screen.getByLabelText('Explain Transaction readiness')).toBeTruthy();
     expect(screen.getByText('Current source')).toBeTruthy();
-    expect(screen.getByText('uapi/app/terminal/bitcode-transaction-readiness.ts')).toBeTruthy();
+    expect(screen.getByText('uapi/components/bitcode/pipeline/')).toBeTruthy();
     expect(screen.getByText('Current canon')).toBeTruthy();
     expect(screen.getByText('BITCODE_SPEC_V26.md § Wallet and signed transaction posture')).toBeTruthy();
   });

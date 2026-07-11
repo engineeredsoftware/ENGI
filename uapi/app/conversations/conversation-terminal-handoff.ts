@@ -1,5 +1,5 @@
 import type { TerminalTransactionDetailSection } from '@/components/bitcode/pipeline/models/pipeline-selection-query';
-// Handoff opens Packs (legacy field name terminalRoute kept for envelope compatibility).
+// Handoff opens Packs with source-safe selection query params.
 import { buildPacksHref } from '@/components/bitcode/routes/product-routes';
 import type { TerminalEnterpriseReadingStepId } from '@/components/reads/models/enterprise-reading-ux-state';
 
@@ -35,7 +35,7 @@ export type ConversationTerminalHandoffEnvelope = {
   sourceSafeSummary: string;
   readingStage: TerminalEnterpriseReadingStepId | null;
   policyResult: ConversationTerminalHandoffPolicyState;
-  terminalRoute: string;
+  packsRoute: string;
   transactionDetail: TerminalTransactionDetailSection;
   proofRoot: string;
   eventId: string;
@@ -229,7 +229,7 @@ export function buildConversationTerminalHandoffEnvelope(
     sourceSafeSummary: redactedSummary.text.slice(0, 420) || 'No handoff summary prepared.',
     readingStage,
     policyResult: policy.policyResult,
-    terminalRoute: buildPacksHref(terminalParams),
+    packsRoute: buildPacksHref(terminalParams),
     transactionDetail: workflow.terminalDetail,
     proofRoot,
     eventId: `conversation.terminal_handoff.${input.workflow}.${policy.policyResult}`,

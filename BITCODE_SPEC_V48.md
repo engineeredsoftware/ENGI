@@ -211,8 +211,8 @@ remain under a Terminal path.
 
 Terminal eradication is complete when:
 
-1. No live product page imports from `uapi/app/terminal/`.
-2. `/terminal` is redirect-only (or removed) and is not a nav/login CTA.
+1. `uapi/app/terminal/` does not exist.
+2. `/terminal` is not a route (no page, no redirect) and is not a nav/login CTA.
 3. Shared pipeline selection, history, repository context, and readiness
    models live under Bitcode/experience names without `Terminal*` prefixes.
 4. Browser proofs and commercial E2E remain on `/deposits`, `/reads`, `/packs`,

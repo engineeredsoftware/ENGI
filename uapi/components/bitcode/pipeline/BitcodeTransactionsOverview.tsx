@@ -35,7 +35,7 @@ export default function BitcodeTransactionsOverview({
   const tableTooltipReferences = {
     source: [
       'uapi/components/bitcode/pipeline/BitcodeTransactionsOverview.tsx',
-      'uapi/app/terminal/terminal-activity-history.ts',
+      'uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
     ],
     canon: ['BITCODE_SPEC_V48_NOTES.md § Deposit/Read product-surface presentation laws'],
   };

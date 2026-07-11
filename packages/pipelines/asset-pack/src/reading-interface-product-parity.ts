@@ -296,7 +296,7 @@ function mapRightsSurface(
 function ownerPackage(surface: ReadingInterfaceProductParitySurface): string {
   switch (surface) {
     case 'terminal':
-      return 'uapi/app/terminal';
+      return 'uapi/components/bitcode/pipeline';
     case 'conversation':
       return 'uapi/app/conversations';
     case 'public_api':

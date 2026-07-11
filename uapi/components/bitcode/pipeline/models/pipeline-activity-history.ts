@@ -8,15 +8,20 @@ import { buildAgenticExecutionSummary } from '@bitcode/api/src/executions/agenti
 
 import type { PipelineExecution } from '@/types/api';
 
-import type { TerminalClosureState } from '@/app/terminal/terminal-closure-state';
 import type { TerminalDepositReadWorkbench, TerminalSourceRevision } from '@/components/reads/models/deposit-read-workbench';
 import type { TerminalReadScenariosState } from '@/components/reads/models/read-scenarios';
-import type { TerminalExternalRuntimeSnapshot } from '@/app/terminal/terminal-external-runtime';
 import type { WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 import type { TerminalRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
-import type { TerminalSupplySelectionState } from '@/app/terminal/terminal-supply-selection';
-import type { TerminalRunDetailSnapshot } from '@/app/terminal/terminal-transaction-detail-snapshot';
 import type { TerminalTransactionDetailSection } from '@/components/bitcode/pipeline/models/pipeline-selection-query';
+
+/** Slim processing stats for history drafts (no Terminal detail snapshot dependency). */
+export type PipelineProcessingStats = {
+  time?: unknown;
+  tokenTotal?: number;
+  measuredBtd?: number;
+  btcFeeUsdEquivalent?: number;
+  averageLatencyMs?: number;
+};
 
 export interface TerminalActivityRecordDraft {
   type: string;
@@ -57,25 +62,6 @@ function buildReadMeasurementState(
   };
 }
 
-function buildSupplySelectionState(selection: TerminalSupplySelectionState, authSessionLabel: string) {
-  return {
-    authSessionLabel,
-    selectedAuthSessionId: selection.selectedAuthSessionId,
-    selectedKind: selection.selectedKind,
-    searchTerm: selection.searchTerm,
-    selectedCount: selection.selectedCount,
-    filteredCount: selection.filteredCount,
-    totalFilteredEntries: selection.totalFilteredEntries,
-    selectedEntries: selection.filteredEntries
-      .filter((entry) => entry.selected)
-      .map((entry) => ({
-        id: entry.id,
-        title: entry.title,
-        kind: entry.kind,
-        tags: entry.tags,
-      })),
-  };
-}
 
 function buildRepositoryAnchorState(repositoryContext: TerminalRepositoryContextState, providerAccount: string) {
   const selectedRepository = repositoryContext.selectedRepository;
@@ -271,7 +257,7 @@ export function buildTerminalExecutionHistoryRequest(
     fallbackRun?: WorkspaceRun | null;
   },
 ) {
-  const summary = normalizeWhitespace(draft.summary) || 'Bitcode activity recorded from the Bitcode Terminal.';
+  const summary = normalizeWhitespace(draft.summary) || 'Bitcode activity recorded from the product surface.';
   const repoSnapshot = buildRepoSnapshot(options.repositoryContext, options.fallbackRun, draft.sourceRevision);
   const repositoryFullName = repoSnapshot ? `${repoSnapshot.org}/${repoSnapshot.repo}` : null;
   const draftOutput = isRecord(draft.output) ? draft.output : null;
@@ -290,8 +276,8 @@ export function buildTerminalExecutionHistoryRequest(
     ...(outputWithoutAssetPackCompletion || {}),
   };
   const context = {
-    source: 'terminal-terminal',
-    surface: 'Bitcode Terminal',
+    source: 'bitcode-product',
+    surface: 'Bitcode product',
     summary,
     ...(repoSnapshot
       ? {
@@ -316,7 +302,7 @@ export function buildTerminalExecutionHistoryRequest(
 }
 
 function serializeProcessingStats(
-  processingStats?: Pick<TerminalRunDetailSnapshot, 'processingStats'>['processingStats'] | null,
+  processingStats?: PipelineProcessingStats | null,
 ) {
   if (!processingStats) return null;
 
@@ -333,43 +319,6 @@ function serializeProcessingStats(
   };
 }
 
-export function buildTerminalClosureAssetPackCompletion(
-  closureState: TerminalClosureState | null,
-  detail?: Pick<TerminalRunDetailSnapshot, 'summary' | 'processingStats'> | null,
-) {
-  const closureFollowThrough = closureState
-    ? {
-        canonLabel: closureState.canonLabel,
-        settlementMetrics: closureState.settlement.metrics.slice(0, 4),
-        branchArtifacts: closureState.branch.chips.slice(0, 6),
-        proofFamilies: closureState.settlement.proofFamilies?.slice(0, 4) || [],
-        recentHistory: closureState.ledger.recentRuns?.slice(0, 4) || [],
-      }
-    : null;
-  const processingStats = serializeProcessingStats(detail?.processingStats);
-
-  if (!closureFollowThrough && !processingStats && !normalizeWhitespace(detail?.summary)) {
-    return null;
-  }
-
-  return {
-    ...(normalizeWhitespace(detail?.summary) ? { summary: normalizeWhitespace(detail?.summary) } : {}),
-    ...(processingStats ? { processingStats } : {}),
-    ...(closureState
-      ? {
-          closurePanels: {
-            canonLabel: closureState.canonLabel,
-            readReview: closureState.readReview,
-            verification: closureState.verification,
-            branch: closureState.branch,
-            settlement: closureState.settlement,
-            ledger: closureState.ledger,
-          },
-        }
-      : {}),
-    ...(closureFollowThrough ? { closureFollowThrough } : {}),
-  };
-}
 
 export function buildTerminalDepositWorkbenchDraft(
   workbench: TerminalDepositReadWorkbench,
@@ -513,50 +462,6 @@ export function buildTerminalReadAdmissionDraft(
   };
 }
 
-export function buildTerminalSupplySelectionDraft(
-  selection: TerminalSupplySelectionState,
-): TerminalActivityRecordDraft {
-  const selectedEntries = selection.filteredEntries
-    .filter((entry) => entry.selected)
-    .map((entry) => ({
-      id: entry.id,
-      title: entry.title,
-      kind: entry.kind,
-      tags: entry.tags,
-    }));
-  const authSessionLabel =
-    selection.authSessions.find((entry) => entry.value === selection.selectedAuthSessionId)?.label || 'No auth session';
-
-  return {
-    type: 'agentic-execution:asset-pack',
-    detailSection: 'transaction',
-    summary: `Recorded deposit-side selection with ${selection.selectedCount} supply reference${selection.selectedCount === 1 ? '' : 's'}.`,
-    input: {
-      selectedCount: selection.selectedCount,
-      selectedEntries,
-      selectedKind: selection.selectedKind,
-      searchTerm: selection.searchTerm,
-    },
-    output: {
-      depositSelection: {
-        authSessionLabel,
-        filteredCount: selection.filteredCount,
-        totalFilteredEntries: selection.totalFilteredEntries,
-      },
-      assetPackCompletion: {
-        bitcodeActivityState: {
-          supplySelection: buildSupplySelectionState(selection, authSessionLabel),
-        },
-      },
-    },
-    context: {
-      source: 'terminal-supply-selection-panel',
-      authSessionId: selection.selectedAuthSessionId,
-      selectedKind: selection.selectedKind,
-      searchTerm: selection.searchTerm || null,
-    },
-  };
-}
 
 export function buildTerminalFitWorkbenchDraft(
   workbench: TerminalDepositReadWorkbench,
@@ -716,36 +621,6 @@ export function buildTerminalObfuscationsAnchorDraft(input: {
   };
 }
 
-export function buildTerminalExternalInterfacingDraft(
-  snapshot: TerminalExternalRuntimeSnapshot,
-): TerminalActivityRecordDraft {
-  return {
-    type: 'agentic-execution:proof-refresh',
-    detailSection: 'closure',
-    summary: `Recorded external interface readiness for ${snapshot.configuredEnvironmentMode} Bitcode posture.`,
-    output: {
-      externalInterfacing: {
-        configuredEnvironmentMode: snapshot.configuredEnvironmentMode,
-        actualityDisposition: snapshot.actualityDisposition,
-        counts: snapshot.counts,
-        interfaces: snapshot.interfaces.map((entry) => ({
-          interfaceId: entry.interfaceId,
-          runtimeState: entry.runtimeState,
-          resultClass: entry.resultClass,
-          reconciliationState: entry.reconciliationState,
-          blocking: entry.blocking,
-        })),
-      },
-    },
-    context: {
-      source: 'terminal-external-interfacing-panel',
-      configuredEnvironmentMode: snapshot.configuredEnvironmentMode,
-      actualityDisposition: snapshot.actualityDisposition,
-      blockingInterfaces: snapshot.counts.blocking,
-      liveConfiguredInterfaces: snapshot.counts.liveConfigured,
-    },
-  };
-}
 
 function readExecutionErrorMessage(error: unknown): string | null {
   if (typeof error === 'string' && error.trim()) return error.trim();

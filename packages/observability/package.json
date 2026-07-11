@@ -14,7 +14,8 @@
       "require": "./src/observability.ts",
       "default": "./src/observability.ts"
     },
-    "./src/*": "./src/*"
+    "./src/*": "./src/*",
+    "./product-analytics": "./src/product-analytics.ts"
   },
   "files": [
     "src"
@@ -24,6 +25,8 @@
     "@bitcode/streams": "workspace:*",
     "@bitcode/sentry": "workspace:*",
     "@bitcode/errors": "workspace:*",
-    "ai": "^4.3.16"
+    "ai": "^4.3.16",
+    "@vercel/analytics": "^1.0.0",
+    "@bitcode/google-analytics": "workspace:*"
   }
 }
