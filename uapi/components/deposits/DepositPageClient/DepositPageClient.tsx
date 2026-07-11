@@ -12,6 +12,10 @@ import {
   readStringField,
   shortIdentifier,
 } from "@/components/deposits/models/deposit-format";
+import {
+  buildDepositAuthorityRows,
+  buildDepositSessionRows,
+} from "@/components/deposits/models/deposit-route-rows";
 import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDepositRouteParams } from "./hooks/use-deposit-route-params";
@@ -81,11 +85,6 @@ import {
 } from "@/components/deposits/models/deposit-route-model";
 import { usePipelineExecution } from "@/hooks/usePipelineExecution";
 import { buildPipelineRunActivityFromEvents } from "@/components/bitcode/pipeline/models/pipeline-run-activity";
-import { PipelineExecutionLog } from "@/components/bitcode/pipeline/PipelineExecutionLog/PipelineExecutionLog";
-import { ExecutionContextPillRow } from "@/components/bitcode/pipeline/ExecutionContextPillRow/ExecutionContextPillRow";
-import { RunClock } from "@/components/bitcode/pipeline/RunClock/RunClock";
-import { QuantumOrb } from "@/components/bitcode/effects/quantum-orb";
-import { verifiedAccessOrbConfig } from "@/components/marketing/MarketingLandingShared/MarketingLandingShared";
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/components/deposits/models/deposit-explainers";
 import {
@@ -1133,75 +1132,13 @@ export default function DepositPageClient() {
     });
   }, [repositoryContext]);
 
-  const sessionRows = [
-    {
-      label: "Repository",
-      value:
-        depositRouteSession.routeState.repositoryFullName ||
-        "select repository",
-    },
-    {
-      label: "Branch",
-      value: depositRouteSession.routeState.sourceBranch || "pending",
-    },
-    {
-      label: "Commit",
-      value: shortIdentifier(depositRouteSession.routeState.sourceCommit),
-    },
-    {
-      label: "Transaction",
-      value: shortIdentifier(depositRouteSession.routeState.transactionId),
-    },
-    { label: "Pipeline", value: DEPOSIT_OPTION_PIPELINE_ID },
-    { label: "Policy", value: DEPOSIT_OPTION_POLICY_ID },
-    { label: "Admission", value: DEPOSIT_OPTION_ADMISSION_ID },
-    { label: "Earnings", value: DEPOSITOR_EARNING_SUPPLY_INTELLIGENCE_ID },
-    {
-      label: "Option roots",
-      value: String(depositRouteSession.synthesis.roots.optionRoots.length),
-    },
-    {
-      label: "Positive ROI options",
-      value: String(depositRouteSession.policy.reviewablePositiveRoiCount),
-    },
-    {
-      label: "Admitted options",
-      value: String(depositRouteSession.admission.admittedCount),
-    },
-    {
-      label: "Expected compensation",
-      value: formatSats(
-        depositRouteSession.earningSupplyIntelligence.aggregate
-          .totalExpectedCompensationSats,
-      ),
-    },
-  ];
-
-  const authorityRows = [
-    {
-      label: "Authority",
-      value: depositRouteSession.organizationPolicyWalletAuthority.aggregate.state,
-    },
-    {
-      label: "Wallet",
-      value: depositRouteSession.organizationPolicyWalletAuthority.walletAuthority.state,
-    },
-    {
-      label: "Deposit policy",
-      value: depositRouteSession.organizationPolicyWalletAuthority.depositApproval.state,
-    },
-    {
-      label: "Required denials",
-      value: String(
-        depositRouteSession.organizationPolicyWalletAuthority.aggregate
-          .requiredDeniedActionCount,
-      ),
-    },
-    {
-      label: "Authority root",
-      value: depositRouteSession.organizationPolicyWalletAuthority.roots.authorityRoot,
-    },
-  ];
+  const sessionRows = buildDepositSessionRows(depositRouteSession, {
+    pipelineId: DEPOSIT_OPTION_PIPELINE_ID,
+    policyId: DEPOSIT_OPTION_POLICY_ID,
+    admissionId: DEPOSIT_OPTION_ADMISSION_ID,
+    earningsId: DEPOSITOR_EARNING_SUPPLY_INTELLIGENCE_ID,
+  });
+  const authorityRows = buildDepositAuthorityRows(depositRouteSession);
 
   const handleRecordActivity = useCallback(
     async (draft: TerminalActivityRecordDraft) => {
