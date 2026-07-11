@@ -7,7 +7,6 @@
 
 
 import {
-  DEPOSIT_OBFUSCATIONS_PLACEHOLDER,
   formatSats,
   readStringField,
   shortIdentifier,
@@ -24,11 +23,7 @@ import { DepositPipelinesMaster } from "@/components/deposits/DepositPipelinesMa
 import { DepositSynthesisTelemetry } from "@/components/deposits/DepositSynthesisTelemetry/DepositSynthesisTelemetry";
 import { DepositAssetPackOptions } from "@/components/deposits/DepositAssetPackOptions/DepositAssetPackOptions";
 import { DepositObfuscationsPanel } from "@/components/deposits/DepositObfuscationsPanel/DepositObfuscationsPanel";
-import {
-  Anchor,
-  Boxes,
-  RefreshCw,
-} from "lucide-react";
+import { Boxes } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { useAuth } from "@/components/bitcode/auth/AuthProvider/AuthProvider";
@@ -48,7 +43,6 @@ import DepositSourceSelection, {
 import {
   buildTerminalExecutionHistoryRequest,
   buildTerminalObfuscationsAnchorDraft,
-  formatObfuscationsAnchorDescription,
   mapExecutionHistoryRunToWorkspaceRun,
   readTerminalRouteError,
   type TerminalActivityRecordDraft,

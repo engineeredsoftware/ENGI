@@ -1,22 +1,7 @@
 'use client';
 
-import { throttle, getEntranceInitial, formatConversationExecutionLabel, renderTokenInMessageHelper } from './conversations-overlay-helpers';
 
-/**
- * Conversations Overlay - Bitcode production surface
- * 
- * A sophisticated conversation interface with:
- * - Multiple view modes (floating, sidebar, fullscreen, split-screen)
- * - Rich write input with source attachments and output destinations
- * - Real-time SSE streaming for messages and agentic execution events
- * - Embedded process logs with live updates
- * - Keyboard shortcuts for power users
- * - Smooth animations and transitions
- * 
- * This is the refactored version maintaining 100% feature parity
- * with zero visual regressions.
- */
-
+import dynamic from 'next/dynamic';
 import React, {
   useState,
   useRef,
@@ -26,9 +11,53 @@ import React, {
   useMemo,
   startTransition,
 } from 'react';
-
 import { motion, AnimatePresence } from 'framer-motion';
-import dynamic from 'next/dynamic';
+
+import {
+  throttle,
+  getEntranceInitial,
+  formatConversationExecutionLabel,
+  renderTokenInMessageHelper,
+} from './conversations-overlay-helpers';
+import {
+  sidebarBase,
+  sidebarBg,
+  sidebarBorderColor,
+  sidebarRight,
+  sidebarW28,
+  sidebarShadowRight,
+  ENABLE_SPLIT_VIEW,
+  SIDEBAR_WIDTH_REM,
+  ORB_GAP_REM,
+} from './conversations-overlay-constants';
+
+/**
+ * Conversations Overlay - Bitcode production surface
+ *
+ * A sophisticated conversation interface with:
+ * - Multiple view modes (floating, sidebar, fullscreen, split-screen)
+ * - Rich write input with source attachments and output destinations
+ * - Real-time SSE streaming for messages and agentic execution events
+ * - Embedded process logs with live updates
+ * - Keyboard shortcuts for power users
+ * - Smooth animations and transitions
+ *
+ * This is the refactored version maintaining 100% feature parity
+ * with zero visual regressions.
+ */
+
+let didPlayEntrance = false;
+
+const QuantumOrb = dynamic(
+  () =>
+    import('@/components/bitcode/effects/quantum-orb').then((mod) => ({
+      default: mod.QuantumOrb,
+    })),
+  {
+    ssr: false,
+    loading: () => null,
+  },
+);
 import { 
   ReloadIcon, 
   EnterFullScreenIcon, 
@@ -104,33 +133,6 @@ import type {
 import type { Chat, ChatMessage } from '@/components/conversations/hooks/UseChatState/UseChatState';
 
 // Import sidebar classes separately to avoid conflicts
-const sidebarBase = '';
-const sidebarBg = '';
-const sidebarBorderColor = '';
-const sidebarRight = '';
-const sidebarW28 = '';
-const sidebarShadowRight = '';
-
-
-// Dynamically import QuantumOrb for better performance
-const QuantumOrb = dynamic(() => import('@/components/bitcode/effects/quantum-orb').then(mod => ({ default: mod.QuantumOrb })), {
-  ssr: false,
-  loading: () => null
-});
-
-// ---------------------------------------------------------------------------
-// Constants
-// ---------------------------------------------------------------------------
-
-// Feature flags
-const ENABLE_SPLIT_VIEW = true;
-
-// Track entrance animation (module scope to persist across hot reloads)
-let didPlayEntrance = false;
-
-// Layout constants
-const SIDEBAR_WIDTH_REM = 19;
-const ORB_GAP_REM = 8;
 
 // Throttle helper
 
