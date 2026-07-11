@@ -23,7 +23,7 @@ import {
   DEPOSIT_SECTION_EXPLAINERS,
   toRichHoverExplainer,
 } from "@/app/deposits/deposit-explainers";
-import TerminalOpenAuxillariesButton from "@/app/terminal/TerminalOpenAuxillariesButton";
+import AuxillariesOpenButton from "@/components/auxillaries/AuxillariesOpenButton";
 import {
   buildTerminalRepositoryAnchorDraft,
   type TerminalActivityRecordDraft,
@@ -665,7 +665,7 @@ export default function DepositSourceSelection({
             needs to reconnect — Branch and Commit stay empty (and non-interactive)
             until then; the Repository list above is read from stored inventory only.
           </span>
-          <TerminalOpenAuxillariesButton
+          <AuxillariesOpenButton
             step="externals"
             label={`Reconnect ${getProviderLabel(provider)}`}
             className="shrink-0 border border-amber-300/24 bg-amber-400/12 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-amber-50 transition hover:border-amber-300/42 hover:bg-amber-400/18"

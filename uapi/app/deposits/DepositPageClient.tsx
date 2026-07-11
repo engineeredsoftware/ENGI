@@ -46,8 +46,8 @@ import {
   readTerminalTransactionId,
   writeTerminalTransactionId,
 } from "@/app/terminal/terminal-transaction-query";
-import type { WorkspaceRun } from "@/app/terminal/terminal-run-data";
-import TerminalTransactionsTable from "@/app/terminal/TerminalTransactionsTable";
+import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
+import BitcodePipelinesTable from "@/components/bitcode/pipeline/BitcodePipelinesTable";
 import {
   DEFAULT_TRANSACTION_FILTERS,
   DEFAULT_TRANSACTION_PAGINATION,
@@ -66,7 +66,7 @@ import {
   type DepositRouteSession,
 } from "./deposit-route-model";
 import { usePipelineExecution } from "@/hooks/usePipelineExecution";
-import { buildTerminalRunActivityFromEvents } from "@/app/terminal/terminal-run-activity";
+import { buildPipelineRunActivityFromEvents } from "@/components/bitcode/pipeline/models/pipeline-run-activity";
 import { PipelineExecutionLog } from "@/components/bitcode/execution/pipeline-execution-log";
 import { ExecutionContextPillRow } from "@/components/bitcode/execution/ExecutionContextPillRow";
 import { RunClock } from "@/components/bitcode/execution/RunClock";
@@ -796,7 +796,7 @@ export default function DepositPageClient() {
   );
   const synthesisActivity = useMemo(
     () =>
-      buildTerminalRunActivityFromEvents(
+      buildPipelineRunActivityFromEvents(
         synthesisEvents,
         synthesisWorkUpdate,
         synthesisIterationUpdates,
@@ -1793,7 +1793,7 @@ export default function DepositPageClient() {
               New (+) opens compose; row selection opens run detail. */}
           {!isDepositDetailOpen ? (
             <div className="mt-4" data-testid="deposits-pipelines-table">
-              <TerminalTransactionsTable
+              <BitcodePipelinesTable
                 runs={pipelineTableRuns}
                 selectedTransactionId={selectedRun?.id ?? null}
                 onSelectTransaction={replaceDepositRouteTransaction}

@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
 import { useAuth } from '@/components/bitcode/auth/AuthProvider';
 import { VCSIntegrationPanel } from '@/components/bitcode/vcs/VCSIntegrationPanel';
 import { getRepositoryInventorySourceLabel } from '@/components/bitcode/pipeline/models/repository-context';
-import { deriveBitcodeTransactionReadiness } from '@/app/terminal/bitcode-transaction-readiness';
+import { deriveBitcodeTransactionReadiness } from '@/components/bitcode/pipeline/models/transaction-readiness';
 import { useUserData } from '@/hooks/useUserData';
 import { bitcodeQaTelemetry } from '../../../lib/bitcode-qa-telemetry';
 
