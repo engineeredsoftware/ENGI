@@ -1270,3 +1270,14 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
   `@/components/{shadcn,bitcode}`) across uapi/packages/docs.
 - Removed empty `uapi/components/base/`.
 - Deferred: `Shadcn*` export renames; `execution/` → `pipeline/` (Phase 2).
+
+### Phase 3 progress (live Terminal module relocate)
+
+- `repository-context` lives at
+  `uapi/components/bitcode/pipeline/models/repository-context.ts` with
+  non-Terminal primary names + Terminal* aliases.
+- Deposits, Reads, Auxillaries externals import the Bitcode path;
+  `app/terminal/terminal-repository-context.ts` is a shim.
+- Remaining live Terminal imports (activity-history, transactions table,
+  workbench panels, run-data, selection query, shell bridge, routes already
+  partially extracted) continue in subsequent commits.

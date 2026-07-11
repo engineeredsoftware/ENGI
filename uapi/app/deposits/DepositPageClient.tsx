@@ -40,7 +40,7 @@ import {
   DepositIncludePathsIcon,
   ObfuscationsAnchorDescription,
 } from "@/app/deposits/deposit-obfuscations-path-icons";
-import type { TerminalRepositoryContextState } from "@/app/terminal/terminal-repository-context";
+import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import {
   clearTerminalTransactionId,
   readTerminalTransactionId,

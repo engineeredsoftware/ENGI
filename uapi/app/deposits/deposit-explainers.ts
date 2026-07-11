@@ -60,7 +60,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       'More providers (GitLab, Bitbucket) slot in through the same selector',
     ],
     references: {
-      source: [...DEPOSIT_SOURCE_REFS, 'uapi/app/terminal/terminal-repository-context.ts'],
+      source: [...DEPOSIT_SOURCE_REFS, 'uapi/components/bitcode/pipeline/models/repository-context.ts'],
       canon: DEPOSIT_CANON_REFS,
     },
   }),
@@ -77,7 +77,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       'A private repository still measures fully — only synthesis outputs are ever reviewed',
     ],
     references: {
-      source: ['uapi/app/deposits/DepositSourceSelection.tsx', 'uapi/app/terminal/terminal-repository-context.ts'],
+      source: ['uapi/app/deposits/DepositSourceSelection.tsx', 'uapi/components/bitcode/pipeline/models/repository-context.ts'],
       canon: [
         ...DEPOSIT_CANON_REFS,
         'BITCODE_SPEC_V48_NOTES.md § Gate-3 HOST architecture — the primitive Host, its kinds, in-host execution',

@@ -38,7 +38,7 @@ import {
   type TerminalActivityRecordDraft,
   upsertWorkspaceRun,
 } from "@/app/terminal/terminal-activity-history";
-import type { TerminalRepositoryContextState } from "@/app/terminal/terminal-repository-context";
+import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import {
   clearTerminalTransactionId,
   readTerminalTransactionId,

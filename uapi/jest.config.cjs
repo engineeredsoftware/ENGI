@@ -155,6 +155,7 @@ module.exports = {
     '<rootDir>/tests/productAnalytics.test.ts',
     // V48 product route helpers (Packs/Reads/Deposits; not Terminal)
     '<rootDir>/tests/productRoutes.test.ts',
+    '<rootDir>/tests/repositoryContext.test.ts',
     '<rootDir>/tests/searchableSelect.test.tsx',
     '<rootDir>/tests/vcsFileTreePicker.test.tsx',
     '<rootDir>/tests/vcsConnectionCard.test.tsx',

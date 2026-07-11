@@ -40,7 +40,7 @@ import {
   type TerminalRepositoryConnectionStatus,
   type TerminalRepositoryContextState,
   type TerminalRepositoryInventorySource,
-} from "@/app/terminal/terminal-repository-context";
+} from "@/components/bitcode/pipeline/models/repository-context";
 
 /** A previously anchored repository·branch·commit, ready to reload. */
 export interface DepositRepositoryAnchor {
