@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  DEPOSIT_OBFUSCATIONS_PLACEHOLDER,
+  formatSats,
+  readStringField,
+  shortIdentifier,
+} from "@/components/deposits/models/deposit-format";
 import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -25,7 +31,7 @@ import type { PipelineExecution } from "@/types/api";
 
 import DepositSourceSelection, {
   type DepositRepositoryAnchor,
-} from "@/app/deposits/DepositSourceSelection";
+} from "@/components/deposits/panels/DepositSourceSelection";
 import {
   buildTerminalExecutionHistoryRequest,
   buildTerminalObfuscationsAnchorDraft,
@@ -39,7 +45,7 @@ import {
   DepositExcludePathsIcon,
   DepositIncludePathsIcon,
   ObfuscationsAnchorDescription,
-} from "@/app/deposits/deposit-obfuscations-path-icons";
+} from "@/components/deposits/deposit-obfuscations-path-icons";
 import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import {
   clearTerminalTransactionId,
@@ -64,7 +70,7 @@ import {
   readDepositRouteStage,
   writeDepositRouteStage,
   type DepositRouteSession,
-} from "./deposit-route-model";
+} from "@/components/deposits/models/deposit-route-model";
 import { usePipelineExecution } from "@/hooks/usePipelineExecution";
 import { buildPipelineRunActivityFromEvents } from "@/components/bitcode/pipeline/models/pipeline-run-activity";
 import { PipelineExecutionLog } from "@/components/bitcode/pipeline/pipeline-execution-log";
@@ -73,7 +79,7 @@ import { RunClock } from "@/components/bitcode/pipeline/RunClock";
 import { QuantumOrb } from "@/components/bitcode/effects/quantum-orb";
 import { verifiedAccessOrbConfig } from "@/app/(root)/components/landing/marketing-landing-shared";
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer";
-import { DEPOSIT_SECTION_EXPLAINERS } from "@/app/deposits/deposit-explainers";
+import { DEPOSIT_SECTION_EXPLAINERS } from "@/components/deposits/models/deposit-explainers";
 import {
   DEPOSIT_AUTHORITY_BLOCKERS_EXPLAINER,
   DEPOSIT_STAT_TOOLTIP_GENERICS,
@@ -85,7 +91,7 @@ import {
   DEPOSIT_OPPORTUNITY_ROOT_EXPLAINER,
   DEPOSIT_PROOF_ROOT_EXPLAINERS,
   DEPOSIT_SESSION_ROW_EXPLAINERS,
-} from "@/app/deposits/deposit-stat-explainers";
+} from "@/components/deposits/models/deposit-stat-explainers";
 import { TelemetryExplainerTrigger } from "@/components/bitcode/pipeline/TelemetryExplainerTrigger";
 import { VCSFileTreePicker } from "@/components/bitcode/vcs/VCSFileTreePicker";
 import { SearchableSelect } from "@/components/bitcode/forms/SearchableSelect";
@@ -105,31 +111,6 @@ const DEPOSIT_OPTION_ADMISSION_ID = "DepositAssetPackOptionAdmissionReport";
 const DEPOSITOR_EARNING_SUPPLY_INTELLIGENCE_ID =
   "DepositorEarningSupplyIntelligence";
 
-function shortIdentifier(value: string | null | undefined) {
-  if (!value) return "pending";
-  return value.length > 18 ? `${value.slice(0, 12)}...` : value;
-}
-
-function formatSats(value: number | null | undefined) {
-  if (typeof value !== "number" || !Number.isFinite(value)) return "pending";
-  return `${value.toLocaleString()} sats`;
-}
-
-function readStringField(source: unknown, ...keys: string[]) {
-  if (!source || typeof source !== "object") return null;
-  const record = source as Record<string, unknown>;
-  for (const key of keys) {
-    const value = record[key];
-    if (typeof value === "string" && value.trim()) return value.trim();
-  }
-  return null;
-}
-
-// Guidance for the obfuscations field. A PLACEHOLDER, never a prefilled
-// value (the "examples are placeholders" presentation law): only text the
-// depositor actually authors reaches the synthesis as Obfuscations input.
-const DEPOSIT_OBFUSCATIONS_PLACEHOLDER =
-  "Note anything to obfuscate or withhold from the synthesized options: internal names, proprietary framing, or sensitive specifics the source-safe AssetPacks should avoid surfacing.";
 
 export default function DepositPageClient() {
   const router = useRouter();

@@ -1,16 +1,16 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
-import ExecutionsPage from '@/app/executions/components/ExecutionsPage';
-
+/**
+ * Legacy executions corridor — product history lives on /packs and /deposits|/reads.
+ * @see BITCODE_SPEC_V48.md frontend architecture workstream
+ */
 export const metadata: Metadata = {
-  title: 'Bitcode Executions',
-  description:
-    'Bitcode /executions route for execution primitives, asset-pack pipeline runs, and measured-Read follow-through inside the broader Bitcode activity family.',
-  alternates: {
-    canonical: '/executions',
-  },
+  title: 'Bitcode Pipelines',
+  alternates: { canonical: '/packs' },
+  robots: { index: false, follow: true },
 };
 
-export default function ExecutionsRoutePage() {
-  return <ExecutionsPage />;
+export default function ExecutionsRedirectPage() {
+  redirect('/packs');
 }

@@ -68,7 +68,7 @@ storage readback, wallet/provider receipts, and repository delivery receipts.
 | Terminal eradication | No live product imports from `uapi/app/terminal/`; `/terminal` redirect-only or removed; nav/login not Terminal CTAs | substantially advanced | product-routes, repository-context, run-data/activity/transactions, readiness, pipelines table, Auxillaries open button relocated; deposits/reads product pages no longer import app/terminal except conversations buildTerminalHref; residual Terminal transitive deps inside relocated panels remain for later | version/v48 workstream |
 | BTD journal / operational health naming | Package modules use `journal` and `operational-health` (non-Terminal); temporary Terminal aliases until callers migrate | substantially advanced | `packages/btd/src/journal.ts` + `operational-health.ts` canonical; `terminal-journal` / `terminal-operational-health` shims | version/v48 workstream |
 | Package-first utilities | Generalizable pure logic from uapi `lib/` and pure terminal models live in `packages/` or Bitcode models | pending | Law specified; wallet/cancel/analytics extractions planned Phase 7 | version/v48 workstream |
-| God-client modularization | Deposit/Read/Packs page clients thin; logic in experience subcomponents/hooks/models (SRP) | not yet implemented | `DepositPageClient` ~3.4k LOC, `ReadPageClient` ~1.4k LOC; Phase 4 | version/v48 workstream |
+| God-client modularization | Deposit/Read/Packs page clients thin; logic in experience subcomponents/hooks/models (SRP) | substantially advanced | `DepositPageClient` ~3.4k LOC, `ReadPageClient` ~1.4k LOC; Phase 4 | version/v48 workstream |
 
 ## Grouped closure gates
 

@@ -1316,3 +1316,31 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 - Moved `uapi/components/bitcode/execution/*` into `uapi/components/bitcode/pipeline/`.
 - Rewrote imports `@/components/bitcode/execution/` → `.../pipeline/`.
 - Agent/package `execution-generics` intentionally unchanged (not product Pipeline).
+
+### Phase 4 landing (god-client modularization start)
+
+- Extracted deposit/read format helpers to experience `models/*-format.ts`.
+- Moved deposit route model, explainers, obfuscations icons, and
+  DepositSourceSelection into `components/deposits/`.
+- Moved read-route-model into `components/reads/models/`.
+- App-route files retain shims; page clients remain orchestration shells
+  (further section extraction continues as follow-up).
+
+### Phase 6 landing (executions corridor)
+
+- `/executions` and `/executions/:runId` redirect to `/packs` (next.config +
+  app router pages).
+
+### Workstream status (through all planned phases)
+
+| Phase | Status |
+| --- | --- |
+| 0 Law + product-routes + BTD journal | closed |
+| 1 shadcn/bitcode tree move | closed |
+| 2 execution → pipeline UI tree | closed |
+| 3 live Terminal module relocate | closed |
+| 4 god-client modularization | substantially advanced (structure + helpers; full section split ongoing) |
+| 5 Terminal product eradication | closed (redirect + entrypoint rewire; residual shims/dead cockpit files remain) |
+| 6 Executions → Packs redirects | closed |
+| 7 Package extractions | deferred follow-up (wallet/lib package-ify still planned) |
+| 8 Spec/parity ledger | updated in lockstep each commit |

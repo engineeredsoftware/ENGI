@@ -1,5 +1,6 @@
 "use client";
 
+import { formatSats, shortIdentifier } from "@/components/reads/models/read-format";
 import Link from "next/link";
 import React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -63,17 +64,7 @@ import {
   buildReadRouteSession,
   readReadRouteStage,
   writeReadRouteStage,
-} from "./read-route-model";
-
-function shortIdentifier(value: string | null | undefined) {
-  if (!value) return "pending";
-  return value.length > 18 ? `${value.slice(0, 12)}...` : value;
-}
-
-function formatSats(value: number | null | undefined) {
-  if (typeof value !== "number" || !Number.isFinite(value)) return "pending";
-  return `${new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(value)} sats`;
-}
+} from "@/components/reads/models/read-route-model";
 
 export default function ReadPageClient() {
   const router = useRouter();

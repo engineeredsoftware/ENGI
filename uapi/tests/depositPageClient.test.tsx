@@ -89,7 +89,7 @@ jest.mock("@/components/bitcode/layout/bitcode-shell-bridge", () => ({
   }),
 }));
 
-jest.mock("@/app/deposits/DepositSourceSelection", () => ({
+jest.mock("@/components/deposits/panels/DepositSourceSelection", () => ({
   __esModule: true,
   default: ({
     onContextChange,
