@@ -33,7 +33,7 @@ jest.mock("@/components/bitcode/layout/bitcode-shell-bridge", () => ({
   }) => <>{children}</>,
 }));
 
-jest.mock("@/app/terminal/TerminalRepositoryContextPanel", () => ({
+jest.mock("@/components/reads/panels/ReadsRepositoryContextPanel", () => ({
   __esModule: true,
   default: ({
     onContextChange,
@@ -66,7 +66,7 @@ jest.mock("@/app/terminal/TerminalRepositoryContextPanel", () => ({
   },
 }));
 
-jest.mock("@/app/terminal/TerminalReadScenarioPanel", () => ({
+jest.mock("@/components/reads/panels/ReadsReadScenarioPanel", () => ({
   __esModule: true,
   default: () => (
     <section aria-label="Read request scenarios">
@@ -75,7 +75,7 @@ jest.mock("@/app/terminal/TerminalReadScenarioPanel", () => ({
   ),
 }));
 
-jest.mock("@/app/terminal/TerminalDepositReadWorkbench", () => ({
+jest.mock("@/components/reads/panels/ReadsDepositReadWorkbench", () => ({
   __esModule: true,
   default: ({
     admittedReadActivityId,

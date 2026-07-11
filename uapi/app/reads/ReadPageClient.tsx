@@ -26,11 +26,11 @@ import {
   ProductRouteStatePanel,
   ProductRouteStepGrid,
 } from "@/components/bitcode/routes/product-route-shell";
-import TerminalDepositReadWorkbench from "@/app/terminal/TerminalDepositReadWorkbench";
-import TerminalRepositoryContextPanel from "@/app/terminal/TerminalRepositoryContextPanel";
-import TerminalReadScenarioPanel from "@/app/terminal/TerminalReadScenarioPanel";
+import ReadsDepositReadWorkbench from "@/components/reads/panels/ReadsDepositReadWorkbench";
+import ReadsRepositoryContextPanel from "@/components/reads/panels/ReadsRepositoryContextPanel";
+import ReadsReadScenarioPanel from "@/components/reads/panels/ReadsReadScenarioPanel";
 import { BitcodeShellBridgeProvider } from "@/components/bitcode/layout/bitcode-shell-bridge";
-import type { TerminalDepositedSourceRevision } from "@/app/terminal/terminal-deposit-read-workbench";
+import type { TerminalDepositedSourceRevision } from "@/components/reads/models/deposit-read-workbench";
 import {
   buildTerminalExecutionHistoryRequest,
   mapExecutionHistoryRunToWorkspaceRun,
@@ -909,17 +909,17 @@ export default function ReadPageClient() {
         <section className="grid gap-5 xl:grid-cols-[minmax(0,1.4fr)_minmax(360px,0.6fr)]">
           <div className="grid min-w-0 gap-5">
             <div className="grid gap-5 xl:grid-cols-2">
-              <TerminalRepositoryContextPanel
+              <ReadsRepositoryContextPanel
                 preferredRepository={selectedRun?.repository || null}
                 onContextChange={setRepositoryContext}
                 onRecordActivity={handleRecordActivity}
               />
-              <TerminalReadScenarioPanel
+              <ReadsReadScenarioPanel
                 onRecordActivity={handleRecordActivity}
                 showDemonstrationScenarios={false}
               />
             </div>
-            <TerminalDepositReadWorkbench
+            <ReadsDepositReadWorkbench
               repositoryContext={repositoryContext}
               depositedSourceRevision={depositedSourceRevision}
               admittedReadActivityId={admittedReadActivityId}

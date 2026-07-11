@@ -1289,6 +1289,12 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
   `bitcode/pipeline/models/pipeline-activity-history.ts`
 - `bitcode-shell-bridge` (was terminal-shell-bridge) →
   `bitcode/layout/bitcode-shell-bridge.tsx` (`BitcodeShellBridgeProvider`)
-- **Still live under Terminal for product surfaces:** deposit-read-workbench
-  model + panels, repository context panel, read scenario panel; conversations
-  still uses `buildTerminalHref` until Phase 5.
+- Reads workbench stack relocated:
+  - `reads/models/{deposit-read-workbench,read-scenarios,enterprise-reading-ux-state}`
+  - `reads/panels/{ReadsDepositReadWorkbench,ReadsRepositoryContextPanel,ReadsReadScenarioPanel}`
+  - supporting `bitcode/pipeline/{shell-reading,cards/*}`
+- **Still Terminal-only for product surfaces:** conversations
+  `buildTerminalHref` until Phase 5 redirect/eradication. Deposits/reads
+  product pages no longer import Terminal modules except via residual
+  transitive deps inside relocated panels (workspace explainers, pipeline
+  harness client, protocol projection).

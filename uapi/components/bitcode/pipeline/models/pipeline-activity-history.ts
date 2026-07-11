@@ -9,8 +9,8 @@ import { buildAgenticExecutionSummary } from '@bitcode/api/src/executions/agenti
 import type { PipelineExecution } from '@/types/api';
 
 import type { TerminalClosureState } from '@/app/terminal/terminal-closure-state';
-import type { TerminalDepositReadWorkbench, TerminalSourceRevision } from '@/app/terminal/terminal-deposit-read-workbench';
-import type { TerminalReadScenariosState } from '@/app/terminal/terminal-read-scenarios';
+import type { TerminalDepositReadWorkbench, TerminalSourceRevision } from '@/components/reads/models/deposit-read-workbench';
+import type { TerminalReadScenariosState } from '@/components/reads/models/read-scenarios';
 import type { TerminalExternalRuntimeSnapshot } from '@/app/terminal/terminal-external-runtime';
 import type { WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 import type { TerminalRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
