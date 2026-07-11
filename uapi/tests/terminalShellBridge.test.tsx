@@ -6,7 +6,7 @@ import {
   useTerminalShellBridge,
 } from '@/app/terminal/terminal-shell-bridge';
 
-jest.mock('@/app/terminal/demonstration-witness-runtime', () => ({
+jest.mock('@/components/bitcode/layout/demonstration-witness-runtime', () => ({
   readBitcodeDemonstrationShellSnapshot: jest.fn(),
   readBitcodeDemonstrationShellControls: jest.fn(),
 }));
@@ -14,7 +14,7 @@ jest.mock('@/app/terminal/demonstration-witness-runtime', () => ({
 const {
   readBitcodeDemonstrationShellSnapshot,
   readBitcodeDemonstrationShellControls,
-} = jest.requireMock('@/app/terminal/demonstration-witness-runtime') as {
+} = jest.requireMock('@/components/bitcode/layout/demonstration-witness-runtime') as {
   readBitcodeDemonstrationShellSnapshot: jest.Mock;
   readBitcodeDemonstrationShellControls: jest.Mock;
 };

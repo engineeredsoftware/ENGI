@@ -1,6 +1,6 @@
 import type { TerminalTransactionDetailSection } from '@/components/bitcode/pipeline/models/pipeline-selection-query';
-// Compatibility: handoff still targets /terminal until Phase 5 redirect/eradication.
-import { buildTerminalHref } from '@/app/terminal/terminal-routes';
+// Handoff opens Packs (legacy field name terminalRoute kept for envelope compatibility).
+import { buildPacksHref } from '@/components/bitcode/routes/product-routes';
 import type { TerminalEnterpriseReadingStepId } from '@/components/reads/models/enterprise-reading-ux-state';
 
 import type { ConversationSourceSelectorPreview } from './conversation-source-selector';
@@ -229,7 +229,7 @@ export function buildConversationTerminalHandoffEnvelope(
     sourceSafeSummary: redactedSummary.text.slice(0, 420) || 'No handoff summary prepared.',
     readingStage,
     policyResult: policy.policyResult,
-    terminalRoute: buildTerminalHref(terminalParams),
+    terminalRoute: buildPacksHref(terminalParams),
     transactionDetail: workflow.terminalDetail,
     proofRoot,
     eventId: `conversation.terminal_handoff.${input.workflow}.${policy.policyResult}`,

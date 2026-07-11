@@ -4,7 +4,7 @@ import {
   filterTerminalTransactions,
   normalizeTerminalTransactions,
 } from '@/app/terminal/terminal-transactions';
-import type { WorkspaceRun } from '@/app/terminal/terminal-run-data';
+import type { WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 
 describe('terminal-transactions', () => {
   const runs: WorkspaceRun[] = [

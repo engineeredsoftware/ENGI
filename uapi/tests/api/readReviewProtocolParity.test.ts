@@ -263,7 +263,7 @@ describe('V26 Read-review SPEC-IMPL parity across protocol and commercial API', 
       readBitcodeRequestBody: readRequestBody,
       toBitcodeErrorResponse: mapBitcodeError,
     }));
-    jest.doMock('@/app/terminal/bitcode-transaction-route-readiness', () => ({
+    jest.doMock('@/components/bitcode/pipeline/models/transaction-route-readiness', () => ({
       requireBitcodeSignedTransactionReadiness: jest.fn(async () => ({ repositoryProvider: 'mock-github' })),
     }));
 
@@ -301,7 +301,7 @@ describe('V26 Read-review SPEC-IMPL parity across protocol and commercial API', 
       readBitcodeRequestBody: readRequestBody,
       toBitcodeErrorResponse: mapBitcodeError,
     }));
-    jest.doMock('@/app/terminal/bitcode-transaction-route-readiness', () => ({
+    jest.doMock('@/components/bitcode/pipeline/models/transaction-route-readiness', () => ({
       requireBitcodeSignedTransactionReadiness: jest.fn(async () => ({ repositoryProvider: 'mock-github' })),
     }));
 
@@ -386,7 +386,7 @@ describe('V26 Read-review SPEC-IMPL parity across protocol and commercial API', 
       readBitcodeRequestBody: readRequestBody,
       toBitcodeErrorResponse: mapBitcodeError,
     }));
-    jest.doMock('@/app/terminal/bitcode-transaction-route-readiness', () => ({
+    jest.doMock('@/components/bitcode/pipeline/models/transaction-route-readiness', () => ({
       requireBitcodeSignedTransactionReadiness: jest.fn(async () => ({ repositoryProvider: 'mock-github' })),
     }));
 

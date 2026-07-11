@@ -3,7 +3,7 @@ import {
   buildTerminalRunDetailFromSelectedRun,
   normalizeTerminalRunDetailPayload,
 } from '@/app/terminal/terminal-transaction-detail-snapshot';
-import type { WorkspaceRun } from '@/app/terminal/terminal-run-data';
+import type { WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 
 const baseRun: WorkspaceRun = {
   id: 'run-1',

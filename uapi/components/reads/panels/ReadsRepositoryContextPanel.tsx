@@ -22,7 +22,7 @@ import {
 import {
   TERMINAL_INLINE_EXPLAINERS,
   TERMINAL_WORKSPACE_EXPLAINERS,
-} from '@/app/terminal/terminal-workspace-explainers';
+} from '@/components/bitcode/pipeline/models/workspace-explainers';
 import {
   TERMINAL_REPOSITORY_PROVIDERS,
   getRepositoryInventorySourceLabel,
@@ -35,7 +35,7 @@ import {
   getProviderLabel,
   normalizeRepositoryProvider,
 } from '@/components/bitcode/pipeline/models/repository-context';
-import { buildTerminalHref, TERMINAL_ROUTE } from '@/app/terminal/terminal-routes';
+import { buildPacksHref, PACKS_ROUTE } from '@/components/bitcode/routes/product-routes';
 import { jumpToShellSection } from '@/components/bitcode/pipeline/shell-reading';
 
 async function readJsonResponse(response: Response) {
@@ -76,8 +76,8 @@ export default function ReadsRepositoryContextPanel({
   preferredRepository,
   onContextChange,
   onRecordActivity,
-  routePath = TERMINAL_ROUTE,
-  buildRouteHref = buildTerminalHref,
+  routePath = PACKS_ROUTE,
+  buildRouteHref = buildPacksHref,
   showContinueToDeposit = true,
 }: TerminalRepositoryContextPanelProps) {
   const router = useRouter();

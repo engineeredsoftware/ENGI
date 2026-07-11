@@ -11,7 +11,7 @@ import {
 } from '@/app/terminal/terminal-transaction-detail';
 import type { TerminalClosureState } from '@/app/terminal/terminal-closure-state';
 import type { TerminalRunDetailSnapshot } from '@/app/terminal/terminal-transaction-detail-snapshot';
-import type { WorkspaceRun } from '@/app/terminal/terminal-run-data';
+import type { WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 
 const selectedTransaction: WorkspaceRun = {
   id: 'tx-001',

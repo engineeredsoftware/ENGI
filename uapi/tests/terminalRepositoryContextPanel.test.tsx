@@ -14,7 +14,7 @@ jest.mock('next/navigation', () => ({
   useSearchParams: () => mockSearchParams,
 }));
 
-jest.mock('@/app/terminal/TerminalWorkspaceCard', () => ({
+jest.mock('@/components/bitcode/pipeline/cards/BitcodeWorkspaceCard', () => ({
   __esModule: true,
   default: function MockTerminalWorkspaceCard({
     title,

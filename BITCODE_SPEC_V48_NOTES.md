@@ -1298,3 +1298,15 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
   product pages no longer import Terminal modules except via residual
   transitive deps inside relocated panels (workspace explainers, pipeline
   harness client, protocol projection).
+
+### Phase 5 landing (Terminal eradication)
+
+- `/terminal` page redirects to `/packs` (query-preserving); next.config also
+  redirects `/terminal` and `/executions` → `/packs`.
+- Auxillary overlay root, nav, login default, conversations, orbitals links,
+  OAuth mock, and handoff hrefs target `/packs`.
+- Residual shared modules relocated: workspace-explainers, pipeline-harness-client,
+  transaction-route-readiness, demonstration-witness-runtime.
+- `TERMINAL_ROUTE` / `buildTerminalHref` alias Packs in product-routes.
+- Cockpit modules may remain as shims/dead residual under `app/terminal/` until
+  fully deleted; no product surface depends on the Terminal page client.

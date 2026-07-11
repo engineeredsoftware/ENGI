@@ -6,7 +6,7 @@ import TerminalLiveSummaryStrip from '@/app/terminal/TerminalLiveSummaryStrip';
 
 const mockUseTerminalShellBridge = jest.fn();
 
-jest.mock('@/app/terminal/TerminalWorkspaceCard', () => ({
+jest.mock('@/components/bitcode/pipeline/cards/BitcodeWorkspaceCard', () => ({
   __esModule: true,
   default: function MockTerminalWorkspaceCard({
     title,
@@ -24,7 +24,7 @@ jest.mock('@/app/terminal/TerminalWorkspaceCard', () => ({
   },
 }));
 
-jest.mock('@/app/terminal/terminal-workspace-explainers', () => ({
+jest.mock('@/components/bitcode/pipeline/models/workspace-explainers', () => ({
   TERMINAL_WORKSPACE_EXPLAINERS: {
     ledgerPulse: [],
   },

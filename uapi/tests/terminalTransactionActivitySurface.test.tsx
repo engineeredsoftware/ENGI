@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 
 import TerminalTransactionActivitySurface from '@/app/terminal/TerminalTransactionActivitySurface';
-import type { WorkspaceRun } from '@/app/terminal/terminal-run-data';
+import type { WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 import type { TerminalRunDetailSnapshot } from '@/app/terminal/terminal-transaction-detail-snapshot';
 
 jest.mock('@/components/bitcode/execution/BitcodeExecutionStreamPanel', () => ({

@@ -12,7 +12,7 @@ import {
 } from '@/app/terminal/terminal-enterprise-reading-ux-state';
 import {
   buildTerminalReadFitsFindingSynthesisHarnessStreamSnapshot,
-} from '@/app/terminal/terminal-pipeline-harness-client';
+} from '@/components/bitcode/pipeline/pipeline-harness-client';
 import {
   readTerminalConversationHandoffContext,
   readTerminalTransactionDetailSection,

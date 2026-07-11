@@ -1,29 +1,31 @@
 import type { Metadata } from 'next';
-import React, { Suspense } from 'react';
+import { redirect } from 'next/navigation';
 
-import TerminalPageClient from '@/app/terminal/TerminalPageClient';
-
+/**
+ * Legacy /terminal cockpit is eradicated. Preserve query string (e.g.
+ * auxillary-open-to, transactionId) onto /packs.
+ * @see BITCODE_SPEC_V48.md § Legacy Terminal eradication
+ */
 export const metadata: Metadata = {
-  title: 'Bitcode Terminal Operator Workspace',
-  description:
-    'Retained Bitcode operator workspace for detailed execution inspection, compatibility activity, proofs, and closure history.',
-  alternates: {
-    canonical: '/terminal',
-  },
+  title: 'Bitcode Packs',
+  alternates: { canonical: '/packs' },
+  robots: { index: false, follow: true },
 };
 
-export default function TerminalPage() {
-  return (
-    <Suspense
-      fallback={
-        <main className="min-h-screen bg-[#02050d] px-6 pt-32 text-neutral-100">
-          <div className="rounded-2xl border border-emerald-400/15 bg-white/5 px-5 py-5 text-sm text-neutral-300">
-            Reading Terminal route state…
-          </div>
-        </main>
+type TerminalRedirectPageProps = {
+  searchParams?: Record<string, string | string[] | undefined>;
+};
+
+export default function TerminalRedirectPage({ searchParams }: TerminalRedirectPageProps) {
+  const params = new URLSearchParams();
+  if (searchParams) {
+    for (const [key, value] of Object.entries(searchParams)) {
+      if (typeof value === 'string') params.set(key, value);
+      else if (Array.isArray(value)) {
+        for (const item of value) params.append(key, item);
       }
-    >
-      <TerminalPageClient />
-    </Suspense>
-  );
+    }
+  }
+  const query = params.toString();
+  redirect(query ? `/packs?${query}` : '/packs');
 }

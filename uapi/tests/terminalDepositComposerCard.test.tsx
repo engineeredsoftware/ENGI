@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 
 import TerminalDepositComposer from '@/app/terminal/TerminalDepositComposer';
 
-jest.mock('@/app/terminal/TerminalWorkspaceCard', () => ({
+jest.mock('@/components/bitcode/pipeline/cards/BitcodeWorkspaceCard', () => ({
   __esModule: true,
   default: function MockTerminalWorkspaceCard({
     title,
@@ -47,7 +47,7 @@ jest.mock('@/components/bitcode/execution/BitcodeChipCloud', () => ({
   },
 }));
 
-jest.mock('@/app/terminal/terminal-workspace-explainers', () => ({
+jest.mock('@/components/bitcode/pipeline/models/workspace-explainers', () => ({
   TERMINAL_WORKSPACE_EXPLAINERS: {
     depositComposer: [],
   },

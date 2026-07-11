@@ -205,9 +205,9 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
   const isContainedSurface = surfaceVariant === 'contained'
   const nextWorkspacePath =
     nextParam.startsWith('/auxillaries') ||
-    nextParam.startsWith('/terminal')
+    nextParam.startsWith('/packs') || nextParam.startsWith('/terminal')
       ? nextParam
-      : '/terminal'
+      : '/packs'
   
   // Check for invite token in URL params
   const inviteToken = searchParams.get('invite')

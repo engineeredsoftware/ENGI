@@ -250,7 +250,7 @@ export function PhoneConnectSmart({
           {/* Quick Actions */}
           <div className="grid grid-cols-2 gap-3">
             <a
-              href="/terminal?auxillary-open-to=externals"
+              href="/packs?auxillary-open-to=externals"
               className="text-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
             >
               <svg className="w-5 h-5 mx-auto mb-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

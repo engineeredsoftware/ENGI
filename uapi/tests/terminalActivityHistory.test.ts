@@ -13,7 +13,7 @@ import {
 } from '@/app/terminal/terminal-activity-history';
 import type { TerminalExternalRuntimeSnapshot } from '@/app/terminal/terminal-external-runtime';
 import type { TerminalRepositoryContextState } from '@/app/terminal/terminal-repository-context';
-import type { WorkspaceRun } from '@/app/terminal/terminal-run-data';
+import type { WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 import type { TerminalClosureState } from '@/app/terminal/terminal-closure-state';
 import type { PipelineExecution } from '@/types/api';
 

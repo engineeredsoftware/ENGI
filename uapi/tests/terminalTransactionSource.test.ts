@@ -6,7 +6,7 @@ import {
   resolveTerminalTransactionSource,
   shouldUseReviewFallbackTransactions,
 } from '@/app/terminal/terminal-transaction-source';
-import type { WorkspaceRun } from '@/app/terminal/terminal-run-data';
+import type { WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 
 describe('terminal-transaction-source', () => {
   it('enables review fallback only when live history is empty outside full mock review', () => {

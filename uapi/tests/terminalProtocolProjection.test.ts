@@ -4,7 +4,7 @@ import {
   mergeProtocolProjectedRun,
 } from '@/app/terminal/terminal-protocol-projection';
 import type { TerminalRepositoryContextState } from '@/app/terminal/terminal-repository-context';
-import type { WorkspaceRun } from '@/app/terminal/terminal-run-data';
+import type { WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 
 describe('terminal-protocol-projection', () => {
   const repositoryContext: TerminalRepositoryContextState = {

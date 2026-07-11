@@ -4,7 +4,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import TerminalExternalInterfacingPanel from '@/app/terminal/TerminalExternalInterfacingPanel';
 
-jest.mock('@/app/terminal/TerminalWorkspaceCard', () => ({
+jest.mock('@/components/bitcode/pipeline/cards/BitcodeWorkspaceCard', () => ({
   __esModule: true,
   default: function MockTerminalWorkspaceCard({
     title,
@@ -22,7 +22,7 @@ jest.mock('@/app/terminal/TerminalWorkspaceCard', () => ({
   },
 }));
 
-jest.mock('@/app/terminal/terminal-workspace-explainers', () => ({
+jest.mock('@/components/bitcode/pipeline/models/workspace-explainers', () => ({
   TERMINAL_WORKSPACE_EXPLAINERS: {
     boundaryRuntime: [],
   },

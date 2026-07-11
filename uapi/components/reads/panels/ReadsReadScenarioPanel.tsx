@@ -19,7 +19,7 @@ import {
 import {
   TERMINAL_INLINE_EXPLAINERS,
   TERMINAL_WORKSPACE_EXPLAINERS,
-} from '@/app/terminal/terminal-workspace-explainers';
+} from '@/components/bitcode/pipeline/models/workspace-explainers';
 import {
   normalizeTerminalReadFittingReview,
   normalizeTerminalReadScenarios,

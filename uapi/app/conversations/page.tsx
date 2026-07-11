@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function ConversationsPage() {
   if (FEATURE_FLAGS.DISABLE_CONVERSATIONS_ROUTE) {
-    redirect('/terminal');
+    redirect('/packs');
   }
 
   return <ConversationsRouteClient />;

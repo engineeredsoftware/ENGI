@@ -9,7 +9,7 @@ import {
   buildBitcodeActivityRecordFromNotification,
   summarizeBitcodeActivityKinds,
 } from '@/components/bitcode/activity/bitcode-activity-model';
-import { MOCK_RUNS } from '@/app/terminal/terminal-run-data';
+import { MOCK_RUNS } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 import {
   getMockOrbitalNotifications,
   isOrbitalNotificationsMockMode,

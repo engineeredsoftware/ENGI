@@ -428,7 +428,7 @@ export function ExecutionsClient() {
           <div className="mt-8 flex flex-wrap gap-3">
             <button
               type="button"
-              onClick={() => router.push('/terminal')}
+              onClick={() => router.push('/packs')}
               className="inline-flex items-center rounded-full border border-[#7fd0ff]/30 bg-[#0c1e29] px-5 py-3 text-sm font-medium text-white transition hover:border-[#7fd0ff]/60 hover:bg-[#133244]"
             >
               Open Bitcode Terminal

@@ -20,7 +20,7 @@ import {
   readTerminalRouteError,
   type TerminalActivityRecordDraft,
 } from '@/components/bitcode/pipeline/models/pipeline-activity-history';
-import { TERMINAL_WORKSPACE_EXPLAINERS } from '@/app/terminal/terminal-workspace-explainers';
+import { TERMINAL_WORKSPACE_EXPLAINERS } from '@/components/bitcode/pipeline/models/workspace-explainers';
 import type { TerminalRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
 import {
   buildLiveTerminalDepositReadWorkbenchSnapshot,
@@ -37,7 +37,7 @@ import {
   streamTerminalReadFitsFindingSynthesisHarness,
   summarizeTerminalReadFitsFindingSynthesisHarnessEvent,
   type TerminalReadFitsFindingSynthesisHarnessEvent,
-} from '@/app/terminal/terminal-pipeline-harness-client';
+} from '@/components/bitcode/pipeline/pipeline-harness-client';
 import { useBitcodeShellBridge } from '@/components/bitcode/layout/bitcode-shell-bridge';
 import { jumpToShellSection } from '@/components/bitcode/pipeline/shell-reading';
 

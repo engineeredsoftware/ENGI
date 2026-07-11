@@ -44,7 +44,7 @@ describe('ConversationTerminalHandoff', () => {
     await waitFor(() => expect(onPrepared).toHaveBeenCalledTimes(1));
     const envelope = onPrepared.mock.calls[0][0];
     expect(envelope.policyResult).toBe('allowed');
-    expect(envelope.terminalRoute).toContain('/terminal?');
+    expect(envelope.terminalRoute).toContain('/packs?');
     expect(envelope.terminalRoute).toContain('conversationHandoff=1');
     expect(envelope.terminalRoute).toContain('transactionId=tx-123');
     expect(envelope.terminalRoute).toContain('readingStage=review-synthesized-need');

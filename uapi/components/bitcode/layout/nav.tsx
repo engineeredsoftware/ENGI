@@ -174,7 +174,8 @@ export default function Nav() {
   const publicSurface = getPublicShellSurface(pathname);
   const usesWorkspaceChrome = navSurface !== null;
   const usesPublicChrome = usesPublicShellChrome(pathname);
-  const usesProductChrome = usesPublicChrome || navSurface === 'terminal';
+  const usesProductChrome =
+    usesPublicChrome || navSurface === 'terminal' || navSurface === 'packs';
   const usesWorkspaceOnlyChrome = usesWorkspaceChrome && !usesProductChrome;
   const profileRecord =
     userData?.profile && typeof userData.profile === 'object'
@@ -511,12 +512,12 @@ export default function Nav() {
             {!usesProductChrome && hasChromeWalletIdentity && (
               <ul className={`flex items-center space-x-2 phone:space-x-4 tablet:space-x-6 text-sm phone:text-base tablet:text-lg w-full justify-center ${usesWorkspaceOnlyChrome ? 'tablet:ml-10' : 'tablet:ml-[130px]'}`}>
                 {[
-                  { href: '/terminal', label: 'terminal' },
+                  { href: '/packs', label: 'packs' },
                 ].map(({ href, label }, index) => {
                   const isDisabled = disableTerminalLink;
                   const shouldAnimate = showNavEntrance && shouldAnimateNavEntrance;
                   const isActiveRoute =
-                    pathname === '/terminal' ||
+                    pathname === '/packs' || pathname === '/terminal' ||
                     pathname?.startsWith('/executions') ||
                     pathname?.startsWith('/conversations');
                   return (

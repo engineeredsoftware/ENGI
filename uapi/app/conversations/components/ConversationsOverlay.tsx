@@ -1075,7 +1075,7 @@ const Conversation = memo(function Conversation({
               onOpenDetails={(id) => setSelectedRunDetailsId(id)}
               onNavigateToExecution={(id) => {
                 if (typeof window !== 'undefined') {
-                  window.open(`/terminal?transactionId=${id}&transactionDetail=activity`, '_blank', 'noopener');
+                  window.open(`/packs?transactionId=${id}&transactionDetail=activity`, '_blank', 'noopener');
                 }
               }}
               onClose={() => {

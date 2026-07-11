@@ -3,7 +3,7 @@ import {
   buildTerminalReadFitsFindingSynthesisHarnessRequest,
   drainTerminalReadFitsFindingSynthesisHarnessSseBuffer,
   summarizeTerminalReadFitsFindingSynthesisHarnessEvent,
-} from '@/app/terminal/terminal-pipeline-harness-client';
+} from '@/components/bitcode/pipeline/pipeline-harness-client';
 import type { TerminalDepositReadWorkbench } from '@/app/terminal/terminal-deposit-read-workbench';
 import type { TerminalRepositoryContextState } from '@/app/terminal/terminal-repository-context';
 

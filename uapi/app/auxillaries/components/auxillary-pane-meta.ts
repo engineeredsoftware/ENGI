@@ -12,10 +12,10 @@ export const AUXILLARIES_LABEL = 'Auxillaries';
 export const AUXILLARIES_LIST_LABEL = 'Wallet, Externals, Profile, and Interfaces';
 export const AUXILLARIES_LIST_COMPACT_LABEL = 'Wallet, Externals, Profile, Interfaces';
 export const OPEN_AUXILLARIES_FULLSCREEN_LABEL = 'Open Auxillaries fullscreen';
-export const OPEN_TRANSACTIONS_LABEL = 'Open Bitcode Terminal';
+export const OPEN_TRANSACTIONS_LABEL = 'Open Packs';
 export const AUXILLARIES_ROUTE_ROOT = '/auxillaries';
 export const AUXILLARIES_COMPAT_ROUTE_ROOT = '/orbitals';
-export const AUXILLARY_OVERLAY_ROUTE_ROOT = '/terminal';
+export const AUXILLARY_OVERLAY_ROUTE_ROOT = '/packs';
 export const AUXILLARY_OPEN_QUERY_PARAM = 'auxillary-open-to';
 
 export type AuxillaryPane = ConcreteAuxillaryPane | null;
@@ -55,7 +55,7 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     labelPosition: 'left',
     routeTitle: 'Interfaces Auxillary',
     routeDescription:
-      'Shape how the Bitcode Terminal, MCP API, ChatGPT App, proofs, and default Bitcode behavior read and operate through one focused auxillary.',
+      'Shape how Packs, Deposits, Reads, MCP API, ChatGPT App, proofs, and default Bitcode behavior read and operate through one focused auxillary.',
   },
   wallet: {
     label: 'Wallet',

@@ -5,7 +5,7 @@ import {
   readBitcodeRequestBody,
   toBitcodeErrorResponse
 } from '@/lib/bitcode-app-context';
-import { requireBitcodeSignedTransactionReadiness } from '@/app/terminal/bitcode-transaction-route-readiness';
+import { requireBitcodeSignedTransactionReadiness } from '@/components/bitcode/pipeline/models/transaction-route-readiness';
 
 export const runtime = 'nodejs';
 

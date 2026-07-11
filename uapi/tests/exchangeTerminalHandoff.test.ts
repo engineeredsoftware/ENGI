@@ -1,10 +1,10 @@
-import { buildPacksHref, buildTerminalHref } from '@/app/terminal/terminal-routes';
+import { buildPacksHref, buildTerminalHref } from '@/components/bitcode/routes/product-routes';
 import {
   writeTerminalTransactionDetailSection,
   writeTerminalTransactionId,
-} from '@/app/terminal/terminal-transaction-query';
+} from '@/components/bitcode/pipeline/models/pipeline-selection-query';
 import { buildTerminalTransactionReadModel } from '@/app/terminal/terminal-transaction-read-model';
-import type { WorkspaceRun } from '@/app/terminal/terminal-run-data';
+import type { WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 
 const selectedRun: WorkspaceRun = {
   id: 'tx-exchange-handoff',
@@ -46,7 +46,7 @@ describe('Packs and Terminal transaction handoff', () => {
     expect(packsHref).toContain('repo=engineeredsoftware%2FENGI');
     expect(packsHref).toContain('transactionSearch=AssetPack');
     expect(packsHref).toContain('transactionOwnership=network');
-    expect(terminalHref).toContain('/terminal?');
+    expect(terminalHref).toContain('/packs?');
     expect(terminalHref).toContain('transactionId=tx-exchange-handoff');
   });
 
@@ -61,7 +61,7 @@ describe('Packs and Terminal transaction handoff', () => {
       ),
     });
 
-    expect(model.route.href).toContain('/terminal?');
+    expect(model.route.href).toContain('/packs?');
     expect(model.route.exchangeHref).toContain('/packs?');
     expect(model.route.exchangeHref).toContain('transactionId=tx-exchange-handoff');
     expect(model.route.exchangeHref).toContain('transactionDetail=proofs');

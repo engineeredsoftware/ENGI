@@ -2,7 +2,7 @@ import { TERMINAL_SURFACE_COPY } from '@/app/terminal/terminal-workspace-copy';
 import {
   TERMINAL_INLINE_EXPLAINERS,
   TERMINAL_SURFACE_EXPLAINERS,
-} from '@/app/terminal/terminal-workspace-explainers';
+} from '@/components/bitcode/pipeline/models/workspace-explainers';
 
 describe('TERMINAL_SURFACE_COPY', () => {
   it('keeps Bitcode Terminal detail copy centered on activity, asset packs, and proof reading', () => {
