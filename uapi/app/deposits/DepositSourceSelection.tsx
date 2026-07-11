@@ -1,3 +1,5 @@
-/** @deprecated Import from `@/components/deposits/panels/DepositSourceSelection`. */
-export { default } from '@/components/deposits/panels/DepositSourceSelection';
-export * from '@/components/deposits/panels/DepositSourceSelection';
+/**
+ * @deprecated Prefer `@/components/deposits/DepositSourceSelection/DepositSourceSelection`.
+ */
+export { default } from '@/components/deposits/DepositSourceSelection/DepositSourceSelection';
+export * from '@/components/deposits/DepositSourceSelection/DepositSourceSelection';

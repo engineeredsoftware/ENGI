@@ -13,8 +13,8 @@ import type { VCSBranch, VCSCommit, VCSRepository } from '@bitcode/vcs-core';
 import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineExplainer';
 import { VCSRepositorySelector } from '@/components/bitcode/vcs/VCSRepositorySelector';
 
-import AuxillariesOpenButton from '@/components/auxillaries/AuxillariesOpenButton';
-import BitcodeWorkspaceCard from '@/components/bitcode/pipeline/cards/BitcodeWorkspaceCard';
+import AuxillariesOpenButton from '@/components/auxillaries/AuxillariesOpenButton/AuxillariesOpenButton';
+import BitcodeWorkspaceCard from '@/components/bitcode/pipeline/BitcodeWorkspaceCard/BitcodeWorkspaceCard';
 import {
   buildTerminalRepositoryAnchorDraft,
   type TerminalActivityRecordDraft,

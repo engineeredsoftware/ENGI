@@ -1367,3 +1367,15 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 | QA telemetry | `@bitcode/auth/qa-telemetry` |
 
 uapi/lib retains thin re-export shims (or full analytics copy) for import stability.
+
+### Modular source layout convention (Garrett, 2026-07-11)
+
+Canonical filesystem and co-location rules live in
+`internal-docs/BITCODE_SOURCE_LAYOUT.md` (also pointed from README, AGENTS.md,
+`uapi/ARCHITECTURE.md`, `uapi/components/README.md`).
+
+- Seven experiences + Shadcn/Bitcode bases
+- Component units: `ComponentName/ComponentName.tsx` (not `index.tsx`) with
+  co-located `hooks/`, `styles/`, `__tests__/`
+- Domain pure logic prefers `packages/`; pages stay thin
+- Terminal remains deleted

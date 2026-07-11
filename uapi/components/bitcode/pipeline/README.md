@@ -1,14 +1,15 @@
-# Bitcode pipeline layer
+# Bitcode pipeline base
 
-Shared pipeline master-detail UI and models for Deposits, Reads, Packs.
+Shared pipeline master-detail UI and pure models.
 
-| Area | Contents |
-| --- | --- |
-| `models/` | run data, activity history, selection query, readiness, transactions |
-| `cards/` | Workspace / action workbench cards |
-| `*.tsx` / log / tables | Former `execution/` UI carriers (Phase 2 rename) |
-| `BitcodePipelinesTable.tsx` | Product master table wrapper |
-| `pipeline-harness-client.ts` | Asset-pack harness client |
-| `shell-reading.ts` | Section jump helpers |
+```
+pipeline/
+  models/                    # pure history, selection, readiness, …
+  BitcodePipelinesTable/
+    BitcodePipelinesTable.tsx
+  BitcodeWorkspaceCard/
+  BitcodeActionWorkbenchCard/
+  ...
+```
 
-Import from `@/components/bitcode/pipeline/...` — not `execution/`.
+Component units use named files + co-located hooks/styles/__tests__.

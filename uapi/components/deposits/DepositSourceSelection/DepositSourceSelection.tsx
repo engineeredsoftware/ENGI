@@ -23,7 +23,7 @@ import {
   DEPOSIT_SECTION_EXPLAINERS,
   toRichHoverExplainer,
 } from "@/components/deposits/models/deposit-explainers";
-import AuxillariesOpenButton from "@/components/auxillaries/AuxillariesOpenButton";
+import AuxillariesOpenButton from "@/components/auxillaries/AuxillariesOpenButton/AuxillariesOpenButton";
 import {
   buildTerminalRepositoryAnchorDraft,
   type TerminalActivityRecordDraft,

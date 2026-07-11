@@ -77,7 +77,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       'A private repository still measures fully — only synthesis outputs are ever reviewed',
     ],
     references: {
-      source: ['uapi/components/deposits/panels/DepositSourceSelection.tsx', 'uapi/components/bitcode/pipeline/models/repository-context.ts'],
+      source: ['uapi/components/deposits/DepositSourceSelection/DepositSourceSelection.tsx', 'uapi/components/bitcode/pipeline/models/repository-context.ts'],
       canon: [
         ...DEPOSIT_CANON_REFS,
         'BITCODE_SPEC_V48_NOTES.md § Gate-3 HOST architecture — the primitive Host, its kinds, in-host execution',
@@ -92,7 +92,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     detail:
       'Changing branch reloads the commit list for that branch and clears any previously selected commit, since a commit only makes sense in the context of the branch it belongs to.',
     points: ['Defaults to the repository\'s default branch', 'Reloads commits for the newly selected branch'],
-    references: { source: ['uapi/components/deposits/panels/DepositSourceSelection.tsx'], canon: DEPOSIT_CANON_REFS },
+    references: { source: ['uapi/components/deposits/DepositSourceSelection/DepositSourceSelection.tsx'], canon: DEPOSIT_CANON_REFS },
   }),
   commit: buildExplainer({
     kicker: 'Commit / ref',
@@ -106,7 +106,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       'Pin a SHA when you need a fixed revision',
       'Refresh re-fetches the head while Latest is selected',
     ],
-    references: { source: ['uapi/components/deposits/panels/DepositSourceSelection.tsx'], canon: DEPOSIT_CANON_REFS },
+    references: { source: ['uapi/components/deposits/DepositSourceSelection/DepositSourceSelection.tsx'], canon: DEPOSIT_CANON_REFS },
   }),
   repositoryAnchor: buildExplainer({
     kicker: 'Repository',
@@ -122,7 +122,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/components/deposits/panels/DepositSourceSelection.tsx',
+        'uapi/components/deposits/DepositSourceSelection/DepositSourceSelection.tsx',
         'uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
       ],
       canon: DEPOSIT_CANON_REFS,
@@ -141,7 +141,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       'Does not change the selected provider, repository, or revision',
     ],
     references: {
-      source: ['uapi/components/deposits/panels/DepositSourceSelection.tsx'],
+      source: ['uapi/components/deposits/DepositSourceSelection/DepositSourceSelection.tsx'],
       canon: DEPOSIT_CANON_REFS,
     },
   }),
@@ -158,7 +158,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       'Does not clear branch or commit until you pick a different repository',
     ],
     references: {
-      source: ['uapi/components/deposits/panels/DepositSourceSelection.tsx'],
+      source: ['uapi/components/deposits/DepositSourceSelection/DepositSourceSelection.tsx'],
       canon: DEPOSIT_CANON_REFS,
     },
   }),
@@ -175,7 +175,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       'Default-branch badge updates from the refreshed default',
     ],
     references: {
-      source: ['uapi/components/deposits/panels/DepositSourceSelection.tsx'],
+      source: ['uapi/components/deposits/DepositSourceSelection/DepositSourceSelection.tsx'],
       canon: DEPOSIT_CANON_REFS,
     },
   }),
@@ -192,7 +192,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       'Pinned mode keeps the selected SHA when it is still in the list',
     ],
     references: {
-      source: ['uapi/components/deposits/panels/DepositSourceSelection.tsx'],
+      source: ['uapi/components/deposits/DepositSourceSelection/DepositSourceSelection.tsx'],
       canon: DEPOSIT_CANON_REFS,
     },
   }),

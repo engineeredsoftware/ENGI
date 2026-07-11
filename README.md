@@ -34,10 +34,29 @@ files as live law when implementing V48 gates.
 | `/deposits` | **Deposit MVP** — connect source, synthesize measured AssetPack options (SynthesizeAssetPacks SDIVF), review, admit to Depository |
 | `/reads` | Reading path (Need → Finding Fits → settle → delivery); later V48 gates |
 | `/packs` | Master-detail PackActivity / ledgerized history |
-| Auxillaries | Wallet identity, GitHub, organization panes (over product routes) |
+| Auxillaries | Wallet identity, GitHub, organization panes |
+| `/` · `/docs` | Marketing and public docs |
 
-Legacy `/terminal` and singular `/deposit` / `/read` are compatibility or
-migrating surfaces — prefer `/deposits`, `/reads`, `/packs`.
+**Terminal is deleted** — there is no `/terminal` product surface. Prefer plural
+product routes (`/deposits`, `/reads`, `/packs`).
+
+---
+
+## Source architecture (modular)
+
+| Layer | Location | Role |
+|---|---|---|
+| Domain packages | `packages/*` | Pure domain, APIs, pipelines, BTD, auth, analytics |
+| Next app | `uapi/app/*` | Thin page shells + HTTP adapters |
+| UI layers | `uapi/components/{shadcn,bitcode,<experience>}` | `Shadcn*` → `Bitcode*` → 7 experiences |
+
+**Dependency direction:** packages ← Bitcode/Shadcn ← experiences ← page shells.
+
+**Component units:** `ComponentName/ComponentName.tsx` (not `index.tsx`) with
+co-located `hooks/`, `styles/`, `__tests__/`. Full contract:
+[`internal-docs/BITCODE_SOURCE_LAYOUT.md`](internal-docs/BITCODE_SOURCE_LAYOUT.md).
+
+**Conventions for agents:** [`AGENTS.md`](AGENTS.md) · [`uapi/ARCHITECTURE.md`](uapi/ARCHITECTURE.md) · [`uapi/components/README.md`](uapi/components/README.md).
 
 ---
 

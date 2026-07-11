@@ -25,7 +25,7 @@ jest.mock("@/networking/api-client", () => ({
   fetchPipelineExecutionHistory: () => mockFetchPipelineExecutionHistory(),
 }));
 
-jest.mock("@/components/bitcode/layout/bitcode-shell-bridge", () => ({
+jest.mock("@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge", () => ({
   BitcodeShellBridgeProvider: ({
     children,
   }: {
@@ -33,7 +33,7 @@ jest.mock("@/components/bitcode/layout/bitcode-shell-bridge", () => ({
   }) => <>{children}</>,
 }));
 
-jest.mock("@/components/reads/panels/ReadsRepositoryContextPanel", () => ({
+jest.mock("@/components/reads/ReadsRepositoryContextPanel/ReadsRepositoryContextPanel", () => ({
   __esModule: true,
   default: ({
     onContextChange,
@@ -66,7 +66,7 @@ jest.mock("@/components/reads/panels/ReadsRepositoryContextPanel", () => ({
   },
 }));
 
-jest.mock("@/components/reads/panels/ReadsReadScenarioPanel", () => ({
+jest.mock("@/components/reads/ReadsReadScenarioPanel/ReadsReadScenarioPanel", () => ({
   __esModule: true,
   default: () => (
     <section aria-label="Read request scenarios">
@@ -75,7 +75,7 @@ jest.mock("@/components/reads/panels/ReadsReadScenarioPanel", () => ({
   ),
 }));
 
-jest.mock("@/components/reads/panels/ReadsDepositReadWorkbench", () => ({
+jest.mock("@/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench", () => ({
   __esModule: true,
   default: ({
     admittedReadActivityId,

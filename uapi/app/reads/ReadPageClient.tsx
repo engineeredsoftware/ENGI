@@ -27,10 +27,10 @@ import {
   ProductRouteStatePanel,
   ProductRouteStepGrid,
 } from "@/components/bitcode/routes/product-route-shell";
-import ReadsDepositReadWorkbench from "@/components/reads/panels/ReadsDepositReadWorkbench";
-import ReadsRepositoryContextPanel from "@/components/reads/panels/ReadsRepositoryContextPanel";
-import ReadsReadScenarioPanel from "@/components/reads/panels/ReadsReadScenarioPanel";
-import { BitcodeShellBridgeProvider } from "@/components/bitcode/layout/bitcode-shell-bridge";
+import ReadsDepositReadWorkbench from "@/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench";
+import ReadsRepositoryContextPanel from "@/components/reads/ReadsRepositoryContextPanel/ReadsRepositoryContextPanel";
+import ReadsReadScenarioPanel from "@/components/reads/ReadsReadScenarioPanel/ReadsReadScenarioPanel";
+import { BitcodeShellBridgeProvider } from "@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge";
 import type { TerminalDepositedSourceRevision } from "@/components/reads/models/deposit-read-workbench";
 import {
   buildTerminalExecutionHistoryRequest,
@@ -47,7 +47,7 @@ import {
 } from "@/components/bitcode/pipeline/models/pipeline-selection-query";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
 import { buildReadHref } from "@/components/bitcode/routes/product-routes";
-import BitcodePipelinesTable from "@/components/bitcode/pipeline/BitcodePipelinesTable";
+import BitcodePipelinesTable from "@/components/bitcode/pipeline/BitcodePipelinesTable/BitcodePipelinesTable";
 import {
   DEFAULT_TRANSACTION_FILTERS,
   DEFAULT_TRANSACTION_PAGINATION,

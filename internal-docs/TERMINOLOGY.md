@@ -139,6 +139,8 @@ export interface Agent<TInput = any, TOutput = any> extends Executor<TInput, TOu
 
 ## Frontend and product surface terms (V48)
 
+Layout contract: `internal-docs/BITCODE_SOURCE_LAYOUT.md`.
+
 ### Experiences (7)
 
 Marketing, Packs, Reads, Deposits, Docs, Conversations, Auxillaries — each with
@@ -151,6 +153,11 @@ matching component prefixes (`Marketing*`, `Packs*`, …) under
 - `Bitcode*` — shared base over Shadcn (`uapi/components/bitcode/`).
 - Experience prefixes — page-specific composition over Bitcode.
 
+### Component unit
+
+Non-trivial UI lives in `ComponentName/ComponentName.tsx` (not `index.tsx`) with
+optional co-located `hooks/`, `styles/`, `__tests__/`.
+
 ### Pipeline vs Execution vs Terminal
 
 | Term | Meaning |
@@ -158,7 +165,7 @@ matching component prefixes (`Marketing*`, `Packs*`, …) under
 | **Pipeline** | Product run surface: synthesis/read runs, master-detail tables, stream/log, selection (`BitcodePipeline*`). |
 | **Execution** (agent packages) | Low-level PTRR/agent executor primitives in packages such as `execution-generics`. Not the product UI name. |
 | **Journal / transaction** | BTD ledger journal rows and reconciliation vocabulary (`JournalEntry`, journal transaction kinds). |
-| **Terminal** | **Retired** product cockpit (`/terminal`). Do not add new Terminal product names. Relocate or delete residual modules. |
+| **Terminal** | **Deleted**. No `/terminal` route or `app/terminal` tree. Do not reintroduce. |
 
 ### ❌ NEVER Use These Terms:
 - "FAILSAFE GROUP" or "GENERATION GROUP" - Use the actual enum names

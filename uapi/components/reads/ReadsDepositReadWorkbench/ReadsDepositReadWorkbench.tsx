@@ -10,8 +10,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid';
 import BitcodeExecutionStreamPanel from '@/components/bitcode/pipeline/BitcodeExecutionStreamPanel';
 
-import BitcodeActionWorkbenchCard from '@/components/bitcode/pipeline/cards/BitcodeActionWorkbenchCard';
-import BitcodeWorkspaceCard from '@/components/bitcode/pipeline/cards/BitcodeWorkspaceCard';
+import BitcodeActionWorkbenchCard from '@/components/bitcode/pipeline/BitcodeActionWorkbenchCard/BitcodeActionWorkbenchCard';
+import BitcodeWorkspaceCard from '@/components/bitcode/pipeline/BitcodeWorkspaceCard/BitcodeWorkspaceCard';
 import {
   buildTerminalFitWorkbenchDraft,
   buildTerminalDepositWorkbenchDraft,
@@ -38,7 +38,7 @@ import {
   summarizeTerminalReadFitsFindingSynthesisHarnessEvent,
   type TerminalReadFitsFindingSynthesisHarnessEvent,
 } from '@/components/bitcode/pipeline/pipeline-harness-client';
-import { useBitcodeShellBridge } from '@/components/bitcode/layout/bitcode-shell-bridge';
+import { useBitcodeShellBridge } from '@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge';
 import { jumpToShellSection } from '@/components/bitcode/pipeline/shell-reading';
 
 function readMetricValue(metrics: Array<{ label: string; value: string }>, label: string) {

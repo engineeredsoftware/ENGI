@@ -31,7 +31,7 @@ import type { PipelineExecution } from "@/types/api";
 
 import DepositSourceSelection, {
   type DepositRepositoryAnchor,
-} from "@/components/deposits/panels/DepositSourceSelection";
+} from "@/components/deposits/DepositSourceSelection/DepositSourceSelection";
 import {
   buildTerminalExecutionHistoryRequest,
   buildTerminalObfuscationsAnchorDraft,
@@ -45,7 +45,7 @@ import {
   DepositExcludePathsIcon,
   DepositIncludePathsIcon,
   ObfuscationsAnchorDescription,
-} from "@/components/deposits/deposit-obfuscations-path-icons";
+} from "@/components/deposits/DepositObfuscationsPathIcons/DepositObfuscationsPathIcons";
 import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import {
   clearTerminalTransactionId,
@@ -53,7 +53,7 @@ import {
   writeTerminalTransactionId,
 } from "@/components/bitcode/pipeline/models/pipeline-selection-query";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
-import BitcodePipelinesTable from "@/components/bitcode/pipeline/BitcodePipelinesTable";
+import BitcodePipelinesTable from "@/components/bitcode/pipeline/BitcodePipelinesTable/BitcodePipelinesTable";
 import {
   DEFAULT_TRANSACTION_FILTERS,
   DEFAULT_TRANSACTION_PAGINATION,
@@ -64,7 +64,7 @@ import {
   buildDepositHref,
   DEPOSIT_ROUTE,
 } from "@/components/bitcode/routes/product-routes";
-import { BitcodeShellBridgeProvider } from "@/components/bitcode/layout/bitcode-shell-bridge";
+import { BitcodeShellBridgeProvider } from "@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge";
 import {
   buildDepositRouteSession,
   readDepositRouteStage,

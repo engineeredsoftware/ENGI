@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { readBitcodeWalletBindingFromProfile } from '@bitcode/orm';
 
 import { MASTER_MOCK_MODE } from '@/config/featureFlags';
-import BitcodePipelinesTable from '@/components/bitcode/pipeline/BitcodePipelinesTable';
+import BitcodePipelinesTable from '@/components/bitcode/pipeline/BitcodePipelinesTable/BitcodePipelinesTable';
 import { MOCK_RUNS, type WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 import {
   DEFAULT_TRANSACTION_FILTERS,

@@ -132,7 +132,7 @@ export const MOCK_RUN_ASSET_PACK_SURFACES: Record<string, ShippablesDoc> = {
       created: 2,
       deleted: 0,
       paths: [
-        'uapi/components/bitcode/pipeline/BitcodePipelinesTable.tsx',
+        'uapi/components/bitcode/pipeline/BitcodePipelinesTable/BitcodePipelinesTable.tsx',
         'uapi/app/deposits/DepositPageClient.tsx',
       ],
     },

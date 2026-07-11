@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import TerminalWorkspaceCard from '@/components/bitcode/pipeline/cards/BitcodeWorkspaceCard';
+import TerminalWorkspaceCard from '@/components/bitcode/pipeline/BitcodeWorkspaceCard/BitcodeWorkspaceCard';
 import Footer from '@/components/bitcode/layout/footer';
 import { BITCODE_GITHUB_APP_PUBLIC_URL } from '@/lib/github-app-url';
 

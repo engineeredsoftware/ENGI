@@ -1,50 +1,40 @@
 # UAPI Architecture
 
-Status: active for the V48 website application layer. Product architecture law
-lives in `BITCODE_SPEC_V48.md` (frontend component section) and
-`internal-docs/BITCODE_FRONTEND_ARCHITECTURE.md`.
+Status: active for the V48 website application layer.
+
+Authoritative layout contract: [`internal-docs/BITCODE_SOURCE_LAYOUT.md`](../internal-docs/BITCODE_SOURCE_LAYOUT.md).  
+Product UI law: `BITCODE_SPEC_V48.md` § Frontend component and naming architecture.
 
 ## Overview
 
-UAPI is the Next.js web application and HTTP route layer for Bitcode. Domain
-logic that is not React- or Next-specific belongs in `packages/`.
+`uapi/` is the Next.js **interface owner**: thin App Router pages, HTTP adapters,
+and React layers. Domain logic that is not React/Next-specific belongs in
+`packages/` (`@bitcode/api`, `@bitcode/btd`, `@bitcode/auth`, pipelines, …).
 
-## Directory structure (target)
+## Directory structure
 
 ```
 uapi/
-├── app/                         # Next.js App Router (thin page shells + api/)
+├── app/                         # Thin page shells + api/ adapters
 │   ├── page.tsx / (root)/       # Marketing
-│   ├── packs/                   # Packs experience
-│   ├── deposits/                # Deposits experience
-│   ├── reads/                   # Reads experience
-│   ├── docs/                    # Docs experience
-│   ├── conversations/           # Conversations (structure; full UX deferred)
-│   ├── auxillaries/             # Auxillaries experience
-│   └── api/                     # HTTP routes (thin adapters over packages)
+│   ├── packs|deposits|reads|docs|conversations|auxillaries/
+│   └── api/                     # Prefer @bitcode/api handlers
 ├── components/
-│   ├── shadcn/                  # Shadcn* root primitives
+│   ├── shadcn/                  # Shadcn* primitives
 │   ├── bitcode/                 # Bitcode* base (pipeline, layout, auth, …)
-│   ├── marketing/
-│   ├── packs/
-│   ├── reads/
-│   ├── deposits/
-│   ├── docs/
-│   ├── conversations/
-│   └── auxillaries/
-├── hooks/                       # React hooks (experience-agnostic or thin)
-├── lib/                         # Next-only glue (prefer packages for domain)
-├── middleware/                  # Middleware pipeline
-├── networking/                  # Client API helpers (pure builders → packages)
-├── types/                       # App-local types (prefer packages when shared)
-├── tests/                       # Jest / contracts
-└── stories/                     # Storybook
+│   └── {marketing,packs,reads,deposits,docs,conversations,auxillaries}/
+│       ├── models|hooks|constants|types/
+│       └── <ComponentName>/     # named entry + hooks/styles/__tests__
+├── hooks/                       # Cross-experience hooks only
+├── lib/                         # Next glue; re-export packages when possible
+├── middleware/
+├── networking/
+├── types/
+├── tests/                       # Route/page contracts (unit co-located under components)
+└── stories/
 ```
 
-Migration note: Phase 1 moved shadcn/bitcode to the target directories above.
-Experience components may still be colocated under `app/*` until Phase 4.
-The legacy `app/terminal/` cockpit has been **deleted**. Product surfaces are
-`/packs`, `/deposits`, `/reads`, Auxillaries, Docs, Conversations (see V48 NOTES).
+**Terminal is deleted.** Do not reintroduce `app/terminal` or `/terminal`.
 
 ## Component import direction
 
@@ -52,30 +42,39 @@ The legacy `app/terminal/` cockpit has been **deleted**. Product surfaces are
 Shadcn*  →  Bitcode*  →  Experience*
 ```
 
-App pages import components; components do not import page clients.
+- Experiences never import each other.
+- Page clients compose components; components do not import page clients.
+- New components: `ComponentName/ComponentName.tsx` (not `index.tsx`).
 
 ## Naming
 
-- Product run surfaces: **Pipeline** (`BitcodePipeline*`, experience prefixes).
-- BTD ledger rows: **journal** / journal transaction kinds.
-- Do not introduce new `Terminal*` product symbols.
-- Low-level agent executor packages remain `execution-*` until a deliberate
-  package rename; they are not the product Pipeline surface.
-
-## Middleware pipeline
-
-Composable handlers (order-based): telemetry → security headers → CORS →
-rate limit → authentication → route rewrite.
+| Domain | Prefer | Avoid |
+| --- | --- | --- |
+| Product runs | Pipeline / `BitcodePipeline*` | Terminal, product “Executions” UI |
+| BTD ledger | journal | coupling journal names to Terminal |
+| Agent packages | `execution-generics` (low-level) | conflating with product Pipeline |
 
 ## Package boundary
 
 | Location | Owns |
 | --- | --- |
-| `packages/*` | Shareable domain, pure models, API handlers, BTD, pipelines |
-| `uapi/` | Next routes, React, Storybook, app-local adapters |
+| `packages/*` | Shareable domain, pure models, route orchestration, BTD, pipelines |
+| `uapi/` | Next routes, React, Storybook, thin adapters |
 
-## Production readiness
+Examples of package homes:
 
-Security, rate limiting, telemetry, and source-safe product analytics remain
-required. Do not weaken auth, ownership checks, or source-safety for refactor
-convenience.
+- `@bitcode/api/pipelines/cancel` · `orphan-sweep`
+- `@bitcode/observability/product-analytics`
+- `@bitcode/auth` wallet + auth redirect helpers
+
+## Middleware pipeline
+
+Order-based: telemetry → security headers → CORS → rate limit → authentication →
+route rewrite.
+
+## Quality bar
+
+- SRP / DRY / explicit TypeScript
+- Top-of-file overview on non-trivial modules
+- Co-located unit tests under component `__tests__/` when practical
+- Source-safety, auth, ownership checks never weakened for convenience

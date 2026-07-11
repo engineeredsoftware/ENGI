@@ -177,6 +177,8 @@ Shadcn*  →  Bitcode*  →  {Marketing|Packs|Reads|Deposits|Docs|Conversations|
 | Bitcode | `Bitcode*` | Shadcn + Bitcode theme/tokens only | App-wide base: layout, nav, pipeline table/log/telemetry, auth chrome, explainers, route shell |
 | Experience (7) | `Marketing*`, `Packs*`, `Reads*`, `Deposits*`, `Docs*`, `Conversations*`, `Auxillaries*` | Bitcode only (not raw Shadcn; not other experiences) | Page-specific composition |
 
+Filesystem and co-location convention (named component directories, hooks/styles/__tests__, packages vs uapi): `internal-docs/BITCODE_SOURCE_LAYOUT.md`.
+
 Canonical directories (under the Next app root `uapi/`):
 
 - `uapi/components/shadcn/`

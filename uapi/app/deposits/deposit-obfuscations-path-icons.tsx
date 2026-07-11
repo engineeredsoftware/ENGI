@@ -1,2 +1,4 @@
-/** @deprecated Import from `@/components/deposits/deposit-obfuscations-path-icons`. */
-export * from '@/components/deposits/deposit-obfuscations-path-icons';
+/**
+ * @deprecated Prefer `@/components/deposits/DepositObfuscationsPathIcons/DepositObfuscationsPathIcons`.
+ */
+export * from '@/components/deposits/DepositObfuscationsPathIcons/DepositObfuscationsPathIcons';

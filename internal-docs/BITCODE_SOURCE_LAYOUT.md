@@ -1,0 +1,343 @@
+# Bitcode Source Layout And Modular Conventions
+
+Status: active engineering convention aligned to V48 frontend architecture law
+(`BITCODE_SPEC_V48.md` § Frontend component and naming architecture).
+
+This document is the **filesystem contract** for maintainable Bitcode source.
+Agents and humans follow it for new files and for refactors.
+
+---
+
+## 1. Layer rules (dependency direction)
+
+```
+packages/*  (domain, pure, reusable)
+     ↑
+uapi/lib, uapi/networking, uapi/hooks   (thin Next/React adapters)
+     ↑
+uapi/components/shadcn   →  Shadcn* primitives
+     ↑
+uapi/components/bitcode  →  Bitcode* base (theme, pipeline, layout, auth)
+     ↑
+uapi/components/{marketing|packs|reads|deposits|docs|conversations|auxillaries}
+     ↑
+uapi/app/{page shells}   →  compose only; no heavy logic
+```
+
+**Never:** experience → experience. **Never:** page client → another page client.
+**Never:** packages → uapi. **Never:** new Terminal product surface.
+
+---
+
+## 2. Experiences (7) + bases (2)
+
+| Prefix | Route / role | Component home |
+| --- | --- | --- |
+| `Marketing*` | `/` landing | `uapi/components/marketing/` |
+| `Packs*` | `/packs` | `uapi/components/packs/` |
+| `Reads*` | `/reads` | `uapi/components/reads/` |
+| `Deposits*` | `/deposits` | `uapi/components/deposits/` |
+| `Docs*` | `/docs` | `uapi/components/docs/` |
+| `Conversations*` | conversations (full UX post-V48) | `uapi/components/conversations/` |
+| `Auxillaries*` | identity / wallet / GitHub panes | `uapi/components/auxillaries/` |
+| `Shadcn*` | root primitives | `uapi/components/shadcn/` |
+| `Bitcode*` | shared base over Shadcn | `uapi/components/bitcode/` |
+
+Product run language is **Pipeline** (`BitcodePipeline*`, experience extensions).
+Ledger language is **journal**. Agent packages may still say `execution-generics`.
+
+---
+
+## 3. Component unit layout (required pattern)
+
+Each non-trivial component owns a **directory** named after the component.
+The entry file is **named** (`ComponentName.tsx`), **not** `index.tsx`.
+
+```
+uapi/components/<layer-or-experience>/<ComponentName>/
+  <ComponentName>.tsx          # component entry (named file)
+  <ComponentName>.types.ts     # props / local types (optional if tiny)
+  <ComponentName>.constants.ts # local constants (optional)
+  hooks/                       # hooks used only by this component
+    use-<concern>.ts
+  styles/                      # CSS modules / local style helpers
+    <ComponentName>.module.css
+  __tests__/                   # co-located unit tests
+    <ComponentName>.test.tsx
+  README.md                    # only when non-obvious composition
+```
+
+**Rules:**
+
+1. **SRP** — one primary export / one reason to change per file.
+2. **DRY** — shared pure logic → `models/`, experience `hooks/`, or `packages/`.
+3. **Top-of-file overview** — every non-trivial `.ts`/`.tsx` starts with a short
+   purpose comment (what, for whom, non-obvious constraints).
+4. **Inline comments** — only for non-obvious invariants, source-safety, or QA tags.
+5. **TypeScript** — prefer explicit props interfaces, discriminated unions,
+   `readonly` where helpful; avoid `any` except at true boundaries.
+6. **React** — extract hooks for stateful logic; keep render trees readable;
+   co-locate styles; no prop drilling dumps when a hook or context is clearer.
+7. **Tests** — co-located under `__tests__/` for unit behavior; app-level
+   contracts may stay in `uapi/tests/` when they prove routes/pages.
+
+**Barrels:** prefer **explicit imports** (no `export *` barrels) unless a
+package public API requires a stable entry.
+
+---
+
+## 4. Experience module layout
+
+```
+uapi/components/<experience>/
+  README.md
+  models/                      # pure route models, formatters, explainers
+    <experience>-route-model.ts
+    <experience>-format.ts
+    ...
+  hooks/                       # experience-wide hooks (not component-private)
+    use-<experience>-pipeline-selection.ts
+  constants/
+    <experience>-constants.ts
+  types/
+    <experience>-types.ts
+  <ComponentName>/             # co-located component units (see §3)
+    ...
+```
+
+Page shells stay thin:
+
+```
+uapi/app/<experience>/
+  page.tsx                     # metadata + server shell
+  <Experience>PageClient.tsx   # orchestration only (providers, URL, sections)
+```
+
+---
+
+## 5. Bitcode base layout
+
+```
+uapi/components/bitcode/
+  README.md
+  pipeline/                    # shared pipeline table/log/telemetry/models
+    models/
+    cards/
+    <ComponentName>/
+  layout/
+  auth/
+  routes/
+  vcs/
+  ...
+```
+
+---
+
+## 6. Packages layout (domain)
+
+Packages hold **framework-agnostic** domain logic. Prefer existing packages;
+add new packages when a domain is clearly shared and non-UI.
+
+```
+packages/
+  api/                         # route handlers, orchestration
+    src/
+      pipelines/
+        cancel.ts
+        orphan-sweep.ts
+      routes/
+      ...
+  auth/                        # wallet, OAuth provider, auth redirect helpers
+    src/
+      wallet-local → bitcode-wallet-local.ts
+      bitcoin-wallet-client.ts
+      ...
+  observability/
+    src/
+      product-analytics.ts
+  btd/                         # BTD measurement, journal, settlement, authority
+  pipelines/                   # AssetPack synthesis pipelines (SDIVF, …)
+  pipelines-generics/
+  agent-generics/              # PTRR agents (not product “Pipeline” UI)
+  execution-generics/          # low-level executor primitives
+  prompts/
+  orm/
+  ...
+```
+
+**Package file rules:** same SRP/DRY/comment discipline; unit tests in
+`packages/<name>/__tests__/` or co-located `__tests__/`.
+
+---
+
+## 7. Full repository filesystem breakdown (canonical target)
+
+```
+bitcode/
+├── AGENTS.md                          # agent/contributor engineering rules
+├── README.md                          # product + layout pointer
+├── BITCODE_SPEC.txt                   # active canon pointer (main)
+├── BITCODE_SPEC_V48.md                # draft rebuild-alone SPEC (+ family)
+├── BITCODE_SPECIFYING.md
+├── internal-docs/
+│   ├── BITCODE_SOURCE_LAYOUT.md       # this file
+│   ├── BITCODE_FRONTEND_ARCHITECTURE.md
+│   ├── TERMINOLOGY.md
+│   └── ...
+├── packages/                          # domain packages (no React pages)
+│   ├── api/
+│   │   └── src/
+│   │       ├── index.ts
+│   │       ├── pipelines/
+│   │       │   ├── cancel.ts
+│   │       │   └── orphan-sweep.ts
+│   │       ├── routes/
+│   │       ├── conversations/
+│   │       └── ...
+│   ├── auth/
+│   │   └── src/
+│   │       ├── index.ts
+│   │       ├── bitcode-wallet-local.ts
+│   │       ├── bitcoin-wallet-client.ts
+│   │       ├── bitcoin-wallet-oauth-provider.ts
+│   │       ├── supabase-auth-redirect.ts
+│   │       └── qa-telemetry.ts
+│   ├── observability/
+│   │   └── src/
+│   │       ├── product-analytics.ts
+│   │       └── ...
+│   ├── btd/
+│   │   └── src/
+│   │       ├── journal.ts
+│   │       ├── operational-health.ts
+│   │       └── ...
+│   ├── pipelines/
+│   │   └── asset-pack/                # SynthesizeAssetPacks SDIVF, …
+│   ├── agent-generics/
+│   ├── execution-generics/
+│   ├── prompts/
+│   └── ...
+├── uapi/                              # Next.js interface owner
+│   ├── ARCHITECTURE.md
+│   ├── README.md
+│   ├── app/                           # App Router — thin shells + API
+│   │   ├── page.tsx                   # Marketing entry
+│   │   ├── (root)/                    # Marketing sections (migrate → components/marketing)
+│   │   ├── packs/
+│   │   │   ├── page.tsx
+│   │   │   └── PacksPageClient.tsx
+│   │   ├── deposits/
+│   │   │   ├── page.tsx
+│   │   │   └── DepositPageClient.tsx  # orchestration only
+│   │   ├── reads/
+│   │   │   ├── page.tsx
+│   │   │   └── ReadPageClient.tsx
+│   │   ├── docs/
+│   │   ├── conversations/
+│   │   ├── auxillaries/
+│   │   │   ├── page.tsx
+│   │   │   ├── [pane]/
+│   │   │   └── components/            # migrate → components/auxillaries
+│   │   └── api/                       # thin adapters over @bitcode/api
+│   ├── components/
+│   │   ├── README.md                  # layer + co-location rules
+│   │   ├── shadcn/                    # Shadcn* primitives
+│   │   │   ├── button.tsx
+│   │   │   └── ...
+│   │   ├── bitcode/                   # Bitcode* base
+│   │   │   ├── pipeline/
+│   │   │   │   ├── models/            # pure pipeline models
+│   │   │   │   ├── cards/
+│   │   │   │   ├── BitcodePipelinesTable/
+│   │   │   │   │   ├── BitcodePipelinesTable.tsx
+│   │   │   │   │   └── __tests__/
+│   │   │   │   └── ...
+│   │   │   ├── layout/
+│   │   │   ├── auth/
+│   │   │   ├── routes/
+│   │   │   └── ...
+│   │   ├── marketing/
+│   │   ├── packs/
+│   │   ├── reads/
+│   │   │   ├── README.md
+│   │   │   ├── models/
+│   │   │   │   ├── read-format.ts
+│   │   │   │   ├── read-route-model.ts
+│   │   │   │   ├── enterprise-reading-ux-state.ts
+│   │   │   │   ├── deposit-read-workbench.ts
+│   │   │   │   └── read-scenarios.ts
+│   │   │   ├── hooks/                 # experience-wide hooks
+│   │   │   ├── constants/
+│   │   │   ├── types/
+│   │   │   ├── ReadsDepositReadWorkbench/
+│   │   │   │   ├── ReadsDepositReadWorkbench.tsx
+│   │   │   │   ├── hooks/
+│   │   │   │   ├── styles/
+│   │   │   │   └── __tests__/
+│   │   │   ├── ReadsRepositoryContextPanel/
+│   │   │   └── ReadsReadScenarioPanel/
+│   │   ├── deposits/
+│   │   │   ├── README.md
+│   │   │   ├── models/
+│   │   │   ├── hooks/
+│   │   │   ├── constants/
+│   │   │   ├── types/
+│   │   │   ├── DepositSourceSelection/
+│   │   │   │   ├── DepositSourceSelection.tsx
+│   │   │   │   ├── hooks/
+│   │   │   │   ├── styles/
+│   │   │   │   └── __tests__/
+│   │   │   └── DepositObfuscationsPathIcons/
+│   │   ├── docs/
+│   │   ├── conversations/
+│   │   └── auxillaries/
+│   │       ├── AuxillariesOpenButton/
+│   │       │   ├── AuxillariesOpenButton.tsx
+│   │       │   └── __tests__/
+│   │       └── ...
+│   ├── hooks/                         # cross-experience React hooks only
+│   ├── lib/                           # Next glue; re-exports packages when possible
+│   ├── middleware/
+│   ├── networking/
+│   ├── types/
+│   ├── tests/                         # route/page contracts, e2e helpers
+│   └── stories/
+├── scripts/                           # gate checkers, promotion, tooling
+├── supabase/
+└── _legacy/                           # historical specs only — do not implement from
+```
+
+---
+
+## 8. Naming conventions
+
+| Kind | Pattern | Example |
+| --- | --- | --- |
+| Component file | `PascalCase.tsx` matching directory | `DepositSourceSelection.tsx` |
+| Hook file | `use-<kebab-concern>.ts` | `use-deposit-pipeline-selection.ts` |
+| Pure model | `<domain>-<role>.ts` | `pipeline-activity-history.ts` |
+| Constants | `<domain>-constants.ts` | `deposit-constants.ts` |
+| Test | `<ComponentName>.test.tsx` or `<module>.test.ts` | co-located |
+| Symbol prefix | Experience or layer | `Reads*`, `Bitcode*`, `Shadcn*` |
+
+---
+
+## 9. What is forbidden
+
+- `app/terminal/` or new `/terminal` product routes
+- `index.tsx` as the primary component entry (use named file)
+- God clients that own models + UI + fetch + formatting in one file
+- Cross-experience imports
+- Versioned path names (`v48-*`, `api/v1`) unless explicitly directed
+- Implementing from `_legacy/` or superseded SPEC files
+
+---
+
+## 10. Migration posture
+
+Existing files may still use flatter layouts. **New work** uses §3–§4.
+When touching a legacy file, prefer extracting toward co-location in the same
+commit if scope stays bounded.
+
+Agents: after structural moves, update imports, co-locate or retarget tests,
+and keep typecheck/jest greenable.

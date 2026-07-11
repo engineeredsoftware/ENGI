@@ -1,27 +1,46 @@
 # UAPI Components
 
-V48 component architecture (see `BITCODE_SPEC_V48.md` and
-`internal-docs/BITCODE_FRONTEND_ARCHITECTURE.md`):
+Canonical UI layers for Bitcode. Full filesystem contract:
+`internal-docs/BITCODE_SOURCE_LAYOUT.md`.
+
+## Layers
 
 ```
-Shadcn*  →  Bitcode*  →  Experience*
+Shadcn*  →  Bitcode*  →  {Marketing|Packs|Reads|Deposits|Docs|Conversations|Auxillaries}*
 ```
 
-| Directory | Role |
-| --- | --- |
-| `shadcn/` | Root primitives exported as `Shadcn*` |
-| `bitcode/` | Shared Bitcode base (`Bitcode*`, pipeline, layout, auth) |
-| `marketing/` | Landing / public marketing |
-| `packs/` | `/packs` experience |
-| `reads/` | `/reads` experience |
-| `deposits/` | `/deposits` experience |
-| `docs/` | `/docs` experience |
-| `conversations/` | Conversations (structure; full UX deferred) |
-| `auxillaries/` | Auxillaries experience |
+| Directory | Prefix | Imports from |
+| --- | --- | --- |
+| `shadcn/` | `Shadcn*` (export rename ongoing) | Radix / primitives only |
+| `bitcode/` | `Bitcode*` | Shadcn + theme/packages |
+| `marketing/` … `auxillaries/` | Experience prefixes | **Bitcode only** |
 
-**Import rules:** experiences import Bitcode only; Bitcode imports Shadcn only;
-pages compose experiences/Bitcode. No experience imports another experience.
+## Component unit pattern (required for new work)
 
-**Migration:** Phase 1 moved shadcn/bitcode out of `base/` into these trees.
-Experience directories hold READMEs until page-local components relocate
-(Phase 4). Prefer new files under the target directories above.
+```
+<ExperienceOrLayer>/<ComponentName>/
+  <ComponentName>.tsx       # named entry — not index.tsx
+  hooks/
+  styles/
+  __tests__/
+```
+
+- **SRP / DRY** per file.
+- Top-of-file overview comment on non-trivial modules.
+- Co-located unit tests under `__tests__/`.
+- Explicit imports (no grab-bag barrels).
+
+## Experiences
+
+Marketing · Packs · Reads · Deposits · Docs · Conversations · Auxillaries
+
+## Product language
+
+- **Pipeline** — run surfaces (`BitcodePipelinesTable`, logs, selection).
+- **Journal** — BTD ledger rows.
+- **No Terminal** — cockpit deleted; do not reintroduce.
+
+## Page shells
+
+Live under `uapi/app/<route>/` and **compose** these components. Keep page
+clients thin (URL, providers, section layout).

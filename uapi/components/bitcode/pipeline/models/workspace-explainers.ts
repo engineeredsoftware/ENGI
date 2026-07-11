@@ -82,7 +82,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/components/reads/panels/ReadsReadScenarioPanel.tsx',
+        'uapi/components/reads/ReadsReadScenarioPanel/ReadsReadScenarioPanel.tsx',
         'uapi/components/reads/models/read-scenarios.ts',
       ],
       canon: TERMINAL_CANON_REFS,
@@ -145,8 +145,8 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/components/reads/panels/ReadsDepositReadWorkbench.tsx',
-        'uapi/components/bitcode/pipeline/cards/BitcodeActionWorkbenchCard.tsx',
+        'uapi/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench.tsx',
+        'uapi/components/bitcode/pipeline/BitcodeActionWorkbenchCard/BitcodeActionWorkbenchCard.tsx',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -270,7 +270,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/components/reads/panels/ReadsRepositoryContextPanel.tsx',
+        'uapi/components/reads/ReadsRepositoryContextPanel/ReadsRepositoryContextPanel.tsx',
         'uapi/components/bitcode/pipeline/models/repository-context.ts',
       ],
       canon: [
@@ -294,7 +294,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     references: {
       source: [
         ...TERMINAL_SOURCE_REFS,
-        'uapi/components/reads/panels/ReadsDepositReadWorkbench.tsx',
+        'uapi/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench.tsx',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -440,7 +440,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     references: {
       source: [
         'uapi/components/bitcode/pipeline/',
-        'uapi/components/reads/panels/ReadsReadScenarioPanel.tsx',
+        'uapi/components/reads/ReadsReadScenarioPanel/ReadsReadScenarioPanel.tsx',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -519,7 +519,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/components/reads/panels/ReadsRepositoryContextPanel.tsx',
+        'uapi/components/reads/ReadsRepositoryContextPanel/ReadsRepositoryContextPanel.tsx',
         'uapi/components/bitcode/pipeline/models/repository-context.ts',
       ],
       canon: TERMINAL_CANON_REFS,
@@ -538,7 +538,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/components/reads/panels/ReadsRepositoryContextPanel.tsx',
+        'uapi/components/reads/ReadsRepositoryContextPanel/ReadsRepositoryContextPanel.tsx',
         'uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
       ],
       canon: TERMINAL_CANON_REFS,
@@ -613,7 +613,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/components/reads/panels/ReadsReadScenarioPanel.tsx',
+        'uapi/components/reads/ReadsReadScenarioPanel/ReadsReadScenarioPanel.tsx',
         'uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
       ],
       canon: TERMINAL_CANON_REFS,
@@ -633,7 +633,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     references: {
       source: [
         'uapi/components/bitcode/pipeline/',
-        'uapi/components/reads/panels/ReadsRepositoryContextPanel.tsx',
+        'uapi/components/reads/ReadsRepositoryContextPanel/ReadsRepositoryContextPanel.tsx',
       ],
       canon: TERMINAL_CANON_REFS,
     },
@@ -667,7 +667,7 @@ export const TERMINAL_INLINE_EXPLAINERS = {
     ],
     references: {
       source: [
-        'uapi/components/reads/panels/ReadsRepositoryContextPanel.tsx',
+        'uapi/components/reads/ReadsRepositoryContextPanel/ReadsRepositoryContextPanel.tsx',
         'uapi/components/bitcode/pipeline/',
       ],
       canon: TERMINAL_CANON_REFS,

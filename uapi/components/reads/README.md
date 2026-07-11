@@ -1,14 +1,18 @@
 # Reads experience (`Reads*`)
 
-`/reads` IP-buyer pipeline experience. Imports Bitcode only for base UI.
+## Layout
 
-| Path | Role |
-| --- | --- |
-| `models/enterprise-reading-ux-state.ts` | Reading step UX state |
-| `models/deposit-read-workbench.ts` | Workbench types/helpers |
-| `models/read-scenarios.ts` | Read scenario model |
-| `panels/ReadsDepositReadWorkbench.tsx` | Synthesize/fit workbench |
-| `panels/ReadsRepositoryContextPanel.tsx` | Repository context |
-| `panels/ReadsReadScenarioPanel.tsx` | Scenario selection |
+```
+reads/
+  README.md
+  models/
+  ReadsDepositReadWorkbench/
+    ReadsDepositReadWorkbench.tsx
+    hooks/ styles/ __tests__/
+  ReadsRepositoryContextPanel/
+  ReadsReadScenarioPanel/
+```
 
 Page shell: `uapi/app/reads/`.
+
+Import Bitcode only. Full filesystem contract: `internal-docs/BITCODE_SOURCE_LAYOUT.md`.

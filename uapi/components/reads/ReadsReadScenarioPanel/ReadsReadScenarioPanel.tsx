@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineExplainer';
 import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid';
 
-import BitcodeWorkspaceCard from '@/components/bitcode/pipeline/cards/BitcodeWorkspaceCard';
+import BitcodeWorkspaceCard from '@/components/bitcode/pipeline/BitcodeWorkspaceCard/BitcodeWorkspaceCard';
 import {
   buildTerminalReadMeasurementDraft,
   readTerminalRouteError,
@@ -26,7 +26,7 @@ import {
   type TerminalReadFittingReviewState,
   type TerminalReadScenariosState,
 } from '@/components/reads/models/read-scenarios';
-import { useBitcodeShellBridge } from '@/components/bitcode/layout/bitcode-shell-bridge';
+import { useBitcodeShellBridge } from '@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge';
 import { jumpToShellSection } from '@/components/bitcode/pipeline/shell-reading';
 
 interface TerminalReadScenarioPanelProps {

@@ -77,7 +77,7 @@ jest.mock("@/components/bitcode/pipeline/pipeline-execution-log", () => ({
   ),
 }));
 
-jest.mock("@/components/bitcode/layout/bitcode-shell-bridge", () => ({
+jest.mock("@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge", () => ({
   BitcodeShellBridgeProvider: ({
     children,
   }: {
@@ -89,7 +89,7 @@ jest.mock("@/components/bitcode/layout/bitcode-shell-bridge", () => ({
   }),
 }));
 
-jest.mock("@/components/deposits/panels/DepositSourceSelection", () => ({
+jest.mock("@/components/deposits/DepositSourceSelection/DepositSourceSelection", () => ({
   __esModule: true,
   default: ({
     onContextChange,
