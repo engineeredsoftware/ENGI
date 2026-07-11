@@ -85,9 +85,9 @@ describe('Terminal operational health read', () => {
 
     expect(read.upgrade).toMatchObject({
       state: 'planned',
-      migrationRoot: 'terminal-migration-root',
+      migrationRoot: 'operational-migration-root',
       rollbackPlanRoot: 'rollback-root',
-      approvalReceiptRoot: 'terminal-approval-root',
+      approvalReceiptRoot: 'operational-approval-root',
       generatedTypeRefresh: {
         state: 'current',
         source: 'packages/orm/src/types/database.generated.ts',
@@ -135,11 +135,12 @@ describe('Terminal operational health read', () => {
       commitmentMethod: 'taproot',
       finalityState: 'prepared',
     });
-    expect(read.testnetMinting.terminalJournalRows.map((row) => row.transactionKind)).toEqual([
+    // Canonical field names (journalRows); Terminal-era terminalJournalRows removed.
+    expect(read.testnetMinting.journalRows.map((row) => row.transactionKind)).toEqual([
       'asset_pack_mint',
       'asset_pack_anchor',
     ]);
-    expect(read.testnetMinting.terminalJournalDiff.blocking).toBe(false);
+    expect(read.testnetMinting.journalDiff.blocking).toBe(false);
     expect(read.testnetMinting.ledgerDatabaseReconciliation.blocking).toBe(false);
     expect(read.testnetMinting.ledgerObservedFacts).toEqual(read.testnetMinting.databaseProjectedFacts.map((fact) => ({
       factId: fact.factId,

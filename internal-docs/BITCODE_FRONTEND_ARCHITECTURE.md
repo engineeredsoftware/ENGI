@@ -1,37 +1,71 @@
-# Bitcode Frontend Architecture Notes
+# Bitcode Frontend Architecture
 
-Status: non-canonical internal note.
+Status: active internal architecture note aligned to V48 draft canon
+(`BITCODE_SPEC_V48.md` § Frontend component and naming architecture).
+Non-canonical relative to the SPEC family, but must not contradict it.
 
-## Product Surfaces
+## Product experiences (7)
 
-V26 frontend architecture is organized around:
-- Bitcode Terminal at `/terminal`,
-- Bitcode Exchange activity, Transactions, and history surfaces,
-- conversations as rich input overlays,
-- auxillaries for identity/readiness,
-- executions as a compatibility activity corridor,
-- marketing/docs surfaces that must teach Bitcode source-to-shares semantics.
+| Experience | Route(s) | Component prefix | Directory |
+| --- | --- | --- | --- |
+| Marketing | `/` | `Marketing*` | `uapi/components/marketing/` |
+| Packs | `/packs` | `Packs*` | `uapi/components/packs/` |
+| Reads | `/reads` | `Reads*` | `uapi/components/reads/` |
+| Deposits | `/deposits` | `Deposits*` | `uapi/components/deposits/` |
+| Docs | `/docs` | `Docs*` | `uapi/components/docs/` |
+| Conversations | `/conversations` (full commercial UX deferred post-V48) | `Conversations*` | `uapi/components/conversations/` |
+| Auxillaries | `/auxillaries/*` | `Auxillaries*` | `uapi/components/auxillaries/` |
 
-## Interface Rules
+Page shells live under `uapi/app/...` and compose components only — they are not
+the home of large UI trees.
 
-- Terminal is the primary operator surface.
-- Exchange activity is the shared reread model.
-- Conversations must write into the same Exchange state.
-- Auxillaries provide wallet, provider, repository, and interface readiness.
-- Compatibility execution pages may remain, but copy and component semantics must be Bitcode-owned.
-- Removed controls, including public compute and orchestration toggles, must not return.
+## Component layers
 
-## Component Language
+```
+Shadcn*  →  Bitcode*  →  Experience*
+```
 
-Prefer:
-- `BitcodeTerminal*`,
-- `ExchangeActivity*`,
-- `ReadReview*`,
-- `FitReview*`,
-- `AssetPack*`,
-- `Settlement*`,
-- `Finish*`,
-- `DeliveryMechanism*`,
-- `Auxillaries*`.
+1. **Shadcn** (`uapi/components/shadcn/`) — root primitives re-exported as
+   `ShadcnButton`, `ShadcnDialog`, etc. No Bitcode product knowledge.
+2. **Bitcode** (`uapi/components/bitcode/`) — theme, layout, nav, pipeline
+   table/log/telemetry, auth chrome, explainers, route shell. Imports Shadcn
+   only (plus tokens from `@bitcode/styling`).
+3. **Experience** — page-specific composition. Imports Bitcode only. Never
+   imports another experience or raw Shadcn.
 
-Avoid new work-item-first, output-object-first, pre-Finish, or non-Bitcode product names.
+During migration, current files may still live under
+`uapi/components/base/{shadcn,bitcode}/` until Phase 1 tree move completes.
+
+## Naming law
+
+| Concept | Prefer | Avoid (product UI) |
+| --- | --- | --- |
+| Pipeline run surface | `BitcodePipeline*`, `DepositsPipeline*`, `ReadsPipeline*` | `Terminal*`, product `Execution*` |
+| Ledger / BTD journal | `Journal*`, journal transaction kinds | Coupling journal names to Terminal |
+| Agent/PTRR executor packages | keep package names (`execution-generics`) | conflating with product Pipeline |
+
+## Legacy Terminal
+
+The `/terminal` cockpit is **not** a product surface. Live capabilities relocate
+to Bitcode or the owning experience. Dead cockpit-only modules are deleted.
+`/terminal` may be a compatibility redirect to `/packs` during migration.
+
+Canonical product routes and href builders live in
+`uapi/components/bitcode/routes/product-routes.ts` (and under `base/bitcode`
+until the tree move).
+
+## Interface rules
+
+- Launch entrypoints: `/deposits`, `/reads`, `/packs`, Auxillaries, Marketing, Docs.
+- Conversations structure may persist; full web conversations experience is
+  deferred post-V48.
+- Compatibility corridors (`/exchange` → `/packs`, `/executions` as needed) must
+  not reintroduce Terminal as a primary operator surface.
+- Source-safety, measurement-before-price, and proof-before-state bind UI the
+  same way they bind protocol law.
+
+## Package boundary
+
+- Shareable pure logic → `packages/`.
+- React and Next → `uapi/`.
+- No new generalizable domain logic under `uapi/app/terminal/`.

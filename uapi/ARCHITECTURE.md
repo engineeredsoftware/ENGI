@@ -1,126 +1,81 @@
-# UAPI Architecture - V26 Production Ready
+# UAPI Architecture
+
+Status: active for the V48 website application layer. Product architecture law
+lives in `BITCODE_SPEC_V48.md` (frontend component section) and
+`internal-docs/BITCODE_FRONTEND_ARCHITECTURE.md`.
 
 ## Overview
 
-UAPI is the main API and web application layer for Bitcode. It has been modernized for V26 production readiness with a clean, maintainable architecture.
+UAPI is the Next.js web application and HTTP route layer for Bitcode. Domain
+logic that is not React- or Next-specific belongs in `packages/`.
 
-## Directory Structure
+## Directory structure (target)
 
 ```
 uapi/
-├── app/                    # Next.js App Router
-│   ├── api/               # API routes
-│   ├── (root)/            # Marketing pages
-│   ├── (dashboard)/       # Authenticated app pages
-│   └── utils/             # App-specific utilities
-├── middleware/            # Middleware pipeline (V26 ready)
-│   ├── index.ts          # Pipeline orchestrator
-│   ├── authentication.ts # Auth handling with JWT validation
-│   ├── rate-limit.ts     # Token bucket rate limiting
-│   ├── security-headers.ts # OWASP security headers
-│   ├── cors.ts           # CORS configuration
-│   ├── telemetry.ts      # Request metrics
-│   └── route-rewrite.ts  # URL rewriting
-├── components/            # Shared React components
-├── utils/                 # Shared utilities
-│   └── supabase/         # Database clients
-├── lib/                   # Terminal-local utilities
-├── stories/              # Storybook stories
-├── tests/                # Test files
-└── middleware.ts         # Next.js middleware entry
-
+├── app/                         # Next.js App Router (thin page shells + api/)
+│   ├── page.tsx / (root)/       # Marketing
+│   ├── packs/                   # Packs experience
+│   ├── deposits/                # Deposits experience
+│   ├── reads/                   # Reads experience
+│   ├── docs/                    # Docs experience
+│   ├── conversations/           # Conversations (structure; full UX deferred)
+│   ├── auxillaries/             # Auxillaries experience
+│   └── api/                     # HTTP routes (thin adapters over packages)
+├── components/
+│   ├── shadcn/                  # Shadcn* root primitives
+│   ├── bitcode/                 # Bitcode* base (pipeline, layout, auth, …)
+│   ├── marketing/
+│   ├── packs/
+│   ├── reads/
+│   ├── deposits/
+│   ├── docs/
+│   ├── conversations/
+│   └── auxillaries/
+├── hooks/                       # React hooks (experience-agnostic or thin)
+├── lib/                         # Next-only glue (prefer packages for domain)
+├── middleware/                  # Middleware pipeline
+├── networking/                  # Client API helpers (pure builders → packages)
+├── types/                       # App-local types (prefer packages when shared)
+├── tests/                       # Jest / contracts
+└── stories/                     # Storybook
 ```
 
-## Middleware Pipeline
+Migration note: until Phase 1 completes, shadcn/bitcode sources may still live
+under `components/base/{shadcn,bitcode}/`. Experience components may still be
+colocated under `app/*` until Phase 4. Legacy `app/terminal/` is eradicated
+after live modules relocate (see V48 NOTES workstream).
 
-The middleware system uses a composable pipeline architecture:
+## Component import direction
 
-1. **Telemetry** (order: 10) - Captures metrics
-2. **Security Headers** (order: 20) - OWASP headers
-3. **CORS** (order: 30) - Cross-origin handling
-4. **Rate Limiting** (order: 40) - Token bucket algorithm
-5. **Authentication** (order: 50) - Session validation
-6. **Route Rewriting** (order: 60) - URL compatibility
-
-## Key Architectural Decisions
-
-### 1. No "core" or "lib" directories
-- If code is shareable, it belongs in `packages/`
-- If it's UAPI-specific, it lives directly in `uapi/`
-
-### 2. Middleware Pipeline
-- All middleware concerns centralized
-- Composable and configurable
-- Order-based execution
-
-### 3. Security First
-- OWASP security headers on all responses
-- Token bucket rate limiting
-- Session validation with freshness checks
-- Resource ownership validation
-
-### 4. Observability
-- Request telemetry captured
-- Metrics exported to external service
-- Structured logging throughout
-
-## Migration from Former Layouts
-
-### Old Structure Issues:
-- Middleware at root level (`uapi/middleware.ts`)
-- Authentication concerns scattered across files
-- Utilities scattered across `app/utils/`, `utils/`, `lib/`
-- No centralized security headers
-- Inconsistent rate limiting
-
-### New Structure Benefits:
-- All middleware in `middleware/` directory
-- Composable pipeline architecture
-- Centralized security configuration
-- Consistent rate limiting with token buckets
-- Clean separation of concerns
-
-## Integration Points
-
-### Database Access
-```typescript
-import { createClient } from '@bitcode/supabase/ssr/server';
+```
+Shadcn*  →  Bitcode*  →  Experience*
 ```
 
-### Logging
-```typescript
-import { log } from '@bitcode/logger';
-```
+App pages import components; components do not import page clients.
 
-### Types
-```typescript
-import type { Database } from '@bitcode/database-types';
-```
+## Naming
 
-## Production Readiness
+- Product run surfaces: **Pipeline** (`BitcodePipeline*`, experience prefixes).
+- BTD ledger rows: **journal** / journal transaction kinds.
+- Do not introduce new `Terminal*` product symbols.
+- Low-level agent executor packages remain `execution-*` until a deliberate
+  package rename; they are not the product Pipeline surface.
 
-### Security
-- ✅ CSRF protection via SameSite cookies
-- ✅ XSS protection via CSP headers
-- ✅ Clickjacking protection via X-Frame-Options
-- ✅ MIME sniffing protection
-- ✅ HSTS enforcement in production
+## Middleware pipeline
 
-### Performance
-- ✅ Token bucket rate limiting
-- ✅ Request telemetry
-- ✅ Lazy middleware initialization
-- ✅ In-memory caching for rate limits
+Composable handlers (order-based): telemetry → security headers → CORS →
+rate limit → authentication → route rewrite.
 
-### Reliability
-- ✅ Error boundaries in middleware
-- ✅ Graceful degradation
-- ✅ Session freshness validation
-- ✅ Automatic token refresh
+## Package boundary
 
-## Next Steps
+| Location | Owns |
+| --- | --- |
+| `packages/*` | Shareable domain, pure models, API handlers, BTD, pipelines |
+| `uapi/` | Next routes, React, Storybook, app-local adapters |
 
-1. Migrate remaining `lib/` utilities to appropriate locations
-2. Implement Redis for distributed rate limiting
-3. Add middleware for request validation
-4. Implement circuit breaker pattern for external services
+## Production readiness
+
+Security, rate limiting, telemetry, and source-safe product analytics remain
+required. Do not weaken auth, ownership checks, or source-safety for refactor
+convenience.

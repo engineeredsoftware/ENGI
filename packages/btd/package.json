@@ -25,6 +25,8 @@
     "./rollback-upgrade-repair-playbook": "./src/rollback-upgrade-repair-playbook.ts",
     "./runtime-observer-repair-job": "./src/runtime-observer-repair-job.ts",
     "./secret-rotation-plan": "./src/secret-rotation-plan.ts",
+    "./journal": "./src/journal.ts",
+    "./operational-health": "./src/operational-health.ts",
     "./terminal-operational-health": "./src/terminal-operational-health.ts"
   },
   "scripts": {

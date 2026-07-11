@@ -45,16 +45,30 @@ and validate the website E2E.
 - A dedicated E2E gate must prove selling and buying IP the Bitcode way.
 - A dedicated public launch messaging gate must refurbish the landing page for
   V48 commercial testnet readiness.
+- **Frontend component architecture (V48 implementation quality workstream on
+  `version/v48`):** three layers (`Shadcn*` → `Bitcode*` → seven experiences),
+  components under `uapi/components/{shadcn,bitcode,marketing,packs,reads,
+  deposits,docs,conversations,auxillaries}`, Pipeline product naming over
+  Execution/Terminal UI names, generalizable utilities package-first, legacy
+  `/terminal` eradicated to redirect-only then deleted once live modules
+  relocate. Spec updates and implementation land together as
+  `(specification-implementation)` commits.
 
 ## Explicitly deferred
 
 - Value-bearing mainnet settlement.
 - Commercial launch of API/MCP, ChatGPT App, and Bitcode Chat.
+- Full Conversations web-app commercialization (structure may be cleaned; full
+  experience ships post-V48).
 - Deeper BTD mining cryptographic implementation beyond existing website
   launch contracts.
 - Advanced exchange/market mechanics beyond the MVP seller/buyer AssetPack
   flows.
 - Source-bearing preview before BTC-testnet settlement and BTD rights transfer.
+- Blind rename of low-level `execution-generics` / PTRR executor packages
+  (agent Execution ≠ product Pipeline).
+- HTTP path renames for `/api/executions/*` until external consumers are
+  audited (internal Pipeline naming proceeds first).
 
 ## Pre-Implementation Sequence
 

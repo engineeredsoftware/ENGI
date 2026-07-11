@@ -199,7 +199,12 @@ export * from './secret-rotation-plan';
 export * from './source-to-shares';
 export * from './supply';
 export * from './telemetry';
+export * from './journal';
+/** @deprecated Prefer journal exports; Terminal-named aliases for migration. */
 export * from './terminal-journal';
+export * from './operational-health';
+/** @deprecated Prefer operational-health exports; Terminal-named aliases. */
+export * from './terminal-operational-health';
 export * from './testnet-mainnet-readiness-rehearsal';
 export * from './upgrade';
 export * from './wallet';

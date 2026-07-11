@@ -1188,3 +1188,77 @@ These ops items do **not** block Gate 3 PR merge into `version/v48` once CI is g
   contributor allocation, delivery, compensation, and repair states.
 - Do not launch value-bearing mainnet settlement in V48 opening work.
 - Do not treat notes-only V48 material as stronger than active V47 protocol law.
+
+## Frontend component architecture + Terminal eradication workstream (Garrett, 2026-07-11)
+
+**Status:** active on `version/v48` (direct version-branch workstream, not a
+numbered product gate). Every commit for this workstream is
+`(specification-implementation)`: specify in the V48 family + implement in the
+same commit.
+
+**Objective:** extraordinary maintainability — modular packages, type
+enforcement, tests, and clear naming targets (7 experiences + base layers).
+
+### Accepted decisions
+
+1. **Seven experiences:** Marketing (`/`), Packs (`/packs`), Reads (`/reads`),
+   Deposits (`/deposits`), Docs (`/docs`), Conversations (structure persists;
+   full commercial UX deferred post-V48), Auxillaries.
+2. **Three base layers:** `Shadcn*` (root re-exports) → `Bitcode*` (theme +
+   app-wide) → experience-specific prefixes. Strict import direction; no
+   experience imports another experience.
+3. **Directories:** `uapi/components/{shadcn,bitcode,marketing,packs,reads,
+   deposits,docs,conversations,auxillaries}/` (not under App Router pages as
+   routes). Thin page shells remain under `uapi/app/...`.
+4. **Pipeline** replaces product **Execution** / **Terminal** UI and domain
+   names for run surfaces (`BitcodePipeline*`, experience extensions). Ledger
+   **journal/transaction** vocabulary stays for BTD journal rows.
+   `execution-generics` (agent/PTRR) is not product Pipeline — do not blind-rename.
+5. **Terminal eradication:** ~96 modules under `uapi/app/terminal/`; only ~15
+   are live-imported by deposits/reads/auxillaries/conversations. Relocate live
+   modules first, then delete cockpit-only residue. `/terminal` becomes
+   redirect-only (default `/packs`) then removable.
+6. **Package-first:** generalizable pure logic leaves uapi for `packages/`
+   (wallet, cancel/orphan-sweep, analytics, pipeline read-models when non-React).
+7. **HTTP:** keep `/api/executions/*` stable until consumer audit; rename
+   internal modules and UI first.
+8. **Conversations redirect target** after Terminal death: `/packs` (matches
+   post-auth landing law) unless a later conversations shell ships.
+9. **God clients:** explode `DepositPageClient` / `ReadPageClient` / large
+   marketing sections into experience subcomponents + hooks + models (SRP).
+
+### Phased plan (implementation sequence)
+
+| Phase | Outcome |
+| --- | --- |
+| 0 | Law in SPEC/NOTES/DELTA/PARITY + docs; component dir scaffold; product routes + BTD journal/operational-health de-terminal naming with temporary aliases |
+| 1 | `components/base/{shadcn,bitcode}` → `components/{shadcn,bitcode}`; `Shadcn*` exports |
+| 2 | `bitcode/execution` → `bitcode/pipeline`; Pipeline naming in shared UI |
+| 3 | Relocate 15 live terminal modules into Bitcode/experience homes; deposits/reads import zero `@/app/terminal/*` |
+| 4 | Modularize god clients; move experience components into `components/{experience}` |
+| 5 | Kill Terminal page; redirects; delete ~81 dead modules + terminal-only tests |
+| 6 | Executions corridor → Pipeline (UI + internal API modules) |
+| 7 | Package extractions + hygiene |
+| 8 | Parity closeout + eslint bans on new Terminal imports |
+
+### Live terminal modules (must relocate, not delete first)
+
+`terminal-activity-history`, `terminal-run-data`, `terminal-run-activity`,
+`terminal-repository-context`, `terminal-transaction-query`, `terminal-routes`,
+`terminal-deposit-read-workbench`, `terminal-enterprise-reading-ux-state`,
+`bitcode-transaction-readiness`, `terminal-shell-bridge`,
+`TerminalTransactionsTable`, `TerminalRepositoryContextPanel`,
+`TerminalReadScenarioPanel`, `TerminalDepositReadWorkbench`,
+`TerminalOpenAuxillariesButton`.
+
+### Phase 0 landing (this commit)
+
+- SPEC: frontend component + Terminal eradication law.
+- DELTA/NOTES/PARITY: workstream recorded.
+- Docs: `internal-docs/BITCODE_FRONTEND_ARCHITECTURE.md`,
+  `uapi/ARCHITECTURE.md`, `internal-docs/TERMINOLOGY.md` updated.
+- Scaffold: `uapi/components/{shadcn,bitcode,...}` READMEs (tree migration
+  continues in Phase 1 while `components/base/*` still holds current files).
+- Implementation: `product-routes` as Bitcode-owned route helpers;
+  `@bitcode/btd` `journal` + `operational-health` as canonical names with
+  Terminal-named shims for callers.

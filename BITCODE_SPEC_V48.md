@@ -117,10 +117,11 @@ Goals:
   formula, proof roots, and source-safe visualizations.
 - Audit feature excess and defer or flag anything that distracts from launch.
 - Treat `/deposits`, `/reads`, and `/packs` as the website launch entrypoints;
-  route `/exchange` compatibility into `/packs`; keep `/terminal`,
-  `/conversations`, API/MCP, ChatGPT App, Bitcode Chat, value-bearing mainnet,
-  and advanced market mechanics out of the launch path unless a later gate
-  explicitly reopens them.
+  route `/exchange` compatibility into `/packs`; eradicate the legacy
+  `/terminal` cockpit as a product surface (compatibility redirect only during
+  migration); keep full Conversations commercialization, API/MCP, ChatGPT App,
+  Bitcode Chat, value-bearing mainnet, and advanced market mechanics out of the
+  launch path unless a later gate explicitly reopens them.
 - Prove E2E IP selling and IP buying through browser-level commercial tests.
 - Refurbish the landing page and public launch messaging for V48 testnet
   readiness.
@@ -155,8 +156,70 @@ V48 acts through the website application:
 - `/packs` owns searchable master-detail PackActivity across deposits, reads,
   previews, quotes, settlements, rights, delivery, compensation, repairs, proof
   roots, and histories.
+- Marketing (`/`), Docs (`/docs`), and Conversations (structure retained;
+  full commercial conversations experience deferred post-V48) complete the
+  website experience set.
 - API/MCP, ChatGPT App, and Bitcode Chat remain deferred commercial surfaces in
   V48, though their source-safe contracts must not regress.
+
+### Frontend component and naming architecture (rebuild law)
+
+V48 website UI rebuilds from a three-layer component architecture with seven
+experience prefixes. Dependency direction is strict:
+
+```
+Shadcn*  →  Bitcode*  →  {Marketing|Packs|Reads|Deposits|Docs|Conversations|Auxillaries}*
+```
+
+| Layer | Symbol prefix | Import rule | Owns |
+| --- | --- | --- | --- |
+| Shadcn | `Shadcn*` | Radix/shadcn primitives only | Root UI primitives re-exported with explicit `Shadcn` prefix |
+| Bitcode | `Bitcode*` | Shadcn + Bitcode theme/tokens only | App-wide base: layout, nav, pipeline table/log/telemetry, auth chrome, explainers, route shell |
+| Experience (7) | `Marketing*`, `Packs*`, `Reads*`, `Deposits*`, `Docs*`, `Conversations*`, `Auxillaries*` | Bitcode only (not raw Shadcn; not other experiences) | Page-specific composition |
+
+Canonical directories (under the Next app root `uapi/`):
+
+- `uapi/components/shadcn/`
+- `uapi/components/bitcode/`
+- `uapi/components/{marketing,packs,reads,deposits,docs,conversations,auxillaries}/`
+- Thin page shells under `uapi/app/{packs,deposits,reads,docs,conversations,auxillaries}/` and marketing at `uapi/app/page.tsx` / `(root)`
+
+Naming law (types, classes, files, functions, variables — not only components):
+
+- **Pipeline** is the product run surface language (master-detail tables, live
+  stream, history, selection). Prefer `BitcodePipeline*`,
+  `BitcodeDepositPipeline*`, `BitcodeReadPipeline*`, and experience-local
+  `Deposits*` / `Reads*` forms.
+- **Transaction / journal** remains ledger/journal vocabulary (BTD journal
+  entries, reconciliation), not the operator cockpit name.
+- **Execution** as a product UI name is retired in favor of Pipeline. Low-level
+  agent/executor packages (`execution-generics`, PTRR executor primitives) are
+  not product Pipeline surfaces and are not blindly renamed.
+- **Terminal** as a product surface name is eradicated. Live capabilities that
+  still live under `uapi/app/terminal/` must relocate into Bitcode or the
+  owning experience; dead cockpit-only modules are deleted. `/terminal` may
+  remain only as a compatibility redirect (default `/packs`) during migration.
+- HTTP paths under `/api/executions/*` may remain stable during rename waves;
+  internal TypeScript modules and UI labels move to Pipeline first.
+
+Package law: generalizable non-React domain logic belongs in `packages/`;
+uapi holds Next routes, React, and thin adapters. Shareable pure models that
+leave Terminal must land in packages or `components/bitcode` models — not
+remain under a Terminal path.
+
+### Legacy Terminal eradication completion condition
+
+Terminal eradication is complete when:
+
+1. No live product page imports from `uapi/app/terminal/`.
+2. `/terminal` is redirect-only (or removed) and is not a nav/login CTA.
+3. Shared pipeline selection, history, repository context, and readiness
+   models live under Bitcode/experience names without `Terminal*` prefixes.
+4. Browser proofs and commercial E2E remain on `/deposits`, `/reads`, `/packs`,
+   and Auxillaries — never requiring the Terminal cockpit.
+5. BTD journal and operational-health packages use non-Terminal names
+   (`journal`, `operational-health`), with temporary Terminal aliases only
+   while callers migrate.
 
 ## V48 canonical domain model
 
@@ -1189,12 +1252,20 @@ draft V48, and the gate branch is committed, pushed, and pull-requested into
 V48 Gate 2 is complete when launch-facing entrypoints resolve to `/deposits`,
 `/reads`, and `/packs`; old `/exchange` entrypoints are compatibility redirects
 or rewritten into `/packs`; BTD acquisition and detail paths no longer send
-users to `/terminal` or `/exchange`; `/terminal` and `/conversations` direct
-entry are retained or flaggable rather than launch CTAs; API/MCP, ChatGPT App,
-Bitcode Chat, value-bearing mainnet, source-bearing previews, and advanced
-market mechanics are explicitly deferred; `.bitcode/v48-feature-excess-
+users to `/terminal` or `/exchange`; `/terminal` is not a launch CTA and is
+scheduled for eradication (compatibility redirect only); Conversations full
+commercial experience remains deferred while structure may persist; API/MCP,
+ChatGPT App, Bitcode Chat, value-bearing mainnet, source-bearing previews, and
+advanced market mechanics are explicitly deferred; `.bitcode/v48-feature-excess-
 alignment-audit.json` is generated; `check:v48-gate2` validates the audit; and
 gate/canon workflows run the Gate 2 checker under promoted V48 canon.
+
+V48 frontend component architecture and Terminal eradication (implementation
+quality workstream on `version/v48`, not a separate product gate number) is
+complete when the three-layer / seven-experience component law above is
+realized in source, live modules no longer import `uapi/app/terminal/`, product
+Pipeline naming replaces Execution/Terminal UI names, generalizable utilities
+prefer packages, and parity matrix rows for this workstream are closed.
 
 V48 Gate 3 is complete when the IP seller state machine covers source
 connection, deposit AssetPack option synthesis, source-safe measurement review,

@@ -45,7 +45,7 @@ import {
   writeTerminalTransactionId,
 } from "@/app/terminal/terminal-transaction-query";
 import type { WorkspaceRun } from "@/app/terminal/terminal-run-data";
-import { buildReadHref } from "@/app/terminal/terminal-routes";
+import { buildReadHref } from "@/components/bitcode/routes/product-routes";
 import TerminalTransactionsTable from "@/app/terminal/TerminalTransactionsTable";
 import {
   DEFAULT_TRANSACTION_FILTERS,

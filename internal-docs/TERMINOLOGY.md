@@ -137,7 +137,28 @@ export interface Agent<TInput = any, TOutput = any> extends Executor<TInput, TOu
 - `/packages/doc-comment/` - Doc-comment infrastructure (no implementations)
 - `/packages/doc-code/` - Runtime injection system
 
-## Common Mistakes to Avoid
+## Frontend and product surface terms (V48)
+
+### Experiences (7)
+
+Marketing, Packs, Reads, Deposits, Docs, Conversations, Auxillaries — each with
+matching component prefixes (`Marketing*`, `Packs*`, …) under
+`uapi/components/<experience>/`.
+
+### Component layers
+
+- `Shadcn*` — root primitives (`uapi/components/shadcn/`).
+- `Bitcode*` — shared base over Shadcn (`uapi/components/bitcode/`).
+- Experience prefixes — page-specific composition over Bitcode.
+
+### Pipeline vs Execution vs Terminal
+
+| Term | Meaning |
+| --- | --- |
+| **Pipeline** | Product run surface: synthesis/read runs, master-detail tables, stream/log, selection (`BitcodePipeline*`). |
+| **Execution** (agent packages) | Low-level PTRR/agent executor primitives in packages such as `execution-generics`. Not the product UI name. |
+| **Journal / transaction** | BTD ledger journal rows and reconciliation vocabulary (`JournalEntry`, journal transaction kinds). |
+| **Terminal** | **Retired** product cockpit (`/terminal`). Do not add new Terminal product names. Relocate or delete residual modules. |
 
 ### ❌ NEVER Use These Terms:
 - "FAILSAFE GROUP" or "GENERATION GROUP" - Use the actual enum names
@@ -146,6 +167,7 @@ export interface Agent<TInput = any, TOutput = any> extends Executor<TInput, TOu
 - "GenerationSubStep" - It's `GenerationSubMetaSubStep`
 - "@doc-code-agent" - This doesn't exist
 - "Former patterns" - Just document current state
+- New product UI named "Terminal" or product-facing "Executions page" for pipeline runs
 
 ### ✅ ALWAYS Use These Terms:
 - `AgentVariationStep` for PTRR steps
@@ -153,6 +175,7 @@ export interface Agent<TInput = any, TOutput = any> extends Executor<TInput, TOu
 - `GenerationSubMetaSubStep` for generation operations
 - Exact class/type/enum names from source
 - File paths when referencing code
+- **Pipeline** for product run surfaces; **journal** for BTD ledger rows
 
 ## Mathematical Foundation
 
@@ -175,5 +198,5 @@ Always verify documentation against source code. The Bitcode codebase has evolve
 
 ---
 
-*Last Updated: 2025-01-19*
-*Version: Based on current source code verification*
+*Last Updated: 2026-07-11*
+*Version: Aligned to V48 frontend component + Terminal eradication workstream*

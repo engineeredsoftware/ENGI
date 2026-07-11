@@ -1,9 +1,16 @@
-# Base Components (Bitcode UI)
+# Base Components (Bitcode UI) — migration home
 
-This folder contains the canonical base layers for Bitcode UI. App code imports ONLY from here (and Bitcode primitives), never from vendored demo registries.
+**V48 target:** layers move to `uapi/components/{shadcn,bitcode}/` with `Shadcn*`
+and `Bitcode*` prefixes (see `../README.md` and
+`BITCODE_SPEC_V48.md` § Frontend component and naming architecture).
 
-- First‑party: `bitcode/` — Bitcode’s current shared base primitives (perf + layout + neutral composition)
-- Vendor providers: `<provider>/` — Proper‑noun folders for vendored component families (e.g., `shadcn`)
+Until Phase 1 completes, active sources remain under this `base/` tree:
+
+- First‑party: `bitcode/` — shared base primitives (perf + layout + composition)
+- Vendor providers: `<provider>/` — Proper‑noun folders (e.g., `shadcn`)
+
+New shared modules should prefer `uapi/components/bitcode/` (e.g.
+`routes/product-routes.ts`) over adding to this tree.
 
 General Rules
 - Explicit imports only; no re‑exports (no index barrels)

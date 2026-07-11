@@ -57,7 +57,7 @@ import {
 import {
   buildDepositHref,
   DEPOSIT_ROUTE,
-} from "@/app/terminal/terminal-routes";
+} from "@/components/bitcode/routes/product-routes";
 import { TerminalShellBridgeProvider } from "@/app/terminal/terminal-shell-bridge";
 import {
   buildDepositRouteSession,

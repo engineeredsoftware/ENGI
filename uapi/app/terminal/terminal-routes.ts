@@ -1,29 +1,31 @@
-export const TERMINAL_ROUTE = '/terminal' as const;
-export const PACKS_ROUTE = '/packs' as const;
-export const READ_ROUTE = '/reads' as const;
-export const DEPOSIT_ROUTE = '/deposits' as const;
-export const EXCHANGE_ROUTE = PACKS_ROUTE;
+/**
+ * @deprecated Compatibility shim. Import product routes from
+ * `@/components/bitcode/routes/product-routes` instead.
+ *
+ * `TERMINAL_ROUTE` / `buildTerminalHref` remain only for residual Terminal
+ * cockpit code during eradication. New code must not use them.
+ */
 
+export {
+  PACKS_ROUTE,
+  READS_ROUTE,
+  DEPOSITS_ROUTE,
+  READ_ROUTE,
+  DEPOSIT_ROUTE,
+  EXCHANGE_ROUTE,
+  buildPacksHref,
+  buildReadsHref,
+  buildReadHref,
+  buildDepositsHref,
+  buildDepositHref,
+  buildExchangeHref,
+} from '@/components/bitcode/routes/product-routes';
+
+/** @deprecated Terminal cockpit route — redirect-only after eradication. */
+export const TERMINAL_ROUTE = '/terminal' as const;
+
+/** @deprecated Prefer `buildPacksHref` or experience-specific builders. */
 export function buildTerminalHref(params?: URLSearchParams | string | null) {
   const query = typeof params === 'string' ? params : params?.toString();
   return query ? `${TERMINAL_ROUTE}?${query}` : TERMINAL_ROUTE;
-}
-
-export function buildPacksHref(params?: URLSearchParams | string | null) {
-  const query = typeof params === 'string' ? params : params?.toString();
-  return query ? `${PACKS_ROUTE}?${query}` : PACKS_ROUTE;
-}
-
-export function buildReadHref(params?: URLSearchParams | string | null) {
-  const query = typeof params === 'string' ? params : params?.toString();
-  return query ? `${READ_ROUTE}?${query}` : READ_ROUTE;
-}
-
-export function buildDepositHref(params?: URLSearchParams | string | null) {
-  const query = typeof params === 'string' ? params : params?.toString();
-  return query ? `${DEPOSIT_ROUTE}?${query}` : DEPOSIT_ROUTE;
-}
-
-export function buildExchangeHref(params?: URLSearchParams | string | null) {
-  return buildPacksHref(params);
 }
