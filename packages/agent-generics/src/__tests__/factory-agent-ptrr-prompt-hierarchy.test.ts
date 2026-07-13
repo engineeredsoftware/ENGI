@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { z } from 'zod';
-import { factoryAgentWithPTRR } from '../agents/factories';
+import { factoryAgentWithPTRR } from '@bitcode/generic-agents-ptrr';
 
 const OutputSchema = z.object({
   ok: z.boolean()
@@ -38,34 +38,34 @@ describe('factoryAgentWithPTRR Bitcode prompt hierarchy', () => {
         prompt: promptRegistry('system'),
         stepPrompts: {
           plan: () => promptRegistry('plan')
-        }
-      } as any)
-    ).toThrow(/missing try, refine, retry step Prompt registries/u);
+        } as any
+      })
+    ).toThrow(/missing try, refine, retry/u);
   });
 
-  it('accepts the explicit prompt plus stepPrompts carrier', () => {
+  it('accepts primary prompt + stepPrompts carrier', () => {
     const agent = factoryAgentWithPTRR({
-      name: 'complete-explicit-prompt-carrier',
+      name: 'primary-carrier',
       outputSchema: OutputSchema,
       prompt: promptRegistry('system'),
       stepPrompts: stepPromptRegistry(),
-      enforceLLM: false
+      enforceLLM: false,
     });
-
+    expect(agent.name).toBe('primary-carrier');
     expect(agent.steps).toHaveLength(4);
   });
 
-  it('accepts the compact prompts carrier with system plus complete PTRR steps', () => {
+  it('accepts compact prompts.system + plan/try/refine/retry carrier', () => {
     const agent = factoryAgentWithPTRR({
-      name: 'complete-compact-prompt-carrier',
+      name: 'compact-carrier',
       outputSchema: OutputSchema,
       prompts: {
         system: promptRegistry('system'),
         ...stepPromptRegistry()
       },
-      enforceLLM: false
+      enforceLLM: false,
     });
-
+    expect(agent.name).toBe('compact-carrier');
     expect(agent.steps).toHaveLength(4);
   });
 });

@@ -1618,6 +1618,17 @@ not provider packages.
 HostKind `local` replaces `inline` (BITCODE_PIPELINE_HOST; `inline` accepted as alias).
 Spec G3-4 tables updated to LocalHost / hostKind `local`.
 
+## PTRR base Agent extraction (Garrett, 2026-07-13)
+
+```
+@bitcode/agent-generics                        # Agent primitive (factoryAgent, QuickAgent, substeps)
+  → @bitcode/generic-agents-ptrr               # packages/generic-agents/PTRR (PTRRAgent base)
+```
+
+Preferred hierarchy names: `PTRRAgent`, `factoryPTRRAgent`.
+BC: `factoryAgentWithPTRR` / `factoryAgentWithPTRRGenerations` re-exported from agent-generics.
+Mirrors SDIVF extraction: pipelines-generics → generic-pipelines/SDIVF.
+
 ## MCP hierarchy modularization (Garrett, 2026-07-13)
 
 ```

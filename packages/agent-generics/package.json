@@ -16,6 +16,7 @@
     "@bitcode/generation-generics": "workspace:*",
     "@bitcode/generic-generations-failsafes": "workspace:*",
     "@bitcode/generic-generations-thinkings": "workspace:*",
+    "@bitcode/generic-agents-ptrr": "workspace:*",
     "@bitcode/generic-llms": "workspace:*",
     "@bitcode/prompts": "workspace:*",
     "@bitcode/tools-generics": "workspace:*",
@@ -37,6 +38,13 @@
   "exports": {
     ".": "./src/index.ts",
     "./agents/factories": "./src/agents/factories.ts",
-    "./types": "./src/types.ts"
+    "./types": "./src/types.ts",
+    "./execution": "./src/execution/index.ts",
+    "./substeps/factories": "./src/substeps/factories.ts",
+    "./diagnostics/instrumentation": "./src/diagnostics/instrumentation.ts",
+    "./steps/failsafe-sequence": "./src/steps/failsafe-sequence.ts",
+    "./steps/factories": "./src/steps/factories.ts",
+    "./steps/step-schemas": "./src/steps/step-schemas.ts",
+    "./steps/*": "./src/steps/*"
   }
 }

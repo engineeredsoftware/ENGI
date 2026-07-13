@@ -1,14 +1,15 @@
 /**
- * AGENT-GENERICS - Agent orchestration over generation bases
+ * AGENT-GENERICS - Agent orchestration primitives over generation bases
  *
  * Hierarchy:
  *   generation-generics → generic-generations/{failsafes,thinkings}
- *     → agent-generics (this package: Agent + PTRR composition)
- *     → product (pipeline-asset-pack agents / synthesis)
+ *     → agent-generics (this package: Agent primitive, execution, substeps, QuickAgent)
+ *     → generic-agents/PTRR (PTRRAgent base: Plan→Try→Refine→Retry)
+ *     → product / measure / conversation agents
  *
- * Agents are Executors that sequence PTRR-style steps. Each step runs 3 failsafe
- * parents (PrepareConciseContext → ChunkThenSum → StitchUntilComplete), each
- * driving Thinkings (Reason → Judge → StructuredOutput). Tools run after failsafes.
+ * PTRR base lives in `@bitcode/generic-agents-ptrr` and is re-exported here for BC.
+ * Each PTRR step runs 3 failsafe parents (PrepareConciseContext → ChunkThenSum →
+ * StitchUntilComplete), each driving Thinkings (Reason → Judge → StructuredOutput).
  *
  * Generation vocabulary: @bitcode/generation-generics
  * Failsafe prepared-context types: @bitcode/generic-generations-failsafes
@@ -17,7 +18,7 @@
  *
  * @doc-package
  * version: 1.0.0
- * pattern: ptrr-orchestration
+ * pattern: agent-primitives + ptrr-reexport
  * philosophy: "Agents compose generic generations; product specializes agents"
  */
 
@@ -65,25 +66,29 @@ export type {
 
 // ==================== AGENT FACTORIES ====================
 
-// Agent creation
+// Agent creation (primitives)
 export {
   factoryAgent,
-  factoryAgentWithPTRR,
   factoryAgentWithSingleStep,
-  factoryQuickAgent
-} from './agents/factories';
-export {
+  factoryQuickAgent,
   factoryAgentWithGenerations,
-  factoryAgentWithPTRRGenerations
 } from './agents/factories';
-export type {
-  BitcodePTRRFactoryConfig,
-  BitcodePTRRPromptCarrier,
-  BitcodePTRRPromptValue,
-  BitcodePTRRStepName,
-  BitcodePTRRStepPromptCarrier,
-  BitcodePTRRStepPromptRegistry
-} from './agents/factories';
+
+// PTRR base — implementation in @bitcode/generic-agents-ptrr (prefer direct import)
+export {
+  factoryPTRRAgent,
+  factoryPTRRAgentWithGenerations,
+  factoryAgentWithPTRR,
+  factoryAgentWithPTRRGenerations,
+  type PTRRAgent,
+  type BitcodePTRRFactoryConfig,
+  type BitcodePTRRPromptCarrier,
+  type BitcodePTRRPromptValue,
+  type BitcodePTRRStepName,
+  type BitcodePTRRStepPromptCarrier,
+  type BitcodePTRRStepPromptRegistry,
+} from '@bitcode/generic-agents-ptrr';
+
 
 // ==================== MEASUREMENT ====================
 //

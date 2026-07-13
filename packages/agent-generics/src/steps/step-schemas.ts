@@ -16,8 +16,8 @@
  *             output — the agent's final result is the last step's output,
  *             so the run's typed contract is preserved).
  *
- * `factoryAgentWithPTRR` resolves these defaults; each step accepts an
- * explicit `outputSchema` override in its per-step config.
+ * `factoryPTRRAgent` / `factoryAgentWithPTRR` resolve these defaults; each step
+ * accepts an explicit `outputSchema` override in its per-step config.
  */
 
 import { z } from 'zod';

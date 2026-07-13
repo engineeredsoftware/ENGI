@@ -204,7 +204,7 @@ packages/generic-<family>/          # README only (no package.json)
 
 | Family | Nested examples | Package names |
 | --- | --- | --- |
-| `generic-agents/` | `vcs/`, `danger-wall/`, … | `@bitcode/generic-agents-*` |
+| `generic-agents/` | `PTRR/`, `vcs/`, `danger-wall/`, … | `@bitcode/generic-agents-ptrr`, `@bitcode/generic-agent-*` |
 | `generic-tools/` | `web-search/`, `vcs/`, … | `@bitcode/generic-tools-*` |
 | `generic-pipelines/` | `SDIVF/` | `@bitcode/generic-pipelines-sdivf` (`SDIVFPipeline`) |
 | `generic-llms/` | `xAI/`, `OpenAI/`, `Anthropic/`, `Google/`, `defaults/`, `registry/` | `@bitcode/generic-llms-*` (+ aggregator `@bitcode/generic-llms`) |

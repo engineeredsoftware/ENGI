@@ -91,6 +91,8 @@ module.exports = {
     '^@bitcode/generic-mcps-bitcode$': '<rootDir>/../packages/generic-mcps/bitcode/src/index.ts',
     '^@bitcode/mcp-server$': '<rootDir>/../packages/mcp-server/src/index.ts',
     '^@bitcode/mcp$': '<rootDir>/../packages/mcp-generics/src/index.ts',
+    '^@bitcode/generic-agents-ptrr$': '<rootDir>/../packages/generic-agents/PTRR/src/index.ts',
+    '^@bitcode/generic-agents-ptrr/(.*)$': '<rootDir>/../packages/generic-agents/PTRR/src/$1',
     '^@bitcode/pipeline-hosts$': '<rootDir>/../packages/pipeline-hosts/src/index.ts',
     '^@bitcode/pipeline-hosts/(.*)$': '<rootDir>/../packages/pipeline-hosts/src/$1',
     '^@bitcode/([^/]+)$': '<rootDir>/../packages/$1/src/index.ts',

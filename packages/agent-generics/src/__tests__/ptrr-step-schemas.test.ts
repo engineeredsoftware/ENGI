@@ -18,8 +18,17 @@ jest.mock('../steps/factories', () => {
     factoryRetryStep: step('retry'),
   };
 });
+jest.mock('@bitcode/agent-generics/steps/factories', () => {
+  const step = (type: string) => jest.fn(() => Object.assign(async (input: any) => input, { type }));
+  return {
+    factoryPlanStep: step('plan'),
+    factoryTryStep: step('try'),
+    factoryRefineStep: step('refine'),
+    factoryRetryStep: step('retry'),
+  };
+});
 
-import { factoryAgentWithPTRR } from '../agents/factories';
+import { factoryAgentWithPTRR } from '@bitcode/generic-agents-ptrr';
 import { factoryPlanStep, factoryTryStep, factoryRefineStep, factoryRetryStep } from '../steps/factories';
 import { PlanStepOutputSchema } from '../steps/step-schemas';
 

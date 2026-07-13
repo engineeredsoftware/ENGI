@@ -43,6 +43,8 @@
       "@bitcode/mcp-generics": ["packages/mcp-generics/src/index.ts"],
       "@bitcode/generic-mcps-bitcode": ["packages/generic-mcps/bitcode/src/index.ts"],
       "@bitcode/mcp-server": ["packages/mcp-server/src/index.ts"],
+      "@bitcode/generic-agents-ptrr": ["packages/generic-agents/PTRR/src/index.ts"],
+      "@bitcode/generic-agents-ptrr/*": ["packages/generic-agents/PTRR/src/*"],
       "@bitcode/pipeline-hosts/*": ["packages/pipeline-hosts/src/*"],
       "@bitcode/refactoring/*": ["packages/refactoring/src/*"],
       "@bitcode/refactoring": ["packages/refactoring/src/index.ts"],

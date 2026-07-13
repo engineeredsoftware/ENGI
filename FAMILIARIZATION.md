@@ -147,15 +147,18 @@ Hierarchy names: `Measurement` → `AbsolutesMeasureAgent` →
 @bitcode/generic-generations-failsafes    failsafes/ — prepared-context types + base
 @bitcode/generic-generations-thinkings    thinkings/ — Reason→Judge→StructuredOutput base
         ↑
-@bitcode/agent-generics                   composes failsafes/thinkings into PTRR Agents
+@bitcode/agent-generics                   Agent primitive (factoryAgent, factoryQuickAgent, substeps)
         ↑
-@bitcode/pipeline-asset-pack              product synthesis / phase agents (no reimplementation)
+@bitcode/generic-agents-ptrr              PTRRAgent base (Plan→Try→Refine→Retry)
+        ↑
+@bitcode/generic-agent-* / product agents specialized prompts/tools (no PTRR reimplementation)
 ```
 
-Package path: `packages/generic-generations/{failsafes,thinkings}/`.
+Package paths: `packages/generic-generations/{failsafes,thinkings}/`,
+`packages/generic-agents/PTRR/`.
 
-**PTRR** (Plan / Try / Refine / Retry) is the agent step model. Each step runs a
-**Failsafes** sequence:
+**PTRR** (Plan / Try / Refine / Retry) is the base Agent step model
+(`@bitcode/generic-agents-ptrr`). Each step runs a **Failsafes** sequence:
 
 1. **PrepareConciseContext** — select execution-state *keys* (not values)
 2. **ChunkThenSum** — task generation; chunk only if request too large
@@ -171,7 +174,11 @@ context domain. `@bitcode/context` retains only process-global `GlobalContext`
 LLM-bound failsafe/thinkings **factories** still execute via `AgentExecution`
 inside `agent-generics` until inverted onto pure Execution + LLM registry.
 
-Factories: `factoryAgent`, `factoryAgentWithPTRR` in `agent-generics`.
+| Layer | Type name | Factory |
+| --- | --- | --- |
+| Primitive | `Agent` | `factoryAgent`, `factoryQuickAgent` |
+| Base + primitive | `PTRRAgent` | `factoryPTRRAgent` (`factoryAgentWithPTRR` BC) |
+| Specific | product agents | specialized configs over `factoryPTRRAgent` |
 
 ### 3.2.0 VCS
 

@@ -19,6 +19,8 @@ module.exports = {
     '^@bitcode/asset-packs-settle$': '<rootDir>/../asset-packs/settle/src/index.ts',
     '^@bitcode/agent-generics/agents/factories$': '<rootDir>/../agent-generics/src/agents/factories.ts',
     '^@bitcode/agent-generics/types$': '<rootDir>/../agent-generics/src/types.ts',
+    '^@bitcode/generic-agents-ptrr$': '<rootDir>/../generic-agents/PTRR/src/index.ts',
+    '^@bitcode/generic-agents-ptrr/(.*)$': '<rootDir>/../generic-agents/PTRR/src/$1',
     '^@bitcode/generic-llms$': '<rootDir>/../generic-llms/registry/src/index.ts',
     '^@bitcode/generic-llms/defaults$': '<rootDir>/../generic-llms/defaults/src/index.ts',
     '^@bitcode/generic-llms-defaults$': '<rootDir>/../generic-llms/defaults/src/index.ts',

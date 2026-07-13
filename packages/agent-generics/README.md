@@ -1,11 +1,24 @@
 # Agent Generics
 
-Agents execute decisions through PTRR methodology with hierarchical prompt accumulation using typed Generations.
+Agent **primitives**: execution, registries, substeps, `factoryAgent` / `factoryQuickAgent`.
+
+## Hierarchy
+
+```
+@bitcode/agent-generics              # this package (Agent primitive)
+        ↑
+@bitcode/generic-agents-ptrr         # PTRRAgent base (Plan→Try→Refine→Retry)
+        ↑
+product / generic-agent-*            # specialized agents
+```
+
+PTRR base factories (`factoryPTRRAgent` / BC `factoryAgentWithPTRR`) live in
+`@bitcode/generic-agents-ptrr` and are re-exported here for compatibility.
 
 ## Quick vs. PTRR Agents
 
-- Agent (PTRR): Canonical, sequences Plan → Try → Refine → Retry. Each generation uses the 3×3 failsafed generation pattern by default.
-- QuickAgent: Minimal, single‑generation agent for setup/utility behaviors where PTRR is unnecessary. Uses standard Execution state and registry access.
+- **PTRRAgent** (`@bitcode/generic-agents-ptrr`): sequences Plan → Try → Refine → Retry. Each generation uses the 3×3 failsafed generation pattern by default.
+- **QuickAgent** (this package): Minimal, single‑generation agent for setup/utility behaviors where PTRR is unnecessary.
 
 Create a QuickAgent:
 

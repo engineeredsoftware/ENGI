@@ -1,10 +1,12 @@
 /**
- * Step Factories - PTRR pattern implementation with EXACTLY 7 substeps
- * 
+ * PTRR step factories — Plan / Try / Refine / Retry with EXACTLY 7 substeps.
+ *
+ * PTRR step factories (Plan/Try/Refine/Retry). Composed by @bitcode/generic-agents-ptrr.
+ *
  * CRITICAL ARCHITECTURE:
  * Each PTRR Step runs EXACTLY the same sequence:
  * 3 FailsafeMetaSubSteps (parents) each running 3 GenerationSubMetaSubSteps (children) + Tools
- * 
+ *
  * The 7-substep sequence:
  * 1. PrepareConciseContext (CONTEXT SIGNAL/NOISE) → Reason→Judge→StructuredOutput
  * 2. ChunkThenSum (BIG INPUT) → Reason→Judge→StructuredOutput
@@ -24,10 +26,8 @@ import {
 } from '@bitcode/execution-generics';
 import { Executor } from '@bitcode/execution-generics';
 import { log } from '@bitcode/logger';
-import { AgentStep, UsedTool } from '../types';
-
-// StepExecutor is just an Executor - no special type needed
-type StepExecutor<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
+import type { AgentStep, UsedTool } from '../types';
+import { AgentVariationStep } from '../types';
 import {
   factoryPrepareConciseContext,
   factoryChunkThenSum,
@@ -38,11 +38,13 @@ import {
   factoryToolsExecution,
   factoryValidation
 } from '../substeps/factories';
-import { AgentVariationStep } from '../types';
 import { z } from 'zod';
 import { logStepTrace, logStepStart, logStepError } from '../diagnostics/instrumentation';
 import { createFailsafeGenerationSequence } from './failsafe-sequence';
 import { PlanStepOutputSchema } from './step-schemas';
+
+// StepExecutor is just an Executor - no special type needed
+type StepExecutor<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
 
 function formatStepPromptCarrier(prompt: any): any {
   if (!prompt) return prompt;
