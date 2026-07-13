@@ -504,6 +504,7 @@ public entries remain stable (`./deposit-asset-pack-options`, `./depository-sear
 | `streams` | Streaming progress helpers |
 | `vercel`, `cloudflare`, `kubernetes` | Host / infra adapters |
 | `containerizations/docker` | Docker primitives (`@bitcode/containerizations-docker`; BC `@bitcode/docker`) |
+| `web-scrapers/firecrawl` | Firecrawl client (`@bitcode/web-scrapers-firecrawl`; BC `@bitcode/firecrawl`) |
 | `supabase`, `orm` | Live data plane (Postgres via Supabase) |
 | `generic-artifacts-{aws,supabase,vercel}` | Artifact storage providers (S3 / Supabase / Blob) |
 | `postgresql`, `mysql` | Optional/legacy DB MCP tool helpers (not product storage) |

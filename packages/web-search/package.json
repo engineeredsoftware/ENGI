@@ -6,6 +6,6 @@
   "types": "src/index.ts",
   "dependencies": {
     "@bitcode/logger": "workspace:*",
-    "@bitcode/firecrawl": "workspace:*"
+    "@bitcode/web-scrapers-firecrawl": "workspace:*"
   }
 }

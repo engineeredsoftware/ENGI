@@ -6,7 +6,7 @@
  */
 
 import { Tool } from '@bitcode/tools-generics';
-import { searchWeb } from '@bitcode/firecrawl';
+import { searchWeb } from '@bitcode/web-scrapers-firecrawl';
 import { SEARCH_WEB_DOC_CODE_TOOL_PROMPT } from './prompts/SearchWebDocCodeToolPrompt';
 
 export class SearchWebTool extends Tool<typeof searchWeb> {

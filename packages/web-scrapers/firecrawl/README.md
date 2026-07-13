@@ -1,4 +1,7 @@
-# Firecrawl Integration Package
+# @bitcode/web-scrapers-firecrawl
+
+> Path: `packages/web-scrapers/firecrawl`  
+> BC alias: `@bitcode/firecrawl`
 
 ## Overview
 

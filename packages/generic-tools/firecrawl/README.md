@@ -61,7 +61,7 @@ import {
   FirecrawlSearchOptions,
   FirecrawlPageData,
   FirecrawlResponse
-} from '@bitcode/firecrawl';
+} from '@bitcode/web-scrapers-firecrawl';
 ```
 
 ### Content Processing Pipeline

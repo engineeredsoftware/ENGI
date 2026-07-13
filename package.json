@@ -24,6 +24,7 @@
     "packages/generic-attachments/*",
     "packages/external-apps/*",
     "packages/containerizations/*",
+    "packages/web-scrapers/*",
     "packages/asset-packs-pipelines/*",
     "packages/generic-doc-comment-plugins/*",
     "packages/pipelines/*",

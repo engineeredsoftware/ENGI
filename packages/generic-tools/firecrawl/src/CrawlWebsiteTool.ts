@@ -6,7 +6,7 @@
  */
 
 import { Tool } from '@bitcode/tools-generics';
-import { crawlUrl } from '@bitcode/firecrawl';
+import { crawlUrl } from '@bitcode/web-scrapers-firecrawl';
 import { CRAWL_WEBSITE_DOC_CODE_TOOL_PROMPT } from './prompts/CrawlWebsiteDocCodeToolPrompt';
 
 export class CrawlWebsiteTool extends Tool<typeof crawlUrl> {

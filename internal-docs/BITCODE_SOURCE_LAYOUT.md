@@ -226,6 +226,7 @@ packages/generic-<family>/          # README only (no package.json)
 | `generic-executions/` | (package root) | `@bitcode/generic-executions` (process-root Execution) |
 | `external-apps/` | `chatgpt/`, `claude/` | `@bitcode/external-apps-chatgpt`, `-claude` (host embeddings) |
 | `containerizations/` | `docker/` | `@bitcode/containerizations-docker` |
+| `web-scrapers/` | `firecrawl/` | `@bitcode/web-scrapers-firecrawl` |
 | `files/` | (package root) | `@bitcode/files` (file path/op primitives for all packages) |
 | `context-generics/` | (package root) | `@bitcode/context-generics` (BC only; no separate Context state) |
 | `artifact-generics/` | (package root) | `@bitcode/artifact-generics` (Artifact + storage contract) |

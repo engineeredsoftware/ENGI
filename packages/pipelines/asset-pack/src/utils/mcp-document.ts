@@ -42,7 +42,6 @@ const MCP_MODULE_LOADERS: Record<string, () => Promise<Record<string, unknown>>>
   cloudflare: () => import('@bitcode/generic-tools-mcps-cloudflare'),
   docker: () => import('@bitcode/generic-tools-mcps-docker'),
   figma: () => import('@bitcode/generic-tools-mcps-figma'),
-  firebase: () => import('@bitcode/generic-tools-mcps-firebase'),
   'git-repo-research': () => import('@bitcode/generic-tools-mcps-git-repo-research'),
   github: () => import('@bitcode/generic-tools-mcps-github'),
   gitlab: () => import('@bitcode/generic-tools-mcps-gitlab'),

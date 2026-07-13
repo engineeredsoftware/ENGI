@@ -1658,6 +1658,13 @@ See “Artifact storage providers + remove @bitcode/aws” — providers split i
 `generic-artifacts/{aws,supabase,vercel}`; patch remains the type base;
 `@bitcode/artifacts` composes storage.
 
+## Remove firebase; firecrawl → web-scrapers (Garrett, 2026-07-13)
+
+- Deleted `@bitcode/firebase` and `@bitcode/generic-tools-mcps-firebase` (+ Firebase MCP
+  DocCode promptparts). Product data plane remains Supabase.
+- Moved Firecrawl client to `packages/web-scrapers/firecrawl`
+  (`@bitcode/web-scrapers-firecrawl`); BC `@bitcode/firecrawl` re-exports.
+
 ## Containerizations + files primitives (Garrett, 2026-07-13)
 
 ```

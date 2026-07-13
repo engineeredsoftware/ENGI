@@ -6,7 +6,7 @@
  */
 
 import { SearchProviderBase, SearchQuery, SearchResult } from '../multi-provider';
-import { FirecrawlClient, FirecrawlSearchOptions, FirecrawlPageData } from '@bitcode/firecrawl';
+import { FirecrawlClient, FirecrawlSearchOptions, FirecrawlPageData } from '@bitcode/web-scrapers-firecrawl';
 import { log } from '@bitcode/logger';
 
 export class FirecrawlSearchProvider extends SearchProviderBase {
