@@ -1,6 +1,12 @@
 'use client';
 
-import TypingAnimation from '@/components/bitcode/TypingAnimation/TypingAnimation';
+/**
+ * ProcessingIndicator — live-run status chrome (orb + label + ellipsis + cursor).
+ *
+ * Ellipsis uses a fixed-width slot so the typing cursor does not jitter as
+ * dots cycle (TypingAnimation previously retyped "..." and shifted layout).
+ */
+
 import React, { useEffect, useRef, memo } from 'react';
 
 interface ProcessingIndicatorProps {
@@ -86,13 +92,12 @@ export const ProcessingIndicator = memo(({ label = 'Processing', stalled = false
               : 'processing-text text-brand-emerald text-neon'
           }
         >
-          {label}
-          <TypingAnimation
-            loop={true}
-            text="..."
-            duration={150}
-            className="!text-[13px] !font-light !leading-none !tracking-wider !text-left"
-          />
+          <span className="processing-label">{label}</span>
+          {/* Fixed-width ellipsis slot: dots clip-reveal in-place; cursor stays put. */}
+          <span className="processing-ellipsis" aria-hidden="true">
+            <span className="processing-ellipsis-fill" />
+          </span>
+          <span className="processing-cursor" aria-hidden="true" />
         </div>
 
         {/* Subtle underline animation */}

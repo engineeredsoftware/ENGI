@@ -88,11 +88,89 @@
     letter-spacing: 0.1em;
     opacity: 0.8;
     padding: 4px;
-    display: flex;
+    display: inline-flex;
     align-items: baseline;
-    gap: 4px;
+    gap: 0;
     
     animation: processing-text-breathe 4s ease-in-out infinite;
+}
+
+.processing-label {
+    flex: 0 0 auto;
+}
+
+/*
+ * Fixed-width ellipsis slot: outer box is always 3ch so the cursor never
+ * shifts. Inner clip reveals 0→3 dots without changing layout width.
+ */
+.processing-ellipsis {
+    display: inline-block;
+    width: 3ch;
+    min-width: 3ch;
+    max-width: 3ch;
+    flex: 0 0 3ch;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: baseline;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+    line-height: inherit;
+}
+
+.processing-ellipsis-fill {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    max-width: 3ch;
+    animation: processing-ellipsis-reveal 1.2s steps(4, end) infinite;
+}
+
+.processing-ellipsis-fill::before {
+    content: '...';
+}
+
+@keyframes processing-ellipsis-reveal {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 3ch;
+    }
+}
+
+/* Stable caret after the fixed ellipsis slot — never moves with dots. */
+.processing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.05em;
+    margin-left: 2px;
+    flex: 0 0 2px;
+    align-self: center;
+    background-color: rgba(103, 254, 183, 0.9);
+    box-shadow:
+      0 0 8px rgba(103, 254, 183, 0.5),
+      0 0 12px rgba(103, 254, 183, 0.3);
+    border-radius: 1px;
+    vertical-align: middle;
+    animation: processing-cursor-blink 0.8s step-end infinite;
+}
+
+.processing-text.text-amber-400 .processing-cursor {
+    background-color: rgba(251, 191, 36, 0.9);
+    box-shadow:
+      0 0 8px rgba(251, 191, 36, 0.45),
+      0 0 12px rgba(251, 191, 36, 0.25);
+}
+
+@keyframes processing-cursor-blink {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
 }
 
 /* Underline animation */
