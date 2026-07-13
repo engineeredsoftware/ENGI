@@ -161,10 +161,12 @@ export class VCSProviderFactory {
   }
 }
 
-// Register default providers - lazy loaded for zero initial overhead
-VCSProviderFactory.registerProvider('github', () => import('@bitcode/github'));
-VCSProviderFactory.registerProvider('gitlab', () => import('@bitcode/gitlab'));
-VCSProviderFactory.registerProvider('bitbucket', () => import('@bitcode/bitbucket'));
+// Register default providers — nested generic-vcs implementations (lazy-loaded).
+// Package names: @bitcode/generic-vcs-{github,gitlab,bitbucket}.
+// BC shims @bitcode/github|gitlab|bitbucket re-export the same modules.
+VCSProviderFactory.registerProvider('github', () => import('@bitcode/generic-vcs-github'));
+VCSProviderFactory.registerProvider('gitlab', () => import('@bitcode/generic-vcs-gitlab'));
+VCSProviderFactory.registerProvider('bitbucket', () => import('@bitcode/generic-vcs-bitbucket'));
 
 /**
  * Export convenience functions for type-safe provider creation

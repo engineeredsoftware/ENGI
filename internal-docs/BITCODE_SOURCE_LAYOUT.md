@@ -210,6 +210,8 @@ packages/generic-<family>/          # README only (no package.json)
 | `generic-llms/` | `xAI/`, `OpenAI/`, `Anthropic/`, `Google/`, `defaults/`, `registry/` | `@bitcode/generic-llms-*` (+ aggregator `@bitcode/generic-llms`) |
 | `generic-generations/` | `failsafes/`, `thinkings/` | `@bitcode/generic-generations-failsafes`, `-thinkings` |
 | `generic-measurements/` | `measure-agent/`, `absolutes/`, `needinesses/` | `@bitcode/generic-measurements-*` |
+| `generic-vcs/` | `github/`, `gitlab/`, `bitbucket/`, `git/` | `@bitcode/generic-vcs-*` |
+| `vcs-generics/` | (package root) | `@bitcode/vcs-generics` |
 | `asset-packs/` | `synthesis/`, `settle/` | `@bitcode/asset-packs-synthesis`, `-settle` |
 | `generic-doc-comment-plugins/` | `doc-developing/` | `@bitcode/doc-comment-developing` |
 

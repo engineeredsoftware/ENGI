@@ -15,6 +15,7 @@
     "packages/generic-llms/*",
     "packages/generic-generations/*",
     "packages/generic-measurements/*",
+    "packages/generic-vcs/*",
     "packages/asset-packs/*",
     "packages/generic-doc-comment-plugins/*",
     "packages/pipelines/*",

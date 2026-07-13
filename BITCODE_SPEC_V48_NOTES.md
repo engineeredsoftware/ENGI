@@ -1584,3 +1584,18 @@ Prepared catalogs (`ASSET_PACK_ABSOLUTES_CATALOG`, lens catalogs) live in
 `@bitcode/asset-packs-synthesis`. `agent-generics` re-exports measure factories
 for compatibility; prefer package-direct imports in new code.
 
+## VCS hierarchy modularization (Garrett, 2026-07-13)
+
+```
+@bitcode/vcs-generics                      # packages/vcs-generics (was packages/vcs)
+  → @bitcode/generic-vcs-github            # packages/generic-vcs/github
+  → @bitcode/generic-vcs-gitlab
+  → @bitcode/generic-vcs-bitbucket
+  → @bitcode/generic-vcs-git               # Git operation bridge
+```
+
+Compatibility shims remain at `@bitcode/vcs`, `@bitcode/github`, `@bitcode/gitlab`,
+`@bitcode/bitbucket`, `@bitcode/git`. Prefer hierarchy package names in new code.
+`generic-tools/vcs` and `generic-agents-vcs` are tools/agents over the VCS layer,
+not provider packages.
+

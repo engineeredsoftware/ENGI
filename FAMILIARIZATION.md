@@ -173,6 +173,20 @@ inside `agent-generics` until inverted onto pure Execution + LLM registry.
 
 Factories: `factoryAgent`, `factoryAgentWithPTRR` in `agent-generics`.
 
+### 3.2.0 VCS
+
+```
+@bitcode/vcs-generics                      VCS primitives (AbstractVCSProvider, factory, service)
+        ↑
+@bitcode/generic-vcs-{github|gitlab|bitbucket}   Provider implementations
+@bitcode/generic-vcs-git                   Git-shaped bridge over providers
+        ↑
+@bitcode/generic-tools-vcs / generic-agents-vcs   Tools + agent over VCS
+```
+
+Package paths: `packages/vcs-generics/`, `packages/generic-vcs/*`.
+Compatibility shims: `@bitcode/vcs`, `@bitcode/github`, …
+
 ### 3.2 Tools
 
 ```
@@ -346,7 +360,11 @@ public entries remain stable (`./deposit-asset-pack-options`, `./depository-sear
 | --- | --- |
 | `auth` | Wallet local identity, Bitcoin wallet client, OAuth provider, Supabase auth redirect, QA telemetry |
 | `github` / `gitlab` / `bitbucket` | VCS providers |
-| `vcs` + `generic-tools/vcs` | VCS abstraction + tools |
+| `vcs-generics` | VCS primitives (`AbstractVCSProvider`, factory, service) |
+| `generic-vcs-github` / `-gitlab` / `-bitbucket` | Nested provider implementations |
+| `generic-vcs-git` | Git operation bridge over providers |
+| `vcs` / `github` / … | BC re-exports of vcs-generics / generic-vcs-* |
+| `generic-tools/vcs` + `generic-agents-vcs` | VCS tools and agent (not providers) |
 | `git` | Git operation bridge |
 | `supabase` | Supabase clients |
 | `notion`, `figma`, `jira`, `circleci`, … | External service adapters |

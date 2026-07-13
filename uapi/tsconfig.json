@@ -451,11 +451,20 @@
       "@bitcode/vcs/*": [
         "../packages/vcs/src/*"
       ],
+      "@bitcode/generic-vcs-github": [
+        "../packages/generic-vcs/github/src/index.ts"
+      ],
       "@bitcode/vcs-core": [
-        "../packages/vcs/src/index.ts"
+        "../packages/vcs-generics/src/index.ts"
+      ],
+      "@bitcode/vcs-generics": [
+        "../packages/vcs-generics/src/index.ts"
       ],
       "@bitcode/vcs-core/*": [
-        "../packages/vcs/src/*"
+        "../packages/vcs-generics/src/*"
+      ],
+      "@bitcode/vcs-generics/*": [
+        "../packages/vcs-generics/src/*"
       ],
       "@bitcode/orm": [
         "../packages/orm/src/index.ts"

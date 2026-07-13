@@ -1,14 +1,11 @@
 {
   "name": "@bitcode/git",
   "version": "1.0.0",
-  "description": "Bitcode Git operation bridge for repository anchors, VCS provider calls, and AssetPack PR delivery support",
+  "description": "Compatibility re-export of @bitcode/generic-vcs-git",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "exports": { ".": "./src/index.ts" },
   "dependencies": {
-    "@bitcode/bitbucket": "workspace:*",
-    "@bitcode/github": "workspace:*",
-    "@bitcode/gitlab": "workspace:*",
-    "@bitcode/supabase": "workspace:*",
-    "@bitcode/vcs": "workspace:*"
+    "@bitcode/generic-vcs-git": "workspace:*"
   }
 }

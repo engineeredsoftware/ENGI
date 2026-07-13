@@ -1,0 +1,17 @@
+{
+  "name": "@bitcode/generic-vcs-git",
+  "version": "1.0.0",
+  "description": "Git operation bridge over vcs-generics providers",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "dependencies": {
+    "@bitcode/supabase": "workspace:*",
+    "@bitcode/vcs-generics": "workspace:*",
+    "@bitcode/generic-vcs-github": "workspace:*",
+    "@bitcode/generic-vcs-gitlab": "workspace:*",
+    "@bitcode/generic-vcs-bitbucket": "workspace:*"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

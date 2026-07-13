@@ -37,7 +37,7 @@ import {
   FileDeleteData,
   CreateWebhookData,
   CreateIssueData
-} from '@bitcode/vcs';
+} from '@bitcode/vcs-generics';
 import { log } from '@bitcode/logger';
 
 type GitHubPullRequestData = {
