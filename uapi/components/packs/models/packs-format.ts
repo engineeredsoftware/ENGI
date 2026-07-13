@@ -1,8 +1,8 @@
 /**
  * Pure formatters and shared option catalogs for the Packs experience.
+ * React status presentation lives in PacksStatusPill (not here).
  */
 
-import React from "react";
 import type {
   PackActivitySortKey,
   PackActivityType,
@@ -30,6 +30,14 @@ export const PACKS_SORT_OPTIONS: Array<{
   { value: "deliveryState", label: "Delivery" },
   { value: "repairState", label: "Repair" },
 ];
+
+/** Facet filter keys bound to URL params on the packs master filter bar. */
+export const PACKS_FACET_FILTERS = [
+  ["settlementState", "Settlement facet"],
+  ["compensationState", "Compensation facet"],
+  ["deliveryState", "Delivery facet"],
+  ["repairState", "Repair facet"],
+] as const;
 
 export function readParam(params: URLSearchParams, key: string, fallback = "") {
   return String(params.get(key) || fallback);
@@ -63,12 +71,15 @@ export function formatType(value: PackActivityType) {
   );
 }
 
-export function statusPill(value: string | null, fallback = "not recorded") {
-  const label = value || fallback;
-  return (
-    <span className="inline-flex min-h-7 items-center rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[0.68rem] uppercase tracking-[0.16em] text-neutral-300">
-      {label}
-    </span>
-  );
+export function formatActivityValue(record: {
+  values: Array<{ amount: number | string; unit: string }>;
+  measurements: Array<{ value: number | string; unit: string | null }>;
+}) {
+  if (record.values[0]) {
+    return `${record.values[0].amount} ${record.values[0].unit}`;
+  }
+  if (record.measurements[0]) {
+    return `${record.measurements[0].value} ${record.measurements[0].unit || ""}`;
+  }
+  return "not measured";
 }
-

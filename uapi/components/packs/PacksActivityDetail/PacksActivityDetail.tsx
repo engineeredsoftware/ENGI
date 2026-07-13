@@ -1,23 +1,22 @@
 /**
- * Packs detail aside: source-safe overview, measurements, states, accounting,
- * governance, and proof roots for the selected PackActivity row.
+ * Packs detail aside shell: overview, measurements, then section units
+ * (states, accounting, governance, proof roots) for the selected row.
  */
 "use client";
 
 import React from "react";
 import { ShieldCheck } from "lucide-react";
-import {
-  ProductRouteProofDetail,
-  ProductRouteStatePanel,
-} from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";
+import { ProductRouteStatePanel } from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";
 import type { PackActivityDetailProjection } from "@/components/bitcode/activity/PackActivityModel/pack-activity-model";
 import {
-  formatSats,
   formatTimestamp,
   formatType,
-  statusPill,
 } from "@/components/packs/models/packs-format";
-import { PacksDetailSection as DetailSection } from "@/components/packs/PacksDetailSection/PacksDetailSection";
+import { PacksDetailSection } from "@/components/packs/PacksDetailSection/PacksDetailSection";
+import { PacksActivityDetailStates } from "@/components/packs/PacksActivityDetailStates/PacksActivityDetailStates";
+import { PacksActivityDetailAccounting } from "@/components/packs/PacksActivityDetailAccounting/PacksActivityDetailAccounting";
+import { PacksActivityDetailGovernance } from "@/components/packs/PacksActivityDetailGovernance/PacksActivityDetailGovernance";
+import { PacksActivityDetailProofRoots } from "@/components/packs/PacksActivityDetailProofRoots/PacksActivityDetailProofRoots";
 
 export type PacksActivityDetailProps = {
   detail: PackActivityDetailProjection | null;
@@ -54,7 +53,7 @@ export function PacksActivityDetail({ detail }: PacksActivityDetailProps) {
           </p>
         </div>
 
-        <DetailSection title="Overview">
+        <PacksDetailSection title="Overview">
           <dl className="grid gap-3 text-sm tablet:grid-cols-2">
             <div>
               <dt className="text-neutral-500">Type</dt>
@@ -81,9 +80,9 @@ export function PacksActivityDetail({ detail }: PacksActivityDetailProps) {
               </dd>
             </div>
           </dl>
-        </DetailSection>
+        </PacksDetailSection>
 
-        <DetailSection title="Measurements">
+        <PacksDetailSection title="Measurements">
           <div className="grid gap-2">
             {detail.measurements.length ? (
               detail.measurements.map((measurement) => (
@@ -103,184 +102,19 @@ export function PacksActivityDetail({ detail }: PacksActivityDetailProps) {
               </p>
             )}
           </div>
-        </DetailSection>
+        </PacksDetailSection>
 
-        <DetailSection title="State readback">
-          <div className="grid gap-2 text-sm">
-            <div className="flex items-center justify-between gap-3">
-              {statusPill(detail.states.settlement, "settlement not recorded")}
-            </div>
-            <div className="flex items-center justify-between gap-3">
-              {statusPill(detail.states.rights, "BTD rights not recorded")}
-            </div>
-            <div className="flex items-center justify-between gap-3">
-              {statusPill(
-                detail.states.compensation,
-                "compensation not recorded",
-              )}
-            </div>
-            <div className="flex items-center justify-between gap-3">
-              {statusPill(detail.states.delivery, "delivery not recorded")}
-            </div>
-            <div className="flex items-center justify-between gap-3">
-              {statusPill(detail.states.repair, "repair not recorded")}
-            </div>
-          </div>
-        </DetailSection>
+        <PacksActivityDetailStates detail={detail} />
 
-        {detail.commodityState?.repairRequired ||
-        detail.commodityState?.blockers?.length ? (
-          <DetailSection title="Repair surface">
-            <div className="grid gap-2 text-sm">
-              <div className="flex items-center justify-between gap-3">
-                {statusPill(
-                  detail.states.repair || "repair-required",
-                  "repair posture pending",
-                )}
-              </div>
-              <ul className="grid gap-1 text-xs text-neutral-400">
-                {(detail.commodityState?.blockers || []).map((blocker) => (
-                  <li key={blocker} className="break-words">
-                    {blocker}
-                  </li>
-                ))}
-              </ul>
-              <p className="text-xs text-neutral-500">
-                State advances only through proof-backed readback; repair fails
-                closed until the missing or contradictory evidence above is
-                reconciled.
-              </p>
-            </div>
-          </DetailSection>
+        {detail.accounting ? (
+          <PacksActivityDetailAccounting accounting={detail.accounting} />
         ) : null}
 
-        {detail.accounting && (
-          <DetailSection title="Accounting">
-            <dl className="grid gap-3 text-sm tablet:grid-cols-2">
-              <div>
-                <dt className="text-neutral-500">BTD/BTC state</dt>
-                <dd className="mt-1 text-neutral-100">
-                  {detail.accounting.state || "not recorded"}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-neutral-500">BTD range</dt>
-                <dd className="mt-1 text-neutral-100">
-                  {detail.accounting.btdRangeState || "not recorded"}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-neutral-500">BTC settlement</dt>
-                <dd className="mt-1 text-neutral-100">
-                  {detail.accounting.btcSettlementState || "not recorded"}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-neutral-500">Treasury route</dt>
-                <dd className="mt-1 text-neutral-100">
-                  {detail.accounting.treasuryRouteState || "not recorded"}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-neutral-500">Contributors</dt>
-                <dd className="mt-1 font-mono text-neutral-100">
-                  {detail.accounting.contributorCount}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-neutral-500">Allocated</dt>
-                <dd className="mt-1 font-mono text-neutral-100">
-                  {formatSats(detail.accounting.allocatedContributorSats)}
-                </dd>
-              </div>
-              {detail.accounting.statementRoot && (
-                <div className="tablet:col-span-2">
-                  <dt className="text-neutral-500">Accounting root</dt>
-                  <dd className="mt-1 break-all font-mono text-xs text-emerald-100">
-                    {detail.accounting.statementRoot}
-                  </dd>
-                </div>
-              )}
-            </dl>
-          </DetailSection>
-        )}
+        {detail.governance ? (
+          <PacksActivityDetailGovernance governance={detail.governance} />
+        ) : null}
 
-        {detail.governance && (
-          <DetailSection title="Governance">
-            <dl className="grid gap-3 text-sm tablet:grid-cols-2">
-              <div>
-                <dt className="text-neutral-500">Authority</dt>
-                <dd className="mt-1 text-neutral-100">
-                  {detail.governance.state || "not recorded"}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-neutral-500">Route</dt>
-                <dd className="mt-1 text-neutral-100">
-                  {detail.governance.route || "not recorded"}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-neutral-500">Wallet</dt>
-                <dd className="mt-1 text-neutral-100">
-                  {detail.governance.walletState || "not recorded"}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-neutral-500">Spend</dt>
-                <dd className="mt-1 text-neutral-100">
-                  {detail.governance.spendState || "not recorded"}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-neutral-500">Deposit</dt>
-                <dd className="mt-1 text-neutral-100">
-                  {detail.governance.depositState || "not recorded"}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-neutral-500">Required denials</dt>
-                <dd className="mt-1 font-mono text-neutral-100">
-                  {detail.governance.requiredDeniedActionCount}
-                </dd>
-              </div>
-              {detail.governance.authorityRoot && (
-                <div className="tablet:col-span-2">
-                  <dt className="text-neutral-500">Authority root</dt>
-                  <dd className="mt-1 break-all font-mono text-xs text-emerald-100">
-                    {detail.governance.authorityRoot}
-                  </dd>
-                </div>
-              )}
-            </dl>
-          </DetailSection>
-        )}
-
-        <DetailSection title="Proof roots">
-          <ProductRouteProofDetail
-            testId="packs-expandable-proof-detail"
-            title="Expandable proof detail"
-            tone="emerald"
-            defaultOpen
-            roots={[
-              ...detail.proofRoots.map((proofRoot) => ({
-                id: proofRoot.id,
-                label: proofRoot.label,
-                root: proofRoot.root,
-              })),
-              {
-                id: "accounting-root",
-                label: "Accounting root",
-                root: detail.accounting?.statementRoot,
-              },
-              {
-                id: "authority-root",
-                label: "Authority root",
-                root: detail.governance?.authorityRoot,
-              },
-            ]}
-          />
-        </DetailSection>
+        <PacksActivityDetailProofRoots detail={detail} />
       </div>
     </aside>
   );

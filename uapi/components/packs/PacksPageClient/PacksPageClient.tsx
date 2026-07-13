@@ -4,40 +4,35 @@
  * Packs experience page client — thin orchestration for /packs.
  *
  * Network-scope PackActivity master-detail: portfolio overview, filters/table,
- * and source-safe detail. Data fetch lives in `use-packs-activity`.
+ * and source-safe detail. Data fetch lives in `use-packs-activity`; URL state
+ * in `use-packs-route-params`.
  */
 
-import React, { useCallback, useMemo } from "react";
+import React, { useMemo } from "react";
 import { Package } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import {
   ProductRouteEnterpriseSummary,
   ProductRouteShell,
 } from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";
-import type {
-  PackActivitySortDirection,
-  PackActivitySortKey,
-  PackActivityType,
-} from "@/components/bitcode/activity/PackActivityModel/pack-activity-model";
-import {
-  formatCount,
-  readParam,
-} from "@/components/packs/models/packs-format";
+import { formatCount } from "@/components/packs/models/packs-format";
 import { usePacksActivity } from "./hooks/use-packs-activity";
+import { usePacksRouteParams } from "./hooks/use-packs-route-params";
 import { PacksPortfolioOverview } from "@/components/packs/PacksPortfolioOverview/PacksPortfolioOverview";
 import { PacksActivityMaster } from "@/components/packs/PacksActivityMaster/PacksActivityMaster";
 import { PacksActivityDetail } from "@/components/packs/PacksActivityDetail/PacksActivityDetail";
 
 export default function PacksPageClient() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const searchParamsString = searchParams.toString();
-  const routeParams = useMemo(
-    () => new URLSearchParams(searchParamsString),
-    [searchParamsString],
-  );
+  const {
+    routeParams,
+    search,
+    type,
+    state,
+    sort,
+    direction,
+    detailId,
+    writeParams,
+  } = usePacksRouteParams();
 
   const {
     records,
@@ -48,38 +43,6 @@ export default function PacksPageClient() {
     error,
     refresh,
   } = usePacksActivity(routeParams);
-
-  const search = readParam(routeParams, "q");
-  const type = readParam(routeParams, "type", "all") as
-    | PackActivityType
-    | "all";
-  const state = readParam(routeParams, "state", "all");
-  const sort = readParam(
-    routeParams,
-    "sort",
-    "timestamp",
-  ) as PackActivitySortKey;
-  const direction = readParam(
-    routeParams,
-    "direction",
-    "desc",
-  ) as PackActivitySortDirection;
-  const detailId = readParam(routeParams, "detailId");
-
-  const writeParams = useCallback(
-    (updates: Record<string, string | null>) => {
-      const next = new URLSearchParams(routeParams);
-      for (const [key, value] of Object.entries(updates)) {
-        if (!value || value === "all") next.delete(key);
-        else next.set(key, value);
-      }
-      const query = next.toString();
-      router.replace(query ? `${pathname}?${query}` : pathname, {
-        scroll: false,
-      });
-    },
-    [pathname, routeParams, router],
-  );
 
   const selectedId = detail?.id || detailId || records[0]?.id || null;
   const hasRows = records.length > 0;

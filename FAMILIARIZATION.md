@@ -393,8 +393,23 @@ in later V48 gates. Workbench panels under `Reads*` + `models/deposit-read-*`
 ### 7.4 Packs (`/packs`)
 
 Network-scope PackActivity master-detail (ledgerized history).  
-**Not** personal pipeline activity (that is `/deposits`).  
-Models: `pack-activity-model` under bitcode activity; UI units portfolio/master/detail.
+**Not** personal pipeline activity (that is `/deposits`).
+
+Home: `uapi/components/packs/`.
+
+| Concern | Location |
+| --- | --- |
+| Page client (orchestration only) | `PacksPageClient/` + `hooks/use-packs-activity`, `use-packs-route-params` |
+| Pure formatters / option catalogs | `models/packs-format.ts`, `models/packs-activity-types.ts` |
+| Portfolio positions + market signals | `PacksPortfolioOverview/` |
+| Master shell | `PacksActivityMaster/` composes filter bar + table + type totals |
+| Filter bar / data grid | `PacksActivityFilterBar/`, `PacksActivityTable/` |
+| Detail shell + sections | `PacksActivityDetail/` + `PacksActivityDetailStates/`, `…Accounting/`, `…Governance/`, `…ProofRoots/` |
+| Shared chrome | `PacksDetailSection/`, `PacksStatusPill/` |
+| Cross-route activity projection | `bitcode/activity/PackActivityModel/pack-activity-model` (leave under Bitcode; not packs-only) |
+
+App shell: `uapi/app/packs/` re-exports the page client. Layout contract:
+`internal-docs/BITCODE_SOURCE_LAYOUT.md` § Packs experience.
 
 ### 7.5 Docs (`/docs`)
 

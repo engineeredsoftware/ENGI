@@ -134,12 +134,19 @@ uapi/components/deposits/
 
 ```
 uapi/components/packs/
-  models/
-  PacksPageClient/ + hooks/use-packs-activity.ts
+  models/                              # pure: packs-format.ts, activity types
+  PacksPageClient/ + hooks/            # use-packs-activity, use-packs-route-params
   PacksPortfolioOverview/
-  PacksActivityMaster/
-  PacksActivityDetail/
+  PacksActivityMaster/                 # shell: filter bar + table + totals
+  PacksActivityFilterBar/
+  PacksActivityTable/
+  PacksActivityDetail/                 # shell: overview + measurements + sections
+  PacksActivityDetailStates/
+  PacksActivityDetailAccounting/
+  PacksActivityDetailGovernance/
+  PacksActivityDetailProofRoots/
   PacksDetailSection/
+  PacksStatusPill/                     # React status chip (not models/)
 ```
 
 ---
