@@ -1,41 +1,19 @@
 /**
- * Normalize a shell snapshot into deposit/read/fit workbench view models (pure).
+ * Normalize live workbench snapshot into deposit/read/fit view model.
  */
-
 import type { TerminalRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
 import type {
   DepositReadWorkbenchShellSnapshot,
   TerminalDepositReadWorkbench,
 } from '@/components/reads/models/deposit-read-workbench-types';
 
-function numberValue(value: number | null | undefined) {
-  return typeof value === 'number' ? String(value) : '0';
-}
-
-function textValue(value: string | null | undefined) {
-  return String(value || '').trim();
-}
-
-function listValue(values: (string | null | undefined)[] | null | undefined, fallback = '—') {
-  const resolved = (values || []).map((value) => String(value || '').trim()).filter(Boolean);
-  return resolved.length ? resolved.join(', ') : fallback;
-}
-
-function normalizeFitResultState(value?: string | null) {
-  const resultState = textValue(value);
-  if (resultState === 'worthy_fit' || resultState === 'no_worthy_fit' || resultState === 'blocked_readiness') {
-    return resultState;
-  }
-
-  return 'blocked_readiness';
-}
-
-function countLabels(counts: Record<string, number> | null | undefined) {
-  return Object.entries(counts || {})
-    .filter(([, count]) => typeof count === 'number' && count > 0)
-    .sort((left, right) => right[1] - left[1])
-    .map(([label, count]) => `${label} (${count})`);
-}
+import {
+  numberValue,
+  textValue,
+  listValue,
+  normalizeFitResultState,
+  countLabels,
+} from './deposit-read-workbench-normalize-helpers';
 
 export function normalizeTerminalDepositReadWorkbench(
   snapshot: DepositReadWorkbenchShellSnapshot,

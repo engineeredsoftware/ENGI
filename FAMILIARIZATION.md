@@ -390,6 +390,25 @@ Shares synthesis pipeline core; **read lens** / neediness finalization continues
 in later V48 gates. Workbench panels under `Reads*` + `models/deposit-read-*`
 (historical name; deposit+read shared workbench models).
 
+**Reads modularization (entry paths):**
+
+- Page orchestration: `uapi/components/reads/ReadPageClient/ReadPageClient.tsx`
+  with hooks (`use-read-live-runs`, `use-read-url-navigation`,
+  `use-read-pipeline-telemetry`, `use-read-session-projections`,
+  `use-read-activity-recording`, `use-read-route-params`)
+- Pipelines master-detail: `ReadsPipelinesSection` + `ReadsPipelineTelemetry`
+- Route aside: `ReadsRouteStateAside` + pure rows in `models/read-route-rows.ts`
+- Route model facade: `models/read-route-model.ts` (types in
+  `read-route-session-types.ts`; procurement / fit / settlement builders
+  co-located siblings)
+- Enterprise reading steps: `enterprise-reading-ux-types.ts` +
+  `enterprise-reading-ux-state.ts`
+- Repository supply: `ReadsRepositoryContextPanel` + `use-reads-repository-vcs`
+  + field grid / connection / supply / guidance units
+- Scenario measurement: `ReadsReadScenarioPanel` + `use-read-scenario-actions`
+  + fitting review / scenario list units
+- Evidence rows: `deposit-read-evidence-*-rows.ts` facades under `models/`
+
 ### 7.4 Packs (`/packs`)
 
 Network-scope PackActivity master-detail (ledgerized history).  
@@ -426,6 +445,19 @@ utilities). Prefer `/packs` as post-auth landing, not Terminal.
 
 Identity, wallet, GitHub externals, interfaces, organization/treasury panes.  
 Route: `/auxillaries/[pane]`. Overlays can open from product pages.
+
+| Concern | Location under `uapi/components/auxillaries/` |
+| --- | --- |
+| Surface shell + step wiring | `AuxillariesSurface/` (`hooks/`, `models/`, dynamic pane imports) |
+| Profile | `AuxillariesProfilePane/` + `Profile*Section/`, `OrganizationAuthoritySection/` |
+| Wallet / BTD | `AuxillariesWalletPane/` + `WalletBtdPostureSection/`, `AuxillariesWalletConnectionPanel/` |
+| Externals / GitHub | `AuxillariesExternalsPane/` + `ExternalsConnectedWorkspace/`, `ExternalsWalletRequiredGate/` |
+| Interfaces | `AuxillariesInterfacesPane/` + `InterfaceAdmissionCatalog/` |
+| Organization | `organization/OrganizationSettings/` (tab units) + `BTDTreasuryManagement/` |
+| Shared chrome | `headers/`, `shared/` (tabs, stat grids, preference cards, workspace sections) |
+
+Layout contract: `uapi/components/auxillaries/README.md` and
+`internal-docs/BITCODE_SOURCE_LAYOUT.md`.
 
 ### 7.8 Bitcode base
 
