@@ -63,7 +63,9 @@ test.describe('commercial MVP responsive route health', () => {
     await page.setViewportSize({ width: 1024, height: 768 });
     await openCommercialRoute(page, '/terminal', /The Bitcode Terminal is where operators prepare Deposit and Read work/i);
 
-    await expect(page.getByRole('link', { name: /^Terminal$/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /^Read$/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /^Packs$/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /^Deposit$/ })).toBeVisible();
     await expect(page.getByRole('link', { name: /^Docs$/ })).toBeVisible();
     await expect(page.getByLabel(/Open BTD wallet auxillary/i)).toBeVisible();
 

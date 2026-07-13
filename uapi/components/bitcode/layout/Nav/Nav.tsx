@@ -398,12 +398,12 @@ export default function Nav() {
         const isDepositRoute = href === '/deposits';
         const isReadRoute = href === '/reads';
         const isDisabledRoute = isPacksRoute && disableExchangeLink;
-        const isActiveRoute =
-          isPacksRoute
-            ? pathname === '/packs' || pathname?.startsWith('/packs/') || pathname === '/exchange' || pathname?.startsWith('/exchange/')
-            : href === '/docs'
-              ? pathname === '/docs' || pathname?.startsWith('/docs/')
-            : pathname === href || pathname?.startsWith(`${href}/`);
+        const isActiveRoute = isPacksRoute
+          ? pathname === '/packs' ||
+            pathname?.startsWith('/packs/') ||
+            pathname === '/exchange' ||
+            pathname?.startsWith('/exchange/')
+          : pathname === href || pathname?.startsWith(`${href}/`);
 
         return (
           <li
@@ -459,12 +459,6 @@ export default function Nav() {
               ) : isReadRoute ? (
                 <BitcodeInlineExplainer
                   explainer={BITCODE_PUBLIC_EXPLAINERS.read}
-                  side="bottom"
-                  triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
-                />
-              ) : href === '/docs' ? (
-                <BitcodeInlineExplainer
-                  explainer={BITCODE_PUBLIC_EXPLAINERS.docs}
                   side="bottom"
                   triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
                 />

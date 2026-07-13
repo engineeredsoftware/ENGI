@@ -125,7 +125,7 @@ test.describe('commercial MVP route surfaces', () => {
     });
   }
 
-  test('public navigation keeps Terminal and Docs as first-class commercial routes', async ({
+  test('public navigation keeps Read, Packs, Deposit, and logo-area docs as commercial routes', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
@@ -136,11 +136,17 @@ test.describe('commercial MVP route surfaces', () => {
       /Bitcode is auditable market infrastructure for technical knowledge/i,
     );
 
-    await page.locator('a[href="/packs"]').first().click();
-    await expect(page).toHaveURL(/\/terminal$/);
-    await expectCommercialRouteReady(page, /The Bitcode Terminal is where operators prepare Deposit and Read work/i);
+    // Product order: Read | Packs | Deposit; docs lives under the logo-area.
+    await page.getByRole('link', { name: 'Read' }).first().click();
+    await expect(page).toHaveURL(/\/reads/);
 
-    await page.locator('a[href="/docs"]').first().click();
+    await page.getByRole('link', { name: 'Packs' }).first().click();
+    await expect(page).toHaveURL(/\/packs/);
+
+    await page.getByRole('link', { name: 'Deposit' }).first().click();
+    await expect(page).toHaveURL(/\/deposits/);
+
+    await page.getByRole('link', { name: 'Docs' }).first().click();
     await expect(page).toHaveURL(/\/docs$/);
     await expectCommercialRouteReady(page, /Learn Bitcode from AssetPacks to proof/i);
 

@@ -113,11 +113,11 @@ export const BITCODE_PUBLIC_COPY = {
     },
   },
   publicNav: {
+    // Product order: Read → Packs → Deposit. Docs lives under the logo-area.
     links: [
+      { href: '/reads', label: 'Read' },
       { href: '/packs', label: 'Packs' },
-      { href: '/deposits', label: 'Deposits' },
-      { href: '/reads', label: 'Reads' },
-      { href: '/docs', label: 'Docs' },
+      { href: '/deposits', label: 'Deposit' },
     ],
     guestPrimaryCta: 'Open Auxillaries',
     guestSecondaryCta: 'Connect Wallet',

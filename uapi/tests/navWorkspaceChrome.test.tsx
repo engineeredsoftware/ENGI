@@ -101,10 +101,10 @@ describe('Nav product chrome', () => {
     const accessButton = screen.getByRole('button', { name: 'Open Auxillaries' });
     const createButton = screen.getByRole('button', { name: 'Connect Wallet' });
 
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/reads');
     expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
-    expect(screen.getByRole('link', { name: 'Deposits' })).toHaveAttribute('href', '/deposits');
-    expect(screen.getByRole('link', { name: 'Reads' })).toHaveAttribute('href', '/reads');
-    expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
+    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposits');
+    expect(screen.queryByRole('link', { name: 'Docs' })).toBeNull();
     fireEvent.mouseEnter(accessButton);
     fireEvent.click(accessButton);
     fireEvent.click(createButton);
@@ -144,10 +144,10 @@ describe('Nav product chrome', () => {
 
     render(<Nav />);
 
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/reads');
     expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
-    expect(screen.getByRole('link', { name: 'Deposits' })).toHaveAttribute('href', '/deposits');
-    expect(screen.getByRole('link', { name: 'Reads' })).toHaveAttribute('href', '/reads');
-    expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
+    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposits');
+    expect(screen.queryByRole('link', { name: 'Docs' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
     expect(screen.getByText('Notifications')).toBeInTheDocument();
 
