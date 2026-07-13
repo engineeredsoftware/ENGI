@@ -253,6 +253,12 @@ is incomplete: the specification must be brought to cover it (as
 outruns its spec. The specification↔implementation relationship of every change is
 thereby auditable from the commit history alone.
 
+When a change alters package families, inheritance hierarchy, experience entry
+paths, product routes, or other structure that `FAMILIARIZATION.md` teaches,
+that map must be updated with the change (see §16.3.1). Leaving the
+familiarization map stale while source moves is the same class of failure as
+leaving implementation undocumentable from the active teaching surface.
+
 ---
 
 # 3. Canonical File Family
@@ -1287,6 +1293,42 @@ When a code-documentation surface teaches active behavior, the current `SPEC` mu
 - what subsystem or interface it belongs to,
 - what product posture it carries,
 - and what parity or proof surface validates it.
+
+### 16.3.1 Repository Familiarization Map (`FAMILIARIZATION.md`)
+
+`FAMILIARIZATION.md` is the required in-repo deep map of current Bitcode
+implementation structure: package catalog, `uapi` request path, experience
+layout, and the inheritance pattern `*-generics` primitives → `generic-*` base
+implementations → product specializations (agents, tools, pipelines, prompts,
+LLMs, and related families).
+
+**Law:** `FAMILIARIZATION.md` must be kept up to date with changes.
+
+Any change that alters how a reader must find or understand current
+implementation structure must update `FAMILIARIZATION.md` in the same change
+set (or in a immediately accompanying `specification-implementation` /
+documentation commit that lands with that work), including at least:
+
+- new or removed package families, nested `generic-*` packages, or product pipelines,
+- inheritance hierarchy changes (primitive → base → product),
+- experience modularization that moves primary entry paths or component homes,
+- product routes, host model, or public navigation posture changes that affect
+  how operators or agents enter the system,
+- and renames or splits that would leave catalog paths, package names, or
+  hierarchy diagrams stale.
+
+Prefer accurate, short section edits over full rewrites. Stale
+`FAMILIARIZATION.md` content that contradicts current source is a specifying
+defect relative to Complete Implementation Derivability: implementers and
+agents must not recover structure only from chat history or ad-hoc exploration
+when the repository already claims a walkthrough map.
+
+`FAMILIARIZATION.md` is explanatory/operational teaching of current structure,
+not a parallel product-semantics canon. Product law remains in the active
+`BITCODE_SPEC_VN` family. Layout contracts that bind filesystem placement
+remain in `internal-docs/BITCODE_SOURCE_LAYOUT.md` and related architecture
+docs; those surfaces and `FAMILIARIZATION.md` must not diverge on named paths
+or hierarchy without an intentional, documented update.
 
 ## 16.4 Boundary Honesty
 

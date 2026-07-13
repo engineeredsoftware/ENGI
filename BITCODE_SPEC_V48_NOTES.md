@@ -1453,6 +1453,14 @@ Public package export paths preserved. Jest deposit/depository/synthesis suites 
 
 
 
+## FAMILIARIZATION maintenance law (Garrett, 2026-07-13)
+
+`BITCODE_SPECIFYING.md` §16.3.1 now requires `FAMILIARIZATION.md` to stay
+current with structural changes (package families, inheritance hierarchy,
+experience entry paths, product routes). Operational mirror: `AGENTS.md`.
+This is part of Complete Implementation Derivability teaching surfaces, not a
+parallel product-semantics canon.
+
 ## FAMILIARIZATION.md (codebase walkthrough)
 
 `FAMILIARIZATION.md` is the in-repo deep map of packages, uapi, and inheritance

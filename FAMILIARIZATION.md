@@ -590,14 +590,21 @@ as if they were source of product law.
 
 ## 11. Maintenance of this guide
 
+**Specifying law** (`BITCODE_SPECIFYING.md` §16.3.1): this file **must** be
+kept up to date with structural changes. Stale content here is a defect relative
+to Complete Implementation Derivability.
+
 Update `FAMILIARIZATION.md` when:
 
-- A new package family is introduced  
+- A new package family, nested `generic-*` package, or product pipeline is introduced or removed  
 - Experience modularization changes the primary entry paths  
-- Inheritance hierarchy gains a new layer  
-- Product routes or host model change  
+- Inheritance hierarchy gains, loses, or renames a layer  
+- Product routes, host model, or public navigation posture change  
+- Catalog paths, package names, or hierarchy diagrams would otherwise go stale  
 
 Prefer **accurate, short section edits** over rewriting the whole file each time.
+Land the edit with the structural change (same commit or accompanying
+`specification-implementation` / documentation commit).
 
 ---
 
