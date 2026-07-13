@@ -61,7 +61,7 @@ describe('ConversationsEnhancedRichTextInput', () => {
           value: 'Read board:Settlement lane',
           metadata: expect.objectContaining({
             attachment_id: 'run-settlement-1',
-            category: 'integration',
+            category: 'external',
             type: 'settlement_target',
             conversationId: 'conv-destination',
             pipelineId: 'run-settlement-1',

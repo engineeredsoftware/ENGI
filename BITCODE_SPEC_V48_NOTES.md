@@ -1666,6 +1666,21 @@ AssetPack path+op envelopes without requiring raw source. Product binds
 `assetPackId`. Existing `saveArtifact` / `putArtifactAtKey` callers keep
 `@bitcode/artifacts`.
 
+## Attachment hierarchy: file | external only (Garrett, 2026-07-13)
+
+```
+@bitcode/attachment-generics                         # primitive (BaseAttachment, categories)
+  → @bitcode/generic-attachments-file                # FileAttachment
+  → @bitcode/generic-attachments-external            # ExternalAttachment
+@bitcode/attachments-generics                        # BC barrel
+```
+
+- Categories admitted: **`file` | `external`** only.
+- **`integration` → `external`** everywhere (aligns with Externals auxillary:
+  GitHub VCS, future Jira/Notion/etc. attach as external connections).
+- **`vcs` and `url` categories removed** (VCS is external; bare URL is not a category).
+
+
 ## AssetPack product pipelines: no lens; Simple settle-reads (Garrett, 2026-07-13)
 
 Removed the deposit|read **lens** on a single SynthesizeAssetPacks factory.

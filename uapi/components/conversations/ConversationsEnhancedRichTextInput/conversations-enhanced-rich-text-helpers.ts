@@ -108,7 +108,7 @@ export function serializeTokensForSend(tokens: ConversationsRichTextToken[], tex
         value: token.text.trim(),
         metadata: {
           attachment_id: token.data?.id || token.data?.repoId || token.data?.path || token.text.trim(),
-          category: 'integration',
+          category: 'external',
           type: token.data?.type || 'github_repo',
           ...token.data,
         },

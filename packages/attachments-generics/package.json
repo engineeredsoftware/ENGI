@@ -4,8 +4,15 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "private": true,
-  "description": "Universal attachment types for Bitcode - VCS, File, URL, and Integration attachments",
+  "description": "Universal attachment types for Bitcode — BC barrel over attachment-generics + file/external bases",
+  "exports": {
+    ".": "./src/index.ts",
+    "./types": "./src/types.ts",
+    "./utils": "./src/utils.ts"
+  },
   "dependencies": {
-    "@bitcode/vcs": "workspace:*"
+    "@bitcode/attachment-generics": "workspace:*",
+    "@bitcode/generic-attachments-file": "workspace:*",
+    "@bitcode/generic-attachments-external": "workspace:*"
   }
 }

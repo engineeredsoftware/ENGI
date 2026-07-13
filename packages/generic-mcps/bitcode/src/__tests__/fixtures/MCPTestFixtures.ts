@@ -594,7 +594,7 @@ export const TEST_CONFIGURATIONS = {
   COMPREHENSIVE_INTEGRATION: {
     testName: 'Comprehensive MCP Integration Test',
     description: 'Full integration test covering all MCP capabilities with customer scenarios',
-    category: 'integration',
+    category: 'external',
     mcpConfig: MCP_CONFIGURATIONS.FULL_FEATURED,
     execution: {
       timeout: 300000, // 5 minutes

@@ -104,7 +104,7 @@ export const STEP_SCREENSHOTS: Record<number, Screenshot[]> = {
       src: "/screenshots/integration-notion.png",
       alt: "Notion integration screenshot",
       type: "component",
-      category: "integration",
+      category: "external",
       revealingSoon: true,
     },
   ],

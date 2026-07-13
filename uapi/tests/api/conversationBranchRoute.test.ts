@@ -96,7 +96,7 @@ describe('/api/conversations/branch POST (non-mock mode)', () => {
           id: 'att-source-1',
           message_id: 'msg-source-1',
           attachment_id: 'repo-1',
-          attachment_category: 'integration',
+          attachment_category: 'external',
           attachment_type: 'github_repo',
           metadata: {
             token_type: 'source',

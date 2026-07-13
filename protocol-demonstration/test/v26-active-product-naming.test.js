@@ -1948,7 +1948,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.deepEqual(activeFieldIntelligenceUrls.filter((url) => existsSync(url)).map((url) => url.pathname), []);
   assert.match(attachmentsGenericsPackageSource, /Universal attachment types for Bitcode/);
   assert.match(attachmentsGenericsReadmeSource, /utilities for the Bitcode platform/);
-  assert.match(attachmentsGenericsReadmeSource, /attachments in Bitcode fall into exactly 4 categories/);
+  assert.match(attachmentsGenericsReadmeSource, /Attachments in Bitcode fall into exactly 2 categories/);
   assert.match(attachmentsGenericsIndexSource, /across the entire Bitcode codebase/);
   assert.match(attachmentsGenericsTypesSource, /Universal attachment definitions for Bitcode/);
   assert.match(btdIndexSource, /when Bitcode supports new models or vendors/);
@@ -2131,7 +2131,7 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(ormPackageSource, /Engi ORM - Database access layer with vector search/);
   assert.doesNotMatch(attachmentsGenericsPackageSource, /Universal attachment types for Engi/);
   assert.doesNotMatch(attachmentsGenericsReadmeSource, /utilities for the Engi platform/);
-  assert.doesNotMatch(attachmentsGenericsReadmeSource, /attachments in Engi fall into exactly 4 categories/);
+  assert.doesNotMatch(attachmentsGenericsReadmeSource, /attachments in Engi fall into exactly/);
   assert.doesNotMatch(attachmentsGenericsIndexSource, /across the entire Engi codebase/);
   assert.doesNotMatch(attachmentsGenericsTypesSource, /Universal attachment definitions for Engi/);
   assert.doesNotMatch(btdIndexSource, /when Engi supports new models or vendors/);

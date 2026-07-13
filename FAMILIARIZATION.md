@@ -245,6 +245,24 @@ Package paths: `packages/artifact-generics/`, `packages/generic-artifacts/patch/
 | Base | `PatchArtifact` | path+op patchfile envelope for AssetPack patches |
 | Product | `AssetPackPatchArtifact` | patch bound to `assetPackId` for synthesis |
 
+### 3.1.5 Attachments (primitive → file | external)
+
+```
+@bitcode/attachment-generics                      BaseAttachment; categories file|external
+        ↑
+@bitcode/generic-attachments-file                 FileAttachment
+@bitcode/generic-attachments-external             ExternalAttachment (Externals auxillary)
+        ↑
+@bitcode/attachments-generics                     BC barrel
+```
+
+| Category | Role |
+| --- | --- |
+| `file` | Direct uploads |
+| `external` | Externals connections (GitHub, Jira, Notion, …) — not “integration” |
+
+Removed: `vcs`, `url`. VCS attaches as **external**.
+
 ### 3.2.0 VCS
 
 

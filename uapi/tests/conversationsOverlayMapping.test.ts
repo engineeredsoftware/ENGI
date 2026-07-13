@@ -18,7 +18,7 @@ describe('ConversationsOverlay attachment hydration', () => {
           message_attachments: [
             {
               attachment_id: 'repo-1',
-              attachment_category: 'integration',
+              attachment_category: 'external',
               attachment_type: 'github_repo',
               metadata: {
                 token_type: 'source',
@@ -29,7 +29,7 @@ describe('ConversationsOverlay attachment hydration', () => {
             },
             {
               attachment_id: 'dest-1',
-              attachment_category: 'integration',
+              attachment_category: 'external',
               attachment_type: 'settlement_target',
               metadata: {
                 token_type: 'destination',

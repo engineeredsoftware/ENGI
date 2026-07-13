@@ -228,6 +228,9 @@ packages/generic-<family>/          # README only (no package.json)
 | `artifact-generics/` | (package root) | `@bitcode/artifact-generics` (Artifact + storage contract) |
 | `generic-artifacts/` | `patch/` | `@bitcode/generic-artifacts-patch` (PatchArtifact base) |
 | `artifacts/` | (package root) | `@bitcode/artifacts` (S3/Supabase ArtifactStorage backend) |
+| `attachment-generics/` | (package root) | `@bitcode/attachment-generics` (file|external primitives) |
+| `generic-attachments/` | `file/`, `external/` | `@bitcode/generic-attachments-*` |
+| `attachments-generics/` | (package root) | BC barrel over attachment hierarchy |
 | `generic-doc-comment-plugins/` | `doc-developing/` | `@bitcode/doc-comment-developing` |
 
 **Do not** put a root `package.json` on the family folder. Workspace globs are

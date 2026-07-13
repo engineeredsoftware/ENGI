@@ -87,6 +87,11 @@ module.exports = {
     '^@bitcode/host-generics/(.*)$': '<rootDir>/../packages/host-generics/src/$1',
     '^@bitcode/generic-hosts-local$': '<rootDir>/../packages/generic-hosts/Local/src/index.ts',
     '^@bitcode/generic-hosts-vercel-sandbox$': '<rootDir>/../packages/generic-hosts/VercelSandbox/src/index.ts',
+    // Attachment hierarchy
+    '^@bitcode/attachment-generics$': '<rootDir>/../packages/attachment-generics/src/index.ts',
+    '^@bitcode/generic-attachments-file$': '<rootDir>/../packages/generic-attachments/file/src/index.ts',
+    '^@bitcode/generic-attachments-external$': '<rootDir>/../packages/generic-attachments/external/src/index.ts',
+    '^@bitcode/attachments-generics$': '<rootDir>/../packages/attachments-generics/src/index.ts',
     '^@bitcode/mcp-generics$': '<rootDir>/../packages/mcp-generics/src/index.ts',
     '^@bitcode/generic-mcps-bitcode$': '<rootDir>/../packages/generic-mcps/bitcode/src/index.ts',
     '^@bitcode/mcp-server$': '<rootDir>/../packages/mcp-server/src/index.ts',

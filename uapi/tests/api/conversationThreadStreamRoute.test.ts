@@ -163,12 +163,12 @@ describe('/api/conversations/[conversationId]/stream POST (non-mock mode)', () =
             {
               type: 'source',
               value: 'bitcode-labs/terminal',
-              metadata: { attachment_id: 'repo-1', category: 'integration', type: 'github_repo' },
+              metadata: { attachment_id: 'repo-1', category: 'external', type: 'github_repo' },
             },
             {
               type: 'destination',
               value: 'settlement-ledger',
-              metadata: { attachment_id: 'dest-1', category: 'integration', type: 'settlement_target' },
+              metadata: { attachment_id: 'dest-1', category: 'external', type: 'settlement_target' },
             },
             { type: 'asset_pack', value: 'branch artifact' },
           ],
@@ -193,7 +193,7 @@ describe('/api/conversations/[conversationId]/stream POST (non-mock mode)', () =
       expect.arrayContaining([
         expect.objectContaining({
           attachment_id: 'repo-1',
-          attachment_category: 'integration',
+          attachment_category: 'external',
           attachment_type: 'github_repo',
           metadata: expect.objectContaining({
             attachment_id: 'repo-1',
@@ -202,7 +202,7 @@ describe('/api/conversations/[conversationId]/stream POST (non-mock mode)', () =
         }),
         expect.objectContaining({
           attachment_id: 'dest-1',
-          attachment_category: 'integration',
+          attachment_category: 'external',
           attachment_type: 'settlement_target',
           metadata: expect.objectContaining({
             attachment_id: 'dest-1',

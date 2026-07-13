@@ -1,48 +1,41 @@
 /**
- * @bitcode/attachments-generics - Universal attachment types and utilities
- * 
- * This package provides the single source of truth for attachment types
- * across the entire Bitcode codebase. All attachments fall into 4 categories:
- * 
- * 1. VCS Attachments - GitHub/GitLab/Bitbucket issues and PRs
- * 2. File Attachments - Direct file uploads (images, text, audio, video)
- * 3. URL Attachments - Web links and external resources
- * 4. Integration Attachments - Notion pages, Figma artboards, etc.
- * 
- * V26 version: 1.0.0
- * Pattern: universal-types
- * Philosophy: "One attachment system to rule them all"
+ * @bitcode/attachments-generics — Universal attachment types for Bitcode
+ *
+ * BC barrel across the entire Bitcode codebase. Prefer leaf packages:
+ *   @bitcode/attachment-generics
+ *   @bitcode/generic-attachments-file
+ *   @bitcode/generic-attachments-external
+ *
+ * Categories: file | external only.
+ * integration → external (Externals auxillary). vcs / url removed.
  */
 
-// Export all types
 export * from './types';
-
-// Export utilities
 export * from './utils';
+export { isValidURL, parseURL } from './url-utils';
 
-// Re-export commonly used types at top level for convenience
 export type {
   Attachment,
-  VCSAttachment,
-  FileAttachment,
-  URLAttachment,
-  IntegrationAttachment,
   AttachmentCategory,
+  BaseAttachment,
   AttachmentReference,
-  CreateAttachmentInput
+  CreateAttachmentInput,
+  FileAttachment,
+  FileAttachmentType,
+  ExternalAttachment,
+  ExternalProvider,
+  ExternalAttachmentType,
 } from './types';
 
 export {
-  isVCSAttachment,
+  validateAttachmentCategory,
   isFileAttachment,
-  isURLAttachment,
-  isIntegrationAttachment,
-  validateAttachmentCategory
+  isExternalAttachment,
 } from './types';
 
 export {
   getFileAttachmentType,
   formatFileSize,
   getAttachmentIcon,
-  getAttachmentLabel
+  getAttachmentLabel,
 } from './utils';

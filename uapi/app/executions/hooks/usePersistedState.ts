@@ -21,7 +21,7 @@ export interface PersistedExecutionState {
   attachments: {
     urls: Array<{ url: string; title: string; content: string; error?: string }>;
     files: Array<{ name: string; size: number; type: string; lastModified: number }>;
-    integrations: Array<{ type: string; id: string; name: string; metadata?: any }>;
+    externals: Array<{ type: string; id: string; name: string; metadata?: any }>;
   };
   toggles: { iterations: number };
   timestamp: number;
@@ -37,7 +37,7 @@ const usePersistedStateBase = createPersistedState<PersistedExecutionState>({
     definitionOfRead: '',
     modelSelection: '',
     vcs: { provider: null, account: null, repo: null, branch: null, commit: null, issuesOrPRs: [] },
-    attachments: { urls: [], files: [], integrations: [] },
+    attachments: { urls: [], files: [], externals: [] },
     toggles: { iterations: 3 },
     timestamp: Date.now(),
     version: 'v1'

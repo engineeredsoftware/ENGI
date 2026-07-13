@@ -21,6 +21,7 @@
     "packages/asset-packs/*",
     "packages/generic-asset-packs/*",
     "packages/generic-artifacts/*",
+    "packages/generic-attachments/*",
     "packages/asset-packs-pipelines/*",
     "packages/generic-doc-comment-plugins/*",
     "packages/pipelines/*",
