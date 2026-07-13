@@ -89,75 +89,98 @@
     opacity: 0.8;
     padding: 4px;
     display: inline-flex;
-    align-items: baseline;
+    /* Center caret with x-height of label, not baseline-only (tall bar sat high/low). */
+    align-items: center;
     gap: 0;
+    line-height: 1.2;
     
     animation: processing-text-breathe 4s ease-in-out infinite;
 }
 
 .processing-label {
     flex: 0 0 auto;
+    letter-spacing: 0.1em;
 }
 
 /*
- * Fixed-width ellipsis slot: outer box is always 3ch so the cursor never
- * shifts. Inner clip reveals 0→3 dots without changing layout width.
+ * Ellipsis + caret share one inline group.
+ * Three equal monospaced dots always occupy the same width (opacity only),
+ * so the caret sits immediately after the last glyph with no ch/letter-spacing drift.
  */
+.processing-ellipsis-group {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+    /* Label keeps tracking; dots must be tight/stable for caret position. */
+    letter-spacing: 0;
+    margin-left: 0.05em;
+}
+
 .processing-ellipsis {
-    display: inline-block;
-    width: 3ch;
-    min-width: 3ch;
-    max-width: 3ch;
-    flex: 0 0 3ch;
+    display: inline-grid;
+    grid-template-columns: 0.55em 0.55em 0.55em;
+    width: 1.65em;
+    flex: 0 0 1.65em;
     overflow: hidden;
     white-space: nowrap;
-    vertical-align: baseline;
-    letter-spacing: 0.02em;
-    font-variant-numeric: tabular-nums;
-    line-height: inherit;
+    line-height: 1;
+    font-weight: 300;
 }
 
-.processing-ellipsis-fill {
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    width: 0;
-    max-width: 3ch;
-    animation: processing-ellipsis-reveal 1.2s steps(4, end) infinite;
+.processing-ellipsis-dot {
+    display: block;
+    width: 0.55em;
+    text-align: center;
+    opacity: 0;
+    line-height: 1;
+    animation: processing-ellipsis-dot 1.2s linear infinite;
 }
 
-.processing-ellipsis-fill::before {
-    content: '...';
+.processing-ellipsis-dot-1 {
+    animation-delay: 0s;
 }
 
-@keyframes processing-ellipsis-reveal {
-    0% {
-        width: 0;
+.processing-ellipsis-dot-2 {
+    animation-delay: 0.3s;
+}
+
+.processing-ellipsis-dot-3 {
+    animation-delay: 0.6s;
+}
+
+/* Each dot becomes visible for most of the cycle after its delay; full reset each loop. */
+@keyframes processing-ellipsis-dot {
+    0%,
+    5% {
+        opacity: 0;
     }
+    15%,
+    80% {
+        opacity: 1;
+    }
+    90%,
     100% {
-        width: 3ch;
+        opacity: 0;
     }
 }
 
-/* Stable caret after the fixed ellipsis slot — never moves with dots. */
+/* Caret flush after the fixed ellipsis grid — does not track partial-dot width. */
 .processing-cursor {
-    display: inline-block;
+    display: block;
     width: 2px;
-    height: 1.05em;
-    margin-left: 2px;
+    height: 0.95em;
+    margin-left: 0.12em;
     flex: 0 0 2px;
-    align-self: center;
-    background-color: rgba(103, 254, 183, 0.9);
+    background-color: rgba(103, 254, 183, 0.95);
     box-shadow:
       0 0 8px rgba(103, 254, 183, 0.5),
       0 0 12px rgba(103, 254, 183, 0.3);
     border-radius: 1px;
-    vertical-align: middle;
     animation: processing-cursor-blink 0.8s step-end infinite;
 }
 
 .processing-text.text-amber-400 .processing-cursor {
-    background-color: rgba(251, 191, 36, 0.9);
+    background-color: rgba(251, 191, 36, 0.95);
     box-shadow:
       0 0 8px rgba(251, 191, 36, 0.45),
       0 0 12px rgba(251, 191, 36, 0.25);

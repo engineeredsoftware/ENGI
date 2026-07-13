@@ -93,11 +93,18 @@ export const ProcessingIndicator = memo(({ label = 'Processing', stalled = false
           }
         >
           <span className="processing-label">{label}</span>
-          {/* Fixed-width ellipsis slot: dots clip-reveal in-place; cursor stays put. */}
-          <span className="processing-ellipsis" aria-hidden="true">
-            <span className="processing-ellipsis-fill" />
+          {/*
+            Fixed-width three-dot grid (opacity only) + caret flush after it.
+            Avoids ch/letter-spacing mismatch that left the caret floating past "...".
+          */}
+          <span className="processing-ellipsis-group" aria-hidden="true">
+            <span className="processing-ellipsis">
+              <span className="processing-ellipsis-dot processing-ellipsis-dot-1">.</span>
+              <span className="processing-ellipsis-dot processing-ellipsis-dot-2">.</span>
+              <span className="processing-ellipsis-dot processing-ellipsis-dot-3">.</span>
+            </span>
+            <span className="processing-cursor" />
           </span>
-          <span className="processing-cursor" aria-hidden="true" />
         </div>
 
         {/* Subtle underline animation */}
