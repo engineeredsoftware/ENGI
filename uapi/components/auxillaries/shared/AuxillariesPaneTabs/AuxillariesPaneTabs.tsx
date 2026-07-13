@@ -32,7 +32,7 @@ export default function AuxillariesPaneTabs({
   const isAuxillariesMode = mode === 'auxillaries';
 
   return (
-    <div className="orbital-pane-tabs mb-6 rounded-[1.35rem] border border-white/8 bg-black/20 px-4 py-4">
+    <div className="orbital-pane-tabs mb-6 rounded-none border border-white/8 bg-black/20 px-4 py-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0">
           <p className="text-[0.66rem] uppercase tracking-[0.22em] text-emerald-300/80">
@@ -43,16 +43,16 @@ export default function AuxillariesPaneTabs({
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-[0.62rem] uppercase tracking-[0.18em]">
-          <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200">
+          <span className="rounded-none border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-200">
             {isAuxillariesMode ? 'auxillaries' : 'auxillaries access'}
           </span>
-          <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-emerald-100">
+          <span className="rounded-none border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-emerald-100">
             {completedCount}/{totalCount} complete
           </span>
         </div>
       </div>
 
-      <div className="mt-4 rounded-[1rem] border border-white/8 bg-white/5 px-3 py-3 text-xs uppercase tracking-[0.18em] text-neutral-300">
+      <div className="mt-4 rounded-none border border-white/8 bg-white/5 px-3 py-3 text-xs uppercase tracking-[0.18em] text-neutral-300">
         Active auxillary: <span className="text-white">{labelForAuxillaryPane(currentStep)}</span>
       </div>
 

@@ -25,7 +25,7 @@ export default function AuxillariesLoginPane({
     <div className={`orbital-auth-shell ${isContainedSurface ? 'orbital-auth-shell-contained' : ''}`}>
       <div className="orbital-auth-grid">
         <aside className="orbital-auth-aside">
-          <div className="orbital-auth-intro-card rounded-[1.6rem] border border-emerald-400/16 bg-emerald-400/8 px-5 py-5">
+          <div className="orbital-auth-intro-card rounded-none border border-emerald-400/16 bg-emerald-400/8 px-5 py-5">
             <p className="text-[0.66rem] uppercase tracking-[0.22em] text-emerald-200/78">
               {AUXILLARIES_ACCESS_LABEL}
             </p>
@@ -39,7 +39,7 @@ export default function AuxillariesLoginPane({
           </div>
 
           <div className={`orbital-auth-support-grid ${isContainedSurface ? 'orbital-auth-support-grid-contained' : ''}`}>
-            <div className="orbital-auth-support-card rounded-[1.3rem] border border-white/10 bg-white/5 px-4 py-4">
+            <div className="orbital-auth-support-card rounded-none border border-white/10 bg-white/5 px-4 py-4">
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-emerald-200/74">
                 Primary path
               </p>
@@ -49,7 +49,7 @@ export default function AuxillariesLoginPane({
               </p>
             </div>
 
-            <div className="orbital-auth-support-card rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4">
+            <div className="orbital-auth-support-card rounded-none border border-white/10 bg-black/20 px-4 py-4">
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-white/72">
                 Required providers
               </p>
@@ -59,7 +59,7 @@ export default function AuxillariesLoginPane({
               </p>
             </div>
 
-            <div className="orbital-auth-support-card orbital-auth-support-card-wide rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4">
+            <div className="orbital-auth-support-card orbital-auth-support-card-wide rounded-none border border-white/10 bg-black/20 px-4 py-4">
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-white/72">
                 Auxillaries after sign-in
               </p>

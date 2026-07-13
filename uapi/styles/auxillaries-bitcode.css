@@ -13,7 +13,7 @@
   min-height: min(60rem, calc(100vh - 12rem)) !important;
   overflow: visible !important;
   contain: layout style !important;
-  border-radius: 1.8rem;
+  border-radius: 0;
   background:
     radial-gradient(circle at 14% 0%, rgba(101, 254, 183, 0.14), transparent 28%),
     radial-gradient(circle at 92% 12%, rgba(56, 189, 248, 0.1), transparent 22%),
@@ -37,24 +37,20 @@
   overflow: hidden !important;
 }
 
+/* Login / non-workspace chrome: left-aligned surface header strip. */
 .auxillaries-bitcode-surface.orbital-system-overlay .orbital-header-buttons {
   position: fixed !important;
-  inset: var(--aux-bc-overlay-pad) var(--aux-bc-overlay-pad) auto auto !important;
+  inset: var(--aux-bc-overlay-pad) auto auto var(--aux-bc-overlay-pad) !important;
   z-index: 120 !important;
   display: flex !important;
   align-items: center !important;
-  justify-content: flex-end !important;
+  justify-content: flex-start !important;
   gap: 0.65rem !important;
   transform: none !important;
-}
-
-/* The fixed Close/Sign Out row shares the overlay's top-right origin with the
-   active pane's own content (the pane carries no top clearance of its own),
-   so its readiness chips ("Ready" / "N panes available") render underneath
-   the ~2.5rem-tall buttons. Reserve matching clearance so the pane's content
-   starts below them instead. */
-.auxillaries-bitcode-surface.orbital-system-overlay .auxillaries-bitcode-pane {
-  padding-top: 3.25rem;
+  width: auto !important;
+  margin: 0 !important;
+  left: var(--aux-bc-overlay-pad) !important;
+  right: auto !important;
 }
 
 .auxillaries-bitcode-surface.orbital-system-overlay .auxillaries-bitcode-shell {
@@ -91,13 +87,72 @@
   position: relative;
   display: grid !important;
   grid-template-columns: minmax(17rem, 22rem) minmax(0, 1fr) !important;
-  grid-template-rows: minmax(0, 1fr) !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
   align-items: stretch !important;
-  gap: clamp(1rem, 1.8vw, 1.4rem) !important;
+  gap: clamp(0.65rem, 1.2vw, 0.9rem) clamp(1rem, 1.8vw, 1.4rem) !important;
   min-height: min(58rem, calc(100vh - 14rem)) !important;
   height: 100%;
   padding-top: 0 !important;
   overflow: hidden;
+}
+
+/* Close / Disconnect sit above the left selector column (left-aligned). */
+.auxillaries-left-chrome-actions {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative !important;
+  inset: auto !important;
+  top: auto !important;
+  right: auto !important;
+  left: auto !important;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.65rem;
+  min-height: 2.5rem;
+  width: 100%;
+  pointer-events: auto;
+}
+
+.auxillaries-left-chrome-actions .orbital-close-button,
+.auxillaries-left-chrome-actions .auxillaries-close-button,
+.auxillaries-left-chrome-actions .orbital-signout-button,
+.auxillaries-left-chrome-actions .auxillaries-signout-button,
+.auxillaries-left-chrome-actions .orbital-toggle-button,
+.auxillaries-left-chrome-actions .auxillaries-toggle-button {
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  flex-shrink: 0;
+}
+
+.auxillaries-left-chrome-actions .orbital-signout-button,
+.auxillaries-left-chrome-actions .auxillaries-signout-button {
+  width: auto !important;
+  min-width: 9.5rem;
+}
+
+.auxillaries-bitcode-selector {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  min-height: 0;
+}
+
+.auxillaries-bitcode-selector-with-chrome {
+  grid-row: 2;
+}
+
+.auxillaries-bitcode-pane {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  min-height: 0;
+}
+
+.auxillaries-bitcode-pane-with-chrome {
+  /* Stage still spans full height; chrome only occupies the left column row. */
+  grid-row: 1 / -1;
 }
 
 .auxillaries-skip-link {
@@ -108,7 +163,7 @@
   max-width: calc(100% - 1.5rem);
   transform: translateY(-160%);
   border: 1px solid rgba(101, 254, 183, 0.42);
-  border-radius: 999px;
+  border-radius: 0;
   background: rgba(4, 10, 19, 0.96);
   color: rgba(220, 252, 231, 0.98);
   padding: 0.58rem 0.85rem;
@@ -144,7 +199,7 @@
   overscroll-behavior: contain !important;
   scrollbar-gutter: stable !important;
   border: 1px solid var(--aux-bc-line) !important;
-  border-radius: 1.45rem !important;
+  border-radius: 0;
   background:
     radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 32%),
     linear-gradient(180deg, rgba(8, 16, 30, 0.94), rgba(4, 9, 18, 0.95)) !important;
@@ -155,13 +210,16 @@
 
 .auxillaries-bitcode-selector {
   display: flex !important;
+  box-sizing: border-box !important;
   min-width: 0;
   min-height: 0;
   flex-direction: column;
   gap: 1rem !important;
-  overflow: hidden;
+  /* Clip vertical scroll only; do not shave card side borders on the x-axis. */
+  overflow-x: visible;
+  overflow-y: hidden;
   border: 1px solid rgba(101, 254, 183, 0.12) !important;
-  border-radius: 1.45rem !important;
+  border-radius: 0;
   background:
     radial-gradient(circle at top left, rgba(101, 254, 183, 0.1), transparent 36%),
     linear-gradient(180deg, rgba(7, 15, 28, 0.92), rgba(3, 8, 17, 0.9)) !important;
@@ -189,45 +247,73 @@
 
 .auxillaries-bitcode-selector-list {
   display: grid !important;
+  box-sizing: border-box !important;
   gap: 0.75rem !important;
-  overflow: auto;
+  flex: 1 1 auto;
   min-height: 0;
+  min-width: 0;
+  width: 100%;
+  /* Vertical scroll only; inset padding keeps 1px side borders fully paintable. */
+  overflow-x: hidden;
+  overflow-y: auto;
   overscroll-behavior: contain;
-  padding-top: 0.18rem;
-  padding-right: 0.15rem;
-  scrollbar-gutter: stable;
+  padding-block: 0.2rem;
+  padding-inline: 1px;
+  scrollbar-gutter: auto;
+}
+
+.auxillaries-bitcode-selector-list > [role='listitem'] {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .auxillaries-bitcode-selector-card {
+  box-sizing: border-box !important;
+  display: flex !important;
   width: 100% !important;
+  max-width: 100% !important;
   min-width: 0;
-  border-radius: 1rem !important;
+  border-radius: 0;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   background: rgba(255, 255, 255, 0.035) !important;
   color: var(--aux-bc-ink) !important;
   padding: 0.95rem !important;
+  overflow: visible;
   overflow-wrap: anywhere;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.025) !important;
+  /* Prefer a single paint border; avoid inset rings that read as cut side edges. */
+  box-shadow: none !important;
 }
 
-.auxillaries-bitcode-selector-card:not(:disabled):hover {
-  transform: translateY(-1px);
+.auxillaries-bitcode-selector-card:not(:disabled):hover,
+.auxillaries-bitcode-surface :is(.orbital-workspace-panel):not(:disabled):hover {
+  /* Avoid lift transform — parent clip was shaving left/right borders. */
+  transform: none !important;
   border-color: rgba(101, 254, 183, 0.22) !important;
   background: rgba(101, 254, 183, 0.07) !important;
+}
+
+.auxillaries-bitcode-surface :is(
+  .orbital-workspace-panel,
+  .orbital-workspace-panel-current
+) {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+  box-shadow: none !important;
 }
 
 .auxillaries-bitcode-selector-card:focus-visible,
 .auxillaries-active-pane-region:focus-visible,
 .auxillaries-bitcode-pane:focus-visible {
   outline: 2px solid rgba(167, 243, 208, 0.82);
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
 
 .auxillaries-bitcode-selector-card-current {
-  border-color: rgba(101, 254, 183, 0.34) !important;
+  border-color: rgba(101, 254, 183, 0.42) !important;
   background:
     radial-gradient(circle at top left, rgba(101, 254, 183, 0.16), transparent 42%),
     linear-gradient(180deg, rgba(101, 254, 183, 0.12), rgba(101, 254, 183, 0.05)) !important;
+  box-shadow: none !important;
 }
 
 .auxillaries-bitcode-selector-card-locked {
@@ -256,16 +342,17 @@
   width: 0.55rem;
   height: 0.55rem;
   flex: 0 0 auto;
-  border-radius: 999px;
+  border-radius: 0;
   border: 1px solid rgba(255, 255, 255, 0.18);
   background: rgba(148, 163, 184, 0.46);
-  box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.08);
+  /* No outer glow rings — they overflow the card and clip on the right edge. */
+  box-shadow: none;
 }
 
 .auxillaries-bitcode-selector-card-state-ready {
   border-color: rgba(167, 243, 208, 0.28);
   background: rgba(167, 243, 208, 0.72);
-  box-shadow: 0 0 0 3px rgba(101, 254, 183, 0.09);
+  box-shadow: none;
 }
 
 .auxillaries-bitcode-selector-card-state-active {
@@ -273,9 +360,7 @@
   height: 0.72rem;
   border-color: rgba(101, 254, 183, 0.74);
   background: rgba(101, 254, 183, 0.95);
-  box-shadow:
-    0 0 0 4px rgba(101, 254, 183, 0.12),
-    0 0 16px rgba(101, 254, 183, 0.5);
+  box-shadow: none;
 }
 
 .auxillaries-bitcode-selector-card-state-locked {
@@ -318,7 +403,7 @@
   align-items: start;
   gap: clamp(0.85rem, 1.4vw, 1.2rem);
   border: 1px solid rgba(101, 254, 183, 0.12);
-  border-radius: 1rem;
+  border-radius: 0;
   background: rgba(255, 255, 255, 0.035);
   padding: clamp(0.9rem, 1.35vw, 1.15rem);
 }
@@ -367,7 +452,7 @@
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
+  border-radius: 0;
   background: rgba(255, 255, 255, 0.04);
   color: rgba(226, 232, 240, 0.84);
   padding: 0.35rem 0.62rem;
@@ -398,14 +483,14 @@
   align-items: center;
   justify-content: center;
   border: 1px solid var(--aux-bc-line);
-  border-radius: 1rem;
+  border-radius: 0;
   color: var(--aux-bc-muted);
   font-size: 0.9rem;
 }
 
 .auxillaries-audit-detail {
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 1rem;
+  border-radius: 0;
   background: rgba(255, 255, 255, 0.035);
   color: var(--aux-bc-muted);
   overflow: hidden;
@@ -474,7 +559,7 @@
   -webkit-overflow-scrolling: touch;
   padding-bottom: clamp(1.4rem, 2vw, 2.1rem) !important;
   border: 1px solid var(--aux-bc-line) !important;
-  border-radius: 1.45rem !important;
+  border-radius: 0;
   background:
     radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 32%),
     linear-gradient(180deg, rgba(8, 16, 30, 0.94), rgba(4, 9, 18, 0.95)) !important;
@@ -535,14 +620,29 @@
 @media (max-width: 1023px) {
   .auxillaries-bitcode-shell {
     grid-template-columns: minmax(0, 1fr) !important;
-    grid-template-rows: auto minmax(0, 1fr) !important;
+    grid-template-rows: auto auto minmax(0, 1fr) !important;
     min-height: auto !important;
     overflow: visible;
   }
 
-  .auxillaries-bitcode-selector {
+  .auxillaries-left-chrome-actions {
+    grid-column: 1;
+    grid-row: 1;
+    justify-content: flex-start;
+  }
+
+  .auxillaries-bitcode-selector,
+  .auxillaries-bitcode-selector-with-chrome {
+    grid-column: 1;
+    grid-row: 2;
     position: relative;
     max-height: none;
+  }
+
+  .auxillaries-bitcode-pane,
+  .auxillaries-bitcode-pane-with-chrome {
+    grid-column: 1;
+    grid-row: 3;
   }
 
   .auxillaries-bitcode-selector-list {
@@ -588,4 +688,71 @@
     scroll-behavior: auto !important;
     transition-duration: 1ms !important;
   }
+}
+
+/* ---------------------------------------------------------------------------
+ * Square Auxillaries chrome.
+ * orbital.css still ships rounded workspace/auth/button shells; force square
+ * under the active Bitcode Auxillaries surface. Decorative rings/particles
+ * (border-radius: 50%) are excluded.
+ * --------------------------------------------------------------------------- */
+.auxillaries-bitcode-surface,
+.auxillaries-bitcode-surface.orbital-system-application,
+.orbital-system-application.auxillaries-bitcode-surface,
+.orbital-system-route.auxillaries-bitcode-surface {
+  border-radius: 0 !important;
+}
+
+.auxillaries-bitcode-surface :is(
+  .orbital-content-container,
+  .orbital-auth-container,
+  .orbital-auth-form,
+  .orbital-auth-intro-card,
+  .orbital-auth-support-card,
+  .orbital-workspace-nav,
+  .orbital-workspace-panel,
+  .orbital-workspace-stage,
+  .orbital-pane-tabs,
+  .orbital-pane-tab,
+  .orbital-pane-tab-index,
+  .orbital-pane-tab-status,
+  .orbital-section,
+  .onboarding-info,
+  .orbitals-users-input-container,
+  .input-container,
+  .auxillaries-action-button,
+  .auxillaries-signout-button,
+  .orbital-signout-button,
+  .orbital-close-button,
+  .orbital-toggle-button,
+  .auxillaries-close-button,
+  .auxillaries-toggle-button,
+  .auxillaries-bitcode-selector,
+  .auxillaries-bitcode-selector-card,
+  .auxillaries-bitcode-selector-card-state,
+  .auxillaries-active-pane-summary,
+  .auxillaries-active-pane-chip,
+  .auxillaries-active-pane-loading,
+  .auxillaries-audit-detail,
+  .auxillaries-skip-link,
+  .login-form-surface-contained,
+  .form-input,
+  button,
+  input,
+  textarea,
+  select
+) {
+  border-radius: 0 !important;
+}
+
+/* Keep true decorative orbs circular inside Auxillaries. */
+.auxillaries-bitcode-surface :is(
+  .orbital-ring,
+  .orbital-ring::before,
+  .orbital-ring::after,
+  .quantum-particle,
+  .orbiting-particle,
+  .login-planet
+) {
+  border-radius: 50% !important;
 }

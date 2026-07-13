@@ -137,7 +137,7 @@ export default function AuxillariesProfilePane({
             teamMembers={form.teamMembers}
           />
 
-          <div className="mt-5 rounded-[20px] border border-white/10 bg-black/20 px-5 py-4">
+          <div className="mt-5 rounded-none border border-white/10 bg-black/20 px-5 py-4">
             <p className="text-sm leading-7 text-white/68">
               Profile changes save automatically. Wallet connection and GitHub installation are managed in their own auxillaries.
             </p>

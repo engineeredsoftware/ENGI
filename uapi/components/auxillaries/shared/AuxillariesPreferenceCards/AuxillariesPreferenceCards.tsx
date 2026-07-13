@@ -31,7 +31,7 @@ export default function AuxillariesPreferenceCards({
       {items.map((item) => (
         <article
           key={item.id}
-          className="rounded-[20px] border border-white/8 bg-black/20 p-4"
+          className="rounded-none border border-white/8 bg-black/20 p-4"
         >
           <h4 className="text-sm font-semibold text-white">{item.title}</h4>
           <p className="mt-2 text-sm leading-6 text-white/64">{item.description}</p>
@@ -45,7 +45,7 @@ export default function AuxillariesPreferenceCards({
                   type="button"
                   onClick={() => item.onChange(option.value)}
                   className={cn(
-                    "rounded-full border px-3 py-2 text-left transition focus-visible:outline-none",
+                    "rounded-none border px-3 py-2 text-left transition focus-visible:outline-none",
                     isActive
                       ? "border-emerald-300/40 bg-emerald-400/14 text-emerald-50"
                       : "border-white/10 bg-white/5 text-white/72 hover:border-white/18 hover:bg-white/8",

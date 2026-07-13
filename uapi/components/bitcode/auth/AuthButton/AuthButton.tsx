@@ -41,7 +41,7 @@ export default function AuthButton() {
   if (loading) {
     return (
       <button
-        className="rounded-md bg-gray-700 px-4 py-2 text-sm font-medium text-white opacity-50"
+        className="rounded-none bg-gray-700 px-4 py-2 text-sm font-medium text-white opacity-50"
         disabled
       >
         Loading...

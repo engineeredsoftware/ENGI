@@ -35,7 +35,7 @@ export default function InterfaceAdmissionCatalog({ admissionRecords }: Interfac
           return (
             <article
               key={`${admission.interfaceId || admission.surface}-${admissionRoot}`}
-              className="rounded-[18px] border border-white/10 bg-white/[0.035] p-4"
+              className="rounded-none border border-white/10 bg-white/[0.035] p-4"
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
@@ -48,7 +48,7 @@ export default function InterfaceAdmissionCatalog({ admissionRecords }: Interfac
                 </div>
                 <span
                   className={[
-                    'rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]',
+                    'rounded-none border px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]',
                     admission.readiness === 'ready'
                       ? 'border-emerald-300/40 bg-emerald-400/10 text-emerald-100'
                       : admission.readiness === 'blocked'
@@ -98,7 +98,7 @@ export default function InterfaceAdmissionCatalog({ admissionRecords }: Interfac
           );
         })
       ) : (
-        <div className="rounded-[18px] border border-amber-300/25 bg-amber-400/10 p-4 text-sm text-amber-100">
+        <div className="rounded-none border border-amber-300/25 bg-amber-400/10 p-4 text-sm text-amber-100">
           Interface admission records are not loaded yet.
         </div>
       )}

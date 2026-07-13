@@ -35,6 +35,8 @@ interface BitcodeTransactionsTableProps {
   error: string | null;
   dataMode: TransactionDataMode;
   surface?: 'terminal' | 'exchange' | 'pipelines';
+  onRefresh?: () => void;
+  refreshLabel?: string;
 }
 
 export default function BitcodeTransactionsTable({
@@ -57,6 +59,8 @@ export default function BitcodeTransactionsTable({
   error,
   dataMode,
   surface = 'terminal',
+  onRefresh,
+  refreshLabel,
 }: BitcodeTransactionsTableProps) {
   const isExchangeSurface = surface === 'exchange';
   const isPipelinesSurface = surface === 'pipelines';
@@ -128,6 +132,8 @@ export default function BitcodeTransactionsTable({
         filters={filters}
         onFiltersChange={onFiltersChange}
         onResetFilters={onResetFilters}
+        onRefresh={onRefresh}
+        refreshLabel={refreshLabel}
       />
 
       <BitcodeTransactionsDataTable

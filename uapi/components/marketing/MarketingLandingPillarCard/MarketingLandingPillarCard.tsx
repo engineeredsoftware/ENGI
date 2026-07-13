@@ -37,7 +37,7 @@ export function MarketingLandingPillarCard({
         delay: 0.1 + index * 0.08,
         ease: entranceEase,
       }}
-      className={`relative overflow-hidden rounded-[24px] border p-3 backdrop-blur-xl phone:p-4 ${
+      className={`relative overflow-hidden rounded-none border p-3 backdrop-blur-xl phone:p-4 ${
         title.includes('$BTD')
           ? 'border-orange-300/20 bg-black/30 shadow-[0_18px_50px_rgba(79,30,0,0.34)]'
           : 'border-white/10 bg-white/5 shadow-[0_16px_50px_rgba(2,8,17,0.32)]'
@@ -48,12 +48,12 @@ export function MarketingLandingPillarCard({
         <>
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(9,6,29,0.98),rgba(40,18,62,0.9))]" />
           <div
-            className="absolute inset-[10px] rounded-[18px] bg-white/[0.04]"
+            className="absolute inset-[10px] rounded-none bg-white/[0.04]"
             style={{
               boxShadow: 'inset 2px 2px 8px 2px rgba(0,0,0,0.82), 2px 2px 14px 2px rgba(0,0,0,0.18)',
             }}
           />
-          <div className="absolute inset-[1px] rounded-[23px] border border-white/20" />
+          <div className="absolute inset-[1px] rounded-none border border-white/20" />
           <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-fuchsia-200/70 to-transparent" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(192,132,252,0.22),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(236,72,153,0.12),transparent_30%)]" />
           <div className="absolute inset-0 opacity-25 [background-image:linear-gradient(90deg,transparent_0,transparent_31px,rgba(255,255,255,0.07)_32px),linear-gradient(180deg,transparent_0,transparent_31px,rgba(255,255,255,0.05)_32px)] [background-size:32px_32px]" />
@@ -66,7 +66,7 @@ export function MarketingLandingPillarCard({
           />
           <div className="relative">
             <div className="relative min-h-[58px] pr-16 text-violet-100 phone:min-h-[68px] phone:pr-20">
-              <span className="absolute right-0 top-0 inline-flex min-w-[64px] items-center justify-center rounded-full border border-white/12 bg-white/8 px-2.5 py-1 text-center text-[8px] uppercase tracking-[0.16em] text-violet-100/70 phone:min-w-[72px]">
+              <span className="absolute right-0 top-0 inline-flex min-w-[64px] items-center justify-center rounded-none border border-white/12 bg-white/8 px-2.5 py-1 text-center text-[8px] uppercase tracking-[0.16em] text-violet-100/70 phone:min-w-[72px]">
                 deposit
               </span>
               <div className="flex min-w-0 items-start gap-2">
@@ -108,7 +108,7 @@ export function MarketingLandingPillarCard({
         <>
           <div className="absolute inset-0 bg-gradient-to-br from-[#021511]/95 via-[#06231f]/84 to-[#02060d]" />
           <div
-            className="absolute inset-[10px] rounded-[18px] bg-white/[0.04]"
+            className="absolute inset-[10px] rounded-none bg-white/[0.04]"
             style={{
               boxShadow: 'inset 2px 2px 8px 2px rgba(0,0,0,0.82), 2px 2px 14px 2px rgba(0,0,0,0.18)',
             }}
@@ -135,7 +135,7 @@ export function MarketingLandingPillarCard({
                     }}
                   />
                   <span
-                    className={`absolute w-[6px] rounded-[2px] ${candle.bullish ? 'bg-emerald-300/35' : 'bg-rose-300/30'}`}
+                    className={`absolute w-[6px] rounded-none ${candle.bullish ? 'bg-emerald-300/35' : 'bg-rose-300/30'}`}
                     style={{
                       left: `calc(${candle.left} - 2px)`,
                       top: candle.bodyTop,
@@ -146,13 +146,13 @@ export function MarketingLandingPillarCard({
               ))}
             </div>
           </div>
-          <div className="absolute inset-[1px] rounded-[23px] border border-emerald-200/10" />
+          <div className="absolute inset-[1px] rounded-none border border-emerald-200/10" />
           <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-emerald-200/70 to-transparent" />
           <div className="absolute inset-0 -z-10 opacity-10 [mask-image:linear-gradient(to_bottom,transparent,white,white,transparent)] bg-[repeating-linear-gradient(90deg,#ffffff0d_0_40px,transparent_40px_80px)] bg-[length:160px_160px]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(45,212,191,0.12),transparent_30%)]" />
           <div className="relative">
             <div className="relative min-h-[58px] pr-16 text-emerald-100 phone:min-h-[68px] phone:pr-20">
-              <span className="absolute right-0 top-0 inline-flex min-w-[64px] items-center justify-center rounded-full border border-emerald-200/12 bg-emerald-400/8 px-2.5 py-1 text-center text-[8px] uppercase tracking-[0.16em] text-emerald-50/72 phone:min-w-[72px]">
+              <span className="absolute right-0 top-0 inline-flex min-w-[64px] items-center justify-center rounded-none border border-emerald-200/12 bg-emerald-400/8 px-2.5 py-1 text-center text-[8px] uppercase tracking-[0.16em] text-emerald-50/72 phone:min-w-[72px]">
                 weighted
               </span>
               <div className="flex min-w-0 items-start gap-2">
@@ -185,7 +185,7 @@ export function MarketingLandingPillarCard({
                 ))}
               </div>
             </div>
-            <div className="mt-4 rounded-2xl border border-emerald-200/12 bg-black/25 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+            <div className="mt-4 rounded-none border border-emerald-200/12 bg-black/25 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
               <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-emerald-200/62">
                 active read
               </p>
@@ -199,7 +199,7 @@ export function MarketingLandingPillarCard({
         <>
           <div className="absolute inset-0 bg-gradient-to-br from-[#170900]/95 via-[#3c1700]/82 to-[#02060d]" />
           <div
-            className="absolute inset-[10px] rounded-[18px] bg-white/[0.04]"
+            className="absolute inset-[10px] rounded-none bg-white/[0.04]"
             style={{
               boxShadow: 'inset 2px 2px 8px 2px rgba(0,0,0,0.85), 2px 2px 14px 2px rgba(0,0,0,0.18)',
             }}
@@ -214,7 +214,7 @@ export function MarketingLandingPillarCard({
               }}
             />
           </div>
-          <div className="absolute inset-[1px] rounded-[23px] border border-orange-200/10" />
+          <div className="absolute inset-[1px] rounded-none border border-orange-200/10" />
           <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-orange-100/70 to-transparent" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(251,146,60,0.24),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(251,191,36,0.08),transparent_30%)]" />
           <div className="relative">
@@ -245,12 +245,12 @@ export function MarketingLandingPillarCard({
                 description
               )}
             </p>
-            <div className="mt-4 rounded-2xl border border-orange-200/12 bg-black/25 px-3 py-2">
+            <div className="mt-4 rounded-none border border-orange-200/12 bg-black/25 px-3 py-2">
               <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-orange-50/76">
                 {'live supply · licensed reads · usage metering'}
               </p>
             </div>
-            <div className="mt-4 rounded-2xl border border-orange-200/12 bg-black/25 px-3 py-2">
+            <div className="mt-4 rounded-none border border-orange-200/12 bg-black/25 px-3 py-2">
               <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-orange-50/76">
                 {'supply the depot -> consumption is metered -> value-based issuance'}
               </p>

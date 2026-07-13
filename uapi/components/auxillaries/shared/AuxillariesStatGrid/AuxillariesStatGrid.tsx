@@ -51,7 +51,7 @@ export default function AuxillariesStatGrid({
         return (
         <article
           key={`${item.label}-${item.value}`}
-          className="min-w-0 rounded-[20px] border border-white/8 bg-black/20 p-4"
+          className="min-w-0 rounded-none border border-white/8 bg-black/20 p-4"
           title={tooltip}
           aria-label={`${item.label}: ${tooltip}`}
         >
@@ -61,7 +61,7 @@ export default function AuxillariesStatGrid({
             </p>
             {item.detail ? (
               <span
-                className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[11px] font-semibold text-white/58"
+                className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 text-[11px] font-semibold text-white/58"
                 aria-hidden="true"
               >
                 i

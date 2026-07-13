@@ -72,7 +72,7 @@ export default function WalletBtdPostureSection({
       tone="amber"
     >
       <div
-        className="rounded-[26px] border border-amber-200/16 bg-[linear-gradient(180deg,rgba(251,191,36,0.11),rgba(8,16,30,0.62))] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.2),0_0_34px_rgba(251,191,36,0.08)_inset]"
+        className="rounded-none border border-amber-200/16 bg-[linear-gradient(180deg,rgba(251,191,36,0.11),rgba(8,16,30,0.62))] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.2),0_0_34px_rgba(251,191,36,0.08)_inset]"
         title="BTD is the non-fungible source-share/read-right balance currently visible to this account."
       >
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-amber-100/76">

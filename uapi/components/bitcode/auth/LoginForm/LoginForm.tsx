@@ -457,7 +457,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
                 {stage === 'request' && (
                   <div className="flex flex-col gap-4">
                     {inviteDetails && (
-                      <div className="mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                      <div className="mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-none">
                         <div className="text-sm text-blue-400 mb-1">Team Invitation</div>
                         <div className="text-white font-medium">{inviteDetails.organization.name}</div>
                         <div className="text-xs text-gray-400">
@@ -650,7 +650,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
                 allowCancel={false}
                 compact
                 transformOnProcessing={false}
-                className="!w-max !block mx-auto rounded-full border border-emerald-300/28 bg-[linear-gradient(180deg,rgba(4,16,22,0.96),rgba(3,10,18,0.94))] text-emerald-50 shadow-[0_18px_44px_rgba(0,0,0,0.24),0_0_0_1px_rgba(101,254,183,0.08)_inset] hover:border-emerald-200/40 hover:shadow-[0_20px_48px_rgba(0,0,0,0.28),0_0_0_1px_rgba(110,231,183,0.12)_inset]"
+                className="!w-max !block mx-auto rounded-none border border-emerald-300/28 bg-[linear-gradient(180deg,rgba(4,16,22,0.96),rgba(3,10,18,0.94))] text-emerald-50 shadow-[0_18px_44px_rgba(0,0,0,0.24),0_0_0_1px_rgba(101,254,183,0.08)_inset] hover:border-emerald-200/40 hover:shadow-[0_20px_48px_rgba(0,0,0,0.28),0_0_0_1px_rgba(110,231,183,0.12)_inset]"
               />
             </motion.div>
           )}
@@ -661,7 +661,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
       <AnimatePresence mode="wait" initial={true}>
         {stage === 'request' && (
           <>
-            <div className="mx-auto mb-6 max-w-[28rem] rounded-[24px] border border-emerald-300/14 bg-emerald-400/[0.06] px-4 py-3 text-center text-sm leading-7 text-white/74">
+            <div className="mx-auto mb-6 max-w-[28rem] rounded-none border border-emerald-300/14 bg-emerald-400/[0.06] px-4 py-3 text-center text-sm leading-7 text-white/74">
               {isContainedSurface
                 ? 'Bitcoin wallet identity and GitHub repository connection are the primary Bitcode prerequisites. Email code remains a fallback access path.'
                 : 'Email code remains an access fallback. Bitcoin wallet identity and GitHub repository connection are the primary Bitcode prerequisites.'}

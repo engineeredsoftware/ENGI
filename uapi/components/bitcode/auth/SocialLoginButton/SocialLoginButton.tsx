@@ -206,24 +206,24 @@ export default function SocialLoginButton({ provider, iconOnly = false, nextPath
   } else if (variant === 'icon-square') {
     // Square icon-only buttons for profile pane
     if (disabled) {
-      baseClass = `flex items-center justify-center rounded-xl h-12 w-full bg-white/5 text-white/60 cursor-not-allowed pointer-events-none opacity-50`
+      baseClass = `flex items-center justify-center rounded-none h-12 w-full bg-white/5 text-white/60 cursor-not-allowed pointer-events-none opacity-50`
     } else {
-      baseClass = `flex items-center justify-center rounded-xl h-12 w-full
+      baseClass = `flex items-center justify-center rounded-none h-12 w-full
         bg-gradient-to-r from-emerald-400/90 to-teal-400/90
         transition-all ease-in-out
         shadow-md hover:shadow-lg hover:from-emerald-400 hover:to-teal-400`
     }
   } else if (variant === 'signup') {
     if (disabled) {
-      baseClass = `flex w-full items-center justify-center gap-2 rounded-xl h-14 px-6 bg-white/5 text-white/60 cursor-not-allowed pointer-events-none`
+      baseClass = `flex w-full items-center justify-center gap-2 rounded-none h-14 px-6 bg-white/5 text-white/60 cursor-not-allowed pointer-events-none`
     } else {
-      baseClass = `flex w-full items-center justify-center gap-2 rounded-xl h-14 px-6
+      baseClass = `flex w-full items-center justify-center gap-2 rounded-none h-14 px-6
         bg-gradient-to-r from-emerald-400 to-teal-400
         text-slate-900 font-semibold transition-all ease-in-out
         shadow-lg hover:shadow-xl`
     }
   } else {
-    baseClass = `flex w-full items-center justify-center gap-2 rounded-md border px-4 py-3 font-medium ${providerClass} ${disabled ? 'opacity-60 cursor-not-allowed pointer-events-none grayscale' : ''}`
+    baseClass = `flex w-full items-center justify-center gap-2 rounded-none border px-4 py-3 font-medium ${providerClass} ${disabled ? 'opacity-60 cursor-not-allowed pointer-events-none grayscale' : ''}`
   }
 
   return (

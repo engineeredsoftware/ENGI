@@ -39,7 +39,7 @@ export default function OrganizationTreasuryTab({
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="rounded-lg border p-4">
+        <div className="rounded-none border p-4">
           <div className="mb-4 flex items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold">{operatingTier.label}</h3>
@@ -74,7 +74,7 @@ export default function OrganizationTreasuryTab({
         </div>
 
         <div className="grid gap-4 tablet:grid-cols-3">
-          <div className="rounded-2xl border bg-slate-50 p-4">
+          <div className="rounded-none border bg-slate-50 p-4">
             <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-900">
               <Wallet className="h-4 w-4 text-emerald-700" />
               Connected wallet
@@ -83,7 +83,7 @@ export default function OrganizationTreasuryTab({
               BTC settlement and issued BTD posture are reviewed from Wallet.
             </p>
           </div>
-          <div className="rounded-2xl border bg-slate-50 p-4">
+          <div className="rounded-none border bg-slate-50 p-4">
             <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-900">
               <Github className="h-4 w-4 text-emerald-700" />
               GitHub before transacting
@@ -92,7 +92,7 @@ export default function OrganizationTreasuryTab({
               Reads, asset packs, and repository delivery stay blocked until GitHub posture is connected.
             </p>
           </div>
-          <div className="rounded-2xl border bg-slate-50 p-4">
+          <div className="rounded-none border bg-slate-50 p-4">
             <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-900">
               <Waypoints className="h-4 w-4 text-emerald-700" />
               Externals governs entry

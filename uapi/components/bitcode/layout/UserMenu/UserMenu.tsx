@@ -57,9 +57,9 @@ export function UserMenu({ user, onOpenAuxillaries, onSignOut }: UserMenuProps) 
         <button
           aria-label="User menu"
           aria-haspopup="menu"
-          className="relative w-9 h-9 flex items-center justify-center rounded-full overflow-hidden cursor-pointer text-neutral-300 transition-shadow transition-colors duration-300 ease-out focus:outline-none focus-visible:outline-none focus:ring-0 border border-emerald-400/30 shadow-[0_0_6px_rgba(101,254,183,0.2)] hover:shadow-[0_0_10px_rgba(101,254,183,0.3)] hover:border-emerald-400/50 hover:text-white"
+          className="relative w-9 h-9 flex items-center justify-center rounded-none overflow-hidden cursor-pointer text-neutral-300 transition-shadow transition-colors duration-300 ease-out focus:outline-none focus-visible:outline-none focus:ring-0 border border-emerald-400/30 shadow-[0_0_6px_rgba(101,254,183,0.2)] hover:shadow-[0_0_10px_rgba(101,254,183,0.3)] hover:border-emerald-400/50 hover:text-white"
         >
-          <Avatar.Root className="w-full h-full rounded-full">
+          <Avatar.Root className="w-full h-full rounded-none">
             {avatarUrl ? (
               <Avatar.Image
                 src={avatarUrl}
@@ -86,13 +86,13 @@ export function UserMenu({ user, onOpenAuxillaries, onSignOut }: UserMenuProps) 
         >
           {/* User info header */}
           <div className="p-4 flex items-center gap-3 border-b border-white/5">
-            <div className="w-8 h-8 shrink-0 rounded-full overflow-hidden border border-emerald-400/30 shadow-[0_0_6px_rgba(101,254,183,0.2)] transition-shadow transition-colors duration-300 ease-out hover:shadow-[0_0_10px_rgba(101,254,183,0.3)] hover:border-emerald-400/50">
-              <Avatar.Root className="w-full h-full rounded-full overflow-hidden">
+            <div className="w-8 h-8 shrink-0 rounded-none overflow-hidden border border-emerald-400/30 shadow-[0_0_6px_rgba(101,254,183,0.2)] transition-shadow transition-colors duration-300 ease-out hover:shadow-[0_0_10px_rgba(101,254,183,0.3)] hover:border-emerald-400/50">
+              <Avatar.Root className="w-full h-full rounded-none overflow-hidden">
                 {avatarUrl ? (
                   <Avatar.Image
                     src={avatarUrl}
                     alt="User avatar"
-                    className="object-cover w-full h-full rounded-full"
+                    className="object-cover w-full h-full rounded-none"
                   />
                 ) : null}
                 <Avatar.Fallback

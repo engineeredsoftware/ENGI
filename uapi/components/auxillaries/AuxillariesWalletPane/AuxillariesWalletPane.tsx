@@ -117,7 +117,7 @@ export default function AuxillariesWalletPane({
             <AuxillariesPreferenceCards items={state.preferenceCards.slice(3)} />
           </AuxillariesWorkspaceSection>
 
-          <div className="rounded-[22px] border border-white/10 bg-black/20 px-5 py-4">
+          <div className="rounded-none border border-white/10 bg-black/20 px-5 py-4">
             <p className="text-sm leading-7 text-white/68">
               Changes save automatically so the BTD posture reopens with the same share, replay, and wallet-facing defaults.
             </p>

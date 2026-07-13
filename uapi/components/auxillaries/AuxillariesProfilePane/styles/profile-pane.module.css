@@ -1,10 +1,10 @@
 :global { .team-management-container { display: flex; flex-direction: column; gap: 10px; width: 100%; position: relative; transition: all 0.3s ease; } }
-:global { .input-container { position: relative; width: 100%; overflow: hidden; border-radius: 12px; transition: all 0.3s ease; } }
-:global { .input-container.enterprise { background: rgba(15, 25, 40, 0.7); border-radius: 12px; border: 1px solid rgba(103, 254, 183, 0.25); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); } }
+:global { .input-container { position: relative; width: 100%; overflow: hidden; border-radius: 0; transition: all 0.3s ease; } }
+:global { .input-container.enterprise { background: rgba(15, 25, 40, 0.7); border-radius: 0; border: 1px solid rgba(103, 254, 183, 0.25); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); } }
 /* Orbital Users prefixed aliases */
 :global { .orbitals-users-team-management-container { display: flex; flex-direction: column; gap: 10px; width: 100%; position: relative; transition: all 0.3s ease; } }
-:global { .orbitals-users-input-container { position: relative; width: 100%; overflow: hidden; border-radius: 12px; transition: all 0.3s ease; } }
-:global { .orbitals-users-input-container.enterprise { background: rgba(15, 25, 40, 0.7); border-radius: 12px; border: 1px solid rgba(103, 254, 183, 0.25); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); } }
+:global { .orbitals-users-input-container { position: relative; width: 100%; overflow: hidden; border-radius: 0; transition: all 0.3s ease; } }
+:global { .orbitals-users-input-container.enterprise { background: rgba(15, 25, 40, 0.7); border-radius: 0; border: 1px solid rgba(103, 254, 183, 0.25); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); } }
 @media (max-width: 640px) {
   :global {
     .input-row-responsive { flex-direction: column !important; }

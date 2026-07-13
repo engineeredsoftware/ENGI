@@ -35,6 +35,9 @@ export interface BitcodePipelinesTableProps {
   runsError: string | null;
   transactionDataMode: TransactionDataMode;
   surface?: 'terminal' | 'exchange' | 'pipelines';
+  /** Optional refresh control pinned permanently on the active-filters row. */
+  onRefresh?: () => void;
+  refreshLabel?: string;
 }
 
 export default function BitcodePipelinesTable({
@@ -50,6 +53,8 @@ export default function BitcodePipelinesTable({
   runsError,
   transactionDataMode,
   surface = 'pipelines',
+  onRefresh,
+  refreshLabel,
 }: BitcodePipelinesTableProps) {
   const records = useMemo(() => normalizeTerminalTransactions(runs), [runs]);
   const options = useMemo(() => buildTerminalTransactionFilterOptions(records), [records]);
@@ -107,6 +112,8 @@ export default function BitcodePipelinesTable({
       error={runsError}
       dataMode={transactionDataMode}
       surface={surface}
+      onRefresh={onRefresh}
+      refreshLabel={refreshLabel}
     />
   );
 }

@@ -5,7 +5,7 @@
  */
 
 import React from "react";
-import { ArrowLeft, Plus, RefreshCw } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";
 import BitcodePipelinesTable from "@/components/bitcode/pipeline/BitcodePipelinesTable/BitcodePipelinesTable";
 import {
@@ -53,7 +53,7 @@ export function DepositPipelinesMaster({
       aria-label="Deposit"
     >
       <div className="flex items-start justify-between gap-3">
-        <div className="flex items-start gap-3">
+        <div className="flex min-w-0 items-start gap-3">
           {isDepositDetailOpen ? (
             <button
               type="button"
@@ -65,7 +65,7 @@ export function DepositPipelinesMaster({
               Back
             </button>
           ) : null}
-          <div>
+          <div className="min-w-0">
             <p className="text-[0.68rem] uppercase tracking-[0.22em] text-neutral-500">
               Pipelines
             </p>
@@ -75,28 +75,19 @@ export function DepositPipelinesMaster({
             </h2>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          {!isDepositDetailOpen ? (
-            <button
-              type="button"
-              onClick={onOpenCompose}
-              className="inline-flex h-9 w-9 items-center justify-center border border-white/10 bg-white/[0.04] text-neutral-200 transition hover:border-emerald-300/30 hover:bg-emerald-300/10"
-              aria-label="New deposit"
-              title="New deposit"
-              data-testid="deposit-open-compose"
-            >
-              <Plus className="h-4 w-4" aria-hidden="true" />
-            </button>
-          ) : null}
+        {/* Primary action owns the top-right: new deposit is the dominant CTA. */}
+        {!isDepositDetailOpen ? (
           <button
             type="button"
-            onClick={onRefresh}
-            className="inline-flex h-9 w-9 items-center justify-center border border-white/10 bg-white/[0.04] text-neutral-200 transition hover:border-emerald-300/30 hover:bg-emerald-300/10"
-            aria-label="Refresh Deposit"
+            onClick={onOpenCompose}
+            className="ml-auto inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-none border border-emerald-200/55 bg-[linear-gradient(180deg,rgba(52,211,153,0.95),rgba(16,185,129,0.88))] text-slate-950 shadow-[0_0_0_1px_rgba(167,243,208,0.35)_inset,0_12px_36px_rgba(16,185,129,0.42),0_0_28px_rgba(52,211,153,0.28)] transition hover:border-emerald-100/70 hover:bg-[linear-gradient(180deg,rgba(110,231,183,1),rgba(52,211,153,0.95))] hover:shadow-[0_0_0_1px_rgba(209,250,229,0.45)_inset,0_14px_40px_rgba(16,185,129,0.5),0_0_34px_rgba(52,211,153,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgba(4,8,18,0.9)] active:translate-y-px"
+            aria-label="New deposit"
+            title="New deposit"
+            data-testid="deposit-open-compose"
           >
-            <RefreshCw className="h-4 w-4" aria-hidden="true" />
+            <Plus className="h-5 w-5 stroke-[2.5]" aria-hidden="true" />
           </button>
-        </div>
+        ) : null}
       </div>
       {!isDepositDetailOpen ? (
         <div className="mt-4" data-testid="deposits-pipelines-table">
@@ -118,6 +109,8 @@ export function DepositPipelinesMaster({
             runsError={runsError}
             transactionDataMode="live"
             surface="pipelines"
+            onRefresh={onRefresh}
+            refreshLabel="Refresh Deposit"
           />
         </div>
       ) : null}

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
-import Logo from '@/components/bitcode/branding/Logo/Logo';
 import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy';
 import MultiLineTypingAnimation from '@/components/bitcode/MultiLineTypingAnimation/MultiLineTypingAnimation';
 
@@ -28,13 +27,7 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
       className="flex flex-col justify-center"
       style={animatedMotionStyle}
     >
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-300/20 bg-emerald-400/10 shadow-[0_0_28px_rgba(103,254,183,0.14)]">
-          <Logo height="h-7" width="w-7" />
-        </div>
-      </div>
-
-      <div className="mt-4 max-w-2xl space-y-4 phone:mt-5">
+      <div className="max-w-2xl space-y-4">
         <p className="max-w-xl text-[11px] uppercase tracking-[0.26em] text-emerald-200/70">
           {BITCODE_PUBLIC_COPY.eyebrow}
         </p>
@@ -59,7 +52,7 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
         {BITCODE_PUBLIC_COPY.capabilityChips.map((item) => (
           <span
             key={item}
-            className="relative overflow-hidden rounded-[18px] border border-cyan-200/18 bg-[linear-gradient(135deg,rgba(9,22,48,0.82),rgba(18,49,88,0.38))] px-3 py-2 text-cyan-100 shadow-[0_12px_28px_rgba(6,182,212,0.08)] backdrop-blur-md"
+            className="relative overflow-hidden rounded-none border border-cyan-200/18 bg-[linear-gradient(135deg,rgba(9,22,48,0.82),rgba(18,49,88,0.38))] px-3 py-2 text-cyan-100 shadow-[0_12px_28px_rgba(6,182,212,0.08)] backdrop-blur-md"
           >
             <span
               className="absolute inset-0 opacity-30"
@@ -69,7 +62,7 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
               }}
             />
             <span className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(103,254,183,0.16),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(56,189,248,0.12),transparent_34%)]" />
-            <span className="absolute inset-[1px] rounded-[17px] border border-white/8" />
+            <span className="absolute inset-[1px] rounded-none border border-white/8" />
             <span className="relative">{item}</span>
           </span>
         ))}
@@ -84,14 +77,14 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
       <div className="mt-4 flex flex-wrap items-center gap-3 phone:mt-5">
         <Link
           href={BITCODE_PUBLIC_COPY.primaryCta.href}
-          className="inline-flex items-center gap-2 rounded-full border border-emerald-300/24 bg-emerald-400/10 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/16"
+          className="inline-flex items-center gap-2 rounded-none border border-emerald-300/24 bg-emerald-400/10 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/16"
         >
           {BITCODE_PUBLIC_COPY.primaryCta.label}
           <ArrowRightIcon className="h-4 w-4" />
         </Link>
         <Link
           href={BITCODE_PUBLIC_COPY.secondaryCta.href}
-          className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition-colors hover:border-white/24 hover:bg-white/10"
+          className="inline-flex items-center gap-2 rounded-none border border-white/12 bg-white/6 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition-colors hover:border-white/24 hover:bg-white/10"
         >
           {BITCODE_PUBLIC_COPY.secondaryCta.label}
           <ArrowRightIcon className="h-4 w-4" />

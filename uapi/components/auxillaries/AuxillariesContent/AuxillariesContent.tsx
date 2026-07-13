@@ -22,6 +22,8 @@ export interface AuxillariesContentProps {
   showSuccessAnimation: boolean;
   navigationMode?: 'orbital' | 'tabs';
   surfaceVariant?: 'default' | 'contained';
+  /** Close / disconnect (and similar) rendered above the left selector column. */
+  chromeActions?: React.ReactNode;
   onStepClick: (step: AuxillaryPane) => void;
   renderStepContent: (step: AuxillaryPane) => React.ReactNode;
   isOnboardingComplete?: boolean;
@@ -38,6 +40,7 @@ function AuxillariesContent(props: AuxillariesContentProps) {
     navigationMode = 'orbital',
     surfaceVariant = 'default',
     mode = 'onboarding',
+    chromeActions = null,
     onStepClick = (_: AuxillaryPane) => {},
     renderStepContent = (_: AuxillaryPane) => null,
     isOnboardingComplete = false,
@@ -230,8 +233,19 @@ function AuxillariesContent(props: AuxillariesContentProps) {
           <a className="auxillaries-skip-link" href="#auxillaries-active-pane">
             Skip to active support pane
           </a>
+          {chromeActions ? (
+            <div
+              className="auxillaries-left-chrome-actions"
+              role="toolbar"
+              aria-label="Auxillaries session actions"
+              data-auxillaries-testid="auxillaries-left-chrome-actions"
+              data-testid="auxillaries-left-chrome-actions"
+            >
+              {chromeActions}
+            </div>
+          ) : null}
           <aside
-            className="orbital-workspace-nav auxillaries-bitcode-selector"
+            className={`orbital-workspace-nav auxillaries-bitcode-selector${chromeActions ? ' auxillaries-bitcode-selector-with-chrome' : ''}`}
             role="navigation"
             aria-label="Auxillaries pane navigation"
             data-auxillaries-testid="auxillaries-pane-navigation"
@@ -246,7 +260,7 @@ function AuxillariesContent(props: AuxillariesContentProps) {
           </aside>
           <section
             id="auxillaries-active-pane"
-            className="orbital-workspace-stage auxillaries-bitcode-pane auxillaries-active-pane-region"
+            className={`orbital-workspace-stage auxillaries-bitcode-pane auxillaries-active-pane-region${chromeActions ? ' auxillaries-bitcode-pane-with-chrome' : ''}`}
             role="region"
             aria-label={`${activePaneLabel} active support pane`}
             aria-live="polite"

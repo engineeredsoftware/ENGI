@@ -35,7 +35,7 @@ export default function ProfileIdentitySection({
 }: ProfileIdentitySectionProps) {
   return (
     <>
-      <section className="rounded-[20px] border border-white/10 bg-black/20 p-5">
+      <section className="rounded-none border border-white/10 bg-black/20 p-5">
         <div className="mb-4">
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/62">
             Account profile
@@ -107,7 +107,7 @@ export default function ProfileIdentitySection({
                   key={avatar}
                   type="button"
                   onClick={() => selectAvatar(index)}
-                  className={`h-12 w-12 rounded-2xl border bg-cover bg-center transition ${
+                  className={`h-12 w-12 rounded-none border bg-cover bg-center transition ${
                     selectedAvatar === index ? 'border-emerald-300/60' : 'border-white/12'
                   }`}
                   style={{ backgroundImage: `url(${avatar})` }}
@@ -133,7 +133,7 @@ export default function ProfileIdentitySection({
         </div>
       </section>
 
-      <section className="mt-5 rounded-[20px] border border-white/10 bg-white/[0.04] p-5">
+      <section className="mt-5 rounded-none border border-white/10 bg-white/[0.04] p-5">
         <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/62">
           Organization role posture
         </p>
@@ -141,7 +141,7 @@ export default function ProfileIdentitySection({
           {teamMembers.map((member) => (
             <span
               key={`${member.id}-${member.role}`}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/74"
+              className="rounded-none border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/74"
             >
               {member.displayName || member.username || 'member'} · {member.role}
             </span>

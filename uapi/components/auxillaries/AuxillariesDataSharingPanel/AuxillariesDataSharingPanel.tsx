@@ -142,20 +142,20 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
             disabled={loading || updatingAll}
           />
           <div
-            className="w-11 h-6 rounded-full border border-slate-600 peer bg-slate-700 peer-checked:bg-[#F9C855] transition-colors duration-200"
+            className="w-11 h-6 rounded-none border border-slate-600 peer bg-slate-700 peer-checked:bg-[#F9C855] transition-colors duration-200"
           ></div>
           <span
-            className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transform peer-checked:translate-x-5 transition-transform duration-200"
+            className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-none shadow transform peer-checked:translate-x-5 transition-transform duration-200"
           ></span>
         </label>
       </div>
 
         {enableAll ? (
-        <div className="text-sm text-yellow-300/80 font-medium bg-yellow-300/10 border border-yellow-300/20 rounded-lg px-4 py-3">
+        <div className="text-sm text-yellow-300/80 font-medium bg-yellow-300/10 border border-yellow-300/20 rounded-none px-4 py-3">
           All current and future Externals-approved repositories will sync into read-space automatically.
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-lg border border-slate-700/60 bg-slate-800/40 backdrop-blur-md [mask-image:linear-gradient(black,black)]">
+        <div className="overflow-x-auto rounded-none border border-slate-700/60 bg-slate-800/40 backdrop-blur-md [mask-image:linear-gradient(black,black)]">
           <table className="min-w-full text-sm whitespace-nowrap" data-testid="externals-data-share-repositories">
             <thead className="text-slate-300 font-semibold">
               <tr>
@@ -189,8 +189,8 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
                         onChange={() => toggleRepo(idx)}
                         disabled={loading}
                       />
-                      <div className="w-9 h-5 rounded-full border border-slate-600 peer bg-slate-700 peer-checked:bg-teal-400 transition-colors" />
-                      <span className="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow transform peer-checked:translate-x-4 transition-transform" />
+                      <div className="w-9 h-5 rounded-none border border-slate-600 peer bg-slate-700 peer-checked:bg-teal-400 transition-colors" />
+                      <span className="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-none shadow transform peer-checked:translate-x-4 transition-transform" />
                     </label>
                   </td>
                 </tr>

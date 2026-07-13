@@ -312,7 +312,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       <button
                         disabled
                         aria-disabled="true"
-                        className="mt-3 flex w-full cursor-not-allowed items-center justify-center gap-1 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-neutral-400 opacity-65 filter grayscale"
+                        className="mt-3 flex w-full cursor-not-allowed items-center justify-center gap-1 rounded-none border border-white/10 bg-white/[0.03] px-4 py-2 text-neutral-400 opacity-65 filter grayscale"
                       >
                         {BITCODE_PUBLIC_COPY.footer.guestCta}
                         <svg
@@ -334,7 +334,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                     type="button"
                     onMouseEnter={() => prefetchAuxillaries()}
                     onClick={() => openAuxillaries(user ? 'auxillaries' : 'login', user ? 'profile' : undefined)}
-                    className="mt-3 inline-flex w-full max-w-xs items-center justify-center gap-1 rounded-full border border-emerald-300/24 bg-emerald-400/10 px-4 py-2 font-medium text-emerald-50 transition hover:border-emerald-300/42 hover:bg-emerald-400/16"
+                    className="mt-3 inline-flex w-full max-w-xs items-center justify-center gap-1 rounded-none border border-emerald-300/24 bg-emerald-400/10 px-4 py-2 font-medium text-emerald-50 transition hover:border-emerald-300/42 hover:bg-emerald-400/16"
                   >
                     {footerCtaLabel}
                     <svg
@@ -417,7 +417,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={social.ariaLabel}
-                      className="group inline-flex min-h-[4.25rem] w-full items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
+                      className="group inline-flex min-h-[4.25rem] w-full items-start gap-3 rounded-none border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
                     >
                       {social.icon}
                       <span className="flex min-w-0 flex-1 flex-col">
@@ -437,7 +437,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                           role="link"
                           aria-disabled="true"
                           aria-label={social.ariaLabel}
-                          className="group inline-flex min-h-[4.25rem] w-full cursor-not-allowed items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.02] px-3.5 py-3 text-left text-sm text-gray-500 opacity-65 grayscale"
+                          className="group inline-flex min-h-[4.25rem] w-full cursor-not-allowed items-start gap-3 rounded-none border border-white/8 bg-white/[0.02] px-3.5 py-3 text-left text-sm text-gray-500 opacity-65 grayscale"
                         >
                           {social.icon}
                           <span className="flex min-w-0 flex-1 flex-col">
@@ -455,7 +455,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   ) : (
                     <span
                       key={social.ariaLabel}
-                      className="group inline-flex min-h-[4.25rem] w-full items-start gap-3 rounded-[1.25rem] border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
+                      className="group inline-flex min-h-[4.25rem] w-full items-start gap-3 rounded-none border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
                     >
                       {social.icon}
                       <span className="flex min-w-0 flex-1 flex-col">
@@ -507,7 +507,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   </Link>
                   <div className="flex w-full flex-wrap items-center gap-2 text-[11px] text-gray-400/80 tablet:w-auto tablet:justify-end">
                     {process.env.NEXT_PUBLIC_APP_VERSION && (
-                      <span className="select-none rounded-full border border-white/8 bg-white/[0.03] px-2.5 py-1">
+                      <span className="select-none rounded-none border border-white/8 bg-white/[0.03] px-2.5 py-1">
                         v{process.env.NEXT_PUBLIC_APP_VERSION}
                         {process.env.NEXT_PUBLIC_APP_VERSION_DATE && (
                           <>
@@ -521,7 +521,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                         )}
                       </span>
                     )}
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/8 bg-white/[0.03] px-2.5 py-1">
+                    <span className="inline-flex items-center gap-1.5 rounded-none border border-white/8 bg-white/[0.03] px-2.5 py-1">
                       <a
                         href={CURRENT_PROTOCOL_SPEC_URL}
                         target="_blank"

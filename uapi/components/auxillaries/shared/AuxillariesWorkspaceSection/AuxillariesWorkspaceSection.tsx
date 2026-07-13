@@ -38,7 +38,7 @@ export default function AuxillariesWorkspaceSection({
   return (
     <section
       className={cn(
-        "rounded-[24px] border p-5 shadow-[0_20px_45px_rgba(0,0,0,0.2)]",
+        "rounded-none border p-5 shadow-[0_20px_45px_rgba(0,0,0,0.2)]",
         TONE_STYLES[tone],
         className,
       )}

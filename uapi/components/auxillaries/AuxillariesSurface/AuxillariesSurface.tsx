@@ -50,6 +50,53 @@ export default function AuxillariesSurface({
     queryClient: surface.queryClient,
   });
 
+  // Contained workspace: mount Close / Disconnect above the left selector column.
+  // Login + non-contained shells keep the surface-level header chrome.
+  const placeChromeAboveLeftPane =
+    surface.usesContainedAuxillariesSurface && !surface.showLoginPane;
+
+  const chromeActions = (
+    <>
+      {onClose && (
+        <button
+          data-auxillaries-testid="auxillaries-close-button"
+          onClick={onClose}
+          className="orbital-close-button auxillaries-close-button"
+          aria-label="Close"
+        >
+          <svg viewBox="0 0 24 24" width={24} height={24} fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+          </svg>
+        </button>
+      )}
+
+      {surface.authLoaded && !surface.sessionUser && (
+        <button
+          data-auxillaries-testid="auxillaries-toggle-button"
+          onClick={surface.toggleWindow}
+          className="auxillaries-toggle-button"
+          aria-label={surface.activeWindow === 'SignInWindow' ? 'Create Account' : 'Sign in'}
+        >
+          <FlipText
+            text={surface.activeWindow === 'SignInWindow' ? 'Create Account' : 'Sign in'}
+            className="inline-block"
+          />
+        </button>
+      )}
+
+      {surface.authLoaded && surface.sessionUser && (
+        <button
+          type="button"
+          onClick={surface.handleSignOut}
+          className="auxillaries-action-button auxillaries-signout-button orbital-signout-button inline-flex h-10 min-w-[9.5rem] items-center justify-center rounded-none border border-red-300/32 bg-red-950/80 px-4 text-xs font-bold uppercase tracking-[0.12em] text-red-100 shadow-[0_14px_32px_rgba(0,0,0,0.24),0_0_0_1px_rgba(248,113,113,0.08)_inset] transition hover:-translate-y-px hover:border-red-200/45 hover:bg-red-900/84"
+          aria-label="Disconnect"
+        >
+          Disconnect
+        </button>
+      )}
+    </>
+  );
+
   return (
     <div
       ref={surface.containerRef}
@@ -57,45 +104,9 @@ export default function AuxillariesSurface({
       tabIndex={0}
       onKeyDown={(event) => event.key === 'Escape' && onClose?.()}
     >
-      <div className="orbital-header-buttons">
-        {onClose && (
-          <button
-            data-auxillaries-testid="auxillaries-close-button"
-            onClick={onClose}
-            className="auxillaries-close-button"
-            aria-label="Close"
-          >
-            <svg viewBox="0 0 24 24" width={24} height={24} fill="currentColor">
-              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-            </svg>
-          </button>
-        )}
-
-        {surface.authLoaded && !surface.sessionUser && (
-          <button
-            data-auxillaries-testid="auxillaries-toggle-button"
-            onClick={surface.toggleWindow}
-            className="auxillaries-toggle-button"
-            aria-label={surface.activeWindow === 'SignInWindow' ? 'Create Account' : 'Sign in'}
-          >
-            <FlipText
-              text={surface.activeWindow === 'SignInWindow' ? 'Create Account' : 'Sign in'}
-              className="inline-block"
-            />
-          </button>
-        )}
-
-        {surface.authLoaded && surface.sessionUser && (
-          <button
-            type="button"
-            onClick={surface.handleSignOut}
-            className="auxillaries-action-button auxillaries-signout-button orbital-signout-button inline-flex h-10 min-w-[8.25rem] items-center justify-center rounded-full border border-red-300/32 bg-red-950/80 px-4 text-xs font-bold uppercase tracking-[0.12em] text-red-100 shadow-[0_14px_32px_rgba(0,0,0,0.24),0_0_0_1px_rgba(248,113,113,0.08)_inset] transition hover:-translate-y-px hover:border-red-200/45 hover:bg-red-900/84"
-            aria-label="Sign Out"
-          >
-            Sign Out
-          </button>
-        )}
-      </div>
+      {!placeChromeAboveLeftPane ? (
+        <div className="orbital-header-buttons">{chromeActions}</div>
+      ) : null}
 
       {!surface.usesContainedAuxillariesSurface ? (
         <GPUAcceleration>
@@ -135,6 +146,7 @@ export default function AuxillariesSurface({
             showSuccessAnimation={surface.shouldPersistOnboardingProgress}
             navigationMode="tabs"
             surfaceVariant={surface.usesContainedAuxillariesSurface ? 'contained' : 'default'}
+            chromeActions={placeChromeAboveLeftPane ? chromeActions : null}
             onStepClick={surface.handleStepClick}
             renderStepContent={renderStepContent}
             isOnboardingComplete={surface.canonicalOnboardingComplete}

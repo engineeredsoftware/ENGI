@@ -13,11 +13,11 @@ export function MarketingLandingTestnetSection() {
     <section
       data-testid="landing-testnet-launch"
       aria-label="Commercial testnet launch readiness"
-      className="relative z-20 mx-auto w-full max-w-[1380px] px-4 pb-14 phone:px-5 tablet:px-6 laptop:px-8 desktop:px-12"
+      className="relative z-20 mx-auto w-full max-w-7xl px-4 pb-14 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16"
     >
-      <div className="rounded-[1.6rem] border border-emerald-300/16 bg-emerald-300/[0.045] px-5 py-6 backdrop-blur-sm tablet:px-7 tablet:py-8">
+      <div className="rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-5 py-6 backdrop-blur-sm tablet:px-7 tablet:py-8">
         <div className="flex flex-wrap items-center gap-3">
-          <span className="rounded-full border border-emerald-300/35 bg-emerald-300/12 px-3 py-1 text-[0.62rem] font-medium uppercase tracking-[0.2em] text-emerald-100">
+          <span className="rounded-none border border-emerald-300/35 bg-emerald-300/12 px-3 py-1 text-[0.62rem] font-medium uppercase tracking-[0.2em] text-emerald-100">
             {copy.badge}
           </span>
           <ShieldCheckIcon className="h-4 w-4 text-emerald-200" aria-hidden="true" />
@@ -29,7 +29,7 @@ export function MarketingLandingTestnetSection() {
             <li key={entry.step}>
               <Link
                 href={entry.href}
-                className="block h-full rounded-[1.2rem] border border-white/10 bg-black/25 px-4 py-4 transition hover:border-emerald-300/35 hover:bg-emerald-300/[0.07]"
+                className="block h-full rounded-none border border-white/10 bg-black/25 px-4 py-4 transition hover:border-emerald-300/35 hover:bg-emerald-300/[0.07]"
               >
                 <span className="text-[0.62rem] font-medium uppercase tracking-[0.2em] text-emerald-200/85">
                   {entry.step}

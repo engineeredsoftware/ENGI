@@ -59,10 +59,10 @@ export const MarketingLandingGuideCard = memo(function MarketingLandingGuideCard
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.3, ease: entranceEase }}
-      className="relative mt-6 max-w-xl overflow-visible rounded-[24px] border border-emerald-300/12 bg-black/25 p-4 pt-5 shadow-[0_20px_60px_rgba(0,0,0,0.32)] backdrop-blur-xl phone:mt-7 phone:pt-6"
+      className="relative mt-6 max-w-xl overflow-visible rounded-none border border-emerald-300/12 bg-black/25 p-4 pt-5 shadow-[0_20px_60px_rgba(0,0,0,0.32)] backdrop-blur-xl phone:mt-7 phone:pt-6"
       style={animatedMotionStyle}
     >
-      <div className="absolute left-0 top-0 flex -translate-x-3 -translate-y-1/2 flex-wrap items-center gap-2 phone:-translate-x-4">
+      <div className="absolute left-0 top-0 flex -translate-y-1/2 flex-wrap items-center gap-2">
         {posts.map((post) => {
           const isActive = post.id === activePost.id;
 
@@ -72,7 +72,7 @@ export const MarketingLandingGuideCard = memo(function MarketingLandingGuideCard
               type="button"
               aria-pressed={isActive}
               onClick={() => setActivePostId(post.id)}
-              className={`inline-flex items-center rounded-full border px-3 py-1 text-[10px] uppercase tracking-[0.18em] shadow-[0_10px_24px_rgba(0,0,0,0.18)] backdrop-blur-xl transition ${
+              className={`inline-flex items-center rounded-none border px-3 py-1 text-[10px] uppercase tracking-[0.18em] shadow-[0_10px_24px_rgba(0,0,0,0.18)] backdrop-blur-xl transition ${
                 isActive
                   ? 'border-emerald-300/18 bg-emerald-400/[0.09] text-emerald-50'
                   : 'border-emerald-300/10 bg-emerald-400/[0.05] text-emerald-100/58 hover:border-emerald-300/16 hover:bg-emerald-400/[0.08] hover:text-emerald-100/78'
@@ -93,7 +93,7 @@ export const MarketingLandingGuideCard = memo(function MarketingLandingGuideCard
         <div
           aria-label={activePost.meta}
           data-testid="micro-blog-meta"
-          className="mt-3 inline-flex max-w-full flex-wrap items-center rounded-full border border-emerald-300/10 bg-emerald-400/[0.05] px-2.5 py-1 text-[9px] uppercase leading-4 tracking-[0.18em] text-emerald-100/58 phone:text-[10px] laptop:mt-0 laptop:justify-self-start"
+          className="mt-3 inline-flex max-w-full flex-wrap items-center rounded-none border border-emerald-300/10 bg-emerald-400/[0.05] px-2.5 py-1 text-[9px] uppercase leading-4 tracking-[0.18em] text-emerald-100/58 phone:text-[10px] laptop:mt-0 laptop:justify-self-start"
         >
           {renderMicroBlogMeta(activePost.meta)}
         </div>

@@ -64,7 +64,7 @@ export default function ExternalsConnectedWorkspace({
   return (
     <div className="space-y-5">
       <div className="grid gap-4 tablet:grid-cols-[1.15fr_0.85fr]">
-        <section className="rounded-[24px] border border-white/10 bg-black/20 p-5">
+        <section className="rounded-none border border-white/10 bg-black/20 p-5">
           <div className="mb-4 space-y-2">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/72">
               Repository connection
@@ -90,11 +90,11 @@ export default function ExternalsConnectedWorkspace({
         </section>
 
         <aside className="space-y-4">
-          <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
+          <div className="rounded-none border border-white/10 bg-white/5 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/72">
               Mainnet readiness
             </p>
-            <div className="mt-3 rounded-2xl border border-white/8 bg-black/20 p-4">
+            <div className="mt-3 rounded-none border border-white/8 bg-black/20 p-4">
               <p className="text-sm font-medium text-white">
                 {isLoading
                   ? 'Checking GitHub and wallet posture...'
@@ -127,7 +127,7 @@ export default function ExternalsConnectedWorkspace({
               ) : null}
             </div>
             <div className="mt-3 grid gap-3 tablet:grid-cols-3">
-              <div className="rounded-2xl border border-white/8 bg-white/5 p-4">
+              <div className="rounded-none border border-white/8 bg-white/5 p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/64">
                   GitHub
                 </p>
@@ -139,7 +139,7 @@ export default function ExternalsConnectedWorkspace({
                       : 'Reconnect required'}
                 </p>
               </div>
-              <div className="rounded-2xl border border-white/8 bg-white/5 p-4">
+              <div className="rounded-none border border-white/8 bg-white/5 p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/64">
                   Wallet
                 </p>
@@ -163,7 +163,7 @@ export default function ExternalsConnectedWorkspace({
                   </p>
                 ) : null}
               </div>
-              <div className="rounded-2xl border border-white/8 bg-white/5 p-4">
+              <div className="rounded-none border border-white/8 bg-white/5 p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/64">
                   Inventory source
                 </p>
@@ -181,7 +181,7 @@ export default function ExternalsConnectedWorkspace({
             {providerReadiness ? (
               <div
                 data-testid="auxillaries-provider-readiness"
-                className="mt-3 rounded-2xl border border-emerald-300/14 bg-emerald-400/8 p-4"
+                className="mt-3 rounded-none border border-emerald-300/14 bg-emerald-400/8 p-4"
               >
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
@@ -194,7 +194,7 @@ export default function ExternalsConnectedWorkspace({
                       {formatProviderClass(providerReadiness.lastReadbackStatus)}
                     </p>
                   </div>
-                  <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/72">
+                  <span className="rounded-none border border-white/10 bg-black/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/72">
                     {compactRoot(providerReadiness.providerReadinessRoot)}
                   </span>
                 </div>
@@ -221,7 +221,7 @@ export default function ExternalsConnectedWorkspace({
             {telemetryProofHooks.length > 0 ? (
               <div
                 data-testid="auxillaries-telemetry-proof-hooks"
-                className="mt-3 rounded-2xl border border-cyan-300/14 bg-cyan-400/8 p-4"
+                className="mt-3 rounded-none border border-cyan-300/14 bg-cyan-400/8 p-4"
               >
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
@@ -233,7 +233,7 @@ export default function ExternalsConnectedWorkspace({
                       {telemetryProofHooks.length === 1 ? 'hook' : 'hooks'} available
                     </p>
                   </div>
-                  <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/72">
+                  <span className="rounded-none border border-white/10 bg-black/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/72">
                     {formatProviderClass(latestTelemetryProofHook?.sourceSafetyClass)}
                   </span>
                 </div>
@@ -253,7 +253,7 @@ export default function ExternalsConnectedWorkspace({
               <div className="mt-3">
                 <Link
                   href={buildAuxillariesRoutePath('wallet')}
-                  className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/82 transition-colors hover:border-white/20 hover:bg-white/10"
+                  className="inline-flex items-center justify-center rounded-none border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/82 transition-colors hover:border-white/20 hover:bg-white/10"
                 >
                   Open Wallet for wallet binding
                 </Link>
@@ -262,7 +262,7 @@ export default function ExternalsConnectedWorkspace({
           </div>
 
           {(organizations.length > 0 || repositories.length > 0) && (
-            <div className="github-connection-summary rounded-[24px] border border-white/10 bg-white/5 p-5">
+            <div className="github-connection-summary rounded-none border border-white/10 bg-white/5 p-5">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/72">
                 Connected scope
               </p>
@@ -279,7 +279,7 @@ export default function ExternalsConnectedWorkspace({
                     {organizations.map((organization: string) => (
                       <span
                         key={organization}
-                        className="rounded-full border border-emerald-300/20 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-100"
+                        className="rounded-none border border-emerald-300/20 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-100"
                       >
                         {organization}
                       </span>
@@ -302,7 +302,7 @@ export default function ExternalsConnectedWorkspace({
                       return (
                         <span
                           key={label}
-                          className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-xs text-white/74"
+                          className="rounded-none border border-white/10 bg-black/20 px-3 py-1 text-xs text-white/74"
                         >
                           {label}
                         </span>
@@ -314,7 +314,7 @@ export default function ExternalsConnectedWorkspace({
             </div>
           )}
 
-          <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
+          <div className="rounded-none border border-white/10 bg-white/5 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/72">
               Read-space knowledge sharing
             </p>

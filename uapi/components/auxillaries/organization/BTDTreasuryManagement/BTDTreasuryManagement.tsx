@@ -176,7 +176,7 @@ export default function BTDTreasuryManagement({
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-3 tablet:grid-cols-3">
-          <div className="rounded-2xl border border-emerald-200 bg-white/80 p-4">
+          <div className="rounded-none border border-emerald-200 bg-white/80 p-4">
             <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-900">
               <Wallet className="h-4 w-4 text-emerald-700" />
               Wallet required
@@ -185,7 +185,7 @@ export default function BTDTreasuryManagement({
               Treasury settlement starts from a connected wallet and observable BTC posture.
             </p>
           </div>
-          <div className="rounded-2xl border border-emerald-200 bg-white/80 p-4">
+          <div className="rounded-none border border-emerald-200 bg-white/80 p-4">
             <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-900">
               <Github className="h-4 w-4 text-emerald-700" />
               GitHub required before transacting
@@ -194,7 +194,7 @@ export default function BTDTreasuryManagement({
               Read delivery and asset-pack execution require a connected repository surface before heavier activity runs.
             </p>
           </div>
-          <div className="rounded-2xl border border-emerald-200 bg-white/80 p-4">
+          <div className="rounded-none border border-emerald-200 bg-white/80 p-4">
             <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-900">
               <Waypoints className="h-4 w-4 text-emerald-700" />
               SSO and entry policy live in Externals
@@ -338,7 +338,7 @@ export default function BTDTreasuryManagement({
                     return (
                       <div key={transaction.id} className="flex items-center justify-between p-4 hover:bg-slate-50">
                         <div className="flex items-center gap-3">
-                          <div className={`rounded-full p-2 ${config.bgColor}`}>
+                          <div className={`rounded-none p-2 ${config.bgColor}`}>
                             <Icon className={`h-4 w-4 ${config.color}`} />
                           </div>
                           <div>

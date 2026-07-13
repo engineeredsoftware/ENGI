@@ -33,7 +33,7 @@ export default function ProfileEmailSection({
   onVerifyCode,
 }: ProfileEmailSectionProps) {
   return (
-    <section className="account-creation-section mb-6 rounded-[20px] border border-white/10 bg-white/[0.04] p-5">
+    <section className="account-creation-section mb-6 rounded-none border border-white/10 bg-white/[0.04] p-5">
       <div className="mb-4">
         <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
           Optional contact
@@ -64,7 +64,7 @@ export default function ProfileEmailSection({
             data-testid="profile-send-code"
             type="button"
             onClick={onSendCode}
-            className="inline-flex h-14 items-center justify-center rounded-xl border border-emerald-300/30 bg-emerald-400/12 px-5 text-sm font-semibold text-emerald-100 transition hover:border-emerald-200/42 hover:bg-emerald-400/18 disabled:cursor-not-allowed disabled:opacity-45"
+            className="inline-flex h-14 items-center justify-center rounded-none border border-emerald-300/30 bg-emerald-400/12 px-5 text-sm font-semibold text-emerald-100 transition hover:border-emerald-200/42 hover:bg-emerald-400/18 disabled:cursor-not-allowed disabled:opacity-45"
             disabled={!email.trim() || verificationLoading}
           >
             {verificationLoading ? (
@@ -94,7 +94,7 @@ export default function ProfileEmailSection({
             data-testid="profile-verify-code"
             type="button"
             onClick={onVerifyCode}
-            className="inline-flex h-14 items-center justify-center rounded-xl border border-emerald-300/30 bg-emerald-400/80 px-5 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-45"
+            className="inline-flex h-14 items-center justify-center rounded-none border border-emerald-300/30 bg-emerald-400/80 px-5 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-45"
             disabled={!/^\d{6}$/.test(verificationCode) || verificationLoading}
           >
             {verificationLoading ? (
@@ -115,7 +115,7 @@ export default function ProfileEmailSection({
       ) : null}
 
       {isVerified ? (
-        <div className="rounded-xl border border-emerald-300/20 bg-emerald-400/10 p-4 text-sm text-emerald-100">
+        <div className="rounded-none border border-emerald-300/20 bg-emerald-400/10 p-4 text-sm text-emerald-100">
           Email verified: <span className="font-semibold">{email}</span>
         </div>
       ) : null}

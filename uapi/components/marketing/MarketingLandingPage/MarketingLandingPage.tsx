@@ -170,7 +170,8 @@ export default function MarketingLandingPage() {
             className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[46rem] w-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-300/10 blur-3xl motion-reduce:hidden laptop:block"
           />
 
-          <main className="relative z-20 mx-auto flex w-full max-w-[1380px] flex-1 items-start px-4 pb-4 pt-28 phone:px-5 phone:pb-5 tablet:px-6 laptop:items-center laptop:px-8 laptop:pb-4 laptop:pt-32 desktop:px-12">
+          {/* Horizontal rhythm matches Nav max-w-7xl + gutters so hero left edge aligns under the brand mark. */}
+          <main className="relative z-20 mx-auto flex w-full max-w-7xl flex-1 items-start px-4 pb-4 pt-28 phone:pb-5 tablet:px-6 laptop:items-center laptop:px-8 laptop:pb-4 laptop:pt-32 desktop:px-12 wide:px-16">
             <div className="grid w-full gap-4 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] tablet:gap-5 laptop:gap-6">
               <MarketingLandingHero />
               <MarketingLandingTerminalPreview />

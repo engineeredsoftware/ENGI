@@ -3,8 +3,9 @@
 /**
  * Nav brand mark + logo-area secondary links.
  *
- * Logo + "BITCODE" supertext navigate home. Subtext is three themed icon links:
- * Whitepaper (single page) | Docs (page stack) | X (social).
+ * Square bordered logo mark + optional "BITCODE" supertext navigate home.
+ * The bordered mark lives only here (not duplicated in landing hero content).
+ * Subtext is three themed icon links: Whitepaper | Docs | X.
  */
 
 import React from "react";
@@ -80,14 +81,9 @@ export default function NavBrand({
         aria-label="Bitcode home"
         className="flex shrink-0 cursor-pointer appearance-none items-center border-0 bg-transparent p-0"
       >
-        <div
-          className={
-            showWordmark
-              ? "flex h-11 w-11 shrink-0 items-center justify-center rounded-[1.2rem] border border-emerald-400/18 bg-[linear-gradient(180deg,rgba(101,254,183,0.16),rgba(101,254,183,0.06))] shadow-[0_10px_24px_rgba(0,0,0,0.18)]"
-              : ""
-          }
-        >
-          <Logo beta={!showWordmark} height="h-9" width="w-9" />
+        {/* Square bordered mark — sole home for this chrome (not duplicated in page hero). */}
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-none border border-emerald-300/20 bg-emerald-400/10 shadow-[0_0_28px_rgba(103,254,183,0.14)]">
+          <Logo height="h-7" width="w-7" />
         </div>
       </button>
 

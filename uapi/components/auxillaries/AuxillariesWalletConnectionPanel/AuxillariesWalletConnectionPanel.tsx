@@ -77,7 +77,7 @@ export default function AuxillariesWalletConnectionPanel({
           </p>
         </div>
         <span
-          className={`rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${
+          className={`rounded-none border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${
             hasWalletIdentity
               ? 'border-emerald-300/26 bg-emerald-400/12 text-emerald-100'
               : 'border-orange-300/26 bg-orange-400/12 text-orange-100'
@@ -95,7 +95,7 @@ export default function AuxillariesWalletConnectionPanel({
               data-testid={`wallet-connect-${provider.id}`}
               onClick={() => handleConnectBitcoinWallet(provider.id)}
               disabled={walletAuthStatus === 'requesting'}
-              className="inline-flex items-center justify-center rounded-full border border-orange-300/34 bg-orange-400/14 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/54 hover:bg-orange-400/22 disabled:cursor-wait disabled:opacity-60"
+              className="inline-flex items-center justify-center rounded-none border border-orange-300/34 bg-orange-400/14 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/54 hover:bg-orange-400/22 disabled:cursor-wait disabled:opacity-60"
             >
               {walletAuthStatus === 'requesting'
                 ? `Opening ${provider.label}`
@@ -110,7 +110,7 @@ export default function AuxillariesWalletConnectionPanel({
             data-testid="wallet-connect-bitcoin-wallet"
             onClick={() => handleConnectBitcoinWallet()}
             disabled={walletAuthStatus === 'requesting'}
-            className="inline-flex items-center justify-center rounded-full border border-orange-300/34 bg-orange-400/14 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/54 hover:bg-orange-400/22 disabled:cursor-wait disabled:opacity-60"
+            className="inline-flex items-center justify-center rounded-none border border-orange-300/34 bg-orange-400/14 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/54 hover:bg-orange-400/22 disabled:cursor-wait disabled:opacity-60"
           >
             {walletAuthStatus === 'requesting'
               ? 'Opening Bitcoin wallet'
@@ -123,7 +123,7 @@ export default function AuxillariesWalletConnectionPanel({
           type="button"
           onClick={refreshBitcoinWalletProviders}
           disabled={walletAuthStatus === 'requesting'}
-          className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/6 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/66 transition hover:border-white/24 hover:bg-white/10 disabled:cursor-wait disabled:opacity-45"
+          className="inline-flex items-center justify-center rounded-none border border-white/12 bg-white/6 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/66 transition hover:border-white/24 hover:bg-white/10 disabled:cursor-wait disabled:opacity-45"
         >
           Rescan wallets
         </button>
@@ -133,7 +133,7 @@ export default function AuxillariesWalletConnectionPanel({
             data-testid="wallet-disconnect-bitcode"
             onClick={handleDisconnectWallet}
             disabled={walletAuthStatus === 'requesting'}
-            className="inline-flex items-center justify-center rounded-full border border-rose-300/24 bg-rose-400/10 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-rose-100 transition hover:border-rose-300/42 hover:bg-rose-400/18 disabled:cursor-wait disabled:opacity-45"
+            className="inline-flex items-center justify-center rounded-none border border-rose-300/24 bg-rose-400/10 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-rose-100 transition hover:border-rose-300/42 hover:bg-rose-400/18 disabled:cursor-wait disabled:opacity-45"
           >
             Disconnect wallet
           </button>
@@ -142,7 +142,7 @@ export default function AuxillariesWalletConnectionPanel({
           type="button"
           onClick={handleStageBitcoinAddress}
           disabled={walletAuthStatus === 'requesting' || !walletAddress.trim()}
-          className="inline-flex items-center justify-center rounded-full border border-white/14 bg-white/7 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/76 transition hover:border-white/24 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-45"
+          className="inline-flex items-center justify-center rounded-none border border-white/14 bg-white/7 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/76 transition hover:border-white/24 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-45"
         >
           Stage Bitcoin address
         </button>
@@ -163,7 +163,7 @@ export default function AuxillariesWalletConnectionPanel({
           ) : null}
         </div>
       ) : null}
-      <div className="mt-3 rounded-2xl border border-white/10 bg-black/18 px-4 py-3 text-sm leading-6 text-white/68">
+      <div className="mt-3 rounded-none border border-white/10 bg-black/18 px-4 py-3 text-sm leading-6 text-white/68">
         <span className="font-semibold text-white/82">
           {walletProviderScanStatus === 'checking'
             ? 'Checking installed Bitcoin wallets'
@@ -193,7 +193,7 @@ export default function AuxillariesWalletConnectionPanel({
           />
           <div className="input-focus-indicator"></div>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-black/22 p-4">
+        <div className="rounded-none border border-white/10 bg-black/22 p-4">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/58">
             Current wallet state
           </p>

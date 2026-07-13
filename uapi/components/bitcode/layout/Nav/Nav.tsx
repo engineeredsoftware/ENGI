@@ -67,10 +67,10 @@ const DISABLED_FEATURE_TOOLTIPS = {
 } as const;
 
 const publicActionClassName =
-  'flex-1 rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-center text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18 tablet:flex-none';
+  'flex-1 rounded-none border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-center text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18 tablet:flex-none';
 
 const publicSecondaryActionClassName =
-  'flex-1 rounded-full border border-white/12 bg-white/5 px-4 py-2 text-center text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10 tablet:flex-none';
+  'flex-1 rounded-none border border-white/12 bg-white/5 px-4 py-2 text-center text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10 tablet:flex-none';
 
 const disabledActionClassName =
   'cursor-not-allowed border-white/10 bg-white/[0.025] text-neutral-400 opacity-65 grayscale hover:border-white/10 hover:bg-white/[0.025] hover:text-neutral-400';
@@ -290,7 +290,7 @@ export default function Nav() {
         data-testid="nav-wallet-readiness-loading"
         aria-live="polite"
       >
-        <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.045] px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-200 shadow-[0_0_20px_rgba(255,255,255,0.06)]">
+        <span className="inline-flex items-center gap-2 rounded-none border border-white/10 bg-white/[0.045] px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-200 shadow-[0_0_20px_rgba(255,255,255,0.06)]">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-300 shadow-[0_0_10px_rgba(110,231,183,0.8)]" />
           Reading wallet
         </span>
@@ -305,7 +305,7 @@ export default function Nav() {
             type="button"
             disabled
             aria-disabled="true"
-            className={disabledClassName('rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18')}
+            className={disabledClassName('rounded-none border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18')}
           >
             Open Auxillaries
           </button>
@@ -315,7 +315,7 @@ export default function Nav() {
           type="button"
           onMouseEnter={() => prefetchAuxillaries()}
           onClick={() => openAuxillaries('login')}
-          className="rounded-full border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18"
+          className="rounded-none border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18"
         >
           Open Auxillaries
         </button>
@@ -326,7 +326,7 @@ export default function Nav() {
             type="button"
             disabled
             aria-disabled="true"
-            className={disabledClassName('rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10')}
+            className={disabledClassName('rounded-none border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10')}
           >
             Connect Wallet
           </button>
@@ -336,7 +336,7 @@ export default function Nav() {
           type="button"
           onMouseEnter={() => prefetchAuxillaries()}
           onClick={() => openAuxillaries('SignUpWindow')}
-          className="rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
+          className="rounded-none border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
         >
           Connect Wallet
         </button>
@@ -421,7 +421,7 @@ export default function Nav() {
                     aria-disabled="true"
                     aria-current={isActiveRoute ? 'page' : undefined}
                     className={`
-                      inline-flex cursor-not-allowed rounded-full border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition
+                      inline-flex cursor-not-allowed rounded-none border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition
                       ${isActiveRoute
                         ? 'border-emerald-300/20 bg-emerald-400/[0.06] text-emerald-100/55'
                         : 'border-white/10 bg-white/[0.025] text-neutral-500'}
@@ -435,7 +435,7 @@ export default function Nav() {
                   href={href}
                   aria-current={isActiveRoute ? 'page' : undefined}
                   className={`
-                    rounded-full border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition
+                    rounded-none border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition
                     ${isActiveRoute
                       ? 'border-emerald-300/38 bg-emerald-400/14 text-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.16)]'
                       : 'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-emerald-300/24 hover:bg-emerald-400/[0.08] hover:text-emerald-100'}
@@ -617,7 +617,7 @@ export default function Nav() {
                     type="button"
                     onMouseEnter={() => prefetchAuxillaries()}
                     onClick={() => openAuxillaries('auxillaries', 'profile')}
-                    className="rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
+                    className="rounded-none border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
                   >
                     Profile
                   </button>

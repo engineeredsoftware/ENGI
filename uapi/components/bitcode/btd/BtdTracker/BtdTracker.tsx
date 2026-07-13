@@ -308,7 +308,7 @@ export function BTDTracker({
       title={recentAssetPackTitle}
     >
       <motion.div
-        className="relative inline-flex items-center justify-between gap-x-2.5 px-6 h-8 border rounded-full border-emerald-500/30 shadow-[0_0_12px_rgba(103,254,183,0.15)] bg-emerald-500/5 transition-colors transition-shadow duration-500 ease-out overflow-hidden group-hover:border-emerald-400/50 group-hover:shadow-[0_0_18px_rgba(103,254,183,0.25)] group-hover:bg-emerald-500/10"
+        className="relative inline-flex items-center justify-between gap-x-2.5 px-6 h-8 border rounded-none border-emerald-500/30 shadow-[0_0_12px_rgba(103,254,183,0.15)] bg-emerald-500/5 transition-colors transition-shadow duration-500 ease-out overflow-hidden group-hover:border-emerald-400/50 group-hover:shadow-[0_0_18px_rgba(103,254,183,0.25)] group-hover:bg-emerald-500/10"
         style={{ backfaceVisibility: 'hidden', minWidth: `${minWidth}px` }}
       >
         {/* Quantum field effect */}
@@ -321,7 +321,7 @@ export function BTDTracker({
         {isAnimating && [...Array(3)].map((_, i) => (
           <div
             key={i}
-            className="absolute inset-0 rounded-full border border-emerald-400/20 transition-all duration-1000"
+            className="absolute inset-0 rounded-none border border-emerald-400/20 transition-all duration-1000"
             style={{
               animation: `orbitRotation${i + 1} 3s infinite linear`,
               opacity: isHovered ? 0.4 : 0,
@@ -461,14 +461,14 @@ export function BTDTracker({
         {/* Enhanced ambient glow effects */}
         <div className="absolute inset-0 -z-10 transition-all duration-500">
           {/* Base ambient glow */}
-          <div className="absolute inset-[-1px] rounded-full bg-gradient-to-r from-emerald-500/0 via-emerald-500/10 to-emerald-500/0" />
-          <div className="absolute inset-[-1px] rounded-full bg-gradient-radial from-emerald-500/10 to-transparent blur-sm" />
+          <div className="absolute inset-[-1px] rounded-none bg-gradient-to-r from-emerald-500/0 via-emerald-500/10 to-emerald-500/0" />
+          <div className="absolute inset-[-1px] rounded-none bg-gradient-radial from-emerald-500/10 to-transparent blur-sm" />
           {/* Subtle pulse effect */}
-          <div className="absolute inset-[-1px] rounded-full bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 animate-pulse-subtle" />
+          <div className="absolute inset-[-1px] rounded-none bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 animate-pulse-subtle" />
 
           {/* Hover state enhancements */}
           <motion.div
-            className="absolute inset-[-2px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+            className="absolute inset-[-2px] rounded-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
             animate={isHovered ? {
               scale: [1, 1.05, 1],
             } : {}}
@@ -478,15 +478,15 @@ export function BTDTracker({
               ease: "easeInOut",
             }}
           >
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-emerald-500/0 via-emerald-500/20 to-emerald-500/0 animate-shimmer" />
-            <div className="absolute inset-0 rounded-full bg-gradient-conic from-emerald-500/0 via-emerald-500/10 to-emerald-500/0 animate-spin-slow" />
-            <div className="absolute inset-0 rounded-full bg-gradient-radial from-emerald-500/20 to-transparent blur-md" />
+            <div className="absolute inset-0 rounded-none bg-gradient-to-r from-emerald-500/0 via-emerald-500/20 to-emerald-500/0 animate-shimmer" />
+            <div className="absolute inset-0 rounded-none bg-gradient-conic from-emerald-500/0 via-emerald-500/10 to-emerald-500/0 animate-spin-slow" />
+            <div className="absolute inset-0 rounded-none bg-gradient-radial from-emerald-500/20 to-transparent blur-md" />
           </motion.div>
         </div>
 
         {/* Click effect ripple */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 rounded-full group-active:bg-emerald-500/10 transition-colors duration-150" />
+          <div className="absolute inset-0 rounded-none group-active:bg-emerald-500/10 transition-colors duration-150" />
         </div>
       </motion.div>
     </motion.div>

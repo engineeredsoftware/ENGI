@@ -21,7 +21,7 @@ export default function OrganizationAuthoritySection({
   return (
     <section
       data-testid="auxillaries-organization-authority"
-      className="mb-6 rounded-[20px] border border-sky-300/16 bg-sky-300/[0.052] p-5"
+      className="mb-6 rounded-none border border-sky-300/16 bg-sky-300/[0.052] p-5"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
@@ -32,13 +32,13 @@ export default function OrganizationAuthoritySection({
             {readPolicyDecisionLabel(organizationAuthority)}
           </h3>
         </div>
-        <div className="rounded-full border border-white/10 bg-black/24 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white/72">
+        <div className="rounded-none border border-white/10 bg-black/24 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white/72">
           {organizationAuthority?.policyDecision ?? 'not_projected'}
         </div>
       </div>
 
       <div className="mt-4 grid gap-3 tablet:grid-cols-4">
-        <div className="rounded-2xl border border-white/10 bg-black/18 p-3">
+        <div className="rounded-none border border-white/10 bg-black/18 p-3">
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/48">
             Organization
           </p>
@@ -46,7 +46,7 @@ export default function OrganizationAuthoritySection({
             {formatAuthorityValue(organizationAuthority?.organizationId)}
           </p>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-black/18 p-3">
+        <div className="rounded-none border border-white/10 bg-black/18 p-3">
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/48">
             Team/member
           </p>
@@ -54,7 +54,7 @@ export default function OrganizationAuthoritySection({
             {formatAuthorityValue(organizationAuthority?.teamId)} / {formatAuthorityValue(organizationAuthority?.memberId)}
           </p>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-black/18 p-3">
+        <div className="rounded-none border border-white/10 bg-black/18 p-3">
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/48">
             Wallet binding
           </p>
@@ -62,7 +62,7 @@ export default function OrganizationAuthoritySection({
             {organizationAuthority?.walletBindingState ?? 'not_projected'}
           </p>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-black/18 p-3">
+        <div className="rounded-none border border-white/10 bg-black/18 p-3">
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/48">
             Multi-sig
           </p>
@@ -76,7 +76,7 @@ export default function OrganizationAuthoritySection({
       </div>
 
       <div className="mt-4 grid gap-3 tablet:grid-cols-2">
-        <div className="rounded-2xl border border-white/10 bg-black/18 p-3">
+        <div className="rounded-none border border-white/10 bg-black/18 p-3">
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/48">
             Policy action
           </p>
@@ -91,7 +91,7 @@ export default function OrganizationAuthoritySection({
             {formatAuthorityValue(organizationAuthority?.policy.policyHash)}
           </p>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-black/18 p-3">
+        <div className="rounded-none border border-white/10 bg-black/18 p-3">
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/48">
             Explicit grants
           </p>
@@ -109,12 +109,12 @@ export default function OrganizationAuthoritySection({
           {organizationAuthority.denialReasons.slice(0, 6).map((reason) => (
             <div
               key={reason}
-              className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-amber-300/18 bg-amber-300/[0.07] px-3 py-2"
+              className="flex flex-wrap items-center justify-between gap-2 rounded-none border border-amber-300/18 bg-amber-300/[0.07] px-3 py-2"
             >
               <span className="text-sm font-semibold text-amber-50">{reason}</span>
               <a
                 href={organizationAuthority.recoveryRoute}
-                className="rounded-full border border-amber-200/24 px-3 py-1 text-xs font-semibold text-amber-100 transition hover:border-amber-100/44"
+                className="rounded-none border border-amber-200/24 px-3 py-1 text-xs font-semibold text-amber-100 transition hover:border-amber-100/44"
               >
                 Repair
               </a>
