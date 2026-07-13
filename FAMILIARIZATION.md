@@ -1052,11 +1052,14 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 | --- | --- |
 | **Active canon** | Version pointed by `BITCODE_SPEC.txt` on `main` (currently V47 until V48 promotion). |
 | **Canon / canonical** | Spec family + proven artifacts treated as rebuild law for a version. |
+| **Canon at that time** | Frozen promoted era (specs + proofs + version-bound checks) — never rewritten for later tree drift (`BITCODE_SPECIFYING.md` §4.3). |
 | **Complete Implementation Derivability** | A reader rebuilds current Bitcode from the active family alone (`BITCODE_SPECIFYING.md`). |
 | **DELTA** | Version decision log (`BITCODE_SPEC_VN_DELTA.md`). |
 | **Draft target** | Version under construction (V48 on `version/v48`) — not yet `BITCODE_SPEC.txt` pointer. |
+| **Era-pin** | Skip-with-reason for historical package proofs when current realization superseded that era (do not rewrite the frozen proof). |
 | **Gate** | Bounded acceptance slice (e.g. V48 Gate 3); branch `v48/gate-N-topic`. |
 | **Gate PR** | Pull request closing a gate into the version branch. |
+| **Living full-system check** | All-encompassing, completely correct validation for the **current** draft/active pointer only (`BITCODE_SPECIFYING.md` §13.1). |
 | **NOTES** | Architecture intent ledger (`BITCODE_SPEC_VN_NOTES.md`) — weaker than SPEC body. |
 | **Parity matrix** | Spec claim ↔ source ↔ tests ↔ gates ledger. |
 | **Promotion** | Version PR to `main` after all gates closed; updates `BITCODE_SPEC.txt` pointer under workflow rules. |

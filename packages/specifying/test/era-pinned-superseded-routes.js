@@ -9,13 +9,13 @@
  * realization lands they are validating a superseded era against source that
  * has legitimately moved forward.
  *
- * Rather than mutate the frozen historical proofs to chase the current routes
- * (they exist to attest their own era, and the `.bitcode/` artifacts + promoted
- * spec families keep the historical route names), these proofs are ERA-PINNED:
- * a superseded proof file imports `test` from here instead of `node:test`, and
- * every test it registers is skipped WITH A REASON once the current (plural)
- * realization is present. On the promoted V47 canon — where the singular
- * realization still exists — `SUPERSEDED` is false and the proofs run normally.
+ * Meta law (`BITCODE_SPECIFYING.md` §4.3 / §13.1): **old version checks never
+ * change**; promoted proofs attest **canon at that time**. Do not rewrite these
+ * files to chase current routes/packages. ERA-PIN instead: a superseded proof
+ * imports `test` from here instead of `node:test`, and every test is skipped
+ * WITH A REASON once the current realization is present. On a tree that still
+ * holds the historical realization, `SUPERSEDED` is false and proofs run
+ * unchanged.
  *
  * This mirrors the `.mjs` gate checkers' era-pinning (pointer-gated in the
  * workflow); the difference is that the specifying package test suite runs

@@ -46,7 +46,8 @@ The priority order for specifying truth is:
 8. named realization/demo specs and adjunct docs, only where the active spec family explicitly references them
 
 Older versioned specs are historical.
-They may be cited for provenance, but the active `SPEC` must not require them for current semantic recovery.
+They may be cited for provenance as **canon at that time**, but the active `SPEC` must not require them for current semantic recovery.
+Promoted historical specs, proofs, and version-bound checks are **immutable** for later realization drift (§4.3); only the living full-system check for the current draft/active pointer is rewritten for present sole-canon correctness (§13.1).
 
 ## 1.1 Drafting Input Rule
 
@@ -434,6 +435,40 @@ Once a version is promoted:
 - and generated artifacts must not claim dirty-preview state.
 
 Stale status language is a canonical defect.
+
+## 4.3 Historical Canon Immutability (Promoted Specs, Proofs, and Checks)
+
+**Meta specifying technique:** promoted eras are frozen snapshots of **canon at that time**. Current-tree work must never rewrite history so that historical checks stay green.
+
+### Law
+
+1. **Once promoted, a version's canon artifacts for that era must not change** for the purpose of tracking later realization.
+   That freeze covers, at minimum:
+   - the hand-authored family (`BITCODE_SPEC_VN.md`, `NOTES`, `DELTA`, `PARITY_MATRIX` as promoted),
+   - generated `BITCODE_SPEC_VN_PROVEN.md` and `.bitcode/vN-*` structured artifacts for that promotion,
+   - version-bound gate checkers, package proof generators, and tests that attest **that era's** predicates against **that era's** source and route vocabulary.
+2. **Old version checks must never be edited** to chase later renames, package hierarchy moves, route pluralization, Terminal retirement, component layout moves, vocabulary renames, or sole-canon modularization of a future draft.
+3. **Historical promoted specs remain referenceable as canon-at-that-time.** Auditors, PROPER reconstructions, and provenance citations use them as fixed law for the era they closed — not as living code maps of the current tree.
+4. **The living full-system check is only for current canon** (the draft-target family while drafting, then the newly pointed family after promotion). That check must be:
+   - all-encompassing (full-system, full re-implementability, full auditability — §2),
+   - completely correct for **present** sole-canon realization,
+   - fail-closed when the current tree or current family drifts,
+   - and free of "fix history so the old suite still passes" shortcuts.
+5. When a future realization would make a historical check fail against the new tree, the correct tools are:
+   - **era-pin / skip-with-reason** (or pointer-gated non-execution) for the historical check while the current pointer has moved past that era,
+   - **PROPER** reconstructions (§3.2) when specifying itself is under test against an already-promoted target,
+   - and **new** current-version proofs/checks that restate obligations against the present tree.
+   The incorrect tool is rewriting the historical checker, historical proof file, or historical `.bitcode/vN-*` artifact so it matches today's paths or product names.
+
+### Why this exists
+
+Bitcode treats each promotion as a closed ledger entry of system law. If V43–V47 checks were rewritten every time V48 moved `/read`→`/reads` or retired Terminal, "canon at V47" would cease to exist as an auditable artifact. Era-pinning preserves that ledger without blocking the living draft's obligation to be total and true.
+
+### Relation to drafting
+
+- Draft work on version `N` may freely change `BITCODE_SPEC_VN_*` **until** promotion closes that version.
+- After promotion, version `N` joins the freeze set; version `N+1` carries the living full-system family and living full-system checks.
+- Citation of older specs remains allowed for provenance; recovery of **current** meaning from older specs remains forbidden (§1, §2.4).
 
 ---
 
@@ -1165,6 +1200,38 @@ When the active version is changing specifying, promotion, or full-canon structu
 2. and at least one historical `PROPER` reconstruction family derived only from an already-promoted target.
 
 This dual-family validation is the preferred way to detect a specifying rule that accidentally encodes the quirks of the current draft rather than a reusable full-canon standard.
+
+## 13.1 Living Full-System Check vs Frozen Historical Checks
+
+Validation must separate **living current-canon checks** from **frozen era checks** (§4.3).
+
+### Living full-system check (current canon only)
+
+The check that guards the **draft target** (and, after promotion, the **newly pointed** active family) must be:
+
+- **all-encompassing** — full-system, full re-implementability, full auditability, full promotion-derivability (§2, §5, §12),
+- **completely correct** for the present sole-canon tree and present product vocabulary,
+- **fail-closed** on drift in hand-authored family, generated canon, parity, tests, and package realization,
+- and **sole authority** for "may this version promote / is this pointer honest?"
+
+That living check is rewritten as the draft advances **before** promotion. After promotion, it freezes with the era and a new living check is born for the next draft target.
+
+### Frozen historical checks (prior promoted eras)
+
+Version-bound checkers, package proof tests, and generated-artifact checks for **already-promoted** versions:
+
+- **must not be modified** to match later package layouts, routes, or component paths,
+- **must remain runnable or era-pinnable** as evidence of canon-at-that-time,
+- **must not be deleted** solely because the current tree moved (prefer pointer-gated skip / era-pin with an explicit reason),
+- and **must not be used** as the living gate for the current draft — only as historical attestation or PROPER inputs.
+
+### Operational pattern (package and CI)
+
+- Pointer-gated workflows: historical version promotion workflows stay on disk; they do not re-fire as current required gates once the pointer has advanced.
+- Specifying package tests: historical proof files that hard-code prior-era paths may import an era-pin shim that skips with reason when the current realization has superseded that era (for example `packages/specifying/test/era-pinned-superseded-routes.js`).
+- Required CI for draft work: green the **living** uapi/package suite and the **current draft's** specifying proofs — not by rewriting V2x–V(n−1) checkers.
+
+If a historical check becomes impossible to execute even under era-pin, record that as an accepted boundary in the **current** draft's parity/notes; do not "repair" the historical checker.
 
 ---
 

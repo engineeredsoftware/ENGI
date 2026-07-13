@@ -7,6 +7,14 @@
 
 Bitcode specifying tooling package (gate generators, canon posture, transitional demo-engine bridge). The monorepo itself is protocol canon.
 
+**Meta specifying (historical freeze):** promoted version specs, proofs, and
+version-bound checks are **immutable canon-at-that-time** — they must not be
+edited to chase later tree moves. The **living full-system check** is only for
+the current draft/active pointer and must be all-encompassing and completely
+correct for present sole-canon. See `BITCODE_SPECIFYING.md` §4.3 and §13.1.
+Era-pin shims under `test/era-pinned-*.js` skip superseded historical package
+proofs with reason; they do not rewrite those proofs.
+
 V29 Gate 8 made this package the package-native boundary for canonical helpers
 that were originally ported from the standalone `protocol-demonstration`
 witness. Commercial scripts, API/runtime code, and workflow checks must import

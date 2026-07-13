@@ -587,22 +587,21 @@ become MASTER-DETAIL:
  detail attaches to any asset-pack pipeline row, labeled by the RUN's lens.
  Read dispatch persistence lands with the read gate.
 
-Checker posture: all gate checkers literal-matching the old routes are
-era-pinned (V43–V47) and do not run at the current pointer; frozen `.bitcode/`
-era artifacts and promoted spec families keep the historical route names. The
-standalone `.mjs` gate checkers are pointer-gated in the workflow; the
-`@bitcode/specifying` **test suite** (`node --test test/*.test.js`, run
-unconditionally by Gate Quality) was NOT — its V43–V47 route-realization proofs
-read the historical singular-route source in place and moved to `false !== true`
-once the pluralization moved the files to `uapi/app/deposits|reads`. Those 16
-superseded proof files import `test` from
+Checker posture (meta specifying — `BITCODE_SPECIFYING.md` §4.3 / §13.1):
+**old version checks never change**; **promoted era specs/checks stay frozen as
+canon-at-that-time**; the **living full-system check** for the draft/active
+pointer must be all-encompassing and completely correct for present sole-canon.
+Gate checkers literal-matching the old routes are era-pinned (V43–V47) and do
+not run at the current pointer; frozen `.bitcode/` era artifacts and promoted
+spec families keep the historical route names. The standalone `.mjs` gate
+checkers are pointer-gated in the workflow; the `@bitcode/specifying` **test
+suite** (`node --test test/*.test.js`, run unconditionally by Gate Quality)
+era-pins superseded V43–V47 route-realization proofs via
 `packages/specifying/test/era-pinned-superseded-routes.js` (a `node:test` shim)
-instead of `node:test`: it skips every test WITH A REASON when the current
-plural realization is present (`uapi/app/deposits/DepositPageClient.tsx` exists)
-and runs them unchanged on the promoted V47 canon where the singular
-realization still stands. The proofs are NOT re-pointed at the plural routes —
-Gate 3 rewrote those files, so their historical content predicates would not
-match, and the frozen proofs attest their own era.
+instead of rewriting those proofs to chase plural routes / components layout.
+The pin skips WITH A REASON when the current realization is present and would
+run unchanged on a tree that still held the historical realization. The proofs
+are NOT re-pointed — frozen proofs attest their own era (canon-at-that-time).
 
 ### Legacy terminal browser-proof eradication (Garrett, 2026-07-05)
 

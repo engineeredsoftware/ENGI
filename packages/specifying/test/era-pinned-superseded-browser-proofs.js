@@ -8,12 +8,12 @@
  * `/reads`). The V39/V40 canonical proofs that read those terminal-ux files as
  * evidence therefore attest a superseded era.
  *
- * As with `era-pinned-superseded-routes.js`, the frozen historical proofs are
- * NOT re-pointed (they attest their own era); they are era-pinned: a superseded
- * proof file imports `test` from here instead of `node:test`, and every test it
- * registers is skipped WITH A REASON once the terminal-ux browser proof is
- * gone. On the promoted V39/V40 canon — where the terminal-ux files still
- * exist — `SUPERSEDED` is false and the proofs run unchanged.
+ * Meta law (`BITCODE_SPECIFYING.md` §4.3 / §13.1): **old version checks never
+ * change**; frozen historical proofs attest **canon at that time** and are NOT
+ * re-pointed. Era-pin: a superseded proof imports `test` from here instead of
+ * `node:test`, and every test is skipped WITH A REASON once the terminal-ux
+ * browser proof is gone. On a tree that still holds those files, `SUPERSEDED`
+ * is false and the proofs run unchanged.
  */
 
 import nodeTest from 'node:test';
