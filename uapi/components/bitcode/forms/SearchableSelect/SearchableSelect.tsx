@@ -240,7 +240,7 @@ export function SearchableSelect({
                         {item.badge || item.meta ? (
                           <div className="mt-1 flex items-center gap-2">
                             {item.badge ? (
-                              <Badge variant="secondary" className="text-xs">
+                              <Badge variant="secondary" className="rounded-none text-xs">
                                 {item.badge}
                               </Badge>
                             ) : null}
