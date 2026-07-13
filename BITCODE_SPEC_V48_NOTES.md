@@ -634,6 +634,18 @@ browser-proof coverage is repointed at the current product surfaces:
  historical canon-promotion workflows keep their references (inert at the current
  pointer) — their deep removal belongs to the broader F8 `/terminal` eradication.
 
+### V28 demonstration MVP layout witnesses (era-pin + living V48 suite)
+
+`protocol-demonstration/test/v28-mvp-qa.test.js` is **frozen canon-at-V28**
+(historical `components/base/...` paths and matchers). Under the V48 sole-canon
+tree it is era-pinned via `protocol-demonstration/test/era-pinned-v28-layout.js`
+and skips WITH A REASON — **do not rewrite** those assertions to chase current
+paths. Living product-layout MVP witnesses for the current pointer live in
+`protocol-demonstration/test/v48-product-layout-mvp.test.js` (wired into
+`npm run test:v28-mvp-qa` / Demonstration MVP CI). Same discipline for unit
+tests: historical expectations (e.g. NavBrand V26 beta badge) stay as
+`it.skip` with frozen body; current behavior gets a new living case.
+
 ### Deposit/Read product-surface presentation laws (Garrett, 2026-07-04)
 
 The 2026-07-04 UI wave on the product surfaces (/deposits, /reads, and the

@@ -46,14 +46,35 @@ describe('NavBrand', () => {
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
   });
 
-  it('renders logo-only chrome outside the product workspace and remains clickable', () => {
+  /**
+   * Frozen V26-era beta badge expectation (canon-at-that-time).
+   * Do not rewrite: V48 removed beta chrome from NavBrand; living check is below.
+   */
+  it.skip(
+    'renders beta posture outside the product workspace and remains clickable',
+    () => {
+      const onClick = jest.fn();
+
+      render(<NavBrand surface={null} onClick={onClick} />);
+
+      fireEvent.click(screen.getByLabelText('Bitcode logo'));
+
+      expect(screen.getByText('V26')).toBeTruthy();
+      expect(screen.getByText('PRC')).toBeTruthy();
+      expect(onClick).toHaveBeenCalled();
+      expect(screen.queryByRole('link', { name: 'Docs' })).toBeNull();
+      expect(screen.queryByRole('link', { name: 'Whitepaper' })).toBeNull();
+    },
+  );
+
+  it('renders logo-only chrome outside the product workspace and remains clickable (V48)', () => {
     const onClick = jest.fn();
 
     render(<NavBrand surface={null} onClick={onClick} />);
 
     fireEvent.click(screen.getByLabelText('Bitcode logo'));
 
-    // No wordmark or secondary links when surface is null (marketing/public chrome).
+    // Living: bare logo mark, no V26 beta badge, no wordmark/links when surface is null.
     expect(screen.queryByText('Bitcode')).toBeNull();
     expect(screen.queryByText('V26')).toBeNull();
     expect(screen.queryByText('PRC')).toBeNull();

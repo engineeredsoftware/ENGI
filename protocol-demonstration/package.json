@@ -32,7 +32,7 @@
     "test:v22-canon-drift": "node --test --test-force-exit test/v22-canon-drift.test.js",
     "test:v27-crypto": "node --test --test-force-exit test/v27-crypto-primitives.test.js",
     "test:fit-finding": "node --test --test-force-exit test/local-fit-finding.test.js",
-    "test:v28-mvp-qa": "node --test --test-force-exit test/v28-mvp-qa.test.js test/v28-boundary-separation.test.js test/local-fit-finding.test.js test/v42-ai-reading-mvp.test.js",
+    "test:v28-mvp-qa": "node --test --test-force-exit test/v28-mvp-qa.test.js test/v48-product-layout-mvp.test.js test/v28-boundary-separation.test.js test/local-fit-finding.test.js test/v42-ai-reading-mvp.test.js",
     "test:v42-ai-reading-mvp": "node --test --test-force-exit test/v42-ai-reading-mvp.test.js",
     "typecheck": "tsc -p tsconfig.typecheck.json"
   },
