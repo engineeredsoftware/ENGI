@@ -107,17 +107,26 @@ function findValue(execution: any, namespace: string, key: string): any {
 
 export default async function runDepositCodebaseComprehensionAgent(input: any, execution: any) {
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
-  const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
+  // Setup clone-repository already cloned this run's complete tree. Load
+  // in-memory file bodies for the catalog here — never re-clone, never read
+  // outside that workspace.
+  const { ensureDepositCheckoutSourceFiles } = await import(
+    '../../ensure-deposit-checkout-source-files'
+  );
+  const sourceCatalog = await ensureDepositCheckoutSourceFiles(
+    execution,
+    input?.inventory ?? findValue(execution, 'deposit', 'inventory'),
+  );
   const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
-  const inventoryForPrompt = projectInventoryForPrompt(inventory);
+  const inventoryForPrompt = projectInventoryForPrompt(sourceCatalog);
 
   const raw = await DepositCodebaseComprehensionAgent(
     {
       ...input,
       repository,
       inventory: inventoryForPrompt,
-      inventoryPaths: inventoryForPrompt?.paths ?? inventory?.paths,
-      excerpts: inventoryForPrompt?.samples ?? inventory?.samples,
+      inventoryPaths: inventoryForPrompt?.paths ?? sourceCatalog?.paths,
+      excerpts: inventoryForPrompt?.samples ?? sourceCatalog?.samples,
     },
     execution,
   );
@@ -126,7 +135,7 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
 
   const comprehension: DepositCodebaseComprehension = (result as any)?.comprehension ?? {
     summary:
-      'No codebase knowledge map derived; the cloned repository inventory yielded no source-safe comprehension.',
+      'No codebase knowledge map derived; the depositor checkout source catalog yielded no source-safe comprehension.',
     capabilities: [],
     knowledgeAreas: [],
     notableModules: [],

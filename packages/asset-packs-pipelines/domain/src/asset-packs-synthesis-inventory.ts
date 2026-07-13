@@ -1,8 +1,9 @@
 /**
- * Inventory path scoping and prompt-safe projection for AssetPacksSynthesis.
+ * Checkout source-catalog path scoping and prompt-safe projection for
+ * AssetPacksSynthesis (depositor working-tree paths — not GitHub repo inventory).
  *
- * Forced Inclusion + Forced Exclusion bound the full checkout before measurement
- * or prompting. `sources` (verbatim blobs) never enter prompt projections.
+ * Forced Inclusion + Forced Exclusion bound the checkout before measurement
+ * or prompting. `sources` (verbatim file bodies) never enter prompt projections.
  */
 
 import type {
@@ -61,8 +62,9 @@ export function applyExclusionsToInventory(
 }
 
 /**
- * Prompt-safe inventory projection: paths + samples only. Never includes
- * `sources` (full verbatim checkout) — those are for measurement tools only.
+ * Prompt-safe projection of the depositor checkout source catalog:
+ * paths + samples only. Never includes `sources` (full file bodies) —
+ * those are for measurement tools only.
  */
 export function projectInventoryForPrompt(
   inventory: AssetPacksSynthesisSourceInventory | null | undefined,

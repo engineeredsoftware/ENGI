@@ -1,19 +1,18 @@
 /**
- * Deposit source provisioning (V48 Gate 3).
+ * Deposit Host helpers (V48 Gate 3).
  *
- * The deposit host run provisions the FULL repository checkout on the primitive
- * Host (LocalHost in-process here; the Vercel Sandbox host in prod), then builds the
- * synthesis inventory FROM the checkout — every tracked file's verbatim content for
- * measurement (`sources`), plus bounded representative excerpts for the prompts
- * (`samples`). This retires the GitHub-API sample stopgap; the same `{path, content}`
- * shape works on either Host implementation.
+ * **Cloning is not initialization.** Dispatch must not clone. Setup's
+ * `asset-pack-clone-vcs-repository-agent` always clones for *this pipeline run*
+ * via `deposit:cloneRepositoryForRun` (wired below for LocalHost).
  *
- * Host selection: LocalHost is valid only where the runtime has git + a filesystem
- * (the dev persistent Node server, NOT a serverless function). Prod deposit runs on
- * the Vercel Sandbox host (the standing host loose end); when wired,
- * resolveDepositPipelineHost returns it.
+ * LocalHost only ever reads files from a workspace it cloned for that run —
+ * never process.cwd() or residual checkouts.
  *
- * Sample picking lives in deposit-source-samples.ts.
+ * `provisionDepositCheckout` is the Host primitive the Setup factory calls:
+ * shallow complete working tree at the SHA + path/sample listing. Discovery
+ * later loads in-memory `sources` from that same workspace only.
+ *
+ * Host selection: `BITCODE_PIPELINE_HOST` (`local` | `sandbox`).
  */
 
 import {
@@ -24,18 +23,43 @@ import {
   loadVercelSandboxFactory,
   readWorkspaceSources,
   type BitcodeHostKind,
+  type BitcodeHostWorkspace,
   type BitcodePipelineHost,
   type HostSourceFile,
   type PipelineHostEvent,
   type PipelineHostRunResult,
 } from "@bitcode/pipeline-hosts";
-import { pickDepositSourceSamples } from "@/lib/deposit-source-samples";
+import {
+  DEPOSIT_MAX_SAMPLE_CHARS,
+  pickDepositSourceSamplePaths,
+  pickDepositSourceSamples,
+} from "@/lib/deposit-source-samples";
 
-export interface ProvisionedDepositInventory {
+/**
+ * Path/sample catalog for the depositor checkout (scope + prompts).
+ * The clone itself already has all files at the SHA; `sources` (in-memory
+ * file bodies for measurement) fill in Discovery from that same tree.
+ */
+export interface DepositCheckoutSourceCatalog {
   paths: string[];
   samples: { path: string; excerpt: string }[];
+  /** In-memory file bodies for measurement — loaded from the live checkout in Discovery. */
   sources: HostSourceFile[];
   truncated: boolean;
+}
+
+/** @deprecated Use DepositCheckoutSourceCatalog */
+export type ProvisionedDepositInventory = DepositCheckoutSourceCatalog;
+
+/**
+ * Host checkout of the complete working tree at the revision.
+ * Kept open until the SDIVF run ends so Setup/Discovery/Impl/Validation share it.
+ */
+export interface ProvisionedDepositCheckout {
+  /** Path list + prompt samples (catalog); tree itself is complete on disk. */
+  sourceCatalog: DepositCheckoutSourceCatalog;
+  workspace: BitcodeHostWorkspace;
+  dispose: () => Promise<void>;
 }
 
 /**
@@ -168,24 +192,23 @@ export async function runDepositInBoxHost(input: {
       : [];
   return {
     options,
-    sandboxId: result?.sandboxId ?? null,
+    sandboxId: result.sandboxId ?? null,
     outcome: result?.outcome ?? "failed",
   };
 }
 
 /**
- * Provision the full checkout on the Host and build the deposit inventory from it.
- * Reads every tracked file's verbatim content (`sources`, for measurement), derives
- * bounded `samples` (for prompts), and disposes the workspace. The host is passed in
- * so callers/tests choose the implementation.
+ * Host primitive used by Setup (`deposit:cloneRepositoryForRun`): clone the
+ * complete working tree at the revision for **this run only**, list paths +
+ * prompt samples from that tree. Not for pre-pipeline / "Initializing" work.
  */
-export async function provisionDepositSourceInventory(input: {
+export async function provisionDepositCheckout(input: {
   host: BitcodePipelineHost;
   repositoryFullName: string;
   url: string;
   revision: string;
   token?: string;
-}): Promise<ProvisionedDepositInventory> {
+}): Promise<ProvisionedDepositCheckout> {
   const workspace = await input.host.provisionRepository({
     repositoryFullName: input.repositoryFullName,
     url: input.url,
@@ -193,9 +216,86 @@ export async function provisionDepositSourceInventory(input: {
     username: input.token ? "x-access-token" : undefined,
     password: input.token,
   });
+  const paths = await workspace.listFiles();
+  const samplePaths = pickDepositSourceSamplePaths(paths);
+  const samples: { path: string; excerpt: string }[] = [];
+  for (const samplePath of samplePaths) {
+    // Only files from this run's clone — never residual paths.
+    const content = await workspace.readFile(samplePath);
+    if (content == null) continue;
+    samples.push({
+      path: samplePath,
+      excerpt: content.slice(0, DEPOSIT_MAX_SAMPLE_CHARS),
+    });
+  }
+  return {
+    sourceCatalog: {
+      paths,
+      samples,
+      sources: [],
+      truncated: false,
+    },
+    workspace,
+    dispose: () => workspace.dispose(),
+  };
+}
+
+/**
+ * Build the Setup-phase `deposit:cloneRepositoryForRun` factory for LocalHost.
+ * Invoked **only** from Setup's clone-repository agent — never during route init.
+ * Returns a Host workspace cloned for this pipeline run; Setup lists paths from it.
+ */
+export function createDepositLocalHostCloneForRun(input: {
+  host: BitcodePipelineHost;
+  repositoryFullName: string;
+  url: string;
+  revision: string;
+  token?: string;
+  onWorkspace?: (workspace: BitcodeHostWorkspace) => void;
+}): () => Promise<BitcodeHostWorkspace> {
+  let cloned: BitcodeHostWorkspace | null = null;
+  return async () => {
+    if (cloned) return cloned;
+    const workspace = await input.host.provisionRepository({
+      repositoryFullName: input.repositoryFullName,
+      url: input.url,
+      revision: input.revision,
+      username: input.token ? "x-access-token" : undefined,
+      password: input.token,
+    });
+    cloned = workspace;
+    input.onWorkspace?.(workspace);
+    return workspace;
+  };
+}
+
+/**
+ * Read full verbatim file bodies from a live Host checkout.
+ * Used by Discovery (codebase comprehension) to fill the source catalog's `sources`.
+ */
+export async function readDepositCheckoutSourceFiles(
+  workspace: BitcodeHostWorkspace,
+): Promise<HostSourceFile[]> {
+  return readWorkspaceSources(workspace);
+}
+
+/** @deprecated Prefer readDepositCheckoutSourceFiles */
+export const materializeDepositInventorySources = readDepositCheckoutSourceFiles;
+
+/**
+ * @deprecated Prefer provisionDepositCheckout + Discovery source-file load.
+ * One-shot full catalog load (disposes workspace). Kept for tests.
+ */
+export async function provisionDepositSourceInventory(input: {
+  host: BitcodePipelineHost;
+  repositoryFullName: string;
+  url: string;
+  revision: string;
+  token?: string;
+}): Promise<DepositCheckoutSourceCatalog> {
+  const checkout = await provisionDepositCheckout(input);
   try {
-    // Every tracked file, verbatim — the full source the static-analysis measurement reads.
-    const sources = await readWorkspaceSources(workspace);
+    const sources = await readDepositCheckoutSourceFiles(checkout.workspace);
     return {
       paths: sources.map((file) => file.path),
       samples: pickDepositSourceSamples(sources),
@@ -203,6 +303,6 @@ export async function provisionDepositSourceInventory(input: {
       truncated: false,
     };
   } finally {
-    await workspace.dispose();
+    await checkout.dispose();
   }
 }

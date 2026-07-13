@@ -1,16 +1,19 @@
 /**
  * Background orchestration for POST /api/deposit/synthesize-options.
  *
- * Runs after the route returns runId: provision/host dispatch → SDIVF pipeline
+ * Runs after the route returns runId: auth + host wiring → SDIVF pipeline
  * (or sandbox host) → fail-closed option validation → neediness grounding →
- * persist execution row. Keeps route POST thin (auth + dispatch only).
+ * persist execution row.
+ *
+ * **No clone during initialization.** Cloning is Setup
+ * (`asset-pack-clone-vcs-repository-agent`) via `deposit:cloneRepositoryForRun`
+ * for LocalHost. Init only authenticates, wires the run-scoped cloner, and starts SDIVF.
  */
 
 import { GitHubService } from '@bitcode/api/src/vcs/github-service';
 import { ExecutionStreamAdapter } from '@bitcode/execution-generics';
 import { emitPhaseTransition } from '@bitcode/pipelines-generics';
 import {
-  applyInventoryScope,
   sumLlmTokensFromExecutionTree,
   validateDepositSynthesisOptions,
   type AssetPacksSynthesisResult,
@@ -20,11 +23,12 @@ import { groundOptionNeedinessFromSettledDepository } from '@bitcode/asset-packs
 import { synthesizeDepositAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-deposits';
 import { buildRealDepositAssetPackOptionSynthesis } from '@bitcode/asset-packs-pipelines-domain/deposit-option-real-synthesis';
 import {
-  provisionDepositSourceInventory,
+  createDepositLocalHostCloneForRun,
   resolveDepositPipelineHost,
   runDepositInBoxHost,
   selectDepositHostKind,
 } from '@/lib/deposit-source-provisioning';
+import type { BitcodeHostWorkspace } from '@bitcode/pipeline-hosts';
 import { loadSettledDepositoryPacks } from '@/lib/depository-settled-demand';
 import {
   assertExecutionNotCancelled,
@@ -156,8 +160,13 @@ export async function runDepositOptionSynthesis(
     const reference = sourceCommit || sourceBranch || 'HEAD';
     const hostKind = selectDepositHostKind();
     let rawOptions: Parameters<typeof validateDepositSynthesisOptions>[0];
+    /** In-scope depositor checkout paths (for fail-closed path validation). */
     let inventoryPaths: string[];
-    let inventory: AssetPacksSynthesisSourceInventory;
+    /**
+     * Depositor checkout source catalog (paths/samples + optional full file
+     * bodies). Domain type name still says Inventory; not GitHub repo inventory.
+     */
+    let sourceCatalog: AssetPacksSynthesisSourceInventory;
     let boundSandboxId: string | null = null;
 
     if (hostKind === 'sandbox') {
@@ -194,7 +203,7 @@ export async function runDepositOptionSynthesis(
       inventoryPaths = [
         ...new Set((rawOptions || []).flatMap((option: any) => option?.coveredSourcePaths || [])),
       ] as string[];
-      inventory = {
+      sourceCatalog = {
         paths: inventoryPaths,
         samples: [],
         sources: [],
@@ -203,59 +212,97 @@ export async function runDepositOptionSynthesis(
       };
     } else {
       await assertNotCancelled();
+      // Init is not cloning: wire a run-scoped LocalHost cloner for Setup only.
       const host = await resolveDepositPipelineHost();
-      await emitStatus(
-        `Provisioning ${repositoryFullName}@${reference} on the ${host.capabilities.hostKind} host…`,
-      );
-      const provisioned = await provisionDepositSourceInventory({
+      let runWorkspace: BitcodeHostWorkspace | null = null;
+      const cloneRepositoryForRun = createDepositLocalHostCloneForRun({
         host,
         repositoryFullName,
         url: `https://github.com/${repositoryFullName}.git`,
         revision: reference,
         token: auth.accessToken,
+        onWorkspace: (workspace) => {
+          runWorkspace = workspace;
+        },
       });
-      await assertNotCancelled();
-      inventory = applyInventoryScope(provisioned, {
-        inclusions: forcedInclusions,
-        exclusions: forcedExclusions,
-      });
-      await emitStatus(
-        `Checkout ready: ${inventory.paths.length} files (${inventory.excludedPathCount} out of scope — ${forcedInclusions.length} Forced Inclusion root(s), ${forcedExclusions.length} Forced Exclusion(s); full source measured, ${inventory.samples.length} prompt excerpts).`,
-      );
-      await emitStatus(
-        'Running SynthesizeAssetPacks (deposit mode): Setup → Discovery → Implementation → Validation → Finish…',
-      );
-      await assertNotCancelled();
-      const [owner, name] = repositoryFullName.split('/');
-      await synthesizeDepositAssetPacksSDIVFPipeline(
-        {
-          mode: 'deposit',
-          synthesizeMode: 'deposit',
-          repositoryFullName,
-          sourceBranch,
-          sourceCommit,
-          repository: {
-            owner,
-            name,
-            repo: name,
-            branch: sourceBranch,
-            commit: sourceCommit,
-            fullName: repositoryFullName,
-            url: `https://github.com/${repositoryFullName}`,
-          },
-          obfuscations,
-          forcedInclusions,
-          forcedExclusions,
-          demandContext,
-          inventory,
-          candidateKinds: [...DEPOSIT_OPTION_KINDS],
-        } as never,
-        execution as never,
-      );
-      rawOptions = ((execution as any).get?.('implementation', 'options') ??
-        (execution as any).findUp?.('implementation', 'options') ??
-        []) as Parameters<typeof validateDepositSynthesisOptions>[0];
-      inventoryPaths = inventory.paths;
+      // Empty catalog until Setup clone-repository agent fills it from this run's tree.
+      sourceCatalog = {
+        paths: [],
+        samples: [],
+        sources: [],
+        totalPathCount: 0,
+        excludedPathCount: 0,
+      };
+      try {
+        try {
+          (execution as any).store?.(
+            'deposit',
+            'cloneRepositoryForRun',
+            cloneRepositoryForRun,
+          );
+        } catch {
+          // Setup will fail closed if the factory is missing.
+        }
+        await emitStatus(
+          `Starting SynthesizeAssetPacks (deposit mode) on ${host.capabilities.hostKind}: Setup (clone repository for this run) → Discovery → Implementation → Validation → Finish…`,
+        );
+        await assertNotCancelled();
+        const [owner, name] = repositoryFullName.split('/');
+        await synthesizeDepositAssetPacksSDIVFPipeline(
+          {
+            mode: 'deposit',
+            synthesizeMode: 'deposit',
+            repositoryFullName,
+            sourceBranch,
+            sourceCommit,
+            repository: {
+              owner,
+              name,
+              repo: name,
+              branch: sourceBranch,
+              commit: sourceCommit,
+              fullName: repositoryFullName,
+              url: `https://github.com/${repositoryFullName}`,
+            },
+            obfuscations,
+            forcedInclusions,
+            forcedExclusions,
+            demandContext,
+            // Paths/samples/sources filled by Setup clone for this run, then Discovery.
+            inventory: sourceCatalog,
+            candidateKinds: [...DEPOSIT_OPTION_KINDS],
+          } as never,
+          execution as never,
+        );
+        // Prefer catalog after Setup clone + Discovery file-body load.
+        const storedCatalog =
+          (execution as any).get?.('deposit', 'inventory') ??
+          (execution as any).findUp?.('deposit', 'inventory');
+        if (storedCatalog && typeof storedCatalog === 'object') {
+          sourceCatalog = storedCatalog as typeof sourceCatalog;
+        }
+        rawOptions = ((execution as any).get?.('implementation', 'options') ??
+          (execution as any).findUp?.('implementation', 'options') ??
+          []) as Parameters<typeof validateDepositSynthesisOptions>[0];
+        inventoryPaths = sourceCatalog.paths;
+        // Unit mocks may skip Setup; fall back to option-covered paths for validation.
+        if (inventoryPaths.length === 0 && Array.isArray(rawOptions)) {
+          inventoryPaths = [
+            ...new Set(
+              (rawOptions as any[]).flatMap((option) => option?.coveredSourcePaths || []),
+            ),
+          ] as string[];
+          sourceCatalog = {
+            ...sourceCatalog,
+            paths: inventoryPaths,
+            totalPathCount: inventoryPaths.length,
+          };
+        }
+      } finally {
+        if (runWorkspace) {
+          await runWorkspace.dispose();
+        }
+      }
     }
 
     await assertNotCancelled();
@@ -305,7 +352,7 @@ export async function runDepositOptionSynthesis(
         createdAt: new Date().toISOString(),
       },
       result,
-      inventory,
+      sourceCatalog,
     );
 
     const settledPacks = await loadSettledDepositoryPacks(80);
@@ -344,7 +391,7 @@ export async function runDepositOptionSynthesis(
         exclusionCount: synthesis.exclusionPosture.forcedExclusionCount,
         excludedPathCount: synthesis.exclusionPosture.excludedPathCount,
         droppedCandidateCount: synthesis.exclusionPosture.droppedCandidateCount,
-        inventoryPathCount: inventory.paths.length,
+        inventoryPathCount: sourceCatalog.paths.length,
         inferenceProvider: result.inference.provider,
         inferenceModel: result.inference.model,
       },

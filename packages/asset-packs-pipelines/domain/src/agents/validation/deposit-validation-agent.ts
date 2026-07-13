@@ -76,7 +76,6 @@ export default async function runDepositValidationAgent(input: any, execution: a
     findValue(execution, 'implementation', 'options') ??
     findValue(execution, 'implementation', 'assetPacks') ??
     [];
-  const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
   const obfuscationGuidance =
     input?.obfuscationGuidance ?? findValue(execution, 'setup', 'inputComprehension');
   const forcedExclusions = asPathList(
@@ -88,6 +87,13 @@ export default async function runDepositValidationAgent(input: any, execution: a
   const obfuscatedPaths = asPathList((obfuscationGuidance as any)?.obfuscatedPaths);
   const packs = Array.isArray(assetPacks) ? assetPacks : [];
 
+  const { ensureDepositCheckoutSourceFiles } = await import(
+    '../../ensure-deposit-checkout-source-files'
+  );
+  const inventory = await ensureDepositCheckoutSourceFiles(
+    execution,
+    input?.inventory ?? findValue(execution, 'deposit', 'inventory'),
+  );
   const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
   // LLM qualitative validation: paths only. Static-analysis measurement below
   // still reads full inventory.sources from the shared store.

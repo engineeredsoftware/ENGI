@@ -56,11 +56,18 @@ jest.mock('@bitcode/asset-packs-pipelines-domain', () => ({
   groundOptionNeedinessFromSettledDepository: jest.fn((options: unknown[]) => options),
 }));
 
-// The Host provisioning (full checkout) is mocked: we assert the route provisions on
-// a Host and feeds the full inventory to the pipeline (no real git clone in jest).
+// Init does not clone. Setup clone factory is wired; pipeline mock skips Setup.
 jest.mock('@/lib/deposit-source-provisioning', () => ({
-  resolveDepositPipelineHost: jest.fn(() => ({ capabilities: { hostKind: 'local' } })),
-  provisionDepositSourceInventory: jest.fn(),
+  resolveDepositPipelineHost: jest.fn(() => ({
+    capabilities: { hostKind: 'local' },
+    provisionRepository: jest.fn(),
+  })),
+  createDepositLocalHostCloneForRun: jest.fn(() => jest.fn(async () => ({
+    workspacePath: '/tmp/mock-ws',
+    listFiles: async () => [] as string[],
+    readFile: async () => null,
+    dispose: async () => undefined,
+  }))),
   selectDepositHostKind: jest.fn(() => 'local'),
   runDepositInBoxHost: jest.fn(),
 }));
@@ -93,7 +100,7 @@ import { createStreamingExecution } from '@bitcode/pipelines-generics';
 import { synthesizeDepositAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-deposits';
 import { isAssetPackRealInferenceEnabled } from '@bitcode/asset-packs-pipelines-domain/runtime-inference-policy';
 import {
-  provisionDepositSourceInventory,
+  createDepositLocalHostCloneForRun,
   runDepositInBoxHost,
   selectDepositHostKind,
 } from '@/lib/deposit-source-provisioning';
@@ -103,7 +110,7 @@ import { POST } from '@/app/api/deposit/synthesize-options/route';
 const mockRealInference = isAssetPackRealInferenceEnabled as jest.Mock;
 const mockPipeline = synthesizeDepositAssetPacksSDIVFPipeline as jest.Mock;
 const mockCreateExecution = createStreamingExecution as jest.Mock;
-const mockProvision = provisionDepositSourceInventory as jest.Mock;
+const mockCreateCloneForRun = createDepositLocalHostCloneForRun as jest.Mock;
 const mockSelectKind = selectDepositHostKind as jest.Mock;
 const mockRunHost = runDepositInBoxHost as jest.Mock;
 const mockWaitUntil = waitUntil as jest.Mock;
@@ -230,19 +237,6 @@ function installSupabaseMocks(options: {
   return { executionRow };
 }
 
-// The full checkout the Host provisions (incl. an excluded secret/ path the route
-// must withhold). The route applies protected-IP exclusions to it.
-const PROVISIONED = {
-  paths: ['README.md', 'src/app.py', 'secret/keys.py'],
-  samples: [{ path: 'README.md', excerpt: 'A demo python project.' }],
-  sources: [
-    { path: 'README.md', content: 'A demo python project.' },
-    { path: 'src/app.py', content: 'def main():\n    pass' },
-    { path: 'secret/keys.py', content: 'KEY = 1' },
-  ],
-  truncated: false,
-};
-
 function createRequest(overrides: Record<string, unknown> = {}) {
   return new Request('http://localhost/api/deposit/synthesize-options', {
     method: 'POST',
@@ -274,7 +268,14 @@ describe('POST /api/deposit/synthesize-options', () => {
     mockPipeline.mockReset();
     mockRunHost.mockReset();
     mockRealInference.mockReturnValue(true);
-    mockProvision.mockResolvedValue(PROVISIONED);
+    mockCreateCloneForRun.mockReturnValue(
+      jest.fn(async () => ({
+        workspacePath: '/tmp/mock-ws',
+        listFiles: async () => [] as string[],
+        readFile: async () => null,
+        dispose: async () => undefined,
+      })),
+    );
     mockSelectKind.mockReturnValue('local');
   });
 
@@ -320,20 +321,19 @@ describe('POST /api/deposit/synthesize-options', () => {
       executionRow.upsert.mock.calls.some((call) => call[0]?.status === 'completed'),
     );
     expect(mockPipeline).toHaveBeenCalledTimes(1);
-    // The route provisioned the full checkout on the Host (clone URL + revision + token).
-    expect(mockProvision).toHaveBeenCalledWith(
+    // Init wires Setup cloner only — no pre-pipeline clone.
+    expect(mockCreateCloneForRun).toHaveBeenCalledWith(
       expect.objectContaining({
         url: 'https://github.com/engineeredsoftware/demo-python.git',
         revision: 'abc123',
         token: 'ghs_installation_token',
       }),
     );
-    // The pipeline received the exclusion-filtered inventory (secret/ withheld) —
-    // both the path list AND the full verbatim source.
+    // Empty catalog at pipeline start; Setup clone fills paths for this run.
     const pipelineInput = mockPipeline.mock.calls[0][0];
     expect(pipelineInput.mode).toBe('deposit');
-    expect(pipelineInput.inventory.paths).toEqual(['README.md', 'src/app.py']);
-    expect(pipelineInput.inventory.sources.map((s: any) => s.path)).toEqual(['README.md', 'src/app.py']);
+    expect(pipelineInput.inventory.paths).toEqual([]);
+    expect(pipelineInput.inventory.sources).toEqual([]);
     expect(pipelineInput.forcedExclusions).toEqual(['secret/']);
     expect(pipelineInput.forcedInclusions).toEqual([]);
 
@@ -347,7 +347,7 @@ describe('POST /api/deposit/synthesize-options', () => {
     expect(completed.output.reviewProjections[0].coveredSourcePaths).toEqual(['README.md', 'src/app.py']);
   });
 
-  it('scopes inventory by Forced Inclusion roots before the pipeline runs', async () => {
+  it('passes Forced Inclusion roots into the pipeline for Setup-scoped catalog', async () => {
     const { executionRow } = installSupabaseMocks({});
     // Options must only cover in-scope paths so Validation admits them.
     mockPipeline.mockResolvedValueOnce(undefined);
@@ -385,8 +385,9 @@ describe('POST /api/deposit/synthesize-options', () => {
     );
     const pipelineInput = mockPipeline.mock.calls[0][0];
     expect(pipelineInput.forcedInclusions).toEqual(['src/']);
-    expect(pipelineInput.inventory.paths).toEqual(['src/app.py']);
-    expect(pipelineInput.inventory.sources.map((s: any) => s.path)).toEqual(['src/app.py']);
+    // Catalog paths are empty at init; Setup clone scopes after this-run clone.
+    expect(pipelineInput.inventory.paths).toEqual([]);
+    expect(pipelineInput.inventory.sources).toEqual([]);
   });
 
   it('registers both the orphan sweep and the synthesis run via waitUntil (V48-Gate3-F31)', async () => {
@@ -425,10 +426,10 @@ describe('POST /api/deposit/synthesize-options', () => {
     await flushBackground(() =>
       executionRow.upsert.mock.calls.some((call) => call[0]?.status === 'completed'),
     );
-    // Dispatched to the in-box host; the in-process pipeline + provisioning were NOT run.
+    // Dispatched to the in-box host; the in-process pipeline + local cloner were NOT run.
     expect(mockRunHost).toHaveBeenCalledTimes(1);
     expect(mockPipeline).not.toHaveBeenCalled();
-    expect(mockProvision).not.toHaveBeenCalled();
+    expect(mockCreateCloneForRun).not.toHaveBeenCalled();
     const completed = executionRow.upsert.mock.calls.find((call) => call[0]?.status === 'completed')![0];
     expect(completed.output.depositOptionSynthesis.optionCount).toBe(1);
     expect(completed.output.depositOptionSynthesis.options[0].contents.provenantSourcePaths).toEqual([

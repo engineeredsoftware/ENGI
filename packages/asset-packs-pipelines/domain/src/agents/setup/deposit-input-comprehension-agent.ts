@@ -139,7 +139,7 @@ export default async function runDepositInputComprehensionAgent(input: any, exec
     };
   }
 
-  // Prompt path: paths + samples only. Full inventory.sources stays on the
+  // Prompt path: paths + samples only. Full checkout file bodies stay on the
   // shared execution store for measurement; never enter PTRR user prompts
   // (JSON.stringify of monorepo sources → Invalid string length).
   const inventoryForPrompt = projectInventoryForPrompt(inventory);

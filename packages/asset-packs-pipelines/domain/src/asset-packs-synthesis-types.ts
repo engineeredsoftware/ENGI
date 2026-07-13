@@ -1,5 +1,5 @@
 /**
- * AssetPacksSynthesis domain types (inventory, candidates, results).
+ * AssetPacksSynthesis domain types (checkout source catalog, candidates, results).
  *
  * Shared by the public barrel, formal pipeline, deposit validation, and option
  * projection. No runtime logic — pure type surface for the synthesis core.
@@ -46,13 +46,24 @@ export interface AssetPacksSynthesisSourceFile {
   content: string;
 }
 
+/**
+ * Catalog of the **depositor repository checkout** used by AssetPacksSynthesis.
+ *
+ * Not the GitHub “connected repositories” list (externals inventory).
+ * Setup clones the **complete working tree at the SHA** (all files on disk).
+ * This catalog is metadata + optional in-memory bodies for that same tree:
+ * - `paths` — tracked paths after Forced Inclusion / Exclusion scope
+ * - `samples` — bounded excerpts for LLM prompts
+ * - `sources` — optional full file contents for measurement tools; loaded from
+ *   the live checkout in Discovery (codebase comprehension), not a second clone
+ */
 export interface AssetPacksSynthesisSourceInventory {
   paths: string[];
   samples: AssetPacksSynthesisSourceSample[];
   /**
-   * The FULL verbatim source of the host checkout — every tracked file's
-   * content, provisioned by the primitive Host. Feeds measurement tools;
-   * the bounded `samples` feed prompts. Optional for back-compat.
+   * Full verbatim file bodies from the Host checkout (measurement only).
+   * Prompt path uses `samples` only. Empty until Discovery materializes them
+   * from the live workspace when provision was path-list-only.
    */
   sources?: AssetPacksSynthesisSourceFile[];
   totalPathCount: number;

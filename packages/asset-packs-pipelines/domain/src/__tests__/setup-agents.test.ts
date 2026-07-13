@@ -122,6 +122,7 @@ describe('AssetPack setup agents', () => {
       success: true,
       repository: { owner: 'engineeredsoftware', name: 'ENGI', ref: 'main' },
       status: 'source-revision-present',
+      metadata: { workingTree: 'complete-at-revision', cloneMode: 'vercel-sandbox-source' },
     });
     expect(execution.stores).toEqual(
       expect.arrayContaining([
@@ -130,6 +131,59 @@ describe('AssetPack setup agents', () => {
         expect.objectContaining({ namespace: 'repository', key: 'commit', value: '07de275b3d97679321f1f596c16e48105d81d51b' }),
       ])
     );
+  });
+
+  it('clones via deposit:cloneRepositoryForRun (Setup-only; this run workspace only)', async () => {
+    const execution = executionStub();
+    const workspacePath = '/tmp/bitcode-local-host-run-abc/checkout';
+    const files = {
+      'README.md': '# demo',
+      'src/app.ts': 'export const x = 1',
+      'secret/keys.ts': 'export const k = 1',
+    };
+    const cloneForRun = jest.fn(async () => ({
+      workspacePath,
+      listFiles: async () => Object.keys(files),
+      readFile: async (p: string) => (p in files ? files[p as keyof typeof files] : null),
+      dispose: async () => undefined,
+    }));
+    execution.store('deposit', 'cloneRepositoryForRun', cloneForRun);
+    execution.store('deposit', 'forcedExclusions', ['secret/']);
+
+    const result = await cloneRepositoryAgent(
+      {
+        repository: {
+          fullName: 'advancedengineeredsoftware/bit-engine',
+          branch: 'main',
+          commit: 'abc1234def5678901234567890abcdef12345678',
+        },
+      },
+      execution,
+    );
+
+    expect(cloneForRun).toHaveBeenCalledTimes(1);
+    expect(result).toMatchObject({
+      success: true,
+      workspacePath,
+      status: 'cloned-for-run',
+      metadata: {
+        workingTree: 'complete-at-revision',
+        cloneMode: 'deposit-run-clone',
+      },
+      repository: {
+        owner: 'advancedengineeredsoftware',
+        name: 'bit-engine',
+        ref: 'main',
+      },
+    });
+    const inventoryStore = execution.stores.find(
+      (entry: { namespace: string; key: string }) =>
+        entry.namespace === 'deposit' && entry.key === 'inventory',
+    );
+    expect(inventoryStore?.value).toMatchObject({
+      paths: expect.arrayContaining(['README.md', 'src/app.ts']),
+    });
+    expect((inventoryStore?.value as { paths: string[] }).paths).not.toContain('secret/keys.ts');
   });
 
   it('returns the NODE_ENV test stub plan and stores setup-plan evidence', async () => {

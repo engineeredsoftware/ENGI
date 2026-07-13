@@ -64,7 +64,6 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
     findValue(execution, 'deposit', 'forcedExclusions') ??
     findValue(execution, 'deposit', 'protectedIpExclusions') ??
     [];
-  const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
   const demandContext = input?.demandContext ?? findValue(execution, 'deposit', 'demandContext') ?? [];
 
   const codebaseComprehension = findValue(execution, 'discovery', 'codebaseComprehension');
@@ -73,6 +72,13 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
   const obfuscationGuidance =
     input?.obfuscationGuidance ?? findValue(execution, 'setup', 'inputComprehension');
 
+  const { ensureDepositCheckoutSourceFiles } = await import(
+    '../../ensure-deposit-checkout-source-files'
+  );
+  const inventory = await ensureDepositCheckoutSourceFiles(
+    execution,
+    input?.inventory ?? findValue(execution, 'deposit', 'inventory'),
+  );
   const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
   const inventoryForPrompt = projectInventoryForPrompt(inventory);
 
