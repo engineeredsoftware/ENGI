@@ -14,12 +14,16 @@ Named component directories under `uapi/components/conversations/`.
 
 ```
 ConversationsOverlay/
-  ConversationsOverlay.tsx           # shell (state + composition)
+  ConversationsOverlay.tsx           # orchestration only (<500)
   conversations-overlay-types.ts
   conversations-overlay-constants.ts
   conversations-overlay-helpers.ts
+  ConversationsOverlayHeader.tsx     # toolbar actions
+  ConversationsOverlayMainContent.tsx# history + chat + process log + details
   ConversationsOverlaySidePanels.tsx # source / handoff / privacy / telemetry / writing
   hooks/use-conversation-hydration.ts
+  hooks/use-conversation-send.ts     # stream append/finalize/send/retry
+  hooks/use-conversation-view-mode.ts# fullscreen/split/panel/source state
 ```
 
 ### Rich text input
@@ -28,7 +32,15 @@ ConversationsOverlay/
 ConversationsEnhancedRichTextInput/
   ConversationsEnhancedRichTextInput.tsx
   conversations-enhanced-rich-text-input.types.ts
-  conversations-enhanced-rich-text-helpers.ts
+  conversations-enhanced-rich-text-helpers.ts  # icons, serialize, render HTML
+```
+
+### GitHub source selector
+
+```
+ConversationsGithubSourceSelector/
+  ConversationsGitHubSourceSelector.tsx  # full/compact/icon render variants
+  hooks/use-github-source-selection.ts   # cascade selection state
 ```
 
 ### Utilities
@@ -39,7 +51,7 @@ utilities/
   rich-response-edge-case.ts         # render failure / edge response helpers
   edge-case-handler.ts               # public facade
   edge-case/
-    conversation-edge-case-handler.ts
+    conversation-edge-case-handler.ts  # thin class delegating to concerns
     network.ts | data-integrity.ts | performance.ts | validation.ts
 ```
 

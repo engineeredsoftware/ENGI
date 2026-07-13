@@ -374,7 +374,9 @@ Named entry file — **not** `index.tsx`. Top-of-file overview comment on non-tr
 Landing, walkthrough, marketplace narrative, competitor tables, BTD education.  
 Home: `uapi/components/marketing/`. Large sections are modularized (data/helpers
 + co-located subcomponents under each `Marketing*Section/` directory); see
-`uapi/components/marketing/README.md`.
+`uapi/components/marketing/README.md`. Screenshot shell composes hero gallery /
+how-it-works / entrance hook; marketplace composes order book, ticker, candles,
+detail, narrative, and action-pad units.
 
 ### 7.2 Deposits (`/deposits`)
 
@@ -441,9 +443,12 @@ rail/card/specimen/API/manual subcomponents.
 ### 7.6 Conversations
 
 Full commercial Conversations UX is **deferred post-V48**, but structure remains
-under `uapi/components/conversations/`. Overlay is a shell + side panels +
-hydration hook; rich-text input has co-located token helpers; utilities split
-factory vs edge-case concerns. Prefer `/packs` as post-auth landing, not Terminal.
+under `uapi/components/conversations/`. Overlay orchestration is a thin shell
+(<500) composing header/main-content/side-panels plus send + view-mode hooks;
+rich-text input uses co-located serialize/render helpers; GitHub source selector
+cascade lives in `use-github-source-selection`; edge-case handler is a facade
+over network/data-integrity/performance/validation modules. Prefer `/packs` as
+post-auth landing, not Terminal.
 
 ### 7.7 Auxillaries
 

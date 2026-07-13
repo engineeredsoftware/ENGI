@@ -1474,4 +1474,20 @@ Working groups modularized remaining commercial experiences on `version/v48`:
 | Docs | bitcode-docs-content → content modules + Docs* section components |
 | Conversations | Overlay/rich-text/edge-case modularization (structure retained; commercial UX deferred) |
 
+### Further god-module modularization (Garrett, 2026-07-13 — pass 2)
+
+Remaining large marketing and conversations shells thinned further under
+SOURCE_LAYOUT:
+
+| Unit | Direction |
+| --- | --- |
+| `MarketingScreenshotSection` | Hero gallery, floating trio, how-it-works, entrance hook |
+| `MarketingMarketplaceSection` | Candles, ticker, order book, detail, narrative, action pad |
+| `MarketingCompletionCelebration` / `MarketingPipelinePhasePoetry` | Data modules |
+| `MarketingBtdInvestmentExperience` | Value / coaching / projection panels |
+| `ConversationsOverlay` | Header, main content, send + view-mode hooks (orchestration <500) |
+| `ConversationsEnhancedRichTextInput` | Serialize/render helpers expanded |
+| `ConversationsGithubSourceSelector` | Selection cascade hook |
+| Edge-case handler | Real concern modules + thin class facade |
+
 Navigation map: `FAMILIARIZATION.md`. Layout contract: `internal-docs/BITCODE_SOURCE_LAYOUT.md`.

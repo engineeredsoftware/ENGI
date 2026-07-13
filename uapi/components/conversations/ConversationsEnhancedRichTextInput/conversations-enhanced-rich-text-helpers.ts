@@ -64,3 +64,164 @@ export function adjustTokenSpacing(
 
   return adjustedText;
 }
+
+/** Extra display caption for a token chip. */
+export function getTokenDisplayInfo(token: ConversationsRichTextToken): string {
+  switch (token.type) {
+    case 'evidence_document':
+      return token.data?.description ? token.data.description.substring(0, 30) : '';
+    case 'shippable':
+      return token.data?.status ? token.data.status : '';
+    case 'attachment':
+      return token.data?.size ? token.data.size : '';
+    case 'source':
+      return token.data?.provider
+        ? `${token.data.provider} • ${token.data.path}`
+        : token.data?.path || '';
+    case 'command':
+      return token.data?.shortcut ? token.data.shortcut : '';
+    case 'destination':
+    case 'pipeline_run':
+      if (!token.data?.pipelineType) return '';
+      if (String(token.data.pipelineType).toLowerCase().includes('measure')) return 'read-measurement';
+      if (
+        String(token.data.pipelineType).toLowerCase().includes('asset-pack') ||
+        String(token.data.pipelineType).toLowerCase().includes('shippable') ||
+        String(token.data.pipelineType).toLowerCase().includes('artifact')
+      ) {
+        return 'branch-artifact';
+      }
+      return `${token.data.pipelineType}`;
+    default:
+      return '';
+  }
+}
+
+/** Serialize tokens for the send path with attachment metadata. */
+export function serializeTokensForSend(tokens: ConversationsRichTextToken[], text: string) {
+  const validTokens = tokens.filter((token) => text.includes(token.text));
+
+  return validTokens.map((token) => {
+    if (token.type === 'source') {
+      return {
+        ...token,
+        value: token.text.trim(),
+        metadata: {
+          attachment_id: token.data?.id || token.data?.repoId || token.data?.path || token.text.trim(),
+          category: 'integration',
+          type: token.data?.type || 'github_repo',
+          ...token.data,
+        },
+      };
+    }
+
+    if (token.type === 'attachment') {
+      return {
+        ...token,
+        value: token.text.trim(),
+        metadata: {
+          attachment_id: token.data?.id || token.data?.path || token.text.trim(),
+          category: token.data?.category || 'file',
+          type: token.data?.type || 'attachment',
+          ...token.data,
+        },
+      };
+    }
+
+    if (token.type === 'destination' || token.type === 'pipeline_run') {
+      return {
+        ...token,
+        type: 'destination' as const,
+        value: token.text.trim(),
+        metadata: {
+          attachment_id: token.data?.pipelineId || token.data?.id || token.text.trim(),
+          category: token.data?.category || 'integration',
+          type: token.data?.type || 'output_destination',
+          ...token.data,
+        },
+      };
+    }
+
+    if (token.type === 'shippable') {
+      return {
+        ...token,
+        type: 'shippable',
+        value: token.text.trim(),
+        metadata: {
+          kind: 'shippable',
+          asset_pack_reference: token.data?.id || null,
+          ...token.data,
+        },
+      };
+    }
+
+    return {
+      ...token,
+      value: token.text.trim(),
+      metadata: {
+        ...token.data,
+      },
+    };
+  });
+}
+
+/** Escape HTML and wrap tokens for the rich overlay. */
+export function renderRichTextHtml(
+  text: string,
+  tokens: readonly ConversationsRichTextToken[],
+): string {
+  if (!text) return '';
+
+  let result = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  if (tokens.length === 0) {
+    return result;
+  }
+
+  const sortedTokens = [...tokens].sort((a, b) => {
+    const posA = result.indexOf(a.text);
+    const posB = result.indexOf(b.text);
+    if (posA !== posB) return posA - posB;
+    return b.text.length - a.text.length;
+  });
+
+  sortedTokens.forEach((token) => {
+    const escapedText = token.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(^|\\s)(${escapedText})(?=\\s|$)`, 'g');
+    const iconHtml = getTokenIcon(token.type);
+    const typeLabel = getTokenTypeLabel(token.type);
+
+    result = result.replace(regex, (match, before, tokenText) => {
+      const infoHtml = token.displayInfo
+        ? `<span class="token-info">${token.displayInfo}</span>`
+        : '';
+
+      return `${before}<span class="token token-${token.type}" title="${typeLabel}: ${tokenText}${token.displayInfo ? ' - ' + token.displayInfo : ''}">${iconHtml}${tokenText}${infoHtml}</span>`;
+    });
+  });
+
+  return result;
+}
+
+export function triggerCharForTokenType(type: string): string {
+  switch (type) {
+    case 'evidence_document':
+      return '^';
+    case 'shippable':
+      return '@';
+    case 'attachment':
+      return '+';
+    case 'source':
+      return '#';
+    case 'destination':
+    case 'pipeline_run':
+      return '!';
+    case 'command':
+      return ':';
+    default:
+      return '!';
+  }
+}

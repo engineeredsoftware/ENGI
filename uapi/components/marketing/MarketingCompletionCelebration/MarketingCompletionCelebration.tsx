@@ -1,7 +1,20 @@
 'use client';
 
+/**
+ * Completion celebration overlay for marketing/demo shippable milestones.
+ * Messages, achievements, and quality helpers live in co-located data module.
+ */
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
+import {
+  CELEBRATION_QUALITY,
+  CELEBRATION_MESSAGES,
+  ACHIEVEMENT_DEFINITIONS,
+  formatCelebrationDuration as formatDuration,
+  getQualityColor,
+} from './marketing-completion-celebration-data';
+
 
 interface CompletionMilestone {
   id: string;
@@ -58,77 +71,7 @@ interface CompletionCelebrationProps {
   respectReducedMotion?: boolean;
 }
 
-// Device capability detection
-const CELEBRATION_QUALITY = (() => {
-  if (typeof navigator === 'undefined') return 1;
-  
-  const mem = (navigator as any).deviceMemory;
-  const cores = navigator.hardwareConcurrency;
-  const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-  
-  if (reducedMotion) return 0.3;
-  
-  const lowSpec = (mem && mem <= 4) || (cores && cores <= 4);
-  return lowSpec ? 0.6 : 1;
-})();
 
-const CELEBRATION_MESSAGES = {
-  component: [
-    "🎨 Beautiful component created!",
-    "✨ Component mastery achieved!",
-    "🔥 Outstanding component work!",
-    "🌟 Component excellence unlocked!"
-  ],
-  service: [
-    "⚡ Service architecture perfected!",
-    "🚀 Backend brilliance delivered!",
-    "🔧 Service engineering mastery!",
-    "💎 Robust service created!"
-  ],
-  test: [
-    "🧪 Testing excellence achieved!",
-    "✅ Quality assurance champion!",
-    "🎯 Perfect test coverage!",
-    "🛡️ Bulletproof testing deployed!"
-  ],
-  refactor: [
-    "🔄 Code transformation complete!",
-    "✨ Refactoring mastery unlocked!",
-    "🏗️ Architecture improvement achieved!",
-    "💫 Code elegance perfected!"
-  ],
-  feature: [
-    "🎉 Feature milestone reached!",
-    "🌈 User experience enhanced!",
-    "🚀 Innovation delivered!",
-    "⭐ Feature excellence achieved!"
-  ],
-  bug: [
-    "🐛 Bug vanquished successfully!",
-    "🔥 Problem solving mastery!",
-    "🎯 Debug precision achieved!",
-    "💪 Code reliability restored!"
-  ],
-  documentation: [
-    "📚 Documentation excellence!",
-    "✍️ Knowledge sharing champion!",
-    "📖 Clarity and precision achieved!",
-    "💡 Developer experience enhanced!"
-  ]
-};
-
-const ACHIEVEMENT_DEFINITIONS = {
-  'first-completion': '🎯 First Completion',
-  'speed-demon': '⚡ Speed Demon',
-  'quality-champion': '👑 Quality Champion',
-  'pattern-master': '🧠 Pattern Master',
-  'streak-warrior': '🔥 Streak Warrior',
-  'efficiency-guru': '💎 Efficiency Guru',
-  'architecture-sage': '🏗️ Architecture Sage',
-  'testing-legend': '🧪 Testing Legend',
-  'refactor-specialist': '✨ Refactor Specialist',
-  'innovation-pioneer': '🚀 Innovation Pioneer'
-};
 
 export const MarketingCompletionCelebration = ({
   milestone,
@@ -278,20 +221,6 @@ export const MarketingCompletionCelebration = ({
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, [isVisible, milestone, calculateAchievements, generateParticles, onCelebrationComplete]);
-
-  // Format time duration
-  const formatDuration = (seconds: number) => {
-    if (seconds < 60) return `${seconds}s`;
-    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ${seconds % 60}s`;
-    return `${Math.floor(seconds / 3600)}h ${Math.floor((seconds % 3600) / 60)}m`;
-  };
-
-  // Quality score color
-  const getQualityColor = (quality: number) => {
-    if (quality >= 0.9) return 'text-green-400';
-    if (quality >= 0.7) return 'text-yellow-400';
-    return 'text-orange-400';
-  };
 
   if (!isVisible || !milestone) return null;
 

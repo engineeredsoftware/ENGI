@@ -79,3 +79,55 @@ export const MOBILE_HERO_SHOTS = [
 
 export const SCREENSHOT_FRAME_CLASS =
   "relative w-full aspect-video overflow-hidden rounded-lg shadow-lg";
+
+/** Floating hero screenshots flanking the left main panel. */
+export const LEFT_FLOATING_SHOTS = [
+  {
+    src: '/screenshots/sidebar-shippables.png',
+    border: 'border-orange-400',
+    glow: 'rgba(249,168,38,0.6)',
+    rotate: 0,
+    style: { left: '-1rem', bottom: '0rem', zIndex: 80 },
+  },
+  {
+    src: '/screenshots/setup-marketplace.png',
+    border: 'border-orange-400',
+    glow: 'rgba(249,168,38,0.6)',
+    rotate: 0,
+    style: { left: '5.5rem', bottom: '3.5rem', zIndex: 90 },
+  },
+  {
+    src: '/screenshots/setup-btd-balance.png',
+    border: 'border-green-400',
+    glow: 'rgba(52,211,153,0.6)',
+    rotate: 0,
+    style: { left: '11rem', bottom: '5rem', zIndex: 85 },
+  },
+] as const;
+
+/** Floating hero screenshots flanking the right main panel. */
+export const RIGHT_FLOATING_SHOTS = [
+  {
+    src: '/screenshots/conversations-small.png',
+    border: 'border-purple-500',
+    glow: 'rgba(192,132,252,0.6)',
+    rotate: 0,
+    style: { left: '1rem', bottom: '-1rem', zIndex: 80 },
+  },
+  {
+    src: '/screenshots/rich-text-conversations.png',
+    border: 'border-purple-500',
+    glow: 'rgba(192,132,252,0.6)',
+    rotate: 0,
+    style: { left: '1rem', bottom: '17.5rem', zIndex: 90 },
+  },
+  {
+    src: '/screenshots/notifications-widget.png',
+    border: 'border-green-400',
+    glow: 'rgba(52,211,153,0.6)',
+    rotate: 0,
+    style: { left: '8.5rem', bottom: '5.5rem', zIndex: 85 },
+  },
+] as const;
+
+export type ScreenshotHighlightGroup = 'assetPacks' | 'evidenceDocuments';

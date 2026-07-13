@@ -19,6 +19,10 @@ import {
   type ValueVisualization,
   type EfficiencyCoaching,
 } from './marketing-btd-investment-helpers';
+import { MarketingBtdValuePanel } from './MarketingBtdValuePanel';
+import { MarketingBtdCoachingPanel } from './MarketingBtdCoachingPanel';
+import { MarketingBtdProjectionPanel } from './MarketingBtdProjectionPanel';
+
 
 export const MarketingBtdInvestmentExperience = ({
   investments,
@@ -208,252 +212,29 @@ export const MarketingBtdInvestmentExperience = ({
     <div className="btd-holding-experience fixed bottom-6 right-6 z-30 pointer-events-none">
       {/* Value Visualization Panel */}
       {showValueVisualization && (
-        <motion.div
-          className="mb-4 pointer-events-auto"
-          initial={{ opacity: 0, y: 20, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <div 
-            className="bg-gradient-to-br from-emerald-900/95 to-teal-900/95 backdrop-blur-xl 
-                       border border-emerald-400/30 rounded-xl p-4 w-80 shadow-2xl"
-            style={{
-              boxShadow: `0 0 40px rgba(16, 185, 129, ${enhancementGlow * 0.5}), 
-                         0 20px 40px -10px rgba(0, 0, 0, 0.6)`,
-              filter: `drop-shadow(0 0 ${enhancementGlow * 15}px rgba(16, 185, 129, 0.6))`
-            }}
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-emerald-100 text-lg font-medium flex items-center space-x-2">
-                <span>💰</span>
-                <span>BTD Holding Signal</span>
-              </h3>
-              
-              <div className="flex space-x-1">
-                {(['week', 'month', 'quarter'] as const).map(timeframe => (
-                  <button
-                    key={timeframe}
-                    onClick={() => setSelectedTimeframe(timeframe)}
-                    className={`px-2 py-1 text-xs rounded transition-all duration-200 ${
-                      selectedTimeframe === timeframe
-                        ? 'bg-emerald-600/40 text-emerald-100'
-                        : 'bg-emerald-800/20 text-emerald-300 hover:bg-emerald-800/40'
-                    }`}
-                  >
-                    {timeframe}
-                  </button>
-                ))}
-              </div>
-            </div>
-            
-            {/* Measured-BTD metrics */}
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              <div className="space-y-2">
-                <div className="text-xs text-emerald-300">Measured $BTD</div>
-                <div className="text-xl font-bold text-emerald-100">
-                  {valueVisualization.totalInvested.toLocaleString()} $BTD
-                </div>
-              </div>
-              
-              <div className="space-y-2">
-                <div className="text-xs text-emerald-300">Fit Value</div>
-                <div className="text-xl font-bold text-emerald-100">
-                  <motion.span
-                    key={animatingValue}
-                    initial={{ scale: 1.2, opacity: 0.7 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {Math.round(animatingValue).toLocaleString()} $BTD
-                  </motion.span>
-                </div>
-              </div>
-              
-              <div className="space-y-2">
-                <div className="text-xs text-emerald-300">Value Delta</div>
-                <div className={`text-lg font-bold ${
-                  valueVisualization.roi > 0 ? 'text-green-400' : 
-                  valueVisualization.roi < 0 ? 'text-red-400' : 'text-emerald-100'
-                }`}>
-                  {(valueVisualization.roi * 100).toFixed(1)}%
-                </div>
-              </div>
-              
-              <div className="space-y-2">
-                <div className="text-xs text-emerald-300">High-Fit Runs</div>
-                <div className="text-lg font-bold text-yellow-400 flex items-center space-x-1">
-                  <span>✨</span>
-                  <span>{valueVisualization.highFitMoments}</span>
-                </div>
-              </div>
-            </div>
-            
-            {/* Efficiency trend */}
-            <div className="space-y-2">
-              <div className="text-xs text-emerald-300">Efficiency Trend</div>
-              <div className="flex items-end space-x-1 h-8">
-                {valueVisualization.efficiencyTrend.map((efficiency, index) => (
-                  <motion.div
-                    key={index}
-                    className="flex-1 bg-gradient-to-t from-emerald-600 to-emerald-400 rounded-sm"
-                    style={{ 
-                      height: `${Math.min(efficiency * 50, 100)}%`,
-                      opacity: 0.6 + (efficiency * 0.4)
-                    }}
-                    initial={{ height: 0 }}
-                    animate={{ height: `${Math.min(efficiency * 50, 100)}%` }}
-                    transition={{ delay: index * 0.1 }}
-                  />
-                ))}
-              </div>
-            </div>
-            
-            {/* Pattern mastery progress */}
-            <div className="mt-4 space-y-2">
-              <div className="flex justify-between text-xs">
-                <span className="text-emerald-300">Pattern Mastery</span>
-                <span className="text-emerald-100">{Math.round(valueVisualization.patternMastery * 100)}%</span>
-              </div>
-              <div className="w-full bg-emerald-900/50 rounded-full h-2">
-                <motion.div
-                  className="h-2 rounded-full bg-gradient-to-r from-emerald-500 to-green-400"
-                  style={{
-                    boxShadow: `0 0 8px rgba(16, 185, 129, ${enhancementGlow})`
-                  }}
-                  initial={{ width: 0 }}
-                  animate={{ width: `${valueVisualization.patternMastery * 100}%` }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                />
-              </div>
-            </div>
-          </div>
-        </motion.div>
+        <MarketingBtdValuePanel
+          valueVisualization={valueVisualization}
+          selectedTimeframe={selectedTimeframe}
+          onSelectTimeframe={setSelectedTimeframe}
+          animatingValue={animatingValue}
+          enhancementGlow={enhancementGlow}
+        />
       )}
       
       {/* Efficiency Coaching Insight */}
-      <AnimatePresence>
-        {showCoachingInsight && showEfficiencyCoaching && (
-          <motion.div
-            className="mb-4 pointer-events-auto"
-            initial={{ opacity: 0, x: 100, scale: 0.9 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: 100, scale: 0.9 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div 
-              className={`
-                backdrop-blur-xl rounded-xl p-4 w-80 border
-                ${efficiencyCoaching.guidanceLevel === 'critical' ? 
-                  'bg-gradient-to-br from-purple-900/95 to-pink-900/95 border-purple-400/40' :
-                efficiencyCoaching.guidanceLevel === 'elevated' ?
-                  'bg-gradient-to-br from-yellow-900/95 to-orange-900/95 border-yellow-400/40' :
-                efficiencyCoaching.guidanceLevel === 'steady' ?
-                  'bg-gradient-to-br from-blue-900/95 to-cyan-900/95 border-blue-400/40' :
-                  'bg-gradient-to-br from-gray-900/95 to-slate-900/95 border-gray-400/40'
-                }
-              `}
-              style={{
-                boxShadow: `0 0 30px ${
-                  efficiencyCoaching.guidanceLevel === 'critical' ? 'rgba(147, 51, 234, 0.5)' :
-                  efficiencyCoaching.guidanceLevel === 'elevated' ? 'rgba(245, 158, 11, 0.5)' :
-                  efficiencyCoaching.guidanceLevel === 'steady' ? 'rgba(59, 130, 246, 0.5)' :
-                  'rgba(107, 114, 128, 0.3)'
-                }`
-              }}
-            >
-              <div className="flex items-start space-x-3">
-                <div 
-                  className="text-2xl animate-pulse"
-                  style={{
-                    filter: `drop-shadow(0 0 8px ${
-                      efficiencyCoaching.guidanceLevel === 'critical' ? '#a855f7' :
-                      efficiencyCoaching.guidanceLevel === 'elevated' ? '#f59e0b' :
-                      efficiencyCoaching.guidanceLevel === 'steady' ? '#3b82f6' : '#6b7280'
-                    })`
-                  }}
-                >
-                  {efficiencyCoaching.guidanceLevel === 'critical' ? '🔮' :
-                   efficiencyCoaching.guidanceLevel === 'elevated' ? '⭐' :
-                   efficiencyCoaching.guidanceLevel === 'steady' ? '💫' : '✨'}
-                </div>
-                <div className="flex-1">
-                  <div className="text-sm font-medium text-white mb-2">
-                    Efficiency Guidance
-                  </div>
-                  <div className="text-sm text-gray-200 leading-relaxed mb-3">
-                    {efficiencyCoaching.insight}
-                  </div>
-                  <div className="text-sm text-gray-300 mb-3">
-                    <strong>Suggestion:</strong> {efficiencyCoaching.suggestion}
-                  </div>
-                  {efficiencyCoaching.potentialSavings > 0 && (
-                    <div className="text-sm text-green-400 mb-3">
-                      <strong>Potential measured-BTD reduction:</strong> {efficiencyCoaching.potentialSavings} $BTD
-                    </div>
-                  )}
-                  <div className="text-sm italic text-purple-300 border-l-2 border-purple-400/30 pl-3">
-                    {efficiencyCoaching.fitGuidance}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <MarketingBtdCoachingPanel
+        show={showCoachingInsight && showEfficiencyCoaching}
+        coaching={efficiencyCoaching}
+      />
       
       {/* Upcoming Read Projection */}
       {showROIProjections && projectedNeed && (
-        <motion.div
-          className="mb-4 pointer-events-auto"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <div 
-            className="bg-gradient-to-br from-indigo-900/95 to-purple-900/95 backdrop-blur-xl 
-                       border border-indigo-400/30 rounded-xl p-4 w-80"
-            style={{
-              boxShadow: `0 0 25px rgba(99, 102, 241, ${enhancementGlow * 0.4})`
-            }}
-          >
-            <div className="flex items-center space-x-2 mb-3">
-              <span className="text-xl">◇</span>
-              <h4 className="text-indigo-100 font-medium">Read Measurement Projection</h4>
-            </div>
-            
-            <div className="space-y-3">
-              <div>
-                <div className="text-xs text-indigo-300">Next Read</div>
-                <div className="text-sm font-medium text-indigo-100">
-                  {projectedNeed.name}
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <div className="text-xs text-indigo-300">Measured $BTD Estimate</div>
-                  <div className="text-lg font-bold text-indigo-100">
-                    {projectedUpcomingBtd} $BTD
-                  </div>
-                </div>
-                
-                <div>
-                  <div className="text-xs text-indigo-300">Projected Fit Value</div>
-                  <div className="text-lg font-bold text-green-400">
-                    {projectedUpcomingBtd !== null
-                      ? Math.round(projectedUpcomingBtd * (1 + valueVisualization.roi))
-                      : 'n/a'}{' '}
-                    $BTD
-                  </div>
-                </div>
-              </div>
-              
-              <div className="text-xs text-indigo-300">
-                Based on your {(valueVisualization.roi * 100).toFixed(1)}% average value delta
-              </div>
-            </div>
-          </div>
-        </motion.div>
+        <MarketingBtdProjectionPanel
+          projectedNeed={projectedNeed}
+          projectedUpcomingBtd={projectedUpcomingBtd}
+          valueVisualization={valueVisualization}
+          enhancementGlow={enhancementGlow}
+        />
       )}
       
       {/* Fit-value particles */}

@@ -20,9 +20,11 @@ import type {
   ConversationsEnhancedRichTextInputProps as RichTextInputProps,
 } from './conversations-enhanced-rich-text-input.types';
 import {
-  getTokenIcon,
-  getTokenTypeLabel,
   adjustTokenSpacing as adjustTokenSpacingHelper,
+  getTokenDisplayInfo,
+  serializeTokensForSend,
+  renderRichTextHtml,
+  triggerCharForTokenType,
 } from './conversations-enhanced-rich-text-helpers';
 
 export default function RichTextInput({
@@ -217,13 +219,7 @@ export default function RichTextInput({
   const insertToken = (token: Token) => {
     if (!textareaRef.current) return;
 
-    const triggerChar =
-      token.type === 'evidence_document' ? '^' :
-        token.type === 'shippable' ? '@' :
-          token.type === 'attachment' ? '+' :
-            token.type === 'source' ? '#' :
-              token.type === 'destination' ? '!' :
-              token.type === 'command' ? ':' : '!';
+    const triggerChar = triggerCharForTokenType(token.type);
 
     // Find the last occurrence of the trigger character before cursor
     const lastTriggerIndex = text.substring(0, cursorPosition).lastIndexOf(triggerChar);
@@ -291,107 +287,12 @@ export default function RichTextInput({
     setActivePicker(null);
   };
 
-  // Helper function to get additional display information for tokens
-  const getTokenDisplayInfo = (token: Token) => {
-    switch (token.type) {
-      case 'evidence_document':
-        return token.data?.description ? token.data.description.substring(0, 30) : '';
-      case 'shippable':
-        return token.data?.status ? token.data.status : '';
-      case 'attachment':
-        return token.data?.size ? token.data.size : '';
-      case 'source':
-        return token.data?.provider ? `${token.data.provider} • ${token.data.path}` : token.data?.path || '';
-      case 'command':
-        return token.data?.shortcut ? token.data.shortcut : '';
-      case 'destination':
-      case 'pipeline_run':
-        if (!token.data?.pipelineType) return '';
-        if (String(token.data.pipelineType).toLowerCase().includes('measure')) return 'read-measurement';
-        if (
-          String(token.data.pipelineType).toLowerCase().includes('asset-pack') ||
-          String(token.data.pipelineType).toLowerCase().includes('shippable') ||
-          String(token.data.pipelineType).toLowerCase().includes('artifact')
-        ) {
-          return 'branch-artifact';
-        }
-        return `${token.data.pipelineType}`;
-      default:
-        return '';
-    }
-  };
+  // getTokenDisplayInfo imported from helpers
 
   // Handle send message
   const handleSend = () => {
     if (!text.trim()) return;
-
-    // Clean up tokens before sending
-    // This ensures we only send tokens that are actually in the text
-    const validTokens = tokens.filter(token => text.includes(token.text));
-
-    const serializedTokens = validTokens.map((token) => {
-      if (token.type === 'source') {
-        return {
-          ...token,
-          value: token.text.trim(),
-          metadata: {
-            attachment_id: token.data?.id || token.data?.repoId || token.data?.path || token.text.trim(),
-            category: 'integration',
-            type: token.data?.type || 'github_repo',
-            ...token.data,
-          },
-        };
-      }
-
-      if (token.type === 'attachment') {
-        return {
-          ...token,
-          value: token.text.trim(),
-          metadata: {
-            attachment_id: token.data?.id || token.data?.path || token.text.trim(),
-            category: token.data?.category || 'file',
-            type: token.data?.type || 'attachment',
-            ...token.data,
-          },
-        };
-      }
-
-      if (token.type === 'destination' || token.type === 'pipeline_run') {
-        return {
-          ...token,
-          type: 'destination' as const,
-          value: token.text.trim(),
-          metadata: {
-            attachment_id: token.data?.pipelineId || token.data?.id || token.text.trim(),
-            category: token.data?.category || 'integration',
-            type: token.data?.type || 'output_destination',
-            ...token.data,
-          },
-        };
-      }
-
-      if (token.type === 'shippable') {
-        return {
-          ...token,
-          type: 'shippable',
-          value: token.text.trim(),
-          metadata: {
-            kind: 'shippable',
-            asset_pack_reference: token.data?.id || null,
-            ...token.data,
-          },
-        };
-      }
-
-      return {
-        ...token,
-        value: token.text.trim(),
-        metadata: {
-          ...token.data,
-        },
-      };
-    });
-
+    const serializedTokens = serializeTokensForSend(tokens, text);
     onSend(text, serializedTokens as Token[]);
     setText('');
     setTokens([]);
@@ -421,64 +322,9 @@ export default function RichTextInput({
     fileInput.click();
   };
 
-  // In RichTextInput component, memoize the renderRichText function
   const renderRichText = useCallback(() => {
-    // Always return the text, even if there are no tokens
-    // This ensures the overlay always shows something
-    if (!text) return '';
-
-    // Escape user input to prevent HTML injection
-    let result = text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-
-    // If no tokens, just return the plain text
-    if (tokens.length === 0) {
-      return result;
-    }
-
-    // Sort tokens by their position in the text (to avoid replacement conflicts)
-    // Sort by length (longest first) to avoid replacing parts of longer tokens
-    const sortedTokens = [...tokens].sort((a, b) => {
-      // First sort by position
-      const posA = result.indexOf(a.text);
-      const posB = result.indexOf(b.text);
-
-      if (posA !== posB) return posA - posB;
-
-      // If positions are the same, sort by length (longest first)
-      return b.text.length - a.text.length;
-    });
-
-    // Process each token
-    sortedTokens.forEach(token => {
-      // Escape special regex characters in the token text
-      const escapedText = token.text.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-      // Create a regex that matches the token text precisely
-      // Using word boundaries to ensure we match whole tokens
-      const regex = new RegExp(`(^|\\s)(${escapedText})(?=\\s|$)`, 'g');
-
-      // Get the appropriate icon for the token type
-      const iconHtml = getTokenIcon(token.type);
-
-      // Get the label for the token type
-      const typeLabel = getTokenTypeLabel(token.type);
-
-      // Replace the token text with the styled version
-      // Use a simpler token structure with fewer nested elements and whitespace
-      result = result.replace(regex, (match, before, tokenText) => {
-        // Include additional information if available
-        const infoHtml = token.displayInfo ?
-          `<span class="token-info">${token.displayInfo}</span>` : '';
-
-        return `${before}<span class="token token-${token.type}" title="${typeLabel}: ${tokenText}${token.displayInfo ? ' - ' + token.displayInfo : ''}">${iconHtml}${tokenText}${infoHtml}</span>`;
-      });
-    });
-
-    return result;
-  }, [text, tokens, cursorPosition]);
+    return renderRichTextHtml(text, tokens);
+  }, [text, tokens]);
 
   // Sync the rich text overlay whenever text or tokens change
   useEffect(() => {
