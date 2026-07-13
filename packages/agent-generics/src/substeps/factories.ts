@@ -346,6 +346,22 @@ function factoryLLMSubStep<TInput, TOutput>(
       applyPromptOverlays(execution as any, (substep as any).prompt);
     } catch {}
 
+    // 3.6 Tool interpolations (Agent + PTRR):
+    //  - Doc-code docs for usable tools → auto:tools_doc_code_tools
+    //  - Prior usedTools results → auto:tools_results
+    // Thinkings generations (especially Reason / StructuredOutput) need docs
+    // to emit useTools[{ name, input, reason }]; Refine/Retry need results.
+    try {
+      const isThinkings =
+        Object.values(ThinkingsGeneration).includes(sequence as ThinkingsGeneration);
+      if (isThinkings) {
+        const { injectToolInterpolationsForGeneration } = require(
+          '../execution/tool-prompt-interpolation'
+        );
+        injectToolInterpolationsForGeneration(substep, input);
+      }
+    } catch {}
+
     // 4. Allow custom prompt enrichment
     if (config.enrichPrompt) {
       config.enrichPrompt(substep);
@@ -1204,8 +1220,18 @@ function buildStitchContext(input: unknown): Record<string, unknown> {
 // ==================== TOOL & VALIDATION SUBSTEPS ====================
 
 /**
- * ToolsExecution - Executes tools selected by reasoning
- * Part of the 7-substep PTRR architecture (not a numbered substep itself)
+ * ToolsExecution — PTRR step **postprocess** after Failsafe×Thinkings.
+ *
+ * Contract (see packages/agent-generics/TOOLS-IN-PTRR.md):
+ * - Input: `output.useTools: Array<{ name: string, input: any, reason?: string }>`
+ *   (LLM structured selection; name keys AgentToolsRegistry).
+ * - Lookup: `execution.tools.getTool(name)` (hierarchy + parent pipeline).
+ * - Call: `tool.execute(input)` with optional editing executionContext.
+ * - Output: `usedTools: Array<{ tool, input?, output?, error? }>` for telemetry
+ *   and results interpolation on later generations.
+ *
+ * Not a numbered Failsafe/Thinkings generation — runs once per step via
+ * `sequential(core, conditional(hasUseTools, factoryToolsExecution()))`.
  */
 export function factoryToolsExecution<T extends { output?: { useTools?: UseTool[] } }>():
   Executor<T, T & { usedTools: UsedTool[] }> {
@@ -1216,11 +1242,19 @@ export function factoryToolsExecution<T extends { output?: { useTools?: UseTool[
       try { return !!(execution as any).llms && !!(execution as any).tools && !!(execution as any).agents; } catch { return false; }
     })();
     // Allow proxy-based registries resolution without hard fail.
+    void hasRegistries;
 
     const substep = factoryAgentToolGenerationExecution(execution);
 
-    // Get tools to use from the structured output (after reasoning + judgment)
-    const useTools = input.output?.useTools;
+    // Normalize selection shapes: { name, input, reason } (canonical) or { tool: string|Tool, input }
+    const rawUseTools = (input.output as any)?.useTools;
+    const useTools: Array<{ name: string; input: any; reason?: string }> = Array.isArray(rawUseTools)
+      ? rawUseTools.map((t: any) => ({
+          name: String(t?.name ?? (typeof t?.tool === 'string' ? t.tool : t?.tool?.name ?? t?.tool?.constructor?.name ?? '')),
+          input: t?.input ?? t?.parameters ?? {},
+          reason: t?.reason,
+        })).filter((t: any) => t.name)
+      : [];
 
     if (!useTools?.length) {
       return { ...input, usedTools: [] };

@@ -45,7 +45,8 @@ export class SearchCodeTool extends Tool<typeof searchCode> {
 
 ## Doc-Code Integration
 
-Tools use `@doc-code-tool` comments that ARE prompts:
+Tools use `@doc-code-tool` comments that **are** the LLM documentation surface
+(purpose, capabilities, **parameters**, **output**):
 
 ```typescript
 /**
@@ -60,7 +61,26 @@ export class SearchCodeTool extends Tool<typeof searchCode> {
 }
 ```
 
-The doc-code-tool plugin processes these comments at build time to generate tool documentation and integrate with the prompt system.
+Build-time doc-code (`@bitcode/generic-doc-comments-doc-code`) attaches
+`DocCodeToolPrompt` to `tool.__docCodePrompt`. Runtime:
+
+```ts
+import { formatUsableTools, attachDocCodeToolPrompt } from '@bitcode/tools-generics';
+
+const docsForLlm = formatUsableTools([searchTool, …]);
+// Agent PTRR auto-injects this as auto:tools_doc_code_tools (see agent-generics TOOLS-IN-PTRR.md)
+```
+
+### Agent + PTRR (parameters and results)
+
+| Concern | Mechanism |
+| --- | --- |
+| Parameters (how the model fills args) | Doc-code `@parameters` + step schema `useTools: [{ name, input, reason }]` |
+| Selection | Structured output `output.useTools` after Failsafe×Thinkings |
+| Execution | `factoryToolsExecution` → `execution.tools.getTool(name).execute(input)` |
+| Results | `usedTools: [{ tool, input?, output?, error? }]` + `auto:tools_results` interpolation |
+
+Full lifecycle: **`@bitcode/agent-generics` → `TOOLS-IN-PTRR.md`**.
 
 ## MCP Integration
 

@@ -976,8 +976,16 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | **StitchUntilComplete** | FailsafeGeneration kind: repair incomplete/truncated structured output. |
 | **StructuredOutput** | ThinkingsGeneration kind: emit schema-shaped final output. |
 | **ThinkingsGeneration** | Child kinds of each failsafe: Reason → Judge → StructuredOutput. |
-| **Tool** | Callable capability attached to agents/pipelines (`tools-generics` / `generic-tools/*`). |
-| **Tool postprocess** | Tools run after failsafes within a PTRR step architecture. |
+| **Tool** | Callable capability (`tools-generics` / `generic-tools/*`); Agent uses `ExecutionTool` + registry. |
+| **Tool postprocess** | After Failsafe×Thinkings: `factoryToolsExecution` if `output.useTools?.length`. |
+| **useTools** | Planned invocations from structured output: `{ name, input, reason }[]`. |
+| **usedTools** | Results: `{ tool, input?, output?, error? }[]` for telemetry + later steps. |
+| **Doc interpolation** | Usable tools' DocCodeToolPrompt text → prompt path `auto:tools_doc_code_tools`. |
+| **Results interpolation** | Prior usedTools → prompt path `auto:tools_results`. |
+| **formatUsableTools** | Renders DocCodeToolPrompt docs for an array of Tool instances. |
+| **AgentToolsRegistry** | Hierarchical tool lookup (`getTool` / `getUsableTools` / `restrictTo`). |
+
+Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 
 ### 12.5 Pipelines, hosts, measurements, AssetPack layers
 

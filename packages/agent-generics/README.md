@@ -16,7 +16,17 @@ product / generic-agent-*            # specialized agents
 ```
 
 Within each PTRR step: **FailsafeGeneration** ×3 (each runs **ThinkingsGeneration**
-Reason→Judge→StructuredOutput) + tools postprocess.
+Reason→Judge→StructuredOutput) + **tools postprocess** (if `output.useTools`).
+
+### Tools (parameters, docs, results)
+
+See **[TOOLS-IN-PTRR.md](./TOOLS-IN-PTRR.md)** for the full contract:
+
+1. Register tools on `AgentExecution.tools` (or parent pipeline registry).
+2. Doc-code docs auto-interpolate as `auto:tools_doc_code_tools` before Thinkings LLM calls.
+3. Model selects `useTools: [{ name, input, reason }]`.
+4. `factoryToolsExecution` runs `getTool(name).execute(input)` → `usedTools`.
+5. Prior `usedTools` auto-interpolate as `auto:tools_results` on later generations.
 
 Legacy `*MetaSubStep` / `SubStep` names are BC aliases only — prefer
 `FailsafeGeneration` / `ThinkingsGeneration` / `GenerationExecution`.

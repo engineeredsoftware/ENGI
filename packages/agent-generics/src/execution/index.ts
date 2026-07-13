@@ -150,3 +150,4 @@ export const factoryNestedGenerationExecution = factoryGenerationExecution;
 export const factorySubStepExecution = factoryGenerationExecution;
 /** @deprecated Prefer factoryFailsafeGenerationExecution */
 export const factoryFailsafeExecution = factoryFailsafeGenerationExecution;
+export * from './tool-prompt-interpolation';

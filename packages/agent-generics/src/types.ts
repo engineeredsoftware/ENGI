@@ -160,20 +160,32 @@ export interface Judgment {
   approved: boolean;
 }
 
-// TODO: should this be in tools-generics?
+/**
+ * Planned tool invocation selected by Thinkings structured output.
+ * Canonical LLM JSON shape (also accepted by factoryToolsExecution):
+ *   { "name": string, "input": object, "reason"?: string }
+ *
+ * `name` keys `AgentToolsRegistry.getTool(name)`. Optional `tool` field may
+ * carry a Tool instance in typed in-process callers; execution still looks up by name.
+ */
 export interface UseTool {
-  tool: Tool;  // Reference to actual tool
-  name: string; // Tool name for lookup
+  name: string;
   input: any;
-  reason: string;
+  reason?: string;
+  /** Optional in-process Tool handle; registry lookup uses `name`. */
+  tool?: Tool;
 }
-export type UseTools = UseTool[]
+export type UseTools = UseTool[];
 
-// TODO: should this be in tools-generics?
+/**
+ * Result of one tools_execution postprocess call (telemetry + results interpolation).
+ * Written to step store as `tools.used` / `tools.result` and carried as `usedTools`
+ * on the step output for Refine/Retry prompt interpolation (`auto:tools_results`).
+ */
 export interface UsedTool {
   tool: string;
   input?: any;
   output?: any;
   error?: string;
 }
-export type UsedTools = UsedTool[]
+export type UsedTools = UsedTool[];

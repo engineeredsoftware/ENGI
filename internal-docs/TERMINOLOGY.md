@@ -50,12 +50,25 @@ export enum ThinkingsGeneration {
 }
 ```
 
-#### Tools (1)
-- `tools_execution` — after all failsafes
+#### Tools (postprocess, not a Failsafe/Thinkings generation)
+- `tools_execution` — after all failsafes, **once**, if structured output includes `useTools`
 
-**Total per PTRR step**: 3 FailsafeGenerations × Thinkings composition + tools postprocess.
+**Total per PTRR step**: 3 FailsafeGenerations × Thinkings composition + optional tools postprocess.
 
 Architecture interface: `PTRRStepGenerationArchitecture`.
+
+### Tools: parameters, docs, results
+
+| Term | Meaning |
+| --- | --- |
+| **Usable tools** | Tools visible via `AgentToolsRegistry.getUsableTools()` (hierarchy). |
+| **Doc interpolation** | `formatUsableTools` → `auto:tools_doc_code_tools` on Thinkings prompts. |
+| **useTools** | LLM selection: `{ name, input, reason }[]` on step structured output. |
+| **usedTools** | Execution results: `{ tool, input?, output?, error? }[]`. |
+| **Results interpolation** | Prior `usedTools` → `auto:tools_results` on later generations. |
+| **DocCodeToolPrompt** | Prompt carrier for purpose/capabilities/**parameters**/**output** sections. |
+
+Full guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 
 ### Legacy names (do not use in new code)
 

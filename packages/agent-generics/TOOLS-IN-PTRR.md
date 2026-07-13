@@ -1,0 +1,248 @@
+# Tools in the Agent primitive + PTRR
+
+How tools are **documented**, **selected**, **parameterized**, **executed**, and
+**result-interpolated** for Bitcode agents.
+
+Related packages:
+
+| Package | Role |
+| --- | --- |
+| `@bitcode/tools-generics` | `Tool`, DocCodeToolPrompt, `formatUsableTools` |
+| `@bitcode/agent-generics` | AgentExecution tools registry, PTRR step postprocess, interpolations |
+| `@bitcode/generic-agents-ptrr` | PTRRAgent base (Plan→Try→Refine→Retry) |
+| `@bitcode/generic-doc-comments-doc-code` | Build-time `@doc-code-tool` → prompt attachment |
+
+---
+
+## 1. End-to-end lifecycle
+
+```
+Register tools on AgentExecution.tools (or parent pipeline registry)
+        ↓
+PTRR step starts → store tools.usable = Object.keys(getUsableTools())
+        ↓
+FailsafeGeneration ×3 (PCC → ChunkThenSum → Stitch)
+  each runs ThinkingsGeneration (Reason → Judge → StructuredOutput)
+        ↓  [before each Thinkings LLM call]
+  Doc interpolation:  auto:tools_doc_code_tools  ← formatUsableTools(usable)
+  Results interpolation: auto:tools_results      ← prior usedTools (if any)
+        ↓
+StructuredOutput may include:
+  useTools: [{ name, input, reason }, ...]
+        ↓
+Step postprocess (conditional):
+  if useTools?.length → factoryToolsExecution()
+        ↓
+For each selection:
+  tool = execution.tools.getTool(name)
+  output = tool.execute(input)
+  usedTools.push({ tool: name, input, output } | { tool, error })
+        ↓
+Store tools.use / tools.used; publish agent-step work update
+        ↓
+Next PTRR step (Refine/Retry) sees usedTools via results interpolation
+```
+
+Tools run **once per step**, **after** failsafes — never inside Reason/Judge as
+side effects. Selection is declarative JSON; execution is deterministic registry lookup.
+
+---
+
+## 2. Doc-code → usable tool documentation (doc interpolation)
+
+### Authoring a tool
+
+```ts
+/**
+ * @doc-code-tool
+ * @purpose Search Depository for Need-fitting AssetPack evidence
+ * @capabilities lexical search, source-safe snippets, ranked candidates
+ * @parameters query: string; limit?: number
+ * @output { candidates: Array<{ id, score, summary }> }
+ */
+class AssetPackLexicalDepositorySearchTool extends ExecutionTool<typeof searchFn> {
+  use = searchFn;
+}
+```
+
+Build-time **doc-code** (`@bitcode/generic-doc-comments-doc-code`) attaches a
+`DocCodeToolPrompt` instance to `tool.__docCodePrompt` (and `__promptParts`).
+Runtime fallback: `attachDocCodeToolPrompt(tool, prompt)` / `factoryTool({ prompt })`.
+
+### Formatting for the LLM
+
+```ts
+import { formatUsableTools } from '@bitcode/tools-generics';
+// alias of formatToolsWithDocCodeToolsIntoUsableTools
+
+const docs = formatUsableTools(Object.values(execution.tools.getUsableTools()));
+// Sections: metadata, purpose, capabilities, parameters, output
+```
+
+### Injection path (automatic)
+
+`factoryLLMSubStep` (Thinkings generations) calls
+`injectToolInterpolationsForGeneration` →
+`injectUsableToolDocsIntoPrompt`:
+
+| Prompt path | Content |
+| --- | --- |
+| `auto:tools_doc_code_tools` | Concatenated DocCodeToolPrompt `.format()` for every usable tool |
+
+`buildHierarchicalPrompt` then includes those parts in the system prompt.
+`ThinkingsGenerationPrompt.injectToolDocs` is the same semantic slot for
+declarative prompt carriers.
+
+**Without docs:** tools still execute if selected by name, but the model has no
+parameter schema — always attach DocCodeToolPrompt for production tools.
+
+---
+
+## 3. Parameters (how the model fills `input`)
+
+| Layer | Contract |
+| --- | --- |
+| Doc-code `@parameters` | Human/LLM-readable parameter description in usable tools block |
+| Structured schema | Agent/step Zod schema may declare `useTools: z.array(z.object({ name, input, reason }))` |
+| Reason shape | Default ReasoningSchema allows optional `useTools` |
+| Runtime selection | `output.useTools[].name` + `output.useTools[].input` |
+
+Canonical selection object:
+
+```json
+{
+  "name": "bitcode.asset-pack.verification",
+  "input": { "repositoryFullName": "org/repo" },
+  "reason": "verify source-bound candidate evidence"
+}
+```
+
+`factoryToolsExecution` also accepts:
+
+- `parameters` as synonym for `input`
+- `tool` as string name (legacy) when `name` omitted
+
+Lookup: **`AgentToolsRegistry.getTool(name)`** — current level, then parent
+pipeline/agent registries. `restrictTo(keys)` can deny non-allowed names.
+
+`ExecutionTool.execute` stores under a child execution:
+
+- `tool.name`, `tool.input` (args), `tool.result` / `tool.error`, timings
+
+---
+
+## 4. Results (how outputs re-enter the agent)
+
+### usedTools shape
+
+```ts
+type UsedTool = {
+  tool: string;      // registry key / name
+  input?: unknown;   // args passed to execute
+  output?: unknown;  // success payload
+  error?: string;    // failure message
+};
+```
+
+### Telemetry stores (streaming / DB)
+
+| Store | Meaning |
+| --- | --- |
+| `tools.usable` | Keys available at step start |
+| `tools.use` / `tools.invocation` | Selected useTools (planned) |
+| `tools.used` / `tools.result` | Per-tool success/failure + summarized I/O |
+| Agent step work update | Normalized tool names for UI pipeline log |
+
+Summarization bounds large objects (`type`/`keys`) so streams stay source-safe.
+
+### Results interpolation (automatic)
+
+`injectUsedToolResultsIntoPrompt` writes prior `usedTools` to:
+
+| Prompt path | Content |
+| --- | --- |
+| `auto:tools_results` | Markdown blocks: name, status, input, truncated output/error |
+
+Sources (first match):
+
+1. `input.usedTools`
+2. `input.output.usedTools`
+
+Refine/Retry Thinkings therefore “see” prior tool outcomes in the system prompt
+hierarchy without re-parsing telemetry stores.
+
+Optional specialized formatting: `ToolPromptRegistry.formatOutput(name, output)` /
+`formatInput` / `formatError` (`tool:{name}:output` with fallback `tool:output`).
+
+---
+
+## 5. PTRR placement
+
+| PTRR step | Failsafe×Thinkings | Tools postprocess |
+| --- | --- | --- |
+| Plan | yes | if `output.useTools?.length` |
+| Try | yes | if `output.useTools?.length` |
+| Refine | yes | if `output.useTools?.length` |
+| Retry | yes | if `output.useTools?.length` (some paths always consider tools) |
+
+Composition (simplified):
+
+```ts
+sequential(
+  createFailsafeGenerationSequence({ outputSchema }),
+  conditional(
+    (input) => input?.output?.useTools?.length > 0,
+    factoryToolsExecution(),
+    (input) => input,
+  ),
+);
+```
+
+`ToolExecutionPrompt` holds the execute instruction (`tool:execute`) and can
+receive injected docs via `injectAvailableTools(docs[])`.
+
+---
+
+## 6. Registration patterns
+
+```ts
+const agentExec = new AgentExecution('agent:my-agent', pipelineExecution);
+
+// Instance
+agentExec.tools.registerTool('bitcode.search', searchTool);
+
+// Class
+agentExec.tools.registerToolClass('bitcode.verify', VerifyTool);
+
+// Parent pipeline tools are visible via hierarchy getTool / getUsableTools
+// Optional: agentExec.tools.restrictTo(['bitcode.search']);
+```
+
+Gate-aware file tools may bind `executionContext` so edits honor pipeline gates.
+
+---
+
+## 7. Checklist for new tools
+
+1. Extend `Tool` or `ExecutionTool`; implement `use`.
+2. Author `@doc-code-tool` with purpose / capabilities / **parameters** / **output**.
+3. Ensure build-time doc-code loader runs (or `attachDocCodeToolPrompt`).
+4. Register under a stable string key on the agent or pipeline tools registry.
+5. Include `useTools` in the step/agent output schema when the LLM should select the tool.
+6. Read `usedTools` / stream `tools.result` for UI and proof telemetry.
+7. Do not bypass `factoryToolsExecution` with ad-hoc tool calls inside Reason.
+
+---
+
+## 8. Source map
+
+| Concern | Primary source |
+| --- | --- |
+| Tool primitive | `packages/tools-generics/src/Tool.ts` |
+| DocCodeToolPrompt | `packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts` |
+| formatUsableTools | `packages/tools-generics/src/doc-code-tool/formatUsableTools.ts` |
+| AgentToolsRegistry / ExecutionTool | `packages/agent-generics/src/execution/AgentToolsRegistry.ts` |
+| Doc + results interpolation | `packages/agent-generics/src/execution/tool-prompt-interpolation.ts` |
+| factoryToolsExecution | `packages/agent-generics/src/substeps/factories.ts` |
+| PTRR step wiring | `packages/agent-generics/src/steps/factories.ts` |
+| ToolExecutionPrompt | `packages/agent-generics/src/prompts/ToolExecutionPrompt.ts` |
