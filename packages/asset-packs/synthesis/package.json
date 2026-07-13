@@ -1,0 +1,19 @@
+{
+  "name": "@bitcode/asset-packs-synthesis",
+  "version": "0.1.0",
+  "description": "SynthesizeAssetPacks product measurements: catalogs + AbsolutesMeasureAgent specialization surface",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./measurement-catalogs": "./src/measurement-catalogs.ts",
+    "./types": "./src/types.ts"
+  },
+  "scripts": { "typecheck": "tsc --noEmit" },
+  "dependencies": {
+    "@bitcode/measurement-generics": "workspace:*",
+    "@bitcode/generic-measurements-absolutes": "workspace:*",
+    "@bitcode/generic-measurements-measure-agent": "workspace:*"
+  },
+  "devDependencies": { "typescript": "^5.0.0" }
+}

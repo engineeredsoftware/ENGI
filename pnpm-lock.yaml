@@ -64,9 +64,21 @@ importers:
       '@bitcode/generic-llms':
         specifier: workspace:*
         version: link:../generic-llms/registry
+      '@bitcode/generic-measurements-absolutes':
+        specifier: workspace:*
+        version: link:../generic-measurements/absolutes
+      '@bitcode/generic-measurements-measure-agent':
+        specifier: workspace:*
+        version: link:../generic-measurements/measure-agent
+      '@bitcode/generic-measurements-needinesses':
+        specifier: workspace:*
+        version: link:../generic-measurements/needinesses
       '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../measurement-generics
       '@bitcode/pipelines-generics':
         specifier: workspace:*
         version: link:../pipelines-generics
@@ -219,6 +231,32 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.50.2
         version: 2.50.2
+
+  packages/asset-packs/settle:
+    dependencies:
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../measurement-generics
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
+  packages/asset-packs/synthesis:
+    dependencies:
+      '@bitcode/generic-measurements-absolutes':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes
+      '@bitcode/generic-measurements-measure-agent':
+        specifier: workspace:*
+        version: link:../../generic-measurements/measure-agent
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../measurement-generics
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
 
   packages/attachments-generics:
     dependencies:
@@ -1406,6 +1444,60 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
+  packages/generic-measurements/absolutes:
+    dependencies:
+      '@bitcode/generic-measurements-measure-agent':
+        specifier: workspace:*
+        version: link:../measure-agent
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../measurement-generics
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
+  packages/generic-measurements/measure-agent:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../measurement-generics
+      '@bitcode/prompts':
+        specifier: workspace:*
+        version: link:../../prompts
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
+  packages/generic-measurements/needinesses:
+    dependencies:
+      '@bitcode/generic-measurements-measure-agent':
+        specifier: workspace:*
+        version: link:../measure-agent
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../measurement-generics
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
   packages/generic-pipelines/SDIVF:
     dependencies:
       '@bitcode/agent-generics':
@@ -2050,6 +2142,16 @@ importers:
         specifier: ^1.0.1
         version: 1.0.12
 
+  packages/measurement-generics:
+    dependencies:
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
   packages/middleware:
     dependencies:
       next:
@@ -2302,6 +2404,12 @@ importers:
       '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
+      '@bitcode/asset-packs-settle':
+        specifier: workspace:*
+        version: link:../../asset-packs/settle
+      '@bitcode/asset-packs-synthesis':
+        specifier: workspace:*
+        version: link:../../asset-packs/synthesis
       '@bitcode/btd':
         specifier: workspace:*
         version: link:../../btd
@@ -2338,6 +2446,12 @@ importers:
       '@bitcode/generic-llms':
         specifier: workspace:*
         version: link:../../generic-llms/registry
+      '@bitcode/generic-measurements-absolutes':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes
+      '@bitcode/generic-measurements-measure-agent':
+        specifier: workspace:*
+        version: link:../../generic-measurements/measure-agent
       '@bitcode/generic-pipelines-sdivf':
         specifier: workspace:*
         version: link:../../generic-pipelines/SDIVF
@@ -2350,6 +2464,9 @@ importers:
       '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../measurement-generics
       '@bitcode/pipelines-generics':
         specifier: workspace:*
         version: link:../../pipelines-generics

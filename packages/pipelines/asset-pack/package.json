@@ -61,7 +61,12 @@
     "@bitcode/tools-generics": "workspace:*",
     "@bitcode/vcs-tools": "workspace:*",
     "openai": "^4.0.0",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "@bitcode/measurement-generics": "workspace:*",
+    "@bitcode/generic-measurements-measure-agent": "workspace:*",
+    "@bitcode/generic-measurements-absolutes": "workspace:*",
+    "@bitcode/asset-packs-synthesis": "workspace:*",
+    "@bitcode/asset-packs-settle": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

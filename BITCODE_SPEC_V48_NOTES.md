@@ -1568,3 +1568,19 @@ Canonical factories:
 Short aliases (`factorySDIVFExecutorPipeline`, `synthesizeAssetPacksPipeline`,
 `runSDIVFPipeline`) are deprecated compatibility shims only.
 
+## Measurement hierarchy modularization (Garrett, 2026-07-13)
+
+```
+Measurement                              # @bitcode/measurement-generics
+  → MeasureAgent                         # generic-measurements/measure-agent
+  → AbsolutesMeasureAgent                # generic-measurements/absolutes
+  → NeedinessesMeasureAgent              # generic-measurements/needinesses (Gate 4 surface)
+    → SynthesizeAssetPacksAbsolutesMeasureAgent  # asset-packs/synthesis
+    → SettleAssetPacks…                  # asset-packs/settle (Gate 6 surface)
+      → pipeline-asset-pack              # SDIVF host + static-analysis tools
+```
+
+Prepared catalogs (`ASSET_PACK_ABSOLUTES_CATALOG`, lens catalogs) live in
+`@bitcode/asset-packs-synthesis`. `agent-generics` re-exports measure factories
+for compatibility; prefer package-direct imports in new code.
+

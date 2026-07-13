@@ -1,5 +1,6 @@
 /**
- * agent-measure-absolutes — the asset-pack concrete absolutes measurer (V48 Gate 3).
+ * agent-measure-absolutes — pipeline host for SynthesizeAssetPacksAbsolutesMeasureAgent
+ * (product factory in @bitcode/asset-packs-synthesis) + static-analysis quantity tools.
  *
  * Bases factoryMeasureAgentAbsolutes with the asset-pack ABSOLUTES catalog —
  * material properties of digital material:
@@ -14,7 +15,10 @@
  * in those counts + the source-safe descriptor — never raw source in telemetry.
  */
 
-import { factoryMeasureAgentAbsolutes, type MeasureAgent } from '@bitcode/agent-generics';
+import type { MeasureAgent } from '@bitcode/generic-measurements-measure-agent';
+import {
+  factorySynthesizeAssetPacksAbsolutesMeasureAgent,
+} from '@bitcode/asset-packs-synthesis';
 
 import {
   ASSET_PACK_ABSOLUTES_CATALOG,
@@ -79,20 +83,18 @@ function clamp01(value: number): number {
  * factoryAssetPackMeasureAbsolutesAgent — the lens-parameterized concrete
  * measurer. Bases factoryMeasureAgentAbsolutes with the absolutes catalog.
  */
+/**
+ * @deprecated Prefer factorySynthesizeAssetPacksAbsolutesMeasureAgent from
+ * @bitcode/asset-packs-synthesis. Kept as local alias for pipeline validation wiring.
+ */
 export function factoryAssetPackMeasureAbsolutesAgent(
   lens: AssetPacksSynthesisLens,
 ): MeasureAgent {
-  return factoryMeasureAgentAbsolutes({
-    name: `AssetPackMeasureAbsolutesAgent:${lens}`,
-    description: `Measures absolute material properties (quantity + quality) of ${LENS_SUBJECT[lens]}.`,
-    subject: LENS_SUBJECT[lens],
-    measurements: ASSET_PACK_ABSOLUTES_CATALOG,
-    plan: { chunkThreshold: 1500 },
-    try: { chunkThreshold: 3000 },
-    refine: { maxAttempts: 2 },
-    retry: { maxAttempts: 1 },
-  });
+  return factorySynthesizeAssetPacksAbsolutesMeasureAgent(lens);
 }
+
+/** Hierarchy-encoded product factory (re-export). */
+export { factorySynthesizeAssetPacksAbsolutesMeasureAgent };
 
 /** Build the source-safe descriptor the measure-agent reasons over (counts only). */
 function toDescriptor(patch: MeasurableAssetPackPatch, report: StaticAnalysisReport) {

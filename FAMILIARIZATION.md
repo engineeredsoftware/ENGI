@@ -118,7 +118,28 @@ uapi                               →  HTTP + React adapters only
 @bitcode/pipeline-asset-pack    Deposit/read SDIVF agents (setup/discovery/…)
 ```
 
-### 3.1.1 Generations (failsafes + thinkings)
+### 3.1.1 Measurements
+
+```
+@bitcode/measurement-generics                    Measurement primitive vocabulary
+        ↑
+@bitcode/generic-measurements-measure-agent      MeasureAgent (PTRR base)
+@bitcode/generic-measurements-absolutes          AbsolutesMeasureAgent
+@bitcode/generic-measurements-needinesses        Needinesses surface (Gate 4)
+        ↑
+@bitcode/asset-packs-synthesis                   SynthesizeAssetPacksAbsolutesMeasureAgent + catalogs
+@bitcode/asset-packs-settle                      SettleAssetPacks* (Gate 6 surface)
+        ↑
+@bitcode/pipeline-asset-pack                     SDIVF pipeline host (static-analysis tools, phases)
+```
+
+Package paths: `packages/measurement-generics/`, `packages/generic-measurements/*`,
+`packages/asset-packs/{synthesis,settle}/`.
+
+Hierarchy names: `Measurement` → `AbsolutesMeasureAgent` →
+`SynthesizeAssetPacksAbsolutesMeasureAgent`.
+
+### 3.1.2 Generations (failsafes + thinkings)
 
 ```
 @bitcode/generation-generics              Generation type + failsafe/thinkings enums
@@ -281,6 +302,12 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `generation-generics` | Generation primitive + failsafe/thinkings enums |
 | `generic-generations-failsafes` | Failsafe base + prepared-context types |
 | `generic-generations-thinkings` | Thinkings base vocabulary surface |
+| `measurement-generics` | Measurement primitive (spec, reading, output schemas) |
+| `generic-measurements-measure-agent` | MeasureAgent PTRR base |
+| `generic-measurements-absolutes` | AbsolutesMeasureAgent base |
+| `generic-measurements-needinesses` | Needinesses framing surface (Gate 4) |
+| `asset-packs-synthesis` | SynthesizeAssetPacks measurement catalogs + product AbsolutesMeasureAgent |
+| `asset-packs-settle` | SettleAssetPacks product surface (Gate 6) |
 | `llm-generics` | Pure LLM call contracts |
 | `registry` | Hierarchical registry (Prompt is a Registry) |
 | `prompts` | Prompt + PromptPart + **all** raw prompt parts |
@@ -296,6 +323,8 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `generic-pipelines/*` | Nested base pipelines: SDIVF, … |
 | `generic-llms/*` | Nested providers (xAI, OpenAI, Anthropic, Google), defaults, registry aggregator |
 | `generic-generations/*` | Nested generation bases: failsafes, thinkings |
+| `generic-measurements/*` | Nested measurement bases: measure-agent, absolutes, needinesses |
+| `asset-packs/*` | Product AssetPack packages: synthesis, settle |
 | `generic-doc-comment-plugins/*` | Nested doc-comment plugins |
 
 ### 5.3 Product domain (AssetPack / BTD / market)

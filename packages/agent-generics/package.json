@@ -21,7 +21,11 @@
     "@bitcode/tools-generics": "workspace:*",
     "@bitcode/pipelines-generics": "workspace:*",
     "@bitcode/logger": "workspace:*",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "@bitcode/measurement-generics": "workspace:*",
+    "@bitcode/generic-measurements-measure-agent": "workspace:*",
+    "@bitcode/generic-measurements-absolutes": "workspace:*",
+    "@bitcode/generic-measurements-needinesses": "workspace:*"
   },
   "devDependencies": {
     "@jest/globals": "^29.0.0",
@@ -29,5 +33,10 @@
     "jest": "^29.0.0",
     "ts-jest": "^29.0.0",
     "typescript": "^5.0.0"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./agents/factories": "./src/agents/factories.ts",
+    "./types": "./src/types.ts"
   }
 }

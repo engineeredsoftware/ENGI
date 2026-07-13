@@ -6,7 +6,7 @@
  */
 
 import type { Execution } from '@bitcode/execution-generics/Execution';
-import type { MeasurementSpec } from '@bitcode/agent-generics';
+import type { MeasurementSpec } from '@bitcode/measurement-generics';
 
 export type AssetPacksSynthesisLens = 'deposit' | 'read';
 

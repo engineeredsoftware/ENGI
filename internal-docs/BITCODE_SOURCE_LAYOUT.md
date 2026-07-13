@@ -209,6 +209,8 @@ packages/generic-<family>/          # README only (no package.json)
 | `generic-pipelines/` | `SDIVF/` | `@bitcode/generic-pipelines-sdivf` (`SDIVFPipeline`) |
 | `generic-llms/` | `xAI/`, `OpenAI/`, `Anthropic/`, `Google/`, `defaults/`, `registry/` | `@bitcode/generic-llms-*` (+ aggregator `@bitcode/generic-llms`) |
 | `generic-generations/` | `failsafes/`, `thinkings/` | `@bitcode/generic-generations-failsafes`, `-thinkings` |
+| `generic-measurements/` | `measure-agent/`, `absolutes/`, `needinesses/` | `@bitcode/generic-measurements-*` |
+| `asset-packs/` | `synthesis/`, `settle/` | `@bitcode/asset-packs-synthesis`, `-settle` |
 | `generic-doc-comment-plugins/` | `doc-developing/` | `@bitcode/doc-comment-developing` |
 
 **Do not** put a root `package.json` on the family folder. Workspace globs are
@@ -305,6 +307,14 @@ bitcode/
 │   ├── generic-generations/
 │   │   ├── failsafes/                 # @bitcode/generic-generations-failsafes
 │   │   └── thinkings/                 # @bitcode/generic-generations-thinkings
+│   ├── measurement-generics/          # Measurement primitive vocabulary
+│   ├── generic-measurements/
+│   │   ├── measure-agent/             # MeasureAgent PTRR base
+│   │   ├── absolutes/                 # AbsolutesMeasureAgent
+│   │   └── needinesses/               # Needinesses surface (Gate 4)
+│   ├── asset-packs/
+│   │   ├── synthesis/                 # SynthesizeAssetPacks measurements/catalogs
+│   │   └── settle/                    # SettleAssetPacks product surface
 │   ├── pipelines/
 │   │   └── asset-pack/                # SynthesizeAssetPacks (extends SDIVF)
 │   ├── agent-generics/

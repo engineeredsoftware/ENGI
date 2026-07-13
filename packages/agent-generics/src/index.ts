@@ -85,26 +85,47 @@ export type {
   BitcodePTRRStepPromptRegistry
 } from './agents/factories';
 
-// ==================== MEASURE AGENTS ====================
+// ==================== MEASUREMENT ====================
+//
+// Hierarchy (full ancestry naming at product layers):
+//   Measurement primitives     → @bitcode/measurement-generics
+//   MeasureAgent base          → @bitcode/generic-measurements-measure-agent
+//   AbsolutesMeasureAgent      → @bitcode/generic-measurements-absolutes
+//   NeedinessesMeasureAgent    → @bitcode/generic-measurements-needinesses
+//   SynthesizeAssetPacks…      → @bitcode/asset-packs-synthesis
+//
+// Re-exported for compatibility; prefer package-direct imports in new code.
 
-// The measurement base hierarchy: measure-agent (PTRR base) ->
-// measure-agent-absolutes (+ measure-agent-needinesses, Gate 4) -> the asset-pack
-// concrete measurers. Layered factories, not class inheritance.
+export {
+  MeasurementReadingSchema,
+  MeasurementOutputSchema,
+  MeasureAgentOutputSchema,
+  type MeasurementCategory,
+  type MeasurementSpec,
+  type MeasurementReading,
+  type MeasurementOutput,
+  type MeasureAgentOutput,
+} from '@bitcode/measurement-generics';
+
 export {
   factoryMeasureAgent,
-  MeasurementReadingSchema,
-  MeasureAgentOutputSchema
-} from './agents/measure-agent';
-export type {
-  MeasureAgent,
-  MeasureAgentConfig,
-  MeasureAgentOutput,
-  MeasurementCategory,
-  MeasurementReading,
-  MeasurementSpec
-} from './agents/measure-agent';
-export { factoryMeasureAgentAbsolutes } from './agents/measure-agent-absolutes';
-export type { MeasureAgentAbsolutesConfig } from './agents/measure-agent-absolutes';
+  type MeasureAgent,
+  type MeasureAgentConfig,
+} from '@bitcode/generic-measurements-measure-agent';
+
+export {
+  factoryAbsolutesMeasureAgent,
+  factoryMeasureAgentAbsolutes,
+  type AbsolutesMeasureAgent,
+  type AbsolutesMeasureAgentConfig,
+  type MeasureAgentAbsolutesConfig,
+} from '@bitcode/generic-measurements-absolutes';
+
+export {
+  NEEDINESSES_MEASUREMENT_CATEGORY,
+  NEEDINESSES_FRAMING,
+  type NeedinessesMeasureAgentConfig,
+} from '@bitcode/generic-measurements-needinesses';
 
 // ==================== STEP FACTORIES ====================
 
