@@ -1,9 +1,8 @@
 /**
- * GitLab Provider - Production-ready GitLab integration
- * 
- * Implements the VCS abstraction for GitLab using their REST API v4.
- * Supports self-hosted instances and GitLab.com.
- * 
+ * GitLabProvider — generic-vcs base over vcs-generics primitives.
+ *
+ * Hierarchy: AbstractVCSProvider / VCSProvider → GitLabProvider
+ *
  * @doc-code
  * type: provider
  * category: vcs
@@ -12,29 +11,30 @@
 
 import {
   VCSProvider,
-  VCSAuth,
-  VCSUser,
-  VCSRepository,
-  VCSBranch,
-  VCSPullRequest,
-  VCSFile,
-  VCSCommit,
-  VCSIssue,
-  VCSComment,
-  VCSWebhook,
-  VCSTreeItem,
-  VCSConfig,
+  type AbstractVCSProvider,
+  type VCSAuth,
+  type VCSUser,
+  type VCSRepository,
+  type VCSBranch,
+  type VCSPullRequest,
+  type VCSFile,
+  type VCSCommit,
+  type VCSIssue,
+  type VCSComment,
+  type VCSWebhook,
+  type VCSTreeItem,
+  type VCSConfig,
   VCSError,
-  ListReposOptions,
-  ListPROptions,
-  ListIssuesOptions,
-  CreateRepoData,
-  CreatePRData,
-  UpdatePRData,
-  FileUpdateData,
-  FileDeleteData,
-  CreateWebhookData,
-  CreateIssueData
+  type ListReposOptions,
+  type ListPROptions,
+  type ListIssuesOptions,
+  type CreateRepoData,
+  type CreatePRData,
+  type UpdatePRData,
+  type FileUpdateData,
+  type FileDeleteData,
+  type CreateWebhookData,
+  type CreateIssueData,
 } from '@bitcode/vcs-generics';
 import { log } from '@bitcode/logger';
 
@@ -94,9 +94,9 @@ interface GitLabMergeRequest {
 }
 
 /**
- * GitLab VCS Provider
+ * GitLab VCS Provider — conforms to AbstractVCSProvider via VCSProvider base.
  */
-export default class GitLabProvider extends VCSProvider {
+export default class GitLabProvider extends VCSProvider implements AbstractVCSProvider {
   readonly type = 'gitlab' as const;
   private apiUrl: string;
 

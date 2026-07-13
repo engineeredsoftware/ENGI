@@ -1658,6 +1658,20 @@ See “Artifact storage providers + remove @bitcode/aws” — providers split i
 `generic-artifacts/{aws,supabase,vercel}`; patch remains the type base;
 `@bitcode/artifacts` composes storage.
 
+## VCS provider conformity (Garrett, 2026-07-13)
+
+All VCS providers (GitHub, GitLab, **Bitbucket**) conform to:
+
+```
+@bitcode/vcs-generics
+  → @bitcode/generic-vcs-{github|gitlab|bitbucket|git}
+```
+
+Providers extend `VCSProvider` and implement `AbstractVCSProvider`. Factory
+registers lazy loaders into `generic-vcs/*`. MCP tools depend on hierarchy
+packages (not only shims). Shims `@bitcode/{github,gitlab,bitbucket,vcs,git}`
+remain BC re-exports.
+
 ## Artifact storage providers + remove @bitcode/aws (Garrett, 2026-07-13)
 
 ```

@@ -2117,9 +2117,15 @@ importers:
 
   packages/generic-tools/mcps-tools/bitbucket:
     dependencies:
-      '@bitcode/bitbucket':
+      '@bitcode/generic-vcs-bitbucket':
         specifier: workspace:*
-        version: link:../../../bitbucket
+        version: link:../../../generic-vcs/bitbucket
+      '@bitcode/tools-generics':
+        specifier: workspace:*
+        version: link:../../../tools-generics
+      '@bitcode/vcs-generics':
+        specifier: workspace:*
+        version: link:../../../vcs-generics
 
   packages/generic-tools/mcps-tools/circleci:
     dependencies:
@@ -2196,18 +2202,27 @@ importers:
 
   packages/generic-tools/mcps-tools/github:
     dependencies:
-      '@bitcode/github':
+      '@bitcode/generic-vcs-github':
         specifier: workspace:*
-        version: link:../../../github
-
-  packages/generic-tools/mcps-tools/gitlab:
-    dependencies:
-      '@bitcode/gitlab':
-        specifier: workspace:*
-        version: link:../../../gitlab
+        version: link:../../../generic-vcs/github
       '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
+      '@bitcode/vcs-generics':
+        specifier: workspace:*
+        version: link:../../../vcs-generics
+
+  packages/generic-tools/mcps-tools/gitlab:
+    dependencies:
+      '@bitcode/generic-vcs-gitlab':
+        specifier: workspace:*
+        version: link:../../../generic-vcs/gitlab
+      '@bitcode/tools-generics':
+        specifier: workspace:*
+        version: link:../../../tools-generics
+      '@bitcode/vcs-generics':
+        specifier: workspace:*
+        version: link:../../../vcs-generics
 
   packages/generic-tools/mcps-tools/jira:
     dependencies:

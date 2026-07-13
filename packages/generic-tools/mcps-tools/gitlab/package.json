@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
-    "@bitcode/gitlab": "workspace:*",
+    "@bitcode/vcs-generics": "workspace:*",
+    "@bitcode/generic-vcs-gitlab": "workspace:*",
     "@bitcode/tools-generics": "workspace:*"
   }
 }

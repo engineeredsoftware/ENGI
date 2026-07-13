@@ -272,14 +272,17 @@ Removed: `vcs`, `url`. VCS attaches as **external**.
 ```
 @bitcode/vcs-generics                      VCS primitives (AbstractVCSProvider, factory, service)
         ↑
-@bitcode/generic-vcs-{github|gitlab|bitbucket}   Provider implementations
+@bitcode/generic-vcs-{github|gitlab|bitbucket}   Provider bases (implements AbstractVCSProvider)
 @bitcode/generic-vcs-git                   Git-shaped bridge over providers
         ↑
-@bitcode/generic-tools-vcs / generic-agents-vcs   Tools + agent over VCS
+@bitcode/generic-tools-vcs / generic-agents-vcs / mcps-tools/{github,gitlab,bitbucket}
 ```
 
 Package paths: `packages/vcs-generics/`, `packages/generic-vcs/*`.
-Compatibility shims: `@bitcode/vcs`, `@bitcode/github`, …
+
+**Law:** every VCS provider lives under `generic-vcs/<provider>` and extends
+`VCSProvider` from `vcs-generics`. Shims `@bitcode/{vcs,github,gitlab,bitbucket,git}`
+are BC re-exports only.
 
 ### 3.2 Tools
 

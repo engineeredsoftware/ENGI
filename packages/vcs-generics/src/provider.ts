@@ -14,6 +14,7 @@
  */
 
 import { VCSProviderType, VCSError, VCSConfig } from './types';
+import type { AbstractVCSProvider } from './interface';
 import { log } from '@bitcode/logger';
 
 // Simple retry and timeout utilities
@@ -50,9 +51,10 @@ async function withTimeout<T>(
 }
 
 /**
- * Standard VCS provider implementation
+ * Standard VCS provider base — all generic-vcs/* providers extend this.
+ * Structural contract: AbstractVCSProvider (interface.ts).
  */
-export abstract class VCSProvider {
+export abstract class VCSProvider implements Pick<AbstractVCSProvider, 'type'> {
   abstract readonly type: VCSProviderType;
   
   protected readonly clientId: string;

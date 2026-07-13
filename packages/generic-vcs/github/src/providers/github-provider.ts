@@ -1,9 +1,8 @@
 /**
- * GitHub Provider - Production-ready GitHub integration
- * 
- * Implements the VCS abstraction for GitHub using Octokit.
- * Supports both OAuth Apps and GitHub Apps.
- * 
+ * GitHubProvider — generic-vcs base over vcs-generics primitives.
+ *
+ * Hierarchy: AbstractVCSProvider / VCSProvider → GitHubProvider
+ *
  * @doc-code
  * type: provider
  * category: vcs
@@ -14,29 +13,30 @@ import { Octokit } from '@octokit/rest';
 import { createAppAuth } from '@octokit/auth-app';
 import {
   VCSProvider,
-  VCSAuth,
-  VCSUser,
-  VCSRepository,
-  VCSBranch,
-  VCSPullRequest,
-  VCSFile,
-  VCSCommit,
-  VCSIssue,
-  VCSComment,
-  VCSWebhook,
-  VCSTreeItem,
-  VCSConfig,
+  type AbstractVCSProvider,
+  type VCSAuth,
+  type VCSUser,
+  type VCSRepository,
+  type VCSBranch,
+  type VCSPullRequest,
+  type VCSFile,
+  type VCSCommit,
+  type VCSIssue,
+  type VCSComment,
+  type VCSWebhook,
+  type VCSTreeItem,
+  type VCSConfig,
   VCSError,
-  ListReposOptions,
-  ListPROptions,
-  ListIssuesOptions,
-  CreateRepoData,
-  CreatePRData,
-  UpdatePRData,
-  FileUpdateData,
-  FileDeleteData,
-  CreateWebhookData,
-  CreateIssueData
+  type ListReposOptions,
+  type ListPROptions,
+  type ListIssuesOptions,
+  type CreateRepoData,
+  type CreatePRData,
+  type UpdatePRData,
+  type FileUpdateData,
+  type FileDeleteData,
+  type CreateWebhookData,
+  type CreateIssueData,
 } from '@bitcode/vcs-generics';
 import { log } from '@bitcode/logger';
 
@@ -60,9 +60,9 @@ type GitHubPullRequestData = {
 };
 
 /**
- * GitHub VCS Provider
+ * GitHub VCS Provider — conforms to AbstractVCSProvider via VCSProvider base.
  */
-export default class GitHubProvider extends VCSProvider {
+export default class GitHubProvider extends VCSProvider implements AbstractVCSProvider {
   readonly type = 'github' as const;
   private octokitCache = new Map<string, Octokit>();
 

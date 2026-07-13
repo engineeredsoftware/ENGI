@@ -1,9 +1,12 @@
 /**
- * Bitbucket Provider - Production-ready Bitbucket integration
- * 
- * Implements the VCS abstraction for Bitbucket using their REST API v2.0.
- * Supports both Cloud and Server instances.
- * 
+ * BitbucketProvider — generic-vcs base over vcs-generics primitives.
+ *
+ * Hierarchy:
+ *   AbstractVCSProvider / VCSProvider   # @bitcode/vcs-generics
+ *     → BitbucketProvider               # this (generic-vcs/bitbucket)
+ *
+ * Bitbucket REST API v2.0 (Cloud + Server via instanceUrl).
+ *
  * @doc-code
  * type: provider
  * category: vcs
@@ -12,31 +15,29 @@
 
 import {
   VCSProvider,
-  VCSAuth,
-  VCSUser,
-  VCSRepository,
-  VCSBranch,
-  VCSPullRequest,
-  VCSFile,
-  VCSCommit,
-  VCSIssue,
-  VCSComment,
-  VCSWebhook,
-  VCSTreeItem,
-  VCSConfig,
+  type AbstractVCSProvider,
+  type VCSAuth,
+  type VCSUser,
+  type VCSRepository,
+  type VCSBranch,
+  type VCSPullRequest,
+  type VCSFile,
+  type VCSIssue,
+  type VCSWebhook,
+  type VCSTreeItem,
+  type VCSConfig,
   VCSError,
-  ListReposOptions,
-  ListPROptions,
-  ListIssuesOptions,
-  CreateRepoData,
-  CreatePRData,
-  UpdatePRData,
-  FileUpdateData,
-  FileDeleteData,
-  CreateWebhookData,
-  CreateIssueData
+  type ListReposOptions,
+  type ListPROptions,
+  type ListIssuesOptions,
+  type CreateRepoData,
+  type CreatePRData,
+  type UpdatePRData,
+  type FileUpdateData,
+  type FileDeleteData,
+  type CreateWebhookData,
+  type CreateIssueData,
 } from '@bitcode/vcs-generics';
-import { log } from '@bitcode/logger';
 
 /**
  * Bitbucket API response interfaces
@@ -106,9 +107,9 @@ interface BitbucketPullRequest {
 }
 
 /**
- * Bitbucket VCS Provider
+ * Bitbucket VCS Provider — conforms to AbstractVCSProvider via VCSProvider base.
  */
-export default class BitbucketProvider extends VCSProvider {
+export default class BitbucketProvider extends VCSProvider implements AbstractVCSProvider {
   readonly type = 'bitbucket' as const;
   private apiUrl: string;
 
