@@ -1451,3 +1451,11 @@ Canonical filesystem and co-location rules live in
 
 Public package export paths preserved. Jest deposit/depository/synthesis suites green.
 
+
+
+## FAMILIARIZATION.md (codebase walkthrough)
+
+`FAMILIARIZATION.md` is the in-repo deep map of packages, uapi, and inheritance
+hierarchies (`*-generics` → `generic-*` → product specializations). It is a
+teaching/navigation document, not stronger than `BITCODE_SPEC_V48.md`. Update it
+when package families or experience entry paths change.

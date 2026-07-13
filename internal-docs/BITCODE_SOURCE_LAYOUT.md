@@ -205,6 +205,7 @@ packages/
 bitcode/
 ├── AGENTS.md                          # agent/contributor engineering rules
 ├── README.md                          # product + layout pointer
+├── FAMILIARIZATION.md                 # full codebase walkthrough (packages + uapi)
 ├── BITCODE_SPEC.txt                   # active canon pointer (main)
 ├── BITCODE_SPEC_V48.md                # draft rebuild-alone SPEC (+ family)
 ├── BITCODE_SPECIFYING.md

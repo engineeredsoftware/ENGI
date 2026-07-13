@@ -19,6 +19,7 @@ in paths** — always the single current Bitcode system under the active canon.
 | `BITCODE_SPEC_V48_NOTES.md` | V48 architecture decisions + Gate 3 depositing parity matrix |
 | `BITCODE_V48_QA.md` | Interactive QA ledger and Gate 3 runbook |
 | `AGENTS.md` | Agent/contributor engineering rules (gates, commits, Bezalel craft) |
+| `FAMILIARIZATION.md` | **Full codebase walkthrough** — packages, uapi, inheritance hierarchies |
 | `BITCODE_SPECIFYING.md` | Metaspec: Complete Implementation Derivability |
 
 **V48 Gate 3 (Deposit systems MVP)** is specified for rebuild from
@@ -56,7 +57,7 @@ product routes (`/deposits`, `/reads`, `/packs`).
 co-located `hooks/`, `styles/`, `__tests__/`. Full contract:
 [`internal-docs/BITCODE_SOURCE_LAYOUT.md`](internal-docs/BITCODE_SOURCE_LAYOUT.md).
 
-**Conventions for agents:** [`AGENTS.md`](AGENTS.md) · [`uapi/ARCHITECTURE.md`](uapi/ARCHITECTURE.md) · [`uapi/components/README.md`](uapi/components/README.md).
+**Conventions for agents:** [`AGENTS.md`](AGENTS.md) · [`FAMILIARIZATION.md`](FAMILIARIZATION.md) · [`uapi/ARCHITECTURE.md`](uapi/ARCHITECTURE.md) · [`uapi/components/README.md`](uapi/components/README.md).
 
 ---
 
