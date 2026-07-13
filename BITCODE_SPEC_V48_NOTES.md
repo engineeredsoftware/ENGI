@@ -948,8 +948,9 @@ command exec. (Every host has these; there is no "git-less" host. The earlier
 dev/prod, serverless-can't-clone, and read-files-out-per-file framings were WRONG and
 are superseded by this section.)
 
-The Host is a PRIMITIVE — `BitcodePipelineHost` (`packages/pipeline-hosts/host.ts`):
-- `capabilities`: a HOST CAPABILITIES descriptor — `hostKind` (`'inline' | 'sandbox'`),
+The Host is a PRIMITIVE — `BitcodePipelineHost` (`@bitcode/host-generics`; BC barrel
+`@bitcode/pipeline-hosts`):
+- `capabilities`: a HOST CAPABILITIES descriptor — `hostKind` (`'local' | 'sandbox'`),
   `clone` + `filesystem` + `exec` (TRUE for every host), `ephemeralFilesystem`,
   `defaultWorkingDirectory`; a SandboxHost additionally carries `sandboxProvider`
   (`'vercel' | 'aws'`).
@@ -961,23 +962,29 @@ Because the pipeline runs WITHIN the host, the workspace is the host's LOCAL che
 read locally, NEVER across a process/network boundary. The pipeline (Setup → … →
 Validation) speaks only to the primitive, so its behavior is identical on every host.
 
+**Hierarchy (primitive → base):**
+```
+@bitcode/host-generics                         # BitcodePipelineHost, SandboxHost
+  → @bitcode/generic-hosts-local               # LocalHost (was InlineHost)
+  → @bitcode/generic-hosts-vercel-sandbox      # VercelSandboxHost + harness surface
+```
+
 **HostKinds — two implementations of the primitive:**
-- **LocalHost** (`local-host.ts`) — runs the pipeline in the current box; provisions
-  via a real `git clone` of the full tree to a local working dir (Node-fs workspace).
-- **SandboxHost** (`sandbox-host.ts`) — runs the pipeline inside a provisioned, isolated
-  box that has git + FS, so within it the checkout is local exactly as for LocalHost.
-  It is a base for providers:
-  - **Vercel** (`VercelSandboxHost`, IMPLEMENTED) — provisions via the Sandbox SDK git
-    source into the box working directory.
-  - **AWS** (`AwsSandboxHost`, STUBBED) — the provider seam for an AWS-backed box; not
-    yet implemented.
+- **LocalHost** (`@bitcode/generic-hosts-local`) — runs the pipeline in the current box;
+  provisions via a real `git clone` of the full tree to a local working dir (Node-fs).
+- **SandboxHost** (`@bitcode/host-generics`) — abstract sandbox base; runs the pipeline
+  inside a provisioned, isolated box that has git + FS, so within it the checkout is
+  local exactly as for LocalHost. Providers:
+  - **Vercel** (`VercelSandboxHost` in `@bitcode/generic-hosts-vercel-sandbox`, IMPLEMENTED)
+  - **AWS** (`AwsSandboxHost`, STUBBED) — provider seam; not yet implemented.
   Provisioning AND the pipeline both run IN the box; nothing is read out of it per-file.
 
 **Selection** is by CONFIGURED HostKind — not by environment, and with no dev/prod /
-local/remote terminology. `selectDepositHostKind(env)` returns `'inline' | 'sandbox'`
-from `BITCODE_PIPELINE_HOST` (explicit), defaulting to `inline`; a SandboxHost's
-provider comes from `BITCODE_SANDBOX_PROVIDER` (`'vercel' | 'aws'`, default `vercel`).
-`resolveDepositPipelineHost()` constructs the configured HostKind/provider. The
+local/remote terminology. `selectDepositHostKind(env)` returns `'local' | 'sandbox'`
+from `BITCODE_PIPELINE_HOST` (explicit), defaulting to `local` (`inline` accepted as a
+deprecated alias of `local`); a SandboxHost's provider comes from
+`BITCODE_SANDBOX_PROVIDER` (`'vercel' | 'aws'`, default `vercel`).
+`resolveDepositPipelineHost()` constructs LocalHost for hostKind `local`. The
 operator chooses which host runs the pipeline.
 
 **Source provisioning + measurement:** the harness run provisions the full checkout on

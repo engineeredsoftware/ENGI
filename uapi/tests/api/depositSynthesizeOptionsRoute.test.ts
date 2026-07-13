@@ -57,7 +57,7 @@ jest.mock('@bitcode/pipeline-asset-pack', () => ({
 jest.mock('@/lib/deposit-source-provisioning', () => ({
   resolveDepositPipelineHost: jest.fn(() => ({ capabilities: { hostKind: 'local' } })),
   provisionDepositSourceInventory: jest.fn(),
-  selectDepositHostKind: jest.fn(() => 'inline'),
+  selectDepositHostKind: jest.fn(() => 'local'),
   runDepositInBoxHarness: jest.fn(),
 }));
 
@@ -271,7 +271,7 @@ describe('POST /api/deposit/synthesize-options', () => {
     mockRunHarness.mockReset();
     mockRealInference.mockReturnValue(true);
     mockProvision.mockResolvedValue(PROVISIONED);
-    mockSelectKind.mockReturnValue('inline');
+    mockSelectKind.mockReturnValue('local');
   });
 
   it('requires a session', async () => {

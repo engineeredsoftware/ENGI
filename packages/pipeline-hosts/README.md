@@ -1,9 +1,20 @@
 # `@bitcode/pipeline-hosts`
 
-This package owns host-runtime adapters for Bitcode pipeline QA. The first
-adapter is the Vercel Sandbox harness used to prove that Read/Fit and
-AssetPack pipeline work is running in an isolated host, emitting artifacts, and
-leaving enough telemetry for SQL readback.
+Compatibility barrel + AssetPack harness orchestration for Bitcode Hosts.
+
+## Hierarchy (prefer these packages)
+
+```
+@bitcode/host-generics                         # primitive (BitcodePipelineHost, SandboxHost)
+  → @bitcode/generic-hosts-local               # LocalHost (was InlineHost)
+  → @bitcode/generic-hosts-vercel-sandbox      # VercelSandboxHost + Vercel capabilities
+```
+
+This package re-exports those packages and owns the AssetPack sandbox harness
+used to prove that Read/Fit and AssetPack pipeline work runs in an isolated host,
+emits artifacts, and leaves enough telemetry for SQL readback.
+
+`BITCODE_PIPELINE_HOST`: unset|`local` (default; `inline` accepted as BC alias) | `sandbox`.
 
 ## Vercel Sandbox Host Capabilities
 
