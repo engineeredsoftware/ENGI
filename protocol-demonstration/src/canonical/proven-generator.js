@@ -4968,8 +4968,8 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
         'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
         'packages/executions-mcp/src/mcp-server/src/types/index.ts',
         'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-        'packages/git/package.json',
-        'packages/git/src/index.ts',
+        'packages/generic-vcs/git/package.json',
+        'packages/generic-vcs/git/src/index.ts',
         'packages/generic-tools/git-interactor/src/index.ts',
         'packages/btd/src/index.ts',
         'packages/api/src/routes/shippables.ts',
@@ -5005,7 +5005,7 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
           description: 'active naming test audits retained package surfaces for Bitcode naming'
         },
         {
-          file: 'packages/git/src/index.ts',
+          file: 'packages/generic-vcs/git/src/index.ts',
           evidence: 'Git is retained in V26 as concrete repository-transport infrastructure',
           description: 'Git package is active Bitcode repository infrastructure, not a removal target'
         },

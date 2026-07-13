@@ -1,6 +1,9 @@
-# @bitcode/git
+# @bitcode/generic-vcs-git
 
-`@bitcode/git` is the Bitcode Git operation bridge. It keeps Git-shaped
+> BC alias: `@bitcode/git`
+
+
+`@bitcode/generic-vcs-git` is the Bitcode Git operation bridge. It keeps Git-shaped
 repository operation names available for active AssetPack, Terminal, API, and
 tool callers while routing provider work through the Bitcode VCS abstraction.
 

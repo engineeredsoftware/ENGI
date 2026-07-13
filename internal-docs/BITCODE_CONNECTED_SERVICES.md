@@ -29,8 +29,7 @@ Examples:
 ## Current Source Examples
 
 - `uapi/app/api/vcs/*`
-- `packages/vcs/*`
-- `packages/github/*`
+- `packages/vcs-generics/*` + `packages/generic-vcs/*` (BC: `packages/vcs`, `packages/github`, `packages/gitlab`, `packages/git`, `packages/bitbucket`)
 - `packages/jira/*`
 - `packages/external-apps/chatgpt/*`
 - `packages/mcp-generics/* + packages/generic-mcps/bitcode/*`
