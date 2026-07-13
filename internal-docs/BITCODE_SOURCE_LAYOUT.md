@@ -205,12 +205,12 @@ packages/generic-<family>/          # README only (no package.json)
 | Family | Nested examples | Package names |
 | --- | --- | --- |
 | `generic-agents/` | `PTRR/`, `vcs/`, `danger-wall/`, … | `@bitcode/generic-agents-ptrr`, `@bitcode/generic-agent-*` |
-| `generic-tools/` | `web-search/`, `vcs/`, … | `@bitcode/generic-tools-*` |
+| `generic-tools/` | `files-maintaining/`, `vcs/`, … | `@bitcode/generic-tools-*` |
 | `generic-pipelines/` | `SDIVF/`, `Simple/` | `@bitcode/generic-pipelines-sdivf`, `-simple` |
-| `asset-packs-pipelines/` | `synthesize-deposits/`, `synthesize-reads/`, `settle-reads/` | `@bitcode/asset-packs-pipelines-*` (`SDIVFPipeline`) |
-| `generic-llms/` | `xAI/`, `OpenAI/`, `Anthropic/`, `Google/`, `defaults/`, `registry/` | `@bitcode/generic-llms-*` (+ aggregator `@bitcode/generic-llms`) |
-| `generic-generations/` | `failsafes/`, `thinkings/` | `@bitcode/generic-generations-failsafes`, `-thinkings` |
-| `generic-measurements/` | `measure-agent/`, `absolutes/`, `needinesses/` | `@bitcode/generic-measurements-*` |
+| `asset-packs-pipelines/` | `synthesize-deposits/`, `synthesize-reads/`, `settle-reads/` | `@bitcode/asset-packs-pipelines-*` |
+| `generic-llms/` | `xAI/`, `OpenAI/`, `Anthropic/`, `Google/`, `defaults/`, `registry/`, `models/` | `@bitcode/generic-llms-*` (+ aggregator) |
+| `generic-generations/` | `failsafes/`, `thinkings/` | `@bitcode/generic-generations-*` |
+| `generic-measurements/` | `measure-agent/`, `absolutes/`, `needinesses/`, `tech-types/` | `@bitcode/generic-measurements-*` |
 | `generic-vcs/` | `github/`, `gitlab/`, `bitbucket/`, `git/` | `@bitcode/generic-vcs-*` |
 | `vcs-generics/` | (package root) | `@bitcode/vcs-generics` |
 | `host-generics/` | (package root) | `@bitcode/host-generics` |
@@ -219,71 +219,59 @@ packages/generic-<family>/          # README only (no package.json)
 | `generic-mcps/` | `bitcode/` | `@bitcode/generic-mcps-bitcode` |
 | `asset-packs-generics/` | (package root) | `@bitcode/asset-packs-generics` (BC `@bitcode/asset-pack-generics`) |
 | `generic-asset-packs/` | `measured-patch/`, `synthesis/`, `settle/` | `@bitcode/generic-asset-packs-*` |
-| `generic-asset-packs/` | `measured-patch/`, `synthesis/`, `settle/` | `@bitcode/generic-asset-packs-*` |
-| `execution-generics/` | (package root) | `@bitcode/execution-generics` (Execution state) |
-| `executor-generics/` | (package root) | `@bitcode/executor-generics` (Executor type) |
-| `generic-executors/` | (package root) | `@bitcode/generic-executors` (sequential, parallel, …) |
-| `generic-executions/` | (package root) | `@bitcode/generic-executions` (process-root Execution) |
-| `external-apps/` | `chatgpt/`, `claude/` | `@bitcode/external-apps-chatgpt`, `-claude` (host embeddings) |
-| `containerizations/` | `docker/` | `@bitcode/containerizations-docker` |
-| `containerizations/` | `docker/`, `kubernetes/` | `@bitcode/containerizations-*` |
+| `execution-generics/` | (package root) | `@bitcode/execution-generics` |
+| `executor-generics/` | (package root) | `@bitcode/executor-generics` |
+| `generic-executors/` | (package root) | `@bitcode/generic-executors` |
+| `generic-executions/` | (package root) | `@bitcode/generic-executions` |
+| `external-apps/` | `chatgpt/`, `claude/` | `@bitcode/external-apps-*` |
 | `externals/` | `figma/`, `jira/`, `notion/`, `vercel/` | `@bitcode/externals-*` |
 | `external-telemetry/` | `google/`, `sentry/`, `vercel/` | `@bitcode/external-telemetry-*` |
+| `containerizations/` | `docker/`, `kubernetes/` | `@bitcode/containerizations-*` |
+| `web-scrapers/` | `firecrawl/` | `@bitcode/web-scrapers-firecrawl` |
+| `web-search/` | `multi/`, `exa/` | `@bitcode/web-search`, `-exa` |
 | `ci/` | `circle/` | `@bitcode/ci-circle` |
 | `email/` | `supabase/` | `@bitcode/email` |
 | `linting/` | `eslint/` | `eslint-plugin-bitcode` |
 | `host-commands/` | `grep/` | `@bitcode/host-commands-grep` |
-| `file-refactoring/` | (package root) | `@bitcode/file-refactoring` |
-| `web-search/` | `multi/`, `exa/` | `@bitcode/web-search`, `-exa` |
-| `generic-llms/models/` | (nested) | `@bitcode/generic-llms-models` (BC `@bitcode/models`) |
-| `generic-measurements/tech-types/` | (nested) | tech-types as absolute measurement |
-| `protocol-canonical/` | (package root) | canonical generators (split from protocol) |
-| `web-scrapers/` | `firecrawl/` | `@bitcode/web-scrapers-firecrawl` |
-| `security/` | `encryption/`, `credentials/`, … | `@bitcode/security-*` (BC `@bitcode/security`) |
-| `obfuscation/` | (package root) | `@bitcode/obfuscation` |
-| `conversations/` | (package root) | `@bitcode/conversations` |
-| `files/` | (package root) | `@bitcode/files` (file path/op primitives for all packages) |
-| `context-generics/` | (package root) | `@bitcode/context-generics` (BC only; no separate Context state) |
-| `artifact-generics/` | (package root) | `@bitcode/artifact-generics` (Artifact + storage contract) |
-| `generic-artifacts/` | `patch/`, `aws/`, `supabase/`, `vercel/` | type + storage providers |
-| `artifacts/` | (package root) | `@bitcode/artifacts` (compose providers, BC) |
-| `attachment-generics/` | (package root) | `@bitcode/attachment-generics` (file|external primitives) |
-| `generic-attachments/` | `file/`, `external/` | `@bitcode/generic-attachments-*` |
-| `attachments-generics/` | (package root) | BC barrel over attachment hierarchy |
-| `doc-comment-generics/` | (package root) | `@bitcode/doc-comment-generics` (doc-comment primitives) |
+| `security/` | `encryption/`, `credentials/`, `rate-limiting/`, … | `@bitcode/security-*` (BC `@bitcode/security`) |
+| `doc-comment-generics/` | (package root) | `@bitcode/doc-comment-generics` |
 | `generic-doc-comments/` | `doc-code/`, `doc-developing/` | `@bitcode/generic-doc-comments-*` |
-| `file-editing/` | (package root) | `@bitcode/file-editing` (atomic edits over `@bitcode/files`) |
+| `artifact-generics/` | (package root) | `@bitcode/artifact-generics` |
+| `generic-artifacts/` | `patch/`, `aws/`, `supabase/`, `vercel/` | type + storage providers |
+| `attachment-generics/` | (package root) | `@bitcode/attachment-generics` |
+| `generic-attachments/` | `file/`, `external/` | `@bitcode/generic-attachments-*` |
+| `files/` | (package root) | `@bitcode/files` |
+| `file-editing/` | (package root) | `@bitcode/file-editing` (BC `@bitcode/editing`) |
+| `file-refactoring/` | (package root) | `@bitcode/file-refactoring` (BC `@bitcode/refactoring`) |
+| `obfuscation/` | (package root) | `@bitcode/obfuscation` (BC `@bitcode/obfuscate`) |
+| `conversations/` | (package root) | `@bitcode/conversations` (BC `@bitcode/conversations-generics`) |
+| `api/` | `src/responses/`, `src/streams/`, routes | `@bitcode/api` (+ `/responses`, `/streams`) |
 
-**Do not** put a root `package.json` on the family folder. Workspace globs are
-`packages/generic-<family>/*` (and deeper globs such as
-`packages/generic-tools/mcps-tools/*` when needed).
+**`*-generics` naming law:** use only when a corresponding `generic-*` implementor
+family exists. Otherwise use a plain domain name (`obfuscation`, `conversations`).
+
+**Do not** put a root `package.json` on a pure family folder (`generic-*`,
+`externals/`, `web-search/`, …). Workspace globs are `packages/<family>/*`
+(and deeper globs such as `packages/generic-tools/mcps-tools/*` when needed).
+Security nests under `packages/security/*` with a thin BC barrel `@bitcode/security`.
 
 ```
 packages/
-  api/                         # route handlers, orchestration
-    src/
-      pipelines/
-        cancel.ts
-        orphan-sweep.ts
-      routes/
-      ...
-  auth/                        # wallet, OAuth provider, auth redirect helpers
-    src/
-      wallet-local → bitcode-wallet-local.ts
-      bitcoin-wallet-client.ts
-      ...
-  observability/
-    src/
-      product-analytics.ts
-  btd/                         # BTD measurement, journal, settlement, authority
-  pipelines-generics/          # Pipeline / PhaseDelegator primitives
-  generic-pipelines/SDIVF/     # SDIVF base Pipeline (extends pipelines-generics)
-  generic-llms/{xAI,OpenAI,…}/ # nested LLM providers + registry aggregator
-  pipelines/asset-pack/        # SynthesizeAssetPacks (extends SDIVF base)
-  agent-generics/              # PTRR agents (not product “Pipeline” UI)
-  execution-generics/          # low-level executor primitives
-  prompts/
-  orm/
+  api/                         # routes + responses/ + streams/ primitives
+  auth/                        # wallet, OAuth, auth redirect helpers
+  asset-packs-generics/        # AssetPack protocol primitive
+  generic-asset-packs/         # measured-patch, synthesis, settle
+  asset-packs-pipelines/       # product SDIVF / Simple pipelines
+  pipelines/asset-pack/        # SynthesizeAssetPacks agents/tools/domain
+  pipelines-generics/          # Pipeline primitive
+  generic-pipelines/SDIVF/     # SDIVF base
+  generic-llms/{xAI,OpenAI,…}/ # LLM providers + models/
+  vcs-generics/ + generic-vcs/ # VCS hierarchy
+  security/{encryption,…}/    # security subpackages
+  files/ + file-editing/       # file primitives + mutations
+  btd/                         # BTD journal / settlement / authority
+  prompts/                     # Prompt + PromptPart + raw parts
+  orm/                         # data access
   ...
 ```
 

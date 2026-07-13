@@ -1,30 +1,36 @@
-# @bitcode/asset-pack-generics
+# @bitcode/asset-packs-generics
 
-AssetPack **primitive** contracts for Bitcode Protocol — the minimum needed to
-identity a pack, bind source-safe provenance, and describe a patch without
-embedding raw source.
+AssetPack **primitive** contracts for Bitcode Protocol — identity, source-safe
+provenance binding, and patch descriptors without embedding raw source.
+
+> BC alias: `@bitcode/asset-pack-generics`
 
 ## Hierarchy
 
 ```
-@bitcode/asset-pack-generics                         # this package (AssetPack primitive)
+@bitcode/asset-packs-generics                    # this package (AssetPack primitive)
         ↑
-@bitcode/generic-asset-packs-measured-patch          # MeasuredPatchAssetPack base
+@bitcode/generic-asset-packs-measured-patch      # MeasuredPatchAssetPack base
+@bitcode/generic-asset-packs-synthesis           # synthesize product catalogs / agents
+@bitcode/generic-asset-packs-settle              # settle product surface
         ↑
-@bitcode/pipeline-asset-pack / asset-packs-pipelines # product synthesis & settle
+@bitcode/asset-packs-pipelines-*                 # deposit/read/settle product pipelines
+@bitcode/pipeline-asset-pack                     # agents, tools, deposit options
 ```
 
 ## Primitive surface
 
-| Concept | Types |
+| Export area | Role |
 | --- | --- |
-| Identity | `AssetPackId`, `AssetPackIdentity`, `ASSET_PACK_SCHEMA_PREFIX` |
-| Source binding | `AssetPackSourceBinding` (paths only; raw source external) |
-| Patch | `AssetPackPatchDescriptor`, `AssetPackPatchFileChange` |
-| Pack | `AssetPack` = identity + sourceBinding + patch + deliveryMechanism |
-| Delivery | `AssetPackDeliveryMechanism` (`pull-request`) |
+| `identity` | `AssetPackId`, pack identity fields |
+| `source-binding` | Source-safe provenance binding |
+| `patch` | Path+op patch descriptor (builds on `@bitcode/files`) |
+| root | Composed primitive types |
 
-## Law
+```ts
+import type { AssetPackId } from '@bitcode/asset-packs-generics';
+// or BC: from '@bitcode/asset-pack-generics'
+```
 
-- Raw source never appears on the protocol pack object.
-- Implementations extend `AssetPack`; they do not replace primitives.
+Prefer hierarchy package names in new code. Product pipelines consume
+`MeasuredPatchAssetPack` rather than redefining protocol primitives.

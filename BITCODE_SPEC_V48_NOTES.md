@@ -1873,3 +1873,13 @@ demo/runtime shell; generators/proof tooling prefer `@bitcode/protocol-canonical
 - `asset-pack-generics` → `asset-packs-generics`; `asset-packs/{synthesis,settle}` → `generic-asset-packs/*`.
 - `security` split into `packages/security/{encryption,credentials,rate-limiting,audit,validation,headers,monitoring,error-handling,twilio,client}`.
 - Removed: `digest`, `cloudflare` (+ MCP), `repository-health`, `objects-arrays` (use lodash for equality helpers if needed).
+
+## Documentation refurbish after hierarchy modularization (Garrett, 2026-07-13)
+
+- `FAMILIARIZATION.md` §3–§5 rewritten for current package hierarchy (AssetPacks,
+  security split, api primitives, removals, `*-generics` law).
+- Root `README.md` monorepo map updated to hierarchy families and BC aliases.
+- `internal-docs/BITCODE_SOURCE_LAYOUT.md` family table deduped and expanded.
+- Per-package READMEs refreshed for `api`, `asset-packs-generics`, `obfuscation`,
+  `conversations`, `security`, `generic-measurements`, `files`, `templates-generics`,
+  `protocol`, and family folders already introduced during modularization.

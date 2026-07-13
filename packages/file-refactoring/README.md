@@ -1,3 +1,9 @@
+# @bitcode/file-refactoring
+
+Symbol rename and multi-file refactors over `@bitcode/files` and `@bitcode/lsp`.
+
+> BC alias: `@bitcode/refactoring`
+
 # Refactoring - Production-Grade Code Refactoring System
 
 ## Overview

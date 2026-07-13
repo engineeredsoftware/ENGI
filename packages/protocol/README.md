@@ -3,10 +3,10 @@
 > **Naming note (V48):** the whole monorepo is Bitcode protocol surface. This package is the
 > **demo/runtime shell** for protocol demonstration — not the whole protocol.
 >
-> Canonical generators / proven matrices live in **`@bitcode/protocol-canonical`**
-> (`packages/protocol-canonical`). Prefer that package for generation and proof tooling.
-
-# @bitcode/protocol
+> Prefer **`@bitcode/protocol-canonical`** as the package *name* for generators and
+> proven matrices. Implementation currently remains under `src/canonical/` (relative
+> imports still couple generators to runtime modules here). Full physical split is
+> deferred until those couplings are unbound.
 
 Formal Bitcode protocol package for commercial source.
 

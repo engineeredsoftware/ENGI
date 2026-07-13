@@ -1,31 +1,30 @@
-# Conversations Generics
+# @bitcode/conversations
 
-Bitcode conversation-domain package for shared prompt and type ownership.
+Conversation domain types, validation, agent substrate, and terminal conversation
+system prompt ownership for commercial Bitcode interfaces.
 
-## Role
+> BC alias: `@bitcode/conversations-generics`
 
-This package remains admitted because fullscreen conversations are a commercial
-Bitcode interface and read explicit prompt/type ownership across Terminal,
-Exchange, Auxillaries, MCP, and ChatGPT App contexts.
+## Naming
 
-It owns:
-- conversation domain types and validation helpers
-- the retained conversation agent abstraction
-- the canonical conversation system prompt composition
+Plain `conversations` — not `*-generics` — because there is no separate
+`generic-conversations/*` implementor family. Types and helpers live here;
+UI lives under `uapi/components/conversations/`; routes under `packages/api`
+and `uapi/app/api/conversations/*`.
 
-It does not own:
-- route orchestration
-- persistence writes
-- UI composition
+## Owns
 
-Those remain with the commercial route and API owners.
+- Conversation / message / attachment domain types and validation
+- Conversation agent abstractions
+- Bitcode terminal conversation system prompt carrier
 
-## Architectural Rule
+## Does not own
 
-Use this package when a Bitcode conversation surface needs:
-- shared conversation types
-- validation helpers
-- retained agent behavior
-- prompt-system composition that should survive into proof-bearing Bitcode
+- Persistence commits (API routes + ORM)
+- Fullscreen chat UX (uapi experience components)
+- PromptPart raw library (`@bitcode/prompts`)
 
-Do not duplicate those contracts in route-local code.
+```ts
+import type { Conversation, ConversationMessage } from '@bitcode/conversations';
+// or BC: from '@bitcode/conversations-generics'
+```

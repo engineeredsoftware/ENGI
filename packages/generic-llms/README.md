@@ -49,3 +49,5 @@ import {
   from UI or route code.
 - Provider SDKs live only on the nested provider package that uses them
   (OpenAI on openai/xai, Anthropic on anthropic, AI SDK on google).
+
+Also nested: `models/` (`@bitcode/generic-llms-models`; BC `@bitcode/models`).

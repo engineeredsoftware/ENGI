@@ -2,7 +2,18 @@
 
 > BC alias: `@bitcode/streams`
 
+Streaming primitives for pipeline progress and file-diff telemetry, co-located with HTTP `responses/` under `packages/api`.
+
 Streams Core
+
+
+Streaming primitives for pipeline progress, execution state messages, and file-diff
+telemetry. Co-located with HTTP `responses/` under `packages/api` as API primitives.
+
+| Export | Role |
+| --- | --- |
+| `@bitcode/api/streams` | Canonical |
+| `@bitcode/streams` | BC re-export |
 
 ## Overview
 

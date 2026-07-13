@@ -4,7 +4,8 @@
  * Hierarchy:
  *   @bitcode/files                         # this package (file primitives)
  *     → @bitcode/file-editing              # atomic edit transactions / commands
- *     → @bitcode/asset-pack-generics       # AssetPack path+op patch descriptors
+ *     → @bitcode/file-refactoring          # symbol rename / multi-file refactors
+ *     → @bitcode/asset-packs-generics      # AssetPack path+op patch descriptors
  *     → @bitcode/generic-artifacts-patch   # PatchArtifact file entries
  *     → @bitcode/generic-attachments-file  # FileAttachment base
  *     → generic-tools / Host checkout ops

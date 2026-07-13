@@ -1,7 +1,7 @@
 # @bitcode/templates-generics
 
-**Not prompt templating.** This package is Exchange/Shippable template CRUD:
-user-saved PR shippable templates and evidence-document templates stored in Supabase.
+**Not prompt templating.** Exchange/Shippable template CRUD: user-saved PR shippable
+templates and evidence-document templates stored in Supabase.
 
 | Concern | Package |
 | --- | --- |
@@ -10,5 +10,4 @@ user-saved PR shippable templates and evidence-document templates stored in Supa
 
 **Decision (V48):** keep. Not removable without losing template persistence API.
 Do **not** move into prompts — domain is shippable product templates, not LLM prompts.
-Hierarchy note: single package (no nested implementors yet). If more template domains
-appear, split as `template-generics` + `generic-templates/*`.
+If more template domains appear later, split as `template-generics` + `generic-templates/*`.

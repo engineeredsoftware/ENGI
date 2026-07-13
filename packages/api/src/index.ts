@@ -1,22 +1,18 @@
 /**
- * Bitcode API - Kitchen sink of route-level API orchestration
+ * @bitcode/api — route-level orchestration + shared API primitives.
  *
- * This package contains route handlers and orchestration logic for the Bitcode
- * system. Interface owners such as the Next.js App Router or the ChatGPT app
- * import handlers from here, while narrower subsystem behavior remains in the
- * appropriate packages and is consumed by these route handlers.
+ * Owns: HTTP route handlers, pipeline control helpers, and co-located primitives
+ * under `responses/` and `streams/` (also exported as `@bitcode/api/responses`
+ * and `@bitcode/api/streams`; BC packages `@bitcode/responses` / `@bitcode/streams`).
+ *
+ * Does not own: product domain law (prefer `btd`, `pipeline-asset-pack`,
+ * `conversations`, `vcs-generics`, …). Next `uapi/app/api/*` bindings stay thin.
  *
  * Key principles:
  * - Route ownership lives here; FS interface bindings stay thin
  * - Deeper functionality stays in narrower packages
- * - All database operations use @bitcode/orm
- * - All auth uses @bitcode/auth
- * - All VCS operations use @bitcode/vcs
- *
- * Architecture:
- * - Route modules export interface-ready handlers
- * - Lower-level modules export framework-agnostic business logic
- * - All handlers have comprehensive error handling
+ * - Database via `@bitcode/orm`; auth via `@bitcode/auth`
+ * - Prefer `@bitcode/vcs-generics` / `generic-vcs-*` in new VCS code
  * - User scoping is enforced at the route-orchestration layer
  */
 

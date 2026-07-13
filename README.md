@@ -146,14 +146,38 @@ Full QA checklist: `BITCODE_V48_QA.md` → Gate 3 depositing runbook.
 |---|---|
 | `uapi/` | Next.js app — `/deposits`, `/reads`, `/packs`, APIs |
 | `packages/pipelines/asset-pack/` | SynthesizeAssetPacks SDIVF, deposit agents, policy, demand estimate |
-| `packages/pipeline-hosts/` | LocalHost, VercelSandbox, host |
-| `packages/agent-generics/` | PTRR, failsafes, Thinkings, LLM call timeout |
-| `packages/generic-llms/` | xAI/Grok and other LLM providers |
-| `packages/execution-generics/` | Execution tree, streaming adapters |
-| `packages/pipelines-generics/` | Phase runners, `sourceSafeStreamEvent` |
+| `packages/asset-packs-pipelines/` | Product pipelines (synthesize-deposits/reads, settle-reads) |
+| `packages/asset-packs-generics/` | AssetPack protocol primitive |
+| `packages/generic-asset-packs/` | measured-patch base + synthesis/settle product surfaces |
+| `packages/pipeline-hosts/` | AssetPack host orchestration over `generic-hosts/*` |
+| `packages/host-generics/` + `generic-hosts/*` | Host primitive + Local / VercelSandbox bases |
+| `packages/agent-generics/` | Agent = Executor + PTRR composition |
+| `packages/generic-agents/*` | Nested base agents |
+| `packages/generic-llms/*` | xAI/Grok and other LLM providers + models pricing |
+| `packages/execution-generics/` | Execution state tree |
+| `packages/pipelines-generics/` | Pipeline primitive, phase runners, source-safe stream hooks |
+| `packages/api/` | Route orchestration + **primitives** (`src/responses/`, `src/streams/`) |
+| `packages/files/` + `file-editing/` + `file-refactoring/` | File primitives and mutations |
+| `packages/vcs-generics/` + `generic-vcs/*` | VCS providers (BC: `@bitcode/{github,gitlab,…}`) |
+| `packages/security/*` | Split security utilities (encryption, credentials, …) |
+| `packages/externals/*` | Figma, Jira, Notion, Vercel deploy APIs |
+| `packages/external-telemetry/*` | Google Analytics, Sentry, Vercel analytics |
+| `packages/containerizations/*` | Docker, Kubernetes |
+| `packages/web-search/*` | Multi-provider search + Exa |
+| `packages/web-scrapers/firecrawl/` | Firecrawl client |
+| `packages/conversations/` | Conversation domain (BC: `conversations-generics`) |
+| `packages/obfuscation/` | Privacy transforms (BC: `@bitcode/obfuscate`) |
 | `supabase/migrations/` | `executions`, `execution_events`, RLS |
 | `scripts/` | Spec quality, canon checks, promotion |
 | `_legacy/`, `protocol-demonstration/` | **Not** active product canon for V48 gates |
+
+**Hierarchy law:** `*-generics` primitives pair with `generic-*/*` implementors.
+Plain names (`obfuscation`, `conversations`, `file-editing`) when there is no
+parallel implementor family. Prefer hierarchy package names in new code; BC
+aliases (`@bitcode/github`, `@bitcode/streams`, …) remain for existing callers.
+
+Full package walkthrough: [`FAMILIARIZATION.md`](FAMILIARIZATION.md) §3–§5.
+Filesystem contract: [`internal-docs/BITCODE_SOURCE_LAYOUT.md`](internal-docs/BITCODE_SOURCE_LAYOUT.md).
 
 ---
 

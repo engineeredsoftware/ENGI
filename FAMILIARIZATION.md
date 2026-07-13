@@ -127,14 +127,14 @@ uapi                               →  HTTP + React adapters only
 @bitcode/generic-measurements-absolutes          AbsolutesMeasureAgent
 @bitcode/generic-measurements-needinesses        Needinesses surface (Gate 4)
         ↑
-@bitcode/asset-packs-synthesis                   SynthesizeAssetPacksAbsolutesMeasureAgent + catalogs
-@bitcode/asset-packs-settle                      SettleAssetPacks* (Gate 6 surface)
+@bitcode/generic-asset-packs-synthesis           SynthesizeAssetPacksAbsolutesMeasureAgent + catalogs
+@bitcode/generic-asset-packs-settle              SettleAssetPacks* (Gate 6 surface)
         ↑
 @bitcode/pipeline-asset-pack                     SDIVF pipeline host (static-analysis tools, phases)
 ```
 
-Package paths: `packages/measurement-generics/`, `packages/generic-measurements/*`,
-`packages/asset-packs/{synthesis,settle}/`.
+Package paths: `packages/measurement-generics/`, `packages/generic-measurements/*`
+(incl. `tech-types/`), `packages/generic-asset-packs/{measured-patch,synthesis,settle}/`.
 
 Hierarchy names: `Measurement` → `AbsolutesMeasureAgent` →
 `SynthesizeAssetPacksAbsolutesMeasureAgent`.
@@ -206,24 +206,28 @@ inside `agent-generics` until inverted onto pure Execution + LLM registry.
 | Base + primitive | `PTRRAgent` | `factoryPTRRAgent` (`factoryAgentWithPTRR` BC) |
 | Specific | product agents | specialized configs over `factoryPTRRAgent` |
 
-### 3.1.3 AssetPacks (primitive → measured-patch)
+### 3.1.3 AssetPacks (primitive → measured-patch → product)
 
 ```
-@bitcode/asset-pack-generics                      AssetPack primitive (protocol minimum)
+@bitcode/asset-packs-generics                     AssetPack primitive (protocol minimum)
         ↑
 @bitcode/generic-asset-packs-measured-patch       MeasuredPatchAssetPack (only AP base)
+@bitcode/generic-asset-packs-synthesis            Synthesize measurement catalogs / Absolutes agent
+@bitcode/generic-asset-packs-settle               Settle product surface
         ↑
 @bitcode/asset-packs-pipelines-*                  synthesize-deposits / -reads / settle-reads
 @bitcode/pipeline-asset-pack                      agents, tools, deposit options helpers
 ```
 
-Package paths: `packages/asset-pack-generics/`, `packages/generic-asset-packs/measured-patch/`.
+Package paths: `packages/asset-packs-generics/`, `packages/generic-asset-packs/*`.
+BC: `@bitcode/asset-packs-generics`, `@bitcode/generic-asset-packs-synthesis`, `@bitcode/generic-asset-packs-settle`.
 
 | Layer | Type | Role |
 | --- | --- | --- |
 | Primitive | `AssetPack` | identity + source binding + patch descriptor + delivery |
 | Base | `MeasuredPatchAssetPack` | + measurements, neediness, provenant paths |
-| Product | deposit options / pipeline outputs | project from MeasuredPatchAssetPack |
+| Product surfaces | synthesis / settle packages | catalogs + product measure agents |
+| Product pipelines | deposit options / pipeline outputs | project from MeasuredPatchAssetPack |
 
 ### 3.1.4 Artifacts (primitive → types + storage providers)
 
@@ -236,7 +240,7 @@ Package paths: `packages/asset-pack-generics/`, `packages/generic-asset-packs/me
 @bitcode/generic-artifacts-vercel                 storage: Vercel Blob
         ↑
 @bitcode/artifacts                                compose providers (aws → supabase → vercel)
-@bitcode/asset-packs-synthesis                    AssetPackPatchArtifact product
+@bitcode/generic-asset-packs-synthesis            AssetPackPatchArtifact product
 ```
 
 No standalone `@bitcode/aws` package — S3 for artifacts is `generic-artifacts-aws`.
@@ -445,95 +449,119 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `generic-measurements-measure-agent` | MeasureAgent PTRR base |
 | `generic-measurements-absolutes` | AbsolutesMeasureAgent base |
 | `generic-measurements-needinesses` | Needinesses framing surface (Gate 4) |
-| `asset-packs-synthesis` | SynthesizeAssetPacks measurement catalogs + product AbsolutesMeasureAgent |
-| `asset-packs-settle` | SettleAssetPacks product surface (Gate 6) |
+| `generic-measurements-tech-types` | Tech/stack signals as absolute measurement vocabulary |
+| `asset-packs-generics` | AssetPack protocol primitive (BC: `asset-pack-generics`) |
+| `generic-asset-packs-synthesis` | Synthesize measurement catalogs + product AbsolutesMeasureAgent |
+| `generic-asset-packs-settle` | Settle product surface (Gate 6) |
 | `llm-generics` | Pure LLM call contracts |
+| `generic-llms-models` | Model configs + USD pricing (BC: `@bitcode/models`) |
 | `registry` | Hierarchical registry (Prompt is a Registry) |
 | `prompts` | Prompt + PromptPart + **all** raw prompt parts |
-| `context` | Process-global `GlobalContext` only (failsafe context → failsafes package) |
+| `context-generics` / `context` | BC only — process-root Execution, not a parallel Context state |
 | `logger` | Shared logging |
+| `files` | **File primitives** (`FilePath`, `FileOp`, `FileChange`, path + security helpers) |
 
-### 5.2 Generic implementations
+### 5.2 Generic implementations and hierarchy families
 
 | Package family | Responsibility |
 | --- | --- |
 | `generic-agents/*` | Nested base agents: VCS, danger-wall, code-editor, digester, web-research, … |
-| `generic-tools/*` | Nested base tools: editing, git, VCS, LSP, web-search, repository-setup, … |
-| `generic-pipelines/*` | Nested base pipelines: SDIVF, … |
-| `generic-llms/*` | Nested providers (xAI, OpenAI, Anthropic, Google), defaults, registry aggregator |
+| `generic-tools/*` | Nested base tools: files-maintaining, git, VCS, LSP, web-search, … |
+| `generic-pipelines/*` | Nested base pipelines: SDIVF, Simple |
+| `generic-llms/*` | Nested providers (xAI, OpenAI, Anthropic, Google), defaults, registry, **models** |
 | `generic-generations/*` | Nested generation bases: failsafes, thinkings |
-| `generic-measurements/*` | Nested measurement bases: measure-agent, absolutes, needinesses |
-| `asset-packs/*` | Product AssetPack packages: synthesis, settle |
-| `doc-comment-generics` | Doc-comment plugin primitives (`@bitcode/doc-comment-generics`; BC `@bitcode/doc-comment`) |
-| `generic-doc-comments/*` | Nested doc-comment implementors: doc-code, doc-developing |
-| `file-editing` | Atomic file editing over `@bitcode/files` (`@bitcode/file-editing`; BC `@bitcode/editing`) |
-| `file-refactoring` | Symbol rename / file refactors (`@bitcode/file-refactoring`; BC `@bitcode/refactoring`) |
-| `externals/*` | Figma, Jira, Notion, Vercel deploy API |
-| `external-telemetry/*` | Google Analytics, Sentry, Vercel analytics |
+| `generic-measurements/*` | Nested measurement bases: measure-agent, absolutes, needinesses, tech-types |
+| `generic-asset-packs/*` | Measured-patch base + synthesis/settle product surfaces |
+| `generic-vcs/*` | github, gitlab, bitbucket, git (BC: `@bitcode/{github,gitlab,…}`) |
+| `generic-hosts/*` | Local, VercelSandbox |
+| `generic-artifacts/*` | patch type + aws/supabase/vercel storage |
+| `generic-attachments/*` | file \| external attachment bases |
+| `generic-doc-comments/*` | doc-code, doc-developing over `doc-comment-generics` |
+| `generic-mcps/bitcode` | Exchange-facing MCP server |
+| `doc-comment-generics` | Doc-comment plugin primitives (BC `@bitcode/doc-comment`) |
+| `file-editing` / `file-refactoring` | Atomic edits + symbol rename over `@bitcode/files` |
 | `containerizations/*` | docker, kubernetes |
-| `ci/circle` | CircleCI |
-| `email/supabase` | Email via Supabase |
-| `host-commands/grep` | Grep host command |
+| `web-scrapers/firecrawl` | Firecrawl scrape/crawl/search client |
 | `web-search/{multi,exa}` | Multi-provider orchestrator + Exa provider |
-| `protocol-canonical` | Canonical generators (protocol package is demo/runtime shell) |
+| `externals/*` | Figma, Jira, Notion, Vercel **deploy** API |
+| `external-telemetry/*` | Google Analytics, Sentry, Vercel analytics |
+| `external-apps/*` | chatgpt, claude host embeddings |
+| `ci/circle` | CircleCI |
+| `email/supabase` | Email via Supabase (`@bitcode/email`) |
+| `linting/eslint` | `eslint-plugin-bitcode` |
+| `host-commands/grep` | Host grep primitive (BC `@bitcode/simple-system-text-search`) |
+| `security/*` | encryption, credentials, rate-limiting, audit, validation, headers, … |
+| `obfuscation` | Privacy-preserving transforms (BC `@bitcode/obfuscate`) |
+| `conversations` | Conversation domain types (BC `@bitcode/conversations-generics`) |
+
+**`*-generics` law:** use only when a matching `generic-*` implementor family exists
+(e.g. `vcs-generics` + `generic-vcs/*`). Plain domains use plain names
+(`obfuscation`, `conversations`, `file-editing`).
 
 ### 5.3 Product domain (AssetPack / BTD / market)
 
 | Package | Responsibility |
 | --- | --- |
-| `pipelines/asset-pack` (`@bitcode/pipeline-asset-pack`) | **SynthesizeAssetPacks**, deposit options/policy/admission/earnings, depository search/supply, measurement catalogs, settlement/rights contracts, deposit agents |
-| `pipeline-hosts` | Inline + Vercel Sandbox host for decoupled runs |
-| `btd` | BTD measurement, journal, authority, settlement, interface contracts, deployment posture helpers |
-| `protocol` | Protocol-level types / commercial boundary helpers |
-| `api` | Backend route orchestration modules (pipelines cancel/orphan, routes, VCS, conversations helpers) |
+| `pipelines/asset-pack` (`@bitcode/pipeline-asset-pack`) | **SynthesizeAssetPacks**, deposit options/policy/admission/earnings, depository search/supply, settlement/rights contracts, deposit agents |
+| `asset-packs-pipelines/*` | Product SDIVF/Simple pipelines (synthesize-deposits/reads, settle-reads) |
+| `pipeline-hosts` | AssetPack host orchestration barrel over `host-generics` + `generic-hosts/*` |
+| `btd` | BTD measurement, journal, authority, settlement, interface contracts |
+| `protocol` | Demo/runtime shell for protocol demonstration (**not** the whole monorepo “protocol”) |
+| `protocol-canonical` | Preferred name for generators; implementation still under `protocol/src/canonical` until uncoupled |
+| `api` | Route orchestration **and** API primitives: `src/responses/`, `src/streams/` |
 
-**Deposit domain modular layout (post-V48 modularization):**  
-public entries remain stable (`./deposit-asset-pack-options`, `./depository-search`, …) while implementations split into `*-types.ts`, `*-helpers.ts`, and builders. Shared source-safe hash/root helpers live in `deposit-source-safe-utils.ts`.
+**Deposit domain modular layout:** public entries remain stable
+(`./deposit-asset-pack-options`, `./depository-search`, …) while implementations
+split into `*-types.ts`, `*-helpers.ts`, and builders. Shared source-safe hash/root
+helpers live in `deposit-source-safe-utils.ts`.
 
-### 5.4 Auth, identity, integrations
+### 5.4 Auth, identity, VCS, externals
 
 | Package | Responsibility |
 | --- | --- |
-| `auth` | Wallet local identity, Bitcoin wallet client, OAuth provider, Supabase auth redirect, QA telemetry |
-| `github` / `gitlab` / `bitbucket` | VCS providers |
+| `auth` | Wallet local identity, Bitcoin wallet client, OAuth, Supabase auth redirect |
 | `vcs-generics` | VCS primitives (`AbstractVCSProvider`, factory, service) |
-| `generic-vcs-github` / `-gitlab` / `-bitbucket` | Nested provider implementations |
-| `generic-vcs-git` | Git operation bridge over providers |
-| `vcs` / `github` / … | BC re-exports of vcs-generics / generic-vcs-* |
+| `generic-vcs/*` | Provider implementations (github, gitlab, bitbucket, git) |
+| `vcs` / `github` / `gitlab` / `bitbucket` / `git` | BC re-exports only |
 | `generic-tools/vcs` + `generic-agents-vcs` | VCS tools and agent (not providers) |
-| `git` | Git operation bridge |
-| `supabase` | Supabase clients |
-| `notion`, `figma`, `jira`, `circleci`, … | External service adapters |
+| `supabase` | Supabase clients (live data plane) |
+| `externals/{figma,jira,notion,vercel}` | Third-party product APIs (not telemetry) |
+| `figma` / `jira` / `notion` / `vercel` / `circleci` | BC re-exports of externals / ci |
 
-### 5.5 Data, storage, infra
+### 5.5 Data, storage, security, telemetry
 
 | Package | Responsibility |
 | --- | --- |
 | `orm` | DB access, generated types, profile contract, data-health |
-| `files` | **File primitives** (path, FileOp/FileChange, security, FileTracker) |
-| `browser-storage`, `artifacts` | Storage helpers / compose |
-| `streams` | Streaming progress helpers |
-| `vercel`, `cloudflare`, `kubernetes` | Host / infra adapters |
-| `containerizations/docker` | Docker primitives (`@bitcode/containerizations-docker`; BC `@bitcode/docker`) |
-| `web-scrapers/firecrawl` | Firecrawl client (`@bitcode/web-scrapers-firecrawl`; BC `@bitcode/firecrawl`) |
-| `supabase`, `orm` | Live data plane (Postgres via Supabase) |
-| `generic-artifacts-{aws,supabase,vercel}` | Artifact storage providers (S3 / Supabase / Blob) |
-| `postgresql`, `mysql` | Optional/legacy DB MCP tool helpers (not product storage) |
-| `security`, `sentry`, `observability` | Security + telemetry |
+| `files` | File path/op primitives for the monorepo |
+| `file-editing` / `file-refactoring` | Atomic edit transactions; LSP rename |
+| `artifacts` + `generic-artifacts/*` | Artifact compose + storage providers |
+| `browser-storage` | Browser storage helpers |
+| `api/src/streams` (`@bitcode/api/streams`; BC `@bitcode/streams`) | Streaming progress helpers |
+| `api/src/responses` (`@bitcode/api/responses`; BC `@bitcode/responses`) | HTTP JSON/stream response helpers |
+| `containerizations/{docker,kubernetes}` | Container runtime integrations |
+| `web-scrapers/firecrawl` | Firecrawl client |
+| `postgresql` | Optional DB MCP helper (not product storage) |
+| `security/*` | Split security utilities; BC barrel `@bitcode/security` |
+| `external-telemetry/*` | Google / Sentry / Vercel analytics adapters |
+| `observability` | Product analytics composition over external-telemetry |
+
+**Removed (do not reintroduce):** `digest`, `cloudflare`, `mysql`, `firebase`,
+`aurora-postgres`, `aws` (as product package), `procurement`, `repository-health`,
+`objects-arrays` (use **lodash** for deep equality / object helpers).
 
 ### 5.6 UX-adjacent / interfaces
 
 | Package | Responsibility |
 | --- | --- |
-| `conversations-generics` | Conversation domain types |
-| `external-apps/chatgpt` | ChatGPT App MCP (`@bitcode/external-apps-chatgpt`; BC `@bitcode/chatgptapp`) |
-| `external-apps/claude` | Claude Code plugin scaffold (`@bitcode/external-apps-claude`) |
-| `mcp-generics` | MCP primitives (`McpConfig`, validation) |
-| `generic-mcps-bitcode` | Bitcode Exchange MCP server (`packages/generic-mcps/bitcode`) |
-| `mcp` / `mcp-server` | BC re-exports of mcp-generics / generic-mcps-bitcode |
-| `templates-generics`, `attachments-generics` | Template / attachment types |
-| `styling`, `responses`, `networking` | Shared UI/HTTP utilities |
-| `models` | Pricing / model registry helpers |
+| `conversations` | Conversation domain types and agent/prompt substrate |
+| `external-apps/chatgpt` | ChatGPT App MCP (BC `@bitcode/chatgptapp`) |
+| `external-apps/claude` | Claude Code plugin scaffold |
+| `mcp-generics` / `generic-mcps-bitcode` | MCP primitives + Exchange server |
+| `mcp` / `mcp-server` | BC re-exports |
+| `templates-generics` | **Shippable / evidence-document** templates in Supabase — **not** prompt templating |
+| `attachment-generics` / `generic-attachments/*` | file \| external attachments |
+| `styling`, `networking` | Shared UI/HTTP utilities |
 | `testing` | Shared test frameworks |
 
 ### 5.7 What not to confuse
@@ -542,6 +570,10 @@ public entries remain stable (`./deposit-asset-pack-options`, `./depository-sear
 | --- | --- |
 | Product **Pipeline** UI | `execution-generics` PTRR executors |
 | `generic-agents` base agents | Deposit agents under `pipeline-asset-pack/agents` |
+| `protocol` package | The whole monorepo (protocol package = demo/runtime shell) |
+| `templates-generics` | Prompt formatting (`@bitcode/prompts`) |
+| `externals/*` | `external-telemetry/*` (product APIs vs analytics) |
+| `*-generics` alone | A full stack — expect a matching `generic-*` family when the name is used |
 | `protocol-demonstration/` | Live V48 website measurement source of truth |
 | `_legacy/` | Anything current |
 
