@@ -224,6 +224,7 @@ packages/generic-<family>/          # README only (no package.json)
 | `executor-generics/` | (package root) | `@bitcode/executor-generics` (Executor type) |
 | `generic-executors/` | (package root) | `@bitcode/generic-executors` (sequential, parallel, …) |
 | `generic-executions/` | (package root) | `@bitcode/generic-executions` (process-root Execution) |
+| `external-apps/` | `chatgpt/`, `claude/` | `@bitcode/external-apps-chatgpt`, `-claude` (host embeddings) |
 | `context-generics/` | (package root) | `@bitcode/context-generics` (BC only; no separate Context state) |
 | `artifact-generics/` | (package root) | `@bitcode/artifact-generics` (Artifact + storage contract) |
 | `generic-artifacts/` | `patch/`, `aws/`, `supabase/`, `vercel/` | type + storage providers |

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "bitcode": {
+      "command": "pnpm",
+      "args": ["exec", "tsx", "packages/generic-mcps/bitcode/src/index.ts"],
+      "cwd": "${CLAUDE_PLUGIN_ROOT}/../../..",
+      "env": {
+        "BITCODE_MCP_MODE": "plugin"
+      }
+    }
+  }
+}

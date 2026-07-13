@@ -7,7 +7,7 @@ export function buildChatGptAppInterfaceIntegrationRecord(): BtdInterfaceIntegra
     surface: 'chatgpt_app',
     consumerId: 'bitcode-chatgpt-app-interface',
     packageExport: '@bitcode/btd/interface-integration-contract',
-    adapterPath: 'packages/chatgptapp/src/interface-integration.ts',
+    adapterPath: 'packages/external-apps/chatgpt/src/interface-integration.ts',
     objectFamilies: ['read_access', 'organization_authority', 'protocol_telemetry'],
     proofRoot: 'chatgpt-app-interface-regression-proof-root',
     packageOwned: true,

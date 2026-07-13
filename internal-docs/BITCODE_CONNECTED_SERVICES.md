@@ -32,6 +32,6 @@ Examples:
 - `packages/vcs/*`
 - `packages/github/*`
 - `packages/jira/*`
-- `packages/chatgptapp/*`
+- `packages/external-apps/chatgpt/*`
 - `packages/mcp-generics/* + packages/generic-mcps/bitcode/*`
 - `packages/api/src/routes/*`

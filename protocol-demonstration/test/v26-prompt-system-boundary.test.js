@@ -65,12 +65,12 @@ const SUPPORT_PROMPT_CORRIDORS = [
 const REFERENCE_PROMPT_CORRIDORS = [
   'packages/generic-agents',
   'packages/generic-tools',
-  'packages/chatgptapp/src/prompts',
+  'packages/external-apps/chatgpt/src/prompts',
   'packages/doc-comment/examples',
 ];
 const REFERENCE_PROMPT_CONFIG_FILES = [
-  'packages/chatgptapp/tsconfig.test.json',
-  'packages/chatgptapp/jest.config.cjs',
+  'packages/external-apps/chatgpt/tsconfig.test.json',
+  'packages/external-apps/chatgpt/jest.config.cjs',
 ];
 const ACTIVE_AGENT_PROMPT_HIERARCHY_DOCS = [
   'packages/agent-generics/README.md',

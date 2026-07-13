@@ -145,6 +145,8 @@
       "@bitcode/validation/validationOTFAdherencePhaseModule": ["packages/validation/validationOTFAdherencePhaseModule.ts"],
       "@bitcode/mcp/validation": ["packages/mcp-generics/src/index.ts"],
       "@bitcode/chatgptapp": ["packages/chatgptapp/src/index.ts"],
+      "@bitcode/external-apps-chatgpt": ["packages/external-apps/chatgpt/src/index.ts"],
+      "@bitcode/external-apps-claude": ["packages/external-apps/claude/README.md"],
       "@bitcode/supabase/ssr/*": ["packages/supabase/src/ssr/*"],
       "@bitcode/context/*": ["packages/context/src/*"],
       "@bitcode/context": ["packages/context/src/index.ts"],

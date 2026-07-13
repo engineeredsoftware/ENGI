@@ -413,17 +413,17 @@ const digestTsconfigTestSource = readFileSync(new URL('../../packages/digest/tsc
 const digestBitcodeLoggerMockSource = readFileSync(new URL('../../packages/digest/__mocks__/bitcode/logger.ts', import.meta.url), 'utf8');
 const digestGitMockSource = readFileSync(new URL('../../packages/digest/__mocks__/lib/git/git.ts', import.meta.url), 'utf8');
 const digestServiceReadmeSource = readFileSync(new URL('../../packages/digest/service/README.md', import.meta.url), 'utf8');
-const chatgptAppServerSource = readFileSync(new URL('../../packages/chatgptapp/src/server.ts', import.meta.url), 'utf8');
-const chatgptAppToolsSource = readFileSync(new URL('../../packages/chatgptapp/src/tools.ts', import.meta.url), 'utf8');
-const chatgptAppIndexSource = readFileSync(new URL('../../packages/chatgptapp/src/index.ts', import.meta.url), 'utf8');
-const chatgptAppPackageSource = readFileSync(new URL('../../packages/chatgptapp/package.json', import.meta.url), 'utf8');
-const chatgptAppReadmeSource = readFileSync(new URL('../../packages/chatgptapp/README.md', import.meta.url), 'utf8');
-const chatgptAppDemoSource = readFileSync(new URL('../../packages/chatgptapp/DEMO.md', import.meta.url), 'utf8');
-const chatgptAppTldrSource = readFileSync(new URL('../../packages/chatgptapp/TLDR.md', import.meta.url), 'utf8');
-const chatgptAppTodoSource = readFileSync(new URL('../../packages/chatgptapp/TODO.md', import.meta.url), 'utf8');
-const chatgptAppEnvSource = readFileSync(new URL('../../packages/chatgptapp/src/env.ts', import.meta.url), 'utf8');
-const chatgptAppYapperFlowTestSource = readFileSync(new URL('../../packages/chatgptapp/src/__tests__/yapperFlow.test.ts', import.meta.url), 'utf8');
-const chatgptAppArtifactsMockSource = readFileSync(new URL('../../packages/chatgptapp/src/__mocks__/bitcode-artifacts.ts', import.meta.url), 'utf8');
+const chatgptAppServerSource = readFileSync(new URL('../../packages/external-apps/chatgpt/src/server.ts', import.meta.url), 'utf8');
+const chatgptAppToolsSource = readFileSync(new URL('../../packages/external-apps/chatgpt/src/tools.ts', import.meta.url), 'utf8');
+const chatgptAppIndexSource = readFileSync(new URL('../../packages/external-apps/chatgpt/src/index.ts', import.meta.url), 'utf8');
+const chatgptAppPackageSource = readFileSync(new URL('../../packages/external-apps/chatgpt/package.json', import.meta.url), 'utf8');
+const chatgptAppReadmeSource = readFileSync(new URL('../../packages/external-apps/chatgpt/README.md', import.meta.url), 'utf8');
+const chatgptAppDemoSource = readFileSync(new URL('../../packages/external-apps/chatgpt/DEMO.md', import.meta.url), 'utf8');
+const chatgptAppTldrSource = readFileSync(new URL('../../packages/external-apps/chatgpt/TLDR.md', import.meta.url), 'utf8');
+const chatgptAppTodoSource = readFileSync(new URL('../../packages/external-apps/chatgpt/TODO.md', import.meta.url), 'utf8');
+const chatgptAppEnvSource = readFileSync(new URL('../../packages/external-apps/chatgpt/src/env.ts', import.meta.url), 'utf8');
+const chatgptAppYapperFlowTestSource = readFileSync(new URL('../../packages/external-apps/chatgpt/src/__tests__/yapperFlow.test.ts', import.meta.url), 'utf8');
+const chatgptAppArtifactsMockSource = readFileSync(new URL('../../packages/external-apps/chatgpt/src/__mocks__/bitcode-artifacts.ts', import.meta.url), 'utf8');
 const emailPackageSource = readFileSync(new URL('../../packages/email/package.json', import.meta.url), 'utf8');
 const emailReadmeSource = readFileSync(new URL('../../packages/email/README.md', import.meta.url), 'utf8');
 const emailInvitationServiceSource = readFileSync(new URL('../../packages/email/src/services/invitationService.ts', import.meta.url), 'utf8');
@@ -2269,75 +2269,75 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(chatgptAppToolsSource, /team_engi/);
   assert.doesNotMatch(chatgptAppToolsSource, /builder@engi\.dev/);
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/engi__artifacts.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__artifacts.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/engi__digest__run.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__digest__run.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/engi__generic-tools-mcps-aws.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__generic-tools-mcps-aws.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/engi__generic-tools-mcps-vercel.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__generic-tools-mcps-vercel.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/engi__generic-tools-simple-system-text-search.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__generic-tools-simple-system-text-search.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/engi__generic-tools-web-search.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__generic-tools-web-search.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/engi__github.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__github.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/engi__vcs.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__vcs.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/bitcode__artifacts.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__artifacts.d.ts', import.meta.url)),
     true,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/bitcode__digest__run.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__digest__run.d.ts', import.meta.url)),
     true,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/bitcode__generic-tools-mcps-aws.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__generic-tools-mcps-aws.d.ts', import.meta.url)),
     true,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/bitcode__generic-tools-mcps-vercel.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__generic-tools-mcps-vercel.d.ts', import.meta.url)),
     true,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/bitcode__generic-tools-simple-system-text-search.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__generic-tools-simple-system-text-search.d.ts', import.meta.url)),
     true,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/bitcode__generic-tools-web-search.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__generic-tools-web-search.d.ts', import.meta.url)),
     true,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/bitcode__github.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__github.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/types/bitcode__vcs.d.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__vcs.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/__stubs__/github.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/__stubs__/github.ts', import.meta.url)),
     true,
   );
   assert.equal(
-    existsSync(new URL('../../packages/chatgptapp/src/__stubs__/vcs.ts', import.meta.url)),
+    existsSync(new URL('../../packages/external-apps/chatgpt/src/__stubs__/vcs.ts', import.meta.url)),
     true,
   );
 

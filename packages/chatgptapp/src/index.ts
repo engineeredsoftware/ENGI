@@ -1,3 +1,5 @@
-export { BitcodeMCPServer, createBitcodeServer, runBitcodeServer } from './server';
-export type { BitcodeTool, BitcodeToolExecutionResult } from './tools';
-export { buildChatGptAppInterfaceIntegrationRecord } from './interface-integration';
+/**
+ * @deprecated Prefer `@bitcode/external-apps-chatgpt`.
+ * Compatibility re-export of packages/external-apps/chatgpt.
+ */
+export * from '@bitcode/external-apps-chatgpt';

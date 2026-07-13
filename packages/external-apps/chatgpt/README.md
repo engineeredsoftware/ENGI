@@ -1,4 +1,7 @@
-# @bitcode/chatgptapp
+# @bitcode/external-apps-chatgpt
+
+> Path: `packages/external-apps/chatgpt`  
+> BC alias: `@bitcode/chatgptapp` (re-export package at `packages/chatgptapp`)
 
 Bitcode’s ChatGPT App MCP package lets product-minded builders participate in the Bitcode source-to-shares loop without touching a code editor. Inside a single ChatGPT thread, Bitcode captures intent, keeps Evidence Documents truthful, narrates repository behaviour in plain language, drafts implementation moves, and coordinates GitHub plus DevOps delivery mechanisms only after explicit confirmation.
 

@@ -512,7 +512,8 @@ public entries remain stable (`./deposit-asset-pack-options`, `./depository-sear
 | Package | Responsibility |
 | --- | --- |
 | `conversations-generics` | Conversation domain types |
-| `chatgptapp` | ChatGPT App MCP scaffolding (commercialization deferred) |
+| `external-apps/chatgpt` | ChatGPT App MCP (`@bitcode/external-apps-chatgpt`; BC `@bitcode/chatgptapp`) |
+| `external-apps/claude` | Claude Code plugin scaffold (`@bitcode/external-apps-claude`) |
 | `mcp-generics` | MCP primitives (`McpConfig`, validation) |
 | `generic-mcps-bitcode` | Bitcode Exchange MCP server (`packages/generic-mcps/bitcode`) |
 | `mcp` / `mcp-server` | BC re-exports of mcp-generics / generic-mcps-bitcode |

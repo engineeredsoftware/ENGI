@@ -1658,6 +1658,19 @@ See “Artifact storage providers + remove @bitcode/aws” — providers split i
 `generic-artifacts/{aws,supabase,vercel}`; patch remains the type base;
 `@bitcode/artifacts` composes storage.
 
+## External apps: chatgpt + claude scaffold (Garrett, 2026-07-13)
+
+```
+packages/external-apps/
+  chatgpt/   # @bitcode/external-apps-chatgpt  (moved from packages/chatgptapp)
+  claude/    # @bitcode/external-apps-claude   (Claude Code plugin scaffold)
+```
+
+- ChatGPT App MCP lives under `external-apps/chatgpt`.
+- Claude Code plugin scaffold follows Claude plugin layout (`.claude-plugin/plugin.json`,
+  root-level `skills/`, `agents/`, `hooks/`, `.mcp.json`).
+- BC: `@bitcode/chatgptapp` re-exports `external-apps-chatgpt`.
+
 ## VCS provider conformity (Garrett, 2026-07-13)
 
 All VCS providers (GitHub, GitLab, **Bitbucket**) conform to:

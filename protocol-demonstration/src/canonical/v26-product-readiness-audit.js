@@ -181,8 +181,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     requiredEvidence: [
       ['packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts', 'writeAdmission'],
       ['packages/executions-mcp/src/mcp-server/src/types/index.ts', 'RepositoryContextSchema'],
-      ['packages/chatgptapp/src/tools.ts', 'confirmed'],
-      ['packages/chatgptapp/src/__tests__/tools.test.ts', 'rejects ChatGPT App connected-interface writes without explicit confirmation'],
+      ['packages/external-apps/chatgpt/src/tools.ts', 'confirmed'],
+      ['packages/external-apps/chatgpt/src/__tests__/tools.test.ts', 'rejects ChatGPT App connected-interface writes without explicit confirmation'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'API / MCP / third-party parity']
     ],
     closureNotes: [
@@ -237,7 +237,7 @@ const PRODUCT_MVP_EVIDENCE_BY_ID = {
   'conversations-rich-input': [
     ['uapi/app/conversations/components/ConversationsOverlay.tsx', 'Multiple view modes (floating, sidebar, fullscreen, split-screen)'],
     ['uapi/tests/conversationsRouteClient.test.tsx', 'forceFullscreen=true'],
-    ['packages/chatgptapp/src/server.ts', 'connected-interface Bitcode Terminal companion']
+    ['packages/external-apps/chatgpt/src/server.ts', 'connected-interface Bitcode Terminal companion']
   ],
   'auxillaries-readiness': [
     ['uapi/app/auxillaries/components/AuxillariesBTDPane.tsx', '$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture'],
@@ -246,8 +246,8 @@ const PRODUCT_MVP_EVIDENCE_BY_ID = {
   ],
   'connected-interfaces': [
     ['packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts', 'writeAdmission'],
-    ['packages/chatgptapp/src/__tests__/tools.test.ts', 'declares confirmation schema on every ChatGPT App connected-interface write carrier'],
-    ['packages/chatgptapp/src/server.ts', 'Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state']
+    ['packages/external-apps/chatgpt/src/__tests__/tools.test.ts', 'declares confirmation schema on every ChatGPT App connected-interface write carrier'],
+    ['packages/external-apps/chatgpt/src/server.ts', 'Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state']
   ],
   'proof-and-promotion': [
     ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SixthGateMvpClosureProof'],
@@ -285,7 +285,7 @@ const PRODUCT_LAUNCH_EVIDENCE_BY_ID = {
   'conversations-rich-input': [
     ['uapi/app/conversations/components/ConversationsOverlay.tsx', 'Multiple view modes (floating, sidebar, fullscreen, split-screen)'],
     ['uapi/tests/conversationsRouteClient.test.tsx', 'forceFullscreen=true'],
-    ['packages/chatgptapp/src/server.ts', 'connected-interface Bitcode Terminal companion']
+    ['packages/external-apps/chatgpt/src/server.ts', 'connected-interface Bitcode Terminal companion']
   ],
   'auxillaries-readiness': [
     ['uapi/app/auxillaries/components/AuxillariesBTDPane.tsx', '$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture'],
@@ -294,8 +294,8 @@ const PRODUCT_LAUNCH_EVIDENCE_BY_ID = {
   ],
   'connected-interfaces': [
     ['packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts', 'writeAdmission'],
-    ['packages/chatgptapp/src/__tests__/tools.test.ts', 'declares confirmation schema on every ChatGPT App connected-interface write carrier'],
-    ['packages/chatgptapp/src/server.ts', 'Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state']
+    ['packages/external-apps/chatgpt/src/__tests__/tools.test.ts', 'declares confirmation schema on every ChatGPT App connected-interface write carrier'],
+    ['packages/external-apps/chatgpt/src/server.ts', 'Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state']
   ],
   'proof-and-promotion': [
     ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SeventhGateCommercialTestnetLaunchProof'],

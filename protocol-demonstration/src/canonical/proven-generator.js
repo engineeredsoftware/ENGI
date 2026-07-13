@@ -365,9 +365,9 @@ const V26_FOURTH_GATE_PROMPT_SYSTEM_FILES = [
   'packages/digest/prompts/doc-code-tool.generate-digest.ts',
   'packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts',
   'packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts',
-  'packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts',
-  'packages/chatgptapp/tsconfig.test.json',
-  'packages/chatgptapp/jest.config.cjs',
+  'packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts',
+  'packages/external-apps/chatgpt/tsconfig.test.json',
+  'packages/external-apps/chatgpt/jest.config.cjs',
   'protocol-demonstration/V26_DOC_COMMENT_REFORM.md',
   'packages/doc-comment/README.md',
   'packages/doc-comment/IMPLEMENTATION.md',
@@ -580,6 +580,8 @@ const V26_DIRECT_PRODUCT_PACKAGE_NAMES = new Set([
   '@bitcode/api',
   '@bitcode/btd',
   '@bitcode/chatgptapp',
+  '@bitcode/external-apps-chatgpt',
+  '@bitcode/external-apps-claude',
   '@bitcode/mcp',
   '@bitcode/mcp-server'
 ]);
@@ -1873,57 +1875,57 @@ function buildV26TerminalCompositionProof({
       'ChatGPT App connected-interface writes fail closed on explicit confirmation and emit Bitcode write-admission receipts',
       [
         {
-          file: 'packages/chatgptapp/src/tools.ts',
+          file: 'packages/external-apps/chatgpt/src/tools.ts',
           evidence: 'function assertConfirmedConnectedInterfaceWrite',
           description: 'ChatGPT App write tools share a fail-closed confirmation guard'
         },
         {
-          file: 'packages/chatgptapp/src/tools.ts',
+          file: 'packages/external-apps/chatgpt/src/tools.ts',
           evidence: 'Bitcode ChatGPT App write admission requires confirmed: true',
           description: 'direct tool execution rejects unconfirmed connected-interface writes'
         },
         {
-          file: 'packages/chatgptapp/src/tools.ts',
+          file: 'packages/external-apps/chatgpt/src/tools.ts',
           evidence: "permission: 'explicit_user_confirmation'",
           description: 'write receipts expose explicit confirmation as the permission basis'
         },
         {
-          file: 'packages/chatgptapp/src/tools.ts',
+          file: 'packages/external-apps/chatgpt/src/tools.ts',
           evidence: "exchangeStateRole: 'connected_interface_delivery_mechanism'",
           description: 'ChatGPT App writes are delivery mechanisms rather than Exchange state owners'
         },
         {
-          file: 'packages/chatgptapp/src/server.ts',
+          file: 'packages/external-apps/chatgpt/src/server.ts',
           evidence: 'Bitcode is the source-to-shares protocol surfaced through ChatGPT',
           description: 'server instructions frame ChatGPT App as a Bitcode Terminal companion interface'
         },
         {
-          file: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+          file: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
           evidence: 'rejects ChatGPT App connected-interface writes without explicit confirmation',
           description: 'unit proof covers unconfirmed write rejection'
         },
         {
-          file: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+          file: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
           evidence: 'declares confirmation schema on every ChatGPT App connected-interface write carrier',
           description: 'unit proof covers schema-level confirmation requirements across GitHub, Vercel, and AWS write carriers'
         },
         {
-          file: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+          file: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
           evidence: 'write_code_changes_to_vcs creates GitHub repository after explicit write admission',
           description: 'unit proof covers GitHub write admission through the ChatGPT App VCS tool'
         },
         {
-          file: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+          file: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
           evidence: "targetAnchor: 'github:bitcode-yapper'",
           description: 'unit proof covers target-bound GitHub write admission'
         },
         {
-          file: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+          file: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
           evidence: "targetAnchor: 'vercel:team_bitcode/prj_Yapper'",
           description: 'unit proof covers target-bound Vercel write admission'
         },
         {
-          file: 'packages/chatgptapp/src/__tests__/yapperFlow.test.ts',
+          file: 'packages/external-apps/chatgpt/src/__tests__/yapperFlow.test.ts',
           evidence: 'confirmed: true',
           description: 'demo-flow proof invokes write tools through explicit confirmation payloads'
         }
@@ -2389,9 +2391,9 @@ function buildV26PromptSystemTotalityProof({
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeneedsatisfactionimplementationcomplexity_doccodetoolexample3.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_validateneedcomprehension_doccodetoolpurpose.ts',
         'packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts',
-        'packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts',
-        'packages/chatgptapp/tsconfig.test.json',
-        'packages/chatgptapp/jest.config.cjs',
+        'packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts',
+        'packages/external-apps/chatgpt/tsconfig.test.json',
+        'packages/external-apps/chatgpt/jest.config.cjs',
         'protocol-demonstration/V26_DOC_COMMENT_REFORM.md',
         'packages/doc-comment/README.md',
         'packages/doc-comment/IMPLEMENTATION.md',
@@ -3515,12 +3517,12 @@ function buildV26SixthGateMvpClosureProof({
             description: 'direct route tests fullscreen conversation mode'
           },
           {
-            file: 'packages/chatgptapp/src/server.ts',
+            file: 'packages/external-apps/chatgpt/src/server.ts',
             evidence: 'connected-interface Bitcode Terminal companion',
             description: 'ChatGPT App is specified as a Terminal companion, not a parallel product'
           },
           {
-            file: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+            file: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
             evidence: 'declares confirmation schema on every ChatGPT App connected-interface write carrier',
             description: 'ChatGPT App write tools share admission semantics'
           }
@@ -3572,7 +3574,7 @@ function buildV26SixthGateMvpClosureProof({
             description: 'Bitcode MCP writes emit write-admission receipts'
           },
           {
-            file: 'packages/chatgptapp/src/server.ts',
+            file: 'packages/external-apps/chatgpt/src/server.ts',
             evidence: 'Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state',
             description: 'ChatGPT App read tools are Exchange input evidence'
           },
@@ -3853,7 +3855,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
             description: 'launch-readiness source names the one-product commercial story'
           },
           {
-            file: 'packages/chatgptapp/src/server.ts',
+            file: 'packages/external-apps/chatgpt/src/server.ts',
             evidence: 'connected-interface Bitcode Terminal companion',
             description: 'ChatGPT App remains a companion interface'
           }
@@ -3936,7 +3938,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
             description: 'MCP accepted writes emit write-admission metadata'
           },
           {
-            file: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+            file: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
             evidence: 'declares confirmation schema on every ChatGPT App connected-interface write carrier',
             description: 'ChatGPT App write carriers require confirmation schema'
           }
@@ -4786,7 +4788,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_websearch_doccodetoolpurpose.ts',
       'protocol-demonstration/test/v26-web-search-support-compatibility.test.js',
       'packages/web-search/src/index.ts',
-      'packages/chatgptapp/src/tools.ts',
+      'packages/external-apps/chatgpt/src/tools.ts',
       'protocol-demonstration/test/v26-active-product-naming.test.js'
     ]
   },
@@ -4955,9 +4957,9 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
       'whole-repository-connected-interface-and-package-carriers',
       'MCP, ChatGPT App, AssetPack, API, prompt, storage, and schema carriers',
       [
-        'packages/chatgptapp/src/server.ts',
-        'packages/chatgptapp/src/tools.ts',
-        'packages/chatgptapp/src/__tests__/tools.test.ts',
+        'packages/external-apps/chatgpt/src/server.ts',
+        'packages/external-apps/chatgpt/src/tools.ts',
+        'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
         'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
         'packages/executions-mcp/src/mcp-server/src/types/index.ts',
         'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
