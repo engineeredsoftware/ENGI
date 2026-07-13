@@ -12,3 +12,9 @@ module.exports = {
     },
   },
 };
+module.exports.moduleNameMapper = {
+  '^@bitcode/host-generics$': '<rootDir>/../host-generics/src/index.ts',
+  '^@bitcode/host-generics/(.*)$': '<rootDir>/../host-generics/src/$1',
+  '^@bitcode/generic-hosts-local$': '<rootDir>/../generic-hosts/Local/src/index.ts',
+  '^@bitcode/generic-hosts-vercel-sandbox$': '<rootDir>/../generic-hosts/VercelSandbox/src/index.ts',
+};

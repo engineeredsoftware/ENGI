@@ -2,8 +2,8 @@ import { promises as fs } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { InlineHost, type InlineHostOptions } from '../inline-host';
-import { readWorkspaceSources, type HostExec } from '../host';
+import { LocalHost, type LocalHostOptions } from '../local-host';
+import { readWorkspaceSources, type HostExec } from '@bitcode/host-generics';
 
 const FIXTURE: Record<string, string> = {
   'README.md': '# Demo\nA demo project.',
@@ -35,20 +35,20 @@ function fakeExec(): { exec: HostExec; calls: string[][] } {
   return { exec, calls };
 }
 
-describe('InlineHost (primitive Host implementation)', () => {
+describe('LocalHost (primitive Host implementation)', () => {
   let rootDir: string;
   afterEach(async () => {
     if (rootDir) await fs.rm(rootDir, { recursive: true, force: true });
   });
   async function makeRoot() {
-    rootDir = await fs.mkdtemp(path.join(os.tmpdir(), 'inline-host-test-'));
+    rootDir = await fs.mkdtemp(path.join(os.tmpdir(), 'local-host-test-'));
     return rootDir;
   }
 
-  it('reports inline capabilities (clone + filesystem + exec)', async () => {
-    const host = new InlineHost({ exec: fakeExec().exec, rootDir: await makeRoot() });
+  it('reports local capabilities (clone + filesystem + exec)', async () => {
+    const host = new LocalHost({ exec: fakeExec().exec, rootDir: await makeRoot() });
     expect(host.capabilities).toMatchObject({
-      hostKind: 'inline',
+      hostKind: 'local',
       clone: true,
       filesystem: true,
       exec: true,
@@ -58,7 +58,7 @@ describe('InlineHost (primitive Host implementation)', () => {
 
   it('provisions a full checkout (clone + checkout) and exposes the filesystem', async () => {
     const { exec, calls } = fakeExec();
-    const host = new InlineHost({ exec, rootDir: await makeRoot() });
+    const host = new LocalHost({ exec, rootDir: await makeRoot() });
     const ws = await host.provisionRepository({
       repositoryFullName: 'engineeredsoftware/demo',
       url: 'https://github.com/engineeredsoftware/demo.git',
@@ -79,7 +79,7 @@ describe('InlineHost (primitive Host implementation)', () => {
   });
 
   it('readFile refuses path traversal outside the checkout', async () => {
-    const host = new InlineHost({ exec: fakeExec().exec, rootDir: await makeRoot() });
+    const host = new LocalHost({ exec: fakeExec().exec, rootDir: await makeRoot() });
     const ws = await host.provisionRepository({
       repositoryFullName: 'o/r',
       url: 'https://github.com/o/r.git',
@@ -89,7 +89,7 @@ describe('InlineHost (primitive Host implementation)', () => {
   });
 
   it('readWorkspaceSources reads full content (all, subset, and bounded)', async () => {
-    const host = new InlineHost({ exec: fakeExec().exec, rootDir: await makeRoot() });
+    const host = new LocalHost({ exec: fakeExec().exec, rootDir: await makeRoot() });
     const ws = await host.provisionRepository({
       repositoryFullName: 'o/r',
       url: 'https://github.com/o/r.git',
@@ -115,7 +115,7 @@ describe('InlineHost (primitive Host implementation)', () => {
       const url = args[args.length - 2] ?? '';
       return { exitCode: 128, stdout: '', stderr: `fatal: could not read from ${url}` };
     };
-    const host = new InlineHost({ exec: failingExec, rootDir: await makeRoot() });
+    const host = new LocalHost({ exec: failingExec, rootDir: await makeRoot() });
     await expect(
       host.provisionRepository({
         repositoryFullName: 'o/r',
@@ -123,7 +123,7 @@ describe('InlineHost (primitive Host implementation)', () => {
         revision: 'main',
         password: 'ghs_secrettoken',
       }),
-    ).rejects.toThrow(/InlineHost git clone failed/);
+    ).rejects.toThrow(/LocalHost git clone failed/);
 
     const cloneCall = calls.find((c) => c[1] === 'clone')!;
     const urlArg = cloneCall[2];

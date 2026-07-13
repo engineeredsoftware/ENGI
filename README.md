@@ -146,7 +146,7 @@ Full QA checklist: `BITCODE_V48_QA.md` → Gate 3 depositing runbook.
 |---|---|
 | `uapi/` | Next.js app — `/deposits`, `/reads`, `/packs`, APIs |
 | `packages/pipelines/asset-pack/` | SynthesizeAssetPacks SDIVF, deposit agents, policy, demand estimate |
-| `packages/pipeline-hosts/` | InlineHost, VercelSandbox, harness |
+| `packages/pipeline-hosts/` | LocalHost, VercelSandbox, harness |
 | `packages/agent-generics/` | PTRR, failsafes, Thinkings, LLM call timeout |
 | `packages/generic-llms/` | xAI/Grok and other LLM providers |
 | `packages/execution-generics/` | Execution tree, streaming adapters |

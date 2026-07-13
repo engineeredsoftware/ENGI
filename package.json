@@ -16,6 +16,7 @@
     "packages/generic-generations/*",
     "packages/generic-measurements/*",
     "packages/generic-vcs/*",
+    "packages/generic-hosts/*",
     "packages/asset-packs/*",
     "packages/generic-doc-comment-plugins/*",
     "packages/pipelines/*",

@@ -2,13 +2,13 @@
  * Deposit source provisioning (V48 Gate 3).
  *
  * The deposit harness run provisions the FULL repository checkout on the primitive
- * Host (InlineHost in-process here; the Vercel Sandbox host in prod), then builds the
+ * Host (LocalHost in-process here; the Vercel Sandbox host in prod), then builds the
  * synthesis inventory FROM the checkout — every tracked file's verbatim content for
  * measurement (`sources`), plus bounded representative excerpts for the prompts
  * (`samples`). This retires the GitHub-API sample stopgap; the same `{path, content}`
  * shape works on either Host implementation.
  *
- * Host selection: InlineHost is valid only where the runtime has git + a filesystem
+ * Host selection: LocalHost is valid only where the runtime has git + a filesystem
  * (the dev persistent Node server, NOT a serverless function). Prod deposit runs on
  * the Vercel Sandbox host (the standing host loose end); when wired,
  * resolveDepositPipelineHost returns it.
@@ -17,7 +17,7 @@
  */
 
 import {
-  InlineHost,
+  LocalHost,
   VercelSandboxPipelineHost,
   assertVercelSandboxAuthAvailable,
   buildAssetPackSandboxHarness,
@@ -40,19 +40,21 @@ export interface ProvisionedDepositInventory {
 
 /**
  * Select the deposit HostKind by CONFIGURATION (not environment): `BITCODE_PIPELINE_HOST`
- * (`inline` | `sandbox`) chooses which HostKind runs the synthesis pipeline; default
- * `inline`. (A SandboxHost's provider is `BITCODE_SANDBOX_PROVIDER`, `vercel` | `aws`.)
+ * (`local` | `sandbox`; `inline` = alias of `local`) chooses which HostKind runs the synthesis pipeline; default
+ * `local`. (A SandboxHost's provider is `BITCODE_SANDBOX_PROVIDER`, `vercel` | `aws`.)
  * Pure + testable; no dev/prod or local/remote semantics.
  */
 export function selectDepositHostKind(
   env: NodeJS.ProcessEnv = process.env,
 ): BitcodeHostKind {
   const explicit = env.BITCODE_PIPELINE_HOST?.trim().toLowerCase();
-  return explicit === "sandbox" ? "sandbox" : "inline";
+  if (explicit === "sandbox") return "sandbox";
+  // `inline` is a deprecated alias of `local` (LocalHost, formerly InlineHost).
+  return "local";
 }
 
 /**
- * Resolve the INLINE deposit Host for provision + in-process SDIVF.
+ * Resolve the LOCAL deposit Host for provision + in-process SDIVF.
  *
  * Sandbox deposit does NOT use this primitive: the pipeline runs IN the box via
  * `runDepositInBoxHarness` / `VercelSandboxPipelineHost` (Gate-3 #25). Callers
@@ -63,11 +65,11 @@ export async function resolveDepositPipelineHost(): Promise<BitcodePipelineHost>
   if (selectDepositHostKind() === "sandbox") {
     throw new Error(
       "Sandbox deposit uses runDepositInBoxHarness (VercelSandboxPipelineHost), not " +
-        "resolveDepositPipelineHost. Set BITCODE_PIPELINE_HOST=inline for InlineHost " +
+        "resolveDepositPipelineHost. Set BITCODE_PIPELINE_HOST=local for LocalHost " +
         "provision + in-process SDIVF, or use the route sandbox branch.",
     );
   }
-  return new InlineHost();
+  return new LocalHost();
 }
 
 /** A host that can run a harness plan (the VercelSandboxPipelineHost shape). */

@@ -197,6 +197,19 @@ Compatibility shims: `@bitcode/vcs`, `@bitcode/github`, …
 pipeline-local tools            e.g. AssetPackLexicalDepositorySearchTool
 ```
 
+### 3.2.1 Hosts
+
+```
+@bitcode/host-generics                         BitcodePipelineHost primitive
+        ↑
+@bitcode/generic-hosts-local                   LocalHost (default; was InlineHost)
+@bitcode/generic-hosts-vercel-sandbox          VercelSandboxHost / PipelineHost
+        ↑
+@bitcode/pipeline-hosts                        Harness orchestration + BC re-exports
+```
+
+`BITCODE_PIPELINE_HOST`: unset|`local` (default; `inline` alias) | `sandbox`.
+
 ### 3.3 Pipelines
 
 **Hierarchy naming law:** names always encode full ancestry
@@ -215,7 +228,7 @@ pipeline-local tools            e.g. AssetPackLexicalDepositorySearchTool
         ↑
 @bitcode/pipeline-asset-pack             SynthesizeAssetPacksSDIVFPipeline (deposit | read);
                                          future SettleAssetPacksSDIVFPipeline
-@bitcode/pipeline-hosts                  Inline host + Vercel Sandbox harness
+@bitcode/pipeline-hosts                  Local host + Vercel Sandbox harness
 ```
 
 **SDIVF** = Setup → Discovery → Implementation → Validation → Finish  

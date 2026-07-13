@@ -1264,6 +1264,53 @@ importers:
         specifier: ^3.22.4
         version: 3.25.76
 
+  packages/generic-hosts/Local:
+    dependencies:
+      '@bitcode/host-generics':
+        specifier: workspace:*
+        version: link:../../host-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^25.0.0
+        version: 25.6.0
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
+  packages/generic-hosts/VercelSandbox:
+    dependencies:
+      '@bitcode/host-generics':
+        specifier: workspace:*
+        version: link:../../host-generics
+      '@vercel/sandbox':
+        specifier: ^1.10.2
+        version: 1.10.2
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^25.0.0
+        version: 25.6.0
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
   packages/generic-llms/Anthropic:
     dependencies:
       '@anthropic-ai/sdk':
@@ -2093,6 +2140,24 @@ importers:
         specifier: workspace:*
         version: link:../sentry
 
+  packages/host-generics:
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^25.0.0
+        version: 25.6.0
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
   packages/jira:
     dependencies:
       '@bitcode/logger':
@@ -2369,6 +2434,15 @@ importers:
 
   packages/pipeline-hosts:
     dependencies:
+      '@bitcode/generic-hosts-local':
+        specifier: workspace:*
+        version: link:../generic-hosts/Local
+      '@bitcode/generic-hosts-vercel-sandbox':
+        specifier: workspace:*
+        version: link:../generic-hosts/VercelSandbox
+      '@bitcode/host-generics':
+        specifier: workspace:*
+        version: link:../host-generics
       '@vercel/sandbox':
         specifier: ^1.10.2
         version: 1.10.2

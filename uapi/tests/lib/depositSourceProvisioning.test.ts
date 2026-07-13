@@ -30,7 +30,7 @@ function fakeHost(): { host: BitcodePipelineHost; isDisposed: () => boolean; sou
   };
   const host: BitcodePipelineHost = {
     capabilities: {
-      hostKind: 'inline',
+      hostKind: 'local',
       clone: true,
       filesystem: true,
       exec: true,
@@ -82,12 +82,13 @@ describe('provisionDepositSourceInventory', () => {
 });
 
 describe('selectDepositHostKind', () => {
-  it('selects by configured BITCODE_PIPELINE_HOST (default inline; env does not auto-select)', () => {
+  it('selects by configured BITCODE_PIPELINE_HOST (default local; env does not auto-select)', () => {
     expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'sandbox' } as any)).toBe('sandbox');
     expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: ' Sandbox ' } as any)).toBe('sandbox');
-    expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'inline' } as any)).toBe('inline');
-    expect(selectDepositHostKind({} as any)).toBe('inline');
-    expect(selectDepositHostKind({ VERCEL: '1' } as any)).toBe('inline');
+    expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'local' } as any)).toBe('local');
+    expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'inline' } as any)).toBe('local');
+    expect(selectDepositHostKind({} as any)).toBe('local');
+    expect(selectDepositHostKind({ VERCEL: '1' } as any)).toBe('local');
   });
 });
 
@@ -98,10 +99,10 @@ describe('resolveDepositPipelineHost', () => {
     else process.env.BITCODE_PIPELINE_HOST = original;
   });
 
-  it('returns an InlineHost when configured inline (default)', async () => {
+  it('returns an LocalHost when configured local (default)', async () => {
     delete process.env.BITCODE_PIPELINE_HOST;
     const host = await resolveDepositPipelineHost();
-    expect(host.capabilities.hostKind).toBe('inline');
+    expect(host.capabilities.hostKind).toBe('local');
   });
 
   it('rejects resolveDepositPipelineHost for sandbox (harness path is separate)', async () => {

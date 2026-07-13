@@ -593,7 +593,7 @@ lines / UI values into §6 for the QA record.
   - `BITCODE_ASSET_PACK_REAL_INFERENCE=true` — the ONLY required flag. Do NOT set
     `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE` (profiles removed, F26-A; it is a no-op).
   - Anthropic key present (default `claude-haiku-4-5` since 2026-07-03; `BITCODE_LLM_MODEL` overrides).
-  - `BITCODE_PIPELINE_HOST` unset (defaults to `inline`) — the dev Node server IS the
+  - `BITCODE_PIPELINE_HOST` unset (defaults to `local`) — the dev Node server IS the
     inline host, so it must have `git` on PATH + a writable temp dir.
 - Supabase LOCAL (decided 2026-07-03): `uapi/.env.local` points at the local stack
   (`127.0.0.1:54321`, `supabase start`/Docker running); `dev:remote` serves against it directly.
@@ -611,7 +611,7 @@ the streaming accordion log.
 
 | # | What | COPY | PASS |
 |---|---|---|---|
-| Host | `Provisioning {repo}@{ref} on the inline host…` then `Checkout ready: N files (M withheld by K protected-IP exclusions; full source measured, S prompt excerpts).` | the "Checkout ready" line | N = the repo's REAL tracked-file count (full repo, not ≤400/≤10); "full source measured"; M = exclusion-withheld files. FAIL if N≤10 or "samples"/API language → stopgap still active |
+| Host | `Provisioning {repo}@{ref} on the local host…` then `Checkout ready: N files (M withheld by K protected-IP exclusions; full source measured, S prompt excerpts).` | the "Checkout ready" line | N = the repo's REAL tracked-file count (full repo, not ≤400/≤10); "full source measured"; M = exclusion-withheld files. FAIL if N≤10 or "samples"/API language → stopgap still active |
 | Pipeline | `Running SynthesizeAssetPacks (deposit mode): Setup → Discovery → Implementation → Validation → Finish…` | the Phase pills from telemetry | all five phases present; Validation never skipped |
 | Absolutes | Validation telemetry shows `AssetPackMeasureAbsolutesAgent:deposit`; card measurements tile: `Functions: <N> functions · <v>% / weight 0.18`, `Types`, `File span`, `Correctness · <v>% / weight 0.28`, `Semantic volume` | the tile values + `output.depositOptionSynthesis.options[i].measurements` | size measures carry `magnitude`(int)+`unit`+`category:'absolute'`; magnitudes are plausible real counts; weights sum to 1. FAIL if `source-coverage`/`demand-alignment`/`reuse-likelihood` appear → placeholders still in use |
 | Card payload | option card emerald panel "If deposited, Bitcode receives": patchSummary + "Synthesized contents · N file(s)" (op-colored create/modify/delete) + "Provenant source · N files available to Bitcode" | `…options[i].contents` (patchSummary, fileChanges, provenantSourcePaths, provenantSourceCount) + screenshot | BOTH the synthesized contents AND the provenant source files shown prominently; fileChanges are path+op only (no raw code) |
@@ -641,7 +641,7 @@ cd uapi && pnpm exec jest depositSourceProvisioning depositSynthesizeOptionsRout
 ```
 
 **5. #25 SandboxHost in-box dispatch (deployment-conditional)**
-- Local default is inline. To exercise the sandbox path: `BITCODE_PIPELINE_HOST=sandbox`
+- Local default is local host. To exercise the sandbox path: `BITCODE_PIPELINE_HOST=sandbox`
   + sandbox auth (`VERCEL_OIDC_TOKEN` via `vercel env pull`, or
   `VERCEL_TOKEN`/`VERCEL_TEAM_ID`/`VERCEL_PROJECT_ID`) + `@vercel/sandbox` + git in the box image.
   Missing auth must fail closed with a clear message (not a silent hang).

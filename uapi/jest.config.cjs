@@ -82,6 +82,13 @@ module.exports = {
     '^@bitcode/engine/pipeline$': '<rootDir>/../packages/pipelines/asset-pack/src/run.ts',
     '^@bitcode/engine/(.*)$': '<rootDir>/../packages/pipelines-generics/src/pipeline/$1',
     // Fallback - treat other @bitcode/<pkg> references as pointing into packages/<pkg>/src
+    // Host hierarchy (nested paths — must precede catch-all @bitcode/([^/]+)$)
+    '^@bitcode/host-generics$': '<rootDir>/../packages/host-generics/src/index.ts',
+    '^@bitcode/host-generics/(.*)$': '<rootDir>/../packages/host-generics/src/$1',
+    '^@bitcode/generic-hosts-local$': '<rootDir>/../packages/generic-hosts/Local/src/index.ts',
+    '^@bitcode/generic-hosts-vercel-sandbox$': '<rootDir>/../packages/generic-hosts/VercelSandbox/src/index.ts',
+    '^@bitcode/pipeline-hosts$': '<rootDir>/../packages/pipeline-hosts/src/index.ts',
+    '^@bitcode/pipeline-hosts/(.*)$': '<rootDir>/../packages/pipeline-hosts/src/$1',
     '^@bitcode/([^/]+)$': '<rootDir>/../packages/$1/src/index.ts',
     '^@bitcode/([^/]+)/(.+)$': '<rootDir>/../packages/$1/src/$2',
 

@@ -55,7 +55,7 @@ jest.mock('@bitcode/pipeline-asset-pack', () => ({
 // The Host provisioning (full checkout) is mocked: we assert the route provisions on
 // a Host and feeds the full inventory to the pipeline (no real git clone in jest).
 jest.mock('@/lib/deposit-source-provisioning', () => ({
-  resolveDepositPipelineHost: jest.fn(() => ({ capabilities: { hostKind: 'inline' } })),
+  resolveDepositPipelineHost: jest.fn(() => ({ capabilities: { hostKind: 'local' } })),
   provisionDepositSourceInventory: jest.fn(),
   selectDepositHostKind: jest.fn(() => 'inline'),
   runDepositInBoxHarness: jest.fn(),

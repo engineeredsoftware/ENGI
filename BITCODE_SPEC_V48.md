@@ -411,7 +411,7 @@ Dispatch must use Vercel `waitUntil` (QA F31) — bare `void` after response is 
 
 | HostKind | Implementation | Law |
 |---|---|---|
-| `inline` | `packages/pipeline-hosts` InlineHost + `uapi/lib/deposit-source-provisioning` | Default when `BITCODE_PIPELINE_HOST` unset. Real `git clone` of full tree; Node fs workspace; inventory `paths` + `sources` + `samples`. |
+| `local` | `packages/pipeline-hosts` LocalHost + `uapi/lib/deposit-source-provisioning` | Default when `BITCODE_PIPELINE_HOST` unset. Real `git clone` of full tree; Node fs workspace; inventory `paths` + `sources` + `samples`. |
 | `sandbox` | `VercelSandboxPipelineHost` + asset-pack harness | When `BITCODE_PIPELINE_HOST=sandbox`. Auth: OIDC or `VERCEL_TOKEN`+team+project — fail closed if missing. Deposit boxes **`persistent: false`**. Create → run harness in-box → stop/delete. Persist `context.sandboxId` while running for cancel. Events: `sandbox-create-started`, `sandbox-created`, `command-started`, `sandbox-stopped`, `sandbox-cancelled`. |
 
 Inventory scope after provision: `applyInventoryScope({ inclusions: forcedInclusions, exclusions: forcedExclusions })`. Prompt path uses `projectInventoryForPrompt` (paths+samples only — never full `sources` in prompts).
@@ -545,7 +545,7 @@ Rebuild order in `buildDepositRouteSession` / `DepositPageClient`:
 | `BITCODE_ASSET_PACK_REAL_INFERENCE` | `true` for live deposit |
 | `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | `xai` / `grok-build-0.1` default when key present |
 | `BITCODE_LLM_CALL_TIMEOUT_MS` | `180000` |
-| `BITCODE_PIPELINE_HOST` | unset=inline; `sandbox`=in-box |
+| `BITCODE_PIPELINE_HOST` | unset=local; `sandbox`=in-box |
 | `XAI_API_KEY` | Required for xAI |
 | Vercel sandbox auth | OIDC or token+team+project when sandbox host |
 | Supabase | executions + execution_events migrations applied |
@@ -561,7 +561,7 @@ Rebuild order in `buildDepositRouteSession` / `DepositPageClient`:
 | Real option projection | `deposit-option-real-synthesis.ts` |
 | Policy / admission / earnings | `deposit-asset-pack-option-policy.ts`, `deposit-asset-pack-option-admission.ts`, `depositor-earning-supply-intelligence.ts` |
 | Settled demand | `depository-settled-demand-estimate.ts`, `uapi/lib/depository-settled-demand.ts` |
-| Hosts | `packages/pipeline-hosts/src/{inline-host,vercel-sandbox-host,asset-pack-harness,host}.ts` |
+| Hosts | `packages/pipeline-hosts/src/{local-host,vercel-sandbox-host,asset-pack-harness,host}.ts` |
 | Provisioning | `uapi/lib/deposit-source-provisioning.ts` |
 | Synthesize route | `uapi/app/api/deposit/synthesize-options/route.ts` |
 | Demand route | `uapi/app/api/deposit/demand-estimate/route.ts` |

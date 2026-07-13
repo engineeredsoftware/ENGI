@@ -962,10 +962,10 @@ read locally, NEVER across a process/network boundary. The pipeline (Setup → �
 Validation) speaks only to the primitive, so its behavior is identical on every host.
 
 **HostKinds — two implementations of the primitive:**
-- **InlineHost** (`inline-host.ts`) — runs the pipeline in the current box; provisions
+- **LocalHost** (`local-host.ts`) — runs the pipeline in the current box; provisions
   via a real `git clone` of the full tree to a local working dir (Node-fs workspace).
 - **SandboxHost** (`sandbox-host.ts`) — runs the pipeline inside a provisioned, isolated
-  box that has git + FS, so within it the checkout is local exactly as for InlineHost.
+  box that has git + FS, so within it the checkout is local exactly as for LocalHost.
   It is a base for providers:
   - **Vercel** (`VercelSandboxHost`, IMPLEMENTED) — provisions via the Sandbox SDK git
     source into the box working directory.
@@ -1034,7 +1034,7 @@ is named in spec for closure):
   built by `buildRealDepositAssetPackOptionSynthesis`; the `/deposit` card renders the
   "If deposited, Bitcode receives" panel.
 - **Host + provisioning.** `packages/pipeline-hosts`: `BitcodePipelineHost` /
-  `BitcodeHostWorkspace` / `BitcodeHostCapabilities` (`host.ts`); `InlineHost`;
+  `BitcodeHostWorkspace` / `BitcodeHostCapabilities` (`host.ts`); `LocalHost`;
   `SandboxHost` + `VercelSandboxHost` (Vercel provider) + `AwsSandboxHost` (stub);
   `readWorkspaceSources`. `uapi/lib/deposit-source-provisioning.ts`:
   `selectDepositHostKind`, `resolveDepositPipelineHost`, `provisionDepositSourceInventory`.
@@ -1063,14 +1063,14 @@ the live packages and executes the full SDIVF). Deposit reuses that mechanism:
   `VERCEL_PROJECT_ID`. `assertVercelSandboxAuthAvailable` fails closed before create.
 - **Route dispatch.** When `BITCODE_PIPELINE_HOST=sandbox`, the deposit route
   dispatches via `runDepositInBoxHarness` → `VercelSandboxPipelineHost.runHarness`
-  instead of InlineHost provision + in-process SDIVF; it reads `evidence.depositOptions`,
+  instead of LocalHost provision + in-process SDIVF; it reads `evidence.depositOptions`,
   runs the SAME pure projection (`validateDepositSynthesisOptions` +
   `buildRealDepositAssetPackOptionSynthesis`) and persists the deposit option
   synthesis. `resolveDepositPipelineHost` is **inline-only** (throws if hostKind is
   sandbox — callers must use the harness path). On `sandbox-created`, the route
   persists `context.sandboxId` on the running execution row for cancel.
 - **Cooperative cancel.** See Gate-3 #26.
-- **Parity of result.** InlineHost and SandboxHost produce the SAME deposit option
+- **Parity of result.** LocalHost and SandboxHost produce the SAME deposit option
   synthesis; only WHERE the pipeline runs differs. Real-sandbox execution is verified
   against deployed sandbox infra; harness plan-building + route dispatch + projection
   are unit-tested with a mocked host.
@@ -1143,13 +1143,13 @@ Parity: ✅ specified + implemented + tested · 🟦 specified + implemented as 
 | 15 | card "If deposited, Bitcode receives" | `DepositPageClient.tsx` | depositPageClient.test | ✅ |
 | 16 | full SDIVF pipeline only; Validation never skipped | deposit route (flag removed) | depositSynthesizeOptionsRoute.test | ✅ |
 | 17 | primitive Host + capabilities + workspace | `BitcodePipelineHost` / `BitcodeHostWorkspace` | inline/sandbox-host.test | ✅ |
-| 18 | InlineHost (real clone + Node fs) | `InlineHost` | inline-host.test | ✅ |
+| 18 | LocalHost (real clone + Node fs) | `LocalHost` | local-host.test | ✅ |
 | 19 | SandboxHost + Vercel provider | `SandboxHost` / `VercelSandboxHost` | sandbox-host.test | ✅ |
 | 20 | AWS provider seam | `AwsSandboxHost` (stub: provision throws) | sandbox-host.test | 🟦 |
 | 21 | checkout → sources bridge | `readWorkspaceSources` | inline/sandbox-host.test | ✅ |
 | 22 | HostKind selection (configured, not env) | `selectDepositHostKind` / `resolveDepositPipelineHost` | depositSourceProvisioning.test | ✅ |
 | 23 | full inventory (sources+samples) + fail-closed exclusions | `provisionDepositSourceInventory` / `applyExclusionsToInventory` | depositSourceProvisioning.test, asset-packs-synthesis.test | ✅ |
-| 24 | deposit provisions full checkout via Host | deposit route + `InlineHost` path | depositSynthesizeOptionsRoute.test | ✅ |
+| 24 | deposit provisions full checkout via Host | deposit route + `LocalHost` path | depositSynthesizeOptionsRoute.test | ✅ |
 | 25 | SandboxHost IN-BOX deposit dispatch (run the pipeline in the box) | harness deposit mode (`synthesizeMode` + steering → in-box runner; `depositOptions` in evidence) + `runDepositInBoxHarness` + route hostKind branch; ephemeral `persistent:false`; OIDC/token auth fail-closed | asset-pack-harness.test, depositSourceProvisioning.test, depositSynthesizeOptionsRoute.test, vercel-sandbox-host.test | ✅* |
 | 26 | Cooperative run cancel | `POST /api/executions/[runId]/cancel` + `execution-cancel.ts` + deposit route polls + sandbox `shouldAbort` + UI Cancel run + `deposit_synthesis_cancelled` analytics | executionCancelRoute.test, vercel-sandbox-host.test (abort), depositPageClient (cancel control) | ✅ |
 | 27 | Run configuration locked above telemetry in run detail | `DepositPageClient` config above telemetry; `disabled` when `synthesisRunId` set | depositPageClient.test | ✅ |
@@ -1598,4 +1598,16 @@ Compatibility shims remain at `@bitcode/vcs`, `@bitcode/github`, `@bitcode/gitla
 `@bitcode/bitbucket`, `@bitcode/git`. Prefer hierarchy package names in new code.
 `generic-tools/vcs` and `generic-agents-vcs` are tools/agents over the VCS layer,
 not provider packages.
+
+## Host hierarchy modularization + Local rename (Garrett, 2026-07-13)
+
+```
+@bitcode/host-generics                         # primitives (BitcodePipelineHost, SandboxHost)
+  → @bitcode/generic-hosts-local               # LocalHost (renamed from InlineHost)
+  → @bitcode/generic-hosts-vercel-sandbox      # VercelSandboxHost + PipelineHost harness
+    → @bitcode/pipeline-hosts                  # AssetPack harness barrel + BC re-exports
+```
+
+HostKind `local` replaces `inline` (BITCODE_PIPELINE_HOST; `inline` accepted as alias).
+Spec G3-4 tables updated to LocalHost / hostKind `local`.
 

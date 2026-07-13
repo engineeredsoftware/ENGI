@@ -86,7 +86,7 @@ describe('VercelSandboxHost (primitive Host implementation)', () => {
     expect(await ws.readFile('src/app.ts')).toBe('export function main() {}');
     expect(await ws.readFile('../escape')).toBeNull(); // traversal guarded
 
-    // readWorkspaceSources bridges it identically to the local host.
+    // readWorkspaceSources bridges it identically to the inline host.
     const sources = await readWorkspaceSources(ws, { paths: ['README.md'] });
     expect(sources).toEqual([{ path: 'README.md', content: '# Demo' }]);
 
