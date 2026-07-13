@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Obfuscations panel header controls — load/clear/anchor name popover.
  * Presentational; parent owns anchor state and persistence handlers.
  */
-"use client";
 
 import React from "react";
 import { Anchor, RefreshCw, Sparkles } from "lucide-react";

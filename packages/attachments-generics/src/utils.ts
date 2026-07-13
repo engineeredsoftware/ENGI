@@ -1,5 +1,5 @@
 /**
- * BC attachment display / validation utilities.
+ * attachment display / validation utilities.
  * File MIME helpers live in @bitcode/generic-attachments-file.
  */
 

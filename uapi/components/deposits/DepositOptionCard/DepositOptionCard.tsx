@@ -1,12 +1,13 @@
+'use client';
+
 /**
  * Single deposit AssetPack option card — contents, policy rows, neediness,
  * select/archive/resynthesize controls. Parent list owns batch deposit footer.
  */
-"use client";
 
 import React from "react";
 import { Anchor } from "lucide-react";
-import type { DepositOptionReviewDecisionState } from "@bitcode/pipeline-asset-pack/deposit-asset-pack-option-admission";
+import type { DepositOptionReviewDecisionState } from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-admission";
 import type { DepositRouteSession } from "@/components/deposits/models/deposit-route-model";
 import type { DepositSettledDemandEstimate } from "@/components/deposits/models/deposit-settled-demand";
 import type {

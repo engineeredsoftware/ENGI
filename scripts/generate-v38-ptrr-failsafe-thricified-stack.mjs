@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V38_PTRR_FAILSAFE_THRICIFIED_STACK_ARTIFACT_PATH,
   buildV38PtrrFailsafeThricifiedStack,
-} from '../packages/protocol/src/index.js';
+} from '../packages/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

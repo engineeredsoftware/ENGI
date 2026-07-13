@@ -208,7 +208,7 @@ export function buildBtdInterfaceConsumerUxRegressionInputs(): BtdInterfaceConsu
       proofRoots: ['confirmation-root:chatgpt-delivery', 'rights-root:chatgpt-delivery'],
       repairSteps: ['confirm-reader-action', 'settle-btc-fee-before-delivery'],
       feeRightsPreview: feeRightsPreview('chatgpt-delivery', 'blocked_until_rights', 'settlement_pending'),
-      fixturePath: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+      fixturePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
       replayCommand:
         'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand',
       capabilities: DEFAULT_CAPABILITIES,

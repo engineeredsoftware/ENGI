@@ -4,7 +4,7 @@ import {
   validateOAuthClientCredentials,
   verifyBitcoinWalletAuthorizationCode,
   verifyPkce,
-} from '@/lib/bitcoin-wallet-oauth-provider';
+} from '@bitcode/auth/bitcoin-wallet-oauth-provider';
 import {
   bitcodeServerTelemetry,
   compactBitcodeServerId,

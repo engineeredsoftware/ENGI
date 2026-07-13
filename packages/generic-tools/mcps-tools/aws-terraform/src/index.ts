@@ -2,7 +2,7 @@
  * AWS Terraform MCP Tools - Modern Tool Class Architecture
  *
  * Stubs inlined (no @bitcode/aws package — removed; artifact S3 is
- * @bitcode/generic-artifacts-aws).
+ * @bitcode/generic-artifacts-aws-provider).
  */
 
 import { Tool } from '@bitcode/tools-generics';

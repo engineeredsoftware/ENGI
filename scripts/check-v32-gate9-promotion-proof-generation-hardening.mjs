@@ -101,9 +101,9 @@ function main() {
     'scripts/generate-v32-promotion-proof-generation-hardening.mjs',
     'scripts/check-v32-gate9-promotion-proof-generation-hardening.mjs',
     'scripts/promote-bitcode-canon.mjs',
-    'packages/protocol/src/canonical/proven-generator.js',
-    'packages/protocol/src/canonical/v21-specifying.js',
-    'packages/protocol/test/v32-promotion-proof-generation.test.js',
+    'packages/specifying/src/canonical/proven-generator.js',
+    'packages/specifying/src/canonical/v21-specifying.js',
+    'packages/specifying/test/v32-promotion-proof-generation.test.js',
     'BITCODE_SPEC_V32.md',
     'BITCODE_SPEC_V32_DELTA.md',
     'BITCODE_SPEC_V32_NOTES.md',
@@ -152,8 +152,8 @@ function main() {
   }
 
   const generator = read(root, 'scripts/generate-bitcode-proven.mjs');
-  const provenGenerator = read(root, 'packages/protocol/src/canonical/proven-generator.js');
-  const specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const provenGenerator = read(root, 'packages/specifying/src/canonical/proven-generator.js');
+  const specifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
   const spec = read(root, 'BITCODE_SPEC_V32.md');
   const delta = read(root, 'BITCODE_SPEC_V32_DELTA.md');
   const notes = read(root, 'BITCODE_SPEC_V32_NOTES.md');
@@ -162,7 +162,7 @@ function main() {
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const matrix = read(root, 'scripts/v32-proof-coverage-matrix.mjs');
-  const test = read(root, 'packages/protocol/test/v32-promotion-proof-generation.test.js');
+  const test = read(root, 'packages/specifying/test/v32-promotion-proof-generation.test.js');
 
   assertCheck(failures, generator.includes('--dry-run'), 'generate-bitcode-proven must expose --dry-run.');
   assertCheck(failures, generator.includes('buildSourceSafeDiffSummary'), 'generate-bitcode-proven must build source-safe diff summaries.');

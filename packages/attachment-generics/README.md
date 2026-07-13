@@ -5,11 +5,11 @@
 ## Hierarchy
 
 ```
-@bitcode/attachment-generics                    # this package (Attachment primitive)
-        ↑
-@bitcode/generic-attachments-file               # FileAttachment base
-@bitcode/generic-attachments-external           # ExternalAttachment base (Externals auxillary)
-        ↑
+@bitcode/attachment-generics # this package (Attachment primitive)
+ ↑
+@bitcode/generic-attachments-file # FileAttachment base
+@bitcode/generic-attachments-external # ExternalAttachment base (Externals auxillary)
+ ↑
 product conversations / API / UI
 ```
 

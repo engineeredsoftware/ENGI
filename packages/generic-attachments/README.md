@@ -6,9 +6,9 @@ Nested **base implementations** of `@bitcode/attachment-generics`.
 
 ```
 @bitcode/attachment-generics
-        ↑
-@bitcode/generic-attachments-file       # file/
-@bitcode/generic-attachments-external   # external/  (Externals auxillary connections)
+ ↑
+@bitcode/generic-attachments-file # file/
+@bitcode/generic-attachments-external # external/ (Externals auxillary connections)
 ```
 
 | Path | Package | Role |

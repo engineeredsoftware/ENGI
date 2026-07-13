@@ -5,7 +5,7 @@ import { TSESTree as T, ESLintUtils } from '@typescript-eslint/utils';
  * require-prompt-hierarchy
  * -------------------------------------------------------------------------------------------------
  * Enforces Bitcode Registry-backed prompt hierarchy for agents:
- * - factoryAgentWithPTRR configs must include an AgentPrompt registry carrier
+ * - factoryPTRRAgent configs must include an AgentPrompt registry carrier
  * - step prompt registries must cover plan/try/refine/retry so generic and specific PromptParts
  *   compose into every agent phase
  * - Forbid manual assignment to `execution.prompt = ...`
@@ -18,13 +18,13 @@ export const requirePromptHierarchy = ESLintUtils.RuleCreator.withoutDocs({
     type: 'problem',
     messages: {
       missingPrompt:
-        'factoryAgentWithPTRR Bitcode prompt composition must include `prompt: AgentPrompt` or `prompts.system` as the Registry-backed prompt carrier.',
+        'factoryPTRRAgent Bitcode prompt composition must include `prompt: AgentPrompt` or `prompts.system` as the Registry-backed prompt carrier.',
       missingStepPrompts:
-        'factoryAgentWithPTRR Bitcode prompt composition must include `stepPrompts` or `prompts` with plan/try/refine/retry Prompt registries.',
+        'factoryPTRRAgent Bitcode prompt composition must include `stepPrompts` or `prompts` with plan/try/refine/retry Prompt registries.',
       missingStepPrompt:
-        'factoryAgentWithPTRR Bitcode prompt composition is missing `{{step}}` step Prompt registry.',
+        'factoryPTRRAgent Bitcode prompt composition is missing `{{step}}` step Prompt registry.',
       manualExecutionPrompt:
-        'Do not assign to execution.prompt directly; pass Registry-backed prompts through factoryAgentWithPTRR.',
+        'Do not assign to execution.prompt directly; pass Registry-backed prompts through factoryPTRRAgent.',
     },
     schema: [],
   },
@@ -46,7 +46,7 @@ export const requirePromptHierarchy = ESLintUtils.RuleCreator.withoutDocs({
 
       CallExpression(node: T.CallExpression) {
         const callee = node.callee;
-        if (callee.type !== 'Identifier' || callee.name !== 'factoryAgentWithPTRR') return;
+        if (callee.type !== 'Identifier' || callee.name !== 'factoryPTRRAgent') return;
         if (!node.arguments.length) return;
         const arg = node.arguments[0];
         if (arg.type !== 'ObjectExpression') return;

@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
 
-import { cancelUserExecution } from '@/lib/execution-cancel';
+import { cancelUserExecution } from '@bitcode/api/pipelines/cancel';
 
 export const runtime = 'nodejs';
 

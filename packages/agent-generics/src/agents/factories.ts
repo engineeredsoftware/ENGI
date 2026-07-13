@@ -1,9 +1,9 @@
 /**
  * Agent primitive factories (non-PTRR).
  *
- * PTRR base (`factoryPTRRAgent` / `factoryAgentWithPTRR`) lives in
- * `@bitcode/generic-agents-ptrr` and is re-exported from this package's
- * root index for compatibility — not from this file — to avoid load cycles.
+ * PTRR base (`factoryPTRRAgent`) lives in `@bitcode/generic-agents-ptrr`
+ * and is re-exported from this package's root index — not from this file —
+ * to avoid load cycles.
  *
  * @doc-code
  * type: agent-factories
@@ -20,14 +20,12 @@ import {
 import { Agent, AgentStep, AgentVariationStep } from '../types';
 
 // ==================== PTRR base (prefer @bitcode/generic-agents-ptrr) ====================
-// Re-export for deep-import BC (`@bitcode/agent-generics/agents/factories`).
+// Deep-import surface (`@bitcode/agent-generics/agents/factories`).
 // Safe: PTRR factory does not import this file (only steps/execution/types).
 
 export {
   factoryPTRRAgent,
   factoryPTRRAgentWithGenerations,
-  factoryAgentWithPTRR,
-  factoryAgentWithPTRRGenerations,
   type PTRRAgent,
   type BitcodePTRRFactoryConfig,
   type BitcodePTRRPromptCarrier,

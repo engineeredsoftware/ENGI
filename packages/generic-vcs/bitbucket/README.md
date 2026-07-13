@@ -5,14 +5,14 @@ Bitbucket **provider base** over `@bitcode/vcs-generics`.
 ## Hierarchy
 
 ```
-@bitcode/vcs-generics                         AbstractVCSProvider, VCSProvider, factory
-        ↑
-@bitcode/generic-vcs-bitbucket                # this package
+@bitcode/vcs-generics AbstractVCSProvider, VCSProvider, factory
+ ↑
+@bitcode/generic-vcs-bitbucket # this package
 @bitcode/generic-vcs-github
 @bitcode/generic-vcs-gitlab
 ```
 
-Compatibility shim: `@bitcode/bitbucket` re-exports this package. Prefer hierarchy names.
+Package: `@bitcode/generic-vcs-bitbucket` re-exports this package. Prefer hierarchy names.
 
 ## Usage
 
@@ -25,10 +25,10 @@ const provider = await createBitbucketProvider();
 
 // Direct
 const direct = new BitbucketProvider({
-  provider: 'bitbucket',
-  clientId: process.env.BITBUCKET_CLIENT_ID!,
-  clientSecret: process.env.BITBUCKET_CLIENT_SECRET!,
-  redirectUri: process.env.BITBUCKET_REDIRECT_URI!,
+ provider: 'bitbucket',
+ clientId: process.env.BITBUCKET_CLIENT_ID!,
+ clientSecret: process.env.BITBUCKET_CLIENT_SECRET!,
+ redirectUri: process.env.BITBUCKET_REDIRECT_URI!,
 });
 ```
 

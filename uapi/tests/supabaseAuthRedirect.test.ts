@@ -2,7 +2,7 @@ import {
   buildSupabaseAuthCallbackRedirect,
   consumeAuthNextPath,
   rememberAuthNextPath,
-} from '@/lib/supabase-auth-redirect';
+} from '@bitcode/auth/supabase-auth-redirect';
 
 describe('supabase-auth-redirect', () => {
   beforeEach(() => {

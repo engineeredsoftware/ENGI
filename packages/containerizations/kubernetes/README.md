@@ -1,26 +1,25 @@
 # @bitcode/containerizations-kubernetes
 
-> Path: `packages/containerizations/kubernetes`  
-> BC alias: `@bitcode/kubernetes` (thin re-export at `packages/kubernetes`)
+> Path: `packages/containerizations/kubernetes`
 
 Kubernetes cluster management tools for the Bitcode platform. Provides essential cluster introspection and resource management capabilities.
 
 ## Available Tools
 
 - **kubernetesListPodsTool**: List all pods in cluster
-- **kubernetesListServicesTool**: List all services in cluster  
+- **kubernetesListServicesTool**: List all services in cluster
 - **kubernetesListDeploymentsTool**: List all deployments in cluster
 - **kubernetesDescribeNodeTool**: Get detailed node information
 
 ## Usage
 
 ```typescript
-import { 
-  kubernetesListPodsTool,
-  kubernetesListServicesTool,
-  kubernetesDescribeNodeTool 
+import {
+ kubernetesListPodsTool,
+ kubernetesListServicesTool,
+ kubernetesDescribeNodeTool
 } from '@bitcode/containerizations-kubernetes';
-// or BC: from '@bitcode/kubernetes'
+// or from '@bitcode/containerizations-kubernetes'
 
 // List cluster resources
 const pods = await kubernetesListPodsTool();
@@ -28,8 +27,8 @@ const services = await kubernetesListServicesTool();
 const deployments = await kubernetesListDeploymentsTool();
 
 // Get node details
-const nodeInfo = await kubernetesDescribeNodeTool({ 
-  nodeName: 'worker-node-1' 
+const nodeInfo = await kubernetesDescribeNodeTool({
+ nodeName: 'worker-node-1'
 });
 ```
 

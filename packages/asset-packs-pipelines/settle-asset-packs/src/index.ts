@@ -134,15 +134,3 @@ export const settleAssetPacksSimplePipeline: SettleAssetPacksSimplePipeline =
   factorySettleAssetPacksSimplePipeline();
 
 export const runSettleAssetPacksSimplePipeline = settleAssetPacksSimplePipeline;
-
-// --- BC short aliases ---
-/** @deprecated Prefer SettleAssetPacksSimplePipeline */
-export type SettleReadsSimplePipeline = SettleAssetPacksSimplePipeline;
-/** @deprecated Prefer SettleAssetPacksInput */
-export type SettleReadsInput = SettleAssetPacksInput;
-/** @deprecated Prefer factorySettleAssetPacksSimplePipeline */
-export const factorySettleReadsSimplePipeline = factorySettleAssetPacksSimplePipeline;
-/** @deprecated Prefer settleAssetPacksSimplePipeline */
-export const settleReadsSimplePipeline = settleAssetPacksSimplePipeline;
-/** @deprecated Prefer runSettleAssetPacksSimplePipeline */
-export const runSettleReadsSimplePipeline = runSettleAssetPacksSimplePipeline;

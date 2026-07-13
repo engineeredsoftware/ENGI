@@ -17,7 +17,7 @@ jest.mock('@bitcode/supabase/ssr/server', () => ({
 let mockConnectionManager: any;
 let mockProvider: any;
 
-jest.mock('@bitcode/vcs', () => ({
+jest.mock('@bitcode/vcs-generics', () => ({
   VCSConnections: jest.fn().mockImplementation(() => mockConnectionManager),
   VCSProviderFactory: {
     create: jest.fn().mockImplementation(async () => mockProvider),
@@ -37,7 +37,7 @@ mockProvider = {
 
 const { executionContext } = require('@bitcode/generic-tools-editing/execution-context');
 const { validateFileOperation } = require('@bitcode/pipelines-generics/src/gate-system/file-gates');
-const { VCSConnections, VCSProviderFactory } = require('@bitcode/vcs');
+const { VCSConnections, VCSProviderFactory } = require('@bitcode/vcs-generics');
 
 const baseInput = {
   provider: 'github' as const,

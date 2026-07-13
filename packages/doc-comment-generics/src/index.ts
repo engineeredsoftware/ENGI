@@ -133,9 +133,9 @@ export const WELL_KNOWN_PLUGIN_PACKAGES = [
   '@bitcode/doc-field',                  // doc-field
   '@bitcode/doc-typescript',             // doc-typescript
   '@bitcode/doc-dryrun',                 // doc-dryrun
-  '@bitcode/doc-comment-developing',             // base for development plugins
-  '@bitcode/doc-comment-developing-promptpart',  // development prompt part
-  '@bitcode/doc-comment-developing-prompt'       // development prompt
+  '@bitcode/generic-doc-comments-doc-developing',             // base for development plugins
+  '@bitcode/generic-doc-comments-doc-developing-promptpart',  // development prompt part
+  '@bitcode/generic-doc-comments-doc-developing-prompt'       // development prompt
 ] as const;
 
 /**

@@ -278,13 +278,6 @@ export function factoryAgentToolGenerationExecution(
   return new GenerationExecution('tools:execution', execution);
 }
 
-/** @deprecated Prefer factoryAgentFailsafeGenerationExecution */
-export const factoryAgentFailsafeSubStepExecution = factoryAgentFailsafeGenerationExecution;
-/** @deprecated Prefer factoryAgentThinkingsGenerationExecution */
-export const factoryAgentGenerationSubStepExecution = factoryAgentThinkingsGenerationExecution;
-/** @deprecated Prefer factoryAgentToolGenerationExecution */
-export const factoryAgentToolSubStepExecution = factoryAgentToolGenerationExecution;
-
 // ==================== CORE LLM GENERATION FACTORY ====================
 
 /**

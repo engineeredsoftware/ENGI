@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 
 import PublicShellFrame from '@/components/marketing/PublicShellFrame/PublicShellFrame';
 
-import PacksPageClient from './PacksPageClient';
+import PacksPageClient from '@/components/packs/PacksPageClient/PacksPageClient';
 
 export const metadata: Metadata = {
   title: 'Bitcode Packs',

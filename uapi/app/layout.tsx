@@ -20,7 +20,7 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 import AnalyticsEventsClient from '@/components/bitcode/analytics/AnalyticsEventsClient/AnalyticsEventsClient';
 import PageAnalyticsClient from '@/components/bitcode/analytics/PageAnalyticsClient/PageAnalyticsClient';
 import WalletSessionPersistenceBridge from './WalletSessionPersistenceBridge';
-import { init as initSentry } from '@bitcode/sentry';
+import { init as initSentry } from '@bitcode/external-telemetry-sentry';
 
 initSentry({
   dsn: process.env.SENTRY_DSN,

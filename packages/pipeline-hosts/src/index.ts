@@ -1,12 +1,13 @@
 /**
  * @bitcode/pipeline-hosts
  *
- * Compatibility barrel + AssetPack host orchestration.
+ * AssetPack host orchestration + composition barrel for the host hierarchy.
  *
- * Prefer:
- *   @bitcode/host-generics
- *   @bitcode/generic-hosts-local
- *   @bitcode/generic-hosts-vercel-sandbox
+ * Hierarchy:
+ *   @bitcode/host-generics                 — BitcodePipelineHost, SandboxHost
+ *   @bitcode/generic-hosts-local           — LocalHost
+ *   @bitcode/generic-hosts-vercel-sandbox  — VercelSandboxHost + host surface
+ *   @bitcode/pipeline-hosts (this)         — AssetPack plan/runners + composition
  */
 
 export * from './asset-pack-host-plan';

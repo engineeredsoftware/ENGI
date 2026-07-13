@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import type { VCSRepository } from '@bitcode/vcs';
+import type { VCSRepository } from '@bitcode/vcs-generics';
 
 import { createRouteWrapper } from '@bitcode/middleware';
 

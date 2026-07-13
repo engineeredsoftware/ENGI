@@ -171,11 +171,11 @@ NEXT_PUBLIC_MOCK_CHAT_STREAM=false
 - **Description**: Google OAuth 2.0 Client ID
 - **Example**: `123456789012-abcdefghijklmnop.apps.googleusercontent.com`
 - **Setup**:
-  1. Go to [Google Cloud Console](https://console.cloud.google.com)
-  2. Create/select project
-  3. Enable Google+ API
-  4. Create OAuth 2.0 credentials
-  5. Add authorized redirect: `https://[YOUR_SUPABASE_URL]/auth/v1/callback`
+ 1. Go to [Google Cloud Console](https://console.cloud.google.com)
+ 2. Create/select project
+ 3. Enable Google+ API
+ 4. Create OAuth 2.0 credentials
+ 5. Add authorized redirect: `https://[YOUR_SUPABASE_URL]/auth/v1/callback`
 
 ##### `SUPABASE_AUTH_GOOGLE_CLIENT_SECRET`
 - **Required**: For Google SSO
@@ -191,10 +191,10 @@ NEXT_PUBLIC_MOCK_CHAT_STREAM=false
 - **Description**: GitHub OAuth App Client ID
 - **Example**: `Iv1.8a61f19b2f3c4d5e`
 - **Setup**:
-  1. Go to GitHub Settings → Developer settings → OAuth Apps
-  2. Create "New OAuth App"
-  3. Set Authorization callback: `https://[YOUR_SUPABASE_URL]/auth/v1/callback`
-  4. This is DIFFERENT from GitHub App
+ 1. Go to GitHub Settings → Developer settings → OAuth Apps
+ 2. Create "New OAuth App"
+ 3. Set Authorization callback: `https://[YOUR_SUPABASE_URL]/auth/v1/callback`
+ 4. This is DIFFERENT from GitHub App
 
 ##### `SUPABASE_AUTH_GITHUB_CLIENT_SECRET`
 - **Required**: For GitHub SSO
@@ -279,73 +279,73 @@ NEXT_PUBLIC_MOCK_CHAT_STREAM=false
 Configure these in provider dashboards. Replace `https://app.example.com` with your production domain.
 
 - Supabase (OTP/OAuth overlay)
-  - Bitcode UI callback: `https://app.example.com/tps/supabase/callback`
-  - Email OTP links use `NEXT_PUBLIC_APP_URL` to construct the above.
-  - Supabase Auth → Providers (Google/GitHub): authorized redirect is Supabase’s default `https://<your-supabase-domain>/auth/v1/callback`.
+ - Bitcode UI callback: `https://app.example.com/tps/supabase/callback`
+ - Email OTP links use `NEXT_PUBLIC_APP_URL` to construct the above.
+ - Supabase Auth → Providers (Google/GitHub): authorized redirect is Supabase’s default `https://<your-supabase-domain>/auth/v1/callback`.
 
 - Stripe (Checkout)
-  - Allowed return URL: `https://app.example.com/tps/stripe/checkout`
-  - Webhook: configure in Stripe Dashboard; set `STRIPE_WEBHOOK_SECRET` here.
+ - Allowed return URL: `https://app.example.com/tps/stripe/checkout`
+ - Webhook: configure in Stripe Dashboard; set `STRIPE_WEBHOOK_SECRET` here.
 
 - GitHub App (VCS)
-  - OAuth callback: `https://app.example.com/api/vcs/github/callback`
-  - Webhook secret: set in GitHub App; point webhook to your infra endpoint (if used).
+ - OAuth callback: `https://app.example.com/api/vcs/github/callback`
+ - Webhook secret: set in GitHub App; point webhook to your infra endpoint (if used).
 
 - Notion Integration
-  - OAuth redirect URI: `https://app.example.com/api/integrations/notion/callback`
+ - OAuth redirect URI: `https://app.example.com/api/integrations/notion/callback`
 
 - Twilio (SMS)
-  - Messaging webhook (POST): `https://app.example.com/api/chat/sms`
-  - Viewer link sent to users: `https://app.example.com/tps/twilio/sms/<runId>?token=...`
+ - Messaging webhook (POST): `https://app.example.com/api/chat/sms`
+ - Viewer link sent to users: `https://app.example.com/tps/twilio/sms/<runId>?token=...`
 
 - Google OAuth (via Supabase)
-  - Authorized redirect: `https://<your-supabase-domain>/auth/v1/callback`
+ - Authorized redirect: `https://<your-supabase-domain>/auth/v1/callback`
 
 - GitLab / Bitbucket (if using OAuth)
-  - Expected callbacks (if enabled):
-    - GitLab: `https://app.example.com/api/vcs/gitlab/callback`
-    - Bitbucket: `https://app.example.com/api/vcs/bitbucket/callback`
+ - Expected callbacks (if enabled):
+ - GitLab: `https://app.example.com/api/vcs/gitlab/callback`
+ - Bitbucket: `https://app.example.com/api/vcs/bitbucket/callback`
 
 ## Third‑Party Services Deployment Checklist
 
 Use this quick checklist when promoting an environment.
 
 - Supabase (Auth/UI)
-  - [ ] `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` set
-  - [ ] `SUPABASE_SERVICE_ROLE_KEY` and `SUPABASE_JWT_SECRET` set (server)
-  - [ ] UI callback allowed: `https://<app-domain>/tps/supabase/callback`
-  - [ ] Providers (Google/GitHub) configured in Supabase; redirect: `https://<supabase-domain>/auth/v1/callback`
+ - [ ] `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` set
+ - [ ] `SUPABASE_SERVICE_ROLE_KEY` and `SUPABASE_JWT_SECRET` set (server)
+ - [ ] UI callback allowed: `https://<app-domain>/tps/supabase/callback`
+ - [ ] Providers (Google/GitHub) configured in Supabase; redirect: `https://<supabase-domain>/auth/v1/callback`
 
 - Stripe (Checkout)
-  - [ ] `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` set
-  - [ ] `STRIPE_PRODUCT_ID_FLEXIBLE`, `STRIPE_PRODUCT_ID_INDUSTRIAL` set
-  - [ ] Optional bundle overrides set as required
-  - [ ] Allowed return URL: `https://<app-domain>/tps/stripe/checkout`
+ - [ ] `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` set
+ - [ ] `STRIPE_PRODUCT_ID_FLEXIBLE`, `STRIPE_PRODUCT_ID_INDUSTRIAL` set
+ - [ ] Optional bundle overrides set as required
+ - [ ] Allowed return URL: `https://<app-domain>/tps/stripe/checkout`
 
 - GitHub App (VCS)
-  - [ ] `GITHUB_APP_ID`, `GITHUB_PRIVATE_KEY`, client creds set
-  - [ ] OAuth callback: `https://<app-domain>/api/vcs/github/callback`
-  - [ ] Webhook secret set (if webhooks used)
+ - [ ] `GITHUB_APP_ID`, `GITHUB_PRIVATE_KEY`, client creds set
+ - [ ] OAuth callback: `https://<app-domain>/api/vcs/github/callback`
+ - [ ] Webhook secret set (if webhooks used)
 
 - Notion (Integrations)
-  - [ ] OAuth client id/secret stored
-  - [ ] Redirect URI: `https://<app-domain>/api/integrations/notion/callback`
+ - [ ] OAuth client id/secret stored
+ - [ ] Redirect URI: `https://<app-domain>/api/integrations/notion/callback`
 
 - Twilio (SMS)
-  - [ ] `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_PHONE_NUMBER` set
-  - [ ] Messaging webhook: `https://<app-domain>/api/chat/sms`
+ - [ ] `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_PHONE_NUMBER` set
+ - [ ] Messaging webhook: `https://<app-domain>/api/chat/sms`
 
 - Google OAuth (via Supabase)
-  - [ ] Authorized redirect: `https://<supabase-domain>/auth/v1/callback`
+ - [ ] Authorized redirect: `https://<supabase-domain>/auth/v1/callback`
 
 - GitLab / Bitbucket (optional)
-  - [ ] Callbacks: `/api/vcs/gitlab/callback` and `/api/vcs/bitbucket/callback`
+ - [ ] Callbacks: `/api/vcs/gitlab/callback` and `/api/vcs/bitbucket/callback`
 
 - Former UI alias redirects (for safety)
-  - [ ] `/login/callback` → `/tps/supabase/callback`
-  - [ ] `/checkout/callback` → `/tps/stripe/checkout`
-  - [ ] `/github/callback` → `/tps/github/app-install`
-  - [ ] `/sms/view/<runId>` → `/tps/twilio/sms/<runId>`
+ - [ ] `/login/callback` → `/tps/supabase/callback`
+ - [ ] `/checkout/callback` → `/tps/stripe/checkout`
+ - [ ] `/github/callback` → `/tps/github/app-install`
+ - [ ] `/sms/view/<runId>` → `/tps/twilio/sms/<runId>`
 
 ## Deployment Checklist
 
@@ -408,8 +408,8 @@ We ship with a minimal, fast CI for pre‑prod:
 
 - Workflow: `.github/workflows/v26.yml`
 - Jobs:
-  - core: pnpm install, lint (core), typecheck (core), AssetPack execution bring-up tests
-  - db-verify (optional, commented): apply `000_squashed.sql` to a Postgres service once populated
+ - core: pnpm install, lint (core), typecheck (core), AssetPack execution bring-up tests
+ - db-verify (optional, commented): apply `000_squashed.sql` to a Postgres service once populated
 
 Notes:
 - Keep CI Node at 20.x to match local dev and tests.

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V44_DEPOSITOR_EARNINGS_SUPPLY_OPPORTUNITIES_ARTIFACT_PATH,
   buildV44DepositorEarningsSupplyOpportunities,
-} from '../packages/protocol/src/canonical/v44-depositor-earnings-supply-opportunities.js';
+} from '../packages/specifying/src/canonical/v44-depositor-earnings-supply-opportunities.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -95,8 +95,8 @@ function main() {
     'uapi/tests/depositRouteModel.test.ts',
     'uapi/tests/depositPageClient.test.tsx',
     'packages/btd/src/source-to-shares.ts',
-    'packages/protocol/src/canonical/v44-depositor-earnings-supply-opportunities.js',
-    'packages/protocol/test/v44-depositor-earnings-supply-opportunities.test.js',
+    'packages/specifying/src/canonical/v44-depositor-earnings-supply-opportunities.js',
+    'packages/specifying/test/v44-depositor-earnings-supply-opportunities.test.js',
     'scripts/generate-v44-depositor-earnings-supply-opportunities.mjs',
     'scripts/check-v44-gate5-depositor-earnings-supply-opportunities.mjs',
     'BITCODE_SPEC_V44.md',
@@ -105,7 +105,7 @@ function main() {
     'BITCODE_SPEC_V44_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -159,9 +159,9 @@ function main() {
 
   if (!args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'packages/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-depositor-earnings-supply-opportunities.test.js']);
+      run(root, 'pnpm', ['--dir', 'packages/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-depositor-earnings-supply-opportunities.test.js']);
     } catch {
-      failures.push('packages/protocol/test/v44-depositor-earnings-supply-opportunities.test.js must pass.');
+      failures.push('packages/specifying/test/v44-depositor-earnings-supply-opportunities.test.js must pass.');
     }
 
     try {

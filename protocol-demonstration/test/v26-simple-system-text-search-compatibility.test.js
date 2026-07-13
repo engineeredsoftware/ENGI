@@ -15,8 +15,8 @@ const canonicalPromptSource = readRepoFile(
 const compatibilityPromptSource = readRepoFile(
   'packages/generic-tools/simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt.ts'
 );
-const systemGrepReadme = readRepoFile('packages/system-grep/README.md');
-const systemGrepSource = readRepoFile('packages/system-grep/src/index.ts');
+const systemGrepReadme = readRepoFile('packages/host-commands/grep/README.md');
+const systemGrepSource = readRepoFile('packages/host-commands/grep/src/index.ts');
 
 const rawPromptPartPaths = [
   'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_doccodetoolname.ts',

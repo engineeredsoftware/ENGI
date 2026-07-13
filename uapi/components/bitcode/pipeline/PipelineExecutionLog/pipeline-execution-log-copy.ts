@@ -1,3 +1,4 @@
+import type { LogLine } from './pipeline-execution-log-render-line';
 /**
  * Pure copy/distillation helpers for PipelineExecutionLog.
  * Kept free of React so unit tests can cover log copy without mounting the log UI.
@@ -162,9 +163,9 @@ export function buildTerseLogCopyText(args: {
 
 
 export function buildProcessingStallLabel(
-  lastLine: Pick<LogLine, 'phase' | 'agent' | 'step' | 'failsafe' | 'generation' | 'timestamp' | 'pipelineMode'> | undefined,
+  lastLine: Partial<Pick<LogLine, 'phase' | 'agent' | 'step' | 'failsafe' | 'generation' | 'timestamp' | 'pipelineMode'>> | undefined,
   nowMs: number,
-  pipelineMode?: SynthesisPipelineMode | null,
+  pipelineMode?: string | null,
 ): { label: string; likelyStalled: boolean } {
   if (!lastLine?.timestamp) return { label: 'Processing', likelyStalled: false };
   const lastMs = new Date(lastLine.timestamp).getTime();

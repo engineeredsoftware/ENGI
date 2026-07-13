@@ -277,10 +277,15 @@ export function detectBitcoinWalletProvider(): BitcoinWalletProvider | null {
 
 async function detectXverseProvider(): Promise<Extract<BitcoinWalletProvider, { id: 'xverse' }> | null> {
   try {
-    const satsConnect = await import('sats-connect');
+    const satsConnectModule = await import('sats-connect');
+    // Jest/CJS interop: dynamic import may nest the module under `.default`.
+    const satsConnect =
+      (satsConnectModule as { default?: typeof satsConnectModule }).default ??
+      satsConnectModule;
+    const getProviders = (satsConnect as { getProviders?: () => unknown }).getProviders;
     const providers =
-      typeof satsConnect.getProviders === 'function'
-        ? satsConnect.getProviders()
+      typeof getProviders === 'function'
+        ? getProviders()
         : [];
     const provider = Array.isArray(providers)
       ? providers.find((candidate: unknown) => {

@@ -139,10 +139,10 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/conversation-source-selector.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/conversation-source-selector.test.js',
+    'packages/specifying/src/canonical/conversation-source-selector.js',
+    'packages/specifying/src/index.js',
+    'packages/specifying/src/index.d.ts',
+    'packages/specifying/test/conversation-source-selector.test.js',
     'scripts/generate-v37-conversation-source-selector.mjs',
     'scripts/check-v37-gate5-conversation-source-selector.mjs',
     'uapi/app/conversations/conversation-source-selector.ts',
@@ -157,7 +157,7 @@ function main() {
     'BITCODE_SPEC_V37_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -178,7 +178,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/conversation-source-selector.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/conversation-source-selector.test.js']);
     } catch (error) {
       failures.push(`V37 Conversation source selector package test failed: ${error.stderr || error.message}`);
     }
@@ -260,7 +260,7 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V37_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const uapiReadme = read(root, 'uapi/app/conversations/README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');

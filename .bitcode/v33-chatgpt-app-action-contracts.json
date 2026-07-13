@@ -444,7 +444,7 @@
     },
     {
       "digest": "sha256:01098e7c683c6394a4ff691826030685ad237675e71f4335fd60373bdfc4f563",
-      "relativePath": "packages/chatgptapp/src/tools.ts",
+      "relativePath": "packages/external-apps/chatgpt/src/tools.ts",
       "requiredTokens": [
         {
           "present": true,
@@ -476,7 +476,7 @@
     },
     {
       "digest": "sha256:01098e7c683c6394a4ff691826030685ad237675e71f4335fd60373bdfc4f563",
-      "relativePath": "packages/chatgptapp/src/tools.ts"
+      "relativePath": "packages/external-apps/chatgpt/src/tools.ts"
     }
   ],
   "sourceSafetyVerdict": "source-safe-chatgpt-app-action-contract-metadata",
@@ -501,7 +501,7 @@
     },
     {
       "digest": "sha256:e4cd9b57e9934c6c2c98f0c0e192142cac7d832e53c7893db8baaeb2c1dd18d6",
-      "relativePath": "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts",
+      "relativePath": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
       "requiredTokens": [
         {
           "present": true,
@@ -525,11 +525,11 @@
     },
     {
       "digest": "sha256:e4cd9b57e9934c6c2c98f0c0e192142cac7d832e53c7893db8baaeb2c1dd18d6",
-      "relativePath": "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts"
+      "relativePath": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
     },
     {
       "digest": "sha256:bd3b2ab267858fb98a2ccc0e7d50666c3f7d86c55d44b81dd79202d0d0394014",
-      "relativePath": "packages/chatgptapp/src/__tests__/tools.test.ts"
+      "relativePath": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts"
     },
     {
       "digest": "sha256:2463fbe32e67968ca76cb9d475fb71c0b02aa6f145bdd2d66f587c0f06efb931",

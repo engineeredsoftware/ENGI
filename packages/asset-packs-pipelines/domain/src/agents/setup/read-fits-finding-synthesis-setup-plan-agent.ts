@@ -10,7 +10,7 @@
  */
 
 import { z } from 'zod';
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema';
@@ -32,7 +32,7 @@ const PlanSchema = z.object({
   plan: z.string().describe('High-level plan for Setup context')
 });
 
-export const ReadFitsFindingSynthesisSetupPlanAgent = factoryAgentWithPTRR<any, z.infer<typeof PlanSchema>>({
+export const ReadFitsFindingSynthesisSetupPlanAgent = factoryPTRRAgent<any, z.infer<typeof PlanSchema>>({
   name: 'ReadFitsFindingSynthesisSetupPlanAgent',
   description: 'Derive concise setup plan from repository context and expressed read',
   outputSchema: PlanSchema,
@@ -149,7 +149,7 @@ export default async function runReadFitsFindingSynthesisSetupPlanAgent(input: a
     }
   } else {
     const raw = await ReadFitsFindingSynthesisSetupPlanAgent(input, execution);
-    // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });
+    // factoryPTRRAgent returns an envelope ({ context, output, finalOutput });
     // unwrap it to the agent's typed structured output.
     const unwrapped = ((raw as any)?.finalOutput ?? (raw as any)?.output ?? raw) as z.infer<typeof PlanSchema>;
     result = { plan: typeof unwrapped?.plan === 'string' ? unwrapped.plan : '' };

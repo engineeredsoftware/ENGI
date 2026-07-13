@@ -116,10 +116,10 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/exchange-rehearsal.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/v36-exchange-rehearsal.test.js',
+    'packages/specifying/src/canonical/exchange-rehearsal.js',
+    'packages/specifying/src/index.js',
+    'packages/specifying/src/index.d.ts',
+    'packages/specifying/test/v36-exchange-rehearsal.test.js',
     'scripts/generate-v36-exchange-rehearsal.mjs',
     'scripts/check-v36-gate9-exchange-rehearsal.mjs',
     'BITCODE_SPEC_V36.md',
@@ -128,7 +128,7 @@ function main() {
     'BITCODE_SPEC_V36_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'uapi/app/exchange/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -149,7 +149,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/v36-exchange-rehearsal.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/v36-exchange-rehearsal.test.js']);
     } catch (error) {
       failures.push(`V36 Exchange rehearsal package test failed: ${error.stderr || error.message}`);
     }
@@ -218,9 +218,9 @@ function main() {
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
   const rootPackage = read(root, 'package.json');
-  const protocolIndex = read(root, 'packages/protocol/src/index.js');
-  const protocolDts = read(root, 'packages/protocol/src/index.d.ts');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolIndex = read(root, 'packages/specifying/src/index.js');
+  const protocolDts = read(root, 'packages/specifying/src/index.d.ts');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
   const rootReadme = read(root, 'README.md');
   const exchangeReadme = read(root, 'uapi/app/exchange/README.md');
 

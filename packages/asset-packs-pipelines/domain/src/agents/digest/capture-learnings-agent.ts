@@ -5,7 +5,7 @@
  * Extracts Q&A patterns, user iterates and provides feedback.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
@@ -75,7 +75,7 @@ const captureLearningsStepPrompts = {
   retry: () => createCaptureLearningsStepPrompt('Return conservative learning updates and unresolved questions when digest evidence is incomplete.'),
 };
 
-const captureLearningsAgent = factoryAgentWithPTRR<
+const captureLearningsAgent = factoryPTRRAgent<
   z.infer<typeof CaptureLearningsInputSchema>,
   z.infer<typeof CaptureLearningsOutputSchema>
 >({

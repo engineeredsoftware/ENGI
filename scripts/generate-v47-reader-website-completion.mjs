@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_READER_WEBSITE_COMPLETION_ARTIFACT_PATH,
   buildV47ReaderWebsiteCompletion,
-} from '../packages/protocol/src/canonical/v47-reader-website-completion.js';
+} from '../packages/specifying/src/canonical/v47-reader-website-completion.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

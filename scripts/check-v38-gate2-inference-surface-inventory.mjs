@@ -23,7 +23,7 @@ const REQUIRED_PRIMITIVE_IDS = [
   'PipelineExecution',
   'PipelinePromptRegistry',
   'PipelineAgentRegistry',
-  'factoryAgentWithPTRR',
+  'factoryPTRRAgent',
   'AgentPrompt',
   'AgentStepPrompt',
   'FailsafeGenerationSequence',
@@ -135,17 +135,17 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/inference-surface-inventory.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/v38-inference-surface-inventory.test.js',
+    'packages/specifying/src/canonical/inference-surface-inventory.js',
+    'packages/specifying/src/index.js',
+    'packages/specifying/src/index.d.ts',
+    'packages/specifying/test/v38-inference-surface-inventory.test.js',
     'scripts/generate-v38-inference-surface-inventory.mjs',
     'scripts/check-v38-gate2-inference-surface-inventory.mjs',
     'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
     'packages/asset-packs-pipelines/domain/src/read-need.ts',
     'packages/asset-packs-pipelines/domain/src/depository-search.ts',
     'packages/asset-packs-pipelines/domain/src/embedding-config.ts',
-    'packages/conversations-generics/src/agent/ConversationAgent.ts',
+    'packages/conversations/src/agent/ConversationAgent.ts',
     'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
     'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
     'packages/prompts/src/parts/PromptPart.ts',
@@ -174,7 +174,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/v38-inference-surface-inventory.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/v38-inference-surface-inventory.test.js']);
     } catch (error) {
       failures.push(`V38 inference surface protocol test failed: ${error.stderr || error.message}`);
     }
@@ -259,10 +259,10 @@ function main() {
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const source = read(root, 'packages/protocol/src/canonical/inference-surface-inventory.js');
-  const index = read(root, 'packages/protocol/src/index.js');
-  const typeDefs = read(root, 'packages/protocol/src/index.d.ts');
-  const test = read(root, 'packages/protocol/test/v38-inference-surface-inventory.test.js');
+  const source = read(root, 'packages/specifying/src/canonical/inference-surface-inventory.js');
+  const index = read(root, 'packages/specifying/src/index.js');
+  const typeDefs = read(root, 'packages/specifying/src/index.d.ts');
+  const test = read(root, 'packages/specifying/test/v38-inference-surface-inventory.test.js');
 
   for (const doc of [spec, delta, notes, parity]) {
     assertCheck(failures, doc.includes(ARTIFACT_PATH), `V38 docs must mention ${ARTIFACT_PATH}.`);

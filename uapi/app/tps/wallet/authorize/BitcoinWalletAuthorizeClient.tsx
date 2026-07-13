@@ -8,9 +8,9 @@ import {
   inspectBitcoinWalletProviders,
   type BitcoinWalletProviderId,
   type BitcoinWalletProviderSummary,
-} from '@/lib/bitcoin-wallet-client';
-import { writeLocalBitcodeWalletIdentity } from '@/lib/bitcode-wallet-local';
-import { bitcodeQaTelemetry, compactBitcodeAddress } from '@/lib/bitcode-qa-telemetry';
+} from '@bitcode/auth/bitcoin-wallet-client';
+import { writeLocalBitcodeWalletIdentity } from '@bitcode/auth/wallet-local';
+import { bitcodeQaTelemetry, compactBitcodeAddress } from '@bitcode/auth/qa-telemetry';
 
 type BitcoinWalletAuthorizeClientProps = {
   clientId: string;

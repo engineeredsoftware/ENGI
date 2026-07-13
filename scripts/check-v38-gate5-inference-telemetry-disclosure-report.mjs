@@ -153,15 +153,15 @@ function main() {
     '.bitcode/v38-prompt-benchmark-report.json',
     '.bitcode/v35-telemetry-taxonomy-catalog.json',
     '.bitcode/v37-conversation-stream-event-contract.json',
-    'packages/protocol/src/canonical/inference-telemetry-disclosure-report.js',
-    'packages/protocol/src/canonical/inference-surface-inventory.js',
-    'packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js',
-    'packages/protocol/src/canonical/prompt-benchmark-report.js',
-    'packages/protocol/src/canonical/telemetry-taxonomy-catalog.js',
-    'packages/protocol/src/canonical/conversation-stream-event-contract.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/v38-inference-telemetry-disclosure-report.test.js',
+    'packages/specifying/src/canonical/inference-telemetry-disclosure-report.js',
+    'packages/specifying/src/canonical/inference-surface-inventory.js',
+    'packages/specifying/src/canonical/ptrr-failsafe-thricified-stack.js',
+    'packages/specifying/src/canonical/prompt-benchmark-report.js',
+    'packages/specifying/src/canonical/telemetry-taxonomy-catalog.js',
+    'packages/specifying/src/canonical/conversation-stream-event-contract.js',
+    'packages/specifying/src/index.js',
+    'packages/specifying/src/index.d.ts',
+    'packages/specifying/test/v38-inference-telemetry-disclosure-report.test.js',
     'scripts/generate-v38-inference-telemetry-disclosure-report.mjs',
     'scripts/check-v38-gate5-inference-telemetry-disclosure-report.mjs',
     'packages/execution-generics/src/storage/ExecutionStreamAdapter.ts',
@@ -175,7 +175,7 @@ function main() {
     'BITCODE_SPEC_V38_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -198,7 +198,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v38-inference-telemetry-disclosure-report.test.js',
+        'packages/specifying/test/v38-inference-telemetry-disclosure-report.test.js',
       ]);
     } catch (error) {
       failures.push(`V38 inference telemetry disclosure protocol test failed: ${error.stderr || error.message}`);
@@ -250,14 +250,14 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const source = read(root, 'packages/protocol/src/canonical/inference-telemetry-disclosure-report.js');
-  const index = read(root, 'packages/protocol/src/index.js');
-  const typeDefs = read(root, 'packages/protocol/src/index.d.ts');
-  const test = read(root, 'packages/protocol/test/v38-inference-telemetry-disclosure-report.test.js');
+  const source = read(root, 'packages/specifying/src/canonical/inference-telemetry-disclosure-report.js');
+  const index = read(root, 'packages/specifying/src/index.js');
+  const typeDefs = read(root, 'packages/specifying/src/index.d.ts');
+  const test = read(root, 'packages/specifying/test/v38-inference-telemetry-disclosure-report.test.js');
 
   for (const doc of [spec, delta, notes, parity, readme, protocolReadme]) {
     assertCheck(failures, doc.includes(ARTIFACT_PATH), `V38 docs must mention ${ARTIFACT_PATH}.`);

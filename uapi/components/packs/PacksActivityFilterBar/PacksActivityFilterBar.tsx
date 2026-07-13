@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Packs master filter bar: keyboard hint, search/type/state/sort, and facets.
  * URL writes are owned by the parent via onWriteParams.
  */
-"use client";
 
 import React from "react";
 import {

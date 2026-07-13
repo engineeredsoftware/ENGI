@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 
-import { createGitHubAppAuth } from '@bitcode/github';
-import { VCSConnections, VCSProviderFactory, type VCSAuth, type VCSProviderType } from '@bitcode/vcs';
+import { createGitHubAppAuth } from '@bitcode/generic-vcs-github';
+import { VCSConnections, VCSProviderFactory, type VCSAuth, type VCSProviderType } from '@bitcode/vcs-generics';
 import {
   bitcodeServerTelemetry,
   compactBitcodeServerId,

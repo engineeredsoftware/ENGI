@@ -95,7 +95,7 @@
       ],
       "authBoundary": "pipeline_permission",
       "boundaryKind": "mcp_tool",
-      "fixturePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+      "fixturePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
       "objectFamilies": [
         "source_to_shares_proof",
         "organization_authority",
@@ -119,7 +119,7 @@
       ],
       "authBoundary": "confirmed_connected_write",
       "boundaryKind": "chatgpt_tool",
-      "fixturePath": "packages/chatgptapp/src/__tests__/tools.test.ts",
+      "fixturePath": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
       "objectFamilies": [
         "read_access",
         "organization_authority",
@@ -241,14 +241,14 @@
     "packages/btd/src/interface-integration-contract.ts",
     "packages/btd/src/interface-integration.ts",
     "uapi/app/terminal/terminal-interface-integration-regression.ts",
-    "packages/executions-mcp/src/mcp-server/src/interface-integration.ts",
-    "packages/chatgptapp/src/interface-integration.ts",
+    "packages/mcp-generics/src/mcp-server/src/interface-integration.ts",
+    "packages/external-apps/chatgpt/src/interface-integration.ts",
     "packages/btd/__tests__/v32-interface-contract-regression.test.ts",
     "packages/btd/__tests__/interface-integration.test.ts",
     "uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
     "packages/api/src/routes/__tests__/btd-crypto.test.ts",
-    "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
-    "packages/chatgptapp/src/__tests__/tools.test.ts",
+    "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+    "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
     "uapi/tests/auxillariesContent.access.test.tsx",
     "uapi/tests/api/conversationsRouteRead.test.ts"
   ],
@@ -305,7 +305,7 @@
     },
     {
       "digest": "sha256:c09f752e418c23b85c4bb583aab39a5e36037602d10ffbcde0ca58def6343144",
-      "relativePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+      "relativePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
       "requiredTokens": [
         {
           "present": true,
@@ -319,7 +319,7 @@
     },
     {
       "digest": "sha256:1196162b7949e519c7277b0387c6506abc0813dcc6dad0aea73df7cfbab9e834",
-      "relativePath": "packages/chatgptapp/src/__tests__/tools.test.ts",
+      "relativePath": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
       "requiredTokens": [
         {
           "present": true,

@@ -1,6 +1,5 @@
 # @bitcode/api/streams
 
-> BC alias: `@bitcode/streams`
 
 Streaming primitives for pipeline progress and file-diff telemetry, co-located with HTTP `responses/` under `packages/api`.
 
@@ -13,7 +12,7 @@ telemetry. Co-located with HTTP `responses/` under `packages/api` as API primiti
 | Export | Role |
 | --- | --- |
 | `@bitcode/api/streams` | Canonical |
-| `@bitcode/streams` | BC re-export |
+| `@bitcode/api/streams` | composition export |
 
 ## Overview
 
@@ -52,23 +51,23 @@ Industrial real-time communication infrastructure providing pipeline streaming, 
 ```typescript
 // Primary Stream Message Writer
 async function writeStreamMessage(
-  dataStream: DataStream | undefined,
-  message: StreamMessage
+ dataStream: DataStream | undefined,
+ message: StreamMessage
 ): Promise<void>
 
 // Specialized Message Writers
 async function writeStreamError(
-  dataStream: DataStream | undefined,
-  error: Error | string,
-  correlationId?: string
+ dataStream: DataStream | undefined,
+ error: Error | string,
+ correlationId?: string
 ): Promise<void>
 
 async function writeStreamWarning(
-  dataStream: DataStream | undefined,
-  message: string,
-  detail?: string,
-  metadata?: object,
-  correlationId?: string
+ dataStream: DataStream | undefined,
+ message: string,
+ detail?: string,
+ metadata?: object,
+ correlationId?: string
 ): Promise<void>
 ```
 
@@ -77,26 +76,26 @@ async function writeStreamWarning(
 ```typescript
 // Tool Execution Streaming
 async function writeStreamToolUse(
-  dataStream: DataStream | undefined,
-  toolUse: ToolUseMessage,
-  executionState?: ExecutionState,
-  correlationId?: string
+ dataStream: DataStream | undefined,
+ toolUse: ToolUseMessage,
+ executionState?: ExecutionState,
+ correlationId?: string
 ): Promise<void>
 
 // Generation Streaming
 async function writeStreamGeneration(
-  dataStream: DataStream | undefined,
-  generation: GenerationMessage & { purpose?: string },
-  executionState?: ExecutionState,
-  correlationId?: string
+ dataStream: DataStream | undefined,
+ generation: GenerationMessage & { purpose?: string },
+ executionState?: ExecutionState,
+ correlationId?: string
 ): Promise<void>
 
 // Chain-of-Thought Streaming
 async function writeStreamThinking(
-  dataStream: DataStream | undefined,
-  text: string,
-  executionState?: ExecutionState,
-  correlationId?: string
+ dataStream: DataStream | undefined,
+ text: string,
+ executionState?: ExecutionState,
+ correlationId?: string
 ): Promise<void>
 ```
 
@@ -105,21 +104,21 @@ async function writeStreamThinking(
 ```typescript
 // Stream Manager Creation
 class GenericStreamManager {
-  constructor(config: PipelineStreamConfig)
-  
-  // Pipeline Lifecycle
-  async pipelineStart(): Promise<void>
-  async pipelineComplete(result: any): Promise<void>
-  async pipelineError(error: Error): Promise<void>
-  
-  // Phase Management
-  async phaseStart(phase: EngiPhase): Promise<void>
-  async phaseComplete(phase: EngiPhase, result?: any): Promise<void>
-  
-  // Agent Coordination
-  async agentStart(agentName: string, step?: string): Promise<void>
-  async agentProgress(agentName: string, progress: string, metadata?: any): Promise<void>
-  async agentComplete(agentName: string, result: any, confidence?: number): Promise<void>
+ constructor(config: PipelineStreamConfig)
+
+ // Pipeline Lifecycle
+ async pipelineStart(): Promise<void>
+ async pipelineComplete(result: any): Promise<void>
+ async pipelineError(error: Error): Promise<void>
+
+ // Phase Management
+ async phaseStart(phase: EngiPhase): Promise<void>
+ async phaseComplete(phase: EngiPhase, result?: any): Promise<void>
+
+ // Agent Coordination
+ async agentStart(agentName: string, step?: string): Promise<void>
+ async agentProgress(agentName: string, progress: string, metadata?: any): Promise<void>
+ async agentComplete(agentName: string, result: any, confidence?: number): Promise<void>
 }
 ```
 
@@ -128,38 +127,38 @@ class GenericStreamManager {
 ### Stream Message Structure
 ```typescript
 interface StreamMessage {
-  type: 'generation' | 'tool-use' | 'error' | 'completion' | 'thinking';
-  executionState?: ExecutionState;
-  progress?: 'in-progress' | 'success' | 'warning' | 'error';
-  message: string;
-  detail?: string;
-  result?: any;
-  duration?: number;
-  correlationId?: string;
-  timestamp?: string;
-  metadata?: object;
+ type: 'generation' | 'tool-use' | 'error' | 'completion' | 'thinking';
+ executionState?: ExecutionState;
+ progress?: 'in-progress' | 'success' | 'warning' | 'error';
+ message: string;
+ detail?: string;
+ result?: any;
+ duration?: number;
+ correlationId?: string;
+ timestamp?: string;
+ metadata?: object;
 }
 ```
 
 ### Execution State Configuration
 ```typescript
 interface ExecutionState {
-  phase: ExecutionPhase; // 'Setup' | 'Discovery' | 'Implementation' | 'Validation' | 'Finish'
-  agent?: string;
-  step?: ExecutionStep; // 'Plan' | 'Try' | 'Refine' | 'Retry'
-  failsafe?: FailsafeStep;      // 'prepare_concise_context' | 'chunk_then_sum' | 'stitch_until_complete'
-  generation?: GenerationStep;  // 'reason' | 'judge' | 'structured_output'
+ phase: ExecutionPhase; // 'Setup' | 'Discovery' | 'Implementation' | 'Validation' | 'Finish'
+ agent?: string;
+ step?: ExecutionStep; // 'Plan' | 'Try' | 'Refine' | 'Retry'
+ failsafe?: FailsafeStep; // 'prepare_concise_context' | 'chunk_then_sum' | 'stitch_until_complete'
+ generation?: GenerationStep; // 'reason' | 'judge' | 'structured_output'
 }
 ```
 
 ### Pipeline Stream Configuration
 ```typescript
 interface PipelineStreamConfig {
-  pipeline: Pipeline;
-  subtype?: PipelineSubType;
-  correlationId: string;
-  dataStream?: DataStream;
-  metadata?: Record<string, any>;
+ pipeline: Pipeline;
+ subtype?: PipelineSubType;
+ correlationId: string;
+ dataStream?: DataStream;
+ metadata?: Record<string, any>;
 }
 ```
 
@@ -189,10 +188,10 @@ interface PipelineStreamConfig {
 ```typescript
 // Automatic Pipeline Streaming
 const streamManager = StreamFactory.createStreamManager({
-  pipeline: Pipeline.DELIVERABLE,
-  subtype: PipelineSubType.CODE_ANALYSIS,
-  correlationId: runId,
-  dataStream: response.dataStream
+ pipeline: Pipeline.DELIVERABLE,
+ subtype: PipelineSubType.CODE_ANALYSIS,
+ correlationId: runId,
+ dataStream: response.dataStream
 });
 
 await streamManager.pipelineStart();
@@ -207,34 +206,34 @@ await streamManager.pipelineComplete(finalResult);
 ```typescript
 // Automatic Tool Streaming
 async function executeTool(toolName: string, args: any): Promise<any> {
-  await writeStreamToolUse(dataStream, {
-    toolName,
-    args,
-    duration: 0
-  }, executionState, correlationId);
-  
-  const startTime = Date.now();
-  try {
-    const result = await actualToolExecution(toolName, args);
-    const duration = Date.now() - startTime;
-    
-    await writeStreamToolUse(dataStream, {
-      toolName,
-      args,
-      result,
-      duration
-    }, executionState, correlationId);
-    
-    return result;
-  } catch (error) {
-    await writeStreamToolUse(dataStream, {
-      toolName,
-      args,
-      error: error.message,
-      duration: Date.now() - startTime
-    }, executionState, correlationId);
-    throw error;
-  }
+ await writeStreamToolUse(dataStream, {
+ toolName,
+ args,
+ duration: 0
+ }, executionState, correlationId);
+
+ const startTime = Date.now();
+ try {
+ const result = await actualToolExecution(toolName, args);
+ const duration = Date.now() - startTime;
+
+ await writeStreamToolUse(dataStream, {
+ toolName,
+ args,
+ result,
+ duration
+ }, executionState, correlationId);
+
+ return result;
+ } catch (error) {
+ await writeStreamToolUse(dataStream, {
+ toolName,
+ args,
+ error: error.message,
+ duration: Date.now() - startTime
+ }, executionState, correlationId);
+ throw error;
+ }
 }
 ```
 
@@ -242,33 +241,33 @@ async function executeTool(toolName: string, args: any): Promise<any> {
 ```typescript
 // Comprehensive Generation Streaming
 async function streamedLLMCall(model: string, messages: any[]): Promise<any> {
-  await writeStreamGeneration(dataStream, {
-    model,
-    input: messages,
-    purpose: 'code-analysis'
-  }, executionState, correlationId);
-  
-  try {
-    const response = await generateText({ model, messages });
-    
-    await writeStreamGeneration(dataStream, {
-      model,
-      input: messages,
-      output: response.text,
-      tokens: response.usage,
-      purpose: 'code-analysis'
-    }, executionState, correlationId);
-    
-    return response;
-  } catch (error) {
-    await writeStreamGeneration(dataStream, {
-      model,
-      input: messages,
-      error: error.message,
-      purpose: 'code-analysis'
-    }, executionState, correlationId);
-    throw error;
-  }
+ await writeStreamGeneration(dataStream, {
+ model,
+ input: messages,
+ purpose: 'code-analysis'
+ }, executionState, correlationId);
+
+ try {
+ const response = await generateText({ model, messages });
+
+ await writeStreamGeneration(dataStream, {
+ model,
+ input: messages,
+ output: response.text,
+ tokens: response.usage,
+ purpose: 'code-analysis'
+ }, executionState, correlationId);
+
+ return response;
+ } catch (error) {
+ await writeStreamGeneration(dataStream, {
+ model,
+ input: messages,
+ error: error.message,
+ purpose: 'code-analysis'
+ }, executionState, correlationId);
+ throw error;
+ }
 }
 ```
 
@@ -278,19 +277,19 @@ async function streamedLLMCall(model: string, messages: any[]): Promise<any> {
 ```typescript
 // Automatic Stream Tracking
 class AgentExecutor {
-  private streamManager: GenericStreamManager;
-  
-  @StreamTracked(StreamEventType.AGENT_START)
-  async analyzeCode(codeInput: string): Promise<AnalysisResult> {
-    // Method automatically tracked
-    return await performAnalysis(codeInput);
-  }
-  
-  @StreamTracked(StreamEventType.TOOL_INVOKE)
-  async executeTool(toolName: string, args: any): Promise<any> {
-    // Tool execution automatically streamed
-    return await toolRegistry.execute(toolName, args);
-  }
+ private streamManager: GenericStreamManager;
+
+ @StreamTracked(StreamEventType.AGENT_START)
+ async analyzeCode(codeInput: string): Promise<AnalysisResult> {
+ // Method automatically tracked
+ return await performAnalysis(codeInput);
+ }
+
+ @StreamTracked(StreamEventType.TOOL_INVOKE)
+ async executeTool(toolName: string, args: any): Promise<any> {
+ // Tool execution automatically streamed
+ return await toolRegistry.execute(toolName, args);
+ }
 }
 ```
 
@@ -299,10 +298,10 @@ class AgentExecutor {
 // Real-Time Stream Analytics
 const analytics = streamManager.getAnalytics();
 console.log({
-  pipeline: analytics.pipeline,
-  duration: analytics.duration,
-  phaseHistory: analytics.phaseHistory,
-  eventCount: analytics.eventCount
+ pipeline: analytics.pipeline,
+ duration: analytics.duration,
+ phaseHistory: analytics.phaseHistory,
+ eventCount: analytics.eventCount
 });
 ```
 
@@ -310,18 +309,18 @@ console.log({
 ```typescript
 // Automatic Message Persistence
 try {
-  await supabaseAdmin.from('stream_logs').insert({
-    run_id: correlationId,
-    type: message.type,
-    progress: message.progress,
-    message: message.message,
-    detail: message.detail,
-    result: message.result,
-    metadata: message.metadata,
-    ts: message.timestamp
-  });
+ await supabaseAdmin.from('stream_logs').insert({
+ run_id: correlationId,
+ type: message.type,
+ progress: message.progress,
+ message: message.message,
+ detail: message.detail,
+ result: message.result,
+ metadata: message.metadata,
+ ts: message.timestamp
+ });
 } catch (err) {
-  log('Failed to persist stream message', 'warn', { err });
+ log('Failed to persist stream message', 'warn', { err });
 }
 ```
 
@@ -330,24 +329,24 @@ try {
 ### Pipeline Events
 ```typescript
 enum StreamEventType {
-  PIPELINE_START = 'pipeline-start',
-  PIPELINE_COMPLETE = 'pipeline-complete',
-  PIPELINE_ERROR = 'pipeline-error',
-  
-  PHASE_START = 'phase-start',
-  PHASE_COMPLETE = 'phase-complete',
-  PHASE_ERROR = 'phase-error',
-  
-  AGENT_START = 'agent-start',
-  AGENT_COMPLETE = 'agent-complete',
-  AGENT_PROGRESS = 'agent-progress',
-  
-  TOOL_INVOKE = 'tool-invoke',
-  TOOL_RESULT = 'tool-result',
-  TOOL_ERROR = 'tool-error',
-  
-  INTELLIGENCE_UPDATE = 'intelligence-update',
-  CONFIDENCE_UPDATE = 'confidence-update'
+ PIPELINE_START = 'pipeline-start',
+ PIPELINE_COMPLETE = 'pipeline-complete',
+ PIPELINE_ERROR = 'pipeline-error',
+
+ PHASE_START = 'phase-start',
+ PHASE_COMPLETE = 'phase-complete',
+ PHASE_ERROR = 'phase-error',
+
+ AGENT_START = 'agent-start',
+ AGENT_COMPLETE = 'agent-complete',
+ AGENT_PROGRESS = 'agent-progress',
+
+ TOOL_INVOKE = 'tool-invoke',
+ TOOL_RESULT = 'tool-result',
+ TOOL_ERROR = 'tool-error',
+
+ INTELLIGENCE_UPDATE = 'intelligence-update',
+ CONFIDENCE_UPDATE = 'confidence-update'
 }
 ```
 

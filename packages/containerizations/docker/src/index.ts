@@ -3,7 +3,6 @@
  *
  * Docker containerization primitives (containers, images, networks, volumes).
  * Hierarchy: packages/containerizations/docker
- * BC: @bitcode/docker re-exports this package.
  * MCP: @bitcode/generic-tools-mcps-docker wraps these as Tools.
  */
 

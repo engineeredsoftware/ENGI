@@ -2,7 +2,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -461,7 +461,7 @@ export const readyToShortCircuitStepPrompts = {
  * Main agent using comprehensive short-circuit analysis with full PTRR cycle
  * Controls pipeline termination decisions
  */
-const readyToShortCircuit = factoryAgentWithPTRR<ShortCircuitInput, ReadyToShortCircuitAgentRetryStepOutput>({
+const readyToShortCircuit = factoryPTRRAgent<ShortCircuitInput, ReadyToShortCircuitAgentRetryStepOutput>({
   name: 'ready-to-short-circuit',
   description: 'Full context analysis with verification and refinement for pipeline control',
   prompt: readyToShortCircuitPrompt,

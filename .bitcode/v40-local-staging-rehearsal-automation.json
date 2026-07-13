@@ -304,7 +304,7 @@
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts"
       ],
       "commandIds": [
-        "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-local-staging-rehearsal.test.ts --runInBand --forceExit"
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-local-staging-rehearsal.test.ts --runInBand --forceExit"
       ],
       "requiredEvidence": [
         "five Reading stages",
@@ -345,8 +345,8 @@
       "laneId": "local-and-staging-testnet",
       "surfaceKind": "synchronization-rehearsal",
       "sourceRoots": [
-        "packages/protocol/src/canonical/v40-ledger-storage-sync.js",
-        "packages/protocol/test/v40-ledger-storage-sync.test.js"
+        "packages/specifying/src/canonical/v40-ledger-storage-sync.js",
+        "packages/specifying/test/v40-ledger-storage-sync.test.js"
       ],
       "commandIds": [
         "pnpm run check:v40-gate8 --skip-integration-tests"
@@ -527,12 +527,12 @@
     },
     {
       "id": "ledger-storage-sync-carried-forward",
-      "sourcePath": "packages/protocol/src/canonical/v40-ledger-storage-sync.js",
+      "sourcePath": "packages/specifying/src/canonical/v40-ledger-storage-sync.js",
       "passed": true
     },
     {
       "id": "protocol-exports-gate9",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {

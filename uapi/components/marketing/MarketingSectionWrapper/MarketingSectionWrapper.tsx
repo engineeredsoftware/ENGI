@@ -1,5 +1,6 @@
+'use client';
+
 // A reusable wrapper for marketing homepage sections
-"use client";
 import React from 'react';
 
 interface SectionWrapperProps {

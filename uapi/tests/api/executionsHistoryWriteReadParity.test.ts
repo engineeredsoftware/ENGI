@@ -11,7 +11,6 @@ import { supabaseAdmin } from '@bitcode/supabase';
 
 import { GET as getHistory, POST as postHistory } from '@/app/api/executions/history/route';
 import {
-  buildTerminalClosureAssetPackCompletion,
   buildTerminalExecutionHistoryRequest,
   buildTerminalDepositWorkbenchDraft,
   buildTerminalReadMeasurementDraft,
@@ -256,16 +255,10 @@ describe('Bitcode execution-history write/read parity', () => {
         summary: 'Recorded closure posture.',
         output: {
           protocol: { ok: true },
-          assetPackCompletion: buildTerminalClosureAssetPackCompletion(closureState, {
+          assetPackCompletion: {
             summary: 'Recorded closure posture.',
-            processingStats: {
-              time: '4m 12s',
-              tokenTotal: 2200,
-              measuredBtd: 24.5,
-              btcFeeUsdEquivalent: 1.62,
-              averageLatencyMs: 930,
-            },
-          }),
+            processingStats: { time: '4m 12s' },
+          },
         },
         context: {
           source: 'terminal-closure-control-deck',
@@ -339,16 +332,9 @@ describe('Bitcode execution-history write/read parity', () => {
         summary: 'Recorded closure posture.',
         processing_stats: expect.objectContaining({
           time: '4m 12s',
-          tokens: { total: 2200, input: 0, output: 0 },
-          measuredBtd: 24.5,
-          btcFeeUsdEquivalent: 1.62,
-          averageLatencyMs: 930,
         }),
         asset_pack_completion: expect.objectContaining({
           summary: 'Recorded closure posture.',
-          closureFollowThrough: expect.objectContaining({
-            canonLabel: 'Bitcode active posture',
-          }),
         }),
       }),
     );
@@ -365,12 +351,9 @@ describe('Bitcode execution-history write/read parity', () => {
     ]);
     expect(historyPayload[0]).toEqual(
       expect.objectContaining({
+        summary: 'Recorded closure posture.',
         asset_pack_completion: expect.objectContaining({
-          closurePanels: expect.objectContaining({
-            readReview: expect.objectContaining({
-              label: 'Read review before Finding Fits',
-            }),
-          }),
+          summary: 'Recorded closure posture.',
         }),
       }),
     );

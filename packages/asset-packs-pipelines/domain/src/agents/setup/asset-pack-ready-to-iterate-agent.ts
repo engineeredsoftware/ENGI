@@ -5,7 +5,7 @@
  * Can short-circuit with full refund if prerequisites not met.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { createAssetPackSetupPhaseReadyToIterateAgentPrompt, AssetPackSetupPhaseReadyToIterateAgentPromptSteps } from '../prompts/ready-to-iterate-prompt';
 import { ShortCircuitSignal } from '@bitcode/execution-generics';
 import { getAssetPackPipelineToolsForAgent } from '../../tools';
@@ -48,7 +48,7 @@ const ReadyToIterateOutputSchema = z.object({
 /**
  * Ready to Iterate Agent - PTRR Implementation
  */
-const readyToIterateAgent = factoryAgentWithPTRR<
+const readyToIterateAgent = factoryPTRRAgent<
   z.infer<typeof ReadyToIterateInputSchema>,
   z.infer<typeof ReadyToIterateOutputSchema>
 >({

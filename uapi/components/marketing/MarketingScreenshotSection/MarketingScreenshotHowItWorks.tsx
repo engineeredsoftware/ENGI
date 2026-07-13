@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * How-it-Works 1-2-3 step cards with gallery-linked floating thumbnails.
  */
-"use client";
 
 import React from "react";
 import {

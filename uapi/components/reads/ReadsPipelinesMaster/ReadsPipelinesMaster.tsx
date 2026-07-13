@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Reads pipelines master panel — table + header chrome for master-detail drill-in.
  */
-"use client";
 
 import React from "react";
 import { ArrowLeft, RefreshCw } from "lucide-react";

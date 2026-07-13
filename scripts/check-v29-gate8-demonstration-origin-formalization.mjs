@@ -121,15 +121,15 @@ function main() {
     'BITCODE_SPEC_V29_NOTES.md',
     'BITCODE_SPEC_V29_PARITY_MATRIX.md',
     'scripts/check-v29-gate8-demonstration-origin-formalization.mjs',
-    'packages/protocol/package.json',
-    'packages/protocol/README.md',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/src/canon-posture.js',
-    'packages/protocol/src/canonical/v21-specifying.js',
-    'packages/protocol/src/canonical/v22-canon-posture.js',
-    'packages/protocol/src/canonical/proven-generator.js',
-    'packages/protocol/test/protocol-package-boundary.test.js',
+    'packages/specifying/package.json',
+    'packages/specifying/README.md',
+    'packages/specifying/src/index.js',
+    'packages/specifying/src/index.d.ts',
+    'packages/specifying/src/canon-posture.js',
+    'packages/specifying/src/canonical/v21-specifying.js',
+    'packages/specifying/src/canonical/v22-canon-posture.js',
+    'packages/specifying/src/canonical/proven-generator.js',
+    'packages/specifying/test/specifying-package-boundary.test.js',
     'scripts/check-bitcode-canon-posture-drift.mjs',
     'scripts/check-bitcode-canonical-inputs.mjs',
     'scripts/check-bitcode-pre-commit.mjs',
@@ -148,11 +148,11 @@ function main() {
   const delta = read(root, 'BITCODE_SPEC_V29_DELTA.md');
   const notes = read(root, 'BITCODE_SPEC_V29_NOTES.md');
   const parity = read(root, 'BITCODE_SPEC_V29_PARITY_MATRIX.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
-  const protocolIndex = read(root, 'packages/protocol/src/index.js');
-  const protocolTypes = read(root, 'packages/protocol/src/index.d.ts');
-  const protocolPosture = read(root, 'packages/protocol/src/canon-posture.js');
-  const protocolTest = read(root, 'packages/protocol/test/protocol-package-boundary.test.js');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
+  const protocolIndex = read(root, 'packages/specifying/src/index.js');
+  const protocolTypes = read(root, 'packages/specifying/src/index.d.ts');
+  const protocolPosture = read(root, 'packages/specifying/src/canon-posture.js');
+  const protocolTest = read(root, 'packages/specifying/test/specifying-package-boundary.test.js');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 
@@ -225,8 +225,8 @@ function main() {
     failures,
     packageJson.includes('"check:v29-gate8"') &&
       gateWorkflow.includes('check-v29-gate8-demonstration-origin-formalization.mjs') &&
-      gateWorkflow.includes('@bitcode/protocol typecheck') &&
-      gateWorkflow.includes('@bitcode/protocol test') &&
+      gateWorkflow.includes('@bitcode/specifying typecheck') &&
+      gateWorkflow.includes('@bitcode/specifying test') &&
       gateWorkflow.includes('protocolCommercialBoundary.test.ts'),
     'Package scripts and gate-quality workflow must invoke Gate 8 checker, protocol package checks, and commercial boundary test.',
   );

@@ -123,11 +123,11 @@ function main() {
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/workflows/v31-canon-promotion.yml',
-    'packages/protocol/src/canon-posture.js',
-    'packages/protocol/data/state.json',
-    'packages/protocol/README.md',
-    'packages/protocol/src/canonical/proven-generator.js',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'packages/specifying/src/canon-posture.js',
+    'packages/specifying/data/state.json',
+    'packages/specifying/README.md',
+    'packages/specifying/src/canonical/proven-generator.js',
+    'packages/specifying/src/canonical/v21-specifying.js',
     'protocol-demonstration/src/canon-posture.js',
     'protocol-demonstration/README.md',
     'package.json',
@@ -150,11 +150,11 @@ function main() {
   const promoteScript = read(root, 'scripts/promote-bitcode-canon.mjs');
   const prepareSpecScript = read(root, 'scripts/prepare-bitcode-spec-family-promotion.mjs');
   const prepareRuntimeScript = read(root, 'scripts/prepare-bitcode-runtime-canon-promotion.mjs');
-  const provenGenerator = read(root, 'packages/protocol/src/canonical/proven-generator.js');
-  const v21Specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
-  const packageCanonPosture = read(root, 'packages/protocol/src/canon-posture.js');
-  const packageState = read(root, 'packages/protocol/data/state.json');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const provenGenerator = read(root, 'packages/specifying/src/canonical/proven-generator.js');
+  const v21Specifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
+  const packageCanonPosture = read(root, 'packages/specifying/src/canon-posture.js');
+  const packageState = read(root, 'packages/specifying/data/state.json');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
   const rootReadme = read(root, 'README.md');
 
   assertCheck(failures, spec.includes('V31 local and staging promotion readiness canon'), 'V31 SPEC must define local/staging promotion readiness canon.');

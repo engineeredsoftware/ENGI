@@ -17,7 +17,7 @@ import { PROMPTPART_SPECIFIC_AGENT_DIGESTER_PTRRRETRY_PURPOSE } from '@bitcode/p
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -290,7 +290,7 @@ export const digesterStepPrompts = {
  * Comprehensive digest generation agent
  * Uses full PTRR cycle for thorough repository analysis
  */
-const comprehensiveDigest = factoryAgentWithPTRR<
+const comprehensiveDigest = factoryPTRRAgent<
   z.infer<typeof DigesterInputSchema>,
   z.infer<typeof DigesterRetrySchema>
 >({

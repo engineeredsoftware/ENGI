@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { VCSProviderType, VCSConnection } from '@bitcode/vcs';
+import { VCSProviderType, VCSConnection } from '@bitcode/vcs-generics';
 
 /**
  * Simple option type for select dropdowns

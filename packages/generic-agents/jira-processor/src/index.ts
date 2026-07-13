@@ -2,7 +2,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -40,7 +40,7 @@ import {
   type JiraGetIssueTypesToolFn,
   type JiraGetPrioritiesToolFn,
   type JiraCreateIssueLinkToolFn,
-} from '@bitcode/jira-tools';
+} from '@bitcode/generic-tools-mcps-jira';
 
 // ==================== SOPHISTICATED SCHEMAS ====================
 
@@ -803,7 +803,7 @@ export const jiraProcessorStepPrompts = {
 /**
  * Comprehensive Jira coordination variation using full PTRR cycle for complex enterprise environments
  */
-const comprehensiveJiraVariation = factoryAgentWithPTRR<JiraInput, JiraProcessorAgentRetryStepOutput>({
+const comprehensiveJiraVariation = factoryPTRRAgent<JiraInput, JiraProcessorAgentRetryStepOutput>({
   name: 'comprehensive-jira',
   description: 'Complete Jira project coordination with enterprise-grade analysis and strategic planning',
   prompt: jiraProcessorPrompt,

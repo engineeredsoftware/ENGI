@@ -7,20 +7,20 @@ tree — domain + product pipelines live only under this family.
 
 ```
 Pipeline
-  → SDIVFPipeline
-      → SynthesizeDepositAssetPacksSDIVFPipeline   # synthesize-deposits/
-      → SynthesizeReadAssetPacksSDIVFPipeline      # synthesize-reads/
-  → SimplePipeline
-      → SettleAssetPacksSimplePipeline             # settle-asset-packs/
+ → SDIVFPipeline
+ → SynthesizeDepositAssetPacksSDIVFPipeline # synthesize-deposits/
+ → SynthesizeReadAssetPacksSDIVFPipeline # synthesize-reads/
+ → SimplePipeline
+ → SettleAssetPacksSimplePipeline # settle-asset-packs/
 ```
 
 | Path | Package | Type (full hierarchy name) |
 | --- | --- | --- |
-| `domain/` | `@bitcode/asset-packs-pipelines-domain` | Shared phases, agents, tools, deposit/read domain (BC `@bitcode/pipeline-asset-pack`) |
+| `domain/` | `@bitcode/asset-packs-pipelines-domain` | Shared phases, agents, tools, deposit/read domain |
 | `synthesize-deposits/` | `@bitcode/asset-packs-pipelines-synthesize-deposits` | `SynthesizeDepositAssetPacksSDIVFPipeline` |
 | `synthesize-reads/` | `@bitcode/asset-packs-pipelines-synthesize-reads` | `SynthesizeReadAssetPacksSDIVFPipeline` |
 | `settle-asset-packs/` | `@bitcode/asset-packs-pipelines-settle-asset-packs` | `SettleAssetPacksSimplePipeline` |
-| `settle-reads/` | `@bitcode/asset-packs-pipelines-settle-reads` | BC → settle-asset-packs |
+| `settle-reads/` | `@bitcode/asset-packs-pipelines-settle-reads` | → settle-asset-packs |
 
 **No lens:** three separate product pipelines — never one factory with deposit|read mode.
 

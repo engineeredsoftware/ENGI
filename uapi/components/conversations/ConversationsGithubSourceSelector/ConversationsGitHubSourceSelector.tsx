@@ -173,8 +173,7 @@ export default function ConversationsGitHubSourceSelector({
         />
       </svg>
     ) : (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img src={icon} width={12} height={12} alt="" style={{ minWidth: 12, minHeight: 12 }} />
+            <img src={icon} width={12} height={12} alt="" style={{ minWidth: 12, minHeight: 12 }} />
     );
 
   const renderSmall = (

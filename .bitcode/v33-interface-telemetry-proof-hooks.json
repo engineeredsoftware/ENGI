@@ -140,7 +140,7 @@
       "objectStorageRoot": "object-storage-root:mcp-reading-pipeline",
       "posture": "success",
       "repairPosture": "replay-mcp-pipeline-ingress-before-investigating-downstream-hosts",
-      "replayCommand": "pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand",
+      "replayCommand": "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand",
       "replayStepIds": [
         "mcp-auth-context",
         "mcp-pipeline-queue-readback"
@@ -155,7 +155,7 @@
         "interface-proof-replayable"
       ],
       "witnessArtifactPaths": [
-        "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts"
+        "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts"
       ]
     },
     {
@@ -185,7 +185,7 @@
         "interface-preview-not-source"
       ],
       "witnessArtifactPaths": [
-        "packages/chatgptapp/src/__tests__/tools.test.ts"
+        "packages/external-apps/chatgpt/src/__tests__/tools.test.ts"
       ]
     },
     {
@@ -361,7 +361,7 @@
     },
     {
       "digest": "sha256:ef8475335bd430ca5926466e8556f9da3ca9db4e8d1f4ec86b9fc27f5c34a07c",
-      "relativePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+      "relativePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
       "requiredTokens": [
         {
           "present": true,
@@ -375,7 +375,7 @@
     },
     {
       "digest": "sha256:bd3b2ab267858fb98a2ccc0e7d50666c3f7d86c55d44b81dd79202d0d0394014",
-      "relativePath": "packages/chatgptapp/src/__tests__/tools.test.ts",
+      "relativePath": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
       "requiredTokens": [
         {
           "present": true,

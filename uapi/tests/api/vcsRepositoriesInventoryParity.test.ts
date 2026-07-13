@@ -8,7 +8,7 @@ const mockGetConnection = jest.fn();
 const mockGetAuthFromConnection = jest.fn();
 const mockCreateProviderFromEnvironment = jest.fn();
 
-jest.mock('@bitcode/vcs', () => ({
+jest.mock('@bitcode/vcs-generics', () => ({
   VCSConnections: jest.fn().mockImplementation(() => ({
     getConnection: mockGetConnection,
     getAuthFromConnection: mockGetAuthFromConnection,

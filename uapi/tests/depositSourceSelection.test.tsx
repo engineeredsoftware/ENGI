@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import React from "react";
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 
-import DepositSourceSelection from "@/app/deposits/DepositSourceSelection";
+import DepositSourceSelection from "@/components/deposits/DepositSourceSelection/DepositSourceSelection";
 
 const mockReplace = jest.fn();
 let mockSearchParams = new URLSearchParams("");

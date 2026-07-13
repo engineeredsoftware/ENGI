@@ -3,9 +3,9 @@
 
 import React, { useRef, useEffect, useContext } from 'react';
 import { motion } from 'framer-motion';
-import { QuantumOrbState } from '../QuantumOrb';
-import { FRAME_BUDGET_MS } from '../QuantumOrbConfig';
-import { OrbLoopContext } from '../QuantumOrb';
+import { QuantumOrbState } from '@/components/bitcode/effects/quantum-orb/QuantumOrb/QuantumOrb';
+import { FRAME_BUDGET_MS } from '@/components/bitcode/effects/quantum-orb/QuantumOrbConfig/QuantumOrbConfig';
+import { OrbLoopContext } from '@/components/bitcode/effects/quantum-orb/QuantumOrb/QuantumOrb';
 
 interface WavyBlobLayerProps {
   color: string;

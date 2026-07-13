@@ -3,18 +3,18 @@ import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import BitcoinWalletAuthorizeClient from '@/app/tps/wallet/authorize/BitcoinWalletAuthorizeClient';
-import { inspectBitcoinWalletProviders } from '@/lib/bitcoin-wallet-client';
+import { inspectBitcoinWalletProviders } from '@bitcode/auth/bitcoin-wallet-client';
 
-jest.mock('@/lib/bitcoin-wallet-client', () => ({
+jest.mock('@bitcode/auth/bitcoin-wallet-client', () => ({
   connectBitcoinWallet: jest.fn(),
   inspectBitcoinWalletProviders: jest.fn(),
 }));
 
-jest.mock('@/lib/bitcode-wallet-local', () => ({
+jest.mock('@bitcode/auth/wallet-local', () => ({
   writeLocalBitcodeWalletIdentity: jest.fn(),
 }));
 
-jest.mock('@/lib/bitcode-qa-telemetry', () => ({
+jest.mock('@bitcode/auth/qa-telemetry', () => ({
   bitcodeQaTelemetry: jest.fn(),
   compactBitcodeAddress: (value: string | null | undefined) => value ?? null,
 }));

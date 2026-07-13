@@ -132,11 +132,11 @@ function main() {
     '.bitcode/v38-inference-surface-inventory.json',
     '.bitcode/v38-prompt-benchmark-report.json',
     '.bitcode/v38-disclosure-boundary-report.json',
-    'packages/protocol/src/canonical/conversation-tool-prompt-inference-parity.js',
-    'packages/protocol/test/v38-conversation-tool-prompt-inference-parity.test.js',
+    'packages/specifying/src/canonical/conversation-tool-prompt-inference-parity.js',
+    'packages/specifying/test/v38-conversation-tool-prompt-inference-parity.test.js',
     'scripts/generate-v38-conversation-tool-prompt-inference-parity.mjs',
     'scripts/check-v38-gate9-conversation-tool-prompt-inference-parity.mjs',
-    'packages/conversations-generics/src/agent/ConversationAgent.ts',
+    'packages/conversations/src/agent/ConversationAgent.ts',
     'packages/api/src/conversations/stream-events.ts',
     'packages/api/src/conversations/telemetry.ts',
     'packages/api/src/conversations/__tests__/stream-events.test.ts',
@@ -146,16 +146,16 @@ function main() {
     'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
     'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
     'packages/tools-generics/src/execution/ToolPromptRegistry.ts',
-    'packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts',
-    'packages/chatgptapp/src/tools.ts',
-    'packages/chatgptapp/src/__tests__/tools.test.ts',
+    'packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts',
+    'packages/external-apps/chatgpt/src/tools.ts',
+    'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
     'BITCODE_SPEC_V38.md',
     'BITCODE_SPEC_V38_DELTA.md',
     'BITCODE_SPEC_V38_NOTES.md',
     'BITCODE_SPEC_V38_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -180,7 +180,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v38-conversation-tool-prompt-inference-parity.test.js',
+        'packages/specifying/test/v38-conversation-tool-prompt-inference-parity.test.js',
       ]);
     } catch (error) {
       failures.push(`V38 Conversation/tool prompt parity protocol test failed: ${error.stderr || error.message}`);
@@ -275,12 +275,12 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const index = read(root, 'packages/protocol/src/index.js');
-  const typeDefs = read(root, 'packages/protocol/src/index.d.ts');
+  const index = read(root, 'packages/specifying/src/index.js');
+  const typeDefs = read(root, 'packages/specifying/src/index.d.ts');
 
   assertCheck(failures, spec.includes('V38ConversationToolPromptInferenceParity'), 'V38 spec must name the Gate 9 report.');
   assertCheck(failures, delta.includes('source-safe-conversation-tool-prompt-inference-parity-metadata'), 'V38 delta must include Gate 9 source-safety verdict.');

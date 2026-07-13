@@ -11,10 +11,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { traceRoute } from '@bitcode/observability';
 import { log, reinitLoggerFile } from '@bitcode/logger';
-import { VCSService } from '@bitcode/vcs';
+import { VCSService } from '@bitcode/vcs-generics';
 import { createAdminClient, type Database } from '@bitcode/orm';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
-import { DEFAULT_PROVIDER, DEFAULT_MODEL_API, getUsdPricingForApiModel } from '@bitcode/models';
+import { DEFAULT_PROVIDER, DEFAULT_MODEL_API, getUsdPricingForApiModel } from '@bitcode/generic-llms-models';
 import { BITCODE_FEE_ASSET, BTD_ASSET_SEMANTICS } from '@bitcode/btd';
 import { Execution, ExecutionStreamAdapter, NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH } from '@bitcode/execution-generics';
 import {
@@ -23,11 +23,11 @@ import {
 } from '@bitcode/pipelines-generics';
 import { assetPackPipeline } from '@bitcode/asset-packs-pipelines-domain';
 import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
-import { sendServerEvent } from '@bitcode/google-analytics';
+import { sendServerEvent } from '@bitcode/external-telemetry-google';
 import { BitcodeError, reportError } from '@bitcode/errors';
-import { sendEmail } from '@bitcode/email';
+import { sendEmail } from '@bitcode/notifications';
 import { createPipelineCompletionMessage, findOrCreateConversationForPipeline } from '../conversations';
-import { createJsonResponse, createErrorResponse, createAuthErrorResponse } from '@bitcode/responses';
+import { createJsonResponse, createErrorResponse, createAuthErrorResponse } from '@bitcode/api/responses';
 import { buildSemanticCompletionResult } from './shippables-semantic-payload';
 import * as crypto from 'crypto';
 import { Streamer } from '../streams';
@@ -515,7 +515,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
       }
       
       // Process uploaded files
-      const { saveArtifact } = await import('@bitcode/artifacts');
+      const { saveArtifact } = await import('@bitcode/generic-artifacts-compose');
       for (const [key, value] of Array.from((formData as any).entries()) as Array<[string, any]>) {
         if (key.startsWith('file_') && value instanceof File) {
           log('[asset-pack-route] Processing uploaded file', 'debug', {
@@ -1003,7 +1003,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
         // Telemetry: summarize file changes from editing history
         let fileChanges: { created: string[]; modified: string[]; deleted: string[] } | undefined;
         try {
-          const { FILE_EDITOR_HISTORY } = await import('@bitcode/editing');
+          const { FILE_EDITOR_HISTORY } = await import('@bitcode/file-editing');
           const ops = FILE_EDITOR_HISTORY() || [];
           const created = new Set<string>();
           const modified = new Set<string>();

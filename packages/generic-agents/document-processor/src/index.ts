@@ -10,7 +10,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -257,7 +257,7 @@ export const documentProcessorStepPrompts = {
  * Comprehensive document processing agent
  * Uses full PTRR cycle for thorough document analysis
  */
-const comprehensiveProcessing = factoryAgentWithPTRR<
+const comprehensiveProcessing = factoryPTRRAgent<
   z.infer<typeof DocumentProcessorInputSchema>,
   z.infer<typeof DocumentProcessorRetrySchema>
 >({

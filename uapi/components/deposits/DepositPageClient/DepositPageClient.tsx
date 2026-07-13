@@ -62,7 +62,7 @@ import {
 import type {
   DepositOptionReviewDecision,
   DepositOptionReviewDecisionState,
-} from "@bitcode/pipeline-asset-pack/deposit-asset-pack-option-admission";
+} from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-admission";
 
 import {
   DEPOSIT_OPTION_PIPELINE_ID,
@@ -515,7 +515,7 @@ export default function DepositPageClient() {
           }}
           runs={pipelineTableRuns}
           selectedTransactionId={selectedRun?.id ?? null}
-          onSelectTransaction={replaceDepositRouteTransaction}
+          onSelectTransaction={(id) => { if (id) replaceDepositRouteTransaction(id); }}
           filters={pipelineFilters}
           onFiltersChange={setPipelineFilters}
           pagination={pipelinePagination}

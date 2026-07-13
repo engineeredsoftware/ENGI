@@ -1,7 +1,8 @@
+'use client';
+
 import React from 'react';
 // File: uapi/components/bitcode/layout/sidebars/right-sidebar.tsx
 
-"use client";
 
 import ConversationsOverlay from '@/components/conversations/ConversationsOverlay/ConversationsOverlay';
 

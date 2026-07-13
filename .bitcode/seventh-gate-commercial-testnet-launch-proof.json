@@ -223,7 +223,7 @@
             "description": "launch-readiness source names the one-product commercial story"
           },
           {
-            "file": "packages/chatgptapp/src/server.ts",
+            "file": "packages/external-apps/chatgpt/src/server.ts",
             "evidence": "connected-interface Bitcode Terminal companion",
             "description": "ChatGPT App remains a companion interface"
           }
@@ -336,12 +336,12 @@
             "description": "launch map blocks parallel Exchange ownership by connected interfaces"
           },
           {
-            "file": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
+            "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
             "evidence": "writeAdmission",
             "description": "MCP accepted writes emit write-admission metadata"
           },
           {
-            "file": "packages/chatgptapp/src/__tests__/tools.test.ts",
+            "file": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
             "evidence": "declares confirmation schema on every ChatGPT App connected-interface write carrier",
             "description": "ChatGPT App write carriers require confirmation schema"
           }

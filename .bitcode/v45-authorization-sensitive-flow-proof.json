@@ -305,7 +305,7 @@
       ]
     },
     {
-      "relativePath": "packages/conversations-generics/src/types.ts",
+      "relativePath": "packages/conversations/src/types.ts",
       "present": true,
       "digest": "sha256:4dd138e354cd64ff6db501e824f3cad3f310d29fa630393357e97e03cbd7dd47",
       "byteLength": 4308,
@@ -354,7 +354,7 @@
     "packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts",
     "packages/asset-packs-pipelines/domain/src/__tests__/interface-disclosure-boundary.test.ts",
     "packages/btd/__tests__/interface-authorization-policy.test.ts",
-    "packages/protocol/test/v45-proof-family-artifacts.test.js"
+    "packages/specifying/test/v45-proof-family-artifacts.test.js"
   ],
   "failClosedConditions": [
     "secret exposure",

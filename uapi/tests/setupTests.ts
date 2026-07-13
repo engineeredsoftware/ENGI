@@ -32,7 +32,7 @@ jest.doMock('@bitcode/agent-generics/phaseHelpers/normalizeStepName', () => ({
 }), { virtual: true });
 
 // Provide lightweight JSON response helpers used across API routes
-jest.mock('@bitcode/responses', () => ({
+jest.mock('@bitcode/api/responses', () => ({
   createJsonResponse: (body: any = {}, status = 200) => new Response(
     typeof body === 'string' ? body : JSON.stringify(body),
     { status, headers: { 'Content-Type': 'application/json' } }
@@ -47,12 +47,9 @@ jest.mock('@bitcode/responses', () => ({
   )
 }), { virtual: true });
 
-// Mock the heavy `@bitcode/context` module to make `initializeContext` spy-able
-// while still exporting *live* bindings for everything else so that
-// reassignments inside individual unit tests propagate across import paths.
-
-jest.doMock('@bitcode/context', () => {
-  const globalContext = {
+// Process-root Execution defaults for tests (spy-able).
+jest.doMock('@bitcode/generic-executions', () => {
+  const processRoot = {
     repoPath: process.cwd(),
     dataStream: {
       writeData: jest.fn(),
@@ -62,10 +59,15 @@ jest.doMock('@bitcode/context', () => {
 
   return {
     __esModule: true,
-    initializeContext: jest.fn(async () => globalContext),
-    getGlobalContext: jest.fn(() => globalContext),
-    endContext: jest.fn(async () => {}),
-    serializeContext: jest.fn(() => ({ repoPath: globalContext.repoPath }))
+    initializeProcessRoot: jest.fn(() => processRoot),
+    getProcessRootFields: jest.fn(() => processRoot),
+    getProcessRootExecution: jest.fn(() => ({ id: 'process-root' })),
+    setProcessRootFields: jest.fn(() => processRoot),
+    endProcessRoot: jest.fn(),
+    prepareProcessRootForPrompt: jest.fn(() => ({ task: undefined })),
+    serializeProcessRootFields: jest.fn(() => ({ repoPath: processRoot.repoPath })),
+    PROCESS_ROOT_EXECUTION_ID: 'process-root',
+    PROCESS_NAMESPACE: 'process',
   };
 });
 

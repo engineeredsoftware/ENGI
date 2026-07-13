@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { QuantumOrbState } from '../QuantumOrb';
+import { QuantumOrbState } from '@/components/bitcode/effects/quantum-orb/QuantumOrb/QuantumOrb';
 
 interface OrbitalRingsProps {
   color: string;

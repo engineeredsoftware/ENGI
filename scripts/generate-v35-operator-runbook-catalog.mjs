@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   OPERATOR_RUNBOOK_CATALOG_ARTIFACT_PATH,
   buildOperatorRunbookCatalog,
-} from '../packages/protocol/src/index.js';
+} from '../packages/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

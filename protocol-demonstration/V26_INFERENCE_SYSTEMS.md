@@ -157,18 +157,18 @@ Execution systems must:
 | --- | --- |
 | `packages/prompts/*` | canonical `PromptPart`, Registry-backed `Prompt`, `PromptExecution`, formatter, generic base raw PromptPart layer, specific implementation raw PromptPart layer, and runtime carry-through ownership |
 | `packages/tools-generics/*` | tool primitive, `ToolExecution`, `ToolPromptRegistry`, doc-code prompt injection, and public support subpaths |
-| `packages/doc-comment/*`, `packages/doc-code/*` | build-time annotation and tool prompt attachment support, with examples/plugins remaining reference-only unless promoted |
+| `packages/doc-comment-generics/*`, `packages/generic-doc-comments/doc-code/*` | build-time annotation and tool prompt attachment support, with examples/plugins remaining reference-only unless promoted |
 | `packages/agent-generics/*` | agent prompt hierarchy, structured output, step/substep, retry/refine, tool/llm registry, and agent execution ownership |
 | `packages/execution-generics/*`, `packages/pipelines-generics/*` | execution tree, prompt-aware registry, pipeline/phase hierarchy, streaming, metrics, and resume ownership |
 | `packages/asset-packs-pipelines/domain/*` | retained asset-pack written-asset synthesis corridor with `read`, `writtenAssetType`, `writtenAssets`, `assetPack`, `deliveryMechanism`, and compatibility wrappers |
-| `packages/generic-tools/simple-system-text-search/*`, `packages/system-grep/*` | retained grep-backed search corridor now specified as Bitcode repository-evidence search support for read measurement, source-grounding, proof inspection, and AssetPack planning |
+| `packages/generic-tools/simple-system-text-search/*`, `packages/host-commands/grep/*` | retained grep-backed search corridor now specified as Bitcode repository-evidence search support for read measurement, source-grounding, proof inspection, and AssetPack planning |
 | `packages/generic-agents/text-searcher/*` | retained text-searcher corridor now specified as an admitted Bitcode repository-evidence search agent with canonical exports and compatibility aliases |
 | `packages/generic-agents/web-researcher/*`, `packages/generic-agents/web-search/*`, `packages/generic-tools/web-search/*`, `packages/web-search/*` | retained external search corridor now specified as admitted discovery-phase read-synthesis web research/search support for source-attributed read context, third-party interface planning, proof-gap question formation, source-quality review, volatility, unresolved evidence gaps, and AssetPack planning |
 | `packages/generic-agents/danger-wall/*` | retained danger-wall corridor now specified as admitted Bitcode read/AssetPack risk admission for unsafe mutation, private-data exposure, proof gaps, AssetPack scope fit, delivery-mechanism fit, likely execution failure, and manual-review triggers |
 | `packages/generic-tools/read-comprehension/*` | individually owned Bitcode read-comprehension prompt/tool primitives with local read-first code ownership, source-to-shares service-question evidence, TypeScript-only source, and read-first raw PromptPart families |
 | `packages/generic-agents/read-comprehension/*` | setup/pre-danger-wall PTRR Read-comprehension agent that registers and composes the individual generic-tools before risk admission |
-| `packages/conversations-generics/*`, `uapi/prompts/*` | rich-input conversation prompt and Terminal-facing inference binding |
-| `packages/executions-mcp/*` | admitted Exchange-facing MCP inference ingress, narrowed to currently admitted tool families and fail-closed create admission |
+| `packages/conversations/*`, `uapi/prompts/*` | rich-input conversation prompt and Terminal-facing inference binding |
+| `packages/mcp-generics/*` | admitted Exchange-facing MCP inference ingress, narrowed to currently admitted tool families and fail-closed create admission |
 
 ## Promotion Control
 

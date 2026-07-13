@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V46_INTERFACE_CLAIM_CONTRACTS_ARTIFACT_PATH,
   buildV46InterfaceClaimContracts,
-} from '../packages/protocol/src/canonical/v46-interface-claim-contracts.js';
+} from '../packages/specifying/src/canonical/v46-interface-claim-contracts.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -81,8 +81,8 @@ function main() {
 
   for (const relativePath of [
     V46_INTERFACE_CLAIM_CONTRACTS_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v46-interface-claim-contracts.js',
-    'packages/protocol/test/v46-interface-claim-contracts.test.js',
+    'packages/specifying/src/canonical/v46-interface-claim-contracts.js',
+    'packages/specifying/test/v46-interface-claim-contracts.test.js',
     'scripts/generate-v46-interface-claim-contracts.mjs',
     'scripts/check-v46-gate5-interface-claim-contracts.mjs',
     'BITCODE_SPEC_V46.md',
@@ -93,7 +93,7 @@ function main() {
     'packages/btd/src/api-schema-compatibility-matrix.ts',
     'packages/btd/src/mcp-tool-contract.ts',
     'packages/btd/src/chatgpt-app-action-contract.ts',
-    'packages/chatgptapp/src/tools.ts',
+    'packages/external-apps/chatgpt/src/tools.ts',
     'packages/api/src/routes/conversations.ts',
     'uapi/tests/api/conversationReadingInterfaceParity.test.ts',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -156,7 +156,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'packages/specifying',
         'exec',
         'node',
         '--test',
@@ -164,7 +164,7 @@ function main() {
         'test/v46-interface-claim-contracts.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol/test/v46-interface-claim-contracts.test.js must pass.');
+      failures.push('packages/specifying/test/v46-interface-claim-contracts.test.js must pass.');
     }
   }
 

@@ -6,8 +6,8 @@ Nested MCP **base implementations** of `@bitcode/mcp-generics`.
 
 ```
 @bitcode/mcp-generics
-        ↑
-@bitcode/generic-mcps-bitcode     # bitcode/  — Bitcode Exchange MCP server
+ ↑
+@bitcode/generic-mcps-bitcode # bitcode/ — Bitcode Exchange MCP server
 ```
 
 | Path | Package | Role |

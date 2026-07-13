@@ -4,9 +4,9 @@
  */
 
 import { createClient } from '@bitcode/supabase/ssr/client';
-import type { BitcoinWalletProviderId } from '@/lib/bitcoin-wallet-client';
-import { bitcodeQaTelemetry } from '@/lib/bitcode-qa-telemetry';
-import { buildSupabaseAuthCallbackRedirect } from '@/lib/supabase-auth-redirect';
+import type { BitcoinWalletProviderId } from '@bitcode/auth/bitcoin-wallet-client';
+import { bitcodeQaTelemetry } from '@bitcode/auth/qa-telemetry';
+import { buildSupabaseAuthCallbackRedirect } from '@bitcode/auth/supabase-auth-redirect';
 
 import {
   BITCODE_BITCOIN_SUPABASE_PROVIDER,

@@ -6,9 +6,9 @@ used across Bitcode product pipelines.
 ## Hierarchy
 
 ```
-AssetPack                                 # @bitcode/asset-pack-generics
-  → MeasuredPatchAssetPack                # this package
-      → deposit options / read packs / settle-reads shippables
+AssetPack # @bitcode/asset-packs-generics
+ → MeasuredPatchAssetPack # this package
+ → deposit options / read packs / settle-reads shippables
 ```
 
 ## What it adds over the primitive
@@ -29,11 +29,11 @@ Schema: `bitcode.asset-pack.measured-patch`.
 import { buildMeasuredPatchAssetPack } from '@bitcode/generic-asset-packs-measured-patch';
 
 const pack = buildMeasuredPatchAssetPack({
-  assetPackId: 'asset-pack-…',
-  title: 'Capability slice',
-  summary: '…',
-  repositoryFullName: 'org/repo',
-  fileChanges: [{ path: 'src/x.ts', op: 'modify' }],
-  measurements: [/* … */],
+ assetPackId: 'asset-pack-…',
+ title: 'Capability slice',
+ summary: '…',
+ repositoryFullName: 'org/repo',
+ fileChanges: [{ path: 'src/x.ts', op: 'modify' }],
+ measurements: [/* … */],
 });
 ```

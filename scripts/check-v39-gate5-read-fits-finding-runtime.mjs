@@ -119,8 +119,8 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/index.ts',
     'packages/asset-packs-pipelines/domain/package.json',
     'packages/asset-packs-pipelines/domain/README.md',
-    'packages/protocol/src/canonical/v39-read-fits-finding-runtime.js',
-    'packages/protocol/test/v39-read-fits-finding-runtime.test.js',
+    'packages/specifying/src/canonical/v39-read-fits-finding-runtime.js',
+    'packages/specifying/test/v39-read-fits-finding-runtime.test.js',
     'scripts/generate-v39-read-fits-finding-runtime.mjs',
     'scripts/check-v39-gate5-read-fits-finding-runtime.mjs',
     'BITCODE_SPEC_V39.md',
@@ -129,7 +129,7 @@ function main() {
     'BITCODE_SPEC_V39_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -152,7 +152,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v39-read-fits-finding-runtime.test.js',
+        'packages/specifying/test/v39-read-fits-finding-runtime.test.js',
       ]);
     } catch (error) {
       failures.push(`V39 ReadFitsFinding runtime protocol test failed: ${error.stderr || error.message}`);

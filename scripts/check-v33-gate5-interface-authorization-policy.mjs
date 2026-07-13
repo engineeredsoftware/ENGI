@@ -133,8 +133,8 @@ function main() {
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
     'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts',
     'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-    'packages/chatgptapp/src/tools.ts',
-    'packages/chatgptapp/src/__tests__/tools.test.ts',
+    'packages/external-apps/chatgpt/src/tools.ts',
+    'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
     'uapi/tests/terminalOrganizationAuthority.test.ts',
     'scripts/generate-v33-interface-authorization-policy.mjs',
     'scripts/check-v33-gate5-interface-authorization-policy.mjs',
@@ -145,7 +145,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'packages/specifying/src/canonical/v21-specifying.js',
   ];
   for (const relativePath of requiredFiles) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V33 Gate 5 file: ${relativePath}`);
@@ -194,12 +194,12 @@ function main() {
   }
 
   const btdSource = read(root, 'packages/btd/src/interface-authorization-policy.ts');
-  const chatgptSource = read(root, 'packages/chatgptapp/src/tools.ts');
+  const chatgptSource = read(root, 'packages/external-apps/chatgpt/src/tools.ts');
   const mcpSource = read(root, 'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts');
   const btdTest = read(root, 'packages/btd/__tests__/interface-authorization-policy.test.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
   const mcpTest = read(root, 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts');
-  const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/tools.test.ts');
+  const chatgptTest = read(root, 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts');
   const terminalTest = read(root, 'uapi/tests/terminalOrganizationAuthority.test.ts');
   const specs = [
     read(root, 'BITCODE_SPEC_V33.md'),
@@ -210,7 +210,7 @@ function main() {
   ].join('\n');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const packageJson = read(root, 'package.json');
-  const protocolSpecifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const protocolSpecifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
 
   assertCheck(failures, btdSource.includes('buildBtdInterfaceAuthorizationPolicy'), 'BTD source must build InterfaceAuthorizationPolicy.');
   assertCheck(failures, btdSource.includes('renderBtdInterfaceAuthorizationDeniedState'), 'BTD source must render readable denied states.');

@@ -1,5 +1,5 @@
 /*
- * @bitcode/google-analytics
+ * @bitcode/external-telemetry-google
  * ---------------------------------------------
  * A very small convenience wrapper around Google Analytics (GA4) that:
  *   • Makes calls type-safe for TS projects.

@@ -6,7 +6,7 @@ import WalletSessionPersistenceBridge from '@/app/WalletSessionPersistenceBridge
 import {
   BITCODE_LOCAL_WALLET_STORAGE_KEY,
   readLocalBitcodeWalletIdentity,
-} from '@/lib/bitcode-wallet-local';
+} from '@bitcode/auth/wallet-local';
 import { mutateUserData } from '@/hooks/useUserData';
 
 const getUser = jest.fn();
@@ -23,7 +23,7 @@ jest.mock('@/hooks/useUserData', () => ({
   mutateUserData: jest.fn(async () => undefined),
 }));
 
-jest.mock('@/lib/bitcode-qa-telemetry', () => ({
+jest.mock('@bitcode/auth/qa-telemetry', () => ({
   bitcodeQaTelemetry: jest.fn(),
   compactBitcodeAddress: (value: string | null | undefined) => value ?? null,
 }));

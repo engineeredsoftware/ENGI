@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Deposit route aside — reusable label/value rows section with explainers.
  * Used for Governance (authority) and Session panels; optional footer slots.
  */
-"use client";
 
 import React from "react";
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";

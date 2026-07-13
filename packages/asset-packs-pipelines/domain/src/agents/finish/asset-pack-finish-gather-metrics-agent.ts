@@ -1,4 +1,4 @@
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import { Prompt } from '@bitcode/prompts/prompt';
 import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
@@ -10,7 +10,7 @@ const GatherMetricsOutputSchema = z.object({
   })
 });
 
-export const AssetPackFinishGatherMetricsAgent = factoryAgentWithPTRR<any, z.infer<typeof GatherMetricsOutputSchema>>({
+export const AssetPackFinishGatherMetricsAgent = factoryPTRRAgent<any, z.infer<typeof GatherMetricsOutputSchema>>({
   name: 'finish:asset-pack-gather-metrics-agent',
   description: 'Gather AssetPack execution metrics for Finish evidence',
   outputSchema: GatherMetricsOutputSchema,

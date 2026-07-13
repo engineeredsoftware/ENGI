@@ -205,7 +205,7 @@
       ],
       "commandSequence": [
         "pnpm run check:v35-telemetry-taxonomy-catalog",
-        "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-observability.test.ts --runInBand",
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-observability.test.ts --runInBand",
         "pnpm test:qa:v28:pipeline-readback"
       ],
       "verificationCommands": [
@@ -377,7 +377,7 @@
         "BITCODE_SPEC_V35.md",
         "BITCODE_SPEC_V35_DELTA.md",
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
-        "packages/protocol/src/telemetry.js",
+        "packages/specifying/src/telemetry.js",
         "uapi/app/api/executions/route.ts",
         "uapi/app/api/executions/stream/route.ts"
       ],
@@ -395,7 +395,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/telemetry.js",
+          "sourceRoot": "packages/specifying/src/telemetry.js",
           "present": true
         },
         {
@@ -441,7 +441,7 @@
         "prompt registry owner"
       ],
       "commandSequence": [
-        "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts --runInBand",
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts --runInBand",
         "pnpm run check:v35-telemetry-taxonomy-catalog"
       ],
       "verificationCommands": [
@@ -559,7 +559,7 @@
         "protocol maintainer"
       ],
       "commandSequence": [
-        "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand",
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand",
         "pnpm run check:v35-telemetry-taxonomy-catalog"
       ],
       "verificationCommands": [
@@ -679,7 +679,7 @@
         "security reviewer"
       ],
       "commandSequence": [
-        "pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts --runInBand",
+        "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts --runInBand",
         "pnpm run check:v35-telemetry-taxonomy-catalog"
       ],
       "verificationCommands": [
@@ -1677,7 +1677,7 @@
         "BITCODE_SPEC_V35.md",
         "BITCODE_SPEC_V35_DELTA.md",
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
-        "packages/protocol/src/canonical/documentation-surface-catalog.js",
+        "packages/specifying/src/canonical/documentation-surface-catalog.js",
         "scripts/check-v35-gate2-documentation-surface-catalog.mjs",
         ".bitcode/v35-documentation-surface-catalog.json"
       ],
@@ -1695,7 +1695,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/documentation-surface-catalog.js",
+          "sourceRoot": "packages/specifying/src/canonical/documentation-surface-catalog.js",
           "present": true
         },
         {
@@ -1891,7 +1891,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/telemetry.js",
+          "sourceRoot": "packages/specifying/src/telemetry.js",
           "present": true
         },
         {
@@ -2232,7 +2232,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/documentation-surface-catalog.js",
+          "sourceRoot": "packages/specifying/src/canonical/documentation-surface-catalog.js",
           "present": true
         },
         {

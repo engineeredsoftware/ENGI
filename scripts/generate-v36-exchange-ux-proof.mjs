@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   EXCHANGE_UX_PROOF_ARTIFACT_PATH,
   buildExchangeUxProof,
-} from '../packages/protocol/src/index.js';
+} from '../packages/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

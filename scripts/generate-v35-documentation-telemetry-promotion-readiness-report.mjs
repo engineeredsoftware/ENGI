@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   buildDocumentationTelemetryPromotionReadinessReport,
-} from '../packages/protocol/src/index.js';
+} from '../packages/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

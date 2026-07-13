@@ -50,33 +50,33 @@ import { bitbucketMCPTool } from '@bitcode/generic-tools-mcps-bitbucket';
 
 // Repository operations
 const repositories = await bitbucketMCPTool.use('listRepositories', {
-  workspace: 'company-workspace',
-  role: 'contributor',
-  accessToken: process.env.BITBUCKET_TOKEN
+ workspace: 'company-workspace',
+ role: 'contributor',
+ accessToken: process.env.BITBUCKET_TOKEN
 });
 
 // Pull request lifecycle
 const pullRequest = await bitbucketMCPTool.use('createPullRequest', {
-  workspace: 'company-workspace',
-  repoSlug: 'main-application',
-  title: 'Feature: User authentication system',
-  sourceBranch: 'feature/auth-system',
-  destinationBranch: 'main',
-  description: 'Implements OAuth2 authentication with JWT tokens',
-  closeSourceBranch: true,
-  accessToken: process.env.BITBUCKET_TOKEN
+ workspace: 'company-workspace',
+ repoSlug: 'main-application',
+ title: 'Feature: User authentication system',
+ sourceBranch: 'feature/auth-system',
+ destinationBranch: 'main',
+ description: 'Implements OAuth2 authentication with JWT tokens',
+ closeSourceBranch: true,
+ accessToken: process.env.BITBUCKET_TOKEN
 });
 
 // Issue management
 const issue = await bitbucketMCPTool.use('createIssue', {
-  workspace: 'company-workspace',
-  repoSlug: 'main-application',
-  title: 'Database connection timeout',
-  content: 'Users experiencing connection timeouts during peak hours',
-  kind: 'bug',
-  priority: 'major',
-  assignee: 'lead-developer',
-  accessToken: process.env.BITBUCKET_TOKEN
+ workspace: 'company-workspace',
+ repoSlug: 'main-application',
+ title: 'Database connection timeout',
+ content: 'Users experiencing connection timeouts during peak hours',
+ kind: 'bug',
+ priority: 'major',
+ assignee: 'lead-developer',
+ accessToken: process.env.BITBUCKET_TOKEN
 });
 ```
 

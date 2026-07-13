@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Phone/SMS Connect Component for Orbital Panel
  * 
@@ -5,12 +7,11 @@
  * Supports phone SSO, SMS commands, and Conversations chat via text.
  */
 
-"use client";
 // moved to orbital/phone-connect
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { trackEvent } from '@bitcode/google-analytics';
+import { trackEvent } from '@bitcode/external-telemetry-google';
 import { supabase } from '@bitcode/supabase';
 import { reportError } from '@bitcode/errors';
 import { toast } from '@/components/shadcn/Sonner/Sonner';

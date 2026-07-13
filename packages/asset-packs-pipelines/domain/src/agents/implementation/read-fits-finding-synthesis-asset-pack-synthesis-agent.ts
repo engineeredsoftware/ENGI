@@ -6,7 +6,7 @@
  * mechanisms, not implementation phase types.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_IDENTITY_DEFINITION } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_identity_definition';
 import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKSYNTHESIZEARTIFACTS_REQUIREMENTS_CONTEXT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpacksynthesizeartifacts_requirements_context';
@@ -64,7 +64,7 @@ function createAssetPackSynthesisPrompt(): Prompt {
 
 const prompt = createAssetPackSynthesisPrompt();
 
-export const ReadFitsFindingSynthesisAssetPackSynthesisAgent = factoryAgentWithPTRR<
+export const ReadFitsFindingSynthesisAssetPackSynthesisAgent = factoryPTRRAgent<
   z.infer<typeof AssetPackSynthesisInputSchema>,
   z.infer<typeof AssetPackSynthesisOutputSchema>
 >({
@@ -113,7 +113,7 @@ export default async function runReadFitsFindingSynthesisAssetPackSynthesisAgent
     },
     execution
   );
-  // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });
+  // factoryPTRRAgent returns an envelope ({ context, output, finalOutput });
   // unwrap it to the agent's typed structured output.
   const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
   const assetPackSynthesisArtifacts = result?.assetPackSynthesisArtifacts ??

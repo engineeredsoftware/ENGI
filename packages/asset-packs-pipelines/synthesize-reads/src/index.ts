@@ -55,13 +55,3 @@ export const synthesizeReadAssetPacksSDIVFPipeline: SynthesizeReadAssetPacksSDIV
   factorySynthesizeReadAssetPacksSDIVFPipeline();
 
 export const runSynthesizeReadAssetPacksSDIVFPipeline = synthesizeReadAssetPacksSDIVFPipeline;
-
-// --- BC short aliases ---
-/** @deprecated Prefer SynthesizeReadAssetPacksSDIVFPipeline */
-export type SynthesizeReadsSDIVFPipeline = SynthesizeReadAssetPacksSDIVFPipeline;
-/** @deprecated Prefer factorySynthesizeReadAssetPacksSDIVFPipeline */
-export const factorySynthesizeReadsSDIVFPipeline = factorySynthesizeReadAssetPacksSDIVFPipeline;
-/** @deprecated Prefer synthesizeReadAssetPacksSDIVFPipeline */
-export const synthesizeReadsSDIVFPipeline = synthesizeReadAssetPacksSDIVFPipeline;
-/** @deprecated Prefer runSynthesizeReadAssetPacksSDIVFPipeline */
-export const runSynthesizeReadsSDIVFPipeline = runSynthesizeReadAssetPacksSDIVFPipeline;

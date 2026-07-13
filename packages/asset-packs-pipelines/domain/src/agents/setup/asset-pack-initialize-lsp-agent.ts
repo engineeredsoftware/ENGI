@@ -5,7 +5,7 @@
  * Critical for discovery, validation, and implementation phases.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { createAssetPackSetupPhaseInitializeLSPAgentPrompt, AssetPackSetupPhaseInitializeLSPAgentPromptSteps } from '../prompts/initialize-lsp-prompt';
 import { getAssetPackPipelineToolsForAgent } from '../../tools';
 import { z } from 'zod';
@@ -48,7 +48,7 @@ const InitializeLSPOutputSchema = z.object({
 /**
  * Initialize LSP Agent
  */
-const initializeLSPAgent = factoryAgentWithPTRR<
+const initializeLSPAgent = factoryPTRRAgent<
   z.infer<typeof InitializeLSPInputSchema>,
   z.infer<typeof InitializeLSPOutputSchema>
 >({

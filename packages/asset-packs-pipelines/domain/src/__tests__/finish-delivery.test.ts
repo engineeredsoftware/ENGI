@@ -6,7 +6,7 @@ const createOrUpdateFileUse = jest.fn();
 const createPullRequestUse = jest.fn();
 const emitToolUsage = jest.fn();
 
-jest.mock('@bitcode/vcs-tools', () => ({
+jest.mock('@bitcode/generic-tools-vcs', () => ({
   createBranchTool: { use: (input: unknown) => createBranchUse(input) },
   createOrUpdateFileTool: { use: (input: unknown) => createOrUpdateFileUse(input) },
   createPullRequestTool: { use: (input: unknown) => createPullRequestUse(input) },

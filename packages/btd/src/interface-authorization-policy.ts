@@ -299,7 +299,7 @@ export function buildBtdInterfaceAuthorizationPolicyFixtures(): BtdInterfaceAuth
     {
       fixtureId: 'chatgpt-delivery-allowed',
       interfaceSurface: 'chatgpt_app',
-      fixturePath: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+      fixturePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
       input: {
         policyId: 'interface-auth-chatgpt-delivery',
         interfaceSurface: 'chatgpt_app',
@@ -405,7 +405,7 @@ export function buildBtdInterfaceAuthorizationPolicyFixtures(): BtdInterfaceAuth
     {
       fixtureId: 'chatgpt-unpaid-delivery-denied',
       interfaceSurface: 'chatgpt_app',
-      fixturePath: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+      fixturePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
       input: {
         policyId: 'interface-auth-chatgpt-unpaid-delivery',
         interfaceSurface: 'chatgpt_app',

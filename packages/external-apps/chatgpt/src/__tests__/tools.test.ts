@@ -152,7 +152,7 @@ This product delivers voice-first social conversations for builders.
     const fixture = getBtdInterfaceAuthorizationPolicyFixture('chatgpt-delivery-allowed');
     const policy = buildBtdInterfaceAuthorizationPolicy(fixture.input);
 
-    expect(fixture.fixturePath).toBe('packages/chatgptapp/src/__tests__/tools.test.ts');
+    expect(fixture.fixturePath).toBe('packages/external-apps/chatgpt/src/__tests__/tools.test.ts');
     expect(policy).toMatchObject({
       interfaceSurface: 'chatgpt_app',
       action: 'deliver_asset_pack',
@@ -175,7 +175,7 @@ This product delivers voice-first social conversations for builders.
     const readLicense = buildBtdReadLicenseInterfaceContract(fixture.readLicenseInput);
     const rights = buildBtdAssetPackRightsInterfaceContract(fixture.assetPackRightsInput);
 
-    expect(fixture.fixturePath).toBe('packages/chatgptapp/src/__tests__/tools.test.ts');
+    expect(fixture.fixturePath).toBe('packages/external-apps/chatgpt/src/__tests__/tools.test.ts');
     expect(readLicense).toMatchObject({
       interfaceSurface: 'chatgpt_app',
       action: 'deliver_asset_pack',

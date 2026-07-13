@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Deposit Obfuscations / option-synthesis configuration panel.
  * Presentational shell: path pickers and anchor controls are co-located units.
  */
-"use client";
 
 import React from "react";
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";

@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Deposit-side guidance + refresh posture unit for repository context panel.
  */
-'use client';
 
 import React from 'react';
 import { FolderGit2, RefreshCw } from 'lucide-react';

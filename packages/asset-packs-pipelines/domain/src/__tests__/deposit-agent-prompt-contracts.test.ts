@@ -2,7 +2,7 @@
  * Deposit SDIVF agent prompt contracts (V48 Gate 3).
  *
  * For each deposit-mode SynthesizeAssetPacks agent, run the REAL PTRR machinery
- * (factoryAgentWithPTRR -> Plan/Try/Refine/Retry, each Failsafe x Thinkings)
+ * (factoryPTRRAgent -> Plan/Try/Refine/Retry, each Failsafe x Thinkings)
  * against a synthetic deposit execution tree with the LLM mocked at the boundary
  * (F26-A), capture every wire system prompt exactly as buildHierarchicalPrompt
  * composed it, and pin the prompt contract:

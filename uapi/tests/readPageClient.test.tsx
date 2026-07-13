@@ -10,7 +10,7 @@ import React from "react";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
-import ReadPageClient from "@/app/reads/ReadPageClient";
+import ReadPageClient from "@/components/reads/ReadPageClient/ReadPageClient";
 
 const mockReplace = jest.fn();
 const mockFetchPipelineExecutionHistory = jest.fn();

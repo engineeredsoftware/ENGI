@@ -78,7 +78,7 @@ function printHelp() {
 
 function runIntegrationSmoke(root, failures) {
   const commands = [
-    ['pnpm', ['--filter', '@bitcode/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-conversation-terminal-integration.test.js']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-conversation-terminal-integration.test.js']],
     ['pnpm', ['--filter', '@bitcode/api', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath',
       'src/conversations/__tests__/stream-events.test.ts',
       'src/conversations/__tests__/branch-conversation.test.ts',
@@ -144,8 +144,8 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v40-conversation-terminal-integration.js',
-    'packages/protocol/test/v40-conversation-terminal-integration.test.js',
+    'packages/specifying/src/canonical/v40-conversation-terminal-integration.js',
+    'packages/specifying/test/v40-conversation-terminal-integration.test.js',
     'scripts/generate-v40-conversation-terminal-integration.mjs',
     'scripts/check-v40-gate6-conversation-terminal-integration.mjs',
     'uapi/tests/conversationTerminalIntegrationCoverage.test.tsx',
@@ -176,7 +176,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v40-conversation-terminal-integration.test.js',
+        'packages/specifying/test/v40-conversation-terminal-integration.test.js',
       ]);
     } catch (error) {
       failures.push(`V40 Conversation/Terminal integration protocol test failed: ${error.stderr || error.message}`);

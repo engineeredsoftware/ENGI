@@ -7,7 +7,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { VCSBranch, VCSCommit, VCSRepository } from "@bitcode/vcs-core";
+import type { VCSBranch, VCSCommit, VCSRepository } from "@bitcode/vcs-generics-core";
 import {
   deriveSelectedBranch,
   deriveSelectedCommit,

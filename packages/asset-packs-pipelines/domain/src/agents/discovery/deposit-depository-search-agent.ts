@@ -12,7 +12,7 @@
  * Source-safety: reason about demand and framing — never quote raw source.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
@@ -84,7 +84,7 @@ function createPrompt(): Prompt {
 
 const prompt = createPrompt();
 
-export const DepositDepositorySearchAgent = factoryAgentWithPTRR<
+export const DepositDepositorySearchAgent = factoryPTRRAgent<
   z.infer<typeof DepositorySearchInputSchema>,
   z.infer<typeof DepositorySearchOutputSchema>
 >({
@@ -129,7 +129,7 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
     },
     execution,
   );
-  // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });
+  // factoryPTRRAgent returns an envelope ({ context, output, finalOutput });
   // unwrap it to the agent's typed structured output (F27).
   const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 

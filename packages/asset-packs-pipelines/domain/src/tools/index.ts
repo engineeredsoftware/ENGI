@@ -22,7 +22,7 @@ import {
   createBranchTool,
   createOrUpdateFileTool,
   createPullRequestTool,
-} from '@bitcode/vcs-tools';
+} from '@bitcode/generic-tools-vcs';
 
 // AssetPack tool policy:
 // - MCP tool wrappers are disabled pending future pipeline configuration.

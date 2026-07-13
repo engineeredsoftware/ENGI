@@ -307,10 +307,9 @@ export async function synthesizeAssetPackCandidatesFormal(
       excerpts: inventory.samples,
     };
 
-    const generated: any = await createFailsafeGenerationSequence<
-      typeof generationInput,
-      { options: FormalSynthesisRawOption[] }
-    >({ outputSchema: candidateSetSchema })(generationInput, agentExec);
+    const generated: any = await createFailsafeGenerationSequence<any, any>({
+      outputSchema: candidateSetSchema as any,
+    })(generationInput, agentExec);
 
     const out = generated?.finalOutput ?? generated?.output ?? generated;
     return (out && Array.isArray(out.options) ? out : { options: [] }) as {

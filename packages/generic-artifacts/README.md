@@ -6,20 +6,20 @@ Nested **base implementations** of `@bitcode/artifact-generics`.
 
 ```
 @bitcode/artifact-generics
-        ↑
-@bitcode/generic-artifacts-patch       # patch/     artifact type
-@bitcode/generic-artifacts-aws         # aws/       S3 storage provider
-@bitcode/generic-artifacts-supabase    # supabase/  Supabase Storage provider
-@bitcode/generic-artifacts-vercel      # vercel/    Vercel Blob provider
-        ↑
-product (asset-packs-synthesis) / @bitcode/artifacts compose
+ ↑
+@bitcode/generic-artifacts-patch-kind         # patch-kind/ PatchArtifact type
+@bitcode/generic-artifacts-aws-provider       # aws-provider/ S3 storage
+@bitcode/generic-artifacts-supabase-provider  # supabase-provider/ Supabase Storage
+@bitcode/generic-artifacts-vercel-provider    # vercel-provider/ Vercel Blob
+@bitcode/generic-artifacts-compose            # compose/ aws → supabase → vercel
 ```
 
 | Path | Package | Role |
 | --- | --- | --- |
-| `patch/` | `@bitcode/generic-artifacts-patch` | Patchfile Artifact **type** |
-| `aws/` | `@bitcode/generic-artifacts-aws` | AWS S3 **storage provider** |
-| `supabase/` | `@bitcode/generic-artifacts-supabase` | Supabase **storage provider** |
-| `vercel/` | `@bitcode/generic-artifacts-vercel` | Vercel Blob **storage provider** |
+| `patch-kind/` | `@bitcode/generic-artifacts-patch-kind` | Patchfile Artifact **kind** |
+| `aws-provider/` | `@bitcode/generic-artifacts-aws-provider` | AWS S3 **storage provider** |
+| `supabase-provider/` | `@bitcode/generic-artifacts-supabase-provider` | Supabase **storage provider** |
+| `vercel-provider/` | `@bitcode/generic-artifacts-vercel-provider` | Vercel Blob **storage provider** |
+| `compose/` | `@bitcode/generic-artifacts-compose` | Provider composition (`saveArtifact`, …) |
 
-There is no standalone `@bitcode/aws` package — S3 for artifacts lives here.
+There is no standalone `@bitcode/artifacts` package — composition lives under `generic-artifacts/compose`.

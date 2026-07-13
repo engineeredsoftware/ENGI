@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@bitcode/agent-generics": "workspace:*",
-    "@bitcode/vcs": "workspace:*",
+    "@bitcode/vcs-generics": "workspace:*",
     "@bitcode/logger": "workspace:*",
     "@bitcode/errors": "workspace:*",
     "@bitcode/supabase": "workspace:*",

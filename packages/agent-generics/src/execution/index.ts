@@ -105,17 +105,6 @@ export class FailsafeGenerationExecution extends GenerationExecution {}
 /** ThinkingsGeneration child execution (Reason / Judge / StructuredOutput). */
 export class ThinkingsGenerationExecution extends GenerationExecution {}
 
-// ==================== BC ALIASES ====================
-
-/** @deprecated Prefer GenerationExecution */
-export { GenerationExecution as SubStepExecution };
-/** @deprecated Prefer FailsafeGenerationExecution */
-export { FailsafeGenerationExecution as FailsafeExecution };
-/**
- * @deprecated Prefer ThinkingsGenerationExecution.
- * Old GenerationExecution meant the thinkings child, not the generation-layer base.
- */
-export { ThinkingsGenerationExecution as GenerationExecutionThinkings };
 
 // ==================== FACTORY FUNCTIONS ====================
 
@@ -144,10 +133,4 @@ export function factoryThinkingsGenerationExecution(
   return new ThinkingsGenerationExecution(`thinkings:${thinking}`, parent);
 }
 
-/** @deprecated Prefer factoryGenerationExecution */
-export const factoryNestedGenerationExecution = factoryGenerationExecution;
-/** @deprecated Prefer factoryGenerationExecution */
-export const factorySubStepExecution = factoryGenerationExecution;
-/** @deprecated Prefer factoryFailsafeGenerationExecution */
-export const factoryFailsafeExecution = factoryFailsafeGenerationExecution;
 export * from './tool-prompt-interpolation';

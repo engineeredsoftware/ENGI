@@ -14,7 +14,7 @@
  */
 
 import {
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   AgentPrompt,
   AgentStepPrompt
 } from '@bitcode/agent-generics';
@@ -224,7 +224,7 @@ export const conversationStepPrompts = {
  * Full conversational variation with PTRR
  * Used for complex queries requiring deep understanding
  */
-const comprehensiveConversationVariation = factoryAgentWithPTRR<
+const comprehensiveConversationVariation = factoryPTRRAgent<
   z.infer<typeof ConversationInputSchema>,
   z.infer<typeof ConversationRetrySchema>
 >({
@@ -256,7 +256,7 @@ const comprehensiveConversationVariation = factoryAgentWithPTRR<
  * Uses the same PTRR/Failsafe/Thinkings stack as the comprehensive
  * conversation path, with smaller chunk thresholds for lightweight turns.
  */
-const quickResponseVariation = factoryAgentWithPTRR<
+const quickResponseVariation = factoryPTRRAgent<
   z.infer<typeof ConversationInputSchema>,
   z.infer<typeof ConversationRetrySchema>
 >({
@@ -285,7 +285,7 @@ const quickResponseVariation = factoryAgentWithPTRR<
 /**
  * Conversation Agent - Comprehensive PTRR version
  * 
- * This uses the factoryAgentWithPTRR pattern for full conversation capabilities.
+ * This uses the factoryPTRRAgent pattern for full conversation capabilities.
  * The agent-generics pattern creates the complete PTRR execution automatically.
  */
 export const conversationAgent = comprehensiveConversationVariation;

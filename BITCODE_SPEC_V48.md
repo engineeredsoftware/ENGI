@@ -356,7 +356,7 @@ can locate the living system; the **law** is this SPEC.
 | Default LLM | Provider `xai` when `XAI_API_KEY` set; model **`grok-build-0.1`** (`BITCODE_LLM_MODEL` override). |
 | Per-call timeout | `BITCODE_LLM_CALL_TIMEOUT_MS` default **180000**; reject cleanly (no hang). |
 | Entry | `synthesizeAssetPacksPipeline` in `packages/asset-packs-pipelines/domain/src/index.ts` |
-| Formal hierarchy | PipelineExecution → Phase → Agent (`factoryAgent` / `factoryAgentWithPTRR`) → Step (plan/try/refine/retry) → Failsafe (prepare_concise_context → chunk_then_sum → stitch_until_complete) → Thinkings (reason → judge → structured_output) |
+| Formal hierarchy | PipelineExecution → Phase → Agent (`factoryAgent` / `factoryPTRRAgent`) → Step (plan/try/refine/retry) → Failsafe (prepare_concise_context → chunk_then_sum → stitch_until_complete) → Thinkings (reason → judge → structured_output) |
 
 ### G3-2 Data storage schemas (deposit persistence)
 
@@ -595,7 +595,7 @@ The `/deposits` commercial surface is modular by SRP, not a single god client:
 Package modularization (deposit domain): depository-search, deposit option
 policy/admission/options/earnings/demand, depository-supply-index, and
 asset-packs-synthesis are split into types/helpers/builders with stable public
-entry paths under `@bitcode/pipeline-asset-pack/*`. Host plan builder is
+entry paths under `@bitcode/asset-packs-pipelines-domain/*`. Host plan builder is
 split from in-box runner templates. Agents co-locate schema/prompts/checks.
 
 
@@ -1105,7 +1105,7 @@ V48 gates:
 
 Current source map roots include `uapi`, `packages/btd`,
 `packages/pipeline-asset-pack`, `packages/pipeline-hosts`,
-`packages/protocol`, `packages/prompts`, `packages/executions-mcp`,
+`packages/specifying`, `packages/prompts`, `packages/executions-mcp`,
 `packages/chatgptapp`, `protocol-demonstration`, `.github/workflows`, and
 `.bitcode` generated artifacts.
 

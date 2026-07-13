@@ -424,7 +424,7 @@
     "packages/asset-packs-pipelines/domain/src/__tests__/btd-scalar-volume-quote.test.ts",
     "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
     "packages/btd/__tests__/source-to-shares.test.ts",
-    "packages/protocol/test/v45-proof-family-artifacts.test.js"
+    "packages/specifying/test/v45-proof-family-artifacts.test.js"
   ],
   "failClosedConditions": [
     "mismatch",

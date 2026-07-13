@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
 import { createRouteWrapper } from '@bitcode/middleware';
-import { VCSConnections, VCSProviderFactory } from '@bitcode/vcs';
+import { VCSConnections, VCSProviderFactory } from '@bitcode/vcs-generics';
 
 import {
   getMockConnectionStatus,

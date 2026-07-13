@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Deposit synthesis telemetry panel — live run log, readiness verdicts, cancel control.
  * Presentational; parent owns pipeline state and cancel/retry handlers.
  */
-"use client";
 
 import React from "react";
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";
@@ -13,6 +14,7 @@ import { QuantumOrb } from "@/components/bitcode/effects/quantum-orb";
 import { verifiedAccessOrbConfig } from "@/components/marketing/MarketingLandingShared/MarketingLandingShared";
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/components/deposits/models/deposit-explainers";
 import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { PipelineRunActivitySnapshot } from "@/components/bitcode/pipeline/models/pipeline-run-activity";
 
 /** Live call-chain context for the telemetry pill row. */
 export type DepositSynthesisLiveContext = {
@@ -23,23 +25,8 @@ export type DepositSynthesisLiveContext = {
   generation?: string | number | null;
 } | null;
 
-/** Subset of pipeline run activity used by the deposit telemetry panel. */
-export type DepositSynthesisActivity = {
-  output: string;
-  outputDetails?: Record<string, any>;
-  error?: string | null;
-  currentIteration?: number | null;
-  readyToFinishVerdicts: Array<{
-    iteration?: number | null;
-    finalApproval?: boolean;
-    recommendation?: string | null;
-    qualityScore?: number | null;
-    overallConfidence?: number | null;
-    warningsCount: number;
-    summary?: string | null;
-    reasons: string[];
-  }>;
-};
+/** Pipeline run activity consumed by the deposit telemetry panel. */
+export type DepositSynthesisActivity = PipelineRunActivitySnapshot;
 
 export type DepositSynthesisTelemetryProps = {
   telemetryRef?: React.Ref<HTMLElement | null> | React.RefObject<HTMLElement | null>;
@@ -116,7 +103,7 @@ export function DepositSynthesisTelemetry({
                           agent={synthesisLiveContext.agent}
                           step={synthesisLiveContext.step}
                           failsafe={synthesisLiveContext.failsafe}
-                          generation={synthesisLiveContext.generation}
+                          generation={synthesisLiveContext.generation != null ? String(synthesisLiveContext.generation) : null}
                           mode="deposit"
                         />
                       </div>
@@ -240,7 +227,7 @@ export function DepositSynthesisTelemetry({
                     error={
                       synthesisStatus === "failed"
                         ? synthesisError
-                        : synthesisActivity.error
+                        : (synthesisActivity.error ?? null)
                     }
                     onRetry={() => {
                       onRetry();
@@ -249,7 +236,20 @@ export function DepositSynthesisTelemetry({
                     userHasScrolled={synthesisLogScrolled}
                     setUserHasScrolled={setSynthesisLogScrolled}
                     pipelineMode="deposit"
-                    liveContext={synthesisLiveContext}
+                    liveContext={
+                      synthesisLiveContext
+                        ? {
+                            phase: synthesisLiveContext.phase ?? null,
+                            agent: synthesisLiveContext.agent ?? null,
+                            step: synthesisLiveContext.step ?? null,
+                            failsafe: synthesisLiveContext.failsafe ?? null,
+                            generation:
+                              synthesisLiveContext.generation == null
+                                ? null
+                                : String(synthesisLiveContext.generation),
+                          }
+                        : null
+                    }
                     copyData={{
                       runId: synthesisRunId,
                       status: synthesisStatus,

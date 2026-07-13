@@ -1,7 +1,7 @@
 /**
  * Docs chapter groupings and page lookup helpers.
  */
-import type { BitcodeDocsChapter } from '../bitcode-docs-types';
+import type { BitcodeDocsChapter, BitcodeDocsPage } from '../bitcode-docs-types';
 import { BITCODE_DOCS_PAGES } from './pages';
 
 function docsPagesFor(slugs: readonly string[]) {

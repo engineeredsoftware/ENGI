@@ -142,10 +142,10 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/conversation-terminal-handoff.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/conversation-terminal-handoff.test.js',
+    'packages/specifying/src/canonical/conversation-terminal-handoff.js',
+    'packages/specifying/src/index.js',
+    'packages/specifying/src/index.d.ts',
+    'packages/specifying/test/conversation-terminal-handoff.test.js',
     'scripts/generate-v37-conversation-terminal-handoff.mjs',
     'scripts/check-v37-gate6-conversation-terminal-handoff.mjs',
     'uapi/app/conversations/conversation-terminal-handoff.ts',
@@ -163,7 +163,7 @@ function main() {
     'BITCODE_SPEC_V37_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'uapi/app/conversations/README.md',
     'uapi/app/terminal/README.md',
     'package.json',
@@ -185,7 +185,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/conversation-terminal-handoff.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/conversation-terminal-handoff.test.js']);
     } catch (error) {
       failures.push(`V37 Conversation terminal handoff package test failed: ${error.stderr || error.message}`);
     }
@@ -276,7 +276,7 @@ function main() {
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const uapiReadme = read(root, 'uapi/app/conversations/README.md');
   const terminalReadme = read(root, 'uapi/app/terminal/README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');

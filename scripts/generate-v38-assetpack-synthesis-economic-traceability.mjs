@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V38_ASSETPACK_SYNTHESIS_ECONOMIC_TRACEABILITY_ARTIFACT_PATH,
   buildV38AssetPackSynthesisEconomicTraceability,
-} from '../packages/protocol/src/canonical/assetpack-synthesis-economic-traceability.js';
+} from '../packages/specifying/src/canonical/assetpack-synthesis-economic-traceability.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

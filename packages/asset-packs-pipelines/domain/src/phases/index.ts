@@ -3,7 +3,7 @@
  *
  * Deposit and read synthesis are SEPARATE specific pipelines (no lens/mode).
  * Prefer importing depositPhases / readPhases from the product packages.
- * This barrel re-exports both for shared tooling and BC.
+ * This barrel re-exports both for shared tooling.
  */
 
 export {

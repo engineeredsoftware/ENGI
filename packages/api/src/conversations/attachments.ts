@@ -182,16 +182,16 @@ export async function createConversationAttachment(options: any): Promise<any> {
 
 function mapAttachmentTypeCarrier(type: string): AttachmentCategory {
   const mapping: Record<string, AttachmentCategory> = {
-    'asset-pack': 'integration',
-    'shippable': 'integration',
-    'evidence_document': 'integration',
-    'connection': 'integration',
+    'asset-pack': 'external',
+    'shippable': 'external',
+    'evidence_document': 'external',
+    'connection': 'external',
     'file': 'file',
     'image': 'file',
-    'url': 'url',
-    'issue': 'vcs',
-    'pr': 'vcs',
-    'commit': 'vcs'
+    'external': 'external',
+    'issue': 'external',
+    'pr': 'external',
+    'commit': 'external'
   };
   
   return mapping[type] || 'file';

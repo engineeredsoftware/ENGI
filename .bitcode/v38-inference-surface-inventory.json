@@ -295,8 +295,8 @@
       "label": "Comprehensive Conversation PTRR agent",
       "purpose": "Power Bitcode Terminal Conversations with repository understanding, source-safe response synthesis, and admitted pipeline trigger suggestions.",
       "sourceRoots": [
-        "packages/conversations-generics/src/agent/ConversationAgent.ts",
-        "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts"
+        "packages/conversations/src/agent/ConversationAgent.ts",
+        "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts"
       ],
       "phaseCount": 1,
       "ptrrAgentCount": 1,
@@ -486,7 +486,7 @@
         "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
         "packages/tools-generics/src/execution/ToolExecution.ts",
         "packages/tools-generics/src/execution/ToolPromptRegistry.ts",
-        "packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts"
+        "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts"
       ],
       "phaseCount": 0,
       "ptrrAgentCount": 0,
@@ -828,17 +828,17 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
       "exists": true,
       "legacy": false
     },

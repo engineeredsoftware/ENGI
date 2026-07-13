@@ -766,7 +766,7 @@
           "passed": true
         },
         {
-          "file": "packages/chatgptapp/src/server.ts",
+          "file": "packages/external-apps/chatgpt/src/server.ts",
           "requiredText": "connected-interface Bitcode Terminal companion",
           "filePresent": true,
           "evidencePresent": true,
@@ -789,7 +789,7 @@
           "passed": true
         },
         {
-          "file": "packages/chatgptapp/src/server.ts",
+          "file": "packages/external-apps/chatgpt/src/server.ts",
           "requiredText": "connected-interface Bitcode Terminal companion",
           "filePresent": true,
           "evidencePresent": true,
@@ -1093,28 +1093,28 @@
       ],
       "evidenceChecks": [
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
           "requiredText": "writeAdmission",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/types/index.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/types/index.ts",
           "requiredText": "RepositoryContextSchema",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/chatgptapp/src/tools.ts",
+          "file": "packages/external-apps/chatgpt/src/tools.ts",
           "requiredText": "confirmed",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/chatgptapp/src/__tests__/tools.test.ts",
+          "file": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
           "requiredText": "rejects ChatGPT App connected-interface writes without explicit confirmation",
           "filePresent": true,
           "evidencePresent": true,
@@ -1130,21 +1130,21 @@
       ],
       "mvpEvidenceChecks": [
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
           "requiredText": "writeAdmission",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/chatgptapp/src/__tests__/tools.test.ts",
+          "file": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
           "requiredText": "declares confirmation schema on every ChatGPT App connected-interface write carrier",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/chatgptapp/src/server.ts",
+          "file": "packages/external-apps/chatgpt/src/server.ts",
           "requiredText": "Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state",
           "filePresent": true,
           "evidencePresent": true,
@@ -1153,21 +1153,21 @@
       ],
       "launchEvidenceChecks": [
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
           "requiredText": "writeAdmission",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/chatgptapp/src/__tests__/tools.test.ts",
+          "file": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
           "requiredText": "declares confirmation schema on every ChatGPT App connected-interface write carrier",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/chatgptapp/src/server.ts",
+          "file": "packages/external-apps/chatgpt/src/server.ts",
           "requiredText": "Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state",
           "filePresent": true,
           "evidencePresent": true,

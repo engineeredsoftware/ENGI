@@ -13,7 +13,7 @@
  * the repository's raw source or secrets.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
@@ -79,7 +79,7 @@ function createPrompt(): Prompt {
 
 const prompt = createPrompt();
 
-export const DepositInherentRegurgitationAgent = factoryAgentWithPTRR<
+export const DepositInherentRegurgitationAgent = factoryPTRRAgent<
   z.infer<typeof InherentRegurgitationInputSchema>,
   z.infer<typeof InherentRegurgitationOutputSchema>
 >({
@@ -122,7 +122,7 @@ export default async function runDepositInherentRegurgitationAgent(input: any, e
     },
     execution,
   );
-  // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput }); unwrap (F27).
+  // factoryPTRRAgent returns an envelope ({ context, output, finalOutput }); unwrap (F27).
   const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
   const regurgitation: DepositInherentRegurgitation = (result as any)?.regurgitation ?? {

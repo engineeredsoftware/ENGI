@@ -4,7 +4,7 @@ import { Execution } from '@bitcode/execution-generics';
 import { enablePipelineStreaming } from '@bitcode/pipelines-generics';
 
 // Mock Streams to a simple in-memory Streamer
-jest.mock('@bitcode/streams', () => {
+jest.mock('@bitcode/api/streams', () => {
   class Streamer {
     private handlers = new Set<(e:any)=>void|Promise<void>>();
     constructor(public cfg: { streamId: string; userId?: string }) {}

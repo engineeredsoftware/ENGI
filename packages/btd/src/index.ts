@@ -10,7 +10,7 @@
  */
 
 import { supabaseAdmin } from '@bitcode/supabase';
-import { getUsdPricingForApiModel } from '@bitcode/models/src/pricing';
+import { getUsdPricingForApiModel } from '@bitcode/generic-llms-models/src/pricing';
 import {
   BTD_ASSET_SEMANTICS,
   BITCODE_FEE_ASSET,
@@ -94,7 +94,7 @@ export function estimateTokens(text: string): number {
  * V26 has enough local information to calculate the USD-equivalent model cost.
  * The actual BTC payment transaction belongs to wallet/settlement surfaces, so
  * `btcFeesPaid` remains null until a wallet-settled value is supplied.
- * Extend `@bitcode/models` pricing when Bitcode supports new models or vendors.
+ * Extend `@bitcode/generic-llms-models` pricing when Bitcode supports new models or vendors.
  */
 export function calculateLlmBtcFeeEstimate(
   model: string,
@@ -200,10 +200,10 @@ export * from './source-to-shares';
 export * from './supply';
 export * from './telemetry';
 export * from './journal';
-/** @deprecated Prefer journal exports; Terminal-named aliases for migration. */
+/** Terminal-era journal export names — prefer `./journal` symbols in new code. */
 export * from './terminal-journal';
 export * from './operational-health';
-/** @deprecated Prefer operational-health exports; Terminal-named aliases. */
+/** Terminal-era operational-health export names — prefer `./operational-health` in new code. */
 export * from './terminal-operational-health';
 export * from './testnet-mainnet-readiness-rehearsal';
 export * from './upgrade';

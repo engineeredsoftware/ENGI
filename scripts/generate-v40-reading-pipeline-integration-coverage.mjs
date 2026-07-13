@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V40_READING_PIPELINE_INTEGRATION_COVERAGE_ARTIFACT_PATH,
   buildV40ReadingPipelineIntegrationCoverage,
-} from '../packages/protocol/src/canonical/v40-reading-pipeline-integration-coverage.js';
+} from '../packages/specifying/src/canonical/v40-reading-pipeline-integration-coverage.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

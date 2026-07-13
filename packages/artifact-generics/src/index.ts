@@ -5,11 +5,11 @@
  *
  * Prefer:
  *   @bitcode/artifact-generics                 # this package (primitives)
- *   @bitcode/generic-artifacts-patch           # PatchArtifact type
- *   @bitcode/generic-artifacts-aws             # S3 storage provider
- *   @bitcode/generic-artifacts-supabase        # Supabase storage provider
- *   @bitcode/generic-artifacts-vercel          # Vercel Blob storage provider
- *   @bitcode/artifacts                         # compose providers (BC)
+ *   @bitcode/generic-artifacts-patch-kind           # PatchArtifact type
+ *   @bitcode/generic-artifacts-aws-provider             # S3 storage provider
+ *   @bitcode/generic-artifacts-supabase-provider        # Supabase storage provider
+ *   @bitcode/generic-artifacts-vercel-provider          # Vercel Blob storage provider
+ *   @bitcode/generic-artifacts-compose         # compose providers
  */
 
 export type {

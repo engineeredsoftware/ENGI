@@ -13,7 +13,7 @@ import AttachmentPicker from '@/components/conversations/pickers/AttachmentPicke
 import VCSSourcePicker from '@/components/conversations/pickers/VcsSourcePicker/VcsSourcePicker';
 import PipelineRunPicker from '@/components/conversations/pickers/PipelineRunPicker/PipelineRunPicker';
 import '@/styles/conversations/rich-text-input.css';
-import glassyInputStyles from '@/components/bitcode/inputs/GlassyInput/GlassyInput/glassy-input.module.css';
+import glassyInputStyles from '@/components/bitcode/inputs/GlassyInput/glassy-input.module.css';
 
 import type {
   ConversationsRichTextToken as Token,

@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Empty-state shell for the deposit/read workbench when no live snapshot is ready.
  */
 
-'use client';
 
 import React from 'react';
 

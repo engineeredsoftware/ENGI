@@ -2,7 +2,6 @@
 
 Symbol rename and multi-file refactors over `@bitcode/files` and `@bitcode/lsp`.
 
-> BC alias: `@bitcode/refactoring`
 
 # Refactoring - Production-Grade Code Refactoring System
 
@@ -40,36 +39,36 @@ Lightweight code refactoring system providing atomic symbol renaming with LSP in
 
 ### Symbol Renaming
 ```typescript
-import { renameSymbol, RenameSymbolParams } from '@bitcode/refactoring';
+import { renameSymbol, RenameSymbolParams } from '@bitcode/file-refactoring';
 
 // Rename symbol with position hint
 const result = await renameSymbol({
-  symbolName: 'oldFunctionName',
-  newName: 'newFunctionName',
-  filePath: '/project/src/utils/helpers.ts',
-  line: 15,
-  character: 10
+ symbolName: 'oldFunctionName',
+ newName: 'newFunctionName',
+ filePath: '/project/src/utils/helpers.ts',
+ line: 15,
+ character: 10
 });
 
 console.log('Refactoring completed:', {
-  filesChanged: result.filesChanged,
-  totalEdits: result.totalEdits,
-  operationId: result.operationId,
-  backupCreated: result.backupCreated
+ filesChanged: result.filesChanged,
+ totalEdits: result.totalEdits,
+ operationId: result.operationId,
+ backupCreated: result.backupCreated
 });
 ```
 
 ### Parameter Validation
 ```typescript
-import { renameSymbolParamsSchema } from '@bitcode/refactoring';
+import { renameSymbolParamsSchema } from '@bitcode/file-refactoring';
 
 // Validate parameters before operation
 const params = {
-  symbolName: 'ComponentName',
-  newName: 'UpdatedComponentName',
-  filePath: '/project/src/components/Component.tsx',
-  line: 0,
-  character: 15
+ symbolName: 'ComponentName',
+ newName: 'UpdatedComponentName',
+ filePath: '/project/src/components/Component.tsx',
+ line: 0,
+ character: 15
 };
 
 // Schema validation ensures type safety
@@ -81,28 +80,28 @@ const result = await renameSymbol(validatedParams);
 
 ### Error Handling
 ```typescript
-import { renameSymbol, LspError } from '@bitcode/refactoring';
+import { renameSymbol, LspError } from '@bitcode/file-refactoring';
 
 try {
-  const result = await renameSymbol({
-    symbolName: 'myVariable',
-    newName: 'myRenamedVariable',
-    filePath: '/project/src/index.ts',
-    line: 5,
-    character: 6
-  });
+ const result = await renameSymbol({
+ symbolName: 'myVariable',
+ newName: 'myRenamedVariable',
+ filePath: '/project/src/index.ts',
+ line: 5,
+ character: 6
+ });
 
-  console.log(`Successfully renamed symbol in ${result.filesChanged} files`);
-  
+ console.log(`Successfully renamed symbol in ${result.filesChanged} files`);
+
 } catch (error) {
-  if (error instanceof LspError) {
-    console.error('LSP error:', error.message);
-    console.error('LSP details:', error.details);
-  } else {
-    console.error('Refactoring failed:', error.message);
-  }
-  
-  // All changes are automatically rolled back on error
+ if (error instanceof LspError) {
+ console.error('LSP error:', error.message);
+ console.error('LSP details:', error.details);
+ } else {
+ console.error('Refactoring failed:', error.message);
+ }
+
+ // All changes are automatically rolled back on error
 }
 ```
 
@@ -110,25 +109,25 @@ try {
 ```typescript
 // Sequential symbol renaming with error isolation
 const symbols = [
-  { old: 'getUserData', new: 'fetchUserData', file: 'api.ts', line: 10, char: 0 },
-  { old: 'UserInfo', new: 'UserProfile', file: 'types.ts', line: 5, char: 0 },
-  { old: 'validateUser', new: 'validateUserProfile', file: 'validation.ts', line: 20, char: 0 }
+ { old: 'getUserData', new: 'fetchUserData', file: 'api.ts', line: 10, char: 0 },
+ { old: 'UserInfo', new: 'UserProfile', file: 'types.ts', line: 5, char: 0 },
+ { old: 'validateUser', new: 'validateUserProfile', file: 'validation.ts', line: 20, char: 0 }
 ];
 
 const results = [];
 for (const symbol of symbols) {
-  try {
-    const result = await renameSymbol({
-      symbolName: symbol.old,
-      newName: symbol.new,
-      filePath: `/project/src/${symbol.file}`,
-      line: symbol.line,
-      character: symbol.char
-    });
-    results.push({ ...symbol, success: true, ...result });
-  } catch (error) {
-    results.push({ ...symbol, success: false, error: error.message });
-  }
+ try {
+ const result = await renameSymbol({
+ symbolName: symbol.old,
+ newName: symbol.new,
+ filePath: `/project/src/${symbol.file}`,
+ line: symbol.line,
+ character: symbol.char
+ });
+ results.push({ ...symbol, success: true, ...result });
+ } catch (error) {
+ results.push({ ...symbol, success: false, error: error.message });
+ }
 }
 
 // Report batch operation results

@@ -1,17 +1,16 @@
 # @bitcode/generic-doc-comments-doc-code
 
-> BC alias: `@bitcode/doc-code`
 
 
 V26 status: admitted `ingress-or-support` plus `compatibility` corridor for build-time tool prompt attachment.
-`@bitcode/doc-code` keeps tool prompt descriptions attached to tool instances so Bitcode agentic runs can consume full tool documentation without each package inventing its own runtime convention.
+`@bitcode/generic-doc-comments-doc-code` keeps tool prompt descriptions attached to tool instances so Bitcode agentic runs can consume full tool documentation without each package inventing its own runtime convention.
 
 Runtime prompt injection system - automatically attaches prompt instances to tool instances based on `@doc-code-*` comment patterns.
 
 ## What It Does
 
 Doc-code is a build-time transformation system that:
-1. Finds `@doc-code-*` comments with `@prompt PROMPTNAME` 
+1. Finds `@doc-code-*` comments with `@prompt PROMPTNAME`
 2. Injects `instance.__docCodePrompt = PROMPTNAME` and `instance.__promptParts = PROMPTNAME` after instantiation
 3. Makes prompts available at runtime for LLM consumption and prompt-part-aware tooling
 
@@ -25,7 +24,7 @@ import { WEB_SEARCH_DOC_CODE_TOOL_PROMPT } from './prompts/WebSearchPrompt';
  * @prompt WEB_SEARCH_DOC_CODE_TOOL_PROMPT
  */
 class WebSearchTool extends Tool<typeof search> {
-  use = search;
+ use = search;
 }
 
 export const searchTool = new WebSearchTool();
@@ -44,15 +43,15 @@ The webpack loader is automatically configured in `uapi/next.config.mjs`:
 
 ```javascript
 config.module.rules.push({
-  test: /\.(ts|tsx)$/,
-  include: [
-    path.resolve(__dirname, '..', 'packages', 'generic-tools'),
-    path.resolve(__dirname, '..', 'packages', 'tools-generics'),
-  ],
-  use: [{
-    loader: path.resolve(__dirname, '..', 'packages', 'doc-code', 'loader.js'),
-    options: { exclude: [/\.test\./, /\.spec\./] }
-  }]
+ test: /\.(ts|tsx)$/,
+ include: [
+ path.resolve(__dirname, '..', 'packages', 'generic-tools'),
+ path.resolve(__dirname, '..', 'packages', 'tools-generics'),
+ ],
+ use: [{
+ loader: path.resolve(__dirname, '..', 'packages', 'doc-code', 'loader.js'),
+ options: { exclude: [/\.test\./, /\.spec\./] }
+ }]
 });
 ```
 
@@ -76,19 +75,19 @@ The Tool base class includes the type definition:
 
 ```typescript
 export abstract class Tool<T extends ToolFunction = ToolFunction> {
-  // ... other properties
-  
-  /**
-   * DocCodeToolPrompt attached by build-time transform.
-   * @internal
-   */
-  __docCodePrompt?: any;
+ // ... other properties
 
-  /**
-   * Prompt parts carrier attached alongside __docCodePrompt.
-   * @internal
-   */
-  __promptParts?: any;
+ /**
+ * DocCodeToolPrompt attached by build-time transform.
+ * @internal
+ */
+ __docCodePrompt?: any;
+
+ /**
+ * Prompt parts carrier attached alongside __docCodePrompt.
+ * @internal
+ */
+ __promptParts?: any;
 }
 ```
 

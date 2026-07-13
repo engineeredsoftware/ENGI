@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V42_DEPOSITING_SHORTEST_PATH_ARTIFACT_PATH,
   buildV42DepositingShortestPath,
-} from '../packages/protocol/src/canonical/v42-depositing-shortest-path.js';
+} from '../packages/specifying/src/canonical/v42-depositing-shortest-path.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

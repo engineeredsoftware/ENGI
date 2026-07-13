@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Live order-book table for the marketplace section.
  */
-"use client";
 
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";

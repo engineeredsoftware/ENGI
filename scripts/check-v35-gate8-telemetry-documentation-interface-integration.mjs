@@ -115,25 +115,25 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/telemetry-documentation-interface-integration.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/v35-telemetry-documentation-interface-integration.test.js',
+    'packages/specifying/src/canonical/telemetry-documentation-interface-integration.js',
+    'packages/specifying/src/index.js',
+    'packages/specifying/src/index.d.ts',
+    'packages/specifying/test/v35-telemetry-documentation-interface-integration.test.js',
     'scripts/generate-v35-telemetry-documentation-interface-integration.mjs',
     'scripts/check-v35-gate8-telemetry-documentation-interface-integration.mjs',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'packages/specifying/src/canonical/v21-specifying.js',
     'BITCODE_SPEC_V35.md',
     'BITCODE_SPEC_V35_DELTA.md',
     'BITCODE_SPEC_V35_NOTES.md',
     'BITCODE_SPEC_V35_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'uapi/app/terminal/README.md',
     'uapi/app/auxillaries/README.md',
     'packages/api/README.md',
     'packages/generic-mcps/bitcode/README.md',
-    'packages/chatgptapp/README.md',
+    'packages/external-apps/chatgpt/README.md',
     'internal-docs/README.md',
     'uapi/app/docs/bitcode-docs-content.ts',
     'package.json',
@@ -156,7 +156,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'packages/specifying',
         'exec',
         'node',
         '--test',
@@ -222,10 +222,10 @@ function main() {
     );
   }
 
-  const protocolIndex = read(root, 'packages/protocol/src/index.js');
+  const protocolIndex = read(root, 'packages/specifying/src/index.js');
   assertCheck(failures, protocolIndex.includes('buildTelemetryDocumentationInterfaceIntegration'), 'Protocol index must export buildTelemetryDocumentationInterfaceIntegration.');
 
-  const packageTypes = read(root, 'packages/protocol/src/index.d.ts');
+  const packageTypes = read(root, 'packages/specifying/src/index.d.ts');
   assertCheck(failures, packageTypes.includes('buildTelemetryDocumentationInterfaceIntegration'), 'Protocol type surface must export buildTelemetryDocumentationInterfaceIntegration.');
 
   const packageJson = read(root, 'package.json');
@@ -248,7 +248,7 @@ function main() {
     'uapi/app/auxillaries/README.md',
     'packages/api/README.md',
     'packages/generic-mcps/bitcode/README.md',
-    'packages/chatgptapp/README.md',
+    'packages/external-apps/chatgpt/README.md',
     'internal-docs/README.md',
     'uapi/app/docs/bitcode-docs-content.ts',
   ].map((relativePath) => read(root, relativePath)).join('\n');

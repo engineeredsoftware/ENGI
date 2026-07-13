@@ -10,7 +10,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -276,7 +276,7 @@ export const techTypesIdentifierStepPrompts = {
  * Comprehensive tech identification agent
  * Uses full PTRR cycle for thorough analysis
  */
-const comprehensiveTechIdentification = factoryAgentWithPTRR<
+const comprehensiveTechIdentification = factoryPTRRAgent<
   z.infer<typeof TechTypesIdentifierInputSchema>,
   z.infer<typeof TechTypesIdentifierRetrySchema>
 >({

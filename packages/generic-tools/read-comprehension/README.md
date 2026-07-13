@@ -127,17 +127,17 @@ why, how, when, where, what, and who does this code serve in Bitcode's source-to
 
 ```typescript
 import {
-  analyzeReadSemanticsTool,
-  AnalyzeReadSemanticsTool
+ analyzeReadSemanticsTool,
+ AnalyzeReadSemanticsTool
 } from '@bitcode/generic-tools-read-comprehension';
 
 const semantics = await analyzeReadSemanticsTool.use({
-  expressed_read: 'Fix the OAuth redirect regression and open a pull request',
-  context_information: {
-    repository_type: 'Next.js application',
-    technology_stack: ['Next.js', 'Supabase'],
-    existing_attachments: ['failed-login-trace.txt']
-  }
+ expressed_read: 'Fix the OAuth redirect regression and open a pull request',
+ context_information: {
+ repository_type: 'Next.js application',
+ technology_stack: ['Next.js', 'Supabase'],
+ existing_attachments: ['failed-login-trace.txt']
+ }
 });
 
 console.log(semantics.read.expressed_read);

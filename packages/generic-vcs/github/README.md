@@ -54,28 +54,28 @@ Production-grade GitHub integration implementing the unified VCS abstraction lay
 
 ### Provider Initialization
 ```typescript
-import { GitHubProvider } from '@bitcode/github';
+import { GitHubProvider } from '@bitcode/generic-vcs-github';
 
 // OAuth configuration
 const provider = new GitHubProvider({
-  clientId: 'github_client_id',
-  clientSecret: 'github_client_secret',
-  redirectUri: 'https://app.example.com/auth/callback'
+ clientId: 'github_client_id',
+ clientSecret: 'github_client_secret',
+ redirectUri: 'https://app.example.com/auth/callback'
 });
 
 // GitHub App configuration
 const appProvider = new GitHubProvider({
-  appId: '12345',
-  privateKey: process.env.GITHUB_PRIVATE_KEY,
-  clientId: 'github_app_client_id',
-  clientSecret: 'github_app_client_secret'
+ appId: '12345',
+ privateKey: process.env.GITHUB_PRIVATE_KEY,
+ clientId: 'github_app_client_id',
+ clientSecret: 'github_app_client_secret'
 });
 
 // Enterprise configuration
 const enterpriseProvider = new GitHubProvider({
-  instanceUrl: 'https://github.enterprise.com',
-  clientId: 'enterprise_client_id',
-  clientSecret: 'enterprise_client_secret'
+ instanceUrl: 'https://github.enterprise.com',
+ clientId: 'enterprise_client_id',
+ clientSecret: 'enterprise_client_secret'
 });
 ```
 
@@ -83,9 +83,9 @@ const enterpriseProvider = new GitHubProvider({
 ```typescript
 // List user repositories
 const repositories = await provider.listRepositories(auth, {
-  visibility: 'all',
-  sort: 'updated',
-  direction: 'desc'
+ visibility: 'all',
+ sort: 'updated',
+ direction: 'desc'
 });
 
 // Get repository details
@@ -93,16 +93,16 @@ const repository = await provider.getRepository(auth, 'owner', 'repo');
 
 // Create repository
 const newRepo = await provider.createRepository(auth, {
-  name: 'new-repository',
-  description: 'Repository description',
-  private: true,
-  autoInit: true
+ name: 'new-repository',
+ description: 'Repository description',
+ private: true,
+ autoInit: true
 });
 
 // Update repository
 const updated = await provider.updateRepository(auth, 'owner', 'repo', {
-  description: 'Updated description',
-  private: false
+ description: 'Updated description',
+ private: false
 });
 ```
 
@@ -110,25 +110,25 @@ const updated = await provider.updateRepository(auth, 'owner', 'repo', {
 ```typescript
 // List pull requests
 const pullRequests = await provider.listPullRequests(auth, 'owner', 'repo', {
-  state: 'open',
-  sort: 'updated',
-  direction: 'desc'
+ state: 'open',
+ sort: 'updated',
+ direction: 'desc'
 });
 
 // Create pull request
 const pr = await provider.createPullRequest(auth, 'owner', 'repo', {
-  title: 'Feature implementation',
-  description: 'Implements new feature X',
-  sourceBranch: 'feature/new-feature',
-  targetBranch: 'main',
-  draft: false
+ title: 'Feature implementation',
+ description: 'Implements new feature X',
+ sourceBranch: 'feature/new-feature',
+ targetBranch: 'main',
+ draft: false
 });
 
 // Merge pull request
 const merged = await provider.mergePullRequest(auth, 'owner', 'repo', 123, {
-  mergeMethod: 'squash',
-  commitTitle: 'Feature: Add new functionality',
-  commitMessage: 'Detailed commit message'
+ mergeMethod: 'squash',
+ commitTitle: 'Feature: Add new functionality',
+ commitMessage: 'Detailed commit message'
 });
 ```
 
@@ -139,18 +139,18 @@ const file = await provider.getFile(auth, 'owner', 'repo', 'src/index.ts', 'main
 
 // Create file
 const created = await provider.createFile(auth, 'owner', 'repo', 'new-file.ts', {
-  content: 'export const greeting = "Hello World";',
-  message: 'Add greeting module',
-  branch: 'main',
-  encoding: 'utf-8'
+ content: 'export const greeting = "Hello World";',
+ message: 'Add greeting module',
+ branch: 'main',
+ encoding: 'utf-8'
 });
 
 // Update file
 const updated = await provider.updateFile(auth, 'owner', 'repo', 'src/index.ts', {
-  content: 'export const greeting = "Hello Universe";',
-  message: 'Update greeting message',
-  branch: 'main',
-  sha: file.sha
+ content: 'export const greeting = "Hello Universe";',
+ message: 'Update greeting message',
+ branch: 'main',
+ sha: file.sha
 });
 ```
 
@@ -158,10 +158,10 @@ const updated = await provider.updateFile(auth, 'owner', 'repo', 'src/index.ts',
 ```typescript
 // Create webhook
 const webhook = await provider.createWebhook(auth, 'owner', 'repo', {
-  url: 'https://api.example.com/webhooks/github',
-  events: ['push', 'pull_request', 'issues'],
-  secret: 'webhook_secret',
-  active: true
+ url: 'https://api.example.com/webhooks/github',
+ events: ['push', 'pull_request', 'issues'],
+ secret: 'webhook_secret',
+ active: true
 });
 
 // List webhooks
@@ -169,8 +169,8 @@ const webhooks = await provider.listWebhooks(auth, 'owner', 'repo');
 
 // Update webhook
 const updated = await provider.updateWebhook(auth, 'owner', 'repo', webhook.id, {
-  events: ['push', 'pull_request'],
-  active: false
+ events: ['push', 'pull_request'],
+ active: false
 });
 ```
 

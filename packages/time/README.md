@@ -16,14 +16,14 @@ Time utility functions for the Bitcode platform. Provides time range parsing, du
 import { parseTimeRange, TIME } from '@bitcode/time';
 
 // Parse time range strings
-const oneYear = parseTimeRange('1y');     // 365 * 24 * 60 * 60 * 1000
-const twoMonths = parseTimeRange('2m');   // 2 * 30 * 24 * 60 * 60 * 1000
-const threeWeeks = parseTimeRange('3w');  // 3 * 7 * 24 * 60 * 60 * 1000
-const fourDays = parseTimeRange('4d');    // 4 * 24 * 60 * 60 * 1000
+const oneYear = parseTimeRange('1y'); // 365 * 24 * 60 * 60 * 1000
+const twoMonths = parseTimeRange('2m'); // 2 * 30 * 24 * 60 * 60 * 1000
+const threeWeeks = parseTimeRange('3w'); // 3 * 7 * 24 * 60 * 60 * 1000
+const fourDays = parseTimeRange('4d'); // 4 * 24 * 60 * 60 * 1000
 
 // Time constants
-const oneHour = TIME.HOUR;               // 60 * 60 * 1000
-const oneDay = TIME.DAY;                 // 24 * 60 * 60 * 1000
+const oneHour = TIME.HOUR; // 60 * 60 * 1000
+const oneDay = TIME.DAY; // 24 * 60 * 60 * 1000
 ```
 
 ## Duration Formatting

@@ -1,7 +1,6 @@
 # @bitcode/web-scrapers-firecrawl
 
-> Path: `packages/web-scrapers/firecrawl`  
-> BC alias: `@bitcode/firecrawl`
+> Path: `packages/web-scrapers/firecrawl`
 
 ## Overview
 
@@ -50,17 +49,17 @@ Industrial-strength web scraping and crawling service integration providing comp
 ```typescript
 // Single Page Scraping
 await client.scrapeUrl('https://example.com', {
-  formats: ['markdown', 'html', 'screenshot'],
-  onlyMainContent: true,
-  timeout: 30000
+ formats: ['markdown', 'html', 'screenshot'],
+ onlyMainContent: true,
+ timeout: 30000
 })
 
 // Website Crawling
 await client.crawlUrl('https://example.com', {
-  limit: 100,
-  maxDepth: 3,
-  allowSubdomains: true,
-  scrapeOptions: { formats: ['markdown'] }
+ limit: 100,
+ maxDepth: 3,
+ allowSubdomains: true,
+ scrapeOptions: { formats: ['markdown'] }
 })
 
 // Asynchronous Operations
@@ -74,27 +73,27 @@ watcher.addEventListener('document', (event) => console.log(event.data))
 
 // Batch Processing
 await client.batchScrapeUrls([
-  'https://example.com/page1',
-  'https://example.com/page2'
+ 'https://example.com/page1',
+ 'https://example.com/page2'
 ], { formats: ['markdown'] })
 
 // AI Extraction
 await client.extract(['https://example.com'], {
-  prompt: 'Extract contact information and business hours',
-  schema: { name: 'string', phone: 'string', hours: 'string' }
+ prompt: 'Extract contact information and business hours',
+ schema: { name: 'string', phone: 'string', hours: 'string' }
 })
 
 // Web Search
 await client.search('latest AI developments', {
-  limit: 10,
-  country: 'US',
-  scrapeOptions: { formats: ['markdown'] }
+ limit: 10,
+ country: 'US',
+ scrapeOptions: { formats: ['markdown'] }
 })
 
 // Website Mapping
 await client.mapUrl('https://example.com', {
-  includeSubdomains: true,
-  limit: 1000
+ includeSubdomains: true,
+ limit: 1000
 })
 ```
 

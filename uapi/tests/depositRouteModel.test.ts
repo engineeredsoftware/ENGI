@@ -3,7 +3,7 @@ import {
   buildDepositRouteSession,
   readDepositRouteStage,
   writeDepositRouteStage,
-} from '@/app/deposits/deposit-route-model';
+} from '@/components/deposits/models/deposit-route-model';
 
 /** Fixture: settled-Depository demand is estimatable (no invented placeholders). */
 const SETTLED_DEMAND_ESTIMATABLE = {

@@ -91,7 +91,7 @@ function printHelp() {
 
 function runBrowserProofSmoke(root, failures) {
   const commands = [
-    ['node', ['--test', '--test-force-exit', 'packages/protocol/test/v40-browser-e2e-visual-proof.test.js']],
+    ['node', ['--test', '--test-force-exit', 'packages/specifying/test/v40-browser-e2e-visual-proof.test.js']],
   ];
   const pnpmCommands = [
     ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath',
@@ -150,8 +150,8 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v40-browser-e2e-visual-proof.js',
-    'packages/protocol/test/v40-browser-e2e-visual-proof.test.js',
+    'packages/specifying/src/canonical/v40-browser-e2e-visual-proof.js',
+    'packages/specifying/test/v40-browser-e2e-visual-proof.test.js',
     'scripts/generate-v40-browser-e2e-visual-proof.mjs',
     'scripts/check-v40-gate7-browser-e2e-visual-proof.mjs',
     'uapi/app/bitcode-browser-proof.ts',
@@ -163,7 +163,7 @@ function main() {
     'BITCODE_SPEC_V40_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'package.json',
     'uapi/package.json',
     '.github/workflows/bitcode-gate-quality.yml',

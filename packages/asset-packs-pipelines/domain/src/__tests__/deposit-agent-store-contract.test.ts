@@ -15,7 +15,7 @@
 //      execution (storeCrossPhaseArtifact → execution.getRoot()), where the
 //      dispatching route reads them with a direct get and every phase sibling
 //      resolves them via the upward walk,
-//  (b) the PTRR envelope unwrap: factoryAgentWithPTRR returns
+//  (b) the PTRR envelope unwrap: factoryPTRRAgent returns
 //      { context, output, finalOutput } and the typed fields live ONLY inside the
 //      envelope — reading them off the envelope root is undefined (the F26-A/F27
 //      latent-bug class), so handlers MUST unwrap finalOutput ?? output ?? raw,
@@ -83,7 +83,7 @@ function measuredPatchOption(overrides: Record<string, unknown> = {}) {
   };
 }
 
-/** The factoryAgentWithPTRR return is the {context, output, finalOutput} envelope. */
+/** The factoryPTRRAgent return is the {context, output, finalOutput} envelope. */
 function expectPTRREnvelope(raw: any) {
   expect(raw).toBeDefined();
   expect(typeof raw).toBe('object');

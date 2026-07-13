@@ -1,6 +1,6 @@
 /**
  * agent-measure-absolutes — pipeline host for SynthesizeAssetPacksAbsolutesMeasureAgent
- * (product factory in @bitcode/asset-packs-synthesis) + static-analysis quantity tools.
+ * (product factory in @bitcode/generic-asset-packs-synthesis) + static-analysis quantity tools.
  *
  * Bases factoryMeasureAgentAbsolutes with the asset-pack ABSOLUTES catalog —
  * material properties of digital material:
@@ -85,7 +85,7 @@ function clamp01(value: number): number {
  */
 /**
  * @deprecated Prefer factorySynthesizeAssetPacksAbsolutesMeasureAgent from
- * @bitcode/asset-packs-synthesis. Kept as local alias for pipeline validation wiring.
+ * @bitcode/generic-asset-packs-synthesis. Kept as local alias for pipeline validation wiring.
  */
 export function factoryAssetPackMeasureAbsolutesAgent(
   lens: AssetPacksSynthesisLens,
@@ -344,7 +344,7 @@ export async function measureAssetPackAbsolutes(
   try {
     const agent = factoryAssetPackMeasureAbsolutesAgent(context.lens);
     const raw = await agent(toDescriptor(patch, report) as any, context.execution);
-    // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput }) — unwrap (F27).
+    // factoryPTRRAgent returns an envelope ({ context, output, finalOutput }) — unwrap (F27).
     const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
     const readings = Array.isArray((result as any)?.measurements) ? (result as any).measurements : [];
     if (readings.length === 0) return reportAbsolutes;

@@ -14,12 +14,12 @@
     "BITCODE_SPEC_V46_PARITY_MATRIX.md": "BITCODE_SPEC_V46_PARITY_MATRIX.md:91b47eeaa106639d2d21856b",
     "SPECIFICATIONS_ROADMAP.md": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
     "README.md": "README.md:d28ec731634e03953d8adfe6",
-    "packages/protocol/README.md": "packages/protocol/README.md:f5b175049f4f4e8df179e184",
+    "packages/specifying/README.md": "packages/specifying/README.md:f5b175049f4f4e8df179e184",
     "package.json": "package.json:b79014968c556bc1b43ab341",
-    "packages/protocol/src/index.js": "packages/protocol/src/index.js:1f16ea428bd71351a1292cb6",
-    "packages/protocol/src/index.d.ts": "packages/protocol/src/index.d.ts:278dfc652c621533b5e86f4d",
-    "packages/protocol/src/canonical/v46-interface-claim-contracts.js": "packages/protocol/src/canonical/v46-interface-claim-contracts.js:a7354af8be68328240207032",
-    "packages/protocol/test/v46-interface-claim-contracts.test.js": "packages/protocol/test/v46-interface-claim-contracts.test.js:f1dcb481edcbadee07f42127",
+    "packages/specifying/src/index.js": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "packages/specifying/src/index.d.ts": "packages/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "packages/specifying/src/canonical/v46-interface-claim-contracts.js": "packages/specifying/src/canonical/v46-interface-claim-contracts.js:a7354af8be68328240207032",
+    "packages/specifying/test/v46-interface-claim-contracts.test.js": "packages/specifying/test/v46-interface-claim-contracts.test.js:f1dcb481edcbadee07f42127",
     "scripts/generate-v46-interface-claim-contracts.mjs": "scripts/generate-v46-interface-claim-contracts.mjs:c6faeaf341acbb26e4e51179",
     "scripts/check-v46-gate5-interface-claim-contracts.mjs": "scripts/check-v46-gate5-interface-claim-contracts.mjs:b6be899067bc320750689824",
     ".github/workflows/bitcode-gate-quality.yml": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
@@ -28,18 +28,18 @@
     "packages/btd/__tests__/api-schema-compatibility-matrix.test.ts": "packages/btd/__tests__/api-schema-compatibility-matrix.test.ts:32fa0cfd7301dc44808b3eac",
     "packages/btd/src/mcp-tool-contract.ts": "packages/btd/src/mcp-tool-contract.ts:ed7ff68bb55bd47afc9c538b",
     "packages/btd/__tests__/mcp-tool-contract.test.ts": "packages/btd/__tests__/mcp-tool-contract.test.ts:27ef7ecf25bdbcb8420466d8",
-    "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts:e7774381dacf20d639cba3bf",
-    "packages/executions-mcp/src/mcp-server/docs/mcp/mcp-api-reference.md": "packages/executions-mcp/src/mcp-server/docs/mcp/mcp-api-reference.md:39ae38737d2c48c96eebb5ea",
+    "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts:e7774381dacf20d639cba3bf",
+    "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-api-reference.md": "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-api-reference.md:39ae38737d2c48c96eebb5ea",
     "packages/btd/src/chatgpt-app-action-contract.ts": "packages/btd/src/chatgpt-app-action-contract.ts:a24a464bd0910f8b8284ddfe",
     "packages/btd/__tests__/chatgpt-app-action-contract.test.ts": "packages/btd/__tests__/chatgpt-app-action-contract.test.ts:0106718de811ad1250860b07",
-    "packages/chatgptapp/src/tools.ts": "packages/chatgptapp/src/tools.ts:01098e7c683c6394a4ff6918",
-    "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts": "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts:4d61df32d3f61c9a2f1efa5c",
+    "packages/external-apps/chatgpt/src/tools.ts": "packages/external-apps/chatgpt/src/tools.ts:01098e7c683c6394a4ff6918",
+    "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts:4d61df32d3f61c9a2f1efa5c",
     "packages/api/src/routes/conversations.ts": "packages/api/src/routes/conversations.ts:5e58470bbe10ab4eb0e1f54a",
     "uapi/tests/api/conversationReadingInterfaceParity.test.ts": "uapi/tests/api/conversationReadingInterfaceParity.test.ts:e31d05980a03ff7c966df485",
     "uapi/tests/conversationTerminalHandoff.test.tsx": "uapi/tests/conversationTerminalHandoff.test.tsx:f86ac4ab726148a1a0fdcdc5",
     "uapi/tests/conversationStreamPipelineLog.test.tsx": "uapi/tests/conversationStreamPipelineLog.test.tsx:73e3ba9c6f058ffe4418b3e4",
     "uapi/app/conversations/conversation-session-route-history.ts": "uapi/app/conversations/conversation-session-route-history.ts:d3d12ff13b464135f08599fc",
-    "packages/protocol/src/canonical/v39-interface-conversation-product-parity.js": "packages/protocol/src/canonical/v39-interface-conversation-product-parity.js:7037724fdab78cd00402fd02"
+    "packages/specifying/src/canonical/v39-interface-conversation-product-parity.js": "packages/specifying/src/canonical/v39-interface-conversation-product-parity.js:7037724fdab78cd00402fd02"
   },
   "surfaceIds": [
     "public_api",
@@ -180,8 +180,8 @@
       "sourcePaths": [
         "packages/btd/src/mcp-tool-contract.ts",
         "packages/btd/__tests__/mcp-tool-contract.test.ts",
-        "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
-        "packages/executions-mcp/src/mcp-server/docs/mcp/mcp-api-reference.md"
+        "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+        "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-api-reference.md"
       ],
       "claimIds": [
         "assetpack-is-commodity",
@@ -288,8 +288,8 @@
       "sourceRoots": [
         "packages/btd/src/mcp-tool-contract.ts:ed7ff68bb55bd47afc9c538b",
         "packages/btd/__tests__/mcp-tool-contract.test.ts:27ef7ecf25bdbcb8420466d8",
-        "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts:e7774381dacf20d639cba3bf",
-        "packages/executions-mcp/src/mcp-server/docs/mcp/mcp-api-reference.md:39ae38737d2c48c96eebb5ea"
+        "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts:e7774381dacf20d639cba3bf",
+        "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-api-reference.md:39ae38737d2c48c96eebb5ea"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -301,8 +301,8 @@
       "sourcePaths": [
         "packages/btd/src/chatgpt-app-action-contract.ts",
         "packages/btd/__tests__/chatgpt-app-action-contract.test.ts",
-        "packages/chatgptapp/src/tools.ts",
-        "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts"
+        "packages/external-apps/chatgpt/src/tools.ts",
+        "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
       ],
       "claimIds": [
         "btd-is-weighted-scalar-volume-and-settled-rights",
@@ -412,8 +412,8 @@
       "sourceRoots": [
         "packages/btd/src/chatgpt-app-action-contract.ts:a24a464bd0910f8b8284ddfe",
         "packages/btd/__tests__/chatgpt-app-action-contract.test.ts:0106718de811ad1250860b07",
-        "packages/chatgptapp/src/tools.ts:01098e7c683c6394a4ff6918",
-        "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts:4d61df32d3f61c9a2f1efa5c"
+        "packages/external-apps/chatgpt/src/tools.ts:01098e7c683c6394a4ff6918",
+        "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts:4d61df32d3f61c9a2f1efa5c"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -546,7 +546,7 @@
       "sourcePaths": [
         "packages/btd/src/api-schema-compatibility-matrix.ts",
         "packages/btd/__tests__/api-schema-compatibility-matrix.test.ts",
-        "packages/protocol/src/canonical/v39-interface-conversation-product-parity.js"
+        "packages/specifying/src/canonical/v39-interface-conversation-product-parity.js"
       ],
       "claimIds": [
         "assetpack-is-commodity",
@@ -642,7 +642,7 @@
       "sourceRoots": [
         "packages/btd/src/api-schema-compatibility-matrix.ts:21527a4ab84909ce72247fab",
         "packages/btd/__tests__/api-schema-compatibility-matrix.test.ts:32fa0cfd7301dc44808b3eac",
-        "packages/protocol/src/canonical/v39-interface-conversation-product-parity.js:7037724fdab78cd00402fd02"
+        "packages/specifying/src/canonical/v39-interface-conversation-product-parity.js:7037724fdab78cd00402fd02"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -686,22 +686,22 @@
     },
     {
       "id": "package-source-defines-surfaces",
-      "sourcePath": "packages/protocol/src/canonical/v46-interface-claim-contracts.js",
+      "sourcePath": "packages/specifying/src/canonical/v46-interface-claim-contracts.js",
       "passed": true
     },
     {
       "id": "package-source-defines-capabilities",
-      "sourcePath": "packages/protocol/src/canonical/v46-interface-claim-contracts.js",
+      "sourcePath": "packages/specifying/src/canonical/v46-interface-claim-contracts.js",
       "passed": true
     },
     {
       "id": "package-exports-gate5",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {
       "id": "package-test-covers-gate5",
-      "sourcePath": "packages/protocol/test/v46-interface-claim-contracts.test.js",
+      "sourcePath": "packages/specifying/test/v46-interface-claim-contracts.test.js",
       "passed": true
     },
     {

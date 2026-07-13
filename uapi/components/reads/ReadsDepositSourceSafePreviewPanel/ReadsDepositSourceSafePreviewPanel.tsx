@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Source-safe preview, AssetPack boundary details, settlement, and disclosure review.
  */
 
-'use client';
 
 import React from 'react';
 

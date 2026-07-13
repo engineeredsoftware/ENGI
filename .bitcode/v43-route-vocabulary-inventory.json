@@ -327,7 +327,7 @@
     },
     {
       "id": "protocol-readme-records-gate2",
-      "sourcePath": "packages/protocol/README.md",
+      "sourcePath": "packages/specifying/README.md",
       "passed": true
     },
     {
@@ -347,12 +347,12 @@
     },
     {
       "id": "protocol-index-exports-gate2",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {
       "id": "protocol-types-export-gate2",
-      "sourcePath": "packages/protocol/src/index.d.ts",
+      "sourcePath": "packages/specifying/src/index.d.ts",
       "passed": true
     },
     {
@@ -367,7 +367,7 @@
     },
     {
       "id": "protocol-test-exists",
-      "sourcePath": "packages/protocol/test/v43-route-vocabulary-inventory.test.js",
+      "sourcePath": "packages/specifying/test/v43-route-vocabulary-inventory.test.js",
       "passed": true
     },
     {
@@ -397,7 +397,7 @@
     },
     {
       "id": "migration-rows-complete",
-      "sourcePath": "packages/protocol/src/canonical/v43-route-vocabulary-inventory.js",
+      "sourcePath": "packages/specifying/src/canonical/v43-route-vocabulary-inventory.js",
       "passed": true
     },
     {
@@ -3240,7 +3240,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/bitbucket/src/providers/bitbucket-provider.ts",
+      "path": "packages/generic-vcs/bitbucket/src/providers/bitbucket-provider.ts",
       "pathRoot": "v43-route-vocabulary-file:cd28312b05857b9fd2d8a292",
       "categories": [
         "package",
@@ -3892,7 +3892,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/chatgptapp/README.md",
+      "path": "packages/external-apps/chatgpt/README.md",
       "pathRoot": "v43-route-vocabulary-file:39bb4ebc239735c289ec6187",
       "categories": [
         "doc",
@@ -3910,7 +3910,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts",
+      "path": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
       "pathRoot": "v43-route-vocabulary-file:98198358bc21794cf9c4c29f",
       "categories": [
         "package",
@@ -3925,7 +3925,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/chatgptapp/src/__tests__/tools.test.ts",
+      "path": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
       "pathRoot": "v43-route-vocabulary-file:65d3ce9e7cc49b97ed5c3826",
       "categories": [
         "package",
@@ -3941,7 +3941,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/chatgptapp/src/server.ts",
+      "path": "packages/external-apps/chatgpt/src/server.ts",
       "pathRoot": "v43-route-vocabulary-file:6a0355ffc070645e25fb9dc0",
       "categories": [
         "package",
@@ -3957,7 +3957,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/conversations-generics/README.md",
+      "path": "packages/conversations/README.md",
       "pathRoot": "v43-route-vocabulary-file:c00004c0dabcf3ca1e8f292a",
       "categories": [
         "doc",
@@ -3973,7 +3973,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/conversations-generics/package.json",
+      "path": "packages/conversations/package.json",
       "pathRoot": "v43-route-vocabulary-file:a7865185b24fef1d66c6556c",
       "categories": [
         "package",
@@ -3988,7 +3988,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "path": "packages/conversations/src/agent/ConversationAgent.ts",
       "pathRoot": "v43-route-vocabulary-file:d7f2228600f73a8e2cd8340e",
       "categories": [
         "package",
@@ -4003,7 +4003,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/conversations-generics/src/index.ts",
+      "path": "packages/conversations/src/index.ts",
       "pathRoot": "v43-route-vocabulary-file:b1ccf1aff59d11556e7bd954",
       "categories": [
         "package",
@@ -4018,7 +4018,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "path": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
       "pathRoot": "v43-route-vocabulary-file:6a04a2f7e304363817c9f298",
       "categories": [
         "package"
@@ -4032,7 +4032,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/conversations-generics/src/types.ts",
+      "path": "packages/conversations/src/types.ts",
       "pathRoot": "v43-route-vocabulary-file:13365d91102a1534858f54e5",
       "categories": [
         "package",
@@ -4063,7 +4063,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/README.md",
+      "path": "packages/mcp-generics/README.md",
       "pathRoot": "v43-route-vocabulary-file:d72bc470dfea42601fd8c97a",
       "categories": [
         "doc",
@@ -4080,7 +4080,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/ARCHITECTURE.md",
+      "path": "packages/mcp-generics/src/mcp-server/ARCHITECTURE.md",
       "pathRoot": "v43-route-vocabulary-file:f699dc04a04602515679ea1a",
       "categories": [
         "doc",
@@ -4096,7 +4096,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/PRODUCTION_READINESS_ASSESSMENT.md",
+      "path": "packages/mcp-generics/src/mcp-server/PRODUCTION_READINESS_ASSESSMENT.md",
       "pathRoot": "v43-route-vocabulary-file:8085c594ab1dc9931aaf9fca",
       "categories": [
         "doc",
@@ -4113,7 +4113,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/README.md",
+      "path": "packages/mcp-generics/src/mcp-server/README.md",
       "pathRoot": "v43-route-vocabulary-file:21df52fea7445d3b91b49a09",
       "categories": [
         "doc",
@@ -4130,7 +4130,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/TESTING.md",
+      "path": "packages/mcp-generics/src/mcp-server/TESTING.md",
       "pathRoot": "v43-route-vocabulary-file:44f07b988f1ebabd9f76f697",
       "categories": [
         "doc",
@@ -4146,7 +4146,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/docs/mcp/mcp-api-reference.md",
+      "path": "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-api-reference.md",
       "pathRoot": "v43-route-vocabulary-file:f72e88966e4034d94f4e149a",
       "categories": [
         "doc",
@@ -4163,7 +4163,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/docs/mcp/mcp-openapi.json",
+      "path": "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-openapi.json",
       "pathRoot": "v43-route-vocabulary-file:c51b14175d6be7b8f1e14c00",
       "categories": [
         "package",
@@ -4179,7 +4179,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/docs/mcp/mcp-specification.json",
+      "path": "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-specification.json",
       "pathRoot": "v43-route-vocabulary-file:3f9ab58b282b997bc46fa803",
       "categories": [
         "package",
@@ -4195,7 +4195,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/docs/openapi/bitcode-mcp-openapi.json",
+      "path": "packages/mcp-generics/src/mcp-server/docs/openapi/bitcode-mcp-openapi.json",
       "pathRoot": "v43-route-vocabulary-file:3e00aa2043213b1bc274b0af",
       "categories": [
         "package",
@@ -4210,7 +4210,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/docs/public/mcp-api-reference.md",
+      "path": "packages/mcp-generics/src/mcp-server/docs/public/mcp-api-reference.md",
       "pathRoot": "v43-route-vocabulary-file:3a1f2534397e3a0adfacbaf3",
       "categories": [
         "doc",
@@ -4226,7 +4226,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/docs/public/mcp-overview.md",
+      "path": "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
       "pathRoot": "v43-route-vocabulary-file:67042c9368ed8a0b78aaac2a",
       "categories": [
         "doc",
@@ -4244,7 +4244,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/package.json",
+      "path": "packages/mcp-generics/src/mcp-server/package.json",
       "pathRoot": "v43-route-vocabulary-file:2e7fbaf76907dbbfb75eb115",
       "categories": [
         "package",
@@ -4259,7 +4259,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts",
+      "path": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts",
       "pathRoot": "v43-route-vocabulary-file:3b1b0cd8e92d14d4f64c56b1",
       "categories": [
         "package",
@@ -4275,7 +4275,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+      "path": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
       "pathRoot": "v43-route-vocabulary-file:8f41c42a8b535d88094c8926",
       "categories": [
         "package",
@@ -4293,7 +4293,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts",
+      "path": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts",
       "pathRoot": "v43-route-vocabulary-file:ddbf90075f17e6b5ed8c417f",
       "categories": [
         "package",
@@ -4310,7 +4310,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/src/docs/mcp-spec-generator.ts",
+      "path": "packages/mcp-generics/src/mcp-server/src/docs/mcp-spec-generator.ts",
       "pathRoot": "v43-route-vocabulary-file:5e9cbcfd948c4726223923ec",
       "categories": [
         "package",
@@ -4325,7 +4325,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/src/docs/openapi-generator.ts",
+      "path": "packages/mcp-generics/src/mcp-server/src/docs/openapi-generator.ts",
       "pathRoot": "v43-route-vocabulary-file:708b93d6e75de030fc313576",
       "categories": [
         "package",
@@ -4340,7 +4340,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/src/index.ts",
+      "path": "packages/mcp-generics/src/mcp-server/src/index.ts",
       "pathRoot": "v43-route-vocabulary-file:fb2c6f22fe661e3d221bf771",
       "categories": [
         "package",
@@ -4355,7 +4355,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/src/server.ts",
+      "path": "packages/mcp-generics/src/mcp-server/src/server.ts",
       "pathRoot": "v43-route-vocabulary-file:5875733ce14dab980cd147ab",
       "categories": [
         "package",
@@ -4370,7 +4370,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/executions-mcp/src/mcp-server/src/types/index.ts",
+      "path": "packages/mcp-generics/src/mcp-server/src/types/index.ts",
       "pathRoot": "v43-route-vocabulary-file:e1ad2a018d3a6f4af47323d3",
       "categories": [
         "package",
@@ -4386,7 +4386,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/figma/src/auth.ts",
+      "path": "packages/externals/figma/src/auth.ts",
       "pathRoot": "v43-route-vocabulary-file:70db0bd80a9ec9b6dfad2dd3",
       "categories": [
         "package",
@@ -4402,7 +4402,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/figma/src/types.ts",
+      "path": "packages/externals/figma/src/types.ts",
       "pathRoot": "v43-route-vocabulary-file:6266e94f2e11c00e3a95e745",
       "categories": [
         "package"
@@ -4653,7 +4653,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/git/README.md",
+      "path": "packages/generic-vcs/git/README.md",
       "pathRoot": "v43-route-vocabulary-file:7b0579c5019b04966fe67b18",
       "categories": [
         "doc",
@@ -4669,7 +4669,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/github/src/providers/github-provider.ts",
+      "path": "packages/generic-vcs/github/src/providers/github-provider.ts",
       "pathRoot": "v43-route-vocabulary-file:73afabf656230c5d866c236f",
       "categories": [
         "package",
@@ -4684,7 +4684,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/gitlab/src/auth.ts",
+      "path": "packages/generic-vcs/gitlab/src/auth.ts",
       "pathRoot": "v43-route-vocabulary-file:e0d36ef094951e21b6f174a5",
       "categories": [
         "package",
@@ -4700,7 +4700,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/gitlab/src/providers/gitlab-provider.ts",
+      "path": "packages/generic-vcs/gitlab/src/providers/gitlab-provider.ts",
       "pathRoot": "v43-route-vocabulary-file:c07bac1ee2c7cbd8f8424a72",
       "categories": [
         "package",
@@ -4716,7 +4716,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/gitlab/src/types.ts",
+      "path": "packages/generic-vcs/gitlab/src/types.ts",
       "pathRoot": "v43-route-vocabulary-file:f92e4a85bea108984fa34492",
       "categories": [
         "package"
@@ -4730,7 +4730,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/jira/src/auth.ts",
+      "path": "packages/externals/jira/src/auth.ts",
       "pathRoot": "v43-route-vocabulary-file:d1c892b0b2defb66af206933",
       "categories": [
         "package",
@@ -4746,7 +4746,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/jira/src/types.ts",
+      "path": "packages/externals/jira/src/types.ts",
       "pathRoot": "v43-route-vocabulary-file:649d00127502865d5847906f",
       "categories": [
         "package",
@@ -4793,7 +4793,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/notion/README.md",
+      "path": "packages/externals/notion/README.md",
       "pathRoot": "v43-route-vocabulary-file:7d11bcae487db604ec55982a",
       "categories": [
         "doc",
@@ -4809,7 +4809,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/notion/src/auth.ts",
+      "path": "packages/externals/notion/src/auth.ts",
       "pathRoot": "v43-route-vocabulary-file:d41fa7d9700b7511fb9417a4",
       "categories": [
         "package",
@@ -6323,7 +6323,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/README.md",
+      "path": "packages/specifying/README.md",
       "pathRoot": "v43-route-vocabulary-file:ad494e85ad05d5592662d9ef",
       "categories": [
         "doc",
@@ -6352,7 +6352,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/data/state.json",
+      "path": "packages/specifying/data/state.json",
       "pathRoot": "v43-route-vocabulary-file:403a1ba72931e6c2d8d8209d",
       "categories": [
         "package",
@@ -6368,7 +6368,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/public/app.js",
+      "path": "packages/specifying/public/app.js",
       "pathRoot": "v43-route-vocabulary-file:a8be8606a025794d8481e459",
       "categories": [
         "package",
@@ -6386,7 +6386,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/server.js",
+      "path": "packages/specifying/server.js",
       "pathRoot": "v43-route-vocabulary-file:ed2eceac0f75f18f3016b772",
       "categories": [
         "package",
@@ -6401,7 +6401,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/bitcode-demo.js",
+      "path": "packages/specifying/src/bitcode-demo.js",
       "pathRoot": "v43-route-vocabulary-file:2baf6bbd82c8e0d31d77ada9",
       "categories": [
         "package",
@@ -6416,7 +6416,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/assetpack-synthesis-economic-traceability.js",
+      "path": "packages/specifying/src/canonical/assetpack-synthesis-economic-traceability.js",
       "pathRoot": "v43-route-vocabulary-file:c0316c6db172fa1eaf443dca",
       "categories": [
         "package",
@@ -6431,7 +6431,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/conversation-promotion-readiness-report.js",
+      "path": "packages/specifying/src/canonical/conversation-promotion-readiness-report.js",
       "pathRoot": "v43-route-vocabulary-file:378e5ca608125939154b578c",
       "categories": [
         "package",
@@ -6446,7 +6446,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/conversation-rehearsal.js",
+      "path": "packages/specifying/src/canonical/conversation-rehearsal.js",
       "pathRoot": "v43-route-vocabulary-file:e5f7405a0351946351af8fd7",
       "categories": [
         "package",
@@ -6462,7 +6462,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/conversation-session-route-history.js",
+      "path": "packages/specifying/src/canonical/conversation-session-route-history.js",
       "pathRoot": "v43-route-vocabulary-file:8639fd86e7faa2560b89a29f",
       "categories": [
         "package",
@@ -6478,7 +6478,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/conversation-telemetry-proof-hooks.js",
+      "path": "packages/specifying/src/canonical/conversation-telemetry-proof-hooks.js",
       "pathRoot": "v43-route-vocabulary-file:a9fb91da8fe4cbeeb637a8ed",
       "categories": [
         "package",
@@ -6494,7 +6494,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/conversation-terminal-handoff.js",
+      "path": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
       "pathRoot": "v43-route-vocabulary-file:92169612b367eb4163ff9fa6",
       "categories": [
         "package"
@@ -6514,7 +6514,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/conversation-writing-workspace.js",
+      "path": "packages/specifying/src/canonical/conversation-writing-workspace.js",
       "pathRoot": "v43-route-vocabulary-file:e7f7d03c4a570b680bb1e7a1",
       "categories": [
         "package",
@@ -6529,7 +6529,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/docs-qa-alignment-report.js",
+      "path": "packages/specifying/src/canonical/docs-qa-alignment-report.js",
       "pathRoot": "v43-route-vocabulary-file:de5143cbafd7cd99364c6bdd",
       "categories": [
         "package",
@@ -6544,7 +6544,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/documentation-surface-catalog.js",
+      "path": "packages/specifying/src/canonical/documentation-surface-catalog.js",
       "pathRoot": "v43-route-vocabulary-file:61b839ff32faf78f84460ff3",
       "categories": [
         "package",
@@ -6559,7 +6559,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/exchange-activity-book.js",
+      "path": "packages/specifying/src/canonical/exchange-activity-book.js",
       "pathRoot": "v43-route-vocabulary-file:74a31cdcbcdb88c5da7dbe7f",
       "categories": [
         "package",
@@ -6576,7 +6576,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/exchange-dispute-repair-revenue-route.js",
+      "path": "packages/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
       "pathRoot": "v43-route-vocabulary-file:7ca118da73b127f222edef1a",
       "categories": [
         "package"
@@ -6592,7 +6592,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/exchange-intent-order-contracts.js",
+      "path": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
       "pathRoot": "v43-route-vocabulary-file:58f36672124f9629a5692710",
       "categories": [
         "package",
@@ -6609,7 +6609,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/exchange-pricing-quote.js",
+      "path": "packages/specifying/src/canonical/exchange-pricing-quote.js",
       "pathRoot": "v43-route-vocabulary-file:d11f365f670e34836cd69dbb",
       "categories": [
         "package"
@@ -6625,7 +6625,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/exchange-promotion-readiness-report.js",
+      "path": "packages/specifying/src/canonical/exchange-promotion-readiness-report.js",
       "pathRoot": "v43-route-vocabulary-file:cd55db7a536e3cc544e1ad46",
       "categories": [
         "package"
@@ -6640,7 +6640,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/exchange-rehearsal.js",
+      "path": "packages/specifying/src/canonical/exchange-rehearsal.js",
       "pathRoot": "v43-route-vocabulary-file:390551b97ef8a452f1a6f199",
       "categories": [
         "package",
@@ -6660,7 +6660,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/exchange-rights-transfer-review.js",
+      "path": "packages/specifying/src/canonical/exchange-rights-transfer-review.js",
       "pathRoot": "v43-route-vocabulary-file:6ce43a6fd37e16ac30e878cc",
       "categories": [
         "package",
@@ -6677,7 +6677,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/exchange-settlement-reconciliation.js",
+      "path": "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
       "pathRoot": "v43-route-vocabulary-file:e13e3ff529f3aef2bfe07931",
       "categories": [
         "package",
@@ -6694,7 +6694,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/exchange-ux-proof.js",
+      "path": "packages/specifying/src/canonical/exchange-ux-proof.js",
       "pathRoot": "v43-route-vocabulary-file:8cc55d0be5e3af770bac8956",
       "categories": [
         "package",
@@ -6715,7 +6715,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/inference-implementation-records.js",
+      "path": "packages/specifying/src/canonical/inference-implementation-records.js",
       "pathRoot": "v43-route-vocabulary-file:f85565150712a27ee0a3aba1",
       "categories": [
         "package",
@@ -6732,7 +6732,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/inference-promotion-readiness-report.js",
+      "path": "packages/specifying/src/canonical/inference-promotion-readiness-report.js",
       "pathRoot": "v43-route-vocabulary-file:eb4349d4f7d3d731147af449",
       "categories": [
         "package",
@@ -6747,7 +6747,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/inference-surface-inventory.js",
+      "path": "packages/specifying/src/canonical/inference-surface-inventory.js",
       "pathRoot": "v43-route-vocabulary-file:41ab63376b160d5569d3b8e3",
       "categories": [
         "package",
@@ -6763,7 +6763,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/inference-telemetry-disclosure-report.js",
+      "path": "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js",
       "pathRoot": "v43-route-vocabulary-file:06edcc2a9c3645fc9e64f621",
       "categories": [
         "package",
@@ -6779,7 +6779,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/local-staging-inference-depository-search-rehearsal.js",
+      "path": "packages/specifying/src/canonical/local-staging-inference-depository-search-rehearsal.js",
       "pathRoot": "v43-route-vocabulary-file:dc32186e97155ea7131d7d88",
       "categories": [
         "package",
@@ -6795,7 +6795,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/local-staging-telemetry-documentation-rehearsal.js",
+      "path": "packages/specifying/src/canonical/local-staging-telemetry-documentation-rehearsal.js",
       "pathRoot": "v43-route-vocabulary-file:5f4cc82491672aa5a0d64b1d",
       "categories": [
         "package",
@@ -6812,7 +6812,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/prompt-benchmark-report.js",
+      "path": "packages/specifying/src/canonical/prompt-benchmark-report.js",
       "pathRoot": "v43-route-vocabulary-file:4f4b8758cea3152925a0457a",
       "categories": [
         "package",
@@ -6827,7 +6827,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/proven-generator.js",
+      "path": "packages/specifying/src/canonical/proven-generator.js",
       "pathRoot": "v43-route-vocabulary-file:308ad78c3f925c20c2ff96da",
       "categories": [
         "package",
@@ -6847,7 +6847,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js",
+      "path": "packages/specifying/src/canonical/ptrr-failsafe-thricified-stack.js",
       "pathRoot": "v43-route-vocabulary-file:0e0346eab2b79f3e7fd39d17",
       "categories": [
         "package",
@@ -6862,7 +6862,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/public-docs-usage-guide-catalog.js",
+      "path": "packages/specifying/src/canonical/public-docs-usage-guide-catalog.js",
       "pathRoot": "v43-route-vocabulary-file:8b3949741b031ac3c85c68e7",
       "categories": [
         "package",
@@ -6882,7 +6882,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/read-fits-finding-search-embeddings.js",
+      "path": "packages/specifying/src/canonical/read-fits-finding-search-embeddings.js",
       "pathRoot": "v43-route-vocabulary-file:c768bbb2bd3a66cb43ca7be0",
       "categories": [
         "package",
@@ -6898,7 +6898,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/read-need-comprehension-inference-hardening.js",
+      "path": "packages/specifying/src/canonical/read-need-comprehension-inference-hardening.js",
       "pathRoot": "v43-route-vocabulary-file:c9ab18ca06972682b7edf08a",
       "categories": [
         "package",
@@ -6914,7 +6914,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/surfaces.js",
+      "path": "packages/specifying/src/canonical/surfaces.js",
       "pathRoot": "v43-route-vocabulary-file:567c2f5547d9ff97099e421b",
       "categories": [
         "package",
@@ -6931,7 +6931,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/telemetry-documentation-interface-integration.js",
+      "path": "packages/specifying/src/canonical/telemetry-documentation-interface-integration.js",
       "pathRoot": "v43-route-vocabulary-file:1558281abad3469e194b639f",
       "categories": [
         "package",
@@ -6947,7 +6947,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/telemetry-taxonomy-catalog.js",
+      "path": "packages/specifying/src/canonical/telemetry-taxonomy-catalog.js",
       "pathRoot": "v43-route-vocabulary-file:d195d5fd7b14f2d09776c895",
       "categories": [
         "package",
@@ -6962,7 +6962,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/testnet-rollout-readiness-guide.js",
+      "path": "packages/specifying/src/canonical/testnet-rollout-readiness-guide.js",
       "pathRoot": "v43-route-vocabulary-file:34a03c373db860b4d0437557",
       "categories": [
         "package",
@@ -6978,7 +6978,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v20-quality.js",
+      "path": "packages/specifying/src/canonical/v20-quality.js",
       "pathRoot": "v43-route-vocabulary-file:bd90da653d5300beeeebcab3",
       "categories": [
         "package",
@@ -6994,7 +6994,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v21-specifying.js",
+      "path": "packages/specifying/src/canonical/v21-specifying.js",
       "pathRoot": "v43-route-vocabulary-file:3d6aa9f3a69fa35bfcff306a",
       "categories": [
         "package",
@@ -7012,7 +7012,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v26-product-readiness-audit.js",
+      "path": "packages/specifying/src/canonical/v26-product-readiness-audit.js",
       "pathRoot": "v43-route-vocabulary-file:22efdddeb409ac70604f5ab7",
       "categories": [
         "package",
@@ -7031,7 +7031,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v39-assetpack-preview-quote-boundary.js",
+      "path": "packages/specifying/src/canonical/v39-assetpack-preview-quote-boundary.js",
       "pathRoot": "v43-route-vocabulary-file:3b63b945dea3f55b29d5f6de",
       "categories": [
         "package",
@@ -7046,7 +7046,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v39-commercial-reading-promotion-readiness-report.js",
+      "path": "packages/specifying/src/canonical/v39-commercial-reading-promotion-readiness-report.js",
       "pathRoot": "v43-route-vocabulary-file:61929ea0039424b43a5a49f4",
       "categories": [
         "package",
@@ -7061,7 +7061,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v39-depository-supply-indexing.js",
+      "path": "packages/specifying/src/canonical/v39-depository-supply-indexing.js",
       "pathRoot": "v43-route-vocabulary-file:50b9358c59c83e6688f39d11",
       "categories": [
         "package",
@@ -7077,7 +7077,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v39-enterprise-reading-ux-state.js",
+      "path": "packages/specifying/src/canonical/v39-enterprise-reading-ux-state.js",
       "pathRoot": "v43-route-vocabulary-file:1c79c148b99a34be0c4ffd67",
       "categories": [
         "package",
@@ -7095,7 +7095,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v39-interface-conversation-product-parity.js",
+      "path": "packages/specifying/src/canonical/v39-interface-conversation-product-parity.js",
       "pathRoot": "v43-route-vocabulary-file:28f877037ece856ed418dc60",
       "categories": [
         "package",
@@ -7112,7 +7112,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v39-local-staging-reading-rehearsal.js",
+      "path": "packages/specifying/src/canonical/v39-local-staging-reading-rehearsal.js",
       "pathRoot": "v43-route-vocabulary-file:dae5c55f4c81efe454e0b7d9",
       "categories": [
         "package",
@@ -7127,7 +7127,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js",
+      "path": "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js",
       "pathRoot": "v43-route-vocabulary-file:c9b5f13e143c9ea4c3efaf74",
       "categories": [
         "package",
@@ -7144,7 +7144,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v39-settlement-rights-delivery.js",
+      "path": "packages/specifying/src/canonical/v39-settlement-rights-delivery.js",
       "pathRoot": "v43-route-vocabulary-file:e5655e8493e25314abbf8fc4",
       "categories": [
         "package"
@@ -7158,7 +7158,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v40-api-integration-contracts.js",
+      "path": "packages/specifying/src/canonical/v40-api-integration-contracts.js",
       "pathRoot": "v43-route-vocabulary-file:83e4d4f8bd93f2cc400078ed",
       "categories": [
         "package",
@@ -7174,7 +7174,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v40-browser-e2e-visual-proof.js",
+      "path": "packages/specifying/src/canonical/v40-browser-e2e-visual-proof.js",
       "pathRoot": "v43-route-vocabulary-file:d67bded8815e5dd890ab9cdc",
       "categories": [
         "package",
@@ -7197,7 +7197,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v40-conversation-terminal-integration.js",
+      "path": "packages/specifying/src/canonical/v40-conversation-terminal-integration.js",
       "pathRoot": "v43-route-vocabulary-file:cfc1de807a35917fcb43fbf5",
       "categories": [
         "package",
@@ -7215,7 +7215,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v40-ledger-storage-sync.js",
+      "path": "packages/specifying/src/canonical/v40-ledger-storage-sync.js",
       "pathRoot": "v43-route-vocabulary-file:807a8f56280b98c99edc89a6",
       "categories": [
         "package"
@@ -7230,7 +7230,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v40-local-staging-rehearsal-automation.js",
+      "path": "packages/specifying/src/canonical/v40-local-staging-rehearsal-automation.js",
       "pathRoot": "v43-route-vocabulary-file:70c8c5df847d9dd043359b4a",
       "categories": [
         "package",
@@ -7245,7 +7245,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v40-promotion-readiness-report.js",
+      "path": "packages/specifying/src/canonical/v40-promotion-readiness-report.js",
       "pathRoot": "v43-route-vocabulary-file:f3ff3bb740a01625233fa584",
       "categories": [
         "package"
@@ -7261,7 +7261,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js",
+      "path": "packages/specifying/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js",
       "pathRoot": "v43-route-vocabulary-file:b63f4da345dadefd10688a79",
       "categories": [
         "package",
@@ -7276,7 +7276,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v40-reading-pipeline-integration-coverage.js",
+      "path": "packages/specifying/src/canonical/v40-reading-pipeline-integration-coverage.js",
       "pathRoot": "v43-route-vocabulary-file:52e29d8c5a851c9ba5adbd7a",
       "categories": [
         "package",
@@ -7295,7 +7295,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js",
+      "path": "packages/specifying/src/canonical/v40-test-inventory-coverage-matrix.js",
       "pathRoot": "v43-route-vocabulary-file:8463a31c8a398e5851d979ed",
       "categories": [
         "package",
@@ -7312,7 +7312,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v40-unit-coverage-inventory.js",
+      "path": "packages/specifying/src/canonical/v40-unit-coverage-inventory.js",
       "pathRoot": "v43-route-vocabulary-file:7796debfedbf9d08eb90827c",
       "categories": [
         "package",
@@ -7328,7 +7328,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
+      "path": "packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
       "pathRoot": "v43-route-vocabulary-file:e3bb5c8a33edb47c7d032476",
       "categories": [
         "package",
@@ -7347,7 +7347,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v41-promotion-readiness-report.js",
+      "path": "packages/specifying/src/canonical/v41-promotion-readiness-report.js",
       "pathRoot": "v43-route-vocabulary-file:e3c1d77c3a5227a1f42f5c7d",
       "categories": [
         "package",
@@ -7362,7 +7362,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v41-prompt-program-benchmark-report.js",
+      "path": "packages/specifying/src/canonical/v41-prompt-program-benchmark-report.js",
       "pathRoot": "v43-route-vocabulary-file:1e593ee320b86cd55ded56ce",
       "categories": [
         "package",
@@ -7378,7 +7378,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js",
+      "path": "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
       "pathRoot": "v43-route-vocabulary-file:9beed106b3eeaa9632ce533f",
       "categories": [
         "package"
@@ -7393,7 +7393,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v41-readfitsfinding-prompt-hardening.js",
+      "path": "packages/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js",
       "pathRoot": "v43-route-vocabulary-file:fd3ec6eade5c3c0f19a8a721",
       "categories": [
         "package",
@@ -7408,7 +7408,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js",
+      "path": "packages/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js",
       "pathRoot": "v43-route-vocabulary-file:0cbaf49f9ca22461b669190c",
       "categories": [
         "package",
@@ -7423,7 +7423,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v42-depositing-shortest-path.js",
+      "path": "packages/specifying/src/canonical/v42-depositing-shortest-path.js",
       "pathRoot": "v43-route-vocabulary-file:b4568ed26ce67e4e35925d58",
       "categories": [
         "package"
@@ -7441,7 +7441,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v42-local-staging-mvp-rehearsal.js",
+      "path": "packages/specifying/src/canonical/v42-local-staging-mvp-rehearsal.js",
       "pathRoot": "v43-route-vocabulary-file:0bf1647f8dddbb227a8adcfc",
       "categories": [
         "package",
@@ -7459,7 +7459,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v42-promotion-readiness-report.js",
+      "path": "packages/specifying/src/canonical/v42-promotion-readiness-report.js",
       "pathRoot": "v43-route-vocabulary-file:b6a11a02db0a6819ff697a8f",
       "categories": [
         "package"
@@ -7474,7 +7474,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v42-readfitsfinding-preview-quote.js",
+      "path": "packages/specifying/src/canonical/v42-readfitsfinding-preview-quote.js",
       "pathRoot": "v43-route-vocabulary-file:efd12aab652bd3ee6b3c606c",
       "categories": [
         "package",
@@ -7491,7 +7491,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v42-reading-shortest-path-state-machine.js",
+      "path": "packages/specifying/src/canonical/v42-reading-shortest-path-state-machine.js",
       "pathRoot": "v43-route-vocabulary-file:759ab695c02190e23354c6f6",
       "categories": [
         "package",
@@ -7509,7 +7509,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v42-readneed-review-resynthesis-product-closure.js",
+      "path": "packages/specifying/src/canonical/v42-readneed-review-resynthesis-product-closure.js",
       "pathRoot": "v43-route-vocabulary-file:37ab8c24bffb7bbf9c8df7cc",
       "categories": [
         "package",
@@ -7526,7 +7526,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v42-settlement-rights-delivery.js",
+      "path": "packages/specifying/src/canonical/v42-settlement-rights-delivery.js",
       "pathRoot": "v43-route-vocabulary-file:f8de8495faa768e0fd6f2e39",
       "categories": [
         "package",
@@ -7543,7 +7543,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v43-cross-route-rehearsal-telemetry-repair.js",
+      "path": "packages/specifying/src/canonical/v43-cross-route-rehearsal-telemetry-repair.js",
       "pathRoot": "v43-route-vocabulary-file:4efbb1863e37137927cbbcf0",
       "categories": [
         "package",
@@ -7561,7 +7561,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v43-deposit-option-admission.js",
+      "path": "packages/specifying/src/canonical/v43-deposit-option-admission.js",
       "pathRoot": "v43-route-vocabulary-file:17feaaf05a6ad871b15a66f1",
       "categories": [
         "package",
@@ -7577,7 +7577,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v43-deposit-policy-compensation.js",
+      "path": "packages/specifying/src/canonical/v43-deposit-policy-compensation.js",
       "pathRoot": "v43-route-vocabulary-file:cd9271147b9b9528c7da1b1e",
       "categories": [
         "package"
@@ -7591,7 +7591,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v43-deposit-route-options.js",
+      "path": "packages/specifying/src/canonical/v43-deposit-route-options.js",
       "pathRoot": "v43-route-vocabulary-file:fd99b475c329e18fdeacc290",
       "categories": [
         "package"
@@ -7609,7 +7609,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v43-packs-activity-master-detail.js",
+      "path": "packages/specifying/src/canonical/v43-packs-activity-master-detail.js",
       "pathRoot": "v43-route-vocabulary-file:92efd11de04f491032db608e",
       "categories": [
         "package",
@@ -7628,7 +7628,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v43-promotion-readiness-report.js",
+      "path": "packages/specifying/src/canonical/v43-promotion-readiness-report.js",
       "pathRoot": "v43-route-vocabulary-file:105f32b8b771896cc3a1a140",
       "categories": [
         "package",
@@ -7643,7 +7643,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v43-read-route-five-step-ux.js",
+      "path": "packages/specifying/src/canonical/v43-read-route-five-step-ux.js",
       "pathRoot": "v43-route-vocabulary-file:3ccff3998243a1b97320bb01",
       "categories": [
         "package",
@@ -7662,7 +7662,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v43-route-ux-product-excellence.js",
+      "path": "packages/specifying/src/canonical/v43-route-ux-product-excellence.js",
       "pathRoot": "v43-route-vocabulary-file:c7db7ddec38e961e1af89c0d",
       "categories": [
         "package",
@@ -7683,7 +7683,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v43-route-vocabulary-inventory.js",
+      "path": "packages/specifying/src/canonical/v43-route-vocabulary-inventory.js",
       "pathRoot": "v43-route-vocabulary-file:157fd43a1b0d92c5e4c6d901",
       "categories": [
         "package",
@@ -7712,7 +7712,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v44-btd-btc-compensation-statements.js",
+      "path": "packages/specifying/src/canonical/v44-btd-btc-compensation-statements.js",
       "pathRoot": "v43-route-vocabulary-file:e12380cb0de7c754885c6961",
       "categories": [
         "package"
@@ -7726,7 +7726,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v44-depositor-earnings-supply-opportunities.js",
+      "path": "packages/specifying/src/canonical/v44-depositor-earnings-supply-opportunities.js",
       "pathRoot": "v43-route-vocabulary-file:20da92c9c742618de6616a54",
       "categories": [
         "package"
@@ -7742,7 +7742,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v44-economic-domain-model.js",
+      "path": "packages/specifying/src/canonical/v44-economic-domain-model.js",
       "pathRoot": "v43-route-vocabulary-file:ba547b84fe7852904b8bdce8",
       "categories": [
         "package",
@@ -7760,7 +7760,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v44-enterprise-product-ux.js",
+      "path": "packages/specifying/src/canonical/v44-enterprise-product-ux.js",
       "pathRoot": "v43-route-vocabulary-file:3c65e977fd672b8d98ef006d",
       "categories": [
         "package"
@@ -7778,7 +7778,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v44-organization-policy-wallet-authority.js",
+      "path": "packages/specifying/src/canonical/v44-organization-policy-wallet-authority.js",
       "pathRoot": "v43-route-vocabulary-file:4706c43dddd83947a713595f",
       "categories": [
         "package"
@@ -7795,7 +7795,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v44-packs-portfolio-market-intelligence.js",
+      "path": "packages/specifying/src/canonical/v44-packs-portfolio-market-intelligence.js",
       "pathRoot": "v43-route-vocabulary-file:da7243c2ae8335d4b51d8429",
       "categories": [
         "package"
@@ -7811,7 +7811,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v44-promotion-readiness-report.js",
+      "path": "packages/specifying/src/canonical/v44-promotion-readiness-report.js",
       "pathRoot": "v43-route-vocabulary-file:ff1755443cc16cdf931c229a",
       "categories": [
         "package"
@@ -7826,7 +7826,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v44-reading-budget-quote-policy.js",
+      "path": "packages/specifying/src/canonical/v44-reading-budget-quote-policy.js",
       "pathRoot": "v43-route-vocabulary-file:9bea51492d12e9be118e967f",
       "categories": [
         "package"
@@ -7841,7 +7841,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v44-scaled-network-rehearsal.js",
+      "path": "packages/specifying/src/canonical/v44-scaled-network-rehearsal.js",
       "pathRoot": "v43-route-vocabulary-file:46b53820e589b868fe702f82",
       "categories": [
         "package",
@@ -7860,7 +7860,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v45-proof-family-artifacts.js",
+      "path": "packages/specifying/src/canonical/v45-proof-family-artifacts.js",
       "pathRoot": "v43-route-vocabulary-file:3105afb7ad2dada6b9f00ea8",
       "categories": [
         "package",
@@ -7877,7 +7877,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v45-source-safe-e2e-rehearsal.js",
+      "path": "packages/specifying/src/canonical/v45-source-safe-e2e-rehearsal.js",
       "pathRoot": "v43-route-vocabulary-file:5afdfe177311cd550d7e4698",
       "categories": [
         "package",
@@ -7894,7 +7894,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v46-interface-claim-contracts.js",
+      "path": "packages/specifying/src/canonical/v46-interface-claim-contracts.js",
       "pathRoot": "v43-route-vocabulary-file:cac818ac39d20e81225b05eb",
       "categories": [
         "package",
@@ -7912,7 +7912,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v46-local-interface-comprehension-rehearsal.js",
+      "path": "packages/specifying/src/canonical/v46-local-interface-comprehension-rehearsal.js",
       "pathRoot": "v43-route-vocabulary-file:be34aae60282db22d7ff1ba2",
       "categories": [
         "package",
@@ -7932,7 +7932,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v46-product-route-comprehension-readback.js",
+      "path": "packages/specifying/src/canonical/v46-product-route-comprehension-readback.js",
       "pathRoot": "v43-route-vocabulary-file:d3b72aa69471713c9543e004",
       "categories": [
         "package",
@@ -7955,7 +7955,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v46-protocol-comprehension-object-model.js",
+      "path": "packages/specifying/src/canonical/v46-protocol-comprehension-object-model.js",
       "pathRoot": "v43-route-vocabulary-file:9187cace109e2ccceacab28f",
       "categories": [
         "package",
@@ -7974,7 +7974,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/canonical/v46-public-operator-claim-boundaries.js",
+      "path": "packages/specifying/src/canonical/v46-public-operator-claim-boundaries.js",
       "pathRoot": "v43-route-vocabulary-file:47851b833cb70293cc9bc00f",
       "categories": [
         "package",
@@ -7993,7 +7993,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/demo-shell-state.js",
+      "path": "packages/specifying/src/demo-shell-state.js",
       "pathRoot": "v43-route-vocabulary-file:f10959e91d241ff9c35f957b",
       "categories": [
         "package",
@@ -8008,7 +8008,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/index.js",
+      "path": "packages/specifying/src/index.js",
       "pathRoot": "v43-route-vocabulary-file:db42fb44c87391bf14acc071",
       "categories": [
         "package",
@@ -8024,7 +8024,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/src/receipt-schemas.js",
+      "path": "packages/specifying/src/receipt-schemas.js",
       "pathRoot": "v43-route-vocabulary-file:af8e8f51e83c6cdbf8aeb02d",
       "categories": [
         "package",
@@ -8042,7 +8042,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/conversation-terminal-handoff.test.js",
+      "path": "packages/specifying/test/conversation-terminal-handoff.test.js",
       "pathRoot": "v43-route-vocabulary-file:8611e0a0f288f13295323da5",
       "categories": [
         "package",
@@ -8058,7 +8058,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v35-public-docs-usage-guide-catalog.test.js",
+      "path": "packages/specifying/test/v35-public-docs-usage-guide-catalog.test.js",
       "pathRoot": "v43-route-vocabulary-file:c5cb4fb7c465146d5f39194b",
       "categories": [
         "package",
@@ -8077,7 +8077,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v35-telemetry-documentation-interface-integration.test.js",
+      "path": "packages/specifying/test/v35-telemetry-documentation-interface-integration.test.js",
       "pathRoot": "v43-route-vocabulary-file:97103812754a2ad3da73d6c3",
       "categories": [
         "package",
@@ -8094,7 +8094,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v36-exchange-activity-book.test.js",
+      "path": "packages/specifying/test/v36-exchange-activity-book.test.js",
       "pathRoot": "v43-route-vocabulary-file:9349558377d4db23c59f71cb",
       "categories": [
         "package",
@@ -8109,7 +8109,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v36-exchange-dispute-repair-revenue-route.test.js",
+      "path": "packages/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js",
       "pathRoot": "v43-route-vocabulary-file:cd28a59da01f68fcbc7d4a64",
       "categories": [
         "package",
@@ -8124,7 +8124,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v36-exchange-intent-order-contracts.test.js",
+      "path": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
       "pathRoot": "v43-route-vocabulary-file:5efcfcb15b06326705f1e975",
       "categories": [
         "package",
@@ -8139,7 +8139,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v36-exchange-pricing-quote.test.js",
+      "path": "packages/specifying/test/v36-exchange-pricing-quote.test.js",
       "pathRoot": "v43-route-vocabulary-file:44945b7d97ca1f3f3c600863",
       "categories": [
         "package",
@@ -8154,7 +8154,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v36-exchange-rehearsal.test.js",
+      "path": "packages/specifying/test/v36-exchange-rehearsal.test.js",
       "pathRoot": "v43-route-vocabulary-file:20565e0b2d0e9b0e761fdd38",
       "categories": [
         "package",
@@ -8171,7 +8171,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v36-exchange-rights-transfer-review.test.js",
+      "path": "packages/specifying/test/v36-exchange-rights-transfer-review.test.js",
       "pathRoot": "v43-route-vocabulary-file:581ccbeb37542d88a0480221",
       "categories": [
         "package",
@@ -8186,7 +8186,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v36-exchange-settlement-reconciliation.test.js",
+      "path": "packages/specifying/test/v36-exchange-settlement-reconciliation.test.js",
       "pathRoot": "v43-route-vocabulary-file:00b30f504e794b307da76dbb",
       "categories": [
         "package",
@@ -8201,7 +8201,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v36-exchange-ux-proof.test.js",
+      "path": "packages/specifying/test/v36-exchange-ux-proof.test.js",
       "pathRoot": "v43-route-vocabulary-file:6e7b46551abbde6e677fda03",
       "categories": [
         "package",
@@ -8219,7 +8219,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v36-promotion-readiness.test.js",
+      "path": "packages/specifying/test/v36-promotion-readiness.test.js",
       "pathRoot": "v43-route-vocabulary-file:61c8015b769a83ed6e9523c6",
       "categories": [
         "package",
@@ -8235,7 +8235,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v38-inference-surface-inventory.test.js",
+      "path": "packages/specifying/test/v38-inference-surface-inventory.test.js",
       "pathRoot": "v43-route-vocabulary-file:587e5fc76bb0a1fde8415e9e",
       "categories": [
         "package",
@@ -8251,7 +8251,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v38-inference-telemetry-disclosure-report.test.js",
+      "path": "packages/specifying/test/v38-inference-telemetry-disclosure-report.test.js",
       "pathRoot": "v43-route-vocabulary-file:1a0bb28c9d0cd074fb692a39",
       "categories": [
         "package",
@@ -8267,7 +8267,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v38-local-staging-inference-depository-search-rehearsal.test.js",
+      "path": "packages/specifying/test/v38-local-staging-inference-depository-search-rehearsal.test.js",
       "pathRoot": "v43-route-vocabulary-file:80657bee12229f3c17dc4b3d",
       "categories": [
         "package",
@@ -8283,7 +8283,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v38-prompt-benchmark-report.test.js",
+      "path": "packages/specifying/test/v38-prompt-benchmark-report.test.js",
       "pathRoot": "v43-route-vocabulary-file:c55f3b4677e91cf078fe3bf1",
       "categories": [
         "package",
@@ -8298,7 +8298,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v39-enterprise-reading-ux-state.test.js",
+      "path": "packages/specifying/test/v39-enterprise-reading-ux-state.test.js",
       "pathRoot": "v43-route-vocabulary-file:fa196fe88b5defecafad488a",
       "categories": [
         "package",
@@ -8314,7 +8314,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v39-local-staging-reading-rehearsal.test.js",
+      "path": "packages/specifying/test/v39-local-staging-reading-rehearsal.test.js",
       "pathRoot": "v43-route-vocabulary-file:959dfbc75c6af5306e9d3606",
       "categories": [
         "package",
@@ -8330,7 +8330,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v39-promotion-readiness.test.js",
+      "path": "packages/specifying/test/v39-promotion-readiness.test.js",
       "pathRoot": "v43-route-vocabulary-file:3b57c94bd6e008db32062acf",
       "categories": [
         "package",
@@ -8345,7 +8345,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v40-conversation-terminal-integration.test.js",
+      "path": "packages/specifying/test/v40-conversation-terminal-integration.test.js",
       "pathRoot": "v43-route-vocabulary-file:1e75df87772e0c43a73e9a77",
       "categories": [
         "package",
@@ -8362,7 +8362,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v40-reading-pipeline-integration-coverage.test.js",
+      "path": "packages/specifying/test/v40-reading-pipeline-integration-coverage.test.js",
       "pathRoot": "v43-route-vocabulary-file:dd952f9cdbd14baba6100e85",
       "categories": [
         "package",
@@ -8377,7 +8377,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
+      "path": "packages/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
       "pathRoot": "v43-route-vocabulary-file:f4eea12eac9ec10070a287ba",
       "categories": [
         "package",
@@ -8392,7 +8392,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v41-reading-prompt-benchmark-baselines.test.js",
+      "path": "packages/specifying/test/v41-reading-prompt-benchmark-baselines.test.js",
       "pathRoot": "v43-route-vocabulary-file:93fdc41424c8d72af9c9679b",
       "categories": [
         "package",
@@ -8407,7 +8407,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v42-depositing-shortest-path.test.js",
+      "path": "packages/specifying/test/v42-depositing-shortest-path.test.js",
       "pathRoot": "v43-route-vocabulary-file:8ac67465b6341e4d2e45d4fe",
       "categories": [
         "package",
@@ -8422,7 +8422,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v42-reading-shortest-path-state-machine.test.js",
+      "path": "packages/specifying/test/v42-reading-shortest-path-state-machine.test.js",
       "pathRoot": "v43-route-vocabulary-file:a3d6da88567c2ef6b06ef1e9",
       "categories": [
         "package",
@@ -8438,7 +8438,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v42-settlement-rights-delivery.test.js",
+      "path": "packages/specifying/test/v42-settlement-rights-delivery.test.js",
       "pathRoot": "v43-route-vocabulary-file:5ed019fc6a26143fa70b874f",
       "categories": [
         "package",
@@ -8453,7 +8453,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v43-deposit-option-admission.test.js",
+      "path": "packages/specifying/test/v43-deposit-option-admission.test.js",
       "pathRoot": "v43-route-vocabulary-file:30ebfe4eeb3561b0ac714a1f",
       "categories": [
         "package",
@@ -8469,7 +8469,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v43-read-route-five-step-ux.test.js",
+      "path": "packages/specifying/test/v43-read-route-five-step-ux.test.js",
       "pathRoot": "v43-route-vocabulary-file:806897d387b0667a60afa16b",
       "categories": [
         "package",
@@ -8485,7 +8485,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v43-route-vocabulary-inventory.test.js",
+      "path": "packages/specifying/test/v43-route-vocabulary-inventory.test.js",
       "pathRoot": "v43-route-vocabulary-file:eea96e35784ef80a95367858",
       "categories": [
         "package",
@@ -8509,7 +8509,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v44-depositor-earnings-supply-opportunities.test.js",
+      "path": "packages/specifying/test/v44-depositor-earnings-supply-opportunities.test.js",
       "pathRoot": "v43-route-vocabulary-file:a5f03ea7e88800d6763bfd1f",
       "categories": [
         "package",
@@ -8524,7 +8524,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v44-organization-policy-wallet-authority.test.js",
+      "path": "packages/specifying/test/v44-organization-policy-wallet-authority.test.js",
       "pathRoot": "v43-route-vocabulary-file:a2ab13c1e320a6ecd8ab2f56",
       "categories": [
         "package",
@@ -8539,7 +8539,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v44-packs-portfolio-market-intelligence.test.js",
+      "path": "packages/specifying/test/v44-packs-portfolio-market-intelligence.test.js",
       "pathRoot": "v43-route-vocabulary-file:a62d7b604ed35f2968a662c0",
       "categories": [
         "package",
@@ -8554,7 +8554,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v44-reading-budget-quote-policy.test.js",
+      "path": "packages/specifying/test/v44-reading-budget-quote-policy.test.js",
       "pathRoot": "v43-route-vocabulary-file:1da5f84375d371ce42e513a3",
       "categories": [
         "package",
@@ -8570,7 +8570,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v46-interface-claim-contracts.test.js",
+      "path": "packages/specifying/test/v46-interface-claim-contracts.test.js",
       "pathRoot": "v43-route-vocabulary-file:b5fa4a33512efdc38743bcf3",
       "categories": [
         "package",
@@ -8585,7 +8585,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/protocol/test/v46-public-operator-claim-boundaries.test.js",
+      "path": "packages/specifying/test/v46-public-operator-claim-boundaries.test.js",
       "pathRoot": "v43-route-vocabulary-file:6ebe1bd060daca0144c8f214",
       "categories": [
         "package",
@@ -8646,7 +8646,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/tech-types/README.md",
+      "path": "packages/generic-measurements/tech-types/README.md",
       "pathRoot": "v43-route-vocabulary-file:ccc8972b4f59b8ed3836fd1c",
       "categories": [
         "doc",

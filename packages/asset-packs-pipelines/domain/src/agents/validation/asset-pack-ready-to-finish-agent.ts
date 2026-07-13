@@ -6,7 +6,7 @@
  * are not safe or complete enough to finish.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH } from '@bitcode/execution-generics';
 import { ShortCircuitSignal } from '@bitcode/execution-generics';
 import { getAssetPackPipelineToolsForAgent } from '../../tools';
@@ -101,7 +101,7 @@ const ReadyToFinishOutputSchema = z.object({
 export type Input = z.infer<typeof ReadyToFinishInputSchema>;
 export type Output = z.infer<typeof ReadyToFinishOutputSchema>;
 
-const readyToFinishAgent = factoryAgentWithPTRR<
+const readyToFinishAgent = factoryPTRRAgent<
   z.infer<typeof ReadyToFinishInputSchema>,
   z.infer<typeof ReadyToFinishOutputSchema>
 >({
@@ -157,7 +157,7 @@ export default async function readyToFinishWithShortCircuit(input: any, executio
     qualityMetrics: {}
   };
 
-  // Execute the agent — factoryAgentWithPTRR returns an envelope
+  // Execute the agent — factoryPTRRAgent returns an envelope
   // {context, output, finalOutput}; typed fields live ONLY inside it (F26-A/F27).
   const raw = await readyToFinishAgent(finishInput, execution);
   const result = ((raw as any)?.finalOutput ??

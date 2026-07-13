@@ -2,7 +2,6 @@
  * @bitcode/web-scrapers-firecrawl
  *
  * Firecrawl scrape/crawl/search client (packages/web-scrapers/firecrawl).
- * BC: @bitcode/firecrawl re-exports this package.
  */
 
 import FirecrawlApp from '@mendable/firecrawl-js';

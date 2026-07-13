@@ -27,13 +27,13 @@ public `@bitcode/prompts` boundary:
 
 ```typescript
 import {
-  Prompt,
-  PromptExecution,
-  createPrompt,
-  createPromptExecution,
-  createPromptPart,
-  hierarchicalFormatter,
-  type PromptPart,
+ Prompt,
+ PromptExecution,
+ createPrompt,
+ createPromptExecution,
+ createPromptPart,
+ hierarchicalFormatter,
+ type PromptPart,
 } from '@bitcode/prompts';
 ```
 
@@ -89,15 +89,15 @@ const prompt = new Prompt();
 
 // Set parts at hierarchical paths
 prompt.set('system:identity', createPromptPart(
-  'You are an expert software engineer.'
+ 'You are an expert software engineer.'
 ));
 
 prompt.set('system:methodology', createPromptPart(
-  'Follow PTRR methodology: Plan, Try, Refine, Retry'
+ 'Follow PTRR methodology: Plan, Try, Refine, Retry'
 ));
 
 prompt.set('task:description', createPromptPart(
-  'Implement the user authentication system'
+ 'Implement the user authentication system'
 ));
 
 // Format into final string
@@ -109,16 +109,16 @@ const result = prompt.format(); // Uses default formatter
 ```typescript
 // Require specific paths
 prompt
-  .require('system:identity')
-  .require('task:description')
-  .requirePattern('context:*')  // Glob patterns
-  .requireHierarchy();          // Must have hierarchical structure
+ .require('system:identity')
+ .require('task:description')
+ .requirePattern('context:*') // Glob patterns
+ .requireHierarchy(); // Must have hierarchical structure
 
 // Format validates requirements
 try {
-  const formatted = prompt.format(); // Throws if requirements not met
+ const formatted = prompt.format(); // Throws if requirements not met
 } catch (error) {
-  console.error('Missing required prompt parts:', error.message);
+ console.error('Missing required prompt parts:', error.message);
 }
 ```
 
@@ -157,10 +157,10 @@ const structured = prompt.format(hierarchicalFormatter);
 // Output:
 // # System
 // Core system identity
-// 
+//
 // ## System > Capabilities
 // Advanced reasoning
-// 
+//
 // # Task
 // User task description
 // ...
@@ -197,12 +197,12 @@ base.merge(extensions);
 import { Prompt, hierarchicalFormatter } from '@bitcode/prompts';
 
 // Import specific PromptParts
-import { PROMPTPART_GENERIC_FORMATTING_YOUARE } 
-  from '@bitcode/prompts';
-import { PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_IDENTITY_CORESTATEMENT } 
-  from '@bitcode/prompts';
-import { PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_PURPOSE_CORESTATEMENT } 
-  from '@bitcode/prompts';
+import { PROMPTPART_GENERIC_FORMATTING_YOUARE }
+ from '@bitcode/prompts';
+import { PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_IDENTITY_CORESTATEMENT }
+ from '@bitcode/prompts';
+import { PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_PURPOSE_CORESTATEMENT }
+ from '@bitcode/prompts';
 
 /**
  * @doc-comment-developing-prompt
@@ -211,29 +211,29 @@ import { PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_PURPOSE_CORESTATEMENT }
  * current_version: "V26.88.0"
  * versions: []
  * dependencies: {
- *   "PROMPTPART_GENERIC_FORMATTING_YOUARE": "1.95.0",
- *   "PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_IDENTITY_CORESTATEMENT": "1.0.0",
- *   "PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_PURPOSE_CORESTATEMENT": "1.0.0"
+ * "PROMPTPART_GENERIC_FORMATTING_YOUARE": "1.95.0",
+ * "PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_IDENTITY_CORESTATEMENT": "1.0.0",
+ * "PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_PURPOSE_CORESTATEMENT": "1.0.0"
  * }
  */
 export class WebSearchToolPrompt extends Prompt {
-  constructor() {
-    super();
-    
-    // Build hierarchical structure
-    this.set('tool:identity:prefix', PROMPTPART_GENERIC_FORMATTING_YOUARE);
-    this.set('tool:identity:role', PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_IDENTITY_CORESTATEMENT);
-    this.set('tool:purpose', PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_PURPOSE_CORESTATEMENT);
-    
-    // Mark required sections
-    this.require('tool:identity');
-    this.require('tool:purpose');
-  }
-  
-  // Use hierarchical formatter by default
-  format() {
-    return super.format(hierarchicalFormatter);
-  }
+ constructor() {
+ super();
+
+ // Build hierarchical structure
+ this.set('tool:identity:prefix', PROMPTPART_GENERIC_FORMATTING_YOUARE);
+ this.set('tool:identity:role', PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_IDENTITY_CORESTATEMENT);
+ this.set('tool:purpose', PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_PURPOSE_CORESTATEMENT);
+
+ // Mark required sections
+ this.require('tool:identity');
+ this.require('tool:purpose');
+ }
+
+ // Use hierarchical formatter by default
+ format() {
+ return super.format(hierarchicalFormatter);
+ }
 }
 
 // Usage
@@ -243,7 +243,7 @@ const formatted = toolPrompt.format();
 // # Tool
 // ## Tool > Identity
 // You are an expert web search and analysis tool
-// 
+//
 // ## Tool > Purpose
 // Search the web for technical documentation, API references, and programming resources
 ```
@@ -252,11 +252,11 @@ const formatted = toolPrompt.format();
 
 ```typescript
 // Import raw prompts directly - NO RE-EXPORTS
-import { PROMPTPART_GENERIC_VALIDATION_INPUTCHECKS_NULLCHECK } 
-  from '@bitcode/prompts';
+import { PROMPTPART_GENERIC_VALIDATION_INPUTCHECKS_NULLCHECK }
+ from '@bitcode/prompts';
 
-import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_METADATA_PIPELINE } 
-  from '@bitcode/prompts';
+import { PROMPTPART_SPECIFIC_TOOL_REPOSITORYSETUP_ASSETPACK_METADATA_PIPELINE }
+ from '@bitcode/prompts';
 
 // Use in prompt formatting
 const prompt = createPrompt();
@@ -271,7 +271,7 @@ prompt.set('asset-pack:metadata:pipeline', PROMPTPART_SPECIFIC_TOOL_REPOSITORYSE
 ```typescript
 // ❌ WRONG - Never do this!
 function formatPromptPart(parts: PromptPart[]): PromptPart {
-  return parts.join(' ') as PromptPart; // WRONG!
+ return parts.join(' ') as PromptPart; // WRONG!
 }
 
 // ✅ CORRECT - Use Prompt.format()
@@ -289,28 +289,28 @@ Create specialized formatters for different contexts:
 ```typescript
 // XML formatter
 const xmlFormatter: PromptFormatter = (prompt) => {
-  const xml: string[] = [];
-  
-  prompt.getPaths().forEach(path => {
-    const part = prompt.get(path);
-    if (part) {
-      xml.push(`<prompt path="${path}">${part}</prompt>`);
-    }
-  });
-  
-  return `<prompts>\n${xml.join('\n')}\n</prompts>`;
+ const xml: string[] = [];
+
+ prompt.getPaths().forEach(path => {
+ const part = prompt.get(path);
+ if (part) {
+ xml.push(`<prompt path="${path}">${part}</prompt>`);
+ }
+ });
+
+ return `<prompts>\n${xml.join('\n')}\n</prompts>`;
 };
 
 // JSON formatter
 const jsonFormatter: PromptFormatter = (prompt) => {
-  const obj: Record<string, string> = {};
-  
-  prompt.getPaths().forEach(path => {
-    const part = prompt.get(path);
-    if (part) obj[path] = part;
-  });
-  
-  return JSON.stringify(obj, null, 2);
+ const obj: Record<string, string> = {};
+
+ prompt.getPaths().forEach(path => {
+ const part = prompt.get(path);
+ if (part) obj[path] = part;
+ });
+
+ return JSON.stringify(obj, null, 2);
 };
 ```
 
@@ -321,8 +321,8 @@ The `/raw` directory contains thousands of granular PromptParts organized in a f
 ### Directory Structure
 ```
 /raw_promptparts/
-├── generic/     # Reusable across all contexts (flat directory)
-└── specific/    # Pipeline/domain-specific prompts (flat directory)
+├── generic/ # Reusable across all contexts (flat directory)
+└── specific/ # Pipeline/domain-specific prompts (flat directory)
 ```
 
 ### Naming Convention - FINAL PATTERN
@@ -338,20 +338,20 @@ promptpart_[generic|specific]_[domain]_[PROMPTCLASSNAME]_[semanticcontext]_[POSI
 **Components** (all mandatory):
 1. `promptpart` - Literal prefix (always lowercase)
 2. `[generic|specific]` - Reusability scope
-   - `generic`: Used across MANY prompts/parts
-   - `specific`: Tied to one Prompt class
+ - `generic`: Used across MANY prompts/parts
+ - `specific`: Tied to one Prompt class
 3. `[domain]` - One of: tool, agent, pipeline, phase, formatting, validation, system
 4. `[PROMPTCLASSNAME]` - Class name WITHOUT "Prompt" suffix (lowercase)
-   - `BitcodeSystemPrompt` → `bitcodesystem`
-   - `CodeSearchAgentPrompt` → `codesearchagent`
+ - `BitcodeSystemPrompt` → `bitcodesystem`
+ - `CodeSearchAgentPrompt` → `codesearchagent`
 5. `[semanticcontext]` - What it's about (NO underscores here)
-   - `inherentknowledgeidentity`, `errorhandling`
+ - `inherentknowledgeidentity`, `errorhandling`
 6. `[POSITION]` - WHERE in prompt:
-   - `opener`/`closer` - Start/end statements
-   - `header`/`footer` - Section start/end
-   - `corestatement` - Main claim
-   - `detailcontent` - Detailed explanation
-   - `list`/`listitem` - Lists
+ - `opener`/`closer` - Start/end statements
+ - `header`/`footer` - Section start/end
+ - `corestatement` - Main claim
+ - `detailcontent` - Detailed explanation
+ - `list`/`listitem` - Lists
 
 **Correct Examples**:
 ```
@@ -430,8 +430,8 @@ const PROMPTPART_GENERIC_THE = createPromptPart('the'); // NO!
 const PROMPTPART_GENERIC_COMMA = createPromptPart(','); // NO!
 
 // ❌ WRONG - Too large (full paragraphs can't be versioned granularly)
-export const PROMPT_GENERIC_DESCRIPTION: PromptPart = 
-  'This tool performs comprehensive analysis of your codebase using advanced pattern matching' as PromptPart; // NO!
+export const PROMPT_GENERIC_DESCRIPTION: PromptPart =
+ 'This tool performs comprehensive analysis of your codebase using advanced pattern matching' as PromptPart; // NO!
 ```
 
 Large prompts must be formatted from granular parts using the Prompt class.
@@ -451,33 +451,33 @@ For PromptPart development with PBV versioning:
  * intent: "Standard AI greeting prefix"
  * current_version: "V26.95.0"
  * versions: [
- *   {
- *     "version": "V26.85.0",
- *     "content": "You are",
- *     "timestamp": "2024-01-15T10:00:00Z",
- *     "benchmarks": {
- *       "intent": { "score": 0.85, "timestamp": "2024-01-15T10:30:00Z" },
- *       "semantic_clarity": { "score": 0.98, "timestamp": "2024-01-15T10:30:00Z" },
- *       "token_efficiency": { "score": 1.0, "timestamp": "2024-01-15T10:30:00Z" },
- *       "model_stability": { "score": 0.96, "timestamp": "2024-01-15T10:30:00Z" }
- *     },
- *     "current": false
- *   },
- *   {
- *     "version": "V26.95.0",
- *     "content": "You are an",
- *     "timestamp": "2024-01-20T14:00:00Z",
- *     "benchmarks": {
- *       "intent": { "score": 0.92, "timestamp": "2024-01-20T14:30:00Z" },
- *       "semantic_clarity": { "score": 0.99, "timestamp": "2024-01-20T14:30:00Z" },
- *       "token_efficiency": { "score": 0.90, "timestamp": "2024-01-20T14:30:00Z" },
- *       "model_stability": { "score": 0.98, "timestamp": "2024-01-20T14:30:00Z" }
- *     },
- *     "current": true
- *   }
+ * {
+ * "version": "V26.85.0",
+ * "content": "You are",
+ * "timestamp": "2024-01-15T10:00:00Z",
+ * "benchmarks": {
+ * "intent": { "score": 0.85, "timestamp": "2024-01-15T10:30:00Z" },
+ * "semantic_clarity": { "score": 0.98, "timestamp": "2024-01-15T10:30:00Z" },
+ * "token_efficiency": { "score": 1.0, "timestamp": "2024-01-15T10:30:00Z" },
+ * "model_stability": { "score": 0.96, "timestamp": "2024-01-15T10:30:00Z" }
+ * },
+ * "current": false
+ * },
+ * {
+ * "version": "V26.95.0",
+ * "content": "You are an",
+ * "timestamp": "2024-01-20T14:00:00Z",
+ * "benchmarks": {
+ * "intent": { "score": 0.92, "timestamp": "2024-01-20T14:30:00Z" },
+ * "semantic_clarity": { "score": 0.99, "timestamp": "2024-01-20T14:30:00Z" },
+ * "token_efficiency": { "score": 0.90, "timestamp": "2024-01-20T14:30:00Z" },
+ * "model_stability": { "score": 0.98, "timestamp": "2024-01-20T14:30:00Z" }
+ * },
+ * "current": true
+ * }
  * ]
  * benchmarks: [
- *   { "name": "grammatical_correctness", "test": "Is '{{content}}' grammatically correct?" }
+ * { "name": "grammatical_correctness", "test": "Is '{{content}}' grammatically correct?" }
  * ]
  */
 ```
@@ -492,8 +492,8 @@ For full Prompt development with dependencies:
  * current_version: "V26.88.0"
  * versions: []
  * dependencies: {
- *   "PROMPTPART_GENERIC_FORMATTING_YOUARE": "V26.95.0",
- *   "PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_IDENTITY_CORESTATEMENT": "V26.00.0"
+ * "PROMPTPART_GENERIC_FORMATTING_YOUARE": "V26.95.0",
+ * "PROMPTPART_SPECIFIC_TOOL_WEBSEARCHTOOL_IDENTITY_CORESTATEMENT": "V26.00.0"
  * }
  */
 ```
@@ -506,12 +506,12 @@ Define mocked LLM responses for testing:
  * scenario: "basic_discovery"
  * context: { "mode": "test" }
  * response: {
- *   "tools": ["editor", "search"],
- *   "confidence": 0.95
+ * "tools": ["editor", "search"],
+ * "confidence": 0.95
  * }
  * metadata: {
- *   "tokens": 1250,
- *   "latency": 2500
+ * "tokens": 1250,
+ * "latency": 2500
  * }
  */
 ```
@@ -560,12 +560,12 @@ Full Prompts get extra benchmarks:
 Domain-specific benchmarks can be added:
 ```typescript
 benchmarks: [
-  {
-    "name": "technical_accuracy",
-    "type": "custom",
-    "description": "Validates technical terminology",
-    "test": "Rate the technical accuracy of '{{content}}' for a developer audience (0-1)"
-  }
+ {
+ "name": "technical_accuracy",
+ "type": "custom",
+ "description": "Validates technical terminology",
+ "test": "Rate the technical accuracy of '{{content}}' for a developer audience (0-1)"
+ }
 ]
 ```
 
@@ -591,31 +591,31 @@ The dry run system enables mocking LLM calls with hardcoded responses:
 ```typescript
 /**
  * TOOL DISCOVERY PROMPT
- * 
+ *
  * @doc-comment-promptdryrun
  * scenario: "basic_tool_discovery"
  * response: {
- *   "thought": "I read to discover available tools",
- *   "tools_found": ["text-editor", "file-search", "terminal"],
- *   "confidence": 0.95
+ * "thought": "I read to discover available tools",
+ * "tools_found": ["text-editor", "file-search", "terminal"],
+ * "confidence": 0.95
  * }
- * 
+ *
  * @doc-comment-promptdryrun
  * scenario: "complex_tool_discovery"
  * context: { "environment": "production" }
  * response: {
- *   "thought": "Multiple tool categories detected",
- *   "tools_found": {
- *     "editing": ["text-editor", "code-formatter"],
- *     "search": ["file-search", "grep"],
- *     "execution": ["terminal", "compiler"]
- *   },
- *   "confidence": 0.88
+ * "thought": "Multiple tool categories detected",
+ * "tools_found": {
+ * "editing": ["text-editor", "code-formatter"],
+ * "search": ["file-search", "grep"],
+ * "execution": ["terminal", "compiler"]
+ * },
+ * "confidence": 0.88
  * }
  * metadata: {
- *   "tokens": 1250,
- *   "latency": 2500,
- *   "model": "gpt-4"
+ * "tokens": 1250,
+ * "latency": 2500,
+ * "model": "gpt-4"
  * }
  */
 ```
@@ -644,23 +644,23 @@ The framework supports performance-based prompt evolution based on measured data
 
 ```typescript
 class PromptEvolution {
-  async evolvePromptPart(
-    current: PromptPart,
-    benchmark: PromptPartBenchmark
-  ): Promise<PromptPartCandidate[]> {
-    // 1. Generate variants
-    const variants = await this.generateVariants(current);
-    
-    // 2. Benchmark each variant
-    const results = await Promise.all(
-      variants.map(v => benchmark.test(v))
-    );
-    
-    // 3. Select improvements (>5% better)
-    return results
-      .filter(r => r.qualityScore > current.qualityScore * 1.05)
-      .sort((a, b) => b.qualityScore - a.qualityScore);
-  }
+ async evolvePromptPart(
+ current: PromptPart,
+ benchmark: PromptPartBenchmark
+ ): Promise<PromptPartCandidate[]> {
+ // 1. Generate variants
+ const variants = await this.generateVariants(current);
+
+ // 2. Benchmark each variant
+ const results = await Promise.all(
+ variants.map(v => benchmark.test(v))
+ );
+
+ // 3. Select improvements (>5% better)
+ return results
+ .filter(r => r.qualityScore > current.qualityScore * 1.05)
+ .sort((a, b) => b.qualityScore - a.qualityScore);
+ }
 }
 ```
 
@@ -670,11 +670,11 @@ All prompts must meet quality gates before deployment:
 
 ```typescript
 const qualityGates = {
-  relevance: 0.85,        // 85% minimum relevance
-  completeness: 0.90,     // 90% minimum completeness
-  clarity: 0.88,          // 88% minimum clarity
-  consistency: 0.92,      // 92% minimum consistency
-  performance: 0.80       // 80% minimum performance
+ relevance: 0.85, // 85% minimum relevance
+ completeness: 0.90, // 90% minimum completeness
+ clarity: 0.88, // 88% minimum clarity
+ consistency: 0.92, // 92% minimum consistency
+ performance: 0.80 // 80% minimum performance
 };
 ```
 
@@ -687,11 +687,11 @@ import { PromptQualityEngine } from '@bitcode/testing/prompt-quality-framework';
 
 // Test prompt quality
 const engine = new PromptQualityEngine({
-  qualityGates: {
-    relevance: 0.85,
-    completeness: 0.90,
-    clarity: 0.88
-  }
+ qualityGates: {
+ relevance: 0.85,
+ completeness: 0.90,
+ clarity: 0.88
+ }
 });
 
 const result = await engine.assessPrompt(prompt, context);

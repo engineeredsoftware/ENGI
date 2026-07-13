@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V41_READNEED_PROMPT_HARDENING_ARTIFACT_PATH,
   buildV41ReadNeedPromptHardening,
-} from '../packages/protocol/src/index.js';
+} from '../packages/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

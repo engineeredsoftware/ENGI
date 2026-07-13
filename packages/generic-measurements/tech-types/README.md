@@ -1,4 +1,4 @@
-# @bitcode/tech-types
+# @bitcode/generic-measurements-tech-types
 
 Technology and stack type definitions for the Bitcode platform. This package provides the canonical technology vocabulary used to measure technical needs, normalize product/runtime reality, and keep dependent Bitcode packages and interfaces aligned on the same stack semantics.
 
@@ -13,12 +13,12 @@ Technology and stack type definitions for the Bitcode platform. This package pro
 
 ```typescript
 import {
-  Brand,
-  Technology,
-  Language,
-  TechType,
-  composeTechType,
-} from '@bitcode/tech-types';
+ Brand,
+ Technology,
+ Language,
+ TechType,
+ composeTechType,
+} from '@bitcode/generic-measurements-tech-types';
 
 // Technology identification
 const frontendStack: TechType = composeTechType('Vercel', 'NextJS', 'TypeScript');
@@ -34,15 +34,15 @@ const language: Language = 'TypeScript';
 
 ```typescript
 import {
-  UniqueTech,
-  getTechVersion,
-  getUniqueTechIdentifier,
-  parseUniqueTechIdentifier,
-} from '@bitcode/tech-types';
+ UniqueTech,
+ getTechVersion,
+ getUniqueTechIdentifier,
+ parseUniqueTechIdentifier,
+} from '@bitcode/generic-measurements-tech-types';
 
 // Curated versioned technology identification
 const tech: UniqueTech =
-  getUniqueTechIdentifier('Vercel', 'NextJS', 'TypeScript', '13.4.0')!;
+ getUniqueTechIdentifier('Vercel', 'NextJS', 'TypeScript', '13.4.0')!;
 
 // Version management
 const version = getTechVersion(tech); // '13.4.0'
@@ -50,10 +50,10 @@ const version = getTechVersion(tech); // '13.4.0'
 // Parse the identifier back into read-measurement parts
 const parsed = parseUniqueTechIdentifier(tech);
 // {
-//   umbrella: 'Vercel',
-//   tech: 'NextJS',
-//   language: 'TypeScript',
-//   version: '13.4.0'
+// umbrella: 'Vercel',
+// tech: 'NextJS',
+// language: 'TypeScript',
+// version: '13.4.0'
 // }
 ```
 
@@ -62,20 +62,20 @@ const parsed = parseUniqueTechIdentifier(tech);
 `technologyProfile` is the canonical V26 envelope for normalized stack evidence. Package consumers and preserved-protocol read measurement should emit that name directly instead of inventing adjacent shapes.
 
 ```typescript
-import { inferTechnologySignals } from '@bitcode/tech-types';
+import { inferTechnologySignals } from '@bitcode/generic-measurements-tech-types';
 
 const technologyProfile = inferTechnologySignals({
-  stackHints: ['typescript', 'github-actions'],
-  touchedPaths: ['src/routes/auth.ts', '.github/workflows/ci.yml', 'infra/main.tf'],
-  configKeys: ['auth.jwt.issuer'],
+ stackHints: ['typescript', 'github-actions'],
+ touchedPaths: ['src/routes/auth.ts', '.github/workflows/ci.yml', 'infra/main.tf'],
+ configKeys: ['auth.jwt.issuer'],
 });
 
 console.log(technologyProfile);
 // {
-//   stackHints: ['typescript', 'github-actions', 'yaml', 'terraform', 'hcl', 'auth', 'jwt'],
-//   languages: ['TypeScript', 'YAML', 'HCL'],
-//   technologies: ['GitHubActions', 'Terraform'],
-//   brands: ['GitHub', 'Hashicorp']
+// stackHints: ['typescript', 'github-actions', 'yaml', 'terraform', 'hcl', 'auth', 'jwt'],
+// languages: ['TypeScript', 'YAML', 'HCL'],
+// technologies: ['GitHubActions', 'Terraform'],
+// brands: ['GitHub', 'Hashicorp']
 // }
 ```
 

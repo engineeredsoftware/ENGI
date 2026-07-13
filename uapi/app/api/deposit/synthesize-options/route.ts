@@ -14,13 +14,13 @@ import { waitUntil } from '@vercel/functions';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { createStreamingExecution } from '@bitcode/pipelines-generics';
-import { normalizeForcedPathList } from '@bitcode/pipeline-asset-pack/asset-packs-synthesis';
-import { isAssetPackRealInferenceEnabled } from '@bitcode/pipeline-asset-pack/runtime-inference-policy';
+import { normalizeForcedPathList } from '@bitcode/asset-packs-pipelines-domain/asset-packs-synthesis';
+import { isAssetPackRealInferenceEnabled } from '@bitcode/asset-packs-pipelines-domain/runtime-inference-policy';
 import {
   bitcodeServerTelemetry,
   compactBitcodeServerId,
 } from '@/lib/bitcode-server-telemetry';
-import { sweepOrphanedExecutions } from '@/lib/execution-orphan-sweep';
+import { sweepOrphanedExecutions } from '@bitcode/api/pipelines/orphan-sweep';
 import {
   parseSynthesizeOptionsSteering,
   type SynthesizeOptionsBody,

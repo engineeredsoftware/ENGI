@@ -696,10 +696,10 @@
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
         ".bitcode/v35-testnet-rollout-readiness-guide.json",
-        "packages/executions-mcp/src/mcp-server/README.md",
-        "packages/executions-mcp/src/mcp-server/docs/public/mcp-overview.md",
-        "packages/executions-mcp/src/mcp-server/src/interface-integration.ts",
-        "packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts"
+        "packages/mcp-generics/src/mcp-server/README.md",
+        "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
+        "packages/mcp-generics/src/mcp-server/src/interface-integration.ts",
+        "packages/mcp-generics/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts"
       ],
       "routePayloadSurfaces": [
         "mcp tool list",
@@ -707,7 +707,7 @@
         "mcp source-safe result payload"
       ],
       "validationCommands": [
-        "pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand"
+        "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand"
       ],
       "packageOwnedContracts": [
         "DocumentationSurfaceCatalog",
@@ -836,19 +836,19 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/README.md",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/README.md",
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/docs/public/mcp-overview.md",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/src/interface-integration.ts",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/src/interface-integration.ts",
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts",
           "present": true
         }
       ],
@@ -891,10 +891,10 @@
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
         ".bitcode/v35-testnet-rollout-readiness-guide.json",
-        "packages/chatgptapp/README.md",
+        "packages/external-apps/chatgpt/README.md",
         "internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md",
-        "packages/chatgptapp/src/interface-integration.ts",
-        "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts"
+        "packages/external-apps/chatgpt/src/interface-integration.ts",
+        "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
       ],
       "routePayloadSurfaces": [
         "chatgpt app actions",
@@ -1031,7 +1031,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/chatgptapp/README.md",
+          "sourceRoot": "packages/external-apps/chatgpt/README.md",
           "present": true
         },
         {
@@ -1039,11 +1039,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/chatgptapp/src/interface-integration.ts",
+          "sourceRoot": "packages/external-apps/chatgpt/src/interface-integration.ts",
           "present": true
         },
         {
-          "sourceRoot": "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts",
+          "sourceRoot": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
           "present": true
         }
       ],
@@ -1087,18 +1087,18 @@
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
         ".bitcode/v35-testnet-rollout-readiness-guide.json",
-        "packages/protocol/README.md",
+        "packages/specifying/README.md",
         "packages/btd/README.md",
         "packages/api/README.md",
-        "packages/executions-mcp/src/mcp-server/README.md",
-        "packages/chatgptapp/README.md"
+        "packages/mcp-generics/src/mcp-server/README.md",
+        "packages/external-apps/chatgpt/README.md"
       ],
       "routePayloadSurfaces": [
         "package exported helper docs",
         "package interface payload docs"
       ],
       "validationCommands": [
-        "pnpm --filter @bitcode/protocol test",
+        "pnpm --filter @bitcode/specifying test",
         "pnpm run check:v35-gate8"
       ],
       "packageOwnedContracts": [
@@ -1231,7 +1231,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -1243,11 +1243,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/README.md",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/README.md",
           "present": true
         },
         {
-          "sourceRoot": "packages/chatgptapp/README.md",
+          "sourceRoot": "packages/external-apps/chatgpt/README.md",
           "present": true
         }
       ],
@@ -1974,19 +1974,19 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/README.md",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/README.md",
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/docs/public/mcp-overview.md",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/src/interface-integration.ts",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/src/interface-integration.ts",
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts",
           "present": true
         }
       ]
@@ -2032,7 +2032,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/chatgptapp/README.md",
+          "sourceRoot": "packages/external-apps/chatgpt/README.md",
           "present": true
         },
         {
@@ -2040,11 +2040,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/chatgptapp/src/interface-integration.ts",
+          "sourceRoot": "packages/external-apps/chatgpt/src/interface-integration.ts",
           "present": true
         },
         {
-          "sourceRoot": "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts",
+          "sourceRoot": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
           "present": true
         }
       ]
@@ -2090,7 +2090,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -2102,11 +2102,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/README.md",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/README.md",
           "present": true
         },
         {
-          "sourceRoot": "packages/chatgptapp/README.md",
+          "sourceRoot": "packages/external-apps/chatgpt/README.md",
           "present": true
         }
       ]

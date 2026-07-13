@@ -393,7 +393,7 @@ export class MCPSpecificationGenerator {
   "mcpServers": {
     "bitcode": {
       "command": "npx",
-      "args": ["@bitcode/mcp-server"],
+      "args": ["@bitcode/generic-mcps-bitcode"],
       "env": { "BITCODE_API_KEY": "your-api-key" }
     }
   }

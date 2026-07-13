@@ -1,5 +1,5 @@
 {
-  "name": "@bitcode/jira-tools",
+  "name": "@bitcode/generic-tools-mcps-jira",
   "version": "1.0.0",
   "description": "Jira MCP tool wrappers for Bitcode agents",
   "main": "./src/index.js",

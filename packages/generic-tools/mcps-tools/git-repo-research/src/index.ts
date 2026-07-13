@@ -6,7 +6,7 @@
 
 import { Tool } from '@bitcode/tools-generics';
 // Inline a fail-closed placeholder so this retained MCP package does not
-// require a missing @bitcode/git-repo-research workspace package at compile time.
+// require a missing @bitcode/generic-vcs-git-repo-research workspace package at compile time.
 async function _gitRepoSemanticSearch(input: {
   repository?: string;
   query?: string;

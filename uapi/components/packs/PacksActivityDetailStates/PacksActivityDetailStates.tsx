@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Packs detail state readback + conditional repair surface.
  */
-"use client";
 
 import React from "react";
 import type { PackActivityDetailProjection } from "@/components/bitcode/activity/PackActivityModel/pack-activity-model";

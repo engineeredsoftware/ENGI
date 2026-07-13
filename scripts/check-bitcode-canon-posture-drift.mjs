@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { buildCanonPostureDriftReport } from '../packages/protocol/src/index.js';
+import { buildCanonPostureDriftReport } from '../packages/specifying/src/index.js';
 
 function projectLabel(version) {
   const numeric = Number(String(version || '').replace(/^V/u, ''));

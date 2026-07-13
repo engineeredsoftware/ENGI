@@ -24,19 +24,19 @@ import { PromptQualityEngine, AgentPromptTestSuite, ValidationRuleFactory } from
 
 // Initialize quality engine
 const qualityEngine = new PromptQualityEngine({
-  qualityGates: {
-    relevance: 0.85,
-    completeness: 0.90,
-    clarity: 0.88,
-    consistency: 0.92,
-  },
+ qualityGates: {
+ relevance: 0.85,
+ completeness: 0.90,
+ clarity: 0.88,
+ consistency: 0.92,
+ },
 });
 
 // Create agent test suite
 const testSuite = new AgentPromptTestSuite({
-  agentId: 'asset-pack-discovery-agent',
-  pipelineId: 'asset-pack-execution',
-  testSuiteId: 'discovery-comprehensive-tests',
+ agentId: 'asset-pack-discovery-agent',
+ pipelineId: 'asset-pack-execution',
+ testSuiteId: 'discovery-comprehensive-tests',
 });
 
 // Execute comprehensive testing
@@ -51,25 +51,25 @@ import { PipelineTestOrchestrator } from '@bitcode/prompt-quality-framework';
 
 // Configure pipeline testing
 const orchestrator = new PipelineTestOrchestrator({
-  pipelineId: 'asset-pack-execution',
-  pipelineName: 'AssetPack Read-Satisfaction Pipeline',
-  execution: {
-    strategy: 'hybrid', // dependency-aware parallel execution
-    maxConcurrency: 4,
-    failFast: false,
-  },
-  qualityGates: {
-    minimumPipelineScore: 0.85,
-    maximumFailureRate: 0.10,
-    minimumConsistency: 0.90,
-  },
+ pipelineId: 'asset-pack-execution',
+ pipelineName: 'AssetPack Read-Satisfaction Pipeline',
+ execution: {
+ strategy: 'hybrid', // dependency-aware parallel execution
+ maxConcurrency: 4,
+ failFast: false,
+ },
+ qualityGates: {
+ minimumPipelineScore: 0.85,
+ maximumFailureRate: 0.10,
+ minimumConsistency: 0.90,
+ },
 });
 
 // Auto-register agents
 orchestrator.autoRegisterAgentTestSuites([
-  { agentId: 'discovery-agent', phaseId: 'plan', promptTemplate, baseContext },
-  { agentId: 'implementation-agent', phaseId: 'generate', promptTemplate, baseContext },
-  { agentId: 'validation-agent', phaseId: 'refine', promptTemplate, baseContext },
+ { agentId: 'discovery-agent', phaseId: 'plan', promptTemplate, baseContext },
+ { agentId: 'implementation-agent', phaseId: 'generate', promptTemplate, baseContext },
+ { agentId: 'validation-agent', phaseId: 'refine', promptTemplate, baseContext },
 ]);
 
 // Execute pipeline tests
@@ -83,24 +83,24 @@ import { PerformanceBenchmark } from '@bitcode/prompt-quality-framework';
 
 // Configure performance benchmarking
 const benchmark = new PerformanceBenchmark({
-  benchmarkId: 'agent-performance-v2',
-  execution: {
-    warmupRuns: 5,
-    measurementRuns: 100,
-    maxConcurrency: 10,
-  },
-  targets: {
-    promptGenerationLatency: 2000, // 2 seconds
-    qualityAssessmentLatency: 5000, // 5 seconds
-    tokenEfficiencyRatio: 0.8, // 80% useful tokens
-  },
+ benchmarkId: 'agent-performance-v2',
+ execution: {
+ warmupRuns: 5,
+ measurementRuns: 100,
+ maxConcurrency: 10,
+ },
+ targets: {
+ promptGenerationLatency: 2000, // 2 seconds
+ qualityAssessmentLatency: 5000, // 5 seconds
+ tokenEfficiencyRatio: 0.8, // 80% useful tokens
+ },
 });
 
 // Execute benchmark
 const benchmarkResult = await benchmark.executeBenchmark(
-  promptGenerator,
-  qualityAssessor,
-  testContexts
+ promptGenerator,
+ qualityAssessor,
+ testContexts
 );
 
 console.log(`Performance Rating: ${benchmarkResult.analysis.overallRating}`);
@@ -114,13 +114,13 @@ import { RegressionTestFramework } from '@bitcode/prompt-quality-framework';
 
 // Configure regression detection
 const regressionFramework = new RegressionTestFramework({
-  testSuiteId: 'agent-regression-tests',
-  baselineVersion: 'v1.0.0',
-  currentVersion: 'v1.1.0',
-  detection: {
-    sensitivityLevel: 'high',
-    significanceThreshold: 0.05, // 5% degradation threshold
-  },
+ testSuiteId: 'agent-regression-tests',
+ baselineVersion: 'v1.0.0',
+ currentVersion: 'v1.1.0',
+ detection: {
+ sensitivityLevel: 'high',
+ significanceThreshold: 0.05, // 5% degradation threshold
+ },
 });
 
 // Establish baseline
@@ -128,14 +128,14 @@ await regressionFramework.establishBaseline('v1.0.0', baselineResults, baselineS
 
 // Detect regressions
 const regressionResult = await regressionFramework.detectRegressions(
-  'v1.1.0',
-  currentResults,
-  currentSummaries
+ 'v1.1.0',
+ currentResults,
+ currentSummaries
 );
 
 if (regressionResult.hasRegression) {
-  console.log(`Regression detected: ${regressionResult.regressionSeverity}`);
-  console.log(`Critical issues: ${regressionResult.recommendations.length}`);
+ console.log(`Regression detected: ${regressionResult.regressionSeverity}`);
+ console.log(`Critical issues: ${regressionResult.recommendations.length}`);
 }
 ```
 
@@ -145,26 +145,26 @@ if (regressionResult.hasRegression) {
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Prompt Quality Framework                  │
+│ Prompt Quality Framework │
 ├─────────────────────────────────────────────────────────────┤
-│  Core Engine                                                │
-│  ├── PromptQualityEngine     - Quality assessment engine    │
-│  ├── QualityMetrics          - Multi-dimensional metrics    │
-│  └── ValidationSchemas       - Validation rules & schemas   │
+│ Core Engine │
+│ ├── PromptQualityEngine - Quality assessment engine │
+│ ├── QualityMetrics - Multi-dimensional metrics │
+│ └── ValidationSchemas - Validation rules & schemas │
 ├─────────────────────────────────────────────────────────────┤
-│  Testing Infrastructure                                     │
-│  ├── AgentPromptTestSuite    - Individual agent testing     │
-│  ├── PipelineTestOrchestrator - Pipeline-level testing      │
-│  └── RegressionTestFramework - Change detection system      │
+│ Testing Infrastructure │
+│ ├── AgentPromptTestSuite - Individual agent testing │
+│ ├── PipelineTestOrchestrator - Pipeline-level testing │
+│ └── RegressionTestFramework - Change detection system │
 ├─────────────────────────────────────────────────────────────┤
-│  Performance & Benchmarking                                 │
-│  ├── PerformanceBenchmark    - Performance measurement      │
-│  ├── TokenOptimizationAnalyzer - Token efficiency analysis │
-│  └── QualityTrendAnalyzer    - Trend analysis & prediction  │
+│ Performance & Benchmarking │
+│ ├── PerformanceBenchmark - Performance measurement │
+│ ├── TokenOptimizationAnalyzer - Token efficiency analysis │
+│ └── QualityTrendAnalyzer - Trend analysis & prediction │
 ├─────────────────────────────────────────────────────────────┤
-│  Integration Testing                                        │
-│  ├── PipelineIntegrationTester - Pipeline integration       │
-│  └── CrossModalValidator     - Cross-modal validation       │
+│ Integration Testing │
+│ ├── PipelineIntegrationTester - Pipeline integration │
+│ └── CrossModalValidator - Cross-modal validation │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -248,12 +248,12 @@ Built-in validation rules include:
 
 ```typescript
 const qualityGates = {
-  relevance: 0.85,        // 85% minimum relevance
-  completeness: 0.90,     // 90% minimum completeness
-  clarity: 0.88,          // 88% minimum clarity
-  toolUtilization: 0.82,  // 82% minimum tool utilization
-  consistency: 0.92,      // 92% minimum consistency
-  performance: 0.80,      // 80% minimum performance
+ relevance: 0.85, // 85% minimum relevance
+ completeness: 0.90, // 90% minimum completeness
+ clarity: 0.88, // 88% minimum clarity
+ toolUtilization: 0.82, // 82% minimum tool utilization
+ consistency: 0.92, // 92% minimum consistency
+ performance: 0.80, // 80% minimum performance
 };
 ```
 
@@ -261,12 +261,12 @@ const qualityGates = {
 
 ```typescript
 const performanceTargets = {
-  promptGenerationLatency: 2000,    // 2 seconds max
-  qualityAssessmentLatency: 5000,   // 5 seconds max
-  endToEndLatency: 10000,           // 10 seconds max
-  promptGenerationThroughput: 10,   // 10 ops/sec min
-  memoryUsageMB: 512,               // 512 MB max
-  tokenEfficiencyRatio: 0.8,        // 80% efficiency min
+ promptGenerationLatency: 2000, // 2 seconds max
+ qualityAssessmentLatency: 5000, // 5 seconds max
+ endToEndLatency: 10000, // 10 seconds max
+ promptGenerationThroughput: 10, // 10 ops/sec min
+ memoryUsageMB: 512, // 512 MB max
+ tokenEfficiencyRatio: 0.8, // 80% efficiency min
 };
 ```
 
@@ -274,10 +274,10 @@ const performanceTargets = {
 
 ```typescript
 const regressionConfig = {
-  sensitivityLevel: 'high',           // low, medium, high, strict
-  significanceThreshold: 0.05,        // 5% change threshold
-  confidenceLevel: 0.95,              // 95% confidence
-  criticalRegressionThreshold: 0.15,  // 15% critical threshold
+ sensitivityLevel: 'high', // low, medium, high, strict
+ significanceThreshold: 0.05, // 5% change threshold
+ confidenceLevel: 0.95, // 95% confidence
+ criticalRegressionThreshold: 0.15, // 15% critical threshold
 };
 ```
 
@@ -311,9 +311,9 @@ const regressionConfig = {
 ```typescript
 // Test template inheritance patterns
 const templateTest = new TemplateInheritanceValidator({
-  baseTemplate: 'BasePromptTemplate',
-  derivedTemplates: ['DiscoveryTemplate', 'ImplementationTemplate'],
-  inheritanceRules: ['consistency', 'pattern-compliance'],
+ baseTemplate: 'BasePromptTemplate',
+ derivedTemplates: ['DiscoveryTemplate', 'ImplementationTemplate'],
+ inheritanceRules: ['consistency', 'pattern-compliance'],
 });
 
 const inheritanceResult = await templateTest.validateInheritance();
@@ -324,8 +324,8 @@ const inheritanceResult = await templateTest.validateInheritance();
 ```typescript
 // Validate across different input modalities
 const crossModalValidator = new CrossModalValidator({
-  modalities: ['text', 'code', 'image'],
-  consistencyThreshold: 0.90,
+ modalities: ['text', 'code', 'image'],
+ consistencyThreshold: 0.90,
 });
 
 const modalResult = await crossModalValidator.validateConsistency(multiModalInputs);
@@ -336,9 +336,9 @@ const modalResult = await crossModalValidator.validateConsistency(multiModalInpu
 ```typescript
 // Detect quality anomalies in real-time
 const anomalyDetector = new QualityAnomalyDetector({
-  sensitivityLevel: 'high',
-  detectionMethods: ['statistical', 'ml-based'],
-  alertThreshold: 0.95,
+ sensitivityLevel: 'high',
+ detectionMethods: ['statistical', 'ml-based'],
+ alertThreshold: 0.95,
 });
 
 const anomalies = await anomalyDetector.detectAnomalies(qualityStream);
@@ -353,17 +353,17 @@ name: Prompt Quality Validation
 on: [push, pull_request]
 
 jobs:
-  quality-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Run Prompt Quality Tests
-        run: |
-          npm run test:prompt-quality
-          npm run test:performance-benchmark
-          npm run test:regression-detection
-      - name: Quality Gate Check
-        run: npm run quality-gate-check
+ quality-check:
+ runs-on: ubuntu-latest
+ steps:
+ - uses: actions/checkout@v3
+ - name: Run Prompt Quality Tests
+ run: |
+ npm run test:prompt-quality
+ npm run test:performance-benchmark
+ npm run test:regression-detection
+ - name: Quality Gate Check
+ run: npm run quality-gate-check
 ```
 
 ### Quality Gate Enforcement
@@ -371,14 +371,14 @@ jobs:
 ```typescript
 // Enforce quality gates in CI/CD
 const qualityGateEnforcer = new QualityGateEnforcer({
-  gates: qualityGates,
-  enforcementLevel: 'strict',
-  bypassRoles: ['admin'],
+ gates: qualityGates,
+ enforcementLevel: 'strict',
+ bypassRoles: ['admin'],
 });
 
 const gateResult = await qualityGateEnforcer.enforceGates(testResults);
 if (!gateResult.passed) {
-  throw new Error(`Quality gates failed: ${gateResult.failures.join(', ')}`);
+ throw new Error(`Quality gates failed: ${gateResult.failures.join(', ')}`);
 }
 ```
 
@@ -389,25 +389,25 @@ if (!gateResult.passed) {
 ```typescript
 // Create custom validation rule
 class CustomBusinessLogicRule extends ValidationRule {
-  constructor() {
-    super({
-      name: 'Business Logic Compliance',
-      category: 'compliance',
-      severity: 'high',
-    });
-  }
+ constructor() {
+ super({
+ name: 'Business Logic Compliance',
+ category: 'compliance',
+ severity: 'high',
+ });
+ }
 
-  protected async executeValidation(prompt: string, context: PromptAssessmentContext) {
-    // Custom validation logic
-    return {
-      ruleName: this.name,
-      passed: true,
-      score: 0.95,
-      message: 'Business logic compliance validated',
-      severity: 'high',
-      suggestions: [],
-    };
-  }
+ protected async executeValidation(prompt: string, context: PromptAssessmentContext) {
+ // Custom validation logic
+ return {
+ ruleName: this.name,
+ passed: true,
+ score: 0.95,
+ message: 'Business logic compliance validated',
+ severity: 'high',
+ suggestions: [],
+ };
+ }
 }
 
 // Register custom rule
@@ -419,22 +419,22 @@ ValidationRuleFactory.registerRule('business-logic', () => new CustomBusinessLog
 ```typescript
 // Extend quality metrics with custom dimensions
 class ExtendedQualityMetrics extends QualityMetrics {
-  async calculateMetrics(prompt: string, context: PromptAssessmentContext) {
-    const baseMetrics = await super.calculateMetrics(prompt, context);
-    
-    // Add custom dimension
-    const businessAlignmentScore = await this.calculateBusinessAlignment(prompt, context);
-    
-    return {
-      ...baseMetrics,
-      businessAlignment: businessAlignmentScore,
-      businessAlignmentBreakdown: {
-        stakeholderAlignment: 0.9,
-        complianceScore: 0.85,
-        riskAssessment: 0.92,
-      },
-    };
-  }
+ async calculateMetrics(prompt: string, context: PromptAssessmentContext) {
+ const baseMetrics = await super.calculateMetrics(prompt, context);
+
+ // Add custom dimension
+ const businessAlignmentScore = await this.calculateBusinessAlignment(prompt, context);
+
+ return {
+ ...baseMetrics,
+ businessAlignment: businessAlignmentScore,
+ businessAlignmentBreakdown: {
+ stakeholderAlignment: 0.9,
+ complianceScore: 0.85,
+ riskAssessment: 0.92,
+ },
+ };
+ }
 }
 ```
 
@@ -445,22 +445,22 @@ class ExtendedQualityMetrics extends QualityMetrics {
 ```typescript
 // Configure for enterprise scale (10,000+ agents)
 const enterpriseConfig = {
-  execution: {
-    parallel: true,
-    maxConcurrency: 50,
-    batchSize: 100,
-    timeoutMs: 600000, // 10 minutes
-  },
-  performance: {
-    enableCaching: true,
-    cacheSize: 10000,
-    compressionLevel: 'high',
-  },
-  monitoring: {
-    enableRealTimeMetrics: true,
-    enableDistributedTracing: true,
-    alertChannels: ['slack', 'email', 'pagerduty'],
-  },
+ execution: {
+ parallel: true,
+ maxConcurrency: 50,
+ batchSize: 100,
+ timeoutMs: 600000, // 10 minutes
+ },
+ performance: {
+ enableCaching: true,
+ cacheSize: 10000,
+ compressionLevel: 'high',
+ },
+ monitoring: {
+ enableRealTimeMetrics: true,
+ enableDistributedTracing: true,
+ alertChannels: ['slack', 'email', 'pagerduty'],
+ },
 };
 ```
 
@@ -469,16 +469,16 @@ const enterpriseConfig = {
 ```typescript
 // Configure for multi-tenant environment
 const multiTenantConfig = {
-  tenants: ['tenant-a', 'tenant-b', 'tenant-c'],
-  isolation: {
-    dataIsolation: true,
-    resourceIsolation: true,
-    securityIsolation: true,
-  },
-  quality: {
-    tenantSpecificGates: true,
-    crossTenantConsistency: true,
-  },
+ tenants: ['tenant-a', 'tenant-b', 'tenant-c'],
+ isolation: {
+ dataIsolation: true,
+ resourceIsolation: true,
+ securityIsolation: true,
+ },
+ quality: {
+ tenantSpecificGates: true,
+ crossTenantConsistency: true,
+ },
 };
 ```
 
@@ -487,13 +487,13 @@ const multiTenantConfig = {
 ```typescript
 // Set up continuous quality monitoring
 const qualityMonitor = new ContinuousQualityMonitor({
-  interval: 300000, // 5 minutes
-  metrics: ['quality', 'performance', 'reliability'],
-  alerting: {
-    degradationThreshold: 0.05,
-    anomalyThreshold: 0.95,
-    channels: ['slack', 'email'],
-  },
+ interval: 300000, // 5 minutes
+ metrics: ['quality', 'performance', 'reliability'],
+ alerting: {
+ degradationThreshold: 0.05,
+ anomalyThreshold: 0.95,
+ channels: ['slack', 'email'],
+ },
 });
 
 await qualityMonitor.start();

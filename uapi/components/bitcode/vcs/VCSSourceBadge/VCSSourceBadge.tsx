@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { VCSProviderType, VCSConnection, VCSRepository } from '@bitcode/vcs-core';
+import { VCSProviderType, VCSConnection, VCSRepository } from '@bitcode/vcs-generics-core';
 import { Github, GitBranch, ChevronDown, X } from 'lucide-react';
 import { cn } from '@bitcode/styling';
 import {

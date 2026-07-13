@@ -79,7 +79,7 @@ module.exports = {
     },
     {
       files: [
-        'packages/chatgptapp/src/tools.ts',
+        'packages/external-apps/chatgpt/src/tools.ts',
         'packages/generic-tools/files-maintaining/src/__tests__/**',
         'packages/asset-packs-pipelines/domain/src/tools/**',
       ],

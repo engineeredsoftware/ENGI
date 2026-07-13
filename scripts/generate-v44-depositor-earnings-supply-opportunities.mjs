@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V44_DEPOSITOR_EARNINGS_SUPPLY_OPPORTUNITIES_ARTIFACT_PATH,
   buildV44DepositorEarningsSupplyOpportunities,
-} from '../packages/protocol/src/canonical/v44-depositor-earnings-supply-opportunities.js';
+} from '../packages/specifying/src/canonical/v44-depositor-earnings-supply-opportunities.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

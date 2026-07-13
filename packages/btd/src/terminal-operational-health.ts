@@ -1,9 +1,8 @@
 /**
- * @deprecated Compatibility shim for Terminal-era operational health names.
- * Import from `./operational-health` (or `@bitcode/btd/operational-health`) instead.
+ * Terminal-era export names for operational health.
  *
- * V48 naming law: operational health is package domain vocabulary, not the
- * retired Terminal cockpit.
+ * Prefer `./operational-health` (or `@bitcode/btd/operational-health`).
+ * Operational health is package domain vocabulary, not a product cockpit name.
  */
 
 export type {

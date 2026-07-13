@@ -132,7 +132,7 @@
         "ReadFitsFindingSynthesis",
         "InterfaceTelemetryProofHook"
       ],
-      "repairCommand": "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-disclosure.test.ts --runInBand",
+      "repairCommand": "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-disclosure.test.ts --runInBand",
       "repairPosture": "withhold preview update until source-safe projection is regenerated",
       "requiredRoots": [
         "object_storage",
@@ -178,7 +178,7 @@
       "retentionClass": "repository-retained-generated-proof-artifact",
       "rollbackMaterialPosture": "rollback restores prior generated artifact root before promotion",
       "storageClass": "proof_artifact",
-      "storageOwnerPackage": "packages/protocol",
+      "storageOwnerPackage": "packages/specifying",
       "storesProtectedSourcePayload": false,
       "supportedLaneIds": [
         "local",

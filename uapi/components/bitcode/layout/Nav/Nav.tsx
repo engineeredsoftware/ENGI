@@ -17,8 +17,8 @@ import { BITCODE_PUBLIC_COPY } from "@/components/bitcode/layout/BitcodePublicCo
 import { getPublicShellSurface, getWorkspaceSurface, usesPublicShellChrome } from "@/components/bitcode/layout/WorkspaceSurface/workspace-surface";
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";
 import { BITCODE_PUBLIC_EXPLAINERS } from "@/components/bitcode/layout/BitcodePublicExplainers/bitcode-public-explainers";
-import { bitcodeQaTelemetry, compactBitcodeAddress } from "../../../../lib/bitcode-qa-telemetry";
-import { clearLocalBitcodeWalletIdentity } from "../../../../lib/bitcode-wallet-local";
+import { bitcodeQaTelemetry, compactBitcodeAddress } from "@bitcode/auth/qa-telemetry";
+import { clearLocalBitcodeWalletIdentity } from "@bitcode/auth/wallet-local";
 
 const MemoBTDTracker = React.memo(BTDTracker);
 const MemoNotificationsWidget = React.memo(NotificationsWidget);

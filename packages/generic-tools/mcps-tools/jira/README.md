@@ -80,16 +80,16 @@ jiraBulkUpdateIssuesTool: Batch operations for efficiency
 ### Connection Setup
 ```typescript
 interface JiraToolContext {
-  user_id: string;              // User identifier for connection lookup
-  connection?: JiraConnection;  // Optional direct connection override
+ user_id: string; // User identifier for connection lookup
+ connection?: JiraConnection; // Optional direct connection override
 }
 
 interface JiraConnection {
-  auth_type: 'oauth' | 'token'; // Authentication method
-  base_url: string;             // Jira instance URL
-  access_token: string;         // Authentication token
-  refresh_token?: string;       // OAuth refresh token
-  expires_at?: Date;            // Token expiration time
+ auth_type: 'oauth' | 'token'; // Authentication method
+ base_url: string; // Jira instance URL
+ access_token: string; // Authentication token
+ refresh_token?: string; // OAuth refresh token
+ expires_at?: Date; // Token expiration time
 }
 ```
 

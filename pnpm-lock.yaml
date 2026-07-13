@@ -128,9 +128,6 @@ importers:
       '@bitcode/auth':
         specifier: workspace:*
         version: link:../auth
-      '@bitcode/bitbucket':
-        specifier: workspace:*
-        version: link:../bitbucket
       '@bitcode/btd':
         specifier: workspace:*
         version: link:../btd
@@ -146,36 +143,42 @@ importers:
       '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../execution-generics
-      '@bitcode/figma':
+      '@bitcode/external-telemetry-google':
         specifier: workspace:*
-        version: link:../figma
+        version: link:../external-telemetry/google
+      '@bitcode/externals-figma':
+        specifier: workspace:*
+        version: link:../externals/figma
+      '@bitcode/externals-notion':
+        specifier: workspace:*
+        version: link:../externals/notion
       '@bitcode/generic-llms':
         specifier: workspace:*
         version: link:../generic-llms/registry
-      '@bitcode/git':
+      '@bitcode/generic-llms-models':
         specifier: workspace:*
-        version: link:../git
-      '@bitcode/gitlab':
+        version: link:../generic-llms/models
+      '@bitcode/generic-vcs-bitbucket':
         specifier: workspace:*
-        version: link:../gitlab
-      '@bitcode/google-analytics':
+        version: link:../generic-vcs/bitbucket
+      '@bitcode/generic-vcs-git':
         specifier: workspace:*
-        version: link:../google-analytics
+        version: link:../generic-vcs/git
+      '@bitcode/generic-vcs-gitlab':
+        specifier: workspace:*
+        version: link:../generic-vcs/gitlab
       '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@bitcode/mcp':
+      '@bitcode/mcp-generics':
         specifier: workspace:*
-        version: link:../executions-mcp
-      '@bitcode/models':
-        specifier: workspace:*
-        version: link:../models
+        version: link:../mcp-generics
       '@bitcode/networking':
         specifier: workspace:*
         version: link:../networking
-      '@bitcode/notion':
+      '@bitcode/notifications':
         specifier: workspace:*
-        version: link:../notion
+        version: link:../notifications
       '@bitcode/observability':
         specifier: workspace:*
         version: link:../observability
@@ -194,9 +197,9 @@ importers:
       '@bitcode/supabase':
         specifier: workspace:*
         version: link:../supabase
-      '@bitcode/vcs':
+      '@bitcode/vcs-generics':
         specifier: workspace:*
-        version: link:../vcs
+        version: link:../vcs-generics
       '@supabase/supabase-js':
         specifier: ^2.0.0
         version: 2.50.2
@@ -255,12 +258,6 @@ importers:
       '@bitcode/generic-artifacts-vercel':
         specifier: workspace:*
         version: link:../generic-artifacts/vercel
-
-  packages/asset-pack-generics:
-    dependencies:
-      '@bitcode/asset-packs-generics':
-        specifier: workspace:*
-        version: link:../asset-packs-generics
 
   packages/asset-packs-generics:
     dependencies:
@@ -349,6 +346,9 @@ importers:
       '@bitcode/generic-tools-editing':
         specifier: workspace:*
         version: link:../../generic-tools/files-maintaining
+      '@bitcode/generic-tools-vcs':
+        specifier: workspace:*
+        version: link:../../generic-tools/vcs
       '@bitcode/llm-generics':
         specifier: workspace:*
         version: link:../../llm-generics
@@ -376,9 +376,6 @@ importers:
       '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../tools-generics
-      '@bitcode/vcs-tools':
-        specifier: workspace:*
-        version: link:../../generic-tools/vcs
       openai:
         specifier: ^4.0.0
         version: 4.97.0(encoding@0.1.13)(ws@8.18.3)(zod@3.25.76)
@@ -432,12 +429,6 @@ importers:
       typescript:
         specifier: ^5.0.0
         version: 5.8.3
-
-  packages/asset-packs-pipelines/settle-reads:
-    dependencies:
-      '@bitcode/asset-packs-pipelines-settle-asset-packs':
-        specifier: workspace:*
-        version: link:../settle-asset-packs
 
   packages/asset-packs-pipelines/synthesize-deposits:
     dependencies:
@@ -495,18 +486,6 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
-  packages/asset-packs-settle:
-    dependencies:
-      '@bitcode/generic-asset-packs-settle':
-        specifier: workspace:*
-        version: link:../generic-asset-packs/settle
-
-  packages/asset-packs-synthesis:
-    dependencies:
-      '@bitcode/generic-asset-packs-synthesis':
-        specifier: workspace:*
-        version: link:../generic-asset-packs/synthesis
-
   packages/attachment-generics:
     devDependencies:
       '@types/jest':
@@ -542,12 +521,9 @@ importers:
       '@bitcode/supabase':
         specifier: workspace:*
         version: link:../supabase
-
-  packages/bitbucket:
-    dependencies:
-      '@bitcode/generic-vcs-bitbucket':
-        specifier: workspace:*
-        version: link:../generic-vcs/bitbucket
+      sats-connect:
+        specifier: ^4.2.1
+        version: 4.2.1(typescript@6.0.3)
 
   packages/browser-storage:
     dependencies:
@@ -570,9 +546,9 @@ importers:
 
   packages/btd:
     dependencies:
-      '@bitcode/models':
+      '@bitcode/generic-llms-models':
         specifier: workspace:*
-        version: link:../models
+        version: link:../generic-llms/models
       '@bitcode/supabase':
         specifier: workspace:*
         version: link:../supabase
@@ -593,29 +569,11 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
-  packages/chatgptapp:
-    dependencies:
-      '@bitcode/external-apps-chatgpt':
-        specifier: workspace:*
-        version: link:../external-apps/chatgpt
-
   packages/ci/circle: {}
-
-  packages/circleci:
-    dependencies:
-      '@bitcode/ci-circle':
-        specifier: workspace:*
-        version: link:../ci/circle
 
   packages/containerizations/docker: {}
 
   packages/containerizations/kubernetes: {}
-
-  packages/context:
-    dependencies:
-      '@bitcode/context-generics':
-        specifier: workspace:*
-        version: link:../context-generics
 
   packages/context-generics:
     dependencies:
@@ -644,30 +602,6 @@ importers:
         specifier: ^3.24.1
         version: 3.25.76
 
-  packages/conversations-generics:
-    dependencies:
-      '@bitcode/conversations':
-        specifier: workspace:*
-        version: link:../conversations
-
-  packages/doc-code:
-    dependencies:
-      '@bitcode/generic-doc-comments-doc-code':
-        specifier: workspace:*
-        version: link:../generic-doc-comments/doc-code
-
-  packages/doc-comment:
-    dependencies:
-      '@bitcode/doc-comment-generics':
-        specifier: workspace:*
-        version: link:../doc-comment-generics
-
-  packages/doc-comment-developing:
-    dependencies:
-      '@bitcode/generic-doc-comments-doc-developing':
-        specifier: workspace:*
-        version: link:../generic-doc-comments/doc-developing
-
   packages/doc-comment-generics:
     dependencies:
       typescript:
@@ -680,18 +614,6 @@ importers:
       jest:
         specifier: ^29.0.0
         version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
-
-  packages/docker:
-    dependencies:
-      '@bitcode/containerizations-docker':
-        specifier: workspace:*
-        version: link:../containerizations/docker
-
-  packages/editing:
-    dependencies:
-      '@bitcode/file-editing':
-        specifier: workspace:*
-        version: link:../file-editing
 
   packages/email/supabase:
     dependencies:
@@ -714,15 +636,18 @@ importers:
 
   packages/errors:
     dependencies:
-      '@bitcode/sentry':
+      '@bitcode/external-telemetry-sentry':
         specifier: workspace:*
-        version: link:../sentry
+        version: link:../external-telemetry/sentry
 
   packages/execution-generics:
     dependencies:
       '@bitcode/executor-generics':
         specifier: workspace:*
         version: link:../executor-generics
+      '@bitcode/generic-artifacts-compose':
+        specifier: workspace:*
+        version: link:../generic-artifacts/compose
       '@bitcode/generic-executions':
         specifier: workspace:*
         version: link:../generic-executions
@@ -754,12 +679,6 @@ importers:
       typescript:
         specifier: ^5.0.0
         version: 5.8.3
-
-  packages/executions-mcp:
-    dependencies:
-      '@bitcode/mcp-generics':
-        specifier: workspace:*
-        version: link:../mcp-generics
 
   packages/executor-generics:
     dependencies:
@@ -803,15 +722,15 @@ importers:
       '@bitcode/generic-tools-web-search':
         specifier: workspace:*
         version: link:../../generic-tools/web-search
-      '@bitcode/github':
+      '@bitcode/generic-vcs-github':
         specifier: workspace:*
-        version: link:../../github
+        version: link:../../generic-vcs/github
       '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../tools-generics
-      '@bitcode/vcs':
+      '@bitcode/vcs-generics':
         specifier: workspace:*
-        version: link:../../vcs
+        version: link:../../vcs-generics
       '@modelcontextprotocol/sdk':
         specifier: ^1.0.0
         version: 1.21.0
@@ -946,12 +865,6 @@ importers:
 
   packages/externals/vercel: {}
 
-  packages/figma:
-    dependencies:
-      '@bitcode/externals-figma':
-        specifier: workspace:*
-        version: link:../externals/figma
-
   packages/file-editing:
     dependencies:
       '@bitcode/files':
@@ -984,12 +897,6 @@ importers:
       '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-
-  packages/firecrawl:
-    dependencies:
-      '@bitcode/web-scrapers-firecrawl':
-        specifier: workspace:*
-        version: link:../web-scrapers/firecrawl
 
   packages/generation-generics:
     dependencies:
@@ -1086,12 +993,12 @@ importers:
       '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
-      '@bitcode/editing':
-        specifier: workspace:*
-        version: link:../../editing
       '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../../execution-generics
+      '@bitcode/file-editing':
+        specifier: workspace:*
+        version: link:../../file-editing
       '@bitcode/prompts':
         specifier: workspace:*
         version: link:../../prompts
@@ -1120,15 +1027,15 @@ importers:
       '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
+      '@bitcode/api':
+        specifier: workspace:*
+        version: link:../../api
       '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
       '@bitcode/prompts':
         specifier: workspace:*
         version: link:../../prompts
-      '@bitcode/streams':
-        specifier: workspace:*
-        version: link:../../streams
       zod:
         specifier: ^3.22.4
         version: 3.24.1
@@ -1220,7 +1127,7 @@ importers:
       '@bitcode/agent-generics':
         specifier: workspace:*
         version: link:../../agent-generics
-      '@bitcode/figma-tools':
+      '@bitcode/generic-tools-mcps-figma':
         specifier: workspace:*
         version: link:../../generic-tools/mcps-tools/figma
       '@bitcode/logger':
@@ -1309,7 +1216,7 @@ importers:
 
   packages/generic-agents/jira-processor:
     dependencies:
-      '@bitcode/jira-tools':
+      '@bitcode/generic-tools-mcps-jira':
         specifier: workspace:*
         version: link:../../generic-tools/mcps-tools/jira
       '@bitcode/logger':
@@ -1431,9 +1338,9 @@ importers:
       '@bitcode/supabase':
         specifier: workspace:*
         version: link:../../supabase
-      '@bitcode/vcs':
+      '@bitcode/vcs-generics':
         specifier: workspace:*
-        version: link:../../vcs
+        version: link:../../vcs-generics
       zod:
         specifier: ^3.21.4
         version: 3.24.1
@@ -1561,7 +1468,88 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
+  packages/generic-artifacts/aws-provider:
+    dependencies:
+      '@aws-sdk/client-s3':
+        specifier: ^3.817.0
+        version: 3.840.0
+      '@bitcode/artifact-generics':
+        specifier: workspace:*
+        version: link:../../artifact-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^25.0.0
+        version: 25.6.0
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
+  packages/generic-artifacts/compose:
+    dependencies:
+      '@bitcode/artifact-generics':
+        specifier: workspace:*
+        version: link:../../artifact-generics
+      '@bitcode/generic-artifacts-aws-provider':
+        specifier: workspace:*
+        version: link:../aws-provider
+      '@bitcode/generic-artifacts-supabase-provider':
+        specifier: workspace:*
+        version: link:../supabase-provider
+      '@bitcode/generic-artifacts-vercel-provider':
+        specifier: workspace:*
+        version: link:../vercel-provider
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^25.0.0
+        version: 25.6.0
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
   packages/generic-artifacts/patch:
+    dependencies:
+      '@bitcode/artifact-generics':
+        specifier: workspace:*
+        version: link:../../artifact-generics
+      '@bitcode/files':
+        specifier: workspace:*
+        version: link:../../files
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^25.0.0
+        version: 25.6.0
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
+  packages/generic-artifacts/patch-kind:
     dependencies:
       '@bitcode/artifact-generics':
         specifier: workspace:*
@@ -1611,7 +1599,54 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
+  packages/generic-artifacts/supabase-provider:
+    dependencies:
+      '@bitcode/artifact-generics':
+        specifier: workspace:*
+        version: link:../../artifact-generics
+      '@supabase/supabase-js':
+        specifier: ^2.50.2
+        version: 2.50.2
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^25.0.0
+        version: 25.6.0
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
   packages/generic-artifacts/vercel:
+    dependencies:
+      '@bitcode/artifact-generics':
+        specifier: workspace:*
+        version: link:../../artifact-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^25.0.0
+        version: 25.6.0
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
+  packages/generic-artifacts/vercel-provider:
     dependencies:
       '@bitcode/artifact-generics':
         specifier: workspace:*
@@ -1673,9 +1708,9 @@ importers:
       '@bitcode/asset-packs-generics':
         specifier: workspace:*
         version: link:../../asset-packs-generics
-      '@bitcode/generic-artifacts-patch':
+      '@bitcode/generic-artifacts-patch-kind':
         specifier: workspace:*
-        version: link:../../generic-artifacts/patch
+        version: link:../../generic-artifacts/patch-kind
       '@bitcode/generic-measurements-absolutes':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes
@@ -2328,9 +2363,9 @@ importers:
 
   packages/generic-tools/code-refactor:
     dependencies:
-      '@bitcode/refactoring':
+      '@bitcode/file-refactoring':
         specifier: workspace:*
-        version: link:../../refactoring
+        version: link:../../file-refactoring
       ai:
         specifier: '*'
         version: 3.4.33(openai@4.97.0(encoding@0.1.13)(ws@8.18.3)(zod@3.24.1))(react@18.3.1)(sswr@2.2.0(svelte@5.38.0))(svelte@5.38.0)(vue@3.5.18(typescript@6.0.3))(zod@3.24.1)
@@ -2340,12 +2375,12 @@ importers:
 
   packages/generic-tools/files-maintaining:
     dependencies:
-      '@bitcode/editing':
-        specifier: workspace:*
-        version: link:../../editing
       '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../../execution-generics
+      '@bitcode/file-editing':
+        specifier: workspace:*
+        version: link:../../file-editing
       '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../tools-generics
@@ -2367,18 +2402,18 @@ importers:
 
   packages/generic-tools/git-interactor:
     dependencies:
-      '@bitcode/git':
+      '@bitcode/generic-tools-vcs':
         specifier: workspace:*
-        version: link:../../git
+        version: link:../vcs
+      '@bitcode/generic-vcs-git':
+        specifier: workspace:*
+        version: link:../../generic-vcs/git
       '@bitcode/prompts':
         specifier: workspace:*
         version: link:../../prompts
       '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../tools-generics
-      '@bitcode/vcs-tools':
-        specifier: workspace:*
-        version: link:../vcs
 
   packages/generic-tools/lsp-query:
     dependencies:
@@ -2660,9 +2695,9 @@ importers:
       '@bitcode/files':
         specifier: workspace:*
         version: link:../../files
-      '@bitcode/git':
+      '@bitcode/generic-vcs-git':
         specifier: workspace:*
-        version: link:../../git
+        version: link:../../generic-vcs/git
       '@bitcode/logger':
         specifier: workspace:*
         version: link:../../logger
@@ -2694,12 +2729,12 @@ importers:
 
   packages/generic-tools/simple-system-text-search:
     dependencies:
+      '@bitcode/host-commands-grep':
+        specifier: workspace:*
+        version: link:../../host-commands/grep
       '@bitcode/prompts':
         specifier: workspace:*
         version: link:../../prompts
-      '@bitcode/simple-system-text-search':
-        specifier: workspace:*
-        version: link:../../system-grep
       '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../tools-generics
@@ -2715,9 +2750,9 @@ importers:
       '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../tools-generics
-      '@bitcode/vcs':
+      '@bitcode/vcs-generics':
         specifier: workspace:*
-        version: link:../../vcs
+        version: link:../../vcs-generics
       zod:
         specifier: ^3.21.4
         version: 3.24.1
@@ -2855,30 +2890,6 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
-  packages/git:
-    dependencies:
-      '@bitcode/generic-vcs-git':
-        specifier: workspace:*
-        version: link:../generic-vcs/git
-
-  packages/github:
-    dependencies:
-      '@bitcode/generic-vcs-github':
-        specifier: workspace:*
-        version: link:../generic-vcs/github
-
-  packages/gitlab:
-    dependencies:
-      '@bitcode/generic-vcs-gitlab':
-        specifier: workspace:*
-        version: link:../generic-vcs/gitlab
-
-  packages/google-analytics:
-    dependencies:
-      '@bitcode/external-telemetry-google':
-        specifier: workspace:*
-        version: link:../external-telemetry/google
-
   packages/host-commands/grep: {}
 
   packages/host-generics:
@@ -2898,18 +2909,6 @@ importers:
       typescript:
         specifier: ^5.0.0
         version: 5.8.3
-
-  packages/jira:
-    dependencies:
-      '@bitcode/externals-jira':
-        specifier: workspace:*
-        version: link:../externals/jira
-
-  packages/kubernetes:
-    dependencies:
-      '@bitcode/containerizations-kubernetes':
-        specifier: workspace:*
-        version: link:../containerizations/kubernetes
 
   packages/linting/eslint:
     dependencies:
@@ -2944,9 +2943,12 @@ importers:
 
   packages/logger:
     dependencies:
-      '@bitcode/sentry':
+      '@bitcode/external-telemetry-sentry':
         specifier: workspace:*
-        version: link:../sentry
+        version: link:../external-telemetry/sentry
+      '@bitcode/generic-artifacts-compose':
+        specifier: workspace:*
+        version: link:../generic-artifacts/compose
       '@bitcode/supabase':
         specifier: workspace:*
         version: link:../supabase
@@ -2969,12 +2971,6 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
-  packages/mcp-server:
-    dependencies:
-      '@bitcode/generic-mcps-bitcode':
-        specifier: workspace:*
-        version: link:../generic-mcps/bitcode
-
   packages/measurement-generics:
     dependencies:
       zod:
@@ -2990,12 +2986,6 @@ importers:
       next:
         specifier: ^14.1.0
         version: 14.2.30(@babel/core@7.27.7)(@opentelemetry/api@1.9.0)(@playwright/test@1.53.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-
-  packages/models:
-    dependencies:
-      '@bitcode/generic-llms-models':
-        specifier: workspace:*
-        version: link:../generic-llms/models
 
   packages/multimodal-utils:
     dependencies:
@@ -3056,22 +3046,13 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
-  packages/notion:
-    dependencies:
-      '@bitcode/externals-notion':
-        specifier: workspace:*
-        version: link:../externals/notion
-
-  packages/obfuscate:
-    dependencies:
-      '@bitcode/obfuscation':
-        specifier: workspace:*
-        version: link:../obfuscation
-
   packages/obfuscation: {}
 
   packages/observability:
     dependencies:
+      '@bitcode/api':
+        specifier: workspace:*
+        version: link:../api
       '@bitcode/errors':
         specifier: workspace:*
         version: link:../errors
@@ -3087,9 +3068,6 @@ importers:
       '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@bitcode/streams':
-        specifier: workspace:*
-        version: link:../streams
       '@vercel/analytics':
         specifier: ^1.0.0
         version: 1.5.0(@remix-run/react@2.16.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.3))(next@14.2.30(@babel/core@7.27.7)(@opentelemetry/api@1.9.0)(@playwright/test@1.53.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(svelte@5.38.0)(vue@3.5.18(typescript@5.8.3))
@@ -3142,12 +3120,6 @@ importers:
       zod:
         specifier: ^3.22.4
         version: 3.24.1
-
-  packages/pipeline-asset-pack:
-    dependencies:
-      '@bitcode/asset-packs-pipelines-domain':
-        specifier: workspace:*
-        version: link:../asset-packs-pipelines/domain
 
   packages/pipeline-hosts:
     dependencies:
@@ -3218,9 +3190,9 @@ importers:
 
   packages/prompts:
     dependencies:
-      '@bitcode/doc-comment':
+      '@bitcode/doc-comment-generics':
         specifier: workspace:*
-        version: link:../doc-comment
+        version: link:../doc-comment-generics
       '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../execution-generics
@@ -3250,27 +3222,6 @@ importers:
         specifier: ^4.7.0
         version: 4.20.3
 
-  packages/protocol:
-    devDependencies:
-      '@types/node':
-        specifier: ^25.5.2
-        version: 25.6.0
-      typescript:
-        specifier: ^6.0.2
-        version: 6.0.3
-
-  packages/protocol-canonical:
-    dependencies:
-      '@bitcode/protocol':
-        specifier: workspace:*
-        version: link:../protocol
-
-  packages/refactoring:
-    dependencies:
-      '@bitcode/file-refactoring':
-        specifier: workspace:*
-        version: link:../file-refactoring
-
   packages/registry:
     devDependencies:
       '@jest/globals':
@@ -3285,8 +3236,6 @@ importers:
       ts-jest:
         specifier: ^29.0.0
         version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@6.0.3)))(typescript@6.0.3)
-
-  packages/responses: {}
 
   packages/security:
     dependencies:
@@ -3426,13 +3375,14 @@ importers:
         specifier: ^3.25.76
         version: 3.25.76
 
-  packages/sentry:
-    dependencies:
-      '@bitcode/external-telemetry-sentry':
-        specifier: workspace:*
-        version: link:../external-telemetry/sentry
-
-  packages/streams: {}
+  packages/specifying:
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.2
+        version: 25.6.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.3
 
   packages/styling:
     dependencies:
@@ -3455,18 +3405,6 @@ importers:
         specifier: ^4.3.16
         version: 4.3.16(react@18.3.1)(zod@3.25.76)
 
-  packages/system-grep:
-    dependencies:
-      '@bitcode/host-commands-grep':
-        specifier: workspace:*
-        version: link:../host-commands/grep
-
-  packages/tech-types:
-    dependencies:
-      '@bitcode/generic-measurements-tech-types':
-        specifier: workspace:*
-        version: link:../generic-measurements/tech-types
-
   packages/templates-generics:
     dependencies:
       '@bitcode/logger':
@@ -3488,9 +3426,9 @@ importers:
 
   packages/testing/src/test-drymockfakestub:
     dependencies:
-      '@bitcode/doc-comment':
+      '@bitcode/doc-comment-generics':
         specifier: workspace:*
-        version: link:../../../doc-comment
+        version: link:../../../doc-comment-generics
       '@storybook/react':
         specifier: ^7.6.0
         version: 7.6.20(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.3)
@@ -3525,15 +3463,15 @@ importers:
 
   packages/tools-generics:
     dependencies:
-      '@bitcode/doc-code':
+      '@bitcode/doc-comment-generics':
         specifier: workspace:*
-        version: link:../doc-code
-      '@bitcode/doc-comment':
-        specifier: workspace:*
-        version: link:../doc-comment
+        version: link:../doc-comment-generics
       '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../execution-generics
+      '@bitcode/generic-doc-comments-doc-code':
+        specifier: workspace:*
+        version: link:../generic-doc-comments/doc-code
       '@bitcode/prompts':
         specifier: workspace:*
         version: link:../prompts
@@ -3553,12 +3491,6 @@ importers:
       vitest:
         specifier: ^1.1.0
         version: 1.6.1(@types/node@20.19.2)(jsdom@20.0.3)(terser@5.47.1)
-
-  packages/vcs:
-    dependencies:
-      '@bitcode/vcs-generics':
-        specifier: workspace:*
-        version: link:../vcs-generics
 
   packages/vcs-generics:
     dependencies:
@@ -3590,12 +3522,6 @@ importers:
       typescript:
         specifier: ^5.0.0
         version: 5.8.3
-
-  packages/vercel:
-    dependencies:
-      '@bitcode/externals-vercel':
-        specifier: workspace:*
-        version: link:../externals/vercel
 
   packages/web-scrapers/firecrawl:
     dependencies:
@@ -3650,9 +3576,9 @@ importers:
       '@bitcode/errors':
         specifier: workspace:*
         version: link:../packages/errors
-      '@bitcode/google-analytics':
+      '@bitcode/external-telemetry-google':
         specifier: workspace:*
-        version: link:../packages/google-analytics
+        version: link:../packages/external-telemetry/google
       '@bitcode/observability':
         specifier: workspace:*
         version: link:../packages/observability
@@ -3662,12 +3588,12 @@ importers:
       '@bitcode/prompts':
         specifier: workspace:*
         version: link:../packages/prompts
-      '@bitcode/protocol':
+      '@bitcode/specifying':
         specifier: workspace:*
-        version: link:../packages/protocol
-      '@bitcode/vcs':
+        version: link:../packages/specifying
+      '@bitcode/vcs-generics':
         specifier: workspace:*
-        version: link:../packages/vcs
+        version: link:../packages/vcs-generics
       '@headlessui/react':
         specifier: ^1.7.18
         version: 1.7.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -22532,12 +22458,29 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@sats-connect/core@0.10.0(valibot@1.1.0(typescript@6.0.3))':
+    dependencies:
+      axios: 1.12.0
+      bitcoin-address-validation: 3.0.0
+      buffer: 6.0.3
+      jsontokens: 4.0.1
+      valibot: 1.1.0(typescript@6.0.3)
+    transitivePeerDependencies:
+      - debug
+
   '@sats-connect/make-default-provider-config@0.0.10(@sats-connect/core@0.10.0(valibot@1.1.0(typescript@5.8.3)))(typescript@5.8.3)':
     dependencies:
       '@sats-connect/core': 0.10.0(valibot@1.1.0(typescript@5.8.3))
       '@sats-connect/ui': 0.0.6
       bowser: 2.11.0
       typescript: 5.8.3
+
+  '@sats-connect/make-default-provider-config@0.0.10(@sats-connect/core@0.10.0(valibot@1.1.0(typescript@6.0.3)))(typescript@6.0.3)':
+    dependencies:
+      '@sats-connect/core': 0.10.0(valibot@1.1.0(typescript@6.0.3))
+      '@sats-connect/ui': 0.0.6
+      bowser: 2.11.0
+      typescript: 6.0.3
 
   '@sats-connect/ui@0.0.6': {}
 
@@ -31689,6 +31632,16 @@ snapshots:
       - debug
       - typescript
 
+  sats-connect@4.2.1(typescript@6.0.3):
+    dependencies:
+      '@sats-connect/core': 0.10.0(valibot@1.1.0(typescript@6.0.3))
+      '@sats-connect/make-default-provider-config': 0.0.10(@sats-connect/core@0.10.0(valibot@1.1.0(typescript@6.0.3)))(typescript@6.0.3)
+      '@sats-connect/ui': 0.0.7
+      valibot: 1.1.0(typescript@6.0.3)
+    transitivePeerDependencies:
+      - debug
+      - typescript
+
   sax@1.4.1: {}
 
   saxes@6.0.0:
@@ -33214,6 +33167,10 @@ snapshots:
   valibot@1.1.0(typescript@5.8.3):
     optionalDependencies:
       typescript: 5.8.3
+
+  valibot@1.1.0(typescript@6.0.3):
+    optionalDependencies:
+      typescript: 6.0.3
 
   vary@1.1.2: {}
 

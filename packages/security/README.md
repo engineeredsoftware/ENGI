@@ -21,7 +21,7 @@ Production security utilities as **nested packages** under `packages/security/*`
 // Prefer specific subpackages in new code
 import { encryptCredential } from '@bitcode/security-encryption';
 
-// BC barrel (server-side only — do not pull client into Node routes)
+// composition barrel (server-side only — do not pull client into Node routes)
 import { encryptCredential, rateLimitMiddleware } from '@bitcode/security';
 
 // Client hooks

@@ -11,7 +11,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { z } from 'zod';
@@ -243,7 +243,7 @@ export const codeSearcherStepPrompts = {
  * Comprehensive code search agent
  * Uses full PTRR cycle for thorough analysis
  */
-const comprehensiveSearch = factoryAgentWithPTRR<
+const comprehensiveSearch = factoryPTRRAgent<
   z.infer<typeof CodeSearchInputSchema>,
   z.infer<typeof CodeSearcherRetrySchema>
 >({

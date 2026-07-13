@@ -1,7 +1,6 @@
 # @bitcode/external-apps-chatgpt
 
-> Path: `packages/external-apps/chatgpt`  
-> BC alias: `@bitcode/chatgptapp` (re-export package at `packages/chatgptapp`)
+> Path: `packages/external-apps/chatgpt`
 
 Bitcode’s ChatGPT App MCP package lets product-minded builders participate in the Bitcode source-to-shares loop without touching a code editor. Inside a single ChatGPT thread, Bitcode captures intent, keeps Evidence Documents truthful, narrates repository behaviour in plain language, drafts implementation moves, and coordinates GitHub plus DevOps delivery mechanisms only after explicit confirmation.
 
@@ -31,10 +30,10 @@ The headline: *“Design your app in chat. Bitcode keeps the documents honest, d
 pnpm install
 
 # start Bitcode MCP server (logs muted for inspector)
-BITCODE_LOG_STDOUT=0 pnpm --silent --filter @bitcode/chatgptapp start
+BITCODE_LOG_STDOUT=0 pnpm --silent --filter @bitcode/external-apps-chatgpt start
 
 # optional: hot reload during development
-pnpm --filter @bitcode/chatgptapp dev
+pnpm --filter @bitcode/external-apps-chatgpt dev
 ```
 
 > Environment variables in `.env` / `.env.local` files (repo root or any parent directory) are auto-loaded before tools initialise, so flags like `BITCODE_MOCK_EXA=true` take effect without exporting them manually.
@@ -42,21 +41,21 @@ pnpm --filter @bitcode/chatgptapp dev
 ## Using the MCP Inspector
 
 1. **Start the server** in one terminal:
-   ```bash
-   BITCODE_LOG_STDOUT=0 pnpm --silent --filter @bitcode/chatgptapp start
-   ```
+ ```bash
+ BITCODE_LOG_STDOUT=0 pnpm --silent --filter @bitcode/external-apps-chatgpt start
+ ```
 2. **Launch the inspector UI** in another terminal:
-   ```bash
-   pnpm exec mcp-inspector
-   ```
-   This prints a session token and opens http://localhost:6274 with the token pre-filled.
+ ```bash
+ pnpm exec mcp-inspector
+ ```
+ This prints a session token and opens http://localhost:6274 with the token pre-filled.
 3. If the STDIO panel shows an old command (e.g. `--stdio-command`), clear the inspector’s cached config:
-   - Browser DevTools → `localStorage.clear()` + reload; or use the gear icon → “Clear STDIO configuration”.
+ - Browser DevTools → `localStorage.clear()` + reload; or use the gear icon → “Clear STDIO configuration”.
 4. Connect via STDIO:
-   - Command: `pnpm`
-   - Arguments: `--silent`, `--filter=@bitcode/chatgptapp`, `start`
-   - Environment: `BITCODE_LOG_STDOUT=0`
-   - Click **Connect** (optionally tick “Remember”).
+ - Command: `pnpm`
+ - Arguments: `--silent`, `--filter=@bitcode/external-apps-chatgpt`, `start`
+ - Environment: `BITCODE_LOG_STDOUT=0`
+ - Click **Connect** (optionally tick “Remember”).
 
 The `tools/list` call should display the canonical Bitcode identifiers below with no retired product prefix.
 
@@ -141,14 +140,14 @@ All templates live in `src/tools.ts` so new sessions can bootstrap immediately.
 ## QA checklist
 
 1. **MCP Inspector**
-   - Start the server: `BITCODE_LOG_STDOUT=0 pnpm --silent --filter @bitcode/chatgptapp start`.
-   - Launch the inspector: `pnpm exec mcp-inspector`.
-   - Clear cached STDIO config if necessary.
-   - Call every tool with sample payloads to validate schema + output shapes.
+ - Start the server: `BITCODE_LOG_STDOUT=0 pnpm --silent --filter @bitcode/external-apps-chatgpt start`.
+ - Launch the inspector: `pnpm exec mcp-inspector`.
+ - Clear cached STDIO config if necessary.
+ - Call every tool with sample payloads to validate schema + output shapes.
 2. **ChatGPT (Apps SDK developer mode)**
-   - Install the Bitcode MCP pointing to the local server.
-   - Follow the `DEMO.md` script verbatim; confirm each tool responds as expected.
-   - Ensure confirmation prompts fire and payloads include `confirmed: true` for `write_code_changes_to_vcs`, `use_vercel_write_external_mcp`, and `use_aws_write_external_mcp`.
+ - Install the Bitcode MCP pointing to the local server.
+ - Follow the `DEMO.md` script verbatim; confirm each tool responds as expected.
+ - Ensure confirmation prompts fire and payloads include `confirmed: true` for `write_code_changes_to_vcs`, `use_vercel_write_external_mcp`, and `use_aws_write_external_mcp`.
 3. **App metadata review**
-   - Align App Store copy and screenshots with the tool list above.
-   - Verify environment variables (`EXA_API_KEY`, AWS creds, GitHub tokens) before filming.
+ - Align App Store copy and screenshots with the tool list above.
+ - Verify environment variables (`EXA_API_KEY`, AWS creds, GitHub tokens) before filming.

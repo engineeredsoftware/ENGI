@@ -1,5 +1,5 @@
 /**
- * @bitcode/asset-packs-synthesis
+ * @bitcode/generic-asset-packs-synthesis
  *
  * Product surface for SynthesizeAssetPacks:
  * - measurement catalogs + AbsolutesMeasureAgent

@@ -54,27 +54,27 @@ Production-grade GitLab integration implementing the unified VCS abstraction lay
 
 ### Provider Initialization
 ```typescript
-import { GitLabProvider } from '@bitcode/gitlab';
+import { GitLabProvider } from '@bitcode/generic-vcs-gitlab';
 
 // GitLab.com configuration
 const provider = new GitLabProvider({
-  instanceUrl: 'https://gitlab.com',
-  clientId: 'gitlab_client_id',
-  clientSecret: 'gitlab_client_secret',
-  redirectUri: 'https://app.example.com/auth/callback'
+ instanceUrl: 'https://gitlab.com',
+ clientId: 'gitlab_client_id',
+ clientSecret: 'gitlab_client_secret',
+ redirectUri: 'https://app.example.com/auth/callback'
 });
 
 // Self-hosted configuration
 const selfHostedProvider = new GitLabProvider({
-  instanceUrl: 'https://gitlab.company.com',
-  clientId: 'self_hosted_client_id',
-  clientSecret: 'self_hosted_client_secret',
-  redirectUri: 'https://app.example.com/auth/callback'
+ instanceUrl: 'https://gitlab.company.com',
+ clientId: 'self_hosted_client_id',
+ clientSecret: 'self_hosted_client_secret',
+ redirectUri: 'https://app.example.com/auth/callback'
 });
 
 // Token-based authentication
 const tokenProvider = new GitLabProvider({
-  instanceUrl: 'https://gitlab.com'
+ instanceUrl: 'https://gitlab.com'
 });
 ```
 
@@ -82,10 +82,10 @@ const tokenProvider = new GitLabProvider({
 ```typescript
 // List user projects
 const projects = await provider.listRepositories(auth, {
-  visibility: 'private',
-  sort: 'last_activity_at',
-  order: 'desc',
-  membership: true
+ visibility: 'private',
+ sort: 'last_activity_at',
+ order: 'desc',
+ membership: true
 });
 
 // Get project details
@@ -93,18 +93,18 @@ const project = await provider.getRepository(auth, 'group', 'project');
 
 // Create project
 const newProject = await provider.createRepository(auth, {
-  name: 'new-project',
-  description: 'Project description',
-  visibility: 'private',
-  initializeWithReadme: true,
-  issuesEnabled: true,
-  mergeRequestsEnabled: true
+ name: 'new-project',
+ description: 'Project description',
+ visibility: 'private',
+ initializeWithReadme: true,
+ issuesEnabled: true,
+ mergeRequestsEnabled: true
 });
 
 // Update project
 const updated = await provider.updateRepository(auth, 'group', 'project', {
-  description: 'Updated description',
-  visibility: 'internal'
+ description: 'Updated description',
+ visibility: 'internal'
 });
 ```
 
@@ -112,20 +112,20 @@ const updated = await provider.updateRepository(auth, 'group', 'project', {
 ```typescript
 // List merge requests
 const mergeRequests = await provider.listPullRequests(auth, 'group', 'project', {
-  state: 'opened',
-  sort: 'updated_at',
-  order: 'desc',
-  scope: 'assigned_to_me'
+ state: 'opened',
+ sort: 'updated_at',
+ order: 'desc',
+ scope: 'assigned_to_me'
 });
 
 // Create merge request
 const mr = await provider.createPullRequest(auth, 'group', 'project', {
-  title: 'Feature implementation',
-  description: 'Implements new feature X',
-  sourceBranch: 'feature/new-feature',
-  targetBranch: 'main',
-  assigneeIds: [123],
-  reviewerIds: [456]
+ title: 'Feature implementation',
+ description: 'Implements new feature X',
+ sourceBranch: 'feature/new-feature',
+ targetBranch: 'main',
+ assigneeIds: [123],
+ reviewerIds: [456]
 });
 
 // Merge request approval
@@ -133,9 +133,9 @@ const approved = await provider.approvePullRequest(auth, 'group', 'project', 42)
 
 // Merge request
 const merged = await provider.mergePullRequest(auth, 'group', 'project', 42, {
-  mergeMethod: 'merge',
-  shouldRemoveSourceBranch: true,
-  squashCommitMessage: 'Feature: Add new functionality'
+ mergeMethod: 'merge',
+ shouldRemoveSourceBranch: true,
+ squashCommitMessage: 'Feature: Add new functionality'
 });
 ```
 
@@ -146,18 +146,18 @@ const file = await provider.getFile(auth, 'group', 'project', 'src/index.ts', 'm
 
 // Create file
 const created = await provider.createFile(auth, 'group', 'project', 'new-file.ts', {
-  content: 'export const greeting = "Hello World";',
-  commitMessage: 'Add greeting module',
-  branch: 'main',
-  encoding: 'text'
+ content: 'export const greeting = "Hello World";',
+ commitMessage: 'Add greeting module',
+ branch: 'main',
+ encoding: 'text'
 });
 
 // Update file
 const updated = await provider.updateFile(auth, 'group', 'project', 'src/index.ts', {
-  content: 'export const greeting = "Hello Universe";',
-  commitMessage: 'Update greeting message',
-  branch: 'main',
-  lastCommitId: file.lastCommitId
+ content: 'export const greeting = "Hello Universe";',
+ commitMessage: 'Update greeting message',
+ branch: 'main',
+ lastCommitId: file.lastCommitId
 });
 ```
 
@@ -165,9 +165,9 @@ const updated = await provider.updateFile(auth, 'group', 'project', 'src/index.t
 ```typescript
 // List project pipelines
 const pipelines = await provider.listPipelines(auth, 'group', 'project', {
-  status: 'success',
-  ref: 'main',
-  orderBy: 'updated_at'
+ status: 'success',
+ ref: 'main',
+ orderBy: 'updated_at'
 });
 
 // Get pipeline details
@@ -175,10 +175,10 @@ const pipeline = await provider.getPipeline(auth, 'group', 'project', 123);
 
 // Trigger pipeline
 const triggered = await provider.triggerPipeline(auth, 'group', 'project', {
-  ref: 'main',
-  variables: {
-    DEPLOY_ENV: 'staging'
-  }
+ ref: 'main',
+ variables: {
+ DEPLOY_ENV: 'staging'
+ }
 });
 
 // Cancel pipeline
@@ -189,12 +189,12 @@ const cancelled = await provider.cancelPipeline(auth, 'group', 'project', 123);
 ```typescript
 // Create webhook
 const webhook = await provider.createWebhook(auth, 'group', 'project', {
-  url: 'https://api.example.com/webhooks/gitlab',
-  pushEvents: true,
-  mergeRequestsEvents: true,
-  issuesEvents: true,
-  pipelineEvents: true,
-  token: 'webhook_token'
+ url: 'https://api.example.com/webhooks/gitlab',
+ pushEvents: true,
+ mergeRequestsEvents: true,
+ issuesEvents: true,
+ pipelineEvents: true,
+ token: 'webhook_token'
 });
 
 // List webhooks
@@ -202,8 +202,8 @@ const webhooks = await provider.listWebhooks(auth, 'group', 'project');
 
 // Update webhook
 const updated = await provider.updateWebhook(auth, 'group', 'project', webhook.id, {
-  pushEvents: false,
-  enableSslVerification: true
+ pushEvents: false,
+ enableSslVerification: true
 });
 ```
 

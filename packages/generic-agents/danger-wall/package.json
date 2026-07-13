@@ -8,7 +8,9 @@
     "@bitcode/agent-generics": "workspace:*",
     "@bitcode/logger": "workspace:*",
     "@bitcode/prompts": "workspace:*",
-    "@bitcode/streams": "workspace:*",
-    "zod": "^3.22.4"
-  }
+    "zod": "^3.22.4",
+    "@bitcode/api": "workspace:*"
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
 }

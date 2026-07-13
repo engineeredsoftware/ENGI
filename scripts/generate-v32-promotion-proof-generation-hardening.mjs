@@ -79,12 +79,12 @@ export function buildV32PromotionProofGenerationHardeningArtifact() {
       'missing-artifact',
       'source-safe generated artifact diffs',
     ]),
-    scanTokens('packages/protocol/src/canonical/proven-generator.js', [
+    scanTokens('packages/specifying/src/canonical/proven-generator.js', [
       'buildV32ProvenPackage',
       'buildV32PromotionProofGenerationHardening',
       '.bitcode/v32-promotion-proof-generation-hardening.json',
     ]),
-    scanTokens('packages/protocol/src/canonical/v21-specifying.js', [
+    scanTokens('packages/specifying/src/canonical/v21-specifying.js', [
       '.bitcode/v32-promotion-proof-generation-hardening.json',
       '.bitcode/v32-testnet-mainnet-readiness-rehearsal.json',
     ]),
@@ -104,7 +104,7 @@ export function buildV32PromotionProofGenerationHardeningArtifact() {
     ]),
   ];
   const testEvidence = [
-    scanTokens('packages/protocol/test/v32-promotion-proof-generation.test.js', [
+    scanTokens('packages/specifying/test/v32-promotion-proof-generation.test.js', [
       'supports V32 promotion proof generation hardening',
       'source-safe generated artifact diffs',
       'v32-promotion-proof-generation-hardening',

@@ -242,7 +242,7 @@
     },
     {
       "id": "package-exports-gate7",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {
@@ -276,10 +276,10 @@
     "readClient": "uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb",
     "packsClient": "uapi/app/packs/PacksPageClient.tsx:6314e03df5bf7c598e5b7802",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
-    "protocolIndex": "packages/protocol/src/index.js:fdc9c740328fe41b9c7134c8",
-    "protocolTypes": "packages/protocol/src/index.d.ts:df3330e66cf6b01b41c762ee",
-    "protocolSource": "packages/protocol/src/canonical/v47-e2e-ip-selling-buying-tests.js:1ecddb0bd123deefbc5068b1",
-    "protocolTest": "packages/protocol/test/v47-e2e-ip-selling-buying-tests.test.js:4faaa57ae3a59253e6f1cb7e",
+    "protocolIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "protocolTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "protocolSource": "packages/specifying/src/canonical/v47-e2e-ip-selling-buying-tests.js:1ecddb0bd123deefbc5068b1",
+    "protocolTest": "packages/specifying/test/v47-e2e-ip-selling-buying-tests.test.js:4faaa57ae3a59253e6f1cb7e",
     "generator": "scripts/generate-v47-e2e-ip-selling-buying-tests.mjs:c0c83f7b37d8db3db755d1c5",
     "checker": "scripts/check-v47-gate7-e2e-ip-selling-buying-tests.mjs:a4cda45b853fd314679baab4",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",

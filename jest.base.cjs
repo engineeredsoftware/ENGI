@@ -30,6 +30,9 @@ function createModuleNameMapperFromTsconfig(tsconfigPath) {
 }
 
 const sharedModuleNameMapper = createModuleNameMapperFromTsconfig(path.join(repoRoot, 'tsconfig.json'));
+const { buildPackageMap } = require('./jest.package-map.cjs');
+const hierarchyPackageMapper = buildPackageMap(path.join(repoRoot, 'packages'));
+
 const defaultTransformIgnore = ['node_modules/(?!(@bitcode)/)'];
 
 function createJestConfig(pkgDir, overrides = {}) {
@@ -54,6 +57,8 @@ function createJestConfig(pkgDir, overrides = {}) {
       ]
     },
     moduleNameMapper: {
+      // Hierarchy package names first (nested paths), then tsconfig paths, then overrides
+      ...hierarchyPackageMapper,
       ...sharedModuleNameMapper,
       ...(overrides.moduleNameMapper || {})
     },

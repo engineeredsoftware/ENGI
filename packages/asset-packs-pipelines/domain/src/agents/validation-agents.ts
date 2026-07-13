@@ -6,7 +6,7 @@
  * those labels are Finish delivery-mechanism templates only.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
@@ -47,7 +47,7 @@ const assetPackValidationPrompt = createValidationPrompt(
   'Validate one canonical AssetPack synthesis corridor. Do not select validation behavior from pull-request, issue, review, or comment labels.'
 );
 
-export const AssetPackValidationPhaseValidateLastValidationAgent = factoryAgentWithPTRR<
+export const AssetPackValidationPhaseValidateLastValidationAgent = factoryPTRRAgent<
   any,
   z.infer<typeof ValidateIssuesOutputSchema>
 >({
@@ -62,7 +62,7 @@ export const AssetPackValidationPhaseValidateLastValidationAgent = factoryAgentW
   retry: {},
 });
 
-export const AssetPackValidationPhaseValidateDiscoveryAgent = factoryAgentWithPTRR<
+export const AssetPackValidationPhaseValidateDiscoveryAgent = factoryPTRRAgent<
   any,
   z.infer<typeof ValidateIssuesOutputSchema>
 >({
@@ -77,7 +77,7 @@ export const AssetPackValidationPhaseValidateDiscoveryAgent = factoryAgentWithPT
   retry: {},
 });
 
-export const AssetPackValidationPhaseValidateSynthesisArtifactsAgent = factoryAgentWithPTRR<
+export const AssetPackValidationPhaseValidateSynthesisArtifactsAgent = factoryPTRRAgent<
   any,
   z.infer<typeof ValidateIssuesOutputSchema>
 >({
@@ -116,7 +116,7 @@ const ReadyToFinishOutputSchema = z.object({
   summary: z.string(),
 });
 
-const AssetPackValidationReadyToFinishAgentCore = factoryAgentWithPTRR<
+const AssetPackValidationReadyToFinishAgentCore = factoryPTRRAgent<
   z.infer<typeof ReadyToFinishInputSchema>,
   z.infer<typeof ReadyToFinishOutputSchema>
 >({
@@ -137,7 +137,7 @@ export async function AssetPackValidationReadyToFinishAgent(
 ): Promise<z.infer<typeof ReadyToFinishOutputSchema>> {
   // Inference is non-configurable: always run the formal PTRR validation core.
   const raw = await AssetPackValidationReadyToFinishAgentCore(input, execution);
-  // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });
+  // factoryPTRRAgent returns an envelope ({ context, output, finalOutput });
   // unwrap it to the agent's typed structured output.
   const output = ((raw as any)?.finalOutput ?? (raw as any)?.output ?? raw) as z.infer<typeof ReadyToFinishOutputSchema>;
   // Cross-phase artifact: the run-level surfaces read the readiness verdict

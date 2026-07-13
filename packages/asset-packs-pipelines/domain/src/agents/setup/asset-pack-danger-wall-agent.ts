@@ -10,10 +10,14 @@ import {
   bitcodeReadRiskAdmissionAgent,
 } from '@bitcode/generic-agents-danger-wall';
 import { ShortCircuitSignal } from '@bitcode/execution-generics';
-import { z } from 'zod';
 import { resolveWrittenAssetTypeFromExecution } from '../../semantic-resolution';
 
-type BitcodeReadRiskAdmissionResult = z.infer<typeof BitcodeReadRiskAdmissionResultSchema>;
+/**
+ * Schema-valid risk-admission payload. Typed loosely so uapi typecheck does
+ * not expand the deep Zod object graph (TS2589).
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type BitcodeReadRiskAdmissionResult = any;
 
 function objectValue(value: unknown): Record<string, unknown> | null {
   return value && typeof value === 'object' && !Array.isArray(value)
@@ -32,7 +36,7 @@ export function normalizeRiskAdmissionResult(rawResult: unknown): BitcodeReadRis
 
   for (const candidate of candidates) {
     const parsed = BitcodeReadRiskAdmissionResultSchema.safeParse(candidate);
-    if (parsed.success) return parsed.data;
+    if (parsed.success) return parsed.data as BitcodeReadRiskAdmissionResult;
   }
 
   const observedKeys = rawRecord ? Object.keys(rawRecord).sort() : [];

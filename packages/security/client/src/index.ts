@@ -1,6 +1,6 @@
 /**
  * @bitcode/security-client — client-only secure form hooks.
- * Prefer: import from '@bitcode/security-client' or '@bitcode/security/client' (BC).
+ * Prefer: import from '@bitcode/security-client'.
  */
 "use client";
 

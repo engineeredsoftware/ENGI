@@ -8,7 +8,7 @@
 
 import { z } from 'zod';
 import { log } from '@bitcode/logger';
-import { writeStreamMessage, type DataStream } from '@bitcode/streams';
+import { writeStreamMessage, type DataStream } from '@bitcode/api/streams';
 import { PIPELINE_CONSTANTS } from '@/lib/engine/constants';
 
 /**

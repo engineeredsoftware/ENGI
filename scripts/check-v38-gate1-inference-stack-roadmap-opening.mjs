@@ -98,11 +98,11 @@ function main() {
     'README.md',
     'AGENTS.md',
     'package.json',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'protocol-demonstration/README.md',
-    'packages/protocol/src/canon-posture.js',
+    'packages/specifying/src/canon-posture.js',
     'protocol-demonstration/src/canon-posture.js',
-    'packages/protocol/data/state.json',
+    'packages/specifying/data/state.json',
     'packages/agent-generics/src/steps/failsafe-sequence.ts',
     'packages/agent-generics/src/steps/thricified-generation.ts',
     'packages/agent-generics/src/agents/factories.ts',
@@ -129,11 +129,11 @@ function main() {
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
   const prTemplate = read(root, '.github/pull_request_template.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
   const demoReadme = read(root, 'protocol-demonstration/README.md');
-  const packagePosture = read(root, 'packages/protocol/src/canon-posture.js');
+  const packagePosture = read(root, 'packages/specifying/src/canon-posture.js');
   const demoPosture = read(root, 'protocol-demonstration/src/canon-posture.js');
-  const postureState = read(root, 'packages/protocol/data/state.json');
+  const postureState = read(root, 'packages/specifying/data/state.json');
   const failsafeSource = read(root, 'packages/agent-generics/src/steps/failsafe-sequence.ts');
   const thricifiedSource = read(root, 'packages/agent-generics/src/steps/thricified-generation.ts');
   const agentFactorySource = read(root, 'packages/agent-generics/src/agents/factories.ts');
@@ -249,7 +249,7 @@ function main() {
 
   assertCheck(failures, failsafeSource.includes('ThricifiedGeneration'), 'Failsafe source must delegate to ThricifiedGeneration.');
   assertCheck(failures, thricifiedSource.includes('Reason') && thricifiedSource.includes('Judge'), 'Thricified source must preserve Reason and Judge stages.');
-  assertCheck(failures, agentFactorySource.includes('factoryAgentWithPTRR'), 'Agent factory source must expose factoryAgentWithPTRR.');
+  assertCheck(failures, agentFactorySource.includes('factoryPTRRAgent'), 'Agent factory source must expose factoryPTRRAgent.');
   assertCheck(failures, toolPromptSource.includes('DocCodeToolPrompt'), 'Tool prompt source must expose DocCodeToolPrompt.');
   assertCheck(failures, usableToolsSource.includes('formatToolsWithDocCodeToolsIntoUsableTools'), 'Tool formatting source must expose usable tool formatting.');
   assertCheck(failures, readingContractSource.includes('ReadNeedComprehensionSynthesis'), 'Reading contract must name ReadNeedComprehensionSynthesis.');

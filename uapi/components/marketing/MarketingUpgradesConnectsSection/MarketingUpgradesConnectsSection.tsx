@@ -1,8 +1,9 @@
+'use client';
+
 // Server component wrapper for the largely static Evidence Documents & Integrations
 // section.  The animated canvas background is lazy-loaded on the client so no
 // extra JS ships for the static markup.
 
-"use client";
 
 import React, { useMemo } from 'react';
 import dynamic from 'next/dynamic';

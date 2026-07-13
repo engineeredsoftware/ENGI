@@ -55,7 +55,7 @@ const checks = [
       'ReadFitsFindingSynthesis',
       'type PTRRAgentConfig',
       'listReadingPipelineTelemetryTrace',
-      'factoryAgentWithPTRR',
+      'factoryPTRRAgent',
       'thricifiedGenerationIds',
     ],
     forbidden: ['PptrAgentConfig', 'PtrrAgentConfig', 'READ_FINDING_FITS_SYNTHESIS', 'ReadFindingFitsSynthesis'],

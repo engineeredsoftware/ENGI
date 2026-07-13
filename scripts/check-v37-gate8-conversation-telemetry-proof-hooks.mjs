@@ -169,10 +169,10 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/conversation-telemetry-proof-hooks.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/conversation-telemetry-proof-hooks.test.js',
+    'packages/specifying/src/canonical/conversation-telemetry-proof-hooks.js',
+    'packages/specifying/src/index.js',
+    'packages/specifying/src/index.d.ts',
+    'packages/specifying/test/conversation-telemetry-proof-hooks.test.js',
     'scripts/generate-v37-conversation-telemetry-proof-hooks.mjs',
     'scripts/check-v37-gate8-conversation-telemetry-proof-hooks.mjs',
     'packages/api/src/conversations/telemetry.ts',
@@ -196,7 +196,7 @@ function main() {
     'BITCODE_SPEC_V37_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -217,7 +217,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/conversation-telemetry-proof-hooks.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/conversation-telemetry-proof-hooks.test.js']);
     } catch (error) {
       failures.push(`V37 Conversation telemetry proof hooks package test failed: ${error.stderr || error.message}`);
     }
@@ -312,7 +312,7 @@ function main() {
     );
   }
 
-  const protocolSource = read(root, 'packages/protocol/src/canonical/conversation-telemetry-proof-hooks.js');
+  const protocolSource = read(root, 'packages/specifying/src/canonical/conversation-telemetry-proof-hooks.js');
   assertCheck(failures, protocolSource.includes('CONVERSATION_TELEMETRY_EVENT_FAMILY_IDS'), 'Protocol source must define event family ids.');
   assertCheck(failures, protocolSource.includes('CONVERSATION_TELEMETRY_DASHBOARD_PANEL_IDS'), 'Protocol source must define dashboard panel ids.');
   assertCheck(failures, protocolSource.includes('CONVERSATION_TELEMETRY_RUNBOOK_IDS'), 'Protocol source must define runbook ids.');

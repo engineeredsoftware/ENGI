@@ -5,9 +5,9 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
-    "@bitcode/git": "workspace:*",
+    "@bitcode/generic-vcs-git": "workspace:*",
     "@bitcode/prompts": "workspace:*",
     "@bitcode/tools-generics": "workspace:*",
-    "@bitcode/vcs-tools": "workspace:*"
+    "@bitcode/generic-tools-vcs": "workspace:*"
   }
 }

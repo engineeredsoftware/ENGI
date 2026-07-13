@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V46_PUBLIC_OPERATOR_CLAIM_BOUNDARIES_ARTIFACT_PATH,
   buildV46PublicOperatorClaimBoundaries,
-} from '../packages/protocol/src/canonical/v46-public-operator-claim-boundaries.js';
+} from '../packages/specifying/src/canonical/v46-public-operator-claim-boundaries.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -81,8 +81,8 @@ function main() {
 
   for (const relativePath of [
     V46_PUBLIC_OPERATOR_CLAIM_BOUNDARIES_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v46-public-operator-claim-boundaries.js',
-    'packages/protocol/test/v46-public-operator-claim-boundaries.test.js',
+    'packages/specifying/src/canonical/v46-public-operator-claim-boundaries.js',
+    'packages/specifying/test/v46-public-operator-claim-boundaries.test.js',
     'scripts/generate-v46-public-operator-claim-boundaries.mjs',
     'scripts/check-v46-gate3-public-operator-claim-boundaries.mjs',
     'BITCODE_SPEC_V46.md',
@@ -91,7 +91,7 @@ function main() {
     'BITCODE_SPEC_V46_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'uapi/app/docs/bitcode-docs-content.ts',
     'uapi/app/docs/[slug]/page.tsx',
     'uapi/app/(root)/components/PublicDocsPageContent.tsx',
@@ -156,7 +156,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'packages/specifying',
         'exec',
         'node',
         '--test',
@@ -164,7 +164,7 @@ function main() {
         'test/v46-public-operator-claim-boundaries.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol/test/v46-public-operator-claim-boundaries.test.js must pass.');
+      failures.push('packages/specifying/test/v46-public-operator-claim-boundaries.test.js must pass.');
     }
   }
 

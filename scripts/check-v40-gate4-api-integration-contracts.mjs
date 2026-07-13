@@ -78,7 +78,7 @@ function printHelp() {
 
 function runIntegrationSmoke(root, failures) {
   const commands = [
-    ['pnpm', ['--filter', '@bitcode/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-api-integration-contracts.test.js']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-api-integration-contracts.test.js']],
     ['pnpm', ['--dir', 'uapi', 'exec', 'jest', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/api/conversationsRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/api/walletOAuthRoutes.test.ts', 'tests/api/webhookSignature.test.ts']],
     ['pnpm', ['--filter', '@bitcode/api', 'test']],
     ['pnpm', ['--dir', 'packages/generic-mcps/bitcode', 'run', 'test:mcp']],
@@ -119,8 +119,8 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v40-api-integration-contracts.js',
-    'packages/protocol/test/v40-api-integration-contracts.test.js',
+    'packages/specifying/src/canonical/v40-api-integration-contracts.js',
+    'packages/specifying/test/v40-api-integration-contracts.test.js',
     'scripts/generate-v40-api-integration-contracts.mjs',
     'scripts/check-v40-gate4-api-integration-contracts.mjs',
     'BITCODE_SPEC_V40.md',
@@ -150,7 +150,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v40-api-integration-contracts.test.js',
+        'packages/specifying/test/v40-api-integration-contracts.test.js',
       ]);
     } catch (error) {
       failures.push(`V40 API integration contract protocol test failed: ${error.stderr || error.message}`);

@@ -175,7 +175,7 @@
       ]
     },
     {
-      "relativePath": "packages/protocol/test/v34-promotion-readiness.test.js",
+      "relativePath": "packages/specifying/test/v34-promotion-readiness.test.js",
       "present": true,
       "requiredTokens": [
         {
@@ -243,7 +243,7 @@
       ]
     },
     {
-      "relativePath": "packages/protocol/README.md",
+      "relativePath": "packages/specifying/README.md",
       "present": true,
       "requiredTokens": [
         {

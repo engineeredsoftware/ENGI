@@ -61,7 +61,7 @@ Production-grade code refactoring tools providing semantic analysis-driven trans
 ### Architecture Pattern
 ```typescript
 class RefactorTool extends Tool<typeof primitiveFunction> {
-  use = primitiveFunction;
+ use = primitiveFunction;
 }
 ```
 
@@ -90,11 +90,11 @@ class RefactorTool extends Tool<typeof primitiveFunction> {
 import { renameSymbolTool } from '@bitcode/generic-tools-code-refactor';
 
 const result = await renameSymbolTool.use({
-  filePath: '/project/src/utils.ts',
-  position: { line: 15, character: 8 },
-  newName: 'parseConfiguration',
-  atomic: true,
-  validateReferences: true
+ filePath: '/project/src/utils.ts',
+ position: { line: 15, character: 8 },
+ newName: 'parseConfiguration',
+ atomic: true,
+ validateReferences: true
 });
 ```
 
@@ -103,11 +103,11 @@ const result = await renameSymbolTool.use({
 import { extractMethodTool } from '@bitcode/generic-tools-code-refactor';
 
 const result = await extractMethodTool.use({
-  filePath: '/project/src/service.ts',
-  startPosition: { line: 45, character: 0 },
-  endPosition: { line: 62, character: 15 },
-  methodName: 'validateInput',
-  insertionPoint: { line: 35, character: 0 }
+ filePath: '/project/src/service.ts',
+ startPosition: { line: 45, character: 0 },
+ endPosition: { line: 62, character: 15 },
+ methodName: 'validateInput',
+ insertionPoint: { line: 35, character: 0 }
 });
 ```
 
@@ -116,10 +116,10 @@ const result = await extractMethodTool.use({
 import { organizeImportsTool } from '@bitcode/generic-tools-code-refactor';
 
 const result = await organizeImportsTool.use({
-  filePath: '/project/src/index.ts',
-  sortStyle: 'alphabetical',
-  removeUnused: true,
-  groupByType: true
+ filePath: '/project/src/index.ts',
+ sortStyle: 'alphabetical',
+ removeUnused: true,
+ groupByType: true
 });
 ```
 

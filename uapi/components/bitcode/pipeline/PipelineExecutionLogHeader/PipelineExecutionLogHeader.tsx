@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ExecutionPhase, ExecutionStep, FailsafeStep, GenerationStep } from '@bitcode/streams';
+import { ExecutionPhase, ExecutionStep, FailsafeStep, GenerationStep } from '@bitcode/api/streams';
 import { normalizeStepName } from '@/components/bitcode/pipeline/ExecutionTelemetryFormat/execution-telemetry-format';
 import styles from './pipeline-execution-log-header.module.css';
 

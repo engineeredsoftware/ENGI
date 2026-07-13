@@ -63,10 +63,10 @@ dockerRemoveVolumeTool({ name: 'data-volume', force: true })
 
 // Advanced Runtime
 runDocker('alpine:latest', {
-  args: ['sh', '-c', 'echo "Hello World"'],
-  env: { NODE_ENV: 'production' },
-  remove: true,
-  onLog: (line, stream) => console.log(`${stream}: ${line}`)
+ args: ['sh', '-c', 'echo "Hello World"'],
+ env: { NODE_ENV: 'production' },
+ remove: true,
+ onLog: (line, stream) => console.log(`${stream}: ${line}`)
 })
 ```
 

@@ -67,15 +67,15 @@ gitlabGetProjectTool: Detailed project information retrieval
 ### Connection Setup
 ```typescript
 interface GitLabConfig {
-  clientId: string;           // OAuth application ID
-  clientSecret: string;       // OAuth application secret
-  redirectUri: string;        // OAuth callback URL
-  instanceUrl?: string;       // Self-hosted GitLab URL
-  timeouts: {
-    auth: number;             // Authentication timeout (ms)
-    read: number;             // Read operation timeout (ms)
-    write: number;            // Write operation timeout (ms)
-  };
+ clientId: string; // OAuth application ID
+ clientSecret: string; // OAuth application secret
+ redirectUri: string; // OAuth callback URL
+ instanceUrl?: string; // Self-hosted GitLab URL
+ timeouts: {
+ auth: number; // Authentication timeout (ms)
+ read: number; // Read operation timeout (ms)
+ write: number; // Write operation timeout (ms)
+ };
 }
 ```
 

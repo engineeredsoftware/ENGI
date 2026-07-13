@@ -9,7 +9,7 @@ Add to ~/.config/claude/mcp-servers.json:
   "mcpServers": {
     "bitcode": {
       "command": "npx",
-      "args": ["@bitcode/mcp-server"],
+      "args": ["@bitcode/generic-mcps-bitcode"],
       "env": { "BITCODE_API_KEY": "your-api-key" }
     }
   }

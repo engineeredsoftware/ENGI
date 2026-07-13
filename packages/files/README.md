@@ -5,14 +5,14 @@
 ## Hierarchy
 
 ```
-@bitcode/files                              # this package (primitives)
-        ↑
-@bitcode/asset-packs-generics               AssetPack path+op (aliases FileOp)
-@bitcode/generic-artifacts-patch            PatchFileEntry builds on FileChange
-@bitcode/generic-attachments-file           FileAttachment paths
-@bitcode/file-editing                       atomic edit transactions
-@bitcode/file-refactoring                   symbol rename / multi-file refactors
-@bitcode/generic-tools/* / Host             checkout + editing tools
+@bitcode/files # this package (primitives)
+ ↑
+@bitcode/asset-packs-generics AssetPack path+op (aliases FileOp)
+@bitcode/generic-artifacts-patch-kind PatchFileEntry builds on FileChange
+@bitcode/generic-attachments-file FileAttachment paths
+@bitcode/file-editing atomic edit transactions
+@bitcode/file-refactoring symbol rename / multi-file refactors
+@bitcode/generic-tools/* / Host checkout + editing tools
 ```
 
 ## Primitive surface
@@ -29,11 +29,11 @@
 
 ```ts
 import {
-  type FileChange,
-  type FileOp,
-  createFileChange,
-  normalizeRepoPath,
-  validateFilePath,
+ type FileChange,
+ type FileOp,
+ createFileChange,
+ normalizeRepoPath,
+ validateFilePath,
 } from '@bitcode/files';
 
 const change: FileChange = createFileChange('src/auth.ts', 'modify');

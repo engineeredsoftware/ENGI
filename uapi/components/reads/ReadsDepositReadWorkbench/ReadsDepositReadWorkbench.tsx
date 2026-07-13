@@ -1,9 +1,10 @@
+'use client';
+
 /**
  * Reads/deposit workbench orchestration (shared synthesize + fit review).
  * Composes supply cards, staged reading, admission, and fit panels.
  */
 
-'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
 

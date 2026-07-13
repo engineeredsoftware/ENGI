@@ -103,7 +103,7 @@ function parseJson(output, failures, label) {
 
 function runFocusedTests(root, failures, args) {
   const commands = [
-    ['node', ['--test', '--test-force-exit', 'packages/protocol/test/v42-local-staging-mvp-rehearsal.test.js']],
+    ['node', ['--test', '--test-force-exit', 'packages/specifying/test/v42-local-staging-mvp-rehearsal.test.js']],
   ];
 
   if (!args.skipPackageTests && commandExists(root, 'pnpm')) {
@@ -159,8 +159,8 @@ function main() {
     'scripts/rehearse-v42-local-staging-mvp.mjs',
     'scripts/generate-v42-local-staging-mvp-rehearsal.mjs',
     'scripts/check-v42-gate8-local-staging-mvp-rehearsal.mjs',
-    'packages/protocol/src/canonical/v42-local-staging-mvp-rehearsal.js',
-    'packages/protocol/test/v42-local-staging-mvp-rehearsal.test.js',
+    'packages/specifying/src/canonical/v42-local-staging-mvp-rehearsal.js',
+    'packages/specifying/test/v42-local-staging-mvp-rehearsal.test.js',
     'packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts',
     'uapi/app/api/pipeline-host/asset-pack/preflight.ts',
@@ -172,7 +172,7 @@ function main() {
     'BITCODE_SPEC_V42_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'packages/asset-packs-pipelines/domain/README.md',
     'uapi/app/terminal/README.md',
     'package.json',

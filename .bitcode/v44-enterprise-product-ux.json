@@ -140,7 +140,7 @@
     "parity": "BITCODE_SPEC_V44_PARITY_MATRIX.md:533bbfe052c5c8469c31c1af",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
     "readme": "README.md:d28ec731634e03953d8adfe6",
-    "protocolReadme": "packages/protocol/README.md:f5b175049f4f4e8df179e184",
+    "protocolReadme": "packages/specifying/README.md:f5b175049f4f4e8df179e184",
     "packageJson": "package.json:b79014968c556bc1b43ab341",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
@@ -151,10 +151,10 @@
     "packsTest": "uapi/tests/packsPageClient.test.tsx:3fba7a8cabfefd257882490e",
     "readTest": "uapi/tests/readPageClient.test.tsx:45cea103fa46706d1f39c4f4",
     "depositTest": "uapi/tests/depositPageClient.test.tsx:3385b14ea538e4ea1bb3ed01",
-    "protocolIndex": "packages/protocol/src/index.js:1f16ea428bd71351a1292cb6",
-    "protocolTypes": "packages/protocol/src/index.d.ts:278dfc652c621533b5e86f4d",
-    "protocolSource": "packages/protocol/src/canonical/v44-enterprise-product-ux.js:0f27756ad44940e543988b11",
-    "protocolTest": "packages/protocol/test/v44-enterprise-product-ux.test.js:c383b6eda2a248544f898bc3",
+    "protocolIndex": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "protocolTypes": "packages/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "protocolSource": "packages/specifying/src/canonical/v44-enterprise-product-ux.js:0f27756ad44940e543988b11",
+    "protocolTest": "packages/specifying/test/v44-enterprise-product-ux.test.js:c383b6eda2a248544f898bc3",
     "generator": "scripts/generate-v44-enterprise-product-ux.mjs:56391502a1cea83a2c8f828f",
     "checker": "scripts/check-v44-gate8-enterprise-product-ux.mjs:685792ad62c868c6edd72f97"
   },
@@ -201,7 +201,7 @@
     },
     {
       "id": "protocol-readme-records-gate8",
-      "sourcePath": "packages/protocol/README.md",
+      "sourcePath": "packages/specifying/README.md",
       "passed": true
     },
     {
@@ -251,17 +251,17 @@
     },
     {
       "id": "protocol-test-covers-artifact",
-      "sourcePath": "packages/protocol/test/v44-enterprise-product-ux.test.js",
+      "sourcePath": "packages/specifying/test/v44-enterprise-product-ux.test.js",
       "passed": true
     },
     {
       "id": "protocol-package-exports-gate8",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {
       "id": "protocol-types-export-gate8",
-      "sourcePath": "packages/protocol/src/index.d.ts",
+      "sourcePath": "packages/specifying/src/index.d.ts",
       "passed": true
     },
     {

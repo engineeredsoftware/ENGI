@@ -12,7 +12,7 @@
  * secrets, or file contents.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
@@ -77,7 +77,7 @@ function createPrompt(): Prompt {
 
 const prompt = createPrompt();
 
-export const DepositCodebaseComprehensionAgent = factoryAgentWithPTRR<
+export const DepositCodebaseComprehensionAgent = factoryPTRRAgent<
   z.infer<typeof CodebaseComprehensionInputSchema>,
   z.infer<typeof CodebaseComprehensionOutputSchema>
 >({
@@ -121,7 +121,7 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
     },
     execution,
   );
-  // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput }); unwrap (F27).
+  // factoryPTRRAgent returns an envelope ({ context, output, finalOutput }); unwrap (F27).
   const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
   const comprehension: DepositCodebaseComprehension = (result as any)?.comprehension ?? {

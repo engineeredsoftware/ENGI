@@ -276,8 +276,8 @@ class ArchitectureReviewer {
   private validateDocCommentToolPromptBridge(): void {
     this.withResult('Doc-comment and tool prompt injection bridge', (details, violations) => {
       const requiredFiles = [
-        'packages/doc-comment/package.json',
-        'packages/doc-code/package.json',
+        'packages/doc-comment-generics/package.json',
+        'packages/generic-doc-comments/doc-code/package.json',
         'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
         'protocol-demonstration/V26_DOC_COMMENT_REFORM.md'
       ];

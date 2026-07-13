@@ -1,10 +1,9 @@
 # @bitcode/doc-comment-generics
 
-> BC alias: `@bitcode/doc-comment`
 
 
 V26 status: admitted `ingress-or-support` primitive for build-time parsing and metadata extraction.
-This package is not a direct Bitcode product or inference-runtime authority by itself, but it may still serve admitted Bitcode build-time prompt injection when explicit corridors such as `@bitcode/doc-code` consume it.
+This package is not a direct Bitcode product or inference-runtime authority by itself, but it may still serve admitted Bitcode build-time prompt injection when explicit corridors such as `@bitcode/generic-doc-comments-doc-code` consume it.
 Examples and implementation notes in this corridor are preserved to support careful reform work, not to silently define the active product path.
 
 Pure infrastructure package for doc-comment plugins. This package contains ONLY:
@@ -22,41 +21,41 @@ This package contains NO plugin implementations. Plugins are located in:
 
 ```typescript
 // Base infrastructure
-import { 
-  BaseDocCommentPlugin,
-  DocCommentPlugin,
-  DocComment,
-  ValidationResult 
-} from '@bitcode/doc-comment';
+import {
+ BaseDocCommentPlugin,
+ DocCommentPlugin,
+ DocComment,
+ ValidationResult
+} from '@bitcode/doc-comment-generics';
 
 // Plugin registry
-import { 
-  registerPlugin,
-  getPlugin,
-  getAllPlugins 
-} from '@bitcode/doc-comment';
+import {
+ registerPlugin,
+ getPlugin,
+ getAllPlugins
+} from '@bitcode/doc-comment-generics';
 ```
 
 ## Creating a Plugin
 
 ```typescript
-import { BaseDocCommentPlugin, ValidationResult } from '@bitcode/doc-comment';
+import { BaseDocCommentPlugin, ValidationResult } from '@bitcode/doc-comment-generics';
 
 export class MyPlugin extends BaseDocCommentPlugin<MyMetadata> {
-  name = 'doc-myplugin';
-  pattern = /@doc-myplugin/;
-  
-  protected parseMetadata(comment: DocComment): MyMetadata {
-    // Parse comment into metadata
-  }
-  
-  protected validateMetadata(metadata: MyMetadata): ValidationResult {
-    // Validate the metadata
-  }
-  
-  protected getDefaultMetadata(comment: DocComment): MyMetadata {
-    // Return default when parsing fails
-  }
+ name = 'doc-myplugin';
+ pattern = /@doc-myplugin/;
+
+ protected parseMetadata(comment: DocComment): MyMetadata {
+ // Parse comment into metadata
+ }
+
+ protected validateMetadata(metadata: MyMetadata): ValidationResult {
+ // Validate the metadata
+ }
+
+ protected getDefaultMetadata(comment: DocComment): MyMetadata {
+ // Return default when parsing fails
+ }
 }
 ```
 

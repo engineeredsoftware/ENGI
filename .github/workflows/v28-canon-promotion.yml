@@ -85,9 +85,9 @@ jobs:
           pnpm --filter @bitcode/btd test
           npm --prefix protocol-demonstration test
           npm --prefix protocol-demonstration run test:v28-mvp-qa
-          pnpm --filter @bitcode/pipeline-asset-pack typecheck
+          pnpm --filter @bitcode/asset-packs-pipelines-domain typecheck
           pnpm --filter @bitcode/pipeline-hosts typecheck
-          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --passWithNoTests --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
           pnpm --dir uapi exec jest --runTestsByPath \
             tests/api/readReviewRoute.test.ts \

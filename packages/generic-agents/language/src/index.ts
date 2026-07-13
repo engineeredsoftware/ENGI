@@ -10,7 +10,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -240,7 +240,7 @@ export const languageStepPrompts = {
  * Comprehensive language analysis agent
  * Uses full PTRR cycle for thorough analysis
  */
-const comprehensiveLanguage = factoryAgentWithPTRR<
+const comprehensiveLanguage = factoryPTRRAgent<
   z.infer<typeof LanguageInputSchema>,
   z.infer<typeof LanguageRetrySchema>
 >({

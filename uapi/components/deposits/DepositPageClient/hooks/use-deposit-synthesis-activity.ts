@@ -26,7 +26,7 @@ export function useDepositSynthesisActivity(input: {
   setSynthesisError: (error: string | null) => void;
   synthesisDispatchedAtMs: number | null;
   synthesisError: string | null;
-  refreshLiveRuns: () => void | Promise<void>;
+  refreshLiveRuns: () => void | Promise<unknown>;
 }) {
   const {
     synthesisRunId,

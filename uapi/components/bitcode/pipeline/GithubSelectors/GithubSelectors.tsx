@@ -1,6 +1,7 @@
+'use client';
+
 import React from 'react';
 /* eslint-disable react/no-multi-comp */
-"use client";
 import Image from 'next/image';
 import Select, { components } from 'react-select';
 import { glassyStyles, glassyPillStyles } from '@/components/bitcode/selects/GlassySelectStyles/glassy-select-styles';

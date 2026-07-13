@@ -48,7 +48,7 @@ circleciConfigHelperTool({ config: 'yaml-config-string' })
 
 Requires CircleCI API authentication token with appropriate project permissions:
 - Pipeline read access for monitoring operations
-- Workflow write access for rerun capabilities  
+- Workflow write access for rerun capabilities
 - Project admin access for settings management
 - Job approval permissions for manual gate operations
 

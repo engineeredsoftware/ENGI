@@ -18,14 +18,14 @@ const customModuleNameMapper = {
   '^@bitcode/generic-tools-simple-system-text-search$': '<rootDir>/src/__stubs__/generic-tools-simple-system-text-search.ts',
   '^@bitcode/generic-tools-web-search$': '<rootDir>/src/__stubs__/generic-tools-web-search.ts',
   '^@bitcode/generic-agents-digesting$': '<rootDir>/src/__stubs__/digest-run.ts',
-  '^@bitcode/github$': '<rootDir>/src/__stubs__/github.ts',
-  '^@bitcode/vcs$': '<rootDir>/src/__stubs__/vcs.ts',
-  '^@bitcode/context$': '<rootDir>/src/__stubs__/context.ts',
+  '^@bitcode/generic-vcs-github$': '<rootDir>/src/__stubs__/github.ts',
+  '^@bitcode/vcs-generics$': '<rootDir>/src/__stubs__/vcs.ts',
+  '^@bitcode/generic-generations-failsafes$': '<rootDir>/src/__stubs__/context.ts',
   '^@bitcode/generic-tools-mcps-vercel/src/prompts/VercelMCPDocCodeToolPrompt$': '<rootDir>/src/__stubs__/vercel-doc-prompt.ts',
   '^@bitcode/generic-tools-mcps-aws/src/prompts/AWSMCPDocCodeToolPrompt$': '<rootDir>/src/__stubs__/aws-doc-prompt.ts',
   '^@bitcode/generic-tools-simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt$': '<rootDir>/src/__stubs__/ssts-doc-prompt.ts',
   '^@bitcode/generic-tools-web-search/src/prompts/WebSearchDocCodeToolPrompt$': '<rootDir>/src/__stubs__/web-search-doc-prompt.ts',
-  '^@bitcode/artifacts$': '<rootDir>/src/__mocks__/bitcode-artifacts.ts'
+  '^@bitcode/generic-artifacts-compose$': '<rootDir>/src/__mocks__/bitcode-artifacts.ts'
 };
 
 module.exports = {

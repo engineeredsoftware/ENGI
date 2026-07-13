@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Deposit + read supply posture cards for the deposit/read workbench chain.
  */
-"use client";
 
 import React from "react";
 import BitcodeActionWorkbenchCard from "@/components/bitcode/pipeline/BitcodeActionWorkbenchCard/BitcodeActionWorkbenchCard";

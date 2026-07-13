@@ -1,7 +1,7 @@
 /**
  * @bitcode/attachments-generics — Universal attachment types for Bitcode
  *
- * BC barrel across the entire Bitcode codebase. Prefer leaf packages:
+ * barrel across the entire Bitcode codebase. Prefer leaf packages:
  *   @bitcode/attachment-generics
  *   @bitcode/generic-attachments-file
  *   @bitcode/generic-attachments-external

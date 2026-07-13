@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * OrbitalsConnectsOrbitalEmailConnection
  *
@@ -6,12 +8,11 @@
  * preserves the original animation/visual hierarchy.
  */
 
-'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import './OrbitalsConnectsOrbitalEmailConnection.module.css';
 import { motion } from 'framer-motion';
-import { trackEvent } from '@bitcode/google-analytics';
+import { trackEvent } from '@bitcode/external-telemetry-google';
 import { createClient } from '@bitcode/supabase/ssr/client';
 import { reportError } from '@bitcode/errors';
 import { toast } from '@/components/shadcn/Sonner/Sonner';

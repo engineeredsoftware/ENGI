@@ -10,7 +10,7 @@ import {
   V45_SOURCE_SAFE_E2E_REHEARSAL_LANE_IDS,
   V45_SOURCE_SAFE_E2E_REHEARSAL_SCHEMA_ID,
   buildV45SourceSafeEndToEndRehearsal,
-} from '../packages/protocol/src/canonical/v45-source-safe-e2e-rehearsal.js';
+} from '../packages/specifying/src/canonical/v45-source-safe-e2e-rehearsal.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -143,8 +143,8 @@ function main() {
 
   for (const relativePath of [
     V45_SOURCE_SAFE_E2E_REHEARSAL_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v45-source-safe-e2e-rehearsal.js',
-    'packages/protocol/test/v45-source-safe-e2e-rehearsal.test.js',
+    'packages/specifying/src/canonical/v45-source-safe-e2e-rehearsal.js',
+    'packages/specifying/test/v45-source-safe-e2e-rehearsal.test.js',
     'scripts/generate-v45-source-safe-e2e-rehearsal.mjs',
     'scripts/check-v45-gate17-source-safe-e2e-rehearsal.mjs',
     'scripts/rehearse-v45-source-safe-e2e.mjs',
@@ -153,7 +153,7 @@ function main() {
     'BITCODE_SPEC_V45_NOTES.md',
     'BITCODE_SPEC_V45_PARITY_MATRIX.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -246,7 +246,7 @@ function main() {
   const notes = read(root, 'BITCODE_SPEC_V45_NOTES.md');
   const parity = read(root, 'BITCODE_SPEC_V45_PARITY_MATRIX.md');
   const rootReadme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
 
   for (const phrase of [
     'generate:v45-source-safe-e2e-rehearsal',
@@ -312,7 +312,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'packages/specifying',
         'exec',
         'node',
         '--test',
@@ -320,7 +320,7 @@ function main() {
         'test/v45-source-safe-e2e-rehearsal.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol/test/v45-source-safe-e2e-rehearsal.test.js must pass.');
+      failures.push('packages/specifying/test/v45-source-safe-e2e-rehearsal.test.js must pass.');
     }
   }
 

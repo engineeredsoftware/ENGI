@@ -70,10 +70,10 @@ The agent processes document attachments through comprehensive analysis:
 
 ```typescript
 const analysis = await processDocument({
-  attachmentId: "doc123",
-  documentUrl: "https://example.com/spec.pdf",
-  documentFormat: "pdf",
-  taskDescription: "Extract API requirements for authentication system"
+ attachmentId: "doc123",
+ documentUrl: "https://example.com/spec.pdf",
+ documentFormat: "pdf",
+ taskDescription: "Extract API requirements for authentication system"
 });
 ```
 
@@ -82,28 +82,28 @@ const analysis = await processDocument({
 ### Document Analysis Result
 ```typescript
 {
-  metadata: {
-    format: string,
-    pageCount?: number,
-    fileSize: number,
-    hasImages: boolean,
-    hasTables: boolean
-  },
-  content: {
-    fullText: string,
-    structure: DocumentStructure,
-    extractedData: Record<string, any>
-  },
-  analysis: {
-    documentType: 'specification' | 'requirements' | 'api-docs' | 'manual' | 'data' | 'other',
-    technicalTerms: string[],
-    requirements: string[],
-    specifications: string[],
-    actionItems: string[],
-    keyTopics: string[]
-  },
-  relevanceScore: number,
-  keyInsights: string[]
+ metadata: {
+ format: string,
+ pageCount?: number,
+ fileSize: number,
+ hasImages: boolean,
+ hasTables: boolean
+ },
+ content: {
+ fullText: string,
+ structure: DocumentStructure,
+ extractedData: Record<string, any>
+ },
+ analysis: {
+ documentType: 'specification' | 'requirements' | 'api-docs' | 'manual' | 'data' | 'other',
+ technicalTerms: string[],
+ requirements: string[],
+ specifications: string[],
+ actionItems: string[],
+ keyTopics: string[]
+ },
+ relevanceScore: number,
+ keyInsights: string[]
 }
 ```
 

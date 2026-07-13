@@ -1,5 +1,5 @@
 /**
- * @bitcode/conversations-generics - Conversation domain types and utilities
+ * @bitcode/conversations - Conversation domain types and utilities
  * 
  * This package provides Bitcode V26 Terminal conversation type definitions
  * for conversations, messages, and attachments. No database access here - that's in ORM.

@@ -11,7 +11,7 @@ import {
   REPOSITORY_PROVIDERS,
   TERMINAL_REPOSITORY_PROVIDERS,
 } from '@/components/bitcode/pipeline/models/repository-context';
-import type { VCSBranch, VCSCommit, VCSRepository } from '@bitcode/vcs-core';
+import type { VCSBranch, VCSCommit, VCSRepository } from '@bitcode/vcs-generics-core';
 
 const repos = [
   { id: '1', name: 'alpha', fullName: 'org/alpha' },

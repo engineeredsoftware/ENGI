@@ -1,6 +1,7 @@
+'use client';
+
 // File: uapi/components/bitcode/layout/sidebars/left-sidebar.tsx
 
-"use client";
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';

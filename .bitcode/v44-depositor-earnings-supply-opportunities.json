@@ -142,12 +142,12 @@
     "parity": "BITCODE_SPEC_V44_PARITY_MATRIX.md:533bbfe052c5c8469c31c1af",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
     "readme": "README.md:14085be712ec8e13c811c62a",
-    "protocolReadme": "packages/protocol/README.md:1a81b9507325d3a5da87f627",
+    "protocolReadme": "packages/specifying/README.md:1a81b9507325d3a5da87f627",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:379d7561d515468f9237bf02",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:ab37403273c35c918071e3cd",
-    "economicModel": "packages/protocol/src/canonical/v44-economic-domain-model.js:2376c461d422d5eb4cb62da4",
-    "portfolioMarketIntelligence": "packages/protocol/src/canonical/v44-packs-portfolio-market-intelligence.js:a0896aad55f7d44b0e70b1b1",
+    "economicModel": "packages/specifying/src/canonical/v44-economic-domain-model.js:2376c461d422d5eb4cb62da4",
+    "portfolioMarketIntelligence": "packages/specifying/src/canonical/v44-packs-portfolio-market-intelligence.js:a0896aad55f7d44b0e70b1b1",
     "optionPolicy": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts:12816b23b2d8e304ab4a1638",
     "earningSupplyIntelligence": "packages/asset-packs-pipelines/domain/src/depositor-earning-supply-intelligence.ts:e0ec2d83cfaf3bfaaa126387",
     "earningSupplyIntelligenceTest": "packages/asset-packs-pipelines/domain/src/__tests__/depositor-earning-supply-intelligence.test.ts:f881826a57f6572c554cb0ee",
@@ -158,10 +158,10 @@
     "assetPackPackageIndex": "packages/asset-packs-pipelines/domain/src/index.ts:518ba39d54cec9fe2e372f4e",
     "assetPackPackageManifest": "packages/asset-packs-pipelines/domain/package.json:6e9dd21d8ac1fb420997527a",
     "sourceToShares": "packages/btd/src/source-to-shares.ts:6e2e84251b29ba2477766708",
-    "packageIndex": "packages/protocol/src/index.js:fdc9c740328fe41b9c7134c8",
-    "packageTypes": "packages/protocol/src/index.d.ts:df3330e66cf6b01b41c762ee",
-    "packageSource": "packages/protocol/src/canonical/v44-depositor-earnings-supply-opportunities.js:05a81112fb9a669816f537ea",
-    "packageTest": "packages/protocol/test/v44-depositor-earnings-supply-opportunities.test.js:1b025c1904f94a1069b64ddf",
+    "packageIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "packageTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "packageSource": "packages/specifying/src/canonical/v44-depositor-earnings-supply-opportunities.js:05a81112fb9a669816f537ea",
+    "packageTest": "packages/specifying/test/v44-depositor-earnings-supply-opportunities.test.js:1b025c1904f94a1069b64ddf",
     "generator": "scripts/generate-v44-depositor-earnings-supply-opportunities.mjs:0844124207cbfe8264f12a2f",
     "checker": "scripts/check-v44-gate5-depositor-earnings-supply-opportunities.mjs:85467da9804f946a18c764ce"
   },
@@ -208,17 +208,17 @@
     },
     {
       "id": "protocol-readme-records-gate5",
-      "sourcePath": "packages/protocol/README.md",
+      "sourcePath": "packages/specifying/README.md",
       "passed": true
     },
     {
       "id": "economic-model-prerequisite-present",
-      "sourcePath": "packages/protocol/src/canonical/v44-economic-domain-model.js",
+      "sourcePath": "packages/specifying/src/canonical/v44-economic-domain-model.js",
       "passed": true
     },
     {
       "id": "portfolio-market-prerequisite-present",
-      "sourcePath": "packages/protocol/src/canonical/v44-packs-portfolio-market-intelligence.js",
+      "sourcePath": "packages/specifying/src/canonical/v44-packs-portfolio-market-intelligence.js",
       "passed": true
     },
     {
@@ -293,17 +293,17 @@
     },
     {
       "id": "package-test-covers-gate5",
-      "sourcePath": "packages/protocol/test/v44-depositor-earnings-supply-opportunities.test.js",
+      "sourcePath": "packages/specifying/test/v44-depositor-earnings-supply-opportunities.test.js",
       "passed": true
     },
     {
       "id": "package-exports-gate5",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {
       "id": "package-types-export-gate5",
-      "sourcePath": "packages/protocol/src/index.d.ts",
+      "sourcePath": "packages/specifying/src/index.d.ts",
       "passed": true
     },
     {

@@ -1,4 +1,4 @@
-# @bitcode/google-analytics
+# @bitcode/external-telemetry-google
 
 Type-safe Google Analytics (GA4) wrapper for the Bitcode platform. Provides robust analytics tracking with graceful degradation and server-side support.
 
@@ -13,34 +13,34 @@ Type-safe Google Analytics (GA4) wrapper for the Bitcode platform. Provides robu
 ## Client-Side API
 
 ```typescript
-import { trackEvent, setUserProperties, init } from '@bitcode/google-analytics';
+import { trackEvent, setUserProperties, init } from '@bitcode/external-telemetry-google';
 
 // Initialize GA4
 init({ measurementId: 'G-XXXXXXXXXX' });
 
 // Track events
 trackEvent('page_view', {
-  event_category: 'engagement',
-  page_title: 'Dashboard'
+ event_category: 'engagement',
+ page_title: 'Dashboard'
 });
 
 // Set user properties
 setUserProperties({
-  user_type: 'premium',
-  subscription_tier: 'pro'
+ user_type: 'premium',
+ subscription_tier: 'pro'
 });
 ```
 
 ## Server-Side API
 
 ```typescript
-import { sendServerEvent } from '@bitcode/google-analytics';
+import { sendServerEvent } from '@bitcode/external-telemetry-google';
 
 // Send critical backend events
 await sendServerEvent('purchase', {
-  transaction_id: 'txn_123',
-  value: 99.99,
-  currency: 'USD'
+ transaction_id: 'txn_123',
+ value: 99.99,
+ currency: 'USD'
 });
 ```
 

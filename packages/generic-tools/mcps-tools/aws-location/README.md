@@ -32,14 +32,14 @@ import { awsLocationGeospatialQueryTool } from '@bitcode/generic-tools-mcps-aws-
 
 // Execute geospatial query
 const locationResults = await awsLocationGeospatialQueryTool({
-  queryType: 'proximity',
-  coordinates: [longitude, latitude],
-  radius: 5000,
-  placeIndex: 'production-places',
-  filters: {
-    category: 'restaurant',
-    minRating: 4.0
-  }
+ queryType: 'proximity',
+ coordinates: [longitude, latitude],
+ radius: 5000,
+ placeIndex: 'production-places',
+ filters: {
+ category: 'restaurant',
+ minRating: 4.0
+ }
 });
 ```
 

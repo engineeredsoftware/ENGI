@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V46_PROOF_READBACK_OPERATOR_EXPLANATION_ARTIFACT_PATH,
   buildV46ProofReadbackOperatorExplanation,
-} from '../packages/protocol/src/canonical/v46-proof-readback-operator-explanation.js';
+} from '../packages/specifying/src/canonical/v46-proof-readback-operator-explanation.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

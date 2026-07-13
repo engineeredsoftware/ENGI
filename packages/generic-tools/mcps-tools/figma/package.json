@@ -1,5 +1,5 @@
 {
-  "name": "@bitcode/figma-tools",
+  "name": "@bitcode/generic-tools-mcps-figma",
   "version": "1.0.0",
   "description": "Figma MCP tool wrappers for Bitcode agents",
   "main": "./src/index.js",

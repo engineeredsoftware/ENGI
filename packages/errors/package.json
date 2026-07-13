@@ -16,6 +16,6 @@
     "src"
   ],
   "dependencies": {
-    "@bitcode/sentry": "workspace:*"
+    "@bitcode/external-telemetry-sentry": "workspace:*"
   }
 }

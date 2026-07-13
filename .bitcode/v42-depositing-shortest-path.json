@@ -12,8 +12,8 @@
       "rowId": "path:source-to-admission-proof",
       "purpose": "Make the shortest Depositing path explicit: source material, repository/source anchor, Depository admission, source-safe proof roots, and next Reading handoff.",
       "sourceRoots": [
-        "packages/protocol/server.js",
-        "packages/protocol/src/bitcode-demo.js",
+        "packages/specifying/server.js",
+        "packages/specifying/src/bitcode-demo.js",
         "uapi/app/api/deposits/route.ts",
         "uapi/app/terminal/TerminalDepositComposer.tsx"
       ],
@@ -54,8 +54,8 @@
       "purpose": "Keep POST /api/deposits admitted only after signed transaction and repository readiness checks, then project source-safe Depository evidence.",
       "sourceRoots": [
         "uapi/app/api/deposits/route.ts",
-        "packages/protocol/server.js",
-        "packages/protocol/test/protocol-package-boundary.test.js"
+        "packages/specifying/server.js",
+        "packages/specifying/test/protocol-package-boundary.test.js"
       ],
       "emittedTypes": [
         "requireBitcodeSignedTransactionReadiness",
@@ -201,9 +201,9 @@
       "rowId": "ledger:source-to-shares-compensation-readback",
       "purpose": "Record depositor compensation visibility through pending-claim and eligible-route ledger keys while deferring actual BTC allocation until paid AssetPack settlement.",
       "sourceRoots": [
-        "packages/protocol/server.js",
-        "packages/protocol/src/bitcode-demo.js",
-        "packages/protocol/test/protocol-package-boundary.test.js"
+        "packages/specifying/server.js",
+        "packages/specifying/src/bitcode-demo.js",
+        "packages/specifying/test/protocol-package-boundary.test.js"
       ],
       "emittedTypes": [
         "ledger.accounts",
@@ -330,17 +330,17 @@
     },
     {
       "id": "server-creates-deposit-and-ledger-readback",
-      "sourcePath": "packages/protocol/server.js",
+      "sourcePath": "packages/specifying/server.js",
       "passed": true
     },
     {
       "id": "runtime-builds-compensation-preview",
-      "sourcePath": "packages/protocol/src/bitcode-demo.js",
+      "sourcePath": "packages/specifying/src/bitcode-demo.js",
       "passed": true
     },
     {
       "id": "runtime-keeps-source-safe-visibility",
-      "sourcePath": "packages/protocol/src/bitcode-demo.js",
+      "sourcePath": "packages/specifying/src/bitcode-demo.js",
       "passed": true
     },
     {
@@ -375,7 +375,7 @@
     },
     {
       "id": "protocol-test-covers-compensation-route",
-      "sourcePath": "packages/protocol/test/protocol-package-boundary.test.js",
+      "sourcePath": "packages/specifying/test/protocol-package-boundary.test.js",
       "passed": true
     },
     {
@@ -466,9 +466,9 @@
     "depositorySupplyIndexTest": "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts",
     "embeddingConfig": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
     "assetPackReadme": "packages/asset-packs-pipelines/domain/README.md",
-    "protocolServer": "packages/protocol/server.js",
-    "protocolRuntime": "packages/protocol/src/bitcode-demo.js",
-    "protocolBoundaryTest": "packages/protocol/test/protocol-package-boundary.test.js",
+    "protocolServer": "packages/specifying/server.js",
+    "protocolRuntime": "packages/specifying/src/bitcode-demo.js",
+    "protocolBoundaryTest": "packages/specifying/test/protocol-package-boundary.test.js",
     "uapiDepositRoute": "uapi/app/api/deposits/route.ts",
     "terminalDepositComposer": "uapi/app/terminal/TerminalDepositComposer.tsx",
     "terminalActivityHistory": "uapi/app/terminal/terminal-activity-history.ts",

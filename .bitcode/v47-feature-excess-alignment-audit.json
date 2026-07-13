@@ -187,10 +187,10 @@
     "exchangeReadme": "uapi/app/exchange/README.md:3a0b7052de6be76fcda2b094",
     "btdDetailPage": "uapi/app/btd/[assetPackId]/page.tsx:b94efe66179c2a2a27bde659",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
-    "protocolIndex": "packages/protocol/src/index.js:fdc9c740328fe41b9c7134c8",
-    "protocolTypes": "packages/protocol/src/index.d.ts:df3330e66cf6b01b41c762ee",
-    "protocolSource": "packages/protocol/src/canonical/v47-feature-excess-alignment-audit.js:3b2f56997d5b108960a5c9e2",
-    "protocolTest": "packages/protocol/test/v47-feature-excess-alignment-audit.test.js:d4eb230b98bcbc3ee18af459",
+    "protocolIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "protocolTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "protocolSource": "packages/specifying/src/canonical/v47-feature-excess-alignment-audit.js:3b2f56997d5b108960a5c9e2",
+    "protocolTest": "packages/specifying/test/v47-feature-excess-alignment-audit.test.js:d4eb230b98bcbc3ee18af459",
     "generator": "scripts/generate-v47-feature-excess-alignment-audit.mjs:1132b37cd29dddc216db998d",
     "checker": "scripts/check-v47-gate2-feature-excess-alignment-audit.mjs:007c139e5c0a60e0d621e7f4",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",
@@ -284,17 +284,17 @@
     },
     {
       "id": "protocol-test-covers-artifact",
-      "sourcePath": "packages/protocol/test/v47-feature-excess-alignment-audit.test.js",
+      "sourcePath": "packages/specifying/test/v47-feature-excess-alignment-audit.test.js",
       "passed": true
     },
     {
       "id": "protocol-package-exports-gate2",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {
       "id": "protocol-types-export-gate2",
-      "sourcePath": "packages/protocol/src/index.d.ts",
+      "sourcePath": "packages/specifying/src/index.d.ts",
       "passed": true
     },
     {

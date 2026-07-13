@@ -22,7 +22,7 @@ describe('Reading pipeline contracts', () => {
           expect(agent.kind).toBe('ptrr-agent');
           expect(agent.agentId.startsWith(`${contract.pipelineName}.`)).toBe(true);
           expect(agent.objectiveId.startsWith(`${contract.pipelineName}.`)).toBe(true);
-          expect(agent.promptRegistry.factory).toBe('factoryAgentWithPTRR');
+          expect(agent.promptRegistry.factory).toBe('factoryPTRRAgent');
           expect(agent.promptRegistry.carrier).toBe('prompt+stepPrompts');
           expect(agent.promptRegistry.agentPromptId.startsWith(`${contract.pipelineName}.prompt.`)).toBe(true);
           expect(agent.promptRegistry.promptPartNamespaces).toEqual({

@@ -62,7 +62,7 @@
   "dependencies": {
     "@bitcode/execution-generics": "workspace:*",
     "@bitcode/registry": "workspace:*",
-    "@bitcode/doc-comment": "workspace:*"
+    "@bitcode/doc-comment-generics": "workspace:*"
   },
   "devDependencies": {
     "@jest/globals": "^29.0.0",

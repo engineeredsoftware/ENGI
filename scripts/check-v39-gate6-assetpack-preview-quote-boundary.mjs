@@ -119,8 +119,8 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/index.ts',
     'packages/asset-packs-pipelines/domain/package.json',
     'packages/asset-packs-pipelines/domain/README.md',
-    'packages/protocol/src/canonical/v39-assetpack-preview-quote-boundary.js',
-    'packages/protocol/test/v39-assetpack-preview-quote-boundary.test.js',
+    'packages/specifying/src/canonical/v39-assetpack-preview-quote-boundary.js',
+    'packages/specifying/test/v39-assetpack-preview-quote-boundary.test.js',
     'scripts/generate-v39-assetpack-preview-quote-boundary.mjs',
     'scripts/check-v39-gate6-assetpack-preview-quote-boundary.mjs',
     'BITCODE_SPEC_V39.md',
@@ -129,7 +129,7 @@ function main() {
     'BITCODE_SPEC_V39_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -152,7 +152,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v39-assetpack-preview-quote-boundary.test.js',
+        'packages/specifying/test/v39-assetpack-preview-quote-boundary.test.js',
       ]);
     } catch (error) {
       failures.push(`V39 AssetPack preview quote boundary protocol test failed: ${error.stderr || error.message}`);

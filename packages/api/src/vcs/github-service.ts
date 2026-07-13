@@ -7,8 +7,8 @@
  * - Repository operations with proper auth
  */
 
-import { VCSProviderFactory, VCSAuth, VCSCache } from '@bitcode/vcs';
-import { GitHubAppAuth } from '@bitcode/github';
+import { VCSProviderFactory, VCSAuth, VCSCache } from '@bitcode/vcs-generics';
+import { GitHubAppAuth } from '@bitcode/generic-vcs-github';
 import { log } from '@bitcode/logger';
 
 export interface GitHubConnectionData {

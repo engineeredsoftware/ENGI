@@ -12,7 +12,6 @@
  * Tools and schemas are injected automatically at execution time.
  * Each level adds minimal context that applies to all its children.
  *
- * Legacy SubStep / Meta names are BC aliases only — do not use in new code.
  */
 
 export { AgentPrompt, type AgentPromptConfig } from './AgentPrompt';
@@ -21,11 +20,5 @@ export { FailsafeGenerationPrompt, type FailsafeGenerationPromptConfig } from '.
 export { ThinkingsGenerationPrompt, type ThinkingsGenerationPromptConfig } from './ThinkingsGenerationPrompt';
 export { ToolExecutionPrompt, type ToolExecutionPromptConfig } from './ToolExecutionPrompt';
 
-/** @deprecated Prefer FailsafeGenerationPrompt */
-export { FailsafeGenerationPrompt as FailsafeMetaSubStepPrompt } from './FailsafeGenerationPrompt';
 /** @deprecated Prefer FailsafeGenerationPromptConfig */
-export type { FailsafeGenerationPromptConfig as FailsafeMetaSubStepPromptConfig } from './FailsafeGenerationPrompt';
-/** @deprecated Prefer ThinkingsGenerationPrompt */
-export { ThinkingsGenerationPrompt as AgentGenerationSubStepPrompt } from './ThinkingsGenerationPrompt';
-/** @deprecated Prefer ThinkingsGenerationPromptConfig */
 export type { ThinkingsGenerationPromptConfig as AgentGenerationSubStepPromptConfig } from './ThinkingsGenerationPrompt';

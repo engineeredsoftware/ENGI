@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V46_PROOF_READBACK_OPERATOR_EXPLANATION_ARTIFACT_PATH,
   buildV46ProofReadbackOperatorExplanation,
-} from '../packages/protocol/src/canonical/v46-proof-readback-operator-explanation.js';
+} from '../packages/specifying/src/canonical/v46-proof-readback-operator-explanation.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -81,8 +81,8 @@ function main() {
 
   for (const relativePath of [
     V46_PROOF_READBACK_OPERATOR_EXPLANATION_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v46-proof-readback-operator-explanation.js',
-    'packages/protocol/test/v46-proof-readback-operator-explanation.test.js',
+    'packages/specifying/src/canonical/v46-proof-readback-operator-explanation.js',
+    'packages/specifying/test/v46-proof-readback-operator-explanation.test.js',
     'scripts/generate-v46-proof-readback-operator-explanation.mjs',
     'scripts/check-v46-gate6-proof-readback-operator-explanation.mjs',
     'BITCODE_SPEC_V46.md',
@@ -160,7 +160,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'packages/specifying',
         'exec',
         'node',
         '--test',
@@ -168,7 +168,7 @@ function main() {
         'test/v46-proof-readback-operator-explanation.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol/test/v46-proof-readback-operator-explanation.test.js must pass.');
+      failures.push('packages/specifying/test/v46-proof-readback-operator-explanation.test.js must pass.');
     }
   }
 

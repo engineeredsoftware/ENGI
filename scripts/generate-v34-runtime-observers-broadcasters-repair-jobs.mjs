@@ -162,7 +162,7 @@ const jobRows = Object.freeze([
     jobId: 'generated_proof_job',
     label: 'generated proof job',
     jobClass: 'generated_proof_job',
-    ownerPackage: 'packages/protocol',
+    ownerPackage: 'packages/specifying',
     requiredHostIds: ['proof_services', 'repair_jobs'],
     supportedLaneIds: nonValueLanes,
     observerId: 'observer.generated_proof.freshness',

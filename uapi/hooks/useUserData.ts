@@ -7,11 +7,11 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import { normalizeAuxillarySteps } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
-import { bitcodeQaTelemetry, compactBitcodeAddress } from '../lib/bitcode-qa-telemetry';
+import { bitcodeQaTelemetry, compactBitcodeAddress } from '@bitcode/auth/qa-telemetry';
 import {
   BITCODE_LOCAL_WALLET_EVENT,
   mergeLocalBitcodeWalletIdentity,
-} from '@/lib/bitcode-wallet-local';
+} from '@bitcode/auth/wallet-local';
 import { readBitcodeWalletCapabilityFromProfile } from '@bitcode/orm';
 
 type UserRepositoryInventorySource =

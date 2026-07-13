@@ -57,8 +57,6 @@ export interface PTRRStepGenerationArchitecture {
   total: 7; // Type-level assertion
 }
 
-/** @deprecated Prefer PTRRStepGenerationArchitecture */
-export type PTRRSubStepArchitecture = PTRRStepGenerationArchitecture;
 
 /**
  * Failsafe execution context - what each failsafe handles

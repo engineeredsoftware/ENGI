@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Reading route state aside — session, authority, procurement, measurement,
  * settlement, and pack-activity panels. Presentational only.
  */
-"use client";
 
 import React from "react";
 import Link from "next/link";

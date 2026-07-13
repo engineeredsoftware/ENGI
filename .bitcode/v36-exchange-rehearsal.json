@@ -469,8 +469,8 @@
         ".bitcode/v36-exchange-settlement-reconciliation.json",
         ".bitcode/v36-exchange-dispute-repair-revenue-route.json",
         ".bitcode/v36-exchange-ux-proof.json",
-        "packages/protocol/src/canonical/exchange-settlement-reconciliation.js",
-        "packages/protocol/src/canonical/exchange-dispute-repair-revenue-route.js",
+        "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
+        "packages/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
         "uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx",
         "uapi/app/terminal/terminal-journal-reconciliation.ts"
       ],
@@ -587,11 +587,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-settlement-reconciliation.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
           "present": true
         },
         {
@@ -648,7 +648,7 @@
         "uapi/app/exchange/ExchangePageClient.tsx",
         "uapi/app/terminal/TerminalTransactionActivitySurface.tsx",
         "uapi/tests/pipelineExecutionLogHeader.test.tsx",
-        "packages/protocol/src/canonical/exchange-ux-proof.js"
+        "packages/specifying/src/canonical/exchange-ux-proof.js"
       ],
       "ledgerDatabaseSyncChecks": [
         "exchange.source-safe-log-root-to-event-root.root"
@@ -773,7 +773,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-ux-proof.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-ux-proof.js",
           "present": true
         }
       ],
@@ -826,9 +826,9 @@
         ".bitcode/v36-exchange-dispute-repair-revenue-route.json",
         ".bitcode/v36-exchange-ux-proof.json",
         "BITCODE_SPEC_V36.md",
-        "packages/protocol/src/canonical/exchange-pricing-quote.js",
-        "packages/protocol/src/canonical/exchange-settlement-reconciliation.js",
-        "packages/protocol/src/canonical/exchange-rights-transfer-review.js"
+        "packages/specifying/src/canonical/exchange-pricing-quote.js",
+        "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
+        "packages/specifying/src/canonical/exchange-rights-transfer-review.js"
       ],
       "ledgerDatabaseSyncChecks": [
         "value-bearing-mainnet.exchange.non-admission.root",
@@ -952,15 +952,15 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-pricing-quote.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-pricing-quote.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-settlement-reconciliation.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-rights-transfer-review.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-rights-transfer-review.js",
           "present": true
         }
       ],
@@ -1265,11 +1265,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-settlement-reconciliation.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-dispute-repair-revenue-route.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
           "present": true
         },
         {
@@ -1347,7 +1347,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-ux-proof.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-ux-proof.js",
           "present": true
         }
       ]
@@ -1409,15 +1409,15 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-pricing-quote.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-pricing-quote.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-settlement-reconciliation.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-rights-transfer-review.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-rights-transfer-review.js",
           "present": true
         }
       ]

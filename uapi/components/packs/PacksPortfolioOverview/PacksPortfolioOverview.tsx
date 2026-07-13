@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Packs portfolio positions + market intelligence overview cards.
  */
-"use client";
 
 import React from "react";
 import { Building2, LineChart, SlidersHorizontal } from "lucide-react";

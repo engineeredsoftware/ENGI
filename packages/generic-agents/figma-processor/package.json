@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@bitcode/agent-generics": "workspace:*",
-    "@bitcode/figma-tools": "workspace:*",
+    "@bitcode/generic-tools-mcps-figma": "workspace:*",
     "@bitcode/logger": "workspace:*",
     "@bitcode/observability": "workspace:*",
     "zod": "^3.20.0"

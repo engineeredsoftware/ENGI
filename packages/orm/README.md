@@ -25,16 +25,16 @@ const adminClient = createAdminClient();
 ## Model Usage
 
 ```typescript
-import { 
-  UsersModel, 
-  AssetPackEvidenceModel, 
-  ConversationsModel 
+import {
+ UsersModel,
+ AssetPackEvidenceModel,
+ ConversationsModel
 } from '@bitcode/orm';
 
 // List user AssetPack evidence
 const assetPackEvidence = await client.assetPackEvidence.list({
-  filter: { status: 'completed' },
-  limit: 10
+ filter: { status: 'completed' },
+ limit: 10
 });
 
 // AssetPack evidence vectors

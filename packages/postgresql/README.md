@@ -11,23 +11,23 @@ PostgreSQL database management tools for the Bitcode platform. Provides schema i
 ## Usage
 
 ```typescript
-import { 
-  postgresqlListTablesTool,
-  postgresqlDescribeTableTool,
-  postgresqlRunQueryTool 
+import {
+ postgresqlListTablesTool,
+ postgresqlDescribeTableTool,
+ postgresqlRunQueryTool
 } from '@bitcode/postgresql';
 
 // List database tables
 const tables = await postgresqlListTablesTool();
 
 // Describe table structure
-const tableInfo = await postgresqlDescribeTableTool({ 
-  table: 'conversations' 
+const tableInfo = await postgresqlDescribeTableTool({
+ table: 'conversations'
 });
 
 // Execute query
-const results = await postgresqlRunQueryTool({ 
-  sql: 'SELECT * FROM users WHERE created_at > NOW() - INTERVAL \'1 day\'' 
+const results = await postgresqlRunQueryTool({
+ sql: 'SELECT * FROM users WHERE created_at > NOW() - INTERVAL \'1 day\''
 });
 ```
 

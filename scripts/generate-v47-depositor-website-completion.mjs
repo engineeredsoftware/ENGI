@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_DEPOSITOR_WEBSITE_COMPLETION_ARTIFACT_PATH,
   buildV47DepositorWebsiteCompletion,
-} from '../packages/protocol/src/canonical/v47-depositor-website-completion.js';
+} from '../packages/specifying/src/canonical/v47-depositor-website-completion.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

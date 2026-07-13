@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V39_ENTERPRISE_READING_UX_STATE_ARTIFACT_PATH,
   buildV39EnterpriseReadingUxState,
-} from '../packages/protocol/src/canonical/v39-enterprise-reading-ux-state.js';
+} from '../packages/specifying/src/canonical/v39-enterprise-reading-ux-state.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

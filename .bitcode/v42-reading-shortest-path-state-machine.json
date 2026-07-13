@@ -343,7 +343,7 @@
         "BITCODE_SPEC_V42_PARITY_MATRIX.md",
         "SPECIFICATIONS_ROADMAP.md",
         "README.md",
-        "packages/protocol/README.md"
+        "packages/specifying/README.md"
       ],
       "emittedTypes": [
         "V42ReadingShortestPathStateMachineReport"
@@ -570,6 +570,6 @@
     "roadmap": "SPECIFICATIONS_ROADMAP.md",
     "rootReadme": "README.md",
     "terminalReadme": "uapi/app/terminal/README.md",
-    "protocolReadme": "packages/protocol/README.md"
+    "protocolReadme": "packages/specifying/README.md"
   }
 }

@@ -41,7 +41,7 @@ export type { FileOperation, DirectoryOperation };
  * @returns Complete absolute path (e.g. "/home/user/tmp/bitcode/repo/src/thing.py")
  */
 export function absolutifyPath(filePath: string): string {
-  const repoPath = getGlobalContext().repoPath!;
+  const repoPath = getGlobalContext().rootDir;
 
   // Remove leading slash if present for consistency
   const cleanPath = filePath.startsWith('/') ? filePath.slice(1) : filePath;

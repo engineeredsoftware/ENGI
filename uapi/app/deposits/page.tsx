@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 
 import PublicShellFrame from '@/components/marketing/PublicShellFrame/PublicShellFrame';
 
-import DepositPageClient from './DepositPageClient';
+import DepositPageClient from '@/components/deposits/DepositPageClient/DepositPageClient';
 
 export const metadata: Metadata = {
   title: 'Bitcode Deposits',

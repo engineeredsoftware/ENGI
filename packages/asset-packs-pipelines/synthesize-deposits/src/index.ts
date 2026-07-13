@@ -55,13 +55,3 @@ export const synthesizeDepositAssetPacksSDIVFPipeline: SynthesizeDepositAssetPac
   factorySynthesizeDepositAssetPacksSDIVFPipeline();
 
 export const runSynthesizeDepositAssetPacksSDIVFPipeline = synthesizeDepositAssetPacksSDIVFPipeline;
-
-// --- BC short aliases (pre-rename names) ---
-/** @deprecated Prefer SynthesizeDepositAssetPacksSDIVFPipeline */
-export type SynthesizeDepositsSDIVFPipeline = SynthesizeDepositAssetPacksSDIVFPipeline;
-/** @deprecated Prefer factorySynthesizeDepositAssetPacksSDIVFPipeline */
-export const factorySynthesizeDepositsSDIVFPipeline = factorySynthesizeDepositAssetPacksSDIVFPipeline;
-/** @deprecated Prefer synthesizeDepositAssetPacksSDIVFPipeline */
-export const synthesizeDepositsSDIVFPipeline = synthesizeDepositAssetPacksSDIVFPipeline;
-/** @deprecated Prefer runSynthesizeDepositAssetPacksSDIVFPipeline */
-export const runSynthesizeDepositsSDIVFPipeline = runSynthesizeDepositAssetPacksSDIVFPipeline;

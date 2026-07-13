@@ -630,7 +630,7 @@
         "packs:inspect-activity-repair"
       ],
       "sourceRoots": [
-        "packages/protocol/test/v43-cross-route-rehearsal-telemetry-repair.test.js",
+        "packages/specifying/test/v43-cross-route-rehearsal-telemetry-repair.test.js",
         "package.json",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml"
@@ -765,12 +765,12 @@
     },
     {
       "id": "protocol-test-wired",
-      "sourcePath": "packages/protocol/test/v43-cross-route-rehearsal-telemetry-repair.test.js",
+      "sourcePath": "packages/specifying/test/v43-cross-route-rehearsal-telemetry-repair.test.js",
       "passed": true
     },
     {
       "id": "protocol-exports-wired",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {

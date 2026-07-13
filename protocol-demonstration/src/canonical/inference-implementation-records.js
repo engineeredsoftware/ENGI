@@ -324,7 +324,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     canonicalRead: 'Provide the rich-input Bitcode write surface that binds conversation prompts, attachments, tool registration, streams, and ad hoc execution continuity.',
     promptImplementation: {
       owners: [
-        'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+        'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
         'uapi/prompts/bitcode-terminal-system-prompt.ts'
       ],
       rawPromptPartBoundary: 'conversation system prompt plus app-level binding',
@@ -332,11 +332,11 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       runtimeCarryThrough: 'Conversation prompt binding must stay aligned with rich-input execution and app route state.'
     },
     toolImplementation: {
-      owners: ['packages/conversations-generics/src/agent/ConversationAgent.ts'],
+      owners: ['packages/conversations/src/agent/ConversationAgent.ts'],
       contract: 'Conversation tools are registered through the conversation agent and app-facing rich-input surface.'
     },
     agentImplementation: {
-      owners: ['packages/conversations-generics/src/agent/ConversationAgent.ts'],
+      owners: ['packages/conversations/src/agent/ConversationAgent.ts'],
       contract: 'ConversationAgent owns conversation bootstrap, tool registration, and rich-input inference posture.'
     },
     executionImplementation: {
@@ -358,8 +358,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       '.bitcode/conversations-continuity-proof.json'
     ],
     sourceEvidenceRefs: [
-      'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
-      'packages/conversations-generics/src/agent/ConversationAgent.ts',
+      'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+      'packages/conversations/src/agent/ConversationAgent.ts',
       'uapi/prompts/bitcode-terminal-system-prompt.ts',
       'packages/api/src/conversations/conversations.ts',
       'packages/api/src/conversations/streaming.ts',
@@ -391,7 +391,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       owners: [
         'packages/asset-packs-pipelines/domain/src/tools/AssetPackCloneVCSRepositoryTool.ts',
         'packages/asset-packs-pipelines/domain/src/tools/search.ts',
-        'packages/system-grep/src/index.ts',
+        'packages/host-commands/grep/src/index.ts',
         'packages/generic-tools/simple-system-text-search/src/index.ts',
         'packages/generic-tools/files-maintaining/src/index.ts',
         'packages/generic-tools/files-maintaining/src/prompts/TextEditorDocCodeToolPrompt.ts',
@@ -456,8 +456,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/generic-agents/text-searcher/src/prompts/try-prompt-text-searcher.ts',
       'packages/generic-agents/text-searcher/src/prompts/refine-prompt-text-searcher.ts',
       'packages/generic-agents/text-searcher/src/prompts/retry-prompt-text-searcher.ts',
-      'packages/system-grep/README.md',
-      'packages/system-grep/src/index.ts',
+      'packages/host-commands/grep/README.md',
+      'packages/host-commands/grep/src/index.ts',
       'packages/generic-tools/simple-system-text-search/package.json',
       'packages/generic-tools/simple-system-text-search/README.md',
       'packages/generic-tools/simple-system-text-search/src/index.ts',
@@ -813,8 +813,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     canonicalRead: 'Admit Exchange-facing MCP and external interface operations as fail-closed ingress into Bitcode execution state, not as sibling product logic.',
     promptImplementation: {
       owners: [
-        'packages/executions-mcp/README.md',
-        'packages/executions-mcp/src/index.ts'
+        'packages/mcp-generics/README.md',
+        'packages/mcp-generics/src/index.ts'
       ],
       rawPromptPartBoundary: 'MCP tool descriptions only where admitted by V26 prompt/tool records',
       registryLayering: 'MCP ingress prompt descriptions may enter prompt-aware registries only as specific implementation layers bound to admitted Bitcode tool records.',
@@ -822,7 +822,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     toolImplementation: {
       owners: [
-        'packages/executions-mcp/src/index.ts',
+        'packages/mcp-generics/src/index.ts',
         'packages/tools-generics/src/mcp/MCPToolWrapper.ts'
       ],
       contract: 'Admitted Exchange-facing tool families are narrowed and create admission fails closed on permission, repository, and provider readiness.'
@@ -833,7 +833,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     executionImplementation: {
       owners: [
-        'packages/executions-mcp/src/index.ts',
+        'packages/mcp-generics/src/index.ts',
         'uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx'
       ],
       carriers: ['queue/run/execution creation', 'provider ingress', 'operator reread']
@@ -849,11 +849,11 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'pnpm -C packages/executions-mcp run typecheck'
     ],
     sourceEvidenceRefs: [
-      'packages/executions-mcp/package.json',
-      'packages/executions-mcp/README.md',
-      'packages/executions-mcp/src/index.ts',
-      'packages/executions-mcp/src/mcp-server/package.json',
-      'packages/executions-mcp/src/mcp-server/tsconfig.typecheck.json',
+      'packages/mcp-generics/package.json',
+      'packages/mcp-generics/README.md',
+      'packages/mcp-generics/src/index.ts',
+      'packages/mcp-generics/src/mcp-server/package.json',
+      'packages/mcp-generics/src/mcp-server/tsconfig.typecheck.json',
       'packages/tools-generics/src/mcp/MCPToolWrapper.ts',
       'uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx',
       'protocol-demonstration/V26_TERMINAL_SYSTEMS.md'

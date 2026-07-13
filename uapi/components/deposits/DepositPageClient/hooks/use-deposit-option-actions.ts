@@ -10,7 +10,7 @@ import {
   writeDepositRouteStage,
   type DepositRouteSession,
 } from "@/components/deposits/models/deposit-route-model";
-import type { DepositOptionReviewDecisionState } from "@bitcode/pipeline-asset-pack/deposit-asset-pack-option-admission";
+import type { DepositOptionReviewDecisionState } from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-admission";
 import type { TerminalActivityRecordDraft } from "@/components/bitcode/pipeline/models/pipeline-activity-history";
 
 export function useDepositOptionActions(input: {

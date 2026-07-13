@@ -82,7 +82,7 @@ const rows = Object.freeze([
     previewId: 'chatgpt-delivery',
     previewState: 'blocked_until_rights',
     rightsPosture: 'settlement_pending',
-    fixturePath: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+    fixturePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
     replayCommand:
       'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand',
     readableDenial: 'Reader confirmation and paid AssetPack rights are required before delivery.',
@@ -283,7 +283,7 @@ export function buildV33InterfaceConsumerUxRegressionProofArtifact() {
       'shares the package-owned InterfaceConsumerUxRegressionProof for MCP Finding Fits readability',
       'interface.consumer.mcp-finding-fits-readable',
     ]),
-    scanTokens('packages/chatgptapp/src/__tests__/tools.test.ts', [
+    scanTokens('packages/external-apps/chatgpt/src/__tests__/tools.test.ts', [
       'shares the package-owned InterfaceConsumerUxRegressionProof for ChatGPT App blocked delivery',
       'interface.consumer.chatgpt-delivery-blocked',
     ]),

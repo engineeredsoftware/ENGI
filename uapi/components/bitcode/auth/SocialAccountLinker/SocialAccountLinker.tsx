@@ -7,7 +7,7 @@ import { FcGoogle } from 'react-icons/fc'
 import ChatGPTIcon from '@/components/bitcode/icons/social/ChatGPTIcon/ChatGPTIcon'
 import MetamaskIcon from '@/components/bitcode/icons/social/MetamaskIcon/MetamaskIcon'
 import { toast } from '@/components/shadcn/Sonner/Sonner'
-import { buildSupabaseAuthCallbackRedirect } from '@/lib/supabase-auth-redirect'
+import { buildSupabaseAuthCallbackRedirect } from '@bitcode/auth/supabase-auth-redirect'
 import dynamic from 'next/dynamic'
 import type { AuthChangeEvent, Session } from '@supabase/supabase-js'
 

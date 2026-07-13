@@ -6,7 +6,7 @@ import { Button } from '@/components/shadcn/Button/Button';
 import { Badge } from '@/components/shadcn/Badge/Badge';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { GitBranch, Server, CheckCircle2, XCircle, RefreshCw, Trash2 } from 'lucide-react';
-import { VCSProviderType } from '@bitcode/vcs-core';
+import { VCSProviderType } from '@bitcode/vcs-generics-core';
 import { VCSConnectionButton } from '@/components/bitcode/vcs/VCSConnectionButton/VCSConnectionButton';
 import { toast } from '@/components/shadcn/Sonner/Sonner';
 import {

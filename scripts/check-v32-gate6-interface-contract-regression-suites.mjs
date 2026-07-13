@@ -132,7 +132,7 @@ function main() {
     'uapi/app/terminal/terminal-interface-integration-regression.ts',
     'uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
     'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-    'packages/chatgptapp/src/__tests__/tools.test.ts',
+    'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
     'BITCODE_SPEC_V32.md',
     'BITCODE_SPEC_V32_DELTA.md',
     'BITCODE_SPEC_V32_NOTES.md',

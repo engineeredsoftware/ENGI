@@ -30,7 +30,7 @@ Industrial authentication infrastructure providing dual-mode authentication capa
 
 ```typescript
 async function authenticateRequest(
-  request: Request
+ request: Request
 ): Promise<{ userId: string } | Response>
 ```
 
@@ -40,9 +40,9 @@ async function authenticateRequest(
 const auth = request.headers.get('Authorization') || '';
 const match = auth.match(/^Bearer\s+(.+)$/i);
 if (match) {
-  const apiKey = match[1];
-  // Database validation and expiration check
-  return { userId: validatedUserId };
+ const apiKey = match[1];
+ // Database validation and expiration check
+ return { userId: validatedUserId };
 }
 
 // 2. Session Cookie Fallback
@@ -55,16 +55,16 @@ return { userId: user.id };
 ```typescript
 // Invalid API Key Response
 {
-  error: 'Invalid API key',
-  status: 401,
-  headers: { 'Content-Type': 'application/json' }
+ error: 'Invalid API key',
+ status: 401,
+ headers: { 'Content-Type': 'application/json' }
 }
 
-// Expired API Key Response  
+// Expired API Key Response
 {
-  error: 'API key expired',
-  details: 'Expired at 2024-01-15T10:30:00Z',
-  status: 401
+ error: 'API key expired',
+ details: 'Expired at 2024-01-15T10:30:00Z',
+ status: 401
 }
 ```
 
@@ -74,10 +74,10 @@ return { userId: user.id };
 ```typescript
 // API Key Validation Query
 const { data: rec, error } = await supabaseAdmin
-  .from('user_api_keys')
-  .select('user_id, expire_at')
-  .eq('key', apiKey)
-  .single();
+ .from('user_api_keys')
+ .select('user_id, expire_at')
+ .eq('key', apiKey)
+ .single();
 ```
 
 ### Session Client Configuration
@@ -113,15 +113,15 @@ const { data: { user }, error } = await supabase.auth.getUser();
 ```typescript
 // Route Handler Integration
 export async function authenticatedHandler(request: Request) {
-  const authResult = await authenticateRequest(request);
-  
-  if ('userId' in authResult) {
-    // Process authenticated request
-    return handleAuthenticatedRequest(authResult.userId);
-  } else {
-    // Return authentication error
-    return authResult;
-  }
+ const authResult = await authenticateRequest(request);
+
+ if ('userId' in authResult) {
+ // Process authenticated request
+ return handleAuthenticatedRequest(authResult.userId);
+ } else {
+ // Return authentication error
+ return authResult;
+ }
 }
 ```
 
@@ -131,7 +131,7 @@ export async function authenticatedHandler(request: Request) {
 import { createAuthErrorResponse } from '@/lib/responses';
 
 if (error || !record) {
-  return createAuthErrorResponse('Invalid API key');
+ return createAuthErrorResponse('Invalid API key');
 }
 ```
 
@@ -141,10 +141,10 @@ if (error || !record) {
 import { supabaseAdmin } from '@bitcode/supabase';
 
 const validation = await supabaseAdmin
-  .from('user_api_keys')
-  .select('user_id, expire_at')
-  .eq('key', providedKey)
-  .single();
+ .from('user_api_keys')
+ .select('user_id, expire_at')
+ .eq('key', providedKey)
+ .single();
 ```
 
 ## Security Implementation

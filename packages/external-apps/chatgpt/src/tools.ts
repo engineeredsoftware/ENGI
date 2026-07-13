@@ -4,7 +4,7 @@ import { Buffer } from 'node:buffer';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 
-import { prepareConciseContext } from '@bitcode/context';
+import { prepareConciseContext } from '@bitcode/generic-generations-failsafes';
 import { Octokit } from '@octokit/rest';
 import { awsCloudWatchLogTool, awsDynamoGetItemTool, awsDynamoPutItemTool, awsLambdaInvokeTool, awsMcpTool, awsS3GetObjectTool, awsS3PutObjectTool } from '@bitcode/generic-tools-mcps-aws';
 import { simpleSystemTextSearch } from '@bitcode/generic-tools-simple-system-text-search';
@@ -38,8 +38,8 @@ import {
   vercelCheckDomainAvailabilityTool
 } from '@bitcode/generic-tools-mcps-vercel';
 import { VERCEL_MCP_DOC_CODE_TOOL_PROMPT } from '@bitcode/generic-tools-mcps-vercel/src/prompts/VercelMCPDocCodeToolPrompt';
-import { GitHubProvider } from '@bitcode/github';
-import { getVCSConfig, type VCSAuth } from '@bitcode/vcs';
+import { GitHubProvider } from '@bitcode/generic-vcs-github';
+import { getVCSConfig, type VCSAuth } from '@bitcode/vcs-generics';
 import { z } from 'zod';
 import { SIMPLE_SYSTEM_TEXT_SEARCH_DOC_CODE_TOOL_PROMPT } from '@bitcode/generic-tools-simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt';
 import { WEB_SEARCH_DOC_CODE_TOOL_PROMPT } from '@bitcode/generic-tools-web-search/src/prompts/WebSearchDocCodeToolPrompt';

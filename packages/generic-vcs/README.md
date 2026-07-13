@@ -5,12 +5,12 @@ Nested VCS **provider** implementations of `@bitcode/vcs-generics` primitives.
 ## Hierarchy
 
 ```
-@bitcode/vcs-generics                 # types, AbstractVCSProvider, factory, service, cache
-        ↑
-@bitcode/generic-vcs-github           # github/
-@bitcode/generic-vcs-gitlab           # gitlab/
-@bitcode/generic-vcs-bitbucket        # bitbucket/
-@bitcode/generic-vcs-git              # git/  (operation bridge over providers)
+@bitcode/vcs-generics # types, AbstractVCSProvider, factory, service, cache
+ ↑
+@bitcode/generic-vcs-github # github/
+@bitcode/generic-vcs-gitlab # gitlab/
+@bitcode/generic-vcs-bitbucket # bitbucket/
+@bitcode/generic-vcs-git # git/ (operation bridge over providers)
 ```
 
 ## Packages
@@ -22,8 +22,7 @@ Nested VCS **provider** implementations of `@bitcode/vcs-generics` primitives.
 | `bitbucket/` | `@bitcode/generic-vcs-bitbucket` | Bitbucket provider |
 | `git/` | `@bitcode/generic-vcs-git` | Git-shaped operation bridge via VCS providers |
 
-Compatibility shims at `packages/{github,gitlab,bitbucket,git,vcs}/` re-export the
-new package names (`@bitcode/github`, `@bitcode/vcs`, …). Prefer hierarchy package names in new code.
+Root dual package homes (`packages/{github,gitlab,bitbucket,git,vcs}/`) are removed. Import `@bitcode/generic-vcs-*` only.
 
 Related (not providers): `@bitcode/generic-tools-vcs` / `@bitcode/generic-agents-vcs`
 are tools/agents over the VCS layer, not provider implementations.

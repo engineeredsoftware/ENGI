@@ -1,4 +1,4 @@
-import { createAppContext } from '@bitcode/protocol';
+import { createAppContext } from '@bitcode/specifying';
 import { NextResponse } from 'next/server';
 
 import { resolveBitcodeAppContextOptions } from '@/lib/bitcode-app-context-options';

@@ -14,10 +14,10 @@
     "parity": "BITCODE_SPEC_V46_PARITY_MATRIX.md:91b47eeaa106639d2d21856b",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
-    "packageIndex": "packages/protocol/src/index.js:fdc9c740328fe41b9c7134c8",
-    "packageTypes": "packages/protocol/src/index.d.ts:df3330e66cf6b01b41c762ee",
-    "packageSource": "packages/protocol/src/canonical/v46-product-route-comprehension-readback.js:60188997415ab45c06df5168",
-    "packageTest": "packages/protocol/test/v46-product-route-comprehension-readback.test.js:3118d40ad600a9fb1d025bf6",
+    "packageIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "packageTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "packageSource": "packages/specifying/src/canonical/v46-product-route-comprehension-readback.js:60188997415ab45c06df5168",
+    "packageTest": "packages/specifying/test/v46-product-route-comprehension-readback.test.js:3118d40ad600a9fb1d025bf6",
     "generator": "scripts/generate-v46-product-route-comprehension-readback.mjs:131473a8dcd0d665f74f56a7",
     "checker": "scripts/check-v46-gate4-product-route-comprehension-readback.mjs:483822ed6cd2809c20ee8fe5",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:379d7561d515468f9237bf02",
@@ -494,12 +494,12 @@
       },
       {
         "id": "package-source-exists",
-        "sourcePath": "packages/protocol/src/canonical/v46-product-route-comprehension-readback.js",
+        "sourcePath": "packages/specifying/src/canonical/v46-product-route-comprehension-readback.js",
         "passed": true
       },
       {
         "id": "package-test-exists",
-        "sourcePath": "packages/protocol/test/v46-product-route-comprehension-readback.test.js",
+        "sourcePath": "packages/specifying/test/v46-product-route-comprehension-readback.test.js",
         "passed": true
       },
       {
@@ -519,12 +519,12 @@
       },
       {
         "id": "package-exports-gate4",
-        "sourcePath": "packages/protocol/src/index.js",
+        "sourcePath": "packages/specifying/src/index.js",
         "passed": true
       },
       {
         "id": "package-types-export-gate4",
-        "sourcePath": "packages/protocol/src/index.d.ts",
+        "sourcePath": "packages/specifying/src/index.d.ts",
         "passed": true
       },
       {

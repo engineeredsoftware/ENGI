@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Activity-ledger detail panel for non-pipeline deposit bookmarks
  * (Obfuscations anchors, repository anchors).
  */
-"use client";
 
 import React from "react";
 

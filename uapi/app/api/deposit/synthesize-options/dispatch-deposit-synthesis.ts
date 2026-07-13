@@ -15,10 +15,10 @@ import {
   validateDepositSynthesisOptions,
   type AssetPacksSynthesisResult,
   type AssetPacksSynthesisSourceInventory,
-} from '@bitcode/pipeline-asset-pack/asset-packs-synthesis';
+} from '@bitcode/asset-packs-pipelines-domain/asset-packs-synthesis';
 import { groundOptionNeedinessFromSettledDepository } from '@bitcode/asset-packs-pipelines-domain';
 import { synthesizeDepositAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-deposits';
-import { buildRealDepositAssetPackOptionSynthesis } from '@bitcode/pipeline-asset-pack/deposit-option-real-synthesis';
+import { buildRealDepositAssetPackOptionSynthesis } from '@bitcode/asset-packs-pipelines-domain/deposit-option-real-synthesis';
 import {
   provisionDepositSourceInventory,
   resolveDepositPipelineHost,
@@ -31,7 +31,7 @@ import {
   ExecutionCancelledError,
   isExecutionCancelled,
   isExecutionCancelledError,
-} from '@/lib/execution-cancel';
+} from '@bitcode/api/pipelines/cancel';
 import {
   bitcodeServerTelemetry,
   compactBitcodeServerId,

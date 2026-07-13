@@ -5,7 +5,7 @@
  * pipeline step progression, performance metrics, and user interactions.
  */
 
-import { sendServerEvent } from '@bitcode/google-analytics';
+import { sendServerEvent } from '@bitcode/external-telemetry-google';
 import { log } from '@bitcode/logger';
 
 export interface PipelineEventMetadata {

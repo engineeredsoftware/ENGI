@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Conversations overlay main body: history, chat, process log, execution details, thinking.
  */
-'use client';
 
 import React from 'react';
 import ConversationsChat from '@/components/conversations/ConversationsChat/ConversationsChat';

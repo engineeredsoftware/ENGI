@@ -1,5 +1,6 @@
+'use client';
+
 // Header of the execution page including inline V26 pull-request delivery-template selection.
-"use client";
 
 /* eslint-disable react/no-multi-comp */
 

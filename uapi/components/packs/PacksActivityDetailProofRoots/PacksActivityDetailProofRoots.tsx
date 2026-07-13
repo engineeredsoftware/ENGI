@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Packs detail expandable proof-root list (activity + accounting + authority).
  */
-"use client";
 
 import React from "react";
 import { ProductRouteProofDetail } from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";

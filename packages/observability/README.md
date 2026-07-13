@@ -59,10 +59,10 @@ function shouldExecuteInDryRun(toolName: string): boolean
 
 // LLM Simulation
 async function logDryRunPrompt(
-  messages: ChatCompletionRequestMessage[],
-  purpose: string,
-  executionState: ExecutionState,
-  correlationId?: string
+ messages: ChatCompletionRequestMessage[],
+ purpose: string,
+ executionState: ExecutionState,
+ correlationId?: string
 ): Promise<void>
 
 // Response Generation
@@ -74,10 +74,10 @@ function generateDefaultResponse<T>(schema: z.ZodType<T>): T
 ```typescript
 // Feedback Collection
 async function logFeedback(params: {
-  assetPackEvidenceId: string;
-  userId: string;
-  rating: -1 | 1;
-  comment?: string;
+ assetPackEvidenceId: string;
+ userId: string;
+ rating: -1 | 1;
+ comment?: string;
 }): Promise<void>
 ```
 
@@ -86,11 +86,11 @@ async function logFeedback(params: {
 ### Tracing Configuration
 ```typescript
 // Sentry Integration Configuration
-import { startSpan } from '@bitcode/sentry';
+import { startSpan } from '@bitcode/external-telemetry-sentry';
 
 // Automatic span creation with performance monitoring
 export async function trace<T>(name: string, fn: () => Promise<T>): Promise<T> {
-  return startSpan({ name }, fn);
+ return startSpan({ name }, fn);
 }
 ```
 
@@ -98,16 +98,16 @@ export async function trace<T>(name: string, fn: () => Promise<T>): Promise<T> {
 ```typescript
 // Dry-Run Mode Detection
 export function isDryRunEnabled(): boolean {
-  return PIPELINE_CONSTANTS.DRY_RUN_MODE === true;
+ return PIPELINE_CONSTANTS.DRY_RUN_MODE === true;
 }
 
 // Non-LLM Tool Whitelist
 const nonLlmTools = [
-  'cloneRepository',
-  'initializeFileTracker',
-  'analyzeRepository',
-  'identifyCriticalPaths',
-  'filterRelevantFiles'
+ 'cloneRepository',
+ 'initializeFileTracker',
+ 'analyzeRepository',
+ 'identifyCriticalPaths',
+ 'filterRelevantFiles'
 ];
 ```
 
@@ -115,7 +115,7 @@ const nonLlmTools = [
 ```typescript
 // Supabase Client Configuration
 const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
-  auth: { persistSession: false, autoRefreshToken: false }
+ auth: { persistSession: false, autoRefreshToken: false }
 });
 ```
 
@@ -145,13 +145,13 @@ const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
 ```typescript
 // Route Handler Wrapping
 export const authenticatedHandler = traceRoute('auth-handler', async (request) => {
-  const authResult = await trace('authenticate-request', () => 
-    authenticateRequest(request)
-  );
-  
-  return await trace('process-request', () => 
-    processAuthenticatedRequest(authResult)
-  );
+ const authResult = await trace('authenticate-request', () =>
+ authenticateRequest(request)
+ );
+
+ return await trace('process-request', () =>
+ processAuthenticatedRequest(authResult)
+ );
 });
 ```
 
@@ -159,14 +159,14 @@ export const authenticatedHandler = traceRoute('auth-handler', async (request) =
 ```typescript
 // Automatic LLM Tracing
 const response = await generateTextTraced({
-  model: anthropic('claude-3-sonnet'),
-  messages: conversationMessages,
-  temperature: 0.7
+ model: anthropic('claude-3-sonnet'),
+ messages: conversationMessages,
+ temperature: 0.7
 });
 
 // Equivalent to:
 const response = await trace('llm:generateText:claude-3-sonnet', () =>
-  generateText({ model, messages, temperature })
+ generateText({ model, messages, temperature })
 );
 ```
 
@@ -174,8 +174,8 @@ const response = await trace('llm:generateText:claude-3-sonnet', () =>
 ```typescript
 // Conditional Tool Execution
 if (isDryRunEnabled() && !shouldExecuteInDryRun(toolName)) {
-  await logDryRunPrompt(messages, purpose, executionState, correlationId);
-  return generateDefaultResponse(responseSchema);
+ await logDryRunPrompt(messages, purpose, executionState, correlationId);
+ return generateDefaultResponse(responseSchema);
 }
 
 // Normal execution path
@@ -186,17 +186,17 @@ return await executeTool(toolName, parameters);
 ```typescript
 // Automatic Error Reporting
 export function traceRoute<T>(name: string, fn: T): T {
-  return async (...args: any[]) => {
-    try {
-      return await trace(`api:${name}`, () => fn(...args));
-    } catch (err) {
-      const { status, body } = toHttpResponse(reportError(err));
-      return new Response(JSON.stringify(body), {
-        status,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-  };
+ return async (...args: any[]) => {
+ try {
+ return await trace(`api:${name}`, () => fn(...args));
+ } catch (err) {
+ const { status, body } = toHttpResponse(reportError(err));
+ return new Response(JSON.stringify(body), {
+ status,
+ headers: { 'Content-Type': 'application/json' }
+ });
+ }
+ };
 }
 ```
 
@@ -206,24 +206,24 @@ export function traceRoute<T>(name: string, fn: T): T {
 ```typescript
 // Automatic Mock Response Creation
 function generateDefaultResponse<T>(schema: z.ZodType<T>): T {
-  // Handle primitive types
-  if (schema instanceof z.ZodString) return '' as T;
-  if (schema instanceof z.ZodNumber) return 0 as T;
-  if (schema instanceof z.ZodBoolean) return false as T;
-  
-  // Handle complex objects with recursive generation
-  if (schema instanceof z.ZodObject) {
-    const shape = schema._def.shape();
-    const result: Record<string, any> = {};
-    
-    for (const [key, propSchema] of Object.entries(shape)) {
-      if (!(propSchema instanceof z.ZodOptional)) {
-        result[key] = generateDefaultResponse(propSchema as z.ZodType<any>);
-      }
-    }
-    
-    return result as T;
-  }
+ // Handle primitive types
+ if (schema instanceof z.ZodString) return '' as T;
+ if (schema instanceof z.ZodNumber) return 0 as T;
+ if (schema instanceof z.ZodBoolean) return false as T;
+
+ // Handle complex objects with recursive generation
+ if (schema instanceof z.ZodObject) {
+ const shape = schema._def.shape();
+ const result: Record<string, any> = {};
+
+ for (const [key, propSchema] of Object.entries(shape)) {
+ if (!(propSchema instanceof z.ZodOptional)) {
+ result[key] = generateDefaultResponse(propSchema as z.ZodType<any>);
+ }
+ }
+
+ return result as T;
+ }
 }
 ```
 
@@ -231,27 +231,27 @@ function generateDefaultResponse<T>(schema: z.ZodType<T>): T {
 ```typescript
 // Comprehensive LLM Simulation
 export async function logDryRunPrompt(
-  messages: ChatCompletionRequestMessage[],
-  purpose: string,
-  executionState: ExecutionState,
-  correlationId?: string
+ messages: ChatCompletionRequestMessage[],
+ purpose: string,
+ executionState: ExecutionState,
+ correlationId?: string
 ): Promise<void> {
-  // Log detailed prompt information
-  log('DRY RUN: LLM prompt that would have been sent', 'info', {
-    purpose,
-    messageCount: messages.length,
-    systemPrompt: messages.find(m => m.role === 'system')?.content?.slice(0, 200),
-    executionState,
-    correlationId
-  });
-  
-  // Stream simulation status
-  await writeStreamMessage(dataStream, {
-    type: 'status',
-    progress: 'info',
-    message: `DRY RUN: LLM prompt for ${purpose}`,
-    metadata: { dryRun: true, purpose, correlationId }
-  });
+ // Log detailed prompt information
+ log('DRY RUN: LLM prompt that would have been sent', 'info', {
+ purpose,
+ messageCount: messages.length,
+ systemPrompt: messages.find(m => m.role === 'system')?.content?.slice(0, 200),
+ executionState,
+ correlationId
+ });
+
+ // Stream simulation status
+ await writeStreamMessage(dataStream, {
+ type: 'status',
+ progress: 'info',
+ message: `DRY RUN: LLM prompt for ${purpose}`,
+ metadata: { dryRun: true, purpose, correlationId }
+ });
 }
 ```
 

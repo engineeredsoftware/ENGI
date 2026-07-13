@@ -1,11 +1,9 @@
 /**
- * @deprecated Prefer `@bitcode/generic-hosts-local` (`LocalHost`).
- * Compatibility: InlineHost is an alias of LocalHost.
+ * LocalHost composition surface for @bitcode/pipeline-hosts.
+ * Source of truth: @bitcode/generic-hosts-local.
  */
 export {
   LocalHost,
-  LocalHost as InlineHost,
   defaultHostExec,
   type LocalHostOptions,
-  type LocalHostOptions as InlineHostOptions,
 } from '@bitcode/generic-hosts-local';

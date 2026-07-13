@@ -97,7 +97,7 @@ pnpm install
 
 ```bash
 # App (Next.js) — copy/adapt; never commit secrets
-cp uapi/.env.example uapi/.env.local   # if present; else create from team secrets
+cp uapi/.env.example uapi/.env.local # if present; else create from team secrets
 
 # Minimum for deposit synthesis (live inference)
 # BITCODE_ASSET_PACK_REAL_INFERENCE=true
@@ -113,7 +113,7 @@ cp uapi/.env.example uapi/.env.local   # if present; else create from team secre
 
 ```bash
 # From repo root or uapi — follow team Supabase layout
-cd uapi && pnpm exec supabase start   # if configured
+cd uapi && pnpm exec supabase start # if configured
 # Apply migrations under supabase/migrations (executions, execution_events, …)
 ```
 
@@ -121,8 +121,8 @@ cd uapi && pnpm exec supabase start   # if configured
 
 ```bash
 cd uapi
-pnpm dev:remote    # Next on 127.0.0.1
-# or: pnpm dev:local  # supabase start + next (if available)
+pnpm dev:remote # Next on 127.0.0.1
+# or: pnpm dev:local # supabase start + next (if available)
 ```
 
 Open `http://127.0.0.1:3000/deposits` after wallet + GitHub connect.
@@ -158,23 +158,23 @@ Full QA checklist: `BITCODE_V48_QA.md` → Gate 3 depositing runbook.
 | `packages/pipelines-generics/` | Pipeline primitive, phase runners, source-safe stream hooks |
 | `packages/api/` | Route orchestration + **primitives** (`src/responses/`, `src/streams/`) |
 | `packages/files/` + `file-editing/` + `file-refactoring/` | File primitives and mutations |
-| `packages/vcs-generics/` + `generic-vcs/*` | VCS providers (BC: `@bitcode/{github,gitlab,…}`) |
+| `packages/vcs-generics/` + `generic-vcs/*` | VCS primitives + providers (`@bitcode/vcs-generics`, `@bitcode/generic-vcs-*`) |
 | `packages/security/*` | Split security utilities (encryption, credentials, …) |
 | `packages/externals/*` | Figma, Jira, Notion, Vercel deploy APIs |
 | `packages/external-telemetry/*` | Google Analytics, Sentry, Vercel analytics |
 | `packages/containerizations/*` | Docker, Kubernetes |
 | `packages/web-search/*` | Multi-provider search + Exa |
 | `packages/web-scrapers/firecrawl/` | Firecrawl client |
-| `packages/conversations/` | Conversation domain (BC: `conversations-generics`) |
-| `packages/obfuscation/` | Privacy transforms (BC: `@bitcode/obfuscate`) |
+| `packages/conversations/` | Conversation domain (`@bitcode/conversations`) |
+| `packages/obfuscation/` | Privacy transforms (`@bitcode/obfuscation`) |
 | `supabase/migrations/` | `executions`, `execution_events`, RLS |
 | `scripts/` | Spec quality, canon checks, promotion |
 | `_legacy/`, `protocol-demonstration/` | **Not** active product canon for V48 gates |
 
 **Hierarchy law:** `*-generics` primitives pair with `generic-*/*` implementors.
 Plain names (`obfuscation`, `conversations`, `file-editing`) when there is no
-parallel implementor family. Prefer hierarchy package names in new code; BC
-aliases (`@bitcode/github`, `@bitcode/streams`, …) remain for existing callers.
+parallel implementor family. The current tree is the **sole canon** — import
+hierarchy package names only (no dual package homes or compatibility package aliases).
 
 Full package walkthrough: [`FAMILIARIZATION.md`](FAMILIARIZATION.md) §3–§5.
 Filesystem contract: [`internal-docs/BITCODE_SOURCE_LAYOUT.md`](internal-docs/BITCODE_SOURCE_LAYOUT.md).
@@ -194,7 +194,7 @@ Filesystem contract: [`internal-docs/BITCODE_SOURCE_LAYOUT.md`](internal-docs/BI
 pnpm exec node scripts/run-bitcode-spec-quality.mjs
 
 # Focused package tests (examples)
-pnpm --filter @bitcode/pipeline-asset-pack test
+pnpm --filter @bitcode/asset-packs-pipelines-domain test
 cd uapi && pnpm exec jest --testPathPattern='deposit'
 ```
 
@@ -265,7 +265,7 @@ authority, and source-safe claim boundaries without turning public guidance into
 protocol law.
 
 V46 Gate 3 adds `V46PublicOperatorClaimBoundaries` through
-`packages/protocol/src/canonical/v46-public-operator-claim-boundaries.js`,
+`packages/specifying/src/canonical/v46-public-operator-claim-boundaries.js`,
 `.bitcode/v46-public-operator-claim-boundaries.json`,
 `generate:v46-public-operator-claim-boundaries`,
 `check:v46-public-operator-claim-boundaries`, and `check:v46-gate3`. It binds
@@ -276,7 +276,7 @@ responses, credentials, wallet private material, and value-bearing mainnet
 operation out of generated metadata.
 
 V46 Gate 4 adds `V46ProductRouteComprehensionReadback` through
-`packages/protocol/src/canonical/v46-product-route-comprehension-readback.js`,
+`packages/specifying/src/canonical/v46-product-route-comprehension-readback.js`,
 `.bitcode/v46-product-route-comprehension-readback.json`,
 `generate:v46-product-route-comprehension-readback`,
 `check:v46-product-route-comprehension-readback`, and `check:v46-gate4`. It
@@ -286,7 +286,7 @@ five-step flows, expandable proof detail, settlement/delivery boundaries,
 compensation readback, and no-source/no-secret route metadata.
 
 V46 Gate 5 adds `V46InterfaceClaimContracts` through
-`packages/protocol/src/canonical/v46-interface-claim-contracts.js`,
+`packages/specifying/src/canonical/v46-interface-claim-contracts.js`,
 `.bitcode/v46-interface-claim-contracts.json`,
 `generate:v46-interface-claim-contracts`,
 `check:v46-interface-claim-contracts`, and `check:v46-gate5`. It binds public
@@ -296,7 +296,7 @@ repair, no parallel state authority, and no-source/no-secret interface
 metadata.
 
 V46 Gate 6 adds `V46ProofReadbackOperatorExplanation` through
-`packages/protocol/src/canonical/v46-proof-readback-operator-explanation.js`,
+`packages/specifying/src/canonical/v46-proof-readback-operator-explanation.js`,
 `.bitcode/v46-proof-readback-operator-explanation.json`,
 `generate:v46-proof-readback-operator-explanation`,
 `check:v46-proof-readback-operator-explanation`, and `check:v46-gate6`. It
@@ -306,7 +306,7 @@ wallet/provider receipts, repository delivery receipts, and repair
 reconciliation receipts into a source-safe operator authority ladder.
 
 V46 Gate 7 adds `V46LocalInterfaceComprehensionRehearsal` through
-`packages/protocol/src/canonical/v46-local-interface-comprehension-rehearsal.js`,
+`packages/specifying/src/canonical/v46-local-interface-comprehension-rehearsal.js`,
 `.bitcode/v46-local-interface-comprehension-rehearsal.json`,
 `generate:v46-local-interface-comprehension-rehearsal`,
 `check:v46-local-interface-comprehension-rehearsal`, and `check:v46-gate7`.
@@ -877,7 +877,7 @@ steps, 156 Failsafe/Thricified chains, and 468 provider-call slots. Use
 `pnpm run check:v38-gate2` before closing the gate.
 V38 Gate 3 adds the package-backed `V38PtrrFailsafeThricifiedStack` and
 generated source-safe artifact `.bitcode/v38-ptrr-failsafe-thricified-stack.json`.
-The stack contract records `factoryAgentWithPTRR`, Plan/Try/Refine/Retry,
+The stack contract records `factoryPTRRAgent`, Plan/Try/Refine/Retry,
 `FailsafeGenerationSequence`, `ThricifiedGeneration`, substep prompt/context
 telemetry, step-owned tool postprocess boundaries, and Gate 2's 52 PTRR steps /
 156 Failsafe sequences / 156 ThricifiedGeneration chains / 468 provider-call
@@ -1236,19 +1236,19 @@ Use a version branch and gate-numbered branches:
 
 1. Create one base branch per draft target, such as `version/v39`.
 2. Create scoped gate branches from the version branch. Prefix every gate branch
-   with the gate number, for example `v39/gate-1-commercial-reading-roadmap-opening`
-   or `v39/gate-5-read-fits-finding-runtime-replay`.
+ with the gate number, for example `v39/gate-1-commercial-reading-roadmap-opening`
+ or `v39/gate-5-read-fits-finding-runtime-replay`.
 3. Group related work into clear commits with quality commit messages whose
-   titles and bodies describe the proof, implementation, or documentation
-   change.
+ titles and bodies describe the proof, implementation, or documentation
+ change.
 4. Continue on the gate branch until that gate's acceptance criteria are
-   implemented, specified, tested, documented, committed, pushed, and ready for
-   closure review.
+ implemented, specified, tested, documented, committed, pushed, and ready for
+ closure review.
 5. Open pull requests from gate branches into the version branch as gates close.
-   Title gate PRs with the uppercase version and gate prefix plus a topical
-   title, for example `V39 Gate 5: ReadFitsFinding Runtime And Replay`.
+ Title gate PRs with the uppercase version and gate prefix plus a topical
+ title, for example `V39 Gate 5: ReadFitsFinding Runtime And Replay`.
 6. Open the version branch back into `main` only after all gates close and the
-   version is formally promoted as canon.
+ version is formally promoted as canon.
 
 Gate pull requests into `version/**` run the Bitcode gate-quality workflow:
 active/draft canon checks, casing/import checks, relevant package typechecks and
@@ -1395,16 +1395,16 @@ or promotion validation.
 - [uapi/app/deposit](uapi/app/deposit) is the Depositing route.
 - [uapi/app/auxillaries/README.md](uapi/app/auxillaries/README.md) documents Auxillaries.
 - [protocol-demonstration/README.md](protocol-demonstration/README.md) documents
-  the deterministic demonstration.
+ the deterministic demonstration.
 
 ## Repository Map
 
 - `uapi/`: commercial website, API routes, Terminal, Exchange, Auxillaries,
-  Conversations, public docs, and shared UI systems.
+ Conversations, public docs, and shared UI systems.
 - `protocol-demonstration/`: deterministic Bitcode demonstration, proof
-  generator inputs, and standalone validation runtime.
+ generator inputs, and standalone validation runtime.
 - `packages/*`: protocol, storage, inference, conversation, BTD, API, MCP,
-  ChatGPT App, and integration package owners.
+ ChatGPT App, and integration package owners.
 - `.bitcode/`: generated proof, checkpoint, and spec-family artifacts.
 
 ## Common Commands

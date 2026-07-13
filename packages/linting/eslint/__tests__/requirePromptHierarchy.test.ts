@@ -9,7 +9,7 @@ ruleTester.run('require-prompt-hierarchy', requirePromptHierarchy, {
   valid: [
     {
       code: `
-        factoryAgentWithPTRR({
+        factoryPTRRAgent({
           name: 'ok',
           outputSchema: someSchema,
           prompt: agentPrompt,
@@ -24,7 +24,7 @@ ruleTester.run('require-prompt-hierarchy', requirePromptHierarchy, {
     },
     {
       code: `
-        factoryAgentWithPTRR({
+        factoryPTRRAgent({
           name: 'compatibility-shape',
           outputSchema: someSchema,
           prompts: {
@@ -41,7 +41,7 @@ ruleTester.run('require-prompt-hierarchy', requirePromptHierarchy, {
   invalid: [
     {
       code: `
-        factoryAgentWithPTRR({
+        factoryPTRRAgent({
           name: 'missing',
           outputSchema: someSchema
         });
@@ -53,7 +53,7 @@ ruleTester.run('require-prompt-hierarchy', requirePromptHierarchy, {
     },
     {
       code: `
-        factoryAgentWithPTRR({
+        factoryPTRRAgent({
           name: 'partial',
           outputSchema: someSchema,
           prompt: agentPrompt,
@@ -70,7 +70,7 @@ ruleTester.run('require-prompt-hierarchy', requirePromptHierarchy, {
     },
     {
       code: `
-        factoryAgentWithPTRR({
+        factoryPTRRAgent({
           name: 'partial-compatibility-shape',
           outputSchema: someSchema,
           prompts: {

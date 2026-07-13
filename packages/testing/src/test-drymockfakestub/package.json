@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@bitcode/doc-comment": "workspace:*",
+    "@bitcode/doc-comment-generics": "workspace:*",
     "zod": "^3.22.4"
   },
   "devDependencies": {

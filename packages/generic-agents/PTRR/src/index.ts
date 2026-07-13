@@ -14,10 +14,6 @@ export type { PTRRAgent } from './ptrr-factory';
 export {
   factoryPTRRAgent,
   factoryPTRRAgentWithGenerations,
-  /** @deprecated Prefer factoryPTRRAgent */
-  factoryAgentWithPTRR,
-  /** @deprecated Prefer factoryPTRRAgentWithGenerations */
-  factoryAgentWithPTRRGenerations,
   type BitcodePTRRFactoryConfig,
   type BitcodePTRRPromptCarrier,
   type BitcodePTRRPromptValue,

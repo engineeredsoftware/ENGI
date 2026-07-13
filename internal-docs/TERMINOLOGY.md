@@ -13,14 +13,14 @@ This guide provides the precise terminology used in the Bitcode codebase, verifi
 The codebase uses `AgentVariationStep` enum:
 ```typescript
 export enum AgentVariationStep {
-  PLAN = 'plan',
-  TRY = 'try',
-  REFINE = 'refine',
-  RETRY = 'retry'
+ PLAN = 'plan',
+ TRY = 'try',
+ REFINE = 'refine',
+ RETRY = 'retry'
 }
 ```
 
-Preferred factory: `factoryPTRRAgent` (`factoryAgentWithPTRR` is BC).
+Preferred factory: `factoryPTRRAgent` (`factoryPTRRAgent` is ).
 
 ### Generation hierarchy within a PTRR step
 
@@ -28,25 +28,25 @@ Preferred factory: `factoryPTRRAgent` (`factoryAgentWithPTRR` is BC).
 
 ```
 Generation (primitive)
-  → FailsafeGeneration (base kinds — parents)
-  → ThinkingsGeneration (base kinds — children of each failsafe)
+ → FailsafeGeneration (base kinds — parents)
+ → ThinkingsGeneration (base kinds — children of each failsafe)
 ```
 
 #### FailsafeGeneration kinds (3)
 ```typescript
 export enum FailsafeGeneration {
-  PREPARE_CONCISE_CONTEXT = 'prepare_concise_context',  // CONTEXT SIGNAL/NOISE
-  CHUNK_THEN_SUM = 'chunk_then_sum',                    // BIG INPUT
-  STITCH_UNTIL_COMPLETE = 'stitch_until_complete'       // BIG OUTPUT repair
+ PREPARE_CONCISE_CONTEXT = 'prepare_concise_context', // CONTEXT SIGNAL/NOISE
+ CHUNK_THEN_SUM = 'chunk_then_sum', // BIG INPUT
+ STITCH_UNTIL_COMPLETE = 'stitch_until_complete' // BIG OUTPUT repair
 }
 ```
 
 #### ThinkingsGeneration kinds (3)
 ```typescript
 export enum ThinkingsGeneration {
-  REASON = 'reason',
-  JUDGE = 'judge',
-  STRUCTURED_OUTPUT = 'structured_output'
+ REASON = 'reason',
+ JUDGE = 'judge',
+ STRUCTURED_OUTPUT = 'structured_output'
 }
 ```
 
@@ -74,12 +74,12 @@ Full guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 
 | Legacy | Prefer |
 | --- | --- |
-| `FailsafeMetaSubStep` | `FailsafeGeneration` |
-| `GenerationSubMetaSubStep` | `ThinkingsGeneration` |
-| `SubStep` / `SubStepExecution` | `Generation` / `GenerationExecution` |
+| `FailsafeGeneration` | `FailsafeGeneration` |
+| `ThinkingsGeneration` | `ThinkingsGeneration` |
+| `SubStep` / `GenerationExecution` | `Generation` / `GenerationExecution` |
 | `FailsafeExecution` | `FailsafeGenerationExecution` |
 | `PTRRSubStepArchitecture` | `PTRRStepGenerationArchitecture` |
-| `FailsafeMetaSubStepPrompt` | `FailsafeGenerationPrompt` |
+| `FailsafeGenerationPrompt` | `FailsafeGenerationPrompt` |
 | `AgentGenerationSubStepPrompt` | `ThinkingsGenerationPrompt` |
 
 "SubStep" was the old term for Generation within a Step. "Meta" is not a term.

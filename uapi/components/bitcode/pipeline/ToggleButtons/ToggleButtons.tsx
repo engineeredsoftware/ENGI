@@ -1,5 +1,5 @@
 import React from 'react';
-import { trackEvent } from '@bitcode/google-analytics';
+import { trackEvent } from '@bitcode/external-telemetry-google';
 
 interface ExecutionOptionToggleProps {
   enabled: boolean;

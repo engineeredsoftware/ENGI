@@ -6,7 +6,7 @@ import {
   VCS_FEATURES
 } from '..';
 
-describe('@bitcode/vcs configuration helpers', () => {
+describe('@bitcode/vcs-generics configuration helpers', () => {
   beforeEach(() => {
     process.env.GITHUB_CLIENT_ID = 'gh-client';
     process.env.GITHUB_CLIENT_SECRET = 'gh-secret';

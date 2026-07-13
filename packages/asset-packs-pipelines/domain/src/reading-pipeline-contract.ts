@@ -67,7 +67,7 @@ export type ReadingPipelineAgentContract = {
   objectiveId: string;
   returnType: string;
   promptRegistry: {
-    factory: 'factoryAgentWithPTRR';
+    factory: 'factoryPTRRAgent';
     carrier: 'prompt+stepPrompts';
     agentPromptId: string;
     ptrrStepPromptIds: Record<ReadingPipelinePtrrStepName, string>;
@@ -177,7 +177,7 @@ function ptrrPromptRegistry(
 ): ReadingPipelineAgentContract['promptRegistry'] {
   const promptPrefix = `${pipelineName}.prompt.${phaseKey}.${agentKey}`;
   return {
-    factory: 'factoryAgentWithPTRR',
+    factory: 'factoryPTRRAgent',
     carrier: 'prompt+stepPrompts',
     agentPromptId: `${promptPrefix}.agent`,
     ptrrStepPromptIds: {

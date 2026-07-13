@@ -1,4 +1,4 @@
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import { Prompt } from '@bitcode/prompts/prompt';
 import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
@@ -8,7 +8,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '
 
 const FinalResponseOutputSchema = z.object({ message: z.string(), summary: z.any().optional() });
 
-export const AssetPackFinishGenerateFinalResponseAgent = factoryAgentWithPTRR<any, z.infer<typeof FinalResponseOutputSchema>>({
+export const AssetPackFinishGenerateFinalResponseAgent = factoryPTRRAgent<any, z.infer<typeof FinalResponseOutputSchema>>({
   name: 'finish:asset-pack-generate-final-response-agent',
   description: 'Generate final AssetPack response payload for API and Terminal surfaces',
   outputSchema: FinalResponseOutputSchema,

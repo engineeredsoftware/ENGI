@@ -1,0 +1,374 @@
+// @ts-check
+
+import crypto from 'node:crypto';
+import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export const CONVERSATION_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
+  '.bitcode/v37-promotion-readiness-report.json';
+export const CONVERSATION_PROMOTION_READINESS_REPORT_SCHEMA_ID =
+  'bitcode.v37.conversationPromotionReadinessReport.v1';
+export const CONVERSATION_PROMOTION_READINESS_REPORT_VERSION = 'V37';
+export const CONVERSATION_PROMOTION_READINESS_REPORT_CURRENT_TARGET = 'V36';
+export const CONVERSATION_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT =
+  'source-safe-conversation-promotion-readiness-metadata';
+
+export const CONVERSATION_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
+  '.bitcode/v37-conversation-session-route-history.json',
+  '.bitcode/v37-conversation-stream-event-contract.json',
+  '.bitcode/v37-conversation-writing-workspace.json',
+  '.bitcode/v37-conversation-source-selector.json',
+  '.bitcode/v37-conversation-terminal-handoff.json',
+  '.bitcode/v37-conversation-persistence-privacy-redaction.json',
+  '.bitcode/v37-conversation-telemetry-proof-hooks.json',
+  '.bitcode/v37-conversation-rehearsal.json',
+]);
+
+export const CONVERSATION_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
+  'BITCODE_SPEC_V37_PROVEN.md',
+  '.bitcode/v37-spec-family-report.json',
+  '.bitcode/v37-canonical-input-report.json',
+  '.bitcode/v37-canon-posture-drift-report.json',
+  CONVERSATION_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
+]);
+
+const SECRET_MARKERS = Object.freeze([
+  `${['sk', 'proj'].join('-')}-`,
+  `${['sb', 'secret'].join('_')}__`,
+  ['service', 'role'].join('_'),
+  ['eyJhbGciOi', 'JI', 'UzI1NiIsInR5cCI6IkpXVCJ9'].join(''),
+  ['SUPABASE', 'SERVICE', 'ROLE'].join('_'),
+  ['OPENAI', 'API', 'KEY'].join('_'),
+  ['VERCEL', 'TOKEN'].join('_'),
+  ['VERCEL', 'OIDC', 'TOKEN'].join('_'),
+  ['PRIVATE', 'KEY'].join('_'),
+]);
+
+const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
+  source('scripts/check-v37-gate10-promotion-readiness.mjs', [
+    'V37 Gate 10 promotion readiness',
+    '--promotion-mode',
+    CONVERSATION_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
+  ]),
+  source('scripts/generate-v37-promotion-readiness-report.mjs', [
+    'buildConversationPromotionReadinessReport',
+    CONVERSATION_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT,
+    'v37-promotion-readiness-report',
+  ]),
+  source('scripts/promote-bitcode-canon.mjs', [
+    "if (version === 'V37')",
+    'const v37Gate10Command',
+    'buildDerivedV37CommitMessageBody',
+    'scripts/check-v37-gate10-promotion-readiness.mjs',
+  ]),
+  source('scripts/prepare-bitcode-spec-family-promotion.mjs', [
+    "if (version === 'V37')",
+    'V37 canonical system specification for Website Conversations',
+    'BITCODE_SPEC_V37_PROVEN.md',
+    CONVERSATION_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
+  ]),
+  source('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
+    '--next-draft',
+    'rewritePackageReadme',
+    'rewriteRuntimeDataState',
+  ]),
+  source('.github/workflows/v37-canon-promotion.yml', [
+    "head.ref == 'version/v37'",
+    'npm run promote:canon -- --version V37',
+    'BITCODE_SPEC_V37_PROVEN.md',
+    'Promote V37 canon files',
+  ]),
+  source('.github/workflows/bitcode-gate-quality.yml', [
+    'check-v37-gate10-promotion-readiness.mjs',
+    'elif [ "$POINTER" = "V37" ]',
+  ]),
+  source('.github/workflows/bitcode-canon-quality.yml', [
+    'elif [ "$POINTER" = "V37" ]',
+    '--active-canon V37 --draft-target V38',
+  ]),
+  source('packages/specifying/src/canonical/proven-generator.js', [
+    'buildV37ProvenPackage',
+    'buildV37PromotionReadinessReport',
+    CONVERSATION_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
+  ]),
+  source('packages/specifying/test/v37-promotion-readiness.test.js', [
+    'supports V37 promotion readiness with source-safe Conversations artifacts',
+    'v37-promotion-readiness-report',
+    'V37 Promotion Readiness',
+  ]),
+  source('packages/specifying/src/canonical/v21-specifying.js', [
+    CONVERSATION_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
+  ]),
+  source('package.json', [
+    'generate:v37-promotion-readiness',
+    'check:v37-promotion-readiness',
+    'check:v37-gate10',
+  ]),
+]);
+
+const REQUIRED_DOCUMENTATION_EVIDENCE = Object.freeze([
+  source('BITCODE_SPEC_V37.md', [
+    'V37 promotion readiness canon',
+    CONVERSATION_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
+    'V37 active / draft V38',
+  ]),
+  source('BITCODE_SPEC_V37_DELTA.md', [
+    'Gate 10: V37 Promotion Readiness',
+    CONVERSATION_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
+    'promotion scripts support V37',
+  ]),
+  source('BITCODE_SPEC_V37_NOTES.md', [
+    'Gate 10: V37 Promotion Readiness',
+    CONVERSATION_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
+    'active V37 / draft V38',
+  ]),
+  source('BITCODE_SPEC_V37_PARITY_MATRIX.md', [
+    '## Gate 10 Parity',
+    CONVERSATION_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
+    'closed',
+  ]),
+  source('SPECIFICATIONS_ROADMAP.md', [
+    'V37 Gate 10 closure anchor',
+    'BITCODE_SPEC_V37_PROVEN.md',
+  ]),
+  source('README.md', [
+    'check:v37-gate10',
+    'v37-canon-promotion.yml',
+  ]),
+  source('packages/specifying/README.md', [
+    'V37 Gate 10',
+    'V37` active, `V38` draft',
+  ]),
+]);
+
+/**
+ * @param {string} relativePath
+ * @param {readonly string[]} tokens
+ */
+function source(relativePath, tokens) {
+  return { relativePath, tokens };
+}
+
+/**
+ * @param {string} repoRoot
+ * @param {{ relativePath: string, tokens: readonly string[] }} item
+ */
+function scanTokens(repoRoot, item) {
+  const absolutePath = path.join(repoRoot, item.relativePath);
+  const present = existsSync(absolutePath);
+  const content = present ? readFileSync(absolutePath, 'utf8') : '';
+  return {
+    relativePath: item.relativePath,
+    present,
+    digest: present ? sha256(content) : null,
+    requiredTokens: item.tokens.map((token) => ({
+      token,
+      present: content.includes(token),
+    })),
+  };
+}
+
+/**
+ * @param {string} repoRoot
+ * @param {string} relativePath
+ */
+function scanArtifact(repoRoot, relativePath) {
+  const absolutePath = path.join(repoRoot, relativePath);
+  const present = existsSync(absolutePath);
+  const content = present ? readFileSync(absolutePath, 'utf8') : '';
+  let parsed = null;
+  let parseable = false;
+  if (present) {
+    try {
+      parsed = JSON.parse(content);
+      parseable = true;
+    } catch {
+      parseable = false;
+    }
+  }
+  return {
+    relativePath,
+    present,
+    parseable,
+    digest: present ? sha256(content) : null,
+    byteLength: present ? Buffer.byteLength(content, 'utf8') : 0,
+    sourceSafe: present ? !includesSecretMarker(content) && !content.includes('protectedSourceBody') : false,
+    artifactId: parsed?.artifactId || parsed?.reportId || null,
+    version: parsed?.version || null,
+  };
+}
+
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
+function canonicalJson(value) {
+  if (value === null || typeof value !== 'object') return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
+  const record = /** @type {Record<string, unknown>} */ (value);
+  return `{${Object.keys(record)
+    .sort()
+    .map((key) => `${JSON.stringify(key)}:${canonicalJson(record[key])}`)
+    .join(',')}}`;
+}
+
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
+function sha256(value) {
+  return `sha256:${crypto.createHash('sha256').update(String(value)).digest('hex')}`;
+}
+
+/**
+ * @param {string} value
+ * @returns {boolean}
+ */
+function includesSecretMarker(value) {
+  return SECRET_MARKERS.some((marker) => value.includes(marker));
+}
+
+/**
+ * @param {ReturnType<typeof scanTokens>} entry
+ */
+function allTokensPresent(entry) {
+  return entry.present && entry.requiredTokens.every((token) => token.present);
+}
+
+/**
+ * @param {{
+ *   version?: string,
+ *   currentTarget?: string,
+ *   generatedAt?: string,
+ *   repoRoot?: string,
+ * }} [input]
+ */
+export function buildConversationPromotionReadinessReport(input = {}) {
+  const version = input.version || CONVERSATION_PROMOTION_READINESS_REPORT_VERSION;
+  const currentTarget = input.currentTarget || CONVERSATION_PROMOTION_READINESS_REPORT_CURRENT_TARGET;
+  const generatedAt = input.generatedAt || '2026-05-24T00:00:00.000Z';
+  const repoRoot = input.repoRoot || path.resolve(__dirname, '../../../..');
+  const sourceEvidence = REQUIRED_SOURCE_EVIDENCE.map((item) => scanTokens(repoRoot, item));
+  const documentationEvidence = REQUIRED_DOCUMENTATION_EVIDENCE.map((item) => scanTokens(repoRoot, item));
+  const gateArtifactEvidence = CONVERSATION_PROMOTION_READINESS_GATE_ARTIFACT_PATHS.map((artifactPath) =>
+    scanArtifact(repoRoot, artifactPath),
+  );
+  const missingGateArtifacts = gateArtifactEvidence.filter((artifact) => !artifact.present).map((artifact) => artifact.relativePath);
+  const unparseableGateArtifacts = gateArtifactEvidence
+    .filter((artifact) => artifact.present && !artifact.parseable)
+    .map((artifact) => artifact.relativePath);
+  const sourceUnsafeGateArtifacts = gateArtifactEvidence
+    .filter((artifact) => artifact.present && artifact.sourceSafe !== true)
+    .map((artifact) => artifact.relativePath);
+  const sourceEvidenceFailures = sourceEvidence.flatMap((entry) => {
+    if (!entry.present) return [`missing promotion source ${entry.relativePath}`];
+    return entry.requiredTokens
+      .filter((token) => !token.present)
+      .map((token) => `${entry.relativePath} missing token ${token.token}`);
+  });
+  const documentationEvidenceFailures = documentationEvidence.flatMap((entry) => {
+    if (!entry.present) return [`missing promotion documentation ${entry.relativePath}`];
+    return entry.requiredTokens
+      .filter((token) => !token.present)
+      .map((token) => `${entry.relativePath} missing token ${token.token}`);
+  });
+  const serializedEvidence = canonicalJson({ sourceEvidence, documentationEvidence, gateArtifactEvidence });
+  const forbiddenMarkerDetected = includesSecretMarker(serializedEvidence);
+  const failures = [
+    ...sourceEvidenceFailures,
+    ...documentationEvidenceFailures,
+    ...missingGateArtifacts.map((artifactPath) => `missing gate artifact ${artifactPath}`),
+    ...unparseableGateArtifacts.map((artifactPath) => `unparseable gate artifact ${artifactPath}`),
+    ...sourceUnsafeGateArtifacts.map((artifactPath) => `source-unsafe gate artifact ${artifactPath}`),
+    ...(forbiddenMarkerDetected ? ['promotion readiness evidence contains a secret-shaped marker'] : []),
+  ];
+  const validationCommands = [
+    'pnpm run check:v37-gate1',
+    'pnpm run check:v37-gate2',
+    'pnpm run check:v37-gate3',
+    'pnpm run check:v37-gate4',
+    'pnpm run check:v37-gate5',
+    'pnpm run check:v37-gate6',
+    'pnpm run check:v37-gate7',
+    'pnpm run check:v37-gate8',
+    'pnpm run check:v37-gate9',
+    'pnpm run check:v37-gate10',
+    'node scripts/promote-bitcode-canon.mjs --version V37 --commit HEAD --dry-run',
+  ];
+  const coverage = {
+    requiredGateArtifactPaths: [...CONVERSATION_PROMOTION_READINESS_GATE_ARTIFACT_PATHS],
+    generatedProofOutputs: [...CONVERSATION_PROMOTION_READINESS_GENERATED_OUTPUTS],
+    gateArtifactCount: gateArtifactEvidence.length,
+    missingGateArtifacts,
+    unparseableGateArtifacts,
+    sourceUnsafeGateArtifacts,
+    sourceEvidenceComplete: sourceEvidence.every(allTokensPresent),
+    documentationEvidenceComplete: documentationEvidence.every(allTokensPresent),
+    allGateArtifactsCovered: missingGateArtifacts.length === 0,
+    allGateArtifactsParseable: unparseableGateArtifacts.length === 0,
+    allGateArtifactsSourceSafe: sourceUnsafeGateArtifacts.length === 0,
+    generatedProofOutputsCovered: CONVERSATION_PROMOTION_READINESS_GENERATED_OUTPUTS.includes('BITCODE_SPEC_V37_PROVEN.md'),
+    promotionWorkflowCovered: sourceEvidence.some((entry) => entry.relativePath === '.github/workflows/v37-canon-promotion.yml' && allTokensPresent(entry)),
+    gateQualityWorkflowCovered: sourceEvidence.some((entry) => entry.relativePath === '.github/workflows/bitcode-gate-quality.yml' && allTokensPresent(entry)),
+    canonQualityWorkflowCovered: sourceEvidence.some((entry) => entry.relativePath === '.github/workflows/bitcode-canon-quality.yml' && allTokensPresent(entry)),
+    promotionScriptCovered: sourceEvidence.some((entry) => entry.relativePath === 'scripts/promote-bitcode-canon.mjs' && allTokensPresent(entry)),
+    specFamilyPromotionScriptCovered: sourceEvidence.some((entry) => entry.relativePath === 'scripts/prepare-bitcode-spec-family-promotion.mjs' && allTokensPresent(entry)),
+    runtimePromotionScriptCovered: sourceEvidence.some((entry) => entry.relativePath === 'scripts/prepare-bitcode-runtime-canon-promotion.mjs' && allTokensPresent(entry)),
+    provenGeneratorCovered: sourceEvidence.some((entry) => entry.relativePath === 'packages/specifying/src/canonical/proven-generator.js' && allTokensPresent(entry)),
+    prePromotionPosture: 'V36 active / V37 draft',
+    postPromotionPosture: 'V37 active / V38 draft',
+    valueBearingMainnetAdmission: false,
+    credentialsSerialized: forbiddenMarkerDetected,
+    protectedSourceVisible: false,
+    rawProtectedPromptVisible: false,
+    unpaidAssetPackSourceVisible: false,
+    walletPrivateMaterialVisible: false,
+  };
+  const artifactSeed = {
+    version,
+    currentTarget,
+    validationCommands,
+    coverage,
+    sourceSafetyVerdict: CONVERSATION_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT,
+  };
+
+  return {
+    artifactId: 'v37-promotion-readiness-report',
+    schemaId: CONVERSATION_PROMOTION_READINESS_REPORT_SCHEMA_ID,
+    version,
+    currentTarget,
+    generatedAt,
+    sourceSafetyVerdict: CONVERSATION_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT,
+    prePromotionPosture: 'V36 active / V37 draft',
+    postPromotionPosture: 'V37 active / V38 draft',
+    branchProtection: {
+      directMainPushAdmitted: false,
+      promotionPrRequired: true,
+      versionBranch: 'version/v37',
+      versionPromotionPullRequestTitlePrefix: 'V37 Canonical Promotion',
+    },
+    generatedArtifactPolicy: {
+      provenAppendixPath: 'BITCODE_SPEC_V37_PROVEN.md',
+      provenAppendixRequiredBeforePromotion: false,
+      generatedArtifactPrefix: '.bitcode/v37-',
+      promotionOverwritesPreviewArtifacts: true,
+      secretValuesSerialized: false,
+      protectedSourceSerialized: false,
+    },
+    validationCommands,
+    gateArtifactEvidence,
+    sourceEvidence,
+    documentationEvidence,
+    coverage,
+    failClosedResult:
+      'promotion remains blocked when any Conversations artifact, workflow, proof output, runtime posture rewrite support, generated proof support, source-safety check, or value-bearing mainnet block is missing',
+    artifactRoot: `conversation-promotion-readiness-report:${sha256(canonicalJson(artifactSeed)).slice(7, 31)}`,
+    passed: failures.length === 0,
+    failures,
+    validationCommand: 'pnpm run check:v37-gate10',
+  };
+}

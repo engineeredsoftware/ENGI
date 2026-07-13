@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Selected pipeline run telemetry detail for the Reads pipelines section.
  * Presentational: parent owns stream activity, clocks, and pack resume state.
  */
-"use client";
 
 import React from "react";
 import Link from "next/link";

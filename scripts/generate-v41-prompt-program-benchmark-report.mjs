@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V41_PROMPT_PROGRAM_BENCHMARK_REPORT_ARTIFACT_PATH,
   buildV41PromptProgramBenchmarkReport,
-} from '../packages/protocol/src/index.js';
+} from '../packages/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

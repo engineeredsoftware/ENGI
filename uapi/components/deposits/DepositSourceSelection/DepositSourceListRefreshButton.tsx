@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Shared square refresh control for deposit source-selection lists
  * (connection, repositories, branches, commits).
  */
-"use client";
 
 import React from "react";
 import { RefreshCw } from "lucide-react";

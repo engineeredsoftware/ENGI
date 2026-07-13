@@ -32,10 +32,10 @@ Standardized error abstraction layer providing consistent error semantics, autom
 import { BitcodeError } from '@bitcode/errors';
 
 throw new BitcodeError('Operation failed', {
-  code: 'OPERATION_FAILED',
-  status: 400,
-  userMessage: 'Request could not be processed',
-  meta: { operationId: '12345' }
+ code: 'OPERATION_FAILED',
+ status: 400,
+ userMessage: 'Request could not be processed',
+ meta: { operationId: '12345' }
 });
 ```
 
@@ -44,10 +44,10 @@ throw new BitcodeError('Operation failed', {
 import { asBitcodeError } from '@bitcode/errors';
 
 try {
-  await riskyOperation();
+ await riskyOperation();
 } catch (error) {
-  const normalized = asBitcodeError(error);
-  // guaranteed BitcodeError instance
+ const normalized = asBitcodeError(error);
+ // guaranteed BitcodeError instance
 }
 ```
 
@@ -65,9 +65,9 @@ import { invariant, unreachable } from '@bitcode/errors';
 invariant(user.isAuthenticated, 'User must be authenticated');
 
 switch (status) {
-  case 'pending': return handlePending();
-  case 'complete': return handleComplete();
-  default: unreachable(status); // TypeScript exhaustiveness check
+ case 'pending': return handlePending();
+ case 'complete': return handleComplete();
+ default: unreachable(status); // TypeScript exhaustiveness check
 }
 ```
 
@@ -78,13 +78,13 @@ switch (status) {
 import { BitcodeError, toHttpResponse } from '@bitcode/errors';
 
 export async function handleRequest(req: Request): Promise<Response> {
-  try {
-    const result = await processRequest(req);
-    return new Response(JSON.stringify(result));
-  } catch (error) {
-    const { status, body } = toHttpResponse(error);
-    return new Response(JSON.stringify(body), { status });
-  }
+ try {
+ const result = await processRequest(req);
+ return new Response(JSON.stringify(result));
+ } catch (error) {
+ const { status, body } = toHttpResponse(error);
+ return new Response(JSON.stringify(body), { status });
+ }
 }
 ```
 
@@ -93,22 +93,22 @@ export async function handleRequest(req: Request): Promise<Response> {
 import { BitcodeError, reportError } from '@bitcode/errors';
 
 class UserService {
-  async getUserById(id: string) {
-    if (!id) {
-      throw new BitcodeError('User ID required', {
-        code: 'INVALID_INPUT',
-        status: 400,
-        userMessage: 'Please provide a valid user ID'
-      });
-    }
+ async getUserById(id: string) {
+ if (!id) {
+ throw new BitcodeError('User ID required', {
+ code: 'INVALID_INPUT',
+ status: 400,
+ userMessage: 'Please provide a valid user ID'
+ });
+ }
 
-    try {
-      return await this.database.findUser(id);
-    } catch (error) {
-      // Auto-report and re-throw normalized error
-      throw reportError(error);
-    }
-  }
+ try {
+ return await this.database.findUser(id);
+ } catch (error) {
+ // Auto-report and re-throw normalized error
+ throw reportError(error);
+ }
+ }
 }
 ```
 
@@ -117,21 +117,21 @@ class UserService {
 import { asBitcodeError, reportError } from '@bitcode/errors';
 
 export function withErrorBoundary<T>(operation: () => Promise<T>) {
-  return async (): Promise<T> => {
-    try {
-      return await operation();
-    } catch (error) {
-      const normalized = asBitcodeError(error);
-      
-      if (normalized.code === 'NETWORK_ERROR') {
-        // Retry logic
-        return retryOperation(operation);
-      }
-      
-      // Report non-retryable errors
-      throw reportError(normalized);
-    }
-  };
+ return async (): Promise<T> => {
+ try {
+ return await operation();
+ } catch (error) {
+ const normalized = asBitcodeError(error);
+
+ if (normalized.code === 'NETWORK_ERROR') {
+ // Retry logic
+ return retryOperation(operation);
+ }
+
+ // Report non-retryable errors
+ throw reportError(normalized);
+ }
+ };
 }
 ```
 
@@ -154,19 +154,19 @@ export function withErrorBoundary<T>(operation: () => Promise<T>) {
 ### HTTP Status Mapping
 ```typescript
 const errorStatusMap = {
-  'INVALID_INPUT': 400,
-  'UNAUTHORIZED': 401,
-  'FORBIDDEN': 403,
-  'NOT_FOUND': 404,
-  'RATE_LIMITED': 429,
-  'INTERNAL_ERROR': 500,
-  'SERVICE_UNAVAILABLE': 503
+ 'INVALID_INPUT': 400,
+ 'UNAUTHORIZED': 401,
+ 'FORBIDDEN': 403,
+ 'NOT_FOUND': 404,
+ 'RATE_LIMITED': 429,
+ 'INTERNAL_ERROR': 500,
+ 'SERVICE_UNAVAILABLE': 503
 };
 ```
 
 ### Telemetry Configuration
 - **Automatic Reporting**: All errors with status >= 500
-- **Context Preservation**: Request IDs, user context, operation metadata  
+- **Context Preservation**: Request IDs, user context, operation metadata
 - **Rate Limiting**: Maximum 100 reports per minute per error code
 - **Sensitive Data**: Automatic PII scrubbing in error messages
 
@@ -174,20 +174,20 @@ const errorStatusMap = {
 
 ```typescript
 interface BitcodeErrorOptions {
-  code: string;
-  status?: number;
-  userMessage?: string;
-  meta?: Record<string, unknown>;
+ code: string;
+ status?: number;
+ userMessage?: string;
+ meta?: Record<string, unknown>;
 }
 
 class BitcodeError extends Error {
-  readonly code: string;
-  readonly status?: number;
-  readonly userMessage?: string;
-  readonly meta?: Record<string, unknown>;
-  
-  constructor(message: string, opts: BitcodeErrorOptions);
-  toJSON(): object;
+ readonly code: string;
+ readonly status?: number;
+ readonly userMessage?: string;
+ readonly meta?: Record<string, unknown>;
+
+ constructor(message: string, opts: BitcodeErrorOptions);
+ toJSON(): object;
 }
 
 function asBitcodeError(err: unknown): BitcodeError;

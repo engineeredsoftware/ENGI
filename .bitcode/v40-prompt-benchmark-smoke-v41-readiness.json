@@ -83,7 +83,7 @@
       "sourceRoots": [
         "packages/prompts/src/benchmarking/runner.ts",
         "packages/asset-packs-pipelines/domain/src/agents/prompts",
-        "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts"
+        "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts"
       ],
       "commandIds": [
         "node scripts/run-v40-prompt-benchmark-smoke.mjs --json"
@@ -114,11 +114,11 @@
       "rowId": "inventory:v38-benchmark-report-binding",
       "surfaceKind": "prior-benchmark-report",
       "sourceRoots": [
-        "packages/protocol/src/canonical/prompt-benchmark-report.js",
+        "packages/specifying/src/canonical/prompt-benchmark-report.js",
         ".bitcode/v38-prompt-benchmark-report.json",
         "scripts/generate-v38-prompt-benchmark-report.mjs",
         "scripts/check-v38-gate4-prompt-benchmark-report.mjs",
-        "packages/protocol/test/v38-prompt-benchmark-report.test.js"
+        "packages/specifying/test/v38-prompt-benchmark-report.test.js"
       ],
       "commandIds": [
         "node scripts/generate-v38-prompt-benchmark-report.mjs --check"
@@ -151,7 +151,7 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/agents/prompts",
         "packages/prompts/src/raw_promptparts/specific",
-        "packages/protocol/src/canonical/prompt-benchmark-report.js"
+        "packages/specifying/src/canonical/prompt-benchmark-report.js"
       ],
       "commandIds": [
         "node scripts/generate-v40-prompt-benchmark-smoke-v41-readiness.mjs --check"
@@ -182,9 +182,9 @@
       "rowId": "coverage:conversation-and-tool-prompt-suites",
       "surfaceKind": "interface-and-tool-prompt-coverage",
       "sourceRoots": [
-        "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+        "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
         "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts",
-        "packages/protocol/src/canonical/prompt-benchmark-report.js"
+        "packages/specifying/src/canonical/prompt-benchmark-report.js"
       ],
       "commandIds": [
         "node scripts/generate-v40-prompt-benchmark-smoke-v41-readiness.mjs --check"
@@ -216,7 +216,7 @@
       "surfaceKind": "source-safety-boundary",
       "sourceRoots": [
         "scripts/run-v40-prompt-benchmark-smoke.mjs",
-        "packages/protocol/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js",
+        "packages/specifying/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js",
         "BITCODE_SPEC_V40_NOTES.md"
       ],
       "commandIds": [
@@ -314,8 +314,8 @@
       "rowId": "proof:artifact-tests-command-docs",
       "surfaceKind": "proof-and-docs",
       "sourceRoots": [
-        "packages/protocol/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js",
-        "packages/protocol/test/v40-prompt-benchmark-smoke-v41-readiness.test.js",
+        "packages/specifying/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js",
+        "packages/specifying/test/v40-prompt-benchmark-smoke-v41-readiness.test.js",
         "scripts/generate-v40-prompt-benchmark-smoke-v41-readiness.mjs",
         "scripts/check-v40-gate10-prompt-benchmark-smoke-v41-readiness.mjs",
         "BITCODE_SPEC_V40.md",
@@ -324,10 +324,10 @@
         "BITCODE_SPEC_V40_PARITY_MATRIX.md",
         "SPECIFICATIONS_ROADMAP.md",
         "README.md",
-        "packages/protocol/README.md"
+        "packages/specifying/README.md"
       ],
       "commandIds": [
-        "node --test --test-force-exit packages/protocol/test/v40-prompt-benchmark-smoke-v41-readiness.test.js",
+        "node --test --test-force-exit packages/specifying/test/v40-prompt-benchmark-smoke-v41-readiness.test.js",
         "node scripts/check-v40-gate10-prompt-benchmark-smoke-v41-readiness.mjs"
       ],
       "closureRequirement": "The generated artifact, tests, scripts, workflows, and documentation must close the Gate 10 prompt benchmark smoke proof.",
@@ -405,7 +405,7 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
       "exists": true,
       "legacy": false
     },
@@ -450,27 +450,27 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/protocol/README.md",
+      "sourcePath": "packages/specifying/README.md",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/protocol/src/canonical/prompt-benchmark-report.js",
+      "sourcePath": "packages/specifying/src/canonical/prompt-benchmark-report.js",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/protocol/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js",
+      "sourcePath": "packages/specifying/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/protocol/test/v38-prompt-benchmark-report.test.js",
+      "sourcePath": "packages/specifying/test/v38-prompt-benchmark-report.test.js",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/protocol/test/v40-prompt-benchmark-smoke-v41-readiness.test.js",
+      "sourcePath": "packages/specifying/test/v40-prompt-benchmark-smoke-v41-readiness.test.js",
       "exists": true,
       "legacy": false
     },
@@ -556,17 +556,17 @@
     },
     {
       "id": "smoke.v38-report-passing",
-      "sourcePath": "packages/protocol/src/canonical/prompt-benchmark-report.js",
+      "sourcePath": "packages/specifying/src/canonical/prompt-benchmark-report.js",
       "passed": true
     },
     {
       "id": "smoke.v38-rows-covered",
-      "sourcePath": "packages/protocol/src/canonical/prompt-benchmark-report.js",
+      "sourcePath": "packages/specifying/src/canonical/prompt-benchmark-report.js",
       "passed": true
     },
     {
       "id": "smoke.v38-fixtures-covered",
-      "sourcePath": "packages/protocol/src/canonical/prompt-benchmark-report.js",
+      "sourcePath": "packages/specifying/src/canonical/prompt-benchmark-report.js",
       "passed": true
     },
     {
@@ -635,7 +635,7 @@
       "pnpm -C packages/prompts benchmark:report",
       "node scripts/generate-v38-prompt-benchmark-report.mjs --check",
       "node scripts/generate-v40-prompt-benchmark-smoke-v41-readiness.mjs --check",
-      "node --test --test-force-exit packages/protocol/test/v40-prompt-benchmark-smoke-v41-readiness.test.js"
+      "node --test --test-force-exit packages/specifying/test/v40-prompt-benchmark-smoke-v41-readiness.test.js"
     ],
     "promptPartFileCount": 1459,
     "promptPartExportCount": 1459,

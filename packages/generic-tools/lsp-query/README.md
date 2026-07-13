@@ -52,22 +52,22 @@ Language Server Protocol intelligence suite providing comprehensive semantic cod
 ### Architecture Pattern
 ```typescript
 class LspTool extends Tool<typeof primitiveFunction> {
-  use = primitiveFunction;
+ use = primitiveFunction;
 }
 ```
 
 ### LSP Integration
 ```typescript
 import {
-  getDefinition,
-  findReferences,
-  getHover,
-  getCompletions,
-  getSignatureHelp,
-  getDocumentSymbols,
-  getWorkspaceSymbols,
-  getCodeActions,
-  formatDocument
+ getDefinition,
+ findReferences,
+ getHover,
+ getCompletions,
+ getSignatureHelp,
+ getDocumentSymbols,
+ getWorkspaceSymbols,
+ getCodeActions,
+ formatDocument
 } from '@bitcode/lsp';
 ```
 
@@ -91,10 +91,10 @@ import {
 import { definitionTool } from '@bitcode/generic-tools-lsp-query';
 
 const definition = await definitionTool.use({
-  filePath: '/project/src/utils.ts',
-  line: 15,
-  character: 8,
-  includeDeclaration: true
+ filePath: '/project/src/utils.ts',
+ line: 15,
+ character: 8,
+ includeDeclaration: true
 });
 ```
 
@@ -103,11 +103,11 @@ const definition = await definitionTool.use({
 import { completionTool } from '@bitcode/generic-tools-lsp-query';
 
 const completions = await completionTool.use({
-  filePath: '/project/src/service.ts',
-  line: 42,
-  character: 12,
-  triggerCharacter: '.',
-  includeSnippets: true
+ filePath: '/project/src/service.ts',
+ line: 42,
+ character: 12,
+ triggerCharacter: '.',
+ includeSnippets: true
 });
 ```
 
@@ -116,11 +116,11 @@ const completions = await completionTool.use({
 import { referencesTool } from '@bitcode/generic-tools-lsp-query';
 
 const references = await referencesTool.use({
-  filePath: '/project/src/types.ts',
-  line: 25,
-  character: 10,
-  includeDeclaration: false,
-  context: { includeUsages: true }
+ filePath: '/project/src/types.ts',
+ line: 25,
+ character: 10,
+ includeDeclaration: false,
+ context: { includeUsages: true }
 });
 ```
 
@@ -129,9 +129,9 @@ const references = await referencesTool.use({
 import { documentSymbolsTool } from '@bitcode/generic-tools-lsp-query';
 
 const symbols = await documentSymbolsTool.use({
-  filePath: '/project/src/components/Button.tsx',
-  hierarchical: true,
-  includeDetail: true
+ filePath: '/project/src/components/Button.tsx',
+ hierarchical: true,
+ includeDetail: true
 });
 ```
 
@@ -140,13 +140,13 @@ const symbols = await documentSymbolsTool.use({
 import { codeActionsTool } from '@bitcode/generic-tools-lsp-query';
 
 const actions = await codeActionsTool.use({
-  filePath: '/project/src/retired.ts',
-  startLine: 10,
-  startCharacter: 0,
-  endLine: 20,
-  endCharacter: 15,
-  only: ['quickfix', 'refactor'],
-  includeDisabled: false
+ filePath: '/project/src/retired.ts',
+ startLine: 10,
+ startCharacter: 0,
+ endLine: 20,
+ endCharacter: 15,
+ only: ['quickfix', 'refactor'],
+ includeDisabled: false
 });
 ```
 
@@ -173,7 +173,7 @@ const actions = await codeActionsTool.use({
 ### Language Server Integration
 - TypeScript Language Server: Sub-50ms response times
 - Python Language Server (Pylsp): 100-300ms typical
-- Go Language Server (gopls): 50-150ms typical  
+- Go Language Server (gopls): 50-150ms typical
 - Rust Analyzer: 100-500ms depending on project complexity
 
 ### Caching Strategy

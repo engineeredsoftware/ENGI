@@ -50,8 +50,8 @@ const mockGlobalContext = {
   },
 };
 
-jest.mock('@bitcode/context', () => ({
-  getGlobalContext: () => mockGlobalContext,
+jest.mock('@bitcode/generic-executions', () => ({
+  getProcessRootFields: () => mockGlobalContext,
 }));
 
 describe('Enhanced Editing Package', () => {

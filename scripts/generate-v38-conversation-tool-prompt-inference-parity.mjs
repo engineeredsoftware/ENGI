@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_ARTIFACT_PATH,
   buildV38ConversationToolPromptInferenceParity,
-} from '../packages/protocol/src/canonical/conversation-tool-prompt-inference-parity.js';
+} from '../packages/specifying/src/canonical/conversation-tool-prompt-inference-parity.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

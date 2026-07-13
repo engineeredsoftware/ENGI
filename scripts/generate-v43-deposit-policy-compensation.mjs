@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_DEPOSIT_POLICY_COMPENSATION_ARTIFACT_PATH,
   buildV43DepositPolicyCompensation,
-} from '../packages/protocol/src/canonical/v43-deposit-policy-compensation.js';
+} from '../packages/specifying/src/canonical/v43-deposit-policy-compensation.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

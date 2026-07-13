@@ -8,7 +8,7 @@
  */
 import { Tool } from '@bitcode/tools-generics';
 import { z } from 'zod';
-import { EditCommandParams } from '@bitcode/editing';
+import { EditCommandParams } from '@bitcode/file-editing';
 import type { Execution } from '@bitcode/execution-generics';
 declare class ExecutionContextStore {
     private contexts;

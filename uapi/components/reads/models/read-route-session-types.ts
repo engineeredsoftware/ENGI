@@ -12,7 +12,7 @@ import type {
 import type {
   OrganizationPolicyWalletAuthority,
   OrganizationPolicyWalletAuthorityInput,
-} from '@bitcode/pipeline-asset-pack/organization-policy-wallet-authority';
+} from '@bitcode/asset-packs-pipelines-domain/organization-policy-wallet-authority';
 
 export type ReadRouteStepId = TerminalEnterpriseReadingStepId;
 

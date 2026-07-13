@@ -6,7 +6,7 @@
  */
 import { 
   factoryAgent, 
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -468,7 +468,7 @@ export const vcsStepPrompts = {
 /**
  * Comprehensive VCS Agent using full PTRR cycle
  */
-export const vcsComprehensiveAgent = factoryAgentWithPTRR<VCSInput, VCSResult>({
+export const vcsComprehensiveAgent = factoryPTRRAgent<any, any>({
   name: 'comprehensive-vcs',
   description: 'Complete VCS operation with validation and status tracking',
   prompt: vcsPrompt,
@@ -478,7 +478,7 @@ export const vcsComprehensiveAgent = factoryAgentWithPTRR<VCSInput, VCSResult>({
     refine: () => vcsStepPrompts.refine,
     retry: () => vcsStepPrompts.retry
   },
-  outputSchema: VCSResultSchema,
+  outputSchema: VCSResultSchema as any,
   plan: { chunkThreshold: 500 },
   try: { chunkThreshold: 1500, enableParallelChunks: false },
   refine: { maxAttempts: 2 },

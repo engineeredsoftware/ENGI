@@ -14,7 +14,7 @@ Industrial multimodal attachment processing framework providing comprehensive an
 
 ### Supported Modalities
 - **Audio Processing**: MP3, WAV, OGG, FLAC, M4A, AAC, WMA format analysis
-- **Video Processing**: MP4, AVI, MOV, MKV, WebM, FLV, WMV format analysis  
+- **Video Processing**: MP4, AVI, MOV, MKV, WebM, FLV, WMV format analysis
 - **Image Analysis**: JPEG, PNG, GIF, BMP, SVG, WebP, TIFF format processing
 - **Document Parsing**: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX document analysis
 - **Text Analysis**: Plain text content processing and semantic extraction
@@ -34,54 +34,54 @@ Primary tool class implementing comprehensive multimodal analysis workflow.
 **Input Schema:**
 ```typescript
 {
-  attachments: Array<{
-    id: string;
-    name: string;
-    type: string;
-    content: string;
-    file_url?: string;
-    metadata?: Record<string, any>;
-  }>;
-  taskDescription: string;
-  processingOptions?: {
-    enableFigmaIntegration: boolean;
-    enableLSPAnalysis: boolean;
-    enableCrossModalSynthesis: boolean;
-    qualityThreshold: number; // 0.0-1.0
-  };
+ attachments: Array<{
+ id: string;
+ name: string;
+ type: string;
+ content: string;
+ file_url?: string;
+ metadata?: Record<string, any>;
+ }>;
+ taskDescription: string;
+ processingOptions?: {
+ enableFigmaIntegration: boolean;
+ enableLSPAnalysis: boolean;
+ enableCrossModalSynthesis: boolean;
+ qualityThreshold: number; // 0.0-1.0
+ };
 }
 ```
 
 **Output Schema:**
 ```typescript
 {
-  analysisResults: Array<{
-    attachmentId: string;
-    attachmentName: string;
-    attachmentType: string;
-    processingAgent: 'audio' | 'video' | 'image' | 'document' | 'text';
-    analysis: {
-      summary: string;
-      keyElements: string[];
-      technicalContent: string[];
-      specifications: Record<string, any>;
-      relevance: number;
-      insights: string[];
-      figmaContext?: {
-        extractedFromFigma: boolean;
-        fileKey?: string;
-        nodeId?: string;
-        artboardName?: string;
-        originalUrl?: string;
-      };
-    };
-  }>;
-  synthesis: {
-    crossModalInsights: string[];
-    unifiedUnderstanding: string;
-    taskRelevance: number;
-    recommendations: string[];
-  };
+ analysisResults: Array<{
+ attachmentId: string;
+ attachmentName: string;
+ attachmentType: string;
+ processingAgent: 'audio' | 'video' | 'image' | 'document' | 'text';
+ analysis: {
+ summary: string;
+ keyElements: string[];
+ technicalContent: string[];
+ specifications: Record<string, any>;
+ relevance: number;
+ insights: string[];
+ figmaContext?: {
+ extractedFromFigma: boolean;
+ fileKey?: string;
+ nodeId?: string;
+ artboardName?: string;
+ originalUrl?: string;
+ };
+ };
+ }>;
+ synthesis: {
+ crossModalInsights: string[];
+ unifiedUnderstanding: string;
+ taskRelevance: number;
+ recommendations: string[];
+ };
 }
 ```
 
@@ -93,30 +93,30 @@ Agent selection follows deterministic content analysis:
 
 ```typescript
 function determineProcessingAgent(name: string, type: string): ProcessingAgent {
-  const extension = name.toLowerCase().split('.').pop();
-  const mimeType = type.toLowerCase();
-  
-  // Audio: MP3, WAV, OGG, FLAC, M4A, AAC, WMA
-  if (audioExtensions.includes(extension) || mimeType.startsWith('audio/')) {
-    return 'audio';
-  }
-  
-  // Video: MP4, AVI, MOV, MKV, WebM, FLV, WMV
-  if (videoExtensions.includes(extension) || mimeType.startsWith('video/')) {
-    return 'video';
-  }
-  
-  // Image: JPEG, PNG, GIF, BMP, SVG, WebP, TIFF
-  if (imageExtensions.includes(extension) || mimeType.startsWith('image/')) {
-    return 'image';
-  }
-  
-  // Document: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX
-  if (documentExtensions.includes(extension) || mimeType.includes('document')) {
-    return 'document';
-  }
-  
-  return 'text'; // Default fallback
+ const extension = name.toLowerCase().split('.').pop();
+ const mimeType = type.toLowerCase();
+
+ // Audio: MP3, WAV, OGG, FLAC, M4A, AAC, WMA
+ if (audioExtensions.includes(extension) || mimeType.startsWith('audio/')) {
+ return 'audio';
+ }
+
+ // Video: MP4, AVI, MOV, MKV, WebM, FLV, WMV
+ if (videoExtensions.includes(extension) || mimeType.startsWith('video/')) {
+ return 'video';
+ }
+
+ // Image: JPEG, PNG, GIF, BMP, SVG, WebP, TIFF
+ if (imageExtensions.includes(extension) || mimeType.startsWith('image/')) {
+ return 'image';
+ }
+
+ // Document: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX
+ if (documentExtensions.includes(extension) || mimeType.includes('document')) {
+ return 'document';
+ }
+
+ return 'text'; // Default fallback
 }
 ```
 
@@ -126,24 +126,24 @@ Unified insight generation across processed attachments:
 
 ```typescript
 async function synthesizeMultimodalInsights(
-  results: AnalysisResult[],
-  taskDescription: string
+ results: AnalysisResult[],
+ taskDescription: string
 ): Promise<SynthesisResult> {
-  const modalityCounts = results.reduce((acc, result) => {
-    acc[result.processingAgent] = (acc[result.processingAgent] || 0) + 1;
-    return acc;
-  }, {});
-  
-  const averageRelevance = results.reduce(
-    (sum, r) => sum + r.analysis.relevance, 0
-  ) / results.length;
-  
-  return {
-    crossModalInsights: generateCrossModalPatterns(modalityCounts),
-    unifiedUnderstanding: generateUnifiedSummary(results, taskDescription),
-    taskRelevance: averageRelevance,
-    recommendations: generateActionableRecommendations(results, averageRelevance)
-  };
+ const modalityCounts = results.reduce((acc, result) => {
+ acc[result.processingAgent] = (acc[result.processingAgent] || 0) + 1;
+ return acc;
+ }, {});
+
+ const averageRelevance = results.reduce(
+ (sum, r) => sum + r.analysis.relevance, 0
+ ) / results.length;
+
+ return {
+ crossModalInsights: generateCrossModalPatterns(modalityCounts),
+ unifiedUnderstanding: generateUnifiedSummary(results, taskDescription),
+ taskRelevance: averageRelevance,
+ recommendations: generateActionableRecommendations(results, averageRelevance)
+ };
 }
 ```
 
@@ -153,14 +153,14 @@ Native Figma design file processing:
 
 ```typescript
 if (agent === 'image' && processingOptions?.enableFigmaIntegration) {
-  const figmaUrl = attachment.metadata?.figmaUrl || attachment.file_url;
-  if (figmaUrl?.includes('figma.com')) {
-    analysis.figmaContext = {
-      extractedFromFigma: true,
-      originalUrl: figmaUrl,
-      // Additional Figma metadata extraction
-    };
-  }
+ const figmaUrl = attachment.metadata?.figmaUrl || attachment.file_url;
+ if (figmaUrl?.includes('figma.com')) {
+ analysis.figmaContext = {
+ extractedFromFigma: true,
+ originalUrl: figmaUrl,
+ // Additional Figma metadata extraction
+ };
+ }
 }
 ```
 
@@ -172,27 +172,27 @@ if (agent === 'image' && processingOptions?.enableFigmaIntegration) {
 import { multimodalProcessingTool } from '@bitcode/multimodal-processing';
 
 const result = await multimodalProcessingTool.use({
-  attachments: [
-    {
-      id: 'img-001',
-      name: 'design-mockup.png',
-      type: 'image/png',
-      content: 'base64-encoded-content',
-      file_url: 'https://figma.com/file/abc123'
-    },
-    {
-      id: 'doc-001', 
-      name: 'requirements.pdf',
-      type: 'application/pdf',
-      content: 'base64-encoded-content'
-    }
-  ],
-  taskDescription: 'Implement responsive dashboard component based on design specifications',
-  processingOptions: {
-    enableFigmaIntegration: true,
-    enableCrossModalSynthesis: true,
-    qualityThreshold: 0.8
-  }
+ attachments: [
+ {
+ id: 'img-001',
+ name: 'design-mockup.png',
+ type: 'image/png',
+ content: 'base64-encoded-content',
+ file_url: 'https://figma.com/file/abc123'
+ },
+ {
+ id: 'doc-001',
+ name: 'requirements.pdf',
+ type: 'application/pdf',
+ content: 'base64-encoded-content'
+ }
+ ],
+ taskDescription: 'Implement responsive dashboard component based on design specifications',
+ processingOptions: {
+ enableFigmaIntegration: true,
+ enableCrossModalSynthesis: true,
+ qualityThreshold: 0.8
+ }
 });
 
 console.log(`Processed ${result.analysisResults.length} attachments`);
@@ -203,24 +203,24 @@ console.log(`Task relevance: ${result.synthesis.taskRelevance}`);
 
 ```typescript
 const advancedResult = await multimodalProcessingTool.use({
-  attachments: attachmentArray,
-  taskDescription: taskContext,
-  processingOptions: {
-    enableFigmaIntegration: true,
-    enableLSPAnalysis: true,
-    enableCrossModalSynthesis: true,
-    qualityThreshold: 0.9
-  }
+ attachments: attachmentArray,
+ taskDescription: taskContext,
+ processingOptions: {
+ enableFigmaIntegration: true,
+ enableLSPAnalysis: true,
+ enableCrossModalSynthesis: true,
+ qualityThreshold: 0.9
+ }
 });
 
 // Extract high-relevance insights
 const highRelevanceResults = advancedResult.analysisResults.filter(
-  result => result.analysis.relevance >= 0.9
+ result => result.analysis.relevance >= 0.9
 );
 
 // Process cross-modal recommendations
 const actionableInsights = advancedResult.synthesis.recommendations.filter(
-  rec => rec.includes('implementation') || rec.includes('technical')
+ rec => rec.includes('implementation') || rec.includes('technical')
 );
 ```
 
@@ -229,27 +229,27 @@ const actionableInsights = advancedResult.synthesis.recommendations.filter(
 ```typescript
 // Integration with Bitcode pipeline context
 export const processMultimodalAttachments = factoryTool(
-  'processMultimodalAttachments',
-  async (params: MultimodalProcessingParams) => {
-    const results = await multimodalProcessingTool.use(params);
-    
-    // Store results in pipeline context
-    await storePipelineContext({
-      multimodalAnalysis: results,
-      processedAttachments: results.analysisResults.length,
-      taskRelevance: results.synthesis.taskRelevance
-    });
-    
-    return results;
-  },
-  {
-    description: 'Process multimodal attachments with pipeline integration',
-    metadata: {
-      category: 'attachment_processing',
-      subsystem: 'multimodal',
-      integrationPoints: ['figma', 'lsp', 'pipeline_context']
-    }
-  }
+ 'processMultimodalAttachments',
+ async (params: MultimodalProcessingParams) => {
+ const results = await multimodalProcessingTool.use(params);
+
+ // Store results in pipeline context
+ await storePipelineContext({
+ multimodalAnalysis: results,
+ processedAttachments: results.analysisResults.length,
+ taskRelevance: results.synthesis.taskRelevance
+ });
+
+ return results;
+ },
+ {
+ description: 'Process multimodal attachments with pipeline integration',
+ metadata: {
+ category: 'attachment_processing',
+ subsystem: 'multimodal',
+ integrationPoints: ['figma', 'lsp', 'pipeline_context']
+ }
+ }
 );
 ```
 

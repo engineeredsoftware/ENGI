@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Marquee ticker tape of marketplace listings.
  */
-"use client";
 
 import React from "react";
 import type { Listing } from "./marketing-marketplace-data";

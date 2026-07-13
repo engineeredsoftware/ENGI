@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 
 const promptsRequire = createRequire(new URL('../../packages/prompts/package.json', import.meta.url));
-const conversationsRequire = createRequire(new URL('../../packages/conversations-generics/package.json', import.meta.url));
+const conversationsRequire = createRequire(new URL('../../packages/conversations/package.json', import.meta.url));
 const toolsRequire = createRequire(new URL('../../packages/tools-generics/package.json', import.meta.url));
 
 test('V26 prompt and doc-code runtime carriers resolve through public package boundaries without pulling full execution storage runtime', () => {
@@ -12,8 +12,8 @@ test('V26 prompt and doc-code runtime carriers resolve through public package bo
   const executionPrompt = conversationsRequire('@bitcode/execution-generics/prompts/ExecutionPrompt');
   const executionCore = toolsRequire('@bitcode/execution-generics/Execution');
   const registryCore = toolsRequire('@bitcode/registry');
-  const docCommentBase = toolsRequire('@bitcode/doc-comment/base-plugin');
-  const docCode = toolsRequire('@bitcode/doc-code');
+  const docCommentBase = toolsRequire('@bitcode/doc-comment-generics/base-plugin');
+  const docCode = toolsRequire('@bitcode/generic-doc-comments-doc-code');
   const docCodeToolPrompt = toolsRequire('@bitcode/tools-generics/doc-code-tool');
   const toolsRoot = toolsRequire('@bitcode/tools-generics');
 

@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Packs master panel shell: filter bar, activity table, type totals, refresh.
  */
-"use client";
 
 import React from "react";
 import { RefreshCw } from "lucide-react";

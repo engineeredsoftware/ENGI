@@ -55,7 +55,7 @@ const ACTIVE_PROMPT_CORRIDORS = [
   'packages/execution-generics/src',
   'packages/pipelines-generics/src',
   'packages/agent-generics/src',
-  'packages/conversations-generics/src',
+  'packages/conversations/src',
   'packages/tools-generics/src',
   'packages/asset-packs-pipelines/domain/scripts',
 ];
@@ -66,7 +66,7 @@ const REFERENCE_PROMPT_CORRIDORS = [
   'packages/generic-agents',
   'packages/generic-tools',
   'packages/external-apps/chatgpt/src/prompts',
-  'packages/doc-comment/examples',
+  'packages/doc-comment-generics/examples',
 ];
 const REFERENCE_PROMPT_CONFIG_FILES = [
   'packages/external-apps/chatgpt/tsconfig.test.json',
@@ -80,7 +80,7 @@ const ACTIVE_AGENT_PROMPT_HIERARCHY_DOCS = [
   'packages/execution-generics/src/store/registry.ts',
   'packages/execution-generics/src/executors/resilient_executor.ts',
   'packages/pipelines-generics/src/gate-system/types.ts',
-  'packages/conversations-generics/src/agent/ConversationAgent.ts',
+  'packages/conversations/src/agent/ConversationAgent.ts',
 ];
 const ACTIVE_AGENT_PROMPT_DOC_COMMENT_FILES = [
   'packages/agent-generics/src/prompts/AgentPrompt.ts',
@@ -90,8 +90,8 @@ const ACTIVE_AGENT_PROMPT_DOC_COMMENT_FILES = [
   'packages/agent-generics/src/prompts/AgentGenerationSubStepPrompt.ts',
   'packages/agent-generics/src/prompts/FailsafeMetaSubStepPrompt.ts',
   'packages/agent-generics/src/prompts/ToolExecutionPrompt.ts',
-  'packages/conversations-generics/src/agent/ConversationAgent.ts',
-  'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+  'packages/conversations/src/agent/ConversationAgent.ts',
+  'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
 ];
 const CONVERSATION_RAW_PROMPTPART_FILES = [
   'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts',
@@ -124,9 +124,9 @@ const ACTIVE_PROMPT_PRIMITIVE_CARRIERS = [
   'packages/agent-generics/src/execution/prompt-overlays.js',
   'packages/agent-generics/src/substeps/factories.ts',
   'packages/pipelines-generics/src/prompts/PipelinePrompt.ts',
-  'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
-  'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.js',
-  'packages/conversations-generics/src/agent/ConversationAgent.ts',
+  'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+  'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.js',
+  'packages/conversations/src/agent/ConversationAgent.ts',
 ];
 const ADMITTED_PROMPT_PRIMITIVE_CORRIDORS = [
   'packages/asset-packs-pipelines/domain/src',
@@ -153,8 +153,8 @@ const ACTIVE_EXECUTION_PROMPT_CARRIERS = [
   'packages/agent-generics/src/execution/AgentLLMsRegistry.d.ts',
   'packages/agent-generics/src/execution/AgentAgentsRegistry.ts',
   'packages/agent-generics/src/execution/AgentAgentsRegistry.d.ts',
-  'packages/conversations-generics/src/agent/ConversationAgent.ts',
-  'packages/conversations-generics/src/agent/ConversationAgent.js',
+  'packages/conversations/src/agent/ConversationAgent.ts',
+  'packages/conversations/src/agent/ConversationAgent.js',
   'packages/pipelines-generics/src/execution/PipelineExecution.ts',
   'packages/pipelines-generics/src/execution/PipelinePromptRegistry.ts',
   'packages/pipelines-generics/src/execution/PipelineToolRegistry.ts',
@@ -250,7 +250,7 @@ test('V26 prompt system keeps a public package boundary for active inference car
     readFileSync(path.join(repoRoot, 'packages/execution-generics/package.json'), 'utf8')
   );
   const conversationsPackageJson = JSON.parse(
-    readFileSync(path.join(repoRoot, 'packages/conversations-generics/package.json'), 'utf8')
+    readFileSync(path.join(repoRoot, 'packages/conversations/package.json'), 'utf8')
   );
 
   assert.match(promptIndexSource, /PromptExecution/u);
@@ -340,15 +340,15 @@ test('V26 active agent prompt hierarchy docs align with factory-owned Registry-b
 
 test('V26 Terminal conversation prompts are specific raw PromptPart-backed registries', () => {
   const conversationAgentSource = readFileSync(
-    path.join(repoRoot, 'packages/conversations-generics/src/agent/ConversationAgent.ts'),
+    path.join(repoRoot, 'packages/conversations/src/agent/ConversationAgent.ts'),
     'utf8'
   );
   const conversationPackageIndexSource = readFileSync(
-    path.join(repoRoot, 'packages/conversations-generics/src/index.ts'),
+    path.join(repoRoot, 'packages/conversations/src/index.ts'),
     'utf8'
   );
   const conversationSystemPromptSource = readFileSync(
-    path.join(repoRoot, 'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts'),
+    path.join(repoRoot, 'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts'),
     'utf8'
   );
   const conversationAppPromptBindingSource = readFileSync(
@@ -445,10 +445,10 @@ test('V26 support packages expose honest public subpaths and runtime carriers av
     readFileSync(path.join(repoRoot, 'packages/registry/package.json'), 'utf8')
   );
   const docCommentPackageJson = JSON.parse(
-    readFileSync(path.join(repoRoot, 'packages/doc-comment/package.json'), 'utf8')
+    readFileSync(path.join(repoRoot, 'packages/doc-comment-generics/package.json'), 'utf8')
   );
   const docCodePackageJson = JSON.parse(
-    readFileSync(path.join(repoRoot, 'packages/doc-code/package.json'), 'utf8')
+    readFileSync(path.join(repoRoot, 'packages/generic-doc-comments/doc-code/package.json'), 'utf8')
   );
   const toolsPackageJson = JSON.parse(
     readFileSync(path.join(repoRoot, 'packages/tools-generics/package.json'), 'utf8')

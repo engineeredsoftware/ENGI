@@ -2,8 +2,7 @@
  * @bitcode/generic-vcs-github — GitHub VCS provider.
  *
  * Hierarchy: vcs-generics (AbstractVCSProvider) → this provider implementation.
- * Compatibility: @bitcode/github re-exports this package.
- */
+  */
 
 import GitHubProvider from './providers/github-provider';
 

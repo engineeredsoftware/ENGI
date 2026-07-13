@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V42_READNEED_REVIEW_RESYNTHESIS_PRODUCT_CLOSURE_ARTIFACT_PATH,
   buildV42ReadNeedReviewResynthesisProductClosure,
-} from '../packages/protocol/src/canonical/v42-readneed-review-resynthesis-product-closure.js';
+} from '../packages/specifying/src/canonical/v42-readneed-review-resynthesis-product-closure.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

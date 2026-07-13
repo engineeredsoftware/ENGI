@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Forced Inclusion / Forced Exclusion file-tree pickers for deposit synthesis.
  * Paths are mutually exclusive; concept-level withholding stays in Obfuscations.
  */
-"use client";
 
 import React from "react";
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";

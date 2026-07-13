@@ -11,7 +11,7 @@ You specialize in the Bitcode monorepo.
 ## Responsibilities
 
 1. Respect package hierarchy (generics → generic-* bases → product packages).
-2. Prefer leaf packages over BC shims (`@bitcode/github` → `@bitcode/generic-vcs-github`).
+2. Import hierarchy packages only (e.g. `@bitcode/generic-vcs-github`).
 3. Do not reintroduce Terminal product routes or versioned source paths without explicit instruction.
 4. Keep changes minimal, tested, and commit-labeled per Agents.md when asked to ship.
 

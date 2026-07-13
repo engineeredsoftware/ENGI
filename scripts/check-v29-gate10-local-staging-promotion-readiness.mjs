@@ -96,9 +96,9 @@ function main() {
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/workflows/v29-canon-promotion.yml',
-    'packages/protocol/src/canon-posture.js',
-    'packages/protocol/data/state.json',
-    'packages/protocol/README.md',
+    'packages/specifying/src/canon-posture.js',
+    'packages/specifying/data/state.json',
+    'packages/specifying/README.md',
     'protocol-demonstration/src/canon-posture.js',
     'protocol-demonstration/README.md',
     'package.json',
@@ -121,9 +121,9 @@ function main() {
   const promoteScript = read(root, 'scripts/promote-bitcode-canon.mjs');
   const prepareSpecScript = read(root, 'scripts/prepare-bitcode-spec-family-promotion.mjs');
   const prepareRuntimeScript = read(root, 'scripts/prepare-bitcode-runtime-canon-promotion.mjs');
-  const packageCanonPosture = read(root, 'packages/protocol/src/canon-posture.js');
-  const packageState = read(root, 'packages/protocol/data/state.json');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const packageCanonPosture = read(root, 'packages/specifying/src/canon-posture.js');
+  const packageState = read(root, 'packages/specifying/data/state.json');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
   const rootReadme = read(root, 'README.md');
 
   assertCheck(failures, spec.includes('V29 local and staging promotion readiness canon'), 'V29 SPEC must define local/staging promotion readiness canon.');
@@ -157,9 +157,9 @@ function main() {
     promotionWorkflow.includes('head.ref == \'version/v29\'') &&
       promotionWorkflow.includes('npm run promote:canon -- --version V29') &&
       promotionWorkflow.includes('BITCODE_SPEC_V29_PROVEN.md') &&
-      promotionWorkflow.includes('packages/protocol/src/canon-posture.js') &&
-      promotionWorkflow.includes('packages/protocol/data/state.json') &&
-      promotionWorkflow.includes('packages/protocol/README.md') &&
+      promotionWorkflow.includes('packages/specifying/src/canon-posture.js') &&
+      promotionWorkflow.includes('packages/specifying/data/state.json') &&
+      promotionWorkflow.includes('packages/specifying/README.md') &&
       promotionWorkflow.includes('Promote V29 canon files'),
     'V29 promotion workflow must validate version/v29 and commit V29 promotion artifacts.',
   );

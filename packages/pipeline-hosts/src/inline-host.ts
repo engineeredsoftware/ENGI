@@ -1,4 +1,5 @@
 /**
- * @deprecated Prefer `./local-host` or `@bitcode/generic-hosts-local`.
+ * LocalHost alias surface (historical InlineHost name retired).
+ * Source of truth: @bitcode/generic-hosts-local.
  */
 export * from './local-host';

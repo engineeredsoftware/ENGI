@@ -451,7 +451,7 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
     ]
   },
   {
-    packageName: '@bitcode/conversations-generics',
+    packageName: '@bitcode/conversations',
     primaryRole: 'commercial-infrastructure',
     rationale: 'conversation agent and prompt abstractions remain admitted while fullscreen conversations converge inward',
     role: 'conversation prompt and agent substrate for Bitcode rich-input writes',
@@ -480,7 +480,7 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
     ]
   },
   {
-    packageName: '@bitcode/jira-tools',
+    packageName: '@bitcode/generic-tools-mcps-jira',
     primaryRole: 'ingress-or-support',
     rationale: 'retained Jira MCP tools remain admitted only as reader-first read-ingestion and read-measurement carriers during fourth-gate convergence',
     role: 'Jira read-first external work-tracker ingestion port',
@@ -579,11 +579,11 @@ const V26_RETAINED_PACKAGE_CENSUS_POLICY_BY_ROLE = {
 const V26_DIRECT_PRODUCT_PACKAGE_NAMES = new Set([
   '@bitcode/api',
   '@bitcode/btd',
-  '@bitcode/chatgptapp',
+  '@bitcode/external-apps-chatgpt',
   '@bitcode/external-apps-chatgpt',
   '@bitcode/external-apps-claude',
-  '@bitcode/mcp',
-  '@bitcode/mcp-server'
+  '@bitcode/mcp-generics',
+  '@bitcode/generic-mcps-bitcode'
 ]);
 const V26_COMMERCIAL_INFRASTRUCTURE_PACKAGE_NAMES = new Set([
   '@bitcode/agent-generics',
@@ -591,34 +591,34 @@ const V26_COMMERCIAL_INFRASTRUCTURE_PACKAGE_NAMES = new Set([
   '@bitcode/attachments-generics',
   '@bitcode/auth',
   '@bitcode/browser-storage',
-  '@bitcode/context',
-  '@bitcode/conversations-generics',
+  '@bitcode/context-generics',
   '@bitcode/conversations',
-    '@bitcode/doc-code',
-  '@bitcode/doc-comment',
+  '@bitcode/conversations',
+    '@bitcode/generic-doc-comments-doc-code',
+  '@bitcode/doc-comment-generics',
   '@bitcode/doc-comment-generics',
   '@bitcode/generic-doc-comments-doc-code',
   '@bitcode/generic-doc-comments-doc-developing',
-  '@bitcode/doc-comment-developing',
-  '@bitcode/editing',
+  '@bitcode/generic-doc-comments-doc-developing',
+  '@bitcode/file-editing',
   '@bitcode/file-editing',
   '@bitcode/email',
   '@bitcode/errors',
   '@bitcode/execution-generics',
   '@bitcode/files',
   '@bitcode/generic-llms',
-  '@bitcode/git',
-  '@bitcode/github',
+  '@bitcode/generic-vcs-git',
+  '@bitcode/generic-vcs-github',
   '@bitcode/llm-generics',
   '@bitcode/logger',
   '@bitcode/lsp',
   '@bitcode/middleware',
-  '@bitcode/models',
+  '@bitcode/generic-llms-models',
   '@bitcode/generic-llms-models',
   '@bitcode/multimodal-utils',
   '@bitcode/networking',
   '@bitcode/notifications',
-    '@bitcode/obfuscate',
+    '@bitcode/obfuscation',
   '@bitcode/obfuscation',
   '@bitcode/observability',
   '@bitcode/orm',
@@ -626,7 +626,7 @@ const V26_COMMERCIAL_INFRASTRUCTURE_PACKAGE_NAMES = new Set([
   '@bitcode/pipelines-generics',
   '@bitcode/prompts',
   '@bitcode/registry',
-  '@bitcode/responses',
+  '@bitcode/api/responses',
   '@bitcode/security',
   '@bitcode/security-client',
   '@bitcode/security-twilio',
@@ -638,28 +638,28 @@ const V26_COMMERCIAL_INFRASTRUCTURE_PACKAGE_NAMES = new Set([
   '@bitcode/security-rate-limiting',
   '@bitcode/security-credentials',
   '@bitcode/security-encryption',
-  '@bitcode/streams',
+  '@bitcode/api/streams',
   '@bitcode/styling',
   '@bitcode/supabase',
-  '@bitcode/tech-types',
+  '@bitcode/generic-measurements-tech-types',
   '@bitcode/generic-measurements-tech-types',
   '@bitcode/templates-generics',
   '@bitcode/time',
   '@bitcode/tools-generics',
-  '@bitcode/vcs',
+  '@bitcode/vcs-generics',
   'eslint-plugin-bitcode'
 ]);
 const V26_INGRESS_OR_SUPPORT_PACKAGE_NAMES = new Set([
 
-  '@bitcode/bitbucket',
-  '@bitcode/circleci',
+  '@bitcode/generic-vcs-bitbucket',
   '@bitcode/ci-circle',
-    '@bitcode/docker',
+  '@bitcode/ci-circle',
+    '@bitcode/containerizations-docker',
   '@bitcode/containerizations-docker',
-  '@bitcode/figma',
   '@bitcode/externals-figma',
-  '@bitcode/figma-tools',
-  '@bitcode/firecrawl',
+  '@bitcode/externals-figma',
+  '@bitcode/generic-tools-mcps-figma',
+  '@bitcode/web-scrapers-firecrawl',
   '@bitcode/web-scrapers-firecrawl',
   '@bitcode/generic-agents-danger-wall',
   '@bitcode/generic-agents-read-comprehension',
@@ -691,29 +691,29 @@ const V26_INGRESS_OR_SUPPORT_PACKAGE_NAMES = new Set([
   '@bitcode/generic-tools-repository-setup',
   '@bitcode/generic-tools-simple-system-text-search',
   '@bitcode/generic-tools-web-search',
-  '@bitcode/gitlab',
-  '@bitcode/google-analytics',
+  '@bitcode/generic-vcs-gitlab',
   '@bitcode/external-telemetry-google',
-  '@bitcode/jira',
+  '@bitcode/external-telemetry-google',
   '@bitcode/externals-jira',
-  '@bitcode/jira-tools',
-  '@bitcode/kubernetes',
+  '@bitcode/externals-jira',
+  '@bitcode/generic-tools-mcps-jira',
   '@bitcode/containerizations-kubernetes',
-  '@bitcode/mcps-tools-notion',
+  '@bitcode/containerizations-kubernetes',
+  '@bitcode/generic-tools-mcps-notion',
   
-  '@bitcode/notion',
+  '@bitcode/externals-notion',
   '@bitcode/externals-notion',
   '@bitcode/postgresql',
   
-  '@bitcode/refactoring',
   '@bitcode/file-refactoring',
-  '@bitcode/sentry',
+  '@bitcode/file-refactoring',
+  '@bitcode/external-telemetry-sentry',
   '@bitcode/external-telemetry-sentry',
   '@bitcode/external-telemetry-vercel',
-  '@bitcode/simple-system-text-search',
-  '@bitcode/vercel',
+  '@bitcode/host-commands-grep',
   '@bitcode/externals-vercel',
-  '@bitcode/vcs-tools',
+  '@bitcode/externals-vercel',
+  '@bitcode/generic-tools-vcs',
   '@bitcode/web-search'
 ]);
 const V26_COMPATIBILITY_PACKAGE_NAMES = new Set([
@@ -2193,7 +2193,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/pipelines-generics/TLDR.md',
         'packages/pipelines-generics/src/executors/wait-for-instruction.ts',
         'packages/pipelines-generics/src/streaming/pipeline-stream-integration.ts',
-        'packages/conversations-generics/package.json',
+        'packages/conversations/package.json',
         'packages/conversations/README.md',
         'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
         'packages/conversations/src/agent/ConversationAgent.ts'
@@ -2374,8 +2374,8 @@ function buildV26PromptSystemTotalityProof({
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_textsearcher_refine_accuracy_enhancement.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_textsearcher_retry_failure_analysis.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_textsearcher_retry_recovery_strategy.ts',
-        'packages/system-grep/README.md',
-        'packages/system-grep/src/index.ts',
+        'packages/host-commands/grep/README.md',
+        'packages/host-commands/grep/src/index.ts',
         'packages/generic-tools/simple-system-text-search/package.json',
         'packages/generic-tools/simple-system-text-search/README.md',
         'packages/generic-tools/simple-system-text-search/src/index.ts',
@@ -2508,10 +2508,10 @@ function buildV26PromptSystemTotalityProof({
       '@bitcode/prompts',
       '@bitcode/execution-generics',
       '@bitcode/registry',
-      '@bitcode/doc-comment',
-      '@bitcode/doc-code',
+      '@bitcode/doc-comment-generics',
+      '@bitcode/generic-doc-comments-doc-code',
       '@bitcode/tools-generics',
-      '@bitcode/conversations-generics',
+      '@bitcode/conversations',
             '@bitcode/generic-agents-read-comprehension',
       '@bitcode/generic-tools-read-comprehension'
     ],
@@ -3594,7 +3594,7 @@ function buildV26SixthGateMvpClosureProof({
         'API, MCP, and ChatGPT App interfaces share Bitcode Exchange state, write admission, and connected-interface boundaries',
         [
           {
-            file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+            file: 'packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts',
             evidence: 'writeAdmission',
             description: 'Bitcode MCP writes emit write-admission receipts'
           },
@@ -3609,7 +3609,7 @@ function buildV26SixthGateMvpClosureProof({
             description: 'commercial API rereads protocol state'
           },
           {
-            file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+            file: 'packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
             evidence: 'normalizes third-party MCP repository and attachment ingress as input context only',
             description: 'MCP third-party inputs stay ingress context'
           }
@@ -3958,7 +3958,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
             description: 'launch map blocks parallel Exchange ownership by connected interfaces'
           },
           {
-            file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+            file: 'packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts',
             evidence: 'writeAdmission',
             description: 'MCP accepted writes emit write-admission metadata'
           },
@@ -4186,12 +4186,12 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
       'uapi/prompts/bitcode-terminal-system-prompt.ts',
       'uapi/app/api/conversations/stream/route.ts',
       'uapi/app/api/conversations/[conversationId]/stream/route.ts',
-      'packages/executions-mcp/package.json',
-      'packages/executions-mcp/src/mcp-server/src/prompts/analysis-prompts.ts',
-      'packages/executions-mcp/src/mcp-server/src/prompts/workflow-prompts.ts',
-      'packages/executions-mcp/src/mcp-server/src/prompts/development-prompts.ts',
-      'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
-      'packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts'
+      'packages/mcp-generics/package.json',
+      'packages/mcp-generics/src/mcp-server/src/prompts/analysis-prompts.ts',
+      'packages/mcp-generics/src/mcp-server/src/prompts/workflow-prompts.ts',
+      'packages/mcp-generics/src/mcp-server/src/prompts/development-prompts.ts',
+      'packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts',
+      'packages/mcp-generics/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts'
     ]
   },
   {
@@ -4551,47 +4551,47 @@ function buildV26RunsPipelinesTotalityProof({
       'Bitcode MCP write admission and third-party ingress are source-checked as Exchange-facing interface contracts rather than package-presence witnesses',
       [
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/types/index.ts',
+          file: 'packages/mcp-generics/src/mcp-server/src/types/index.ts',
           evidence: "| 'third_party_mcp'",
           description: 'MCP type surface admits third-party MCP as ingress context, not as a parallel product output'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/pipeline-execution/adapter.ts',
+          file: 'packages/mcp-generics/src/mcp-server/src/pipeline-execution/adapter.ts',
           evidence: 'export function buildPipelineInputContext',
           description: 'pipeline adapter exposes explicit input-context normalization for interface ingress'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+          file: 'packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts',
           evidence: "permission: 'pipelines.create'",
           description: 'pipeline tool emits an explicit write-admission permission receipt'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+          file: 'packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts',
           evidence: 'const writeAdmission = assertPipelineWriteAdmission(params, context, interfaceSurface)',
           description: 'pipeline write admission is evaluated before BTD estimation and queueing'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+          file: 'packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts',
           evidence: 'writeAdmission,',
           description: 'accepted write admission is returned and queued in metadata'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+          file: 'packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
           evidence: 'normalizes third-party MCP repository and attachment ingress as input context only',
           description: 'unit proof covers third-party MCP ingress as input context'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+          file: 'packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
           evidence: "expect(inputContext).not.toHaveProperty('assetPacks')",
           description: 'unit proof rejects treating third-party ingress as asset-pack output'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+          file: 'packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
           evidence: "repositoryAnchor: 'github:bitcode-labs/terminal@main'",
           description: 'unit proof binds accepted MCP writes to a concrete repository anchor'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+          file: 'packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
           evidence: 'metadata: expect.objectContaining({',
           description: 'unit proof verifies write-admission metadata is queued with the pipeline job'
         }
@@ -4602,22 +4602,22 @@ function buildV26RunsPipelinesTotalityProof({
       'Bitcode MCP prompt and tool surfaces teach asset-pack pipeline semantics while retaining compatibility URI and subtype names',
       [
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/prompts/workflow-prompts.ts',
+          file: 'packages/mcp-generics/src/mcp-server/src/prompts/workflow-prompts.ts',
           evidence: 'Please execute the Bitcode asset-pack pipeline',
           description: 'workflow prompts teach the active asset-pack pipeline meaning'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/prompts/development-prompts.ts',
+          file: 'packages/mcp-generics/src/mcp-server/src/prompts/development-prompts.ts',
           evidence: "Bitcode's asset-pack pipeline with the following comprehensive source-to-shares approach",
           description: 'development prompts teach source-to-shares asset-pack execution'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+          file: 'packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts',
           evidence: 'Create and execute a Bitcode asset-pack pipeline',
           description: 'pipeline tool description exposes canonical asset-pack semantics'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts',
+          file: 'packages/mcp-generics/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts',
           evidence: 'MCP prompt asset-pack canon',
           description: 'package-local test renders prompts and proves they teach AssetPack canon'
         }
@@ -4985,9 +4985,9 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
         'packages/external-apps/chatgpt/src/server.ts',
         'packages/external-apps/chatgpt/src/tools.ts',
         'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
-        'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
-        'packages/executions-mcp/src/mcp-server/src/types/index.ts',
-        'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+        'packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts',
+        'packages/mcp-generics/src/mcp-server/src/types/index.ts',
+        'packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
         'packages/generic-vcs/git/package.json',
         'packages/generic-vcs/git/src/index.ts',
         'packages/generic-tools/git-interactor/src/index.ts',

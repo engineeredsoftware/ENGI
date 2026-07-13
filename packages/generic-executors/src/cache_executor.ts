@@ -28,16 +28,16 @@ export const cache = <T, R>(
     const cacheKey = `${cacheId}:${key}`;
     
     // Check cache
-    const cached = execution.get<R>('cache', cacheKey);
+    const cached = execution.get('cache', cacheKey) as R | undefined;
     if (cached !== undefined) {
       execution.store('cache_hits', cacheKey, Date.now());
       return cached;
     }
-    
+
     // Execute and cache
     const result = await executor(input, execution);
-    execution.store('cache', cacheKey, result as StorableValue);
+    execution.store('cache', cacheKey, result as never);
     execution.store('cache_misses', cacheKey, Date.now());
-    
+
     return result;
   };

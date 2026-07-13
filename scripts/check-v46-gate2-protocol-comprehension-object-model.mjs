@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V46_PROTOCOL_COMPREHENSION_OBJECT_MODEL_ARTIFACT_PATH,
   buildV46ProtocolComprehensionObjectModel,
-} from '../packages/protocol/src/canonical/v46-protocol-comprehension-object-model.js';
+} from '../packages/specifying/src/canonical/v46-protocol-comprehension-object-model.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -81,8 +81,8 @@ function main() {
 
   for (const relativePath of [
     V46_PROTOCOL_COMPREHENSION_OBJECT_MODEL_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v46-protocol-comprehension-object-model.js',
-    'packages/protocol/test/v46-protocol-comprehension-object-model.test.js',
+    'packages/specifying/src/canonical/v46-protocol-comprehension-object-model.js',
+    'packages/specifying/test/v46-protocol-comprehension-object-model.test.js',
     'scripts/generate-v46-protocol-comprehension-object-model.mjs',
     'scripts/check-v46-gate2-protocol-comprehension-object-model.mjs',
     'BITCODE_SPEC_V46.md',
@@ -91,7 +91,7 @@ function main() {
     'BITCODE_SPEC_V46_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -151,7 +151,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'packages/specifying',
         'exec',
         'node',
         '--test',
@@ -159,7 +159,7 @@ function main() {
         'test/v46-protocol-comprehension-object-model.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol/test/v46-protocol-comprehension-object-model.test.js must pass.');
+      failures.push('packages/specifying/test/v46-protocol-comprehension-object-model.test.js must pass.');
     }
   }
 

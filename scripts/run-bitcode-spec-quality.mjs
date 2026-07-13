@@ -5,7 +5,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { ACTIVE_CANON_VERSION, DRAFT_TARGET_VERSION } from '../packages/protocol/src/index.js';
+import { ACTIVE_CANON_VERSION, DRAFT_TARGET_VERSION } from '../packages/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

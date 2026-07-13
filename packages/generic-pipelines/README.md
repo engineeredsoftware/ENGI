@@ -5,25 +5,25 @@ Base pipeline implementations that extend `@bitcode/pipelines-generics` primitiv
 ## Hierarchy (names encode full ancestry)
 
 ```
-Pipeline                                    # primitive (@bitcode/pipelines-generics)
-        ↑
-SDIVFPipeline                               # base + primitive (@bitcode/generic-pipelines-sdivf)
-SimplePipeline                              # base + primitive (@bitcode/generic-pipelines-simple)
-        ↑
-SynthesizeDepositAssetPacksSDIVFPipeline             # asset-packs-pipelines/synthesize-deposits
-SynthesizeReadAssetPacksSDIVFPipeline                # asset-packs-pipelines/synthesize-reads
-SettleAssetPacksSimplePipeline                   # asset-packs-pipelines/settle-reads
+Pipeline # primitive (@bitcode/pipelines-generics)
+ ↑
+SDIVFPipeline # base + primitive (@bitcode/generic-pipelines-sdivf)
+SimplePipeline # base + primitive (@bitcode/generic-pipelines-simple)
+ ↑
+SynthesizeDepositAssetPacksSDIVFPipeline # asset-packs-pipelines/synthesize-deposits
+SynthesizeReadAssetPacksSDIVFPipeline # asset-packs-pipelines/synthesize-reads
+SettleAssetPacksSimplePipeline # asset-packs-pipelines/settle-reads
 ```
 
 Parity with agents: **SimplePipeline** is to **SDIVFPipeline** as **QuickAgent** is to **PTRRAgent**.
 
 ```
-@bitcode/pipelines-generics             # factoryPipeline → Pipeline
-        ↑
-@bitcode/generic-pipelines-sdivf        # factorySDIVFPipeline → SDIVFPipeline
-@bitcode/generic-pipelines-simple       # factorySimplePipeline → SimplePipeline
-        ↑
-@bitcode/asset-packs-pipelines-*        # product synthesis / settle pipelines
+@bitcode/pipelines-generics # factoryPipeline → Pipeline
+ ↑
+@bitcode/generic-pipelines-sdivf # factorySDIVFPipeline → SDIVFPipeline
+@bitcode/generic-pipelines-simple # factorySimplePipeline → SimplePipeline
+ ↑
+@bitcode/asset-packs-pipelines-* # product synthesis / settle pipelines
 ```
 
 ## Packages

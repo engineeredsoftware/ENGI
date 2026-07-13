@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Conversations overlay header toolbar (history, fullscreen, panels, branch, close).
  */
-'use client';
 
 import React from 'react';
 import {

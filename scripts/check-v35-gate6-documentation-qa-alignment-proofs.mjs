@@ -117,20 +117,20 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/docs-qa-alignment-report.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/v35-docs-qa-alignment-report.test.js',
+    'packages/specifying/src/canonical/docs-qa-alignment-report.js',
+    'packages/specifying/src/index.js',
+    'packages/specifying/src/index.d.ts',
+    'packages/specifying/test/v35-docs-qa-alignment-report.test.js',
     'scripts/generate-v35-docs-qa-alignment-report.mjs',
     'scripts/check-v35-gate6-documentation-qa-alignment-proofs.mjs',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'packages/specifying/src/canonical/v21-specifying.js',
     'BITCODE_SPEC_V35.md',
     'BITCODE_SPEC_V35_DELTA.md',
     'BITCODE_SPEC_V35_NOTES.md',
     'BITCODE_SPEC_V35_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -151,7 +151,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'packages/specifying',
         'exec',
         'node',
         '--test',
@@ -207,10 +207,10 @@ function main() {
     );
   }
 
-  const protocolIndex = read(root, 'packages/protocol/src/index.js');
+  const protocolIndex = read(root, 'packages/specifying/src/index.js');
   assertCheck(failures, protocolIndex.includes('buildDocsQaAlignmentReport'), 'Protocol index must export buildDocsQaAlignmentReport.');
 
-  const packageTypes = read(root, 'packages/protocol/src/index.d.ts');
+  const packageTypes = read(root, 'packages/specifying/src/index.d.ts');
   assertCheck(failures, packageTypes.includes('buildDocsQaAlignmentReport'), 'Protocol type surface must export buildDocsQaAlignmentReport.');
 
   const packageJson = read(root, 'package.json');

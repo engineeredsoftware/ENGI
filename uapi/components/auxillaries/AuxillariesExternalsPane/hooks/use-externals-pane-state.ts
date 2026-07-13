@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { useAuth } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
 import { deriveBitcodeTransactionReadiness } from '@/components/bitcode/pipeline/models/transaction-readiness';
 import { useUserData } from '@/hooks/useUserData';
-import { bitcodeQaTelemetry } from '@/lib/bitcode-qa-telemetry';
+import { bitcodeQaTelemetry } from '@bitcode/auth/qa-telemetry';
 
 export function useExternalsPaneState(onCompletionStatusChange?: (isComplete: boolean) => void) {
   const { user } = useAuth();

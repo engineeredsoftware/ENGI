@@ -542,7 +542,7 @@
     "roadmap": "SPECIFICATIONS_ROADMAP.md",
     "rootReadme": "README.md",
     "assetPackReadme": "packages/asset-packs-pipelines/domain/README.md",
-    "protocolReadme": "packages/protocol/README.md",
+    "protocolReadme": "packages/specifying/README.md",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml"
   }

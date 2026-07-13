@@ -8,8 +8,8 @@ These are **not** core protocol packages. They consume Bitcode primitives (MCP, 
 
 ```
 packages/external-apps/
-  chatgpt/     # @bitcode/external-apps-chatgpt  (ChatGPT App MCP server)
-  claude/      # @bitcode/external-apps-claude   (Claude Code plugin scaffold)
+ chatgpt/ # @bitcode/external-apps-chatgpt (ChatGPT App MCP server)
+ claude/ # @bitcode/external-apps-claude (Claude Code plugin scaffold)
 ```
 
 | Path | Package | Host | Role |
@@ -17,6 +17,5 @@ packages/external-apps/
 | `chatgpt/` | `@bitcode/external-apps-chatgpt` | OpenAI ChatGPT Apps / MCP | Existing Bitcode ChatGPT App MCP server |
 | `claude/` | `@bitcode/external-apps-claude` | Claude Code | Plugin scaffold (skills, agents, MCP wiring) |
 
-BC alias: `@bitcode/chatgptapp` → `external-apps/chatgpt` (compatibility).
 
 Prefer hierarchy package names in new code.

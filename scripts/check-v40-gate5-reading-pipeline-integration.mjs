@@ -78,7 +78,7 @@ function printHelp() {
 
 function runIntegrationSmoke(root, failures) {
   const commands = [
-    ['pnpm', ['--filter', '@bitcode/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-reading-pipeline-integration-coverage.test.js']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-reading-pipeline-integration-coverage.test.js']],
     ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath',
       'src/__tests__/reading-pipeline-integration-coverage.test.ts',
       'src/__tests__/reading-pipeline-contract.test.ts',
@@ -136,8 +136,8 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v40-reading-pipeline-integration-coverage.js',
-    'packages/protocol/test/v40-reading-pipeline-integration-coverage.test.js',
+    'packages/specifying/src/canonical/v40-reading-pipeline-integration-coverage.js',
+    'packages/specifying/test/v40-reading-pipeline-integration-coverage.test.js',
     'scripts/generate-v40-reading-pipeline-integration-coverage.mjs',
     'scripts/check-v40-gate5-reading-pipeline-integration.mjs',
     'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts',
@@ -168,7 +168,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v40-reading-pipeline-integration-coverage.test.js',
+        'packages/specifying/test/v40-reading-pipeline-integration-coverage.test.js',
       ]);
     } catch (error) {
       failures.push(`V40 Reading pipeline integration protocol test failed: ${error.stderr || error.message}`);

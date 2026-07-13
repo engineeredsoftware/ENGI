@@ -42,13 +42,13 @@ import { productionMultiProviderSearch } from '@bitcode/generic-tools-web-search
 
 // Multi-provider search with enterprise resilience
 const results = await productionMultiProviderSearch(
-  'React authentication best practices',
-  ['https://reactjs.org/docs'], // URL attachments for enhanced intelligence
-  {
-    maxResults: 20,
-    urgency: 'high', // 'high' | 'medium' | 'low'
-    category: 'documentation' // 'code' | 'documentation' | 'qa' | 'academic' | 'general'
-  }
+ 'React authentication best practices',
+ ['https://reactjs.org/docs'], // URL attachments for enhanced intelligence
+ {
+ maxResults: 20,
+ urgency: 'high', // 'high' | 'medium' | 'low'
+ category: 'documentation' // 'code' | 'documentation' | 'qa' | 'academic' | 'general'
+ }
 );
 
 console.log(`Found ${results.results.length} results from ${results.providerUsage.length} providers`);
@@ -78,19 +78,19 @@ const agent = WEB_RESEARCH_AGENT.researchWeb;
 import { searchWithUrlIntelligence } from '@bitcode/web-search';
 
 const urlAttachments = [
-  'https://reactjs.org/docs/hooks.html',
-  'https://github.com/facebook/react'
+ 'https://reactjs.org/docs/hooks.html',
+ 'https://github.com/facebook/react'
 ];
 
 const results = await searchWithUrlIntelligence(
-  'React authentication with hooks',
-  urlAttachments,
-  { numResults: 10 }
+ 'React authentication with hooks',
+ urlAttachments,
+ { numResults: 10 }
 );
 
 // Results are automatically scoped to React-related domains
 console.log(results.urlAnalysis); // URL intelligence analysis
-console.log(results.results);    // Enhanced search results
+console.log(results.results); // Enhanced search results
 ```
 
 ## Architecture
@@ -98,41 +98,41 @@ console.log(results.results);    // Enhanced search results
 ### Multi-Provider Orchestration
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Query Router  │────│ Circuit Breaker │────│ Rate Limiter    │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+│ Query Router │────│ Circuit Breaker │────│ Rate Limiter │
+└─────────────────┘ └─────────────────┘ └─────────────────┘
+ │ │ │
+ ▼ ▼ ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                Provider Orchestration Layer                     │
+│ Provider Orchestration Layer │
 ├─────────────────┬─────────────────┬─────────────────┬───────────┤
-│      Exa        │     GitHub      │ Stack Overflow  │ Semantic  │
-│   Neural AI     │   Code & Docs   │   Community     │ Scholar   │
+│ Exa │ GitHub │ Stack Overflow │ Semantic │
+│ Neural AI │ Code & Docs │ Community │ Scholar │
 └─────────────────┴─────────────────┴─────────────────┴───────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
+ │ │ │
+ ▼ ▼ ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                Result Fusion Engine                             │
-│  • Deduplication  • Quality Filtering  • Diversity Optimization │
+│ Result Fusion Engine │
+│ • Deduplication • Quality Filtering • Diversity Optimization │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ### PTRR Research Flow
 
 ```
-Plan Phase          Generate Phase       Refine Phase         Intensify Phase
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│ Context     │────▶│ Wave 1      │────▶│ Quality     │────▶│ Advanced    │
-│ Analysis    │     │ Initial     │     │ Assessment  │     │ Synthesis   │
-│             │     │ Discovery   │     │             │     │             │
-│ • Tech Stack│     │             │     │ • Gap       │     │ • Cross-    │
-│ • URLs      │     │ Wave 2      │     │   Analysis  │     │   Source    │
-│ • Patterns  │     │ Follow-up   │     │ • Quality   │     │   Insights  │
-│             │     │ Deep Dive   │     │   Metrics   │     │ • Contra-   │
-│ • Strategy  │     │             │     │             │     │   dictions  │
-│   Generation│     │ Wave N      │     │ • Readiness │     │ • Implement │
-│             │     │ Iterative   │     │   Score     │     │   Path      │
-└─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+Plan Phase Generate Phase Refine Phase Intensify Phase
+┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐
+│ Context │────▶│ Wave 1 │────▶│ Quality │────▶│ Advanced │
+│ Analysis │ │ Initial │ │ Assessment │ │ Synthesis │
+│ │ │ Discovery │ │ │ │ │
+│ • Tech Stack│ │ │ │ • Gap │ │ • Cross- │
+│ • URLs │ │ Wave 2 │ │ Analysis │ │ Source │
+│ • Patterns │ │ Follow-up │ │ • Quality │ │ Insights │
+│ │ │ Deep Dive │ │ Metrics │ │ • Contra- │
+│ • Strategy │ │ │ │ │ │ dictions │
+│ Generation│ │ Wave N │ │ • Readiness │ │ • Implement │
+│ │ │ Iterative │ │ Score │ │ Path │
+└─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘
 ```
 
 ## 📊 Performance Benchmarks
@@ -177,20 +177,20 @@ import { classifyUrl } from '@bitcode/web-search';
 const classification = classifyUrl('https://github.com/facebook/react');
 // Returns:
 // {
-//   url: 'https://github.com/facebook/react',
-//   type: 'github_repo',
-//   domain: 'github.com',
-//   confidence: 0.9,
-//   metadata: {
-//     isOfficial: false,
-//     authority: 'high'
-//   }
+// url: 'https://github.com/facebook/react',
+// type: 'github_repo',
+// domain: 'github.com',
+// confidence: 0.9,
+// metadata: {
+// isOfficial: false,
+// authority: 'high'
+// }
 // }
 ```
 
 **Supported URL Types:**
 - `documentation` - Official docs, MDN, guides
-- `github_repo` - GitHub repositories  
+- `github_repo` - GitHub repositories
 - `github_issue` - GitHub issues and pull requests
 - `stackoverflow` - Stack Overflow questions
 - `api_reference` - API documentation
@@ -208,9 +208,9 @@ const classification = classifyUrl('https://github.com/facebook/react');
 import { extractTechnologyContext } from '@bitcode/web-search';
 
 const urls = [
-  'https://reactjs.org/docs',
-  'https://nodejs.org/api',
-  'https://www.typescriptlang.org/docs'
+ 'https://reactjs.org/docs',
+ 'https://nodejs.org/api',
+ 'https://www.typescriptlang.org/docs'
 ];
 
 const technologies = extractTechnologyContext(urls);
@@ -232,23 +232,23 @@ const related = discoverRelatedDomains('reactjs.org');
 import { analyzeUrlAttachments } from '@bitcode/web-search';
 
 const analysis = await analyzeUrlAttachments([
-  'https://reactjs.org/docs/hooks.html',
-  'https://github.com/facebook/react',
-  'https://stackoverflow.com/questions/react-hooks'
+ 'https://reactjs.org/docs/hooks.html',
+ 'https://github.com/facebook/react',
+ 'https://stackoverflow.com/questions/react-hooks'
 ]);
 
 console.log(analysis);
 // Returns:
 // {
-//   classifications: [...],        // Individual URL classifications
-//   suggestedDomains: [...],      // Domains to include in search
-//   relatedDomains: [...],        // Additional relevant domains
-//   contentTopics: ['react'],     // Detected technologies
-//   searchStrategy: {
-//     includeDomains: [...],      // Domains for search scoping
-//     categories: ['github'],     // Suggested search categories
-//     enhancedQueries: [...]      // URL-derived search queries
-//   }
+// classifications: [...], // Individual URL classifications
+// suggestedDomains: [...], // Domains to include in search
+// relatedDomains: [...], // Additional relevant domains
+// contentTopics: ['react'], // Detected technologies
+// searchStrategy: {
+// includeDomains: [...], // Domains for search scoping
+// categories: ['github'], // Suggested search categories
+// enhancedQueries: [...] // URL-derived search queries
+// }
 // }
 ```
 
@@ -258,9 +258,9 @@ console.log(analysis);
 
 ```typescript
 await search('React tutorial', {
-  includeDomains: ['reactjs.org', 'react.dev'],
-  excludeDomains: ['spam-site.com'],
-  numResults: 15
+ includeDomains: ['reactjs.org', 'react.dev'],
+ excludeDomains: ['spam-site.com'],
+ numResults: 15
 });
 ```
 
@@ -268,13 +268,13 @@ await search('React tutorial', {
 
 ```typescript
 await search('React research', {
-  category: 'github',           // Focus on GitHub content
-  type: 'neural',              // Use neural vs keyword search
-  contents: {
-    text: { maxCharacters: 5000 },
-    highlights: { numSentences: 3 },
-    summary: { query: 'React patterns' }
-  }
+ category: 'github', // Focus on GitHub content
+ type: 'neural', // Use neural vs keyword search
+ contents: {
+ text: { maxCharacters: 5000 },
+ highlights: { numSentences: 3 },
+ summary: { query: 'React patterns' }
+ }
 });
 ```
 
@@ -282,9 +282,9 @@ await search('React research', {
 
 ```typescript
 await search('Latest React features', {
-  startPublishedDate: '2023-01-01',
-  endPublishedDate: '2024-01-01',
-  startCrawlDate: '2023-06-01'
+ startPublishedDate: '2023-01-01',
+ endPublishedDate: '2024-01-01',
+ startCrawlDate: '2023-06-01'
 });
 ```
 
@@ -295,7 +295,7 @@ The URL intelligence system is automatically used by the Web Research Agent:
 ```typescript
 // In your pipeline configuration
 const attachments = [
-  { type: 'url', content: 'https://reactjs.org/docs/hooks.html' }
+ { type: 'url', content: 'https://reactjs.org/docs/hooks.html' }
 ];
 
 // The Web Research Agent will automatically:
@@ -366,7 +366,7 @@ Extract all URLs from text content.
 EXA_API_KEY=your_exa_api_key
 
 # Optional
-OPENAI_API_KEY=your_openai_key  # For query analysis
+OPENAI_API_KEY=your_openai_key # For query analysis
 ```
 
 ### Search Categories
@@ -393,18 +393,18 @@ const generic = await search('authentication tutorial');
 
 // Use URL-enhanced search for better relevance
 const focused = await searchWithUrlIntelligence(
-  'authentication tutorial',
-  ['https://auth0.com/docs'],  // Scope to auth-related domains
-  { numResults: 10 }
+ 'authentication tutorial',
+ ['https://auth0.com/docs'], // Scope to auth-related domains
+ { numResults: 10 }
 );
 ```
 
 ### 2. Combine Multiple URL Types
 ```typescript
 const urls = [
-  'https://reactjs.org/docs',      // Official documentation
-  'https://github.com/facebook/react', // Source repository
-  'https://stackoverflow.com/questions/tagged/reactjs' // Community Q&A
+ 'https://reactjs.org/docs', // Official documentation
+ 'https://github.com/facebook/react', // Source repository
+ 'https://stackoverflow.com/questions/tagged/reactjs' // Community Q&A
 ];
 
 // Gets comprehensive coverage across different source types
@@ -415,14 +415,14 @@ const analysis = await analyzeUrlAttachments(urls);
 ```typescript
 // The system automatically detects technology context
 const techUrls = [
-  'https://reactjs.org/docs/hooks.html',
-  'https://nodejs.org/api/http.html'
+ 'https://reactjs.org/docs/hooks.html',
+ 'https://nodejs.org/api/http.html'
 ];
 
 // Searches will be enhanced with React and Node.js context
 const results = await searchWithUrlIntelligence(
-  'full stack development patterns',
-  techUrls
+ 'full stack development patterns',
+ techUrls
 );
 ```
 
@@ -431,7 +431,7 @@ const results = await searchWithUrlIntelligence(
 // For conceptual searches
 await search('software architecture patterns', { type: 'neural' });
 
-// For specific code searches  
+// For specific code searches
 await search('useState hook syntax', { type: 'keyword' });
 
 // For balanced approach
@@ -444,11 +444,11 @@ await search('React performance optimization', { type: 'auto' });
 import { search, classifyUrl } from '@bitcode/web-search';
 
 try {
-  const results = await search('React tutorial');
-  console.log(results);
+ const results = await search('React tutorial');
+ console.log(results);
 } catch (error) {
-  console.error('Search failed:', error);
-  // Handle API errors, rate limits, etc.
+ console.error('Search failed:', error);
+ // Handle API errors, rate limits, etc.
 }
 
 // URL classification handles invalid URLs gracefully
@@ -468,61 +468,61 @@ const classification = classifyUrl('invalid-url');
 ### Complete Workflow Example
 
 ```typescript
-import { 
-  searchWithUrlIntelligence,
-  analyzeUrlAttachments,
-  classifyUrl 
+import {
+ searchWithUrlIntelligence,
+ analyzeUrlAttachments,
+ classifyUrl
 } from '@bitcode/web-search';
 
 async function enhancedResearch(task: string, urls: string[]) {
-  // 1. Analyze URL attachments
-  console.log('🔍 Analyzing URL attachments...');
-  const urlAnalysis = await analyzeUrlAttachments(urls);
-  
-  console.log(`📊 Found ${urlAnalysis.contentTopics.length} technologies:`, 
-    urlAnalysis.contentTopics);
-  console.log(`🌐 Scoping to ${urlAnalysis.suggestedDomains.length} domains:`,
-    urlAnalysis.suggestedDomains);
+ // 1. Analyze URL attachments
+ console.log('🔍 Analyzing URL attachments...');
+ const urlAnalysis = await analyzeUrlAttachments(urls);
 
-  // 2. Perform enhanced search
-  console.log('🚀 Performing enhanced search...');
-  const searchResults = await searchWithUrlIntelligence(
-    task,
-    urls,
-    { 
-      numResults: 15,
-      type: 'neural',
-      contents: {
-        text: { maxCharacters: 3000 },
-        highlights: { numSentences: 2 },
-        summary: { query: task }
-      }
-    }
-  );
+ console.log(`📊 Found ${urlAnalysis.contentTopics.length} technologies:`,
+ urlAnalysis.contentTopics);
+ console.log(`🌐 Scoping to ${urlAnalysis.suggestedDomains.length} domains:`,
+ urlAnalysis.suggestedDomains);
 
-  // 3. Process results
-  const topResults = searchResults.results
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 10);
+ // 2. Perform enhanced search
+ console.log('🚀 Performing enhanced search...');
+ const searchResults = await searchWithUrlIntelligence(
+ task,
+ urls,
+ {
+ numResults: 15,
+ type: 'neural',
+ contents: {
+ text: { maxCharacters: 3000 },
+ highlights: { numSentences: 2 },
+ summary: { query: task }
+ }
+ }
+ );
 
-  console.log(`✅ Found ${topResults.length} high-quality results`);
-  
-  return {
-    urlAnalysis: searchResults.urlAnalysis,
-    results: topResults,
-    technologies: urlAnalysis.contentTopics,
-    domains: urlAnalysis.suggestedDomains
-  };
+ // 3. Process results
+ const topResults = searchResults.results
+ .sort((a, b) => b.score - a.score)
+ .slice(0, 10);
+
+ console.log(`✅ Found ${topResults.length} high-quality results`);
+
+ return {
+ urlAnalysis: searchResults.urlAnalysis,
+ results: topResults,
+ technologies: urlAnalysis.contentTopics,
+ domains: urlAnalysis.suggestedDomains
+ };
 }
 
 // Usage
 const research = await enhancedResearch(
-  'React authentication with JWT tokens',
-  [
-    'https://reactjs.org/docs/hooks.html',
-    'https://auth0.com/docs/tokens/json-web-tokens',
-    'https://github.com/auth0/node-jsonwebtoken'
-  ]
+ 'React authentication with JWT tokens',
+ [
+ 'https://reactjs.org/docs/hooks.html',
+ 'https://auth0.com/docs/tokens/json-web-tokens',
+ 'https://github.com/auth0/node-jsonwebtoken'
+ ]
 );
 ```
 
@@ -588,7 +588,7 @@ console.log(`Average Response Time: ${metrics.averageResponseTime}ms`);
 ### Health Endpoints
 
 - `GET /health` - System health check
-- `GET /metrics` - Prometheus metrics  
+- `GET /metrics` - Prometheus metrics
 - `GET /provider-health` - Provider status
 - `GET /performance` - Performance metrics
 

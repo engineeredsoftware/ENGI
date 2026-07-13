@@ -7,7 +7,7 @@
  *     → generic-agents/PTRR (PTRRAgent base: Plan→Try→Refine→Retry)
  *     → product / measure / conversation agents
  *
- * PTRR base lives in `@bitcode/generic-agents-ptrr` and is re-exported here for BC.
+ * PTRR base lives in `@bitcode/generic-agents-ptrr` and is re-exported for product agent assembly.
  * Each PTRR step runs 3 failsafe parents (PrepareConciseContext → ChunkThenSum →
  * StitchUntilComplete), each driving Thinkings (Reason → Judge → StructuredOutput).
  *
@@ -28,10 +28,6 @@
 export {
   FailsafeGeneration,
   ThinkingsGeneration,
-  /** @deprecated Prefer FailsafeGeneration */
-  FailsafeMetaSubStep,
-  /** @deprecated Prefer ThinkingsGeneration */
-  GenerationSubMetaSubStep,
   type Generation,
 } from '@bitcode/generation-generics';
 
@@ -82,8 +78,6 @@ export {
 export {
   factoryPTRRAgent,
   factoryPTRRAgentWithGenerations,
-  factoryAgentWithPTRR,
-  factoryAgentWithPTRRGenerations,
   type PTRRAgent,
   type BitcodePTRRFactoryConfig,
   type BitcodePTRRPromptCarrier,
@@ -103,7 +97,7 @@ export {
 //   NeedinessesMeasureAgent    → @bitcode/generic-measurements-needinesses
 //   SynthesizeAssetPacks…      → @bitcode/generic-asset-packs-synthesis
 //
-// Re-exported for compatibility; prefer package-direct imports in new code.
+// Composition re-exports of the measurement hierarchy (leaf packages remain source of truth).
 
 export {
   MeasurementReadingSchema,
@@ -191,12 +185,6 @@ export {
   factoryAgentFailsafeGenerationExecution,
   factoryAgentThinkingsGenerationExecution,
   factoryAgentToolGenerationExecution,
-  /** @deprecated Prefer factoryAgentFailsafeGenerationExecution */
-  factoryAgentFailsafeSubStepExecution,
-  /** @deprecated Prefer factoryAgentThinkingsGenerationExecution */
-  factoryAgentGenerationSubStepExecution,
-  /** @deprecated Prefer factoryAgentToolGenerationExecution */
-  factoryAgentToolSubStepExecution,
 } from './substeps/factories';
 
 // ==================== EXECUTION TYPES ====================
@@ -213,14 +201,6 @@ export {
   factoryGenerationExecution,
   factoryFailsafeGenerationExecution,
   factoryThinkingsGenerationExecution,
-  /** @deprecated Prefer GenerationExecution */
-  SubStepExecution,
-  /** @deprecated Prefer FailsafeGenerationExecution */
-  FailsafeExecution,
-  /** @deprecated Prefer factoryGenerationExecution */
-  factoryNestedGenerationExecution,
-  /** @deprecated Prefer factoryGenerationExecution */
-  factorySubStepExecution,
 
   // Registries
   AgentPromptsRegistry,

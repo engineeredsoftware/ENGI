@@ -115,18 +115,18 @@
     "parity": "BITCODE_SPEC_V44_PARITY_MATRIX.md:533bbfe052c5c8469c31c1af",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
     "readme": "README.md:d28ec731634e03953d8adfe6",
-    "protocolReadme": "packages/protocol/README.md:f5b175049f4f4e8df179e184",
+    "protocolReadme": "packages/specifying/README.md:f5b175049f4f4e8df179e184",
     "packageJson": "package.json:b79014968c556bc1b43ab341",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
-    "economicModel": "packages/protocol/src/canonical/v44-economic-domain-model.js:2376c461d422d5eb4cb62da4",
+    "economicModel": "packages/specifying/src/canonical/v44-economic-domain-model.js:2376c461d422d5eb4cb62da4",
     "model": "uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
     "route": "uapi/app/api/packs/activity/route.ts:97c5a4539d48562eb5de66e8",
     "client": "uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
     "uapiTest": "uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
-    "packageIndex": "packages/protocol/src/index.js:1f16ea428bd71351a1292cb6",
-    "packageTypes": "packages/protocol/src/index.d.ts:278dfc652c621533b5e86f4d",
-    "packageTest": "packages/protocol/test/v44-packs-portfolio-market-intelligence.test.js:ea02fa03d210e6480036fc0f",
+    "packageIndex": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "packageTypes": "packages/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "packageTest": "packages/specifying/test/v44-packs-portfolio-market-intelligence.test.js:ea02fa03d210e6480036fc0f",
     "generator": "scripts/generate-v44-packs-portfolio-market-intelligence.mjs:c106ef7138e3a330d405bec2",
     "checker": "scripts/check-v44-gate3-packs-portfolio-market-intelligence.mjs:0de0b87cbc96bb307cc1533a"
   },
@@ -173,12 +173,12 @@
     },
     {
       "id": "protocol-readme-records-gate3",
-      "sourcePath": "packages/protocol/README.md",
+      "sourcePath": "packages/specifying/README.md",
       "passed": true
     },
     {
       "id": "economic-model-prerequisite-present",
-      "sourcePath": "packages/protocol/src/canonical/v44-economic-domain-model.js",
+      "sourcePath": "packages/specifying/src/canonical/v44-economic-domain-model.js",
       "passed": true
     },
     {
@@ -233,17 +233,17 @@
     },
     {
       "id": "package-test-covers-gate3",
-      "sourcePath": "packages/protocol/test/v44-packs-portfolio-market-intelligence.test.js",
+      "sourcePath": "packages/specifying/test/v44-packs-portfolio-market-intelligence.test.js",
       "passed": true
     },
     {
       "id": "package-exports-gate3",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {
       "id": "package-types-export-gate3",
-      "sourcePath": "packages/protocol/src/index.d.ts",
+      "sourcePath": "packages/specifying/src/index.d.ts",
       "passed": true
     },
     {

@@ -322,7 +322,7 @@ function interfaceIntegrationRegressionBody(overrides: Record<string, unknown> =
         surface: 'chatgpt_app',
         consumerId: 'bitcode-chatgpt-app-interface',
         packageExport: '@bitcode/btd/interface-integration-contract',
-        adapterPath: 'packages/chatgptapp/src/interface-integration.ts',
+        adapterPath: 'packages/external-apps/chatgpt/src/interface-integration.ts',
         objectFamilies: ['read_access', 'organization_authority'],
         proofRoot: 'chatgpt-app-interface-proof-root',
       },

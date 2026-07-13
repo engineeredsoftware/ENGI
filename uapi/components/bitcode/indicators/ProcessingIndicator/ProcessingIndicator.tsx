@@ -9,9 +9,14 @@ interface ProcessingIndicatorProps {
    * Defaults to "Processing" for neutral Bitcode run state.
    */
   label?: string;
+  /**
+   * When true, flips label tone to amber to surface stall / silence warnings
+   * (e.g. LLM call silence past the 180s threshold).
+   */
+  stalled?: boolean;
 }
 
-export const ProcessingIndicator = memo(({ label = 'Processing' }: ProcessingIndicatorProps) => {
+export const ProcessingIndicator = memo(({ label = 'Processing', stalled = false }: ProcessingIndicatorProps) => {
   const orbRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const underlineRef = useRef<HTMLDivElement>(null);
@@ -75,7 +80,11 @@ export const ProcessingIndicator = memo(({ label = 'Processing' }: ProcessingInd
       <div className="relative">
         <div
           ref={textRef}
-          className="processing-text text-brand-emerald text-neon"
+          className={
+            stalled
+              ? 'processing-text text-amber-400 text-neon'
+              : 'processing-text text-brand-emerald text-neon'
+          }
         >
           {label}
           <TypingAnimation

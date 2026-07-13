@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/execution-generics",
   "version": "1.0.0",
-  "description": "Execution primitive (state) + BC re-exports of Executor combinators and process-root helpers",
+  "description": "Execution primitive (state) + composition re-exports of Executor combinators and process-root helpers",
   "main": "src/index.js",
   "types": "src/index.ts",
   "exports": {
@@ -51,6 +51,7 @@
   "license": "ISC",
   "dependencies": {
     "@bitcode/executor-generics": "workspace:*",
+    "@bitcode/generic-artifacts-compose": "workspace:*",
     "@bitcode/generic-executors": "workspace:*",
     "@bitcode/generic-executions": "workspace:*",
     "@bitcode/prompts": "workspace:*",

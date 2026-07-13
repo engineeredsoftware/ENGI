@@ -5,7 +5,7 @@ import React, { useEffect, useState, useMemo, useRef, useLayoutEffect } from 're
 import { useAuth } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
 import Logo from '@/components/bitcode/branding/Logo/Logo';
 import { motion, AnimatePresence } from 'framer-motion';
-import { bitcodeQaTelemetry, compactBitcodeAddress } from '../../../../lib/bitcode-qa-telemetry';
+import { bitcodeQaTelemetry, compactBitcodeAddress } from '@bitcode/auth/qa-telemetry';
 import { buildAuxillariesRoutePath } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 
 interface BtdAssetPackSummary {

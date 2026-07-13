@@ -1,4 +1,4 @@
-declare module '@bitcode/artifacts' {
+declare module '@bitcode/generic-artifacts-compose' {
   export interface ArtifactInfo {
     url: string;
     size: number;

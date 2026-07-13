@@ -10,7 +10,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -261,7 +261,7 @@ export const figmaProcessorStepPrompts = {
  * Comprehensive Figma processing agent
  * Uses full PTRR cycle for thorough analysis
  */
-const comprehensiveFigma = factoryAgentWithPTRR<
+const comprehensiveFigma = factoryPTRRAgent<
   z.infer<typeof FigmaProcessorInputSchema>,
   z.infer<typeof FigmaProcessorRetrySchema>
 >({

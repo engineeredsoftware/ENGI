@@ -94,9 +94,9 @@ function main() {
     'packages/generic-mcps/bitcode/src/auth/middleware.ts',
     'packages/generic-mcps/bitcode/src/types/index.ts',
     'packages/generic-mcps/bitcode/src/__tests__/unit/auth.test.ts',
-    'packages/chatgptapp/src/tools.ts',
-    'packages/chatgptapp/src/__tests__/tools.test.ts',
-    'packages/chatgptapp/package.json',
+    'packages/external-apps/chatgpt/src/tools.ts',
+    'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
+    'packages/external-apps/chatgpt/package.json',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
     'uapi/app/terminal/terminal-organization-authority.ts',
@@ -129,9 +129,9 @@ function main() {
   const mcpAuth = read(root, 'packages/generic-mcps/bitcode/src/auth/middleware.ts');
   const mcpTypes = read(root, 'packages/generic-mcps/bitcode/src/types/index.ts');
   const mcpTest = read(root, 'packages/generic-mcps/bitcode/src/__tests__/unit/auth.test.ts');
-  const chatgptTools = read(root, 'packages/chatgptapp/src/tools.ts');
-  const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/tools.test.ts');
-  const chatgptPackage = read(root, 'packages/chatgptapp/package.json');
+  const chatgptTools = read(root, 'packages/external-apps/chatgpt/src/tools.ts');
+  const chatgptTest = read(root, 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts');
+  const chatgptPackage = read(root, 'packages/external-apps/chatgpt/package.json');
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
   const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
   const terminalProjection = read(root, 'uapi/app/terminal/terminal-organization-authority.ts');

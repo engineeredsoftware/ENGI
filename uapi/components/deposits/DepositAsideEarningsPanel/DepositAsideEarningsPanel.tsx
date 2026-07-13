@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Deposit route aside — Earnings / all-repositories supply estimate panel.
  */
-"use client";
 
 import React from "react";
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";

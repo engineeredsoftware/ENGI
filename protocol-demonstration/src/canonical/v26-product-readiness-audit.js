@@ -179,8 +179,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     baselineReadiness: 'materially-implemented-open',
     parityMatrixAnchor: 'API / MCP / third-party parity',
     requiredEvidence: [
-      ['packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts', 'writeAdmission'],
-      ['packages/executions-mcp/src/mcp-server/src/types/index.ts', 'RepositoryContextSchema'],
+      ['packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts', 'writeAdmission'],
+      ['packages/mcp-generics/src/mcp-server/src/types/index.ts', 'RepositoryContextSchema'],
       ['packages/external-apps/chatgpt/src/tools.ts', 'confirmed'],
       ['packages/external-apps/chatgpt/src/__tests__/tools.test.ts', 'rejects ChatGPT App connected-interface writes without explicit confirmation'],
       ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'API / MCP / third-party parity']
@@ -245,7 +245,7 @@ const PRODUCT_MVP_EVIDENCE_BY_ID = {
     ['uapi/tests/userDataRoute.test.ts', 'walletConnectionStatus']
   ],
   'connected-interfaces': [
-    ['packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts', 'writeAdmission'],
+    ['packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts', 'writeAdmission'],
     ['packages/external-apps/chatgpt/src/__tests__/tools.test.ts', 'declares confirmation schema on every ChatGPT App connected-interface write carrier'],
     ['packages/external-apps/chatgpt/src/server.ts', 'Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state']
   ],
@@ -293,7 +293,7 @@ const PRODUCT_LAUNCH_EVIDENCE_BY_ID = {
     ['uapi/tests/api/transactionWriteReadinessRoutes.test.ts', 'live wallet-provider signing session is no longer available']
   ],
   'connected-interfaces': [
-    ['packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts', 'writeAdmission'],
+    ['packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts', 'writeAdmission'],
     ['packages/external-apps/chatgpt/src/__tests__/tools.test.ts', 'declares confirmation schema on every ChatGPT App connected-interface write carrier'],
     ['packages/external-apps/chatgpt/src/server.ts', 'Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state']
   ],

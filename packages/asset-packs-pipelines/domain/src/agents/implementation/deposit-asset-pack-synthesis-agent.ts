@@ -11,7 +11,7 @@
  * stable for phase registration and tests.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 import { AssetPackPatchWriteTool } from './asset-pack-patch-write-tool';
 import {
@@ -31,7 +31,7 @@ export {
 
 const depositPrompt = createDepositSynthesisPrompt();
 
-export const DepositAssetPackSynthesisAgent = factoryAgentWithPTRR<any, DepositSynthesisOptions>({
+export const DepositAssetPackSynthesisAgent = factoryPTRRAgent<any, DepositSynthesisOptions>({
   name: 'DepositAssetPackSynthesisAgent',
   description:
     'Synthesizes reviewable, source-safe, measured AssetPack candidate options from the depositor repository source (deposit lens).',
@@ -98,7 +98,7 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
     },
     execution,
   );
-  // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });
+  // factoryPTRRAgent returns an envelope ({ context, output, finalOutput });
   // unwrap it to the agent's typed structured output (F27).
   const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 

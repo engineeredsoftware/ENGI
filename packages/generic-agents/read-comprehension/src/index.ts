@@ -8,7 +8,7 @@
 import {
   AgentPrompt,
   AgentStepPrompt,
-  factoryAgentWithPTRR
+  factoryPTRRAgent
 } from '@bitcode/agent-generics';
 import {
   analyzeReadSemanticsTool,
@@ -135,7 +135,7 @@ export const bitcodeSetupReadComprehensionStepPrompts = {
   retry: new AgentStepPrompt({ purpose: PROMPTPART_SPECIFIC_AGENT_COMPREHENDREAD_RETRY_ERRORHANDLING })
 };
 
-export const bitcodeSetupReadComprehensionAgent = factoryAgentWithPTRR<
+export const bitcodeSetupReadComprehensionAgent = factoryPTRRAgent<
   BitcodeSetupReadComprehensionInput,
   BitcodeSetupReadComprehensionResult
 >({

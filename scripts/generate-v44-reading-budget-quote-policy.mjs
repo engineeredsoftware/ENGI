@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V44_READING_BUDGET_QUOTE_POLICY_ARTIFACT_PATH,
   buildV44ReadingBudgetQuotePolicy,
-} from '../packages/protocol/src/canonical/v44-reading-budget-quote-policy.js';
+} from '../packages/specifying/src/canonical/v44-reading-budget-quote-policy.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

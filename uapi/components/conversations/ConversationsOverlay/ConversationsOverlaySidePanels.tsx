@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Conversations overlay side panels (source, handoff, privacy, telemetry, rehearsal, writing).
  */
-'use client';
 
 import React from 'react';
 import ConversationSourceSelector from '@/components/conversations/ConversationSourceSelector/ConversationSourceSelector';

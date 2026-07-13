@@ -1,5 +1,5 @@
 /**
- * LocalHost — local HostKind base implementation (was InlineHost).
+ * LocalHost — local HostKind base implementation (formerly InlineHost).
  *
  * Hierarchy: LocalHost extends BitcodePipelineHost primitive (host-generics).
  * Spec: BITCODE_SPEC_V48 G3-4 hostKind `local` (default when BITCODE_PIPELINE_HOST unset).
@@ -170,7 +170,3 @@ export class LocalHost implements BitcodePipelineHost {
   }
 }
 
-/** @deprecated Use LocalHost */
-export const InlineHost = LocalHost;
-/** @deprecated Use LocalHostOptions */
-export type InlineHostOptions = LocalHostOptions;

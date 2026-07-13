@@ -20,7 +20,7 @@ jest.mock('@supabase/supabase-js', () => ({
   createClient: jest.fn(() => ({})),
 }));
 
-jest.mock('@bitcode/vcs', () => ({
+jest.mock('@bitcode/vcs-generics', () => ({
   VCSConnections: jest.fn(),
 }));
 

@@ -5,12 +5,12 @@ Bitcode Exchange-facing Model Context Protocol server (`packages/generic-mcps/bi
 ## Hierarchy
 
 ```
-@bitcode/mcp-generics                         # primitives (McpConfig, validation)
-        ↑
-@bitcode/generic-mcps-bitcode                 # this package
+@bitcode/mcp-generics # primitives (McpConfig, validation)
+ ↑
+@bitcode/generic-mcps-bitcode # this package
 ```
 
-Compatibility: `@bitcode/mcp-server` re-exports this package.
+Compatibility: `@bitcode/generic-mcps-bitcode` re-exports this package.
 
 ---
 
@@ -92,12 +92,12 @@ docker build -t bitcode/mcp-server -f deployment/docker/Dockerfile .
 
 # Run container
 docker run -d \
-  -p 3000:3000 \
-  -p 8080:8080 \
-  -e NODE_ENV=production \
-  -e SUPABASE_URL=$SUPABASE_URL \
-  -e SUPABASE_SERVICE_KEY=$SUPABASE_SERVICE_KEY \
-  bitcode/mcp-server
+ -p 3000:3000 \
+ -p 8080:8080 \
+ -e NODE_ENV=production \
+ -e SUPABASE_URL=$SUPABASE_URL \
+ -e SUPABASE_SERVICE_KEY=$SUPABASE_SERVICE_KEY \
+ bitcode/mcp-server
 ```
 
 ### Kubernetes
@@ -107,9 +107,9 @@ kubectl create namespace bitcode
 
 # Create secrets
 kubectl create secret generic bitcode-secrets \
-  --from-literal=supabase-url=$SUPABASE_URL \
-  --from-literal=supabase-service-key=$SUPABASE_SERVICE_KEY \
-  -n bitcode
+ --from-literal=supabase-url=$SUPABASE_URL \
+ --from-literal=supabase-service-key=$SUPABASE_SERVICE_KEY \
+ -n bitcode
 
 # Deploy
 kubectl apply -f deployment/kubernetes/deployment.yaml
@@ -152,17 +152,17 @@ The server monitors and alerts on:
 1. Create `.claude/mcp_server_config.json`:
 ```json
 {
-  "mcpServers": {
-    "bitcode": {
-      "command": "node",
-      "args": ["/path/to/bitcode/packages/mcp-server/dist/index.js"],
-      "env": {
-        "NODE_ENV": "development",
-        "SUPABASE_URL": "your-url",
-        "SUPABASE_SERVICE_KEY": "your-key"
-      }
-    }
-  }
+ "mcpServers": {
+ "bitcode": {
+ "command": "node",
+ "args": ["/path/to/bitcode/packages/generic-mcps/bitcode/dist/index.js"],
+ "env": {
+ "NODE_ENV": "development",
+ "SUPABASE_URL": "your-url",
+ "SUPABASE_SERVICE_KEY": "your-key"
+ }
+ }
+ }
 }
 ```
 
@@ -172,11 +172,11 @@ The server monitors and alerts on:
 ```typescript
 // Use the local provider
 const result = await mcp.executeTool('analyze-repository', {
-  repository: {
-    name: 'my-project',
-    path: '/Users/me/projects/my-project',
-    provider: 'local'
-  }
+ repository: {
+ name: 'my-project',
+ path: '/Users/me/projects/my-project',
+ provider: 'local'
+ }
 });
 ```
 
@@ -199,19 +199,19 @@ const result = await mcp.executeTool('analyze-repository', {
 ### Common Issues
 
 1. **Authentication Failures**
-   - Check API key permissions
-   - Verify Supabase connection
-   - Check rate limits
+ - Check API key permissions
+ - Verify Supabase connection
+ - Check rate limits
 
 2. **Pipeline Execution Issues**
-   - Verify `run_jobs` table exists
-   - Check worker processes
-   - Monitor pipeline queue
+ - Verify `run_jobs` table exists
+ - Check worker processes
+ - Monitor pipeline queue
 
 3. **Memory Issues**
-   - Adjust `MAX_MEMORY_MB` environment variable
-   - Check for memory leaks in monitoring
-   - Enable heap snapshots if needed
+ - Adjust `MAX_MEMORY_MB` environment variable
+ - Check for memory leaks in monitoring
+ - Enable heap snapshots if needed
 
 ### Debug Mode
 ```bash

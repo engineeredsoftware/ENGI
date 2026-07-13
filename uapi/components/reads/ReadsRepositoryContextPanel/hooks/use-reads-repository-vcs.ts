@@ -7,7 +7,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import type { VCSBranch, VCSCommit, VCSRepository } from '@bitcode/vcs-core';
+import type { VCSBranch, VCSCommit, VCSRepository } from '@bitcode/vcs-generics-core';
 import {
   buildTerminalRepositoryAnchorDraft,
   type TerminalActivityRecordDraft,

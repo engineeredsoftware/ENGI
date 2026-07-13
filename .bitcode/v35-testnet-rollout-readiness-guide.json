@@ -68,7 +68,7 @@
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
         "AGENTS.md",
-        "packages/protocol/README.md"
+        "packages/specifying/README.md"
       ],
       "reproducibleCommands": [
         "sed -n 1,80p BITCODE_SPEC.txt",
@@ -174,7 +174,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         }
       ],
@@ -226,7 +226,7 @@
       ],
       "reproducibleCommands": [
         "pnpm --dir uapi exec tsc --noEmit --pretty false",
-        "pnpm --filter @bitcode/protocol test",
+        "pnpm --filter @bitcode/specifying test",
         "npm --prefix protocol-demonstration run test:v28-mvp-qa"
       ],
       "guideExamples": [
@@ -244,7 +244,7 @@
         "protocol-demonstration/test/v28-mvp-qa.test.js"
       ],
       "validationCommands": [
-        "pnpm --filter @bitcode/protocol test",
+        "pnpm --filter @bitcode/specifying test",
         "pnpm run check:v35-gate7"
       ],
       "allowedDisclosure": [
@@ -540,7 +540,7 @@
       ],
       "reproducibleCommands": [
         "pnpm --dir uapi exec jest --runTestsByPath tests/terminalDepositReadWorkbench.test.ts --runInBand",
-        "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts --runInBand"
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts --runInBand"
       ],
       "guideExamples": [
         "Before settlement the reader sees measurements, provenance posture, proof roots, and non-source preview metadata.",
@@ -847,12 +847,12 @@
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
         "packages/api/README.md",
-        "packages/executions-mcp/src/mcp-server/README.md",
-        "packages/chatgptapp/README.md"
+        "packages/mcp-generics/src/mcp-server/README.md",
+        "packages/external-apps/chatgpt/README.md"
       ],
       "reproducibleCommands": [
         "pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/interface-authorization-policy.test.ts",
-        "pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts --runInBand",
+        "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts --runInBand",
         "pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts --runInBand"
       ],
       "guideExamples": [
@@ -954,11 +954,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/README.md",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/README.md",
           "present": true
         },
         {
-          "sourceRoot": "packages/chatgptapp/README.md",
+          "sourceRoot": "packages/external-apps/chatgpt/README.md",
           "present": true
         }
       ],
@@ -1758,7 +1758,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         }
       ]
@@ -2088,11 +2088,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/README.md",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/README.md",
           "present": true
         },
         {
-          "sourceRoot": "packages/chatgptapp/README.md",
+          "sourceRoot": "packages/external-apps/chatgpt/README.md",
           "present": true
         }
       ]

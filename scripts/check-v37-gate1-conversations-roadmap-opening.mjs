@@ -98,11 +98,11 @@ function main() {
     'README.md',
     'AGENTS.md',
     'package.json',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'protocol-demonstration/README.md',
-    'packages/protocol/src/canon-posture.js',
+    'packages/specifying/src/canon-posture.js',
     'protocol-demonstration/src/canon-posture.js',
-    'packages/protocol/data/state.json',
+    'packages/specifying/data/state.json',
   ];
 
   for (const relativePath of requiredFiles) {
@@ -119,11 +119,11 @@ function main() {
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
   const prTemplate = read(root, '.github/pull_request_template.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
   const demoReadme = read(root, 'protocol-demonstration/README.md');
-  const packagePosture = read(root, 'packages/protocol/src/canon-posture.js');
+  const packagePosture = read(root, 'packages/specifying/src/canon-posture.js');
   const demoPosture = read(root, 'protocol-demonstration/src/canon-posture.js');
-  const postureState = read(root, 'packages/protocol/data/state.json');
+  const postureState = read(root, 'packages/specifying/data/state.json');
 
   for (const [label, content] of [
     ['V37 SPEC', spec],

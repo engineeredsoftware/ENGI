@@ -2,7 +2,7 @@
   "name": "@bitcode/generic-mcps-bitcode",
   "version": "0.0.1",
   "private": true,
-  "description": "Bitcode Exchange-facing MCP server (generic-mcps/bitcode). Prefer this over the @bitcode/mcp-server BC barrel.",
+  "description": "Bitcode Exchange-facing MCP server (generic-mcps/bitcode). Exchange-facing MCP server package.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

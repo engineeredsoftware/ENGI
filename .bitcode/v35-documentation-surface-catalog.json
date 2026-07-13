@@ -91,7 +91,7 @@
         "operators",
         "protocol_reviewers"
       ],
-      "owner": "packages/protocol",
+      "owner": "packages/specifying",
       "disclosureClass": "public_source_safe",
       "sourceRoots": [
         "BITCODE_SPEC.txt",
@@ -113,7 +113,7 @@
         ".bitcode/v35-documentation-surface-catalog.json"
       ],
       "routePackageBindings": [
-        "packages/protocol/src/canonical/v21-specifying.js"
+        "packages/specifying/src/canonical/v21-specifying.js"
       ],
       "proofCoverage": [
         "spec-family-check",
@@ -427,7 +427,7 @@
       "owner": "package-workspaces",
       "disclosureClass": "public_source_safe",
       "sourceRoots": [
-        "packages/protocol/README.md",
+        "packages/specifying/README.md",
         "packages/btd/README.md",
         "packages/api/README.md",
         "packages/asset-packs-pipelines/domain/README.md",
@@ -440,7 +440,7 @@
         ".bitcode/v35-documentation-surface-catalog.json"
       ],
       "routePackageBindings": [
-        "packages/protocol/src/index.js",
+        "packages/specifying/src/index.js",
         "packages/btd/src/index.ts",
         "packages/api/src",
         "packages/asset-packs-pipelines/domain/src"
@@ -474,7 +474,7 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -586,8 +586,8 @@
       "disclosureClass": "public_source_safe",
       "sourceRoots": [
         "packages/api/README.md",
-        "packages/executions-mcp/README.md",
-        "packages/chatgptapp/README.md",
+        "packages/mcp-generics/README.md",
+        "packages/external-apps/chatgpt/README.md",
         "uapi/README.md",
         "docs/api/conversations-openapi.yaml"
       ],
@@ -602,8 +602,8 @@
         ".bitcode/v35-documentation-surface-catalog.json"
       ],
       "routePackageBindings": [
-        "packages/executions-mcp/src/mcp-server",
-        "packages/chatgptapp/src"
+        "packages/mcp-generics/src/mcp-server",
+        "packages/external-apps/chatgpt/src"
       ],
       "proofCoverage": [
         "interface-contract-test",
@@ -638,11 +638,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/README.md",
+          "sourceRoot": "packages/mcp-generics/README.md",
           "present": true
         },
         {
-          "sourceRoot": "packages/chatgptapp/README.md",
+          "sourceRoot": "packages/external-apps/chatgpt/README.md",
           "present": true
         },
         {
@@ -663,13 +663,13 @@
         "protocol_reviewers",
         "operators"
       ],
-      "owner": "packages/protocol",
+      "owner": "packages/specifying",
       "disclosureClass": "public_source_safe",
       "sourceRoots": [
         ".bitcode/v34-deployment-host-capability-catalog.json",
         ".bitcode/v34-distributed-execution-runtime-receipts.json",
         ".bitcode/v34-deployment-storage-posture.json",
-        "packages/protocol/src/canonical/v21-specifying.js",
+        "packages/specifying/src/canonical/v21-specifying.js",
         "scripts/generate-bitcode-proven.mjs"
       ],
       "linkedSpecSections": [
@@ -726,7 +726,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/v21-specifying.js",
+          "sourceRoot": "packages/specifying/src/canonical/v21-specifying.js",
           "present": true
         },
         {
@@ -748,7 +748,7 @@
       "sourceRoots": [
         "infra/README.md",
         "internal-docs/DEPLOYMENT.md",
-        "packages/vercel/README.md",
+        "packages/externals/vercel/README.md",
         "packages/supabase/README.md",
         "packages/pipeline-hosts/README.md"
       ],
@@ -802,7 +802,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/vercel/README.md",
+          "sourceRoot": "packages/externals/vercel/README.md",
           "present": true
         },
         {
@@ -827,11 +827,11 @@
       "owner": "observability-packages",
       "disclosureClass": "internal_source_safe",
       "sourceRoots": [
-        "packages/protocol/src/telemetry.js",
+        "packages/specifying/src/telemetry.js",
         "internal-docs/BITCODE_EXECUTIONS.md",
         "internal-docs/BITCODE_PROMPT_TRACE.md",
         "packages/observability/README.md",
-        "packages/streams/README.md"
+        "packages/api/src/streams/README.md"
       ],
       "linkedSpecSections": [
         "V35 proof-family canon",
@@ -876,7 +876,7 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "packages/protocol/src/telemetry.js",
+          "sourceRoot": "packages/specifying/src/telemetry.js",
           "present": true
         },
         {
@@ -892,7 +892,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/streams/README.md",
+          "sourceRoot": "packages/api/src/streams/README.md",
           "present": true
         }
       ],
@@ -920,7 +920,7 @@
         ".bitcode/v35-documentation-surface-catalog.json"
       ],
       "routePackageBindings": [
-        "packages/protocol/test/protocol-package-boundary.test.js"
+        "packages/specifying/test/protocol-package-boundary.test.js"
       ],
       "proofCoverage": [
         "demonstration-boundary-test",
@@ -1173,7 +1173,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -1229,11 +1229,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/README.md",
+          "sourceRoot": "packages/mcp-generics/README.md",
           "present": true
         },
         {
-          "sourceRoot": "packages/chatgptapp/README.md",
+          "sourceRoot": "packages/external-apps/chatgpt/README.md",
           "present": true
         },
         {
@@ -1263,7 +1263,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/v21-specifying.js",
+          "sourceRoot": "packages/specifying/src/canonical/v21-specifying.js",
           "present": true
         },
         {
@@ -1285,7 +1285,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/vercel/README.md",
+          "sourceRoot": "packages/externals/vercel/README.md",
           "present": true
         },
         {
@@ -1303,7 +1303,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "packages/protocol/src/telemetry.js",
+          "sourceRoot": "packages/specifying/src/telemetry.js",
           "present": true
         },
         {
@@ -1319,7 +1319,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/streams/README.md",
+          "sourceRoot": "packages/api/src/streams/README.md",
           "present": true
         }
       ]

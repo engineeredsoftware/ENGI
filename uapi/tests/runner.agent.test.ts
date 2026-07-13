@@ -2,9 +2,8 @@
 import '@/tests/setupTests';
 
 import { z } from 'zod';
-import { getGlobalContext } from '@bitcode/context';
-// Mock getGlobalContext for this test
-jest.mock('@bitcode/context', () => ({ getGlobalContext: jest.fn() }));
+import { getProcessRootFields } from '@bitcode/generic-executions';
+jest.mock('@bitcode/generic-executions', () => ({ getProcessRootFields: jest.fn() }));
 import { executeAgentSteps } from '@bitcode/steps/runner';
 
 // Stub structuredLLMCall to avoid real LLM calls
@@ -55,7 +54,7 @@ describe('executeAgentSteps', () => {
       getCurrentIteration: jest.fn(() => ({ phases: { discovery: {}, implementation: {}, validation: {} }, llmCalls: [], correlationId: 'cid' })),
       fileTracker: { /* not used in this test */ }
     };
-    (getGlobalContext as jest.Mock).mockReturnValue(fakeCtx);
+    (getProcessRootFields as jest.Mock).mockReturnValue(fakeCtx);
   });
 
   it('runs all PGRI steps and records context', async () => {

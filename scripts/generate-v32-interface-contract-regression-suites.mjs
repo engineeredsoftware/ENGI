@@ -63,7 +63,7 @@ const sourceFiles = Object.freeze([
   'packages/btd/src/interface-integration.ts',
   'uapi/app/terminal/terminal-interface-integration-regression.ts',
   'packages/generic-mcps/bitcode/src/interface-integration.ts',
-  'packages/chatgptapp/src/interface-integration.ts',
+  'packages/external-apps/chatgpt/src/interface-integration.ts',
 ]);
 
 const testFiles = Object.freeze([
@@ -72,7 +72,7 @@ const testFiles = Object.freeze([
   'uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
   'packages/api/src/routes/__tests__/btd-crypto.test.ts',
   'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-  'packages/chatgptapp/src/__tests__/tools.test.ts',
+  'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
   'uapi/tests/auxillariesContent.access.test.tsx',
   'uapi/tests/api/conversationsRouteRead.test.ts',
 ]);
@@ -118,7 +118,7 @@ const fixtureRows = Object.freeze([
     surface: 'chatgpt_app',
     status: 'active_contract',
     boundaryKind: 'chatgpt_tool',
-    fixturePath: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+    fixturePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
     authBoundary: 'confirmed_connected_write',
     policyDenial: 'chatgpt-app-write-denies-missing-confirmation-read-access-or-authority',
     sourceSafetyClass: 'source-safe-internal',
@@ -228,7 +228,7 @@ export function buildV32InterfaceContractRegressionSuite() {
       'pipelines.create permission',
       'writeAdmission',
     ]),
-    scanTokens('packages/chatgptapp/src/__tests__/tools.test.ts', [
+    scanTokens('packages/external-apps/chatgpt/src/__tests__/tools.test.ts', [
       'requiresConfirmation',
       'readAccess',
       'organizationAuthority',

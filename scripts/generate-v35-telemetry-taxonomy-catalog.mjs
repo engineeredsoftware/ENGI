@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   TELEMETRY_TAXONOMY_CATALOG_ARTIFACT_PATH,
   buildTelemetryTaxonomyCatalog,
-} from '../packages/protocol/src/index.js';
+} from '../packages/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

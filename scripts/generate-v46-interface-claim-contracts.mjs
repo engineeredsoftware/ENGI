@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V46_INTERFACE_CLAIM_CONTRACTS_ARTIFACT_PATH,
   buildV46InterfaceClaimContracts,
-} from '../packages/protocol/src/canonical/v46-interface-claim-contracts.js';
+} from '../packages/specifying/src/canonical/v46-interface-claim-contracts.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

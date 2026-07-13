@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Read scenario panel — orchestration for demonstration measurement + review actions.
  */
 
-'use client';
 
 import React from 'react';
 

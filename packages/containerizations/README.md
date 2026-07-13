@@ -7,4 +7,4 @@ Container runtime integrations.
 | `docker/` | `@bitcode/containerizations-docker` |
 | `kubernetes/` | `@bitcode/containerizations-kubernetes` |
 
-BC: `@bitcode/docker`, `@bitcode/kubernetes`.
+Packages: `@bitcode/containerizations-docker`, `@bitcode/containerizations-kubernetes`.

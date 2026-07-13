@@ -19,15 +19,15 @@ find ../.. -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.
     
     # Replace imports
     sed -i '' \
-      -e 's|from ["'"'"']@bitcode/vcs-core["'"'"']|from "@bitcode/vcs"|g' \
-      -e 's|from ["'"'"']@bitcode/vcs-service["'"'"']|from "@bitcode/vcs"|g' \
-      -e 's|from ["'"'"']@bitcode/vcs-generics["'"'"']|from "@bitcode/vcs"|g' \
-      -e 's|import("@bitcode/vcs-core")|import("@bitcode/vcs")|g' \
-      -e 's|import("@bitcode/vcs-service")|import("@bitcode/vcs")|g' \
-      -e 's|import("@bitcode/vcs-generics")|import("@bitcode/vcs")|g' \
-      -e 's|require("@bitcode/vcs-core")|require("@bitcode/vcs")|g' \
-      -e 's|require("@bitcode/vcs-service")|require("@bitcode/vcs")|g' \
-      -e 's|require("@bitcode/vcs-generics")|require("@bitcode/vcs")|g' \
+      -e 's|from ["'"'"']@bitcode/vcs-core["'"'"']|from "@bitcode/vcs-generics"|g' \
+      -e 's|from ["'"'"']@bitcode/vcs-service["'"'"']|from "@bitcode/vcs-generics"|g' \
+      -e 's|from ["'"'"']@bitcode/vcs-generics["'"'"']|from "@bitcode/vcs-generics"|g' \
+      -e 's|import("@bitcode/vcs-core")|import("@bitcode/vcs-generics")|g' \
+      -e 's|import("@bitcode/vcs-service")|import("@bitcode/vcs-generics")|g' \
+      -e 's|import("@bitcode/vcs-generics")|import("@bitcode/vcs-generics")|g' \
+      -e 's|require("@bitcode/vcs-core")|require("@bitcode/vcs-generics")|g' \
+      -e 's|require("@bitcode/vcs-service")|require("@bitcode/vcs-generics")|g' \
+      -e 's|require("@bitcode/vcs-generics")|require("@bitcode/vcs-generics")|g' \
       "$file"
     
     # Check if changes were made
@@ -53,9 +53,9 @@ find ../.. -name "package.json" -not -path "*/node_modules/*" | while read -r fi
     
     # Replace dependencies
     sed -i '' \
-      -e 's|"@bitcode/vcs-core": "[^"]*"|"@bitcode/vcs": "workspace:*"|g' \
-      -e 's|"@bitcode/vcs-service": "[^"]*"|"@bitcode/vcs": "workspace:*"|g' \
-      -e 's|"@bitcode/vcs-generics": "[^"]*"|"@bitcode/vcs": "workspace:*"|g' \
+      -e 's|"@bitcode/vcs-core": "[^"]*"|"@bitcode/vcs-generics": "workspace:*"|g' \
+      -e 's|"@bitcode/vcs-service": "[^"]*"|"@bitcode/vcs-generics": "workspace:*"|g' \
+      -e 's|"@bitcode/vcs-generics": "[^"]*"|"@bitcode/vcs-generics": "workspace:*"|g' \
       "$file"
     
     # Remove duplicates if @bitcode/vcs already exists
@@ -74,6 +74,6 @@ echo "  - @bitcode/vcs-core/utils"
 echo "  - @bitcode/vcs-service/cache"
 echo ""
 echo "These should be updated to:"
-echo "  - @bitcode/vcs"
+echo "  - @bitcode/vcs-generics"
 echo ""
 echo "Also check for any type-only imports that might read adjustment."

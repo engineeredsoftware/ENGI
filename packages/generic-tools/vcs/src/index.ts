@@ -7,7 +7,7 @@
 
 import { Tool } from '@bitcode/tools-generics';
 import { z } from 'zod';
-import { VCSProviderFactory, VCSConnections, type VCSAuth, type VCSConfig, type VCSProviderType } from '@bitcode/vcs';
+import { VCSProviderFactory, VCSConnections, type VCSAuth, type VCSConfig, type VCSProviderType } from '@bitcode/vcs-generics';
 import { supabaseAdmin } from '@bitcode/supabase';
 // Utility functions for retry and timeout logic
 const withTimeout = async <T>(fn: () => Promise<T>, timeoutMs: number): Promise<T> => {

@@ -12,7 +12,7 @@ import {
   type UniqueTech,
 } from '../uniqueTech';
 
-describe('@bitcode/tech-types', () => {
+describe('@bitcode/generic-measurements-tech-types', () => {
   it('exposes the core vocabulary used by read-measurement dependents', () => {
     expect(BRANDS).toContain('Vercel');
     expect(TECHNOLOGIES).toContain('NextJS');

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import PublicShellFrame from '../(root)/components/PublicShellFrame';
+import PublicShellFrame from '@/components/marketing/PublicShellFrame/PublicShellFrame';
 
 import EdgetimesPageContent from './EdgetimesPageContent';
 

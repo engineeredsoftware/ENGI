@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V38_READ_FITS_FINDING_SEARCH_EMBEDDINGS_ARTIFACT_PATH,
   buildV38ReadFitsFindingSearchEmbeddings,
-} from '../packages/protocol/src/canonical/read-fits-finding-search-embeddings.js';
+} from '../packages/specifying/src/canonical/read-fits-finding-search-embeddings.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

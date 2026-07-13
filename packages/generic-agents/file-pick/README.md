@@ -61,7 +61,7 @@ The agent processes task descriptions to select relevant repository files:
 
 ```typescript
 const fileSelection = await filePickerAgent.execute(
-  "Find authentication components and API handlers for login flow"
+ "Find authentication components and API handlers for login flow"
 );
 // Returns: ['src/components/LoginForm.tsx', 'src/api/auth.ts', 'src/hooks/useAuth.ts']
 ```
@@ -71,10 +71,10 @@ const fileSelection = await filePickerAgent.execute(
 ### File Selection Result
 ```typescript
 {
-  finalFiles: string[],           // Array of selected file paths
-  optimizations: string[],        // Applied optimization strategies
-  relevanceScore: number,         // Overall selection relevance (0-1)
-  taskAlignment: string           // Description of task alignment
+ finalFiles: string[], // Array of selected file paths
+ optimizations: string[], // Applied optimization strategies
+ relevanceScore: number, // Overall selection relevance (0-1)
+ taskAlignment: string // Description of task alignment
 }
 ```
 

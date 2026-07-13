@@ -6,8 +6,8 @@
 
 ```
 packages/external-apps/
-  chatgpt/   # ChatGPT App MCP (existing product surface)
-  claude/    # this package — Claude Code plugin scaffold
+ chatgpt/ # ChatGPT App MCP (existing product surface)
+ claude/ # this package — Claude Code plugin scaffold
 ```
 
 ## Layout (Claude Code plugin convention)
@@ -15,15 +15,15 @@ packages/external-apps/
 ```
 claude/
 ├── .claude-plugin/
-│   └── plugin.json          # manifest only
+│ └── plugin.json # manifest only
 ├── skills/
-│   └── bitcode-operator/
-│       └── SKILL.md
+│ └── bitcode-operator/
+│ └── SKILL.md
 ├── agents/
-│   └── bitcode-assistant.md
+│ └── bitcode-assistant.md
 ├── hooks/
-│   └── hooks.json
-├── .mcp.json                # optional Bitcode MCP wiring
+│ └── hooks.json
+├── .mcp.json # optional Bitcode MCP wiring
 └── README.md
 ```
 

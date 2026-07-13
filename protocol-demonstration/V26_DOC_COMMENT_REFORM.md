@@ -8,12 +8,12 @@ That intricacy is useful as a reform rope, but it is not itself the live Bitcode
 
 For V26 fifth-gate and the reopened fourth-gate truth:
 
-- `packages/doc-comment/*` is an admitted `ingress-or-support` primitive for build-time parsing and metadata extraction when explicit Bitcode-owned injection paths consume it.
-- `packages/doc-code/*` is an admitted `ingress-or-support` plus `compatibility` corridor for build-time tool prompt injection and attachment of `DocCodeToolPrompt` instances onto tools.
+- `packages/doc-comment-generics/*` is an admitted `ingress-or-support` primitive for build-time parsing and metadata extraction when explicit Bitcode-owned injection paths consume it.
+- `packages/generic-doc-comments/doc-code/*` is an admitted `ingress-or-support` plus `compatibility` corridor for build-time tool prompt injection and attachment of `DocCodeToolPrompt` instances onto tools.
 - `packages/tools-generics/src/doc-code-tool/*` is the active runtime bridge that formats and consumes those attached tool prompts during agentic Bitcode runs.
 - `packages/generic-doc-comment-plugins/*` is a `reference-only` plugin corridor.
 - `packages/prompts/src/developing/*` remains prompt-package internal experimentation, not a public import surface for retained doc-comment consumers.
-- `packages/doc-comment/examples/*` may survive as illustrative reference material, but they do not define live Bitcode Exchange, Bitcode Terminal, or admitted inference-runtime behavior.
+- `packages/doc-comment-generics/examples/*` may survive as illustrative reference material, but they do not define live Bitcode Exchange, Bitcode Terminal, or admitted inference-runtime behavior.
 - generic corridor-by-corridor reform tactics remain governed by `protocol-demonstration/V26_REFORM_STRATEGY.md`.
 
 ## Why this corridor needs careful reform
@@ -42,8 +42,8 @@ The required tactics for this corridor are:
 
 The currently admissible V26 use of this corridor is:
 
-- build-time parsing of doc-comment metadata through `packages/doc-comment/*`,
-- build-time attachment of `DocCodeToolPrompt` instances through `packages/doc-code/*`,
+- build-time parsing of doc-comment metadata through `packages/doc-comment-generics/*`,
+- build-time attachment of `DocCodeToolPrompt` instances through `packages/generic-doc-comments/doc-code/*`,
 - runtime consumption of those attached tool prompts through `packages/tools-generics/src/doc-code-tool/*` while the prompt/doc-code carriers remain loadable without pulling the full execution storage/logging stack and while their support primitives resolve through honest public package subpaths rather than repo-relative cross-package imports,
 - reading non-Bitcode implementation ideas,
 - preserving examples that explain how prompt-bearing metadata once composed,
@@ -63,7 +63,7 @@ This supplement is expected to stay synchronized with:
 - `BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - `protocol-demonstration/V26_TERMINAL_SYSTEMS.md`
 - `protocol-demonstration/V26_PROMPT_SURFACES.md`
-- `packages/doc-code/tsconfig.typecheck.json`
+- `packages/generic-doc-comments/doc-code/tsconfig.typecheck.json`
 - `packages/{execution-generics,registry,doc-comment,doc-code,tools-generics}/package.json`
 - `protocol-demonstration/test/v26-doc-comment-reform.test.js`
 - `protocol-demonstration/test/v26-prompt-runtime-loadability.test.js`

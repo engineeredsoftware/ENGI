@@ -16,10 +16,10 @@ import { OrbitalBackground } from '@/components/bitcode/pipeline/OrbitalBackgrou
 import { buildAuxillariesRoutePath } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 import { useVCSData } from '@/hooks/useVCSData';
 import { useVCSSelections } from '@/hooks/useVCSSelections';
-import { VCSProviderType } from '@bitcode/vcs-core';
+import { VCSProviderType } from '@bitcode/vcs-generics-core';
 import { useExecutionState } from '@/hooks/useExecutionState';
 import { usePersistedState } from '@/app/executions/hooks/usePersistedState';
-import { DEFAULT_PROVIDER, DEFAULT_MODEL_API } from '@bitcode/models';
+import { DEFAULT_PROVIDER, DEFAULT_MODEL_API } from '@bitcode/generic-llms-models';
 import '@/styles/animations.css';
 import '@/styles/components.css';
 import type { UrlEntry } from '@/types/api';

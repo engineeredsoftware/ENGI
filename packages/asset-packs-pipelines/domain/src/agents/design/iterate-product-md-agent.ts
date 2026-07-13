@@ -5,7 +5,7 @@
  * Reads requirements, proposes PRODUCT.md changes, user reviews and provides feedback.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
@@ -70,7 +70,7 @@ const iterateProductMdStepPrompts = {
   retry: () => createIterateProductMdStepPrompt('Return a bounded recovery draft and readiness assessment when prior attempts are incomplete.'),
 };
 
-export const IterateProductMdAgent = factoryAgentWithPTRR<
+export const IterateProductMdAgent = factoryPTRRAgent<
   z.infer<typeof IterateProductMdInputSchema>,
   z.infer<typeof IterateProductMdOutputSchema>
 >({

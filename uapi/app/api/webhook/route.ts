@@ -9,7 +9,7 @@ import { exec } from 'child_process';
 
 import { track } from '@vercel/analytics/server';
 
-import { createJsonResponse } from '@bitcode/responses';
+import { createJsonResponse } from '@bitcode/api/responses';
 import { log } from '@bitcode/logger';
 import { supabaseAdmin } from '@bitcode/supabase';
 

@@ -239,11 +239,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-writing-workspace.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-writing-workspace.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-writing-workspace.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-writing-workspace.test.js",
           "present": true
         },
         {
@@ -432,11 +432,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-writing-workspace.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-writing-workspace.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-writing-workspace.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-writing-workspace.test.js",
           "present": true
         },
         {
@@ -625,11 +625,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-writing-workspace.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-writing-workspace.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-writing-workspace.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-writing-workspace.test.js",
           "present": true
         },
         {
@@ -818,11 +818,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-writing-workspace.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-writing-workspace.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-writing-workspace.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-writing-workspace.test.js",
           "present": true
         },
         {
@@ -914,11 +914,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-writing-workspace.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-writing-workspace.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-writing-workspace.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-writing-workspace.test.js",
           "present": true
         },
         {
@@ -984,11 +984,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-writing-workspace.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-writing-workspace.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-writing-workspace.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-writing-workspace.test.js",
           "present": true
         },
         {
@@ -1054,11 +1054,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-writing-workspace.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-writing-workspace.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-writing-workspace.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-writing-workspace.test.js",
           "present": true
         },
         {
@@ -1124,11 +1124,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-writing-workspace.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-writing-workspace.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-writing-workspace.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-writing-workspace.test.js",
           "present": true
         },
         {

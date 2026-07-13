@@ -16,7 +16,7 @@
  *             output — the agent's final result is the last step's output,
  *             so the run's typed contract is preserved).
  *
- * `factoryPTRRAgent` / `factoryAgentWithPTRR` resolve these defaults; each step
+ * `factoryPTRRAgent` resolve these defaults; each step
  * accepts an explicit `outputSchema` override in its per-step config.
  */
 

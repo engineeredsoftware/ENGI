@@ -10,7 +10,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -234,7 +234,7 @@ export const filePickStepPrompts = {
  * File Pick Agent (PTRR)
  * Uses full PTRR cycle for thorough file discovery
  */
-const filePick = factoryAgentWithPTRR<
+const filePick = factoryPTRRAgent<
   z.infer<typeof FilePickInputSchema>,
   z.infer<typeof FilePickRetrySchema>
 >({

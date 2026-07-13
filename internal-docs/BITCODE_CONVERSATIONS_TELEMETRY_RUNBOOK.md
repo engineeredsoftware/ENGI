@@ -27,69 +27,69 @@ authority, or wallet signing authority.
 ## Dashboard Panels
 
 - `conversation.dashboard.session-health`: restore, branch, delete, and
-  route-local history proof posture.
+ route-local history proof posture.
 - `conversation.dashboard.message-storage`: persistence, visibility tier,
-  retention, export, delete, and redaction proof posture.
+ retention, export, delete, and redaction proof posture.
 - `conversation.dashboard.stream-quality`: stream sequence, completion,
-  orphaned stream, and unsafe metadata posture.
+ orphaned stream, and unsafe metadata posture.
 - `conversation.dashboard.tool-policy`: tool admission, denial, completion,
-  and policy proof posture.
+ and policy proof posture.
 - `conversation.dashboard.source-policy`: source selector policy, rights, and
-  disclosure posture.
+ disclosure posture.
 - `conversation.dashboard.terminal-handoff`: handoff proof, Terminal route
-  context, and authority boundary posture.
+ context, and authority boundary posture.
 - `conversation.dashboard.retry-recovery`: retry admission, loop detection,
-  branch repair, and history-root posture.
+ branch repair, and history-root posture.
 - `conversation.dashboard.error-recovery`: redacted error class, incident
-  proof root, and recovery state.
+ proof root, and recovery state.
 - `conversation.dashboard.completion-quality`: persisted assistant message,
-  handoff readiness, and completion proof posture.
+ handoff readiness, and completion proof posture.
 
 ## Runbook Families
 
 - `runbook.conversation.session-repair`: route-local session restore, branch,
-  delete, and repair posture.
+ delete, and repair posture.
 - `runbook.conversation.message-redaction`: message visibility, redaction,
-  retention, export, delete, and replay posture.
+ retention, export, delete, and replay posture.
 - `runbook.conversation.stream-debug`: stream continuity, orphaned stream,
-  completion, and source-safe expanded metadata posture.
+ completion, and source-safe expanded metadata posture.
 - `runbook.conversation.tool-policy-denial`: tool admission, denial,
-  completion, and policy proof posture.
+ completion, and policy proof posture.
 - `runbook.conversation.source-selector-policy`: source selector policy,
-  rights posture, and disclosure limit posture.
+ rights posture, and disclosure limit posture.
 - `runbook.conversation.terminal-handoff-repair`: Terminal route handoff,
-  transaction context, and authority repair posture.
+ transaction context, and authority repair posture.
 - `runbook.conversation.retry-loop`: retry admission, loop detection, and
-  route-local history repair posture.
+ route-local history repair posture.
 - `runbook.conversation.error-recovery`: redacted error class, incident root,
-  and recovery posture.
+ and recovery posture.
 - `runbook.conversation.completion-repair`: persisted assistant message,
-  handoff readiness, and completion repair posture.
+ handoff readiness, and completion repair posture.
 
 Each runbook family follows the same operator sequence:
 
 1. Locate the event family, event id, conversation id, proof root, and
-   redaction posture.
+ redaction posture.
 2. Confirm dashboard metadata contains only source-safe ids, counts, states,
-   proof roots, dashboard ids, runbook ids, and redacted error classes.
+ proof roots, dashboard ids, runbook ids, and redacted error classes.
 3. Use the family-specific proof root to replay source-safe route state.
 4. Repair by writing a source-safe event row, redacted error row, completion
-   row, or deletion tombstone proof.
+ row, or deletion tombstone proof.
 5. Update public docs only with user-visible posture; never disclose protected
-   payloads during incident repair.
+ payloads during incident repair.
 
 ## Family-Specific Notes
 
 - Session repair checks route-local history roots and branch roots.
 - Message redaction checks visibility tier, retention posture, and redaction
-  proof roots before any export.
+ proof roots before any export.
 - Stream debug checks sequence continuity and completion/error closure.
 - Tool policy denial checks tool call ids and policy roots, not raw arguments.
 - Source selector policy checks selector kind, rights posture, and denied
-  states without source samples.
+ states without source samples.
 - Terminal handoff repair checks handoff roots while preserving Terminal as
-  the only transaction authority.
+ the only transaction authority.
 - Retry loop repair branches from the last source-safe checkpoint.
 - Error recovery serializes only redacted error class and incident root.
 - Completion repair emits a redacted completion or error row when assistant
-  persistence fails.
+ persistence fails.

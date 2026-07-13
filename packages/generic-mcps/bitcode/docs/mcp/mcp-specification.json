@@ -1726,7 +1726,7 @@
   },
   "integrationPatterns": {
     "Claude Desktop": {
-      "setup": "Add to ~/.config/claude/mcp-servers.json:\n{\n  \"mcpServers\": {\n    \"bitcode\": {\n      \"command\": \"npx\",\n      \"args\": [\"@bitcode/mcp-server\"],\n      \"env\": { \"BITCODE_API_KEY\": \"your-api-key\" }\n    }\n  }\n}",
+      "setup": "Add to ~/.config/claude/mcp-servers.json:\n{\n  \"mcpServers\": {\n    \"bitcode\": {\n      \"command\": \"npx\",\n      \"args\": [\"@bitcode/generic-mcps-bitcode\"],\n      \"env\": { \"BITCODE_API_KEY\": \"your-api-key\" }\n    }\n  }\n}",
       "example": "\"Create a React component for file uploads with drag-and-drop functionality\"",
       "features": [
         "Real-time streaming",

@@ -7,7 +7,7 @@
  *   SynthesizeAssetPacksSDIVFPipeline     — specific + base + primitive
  *
  * SDIVF base: @bitcode/generic-pipelines-sdivf
- * Product:    @bitcode/pipeline-asset-pack
+ * Product:    @bitcode/asset-packs-pipelines-domain
  */
 
 import { sequential, conditional, repeat } from '@bitcode/execution-generics';

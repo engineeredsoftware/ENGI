@@ -11,7 +11,7 @@
 import { z } from 'zod';
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics/agents/factories';
+import { factoryPTRRAgent } from '@bitcode/agent-generics/agents/factories';
 import type { Agent } from '@bitcode/agent-generics/types';
 import type {
   MeasurementCategory,
@@ -131,7 +131,7 @@ export function factoryMeasureAgent(config: MeasureAgentConfig): MeasureAgent {
     throw new Error('factoryMeasureAgent requires at least one measurement spec.');
   }
   const prompt = createMeasurePrompt(config);
-  const agent = factoryAgentWithPTRR<any, MeasurementOutput>({
+  const agent = factoryPTRRAgent<any, MeasurementOutput>({
     name: config.name,
     description:
       config.description ??

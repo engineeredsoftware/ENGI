@@ -2,7 +2,7 @@ import { getBitcodeTools, type BitcodeToolExecutionResult } from '../tools';
 
 const listCommitsMock = jest.fn();
 
-jest.mock('@bitcode/github', () => ({
+jest.mock('@bitcode/generic-vcs-github', () => ({
   GitHubProvider: jest.fn().mockImplementation(() => ({
     listCommits: listCommitsMock,
     createRepository: jest.fn()
@@ -59,7 +59,7 @@ describe('Yapper demo flow', () => {
       }
     ]);
     simpleSystemTextSearchExecute.mockResolvedValue([
-      { file: 'packages/chatgptapp/src/tools.ts', line: 10, text: 'const yapper = true;' },
+      { file: 'packages/external-apps/chatgpt/src/tools.ts', line: 10, text: 'const yapper = true;' },
     ]);
     webSearchExecute.mockResolvedValue({
       results: [
@@ -183,7 +183,7 @@ This product delivers voice-first social conversations for builders.
 
     // Step 5: Run repository search for context
     const search = await runTool<{ answer: string }>('answer_codebase_query', { query: 'yapper' });
-    expect(search.answer).toContain('packages/chatgptapp/src/tools.ts:11');
+    expect(search.answer).toContain('packages/external-apps/chatgpt/src/tools.ts:11');
 
     // Step 6: Run Web search
     const web = await runTool<{ answer: string }>('answer_codeweb_query', { query: 'voice-first optimistic ui' });

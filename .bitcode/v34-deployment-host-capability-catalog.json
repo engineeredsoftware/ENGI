@@ -92,7 +92,7 @@
       "admissionStatus": "admitted_non_value_lanes",
       "hostId": "mcp_api",
       "outboundNetworkPosture": "outbound_restricted",
-      "ownerPackage": "packages/executions-mcp/src/mcp-server",
+      "ownerPackage": "packages/mcp-generics/src/mcp-server",
       "proofOutputPaths": [
         ".bitcode/v33-mcp-api-tool-contracts.json"
       ],
@@ -105,7 +105,7 @@
         "public-testnet"
       ],
       "telemetryProofHookId": "deployment.telemetry.mcp-api",
-      "validationCommand": "pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand"
+      "validationCommand": "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand"
     },
     {
       "admissionStatus": "admitted_non_value_lanes",
@@ -194,7 +194,7 @@
       "admissionStatus": "admitted_non_value_lanes",
       "hostId": "proof_services",
       "outboundNetworkPosture": "none",
-      "ownerPackage": "packages/protocol",
+      "ownerPackage": "packages/specifying",
       "proofOutputPaths": [
         ".bitcode/v34-promotion-readiness-report.json"
       ],
@@ -210,7 +210,7 @@
         "mainnet-ready-dry-run"
       ],
       "telemetryProofHookId": "deployment.telemetry.proof-service",
-      "validationCommand": "pnpm --filter @bitcode/protocol test"
+      "validationCommand": "pnpm --filter @bitcode/specifying test"
     },
     {
       "admissionStatus": "admitted_non_value_lanes",

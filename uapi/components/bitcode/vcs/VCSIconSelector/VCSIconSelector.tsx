@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { VCSProviderType } from '@bitcode/vcs-core';
+import { VCSProviderType } from '@bitcode/vcs-generics-core';
 import { Github, GitBranch } from 'lucide-react';
 import { cn } from '@bitcode/styling';
 import { pillStyles } from '@/styles/select-styles';

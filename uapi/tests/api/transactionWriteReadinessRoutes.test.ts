@@ -23,7 +23,7 @@ jest.mock('@/app/api/wallet/_shared', () => ({
     mockReadBitcodeWalletConnectionStatus(...args),
   ),
 }));
-jest.mock('@bitcode/vcs', () => ({
+jest.mock('@bitcode/vcs-generics', () => ({
   VCSConnections: class MockVCSConnections {
     constructor(_supabase: unknown) {}
 

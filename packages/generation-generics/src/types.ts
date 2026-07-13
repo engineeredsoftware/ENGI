@@ -39,13 +39,6 @@ export enum FailsafeGeneration {
   STITCH_UNTIL_COMPLETE = 'stitch_until_complete',
 }
 
-/**
- * @deprecated Prefer {@link FailsafeGeneration}. Legacy "MetaSubStep" naming
- * (SubStep was the old term for Generation within a Step; Meta is not used).
- */
-export const FailsafeMetaSubStep = FailsafeGeneration;
-/** @deprecated Prefer {@link FailsafeGeneration} */
-export type FailsafeMetaSubStep = FailsafeGeneration;
 
 /**
  * ThinkingsGeneration kinds — ALWAYS Reason → Judge → StructuredOutput.
@@ -57,13 +50,6 @@ export enum ThinkingsGeneration {
   STRUCTURED_OUTPUT = 'structured_output',
 }
 
-/**
- * @deprecated Prefer {@link ThinkingsGeneration}. Legacy "GenerationSubMetaSubStep"
- * naming (SubStep was the old term for Generation within a Step).
- */
-export const GenerationSubMetaSubStep = ThinkingsGeneration;
-/** @deprecated Prefer {@link ThinkingsGeneration} */
-export type GenerationSubMetaSubStep = ThinkingsGeneration;
 
 export interface Reasoning {
   analysis: string;

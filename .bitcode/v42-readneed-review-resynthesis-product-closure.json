@@ -639,6 +639,6 @@
     "rootReadme": "README.md",
     "terminalReadme": "uapi/app/terminal/README.md",
     "assetPackReadme": "packages/asset-packs-pipelines/domain/README.md",
-    "protocolReadme": "packages/protocol/README.md"
+    "protocolReadme": "packages/specifying/README.md"
   }
 }

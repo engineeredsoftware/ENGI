@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V42_READING_SHORTEST_PATH_STATE_MACHINE_ARTIFACT_PATH,
   buildV42ReadingShortestPathStateMachine,
-} from '../packages/protocol/src/canonical/v42-reading-shortest-path-state-machine.js';
+} from '../packages/specifying/src/canonical/v42-reading-shortest-path-state-machine.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

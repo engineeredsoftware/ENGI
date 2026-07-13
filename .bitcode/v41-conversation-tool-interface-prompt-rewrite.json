@@ -56,7 +56,7 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_usage_guidance.ts",
-        "packages/conversations-generics/src/agent/ConversationAgent.ts"
+        "packages/conversations/src/agent/ConversationAgent.ts"
       ],
       "promptFamilyIds": [
         "Conversation",
@@ -150,7 +150,7 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts": "e9a890f6fc8bb33c5205c70f",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts": "cb04b9ba4b01cd81cec89376",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_usage_guidance.ts": "f8cfc824a9d3f39de3df5fb3",
-        "packages/conversations-generics/src/agent/ConversationAgent.ts": "c1fb960ed573bdf1f5adfa33"
+        "packages/conversations/src/agent/ConversationAgent.ts": "c1fb960ed573bdf1f5adfa33"
       }
     },
     {
@@ -162,7 +162,7 @@
         "Terminal"
       ],
       "sourceRoots": [
-        "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+        "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
         "uapi/prompts/bitcode-terminal-system-prompt.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts",
@@ -241,7 +241,7 @@
       "passed": true,
       "hardeningScore": 1,
       "sourceHashes": {
-        "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts": "2d058deda99d3de2b2e75bf2",
+        "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts": "2d058deda99d3de2b2e75bf2",
         "uapi/prompts/bitcode-terminal-system-prompt.ts": "3ffedfa546e463ea9ba5bbcd",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts": "e9a890f6fc8bb33c5205c70f",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts": "cb04b9ba4b01cd81cec89376",
@@ -451,7 +451,7 @@
       "sourceRoots": [
         "packages/tools-generics/src/execution/ToolPromptRegistry.ts",
         "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts",
-        "packages/protocol/src/canonical/v41-registry-interpolation-contracts.js"
+        "packages/specifying/src/canonical/v41-registry-interpolation-contracts.js"
       ],
       "promptFamilyIds": [
         "ToolDefinition",
@@ -527,7 +527,7 @@
       "sourceHashes": {
         "packages/tools-generics/src/execution/ToolPromptRegistry.ts": "2458e94a4816b24aa3fe7275",
         "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts": "0a1f0025946b1a169c2e7f09",
-        "packages/protocol/src/canonical/v41-registry-interpolation-contracts.js": "768a5f3eb42a527d303c57f6"
+        "packages/specifying/src/canonical/v41-registry-interpolation-contracts.js": "768a5f3eb42a527d303c57f6"
       }
     },
     {
@@ -637,11 +637,11 @@
         "Interface"
       ],
       "sourceRoots": [
-        "packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts",
-        "packages/chatgptapp/src/tools.ts",
+        "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+        "packages/external-apps/chatgpt/src/tools.ts",
         "packages/btd/src/chatgpt-app-action-contract.ts",
-        "packages/chatgptapp/src/__tests__/tools.test.ts",
-        "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts"
+        "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+        "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
       ],
       "promptFamilyIds": [
         "ToolDefinition",
@@ -721,11 +721,11 @@
       "passed": true,
       "hardeningScore": 1,
       "sourceHashes": {
-        "packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts": "bebc8c802c60830ea6630503",
-        "packages/chatgptapp/src/tools.ts": "01098e7c683c6394a4ff6918",
+        "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts": "bebc8c802c60830ea6630503",
+        "packages/external-apps/chatgpt/src/tools.ts": "01098e7c683c6394a4ff6918",
         "packages/btd/src/chatgpt-app-action-contract.ts": "a24a464bd0910f8b8284ddfe",
-        "packages/chatgptapp/src/__tests__/tools.test.ts": "bd3b2ab267858fb98a2ccc0e",
-        "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts": "4d61df32d3f61c9a2f1efa5c"
+        "packages/external-apps/chatgpt/src/__tests__/tools.test.ts": "bd3b2ab267858fb98a2ccc0e",
+        "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts": "4d61df32d3f61c9a2f1efa5c"
       }
     },
     {
@@ -833,8 +833,8 @@
         "Documentation"
       ],
       "sourceRoots": [
-        "packages/protocol/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
-        "packages/protocol/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
+        "packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
+        "packages/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
         "scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs",
         "scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs",
         "BITCODE_SPEC_V41.md",
@@ -843,7 +843,7 @@
         "BITCODE_SPEC_V41_PARITY_MATRIX.md",
         "SPECIFICATIONS_ROADMAP.md",
         "README.md",
-        "packages/protocol/README.md",
+        "packages/specifying/README.md",
         "package.json",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml"
@@ -921,8 +921,8 @@
       "passed": true,
       "hardeningScore": 1,
       "sourceHashes": {
-        "packages/protocol/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "5d0746b8c2be1ef518496281",
-        "packages/protocol/test/v41-conversation-tool-interface-prompt-rewrite.test.js": "0f36d8bf304ccc54f6eae328",
+        "packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "5d0746b8c2be1ef518496281",
+        "packages/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js": "0f36d8bf304ccc54f6eae328",
         "scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs": "16b23544d652ac6d7e1afa81",
         "scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs": "b304b421d52d19c8de34e163",
         "BITCODE_SPEC_V41.md": "9174742d79d0b0045bb0eebf",
@@ -931,7 +931,7 @@
         "BITCODE_SPEC_V41_PARITY_MATRIX.md": "5f49852cfb6323d19db8be1c",
         "SPECIFICATIONS_ROADMAP.md": "2400ea79d304ff28b7fd8e7a",
         "README.md": "14085be712ec8e13c811c62a",
-        "packages/protocol/README.md": "1a81b9507325d3a5da87f627",
+        "packages/specifying/README.md": "1a81b9507325d3a5da87f627",
         "package.json": "4d9f041eb01a920860a26f75",
         ".github/workflows/bitcode-gate-quality.yml": "379d7561d515468f9237bf02",
         ".github/workflows/bitcode-canon-quality.yml": "ab37403273c35c918071e3cd"
@@ -942,13 +942,13 @@
     {
       "id": "conversation-agent-uses-ptrr",
       "rowId": "conversation-ptrr-promptpart-rewrite-boundary",
-      "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
       "passed": true
     },
     {
       "id": "conversation-agent-step-prompts-use-promptparts",
       "rowId": "conversation-ptrr-promptpart-rewrite-boundary",
-      "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
       "passed": true
     },
     {
@@ -990,13 +990,13 @@
     {
       "id": "system-prompt-requires-hierarchy",
       "rowId": "conversation-terminal-system-prompt-boundary",
-      "sourcePath": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
       "passed": true
     },
     {
       "id": "system-prompt-uses-specific-promptparts",
       "rowId": "conversation-terminal-system-prompt-boundary",
-      "sourcePath": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
       "passed": true
     },
     {
@@ -1128,7 +1128,7 @@
     {
       "id": "gate3-covers-tool-doc-code-injection",
       "rowId": "tool-prompt-registry-hierarchy-boundary",
-      "sourcePath": "packages/protocol/src/canonical/v41-registry-interpolation-contracts.js",
+      "sourcePath": "packages/specifying/src/canonical/v41-registry-interpolation-contracts.js",
       "passed": true
     },
     {
@@ -1170,31 +1170,31 @@
     {
       "id": "chatgpt-prompts-use-doccode-prompt",
       "rowId": "chatgpt-app-tool-prompt-boundary",
-      "sourcePath": "packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
       "passed": true
     },
     {
       "id": "chatgpt-prompts-export-tool-carriers",
       "rowId": "chatgpt-app-tool-prompt-boundary",
-      "sourcePath": "packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tools-format-doccode-prompts",
       "rowId": "chatgpt-app-tool-prompt-boundary",
-      "sourcePath": "packages/chatgptapp/src/tools.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/tools.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tools-carry-doccode-prompt-metadata",
       "rowId": "chatgpt-app-tool-prompt-boundary",
-      "sourcePath": "packages/chatgptapp/src/tools.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/tools.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tools-enforce-read-access-and-organization-authority",
       "rowId": "chatgpt-app-tool-prompt-boundary",
-      "sourcePath": "packages/chatgptapp/src/tools.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/tools.ts",
       "passed": true
     },
     {
@@ -1212,7 +1212,7 @@
     {
       "id": "chatgpt-tests-cover-write-admission",
       "rowId": "chatgpt-app-tool-prompt-boundary",
-      "sourcePath": "packages/chatgptapp/src/__tests__/tools.test.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
       "passed": true
     },
     {
@@ -1248,13 +1248,13 @@
     {
       "id": "gate7-source-exists",
       "rowId": "conversation-tool-interface-tests-docs-workflows",
-      "sourcePath": "packages/protocol/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
+      "sourcePath": "packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
       "passed": true
     },
     {
       "id": "gate7-test-exists",
       "rowId": "conversation-tool-interface-tests-docs-workflows",
-      "sourcePath": "packages/protocol/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
+      "sourcePath": "packages/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
       "passed": true
     },
     {
@@ -1296,7 +1296,7 @@
     {
       "id": "readmes-document-gate7-helpers",
       "rowId": "conversation-tool-interface-tests-docs-workflows",
-      "sourcePath": "packages/protocol/README.md",
+      "sourcePath": "packages/specifying/README.md",
       "passed": true
     }
   ],
@@ -1372,8 +1372,8 @@
     "rowCount": 9
   },
   "sourceRoots": {
-    "conversationAgent": "packages/conversations-generics/src/agent/ConversationAgent.ts",
-    "conversationSystemPrompt": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+    "conversationAgent": "packages/conversations/src/agent/ConversationAgent.ts",
+    "conversationSystemPrompt": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
     "conversationPromptParts": "packages/prompts/src/raw_promptparts/specific",
     "uapiTerminalSystemPrompt": "uapi/prompts/bitcode-terminal-system-prompt.ts",
     "conversationRouteShared": "uapi/app/api/conversations/_shared.ts",
@@ -1394,27 +1394,27 @@
     "btdMcpToolContractTest": "packages/btd/__tests__/mcp-tool-contract.test.ts",
     "btdApiBoundaries": "packages/btd/src/api-boundaries.ts",
     "btdApiRouteTest": "packages/api/src/routes/__tests__/btd-crypto.test.ts",
-    "chatGptToolDocPrompts": "packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts",
-    "chatGptTools": "packages/chatgptapp/src/tools.ts",
+    "chatGptToolDocPrompts": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+    "chatGptTools": "packages/external-apps/chatgpt/src/tools.ts",
     "chatGptActionContract": "packages/btd/src/chatgpt-app-action-contract.ts",
-    "chatGptToolsTest": "packages/chatgptapp/src/__tests__/tools.test.ts",
-    "chatGptActionContractTest": "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts",
+    "chatGptToolsTest": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+    "chatGptActionContractTest": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
     "publicDocs": "uapi/app/docs/bitcode-docs-content.ts",
     "terminalReadiness": "uapi/app/terminal/terminal-commercial-launch-readiness.ts",
-    "gate2InventorySource": "packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js",
+    "gate2InventorySource": "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
     "gate2InventoryArtifact": ".bitcode/v41-promptpart-prompt-inventory.json",
-    "gate3ContractsSource": "packages/protocol/src/canonical/v41-registry-interpolation-contracts.js",
+    "gate3ContractsSource": "packages/specifying/src/canonical/v41-registry-interpolation-contracts.js",
     "gate3ContractsArtifact": ".bitcode/v41-registry-interpolation-contracts.json",
-    "gate4BaselinesSource": "packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js",
+    "gate4BaselinesSource": "packages/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js",
     "gate4BaselinesArtifact": ".bitcode/v41-reading-prompt-benchmark-baselines.json",
-    "gate5ReadNeedSource": "packages/protocol/src/canonical/v41-readneed-prompt-hardening.js",
+    "gate5ReadNeedSource": "packages/specifying/src/canonical/v41-readneed-prompt-hardening.js",
     "gate5ReadNeedArtifact": ".bitcode/v41-readneed-prompt-hardening.json",
-    "gate6ReadFitsSource": "packages/protocol/src/canonical/v41-readfitsfinding-prompt-hardening.js",
+    "gate6ReadFitsSource": "packages/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js",
     "gate6ReadFitsArtifact": ".bitcode/v41-readfitsfinding-prompt-hardening.json",
-    "v38ConversationToolParitySource": "packages/protocol/src/canonical/conversation-tool-prompt-inference-parity.js",
+    "v38ConversationToolParitySource": "packages/specifying/src/canonical/conversation-tool-prompt-inference-parity.js",
     "v38ConversationToolParityArtifact": ".bitcode/v38-conversation-tool-prompt-inference-parity.json",
-    "packageSource": "packages/protocol/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
-    "packageTest": "packages/protocol/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
+    "packageSource": "packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
+    "packageTest": "packages/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
     "generator": "scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs",
     "checker": "scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs",
     "spec": "BITCODE_SPEC_V41.md",
@@ -1423,7 +1423,7 @@
     "parity": "BITCODE_SPEC_V41_PARITY_MATRIX.md",
     "roadmap": "SPECIFICATIONS_ROADMAP.md",
     "readme": "README.md",
-    "protocolReadme": "packages/protocol/README.md",
+    "protocolReadme": "packages/specifying/README.md",
     "packageJson": "package.json",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml"

@@ -69,7 +69,7 @@
     },
     {
       "id": "conversationGenerics",
-      "sourcePath": "packages/conversations-generics/src",
+      "sourcePath": "packages/conversations/src",
       "present": true
     },
     {
@@ -84,7 +84,7 @@
     },
     {
       "id": "chatgptAppPrompts",
-      "sourcePath": "packages/chatgptapp/src/prompts",
+      "sourcePath": "packages/external-apps/chatgpt/src/prompts",
       "present": true
     },
     {
@@ -94,12 +94,12 @@
     },
     {
       "id": "v38BenchmarkReport",
-      "sourcePath": "packages/protocol/src/canonical/prompt-benchmark-report.js",
+      "sourcePath": "packages/specifying/src/canonical/prompt-benchmark-report.js",
       "present": true
     },
     {
       "id": "v40BenchmarkSmoke",
-      "sourcePath": "packages/protocol/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js",
+      "sourcePath": "packages/specifying/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js",
       "present": true
     },
     {
@@ -129,12 +129,12 @@
     },
     {
       "id": "packageSource",
-      "sourcePath": "packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js",
+      "sourcePath": "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
       "present": true
     },
     {
       "id": "packageTest",
-      "sourcePath": "packages/protocol/test/v41-promptpart-prompt-inventory.test.js",
+      "sourcePath": "packages/specifying/test/v41-promptpart-prompt-inventory.test.js",
       "present": true
     },
     {
@@ -51214,7 +51214,7 @@
       "inventoryId": "prompt:CODE_DESIGN_DOC_CODE_TOOL_PROMPT",
       "rowRoot": "v41-prompt-inventory-row:f1ff6870b412b93ee6b8a131",
       "kind": "DocCodeToolPrompt",
-      "sourcePath": "packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
       "sourceHash": "bebc8c802c60830ea6630503",
       "exportNames": [
         "CODE_DESIGN_DOC_CODE_TOOL_PROMPT",
@@ -51314,7 +51314,7 @@
       "inventoryId": "prompt:ConversationAgent",
       "rowRoot": "v41-prompt-inventory-row:573be5be0e048abd8a2a6d27",
       "kind": "PTRRAgentPrompt",
-      "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
       "sourceHash": "c1fb960ed573bdf1f5adfa33",
       "exportNames": [],
       "classNames": [],
@@ -51361,7 +51361,7 @@
       "inventoryId": "prompt:BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT",
       "rowRoot": "v41-prompt-inventory-row:09ff2d96906fe8d0b2d279c5",
       "kind": "ConversationPrompt",
-      "sourcePath": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
       "sourceHash": "2d058deda99d3de2b2e75bf2",
       "exportNames": [
         "BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT"

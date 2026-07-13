@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Reads pipelines master-detail section: table, non-pipeline run summary, telemetry.
  */
-"use client";
 
 import React from "react";
 import { ReadsPipelinesMaster } from "@/components/reads/ReadsPipelinesMaster/ReadsPipelinesMaster";
@@ -67,7 +68,7 @@ export function ReadsPipelinesSection({
         onCloseDetail={onCloseDetail}
         onRefresh={onRefresh}
         runs={liveRuns}
-        onSelectTransaction={onSelectTransaction}
+        onSelectTransaction={(id) => { if (id != null) onSelectTransaction(id); }}
         filters={pipelineFilters}
         onFiltersChange={onFiltersChange}
         pagination={pipelinePagination}

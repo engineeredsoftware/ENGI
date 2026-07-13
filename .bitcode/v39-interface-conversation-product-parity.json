@@ -164,7 +164,7 @@
       "purpose": "Bind MCP Reading pipeline tools to source-safe queueing, accepted Need admission, and downstream Terminal authority.",
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
-        "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts"
+        "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts"
       ],
       "requiredEvidence": [
         "mcp_api",
@@ -202,7 +202,7 @@
       "purpose": "Bind ChatGPT App actions to confirmation, source-safe preview, settlement unlock, and paid BTD rights delivery.",
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
-        "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts"
+        "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
       ],
       "requiredEvidence": [
         "chatgpt_app",
@@ -453,12 +453,12 @@
     },
     {
       "id": "mcp-test-covers-parity",
-      "sourcePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+      "sourcePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
       "passed": true
     },
     {
       "id": "chatgpt-test-covers-parity",
-      "sourcePath": "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
       "passed": true
     },
     {

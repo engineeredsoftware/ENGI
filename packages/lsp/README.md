@@ -24,11 +24,11 @@ Production-grade symbol renaming with cross-file reference updating.
 **Parameters:**
 ```typescript
 {
-  filePath: string;           // Target file path
-  line: number;              // Zero-based line number
-  character: number;         // Zero-based character position
-  newName: string;           // New symbol name (validated)
-  options?: LspSessionOptions; // Session configuration
+ filePath: string; // Target file path
+ line: number; // Zero-based line number
+ character: number; // Zero-based character position
+ newName: string; // New symbol name (validated)
+ options?: LspSessionOptions; // Session configuration
 }
 ```
 
@@ -41,10 +41,10 @@ Code navigation and information retrieval operations.
 **Parameters:**
 ```typescript
 {
-  filePath: string;
-  line: number;
-  character: number;
-  options?: LspSessionOptions;
+ filePath: string;
+ line: number;
+ character: number;
+ options?: LspSessionOptions;
 }
 ```
 
@@ -57,12 +57,12 @@ Context-aware code completion with trigger character support.
 **Parameters:**
 ```typescript
 {
-  filePath: string;
-  line: number;
-  character: number;
-  triggerKind?: 'invoked' | 'triggerCharacter' | 'triggerForIncompleteCompletions';
-  triggerCharacter?: string;  // '.', '(', etc.
-  options?: LspSessionOptions;
+ filePath: string;
+ line: number;
+ character: number;
+ triggerKind?: 'invoked' | 'triggerCharacter' | 'triggerForIncompleteCompletions';
+ triggerCharacter?: string; // '.', '(', etc.
+ options?: LspSessionOptions;
 }
 ```
 
@@ -79,10 +79,10 @@ Document formatting with configurable style options.
 **Parameters:**
 ```typescript
 {
-  filePath: string;
-  tabSize?: number;          // Default: 2
-  insertSpaces?: boolean;    // Default: true
-  options?: LspSessionOptions;
+ filePath: string;
+ tabSize?: number; // Default: 2
+ insertSpaces?: boolean; // Default: true
+ options?: LspSessionOptions;
 }
 ```
 
@@ -99,13 +99,13 @@ Extract code selection into new method with parameter inference.
 **Parameters:**
 ```typescript
 {
-  filePath: string;
-  startLine: number;
-  startCharacter: number;
-  endLine: number;
-  endCharacter: number;
-  methodName: string;        // Validated identifier
-  options?: LspSessionOptions;
+ filePath: string;
+ startLine: number;
+ startCharacter: number;
+ endLine: number;
+ endCharacter: number;
+ methodName: string; // Validated identifier
+ options?: LspSessionOptions;
 }
 ```
 
@@ -121,19 +121,19 @@ import { renameSymbolLsp } from '@bitcode/lsp';
 
 // Rename function across entire codebase
 const edits = await renameSymbolLsp({
-  filePath: '/project/src/utils.ts',
-  line: 15,
-  character: 9,
-  newName: 'processUserData',
-  options: {
-    timeout: 15000,
-    workspaceRoot: '/project'
-  }
+ filePath: '/project/src/utils.ts',
+ line: 15,
+ character: 9,
+ newName: 'processUserData',
+ options: {
+ timeout: 15000,
+ workspaceRoot: '/project'
+ }
 });
 
 // Apply workspace edits
 for (const [uri, textEdits] of Object.entries(edits.changes || {})) {
-  await applyTextEdits(uri, textEdits);
+ await applyTextEdits(uri, textEdits);
 }
 ```
 
@@ -141,16 +141,16 @@ for (const [uri, textEdits] of Object.entries(edits.changes || {})) {
 ```typescript
 // Find all references to symbol
 const references = await findReferences({
-  filePath: '/project/src/api.ts',
-  line: 42,
-  character: 15
+ filePath: '/project/src/api.ts',
+ line: 42,
+ character: 15
 });
 
 // Get hover information
 const hover = await getHover({
-  filePath: '/project/src/types.ts', 
-  line: 8,
-  character: 12
+ filePath: '/project/src/types.ts',
+ line: 8,
+ character: 12
 });
 
 console.log('Type info:', hover?.contents);
@@ -160,16 +160,16 @@ console.log('Type info:', hover?.contents);
 ```typescript
 // Get completions at cursor position
 const completions = await getCompletions({
-  filePath: '/project/src/components.tsx',
-  line: 25,
-  character: 10,
-  triggerKind: 'triggerCharacter',
-  triggerCharacter: '.'
+ filePath: '/project/src/components.tsx',
+ line: 25,
+ character: 10,
+ triggerKind: 'triggerCharacter',
+ triggerCharacter: '.'
 });
 
 // Filter and apply completion
 const filtered = completions?.items?.filter(
-  item => item.label.startsWith('user')
+ item => item.label.startsWith('user')
 );
 ```
 
@@ -177,19 +177,19 @@ const filtered = completions?.items?.filter(
 ```typescript
 // Extract method from selected code
 const methodEdit = await extractMethod({
-  filePath: '/project/src/service.ts',
-  startLine: 45,
-  startCharacter: 4,
-  endLine: 52,
-  endCharacter: 6,
-  methodName: 'validateInput'
+ filePath: '/project/src/service.ts',
+ startLine: 45,
+ startCharacter: 4,
+ endLine: 52,
+ endCharacter: 6,
+ methodName: 'validateInput'
 });
 
 // Organize imports
 const importEdit = await organizeImports({
-  filePath: '/project/src/index.ts',
-  removeUnused: true,
-  sortImports: true
+ filePath: '/project/src/index.ts',
+ removeUnused: true,
+ sortImports: true
 });
 ```
 
@@ -197,20 +197,20 @@ const importEdit = await organizeImports({
 ```typescript
 // Initialize persistent server for pipeline
 const server = await initializePipelineLspServer({
-  workspaceRoot: '/project',
-  enableCache: true,
-  concurrency: 4
+ workspaceRoot: '/project',
+ enableCache: true,
+ concurrency: 4
 });
 
 // Batch operations
 const operations = [
-  { type: 'rename', params: { ... } },
-  { type: 'format', params: { ... } },
-  { type: 'organize', params: { ... } }
+ { type: 'rename', params: { ... } },
+ { type: 'format', params: { ... } },
+ { type: 'organize', params: { ... } }
 ];
 
 const results = await Promise.all(
-  operations.map(op => executePersistentLspOperation(op))
+ operations.map(op => executePersistentLspOperation(op))
 );
 ```
 
@@ -246,20 +246,20 @@ const results = await Promise.all(
 ### LspSessionOptions
 ```typescript
 {
-  workspaceRoot?: string;     // Project root (default: process.cwd())
-  timeout?: number;           // Operation timeout (default: 10000ms)
-  language?: string;          // Force language (auto-detected)
-  maxFileSize?: number;       // File size limit (default: 10MB)
+ workspaceRoot?: string; // Project root (default: process.cwd())
+ timeout?: number; // Operation timeout (default: 10000ms)
+ language?: string; // Force language (auto-detected)
+ maxFileSize?: number; // File size limit (default: 10MB)
 }
 ```
 
 ### Pipeline Configuration
 ```typescript
 {
-  concurrency: number;        // Parallel operations
-  enableCache: boolean;       // Result caching
-  persistentServer: boolean;  // Long-running server
-  optimizationProfile: 'speed' | 'memory' | 'balanced';
+ concurrency: number; // Parallel operations
+ enableCache: boolean; // Result caching
+ persistentServer: boolean; // Long-running server
+ optimizationProfile: 'speed' | 'memory' | 'balanced';
 }
 ```
 

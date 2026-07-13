@@ -2,8 +2,7 @@
  * @bitcode/generic-vcs-gitlab — GitLab VCS provider.
  *
  * Hierarchy: vcs-generics (AbstractVCSProvider) → this provider implementation.
- * Compatibility: @bitcode/gitlab re-exports this package.
- */
+  */
 
 import GitLabProvider from './providers/gitlab-provider';
 export { GitLabAuth } from './auth';

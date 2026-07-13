@@ -28,7 +28,7 @@ import {
   jiraGetWorklogsTool,
   jiraAddWorklogTool,
   jiraBulkUpdateIssuesTool,
-} from '@bitcode/jira-tools';
+} from '@bitcode/generic-tools-mcps-jira';
 
 // Import types
 import type { MCPAuthContext } from '../types';

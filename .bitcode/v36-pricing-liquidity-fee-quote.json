@@ -306,11 +306,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-pricing-quote.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-pricing-quote.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-pricing-quote.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-pricing-quote.test.js",
           "present": true
         },
         {
@@ -537,11 +537,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-pricing-quote.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-pricing-quote.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-pricing-quote.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-pricing-quote.test.js",
           "present": true
         },
         {
@@ -768,11 +768,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-pricing-quote.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-pricing-quote.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-pricing-quote.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-pricing-quote.test.js",
           "present": true
         },
         {
@@ -999,11 +999,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-pricing-quote.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-pricing-quote.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-pricing-quote.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-pricing-quote.test.js",
           "present": true
         },
         {
@@ -1230,11 +1230,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-pricing-quote.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-pricing-quote.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-pricing-quote.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-pricing-quote.test.js",
           "present": true
         },
         {
@@ -1298,11 +1298,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-pricing-quote.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-pricing-quote.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-pricing-quote.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-pricing-quote.test.js",
           "present": true
         },
         {
@@ -1352,11 +1352,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-pricing-quote.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-pricing-quote.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-pricing-quote.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-pricing-quote.test.js",
           "present": true
         },
         {
@@ -1406,11 +1406,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-pricing-quote.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-pricing-quote.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-pricing-quote.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-pricing-quote.test.js",
           "present": true
         },
         {
@@ -1460,11 +1460,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-pricing-quote.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-pricing-quote.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-pricing-quote.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-pricing-quote.test.js",
           "present": true
         },
         {
@@ -1514,11 +1514,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-pricing-quote.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-pricing-quote.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-pricing-quote.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-pricing-quote.test.js",
           "present": true
         },
         {

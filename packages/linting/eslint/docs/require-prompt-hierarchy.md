@@ -2,7 +2,7 @@
 
 Enforces Bitcode Registry-backed prompt hierarchy for agents:
 
-- `factoryAgentWithPTRR` configs must include a `prompt` (`AgentPrompt`) or `prompts.system` as the Registry-backed prompt carrier.
+- `factoryPTRRAgent` configs must include a `prompt` (`AgentPrompt`) or `prompts.system` as the Registry-backed prompt carrier.
 - `stepPrompts` or `prompts` must include all four step Prompt registries: `plan`, `try`, `refine`, and `retry`.
 - Manual assignment to `execution.prompt = ...` is forbidden; prompts must be passed through the factory boundary.
 
@@ -11,7 +11,7 @@ Why: Bitcode agent prompts must remain explainable from explicit `Prompt`/`Promp
 Examples of incorrect code:
 
 ```
-factoryAgentWithPTRR({ name: 'x', outputSchema }) // missing prompt and stepPrompts
+factoryPTRRAgent({ name: 'x', outputSchema }) // missing prompt and stepPrompts
 ```
 
 ```
@@ -21,7 +21,7 @@ execution.prompt = somePrompt // not allowed
 Correct code:
 
 ```
-factoryAgentWithPTRR({
+factoryPTRRAgent({
   name: 'x',
   outputSchema,
   prompt: agentPrompt,
@@ -37,7 +37,7 @@ factoryAgentWithPTRR({
 The compatibility `prompts` shape is also accepted when it carries the same Bitcode hierarchy:
 
 ```
-factoryAgentWithPTRR({
+factoryPTRRAgent({
   name: 'x',
   outputSchema,
   prompts: {

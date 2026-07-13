@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V38_LOCAL_STAGING_INFERENCE_DEPOSITORY_SEARCH_REHEARSAL_ARTIFACT_PATH,
   buildV38LocalStagingInferenceDepositorySearchRehearsal,
-} from '../packages/protocol/src/canonical/local-staging-inference-depository-search-rehearsal.js';
+} from '../packages/specifying/src/canonical/local-staging-inference-depository-search-rehearsal.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

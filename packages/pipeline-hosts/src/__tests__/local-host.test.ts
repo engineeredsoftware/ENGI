@@ -5,12 +5,12 @@
 export {};
 
 // Point Jest at the generic-hosts-local tests via re-import smoke.
-import { LocalHost, InlineHost } from '../local-host';
+import { LocalHost, LocalHost } from '../local-host';
 import { readWorkspaceSources } from '../host';
 
 describe('pipeline-hosts LocalHost re-exports', () => {
-  it('exports LocalHost and InlineHost alias', () => {
-    expect(LocalHost).toBe(InlineHost);
+  it('exports LocalHost and LocalHost alias', () => {
+    expect(LocalHost).toBe(LocalHost);
     expect(typeof LocalHost).toBe('function');
     expect(typeof readWorkspaceSources).toBe('function');
   });

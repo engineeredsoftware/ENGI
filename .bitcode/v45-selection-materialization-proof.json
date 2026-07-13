@@ -376,7 +376,7 @@
     "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
     "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
     "packages/asset-packs-pipelines/domain/src/__tests__/finish-delivery.test.ts",
-    "packages/protocol/test/v45-proof-family-artifacts.test.js"
+    "packages/specifying/test/v45-proof-family-artifacts.test.js"
   ],
   "failClosedConditions": [
     "no survivor",

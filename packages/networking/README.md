@@ -47,11 +47,11 @@ const dataResponse = createJsonResponse({ data: results }, 200);
 import { createSupabaseSSEPollStream } from '@bitcode/networking';
 
 const stream = createSupabaseSSEPollStream({
-  fetchRows: (cursor) => database.getUpdatedRows(cursor),
-  formatRow: (row) => ({ id: row.id, payload: row.data }),
-  initialCursor: 0,
-  pollIntervalMs: 1000,
-  heartbeatIntervalMs: 20000
+ fetchRows: (cursor) => database.getUpdatedRows(cursor),
+ formatRow: (row) => ({ id: row.id, payload: row.data }),
+ initialCursor: 0,
+ pollIntervalMs: 1000,
+ heartbeatIntervalMs: 20000
 });
 ```
 
@@ -62,22 +62,22 @@ const stream = createSupabaseSSEPollStream({
 import { createErrorResponse, createAuthErrorResponse } from '@bitcode/networking';
 
 export async function handleAPIRequest(request: Request) {
-  try {
-    const user = await authenticateRequest(request);
-    if (!user) {
-      return createAuthErrorResponse('Authentication required');
-    }
-    
-    const result = await processRequest(request, user);
-    return createJsonResponse(result);
-    
-  } catch (error) {
-    if (error.code === 'VALIDATION_ERROR') {
-      return createErrorResponse(error, 400, 'Invalid request data');
-    }
-    
-    return createErrorResponse(error, 500, 'Internal server error');
-  }
+ try {
+ const user = await authenticateRequest(request);
+ if (!user) {
+ return createAuthErrorResponse('Authentication required');
+ }
+
+ const result = await processRequest(request, user);
+ return createJsonResponse(result);
+
+ } catch (error) {
+ if (error.code === 'VALIDATION_ERROR') {
+ return createErrorResponse(error, 400, 'Invalid request data');
+ }
+
+ return createErrorResponse(error, 500, 'Internal server error');
+ }
 }
 ```
 
@@ -86,32 +86,32 @@ export async function handleAPIRequest(request: Request) {
 import { createSupabaseSSEPollStream } from '@bitcode/networking';
 
 export function createAssetPackUpdatesStream(userId: string, signal: AbortSignal) {
-  return createSupabaseSSEPollStream({
-    fetchRows: async (cursor) => {
-      return await supabase
-        .from('asset_pack_runs')
-        .select('*')
-        .eq('user_id', userId)
-        .gt('id', cursor)
-        .order('id', { ascending: true })
-        .limit(50);
-    },
-    
-    formatRow: (row) => ({
-      id: row.id,
-      payload: {
-        assetPackId: row.asset_pack_id,
-        status: row.status,
-        progress: row.progress,
-        updatedAt: row.updated_at
-      }
-    }),
-    
-    initialCursor: 0,
-    pollIntervalMs: 2000,
-    heartbeatIntervalMs: 30000,
-    signal
-  });
+ return createSupabaseSSEPollStream({
+ fetchRows: async (cursor) => {
+ return await supabase
+ .from('asset_pack_runs')
+ .select('*')
+ .eq('user_id', userId)
+ .gt('id', cursor)
+ .order('id', { ascending: true })
+ .limit(50);
+ },
+
+ formatRow: (row) => ({
+ id: row.id,
+ payload: {
+ assetPackId: row.asset_pack_id,
+ status: row.status,
+ progress: row.progress,
+ updatedAt: row.updated_at
+ }
+ }),
+
+ initialCursor: 0,
+ pollIntervalMs: 2000,
+ heartbeatIntervalMs: 30000,
+ signal
+ });
 }
 ```
 
@@ -120,41 +120,41 @@ export function createAssetPackUpdatesStream(userId: string, signal: AbortSignal
 import { createSupabaseSSEPollStream } from '@bitcode/networking';
 
 class RealtimeNotificationService {
-  createNotificationStream(organizationId: string) {
-    return new ReadableStream({
-      start(controller) {
-        const sseStream = createSupabaseSSEPollStream({
-          fetchRows: (cursor) => this.fetchNotifications(organizationId, cursor),
-          formatRow: (notification) => ({
-            id: notification.id,
-            payload: {
-              type: notification.type,
-              message: notification.message,
-              timestamp: notification.created_at,
-              metadata: notification.metadata
-            }
-          }),
-          initialCursor: 0,
-          pollIntervalMs: 1500
-        });
-        
-        // Pipe SSE stream to controller
-        sseStream.pipeTo(new WritableStream({
-          write(chunk) {
-            controller.enqueue(chunk);
-          }
-        }));
-      }
-    });
-  }
-  
-  private async fetchNotifications(orgId: string, cursor: number) {
-    return await this.database.query(`
-      SELECT * FROM notifications 
-      WHERE organization_id = $1 AND id > $2 
-      ORDER BY id ASC LIMIT 20
-    `, [orgId, cursor]);
-  }
+ createNotificationStream(organizationId: string) {
+ return new ReadableStream({
+ start(controller) {
+ const sseStream = createSupabaseSSEPollStream({
+ fetchRows: (cursor) => this.fetchNotifications(organizationId, cursor),
+ formatRow: (notification) => ({
+ id: notification.id,
+ payload: {
+ type: notification.type,
+ message: notification.message,
+ timestamp: notification.created_at,
+ metadata: notification.metadata
+ }
+ }),
+ initialCursor: 0,
+ pollIntervalMs: 1500
+ });
+
+ // Pipe SSE stream to controller
+ sseStream.pipeTo(new WritableStream({
+ write(chunk) {
+ controller.enqueue(chunk);
+ }
+ }));
+ }
+ });
+ }
+
+ private async fetchNotifications(orgId: string, cursor: number) {
+ return await this.database.query(`
+ SELECT * FROM notifications
+ WHERE organization_id = $1 AND id > $2
+ ORDER BY id ASC LIMIT 20
+ `, [orgId, cursor]);
+ }
 }
 ```
 
@@ -199,21 +199,21 @@ const response = createErrorResponse(error);
 ### SSE Error Handling
 ```typescript
 const stream = createSupabaseSSEPollStream({
-  fetchRows: async (cursor) => {
-    try {
-      return await database.getRows(cursor);
-    } catch (error) {
-      // Errors automatically trigger stream.error()
-      throw error;
-    }
-  },
-  // ... other options
+ fetchRows: async (cursor) => {
+ try {
+ return await database.getRows(cursor);
+ } catch (error) {
+ // Errors automatically trigger stream.error()
+ throw error;
+ }
+ },
+ // ... other options
 });
 
 // Client-side error handling
 stream.addEventListener('error', (event) => {
-  console.error('SSE stream error:', event);
-  // Implement reconnection logic
+ console.error('SSE stream error:', event);
+ // Implement reconnection logic
 });
 ```
 
@@ -227,18 +227,18 @@ stream.addEventListener('error', (event) => {
 
 ```typescript
 interface SupabasePollStreamOptions<Row> {
-  fetchRows: (cursor: number) => Promise<Row[] | null>;
-  formatRow: (row: Row) => { id: number; payload: any };
-  initialCursor: number;
-  signal?: AbortSignal;
-  pollIntervalMs?: number;
-  heartbeatIntervalMs?: number;
+ fetchRows: (cursor: number) => Promise<Row[] | null>;
+ formatRow: (row: Row) => { id: number; payload: any };
+ initialCursor: number;
+ signal?: AbortSignal;
+ pollIntervalMs?: number;
+ heartbeatIntervalMs?: number;
 }
 
 function createErrorResponse(
-  error: unknown,
-  status?: number,
-  message?: string
+ error: unknown,
+ status?: number,
+ message?: string
 ): Response;
 
 function createAuthErrorResponse(message?: string): Response;
@@ -246,6 +246,6 @@ function createAuthErrorResponse(message?: string): Response;
 function createJsonResponse(data: any, status?: number): Response;
 
 function createSupabaseSSEPollStream<Row>(
-  opts: SupabasePollStreamOptions<Row>
+ opts: SupabasePollStreamOptions<Row>
 ): ReadableStream<Uint8Array>;
 ```

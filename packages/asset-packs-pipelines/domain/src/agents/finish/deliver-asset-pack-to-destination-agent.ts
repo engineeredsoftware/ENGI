@@ -4,7 +4,7 @@
  * Executes final pull-request delivery after written assets have already been
  * synthesized and validated.
  */
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 import { z } from 'zod';
 import { createHash } from 'node:crypto';
@@ -16,7 +16,7 @@ import {
   createBranchTool,
   createOrUpdateFileTool,
   createPullRequestTool,
-} from '@bitcode/vcs-tools';
+} from '@bitcode/generic-tools-vcs';
 import { emitToolUsage } from '@bitcode/pipelines-generics';
 import {
   resolveDeliveryMechanismTemplateFromExecution,
@@ -57,7 +57,7 @@ const stepPrompts = {
   retry: () => { const p = new Prompt(); p.set('step:purpose', 'Retry pull-request delivery with auditable recovery steps.' as any); return p; }
 };
 
-export const AssetPackFinishDeliverAgent = factoryAgentWithPTRR<any, z.infer<typeof FinishDeliveryOutputSchema>>({
+export const AssetPackFinishDeliverAgent = factoryPTRRAgent<any, z.infer<typeof FinishDeliveryOutputSchema>>({
   name: 'finish:deliver-asset-pack-to-destination-agent',
   description: 'Deliver final AssetPack shippables through GitHub pull requests',
   outputSchema: FinishDeliveryOutputSchema as any,

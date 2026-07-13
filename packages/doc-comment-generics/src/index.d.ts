@@ -58,7 +58,7 @@ export declare function loadPlugins(config: PluginLoaderConfig): Promise<void>;
 /**
  * Well-known plugin packages that can be auto-discovered
  */
-export declare const WELL_KNOWN_PLUGIN_PACKAGES: readonly ["@bitcode/prompts", "@bitcode/pipelines-generics", "@bitcode/pipelines/awareness", "@bitcode/doc-field", "@bitcode/doc-typescript", "@bitcode/doc-dryrun", "@bitcode/doc-comment-developing", "@bitcode/doc-comment-developing-promptpart", "@bitcode/doc-comment-developing-prompt"];
+export declare const WELL_KNOWN_PLUGIN_PACKAGES: readonly ["@bitcode/prompts", "@bitcode/pipelines-generics", "@bitcode/pipelines/awareness", "@bitcode/doc-field", "@bitcode/doc-typescript", "@bitcode/doc-dryrun", "@bitcode/generic-doc-comments-doc-developing", "@bitcode/generic-doc-comments-doc-developing-promptpart", "@bitcode/generic-doc-comments-doc-developing-prompt"];
 /**
  * Plugin export convention
  * Packages should export their plugins as:

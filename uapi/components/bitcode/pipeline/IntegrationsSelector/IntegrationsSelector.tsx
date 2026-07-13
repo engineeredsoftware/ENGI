@@ -1,5 +1,6 @@
+'use client';
+
 /* eslint-disable react/no-multi-comp */
-"use client";
 import React, { useState } from 'react';
 import Select, { components, type GroupBase } from 'react-select';
 import { Plug } from 'lucide-react';

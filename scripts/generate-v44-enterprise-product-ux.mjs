@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V44_ENTERPRISE_PRODUCT_UX_ARTIFACT_PATH,
   buildV44EnterpriseProductUx,
-} from '../packages/protocol/src/canonical/v44-enterprise-product-ux.js';
+} from '../packages/specifying/src/canonical/v44-enterprise-product-ux.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

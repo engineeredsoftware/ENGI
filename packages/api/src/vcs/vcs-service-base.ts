@@ -7,7 +7,7 @@
  * - Error handling
  */
 
-import { VCSProviderFactory, VCSAuth } from '@bitcode/vcs';
+import { VCSProviderFactory, VCSAuth } from '@bitcode/vcs-generics';
 import { log } from '@bitcode/logger';
 
 export abstract class VCSServiceBase {

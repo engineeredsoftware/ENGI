@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Upcoming Read measurement projection panel for BTD investment experience.
  */
-"use client";
 
 import React from "react";
 import { motion } from "framer-motion";

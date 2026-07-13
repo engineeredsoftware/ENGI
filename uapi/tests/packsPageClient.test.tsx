@@ -8,7 +8,7 @@ import {
   within,
 } from "@testing-library/react";
 
-import PacksPageClient from "@/app/packs/PacksPageClient";
+import PacksPageClient from "@/components/packs/PacksPageClient/PacksPageClient";
 
 const mockReplace = jest.fn();
 let mockQuery = "q=rollback&type=read-need-fit-preview";

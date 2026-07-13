@@ -159,13 +159,13 @@ function main() {
   const requiredFiles = [
     ARTIFACT_PATH,
     '.bitcode/v41-promptpart-prompt-inventory.json',
-    'packages/protocol/src/canonical/v41-registry-interpolation-contracts.js',
-    'packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js',
-    'packages/protocol/test/v41-registry-interpolation-contracts.test.js',
+    'packages/specifying/src/canonical/v41-registry-interpolation-contracts.js',
+    'packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js',
+    'packages/specifying/test/v41-registry-interpolation-contracts.test.js',
     'scripts/generate-v41-registry-interpolation-contracts.mjs',
     'scripts/check-v41-gate3-registry-interpolation-contracts.mjs',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
+    'packages/specifying/src/index.js',
+    'packages/specifying/src/index.d.ts',
     'packages/prompts/src/prompt.ts',
     'packages/prompts/src/parts/TemplatedPromptPart.ts',
     'packages/execution-generics/src/prompts/ExecutionPrompt.ts',
@@ -182,7 +182,7 @@ function main() {
     'BITCODE_SPEC_V41_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -202,7 +202,7 @@ function main() {
 
   if (!args.skipPackageTests && failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/v41-registry-interpolation-contracts.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/v41-registry-interpolation-contracts.test.js']);
     } catch (error) {
       failures.push(`V41 registry/interpolation protocol test failed: ${error.stderr || error.message}`);
     }

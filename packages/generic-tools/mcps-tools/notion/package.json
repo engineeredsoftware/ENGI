@@ -1,5 +1,5 @@
 {
-  "name": "@bitcode/mcps-tools-notion",
+  "name": "@bitcode/generic-tools-mcps-notion",
   "version": "1.0.0",
   "description": "MCP tools for Notion integration",
   "main": "dist/index.js",

@@ -13,7 +13,7 @@
  */
 
 import { 
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -25,7 +25,7 @@ import {
   type TextEdit,
   type Position,
   type Range
-} from '@bitcode/editing';
+} from '@bitcode/file-editing';
 import { z } from 'zod';
 
 // ==================== TOOLS ====================
@@ -301,7 +301,7 @@ export const codeEditorStepPrompts = {
 /**
  * Comprehensive Code Editor Agent using Divide|Apply|Correct pattern
  */
-export const codeEditorComprehensiveAgent = factoryAgentWithPTRR<
+export const codeEditorComprehensiveAgent = factoryPTRRAgent<
   CodeEditorInput,
   CodeEditorOutput
 >({

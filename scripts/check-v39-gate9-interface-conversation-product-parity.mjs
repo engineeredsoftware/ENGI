@@ -114,9 +114,9 @@ function main() {
     'packages/asset-packs-pipelines/domain/package.json',
     'uapi/tests/api/conversationReadingInterfaceParity.test.ts',
     'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-    'packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts',
-    'packages/protocol/src/canonical/v39-interface-conversation-product-parity.js',
-    'packages/protocol/test/v39-interface-conversation-product-parity.test.js',
+    'packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts',
+    'packages/specifying/src/canonical/v39-interface-conversation-product-parity.js',
+    'packages/specifying/test/v39-interface-conversation-product-parity.test.js',
     'scripts/generate-v39-interface-conversation-product-parity.mjs',
     'scripts/check-v39-gate9-interface-conversation-product-parity.mjs',
     'BITCODE_SPEC_V39.md',
@@ -126,7 +126,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'packages/asset-packs-pipelines/domain/README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -149,7 +149,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v39-interface-conversation-product-parity.test.js',
+        'packages/specifying/test/v39-interface-conversation-product-parity.test.js',
       ]);
     } catch (error) {
       failures.push(`V39 interface and Conversation product parity protocol test failed: ${error.stderr || error.message}`);

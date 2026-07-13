@@ -421,7 +421,7 @@
       ],
       "commandIds": [
         "pnpm --dir uapi exec jest tests/terminalInterfaceIntegrationRegression.test.ts tests/terminalTransactionReadModel.test.ts tests/terminalWalletBtcOperation.test.ts tests/api/conversationReadingInterfaceParity.test.ts --runInBand",
-        "pnpm --filter @bitcode/pipeline-asset-pack exec jest src/__tests__/reading-interface-product-parity.test.ts --runInBand --forceExit"
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest src/__tests__/reading-interface-product-parity.test.ts --runInBand --forceExit"
       ],
       "requiredSourceMarkers": [
         "terminal-delegated-handoff",
@@ -473,17 +473,17 @@
         "uapi/app/conversations/components/ConversationRehearsalPanel.tsx",
         "uapi/app/conversations/README.md",
         "uapi/app/terminal/README.md",
-        "packages/protocol/src/canonical/v39-interface-conversation-product-parity.js"
+        "packages/specifying/src/canonical/v39-interface-conversation-product-parity.js"
       ],
       "testPaths": [
         "uapi/tests/api/conversationRehearsal.test.ts",
         "uapi/tests/conversationRehearsalPanel.test.tsx",
-        "packages/protocol/test/v39-interface-conversation-product-parity.test.js",
+        "packages/specifying/test/v39-interface-conversation-product-parity.test.js",
         "uapi/tests/conversationTerminalIntegrationCoverage.test.tsx"
       ],
       "commandIds": [
         "pnpm --dir uapi exec jest tests/api/conversationRehearsal.test.ts tests/conversationRehearsalPanel.test.tsx tests/conversationTerminalIntegrationCoverage.test.tsx --runInBand",
-        "pnpm --filter @bitcode/protocol exec node --test --test-force-exit test/v39-interface-conversation-product-parity.test.js"
+        "pnpm --filter @bitcode/specifying exec node --test --test-force-exit test/v39-interface-conversation-product-parity.test.js"
       ],
       "requiredSourceMarkers": [
         "terminal_handoff",
@@ -562,7 +562,7 @@
     },
     {
       "id": "protocol-exports-gate6",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {

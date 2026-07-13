@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Deposit pipelines master panel — table + header chrome for master-detail drill-in.
  */
-"use client";
 
 import React from "react";
 import { ArrowLeft, Plus, RefreshCw } from "lucide-react";

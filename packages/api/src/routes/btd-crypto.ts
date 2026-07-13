@@ -1,7 +1,7 @@
 import { traceRoute } from '@bitcode/observability';
 import { createAdminClient, type BtdRegistryModel } from '@bitcode/orm';
 import { createClient } from '@bitcode/supabase/ssr/server';
-import { createJsonResponse } from '@bitcode/responses';
+import { createJsonResponse } from '@bitcode/api/responses';
 import {
   type AssetPackExchangeOrder,
   type AssetPackLedgerAnchor,

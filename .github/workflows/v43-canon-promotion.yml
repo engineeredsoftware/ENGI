@@ -97,15 +97,15 @@ jobs:
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
           fi
-          run_bounded 5m pnpm --filter @bitcode/protocol typecheck
-          run_bounded 5m pnpm --filter @bitcode/protocol test
+          run_bounded 5m pnpm --filter @bitcode/specifying typecheck
+          run_bounded 5m pnpm --filter @bitcode/specifying test
           run_bounded 5m pnpm --filter @bitcode/btd typecheck
           run_bounded 5m pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand --forceExit
           run_bounded 15m npm --prefix protocol-demonstration test
           run_bounded 5m npm --prefix protocol-demonstration run test:v28-mvp-qa
-          run_bounded 5m pnpm --filter @bitcode/pipeline-asset-pack typecheck
+          run_bounded 5m pnpm --filter @bitcode/asset-packs-pipelines-domain typecheck
           run_bounded 5m pnpm --filter @bitcode/pipeline-hosts typecheck
-          run_bounded 5m pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          run_bounded 5m pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --passWithNoTests --forceExit
           run_bounded 5m pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
           run_checked git diff --check
 
@@ -143,9 +143,9 @@ jobs:
             BITCODE_SPEC_V43_PROVEN.md \
             protocol-demonstration/src/canon-posture.js \
             protocol-demonstration/README.md \
-            packages/protocol/src/canon-posture.js \
-            packages/protocol/data/state.json \
-            packages/protocol/README.md \
+            packages/specifying/src/canon-posture.js \
+            packages/specifying/data/state.json \
+            packages/specifying/README.md \
             .bitcode
           git commit -m "Promote Bitcode canon to V43"
           git push origin "HEAD:$HEAD_BRANCH"

@@ -62,10 +62,10 @@ The agent processes code search requests through semantic analysis:
 
 ```typescript
 const snippets = await findCodeSnippetsToolEnhanced({
-  files: ['src/components/Button.tsx', 'src/utils/helpers.ts'],
-  fileTracker: fileTrackerInstance,
-  taskDescription: "Find authentication handling code",
-  maxSnippets: 20
+ files: ['src/components/Button.tsx', 'src/utils/helpers.ts'],
+ fileTracker: fileTrackerInstance,
+ taskDescription: "Find authentication handling code",
+ maxSnippets: 20
 });
 ```
 
@@ -74,12 +74,12 @@ const snippets = await findCodeSnippetsToolEnhanced({
 ### Code Snippet Result
 ```typescript
 {
-  file: string,           // Relative file path
-  snippet: string,        // Extracted code snippet
-  startLine: number,      // Starting line number
-  endLine: number,        // Ending line number
-  relevance: number,      // Relevance score (0-1)
-  reason: string          // Explanation of match
+ file: string, // Relative file path
+ snippet: string, // Extracted code snippet
+ startLine: number, // Starting line number
+ endLine: number, // Ending line number
+ relevance: number, // Relevance score (0-1)
+ reason: string // Explanation of match
 }
 ```
 

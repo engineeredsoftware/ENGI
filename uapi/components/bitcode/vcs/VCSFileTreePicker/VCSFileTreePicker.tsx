@@ -13,7 +13,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronDown, ChevronRight, FileText, Folder } from 'lucide-react';
-import type { VCSProviderType } from '@bitcode/vcs-core';
+import type { VCSProviderType } from '@bitcode/vcs-generics-core';
 
 interface VCSFileTreePickerTreeItem {
   path: string;

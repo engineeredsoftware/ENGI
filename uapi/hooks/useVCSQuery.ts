@@ -1,5 +1,5 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { VCSProvider } from '@bitcode/vcs';
+import { VCSProvider } from '@bitcode/vcs-generics';
 
 /**
  * React Query keys for consistent VCS data caching

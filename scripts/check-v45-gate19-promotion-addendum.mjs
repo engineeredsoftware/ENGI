@@ -106,8 +106,8 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     '.bitcode/v45-source-safe-e2e-rehearsal.json',
     '.bitcode/v45-promotion-readiness-report.json',
-    'packages/protocol/src/canonical/v21-specifying.js',
-    'packages/protocol/test/spec-family-promotion-posture.test.js',
+    'packages/specifying/src/canonical/v21-specifying.js',
+    'packages/specifying/test/spec-family-promotion-posture.test.js',
   ];
   for (const relativePath of requiredFiles) {
     assertCheck(failures, exists(root, relativePath), `Missing required Gate 19 file: ${relativePath}`);
@@ -134,8 +134,8 @@ function main() {
   const spec = read(root, 'BITCODE_SPEC_V45.md');
   const notes = read(root, 'BITCODE_SPEC_V45_NOTES.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
-  const checker = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
-  const test = read(root, 'packages/protocol/test/spec-family-promotion-posture.test.js');
+  const checker = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
+  const test = read(root, 'packages/specifying/test/spec-family-promotion-posture.test.js');
   const packageJson = read(root, 'package.json');
 
   for (const [label, content, phrase] of [
@@ -162,10 +162,10 @@ function main() {
       'node',
       [
         '--test',
-        'packages/protocol/test/spec-family-promotion-posture.test.js',
-        'packages/protocol/test/protocol-package-boundary.test.js',
-        'packages/protocol/test/v45-source-safe-e2e-rehearsal.test.js',
-        'packages/protocol/test/v45-promotion-readiness.test.js',
+        'packages/specifying/test/spec-family-promotion-posture.test.js',
+        'packages/specifying/test/specifying-package-boundary.test.js',
+        'packages/specifying/test/v45-source-safe-e2e-rehearsal.test.js',
+        'packages/specifying/test/v45-promotion-readiness.test.js',
       ],
     ]);
   }

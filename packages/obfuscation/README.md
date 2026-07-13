@@ -3,7 +3,6 @@
 Privacy-preserving code transformation primitives for deposit obfuscations
 and related withhold paths.
 
-> BC alias: `@bitcode/obfuscate`
 
 ## Naming
 
@@ -20,7 +19,7 @@ implementor family. Path and package name are plain `obfuscation`.
 
 ```ts
 import { /* primitives / tools */ } from '@bitcode/obfuscation';
-// or BC: from '@bitcode/obfuscate'
+// or from '@bitcode/obfuscation'
 ```
 
 Product deposit UI “Obfuscations” input maps to these transforms when non-empty;

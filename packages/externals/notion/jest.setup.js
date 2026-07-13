@@ -1,1 +1,1 @@
-// Jest setup for @bitcode/notion tests
+// Jest setup for @bitcode/externals-notion tests

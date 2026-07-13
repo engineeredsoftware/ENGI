@@ -6,7 +6,7 @@
  *
  * Pack contents project from MeasuredPatchAssetPack
  * (@bitcode/generic-asset-packs-measured-patch) — the only AssetPack base used
- * by product pipelines. Protocol primitives: @bitcode/asset-pack-generics.
+ * by product pipelines. Protocol primitives: @bitcode/asset-packs-generics.
  */
 
 import type { MeasuredPatchNeedinessPreview } from '@bitcode/generic-asset-packs-measured-patch';

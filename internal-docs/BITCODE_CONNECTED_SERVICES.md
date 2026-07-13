@@ -29,8 +29,8 @@ Examples:
 ## Current Source Examples
 
 - `uapi/app/api/vcs/*`
-- `packages/vcs-generics/*` + `packages/generic-vcs/*` (BC: `packages/vcs`, `packages/github`, `packages/gitlab`, `packages/git`, `packages/bitbucket`)
-- `packages/externals/jira/*` (BC `packages/jira`)
+- `packages/vcs-generics/*` + `packages/generic-vcs/*` (sole homes; root `packages/{vcs,github,gitlab,git,bitbucket}` removed)
+- `packages/externals/jira/*` (sole home; root `packages/jira` removed)
 - `packages/external-apps/chatgpt/*`
 - `packages/mcp-generics/* + packages/generic-mcps/bitcode/*`
 - `packages/api/src/routes/*`

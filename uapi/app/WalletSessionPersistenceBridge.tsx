@@ -11,8 +11,8 @@ import {
   writeLocalBitcodeWalletIdentity,
   type BitcodeWalletBindingStatus,
   type LocalBitcodeWalletIdentity,
-} from '@/lib/bitcode-wallet-local';
-import { bitcodeQaTelemetry, compactBitcodeAddress } from '@/lib/bitcode-qa-telemetry';
+} from '@bitcode/auth/wallet-local';
+import { bitcodeQaTelemetry, compactBitcodeAddress } from '@bitcode/auth/qa-telemetry';
 
 function canPersistWalletIdentity(identity: LocalBitcodeWalletIdentity | null): identity is LocalBitcodeWalletIdentity {
   return Boolean(

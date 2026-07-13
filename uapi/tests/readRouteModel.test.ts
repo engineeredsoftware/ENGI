@@ -6,7 +6,7 @@ import {
   buildReadSettlementRightsDelivery,
   readReadRouteStage,
   writeReadRouteStage,
-} from '@/app/reads/read-route-model';
+} from '@/components/reads/models/read-route-model';
 
 describe('read-route-model', () => {
   it('builds a source-safe five-step ReadRouteSession', () => {

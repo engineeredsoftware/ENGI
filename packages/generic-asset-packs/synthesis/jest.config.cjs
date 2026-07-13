@@ -3,9 +3,9 @@ module.exports = {
   testEnvironment: 'node',
   testMatch: ['**/__tests__/**/*.test.ts'],
   moduleNameMapper: {
-    '^@bitcode/asset-packs-synthesis$': '<rootDir>/src/index.ts',
+    '^@bitcode/generic-asset-packs-synthesis$': '<rootDir>/src/index.ts',
     '^@bitcode/artifact-generics$': '<rootDir>/../../artifact-generics/src/index.ts',
-    '^@bitcode/generic-artifacts-patch$': '<rootDir>/../../generic-artifacts/patch/src/index.ts',
+    '^@bitcode/generic-artifacts-patch-kind$': '<rootDir>/../../generic-artifacts/patch-kind/src/index.ts',
     '^@bitcode/asset-packs-generics$': '<rootDir>/../../asset-packs-generics/src/index.ts',
     '^@bitcode/measurement-generics$': '<rootDir>/../../measurement-generics/src/index.ts',
   },

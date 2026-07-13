@@ -20,22 +20,22 @@ Page shells: `uapi/app/...` — orchestration only.
 ## Component layers
 
 ```
-Shadcn*  →  Bitcode*  →  Experience*
+Shadcn* → Bitcode* → Experience*
 ```
 
 1. **Shadcn** — root primitives (`uapi/components/shadcn/`).
 2. **Bitcode** — theme, layout, nav, pipeline table/log/telemetry, auth chrome,
-   product route helpers (`uapi/components/bitcode/`).
+ product route helpers (`uapi/components/bitcode/`).
 3. **Experience** — page-specific composition; imports Bitcode only.
 
 ## Component unit pattern
 
 ```
 uapi/components/<layer>/<ComponentName>/
-  <ComponentName>.tsx      # named entry — not index.tsx
-  hooks/
-  styles/
-  __tests__/
+ <ComponentName>.tsx # named entry — not index.tsx
+ hooks/
+ styles/
+ __tests__/
 ```
 
 Shared pure logic for an experience lives under that experience’s `models/`,
@@ -59,7 +59,7 @@ Shared pure logic for an experience lives under that experience’s `models/`,
 - Launch entrypoints: `/deposits`, `/reads`, `/packs`, Auxillaries, Marketing, Docs.
 - Conversations structure may persist; full commercial UX is deferred post-V48.
 - Source-safety, measurement-before-price, proof-before-state bind UI the same
-  way they bind protocol law.
+ way they bind protocol law.
 
 ## Package boundary
 

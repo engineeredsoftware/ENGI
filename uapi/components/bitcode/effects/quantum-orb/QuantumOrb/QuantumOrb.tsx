@@ -11,10 +11,10 @@ import React, {
 } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { QuantumOrbConfig } from '@/components/bitcode/effects/quantum-orb/QuantumOrbConfig/QuantumOrbConfig';
-import { WavyBlobLayer } from './layers/WavyBlobLayer';
-import { ParticleLayer } from './layers/ParticleLayer';
-import { GlowLayer } from './layers/GlowLayer';
-import { OrbitalRings } from './layers/OrbitalRings';
+import { WavyBlobLayer } from '@/components/bitcode/effects/quantum-orb/layers/WavyBlobLayer/WavyBlobLayer';
+import { ParticleLayer } from '@/components/bitcode/effects/quantum-orb/layers/ParticleLayer/ParticleLayer';
+import { GlowLayer } from '@/components/bitcode/effects/quantum-orb/layers/GlowLayer/GlowLayer';
+import { OrbitalRings } from '@/components/bitcode/effects/quantum-orb/layers/OrbitalRings/OrbitalRings';
 
 // ---------------------------------------------------------------------------
 // Device capability detection – evaluated once per bundle execution so we

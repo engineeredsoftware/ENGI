@@ -265,7 +265,7 @@
           "present": true
         },
         {
-          "token": "pnpm --filter @bitcode/protocol test",
+          "token": "pnpm --filter @bitcode/specifying test",
           "present": true
         }
       ]
@@ -340,7 +340,7 @@
   "generatedArtifactAndTestBindings": [
     "scripts/check-v45-gate16-proof-families-generated-artifacts.mjs",
     "scripts/generate-v45-proof-family-artifacts.mjs",
-    "packages/protocol/test/v45-proof-family-artifacts.test.js",
+    "packages/specifying/test/v45-proof-family-artifacts.test.js",
     ".github/workflows/bitcode-gate-quality.yml"
   ],
   "failClosedConditions": [

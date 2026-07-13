@@ -2,7 +2,7 @@ import React from 'react';
 import { cn } from '@bitcode/styling';
 import LogoIcon from '@/components/bitcode/icons/LogoIcon/LogoIcon';
 import { ReloadIcon, ArrowRightIcon } from '@radix-ui/react-icons';
-import { trackEvent } from '@bitcode/google-analytics';
+import { trackEvent } from '@bitcode/external-telemetry-google';
 
 type ColorScheme = 'emerald' | 'purple' | 'orange';
 

@@ -1,7 +1,6 @@
 # @bitcode/externals-jira
 
-> Path: `packages/externals/jira`  
-> BC alias: `@bitcode/jira` (thin re-export at `packages/jira`)
+> Path: `packages/externals/jira`
 
 Comprehensive Jira integration package for the Bitcode platform. Provides OAuth-authenticated client with full issue management, project operations, and JQL query capabilities.
 
@@ -25,30 +24,30 @@ Comprehensive Jira integration package for the Bitcode platform. Provides OAuth-
 ## Usage
 
 ```typescript
-import { 
-  createJiraClientFromUser,
-  jiraSearchIssues,
-  JQL_QUERIES 
+import {
+ createJiraClientFromUser,
+ jiraSearchIssues,
+ JQL_QUERIES
 } from '@bitcode/externals-jira';
-// or BC: from '@bitcode/jira'
+// or from '@bitcode/externals-jira'
 
 // Create authenticated client
 const client = await createJiraClientFromUser(userId);
 
 // Search for issues
 const results = await jiraSearchIssues(
-  connection,
-  JQL_QUERIES.myOpenIssues,
-  25
+ connection,
+ JQL_QUERIES.myOpenIssues,
+ 25
 );
 
 // Create new issue
 await jiraCreateIssue(
-  connection,
-  'PROJ',
-  'Bug',
-  'Critical bug report',
-  'Detailed description...'
+ connection,
+ 'PROJ',
+ 'Bug',
+ 'Critical bug report',
+ 'Detailed description...'
 );
 ```
 
@@ -58,7 +57,7 @@ await jiraCreateIssue(
 import { extractIssueKeyFromUrl, parseJiraBaseUrl } from '@bitcode/externals-jira';
 
 const issueKey = extractIssueKeyFromUrl(
-  'https://company.atlassian.net/browse/PROJ-123'
+ 'https://company.atlassian.net/browse/PROJ-123'
 ); // Returns: 'PROJ-123'
 ```
 

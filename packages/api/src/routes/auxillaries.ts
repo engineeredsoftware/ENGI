@@ -1,6 +1,6 @@
 import { traceRoute } from '@bitcode/observability';
 import { hydrateBitcodeProfile } from '@bitcode/orm';
-import { createJsonResponse } from '@bitcode/responses';
+import { createJsonResponse } from '@bitcode/api/responses';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
 
@@ -424,7 +424,7 @@ export function buildPostAuxillaryBtdRoute(options: AuxillaryRouteBuilderOptions
       error:
         'Generic BTD balance mutation is closed. $BTD is a non-fungible asset-pack share/read-right; acquisition must flow through Terminal Read minting or Exchange purchase.',
       acquisitionPaths: {
-        terminalReadMinting: '/terminal?intent=submit-read-for-btd',
+        terminalReadMinting: '/reads?intent=submit-read-for-btd',
         exchangePurchase: '/exchange?intent=buy-existing-btd',
       },
     }, 410);

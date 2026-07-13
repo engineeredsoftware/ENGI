@@ -1,4 +1,4 @@
-# @bitcode/sentry
+# @bitcode/external-telemetry-sentry
 
 Error monitoring and performance tracking for the Bitcode platform. Provides graceful Sentry SDK wrapper with automatic instrumentation and environment detection.
 
@@ -12,40 +12,40 @@ Error monitoring and performance tracking for the Bitcode platform. Provides gra
 ## Error Tracking
 
 ```typescript
-import { captureException, captureMessage, withScope } from '@bitcode/sentry';
+import { captureException, captureMessage, withScope } from '@bitcode/external-telemetry-sentry';
 
 // Capture exceptions
 try {
-  riskyOperation();
+ riskyOperation();
 } catch (error) {
-  captureException(error, { 
-    extra: { context: 'user-action' } 
-  });
+ captureException(error, {
+ extra: { context: 'user-action' }
+ });
 }
 
 // Capture messages
 captureMessage('Important event occurred', {
-  level: 'info',
-  extra: { userId: '123' }
+ level: 'info',
+ extra: { userId: '123' }
 });
 
 // Scoped context
 withScope(scope => {
-  scope.setTag('feature', 'authentication');
-  captureException(authError);
+ scope.setTag('feature', 'authentication');
+ captureException(authError);
 });
 ```
 
 ## Performance Monitoring
 
 ```typescript
-import { startSpan } from '@bitcode/sentry';
+import { startSpan } from '@bitcode/external-telemetry-sentry';
 
 const result = await startSpan(
-  { name: 'database-query', op: 'db' },
-  async () => {
-    return await executeQuery(sql);
-  }
+ { name: 'database-query', op: 'db' },
+ async () => {
+ return await executeQuery(sql);
+ }
 );
 ```
 

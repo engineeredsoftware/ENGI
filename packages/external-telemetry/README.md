@@ -8,4 +8,4 @@ External product/error analytics adapters.
 | `sentry/` | `@bitcode/external-telemetry-sentry` |
 | `vercel/` | `@bitcode/external-telemetry-vercel` |
 
-Composed by `@bitcode/observability`. BC: `@bitcode/google-analytics`, `@bitcode/sentry`.
+Composed by `@bitcode/observability`. Packages: `@bitcode/external-telemetry-google`, `@bitcode/external-telemetry-sentry`.

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from 'react';
-import { trackEvent } from '@bitcode/google-analytics';
+import { trackEvent } from '@bitcode/external-telemetry-google';
 
 // Attach a single delegated click listener that fires a GA4 event for most
 // user interactions.  This is meant as a catch-all safety net – you should

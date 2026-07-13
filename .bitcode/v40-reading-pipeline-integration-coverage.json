@@ -46,7 +46,7 @@
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],
       "commandIds": [
-        "pnpm --filter @bitcode/pipeline-asset-pack exec jest src/__tests__/reading-pipeline-contract.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-integration-coverage.test.ts"
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest src/__tests__/reading-pipeline-contract.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],
       "requiredSourceMarkers": [
         "READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT",
@@ -110,7 +110,7 @@
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],
       "commandIds": [
-        "pnpm --filter @bitcode/pipeline-asset-pack test -- read-need"
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain test -- read-need"
       ],
       "requiredSourceMarkers": [
         "synthesizeReadNeedForPipelineInputWithInference",
@@ -174,7 +174,7 @@
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],
       "commandIds": [
-        "pnpm --filter @bitcode/pipeline-asset-pack test -- read-fits depository-search embedding-config"
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain test -- read-fits depository-search embedding-config"
       ],
       "requiredSourceMarkers": [
         "buildReadFitsFindingRuntime",
@@ -240,7 +240,7 @@
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],
       "commandIds": [
-        "pnpm --filter @bitcode/pipeline-asset-pack test -- setup-agents read-fits-finding-synthesis-asset-pack-synthesis-agent"
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain test -- setup-agents read-fits-finding-synthesis-asset-pack-synthesis-agent"
       ],
       "requiredSourceMarkers": [
         "factoryAgentWithPTRR",
@@ -301,7 +301,7 @@
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],
       "commandIds": [
-        "pnpm --filter @bitcode/pipeline-asset-pack test -- asset-pack-preview-boundary asset-pack-settlement-rights-delivery finish"
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain test -- asset-pack-preview-boundary asset-pack-settlement-rights-delivery finish"
       ],
       "requiredSourceMarkers": [
         "buildAssetPackPreviewBoundary",
@@ -363,7 +363,7 @@
         "uapi/tests/pipelineExecutionLogHeader.test.tsx"
       ],
       "commandIds": [
-        "pnpm --filter @bitcode/pipeline-asset-pack test -- reading-operational-telemetry-repair-readback reading-interface-product-parity",
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain test -- reading-operational-telemetry-repair-readback reading-interface-product-parity",
         "pnpm --dir uapi exec jest tests/readingOperationalTelemetryPipelineLog.test.tsx tests/pipelineExecutionLogHeader.test.tsx"
       ],
       "requiredSourceMarkers": [
@@ -554,12 +554,12 @@
       ],
       "testPaths": [
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts",
-        "packages/protocol/test/v39-local-staging-reading-rehearsal.test.js",
+        "packages/specifying/test/v39-local-staging-reading-rehearsal.test.js",
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],
       "commandIds": [
-        "pnpm --filter @bitcode/pipeline-asset-pack test -- reading-local-staging-rehearsal reading-pipeline-integration-coverage",
-        "pnpm --filter @bitcode/protocol exec node --test --test-force-exit test/v39-local-staging-reading-rehearsal.test.js"
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain test -- reading-local-staging-rehearsal reading-pipeline-integration-coverage",
+        "pnpm --filter @bitcode/specifying exec node --test --test-force-exit test/v39-local-staging-reading-rehearsal.test.js"
       ],
       "requiredSourceMarkers": [
         "READING_LOCAL_STAGING_REHEARSAL_LANES",
@@ -630,7 +630,7 @@
     },
     {
       "id": "protocol-exports-gate5",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {

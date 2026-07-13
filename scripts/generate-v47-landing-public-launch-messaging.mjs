@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_LANDING_PUBLIC_LAUNCH_MESSAGING_ARTIFACT_PATH,
   buildV47LandingPublicLaunchMessaging,
-} from '../packages/protocol/src/canonical/v47-landing-public-launch-messaging.js';
+} from '../packages/specifying/src/canonical/v47-landing-public-launch-messaging.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

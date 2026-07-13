@@ -327,7 +327,7 @@
     },
     {
       "id": "package-exports-gate6",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {
@@ -369,10 +369,10 @@
     "auxillariesWalletPaneTest": "uapi/tests/auxillariesWalletPane.test.tsx:6eb2466152a6eede16e95863",
     "auxillariesWorkspaceTest": "uapi/tests/auxillariesWorkspacePanels.test.tsx:8feac0b9ea0b109749402d65",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
-    "protocolIndex": "packages/protocol/src/index.js:fdc9c740328fe41b9c7134c8",
-    "protocolTypes": "packages/protocol/src/index.d.ts:df3330e66cf6b01b41c762ee",
-    "protocolSource": "packages/protocol/src/canonical/v47-packs-auxillaries-commercial-dashboard.js:ed13671bff6c12bc8e929b82",
-    "protocolTest": "packages/protocol/test/v47-packs-auxillaries-commercial-dashboard.test.js:51c1c6c89b1002dc637161dc",
+    "protocolIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "protocolTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "protocolSource": "packages/specifying/src/canonical/v47-packs-auxillaries-commercial-dashboard.js:ed13671bff6c12bc8e929b82",
+    "protocolTest": "packages/specifying/test/v47-packs-auxillaries-commercial-dashboard.test.js:51c1c6c89b1002dc637161dc",
     "generator": "scripts/generate-v47-packs-auxillaries-commercial-dashboard.mjs:c743ce9b2e298da9add2e2cb",
     "checker": "scripts/check-v47-gate6-packs-auxillaries-commercial-dashboard.mjs:84e5efc2b954e1295bcdf3d8",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",

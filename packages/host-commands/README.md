@@ -6,4 +6,4 @@ Host OS command primitives (not product UI).
 | --- | --- |
 | `grep/` | `@bitcode/host-commands-grep` |
 
-BC: `@bitcode/simple-system-text-search`.
+Packages: `@bitcode/host-commands-grep`.

@@ -20,7 +20,7 @@ export function useReadActivityRecording(input: {
   repositoryContext: TerminalRepositoryContextState | null;
   selectedRun: WorkspaceRun | null;
   setLiveRuns: Dispatch<SetStateAction<WorkspaceRun[]>>;
-  refreshLiveRuns: () => void | Promise<void>;
+  refreshLiveRuns: () => void | Promise<unknown>;
   replaceReadRouteTransaction: (id: string) => void;
 }) {
   const {

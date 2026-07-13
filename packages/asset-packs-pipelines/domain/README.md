@@ -27,23 +27,23 @@ configured limit before Finish.
 ```text
 AssetPackPipeline (SDIVF with DIV iteration)
 ├── Preprocess
-│   ├── Read and source-revision normalization
-│   ├── Depository Finding Fits discovery
-│   ├── Source-bound ranking
-│   └── Fit result-state evidence
+│ ├── Read and source-revision normalization
+│ ├── Depository Finding Fits discovery
+│ ├── Source-bound ranking
+│ └── Fit result-state evidence
 ├── Setup
-│   ├── VCS repository context
-│   ├── Read comprehension
-│   ├── LSP/static measurement
-│   └── Danger-wall admission
+│ ├── VCS repository context
+│ ├── Read comprehension
+│ ├── LSP/static measurement
+│ └── Danger-wall admission
 ├── [DIV loop]
-│   ├── Discovery
-│   ├── Implementation
-│   └── Validation
+│ ├── Discovery
+│ ├── Implementation
+│ └── Validation
 └── Finish
-    ├── Save AssetPack synthesis artifacts and Exchange evidence
-    ├── Produce AssetPack completion summary
-    └── Deliver AssetPacks or AssetPackPartials to connected destinations
+ ├── Save AssetPack synthesis artifacts and Exchange evidence
+ ├── Produce AssetPack completion summary
+ └── Deliver AssetPacks or AssetPackPartials to connected destinations
 ```
 
 ## Usage
@@ -52,13 +52,13 @@ AssetPackPipeline (SDIVF with DIV iteration)
 import { assetPackPipeline } from '@bitcode/asset-packs-pipelines-domain';
 
 const result = await assetPackPipeline({
-  read: 'Add user authentication with JWT',
-  repository: {
-    url: 'https://github.com/acme/app',
-    branch: 'main',
-  },
-  writtenAssetType: 'read-satisfaction-asset-pack',
-  deliveryMechanismTemplate: 'pull-request',
+ read: 'Add user authentication with JWT',
+ repository: {
+ url: 'https://github.com/acme/app',
+ branch: 'main',
+ },
+ writtenAssetType: 'read-satisfaction-asset-pack',
+ deliveryMechanismTemplate: 'pull-request',
 }, execution);
 ```
 
@@ -81,11 +81,11 @@ repository, revision, artifact-kind, proof, and measurement signals, and stores:
 Result states are fail-closed:
 
 - `worthy_fit` only when a selected candidate is source-bound, semantically
-  relevant, proof-bearing, and measurement-bearing.
+ relevant, proof-bearing, and measurement-bearing.
 - `no_worthy_fit` when searched deposits do not satisfy the Read.
 - `blocked_readiness` when the Read is too broad, no depository assets are
-  available, candidate evidence is missing proof/measurement, or mock/frontier
-  leakage is detected.
+ available, candidate evidence is missing proof/measurement, or mock/frontier
+ leakage is detected.
 
 Search providers can be added through the `DepositorySearchProvider` interface.
 The default lexical provider is deterministic so QA can prove ranking and result

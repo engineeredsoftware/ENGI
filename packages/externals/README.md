@@ -10,4 +10,4 @@ Third-party product integrations (not telemetry).
 | `vercel/` | `@bitcode/externals-vercel` (deploy API) |
 
 Telemetry for Vercel Analytics lives in `external-telemetry/vercel`.
-BC: `@bitcode/{figma,jira,notion,vercel}`.
+Packages: `@bitcode/{figma,jira,notion,vercel}`.

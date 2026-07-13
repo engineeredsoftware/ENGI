@@ -1,6 +1,7 @@
+'use client';
+
 /* eslint-disable react/no-multi-comp */
 
-"use client";
 
 /**
  * Competitor comparison table section for marketing pages.

@@ -532,7 +532,7 @@
     },
     {
       "id": "protocol-exports-gate6",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {

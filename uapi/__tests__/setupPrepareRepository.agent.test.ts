@@ -1,7 +1,6 @@
 import { jest } from '@jest/globals';
 
-import { initializeContext } from '@bitcode/context/context';
-import { getGlobalContext } from '@bitcode/context';
+import { initializeProcessRoot } from '@bitcode/generic-executions';
 import { executeAgentSteps } from '@bitcode/steps/runner';
 import { resolveTool } from '@bitcode/generic-tools-registry';
 import { AssetPackCloneVCSRepositoryAgent as AGENT } from '@bitcode/asset-packs-pipelines-domain';
@@ -53,7 +52,7 @@ jest.mock('@bitcode/generic-tools-registry', () => {
 
 describe('AssetPack Clone VCS Repository Agent', () => {
   beforeAll(async () => {
-    await initializeContext({
+    initializeProcessRoot({
       installationId: 1,
       repoName: 'testrepo',
       repoOwner: 'owner',

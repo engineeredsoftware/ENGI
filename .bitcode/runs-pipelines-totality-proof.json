@@ -171,47 +171,47 @@
       "detail": "9 source evidence requirements satisfied",
       "requiredEvidence": [
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/types/index.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/types/index.ts",
           "evidence": "| 'third_party_mcp'",
           "description": "MCP type surface admits third-party MCP as ingress context, not as a parallel product output"
         },
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/pipeline-execution/adapter.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/pipeline-execution/adapter.ts",
           "evidence": "export function buildPipelineInputContext",
           "description": "pipeline adapter exposes explicit input-context normalization for interface ingress"
         },
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
           "evidence": "permission: 'pipelines.create'",
           "description": "pipeline tool emits an explicit write-admission permission receipt"
         },
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
           "evidence": "const writeAdmission = assertPipelineWriteAdmission(params, context, interfaceSurface)",
           "description": "pipeline write admission is evaluated before BTD estimation and queueing"
         },
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
           "evidence": "writeAdmission,",
           "description": "accepted write admission is returned and queued in metadata"
         },
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
           "evidence": "normalizes third-party MCP repository and attachment ingress as input context only",
           "description": "unit proof covers third-party MCP ingress as input context"
         },
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
           "evidence": "expect(inputContext).not.toHaveProperty('assetPacks')",
           "description": "unit proof rejects treating third-party ingress as asset-pack output"
         },
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
           "evidence": "repositoryAnchor: 'github:bitcode-labs/application@main'",
           "description": "unit proof binds accepted MCP writes to a concrete repository anchor"
         },
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
           "evidence": "metadata: expect.objectContaining({",
           "description": "unit proof verifies write-admission metadata is queued with the pipeline job"
         }
@@ -226,22 +226,22 @@
       "detail": "4 source evidence requirements satisfied",
       "requiredEvidence": [
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/prompts/workflow-prompts.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/prompts/workflow-prompts.ts",
           "evidence": "Please execute the Bitcode asset-pack pipeline",
           "description": "workflow prompts teach the active asset-pack pipeline meaning"
         },
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/prompts/development-prompts.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/prompts/development-prompts.ts",
           "evidence": "Bitcode's asset-pack pipeline with the following comprehensive source-to-shares approach",
           "description": "development prompts teach source-to-shares asset-pack execution"
         },
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
           "evidence": "Create and execute a Bitcode asset-pack pipeline",
           "description": "pipeline tool description exposes canonical asset-pack semantics"
         },
         {
-          "file": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts",
+          "file": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts",
           "evidence": "MCP prompt asset-pack canon",
           "description": "package-local test renders prompts and proves they teach AssetPack canon"
         }

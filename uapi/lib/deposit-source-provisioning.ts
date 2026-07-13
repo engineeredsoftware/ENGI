@@ -49,7 +49,7 @@ export function selectDepositHostKind(
 ): BitcodeHostKind {
   const explicit = env.BITCODE_PIPELINE_HOST?.trim().toLowerCase();
   if (explicit === "sandbox") return "sandbox";
-  // `inline` is a deprecated alias of `local` (LocalHost, formerly InlineHost).
+  // `inline` is a deprecated alias of `local` (LocalHost, formerly LocalHost).
   return "local";
 }
 

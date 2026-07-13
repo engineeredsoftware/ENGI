@@ -1,7 +1,8 @@
+'use client';
+
 // File: uapi/components/bitcode/layout/sidebars/sidebar-toggle.tsx
 
 // components/sidebars/sidebar-toggle.tsx
-"use client";
 
 import { motion, AnimatePresence } from 'framer-motion';
 import React, { ReactElement, useState, useEffect } from 'react';

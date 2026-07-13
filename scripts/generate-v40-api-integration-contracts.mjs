@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V40_API_INTEGRATION_CONTRACTS_ARTIFACT_PATH,
   buildV40ApiIntegrationContracts,
-} from '../packages/protocol/src/canonical/v40-api-integration-contracts.js';
+} from '../packages/specifying/src/canonical/v40-api-integration-contracts.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -195,7 +195,7 @@ function AuxillariesContent(props: AuxillariesContentProps) {
                     onClick={() => {
                       if (isAvailable) {
                         try {
-                          const { trackEvent } = require('@bitcode/google-analytics');
+                          const { trackEvent } = require('@bitcode/external-telemetry-google');
                           trackEvent(isAuxillariesMode ? 'auxillaries_step_click' : 'onboarding_step_click', { step });
                         } catch {}
                         onStepClick(step);

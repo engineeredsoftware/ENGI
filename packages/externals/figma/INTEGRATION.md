@@ -6,8 +6,8 @@ This package provides Figma design extraction and analysis integration for Bitco
 
 The Figma integration consists of three layers:
 
-### 1. Core Package (`@bitcode/figma`)
-- **Location**: `packages/figma/`
+### 1. Core Package (`@bitcode/externals-figma`)
+- **Location**: `packages/externals/figma/`
 - **Purpose**: Low-level Figma API client with authentication, rate limiting, and image extraction
 - **Key Functions**:
   - `figmaListRecentFiles()` - Browse user's recent Figma files
@@ -16,12 +16,12 @@ The Figma integration consists of three layers:
   - `figmaFindArtboardByName()` - Search for specific artboards
   - `figmaGetFile()` - Get complete file structure
 
-### 2. MCP Tools (`@bitcode/figma-tools`)
+### 2. MCP Tools (`@bitcode/generic-tools-mcps-figma`)
 - **Location**: `packages/generic-tools/mcps-tools/figma/`
 - **Purpose**: Tool wrappers that expose Figma functions to AI agents
 - **Pattern**: Follows same structure as AWS MCP tools (`tool()` + type exports)
 
-### 3. Generic Agent (`@bitcode/figma-processor-agent`)
+### 3. Generic Agent (`@bitcode/externals-figma-processor-agent`)
 - **Location**: `packages/generic-agents/figma-processor/`
 - **Purpose**: PTRR-based agent that orchestrates Figma extraction workflow
 - **Uses**: Modern `promptFn` + `tools` pattern with automatic tool execution

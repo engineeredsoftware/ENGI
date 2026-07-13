@@ -1,4 +1,4 @@
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 import { z } from 'zod';
 import { Prompt } from '@bitcode/prompts/prompt';
@@ -43,7 +43,7 @@ const stepPrompts = {
   retry: () => { const p = new Prompt(); p.set('step:purpose', createPromptPart('Retry pull-request delivery with alternative metadata if conflicts occur.')); return p; }
 };
 
-export const AssetPackFinishCreatePullRequestDeliveryAgent = factoryAgentWithPTRR<
+export const AssetPackFinishCreatePullRequestDeliveryAgent = factoryPTRRAgent<
   z.infer<typeof CreatePRInputSchema>,
   z.infer<typeof CreatePROutputSchema>
 >({

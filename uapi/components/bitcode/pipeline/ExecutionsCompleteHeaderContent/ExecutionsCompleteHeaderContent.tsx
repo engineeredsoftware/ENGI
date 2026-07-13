@@ -1,5 +1,6 @@
+'use client';
+
 /* eslint-disable react/no-multi-comp */
-"use client";
 
 import React from "react";
 import { useRouter, useSearchParams } from 'next/navigation';

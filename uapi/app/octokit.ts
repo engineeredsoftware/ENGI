@@ -16,7 +16,7 @@ import {
   type VCSComment,
   type VCSIssue,
   type VCSRepository,
-} from '@bitcode/vcs';
+} from '@bitcode/vcs-generics';
 import { log } from '@bitcode/logger';
 import fs from 'fs';
 import path from 'path';

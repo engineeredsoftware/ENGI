@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
-import { VCSConnections, VCSService, type VCSProviderType } from '@bitcode/vcs';
+import { VCSConnections, VCSService, type VCSProviderType } from '@bitcode/vcs-generics';
 
 import {
   buildMockVcsConnectionStatus,

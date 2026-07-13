@@ -15,12 +15,10 @@
  * - Pipeline (Setup→…→Finish) speaks only to this primitive — identical on every host
  *
  * BITCODE_PIPELINE_HOST: unset|local → LocalHost; sandbox → in-box host.
- * BC: hostKind `inline` is accepted as an alias of `local`.
+ * hostKind is `local` | `sandbox` only (`inline` is not accepted).
  */
 
 export type BitcodeHostKind = 'local' | 'sandbox';
-/** @deprecated Use `local` — retained for BITCODE_PIPELINE_HOST=inline compatibility. */
-export type BitcodeHostKindLegacyInline = 'inline';
 export type BitcodeSandboxProvider = 'vercel' | 'aws';
 
 /** The HOST CAPABILITIES the primitive is specified by (generic across HostKinds). */

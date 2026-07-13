@@ -30,10 +30,10 @@ jest.mock('@bitcode/orm', () => ({
 }));
 
 // Mock VCS service factory used by packages/api
-jest.mock('@bitcode/vcs', () => ({ VCSService: class { constructor(_: any) {} } }));
+jest.mock('@bitcode/vcs-generics', () => ({ VCSService: class { constructor(_: any) {} } }));
 
 // Mock models and wallet/share posture
-jest.mock('@bitcode/models', () => ({
+jest.mock('@bitcode/generic-llms-models', () => ({
   DEFAULT_PROVIDER: 'openai',
   DEFAULT_MODEL_API: 'gpt-4o',
   getUsdPricingForApiModel: jest.fn(() => ({ input: 1, output: 1 })),
@@ -50,7 +50,7 @@ jest.mock('@bitcode/logger', () => ({
 }));
 
 // Mock GA telemetry to no-op
-jest.mock('@bitcode/google-analytics', () => ({ sendServerEvent: jest.fn() }));
+jest.mock('@bitcode/external-telemetry-google', () => ({ sendServerEvent: jest.fn() }));
 jest.mock('@bitcode/email', () => ({ sendEmail: jest.fn() }));
 jest.mock('@bitcode/asset-packs-pipelines-domain', () => ({ assetPackPipeline: jest.fn().mockResolvedValue({}) }));
 jest.mock('@bitcode/generic-llms', () => ({ factoryLLMRegistryWithProviders: jest.fn(() => ({})) }));
@@ -73,7 +73,7 @@ jest.mock('@bitcode/errors', () => ({
     error instanceof Error ? error : new Error(typeof error === 'string' ? error : JSON.stringify(error))
   ),
 }));
-jest.mock('@bitcode/responses', () => ({
+jest.mock('@bitcode/api/responses', () => ({
   createJsonResponse: (data: any, status = 200) =>
     new Response(JSON.stringify(data), {
       status,
@@ -90,7 +90,7 @@ jest.mock('@bitcode/responses', () => ({
       headers: { 'Content-Type': 'application/json' },
     }),
 }));
-jest.mock('@bitcode/streams', () => ({
+jest.mock('@bitcode/api/streams', () => ({
   Streamer: jest.fn().mockImplementation(() => ({
     subscribe: jest.fn(),
     push: jest.fn(),

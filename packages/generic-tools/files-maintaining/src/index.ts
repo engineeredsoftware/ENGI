@@ -20,7 +20,7 @@ import {
   EditCommandParams,
   TransactionalFileEditor,
   EditError,
-} from '@bitcode/editing';
+} from '@bitcode/file-editing';
 import { executionContext } from './execution-context';
 
 export { executionContext } from './execution-context';

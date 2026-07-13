@@ -1,5 +1,5 @@
 /**
- * EXECUTION GENERICS - Bitcode Execution primitive + BC barrel
+ * EXECUTION GENERICS - Bitcode Execution primitive + composition barrel
  *
  * Hierarchy (prefer leaf packages for new code):
  *   @bitcode/execution-generics              Execution (state) — this package owns the class
@@ -10,7 +10,7 @@
  * There is no separate "Context" state model. Process defaults are a process-root
  * Execution (@bitcode/generic-executions). Product state lives on pipeline trees.
  *
- * This package re-exports Executor combinators and process-root helpers for BC.
+ * This package re-exports Executor combinators and process-root helpers .
  *
  * @doc-package
  * version: 1.0.0
@@ -78,7 +78,7 @@ export {
   type ResilientExecutorConfig,
 } from '@bitcode/generic-executors';
 
-// Process-root Execution helpers (formerly GlobalContext)
+// Process-root Execution helpers (@bitcode/generic-executions)
 export {
   PROCESS_ROOT_EXECUTION_ID,
   PROCESS_NAMESPACE,
@@ -90,14 +90,6 @@ export {
   endProcessRoot,
   prepareProcessRootForPrompt,
   serializeProcessRootFields,
-  type GlobalContext,
-  initializeContext,
-  createContext,
-  getGlobalContext,
-  endContext,
-  setGlobalContext,
-  prepareContextForPrompt,
-  serializeContext,
 } from '@bitcode/generic-executions';
 
 // ==================== STORAGE CONTROL ====================

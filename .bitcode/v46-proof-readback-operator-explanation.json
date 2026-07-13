@@ -140,7 +140,7 @@
       ],
       "sourcePaths": [
         "packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts",
-        "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js",
+        "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js",
         "BITCODE_SPEC_V45.md"
       ],
       "requiredCopyTokens": [
@@ -215,7 +215,7 @@
       "rowRoot": "v46-proof-readback-row:12f2c6eaef40c2182b1991ad",
       "sourceRoots": [
         "packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts:40ed8d6b9d92e1d7f69fcca0",
-        "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
+        "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
         "BITCODE_SPEC_V45.md:303eba5e7ebde2132d729f1f"
       ],
       "sourceFilesPresent": true,
@@ -236,7 +236,7 @@
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
         "packages/btd/src/receipts.ts",
-        "packages/protocol/src/canonical/v40-ledger-storage-sync.js"
+        "packages/specifying/src/canonical/v40-ledger-storage-sync.js"
       ],
       "requiredCopyTokens": [
         "AssetPackSettlementFinalityReceipt",
@@ -314,7 +314,7 @@
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
         "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts:f40f6cf958404cc64d6d5b1a",
         "packages/btd/src/receipts.ts:663e799baf0715924cb67c14",
-        "packages/protocol/src/canonical/v40-ledger-storage-sync.js:72fdfd6eee4b7dfb5a3496bc"
+        "packages/specifying/src/canonical/v40-ledger-storage-sync.js:72fdfd6eee4b7dfb5a3496bc"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -425,7 +425,7 @@
       "sourcePaths": [
         "packages/btd/src/reconciliation.ts",
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/protocol/src/canonical/v40-ledger-storage-sync.js"
+        "packages/specifying/src/canonical/v40-ledger-storage-sync.js"
       ],
       "requiredCopyTokens": [
         "ObjectStorageArtifactFact",
@@ -500,7 +500,7 @@
       "sourceRoots": [
         "packages/btd/src/reconciliation.ts:d4bc6c129196572ae673c05b",
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
-        "packages/protocol/src/canonical/v40-ledger-storage-sync.js:72fdfd6eee4b7dfb5a3496bc"
+        "packages/specifying/src/canonical/v40-ledger-storage-sync.js:72fdfd6eee4b7dfb5a3496bc"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -516,7 +516,7 @@
         "operator-evidence-is-source-safe-readback"
       ],
       "sourcePaths": [
-        "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js",
+        "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js",
         "packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts",
         "BITCODE_SPEC_V45.md"
       ],
@@ -591,7 +591,7 @@
       ],
       "rowRoot": "v46-proof-readback-row:b418637adee9da1ce99e7db0",
       "sourceRoots": [
-        "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
+        "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
         "packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts:40ed8d6b9d92e1d7f69fcca0",
         "BITCODE_SPEC_V45.md:303eba5e7ebde2132d729f1f"
       ],
@@ -802,7 +802,7 @@
         "packages/btd/src/reconciliation.ts",
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
-        "packages/protocol/src/canonical/v40-ledger-storage-sync.js"
+        "packages/specifying/src/canonical/v40-ledger-storage-sync.js"
       ],
       "requiredCopyTokens": [
         "ProjectionRepairReceipt",
@@ -880,7 +880,7 @@
         "packages/btd/src/reconciliation.ts:d4bc6c129196572ae673c05b",
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
         "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts:f40f6cf958404cc64d6d5b1a",
-        "packages/protocol/src/canonical/v40-ledger-storage-sync.js:72fdfd6eee4b7dfb5a3496bc"
+        "packages/specifying/src/canonical/v40-ledger-storage-sync.js:72fdfd6eee4b7dfb5a3496bc"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -934,12 +934,12 @@
     },
     {
       "id": "ledger-storage-sync-binds-finality-repair-delivery",
-      "sourcePath": "packages/protocol/src/canonical/v40-ledger-storage-sync.js",
+      "sourcePath": "packages/specifying/src/canonical/v40-ledger-storage-sync.js",
       "passed": true
     },
     {
       "id": "telemetry-readback-is-observability-only",
-      "sourcePath": "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js",
+      "sourcePath": "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js",
       "passed": true
     },
     {
@@ -969,12 +969,12 @@
     },
     {
       "id": "package-exports-gate6",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {
       "id": "package-test-covers-gate6",
-      "sourcePath": "packages/protocol/test/v46-proof-readback-operator-explanation.test.js",
+      "sourcePath": "packages/specifying/test/v46-proof-readback-operator-explanation.test.js",
       "passed": true
     },
     {

@@ -5,32 +5,32 @@ Base generation implementations that extend `@bitcode/generation-generics` primi
 ## Hierarchy (names encode full ancestry)
 
 ```
-Generation                                    # primitive (@bitcode/generation-generics)
-        ↑
-FailsafeGeneration                            # base kinds: PCC / ChunkThenSum / Stitch
-ThinkingsGeneration                           # base kinds: Reason → Judge → StructuredOutput
-        ↑
+Generation # primitive (@bitcode/generation-generics)
+ ↑
+FailsafeGeneration # base kinds: PCC / ChunkThenSum / Stitch
+ThinkingsGeneration # base kinds: Reason → Judge → StructuredOutput
+ ↑
 (createFailsafeGenerationSequence / createThinkingsGeneration — composition)
-        ↑
-PTRRAgent steps                               # each step: 3 FailsafeGenerations × Thinkings + tools
+ ↑
+PTRRAgent steps # each step: 3 FailsafeGenerations × Thinkings + tools
 ```
 
 ```
-@bitcode/generation-generics                 # Generation / FailsafeGeneration / ThinkingsGeneration
-        ↑
-@bitcode/generic-generations-failsafes       # failsafes/  (prepared-context + Failsafe surface)
-@bitcode/generic-generations-thinkings       # thinkings/  (Thinkings vocabulary surface)
-        ↑
-@bitcode/agent-generics                      # Agent primitive; hosts LLM-bound factories today
-        ↑
-@bitcode/generic-agents-ptrr                 # PTRRAgent steps compose Failsafe + Thinkings
-        ↑
-product                                      # specialized agents (no reimplementation)
+@bitcode/generation-generics # Generation / FailsafeGeneration / ThinkingsGeneration
+ ↑
+@bitcode/generic-generations-failsafes # failsafes/ (prepared-context + Failsafe surface)
+@bitcode/generic-generations-thinkings # thinkings/ (Thinkings vocabulary surface)
+ ↑
+@bitcode/agent-generics # Agent primitive; hosts LLM-bound factories today
+ ↑
+@bitcode/generic-agents-ptrr # PTRRAgent steps compose Failsafe + Thinkings
+ ↑
+product # specialized agents (no reimplementation)
 ```
 
-**Legacy naming (do not use in new code):** `FailsafeMetaSubStep`, `GenerationSubMetaSubStep`,
+**Legacy naming (do not use in new code):** `FailsafeGeneration`, `ThinkingsGeneration`,
 `SubStep` — SubStep was the old term for Generation within a Step; Meta is not a term.
-BC aliases remain on the enums for existing imports.
+Canonical names only on the enums for existing imports.
 
 ## Packages
 

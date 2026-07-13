@@ -1,9 +1,10 @@
+'use client';
+
 /* eslint-disable react/no-multi-comp */
-"use client";
 import React, { useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import Select, { components, SingleValue } from 'react-select';
-import { VCSProviderType } from '@bitcode/vcs-core';
+import { VCSProviderType } from '@bitcode/vcs-generics-core';
 import { VCSIconSelector } from '@/components/bitcode/vcs/VCSIconSelector/VCSIconSelector';
 import { Github, GitBranch } from 'lucide-react';
 import { glassyStyles, glassyPillStyles } from '@/components/bitcode/selects/GlassySelectStyles/glassy-select-styles';

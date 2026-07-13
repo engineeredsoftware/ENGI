@@ -1,6 +1,6 @@
 import React from 'react';
 
-import menuStyles from '../menus/glassy-menu.module.css';
+import menuStyles from '../../menus/GlassyMenu/glassy-menu.module.css';
 
 interface AuxillariesSolarIconProps {
   className?: string;

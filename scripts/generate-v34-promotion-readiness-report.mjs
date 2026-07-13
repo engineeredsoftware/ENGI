@@ -156,17 +156,17 @@ export function buildV34PromotionReadinessReport() {
       'DEPLOYMENT_PROMOTION_READINESS_ARTIFACT_PATHS',
       'V34 active / V35 draft',
     ]),
-    scanTokens('packages/protocol/src/canonical/proven-generator.js', [
+    scanTokens('packages/specifying/src/canonical/proven-generator.js', [
       'buildV34ProvenPackage',
       'buildV34PromotionReadinessReport',
       '.bitcode/v34-promotion-readiness-report.json',
     ]),
-    scanTokens('packages/protocol/test/v34-promotion-readiness.test.js', [
+    scanTokens('packages/specifying/test/v34-promotion-readiness.test.js', [
       'supports V34 promotion readiness with source-safe deployment artifacts',
       'v34-promotion-readiness-report',
       'V34 Promotion Readiness',
     ]),
-    scanTokens('packages/protocol/src/canonical/v21-specifying.js', [
+    scanTokens('packages/specifying/src/canonical/v21-specifying.js', [
       '.bitcode/v34-promotion-readiness-report.json',
     ]),
     scanTokens('package.json', [
@@ -204,7 +204,7 @@ export function buildV34PromotionReadinessReport() {
       'check:v34-gate10',
       'v34-canon-promotion.yml',
     ]),
-    scanTokens('packages/protocol/README.md', [
+    scanTokens('packages/specifying/README.md', [
       'V34 Gate 10',
       'V34` active, `V35` draft',
     ]),

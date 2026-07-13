@@ -7,11 +7,14 @@
 
 import { supabaseAdmin } from '@bitcode/supabase';
 import { SupabaseStream, flushAndExit } from '@bitcode/supabaseStream';
-import { initializeContext, getGlobalContext } from '@bitcode/context';
+import {
+  initializeProcessRoot,
+  getProcessRootFields,
+  serializeProcessRootFields,
+} from '@bitcode/generic-executions';
 import { runSDIVFPipeline } from '@bitcode/engine/pipeline/pipelineSDIVF';
 import { log } from '@bitcode/logger';
-import { saveArtifact } from '@bitcode/artifacts';
-import { serializeContext } from '@bitcode/context/serialize';
+import { saveArtifact } from '@bitcode/generic-artifacts-compose';
 
 async function main() {
   const runId = process.argv[2] || process.env.RUN_ID;
@@ -37,7 +40,7 @@ async function main() {
   const stream = new SupabaseStream(runId);
 
   try {
-    await initializeContext({
+    initializeProcessRoot({
       connectionId: ctx?.repoInstallationId || ctx?.connectionId || 0,
       repoName: ctx.repoName,
       repoOwner: ctx.repoOwner,
@@ -99,7 +102,7 @@ async function main() {
 
     // Serialize global context as artifact
     try {
-      const gcSerialized = serializeContext(getGlobalContext());
+      const gcSerialized = serializeProcessRootFields(getProcessRootFields());
       const artifact = await saveArtifact(JSON.stringify(gcSerialized, null, 2), 'context.json', 'application/json');
       await supabaseAdmin.from('run_artifacts').insert({ run_id: runId, name: artifact.name, url: artifact.url, size: artifact.size });
       await stream.writeData({ type: 'artifact', name: artifact.name, url: artifact.url, size: artifact.size, runId, timestamp: new Date().toISOString() });

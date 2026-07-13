@@ -363,7 +363,7 @@
     "status"
   ],
   "generatedArtifactAndTestBindings": [
-    "packages/protocol/test/v45-proof-family-artifacts.test.js",
+    "packages/specifying/test/v45-proof-family-artifacts.test.js",
     "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
     "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
     "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts"

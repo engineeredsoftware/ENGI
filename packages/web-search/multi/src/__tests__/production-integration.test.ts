@@ -274,7 +274,7 @@ describe('Production Integration Tests', () => {
   describe('Multi-Wave Web Research Integration', () => {
     beforeEach(() => {
       // Mock global context for agent testing
-      const mockGetGlobalContext = require('@bitcode/context').getGlobalContext;
+      const mockGetGlobalContext = require('@bitcode/generic-executions').getProcessRootFields;
       mockGetGlobalContext.mockReturnValue({
         taskContext: {
           task: 'Implement production-ready React authentication system with JWT refresh tokens',

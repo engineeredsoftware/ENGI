@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_PACKS_ACTIVITY_MASTER_DETAIL_ARTIFACT_PATH,
   buildV43PacksActivityMasterDetail,
-} from '../packages/protocol/src/canonical/v43-packs-activity-master-detail.js';
+} from '../packages/specifying/src/canonical/v43-packs-activity-master-detail.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -87,8 +87,8 @@ function main() {
     'uapi/app/packs/PacksPageClient.tsx',
     'uapi/app/exchange/page.tsx',
     'uapi/tests/packActivityModel.test.ts',
-    'packages/protocol/src/canonical/v43-packs-activity-master-detail.js',
-    'packages/protocol/test/v43-packs-activity-master-detail.test.js',
+    'packages/specifying/src/canonical/v43-packs-activity-master-detail.js',
+    'packages/specifying/test/v43-packs-activity-master-detail.test.js',
     'scripts/generate-v43-packs-activity-master-detail.mjs',
     'scripts/check-v43-gate3-packs-activity-master-detail.mjs',
     'BITCODE_SPEC_V43.md',
@@ -97,7 +97,7 @@ function main() {
     'BITCODE_SPEC_V43_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',

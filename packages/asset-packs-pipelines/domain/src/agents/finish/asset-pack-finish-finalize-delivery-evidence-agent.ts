@@ -1,4 +1,4 @@
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import { Prompt } from '@bitcode/prompts/prompt';
 import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
@@ -8,7 +8,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA } from '
 
 const FinalizeOutputSchema = z.object({ status: z.literal('finalized').default('finalized') });
 
-export const AssetPackFinishFinalizeDeliveryEvidenceAgent = factoryAgentWithPTRR<any, z.infer<typeof FinalizeOutputSchema>>({
+export const AssetPackFinishFinalizeDeliveryEvidenceAgent = factoryPTRRAgent<any, z.infer<typeof FinalizeOutputSchema>>({
   name: 'finish:asset-pack-finalize-delivery-evidence-agent',
   description: 'Finalize AssetPack Finish delivery evidence bookkeeping',
   outputSchema: FinalizeOutputSchema,

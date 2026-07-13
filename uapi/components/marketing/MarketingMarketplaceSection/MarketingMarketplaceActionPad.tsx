@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * 3×3 action-pad icon grid for marketplace surface labels.
  */
-"use client";
 
 import React from "react";
 import {

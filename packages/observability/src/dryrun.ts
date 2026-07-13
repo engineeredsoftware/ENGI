@@ -9,7 +9,7 @@
 import { z } from 'zod';
 import { log } from '@bitcode/logger';
 // import { PIPELINE_CONSTANTS } from '@/lib/engine/constants';
-import { writeStreamMessage, type DataStream } from '@bitcode/streams';
+import { writeStreamMessage, type DataStream } from '@bitcode/api/streams';
 // import { ChatCompletionRequestMessage } from '@/lib/steps/meta';
 
 // Temporary stubs

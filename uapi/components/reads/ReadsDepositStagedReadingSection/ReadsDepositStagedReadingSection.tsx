@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Staged enterprise reading section: steps, Need review, preview, and Need rows.
  */
 
-'use client';
 
 import React from 'react';
 

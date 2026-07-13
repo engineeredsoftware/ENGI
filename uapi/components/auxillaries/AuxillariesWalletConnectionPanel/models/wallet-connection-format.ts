@@ -2,7 +2,7 @@
  * Pure helpers for Bitcoin wallet connection readiness and display labels.
  */
 
-import { compactBitcodeAddress } from '@/lib/bitcode-qa-telemetry';
+import { compactBitcodeAddress } from '@bitcode/auth/qa-telemetry';
 
 export const BITCODE_BITCOIN_SUPABASE_PROVIDER = 'custom:bitcode-bitcoin';
 export const BITCODE_BITCOIN_SUPABASE_SCOPES = 'profile wallet:bitcoin';

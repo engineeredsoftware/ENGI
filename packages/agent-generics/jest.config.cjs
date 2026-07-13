@@ -1,45 +1,18 @@
-module.exports = {
-  preset: 'ts-jest/presets/js-with-ts',
-  testEnvironment: 'node',
+const path = require('path');
+const { createJestConfig } = require('../../jest.base.cjs');
+
+module.exports = createJestConfig(__dirname, {
   testMatch: ['**/__tests__/**/*.test.(ts|tsx)'],
-  roots: ['<rootDir>'],
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
-    '^@bitcode/pipelines-generics$': '<rootDir>/../pipelines-generics/src/index.ts',
-    '^@bitcode/pipelines-generics/(.*)$': '<rootDir>/../pipelines-generics/src/$1',
-    // nested generic-llms family (not packages/generic-llms/src)
-    '^@bitcode/generation-generics$': '<rootDir>/../generation-generics/src/index.ts',
-    '^@bitcode/generic-generations-failsafes$': '<rootDir>/../generic-generations/failsafes/src/index.ts',
-    '^@bitcode/generic-generations-thinkings$': '<rootDir>/../generic-generations/thinkings/src/index.ts',
-    '^@bitcode/measurement-generics$': '<rootDir>/../measurement-generics/src/index.ts',
-    '^@bitcode/generic-measurements-measure-agent$': '<rootDir>/../generic-measurements/measure-agent/src/index.ts',
-    '^@bitcode/generic-measurements-absolutes$': '<rootDir>/../generic-measurements/absolutes/src/index.ts',
-    '^@bitcode/generic-measurements-needinesses$': '<rootDir>/../generic-measurements/needinesses/src/index.ts',
-    '^@bitcode/asset-packs-synthesis$': '<rootDir>/../generic-asset-packs/synthesis/src/index.ts',
-    '^@bitcode/asset-packs-settle$': '<rootDir>/../generic-asset-packs/settle/src/index.ts',
-    '^@bitcode/agent-generics/agents/factories$': '<rootDir>/../agent-generics/src/agents/factories.ts',
-    '^@bitcode/agent-generics/types$': '<rootDir>/../agent-generics/src/types.ts',
-    '^@bitcode/generic-agents-ptrr$': '<rootDir>/../generic-agents/PTRR/src/index.ts',
-    '^@bitcode/generic-agents-ptrr/(.*)$': '<rootDir>/../generic-agents/PTRR/src/$1',
-    '^@bitcode/generic-llms$': '<rootDir>/../generic-llms/registry/src/index.ts',
-    '^@bitcode/generic-llms/defaults$': '<rootDir>/../generic-llms/defaults/src/index.ts',
-    '^@bitcode/generic-llms-defaults$': '<rootDir>/../generic-llms/defaults/src/index.ts',
-    '^@bitcode/generic-llms-xai$': '<rootDir>/../generic-llms/xAI/src/index.ts',
-    '^@bitcode/generic-llms-openai$': '<rootDir>/../generic-llms/OpenAI/src/index.ts',
-    '^@bitcode/generic-llms-anthropic$': '<rootDir>/../generic-llms/Anthropic/src/index.ts',
-    '^@bitcode/generic-llms-google$': '<rootDir>/../generic-llms/Google/src/index.ts',
-    '^@bitcode/logger$': '<rootDir>/../logger/src/index.ts',
-    '^@bitcode/parsing$': '<rootDir>/../parsing/src/parsing.ts',
-    '^@bitcode/streams$': '<rootDir>/../api/src/streams/index.ts',
-    '^@bitcode/supabase$': '<rootDir>/../supabase/src/index.ts',
-    '^@bitcode/artifacts$': '<rootDir>/../artifacts/src/artifacts.ts',
-    '^@bitcode/([^/]+)$': '<rootDir>/../$1/src/index.ts',
-    '^@bitcode/([^/]+)/(.*)$': '<rootDir>/../$1/src/$2',
+    '^@bitcode/logger$': path.join(__dirname, '../logger/src/logger.ts'),
+    // Deep subpaths not covered by package root map
+    '^@bitcode/pipelines-generics/(.*)$': path.join(__dirname, '../pipelines-generics/src/$1'),
+    '^@bitcode/generic-agents-ptrr/(.*)$': path.join(__dirname, '../generic-agents/PTRR/src/$1'),
+    '^@bitcode/agent-generics/agents/factories$': path.join(__dirname, 'src/agents/factories.ts'),
+    '^@bitcode/agent-generics/types$': path.join(__dirname, 'src/types.ts'),
+    '^@bitcode/api/streams$': path.join(__dirname, '../api/src/streams/index.ts'),
+    '^@bitcode/generic-artifacts-compose$': path.join(__dirname, '../generic-artifacts/compose/src/index.ts'),
+    '^@bitcode/parsing$': path.join(__dirname, '../parsing/src/parsing.ts'),
   },
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/../../tsconfig.json',
-      diagnostics: false,
-    },
-  },
-};
+  collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts'],
+});

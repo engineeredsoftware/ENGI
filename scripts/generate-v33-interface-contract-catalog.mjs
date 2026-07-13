@@ -114,7 +114,7 @@ const catalogRows = Object.freeze([
     schemaId: 'bitcode.interface.chatGptReadingAction.v1',
     authPolicyId: 'interface.authorization.confirmed-connected-write',
     sourceSafetyClass: 'source-safe-internal',
-    exampleFixturePath: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+    exampleFixturePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
     validationCommand:
       'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand',
     compatibilityStatus: 'compatible',

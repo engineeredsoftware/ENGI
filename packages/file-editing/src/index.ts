@@ -11,7 +11,6 @@
  * - Operation auditing and history tracking
  *
  * Hierarchy: @bitcode/files (FilePath/FileOp/FileChange) → @bitcode/file-editing (this package)
- * BC: @bitcode/editing re-exports this package.
  * ------------------------------------------------------------------------------------------------- */
 
 import { z } from 'zod';

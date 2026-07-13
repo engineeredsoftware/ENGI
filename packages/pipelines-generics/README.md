@@ -22,16 +22,16 @@ Clean pipeline execution primitives for orchestrating phase sequences.
 ### Identity & Namespaces
 
 - Pipelines and phases rely on Execution identity and store namespaces defined in `@bitcode/execution-generics`:
-  - Use `execution/id` (not former `runId`) and `execution/correlationId`.
-  - Use canonical agent namespaces for pipeline/phase/agent stores: `execution-<pipeline>-pipeline-phase-<phase>-<agent>`.
-  - See `internal-docs/BITCODE_AGENTIC_EXECUTION.md` for SDIVF sequencing, pre/post processing, and the postprocessed SSOT.
+ - Use `execution/id` (not former `runId`) and `execution/correlationId`.
+ - Use canonical agent namespaces for pipeline/phase/agent stores: `execution-<pipeline>-pipeline-phase-<phase>-<agent>`.
+ - See `internal-docs/BITCODE_AGENTIC_EXECUTION.md` for SDIVF sequencing, pre/post processing, and the postprocessed SSOT.
 
 ### Everything is an Executor
 
 ```typescript
 // The universal primitive from execution-generics
-type Executor<TInput = any, TOutput = any> = 
-  (input: TInput, execution: Execution) => Promise<TOutput>;
+type Executor<TInput = any, TOutput = any> =
+ (input: TInput, execution: Execution) => Promise<TOutput>;
 
 // Pipeline - Top-level Executor that sequences phases
 type Pipeline<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
@@ -46,17 +46,17 @@ type PhaseDelegator<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
 // Pipeline/PipelineExecution - The EE pair
 export type Pipeline<TInput, TOutput> = Executor<TInput, TOutput>;
 export class PipelineExecution extends Execution<PipelinePrompt> {
-  constructor(id: string, parent?: Execution) {
-    super(id, parent, PipelinePrompt);
-  }
+ constructor(id: string, parent?: Execution) {
+ super(id, parent, PipelinePrompt);
+ }
 }
 
 // PhaseDelegator/PhaseDelegation - The delegation pattern
 export type PhaseDelegator<TInput, TOutput> = Executor<TInput, TOutput>;
 export class PhaseDelegation extends Execution<PipelinePrompt> {
-  constructor(id: string, parent?: Execution) {
-    super(id, parent, PipelinePrompt);
-  }
+ constructor(id: string, parent?: Execution) {
+ super(id, parent, PipelinePrompt);
+ }
 }
 ```
 
@@ -66,11 +66,11 @@ The 5 standard phases that power all pipelines:
 
 ```typescript
 export enum SDIVFPhase {
-  SETUP = 'setup',
-  DISCOVERY = 'discovery',
-  IMPLEMENTATION = 'implementation',
-  VALIDATION = 'validation',
-  FINISH = 'finish'
+ SETUP = 'setup',
+ DISCOVERY = 'discovery',
+ IMPLEMENTATION = 'implementation',
+ VALIDATION = 'validation',
+ FINISH = 'finish'
 }
 ```
 
@@ -82,8 +82,8 @@ For non-SDIVF flows that are a single agent sequence or loop, use a QuickPipelin
 import { factoryQuickPipeline, type QuickPhase } from '@bitcode/pipelines-generics';
 
 const quickPhase: QuickPhase<any, any> = async (input, exec) => {
-  // compose agents/executors freely – no phase semantics
-  return input;
+ // compose agents/executors freely – no phase semantics
+ return input;
 };
 
 export const myQuickPipeline = factoryQuickPipeline('my-quick', { phase: quickPhase });
@@ -109,8 +109,8 @@ const finishPhase = factoryPhaseDelegator('finish', finishAgent);
 
 // Create pipeline that sequences phases
 const assetPackPipeline = factoryPipeline(
-  'asset-pack',
-  [setupPhase, discoveryPhase, implementationPhase, validationPhase, finishPhase]
+ 'asset-pack',
+ [setupPhase, discoveryPhase, implementationPhase, validationPhase, finishPhase]
 );
 ```
 
@@ -121,15 +121,15 @@ import { factoryPipelineWithDIVFinishLoop } from '@bitcode/pipelines-generics';
 
 // DIV loop iterates Discovery-Implementation-Validation until validation passes
 const analysisPipeline = factoryPipelineWithDIVFinishLoop('analysis', {
-  setup: setupPhase,
-  discovery: discoveryPhase,
-  implementation: implementationPhase,
-  validation: validationPhase,
-  finish: finishPhase,
-  maxIterations: 3,
-  validationPredicate: (result, execution) => {
-    return execution.get('validation', 'score') >= 0.85;
-  }
+ setup: setupPhase,
+ discovery: discoveryPhase,
+ implementation: implementationPhase,
+ validation: validationPhase,
+ finish: finishPhase,
+ maxIterations: 3,
+ validationPredicate: (result, execution) => {
+ return execution.get('validation', 'score') >= 0.85;
+ }
 });
 
 ### Per-Iteration Hooks (SDIVF Executor)
@@ -140,14 +140,14 @@ Use `factorySDIVFExecutorPipeline` when you read a preprocess/postprocess and a 
 import { factorySDIVFExecutorPipeline } from '@bitcode/pipelines-generics';
 
 const pipeline = factorySDIVFExecutorPipeline('asset-pack', {
-  preprocess,
-  setup, discovery, implementation, validation, finish,
-  iterationPreprocess: async (cur, exec) => {
-    // e.g., inject Evidence Document updates for this iteration
-    const list = (exec as any).get?.('evidence_documents', 'list') || [];
-    (exec as any).store?.('evidence_documents', 'list', list);
-    return cur;
-  }
+ preprocess,
+ setup, discovery, implementation, validation, finish,
+ iterationPreprocess: async (cur, exec) => {
+ // e.g., inject Evidence Document updates for this iteration
+ const list = (exec as any).get?.('evidence_documents', 'list') || [];
+ (exec as any).store?.('evidence_documents', 'list', list);
+ return cur;
+ }
 });
 ```
 ```
@@ -163,20 +163,20 @@ const analysisPhase = factoryPhaseDelegator('discovery', codeAnalyzerAgent);
 
 // Multiple agents in sequence
 const implementationPhase = factorySequentialPhaseDelegator(
-  'implementation',
-  [codeAnalyzerAgent, codeGeneratorAgent]
+ 'implementation',
+ [codeAnalyzerAgent, codeGeneratorAgent]
 );
 
 // Multiple agents in parallel with combiner
 const validationPhase = factoryParallelPhaseDelegator(
-  'validation',
-  [lintAgent, testAgent, securityAgent],
-  (results) => ({
-    lint: results[0],
-    test: results[1],
-    security: results[2],
-    passed: results.every(r => r.passed)
-  })
+ 'validation',
+ [lintAgent, testAgent, securityAgent],
+ (results) => ({
+ lint: results[0],
+ test: results[1],
+ security: results[2],
+ passed: results.every(r => r.passed)
+ })
 );
 ```
 
@@ -187,11 +187,11 @@ import { factorySDIVFPhaseDelegators } from '@bitcode/pipelines-generics';
 
 // Create all 5 phases at once
 const phases = factorySDIVFPhaseDelegators({
-  setup: setupAgent,
-  discovery: discoveryAgent,
-  implementation: implementationAgent,
-  validation: validationAgent,
-  finish: finishAgent
+ setup: setupAgent,
+ discovery: discoveryAgent,
+ implementation: implementationAgent,
+ validation: validationAgent,
+ finish: finishAgent
 });
 
 // Use with pipeline factory
@@ -256,43 +256,43 @@ import { createClient } from '@supabase/supabase-js';
 
 // Example: starting AssetPack execution with streaming
 async function runPipelineWithStreaming(userId: string, read: string) {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+ const supabase = createClient(
+ process.env.NEXT_PUBLIC_SUPABASE_URL!,
+ process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+ );
 
-  // Create pipeline execution record
-  const { data: run } = await supabase
-    .from('pipeline_runs')
-    .insert({
-      user_id: userId,
-      status: 'running',
-      context: { read },
-      created_at: new Date().toISOString(),
-    })
-    .select()
-    .single();
+ // Create pipeline execution record
+ const { data: run } = await supabase
+ .from('pipeline_runs')
+ .insert({
+ user_id: userId,
+ status: 'running',
+ context: { read },
+ created_at: new Date().toISOString(),
+ })
+ .select()
+ .single();
 
-  // Create execution with streaming enabled
-  const execution = createStreamingExecution({
-    runId: run.id,
-    userId,
-    supabase,
-    streamToDatabase: true,  // Persist events to database
-    streamToSSE: true,        // Enable SSE streaming
-  });
+ // Create execution with streaming enabled
+ const execution = createStreamingExecution({
+ runId: run.id,
+ userId,
+ supabase,
+ streamToDatabase: true, // Persist events to database
+ streamToSSE: true, // Enable SSE streaming
+ });
 
-  // Run pipeline phases with streaming
-  emitPhaseTransition(execution, 'Discovery', 'start');
-  // ... run discovery agents ...
-  emitAgentActivity(execution, 'ResearchAgent', 'start');
-  // ... agent work ...
-  emitAgentActivity(execution, 'ResearchAgent', 'complete', { 
-    foundIssues: 12 
-  });
-  emitPhaseTransition(execution, 'Discovery', 'complete');
-  
-  return run;
+ // Run pipeline phases with streaming
+ emitPhaseTransition(execution, 'Discovery', 'start');
+ // ... run discovery agents ...
+ emitAgentActivity(execution, 'ResearchAgent', 'start');
+ // ... agent work ...
+ emitAgentActivity(execution, 'ResearchAgent', 'complete', {
+ foundIssues: 12
+ });
+ emitPhaseTransition(execution, 'Discovery', 'complete');
+
+ return run;
 }
 ```
 
@@ -312,9 +312,9 @@ The streaming adapter automatically hooks into the Execution's `store()` method 
 
 ```typescript
 // Any store operation automatically emits a stream event
-execution.store('agent', 'plan', planData);  // Emits agent activity event
-execution.store('phase', 'complete', { phase: 'discovery' });  // Emits phase completion
-execution.store('tools', 'usage', toolResult);  // Emits tool-use event
+execution.store('agent', 'plan', planData); // Emits agent activity event
+execution.store('phase', 'complete', { phase: 'discovery' }); // Emits phase completion
+execution.store('tools', 'usage', toolResult); // Emits tool-use event
 ```
 
 ## Philosophy

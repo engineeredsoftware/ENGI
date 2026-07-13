@@ -5,22 +5,22 @@
  * Import types from either file — deposit-route-model re-exports these.
  */
 
-import type { DepositAssetPackOptionSynthesis } from "@bitcode/pipeline-asset-pack/deposit-asset-pack-options";
-import type { DepositAssetPackOptionPolicyReport } from "@bitcode/pipeline-asset-pack/deposit-asset-pack-option-policy";
+import type { DepositAssetPackOptionSynthesis } from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-options";
+import type { DepositAssetPackOptionPolicyReport } from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-policy";
 import type {
   DepositAssetPackOptionAdmissionReport,
   DepositOptionReviewDecision,
-} from "@bitcode/pipeline-asset-pack/deposit-asset-pack-option-admission";
-import type { DepositorEarningSupplyIntelligence } from "@bitcode/pipeline-asset-pack/depositor-earning-supply-intelligence";
+} from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-admission";
+import type { DepositorEarningSupplyIntelligence } from "@bitcode/asset-packs-pipelines-domain/depositor-earning-supply-intelligence";
 import type {
   OrganizationPolicyWalletAuthority,
   OrganizationPolicyWalletAuthorityInput,
-} from "@bitcode/pipeline-asset-pack/organization-policy-wallet-authority";
+} from "@bitcode/asset-packs-pipelines-domain/organization-policy-wallet-authority";
 import type {
   DepositOptionDemandSignal,
   DepositOptionSynthesisRequest,
-} from "@bitcode/pipeline-asset-pack/deposit-asset-pack-options";
-import type { DepositOptionCriticalitySignal } from "@bitcode/pipeline-asset-pack/deposit-asset-pack-option-policy";
+} from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-options";
+import type { DepositOptionCriticalitySignal } from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-policy";
 
 export type DepositRouteStepId =
   | "connect-source"

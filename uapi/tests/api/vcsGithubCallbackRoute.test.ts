@@ -10,14 +10,14 @@ jest.mock('@bitcode/supabase/ssr/server', () => ({
   createClient: jest.fn(),
 }));
 
-jest.mock('@bitcode/github', () => ({
+jest.mock('@bitcode/generic-vcs-github', () => ({
   createGitHubAppAuth: jest.fn(() => ({
     getInstallation: mockGetInstallation,
     generateInstallationToken: mockGenerateInstallationToken,
   })),
 }));
 
-jest.mock('@bitcode/vcs', () => ({
+jest.mock('@bitcode/vcs-generics', () => ({
   VCSConnections: jest.fn().mockImplementation(() => ({
     saveConnection: mockSaveConnection,
   })),

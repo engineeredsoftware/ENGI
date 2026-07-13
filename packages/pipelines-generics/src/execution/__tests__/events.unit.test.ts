@@ -4,7 +4,7 @@ import { PipelineExecution } from '../PipelineExecution';
 import { PipelineExecutor } from '../PipelineExecutor';
 import { createAgentExecutor } from '../agent-executor';
 import { ExecutionStreamAdapter } from '@bitcode/execution-generics';
-import { Streamer } from '@bitcode/streams';
+import { Streamer } from '@bitcode/api/streams';
 
 describe('PipelineExecutor event emission (unit)', () => {
   it('emits phase and agent events in expected order', async () => {

@@ -11,17 +11,17 @@ Agents and humans follow it for new files and for refactors.
 ## 1. Layer rules (dependency direction)
 
 ```
-packages/*  (domain, pure, reusable)
-     ↑
-uapi/lib, uapi/networking, uapi/hooks   (thin Next/React adapters)
-     ↑
-uapi/components/shadcn   →  Shadcn* primitives
-     ↑
-uapi/components/bitcode  →  Bitcode* base (theme, pipeline, layout, auth)
-     ↑
+packages/* (domain, pure, reusable)
+ ↑
+uapi/lib, uapi/networking, uapi/hooks (thin Next/React adapters)
+ ↑
+uapi/components/shadcn → Shadcn* primitives
+ ↑
+uapi/components/bitcode → Bitcode* base (theme, pipeline, layout, auth)
+ ↑
 uapi/components/{marketing|packs|reads|deposits|docs|conversations|auxillaries}
-     ↑
-uapi/app/{page shells}   →  compose only; no heavy logic
+ ↑
+uapi/app/{page shells} → compose only; no heavy logic
 ```
 
 **Never:** experience → experience. **Never:** page client → another page client.
@@ -55,16 +55,16 @@ The entry file is **named** (`ComponentName.tsx`), **not** `index.tsx`.
 
 ```
 uapi/components/<layer-or-experience>/<ComponentName>/
-  <ComponentName>.tsx          # component entry (named file)
-  <ComponentName>.types.ts     # props / local types (optional if tiny)
-  <ComponentName>.constants.ts # local constants (optional)
-  hooks/                       # hooks used only by this component
-    use-<concern>.ts
-  styles/                      # CSS modules / local style helpers
-    <ComponentName>.module.css
-  __tests__/                   # co-located unit tests
-    <ComponentName>.test.tsx
-  README.md                    # only when non-obvious composition
+ <ComponentName>.tsx # component entry (named file)
+ <ComponentName>.types.ts # props / local types (optional if tiny)
+ <ComponentName>.constants.ts # local constants (optional)
+ hooks/ # hooks used only by this component
+ use-<concern>.ts
+ styles/ # CSS modules / local style helpers
+ <ComponentName>.module.css
+ __tests__/ # co-located unit tests
+ <ComponentName>.test.tsx
+ README.md # only when non-obvious composition
 ```
 
 **Rules:**
@@ -72,14 +72,14 @@ uapi/components/<layer-or-experience>/<ComponentName>/
 1. **SRP** — one primary export / one reason to change per file.
 2. **DRY** — shared pure logic → `models/`, experience `hooks/`, or `packages/`.
 3. **Top-of-file overview** — every non-trivial `.ts`/`.tsx` starts with a short
-   purpose comment (what, for whom, non-obvious constraints).
+ purpose comment (what, for whom, non-obvious constraints).
 4. **Inline comments** — only for non-obvious invariants, source-safety, or QA tags.
 5. **TypeScript** — prefer explicit props interfaces, discriminated unions,
-   `readonly` where helpful; avoid `any` except at true boundaries.
+ `readonly` where helpful; avoid `any` except at true boundaries.
 6. **React** — extract hooks for stateful logic; keep render trees readable;
-   co-locate styles; no prop drilling dumps when a hook or context is clearer.
+ co-locate styles; no prop drilling dumps when a hook or context is clearer.
 7. **Tests** — co-located under `__tests__/` for unit behavior; app-level
-   contracts may stay in `uapi/tests/` when they prove routes/pages.
+ contracts may stay in `uapi/tests/` when they prove routes/pages.
 
 **Barrels:** prefer **explicit imports** (no `export *` barrels) unless a
 package public API requires a stable entry.
@@ -90,63 +90,63 @@ package public API requires a stable entry.
 
 ```
 uapi/components/<experience>/
-  README.md
-  models/                      # pure route models, formatters, explainers
-    <experience>-route-model.ts
-    <experience>-format.ts
-    ...
-  hooks/                       # experience-wide hooks (not component-private)
-    use-<experience>-pipeline-selection.ts
-  constants/
-    <experience>-constants.ts
-  types/
-    <experience>-types.ts
-  <ComponentName>/             # co-located component units (see §3)
-    ...
+ README.md
+ models/ # pure route models, formatters, explainers
+ <experience>-route-model.ts
+ <experience>-format.ts
+ ...
+ hooks/ # experience-wide hooks (not component-private)
+ use-<experience>-pipeline-selection.ts
+ constants/
+ <experience>-constants.ts
+ types/
+ <experience>-types.ts
+ <ComponentName>/ # co-located component units (see §3)
+ ...
 ```
 
 Page shells stay thin:
 
 ```
 uapi/app/<experience>/
-  page.tsx                     # metadata + server shell
-  <Experience>PageClient.tsx   # orchestration only (providers, URL, sections)
+ page.tsx # metadata + server shell
+ <Experience>PageClient.tsx # orchestration only (providers, URL, sections)
 ```
 
 **Deposit experience (V48 Phase 4 — modular rebuild target):**
 
 ```
 uapi/components/deposits/
-  models/                      # pure: route session, activity ledger, demand, status
-  DepositPageClient/
-    DepositPageClient.tsx      # orchestration only
-    hooks/                     # live runs, demand, URL, synthesis activity, …
-  DepositSourceSelection/
-  DepositObfuscationsPanel/
-  DepositAssetPackOptions/
-  DepositPipelinesMaster/
-  DepositSynthesisTelemetry/
-  DepositActivityLedgerDetail/
-  DepositRouteStateAside/
+ models/ # pure: route session, activity ledger, demand, status
+ DepositPageClient/
+ DepositPageClient.tsx # orchestration only
+ hooks/ # live runs, demand, URL, synthesis activity, …
+ DepositSourceSelection/
+ DepositObfuscationsPanel/
+ DepositAssetPackOptions/
+ DepositPipelinesMaster/
+ DepositSynthesisTelemetry/
+ DepositActivityLedgerDetail/
+ DepositRouteStateAside/
 ```
 
 **Packs experience (V48 Phase 4):**
 
 ```
 uapi/components/packs/
-  models/                              # pure: packs-format.ts, activity types
-  PacksPageClient/ + hooks/            # use-packs-activity, use-packs-route-params
-  PacksPortfolioOverview/
-  PacksActivityMaster/                 # shell: filter bar + table + totals
-  PacksActivityFilterBar/
-  PacksActivityTable/
-  PacksActivityDetail/                 # shell: overview + measurements + sections
-  PacksActivityDetailStates/
-  PacksActivityDetailAccounting/
-  PacksActivityDetailGovernance/
-  PacksActivityDetailProofRoots/
-  PacksDetailSection/
-  PacksStatusPill/                     # React status chip (not models/)
+ models/ # pure: packs-format.ts, activity types
+ PacksPageClient/ + hooks/ # use-packs-activity, use-packs-route-params
+ PacksPortfolioOverview/
+ PacksActivityMaster/ # shell: filter bar + table + totals
+ PacksActivityFilterBar/
+ PacksActivityTable/
+ PacksActivityDetail/ # shell: overview + measurements + sections
+ PacksActivityDetailStates/
+ PacksActivityDetailAccounting/
+ PacksActivityDetailGovernance/
+ PacksActivityDetailProofRoots/
+ PacksDetailSection/
+ PacksStatusPill/ # React status chip (not models/)
 ```
 
 ---
@@ -155,16 +155,16 @@ uapi/components/packs/
 
 ```
 uapi/components/bitcode/
-  README.md
-  pipeline/                    # shared pipeline table/log/telemetry/models
-    models/
-    cards/
-    <ComponentName>/
-  layout/
-  auth/
-  routes/
-  vcs/
-  ...
+ README.md
+ pipeline/ # shared pipeline table/log/telemetry/models
+ models/
+ cards/
+ <ComponentName>/
+ layout/
+ auth/
+ routes/
+ vcs/
+ ...
 ```
 
 ---
@@ -179,9 +179,9 @@ add new packages when a domain is clearly shared and non-UI.
 Type, factory, and export names **always encode full inheritance ancestry**:
 
 ```
-Pipeline                              # primitive
-SDIVFPipeline                         # base + primitive
-SynthesizeAssetPacksSDIVFPipeline     # specific + base + primitive
+Pipeline # primitive
+SDIVFPipeline # base + primitive
+SynthesizeAssetPacksSDIVFPipeline # specific + base + primitive
 ```
 
 Do not introduce leaf-only names for layered types (e.g. avoid a product
@@ -194,12 +194,12 @@ full hierarchy name.
 Every `packages/generic-*` path is a **family folder**, not a single package.
 
 ```
-packages/generic-<family>/          # README only (no package.json)
-  <ImplementorA>/                   # nested package
-    package.json                    # @bitcode/generic-<family>-…
-    src/
-  <ImplementorB>/
-    ...
+packages/generic-<family>/ # README only (no package.json)
+ <ImplementorA>/ # nested package
+ package.json # @bitcode/generic-<family>-…
+ src/
+ <ImplementorB>/
+ ...
 ```
 
 | Family | Nested examples | Package names |
@@ -217,7 +217,7 @@ packages/generic-<family>/          # README only (no package.json)
 | `generic-hosts/` | `Local/`, `VercelSandbox/` | `@bitcode/generic-hosts-*` |
 | `mcp-generics/` | (package root) | `@bitcode/mcp-generics` |
 | `generic-mcps/` | `bitcode/` | `@bitcode/generic-mcps-bitcode` |
-| `asset-packs-generics/` | (package root) | `@bitcode/asset-packs-generics` (BC `@bitcode/asset-pack-generics`) |
+| `asset-packs-generics/` | (package root) | `@bitcode/asset-packs-generics` |
 | `generic-asset-packs/` | `measured-patch/`, `synthesis/`, `settle/` | `@bitcode/generic-asset-packs-*` |
 | `execution-generics/` | (package root) | `@bitcode/execution-generics` |
 | `executor-generics/` | (package root) | `@bitcode/executor-generics` |
@@ -233,7 +233,7 @@ packages/generic-<family>/          # README only (no package.json)
 | `email/` | `supabase/` | `@bitcode/email` |
 | `linting/` | `eslint/` | `eslint-plugin-bitcode` |
 | `host-commands/` | `grep/` | `@bitcode/host-commands-grep` |
-| `security/` | `encryption/`, `credentials/`, `rate-limiting/`, … | `@bitcode/security-*` (BC `@bitcode/security`) |
+| `security/` | `encryption/`, `credentials/`, `rate-limiting/`, … | `@bitcode/security-*` |
 | `doc-comment-generics/` | (package root) | `@bitcode/doc-comment-generics` |
 | `generic-doc-comments/` | `doc-code/`, `doc-developing/` | `@bitcode/generic-doc-comments-*` |
 | `artifact-generics/` | (package root) | `@bitcode/artifact-generics` |
@@ -241,10 +241,10 @@ packages/generic-<family>/          # README only (no package.json)
 | `attachment-generics/` | (package root) | `@bitcode/attachment-generics` |
 | `generic-attachments/` | `file/`, `external/` | `@bitcode/generic-attachments-*` |
 | `files/` | (package root) | `@bitcode/files` |
-| `file-editing/` | (package root) | `@bitcode/file-editing` (BC `@bitcode/editing`) |
-| `file-refactoring/` | (package root) | `@bitcode/file-refactoring` (BC `@bitcode/refactoring`) |
-| `obfuscation/` | (package root) | `@bitcode/obfuscation` (BC `@bitcode/obfuscate`) |
-| `conversations/` | (package root) | `@bitcode/conversations` (BC `@bitcode/conversations-generics`) |
+| `file-editing/` | (package root) | `@bitcode/file-editing` |
+| `file-refactoring/` | (package root) | `@bitcode/file-refactoring` |
+| `obfuscation/` | (package root) | `@bitcode/obfuscation` |
+| `conversations/` | (package root) | `@bitcode/conversations` |
 | `api/` | `src/responses/`, `src/streams/`, routes | `@bitcode/api` (+ `/responses`, `/streams`) |
 
 **`*-generics` naming law:** use only when a corresponding `generic-*` implementor
@@ -253,26 +253,26 @@ family exists. Otherwise use a plain domain name (`obfuscation`, `conversations`
 **Do not** put a root `package.json` on a pure family folder (`generic-*`,
 `externals/`, `web-search/`, …). Workspace globs are `packages/<family>/*`
 (and deeper globs such as `packages/generic-tools/mcps-tools/*` when needed).
-Security nests under `packages/security/*` with a thin BC barrel `@bitcode/security`.
+Security nests under `packages/security/*` with a thin composition barrel `@bitcode/security`.
 
 ```
 packages/
-  api/                         # routes + responses/ + streams/ primitives
-  auth/                        # wallet, OAuth, auth redirect helpers
-  asset-packs-generics/        # AssetPack protocol primitive
-  generic-asset-packs/         # measured-patch, synthesis, settle
-  asset-packs-pipelines/       # product SDIVF / Simple pipelines
-  asset-packs-pipelines/       # domain + SynthesizeDeposit/Read + SettleAssetPacks pipelines
-  pipelines-generics/          # Pipeline primitive
-  generic-pipelines/SDIVF/     # SDIVF base
-  generic-llms/{xAI,OpenAI,…}/ # LLM providers + models/
-  vcs-generics/ + generic-vcs/ # VCS hierarchy
-  security/{encryption,…}/    # security subpackages
-  files/ + file-editing/       # file primitives + mutations
-  btd/                         # BTD journal / settlement / authority
-  prompts/                     # Prompt + PromptPart + raw parts
-  orm/                         # data access
-  ...
+ api/ # routes + responses/ + streams/ primitives
+ auth/ # wallet, OAuth, auth redirect helpers
+ asset-packs-generics/ # AssetPack protocol primitive
+ generic-asset-packs/ # measured-patch, synthesis, settle
+ asset-packs-pipelines/ # product SDIVF / Simple pipelines
+ asset-packs-pipelines/ # domain + SynthesizeDeposit/Read + SettleAssetPacks pipelines
+ pipelines-generics/ # Pipeline primitive
+ generic-pipelines/SDIVF/ # SDIVF base
+ generic-llms/{xAI,OpenAI,…}/ # LLM providers + models/
+ vcs-generics/ + generic-vcs/ # VCS hierarchy
+ security/{encryption,…}/ # security subpackages
+ files/ + file-editing/ # file primitives + mutations
+ btd/ # BTD journal / settlement / authority
+ prompts/ # Prompt + PromptPart + raw parts
+ orm/ # data access
+ ...
 ```
 
 **Package file rules:** same SRP/DRY/comment discipline; unit tests in
@@ -284,160 +284,160 @@ packages/
 
 ```
 bitcode/
-├── AGENTS.md                          # agent/contributor engineering rules
-├── README.md                          # product + layout pointer
-├── FAMILIARIZATION.md                 # full codebase walkthrough (packages + uapi)
-├── BITCODE_SPEC.txt                   # active canon pointer (main)
-├── BITCODE_SPEC_V48.md                # draft rebuild-alone SPEC (+ family)
+├── AGENTS.md # agent/contributor engineering rules
+├── README.md # product + layout pointer
+├── FAMILIARIZATION.md # full codebase walkthrough (packages + uapi)
+├── BITCODE_SPEC.txt # active canon pointer (main)
+├── BITCODE_SPEC_V48.md # draft rebuild-alone SPEC (+ family)
 ├── BITCODE_SPECIFYING.md
 ├── internal-docs/
-│   ├── BITCODE_SOURCE_LAYOUT.md       # this file
-│   ├── BITCODE_FRONTEND_ARCHITECTURE.md
-│   ├── TERMINOLOGY.md
-│   └── ...
-├── packages/                          # domain packages (no React pages)
-│   ├── api/
-│   │   └── src/
-│   │       ├── index.ts
-│   │       ├── pipelines/
-│   │       │   ├── cancel.ts
-│   │       │   └── orphan-sweep.ts
-│   │       ├── routes/
-│   │       ├── conversations/
-│   │       └── ...
-│   ├── auth/
-│   │   └── src/
-│   │       ├── index.ts
-│   │       ├── bitcode-wallet-local.ts
-│   │       ├── bitcoin-wallet-client.ts
-│   │       ├── bitcoin-wallet-oauth-provider.ts
-│   │       ├── supabase-auth-redirect.ts
-│   │       └── qa-telemetry.ts
-│   ├── observability/
-│   │   └── src/
-│   │       ├── product-analytics.ts
-│   │       └── ...
-│   ├── btd/
-│   │   └── src/
-│   │       ├── journal.ts
-│   │       ├── operational-health.ts
-│   │       └── ...
-│   ├── pipelines-generics/            # Pipeline / PhaseDelegator primitives
-│   ├── generic-pipelines/
-│   │   └── SDIVF/                     # @bitcode/generic-pipelines-sdivf base
-│   ├── generic-llms/                  # nested LLM providers (no family package.json)
-│   │   ├── xAI/                       # @bitcode/generic-llms-xai
-│   │   ├── OpenAI/                    # @bitcode/generic-llms-openai
-│   │   ├── Anthropic/                 # @bitcode/generic-llms-anthropic
-│   │   ├── Google/                    # @bitcode/generic-llms-google
-│   │   ├── defaults/                  # @bitcode/generic-llms-defaults
-│   │   └── registry/                  # @bitcode/generic-llms (aggregator)
-│   ├── generation-generics/           # Generation primitive vocabulary
-│   ├── generic-generations/
-│   │   ├── failsafes/                 # @bitcode/generic-generations-failsafes
-│   │   └── thinkings/                 # @bitcode/generic-generations-thinkings
-│   ├── measurement-generics/          # Measurement primitive vocabulary
-│   ├── generic-measurements/
-│   │   ├── measure-agent/             # MeasureAgent PTRR base
-│   │   ├── absolutes/                 # AbsolutesMeasureAgent
-│   │   └── needinesses/               # Needinesses surface (Gate 4)
-│   ├── asset-packs/
-│   │   ├── synthesis/                 # SynthesizeAssetPacks measurements/catalogs
-│   │   └── settle/                    # SettleAssetPacks product surface
-│   ├── pipelines/
-│   │   └── asset-pack/                # SynthesizeAssetPacks (extends SDIVF)
-│   ├── agent-generics/
-│   ├── execution-generics/
-│   ├── prompts/
-│   └── ...
-├── uapi/                              # Next.js interface owner
-│   ├── ARCHITECTURE.md
-│   ├── README.md
-│   ├── app/                           # App Router — thin shells + API
-│   │   ├── page.tsx                   # Marketing entry
-│   │   ├── (root)/                    # Marketing sections (migrate → components/marketing)
-│   │   ├── packs/
-│   │   │   ├── page.tsx
-│   │   │   └── PacksPageClient.tsx
-│   │   ├── deposits/
-│   │   │   ├── page.tsx
-│   │   │   └── DepositPageClient.tsx  # orchestration only
-│   │   ├── reads/
-│   │   │   ├── page.tsx
-│   │   │   └── ReadPageClient.tsx
-│   │   ├── docs/
-│   │   ├── conversations/
-│   │   ├── auxillaries/
-│   │   │   ├── page.tsx
-│   │   │   ├── [pane]/
-│   │   │   └── components/            # migrate → components/auxillaries
-│   │   └── api/                       # thin adapters over @bitcode/api
-│   ├── components/
-│   │   ├── README.md                  # layer + co-location rules
-│   │   ├── shadcn/                    # Shadcn* primitives
-│   │   │   ├── button.tsx
-│   │   │   └── ...
-│   │   ├── bitcode/                   # Bitcode* base
-│   │   │   ├── pipeline/
-│   │   │   │   ├── models/            # pure pipeline models
-│   │   │   │   ├── cards/
-│   │   │   │   ├── BitcodePipelinesTable/
-│   │   │   │   │   ├── BitcodePipelinesTable.tsx
-│   │   │   │   │   └── __tests__/
-│   │   │   │   └── ...
-│   │   │   ├── layout/
-│   │   │   ├── auth/
-│   │   │   ├── routes/
-│   │   │   └── ...
-│   │   ├── marketing/
-│   │   ├── packs/
-│   │   ├── reads/
-│   │   │   ├── README.md
-│   │   │   ├── models/
-│   │   │   │   ├── read-format.ts
-│   │   │   │   ├── read-route-model.ts
-│   │   │   │   ├── enterprise-reading-ux-state.ts
-│   │   │   │   ├── deposit-read-workbench.ts
-│   │   │   │   └── read-scenarios.ts
-│   │   │   ├── hooks/                 # experience-wide hooks
-│   │   │   ├── constants/
-│   │   │   ├── types/
-│   │   │   ├── ReadsDepositReadWorkbench/
-│   │   │   │   ├── ReadsDepositReadWorkbench.tsx
-│   │   │   │   ├── hooks/
-│   │   │   │   ├── styles/
-│   │   │   │   └── __tests__/
-│   │   │   ├── ReadsRepositoryContextPanel/
-│   │   │   └── ReadsReadScenarioPanel/
-│   │   ├── deposits/
-│   │   │   ├── README.md
-│   │   │   ├── models/
-│   │   │   ├── hooks/
-│   │   │   ├── constants/
-│   │   │   ├── types/
-│   │   │   ├── DepositSourceSelection/
-│   │   │   │   ├── DepositSourceSelection.tsx
-│   │   │   │   ├── hooks/
-│   │   │   │   ├── styles/
-│   │   │   │   └── __tests__/
-│   │   │   └── DepositObfuscationsPathIcons/
-│   │   ├── docs/
-│   │   ├── conversations/
-│   │   └── auxillaries/
-│   │       ├── AuxillariesOpenButton/
-│   │       │   ├── AuxillariesOpenButton.tsx
-│   │       │   └── __tests__/
-│   │       └── ...
-│   ├── hooks/                         # cross-experience React hooks only
-│   ├── lib/                           # Next glue; re-exports packages when possible
-│   ├── middleware/
-│   ├── networking/
-│   ├── types/
-│   ├── tests/                         # route/page contracts, e2e helpers
-│   └── stories/
-├── scripts/                           # gate checkers, promotion, tooling
+│ ├── BITCODE_SOURCE_LAYOUT.md # this file
+│ ├── BITCODE_FRONTEND_ARCHITECTURE.md
+│ ├── TERMINOLOGY.md
+│ └── ...
+├── packages/ # domain packages (no React pages)
+│ ├── api/
+│ │ └── src/
+│ │ ├── index.ts
+│ │ ├── pipelines/
+│ │ │ ├── cancel.ts
+│ │ │ └── orphan-sweep.ts
+│ │ ├── routes/
+│ │ ├── conversations/
+│ │ └── ...
+│ ├── auth/
+│ │ └── src/
+│ │ ├── index.ts
+│ │ ├── bitcode-wallet-local.ts
+│ │ ├── bitcoin-wallet-client.ts
+│ │ ├── bitcoin-wallet-oauth-provider.ts
+│ │ ├── supabase-auth-redirect.ts
+│ │ └── qa-telemetry.ts
+│ ├── observability/
+│ │ └── src/
+│ │ ├── product-analytics.ts
+│ │ └── ...
+│ ├── btd/
+│ │ └── src/
+│ │ ├── journal.ts
+│ │ ├── operational-health.ts
+│ │ └── ...
+│ ├── pipelines-generics/ # Pipeline / PhaseDelegator primitives
+│ ├── generic-pipelines/
+│ │ └── SDIVF/ # @bitcode/generic-pipelines-sdivf base
+│ ├── generic-llms/ # nested LLM providers (no family package.json)
+│ │ ├── xAI/ # @bitcode/generic-llms-xai
+│ │ ├── OpenAI/ # @bitcode/generic-llms-openai
+│ │ ├── Anthropic/ # @bitcode/generic-llms-anthropic
+│ │ ├── Google/ # @bitcode/generic-llms-google
+│ │ ├── defaults/ # @bitcode/generic-llms-defaults
+│ │ └── registry/ # @bitcode/generic-llms (aggregator)
+│ ├── generation-generics/ # Generation primitive vocabulary
+│ ├── generic-generations/
+│ │ ├── failsafes/ # @bitcode/generic-generations-failsafes
+│ │ └── thinkings/ # @bitcode/generic-generations-thinkings
+│ ├── measurement-generics/ # Measurement primitive vocabulary
+│ ├── generic-measurements/
+│ │ ├── measure-agent/ # MeasureAgent PTRR base
+│ │ ├── absolutes/ # AbsolutesMeasureAgent
+│ │ └── needinesses/ # Needinesses surface (Gate 4)
+│ ├── asset-packs/
+│ │ ├── synthesis/ # SynthesizeAssetPacks measurements/catalogs
+│ │ └── settle/ # SettleAssetPacks product surface
+│ ├── pipelines/
+│ │ └── asset-pack/ # SynthesizeAssetPacks (extends SDIVF)
+│ ├── agent-generics/
+│ ├── execution-generics/
+│ ├── prompts/
+│ └── ...
+├── uapi/ # Next.js interface owner
+│ ├── ARCHITECTURE.md
+│ ├── README.md
+│ ├── app/ # App Router — thin shells + API
+│ │ ├── page.tsx # Marketing entry
+│ │ ├── (root)/ # Marketing sections (migrate → components/marketing)
+│ │ ├── packs/
+│ │ │ ├── page.tsx
+│ │ │ └── PacksPageClient.tsx
+│ │ ├── deposits/
+│ │ │ ├── page.tsx
+│ │ │ └── DepositPageClient.tsx # orchestration only
+│ │ ├── reads/
+│ │ │ ├── page.tsx
+│ │ │ └── ReadPageClient.tsx
+│ │ ├── docs/
+│ │ ├── conversations/
+│ │ ├── auxillaries/
+│ │ │ ├── page.tsx
+│ │ │ ├── [pane]/
+│ │ │ └── components/ # migrate → components/auxillaries
+│ │ └── api/ # thin adapters over @bitcode/api
+│ ├── components/
+│ │ ├── README.md # layer + co-location rules
+│ │ ├── shadcn/ # Shadcn* primitives
+│ │ │ ├── button.tsx
+│ │ │ └── ...
+│ │ ├── bitcode/ # Bitcode* base
+│ │ │ ├── pipeline/
+│ │ │ │ ├── models/ # pure pipeline models
+│ │ │ │ ├── cards/
+│ │ │ │ ├── BitcodePipelinesTable/
+│ │ │ │ │ ├── BitcodePipelinesTable.tsx
+│ │ │ │ │ └── __tests__/
+│ │ │ │ └── ...
+│ │ │ ├── layout/
+│ │ │ ├── auth/
+│ │ │ ├── routes/
+│ │ │ └── ...
+│ │ ├── marketing/
+│ │ ├── packs/
+│ │ ├── reads/
+│ │ │ ├── README.md
+│ │ │ ├── models/
+│ │ │ │ ├── read-format.ts
+│ │ │ │ ├── read-route-model.ts
+│ │ │ │ ├── enterprise-reading-ux-state.ts
+│ │ │ │ ├── deposit-read-workbench.ts
+│ │ │ │ └── read-scenarios.ts
+│ │ │ ├── hooks/ # experience-wide hooks
+│ │ │ ├── constants/
+│ │ │ ├── types/
+│ │ │ ├── ReadsDepositReadWorkbench/
+│ │ │ │ ├── ReadsDepositReadWorkbench.tsx
+│ │ │ │ ├── hooks/
+│ │ │ │ ├── styles/
+│ │ │ │ └── __tests__/
+│ │ │ ├── ReadsRepositoryContextPanel/
+│ │ │ └── ReadsReadScenarioPanel/
+│ │ ├── deposits/
+│ │ │ ├── README.md
+│ │ │ ├── models/
+│ │ │ ├── hooks/
+│ │ │ ├── constants/
+│ │ │ ├── types/
+│ │ │ ├── DepositSourceSelection/
+│ │ │ │ ├── DepositSourceSelection.tsx
+│ │ │ │ ├── hooks/
+│ │ │ │ ├── styles/
+│ │ │ │ └── __tests__/
+│ │ │ └── DepositObfuscationsPathIcons/
+│ │ ├── docs/
+│ │ ├── conversations/
+│ │ └── auxillaries/
+│ │ ├── AuxillariesOpenButton/
+│ │ │ ├── AuxillariesOpenButton.tsx
+│ │ │ └── __tests__/
+│ │ └── ...
+│ ├── hooks/ # cross-experience React hooks only
+│ ├── lib/ # Next glue; re-exports packages when possible
+│ ├── middleware/
+│ ├── networking/
+│ ├── types/
+│ ├── tests/ # route/page contracts, e2e helpers
+│ └── stories/
+├── scripts/ # gate checkers, promotion, tooling
 ├── supabase/
-└── _legacy/                           # historical specs only — do not implement from
+└── _legacy/ # historical specs only — do not implement from
 ```
 
 ---

@@ -15,8 +15,8 @@ import { traceRoute } from '@bitcode/observability';
 import { hydrateBitcodeProfile } from '@bitcode/orm';
 import { log } from '@bitcode/logger';
 import { createAdminClient } from '@bitcode/orm';
-import { sendServerEvent } from '@bitcode/google-analytics';
-import { createJsonResponse, createErrorResponse, createAuthErrorResponse } from '@bitcode/responses';
+import { sendServerEvent } from '@bitcode/external-telemetry-google';
+import { createJsonResponse, createErrorResponse, createAuthErrorResponse } from '@bitcode/api/responses';
 import * as crypto from 'crypto';
 
 // Initialize ORM models (admin client for server routes)
@@ -186,7 +186,7 @@ export const rejectBtdBalanceMutation = traceRoute('/user/btd', async (_request:
       error:
         'Generic BTD balance mutation is closed. $BTD is a non-fungible asset-pack share/read-right; acquisition must flow through Terminal Read minting or Exchange purchase.',
       acquisitionPaths: {
-        terminalReadMinting: '/terminal?intent=submit-read-for-btd',
+        terminalReadMinting: '/reads?intent=submit-read-for-btd',
         exchangePurchase: '/exchange?intent=buy-existing-btd',
       },
     }, 410);

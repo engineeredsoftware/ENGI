@@ -249,7 +249,7 @@
         "repair by replaying source-safe session envelope and preserving tombstone proof for deletes"
       ],
       "sourceRoots": [
-        "packages/protocol/src/canonical/conversation-session-route-history.js",
+        "packages/specifying/src/canonical/conversation-session-route-history.js",
         "packages/api/src/routes/conversations.ts",
         "uapi/tests/api/conversationSessionRouteHistory.test.ts",
         "docs/conversations.md"
@@ -258,7 +258,7 @@
       "rowRoot": "conversation-telemetry-row:83aeda095e855599e68d56d8",
       "sourceEvidence": [
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
@@ -377,7 +377,7 @@
         "repair by rewriting source-safe message projection or creating deletion tombstone proof"
       ],
       "sourceRoots": [
-        "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+        "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
         "packages/api/src/conversations/privacy.ts",
         "packages/api/src/conversations/messages.ts",
         "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md"
@@ -386,7 +386,7 @@
       "rowRoot": "conversation-telemetry-row:c4a530ef502c7d6a8567351d",
       "sourceEvidence": [
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
@@ -504,7 +504,7 @@
         "repair orphaned stream by emitting redacted error or completion telemetry row"
       ],
       "sourceRoots": [
-        "packages/protocol/src/canonical/conversation-stream-event-contract.js",
+        "packages/specifying/src/canonical/conversation-stream-event-contract.js",
         "packages/api/src/conversations/stream-events.ts",
         "uapi/tests/conversationStreamPipelineLog.test.tsx",
         "internal-docs/BITCODE_CONVERSATIONS.md"
@@ -513,7 +513,7 @@
       "rowRoot": "conversation-telemetry-row:e516615f0fb1c63c34da6d93",
       "sourceEvidence": [
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-stream-event-contract.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-stream-event-contract.js",
           "present": true
         },
         {
@@ -758,7 +758,7 @@
         "repair policy metadata without escalating source visibility"
       ],
       "sourceRoots": [
-        "packages/protocol/src/canonical/conversation-source-selector.js",
+        "packages/specifying/src/canonical/conversation-source-selector.js",
         "uapi/app/conversations/conversation-source-selector.ts",
         "uapi/tests/conversationSourceSelector.test.tsx",
         "docs/conversations.md"
@@ -767,7 +767,7 @@
       "rowRoot": "conversation-telemetry-row:2307d80efc8ef87d52881723",
       "sourceEvidence": [
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
@@ -885,7 +885,7 @@
         "repair by recreating source-safe handoff context from conversation and selector refs"
       ],
       "sourceRoots": [
-        "packages/protocol/src/canonical/conversation-terminal-handoff.js",
+        "packages/specifying/src/canonical/conversation-terminal-handoff.js",
         "uapi/app/conversations/conversation-terminal-handoff.ts",
         "uapi/tests/conversationTerminalHandoff.test.tsx",
         "internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md"
@@ -894,7 +894,7 @@
       "rowRoot": "conversation-telemetry-row:fedd177d0686bb337214a17f",
       "sourceEvidence": [
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
@@ -1012,7 +1012,7 @@
         "repair by branching from the last source-safe checkpoint"
       ],
       "sourceRoots": [
-        "packages/protocol/src/canonical/conversation-session-route-history.js",
+        "packages/specifying/src/canonical/conversation-session-route-history.js",
         "packages/api/src/routes/conversations.ts",
         "uapi/app/conversations/components/ConversationsBranchMenuButton.tsx",
         "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md"
@@ -1021,7 +1021,7 @@
       "rowRoot": "conversation-telemetry-row:eb8ec415291f8fe6d877892e",
       "sourceEvidence": [
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
@@ -1266,7 +1266,7 @@
         "repair missing completion by emitting a redacted completion or error row"
       ],
       "sourceRoots": [
-        "packages/protocol/src/canonical/conversation-stream-event-contract.js",
+        "packages/specifying/src/canonical/conversation-stream-event-contract.js",
         "packages/api/src/conversations/messages.ts",
         "uapi/app/conversations/components/ConversationsChat.tsx",
         "docs/conversations.md"
@@ -1275,7 +1275,7 @@
       "rowRoot": "conversation-telemetry-row:83d3da9dbaae395152eb72a3",
       "sourceEvidence": [
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-stream-event-contract.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-stream-event-contract.js",
           "present": true
         },
         {
@@ -1310,7 +1310,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
@@ -1332,7 +1332,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
@@ -1354,7 +1354,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-stream-event-contract.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-stream-event-contract.js",
           "present": true
         },
         {
@@ -1398,7 +1398,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
@@ -1420,7 +1420,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
@@ -1442,7 +1442,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
@@ -1486,7 +1486,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-stream-event-contract.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-stream-event-contract.js",
           "present": true
         },
         {

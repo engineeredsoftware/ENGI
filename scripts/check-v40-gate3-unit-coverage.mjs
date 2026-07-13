@@ -78,7 +78,7 @@ function printHelp() {
 
 function runPackageSmoke(root, failures) {
   const commands = [
-    ['pnpm', ['--filter', '@bitcode/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-unit-coverage-inventory.test.js']],
+    ['pnpm', ['--filter', '@bitcode/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-unit-coverage-inventory.test.js']],
     ['pnpm', ['--filter', '@bitcode/prompts', 'test']],
     ['pnpm', ['--filter', '@bitcode/agent-generics', 'test']],
     ['pnpm', ['--filter', '@bitcode/pipelines-generics', 'test']],
@@ -120,8 +120,8 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v40-unit-coverage-inventory.js',
-    'packages/protocol/test/v40-unit-coverage-inventory.test.js',
+    'packages/specifying/src/canonical/v40-unit-coverage-inventory.js',
+    'packages/specifying/test/v40-unit-coverage-inventory.test.js',
     'scripts/generate-v40-unit-coverage-inventory.mjs',
     'scripts/check-v40-gate3-unit-coverage.mjs',
     'BITCODE_SPEC_V40.md',
@@ -151,7 +151,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v40-unit-coverage-inventory.test.js',
+        'packages/specifying/test/v40-unit-coverage-inventory.test.js',
       ]);
     } catch (error) {
       failures.push(`V40 unit coverage protocol test failed: ${error.stderr || error.message}`);

@@ -1,6 +1,6 @@
 /**
- * HTTP response utilities for Bitcode API (moved from @bitcode/responses / networking).
- * Prefer: `import { … } from '@bitcode/api/responses'` or `@bitcode/responses` (BC).
+ * HTTP response utilities for Bitcode API (moved from @bitcode/api/responses / networking).
+ * Prefer: `import { … } from '@bitcode/api/responses'`.
  */
 
 import { log } from '@bitcode/logger';

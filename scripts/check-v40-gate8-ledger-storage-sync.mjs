@@ -93,7 +93,7 @@ function printHelp() {
 
 function runFocusedTests(root, failures, skipIntegrationTests) {
   const commands = [
-    ['node', ['--test', '--test-force-exit', 'packages/protocol/test/v40-ledger-storage-sync.test.js']],
+    ['node', ['--test', '--test-force-exit', 'packages/specifying/test/v40-ledger-storage-sync.test.js']],
   ];
 
   if (commandExists(root, 'pnpm')) {
@@ -150,8 +150,8 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v40-ledger-storage-sync.js',
-    'packages/protocol/test/v40-ledger-storage-sync.test.js',
+    'packages/specifying/src/canonical/v40-ledger-storage-sync.js',
+    'packages/specifying/test/v40-ledger-storage-sync.test.js',
     'scripts/generate-v40-ledger-storage-sync.mjs',
     'scripts/check-v40-gate8-ledger-storage-sync.mjs',
     'uapi/app/bitcode-ledger-storage-sync.ts',
@@ -167,7 +167,7 @@ function main() {
     'BITCODE_SPEC_V40_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',

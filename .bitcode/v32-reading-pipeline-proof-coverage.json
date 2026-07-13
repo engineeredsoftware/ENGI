@@ -3040,7 +3040,7 @@
     "buy-asset-pack-settle"
   ],
   "validationCommands": [
-    "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand",
+    "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand",
     "pnpm run check:v32-reading-pipeline-proof-coverage",
     "pnpm run check:v32-gate4"
   ],

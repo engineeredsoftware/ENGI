@@ -1,7 +1,7 @@
 import {
   BITCODE_BITCOIN_OAUTH_SCOPES,
   createBitcoinWalletAuthorizationCode,
-} from '@/lib/bitcoin-wallet-oauth-provider';
+} from '@bitcode/auth/bitcoin-wallet-oauth-provider';
 import {
   bitcodeServerTelemetry,
   compactBitcodeServerId,

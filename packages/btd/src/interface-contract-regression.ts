@@ -170,7 +170,7 @@ export function buildBtdInterfaceContractRegressionFixtures(): BtdInterfaceContr
       status: 'active_contract',
       boundaryKind: 'chatgpt_tool',
       contractOwner: 'packages/chatgptapp',
-      fixturePath: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+      fixturePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
       authBoundary: 'confirmed_connected_write',
       policyDenial: 'chatgpt-app-write-denies-missing-confirmation-read-access-or-authority',
       sourceSafetyClass: 'source-safe-internal',

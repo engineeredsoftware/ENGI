@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Animated candlestick chart overlay for the marketplace section backdrop.
  */
-"use client";
 
 import React, { useMemo } from "react";
 import {

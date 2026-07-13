@@ -8,7 +8,7 @@ import {
   projectAssetPackCommodityStateForPayload,
   toSourceSafeAssetPackCommodityStateDisplay,
   type AssetPackCommodityStateDisplay,
-} from '@bitcode/pipeline-asset-pack/asset-pack-commodity-state';
+} from '@bitcode/asset-packs-pipelines-domain/asset-pack-commodity-state';
 
 export type PackActivityType =
   | 'deposit-option'

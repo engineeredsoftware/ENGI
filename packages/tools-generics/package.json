@@ -24,8 +24,8 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
-    "@bitcode/doc-comment": "workspace:*",
-    "@bitcode/doc-code": "workspace:*",
+    "@bitcode/doc-comment-generics": "workspace:*",
+    "@bitcode/generic-doc-comments-doc-code": "workspace:*",
     "@bitcode/execution-generics": "workspace:*",
     "@bitcode/prompts": "workspace:*",
     "@bitcode/registry": "workspace:*",

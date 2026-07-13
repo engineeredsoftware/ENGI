@@ -16,7 +16,7 @@ export function parseAuxillaryPath(pathname: string | null): ConcreteAuxillaryPa
 
 /** Lazy analytics / error reporters to keep the surface bundle light. */
 export const trackEvent = (...args: any[]) => {
-  import('@bitcode/google-analytics').then((module) => (module as any).trackEvent?.(...args));
+  import('@bitcode/external-telemetry-google').then((module) => (module as any).trackEvent?.(...args));
 };
 
 export const reportError = (...args: any[]) => {

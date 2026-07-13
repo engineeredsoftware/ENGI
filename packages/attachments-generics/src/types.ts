@@ -1,7 +1,7 @@
 /**
  * Universal attachment definitions for Bitcode.
  *
- * BC type surface. Prefer leaf packages for new code.
+ * type surface. Prefer leaf packages for new code.
  * Categories: file | external only (vcs/url removed; integration renamed external).
  */
 

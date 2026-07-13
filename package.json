@@ -532,7 +532,7 @@
     "prelint:agents": "pnpm run build:eslint-plugin",
     "lint:fix": "eslint packages --ext .ts,.tsx --fix",
     "test": "pnpm -r test",
-    "build:eslint-plugin": "pnpm -C packages/eslint-plugin-bitcode run build",
+    "build:eslint-plugin": "pnpm -C packages/linting/eslint run build",
     "tail:local": "node ./scripts/tail-logs.js --env local",
     "tail:staging": "node ./scripts/tail-logs.js --env staging",
     "tail:production": "node ./scripts/tail-logs.js --env production",

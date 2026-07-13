@@ -2,7 +2,7 @@
   "name": "@bitcode/generic-executions",
   "version": "0.1.0",
   "private": true,
-  "description": "Execution base helpers: process-root Execution and serialization (replaces GlobalContext bag)",
+  "description": "Execution base helpers: process-root Execution helpers and serialization (no Context dual package)",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {

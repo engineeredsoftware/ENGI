@@ -265,12 +265,12 @@
             "description": "direct route tests fullscreen conversation mode"
           },
           {
-            "file": "packages/chatgptapp/src/server.ts",
+            "file": "packages/external-apps/chatgpt/src/server.ts",
             "evidence": "connected-interface Bitcode Terminal companion",
             "description": "ChatGPT App is specified as a Terminal companion, not a parallel product"
           },
           {
-            "file": "packages/chatgptapp/src/__tests__/tools.test.ts",
+            "file": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
             "evidence": "declares confirmation schema on every ChatGPT App connected-interface write carrier",
             "description": "ChatGPT App write tools share admission semantics"
           }
@@ -339,12 +339,12 @@
         "detail": "4 source evidence requirements satisfied",
         "requiredEvidence": [
           {
-            "file": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
+            "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
             "evidence": "writeAdmission",
             "description": "Bitcode MCP writes emit write-admission receipts"
           },
           {
-            "file": "packages/chatgptapp/src/server.ts",
+            "file": "packages/external-apps/chatgpt/src/server.ts",
             "evidence": "Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state",
             "description": "ChatGPT App read tools are Exchange input evidence"
           },
@@ -354,7 +354,7 @@
             "description": "commercial API rereads protocol state"
           },
           {
-            "file": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+            "file": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
             "evidence": "normalizes third-party MCP repository and attachment ingress as input context only",
             "description": "MCP third-party inputs stay ingress context"
           }

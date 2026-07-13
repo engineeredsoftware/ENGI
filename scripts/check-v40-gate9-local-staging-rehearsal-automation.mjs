@@ -100,7 +100,7 @@ function parseJson(output, failures, label) {
 
 function runFocusedTests(root, failures) {
   const commands = [
-    ['node', ['--test', '--test-force-exit', 'packages/protocol/test/v40-local-staging-rehearsal-automation.test.js']],
+    ['node', ['--test', '--test-force-exit', 'packages/specifying/test/v40-local-staging-rehearsal-automation.test.js']],
   ];
 
   if (commandExists(root, 'pnpm')) {
@@ -147,10 +147,10 @@ function main() {
     'scripts/rehearse-v40-local-staging-testnet.mjs',
     'scripts/generate-v40-local-staging-rehearsal-automation.mjs',
     'scripts/check-v40-gate9-local-staging-rehearsal-automation.mjs',
-    'packages/protocol/src/canonical/v40-local-staging-rehearsal-automation.js',
-    'packages/protocol/test/v40-local-staging-rehearsal-automation.test.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
+    'packages/specifying/src/canonical/v40-local-staging-rehearsal-automation.js',
+    'packages/specifying/test/v40-local-staging-rehearsal-automation.test.js',
+    'packages/specifying/src/index.js',
+    'packages/specifying/src/index.d.ts',
     'packages/pipeline-hosts/src/dev/run-asset-pack-sandbox-host.ts',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     'packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts',
@@ -162,7 +162,7 @@ function main() {
     'BITCODE_SPEC_V40_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',

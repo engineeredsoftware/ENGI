@@ -178,7 +178,7 @@
         "protectedSourceVisible": false,
         "rightsPosture": "preview_only_locked"
       },
-      "fixturePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+      "fixturePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
       "posture": "success_readable",
       "promptBodyVisible": false,
       "proofRoots": [
@@ -190,7 +190,7 @@
         "replay-mcp-pipeline-ingress",
         "inspect-queued-pipeline-roots"
       ],
-      "replayCommand": "pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand",
+      "replayCommand": "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand",
       "rowId": "interface.consumer.mcp-finding-fits-readable",
       "rowRoot": "btd-interface-consumer-ux-regression-row:2a24c0620a3730c0ef8ff4c7",
       "sourceSafeSummary": "MCP consumers can see queued Finding Fits admission, source-safe roots, and next repair replay command.",
@@ -218,7 +218,7 @@
         "protectedSourceVisible": false,
         "rightsPosture": "settlement_pending"
       },
-      "fixturePath": "packages/chatgptapp/src/__tests__/tools.test.ts",
+      "fixturePath": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
       "posture": "blocked_preview",
       "promptBodyVisible": false,
       "proofRoots": [
@@ -404,7 +404,7 @@
     },
     {
       "digest": "sha256:ef8475335bd430ca5926466e8556f9da3ca9db4e8d1f4ec86b9fc27f5c34a07c",
-      "relativePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+      "relativePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
       "requiredTokens": [
         {
           "present": true,
@@ -418,7 +418,7 @@
     },
     {
       "digest": "sha256:bd3b2ab267858fb98a2ccc0e7d50666c3f7d86c55d44b81dd79202d0d0394014",
-      "relativePath": "packages/chatgptapp/src/__tests__/tools.test.ts",
+      "relativePath": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
       "requiredTokens": [
         {
           "present": true,

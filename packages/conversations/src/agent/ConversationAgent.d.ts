@@ -546,7 +546,7 @@ declare const quickResponseVariation: import("@bitcode/agent-generics").Agent<{
 /**
  * Conversation Agent - Comprehensive PTRR version
  *
- * This uses the factoryAgentWithPTRR pattern for full conversation capabilities.
+ * This uses the factoryPTRRAgent pattern for full conversation capabilities.
  * The agent-generics pattern creates the complete PTRR execution automatically.
  */
 export declare const conversationAgent: import("@bitcode/agent-generics").Agent<{

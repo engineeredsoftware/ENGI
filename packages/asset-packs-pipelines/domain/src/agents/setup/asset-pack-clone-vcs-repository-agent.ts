@@ -6,7 +6,7 @@
  * cumulative over any generic base expectations.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 
 // Import generic VCS agent prompts to extend (system + step prompts)
@@ -89,7 +89,7 @@ const retryPrompt = (() => {
 
 // -------------------- Agent --------------------
 
-export const AssetPackCloneVCSRepositoryAgent = factoryAgentWithPTRR<
+export const AssetPackCloneVCSRepositoryAgent = factoryPTRRAgent<
   z.infer<typeof AssetPackCloneVCSRepoInputSchema>,
   z.infer<typeof AssetPackCloneVCSRepoOutputSchema>
 >({

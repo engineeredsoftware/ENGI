@@ -2,7 +2,7 @@ import React from "react";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 
-import DepositPageClient from "@/app/deposits/DepositPageClient";
+import DepositPageClient from "@/components/deposits/DepositPageClient/DepositPageClient";
 
 const mockReplace = jest.fn();
 const mockFetchPipelineExecutionHistory = jest.fn();

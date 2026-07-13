@@ -53,7 +53,7 @@
         "uapi/tests/api/transactionWriteReadinessRoutes.test.ts"
       ],
       "commandIds": [
-        "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit",
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit",
         "pnpm --dir uapi exec jest --runTestsByPath tests/terminalWalletBtcOperation.test.ts tests/api/transactionWriteReadinessRoutes.test.ts --runInBand"
       ],
       "requiredEvidence": [
@@ -101,7 +101,7 @@
         "uapi/tests/terminalTransactionDetailCards.test.tsx"
       ],
       "commandIds": [
-        "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
       ],
       "requiredEvidence": [
         "BtdReadReceipt",
@@ -147,7 +147,7 @@
         "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
       ],
       "commandIds": [
-        "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
       ],
       "requiredEvidence": [
         "SourceToSharesProof",
@@ -289,7 +289,7 @@
         "uapi/tests/bitcodeLedgerStorageSync.test.ts"
       ],
       "commandIds": [
-        "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
       ],
       "requiredEvidence": [
         "pull_request_after_settlement",
@@ -336,7 +336,7 @@
         "uapi/tests/terminalJournalReconciliation.test.ts"
       ],
       "commandIds": [
-        "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
       ],
       "requiredEvidence": [
         "underpayment blocker",
@@ -478,7 +478,7 @@
         ".github/workflows/bitcode-canon-quality.yml"
       ],
       "testPaths": [
-        "packages/protocol/test/v40-ledger-storage-sync.test.js"
+        "packages/specifying/test/v40-ledger-storage-sync.test.js"
       ],
       "commandIds": [
         "pnpm run check:v40-gate8"

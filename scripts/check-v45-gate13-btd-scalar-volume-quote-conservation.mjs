@@ -151,12 +151,12 @@ function main() {
   assertCheck(
     failures,
     assetPackPackageJson.includes('"./btd-scalar-volume-quote": "./src/btd-scalar-volume-quote.ts"'),
-    '@bitcode/pipeline-asset-pack package must export ./btd-scalar-volume-quote.',
+    '@bitcode/asset-packs-pipelines-domain package must export ./btd-scalar-volume-quote.',
   );
   assertCheck(
     failures,
     assetPackIndex.includes("export * from './btd-scalar-volume-quote';"),
-    '@bitcode/pipeline-asset-pack root index must export btd-scalar-volume-quote.',
+    '@bitcode/asset-packs-pipelines-domain root index must export btd-scalar-volume-quote.',
   );
   assertCheck(
     failures,

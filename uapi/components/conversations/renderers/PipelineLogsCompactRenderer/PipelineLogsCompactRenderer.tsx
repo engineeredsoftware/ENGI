@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * PIPELINE LOGS COMPACT RENDERER - ULTRA INLINE COMPACT MODE
  * 
@@ -5,7 +7,6 @@
  * Perfect for when "2 pipelines got started" and we want inline log views.
  */
 
-'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';

@@ -1,1 +1,1 @@
-export * from "../../packages/models/src/pricing";
+export * from "../../packages/generic-llms/models/src/pricing";

@@ -6,7 +6,7 @@
  * of pipeline execution progress.
  */
 
-import { Streamer } from '@bitcode/streams';
+import { Streamer } from '@bitcode/api/streams';
 import { ExecutionStorageDestination } from './StorageDestination';
 
 /**
@@ -228,6 +228,10 @@ export class ExecutionStreamAdapter {
     // Content-bearing stores: emit a source-safe stub only. Never put
     // inventory.sources / pipeline input / llm bodies on the stream (they stay
     // in the in-memory Execution store for agents/measurement).
+    // Tool invocation/result stubs keep tool name + outcome (+ shape-only
+    // input/output when already redacted) so structured deliverable rows and
+    // sourceSafeStreamEvent can still attribute the call without leaking
+    // verbatim args/results.
     const streamData = contentBearing
       ? {
           contentWithheld: true,
@@ -236,6 +240,7 @@ export class ExecutionStreamAdapter {
           namespace,
           contentChars: this.estimateSerializedChars(value),
           ...this.extractExecutionState(value),
+          ...this.extractToolMetadataStub(namespace, value),
         }
       : this.sanitizeData(value);
 
@@ -348,6 +353,42 @@ export class ExecutionStreamAdapter {
       failsafe: value.failsafe || value.currentFailsafe,
       generation: value.generation || value.currentGeneration,
     };
+  }
+
+  /**
+   * Tool metadata that may ride on a content-withheld stream stub.
+   * Prefer already shape-redacted input/output; otherwise omit payloads.
+   */
+  private static extractToolMetadataStub(
+    namespace: string,
+    value: any,
+  ): Record<string, unknown> {
+    if (namespace !== 'tools' && namespace !== 'tool') return {};
+    if (!value || typeof value !== 'object') return {};
+
+    const isShapeOnly = (payload: unknown): payload is Record<string, unknown> => {
+      if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return false;
+      const record = payload as Record<string, unknown>;
+      const keys = Object.keys(record);
+      return (
+        keys.length > 0 &&
+        keys.every((k) => k === 'type' || k === 'keys' || k === 'length' || k === 'itemCount')
+      );
+    };
+
+    const stub: Record<string, unknown> = {};
+    if (typeof value.tool === 'string') stub.tool = value.tool;
+    if (typeof value.ok === 'boolean') stub.ok = value.ok;
+    if (isShapeOnly(value.input)) stub.input = value.input;
+    if (isShapeOnly(value.output)) stub.output = value.output;
+    if (value.error != null && typeof value.error !== 'object') {
+      stub.error = String(value.error);
+    } else if (value.error && typeof value.error === 'object') {
+      const err = value.error as Record<string, unknown>;
+      stub.error =
+        typeof err.message === 'string' ? { message: err.message } : { message: 'tool error' };
+    }
+    return stub;
   }
 
   /**

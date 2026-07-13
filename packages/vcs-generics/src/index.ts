@@ -8,8 +8,7 @@
  *     → @bitcode/generic-vcs-bitbucket
  *     → @bitcode/generic-vcs-git          # Git operation bridge over providers
  *
- * Compatibility: @bitcode/vcs re-exports this package.
- *
+  *
  * @doc-package
  * version: 1.0.0
  * pattern: provider-abstraction

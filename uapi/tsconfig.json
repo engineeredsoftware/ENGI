@@ -24,6 +24,81 @@
       }
     ],
     "paths": {
+      "@bitcode/asset-packs-pipelines-settle-asset-packs": [
+        "../packages/asset-packs-pipelines/settle-asset-packs/src/index.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-synthesize-reads": [
+        "../packages/asset-packs-pipelines/synthesize-reads/src/index.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-synthesize-deposits": [
+        "../packages/asset-packs-pipelines/synthesize-deposits/src/index.ts"
+      ],
+      "@bitcode/generic-artifacts-compose": [
+        "../packages/generic-artifacts/compose/src/index.ts"
+      ],
+      "@bitcode/generic-artifacts-aws-provider": [
+        "../packages/generic-artifacts/aws-provider/src/index.ts"
+      ],
+      "@bitcode/generic-artifacts-supabase-provider": [
+        "../packages/generic-artifacts/supabase-provider/src/index.ts"
+      ],
+      "@bitcode/generic-artifacts-vercel-provider": [
+        "../packages/generic-artifacts/vercel-provider/src/index.ts"
+      ],
+      "@bitcode/generic-artifacts-patch-kind": [
+        "../packages/generic-artifacts/patch-kind/src/index.ts"
+      ],
+      "@bitcode/generic-executions": [
+        "../packages/generic-executions/src/index.ts"
+      ],
+      "@bitcode/generic-executions/*": [
+        "../packages/generic-executions/src/*"
+      ],
+      "@bitcode/notifications": [
+        "../packages/notifications/src/index.ts"
+      ],
+      "@bitcode/pipelines-generics/execution/resume": [
+        "../packages/pipelines-generics/src/execution/resume.ts"
+      ],
+      "@bitcode/pipelines-generics/execution/pipeline-types": [
+        "../packages/pipelines-generics/src/execution/pipeline-types.ts"
+      ],
+      "@bitcode/pipelines-generics/phases/phase-factory": [
+        "../packages/pipelines-generics/src/phases/phase-factory.ts"
+      ],
+      "@bitcode/pipelines-generics/pipeline-factory": [
+        "../packages/pipelines-generics/src/pipeline-factory.ts"
+      ],
+      "@bitcode/generic-vcs-bitbucket": [
+        "../packages/generic-vcs/bitbucket/src/index.ts"
+      ],
+      "@bitcode/generic-vcs-gitlab": [
+        "../packages/generic-vcs/gitlab/src/index.ts"
+      ],
+      "@bitcode/api/pipelines/orphan-sweep": [
+        "../packages/api/src/pipelines/orphan-sweep.ts"
+      ],
+      "@bitcode/api/pipelines/cancel": [
+        "../packages/api/src/pipelines/cancel.ts"
+      ],
+      "@bitcode/auth/qa-telemetry": [
+        "../packages/auth/src/qa-telemetry.ts"
+      ],
+      "@bitcode/auth/supabase-auth-redirect": [
+        "../packages/auth/src/supabase-auth-redirect.ts"
+      ],
+      "@bitcode/auth/bitcoin-wallet-oauth-provider": [
+        "../packages/auth/src/bitcoin-wallet-oauth-provider.ts"
+      ],
+      "@bitcode/auth/bitcoin-wallet-client": [
+        "../packages/auth/src/bitcoin-wallet-client.ts"
+      ],
+      "@bitcode/auth/wallet-local": [
+        "../packages/auth/src/bitcode-wallet-local.ts"
+      ],
+      "@bitcode/vcs-generics-core": [
+        "../packages/vcs-generics/src/index.ts"
+      ],
       "@/*": [
         "./*"
       ],
@@ -58,35 +133,34 @@
       "@bitcode/btd/read-license-assetpack-rights-contract": [
         "../packages/btd/src/read-license-assetpack-rights-contract.ts"
       ],
-      "@bitcode/asset-packs-pipelines-domain": ["../packages/asset-packs-pipelines/domain/src/index.ts"],
       "@bitcode/asset-packs-pipelines-domain": [
         "../packages/asset-packs-pipelines/domain/src/index.ts"
       ],
-      "@bitcode/pipeline-asset-pack/read-need": [
+      "@bitcode/asset-packs-pipelines-domain/read-need": [
         "../packages/asset-packs-pipelines/domain/src/read-need.ts"
       ],
-      "@bitcode/pipeline-asset-pack/read-need-review-resynthesis": [
+      "@bitcode/asset-packs-pipelines-domain/read-need-review-resynthesis": [
         "../packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts"
       ],
-      "@bitcode/pipeline-asset-pack/reading-pipeline-contract": [
+      "@bitcode/asset-packs-pipelines-domain/reading-pipeline-contract": [
         "../packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
       ],
-      "@bitcode/pipeline-asset-pack/deposit-asset-pack-options": [
+      "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-options": [
         "../packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts"
       ],
-      "@bitcode/pipeline-asset-pack/deposit-asset-pack-option-policy": [
+      "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-policy": [
         "../packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts"
       ],
-      "@bitcode/pipeline-asset-pack/asset-packs-synthesis": [
+      "@bitcode/asset-packs-pipelines-domain/asset-packs-synthesis": [
         "../packages/asset-packs-pipelines/domain/src/asset-packs-synthesis.ts"
       ],
-      "@bitcode/pipeline-asset-pack/deposit-option-real-synthesis": [
+      "@bitcode/asset-packs-pipelines-domain/deposit-option-real-synthesis": [
         "../packages/asset-packs-pipelines/domain/src/deposit-option-real-synthesis.ts"
       ],
-      "@bitcode/pipeline-asset-pack/depository-settled-demand-estimate": [
+      "@bitcode/asset-packs-pipelines-domain/depository-settled-demand-estimate": [
         "../packages/asset-packs-pipelines/domain/src/depository-settled-demand-estimate.ts"
       ],
-      "@bitcode/pipeline-asset-pack/runtime-inference-policy": [
+      "@bitcode/asset-packs-pipelines-domain/runtime-inference-policy": [
         "../packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts"
       ],
       "@bitcode/*": [
@@ -237,10 +311,7 @@
       "@/lib/dryrun/*": [
         "../packages/observability/src/dryrun/*"
       ],
-      "@bitcode/asset-packs-pipelines-domain": [
-        "../packages/asset-packs-pipelines/domain/src/index.ts"
-      ],
-      "@bitcode/pipeline-asset-pack/*": [
+      "@bitcode/asset-packs-pipelines-domain/*": [
         "../packages/asset-packs-pipelines/domain/*"
       ],
       "@bitcode/generic-agents-initialize-mcps": [
@@ -282,10 +353,10 @@
       "@bitcode/generic-tools-editing/execution-context": [
         "../packages/generic-tools/files-maintaining/src/execution-context.ts"
       ],
-      "@bitcode/vcs-tools": [
+      "@bitcode/generic-tools-vcs": [
         "../packages/generic-tools/vcs/src/index.ts"
       ],
-      "@bitcode/vcs-tools/*": [
+      "@bitcode/generic-tools-vcs/*": [
         "../packages/generic-tools/vcs/src/*"
       ],
       "@bitcode/generic-tools/repository": [
@@ -309,23 +380,14 @@
       "@bitcode/validation/validationOTFAdherencePhaseModule": [
         "../packages/validation/validationOTFAdherencePhaseModule.ts"
       ],
-      "@bitcode/mcp": [
-        "../packages/mcp-generics/src/index.ts"
-      ],
-      "@bitcode/mcp/validation": [
-        "../packages/mcp-generics/src/index.ts"
-      ],
       "@bitcode/mcp-generics": [
+        "../packages/mcp-generics/src/index.ts"
+      ],
+      "@bitcode/mcp-generics/validation": [
         "../packages/mcp-generics/src/index.ts"
       ],
       "@bitcode/generic-mcps-bitcode": [
         "../packages/generic-mcps/bitcode/src/index.ts"
-      ],
-      "@bitcode/context/*": [
-        "../packages/context/src/*"
-      ],
-      "@bitcode/context": [
-        "../packages/context/src/index.ts"
       ],
       "@bitcode/steps/*": [
         "../packages/pipelines-generics/src/steps/*"
@@ -333,41 +395,84 @@
       "@bitcode/steps": [
         "../packages/pipelines-generics/src/steps/index.ts"
       ],
-      "@bitcode/streams/*": [
-        "../packages/streams/src/*"
-      ],
-      "@bitcode/streams": [
-        "../packages/streams/src/index.ts"
+      "@bitcode/api/streams/*": [
+        "../packages/api/src/streams/src/*"
       ],
       "@bitcode/api/streams": [
         "../packages/api/src/streams/index.ts"
       ],
-      "@bitcode/kubernetes": ["../packages/kubernetes/src/index.ts"],
-            "@bitcode/containerizations-kubernetes": ["packages/containerizations/kubernetes/src/index.ts"],
-            "@bitcode/externals-figma": ["packages/externals/figma/src/index.ts"],
-      "@bitcode/jira": ["../packages/jira/src/index.ts"],
-            "@bitcode/externals-jira": ["packages/externals/jira/src/index.ts"],
-            "@bitcode/externals-notion": ["packages/externals/notion/src/index.ts"],
-            "@bitcode/externals-vercel": ["packages/externals/vercel/src/index.ts"],
-            "@bitcode/external-telemetry-sentry": ["packages/external-telemetry/sentry/src/sentry.ts"],
-            "@bitcode/external-telemetry-google": ["packages/external-telemetry/google/src/ga.ts"],
-            "@bitcode/external-telemetry-vercel": ["packages/external-telemetry/vercel/src/index.ts"],
-            "@bitcode/ci-circle": ["packages/ci/circle/src/index.ts"],
-            "@bitcode/host-commands-grep": ["packages/host-commands/grep/src/index.ts"],
-            "@bitcode/file-refactoring": ["packages/file-refactoring/src/index.ts"],
-            "@bitcode/generic-measurements-tech-types": ["packages/generic-measurements/tech-types/src/index.ts"],
-            "@bitcode/generic-llms-models": ["packages/generic-llms/models/src/index.ts"],
-            "@bitcode/web-search-exa": ["packages/web-search/exa/src/index.ts"],
-            "@bitcode/protocol-canonical": ["packages/protocol-canonical/src/index.js"],
-            "@bitcode/api/responses": ["packages/api/src/responses/index.ts"],
-            "@bitcode/obfuscation": ["../packages/obfuscation/src/index.ts"],
-            "@bitcode/conversations": ["packages/conversations/src/index.ts"],
-            "@bitcode/asset-packs-generics": ["packages/asset-packs-generics/src/index.ts"],
-            "@bitcode/generic-asset-packs-synthesis": ["packages/generic-asset-packs/synthesis/src/index.ts"],
-            "@bitcode/generic-asset-packs-settle": ["packages/generic-asset-packs/settle/src/index.ts"],
-            "@bitcode/security-encryption": ["packages/security/encryption/src/index.ts"],
-            "@bitcode/security-credentials": ["packages/security/credentials/src/index.ts"],
-            "@bitcode/security-client": ["packages/security/client/src/index.ts"],
+      "@bitcode/containerizations-kubernetes": [
+        "packages/containerizations/kubernetes/src/index.ts"
+      ],
+      "@bitcode/externals-figma": [
+        "packages/externals/figma/src/index.ts"
+      ],
+      "@bitcode/externals-jira": [
+        "../packages/externals/jira/src/index.ts"
+      ],
+      "@bitcode/externals-notion": [
+        "../packages/externals/notion/src/index.ts"
+      ],
+      "@bitcode/externals-vercel": [
+        "packages/externals/vercel/src/index.ts"
+      ],
+      "@bitcode/external-telemetry-sentry": [
+        "../packages/external-telemetry/sentry/src/sentry.ts"
+      ],
+      "@bitcode/external-telemetry-google": [
+        "packages/external-telemetry/google/src/ga.ts"
+      ],
+      "@bitcode/external-telemetry-vercel": [
+        "packages/external-telemetry/vercel/src/index.ts"
+      ],
+      "@bitcode/ci-circle": [
+        "packages/ci/circle/src/index.ts"
+      ],
+      "@bitcode/host-commands-grep": [
+        "packages/host-commands/grep/src/index.ts"
+      ],
+      "@bitcode/file-refactoring": [
+        "packages/file-refactoring/src/index.ts"
+      ],
+      "@bitcode/generic-measurements-tech-types": [
+        "packages/generic-measurements/tech-types/src/index.ts"
+      ],
+      "@bitcode/generic-llms-models": [
+        "../packages/generic-llms/models/src/index.ts"
+      ],
+      "@bitcode/web-search-exa": [
+        "packages/web-search/exa/src/index.ts"
+      ],
+      "@bitcode/specifying": [
+        "packages/specifying/src/index.js"
+      ],
+      "@bitcode/api/responses": [
+        "../packages/api/src/responses/index.ts"
+      ],
+      "@bitcode/obfuscation": [
+        "../packages/obfuscation/src/index.ts"
+      ],
+      "@bitcode/conversations": [
+        "../packages/conversations/src/index.ts"
+      ],
+      "@bitcode/asset-packs-generics": [
+        "packages/asset-packs-generics/src/index.ts"
+      ],
+      "@bitcode/generic-asset-packs-synthesis": [
+        "packages/generic-asset-packs/synthesis/src/index.ts"
+      ],
+      "@bitcode/generic-asset-packs-settle": [
+        "packages/generic-asset-packs/settle/src/index.ts"
+      ],
+      "@bitcode/security-encryption": [
+        "packages/security/encryption/src/index.ts"
+      ],
+      "@bitcode/security-credentials": [
+        "packages/security/credentials/src/index.ts"
+      ],
+      "@bitcode/security-client": [
+        "packages/security/client/src/index.ts"
+      ],
       "@bitcode/logger": [
         "../packages/logger/src/logger.ts"
       ],
@@ -390,7 +495,7 @@
         "../packages/agent-generics/src/index.ts"
       ],
       "@bitcode/files": [
-        "../packages/files/src/files.ts"
+        "../packages/files/src/index.ts"
       ],
       "@bitcode/files/*": [
         "../packages/files/src/*"
@@ -438,9 +543,6 @@
       "@bitcode/validation/*": [
         "../packages/validation/src/*"
       ],
-      "@bitcode/sentry": [
-        "../packages/external-telemetry/sentry/src/sentry.ts"
-      ],
       // -------------------------------------------------------------------
       // UI registry components (Shadcn)
       // -------------------------------------------------------------------
@@ -475,44 +577,20 @@
       "@bitcode/doc-comment-generics/*": [
         "../packages/doc-comment-generics/src/*"
       ],
-      "@bitcode/doc-comment": [
-        "../packages/doc-comment/src/index.ts"
-      ],
-      "@bitcode/doc-comment/*": [
-        "../packages/doc-comment/src/*"
-      ],
       "@bitcode/generic-doc-comments-doc-code": [
         "../packages/generic-doc-comments/doc-code/src/index.ts"
       ],
       "@bitcode/file-editing": [
         "../packages/file-editing/src/index.ts"
       ],
-      "@bitcode/editing": [
-        "../packages/editing/src/index.ts"
-      ],
-      "@bitcode/github": [
-        "../packages/github/src/index.ts"
-      ],
-      "@bitcode/github/*": [
-        "../packages/github/src/*"
-      ],
-      "@bitcode/vcs": [
-        "../packages/vcs/src/index.ts"
-      ],
-      "@bitcode/vcs/*": [
-        "../packages/vcs/src/*"
-      ],
       "@bitcode/generic-vcs-github": [
         "../packages/generic-vcs/github/src/index.ts"
       ],
-      "@bitcode/vcs-core": [
-        "../packages/vcs-generics/src/index.ts"
+      "@bitcode/generic-vcs-github/*": [
+        "../packages/generic-vcs/github/src/*"
       ],
       "@bitcode/vcs-generics": [
         "../packages/vcs-generics/src/index.ts"
-      ],
-      "@bitcode/vcs-core/*": [
-        "../packages/vcs-generics/src/*"
       ],
       "@bitcode/vcs-generics/*": [
         "../packages/vcs-generics/src/*"
@@ -529,22 +607,14 @@
       "@bitcode/tools": [
         "../packages/generic-tools/src/index.ts"
       ],
-      ],
-      ],
       "@bitcode/email": [
-        "../packages/notifications/src/index.ts"
+        "../packages/email/supabase/src/index.ts"
       ],
       "@bitcode/system_prompt.txt": [
         "../packages/prompts/src/system_prompt.txt"
       ],
-      "@bitcode/responses": [
-        "../packages/networking/src/responses.ts"
-      ],
       "@bitcode/sse": [
         "../packages/networking/src/sse.ts"
-      ],
-      "@bitcode/models": [
-        "../packages/generic-llms/models/src/index.ts"
       ],
       "@bitcode/telemetry": [
         "../packages/observability/src/telemetry.ts"
@@ -552,10 +622,7 @@
       "@bitcode/web-search": [
         "../packages/web-search/multi/src/index.ts"
       ],
-      "@bitcode/obfuscate": [
-        "../packages/obfuscate/src/index.ts"
-      ],
-      "@bitcode/dockerUtils": [
+      "@bitcode/containerizations-dockerUtils": [
         "../packages/containerizations/docker/src/index.ts"
       ],
       "@bitcode/supabase": [
@@ -567,10 +634,8 @@
       "@/lib/mcp/validation": [
         "../packages/mcp-generics/src/index.ts"
       ],
-      ],
-      ],
       "@/lib/email": [
-        "../packages/notifications/src/index.ts"
+        "../packages/email/supabase/src/index.ts"
       ],
       "@/lib/prompts": [
         "../packages/prompts/src/index.ts"
@@ -579,7 +644,7 @@
         "../packages/prompts/src/system_prompt.txt"
       ],
       "@/lib/responses": [
-        "../packages/networking/src/responses.ts"
+        "../packages/api/src/responses/index.ts"
       ],
       "@/lib/sse": [
         "../packages/networking/src/sse.ts"
@@ -607,19 +672,13 @@
         "../packages/btd/src/plans.ts"
       ],
       "@/utils/model-pricing": [
-        "../packages/models/src/pricing.ts"
+        "../packages/generic-llms/models/src/pricing.ts"
       ],
       "@/lib/git": [
-        "../packages/git/src"
+        "../packages/generic-vcs/git/src"
       ],
       "@/lib/git/*": [
-        "../packages/git/src/*"
-      ],
-      "@/digest/*": [
-      ],
-      "@/lib/digest": [
-      ],
-      "@/lib/digest/*": [
+        "../packages/generic-vcs/git/src/*"
       ]
     }
   },
@@ -628,11 +687,8 @@
     "app/**/*.ts",
     "app/**/*.tsx",
     "types/**/*.d.ts",
-    ".next/types/**/*.ts",
-    ".next-v28-testnet/types/**/*.ts",
-    ".next-v28-mock/types/**/*.ts",
-    ".next-v28-protocol-mock/types/**/*.ts",
-    ".next-v28-protocol-testnet/types/**/*.ts"
+    ".next-v28-protocol-testnet/types/**/*.ts",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

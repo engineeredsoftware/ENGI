@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_DEPOSIT_POLICY_COMPENSATION_ARTIFACT_PATH,
   buildV43DepositPolicyCompensation,
-} from '../packages/protocol/src/canonical/v43-deposit-policy-compensation.js';
+} from '../packages/specifying/src/canonical/v43-deposit-policy-compensation.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -88,8 +88,8 @@ function main() {
     'uapi/app/deposit/DepositPageClient.tsx',
     'uapi/tests/depositRouteModel.test.ts',
     'uapi/tests/depositPageClient.test.tsx',
-    'packages/protocol/src/canonical/v43-deposit-policy-compensation.js',
-    'packages/protocol/test/v43-deposit-policy-compensation.test.js',
+    'packages/specifying/src/canonical/v43-deposit-policy-compensation.js',
+    'packages/specifying/test/v43-deposit-policy-compensation.test.js',
     'scripts/generate-v43-deposit-policy-compensation.mjs',
     'scripts/check-v43-gate6-deposit-policy-compensation.mjs',
     'BITCODE_SPEC_V43.md',
@@ -98,7 +98,7 @@ function main() {
     'BITCODE_SPEC_V43_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',

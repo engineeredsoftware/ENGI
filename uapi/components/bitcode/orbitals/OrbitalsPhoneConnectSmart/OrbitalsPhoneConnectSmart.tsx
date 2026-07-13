@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Smart Phone Connect Component
  * 
@@ -7,12 +9,11 @@
  * - Seamless orbital panel integration
  */
 
-"use client";
 // moved to orbital/phone-connect-smart
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { trackEvent } from '@bitcode/google-analytics';
+import { trackEvent } from '@bitcode/external-telemetry-google';
 import { createClient } from '@bitcode/supabase/ssr/client';
 import { reportError } from '@bitcode/errors';
 import { toast } from '@/components/shadcn/Sonner/Sonner';

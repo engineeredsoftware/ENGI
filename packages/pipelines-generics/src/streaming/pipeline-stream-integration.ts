@@ -8,7 +8,7 @@
 import { ExecutionStreamAdapter } from '@bitcode/execution-generics';
 import { Execution } from '@bitcode/execution-generics/Execution';
 import { toPhaseLower, toStepLower } from '../types/primitives';
-import { Streamer } from '@bitcode/streams';
+import { Streamer } from '@bitcode/api/streams';
 import { ExecutionEventsModel } from '@bitcode/orm';
 
 type SupabaseClient = any;

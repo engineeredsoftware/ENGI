@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Measured-Read admission steps, fit host stream, and result-recording actions.
  */
 
-'use client';
 
 import React from 'react';
 

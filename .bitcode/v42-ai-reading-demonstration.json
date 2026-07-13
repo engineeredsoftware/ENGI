@@ -260,7 +260,7 @@
       "rowId": "proof:artifact-tests-workflows",
       "purpose": "Bind V42 Gate 7 closure to generated artifact, protocol test, demonstration test, docs, package scripts, and workflows.",
       "sourceRoots": [
-        "packages/protocol/test/v42-ai-reading-demonstration.test.js",
+        "packages/specifying/test/v42-ai-reading-demonstration.test.js",
         "package.json",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml"
@@ -338,12 +338,12 @@
     },
     {
       "id": "protocol-test-wired",
-      "sourcePath": "packages/protocol/test/v42-ai-reading-demonstration.test.js",
+      "sourcePath": "packages/specifying/test/v42-ai-reading-demonstration.test.js",
       "passed": true
     },
     {
       "id": "protocol-export-wired",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {

@@ -9,4 +9,4 @@ Nested AssetPack bases and product surfaces over `@bitcode/asset-packs-generics`
 | `settle/` | `@bitcode/generic-asset-packs-settle` | Settle product surface |
 
 Primitives: `packages/asset-packs-generics` (`@bitcode/asset-packs-generics`).
-BC: `@bitcode/asset-pack-generics`, `@bitcode/asset-packs-synthesis`, `@bitcode/asset-packs-settle`.
+Packages: `@bitcode/asset-packs-generics`, `@bitcode/generic-asset-packs-synthesis`, `@bitcode/generic-asset-packs-settle`.

@@ -29,7 +29,7 @@ import {
   type AuxillaryPane,
 } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 import { mutateUserData, useUserData } from '@/hooks/useUserData';
-import { clearLocalBitcodeWalletIdentity } from '@/lib/bitcode-wallet-local';
+import { clearLocalBitcodeWalletIdentity } from '@bitcode/auth/wallet-local';
 
 import { parseAuxillaryPath, reportError, trackEvent } from '../models/auxillaries-surface-path';
 

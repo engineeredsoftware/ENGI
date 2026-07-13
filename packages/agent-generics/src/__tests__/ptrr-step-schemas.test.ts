@@ -1,7 +1,7 @@
 // @ts-nocheck
 /**
  * Pins the step-schema law: STEP outputs validate against STEP schemas, not
- * the full agent schema. factoryAgentWithPTRR resolves per-step schemas —
+ * the full agent schema. factoryPTRRAgent resolves per-step schemas —
  * Plan defaults to the canonical PlanStepOutputSchema (forcing the agent
  * schema onto Plan made every run's plan step fail validation and burn
  * stitch repairs); Try/Refine/Retry default to the agent's outputSchema and
@@ -28,7 +28,7 @@ jest.mock('@bitcode/agent-generics/steps/factories', () => {
   };
 });
 
-import { factoryAgentWithPTRR } from '@bitcode/generic-agents-ptrr';
+import { factoryPTRRAgent } from '@bitcode/generic-agents-ptrr';
 import { factoryPlanStep, factoryTryStep, factoryRefineStep, factoryRetryStep } from '../steps/factories';
 import { PlanStepOutputSchema } from '../steps/step-schemas';
 
@@ -59,7 +59,7 @@ beforeEach(() => {
 
 describe('PTRR per-step output schemas', () => {
   it('Plan validates against the canonical plan-step schema; Try/Refine/Retry against the agent schema', () => {
-    factoryAgentWithPTRR({
+    factoryPTRRAgent({
       name: 'step-schema-defaults',
       outputSchema: AgentOutputSchema,
       enforceLLM: false,
@@ -79,7 +79,7 @@ describe('PTRR per-step output schemas', () => {
     const refineOverride = z.object({ refined: z.string() });
     const retryOverride = z.object({ recovered: z.string() });
 
-    factoryAgentWithPTRR({
+    factoryPTRRAgent({
       name: 'step-schema-overrides',
       outputSchema: AgentOutputSchema,
       enforceLLM: false,

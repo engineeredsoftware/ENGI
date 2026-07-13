@@ -16,4 +16,4 @@ import { sequential, parallel } from '@bitcode/generic-executors';
 import type { Executor } from '@bitcode/executor-generics';
 ```
 
-`@bitcode/execution-generics` re-exports these for backward compatibility.
+`@bitcode/execution-generics` may re-export combinators for product assembly; prefer importing this package for Executor combinators.

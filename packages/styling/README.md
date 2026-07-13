@@ -13,21 +13,21 @@ import { cn } from '@bitcode/styling';
 
 // Compose classes with conflict resolution
 const buttonClasses = cn(
-  'px-4 py-2 rounded',
-  'bg-blue-500 hover:bg-blue-600',
-  'text-white font-medium',
-  isActive && 'bg-blue-700',
-  className // external classes
+ 'px-4 py-2 rounded',
+ 'bg-blue-500 hover:bg-blue-600',
+ 'text-white font-medium',
+ isActive && 'bg-blue-700',
+ className // external classes
 );
 
 // Conditional styling
 const cardClasses = cn(
-  'p-6 rounded-lg border',
-  {
-    'border-red-500 bg-red-50': hasError,
-    'border-green-500 bg-green-50': isSuccess,
-    'border-gray-200': !hasError && !isSuccess
-  }
+ 'p-6 rounded-lg border',
+ {
+ 'border-red-500 bg-red-50': hasError,
+ 'border-green-500 bg-green-50': isSuccess,
+ 'border-gray-200': !hasError && !isSuccess
+ }
 );
 ```
 

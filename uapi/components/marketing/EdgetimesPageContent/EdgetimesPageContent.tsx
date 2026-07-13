@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Footer from '@/components/bitcode/layout/Footer/Footer';
 import { FEATURE_FLAGS } from '@/config/features';
 
-import { EDGETIMES_TOPOLOGY, getEdgetimesTopologySummary } from '@/components/marketing/EdgetimesPageContent/edgetimes-topology';
+import { EDGETIMES_TOPOLOGY, getEdgetimesTopologySummary } from '@/app/edgetimes/edgetimes-topology';
 
 export default function EdgetimesPageContent() {
   const summary = getEdgetimesTopologySummary();

@@ -7,11 +7,10 @@
  *   product / measure / conversation agents — specialize prompts, tools, schemas
  *
  * Preferred hierarchy names: PTRRAgent, factoryPTRRAgent.
- * BC names: factoryAgentWithPTRR, factoryAgentWithPTRRGenerations.
- */
+ *  */
 
 // Value imports of agent-generics are lazy inside factoryPTRRAgent so package
-// load does not re-enter agent-generics ↔ generic-agents-ptrr BC re-exports.
+// load does not re-enter agent-generics ↔ generic-agents-ptrr re-exports.
 import type { Execution } from '@bitcode/execution-generics/Execution';
 import type { Agent, AgentStep } from '@bitcode/agent-generics/types';
 import { z } from 'zod';
@@ -94,13 +93,13 @@ function assertBitcodePTRRPromptCarrier(config: BitcodePTRRFactoryConfig<any>): 
 
   if (hasPrimaryStepPrompts && isObjectRecord(configRecord.prompts)) {
     throw new Error(
-      'factoryAgentWithPTRR accepts one Bitcode prompt carrier: use `prompt` + `stepPrompts`, or compact `prompts.system` + plan/try/refine/retry.'
+      'factoryPTRRAgent accepts one Bitcode prompt carrier: use `prompt` + `stepPrompts`, or compact `prompts.system` + plan/try/refine/retry.'
     );
   }
 
   if (!(hasPrimaryPrompt && hasPrimaryStepPrompts) && !hasCompactPromptCarrier) {
     throw new Error(
-      'factoryAgentWithPTRR requires a Bitcode Registry-backed prompt carrier: provide `prompt` + complete `stepPrompts`, or compact `prompts.system` + plan/try/refine/retry.'
+      'factoryPTRRAgent requires a Bitcode Registry-backed prompt carrier: provide `prompt` + complete `stepPrompts`, or compact `prompts.system` + plan/try/refine/retry.'
     );
   }
 
@@ -111,7 +110,7 @@ function assertBitcodePTRRPromptCarrier(config: BitcodePTRRFactoryConfig<any>): 
 
   if (missingStepPrompts.length > 0) {
     throw new Error(
-      `factoryAgentWithPTRR Bitcode prompt carrier is missing ${missingStepPrompts.join(', ')} step Prompt registries.`
+      `factoryPTRRAgent Bitcode prompt carrier is missing ${missingStepPrompts.join(', ')} step Prompt registries.`
     );
   }
 
@@ -126,7 +125,7 @@ function resolveBitcodePTRRStepPrompt(
 
   if (resolvedPrompt === undefined || resolvedPrompt === null) {
     throw new Error(
-      `factoryAgentWithPTRR ${stepName} step Prompt registry resolved to an empty value.`
+      `factoryPTRRAgent ${stepName} step Prompt registry resolved to an empty value.`
     );
   }
 
@@ -140,14 +139,12 @@ function resolveBitcodePTRRAgentPrompt(config: BitcodePTRRFactoryConfig<any>): B
 
 /**
  * Create a PTRR base Agent — Plan → Try → Refine → Retry with 7-substep failsafes.
- *
- * Hierarchy-preferred name. `factoryAgentWithPTRR` is a BC alias.
  */
 export function factoryPTRRAgent<TInput, TOutput>(
   config: BitcodePTRRFactoryConfig<TOutput>
 ): PTRRAgent<TInput, TOutput> {
   // Lazy require keeps agent-generics package evaluation off the module graph
-  // of this factory file (agent-generics root re-exports this package for BC).
+  // of this factory file (agent-generics root re-exports this package).
   // Plain require (no `typeof import(...)`) — type-query imports re-enter
   // agent-generics root re-exports of this package and stack-overflow ts-jest.
   const {
@@ -297,9 +294,6 @@ export function factoryPTRRAgent<TInput, TOutput>(
   return agent;
 }
 
-/** @deprecated Prefer `factoryPTRRAgent` (hierarchy: PTRR + Agent). */
-export const factoryAgentWithPTRR = factoryPTRRAgent;
-
 /**
  * Same as factoryPTRRAgent but accepts generationPrompts instead of stepPrompts.
  */
@@ -334,5 +328,3 @@ export function factoryPTRRAgentWithGenerations<TInput, TOutput>(config: {
   });
 }
 
-/** @deprecated Prefer `factoryPTRRAgentWithGenerations`. */
-export const factoryAgentWithPTRRGenerations = factoryPTRRAgentWithGenerations;

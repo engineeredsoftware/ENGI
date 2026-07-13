@@ -2,7 +2,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -834,7 +834,7 @@ export const mcpsInitializerStepPrompts = {
 /**
  * Comprehensive MCP initialization agent using full PTRR cycle for detailed system integration
  */
-const comprehensiveMcp = factoryAgentWithPTRR<McpInput, McpsInitializerAgentRetryStepOutput>({
+const comprehensiveMcp = factoryPTRRAgent<McpInput, McpsInitializerAgentRetryStepOutput>({
   name: 'comprehensive-mcp',
   description: 'Complete MCP initialization with validation, tool registration, and system integration',
   prompt: mcpsInitializerPrompt,

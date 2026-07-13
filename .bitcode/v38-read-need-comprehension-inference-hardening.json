@@ -374,9 +374,9 @@
     "readingContractTests": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
     "readReviewRoute": "uapi/app/api/read-review/route.ts",
     "terminalWorkbench": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
-    "gate2Inventory": "packages/protocol/src/canonical/inference-surface-inventory.js",
-    "gate3Stack": "packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js",
-    "gate4Benchmark": "packages/protocol/src/canonical/prompt-benchmark-report.js",
-    "gate5Disclosure": "packages/protocol/src/canonical/inference-telemetry-disclosure-report.js"
+    "gate2Inventory": "packages/specifying/src/canonical/inference-surface-inventory.js",
+    "gate3Stack": "packages/specifying/src/canonical/ptrr-failsafe-thricified-stack.js",
+    "gate4Benchmark": "packages/specifying/src/canonical/prompt-benchmark-report.js",
+    "gate5Disclosure": "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js"
   }
 }

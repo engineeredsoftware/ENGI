@@ -68,7 +68,7 @@ function normalizeQuerySorts(sorts: QueryDatabaseInput['sorts']) {
 }
 
 export class NotionClient {
-  private client: Client;
+  private client: InstanceType<typeof Client>;
   private connection: NotionConnection;
 
   constructor(connection: NotionConnection) {

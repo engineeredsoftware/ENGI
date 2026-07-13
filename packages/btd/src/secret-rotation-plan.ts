@@ -172,7 +172,7 @@ export function buildSecretRotationFamilyRows(): SecretRotationFamilyInput[] {
       supportedLaneIds: NON_VALUE_LANES,
       rotationCadence: 'every_30_days',
       rotationCommand: 'rotate model-provider credential through operator secret store, then sync provider key alias into Vercel lane environment',
-      verificationCommand: 'pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts --runInBand',
+      verificationCommand: 'pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts --runInBand',
       ciMaskingPosture: 'CI masks provider-key values and records only presence class plus proof root',
       leakResponsePath: 'revoke provider project key, rotate lane alias, re-run reading pipeline smoke, and append incident audit event',
       leakSeverity: 'staging_testnet_blocking',

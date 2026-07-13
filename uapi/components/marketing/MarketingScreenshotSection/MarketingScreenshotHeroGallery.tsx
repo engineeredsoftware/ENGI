@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Desktop three-panel hero screenshot gallery with floating flanking cards.
  */
-"use client";
 
 import React from "react";
 import Image from "next/image";

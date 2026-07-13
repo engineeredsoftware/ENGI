@@ -19,7 +19,7 @@ const TERMINAL_SOURCE_REFS = [
   'uapi/components/bitcode/pipeline/',
   'uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
   'uapi/components/bitcode/pipeline/BitcodeInlineExplainer.tsx',
-  'packages/protocol/public/app.js',
+  'packages/specifying/public/app.js',
 ] as const;
 
 export const TERMINAL_SURFACE_EXPLAINERS = {

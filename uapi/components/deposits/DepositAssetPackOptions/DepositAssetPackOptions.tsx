@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Deposit AssetPack options review panel — proposals list shell + batch deposit.
  * Per-option card body lives in DepositOptionCard; parent owns synthesis state.
  */
-"use client";
 
 import React from "react";
 import Link from "next/link";

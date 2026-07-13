@@ -2,13 +2,14 @@
  * @jest-environment jsdom
  */
 
-const mockGetProviders = jest.fn();
-const mockRequest = jest.fn();
-
-jest.mock('sats-connect', () => ({
-  getProviders: (...args: unknown[]) => mockGetProviders(...args),
-  request: (...args: unknown[]) => mockRequest(...args),
-}));
+// Shared mock via jest moduleNameMapper (auth + uapi pnpm paths differ).
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const satsConnect = require('./mocks/sats-connect') as {
+  __mockGetProviders: jest.Mock;
+  __mockRequest: jest.Mock;
+};
+const mockGetProviders = satsConnect.__mockGetProviders;
+const mockRequest = satsConnect.__mockRequest;
 
 import {
   connectBitcoinWallet,
@@ -18,7 +19,7 @@ import {
   sendLeatherTransfer,
   signLeatherBitcoinMessage,
   signLeatherPsbt,
-} from '@/lib/bitcoin-wallet-client';
+} from '@bitcode/auth/bitcoin-wallet-client';
 
 const paymentAddress = 'tb1qcmrcalqaqqqqqqqqqqqqqqqqqqqqqqqqq';
 const taprootAddress = 'tb1pqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq';

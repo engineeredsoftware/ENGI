@@ -777,7 +777,7 @@ Operational rule:
 - `packages/asset-packs-pipelines/domain/*` setup and prompt carriers should prefer canonical `comprehend-read` module paths and recut `ASSETPACKSETUPCOMPREHENDREAD` PromptParts, and discovery outputs should emit semantic `writtenAssets` / `readSatisfactionCriteria` directly so the commercial infrastructure expresses Bitcode meaning without depending on old `deliverables` mirrors
 - `packages/asset-packs-pipelines/domain/*` must also typecheck locally through the MCP/VCS/prompt/search support graph it still traverses; fifth-gate no longer treats runtime-only proof as sufficient for this corridor once it is claimed as live commercial infrastructure
 - the base `doc-comment` primitive and `doc-code` tool-injection path remain admitted support/compatibility corridors for build-time attachment of tool prompt descriptions into Bitcode agentic runs, but `generic-doc-comment-plugins`, `doc-comment` examples, and prompt-package developing experiments remain bounded reform corridors that may not teach prompt-package internal paths as public API; see `protocol-demonstration/V26_DOC_COMMENT_REFORM.md`
-- the prompt/doc-code runtime bridge and its support primitives must resolve through honest public package subpaths (`@bitcode/prompts`, `@bitcode/execution-generics/{Execution,prompts/ExecutionPrompt}`, `@bitcode/registry`, `@bitcode/doc-comment/{base-plugin,types}`, `@bitcode/doc-code`, `@bitcode/tools-generics`) rather than repo-relative cross-package source reach-through
+- the prompt/doc-code runtime bridge and its support primitives must resolve through honest public package subpaths (`@bitcode/prompts`, `@bitcode/execution-generics/{Execution,prompts/ExecutionPrompt}`, `@bitcode/registry`, `@bitcode/doc-comment-generics/{base-plugin,types}`, `@bitcode/generic-doc-comments-doc-code`, `@bitcode/tools-generics`) rather than repo-relative cross-package source reach-through
 - supplementary corridor-by-corridor reform tactics, success criteria, and current needs are maintained in `protocol-demonstration/V26_REFORM_STRATEGY.md` so package and interface reform stays classified, mirrored, and proof-bearing rather than devolving into rename-only cleanup
 - the admitted direct-product `uapi` corridor must likewise typecheck locally through product, public/docs, auth/UI, and visualization/effects carriers; fifth-gate no longer treats stale wrapper drift or public-shell compatibility seams as acceptable residue once those routes are claimed active
 
@@ -841,7 +841,7 @@ Current major retained owners:
 - `packages/prompts/src/*`
   Prompt abstraction and future proved prompt-space carrier; `PromptPart`, `Prompt`, `PromptExecution`, shared formatters, and explicit raw promptpart subpaths form the live public boundary for active inference packages.
   The active/support/reference consumer map for those prompt carriers is maintained in `protocol-demonstration/V26_PROMPT_SURFACES.md`.
-- `packages/vcs/*`
+- `packages/vcs-generics/*`
   Version-control provider abstraction and connection ownership.
 - `packages/execution-generics/*`, `packages/pipelines-generics/*`, `packages/pipelines/*`
   Run/pipeline execution carriers being converged into Bitcode V26 semantics.

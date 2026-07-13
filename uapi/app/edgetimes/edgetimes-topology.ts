@@ -69,7 +69,7 @@ export const EDGETIMES_TOPOLOGY = {
         '@bitcode/supabase',
         '@bitcode/orm',
         '@bitcode/prompts',
-        '@bitcode/conversations-generics',
+        '@bitcode/conversations',
         '@bitcode/execution-generics',
       ],
     },

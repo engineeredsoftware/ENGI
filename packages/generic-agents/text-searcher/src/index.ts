@@ -6,7 +6,7 @@
  */
 
 import {
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep,
   AgentPrompt,
   AgentStepPrompt
@@ -178,7 +178,7 @@ export const bitcodeRepositoryEvidenceSearcherStepPrompts = {
 export const textSearcherPrompt = bitcodeRepositoryEvidenceSearcherPrompt;
 export const textSearcherStepPrompts = bitcodeRepositoryEvidenceSearcherStepPrompts;
 
-const bitcodeRepositoryEvidenceSearchVariation = factoryAgentWithPTRR<
+const bitcodeRepositoryEvidenceSearchVariation = factoryPTRRAgent<
   z.infer<typeof BitcodeRepositoryEvidenceSearchInputSchema>,
   z.infer<typeof BitcodeRepositoryEvidenceSearchRetrySchema>
 >({

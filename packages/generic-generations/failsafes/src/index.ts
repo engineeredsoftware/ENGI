@@ -25,8 +25,6 @@ export {
 
 export {
   FailsafeGeneration,
-  /** @deprecated Prefer FailsafeGeneration */
-  FailsafeMetaSubStep,
   type FailsafeContext,
   type Generation,
 } from '@bitcode/generation-generics';

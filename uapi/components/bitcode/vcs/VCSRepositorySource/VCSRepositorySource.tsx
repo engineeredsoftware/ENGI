@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
+import { VCSProviderType, VCSRepository } from '@bitcode/vcs-generics-core';
 import { VCSProviderSelector } from '@/components/bitcode/vcs/VCSProviderSelector/VCSProviderSelector';
 import { VCSRepositorySelector } from '@/components/bitcode/vcs/VCSRepositorySelector/VCSRepositorySelector';
 import { Github, GitBranch, GitCommit, Folder } from 'lucide-react';

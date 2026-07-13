@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Compact uppercase status chip used in packs master rows and detail states.
  */
-"use client";
 
 import React from "react";
 

@@ -7,7 +7,7 @@
  * boundary, never from a branch inside the agent.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import {
   createAssetPackDiscoveryPhaseUnderstandRequirementsAgentPrompt,
@@ -63,7 +63,7 @@ const UnderstandRequirementsOutputSchema = z.object({
  * Deeply understands what needs to be done.
  * PrepareContext will provide all setup phase results.
  */
-const AssetPackDiscoveryPhaseUnderstandRequirementsAgentCore = factoryAgentWithPTRR<
+const AssetPackDiscoveryPhaseUnderstandRequirementsAgentCore = factoryPTRRAgent<
   z.infer<typeof UnderstandRequirementsInputSchema>,
   z.infer<typeof UnderstandRequirementsOutputSchema>
 >({
@@ -194,7 +194,7 @@ export function applyResearchApproachSemanticMirrors(
  * 
  * Researches and determines the best approach.
  */
-const AssetPackDiscoveryPhaseResearchApproachAgentCore = factoryAgentWithPTRR<
+const AssetPackDiscoveryPhaseResearchApproachAgentCore = factoryPTRRAgent<
   z.infer<typeof ResearchApproachInputSchema>,
   z.infer<typeof ResearchApproachOutputSchema>
 >({
@@ -302,7 +302,7 @@ export function applyPlanImplementationSemanticMirrors(
  * 
  * Creates detailed implementation plan.
  */
-const AssetPackDiscoveryPhasePlanImplementationAgentCore = factoryAgentWithPTRR<
+const AssetPackDiscoveryPhasePlanImplementationAgentCore = factoryPTRRAgent<
   z.infer<typeof PlanImplementationInputSchema>,
   z.infer<typeof PlanImplementationOutputSchema>
 >({
@@ -362,7 +362,7 @@ const GatherContextOutputSchema = z.object({
  * Generic agent that runs first for every AssetPack written-asset request.
  * Gathers relevant context from codebase, docs, and history.
  */
-const AssetPackDiscoveryPhaseGatherContextAgentCore = factoryAgentWithPTRR<
+const AssetPackDiscoveryPhaseGatherContextAgentCore = factoryPTRRAgent<
   z.infer<typeof GatherContextInputSchema>,
   z.infer<typeof GatherContextOutputSchema>
 >({
@@ -426,7 +426,7 @@ const AssessComplexityOutputSchema = z.object({
  * Generic agent that runs last for every AssetPack written-asset request.
  * Assesses overall complexity and provides confidence score.
  */
-const AssetPackDiscoveryPhaseAssessComplexityAgentCore = factoryAgentWithPTRR<
+const AssetPackDiscoveryPhaseAssessComplexityAgentCore = factoryPTRRAgent<
   z.infer<typeof AssessComplexityInputSchema>,
   z.infer<typeof AssessComplexityOutputSchema>
 >({

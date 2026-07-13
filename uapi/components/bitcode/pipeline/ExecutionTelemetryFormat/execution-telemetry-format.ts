@@ -22,7 +22,7 @@ export const STEP_GERUNDS: Record<string, string> = {
   retry: 'Retrying',
 };
 
-// Thinkings generation sub-step -> present-continuous verb (GenerationSubMetaSubStep).
+// Thinkings generation sub-step -> present-continuous verb (ThinkingsGeneration).
 // Each Thinkings generation carries its own connective into the failsafe
 // noun: 'Reasoning over Large Inputs', 'Judging the Large Outputs',
 // 'Structuring the Context'.

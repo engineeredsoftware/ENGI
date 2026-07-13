@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import glassyInputStyles from '@/components/bitcode/inputs/GlassyInput/GlassyInput/glassy-input.module.css';
+import glassyInputStyles from '@/components/bitcode/inputs/GlassyInput/glassy-input.module.css';
 import { ENABLE_ENHANCE_NEED_DEFINITION } from '@/config/featureFlags';
 
 interface Attachment {

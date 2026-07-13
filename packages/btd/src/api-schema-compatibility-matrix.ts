@@ -257,8 +257,8 @@ export function buildBtdApiSchemaCompatibilityRows(): BtdApiSchemaCompatibilityR
       breakingChangePolicy: 'gate_review_required',
       examplePosture: 'blocked',
       exampleId: 'chatgpt-deliver-assetpack-blocked',
-      examplePath: 'packages/chatgptapp/src/__tests__/tools.test.ts#denies-unpaid-assetpack-delivery',
-      fixturePath: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+      examplePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts#denies-unpaid-assetpack-delivery',
+      fixturePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
       validationCommand:
         'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand',
       example: {

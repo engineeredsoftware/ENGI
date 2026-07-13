@@ -9,12 +9,12 @@ export const chatGptAppApiReference = [
     title: 'ChatGPT App MCP tools',
     summary:
       'These are the canonical tools exported by packages/chatgptapp. Read tools gather evidence; write tools require confirmed: true and return write-admission metadata.',
-    packagePath: 'packages/chatgptapp/src/tools.ts',
+    packagePath: 'packages/external-apps/chatgpt/src/tools.ts',
     features: [
       {
         name: 'answer_codebase_query',
         method: 'tools/call',
-        packagePath: 'packages/chatgptapp/src/tools.ts',
+        packagePath: 'packages/external-apps/chatgpt/src/tools.ts',
         useWhen: 'Ask a targeted question about the current repository or find existing implementation points.',
         howToUse:
           'Call with a regex-friendly query and optional cwd/maxResults. Use the returned file lines to decide whether to extend existing behavior or introduce new behavior.',
@@ -34,7 +34,7 @@ export const chatGptAppApiReference = [
       {
         name: 'answer_codeweb_query',
         method: 'tools/call',
-        packagePath: 'packages/chatgptapp/src/tools.ts',
+        packagePath: 'packages/external-apps/chatgpt/src/tools.ts',
         useWhen: 'Research external technical references, examples, or documentation for a product or implementation decision.',
         howToUse:
           'Call with a focused query. Keep the result as external reference evidence, not route state, until it is attached to a real Bitcode action.',
@@ -52,7 +52,7 @@ export const chatGptAppApiReference = [
       {
         name: 'depict_design_asset',
         method: 'tools/call',
-        packagePath: 'packages/chatgptapp/src/tools.ts',
+        packagePath: 'packages/external-apps/chatgpt/src/tools.ts',
         useWhen: 'Turn a screenshot, diagram, or wireframe into text that later tools can reference.',
         howToUse:
           'Pass base64 or text asset data with an optional focus. Use the depiction as context for design_code or code_design.',
@@ -70,7 +70,7 @@ export const chatGptAppApiReference = [
       {
         name: 'design_code',
         method: 'tools/call',
-        packagePath: 'packages/chatgptapp/src/tools.ts',
+        packagePath: 'packages/external-apps/chatgpt/src/tools.ts',
         useWhen: 'Capture conversational product intent into .ai/PRODUCT.md before planning implementation.',
         howToUse:
           'Pass raw ideas. Optionally include current PRODUCT.md or request digest regeneration before appending proposed updates.',
@@ -89,7 +89,7 @@ export const chatGptAppApiReference = [
       {
         name: 'code_design',
         method: 'tools/call',
-        packagePath: 'packages/chatgptapp/src/tools.ts',
+        packagePath: 'packages/external-apps/chatgpt/src/tools.ts',
         useWhen: 'Translate accepted design intent into tasks and patch scaffolds before code changes.',
         howToUse:
           'Pass the design update and optional target files. Review the generated implementation actions before executing any write.',
@@ -107,7 +107,7 @@ export const chatGptAppApiReference = [
       {
         name: 'read_code_changes_from_vcs',
         method: 'tools/call',
-        packagePath: 'packages/chatgptapp/src/tools.ts',
+        packagePath: 'packages/external-apps/chatgpt/src/tools.ts',
         useWhen: 'Summarize recent GitHub activity before deciding what changed or what to build next.',
         howToUse:
           'Pass a GitHub token, owner, repo, and optional branch/limit. Use the result as VCS read evidence.',
@@ -126,7 +126,7 @@ export const chatGptAppApiReference = [
       {
         name: 'write_code_changes_to_vcs',
         method: 'tools/call',
-        packagePath: 'packages/chatgptapp/src/tools.ts',
+        packagePath: 'packages/external-apps/chatgpt/src/tools.ts',
         useWhen: 'Create a GitHub repository or write file contents after explicit user confirmation.',
         howToUse:
           'Set confirmed: true. For createRepository, pass name/description/private. For createOrUpdateFile, pass owner/repo/path/content/message/branch.',
@@ -152,7 +152,7 @@ export const chatGptAppApiReference = [
       {
         name: 'improve_developing_behavior',
         method: 'tools/call',
-        packagePath: 'packages/chatgptapp/src/tools.ts',
+        packagePath: 'packages/external-apps/chatgpt/src/tools.ts',
         useWhen: 'Record collaboration rules or development behavior preferences into .ai/AGENTS.md.',
         howToUse:
           'Pass behaviorImprovement and optional current AGENTS.md. Use regenerateFromDigest when the baseline should be rebuilt first.',
@@ -170,7 +170,7 @@ export const chatGptAppApiReference = [
       {
         name: 'use_vercel_read_external_mcp',
         method: 'tools/call',
-        packagePath: 'packages/chatgptapp/src/tools.ts',
+        packagePath: 'packages/external-apps/chatgpt/src/tools.ts',
         useWhen: 'Read Vercel teams, projects, deployments, build logs, events, or docs from ChatGPT.',
         howToUse:
           'Set request to the Vercel read operation and pass provider-specific arguments in payload.',
@@ -187,7 +187,7 @@ export const chatGptAppApiReference = [
       {
         name: 'use_vercel_write_external_mcp',
         method: 'tools/call',
-        packagePath: 'packages/chatgptapp/src/tools.ts',
+        packagePath: 'packages/external-apps/chatgpt/src/tools.ts',
         useWhen: 'Request Vercel delivery actions after explicit user confirmation.',
         howToUse:
           'Set confirmed: true and request deploy_to_vercel, buy_domain, or check_domain_availability with provider arguments in payload.',
@@ -207,7 +207,7 @@ export const chatGptAppApiReference = [
       {
         name: 'use_aws_read_external_mcp',
         method: 'tools/call',
-        packagePath: 'packages/chatgptapp/src/tools.ts',
+        packagePath: 'packages/external-apps/chatgpt/src/tools.ts',
         useWhen: 'Read AWS runtime state from ChatGPT for health checks or configuration confirmation.',
         howToUse:
           'Set request to the AWS read action and pass the raw AWS-style payload through to the underlying tool.',
@@ -224,7 +224,7 @@ export const chatGptAppApiReference = [
       {
         name: 'use_aws_write_external_mcp',
         method: 'tools/call',
-        packagePath: 'packages/chatgptapp/src/tools.ts',
+        packagePath: 'packages/external-apps/chatgpt/src/tools.ts',
         useWhen: 'Write scoped AWS delivery/configuration outputs after explicit user confirmation.',
         howToUse:
           'Set confirmed: true and request s3.putObject or dynamo.putItem with the underlying AWS payload.',

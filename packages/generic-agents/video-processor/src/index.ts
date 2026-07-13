@@ -10,7 +10,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { z } from 'zod';
@@ -293,7 +293,7 @@ export const videoProcessorStepPrompts = {
  * Comprehensive video processing agent
  * Uses full PTRR cycle for thorough video analysis
  */
-const comprehensiveVideo = factoryAgentWithPTRR<
+const comprehensiveVideo = factoryPTRRAgent<
   z.infer<typeof VideoProcessorInputSchema>,
   z.infer<typeof VideoProcessorRetrySchema>
 >({

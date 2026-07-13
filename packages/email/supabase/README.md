@@ -25,13 +25,13 @@ npm install @bitcode/email
 import { invitationEmailService } from '@bitcode/email'
 
 await invitationEmailService.sendInvitationEmail({
-  email: 'user@company.com',
-  organizationName: 'Acme Corp',
-  organizationLogo: 'https://acme.com/logo.png',
-  inviterName: 'John Doe',
-  role: 'dev',
-  token: 'secure-invitation-token',
-  expiresAt: '2024-01-15T00:00:00Z'
+ email: 'user@company.com',
+ organizationName: 'Acme Corp',
+ organizationLogo: 'https://acme.com/logo.png',
+ inviterName: 'John Doe',
+ role: 'dev',
+ token: 'secure-invitation-token',
+ expiresAt: '2024-01-15T00:00:00Z'
 })
 ```
 
@@ -39,10 +39,10 @@ await invitationEmailService.sendInvitationEmail({
 
 ```typescript
 await invitationEmailService.sendWelcomeEmail({
-  email: 'user@company.com',
-  memberName: 'Jane Smith',
-  organizationName: 'Acme Corp',
-  dashboardUrl: 'https://app.bitcode.example/dashboard'
+ email: 'user@company.com',
+ memberName: 'Jane Smith',
+ organizationName: 'Acme Corp',
+ dashboardUrl: 'https://app.bitcode.example/dashboard'
 })
 ```
 
@@ -50,12 +50,12 @@ await invitationEmailService.sendWelcomeEmail({
 
 ```typescript
 await invitationEmailService.sendBtdAllocationEmail({
-  email: 'user@company.com',
-  memberName: 'Jane Smith',
-  organizationName: 'Acme Corp',
-  btdAmount: 50000,
-  reason: 'Monthly allocation',
-  dashboardUrl: 'https://app.bitcode.example/dashboard'
+ email: 'user@company.com',
+ memberName: 'Jane Smith',
+ organizationName: 'Acme Corp',
+ btdAmount: 50000,
+ reason: 'Monthly allocation',
+ dashboardUrl: 'https://app.bitcode.example/dashboard'
 })
 ```
 
@@ -65,12 +65,12 @@ await invitationEmailService.sendBtdAllocationEmail({
 import { teamEmailService } from '@bitcode/email'
 
 await teamEmailService.sendRoleChangeNotification(
-  'user@company.com',
-  'Jane Smith',
-  'Acme Corp',
-  'dev',
-  'lead',
-  'John Doe'
+ 'user@company.com',
+ 'Jane Smith',
+ 'Acme Corp',
+ 'dev',
+ 'lead',
+ 'John Doe'
 )
 ```
 
@@ -78,12 +78,12 @@ await teamEmailService.sendRoleChangeNotification(
 
 ```typescript
 await teamEmailService.sendBulkNotification(
-  ['user1@company.com', 'user2@company.com'],
-  'Acme Corp',
-  'Important Update',
-  'Please review the new security policies.',
-  'https://app.bitcode.example/policies',
-  'Review Policies'
+ ['user1@company.com', 'user2@company.com'],
+ 'Acme Corp',
+ 'Important Update',
+ 'Please review the new security policies.',
+ 'https://app.bitcode.example/policies',
+ 'Review Policies'
 )
 ```
 
@@ -103,9 +103,9 @@ Or configure programmatically:
 import { InvitationEmailService } from '@bitcode/email'
 
 const emailService = new InvitationEmailService({
-  supabaseUrl: 'your_supabase_url',
-  supabaseServiceKey: 'your_service_key',
-  appUrl: 'https://app.bitcode.example'
+ supabaseUrl: 'your_supabase_url',
+ supabaseServiceKey: 'your_service_key',
+ appUrl: 'https://app.bitcode.example'
 })
 ```
 
@@ -167,20 +167,20 @@ Send bulk emails to multiple recipients.
 
 ```typescript
 interface InvitationEmailData {
-  email: string
-  organizationName: string
-  organizationLogo?: string
-  inviterName: string
-  inviterAvatar?: string
-  role: string
-  token: string
-  expiresAt: string
+ email: string
+ organizationName: string
+ organizationLogo?: string
+ inviterName: string
+ inviterAvatar?: string
+ role: string
+ token: string
+ expiresAt: string
 }
 
 interface EmailResponse {
-  success: boolean
-  messageId?: string
-  error?: string
+ success: boolean
+ messageId?: string
+ error?: string
 }
 ```
 
@@ -192,9 +192,9 @@ All email methods return an `EmailResponse` object with success status and optio
 const result = await invitationEmailService.sendInvitationEmail(data)
 
 if (!result.success) {
-  console.error('Email failed:', result.error)
+ console.error('Email failed:', result.error)
 } else {
-  console.log('Email sent:', result.messageId)
+ console.log('Email sent:', result.messageId)
 }
 ```
 

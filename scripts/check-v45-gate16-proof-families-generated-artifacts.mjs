@@ -10,7 +10,7 @@ import {
   V45_PROOF_FAMILY_GENERATED_OUTPUTS,
   V45_PROOF_FAMILY_PROVEN_PATH,
   V45_PROOF_FAMILY_SOURCE_SAFETY_VERDICT,
-} from '../packages/protocol/src/index.js';
+} from '../packages/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -169,9 +169,9 @@ function main() {
     'BITCODE_SPEC_V45_PARITY_MATRIX.md',
     'BITCODE_SPEC.txt',
     'package.json',
-    'packages/protocol/src/canonical/v21-specifying.js',
-    'packages/protocol/src/canonical/v45-proof-family-artifacts.js',
-    'packages/protocol/test/v45-proof-family-artifacts.test.js',
+    'packages/specifying/src/canonical/v21-specifying.js',
+    'packages/specifying/src/canonical/v45-proof-family-artifacts.js',
+    'packages/specifying/test/v45-proof-family-artifacts.test.js',
     'scripts/generate-v45-proof-family-artifacts.mjs',
     'scripts/check-v45-gate16-proof-families-generated-artifacts.mjs',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -186,8 +186,8 @@ function main() {
   const packageJson = read(root, 'package.json');
   const spec = read(root, 'BITCODE_SPEC_V45.md');
   const parity = read(root, 'BITCODE_SPEC_V45_PARITY_MATRIX.md');
-  const source = read(root, 'packages/protocol/src/canonical/v45-proof-family-artifacts.js');
-  const test = read(root, 'packages/protocol/test/v45-proof-family-artifacts.test.js');
+  const source = read(root, 'packages/specifying/src/canonical/v45-proof-family-artifacts.js');
+  const test = read(root, 'packages/specifying/test/v45-proof-family-artifacts.test.js');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
 
@@ -231,9 +231,9 @@ function main() {
 
   assertIncludesAll(failures, parity, [
     'Gate 16 implementation readback',
-    'packages/protocol/src/canonical/v45-proof-family-artifacts.js',
+    'packages/specifying/src/canonical/v45-proof-family-artifacts.js',
     'scripts/generate-v45-proof-family-artifacts.mjs',
-    'packages/protocol/test/v45-proof-family-artifacts.test.js',
+    'packages/specifying/test/v45-proof-family-artifacts.test.js',
     'check:v45-gate16',
   ], 'BITCODE_SPEC_V45_PARITY_MATRIX.md');
 
@@ -326,7 +326,7 @@ function main() {
     try {
       const output = runCommand(root, 'pnpm', [
         '--filter',
-        '@bitcode/protocol',
+        '@bitcode/specifying',
         'exec',
         'node',
         '--test',

@@ -8,7 +8,7 @@
  * auditable as part of the source-to-shares pipeline.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { z } from 'zod';
 import {
   createAssetPackFinishCreatePullRequestDeliveryAgentPrompt,
@@ -72,7 +72,7 @@ const CreatePullRequestOutputSchema = z.object({
  * Creates a pull request delivery mechanism for AssetPack code changes.
  * PrepareContext will provide all previous phase results.
  */
-export const AssetPackFinishCreatePullRequestDeliveryAgent = factoryAgentWithPTRR<
+export const AssetPackFinishCreatePullRequestDeliveryAgent = factoryPTRRAgent<
   z.infer<typeof CreatePullRequestInputSchema>,
   z.infer<typeof CreatePullRequestOutputSchema>
 >({
@@ -131,7 +131,7 @@ const FinalizeAssetPackDeliveryEvidenceOutputSchema = z.object({
  * Generic final agent that runs after pull-request delivery.
  * This is the last delivery-evidence agent in the Finish phase.
  */
-export const AssetPackFinishFinalizeDeliveryEvidenceAgent = factoryAgentWithPTRR<
+export const AssetPackFinishFinalizeDeliveryEvidenceAgent = factoryPTRRAgent<
   z.infer<typeof FinalizeAssetPackDeliveryEvidenceInputSchema>,
   z.infer<typeof FinalizeAssetPackDeliveryEvidenceOutputSchema>
 >({

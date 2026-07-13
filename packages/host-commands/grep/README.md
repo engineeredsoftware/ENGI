@@ -14,10 +14,10 @@ It is a low-level support primitive consumed by prompt-bearing generic-tool wrap
 import { simpleSystemTextSearch } from '@bitcode/system-grep';
 
 const matches = await simpleSystemTextSearch({
-  pattern: ['readDescription', 'assetPack'],
-  cwd: process.cwd(),
-  maxResults: 100,
-  ignoreCase: false
+ pattern: ['readDescription', 'assetPack'],
+ cwd: process.cwd(),
+ maxResults: 100,
+ ignoreCase: false
 });
 ```
 
@@ -25,10 +25,10 @@ Parameters:
 
 ```typescript
 {
-  pattern: string | string[];
-  cwd?: string;
-  maxResults?: number;
-  ignoreCase?: boolean;
+ pattern: string | string[];
+ cwd?: string;
+ maxResults?: number;
+ ignoreCase?: boolean;
 }
 ```
 
@@ -36,9 +36,9 @@ Return shape:
 
 ```typescript
 interface GrepMatch {
-  file: string;
-  line: number;
-  text: string;
+ file: string;
+ line: number;
+ text: string;
 }
 ```
 

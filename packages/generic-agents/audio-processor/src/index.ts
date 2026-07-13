@@ -10,7 +10,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { z } from 'zod';
@@ -230,7 +230,7 @@ export const audioProcessorStepPrompts = {
  * Comprehensive audio processing variation
  * Uses full PTRR cycle for thorough analysis
  */
-const comprehensiveAudioVariation = factoryAgentWithPTRR<
+const comprehensiveAudioVariation = factoryPTRRAgent<
   z.infer<typeof AudioProcessorInputSchema>,
   z.infer<typeof AudioProcessorRetrySchema>
 >({

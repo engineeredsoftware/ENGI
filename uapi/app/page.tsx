@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-import PublicShellFrame from './(root)/components/PublicShellFrame';
-import MarketingLandingPage from './(root)/components/MarketingLandingPage';
-import { buildAuxillariesRoutePath } from './auxillaries/components/auxillary-pane-meta';
+import PublicShellFrame from '@/components/marketing/PublicShellFrame/PublicShellFrame';
+import MarketingLandingPage from '@/components/marketing/MarketingLandingPage/MarketingLandingPage';
+import { buildAuxillariesRoutePath } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 
 export const metadata: Metadata = {
   title: 'Bitcode',

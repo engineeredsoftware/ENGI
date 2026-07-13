@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V39_READ_NEED_REVIEW_RESYNTHESIS_ARTIFACT_PATH,
   buildV39ReadNeedReviewResynthesis,
-} from '../packages/protocol/src/canonical/v39-read-need-review-resynthesis.js';
+} from '../packages/specifying/src/canonical/v39-read-need-review-resynthesis.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

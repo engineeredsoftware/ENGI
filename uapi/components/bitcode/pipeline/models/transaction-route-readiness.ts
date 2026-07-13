@@ -14,7 +14,7 @@ import {
   VCSProviderFactory,
   type VCSProviderType,
   type VCSRepository,
-} from '@bitcode/vcs';
+} from '@bitcode/vcs-generics';
 
 import { buildMockVcsRepositories, isAuxillariesMockMode } from '@/lib/mock-review-mode';
 import { readBitcodeWalletConnectionStatus } from '@/app/api/wallet/_shared';

@@ -42,7 +42,7 @@ export function useDepositSynthesisLifecycle(input: {
   readCurrentSearchParams: () => URLSearchParams;
   replaceDepositSearchParams: (p: URLSearchParams) => void;
   replaceDepositRouteTransaction: (id: string) => void;
-  refreshLiveRuns: () => void | Promise<void>;
+  refreshLiveRuns: () => void | Promise<unknown>;
   obfuscations: string;
   forcedInclusions: string[];
   forcedExclusions: string[];
@@ -344,7 +344,7 @@ export function useDepositSynthesisLifecycle(input: {
               depositoryDemandSignals.length + readingDemandSignals.length,
           },
         });
-        void refreshLiveRuns().then(() => {
+        void Promise.resolve(refreshLiveRuns() as unknown).then(() => {
           replaceDepositRouteTransaction(runId);
         });
       } catch (error) {

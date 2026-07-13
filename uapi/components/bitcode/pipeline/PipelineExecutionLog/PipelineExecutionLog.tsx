@@ -1,5 +1,6 @@
+'use client';
+
 /* eslint-disable react/no-multi-comp */
-"use client";
 
 import React, { useRef, useState, useEffect, useLayoutEffect, forwardRef } from 'react';
 import { ContentVisibility } from '@/components/bitcode/perf/ContentVisibility/ContentVisibility';
@@ -711,7 +712,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
             idx > 0 ? flatLines[idx - 1].iteration : undefined,
             toggleLine,
             expandedLines,
-            getLineClass,
+            getLineClass as any,
             compact,
             pipelineMode,
           ),
@@ -729,7 +730,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
             const sentence = describeExecutionContext({ ...liveContext, mode: pipelineMode ?? null });
             if (sentence) return <ProcessingIndicator label={sentence} stalled={false} />;
           }
-          const { label, likelyStalled } = buildProcessingStallLabel(lastLine, nowTick, pipelineMode);
+          const { label, likelyStalled } = buildProcessingStallLabel(lastLine as any, nowTick, pipelineMode);
           return <ProcessingIndicator label={label} stalled={likelyStalled} />;
         })()}
       </div>

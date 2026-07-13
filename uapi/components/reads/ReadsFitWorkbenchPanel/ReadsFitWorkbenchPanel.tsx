@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Asset-pack fit posture panel: metrics, rows, and record-fit actions.
  */
 
-'use client';
 
 import React from 'react';
 

@@ -1,5 +1,5 @@
 /**
- * Compatibility: host capabilities + host manifest helpers.
- * Prefer @bitcode/generic-hosts-vercel-sandbox for Vercel capabilities.
+ * Host capability manifest surface for @bitcode/pipeline-hosts.
+ * Source of truth: @bitcode/generic-hosts-vercel-sandbox.
  */
 export * from '@bitcode/generic-hosts-vercel-sandbox';

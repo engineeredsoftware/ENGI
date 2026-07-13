@@ -9,7 +9,7 @@
  * AssetPacks never expose obfuscated material. Runs on the formal PTRR machinery.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
@@ -76,7 +76,7 @@ function createPrompt(): Prompt {
 
 const prompt = createPrompt();
 
-export const DepositInputComprehensionAgent = factoryAgentWithPTRR<
+export const DepositInputComprehensionAgent = factoryPTRRAgent<
   z.infer<typeof InputComprehensionInputSchema>,
   z.infer<typeof InputComprehensionOutputSchema>
 >({
@@ -153,7 +153,7 @@ export default async function runDepositInputComprehensionAgent(input: any, exec
     },
     execution,
   );
-  // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });
+  // factoryPTRRAgent returns an envelope ({ context, output, finalOutput });
   // unwrap it to the agent's typed structured output (F27).
   const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 

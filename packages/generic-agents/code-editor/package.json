@@ -11,7 +11,7 @@
   "dependencies": {
     "@bitcode/agent-generics": "workspace:*",
     "@bitcode/execution-generics": "workspace:*",
-    "@bitcode/editing": "workspace:*",
+    "@bitcode/file-editing": "workspace:*",
     "@bitcode/prompts": "workspace:*",
     "zod": "^3.22.4"
   },

@@ -6,7 +6,7 @@ import { Input } from '@/components/shadcn/Input/Input';
 import { Label } from '@/components/shadcn/Label/Label';
 import { Button } from '@/components/shadcn/Button/Button';
 import { Badge } from '@/components/shadcn/Badge/Badge';
-import { VCSProviderType } from '@bitcode/vcs-core';
+import { VCSProviderType } from '@bitcode/vcs-generics-core';
 import { ExternalLink, Eye, EyeOff, Info } from 'lucide-react';
 import { toast } from '@/components/shadcn/Sonner/Sonner';
 import {

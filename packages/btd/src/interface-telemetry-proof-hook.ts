@@ -181,7 +181,7 @@ export function buildBtdInterfaceTelemetryProofHookInputs(): BtdInterfaceTelemet
         'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand',
       theoremIds: ['interface-confirmation-required', 'interface-preview-not-source'],
       replayStepIds: ['chatgpt-confirmation-check', 'chatgpt-assetpack-delivery-blocked'],
-      witnessArtifactPaths: ['packages/chatgptapp/src/__tests__/tools.test.ts'],
+      witnessArtifactPaths: ['packages/external-apps/chatgpt/src/__tests__/tools.test.ts'],
       denialReason: 'reader-confirmation-or-paid-rights-missing',
       repairPosture: 'confirm-action-and-settle-before-full-delivery',
     },

@@ -76,23 +76,23 @@ postgresqlRunQueryTool: SQL query execution with advanced result processing
 ### Database Connection
 ```typescript
 interface PostgreSQLConfig {
-  host: string;                 // PostgreSQL server hostname
-  port: number;                 // Server port (default: 5432)
-  database: string;             // Target database name
-  user: string;                 // Database username
-  password: string;             // Database password
-  ssl?: {
-    mode: 'require' | 'prefer' | 'disable';
-    ca?: string;                // CA certificate content
-    cert?: string;              // Client certificate content
-    key?: string;               // Client private key content
-  };
-  pool: {
-    min: number;                // Minimum pool connections
-    max: number;                // Maximum pool connections
-    idleTimeoutMillis: number;  // Idle timeout
-    connectionTimeoutMillis: number; // Connection timeout
-  };
+ host: string; // PostgreSQL server hostname
+ port: number; // Server port (default: 5432)
+ database: string; // Target database name
+ user: string; // Database username
+ password: string; // Database password
+ ssl?: {
+ mode: 'require' | 'prefer' | 'disable';
+ ca?: string; // CA certificate content
+ cert?: string; // Client certificate content
+ key?: string; // Client private key content
+ };
+ pool: {
+ min: number; // Minimum pool connections
+ max: number; // Maximum pool connections
+ idleTimeoutMillis: number; // Idle timeout
+ connectionTimeoutMillis: number; // Connection timeout
+ };
 }
 ```
 

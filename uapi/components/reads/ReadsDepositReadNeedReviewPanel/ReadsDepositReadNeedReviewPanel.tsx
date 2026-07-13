@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Read-Need review actions: synthesize, accept/reject, and request Fit.
  */
 
-'use client';
 
 import React from 'react';
 

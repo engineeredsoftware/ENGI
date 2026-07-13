@@ -2,15 +2,14 @@
 
 Production-grade **atomic file editing** built on `@bitcode/files` primitives.
 
-> BC alias: `@bitcode/editing`
 
 ## Hierarchy
 
 ```
-@bitcode/files                 # FilePath, FileOp, FileChange, normalizeRepoPath
-        ↑
-@bitcode/file-editing          # this package (transactions, text edits, commands)
-        ↑
+@bitcode/files # FilePath, FileOp, FileChange, normalizeRepoPath
+ ↑
+@bitcode/file-editing # this package (transactions, text edits, commands)
+ ↑
 @bitcode/generic-tools-editing # tool wrappers (files-maintaining)
 @bitcode/generic-agents-code-editor
 ```
@@ -27,19 +26,19 @@ Production-grade **atomic file editing** built on `@bitcode/files` primitives.
 
 ```typescript
 import {
-  TransactionalFileEditor,
-  type EditCommandParams,
-  fileEditOperationToFileChange,
+ TransactionalFileEditor,
+ type EditCommandParams,
+ fileEditOperationToFileChange,
 } from '@bitcode/file-editing';
-// or BC: from '@bitcode/editing'
+// or from '@bitcode/file-editing'
 
 const editor = new TransactionalFileEditor();
 await editor.beginTransaction();
 await editor.executeCommand({
-  command: 'str_replace',
-  path: 'src/auth.ts',
-  old_str: 'legacy',
-  new_str: 'current',
+ command: 'str_replace',
+ path: 'src/auth.ts',
+ old_str: 'legacy',
+ new_str: 'current',
 });
 await editor.commitTransaction();
 ```

@@ -9,6 +9,7 @@
  *     → product pipeline executions (asset-packs-pipelines, …)
  *
  * There is no separate Context state: process defaults are an Execution.
+ * There is no `@bitcode/context-generics` dual — import this package.
  */
 
 export {
@@ -22,13 +23,4 @@ export {
   endProcessRoot,
   prepareProcessRootForPrompt,
   serializeProcessRootFields,
-  // BC Context vocabulary
-  type GlobalContext,
-  initializeContext,
-  createContext,
-  getGlobalContext,
-  endContext,
-  setGlobalContext,
-  prepareContextForPrompt,
-  serializeContext,
 } from './process-root';

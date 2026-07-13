@@ -13,15 +13,15 @@ import {
   inspectBitcoinWalletProviders,
   type BitcoinWalletProviderId,
   type BitcoinWalletProviderSummary,
-} from '@/lib/bitcoin-wallet-client';
+} from '@bitcode/auth/bitcoin-wallet-client';
 import {
   clearLocalBitcodeWalletIdentity,
   isPlausibleBitcoinAddress,
   readLocalBitcodeWalletIdentity,
   writeLocalBitcodeWalletIdentity,
   type LocalBitcodeWalletIdentity,
-} from '@/lib/bitcode-wallet-local';
-import { bitcodeQaTelemetry, compactBitcodeAddress } from '@/lib/bitcode-qa-telemetry';
+} from '@bitcode/auth/wallet-local';
+import { bitcodeQaTelemetry, compactBitcodeAddress } from '@bitcode/auth/qa-telemetry';
 
 import { formatWalletProviderLabel, readSupabaseClientReadiness } from '../models/wallet-connection-format';
 import { persistBitcoinWalletConnection } from '../models/wallet-connection-persist';

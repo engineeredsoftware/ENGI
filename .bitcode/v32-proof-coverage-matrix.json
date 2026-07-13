@@ -95,7 +95,7 @@
       "plannedGate": "Gate 4",
       "promotedBehavior": "Read Request to reviewed Need, Finding Fits, source-safe AssetPack preview, settlement boundary, and paid PR delivery.",
       "repairPosture": "Gate 4 enumerates every pipeline phase, PTRR agent, PTRR step, ThricifiedGeneration, prompt, tool, typed output, telemetry row, and storage record.",
-      "replayCommand": "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts src/__tests__/read-need.test.ts src/__tests__/asset-pack-disclosure.test.ts --runInBand && pnpm run check:v32-reading-pipeline-proof-coverage",
+      "replayCommand": "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts src/__tests__/read-need.test.ts src/__tests__/asset-pack-disclosure.test.ts --runInBand && pnpm run check:v32-reading-pipeline-proof-coverage",
       "requiredContexts": [
         "ReadNeedComprehensionSynthesis",
         "ReadFitsFindingSynthesis",
@@ -116,12 +116,12 @@
         "rights-transfer-mismatch",
         "stale-canon-posture"
       ],
-      "fixture": "packages/btd/__tests__/btc-fee-operation.test.ts; packages/btd/__tests__/btd.test.ts; packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts; packages/protocol/test/protocol-package-boundary.test.js",
-      "owner": "packages/btd; packages/protocol",
+      "fixture": "packages/btd/__tests__/btc-fee-operation.test.ts; packages/btd/__tests__/btd.test.ts; packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts; packages/specifying/test/protocol-package-boundary.test.js",
+      "owner": "packages/btd; packages/specifying",
       "plannedGate": "Gate 5",
       "promotedBehavior": "BTD ranges, read licenses, AssetPack mint/read/right-transfer receipts, BTC fee posture, and Protocol package canon helpers.",
       "repairPosture": "Gate 5 adds success, blocked, and repair-state coverage over fee, range, receipt, source-to-shares, right-transfer, and source-safe disclosure state.",
-      "replayCommand": "pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts __tests__/btd.test.ts __tests__/v32-ledger-btd-settlement-failure-states.test.ts && pnpm run check:v32-ledger-btd-settlement-failure-states && pnpm --filter @bitcode/protocol test",
+      "replayCommand": "pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts __tests__/btd.test.ts __tests__/v32-ledger-btd-settlement-failure-states.test.ts && pnpm run check:v32-ledger-btd-settlement-failure-states && pnpm --filter @bitcode/specifying test",
       "requiredContexts": [
         "BtdAssetPackMintReceipt",
         "BtdReadReceipt",
@@ -168,12 +168,12 @@
         "tool-schema-drift",
         "prompt-canon-drift"
       ],
-      "fixture": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/auth.test.ts; packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts; packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts",
-      "owner": "packages/executions-mcp/src/mcp-server",
+      "fixture": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/auth.test.ts; packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts; packages/mcp-generics/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts",
+      "owner": "packages/mcp-generics/src/mcp-server",
       "plannedGate": "Gate 6",
       "promotedBehavior": "MCP write admission, auth boundaries, pipeline tool contracts, prompt canon, and queued execution metadata.",
       "repairPosture": "Gate 6 aligns MCP contract fixtures with API, Terminal, ChatGPT App, and deferred interface blockers.",
-      "replayCommand": "pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts src/__tests__/unit/prompt-asset-pack-canon.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites",
+      "replayCommand": "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts src/__tests__/unit/prompt-asset-pack-canon.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites",
       "requiredContexts": [
         "tool schema",
         "write admission receipt",
@@ -193,7 +193,7 @@
         "missing-interface-blocker",
         "prompt-doc-drift"
       ],
-      "fixture": "packages/chatgptapp/src/__tests__/tools.test.ts; packages/chatgptapp/src/__tests__/yapperFlow.test.ts",
+      "fixture": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts; packages/external-apps/chatgpt/src/__tests__/yapperFlow.test.ts",
       "owner": "packages/chatgptapp",
       "plannedGate": "Gate 6",
       "promotedBehavior": "ChatGPT App tool surfaces, prompt documentation, interface integration seams, and source-safe tool responses.",
@@ -322,8 +322,8 @@
         "workflow-branch-mismatch",
         "unsafe-main-push"
       ],
-      "fixture": "scripts/check-bitcode-spec-family.mjs; scripts/check-bitcode-canonical-inputs.mjs; scripts/check-bitcode-canon-posture-drift.mjs; scripts/generate-bitcode-proven.mjs; scripts/generate-v32-promotion-proof-generation-hardening.mjs; scripts/generate-v32-promotion-readiness-report.mjs; scripts/check-v32-gate10-promotion-readiness.mjs; packages/protocol/test/v32-promotion-proof-generation.test.js; .github/workflows/bitcode-gate-quality.yml; .github/workflows/v32-canon-promotion.yml",
-      "owner": ".github/workflows; scripts; packages/protocol",
+      "fixture": "scripts/check-bitcode-spec-family.mjs; scripts/check-bitcode-canonical-inputs.mjs; scripts/check-bitcode-canon-posture-drift.mjs; scripts/generate-bitcode-proven.mjs; scripts/generate-v32-promotion-proof-generation-hardening.mjs; scripts/generate-v32-promotion-readiness-report.mjs; scripts/check-v32-gate10-promotion-readiness.mjs; packages/specifying/test/v32-promotion-proof-generation.test.js; .github/workflows/bitcode-gate-quality.yml; .github/workflows/v32-canon-promotion.yml",
+      "owner": ".github/workflows; scripts; packages/specifying",
       "plannedGate": "Gate 9 and Gate 10",
       "promotedBehavior": "Gate PR quality, version promotion workflow, spec-family checks, canonical input checks, canon-posture drift checks, and generated proof appendix.",
       "repairPosture": "Gate 9 hardens generated-proof diagnostics through .bitcode/v32-promotion-proof-generation-hardening.json; Gate 10 wires V32 promotion and post-promotion V33 draft posture.",

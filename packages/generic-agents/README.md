@@ -5,20 +5,20 @@ Base and product Agent implementations that extend `@bitcode/agent-generics` pri
 ## Hierarchy (names encode full ancestry)
 
 ```
-Agent                                         # primitive (@bitcode/agent-generics)
-        ↑
-PTRRAgent                                     # base + primitive (@bitcode/generic-agents-ptrr)
-        ↑
-product / measure / conversation agents       # specific + PTRR + Agent
+Agent # primitive (@bitcode/agent-generics)
+ ↑
+PTRRAgent # base + primitive (@bitcode/generic-agents-ptrr)
+ ↑
+product / measure / conversation agents # specific + PTRR + Agent
 ```
 
 ```
-@bitcode/agent-generics                 # factoryAgent, factoryQuickAgent, AgentExecution, substeps
-        ↑
-@bitcode/generic-agents-ptrr            # factoryPTRRAgent / factoryAgentWithPTRR → PTRRAgent
-        ↑
-@bitcode/generic-agent-*                # specialized agents (code-editor, danger-wall, …)
-@bitcode/generic-measurements-*-agent   # measurement agents over PTRR
+@bitcode/agent-generics # factoryAgent, factoryQuickAgent, AgentExecution, substeps
+ ↑
+@bitcode/generic-agents-ptrr # factoryPTRRAgent / factoryPTRRAgent → PTRRAgent
+ ↑
+@bitcode/generic-agent-* # specialized agents (code-editor, danger-wall, …)
+@bitcode/generic-measurements-*-agent # measurement agents over PTRR
 ```
 
 ## Packages

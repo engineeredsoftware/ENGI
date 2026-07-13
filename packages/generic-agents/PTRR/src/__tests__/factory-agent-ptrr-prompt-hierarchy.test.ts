@@ -33,7 +33,7 @@ jest.mock('@bitcode/agent-generics/execution', () => ({
   },
 }));
 
-import { factoryAgentWithPTRR } from '../ptrr-factory';
+import { factoryPTRRAgent } from '../ptrr-factory';
 
 const OutputSchema = z.object({ ok: z.boolean() });
 function promptRegistry(name) {
@@ -51,14 +51,14 @@ function stepPromptRegistry() {
   };
 }
 
-describe('factoryAgentWithPTRR Bitcode prompt hierarchy', () => {
+describe('factoryPTRRAgent Bitcode prompt hierarchy', () => {
   it('requires a Registry-backed agent prompt carrier and all PTRR step Prompt registries', () => {
     expect(() =>
-      factoryAgentWithPTRR({ name: 'missing-prompt-carrier', outputSchema: OutputSchema } as any)
+      factoryPTRRAgent({ name: 'missing-prompt-carrier', outputSchema: OutputSchema } as any)
     ).toThrow(/requires a Bitcode Registry-backed prompt carrier/u);
 
     expect(() =>
-      factoryAgentWithPTRR({
+      factoryPTRRAgent({
         name: 'partial-step-prompts',
         outputSchema: OutputSchema,
         prompt: promptRegistry('system'),
@@ -68,7 +68,7 @@ describe('factoryAgentWithPTRR Bitcode prompt hierarchy', () => {
   });
 
   it('accepts primary prompt + stepPrompts carrier', () => {
-    const agent = factoryAgentWithPTRR({
+    const agent = factoryPTRRAgent({
       name: 'primary-carrier',
       outputSchema: OutputSchema,
       prompt: promptRegistry('system'),
@@ -80,7 +80,7 @@ describe('factoryAgentWithPTRR Bitcode prompt hierarchy', () => {
   });
 
   it('accepts compact prompts.system + plan/try/refine/retry carrier', () => {
-    const agent = factoryAgentWithPTRR({
+    const agent = factoryPTRRAgent({
       name: 'compact-carrier',
       outputSchema: OutputSchema,
       prompts: { system: promptRegistry('system'), ...stepPromptRegistry() },

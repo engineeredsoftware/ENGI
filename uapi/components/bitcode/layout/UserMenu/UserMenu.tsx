@@ -4,7 +4,7 @@ import * as React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as Avatar from "@radix-ui/react-avatar";
 import classNames from "classnames";
-import menuStyles from '../menus/glassy-menu.module.css';
+import menuStyles from '../../menus/GlassyMenu/glassy-menu.module.css';
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 import { AuxillariesSolarIcon } from '@/components/bitcode/layout/AuxillariesSolarIcon/AuxillariesSolarIcon';
 import {

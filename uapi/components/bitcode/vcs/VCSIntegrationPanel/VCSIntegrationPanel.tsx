@@ -8,7 +8,7 @@ import { Label } from '@/components/shadcn/Label/Label';
 import { Button } from '@/components/shadcn/Button/Button';
 import { VCSConnectionCard } from '@/components/bitcode/vcs/VCSConnectionCard/VCSConnectionCard';
 import { PersonalAccessTokenForm } from '@/components/bitcode/vcs/PersonalAccessTokenForm/PersonalAccessTokenForm';
-import { VCSProviderType } from '@bitcode/vcs-core';
+import { VCSProviderType } from '@bitcode/vcs-generics-core';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { GitBranch, Server, Info } from 'lucide-react';
 import {

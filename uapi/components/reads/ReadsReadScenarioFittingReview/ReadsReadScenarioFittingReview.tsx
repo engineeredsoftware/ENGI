@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Exchange read-fitting review card for the scenario panel (source-safe metrics).
  */
-'use client';
 
 import React from 'react';
 import BitcodeMetricGrid from '@/components/bitcode/pipeline/BitcodeMetricGrid/BitcodeMetricGrid';

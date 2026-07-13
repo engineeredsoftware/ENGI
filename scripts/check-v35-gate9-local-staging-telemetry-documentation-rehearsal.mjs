@@ -113,20 +113,20 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/protocol/src/canonical/local-staging-telemetry-documentation-rehearsal.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/test/v35-local-staging-telemetry-documentation-rehearsal.test.js',
+    'packages/specifying/src/canonical/local-staging-telemetry-documentation-rehearsal.js',
+    'packages/specifying/src/index.js',
+    'packages/specifying/src/index.d.ts',
+    'packages/specifying/test/v35-local-staging-telemetry-documentation-rehearsal.test.js',
     'scripts/generate-v35-local-staging-telemetry-documentation-rehearsal.mjs',
     'scripts/check-v35-gate9-local-staging-telemetry-documentation-rehearsal.mjs',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'packages/specifying/src/canonical/v21-specifying.js',
     'BITCODE_SPEC_V35.md',
     'BITCODE_SPEC_V35_DELTA.md',
     'BITCODE_SPEC_V35_NOTES.md',
     'BITCODE_SPEC_V35_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'internal-docs/README.md',
     'uapi/app/terminal/README.md',
     'uapi/app/docs/bitcode-docs-content.ts',
@@ -150,7 +150,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'packages/specifying',
         'exec',
         'node',
         '--test',
@@ -232,9 +232,9 @@ function main() {
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const rootPackage = read(root, 'package.json');
-  const protocolIndex = read(root, 'packages/protocol/src/index.js');
-  const protocolDts = read(root, 'packages/protocol/src/index.d.ts');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolIndex = read(root, 'packages/specifying/src/index.js');
+  const protocolDts = read(root, 'packages/specifying/src/index.d.ts');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
   const rootReadme = read(root, 'README.md');
   const internalDocs = read(root, 'internal-docs/README.md');
   const terminalDocs = read(root, 'uapi/app/terminal/README.md');

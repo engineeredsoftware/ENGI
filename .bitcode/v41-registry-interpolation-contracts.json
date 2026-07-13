@@ -845,7 +845,7 @@
       "contractId": "gate2-inventory-registry-coverage-binding",
       "label": "Gate 2 PromptPart and Prompt inventory binds prompt registry coverage before Gate 3 contract closure",
       "sourceRoots": [
-        "packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js",
+        "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
         ".bitcode/v41-promptpart-prompt-inventory.json"
       ],
       "registryIds": [
@@ -1208,32 +1208,32 @@
     },
     {
       "id": "gate2.inventory-passed",
-      "sourcePath": "packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js",
+      "sourcePath": "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
       "passed": true
     },
     {
       "id": "gate2.inventory-has-registry-paths",
-      "sourcePath": "packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js",
+      "sourcePath": "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
       "passed": true
     },
     {
       "id": "gate2.inventory-has-template-variables",
-      "sourcePath": "packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js",
+      "sourcePath": "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
       "passed": true
     },
     {
       "id": "gate2.inventory-has-reading-prompts",
-      "sourcePath": "packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js",
+      "sourcePath": "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
       "passed": true
     },
     {
       "id": "gate2.inventory-has-tool-prompts",
-      "sourcePath": "packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js",
+      "sourcePath": "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
       "passed": true
     },
     {
       "id": "gate2.inventory-prepares-v42-roadmap",
-      "sourcePath": "packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js",
+      "sourcePath": "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
       "passed": true
     }
   ],
@@ -1389,7 +1389,7 @@
       "sourceHash": "6f2f0890c8756555fedee525"
     },
     {
-      "sourcePath": "packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js",
+      "sourcePath": "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
       "exists": true,
       "legacy": false,
       "sourceHash": "75952a25cc72ee8b58d5a956"

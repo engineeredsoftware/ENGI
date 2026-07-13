@@ -116,8 +116,8 @@ function main() {
     'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
     'uapi/app/terminal/terminal-pipeline-host-client.ts',
     'uapi/tests/terminalPipelineHarnessClient.test.ts',
-    'packages/protocol/src/canonical/v42-settlement-rights-delivery.js',
-    'packages/protocol/test/v42-settlement-rights-delivery.test.js',
+    'packages/specifying/src/canonical/v42-settlement-rights-delivery.js',
+    'packages/specifying/test/v42-settlement-rights-delivery.test.js',
     'scripts/generate-v42-settlement-rights-delivery.mjs',
     'scripts/check-v42-gate6-settlement-rights-delivery.mjs',
     'BITCODE_SPEC_V42.md',
@@ -127,7 +127,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'packages/asset-packs-pipelines/domain/README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'uapi/app/terminal/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -151,7 +151,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v42-settlement-rights-delivery.test.js',
+        'packages/specifying/test/v42-settlement-rights-delivery.test.js',
       ]);
     } catch (error) {
       failures.push(`V42 settlement rights delivery protocol test failed: ${error.stderr || error.message}`);

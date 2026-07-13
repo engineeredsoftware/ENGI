@@ -1,7 +1,7 @@
 # Bitcode Codebase Familiarization Guide
 
 Status: living map of the commercial Bitcode repository (V48 draft target; active
-canon pointer on `main` is V47 until promotion).  
+canon pointer on `main` is V47 until promotion).
 Audience: humans and coding agents who need to read the tree file-by-file without
 guessing architecture.
 
@@ -102,37 +102,37 @@ Bitcode repeats one encapsulation pattern across agents, tools, pipelines, LLMs,
 and prompts:
 
 ```
-*-generics / primitive package     →  types, factories, composition combinators
-generic-* packages                 →  reusable base implementations
-domain package (e.g. asset-pack)   →  product-specific specializations
-uapi                               →  HTTP + React adapters only
+*-generics / primitive package → types, factories, composition combinators
+generic-* packages → reusable base implementations
+domain package (e.g. asset-pack) → product-specific specializations
+uapi → HTTP + React adapters only
 ```
 
 ### 3.1 Agents
 
 ```
-@bitcode/execution-generics     Execution + Executor (lowest runtime primitive)
-        ↑
-@bitcode/agent-generics         Agent : Executor, PTRR steps over generations
-        ↑
-@bitcode/generic-agents/*       Base agents (VCS, danger-wall, code-editor, …)
-        ↑
-@bitcode/asset-packs-pipelines-domain    Deposit/read SDIVF agents (setup/discovery/…)
+@bitcode/execution-generics Execution + Executor (lowest runtime primitive)
+ ↑
+@bitcode/agent-generics Agent : Executor, PTRR steps over generations
+ ↑
+@bitcode/generic-agents/* Base agents (VCS, danger-wall, code-editor, …)
+ ↑
+@bitcode/asset-packs-pipelines-domain Deposit/read SDIVF agents (setup/discovery/…)
 ```
 
 ### 3.1.1 Measurements
 
 ```
-@bitcode/measurement-generics                    Measurement primitive vocabulary
-        ↑
-@bitcode/generic-measurements-measure-agent      MeasureAgent (PTRR base)
-@bitcode/generic-measurements-absolutes          AbsolutesMeasureAgent
-@bitcode/generic-measurements-needinesses        Needinesses surface (Gate 4)
-        ↑
-@bitcode/generic-asset-packs-synthesis           SynthesizeAssetPacksAbsolutesMeasureAgent + catalogs
-@bitcode/generic-asset-packs-settle              SettleAssetPacks* (Gate 6 surface)
-        ↑
-@bitcode/asset-packs-pipelines-domain                     SDIVF pipeline host (static-analysis tools, phases)
+@bitcode/measurement-generics Measurement primitive vocabulary
+ ↑
+@bitcode/generic-measurements-measure-agent MeasureAgent (PTRR base)
+@bitcode/generic-measurements-absolutes AbsolutesMeasureAgent
+@bitcode/generic-measurements-needinesses Needinesses surface (Gate 4)
+ ↑
+@bitcode/generic-asset-packs-synthesis SynthesizeAssetPacksAbsolutesMeasureAgent + catalogs
+@bitcode/generic-asset-packs-settle SettleAssetPacks* (Gate 6 surface)
+ ↑
+@bitcode/asset-packs-pipelines-domain SDIVF pipeline host (static-analysis tools, phases)
 ```
 
 Package paths: `packages/measurement-generics/`, `packages/generic-measurements/*`
@@ -144,19 +144,19 @@ Hierarchy names: `Measurement` → `AbsolutesMeasureAgent` →
 ### 3.1.2 Generations (FailsafeGeneration + ThinkingsGeneration)
 
 ```
-Generation                                    # primitive (@bitcode/generation-generics)
-        ↑
-FailsafeGeneration                            # base kinds: PCC / ChunkThenSum / Stitch
-ThinkingsGeneration                           # base kinds: Reason → Judge → StructuredOutput
-        ↑
-@bitcode/generic-generations-failsafes        failsafes/ — prepared-context + Failsafe surface
-@bitcode/generic-generations-thinkings        thinkings/ — Thinkings vocabulary surface
-        ↑
-@bitcode/agent-generics                       Agent primitive; LLM-bound generation factories
-        ↑
-@bitcode/generic-agents-ptrr                  PTRRAgent steps compose Failsafe + Thinkings
-        ↑
-product agents                                specialized prompts/tools (no reimplementation)
+Generation # primitive (@bitcode/generation-generics)
+ ↑
+FailsafeGeneration # base kinds: PCC / ChunkThenSum / Stitch
+ThinkingsGeneration # base kinds: Reason → Judge → StructuredOutput
+ ↑
+@bitcode/generic-generations-failsafes failsafes/ — prepared-context + Failsafe surface
+@bitcode/generic-generations-thinkings thinkings/ — Thinkings vocabulary surface
+ ↑
+@bitcode/agent-generics Agent primitive; LLM-bound generation factories
+ ↑
+@bitcode/generic-agents-ptrr PTRRAgent steps compose Failsafe + Thinkings
+ ↑
+product agents specialized prompts/tools (no reimplementation)
 ```
 
 Package paths: `packages/generic-generations/{failsafes,thinkings}/`,
@@ -172,7 +172,7 @@ Package paths: `packages/generic-generations/{failsafes,thinkings}/`,
 Each FailsafeGeneration runs **ThinkingsGeneration**: Reason → Judge → StructuredOutput.
 Tools run after failsafes (postprocess).
 
-**Legacy naming (BC only):** `FailsafeMetaSubStep`, `GenerationSubMetaSubStep`, `SubStep` —
+**Legacy naming :** `FailsafeGeneration`, `ThinkingsGeneration`, `SubStep` —
 SubStep was the old term for Generation within a Step; Meta is not a term. Prefer
 `FailsafeGeneration` / `ThinkingsGeneration`.
 
@@ -183,18 +183,18 @@ state **keys**, not a second state bag.
 ### 3.1.2b Execution / Executor hierarchy (no separate Context state)
 
 ```
-@bitcode/execution-generics                 Execution (state primitive)
-@bitcode/executor-generics                  Executor (sequence primitive)
-        ↑
-@bitcode/generic-executors                  sequential, parallel, pipe, retry, …
-@bitcode/generic-executions                 process-root Execution helpers
-        ↑
-product pipelines / agents                  own Execution trees
+@bitcode/execution-generics Execution (state primitive)
+@bitcode/executor-generics Executor (sequence primitive)
+ ↑
+@bitcode/generic-executors sequential, parallel, pipe, retry, …
+@bitcode/generic-executions process-root Execution helpers
+ ↑
+product pipelines / agents own Execution trees
 ```
 
 Process defaults formerly called `GlobalContext` are a **process-root Execution**
-(`initializeProcessRoot` / `getProcessRootExecution`). `@bitcode/context-generics`
-(+ `@bitcode/context` barrel) is BC only.
+(`initializeProcessRoot` / `getProcessRootExecution`). Prefer `@bitcode/generic-executions`;
+Process-root helpers live in `@bitcode/generic-executions` (also re-exported from `@bitcode/execution-generics`). There is no `@bitcode/context-generics` dual.
 
 LLM-bound failsafe/thinkings **factories** still execute via `AgentExecution`
 inside `agent-generics` until inverted onto pure Execution + LLM registry.
@@ -205,24 +205,24 @@ inside `agent-generics` until inverted onto pure Execution + LLM registry.
 | Base | `FailsafeGeneration` | PCC / ChunkThenSum / Stitch kinds |
 | Base | `ThinkingsGeneration` | Reason / Judge / StructuredOutput kinds |
 | Primitive | `Agent` | `factoryAgent`, `factoryQuickAgent` |
-| Base + primitive | `PTRRAgent` | `factoryPTRRAgent` (`factoryAgentWithPTRR` BC) |
+| Base + primitive | `PTRRAgent` | `factoryPTRRAgent` |
 | Specific | product agents | specialized configs over `factoryPTRRAgent` |
 
 ### 3.1.3 AssetPacks (primitive → measured-patch → product)
 
 ```
-@bitcode/asset-packs-generics                     AssetPack primitive (protocol minimum)
-        ↑
-@bitcode/generic-asset-packs-measured-patch       MeasuredPatchAssetPack (only AP base)
-@bitcode/generic-asset-packs-synthesis            Synthesize measurement catalogs / Absolutes agent
-@bitcode/generic-asset-packs-settle               Settle product surface
-        ↑
-@bitcode/asset-packs-pipelines-*                  synthesize-deposits / -reads / settle-reads
-@bitcode/asset-packs-pipelines-domain                      agents, tools, deposit options helpers
+@bitcode/asset-packs-generics AssetPack primitive (protocol minimum)
+ ↑
+@bitcode/generic-asset-packs-measured-patch MeasuredPatchAssetPack (only AP base)
+@bitcode/generic-asset-packs-synthesis Synthesize measurement catalogs / Absolutes agent
+@bitcode/generic-asset-packs-settle Settle product surface
+ ↑
+@bitcode/asset-packs-pipelines-* synthesize-deposits / -reads / settle-reads
+@bitcode/asset-packs-pipelines-domain agents, tools, deposit options helpers
 ```
 
 Package paths: `packages/asset-packs-generics/`, `packages/generic-asset-packs/*`.
-BC: `@bitcode/asset-packs-generics`, `@bitcode/generic-asset-packs-synthesis`, `@bitcode/generic-asset-packs-settle`.
+Packages: `@bitcode/asset-packs-generics`, `@bitcode/generic-asset-packs-synthesis`, `@bitcode/generic-asset-packs-settle`.
 
 | Layer | Type | Role |
 | --- | --- | --- |
@@ -234,15 +234,15 @@ BC: `@bitcode/asset-packs-generics`, `@bitcode/generic-asset-packs-synthesis`, `
 ### 3.1.4 Artifacts (primitive → types + storage providers)
 
 ```
-@bitcode/artifact-generics                        Artifact + ArtifactStorage contract
-        ↑
-@bitcode/generic-artifacts-patch                  type: path+op patch
-@bitcode/generic-artifacts-aws                    storage: S3
-@bitcode/generic-artifacts-supabase               storage: Supabase
-@bitcode/generic-artifacts-vercel                 storage: Vercel Blob
-        ↑
-@bitcode/artifacts                                compose providers (aws → supabase → vercel)
-@bitcode/generic-asset-packs-synthesis            AssetPackPatchArtifact product
+@bitcode/artifact-generics Artifact + ArtifactStorage contract
+ ↑
+@bitcode/generic-artifacts-patch-kind type: path+op patch
+@bitcode/generic-artifacts-aws-provider storage: S3
+@bitcode/generic-artifacts-supabase-provider storage: Supabase
+@bitcode/generic-artifacts-vercel-provider storage: Vercel Blob
+ ↑
+@bitcode/generic-artifacts-compose compose providers (aws → supabase → vercel)
+@bitcode/generic-asset-packs-synthesis AssetPackPatchArtifact product
 ```
 
 No standalone `@bitcode/aws` package — S3 for artifacts is `generic-artifacts-aws`.
@@ -257,12 +257,12 @@ No standalone `@bitcode/aws` package — S3 for artifacts is `generic-artifacts-
 ### 3.1.5 Attachments (primitive → file | external)
 
 ```
-@bitcode/attachment-generics                      BaseAttachment; categories file|external
-        ↑
-@bitcode/generic-attachments-file                 FileAttachment
-@bitcode/generic-attachments-external             ExternalAttachment (Externals auxillary)
-        ↑
-@bitcode/attachments-generics                     BC barrel
+@bitcode/attachment-generics BaseAttachment; categories file|external
+ ↑
+@bitcode/generic-attachments-file FileAttachment
+@bitcode/generic-attachments-external ExternalAttachment (Externals auxillary)
+ ↑
+@bitcode/attachments-generics composition barrel
 ```
 
 | Category | Role |
@@ -276,11 +276,11 @@ Removed: `vcs`, `url`. VCS attaches as **external**.
 
 
 ```
-@bitcode/vcs-generics                      VCS primitives (AbstractVCSProvider, factory, service)
-        ↑
-@bitcode/generic-vcs-{github|gitlab|bitbucket}   Provider bases (implements AbstractVCSProvider)
-@bitcode/generic-vcs-git                   Git-shaped bridge over providers
-        ↑
+@bitcode/vcs-generics VCS primitives (AbstractVCSProvider, factory, service)
+ ↑
+@bitcode/generic-vcs-{github|gitlab|bitbucket} Provider bases (implements AbstractVCSProvider)
+@bitcode/generic-vcs-git Git-shaped bridge over providers
+ ↑
 @bitcode/generic-tools-vcs / generic-agents-vcs / mcps-tools/{github,gitlab,bitbucket}
 ```
 
@@ -288,39 +288,39 @@ Package paths: `packages/vcs-generics/`, `packages/generic-vcs/*`.
 
 **Law:** every VCS provider lives under `generic-vcs/<provider>` and extends
 `VCSProvider` from `vcs-generics`. Shims `@bitcode/{vcs,github,gitlab,bitbucket,git}`
-are BC re-exports only.
+are removed — use hierarchy packages only.
 
 ### 3.2 Tools
 
 ```
-@bitcode/tools-generics         Tool abstract class, factoryTool, ToolUse → UsedTool
-        ↑
-@bitcode/generic-tools/*        Editing, VCS, web-search, LSP, multimodal, …
-        ↑
-pipeline-local tools            e.g. AssetPackLexicalDepositorySearchTool
+@bitcode/tools-generics Tool abstract class, factoryTool, ToolUse → UsedTool
+ ↑
+@bitcode/generic-tools/* Editing, VCS, web-search, LSP, multimodal, …
+ ↑
+pipeline-local tools e.g. AssetPackLexicalDepositorySearchTool
 ```
 
 ### 3.2.1 Hosts
 
 ```
-@bitcode/host-generics                         BitcodePipelineHost primitive
-        ↑
-@bitcode/generic-hosts-local                   LocalHost (default; was InlineHost)
-@bitcode/generic-hosts-vercel-sandbox          VercelSandboxHost / PipelineHost
-        ↑
-@bitcode/pipeline-hosts                        Host orchestration + BC re-exports
+@bitcode/host-generics BitcodePipelineHost primitive
+ ↑
+@bitcode/generic-hosts-local LocalHost (default; was InlineHost)
+@bitcode/generic-hosts-vercel-sandbox VercelSandboxHost / PipelineHost
+ ↑
+@bitcode/pipeline-hosts Host orchestration + composition re-exports
 ```
 
-`BITCODE_PIPELINE_HOST`: unset|`local` (default; `inline` alias) | `sandbox`.
+`BITCODE_PIPELINE_HOST`: unset|`local` (default; `local` only (no `inline`)) | `sandbox`.
 
 ### 3.2.2 MCP
 
 ```
-@bitcode/mcp-generics                          MCP primitives (McpConfig, schema, validate)
-        ↑
-@bitcode/generic-mcps-bitcode                  Bitcode Exchange-facing MCP server
-        ↑
-@bitcode/mcp / @bitcode/mcp-server             BC re-exports (was packages/executions-mcp)
+@bitcode/mcp-generics MCP primitives (McpConfig, schema, validate)
+ ↑
+@bitcode/generic-mcps-bitcode Bitcode Exchange-facing MCP server
+ ↑
+@bitcode/mcp-generics / @bitcode/generic-mcps-bitcode composition re-exports (was packages/executions-mcp)
 ```
 
 Package paths: `packages/mcp-generics/`, `packages/generic-mcps/bitcode/`.
@@ -343,22 +343,22 @@ Package paths: `packages/mcp-generics/`, `packages/generic-mcps/bitcode/`.
 packages under `packages/asset-packs-pipelines/*`.
 
 ```
-@bitcode/pipelines-generics              Pipeline primitive
-        ↑
-@bitcode/generic-pipelines-sdivf         SDIVFPipeline base (Setup-[DIV]*-Finish)
-@bitcode/generic-pipelines-simple        SimplePipeline base (linear stages)
-        ↑
+@bitcode/pipelines-generics Pipeline primitive
+ ↑
+@bitcode/generic-pipelines-sdivf SDIVFPipeline base (Setup-[DIV]*-Finish)
+@bitcode/generic-pipelines-simple SimplePipeline base (linear stages)
+ ↑
 @bitcode/asset-packs-pipelines-synthesize-deposits
 @bitcode/asset-packs-pipelines-synthesize-reads
-@bitcode/asset-packs-pipelines-settle-asset-packs   # validate → BTC/BTD/rights → PR ship
-@bitcode/asset-packs-pipelines-domain             agents/tools/domain + BC dual entry
-@bitcode/pipeline-hosts                  Local host + Vercel Sandbox host
+@bitcode/asset-packs-pipelines-settle-asset-packs # validate → BTC/BTD/rights → PR ship
+@bitcode/asset-packs-pipelines-domain agents/tools/domain
+@bitcode/pipeline-hosts Local host + Vercel Sandbox host
 ```
 
-**SDIVF** = Setup → Discovery → Implementation → Validation → Finish  
+**SDIVF** = Setup → Discovery → Implementation → Validation → Finish
 **Simple** = ordered linear stages (no DIV loop).
 
-Deprecated short aliases (`synthesizeAssetPacksPipeline`, …) remain for BC.
+Deprecated short aliases (`synthesizeAssetPacksPipeline`, …) remain .
 
 Product UI says **Pipeline**. Low-level packages may still say `execution` /
 `Execution` — do **not** rename `execution-generics` blindly.
@@ -366,12 +366,12 @@ Product UI says **Pipeline**. Low-level packages may still say `execution` /
 ### 3.4 LLMs
 
 ```
-@bitcode/llm-generics                    Provider-agnostic LLM call primitives
-        ↑
-@bitcode/generic-llms-{xai|openai|…}     Nested providers under packages/generic-llms/
-@bitcode/generic-llms-defaults           Env-resolved default provider/model
-        ↑
-@bitcode/generic-llms                    registry/ aggregator (all providers)
+@bitcode/llm-generics Provider-agnostic LLM call primitives
+ ↑
+@bitcode/generic-llms-{xai|openai|…} Nested providers under packages/generic-llms/
+@bitcode/generic-llms-defaults Env-resolved default provider/model
+ ↑
+@bitcode/generic-llms registry/ aggregator (all providers)
 ```
 
 `packages/generic-*` is always a **family of nested packages** (never a flat
@@ -384,13 +384,13 @@ boundary in tests only).
 ### 3.5 Prompts
 
 ```
-@bitcode/registry               Hierarchical typed registry primitive
-        ↑
-@bitcode/prompts                Prompt (Registry of PromptPart), formatters
-        ├── parts/PromptPart.ts   Branded string type
-        └── raw_promptparts/      ALL PromptPart source content in Bitcode
-              ├── generic/        Shared base parts
-              └── specific/       Domain-specific parts (large index)
+@bitcode/registry Hierarchical typed registry primitive
+ ↑
+@bitcode/prompts Prompt (Registry of PromptPart), formatters
+ ├── parts/PromptPart.ts Branded string type
+ └── raw_promptparts/ ALL PromptPart source content in Bitcode
+ ├── generic/ Shared base parts
+ └── specific/ Domain-specific parts (large index)
 ```
 
 **Rule:** PromptPart *implementations* live in `packages/prompts` (or are
@@ -409,20 +409,20 @@ they do not scatter ad-hoc mega-strings across the app without the registry.
 
 ```
 bitcode/
-├── AGENTS.md, README.md, FAMILIARIZATION.md   # this guide
-├── BITCODE_SPEC*.md / BITCODE_SPEC.txt        # canon family
+├── AGENTS.md, README.md, FAMILIARIZATION.md # this guide
+├── BITCODE_SPEC*.md / BITCODE_SPEC.txt # canon family
 ├── BITCODE_SPECIFYING.md
-├── packages/                                  # domain monorepo (pnpm workspace)
-├── uapi/                                      # Next.js commercial website
-├── supabase/                                  # migrations, queries, seed
-├── scripts/                                   # gate checkers, promotion, generators
-├── .bitcode/                                  # generated structured artifacts
-├── protocol-demonstration/                    # protocol realization (not V48 UI truth)
-├── fixtures/                                  # JSON fixtures
-├── internal-docs/                             # engineering docs
-├── docs/                                      # public-facing API docs fragments
-├── tests/                                     # root jest setup (limited)
-├── _legacy/                                   # IGNORE — historical only
+├── packages/ # domain monorepo (pnpm workspace)
+├── uapi/ # Next.js commercial website
+├── supabase/ # migrations, queries, seed
+├── scripts/ # gate checkers, promotion, generators
+├── .bitcode/ # generated structured artifacts
+├── protocol-demonstration/ # protocol realization (not V48 UI truth)
+├── fixtures/ # JSON fixtures
+├── internal-docs/ # engineering docs
+├── docs/ # public-facing API docs fragments
+├── tests/ # root jest setup (limited)
+├── _legacy/ # IGNORE — historical only
 └── codemod/, infra/, …
 ```
 
@@ -452,14 +452,14 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `generic-measurements-absolutes` | AbsolutesMeasureAgent base |
 | `generic-measurements-needinesses` | Needinesses framing surface (Gate 4) |
 | `generic-measurements-tech-types` | Tech/stack signals as absolute measurement vocabulary |
-| `asset-packs-generics` | AssetPack protocol primitive (BC: `asset-pack-generics`) |
+| `asset-packs-generics` | AssetPack protocol primitive (`@bitcode/asset-packs-generics`) |
 | `generic-asset-packs-synthesis` | Synthesize measurement catalogs + product AbsolutesMeasureAgent |
 | `generic-asset-packs-settle` | Settle product surface (Gate 6) |
 | `llm-generics` | Pure LLM call contracts |
-| `generic-llms-models` | Model configs + USD pricing (BC: `@bitcode/models`) |
+| `generic-llms-models` | Model configs + USD pricing (`@bitcode/generic-llms-models`) |
 | `registry` | Hierarchical registry (Prompt is a Registry) |
 | `prompts` | Prompt + PromptPart + **all** raw prompt parts |
-| `context-generics` / `context` | BC only — process-root Execution, not a parallel Context state |
+| `context-generics` | Process-root Execution helpers (prefer `@bitcode/generic-executions`) |
 | `logger` | Shared logging |
 | `files` | **File primitives** (`FilePath`, `FileOp`, `FileChange`, path + security helpers) |
 
@@ -474,13 +474,13 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `generic-generations/*` | Nested generation bases: failsafes, thinkings |
 | `generic-measurements/*` | Nested measurement bases: measure-agent, absolutes, needinesses, tech-types |
 | `generic-asset-packs/*` | Measured-patch base + synthesis/settle product surfaces |
-| `generic-vcs/*` | github, gitlab, bitbucket, git (BC: `@bitcode/{github,gitlab,…}`) |
+| `generic-vcs/*` | github, gitlab, bitbucket, git (`@bitcode/generic-vcs-*`) |
 | `generic-hosts/*` | Local, VercelSandbox |
 | `generic-artifacts/*` | patch type + aws/supabase/vercel storage |
 | `generic-attachments/*` | file \| external attachment bases |
 | `generic-doc-comments/*` | doc-code, doc-developing over `doc-comment-generics` |
 | `generic-mcps/bitcode` | Exchange-facing MCP server |
-| `doc-comment-generics` | Doc-comment plugin primitives (BC `@bitcode/doc-comment`) |
+| `doc-comment-generics` | Doc-comment plugin primitives |
 | `file-editing` / `file-refactoring` | Atomic edits + symbol rename over `@bitcode/files` |
 | `containerizations/*` | docker, kubernetes |
 | `web-scrapers/firecrawl` | Firecrawl scrape/crawl/search client |
@@ -491,10 +491,13 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `ci/circle` | CircleCI |
 | `email/supabase` | Email via Supabase (`@bitcode/email`) |
 | `linting/eslint` | `eslint-plugin-bitcode` |
-| `host-commands/grep` | Host grep primitive (BC `@bitcode/simple-system-text-search`) |
+| `host-commands/grep` | Host grep primitive |
 | `security/*` | encryption, credentials, rate-limiting, audit, validation, headers, … |
-| `obfuscation` | Privacy-preserving transforms (BC `@bitcode/obfuscate`) |
-| `conversations` | Conversation domain types (BC `@bitcode/conversations-generics`) |
+| `obfuscation` | Privacy-preserving transforms |
+| `conversations` | Conversation domain types |
+
+**Canon law:** the current package tree is the one-and-only canon — no dual package
+homes, no compatibility package aliases, no “compatibility remains for callers” layer.
 
 **`*-generics` law:** use only when a matching `generic-*` implementor family exists
 (e.g. `vcs-generics` + `generic-vcs/*`). Plain domains use plain names
@@ -504,12 +507,11 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 
 | Package | Responsibility |
 | --- | --- |
-| `asset-packs-pipelines/domain` (`@bitcode/asset-packs-pipelines-domain`; BC `@bitcode/asset-packs-pipelines-domain`; BC `@bitcode/pipeline-asset-pack`) | **SynthesizeAssetPacks**, deposit options/policy/admission/earnings, depository search/supply, settlement/rights contracts, deposit agents |
+| `asset-packs-pipelines/domain` (`@bitcode/asset-packs-pipelines-domain`) | **SynthesizeAssetPacks**, deposit options/policy/admission/earnings, depository search/supply, settlement/rights contracts, deposit agents |
 | `asset-packs-pipelines/*` | Product SDIVF/Simple pipelines (synthesize-deposits/reads, settle-reads) |
 | `pipeline-hosts` | AssetPack host orchestration barrel over `host-generics` + `generic-hosts/*` |
 | `btd` | BTD measurement, journal, authority, settlement, interface contracts |
-| `protocol` | Demo/runtime shell for protocol demonstration (**not** the whole monorepo “protocol”) |
-| `protocol-canonical` | Preferred name for generators; implementation still under `protocol/src/canonical` until uncoupled |
+| `specifying` (`@bitcode/specifying`) | Gate proof generators, canon posture, promotion helpers, transitional demo-engine bridge. **Not** “the protocol” — the monorepo is protocol canon |
 | `api` | Route orchestration **and** API primitives: `src/responses/`, `src/streams/` |
 
 **Deposit domain modular layout:** public entries remain stable
@@ -524,11 +526,10 @@ helpers live in `deposit-source-safe-utils.ts`.
 | `auth` | Wallet local identity, Bitcoin wallet client, OAuth, Supabase auth redirect |
 | `vcs-generics` | VCS primitives (`AbstractVCSProvider`, factory, service) |
 | `generic-vcs/*` | Provider implementations (github, gitlab, bitbucket, git) |
-| `vcs` / `github` / `gitlab` / `bitbucket` / `git` | BC re-exports only |
 | `generic-tools/vcs` + `generic-agents-vcs` | VCS tools and agent (not providers) |
 | `supabase` | Supabase clients (live data plane) |
 | `externals/{figma,jira,notion,vercel}` | Third-party product APIs (not telemetry) |
-| `figma` / `jira` / `notion` / `vercel` / `circleci` | BC re-exports of externals / ci |
+| `figma` / `jira` / `notion` / `vercel` / `circleci` | composition re-exports of externals / ci |
 
 ### 5.5 Data, storage, security, telemetry
 
@@ -539,12 +540,12 @@ helpers live in `deposit-source-safe-utils.ts`.
 | `file-editing` / `file-refactoring` | Atomic edit transactions; LSP rename |
 | `artifacts` + `generic-artifacts/*` | Artifact compose + storage providers |
 | `browser-storage` | Browser storage helpers |
-| `api/src/streams` (`@bitcode/api/streams`; BC `@bitcode/streams`) | Streaming progress helpers |
-| `api/src/responses` (`@bitcode/api/responses`; BC `@bitcode/responses`) | HTTP JSON/stream response helpers |
+| `api/src/streams` (`@bitcode/api/streams`) | Streaming progress helpers |
+| `api/src/responses` (`@bitcode/api/responses`) | HTTP JSON/stream response helpers |
 | `containerizations/{docker,kubernetes}` | Container runtime integrations |
 | `web-scrapers/firecrawl` | Firecrawl client |
 | `postgresql` | Optional DB MCP helper (not product storage) |
-| `security/*` | Split security utilities; BC barrel `@bitcode/security` |
+| `security/*` | Split security utilities; composition barrel `@bitcode/security` |
 | `external-telemetry/*` | Google / Sentry / Vercel analytics adapters |
 | `observability` | Product analytics composition over external-telemetry |
 
@@ -557,10 +558,10 @@ helpers live in `deposit-source-safe-utils.ts`.
 | Package | Responsibility |
 | --- | --- |
 | `conversations` | Conversation domain types and agent/prompt substrate |
-| `external-apps/chatgpt` | ChatGPT App MCP (BC `@bitcode/chatgptapp`) |
+| `external-apps/chatgpt` | ChatGPT App MCP |
 | `external-apps/claude` | Claude Code plugin scaffold |
 | `mcp-generics` / `generic-mcps-bitcode` | MCP primitives + Exchange server |
-| `mcp` / `mcp-server` | BC re-exports |
+| `mcp` / `mcp-server` | composition re-exports |
 | `templates-generics` | **Shippable / evidence-document** templates in Supabase — **not** prompt templating |
 | `attachment-generics` / `generic-attachments/*` | file \| external attachments |
 | `styling`, `networking` | Shared UI/HTTP utilities |
@@ -572,7 +573,7 @@ helpers live in `deposit-source-safe-utils.ts`.
 | --- | --- |
 | Product **Pipeline** UI | `execution-generics` PTRR executors |
 | `generic-agents` base agents | Deposit agents under `pipeline-asset-pack/agents` |
-| `protocol` package | The whole monorepo (protocol package = demo/runtime shell) |
+| `@bitcode/specifying` | Specifying/gate-proof tooling (not a product “protocol” package; monorepo is canon) |
 | `templates-generics` | Prompt formatting (`@bitcode/prompts`) |
 | `externals/*` | `external-telemetry/*` (product APIs vs analytics) |
 | `*-generics` alone | A full stack — expect a matching `generic-*` family when the name is used |
@@ -588,21 +589,21 @@ helpers live in `deposit-source-safe-utils.ts`.
 ### 6.1 Dependency direction (strict)
 
 ```
-packages/*  (no React pages; no import of uapi)
-     ↑
-uapi/lib, uapi/networking, uapi/hooks   (thin adapters)
-     ↑
-uapi/components/shadcn     Shadcn*
-     ↑
-uapi/components/bitcode    Bitcode*  (theme, layout, pipeline chrome, auth, VCS)
-     ↑
+packages/* (no React pages; no import of uapi)
+ ↑
+uapi/lib, uapi/networking, uapi/hooks (thin adapters)
+ ↑
+uapi/components/shadcn Shadcn*
+ ↑
+uapi/components/bitcode Bitcode* (theme, layout, pipeline chrome, auth, VCS)
+ ↑
 uapi/components/{experience}
-     ↑
-uapi/app/*                 page shells only
+ ↑
+uapi/app/* page shells only
 ```
 
-**Never:** experience → experience imports.  
-**Never:** packages → uapi.  
+**Never:** experience → experience imports.
+**Never:** packages → uapi.
 **Never:** reintroduce `/terminal`.
 
 ### 6.2 Request path (typical deposit synthesis)
@@ -631,10 +632,10 @@ uapi/app/*                 page shells only
 
 ```
 Experience/ComponentName/
-  ComponentName.tsx
-  hooks/
-  styles/
-  __tests__/
+ ComponentName.tsx
+ hooks/
+ styles/
+ __tests__/
 ```
 
 Named entry file — **not** `index.tsx`. Top-of-file overview comment on non-trivial modules.
@@ -651,7 +652,7 @@ Named entry file — **not** `index.tsx`. Top-of-file overview comment on non-tr
 
 ### 7.1 Marketing (`/`)
 
-Landing, walkthrough, marketplace narrative, competitor tables, BTD education.  
+Landing, walkthrough, marketplace narrative, competitor tables, BTD education.
 Home: `uapi/components/marketing/`. Large sections are modularized (data/helpers
 + co-located subcomponents under each `Marketing*Section/` directory); see
 `uapi/components/marketing/README.md`. Screenshot shell composes hero gallery /
@@ -668,7 +669,7 @@ IP-seller MVP. Modular reference experience:
 
 ### 7.3 Reads (`/reads`)
 
-IP-buyer path: Read request → Need → Fits → preview → settle → delivery.  
+IP-buyer path: Read request → Need → Fits → preview → settle → delivery.
 Shares synthesis pipeline core; **read lens** / neediness finalization continues
 in later V48 gates. Workbench panels under `Reads*` + `models/deposit-read-*`
 (historical name; deposit+read shared workbench models).
@@ -676,25 +677,25 @@ in later V48 gates. Workbench panels under `Reads*` + `models/deposit-read-*`
 **Reads modularization (entry paths):**
 
 - Page orchestration: `uapi/components/reads/ReadPageClient/ReadPageClient.tsx`
-  with hooks (`use-read-live-runs`, `use-read-url-navigation`,
-  `use-read-pipeline-telemetry`, `use-read-session-projections`,
-  `use-read-activity-recording`, `use-read-route-params`)
+ with hooks (`use-read-live-runs`, `use-read-url-navigation`,
+ `use-read-pipeline-telemetry`, `use-read-session-projections`,
+ `use-read-activity-recording`, `use-read-route-params`)
 - Pipelines master-detail: `ReadsPipelinesSection` + `ReadsPipelineTelemetry`
 - Route aside: `ReadsRouteStateAside` + pure rows in `models/read-route-rows.ts`
 - Route model facade: `models/read-route-model.ts` (types in
-  `read-route-session-types.ts`; procurement / fit / settlement builders
-  co-located siblings)
+ `read-route-session-types.ts`; procurement / fit / settlement builders
+ co-located siblings)
 - Enterprise reading steps: `enterprise-reading-ux-types.ts` +
-  `enterprise-reading-ux-state.ts`
+ `enterprise-reading-ux-state.ts`
 - Repository supply: `ReadsRepositoryContextPanel` + `use-reads-repository-vcs`
-  + field grid / connection / supply / guidance units
+ + field grid / connection / supply / guidance units
 - Scenario measurement: `ReadsReadScenarioPanel` + `use-read-scenario-actions`
-  + fitting review / scenario list units
+ + fitting review / scenario list units
 - Evidence rows: `deposit-read-evidence-*-rows.ts` facades under `models/`
 
 ### 7.4 Packs (`/packs`)
 
-Network-scope PackActivity master-detail (ledgerized history).  
+Network-scope PackActivity master-detail (ledgerized history).
 **Not** personal pipeline activity (that is `/deposits`).
 
 Home: `uapi/components/packs/`.
@@ -732,7 +733,7 @@ post-auth landing, not Terminal.
 
 ### 7.7 Auxillaries
 
-Identity, wallet, GitHub externals, interfaces, organization/treasury panes.  
+Identity, wallet, GitHub externals, interfaces, organization/treasury panes.
 Route: `/auxillaries/[pane]`. Overlays can open from product pages.
 
 | Concern | Location under `uapi/components/auxillaries/` |
@@ -772,7 +773,7 @@ are core. Local vs staging-testnet vs production projects are documented in
 
 - **Inline:** Node process runs pipeline after dispatch (dev)
 - **Sandbox:** Vercel Sandbox box with host manifest + live runner template
-  (`pipeline-hosts` asset-pack-host modules)
+ (`pipeline-hosts` asset-pack-host modules)
 
 ### 8.3 Source-safety
 
@@ -800,39 +801,39 @@ as if they were source of product law.
 
 ### 9.1 “How does deposit synthesis work?”
 
-1. `BITCODE_SPEC_V48.md` §G3-1…G3-15  
-2. `packages/asset-packs-pipelines/domain/src/asset-packs-synthesis.ts` (barrel)  
-3. `.../agents/{setup,discovery,implementation,validation}/deposit-*.ts`  
-4. `packages/pipeline-hosts/src/asset-pack-host.ts`  
-5. `uapi/app/api/deposit/synthesize-options/route.ts` + `dispatch-deposit-synthesis.ts`  
-6. `uapi/components/deposits/DepositPageClient/*`  
+1. `BITCODE_SPEC_V48.md` §G3-1…G3-15
+2. `packages/asset-packs-pipelines/domain/src/asset-packs-synthesis.ts` (barrel)
+3. `.../agents/{setup,discovery,implementation,validation}/deposit-*.ts`
+4. `packages/pipeline-hosts/src/asset-pack-host.ts`
+5. `uapi/app/api/deposit/synthesize-options/route.ts` + `dispatch-deposit-synthesis.ts`
+6. `uapi/components/deposits/DepositPageClient/*`
 
 ### 9.2 “How does an agent call an LLM?”
 
-1. `execution-generics` Execution store  
-2. `agent-generics` factoryAgentWithPTRR + substeps  
-3. `prompts` Prompt registry + raw_promptparts  
-4. `generic-llms` provider  
-5. Stream path: pipelines-generics streaming → source-safe filter → uapi log  
+1. `execution-generics` Execution store
+2. `agent-generics` factoryPTRRAgent + substeps
+3. `prompts` Prompt registry + raw_promptparts
+4. `generic-llms` provider
+5. Stream path: pipelines-generics streaming → source-safe filter → uapi log
 
 ### 9.3 “How does /packs show ledger state?”
 
-1. `pack-activity-model`  
-2. `GET /api/packs/activity` (api package / uapi route)  
-3. `PacksPageClient` + master/detail units  
+1. `pack-activity-model`
+2. `GET /api/packs/activity` (api package / uapi route)
+3. `PacksPageClient` + master/detail units
 
 ### 9.4 “Where do I put new pure logic?”
 
-- Shared non-React → new or existing `packages/*`  
-- Experience-only pure → `uapi/components/<exp>/models/`  
-- React stateful → co-located `hooks/`  
-- Never dump into page clients  
+- Shared non-React → new or existing `packages/*`
+- Experience-only pure → `uapi/components/<exp>/models/`
+- React stateful → co-located `hooks/`
+- Never dump into page clients
 
 ### 9.5 “Where must I not look?”
 
-- `_legacy/`  
-- Superseded `BITCODE_SPEC_V{n<draft}.md` as live product law  
-- `protocol-demonstration/` as V48 measurement canon (realization only)  
+- `_legacy/`
+- Superseded `BITCODE_SPEC_V{n<draft}.md` as live product law
+- `protocol-demonstration/` as V48 measurement canon (realization only)
 
 ---
 
@@ -860,12 +861,12 @@ to Complete Implementation Derivability.
 
 Update `FAMILIARIZATION.md` when:
 
-- A new package family, nested `generic-*` package, or product pipeline is introduced or removed  
-- Experience modularization changes the primary entry paths  
-- Inheritance hierarchy gains, loses, or renames a layer  
-- Product routes, host model, or public navigation posture change  
-- Catalog paths, package names, or hierarchy diagrams would otherwise go stale  
-- A new acronym, product term, or hierarchy word appears in SPEC/source — add it to **§12 Terms appendix**  
+- A new package family, nested `generic-*` package, or product pipeline is introduced or removed
+- Experience modularization changes the primary entry paths
+- Inheritance hierarchy gains, loses, or renames a layer
+- Product routes, host model, or public navigation posture change
+- Catalog paths, package names, or hierarchy diagrams would otherwise go stale
+- A new acronym, product term, or hierarchy word appears in SPEC/source — add it to **§12 Terms appendix**
 
 Prefer **accurate, short section edits** over rewriting the whole file each time.
 Land the edit with the structural change (same commit or accompanying
@@ -885,7 +886,6 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | Term | Expansion / meaning |
 | --- | --- |
 | **API** | Application Programming Interface — here usually HTTP route handlers in `packages/api` and thin `uapi/app/api/*` bindings. |
-| **BC** | **Backward-compatible** alias or re-export package (e.g. `@bitcode/github` → `@bitcode/generic-vcs-github`). Prefer hierarchy names in new code. |
 | **BTC** | Bitcoin (currency). V48 settlement money is **BTC-testnet** only (no mainnet value). |
 | **BTD** | Bitcode’s weighted knowledge-volume unit: measured basis of price; after settlement, a rights-bearing receipt (ledger language is **journal**). |
 | **CI** | Continuous Integration — GitHub Actions gate/promotion workflows; also `packages/ci/circle` (CircleCI provider). |
@@ -951,8 +951,7 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | **Primitive** | Lowest shared vocabulary (e.g. `Pipeline`, `Execution`, `AssetPack`, `FilePath`). |
 | **Base (implementor)** | Reusable middle layer in `generic-*/*` (e.g. `MeasuredPatchAssetPack`, `SDIVFPipeline`, `LocalHost`). |
 | **Product / specific** | Bitcode product specialization (pipelines, agents, experience UI). |
-| **BC (package)** | Thin re-export at an old path/name so existing imports keep working. |
-| **Family folder** | Directory that groups nested packages; itself is not a package (except rare BC barrels like `@bitcode/security`). |
+| **Family folder** | Directory that groups nested packages; itself is not a package (except rare composition barrels like `@bitcode/security`). |
 | **Workspace package** | A `package.json` with `@bitcode/…` (or `eslint-plugin-bitcode`) name in the pnpm workspace. |
 
 ### 12.4 Execution, agents, generations, tools
@@ -965,7 +964,7 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | **Executor** | Pure transform `(input, execution) → output` (or equivalent composition). |
 | **FailsafeGeneration** | Parent generation kinds inside a PTRR step: PCC, ChunkThenSum, StitchUntilComplete. |
 | **Generation** | Primitive unit of LLM/work generation inside a step (`generation-generics`). |
-| **GlobalContext** | **Deprecated concept** — process defaults are a **process-root Execution**. |
+| **Process-root Execution** | Process defaults (`@bitcode/generic-executions`) — not a parallel Context bag. |
 | **Judge** | ThinkingsGeneration kind: evaluate intermediate reasoning. |
 | **PhaseDelegator** | Pipeline phase that resolves and runs agents/tools for that phase. |
 | **Prepared context** | Failsafe selection of Execution **keys** (noise reduction), not a second state bag. |
@@ -1088,7 +1087,7 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 | **Encryption (security)** | Encrypt/decrypt credential material (`security-encryption`). |
 | **Observability** | Product analytics composition over external-telemetry (+ tracing hooks). |
 | **Rate limiting** | Abuse prevention middleware (`security-rate-limiting`). |
-| **Sentry / GA / Vercel analytics** | Live under `external-telemetry/*` (BC old package names). |
+| **Sentry / GA / Vercel analytics** | Live under `external-telemetry/*` . |
 | **Supabase** | Live data plane (Auth + Postgres); not optional product storage. |
 
 ### 12.11 Quick disambiguation

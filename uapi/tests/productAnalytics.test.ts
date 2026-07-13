@@ -5,12 +5,12 @@
  * a failing tracker never breaks the product surface.
  */
 import { track } from "@vercel/analytics";
-import { trackEvent } from "@bitcode/google-analytics";
+import { trackEvent } from "@bitcode/external-telemetry-google";
 
 import { trackProductEvent } from "@/lib/product-analytics";
 
 jest.mock("@vercel/analytics", () => ({ track: jest.fn() }));
-jest.mock("@bitcode/google-analytics", () => ({ trackEvent: jest.fn() }));
+jest.mock("@bitcode/external-telemetry-google", () => ({ trackEvent: jest.fn() }));
 
 const mockTrack = track as jest.Mock;
 const mockTrackEvent = trackEvent as jest.Mock;

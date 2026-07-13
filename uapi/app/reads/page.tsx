@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 
 import PublicShellFrame from '@/components/marketing/PublicShellFrame/PublicShellFrame';
 
-import ReadPageClient from './ReadPageClient';
+import ReadPageClient from '@/components/reads/ReadPageClient/ReadPageClient';
 
 export const metadata: Metadata = {
   title: 'Bitcode Reads',

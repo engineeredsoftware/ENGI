@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V44_BTD_BTC_COMPENSATION_STATEMENTS_ARTIFACT_PATH,
   buildV44BtdBtcCompensationStatements,
-} from '../packages/protocol/src/canonical/v44-btd-btc-compensation-statements.js';
+} from '../packages/specifying/src/canonical/v44-btd-btc-compensation-statements.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -202,13 +202,13 @@ export async function preprocessDepositMode(processedInput: any, execution: Exec
 
 /**
  * @deprecated Prefer product pipelines (synthesize-deposits / synthesize-reads).
- * Dual-path preprocess retained only for BC callers that still pass mode.
+ * Dual-path preprocess retained only for callers that still pass mode.
  */
 function factoryPreprocess(): Executor<any, any> {
   return async (input, execution) => {
     await initializeAssetPackPipeline(execution as any);
 
-    // BC: still resolve mode for legacy callers; product packages force one path.
+    // Resolve mode for dual-entry callers; product packages force one path.
     const mode = resolveSynthesizeAssetPacksMode(input, execution);
     storeSynthesizeAssetPacksMode(execution, mode);
     try { (input as any).synthesizeMode = mode; } catch {}
@@ -503,7 +503,7 @@ function isAssetPackSetupRuntimeEnabledInTest(): boolean {
 export type SynthesizeAssetPacksSDIVFPipeline = SDIVFPipeline<any, any>;
 
 /**
- * BC dual factory: routes to deposit or read phase rosters by explicit input
+ * dual factory: routes to deposit or read phase rosters by explicit input
  * mode. Prefer product packages under asset-packs-pipelines/.
  */
 function factorySynthesizeAssetPacksSDIVFPipeline(
@@ -585,7 +585,7 @@ function factorySynthesizeAssetPacksSDIVFPipeline(
 const factorySynthesizeAssetPacksPipeline = factorySynthesizeAssetPacksSDIVFPipeline;
 
 /**
- * Legacy DDD Develop gate — BC dual factory (prefer product packages).
+ * Dual factory (prefer product packages under asset-packs-pipelines/*).
  */
 function factoryDevelopPhase(): Executor<any, any> {
   return factorySynthesizeAssetPacksSDIVFPipeline('develop');
@@ -611,7 +611,7 @@ export const assetPackPipeline: Executor<any, any> = createGuidedPipelineExecuti
 
 /**
  * @deprecated Prefer synthesizeDepositAssetPacksSDIVFPipeline / synthesizeReadAssetPacksSDIVFPipeline
- * from `@bitcode/asset-packs-pipelines-*`. BC dual entry (mode from input).
+ * from `@bitcode/asset-packs-pipelines-*`. Dual entry (mode from input).
  */
 export const synthesizeAssetPacksSDIVFPipeline: SynthesizeAssetPacksSDIVFPipeline =
   factorySynthesizeAssetPacksSDIVFPipeline();

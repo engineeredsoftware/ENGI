@@ -119,7 +119,7 @@ export function buildV33InterfaceAuthorizationPolicyArtifact() {
       'STALE_AUTHORITY',
       'PROTECTED_SOURCE_DISCLOSURE_BLOCKED',
     ]),
-    scanTokens('packages/chatgptapp/src/tools.ts', [
+    scanTokens('packages/external-apps/chatgpt/src/tools.ts', [
       'buildBtdInterfaceAuthorizationPolicy',
       'interfaceAuthorizationPolicy',
       'Bitcode ChatGPT App write admission denied by interface authorization policy',
@@ -142,7 +142,7 @@ export function buildV33InterfaceAuthorizationPolicyArtifact() {
     scanTokens('packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'shares the package-owned InterfaceAuthorizationPolicy fixture for MCP Finding Fits admission',
     ]),
-    scanTokens('packages/chatgptapp/src/__tests__/tools.test.ts', [
+    scanTokens('packages/external-apps/chatgpt/src/__tests__/tools.test.ts', [
       'shares the package-owned InterfaceAuthorizationPolicy fixture for ChatGPT App delivery',
     ]),
     scanTokens('uapi/tests/terminalOrganizationAuthority.test.ts', [

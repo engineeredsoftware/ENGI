@@ -9,7 +9,7 @@
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
 
-import type { VCSBranch, VCSCommit, VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
+import type { VCSBranch, VCSCommit, VCSProviderType, VCSRepository } from '@bitcode/vcs-generics-core';
 
 export type RepositoryInventorySource =
   | 'stored_repository_inventory'

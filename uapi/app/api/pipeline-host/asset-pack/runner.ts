@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
-import { VCSConnections } from '@bitcode/vcs';
+import { VCSConnections } from '@bitcode/vcs-generics';
 import {
   buildAssetPackSandboxHostPlan,
   loadVercelSandboxFactory,

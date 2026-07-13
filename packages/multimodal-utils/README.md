@@ -25,26 +25,26 @@ new MultimodalProcessor(config?: Partial<MultimodalConfig>)
 **Configuration:**
 ```typescript
 interface MultimodalConfig {
-  concurrency: {
-    maxConcurrent: number;     // Default: 3
-    maxRetries: number;        // Default: 2  
-    backoffMs: number;         // Default: 1000
-  };
-  caching: {
-    enabled: boolean;          // Default: true
-    ttlMs: number;            // Default: 3600000 (1 hour)
-    maxSizeBytes: number;     // Default: 100MB
-  };
-  performance: {
-    timeoutMs: number;        // Default: 300000 (5 min)
-    maxFileSizeBytes: number; // Default: 50MB
-    memoryLimitMB: number;    // Default: 512MB
-  };
-  apis: {
-    openaiRateLimit: number;  // Default: 60 requests/min
-    whisperTimeoutMs: number; // Default: 300000
-    visionTimeoutMs: number;  // Default: 45000
-  };
+ concurrency: {
+ maxConcurrent: number; // Default: 3
+ maxRetries: number; // Default: 2
+ backoffMs: number; // Default: 1000
+ };
+ caching: {
+ enabled: boolean; // Default: true
+ ttlMs: number; // Default: 3600000 (1 hour)
+ maxSizeBytes: number; // Default: 100MB
+ };
+ performance: {
+ timeoutMs: number; // Default: 300000 (5 min)
+ maxFileSizeBytes: number; // Default: 50MB
+ memoryLimitMB: number; // Default: 512MB
+ };
+ apis: {
+ openaiRateLimit: number; // Default: 60 requests/min
+ whisperTimeoutMs: number; // Default: 300000
+ visionTimeoutMs: number; // Default: 45000
+ };
 }
 ```
 
@@ -78,23 +78,23 @@ Process multiple files with intelligent batching and memory management.
 import { MultimodalProcessor } from '@bitcode/multimodal-utils';
 
 const processor = new MultimodalProcessor({
-  concurrency: { maxConcurrent: 5 },
-  caching: { enabled: true, ttlMs: 7200000 }, // 2 hours
-  performance: { timeoutMs: 600000 } // 10 minutes
+ concurrency: { maxConcurrent: 5 },
+ caching: { enabled: true, ttlMs: 7200000 }, // 2 hours
+ performance: { timeoutMs: 600000 } // 10 minutes
 });
 
 // Process audio file
 const audioResult = await processor.processFile(
-  'https://example.com/audio.mp3',
-  async () => {
-    // Your audio processing logic
-    const transcription = await transcribeAudio(audioUrl);
-    return { text: transcription, duration: metadata.duration };
-  },
-  { 
-    cacheKey: 'audio-transcription-abc123',
-    timeoutMs: 300000 
-  }
+ 'https://example.com/audio.mp3',
+ async () => {
+ // Your audio processing logic
+ const transcription = await transcribeAudio(audioUrl);
+ return { text: transcription, duration: metadata.duration };
+ },
+ {
+ cacheKey: 'audio-transcription-abc123',
+ timeoutMs: 300000
+ }
 );
 ```
 
@@ -102,34 +102,34 @@ const audioResult = await processor.processFile(
 ```typescript
 // Process multiple files efficiently
 const files = [
-  {
-    url: 'video1.mp4',
-    processor: () => extractVideoFrames(url),
-    cacheKey: 'frames-video1'
-  },
-  {
-    url: 'audio1.wav', 
-    processor: () => transcribeAudio(url),
-    cacheKey: 'transcript-audio1'
-  },
-  {
-    url: 'image1.png',
-    processor: () => analyzeImage(url),
-    cacheKey: 'analysis-image1'
-  }
+ {
+ url: 'video1.mp4',
+ processor: () => extractVideoFrames(url),
+ cacheKey: 'frames-video1'
+ },
+ {
+ url: 'audio1.wav',
+ processor: () => transcribeAudio(url),
+ cacheKey: 'transcript-audio1'
+ },
+ {
+ url: 'image1.png',
+ processor: () => analyzeImage(url),
+ cacheKey: 'analysis-image1'
+ }
 ];
 
-const results = await processor.processFiles(files, { 
-  batchSize: 3 
+const results = await processor.processFiles(files, {
+ batchSize: 3
 });
 
 // Handle results and errors
 results.forEach(result => {
-  if (result.error) {
-    console.error(`Failed to process ${result.url}:`, result.error);
-  } else {
-    console.log(`Processed ${result.url}:`, result.result);
-  }
+ if (result.error) {
+ console.error(`Failed to process ${result.url}:`, result.error);
+ } else {
+ console.log(`Processed ${result.url}:`, result.result);
+ }
 });
 ```
 
@@ -139,21 +139,21 @@ results.forEach(result => {
 await processor.acquireOpenAIToken(); // Waits for available token
 
 const analysis = await processor.processFile(
-  imageUrl,
-  async () => {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4-vision-preview",
-      messages: [{
-        role: "user", 
-        content: [
-          { type: "text", text: "Analyze this image" },
-          { type: "image_url", image_url: { url: imageUrl } }
-        ]
-      }]
-    });
-    return response.choices[0].message.content;
-  },
-  { cacheKey: `vision-analysis-${imageHash}` }
+ imageUrl,
+ async () => {
+ const response = await openai.chat.completions.create({
+ model: "gpt-4-vision-preview",
+ messages: [{
+ role: "user",
+ content: [
+ { type: "text", text: "Analyze this image" },
+ { type: "image_url", image_url: { url: imageUrl } }
+ ]
+ }]
+ });
+ return response.choices[0].message.content;
+ },
+ { cacheKey: `vision-analysis-${imageHash}` }
 );
 ```
 
@@ -166,58 +166,58 @@ const strategy = multimodalUtils.getProcessingStrategy('document.pdf');
 // Returns: 'document'
 
 const estimatedTime = multimodalUtils.estimateProcessingTime(
-  'video', 
-  50 * 1024 * 1024 // 50MB
+ 'video',
+ 50 * 1024 * 1024 // 50MB
 );
 // Returns: ~400000ms (6.7 minutes)
 
 // Create optimized processor for strategy
 const docProcessor = multimodalUtils.createProcessor({
-  performance: { 
-    timeoutMs: estimatedTime * 1.5,
-    maxFileSizeBytes: 100 * 1024 * 1024 
-  }
+ performance: {
+ timeoutMs: estimatedTime * 1.5,
+ maxFileSizeBytes: 100 * 1024 * 1024
+ }
 });
 ```
 
 ### Error Handling
 ```typescript
-import { 
-  MultimodalProcessingError, 
-  RateLimitError, 
-  TimeoutError,
-  multimodalUtils 
+import {
+ MultimodalProcessingError,
+ RateLimitError,
+ TimeoutError,
+ multimodalUtils
 } from '@bitcode/multimodal-utils';
 
 try {
-  const result = await processor.processFile(url, processingFunc);
+ const result = await processor.processFile(url, processingFunc);
 } catch (error) {
-  if (error instanceof RateLimitError) {
-    // Wait and retry
-    await new Promise(resolve => setTimeout(resolve, 60000));
-    return processor.processFile(url, processingFunc);
-  }
-  
-  if (error instanceof TimeoutError) {
-    // Increase timeout and retry
-    return processor.processFile(url, processingFunc, {
-      timeoutMs: error.details.timeoutMs * 2
-    });
-  }
-  
-  if (multimodalUtils.isRetryableError(error)) {
-    // Automatic retry with backoff
-    return retryWithBackoff(() => 
-      processor.processFile(url, processingFunc)
-    );
-  }
-  
-  // Non-retryable error
-  throw multimodalUtils.createError(
-    'Processing failed permanently',
-    'PERMANENT_FAILURE',
-    { originalError: error.message, url }
-  );
+ if (error instanceof RateLimitError) {
+ // Wait and retry
+ await new Promise(resolve => setTimeout(resolve, 60000));
+ return processor.processFile(url, processingFunc);
+ }
+
+ if (error instanceof TimeoutError) {
+ // Increase timeout and retry
+ return processor.processFile(url, processingFunc, {
+ timeoutMs: error.details.timeoutMs * 2
+ });
+ }
+
+ if (multimodalUtils.isRetryableError(error)) {
+ // Automatic retry with backoff
+ return retryWithBackoff(() =>
+ processor.processFile(url, processingFunc)
+ );
+ }
+
+ // Non-retryable error
+ throw multimodalUtils.createError(
+ 'Processing failed permanently',
+ 'PERMANENT_FAILURE',
+ { originalError: error.message, url }
+ );
 }
 ```
 
@@ -272,36 +272,36 @@ multimodalUtils.isRetryableError(error: Error): boolean
 ### Production Configuration
 ```typescript
 const productionProcessor = new MultimodalProcessor({
-  concurrency: {
-    maxConcurrent: 10,
-    maxRetries: 3,
-    backoffMs: 2000
-  },
-  caching: {
-    enabled: true,
-    ttlMs: 3600000, // 1 hour
-    maxSizeBytes: 500 * 1024 * 1024 // 500MB
-  },
-  performance: {
-    timeoutMs: 900000, // 15 minutes
-    maxFileSizeBytes: 200 * 1024 * 1024, // 200MB
-    memoryLimitMB: 2048 // 2GB
-  },
-  apis: {
-    openaiRateLimit: 100, // 100 requests/min
-    whisperTimeoutMs: 600000, // 10 minutes
-    visionTimeoutMs: 90000 // 1.5 minutes
-  }
+ concurrency: {
+ maxConcurrent: 10,
+ maxRetries: 3,
+ backoffMs: 2000
+ },
+ caching: {
+ enabled: true,
+ ttlMs: 3600000, // 1 hour
+ maxSizeBytes: 500 * 1024 * 1024 // 500MB
+ },
+ performance: {
+ timeoutMs: 900000, // 15 minutes
+ maxFileSizeBytes: 200 * 1024 * 1024, // 200MB
+ memoryLimitMB: 2048 // 2GB
+ },
+ apis: {
+ openaiRateLimit: 100, // 100 requests/min
+ whisperTimeoutMs: 600000, // 10 minutes
+ visionTimeoutMs: 90000 // 1.5 minutes
+ }
 });
 ```
 
 ### Development Configuration
 ```typescript
 const devProcessor = new MultimodalProcessor({
-  concurrency: { maxConcurrent: 2, maxRetries: 1 },
-  caching: { enabled: false }, // Disable for development
-  performance: { timeoutMs: 120000 }, // 2 minutes
-  apis: { openaiRateLimit: 20 } // Conservative rate limiting
+ concurrency: { maxConcurrent: 2, maxRetries: 1 },
+ caching: { enabled: false }, // Disable for development
+ performance: { timeoutMs: 120000 }, // 2 minutes
+ apis: { openaiRateLimit: 20 } // Conservative rate limiting
 });
 ```
 
@@ -314,8 +314,8 @@ import { defaultMultimodalProcessor } from '@bitcode/multimodal-utils';
 
 // Use with default configuration
 const result = await defaultMultimodalProcessor.processFile(
-  fileUrl, 
-  processingFunction
+ fileUrl,
+ processingFunction
 );
 ```
 

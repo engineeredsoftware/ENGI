@@ -6,4 +6,4 @@ CI provider integrations.
 | --- | --- |
 | `circle/` | `@bitcode/ci-circle` |
 
-BC: `@bitcode/circleci`.
+Packages: `@bitcode/ci-circle`.

@@ -4,7 +4,7 @@
  * Shared by the public barrel, formal pipeline, deposit validation, and option
  * projection. No runtime logic — pure type surface for the synthesis core.
  *
- * Pack/patch primitives: @bitcode/asset-pack-generics
+ * Pack/patch primitives: @bitcode/asset-packs-generics
  * Measured pack base: @bitcode/generic-asset-packs-measured-patch
  */
 

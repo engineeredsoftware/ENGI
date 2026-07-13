@@ -398,23 +398,23 @@
     {
       "integrationSurfaceId": "mcp:executions-interface-contracts",
       "routeFamilies": [
-        "packages/executions-mcp/src/mcp-server/src",
-        "packages/executions-mcp/src/mcp-server/docs/mcp"
+        "packages/mcp-generics/src/mcp-server/src",
+        "packages/mcp-generics/src/mcp-server/docs/mcp"
       ],
       "sourceRoots": [
-        "packages/executions-mcp/src/mcp-server/src/index.ts",
-        "packages/executions-mcp/src/mcp-server/src/auth/middleware.ts",
-        "packages/executions-mcp/src/mcp-server/src/pipeline-execution/adapter.ts",
-        "packages/executions-mcp/src/mcp-server/docs/mcp/mcp-specification.json"
+        "packages/mcp-generics/src/mcp-server/src/index.ts",
+        "packages/mcp-generics/src/mcp-server/src/auth/middleware.ts",
+        "packages/mcp-generics/src/mcp-server/src/pipeline-execution/adapter.ts",
+        "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-specification.json"
       ],
       "testPaths": [
-        "packages/executions-mcp/src/mcp-server/src/__tests__/integration/mcp-server.test.ts",
-        "packages/executions-mcp/src/mcp-server/src/__tests__/unit/auth.test.ts",
-        "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
-        "packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts"
+        "packages/mcp-generics/src/mcp-server/src/__tests__/integration/mcp-server.test.ts",
+        "packages/mcp-generics/src/mcp-server/src/__tests__/unit/auth.test.ts",
+        "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+        "packages/mcp-generics/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts"
       ],
       "commandIds": [
-        "pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp"
+        "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp"
       ],
       "coverageTier": "promotion-required",
       "closureRequirement": "MCP auth, server, tool, and pipeline ingress contracts are covered for interface consumers.",
@@ -442,19 +442,19 @@
     {
       "integrationSurfaceId": "chatgpt:app-action-contracts",
       "routeFamilies": [
-        "packages/chatgptapp/src/server.ts",
-        "packages/chatgptapp/src/tools.ts",
-        "packages/chatgptapp/src/interface-integration.ts"
+        "packages/external-apps/chatgpt/src/server.ts",
+        "packages/external-apps/chatgpt/src/tools.ts",
+        "packages/external-apps/chatgpt/src/interface-integration.ts"
       ],
       "sourceRoots": [
-        "packages/chatgptapp/src/server.ts",
-        "packages/chatgptapp/src/tools.ts",
-        "packages/chatgptapp/src/interface-integration.ts"
+        "packages/external-apps/chatgpt/src/server.ts",
+        "packages/external-apps/chatgpt/src/tools.ts",
+        "packages/external-apps/chatgpt/src/interface-integration.ts"
       ],
       "testPaths": [
-        "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts",
-        "packages/chatgptapp/src/__tests__/tools.test.ts",
-        "packages/chatgptapp/src/__tests__/yapperFlow.test.ts"
+        "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
+        "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+        "packages/external-apps/chatgpt/src/__tests__/yapperFlow.test.ts"
       ],
       "commandIds": [
         "pnpm --dir packages/chatgptapp test"
@@ -508,7 +508,7 @@
     },
     {
       "id": "protocol-exports-gate4",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {
@@ -623,22 +623,22 @@
     },
     {
       "id": "mcp-executions-interface-contracts:source-roots-exist",
-      "sourcePath": "packages/executions-mcp/src/mcp-server/src/index.ts",
+      "sourcePath": "packages/mcp-generics/src/mcp-server/src/index.ts",
       "passed": true
     },
     {
       "id": "mcp-executions-interface-contracts:test-paths-exist",
-      "sourcePath": "packages/executions-mcp/src/mcp-server/src/__tests__/integration/mcp-server.test.ts",
+      "sourcePath": "packages/mcp-generics/src/mcp-server/src/__tests__/integration/mcp-server.test.ts",
       "passed": true
     },
     {
       "id": "chatgpt-app-action-contracts:source-roots-exist",
-      "sourcePath": "packages/chatgptapp/src/server.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/server.ts",
       "passed": true
     },
     {
       "id": "chatgpt-app-action-contracts:test-paths-exist",
-      "sourcePath": "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
       "passed": true
     }
   ],

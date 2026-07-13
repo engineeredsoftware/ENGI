@@ -1,4 +1,4 @@
-# @bitcode/notion
+# @bitcode/externals-notion
 
 Production-grade Notion integration package for Bitcode, providing comprehensive OAuth authentication, API client functionality, and tool interfaces for AI agents.
 
@@ -15,16 +15,16 @@ This package provides:
 ## Architecture
 
 ```
-@bitcode/notion/
+@bitcode/externals-notion/
 ├── src/
-│   ├── auth.ts          # OAuth authentication flows
-│   ├── client.ts        # Main Notion API client
-│   ├── connections.ts   # Database operations for user connections
-│   ├── tools.ts         # AI agent tool functions
-│   ├── types.ts         # TypeScript type definitions
-│   ├── utils.ts         # Utility functions
-│   └── index.ts         # Public API exports
-├── __tests__/           # Test suite
+│ ├── auth.ts # OAuth authentication flows
+│ ├── client.ts # Main Notion API client
+│ ├── connections.ts # Database operations for user connections
+│ ├── tools.ts # AI agent tool functions
+│ ├── types.ts # TypeScript type definitions
+│ ├── utils.ts # Utility functions
+│ └── index.ts # Public API exports
+├── __tests__/ # Test suite
 └── package.json
 ```
 
@@ -34,9 +34,9 @@ This package is part of the Bitcode monorepo and uses workspace dependencies:
 
 ```json
 {
-  "dependencies": {
-    "@bitcode/notion": "workspace:*"
-  }
+ "dependencies": {
+ "@bitcode/externals-notion": "workspace:*"
+ }
 }
 ```
 
@@ -55,20 +55,20 @@ NOTION_REDIRECT_URI=https://yourdomain.com/api/integrations/notion/callback
 ### Basic Usage
 
 ```typescript
-import { createNotionClient, NotionConnections } from '@bitcode/notion';
+import { createNotionClient, NotionConnections } from '@bitcode/externals-notion';
 
 // Create authenticated client for a user
 const client = await createNotionClient(userId);
 if (client) {
-  const pages = await client.search({ query: 'project' });
-  console.log(pages);
+ const pages = await client.search({ query: 'project' });
+ console.log(pages);
 }
 ```
 
 ### OAuth Integration
 
 ```typescript
-import { NotionAuth } from '@bitcode/notion';
+import { NotionAuth } from '@bitcode/externals-notion';
 
 const auth = new NotionAuth(clientId, clientSecret, redirectUri);
 
@@ -86,18 +86,18 @@ await NotionConnections.saveConnection(connection);
 ### AI Agent Tools
 
 ```typescript
-import { 
-  notionGetPageTool, 
-  notionSearchTool, 
-  notionCreatePageTool 
-} from '@bitcode/notion';
+import {
+ notionGetPageTool,
+ notionSearchTool,
+ notionCreatePageTool
+} from '@bitcode/externals-notion';
 
 const context = { user_id: 'user123' };
 
 // Search workspace
 const searchResult = await notionSearchTool(context, {
-  query: 'meeting notes',
-  filter: { value: 'page', property: 'object' }
+ query: 'meeting notes',
+ filter: { value: 'page', property: 'object' }
 });
 
 // Get page content
@@ -105,24 +105,24 @@ const pageResult = await notionGetPageTool(context, pageId);
 
 // Create new page
 const newPage = await notionCreatePageTool(context, {
-  parent: { database_id: databaseId },
-  properties: {
-    Name: {
-      title: [{ text: { content: 'New Page Title' } }]
-    }
-  }
+ parent: { database_id: databaseId },
+ properties: {
+ Name: {
+ title: [{ text: { content: 'New Page Title' } }]
+ }
+ }
 });
 ```
 
 ### Content Processing
 
 ```typescript
-import { 
-  pageToText, 
-  blocksToMarkdown, 
-  extractTitle,
-  extractPlainText 
-} from '@bitcode/notion';
+import {
+ pageToText,
+ blocksToMarkdown,
+ extractTitle,
+ extractPlainText
+} from '@bitcode/externals-notion';
 
 // Convert page to readable text
 const pageText = pageToText(page, blocks);
@@ -143,7 +143,7 @@ const title = extractTitle(page);
 - `createPage(input)` - Create new page
 - `updatePage(pageId, updates)` - Update page properties
 
-#### Databases  
+#### Databases
 - `getDatabase(databaseId)` - Retrieve database schema
 - `queryDatabase(input)` - Query database entries
 - `createDatabase(pageId, schema)` - Create new database
@@ -163,8 +163,8 @@ const title = extractTitle(page);
 All tool functions follow the pattern:
 ```typescript
 async function toolName(
-  context: NotionToolContext,
-  ...parameters
+ context: NotionToolContext,
+ ...parameters
 ): Promise<NotionToolResult<T>>
 ```
 
@@ -173,7 +173,7 @@ Available tools:
 - `notionCreatePageTool` - Create page
 - `notionUpdatePageTool` - Update page
 - `notionGetDatabaseTool` - Get database
-- `notionQueryDatabaseTool` - Query database  
+- `notionQueryDatabaseTool` - Query database
 - `notionSearchTool` - Search workspace
 - `notionGetPageContentTool` - Get page with full content
 
@@ -196,17 +196,17 @@ The package requires a `user_notion_connections` table:
 
 ```sql
 CREATE TABLE user_notion_connections (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  access_token text NOT NULL,
-  bot_id text NOT NULL,
-  workspace_id text NOT NULL,
-  workspace_name text NOT NULL,
-  workspace_icon text,
-  owner_type text NOT NULL CHECK (owner_type IN ('user', 'workspace')),
-  created_at timestamptz NOT NULL DEFAULT now(),
-  updated_at timestamptz NOT NULL DEFAULT now(),
-  UNIQUE(user_id)
+ id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+ user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+ access_token text NOT NULL,
+ bot_id text NOT NULL,
+ workspace_id text NOT NULL,
+ workspace_name text NOT NULL,
+ workspace_icon text,
+ owner_type text NOT NULL CHECK (owner_type IN ('user', 'workspace')),
+ created_at timestamptz NOT NULL DEFAULT now(),
+ updated_at timestamptz NOT NULL DEFAULT now(),
+ UNIQUE(user_id)
 );
 ```
 
@@ -218,13 +218,13 @@ The package provides structured error handling:
 const result = await notionGetPageTool(context, pageId);
 
 if (!result.success) {
-  console.error('Tool failed:', result.error);
-  // Handle specific error types:
-  // - 'No valid Notion connection found'
-  // - 'Invalid page ID format'
-  // - 'The requested page could not be found'
-  // - 'Rate limit exceeded'
-  // etc.
+ console.error('Tool failed:', result.error);
+ // Handle specific error types:
+ // - 'No valid Notion connection found'
+ // - 'Invalid page ID format'
+ // - 'The requested page could not be found'
+ // - 'Rate limit exceeded'
+ // etc.
 }
 ```
 
@@ -270,18 +270,18 @@ npm run type-check
 This package can be integrated with Bitcode's existing pipeline system by adding Notion source handlers to discovery phases. For example, in AssetPack execution:
 
 ```typescript
-import { createNotionClient, notionSearchTool, notionGetPageContentTool } from '@bitcode/notion';
+import { createNotionClient, notionSearchTool, notionGetPageContentTool } from '@bitcode/externals-notion';
 
 // Add to discovery phase for content comprehension
 const client = await createNotionClient(userId);
 if (client) {
-  const searchResult = await notionSearchTool({ user_id: userId }, {
-    query: 'project requirements',
-    filter: { value: 'page', property: 'object' }
-  });
-  
-  // Process pages for pipeline context
-  // ... integrate with existing discovery agents
+ const searchResult = await notionSearchTool({ user_id: userId }, {
+ query: 'project requirements',
+ filter: { value: 'page', property: 'object' }
+ });
+
+ // Process pages for pipeline context
+ // ... integrate with existing discovery agents
 }
 ```
 
@@ -297,6 +297,6 @@ When contributing to this package:
 
 ## Related Packages
 
-- `@bitcode/mcps-tools-notion` - MCP tool exports
+- `@bitcode/generic-tools-mcps-notion` - MCP tool exports
 - `@bitcode/supabase` - Database operations
 - `@bitcode/logger` - Logging infrastructure

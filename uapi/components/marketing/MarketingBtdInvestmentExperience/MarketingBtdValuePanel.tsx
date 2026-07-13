@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * BTD holding value visualization panel (metrics, efficiency, pattern mastery).
  */
-"use client";
 
 import React from "react";
 import { motion } from "framer-motion";

@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Copy button for one expanded pipeline log line Details JSON.
  */
-"use client";
 
 import React, { useState } from 'react';
 import { CheckIcon, ClipboardCopyIcon } from '@radix-ui/react-icons';

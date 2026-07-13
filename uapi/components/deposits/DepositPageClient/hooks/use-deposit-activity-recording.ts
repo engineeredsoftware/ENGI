@@ -22,7 +22,7 @@ export function useDepositActivityRecording(input: {
   selectedRun: WorkspaceRun | null;
   liveRuns: WorkspaceRun[];
   setLiveRuns: Dispatch<SetStateAction<WorkspaceRun[]>>;
-  refreshLiveRuns: () => void | Promise<void>;
+  refreshLiveRuns: () => void | Promise<unknown>;
   replaceDepositRouteTransaction: (id: string) => void;
   synthesizeOptionsRef: MutableRefObject<(() => Promise<void>) | null>;
   obfuscations: string;

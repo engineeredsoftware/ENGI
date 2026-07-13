@@ -2,7 +2,7 @@
  * Bitbucket MCP ↔ VCS hierarchy bridge.
  *
  * Uses @bitcode/vcs-generics factory (registered to generic-vcs-bitbucket).
- * Prefer hierarchy packages over compatibility shims.
+ * Prefer hierarchy packages.
  */
 
 import {

@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Packs activity data grid: loading/error/empty states and selectable rows.
  */
-"use client";
 
 import React from "react";
 import { ProductRouteStatePanel } from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";

@@ -165,7 +165,7 @@
       "schemaDiffRootPolicy": "build test gate consumes any migration schema diff root before deployment admission",
       "generatedTypeRootPolicy": "build test gate consumes current generated type root before deployment admission",
       "dryRunCommand": "pnpm workspace typecheck and focused package tests as build test dry-run",
-      "validationCommand": "pnpm --filter @bitcode/btd test && pnpm --filter @bitcode/protocol test",
+      "validationCommand": "pnpm --filter @bitcode/btd test && pnpm --filter @bitcode/specifying test",
       "reviewerApprovalPosture": "maintainer_signed_review_required",
       "reviewerApprovalEvidence": "signed maintainer review approval plus passing required checks",
       "rollbackPlan": "rollback by reverting the gate branch, rerunning package checks, and preserving prior proof roots",
@@ -190,7 +190,7 @@
       "gateId": "generated_artifact_freshness",
       "label": "generated artifact freshness gate",
       "approvalClass": "generated_artifact_freshness",
-      "ownerPackage": "packages/protocol",
+      "ownerPackage": "packages/specifying",
       "requiredHostIds": [
         "proof_services"
       ],
@@ -215,7 +215,7 @@
       "auditEventName": "migration_cicd_approval.generated_artifact_freshness",
       "proofRootBasis": [
         ".bitcode",
-        "packages/protocol/src/canonical/v21-specifying.js",
+        "packages/specifying/src/canonical/v21-specifying.js",
         "check:spec-family"
       ],
       "gateRoot": "v34-migration-approval-gate:7196f402f2da796d66ac94ba",
@@ -314,7 +314,7 @@
       "gateId": "promotion_commit_approval",
       "label": "canonical promotion commit approval gate",
       "approvalClass": "promotion_commit",
-      "ownerPackage": "packages/protocol",
+      "ownerPackage": "packages/specifying",
       "requiredHostIds": [
         "proof_services"
       ],

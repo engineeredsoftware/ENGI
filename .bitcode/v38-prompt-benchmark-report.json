@@ -572,7 +572,7 @@
         "BitcodeTerminalConversationSystemPrompt"
       ],
       "sourceRoots": [
-        "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts"
+        "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts"
       ],
       "requiredMetricIds": [
         "intent_alignment",
@@ -1334,13 +1334,13 @@
     {
       "id": "prompt:conversation-system-prompt.source-roots-present",
       "rowId": "prompt:conversation-system-prompt",
-      "sourcePath": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
       "passed": true
     },
     {
       "id": "prompt:conversation-system-prompt.source-files-present",
       "rowId": "prompt:conversation-system-prompt",
-      "sourcePath": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
       "passed": true
     },
     {
@@ -1364,31 +1364,31 @@
     {
       "id": "prompt.conversation-has-doc-comments",
       "rowId": "prompt:conversation-system-prompt",
-      "sourcePath": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
       "passed": true
     },
     {
       "id": "prompt.conversation-has-benchmark-definitions",
       "rowId": "prompt:conversation-system-prompt",
-      "sourcePath": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
       "passed": true
     },
     {
       "id": "prompt.conversation-extends-prompt",
       "rowId": "prompt:conversation-system-prompt",
-      "sourcePath": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
       "passed": true
     },
     {
       "id": "prompt.conversation-requires-hierarchy",
       "rowId": "prompt:conversation-system-prompt",
-      "sourcePath": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
       "passed": true
     },
     {
       "id": "prompt.conversation-sets-specific-promptparts",
       "rowId": "prompt:conversation-system-prompt",
-      "sourcePath": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
       "passed": true
     },
     {
@@ -1460,7 +1460,7 @@
   ],
   "sourceEvidence": [
     {
-      "sourcePath": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
       "exists": true,
       "legacy": false
     },
@@ -1758,7 +1758,7 @@
       "sourceRootExists": true,
       "sourceFileCount": 1,
       "sourceFileSample": [
-        "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts"
+        "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts"
       ],
       "promptPartDocCommentCount": 0,
       "promptDocCommentCount": 1,

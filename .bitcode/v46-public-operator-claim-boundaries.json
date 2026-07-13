@@ -14,12 +14,12 @@
     "parity": "BITCODE_SPEC_V46_PARITY_MATRIX.md:91b47eeaa106639d2d21856b",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
     "readme": "README.md:d28ec731634e03953d8adfe6",
-    "protocolReadme": "packages/protocol/README.md:f5b175049f4f4e8df179e184",
+    "protocolReadme": "packages/specifying/README.md:f5b175049f4f4e8df179e184",
     "packageJson": "package.json:b79014968c556bc1b43ab341",
-    "packageIndex": "packages/protocol/src/index.js:1f16ea428bd71351a1292cb6",
-    "packageTypes": "packages/protocol/src/index.d.ts:278dfc652c621533b5e86f4d",
-    "packageSource": "packages/protocol/src/canonical/v46-public-operator-claim-boundaries.js:6c4d8878be955f0fc6aa50f5",
-    "packageTest": "packages/protocol/test/v46-public-operator-claim-boundaries.test.js:0afae65791ef7d7081b2a87a",
+    "packageIndex": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "packageTypes": "packages/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "packageSource": "packages/specifying/src/canonical/v46-public-operator-claim-boundaries.js:6c4d8878be955f0fc6aa50f5",
+    "packageTest": "packages/specifying/test/v46-public-operator-claim-boundaries.test.js:0afae65791ef7d7081b2a87a",
     "generator": "scripts/generate-v46-public-operator-claim-boundaries.mjs:5a7e5f8c9013c83e3c3818fb",
     "checker": "scripts/check-v46-gate3-public-operator-claim-boundaries.mjs:b958086681492633958639bf",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
@@ -567,7 +567,7 @@
         "operator"
       ],
       "sourcePaths": [
-        "packages/protocol/README.md"
+        "packages/specifying/README.md"
       ],
       "claimIds": [
         "assetpack-is-commodity",
@@ -847,7 +847,7 @@
       },
       {
         "id": "package-exports-wired",
-        "sourcePath": "packages/protocol/src/index.js",
+        "sourcePath": "packages/specifying/src/index.js",
         "passed": true
       },
       {

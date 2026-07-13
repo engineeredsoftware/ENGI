@@ -10,7 +10,7 @@
 
 import { 
    
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import { AgentPrompt, AgentStepPrompt } from '@bitcode/agent-generics';
@@ -245,7 +245,7 @@ export const imageProcessorStepPrompts = {
  * Comprehensive image processing variation
  * Uses full PTRR cycle for thorough image analysis
  */
-const comprehensiveImageVariation = factoryAgentWithPTRR<
+const comprehensiveImageVariation = factoryPTRRAgent<
   z.infer<typeof ImageProcessorInputSchema>,
   z.infer<typeof ImageProcessorRetrySchema>
 >({

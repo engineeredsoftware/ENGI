@@ -11,7 +11,7 @@
 
 **How to run**  
 1. `pnpm install` at repo root.  
-2. `BITCODE_LOG_STDOUT=0 pnpm --silent --filter @bitcode/chatgptapp start` to expose stdio MCP server without polluting STDIO.  
+2. `BITCODE_LOG_STDOUT=0 pnpm --silent --filter @bitcode/external-apps-chatgpt start` to expose stdio MCP server without polluting STDIO.  
 3. Use MCP Inspector or ChatGPT App developer mode; call `tools/list` to verify the ten identifiers.  
 4. Follow the Yapper script to exercise every tool once.
 

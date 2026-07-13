@@ -47,15 +47,15 @@ function collectSourceFiles(root: string): string[] {
 describe('commercial protocol boundary', () => {
   it('keeps formal protocol runtime sources present and unignored for deployment clones', () => {
     const requiredRuntimeFiles = [
-      'packages/protocol/package.json',
-      'packages/protocol/server.js',
-      'packages/protocol/src/index.js',
-      'packages/protocol/src/bitcode-runtime.js',
-      'packages/protocol/src/canon-posture.js',
-      'packages/protocol/src/canonical/v23-bitcoin-demonstration-service.js',
-      'packages/protocol/src/canonical/v24-external-realization.js',
-      'packages/protocol/src/canonical/v24-live-execution.js',
-      'packages/protocol/src/canonical/v24-local-executors.js',
+      'packages/specifying/package.json',
+      'packages/specifying/server.js',
+      'packages/specifying/src/index.js',
+      'packages/specifying/src/bitcode-runtime.js',
+      'packages/specifying/src/canon-posture.js',
+      'packages/specifying/src/canonical/v23-bitcoin-demonstration-service.js',
+      'packages/specifying/src/canonical/v24-external-realization.js',
+      'packages/specifying/src/canonical/v24-live-execution.js',
+      'packages/specifying/src/canonical/v24-local-executors.js',
     ];
 
     const missingFiles = requiredRuntimeFiles.filter((filePath) => !existsSync(path.join(repoRoot, filePath)));
@@ -103,16 +103,16 @@ describe('commercial protocol boundary', () => {
       ...(uapiPackageJson.devDependencies ?? {}),
     };
 
-    expect(dependencies['@bitcode/protocol']).toBe('workspace:*');
+    expect(dependencies['@bitcode/specifying']).toBe('workspace:*');
     expect(dependencies['@bitcode/protocol-demonstration']).toBeUndefined();
   });
 
   it('teaches Next webpack how to resolve the formal protocol package during Vercel builds', () => {
     const nextConfigSource = readFileSync(path.join(uapiRoot, 'next.config.mjs'), 'utf8');
 
-    expect(nextConfigSource).toContain("'@bitcode/protocol',");
-    expect(nextConfigSource).toContain("'@bitcode/protocol': path.resolve(__dirname, '..', 'packages', 'protocol', 'src', 'index.js')");
-    expect(nextConfigSource).toContain("'@bitcode/protocol$': path.resolve(__dirname, '..', 'packages', 'protocol', 'src', 'index.js')");
+    expect(nextConfigSource).toContain("'@bitcode/specifying',");
+    expect(nextConfigSource).toContain("'@bitcode/specifying': path.resolve(__dirname, '..', 'packages', 'protocol', 'src', 'index.js')");
+    expect(nextConfigSource).toContain("'@bitcode/specifying$': path.resolve(__dirname, '..', 'packages', 'protocol', 'src', 'index.js')");
   });
 
   it('keeps the standalone protocol demonstration outside the workspace build graph', () => {

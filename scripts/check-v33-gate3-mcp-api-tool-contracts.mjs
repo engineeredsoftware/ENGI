@@ -133,7 +133,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'packages/specifying/src/canonical/v21-specifying.js',
   ];
 
   for (const relativePath of requiredFiles) {
@@ -204,7 +204,7 @@ function main() {
   const mcpSource = read(root, 'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts');
   const btdTest = read(root, 'packages/btd/__tests__/mcp-tool-contract.test.ts');
   const mcpTest = read(root, 'packages/generic-mcps/bitcode/src/__tests__/unit/mcp-tool-contract.test.ts');
-  const specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const specifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
 
   for (const doc of [spec, delta, notes, parity]) {
     assertCheck(failures, doc.includes(ARTIFACT), `V33 docs must mention ${ARTIFACT}.`);

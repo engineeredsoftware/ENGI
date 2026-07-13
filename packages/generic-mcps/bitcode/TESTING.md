@@ -115,7 +115,7 @@ The test suite uses `jest.config.mcp.js` with optimized settings:
 ### Directory Organization
 
 ```
-packages/mcp-server/src/__tests__/
+packages/generic-mcps/bitcode/src/__tests__/
 ├── framework/                   # Core testing framework
 │   ├── MCPTestFramework.ts     # Main test framework
 │   └── ...

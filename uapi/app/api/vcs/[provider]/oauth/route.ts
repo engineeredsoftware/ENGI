@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 import { createRouteWrapper } from '@bitcode/middleware';
-import { getProviderScopes, VCSProviderFactory } from '@bitcode/vcs';
+import { getProviderScopes, VCSProviderFactory } from '@bitcode/vcs-generics';
 
 import {
   isMockVcsMode,

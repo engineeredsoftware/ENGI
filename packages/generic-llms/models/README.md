@@ -29,35 +29,35 @@ Instead of maintaining hardcoded lists of 450+ model call names, this package us
 npm run generate-prompt-configs
 
 # Automatically generate during build
-npm run build  # runs prebuild hook
+npm run build # runs prebuild hook
 ```
 
 #### Use in UI Components
 
 ```typescript
-import { useGeneratedModelConfigs } from '@bitcode/models';
+import { useGeneratedModelConfigs } from '@bitcode/generic-llms-models';
 
 // In your models-step.tsx or similar component
 function ModelsConfiguration() {
-  const { configs, stats, sources, isEmpty } = useGeneratedModelConfigs({
-    pipeline: 'asset-pack',
-    maxResults: 100
-  });
+ const { configs, stats, sources, isEmpty } = useGeneratedModelConfigs({
+ pipeline: 'asset-pack',
+ maxResults: 100
+ });
 
-  if (isEmpty) {
-    return <div>No configurations found. Run build process to generate.</div>;
-  }
+ if (isEmpty) {
+ return <div>No configurations found. Run build process to generate.</div>;
+ }
 
-  return (
-    <div>
-      <h3>Generated Configurations ({stats.total})</h3>
-      {configs.map(config => (
-        <div key={config.id}>
-          {config.name} - {config.phase} - {config.agent}
-        </div>
-      ))}
-    </div>
-  );
+ return (
+ <div>
+ <h3>Generated Configurations ({stats.total})</h3>
+ {configs.map(config => (
+ <div key={config.id}>
+ {config.name} - {config.phase} - {config.agent}
+ </div>
+ ))}
+ </div>
+ );
 }
 ```
 
@@ -66,13 +66,13 @@ function ModelsConfiguration() {
 ```typescript
 // Before: Hardcoded array
 const modelCallNames = [
-  'SetupAgentComprehendTaskPlanPrepareReason',
-  'SetupAgentComprehendTaskGenerateChunkSumStructuredOutput',
-  // ... 450+ entries
+ 'SetupAgentComprehendTaskPlanPrepareReason',
+ 'SetupAgentComprehendTaskGenerateChunkSumStructuredOutput',
+ // ... 450+ entries
 ];
 
 // After: Build-time generated
-import { getModelCallNames } from '@bitcode/models';
+import { getModelCallNames } from '@bitcode/generic-llms-models';
 const modelCallNames = getModelCallNames();
 ```
 
@@ -88,14 +88,14 @@ The system supports multiple ways to populate the configuration table:
 ### File Structure
 
 ```
-packages/models/
+packages/generic-llms/models/
 ├── src/
-│   ├── build-time-prompt-analysis.ts    # Core analysis engine
-│   ├── ui-integration.ts                # UI integration layer
-│   ├── generated-prompt-configs.ts      # Generated configurations
-│   └── generated-prompt-configs.json    # Raw generated data
+│ ├── build-time-prompt-analysis.ts # Core analysis engine
+│ ├── ui-integration.ts # UI integration layer
+│ ├── generated-prompt-configs.ts # Generated configurations
+│ └── generated-prompt-configs.json # Raw generated data
 ├── scripts/
-│   └── generate-prompt-configs.js       # Build script
+│ └── generate-prompt-configs.js # Build script
 └── README.md
 ```
 
@@ -133,33 +133,33 @@ Each generated configuration includes:
 
 ```typescript
 interface StaticPromptConfig {
-  id: string;
-  pipeline: EngiPipeline;
-  phase: EngiPhase;
-  agent: string;
-  step: EngiStep;
-  failsafe: EngiFailsafeStep;
-  generation: EngiGenerationStep;
-  
-  // Analysis results
-  injectedSubsystems: string[];
-  environmentSections: string[];
-  buildMethodChain: string[];
-  
-  // Customization points
-  customizationPoints: {
-    subsystems: string[];
-    environment: string[];
-    responseFormat: boolean;
-    taskPrompt: boolean;
-  };
-  
-  // Model constraints
-  modelConstraints?: {
-    minContextWindow?: number;
-    preferredProviders?: string[];
-    requiresMultimodal?: boolean;
-  };
+ id: string;
+ pipeline: EngiPipeline;
+ phase: EngiPhase;
+ agent: string;
+ step: EngiStep;
+ failsafe: EngiFailsafeStep;
+ generation: EngiGenerationStep;
+
+ // Analysis results
+ injectedSubsystems: string[];
+ environmentSections: string[];
+ buildMethodChain: string[];
+
+ // Customization points
+ customizationPoints: {
+ subsystems: string[];
+ environment: string[];
+ responseFormat: boolean;
+ taskPrompt: boolean;
+ };
+
+ // Model constraints
+ modelConstraints?: {
+ minContextWindow?: number;
+ preferredProviders?: string[];
+ requiresMultimodal?: boolean;
+ };
 }
 ```
 

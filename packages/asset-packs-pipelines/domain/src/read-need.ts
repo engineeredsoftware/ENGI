@@ -1399,7 +1399,7 @@ export function buildAssetPackSourceSafePreview(input: {
         'need measurement',
         'fit measurement',
         'fit deposit ids',
-        'selected candidate ids compatibility alias',
+        'selected candidate ids field alias',
         'roots',
         'score band',
         'proof posture',

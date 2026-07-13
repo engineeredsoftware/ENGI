@@ -6,7 +6,7 @@
  * shared normalization helpers below rather than the Next.js FS routes.
  */
 
-import { createJsonResponse } from '@bitcode/responses';
+import { createJsonResponse } from '@bitcode/api/responses';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
 

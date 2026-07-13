@@ -3,7 +3,7 @@ import { CompletionData, UrlEntry } from '../types/api';
 import { parseStreamChunk } from '@/streaming/stream-parser';
 import { callAssetPackExecutionsAPI } from '../networking/api-client';
 
-import { ExecutionPhase, ExecutionStep, FailsafeStep, GenerationStep } from '@bitcode/streams';
+import { ExecutionPhase, ExecutionStep, FailsafeStep, GenerationStep } from '@bitcode/api/streams';
 
 interface ExecutionProgress {
   phase?: ExecutionPhase;

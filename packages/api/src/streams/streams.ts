@@ -1,5 +1,5 @@
 // Canonical location for all generic streaming helpers used across Bitcode.
-// Prefer `@bitcode/api/streams` (BC: `@bitcode/streams`).
+// Prefer `@bitcode/api/streams`.
 
 // DataStream type - properly typed for streaming data chunks
 export interface DataStream {
@@ -252,7 +252,7 @@ export async function writeStreamToolUse(
   executionState?: ExecutionState,
   correlationId?: string,
 ) {
-  const { trace } = await import('../../observability/src/observability');
+  const { trace } = await import('@bitcode/observability');
   await trace(`tool:${toolUse.toolName}`, async () => {
     const startMsg = `Tool: ${toolUse.toolName}`;
     const detail = toolUse.error

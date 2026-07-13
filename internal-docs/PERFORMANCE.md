@@ -20,10 +20,10 @@ Never optimize based on assumptions. The bottleneck is rarely where you think it
 ```typescript
 // Prefetch after initial render to not block
 useEffect(() => {
-  const timeout = setTimeout(() => {
-    import('./HeavyComponent').catch(() => {});
-  }, 1000); // Delay based on priority
-  return () => clearTimeout(timeout);
+ const timeout = setTimeout(() => {
+ import('./HeavyComponent').catch(() => {});
+ }, 1000); // Delay based on priority
+ return () => clearTimeout(timeout);
 }, []);
 ```
 
@@ -44,15 +44,15 @@ useEffect(() => {
 **Solutions**:
 ```css
 .heavy-component {
-  /* Isolate rendering */
-  contain: layout style paint;
-  
-  /* Hint browser for GPU */
-  will-change: transform, opacity;
-  transform: translateZ(0);
-  
-  /* Prevent reflow */
-  backface-visibility: hidden;
+ /* Isolate rendering */
+ contain: layout style paint;
+
+ /* Hint browser for GPU */
+ will-change: transform, opacity;
+ transform: translateZ(0);
+
+ /* Prevent reflow */
+ backface-visibility: hidden;
 }
 ```
 
@@ -68,14 +68,14 @@ useEffect(() => {
 ```typescript
 // Defer expensive operations
 useEffect(() => {
-  requestAnimationFrame(() => {
-    // Heavy operation after paint
-  });
+ requestAnimationFrame(() => {
+ // Heavy operation after paint
+ });
 }, []);
 
 // Memoize heavy computations
 const expensiveValue = useMemo(() => {
-  return computeExpensive(deps);
+ return computeExpensive(deps);
 }, [deps]);
 ```
 
@@ -98,44 +98,44 @@ fetch('/api/endpoint', { method: 'HEAD' }).catch(() => {});
 ### When Components Are Slow to Open:
 
 1. **Check for blocking operations**:
-   - Search for synchronous `fetch` or heavy computations
-   - Look for multiple `useState` updates causing re-renders
-   - Check for animation cascade (multiple elements animating)
+ - Search for synchronous `fetch` or heavy computations
+ - Look for multiple `useState` updates causing re-renders
+ - Check for animation cascade (multiple elements animating)
 
 2. **Profile the render**:
-   ```typescript
-   useEffect(() => {
-     performance.mark('component-start');
-     return () => {
-       performance.mark('component-end');
-       performance.measure('component-render', 'component-start', 'component-end');
-       console.log(performance.getEntriesByName('component-render'));
-     };
-   }, []);
-   ```
+ ```typescript
+ useEffect(() => {
+ performance.mark('component-start');
+ return () => {
+ performance.mark('component-end');
+ performance.measure('component-render', 'component-start', 'component-end');
+ console.log(performance.getEntriesByName('component-render'));
+ };
+ }, []);
+ ```
 
 3. **Check CSS performance**:
-   - Open DevTools → Rendering → Paint flashing
-   - Look for continuous repaints
-   - Check for layout thrashing
+ - Open DevTools → Rendering → Paint flashing
+ - Look for continuous repaints
+ - Check for layout thrashing
 
 4. **Bundle size impact**:
-   ```bash
-   # Check what's in the chunk
-   npm run build
-   npx source-map-explorer .next/static/chunks/*.js
-   ```
+ ```bash
+ # Check what's in the chunk
+ npm run build
+ npx source-map-explorer .next/static/chunks/*.js
+ ```
 
 ## Critical Areas in Bitcode
 
 ### Auxillary Performance ⚡ SOLVED
 **Problem**: Heavy animations + auth check + multiple child components + synchronous imports
-**Final Solution Stack**: 
+**Final Solution Stack**:
 - **React Query for caching** - Prefetch auth on page load, instant cached response
 - **Portal pre-rendered hidden** - Always in DOM, just CSS class toggle (THE KEY!)
 - **Component preloading** - Auxillary surface loaded before user clicks
 - **useDeferredValue for animations** - Animations don't block urgent updates
-- **Remove all inline styles** - Prevents synchronous recalculation  
+- **Remove all inline styles** - Prevents synchronous recalculation
 - **Auxillary rings imported directly** - Lightweight, needed immediately
 - **FlipText stays dynamic** - Preserves UX while deferring framer-motion bundle
 - **Dynamic imports for pane components** - LoginPane, ProfilePane, etc load async
@@ -185,39 +185,39 @@ fetch('/api/endpoint', { method: 'HEAD' }).catch(() => {});
 ## Anti-Patterns to Avoid
 
 1. **Never block the main thread**
-   - No synchronous localStorage in render
-   - No heavy computations without Web Workers
-   - No blocking network requests
+ - No synchronous localStorage in render
+ - No heavy computations without Web Workers
+ - No blocking network requests
 
 2. **Never animate expensive properties**
-   - Avoid animating width/height (use transform: scale)
-   - Avoid animating box-shadow (use opacity on a duplicate)
-   - Avoid animating border-radius on large elements
+ - Avoid animating width/height (use transform: scale)
+ - Avoid animating box-shadow (use opacity on a duplicate)
+ - Avoid animating border-radius on large elements
 
 3. **Never create unnecessary layers**
-   - Don't use will-change on everything
-   - Remove will-change after animation completes
-   - Limit simultaneous GPU layers
+ - Don't use will-change on everything
+ - Remove will-change after animation completes
+ - Limit simultaneous GPU layers
 
 ## React Query Integration for Performance
 
 ### Setup
 1. **QueryClient Configuration**
-   - 5 minute stale time (data considered fresh)
-   - 10 minute cache time (data kept in memory)
-   - Refetch on window focus enabled
-   - Single retry on failure
+ - 5 minute stale time (data considered fresh)
+ - 10 minute cache time (data kept in memory)
+ - Refetch on window focus enabled
+ - Single retry on failure
 
 2. **Prefetching Strategy**
-   - Auth data prefetched on page load via `useLayoutEffect`
-   - Happens in microtask to not block render
-   - Profile & onboarding data fetched in parallel if user exists
-   - Silent failure handling - queries fetch on demand if prefetch fails
+ - Auth data prefetched on page load via `useLayoutEffect`
+ - Happens in microtask to not block render
+ - Profile & onboarding data fetched in parallel if user exists
+ - Silent failure handling - queries fetch on demand if prefetch fails
 
 3. **Cache Management**
-   - Auth state changes invalidate dependent queries
-   - Sign out clears all auth queries
-   - Mutations optimistically update cache
+ - Auth state changes invalidate dependent queries
+ - Sign out clears all auth queries
+ - Mutations optimistically update cache
 
 ### Common Pitfalls to Avoid
 1. **Creating new QueryClient instances** - Use the singleton from context
@@ -242,9 +242,9 @@ fetch('/api/endpoint', { method: 'HEAD' }).catch(() => {});
 ```typescript
 // Add to components for monitoring
 if (process.env.NODE_ENV === 'development') {
-  console.time('ComponentRender');
-  // ... component logic
-  console.timeEnd('ComponentRender');
+ console.time('ComponentRender');
+ // ... component logic
+ console.timeEnd('ComponentRender');
 }
 ```
 

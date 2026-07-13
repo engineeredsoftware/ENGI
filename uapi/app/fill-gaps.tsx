@@ -16,7 +16,7 @@ const baseShadow = '[text-shadow:_0_0_8px_rgba(255,255,255,0.66)]';
 // Using a tiny client sub-component avoids delaying the visual overlay until
 // after hydration – the root cause of the earlier flash.
 
-import MarketingBannerHeightSync from "./(root)/components/MarketingBannerHeightSync";
+import MarketingBannerHeightSync from '@/components/marketing/MarketingBannerHeightSync/MarketingBannerHeightSync';
 
 interface ReadLightpaperProps {
   reavealingSoon?: boolean;

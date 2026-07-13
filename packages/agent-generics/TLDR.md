@@ -13,14 +13,14 @@ ALL agents now follow the SAME pattern:
 ## The Architecture Truth
 
 Each PTRR step runs EXACTLY the same sequence:
-1. **3 FailsafeMetaSubSteps** (parents) run sequentially
-2. **Each parent runs 3 GenerationSubMetaSubSteps** (children)
+1. **3 FailsafeGenerations** (parents) run sequentially
+2. **Each parent runs 3 ThinkingsGenerations** (children)
 3. **Tools execute AFTER all failsafes complete**
 
 ## The Hierarchy
 
 ```
-Pipeline → Phase → Agent[Variation] → Step → FailsafeMetaSubStep → GenerationSubMetaSubStep
+Pipeline → Phase → Agent[Variation] → Step → FailsafeGeneration → ThinkingsGeneration
 ```
 
 Each level creates child executions with accumulated prompts:
@@ -40,12 +40,12 @@ Every agent variation follows PTRR:
 
 Each PTRR step runs IDENTICALLY:
 
-**3 FailsafeMetaSubSteps (PARENTS)**:
+**3 FailsafeGenerations (PARENTS)**:
 - **PrepareConciseContext** - Handles CONTEXT SIGNAL/NOISE
 - **ChunkThenSum** - Handles BIG INPUT (parallel chunks by default when chunked)
 - **StitchUntilComplete** - Handles CONVERSATIONSUTPUT
 
-**3 GenerationSubMetaSubSteps (CHILDREN per parent)**:
+**3 ThinkingsGenerations (CHILDREN per parent)**:
 - **Reason** - Apply logic, select tools (first thinking)
 - **Judge** - Judge reasoning AND tool selections (second thinking)
 - **StructuredOutput** - Format to schema with useTools array (no thinking)
@@ -147,8 +147,8 @@ Pipeline prompt
 └── Phase prompt
     └── Agent prompt
         └── Step prompt (Plan/Try/Refine/Retry)
-            └── FailsafeMetaSubStep prompt
-                └── GenerationSubMetaSubStep prompt
+            └── FailsafeGeneration prompt
+                └── ThinkingsGeneration prompt
 ```
 
 Result: 1000s of contextualized LLM calls from combinatorial explosion.

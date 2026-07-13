@@ -1,12 +1,12 @@
 /**
- * Synthesis mode helpers (BC).
+ * Synthesis mode helpers.
  *
  * Product law: **no lens**. Prefer separate pipelines:
  *   - @bitcode/asset-packs-pipelines-synthesize-deposits  (SDIVF)
  *   - @bitcode/asset-packs-pipelines-synthesize-reads     (SDIVF)
  *   - @bitcode/asset-packs-pipelines-settle-reads         (Simple)
  *
- * `SynthesizeAssetPacksMode` / resolve helpers remain only for BC dual-entry
+ * `SynthesizeAssetPacksMode` / resolve helpers remain only for dual-entry
  * callers that still pass `mode` / legacy `lens` aliases.
  */
 
@@ -26,7 +26,7 @@ function coerceMode(value: unknown): SynthesizeAssetPacksMode | null {
 }
 
 /**
- * BC mode resolve. Prefer product-specific pipelines; `lens` is accepted only
+ * mode resolve. Prefer product-specific pipelines; `lens` is accepted only
  * as a deprecated alias of mode and must not appear in new product code.
  */
 export function resolveSynthesizeAssetPacksMode(

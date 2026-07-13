@@ -34,7 +34,7 @@
     "typecheck": "tsc --noEmit --pretty false"
   },
   "dependencies": {
-    "@bitcode/models": "workspace:*",
+    "@bitcode/generic-llms-models": "workspace:*",
     "@bitcode/supabase": "workspace:*"
   },
   "devDependencies": {

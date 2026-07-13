@@ -1,5 +1,5 @@
 import type { User } from '@supabase/supabase-js';
-import type { VCSProviderType, VCSRepository } from '@bitcode/vcs';
+import type { VCSProviderType, VCSRepository } from '@bitcode/vcs-generics';
 
 import { ENABLE_MOCKS, MOCK_USER_AUXILLARIES, MOCK_USER_AUXILLARIES_SCENARIO } from '@/config/featureFlags';
 import {

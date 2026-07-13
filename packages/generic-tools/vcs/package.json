@@ -1,5 +1,5 @@
 {
-  "name": "@bitcode/vcs-tools",
+  "name": "@bitcode/generic-tools-vcs",
   "version": "1.0.0",
   "description": "VCS tools using unified VCS abstraction layer",
   "main": "src/index.ts",
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@bitcode/tools-generics": "workspace:*",
-    "@bitcode/vcs": "workspace:*",
+    "@bitcode/vcs-generics": "workspace:*",
     "@bitcode/errors": "workspace:*",
     "@bitcode/supabase": "workspace:*",
     "zod": "^3.21.4"

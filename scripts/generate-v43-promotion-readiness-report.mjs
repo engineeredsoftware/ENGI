@@ -8,7 +8,7 @@ import {
   V43_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   V43_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT,
   buildV43PromotionReadinessReport,
-} from '../packages/protocol/src/index.js';
+} from '../packages/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

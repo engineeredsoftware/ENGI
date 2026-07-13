@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Simple titled section shell used in Packs detail drawers.
  */
-"use client";
 
 import React from "react";
 

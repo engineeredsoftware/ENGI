@@ -19,6 +19,4 @@
 export type { Generation, Reasoning, Judgment } from '@bitcode/generation-generics';
 export {
   ThinkingsGeneration,
-  /** @deprecated Prefer ThinkingsGeneration */
-  GenerationSubMetaSubStep,
 } from '@bitcode/generation-generics';

@@ -46,7 +46,7 @@ describe('POST /api/auxillaries/user/btd canonical closure', () => {
     expect(res.status).toBe(410);
     const body = await res.json();
     expect(body.error).toContain('non-fungible asset-pack share/read-right');
-    expect(body.acquisitionPaths.terminalReadMinting).toContain('/packs');
+    expect(body.acquisitionPaths.terminalReadMinting).toContain('/reads');
   });
 
   it('forbids non-admin user with 403', async () => {

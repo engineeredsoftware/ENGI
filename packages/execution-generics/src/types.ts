@@ -2,10 +2,10 @@
  * EXECUTION GENERICS TYPE DEFINITIONS
  *
  * Storage types for the Execution primitive.
- * Executor type primitive: @bitcode/executor-generics (re-exported for BC).
+ * Executor type primitive: @bitcode/executor-generics (re-exported for product assembly).
  */
 
-// ==================== EXECUTOR TYPE (BC re-export) ====================
+// ==================== EXECUTOR TYPE (composition re-export) ====================
 
 /** Prefer `@bitcode/executor-generics` for new code. */
 export type { Executor } from '@bitcode/executor-generics';

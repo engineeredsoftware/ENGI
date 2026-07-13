@@ -14,7 +14,7 @@ import {
 import {
   assertOrganizationPolicyWalletAuthoritySourceSafe,
   buildOrganizationPolicyWalletAuthority,
-} from '@bitcode/pipeline-asset-pack/organization-policy-wallet-authority';
+} from '@bitcode/asset-packs-pipelines-domain/organization-policy-wallet-authority';
 
 import { buildReadFitMeasurementReview } from './read-fit-measurement-review';
 import { buildReadProcurementGovernance } from './read-procurement-governance';

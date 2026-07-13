@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Dual-thumbnail strip used by the acceleration feature cards.
  */
-"use client";
 
 import React from "react";
 import Image from "next/image";

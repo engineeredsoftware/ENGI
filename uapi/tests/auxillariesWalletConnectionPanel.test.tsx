@@ -3,7 +3,7 @@ import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import AuxillariesWalletConnectionPanel from '@/components/auxillaries/AuxillariesWalletConnectionPanel/AuxillariesWalletConnectionPanel';
-import { BITCODE_LOCAL_WALLET_STORAGE_KEY } from '@/lib/bitcode-wallet-local';
+import { BITCODE_LOCAL_WALLET_STORAGE_KEY } from '@bitcode/auth/wallet-local';
 import { mutateUserData } from '@/hooks/useUserData';
 
 const signOut = jest.fn(async () => ({ error: null }));
@@ -22,7 +22,7 @@ jest.mock('@/hooks/useUserData', () => ({
   mutateUserData: jest.fn(async () => undefined),
 }));
 
-jest.mock('@/lib/bitcoin-wallet-client', () => ({
+jest.mock('@bitcode/auth/bitcoin-wallet-client', () => ({
   inspectBitcoinWalletProviders: jest.fn(async () => [
     { id: 'leather', label: 'Leather', detected: true },
   ]),

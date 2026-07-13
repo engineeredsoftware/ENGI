@@ -1,0 +1,22 @@
+{
+  "name": "@bitcode/specifying",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./server.js": "./server.js",
+    "./public/*": "./public/*",
+    "./src/*": "./src/*"
+  },
+  "scripts": {
+    "test": "node --test --test-force-exit test/*.test.js",
+    "typecheck": "tsc -p tsconfig.typecheck.json"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.2",
+    "typescript": "^6.0.2"
+  },
+  "description": "Bitcode specifying tooling: gate proof generators, canon posture, promotion helpers, and the commercialized demo-engine bridge still used by a few UAPI routes. The monorepo itself is protocol canon \u2014 this is not a product \"protocol\" package. Standalone demonstration lives only in protocol-demonstration/."
+}

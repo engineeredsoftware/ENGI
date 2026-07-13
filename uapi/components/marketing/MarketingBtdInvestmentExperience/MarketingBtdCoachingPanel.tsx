@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Efficiency coaching insight panel for BTD investment experience.
  */
-"use client";
 
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";

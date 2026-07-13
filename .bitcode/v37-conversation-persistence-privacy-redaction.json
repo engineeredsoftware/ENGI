@@ -325,11 +325,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-persistence-privacy-redaction.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-persistence-privacy-redaction.test.js",
           "present": true
         },
         {
@@ -361,7 +361,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -530,11 +530,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-persistence-privacy-redaction.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-persistence-privacy-redaction.test.js",
           "present": true
         },
         {
@@ -566,7 +566,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -735,11 +735,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-persistence-privacy-redaction.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-persistence-privacy-redaction.test.js",
           "present": true
         },
         {
@@ -771,7 +771,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -938,11 +938,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-persistence-privacy-redaction.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-persistence-privacy-redaction.test.js",
           "present": true
         },
         {
@@ -974,7 +974,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -1141,11 +1141,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-persistence-privacy-redaction.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-persistence-privacy-redaction.test.js",
           "present": true
         },
         {
@@ -1177,7 +1177,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -1346,11 +1346,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-persistence-privacy-redaction.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-persistence-privacy-redaction.test.js",
           "present": true
         },
         {
@@ -1382,7 +1382,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -1551,11 +1551,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-persistence-privacy-redaction.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-persistence-privacy-redaction.test.js",
           "present": true
         },
         {
@@ -1587,7 +1587,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -1660,11 +1660,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-persistence-privacy-redaction.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-persistence-privacy-redaction.test.js",
           "present": true
         },
         {
@@ -1696,7 +1696,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -1734,11 +1734,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-persistence-privacy-redaction.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-persistence-privacy-redaction.test.js",
           "present": true
         },
         {
@@ -1770,7 +1770,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -1808,11 +1808,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-persistence-privacy-redaction.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-persistence-privacy-redaction.test.js",
           "present": true
         },
         {
@@ -1844,7 +1844,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -1882,11 +1882,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-persistence-privacy-redaction.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-persistence-privacy-redaction.test.js",
           "present": true
         },
         {
@@ -1918,7 +1918,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -1956,11 +1956,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-persistence-privacy-redaction.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-persistence-privacy-redaction.test.js",
           "present": true
         },
         {
@@ -1992,7 +1992,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -2030,11 +2030,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-persistence-privacy-redaction.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-persistence-privacy-redaction.test.js",
           "present": true
         },
         {
@@ -2066,7 +2066,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -2104,11 +2104,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js",
+          "sourceRoot": "packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/conversation-persistence-privacy-redaction.test.js",
+          "sourceRoot": "packages/specifying/test/conversation-persistence-privacy-redaction.test.js",
           "present": true
         },
         {
@@ -2140,7 +2140,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {

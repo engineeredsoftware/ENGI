@@ -155,8 +155,8 @@ function main() {
     '.bitcode/v38-prompt-benchmark-report.json',
     '.bitcode/v38-disclosure-boundary-report.json',
     '.bitcode/v38-read-need-comprehension-inference-hardening.json',
-    'packages/protocol/src/canonical/read-fits-finding-search-embeddings.js',
-    'packages/protocol/test/v38-read-fits-finding-search-embeddings.test.js',
+    'packages/specifying/src/canonical/read-fits-finding-search-embeddings.js',
+    'packages/specifying/test/v38-read-fits-finding-search-embeddings.test.js',
     'scripts/generate-v38-read-fits-finding-search-embeddings.mjs',
     'scripts/check-v38-gate7-read-fits-finding-search-embeddings.mjs',
     'packages/asset-packs-pipelines/domain/src/depository-search.ts',
@@ -173,7 +173,7 @@ function main() {
     'BITCODE_SPEC_V38_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -196,7 +196,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v38-read-fits-finding-search-embeddings.test.js',
+        'packages/specifying/test/v38-read-fits-finding-search-embeddings.test.js',
       ]);
     } catch (error) {
       failures.push(`V38 ReadFitsFindingSynthesis protocol test failed: ${error.stderr || error.message}`);
@@ -273,12 +273,12 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const index = read(root, 'packages/protocol/src/index.js');
-  const typeDefs = read(root, 'packages/protocol/src/index.d.ts');
+  const index = read(root, 'packages/specifying/src/index.js');
+  const typeDefs = read(root, 'packages/specifying/src/index.d.ts');
 
   assertCheck(failures, spec.includes('V38ReadFitsFindingSearchEmbeddings'), 'V38 spec must name the Gate 7 report.');
   assertCheck(failures, delta.includes('Gate 7: ReadFitsFindingSynthesis Depository Search And Embeddings'), 'V38 delta must include Gate 7.');

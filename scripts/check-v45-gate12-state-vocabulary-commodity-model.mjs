@@ -243,17 +243,17 @@ function main() {
   assertCheck(
     failures,
     assetPackPackageJson.includes('"./asset-pack-commodity-state": "./src/asset-pack-commodity-state.ts"'),
-    '@bitcode/pipeline-asset-pack package must export ./asset-pack-commodity-state.',
+    '@bitcode/asset-packs-pipelines-domain package must export ./asset-pack-commodity-state.',
   );
   assertCheck(
     failures,
     assetPackIndex.includes("export * from './asset-pack-commodity-state';"),
-    '@bitcode/pipeline-asset-pack root index must export asset-pack-commodity-state.',
+    '@bitcode/asset-packs-pipelines-domain root index must export asset-pack-commodity-state.',
   );
   assertCheck(
     failures,
-    uapiJestConfig.includes('^@bitcode/pipeline-asset-pack/asset-pack-commodity-state$'),
-    'uapi Jest config must resolve @bitcode/pipeline-asset-pack/asset-pack-commodity-state.',
+    uapiJestConfig.includes('^@bitcode/asset-packs-pipelines-domain/asset-pack-commodity-state$'),
+    'uapi Jest config must resolve @bitcode/asset-packs-pipelines-domain/asset-pack-commodity-state.',
   );
   assertCheck(
     failures,

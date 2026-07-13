@@ -82,7 +82,7 @@ import {
   queuePipelineJob,
   monitorPipelineExecution,
 } from '../../pipeline-execution/adapter';
-import { buildReadingInterfaceProductParity } from '@bitcode/pipeline-asset-pack/reading-interface-product-parity';
+import { buildReadingInterfaceProductParity } from '@bitcode/asset-packs-pipelines-domain/reading-interface-product-parity';
 
 const mockedQueuePipelineJob = jest.mocked(queuePipelineJob);
 const mockedMonitorPipelineExecution = jest.mocked(monitorPipelineExecution);

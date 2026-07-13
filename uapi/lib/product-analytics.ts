@@ -14,7 +14,7 @@
  */
 
 import { track } from "@vercel/analytics";
-import { trackEvent } from "@bitcode/google-analytics";
+import { trackEvent } from "@bitcode/external-telemetry-google";
 
 /** Where a dispatched synthesis run failed. */
 export type DepositSynthesisFailureStage =

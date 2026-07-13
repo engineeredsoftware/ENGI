@@ -30,18 +30,18 @@ const registry = factoryLLMRegistry();
 
 // Register a provider
 registry.registerProvider({
-  name: 'openai',
-  createLLM: (config) => async (input) => {
-    // Call OpenAI API with config
-    return { 
-      content: 'response', 
-      usage: { 
-        inputTokens: 10, 
-        outputTokens: 20, 
-        totalTokens: 30 
-      } 
-    };
-  }
+ name: 'openai',
+ createLLM: (config) => async (input) => {
+ // Call OpenAI API with config
+ return {
+ content: 'response',
+ usage: {
+ inputTokens: 10,
+ outputTokens: 20,
+ totalTokens: 30
+ }
+ };
+ }
 });
 
 // Configure at different levels
@@ -50,16 +50,16 @@ registry.configure('pipeline:asset-pack:phase:implementation', { temperature: 0.
 
 // Get LLM with cascading config
 const llm = registry.getLLM([
-  'pipeline:asset-pack',
-  'pipeline:asset-pack:phase:implementation'
+ 'pipeline:asset-pack',
+ 'pipeline:asset-pack:phase:implementation'
 ]);
 
 // Use it
 const output = await llm({
-  messages: [
-    { role: 'system', content: 'You are a helpful assistant.' },
-    { role: 'user', content: 'Write a function to add two numbers' }
-  ]
+ messages: [
+ { role: 'system', content: 'You are a helpful assistant.' },
+ { role: 'user', content: 'Write a function to add two numbers' }
+ ]
 });
 ```
 
@@ -69,45 +69,45 @@ const output = await llm({
 
 ```typescript
 export interface LLMInput {
-  messages: LLMMessage[];
-  temperature?: number;
-  maxTokens?: number;
-  // ... other config
+ messages: LLMMessage[];
+ temperature?: number;
+ maxTokens?: number;
+ // ... other config
 }
 
 export interface LLMMessage {
-  role: 'system' | 'user' | 'assistant' | 'function';
-  content: string;
-  name?: string;
-  functionCall?: {
-    name: string;
-    arguments: string;
-  };
+ role: 'system' | 'user' | 'assistant' | 'function';
+ content: string;
+ name?: string;
+ functionCall?: {
+ name: string;
+ arguments: string;
+ };
 }
 
 export interface LLMOutputMetadata {
-  /**
-   * Provider-agnostic stop reason reported by the model.
-   * Common values: 'stop', 'length', 'content_filter', 'unknown'.
-   */
-  stopReason?: string;
-  [key: string]: any;
+ /**
+ * Provider-agnostic stop reason reported by the model.
+ * Common values: 'stop', 'length', 'content_filter', 'unknown'.
+ */
+ stopReason?: string;
+ [key: string]: any;
 }
 
 export interface LLMOutput {
-  content: string;
-  usage?: LLMUsage;
-  metadata?: LLMOutputMetadata;
-  functionCall?: {
-    name: string;
-    arguments: string;
-  };
+ content: string;
+ usage?: LLMUsage;
+ metadata?: LLMOutputMetadata;
+ functionCall?: {
+ name: string;
+ arguments: string;
+ };
 }
 
 export interface LLMUsage {
-  inputTokens: number;
-  outputTokens: number; 
-  totalTokens: number;
+ inputTokens: number;
+ outputTokens: number;
+ totalTokens: number;
 }
 ```
 
@@ -116,31 +116,31 @@ export interface LLMUsage {
 ```typescript
 // LLM Provider interface
 export interface LLMProvider {
-  name: string;
-  createLLM(config: LLMConfig): LLM;
-  validateConfig?(config: LLMConfig): boolean;
-  getDefaultConfig?(): Partial<LLMConfig>;
+ name: string;
+ createLLM(config: LLMConfig): LLM;
+ validateConfig?(config: LLMConfig): boolean;
+ getDefaultConfig?(): Partial<LLMConfig>;
 }
 
 // LLM Registry using Registry pattern
 export class LLMRegistry {
-  // Register a provider
-  registerProvider(provider: LLMProvider): void;
-  
-  // Configure at any path with priority
-  configure(path: string, config: Partial<LLMConfig>, priority?: number): void;
-  
-  // Get LLM with cascading config lookup
-  getLLM(hierarchy: string[], provider?: string): LLM;
-  
-  // Get sequence-specific LLM
-  getSequenceLLM(
-    pipeline: string,
-    phase: string,
-    agent: string,
-    sequence: string,
-    provider?: string
-  ): LLM;
+ // Register a provider
+ registerProvider(provider: LLMProvider): void;
+
+ // Configure at any path with priority
+ configure(path: string, config: Partial<LLMConfig>, priority?: number): void;
+
+ // Get LLM with cascading config lookup
+ getLLM(hierarchy: string[], provider?: string): LLM;
+
+ // Get sequence-specific LLM
+ getSequenceLLM(
+ pipeline: string,
+ phase: string,
+ agent: string,
+ sequence: string,
+ provider?: string
+ ): LLM;
 }
 ```
 
@@ -150,18 +150,18 @@ LLM configurations cascade through the Registry pattern:
 
 ```typescript
 // Configure at different hierarchy levels
-registry.configure('*', { 
-  model: 'gpt-3.5-turbo',
-  temperature: 0.7 
+registry.configure('*', {
+ model: 'gpt-3.5-turbo',
+ temperature: 0.7
 }, 0); // Global default, priority 0
 
-registry.configure('pipeline:asset-pack', { 
-  model: 'gpt-4' // Higher tier model for AssetPack synthesis
+registry.configure('pipeline:asset-pack', {
+ model: 'gpt-4' // Higher tier model for AssetPack synthesis
 }, 10);
 
 registry.configure('pipeline:asset-pack:phase:implementation:agent:coder', {
-  temperature: 0.2,  // Precise for code generation
-  maxTokens: 8192    // More tokens for code
+ temperature: 0.2, // Precise for code generation
+ maxTokens: 8192 // More tokens for code
 }, 20);
 ```
 
@@ -177,7 +177,7 @@ When requesting an LLM, the registry searches from most specific to least specif
 // 6. ['pipeline']
 // 7. []
 const llm = registry.getLLM(
-  ['pipeline', 'asset-pack', 'phase', 'implementation', 'agent', 'coder']
+ ['pipeline', 'asset-pack', 'phase', 'implementation', 'agent', 'coder']
 );
 ```
 
@@ -188,18 +188,18 @@ Different providers can be registered at each level:
 ```typescript
 // Use Anthropic for safety-critical agents
 registry.register(
-  ['pipeline', 'safety', 'agent', 'validator'],
-  'anthropic',
-  anthropicLLM,
-  100 // High priority
+ ['pipeline', 'safety', 'agent', 'validator'],
+ 'anthropic',
+ anthropicLLM,
+ 100 // High priority
 );
 
 // Use local model for development
 registry.register(
-  ['pipeline', 'development'],
-  'local',
-  localLLM,
-  50
+ ['pipeline', 'development'],
+ 'local',
+ localLLM,
+ 50
 );
 
 // Get with specific provider
@@ -219,10 +219,10 @@ const llmRegistry = execution.llms; // ExecutionLLMRegistry
 const llm = llmRegistry.getDefaultLLM(execution);
 
 const output = await llm({
-  messages: [
-    { role: 'system', content: execution.prompt.format() },
-    { role: 'user', content: userPrompt }
-  ]
+ messages: [
+ { role: 'system', content: execution.prompt.format() },
+ { role: 'user', content: userPrompt }
+ ]
 });
 ```
 
@@ -236,7 +236,7 @@ This package only provides the pure LLM primitives that ExecutionLLMRegistry use
 4. **Hierarchical Config**: Natural cascading through execution tree
 5. **Type Safe**: Full typing for safety and intellisense
 
-## Philosophy  
+## Philosophy
 
 This package embodies radical simplicity: LLMs are just async functions. No framework coupling, no execution awareness, no pipeline knowledge. Just:
 

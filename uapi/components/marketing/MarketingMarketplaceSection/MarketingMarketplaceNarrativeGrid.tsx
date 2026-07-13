@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * 2×2 narrative card grid describing marketplace value props.
  */
-"use client";
 
 import React from "react";
 import {

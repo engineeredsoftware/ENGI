@@ -196,17 +196,17 @@
       "canonicalTruth": [
         "BITCODE_SPEC.txt",
         "BITCODE_SPEC_V35.md",
-        "packages/protocol"
+        "packages/specifying"
       ],
       "sourceRoots": [
         "BITCODE_SPEC.txt",
         "BITCODE_SPEC_V35.md",
-        "packages/protocol/README.md",
+        "packages/specifying/README.md",
         "uapi/app/docs/bitcode-docs-content.ts"
       ],
       "packageSurfaces": [
-        "packages/protocol/src/index.js",
-        "packages/protocol/src/canonical/v21-specifying.js"
+        "packages/specifying/src/index.js",
+        "packages/specifying/src/canonical/v21-specifying.js"
       ],
       "docsSections": [
         "protocol",
@@ -265,7 +265,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -383,13 +383,13 @@
       ],
       "sourceRoots": [
         "uapi/app/docs/bitcode-docs-content.ts",
-        "packages/executions-mcp/README.md",
-        "packages/executions-mcp/src/mcp-server/docs/public/mcp-overview.md",
-        "packages/executions-mcp/src/mcp-server/docs/public/mcp-api-reference.md",
+        "packages/mcp-generics/README.md",
+        "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
+        "packages/mcp-generics/src/mcp-server/docs/public/mcp-api-reference.md",
         "docs/api/conversations-openapi.yaml"
       ],
       "packageSurfaces": [
-        "packages/executions-mcp/src/mcp-server",
+        "packages/mcp-generics/src/mcp-server",
         "packages/api/src"
       ],
       "docsSections": [
@@ -444,15 +444,15 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/README.md",
+          "sourceRoot": "packages/mcp-generics/README.md",
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/docs/public/mcp-overview.md",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/docs/public/mcp-api-reference.md",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/docs/public/mcp-api-reference.md",
           "present": true
         },
         {
@@ -479,11 +479,11 @@
       ],
       "sourceRoots": [
         "uapi/app/docs/bitcode-docs-content.ts",
-        "packages/chatgptapp/README.md",
+        "packages/external-apps/chatgpt/README.md",
         "internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md"
       ],
       "packageSurfaces": [
-        "packages/chatgptapp/src",
+        "packages/external-apps/chatgpt/src",
         "uapi/app/docs"
       ],
       "docsSections": [
@@ -538,7 +538,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/chatgptapp/README.md",
+          "sourceRoot": "packages/external-apps/chatgpt/README.md",
           "present": true
         },
         {
@@ -911,16 +911,16 @@
       "guideIntent": "Explain how public users read proof, witness, replay, redaction, and fail-closed posture.",
       "canonicalTruth": [
         "BITCODE_SPEC_V35.md",
-        "packages/protocol",
+        "packages/specifying",
         "TelemetryTaxonomyCatalog"
       ],
       "sourceRoots": [
         "uapi/app/docs/bitcode-docs-content.ts",
         "BITCODE_SPEC_V35.md",
-        "packages/protocol/README.md"
+        "packages/specifying/README.md"
       ],
       "packageSurfaces": [
-        "packages/protocol/src",
+        "packages/specifying/src",
         "scripts/generate-bitcode-proven.mjs"
       ],
       "docsSections": [
@@ -979,7 +979,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         }
       ],
@@ -1199,7 +1199,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         },
         {
@@ -1243,15 +1243,15 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/README.md",
+          "sourceRoot": "packages/mcp-generics/README.md",
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/docs/public/mcp-overview.md",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
           "present": true
         },
         {
-          "sourceRoot": "packages/executions-mcp/src/mcp-server/docs/public/mcp-api-reference.md",
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/docs/public/mcp-api-reference.md",
           "present": true
         },
         {
@@ -1271,7 +1271,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/chatgptapp/README.md",
+          "sourceRoot": "packages/external-apps/chatgpt/README.md",
           "present": true
         },
         {
@@ -1383,7 +1383,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/README.md",
+          "sourceRoot": "packages/specifying/README.md",
           "present": true
         }
       ]

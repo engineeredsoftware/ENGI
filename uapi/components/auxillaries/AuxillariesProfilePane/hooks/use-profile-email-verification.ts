@@ -2,7 +2,7 @@
  * Email OTP send/verify handlers for optional profile contact notifications.
  */
 
-import { trackEvent } from '@bitcode/google-analytics';
+import { trackEvent } from '@bitcode/external-telemetry-google';
 import { reportError } from '@bitcode/errors';
 import { createClient } from '@bitcode/supabase/ssr/client';
 

@@ -3,7 +3,7 @@
  *
  * Hierarchy:
  *   Artifact / ArtifactInfo                 # this package
- *     → PatchArtifact                       # generic-artifacts/patch
+ *     → PatchArtifact                       # generic-artifacts/patch-kind
  *         → AssetPackPatchArtifact          # asset-packs/synthesis
  */
 

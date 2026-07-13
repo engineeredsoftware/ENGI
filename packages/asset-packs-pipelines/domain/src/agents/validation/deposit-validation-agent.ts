@@ -11,7 +11,7 @@
  * export (run factory path) and `DepositValidationAgent` remain stable.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 import { measureAssetPackAbsolutes } from './agent-measure-absolutes';
 import {
@@ -42,7 +42,7 @@ export {
 
 const prompt = createDepositValidationPrompt();
 
-export const DepositValidationAgent = factoryAgentWithPTRR<
+export const DepositValidationAgent = factoryPTRRAgent<
   DepositValidationInput,
   DepositValidationResult
 >({
@@ -103,7 +103,7 @@ export default async function runDepositValidationAgent(input: any, execution: a
     },
     execution,
   );
-  // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });
+  // factoryPTRRAgent returns an envelope ({ context, output, finalOutput });
   // unwrap to the agent's typed validation output (F27).
   const agentOutput = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 

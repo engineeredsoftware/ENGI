@@ -84,7 +84,7 @@ let nextConfig = {
     '@bitcode/pipeline-hosts',
     '@bitcode/asset-packs-pipelines-domain',
     '@bitcode/pipelines-generics',
-    '@bitcode/vcs',
+    '@bitcode/vcs-generics',
     '@bitcode/agent-generics',
     // Generic agents used by pipelines
     '@bitcode/generic-agent-code-editor',
@@ -102,24 +102,24 @@ let nextConfig = {
     '@bitcode/generic-tools-multimodal-processing',
     '@bitcode/generic-tools-simple-system-text-search',
     '@bitcode/generic-tools-repository-setup',
-    '@bitcode/vcs-tools',
+    '@bitcode/generic-tools-vcs',
     ...mcpToolTranspilePackages,
     '@bitcode/generic-tools-lsp-query',
-    '@bitcode/vcs-tools',
+    '@bitcode/generic-tools-vcs',
     // Core shared libs commonly imported in app/server code
-    '@bitcode/protocol',
+    '@bitcode/specifying',
     '@bitcode/btd',
-    '@bitcode/models',
+    '@bitcode/generic-llms-models',
     '@bitcode/files',
     '@bitcode/logger',
-    '@bitcode/streams',
+    '@bitcode/api/streams',
     '@bitcode/observability',
-    '@bitcode/mcp',
-    '@bitcode/git',
-    '@bitcode/notion',
+    '@bitcode/mcp-generics',
+    '@bitcode/generic-vcs-git',
+    '@bitcode/externals-notion',
     '@bitcode/security',
-    '@bitcode/gitlab',
-    '@bitcode/bitbucket',
+    '@bitcode/generic-vcs-gitlab',
+    '@bitcode/generic-vcs-bitbucket',
   ],
   compiler: {
     // Remove console.* calls in production builds
@@ -234,7 +234,7 @@ let nextConfig = {
     // Stub Sentry for Edge Runtime and client builds
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
-      '@bitcode/sentry$': path.resolve(__dirname, '..', 'packages', 'external-telemetry', 'sentry', 'src', (isServer && !isEdge) ? 'sentry.ts' : 'sentry-edge-stub.ts'),
+      '@bitcode/external-telemetry-sentry$': path.resolve(__dirname, '..', 'packages', 'external-telemetry', 'sentry', 'src', (isServer && !isEdge) ? 'sentry.ts' : 'sentry-edge-stub.ts'),
     };
 
     // Resolve TS path aliases based on tsconfig.json and prefer TS siblings over stale JS artifacts.
@@ -257,9 +257,9 @@ let nextConfig = {
     });
     
     // Add doc-code-tool loader for automatic prompt attachment.
-    // Resolve from @bitcode/doc-code package export (built to dist at dev start).
+    // Resolve from @bitcode/generic-doc-comments-doc-code package export (built to dist at dev start).
     try {
-      const docCodeLoader = require.resolve('@bitcode/doc-code/loader');
+      const docCodeLoader = require.resolve('@bitcode/generic-doc-comments-doc-code/loader');
       config.module.rules.push({
         test: /\.(ts|tsx)$/,
         include: [
@@ -275,7 +275,7 @@ let nextConfig = {
       });
     } catch (e) {
       // If the loader isn't built yet, skip silently; prompts will still work without runtime attachments.
-      // The dev script should build @bitcode/doc-code before starting dev to enable the loader.
+      // The dev script should build @bitcode/generic-doc-comments-doc-code before starting dev to enable the loader.
     }
     // For client builds and edge runtime, stub out server-only modules
     if (!isServer || isEdge) {
@@ -312,7 +312,7 @@ let nextConfig = {
       // Replace problematic Node.js packages with stubs for Edge Runtime and client builds
       config.resolve.alias = {
         ...(config.resolve.alias || {}),
-        '@bitcode/sentry': path.resolve(__dirname, '..', 'packages', 'external-telemetry', 'sentry', 'src', 'sentry-edge-stub.ts'),
+        '@bitcode/external-telemetry-sentry': path.resolve(__dirname, '..', 'packages', 'external-telemetry', 'sentry', 'src', 'sentry-edge-stub.ts'),
         '@sentry/node': path.resolve(__dirname, '..', 'packages', 'external-telemetry', 'sentry', 'src', 'sentry-edge-stub.ts'),
         '@sentry/nextjs': path.resolve(__dirname, '..', 'packages', 'external-telemetry', 'sentry', 'src', 'sentry-edge-stub.ts'),
         diagnostics_channel: path.resolve(__dirname, '..', 'admin', 'lib', 'stubs', 'diagnostics_channel.ts'),
@@ -341,8 +341,8 @@ let nextConfig = {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
       // Single top-level alias for prompts – root-only import
-      '@bitcode/protocol': path.resolve(__dirname, '..', 'packages', 'protocol', 'src', 'index.js'),
-      '@bitcode/protocol$': path.resolve(__dirname, '..', 'packages', 'protocol', 'src', 'index.js'),
+      '@bitcode/specifying': path.resolve(__dirname, '..', 'packages', 'protocol', 'src', 'index.js'),
+      '@bitcode/specifying$': path.resolve(__dirname, '..', 'packages', 'protocol', 'src', 'index.js'),
       '@bitcode/prompts': path.resolve(__dirname, '..', 'packages', 'prompts', 'src', 'index.ts'),
       '@bitcode/execution-generics': path.resolve(
         __dirname,
@@ -352,7 +352,7 @@ let nextConfig = {
         'src',
         'index.ts'
       ),
-      '@bitcode/pipeline-asset-pack$': path.resolve(
+      '@bitcode/asset-packs-pipelines-domain$': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -361,7 +361,7 @@ let nextConfig = {
         'src',
         'index.ts'
       ),
-      '@bitcode/pipeline-asset-pack/read-need': path.resolve(
+      '@bitcode/asset-packs-pipelines-domain/read-need': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -370,7 +370,7 @@ let nextConfig = {
         'src',
         'read-need.ts'
       ),
-      '@bitcode/pipeline-asset-pack/asset-packs-synthesis': path.resolve(
+      '@bitcode/asset-packs-pipelines-domain/asset-packs-synthesis': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -379,7 +379,7 @@ let nextConfig = {
         'src',
         'asset-packs-synthesis.ts'
       ),
-      '@bitcode/pipeline-asset-pack/deposit-option-real-synthesis': path.resolve(
+      '@bitcode/asset-packs-pipelines-domain/deposit-option-real-synthesis': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -388,7 +388,7 @@ let nextConfig = {
         'src',
         'deposit-option-real-synthesis.ts'
       ),
-      '@bitcode/pipeline-asset-pack/runtime-inference-policy': path.resolve(
+      '@bitcode/asset-packs-pipelines-domain/runtime-inference-policy': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -397,7 +397,7 @@ let nextConfig = {
         'src',
         'runtime-inference-policy.ts'
       ),
-      '@bitcode/pipeline-asset-pack/read-need-review-resynthesis': path.resolve(
+      '@bitcode/asset-packs-pipelines-domain/read-need-review-resynthesis': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -406,7 +406,7 @@ let nextConfig = {
         'src',
         'read-need-review-resynthesis.ts'
       ),
-      '@bitcode/pipeline-asset-pack/reading-pipeline-contract': path.resolve(
+      '@bitcode/asset-packs-pipelines-domain/reading-pipeline-contract': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -417,7 +417,7 @@ let nextConfig = {
       ),
       // Security package: server-safe root and explicit client entry
       '@bitcode/security': path.resolve(__dirname, '..', 'packages', 'security', 'src', 'index.ts'),
-      '@bitcode/security/client': path.resolve(__dirname, '..', 'packages', 'security', 'src', 'client.ts'),
+      '@bitcode/security/client': path.resolve(__dirname, '..', 'packages', 'security', 'client', 'src', 'index.ts'),
       '@bitcode/engine/pipeline/pipelineSDIVF': path.resolve(
         __dirname,
         '..',
@@ -436,10 +436,10 @@ let nextConfig = {
         'src',
         'run.ts'
       ),
-      '@bitcode/mcp/validation': path.resolve(__dirname, '..', 'packages', 'mcp-generics', 'src', 'index.ts'),
-      '@bitcode/git': path.resolve(__dirname, '..', 'packages', 'git', 'src', 'index.ts'),
-      '@bitcode/mcp': path.resolve(__dirname, '..', 'packages', 'mcp-generics', 'src', 'index.ts'),
-      '@bitcode/mcp$': path.resolve(__dirname, '..', 'packages', 'mcp-generics', 'src', 'index.ts'),
+      '@bitcode/mcp-generics/validation': path.resolve(__dirname, '..', 'packages', 'mcp-generics', 'src', 'index.ts'),
+      '@bitcode/generic-vcs-git': path.resolve(__dirname, '..', 'packages', 'git', 'src', 'index.ts'),
+      '@bitcode/mcp-generics': path.resolve(__dirname, '..', 'packages', 'mcp-generics', 'src', 'index.ts'),
+      '@bitcode/mcp-generics$': path.resolve(__dirname, '..', 'packages', 'mcp-generics', 'src', 'index.ts'),
       '@bitcode/mcp-generics': path.resolve(__dirname, '..', 'packages', 'mcp-generics', 'src', 'index.ts'),
       '@bitcode/generic-mcps-bitcode': path.resolve(__dirname, '..', 'packages', 'generic-mcps', 'bitcode', 'src', 'index.ts'),
       // Generic agents umbrella alias
@@ -525,7 +525,7 @@ let nextConfig = {
         'src',
         'index.ts'
       ),
-      '@bitcode/vcs-tools': path.resolve(
+      '@bitcode/generic-tools-vcs': path.resolve(
         __dirname,
         '..',
         'packages',

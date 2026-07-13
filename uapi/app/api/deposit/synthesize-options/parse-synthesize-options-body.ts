@@ -16,10 +16,6 @@ export type SynthesizeOptionsBody = {
   depositoryDemandSignals?: unknown;
   readingDemandSignals?: unknown;
   existingDepositorySignals?: unknown;
-  /** Legacy in-flight client key for forcedInclusions. */
-  sourcePathHints?: unknown;
-  /** Legacy in-flight client key for forcedExclusions. */
-  protectedIpExclusions?: unknown;
 };
 
 export function readString(value: unknown) {
@@ -92,13 +88,8 @@ export function parseSynthesizeOptionsSteering(
     sourceBranch: readString(body.sourceBranch),
     sourceCommit: readString(body.sourceCommit),
     obfuscations: readString(body.obfuscations),
-    // Prefer canonical names; accept legacy body keys once for in-flight clients.
-    forcedInclusionsRaw: readStringList(
-      body.forcedInclusions ?? body.sourcePathHints,
-    ),
-    forcedExclusionsRaw: readStringList(
-      body.forcedExclusions ?? body.protectedIpExclusions,
-    ),
+    forcedInclusionsRaw: readStringList(body.forcedInclusions),
+    forcedExclusionsRaw: readStringList(body.forcedExclusions),
     demandContext: readStringList(body.demandContext),
     depositoryDemandSignals: readSignals(body.depositoryDemandSignals),
     readingDemandSignals: readSignals(body.readingDemandSignals),

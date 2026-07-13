@@ -423,7 +423,7 @@ test('V26 proven generator renders active Bitcode posture without overstating su
   );
   assert.equal(
     generated.data.v26.retainedPackageAdmissibilityProof.packageCensus.some((entry) =>
-      entry.packagePath === 'packages/executions-mcp/src/mcp-server/package.json' &&
+      entry.packagePath === 'packages/mcp-generics/src/mcp-server/package.json' &&
       entry.primaryRole === 'direct-product'
     ),
     true,

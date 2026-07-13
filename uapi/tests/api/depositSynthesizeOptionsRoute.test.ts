@@ -39,7 +39,7 @@ jest.mock('@vercel/functions', () => ({
   waitUntil: jest.fn((promise: Promise<unknown>) => promise),
 }));
 
-jest.mock('@bitcode/pipeline-asset-pack/runtime-inference-policy', () => ({
+jest.mock('@bitcode/asset-packs-pipelines-domain/runtime-inference-policy', () => ({
   isAssetPackRealInferenceEnabled: jest.fn(() => true),
 }));
 
@@ -91,7 +91,7 @@ import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createStreamingExecution } from '@bitcode/pipelines-generics';
 import { synthesizeDepositAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-deposits';
-import { isAssetPackRealInferenceEnabled } from '@bitcode/pipeline-asset-pack/runtime-inference-policy';
+import { isAssetPackRealInferenceEnabled } from '@bitcode/asset-packs-pipelines-domain/runtime-inference-policy';
 import {
   provisionDepositSourceInventory,
   runDepositInBoxHost,

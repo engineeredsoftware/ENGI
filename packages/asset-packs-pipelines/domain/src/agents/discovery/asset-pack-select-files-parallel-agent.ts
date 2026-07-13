@@ -5,7 +5,7 @@
  * Identifies relevant files for the expressed read and its written-asset shape.
  */
 
-import { factoryAgentWithPTRR } from '@bitcode/agent-generics';
+import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { createAssetPackDiscoveryPhaseSelectFilesParallelAgentPrompt, AssetPackDiscoveryPhaseSelectFilesParallelAgentPromptSteps } from '../prompts/select-files-parallel-prompt';
 import { getAssetPackPipelineToolsForAgent } from '../../tools';
 import { z } from 'zod';
@@ -78,7 +78,7 @@ const SelectFilesOutputSchema = z.object({
 /**
  * Select Files Parallel Agent
  */
-const selectFilesAgent = factoryAgentWithPTRR<
+const selectFilesAgent = factoryPTRRAgent<
   z.infer<typeof SelectFilesInputSchema>,
   z.infer<typeof SelectFilesOutputSchema>
 >({

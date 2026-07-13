@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Scenario selection cards for demonstration Read measurements.
  */
-'use client';
 
 import React from 'react';
 import type { TerminalReadScenariosState } from '@/components/reads/models/read-scenarios';

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
+import { VCSProviderType, VCSRepository } from '@bitcode/vcs-generics-core';
 import { VCSSourceBadge } from '@/components/bitcode/vcs/VCSSourceBadge/VCSSourceBadge';
 import { cn } from '@bitcode/styling';
 

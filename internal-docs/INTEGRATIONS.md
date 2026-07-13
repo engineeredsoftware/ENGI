@@ -9,12 +9,12 @@ Bitcode provides integrations with external services through two primary systems
 ## VCS hierarchy (required pattern)
 
 ```
-@bitcode/vcs-generics                      # primitives
-        ↑
-@bitcode/generic-vcs-github                # packages/generic-vcs/github
-@bitcode/generic-vcs-gitlab                # packages/generic-vcs/gitlab
-@bitcode/generic-vcs-bitbucket             # packages/generic-vcs/bitbucket
-@bitcode/generic-vcs-git                   # git operation bridge
+@bitcode/vcs-generics # primitives
+ ↑
+@bitcode/generic-vcs-github # packages/generic-vcs/github
+@bitcode/generic-vcs-gitlab # packages/generic-vcs/gitlab
+@bitcode/generic-vcs-bitbucket # packages/generic-vcs/bitbucket
+@bitcode/generic-vcs-git # git operation bridge
 ```
 
 | Package | Role |
@@ -25,15 +25,15 @@ Bitcode provides integrations with external services through two primary systems
 | `packages/generic-vcs/bitbucket/` | Bitbucket provider (Cloud + Server) |
 | `packages/generic-vcs/git/` | Git-shaped bridge over providers |
 
-**Compatibility shims only** (prefer hierarchy packages in new code):
+**Hierarchy packages only** (prefer hierarchy packages in new code):
 
 | Shim | Re-exports |
 | --- | --- |
-| `@bitcode/vcs` | `@bitcode/vcs-generics` |
-| `@bitcode/github` | `@bitcode/generic-vcs-github` |
-| `@bitcode/gitlab` | `@bitcode/generic-vcs-gitlab` |
-| `@bitcode/bitbucket` | `@bitcode/generic-vcs-bitbucket` |
-| `@bitcode/git` | `@bitcode/generic-vcs-git` |
+| `@bitcode/vcs-generics` | `@bitcode/vcs-generics` |
+| `@bitcode/generic-vcs-github` | `@bitcode/generic-vcs-github` |
+| `@bitcode/generic-vcs-gitlab` | `@bitcode/generic-vcs-gitlab` |
+| `@bitcode/generic-vcs-bitbucket` | `@bitcode/generic-vcs-bitbucket` |
+| `@bitcode/generic-vcs-git` | `@bitcode/generic-vcs-git` |
 
 ### Provider law
 
@@ -43,8 +43,8 @@ abstract class VCSProvider implements Pick<AbstractVCSProvider, 'type'> { … }
 
 // Every provider base
 class BitbucketProvider extends VCSProvider implements AbstractVCSProvider {
-  readonly type = 'bitbucket';
-  // …
+ readonly type = 'bitbucket';
+ // …
 }
 
 // Factory registration (in vcs-generics)

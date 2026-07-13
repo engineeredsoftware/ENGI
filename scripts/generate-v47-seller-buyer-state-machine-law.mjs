@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_SELLER_BUYER_STATE_MACHINE_LAW_ARTIFACT_PATH,
   buildV47SellerBuyerStateMachineLaw,
-} from '../packages/protocol/src/canonical/v47-seller-buyer-state-machine-law.js';
+} from '../packages/specifying/src/canonical/v47-seller-buyer-state-machine-law.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -1,6 +1,7 @@
+'use client';
+
 /* eslint-disable react/no-multi-comp */
 
-"use client";
 
 /**
  * Live marketplace ticker section shell for marketing.

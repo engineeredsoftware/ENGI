@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Packs detail governance / authority readback panel.
  */
-"use client";
 
 import React from "react";
 import type { PackActivityDetailProjection } from "@/components/bitcode/activity/PackActivityModel/pack-activity-model";

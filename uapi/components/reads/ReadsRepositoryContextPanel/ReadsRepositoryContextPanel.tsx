@@ -1,11 +1,12 @@
+'use client';
+
 /**
  * Repository context panel for Reads — thin orchestration over VCS hook + units.
  */
 
-'use client';
 
 import React from 'react';
-import type { VCSRepository } from '@bitcode/vcs-core';
+import type { VCSRepository } from '@bitcode/vcs-generics-core';
 
 import BitcodeWorkspaceCard from '@/components/bitcode/pipeline/BitcodeWorkspaceCard/BitcodeWorkspaceCard';
 import type { TerminalActivityRecordDraft } from '@/components/bitcode/pipeline/models/pipeline-activity-history';

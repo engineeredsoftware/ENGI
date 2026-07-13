@@ -3,7 +3,7 @@ import {
   DEFAULT_PROVIDER,
   DEFAULT_MODEL_API,
   getUsdPricingForApiModel,
-} from '@bitcode/models';
+} from '@bitcode/generic-llms-models';
 
 describe('Model catalog and defaults', () => {
   it('default provider/model appear in catalog', () => {

@@ -20,8 +20,4 @@ export type {
 export {
   FailsafeGeneration,
   ThinkingsGeneration,
-  /** @deprecated Prefer FailsafeGeneration */
-  FailsafeMetaSubStep,
-  /** @deprecated Prefer ThinkingsGeneration */
-  GenerationSubMetaSubStep,
 } from './types';

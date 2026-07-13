@@ -550,12 +550,12 @@ function buildUnpaidDeliveryFixture(
   return {
     fixtureId,
     interfaceSurface: 'chatgpt_app',
-    fixturePath: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+    fixturePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
     readLicenseInput: {
       contractId: 'chatgpt-unpaid-delivery-read-license',
       interfaceSurface: 'chatgpt_app',
       action: 'deliver_asset_pack',
-      fixturePath: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+      fixturePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
       readRequestRoot: ids.readRequestRoot,
       reviewedNeedRoot: ids.reviewedNeedRoot,
       findingFitsAdmissionRoot: ids.findingFitsAdmissionRoot,
@@ -569,7 +569,7 @@ function buildUnpaidDeliveryFixture(
       contractId: 'chatgpt-unpaid-delivery-assetpack-rights',
       interfaceSurface: 'chatgpt_app',
       action: 'deliver_asset_pack',
-      fixturePath: 'packages/chatgptapp/src/__tests__/tools.test.ts',
+      fixturePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
       assetPackId: ids.assetPackId,
       assetPackPreviewRoot: ids.assetPackPreviewRoot,
       sourceSafeMeasurementRoot: ids.sourceSafeMeasurementRoot,

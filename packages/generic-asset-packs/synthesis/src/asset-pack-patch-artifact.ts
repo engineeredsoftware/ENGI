@@ -20,7 +20,7 @@ import {
   type PatchFileEntry,
   type ArtifactStorage,
   type ArtifactInfo,
-} from '@bitcode/generic-artifacts-patch';
+} from '@bitcode/generic-artifacts-patch-kind';
 
 export const ASSET_PACK_PATCH_ARTIFACT_SCHEMA =
   `${PATCH_ARTIFACT_SCHEMA}.asset-pack` as const;

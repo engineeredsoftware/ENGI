@@ -57,7 +57,7 @@ Bitcode MCP: returns asset-pack, proof, history, and settlement-facing outputs
   "mcpServers": {
     "bitcode-engineering": {
       "command": "npx",
-      "args": ["@bitcode/mcp-server"],
+      "args": ["@bitcode/generic-mcps-bitcode"],
       "env": {
         "BITCODE_API_KEY": "your-api-key"
       }
@@ -76,7 +76,7 @@ code --command "bitcode.configure"
 ### API integration
 
 ```javascript
-import { BitcodeMCPClient } from '@bitcode/mcp-client';
+import { BitcodeMCPClient } from '@bitcode/mcp-generics-client';
 
 const client = new BitcodeMCPClient({
   apiKey: process.env.BITCODE_API_KEY,

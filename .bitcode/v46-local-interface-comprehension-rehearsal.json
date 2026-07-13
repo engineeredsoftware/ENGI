@@ -408,7 +408,7 @@
       "sourcePaths": [
         "packages/btd/src/api-schema-compatibility-matrix.ts",
         "packages/btd/src/mcp-tool-contract.ts",
-        "packages/executions-mcp/src/mcp-server/docs/mcp/mcp-api-reference.md"
+        "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-api-reference.md"
       ],
       "claimIds": [
         "operator-evidence-is-source-safe-readback",
@@ -491,7 +491,7 @@
       "sourceRoots": [
         "packages/btd/src/api-schema-compatibility-matrix.ts:21527a4ab84909ce72247fab",
         "packages/btd/src/mcp-tool-contract.ts:ed7ff68bb55bd47afc9c538b",
-        "packages/executions-mcp/src/mcp-server/docs/mcp/mcp-api-reference.md:39ae38737d2c48c96eebb5ea"
+        "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-api-reference.md:39ae38737d2c48c96eebb5ea"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -501,7 +501,7 @@
       "surfaceLabel": "ChatGPT App And Bitcode Chat",
       "sourcePaths": [
         "packages/btd/src/chatgpt-app-action-contract.ts",
-        "packages/chatgptapp/src/tools.ts",
+        "packages/external-apps/chatgpt/src/tools.ts",
         "uapi/app/conversations/conversation-terminal-handoff.ts",
         "uapi/app/conversations/conversation-telemetry-proof-hooks.ts",
         "uapi/tests/api/conversationReadingInterfaceParity.test.ts"
@@ -588,7 +588,7 @@
       "rowRoot": "v46-local-interface-rehearsal-row:10d2d1b870ff147f062b1775",
       "sourceRoots": [
         "packages/btd/src/chatgpt-app-action-contract.ts:a24a464bd0910f8b8284ddfe",
-        "packages/chatgptapp/src/tools.ts:01098e7c683c6394a4ff6918",
+        "packages/external-apps/chatgpt/src/tools.ts:01098e7c683c6394a4ff6918",
         "uapi/app/conversations/conversation-terminal-handoff.ts:0eb848817ddf44fc2946aa05",
         "uapi/app/conversations/conversation-telemetry-proof-hooks.ts:44c7ff1620bfa9f329f07c4d",
         "uapi/tests/api/conversationReadingInterfaceParity.test.ts:e31d05980a03ff7c966df485"
@@ -601,7 +601,7 @@
       "surfaceLabel": "Proof, Telemetry, And Repair Readback",
       "sourcePaths": [
         "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
-        "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js",
+        "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js",
         "uapi/app/bitcode-ledger-storage-sync.ts",
         ".bitcode/v46-proof-readback-operator-explanation.json"
       ],
@@ -686,7 +686,7 @@
       "rowRoot": "v46-local-interface-rehearsal-row:5dab113b96d09fc833b28ccc",
       "sourceRoots": [
         "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:9d88b27b51e6b4d3a15ce995",
-        "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
+        "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
         "uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d",
         ".bitcode/v46-proof-readback-operator-explanation.json:5fb82dae1fac3711939dcd89"
       ],
@@ -769,12 +769,12 @@
     },
     {
       "id": "package-exports-gate7",
-      "sourcePath": "packages/protocol/src/index.js",
+      "sourcePath": "packages/specifying/src/index.js",
       "passed": true
     },
     {
       "id": "package-test-covers-gate7",
-      "sourcePath": "packages/protocol/test/v46-local-interface-comprehension-rehearsal.test.js",
+      "sourcePath": "packages/specifying/test/v46-local-interface-comprehension-rehearsal.test.js",
       "passed": true
     },
     {
@@ -801,12 +801,12 @@
     "parity": "BITCODE_SPEC_V46_PARITY_MATRIX.md:91b47eeaa106639d2d21856b",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
     "readme": "README.md:14085be712ec8e13c811c62a",
-    "protocolReadme": "packages/protocol/README.md:1a81b9507325d3a5da87f627",
+    "protocolReadme": "packages/specifying/README.md:1a81b9507325d3a5da87f627",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
-    "packageIndex": "packages/protocol/src/index.js:fdc9c740328fe41b9c7134c8",
-    "packageTypes": "packages/protocol/src/index.d.ts:df3330e66cf6b01b41c762ee",
-    "packageSource": "packages/protocol/src/canonical/v46-local-interface-comprehension-rehearsal.js:ae2715a7deb5a01a3c415ba6",
-    "packageTest": "packages/protocol/test/v46-local-interface-comprehension-rehearsal.test.js:5b6ad282088791ea76ec2bbf",
+    "packageIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "packageTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "packageSource": "packages/specifying/src/canonical/v46-local-interface-comprehension-rehearsal.js:ae2715a7deb5a01a3c415ba6",
+    "packageTest": "packages/specifying/test/v46-local-interface-comprehension-rehearsal.test.js:5b6ad282088791ea76ec2bbf",
     "generator": "scripts/generate-v46-local-interface-comprehension-rehearsal.mjs:d6a9dadb6f8ee51de50a529f",
     "checker": "scripts/check-v46-gate7-local-interface-comprehension-rehearsal.mjs:beb49c72404e73e730640a72",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:379d7561d515468f9237bf02",
@@ -828,14 +828,14 @@
     "depositClient": "uapi/app/deposit/DepositPageClient.tsx:a2f40f51107ad7500318ec5a",
     "btdApiSchema": "packages/btd/src/api-schema-compatibility-matrix.ts:21527a4ab84909ce72247fab",
     "btdMcpContract": "packages/btd/src/mcp-tool-contract.ts:ed7ff68bb55bd47afc9c538b",
-    "mcpDocsReference": "packages/executions-mcp/src/mcp-server/docs/mcp/mcp-api-reference.md:39ae38737d2c48c96eebb5ea",
+    "mcpDocsReference": "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-api-reference.md:39ae38737d2c48c96eebb5ea",
     "btdChatGptContract": "packages/btd/src/chatgpt-app-action-contract.ts:a24a464bd0910f8b8284ddfe",
-    "chatGptTools": "packages/chatgptapp/src/tools.ts:01098e7c683c6394a4ff6918",
+    "chatGptTools": "packages/external-apps/chatgpt/src/tools.ts:01098e7c683c6394a4ff6918",
     "conversationHandoff": "uapi/app/conversations/conversation-terminal-handoff.ts:0eb848817ddf44fc2946aa05",
     "conversationTelemetry": "uapi/app/conversations/conversation-telemetry-proof-hooks.ts:44c7ff1620bfa9f329f07c4d",
     "conversationParityTest": "uapi/tests/api/conversationReadingInterfaceParity.test.ts:e31d05980a03ff7c966df485",
     "pipelineLogUi": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:9d88b27b51e6b4d3a15ce995",
-    "v39OperationalTelemetryReadback": "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
+    "v39OperationalTelemetryReadback": "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
     "uapiLedgerStorageSync": "uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d"
   },
   "coverage": {

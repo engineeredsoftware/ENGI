@@ -18,10 +18,10 @@ From active V48 law (`BITCODE_SPEC_V48` G3-4):
 ## Hierarchy
 
 ```
-BitcodePipelineHost / Host                  # this package
-  → LocalHost                               # generic-hosts/Local
-  → SandboxHost                             # abstract (this package)
-      → VercelSandboxHost                   # generic-hosts/VercelSandbox
+BitcodePipelineHost / Host # this package
+ → LocalHost # generic-hosts/Local
+ → SandboxHost # abstract (this package)
+ → VercelSandboxHost # generic-hosts/VercelSandbox
 ```
 
 ## Usage
@@ -33,9 +33,9 @@ import { VercelSandboxHost } from '@bitcode/generic-hosts-vercel-sandbox';
 
 const host: BitcodePipelineHost = new LocalHost();
 const workspace = await host.provisionRepository({
-  repositoryFullName: 'org/repo',
-  url: 'https://github.com/org/repo.git',
-  revision: 'main',
+ repositoryFullName: 'org/repo',
+ url: 'https://github.com/org/repo.git',
+ revision: 'main',
 });
 ```
 

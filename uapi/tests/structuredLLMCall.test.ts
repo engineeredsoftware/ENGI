@@ -5,8 +5,8 @@ import { z } from 'zod';
 import { structuredLLMCall } from '@bitcode/steps/sub';
 
 // Mock dependencies
-jest.mock('@bitcode/context', () => ({
-  getGlobalContext: jest.fn().mockReturnValue({
+jest.mock('@bitcode/generic-executions', () => ({
+  getProcessRootFields: jest.fn().mockReturnValue({
     getCurrentIteration: () => ({ correlationId: 'cid', llmCalls: [] }),
     execution: { phases: { setup: { name: 'setup', agents: [] } } }
   })
@@ -19,8 +19,8 @@ jest.mock('@bitcode/dryrun', () => ({
 }));
 jest.mock('ai', () => ({ generateText: jest.fn() }));
 jest.mock('@bitcode/parsing', () => ({ extractJsonFromResponse: jest.fn(), parseResponse: jest.fn() }));
-jest.mock('@bitcode/streams', () => ({ writeStreamMessage: jest.fn(), writeStreamGeneration: jest.fn() }));
-jest.mock('@bitcode/models', () => ({ getModelInstance: jest.fn(() => ({ provider: 'testModel' })) }));
+jest.mock('@bitcode/api/streams', () => ({ writeStreamMessage: jest.fn(), writeStreamGeneration: jest.fn() }));
+jest.mock('@bitcode/generic-llms-models', () => ({ getModelInstance: jest.fn(() => ({ provider: 'testModel' })) }));
 jest.mock('@bitcode/btd', () => ({
   estimateTokens: jest.fn(() => 1),
   buildGenerationBitcodeAccounting: jest.fn(),
@@ -54,7 +54,7 @@ describe('structuredLLMCall non-dry-run parsing', () => {
     extractJsonFromResponse = require('@bitcode/parsing').extractJsonFromResponse;
     generateText = require('ai').generateText;
     // Stub context
-    require('@bitcode/context').getGlobalContext.mockReturnValue({
+    require('@bitcode/generic-executions').getProcessRootFields.mockReturnValue({
       getCurrentIteration: () => ({ correlationId: 'cid', llmCalls: [] }),
       execution: { phases: { setup: { name: 'setup', agents: [] } } },
       dataStream: {}

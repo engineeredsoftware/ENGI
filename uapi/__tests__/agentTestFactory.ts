@@ -1,4 +1,4 @@
-import { initializeContext } from '@bitcode/context/context';
+import { initializeProcessRoot } from '@bitcode/generic-executions';
 import { executeAgentSteps } from '@bitcode/steps/runner';
 import * as sub from '@bitcode/steps/sub';
 import { resolveTool } from '@bitcode/generic-tools-registry';
@@ -21,7 +21,7 @@ export function registerGenericMocks() {
 }
 
 export async function initContextOnce() {
-  await initializeContext({
+  initializeProcessRoot({
     connectionId: 1,
     repoOwner: 'owner',
     repoName: 'repo',

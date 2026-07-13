@@ -2,13 +2,13 @@
  * Server persistence for a Bitcoin wallet connection after local staging.
  */
 
-import type { BitcoinWalletConnection } from '@/lib/bitcoin-wallet-client';
+import type { BitcoinWalletConnection } from '@bitcode/auth/bitcoin-wallet-client';
 import {
   writeLocalBitcodeWalletIdentity,
   readLocalBitcodeWalletIdentity,
   type LocalBitcodeWalletIdentity,
-} from '@/lib/bitcode-wallet-local';
-import { bitcodeQaTelemetry, compactBitcodeAddress } from '@/lib/bitcode-qa-telemetry';
+} from '@bitcode/auth/wallet-local';
+import { bitcodeQaTelemetry, compactBitcodeAddress } from '@bitcode/auth/qa-telemetry';
 
 export interface PersistWalletResult {
   ok: boolean;

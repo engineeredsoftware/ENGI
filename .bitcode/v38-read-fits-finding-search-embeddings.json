@@ -478,10 +478,10 @@
     "vectorEvidenceSearch": "packages/asset-packs-pipelines/domain/src/tools/search.ts",
     "uapiSearch": "uapi/lib/search.ts",
     "terminalWorkbench": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
-    "gate2Inventory": "packages/protocol/src/canonical/inference-surface-inventory.js",
-    "gate3Stack": "packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js",
-    "gate4Benchmark": "packages/protocol/src/canonical/prompt-benchmark-report.js",
-    "gate5Disclosure": "packages/protocol/src/canonical/inference-telemetry-disclosure-report.js",
-    "gate6ReadNeed": "packages/protocol/src/canonical/read-need-comprehension-inference-hardening.js"
+    "gate2Inventory": "packages/specifying/src/canonical/inference-surface-inventory.js",
+    "gate3Stack": "packages/specifying/src/canonical/ptrr-failsafe-thricified-stack.js",
+    "gate4Benchmark": "packages/specifying/src/canonical/prompt-benchmark-report.js",
+    "gate5Disclosure": "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js",
+    "gate6ReadNeed": "packages/specifying/src/canonical/read-need-comprehension-inference-hardening.js"
   }
 }

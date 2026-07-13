@@ -13,17 +13,17 @@ Bitcode Terminal behavior. Search output is not proof closure.
 ## Admitted Tools
 
 - `search`: source-attributed web search for a declared Bitcode read or proof
-  gap.
+ gap.
 - `searchWithUrlIntelligence`: URL-assisted query targeting for the active read
-  only.
+ only.
 - `multiProviderSearch`: provider comparison when corroboration or source
-  coverage matters.
+ coverage matters.
 - `getContents`: retrieve a cited source URL for metadata, snippet checking, and
-  evidence review.
+ evidence review.
 - URL utilities: support source attribution, domain review, and bounded query
-  targeting.
+ targeting.
 - Provider health/metrics utilities: support evidence-collection reliability,
-  not product observability ownership.
+ not product observability ownership.
 
 ## Output Boundary
 

@@ -6,9 +6,9 @@ This document captures the minimum, critical controls required to begin safe GA�
 
 - Use environment variables for all credentials. Never commit secrets to the repo.
 - Required (non‑exhaustive):
-  - `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-  - GitHub App: `GITHUB_APP_ID`, `GITHUB_APP_PRIVATE_KEY`, `GITHUB_WEBHOOK_SECRET`
-  - Email/Sentry/Analytics providers as applicable
+ - `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+ - GitHub App: `GITHUB_APP_ID`, `GITHUB_APP_PRIVATE_KEY`, `GITHUB_WEBHOOK_SECRET`
+ - Email/Sentry/Analytics providers as applicable
 - Source `.env` / `.env.local` before CLI actions (e.g., migrations). Avoid per‑dir duplication.
 - Rotate keys regularly; for GitHub App private keys, maintain a rotation calendar and revoke old keys.
 

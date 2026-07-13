@@ -11,7 +11,7 @@
 import {
   AgentPrompt,
   AgentStepPrompt,
-  factoryAgentWithPTRR,
+  factoryPTRRAgent,
   factoryAgentWithSingleStep
 } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
@@ -151,7 +151,7 @@ export const bitcodeReadSynthesisWebSearchStepPrompts = {
 export const webSearchPrompt = bitcodeReadSynthesisWebSearchPrompt;
 export const webSearchStepPrompts = bitcodeReadSynthesisWebSearchStepPrompts;
 
-const bitcodeReadSynthesisWebSearchAgent = factoryAgentWithPTRR<
+const bitcodeReadSynthesisWebSearchAgent = factoryPTRRAgent<
   z.infer<typeof BitcodeReadSynthesisWebSearchInputSchema>,
   z.infer<typeof BitcodeReadSynthesisWebSearchRetrySchema>
 >({

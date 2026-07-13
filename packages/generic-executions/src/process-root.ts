@@ -1,10 +1,10 @@
 /**
- * Process-root Execution — process-scoped defaults formerly called GlobalContext.
+ * Process-root Execution — process-scoped defaults (repo/task/stream).
  *
- * Law: there is no parallel "Context" state. Repo/task/stream defaults live on a
- * registered process-root Execution under the `process` namespace. Product
- * pipelines (synthesize-deposits, …) create their own Execution trees; they may
- * seed from process-root but do not maintain a second state model.
+ * Law: there is no parallel "Context" state. Defaults live on a registered
+ * process-root Execution under the `process` namespace. Product pipelines
+ * create their own Execution trees; they may seed from process-root but do
+ * not maintain a second state model.
  */
 
 import { Execution, createExecution } from '@bitcode/execution-generics/Execution';
@@ -22,7 +22,7 @@ export const PROCESS_NAMESPACE = 'process' as const;
 
 /**
  * Process-level fields stored on the process-root Execution.
- * Formerly GlobalContext — kept as a plain bag for BC projection only.
+ * Plain-object projection of the `process` namespace — not a second state model.
  */
 export interface ProcessRootFields {
   repoOwner?: string;
@@ -104,7 +104,7 @@ export function getProcessRootExecution(): Execution {
   return ensureProcessRoot();
 }
 
-/** Read process-root fields as a plain object (BC projection). */
+/** Read process-root fields as a plain object (plain-object projection). */
 export function getProcessRootFields(): ProcessRootFields {
   return readFields(ensureProcessRoot());
 }
@@ -143,48 +143,3 @@ export function serializeProcessRootFields(
   };
 }
 
-// --- BC names (deprecated vocabulary: "Context" → Execution) -----------------
-
-/** @deprecated Use ProcessRootFields — Context is not a separate state model. */
-export type GlobalContext = ProcessRootFields;
-
-/** @deprecated Use initializeProcessRoot. */
-export async function initializeContext(
-  context: ProcessRootFields = {},
-): Promise<ProcessRootFields> {
-  initializeProcessRoot(context);
-  return getProcessRootFields();
-}
-
-/** @deprecated Use setProcessRootFields / initializeProcessRoot. */
-export function createContext(context: ProcessRootFields): ProcessRootFields {
-  initializeProcessRoot(context);
-  return getProcessRootFields();
-}
-
-/** @deprecated Use getProcessRootFields. */
-export function getGlobalContext(): ProcessRootFields {
-  return getProcessRootFields();
-}
-
-/** @deprecated Use endProcessRoot. */
-export async function endContext(): Promise<void> {
-  endProcessRoot();
-}
-
-/** @deprecated Use setProcessRootFields. */
-export function setGlobalContext(context: ProcessRootFields): void {
-  setProcessRootFields(context);
-}
-
-/** @deprecated Use prepareProcessRootForPrompt. */
-export function prepareContextForPrompt(context?: ProcessRootFields) {
-  return prepareProcessRootForPrompt(context);
-}
-
-/** @deprecated Use serializeProcessRootFields. */
-export function serializeContext(
-  context: ProcessRootFields = getProcessRootFields(),
-): Record<string, unknown> {
-  return serializeProcessRootFields(context);
-}

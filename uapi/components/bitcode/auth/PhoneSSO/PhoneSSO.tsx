@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Phone SSO Component
  * 
@@ -5,12 +7,11 @@
  * Zero friction onboarding with SMS verification.
  */
 
-'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { trackEvent } from '@bitcode/google-analytics';
+import { trackEvent } from '@bitcode/external-telemetry-google';
 import { supabase } from '@bitcode/supabase';
 import { reportError } from '@bitcode/errors';
 import { toast } from '@/components/shadcn/Sonner/Sonner';

@@ -148,9 +148,9 @@ function main() {
     ARTIFACT,
     'packages/btd/src/chatgpt-app-action-contract.ts',
     'packages/btd/__tests__/chatgpt-app-action-contract.test.ts',
-    'packages/chatgptapp/src/tools.ts',
-    'packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts',
-    'packages/chatgptapp/src/__tests__/tools.test.ts',
+    'packages/external-apps/chatgpt/src/tools.ts',
+    'packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts',
+    'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
     'scripts/generate-v33-chatgpt-app-action-contracts.mjs',
     'scripts/check-v33-gate4-chatgpt-app-action-contracts.mjs',
     'BITCODE_SPEC_V33.md',
@@ -160,7 +160,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'packages/specifying/src/canonical/v21-specifying.js',
   ];
 
   for (const relativePath of requiredFiles) {
@@ -236,10 +236,10 @@ function main() {
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const btdSource = read(root, 'packages/btd/src/chatgpt-app-action-contract.ts');
-  const chatgptSource = read(root, 'packages/chatgptapp/src/tools.ts');
+  const chatgptSource = read(root, 'packages/external-apps/chatgpt/src/tools.ts');
   const btdTest = read(root, 'packages/btd/__tests__/chatgpt-app-action-contract.test.ts');
-  const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts');
-  const specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const chatgptTest = read(root, 'packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts');
+  const specifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
 
   for (const doc of [spec, delta, notes, parity]) {
     assertCheck(failures, doc.includes(ARTIFACT), `V33 docs must mention ${ARTIFACT}.`);

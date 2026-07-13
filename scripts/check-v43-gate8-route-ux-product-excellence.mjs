@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_ROUTE_UX_PRODUCT_EXCELLENCE_ARTIFACT_PATH,
   buildV43RouteUxProductExcellence,
-} from '../packages/protocol/src/canonical/v43-route-ux-product-excellence.js';
+} from '../packages/specifying/src/canonical/v43-route-ux-product-excellence.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -88,8 +88,8 @@ function main() {
     'uapi/tests/packsPageClient.test.tsx',
     'uapi/tests/readPageClient.test.tsx',
     'uapi/tests/depositPageClient.test.tsx',
-    'packages/protocol/src/canonical/v43-route-ux-product-excellence.js',
-    'packages/protocol/test/v43-route-ux-product-excellence.test.js',
+    'packages/specifying/src/canonical/v43-route-ux-product-excellence.js',
+    'packages/specifying/test/v43-route-ux-product-excellence.test.js',
     'scripts/generate-v43-route-ux-product-excellence.mjs',
     'scripts/check-v43-gate8-route-ux-product-excellence.mjs',
     'BITCODE_SPEC_V43.md',
@@ -98,7 +98,7 @@ function main() {
     'BITCODE_SPEC_V43_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',

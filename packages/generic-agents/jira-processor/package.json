@@ -9,7 +9,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@bitcode/jira-tools": "workspace:*",
+    "@bitcode/generic-tools-mcps-jira": "workspace:*",
     "@bitcode/logger": "workspace:*",
     "@bitcode/observability": "workspace:*",
     "zod": "^3.20.0"

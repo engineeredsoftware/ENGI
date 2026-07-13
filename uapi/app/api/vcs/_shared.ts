@@ -7,7 +7,7 @@ import {
   VCSProviderFactory,
   type VCSProviderType,
   type VCSRepository,
-} from '@bitcode/vcs';
+} from '@bitcode/vcs-generics';
 
 import {
   buildMockVcsConnectionStatus,

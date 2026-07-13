@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Deposit source provider/repository/branch/commit field columns.
  * Presentational: parent owns URL mutation and VCS refresh handlers.
  */
-"use client";
 
 import React from "react";
 import { GitBranch } from "lucide-react";
@@ -11,7 +12,7 @@ import { VCSRepositorySelector } from "@/components/bitcode/vcs/VCSRepositorySel
 import { SearchableSelect } from "@/components/bitcode/forms/SearchableSelect/SearchableSelect";
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/components/deposits/models/deposit-explainers";
-import type { VCSBranch, VCSCommit, VCSProviderType, VCSRepository } from "@bitcode/vcs-core";
+import type { VCSBranch, VCSCommit, VCSProviderType, VCSRepository } from "@bitcode/vcs-generics-core";
 import {
   DEPOSIT_COMMIT_LATEST_REF,
   getProviderLabel,

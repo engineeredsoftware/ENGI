@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_SELLER_BUYER_STATE_MACHINE_LAW_ARTIFACT_PATH,
   buildV47SellerBuyerStateMachineLaw,
-} from '../packages/protocol/src/canonical/v47-seller-buyer-state-machine-law.js';
+} from '../packages/specifying/src/canonical/v47-seller-buyer-state-machine-law.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -87,8 +87,8 @@ function main() {
 
   for (const relativePath of [
     V47_SELLER_BUYER_STATE_MACHINE_LAW_ARTIFACT_PATH,
-    'packages/protocol/src/canonical/v47-seller-buyer-state-machine-law.js',
-    'packages/protocol/test/v47-seller-buyer-state-machine-law.test.js',
+    'packages/specifying/src/canonical/v47-seller-buyer-state-machine-law.js',
+    'packages/specifying/test/v47-seller-buyer-state-machine-law.test.js',
     'scripts/generate-v47-seller-buyer-state-machine-law.mjs',
     'scripts/check-v47-gate3-seller-buyer-state-machine-law.mjs',
     'BITCODE_SPEC_V47.md',
@@ -103,8 +103,8 @@ function main() {
     'packages/btd/src/settlement.ts',
     'packages/btd/src/source-to-shares.ts',
     'packages/btd/src/semantic-volume.ts',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
+    'packages/specifying/src/index.js',
+    'packages/specifying/src/index.d.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -151,7 +151,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/protocol',
+        'packages/specifying',
         'exec',
         'node',
         '--test',
@@ -159,7 +159,7 @@ function main() {
         'test/v47-seller-buyer-state-machine-law.test.js',
       ]);
     } catch {
-      failures.push('packages/protocol test/v47-seller-buyer-state-machine-law.test.js must pass.');
+      failures.push('packages/specifying test/v47-seller-buyer-state-machine-law.test.js must pass.');
     }
   }
 

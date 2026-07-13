@@ -8,7 +8,7 @@ import ChatGPTIcon from '@/components/bitcode/icons/social/ChatGPTIcon/ChatGPTIc
 import MetamaskIcon from '@/components/bitcode/icons/social/MetamaskIcon/MetamaskIcon';
 import AppleIcon from '@/components/bitcode/icons/social/Apple.svg'
 import MicrosoftIcon from '@/components/bitcode/icons/social/Microsoft.svg'
-import { buildSupabaseAuthCallbackRedirect } from '@/lib/supabase-auth-redirect'
+import { buildSupabaseAuthCallbackRedirect } from '@bitcode/auth/supabase-auth-redirect'
 import BitbucketIcon from '@/components/bitcode/icons/social/Bitbucket.svg'
 import FacebookIcon from '@/components/bitcode/icons/social/Facebook.svg'
 import FigmaIcon from '@/components/bitcode/icons/social/Figma.svg'

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { GitFork, Lock } from 'lucide-react';
-import { VCSProviderType, VCSRepository } from '@bitcode/vcs-core';
+import { VCSProviderType, VCSRepository } from '@bitcode/vcs-generics-core';
 import { toast } from '@/components/shadcn/Sonner/Sonner';
 import { SearchableSelect, type SearchableSelectItem } from '@/components/bitcode/forms/SearchableSelect/SearchableSelect';
 

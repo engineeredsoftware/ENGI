@@ -15,7 +15,7 @@ It is a bounded support tool that returns line-level repository evidence to prom
 - `src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts` owns the canonical DocCode prompt injected into Bitcode runs.
 - `src/prompts/SimpleSystemTextSearchDocCodeToolPrompt.ts` is only a stable export path for old imports.
 - `packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_systemtextsearch_*` still have stable filenames, but their content and metadata describe Bitcode repository evidence search.
-- `packages/system-grep/src/index.ts` owns the server-only grep primitive and returns relative file paths, zero-based line numbers, and matched line text.
+- `packages/host-commands/grep/src/index.ts` owns the server-only grep primitive and returns relative file paths, zero-based line numbers, and matched line text.
 
 ## API
 
@@ -23,10 +23,10 @@ It is a bounded support tool that returns line-level repository evidence to prom
 import { simpleSystemTextSearch } from '@bitcode/generic-tools-simple-system-text-search';
 
 const evidence = await simpleSystemTextSearch.use({
-  pattern: ['readDescription', 'assetPack', 'writtenAsset'],
-  cwd: process.cwd(),
-  maxResults: 100,
-  ignoreCase: false
+ pattern: ['readDescription', 'assetPack', 'writtenAsset'],
+ cwd: process.cwd(),
+ maxResults: 100,
+ ignoreCase: false
 });
 ```
 
@@ -34,10 +34,10 @@ The wrapped primitive accepts:
 
 ```typescript
 {
-  pattern: string | string[];
-  cwd?: string;
-  maxResults?: number;
-  ignoreCase?: boolean;
+ pattern: string | string[];
+ cwd?: string;
+ maxResults?: number;
+ ignoreCase?: boolean;
 }
 ```
 
@@ -45,9 +45,9 @@ It returns:
 
 ```typescript
 Array<{
-  file: string;
-  line: number;
-  text: string;
+ file: string;
+ line: number;
+ text: string;
 }>
 ```
 

@@ -24,13 +24,13 @@ import { sendEmail } from '@bitcode/notifications';
 
 // Send templated email
 await sendEmail({
-  to: 'user@example.com',
-  subject: 'Welcome to Bitcode',
-  template: 'welcome',
-  vars: {
-    userName: 'John Doe',
-    activationLink: 'https://app.bitcode.ai/activate/...'
-  }
+ to: 'user@example.com',
+ subject: 'Welcome to Bitcode',
+ template: 'welcome',
+ vars: {
+ userName: 'John Doe',
+ activationLink: 'https://app.bitcode.ai/activate/...'
+ }
 });
 ```
 
@@ -44,10 +44,10 @@ import { emitRunLifecycle, startNotificationWorker } from '@bitcode/notification
 startNotificationWorker();
 
 emitRunLifecycle({
-  status: 'STARTED',
-  runId: 123,
-  runType: 'asset-pack',
-  userId: 'user-id'
+ status: 'STARTED',
+ runId: 123,
+ runType: 'asset-pack',
+ userId: 'user-id'
 });
 ```
 

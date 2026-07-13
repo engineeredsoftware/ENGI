@@ -182,7 +182,7 @@ describe('V26 Read-review SPEC-IMPL parity across protocol and commercial API', 
 
   it('presents the protocol reviewable Read through the commercial /api/read-review route', async () => {
     const protocol = (await import(
-      '@bitcode/protocol/src/bitcode-demo.js'
+      '@bitcode/specifying/src/bitcode-demo.js'
     )) as BitcodeProtocolRuntime;
     const app = buildCommercialRouteContext(protocol);
     const directProtocolPayload = app.getReadReview({ scenarioId: 'auth-issuer-rollback' });
@@ -254,7 +254,7 @@ describe('V26 Read-review SPEC-IMPL parity across protocol and commercial API', 
 
   it('blocks commercial branch materialization when the protocol Read review rejects Finding Fits', async () => {
     const protocol = (await import(
-      '@bitcode/protocol/src/bitcode-demo.js'
+      '@bitcode/specifying/src/bitcode-demo.js'
     )) as BitcodeProtocolRuntime;
     const app = buildCommercialRouteContext(protocol);
 
@@ -288,7 +288,7 @@ describe('V26 Read-review SPEC-IMPL parity across protocol and commercial API', 
 
   it('carries accepted source-to-shares settlement artifacts through the commercial branch route', async () => {
     const protocol = (await import(
-      '@bitcode/protocol/src/bitcode-demo.js'
+      '@bitcode/specifying/src/bitcode-demo.js'
     )) as BitcodeProtocolRuntime;
     const directProtocolRun = protocol.runMakeBitcodeBranch(protocol.buildInitialState(), {
       scenarioId: 'auth-issuer-rollback',
@@ -377,7 +377,7 @@ describe('V26 Read-review SPEC-IMPL parity across protocol and commercial API', 
 
   it('rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route', async () => {
     const protocol = (await import(
-      '@bitcode/protocol/src/bitcode-demo.js'
+      '@bitcode/specifying/src/bitcode-demo.js'
     )) as BitcodeProtocolRuntime;
     const app = buildCommercialRouteContext(protocol);
 

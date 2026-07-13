@@ -1,11 +1,12 @@
+'use client';
+
 /**
  * Provider / repository / branch / commit field grid for Reads repository context.
  * Presentational: parent owns URL mutation and selection state.
  */
-'use client';
 
 import React from 'react';
-import type { VCSBranch, VCSCommit, VCSRepository } from '@bitcode/vcs-core';
+import type { VCSBranch, VCSCommit, VCSRepository } from '@bitcode/vcs-generics-core';
 import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer';
 import { VCSRepositorySelector } from '@/components/bitcode/vcs/VCSRepositorySelector/VCSRepositorySelector';
 import {

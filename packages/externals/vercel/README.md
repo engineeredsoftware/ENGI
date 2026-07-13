@@ -1,4 +1,4 @@
-# @bitcode/vercel
+# @bitcode/externals-vercel
 
 Fixture-driven helpers used by the Bitcode ChatGPT App to simulate Vercel’s MCP responses in the demo experience. The functions mirror the structure of Vercel’s official tools so transcripts feel authentic even when we are offline.
 
@@ -18,19 +18,19 @@ Each helper is an async function that returns plain JSON. They are intentionally
 
 ```typescript
 import {
-  listDeployments,
-  getDeployment,
-  deployToVercel
-} from '@bitcode/vercel';
+ listDeployments,
+ getDeployment,
+ deployToVercel
+} from '@bitcode/externals-vercel';
 
 const deployments = await listDeployments({ projectId: 'prj_Yapper', teamId: 'team_bitcode' });
 const latest = await getDeployment({ idOrUrl: deployments.deployments[0].id, teamId: 'team_bitcode' });
 
 const preview = await deployToVercel({
-  projectId: 'prj_Yapper',
-  teamId: 'team_bitcode',
-  message: 'Preview deploy triggered by Bitcode demo'
+ projectId: 'prj_Yapper',
+ teamId: 'team_bitcode',
+ message: 'Preview deploy triggered by Bitcode demo'
 });
 ```
 
-Downstream packages (`@bitcode/generic-tools-mcps-vercel`, `@bitcode/chatgptapp`) wrap these helpers in the `Tool` primitive so they can be exposed over MCP.
+Downstream packages (`@bitcode/generic-tools-mcps-vercel`, `@bitcode/external-apps-chatgpt`) wrap these helpers in the `Tool` primitive so they can be exposed over MCP.

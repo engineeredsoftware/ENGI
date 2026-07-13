@@ -218,7 +218,7 @@
   ],
   "sourceEvidence": [
     {
-      "relativePath": "packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js",
+      "relativePath": "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
       "present": true,
       "digest": "sha256:75952a25cc72ee8b58d5a956d952ee91abf7770477674e5fcf8f715a99e4fbd1",
       "byteLength": 22216,
@@ -244,7 +244,7 @@
       ]
     },
     {
-      "relativePath": "packages/protocol/src/canonical/v41-registry-interpolation-contracts.js",
+      "relativePath": "packages/specifying/src/canonical/v41-registry-interpolation-contracts.js",
       "present": true,
       "digest": "sha256:b2853d91a04f7dd4b40d77fce5740f6308740cf7cac58e5e738508883ae18a24",
       "byteLength": 45140,
@@ -270,7 +270,7 @@
       ]
     },
     {
-      "relativePath": "packages/protocol/src/canonical/v41-prompt-program-benchmark-report.js",
+      "relativePath": "packages/specifying/src/canonical/v41-prompt-program-benchmark-report.js",
       "present": true,
       "digest": "sha256:43d1f0545e4d02c5b7e97284b3e6eb2987cdf5e2508290cc24a1434962b2f550",
       "byteLength": 48888,
@@ -296,7 +296,7 @@
       ]
     },
     {
-      "relativePath": "packages/protocol/test/v41-promptpart-prompt-inventory.test.js",
+      "relativePath": "packages/specifying/test/v41-promptpart-prompt-inventory.test.js",
       "present": true,
       "digest": "sha256:960ff512e1c7d46310602d4853e07d34bbfd8105f85984cb1d07ef4191edbca2",
       "byteLength": 3715,
@@ -340,10 +340,10 @@
     "output type"
   ],
   "generatedArtifactAndTestBindings": [
-    "packages/protocol/test/v41-promptpart-prompt-inventory.test.js",
-    "packages/protocol/test/v41-registry-interpolation-contracts.test.js",
-    "packages/protocol/test/v41-prompt-program-benchmark-report.test.js",
-    "packages/protocol/test/v45-proof-family-artifacts.test.js"
+    "packages/specifying/test/v41-promptpart-prompt-inventory.test.js",
+    "packages/specifying/test/v41-registry-interpolation-contracts.test.js",
+    "packages/specifying/test/v41-prompt-program-benchmark-report.test.js",
+    "packages/specifying/test/v45-proof-family-artifacts.test.js"
   ],
   "failClosedConditions": [
     "missing prompt part",

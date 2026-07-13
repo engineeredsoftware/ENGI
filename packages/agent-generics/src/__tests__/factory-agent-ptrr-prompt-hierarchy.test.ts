@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { z } from 'zod';
-import { factoryAgentWithPTRR } from '@bitcode/generic-agents-ptrr';
+import { factoryPTRRAgent } from '@bitcode/generic-agents-ptrr';
 
 const OutputSchema = z.object({
   ok: z.boolean()
@@ -22,17 +22,17 @@ function stepPromptRegistry() {
   };
 }
 
-describe('factoryAgentWithPTRR Bitcode prompt hierarchy', () => {
+describe('factoryPTRRAgent Bitcode prompt hierarchy', () => {
   it('requires a Registry-backed agent prompt carrier and all PTRR step Prompt registries', () => {
     expect(() =>
-      factoryAgentWithPTRR({
+      factoryPTRRAgent({
         name: 'missing-prompt-carrier',
         outputSchema: OutputSchema
       } as any)
     ).toThrow(/requires a Bitcode Registry-backed prompt carrier/u);
 
     expect(() =>
-      factoryAgentWithPTRR({
+      factoryPTRRAgent({
         name: 'partial-step-prompts',
         outputSchema: OutputSchema,
         prompt: promptRegistry('system'),
@@ -44,7 +44,7 @@ describe('factoryAgentWithPTRR Bitcode prompt hierarchy', () => {
   });
 
   it('accepts primary prompt + stepPrompts carrier', () => {
-    const agent = factoryAgentWithPTRR({
+    const agent = factoryPTRRAgent({
       name: 'primary-carrier',
       outputSchema: OutputSchema,
       prompt: promptRegistry('system'),
@@ -56,7 +56,7 @@ describe('factoryAgentWithPTRR Bitcode prompt hierarchy', () => {
   });
 
   it('accepts compact prompts.system + plan/try/refine/retry carrier', () => {
-    const agent = factoryAgentWithPTRR({
+    const agent = factoryPTRRAgent({
       name: 'compact-carrier',
       outputSchema: OutputSchema,
       prompts: {

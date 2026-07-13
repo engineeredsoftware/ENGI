@@ -1,11 +1,12 @@
+'use client';
+
 /**
  * Selected repository supply context unit (branch, visibility, anchor actions).
  */
-'use client';
 
 import React from 'react';
 import { ArrowUpRight, GitBranch, Lock, ShieldCheck } from 'lucide-react';
-import type { VCSRepository } from '@bitcode/vcs-core';
+import type { VCSRepository } from '@bitcode/vcs-generics-core';
 import {
   getProviderLabel,
   type TerminalRepositoryConnectionStatus,

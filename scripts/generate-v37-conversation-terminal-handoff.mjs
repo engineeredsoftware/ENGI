@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   CONVERSATION_TERMINAL_HANDOFF_ARTIFACT_PATH,
   buildConversationTerminalHandoff,
-} from '../packages/protocol/src/index.js';
+} from '../packages/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -201,11 +201,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-rights-transfer-review.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-rights-transfer-review.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-rights-transfer-review.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-rights-transfer-review.test.js",
           "present": true
         },
         {
@@ -358,11 +358,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-rights-transfer-review.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-rights-transfer-review.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-rights-transfer-review.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-rights-transfer-review.test.js",
           "present": true
         },
         {
@@ -516,11 +516,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-rights-transfer-review.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-rights-transfer-review.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-rights-transfer-review.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-rights-transfer-review.test.js",
           "present": true
         },
         {
@@ -583,11 +583,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-rights-transfer-review.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-rights-transfer-review.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-rights-transfer-review.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-rights-transfer-review.test.js",
           "present": true
         },
         {
@@ -637,11 +637,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-rights-transfer-review.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-rights-transfer-review.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-rights-transfer-review.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-rights-transfer-review.test.js",
           "present": true
         },
         {
@@ -691,11 +691,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/src/canonical/exchange-rights-transfer-review.js",
+          "sourceRoot": "packages/specifying/src/canonical/exchange-rights-transfer-review.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/protocol/test/v36-exchange-rights-transfer-review.test.js",
+          "sourceRoot": "packages/specifying/test/v36-exchange-rights-transfer-review.test.js",
           "present": true
         },
         {

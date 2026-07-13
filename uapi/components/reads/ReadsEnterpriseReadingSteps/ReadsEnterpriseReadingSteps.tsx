@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Enterprise reading step cards for the deposit/read workbench.
  */
-"use client";
 
 import React from "react";
 

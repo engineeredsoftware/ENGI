@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * OrbitalsConnectsOrbitalPhoneConnection
  *
@@ -6,11 +8,10 @@
  * preserve the original visuals while staying within the CSS module canon.
  */
 
-'use client';
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { trackEvent } from '@bitcode/google-analytics';
+import { trackEvent } from '@bitcode/external-telemetry-google';
 import { createClient } from '@bitcode/supabase/ssr/client';
 import { reportError } from '@bitcode/errors';
 import { toast } from '@/components/shadcn/Sonner/Sonner';

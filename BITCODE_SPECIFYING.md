@@ -238,11 +238,11 @@ exactly one of `specification-only`, `implementation-only`, or
 and gate prefix, for example `V48 Gate 3 (implementation-only): ...`.
 
 - `specification-only` changes touch only specification artifacts (the
-  `BITCODE_SPEC_*` family and the version notes).
+ `BITCODE_SPEC_*` family and the version notes).
 - `implementation-only` changes touch only implementation (source, tests,
-  tooling, scripts).
+ tooling, scripts).
 - `specification-implementation` changes touch both in the same commit, keeping
-  the implementation derivable from the specification.
+ the implementation derivable from the specification.
 
 A change that alters both kinds is committed as a single
 `specification-implementation` commit, or split into a `specification-only` and
@@ -266,29 +266,29 @@ leaving implementation undocumentable from the active teaching surface.
 Beginning with V21, the required hand-authored system-spec file family is:
 
 1. `BITCODE_SPEC_VN.md`
-   The complete current system canon.
+ The complete current system canon.
 
 2. `BITCODE_SPEC_VN_NOTES.md`
-   The working-note, reform-ledger, and simplified-spec-reading companion. From V26 onward it is required and replaces the standalone `KISS` concept.
+ The working-note, reform-ledger, and simplified-spec-reading companion. From V26 onward it is required and replaces the standalone `KISS` concept.
 
 3. `BITCODE_SPEC_VN_DELTA.md`
-   The version-local delta, decision record, implementation-revealed refinement record, accepted boundary ledger, and canonical commit-message input.
+ The version-local delta, decision record, implementation-revealed refinement record, accepted boundary ledger, and canonical commit-message input.
 
 4. `BITCODE_SPEC_VN_PARITY_MATRIX.md`
-   The system parity matrix across spec claims, source implementation, generated artifacts, tests, operator surfaces, promotion gates, accepted boundaries, and known debt.
+ The system parity matrix across spec claims, source implementation, generated artifacts, tests, operator surfaces, promotion gates, accepted boundaries, and known debt.
 
 Generated canonical artifacts are required separately when applicable:
 
 5. `BITCODE_SPEC_VN_PROVEN.md`
-   The generated-only proof appendix for the canonical version.
+ The generated-only proof appendix for the canonical version.
 
 6. `.bitcode/vN-*`
-   Generated structured artifacts required by the version's proof, promotion, quality, replay, matrix, or contract-change canon.
+ Generated structured artifacts required by the version's proof, promotion, quality, replay, matrix, or contract-change canon.
 
 The root pointer is:
 
 7. `BITCODE_SPEC.txt`
-   The only active canonical pointer.
+ The only active canonical pointer.
 
 ## 3.1 Renamed Files
 
@@ -1313,9 +1313,9 @@ documentation commit that lands with that work), including at least:
 - inheritance hierarchy changes (primitive → base → product),
 - experience modularization that moves primary entry paths or component homes,
 - product routes, host model, or public navigation posture changes that affect
-  how operators or agents enter the system,
+ how operators or agents enter the system,
 - and renames or splits that would leave catalog paths, package names, or
-  hierarchy diagrams stale.
+ hierarchy diagrams stale.
 
 Prefer accurate, short section edits over full rewrites. Stale
 `FAMILIARIZATION.md` content that contradicts current source is a specifying

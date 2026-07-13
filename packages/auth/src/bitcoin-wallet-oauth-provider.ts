@@ -1,3 +1,4 @@
+import { isPlausibleBitcoinAddress } from './bitcode-wallet-local';
 import 'server-only';
 
 import { createHash, createHmac, randomBytes, timingSafeEqual } from 'crypto';
@@ -136,15 +137,6 @@ export function assertBitcoinWalletOAuthSecret() {
   return secret;
 }
 
-export function isPlausibleBitcoinAddress(value: unknown): value is string {
-  const address = readString(value);
-  if (!address) return false;
-
-  return (
-    /^(bc1|tb1|bcrt1)[ac-hj-np-z02-9]{8,90}$/i.test(address) ||
-    /^[13mn2][A-HJ-NP-Za-km-z1-9]{25,60}$/.test(address)
-  );
-}
 
 export function isBitcodeBitcoinWalletMessage(message: string, address: string) {
   return (

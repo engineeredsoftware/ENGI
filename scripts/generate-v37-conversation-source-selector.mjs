@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   CONVERSATION_SOURCE_SELECTOR_ARTIFACT_PATH,
   buildConversationSourceSelector,
-} from '../packages/protocol/src/index.js';
+} from '../packages/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

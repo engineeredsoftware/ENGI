@@ -3,7 +3,7 @@
  *
  * Owns: HTTP route handlers, pipeline control helpers, and co-located primitives
  * under `responses/` and `streams/` (also exported as `@bitcode/api/responses`
- * and `@bitcode/api/streams`; BC packages `@bitcode/responses` / `@bitcode/streams`).
+ * and `@bitcode/api/streams`).
  *
  * Does not own: product domain law (prefer `btd`, `pipeline-asset-pack`,
  * `conversations`, `vcs-generics`, …). Next `uapi/app/api/*` bindings stay thin.

@@ -46,10 +46,10 @@ client.findArtboardByName('file-key', 'navigation')
 
 // Asset Generation
 figmaGetArtboardPNG(auth, 'file-key', 'node-id', { scale: 2 })
-client.renderImage('file-key', 'node-id', { 
-  format: 'png', 
-  width: 800, 
-  height: 600 
+client.renderImage('file-key', 'node-id', {
+ format: 'png',
+ width: 800,
+ height: 600
 })
 
 // Authentication
@@ -81,7 +81,7 @@ FIGMA_CLIENT_SECRET=oauth_client_secret
 
 - **API Rate Limiting**: 1000 requests per hour with intelligent throttling
 - **Response Caching**: Automatic caching for file structure and metadata
-- **Parallel Processing**: Concurrent asset rendering for batch operations  
+- **Parallel Processing**: Concurrent asset rendering for batch operations
 - **Error Recovery**: Automatic retry logic with exponential backoff
 - **Memory Efficiency**: Streaming download for large asset files
 

@@ -141,13 +141,13 @@ function main() {
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/workflows/v37-canon-promotion.yml',
-    'packages/protocol/src/canon-posture.js',
-    'packages/protocol/data/state.json',
-    'packages/protocol/README.md',
-    'packages/protocol/src/canonical/proven-generator.js',
-    'packages/protocol/src/canonical/conversation-promotion-readiness-report.js',
-    'packages/protocol/test/v37-promotion-readiness.test.js',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'packages/specifying/src/canon-posture.js',
+    'packages/specifying/data/state.json',
+    'packages/specifying/README.md',
+    'packages/specifying/src/canonical/proven-generator.js',
+    'packages/specifying/src/canonical/conversation-promotion-readiness-report.js',
+    'packages/specifying/test/v37-promotion-readiness.test.js',
+    'packages/specifying/src/canonical/v21-specifying.js',
     'package.json',
     'README.md',
     'SPECIFICATIONS_ROADMAP.md',
@@ -222,8 +222,8 @@ function main() {
   const promoteScript = read(root, 'scripts/promote-bitcode-canon.mjs');
   const prepareSpecScript = read(root, 'scripts/prepare-bitcode-spec-family-promotion.mjs');
   const prepareRuntimeScript = read(root, 'scripts/prepare-bitcode-runtime-canon-promotion.mjs');
-  const provenGenerator = read(root, 'packages/protocol/src/canonical/proven-generator.js');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const provenGenerator = read(root, 'packages/specifying/src/canonical/proven-generator.js');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
   const rootReadme = read(root, 'README.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
 

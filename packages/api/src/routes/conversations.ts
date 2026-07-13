@@ -12,7 +12,7 @@ import type { AttachmentReference } from '@bitcode/attachments-generics';
 import { validateAttachmentCategory } from '@bitcode/attachments-generics';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { traceRoute } from '@bitcode/observability';
-import { createJsonResponse } from '@bitcode/responses';
+import { createJsonResponse } from '@bitcode/api/responses';
 
 import {
   attachConversationStreamEvent,
@@ -136,14 +136,14 @@ function inferAttachmentCategory(token: ConversationStreamToken): AttachmentRefe
 
   const value = resolveConversationTokenValue(token);
   if (value.startsWith('http://') || value.startsWith('https://')) {
-    return 'url';
+    return 'external';
   }
 
-  if (token.type === 'source') return 'integration';
-  if (token.type === 'destination') return 'integration';
+  if (token.type === 'source') return 'external';
+  if (token.type === 'destination') return 'external';
   if (token.type === 'attachment') return 'file';
 
-  return 'integration';
+  return 'external';
 }
 
 function buildAttachmentReferences(tokens: ConversationStreamToken[]) {

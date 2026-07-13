@@ -45,43 +45,43 @@ Repository discovery and listing with comprehensive filtering and pagination.
 **Input Schema:**
 ```typescript
 {
-  provider: 'github' | 'gitlab' | 'bitbucket';
-  connectionId?: string;
-  userId?: string;
-  page?: number;
-  perPage?: number;
-  sort?: 'created' | 'updated' | 'pushed' | 'full_name';
-  direction?: 'asc' | 'desc';
+ provider: 'github' | 'gitlab' | 'bitbucket';
+ connectionId?: string;
+ userId?: string;
+ page?: number;
+ perPage?: number;
+ sort?: 'created' | 'updated' | 'pushed' | 'full_name';
+ direction?: 'asc' | 'desc';
 }
 ```
 
 **Output Schema:**
 ```typescript
 {
-  repositories: Array<{
-    id: string;
-    name: string;
-    full_name: string;
-    description?: string;
-    private: boolean;
-    clone_url: string;
-    ssh_url: string;
-    html_url: string;
-    default_branch: string;
-    created_at: string;
-    updated_at: string;
-    pushed_at: string;
-    size: number;
-    language?: string;
-    fork: boolean;
-    archived: boolean;
-  }>;
-  pagination: {
-    page: number;
-    per_page: number;
-    total_count: number;
-    has_next_page: boolean;
-  };
+ repositories: Array<{
+ id: string;
+ name: string;
+ full_name: string;
+ description?: string;
+ private: boolean;
+ clone_url: string;
+ ssh_url: string;
+ html_url: string;
+ default_branch: string;
+ created_at: string;
+ updated_at: string;
+ pushed_at: string;
+ size: number;
+ language?: string;
+ fork: boolean;
+ archived: boolean;
+ }>;
+ pagination: {
+ page: number;
+ per_page: number;
+ total_count: number;
+ has_next_page: boolean;
+ };
 }
 ```
 
@@ -92,39 +92,39 @@ Pull request creation with comprehensive branch and metadata management.
 **Input Schema:**
 ```typescript
 {
-  provider: 'github' | 'gitlab' | 'bitbucket';
-  connectionId?: string;
-  userId?: string;
-  owner: string;
-  repo: string;
-  title: string;
-  description?: string;
-  sourceBranch: string;
-  targetBranch: string;
-  draft?: boolean;
+ provider: 'github' | 'gitlab' | 'bitbucket';
+ connectionId?: string;
+ userId?: string;
+ owner: string;
+ repo: string;
+ title: string;
+ description?: string;
+ sourceBranch: string;
+ targetBranch: string;
+ draft?: boolean;
 }
 ```
 
 **Output Schema:**
 ```typescript
 {
-  id: number;
-  number: number;
-  title: string;
-  description?: string;
-  state: 'open' | 'closed' | 'merged';
-  draft: boolean;
-  source_branch: string;
-  target_branch: string;
-  html_url: string;
-  created_at: string;
-  updated_at: string;
-  author: {
-    username: string;
-    avatar_url?: string;
-  };
-  mergeable?: boolean;
-  merge_commit_sha?: string;
+ id: number;
+ number: number;
+ title: string;
+ description?: string;
+ state: 'open' | 'closed' | 'merged';
+ draft: boolean;
+ source_branch: string;
+ target_branch: string;
+ html_url: string;
+ created_at: string;
+ updated_at: string;
+ author: {
+ username: string;
+ avatar_url?: string;
+ };
+ mergeable?: boolean;
+ merge_commit_sha?: string;
 }
 ```
 
@@ -135,43 +135,43 @@ File content creation and modification with commit message support.
 **Input Schema:**
 ```typescript
 {
-  provider: 'github' | 'gitlab' | 'bitbucket';
-  connectionId?: string;
-  userId?: string;
-  owner: string;
-  repo: string;
-  path: string;
-  content: string;
-  message: string;
-  branch?: string;
-  sha?: string; // Required for updates
+ provider: 'github' | 'gitlab' | 'bitbucket';
+ connectionId?: string;
+ userId?: string;
+ owner: string;
+ repo: string;
+ path: string;
+ content: string;
+ message: string;
+ branch?: string;
+ sha?: string; // Required for updates
 }
 ```
 
 **Output Schema:**
 ```typescript
 {
-  content: {
-    name: string;
-    path: string;
-    sha: string;
-    size: number;
-    url: string;
-    html_url: string;
-    git_url: string;
-    download_url: string;
-  };
-  commit: {
-    sha: string;
-    url: string;
-    html_url: string;
-    author: {
-      name: string;
-      email: string;
-      date: string;
-    };
-    message: string;
-  };
+ content: {
+ name: string;
+ path: string;
+ sha: string;
+ size: number;
+ url: string;
+ html_url: string;
+ git_url: string;
+ download_url: string;
+ };
+ commit: {
+ sha: string;
+ url: string;
+ html_url: string;
+ author: {
+ name: string;
+ email: string;
+ date: string;
+ };
+ message: string;
+ };
 }
 ```
 
@@ -182,44 +182,44 @@ Issue creation with comprehensive metadata and assignment capabilities.
 **Input Schema:**
 ```typescript
 {
-  provider: 'github' | 'gitlab' | 'bitbucket';
-  connectionId?: string;
-  userId?: string;
-  owner: string;
-  repo: string;
-  title: string;
-  body?: string;
-  labels?: string[];
-  assignees?: string[];
-  milestone?: string;
+ provider: 'github' | 'gitlab' | 'bitbucket';
+ connectionId?: string;
+ userId?: string;
+ owner: string;
+ repo: string;
+ title: string;
+ body?: string;
+ labels?: string[];
+ assignees?: string[];
+ milestone?: string;
 }
 ```
 
 **Output Schema:**
 ```typescript
 {
-  id: number;
-  number: number;
-  title: string;
-  body?: string;
-  state: 'open' | 'closed';
-  labels: Array<{
-    name: string;
-    color: string;
-    description?: string;
-  }>;
-  assignees: Array<{
-    username: string;
-    avatar_url?: string;
-  }>;
-  milestone?: {
-    title: string;
-    description?: string;
-    due_on?: string;
-  };
-  html_url: string;
-  created_at: string;
-  updated_at: string;
+ id: number;
+ number: number;
+ title: string;
+ body?: string;
+ state: 'open' | 'closed';
+ labels: Array<{
+ name: string;
+ color: string;
+ description?: string;
+ }>;
+ assignees: Array<{
+ username: string;
+ avatar_url?: string;
+ }>;
+ milestone?: {
+ title: string;
+ description?: string;
+ due_on?: string;
+ };
+ html_url: string;
+ created_at: string;
+ updated_at: string;
 }
 ```
 
@@ -230,29 +230,29 @@ Comment creation for issues and pull requests with rich content support.
 **Input Schema:**
 ```typescript
 {
-  provider: 'github' | 'gitlab' | 'bitbucket';
-  connectionId?: string;
-  userId?: string;
-  owner: string;
-  repo: string;
-  type: 'issue' | 'pr';
-  number: number;
-  body: string;
+ provider: 'github' | 'gitlab' | 'bitbucket';
+ connectionId?: string;
+ userId?: string;
+ owner: string;
+ repo: string;
+ type: 'issue' | 'pr';
+ number: number;
+ body: string;
 }
 ```
 
 **Output Schema:**
 ```typescript
 {
-  id: number;
-  body: string;
-  author: {
-    username: string;
-    avatar_url?: string;
-  };
-  created_at: string;
-  updated_at: string;
-  html_url: string;
+ id: number;
+ body: string;
+ author: {
+ username: string;
+ avatar_url?: string;
+ };
+ created_at: string;
+ updated_at: string;
+ html_url: string;
 }
 ```
 
@@ -263,30 +263,30 @@ File content retrieval with branch and commit specification support.
 **Input Schema:**
 ```typescript
 {
-  provider: 'github' | 'gitlab' | 'bitbucket';
-  connectionId?: string;
-  userId?: string;
-  owner: string;
-  repo: string;
-  path: string;
-  ref?: string; // Branch, tag, or commit SHA
+ provider: 'github' | 'gitlab' | 'bitbucket';
+ connectionId?: string;
+ userId?: string;
+ owner: string;
+ repo: string;
+ path: string;
+ ref?: string; // Branch, tag, or commit SHA
 }
 ```
 
 **Output Schema:**
 ```typescript
 {
-  name: string;
-  path: string;
-  sha: string;
-  size: number;
-  content: string; // Base64 encoded
-  encoding: 'base64';
-  decodedContent?: string; // UTF-8 decoded content
-  url: string;
-  html_url: string;
-  git_url: string;
-  download_url: string;
+ name: string;
+ path: string;
+ sha: string;
+ size: number;
+ content: string; // Base64 encoded
+ encoding: 'base64';
+ decodedContent?: string; // UTF-8 decoded content
+ url: string;
+ html_url: string;
+ git_url: string;
+ download_url: string;
 }
 ```
 
@@ -298,45 +298,45 @@ Unified provider management with connection pooling:
 
 ```typescript
 class ListRepositoriesTool extends Tool<any> {
-  name = 'vcs_list_repositories';
-  description = 'List repositories from a VCS provider with unified interface';
-  
-  async use(input: ListRepositoriesInput) {
-    const supabase = createSupabaseServerClient();
-    const connectionManager = new VCSConnections(supabase);
-    
-    // Resolve connection via ID or user + provider
-    const connection = input.connectionId 
-      ? await connectionManager.getConnectionById(input.connectionId)
-      : await connectionManager.getConnection(input.userId!, input.provider);
-    
-    if (!connection) {
-      throw new Error(`No ${input.provider} connection found`);
-    }
-    
-    // Get authentication from connection
-    const auth = await connectionManager.getAuthFromConnection(connection.id);
-    
-    // Initialize VCS provider with configuration
-    const vcsProvider = await VCSProviderFactory.create({
-      provider: input.provider,
-      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
-      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
-      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
-      instanceUrl: connection.instanceUrl
-    });
-    
-    // Execute repository listing with timeout protection
-    return await withTimeout(
-      () => vcsProvider.listRepositories(auth, {
-        page: input.page,
-        perPage: input.perPage,
-        sort: input.sort,
-        direction: input.direction
-      }),
-      30000
-    );
-  }
+ name = 'vcs_list_repositories';
+ description = 'List repositories from a VCS provider with unified interface';
+
+ async use(input: ListRepositoriesInput) {
+ const supabase = createSupabaseServerClient();
+ const connectionManager = new VCSConnections(supabase);
+
+ // Resolve connection via ID or user + provider
+ const connection = input.connectionId
+ ? await connectionManager.getConnectionById(input.connectionId)
+ : await connectionManager.getConnection(input.userId!, input.provider);
+
+ if (!connection) {
+ throw new Error(`No ${input.provider} connection found`);
+ }
+
+ // Get authentication from connection
+ const auth = await connectionManager.getAuthFromConnection(connection.id);
+
+ // Initialize VCS provider with configuration
+ const vcsProvider = await VCSProviderFactory.create({
+ provider: input.provider,
+ clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
+ clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
+ redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
+ instanceUrl: connection.instanceUrl
+ });
+
+ // Execute repository listing with timeout protection
+ return await withTimeout(
+ () => vcsProvider.listRepositories(auth, {
+ page: input.page,
+ perPage: input.perPage,
+ sort: input.sort,
+ direction: input.direction
+ }),
+ 30000
+ );
+ }
 }
 ```
 
@@ -346,53 +346,53 @@ Comprehensive pull request creation with retry logic:
 
 ```typescript
 class CreatePullRequestTool extends Tool<any> {
-  name = 'vcs_create_pull_request';
-  description = 'Create a pull request through unified VCS interface';
-  
-  async use(input: CreatePullRequestInput) {
-    const supabase = createSupabaseServerClient();
-    const connectionManager = new VCSConnections(supabase);
-    
-    // Resolve and validate connection
-    const connection = input.connectionId 
-      ? await connectionManager.getConnectionById(input.connectionId)
-      : await connectionManager.getConnection(input.userId!, input.provider);
-    
-    if (!connection) {
-      throw new Error(`No ${input.provider} connection found`);
-    }
-    
-    // Initialize authenticated VCS provider
-    const auth = await connectionManager.getAuthFromConnection(connection.id);
-    const vcsProvider = await VCSProviderFactory.create({
-      provider: input.provider,
-      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
-      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
-      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
-      instanceUrl: connection.instanceUrl
-    });
-    
-    // Execute pull request creation with retry logic
-    return await withRetry(
-      () => vcsProvider.createPullRequest(auth, input.owner, input.repo, {
-        title: input.title,
-        description: input.description,
-        sourceBranch: input.sourceBranch,
-        targetBranch: input.targetBranch,
-        draft: input.draft
-      }),
-      {
-        maxAttempts: 3,
-        delayMs: 1000,
-        shouldRetry: (error) => {
-          const message = error.message.toLowerCase();
-          return message.includes('network') || 
-                 message.includes('timeout') || 
-                 message.includes('rate limit');
-        }
-      }
-    );
-  }
+ name = 'vcs_create_pull_request';
+ description = 'Create a pull request through unified VCS interface';
+
+ async use(input: CreatePullRequestInput) {
+ const supabase = createSupabaseServerClient();
+ const connectionManager = new VCSConnections(supabase);
+
+ // Resolve and validate connection
+ const connection = input.connectionId
+ ? await connectionManager.getConnectionById(input.connectionId)
+ : await connectionManager.getConnection(input.userId!, input.provider);
+
+ if (!connection) {
+ throw new Error(`No ${input.provider} connection found`);
+ }
+
+ // Initialize authenticated VCS provider
+ const auth = await connectionManager.getAuthFromConnection(connection.id);
+ const vcsProvider = await VCSProviderFactory.create({
+ provider: input.provider,
+ clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
+ clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
+ redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
+ instanceUrl: connection.instanceUrl
+ });
+
+ // Execute pull request creation with retry logic
+ return await withRetry(
+ () => vcsProvider.createPullRequest(auth, input.owner, input.repo, {
+ title: input.title,
+ description: input.description,
+ sourceBranch: input.sourceBranch,
+ targetBranch: input.targetBranch,
+ draft: input.draft
+ }),
+ {
+ maxAttempts: 3,
+ delayMs: 1000,
+ shouldRetry: (error) => {
+ const message = error.message.toLowerCase();
+ return message.includes('network') ||
+ message.includes('timeout') ||
+ message.includes('rate limit');
+ }
+ }
+ );
+ }
 }
 ```
 
@@ -402,46 +402,46 @@ Secure file content management with encoding support:
 
 ```typescript
 class CreateOrUpdateFileTool extends Tool<any> {
-  name = 'vcs_create_or_update_file';
-  description = 'Create or update a file in a repository through unified VCS interface';
-  
-  async use(input: CreateOrUpdateFileInput) {
-    const supabase = createSupabaseServerClient();
-    const connectionManager = new VCSConnections(supabase);
-    
-    // Validate and resolve connection
-    const connection = input.connectionId 
-      ? await connectionManager.getConnectionById(input.connectionId)
-      : await connectionManager.getConnection(input.userId!, input.provider);
-    
-    if (!connection) {
-      throw new Error(`No ${input.provider} connection found`);
-    }
-    
-    // Initialize VCS provider with authentication
-    const auth = await connectionManager.getAuthFromConnection(connection.id);
-    const vcsProvider = await VCSProviderFactory.create({
-      provider: input.provider,
-      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
-      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
-      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
-      instanceUrl: connection.instanceUrl
-    });
-    
-    // Execute file operation with retry and timeout protection
-    return await withRetry(
-      () => vcsProvider.createOrUpdateFile(auth, input.owner, input.repo, input.path, {
-        content: Buffer.from(input.content).toString('base64'),
-        message: input.message,
-        branch: input.branch,
-        sha: input.sha
-      }),
-      {
-        maxAttempts: 3,
-        delayMs: 1000
-      }
-    );
-  }
+ name = 'vcs_create_or_update_file';
+ description = 'Create or update a file in a repository through unified VCS interface';
+
+ async use(input: CreateOrUpdateFileInput) {
+ const supabase = createSupabaseServerClient();
+ const connectionManager = new VCSConnections(supabase);
+
+ // Validate and resolve connection
+ const connection = input.connectionId
+ ? await connectionManager.getConnectionById(input.connectionId)
+ : await connectionManager.getConnection(input.userId!, input.provider);
+
+ if (!connection) {
+ throw new Error(`No ${input.provider} connection found`);
+ }
+
+ // Initialize VCS provider with authentication
+ const auth = await connectionManager.getAuthFromConnection(connection.id);
+ const vcsProvider = await VCSProviderFactory.create({
+ provider: input.provider,
+ clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
+ clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
+ redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
+ instanceUrl: connection.instanceUrl
+ });
+
+ // Execute file operation with retry and timeout protection
+ return await withRetry(
+ () => vcsProvider.createOrUpdateFile(auth, input.owner, input.repo, input.path, {
+ content: Buffer.from(input.content).toString('base64'),
+ message: input.message,
+ branch: input.branch,
+ sha: input.sha
+ }),
+ {
+ maxAttempts: 3,
+ delayMs: 1000
+ }
+ );
+ }
 }
 ```
 
@@ -451,52 +451,52 @@ File content access with automatic decoding:
 
 ```typescript
 class GetFileContentTool extends Tool<any> {
-  name = 'vcs_get_file_content';
-  description = 'Get file content from a repository through unified VCS interface';
-  
-  async use(input: GetFileContentInput) {
-    const supabase = createSupabaseServerClient();
-    const connectionManager = new VCSConnections(supabase);
-    
-    // Resolve connection and authentication
-    const connection = input.connectionId 
-      ? await connectionManager.getConnectionById(input.connectionId)
-      : await connectionManager.getConnection(input.userId!, input.provider);
-    
-    if (!connection) {
-      throw new Error(`No ${input.provider} connection found`);
-    }
-    
-    const auth = await connectionManager.getAuthFromConnection(connection.id);
-    const vcsProvider = await VCSProviderFactory.create({
-      provider: input.provider,
-      clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
-      clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
-      redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
-      instanceUrl: connection.instanceUrl
-    });
-    
-    // Retrieve file content
-    const file = await vcsProvider.getFileContent(
-      auth, 
-      input.owner, 
-      input.repo, 
-      input.path, 
-      input.ref
-    );
-    
-    // Automatically decode base64 content to UTF-8
-    if (file.content && file.encoding === 'base64') {
-      try {
-        file.decodedContent = Buffer.from(file.content, 'base64').toString('utf-8');
-      } catch (error) {
-        // Content might be binary - keep base64 encoded
-        console.warn('Unable to decode content as UTF-8:', error.message);
-      }
-    }
-    
-    return file;
-  }
+ name = 'vcs_get_file_content';
+ description = 'Get file content from a repository through unified VCS interface';
+
+ async use(input: GetFileContentInput) {
+ const supabase = createSupabaseServerClient();
+ const connectionManager = new VCSConnections(supabase);
+
+ // Resolve connection and authentication
+ const connection = input.connectionId
+ ? await connectionManager.getConnectionById(input.connectionId)
+ : await connectionManager.getConnection(input.userId!, input.provider);
+
+ if (!connection) {
+ throw new Error(`No ${input.provider} connection found`);
+ }
+
+ const auth = await connectionManager.getAuthFromConnection(connection.id);
+ const vcsProvider = await VCSProviderFactory.create({
+ provider: input.provider,
+ clientId: process.env[`${input.provider.toUpperCase()}_CLIENT_ID`]!,
+ clientSecret: process.env[`${input.provider.toUpperCase()}_CLIENT_SECRET`]!,
+ redirectUri: process.env[`${input.provider.toUpperCase()}_REDIRECT_URI`]!,
+ instanceUrl: connection.instanceUrl
+ });
+
+ // Retrieve file content
+ const file = await vcsProvider.getFileContent(
+ auth,
+ input.owner,
+ input.repo,
+ input.path,
+ input.ref
+ );
+
+ // Automatically decode base64 content to UTF-8
+ if (file.content && file.encoding === 'base64') {
+ try {
+ file.decodedContent = Buffer.from(file.content, 'base64').toString('utf-8');
+ } catch (error) {
+ // Content might be binary - keep base64 encoded
+ console.warn('Unable to decode content as UTF-8:', error.message);
+ }
+ }
+
+ return file;
+ }
 }
 ```
 
@@ -505,31 +505,31 @@ class GetFileContentTool extends Tool<any> {
 ### Basic Repository Operations
 
 ```typescript
-import { listRepositoriesTool, createPullRequestTool } from '@bitcode/vcs';
+import { listRepositoriesTool, createPullRequestTool } from '@bitcode/vcs-generics';
 
 // List repositories from GitHub connection
 const repositories = await listRepositoriesTool.use({
-  provider: 'github',
-  connectionId: 'github-connection-123',
-  page: 1,
-  perPage: 25,
-  sort: 'updated',
-  direction: 'desc'
+ provider: 'github',
+ connectionId: 'github-connection-123',
+ page: 1,
+ perPage: 25,
+ sort: 'updated',
+ direction: 'desc'
 });
 
 console.log(`Found ${repositories.repositories.length} repositories`);
 
 // Create a pull request
 const pullRequest = await createPullRequestTool.use({
-  provider: 'github',
-  connectionId: 'github-connection-123',
-  owner: 'organization',
-  repo: 'project-repo',
-  title: 'Feature: Implement dashboard component',
-  description: 'Adds responsive dashboard with real-time data visualization',
-  sourceBranch: 'feature/dashboard-component',
-  targetBranch: 'main',
-  draft: false
+ provider: 'github',
+ connectionId: 'github-connection-123',
+ owner: 'organization',
+ repo: 'project-repo',
+ title: 'Feature: Implement dashboard component',
+ description: 'Adds responsive dashboard with real-time data visualization',
+ sourceBranch: 'feature/dashboard-component',
+ targetBranch: 'main',
+ draft: false
 });
 
 console.log(`Created pull request #${pullRequest.number}: ${pullRequest.html_url}`);
@@ -538,29 +538,29 @@ console.log(`Created pull request #${pullRequest.number}: ${pullRequest.html_url
 ### File Content Management
 
 ```typescript
-import { createOrUpdateFileTool, getFileContentTool } from '@bitcode/vcs';
+import { createOrUpdateFileTool, getFileContentTool } from '@bitcode/vcs-generics';
 
 // Retrieve existing file content
 const existingFile = await getFileContentTool.use({
-  provider: 'gitlab',
-  connectionId: 'gitlab-connection-456',
-  owner: 'team',
-  repo: 'backend-api',
-  path: 'src/components/Dashboard.tsx',
-  ref: 'main'
+ provider: 'gitlab',
+ connectionId: 'gitlab-connection-456',
+ owner: 'team',
+ repo: 'backend-api',
+ path: 'src/components/Dashboard.tsx',
+ ref: 'main'
 });
 
 // Update file with new content
 const updatedFile = await createOrUpdateFileTool.use({
-  provider: 'gitlab',
-  connectionId: 'gitlab-connection-456',
-  owner: 'team',
-  repo: 'backend-api',
-  path: 'src/components/Dashboard.tsx',
-  content: modifiedContent,
-  message: 'Update dashboard component with responsive design',
-  branch: 'feature/responsive-dashboard',
-  sha: existingFile.sha
+ provider: 'gitlab',
+ connectionId: 'gitlab-connection-456',
+ owner: 'team',
+ repo: 'backend-api',
+ path: 'src/components/Dashboard.tsx',
+ content: modifiedContent,
+ message: 'Update dashboard component with responsive design',
+ branch: 'feature/responsive-dashboard',
+ sha: existingFile.sha
 });
 
 console.log(`Updated file: ${updatedFile.commit.html_url}`);
@@ -569,29 +569,29 @@ console.log(`Updated file: ${updatedFile.commit.html_url}`);
 ### Issue and Comment Management
 
 ```typescript
-import { createIssueTool, createCommentTool } from '@bitcode/vcs';
+import { createIssueTool, createCommentTool } from '@bitcode/vcs-generics';
 
 // Create an issue
 const issue = await createIssueTool.use({
-  provider: 'bitbucket',
-  connectionId: 'bitbucket-connection-789',
-  owner: 'workspace',
-  repo: 'frontend-app',
-  title: 'Dashboard component performance optimization',
-  body: 'The dashboard component experiences slow rendering with large datasets. Read to implement virtualization.',
-  labels: ['performance', 'enhancement', 'dashboard'],
-  assignees: ['developer1', 'developer2']
+ provider: 'bitbucket',
+ connectionId: 'bitbucket-connection-789',
+ owner: 'workspace',
+ repo: 'frontend-app',
+ title: 'Dashboard component performance optimization',
+ body: 'The dashboard component experiences slow rendering with large datasets. Read to implement virtualization.',
+ labels: ['performance', 'enhancement', 'dashboard'],
+ assignees: ['developer1', 'developer2']
 });
 
 // Add a comment to the issue
 const comment = await createCommentTool.use({
-  provider: 'bitbucket',
-  connectionId: 'bitbucket-connection-789',
-  owner: 'workspace',
-  repo: 'frontend-app',
-  type: 'issue',
-  number: issue.number,
-  body: 'Investigating virtualization libraries. React Window looks promising for this use case.'
+ provider: 'bitbucket',
+ connectionId: 'bitbucket-connection-789',
+ owner: 'workspace',
+ repo: 'frontend-app',
+ type: 'issue',
+ number: issue.number,
+ body: 'Investigating virtualization libraries. React Window looks promising for this use case.'
 });
 
 console.log(`Created issue #${issue.number} with comment: ${comment.html_url}`);
@@ -602,48 +602,48 @@ console.log(`Created issue #${issue.number} with comment: ${comment.html_url}`);
 ```typescript
 // Cross-provider workflow example
 async function crossProviderWorkflow() {
-  // List repositories from GitHub
-  const githubRepos = await listRepositoriesTool.use({
-    provider: 'github',
-    connectionId: 'github-conn',
-    sort: 'updated',
-    direction: 'desc'
-  });
-  
-  // List repositories from GitLab
-  const gitlabRepos = await listRepositoriesTool.use({
-    provider: 'gitlab',
-    connectionId: 'gitlab-conn',
-    sort: 'updated',
-    direction: 'desc'
-  });
-  
-  // Create issues in both providers
-  const githubIssue = await createIssueTool.use({
-    provider: 'github',
-    connectionId: 'github-conn',
-    owner: 'org',
-    repo: 'frontend',
-    title: 'Sync with GitLab backend changes',
-    body: 'Read to update frontend to work with new API endpoints',
-    labels: ['sync', 'api']
-  });
-  
-  const gitlabIssue = await createIssueTool.use({
-    provider: 'gitlab',
-    connectionId: 'gitlab-conn',
-    owner: 'team',
-    repo: 'backend',
-    title: 'Frontend integration requirements',
-    body: `Related to GitHub issue: ${githubIssue.html_url}`,
-    labels: ['integration', 'frontend']
-  });
-  
-  return {
-    githubRepos: githubRepos.repositories,
-    gitlabRepos: gitlabRepos.repositories,
-    crossPlatformIssues: [githubIssue, gitlabIssue]
-  };
+ // List repositories from GitHub
+ const githubRepos = await listRepositoriesTool.use({
+ provider: 'github',
+ connectionId: 'github-conn',
+ sort: 'updated',
+ direction: 'desc'
+ });
+
+ // List repositories from GitLab
+ const gitlabRepos = await listRepositoriesTool.use({
+ provider: 'gitlab',
+ connectionId: 'gitlab-conn',
+ sort: 'updated',
+ direction: 'desc'
+ });
+
+ // Create issues in both providers
+ const githubIssue = await createIssueTool.use({
+ provider: 'github',
+ connectionId: 'github-conn',
+ owner: 'org',
+ repo: 'frontend',
+ title: 'Sync with GitLab backend changes',
+ body: 'Read to update frontend to work with new API endpoints',
+ labels: ['sync', 'api']
+ });
+
+ const gitlabIssue = await createIssueTool.use({
+ provider: 'gitlab',
+ connectionId: 'gitlab-conn',
+ owner: 'team',
+ repo: 'backend',
+ title: 'Frontend integration requirements',
+ body: `Related to GitHub issue: ${githubIssue.html_url}`,
+ labels: ['integration', 'frontend']
+ });
+
+ return {
+ githubRepos: githubRepos.repositories,
+ gitlabRepos: gitlabRepos.repositories,
+ crossPlatformIssues: [githubIssue, gitlabIssue]
+ };
 }
 ```
 
@@ -652,87 +652,87 @@ async function crossProviderWorkflow() {
 ```typescript
 // Integration with Bitcode pipeline for comprehensive VCS operations
 export const executeVCSWorkflow = factoryTool(
-  'executeVCSWorkflow',
-  async (params: {
-    repositories: Array<{
-      provider: 'github' | 'gitlab' | 'bitbucket';
-      connectionId: string;
-      owner: string;
-      repo: string;
-    }>;
-    workflowType: 'pull_request' | 'issue_creation' | 'file_update';
-    workflowData: any;
-  }) => {
-    const results = [];
-    
-    for (const repo of params.repositories) {
-      try {
-        let result;
-        
-        switch (params.workflowType) {
-          case 'pull_request':
-            result = await createPullRequestTool.use({
-              ...repo,
-              ...params.workflowData
-            });
-            break;
-            
-          case 'issue_creation':
-            result = await createIssueTool.use({
-              ...repo,
-              ...params.workflowData
-            });
-            break;
-            
-          case 'file_update':
-            result = await createOrUpdateFileTool.use({
-              ...repo,
-              ...params.workflowData
-            });
-            break;
-        }
-        
-        results.push({
-          repository: repo,
-          result,
-          status: 'success'
-        });
-      } catch (error) {
-        results.push({
-          repository: repo,
-          error: error.message,
-          status: 'failed'
-        });
-      }
-    }
-    
-    // Store workflow results in pipeline context
-    await storePipelineContext({
-      vcsWorkflow: {
-        type: params.workflowType,
-        results,
-        successCount: results.filter(r => r.status === 'success').length,
-        failureCount: results.filter(r => r.status === 'failed').length
-      }
-    });
-    
-    return {
-      workflowResults: results,
-      summary: {
-        total: results.length,
-        successful: results.filter(r => r.status === 'success').length,
-        failed: results.filter(r => r.status === 'failed').length
-      }
-    };
-  },
-  {
-    description: 'Execute comprehensive VCS workflows across multiple providers and repositories',
-    metadata: {
-      category: 'vcs_operations',
-      subsystem: 'multi_provider',
-      integrationPoints: ['github', 'gitlab', 'bitbucket', 'pipeline_context']
-    }
-  }
+ 'executeVCSWorkflow',
+ async (params: {
+ repositories: Array<{
+ provider: 'github' | 'gitlab' | 'bitbucket';
+ connectionId: string;
+ owner: string;
+ repo: string;
+ }>;
+ workflowType: 'pull_request' | 'issue_creation' | 'file_update';
+ workflowData: any;
+ }) => {
+ const results = [];
+
+ for (const repo of params.repositories) {
+ try {
+ let result;
+
+ switch (params.workflowType) {
+ case 'pull_request':
+ result = await createPullRequestTool.use({
+ ...repo,
+ ...params.workflowData
+ });
+ break;
+
+ case 'issue_creation':
+ result = await createIssueTool.use({
+ ...repo,
+ ...params.workflowData
+ });
+ break;
+
+ case 'file_update':
+ result = await createOrUpdateFileTool.use({
+ ...repo,
+ ...params.workflowData
+ });
+ break;
+ }
+
+ results.push({
+ repository: repo,
+ result,
+ status: 'success'
+ });
+ } catch (error) {
+ results.push({
+ repository: repo,
+ error: error.message,
+ status: 'failed'
+ });
+ }
+ }
+
+ // Store workflow results in pipeline context
+ await storePipelineContext({
+ vcsWorkflow: {
+ type: params.workflowType,
+ results,
+ successCount: results.filter(r => r.status === 'success').length,
+ failureCount: results.filter(r => r.status === 'failed').length
+ }
+ });
+
+ return {
+ workflowResults: results,
+ summary: {
+ total: results.length,
+ successful: results.filter(r => r.status === 'success').length,
+ failed: results.filter(r => r.status === 'failed').length
+ }
+ };
+ },
+ {
+ description: 'Execute comprehensive VCS workflows across multiple providers and repositories',
+ metadata: {
+ category: 'vcs_operations',
+ subsystem: 'multi_provider',
+ integrationPoints: ['github', 'gitlab', 'bitbucket', 'pipeline_context']
+ }
+ }
 );
 ```
 

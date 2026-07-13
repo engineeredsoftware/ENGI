@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * CONVERSATIONS LEARNING DEMO - INTERACTIVE DOCUMENTATION EXPERIENCE
  * 
@@ -5,7 +7,6 @@
  * Embedded in documentation to provide hands-on learning experience.
  */
 
-'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';

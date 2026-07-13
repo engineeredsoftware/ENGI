@@ -112,12 +112,12 @@ function main() {
     'scripts/run-v40-prompt-benchmark-smoke.mjs',
     'scripts/generate-v40-prompt-benchmark-smoke-v41-readiness.mjs',
     'scripts/check-v40-gate10-prompt-benchmark-smoke-v41-readiness.mjs',
-    'packages/protocol/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js',
-    'packages/protocol/test/v40-prompt-benchmark-smoke-v41-readiness.test.js',
-    'packages/protocol/src/index.js',
-    'packages/protocol/src/index.d.ts',
-    'packages/protocol/src/canonical/prompt-benchmark-report.js',
-    'packages/protocol/test/v38-prompt-benchmark-report.test.js',
+    'packages/specifying/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js',
+    'packages/specifying/test/v40-prompt-benchmark-smoke-v41-readiness.test.js',
+    'packages/specifying/src/index.js',
+    'packages/specifying/src/index.d.ts',
+    'packages/specifying/src/canonical/prompt-benchmark-report.js',
+    'packages/specifying/test/v38-prompt-benchmark-report.test.js',
     'packages/prompts/src/benchmarking/runner.ts',
     'packages/prompts/src/benchmarking/cli.ts',
     'packages/prompts/src/benchmarking/types.ts',
@@ -129,7 +129,7 @@ function main() {
     'BITCODE_SPEC_V40_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -168,7 +168,7 @@ function main() {
 
   if (failures.length === 0 && !args.skipPackageTests) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/protocol/test/v40-prompt-benchmark-smoke-v41-readiness.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/v40-prompt-benchmark-smoke-v41-readiness.test.js']);
     } catch (error) {
       failures.push(`V40 prompt benchmark smoke protocol test failed: ${error.stderr || error.message}`);
     }
@@ -222,7 +222,7 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V40_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');

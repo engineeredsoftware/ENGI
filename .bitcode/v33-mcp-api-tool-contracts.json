@@ -17,22 +17,22 @@
       "examples": [
         {
           "exampleId": "mcp-asset-pack-create-success-queued",
-          "fixturePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+          "fixturePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
           "posture": "success_queued"
         },
         {
           "exampleId": "mcp-asset-pack-create-denied-permission",
-          "fixturePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+          "fixturePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
           "posture": "denied_permission"
         },
         {
           "exampleId": "mcp-asset-pack-create-denied-auth",
-          "fixturePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/auth.test.ts",
+          "fixturePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/auth.test.ts",
           "posture": "denied_auth"
         },
         {
           "exampleId": "mcp-asset-pack-create-denied-provider-binding",
-          "fixturePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+          "fixturePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
           "posture": "denied_provider_binding"
         }
       ],
@@ -72,7 +72,7 @@
       "toolId": "bitcode://pipelines/asset-pack/create",
       "validationCommands": [
         "pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/mcp-tool-contract.test.ts",
-        "pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand"
+        "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand"
       ]
     }
   ],
@@ -114,13 +114,13 @@
   "sharedFixtureFiles": [
     "packages/btd/src/mcp-tool-contract.ts",
     "packages/btd/src/index.ts",
-    "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
-    "packages/executions-mcp/src/mcp-server/src/types/index.ts",
-    "packages/executions-mcp/src/mcp-server/src/server.ts",
+    "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
+    "packages/mcp-generics/src/mcp-server/src/types/index.ts",
+    "packages/mcp-generics/src/mcp-server/src/server.ts",
     "packages/btd/__tests__/mcp-tool-contract.test.ts",
-    "packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts",
-    "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
-    "packages/executions-mcp/src/mcp-server/src/__tests__/unit/auth.test.ts",
+    "packages/mcp-generics/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts",
+    "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+    "packages/mcp-generics/src/mcp-server/src/__tests__/unit/auth.test.ts",
     "scripts/check-v33-gate3-mcp-api-tool-contracts.mjs"
   ],
   "sourceEvidence": [
@@ -152,7 +152,7 @@
     },
     {
       "digest": "sha256:9bc3a8d5811e7cab7ec0311f9ead833b2d9d10bcf57d67190b32ecd74a38eae9",
-      "relativePath": "packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts",
+      "relativePath": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
       "requiredTokens": [
         {
           "present": true,
@@ -174,7 +174,7 @@
     },
     {
       "digest": "sha256:7780b32086b7ae3f6bbd10b98b2b69e16b0fa7e7547076725723182111e03dec",
-      "relativePath": "packages/executions-mcp/src/mcp-server/src/types/index.ts",
+      "relativePath": "packages/mcp-generics/src/mcp-server/src/types/index.ts",
       "requiredTokens": [
         {
           "present": true,
@@ -213,7 +213,7 @@
     },
     {
       "digest": "sha256:b6a65ab71085aa0218109c207a5c079076aea59c4e7c531f25d51b4a1b58f428",
-      "relativePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts",
+      "relativePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts",
       "requiredTokens": [
         {
           "present": true,
@@ -231,7 +231,7 @@
     },
     {
       "digest": "sha256:ef8475335bd430ca5926466e8556f9da3ca9db4e8d1f4ec86b9fc27f5c34a07c",
-      "relativePath": "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
+      "relativePath": "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
       "requiredTokens": [
         {
           "present": true,

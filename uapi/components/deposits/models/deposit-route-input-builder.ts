@@ -5,8 +5,8 @@
  * wiring out of the page client so the client only owns React state + IO.
  */
 
-import type { DepositOptionReviewDecision } from "@bitcode/pipeline-asset-pack/deposit-asset-pack-option-admission";
-import type { DepositOptionCriticalitySignal } from "@bitcode/pipeline-asset-pack/deposit-asset-pack-option-policy";
+import type { DepositOptionReviewDecision } from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-admission";
+import type { DepositOptionCriticalitySignal } from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-policy";
 import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import type { DepositRouteSession } from "@/components/deposits/models/deposit-route-model";
 import type { DepositRouteStepId } from "@/components/deposits/models/deposit-route-model";

@@ -43,17 +43,17 @@ Supported Operations:
 ### Operation Result Schema
 ```typescript
 {
-  success: boolean,
-  result: any,
-  error?: string
+ success: boolean,
+ result: any,
+ error?: string
 }
 ```
 
 ### Repository Sync Schema
 ```typescript
 {
-  count: number,
-  repositories: string[]
+ count: number,
+ repositories: string[]
 }
 ```
 

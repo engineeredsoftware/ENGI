@@ -2,7 +2,6 @@
  * @bitcode/api/streams — real-time pipeline streaming primitives
  *
  * Grouped under the API package with responses (HTTP/stream primitives).
- * BC: `@bitcode/streams` re-exports this module.
  *
  * Streams Package - Real-time pipeline communication
  * 

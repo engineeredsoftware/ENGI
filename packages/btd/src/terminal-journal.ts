@@ -1,9 +1,8 @@
 /**
- * @deprecated Compatibility shim for Terminal-era journal names.
- * Import from `./journal` (or `@bitcode/btd` journal exports) instead.
+ * Terminal-era export names for BTD journal.
  *
- * V48 naming law: BTD ledger rows are journal vocabulary, not Terminal product
- * surface names. Callers should migrate to Journal* symbols.
+ * Prefer `./journal` (or `@bitcode/btd` journal exports).
+ * Ledger rows use journal vocabulary, not a product cockpit name.
  */
 
 export type {

@@ -1,8 +1,9 @@
+'use client';
+
 /**
  * Packs detail aside shell: overview, measurements, then section units
  * (states, accounting, governance, proof roots) for the selected row.
  */
-"use client";
 
 import React from "react";
 import { ShieldCheck } from "lucide-react";

@@ -404,7 +404,7 @@
     "uapi/tests/readPageClient.test.tsx",
     "uapi/tests/depositPageClient.test.tsx",
     "uapi/tests/packsPageClient.test.tsx",
-    "packages/protocol/test/v45-proof-family-artifacts.test.js"
+    "packages/specifying/test/v45-proof-family-artifacts.test.js"
   ],
   "failClosedConditions": [
     "overexposure",

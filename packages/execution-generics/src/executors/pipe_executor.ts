@@ -1,2 +1,2 @@
-/** BC re-export — prefer @bitcode/generic-executors */
+/** re-export — prefer @bitcode/generic-executors */
 export { pipe } from '@bitcode/generic-executors';

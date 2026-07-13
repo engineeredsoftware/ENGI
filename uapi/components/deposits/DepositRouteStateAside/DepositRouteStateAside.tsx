@@ -1,9 +1,10 @@
+'use client';
+
 /**
  * Deposit route state aside — Earnings, Governance, and Session panels.
  * Presentational only; parent owns route session and estimate state.
  * Section bodies live in DepositAsideEarningsPanel / DepositAsideRowsSection.
  */
-"use client";
 
 import React from "react";
 import {

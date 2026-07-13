@@ -4,7 +4,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState, useMemo } from 're
 import type { FC } from 'react';
 import { cn } from '@bitcode/styling';
 import dynamic from 'next/dynamic';
-const ParticleEffect = dynamic(() => import('./particle-effect'), { ssr: false, loading: () => null });
+const ParticleEffect = dynamic(() => import('@/components/bitcode/ParticleEffect/ParticleEffect'), { ssr: false, loading: () => null });
 
 interface Props {
   text: string;

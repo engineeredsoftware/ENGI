@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V44_BTD_BTC_COMPENSATION_STATEMENTS_ARTIFACT_PATH,
   buildV44BtdBtcCompensationStatements,
-} from '../packages/protocol/src/canonical/v44-btd-btc-compensation-statements.js';
+} from '../packages/specifying/src/canonical/v44-btd-btc-compensation-statements.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -98,8 +98,8 @@ function main() {
     'uapi/app/packs/PacksPageClient.tsx',
     'uapi/tests/packActivityModel.test.ts',
     'uapi/tests/packsPageClient.test.tsx',
-    'packages/protocol/src/canonical/v44-btd-btc-compensation-statements.js',
-    'packages/protocol/test/v44-btd-btc-compensation-statements.test.js',
+    'packages/specifying/src/canonical/v44-btd-btc-compensation-statements.js',
+    'packages/specifying/test/v44-btd-btc-compensation-statements.test.js',
     'scripts/generate-v44-btd-btc-compensation-statements.mjs',
     'scripts/check-v44-gate6-btd-btc-compensation-statements.mjs',
     'BITCODE_SPEC_V44.md',
@@ -108,7 +108,7 @@ function main() {
     'BITCODE_SPEC_V44_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/protocol/README.md',
+    'packages/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -162,9 +162,9 @@ function main() {
 
   if (!args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'packages/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-btd-btc-compensation-statements.test.js']);
+      run(root, 'pnpm', ['--dir', 'packages/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-btd-btc-compensation-statements.test.js']);
     } catch {
-      failures.push('packages/protocol/test/v44-btd-btc-compensation-statements.test.js must pass.');
+      failures.push('packages/specifying/test/v44-btd-btc-compensation-statements.test.js must pass.');
     }
 
     try {

@@ -167,7 +167,7 @@ export function buildV33ReadLicenseAssetPackRightsContractsArtifact() {
       'shares the package-owned ReadLicense and AssetPackRights fixture for MCP Finding Fits preview',
       'mcp-finding-fits-source-safe-preview',
     ]),
-    scanTokens('packages/chatgptapp/src/__tests__/tools.test.ts', [
+    scanTokens('packages/external-apps/chatgpt/src/__tests__/tools.test.ts', [
       'shares the package-owned ReadLicense and AssetPackRights fixture for unpaid ChatGPT App delivery denial',
       'chatgpt-unpaid-delivery-denied',
     ]),

@@ -13,7 +13,7 @@
       "familyId": "conversation_agent",
       "purpose": "Keep comprehensive and quick-response conversation variations on factoryAgentWithPTRR so both paths use PTRR steps, FailsafeGenerationSequence, and ThricifiedGeneration.",
       "sourceRoots": [
-        "packages/conversations-generics/src/agent/ConversationAgent.ts"
+        "packages/conversations/src/agent/ConversationAgent.ts"
       ],
       "primitiveIds": [
         "factoryAgentWithPTRR",
@@ -53,8 +53,8 @@
       "familyId": "conversation_agent",
       "purpose": "Bind Conversation agent and Plan/Try/Refine/Retry step prompt registries to semantically divided Conversation PromptParts.",
       "sourceRoots": [
-        "packages/conversations-generics/src/agent/ConversationAgent.ts",
-        "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+        "packages/conversations/src/agent/ConversationAgent.ts",
+        "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
         "packages/agent-generics/src/prompts/AgentPrompt.ts"
       ],
       "primitiveIds": [
@@ -94,7 +94,7 @@
       "familyId": "interface_entrypoint",
       "purpose": "Keep Conversation schemas, stream events, and execution-log rows typed and source-safe without turning Conversations into a parallel Protocol authority.",
       "sourceRoots": [
-        "packages/conversations-generics/src/agent/ConversationAgent.ts",
+        "packages/conversations/src/agent/ConversationAgent.ts",
         "packages/api/src/conversations/stream-events.ts",
         "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
       ],
@@ -260,9 +260,9 @@
       "familyId": "tool_definition_prompt",
       "purpose": "Bind ChatGPT App tool definitions to DocCodeToolPrompt PromptParts, formatted prompt carriers, read-access checks, and organization-authority checks.",
       "sourceRoots": [
-        "packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts",
-        "packages/chatgptapp/src/tools.ts",
-        "packages/chatgptapp/src/__tests__/tools.test.ts"
+        "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+        "packages/external-apps/chatgpt/src/tools.ts",
+        "packages/external-apps/chatgpt/src/__tests__/tools.test.ts"
       ],
       "primitiveIds": [
         "DocCodeToolPrompt",
@@ -301,12 +301,12 @@
       "familyId": "interface_entrypoint",
       "purpose": "Make V38 inventory, prompt benchmarks, Conversation routes, UI stream rows, and ChatGPT tool surfaces prove that interface entrypoints do not bypass the inference stack.",
       "sourceRoots": [
-        "packages/protocol/src/canonical/inference-surface-inventory.js",
-        "packages/protocol/src/canonical/prompt-benchmark-report.js",
-        "packages/protocol/src/canonical/inference-telemetry-disclosure-report.js",
-        "packages/conversations-generics/src/agent/ConversationAgent.ts",
+        "packages/specifying/src/canonical/inference-surface-inventory.js",
+        "packages/specifying/src/canonical/prompt-benchmark-report.js",
+        "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js",
+        "packages/conversations/src/agent/ConversationAgent.ts",
         "uapi/tests/conversationStreamPipelineLog.test.tsx",
-        "packages/chatgptapp/src/__tests__/tools.test.ts"
+        "packages/external-apps/chatgpt/src/__tests__/tools.test.ts"
       ],
       "primitiveIds": [
         "V38InferenceSurfaceInventory",
@@ -363,62 +363,62 @@
   "predicateResults": [
     {
       "id": "conversation-imports-ptrr-factory",
-      "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
       "passed": true
     },
     {
       "id": "conversation-removes-single-step-factory",
-      "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
       "passed": true
     },
     {
       "id": "conversation-comprehensive-uses-ptrr",
-      "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
       "passed": true
     },
     {
       "id": "conversation-quick-response-uses-ptrr",
-      "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
       "passed": true
     },
     {
       "id": "conversation-quick-response-uses-agent-prompt",
-      "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
       "passed": true
     },
     {
       "id": "conversation-quick-response-uses-final-schema",
-      "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
       "passed": true
     },
     {
       "id": "conversation-declares-agent-prompt-registry",
-      "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
       "passed": true
     },
     {
       "id": "conversation-declares-step-prompt-registry",
-      "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
       "passed": true
     },
     {
       "id": "conversation-uses-specific-promptparts",
-      "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
       "passed": true
     },
     {
       "id": "conversation-system-prompt-remains-source-owned",
-      "sourcePath": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
       "passed": true
     },
     {
       "id": "conversation-typed-output-schemas-present",
-      "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
       "passed": true
     },
     {
       "id": "conversation-stream-entrypoint-uses-agent",
-      "sourcePath": "packages/conversations-generics/src/agent/ConversationAgent.ts",
+      "sourcePath": "packages/conversations/src/agent/ConversationAgent.ts",
       "passed": true
     },
     {
@@ -483,52 +483,52 @@
     },
     {
       "id": "chatgpt-tool-prompts-use-doc-code-prompt",
-      "sourcePath": "packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tool-prompts-use-specific-promptparts",
-      "sourcePath": "packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tool-prompts-export-six-carriers",
-      "sourcePath": "packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tools-format-doc-code-prompts",
-      "sourcePath": "packages/chatgptapp/src/tools.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/tools.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tools-carry-doc-code-prompt-meta",
-      "sourcePath": "packages/chatgptapp/src/tools.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/tools.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tools-enforce-read-access-and-authority",
-      "sourcePath": "packages/chatgptapp/src/tools.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/tools.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tools-tests-cover-write-admission",
-      "sourcePath": "packages/chatgptapp/src/__tests__/tools.test.ts",
+      "sourcePath": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
       "passed": true
     },
     {
       "id": "inventory-removes-gate9-quick-response-gap",
-      "sourcePath": "packages/protocol/src/canonical/inference-surface-inventory.js",
+      "sourcePath": "packages/specifying/src/canonical/inference-surface-inventory.js",
       "passed": true
     },
     {
       "id": "prompt-benchmark-removes-gate9-carryforward-gap",
-      "sourcePath": "packages/protocol/src/canonical/prompt-benchmark-report.js",
+      "sourcePath": "packages/specifying/src/canonical/prompt-benchmark-report.js",
       "passed": true
     },
     {
       "id": "gate5-disclosure-covers-stream-ui-storage",
-      "sourcePath": "packages/protocol/src/canonical/inference-telemetry-disclosure-report.js",
+      "sourcePath": "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js",
       "passed": true
     }
   ],
@@ -564,8 +564,8 @@
     "legacySourceRoots": false
   },
   "sourceRoots": {
-    "conversationAgent": "packages/conversations-generics/src/agent/ConversationAgent.ts",
-    "conversationSystemPrompt": "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+    "conversationAgent": "packages/conversations/src/agent/ConversationAgent.ts",
+    "conversationSystemPrompt": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
     "conversationStreamEvents": "packages/api/src/conversations/stream-events.ts",
     "conversationTelemetry": "packages/api/src/conversations/telemetry.ts",
     "conversationStreamEventsTest": "packages/api/src/conversations/__tests__/stream-events.test.ts",
@@ -577,11 +577,11 @@
     "toolPromptRegistry": "packages/tools-generics/src/execution/ToolPromptRegistry.ts",
     "agentPrompt": "packages/agent-generics/src/prompts/AgentPrompt.ts",
     "toolExecutionPrompt": "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts",
-    "chatGptToolDocPrompts": "packages/chatgptapp/src/prompts/chatgpt-tool-doc-prompts.ts",
-    "chatGptTools": "packages/chatgptapp/src/tools.ts",
-    "chatGptToolsTest": "packages/chatgptapp/src/__tests__/tools.test.ts",
-    "gate2Inventory": "packages/protocol/src/canonical/inference-surface-inventory.js",
-    "gate4PromptBenchmark": "packages/protocol/src/canonical/prompt-benchmark-report.js",
-    "gate5Disclosure": "packages/protocol/src/canonical/inference-telemetry-disclosure-report.js"
+    "chatGptToolDocPrompts": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+    "chatGptTools": "packages/external-apps/chatgpt/src/tools.ts",
+    "chatGptToolsTest": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+    "gate2Inventory": "packages/specifying/src/canonical/inference-surface-inventory.js",
+    "gate4PromptBenchmark": "packages/specifying/src/canonical/prompt-benchmark-report.js",
+    "gate5Disclosure": "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js"
   }
 }

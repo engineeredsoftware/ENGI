@@ -3,7 +3,6 @@
 Conversation domain types, validation, agent substrate, and terminal conversation
 system prompt ownership for commercial Bitcode interfaces.
 
-> BC alias: `@bitcode/conversations-generics`
 
 ## Naming
 
@@ -26,5 +25,5 @@ and `uapi/app/api/conversations/*`.
 
 ```ts
 import type { Conversation, ConversationMessage } from '@bitcode/conversations';
-// or BC: from '@bitcode/conversations-generics'
+// or from '@bitcode/conversations'
 ```

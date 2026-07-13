@@ -9,24 +9,24 @@ The doc-coding system provides infrastructure for attaching metadata to code thr
 ### ✅ What Exists
 
 #### Infrastructure Packages
-- **`@bitcode/doc-comment-generics`** - Pure plugin infrastructure (BC: `@bitcode/doc-comment`)
-  - Base plugin classes and interfaces
-  - Plugin registry system
-  - Parser foundations
-  - TypeScript transformer factory (not integrated)
+- **`@bitcode/doc-comment-generics`** - Pure plugin infrastructure
+ - Base plugin classes and interfaces
+ - Plugin registry system
+ - Parser foundations
+ - TypeScript transformer factory (not integrated)
 
-- **`@bitcode/generic-doc-comments-doc-code`** - Runtime injection system (BC: `@bitcode/doc-code`)
-  - Transform interface for build tools
-  - Prompt injection pattern definitions
-  - Build integration helpers (not active)
+- **`@bitcode/generic-doc-comments-doc-code`** - Runtime injection system
+ - Transform interface for build tools
+ - Prompt injection pattern definitions
+ - Build integration helpers (not active)
 
-- **`@bitcode/generic-doc-comments-doc-developing`** - Development annotation base (BC: `@bitcode/doc-comment-developing`)
-  - Base class for development-time annotations
-  - Validation framework
+- **`@bitcode/generic-doc-comments-doc-developing`** - Development annotation base
+ - Base class for development-time annotations
+ - Validation framework
 
 #### Plugin Implementations
-- **`@bitcode/doc-comment-developing-prompt`** - Prompt development plugin
-- **`@bitcode/doc-comment-developing-promptpart`** - PromptPart development plugin
+- **`@bitcode/generic-doc-comments-doc-developing-prompt`** - Prompt development plugin
+- **`@bitcode/generic-doc-comments-doc-developing-promptpart`** - PromptPart development plugin
 - **`@bitcode/doc-field`** - Field injection plugin
 - **`@bitcode/doc-typescript`** - TypeScript introspection
 - **`@bitcode/doc-dryrun`** - Dry-run capabilities
@@ -46,7 +46,7 @@ Plugins that enhance specific packages live with those packages:
 
 #### Runtime Features
 - No `hasPromptIntelligence()` function
-- No `getPromptIntelligence()` function  
+- No `getPromptIntelligence()` function
 - No `hasSientKnowledge()` function
 - No automatic metadata access
 
@@ -66,9 +66,9 @@ export const BITCODE_IDENTITY: PromptPart = `You are Bitcode...`;
 
 // Build process WOULD inject:
 BITCODE_IDENTITY.__proto__.docPromptPart = {
-  version: '1.0.0',
-  category: 'base_system_identity',
-  priority: 'critical'
+ version: '1.0.0',
+ category: 'base_system_identity',
+ priority: 'critical'
 };
 
 // Runtime access (when implemented):
@@ -80,17 +80,17 @@ const metadata = BITCODE_IDENTITY.__proto__.docPromptPart;
 The system provides classes and interfaces but requires manual integration:
 
 ```typescript
-import { BaseDocCommentPlugin } from '@bitcode/doc-comment';
+import { BaseDocCommentPlugin } from '@bitcode/doc-comment-generics';
 
 // Plugins must be manually registered
 class MyPlugin extends BaseDocCommentPlugin {
-  // Implementation
+ // Implementation
 }
 
 // Manual injection required
 const metadata = { version: '1.0.0' };
 Object.defineProperty(target.prototype, 'docMetadata', {
-  value: metadata
+ value: metadata
 });
 ```
 
@@ -175,7 +175,7 @@ Agents in `generic-agents/` use:
 
 ```typescript
 // In package that owns the plugin
-import { registerPlugin } from '@bitcode/doc-comment';
+import { registerPlugin } from '@bitcode/doc-comment-generics';
 import { docPromptPlugin } from './doc-prompt';
 
 // Auto-register when module imported
@@ -190,7 +190,7 @@ import '@bitcode/prompts/doc-plugins';
 import '@bitcode/doc-typescript';
 
 // Use the doc-comment system
-import { createParser } from '@bitcode/doc-comment';
+import { createParser } from '@bitcode/doc-comment-generics';
 const parser = createParser();
 ```
 
@@ -230,8 +230,8 @@ const parser = createParser();
  * This component does X
  */
 export class Component {
-  // Manual metadata if needed
-  static metadata = { version: '1.0.0' };
+ // Manual metadata if needed
+ static metadata = { version: '1.0.0' };
 }
 ```
 
@@ -243,8 +243,8 @@ export class Component {
  * capabilities: ["feature1", "feature2"]
  */
 export class Component {
-  // Metadata auto-injected at build time
-  // Access via Component.prototype.__proto__.docComponent
+ // Metadata auto-injected at build time
+ // Access via Component.prototype.__proto__.docComponent
 }
 ```
 
@@ -261,7 +261,7 @@ export class Component {
 - **Core Infrastructure**: `/packages/doc-comment-generics/` (`@bitcode/doc-comment-generics`)
 - **Runtime Injection**: `/packages/generic-doc-comments/doc-code/`
 - **Development Plugins**: `/packages/generic-doc-comments/doc-developing/`
-- **File editing**: `/packages/file-editing/` (`@bitcode/file-editing`; BC `@bitcode/editing`)
+- **File editing**: `/packages/file-editing/` (`@bitcode/file-editing`)
 - **Co-located Plugins**: Within respective packages' `/src/doc-plugins/`
 - **MCP Tool Examples**: `/packages/generic-tools/mcps-tools/*/`
 

@@ -3,20 +3,20 @@
 Context: All Prompts and PromptParts now have 0.50.0 PBV and baseline benchmark blocks. To move from static metadata to actionable benchmarking:
 
 - Add a doc-comment dependency injector (TODO):
-  - Parse each Prompt’s `.set(path, Part)` calls at build time.
-  - Extract the Part symbol and resolve the source file to compute a dependency graph.
-  - Inject a canonical `dependencies: { PartName: "0.50.0" }` object into the prompt’s doc-comment.
-  - Flag dangling or missing dependencies in CI.
+ - Parse each Prompt’s `.set(path, Part)` calls at build time.
+ - Extract the Part symbol and resolve the source file to compute a dependency graph.
+ - Inject a canonical `dependencies: { PartName: "0.50.0" }` object into the prompt’s doc-comment.
+ - Flag dangling or missing dependencies in CI.
 
 - Benchmark harness (TODO):
-  - Add a script to load Prompts from the renderer and run a configurable set of LLM evaluations (unit-style and integration-style), recording pass/fail and scores.
-  - Write per-prompt/per-part results to a central store (JSON/CSV) with rolling aggregates.
+ - Add a script to load Prompts from the renderer and run a configurable set of LLM evaluations (unit-style and integration-style), recording pass/fail and scores.
+ - Write per-prompt/per-part results to a central store (JSON/CSV) with rolling aggregates.
 
 - PBV automation (TODO):
-  - When benchmarks improve, auto-bump PBV in doc-comments (e.g., `generation`/`variant` fields), and emit a patch summary for review.
+ - When benchmarks improve, auto-bump PBV in doc-comments (e.g., `generation`/`variant` fields), and emit a patch summary for review.
 
 - CI wiring (TODO):
-  - Gate merges on doc-comment validation and a minimal benchmark baseline.
+ - Gate merges on doc-comment validation and a minimal benchmark baseline.
 
 Scripts in place now:
 - `scripts/normalize-all-promptparts.mjs` – Normalize PBV and ensure benchmark blocks.

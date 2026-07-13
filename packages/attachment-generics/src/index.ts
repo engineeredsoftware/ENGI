@@ -8,7 +8,7 @@
  *   @bitcode/generic-attachments-file
  *   @bitcode/generic-attachments-external
  *
- * BC: @bitcode/attachments-generics re-exports this surface + bases.
+ * Composition: @bitcode/attachments-generics re-exports this surface + bases.
  */
 
 export type {

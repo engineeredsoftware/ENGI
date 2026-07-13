@@ -14,4 +14,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_VCS_DOCCODETOOLMIGRATION: PromptPart = 
-  'RELATIONSHIP GUIDE: use @bitcode/vcs-tools for provider-agnostic operations across GitHub, GitLab, and Bitbucket; use @bitcode/generic-tools-git when the active Bitcode workflow needs concrete Git-shaped operation names.' as PromptPart;
+  'RELATIONSHIP GUIDE: use @bitcode/generic-tools-vcs for provider-agnostic operations across GitHub, GitLab, and Bitbucket; use @bitcode/generic-tools-git when the active Bitcode workflow needs concrete Git-shaped operation names.' as PromptPart;

@@ -1,5 +1,5 @@
 /**
- * @deprecated Prefer `@bitcode/asset-packs-synthesis` for measurement catalogs.
+ * @deprecated Prefer `@bitcode/generic-asset-packs-synthesis` for measurement catalogs.
  * Compatibility re-export for pipeline-local imports.
  */
 

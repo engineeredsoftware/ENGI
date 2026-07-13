@@ -25,7 +25,7 @@ jest.mock('@bitcode/orm', () => ({
 
 const mockGenerateInstallationToken = jest.fn();
 
-jest.mock('@bitcode/github', () => ({
+jest.mock('@bitcode/generic-vcs-github', () => ({
   GitHubAppAuth: jest.fn().mockImplementation(() => ({
     generateInstallationToken: mockGenerateInstallationToken,
   })),

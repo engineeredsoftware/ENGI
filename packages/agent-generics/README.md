@@ -6,13 +6,13 @@ Agent **primitives**: execution, registries, generation-layer factories,
 ## Hierarchy
 
 ```
-Generation / FailsafeGeneration / ThinkingsGeneration   # generation-generics
-        ↑
-@bitcode/agent-generics              # this package (Agent primitive + LLM-bound factories)
-        ↑
-@bitcode/generic-agents-ptrr         # PTRRAgent base (Plan→Try→Refine→Retry)
-        ↑
-product / generic-agent-*            # specialized agents
+Generation / FailsafeGeneration / ThinkingsGeneration # generation-generics
+ ↑
+@bitcode/agent-generics # this package (Agent primitive + LLM-bound factories)
+ ↑
+@bitcode/generic-agents-ptrr # PTRRAgent base (Plan→Try→Refine→Retry)
+ ↑
+product / generic-agent-* # specialized agents
 ```
 
 Within each PTRR step: **FailsafeGeneration** ×3 (each runs **ThinkingsGeneration**
@@ -28,10 +28,10 @@ See **[TOOLS-IN-PTRR.md](./TOOLS-IN-PTRR.md)** for the full contract:
 4. `factoryToolsExecution` runs `getTool(name).execute(input)` → `usedTools`.
 5. Prior `usedTools` auto-interpolate as `auto:tools_results` on later generations.
 
-Legacy `*MetaSubStep` / `SubStep` names are BC aliases only — prefer
+Legacy `*MetaSubStep` / `SubStep` names are not used — prefer
 `FailsafeGeneration` / `ThinkingsGeneration` / `GenerationExecution`.
 
-PTRR base factories (`factoryPTRRAgent` / BC `factoryAgentWithPTRR`) live in
+PTRR base factories (`factoryPTRRAgent`) live in
 `@bitcode/generic-agents-ptrr` and are re-exported here for compatibility.
 
 ## Quick vs. PTRR Agents
@@ -45,11 +45,11 @@ Create a QuickAgent:
 import { factoryQuickAgent } from '@bitcode/agent-generics';
 
 export const InitializeSomething = factoryQuickAgent({
-  name: 'setup:initialize-something',
-  execute: async (input, execution) => {
-    // Typed input → output; use Execution for state.
-    return { ok: true };
-  }
+ name: 'setup:initialize-something',
+ execute: async (input, execution) => {
+ // Typed input → output; use Execution for state.
+ return { ok: true };
+ }
 });
 ```
 
@@ -69,20 +69,20 @@ Every PTRR generation (Plan, Try, Refine, Retry) automatically executes the core
 1. PrepareConciseContext (CONTEXT SIGNAL/NOISE)
 2. ChunkThenSum (BIG INPUT)
 3. StitchUntilComplete (CONVERSATIONSUTPUT)
-   
+
 ## GA Failsafe Behavior and Stop Reason
 
 - ChunkThenSum runs chunks in parallel by default when `PrepareConciseContext` returns multiple contexts (configurable per call).
 - StitchUntilComplete is schema‑first:
-  - If the structured output matches the expected schema, stitching stops immediately.
-  - Truncation checks measure only the structured output (not the entire accumulator) to avoid false positives.
-  - Default stitch instruction: "Continue and complete the previous JSON output". You can refine this via the prompt/registry pattern at agent/generation scope.
+ - If the structured output matches the expected schema, stitching stops immediately.
+ - Truncation checks measure only the structured output (not the entire accumulator) to avoid false positives.
+ - Default stitch instruction: "Continue and complete the previous JSON output". You can refine this via the prompt/registry pattern at agent/generation scope.
 
 ### Provider‑Agnostic Stop Reason
 
 - Every LLM call returns `LLMOutput` with `metadata.stopReason?: string`.
-  - Common values: `'stop' | 'length' | 'content_filter' | 'unknown'`.
-  - Providers map their native signals; execution registries normalize it at runtime if missing so consumers can always read `metadata.stopReason`.
+ - Common values: `'stop' | 'length' | 'content_filter' | 'unknown'`.
+ - Providers map their native signals; execution registries normalize it at runtime if missing so consumers can always read `metadata.stopReason`.
 - Failsafes can consult `stopReason` together with token usage to distinguish genuine truncation from complete outputs and decide whether to stitch.
 
 + Generation Postprocess: Conditional Tool Execution (if useTools in output)
@@ -117,11 +117,11 @@ Prompts follow progressive specificity with MINIMAL content at each level:
 ```
 Agent (name + identity)
 └── Generation (purpose)
-    └── Failsafe (handle)
-        └── GenerationCall (generate)
-            └── [Auto-injected: tools_doc_code_tools + output_schema]
-    └── ToolExecution (execute, postprocess)
-        └── [Auto-injected: available_tool_docs]
+ └── Failsafe (handle)
+ └── GenerationCall (generate)
+ └── [Auto-injected: tools_doc_code_tools + output_schema]
+ └── ToolExecution (execute, postprocess)
+ └── [Auto-injected: available_tool_docs]
 ```
 
 ## Diagnostics & Prompt I/O
@@ -165,7 +165,7 @@ All diagnostics are fully env‑gated and inert by default. Enabling is safe and
 4. **GenerationCallPrompt** - Just `generate` (Reason/Judge/Output)
 5. **ToolExecutionPrompt** - Just `execute` (tool execution instruction)
 
-**CRITICAL**: 
+**CRITICAL**:
 - Prompts are MINIMAL - only what applies to all children
 - Tools are NEVER in prompts - they're in execution registries
 - Tool doc-code-tool prompts are automatically injected
@@ -177,19 +177,19 @@ All diagnostics are fully env‑gated and inert by default. Enabling is safe and
 
 ```typescript
 // Everything is an Executor
-type Executor<TInput = any, TOutput = any> = 
-  (input: TInput, execution: Execution) => Promise<TOutput>;
+type Executor<TInput = any, TOutput = any> =
+ (input: TInput, execution: Execution) => Promise<TOutput>;
 
 // Execution hierarchy with proper parent/child relationships
 Pipeline (PipelineExecution)
 ├── Phase (PhaseDelegation) - pipeline.child('implementation')
-│   ├── Agent (AgentStepper) - phase.child('code-generator')
-│   │   ├── Variation (VariationStepping) - agent.child('generate-component')
-│   │   │   ├── Generation (GenerationExecution) - variation.child('plan')
-│   │   │   │   ├── Failsafe (PARENT) - generation.child('prepare_context')
-│   │   │   │   │   ├── GenerationCall (CHILD) - parent.child('reason')
-│   │   │   │   │   ├── GenerationSubMetaSubStep (CHILD) - parent.child('judge')
-│   │   │   │   │   └── GenerationSubMetaSubStep (CHILD) - parent.child('structured_output')
+│ ├── Agent (AgentStepper) - phase.child('code-generator')
+│ │ ├── Variation (VariationStepping) - agent.child('generate-component')
+│ │ │ ├── Generation (GenerationExecution) - variation.child('plan')
+│ │ │ │ ├── Failsafe (PARENT) - generation.child('prepare_context')
+│ │ │ │ │ ├── GenerationCall (CHILD) - parent.child('reason')
+│ │ │ │ │ ├── ThinkingsGeneration (CHILD) - parent.child('judge')
+│ │ │ │ │ └── ThinkingsGeneration (CHILD) - parent.child('structured_output')
 ```
 
 ### Agent Definition Pattern
@@ -200,29 +200,29 @@ import type { PromptPart } from '@bitcode/prompts';
 
 // Define schemas for each PTRR step
 const AgentPlanSchema = z.object({
-  strategy: z.string(),
-  useTools: z.array(UseToolSchema).optional(),
-  // ... plan fields
+ strategy: z.string(),
+ useTools: z.array(UseToolSchema).optional(),
+ // ... plan fields
 });
 
 const AgentTrySchema = z.object({
-  results: z.array(z.any()),
-  useTools: z.array(UseToolSchema).optional(),
-  // ... try fields
+ results: z.array(z.any()),
+ useTools: z.array(UseToolSchema).optional(),
+ // ... try fields
 });
 
 // Define MINIMAL prompts - only what applies to ALL calls
 const agentPrompt = new AgentPrompt({
-  name: 'my-agent' as PromptPart,
-  identity: 'Process data' as PromptPart  // Ultra-minimal
+ name: 'my-agent' as PromptPart,
+ identity: 'Process data' as PromptPart // Ultra-minimal
 });
 
 // Step prompts - just the purpose
 const stepPrompts = {
-  plan: new AgentStepPrompt({ purpose: 'Analyze requirements' as PromptPart }),
-  try: new AgentStepPrompt({ purpose: 'Execute processing' as PromptPart }),
-  refine: new AgentStepPrompt({ purpose: 'Enhance results' as PromptPart }),
-  retry: new AgentStepPrompt({ purpose: 'Complete processing' as PromptPart })
+ plan: new AgentStepPrompt({ purpose: 'Analyze requirements' as PromptPart }),
+ try: new AgentStepPrompt({ purpose: 'Execute processing' as PromptPart }),
+ refine: new AgentStepPrompt({ purpose: 'Enhance results' as PromptPart }),
+ retry: new AgentStepPrompt({ purpose: 'Complete processing' as PromptPart })
 };
 
 // PTRR agent factories fail closed unless the agent Prompt registry and all
@@ -233,33 +233,33 @@ const agentTools = [tool1, tool2];
 
 // Create agent with factories
 export const myAgent = factoryAgent({
-  name: 'my-agent',
-  variations: [
-    factoryVariationWithPTRR({
-      name: 'comprehensive',
-      outputSchema: RetrySchema,
-      // Factories handle ALL execution
-    }),
-    factoryVariationWithSingleStep({
-      name: 'quick',
-      execute: async (input, execution) => {
-        // Read the prompt registry that the factory attached to this execution.
-        const promptText = execution.prompt.format();
-        // Register tools in execution
-        execution.tools.register('tool1', tool1);
-        // Simple logic
-        return result;
-      }
-    })
-  ],
-  selectVariation: async (input, execution) => {
-    // Keep prompts factory-owned; register only runtime tool availability here.
-    agentTools.forEach(tool => 
-      execution.tools.register(tool.name, tool)
-    );
-    // Only logic we write - variation selection
-    return needsComprehensive ? 'comprehensive' : 'quick';
-  }
+ name: 'my-agent',
+ variations: [
+ factoryVariationWithPTRR({
+ name: 'comprehensive',
+ outputSchema: RetrySchema,
+ // Factories handle ALL execution
+ }),
+ factoryVariationWithSingleStep({
+ name: 'quick',
+ execute: async (input, execution) => {
+ // Read the prompt registry that the factory attached to this execution.
+ const promptText = execution.prompt.format();
+ // Register tools in execution
+ execution.tools.register('tool1', tool1);
+ // Simple logic
+ return result;
+ }
+ })
+ ],
+ selectVariation: async (input, execution) => {
+ // Keep prompts factory-owned; register only runtime tool availability here.
+ agentTools.forEach(tool =>
+ execution.tools.register(tool.name, tool)
+ );
+ // Only logic we write - variation selection
+ return needsComprehensive ? 'comprehensive' : 'quick';
+ }
 });
 ```
 
@@ -363,20 +363,20 @@ When any agent is called:
 
 1. **Variation Selection** - Agent picks comprehensive or quick based on input
 2. **If Comprehensive (PTRR)**:
-   - `factoryPlanStep(schema)` creates Plan executor with 7 substeps
-   - `factoryTryStep(schema)` creates Try executor with 7 substeps
-   - `factoryRefineStep(schema)` creates Refine executor with 7 substeps
-   - `factoryRetryStep(schema)` creates Retry executor with 7 substeps
+ - `factoryPlanStep(schema)` creates Plan executor with 7 substeps
+ - `factoryTryStep(schema)` creates Try executor with 7 substeps
+ - `factoryRefineStep(schema)` creates Refine executor with 7 substeps
+ - `factoryRetryStep(schema)` creates Retry executor with 7 substeps
 3. **Each Executor Automatically**:
-   - Runs `PrepareConciseContext → ChunkThenSum → StitchUntilComplete`
-   - Each parent runs `Reason → Judge → StructuredOutput`
-   - Stores everything to `execution.store()`
-   - Executes tools if `useTools` is in output
+ - Runs `PrepareConciseContext → ChunkThenSum → StitchUntilComplete`
+ - Each parent runs `Reason → Judge → StructuredOutput`
+ - Stores everything to `execution.store()`
+ - Executes tools if `useTools` is in output
 4. **The Execution Tree Accumulates**:
-   - Every LLM call result
-   - Every tool execution
-   - Every substep output
-   - All in namespaced stores
+ - Every LLM call result
+ - Every tool execution
+ - Every substep output
+ - All in namespaced stores
 
 ### Key Benefits
 
@@ -397,12 +397,12 @@ import { codeSearcherAgent } from '@bitcode/generic-agents-rag-snippets';
 
 // Use any agent - they all follow the same pattern
 const result = await audioProcessorAgent(
-  {
-    audioUrl: 'https://example.com/audio.mp3',
-    taskDescription: 'Transcribe and analyze sentiment',
-    analysisDepth: 'comprehensive'
-  },
-  execution
+ {
+ audioUrl: 'https://example.com/audio.mp3',
+ taskDescription: 'Transcribe and analyze sentiment',
+ analysisDepth: 'comprehensive'
+ },
+ execution
 );
 
 // Result matches the Retry schema for that agent

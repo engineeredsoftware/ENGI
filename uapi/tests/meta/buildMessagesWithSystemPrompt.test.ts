@@ -1,11 +1,11 @@
 import { buildMessagesWithSystemPrompt } from '@bitcode/steps/meta';
-import { getGlobalContext } from '@bitcode/context/context';
+import { getProcessRootFields } from '@bitcode/generic-executions';
 
 describe('buildMessagesWithSystemPrompt', () => {
-  const realGetGlobal = getGlobalContext;
+  const realGetGlobal = getProcessRootFields;
   afterEach(() => {
     // Restore original global context
-    (getGlobalContext as any) = realGetGlobal;
+    (getProcessRootFields as any) = realGetGlobal;
   });
 
   it('uses user-provided systemPrompt override when present', async () => {
@@ -15,7 +15,7 @@ describe('buildMessagesWithSystemPrompt', () => {
       // Dummy stubs for context methods
       getPartialContextString: () => '',
     };
-    (getGlobalContext as any) = () => mockContext;
+    (getProcessRootFields as any) = () => mockContext;
     const msgs = await buildMessagesWithSystemPrompt(
       [],
       '',
@@ -34,7 +34,7 @@ describe('buildMessagesWithSystemPrompt', () => {
       userProvidedContext: { modelPreferences: null },
       getPartialContextString: () => '',
     };
-    (getGlobalContext as any) = () => mockContext;
+    (getProcessRootFields as any) = () => mockContext;
     const msgs = await buildMessagesWithSystemPrompt(
       [],
       '',

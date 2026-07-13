@@ -521,7 +521,7 @@
     "packageIndex": "packages/asset-packs-pipelines/domain/src/index.ts",
     "packageJson": "packages/asset-packs-pipelines/domain/package.json",
     "assetPackReadme": "packages/asset-packs-pipelines/domain/README.md",
-    "protocolReadme": "packages/protocol/README.md",
+    "protocolReadme": "packages/specifying/README.md",
     "v39Spec": "BITCODE_SPEC_V39.md",
     "v39Delta": "BITCODE_SPEC_V39_DELTA.md",
     "v39Notes": "BITCODE_SPEC_V39_NOTES.md",

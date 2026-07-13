@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/shadcn/Button/Button';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { GitBranch, Server } from 'lucide-react';
-import { VCSProviderType } from '@bitcode/vcs-core';
+import { VCSProviderType } from '@bitcode/vcs-generics-core';
 import { toast } from '@/components/shadcn/Sonner/Sonner';
 import { BITCODE_GITHUB_APP_PUBLIC_URL } from '@/lib/github-app-url';
 

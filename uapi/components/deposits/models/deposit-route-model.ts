@@ -8,23 +8,23 @@
 import {
   assertDepositAssetPackOptionSynthesisSourceSafe,
   buildDepositAssetPackOptionSynthesis,
-} from "@bitcode/pipeline-asset-pack/deposit-asset-pack-options";
+} from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-options";
 import {
   assertDepositAssetPackOptionPolicyReportSourceSafe,
   buildDepositAssetPackOptionPolicyReport,
-} from "@bitcode/pipeline-asset-pack/deposit-asset-pack-option-policy";
+} from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-policy";
 import {
   assertDepositAssetPackOptionAdmissionReportSourceSafe,
   buildDepositAssetPackOptionAdmissionReport,
-} from "@bitcode/pipeline-asset-pack/deposit-asset-pack-option-admission";
+} from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-admission";
 import {
   assertDepositorEarningSupplyIntelligenceSourceSafe,
   buildDepositorEarningSupplyIntelligence,
-} from "@bitcode/pipeline-asset-pack/depositor-earning-supply-intelligence";
+} from "@bitcode/asset-packs-pipelines-domain/depositor-earning-supply-intelligence";
 import {
   assertOrganizationPolicyWalletAuthoritySourceSafe,
   buildOrganizationPolicyWalletAuthority,
-} from "@bitcode/pipeline-asset-pack/organization-policy-wallet-authority";
+} from "@bitcode/asset-packs-pipelines-domain/organization-policy-wallet-authority";
 
 import {
   DEPOSIT_ROUTE_STAGE_IDS,

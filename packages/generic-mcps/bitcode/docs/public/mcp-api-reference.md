@@ -454,11 +454,11 @@ interface WebhookEvent {
 
 ### JavaScript/TypeScript
 ```bash
-npm install @bitcode/mcp-client
+npm install @bitcode/mcp-generics-client
 ```
 
 ```javascript
-import { BitcodeMCPClient } from '@bitcode/mcp-client';
+import { BitcodeMCPClient } from '@bitcode/mcp-generics-client';
 
 const client = new BitcodeMCPClient({
   apiKey: process.env.BITCODE_API_KEY,

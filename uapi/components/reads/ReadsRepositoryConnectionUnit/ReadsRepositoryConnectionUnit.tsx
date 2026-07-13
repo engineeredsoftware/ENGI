@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Connection posture unit for Reads repository context (connected / reconnect / empty).
  */
-'use client';
 
 import React from 'react';
 import { CheckCircle2, RefreshCw } from 'lucide-react';
@@ -12,7 +13,7 @@ import {
   type TerminalRepositoryConnectionStatus,
   type TerminalRepositoryInventorySource,
 } from '@/components/bitcode/pipeline/models/repository-context';
-import type { VCSRepository } from '@bitcode/vcs-core';
+import type { VCSRepository } from '@bitcode/vcs-generics-core';
 
 export type ReadsRepositoryConnectionUnitProps = {
   provider: Parameters<typeof getProviderLabel>[0];

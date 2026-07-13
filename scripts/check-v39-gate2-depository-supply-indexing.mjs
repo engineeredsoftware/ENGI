@@ -111,8 +111,8 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/index.ts',
     'packages/asset-packs-pipelines/domain/package.json',
     'packages/asset-packs-pipelines/domain/README.md',
-    'packages/protocol/src/canonical/v39-depository-supply-indexing.js',
-    'packages/protocol/test/v39-depository-supply-indexing.test.js',
+    'packages/specifying/src/canonical/v39-depository-supply-indexing.js',
+    'packages/specifying/test/v39-depository-supply-indexing.test.js',
     'scripts/generate-v39-depository-supply-indexing.mjs',
     'scripts/check-v39-gate2-depository-supply-indexing.mjs',
     'BITCODE_SPEC_V39.md',
@@ -142,7 +142,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/protocol/test/v39-depository-supply-indexing.test.js',
+        'packages/specifying/test/v39-depository-supply-indexing.test.js',
       ]);
     } catch (error) {
       failures.push(`V39 Depository supply indexing protocol test failed: ${error.stderr || error.message}`);

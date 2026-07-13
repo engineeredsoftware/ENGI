@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Education copy panel for acceleration feature hover state.
  */
-"use client";
 
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";

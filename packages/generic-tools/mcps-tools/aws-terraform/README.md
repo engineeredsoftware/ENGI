@@ -38,24 +38,24 @@ Industrial Model Context Protocol (MCP) integration for AWS Terraform operations
 ### Architecture Pattern
 ```typescript
 import {
-  awsTerraformSecurityScanTool,
-  awsTerraformModuleSuggestionTool,
-  awsTerraformCheckovScanTool,
-  awsTerraformGenerateAwsModuleTool
+ awsTerraformSecurityScanTool,
+ awsTerraformModuleSuggestionTool,
+ awsTerraformCheckovScanTool,
+ awsTerraformGenerateAwsModuleTool
 } from '@bitcode/generic-tools-mcps-aws-terraform';
 
 // Security scan execution
 const securityResults = await awsTerraformSecurityScanTool({
-  terraformFiles: ['main.tf', 'variables.tf'],
-  scanDepth: 'comprehensive',
-  frameworks: ['CIS', 'SOC2', 'NIST']
+ terraformFiles: ['main.tf', 'variables.tf'],
+ scanDepth: 'comprehensive',
+ frameworks: ['CIS', 'SOC2', 'NIST']
 });
 
 // Module generation
 const generatedModule = await awsTerraformGenerateAwsModuleTool({
-  resourceType: 'aws_s3_bucket',
-  securityLevel: 'high',
-  environment: 'production'
+ resourceType: 'aws_s3_bucket',
+ securityLevel: 'high',
+ environment: 'production'
 });
 ```
 

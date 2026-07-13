@@ -1,7 +1,8 @@
+'use client';
+
 /**
  * Pure-ish log line renderer for PipelineExecutionLog (SRP: row presentation).
  */
-"use client";
 
 import React from 'react';
 import {

@@ -2,11 +2,11 @@
  * Artifact storage contract + requirements (backend-agnostic).
  *
  * Provider bases (implement ArtifactStorage):
- *   @bitcode/generic-artifacts-aws
- *   @bitcode/generic-artifacts-supabase
- *   @bitcode/generic-artifacts-vercel
+ *   @bitcode/generic-artifacts-aws-provider
+ *   @bitcode/generic-artifacts-supabase-provider
+ *   @bitcode/generic-artifacts-vercel-provider
  *
- * Compose via @bitcode/artifacts (aws → supabase → vercel).
+ * Compose via @bitcode/generic-artifacts-compose (aws → supabase → vercel).
  */
 
 import type { ArtifactBytes, ArtifactInfo } from './types';

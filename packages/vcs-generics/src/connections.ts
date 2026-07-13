@@ -206,7 +206,7 @@ export class VCSConnections {
           
           // Regenerate installation token
           try {
-            const { GitHubAppAuth } = await import('@bitcode/github');
+            const { GitHubAppAuth } = await import('@bitcode/generic-vcs-github');
             const appId = process.env.GITHUB_APP_ID;
             const privateKey = process.env.GITHUB_PRIVATE_KEY;
 

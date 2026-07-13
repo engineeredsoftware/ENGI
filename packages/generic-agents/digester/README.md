@@ -47,16 +47,16 @@ The Digester Agent creates detailed analysis of codebases by examining repositor
 ### Digest Options
 ```typescript
 {
-  correlationId: string,      // Unique identifier for tracking
-  rootDir: string,           // Repository root directory
-  usePreClonedRepo: boolean, // Use existing repo clone
-  owner?: string,            // Repository owner (for remote)
-  repo?: string,             // Repository name (for remote)
-  branch?: string,           // Target branch
-  commit?: string,           // Specific commit hash
-  maxFiles: number,          // Maximum files to process
-  maxWorkers: number,        // Parallel worker count
-  forceRegenerate: boolean   // Bypass cache
+ correlationId: string, // Unique identifier for tracking
+ rootDir: string, // Repository root directory
+ usePreClonedRepo: boolean, // Use existing repo clone
+ owner?: string, // Repository owner (for remote)
+ repo?: string, // Repository name (for remote)
+ branch?: string, // Target branch
+ commit?: string, // Specific commit hash
+ maxFiles: number, // Maximum files to process
+ maxWorkers: number, // Parallel worker count
+ forceRegenerate: boolean // Bypass cache
 }
 ```
 
@@ -71,23 +71,23 @@ The Digester Agent creates detailed analysis of codebases by examining repositor
 ### Digest Summary
 ```typescript
 {
-  digestPath: string,         // Path to generated digest
-  digestSummary: string,      // Overview of codebase
-  fileCategories: {           // Files grouped by category
-    [category: string]: string[]
-  },
-  fileCount: number,          // Total files processed
-  importantFiles: string[]    // Critical files for understanding
+ digestPath: string, // Path to generated digest
+ digestSummary: string, // Overview of codebase
+ fileCategories: { // Files grouped by category
+ [category: string]: string[]
+ },
+ fileCount: number, // Total files processed
+ importantFiles: string[] // Critical files for understanding
 }
 ```
 
 ### Quality Metrics
 ```typescript
 {
-  coverage: number,    // Repository coverage percentage
-  depth: number,       // Analysis depth score
-  relevance: number,   // Task relevance score
-  overallScore: number // Combined quality metric
+ coverage: number, // Repository coverage percentage
+ depth: number, // Analysis depth score
+ relevance: number, // Task relevance score
+ overallScore: number // Combined quality metric
 }
 ```
 

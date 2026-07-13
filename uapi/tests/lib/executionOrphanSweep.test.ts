@@ -1,4 +1,4 @@
-import { sweepOrphanedExecutions, ORPHAN_STALE_MINUTES } from '@/lib/execution-orphan-sweep';
+import { sweepOrphanedExecutions, ORPHAN_STALE_MINUTES } from '@bitcode/api/pipelines/orphan-sweep';
 
 type Row = Record<string, any>;
 

@@ -154,7 +154,7 @@ export function buildV33ApiSchemaCompatibilityMatrixArtifact() {
       'shares the package-owned API schema compatibility matrix for MCP tool calls',
       'mcp-api-asset-pack-create-success',
     ]),
-    scanTokens('packages/chatgptapp/src/__tests__/tools.test.ts', [
+    scanTokens('packages/external-apps/chatgpt/src/__tests__/tools.test.ts', [
       'shares the package-owned API schema compatibility matrix for ChatGPT App blocked delivery',
       'chatgpt-app-deliver-assetpack-blocked',
     ]),

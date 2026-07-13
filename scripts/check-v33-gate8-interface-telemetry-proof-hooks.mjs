@@ -134,7 +134,7 @@ function main() {
     'packages/btd/package.json',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
     'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-    'packages/chatgptapp/src/__tests__/tools.test.ts',
+    'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
     'uapi/tests/terminalOrganizationAuthority.test.ts',
     'scripts/generate-v33-interface-telemetry-proof-hooks.mjs',
     'scripts/check-v33-gate8-interface-telemetry-proof-hooks.mjs',
@@ -145,7 +145,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'packages/specifying/src/canonical/v21-specifying.js',
   ];
   for (const relativePath of requiredFiles) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V33 Gate 8 file: ${relativePath}`);
@@ -204,7 +204,7 @@ function main() {
   const btdTest = read(root, 'packages/btd/__tests__/interface-telemetry-proof-hook.test.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
   const mcpTest = read(root, 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts');
-  const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/tools.test.ts');
+  const chatgptTest = read(root, 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts');
   const terminalTest = read(root, 'uapi/tests/terminalOrganizationAuthority.test.ts');
   const specs = [
     read(root, 'BITCODE_SPEC_V33.md'),
@@ -215,7 +215,7 @@ function main() {
   ].join('\n');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const packageJson = read(root, 'package.json');
-  const protocolSpecifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
+  const protocolSpecifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
 
   for (const sourcePhrase of [
     'BtdInterfaceTelemetryProofHook',

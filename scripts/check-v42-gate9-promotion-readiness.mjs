@@ -173,13 +173,13 @@ function main() {
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/workflows/v42-canon-promotion.yml',
-    'packages/protocol/src/canon-posture.js',
-    'packages/protocol/data/state.json',
-    'packages/protocol/README.md',
-    'packages/protocol/src/canonical/proven-generator.js',
-    'packages/protocol/src/canonical/v42-promotion-readiness-report.js',
-    'packages/protocol/test/v42-promotion-readiness.test.js',
-    'packages/protocol/src/canonical/v21-specifying.js',
+    'packages/specifying/src/canon-posture.js',
+    'packages/specifying/data/state.json',
+    'packages/specifying/README.md',
+    'packages/specifying/src/canonical/proven-generator.js',
+    'packages/specifying/src/canonical/v42-promotion-readiness-report.js',
+    'packages/specifying/test/v42-promotion-readiness.test.js',
+    'packages/specifying/src/canonical/v21-specifying.js',
     'package.json',
     'README.md',
     'SPECIFICATIONS_ROADMAP.md',
@@ -263,8 +263,8 @@ function main() {
   const promoteScript = read(root, 'scripts/promote-bitcode-canon.mjs');
   const prepareSpecScript = read(root, 'scripts/prepare-bitcode-spec-family-promotion.mjs');
   const prepareRuntimeScript = read(root, 'scripts/prepare-bitcode-runtime-canon-promotion.mjs');
-  const provenGenerator = read(root, 'packages/protocol/src/canonical/proven-generator.js');
-  const protocolReadme = read(root, 'packages/protocol/README.md');
+  const provenGenerator = read(root, 'packages/specifying/src/canonical/proven-generator.js');
+  const protocolReadme = read(root, 'packages/specifying/README.md');
   const rootReadme = read(root, 'README.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
 
@@ -340,7 +340,7 @@ function main() {
 
   if (failures.length === 0 && !args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--filter', '@bitcode/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v42-promotion-readiness.test.js']);
+      run(root, 'pnpm', ['--filter', '@bitcode/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v42-promotion-readiness.test.js']);
       run(root, 'node', ['scripts/promote-bitcode-canon.mjs', '--version', 'V42', '--commit', 'HEAD', '--dry-run']);
     } catch (error) {
       failures.push(`V42 Gate 9 package promotion tests failed: ${error.stderr || error.message}`);
