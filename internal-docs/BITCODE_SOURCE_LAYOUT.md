@@ -113,6 +113,35 @@ uapi/app/<experience>/
   <Experience>PageClient.tsx   # orchestration only (providers, URL, sections)
 ```
 
+**Deposit experience (V48 Phase 4 — modular rebuild target):**
+
+```
+uapi/components/deposits/
+  models/                      # pure: route session, activity ledger, demand, status
+  DepositPageClient/
+    DepositPageClient.tsx      # orchestration only
+    hooks/                     # live runs, demand, URL, synthesis activity, …
+  DepositSourceSelection/
+  DepositObfuscationsPanel/
+  DepositAssetPackOptions/
+  DepositPipelinesMaster/
+  DepositSynthesisTelemetry/
+  DepositActivityLedgerDetail/
+  DepositRouteStateAside/
+```
+
+**Packs experience (V48 Phase 4):**
+
+```
+uapi/components/packs/
+  models/
+  PacksPageClient/ + hooks/use-packs-activity.ts
+  PacksPortfolioOverview/
+  PacksActivityMaster/
+  PacksActivityDetail/
+  PacksDetailSection/
+```
+
 ---
 
 ## 5. Bitcode base layout

@@ -1326,6 +1326,42 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 - App-route files retain shims; page clients remain orchestration shells
   (further section extraction continues as follow-up).
 
+### Phase 4 progress — deposits + packs modular units (Garrett, 2026-07-13)
+
+Deposit experience (SRP models/hooks/units; page client thinned):
+
+| Extract | Path |
+| --- | --- |
+| Activity-ledger projections | `deposits/models/deposit-activity-ledger.ts` |
+| Source criticality signals | `deposits/models/deposit-source-criticality.ts` |
+| Settled demand shapes | `deposits/models/deposit-settled-demand.ts` |
+| Route-session input builder | `deposits/models/deposit-route-input-builder.ts` |
+| Preferred signer resolve | `deposits/models/deposit-preferred-signer.ts` |
+| Run status mapping | `deposits/models/deposit-run-status.ts` |
+| Source path/JSON helpers | `deposits/models/deposit-source-helpers.ts` |
+| Live runs hook | `DepositPageClient/hooks/use-deposit-live-runs.ts` |
+| Settled demand hook | `…/use-deposit-settled-demand.ts` |
+| Network depository count | `…/use-deposit-network-depository-count.ts` |
+| URL navigation hook | `…/use-deposit-url-navigation.ts` |
+| Source list refresh button | `DepositSourceSelection/DepositSourceListRefreshButton.tsx` |
+| Unit tests | `uapi/tests/depositActivityLedger.test.ts`, `depositSourceCriticality.test.ts`, `depositRunStatus.test.ts` |
+
+Packs experience (thin page client):
+
+| Extract | Path |
+| --- | --- |
+| Activity fetch hook | `PacksPageClient/hooks/use-packs-activity.ts` |
+| Portfolio overview | `PacksPortfolioOverview/` |
+| Activity master table | `PacksActivityMaster/` |
+| Activity detail aside | `PacksActivityDetail/` |
+| Payload types | `packs/models/packs-activity-types.ts` |
+
+**Still deposit-touched and not yet fully modular:** synthesis completion /
+adoption / dispatch handlers still in `DepositPageClient`; VCS inventory
+effects still in `DepositSourceSelection` (~960 LOC); option admission
+handlers still on the page client. Continue until all deposit-touched
+modules satisfy SRP and named-unit layout.
+
 ### Phase 6 landing (executions corridor)
 
 - `/executions` and `/executions/:runId` redirect to `/packs` (next.config +
@@ -1339,7 +1375,7 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 | 1 shadcn/bitcode tree move | closed |
 | 2 execution → pipeline UI tree | closed |
 | 3 live Terminal module relocate | closed |
-| 4 god-client modularization | substantially advanced (structure + helpers; full section split ongoing) |
+| 4 god-client modularization | in progress — deposits models/hooks + packs shell landed; deposit handlers/source inventory still thinning |
 | 5 Terminal product eradication | closed (redirect + entrypoint rewire; residual shims/dead cockpit files remain) |
 | 6 Executions → Packs redirects | closed |
 | 7 Package extractions | deferred follow-up (wallet/lib package-ify still planned) |

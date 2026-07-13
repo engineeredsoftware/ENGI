@@ -3,11 +3,9 @@
 /**
  * Deposit-native source selection (north-star Sell step A).
  *
- * Replaces the shared /terminal panels (TerminalRepositoryContextPanel +
- * TerminalSupplySelectionPanel) on the deposit surface with ONE clean section:
- * repository + branch + commit selection, a full-repo earnings estimate, and a
- * single anchor icon. It reuses the shared VCS data layer (/api/vcs/*) and the
- * data-contract helpers, but carries no terminal-UI dependency.
+ * Repository + branch + commit selection, full-repo earnings estimate, and
+ * activity-ledger anchor. Uses the shared VCS data layer (/api/vcs/*).
+ * Refresh button and path helpers are co-located as separate modules.
  */
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -41,6 +39,11 @@ import {
   type TerminalRepositoryContextState,
   type TerminalRepositoryInventorySource,
 } from "@/components/bitcode/pipeline/models/repository-context";
+import {
+  readJsonResponse,
+  splitRepositoryFullName,
+} from "@/components/deposits/models/deposit-source-helpers";
+import { DepositSourceListRefreshButton } from "./DepositSourceListRefreshButton";
 
 /** A previously anchored repository·branch·commit, ready to reload. */
 export interface DepositRepositoryAnchor {
@@ -66,55 +69,6 @@ type DepositSourceSelectionProps = {
    */
   disabled?: boolean;
 };
-
-async function readJsonResponse(response: Response) {
-  const contentType = response.headers?.get?.("content-type") || "";
-  if (contentType && !contentType.includes("application/json")) return null;
-  return response.json().catch(() => null);
-}
-
-function splitRepositoryFullName(fullName?: string | null) {
-  const normalized = fullName?.trim();
-  if (!normalized || !normalized.includes("/")) return null;
-  const [owner, repo] = normalized.split("/", 2);
-  if (!owner || !repo) return null;
-  return { owner, repo };
-}
-
-/** Shared square refresh control for source-selection lists. */
-function SourceListRefreshButton({
-  ariaLabel,
-  explainer,
-  disabled,
-  loading,
-  onRefresh,
-}: {
-  ariaLabel: string;
-  explainer: (typeof DEPOSIT_SECTION_EXPLAINERS)[keyof typeof DEPOSIT_SECTION_EXPLAINERS];
-  disabled?: boolean;
-  loading?: boolean;
-  onRefresh: () => void;
-}) {
-  return (
-    <TelemetryExplainerTrigger
-      side="bottom"
-      explainer={toRichHoverExplainer(explainer)}
-    >
-      <button
-        type="button"
-        aria-label={loading ? `Refreshing ${ariaLabel}` : ariaLabel}
-        disabled={disabled || loading}
-        onClick={onRefresh}
-        className="flex h-9 w-9 shrink-0 items-center justify-center border border-white/10 bg-white/5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-300/10 disabled:cursor-not-allowed disabled:opacity-40"
-      >
-        <RefreshCw
-          className={`h-4 w-4 ${loading ? "animate-spin" : ""}`}
-          aria-hidden="true"
-        />
-      </button>
-    </TelemetryExplainerTrigger>
-  );
-}
 
 export default function DepositSourceSelection({
   preferredRepository,
@@ -715,7 +669,7 @@ export default function DepositSourceSelection({
                 className="w-full"
               />
             </div>
-            <SourceListRefreshButton
+            <DepositSourceListRefreshButton
               ariaLabel="Refresh provider connection"
               explainer={DEPOSIT_SECTION_EXPLAINERS.refreshProviderConnection}
               disabled={disabled}
@@ -772,7 +726,7 @@ export default function DepositSourceSelection({
                 className="w-full"
               />
             </div>
-            <SourceListRefreshButton
+            <DepositSourceListRefreshButton
               ariaLabel="Refresh repository inventory"
               explainer={DEPOSIT_SECTION_EXPLAINERS.refreshRepositoryInventory}
               disabled={disabled || !connectionStatus?.connected}
@@ -845,7 +799,7 @@ export default function DepositSourceSelection({
                 className="h-9 border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
               />
             </div>
-            <SourceListRefreshButton
+            <DepositSourceListRefreshButton
               ariaLabel="Refresh branches list"
               explainer={DEPOSIT_SECTION_EXPLAINERS.refreshBranches}
               disabled={
@@ -945,7 +899,7 @@ export default function DepositSourceSelection({
                 className="h-9 border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-[rgba(10,15,30,0.88)] focus:border-emerald-400/40"
               />
             </div>
-            <SourceListRefreshButton
+            <DepositSourceListRefreshButton
               ariaLabel="Refresh commits list"
               explainer={DEPOSIT_SECTION_EXPLAINERS.refreshLatestCommit}
               disabled={disabled || !selectedBranch || connectionNeedsReconnect}

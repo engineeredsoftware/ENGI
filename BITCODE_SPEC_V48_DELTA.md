@@ -50,9 +50,13 @@ and validate the website E2E.
   components under `uapi/components/{shadcn,bitcode,marketing,packs,reads,
   deposits,docs,conversations,auxillaries}`, Pipeline product naming over
   Execution/Terminal UI names, generalizable utilities package-first, legacy
-  `/terminal` eradicated to redirect-only then deleted once live modules
-  relocate. Spec updates and implementation land together as
-  `(specification-implementation)` commits.
+  `/terminal` eradicated (deleted). Spec updates and implementation land
+  together as `(specification-implementation)` commits.
+- **Deposit + Packs modularization (Phase 4 continue):** pure deposit models
+  (activity ledger, demand, criticality, route-input builder, run status) and
+  hooks (live runs, demand, URL nav, network count); Packs portfolio/master/
+  detail units; thin page shells. Rebuild law restated in SPEC G3-14 / G3-14a.
+  Continues until every deposit-touched module is SRP modular.
 
 ## Explicitly deferred
 

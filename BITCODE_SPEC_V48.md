@@ -209,6 +209,18 @@ uapi holds Next routes, React, and thin adapters. Shareable pure models that
 leave Terminal must land in packages or `components/bitcode` models — not
 remain under a Terminal path.
 
+God-client modularization law (Phase 4, active on `version/v48`):
+
+- Experience page clients are **orchestration shells** only. Pure projections
+  live under `uapi/components/<experience>/models/`; stateful IO under
+  co-located `hooks/`; render units under named `ComponentName/` directories.
+- `/deposits` rebuild index: `DepositPageClient` + deposit models/hooks/units
+  listed in G3-14. `/packs` uses `PacksPageClient` + portfolio/master/detail
+  units. Further thinning of deposit handlers and source-inventory loading
+  continues until no deposit-touched module violates SRP.
+- Unit tests for pure deposit models register under `uapi/tests/` (and
+  `uapi/jest.config.cjs` testMatch) so CI proves modular projections.
+
 ### Legacy Terminal eradication completion condition
 
 Terminal eradication is complete when:
@@ -555,9 +567,30 @@ Rebuild order in `buildDepositRouteSession` / `DepositPageClient`:
 | Demand route | `uapi/app/api/deposit/demand-estimate/route.ts` |
 | Cancel | `uapi/lib/execution-cancel.ts`, `uapi/app/api/executions/[runId]/cancel` |
 | Stream safety | `packages/pipelines-generics/src/streaming/*` |
-| UI | `uapi/app/deposits/DepositPageClient.tsx`, `deposit-route-model.ts` |
+| UI page shell | `uapi/app/deposits/page.tsx` (thin mount) |
+| UI orchestration | `uapi/components/deposits/DepositPageClient/DepositPageClient.tsx` |
+| UI pure models | `uapi/components/deposits/models/` (`deposit-route-model`, `deposit-activity-ledger`, `deposit-route-input-builder`, `deposit-settled-demand`, `deposit-run-status`, `deposit-source-criticality`, …) |
+| UI hooks | `uapi/components/deposits/DepositPageClient/hooks/` (`use-deposit-live-runs`, `use-deposit-settled-demand`, `use-deposit-url-navigation`, `use-deposit-network-depository-count`, `use-deposit-synthesis-activity`, `use-deposit-route-params`) |
+| UI units | `DepositSourceSelection`, `DepositObfuscationsPanel`, `DepositAssetPackOptions`, `DepositPipelinesMaster`, `DepositSynthesisTelemetry`, `DepositActivityLedgerDetail`, `DepositRouteStateAside` under `uapi/components/deposits/` |
+| Layout contract | `internal-docs/BITCODE_SOURCE_LAYOUT.md`, `uapi/components/deposits/README.md` |
 | LLM defaults | `packages/generic-llms/src/defaults.ts`, `providers/xai.ts` |
 | DB | `supabase/migrations/20260515010000_terminal_execution_history.sql` |
+
+#### G3-14a Deposit experience modularization law (rebuild)
+
+The `/deposits` commercial surface is modular by SRP, not a single god client:
+
+1. **Page shell** (`uapi/app/deposits/`) mounts only; no domain logic.
+2. **Orchestration** (`DepositPageClient`) wires state and handlers; pure
+   projections and IO belong in `models/` and `hooks/`.
+3. **Named component units** own discrete UI responsibilities (source,
+   obfuscations, options, pipelines master, telemetry, ledger detail, aside).
+4. **Hooks** own live runs, URL navigation, settled demand, network count, and
+   synthesis activity/stream clocks.
+5. **Models** own activity-ledger projections, route-session input assembly,
+   criticality, demand shapes, and run-status mapping — unit-tested without React.
+6. Rebuilders must follow `internal-docs/BITCODE_SOURCE_LAYOUT.md`; do not
+   reassemble deposit law into a single multi-thousand-line page client.
 
 ### G3-15 Gate 3 completion condition
 
