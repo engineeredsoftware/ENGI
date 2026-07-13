@@ -1,9 +1,10 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "../..",
+    "baseUrl": "../../..",
     "ignoreDeprecations": "5.0",
     "types": ["jest", "node"],
+    "typeRoots": ["./node_modules/@types", "../../../node_modules/@types"],
     "noEmit": true,
     "paths": {
       "@bitcode/btd": ["packages/btd/src/authority.ts"],

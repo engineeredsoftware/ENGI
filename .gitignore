@@ -51,6 +51,8 @@ admin/middleware.js
 # UAPI app
 uapi/__tests__/**/*.js
 uapi/tests/**/*.js
+# Keep hand-authored Jest mocks tracked (not compiled output).
+!uapi/tests/mocks/**
 uapi/app/**/*.js
 uapi/components/**/*.js
 uapi/lib/**/*.js
