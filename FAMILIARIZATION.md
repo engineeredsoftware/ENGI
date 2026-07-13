@@ -33,9 +33,11 @@ Read in this order on a first pass:
 7. **§7 Experiences** — seven product surfaces + bases
 8. **§8 Runtime / data / tests** — Supabase, hosts, CI
 9. **§9 File-by-file reading paths** — recommended deep-dives by task
+10. **§12 Terms appendix** — acronyms, hierarchy words, uapi concepts (lookup table)
 
 When implementing: open the SPEC section for the gate, then the package path
 named in G3-14 / source maps, then the experience unit under `uapi/components/`.
+Use **§12** whenever an acronym or hierarchy name is unfamiliar.
 
 ---
 
@@ -863,6 +865,7 @@ Update `FAMILIARIZATION.md` when:
 - Inheritance hierarchy gains, loses, or renames a layer  
 - Product routes, host model, or public navigation posture change  
 - Catalog paths, package names, or hierarchy diagrams would otherwise go stale  
+- A new acronym, product term, or hierarchy word appears in SPEC/source — add it to **§12 Terms appendix**  
 
 Prefer **accurate, short section edits** over rewriting the whole file each time.
 Land the edit with the structural change (same commit or accompanying
@@ -870,20 +873,230 @@ Land the edit with the structural change (same commit or accompanying
 
 ---
 
-## 12. Glossary (engineering)
+## 12. Terms appendix
 
-| Term | Definition |
+Lookup dictionary for this guide and the commercial tree. Prefer these spellings
+in new code and docs. Deeper product law lives in the SPEC; packaging law in
+`internal-docs/BITCODE_SOURCE_LAYOUT.md`; agent step vocabulary also in
+`internal-docs/TERMINOLOGY.md`.
+
+### 12.1 Acronyms and abbreviations
+
+| Term | Expansion / meaning |
 | --- | --- |
-| Executor | Pure `(input, execution) → output` transform |
-| Execution | Accumulating hierarchical state for a run |
-| PhaseDelegator | Pipeline phase that resolves/runs agents |
-| PTRR | Plan-Try-Refine-Retry agent steps |
-| ThinkingsGeneration | Reason → Judge → StructuredOutput (children of each FailsafeGeneration) |
-| FailsafeGeneration | PCC / ChunkThenSum / Stitch (parents within a PTRR step) |
-| Lens / mode | deposit vs read variance on shared SynthesizeAssetPacks |
-| Host | Decoupled pipeline host (inline or sandbox) |
-| Journal | BTD ledger rows / reconciliation |
-| Parity matrix | Spec claim ↔ implementation ↔ test ledger |
+| **API** | Application Programming Interface — here usually HTTP route handlers in `packages/api` and thin `uapi/app/api/*` bindings. |
+| **BC** | **Backward-compatible** alias or re-export package (e.g. `@bitcode/github` → `@bitcode/generic-vcs-github`). Prefer hierarchy names in new code. |
+| **BTC** | Bitcoin (currency). V48 settlement money is **BTC-testnet** only (no mainnet value). |
+| **BTD** | Bitcode’s weighted knowledge-volume unit: measured basis of price; after settlement, a rights-bearing receipt (ledger language is **journal**). |
+| **CI** | Continuous Integration — GitHub Actions gate/promotion workflows; also `packages/ci/circle` (CircleCI provider). |
+| **CSP** | Content Security Policy — browser security headers (`@bitcode/security-headers`). |
+| **CSRF** | Cross-Site Request Forgery protection (`@bitcode/security-headers`). |
+| **DIV** | Middle loop of **SDIVF**: Discover → Implement → Validate (may iterate). |
+| **E2E** | End-to-end tests (browser/API full flows); often opt-in in CI. |
+| **LLM** | Large Language Model — providers under `packages/generic-llms/*`. |
+| **LSP** | Language Server Protocol — code intelligence; used by file-refactoring / code-editor tools. |
+| **MCP** | Model Context Protocol — tool/server embedding surface (`mcp-generics`, `generic-mcps-bitcode`, ChatGPT App). |
+| **ORM** | Object-relational mapping package (`@bitcode/orm`) — DB access, not product law. |
+| **PCC** | **Prepare Concise Context** — first FailsafeGeneration kind: select Execution state *keys* (not values). |
+| **PR** | Pull request — GitHub/GitLab/Bitbucket shippable; also “gate PR” into `version/vN`. |
+| **PTRR** | **Plan → Try → Refine → Retry** — base agent step model (`@bitcode/generic-agents-ptrr`). |
+| **QA** | Quality assurance — interactive ledgers (`BITCODE_V48_QA.md`), runbooks, findings tags `V48-GateN-F*`. |
+| **RLS** | Row Level Security — Supabase/Postgres access policies. |
+| **SDIV** | Informal shorthand for the SDIVF middle phases (Discover–Implement–Validate). Prefer **SDIVF** for the full pipeline shape. |
+| **SDIVF** | **Setup → [Discover → Implement → Validate]\* → Finish** — base product pipeline shape (`SDIVFPipeline`). |
+| **SSE** | Server-Sent Events — one way clients receive streaming pipeline telemetry. |
+| **SRP** | Single Responsibility Principle — one primary reason to change per component/file unit. |
+| **UI / UX** | User interface / user experience — React under `uapi/components/*`. |
+| **UAPI** | The Next.js commercial app at `uapi/` (routes, components, thin adapters). |
+| **VCS** | Version Control System — providers under `vcs-generics` + `generic-vcs/*`. |
+
+### 12.2 Product domain (market / settlement)
+
+| Term | Meaning |
+| --- | --- |
+| **AssetPack** | Always a *synthesized* measured artifact (patch descriptor + measurements + metadata), never a raw source slice. |
+| **Admit / admission** | Accept a synthesized AssetPack option into the **Depository** (deposit path). |
+| **Auxillaries** | Side panes: wallet identity, GitHub/org connections, externals (experience prefix `Auxillaries*`). |
+| **BTC-testnet** | Settlement money rail in V48 — testnet value only; production-like protocol behavior. |
+| **Depository** | Market inventory of admitted AssetPacks available for reading/settlement. |
+| **Depositor** | Party who connects source, synthesizes options, and admits packs. |
+| **Demand** | Reader-side need signal; may be **Unestimatable** when supply cannot ground a price. |
+| **Deposit** | IP-seller path: connect source → synthesize options → review → admit. Route `/deposits`. |
+| **Delivery** | Post-settlement entitled handoff of AssetPack material under rights. |
+| **Finding Fits** | Read path step: match Need against Depository supply. |
+| **Forced Inclusions / Exclusions** | Deposit inputs that force path include/exclude sets (and secret exclusion). |
+| **Journal** | BTD ledger language (rows, reconciliation) — not “Pipeline”. |
+| **Measurement** | Grounded basis of price: absolute on deposit; Need-relative fit on read. |
+| **Need** | Reader-side demand descriptor synthesized for finding fits. |
+| **Obfuscations** | Deposit input that withholds/transforms sensitive material; empty → skip Setup LLM (Gate 3). |
+| **Packs** | Master-detail portfolio / activity history experience (`/packs`, `Packs*`). |
+| **Preview (source-safe)** | Show allowed AssetPack disclosure without leaking unpaid/protected source. |
+| **Read** | Buyer path: Need → Finding Fits → settle → delivery. Route `/reads`. |
+| **Reader** | Party who settles for AssetPack rights. |
+| **Rights** | Post-settlement BTD-backed entitlement to delivery/use under policy. |
+| **Settle / settlement** | BTC-testnet payment + rights issuance for a chosen fit. |
+| **Shippable** | Deliverable artifact shape (e.g. PR) — product template domain in `templates-generics`. |
+| **Source-safe** | Never product-expose protected/raw source, unpaid packs, raw prompts, credentials, private settlement payloads. |
+| **SynthesizeAssetPacks** | Deposit (and related) SDIVF product pipeline that produces measured AssetPack options. |
+| **Terminal** | **Deleted** product surface — do not reintroduce `/terminal` or Terminal-named product UI. |
+| **Unestimatable** | Honest demand/price outcome when Depository supply cannot ground a figure (not invented %). |
+
+### 12.3 Hierarchy packaging (`*-generics` / `generic-*`)
+
+| Term | Meaning |
+| --- | --- |
+| **`*-generics` package** | Primitive layer: types, contracts, factories, abstract bases (e.g. `vcs-generics`, `asset-packs-generics`). Use **only** when a matching `generic-*` implementor family exists. |
+| **`generic-*` family** | Folder of nested implementor packages (no root `package.json` on the family folder), e.g. `generic-vcs/{github,gitlab,…}`. |
+| **Hierarchy naming law** | Type/export names encode full ancestry: primitive → base → specific (e.g. `SynthesizeDepositsSDIVFPipeline`). |
+| **Primitive** | Lowest shared vocabulary (e.g. `Pipeline`, `Execution`, `AssetPack`, `FilePath`). |
+| **Base (implementor)** | Reusable middle layer in `generic-*/*` (e.g. `MeasuredPatchAssetPack`, `SDIVFPipeline`, `LocalHost`). |
+| **Product / specific** | Bitcode product specialization (pipelines, agents, experience UI). |
+| **BC (package)** | Thin re-export at an old path/name so existing imports keep working. |
+| **Family folder** | Directory that groups nested packages; itself is not a package (except rare BC barrels like `@bitcode/security`). |
+| **Workspace package** | A `package.json` with `@bitcode/…` (or `eslint-plugin-bitcode`) name in the pnpm workspace. |
+
+### 12.4 Execution, agents, generations, tools
+
+| Term | Meaning |
+| --- | --- |
+| **Agent** | An **Executor** specialized for LLM-bound PTRR work (`agent-generics`). |
+| **ChunkThenSum** | FailsafeGeneration kind for large inputs: chunk then summarize/complete. |
+| **Execution** | Accumulating hierarchical run state (not a separate “Context” product state). |
+| **Executor** | Pure transform `(input, execution) → output` (or equivalent composition). |
+| **FailsafeGeneration** | Parent generation kinds inside a PTRR step: PCC, ChunkThenSum, StitchUntilComplete. |
+| **Generation** | Primitive unit of LLM/work generation inside a step (`generation-generics`). |
+| **GlobalContext** | **Deprecated concept** — process defaults are a **process-root Execution**. |
+| **Judge** | ThinkingsGeneration kind: evaluate intermediate reasoning. |
+| **PhaseDelegator** | Pipeline phase that resolves and runs agents/tools for that phase. |
+| **Prepared context** | Failsafe selection of Execution **keys** (noise reduction), not a second state bag. |
+| **Process-root Execution** | Root Execution for the process (`initializeProcessRoot` / `getProcessRootExecution`). |
+| **PTRRAgent** | Agent whose steps are Plan/Try/Refine/Retry (`factoryPTRRAgent`). |
+| **QuickAgent** | Lighter agent factory path (non-PTRR or reduced steps); contrast `PTRRAgent`. |
+| **Reason** | ThinkingsGeneration kind: produce intermediate reasoning. |
+| **StitchUntilComplete** | FailsafeGeneration kind: repair incomplete/truncated structured output. |
+| **StructuredOutput** | ThinkingsGeneration kind: emit schema-shaped final output. |
+| **ThinkingsGeneration** | Child kinds of each failsafe: Reason → Judge → StructuredOutput. |
+| **Tool** | Callable capability attached to agents/pipelines (`tools-generics` / `generic-tools/*`). |
+| **Tool postprocess** | Tools run after failsafes within a PTRR step architecture. |
+
+### 12.5 Pipelines, hosts, measurements, AssetPack layers
+
+| Term | Meaning |
+| --- | --- |
+| **AbsolutesMeasureAgent** | Measurement base for absolute (deposit-side) categories. |
+| **AssetPackId** | Stable identity for an AssetPack primitive. |
+| **Host** | Where a pipeline runs: Local (default) or Vercel Sandbox — **not** “Harness”. |
+| **InlineHost** | Legacy name; prefer **LocalHost** (`generic-hosts-local`; `inline` env alias). |
+| **LocalHost** | In-process default pipeline host. |
+| **MeasuredPatchAssetPack** | Only AssetPack **base**: measured + source-safe patch over the AssetPack primitive. |
+| **Needinesses** | Read-side measurement framing (relative to Need). |
+| **Pipeline** | Product run language (UI tables, logs, history) and/or `pipelines-generics` primitive. |
+| **PipelineHost / BitcodePipelineHost** | Host contract (`host-generics`). |
+| **SimplePipeline** | Linear stage pipeline base (contrast SDIVF). |
+| **SDIVFPipeline** | Pipeline base implementing Setup-[DIV]*-Finish. |
+| **SynthesizeDepositsSDIVFPipeline** | Product deposit synthesis pipeline (full hierarchy name). |
+| **SynthesizeReadsSDIVFPipeline** | Product read synthesis pipeline. |
+| **SettleReadsSimplePipeline** | Product settle-reads simple pipeline. |
+| **VercelSandboxHost** | Decoupled Firecracker/sandbox host for pipeline boxes. |
+| **maxIterations** | SDIVF loop bound; Gate 3 deposit synthesis uses **1**. |
+
+### 12.6 Files, artifacts, attachments, VCS, integrations
+
+| Term | Meaning |
+| --- | --- |
+| **Artifact** | Stored deliverable blob/envelope with identity + storage contract. |
+| **ArtifactStorage** | Provider contract (S3 / Supabase / Vercel Blob under `generic-artifacts/*`). |
+| **Attachment** | Message/pack attachment; categories **file** \| **external** only. |
+| **External (attachment)** | Attachment bound to an Externals connection (GitHub, Jira, …). |
+| **File (attachment)** | Direct file upload attachment. |
+| **FileChange / FileOp / FilePath** | File primitives in `@bitcode/files`. |
+| **File-editing** | Atomic transactional edits (`@bitcode/file-editing`). |
+| **File-refactoring** | Symbol rename / multi-file refactors (`@bitcode/file-refactoring`). |
+| **PatchArtifact** | Path+op patch artifact type base. |
+| **Provider (VCS)** | Concrete VCS implementor under `generic-vcs/*` extending `vcs-generics`. |
+| **Externals** | Product integrations family (`packages/externals/*`) — not telemetry. |
+| **External-telemetry** | Analytics adapters (Google, Sentry, Vercel analytics). |
+| **Containerizations** | Docker/Kubernetes family. |
+| **Web-scrapers / web-search** | Firecrawl client family; multi-provider + Exa search family. |
+
+### 12.7 UAPI and UI architecture
+
+| Term | Meaning |
+| --- | --- |
+| **Bitcode\*** | Shared app base components over Shadcn (`uapi/components/bitcode`). |
+| **BitcodePipeline\*** | Shared pipeline chrome (table, log, telemetry) — product run UI language. |
+| **Component unit** | Directory `ComponentName/ComponentName.tsx` + optional `hooks/`, `styles/`, `__tests__/`. Not `index.tsx`. |
+| **Experience** | One of seven product UI domains: Marketing, Packs, Reads, Deposits, Docs, Conversations, Auxillaries. |
+| **Experience → experience** | **Forbidden** import direction. |
+| **Page shell** | Thin `uapi/app/*` file: metadata + composition only; no heavy logic. |
+| **Page client** | Client orchestration component (providers, URL, section wiring). |
+| **Packages → uapi** | **Forbidden** — domain packages must not import the Next app. |
+| **Shadcn\*** | Root UI primitives (`uapi/components/shadcn`). |
+| **Theme / layout / auth (Bitcode base)** | Shared chrome: nav, branding, auth panes, pipeline cards. |
+| **`uapi/lib`, `networking`, `hooks`** | Thin Next/React adapters over packages. |
+| **DepositPageClient / PacksPageClient / …** | Experience page orchestrators. |
+| **Master-detail** | UI pattern: list/master + detail pane (deposits options, packs activity). |
+| **NavBrand** | Top nav brand cluster (logo marks + BITCODE wordmark). |
+| **Product analytics** | Composed tracking via `observability` + `external-telemetry/*`. |
+
+### 12.8 Spec, proof, process, and quality
+
+| Term | Meaning |
+| --- | --- |
+| **Active canon** | Version pointed by `BITCODE_SPEC.txt` on `main` (currently V47 until V48 promotion). |
+| **Canon / canonical** | Spec family + proven artifacts treated as rebuild law for a version. |
+| **Complete Implementation Derivability** | A reader rebuilds current Bitcode from the active family alone (`BITCODE_SPECIFYING.md`). |
+| **DELTA** | Version decision log (`BITCODE_SPEC_VN_DELTA.md`). |
+| **Draft target** | Version under construction (V48 on `version/v48`) — not yet `BITCODE_SPEC.txt` pointer. |
+| **Gate** | Bounded acceptance slice (e.g. V48 Gate 3); branch `v48/gate-N-topic`. |
+| **Gate PR** | Pull request closing a gate into the version branch. |
+| **NOTES** | Architecture intent ledger (`BITCODE_SPEC_VN_NOTES.md`) — weaker than SPEC body. |
+| **Parity matrix** | Spec claim ↔ source ↔ tests ↔ gates ledger. |
+| **Promotion** | Version PR to `main` after all gates closed; updates `BITCODE_SPEC.txt` pointer under workflow rules. |
+| **PROVEN** | Generated proof appendix / `.bitcode/vN-*` artifacts. |
+| **QA finding tag** | Fully-qualified `V48-GateN-F*` in code comments and QA ledger (never bare `F26-B`). |
+| **Spec family** | Hand-authored SPEC + DELTA + NOTES + PARITY (+ PROVEN) for a version. |
+| **`(specification-only)` / `(implementation-only)` / `(specification-implementation)`** | Required commit/PR category labels after the version/gate prefix. |
+| **Source-bearing** | Implementation that proves a SPEC claim (listed in G3-14 / parity). |
+| **Version branch** | Long-lived draft line `version/v48` (not product source versioning). |
+
+### 12.9 Prompts, docs, templates (do not mix)
+
+| Term | Meaning |
+| --- | --- |
+| **Doc-comment** | Build-time comment plugin system (`doc-comment-generics` + `generic-doc-comments/*`). |
+| **Doc-code** | Build-time injection of prompts onto tool instances from `@doc-code-*` comments. |
+| **Prompt** | Registry-based prompt object (`@bitcode/prompts`). |
+| **PromptPart** | Branded immutable string fragment for prompt composition. |
+| **Raw promptpart** | Checked-in prompt fragment modules under `prompts/src/raw_promptparts`. |
+| **templates-generics** | **Shippable / evidence-document** Supabase templates — **not** LLM prompt formatting. |
+
+### 12.10 Security, observability, misc packages
+
+| Term | Meaning |
+| --- | --- |
+| **Audit (security)** | Structured security/compliance event log (`security-audit`). |
+| **Credentials (security)** | Lifecycle/rotation of secrets (`security-credentials`). |
+| **Encryption (security)** | Encrypt/decrypt credential material (`security-encryption`). |
+| **Observability** | Product analytics composition over external-telemetry (+ tracing hooks). |
+| **Rate limiting** | Abuse prevention middleware (`security-rate-limiting`). |
+| **Sentry / GA / Vercel analytics** | Live under `external-telemetry/*` (BC old package names). |
+| **Supabase** | Live data plane (Auth + Postgres); not optional product storage. |
+
+### 12.11 Quick disambiguation
+
+| Do not say / do | Prefer |
+| --- | --- |
+| “Context” as product run state | **Execution** (process-root Execution for process defaults) |
+| “Harness” for run boxes | **Host** (LocalHost / VercelSandboxHost) |
+| “Terminal” product UI | Experiences on `/deposits`, `/reads`, `/packs`, … |
+| “Pipeline” for BTD ledger rows | **Journal** |
+| Leaf-only type names for layered types | Full hierarchy names (`…SDIVFPipeline`, `…AbsolutesMeasureAgent`) |
+| New `*-generics` without `generic-*` peers | Plain domain package name |
+| `templates-generics` as prompt system | `@bitcode/prompts` |
+| `externals` vs telemetry | `externals/*` = product APIs; `external-telemetry/*` = analytics |
+| Import experience → experience | Shared Bitcode base or packages only |
+| Reintroduce `digest` / `mysql` / `cloudflare` product packages | Current hierarchy or explicit removal list in §5.5 |
 
 ---
 
