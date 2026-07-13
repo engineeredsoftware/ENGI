@@ -55,7 +55,7 @@ export default function ReadPageClient() {
   const {
     readCurrentSearchParams,
     replaceReadSearchParams,
-    replaceReadRouteTransaction,
+    openReadRouteTransaction,
     closePipelineDetail,
   } = useReadUrlNavigation();
 
@@ -98,7 +98,7 @@ export default function ReadPageClient() {
     selectedRun,
     setLiveRuns,
     refreshLiveRuns,
-    replaceReadRouteTransaction,
+    replaceReadRouteTransaction: openReadRouteTransaction,
   });
 
   const sessionRows = buildReadSessionRows(readRouteSession);
@@ -212,7 +212,7 @@ export default function ReadPageClient() {
           pipelinePagination={pipelinePagination}
           onFiltersChange={setPipelineFilters}
           onPaginationChange={setPipelinePagination}
-          onSelectTransaction={replaceReadRouteTransaction}
+          onSelectTransaction={openReadRouteTransaction}
           onCloseDetail={closePipelineDetail}
           onRefresh={() => {
             void refreshLiveRuns();

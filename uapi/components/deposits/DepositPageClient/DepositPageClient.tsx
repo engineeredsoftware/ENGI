@@ -102,7 +102,7 @@ export default function DepositPageClient() {
   const {
     readCurrentSearchParams,
     replaceDepositSearchParams,
-    replaceDepositRouteTransaction,
+    openDepositRouteTransaction,
     clearDepositRouteTransaction,
   } = useDepositUrlNavigation();
   const networkDepositoryCount = useDepositNetworkDepositoryCount();
@@ -373,7 +373,7 @@ export default function DepositPageClient() {
     selectedRun,
     readCurrentSearchParams,
     replaceDepositSearchParams,
-    replaceDepositRouteTransaction,
+    replaceDepositRouteTransaction: openDepositRouteTransaction,
     refreshLiveRuns,
     obfuscations,
     forcedInclusions,
@@ -420,7 +420,7 @@ export default function DepositPageClient() {
     liveRuns,
     setLiveRuns,
     refreshLiveRuns,
-    replaceDepositRouteTransaction,
+    replaceDepositRouteTransaction: openDepositRouteTransaction,
     synthesizeOptionsRef,
     obfuscations,
     obfuscationsAnchorName,
@@ -515,7 +515,7 @@ export default function DepositPageClient() {
           }}
           runs={pipelineTableRuns}
           selectedTransactionId={selectedRun?.id ?? null}
-          onSelectTransaction={(id) => { if (id) replaceDepositRouteTransaction(id); }}
+          onSelectTransaction={(id) => { if (id) openDepositRouteTransaction(id); }}
           filters={pipelineFilters}
           onFiltersChange={setPipelineFilters}
           pagination={pipelinePagination}

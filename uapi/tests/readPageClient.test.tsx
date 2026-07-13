@@ -13,11 +13,12 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import ReadPageClient from "@/components/reads/ReadPageClient/ReadPageClient";
 
 const mockReplace = jest.fn();
+const mockPush = jest.fn();
 const mockFetchPipelineExecutionHistory = jest.fn();
 let mockQuery = "transactionId=read-admission-1&readingStage=request-fit";
 
 jest.mock("next/navigation", () => ({
-  useRouter: () => ({ replace: mockReplace }),
+  useRouter: () => ({ replace: mockReplace, push: mockPush }),
   useSearchParams: () => new URLSearchParams(mockQuery),
 }));
 
@@ -100,6 +101,7 @@ jest.mock("@/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbenc
 describe("ReadPageClient", () => {
   beforeEach(() => {
     mockReplace.mockReset();
+    mockPush.mockReset();
     mockQuery = "transactionId=read-admission-1&readingStage=request-fit";
     mockFetchPipelineExecutionHistory.mockResolvedValue([
       {

@@ -5,6 +5,7 @@ import { fireEvent, render, screen, waitFor, within } from "@testing-library/rea
 import DepositPageClient from "@/components/deposits/DepositPageClient/DepositPageClient";
 
 const mockReplace = jest.fn();
+const mockPush = jest.fn();
 const mockFetchPipelineExecutionHistory = jest.fn();
 const mockUseAuth = jest.fn();
 const mockUseUserData = jest.fn();
@@ -12,7 +13,7 @@ const mockTrackProductEvent = jest.fn();
 let mockQuery = "transactionId=deposit-1&depositStage=review-options";
 
 jest.mock("next/navigation", () => ({
-  useRouter: () => ({ replace: mockReplace }),
+  useRouter: () => ({ replace: mockReplace, push: mockPush }),
   useSearchParams: () => new URLSearchParams(mockQuery),
 }));
 
@@ -158,6 +159,7 @@ async function openComposeDetail() {
 describe("DepositPageClient", () => {
   beforeEach(() => {
     mockReplace.mockReset();
+    mockPush.mockReset();
     mockTrackProductEvent.mockReset();
     mockQuery = "transactionId=deposit-1&depositStage=review-options";
     mockUseAuth.mockReturnValue({ user: { id: "user-1" } });

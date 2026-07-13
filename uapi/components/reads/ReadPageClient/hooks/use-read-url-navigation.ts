@@ -1,5 +1,8 @@
 /**
- * Reads URL search-param helpers: replace route query and transaction selection.
+ * Reads URL search-param helpers.
+ *
+ * Opening a pipeline detail **pushes** history so the browser Back button
+ * returns to the /reads list. Closing detail and other query edits **replace**.
  */
 "use client";
 
@@ -33,14 +36,28 @@ export function useReadUrlNavigation() {
     [router],
   );
 
-  const replaceReadRouteTransaction = useCallback(
+  const pushReadSearchParams = useCallback(
+    (nextParams: URLSearchParams) => {
+      const query = nextParams.toString();
+      router.push(buildReadHref(query), { scroll: false });
+    },
+    [router],
+  );
+
+  /**
+   * Open pipeline detail. Pushes history so native browser Back returns to /reads.
+   */
+  const openReadRouteTransaction = useCallback(
     (transactionId: string) => {
-      replaceReadSearchParams(
+      pushReadSearchParams(
         writeTerminalTransactionId(readCurrentSearchParams(), transactionId),
       );
     },
-    [readCurrentSearchParams, replaceReadSearchParams],
+    [pushReadSearchParams, readCurrentSearchParams],
   );
+
+  /** @deprecated Prefer openReadRouteTransaction (push, not replace). */
+  const replaceReadRouteTransaction = openReadRouteTransaction;
 
   const closePipelineDetail = useCallback(() => {
     replaceReadSearchParams(
@@ -52,6 +69,8 @@ export function useReadUrlNavigation() {
     searchParams,
     readCurrentSearchParams,
     replaceReadSearchParams,
+    pushReadSearchParams,
+    openReadRouteTransaction,
     replaceReadRouteTransaction,
     closePipelineDetail,
   };
