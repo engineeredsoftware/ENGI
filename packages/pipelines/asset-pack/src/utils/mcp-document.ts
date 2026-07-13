@@ -37,7 +37,6 @@ const MCP_MODULE_LOADERS: Record<string, () => Promise<Record<string, unknown>>>
   aws: () => import('@bitcode/generic-tools-mcps-aws'),
   'aws-location': () => import('@bitcode/generic-tools-mcps-aws-location'),
   'aws-terraform': () => import('@bitcode/generic-tools-mcps-aws-terraform'),
-  'aurora-postgres': () => import('@bitcode/generic-tools-mcps-aurora-postgres'),
   bitbucket: () => import('@bitcode/generic-tools-mcps-bitbucket'),
   circleci: () => import('@bitcode/generic-tools-mcps-circleci'),
   cloudflare: () => import('@bitcode/generic-tools-mcps-cloudflare'),

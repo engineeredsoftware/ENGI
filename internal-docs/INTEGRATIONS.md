@@ -206,12 +206,7 @@ Bitcode provides 20+ MCP tool integrations through the `packages/generic-tools/m
    - User management
    - Replication configuration
 
-9. **Aurora Postgres** (`aurora-postgres/`) - AWS Aurora
-   - Serverless configuration
-   - Cluster management
-   - Backup operations
-
-10. **Supabase** (`supabase/`) - Backend as a Service
+9. **Supabase** (`supabase/`) - Backend as a Service (product data plane)
     - Database operations
     - Auth management
     - Realtime subscriptions

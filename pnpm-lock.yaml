@@ -435,8 +435,6 @@ importers:
         specifier: workspace:*
         version: link:../generic-attachments/file
 
-  packages/aurora-postgres: {}
-
   packages/auth:
     dependencies:
       '@bitcode/supabase':
@@ -2025,15 +2023,6 @@ importers:
       zod:
         specifier: ^3.22.0
         version: 3.24.1
-
-  packages/generic-tools/mcps-tools/aurora-postgres:
-    dependencies:
-      '@bitcode/aurora-postgres':
-        specifier: workspace:*
-        version: link:../../../aurora-postgres
-      '@bitcode/tools-generics':
-        specifier: workspace:*
-        version: link:../../../tools-generics
 
   packages/generic-tools/mcps-tools/aws:
     dependencies:

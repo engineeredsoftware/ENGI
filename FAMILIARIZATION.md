@@ -496,7 +496,8 @@ public entries remain stable (`./deposit-asset-pack-options`, `./depository-sear
 | `files`, `browser-storage`, `artifacts` | File / storage helpers |
 | `streams` | Streaming progress helpers |
 | `aws`, `vercel`, `cloudflare`, `docker`, `kubernetes` | Host adapters |
-| `postgresql`, `mysql`, `aurora-postgres` | DB drivers / helpers |
+| `supabase`, `orm` | Live data plane (Postgres via Supabase) |
+| `postgresql`, `mysql` | Optional/legacy DB MCP tool helpers (not product storage) |
 | `security`, `sentry`, `observability` | Security + telemetry |
 
 ### 5.6 UX-adjacent / interfaces

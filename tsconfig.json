@@ -194,7 +194,6 @@
       "@bitcode/generic-tools-mcps-aws": ["packages/generic-tools/mcps-tools/aws/src/index.ts"],
       "@bitcode/generic-tools-mcps-aws-location": ["packages/generic-tools/mcps-tools/aws-location/src/index.ts"],
       "@bitcode/generic-tools-mcps-aws-terraform": ["packages/generic-tools/mcps-tools/aws-terraform/src/index.ts"],
-      "@bitcode/generic-tools-mcps-aurora-postgres": ["packages/generic-tools/mcps-tools/aurora-postgres/src/index.ts"],
       "@bitcode/generic-tools-mcps-bitbucket": ["packages/generic-tools/mcps-tools/bitbucket/src/index.ts"],
       "@bitcode/generic-tools-mcps-circleci": ["packages/generic-tools/mcps-tools/circleci/src/index.ts"],
       "@bitcode/generic-tools-mcps-cloudflare": ["packages/generic-tools/mcps-tools/cloudflare/src/index.ts"],

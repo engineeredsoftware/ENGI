@@ -814,7 +814,7 @@ Current corridor map:
 | --- | --- | --- |
 | Product and response ownership | `packages/{api,auth,btd,context,models,registry,responses}` | direct Bitcode product, account, and response composition |
 | Repository/provider boundary | `packages/{github,vcs,git,gitlab,bitbucket,browser-storage,security}` | repository anchor, provider connection, and provider-specific support/integration |
-| Persistence and data contract | `packages/{supabase,orm,aurora-postgres,postgresql,mysql,files}` | storage, schema, query, and generated type ownership |
+| Persistence and data contract | `packages/{supabase,orm,postgresql,mysql,files}` | storage, schema, query, and generated type ownership |
 | Execution, prompts, conversations, and MCP | `packages/{conversations-generics,execution-generics,executions-mcp,pipelines,pipelines-generics,prompts,agent-generics,attachments-generics,templates-generics,tools-generics,llm-generics,streams}` | admitted execution substrate for Bitcode activity, conversations, `ad hoc`, prompts, tools, and MCP behavior, with `@bitcode/prompts` as the public prompt contract for active inference carriers |
 | Artifact, proof, and health support | `packages/{artifacts,digest,errors,logger,observability,parsing,repository-health,testing,tech-types,time,objects-arrays}` | proof-bearing support, telemetry, diagnostics, typing, parsing, and analysis substrate |
 | Provider/deployment/support integrations | `packages/{aws,circleci,cloudflare,docker,email,firebase,firecrawl,google-analytics,jira,kubernetes,networking,notion,notifications,sentry,styling,vercel}` | ingress, support, telemetry, deployment, or bounded reference carriers |

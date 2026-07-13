@@ -1666,6 +1666,12 @@ AssetPack path+op envelopes without requiring raw source. Product binds
 `assetPackId`. Existing `saveArtifact` / `putArtifactAtKey` callers keep
 `@bitcode/artifacts`.
 
+## Remove aurora-postgres (Supabase is the data plane) (Garrett, 2026-07-13)
+
+Deleted `@bitcode/aurora-postgres` and `@bitcode/generic-tools-mcps-aurora-postgres`
+plus Aurora MCP DocCode promptparts. Product persistence is Supabase (`@bitcode/supabase`
++ `@bitcode/orm`); Aurora was unused stub MCP tooling.
+
 ## Attachment hierarchy: file | external only (Garrett, 2026-07-13)
 
 ```

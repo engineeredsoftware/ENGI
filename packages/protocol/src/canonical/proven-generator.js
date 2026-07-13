@@ -659,7 +659,7 @@ const V26_COMMERCIAL_INFRASTRUCTURE_PACKAGE_NAMES = new Set([
   'eslint-plugin-bitcode'
 ]);
 const V26_INGRESS_OR_SUPPORT_PACKAGE_NAMES = new Set([
-  '@bitcode/aurora-postgres',
+
   '@bitcode/aws',
   '@bitcode/bitbucket',
   '@bitcode/circleci',
@@ -678,7 +678,7 @@ const V26_INGRESS_OR_SUPPORT_PACKAGE_NAMES = new Set([
   '@bitcode/generic-tools-firecrawl',
   '@bitcode/generic-tools-git',
   '@bitcode/generic-tools-lsp-query',
-  '@bitcode/generic-tools-mcps-aurora-postgres',
+
   '@bitcode/generic-tools-mcps-aws',
   '@bitcode/generic-tools-mcps-aws-location',
   '@bitcode/generic-tools-mcps-aws-terraform',
