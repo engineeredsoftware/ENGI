@@ -636,18 +636,15 @@ browser-proof coverage is repointed at the current product surfaces:
 
 ### V28 demonstration MVP layout witnesses (era-pin + living V48 suite)
 
-`protocol-demonstration/test/v28-mvp-qa.test.js` is **frozen canon-at-V28**
-(historical `components/base/...` paths and matchers). Under the V48 sole-canon
-tree it is era-pinned via `protocol-demonstration/test/era-pinned-v28-layout.js`
-and skips WITH A REASON — **do not rewrite** those assertions to chase current
-paths. Living product-layout MVP witnesses for the current pointer live in
-`protocol-demonstration/test/v48-product-layout-mvp.test.js`, run only via
-**`npm run test:v48-product-layout-mvp`** (never nested under a `test:v28-*`
-script). Demonstration MVP CI invokes each version script separately
-(`test:v28-mvp-qa`, `test:v42-ai-reading-mvp`, `test:v48-product-layout-mvp`).
-Same discipline for unit tests: historical expectations (e.g. NavBrand V26
-beta badge) stay as `it.skip` with frozen body; current behavior gets a new
-living case.
+Version-scoped scripts are **single-version only** (never nest `test:vX` files
+under `test:vY`). Living modern-canon Demonstration MVP / Gate Quality run
+**only** `npm run test:v48-mvp-qa` — the complete V48 suite
+(`test/v48-*.test.js` product-layout + boundary + local fit). Historical
+`test:v28-mvp-qa` / `test:v42-ai-reading-mvp` remain pure for promotion-era
+workflows; V28 layout witnesses in `v28-mvp-qa.test.js` stay **frozen** and
+era-pinned via `era-pinned-v28-layout.js` (skip with reason under V48 layout —
+do not rewrite). When the next draft lands, era-pin V48 and add `test:v{N}-mvp-qa`
+as the sole living script.
 
 ### Deposit/Read product-surface presentation laws (Garrett, 2026-07-04)
 

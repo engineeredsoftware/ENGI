@@ -509,14 +509,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run V28 protocol-demonstration MVP QA (era-pinned when superseded)
-        run: npm --prefix protocol-demonstration run test:v28-mvp-qa
-
-      - name: Run V42 AI-reading demonstration MVP QA
-        run: npm --prefix protocol-demonstration run test:v42-ai-reading-mvp
-
-      - name: Run V48 product-layout MVP living witnesses
-        run: npm --prefix protocol-demonstration run test:v48-product-layout-mvp
+      - name: Run V48 protocol-demonstration MVP QA (complete modern canon only)
+        run: npm --prefix protocol-demonstration run test:v48-mvp-qa
 
   bitcode-spec-commit-conformance:
     name: Bitcode Spec Commit Conformance

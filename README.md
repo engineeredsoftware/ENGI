@@ -1436,8 +1436,9 @@ Demonstration verification:
 ```bash
 cd protocol-demonstration
 pnpm test:integration
-pnpm test:v28-mvp-qa
-pnpm test:v42-ai-reading-mvp
-pnpm test:v48-product-layout-mvp
+pnpm test:v48-mvp-qa
+# Historical (promotion-era only; era-pinned/skip under current layout):
+# pnpm test:v28-mvp-qa
+# pnpm test:v42-ai-reading-mvp
 ```
 

@@ -74,9 +74,10 @@ cd protocol-demonstration
 npm test
 pnpm test:fit-finding
 pnpm test:integration
-pnpm test:v28-mvp-qa
-pnpm test:v42-ai-reading-mvp
-pnpm test:v48-product-layout-mvp
+pnpm test:v48-mvp-qa
+# Historical version scripts (single-version only; not mixed into living CI):
+# pnpm test:v28-mvp-qa
+# pnpm test:v42-ai-reading-mvp
 ```
 
 ## V42 AI-reading demonstration
