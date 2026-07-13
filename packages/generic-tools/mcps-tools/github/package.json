@@ -8,5 +8,9 @@
     "@bitcode/vcs-generics": "workspace:*",
     "@bitcode/generic-vcs-github": "workspace:*",
     "@bitcode/tools-generics": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "node ../../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

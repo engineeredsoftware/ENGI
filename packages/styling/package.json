@@ -7,5 +7,9 @@
   "dependencies": {
     "clsx": "2.1.1",
     "tailwind-merge": "2.5.2"
+  },
+  "scripts": {
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

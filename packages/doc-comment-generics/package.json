@@ -31,7 +31,8 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "test": "jest",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   },
   "keywords": [
     "documentation",

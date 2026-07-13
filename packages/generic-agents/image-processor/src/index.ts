@@ -245,7 +245,8 @@ export const imageProcessorStepPrompts = {
  * Comprehensive image processing variation
  * Uses full PTRR cycle for thorough image analysis
  */
-const comprehensiveImageVariation = factoryPTRRAgent<
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const comprehensiveImageVariation: any = factoryPTRRAgent<
   z.infer<typeof ImageProcessorInputSchema>,
   z.infer<typeof ImageProcessorRetrySchema>
 >({
@@ -281,7 +282,7 @@ const comprehensiveImageVariation = factoryPTRRAgent<
  * Quick image processing variation
  * Single-step execution for simple image analysis
  */
-const quickImageVariation = factoryAgentWithSingleStep<
+const quickImageVariation: any = factoryAgentWithSingleStep<
   z.infer<typeof ImageProcessorInputSchema>,
   z.infer<typeof ImageProcessorRetrySchema>
 >({

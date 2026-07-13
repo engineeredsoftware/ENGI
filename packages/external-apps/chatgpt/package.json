@@ -8,7 +8,9 @@
   "scripts": {
     "start": "tsx src/server.ts",
     "dev": "tsx --watch src/server.ts",
-    "test": "jest"
+    "test": "jest",
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",

@@ -12,11 +12,12 @@
   },
   "scripts": {
     "test": "node --test --test-force-exit test/*.test.js",
-    "typecheck": "tsc -p tsconfig.typecheck.json"
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   },
   "devDependencies": {
     "@types/node": "^25.5.2",
     "typescript": "^6.0.2"
   },
-  "description": "Bitcode specifying tooling: gate proof generators, canon posture, promotion helpers, and the commercialized demo-engine bridge still used by a few UAPI routes. The monorepo itself is protocol canon \u2014 this is not a product \"protocol\" package. Standalone demonstration lives only in protocol-demonstration/."
+  "description": "Bitcode specifying tooling: gate proof generators, canon posture, promotion helpers, and the commercialized demo-engine bridge still used by a few UAPI routes. The monorepo itself is protocol canon — this is not a product \"protocol\" package. Standalone demonstration lives only in protocol-demonstration/."
 }

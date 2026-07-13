@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/asset-packs-pipelines-synthesize-deposits",
   "version": "1.0.0",
-  "description": "SynthesizeDepositAssetPacksSDIVFPipeline: depositor repo \u2192 measured AssetPack options",
+  "description": "SynthesizeDepositAssetPacksSDIVFPipeline: depositor repo → measured AssetPack options",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   },
   "dependencies": {
     "@bitcode/execution-generics": "workspace:*",

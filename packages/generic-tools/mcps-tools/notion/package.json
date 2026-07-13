@@ -10,7 +10,8 @@
     "dev": "tsc --watch",
     "test": "jest",
     "lint": "eslint src --ext .ts,.tsx",
-    "type-check": "tsc --noEmit"
+    "type-check": "pnpm run typecheck",
+    "typecheck": "node ../../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit"
   },
   "dependencies": {
     "@bitcode/externals-notion": "workspace:*"

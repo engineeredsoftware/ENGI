@@ -12,8 +12,14 @@
     "./src/files": "./src/files.ts",
     "./src/*": "./src/*"
   },
-  "files": ["src"],
+  "files": [
+    "src"
+  ],
   "dependencies": {
     "@bitcode/logger": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

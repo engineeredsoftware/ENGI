@@ -12,5 +12,9 @@
     "@bitcode/logger": "workspace:*",
     "zod": "^3.25.76",
     "@bitcode/security-audit": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

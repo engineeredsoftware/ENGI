@@ -12,5 +12,9 @@
   "description": "File refactoring over @bitcode/files + LSP (packages/file-refactoring)",
   "exports": {
     ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

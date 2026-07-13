@@ -7,13 +7,16 @@
  * - Superset of tools usable across agents
  */
 
-import { PipelineExecution, enableExecutionDebug } from '@bitcode/pipelines-generics';
+import {
+  PipelineExecution,
+  enableExecutionDebug,
+  PipelineLLMRegistry,
+  PipelinePromptRegistry,
+  PipelineToolRegistry,
+  PipelineAgentRegistry,
+  PipelineExecutionClass as PE,
+} from '@bitcode/pipelines-generics';
 import type { Tool } from '@bitcode/tools-generics';
-import { PipelineLLMRegistry } from '@bitcode/pipelines-generics/src/execution/PipelineLLMRegistry';
-import { PipelinePromptRegistry } from '@bitcode/pipelines-generics/src/execution/PipelinePromptRegistry';
-import { PipelineToolRegistry } from '@bitcode/pipelines-generics/src/execution/PipelineToolRegistry';
-import { PipelineAgentRegistry } from '@bitcode/pipelines-generics/src/execution/PipelineAgentRegistry';
-import { PipelineExecution as PE } from '@bitcode/pipelines-generics/src/execution/PipelineExecution';
 import { factoryLLMRegistryWithProviders, resolveDefaultLLMConfig } from '@bitcode/generic-llms';
 import { LLMRegistry } from '@bitcode/llm-generics';
 import { ALL_ASSET_PACK_TOOLS } from './tools';

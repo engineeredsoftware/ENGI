@@ -151,7 +151,8 @@ export const bitcodeReadSynthesisWebSearchStepPrompts = {
 export const webSearchPrompt = bitcodeReadSynthesisWebSearchPrompt;
 export const webSearchStepPrompts = bitcodeReadSynthesisWebSearchStepPrompts;
 
-const bitcodeReadSynthesisWebSearchAgent = factoryPTRRAgent<
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const bitcodeReadSynthesisWebSearchAgent: any = factoryPTRRAgent<
   z.infer<typeof BitcodeReadSynthesisWebSearchInputSchema>,
   z.infer<typeof BitcodeReadSynthesisWebSearchRetrySchema>
 >({
@@ -187,7 +188,7 @@ const bitcodeReadSynthesisWebSearchAgent = factoryPTRRAgent<
   }
 });
 
-const quickBitcodeReadSynthesisWebSearchAgent = factoryAgentWithSingleStep<
+const quickBitcodeReadSynthesisWebSearchAgent: any = factoryAgentWithSingleStep<
   z.infer<typeof BitcodeReadSynthesisWebSearchInputSchema>,
   z.infer<typeof BitcodeReadSynthesisWebSearchRetrySchema>
 >({

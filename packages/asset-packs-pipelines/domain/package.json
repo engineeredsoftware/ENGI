@@ -33,8 +33,9 @@
   "scripts": {
     "build": "tsc --noEmit",
     "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests",
-    "typecheck": "tsc --noEmit",
-    "demo:bringup": "ts-node src/dev/bringup-demo.ts"
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "demo:bringup": "ts-node src/dev/bringup-demo.ts",
+    "type-check": "pnpm run typecheck"
   },
   "dependencies": {
     "@bitcode/btd": "workspace:*",

@@ -135,7 +135,7 @@ export const bitcodeSetupReadComprehensionStepPrompts = {
   retry: new AgentStepPrompt({ purpose: PROMPTPART_SPECIFIC_AGENT_COMPREHENDREAD_RETRY_ERRORHANDLING })
 };
 
-export const bitcodeSetupReadComprehensionAgent = factoryPTRRAgent<
+export const bitcodeSetupReadComprehensionAgent: any = factoryPTRRAgent<
   BitcodeSetupReadComprehensionInput,
   BitcodeSetupReadComprehensionResult
 >({

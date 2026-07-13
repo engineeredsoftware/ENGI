@@ -36,7 +36,8 @@
     "test:v42-ai-reading-mvp": "node --test --test-force-exit test/v42-ai-reading-mvp.test.js",
     "test:v48-product-layout-mvp": "node --test --test-force-exit test/v48-product-layout-mvp.test.js",
     "test:v48-mvp-qa": "node --test --test-force-exit test/v48-product-layout-mvp.test.js test/v48-boundary-separation.test.js test/v48-local-fit-finding.test.js",
-    "typecheck": "tsc -p tsconfig.typecheck.json"
+    "typecheck": "node ../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   },
   "devDependencies": {
     "@types/node": "^25.5.2",

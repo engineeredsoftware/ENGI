@@ -234,7 +234,7 @@ export const filePickStepPrompts = {
  * File Pick Agent (PTRR)
  * Uses full PTRR cycle for thorough file discovery
  */
-const filePick = factoryPTRRAgent<
+const filePick: any = factoryPTRRAgent<
   z.infer<typeof FilePickInputSchema>,
   z.infer<typeof FilePickRetrySchema>
 >({
@@ -277,7 +277,7 @@ const filePick = factoryPTRRAgent<
  * Quick File Pick Agent
  * Single-step execution for simple file discovery
  */
-const quickFilePick = factoryAgentWithSingleStep<
+const quickFilePick: any = factoryAgentWithSingleStep<
   z.infer<typeof FilePickInputSchema>,
   z.infer<typeof FilePickRetrySchema>
 >({

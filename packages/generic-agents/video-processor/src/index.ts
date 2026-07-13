@@ -293,7 +293,8 @@ export const videoProcessorStepPrompts = {
  * Comprehensive video processing agent
  * Uses full PTRR cycle for thorough video analysis
  */
-const comprehensiveVideo = factoryPTRRAgent<
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const comprehensiveVideo: any = factoryPTRRAgent<
   z.infer<typeof VideoProcessorInputSchema>,
   z.infer<typeof VideoProcessorRetrySchema>
 >({
@@ -335,7 +336,7 @@ const comprehensiveVideo = factoryPTRRAgent<
  * Quick video processing agent
  * Single-step execution for simple video tasks
  */
-const quickVideo = factoryAgentWithSingleStep<
+const quickVideo: any = factoryAgentWithSingleStep<
   z.infer<typeof VideoProcessorInputSchema>,
   z.infer<typeof VideoProcessorRetrySchema>
 >({

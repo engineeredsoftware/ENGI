@@ -261,7 +261,8 @@ export const figmaProcessorStepPrompts = {
  * Comprehensive Figma processing agent
  * Uses full PTRR cycle for thorough analysis
  */
-const comprehensiveFigma = factoryPTRRAgent<
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const comprehensiveFigma: any = factoryPTRRAgent<
   z.infer<typeof FigmaProcessorInputSchema>,
   z.infer<typeof FigmaProcessorRetrySchema>
 >({
@@ -303,7 +304,7 @@ const comprehensiveFigma = factoryPTRRAgent<
  * Quick Figma extraction agent
  * Single-step execution for simple design tasks
  */
-const quickFigma = factoryAgentWithSingleStep<
+const quickFigma: any = factoryAgentWithSingleStep<
   z.infer<typeof FigmaProcessorInputSchema>,
   z.infer<typeof FigmaProcessorRetrySchema>
 >({

@@ -41,12 +41,18 @@
   },
   "scripts": {
     "build": "tsc --noEmit",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage --passWithNoTests"
+    "test:coverage": "jest --coverage --passWithNoTests",
+    "type-check": "pnpm run typecheck"
   },
-  "keywords": ["execution", "executor", "combinators", "async"],
+  "keywords": [
+    "execution",
+    "executor",
+    "combinators",
+    "async"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {

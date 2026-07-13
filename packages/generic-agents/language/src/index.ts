@@ -240,7 +240,7 @@ export const languageStepPrompts = {
  * Comprehensive language analysis agent
  * Uses full PTRR cycle for thorough analysis
  */
-const comprehensiveLanguage = factoryPTRRAgent<
+const comprehensiveLanguage: any = factoryPTRRAgent<
   z.infer<typeof LanguageInputSchema>,
   z.infer<typeof LanguageRetrySchema>
 >({
@@ -282,7 +282,7 @@ const comprehensiveLanguage = factoryPTRRAgent<
  * Quick language detection agent
  * Single-step execution for simple language tasks
  */
-const quickLanguageAgent = factoryAgentWithSingleStep<
+const quickLanguageAgent: any = factoryAgentWithSingleStep<
   z.infer<typeof LanguageInputSchema>,
   z.infer<typeof LanguageRetrySchema>
 >({

@@ -27,10 +27,13 @@ importers:
     devDependencies:
       '@modelcontextprotocol/inspector':
         specifier: ^0.17.2
-        version: 0.17.2(@types/node@25.6.0)(@types/react-dom@19.1.6(@types/react@18.3.23))(@types/react@18.3.23)(typescript@5.8.3)
+        version: 0.17.2(@types/node@20.19.41)(@types/react-dom@19.1.6(@types/react@18.3.23))(@types/react@18.3.23)(typescript@5.8.3)
       '@types/lodash':
         specifier: ^4.17.0
         version: 4.17.19
+      '@types/node':
+        specifier: ^20.19.41
+        version: 20.19.41
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.21.0
         version: 6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
@@ -618,8 +621,11 @@ importers:
   packages/email/supabase:
     dependencies:
       '@supabase/supabase-js':
-        specifier: ^2.0.0
+        specifier: ^2
         version: 2.50.2
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
     devDependencies:
       '@types/jest':
         specifier: ^29.0.0
@@ -1253,6 +1259,9 @@ importers:
       '@bitcode/generic-tools-lsp-query':
         specifier: workspace:*
         version: link:../../generic-tools/lsp-query
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
 
   packages/generic-agents/mcps-initializer: {}
 
@@ -2964,6 +2973,9 @@ importers:
       vscode-languageserver-textdocument:
         specifier: ^1.0.1
         version: 1.0.12
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
 
   packages/mcp-generics:
     devDependencies:
@@ -3049,7 +3061,11 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
-  packages/obfuscation: {}
+  packages/obfuscation:
+    dependencies:
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
 
   packages/observability:
     dependencies:
@@ -3071,12 +3087,18 @@ importers:
       '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
+      '@supabase/supabase-js':
+        specifier: ^2.0.0
+        version: 2.50.2
       '@vercel/analytics':
         specifier: ^1.0.0
         version: 1.5.0(@remix-run/react@2.16.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.3))(next@14.2.30(@babel/core@7.27.7)(@opentelemetry/api@1.9.0)(@playwright/test@1.53.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(svelte@5.38.0)(vue@3.5.18(typescript@5.8.3))
       ai:
         specifier: ^4.3.16
         version: 4.3.16(react@18.3.1)(zod@3.25.76)
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
 
   packages/orm:
     dependencies:
@@ -3549,6 +3571,9 @@ importers:
       '@bitcode/web-scrapers-firecrawl':
         specifier: workspace:*
         version: link:../../web-scrapers/firecrawl
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
 
   uapi:
     dependencies:
@@ -19547,7 +19572,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@modelcontextprotocol/inspector@0.17.2(@types/node@25.6.0)(@types/react-dom@19.1.6(@types/react@18.3.23))(@types/react@18.3.23)(typescript@5.8.3)':
+  '@modelcontextprotocol/inspector@0.17.2(@types/node@20.19.41)(@types/react-dom@19.1.6(@types/react@18.3.23))(@types/react@18.3.23)(typescript@5.8.3)':
     dependencies:
       '@modelcontextprotocol/inspector-cli': 0.17.2
       '@modelcontextprotocol/inspector-client': 0.17.2(@types/react-dom@19.1.6(@types/react@18.3.23))(@types/react@18.3.23)
@@ -19558,7 +19583,7 @@ snapshots:
       open: 10.2.0
       shell-quote: 1.8.3
       spawn-rx: 5.1.2
-      ts-node: 10.9.2(@types/node@25.6.0)(typescript@5.8.3)
+      ts-node: 10.9.2(@types/node@20.19.41)(typescript@5.8.3)
       zod: 3.25.76
     transitivePeerDependencies:
       - '@cfworker/json-schema'

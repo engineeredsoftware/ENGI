@@ -24,5 +24,9 @@
     "@bitcode/generic-artifacts-compose": "workspace:*",
     "@bitcode/supabase": "workspace:*",
     "@bitcode/external-telemetry-sentry": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

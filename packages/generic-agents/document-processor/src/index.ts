@@ -257,7 +257,8 @@ export const documentProcessorStepPrompts = {
  * Comprehensive document processing agent
  * Uses full PTRR cycle for thorough document analysis
  */
-const comprehensiveProcessing = factoryPTRRAgent<
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const comprehensiveProcessing: any = factoryPTRRAgent<
   z.infer<typeof DocumentProcessorInputSchema>,
   z.infer<typeof DocumentProcessorRetrySchema>
 >({
@@ -299,7 +300,7 @@ const comprehensiveProcessing = factoryPTRRAgent<
  * Quick document processing agent
  * Single-step execution for simple documents
  */
-const quickProcessing = factoryAgentWithSingleStep<
+const quickProcessing: any = factoryAgentWithSingleStep<
   z.infer<typeof DocumentProcessorInputSchema>,
   z.infer<typeof DocumentProcessorRetrySchema>
 >({

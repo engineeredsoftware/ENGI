@@ -290,7 +290,7 @@ export const digesterStepPrompts = {
  * Comprehensive digest generation agent
  * Uses full PTRR cycle for thorough repository analysis
  */
-const comprehensiveDigest = factoryPTRRAgent<
+const comprehensiveDigest: any = factoryPTRRAgent<
   z.infer<typeof DigesterInputSchema>,
   z.infer<typeof DigesterRetrySchema>
 >({
@@ -328,7 +328,7 @@ const comprehensiveDigest = factoryPTRRAgent<
  * Quick digest generation agent
  * Single-step execution for simple repositories
  */
-const quickDigest = factoryAgentWithSingleStep<
+const quickDigest: any = factoryAgentWithSingleStep<
   z.infer<typeof DigesterInputSchema>,
   z.infer<typeof DigesterRetrySchema>
 >({

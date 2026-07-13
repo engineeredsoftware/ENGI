@@ -9,8 +9,9 @@
     "./prepared-context": "./src/prepared-context.ts"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit",
-    "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests"
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests",
+    "type-check": "pnpm run typecheck"
   },
   "dependencies": {
     "@bitcode/generation-generics": "workspace:*",

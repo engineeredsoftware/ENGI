@@ -7,5 +7,9 @@
   "dependencies": {
     "@bitcode/tools-generics": "workspace:*",
     "@bitcode/externals-vercel": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "node ../../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

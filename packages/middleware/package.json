@@ -5,5 +5,9 @@
   "types": "src/index.ts",
   "dependencies": {
     "next": "^14.1.0"
+  },
+  "scripts": {
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

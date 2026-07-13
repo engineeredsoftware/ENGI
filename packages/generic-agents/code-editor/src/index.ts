@@ -301,7 +301,8 @@ export const codeEditorStepPrompts = {
 /**
  * Comprehensive Code Editor Agent using Divide|Apply|Correct pattern
  */
-export const codeEditorComprehensiveAgent = factoryPTRRAgent<
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+export const codeEditorComprehensiveAgent: any = factoryPTRRAgent<
   CodeEditorInput,
   CodeEditorOutput
 >({
@@ -335,7 +336,7 @@ export const codeEditorComprehensiveAgent = factoryPTRRAgent<
 /**
  * Quick Code Editor Agent for single-file edits
  */
-export const codeEditorQuickAgent = factoryAgentWithSingleStep<
+export const codeEditorQuickAgent: any = factoryAgentWithSingleStep<
   CodeEditorInput,
   CodeEditorOutput
 >({

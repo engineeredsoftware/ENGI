@@ -468,7 +468,7 @@ export const vcsStepPrompts = {
 /**
  * Comprehensive VCS Agent using full PTRR cycle
  */
-export const vcsComprehensiveAgent = factoryPTRRAgent<any, any>({
+export const vcsComprehensiveAgent: any = factoryPTRRAgent<any, any>({
   name: 'comprehensive-vcs',
   description: 'Complete VCS operation with validation and status tracking',
   prompt: vcsPrompt,
@@ -488,7 +488,7 @@ export const vcsComprehensiveAgent = factoryPTRRAgent<any, any>({
 /**
  * Quick VCS Agent for simple operations
  */
-export const vcsQuickAgent = factoryAgentWithSingleStep<VCSInput, VCSResult>({
+export const vcsQuickAgent: any = factoryAgentWithSingleStep<VCSInput, VCSResult>({
   name: 'quick-vcs',
   description: 'Fast VCS operation for simple tasks',
   execute: async (input, execution) => {

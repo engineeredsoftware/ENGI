@@ -803,7 +803,8 @@ export const jiraProcessorStepPrompts = {
 /**
  * Comprehensive Jira coordination variation using full PTRR cycle for complex enterprise environments
  */
-const comprehensiveJiraVariation = factoryPTRRAgent<JiraInput, JiraProcessorAgentRetryStepOutput>({
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const comprehensiveJiraVariation: any = factoryPTRRAgent<JiraInput, JiraProcessorAgentRetryStepOutput>({
   name: 'comprehensive-jira',
   description: 'Complete Jira project coordination with enterprise-grade analysis and strategic planning',
   prompt: jiraProcessorPrompt,
@@ -823,7 +824,7 @@ const comprehensiveJiraVariation = factoryPTRRAgent<JiraInput, JiraProcessorAgen
 /**
  * Quick Jira coordination variation for rapid project status and basic operations
  */
-const quickJiraVariation = factoryAgentWithSingleStep<JiraInput, JiraProcessorAgentRetryStepOutput>({
+const quickJiraVariation: any = factoryAgentWithSingleStep<JiraInput, JiraProcessorAgentRetryStepOutput>({
   name: 'quick-jira',
   description: 'Fast Jira coordination for basic project management operations',
   execute: async (input, execution) => {

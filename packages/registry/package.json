@@ -14,9 +14,16 @@
     "build": "tsc",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage --passWithNoTests"
+    "test:coverage": "jest --coverage --passWithNoTests",
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   },
-  "keywords": ["registry", "hierarchy", "configuration", "cascading"],
+  "keywords": [
+    "registry",
+    "hierarchy",
+    "configuration",
+    "cascading"
+  ],
   "author": "",
   "license": "ISC",
   "description": "Pure hierarchical registry primitive for cascading configuration",

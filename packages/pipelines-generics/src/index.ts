@@ -145,3 +145,11 @@ export {
   type PhaseConfig,
   type AgentStep
 } from './execution/PipelineExecutor';
+
+// Registry surfaces used by asset-packs-pipelines domain preprocess.
+export { PipelineLLMRegistry } from './execution/PipelineLLMRegistry';
+export { PipelinePromptRegistry } from './execution/PipelinePromptRegistry';
+export { PipelineToolRegistry } from './execution/PipelineToolRegistry';
+export { PipelineAgentRegistry } from './execution/PipelineAgentRegistry';
+// Class re-export for callers that need the concrete execution type symbol.
+export { PipelineExecution as PipelineExecutionClass } from './execution/PipelineExecution';

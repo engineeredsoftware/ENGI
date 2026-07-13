@@ -36,7 +36,6 @@
     },
     "./package.json": "./package.json"
   },
-  
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
@@ -44,7 +43,9 @@
     "benchmark": "tsx src/benchmarking/cli.ts benchmark",
     "benchmark:all": "tsx src/benchmarking/cli.ts benchmark:all",
     "benchmark:evolve": "tsx src/benchmarking/cli.ts benchmark:evolve",
-    "benchmark:report": "tsx src/benchmarking/cli.ts benchmark:report"
+    "benchmark:report": "tsx src/benchmarking/cli.ts benchmark:report",
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   },
   "keywords": [
     "prompts",

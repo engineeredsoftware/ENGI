@@ -217,7 +217,7 @@ export const bitcodeReadRiskAdmissionStepPrompts = {
 export const dangerWallPrompt = bitcodeReadRiskAdmissionPrompt;
 export const dangerWallStepPrompts = bitcodeReadRiskAdmissionStepPrompts;
 
-export const bitcodeReadRiskAdmissionVariation = factoryPTRRAgent<any, any>({
+export const bitcodeReadRiskAdmissionVariation: any = factoryPTRRAgent<any, any>({
   name: 'bitcode-read-risk-admission',
   description: 'Bitcode read, AssetPack, proof-gap, and delivery-mechanism risk admission for retained pipeline setup',
   prompt: bitcodeReadRiskAdmissionPrompt,
@@ -244,7 +244,7 @@ export const bitcodeReadRiskAdmissionVariation = factoryPTRRAgent<any, any>({
   }
 });
 
-export const quickBitcodeReadRiskAdmissionVariation = factoryAgentWithSingleStep<
+export const quickBitcodeReadRiskAdmissionVariation: any = factoryAgentWithSingleStep<
   BitcodeReadRiskAdmissionInput,
   BitcodeReadRiskAdmissionResult
 >({

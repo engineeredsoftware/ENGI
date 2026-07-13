@@ -243,7 +243,7 @@ export const codeSearcherStepPrompts = {
  * Comprehensive code search agent
  * Uses full PTRR cycle for thorough analysis
  */
-const comprehensiveSearch = factoryPTRRAgent<
+const comprehensiveSearch: any = factoryPTRRAgent<
   z.infer<typeof CodeSearchInputSchema>,
   z.infer<typeof CodeSearcherRetrySchema>
 >({
@@ -286,7 +286,7 @@ const comprehensiveSearch = factoryPTRRAgent<
  * Quick code search agent
  * Single-step execution for simple searches
  */
-const quickSearch = factoryAgentWithSingleStep<
+const quickSearch: any = factoryAgentWithSingleStep<
   z.infer<typeof CodeSearchInputSchema>,
   z.infer<typeof CodeSearcherRetrySchema>
 >({

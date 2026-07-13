@@ -10,5 +10,9 @@
   "exports": {
     ".": "./src/index.ts",
     "./generate-digest": "./src/generate-digest.ts"
+  },
+  "scripts": {
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

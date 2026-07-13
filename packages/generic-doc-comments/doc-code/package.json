@@ -24,8 +24,9 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "typecheck": "tsc -p tsconfig.typecheck.json --noEmit",
-    "transform": "ts-node scripts/apply-doc-code-transform.ts"
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "transform": "ts-node scripts/apply-doc-code-transform.ts",
+    "type-check": "pnpm run typecheck"
   },
   "keywords": [
     "documentation",

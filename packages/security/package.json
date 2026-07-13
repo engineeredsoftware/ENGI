@@ -20,5 +20,9 @@
     "@bitcode/security-error-handling": "workspace:*",
     "@bitcode/security-twilio": "workspace:*",
     "@bitcode/security-client": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

@@ -1,19 +1,26 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../../../tsconfig.typecheck.base.json",
   "compilerOptions": {
     "noEmit": true,
-    "rootDir": "../../../..",
-    "noUnusedLocals": false,
-    "noUnusedParameters": false
+    "skipLibCheck": true
   },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "../../../packages/_typecheck-shims/ambient-modules.d.ts"
+  ],
   "exclude": [
-    "dist",
     "node_modules",
-    "src/__tests__/**/*",
-    "src/tools/jira-tools.ts",
-    "src/tools/monitoring-tools.ts",
-    "src/tools/orchestration-tools.ts",
-    "src/**/*.test.ts",
-    "src/**/*.spec.ts"
+    "dist",
+    "coverage",
+    ".next",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/__tests__/**",
+    "**/__mocks__/**",
+    "src/tools/**",
+    "src/streaming/pipeline-stream.ts"
   ]
 }

@@ -10,7 +10,7 @@
     "dev": "tsc --watch",
     "test": "jest",
     "lint": "eslint src --ext .ts,.tsx",
-    "typecheck": "tsc -p tsconfig.typecheck.json --noEmit",
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
     "type-check": "pnpm run typecheck"
   },
   "dependencies": {

@@ -280,7 +280,7 @@ async function detectXverseProvider(): Promise<Extract<BitcoinWalletProvider, { 
     const satsConnectModule = await import('sats-connect');
     // Jest/CJS interop: dynamic import may nest the module under `.default`.
     const satsConnect =
-      (satsConnectModule as { default?: typeof satsConnectModule }).default ??
+      (satsConnectModule as unknown as { default?: typeof satsConnectModule }).default ??
       satsConnectModule;
     const getProviders = (satsConnect as { getProviders?: () => unknown }).getProviders;
     const providers =

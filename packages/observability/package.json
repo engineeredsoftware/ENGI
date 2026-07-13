@@ -28,8 +28,14 @@
     "@bitcode/external-telemetry-sentry": "workspace:*",
     "@bitcode/external-telemetry-google": "workspace:*",
     "@bitcode/external-telemetry-vercel": "workspace:*",
-    "@bitcode/api": "workspace:*"
+    "@bitcode/api": "workspace:*",
+    "zod": "^3.22.4",
+    "@supabase/supabase-js": "^2.0.0"
   },
   "devDependencies": {},
-  "peerDependencies": {}
+  "peerDependencies": {},
+  "scripts": {
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
+  }
 }

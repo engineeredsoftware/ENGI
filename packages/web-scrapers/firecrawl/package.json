@@ -11,5 +11,9 @@
   "dependencies": {
     "@bitcode/logger": "workspace:*",
     "@mendable/firecrawl-js": "^1.0.0"
+  },
+  "scripts": {
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
   }
 }

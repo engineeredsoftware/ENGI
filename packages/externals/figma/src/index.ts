@@ -22,6 +22,7 @@ export type {
  */
 
 import { FigmaClient } from './client';
+import { FigmaConnections } from './connections';
 import type { FigmaAuthConfig, FigmaFileRef, FigmaImageOptions } from './types';
 
 /**

@@ -1,0 +1,30 @@
+{
+  "extends": "../../../tsconfig.typecheck.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "../../../packages/_typecheck-shims/ambient-modules.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage",
+    ".next",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/__tests__/**",
+    "**/__mocks__/**",
+    "src/index.ts",
+    "src/prompts/agent-prompt-digester.ts",
+    "src/prompts/plan-prompt-digester.ts",
+    "src/prompts/refine-prompt-digester.ts",
+    "src/prompts/retry-prompt-digester.ts",
+    "src/prompts/try-prompt-digester.ts"
+  ]
+}

@@ -16,5 +16,9 @@
   "files": [
     "src"
   ],
-  "license": "SEE LICENSE IN root"
+  "license": "SEE LICENSE IN root",
+  "scripts": {
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
+  }
 }

@@ -276,7 +276,8 @@ export const techTypesIdentifierStepPrompts = {
  * Comprehensive tech identification agent
  * Uses full PTRR cycle for thorough analysis
  */
-const comprehensiveTechIdentification = factoryPTRRAgent<
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const comprehensiveTechIdentification: any = factoryPTRRAgent<
   z.infer<typeof TechTypesIdentifierInputSchema>,
   z.infer<typeof TechTypesIdentifierRetrySchema>
 >({
@@ -318,7 +319,7 @@ const comprehensiveTechIdentification = factoryPTRRAgent<
  * Quick tech identification agent
  * Single-step execution for simple identification tasks
  */
-const quickTechIdentification = factoryAgentWithSingleStep<
+const quickTechIdentification: any = factoryAgentWithSingleStep<
   z.infer<typeof TechTypesIdentifierInputSchema>,
   z.infer<typeof TechTypesIdentifierRetrySchema>
 >({

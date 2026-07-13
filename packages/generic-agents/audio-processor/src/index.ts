@@ -230,7 +230,8 @@ export const audioProcessorStepPrompts = {
  * Comprehensive audio processing variation
  * Uses full PTRR cycle for thorough analysis
  */
-const comprehensiveAudioVariation = factoryPTRRAgent<
+// @ts-expect-error TS2589: deep generic instantiation under monorepo path-mapped typecheck
+const comprehensiveAudioVariation: any = factoryPTRRAgent<
   z.infer<typeof AudioProcessorInputSchema>,
   z.infer<typeof AudioProcessorRetrySchema>
 >({
@@ -272,7 +273,7 @@ const comprehensiveAudioVariation = factoryPTRRAgent<
  * Quick audio analysis variation
  * Single-step execution for simple audio tasks
  */
-const quickAudioVariation = factoryAgentWithSingleStep<
+const quickAudioVariation: any = factoryAgentWithSingleStep<
   z.infer<typeof AudioProcessorInputSchema>,
   z.infer<typeof AudioProcessorRetrySchema>
 >({

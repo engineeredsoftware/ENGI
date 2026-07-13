@@ -20,12 +20,13 @@
     "test:dry-run": "DRY_RUN_MODE=true npm run test:mcp",
     "test:report": "npm run test:mcp:ci && echo 'Test reports available in tmp/test-reports/'",
     "lint": "eslint src --ext .ts,.tsx",
-    "type-check": "tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck",
     "docs:generate": "tsx src/docs/mcp-spec-generator.ts",
     "docs:openapi": "tsx src/docs/openapi-build.ts",
     "docs:serve": "http-server docs/mcp -p 8080 -o",
     "docs:build": "npm run docs:generate && npm run docs:openapi && npm run docs:serve",
-    "prepublishOnly": "npm run build && npm run docs:generate && npm run docs:openapi"
+    "prepublishOnly": "npm run build && npm run docs:generate && npm run docs:openapi",
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit"
   },
   "dependencies": {
     "@bitcode/pipelines-generics": "workspace:*",
@@ -63,7 +64,7 @@
   },
   "keywords": [
     "mcp",
-    "model-context-protocol", 
+    "model-context-protocol",
     "ai",
     "engineering",
     "pipelines",

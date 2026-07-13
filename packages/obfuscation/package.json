@@ -7,5 +7,12 @@
   "description": "Code obfuscation primitives (packages/obfuscation)",
   "exports": {
     ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
   }
 }

@@ -39,14 +39,15 @@
   ],
   "devDependencies": {
     "@modelcontextprotocol/inspector": "^0.17.2",
+    "@types/lodash": "^4.17.0",
+    "@types/node": "^20.19.41",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.57.1",
     "eslint-plugin-bitcode": "workspace:*",
     "eslint-plugin-react-hooks": "^7.1.1",
     "playwright": "^1.31.0",
-    "typescript": "^5.8.3",
-    "@types/lodash": "^4.17.0"
+    "typescript": "^5.8.3"
   },
   "pnpm": {
     "overrides": {
@@ -583,12 +584,13 @@
     "check:v37-gate9": "node scripts/check-v37-gate9-conversation-rehearsal.mjs",
     "generate:v37-promotion-readiness": "node scripts/generate-v37-promotion-readiness-report.mjs",
     "check:v37-promotion-readiness": "node scripts/generate-v37-promotion-readiness-report.mjs --check",
-    "check:v37-gate10": "node scripts/check-v37-gate10-promotion-readiness.mjs"
+    "check:v37-gate10": "node scripts/check-v37-gate10-promotion-readiness.mjs",
+    "typecheck:all": "node scripts/typecheck-all-packages.mjs"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "clsx": "2.1.1",
-    "tailwind-merge": "2.5.2",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "tailwind-merge": "2.5.2"
   }
 }

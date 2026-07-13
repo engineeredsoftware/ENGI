@@ -1,13 +1,24 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../../../tsconfig.typecheck.base.json",
   "compilerOptions": {
     "noEmit": true,
-    "rootDir": "../../..",
-    "composite": false
+    "skipLibCheck": true
   },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "../../../packages/_typecheck-shims/ambient-modules.d.ts"
+  ],
   "exclude": [
     "node_modules",
     "dist",
-    "**/*.test.ts"
+    "coverage",
+    ".next",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/__tests__/**",
+    "**/__mocks__/**"
   ]
 }
