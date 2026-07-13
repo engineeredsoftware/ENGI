@@ -33,6 +33,7 @@ deposits/
       use-deposit-synthesis-activity.ts
       use-deposit-option-actions.ts
       use-deposit-activity-recording.ts
+      use-deposit-synthesis-lifecycle.ts
   DepositSourceSelection/
     DepositSourceSelection.tsx
     DepositSourceListRefreshButton.tsx

@@ -1367,6 +1367,7 @@ activity hooks); option cards still nested in `DepositAssetPackOptions`.
 | VCS inventory hook | `DepositSourceSelection/hooks/use-deposit-source-vcs.ts` |
 | Option review/admission | `DepositPageClient/hooks/use-deposit-option-actions.ts` |
 | Activity ledger record/anchor | `DepositPageClient/hooks/use-deposit-activity-recording.ts` |
+| Synthesis lifecycle (resume/adopt/dispatch) | `DepositPageClient/hooks/use-deposit-synthesis-lifecycle.ts` |
 
 ### Phase 6 landing (executions corridor)
 

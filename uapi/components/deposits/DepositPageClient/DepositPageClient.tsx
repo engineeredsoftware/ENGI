@@ -26,6 +26,7 @@ import { useDepositNetworkDepositoryCount } from "./hooks/use-deposit-network-de
 import { useDepositUrlNavigation } from "./hooks/use-deposit-url-navigation";
 import { useDepositOptionActions } from "./hooks/use-deposit-option-actions";
 import { useDepositActivityRecording } from "./hooks/use-deposit-activity-recording";
+import { useDepositSynthesisLifecycle } from "./hooks/use-deposit-synthesis-lifecycle";
 import { DepositRouteStateAside } from "@/components/deposits/DepositRouteStateAside/DepositRouteStateAside";
 import { DepositPipelinesMaster } from "@/components/deposits/DepositPipelinesMaster/DepositPipelinesMaster";
 import { DepositSynthesisTelemetry } from "@/components/deposits/DepositSynthesisTelemetry/DepositSynthesisTelemetry";
@@ -54,7 +55,6 @@ import {
 import { BitcodeShellBridgeProvider } from "@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge";
 import {
   buildDepositRouteSession,
-  writeDepositRouteStage,
 } from "@/components/deposits/models/deposit-route-model";
 import {
   DEPOSIT_HEADER_METRIC_EXPLAINERS,
@@ -81,10 +81,6 @@ import {
 import { buildDepositSourceCriticalitySignals } from "@/components/deposits/models/deposit-source-criticality";
 import { buildDepositRouteInput } from "@/components/deposits/models/deposit-route-input-builder";
 import { resolvePreferredSignerAddress } from "@/components/deposits/models/deposit-preferred-signer";
-import {
-  adoptSelectionStatusFromRun,
-  synthesisStatusFromRunRow,
-} from "@/components/deposits/models/deposit-run-status";
 
 export default function DepositPageClient() {
   const { user } = useAuth();
@@ -179,7 +175,6 @@ export default function DepositPageClient() {
 
   const synthesizeOptionsRef = useRef<(() => Promise<void>) | null>(null);
   const synthesisTelemetryRef = useRef<HTMLElement | null>(null);
-  const lastAdoptedSelectionIdRef = useRef<string | null>(null);
   const lastTrackedSourceRef = useRef<string | null>(null);
 
   const closePipelineDetail = useCallback(() => {
@@ -356,178 +351,43 @@ export default function DepositPageClient() {
     refreshLiveRuns,
   });
 
-  // Resume synthesized options when a dispatched/adopted run completes.
-  useEffect(() => {
-    if (
-      (synthesisStatus !== "running" && synthesisStatus !== "complete") ||
-      !synthesisRunId ||
-      realSynthesis
-    ) {
-      return;
-    }
-    if (
-      synthesisActivity.error &&
-      (synthesisExecutionMatchesRun || synthesisStreamError)
-    ) {
-      setSynthesisStatus("failed");
-      setSynthesisError(synthesisActivity.error);
-      if (synthesisDispatchedAtMs !== null) {
-        trackProductEvent({
-          name: "deposit_synthesis_failed",
-          data: {
-            stage: "run",
-            durationMs: Date.now() - synthesisDispatchedAtMs,
-          },
-        });
-      }
-      return;
-    }
-    if (!synthesisExecutionMatchesRun) return;
-    const rowCompleted =
-      String(
-        (synthesisExecution as { status?: string } | null)?.status || "",
-      ).toLowerCase() === "completed";
-    if (!synthesisActivity.isStreamingComplete && !rowCompleted) return;
-    if (!synthesisRunExpectsOptions) {
-      setSynthesisStatus("complete");
-      return;
-    }
-    let cancelled = false;
-    void (async () => {
-      try {
-        const res = await fetch(`/api/executions/history/${synthesisRunId}`);
-        const data = await res.json().catch(() => null);
-        const output = data?.run?.output as
-          | { depositOptionSynthesis?: unknown; reviewProjections?: unknown }
-          | undefined;
-        const synthesis = output?.depositOptionSynthesis;
-        if (!res.ok || !synthesis) {
-          throw new Error("Synthesized options were not found for this run.");
-        }
-        if (cancelled) return;
-        setRealSynthesis({
-          synthesis: synthesis as NonNullable<typeof realSynthesis>["synthesis"],
-          reviewProjections: Array.isArray(output?.reviewProjections)
-            ? (output!.reviewProjections as NonNullable<
-                typeof realSynthesis
-              >["reviewProjections"])
-            : [],
-        });
-        setOptionsRequested(true);
-        setSynthesisStatus("complete");
-        if (synthesisDispatchedAtMs !== null) {
-          const options = (synthesis as { options?: unknown[] }).options;
-          trackProductEvent({
-            name: "deposit_synthesis_completed",
-            data: {
-              optionCount: Array.isArray(options) ? options.length : 0,
-              durationMs: Date.now() - synthesisDispatchedAtMs,
-            },
-          });
-        }
-        replaceDepositSearchParams(
-          writeDepositRouteStage(readCurrentSearchParams(), "review-options"),
-        );
-        void refreshLiveRuns();
-      } catch (error) {
-        if (cancelled) return;
-        setSynthesisStatus("failed");
-        setSynthesisError(
-          error instanceof Error
-            ? error.message
-            : "Synthesis result not found.",
-        );
-        if (synthesisDispatchedAtMs !== null) {
-          trackProductEvent({
-            name: "deposit_synthesis_failed",
-            data: {
-              stage: "resume",
-              durationMs: Date.now() - synthesisDispatchedAtMs,
-            },
-          });
-        }
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [
+  const { handleSynthesizeOptions } = useDepositSynthesisLifecycle({
     synthesisStatus,
+    setSynthesisStatus,
     synthesisRunId,
-    synthesisRunExpectsOptions,
+    setSynthesisRunId,
     realSynthesis,
-    synthesisActivity.isStreamingComplete,
-    synthesisActivity.error,
-    synthesisDispatchedAtMs,
-    synthesisExecution,
+    setRealSynthesis,
+    synthesisActivity,
     synthesisExecutionMatchesRun,
     synthesisStreamError,
+    synthesisExecution,
+    synthesisDispatchedAtMs,
+    setSynthesisDispatchedAtMs,
+    setSynthesisError,
+    synthesisRunExpectsOptions,
+    setSynthesisRunExpectsOptions,
+    setOptionsRequested,
+    setSynthesisLogScrolled,
+    liveRuns,
+    selectedRun,
     readCurrentSearchParams,
-    refreshLiveRuns,
     replaceDepositSearchParams,
-  ]);
+    replaceDepositRouteTransaction,
+    refreshLiveRuns,
+    obfuscations,
+    forcedInclusions,
+    forcedExclusions,
+    repositoryContext,
+    depositoryDemandSignals: depositRouteInput.depositoryDemandSignals,
+    readingDemandSignals: depositRouteInput.readingDemandSignals,
+    existingDepositorySignals: depositRouteInput.existingDepositorySignals,
+    synthesizeOptionsRef,
+    synthesisTelemetryRef,
+  });
 
-  // Row-status reconciliation when SSE is quiet but the row is terminal.
-  useEffect(() => {
-    if (synthesisStatus !== "running" || !synthesisRunId) return;
-    const run = liveRuns.find((candidate) => candidate.id === synthesisRunId);
-    if (!run) return;
-    const mapped = synthesisStatusFromRunRow(run);
-    if (mapped.status === "running") return;
-    setSynthesisStatus(mapped.status);
-    setSynthesisError(mapped.error);
-    if (synthesisDispatchedAtMs === null) return;
-    if (mapped.status === "cancelled") {
-      trackProductEvent({
-        name: "deposit_synthesis_cancelled",
-        data: { durationMs: Date.now() - synthesisDispatchedAtMs },
-      });
-    } else if (mapped.status === "failed") {
-      trackProductEvent({
-        name: "deposit_synthesis_failed",
-        data: {
-          stage: "run",
-          durationMs: Date.now() - synthesisDispatchedAtMs,
-        },
-      });
-    }
-  }, [liveRuns, synthesisDispatchedAtMs, synthesisRunId, synthesisStatus]);
-
-  useEffect(() => {
-    if (synthesisStatus !== "running" || !synthesisRunId) return;
-    const interval = window.setInterval(() => {
-      void refreshLiveRuns();
-    }, 15_000);
-    return () => window.clearInterval(interval);
-  }, [refreshLiveRuns, synthesisRunId, synthesisStatus]);
-
-  // Master-detail adoption from URL selection.
-  useEffect(() => {
-    const run = selectedRun;
-    if (!run?.id) {
-      lastAdoptedSelectionIdRef.current = null;
-      return;
-    }
-    if (lastAdoptedSelectionIdRef.current === run.id) return;
-    lastAdoptedSelectionIdRef.current = run.id;
-    if (run.id === synthesisRunId) return;
-    if (synthesisDispatchedAtMs !== null && synthesisStatus === "running") {
-      return;
-    }
-    setSynthesisRunId(run.id);
-    setSynthesisRunExpectsOptions(
-      run.contextSource === "deposit-option-synthesis",
-    );
-    setSynthesisDispatchedAtMs(null);
-    setSynthesisLogScrolled(false);
-    setRealSynthesis(null);
-    setSynthesisError(null);
-    setOptionsRequested(false);
-    const mapped = adoptSelectionStatusFromRun(run);
-    setSynthesisStatus(mapped.status);
-    setSynthesisError(mapped.error);
-  }, [selectedRun, synthesisRunId, synthesisDispatchedAtMs, synthesisStatus]);
-
+  // Funnel analytics: one source-safe event per distinct repository selection
+  // per mount — provider + pin shape only, never the repository name.
   useEffect(() => {
     const fullName = repositoryContext?.selectedRepository?.fullName || null;
     if (!fullName || lastTrackedSourceRef.current === fullName) return;
@@ -570,111 +430,6 @@ export default function DepositPageClient() {
     setObfuscationsAnchorMessage,
     setIsObfuscationsAnchorPopoverOpen,
   });
-
-  const handleSynthesizeOptions = useCallback(
-    async (instructionsOverride?: string) => {
-      const effectiveInstructions =
-        typeof instructionsOverride === "string" && instructionsOverride.trim()
-          ? instructionsOverride
-          : obfuscations;
-      setSynthesisStatus("running");
-      setSynthesisError(null);
-      setRealSynthesis(null);
-      const runId =
-        typeof crypto !== "undefined" && "randomUUID" in crypto
-          ? crypto.randomUUID()
-          : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-      setSynthesisRunId(runId);
-      setSynthesisRunExpectsOptions(true);
-      setSynthesisDispatchedAtMs(Date.now());
-      setSynthesisLogScrolled(false);
-
-      try {
-        const response = await fetch("/api/deposit/synthesize-options", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            runId,
-            repositoryFullName:
-              repositoryContext?.selectedRepository?.fullName || null,
-            sourceBranch: repositoryContext?.selectedBranch || null,
-            sourceCommit: repositoryContext?.selectedCommit || null,
-            obfuscations: effectiveInstructions,
-            forcedInclusions,
-            forcedExclusions,
-            demandContext: [
-              ...depositRouteInput.depositoryDemandSignals.map(
-                (signal) => signal.label,
-              ),
-              ...depositRouteInput.readingDemandSignals.map(
-                (signal) => signal.label,
-              ),
-            ],
-            depositoryDemandSignals: depositRouteInput.depositoryDemandSignals,
-            readingDemandSignals: depositRouteInput.readingDemandSignals,
-            existingDepositorySignals:
-              depositRouteInput.existingDepositorySignals,
-          }),
-        });
-        const payload = await response.json().catch(() => null);
-        if (!response.ok || !payload?.ok) {
-          throw new Error(
-            typeof payload?.error === "string"
-              ? payload.error
-              : "Deposit option synthesis failed.",
-          );
-        }
-        trackProductEvent({
-          name: "deposit_synthesis_dispatched",
-          data: {
-            hasObfuscations: Boolean(effectiveInstructions.trim()),
-            forcedInclusionCount: forcedInclusions.length,
-            forcedExclusionCount: forcedExclusions.length,
-            demandSignalCount:
-              depositRouteInput.depositoryDemandSignals.length +
-              depositRouteInput.readingDemandSignals.length,
-          },
-        });
-        void refreshLiveRuns().then(() => {
-          replaceDepositRouteTransaction(runId);
-        });
-      } catch (error) {
-        setSynthesisStatus("failed");
-        setSynthesisError(
-          error instanceof Error
-            ? error.message
-            : "Deposit option synthesis failed.",
-        );
-        trackProductEvent({
-          name: "deposit_synthesis_failed",
-          data: { stage: "dispatch", durationMs: null },
-        });
-      }
-    },
-    [
-      obfuscations,
-      depositRouteInput.depositoryDemandSignals,
-      depositRouteInput.existingDepositorySignals,
-      depositRouteInput.readingDemandSignals,
-      forcedExclusions,
-      refreshLiveRuns,
-      replaceDepositRouteTransaction,
-      repositoryContext,
-      forcedInclusions,
-    ],
-  );
-
-  useEffect(() => {
-    synthesizeOptionsRef.current = handleSynthesizeOptions;
-  }, [handleSynthesizeOptions]);
-
-  useEffect(() => {
-    if (!synthesisRunId || synthesisDispatchedAtMs === null) return;
-    synthesisTelemetryRef.current?.scrollIntoView?.({
-      behavior: "smooth",
-      block: "start",
-    });
-  }, [synthesisRunId, synthesisDispatchedAtMs]);
 
   const {
     handleOptionReviewDecision,
