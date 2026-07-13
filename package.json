@@ -19,6 +19,7 @@
     "packages/generic-hosts/*",
     "packages/generic-mcps/*",
     "packages/asset-packs/*",
+    "packages/generic-asset-packs/*",
     "packages/asset-packs-pipelines/*",
     "packages/generic-doc-comment-plugins/*",
     "packages/pipelines/*",

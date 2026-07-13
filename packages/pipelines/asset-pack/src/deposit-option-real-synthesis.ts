@@ -13,6 +13,10 @@
  */
 
 import {
+  buildMeasuredPatchAssetPack,
+  measuredPatchToDepositContents,
+} from '@bitcode/generic-asset-packs-measured-patch';
+import {
   applyExclusionsToInventory,
   applyInventoryScope,
   isPathExcluded,
@@ -174,9 +178,8 @@ export function buildRealDepositAssetPackOptionSynthesis(
       btdMintBoundary: 'not-minted-by-deposit-option' as const,
       settlementBoundary: 'future-reader-settlement-required-for-source-bearing-assetpack' as const,
     };
-    // Deposit neediness preview (v0): carry the read-demand estimate the
-    // depository-search lens produced for this candidate (computed by
-    // validateDepositSynthesisOptions). Null when no signal was produced.
+    // Deposit neediness preview (v0): carry the read-demand estimate produced for
+    // this candidate (validateDepositSynthesisOptions). Null when unestimated.
     const neediness = candidate.neediness
       ? {
           volume: candidate.neediness.volume,
@@ -185,16 +188,36 @@ export function buildRealDepositAssetPackOptionSynthesis(
           rationale: candidate.neediness.rationale,
         }
       : null;
-    // The deposit-decision payload: what Bitcode RECEIVES if deposited — the
-    // synthesized AP contents (source-safe patch descriptor) + the provenant source
-    // (covered files). Shown to the depositor; source-safe (path+op + summary + the
-    // depositor's own paths).
-    const contents = {
-      patchSummary: candidate.patch?.patchSummary ?? '',
-      fileChanges: (candidate.patch?.fileChanges ?? []).map((fc) => ({ path: fc.path, op: fc.op })),
+    // Project through MeasuredPatchAssetPack (only AP base) → deposit contents
+    // (path+op patch + provenant paths; never raw source).
+    const measuredPack = buildMeasuredPatchAssetPack({
+      assetPackId: optionId,
+      title: candidate.title,
+      summary: candidate.summary,
+      repositoryFullName,
+      sourceBranch,
+      sourceCommit,
+      sourcePathRoots: candidate.coveredSourcePaths,
+      patchSummary: candidate.patch?.patchSummary ?? candidate.summary,
+      fileChanges: (candidate.patch?.fileChanges ?? []).map((fc) => ({
+        path: fc.path,
+        op: fc.op,
+      })),
+      measurements: measurements.map((m) => ({
+        id: m.id,
+        label: m.label,
+        measurementKind: m.measurementKind,
+        weight: m.weight,
+        volume: m.volume,
+        category: m.category,
+        magnitude: m.magnitude,
+        unit: m.unit,
+        evidenceRoot: m.evidenceRoot,
+      })),
+      neediness,
       provenantSourcePaths: candidate.coveredSourcePaths,
-      provenantSourceCount: candidate.coveredSourcePaths.length,
-    };
+    });
+    const contents = measuredPatchToDepositContents(measuredPack);
     const optionBase = {
       optionId,
       kind: candidateKind(candidate),

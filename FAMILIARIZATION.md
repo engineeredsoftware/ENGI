@@ -190,7 +190,27 @@ inside `agent-generics` until inverted onto pure Execution + LLM registry.
 | Base + primitive | `PTRRAgent` | `factoryPTRRAgent` (`factoryAgentWithPTRR` BC) |
 | Specific | product agents | specialized configs over `factoryPTRRAgent` |
 
+### 3.1.3 AssetPacks (primitive → measured-patch)
+
+```
+@bitcode/asset-pack-generics                      AssetPack primitive (protocol minimum)
+        ↑
+@bitcode/generic-asset-packs-measured-patch       MeasuredPatchAssetPack (only AP base)
+        ↑
+@bitcode/asset-packs-pipelines-*                  synthesize-deposits / -reads / settle-reads
+@bitcode/pipeline-asset-pack                      agents, tools, deposit options helpers
+```
+
+Package paths: `packages/asset-pack-generics/`, `packages/generic-asset-packs/measured-patch/`.
+
+| Layer | Type | Role |
+| --- | --- | --- |
+| Primitive | `AssetPack` | identity + source binding + patch descriptor + delivery |
+| Base | `MeasuredPatchAssetPack` | + measurements, neediness, provenant paths |
+| Product | deposit options / pipeline outputs | project from MeasuredPatchAssetPack |
+
 ### 3.2.0 VCS
+
 
 ```
 @bitcode/vcs-generics                      VCS primitives (AbstractVCSProvider, factory, service)

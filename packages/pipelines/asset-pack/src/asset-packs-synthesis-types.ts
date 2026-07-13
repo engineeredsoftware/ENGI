@@ -1,12 +1,17 @@
 /**
- * AssetPacksSynthesis domain types (lens, inventory, candidates, results).
+ * AssetPacksSynthesis domain types (inventory, candidates, results).
  *
  * Shared by the public barrel, formal pipeline, deposit validation, and option
  * projection. No runtime logic — pure type surface for the synthesis core.
+ *
+ * Pack/patch primitives: @bitcode/asset-pack-generics
+ * Measured pack base: @bitcode/generic-asset-packs-measured-patch
  */
 
 import type { Execution } from '@bitcode/execution-generics/Execution';
 import type { MeasurementSpec } from '@bitcode/measurement-generics';
+import type { AssetPackPatchDescriptor } from '@bitcode/asset-pack-generics';
+import type { MeasuredPatchNeedinessPreview } from '@bitcode/generic-asset-packs-measured-patch';
 
 export type AssetPacksSynthesisLens = 'deposit' | 'read';
 
@@ -95,28 +100,14 @@ export interface AssetPackCandidateMeasurement {
 }
 
 /**
- * Neediness — deposit-lens PREVIEW of read Need-fit (v0). SEPARATE from the
+ * Neediness — deposit PREVIEW of read Need-fit (v0). SEPARATE from the
  * absolute deposit composite. Source-safe: scalars + topic-level rationale only.
+ * Aligned with MeasuredPatchNeedinessPreview (measured-patch base).
  */
-export interface AssetPackNeediness {
-  /** Computed 0..1 = demand × (0.5 + 0.5·(1−saturation)). */
-  volume: number;
-  /** 0..1 estimated reading demand for the pack's knowledge. */
-  demand: number;
-  /** 0..1 how much the Depository already supplies the topic. */
-  saturation: number;
-  /** Source-safe rationale for the demand/saturation estimate. */
-  rationale: string;
-}
+export type AssetPackNeediness = MeasuredPatchNeedinessPreview;
 
-/**
- * Source-safe patch descriptor — synthesized AssetPack CONTENTS the depositor
- * reviews. NEVER raw source/code.
- */
-export interface AssetPackPatchDescriptor {
-  fileChanges: Array<{ path: string; op: string }>;
-  patchSummary: string;
-}
+/** Source-safe patch descriptor (protocol primitive; never raw source). */
+export type { AssetPackPatchDescriptor };
 
 export interface AssetPackCandidate {
   kind: string;

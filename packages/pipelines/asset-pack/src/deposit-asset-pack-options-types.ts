@@ -3,7 +3,13 @@
  *
  * Schema contracts for source-safe deposit options shown on /deposits before
  * depositor approval, admission, or BTD mint. No builders live here.
+ *
+ * Pack contents project from MeasuredPatchAssetPack
+ * (@bitcode/generic-asset-packs-measured-patch) — the only AssetPack base used
+ * by product pipelines. Protocol primitives: @bitcode/asset-pack-generics.
  */
+
+import type { MeasuredPatchNeedinessPreview } from '@bitcode/generic-asset-packs-measured-patch';
 
 export type DepositAssetPackOptionKind =
   | 'capability-slice'
@@ -87,15 +93,10 @@ export interface DepositAssetPackOption {
     provenantSourcePaths: string[];
     provenantSourceCount: number;
   } | null;
-  // Deposit neediness PREVIEW (v0): the read-demand estimate (0..1) — the
+  // Deposit neediness PREVIEW (v0): MeasuredPatchNeedinessPreview — the
   // deposit-side preview of read Need-fit / earning potential. Separate from the
   // absolute `measurements` composite; absent (null) when no signal was produced.
-  neediness?: {
-    volume: number;
-    demand: number;
-    saturation: number;
-    rationale: string;
-  } | null;
+  neediness?: MeasuredPatchNeedinessPreview | null;
   reviewBoundary: {
     state: DepositAssetPackOptionReviewState;
     decision: 'pending-depositor-review';

@@ -74,6 +74,33 @@ export { normalizeAssetPackOutput, buildAssetPackPostprocessedResult } from './p
 
 export * from './depositor-earning-supply-intelligence';
 
+// AssetPack hierarchy (prefer these packages directly for new code)
+export type {
+  AssetPack,
+  AssetPackId,
+  AssetPackIdentity,
+  AssetPackSourceBinding,
+  AssetPackPatchDescriptor,
+  AssetPackPatchFileChange,
+  AssetPackDeliveryMechanism,
+} from '@bitcode/asset-pack-generics';
+export {
+  ASSET_PACK_SCHEMA_PREFIX,
+  assertAssetPackId,
+  createAssetPackSourceBinding,
+  createAssetPackPatchDescriptor,
+} from '@bitcode/asset-pack-generics';
+export type {
+  MeasuredPatchAssetPack,
+  MeasuredPatchMeasurement,
+  MeasuredPatchNeedinessPreview,
+} from '@bitcode/generic-asset-packs-measured-patch';
+export {
+  MEASURED_PATCH_ASSET_PACK_SCHEMA,
+  buildMeasuredPatchAssetPack,
+  measuredPatchToDepositContents,
+} from '@bitcode/generic-asset-packs-measured-patch';
+
 // ==================== FACTORIES ====================
 
 function storePreprocessedSnapshot(

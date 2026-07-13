@@ -217,6 +217,8 @@ packages/generic-<family>/          # README only (no package.json)
 | `generic-hosts/` | `Local/`, `VercelSandbox/` | `@bitcode/generic-hosts-*` |
 | `mcp-generics/` | (package root) | `@bitcode/mcp-generics` |
 | `generic-mcps/` | `bitcode/` | `@bitcode/generic-mcps-bitcode` |
+| `asset-pack-generics/` | (package root) | `@bitcode/asset-pack-generics` |
+| `generic-asset-packs/` | `measured-patch/` | `@bitcode/generic-asset-packs-measured-patch` |
 | `asset-packs/` | `synthesis/`, `settle/` | `@bitcode/asset-packs-synthesis`, `-settle` |
 | `generic-doc-comment-plugins/` | `doc-developing/` | `@bitcode/doc-comment-developing` |
 
