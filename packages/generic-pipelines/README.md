@@ -8,17 +8,22 @@ Base pipeline implementations that extend `@bitcode/pipelines-generics` primitiv
 Pipeline                                    # primitive (@bitcode/pipelines-generics)
         ↑
 SDIVFPipeline                               # base + primitive (@bitcode/generic-pipelines-sdivf)
+SimplePipeline                              # base + primitive (@bitcode/generic-pipelines-simple)
         ↑
-SynthesizeAssetPacksSDIVFPipeline           # specific + base + primitive (pipeline-asset-pack)
-SettleAssetPacksSDIVFPipeline               # future product
+SynthesizeDepositsSDIVFPipeline             # asset-packs-pipelines/synthesize-deposits
+SynthesizeReadsSDIVFPipeline                # asset-packs-pipelines/synthesize-reads
+SettleReadsSimplePipeline                   # asset-packs-pipelines/settle-reads
 ```
 
+Parity with agents: **SimplePipeline** is to **SDIVFPipeline** as **QuickAgent** is to **PTRRAgent**.
+
 ```
-@bitcode/pipelines-generics          # factoryPipeline → Pipeline
+@bitcode/pipelines-generics             # factoryPipeline → Pipeline
         ↑
-@bitcode/generic-pipelines-sdivf     # factorySDIVFPipeline / FromExecutors → SDIVFPipeline
+@bitcode/generic-pipelines-sdivf        # factorySDIVFPipeline → SDIVFPipeline
+@bitcode/generic-pipelines-simple       # factorySimplePipeline → SimplePipeline
         ↑
-@bitcode/pipeline-asset-pack         # factorySynthesizeAssetPacksSDIVFPipeline
+@bitcode/asset-packs-pipelines-*        # product synthesis / settle pipelines
 ```
 
 ## Packages
@@ -26,12 +31,13 @@ SettleAssetPacksSDIVFPipeline               # future product
 | Path | Package name | Role |
 | --- | --- | --- |
 | `SDIVF/` | `@bitcode/generic-pipelines-sdivf` | `SDIVFPipeline` base (Setup-[DIV]*-Finish) |
+| `Simple/` | `@bitcode/generic-pipelines-simple` | `SimplePipeline` base (linear stages) |
 
-Product pipelines supply phase agents/executors; they do not reimplement the DIV loop.
+Product pipelines supply stage/phase agents; they do not reimplement base loops.
 **Naming law:** every type/factory name must express the full inheritance chain
-(e.g. never call a product pipeline merely `AssetPackPipeline` when it is an
-`…SDIVFPipeline`).
-
+(e.g. `SettleReadsSimplePipeline`, not bare `SettlePipeline`).
+**No lens:** deposit synthesis, read synthesis, and settle-reads are separate
+specific pipelines — never one factory parameterized by deposit|read.
 ## Nested-package pattern
 
 `packages/generic-pipelines/` is a **family folder** (README only). Each base

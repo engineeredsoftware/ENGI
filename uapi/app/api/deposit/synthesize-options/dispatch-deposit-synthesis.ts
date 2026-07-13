@@ -16,10 +16,8 @@ import {
   type AssetPacksSynthesisResult,
   type AssetPacksSynthesisSourceInventory,
 } from '@bitcode/pipeline-asset-pack/asset-packs-synthesis';
-import {
-  groundOptionNeedinessFromSettledDepository,
-  synthesizeAssetPacksPipeline,
-} from '@bitcode/pipeline-asset-pack';
+import { groundOptionNeedinessFromSettledDepository } from '@bitcode/pipeline-asset-pack';
+import { synthesizeDepositsSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-deposits';
 import { buildRealDepositAssetPackOptionSynthesis } from '@bitcode/pipeline-asset-pack/deposit-option-real-synthesis';
 import {
   provisionDepositSourceInventory,
@@ -229,7 +227,7 @@ export async function runDepositOptionSynthesis(
       );
       await assertNotCancelled();
       const [owner, name] = repositoryFullName.split('/');
-      await synthesizeAssetPacksPipeline(
+      await synthesizeDepositsSDIVFPipeline(
         {
           mode: 'deposit',
           synthesizeMode: 'deposit',

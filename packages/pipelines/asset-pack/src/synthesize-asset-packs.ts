@@ -1,23 +1,13 @@
 /**
- * SynthesizeAssetPacks — the one-and-only Bitcode synthesis pipeline (V48 Gate 3).
+ * Synthesis mode helpers (BC).
  *
- * A single SDIVF pipeline (Setup → Discovery → Implementation → Validation →
- * Finish) run in one of two MODES:
- *   - deposit: a depositor supplies their repository's knowledge; synthesis
- *     produces reviewable AssetPack patches to upload to the Depository.
- *   - read:    a reader's reviewed Need is satisfied by finding + synthesizing
- *     Need-fitting AssetPacks from Depository source.
+ * Product law: **no lens**. Prefer separate pipelines:
+ *   - @bitcode/asset-packs-pipelines-synthesize-deposits  (SDIVF)
+ *   - @bitcode/asset-packs-pipelines-synthesize-reads     (SDIVF)
+ *   - @bitcode/asset-packs-pipelines-settle-reads         (Simple)
  *
- * The mode carries the variance. It is resolved once in preprocess, stored on
- * the execution, and read by every phase to drive CONDITIONAL RUNTIME
- * REGISTRIES — each phase registers/resolves the mode-appropriate agents,
- * tools, and prompts under the same phase keys (the pattern the phases already
- * use via registerValidationAgentsForType / registerFinishAgentsForType,
- * generalized from writtenAssetType/deliveryMechanism to mode).
- *
- * Named SynthesizeAssetPacks for parity with the future Gate-6 SettleAssetPacks
- * pipeline (confirm BTC payment, mint BTD, transfer rights). It subsumes the
- * legacy, poorly-named "Develop" gate.
+ * `SynthesizeAssetPacksMode` / resolve helpers remain only for BC dual-entry
+ * callers that still pass `mode` / legacy `lens` aliases.
  */
 
 import type { Execution } from '@bitcode/execution-generics/Execution';
@@ -36,10 +26,8 @@ function coerceMode(value: unknown): SynthesizeAssetPacksMode | null {
 }
 
 /**
- * Resolve the synthesis mode from the pipeline input and/or execution. Checks
- * the explicit `mode`, then the legacy `synthesisMode` / `lens` aliases, then a
- * previously-stored execution mode. Defaults to `read` so the existing
- * read/fits behavior is preserved until a caller opts into deposit.
+ * BC mode resolve. Prefer product-specific pipelines; `lens` is accepted only
+ * as a deprecated alias of mode and must not appear in new product code.
  */
 export function resolveSynthesizeAssetPacksMode(
   input: unknown,
@@ -50,6 +38,7 @@ export function resolveSynthesizeAssetPacksMode(
     coerceMode(source.mode) ??
     coerceMode(source.synthesisMode) ??
     coerceMode((source as { synthesizeMode?: unknown }).synthesizeMode) ??
+    // deprecated alias — do not use in new code
     coerceMode(source.lens);
   if (fromInput) return fromInput;
   const fromExecution = synthesizeAssetPacksModeFromExecution(execution);

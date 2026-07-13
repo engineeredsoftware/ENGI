@@ -248,28 +248,31 @@ Package paths: `packages/mcp-generics/`, `packages/generic-mcps/bitcode/`.
 | --- | --- | --- |
 | Primitive | `Pipeline` | `factoryPipeline` |
 | Base + primitive | `SDIVFPipeline` | `factorySDIVFPipeline`, `factorySDIVFPipelineFromExecutors` |
-| Specific + base + primitive | `SynthesizeAssetPacksSDIVFPipeline` | `factorySynthesizeAssetPacksSDIVFPipeline` |
+| Base + primitive | `SimplePipeline` | `factorySimplePipeline` (linear; like QuickAgent vs PTRR) |
+| Specific + SDIVF | `SynthesizeDepositsSDIVFPipeline` | `factorySynthesizeDepositsSDIVFPipeline` |
+| Specific + SDIVF | `SynthesizeReadsSDIVFPipeline` | `factorySynthesizeReadsSDIVFPipeline` |
+| Specific + Simple | `SettleReadsSimplePipeline` | `factorySettleReadsSimplePipeline` |
+
+**No lens:** deposit synthesis, read synthesis, and settle-reads are separate
+packages under `packages/asset-packs-pipelines/*`.
 
 ```
 @bitcode/pipelines-generics              Pipeline primitive
         ↑
 @bitcode/generic-pipelines-sdivf         SDIVFPipeline base (Setup-[DIV]*-Finish)
+@bitcode/generic-pipelines-simple        SimplePipeline base (linear stages)
         ↑
-@bitcode/pipeline-asset-pack             SynthesizeAssetPacksSDIVFPipeline (deposit | read);
-                                         future SettleAssetPacksSDIVFPipeline
+@bitcode/asset-packs-pipelines-synthesize-deposits
+@bitcode/asset-packs-pipelines-synthesize-reads
+@bitcode/asset-packs-pipelines-settle-reads   # validate → BTC/BTD/rights → PR ship
+@bitcode/pipeline-asset-pack             agents/tools/domain + BC dual entry
 @bitcode/pipeline-hosts                  Local host + Vercel Sandbox host
 ```
 
 **SDIVF** = Setup → Discovery → Implementation → Validation → Finish  
-(Discovery/Implementation/Validation may loop up to `maxIterations`).
+**Simple** = ordered linear stages (no DIV loop).
 
-Package path: `packages/generic-pipelines/SDIVF/` (`@bitcode/generic-pipelines-sdivf`).
-Product pipelines supply phase executors/agents; they do not reimplement the DIV loop.
-`pipelines-generics` re-exports SDIVF for compatibility — prefer importing
-`@bitcode/generic-pipelines-sdivf` in new code.
-
-Deprecated short aliases (`synthesizeAssetPacksPipeline`, `factorySDIVFExecutorPipeline`,
-`runSDIVFPipeline`, …) remain for BC; new code uses hierarchy-encoded names.
+Deprecated short aliases (`synthesizeAssetPacksPipeline`, …) remain for BC.
 
 Product UI says **Pipeline**. Low-level packages may still say `execution` /
 `Execution` — do **not** rename `execution-generics` blindly.

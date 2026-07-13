@@ -206,7 +206,8 @@ packages/generic-<family>/          # README only (no package.json)
 | --- | --- | --- |
 | `generic-agents/` | `PTRR/`, `vcs/`, `danger-wall/`, … | `@bitcode/generic-agents-ptrr`, `@bitcode/generic-agent-*` |
 | `generic-tools/` | `web-search/`, `vcs/`, … | `@bitcode/generic-tools-*` |
-| `generic-pipelines/` | `SDIVF/` | `@bitcode/generic-pipelines-sdivf` (`SDIVFPipeline`) |
+| `generic-pipelines/` | `SDIVF/`, `Simple/` | `@bitcode/generic-pipelines-sdivf`, `-simple` |
+| `asset-packs-pipelines/` | `synthesize-deposits/`, `synthesize-reads/`, `settle-reads/` | `@bitcode/asset-packs-pipelines-*` (`SDIVFPipeline`) |
 | `generic-llms/` | `xAI/`, `OpenAI/`, `Anthropic/`, `Google/`, `defaults/`, `registry/` | `@bitcode/generic-llms-*` (+ aggregator `@bitcode/generic-llms`) |
 | `generic-generations/` | `failsafes/`, `thinkings/` | `@bitcode/generic-generations-failsafes`, `-thinkings` |
 | `generic-measurements/` | `measure-agent/`, `absolutes/`, `needinesses/` | `@bitcode/generic-measurements-*` |

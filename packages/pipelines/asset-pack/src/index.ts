@@ -13,7 +13,7 @@ import {
   factorySDIVFPipelineFromExecutors,
   type SDIVFPipeline,
 } from '@bitcode/generic-pipelines-sdivf';
-import { assetPackPhases } from './phases';
+import { depositPhases, readPhases } from './phases';
 import { initializeAssetPackPipeline } from './preprocess';
 import { normalizeAssetPackOutput, buildAssetPackPostprocessedResult } from './postprocess';
 import { AssetPackWrittenAssetType } from './types/AssetPackWrittenAssetType';
@@ -68,6 +68,9 @@ import {
 } from './synthesize-asset-packs';
 
 export * from './synthesize-asset-packs';
+export { depositPhases, readPhases } from './phases';
+export { initializeAssetPackPipeline } from './preprocess';
+export { normalizeAssetPackOutput, buildAssetPackPostprocessedResult } from './postprocess';
 
 export * from './depositor-earning-supply-intelligence';
 
@@ -118,7 +121,7 @@ function storePreprocessedSnapshot(
  * danger-walls, Discovery explores, Implementation writes the AP patches,
  * Validation gates quality, Finish uploads the artifacts to Bitcode for review.
  */
-async function preprocessDepositMode(processedInput: any, execution: Execution): Promise<any> {
+export async function preprocessDepositMode(processedInput: any, execution: Execution): Promise<any> {
   const repo = processedInput?.repository || {};
   const repository = {
     url: repo.url || processedInput?.repositoryUrl || null,
@@ -169,12 +172,15 @@ async function preprocessDepositMode(processedInput: any, execution: Execution):
   return processedInput;
 }
 
+/**
+ * @deprecated Prefer product pipelines (synthesize-deposits / synthesize-reads).
+ * Dual-path preprocess retained only for BC callers that still pass mode.
+ */
 function factoryPreprocess(): Executor<any, any> {
   return async (input, execution) => {
     await initializeAssetPackPipeline(execution as any);
 
-    // Resolve + store the synthesis mode (deposit | read) once; every phase
-    // reads it to drive conditional runtime registries. Default is read.
+    // BC: still resolve mode for legacy callers; product packages force one path.
     const mode = resolveSynthesizeAssetPacksMode(input, execution);
     storeSynthesizeAssetPacksMode(execution, mode);
     try { (input as any).synthesizeMode = mode; } catch {}
@@ -183,7 +189,7 @@ function factoryPreprocess(): Executor<any, any> {
     const processedInput = gatePreprocess(input, execution);
     try { (processedInput as any).synthesizeMode = mode; } catch {}
 
-    // Deposit mode skips the read Need / fits-finding preprocess entirely.
+    // Deposit skips the read Need / fits-finding preprocess entirely.
     if (mode === 'deposit') {
       const depositInput = await preprocessDepositMode(processedInput, execution);
       storePreprocessedSnapshot(execution, depositInput, resolveWrittenAssetType(depositInput));
@@ -416,6 +422,34 @@ function factoryPostprocess(): Executor<any, any> {
   };
 }
 
+/** Deposit-only preprocess for SynthesizeDepositsSDIVFPipeline. */
+export function factoryPreprocessDepositOnly(): Executor<any, any> {
+  return async (input, execution) => {
+    await initializeAssetPackPipeline(execution as any);
+    storeSynthesizeAssetPacksMode(execution, 'deposit');
+    const processedInput = gatePreprocess(input, execution);
+    const depositInput = await preprocessDepositMode(
+      { ...processedInput, synthesizeMode: 'deposit', mode: 'deposit' },
+      execution,
+    );
+    storePreprocessedSnapshot(execution, depositInput, resolveWrittenAssetType(depositInput));
+    return depositInput;
+  };
+}
+
+/**
+ * Read-only preprocess for SynthesizeReadsSDIVFPipeline (Need, fits, preview).
+ * Never runs deposit inventory path.
+ */
+export function factoryPreprocessReadOnly(): Executor<any, any> {
+  return async (input, execution) => {
+    const forced = { ...(input as any), mode: 'read', synthesizeMode: 'read' };
+    return factoryPreprocess()(forced, execution);
+  };
+}
+
+export { factoryPreprocess };
+
 /**
  * Under NODE_ENV=test the five SDIVF phase runtimes are no-ops by default so
  * unit tests that only need preprocess/postprocess stay fast. Opt into the
@@ -435,102 +469,95 @@ function isAssetPackSetupRuntimeEnabledInTest(): boolean {
 }
 
 /**
- * SynthesizeAssetPacksSDIVFPipeline — product + SDIVF + Pipeline hierarchy name.
- * Extends the SDIVFPipeline base; does not reimplement the DIV loop.
+ * @deprecated Prefer SynthesizeDepositsSDIVFPipeline or SynthesizeReadsSDIVFPipeline
+ * from `@bitcode/asset-packs-pipelines-*`. No lens — two specific pipelines.
  */
 export type SynthesizeAssetPacksSDIVFPipeline = SDIVFPipeline<any, any>;
 
+/**
+ * BC dual factory: routes to deposit or read phase rosters by explicit input
+ * mode. Prefer product packages under asset-packs-pipelines/.
+ */
 function factorySynthesizeAssetPacksSDIVFPipeline(
   pipelineName: string = 'synthesize-asset-packs',
 ): SynthesizeAssetPacksSDIVFPipeline {
-  // Gate 3 MVP: single DIV pass (Setup → D → I → V → Finish). Iteration loops
-  // are deferred — max 1 keeps deposit wall-time bounded and telemetric.
   const maxIterations = 1;
-  const setupPhase: Executor<any, any> = async (input, execution) => {
-    const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
-    if (isTest && !isAssetPackSetupRuntimeEnabledInTest()) {
-      return input;
-    }
-    return assetPackPhases.setup(input, execution);
-  };
-  const discoveryPhase: Executor<any, any> = async (input, execution) => {
-    const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
-    if (isTest && !isAssetPackSdivfRuntimeEnabledInTest()) {
-      return input;
-    }
-    return assetPackPhases.discovery(input, execution);
-  };
-  const implementationPhase: Executor<any, any> = async (input, execution) => {
-    const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
-    if (isTest && !isAssetPackSdivfRuntimeEnabledInTest()) {
-      return input;
-    }
-    return assetPackPhases.implementation(input, execution);
-  };
-  const validationPhase: Executor<any, any> = async (input, execution) => {
-    const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
-    if (isTest && !isAssetPackSdivfRuntimeEnabledInTest()) {
-      return input;
-    }
-    return assetPackPhases.validation(input, execution);
-  };
-  const finishPhase: Executor<any, any> = async (input, execution) => {
-    const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
-    if (isTest && !isAssetPackSdivfRuntimeEnabledInTest()) {
-      const pullRequestShippable = { prUrl: 'https://github.com/test/repo/pull/1' };
-      return {
-        success: true,
-        shippable: pullRequestShippable,
-        shippables: {
-          pullRequest: { url: 'https://github.com/test/repo/pull/1' },
-          summary: 'test',
-        },
-        deliveryMechanism: pullRequestShippable,
-        artifacts: { filesCreated: [], filesModified: [], testsAdded: 1, testsPassing: 1, documentation: [] },
-        metrics: { duration: 0, tokensUsed: 0, measuredBtd: 0, confidence: 1, phases: {} },
-        summary: 'test'
-      };
-    }
-    return assetPackPhases.finish(input, execution);
+  const wrap =
+    (phase: Executor<any, any>, testBypass: boolean): Executor<any, any> =>
+    async (input, execution) => {
+      const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
+      if (isTest && testBypass) return input;
+      return phase(input, execution);
+    };
+
+  // Mode selected once per run from input only (not a living lens).
+  // Deposit and read use separate phase rosters (depositPhases / readPhases).
+  const resolvePhases = (input: any, execution: Execution) => {
+    const mode = resolveSynthesizeAssetPacksMode(input, execution);
+    return mode === 'deposit' ? depositPhases : readPhases;
   };
 
   const sdivfPipeline = factorySDIVFPipelineFromExecutors(pipelineName, {
     preprocess: factoryPreprocess(),
-    setup: setupPhase,
-    discovery: discoveryPhase,
-    implementation: implementationPhase,
-    validation: validationPhase,
-    finish: finishPhase,
+    setup: wrap(async (input, execution) => {
+      const phases = resolvePhases(input, execution);
+      return phases.setup(input, execution as any);
+    }, !isAssetPackSetupRuntimeEnabledInTest()),
+    discovery: wrap(async (input, execution) => {
+      const phases = resolvePhases(input, execution);
+      return phases.discovery(input, execution as any);
+    }, !isAssetPackSdivfRuntimeEnabledInTest()),
+    implementation: wrap(async (input, execution) => {
+      const phases = resolvePhases(input, execution);
+      return phases.implementation(input, execution as any);
+    }, !isAssetPackSdivfRuntimeEnabledInTest()),
+    validation: wrap(async (input, execution) => {
+      const phases = resolvePhases(input, execution);
+      return phases.validation(input, execution as any);
+    }, !isAssetPackSdivfRuntimeEnabledInTest()),
+    finish: wrap(async (input, execution) => {
+      const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
+      if (isTest && !isAssetPackSdivfRuntimeEnabledInTest()) {
+        const pullRequestShippable = { prUrl: 'https://github.com/test/repo/pull/1' };
+        return {
+          success: true,
+          shippable: pullRequestShippable,
+          shippables: {
+            pullRequest: { url: 'https://github.com/test/repo/pull/1' },
+            summary: 'test',
+          },
+          deliveryMechanism: pullRequestShippable,
+          artifacts: {
+            filesCreated: [],
+            filesModified: [],
+            testsAdded: 1,
+            testsPassing: 1,
+            documentation: [],
+          },
+          metrics: { duration: 0, tokensUsed: 0, measuredBtd: 0, confidence: 1, phases: {} },
+          summary: 'test',
+        };
+      }
+      const phases = resolvePhases(input, execution);
+      return phases.finish(input, execution as any);
+    }, false),
     maxIterations,
     iterationPreprocess: factoryIterationPreprocess(),
-    postprocess: factoryPostprocess()
+    postprocess: factoryPostprocess(),
   });
 
   return async (input, execution) => {
     await initializeAssetPackPipeline(execution as any);
-    // Resolve + store the synthesis mode on THIS (shared) execution so every
-    // SDIVF phase can read it. factorySDIVFPipelineFromExecutors composes the
-    // phases with `sequential`, which runs preprocess and each phase on ISOLATED
-    // sibling child executions (`execution.child('seq-N')`). Storing the mode only
-    // inside preprocess (itself a sibling) left it unreachable from the phase
-    // children — synthesizeAssetPacksModeFromExecution only walks ancestors — so
-    // every phase defaulted to `read` and ran the read-lens agents during deposit
-    // runs (QA F20 / V48-Gate3). Storing it here, on the parent of all phase
-    // children, makes the upward resolution find it; the shared agents registry
-    // then receives each phase's mode-conditional (deposit) registrations.
     storeSynthesizeAssetPacksMode(execution, resolveSynthesizeAssetPacksMode(input, execution));
     return sdivfPipeline(input, execution);
   };
 }
 
-/** @deprecated Use factorySynthesizeAssetPacksSDIVFPipeline */
+/** @deprecated Prefer factorySynthesizeDepositsSDIVFPipeline / factorySynthesizeReadsSDIVFPipeline */
 const factorySynthesizeAssetPacksPipeline = factorySynthesizeAssetPacksSDIVFPipeline;
 
 /**
- * Legacy alias: the Design/Develop/Digest "Develop" gate is the same SDIVF
- * synthesis under its old (poorly-named) name. Kept so the DDD router + its
- * observability (phase ids `develop.*`) are unchanged while the canonical
- * deposit/read entry runs as `synthesize-asset-packs`.
+ * Legacy DDD Develop gate — BC dual factory (prefer product packages).
  */
 function factoryDevelopPhase(): Executor<any, any> {
   return factorySynthesizeAssetPacksSDIVFPipeline('develop');
@@ -555,15 +582,13 @@ export const assetPackPipeline: Executor<any, any> = createGuidedPipelineExecuti
 });
 
 /**
- * SynthesizeAssetPacksSDIVFPipeline — unified synthesis (deposit | read).
- * Hierarchy name: Specific + SDIVF + Pipeline. Mode resolved from input/execution.
- * `assetPackPipeline` remains the legacy Design/Develop/Digest router whose
- * Develop gate is this same SDIVF synthesis.
+ * @deprecated Prefer synthesizeDepositsSDIVFPipeline / synthesizeReadsSDIVFPipeline
+ * from `@bitcode/asset-packs-pipelines-*`. BC dual entry (mode from input).
  */
 export const synthesizeAssetPacksSDIVFPipeline: SynthesizeAssetPacksSDIVFPipeline =
   factorySynthesizeAssetPacksSDIVFPipeline();
 
-/** @deprecated Use synthesizeAssetPacksSDIVFPipeline */
+/** @deprecated Prefer product-specific pipelines under asset-packs-pipelines/ */
 export const synthesizeAssetPacksPipeline = synthesizeAssetPacksSDIVFPipeline;
 
 // ==================== EXPORTS ====================

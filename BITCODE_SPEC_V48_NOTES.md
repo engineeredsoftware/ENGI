@@ -1618,6 +1618,26 @@ not provider packages.
 HostKind `local` replaces `inline` (BITCODE_PIPELINE_HOST; `inline` accepted as alias).
 Spec G3-4 tables updated to LocalHost / hostKind `local`.
 
+## AssetPack product pipelines: no lens; Simple settle-reads (Garrett, 2026-07-13)
+
+Removed the deposit|read **lens** on a single SynthesizeAssetPacks factory.
+Three specific product pipelines (hierarchy names encode base):
+
+```
+@bitcode/generic-pipelines-sdivf / -simple
+  → synthesize-deposits   SynthesizeDepositsSDIVFPipeline
+  → synthesize-reads      SynthesizeReadsSDIVFPipeline
+  → settle-reads          SettleReadsSimplePipeline
+```
+
+- **synthesize-deposits** — depositor repo → measured packs for Depository
+- **synthesize-reads** — accepted Need → packs from Depository (for a read repo)
+- **settle-reads** — Simple (linear) stages: validate → finalize BTC/BTD/rights →
+  ship AssetPacks as PRs against the repository supplied when reading
+
+`@bitcode/pipeline-asset-pack` retains agents/tools/domain helpers + a BC dual
+entry for legacy callers. Prefer product packages for new routes.
+
 ## Generation vocabulary: FailsafeGeneration / ThinkingsGeneration (Garrett, 2026-07-13)
 
 Legacy `FailsafeMetaSubStep` / `GenerationSubMetaSubStep` / `SubStep` naming retired
