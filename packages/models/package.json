@@ -2,21 +2,15 @@
   "name": "@bitcode/models",
   "version": "0.0.1",
   "private": true,
+  "description": "Compatibility re-export of @bitcode/generic-llms-models",
   "main": "src/index.ts",
   "types": "src/index.ts",
-  "scripts": {
-    "generate-prompt-configs": "node scripts/generate-prompt-configs.js",
-    "prebuild": "npm run generate-prompt-configs",
-    "typecheck": "tsc -p tsconfig.typecheck.json --noEmit"
+  "exports": {
+    ".": "./src/index.ts",
+    "./src/pricing": "./src/pricing.ts",
+    "./src/*": "./src/*"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "1.0.2",
-    "@ai-sdk/google": "1.0.4",
-    "@ai-sdk/openai": "1.0.6",
-    "@bitcode/logger": "workspace:*",
-    "@bitcode/observability": "workspace:*"
-  },
-  "devDependencies": {
-    "typescript": "^5.0.0"
+    "@bitcode/generic-llms-models": "workspace:*"
   }
 }

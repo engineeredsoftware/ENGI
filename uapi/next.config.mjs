@@ -234,7 +234,7 @@ let nextConfig = {
     // Stub Sentry for Edge Runtime and client builds
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
-      '@bitcode/sentry$': path.resolve(__dirname, '..', 'packages', 'sentry', 'src', (isServer && !isEdge) ? 'sentry.ts' : 'sentry-edge-stub.ts'),
+      '@bitcode/sentry$': path.resolve(__dirname, '..', 'packages', 'external-telemetry', 'sentry', 'src', (isServer && !isEdge) ? 'sentry.ts' : 'sentry-edge-stub.ts'),
     };
 
     // Resolve TS path aliases based on tsconfig.json and prefer TS siblings over stale JS artifacts.
@@ -312,9 +312,9 @@ let nextConfig = {
       // Replace problematic Node.js packages with stubs for Edge Runtime and client builds
       config.resolve.alias = {
         ...(config.resolve.alias || {}),
-        '@bitcode/sentry': path.resolve(__dirname, '..', 'packages', 'sentry', 'src', 'sentry-edge-stub.ts'),
-        '@sentry/node': path.resolve(__dirname, '..', 'packages', 'sentry', 'src', 'sentry-edge-stub.ts'),
-        '@sentry/nextjs': path.resolve(__dirname, '..', 'packages', 'sentry', 'src', 'sentry-edge-stub.ts'),
+        '@bitcode/sentry': path.resolve(__dirname, '..', 'packages', 'external-telemetry', 'sentry', 'src', 'sentry-edge-stub.ts'),
+        '@sentry/node': path.resolve(__dirname, '..', 'packages', 'external-telemetry', 'sentry', 'src', 'sentry-edge-stub.ts'),
+        '@sentry/nextjs': path.resolve(__dirname, '..', 'packages', 'external-telemetry', 'sentry', 'src', 'sentry-edge-stub.ts'),
         diagnostics_channel: path.resolve(__dirname, '..', 'admin', 'lib', 'stubs', 'diagnostics_channel.ts'),
         'require-in-the-middle': path.resolve(__dirname, 'config', 'stubs', 'require-in-the-middle.js'),
         '@opentelemetry/instrumentation': path.resolve(__dirname, 'config', 'stubs', 'opentelemetry-instrumentation.js'),

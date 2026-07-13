@@ -28,6 +28,13 @@
     "packages/asset-packs-pipelines/*",
     "packages/generic-doc-comments/*",
     "packages/pipelines/*",
+    "packages/externals/*",
+    "packages/external-telemetry/*",
+    "packages/ci/*",
+    "packages/email/*",
+    "packages/linting/*",
+    "packages/host-commands/*",
+    "packages/web-search/*",
     "uapi",
     "admin"
   ],

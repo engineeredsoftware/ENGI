@@ -23,10 +23,11 @@
   "dependencies": {
     "@bitcode/logger": "workspace:*",
     "@bitcode/streams": "workspace:*",
-    "@bitcode/sentry": "workspace:*",
     "@bitcode/errors": "workspace:*",
     "ai": "^4.3.16",
     "@vercel/analytics": "^1.0.0",
-    "@bitcode/google-analytics": "workspace:*"
+    "@bitcode/external-telemetry-sentry": "workspace:*",
+    "@bitcode/external-telemetry-google": "workspace:*",
+    "@bitcode/external-telemetry-vercel": "workspace:*"
   }
 }

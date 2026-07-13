@@ -22,7 +22,7 @@ import {
   notionCreateCommentTool as _notionCreateComment,
   notionSearchTool as _notionSearch,
   notionGetAllPagesTool as _notionGetAllPages,
-} from '@bitcode/notion';
+} from '@bitcode/externals-notion';
 
 // ---------------------------------------------------------------------------
 // Page Operations

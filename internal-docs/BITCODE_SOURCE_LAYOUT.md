@@ -226,6 +226,18 @@ packages/generic-<family>/          # README only (no package.json)
 | `generic-executions/` | (package root) | `@bitcode/generic-executions` (process-root Execution) |
 | `external-apps/` | `chatgpt/`, `claude/` | `@bitcode/external-apps-chatgpt`, `-claude` (host embeddings) |
 | `containerizations/` | `docker/` | `@bitcode/containerizations-docker` |
+| `containerizations/` | `docker/`, `kubernetes/` | `@bitcode/containerizations-*` |
+| `externals/` | `figma/`, `jira/`, `notion/`, `vercel/` | `@bitcode/externals-*` |
+| `external-telemetry/` | `google/`, `sentry/`, `vercel/` | `@bitcode/external-telemetry-*` |
+| `ci/` | `circle/` | `@bitcode/ci-circle` |
+| `email/` | `supabase/` | `@bitcode/email` |
+| `linting/` | `eslint/` | `eslint-plugin-bitcode` |
+| `host-commands/` | `grep/` | `@bitcode/host-commands-grep` |
+| `file-refactoring/` | (package root) | `@bitcode/file-refactoring` |
+| `web-search/` | `multi/`, `exa/` | `@bitcode/web-search`, `-exa` |
+| `generic-llms/models/` | (nested) | `@bitcode/generic-llms-models` (BC `@bitcode/models`) |
+| `generic-measurements/tech-types/` | (nested) | tech-types as absolute measurement |
+| `protocol-canonical/` | (package root) | canonical generators (split from protocol) |
 | `web-scrapers/` | `firecrawl/` | `@bitcode/web-scrapers-firecrawl` |
 | `files/` | (package root) | `@bitcode/files` (file path/op primitives for all packages) |
 | `context-generics/` | (package root) | `@bitcode/context-generics` (BC only; no separate Context state) |

@@ -34,7 +34,7 @@ import {
   JiraAddWorklogSchema,
   JiraUpdateWorklogSchema,
   JiraBulkUpdateSchema,
-} from '@bitcode/jira';
+} from '@bitcode/externals-jira';
 
 // ==================== AUTHENTICATION AND CLIENT HELPERS ====================
 

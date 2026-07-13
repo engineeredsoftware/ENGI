@@ -10,7 +10,7 @@ import {
   kubernetesListServicesTool as _kubernetesListServices,
   kubernetesListDeploymentsTool as _kubernetesListDeployments,
   kubernetesDescribeNodeTool as _kubernetesDescribeNode,
-} from '@bitcode/kubernetes';
+} from '@bitcode/containerizations-kubernetes';
 
 // Import DocCodeToolPrompt
 import { KUBERNETES_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/KubernetesMCPDocCodeToolPrompt';

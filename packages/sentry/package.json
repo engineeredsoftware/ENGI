@@ -1,7 +1,8 @@
 {
   "name": "@bitcode/sentry",
   "version": "0.1.0",
-  "description": "Sentry integration with edge-safe conditional exports",
+  "private": true,
+  "description": "Compatibility re-export of @bitcode/external-telemetry-sentry",
   "main": "src/sentry.ts",
   "types": "src/sentry.ts",
   "exports": {
@@ -11,10 +12,10 @@
       "browser": "./src/sentry-edge-stub.ts",
       "require": "./src/sentry.ts",
       "default": "./src/sentry.ts"
-    }
+    },
+    "./src/*": "./src/*"
   },
-  "files": [
-    "src"
-  ],
-  "license": "SEE LICENSE IN root"
+  "dependencies": {
+    "@bitcode/external-telemetry-sentry": "workspace:*"
+  }
 }

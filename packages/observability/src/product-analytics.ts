@@ -12,8 +12,8 @@
  * enforcement surface: add new events here, never call `track` directly.
  */
 
-import { track } from "@vercel/analytics";
-import { trackEvent } from "@bitcode/google-analytics";
+import { trackVercelAnalytics as track } from "@bitcode/external-telemetry-vercel";
+import { trackEvent } from "@bitcode/external-telemetry-google";
 
 /** Where a dispatched synthesis run failed. */
 export type DepositSynthesisFailureStage =

@@ -36,7 +36,7 @@ importers:
         version: 8.57.1
       eslint-plugin-bitcode:
         specifier: workspace:*
-        version: link:packages/eslint-plugin-bitcode
+        version: link:packages/linting/eslint
       eslint-plugin-react-hooks:
         specifier: ^7.1.1
         version: 7.1.1(eslint@8.57.1)
@@ -130,7 +130,7 @@ importers:
         version: link:../conversations-generics
       '@bitcode/email':
         specifier: workspace:*
-        version: link:../email
+        version: link:../email/supabase
       '@bitcode/errors':
         specifier: workspace:*
         version: link:../errors
@@ -182,12 +182,6 @@ importers:
       '@bitcode/pipelines-generics':
         specifier: workspace:*
         version: link:../pipelines-generics
-      '@bitcode/procurement':
-        specifier: workspace:*
-        version: link:../procurement
-      '@bitcode/responses':
-        specifier: workspace:*
-        version: link:../responses
       '@bitcode/security':
         specifier: workspace:*
         version: link:../security
@@ -504,11 +498,19 @@ importers:
         specifier: workspace:*
         version: link:../external-apps/chatgpt
 
-  packages/circleci: {}
+  packages/ci/circle: {}
+
+  packages/circleci:
+    dependencies:
+      '@bitcode/ci-circle':
+        specifier: workspace:*
+        version: link:../ci/circle
 
   packages/cloudflare: {}
 
   packages/containerizations/docker: {}
+
+  packages/containerizations/kubernetes: {}
 
   packages/context:
     dependencies:
@@ -605,7 +607,7 @@ importers:
         specifier: workspace:*
         version: link:../file-editing
 
-  packages/email:
+  packages/email/supabase:
     dependencies:
       '@supabase/supabase-js':
         specifier: ^2.0.0
@@ -616,10 +618,10 @@ importers:
         version: 29.5.14
       '@types/node':
         specifier: ^20.0.0
-        version: 20.19.2
+        version: 20.19.41
       jest:
         specifier: ^29.0.0
-        version: 29.7.0(@types/node@20.19.2)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.2)(typescript@5.8.3))
+        version: 29.7.0(@types/node@20.19.41)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
       typescript:
         specifier: ^5.0.0
         version: 5.8.3
@@ -629,12 +631,6 @@ importers:
       '@bitcode/sentry':
         specifier: workspace:*
         version: link:../sentry
-
-  packages/eslint-plugin-bitcode:
-    dependencies:
-      '@typescript-eslint/utils':
-        specifier: ^6.7.4
-        version: 6.21.0(eslint@8.57.1)(typescript@6.0.3)
 
   packages/execution-generics:
     dependencies:
@@ -761,14 +757,31 @@ importers:
 
   packages/external-apps/claude: {}
 
-  packages/figma:
+  packages/external-telemetry/google:
+    dependencies:
+      '@bitcode/external-telemetry-sentry':
+        specifier: workspace:*
+        version: link:../sentry
+      '@bitcode/logger':
+        specifier: workspace:*
+        version: link:../../logger
+
+  packages/external-telemetry/sentry: {}
+
+  packages/external-telemetry/vercel:
+    dependencies:
+      '@vercel/analytics':
+        specifier: ^1.0.0
+        version: 1.5.0(@remix-run/react@2.16.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.3))(next@14.2.30(@babel/core@7.27.7)(@opentelemetry/api@1.9.0)(@playwright/test@1.53.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(svelte@5.38.0)(vue@3.5.18(typescript@5.8.3))
+
+  packages/externals/figma:
     dependencies:
       '@bitcode/logger':
         specifier: workspace:*
-        version: link:../logger
+        version: link:../../logger
       zod:
         specifier: ^3.20.0
-        version: 3.24.1
+        version: 3.25.76
     devDependencies:
       '@types/jest':
         specifier: ^29.5.12
@@ -786,6 +799,73 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
+  packages/externals/jira:
+    dependencies:
+      '@bitcode/logger':
+        specifier: workspace:*
+        version: link:../../logger
+      '@bitcode/supabase':
+        specifier: workspace:*
+        version: link:../../supabase
+      zod:
+        specifier: ^3.20.0
+        version: 3.25.76
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^18.0.0
+        version: 18.19.113
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@18.19.113)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@18.19.113)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@18.19.113)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@18.19.113)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
+  packages/externals/notion:
+    dependencies:
+      '@bitcode/logger':
+        specifier: workspace:*
+        version: link:../../logger
+      '@bitcode/supabase':
+        specifier: workspace:*
+        version: link:../../supabase
+      '@notionhq/client':
+        specifier: ^2.3.0
+        version: 2.3.0(encoding@0.1.13)
+      notion-md-crawler:
+        specifier: ^0.0.2
+        version: 0.0.2(encoding@0.1.13)
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.41
+      eslint:
+        specifier: ^8.0.0
+        version: 8.57.1
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@20.19.41)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
+  packages/externals/vercel: {}
+
+  packages/figma:
+    dependencies:
+      '@bitcode/externals-figma':
+        specifier: workspace:*
+        version: link:../externals/figma
+
   packages/file-editing:
     dependencies:
       '@bitcode/files':
@@ -796,6 +876,21 @@ importers:
         version: link:../logger
       zod:
         specifier: ^3.22.4
+        version: 3.25.76
+
+  packages/file-refactoring:
+    dependencies:
+      '@bitcode/files':
+        specifier: workspace:*
+        version: link:../files
+      '@bitcode/logger':
+        specifier: workspace:*
+        version: link:../logger
+      '@bitcode/lsp':
+        specifier: workspace:*
+        version: link:../lsp
+      zod:
+        specifier: ^3.22.0
         version: 3.25.76
 
   packages/files:
@@ -1811,6 +1906,28 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
+  packages/generic-llms/models:
+    dependencies:
+      '@ai-sdk/anthropic':
+        specifier: 1.0.2
+        version: 1.0.2(zod@3.25.76)
+      '@ai-sdk/google':
+        specifier: 1.0.4
+        version: 1.0.4(zod@3.25.76)
+      '@ai-sdk/openai':
+        specifier: 1.0.6
+        version: 1.0.6(zod@3.25.76)
+      '@bitcode/logger':
+        specifier: workspace:*
+        version: link:../../logger
+      '@bitcode/observability':
+        specifier: workspace:*
+        version: link:../../observability
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
   packages/generic-llms/registry:
     dependencies:
       '@bitcode/generic-llms-anthropic':
@@ -2024,6 +2141,8 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
+  packages/generic-measurements/tech-types: {}
+
   packages/generic-pipelines/SDIVF:
     dependencies:
       '@bitcode/agent-generics':
@@ -2175,9 +2294,9 @@ importers:
 
   packages/generic-tools/mcps-tools/circleci:
     dependencies:
-      '@bitcode/circleci':
+      '@bitcode/ci-circle':
         specifier: workspace:*
-        version: link:../../../circleci
+        version: link:../../../ci/circle
       '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
@@ -2202,9 +2321,9 @@ importers:
 
   packages/generic-tools/mcps-tools/figma:
     dependencies:
-      '@bitcode/figma':
+      '@bitcode/externals-figma':
         specifier: workspace:*
-        version: link:../../../figma
+        version: link:../../../externals/figma
       '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
@@ -2263,9 +2382,9 @@ importers:
 
   packages/generic-tools/mcps-tools/jira:
     dependencies:
-      '@bitcode/jira':
+      '@bitcode/externals-jira':
         specifier: workspace:*
-        version: link:../../../jira
+        version: link:../../../externals/jira
       '@bitcode/logger':
         specifier: workspace:*
         version: link:../../../logger
@@ -2297,27 +2416,18 @@ importers:
 
   packages/generic-tools/mcps-tools/kubernetes:
     dependencies:
-      '@bitcode/kubernetes':
+      '@bitcode/containerizations-kubernetes':
         specifier: workspace:*
-        version: link:../../../kubernetes
-      '@bitcode/tools-generics':
-        specifier: workspace:*
-        version: link:../../../tools-generics
-
-  packages/generic-tools/mcps-tools/mysql:
-    dependencies:
-      '@bitcode/mysql':
-        specifier: workspace:*
-        version: link:../../../mysql
+        version: link:../../../containerizations/kubernetes
       '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
 
   packages/generic-tools/mcps-tools/notion:
     dependencies:
-      '@bitcode/notion':
+      '@bitcode/externals-notion':
         specifier: workspace:*
-        version: link:../../../notion
+        version: link:../../../externals/notion
     devDependencies:
       '@types/jest':
         specifier: ^29.0.0
@@ -2352,12 +2462,12 @@ importers:
 
   packages/generic-tools/mcps-tools/vercel:
     dependencies:
+      '@bitcode/externals-vercel':
+        specifier: workspace:*
+        version: link:../../../externals/vercel
       '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics
-      '@bitcode/vercel':
-        specifier: workspace:*
-        version: link:../../../vercel
 
   packages/generic-tools/multimodal-processing:
     dependencies:
@@ -2514,7 +2624,7 @@ importers:
         version: link:../../tools-generics
       '@bitcode/web-search':
         specifier: workspace:*
-        version: link:../../web-search
+        version: link:../../web-search/multi
 
   packages/generic-vcs/bitbucket:
     dependencies:
@@ -2644,12 +2754,11 @@ importers:
 
   packages/google-analytics:
     dependencies:
-      '@bitcode/logger':
+      '@bitcode/external-telemetry-google':
         specifier: workspace:*
-        version: link:../logger
-      '@bitcode/sentry':
-        specifier: workspace:*
-        version: link:../sentry
+        version: link:../external-telemetry/google
+
+  packages/host-commands/grep: {}
 
   packages/host-generics:
     devDependencies:
@@ -2671,33 +2780,21 @@ importers:
 
   packages/jira:
     dependencies:
-      '@bitcode/logger':
+      '@bitcode/externals-jira':
         specifier: workspace:*
-        version: link:../logger
-      '@bitcode/supabase':
-        specifier: workspace:*
-        version: link:../supabase
-      zod:
-        specifier: ^3.20.0
-        version: 3.24.1
-    devDependencies:
-      '@types/jest':
-        specifier: ^29.5.12
-        version: 29.5.14
-      '@types/node':
-        specifier: ^18.0.0
-        version: 18.19.113
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@18.19.113)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@18.19.113)(typescript@5.8.3))
-      ts-jest:
-        specifier: ^29.1.1
-        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@18.19.113)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@18.19.113)(typescript@5.8.3)))(typescript@5.8.3)
-      typescript:
-        specifier: ^5.0.0
-        version: 5.8.3
+        version: link:../externals/jira
 
-  packages/kubernetes: {}
+  packages/kubernetes:
+    dependencies:
+      '@bitcode/containerizations-kubernetes':
+        specifier: workspace:*
+        version: link:../containerizations/kubernetes
+
+  packages/linting/eslint:
+    dependencies:
+      '@typescript-eslint/utils':
+        specifier: ^6.7.4
+        version: 6.21.0(eslint@8.57.1)(typescript@6.0.3)
 
   packages/llm-generics:
     dependencies:
@@ -2775,25 +2872,9 @@ importers:
 
   packages/models:
     dependencies:
-      '@ai-sdk/anthropic':
-        specifier: 1.0.2
-        version: 1.0.2(zod@3.25.76)
-      '@ai-sdk/google':
-        specifier: 1.0.4
-        version: 1.0.4(zod@3.25.76)
-      '@ai-sdk/openai':
-        specifier: 1.0.6
-        version: 1.0.6(zod@3.25.76)
-      '@bitcode/logger':
+      '@bitcode/generic-llms-models':
         specifier: workspace:*
-        version: link:../logger
-      '@bitcode/observability':
-        specifier: workspace:*
-        version: link:../observability
-    devDependencies:
-      typescript:
-        specifier: ^5.0.0
-        version: 5.8.3
+        version: link:../generic-llms/models
 
   packages/multimodal-utils:
     dependencies:
@@ -2832,8 +2913,6 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
-  packages/mysql: {}
-
   packages/networking:
     dependencies:
       '@bitcode/logger':
@@ -2858,34 +2937,9 @@ importers:
 
   packages/notion:
     dependencies:
-      '@bitcode/logger':
+      '@bitcode/externals-notion':
         specifier: workspace:*
-        version: link:../logger
-      '@bitcode/supabase':
-        specifier: workspace:*
-        version: link:../supabase
-      '@notionhq/client':
-        specifier: ^2.3.0
-        version: 2.3.0(encoding@0.1.13)
-      notion-md-crawler:
-        specifier: ^0.0.2
-        version: 0.0.2(encoding@0.1.13)
-    devDependencies:
-      '@types/jest':
-        specifier: ^29.0.0
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20.0.0
-        version: 20.19.2
-      eslint:
-        specifier: ^8.0.0
-        version: 8.57.1
-      jest:
-        specifier: ^29.0.0
-        version: 29.7.0(@types/node@20.19.2)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.2)(typescript@5.8.3))
-      typescript:
-        specifier: ^5.0.0
-        version: 5.8.3
+        version: link:../externals/notion
 
   packages/obfuscate-generics: {}
 
@@ -2896,15 +2950,18 @@ importers:
       '@bitcode/errors':
         specifier: workspace:*
         version: link:../errors
-      '@bitcode/google-analytics':
+      '@bitcode/external-telemetry-google':
         specifier: workspace:*
-        version: link:../google-analytics
+        version: link:../external-telemetry/google
+      '@bitcode/external-telemetry-sentry':
+        specifier: workspace:*
+        version: link:../external-telemetry/sentry
+      '@bitcode/external-telemetry-vercel':
+        specifier: workspace:*
+        version: link:../external-telemetry/vercel
       '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger
-      '@bitcode/sentry':
-        specifier: workspace:*
-        version: link:../sentry
       '@bitcode/streams':
         specifier: workspace:*
         version: link:../streams
@@ -3146,12 +3203,6 @@ importers:
 
   packages/postgresql: {}
 
-  packages/procurement:
-    dependencies:
-      '@bitcode/logger':
-        specifier: workspace:*
-        version: link:../logger
-
   packages/prompts:
     dependencies:
       '@bitcode/doc-comment':
@@ -3187,6 +3238,10 @@ importers:
         version: 4.20.3
 
   packages/protocol:
+    dependencies:
+      '@bitcode/protocol-canonical':
+        specifier: workspace:*
+        version: link:../protocol-canonical
     devDependencies:
       '@types/node':
         specifier: ^25.5.2
@@ -3195,14 +3250,13 @@ importers:
         specifier: ^6.0.2
         version: 6.0.3
 
+  packages/protocol-canonical: {}
+
   packages/refactoring:
     dependencies:
-      '@bitcode/lsp':
+      '@bitcode/file-refactoring':
         specifier: workspace:*
-        version: link:../lsp
-      zod:
-        specifier: ^3.22.0
-        version: 3.24.1
+        version: link:../file-refactoring
 
   packages/registry:
     devDependencies:
@@ -3252,7 +3306,11 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
-  packages/sentry: {}
+  packages/sentry:
+    dependencies:
+      '@bitcode/external-telemetry-sentry':
+        specifier: workspace:*
+        version: link:../external-telemetry/sentry
 
   packages/streams:
     dependencies:
@@ -3288,9 +3346,17 @@ importers:
         specifier: ^4.3.16
         version: 4.3.16(react@18.3.1)(zod@3.25.76)
 
-  packages/system-grep: {}
+  packages/system-grep:
+    dependencies:
+      '@bitcode/host-commands-grep':
+        specifier: workspace:*
+        version: link:../host-commands/grep
 
-  packages/tech-types: {}
+  packages/tech-types:
+    dependencies:
+      '@bitcode/generic-measurements-tech-types':
+        specifier: workspace:*
+        version: link:../generic-measurements/tech-types
 
   packages/templates-generics:
     dependencies:
@@ -3416,7 +3482,11 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
-  packages/vercel: {}
+  packages/vercel:
+    dependencies:
+      '@bitcode/externals-vercel':
+        specifier: workspace:*
+        version: link:../externals/vercel
 
   packages/web-scrapers/firecrawl:
     dependencies:
@@ -3427,14 +3497,20 @@ importers:
         specifier: ^1.0.0
         version: 1.29.3
 
-  packages/web-search:
+  packages/web-search/exa:
     dependencies:
       '@bitcode/logger':
         specifier: workspace:*
-        version: link:../logger
+        version: link:../../logger
+
+  packages/web-search/multi:
+    dependencies:
+      '@bitcode/logger':
+        specifier: workspace:*
+        version: link:../../logger
       '@bitcode/web-scrapers-firecrawl':
         specifier: workspace:*
-        version: link:../web-scrapers/firecrawl
+        version: link:../../web-scrapers/firecrawl
 
   uapi:
     dependencies:
@@ -3458,7 +3534,7 @@ importers:
         version: link:../packages/btd
       '@bitcode/email':
         specifier: workspace:*
-        version: link:../packages/email
+        version: link:../packages/email/supabase
       '@bitcode/errors':
         specifier: workspace:*
         version: link:../packages/errors
@@ -20261,7 +20337,7 @@ snapshots:
       '@opentelemetry/instrumentation': 0.57.2(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.28.0
       forwarded-parse: 2.1.2
-      semver: 7.7.2
+      semver: 7.8.0
     transitivePeerDependencies:
       - supports-color
 
@@ -20610,7 +20686,7 @@ snapshots:
       '@types/shimmer': 1.2.0
       import-in-the-middle: 1.14.2
       require-in-the-middle: 7.5.2
-      semver: 7.7.2
+      semver: 7.8.0
       shimmer: 1.2.1
     transitivePeerDependencies:
       - supports-color
@@ -23077,7 +23153,7 @@ snapshots:
       magic-string: 0.30.17
       path-browserify: 1.0.1
       process: 0.11.10
-      semver: 7.7.2
+      semver: 7.8.0
       storybook: 8.6.14(prettier@3.6.2)
       style-loader: 3.3.4(webpack@5.99.9(esbuild@0.25.5))
       terser-webpack-plugin: 5.3.14(esbuild@0.25.5)(webpack@5.99.9(esbuild@0.25.5))
@@ -23168,7 +23244,7 @@ snapshots:
       jsdoc-type-pratt-parser: 4.1.0
       process: 0.11.10
       recast: 0.23.11
-      semver: 7.7.2
+      semver: 7.8.0
       util: 0.12.5
       ws: 8.18.3
     optionalDependencies:
@@ -23297,7 +23373,7 @@ snapshots:
       react-docgen: 7.1.1
       react-dom: 18.3.1(react@18.3.1)
       resolve: 1.22.10
-      semver: 7.7.2
+      semver: 7.8.0
       storybook: 8.6.14(prettier@3.6.2)
       tsconfig-paths: 4.2.0
       webpack: 5.99.9(esbuild@0.25.5)
@@ -24070,7 +24146,7 @@ snapshots:
       '@typescript-eslint/types': 6.21.0
       '@typescript-eslint/typescript-estree': 6.21.0(typescript@5.8.3)
       eslint: 8.57.1
-      semver: 7.7.2
+      semver: 7.8.0
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -24084,7 +24160,7 @@ snapshots:
       '@typescript-eslint/types': 6.21.0
       '@typescript-eslint/typescript-estree': 6.21.0(typescript@6.0.3)
       eslint: 8.57.1
-      semver: 7.7.2
+      semver: 7.8.0
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -25739,7 +25815,7 @@ snapshots:
       postcss-modules-scope: 3.2.1(postcss@8.5.6)
       postcss-modules-values: 4.0.0(postcss@8.5.6)
       postcss-value-parser: 4.2.0
-      semver: 7.7.2
+      semver: 7.8.0
     optionalDependencies:
       webpack: 5.99.9(esbuild@0.25.5)
 
@@ -26827,7 +26903,7 @@ snapshots:
       minimatch: 3.1.2
       node-abort-controller: 3.1.1
       schema-utils: 3.3.0
-      semver: 7.7.2
+      semver: 7.8.0
       tapable: 2.2.2
       typescript: 5.8.3
       webpack: 5.99.9(esbuild@0.25.5)
@@ -27687,7 +27763,7 @@ snapshots:
       '@babel/parser': 7.28.0
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.2
-      semver: 7.7.2
+      semver: 7.8.0
     transitivePeerDependencies:
       - supports-color
 
@@ -28435,7 +28511,7 @@ snapshots:
       jest-util: 29.7.0
       natural-compare: 1.4.0
       pretty-format: 29.7.0
-      semver: 7.7.2
+      semver: 7.8.0
     transitivePeerDependencies:
       - supports-color
 
@@ -28978,7 +29054,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.7.2
+      semver: 7.8.0
 
   make-error@1.3.6: {}
 
@@ -29928,7 +30004,7 @@ snapshots:
 
   node-abi@3.75.0:
     dependencies:
-      semver: 7.7.2
+      semver: 7.8.0
 
   node-abort-controller@3.1.1: {}
 
@@ -30552,7 +30628,7 @@ snapshots:
       cosmiconfig: 9.0.0(typescript@5.8.3)
       jiti: 1.21.7
       postcss: 8.5.6
-      semver: 7.7.2
+      semver: 7.8.0
     optionalDependencies:
       webpack: 5.99.9(esbuild@0.25.5)
     transitivePeerDependencies:
@@ -31686,7 +31762,7 @@ snapshots:
       detect-libc: 2.0.4
       node-addon-api: 6.1.0
       prebuild-install: 7.1.3
-      semver: 7.7.2
+      semver: 7.8.0
       simple-get: 4.0.1
       tar-fs: 3.1.0
       tunnel-agent: 0.6.0

@@ -467,6 +467,15 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `doc-comment-generics` | Doc-comment plugin primitives (`@bitcode/doc-comment-generics`; BC `@bitcode/doc-comment`) |
 | `generic-doc-comments/*` | Nested doc-comment implementors: doc-code, doc-developing |
 | `file-editing` | Atomic file editing over `@bitcode/files` (`@bitcode/file-editing`; BC `@bitcode/editing`) |
+| `file-refactoring` | Symbol rename / file refactors (`@bitcode/file-refactoring`; BC `@bitcode/refactoring`) |
+| `externals/*` | Figma, Jira, Notion, Vercel deploy API |
+| `external-telemetry/*` | Google Analytics, Sentry, Vercel analytics |
+| `containerizations/*` | docker, kubernetes |
+| `ci/circle` | CircleCI |
+| `email/supabase` | Email via Supabase |
+| `host-commands/grep` | Grep host command |
+| `web-search/{multi,exa}` | Multi-provider orchestrator + Exa provider |
+| `protocol-canonical` | Canonical generators (protocol package is demo/runtime shell) |
 
 ### 5.3 Product domain (AssetPack / BTD / market)
 

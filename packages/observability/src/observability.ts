@@ -1,4 +1,4 @@
-import { startSpan } from '@bitcode/sentry';
+import { startSpan } from '@bitcode/external-telemetry-sentry';
 
 // Friendly helper to measure a block of async work.  Automatically becomes a
 // no-op when the Sentry SDK or DSN is not available.

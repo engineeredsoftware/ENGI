@@ -17,7 +17,7 @@ import {
   deployToVercel,
   buyDomain,
   checkDomainAvailability
-} from '@bitcode/vercel';
+} from '@bitcode/externals-vercel';
 
 // Import DocCodeToolPrompt
 import { VERCEL_MCP_DOC_CODE_TOOL_PROMPT } from './prompts/VercelMCPDocCodeToolPrompt';

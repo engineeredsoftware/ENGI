@@ -1,5 +1,13 @@
 # @bitcode/protocol
 
+> **Naming note (V48):** the whole monorepo is Bitcode protocol surface. This package is the
+> **demo/runtime shell** for protocol demonstration — not the whole protocol.
+>
+> Canonical generators / proven matrices live in **`@bitcode/protocol-canonical`**
+> (`packages/protocol-canonical`). Prefer that package for generation and proof tooling.
+
+# @bitcode/protocol
+
 Formal Bitcode protocol package for commercial source.
 
 V29 Gate 8 made this package the package-native boundary for canonical helpers

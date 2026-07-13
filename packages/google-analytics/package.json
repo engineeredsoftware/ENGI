@@ -2,21 +2,14 @@
   "name": "@bitcode/google-analytics",
   "version": "0.1.0",
   "private": true,
-  "description": "Thin, framework-agnostic wrapper around Google Analytics (gtag/GA4).  Gracefully degrades when the GA snippet is not present.",
+  "description": "Compatibility re-export of @bitcode/external-telemetry-google",
   "main": "src/ga.ts",
   "types": "src/ga.ts",
   "exports": {
-    ".": {
-      "require": "./src/ga.ts",
-      "default": "./src/ga.ts"
-    },
+    ".": "./src/ga.ts",
     "./src/*": "./src/*"
   },
-  "files": [
-    "src"
-  ],
   "dependencies": {
-    "@bitcode/logger": "workspace:*",
-    "@bitcode/sentry": "workspace:*"
+    "@bitcode/external-telemetry-google": "workspace:*"
   }
 }

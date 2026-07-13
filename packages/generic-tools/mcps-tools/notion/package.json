@@ -13,7 +13,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@bitcode/notion": "workspace:*"
+    "@bitcode/externals-notion": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

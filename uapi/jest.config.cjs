@@ -34,7 +34,7 @@ module.exports = {
     // resolution behaviour identical.
     // -------------------------------------------------------------------
     '^@bitcode/logger$': '<rootDir>/../packages/logger/src/logger.ts',
-    '^@bitcode/sentry$': '<rootDir>/../packages/sentry/src/sentry.ts',
+    '^@bitcode/sentry$': '<rootDir>/../packages/external-telemetry/sentry/src/sentry.ts',
     '^@bitcode/context$': '<rootDir>/../packages/context/src/index.ts',
     '^@bitcode/context/(.*)$': '<rootDir>/../packages/context/src/$1',
     '^@bitcode/observability$': '<rootDir>/tests/mocks/observability.js',
@@ -48,7 +48,7 @@ module.exports = {
     '^@bitcode/auth/qa-telemetry$': '<rootDir>/../packages/auth/src/qa-telemetry.ts',
     '^@bitcode/orm$': '<rootDir>/tests/mocks/orm.ts',
     '^@bitcode/sse$': '<rootDir>/../packages/networking/src/sse.ts',
-    '^@bitcode/google-analytics$': '<rootDir>/../packages/google-analytics/src/ga.ts',
+    '^@bitcode/google-analytics$': '<rootDir>/../packages/external-telemetry/google/src/ga.ts',
     '^@bitcode/errors$': '<rootDir>/../packages/errors/src/errors.ts',
     '^@bitcode/artifacts$': '<rootDir>/../packages/artifacts/src/artifacts.ts',
     '^@bitcode/btd/operational-health$': '<rootDir>/../packages/btd/src/operational-health.ts',

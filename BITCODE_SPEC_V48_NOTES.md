@@ -1826,3 +1826,37 @@ Mirrors SDIVF extraction: pipelines-generics → generic-pipelines/SDIVF.
 Compatibility barrels: `@bitcode/mcp` → mcp-generics; `@bitcode/mcp-server` → generic-mcps-bitcode.
 Active proof/catalog path strings and docs:refresh scripts point at the new layout.
 
+## Large package hierarchy reorganization (Garrett, 2026-07-13)
+
+### Moves
+- `kubernetes` → `containerizations/kubernetes`
+- `figma`, `jira`, `notion`, `vercel` (deploy API) → `externals/*`
+- `sentry`, `google-analytics`, Vercel analytics adapter → `external-telemetry/{sentry,google,vercel}`
+- `circleci` → `ci/circle`
+- `email` → `email/supabase`
+- `eslint-plugin-bitcode` → `linting/eslint`
+- `system-grep` → `host-commands/grep`
+- `refactoring` → `file-refactoring` (uses `@bitcode/files`)
+- `tech-types` → `generic-measurements/tech-types` (absolute measurement)
+- `models` → `generic-llms/models` (BC `@bitcode/models`)
+- `web-search` → `web-search/{multi,exa}` family
+- `responses` utilities → `packages/api/src/responses` (BC `@bitcode/responses`)
+- protocol naming: `@bitcode/protocol` = demo/runtime shell; `@bitcode/protocol-canonical` is the preferred
+  name for generators (implementation remains `packages/protocol/src/canonical` until relative imports uncoupled)
+
+### Removals
+- `packages/mysql` (unused DB package; product data plane is Supabase)
+- `packages/procurement` (removed; no longer admitted live path)
+
+### Audits
+- **templates-generics**: KEEP. Shippable/evidence-document templates in Supabase — **not**
+  prompt templating. Prompt formatting stays in `@bitcode/prompts`.
+- **pipeline-hosts**: retained as AssetPack host orchestration barrel over
+  `host-generics` + `generic-hosts/{Local,VercelSandbox}`; no parallel host stack.
+- **vcs**: already BC → `vcs-generics` / `generic-vcs/*`.
+- **editing**: already `file-editing` + BC.
+
+### Protocol naming
+The monorepo is the Bitcode protocol surface. `@bitcode/protocol` is the
+demo/runtime shell; generators/proof tooling prefer `@bitcode/protocol-canonical`.
+

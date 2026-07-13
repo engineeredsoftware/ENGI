@@ -30,9 +30,7 @@
     "@bitcode/orm": "workspace:*",
     "@bitcode/pipeline-asset-pack": "workspace:*",
     "@bitcode/pipelines-generics": "workspace:*",
-    "@bitcode/procurement": "workspace:*",
     "@bitcode/networking": "workspace:*",
-    "@bitcode/responses": "workspace:*",
     "@bitcode/security": "workspace:*",
     "@bitcode/streams": "workspace:*",
     "@bitcode/supabase": "workspace:*",
@@ -53,6 +51,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./pipelines/cancel": "./src/pipelines/cancel.ts",
-    "./pipelines/orphan-sweep": "./src/pipelines/orphan-sweep.ts"
+    "./pipelines/orphan-sweep": "./src/pipelines/orphan-sweep.ts",
+    "./responses": "./src/responses/index.ts"
   }
 }
