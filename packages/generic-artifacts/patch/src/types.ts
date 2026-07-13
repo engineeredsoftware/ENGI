@@ -12,6 +12,7 @@
 
 import type { Artifact, ArtifactInfo } from '@bitcode/artifact-generics';
 import { ARTIFACT_SCHEMA_PREFIX } from '@bitcode/artifact-generics';
+import type { FileChange, FileOp, FilePath } from '@bitcode/files';
 
 export const PATCH_ARTIFACT_SCHEMA = `${ARTIFACT_SCHEMA_PREFIX}.patch` as const;
 export const PATCH_ARTIFACT_KIND = 'patch' as const;
@@ -19,22 +20,18 @@ export const PATCH_ARTIFACT_KIND = 'patch' as const;
 /** How the patch payload is encoded when serialized for storage. */
 export type PatchArtifactFormat = 'path-op-json' | 'unified-diff' | string;
 
-/** Admitted file operations (aligned with AssetPack path+op surface). */
-export type PatchFileOp = 'add' | 'modify' | 'delete' | 'rename' | string;
+/** @see FileOp from @bitcode/files */
+export type PatchFileOp = FileOp;
 
 /**
- * Single file entry in a patch artifact.
- * `body` is optional (unified-diff hunk or new file content when product admits it).
- * Prefer `contentRef` for large blobs stored as separate artifacts.
+ * Single file entry in a patch artifact (extends file primitive FileChange).
+ * `body` is optional; prefer `contentRef` for large blobs.
  */
-export interface PatchFileEntry {
-  path: string;
+export interface PatchFileEntry extends FileChange {
+  path: FilePath;
   op: PatchFileOp;
-  /** Optional rename target when op is rename. */
-  toPath?: string;
-  /** Optional inline body (diff hunk / content) — product policy decides admission. */
+  toPath?: FilePath;
   body?: string | null;
-  /** Optional pointer to a separately stored blob artifact. */
   contentRef?: string | null;
 }
 

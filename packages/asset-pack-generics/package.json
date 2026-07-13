@@ -16,6 +16,9 @@
     "typecheck": "tsc --noEmit",
     "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests"
   },
+  "dependencies": {
+    "@bitcode/files": "workspace:*"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^25.0.0",

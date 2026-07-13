@@ -23,6 +23,7 @@
     "packages/generic-artifacts/*",
     "packages/generic-attachments/*",
     "packages/external-apps/*",
+    "packages/containerizations/*",
     "packages/asset-packs-pipelines/*",
     "packages/generic-doc-comment-plugins/*",
     "packages/pipelines/*",

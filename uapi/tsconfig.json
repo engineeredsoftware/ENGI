@@ -515,7 +515,7 @@
         "../packages/obfuscate/src/index.ts"
       ],
       "@bitcode/dockerUtils": [
-        "../packages/docker/src/index.ts"
+        "../packages/containerizations/docker/src/index.ts"
       ],
       "@bitcode/supabase": [
         "../packages/supabase/src/index.ts"
@@ -560,7 +560,7 @@
         "../packages/observability/src/telemetry.ts"
       ],
       "@/lib/dockerUtils": [
-        "../packages/docker/src/index.ts"
+        "../packages/containerizations/docker/src/index.ts"
       ],
       // -----------------------------------------------------------------
       // Retained app utility aliases. The `uapi/utils` folder has been removed; these

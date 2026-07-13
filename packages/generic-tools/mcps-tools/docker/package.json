@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
-    "@bitcode/docker": "workspace:*",
+    "@bitcode/containerizations-docker": "workspace:*",
     "@bitcode/tools-generics": "workspace:*"
   }
 }

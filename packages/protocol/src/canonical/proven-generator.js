@@ -666,6 +666,7 @@ const V26_INGRESS_OR_SUPPORT_PACKAGE_NAMES = new Set([
   '@bitcode/circleci',
   '@bitcode/cloudflare',
   '@bitcode/docker',
+  '@bitcode/containerizations-docker',
   '@bitcode/figma',
   '@bitcode/figma-tools',
   '@bitcode/firebase',

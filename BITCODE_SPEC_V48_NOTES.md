@@ -1658,6 +1658,18 @@ See “Artifact storage providers + remove @bitcode/aws” — providers split i
 `generic-artifacts/{aws,supabase,vercel}`; patch remains the type base;
 `@bitcode/artifacts` composes storage.
 
+## Containerizations + files primitives (Garrett, 2026-07-13)
+
+```
+packages/containerizations/docker   # @bitcode/containerizations-docker
+packages/docker                     # BC re-export
+packages/files                      # file path/op primitives for the monorepo
+```
+
+- Docker moved under `containerizations/docker` (MCP tools depend on hierarchy package).
+- `@bitcode/files` is the lowest-level file vocabulary (`FilePath`, `FileOp`, `FileChange`);
+  AssetPack patch and PatchArtifact alias those types rather than redefining them.
+
 ## External apps: chatgpt + claude scaffold (Garrett, 2026-07-13)
 
 ```

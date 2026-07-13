@@ -260,6 +260,10 @@ importers:
         version: link:../generic-artifacts/vercel
 
   packages/asset-pack-generics:
+    dependencies:
+      '@bitcode/files':
+        specifier: workspace:*
+        version: link:../files
     devDependencies:
       '@types/jest':
         specifier: ^29.5.12
@@ -504,6 +508,8 @@ importers:
 
   packages/cloudflare: {}
 
+  packages/containerizations/docker: {}
+
   packages/context:
     dependencies:
       '@bitcode/context-generics':
@@ -603,7 +609,11 @@ importers:
         specifier: ^29.0.0
         version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
 
-  packages/docker: {}
+  packages/docker:
+    dependencies:
+      '@bitcode/containerizations-docker':
+        specifier: workspace:*
+        version: link:../containerizations/docker
 
   packages/editing:
     dependencies:
@@ -1390,6 +1400,9 @@ importers:
       '@bitcode/artifact-generics':
         specifier: workspace:*
         version: link:../../artifact-generics
+      '@bitcode/files':
+        specifier: workspace:*
+        version: link:../../files
     devDependencies:
       '@types/jest':
         specifier: ^29.5.12
@@ -2155,9 +2168,9 @@ importers:
 
   packages/generic-tools/mcps-tools/docker:
     dependencies:
-      '@bitcode/docker':
+      '@bitcode/containerizations-docker':
         specifier: workspace:*
-        version: link:../../../docker
+        version: link:../../../containerizations/docker
       '@bitcode/tools-generics':
         specifier: workspace:*
         version: link:../../../tools-generics

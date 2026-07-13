@@ -499,9 +499,11 @@ public entries remain stable (`./deposit-asset-pack-options`, `./depository-sear
 | Package | Responsibility |
 | --- | --- |
 | `orm` | DB access, generated types, profile contract, data-health |
-| `files`, `browser-storage`, `artifacts` | File / storage helpers |
+| `files` | **File primitives** (path, FileOp/FileChange, security, FileTracker) |
+| `browser-storage`, `artifacts` | Storage helpers / compose |
 | `streams` | Streaming progress helpers |
-| `vercel`, `cloudflare`, `docker`, `kubernetes` | Host / infra adapters |
+| `vercel`, `cloudflare`, `kubernetes` | Host / infra adapters |
+| `containerizations/docker` | Docker primitives (`@bitcode/containerizations-docker`; BC `@bitcode/docker`) |
 | `supabase`, `orm` | Live data plane (Postgres via Supabase) |
 | `generic-artifacts-{aws,supabase,vercel}` | Artifact storage providers (S3 / Supabase / Blob) |
 | `postgresql`, `mysql` | Optional/legacy DB MCP tool helpers (not product storage) |

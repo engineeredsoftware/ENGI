@@ -2,23 +2,17 @@
   "name": "@bitcode/files",
   "version": "0.1.0",
   "private": true,
-  "description": "File helpers (JS stub build).",
-  "main": "src/files.ts",
-  "types": "src/files.ts",
+  "description": "File primitives: path, FileOp/FileChange, security validation, FileTracker",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "exports": {
-    ".": {
-      "require": "./src/files.ts",
-      "default": "./src/files.ts"
-    },
-    "./src/files": {
-      "require": "./src/files.ts",
-      "default": "./src/files.ts"
-    },
+    ".": "./src/index.ts",
+    "./types": "./src/types.ts",
+    "./security": "./src/securityUtils.ts",
+    "./src/files": "./src/files.ts",
     "./src/*": "./src/*"
   },
-  "files": [
-    "src"
-  ],
+  "files": ["src"],
   "dependencies": {
     "@bitcode/logger": "workspace:*"
   }
