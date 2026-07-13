@@ -76,6 +76,7 @@ pnpm test:fit-finding
 pnpm test:integration
 pnpm test:v28-mvp-qa
 pnpm test:v42-ai-reading-mvp
+pnpm test:v48-product-layout-mvp
 ```
 
 ## V42 AI-reading demonstration

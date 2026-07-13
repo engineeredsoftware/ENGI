@@ -1438,5 +1438,6 @@ cd protocol-demonstration
 pnpm test:integration
 pnpm test:v28-mvp-qa
 pnpm test:v42-ai-reading-mvp
+pnpm test:v48-product-layout-mvp
 ```
 

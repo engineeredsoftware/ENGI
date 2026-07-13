@@ -641,10 +641,13 @@ browser-proof coverage is repointed at the current product surfaces:
 tree it is era-pinned via `protocol-demonstration/test/era-pinned-v28-layout.js`
 and skips WITH A REASON — **do not rewrite** those assertions to chase current
 paths. Living product-layout MVP witnesses for the current pointer live in
-`protocol-demonstration/test/v48-product-layout-mvp.test.js` (wired into
-`npm run test:v28-mvp-qa` / Demonstration MVP CI). Same discipline for unit
-tests: historical expectations (e.g. NavBrand V26 beta badge) stay as
-`it.skip` with frozen body; current behavior gets a new living case.
+`protocol-demonstration/test/v48-product-layout-mvp.test.js`, run only via
+**`npm run test:v48-product-layout-mvp`** (never nested under a `test:v28-*`
+script). Demonstration MVP CI invokes each version script separately
+(`test:v28-mvp-qa`, `test:v42-ai-reading-mvp`, `test:v48-product-layout-mvp`).
+Same discipline for unit tests: historical expectations (e.g. NavBrand V26
+beta badge) stay as `it.skip` with frozen body; current behavior gets a new
+living case.
 
 ### Deposit/Read product-surface presentation laws (Garrett, 2026-07-04)
 

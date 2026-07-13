@@ -949,7 +949,10 @@ jobs:
         run: pnpm test:qa:v28:pipeline-readback
 
       - name: Test protocol demonstration
-        run: npm --prefix protocol-demonstration run test:v28-mvp-qa
+        run: |
+          npm --prefix protocol-demonstration run test:v28-mvp-qa
+          npm --prefix protocol-demonstration run test:v42-ai-reading-mvp
+          npm --prefix protocol-demonstration run test:v48-product-layout-mvp
 
       - name: Check diff hygiene
         run: git diff --check
