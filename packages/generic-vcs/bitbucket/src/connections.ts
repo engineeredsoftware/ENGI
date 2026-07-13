@@ -8,7 +8,7 @@ import {
   type SaveConnectionData,
   type VCSAuth,
 } from '@bitcode/vcs-generics';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@bitcode/supabase';
 
 export class BitbucketConnections {
   private readonly connections: VCSConnections;

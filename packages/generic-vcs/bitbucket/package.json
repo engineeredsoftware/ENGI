@@ -14,7 +14,8 @@
   "dependencies": {
     "@bitcode/logger": "workspace:*",
     "@bitcode/supabase": "workspace:*",
-    "@bitcode/vcs-generics": "workspace:*"
+    "@bitcode/vcs-generics": "workspace:*",
+    "@supabase/supabase-js": "^2.0.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.0",

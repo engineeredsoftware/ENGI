@@ -156,5 +156,9 @@ export * from './asset-pack-evidence';
 // Streams helpers
 export { SupabaseStream, flushAndExit } from './streams';
 
+// Client type re-export so workspace packages can type Supabase clients without
+// a direct @supabase/supabase-js dependency (pnpm isolation + monorepo tsc).
+export type { SupabaseClient } from '@supabase/supabase-js';
+
 // NOTE:  Deliberately *not* re-exporting `createServerClient` or
 // `supabaseMiddleware` here – import them from their dedicated files instead.
