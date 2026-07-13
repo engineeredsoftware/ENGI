@@ -153,16 +153,39 @@ export class LocalHost implements BitcodePipelineHost {
       `bitcode-local-host-${slug(source.repositoryFullName)}-${workspaceId()}`,
     );
     const url = withAuth(source.url, source.username, source.password);
-    // Full clone (every blob of the working tree); then check out the revision.
-    const clone = await this.exec('git', ['clone', url, workspacePath]);
+    // Shallow clone: complete working tree at the revision (all files) without
+    // full git history. Fast and sufficient for Setup + every later agent.
+    const revision = (source.revision || '').trim();
+    const looksLikeCommit = /^[0-9a-f]{7,40}$/i.test(revision);
+    const cloneArgs = ['clone', '--depth', '1', '--single-branch'];
+    if (revision && !looksLikeCommit) {
+      cloneArgs.push('--branch', revision);
+    }
+    cloneArgs.push(url, workspacePath);
+    const clone = await this.exec('git', cloneArgs);
     if (clone.exitCode !== 0) {
       throw new Error(`LocalHost git clone failed (exit ${clone.exitCode}): ${redact(clone.stderr).trim()}`);
     }
-    if (source.revision) {
-      const checkout = await this.exec('git', ['-C', workspacePath, 'checkout', source.revision]);
+    if (revision && looksLikeCommit) {
+      // Tip clone may not include an arbitrary SHA; fetch that commit shallowly.
+      const fetch = await this.exec('git', [
+        '-C',
+        workspacePath,
+        'fetch',
+        '--depth',
+        '1',
+        'origin',
+        revision,
+      ]);
+      if (fetch.exitCode !== 0) {
+        throw new Error(
+          `LocalHost fetch ${revision} failed (exit ${fetch.exitCode}): ${redact(fetch.stderr).trim()}`,
+        );
+      }
+      const checkout = await this.exec('git', ['-C', workspacePath, 'checkout', revision]);
       if (checkout.exitCode !== 0) {
         throw new Error(
-          `LocalHost checkout ${source.revision} failed (exit ${checkout.exitCode}): ${redact(checkout.stderr).trim()}`,
+          `LocalHost checkout ${revision} failed (exit ${checkout.exitCode}): ${redact(checkout.stderr).trim()}`,
         );
       }
     }

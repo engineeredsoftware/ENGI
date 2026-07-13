@@ -56,18 +56,26 @@ describe('LocalHost (primitive Host implementation)', () => {
     });
   });
 
-  it('provisions a full checkout (clone + checkout) and exposes the filesystem', async () => {
+  it('provisions a shallow checkout (depth 1; fetch+checkout for commit SHAs)', async () => {
     const { exec, calls } = fakeExec();
     const host = new LocalHost({ exec, rootDir: await makeRoot() });
+    // 7+ hex chars → treated as commit SHA (not branch); triggers fetch+checkout.
+    const revision = 'abc1234';
     const ws = await host.provisionRepository({
       repositoryFullName: 'engineeredsoftware/demo',
       url: 'https://github.com/engineeredsoftware/demo.git',
-      revision: 'abc123',
+      revision,
     });
 
-    // Clone happened, then checkout of the revision.
-    expect(calls.some((c) => c[0] === 'git' && c[1] === 'clone')).toBe(true);
-    expect(calls.some((c) => c.includes('checkout') && c.includes('abc123'))).toBe(true);
+    // Shallow clone, then fetch+checkout of the commit SHA.
+    const cloneCall = calls.find((c) => c[0] === 'git' && c[1] === 'clone');
+    expect(cloneCall).toBeTruthy();
+    expect(cloneCall).toEqual(expect.arrayContaining(['--depth', '1']));
+    expect(cloneCall).toEqual(expect.arrayContaining(['--single-branch']));
+    // Branch tip clone first; SHA resolved via shallow fetch (not --branch on clone).
+    expect(cloneCall).not.toEqual(expect.arrayContaining(['--branch']));
+    expect(calls.some((c) => c.includes('fetch') && c.includes(revision))).toBe(true);
+    expect(calls.some((c) => c.includes('checkout') && c.includes(revision))).toBe(true);
 
     // listFiles -> the tracked set; readFile -> verbatim content.
     expect((await ws.listFiles()).sort()).toEqual(Object.keys(FIXTURE).sort());
@@ -126,7 +134,11 @@ describe('LocalHost (primitive Host implementation)', () => {
     ).rejects.toThrow(/LocalHost git clone failed/);
 
     const cloneCall = calls.find((c) => c[1] === 'clone')!;
-    const urlArg = cloneCall[2];
+    // cloneArgs: clone --depth 1 --single-branch [--branch rev] <url> <dest>
+    const urlArg = cloneCall.find(
+      (arg) => typeof arg === 'string' && /^https?:\/\//.test(arg),
+    );
+    expect(urlArg).toBeTruthy();
     expect(urlArg).toContain('ghs_secrettoken'); // token injected into the clone URL
     // The thrown error must NOT leak the token (redacted).
     await host
