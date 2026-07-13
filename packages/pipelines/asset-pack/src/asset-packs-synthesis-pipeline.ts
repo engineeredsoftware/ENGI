@@ -31,15 +31,15 @@ import {
 import { resolveDefaultLLMConfig } from '@bitcode/generic-llms';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
-import {
-  applyExclusionsToInventory,
-  measurementCatalogForLens,
-  type AssetPackMeasurementSpec,
-  type AssetPacksSynthesisLens,
-  type AssetPacksSynthesisSourceInventory,
-  type AssetPacksSynthesisSourceSample,
-  type AssetPacksSynthesisSteering,
-} from './asset-packs-synthesis';
+import { measurementCatalogForLens } from './asset-packs-synthesis-catalogs';
+import { applyExclusionsToInventory } from './asset-packs-synthesis-inventory';
+import type {
+  AssetPackMeasurementSpec,
+  AssetPacksSynthesisLens,
+  AssetPacksSynthesisSourceInventory,
+  AssetPacksSynthesisSourceSample,
+  AssetPacksSynthesisSteering,
+} from './asset-packs-synthesis-types';
 
 const part = (content: string): PromptPart => content as PromptPart;
 

@@ -12,6 +12,8 @@
  * (the dev persistent Node server, NOT a serverless function). Prod deposit runs on
  * the Vercel Sandbox host (the standing host loose end); when wired,
  * resolveDepositPipelineHost returns it.
+ *
+ * Sample picking lives in deposit-source-samples.ts.
  */
 
 import {
@@ -26,7 +28,8 @@ import {
   type HostSourceFile,
   type PipelineHarnessHostEvent,
   type PipelineHarnessRunResult,
-} from '@bitcode/pipeline-hosts';
+} from "@bitcode/pipeline-hosts";
+import { pickDepositSourceSamples } from "@/lib/deposit-source-samples";
 
 export interface ProvisionedDepositInventory {
   paths: string[];
@@ -35,45 +38,17 @@ export interface ProvisionedDepositInventory {
   truncated: boolean;
 }
 
-const SAMPLE_PRIORITY_PATTERNS = [
-  /^readme/i,
-  /^package\.json$/i,
-  /^pyproject\.toml$/i,
-  /^cargo\.toml$/i,
-  /^go\.mod$/i,
-  /^setup\.(py|cfg)$/i,
-  /^requirements.*\.txt$/i,
-];
-const MAX_SAMPLE_FILES = 24;
-const MAX_SAMPLE_CHARS = 4000;
-
-/** Bounded prompt excerpts derived from the real checkout (manifests/README + shallow source). */
-function pickSamples(sources: HostSourceFile[]): { path: string; excerpt: string }[] {
-  const byPath = new Map(sources.map((file) => [file.path, file.content]));
-  const allPaths = sources.map((file) => file.path);
-  const prioritized = allPaths.filter((path) =>
-    SAMPLE_PRIORITY_PATTERNS.some((pattern) => pattern.test(path.split('/').pop() || '')),
-  );
-  const sourceLike = allPaths.filter(
-    (path) =>
-      !prioritized.includes(path) &&
-      /\.(ts|tsx|js|jsx|py|rs|go|rb|java|cs|swift|sol|md)$/i.test(path) &&
-      path.split('/').length <= 3,
-  );
-  return [...prioritized, ...sourceLike]
-    .slice(0, MAX_SAMPLE_FILES)
-    .map((path) => ({ path, excerpt: (byPath.get(path) || '').slice(0, MAX_SAMPLE_CHARS) }));
-}
-
 /**
  * Select the deposit HostKind by CONFIGURATION (not environment): `BITCODE_PIPELINE_HOST`
  * (`inline` | `sandbox`) chooses which HostKind runs the synthesis pipeline; default
  * `inline`. (A SandboxHost's provider is `BITCODE_SANDBOX_PROVIDER`, `vercel` | `aws`.)
  * Pure + testable; no dev/prod or local/remote semantics.
  */
-export function selectDepositHostKind(env: NodeJS.ProcessEnv = process.env): BitcodeHostKind {
+export function selectDepositHostKind(
+  env: NodeJS.ProcessEnv = process.env,
+): BitcodeHostKind {
   const explicit = env.BITCODE_PIPELINE_HOST?.trim().toLowerCase();
-  return explicit === 'sandbox' ? 'sandbox' : 'inline';
+  return explicit === "sandbox" ? "sandbox" : "inline";
 }
 
 /**
@@ -85,11 +60,11 @@ export function selectDepositHostKind(env: NodeJS.ProcessEnv = process.env): Bit
  * path — never treat this as a generic multi-host resolver.
  */
 export async function resolveDepositPipelineHost(): Promise<BitcodePipelineHost> {
-  if (selectDepositHostKind() === 'sandbox') {
+  if (selectDepositHostKind() === "sandbox") {
     throw new Error(
-      'Sandbox deposit uses runDepositInBoxHarness (VercelSandboxPipelineHost), not ' +
-        'resolveDepositPipelineHost. Set BITCODE_PIPELINE_HOST=inline for InlineHost ' +
-        'provision + in-process SDIVF, or use the route sandbox branch.',
+      "Sandbox deposit uses runDepositInBoxHarness (VercelSandboxPipelineHost), not " +
+        "resolveDepositPipelineHost. Set BITCODE_PIPELINE_HOST=inline for InlineHost " +
+        "provision + in-process SDIVF, or use the route sandbox branch.",
     );
   }
   return new InlineHost();
@@ -103,7 +78,7 @@ export interface DepositInBoxHarnessHost {
 export interface DepositInBoxHarnessResult {
   options: unknown[];
   sandboxId: string | null;
-  outcome: PipelineHarnessRunResult['outcome'];
+  outcome: PipelineHarnessRunResult["outcome"];
 }
 
 /**
@@ -134,22 +109,25 @@ export async function runDepositInBoxHarness(input: {
   hostFactory?: () => Promise<DepositInBoxHarnessHost>;
 }): Promise<DepositInBoxHarnessResult> {
   const plan = buildAssetPackSandboxHarness({
-    mode: 'asset_pack_pipeline',
-    synthesizeMode: 'deposit',
+    mode: "asset_pack_pipeline",
+    synthesizeMode: "deposit",
     // Explicit opt-out of v2 default persistence (one-shot deposit synthesis).
     persistent: false,
-    read: { id: `deposit-read-${input.repositoryFullName}`, prompt: 'Deposit synthesis (no read need).' },
+    read: {
+      id: `deposit-read-${input.repositoryFullName}`,
+      prompt: "Deposit synthesis (no read need).",
+    },
     deposit: { id: `deposit-${input.repositoryFullName}` },
     sourceRevision: {
       repositoryFullName: input.repositoryFullName,
-      branch: input.branch || 'main',
+      branch: input.branch || "main",
       commit: input.commit || input.revision,
     },
     source: {
-      type: 'git',
+      type: "git",
       url: `https://github.com/${input.repositoryFullName}.git`,
       revision: input.revision,
-      username: input.token ? 'x-access-token' : undefined,
+      username: input.token ? "x-access-token" : undefined,
       password: input.token,
       depth: 1,
     },
@@ -172,20 +150,24 @@ export async function runDepositInBoxHarness(input: {
   }
 
   const result = await host.runHarness(plan);
-  if (result?.outcome === 'cancelled') {
+  if (result?.outcome === "cancelled") {
     return {
       options: [],
       sandboxId: result.sandboxId ?? null,
-      outcome: 'cancelled',
+      outcome: "cancelled",
     };
   }
-  const evidence = result?.artifacts?.evidence as { depositOptions?: unknown } | null;
+  const evidence = result?.artifacts?.evidence as {
+    depositOptions?: unknown;
+  } | null;
   const options =
-    evidence && Array.isArray(evidence.depositOptions) ? evidence.depositOptions : [];
+    evidence && Array.isArray(evidence.depositOptions)
+      ? evidence.depositOptions
+      : [];
   return {
     options,
     sandboxId: result?.sandboxId ?? null,
-    outcome: result?.outcome ?? 'failed',
+    outcome: result?.outcome ?? "failed",
   };
 }
 
@@ -206,7 +188,7 @@ export async function provisionDepositSourceInventory(input: {
     repositoryFullName: input.repositoryFullName,
     url: input.url,
     revision: input.revision,
-    username: input.token ? 'x-access-token' : undefined,
+    username: input.token ? "x-access-token" : undefined,
     password: input.token,
   });
   try {
@@ -214,7 +196,7 @@ export async function provisionDepositSourceInventory(input: {
     const sources = await readWorkspaceSources(workspace);
     return {
       paths: sources.map((file) => file.path),
-      samples: pickSamples(sources),
+      samples: pickDepositSourceSamples(sources),
       sources,
       truncated: false,
     };

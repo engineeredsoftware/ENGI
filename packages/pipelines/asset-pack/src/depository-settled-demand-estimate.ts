@@ -1,158 +1,37 @@
 /**
- * Depository settled-AssetPack demand estimation (V48 Gate 3).
+ * Depository settled-AssetPack demand estimation public entry (V48 Gate 3).
  *
  * Demand estimates for deposit earnings / option neediness must be grounded in
  * the Depository's *settled* (or admitted-and-settlement-ready) AssetPack corpus.
  * Hardcoded placeholder weights are forbidden. When the settled corpus is too
  * thin to support a defensible estimate, return estimatable=false and let UI
- * say "Unestimatable".
+ * say "Unestimatable". Package export path unchanged.
  */
 
-export type SettledDemandEstimateState =
-  | 'strong-likely-demand'
-  | 'moderate-likely-demand'
-  | 'weak-likely-demand'
-  | 'unestimatable-demand';
+import type {
+  DepositorySettledDemandEstimate,
+  DepositorySettledDemandEstimateInput,
+  SettledDepositoryPackSummary,
+} from './depository-settled-demand-estimate-types';
+import {
+  DEFAULT_MIN_SETTLED,
+  MAX_MATCHED_IDS,
+  clamp01,
+  focusTokens,
+  isSettledLifecycle,
+  jaccard,
+  needinessRootFor,
+  normalizeText,
+  packTokens,
+  stateForDemand,
+} from './depository-settled-demand-estimate-helpers';
 
-/** Minimal source-safe settled pack row used for estimation (no raw source). */
-export interface SettledDepositoryPackSummary {
-  id: string;
-  title?: string | null;
-  summary?: string | null;
-  kind?: string | null;
-  repositoryFullName?: string | null;
-  /** When known: admitted-to-depository, settled, etc. */
-  lifecycleState?: string | null;
-  /** Optional free-text tags/topics (source-safe labels only). */
-  topics?: string[] | null;
-}
-
-export interface DepositorySettledDemandEstimateInput {
-  /** Settled / admitted Depository AssetPacks to search over. */
-  settledPacks: SettledDepositoryPackSummary[];
-  /** Optional focus for option-level estimates (title/summary/kind/repo). */
-  focus?: {
-    title?: string | null;
-    summary?: string | null;
-    kind?: string | null;
-    repositoryFullName?: string | null;
-    coveredSourcePaths?: string[] | null;
-  } | null;
-  /**
-   * Minimum settled packs required before any numeric demand is admitted.
-   * Below this floor the estimate is unestimatable (fail-closed honesty).
-   */
-  minSettledPacks?: number;
-}
-
-export interface DepositorySettledDemandEstimate {
-  schema: 'bitcode.depository.settled-demand-estimate';
-  estimatable: boolean;
-  state: SettledDemandEstimateState;
-  /** 0..1 when estimatable; null when unestimatable. */
-  demand: number | null;
-  /** 0..1 saturation of similar settled supply; null when unestimatable. */
-  saturation: number | null;
-  /**
-   * Read-demand preview volume: demand × (0.5 + 0.5·(1−saturation)).
-   * Null when unestimatable.
-   */
-  needinessVolume: number | null;
-  settledPackCount: number;
-  matchedPackCount: number;
-  rationale: string;
-  /** Source-safe pack ids that contributed to the match (bounded). */
-  matchedPackIds: string[];
-}
-
-const DEFAULT_MIN_SETTLED = 3;
-const MAX_MATCHED_IDS = 12;
-
-function clamp01(value: number) {
-  return Number(Math.max(0, Math.min(1, value)).toFixed(2));
-}
-
-function normalizeText(value: string | null | undefined) {
-  return typeof value === 'string' ? value.trim().toLowerCase() : '';
-}
-
-function tokenize(...parts: Array<string | null | undefined>): Set<string> {
-  const tokens = new Set<string>();
-  for (const part of parts) {
-    const text = normalizeText(part);
-    if (!text) continue;
-    for (const raw of text.split(/[^a-z0-9]+/g)) {
-      if (raw.length < 3) continue;
-      // Drop ultra-common noise.
-      if (
-        raw === 'the' ||
-        raw === 'and' ||
-        raw === 'for' ||
-        raw === 'with' ||
-        raw === 'from' ||
-        raw === 'asset' ||
-        raw === 'pack' ||
-        raw === 'bitcode'
-      ) {
-        continue;
-      }
-      tokens.add(raw);
-    }
-  }
-  return tokens;
-}
-
-function packTokens(pack: SettledDepositoryPackSummary): Set<string> {
-  return tokenize(
-    pack.title,
-    pack.summary,
-    pack.kind,
-    pack.repositoryFullName,
-    ...(Array.isArray(pack.topics) ? pack.topics : []),
-  );
-}
-
-function focusTokens(focus: DepositorySettledDemandEstimateInput['focus']): Set<string> {
-  if (!focus) return new Set();
-  const pathBits = Array.isArray(focus.coveredSourcePaths)
-    ? focus.coveredSourcePaths.flatMap((path) => path.split(/[\/._-]+/))
-    : [];
-  return tokenize(
-    focus.title,
-    focus.summary,
-    focus.kind,
-    focus.repositoryFullName,
-    ...pathBits,
-  );
-}
-
-function jaccard(a: Set<string>, b: Set<string>): number {
-  if (a.size === 0 || b.size === 0) return 0;
-  let inter = 0;
-  for (const token of a) {
-    if (b.has(token)) inter += 1;
-  }
-  const union = a.size + b.size - inter;
-  return union > 0 ? inter / union : 0;
-}
-
-function isSettledLifecycle(state: string | null | undefined): boolean {
-  const normalized = normalizeText(state);
-  if (!normalized) return true; // caller already filtered the corpus
-  return (
-    normalized.includes('settled') ||
-    normalized.includes('admitted') ||
-    normalized.includes('depository') ||
-    normalized.includes('indexed') ||
-    normalized.includes('completed')
-  );
-}
-
-function stateForDemand(demand: number): SettledDemandEstimateState {
-  if (demand >= 0.76) return 'strong-likely-demand';
-  if (demand >= 0.56) return 'moderate-likely-demand';
-  return 'weak-likely-demand';
-}
+export type {
+  DepositorySettledDemandEstimate,
+  DepositorySettledDemandEstimateInput,
+  SettledDemandEstimateState,
+  SettledDepositoryPackSummary,
+} from './depository-settled-demand-estimate-types';
 
 /**
  * Estimate demand by searching the settled Depository AssetPack corpus.
@@ -239,8 +118,7 @@ export function estimateDepositorySettledDemand(
   // Demand: strength of topic affinity among settled packs (mean of top matches),
   // tempered by how rare strong matches are in the corpus.
   const top = matches.slice(0, Math.min(8, matches.length));
-  const meanTop =
-    top.reduce((sum, entry) => sum + entry.score, 0) / Math.max(1, top.length);
+  const meanTop = top.reduce((sum, entry) => sum + entry.score, 0) / Math.max(1, top.length);
   const coverage = matchedPackCount / settledPackCount;
   // High match share ⇒ topic is already well-supplied (lower *new* demand).
   // Sparse but strong matches ⇒ clearer demand signal for more of that knowledge.
@@ -266,9 +144,7 @@ export function estimateDepositorySettledDemand(
 }
 
 /** Map a settled demand estimate into deposit demand-signal weights (or empty when unestimatable). */
-export function settledDemandEstimateToSignals(
-  estimate: DepositorySettledDemandEstimate,
-): {
+export function settledDemandEstimateToSignals(estimate: DepositorySettledDemandEstimate): {
   depositoryDemandSignals: Array<{ id: string; label: string; weight: number }>;
   readingDemandSignals: Array<{ id: string; label: string; weight: number }>;
   existingDepositorySignals: Array<{ id: string; label: string; weight: number }>;
@@ -324,9 +200,7 @@ export function settledDemandEstimateToSignals(
  * Map a settled demand estimate into deposit option neediness (or unestimatable
  * sentinel). Prefer this over LLM-invented needinessSignal scalars.
  */
-export function settledDemandEstimateToNeediness(
-  estimate: DepositorySettledDemandEstimate,
-): {
+export function settledDemandEstimateToNeediness(estimate: DepositorySettledDemandEstimate): {
   estimatable: boolean;
   volume: number | null;
   demand: number | null;
@@ -358,30 +232,6 @@ export function settledDemandEstimateToNeediness(
   };
 }
 
-function stableStringify(value: unknown): string {
-  if (value === null || typeof value !== 'object') return JSON.stringify(value);
-  if (Array.isArray(value)) return `[${value.map((entry) => stableStringify(entry)).join(',')}]`;
-  return `{${Object.keys(value as Record<string, unknown>)
-    .sort()
-    .map((key) => `${JSON.stringify(key)}:${stableStringify((value as Record<string, unknown>)[key])}`)
-    .join(',')}}`;
-}
-
-function needinessRootFor(neediness: {
-  volume: number;
-  demand: number;
-  saturation: number;
-  rationale: string;
-}) {
-  const text = stableStringify(neediness);
-  let hash = 2166136261;
-  for (let index = 0; index < text.length; index += 1) {
-    hash ^= text.charCodeAt(index);
-    hash = Math.imul(hash, 16777619);
-  }
-  return `deposit-option-neediness:${(hash >>> 0).toString(16).padStart(8, '0')}`;
-}
-
 /**
  * Ground each deposit option's neediness from settled Depository AssetPacks.
  * Replaces LLM-invented neediness when a settled corpus is available to search;
@@ -402,11 +252,7 @@ export function groundOptionNeedinessFromSettledDepository<
     sourceBinding?: { repositoryFullName?: string | null } | null;
     roots?: { needinessRoot?: string | null } | null;
   },
->(
-  options: T[],
-  settledPacks: SettledDepositoryPackSummary[],
-  minSettledPacks?: number,
-): T[] {
+>(options: T[], settledPacks: SettledDepositoryPackSummary[], minSettledPacks?: number): T[] {
   return options.map((option) => {
     const estimate = estimateDepositorySettledDemand({
       settledPacks,

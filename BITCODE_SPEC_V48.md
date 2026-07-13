@@ -592,6 +592,13 @@ The `/deposits` commercial surface is modular by SRP, not a single god client:
 6. Rebuilders must follow `internal-docs/BITCODE_SOURCE_LAYOUT.md`; do not
    reassemble deposit law into a single multi-thousand-line page client.
 
+Package modularization (deposit domain): depository-search, deposit option
+policy/admission/options/earnings/demand, depository-supply-index, and
+asset-packs-synthesis are split into types/helpers/builders with stable public
+entry paths under `@bitcode/pipeline-asset-pack/*`. Harness plan builder is
+split from in-box runner templates. Agents co-locate schema/prompts/checks.
+
+
 ### G3-15 Gate 3 completion condition
 
 Gate 3 is closed when:

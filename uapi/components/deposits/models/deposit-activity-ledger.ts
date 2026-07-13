@@ -7,7 +7,7 @@
  */
 
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
-import type { DepositRepositoryAnchor } from "@/components/deposits/DepositSourceSelection/DepositSourceSelection";
+import type { DepositRepositoryAnchor } from "@/components/deposits/models/deposit-repository-anchor";
 
 /** Context sources that are activity-ledger anchors, not pipeline runs. */
 export const DEPOSIT_ACTIVITY_LEDGER_SOURCES = new Set([

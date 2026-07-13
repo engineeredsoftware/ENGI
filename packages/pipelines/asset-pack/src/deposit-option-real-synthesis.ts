@@ -1,23 +1,3 @@
-import {
-  applyExclusionsToInventory,
-  applyInventoryScope,
-  isPathExcluded,
-  isPathForcedIncluded,
-  normalizeForcedPathList,
-  synthesizeAssetPackCandidates,
-  type AssetPackCandidate,
-  type AssetPacksSynthesisInferenceAccounting,
-  type AssetPacksSynthesisResult,
-  type AssetPacksSynthesisSourceInventory,
-} from './asset-packs-synthesis';
-import type {
-  DepositAssetPackOption,
-  DepositAssetPackOptionKind,
-  DepositAssetPackOptionMeasurement,
-  DepositAssetPackOptionSynthesis,
-  DepositOptionSynthesisRequest,
-} from './deposit-asset-pack-options';
-
 /**
  * Deposit lens adapter over AssetPacksSynthesis (V48 Gate 2, QA ledger F12/F14).
  *
@@ -28,7 +8,36 @@ import type {
  * synthesis keeps the `bitcode.deposit.asset-pack-option-synthesis` schema,
  * root format, review boundaries, and source-safety posture, so the
  * existing policy and admission builders consume it unchanged.
+ *
+ * Types/helpers are co-located siblings; this file remains the public entry.
  */
+
+import {
+  applyExclusionsToInventory,
+  applyInventoryScope,
+  isPathExcluded,
+  isPathForcedIncluded,
+  normalizeForcedPathList,
+  synthesizeAssetPackCandidates,
+  type AssetPacksSynthesisResult,
+  type AssetPacksSynthesisSourceInventory,
+} from './asset-packs-synthesis';
+import type {
+  DepositAssetPackOption,
+  DepositAssetPackOptionMeasurement,
+  DepositOptionSynthesisRequest,
+} from './deposit-asset-pack-options-types';
+import type {
+  DepositOptionReviewProjection,
+  RealDepositAssetPackOptionSynthesis,
+} from './deposit-option-real-synthesis-types';
+import {
+  DEPOSIT_OPTION_KINDS,
+  candidateKind,
+  normalizedSignals,
+  signalRoots,
+} from './deposit-option-real-synthesis-helpers';
+import { normalizedText, root, stableHash } from './deposit-source-safe-utils';
 
 export {
   applyExclusionsToInventory,
@@ -38,31 +47,10 @@ export {
   normalizeForcedPathList,
 };
 export type { AssetPacksSynthesisSourceInventory as DepositOptionSourceInventory };
-
-const DEPOSIT_OPTION_KINDS: DepositAssetPackOptionKind[] = [
-  'capability-slice',
-  'implementation-pattern',
-  'proof-operations-slice',
-];
-
-export interface RealDepositAssetPackOptionSynthesis extends DepositAssetPackOptionSynthesis {
-  synthesisMode: 'real-bounded-inference';
-  pipelineCore: 'AssetPacksSynthesis';
-  inference: AssetPacksSynthesisInferenceAccounting;
-  exclusionPosture: {
-    forcedExclusionCount: number;
-    exclusionRoots: string[];
-    excludedPathCount: number;
-    droppedCandidateCount: number;
-  };
-}
-
-export interface DepositOptionReviewProjection {
-  optionId: string;
-  title: string;
-  coveredSourcePaths: string[];
-  measurementRationale: string;
-}
+export type {
+  DepositOptionReviewProjection,
+  RealDepositAssetPackOptionSynthesis,
+} from './deposit-option-real-synthesis-types';
 
 /**
  * @deprecated Product deposit synthesis is `synthesizeAssetPacksPipeline` (full
@@ -97,57 +85,6 @@ export async function synthesizeRealDepositOptionCandidates(input: {
   });
 }
 
-// Root machinery mirrors deposit-asset-pack-options.ts exactly so real and
-// blueprint syntheses share one root format (`prefix:hex8`).
-function stableStringify(value: unknown): string {
-  if (value === null || typeof value !== 'object') return JSON.stringify(value);
-  if (Array.isArray(value)) return `[${value.map((entry) => stableStringify(entry)).join(',')}]`;
-  return `{${Object.keys(value as Record<string, unknown>)
-    .sort()
-    .map((key) => `${JSON.stringify(key)}:${stableStringify((value as Record<string, unknown>)[key])}`)
-    .join(',')}}`;
-}
-
-function stableHash(value: unknown) {
-  const text = typeof value === 'string' ? value : stableStringify(value);
-  let hash = 2166136261;
-  for (let index = 0; index < text.length; index += 1) {
-    hash ^= text.charCodeAt(index);
-    hash = Math.imul(hash, 16777619);
-  }
-  return (hash >>> 0).toString(16).padStart(8, '0');
-}
-
-function root(prefix: string, value: unknown) {
-  return `${prefix}:${stableHash(value)}`;
-}
-
-function normalizedText(value: string | null | undefined) {
-  const normalized = value?.trim();
-  return normalized ? normalized : null;
-}
-
-function normalizedSignals(value: DepositOptionSynthesisRequest['depositoryDemandSignals']) {
-  return (value || [])
-    .map((signal, index) => ({
-      id: normalizedText(signal.id) || `signal-${index + 1}`,
-      label: normalizedText(signal.label) || normalizedText(signal.summary) || `Demand signal ${index + 1}`,
-      summary: normalizedText(signal.summary) || normalizedText(signal.label) || 'Source-safe demand signal',
-      weight: Math.max(0, Math.min(1, Number(signal.weight ?? 0.5))),
-    }))
-    .sort((left, right) => left.id.localeCompare(right.id));
-}
-
-function signalRoots(prefix: string, signals: ReturnType<typeof normalizedSignals>) {
-  return signals.map((signal) => root(prefix, signal));
-}
-
-function candidateKind(candidate: AssetPackCandidate): DepositAssetPackOptionKind {
-  return DEPOSIT_OPTION_KINDS.includes(candidate.kind as DepositAssetPackOptionKind)
-    ? (candidate.kind as DepositAssetPackOptionKind)
-    : 'capability-slice';
-}
-
 export function buildRealDepositAssetPackOptionSynthesis(
   request: DepositOptionSynthesisRequest & { forcedExclusions?: string[] | null },
   result: AssetPacksSynthesisResult,
@@ -168,9 +105,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
     repositoryFullName,
     sourceBranch,
     sourceCommit,
-    depositorInstructionRoot: obfuscations
-      ? root('deposit-option-instructions', obfuscations)
-      : null,
+    depositorInstructionRoot: obfuscations ? root('deposit-option-instructions', obfuscations) : null,
     synthesisMode: 'real-bounded-inference',
     pipelineCore: 'AssetPacksSynthesis',
     exclusionRoots,
@@ -182,7 +117,9 @@ export function buildRealDepositAssetPackOptionSynthesis(
 
   const reviewProjections: DepositOptionReviewProjection[] = [];
   const options = result.candidates.map((candidate, index): DepositAssetPackOption => {
-    const sourcePathRoots = candidate.coveredSourcePaths.map((path) => root('deposit-option-source-path', path));
+    const sourcePathRoots = candidate.coveredSourcePaths.map((path) =>
+      root('deposit-option-source-path', path),
+    );
     const optionId = `deposit-option-real-${index + 1}-${stableHash({
       kind: candidate.kind,
       title: candidate.title,
@@ -191,24 +128,26 @@ export function buildRealDepositAssetPackOptionSynthesis(
       sourceCommit,
       sourcePathRoots,
     })}`;
-    const measurements: DepositAssetPackOptionMeasurement[] = candidate.measurements.map((measurement) => ({
-      id: `${optionId}:${measurement.measurementKind}`,
-      label: measurement.label,
-      measurementKind: measurement.measurementKind,
-      weight: measurement.weight,
-      volume: measurement.volume,
-      // V48 Gate 3: carry the absolutes provenance (category + size magnitude/unit).
-      ...(measurement.category ? { category: measurement.category } : {}),
-      ...(typeof measurement.magnitude === 'number' ? { magnitude: measurement.magnitude } : {}),
-      ...(measurement.unit ? { unit: measurement.unit } : {}),
-      evidenceRoot: root('deposit-option-measurement', {
+    const measurements: DepositAssetPackOptionMeasurement[] = candidate.measurements.map(
+      (measurement) => ({
+        id: `${optionId}:${measurement.measurementKind}`,
+        label: measurement.label,
         measurementKind: measurement.measurementKind,
         weight: measurement.weight,
         volume: measurement.volume,
-        rationaleRoot: root('deposit-option-measurement-rationale', candidate.measurementRationale),
-        coveredSourcePathRoots: sourcePathRoots,
+        // V48 Gate 3: carry the absolutes provenance (category + size magnitude/unit).
+        ...(measurement.category ? { category: measurement.category } : {}),
+        ...(typeof measurement.magnitude === 'number' ? { magnitude: measurement.magnitude } : {}),
+        ...(measurement.unit ? { unit: measurement.unit } : {}),
+        evidenceRoot: root('deposit-option-measurement', {
+          measurementKind: measurement.measurementKind,
+          weight: measurement.weight,
+          volume: measurement.volume,
+          rationaleRoot: root('deposit-option-measurement-rationale', candidate.measurementRationale),
+          coveredSourcePathRoots: sourcePathRoots,
+        }),
       }),
-    }));
+    );
     const sourceBinding = {
       repositoryFullName,
       sourceBranch,
@@ -222,7 +161,10 @@ export function buildRealDepositAssetPackOptionSynthesis(
       posture: 'source-safe-demand-signals-only' as const,
       depositorySignalRoots: signalRoots('deposit-option-depository-demand-signal', depositoryDemandSignals),
       readingSignalRoots: signalRoots('deposit-option-reading-demand-signal', readingDemandSignals),
-      existingDepositorySignalRoots: signalRoots('deposit-option-existing-supply-signal', existingDepositorySignals),
+      existingDepositorySignalRoots: signalRoots(
+        'deposit-option-existing-supply-signal',
+        existingDepositorySignals,
+      ),
       confidence: candidate.confidence,
     };
     const reviewBoundary = {
@@ -319,9 +261,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
       repositoryFullName,
       sourceBranch,
       sourceCommit,
-      depositorInstructionRoot: obfuscations
-        ? root('deposit-option-instructions', obfuscations)
-        : null,
+      depositorInstructionRoot: obfuscations ? root('deposit-option-instructions', obfuscations) : null,
       sourcePathRoots: [...new Set(options.flatMap((option) => option.sourceBinding.sourcePathRoots))],
     },
     options,

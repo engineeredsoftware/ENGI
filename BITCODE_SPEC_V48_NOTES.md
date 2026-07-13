@@ -1427,3 +1427,27 @@ Canonical filesystem and co-location rules live in
   co-located `hooks/`, `styles/`, `__tests__/`
 - Domain pure logic prefers `packages/`; pages stay thin
 - Terminal remains deleted
+
+
+### Deposit full-stack modularization landing (Garrett, 2026-07-13 — aggressive pass)
+
+**packages/pipelines/asset-pack**
+- `depository-search` → types / scoring / evidence / normalize / run + barrel (1898→43)
+- deposit option domain → types + helpers + shared `deposit-source-safe-utils`
+- `depository-supply-index` → types / helpers / build-record / projections
+- `asset-packs-synthesis` → types / catalogs / neediness / inventory / validate + barrel
+- deposit agents → schema / prompts / checks co-located under agents/
+
+**packages/pipeline-hosts**
+- `asset-pack-harness` → constants + runners templates + plan builder
+
+**uapi deposits**
+- Option card, source field grid, aside panels, obfuscations controls
+- synthesize-options: parse body + dispatch modules; thin route
+
+**uapi reads (deposit workbench)**
+- ReadsDepositReadWorkbench orchestrator + hooks + stage panels
+- deposit-read-workbench models split; evidence types/extract/row-builders
+
+Public package export paths preserved. Jest deposit/depository/synthesis suites green.
+

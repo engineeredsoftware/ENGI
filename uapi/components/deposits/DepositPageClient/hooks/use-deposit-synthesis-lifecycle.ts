@@ -14,7 +14,7 @@ import {
 import type { DepositSynthesisStatus } from "./use-deposit-synthesis-activity";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
 import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
-import type { DepositRealSynthesis } from "@/components/deposits/DepositAssetPackOptions/DepositAssetPackOptions";
+import type { DepositRealSynthesis } from "@/components/deposits/models/deposit-real-synthesis";
 
 export function useDepositSynthesisLifecycle(input: {
   synthesisStatus: DepositSynthesisStatus;

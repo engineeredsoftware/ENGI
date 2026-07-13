@@ -1,283 +1,43 @@
+/**
+ * Depositor earning and supply intelligence public entry.
+ *
+ * Builds estimate-labeled earning statements and supply recommendations from
+ * policy reports. Package export path unchanged.
+ */
+
 import type {
-  DepositAssetPackOptionPolicyEvaluation,
-  DepositAssetPackOptionPolicyReport,
-} from './deposit-asset-pack-option-policy';
-import type { DepositOptionDemandSignal } from './deposit-asset-pack-options';
+  DepositorDemandOpportunityState,
+  DepositorEarningRangeState,
+  DepositorEarningSupplyIntelligence,
+  DepositorEarningSupplyIntelligenceInput,
+} from './depositor-earning-supply-intelligence-types';
+import {
+  EARNING_EXTRA_FORBIDDEN_MARKERS,
+  compensationRangeFor,
+  netRangeFor,
+  normalizedOpportunitySignals,
+  opportunityStateFor,
+  recommendationFor,
+  statementStateFor,
+} from './depositor-earning-supply-intelligence-helpers';
+import {
+  boundedUnit,
+  hasNoForbiddenSourceMarkers,
+  normalizedText,
+  root,
+  stableStringify,
+} from './deposit-source-safe-utils';
 
-export type DepositorDemandOpportunityState =
-  | 'strong-demand-opportunity'
-  | 'moderate-demand-opportunity'
-  | 'weak-demand-opportunity'
-  | 'unestimatable-demand';
-
-export type DepositorEarningRangeState =
-  | 'compensation-range-estimated'
-  | 'repair-required-before-earning'
-  | 'blocked-critical-source'
-  | 'unestimatable-demand';
-
-export type DepositorSupplyRecommendationAction =
-  | 'approve-for-depository-review'
-  | 'repair-policy-before-admission'
-  | 'resynthesize-for-demand'
-  | 'withhold-critical-source';
-
-export interface DepositorEarningSupplyIntelligenceInput {
-  policyReport: DepositAssetPackOptionPolicyReport;
-  unfitNeedOpportunitySignals?: DepositOptionDemandSignal[] | null;
-  createdAt?: string | null;
-  /**
-   * When true (or when no demand signals and no settled estimate), likely demand
-   * and compensation are marked unestimatable rather than inventing placeholders.
-   */
-  demandUnestimatable?: boolean | null;
-  demandUnestimatableRationale?: string | null;
-  /** Settled-corpus demand 0..1 when estimatable; ignored when unestimatable. */
-  settledDemand?: number | null;
-  settledPackCount?: number | null;
-}
-
-export interface DepositorUnfitNeedOpportunity {
-  id: string;
-  label: string;
-  weight: number;
-  state: DepositorDemandOpportunityState;
-  opportunityRoot: string;
-}
-
-export interface DepositorEarningStatement {
-  schema: 'bitcode.deposit.depositor-earning-statement';
-  optionId: string;
-  title: string;
-  valueLabel: 'estimate';
-  state: DepositorEarningRangeState;
-  demandState: DepositAssetPackOptionPolicyEvaluation['demand']['state'];
-  sourceCriticalityState: DepositAssetPackOptionPolicyEvaluation['sourceCriticality']['state'];
-  roiState: DepositAssetPackOptionPolicyEvaluation['roi']['state'];
-  expectedCompensationRangeSats: {
-    low: number;
-    expected: number;
-    high: number;
-    priceAsset: 'BTC';
-    rangeBasis: 'estimated-future-reader-settlement-share';
-  };
-  expectedNetRangeSats: {
-    low: number;
-    expected: number;
-    high: number;
-  };
-  sourceToShares: {
-    allocationMethod: 'source-to-shares-largest-remainder';
-    depositorShareBasisPoints: number;
-    proofState: 'not-created-until-accepted-need-fit-and-settlement';
-  };
-  blockers: string[];
-  warnings: string[];
-  statementRoot: string;
-}
-
-export interface DepositorSupplyRecommendation {
-  optionId: string;
-  title: string;
-  action: DepositorSupplyRecommendationAction;
-  reasons: string[];
-  recommendationRoot: string;
-}
-
-export interface DepositorEarningSupplyIntelligence {
-  schema: 'bitcode.deposit.earning-supply-intelligence';
-  intelligence: 'DepositorEarningSupplyIntelligence';
-  createdAt: string;
-  route: '/deposits';
-  synthesisRequestId: string;
-  optionCount: number;
-  likelyDemand: {
-    state: DepositorDemandOpportunityState;
-    averageConfidence: number;
-    strongestOptionId: string | null;
-    strongDemandOptionCount: number;
-    demandRoot: string;
-  };
-  unfitNeedOpportunities: {
-    state: DepositorDemandOpportunityState;
-    opportunityCount: number;
-    opportunities: DepositorUnfitNeedOpportunity[];
-    opportunityRoot: string;
-  };
-  earningStatements: DepositorEarningStatement[];
-  supplyRecommendations: DepositorSupplyRecommendation[];
-  aggregate: {
-    valueLabel: 'estimate';
-    eligibleEarningStatementCount: number;
-    blockedCriticalSourceCount: number;
-    repairRequiredCount: number;
-    totalExpectedCompensationSats: number;
-    expectedCompensationRangeSats: {
-      low: number;
-      expected: number;
-      high: number;
-      priceAsset: 'BTC';
-    };
-    sourceSafeSupplyRecommendationCount: number;
-    unfitNeedOpportunityCount: number;
-    aggregateRoot: string;
-  };
-  disclosure: {
-    sourceSafeMetadataOnly: true;
-    protectedSourceVisible: false;
-    rawSourceTextVisible: false;
-    unpaidAssetPackSourceVisible: false;
-    rawPromptVisible: false;
-    interpolatedPromptVisible: false;
-    rawProviderResponseVisible: false;
-    walletPrivateMaterialVisible: false;
-    settlementPrivatePayloadVisible: false;
-    valueBearingMainnetAdmitted: false;
-  };
-  roots: {
-    intelligenceRoot: string;
-    policyReportRoot: string;
-    likelyDemandRoot: string;
-    unfitNeedOpportunityRoot: string;
-    earningStatementRoots: string[];
-    supplyRecommendationRoots: string[];
-    aggregateRoot: string;
-  };
-}
-
-const FORBIDDEN_SOURCE_MARKERS = [
-  'PRIVATE_SOURCE_DO_NOT_SERIALIZE',
-  `BEGIN_${'PRIVATE'}_KEY`,
-  'wallet_private_material',
-  'raw_provider_response',
-  'unpaid_assetpack_source',
-  'protected_source_payload',
-  'value_bearing_mainnet',
-];
-
-function stableStringify(value: unknown): string {
-  if (value === null || typeof value !== 'object') return JSON.stringify(value);
-  if (Array.isArray(value)) return `[${value.map((entry) => stableStringify(entry)).join(',')}]`;
-  return `{${Object.keys(value as Record<string, unknown>)
-    .sort()
-    .map((key) => `${JSON.stringify(key)}:${stableStringify((value as Record<string, unknown>)[key])}`)
-    .join(',')}}`;
-}
-
-function stableHash(value: unknown) {
-  const text = typeof value === 'string' ? value : stableStringify(value);
-  let hash = 2166136261;
-  for (let index = 0; index < text.length; index += 1) {
-    hash ^= text.charCodeAt(index);
-    hash = Math.imul(hash, 16777619);
-  }
-  return (hash >>> 0).toString(16).padStart(8, '0');
-}
-
-function root(prefix: string, value: unknown) {
-  return `${prefix}:${stableHash(value)}`;
-}
-
-function normalizedText(value: string | null | undefined) {
-  const normalized = value?.trim();
-  return normalized ? normalized : null;
-}
-
-function boundedUnit(value: number | null | undefined, fallback: number) {
-  const numeric = Number(value ?? fallback);
-  if (!Number.isFinite(numeric)) return fallback;
-  return Math.max(0, Math.min(1, numeric));
-}
-
-function opportunityStateFor(weight: number): DepositorDemandOpportunityState {
-  if (weight >= 0.76) return 'strong-demand-opportunity';
-  if (weight >= 0.56) return 'moderate-demand-opportunity';
-  return 'weak-demand-opportunity';
-}
-
-function normalizedOpportunitySignals(value: DepositOptionDemandSignal[] | null | undefined) {
-  return (value || [])
-    .map((signal, index) => {
-      const weight = boundedUnit(signal.weight, 0.5);
-      const label =
-        normalizedText(signal.label) ||
-        normalizedText(signal.summary) ||
-        `Unfit Need opportunity ${index + 1}`;
-      const id = normalizedText(signal.id) || `unfit-need-opportunity-${index + 1}`;
-      return {
-        id,
-        label,
-        weight,
-        state: opportunityStateFor(weight),
-        opportunityRoot: root('deposit-unfit-need-opportunity', { id, label, weight }),
-      };
-    })
-    .sort((left, right) => left.id.localeCompare(right.id));
-}
-
-function statementStateFor(
-  evaluation: DepositAssetPackOptionPolicyEvaluation,
-): DepositorEarningRangeState {
-  if (evaluation.sourceCriticality.state === 'blocked-critical-source') return 'blocked-critical-source';
-  if (!evaluation.compensation.eligibleIfApprovedAndSelected) return 'repair-required-before-earning';
-  return 'compensation-range-estimated';
-}
-
-function compensationRangeFor(evaluation: DepositAssetPackOptionPolicyEvaluation) {
-  const expected = Math.max(
-    0,
-    Math.round(
-      (evaluation.roi.estimatedGrossSats * evaluation.compensation.depositorShareBasisPoints) / 10_000,
-    ),
-  );
-  return {
-    low: Math.round(expected * 0.7),
-    expected,
-    high: Math.round(expected * 1.3),
-    priceAsset: 'BTC' as const,
-    rangeBasis: 'estimated-future-reader-settlement-share' as const,
-  };
-}
-
-function netRangeFor(
-  range: DepositorEarningStatement['expectedCompensationRangeSats'],
-  evaluation: DepositAssetPackOptionPolicyEvaluation,
-) {
-  const developmentCost = evaluation.roi.estimatedDevelopmentCostSats;
-  return {
-    low: range.low - developmentCost,
-    expected: range.expected - developmentCost,
-    high: range.high - developmentCost,
-  };
-}
-
-function recommendationFor(evaluation: DepositAssetPackOptionPolicyEvaluation): DepositorSupplyRecommendation {
-  const action: DepositorSupplyRecommendationAction =
-    evaluation.sourceCriticality.state === 'blocked-critical-source'
-      ? 'withhold-critical-source'
-      : !evaluation.compensation.eligibleIfApprovedAndSelected
-        ? 'repair-policy-before-admission'
-        : evaluation.demand.state === 'weak-likely-demand' || evaluation.roi.state !== 'positive-expected-value'
-          ? 'resynthesize-for-demand'
-          : 'approve-for-depository-review';
-  const reasons = [
-    evaluation.sourceCriticality.state,
-    evaluation.demand.state,
-    evaluation.roi.state,
-    evaluation.compensation.state,
-  ];
-  return {
-    optionId: evaluation.optionId,
-    title: evaluation.title,
-    action,
-    reasons,
-    recommendationRoot: root('deposit-supply-recommendation', {
-      optionId: evaluation.optionId,
-      action,
-      reasons,
-    }),
-  };
-}
+export type {
+  DepositorDemandOpportunityState,
+  DepositorEarningRangeState,
+  DepositorEarningStatement,
+  DepositorEarningSupplyIntelligence,
+  DepositorEarningSupplyIntelligenceInput,
+  DepositorSupplyRecommendation,
+  DepositorSupplyRecommendationAction,
+  DepositorUnfitNeedOpportunity,
+} from './depositor-earning-supply-intelligence-types';
 
 export function buildDepositorEarningSupplyIntelligence(
   input: DepositorEarningSupplyIntelligenceInput,
@@ -319,8 +79,7 @@ export function buildDepositorEarningSupplyIntelligence(
   const earningStatements = input.policyReport.evaluations.map((evaluation) => {
     // Critical-source blocking outranks unestimatable demand so depositor
     // guidance still names the stronger policy gate first.
-    const criticalBlocked =
-      evaluation.sourceCriticality.state === 'blocked-critical-source';
+    const criticalBlocked = evaluation.sourceCriticality.state === 'blocked-critical-source';
     const expectedCompensationRangeSats =
       demandUnestimatable || criticalBlocked
         ? {
@@ -386,7 +145,10 @@ export function buildDepositorEarningSupplyIntelligence(
   const range = {
     low: eligibleStatements.reduce((sum, statement) => sum + statement.expectedCompensationRangeSats.low, 0),
     expected: totalExpectedCompensationSats,
-    high: eligibleStatements.reduce((sum, statement) => sum + statement.expectedCompensationRangeSats.high, 0),
+    high: eligibleStatements.reduce(
+      (sum, statement) => sum + statement.expectedCompensationRangeSats.high,
+      0,
+    ),
     priceAsset: 'BTC' as const,
   };
   const likelyDemandRoot = root('deposit-likely-demand', {
@@ -484,7 +246,7 @@ export function assertDepositorEarningSupplyIntelligenceSourceSafe(
   intelligence: DepositorEarningSupplyIntelligence,
 ) {
   const serialized = stableStringify(intelligence);
-  const noForbiddenMarkers = FORBIDDEN_SOURCE_MARKERS.every((marker) => !serialized.includes(marker));
+  const noForbiddenMarkers = hasNoForbiddenSourceMarkers(serialized, EARNING_EXTRA_FORBIDDEN_MARKERS);
   const sourceSafe =
     noForbiddenMarkers &&
     intelligence.schema === 'bitcode.deposit.earning-supply-intelligence' &&
@@ -499,8 +261,7 @@ export function assertDepositorEarningSupplyIntelligenceSourceSafe(
         statement.expectedCompensationRangeSats.rangeBasis ===
           'estimated-future-reader-settlement-share' &&
         statement.sourceToShares.allocationMethod === 'source-to-shares-largest-remainder' &&
-        statement.sourceToShares.proofState ===
-          'not-created-until-accepted-need-fit-and-settlement',
+        statement.sourceToShares.proofState === 'not-created-until-accepted-need-fit-and-settlement',
     ) &&
     intelligence.disclosure.sourceSafeMetadataOnly === true &&
     intelligence.disclosure.protectedSourceVisible === false &&

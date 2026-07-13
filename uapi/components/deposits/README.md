@@ -11,8 +11,11 @@ deposits/
   README.md
   models/                              # pure projections (no React)
     deposit-activity-ledger.ts         # anchors, pipeline-table filters
+    deposit-real-synthesis.ts          # real synthesis result shape for UI
+    deposit-repository-anchor.ts       # repository anchor type
     deposit-route-input-builder.ts     # DepositRouteSession input assembly
-    deposit-route-model.ts             # session/stage law
+    deposit-route-model.ts             # session builders + source-safety assert
+    deposit-route-session-types.ts     # session/step types + step catalog
     deposit-route-rows.ts              # session/authority row builders
     deposit-source-criticality.ts
     deposit-source-helpers.ts          # path split / JSON helpers
@@ -35,25 +38,48 @@ deposits/
       use-deposit-activity-recording.ts
       use-deposit-synthesis-lifecycle.ts
   DepositSourceSelection/
-    DepositSourceSelection.tsx
+    DepositSourceSelection.tsx         # shell: header, anchors, status, URL sync
     DepositSourceListRefreshButton.tsx
     hooks/use-deposit-source-vcs.ts
-  DepositObfuscationsPanel/
-  DepositAssetPackOptions/
+  DepositSourceFieldGrid/              # provider/repo/branch/commit columns
+  DepositObfuscationsPanel/            # shell: textarea + synthesize CTA
+  DepositObfuscationsAnchorControls/   # load/clear/name-anchor toolbar
+  DepositObfuscationsPathPickers/      # Forced Inclusion / Exclusion trees
+  DepositObfuscationsPathIcons/
+  DepositAssetPackOptions/             # list shell + batch deposit footer
+    DepositAssetPackOptions.tsx
+    DepositAssetPackOptions.types.ts
+  DepositOptionCard/                   # per-option card body
   DepositPipelinesMaster/
   DepositSynthesisTelemetry/
   DepositActivityLedgerDetail/
-  DepositRouteStateAside/
-  DepositObfuscationsPathIcons/
+  DepositRouteStateAside/              # composes earnings + row sections
+  DepositAsideEarningsPanel/
+  DepositAsideRowsSection/             # governance / session label-value rows
 ```
 
-Page shell: `uapi/app/deposits/` (metadata + client mount only).
+Related API / lib (not under components, but deposit-owned):
+
+```
+uapi/app/api/deposit/synthesize-options/
+  route.ts
+  parse-synthesize-options-body.ts     # pure body parsers
+uapi/lib/
+  deposit-source-provisioning.ts       # host resolve + inventory + sandbox harness
+  deposit-source-samples.ts            # bounded prompt sample picker
+```
+
+Page shell: `uapi/app/deposits/` (metadata + client mount only). App shims such as
+`uapi/app/deposits/deposit-route-model.ts` re-export from
+`@/components/deposits/models/deposit-route-model`.
 
 ## Import rules
 
 - Import **Bitcode** bases only (not other experiences).
 - Pure logic → `models/`. Stateful IO → `hooks/`. UI units → named directories.
 - Co-locate unit tests under `models/__tests__/` or component `__tests__/`.
+- Prefer models for types shared across components (real synthesis, anchors,
+  settled demand, label/value rows) rather than exporting types from UI files.
 
 ## Product language
 
