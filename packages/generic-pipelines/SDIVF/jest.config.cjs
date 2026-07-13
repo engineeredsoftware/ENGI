@@ -21,7 +21,7 @@ module.exports = {
     '^@bitcode/tools-generics$': '<rootDir>/../../pipelines-generics/src/__mocks__/tools-generics.ts',
     '^@bitcode/llm-generics$': '<rootDir>/../../llm-generics/src/index.ts',
     '^@bitcode/orm$': '<rootDir>/../../orm/src/index.ts',
-    '^@bitcode/streams$': '<rootDir>/../../streams/src/index.ts',
+    '^@bitcode/streams$': '<rootDir>/../../api/src/streams/index.ts',
     '^@bitcode/logger$': '<rootDir>/../../logger/src/index.ts',
   },
   globals: {

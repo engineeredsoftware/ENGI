@@ -329,8 +329,8 @@ const v23BitcoinDemonstrationServiceSource = readFileSync(
   'utf8',
 );
 const v23BitcoinSource = readFileSync(new URL('../src/canonical/v23-bitcoin.js', import.meta.url), 'utf8');
-const streamsTsSource = readFileSync(new URL('../../packages/streams/src/streams.ts', import.meta.url), 'utf8');
-const streamsJsSourceUrl = new URL('../../packages/streams/src/streams.js', import.meta.url);
+const streamsTsSource = readFileSync(new URL('../../packages/api/src/streams/streams.ts', import.meta.url), 'utf8');
+const streamsJsSourceUrl = new URL('../../packages/api/src/streams/streams.js', import.meta.url);
 const apiAuthRouteSource = readFileSync(new URL('../../packages/api/src/routes/auth.ts', import.meta.url), 'utf8');
 const apiUserRouteSource = readFileSync(new URL('../../packages/api/src/routes/user.ts', import.meta.url), 'utf8');
 const apiShippablesRouteSource = readFileSync(new URL('../../packages/api/src/routes/shippables.ts', import.meta.url), 'utf8');
@@ -866,7 +866,7 @@ const promptQualityConfigSource = readFileSync(new URL('../../packages/testing/s
 const promptQualityReadmeSource = readFileSync(new URL('../../packages/testing/src/prompt-quality-framework/README.md', import.meta.url), 'utf8');
 const timeReadmeSource = readFileSync(new URL('../../packages/time/README.md', import.meta.url), 'utf8');
 const techTypesReadmeSource = readFileSync(new URL('../../packages/tech-types/README.md', import.meta.url), 'utf8');
-const streamsReadmeSource = readFileSync(new URL('../../packages/streams/README.md', import.meta.url), 'utf8');
+const streamsReadmeSource = readFileSync(new URL('../../packages/api/src/streams/README.md', import.meta.url), 'utf8');
 const toolsGenericsToolSource = readFileSync(new URL('../../packages/tools-generics/src/Tool.ts', import.meta.url), 'utf8');
 const toolsGenericsDocCodeToolIndexSource = readFileSync(
   new URL('../../packages/tools-generics/src/doc-code-tool/index.ts', import.meta.url),

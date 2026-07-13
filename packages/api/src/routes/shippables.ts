@@ -30,7 +30,7 @@ import { createPipelineCompletionMessage, findOrCreateConversationForPipeline } 
 import { createJsonResponse, createErrorResponse, createAuthErrorResponse } from '@bitcode/responses';
 import { buildSemanticCompletionResult } from './shippables-semantic-payload';
 import * as crypto from 'crypto';
-import { Streamer } from '@bitcode/streams';
+import { Streamer } from '../streams';
 
 // Initialize ORM client with admin access for API routes
 const orm = createAdminClient();

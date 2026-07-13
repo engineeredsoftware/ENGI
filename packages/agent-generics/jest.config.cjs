@@ -30,7 +30,7 @@ module.exports = {
     '^@bitcode/generic-llms-google$': '<rootDir>/../generic-llms/Google/src/index.ts',
     '^@bitcode/logger$': '<rootDir>/../logger/src/index.ts',
     '^@bitcode/parsing$': '<rootDir>/../parsing/src/parsing.ts',
-    '^@bitcode/streams$': '<rootDir>/../streams/src/index.ts',
+    '^@bitcode/streams$': '<rootDir>/../api/src/streams/index.ts',
     '^@bitcode/supabase$': '<rootDir>/../supabase/src/index.ts',
     '^@bitcode/artifacts$': '<rootDir>/../artifacts/src/artifacts.ts',
     '^@bitcode/([^/]+)$': '<rootDir>/../$1/src/index.ts',

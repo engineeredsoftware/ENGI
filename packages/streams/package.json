@@ -2,7 +2,7 @@
   "name": "@bitcode/streams",
   "version": "0.1.0",
   "private": true,
-  "description": "Bitcode streaming helpers for execution, AssetPack, and Shippable progress.",
+  "description": "Compatibility re-export of @bitcode/api/streams (API streaming primitives)",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
@@ -16,18 +16,5 @@
     },
     "./src/*": "./src/*",
     "./package.json": "./package.json"
-  },
-  "files": [
-    "src"
-  ],
-  "scripts": {
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@bitcode/logger": "workspace:*",
-    "@bitcode/supabase": "workspace:*"
-  },
-  "devDependencies": {
-    "typescript": "^5.0.0"
   }
 }

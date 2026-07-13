@@ -1860,3 +1860,8 @@ Active proof/catalog path strings and docs:refresh scripts point at the new layo
 The monorepo is the Bitcode protocol surface. `@bitcode/protocol` is the
 demo/runtime shell; generators/proof tooling prefer `@bitcode/protocol-canonical`.
 
+## Streams → api primitives (Garrett, 2026-07-13)
+
+- Moved `@bitcode/streams` implementation into `packages/api/src/streams`.
+- Export: `@bitcode/api/streams` (with `./streams/*`).
+- BC: `@bitcode/streams` re-exports the API streams module (same pattern as responses).

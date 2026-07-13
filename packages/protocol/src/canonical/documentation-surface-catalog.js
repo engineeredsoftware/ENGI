@@ -257,7 +257,7 @@ const catalogRows = Object.freeze([
       'internal-docs/BITCODE_EXECUTIONS.md',
       'internal-docs/BITCODE_PROMPT_TRACE.md',
       'packages/observability/README.md',
-      'packages/streams/README.md',
+      'packages/api/src/streams/README.md',
     ],
     linkedSpecSections: ['V35 proof-family canon', 'V35 validation canon'],
     linkedGeneratedArtifacts: [

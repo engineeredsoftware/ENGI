@@ -216,7 +216,7 @@
         "../packages/logger/src/logger.ts"
       ],
       "@/lib/streams": [
-        "../packages/streams/src/streams.ts"
+        "../packages/api/src/streams/streams.ts"
       ],
       "@/lib/sentry": [
         "../packages/external-telemetry/sentry/src/sentry.ts"
@@ -337,6 +337,9 @@
       ],
       "@bitcode/streams": [
         "../packages/streams/src/index.ts"
+      ],
+      "@bitcode/api/streams": [
+        "../packages/api/src/streams/index.ts"
       ],
             "@bitcode/containerizations-kubernetes": ["packages/containerizations/kubernetes/src/index.ts"],
             "@bitcode/externals-figma": ["packages/externals/figma/src/index.ts"],

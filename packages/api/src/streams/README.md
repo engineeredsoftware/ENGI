@@ -1,4 +1,8 @@
-# Streams Core
+# @bitcode/api/streams
+
+> BC alias: `@bitcode/streams`
+
+Streams Core
 
 ## Overview
 

@@ -21,7 +21,7 @@ module.exports = {
     '^@bitcode/generic-executions/(.*)$': '<rootDir>/../generic-executions/src/$1',
     '^@bitcode/logger$': '<rootDir>/../logger/src/index.ts',
     '^@bitcode/parsing$': '<rootDir>/../parsing/src/parsing.ts',
-    '^@bitcode/streams$': '<rootDir>/../streams/src/index.ts',
+    '^@bitcode/streams$': '<rootDir>/../api/src/streams/index.ts',
     '^@bitcode/supabase$': '<rootDir>/../supabase/src/index.ts',
     '^@bitcode/artifacts$': '<rootDir>/../artifacts/src/artifacts.ts',
     '^@bitcode/([^/]+)$': '<rootDir>/../$1/src/index.ts',
