@@ -111,12 +111,27 @@ uapi                               →  HTTP + React adapters only
 ```
 @bitcode/execution-generics     Execution + Executor (lowest runtime primitive)
         ↑
-@bitcode/agent-generics         Agent : Executor, PTRR steps, failsafes, Thinkings
+@bitcode/agent-generics         Agent : Executor, PTRR steps over generations
         ↑
 @bitcode/generic-agents/*       Base agents (VCS, danger-wall, code-editor, …)
         ↑
 @bitcode/pipeline-asset-pack    Deposit/read SDIVF agents (setup/discovery/…)
 ```
+
+### 3.1.1 Generations (failsafes + thinkings)
+
+```
+@bitcode/generation-generics              Generation type + failsafe/thinkings enums
+        ↑
+@bitcode/generic-generations-failsafes    failsafes/ — prepared-context types + base
+@bitcode/generic-generations-thinkings    thinkings/ — Reason→Judge→StructuredOutput base
+        ↑
+@bitcode/agent-generics                   composes failsafes/thinkings into PTRR Agents
+        ↑
+@bitcode/pipeline-asset-pack              product synthesis / phase agents (no reimplementation)
+```
+
+Package path: `packages/generic-generations/{failsafes,thinkings}/`.
 
 **PTRR** (Plan / Try / Refine / Retry) is the agent step model. Each step runs a
 **Failsafes** sequence:
@@ -126,6 +141,14 @@ uapi                               →  HTTP + React adapters only
 3. **StitchUntilComplete** — repair schema-incomplete/truncated output
 
 Each failsafe’s generation is **Thinkings**: Reason → Judge → StructuredOutput.
+
+Prepared-context types (`PreparedContext`, `prepareConciseContext`, …) live with
+**failsafes** (`@bitcode/generic-generations-failsafes`), not a free-floating
+context domain. `@bitcode/context` retains only process-global `GlobalContext`
+(+ BC re-exports of failsafe prepared-context helpers).
+
+LLM-bound failsafe/thinkings **factories** still execute via `AgentExecution`
+inside `agent-generics` until inverted onto pure Execution + LLM registry.
 
 Factories: `factoryAgent`, `factoryAgentWithPTRR` in `agent-generics`.
 
@@ -239,14 +262,17 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | Package | Responsibility |
 | --- | --- |
 | `execution-generics` | `Execution` state tree, `Executor`, sequential/parallel/pipe |
-| `agent-generics` | Agent = Executor + PTRR + failsafes + generations |
+| `agent-generics` | Agent = Executor + PTRR composition over generations |
 | `tools-generics` | `Tool` class, factories, MCP bridges |
 | `pipelines-generics` | Pipeline / PhaseDelegator primitives / stream hooks (re-exports SDIVF) |
 | `generic-pipelines-sdivf` | SDIVF base loop (`packages/generic-pipelines/SDIVF`) |
+| `generation-generics` | Generation primitive + failsafe/thinkings enums |
+| `generic-generations-failsafes` | Failsafe base + prepared-context types |
+| `generic-generations-thinkings` | Thinkings base vocabulary surface |
 | `llm-generics` | Pure LLM call contracts |
 | `registry` | Hierarchical registry (Prompt is a Registry) |
 | `prompts` | Prompt + PromptPart + **all** raw prompt parts |
-| `context` | Prepared context types for failsafes |
+| `context` | Process-global `GlobalContext` only (failsafe context → failsafes package) |
 | `logger` | Shared logging |
 
 ### 5.2 Generic implementations
@@ -257,6 +283,7 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `generic-tools/*` | Nested base tools: editing, git, VCS, LSP, web-search, repository-setup, … |
 | `generic-pipelines/*` | Nested base pipelines: SDIVF, … |
 | `generic-llms/*` | Nested providers (xAI, OpenAI, Anthropic, Google), defaults, registry aggregator |
+| `generic-generations/*` | Nested generation bases: failsafes, thinkings |
 | `generic-doc-comment-plugins/*` | Nested doc-comment plugins |
 
 ### 5.3 Product domain (AssetPack / BTD / market)

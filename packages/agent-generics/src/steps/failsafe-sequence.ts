@@ -1,22 +1,18 @@
 /**
- * FailsafeGenerationSequence - Canonical failsafes sequence builder
+ * FailsafeGenerationSequence - canonical failsafe base composition.
  *
- * Formalizes the default step generation as THREE failsafes in fixed order,
- * each with a DISTINCT trigger and a DISTINCT job:
+ * Logical home: @bitcode/generic-generations-failsafes.
+ * Hosted in agent-generics while failsafe factories still require
+ * AgentExecution registries. Prepared-context pure types live in
+ * @bitcode/generic-generations-failsafes; vocabulary in
+ * @bitcode/generation-generics.
  *
- * 1. PrepareConciseContext (context failsafe; ALWAYS runs; selection-only):
- *    ONE selection Thinkings against the key-selection schema over the
- *    keys-only root execution state, then the value read-in of exactly the
- *    selected keys.
- * 2. ChunkThenSum (input failsafe; trigger = composed request exceeds the
- *    request limit): ONE task Thinkings when the request fits; per-chunk task
- *    generations + one summing pass when it does not.
- * 3. StitchUntilComplete (output failsafe; trigger = schema-INCOMPLETE or
- *    truncated): repair-only, error-carrying stitch generations, bounded.
+ * THREE failsafes in fixed order, each with a DISTINCT trigger and job:
+ * 1. PrepareConciseContext — selection-only key Thinkings + value read-in
+ * 2. ChunkThenSum — task Thinkings once or per-chunk + sum
+ * 3. StitchUntilComplete — repair-only on incomplete/truncated output
  *
- * The sequence is selection -> task(xchunks) -> repair-only; the failsafes do
- * NOT wrap three identical task generations. Tools execution is a Step-level
- * postprocess and is composed by step factories after this core.
+ * Sequence: selection → task(×chunks) → repair-only. Tools are step postprocess.
  */
 
 import { sequential, type Executor } from '@bitcode/execution-generics';

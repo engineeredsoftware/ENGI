@@ -56,7 +56,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_TOP_LEVEL_KEYS_HINT } from '@bitcod
  *    truncated output): error-carrying repair generations, bounded.
  */
 
-import { estimateSerializedSize } from '@bitcode/context';
+import { estimateSerializedSize } from '@bitcode/generic-generations-failsafes';
 import {
   sequential,
   parallel,

@@ -1,33 +1,52 @@
 /**
- * AGENT-GENERICS - Retained agent orchestration primitives
+ * AGENT-GENERICS - Agent orchestration over generation bases
  *
- * Agents are Executors that sequence retained PTRR-style steps.
- * This package survives as reusable orchestration infrastructure and as a
- * reference surface for Bitcode-native pipelines; it is not itself proof that
- * the old agent families remain live Bitcode canon.
+ * Hierarchy:
+ *   generation-generics → generic-generations/{failsafes,thinkings}
+ *     → agent-generics (this package: Agent + PTRR composition)
+ *     → product (pipeline-asset-pack agents / synthesis)
  *
- * Different agent implementations are selected from registries dynamically.
- * Each step runs 3 failsafe parents sequentially, each running 3 generation children.
- * Tools execute AFTER all failsafes complete (conditional on reasoning + judgment output).
- * 
- * Key Abstractions:
- * - Agent: Executor that sequences PTRR steps
- * - Step: StepExecutor that sequences 7 SubSteps
- * - SubStep: The atomic operations (3 failsafes + 3 generation + 1 tool)
- * 
+ * Agents are Executors that sequence PTRR-style steps. Each step runs 3 failsafe
+ * parents (PrepareConciseContext → ChunkThenSum → StitchUntilComplete), each
+ * driving Thinkings (Reason → Judge → StructuredOutput). Tools run after failsafes.
+ *
+ * Generation vocabulary: @bitcode/generation-generics
+ * Failsafe prepared-context types: @bitcode/generic-generations-failsafes
+ * LLM-bound failsafe/thinkings factories still hosted here until AgentExecution
+ * coupling is inverted into pure Execution + LLM registry.
+ *
  * @doc-package
  * version: 1.0.0
  * pattern: ptrr-orchestration
- * philosophy: "Retained orchestration families remain reusable, but Bitcode decides which ones are admitted as live product behavior"
+ * philosophy: "Agents compose generic generations; product specializes agents"
  */
 
 // ==================== CORE TYPES ====================
 
+// Generation vocabulary (prefer direct import from generation-generics)
+export {
+  FailsafeMetaSubStep,
+  GenerationSubMetaSubStep,
+  type Generation,
+} from '@bitcode/generation-generics';
+
+// Failsafe prepared-context types (prefer generic-generations-failsafes)
+export type {
+  PreparedContext,
+  ContextSelector,
+  PrepareConciseContextOptions,
+  PrepareConciseContextResult,
+} from '@bitcode/generic-generations-failsafes';
+export {
+  estimateSerializedSize,
+  createContextSelectors,
+  chunkContext,
+  prepareConciseContext,
+} from '@bitcode/generic-generations-failsafes';
+
 // Agent enums and types
 export {
   AgentVariationStep,
-  FailsafeMetaSubStep,
-  GenerationSubMetaSubStep
 } from './types';
 
 // Agent interfaces
@@ -37,7 +56,6 @@ export type {
   AgentGeneration,
   QuickAgent,
   StepExecutor,
-  PreparedContext,
   Chunk,
   Reasoning,
   UseTool,

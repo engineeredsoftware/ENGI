@@ -13,6 +13,7 @@
     "packages/generic-agents/*",
     "packages/generic-pipelines/*",
     "packages/generic-llms/*",
+    "packages/generic-generations/*",
     "packages/generic-doc-comment-plugins/*",
     "packages/pipelines/*",
     "uapi",

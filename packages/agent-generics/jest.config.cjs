@@ -8,6 +8,9 @@ module.exports = {
     '^@bitcode/pipelines-generics$': '<rootDir>/../pipelines-generics/src/index.ts',
     '^@bitcode/pipelines-generics/(.*)$': '<rootDir>/../pipelines-generics/src/$1',
     // nested generic-llms family (not packages/generic-llms/src)
+    '^@bitcode/generation-generics$': '<rootDir>/../generation-generics/src/index.ts',
+    '^@bitcode/generic-generations-failsafes$': '<rootDir>/../generic-generations/failsafes/src/index.ts',
+    '^@bitcode/generic-generations-thinkings$': '<rootDir>/../generic-generations/thinkings/src/index.ts',
     '^@bitcode/generic-llms$': '<rootDir>/../generic-llms/registry/src/index.ts',
     '^@bitcode/generic-llms/defaults$': '<rootDir>/../generic-llms/defaults/src/index.ts',
     '^@bitcode/generic-llms-defaults$': '<rootDir>/../generic-llms/defaults/src/index.ts',

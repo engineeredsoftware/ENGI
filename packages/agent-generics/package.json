@@ -13,6 +13,9 @@
   },
   "dependencies": {
     "@bitcode/execution-generics": "workspace:*",
+    "@bitcode/generation-generics": "workspace:*",
+    "@bitcode/generic-generations-failsafes": "workspace:*",
+    "@bitcode/generic-generations-thinkings": "workspace:*",
     "@bitcode/generic-llms": "workspace:*",
     "@bitcode/prompts": "workspace:*",
     "@bitcode/tools-generics": "workspace:*",

@@ -1,22 +1,20 @@
 /**
  * AssetPacksSynthesis — formal pipeline execution (V48 Gate 3).
  *
- * Runs the synthesis measurement on the real Bitcode primitives instead of a
- * hand-rolled inference loop:
+ * Generation hierarchy used here:
+ *   generation-generics → generic-generations/{failsafes,thinkings}
+ *     → agent-generics (createFailsafeGenerationSequence / factoryAgent)
+ *     → this product pipeline (SynthesizeAssetPacks measurement)
+ *
+ * Runtime path:
  *   PipelineExecution → phase → factoryAgent (AgentExecution) → step
  *     → createFailsafeGenerationSequence  (Failsafe[prepare|chunk|stitch] ∘
  *        Thinkings[reason|judge|structured_output])
  *
- * Every LLM call's prompt is built UPWARDS through the execution's prompt
- * registry: layered PromptParts registered on the AgentExecution.prompt
- * (pipeline identity + source-safety, phase lens role, agent measurement
- * catalog + rules, step candidate shape) compose via buildHierarchicalPrompt.
- * The exclusion-filtered source inventory is produced by a real ExecutionTool.
- *
- * Source-safety: the formal LLM substeps store full prompt/response content,
- * which is withheld universally by the streaming-layer filter
- * (sourceSafeStreamEvent). assertSourceSafeCandidates here is the local
- * defense-in-depth check that no admitted candidate leaks raw source.
+ * Product does not reimplement failsafe/thinkings bases; it supplies
+ * measurement catalogs, schemas, and PromptParts. Source-safety: LLM substeps
+ * store full prompt/response content, withheld by sourceSafeStreamEvent;
+ * assertSourceSafeCandidates is local defense-in-depth.
  */
 
 import { z } from 'zod';

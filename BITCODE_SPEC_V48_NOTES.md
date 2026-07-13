@@ -1531,3 +1531,22 @@ Pipeline inheritance hierarchy is now explicit:
 `factorySDIVFExecutorPipeline` / `factorySDIVFPipeline` / `SDIVFPhase` live in
 `@bitcode/generic-pipelines-sdivf`. AssetPack imports the base package directly.
 `pipelines-generics` re-exports for compatibility.
+
+## Generation hierarchy + context/failsafes audit (Garrett, 2026-07-13)
+
+Audit: `@bitcode/context` mixed process-global `GlobalContext` with failsafe
+prepared-context types (`PreparedContext`, `prepareConciseContext`, chunking).
+Those failsafe types now live with failsafes.
+
+```
+@bitcode/generation-generics
+  → @bitcode/generic-generations-failsafes   # packages/generic-generations/failsafes
+  → @bitcode/generic-generations-thinkings   # packages/generic-generations/thinkings
+    → @bitcode/agent-generics                # PTRR agents; still hosts LLM-bound factories
+      → @bitcode/pipeline-asset-pack         # product uses bases; does not reimplement
+```
+
+`@bitcode/context` keeps only `GlobalContext` (+ BC re-exports of failsafe helpers).
+Physical move of `createFailsafeGenerationSequence` / Thinkings factories out of
+agent-generics remains gated on inverting AgentExecution LLM coupling.
+

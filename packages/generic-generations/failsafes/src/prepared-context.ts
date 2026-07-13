@@ -1,3 +1,11 @@
+/**
+ * Prepared-context types and pure helpers for the PrepareConciseContext failsafe.
+ *
+ * These types live with failsafes (not a free-floating @bitcode/context domain):
+ * selection, chunking, and token-budget projection are failsafe concerns.
+ * Process-global GlobalContext remains in @bitcode/context.
+ */
+
 export type ContextSelector = {
   namespace: string;
   key: string;

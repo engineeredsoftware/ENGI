@@ -193,6 +193,7 @@ packages/generic-<family>/          # README only (no package.json)
 | `generic-tools/` | `web-search/`, `vcs/`, … | `@bitcode/generic-tools-*` |
 | `generic-pipelines/` | `SDIVF/` | `@bitcode/generic-pipelines-sdivf` |
 | `generic-llms/` | `xAI/`, `OpenAI/`, `Anthropic/`, `Google/`, `defaults/`, `registry/` | `@bitcode/generic-llms-*` (+ aggregator `@bitcode/generic-llms`) |
+| `generic-generations/` | `failsafes/`, `thinkings/` | `@bitcode/generic-generations-failsafes`, `-thinkings` |
 | `generic-doc-comment-plugins/` | `doc-developing/` | `@bitcode/doc-comment-developing` |
 
 **Do not** put a root `package.json` on the family folder. Workspace globs are
@@ -285,6 +286,10 @@ bitcode/
 │   │   ├── Google/                    # @bitcode/generic-llms-google
 │   │   ├── defaults/                  # @bitcode/generic-llms-defaults
 │   │   └── registry/                  # @bitcode/generic-llms (aggregator)
+│   ├── generation-generics/           # Generation primitive vocabulary
+│   ├── generic-generations/
+│   │   ├── failsafes/                 # @bitcode/generic-generations-failsafes
+│   │   └── thinkings/                 # @bitcode/generic-generations-thinkings
 │   ├── pipelines/
 │   │   └── asset-pack/                # SynthesizeAssetPacks (extends SDIVF)
 │   ├── agent-generics/

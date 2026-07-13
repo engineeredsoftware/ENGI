@@ -1,0 +1,19 @@
+{
+  "name": "@bitcode/generation-generics",
+  "version": "0.1.0",
+  "description": "Generation primitive types and enums (Reason/Judge/StructuredOutput vocabulary; failsafe meta names)",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@bitcode/execution-generics": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

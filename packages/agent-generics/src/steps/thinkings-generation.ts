@@ -1,9 +1,10 @@
 /**
- * ThinkingsGeneration - A single Generation composed of three child LLM calls
- * in strict order: Reason → Judge → StructuredOutput.
+ * ThinkingsGeneration - Reason → Judge → StructuredOutput.
  *
- * This is the atomic typed "Generation" used by steps. Failsafe wrappers
- * (PTRR-specific) can execute this generation under different parents.
+ * Logical home: @bitcode/generic-generations-thinkings (base Thinkings).
+ * Hosted here while factoryReason/Judge/StructuredOutput still depend on
+ * AgentExecution LLM registries. Product code should treat this as the
+ * generic-generations Thinkings base, not a product-local helper.
  */
 
 import { sequential, type Executor } from '@bitcode/execution-generics';

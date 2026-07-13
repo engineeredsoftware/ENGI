@@ -5,7 +5,16 @@
  * Agents organize Actions, Actions sequence Steps, Steps sequence GenerationSteps.
  */
 
-export type { PreparedContext } from '@bitcode/context';
+export type { PreparedContext } from '@bitcode/generic-generations-failsafes';
+import {
+  FailsafeMetaSubStep,
+  GenerationSubMetaSubStep,
+} from '@bitcode/generation-generics';
+export {
+  FailsafeMetaSubStep,
+  GenerationSubMetaSubStep,
+  type Generation,
+} from '@bitcode/generation-generics';
 import type { Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
 import { Tool } from '@bitcode/tools-generics';
@@ -21,35 +30,6 @@ export enum AgentVariationStep {
   TRY = 'try',        // Focus: Attempt primary agent's objective
   RETRY = 'retry',    // Focus: Re-attempt given obvious 'Try' failures
   REFINE = 'refine'   // Focus: (NO TOOLS) Synthesize steps' ultimate objective results
-}
-
-/**
- * FailsafeMetaSubStep - Parent executions handling EXACTLY three concerns:
- * 1. CONTEXT SIGNAL/NOISE - PrepareConciseContext SELECTS the execution-state
- *    keys the task needs (keys-only selection inference + value read-in)
- * 2. BIG INPUT - ChunkThenSum runs the task generation; when the composed
- *    request exceeds the request limit it chunks the selected context values
- * 3. BIG OUTPUT - StitchUntilComplete repairs schema-incomplete/truncated output
- *
- * CRITICAL: The sequence is selection -> task(xchunks) -> repair-only — the
- * three failsafes do NOT wrap three identical task generations.
- */
-export enum FailsafeMetaSubStep {
-  PREPARE_CONCISE_CONTEXT = 'prepare_concise_context',  // CONTEXT SIGNAL/NOISE handling
-  CHUNK_THEN_SUM = 'chunk_then_sum',                    // BIG INPUT handling  
-  STITCH_UNTIL_COMPLETE = 'stitch_until_complete'       // CONVERSATIONSUTPUT handling
-}
-
-/**
- * GenerationSubMetaSubStep - The EXACT sequence run by EVERY failsafe
- * ALWAYS runs: Reason → Judge → StructuredOutput (sequential, no conditionals)
- * 
- * This is the intelligence production sequence: think, judge the thinking, format results
- */
-export enum GenerationSubMetaSubStep {
-  REASON = 'reason',                    // Step 1: Apply reasoning and logic (first thinking step)
-  JUDGE = 'judge',                      // Step 2: Judge the quality of the reasoning (second thinking step)
-  STRUCTURED_OUTPUT = 'structured_output' // Step 3: Format reasoning+judgment into typed output (no thinking, just formatting)
 }
 
 /**
