@@ -8,10 +8,9 @@
  * Refresh button and path helpers are co-located as separate modules.
  */
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Anchor, GitBranch, Lock, RefreshCw } from "lucide-react";
-import type { VCSBranch, VCSCommit, VCSRepository } from "@bitcode/vcs-core";
 
 import { VCSRepositorySelector } from "@/components/bitcode/vcs/VCSRepositorySelector/VCSRepositorySelector";
 import { SearchableSelect } from "@/components/bitcode/forms/SearchableSelect/SearchableSelect";
@@ -28,22 +27,13 @@ import {
 } from "@/components/bitcode/pipeline/models/pipeline-activity-history";
 import {
   DEPOSIT_COMMIT_LATEST_REF,
-  deriveSelectedBranch,
-  deriveSelectedCommit,
-  deriveSelectedRepository,
   getProviderLabel,
-  isLatestCommitRef,
   normalizeRepositoryProvider,
   TERMINAL_REPOSITORY_PROVIDERS,
-  type TerminalRepositoryConnectionStatus,
   type TerminalRepositoryContextState,
-  type TerminalRepositoryInventorySource,
 } from "@/components/bitcode/pipeline/models/repository-context";
-import {
-  readJsonResponse,
-  splitRepositoryFullName,
-} from "@/components/deposits/models/deposit-source-helpers";
 import { DepositSourceListRefreshButton } from "./DepositSourceListRefreshButton";
+import { useDepositSourceVcs } from "./hooks/use-deposit-source-vcs";
 
 /** A previously anchored repository·branch·commit, ready to reload. */
 export interface DepositRepositoryAnchor {
@@ -91,309 +81,43 @@ export default function DepositSourceSelection({
     searchParams.get("sourceCommit") || searchParams.get("commit");
   const provider = normalizeRepositoryProvider(requestedProvider);
 
-  const [connectionStatus, setConnectionStatus] =
-    useState<TerminalRepositoryConnectionStatus | null>(null);
-  const [inventorySource, setInventorySource] =
-    useState<TerminalRepositoryInventorySource | null>(null);
-  const [repositories, setRepositories] = useState<VCSRepository[]>([]);
-  const [branches, setBranches] = useState<VCSBranch[]>([]);
-  const [commits, setCommits] = useState<VCSCommit[]>([]);
-  const [defaultBranch, setDefaultBranch] = useState<string | null>(null);
-  const [isLoadingRepositories, setIsLoadingRepositories] = useState(false);
-  const [isLoadingConnection, setIsLoadingConnection] = useState(true);
-  const [isLoadingBranches, setIsLoadingBranches] = useState(false);
-  const [isLoadingCommits, setIsLoadingCommits] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [sourceSelectionError, setSourceSelectionError] = useState<
-    string | null
-  >(null);
-  // Independent refresh nonces so each column can soft-refresh its own list.
-  const [connectionRefreshNonce, setConnectionRefreshNonce] = useState(0);
-  const [repositoriesRefreshNonce, setRepositoriesRefreshNonce] = useState(0);
-  const [branchesRefreshNonce, setBranchesRefreshNonce] = useState(0);
-  const [commitsRefreshNonce, setCommitsRefreshNonce] = useState(0);
-  // Identities for soft-refresh (same package → keep painted list).
-  const repositoriesIdentityRef = useRef<string>("");
-  const branchesIdentityRef = useRef<string>("");
-  const commitsIdentityRef = useRef<string>("");
+  const vcs = useDepositSourceVcs({
+    provider,
+    requestedRepository,
+    preferredRepository,
+    requestedBranch,
+    requestedCommit,
+  });
+  const {
+    connectionStatus,
+    inventorySource,
+    repositories,
+    branches,
+    commits,
+    defaultBranch,
+    selectedRepository,
+    selectedBranch,
+    selectedCommit,
+    isLatestCommitMode,
+    headCommit,
+    connectionNeedsReconnect,
+    isLoadingRepositories,
+    isLoadingConnection,
+    isLoadingBranches,
+    isLoadingCommits,
+    error,
+    sourceSelectionError,
+    refreshConnection,
+    refreshRepositories,
+    refreshBranches,
+    refreshCommits,
+    hardRefreshInventory,
+  } = vcs;
+
   const [recordMessage, setRecordMessage] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState(false);
 
-  const selectedRepository = useMemo(
-    () =>
-      deriveSelectedRepository(
-        repositories,
-        requestedRepository,
-        preferredRepository,
-      ),
-    [repositories, requestedRepository, preferredRepository],
-  );
-  const selectedBranch = useMemo(
-    () =>
-      deriveSelectedBranch(
-        branches,
-        requestedBranch,
-        defaultBranch || selectedRepository?.defaultBranch,
-      ),
-    [branches, requestedBranch, defaultBranch, selectedRepository],
-  );
-  // Default is "Latest" (track branch head). Resolved SHA still flows to
-  // synthesis via selectedCommit; the URL keeps the `latest` sentinel while
-  // that mode is active so Refresh can re-resolve head.
-  const isLatestCommitMode = isLatestCommitRef(requestedCommit);
-  const selectedCommit = useMemo(
-    () => deriveSelectedCommit(commits, requestedCommit),
-    [commits, requestedCommit],
-  );
-  const headCommit = commits[0] || null;
-  // Repositories list from stored inventory regardless of token validity
-  // (below), but branches/commits require a LIVE, valid session — a stale
-  // installation token (they expire ~hourly) leaves this true while a
-  // repository is still selectable, which otherwise reads as "broken":
-  // Branch/Commit silently stay empty and disabled with no explanation.
-  const connectionNeedsReconnect = Boolean(
-    connectionStatus?.connected && !connectionStatus.valid,
-  );
-
-  // Connection posture.
-  useEffect(() => {
-    let disposed = false;
-    setError(null);
-    setIsLoadingConnection(true);
-    fetch(`/api/vcs/${provider}/connection`)
-      .then(async (response) => {
-        const payload = await readJsonResponse(response);
-        if (!response.ok || !payload) {
-          throw new Error("Unable to load repository connection posture.");
-        }
-        if (!disposed) {
-          setConnectionStatus(payload as TerminalRepositoryConnectionStatus);
-        }
-      })
-      .catch((nextError) => {
-        if (disposed) return;
-        setConnectionStatus(null);
-        setError(
-          nextError instanceof Error
-            ? nextError.message
-            : "Unable to load repository connection posture.",
-        );
-      })
-      .finally(() => {
-        if (!disposed) setIsLoadingConnection(false);
-      });
-    return () => {
-      disposed = true;
-    };
-  }, [provider, connectionRefreshNonce]);
-
-  // Repository inventory.
-  useEffect(() => {
-    let disposed = false;
-    if (!connectionStatus?.connected) {
-      setRepositories([]);
-      setInventorySource(null);
-      setBranches([]);
-      setCommits([]);
-      setDefaultBranch(null);
-      repositoriesIdentityRef.current = "";
-      return () => {
-        disposed = true;
-      };
-    }
-    const identity = `${provider}:repos:${connectionStatus.valid ? "valid" : "invalid"}`;
-    const softRefresh = repositoriesIdentityRef.current === identity;
-    repositoriesIdentityRef.current = identity;
-    if (!softRefresh) {
-      setRepositories([]);
-    }
-    setIsLoadingRepositories(true);
-    setError(null);
-    fetch(`/api/vcs/${provider}/repositories`)
-      .then(async (response) => {
-        const payload = await readJsonResponse(response);
-        if (!response.ok || !payload) {
-          throw new Error("Unable to load repository inventory.");
-        }
-        if (!disposed) {
-          setRepositories(
-            Array.isArray(payload.repositories) ? payload.repositories : [],
-          );
-          setInventorySource(
-            typeof payload.inventorySource === "string"
-              ? (payload.inventorySource as TerminalRepositoryInventorySource)
-              : null,
-          );
-        }
-      })
-      .catch((nextError) => {
-        if (disposed) return;
-        if (!softRefresh) {
-          setRepositories([]);
-          setInventorySource(null);
-        }
-        setError(
-          nextError instanceof Error
-            ? nextError.message
-            : "Unable to load repository inventory.",
-        );
-      })
-      .finally(() => {
-        if (!disposed) setIsLoadingRepositories(false);
-      });
-    return () => {
-      disposed = true;
-    };
-  }, [
-    connectionStatus?.connected,
-    connectionStatus?.valid,
-    provider,
-    repositoriesRefreshNonce,
-  ]);
-
-  // Branches for the selected repository.
-  useEffect(() => {
-    let disposed = false;
-    const coordinates = splitRepositoryFullName(selectedRepository?.fullName);
-    setSourceSelectionError(null);
-    if (!coordinates || !connectionStatus?.connected || !connectionStatus.valid) {
-      setBranches([]);
-      setCommits([]);
-      setDefaultBranch(selectedRepository?.defaultBranch || null);
-      branchesIdentityRef.current = "";
-      return () => {
-        disposed = true;
-      };
-    }
-    const identity = `${provider}:${coordinates.owner}/${coordinates.repo}:branches`;
-    const softRefresh = branchesIdentityRef.current === identity;
-    branchesIdentityRef.current = identity;
-    if (!softRefresh) {
-      setBranches([]);
-      setCommits([]);
-      setDefaultBranch(selectedRepository?.defaultBranch || null);
-    }
-    setIsLoadingBranches(true);
-    fetch(
-      `/api/vcs?resource=branches&provider=${encodeURIComponent(
-        provider,
-      )}&owner=${encodeURIComponent(coordinates.owner)}&repo=${encodeURIComponent(
-        coordinates.repo,
-      )}`,
-    )
-      .then(async (response) => {
-        const payload = await readJsonResponse(response);
-        if (!response.ok || !payload) {
-          throw new Error("Unable to load repository branches.");
-        }
-        if (!disposed) {
-          setBranches(Array.isArray(payload.branches) ? payload.branches : []);
-          setDefaultBranch(
-            typeof payload.defaultBranch === "string" &&
-              payload.defaultBranch.trim()
-              ? payload.defaultBranch
-              : selectedRepository?.defaultBranch || null,
-          );
-        }
-      })
-      .catch((nextError) => {
-        if (disposed) return;
-        if (!softRefresh) {
-          setBranches([]);
-          setDefaultBranch(selectedRepository?.defaultBranch || null);
-        }
-        setSourceSelectionError(
-          nextError instanceof Error
-            ? nextError.message
-            : "Unable to load repository branches.",
-        );
-      })
-      .finally(() => {
-        if (!disposed) setIsLoadingBranches(false);
-      });
-    return () => {
-      disposed = true;
-    };
-  }, [
-    branchesRefreshNonce,
-    connectionStatus?.connected,
-    connectionStatus?.valid,
-    provider,
-    selectedRepository,
-  ]);
-
-  // Commits for the selected branch (also re-run by the refresh control).
-  useEffect(() => {
-    let disposed = false;
-    const coordinates = splitRepositoryFullName(selectedRepository?.fullName);
-    setSourceSelectionError(null);
-    if (
-      !coordinates ||
-      !selectedBranch ||
-      !connectionStatus?.connected ||
-      !connectionStatus.valid
-    ) {
-      setCommits([]);
-      commitsIdentityRef.current = "";
-      return () => {
-        disposed = true;
-      };
-    }
-    const identity = `${provider}:${coordinates.owner}/${coordinates.repo}@${selectedBranch}`;
-    // Soft refresh (same branch, refresh button): keep the painted list so
-    // Latest·sha does not flicker empty. Hard reload (repo/branch change): clear.
-    const softRefresh = commitsIdentityRef.current === identity;
-    commitsIdentityRef.current = identity;
-    if (!softRefresh) {
-      setCommits([]);
-    }
-    setIsLoadingCommits(true);
-    fetch(
-      `/api/vcs?resource=commits&provider=${encodeURIComponent(
-        provider,
-      )}&owner=${encodeURIComponent(coordinates.owner)}&repo=${encodeURIComponent(
-        coordinates.repo,
-      )}&branch=${encodeURIComponent(selectedBranch)}`,
-    )
-      .then(async (response) => {
-        const payload = await readJsonResponse(response);
-        if (!response.ok || !payload) {
-          throw new Error("Unable to load repository commits.");
-        }
-        if (!disposed) {
-          setCommits(Array.isArray(payload.commits) ? payload.commits : []);
-        }
-      })
-      .catch((nextError) => {
-        if (disposed) return;
-        // Only wipe the list on hard failure when we had no prior paint —
-        // soft-refresh errors keep the last good list.
-        if (!softRefresh) {
-          setCommits([]);
-        }
-        setSourceSelectionError(
-          nextError instanceof Error
-            ? nextError.message
-            : "Unable to load repository commits.",
-        );
-      })
-      .finally(() => {
-        if (!disposed) setIsLoadingCommits(false);
-      });
-    return () => {
-      disposed = true;
-    };
-  }, [
-    commitsRefreshNonce,
-    connectionStatus?.connected,
-    connectionStatus?.valid,
-    provider,
-    selectedBranch,
-    selectedRepository,
-  ]);
-
-  // Publish the selection context to the deposit page (same contract as the
-  // legacy panel, so downstream synthesis/admission read one source).
+  // Publish the selection context to the deposit page.
   useEffect(() => {
     onContextChange?.({
       provider,
@@ -410,7 +134,22 @@ export default function DepositSourceSelection({
       isLoadingCommits,
       sourceSelectionError,
     });
-  }, [branches, commits, connectionStatus, defaultBranch, inventorySource, isLoadingBranches, isLoadingCommits, onContextChange, provider, repositories, selectedBranch, selectedCommit, selectedRepository, sourceSelectionError]);
+  }, [
+    branches,
+    commits,
+    connectionStatus,
+    defaultBranch,
+    inventorySource,
+    isLoadingBranches,
+    isLoadingCommits,
+    onContextChange,
+    provider,
+    repositories,
+    selectedBranch,
+    selectedCommit,
+    selectedRepository,
+    sourceSelectionError,
+  ]);
 
   // Keep the route-owned source params (repo/sourceBranch/sourceCommit) in sync.
   useEffect(() => {
@@ -445,8 +184,6 @@ export default function DepositSourceSelection({
       }
     }
     if (selectedRepository && selectedBranch && !isLoadingCommits) {
-      // Keep the `latest` sentinel in the URL while tracking head — do NOT
-      // rewrite it to the resolved SHA (that would pin the selection).
       if (isLatestCommitMode) {
         if (
           nextParams.get("sourceCommit") !== DEPOSIT_COMMIT_LATEST_REF ||
@@ -674,9 +411,7 @@ export default function DepositSourceSelection({
               explainer={DEPOSIT_SECTION_EXPLAINERS.refreshProviderConnection}
               disabled={disabled}
               loading={isLoadingConnection}
-              onRefresh={() =>
-                setConnectionRefreshNonce((nonce) => nonce + 1)
-              }
+              onRefresh={() => refreshConnection()}
             />
           </div>
           <p className="mt-1.5 truncate text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
@@ -731,18 +466,7 @@ export default function DepositSourceSelection({
               explainer={DEPOSIT_SECTION_EXPLAINERS.refreshRepositoryInventory}
               disabled={disabled || !connectionStatus?.connected}
               loading={isLoadingRepositories}
-              onRefresh={() => {
-                // Hard-refresh inventory next to the inventory select (resets
-                // soft-refresh identities for repos → branches → commits).
-                repositoriesIdentityRef.current = "";
-                branchesIdentityRef.current = "";
-                commitsIdentityRef.current = "";
-                setError(null);
-                setSourceSelectionError(null);
-                setRepositoriesRefreshNonce((nonce) => nonce + 1);
-                setBranchesRefreshNonce((nonce) => nonce + 1);
-                setCommitsRefreshNonce((nonce) => nonce + 1);
-              }}
+              onRefresh={() => hardRefreshInventory()}
             />
           </div>
           <p className="mt-1.5 truncate text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
@@ -806,7 +530,7 @@ export default function DepositSourceSelection({
                 disabled || !selectedRepository || connectionNeedsReconnect
               }
               loading={isLoadingBranches}
-              onRefresh={() => setBranchesRefreshNonce((nonce) => nonce + 1)}
+              onRefresh={() => refreshBranches()}
             />
           </div>
           <p className="mt-1.5 truncate text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
@@ -904,7 +628,7 @@ export default function DepositSourceSelection({
               explainer={DEPOSIT_SECTION_EXPLAINERS.refreshLatestCommit}
               disabled={disabled || !selectedBranch || connectionNeedsReconnect}
               loading={isLoadingCommits}
-              onRefresh={() => setCommitsRefreshNonce((nonce) => nonce + 1)}
+              onRefresh={() => refreshCommits()}
             />
           </div>
           <p className="mt-1.5 truncate text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">

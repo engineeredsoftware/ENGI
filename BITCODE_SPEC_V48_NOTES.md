@@ -1356,11 +1356,17 @@ Packs experience (thin page client):
 | Activity detail aside | `PacksActivityDetail/` |
 | Payload types | `packs/models/packs-activity-types.ts` |
 
-**Still deposit-touched and not yet fully modular:** synthesis completion /
-adoption / dispatch handlers still in `DepositPageClient`; VCS inventory
-effects still in `DepositSourceSelection` (~960 LOC); option admission
-handlers still on the page client. Continue until all deposit-touched
-modules satisfy SRP and named-unit layout.
+**Still deposit-touched and thinning:** synthesis completion / adoption /
+dispatch effects still in `DepositPageClient` (~920 LOC after option +
+activity hooks); option cards still nested in `DepositAssetPackOptions`.
+
+**Further landings (same modularization pass):**
+
+| Extract | Path |
+| --- | --- |
+| VCS inventory hook | `DepositSourceSelection/hooks/use-deposit-source-vcs.ts` |
+| Option review/admission | `DepositPageClient/hooks/use-deposit-option-actions.ts` |
+| Activity ledger record/anchor | `DepositPageClient/hooks/use-deposit-activity-recording.ts` |
 
 ### Phase 6 landing (executions corridor)
 

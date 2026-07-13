@@ -31,9 +31,12 @@ deposits/
       use-deposit-settled-demand.ts
       use-deposit-network-depository-count.ts
       use-deposit-synthesis-activity.ts
+      use-deposit-option-actions.ts
+      use-deposit-activity-recording.ts
   DepositSourceSelection/
     DepositSourceSelection.tsx
     DepositSourceListRefreshButton.tsx
+    hooks/use-deposit-source-vcs.ts
   DepositObfuscationsPanel/
   DepositAssetPackOptions/
   DepositPipelinesMaster/

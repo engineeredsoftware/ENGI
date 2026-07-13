@@ -24,6 +24,8 @@ import { useDepositLiveRuns } from "./hooks/use-deposit-live-runs";
 import { useDepositSettledDemand } from "./hooks/use-deposit-settled-demand";
 import { useDepositNetworkDepositoryCount } from "./hooks/use-deposit-network-depository-count";
 import { useDepositUrlNavigation } from "./hooks/use-deposit-url-navigation";
+import { useDepositOptionActions } from "./hooks/use-deposit-option-actions";
+import { useDepositActivityRecording } from "./hooks/use-deposit-activity-recording";
 import { DepositRouteStateAside } from "@/components/deposits/DepositRouteStateAside/DepositRouteStateAside";
 import { DepositPipelinesMaster } from "@/components/deposits/DepositPipelinesMaster/DepositPipelinesMaster";
 import { DepositSynthesisTelemetry } from "@/components/deposits/DepositSynthesisTelemetry/DepositSynthesisTelemetry";
@@ -36,17 +38,8 @@ import { useAuth } from "@/components/bitcode/auth/AuthProvider/AuthProvider";
 import { ProductRouteShell } from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";
 import { useUserData } from "@/hooks/useUserData";
 import { trackProductEvent } from "@/lib/product-analytics";
-import type { PipelineExecution } from "@/types/api";
 
 import DepositSourceSelection from "@/components/deposits/DepositSourceSelection/DepositSourceSelection";
-import {
-  buildTerminalExecutionHistoryRequest,
-  buildTerminalObfuscationsAnchorDraft,
-  mapExecutionHistoryRunToWorkspaceRun,
-  readTerminalRouteError,
-  upsertWorkspaceRun,
-  type TerminalActivityRecordDraft,
-} from "@/components/bitcode/pipeline/models/pipeline-activity-history";
 import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import {
   DEFAULT_TRANSACTION_FILTERS,
@@ -557,130 +550,26 @@ export default function DepositPageClient() {
   });
   const authorityRows = buildDepositAuthorityRows(depositRouteSession);
 
-  const handleRecordActivity = useCallback(
-    async (draft: TerminalActivityRecordDraft) => {
-      const response = await fetch("/api/executions/history", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          buildTerminalExecutionHistoryRequest(draft, {
-            repositoryContext,
-            fallbackRun: selectedRun,
-          }),
-        ),
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          await readTerminalRouteError(
-            response,
-            "Unable to record Deposit activity.",
-          ),
-        );
-      }
-
-      const payload = (await response.json()) as {
-        execution?: PipelineExecution;
-      };
-      if (!payload.execution) {
-        throw new Error(
-          "Deposit activity response did not include an execution row.",
-        );
-      }
-
-      const nextRun = mapExecutionHistoryRunToWorkspaceRun(payload.execution);
-      setLiveRuns((currentRuns) => upsertWorkspaceRun(currentRuns, nextRun));
-      if (draft.selectAfterRecord !== false) {
-        replaceDepositRouteTransaction(nextRun.id);
-      }
-      void refreshLiveRuns();
-      if (
-        (draft.context as Record<string, unknown> | undefined)?.source ===
-        "terminal-deposit-composer"
-      ) {
-        void synthesizeOptionsRef.current?.();
-      }
-      return nextRun;
-    },
-    [
-      refreshLiveRuns,
-      replaceDepositRouteTransaction,
-      repositoryContext,
-      selectedRun,
-      setLiveRuns,
-    ],
-  );
-
-  const handleAnchorObfuscations = useCallback(async () => {
-    if (!obfuscations.trim()) return;
-    setIsAnchoringObfuscations(true);
-    setObfuscationsAnchorMessage(null);
-    try {
-      await handleRecordActivity(
-        buildTerminalObfuscationsAnchorDraft({
-          obfuscations,
-          name: obfuscationsAnchorName,
-          repositoryFullName:
-            repositoryContext?.selectedRepository?.fullName || null,
-          forcedInclusions,
-          forcedExclusions,
-        }),
-      );
-      setObfuscationsAnchorMessage(
-        obfuscationsAnchorName.trim()
-          ? `Obfuscations anchor "${obfuscationsAnchorName.trim()}" saved into the Bitcode activity ledger.`
-          : "Obfuscations configuration anchored into the Bitcode activity ledger.",
-      );
-      setIsObfuscationsAnchorPopoverOpen(false);
-    } catch (error) {
-      setObfuscationsAnchorMessage(
-        error instanceof Error
-          ? error.message
-          : "Unable to anchor the Obfuscations configuration.",
-      );
-    } finally {
-      setIsAnchoringObfuscations(false);
-    }
-  }, [
+  const {
     handleRecordActivity,
+    handleAnchorObfuscations,
+    handleDeleteObfuscationsAnchor,
+  } = useDepositActivityRecording({
+    repositoryContext,
+    selectedRun,
+    liveRuns,
+    setLiveRuns,
+    refreshLiveRuns,
+    replaceDepositRouteTransaction,
+    synthesizeOptionsRef,
     obfuscations,
     obfuscationsAnchorName,
-    forcedExclusions,
-    repositoryContext,
     forcedInclusions,
-  ]);
-
-  const handleDeleteObfuscationsAnchor = useCallback(
-    async (anchorId: string) => {
-      if (!anchorId) return;
-      const previousRuns = liveRuns;
-      setLiveRuns((current) => current.filter((run) => run.id !== anchorId));
-      setObfuscationsAnchorMessage(null);
-      try {
-        const response = await fetch(
-          `/api/executions/history/${encodeURIComponent(anchorId)}`,
-          { method: "DELETE" },
-        );
-        if (!response.ok) {
-          const payload = (await response.json().catch(() => null)) as {
-            error?: string;
-          } | null;
-          throw new Error(
-            payload?.error || "Unable to delete the Obfuscations anchor.",
-          );
-        }
-        setObfuscationsAnchorMessage("Obfuscations anchor deleted.");
-      } catch (error) {
-        setLiveRuns(previousRuns);
-        setObfuscationsAnchorMessage(
-          error instanceof Error
-            ? error.message
-            : "Unable to delete the Obfuscations anchor.",
-        );
-      }
-    },
-    [liveRuns, setLiveRuns],
-  );
+    forcedExclusions,
+    setIsAnchoringObfuscations,
+    setObfuscationsAnchorMessage,
+    setIsObfuscationsAnchorPopoverOpen,
+  });
 
   const handleSynthesizeOptions = useCallback(
     async (instructionsOverride?: string) => {
@@ -787,209 +676,27 @@ export default function DepositPageClient() {
     });
   }, [synthesisRunId, synthesisDispatchedAtMs]);
 
-  const handleOptionReviewDecision = useCallback(
-    async (optionId: string, decision: DepositOptionReviewDecisionState) => {
-      if (optionReviewDecisions[optionId] === "approved-for-admission") {
-        return;
-      }
-      const nextDecisions = {
-        ...optionReviewDecisions,
-        [optionId]: decision,
-      };
-      setOptionsRequested(true);
-      setOptionReviewDecisions(nextDecisions);
-
-      const nextDecisionRecords = Object.entries(nextDecisions).map(
-        ([entryOptionId, entryDecision]) => ({
-          optionId: entryOptionId,
-          decision: entryDecision,
-          reviewerId: user?.id || preferredSignerAddress || null,
-        }),
-      );
-      const nextSession = buildDepositRouteSession({
-        ...depositRouteInput,
-        optionsRequested: true,
-        hasReviewedOption: true,
-        optionReviewDecisions: nextDecisionRecords,
-      });
-      const receipt = nextSession.admission.receipts.find(
-        (entry) => entry.optionId === optionId,
-      );
-      const admitted = receipt?.admission.state === "admitted-to-depository";
-      trackProductEvent({
-        name: "deposit_option_review",
-        data: { decision, admitted },
-      });
-      replaceDepositSearchParams(
-        writeDepositRouteStage(
-          readCurrentSearchParams(),
-          admitted ? "read-depository-state" : "review-options",
-        ),
-      );
-
-      if (!receipt) return;
-
-      try {
-        await handleRecordActivity({
-          type: admitted
-            ? "pipeline:deposit-option-admission"
-            : "pipeline:deposit-option-review",
-          status: "completed",
-          summary: admitted
-            ? `Admitted ${receipt.title} to the Depository.`
-            : decision === "rejected-by-depositor"
-              ? `Archived ${receipt.title} (re-depositable; measurements staled by time trigger resynthesis).`
-              : `Recorded ${decision.replace(/-/g, " ")} for ${receipt.title}.`,
-          selectAfterRecord: admitted,
-          output: {
-            assetPackTitle: receipt.title,
-            depositAdmission: nextSession.admission,
-            admissionState: receipt.admission.state,
-            depositoryAssetPackId: receipt.admission.depositoryAssetPackId,
-            compensationState: receipt.compensationPreview.state,
-            packActivitySyncState: receipt.packsActivitySync.state,
-            packsActivityRoot: receipt.packsActivitySync.activityRoot,
-          },
-          context: {
-            source: "deposit-option-review-admission",
-            workbench: "deposit-option-review",
-            optionId,
-            reviewDecision: decision,
-            admissionState: receipt.admission.state,
-            depositoryAssetPackId: receipt.admission.depositoryAssetPackId,
-            compensationState: receipt.compensationPreview.state,
-            packActivitySyncState: receipt.packsActivitySync.state,
-            packActivityType: receipt.packsActivitySync.activityType,
-            packsRoute: receipt.packsActivitySync.route,
-          },
-        });
-      } catch (error) {
-        setRunsLoadError(
-          error instanceof Error
-            ? error.message
-            : "Unable to record deposit option review.",
-        );
-      }
-    },
-    [
-      depositRouteInput,
-      handleRecordActivity,
-      optionReviewDecisions,
-      preferredSignerAddress,
-      readCurrentSearchParams,
-      replaceDepositSearchParams,
-      setRunsLoadError,
-      user?.id,
-    ],
-  );
-
-  const handleToggleSelect = useCallback((optionId: string) => {
-    setConfirmingBatchDeposit(false);
-    setSelectedPackIds((current) =>
-      current.includes(optionId)
-        ? current.filter((id) => id !== optionId)
-        : [...current, optionId],
-    );
-  }, []);
-
-  const handleDepositSelected = useCallback(async () => {
-    const idsToDeposit = selectedPackIds.filter(
-      (id) => optionReviewDecisions[id] !== "approved-for-admission",
-    );
-    if (idsToDeposit.length === 0) return;
-    if (!confirmingBatchDeposit) {
-      setConfirmingBatchDeposit(true);
-      return;
-    }
-    setConfirmingBatchDeposit(false);
-
-    const nextDecisions = { ...optionReviewDecisions };
-    for (const id of idsToDeposit) {
-      nextDecisions[id] = "approved-for-admission";
-    }
-    setOptionsRequested(true);
-    setOptionReviewDecisions(nextDecisions);
-    setSelectedPackIds([]);
-
-    const nextDecisionRecords = Object.entries(nextDecisions).map(
-      ([optionId, decision]) => ({
-        optionId,
-        decision,
-        reviewerId: user?.id || preferredSignerAddress || null,
-      }),
-    );
-    const nextSession = buildDepositRouteSession({
-      ...depositRouteInput,
-      optionsRequested: true,
-      hasReviewedOption: true,
-      optionReviewDecisions: nextDecisionRecords,
-    });
-    const admittedReceipts = nextSession.admission.receipts.filter(
-      (entry) =>
-        idsToDeposit.includes(entry.optionId) &&
-        entry.admission.state === "admitted-to-depository",
-    );
-    trackProductEvent({
-      name: "deposit_admission",
-      data: {
-        selectedCount: idsToDeposit.length,
-        admittedCount: admittedReceipts.length,
-      },
-    });
-    replaceDepositSearchParams(
-      writeDepositRouteStage(
-        readCurrentSearchParams(),
-        admittedReceipts.length ? "read-depository-state" : "review-options",
-      ),
-    );
-    if (admittedReceipts.length === 0) return;
-
-    try {
-      await handleRecordActivity({
-        type: "pipeline:deposit-option-admission",
-        status: "completed",
-        summary: `Admitted ${admittedReceipts.length} AssetPack${
-          admittedReceipts.length === 1 ? "" : "s"
-        } to the Depository.`,
-        selectAfterRecord: true,
-        output: {
-          assetPackTitle: admittedReceipts
-            .map((entry) => entry.title)
-            .join("; "),
-          depositAdmission: nextSession.admission,
-          admittedCount: admittedReceipts.length,
-          depositoryAssetPackIds: admittedReceipts.map(
-            (entry) => entry.admission.depositoryAssetPackId,
-          ),
-          packsActivityRoot:
-            admittedReceipts[0]?.packsActivitySync.activityRoot ?? null,
-        },
-        context: {
-          source: "deposit-batch-admission",
-          workbench: "deposit-option-review",
-          admittedOptionIds: admittedReceipts.map((entry) => entry.optionId),
-          admittedCount: admittedReceipts.length,
-        },
-      });
-    } catch (error) {
-      setRunsLoadError(
-        error instanceof Error
-          ? error.message
-          : "Unable to record deposit admission.",
-      );
-    }
-  }, [
-    confirmingBatchDeposit,
+  const {
+    handleOptionReviewDecision,
+    handleToggleSelect,
+    handleDepositSelected,
+  } = useDepositOptionActions({
     depositRouteInput,
-    handleRecordActivity,
     optionReviewDecisions,
+    setOptionReviewDecisions,
+    setOptionsRequested,
+    selectedPackIds,
+    setSelectedPackIds,
+    confirmingBatchDeposit,
+    setConfirmingBatchDeposit,
+    userId: user?.id,
     preferredSignerAddress,
     readCurrentSearchParams,
     replaceDepositSearchParams,
-    selectedPackIds,
+    handleRecordActivity,
     setRunsLoadError,
-    user?.id,
-  ]);
+  });
+
 
   return (
     <BitcodeShellBridgeProvider>
