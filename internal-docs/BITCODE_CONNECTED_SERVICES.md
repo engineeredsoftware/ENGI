@@ -30,7 +30,7 @@ Examples:
 
 - `uapi/app/api/vcs/*`
 - `packages/vcs-generics/*` + `packages/generic-vcs/*` (BC: `packages/vcs`, `packages/github`, `packages/gitlab`, `packages/git`, `packages/bitbucket`)
-- `packages/jira/*`
+- `packages/externals/jira/*` (BC `packages/jira`)
 - `packages/external-apps/chatgpt/*`
 - `packages/mcp-generics/* + packages/generic-mcps/bitcode/*`
 - `packages/api/src/routes/*`

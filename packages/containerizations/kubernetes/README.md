@@ -1,4 +1,7 @@
-# @bitcode/kubernetes
+# @bitcode/containerizations-kubernetes
+
+> Path: `packages/containerizations/kubernetes`  
+> BC alias: `@bitcode/kubernetes` (thin re-export at `packages/kubernetes`)
 
 Kubernetes cluster management tools for the Bitcode platform. Provides essential cluster introspection and resource management capabilities.
 
@@ -16,7 +19,8 @@ import {
   kubernetesListPodsTool,
   kubernetesListServicesTool,
   kubernetesDescribeNodeTool 
-} from '@bitcode/kubernetes';
+} from '@bitcode/containerizations-kubernetes';
+// or BC: from '@bitcode/kubernetes'
 
 // List cluster resources
 const pods = await kubernetesListPodsTool();

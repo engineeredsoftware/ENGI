@@ -4782,7 +4782,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     livePathRole: 'Jira tooling can contribute admitted integration context without becoming Bitcode Exchange ownership.',
     requiredFiles: [
       'packages/generic-tools/mcps-tools/jira/src/index.ts',
-      'packages/jira/src/index.ts'
+      'packages/externals/jira/src/index.ts'
     ]
   },
   {

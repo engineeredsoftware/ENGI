@@ -342,8 +342,10 @@
       "@bitcode/api/streams": [
         "../packages/api/src/streams/index.ts"
       ],
+      "@bitcode/kubernetes": ["../packages/kubernetes/src/index.ts"],
             "@bitcode/containerizations-kubernetes": ["packages/containerizations/kubernetes/src/index.ts"],
             "@bitcode/externals-figma": ["packages/externals/figma/src/index.ts"],
+      "@bitcode/jira": ["../packages/jira/src/index.ts"],
             "@bitcode/externals-jira": ["packages/externals/jira/src/index.ts"],
             "@bitcode/externals-notion": ["packages/externals/notion/src/index.ts"],
             "@bitcode/externals-vercel": ["packages/externals/vercel/src/index.ts"],

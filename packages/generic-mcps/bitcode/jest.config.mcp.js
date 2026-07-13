@@ -59,7 +59,7 @@ const explicitMapper = {
   '^@bitcode/sentry$': '<rootDir>/../../../packages/sentry/src/sentry.ts',
   '^@bitcode/streams$': '<rootDir>/../../../packages/api/src/streams/index.ts',
   '^@bitcode/orm$': '<rootDir>/../../../packages/orm/src/index.ts',
-  '^@bitcode/jira-tools$': '<rootDir>/../../../packages/jira/src/index.ts',
+  '^@bitcode/jira-tools$': '<rootDir>/../../../packages/externals/jira/src/index.ts',
   '^@bitcode/pipeline-recovery$': '<rootDir>/src/__stubs__/pipeline-recovery.ts',
   '^@bitcode/generic-mcps-bitcode$': '<rootDir>/src/index.ts',
   '^@bitcode/mcp-server$': '<rootDir>/src/index.ts',
