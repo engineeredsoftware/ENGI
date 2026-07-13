@@ -3,8 +3,7 @@
 /**
  * Nav brand mark + logo-area secondary links.
  *
- * Square bordered logo mark + optional "BITCODE" supertext navigate home.
- * The bordered mark lives only here (not duplicated in landing hero content).
+ * Bare logo icon + optional "BITCODE" supertext navigate home.
  * Subtext is three themed icon links: Whitepaper | Docs | X.
  */
 
@@ -47,7 +46,7 @@ const DOCS_HREF = "/docs";
 
 /** Soft thematic green icons; un-soften + glow on hover. */
 const logoAreaIconLinkClassName =
-  "inline-flex shrink-0 items-center justify-center rounded-sm p-0.5 " +
+  "inline-flex shrink-0 items-center justify-center rounded-none p-0.5 " +
   "text-emerald-300/50 transition duration-200 ease-out " +
   "[filter:drop-shadow(0_0_3px_rgba(101,254,183,0.18))] " +
   "hover:text-emerald-200 " +
@@ -72,34 +71,31 @@ export default function NavBrand({
 
   return (
     <div
-      className={`flex min-w-0 items-center gap-3 ${entranceClassName}`}
+      className={`flex min-w-0 items-center gap-2.5 ${entranceClassName}`}
       data-nav-brand-surface={surface ?? "null"}
     >
       <button
         type="button"
         onClick={onClick}
         aria-label="Bitcode home"
-        className="flex shrink-0 cursor-pointer appearance-none items-center border-0 bg-transparent p-0"
+        className="flex shrink-0 cursor-pointer appearance-none items-center justify-center self-center border-0 bg-transparent p-0 leading-none"
       >
-        {/* Square bordered mark — sole home for this chrome (not duplicated in page hero). */}
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-none border border-emerald-300/20 bg-emerald-400/10 shadow-[0_0_28px_rgba(103,254,183,0.14)]">
-          <Logo height="h-7" width="w-7" />
-        </div>
+        <Logo className="block leading-none" height="h-9" width="w-9" />
       </button>
 
       {showWordmark ? (
-        <div className="min-w-0">
+        <div className="flex min-w-0 flex-col justify-center gap-1.5 self-center leading-none">
           <button
             type="button"
             onClick={onClick}
-            className="cursor-pointer appearance-none border-0 bg-transparent p-0 text-left"
+            className="cursor-pointer appearance-none border-0 bg-transparent p-0 text-left leading-none"
           >
-            <p className="text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-emerald-200/90 sm:text-[0.64rem] sm:font-semibold">
+            <p className="text-[0.58rem] font-semibold uppercase leading-none tracking-[0.22em] text-emerald-200/90 sm:text-[0.64rem] sm:font-semibold">
               Bitcode
             </p>
           </button>
           <nav
-            className="mt-1.5 flex min-w-0 items-center gap-1.5"
+            className="flex min-w-0 items-center gap-1.5 leading-none"
             aria-label="Bitcode references"
           >
             <a

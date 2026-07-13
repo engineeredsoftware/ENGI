@@ -68,7 +68,7 @@ const markdownComponents = {
 
   // Enhanced table styling
   table: ({ node, ...props }: any) => (
-    <div className="overflow-x-auto my-6 rounded-md border border-purple-500/20 bg-black/20">
+    <div className="overflow-x-auto my-6 rounded-none border border-purple-500/20 bg-black/20">
       <table {...props} className="min-w-full">
         {props.children}
       </table>
@@ -102,7 +102,7 @@ const markdownComponents = {
     <div className="my-6 flex justify-center">
       <img
         {...props}
-        className="rounded-lg shadow-glow-emerald-subtle max-w-full border border-emerald-500/20 transition-all duration-300 hover:shadow-glow-emerald"
+        className="rounded-none shadow-glow-emerald-subtle max-w-full border border-emerald-500/20 transition-all duration-300 hover:shadow-glow-emerald"
       />
     </div>
   ),
@@ -709,7 +709,7 @@ export default function ExecutionsPageHeader({
                           body: JSON.stringify({ gate: 'Develop' })
                         });
                       }}
-                      className="px-4 py-2 bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 rounded-lg hover:bg-emerald-500/30 transition-colors"
+                      className="px-4 py-2 bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 rounded-none hover:bg-emerald-500/30 transition-colors"
                     >
                       Ready to Develop
                     </button>
@@ -724,7 +724,7 @@ export default function ExecutionsPageHeader({
                           body: JSON.stringify({ gate: 'Digest' })
                         });
                       }}
-                      className="px-4 py-2 bg-amber-500/20 border border-amber-500/30 text-amber-300 rounded-lg hover:bg-amber-500/30 transition-colors"
+                      className="px-4 py-2 bg-amber-500/20 border border-amber-500/30 text-amber-300 rounded-none hover:bg-amber-500/30 transition-colors"
                     >
                       Ready to Digest
                     </button>
@@ -742,14 +742,14 @@ export default function ExecutionsPageHeader({
                           });
                         }}
                         disabled={!canFinishDigest}
-                        className={`px-4 py-2 rounded-lg transition-colors border ${canFinishDigest
+                        className={`px-4 py-2 rounded-none transition-colors border ${canFinishDigest
                           ? 'bg-sky-500/20 border-sky-500/30 text-sky-300 hover:bg-sky-500/30'
                           : 'bg-gray-800/50 border-gray-700 text-gray-400 cursor-not-allowed'}`}
                       >
                         Finish
                       </button>
                       {digestStatus && (
-                        <div className="rounded-lg border border-sky-500/20 bg-sky-500/5 px-3 py-2 text-sm text-sky-100">
+                        <div className="rounded-none border border-sky-500/20 bg-sky-500/5 px-3 py-2 text-sm text-sky-100">
                           <p className="font-semibold text-sky-200">
                             {digestStatus.agentsDocUpdated
                               ? '.ai/AGENTS.md update detected'
@@ -780,7 +780,7 @@ export default function ExecutionsPageHeader({
                       }}
                     />
                   ) : awaitingInstruction && iterationConfidence !== undefined ? (
-                    <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-200 shadow-sm">
+                    <div className="rounded-none border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-200 shadow-sm">
                       <p className="font-semibold text-amber-100">
                         Awaiting your instruction ({confidencePercent ?? 0}% confidence).
                       </p>
@@ -789,7 +789,7 @@ export default function ExecutionsPageHeader({
                       </p>
                     </div>
                   ) : iterationConfidence !== undefined ? (
-                    <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200 shadow-sm">
+                    <div className="rounded-none border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200 shadow-sm">
                       <p className="font-semibold text-emerald-100">
                         Confidence {confidencePercent ?? 0}% — continuing autonomously.
                       </p>
@@ -800,7 +800,7 @@ export default function ExecutionsPageHeader({
                   ) : null}
 
                   {(instructionSummary || instructionSuggestions.length > 0) && (
-                    <div className="rounded-lg border border-sky-500/20 bg-sky-500/10 px-4 py-3 text-sm text-sky-200 space-y-2">
+                    <div className="rounded-none border border-sky-500/20 bg-sky-500/10 px-4 py-3 text-sm text-sky-200 space-y-2">
                       {instructionSummary && (
                         <p className="font-medium text-sky-100">{instructionSummary}</p>
                       )}
@@ -932,7 +932,7 @@ function DocBox({ content }: { content: EduContent | null }) {
       }}
     >
       <motion.div
-        className="relative rounded-lg border border-emerald-500/20 bg-black/40 backdrop-blur-sm p-4 overflow-hidden h-[150px]"
+        className="relative rounded-none border border-emerald-500/20 bg-black/40 backdrop-blur-sm p-4 overflow-hidden h-[150px]"
         animate={{
           boxShadow: content
             ? "0 0 25px rgba(186, 84, 236, 0.05)"

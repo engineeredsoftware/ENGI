@@ -134,17 +134,17 @@ export default function ReadsRepositoryContextPanel({
       tone="emerald"
     >
       {recordMessage ? (
-        <div className="mb-4 rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-200">
+        <div className="mb-4 rounded-none border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-200">
           {recordMessage}
         </div>
       ) : null}
 
       <div className="grid gap-3 text-xs uppercase tracking-[0.22em] text-neutral-400 tablet:grid-cols-2">
-        <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
+        <div className="rounded-none border border-white/8 bg-white/5 px-4 py-3">
           <p className="text-emerald-300/85">Main action</p>
           <p className="mt-2 text-neutral-200">deposit</p>
         </div>
-        <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
+        <div className="rounded-none border border-white/8 bg-white/5 px-4 py-3">
           <p className="text-emerald-300/85">Boundary</p>
           <p className="mt-2 text-neutral-200">repository supply</p>
         </div>

@@ -101,7 +101,7 @@ export const DockContainer = ({ className }: DockContainerProps) => {
       {dockItems.map((item, index) => (
         <div key={item.label} className="relative group">
           <DockIcon
-            className="cursor-pointer transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg p-2"
+            className="cursor-pointer transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 rounded-none p-2"
             onClick={() => router.push(item.path)}
           >
             {item.icon}
@@ -111,7 +111,7 @@ export const DockContainer = ({ className }: DockContainerProps) => {
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center"
+                className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-none w-4 h-4 flex items-center justify-center"
               >
                 {notifications}
               </motion.div>

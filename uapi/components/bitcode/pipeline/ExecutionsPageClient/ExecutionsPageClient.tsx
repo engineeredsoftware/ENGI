@@ -413,7 +413,7 @@ export function ExecutionsClient() {
   if (!onboardingAllowed) {
     return (
       <div className="mx-auto flex min-h-[calc(100vh-9rem)] max-w-5xl items-center px-4 py-16">
-        <section className="w-full rounded-[2rem] border border-white/10 bg-[#06131b]/88 p-8 text-[#d6e7f2] shadow-[0_40px_120px_rgba(0,0,0,0.35)] backdrop-blur-sm">
+        <section className="w-full rounded-none border border-white/10 bg-[#06131b]/88 p-8 text-[#d6e7f2] shadow-[0_40px_120px_rgba(0,0,0,0.35)] backdrop-blur-sm">
           <p className="text-[11px] font-medium uppercase tracking-[0.34em] text-[#75d7ff]">
             Bitcode execution route
           </p>
@@ -429,14 +429,14 @@ export function ExecutionsClient() {
             <button
               type="button"
               onClick={() => router.push('/packs')}
-              className="inline-flex items-center rounded-full border border-[#7fd0ff]/30 bg-[#0c1e29] px-5 py-3 text-sm font-medium text-white transition hover:border-[#7fd0ff]/60 hover:bg-[#133244]"
+              className="inline-flex items-center rounded-none border border-[#7fd0ff]/30 bg-[#0c1e29] px-5 py-3 text-sm font-medium text-white transition hover:border-[#7fd0ff]/60 hover:bg-[#133244]"
             >
               Open Bitcode Terminal
             </button>
             <button
               type="button"
               onClick={() => router.push(buildAuxillariesRoutePath('externals'))}
-              className="inline-flex items-center rounded-full border border-white/12 bg-transparent px-5 py-3 text-sm font-medium text-[#d6e7f2] transition hover:border-white/30 hover:bg-white/5"
+              className="inline-flex items-center rounded-none border border-white/12 bg-transparent px-5 py-3 text-sm font-medium text-[#d6e7f2] transition hover:border-white/30 hover:bg-white/5"
             >
               Open Auxillaries
             </button>

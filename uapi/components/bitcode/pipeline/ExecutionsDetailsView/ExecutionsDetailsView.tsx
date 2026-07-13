@@ -21,8 +21,8 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
   const id = executionId || runId || null;
   const { execution: run, events, isLoading, error, latestWorkUpdate, iterationUpdates } = usePipelineExecution(id);
 
-  const panelClass = 'bg-gray-800/50 rounded-lg p-4';
-  const loadingPanelClass = 'bg-gray-800/50 rounded-lg p-8';
+  const panelClass = 'bg-gray-800/50 rounded-none p-4';
+  const loadingPanelClass = 'bg-gray-800/50 rounded-none p-8';
   const headerBarClass = 'bg-gray-900/50 p-4';
 
   if (isLoading) {
@@ -41,7 +41,7 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
 
   if (error) {
     return (
-      <div className="bg-red-900/20 border border-red-600/50 rounded-lg p-4">
+      <div className="bg-red-900/20 border border-red-600/50 rounded-none p-4">
         <p className="text-red-400">Error loading execution: {error}</p>
       </div>
     );
@@ -150,7 +150,7 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
                 href={deliveryMechanism.pullRequest.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 hover:bg-emerald-500/20 text-xs"
+                className="inline-flex items-center px-2.5 py-1 rounded-none bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 hover:bg-emerald-500/20 text-xs"
               >PR: {deliveryMechanism.pullRequest.title || 'Open'}</a>
             )}
           </div>
@@ -210,7 +210,7 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
       </div>
 
       {/* Execution Log */}
-      <div className="bg-gray-800/50 rounded-lg overflow-hidden">
+      <div className="bg-gray-800/50 rounded-none overflow-hidden">
         <div className={headerBarClass}>
           <h2 className="text-lg font-semibold">Execution Log</h2>
         </div>

@@ -29,13 +29,13 @@ export function OrbitalRings({
 
   return (
     <>
-      {/* Outer glow */}
+      {/* Concentric square frames (still rotate for motion). */}
       <motion.div
         className="quantum-orb-ring quantum-orb-ring-glow"
         style={{
           position: 'absolute',
           inset: '3%',
-          borderRadius: '50%',
+          borderRadius: 0,
           background: color,
           filter: `blur(${state === 'active' ? 4 : 6}px)`,
           opacity: getOpacity(0.3),
@@ -56,13 +56,12 @@ export function OrbitalRings({
         }
       />
 
-      {/* Outer ring */}
       <motion.div
         className="quantum-orb-ring quantum-orb-ring-outer"
         style={{
           position: 'absolute',
           inset: '3%',
-          borderRadius: '50%',
+          borderRadius: 0,
           border: `1px solid ${color}`,
           opacity: getOpacity(0.2),
         }}
@@ -79,13 +78,12 @@ export function OrbitalRings({
         }
       />
 
-      {/* Middle ring */}
       <motion.div
         className="quantum-orb-ring quantum-orb-ring-middle"
         style={{
           position: 'absolute',
           inset: '15%',
-          borderRadius: '50%',
+          borderRadius: 0,
           border: `1px solid ${color}`,
           opacity: getOpacity(0.3),
         }}
@@ -102,13 +100,12 @@ export function OrbitalRings({
         }
       />
 
-      {/* Inner ring */}
       <motion.div
         className="quantum-orb-ring quantum-orb-ring-inner"
         style={{
           position: 'absolute',
           inset: '30%',
-          borderRadius: '50%',
+          borderRadius: 0,
           border: `1px solid ${color}`,
           opacity: getOpacity(0.4),
         }}

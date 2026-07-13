@@ -32,12 +32,12 @@ export default function DocsArticlePage({ page }: DocsArticlePageProps) {
           <DocsPageRail page={page} />
         </aside>
         <div className="min-w-0 space-y-8">
-          <section className="overflow-hidden rounded-[36px] border border-white/10 bg-black/24 p-6 shadow-[0_30px_100px_rgba(0,0,0,0.34)] backdrop-blur-xl tablet:p-8">
+          <section className="overflow-hidden rounded-none border border-white/10 bg-black/24 p-6 shadow-[0_30px_100px_rgba(0,0,0,0.34)] backdrop-blur-xl tablet:p-8">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full border border-emerald-300/14 bg-emerald-400/[0.06] px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-emerald-100/70">
+              <span className="rounded-none border border-emerald-300/14 bg-emerald-400/[0.06] px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-emerald-100/70">
                 {activeChapter ? `${activeChapter.number} / ${activeChapter.title}` : page.eyebrow}
               </span>
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/55">
+              <span className="rounded-none border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/55">
                 {page.eyebrow}
               </span>
             </div>
@@ -46,20 +46,20 @@ export default function DocsArticlePage({ page }: DocsArticlePageProps) {
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-8 text-white/80">{page.summary}</p>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-emerald-50/65">{page.detail}</p>
-            <div className="mt-5 rounded-[24px] border border-cyan-300/10 bg-cyan-400/[0.035] px-4 py-4">
+            <div className="mt-5 rounded-none border border-cyan-300/10 bg-cyan-400/[0.035] px-4 py-4">
               <p className="text-[10px] uppercase tracking-[0.22em] text-cyan-200/70">After reading</p>
               <p className="mt-2 text-sm leading-6 text-cyan-50/76">{page.learningOutcome}</p>
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href={page.primaryCta.href}
-                className="inline-flex rounded-full border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition hover:border-emerald-300/42 hover:bg-emerald-400/18"
+                className="inline-flex rounded-none border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition hover:border-emerald-300/42 hover:bg-emerald-400/18"
               >
                 {page.primaryCta.label}
               </Link>
               <Link
                 href="/docs"
-                className="inline-flex rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/76 transition hover:border-white/22 hover:bg-white/10"
+                className="inline-flex rounded-none border border-white/12 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/76 transition hover:border-white/22 hover:bg-white/10"
               >
                 Docs hub
               </Link>
@@ -68,7 +68,7 @@ export default function DocsArticlePage({ page }: DocsArticlePageProps) {
                   href={BITCODE_GITHUB_APP_PUBLIC_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex rounded-full border border-cyan-300/22 bg-cyan-400/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-50 transition hover:border-cyan-300/42 hover:bg-cyan-400/16"
+                  className="inline-flex rounded-none border border-cyan-300/22 bg-cyan-400/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-50 transition hover:border-cyan-300/42 hover:bg-cyan-400/16"
                 >
                   Install GitHub App
                 </a>

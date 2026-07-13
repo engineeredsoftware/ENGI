@@ -34,7 +34,7 @@ export function ReadsEnterpriseReadingSteps({
             key={stage.id}
             data-testid={`terminal-enterprise-reading-step-${stage.id}`}
             data-reading-step-state={stage.state}
-            className={`rounded-[1.05rem] border px-3 py-4 text-sm ${
+            className={`rounded-none border px-3 py-4 text-sm ${
               active
                 ? "border-sky-300/35 bg-sky-300/10"
                 : "border-white/8 bg-black/20"
@@ -42,14 +42,14 @@ export function ReadsEnterpriseReadingSteps({
           >
             <div className="flex items-start justify-between gap-2">
               <p className="font-semibold text-neutral-100">{stage.label}</p>
-              <span className="rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 text-[0.56rem] uppercase tracking-[0.12em] text-neutral-400">
+              <span className="rounded-none border border-white/10 bg-white/[0.04] px-2 py-1 text-[0.56rem] uppercase tracking-[0.12em] text-neutral-400">
                 {stage.state}
               </span>
             </div>
             <p className="mt-2 leading-5 text-neutral-400">
               {stage.lowDetailGuidance}
             </p>
-            <details className="mt-3 rounded-[0.75rem] border border-white/8 bg-black/20 px-3 py-2">
+            <details className="mt-3 rounded-none border border-white/8 bg-black/20 px-3 py-2">
               <summary className="cursor-pointer text-[0.6rem] uppercase tracking-[0.14em] text-sky-200/80">
                 Source-safe detail
               </summary>

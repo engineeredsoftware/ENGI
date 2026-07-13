@@ -6,7 +6,7 @@ import { TERMINAL_READ_GUIDES } from '@/components/docs/models/bitcode-docs-cont
 
 export function DocsTerminalReadsSection() {
   return (
-    <section id="terminal-reads" className="scroll-mt-32 rounded-[32px] border border-white/10 bg-black/24 p-5 backdrop-blur-xl">
+    <section id="terminal-reads" className="scroll-mt-32 rounded-none border border-white/10 bg-black/24 p-5 backdrop-blur-xl">
       <div className="max-w-3xl">
         <p className="text-[10px] uppercase tracking-[0.24em] text-cyan-200/72">Read guide</p>
         <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white">
@@ -19,11 +19,11 @@ export function DocsTerminalReadsSection() {
       </div>
       <div className="mt-6 grid gap-3 tablet:grid-cols-2">
         {TERMINAL_READ_GUIDES.map((item) => (
-          <article key={item.id} className="rounded-[24px] border border-white/8 bg-white/[0.03] p-4">
+          <article key={item.id} className="rounded-none border border-white/8 bg-white/[0.03] p-4">
             <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-200/68">{item.location}</p>
             <h3 className="mt-2 text-lg font-semibold text-white">{item.read}</h3>
             <p className="mt-2 text-sm leading-6 text-white/74">{item.tellsYou}</p>
-            <p className="mt-3 rounded-2xl border border-cyan-300/10 bg-cyan-400/[0.045] px-3 py-2 text-xs leading-5 text-cyan-50/68">
+            <p className="mt-3 rounded-none border border-cyan-300/10 bg-cyan-400/[0.045] px-3 py-2 text-xs leading-5 text-cyan-50/68">
               {item.expectedResult}
             </p>
           </article>

@@ -143,7 +143,7 @@ export function CompleteHeaderContent({
         <h1 className="text-4xl font-bold tracking-tight leading-normal">{headerTitle}</h1>
         <div className="flex items-center gap-2">
           {/* Kind pill */}
-          <span className="px-2 py-0.5 text-[11px] rounded-full border border-emerald-400/40 text-emerald-300 bg-emerald-900/20">
+          <span className="px-2 py-0.5 text-[11px] rounded-none border border-emerald-400/40 text-emerald-300 bg-emerald-900/20">
             Shippable
           </span>
           {/* Quick action chips: prefill toggles */}
@@ -171,7 +171,7 @@ export function CompleteHeaderContent({
       {/* Summary + TLDR */}
       {finishDeliveredShippables?.summary && (
         <div className="space-y-4">
-          <div className="flex items-center justify-between px-5 py-4 bg-black/40 rounded-md border border-emerald-500/10">
+          <div className="flex items-center justify-between px-5 py-4 bg-black/40 rounded-none border border-emerald-500/10">
             <div className="flex-1 text-sm text-gray-200 flex flex-wrap items-center gap-1">
               <span className="font-bold text-lg text-purple-300 mr-2 uppercase">TL;DR:</span>
               {tldr.length > 0 ? (
@@ -187,7 +187,7 @@ export function CompleteHeaderContent({
               <span>.</span>
             </div>
           </div>
-          <div className="rounded-md border border-emerald-500/10 bg-black/30 p-4">
+          <div className="rounded-none border border-emerald-500/10 bg-black/30 p-4">
             <ReactMarkdown className="prose prose-invert max-w-none">{finishDeliveredShippables.summary}</ReactMarkdown>
           </div>
           {/* Unified postprocessed details shown beneath TL;DR */}
@@ -198,10 +198,10 @@ export function CompleteHeaderContent({
       )}
 
       {digestStatus && (
-        <div className="rounded-md border border-sky-500/30 bg-sky-500/5 p-4 space-y-2">
+        <div className="rounded-none border border-sky-500/30 bg-sky-500/5 p-4 space-y-2">
           <div className="flex items-center justify-between">
             <p className="text-sm font-semibold text-sky-200">Digest Guide</p>
-            <span className={`text-xs px-2 py-0.5 rounded-full ${digestStatus.agentsDocUpdated ? 'bg-emerald-500/20 text-emerald-200' : 'bg-amber-500/20 text-amber-200'}`}>
+            <span className={`text-xs px-2 py-0.5 rounded-none ${digestStatus.agentsDocUpdated ? 'bg-emerald-500/20 text-emerald-200' : 'bg-amber-500/20 text-amber-200'}`}>
               {digestStatus.agentsDocUpdated ? 'AGENTS.md updated' : 'AGENTS.md pending'}
             </span>
           </div>
@@ -301,12 +301,12 @@ export function CompleteHeaderContent({
               <button
                 type="button"
                 onClick={() => setShowFileDetails(v => !v)}
-                className="text-xs px-2 py-1 rounded-md border border-emerald-500/20 text-emerald-300 hover:text-emerald-200 hover:border-emerald-500/40 transition-colors"
+                className="text-xs px-2 py-1 rounded-none border border-emerald-500/20 text-emerald-300 hover:text-emerald-200 hover:border-emerald-500/40 transition-colors"
               >
                 {showFileDetails ? 'Hide Changed Files' : 'Show Changed Files'}
               </button>
               {showFileDetails && (
-                <div className="mt-2 max-h-40 overflow-auto pr-2 border border-emerald-500/10 rounded-md bg-black/20">
+                <div className="mt-2 max-h-40 overflow-auto pr-2 border border-emerald-500/10 rounded-none bg-black/20">
                   {(finishDeliveredShippables.fileChanges.fileDiffs && finishDeliveredShippables.fileChanges.fileDiffs.length > 0
                     ? finishDeliveredShippables.fileChanges.fileDiffs
                     : (finishDeliveredShippables.fileChanges.paths || []).map(path => ({ path, added: 0, removed: 0 }))
@@ -429,7 +429,7 @@ function PostprocessedSummary({ postprocessed }: { postprocessed: any }) {
     if (!Number.isNaN(idx)) setSeriesIndex(idx);
   }, [series.length]);
   return (
-    <div className={`mt-4 rounded-md ${highlight ? 'border-emerald-400/60 animate-pulse' : 'border-emerald-500/10'} border bg-black/30 p-4`}
+    <div className={`mt-4 rounded-none ${highlight ? 'border-emerald-400/60 animate-pulse' : 'border-emerald-500/10'} border bg-black/30 p-4`}
       style={{ animationDuration: highlight ? '1.8s' : undefined }}
     >
       <div className="flex items-center justify-between mb-2">

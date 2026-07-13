@@ -276,14 +276,14 @@ export default function ReadsDepositReadWorkbench({
             { label: 'Profile', value: workbench.profileLabel },
           ]}
           columnsClassName="tablet:grid-cols-2"
-          itemClassName="rounded-2xl border border-white/8 bg-black/20 px-4 py-4"
+          itemClassName="rounded-none border border-white/8 bg-black/20 px-4 py-4"
           labelClassName="text-[0.62rem] uppercase tracking-[0.16em] text-emerald-300/85"
           valueClassName="text-sm font-semibold text-neutral-200"
         />
       }
     >
       {recordMessage ? (
-        <div className="mt-4 rounded-[1.3rem] border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-200">
+        <div className="mt-4 rounded-none border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-neutral-200">
           {recordMessage}
         </div>
       ) : null}

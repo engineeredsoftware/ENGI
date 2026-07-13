@@ -35,16 +35,19 @@ export function WavyBlobLayer({
 
   const subscribe = useContext(OrbLoopContext);
 
-  // Initialize points
+  // Square silhouette: corner + mid-edge control points (wobble keeps motion).
   useEffect(() => {
-    const numPoints = 6;
-    pointsRef.current = Array.from({ length: numPoints }, (_, i) => {
-      const angle = (i / numPoints) * 2 * Math.PI;
-      return {
-        x: 0.5 + Math.cos(angle) * 0.9,
-        y: 0.5 + Math.sin(angle) * 0.9
-      };
-    });
+    const half = 0.9;
+    pointsRef.current = [
+      { x: 0.5 - half, y: 0.5 - half },
+      { x: 0.5, y: 0.5 - half },
+      { x: 0.5 + half, y: 0.5 - half },
+      { x: 0.5 + half, y: 0.5 },
+      { x: 0.5 + half, y: 0.5 + half },
+      { x: 0.5, y: 0.5 + half },
+      { x: 0.5 - half, y: 0.5 + half },
+      { x: 0.5 - half, y: 0.5 },
+    ];
   }, [state]);
 
   useEffect(() => {
@@ -70,10 +73,11 @@ export function WavyBlobLayer({
       const center = { x: width / 2, y: height / 2 };
       const radius = Math.min(width, height) * 0.45;
 
+      const wobble = 0.1;
       const adjustedPoints = pointsRef.current.map((point, index) => {
-        const phaseOffset = (index * Math.PI) / 3;
-        const xOffset = Math.sin(angle + phaseOffset) * 0.15;
-        const yOffset = Math.cos(angle + phaseOffset) * 0.15;
+        const phaseOffset = (index * Math.PI) / 4;
+        const xOffset = Math.sin(angle + phaseOffset) * wobble;
+        const yOffset = Math.cos(angle + phaseOffset) * wobble;
 
         return {
           x: (point.x - 0.5 + xOffset) * radius + center.x,
@@ -86,46 +90,26 @@ export function WavyBlobLayer({
       ctx.globalAlpha =
         state === 'active' ? 0.8 : state === 'hover' ? 0.7 : 0.6;
 
+      // Soft-square path: straight edges with slight bezier bow.
       ctx.beginPath();
       ctx.moveTo(adjustedPoints[0].x, adjustedPoints[0].y);
 
       for (let i = 0; i < adjustedPoints.length; i++) {
         const next = (i + 1) % adjustedPoints.length;
-
-        const currentAngle = Math.atan2(
-          adjustedPoints[i].y - center.y,
-          adjustedPoints[i].x - center.x,
-        );
-        const nextAngle = Math.atan2(
-          adjustedPoints[next].y - center.y,
-          adjustedPoints[next].x - center.x,
-        );
-
-        const handleLength = radius * 0.33;
-
-        const control1 = {
-          x:
-            adjustedPoints[i].x +
-            Math.cos(currentAngle + Math.PI / 2) * handleLength,
-          y:
-            adjustedPoints[i].y +
-            Math.sin(currentAngle + Math.PI / 2) * handleLength,
+        const midX = (adjustedPoints[i].x + adjustedPoints[next].x) / 2;
+        const midY = (adjustedPoints[i].y + adjustedPoints[next].y) / 2;
+        const bow = 0.08 * radius;
+        const toCenterX = center.x - midX;
+        const toCenterY = center.y - midY;
+        const len = Math.hypot(toCenterX, toCenterY) || 1;
+        const control = {
+          x: midX - (toCenterX / len) * bow * Math.sin(angle + i),
+          y: midY - (toCenterY / len) * bow * Math.cos(angle + i),
         };
 
-        const control2 = {
-          x:
-            adjustedPoints[next].x +
-            Math.cos(nextAngle - Math.PI / 2) * handleLength,
-          y:
-            adjustedPoints[next].y +
-            Math.sin(nextAngle - Math.PI / 2) * handleLength,
-        };
-
-        ctx.bezierCurveTo(
-          control1.x,
-          control1.y,
-          control2.x,
-          control2.y,
+        ctx.quadraticCurveTo(
+          control.x,
+          control.y,
           adjustedPoints[next].x,
           adjustedPoints[next].y,
         );

@@ -64,7 +64,7 @@ export const AppShell = ({ children }: AppShellProps) => {
             exit={{ opacity: 0, y: -20 }}
             className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/50 backdrop-blur-sm"
           >
-            <div className="w-full max-w-2xl bg-gray-900/90 rounded-lg border border-gray-800 shadow-2xl">
+            <div className="w-full max-w-2xl bg-gray-900/90 rounded-none border border-gray-800 shadow-2xl">
               <div className="p-4">
                 <div className="flex items-center space-x-2 text-gray-400 mb-4">
                   <Command className="w-4 h-4" />
@@ -73,7 +73,7 @@ export const AppShell = ({ children }: AppShellProps) => {
                 <input
                   type="text"
                   placeholder="Search commands, features, or ask AI assistant..."
-                  className="w-full bg-gray-800 border-0 rounded-md p-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-gray-800 border-0 rounded-none p-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-purple-500"
                   autoFocus
                 />
               </div>
@@ -114,7 +114,7 @@ export const AppShell = ({ children }: AppShellProps) => {
             <div className="hidden laptop:flex items-center space-x-4 text-sm">
               {Object.entries(systemStatus).map(([key, status]) => (
                 <div key={key} className="flex items-center space-x-1">
-                  <div className={`w-2 h-2 rounded-full ${
+                  <div className={`w-2 h-2 rounded-none ${
                     status === 'operational' ? 'bg-green-500' :
                     status === 'degraded' ? 'bg-yellow-500' :
                     'bg-gray-500'
@@ -132,7 +132,7 @@ export const AppShell = ({ children }: AppShellProps) => {
             ) : null}
             <button
               onClick={() => setShowCommandPalette(true)}
-              className="flex items-center space-x-2 px-3 py-1.5 text-sm text-gray-400 bg-gray-800 rounded-md hover:bg-gray-700"
+              className="flex items-center space-x-2 px-3 py-1.5 text-sm text-gray-400 bg-gray-800 rounded-none hover:bg-gray-700"
             >
               <Command className="w-4 h-4" />
               <span className="hidden laptop:inline">Command</span>
@@ -159,7 +159,7 @@ export const AppShell = ({ children }: AppShellProps) => {
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 100 }}
-              className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg p-4 max-w-sm"
+              className="bg-gray-800 border border-gray-700 rounded-none shadow-lg p-4 max-w-sm"
             >
               <div className="flex items-start space-x-3">
                 <AlertCircle className="w-5 h-5 text-purple-500 mt-0.5" />

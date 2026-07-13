@@ -11,7 +11,7 @@ export function DocsNextReadingCards({ page }: { page: BitcodeDocsPage }) {
       <div className="grid gap-4 tablet:grid-cols-2">
         <Link
           href="/docs/terminal-actions"
-          className="rounded-[28px] border border-emerald-300/14 bg-emerald-400/[0.06] p-5 transition hover:border-emerald-300/28 hover:bg-emerald-400/[0.1]"
+          className="rounded-none border border-emerald-300/14 bg-emerald-400/[0.06] p-5 transition hover:border-emerald-300/28 hover:bg-emerald-400/[0.1]"
         >
           <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-200/70">Next</p>
           <p className="mt-2 text-xl font-semibold text-white">Read every Terminal write action</p>
@@ -21,7 +21,7 @@ export function DocsNextReadingCards({ page }: { page: BitcodeDocsPage }) {
         </Link>
         <Link
           href="/docs/read-results"
-          className="rounded-[28px] border border-cyan-300/14 bg-cyan-400/[0.05] p-5 transition hover:border-cyan-300/28 hover:bg-cyan-400/[0.09]"
+          className="rounded-none border border-cyan-300/14 bg-cyan-400/[0.05] p-5 transition hover:border-cyan-300/28 hover:bg-cyan-400/[0.09]"
         >
           <p className="text-[10px] uppercase tracking-[0.22em] text-cyan-200/70">Audit</p>
           <p className="mt-2 text-xl font-semibold text-white">Read proofs and readiness</p>

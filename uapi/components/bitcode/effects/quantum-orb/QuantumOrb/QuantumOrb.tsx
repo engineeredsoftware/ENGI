@@ -1,5 +1,9 @@
-
 'use client';
+
+/**
+ * QuantumOrb — animated energy mark.
+ * Silhouette, rings, and glow frames are square; flying ParticleLayer dots stay circular.
+ */
 
 import React, {
   useState,
@@ -311,7 +315,8 @@ function QuantumOrb({
         height: size,
         position: 'relative',
         cursor: 'pointer',
-        borderRadius: '50%',
+        // Square silhouette (particles inside stay circular).
+        borderRadius: 0,
         overflow: 'visible',
         willChange: 'transform',
       } as React.CSSProperties}
@@ -327,17 +332,14 @@ function QuantumOrb({
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
     >
-      {/* Main orb container with mask */}
+      {/* Main orb body — square clip; flying particles render as circles inside. */}
       <div
         className="quantum-orb-inner"
         style={{
           position: 'absolute',
           inset: 0,
-          borderRadius: '50%',
+          borderRadius: 0,
           overflow: 'hidden',
-          mask: 'radial-gradient(circle, white 100%, transparent 100%)',
-          WebkitMask: 'radial-gradient(circle, white 100%, transparent 100%)',
-          /* Performance optimizations */
           willChange: 'transform, opacity',
           transform: 'translateZ(0)',
           backfaceVisibility: 'hidden',
@@ -361,7 +363,7 @@ function QuantumOrb({
             style={{
               position: 'absolute',
               inset: '8%',
-              borderRadius: '50%',
+              borderRadius: 0,
               background: `radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.18) 46%, ${orbConfig.glowColor}22 72%, transparent 88%)`,
               opacity: state === 'active' ? 0.95 : 0.8,
               filter: 'blur(2px)',
@@ -435,15 +437,14 @@ function QuantumOrb({
         )}
       </div>
 
-      {/* Outer glow effect */}
+      {/* Outer glow — soft falloff, square footprint. */}
       <motion.div
         className="quantum-orb-outer-glow"
         style={{
           position: 'absolute',
           inset: -10,
-          borderRadius: '50%',
+          borderRadius: 0,
           background: `radial-gradient(circle at 50% 50%, ${orbConfig.glowColor}33 0%, transparent 70%)`,
-          // Cheaper blur when the orb is in its most demanding phase.
           filter: `blur(${state === 'active' ? 4 : 6}px)`,
           opacity: stateProps.glowOpacity,
           willChange: 'transform, opacity, background',
@@ -466,7 +467,7 @@ function QuantumOrb({
             style={{
               position: 'absolute',
               inset: 0,
-              borderRadius: '50%',
+              borderRadius: 0,
               transform: 'translateY(5px)',
               background: `linear-gradient(to top, ${orbConfig.backgroundColors.join(', ')})`,
               filter: 'blur(6px)',
@@ -479,7 +480,7 @@ function QuantumOrb({
             style={{
               position: 'absolute',
               inset: -5,
-              borderRadius: '50%',
+              borderRadius: 0,
               transform: 'translateY(8px)',
               background: `linear-gradient(to top, ${orbConfig.backgroundColors.join(', ')})`,
               filter: 'blur(15px)',
@@ -490,13 +491,13 @@ function QuantumOrb({
         </>
       )}
 
-      {/* Orb outline for depth */}
+      {/* Square outline for depth */}
       <div
         className="quantum-orb-outline"
         style={{
           position: 'absolute',
           inset: 0,
-          borderRadius: '50%',
+          borderRadius: 0,
           boxShadow: `
             inset 0 0 0 1px rgba(255, 255, 255, 0.2),
             inset 0 0 0 2px rgba(255, 255, 255, 0.1),
@@ -506,7 +507,7 @@ function QuantumOrb({
         }}
       />
 
-      {/* State indicator (active/hover) */}
+      {/* Active indicator — square frame */}
       <AnimatePresence>
         {state === 'active' && (
           <motion.div
@@ -517,7 +518,7 @@ function QuantumOrb({
             style={{
               position: 'absolute',
               inset: -15,
-              borderRadius: '50%',
+              borderRadius: 0,
               border: `1px solid ${orbConfig.glowColor}33`,
               boxShadow: `0 0 15px ${orbConfig.glowColor}33`,
               zIndex: -1,

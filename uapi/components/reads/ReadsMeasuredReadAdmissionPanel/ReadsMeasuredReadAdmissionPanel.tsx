@@ -70,7 +70,7 @@ export default function ReadsMeasuredReadAdmissionPanel({
   onRecordFit,
 }: ReadsMeasuredReadAdmissionPanelProps) {
   return (
-    <section className="mt-5 rounded-[1.45rem] border border-emerald-400/16 bg-emerald-400/[0.06] px-5 py-5">
+    <section className="mt-5 rounded-none border border-emerald-400/16 bg-emerald-400/[0.06] px-5 py-5">
       <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
         <div>
           <p className="text-[0.66rem] uppercase tracking-[0.2em] text-emerald-200/80">read state</p>
@@ -81,7 +81,7 @@ export default function ReadsMeasuredReadAdmissionPanel({
             proceed.
           </p>
         </div>
-        <span className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200">
+        <span className="rounded-none border border-white/10 bg-black/20 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200">
           {readFitsFindingProgress.replace('-', ' ')}
         </span>
       </div>
@@ -92,7 +92,7 @@ export default function ReadsMeasuredReadAdmissionPanel({
           return (
             <div
               key={step.id}
-              className={`rounded-[1.1rem] border px-4 py-4 text-sm ${
+              className={`rounded-none border px-4 py-4 text-sm ${
                 active ? 'border-emerald-300/35 bg-emerald-300/10' : 'border-white/8 bg-black/20'
               }`}
             >
@@ -108,7 +108,7 @@ export default function ReadsMeasuredReadAdmissionPanel({
           type="button"
           disabled={recordingKey !== null || readFitsFindingProgress !== 'measured'}
           onClick={onRecordReadAdmission}
-          className="rounded-[1.25rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-55"
+          className="rounded-none border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/50 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:opacity-55"
         >
           {readAdmissionActionLabel}
         </button>
@@ -116,7 +116,7 @@ export default function ReadsMeasuredReadAdmissionPanel({
           type="button"
           disabled={recordingKey !== null}
           onClick={() => jumpToShellSection('terminalFitWorkbench')}
-          className="rounded-[1.25rem] border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-55"
+          className="rounded-none border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-55"
         >
           Review fit result posture
         </button>
@@ -124,7 +124,7 @@ export default function ReadsMeasuredReadAdmissionPanel({
           type="button"
           disabled={!canRunLiveFit}
           onClick={onRunLiveFit}
-          className="rounded-[1.25rem] border border-sky-300/30 bg-sky-300/10 px-4 py-3 text-sm font-medium text-sky-100 transition hover:border-sky-200/50 hover:bg-sky-300/15 disabled:cursor-not-allowed disabled:opacity-55"
+          className="rounded-none border border-sky-300/30 bg-sky-300/10 px-4 py-3 text-sm font-medium text-sky-100 transition hover:border-sky-200/50 hover:bg-sky-300/15 disabled:cursor-not-allowed disabled:opacity-55"
         >
           {liveFitActionLabel}
         </button>
@@ -132,14 +132,14 @@ export default function ReadsMeasuredReadAdmissionPanel({
           type="button"
           disabled={recordingKey !== null || readFitsFindingProgress !== 'admitted'}
           onClick={onRecordFit}
-          className="rounded-[1.25rem] border border-amber-300/30 bg-amber-300/10 px-4 py-3 text-sm font-medium text-amber-100 transition hover:border-amber-200/50 hover:bg-amber-300/15 disabled:cursor-not-allowed disabled:opacity-55"
+          className="rounded-none border border-amber-300/30 bg-amber-300/10 px-4 py-3 text-sm font-medium text-amber-100 transition hover:border-amber-200/50 hover:bg-amber-300/15 disabled:cursor-not-allowed disabled:opacity-55"
         >
           {fitResultActionLabel}
         </button>
       </div>
       {!showDemonstrationWorkbench &&
       (hostMessage || !hostRequestReady || hostEventsLength > 0) ? (
-        <div className="mt-4 rounded-[1.1rem] border border-white/8 bg-black/20 px-4 py-4 text-sm leading-6 text-neutral-300">
+        <div className="mt-4 rounded-none border border-white/8 bg-black/20 px-4 py-4 text-sm leading-6 text-neutral-300">
           <p className="font-medium text-neutral-100">
             {hostMessage ||
               `Live fit waiting for ${
@@ -149,7 +149,7 @@ export default function ReadsMeasuredReadAdmissionPanel({
           {hostIdentifierRows.length ? (
             <dl className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
               {hostIdentifierRows.map((row) => (
-                <div key={row.label} className="rounded-[0.9rem] border border-white/8 bg-white/[0.03] px-3 py-2">
+                <div key={row.label} className="rounded-none border border-white/8 bg-white/[0.03] px-3 py-2">
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">{row.label}</dt>
                   <dd className="mt-1 break-words font-mono text-[0.7rem] text-neutral-200">{row.value}</dd>
                 </div>
@@ -157,7 +157,7 @@ export default function ReadsMeasuredReadAdmissionPanel({
             </dl>
           ) : null}
           {hostEventsLength || hostState === 'running' || hostState === 'failed' ? (
-            <div className="mt-4 overflow-hidden rounded-[1rem] border border-white/8 bg-[rgba(5,9,18,0.88)]">
+            <div className="mt-4 overflow-hidden rounded-none border border-white/8 bg-[rgba(5,9,18,0.88)]">
               <BitcodeExecutionStreamPanel
                 className="relative"
                 isProcessing={hostState === 'running'}

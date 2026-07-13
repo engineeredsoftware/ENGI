@@ -25,7 +25,7 @@ export function ReadsReadScenarioList({
           onClick={() => {
             void onSelect(scenario.id);
           }}
-          className={`rounded-[1.35rem] border px-4 py-4 text-left transition ${
+          className={`rounded-none border px-4 py-4 text-left transition ${
             scenario.selected
               ? 'border-emerald-400/35 bg-emerald-400/10'
               : 'border-white/8 bg-black/20 hover:border-white/16 hover:bg-white/5'
@@ -39,7 +39,7 @@ export function ReadsReadScenarioList({
               </p>
             </div>
             <span
-              className={`rounded-full border px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] ${
+              className={`rounded-none border px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] ${
                 scenario.selected
                   ? 'border-emerald-300/35 bg-emerald-300/15 text-emerald-100'
                   : 'border-white/10 bg-white/5 text-neutral-200'

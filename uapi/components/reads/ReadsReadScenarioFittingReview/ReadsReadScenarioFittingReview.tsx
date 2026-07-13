@@ -18,7 +18,7 @@ export function ReadsReadScenarioFittingReview({
   review,
 }: ReadsReadScenarioFittingReviewProps) {
   return (
-    <div className="mt-6 rounded-[1.45rem] border border-emerald-400/16 bg-emerald-400/[0.06] px-4 py-4">
+    <div className="mt-6 rounded-none border border-emerald-400/16 bg-emerald-400/[0.06] px-4 py-4">
       <div className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
         <div>
           <p className="text-[0.66rem] uppercase tracking-[0.2em] text-emerald-200/80">
@@ -36,7 +36,7 @@ export function ReadsReadScenarioFittingReview({
           </p>
         </div>
         {review ? (
-          <span className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200">
+          <span className="rounded-none border border-white/10 bg-black/20 px-3 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-neutral-200">
             {review.fitSearchAdmitted ? 'fit admitted' : 'fit blocked'}
           </span>
         ) : null}
@@ -52,18 +52,18 @@ export function ReadsReadScenarioFittingReview({
               { label: 'OC', value: review.objectiveContractId },
             ]}
             columnsClassName="mt-4 tablet:grid-cols-2 xl:grid-cols-4"
-            itemClassName="rounded-2xl border border-white/8 bg-black/20 px-4 py-4"
+            itemClassName="rounded-none border border-white/8 bg-black/20 px-4 py-4"
             labelClassName="text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500"
             valueClassName="break-words text-xs font-semibold text-neutral-100"
           />
           <div className="mt-4 grid gap-3 xl:grid-cols-3">
-            <div className="rounded-[1.1rem] border border-white/8 bg-black/20 px-4 py-4">
+            <div className="rounded-none border border-white/8 bg-black/20 px-4 py-4">
               <p className="text-[0.64rem] uppercase tracking-[0.18em] text-neutral-500">
                 Blocked until
               </p>
               <p className="mt-2 text-sm leading-6 text-neutral-200">{review.blockedUntil}</p>
             </div>
-            <div className="rounded-[1.1rem] border border-white/8 bg-black/20 px-4 py-4">
+            <div className="rounded-none border border-white/8 bg-black/20 px-4 py-4">
               <p className="text-[0.64rem] uppercase tracking-[0.18em] text-neutral-500">
                 Fit stages
               </p>
@@ -74,7 +74,7 @@ export function ReadsReadScenarioFittingReview({
                 ).join(' · ') || 'none'}
               </p>
             </div>
-            <div className="rounded-[1.1rem] border border-white/8 bg-black/20 px-4 py-4">
+            <div className="rounded-none border border-white/8 bg-black/20 px-4 py-4">
               <p className="text-[0.64rem] uppercase tracking-[0.18em] text-neutral-500">
                 Settlement review
               </p>
@@ -84,7 +84,7 @@ export function ReadsReadScenarioFittingReview({
             </div>
           </div>
           {review.reviewQuestions.length ? (
-            <div className="mt-4 rounded-[1.1rem] border border-white/8 bg-black/20 px-4 py-4">
+            <div className="mt-4 rounded-none border border-white/8 bg-black/20 px-4 py-4">
               <p className="text-[0.64rem] uppercase tracking-[0.18em] text-neutral-500">
                 Review questions
               </p>

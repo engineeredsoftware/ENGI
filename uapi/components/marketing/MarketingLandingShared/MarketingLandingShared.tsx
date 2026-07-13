@@ -208,9 +208,10 @@ export function renderOrbitalBullet(className = '', variant: 'purple' | 'orange'
 
   return (
     <span className={`relative inline-flex h-5 w-5 shrink-0 items-center justify-center ${className}`}>
-      <span className={`absolute inset-0 rounded-full border ${outerRingClassName}`} />
-      <span className={`absolute inset-[2.5px] rounded-full border ${innerRingClassName}`} />
-      <span className={`absolute inset-[8px] rounded-full ${coreClassName}`} />
+      {/* Square chrome; flying particle dots stay circular. */}
+      <span className={`absolute inset-0 rounded-none border ${outerRingClassName}`} />
+      <span className={`absolute inset-[2.5px] rounded-none border ${innerRingClassName}`} />
+      <span className={`absolute inset-[8px] rounded-none ${coreClassName}`} />
       <span
         className={`absolute left-1/2 top-1/2 h-[2.25px] w-[2.25px] -translate-x-1/2 -translate-y-[8px] rounded-full ${planetClassName}`}
       />

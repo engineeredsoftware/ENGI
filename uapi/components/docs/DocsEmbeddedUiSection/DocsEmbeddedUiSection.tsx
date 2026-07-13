@@ -25,7 +25,7 @@ function EmbeddedUiSpecimen({ specimen }: { specimen: DocsEmbeddedUiSpecimen }) 
           {specimen.signals.map((signal) => (
             <div
               key={`${specimen.id}-${signal.label}`}
-              className={`rounded-2xl border px-4 py-3 ${signalToneClassName(signal.tone)}`}
+              className={`rounded-none border px-4 py-3 ${signalToneClassName(signal.tone)}`}
             >
               <p className="text-[10px] uppercase tracking-[0.2em] opacity-65">{signal.label}</p>
               <p className="mt-2 text-sm font-semibold">{signal.value}</p>
@@ -38,7 +38,7 @@ function EmbeddedUiSpecimen({ specimen }: { specimen: DocsEmbeddedUiSpecimen }) 
           {specimen.steps.map((step, index) => (
             <article
               key={`${specimen.id}-${step.label}`}
-              className="rounded-2xl border border-white/8 bg-black/20 px-4 py-4"
+              className="rounded-none border border-white/8 bg-black/20 px-4 py-4"
             >
               <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-200/62">
                 {String(index + 1).padStart(2, '0')} / {step.label}
@@ -57,7 +57,7 @@ export function DocsEmbeddedUiSection({ specimens }: { specimens: readonly DocsE
 
   return (
     <section className="grid gap-4">
-      <div className="rounded-[28px] border border-cyan-300/10 bg-cyan-400/[0.035] p-5">
+      <div className="rounded-none border border-cyan-300/10 bg-cyan-400/[0.035] p-5">
         <p className="text-[10px] uppercase tracking-[0.24em] text-cyan-200/72">Interface preview</p>
         <h2 className="mt-3 text-2xl font-semibold tracking-tight text-white">
           Learn with the same UI grammar used in Terminal

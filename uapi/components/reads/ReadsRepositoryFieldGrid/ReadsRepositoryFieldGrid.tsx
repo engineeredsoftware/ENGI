@@ -69,7 +69,7 @@ export function ReadsRepositoryFieldGrid({
   onRecordAnchor,
 }: ReadsRepositoryFieldGridProps) {
   return (
-    <div className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
+    <div className="rounded-none border border-white/8 bg-black/20 px-5 py-5">
       <div className="flex items-center gap-2">
         <p className="text-[0.68rem] uppercase tracking-[0.24em] text-neutral-400">
           Provider and repository
@@ -84,7 +84,7 @@ export function ReadsRepositoryFieldGrid({
               key={option}
               type="button"
               onClick={() => onProviderChange(option)}
-              className={`rounded-full border px-3 py-2 text-[0.72rem] uppercase tracking-[0.18em] transition ${
+              className={`rounded-none border px-3 py-2 text-[0.72rem] uppercase tracking-[0.18em] transition ${
                 isActive
                   ? 'border-emerald-400/35 bg-emerald-400/10 text-emerald-100'
                   : 'border-white/10 bg-white/5 text-neutral-200 hover:border-white/18 hover:bg-white/10'
@@ -117,7 +117,7 @@ export function ReadsRepositoryFieldGrid({
               type="button"
               disabled={!selectedRepository || !selectedBranch || !selectedCommit}
               onClick={onContinueToDeposit}
-              className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/5 disabled:text-neutral-500"
+              className="rounded-none border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/5 disabled:text-neutral-500"
             >
               Continue to deposit
             </button>
@@ -126,7 +126,7 @@ export function ReadsRepositoryFieldGrid({
             type="button"
             disabled={!selectedRepository || isRecording}
             onClick={onRecordAnchor}
-            className="rounded-[1.2rem] border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-none border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/18 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isRecording ? 'Recording anchor…' : 'Record repository anchor'}
           </button>
@@ -135,7 +135,7 @@ export function ReadsRepositoryFieldGrid({
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        <label className="rounded-[1.25rem] border border-white/8 bg-white/5 px-4 py-4">
+        <label className="rounded-none border border-white/8 bg-white/5 px-4 py-4">
           <span className="flex items-center gap-2 text-[0.64rem] uppercase tracking-[0.2em] text-neutral-400">
             <span>Branch</span>
             <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.sourceBranch} />
@@ -145,7 +145,7 @@ export function ReadsRepositoryFieldGrid({
             value={selectedBranch || ''}
             disabled={!selectedRepository || isLoadingBranches || branches.length === 0}
             onChange={(event) => onBranchChange(event.target.value)}
-            className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40 disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-3 w-full rounded-none border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {branches.length ? null : <option value="">No branches loaded</option>}
             {branches.map((branch) => (
@@ -164,7 +164,7 @@ export function ReadsRepositoryFieldGrid({
           </p>
         </label>
 
-        <label className="rounded-[1.25rem] border border-white/8 bg-white/5 px-4 py-4">
+        <label className="rounded-none border border-white/8 bg-white/5 px-4 py-4">
           <span className="flex items-center gap-2 text-[0.64rem] uppercase tracking-[0.2em] text-neutral-400">
             <span>Commit / ref</span>
             <BitcodeInlineExplainer explainer={TERMINAL_INLINE_EXPLAINERS.sourceCommit} />
@@ -174,7 +174,7 @@ export function ReadsRepositoryFieldGrid({
             value={selectedCommit || ''}
             disabled={!selectedBranch || isLoadingCommits || commits.length === 0}
             onChange={(event) => onCommitChange(event.target.value)}
-            className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40 disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-3 w-full rounded-none border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {commits.length ? null : <option value="">No commits loaded</option>}
             {commits.map((commit) => (
@@ -192,7 +192,7 @@ export function ReadsRepositoryFieldGrid({
       </div>
 
       {sourceSelectionError ? (
-        <p className="mt-4 rounded-[1.1rem] border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-sm text-amber-100">
+        <p className="mt-4 rounded-none border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-sm text-amber-100">
           {sourceSelectionError}
         </p>
       ) : null}

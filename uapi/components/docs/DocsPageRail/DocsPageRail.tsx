@@ -13,11 +13,11 @@ export function DocsPageRail({ page }: { page: BitcodeDocsPage }) {
   return (
     <nav
       aria-label="Bitcode docs table of contents"
-      className="max-h-[calc(100vh-8rem)] overflow-y-auto rounded-[28px] border border-white/10 bg-black/24 p-3 backdrop-blur-xl"
+      className="max-h-[calc(100vh-8rem)] overflow-y-auto rounded-none border border-white/10 bg-black/24 p-3 backdrop-blur-xl"
     >
       <Link
         href="/docs"
-        className="block rounded-2xl border border-white/8 bg-white/[0.03] px-3 py-3 text-sm font-semibold text-white/82 transition hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-emerald-50"
+        className="block rounded-none border border-white/8 bg-white/[0.03] px-3 py-3 text-sm font-semibold text-white/82 transition hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-emerald-50"
       >
         Docs home
       </Link>
@@ -42,7 +42,7 @@ export function DocsPageRail({ page }: { page: BitcodeDocsPage }) {
                       <Link
                         href={item.href}
                         aria-current={active ? 'page' : undefined}
-                        className={`block rounded-2xl border px-3 py-2.5 transition ${
+                        className={`block rounded-none border px-3 py-2.5 transition ${
                           active
                             ? 'border-emerald-300/28 bg-emerald-400/10 text-emerald-50'
                             : 'border-white/8 bg-white/[0.025] text-white/66 hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-emerald-50'
@@ -59,7 +59,7 @@ export function DocsPageRail({ page }: { page: BitcodeDocsPage }) {
                             <a
                               key={section.id}
                               href={`#${section.id}`}
-                              className="rounded-xl px-2 py-1.5 text-[0.76rem] leading-5 text-white/52 transition hover:bg-white/[0.04] hover:text-emerald-100"
+                              className="rounded-none px-2 py-1.5 text-[0.76rem] leading-5 text-white/52 transition hover:bg-white/[0.04] hover:text-emerald-100"
                             >
                               {String(index + 1).padStart(2, '0')} {section.title}
                             </a>
@@ -68,7 +68,7 @@ export function DocsPageRail({ page }: { page: BitcodeDocsPage }) {
                             <a
                               key={section.id}
                               href={`#${section.id}`}
-                              className="rounded-xl px-2 py-1.5 text-[0.76rem] leading-5 text-white/52 transition hover:bg-white/[0.04] hover:text-emerald-100"
+                              className="rounded-none px-2 py-1.5 text-[0.76rem] leading-5 text-white/52 transition hover:bg-white/[0.04] hover:text-emerald-100"
                             >
                               API / {section.title}
                             </a>
@@ -76,7 +76,7 @@ export function DocsPageRail({ page }: { page: BitcodeDocsPage }) {
                           {item.slug === 'terminal-actions' ? (
                             <a
                               href="#terminal-actions"
-                              className="rounded-xl px-2 py-1.5 text-[0.76rem] leading-5 text-white/52 transition hover:bg-white/[0.04] hover:text-emerald-100"
+                              className="rounded-none px-2 py-1.5 text-[0.76rem] leading-5 text-white/52 transition hover:bg-white/[0.04] hover:text-emerald-100"
                             >
                               Action manual
                             </a>
@@ -84,7 +84,7 @@ export function DocsPageRail({ page }: { page: BitcodeDocsPage }) {
                           {item.slug === 'read-results' ? (
                             <a
                               href="#terminal-reads"
-                              className="rounded-xl px-2 py-1.5 text-[0.76rem] leading-5 text-white/52 transition hover:bg-white/[0.04] hover:text-emerald-100"
+                              className="rounded-none px-2 py-1.5 text-[0.76rem] leading-5 text-white/52 transition hover:bg-white/[0.04] hover:text-emerald-100"
                             >
                               Read guide
                             </a>

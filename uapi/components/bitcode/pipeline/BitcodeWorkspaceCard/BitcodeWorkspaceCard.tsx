@@ -42,7 +42,7 @@ export default function BitcodeWorkspaceCard({
     tone === 'emerald'
       ? 'border-emerald-400/15 bg-[linear-gradient(180deg,rgba(8,14,28,0.96),rgba(4,8,18,0.94))] shadow-[0_24px_80px_rgba(0,0,0,0.42)]'
       : 'border-white/10 bg-[linear-gradient(180deg,rgba(7,11,22,0.96),rgba(4,8,18,0.94))] shadow-[0_24px_80px_rgba(0,0,0,0.38)]';
-  const sizeClassName = size === 'compact' ? 'rounded-[1.75rem] p-5' : 'rounded-[2rem] px-6 py-6';
+  const sizeClassName = size === 'compact' ? 'rounded-none p-5' : 'rounded-none px-6 py-6';
   const titleClassName = size === 'compact' ? 'text-xl' : 'text-2xl tablet:text-[2.05rem]';
   const summaryClassName =
     size === 'compact' ? 'text-sm leading-6 text-neutral-300' : 'text-sm leading-7 text-neutral-300';

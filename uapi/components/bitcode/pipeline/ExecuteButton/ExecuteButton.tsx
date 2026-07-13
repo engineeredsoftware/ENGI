@@ -118,8 +118,8 @@ const ExecuteButtonBase = ({
               <div className="relative w-5 h-5">
                 <LogoIcon fill={colorScheme === 'emerald' ? '#65FEB7' : colorScheme === 'purple' ? '#A855F7' : '#F97316'} width={20} height={20} className={cn('w-5 h-5 transition-all duration-700', !disabled && 'group-hover:scale-110 group-hover:brightness-125 group-hover:animate-float group-active:scale-90 group-active:brightness-150', disabled && 'opacity-30')} style={{ filter: iconFilter }} aria-hidden="true" />
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-                  <div className={cn('absolute inset-[-50%] bg-gradient-conic animate-spin-slow rounded-full blur-md', colorScheme === 'emerald' && 'bg-brand-emerald-glow-subtle', colorScheme === 'purple' && 'bg-brand-purple-glow', colorScheme === 'orange' && 'bg-brand-orange-glow')} />
-                  <div className={cn('absolute inset-[-25%] bg-gradient-radial animate-pulse-slow rounded-full blur-sm', colorScheme === 'emerald' && 'bg-brand-emerald-glow-subtle', colorScheme === 'purple' && 'bg-brand-purple-glow', colorScheme === 'orange' && 'bg-brand-orange-glow')} />
+                  <div className={cn('absolute inset-[-50%] bg-gradient-conic animate-spin-slow rounded-none blur-md', colorScheme === 'emerald' && 'bg-brand-emerald-glow-subtle', colorScheme === 'purple' && 'bg-brand-purple-glow', colorScheme === 'orange' && 'bg-brand-orange-glow')} />
+                  <div className={cn('absolute inset-[-25%] bg-gradient-radial animate-pulse-slow rounded-none blur-sm', colorScheme === 'emerald' && 'bg-brand-emerald-glow-subtle', colorScheme === 'purple' && 'bg-brand-purple-glow', colorScheme === 'orange' && 'bg-brand-orange-glow')} />
                 </div>
               </div>
               <span className={cn(labelClassName ?? 'text-sm tracking-wider font-light group-hover:text-neon')}>{labelNode ?? label}</span>

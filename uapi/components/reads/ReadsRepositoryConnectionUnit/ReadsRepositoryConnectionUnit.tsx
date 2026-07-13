@@ -31,7 +31,7 @@ export function ReadsRepositoryConnectionUnit({
   isLoadingConnection,
 }: ReadsRepositoryConnectionUnitProps) {
   return (
-    <article className="rounded-[1.5rem] border border-white/8 bg-black/20 px-5 py-5">
+    <article className="rounded-none border border-white/8 bg-black/20 px-5 py-5">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-[0.66rem] uppercase tracking-[0.2em] text-emerald-300/75">
@@ -41,7 +41,7 @@ export function ReadsRepositoryConnectionUnit({
             {getProviderLabel(provider)}
           </h3>
         </div>
-        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-300">
+        <span className="rounded-none border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-300">
           contract
         </span>
       </div>
@@ -59,7 +59,7 @@ export function ReadsRepositoryConnectionUnit({
               connectionStatus.metadata?.account ||
               'linked account'}
           </div>
-          <dl className="space-y-3 rounded-[1.2rem] border border-white/8 bg-white/5 px-4 py-4 text-sm">
+          <dl className="space-y-3 rounded-none border border-white/8 bg-white/5 px-4 py-4 text-sm">
             <div>
               <dt className="text-neutral-500">Inventory count</dt>
               <dd className="mt-1 text-neutral-100">
@@ -99,7 +99,7 @@ export function ReadsRepositoryConnectionUnit({
             fail-closed until Externals restores a live {getProviderLabel(provider)}{' '}
             session.
           </p>
-          <dl className="space-y-3 rounded-[1.2rem] border border-amber-400/20 bg-amber-400/10 px-4 py-4 text-sm">
+          <dl className="space-y-3 rounded-none border border-amber-400/20 bg-amber-400/10 px-4 py-4 text-sm">
             <div>
               <dt className="text-amber-100/70">Inventory count</dt>
               <dd className="mt-1 text-neutral-100">
@@ -128,7 +128,7 @@ export function ReadsRepositoryConnectionUnit({
           <AuxillariesOpenButton
             step="externals"
             label="Reconnect Externals to restore live write admission"
-            className="rounded-[1.2rem] border border-amber-300/24 bg-amber-400/12 px-4 py-3 text-sm font-medium text-amber-50 transition hover:border-amber-300/42 hover:bg-amber-400/18"
+            className="rounded-none border border-amber-300/24 bg-amber-400/12 px-4 py-3 text-sm font-medium text-amber-50 transition hover:border-amber-300/42 hover:bg-amber-400/18"
           />
         </div>
       ) : (
@@ -139,7 +139,7 @@ export function ReadsRepositoryConnectionUnit({
           </p>
           <AuxillariesOpenButton
             step="externals"
-            className="rounded-[1.2rem] border border-white/12 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/20 hover:bg-white/10"
+            className="rounded-none border border-white/12 bg-white/5 px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-white/20 hover:bg-white/10"
           />
         </div>
       )}

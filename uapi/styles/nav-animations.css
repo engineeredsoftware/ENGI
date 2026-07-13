@@ -202,8 +202,8 @@
   backdrop-filter: blur(12px) saturate(110%);
   -webkit-backdrop-filter: blur(12px) saturate(110%);
 
-  /* Elegant rounded corners */
-  border-radius: 20px;
+  /* Square chrome (product language) */
+  border-radius: 0;
   border-top-right-radius: 0;
   border-top-left-radius: 0;
 

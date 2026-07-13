@@ -49,7 +49,7 @@ export function GlowLayer({
         style={{
           position: 'absolute',
           inset: 0,
-          borderRadius: '50%',
+          borderRadius: 0,
           background: color,
           filter: `blur(${getBlur()})`,
           opacity: intensity * 0.8,
@@ -74,7 +74,7 @@ export function GlowLayer({
         style={{
           position: 'absolute',
           inset: 0,
-          borderRadius: '50%',
+          borderRadius: 0,
           background: color,
           filter: `blur(${getBlur()})`,
           opacity: intensity * 0.6,
@@ -93,13 +93,13 @@ export function GlowLayer({
         }
       />
 
-      {/* Core pulse effect */}
+      {/* Core pulse — square footprint, soft radial fill */}
       <motion.div
         className="core-pulse"
         style={{
           position: 'absolute',
           inset: '25%',
-          borderRadius: '50%',
+          borderRadius: 0,
           background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
           opacity: 0.5,
         }}

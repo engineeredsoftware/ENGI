@@ -6,7 +6,7 @@
  */
 
 import React from "react";
-import { Anchor, RefreshCw, Sparkles } from "lucide-react";
+import { Anchor, RefreshCw } from "lucide-react";
 import { SearchableSelect } from "@/components/bitcode/forms/SearchableSelect/SearchableSelect";
 import {
   Popover,
@@ -220,7 +220,6 @@ export function DepositObfuscationsAnchorControls(
           </div>
         </PopoverContent>
       </Popover>
-      <Sparkles className="h-5 w-5 text-emerald-200" aria-hidden="true" />
     </div>
   );
 }

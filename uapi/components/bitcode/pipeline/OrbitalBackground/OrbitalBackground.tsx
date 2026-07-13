@@ -60,7 +60,7 @@ export const OrbitalBackground = ({ isProcessing }: OrbitalBackgroundProps) => {
 
             {/* Ripple */}
             <div
-              className={`absolute inset-0 rounded-full energy-wave ${isProcessing ? 'energy-wave-activated' : ''}`}
+              className={`absolute inset-0 rounded-none energy-wave ${isProcessing ? 'energy-wave-activated' : ''}`}
               style={{ '--wave-delay': `${i * 0.3}s` } as React.CSSProperties}
             />
           </div>
@@ -98,7 +98,7 @@ export const OrbitalBackground = ({ isProcessing }: OrbitalBackgroundProps) => {
 
         {/* Single animated ring */}
         <motion.div
-          className={`relative border border-emerald-400/20 rounded-full`}
+          className={`relative border border-emerald-400/20 rounded-none`}
           initial={false}
           animate={isProcessing ? { rotate: 360 } : { rotate: 0 }}
           transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}

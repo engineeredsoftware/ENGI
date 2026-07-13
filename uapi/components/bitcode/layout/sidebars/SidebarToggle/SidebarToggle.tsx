@@ -124,7 +124,7 @@ const SidebarToggleComponent: React.FC<SidebarToggleProps> = ({
         className={`
           fixed top-0 ${position === 'left' ? '-left-4' : '-right-4'}
           z-[100]
-          rounded-lg rounded-t-none
+          rounded-none
           transition-all duration-300
           ${onboardingLocked
             ? 'bg-gray-800 border border-gray-600 shadow-none opacity-50 grayscale cursor-not-allowed'
@@ -162,7 +162,7 @@ const SidebarToggleComponent: React.FC<SidebarToggleProps> = ({
                 {/* Orb Rings Animation */}
                 <motion.span
                   aria-hidden="true"
-                  className="absolute inset-0 rounded-full border border-emerald-400/40 pointer-events-none -z-10"
+                  className="absolute inset-0 rounded-none border border-emerald-400/40 pointer-events-none -z-10"
                   initial={false}
                   animate={{
                     rotate: isOpen ? 180 : 0,
@@ -177,7 +177,7 @@ const SidebarToggleComponent: React.FC<SidebarToggleProps> = ({
                 />
                 <motion.span
                   aria-hidden="true"
-                  className="absolute inset-0 rounded-full border border-emerald-500/20 pointer-events-none -z-10"
+                  className="absolute inset-0 rounded-none border border-emerald-500/20 pointer-events-none -z-10"
                   initial={false}
                   animate={{
                     rotate: isOpen ? -180 : 0,
@@ -210,7 +210,7 @@ const SidebarToggleComponent: React.FC<SidebarToggleProps> = ({
                     key={i}
                     className={`
                       absolute w-[3px] h-[3px]
-                      rounded-full
+                      rounded-none
                       bg-emerald-400/40
                       transition-all duration-500 ease-out
                       backdrop-blur-[1px]
@@ -222,7 +222,7 @@ const SidebarToggleComponent: React.FC<SidebarToggleProps> = ({
                 ))}
 
                 <div className={`
-                  absolute inset-[-25%] rounded-full
+                  absolute inset-[-25%] rounded-none
                   bg-emerald-400/10
                   transition-all duration-300
                   opacity-0 group-hover/toggle:opacity-100
@@ -261,7 +261,7 @@ const SidebarToggleComponent: React.FC<SidebarToggleProps> = ({
                 }}
                 className="group/close-btn relative w-8 h-8 flex items-center justify-center"
               >
-                <div className="absolute inset-0 rounded-full bg-emerald-500/0 transition-all duration-300 group-hover/close-btn:bg-emerald-500/5" />
+                <div className="absolute inset-0 rounded-none bg-emerald-500/0 transition-all duration-300 group-hover/close-btn:bg-emerald-500/5" />
                 <svg
                   className="w-5 h-5 text-emerald-400/80 transition-all duration-300 group-hover/close-btn:text-emerald-300 group-hover/close-btn:scale-110 group-hover/close-btn:drop-shadow-[0_0_4px_rgba(103,254,183,0.4)]"
                   viewBox="0 0 24 24"
@@ -276,7 +276,7 @@ const SidebarToggleComponent: React.FC<SidebarToggleProps> = ({
                     : "M5 12h14M12 5l7 7-7 7"}
                   />
                 </svg>
-                <div className="absolute inset-0 rounded-full border border-emerald-500/0 transition-all duration-300 group-hover/close-btn:border-emerald-500/20" />
+                <div className="absolute inset-0 rounded-none border border-emerald-500/0 transition-all duration-300 group-hover/close-btn:border-emerald-500/20" />
               </button>
 
               {/* New item button */}
@@ -284,7 +284,7 @@ const SidebarToggleComponent: React.FC<SidebarToggleProps> = ({
                 onClick={(e) => e.stopPropagation()}
                 className="group/new-btn relative w-8 h-8 flex items-center justify-center"
               >
-                <div className="absolute inset-0 rounded-full bg-emerald-500/0 transition-all duration-300 group-hover/new-btn:bg-emerald-500/5" />
+                <div className="absolute inset-0 rounded-none bg-emerald-500/0 transition-all duration-300 group-hover/new-btn:bg-emerald-500/5" />
                 <svg
                   className="w-5 h-5 text-emerald-400/80 transition-all duration-300 group-hover/new-btn:text-emerald-300 group-hover/new-btn:scale-110 group-hover/new-btn:drop-shadow-[0_0_4px_rgba(103,254,183,0.4)]"
                   viewBox="0 0 24 24"
@@ -296,7 +296,7 @@ const SidebarToggleComponent: React.FC<SidebarToggleProps> = ({
                 >
                   <path d="M12 5v14M5 12h14" />
                 </svg>
-                <div className="absolute inset-0 rounded-full border border-emerald-500/0 transition-all duration-300 group-hover/new-btn:border-emerald-500/20" />
+                <div className="absolute inset-0 rounded-none border border-emerald-500/0 transition-all duration-300 group-hover/new-btn:border-emerald-500/20" />
               </button>
             </motion.div>
           </div>
@@ -341,7 +341,7 @@ const SidebarToggleComponent: React.FC<SidebarToggleProps> = ({
     ${position === 'left' ? 'pl-3' : 'pr-3'}
     z-[50]
     w-14 h-[40px]
-    rounded-lg rounded-t-none
+    rounded-none
     flex items-center justify-center
     transition-all duration-200
     ${(isInactiveDisabled || onboardingLocked)

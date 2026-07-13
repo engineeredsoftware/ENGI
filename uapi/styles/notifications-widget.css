@@ -275,7 +275,7 @@
     radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.07), transparent 28%),
     rgba(3, 8, 22, 0.95);
   backdrop-filter: blur(12px);
-  border-radius: 16px;
+  border-radius: 0;
   border: 1px solid rgba(103, 254, 183, 0.14);
   box-shadow:
     0 10px 30px rgba(0, 0, 0, 0.4),
@@ -334,7 +334,7 @@
   color: rgba(103, 254, 183, 0.8);
   cursor: pointer;
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: 0;
   white-space: nowrap;
   transition: all 0.2s ease;
 }
@@ -411,7 +411,7 @@
 .notification-type-pill {
   display: inline-flex;
   align-items: center;
-  border-radius: 999px;
+  border-radius: 0;
   border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 0.28rem 0.55rem;
   font-size: 10px;
@@ -499,7 +499,7 @@
 .notification-action-button {
   border: 0;
   background: rgba(255, 255, 255, 0.04);
-  border-radius: 999px;
+  border-radius: 0;
   padding: 0.35rem 0.7rem;
   font-size: 11px;
   color: rgba(167, 243, 208, 0.9);
