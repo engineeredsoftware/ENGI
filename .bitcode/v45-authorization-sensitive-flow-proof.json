@@ -227,7 +227,7 @@
   ],
   "sourceEvidence": [
     {
-      "relativePath": "packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts",
       "present": true,
       "digest": "sha256:ed6fa07bc3f69caaca59824933d1a7deab4bf0c7ccc57be7ef399511ce4587c3",
       "byteLength": 21366,
@@ -253,7 +253,7 @@
       ]
     },
     {
-      "relativePath": "packages/pipelines/asset-pack/src/interface-disclosure-boundary.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts",
       "present": true,
       "digest": "sha256:1fde9c12eddfffc5c04f82fbe98d53f92cbebfeb9dcb3b277b0eb6073ccd85fb",
       "byteLength": 18415,
@@ -351,8 +351,8 @@
     "blocker"
   ],
   "generatedArtifactAndTestBindings": [
-    "packages/pipelines/asset-pack/src/__tests__/organization-policy-wallet-authority.test.ts",
-    "packages/pipelines/asset-pack/src/__tests__/interface-disclosure-boundary.test.ts",
+    "packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts",
+    "packages/asset-packs-pipelines/domain/src/__tests__/interface-disclosure-boundary.test.ts",
     "packages/btd/__tests__/interface-authorization-policy.test.ts",
     "packages/protocol/test/v45-proof-family-artifacts.test.js"
   ],

@@ -21,7 +21,7 @@ import {
   PipelineExecution,
   inferPipelineExecutionLineage
 } from '@bitcode/pipelines-generics';
-import { assetPackPipeline } from '@bitcode/pipeline-asset-pack';
+import { assetPackPipeline } from '@bitcode/asset-packs-pipelines-domain';
 import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
 import { sendServerEvent } from '@bitcode/google-analytics';
 import { BitcodeError, reportError } from '@bitcode/errors';

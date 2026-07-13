@@ -227,7 +227,7 @@
   ],
   "sourceEvidence": [
     {
-      "relativePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
       "present": true,
       "digest": "sha256:347bd88040c9456420e03c0e023958c48de2f302c2f2fb079679d45695293345",
       "byteLength": 14498,
@@ -253,7 +253,7 @@
       ]
     },
     {
-      "relativePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "present": true,
       "digest": "sha256:1319dd4223292e03b795ab8777654944d85b52b18748b442e1ac5b9f2a1eaaef",
       "byteLength": 22337,
@@ -279,7 +279,7 @@
       ]
     },
     {
-      "relativePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "present": true,
       "digest": "sha256:3d2b0984fc9e2c3c108d6eb09bd5a7afc6dd00fa778cf7e16af8c662f6caccae",
       "byteLength": 47753,
@@ -305,7 +305,7 @@
       ]
     },
     {
-      "relativePath": "packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts",
       "present": true,
       "digest": "sha256:ed6fa07bc3f69caaca59824933d1a7deab4bf0c7ccc57be7ef399511ce4587c3",
       "byteLength": 21366,
@@ -355,9 +355,9 @@
     "blocker"
   ],
   "generatedArtifactAndTestBindings": [
-    "packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts",
-    "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts",
-    "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+    "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts",
+    "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
+    "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
     "packages/protocol/test/v45-proof-family-artifacts.test.js"
   ],
   "failClosedConditions": [

@@ -64,7 +64,7 @@ MCPs are initialized during Setup phase of any execution. The system:
 2. Registers tools with execution
 3. Makes them available to agents
 
-**File:** `/packages/pipelines/asset-pack/src/phases/setup.ts`
+**File:** `/packages/asset-packs-pipelines/domain/src/phases/setup.ts`
 - Agent: `setup:asset-pack-initialize-mcps-tools-agent`
 
 ## Adding New MCPs

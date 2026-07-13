@@ -82,7 +82,7 @@ let nextConfig = {
     '@bitcode/styling',
     '@bitcode/prompts',
     '@bitcode/pipeline-hosts',
-    '@bitcode/pipeline-asset-pack',
+    '@bitcode/asset-packs-pipelines-domain',
     '@bitcode/pipelines-generics',
     '@bitcode/vcs',
     '@bitcode/agent-generics',

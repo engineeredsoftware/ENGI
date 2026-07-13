@@ -68,11 +68,11 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  readingContract: 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-  readNeed: 'packages/pipelines/asset-pack/src/read-need.ts',
-  depositorySearch: 'packages/pipelines/asset-pack/src/depository-search.ts',
-  embeddingConfig: 'packages/pipelines/asset-pack/src/embedding-config.ts',
-  runtimeInferencePolicy: 'packages/pipelines/asset-pack/src/runtime-inference-policy.ts',
+  readingContract: 'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+  readNeed: 'packages/asset-packs-pipelines/domain/src/read-need.ts',
+  depositorySearch: 'packages/asset-packs-pipelines/domain/src/depository-search.ts',
+  embeddingConfig: 'packages/asset-packs-pipelines/domain/src/embedding-config.ts',
+  runtimeInferencePolicy: 'packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts',
   conversationAgent: 'packages/conversations-generics/src/agent/ConversationAgent.ts',
   conversationSystemPrompt: 'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
   conversationRoute: 'packages/api/src/routes/conversations.ts',

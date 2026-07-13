@@ -213,8 +213,8 @@
       "hardeningId": "readneed-ptrr-prompt-composition",
       "label": "ComprehendRead prompts keep PTRR, Failsafe, and ThricifiedGeneration composition intact",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts"
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts"
       ],
       "promptFamilyIds": [
         "ReadNeedComprehensionSynthesis",
@@ -286,16 +286,16 @@
         "unpaid-assetpack-source"
       ],
       "sourceFiles": [
-        "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts"
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts"
       ],
       "sourceHashes": [
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts",
           "sourceHash": "153b5f6c22c27a2172a73da5"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
           "sourceHash": "abdb463f3aa8410018a91b25"
         }
       ],
@@ -304,49 +304,49 @@
         {
           "id": "composition.system-plan-try-refine-retry-present",
           "rowId": "readneed-ptrr-prompt-composition",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts",
           "passed": true
         },
         {
           "id": "composition.generation-reason-present",
           "rowId": "readneed-ptrr-prompt-composition",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts",
           "passed": true
         },
         {
           "id": "composition.generation-judge-present",
           "rowId": "readneed-ptrr-prompt-composition",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts",
           "passed": true
         },
         {
           "id": "composition.generation-structured-output-present",
           "rowId": "readneed-ptrr-prompt-composition",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts",
           "passed": true
         },
         {
           "id": "composition.failsafe-prepare-context-present",
           "rowId": "readneed-ptrr-prompt-composition",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts",
           "passed": true
         },
         {
           "id": "composition.prompt-requirements-present",
           "rowId": "readneed-ptrr-prompt-composition",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts",
           "passed": true
         },
         {
           "id": "composition.overlay-prompts-present",
           "rowId": "readneed-ptrr-prompt-composition",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
           "passed": true
         },
         {
           "id": "composition.assetpack-overlay-no-source-leak",
           "rowId": "readneed-ptrr-prompt-composition",
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
           "passed": true
         }
       ],
@@ -359,9 +359,9 @@
       "hardeningId": "readneed-real-inference-return-type-hardening",
       "label": "ReadNeed real inference uses strict typed schema and always-real ThricifiedGeneration that fails closed without an LLM",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/runtime-inference-policy.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts"
       ],
       "promptFamilyIds": [
         "ReadNeedComprehensionSynthesis",
@@ -432,21 +432,21 @@
         "unpaid-assetpack-source"
       ],
       "sourceFiles": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/runtime-inference-policy.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts"
       ],
       "sourceHashes": [
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "sourceHash": "3d827283d8dc1234cc31d348"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/runtime-inference-policy.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts",
           "sourceHash": "f86a3e1c536deeb22b9ed84d"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
           "sourceHash": "c5d08cd4a465c75a011685d7"
         }
       ],
@@ -455,67 +455,67 @@
         {
           "id": "schema.uses-zod-object",
           "rowId": "readneed-real-inference-return-type-hardening",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "schema.strict-return-type",
           "rowId": "readneed-real-inference-return-type-hardening",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "schema.requirements-array",
           "rowId": "readneed-real-inference-return-type-hardening",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "schema.closure-criteria-array",
           "rowId": "readneed-real-inference-return-type-hardening",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "schema.failure-modes-array",
           "rowId": "readneed-real-inference-return-type-hardening",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "schema.target-artifact-kinds-array",
           "rowId": "readneed-real-inference-return-type-hardening",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "schema.proof-expectations-array",
           "rowId": "readneed-real-inference-return-type-hardening",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "inference.uses-real-thricified-inference",
           "rowId": "readneed-real-inference-return-type-hardening",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "inference.prompt-template-id-bound",
           "rowId": "readneed-real-inference-return-type-hardening",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "inference.fails-closed-without-llm",
           "rowId": "readneed-real-inference-return-type-hardening",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "test.real-inference-covers-thricified-generation",
           "rowId": "readneed-real-inference-return-type-hardening",
-          "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
           "passed": true
         }
       ],
@@ -528,8 +528,8 @@
       "hardeningId": "readneed-source-constraint-preservation",
       "label": "ReadNeed preserves repository, branch, commit, and protected-source boundaries into Finding Fits",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
       ],
       "promptFamilyIds": [
         "ReadNeedComprehensionSynthesis"
@@ -596,16 +596,16 @@
         "unpaid-assetpack-source"
       ],
       "sourceFiles": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
       ],
       "sourceHashes": [
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "sourceHash": "3d827283d8dc1234cc31d348"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
           "sourceHash": "4a688c72b552579ba1373a74"
         }
       ],
@@ -614,49 +614,49 @@
         {
           "id": "source-constraints.field-present",
           "rowId": "readneed-source-constraint-preservation",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "source-constraints.repository-full-name",
           "rowId": "readneed-source-constraint-preservation",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "source-constraints.source-branch",
           "rowId": "readneed-source-constraint-preservation",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "source-constraints.source-commit",
           "rowId": "readneed-source-constraint-preservation",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "source-constraints.protected-source-disclosure-forbidden",
           "rowId": "readneed-source-constraint-preservation",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "source-constraints.forwarded-to-depository-search-read",
           "rowId": "readneed-source-constraint-preservation",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "source-constraints.interpolation-keys-bound",
           "rowId": "readneed-source-constraint-preservation",
-          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "source-constraints.measurement-root-bound",
           "rowId": "readneed-source-constraint-preservation",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         }
       ],
@@ -669,9 +669,9 @@
       "hardeningId": "readneed-review-resynthesis-admission",
       "label": "ReadNeed review, feedback, resynthesis, and accepted-Need gate stay explicit",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts"
       ],
       "promptFamilyIds": [
         "ReadNeedComprehensionSynthesis",
@@ -742,21 +742,21 @@
         "unpaid-assetpack-source"
       ],
       "sourceFiles": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts"
       ],
       "sourceHashes": [
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "sourceHash": "3d827283d8dc1234cc31d348"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
           "sourceHash": "c6556bcccf75a5465c0d25c5"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts",
           "sourceHash": "45afc59d2ec4f4810ca67b64"
         }
       ],
@@ -765,55 +765,55 @@
         {
           "id": "review.supports-feedback-history",
           "rowId": "readneed-review-resynthesis-admission",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
           "passed": true
         },
         {
           "id": "review.supports-previous-need",
           "rowId": "readneed-review-resynthesis-admission",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
           "passed": true
         },
         {
           "id": "review.acceptance-root",
           "rowId": "readneed-review-resynthesis-admission",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "review.rejection-root",
           "rowId": "readneed-review-resynthesis-admission",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "review.accepted-need-required",
           "rowId": "readneed-review-resynthesis-admission",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "review.blocks-unaccepted-need",
           "rowId": "readneed-review-resynthesis-admission",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "review.blocks-rejected-need",
           "rowId": "readneed-review-resynthesis-admission",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "review.persists-runtime",
           "rowId": "readneed-review-resynthesis-admission",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
           "passed": true
         },
         {
           "id": "review.summarizes-source-safe-runtime",
           "rowId": "readneed-review-resynthesis-admission",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
           "passed": true
         }
       ],
@@ -826,9 +826,9 @@
       "hardeningId": "readneed-source-safe-telemetry",
       "label": "ReadNeed inference and review telemetry stays source-safe and replayable",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-        "packages/pipelines/asset-pack/src/runtime-inference-policy.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts"
       ],
       "promptFamilyIds": [
         "ReadNeedComprehensionSynthesis",
@@ -896,21 +896,21 @@
         "unpaid-assetpack-source"
       ],
       "sourceFiles": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-        "packages/pipelines/asset-pack/src/runtime-inference-policy.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts"
       ],
       "sourceHashes": [
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "sourceHash": "3d827283d8dc1234cc31d348"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
           "sourceHash": "c6556bcccf75a5465c0d25c5"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/runtime-inference-policy.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts",
           "sourceHash": "f86a3e1c536deeb22b9ed84d"
         }
       ],
@@ -919,61 +919,61 @@
         {
           "id": "telemetry.prompt-template-ids",
           "rowId": "readneed-source-safe-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "telemetry.interpolation-context-keys",
           "rowId": "readneed-source-safe-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "telemetry.output-schema-ids",
           "rowId": "readneed-source-safe-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "telemetry.telemetry-event-ids",
           "rowId": "readneed-source-safe-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "telemetry.receipt-root",
           "rowId": "readneed-source-safe-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "telemetry.typed-output-root",
           "rowId": "readneed-source-safe-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "telemetry.raw-provider-response-hidden",
           "rowId": "readneed-source-safe-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "telemetry.unpaid-assetpack-source-hidden",
           "rowId": "readneed-source-safe-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "telemetry.credentials-hidden",
           "rowId": "readneed-source-safe-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         },
         {
           "id": "telemetry.stores-inference-receipt",
           "rowId": "readneed-source-safe-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
           "passed": true
         }
       ],

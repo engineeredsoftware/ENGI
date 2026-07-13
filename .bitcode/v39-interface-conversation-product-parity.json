@@ -47,8 +47,8 @@
       "surface": "terminal",
       "purpose": "Keep Terminal as the Reading transaction authority for the five-step enterprise Reading product path.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-interface-product-parity.test.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts",
         "BITCODE_SPEC_V39.md"
       ],
       "requiredEvidence": [
@@ -86,7 +86,7 @@
       "surface": "conversation",
       "purpose": "Make Conversation a source-safe handoff into Terminal Reading authority rather than a parallel buyer authority.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
         "uapi/tests/api/conversationReadingInterfaceParity.test.ts",
         "BITCODE_SPEC_V39.md"
       ],
@@ -125,8 +125,8 @@
       "surface": "public_api",
       "purpose": "Bind public API Reading access to accepted Need, source-safe preview, settlement, BTD rights, and delivery boundaries.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-interface-product-parity.test.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts"
       ],
       "requiredEvidence": [
         "public_api",
@@ -163,7 +163,7 @@
       "surface": "mcp_api",
       "purpose": "Bind MCP Reading pipeline tools to source-safe queueing, accepted Need admission, and downstream Terminal authority.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
         "packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts"
       ],
       "requiredEvidence": [
@@ -201,7 +201,7 @@
       "surface": "chatgpt_app",
       "purpose": "Bind ChatGPT App actions to confirmation, source-safe preview, settlement unlock, and paid BTD rights delivery.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
         "packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts"
       ],
       "requiredEvidence": [
@@ -239,9 +239,9 @@
       "surface": "package_consumer",
       "purpose": "Expose package-owned Reading interface parity as source-safe contract readback, not operational authority.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-interface-product-parity.test.ts",
-        "packages/pipelines/asset-pack/package.json"
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts",
+        "packages/asset-packs-pipelines/domain/package.json"
       ],
       "requiredEvidence": [
         "package-contract-readback",
@@ -278,9 +278,9 @@
       "surface": "all",
       "purpose": "Ensure every interface denies Finding Fits without accepted Need and exposes only source-safe preview metadata before settlement.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
-        "packages/pipelines/asset-pack/src/postprocess.ts",
-        "packages/pipelines/asset-pack/src/index.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+        "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+        "packages/asset-packs-pipelines/domain/src/index.ts"
       ],
       "requiredEvidence": [
         "denied_without_accepted_need",
@@ -317,8 +317,8 @@
       "surface": "all",
       "purpose": "Ensure every interface keeps source-bearing delivery locked until BTC settlement, BTD rights transfer, and delivery authorization.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-interface-product-parity.test.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts"
       ],
       "requiredEvidence": [
         "required_before_source_delivery",
@@ -355,7 +355,7 @@
       "surface": "all",
       "purpose": "Bind Gate 9 closure to package tests, Conversation handoff tests, MCP/ChatGPT interface tests, docs, workflows, and generated artifact freshness.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/__tests__/reading-interface-product-parity.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts",
         "uapi/tests/api/conversationReadingInterfaceParity.test.ts",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml"
@@ -393,57 +393,57 @@
   "predicates": [
     {
       "id": "parity-defines-required-surfaces",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
       "passed": true
     },
     {
       "id": "parity-defines-required-stages",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
       "passed": true
     },
     {
       "id": "parity-enforces-terminal-authority",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
       "passed": true
     },
     {
       "id": "parity-enforces-no-bypass",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
       "passed": true
     },
     {
       "id": "parity-source-safety",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
       "passed": true
     },
     {
       "id": "parity-composes-btd-primitives",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
       "passed": true
     },
     {
       "id": "package-exports-parity",
-      "sourcePath": "packages/pipelines/asset-pack/package.json",
+      "sourcePath": "packages/asset-packs-pipelines/domain/package.json",
       "passed": true
     },
     {
       "id": "pipeline-preprocess-emits-parity",
-      "sourcePath": "packages/pipelines/asset-pack/src/index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/index.ts",
       "passed": true
     },
     {
       "id": "postprocess-emits-parity",
-      "sourcePath": "packages/pipelines/asset-pack/src/postprocess.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
       "passed": true
     },
     {
       "id": "package-tests-cover-surfaces",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-interface-product-parity.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts",
       "passed": true
     },
     {
       "id": "package-tests-cover-persistence",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-interface-product-parity.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts",
       "passed": true
     },
     {
@@ -488,7 +488,7 @@
     },
     {
       "id": "readmes-cover-gate9",
-      "sourcePath": "packages/pipelines/asset-pack/README.md",
+      "sourcePath": "packages/asset-packs-pipelines/domain/README.md",
       "passed": true
     },
     {

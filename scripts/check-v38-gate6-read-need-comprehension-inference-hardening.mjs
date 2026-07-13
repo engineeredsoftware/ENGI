@@ -139,10 +139,10 @@ function main() {
     'packages/protocol/test/v38-read-need-comprehension-inference-hardening.test.js',
     'scripts/generate-v38-read-need-comprehension-inference-hardening.mjs',
     'scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs',
-    'packages/pipelines/asset-pack/src/read-need.ts',
-    'packages/pipelines/asset-pack/src/bounded-structured-inference.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/pipelines/asset-pack/src/__tests__/read-need.test.ts',
+    'packages/asset-packs-pipelines/domain/src/read-need.ts',
+    'packages/asset-packs-pipelines/domain/src/bounded-structured-inference.ts',
+    'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts',
     'uapi/app/api/read-review/route.ts',
     'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
     'BITCODE_SPEC_V38.md',
@@ -185,7 +185,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',

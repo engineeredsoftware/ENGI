@@ -355,7 +355,7 @@ can locate the living system; the **law** is this SPEC.
 | Inference | Non-configurable: always full formal hierarchy; always real generation at leaf. Tests mock LLM at provider boundary only. |
 | Default LLM | Provider `xai` when `XAI_API_KEY` set; model **`grok-build-0.1`** (`BITCODE_LLM_MODEL` override). |
 | Per-call timeout | `BITCODE_LLM_CALL_TIMEOUT_MS` default **180000**; reject cleanly (no hang). |
-| Entry | `synthesizeAssetPacksPipeline` in `packages/pipelines/asset-pack/src/index.ts` |
+| Entry | `synthesizeAssetPacksPipeline` in `packages/asset-packs-pipelines/domain/src/index.ts` |
 | Formal hierarchy | PipelineExecution → Phase → Agent (`factoryAgent` / `factoryAgentWithPTRR`) → Step (plan/try/refine/retry) → Failsafe (prepare_concise_context → chunk_then_sum → stitch_until_complete) → Thinkings (reason → judge → structured_output) |
 
 ### G3-2 Data storage schemas (deposit persistence)
@@ -430,7 +430,7 @@ Preprocess stores on **shared** execution (cross-phase store-visibility law): `p
 
 ### G3-6 Agent roster (deposit mode)
 
-Registry keys and modules under `packages/pipelines/asset-pack/src/`:
+Registry keys and modules under `packages/asset-packs-pipelines/domain/src/`:
 
 | Phase | Registry key / agent | Module | Notes |
 |---|---|---|---|
@@ -554,9 +554,9 @@ Rebuild order in `buildDepositRouteSession` / `DepositPageClient`:
 
 | Area | Path |
 |---|---|
-| Pipeline entry | `packages/pipelines/asset-pack/src/index.ts` |
-| Phases | `packages/pipelines/asset-pack/src/phases/*` |
-| Deposit agents | `packages/pipelines/asset-pack/src/agents/{setup,discovery,implementation,validation}/deposit-*.ts` |
+| Pipeline entry | `packages/asset-packs-pipelines/domain/src/index.ts` |
+| Phases | `packages/asset-packs-pipelines/domain/src/phases/*` |
+| Deposit agents | `packages/asset-packs-pipelines/domain/src/agents/{setup,discovery,implementation,validation}/deposit-*.ts` |
 | Absolutes / neediness | `asset-packs-synthesis.ts`, `agent-measure-absolutes.ts` |
 | Real option projection | `deposit-option-real-synthesis.ts` |
 | Policy / admission / earnings | `deposit-asset-pack-option-policy.ts`, `deposit-asset-pack-option-admission.ts`, `depositor-earning-supply-intelligence.ts` |

@@ -37,13 +37,13 @@
       ],
       "integrationKind": "contract-topology",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts"
       ],
       "testPaths": [
-        "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts"
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/pipeline-asset-pack exec jest src/__tests__/reading-pipeline-contract.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-integration-coverage.test.ts"
@@ -99,15 +99,15 @@
       ],
       "integrationKind": "real-runtime",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-        "packages/pipelines/asset-pack/src/runtime-inference-policy.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts"
       ],
       "testPaths": [
-        "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/runtime-inference-policy.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts"
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/runtime-inference-policy.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/pipeline-asset-pack test -- read-need"
@@ -159,19 +159,19 @@
       ],
       "integrationKind": "real-runtime",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-        "packages/pipelines/asset-pack/src/depository-search.ts",
-        "packages/pipelines/asset-pack/src/embedding-config.ts",
-        "packages/pipelines/asset-pack/src/tools/search.ts",
-        "packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts"
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
+        "packages/asset-packs-pipelines/domain/src/tools/search.ts",
+        "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts"
       ],
       "testPaths": [
-        "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/depository-search-tool.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/embedding-config.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/discovery-semantic-mirrors.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts"
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search-tool.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/embedding-config.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/discovery-semantic-mirrors.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/pipeline-asset-pack test -- read-fits depository-search embedding-config"
@@ -226,18 +226,18 @@
       ],
       "integrationKind": "agent-implementation",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
-        "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
-        "packages/pipelines/asset-pack/src/phases/setup.ts",
-        "packages/pipelines/asset-pack/src/phases/implementation.ts",
-        "packages/pipelines/asset-pack/src/preprocess.ts"
+        "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/phases/setup.ts",
+        "packages/asset-packs-pipelines/domain/src/phases/implementation.ts",
+        "packages/asset-packs-pipelines/domain/src/preprocess.ts"
       ],
       "testPaths": [
-        "packages/pipelines/asset-pack/src/__tests__/setup-agents.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/metrics-output.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts"
+        "packages/asset-packs-pipelines/domain/src/__tests__/setup-agents.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/metrics-output.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/pipeline-asset-pack test -- setup-agents read-fits-finding-synthesis-asset-pack-synthesis-agent"
@@ -288,17 +288,17 @@
       ],
       "integrationKind": "preview-settlement-delivery",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/agents/finish/asset-pack-finish-create-pull-request-delivery-agent.ts",
-        "packages/pipelines/asset-pack/src/phases/finish.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-finish-create-pull-request-delivery-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/phases/finish.ts"
       ],
       "testPaths": [
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/finish-delivery.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/finish-completion.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts"
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/finish-delivery.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/finish-completion.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/pipeline-asset-pack test -- asset-pack-preview-boundary asset-pack-settlement-rights-delivery finish"
@@ -350,15 +350,15 @@
       ],
       "integrationKind": "telemetry-repair-readback",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
-        "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
         "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
         "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
         "uapi/app/executions/utilities/pipeline-telemetry.ts"
       ],
       "testPaths": [
-        "packages/pipelines/asset-pack/src/__tests__/reading-operational-telemetry-repair-readback.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-interface-product-parity.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts",
         "uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx",
         "uapi/tests/pipelineExecutionLogHeader.test.tsx"
       ],
@@ -548,14 +548,14 @@
       ],
       "integrationKind": "local-staging-rehearsal",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
         "scripts/generate-v39-local-staging-reading-rehearsal.mjs",
         "scripts/check-v39-gate10-local-staging-reading-rehearsal.mjs"
       ],
       "testPaths": [
-        "packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts",
         "packages/protocol/test/v39-local-staging-reading-rehearsal.test.js",
-        "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts"
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/pipeline-asset-pack test -- reading-local-staging-rehearsal reading-pipeline-integration-coverage",
@@ -665,122 +665,122 @@
     },
     {
       "id": "reading-pipeline-contract-topology:source-roots-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
       "id": "reading-pipeline-contract-topology:test-paths-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
       "passed": true
     },
     {
       "id": "reading-pipeline-contract-topology:source-markers-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
       "id": "reading-pipeline-contract-topology:test-markers-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
       "passed": true
     },
     {
       "id": "reading-read-need-comprehension-runtime:source-roots-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "reading-read-need-comprehension-runtime:test-paths-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
       "passed": true
     },
     {
       "id": "reading-read-need-comprehension-runtime:source-markers-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "reading-read-need-comprehension-runtime:test-markers-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
       "passed": true
     },
     {
       "id": "reading-read-fits-finding-search-runtime:source-roots-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
       "passed": true
     },
     {
       "id": "reading-read-fits-finding-search-runtime:test-paths-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
       "passed": true
     },
     {
       "id": "reading-read-fits-finding-search-runtime:source-markers-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
       "passed": true
     },
     {
       "id": "reading-read-fits-finding-search-runtime:test-markers-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
       "passed": true
     },
     {
       "id": "reading-ptrr-agent-implementation-integration:source-roots-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
       "passed": true
     },
     {
       "id": "reading-ptrr-agent-implementation-integration:test-paths-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/setup-agents.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/setup-agents.test.ts",
       "passed": true
     },
     {
       "id": "reading-ptrr-agent-implementation-integration:source-markers-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
       "passed": true
     },
     {
       "id": "reading-ptrr-agent-implementation-integration:test-markers-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/setup-agents.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/setup-agents.test.ts",
       "passed": true
     },
     {
       "id": "reading-preview-settlement-delivery-boundaries:source-roots-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "passed": true
     },
     {
       "id": "reading-preview-settlement-delivery-boundaries:test-paths-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
       "passed": true
     },
     {
       "id": "reading-preview-settlement-delivery-boundaries:source-markers-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "passed": true
     },
     {
       "id": "reading-preview-settlement-delivery-boundaries:test-markers-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
       "passed": true
     },
     {
       "id": "reading-telemetry-repair-readback:source-roots-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
       "passed": true
     },
     {
       "id": "reading-telemetry-repair-readback:test-paths-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-operational-telemetry-repair-readback.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts",
       "passed": true
     },
     {
       "id": "reading-telemetry-repair-readback:source-markers-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
       "passed": true
     },
     {
       "id": "reading-telemetry-repair-readback:test-markers-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-operational-telemetry-repair-readback.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts",
       "passed": true
     },
     {
@@ -825,22 +825,22 @@
     },
     {
       "id": "reading-local-staging-rehearsal-integration:source-roots-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
       "passed": true
     },
     {
       "id": "reading-local-staging-rehearsal-integration:test-paths-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts",
       "passed": true
     },
     {
       "id": "reading-local-staging-rehearsal-integration:source-markers-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
       "passed": true
     },
     {
       "id": "reading-local-staging-rehearsal-integration:test-markers-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts",
       "passed": true
     }
   ],

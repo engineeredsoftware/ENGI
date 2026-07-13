@@ -34,17 +34,17 @@ export const V42_READFITSFINDING_PREVIEW_QUOTE_ROW_IDS = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  depositorySearch: 'packages/pipelines/asset-pack/src/depository-search.ts',
-  readFitsFindingRuntime: 'packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts',
-  assetPackPreviewBoundary: 'packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts',
-  readNeed: 'packages/pipelines/asset-pack/src/read-need.ts',
-  packageIndex: 'packages/pipelines/asset-pack/src/index.ts',
-  postprocess: 'packages/pipelines/asset-pack/src/postprocess.ts',
-  readingPipelineContract: 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-  depositorySearchTest: 'packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts',
-  runtimeTest: 'packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts',
-  previewBoundaryTest: 'packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts',
-  postprocessTest: 'packages/pipelines/asset-pack/src/__tests__/postprocess.test.ts',
+  depositorySearch: 'packages/asset-packs-pipelines/domain/src/depository-search.ts',
+  readFitsFindingRuntime: 'packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts',
+  assetPackPreviewBoundary: 'packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts',
+  readNeed: 'packages/asset-packs-pipelines/domain/src/read-need.ts',
+  packageIndex: 'packages/asset-packs-pipelines/domain/src/index.ts',
+  postprocess: 'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+  readingPipelineContract: 'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+  depositorySearchTest: 'packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts',
+  runtimeTest: 'packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts',
+  previewBoundaryTest: 'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts',
+  postprocessTest: 'packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts',
   harnessRunner: 'uapi/app/api/pipeline-host/asset-pack/runner.ts',
   harnessRouteTest: 'uapi/tests/api/pipelineHostRoute.test.ts',
   terminalWorkbench: 'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
@@ -59,7 +59,7 @@ const SOURCE_ROOTS = Object.freeze({
   roadmap: 'SPECIFICATIONS_ROADMAP.md',
   rootReadme: 'README.md',
   terminalReadme: 'uapi/app/terminal/README.md',
-  assetPackReadme: 'packages/pipelines/asset-pack/README.md',
+  assetPackReadme: 'packages/asset-packs-pipelines/domain/README.md',
   protocolReadme: 'packages/protocol/README.md',
 });
 

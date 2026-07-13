@@ -39,8 +39,8 @@
       "stageId": null,
       "purpose": "Bind local Reading rehearsal to explicit sandbox opt-in, untracked env files, local artifact roots, and source-safe redaction.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts"
       ],
       "requiredEvidence": [
         "untracked-env-files-or-host-runtime",
@@ -81,7 +81,7 @@
       "stageId": null,
       "purpose": "Bind staging-testnet Reading rehearsal to real bounded inference, Supabase project tkpyosihuouusyaxtbau, route streaming, and database readback.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
         "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
         "uapi/app/api/pipeline-harness/asset-pack/runner.ts"
       ],
@@ -124,8 +124,8 @@
       "stageId": "request-read",
       "purpose": "Persist source-safe Read request and route it into ReadNeedComprehensionSynthesis.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts"
       ],
       "requiredEvidence": [
         "readRequestRoot",
@@ -166,8 +166,8 @@
       "stageId": "review-synthesized-need",
       "purpose": "Persist synthesized Need, measurement, review state, and accepted Need admission before Finding Fits.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts"
       ],
       "requiredEvidence": [
         "synthesized_need",
@@ -208,9 +208,9 @@
       "stageId": "request-finding-fits",
       "purpose": "Run ReadFitsFindingSynthesis from an accepted Need and preserve query, ranking, and selected fit provenance roots.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-        "packages/pipelines/asset-pack/src/depository-search.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts"
       ],
       "requiredEvidence": [
         "ReadFitsFindingSynthesis",
@@ -251,8 +251,8 @@
       "stageId": "review-assetpack-preview",
       "purpose": "Expose only source-safe AssetPack measurements, fit reasons, quote, and disclosure posture before settlement.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts"
       ],
       "requiredEvidence": [
         "sourceSafePreview",
@@ -293,8 +293,8 @@
       "stageId": "buy-assetpack-settle",
       "purpose": "Observe BTC payment, confirm finality, transfer BTD rights, synchronize projections, and unlock pull-request delivery.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts"
       ],
       "requiredEvidence": [
         "paymentReceiptRoot",
@@ -336,8 +336,8 @@
       "stageId": null,
       "purpose": "Prove many-fit Depository search is rehearsed and carries selected fit provenance into AssetPack synthesis.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
-        "packages/pipelines/asset-pack/src/depository-search.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts"
       ],
       "requiredEvidence": [
         "selectedCandidateCount",
@@ -378,8 +378,8 @@
       "stageId": null,
       "purpose": "Prove rich log stream/readback covers phases, PTRR agents, PTRR steps, Failsafes, ThricifiedGenerations, tools, storage, ledger, wallet, delivery, UI, and repairs.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
         "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
       ],
       "requiredEvidence": [
@@ -424,8 +424,8 @@
       "stageId": null,
       "purpose": "Synchronize ledger facts, database projections, and object-storage projections before source-bearing delivery.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts"
       ],
       "requiredEvidence": [
         "LedgerDatabaseReconciliationReport",
@@ -466,8 +466,8 @@
       "stageId": null,
       "purpose": "Prove pull-request delivery is source-bearing only after settlement and BTD rights transfer.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts"
       ],
       "requiredEvidence": [
         "pull_request_after_settlement",
@@ -507,8 +507,8 @@
       "stageId": null,
       "purpose": "Keep local and staging-testnet rehearsal non-value-bearing while preserving mainnet admission as blocked.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
-        "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts"
       ],
       "requiredEvidence": [
         "valueBearingMainnetAdmitted: false",
@@ -547,87 +547,87 @@
   "predicates": [
     {
       "id": "package-defines-rehearsal-type",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
       "passed": true
     },
     {
       "id": "package-defines-five-stages",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
       "passed": true
     },
     {
       "id": "package-defines-local-staging-lanes",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
       "passed": true
     },
     {
       "id": "package-source-safety",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
       "passed": true
     },
     {
       "id": "package-persistence",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
       "passed": true
     },
     {
       "id": "package-exports-rehearsal",
-      "sourcePath": "packages/pipelines/asset-pack/package.json",
+      "sourcePath": "packages/asset-packs-pipelines/domain/package.json",
       "passed": true
     },
     {
       "id": "pipeline-preprocess-emits-rehearsal",
-      "sourcePath": "packages/pipelines/asset-pack/src/index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/index.ts",
       "passed": true
     },
     {
       "id": "postprocess-emits-rehearsal",
-      "sourcePath": "packages/pipelines/asset-pack/src/postprocess.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
       "passed": true
     },
     {
       "id": "tests-cover-five-stage-run",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts",
       "passed": true
     },
     {
       "id": "tests-cover-persistence",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts",
       "passed": true
     },
     {
       "id": "read-need-runtime-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
       "passed": true
     },
     {
       "id": "read-fits-runtime-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
       "passed": true
     },
     {
       "id": "preview-boundary-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "passed": true
     },
     {
       "id": "settlement-boundary-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "passed": true
     },
     {
       "id": "operational-readback-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
       "passed": true
     },
     {
       "id": "interface-parity-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
       "passed": true
     },
     {
       "id": "depository-many-fits-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {

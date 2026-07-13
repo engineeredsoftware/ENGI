@@ -332,7 +332,7 @@
     },
     {
       "id": "pipeline-models-bind-depositor-website-dependencies",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts",
       "passed": true
     },
     {
@@ -374,11 +374,11 @@
     "depositRouteModelTest": "uapi/tests/depositRouteModel.test.ts:5ce2e42d4c249ad5a5a70aad",
     "depositPageTest": "uapi/tests/depositPageClient.test.tsx:83234813537f5b97a59a7445",
     "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
-    "optionModel": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts:e592710e04c64b0ebdb40068",
-    "policyModel": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts:12816b23b2d8e304ab4a1638",
-    "admissionModel": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts:4d2b0c5e6e10c2b14a75a8c8",
-    "earningModel": "packages/pipelines/asset-pack/src/depositor-earning-supply-intelligence.ts:e0ec2d83cfaf3bfaaa126387",
-    "authorityModel": "packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts:ed6fa07bc3f69caaca598249",
+    "optionModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts:e592710e04c64b0ebdb40068",
+    "policyModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts:12816b23b2d8e304ab4a1638",
+    "admissionModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts:4d2b0c5e6e10c2b14a75a8c8",
+    "earningModel": "packages/asset-packs-pipelines/domain/src/depositor-earning-supply-intelligence.ts:e0ec2d83cfaf3bfaaa126387",
+    "authorityModel": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts:ed6fa07bc3f69caaca598249",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
     "protocolIndex": "packages/protocol/src/index.js:fdc9c740328fe41b9c7134c8",
     "protocolTypes": "packages/protocol/src/index.d.ts:df3330e66cf6b01b41c762ee",

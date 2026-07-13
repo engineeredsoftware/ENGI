@@ -35,14 +35,14 @@ export const V42_READNEED_REVIEW_RESYNTHESIS_PRODUCT_CLOSURE_ROW_IDS = Object.fr
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  readNeed: 'packages/pipelines/asset-pack/src/read-need.ts',
-  readNeedRuntime: 'packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts',
-  readingPipelineContract: 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-  packageIndex: 'packages/pipelines/asset-pack/src/index.ts',
-  packageJson: 'packages/pipelines/asset-pack/package.json',
-  readNeedTest: 'packages/pipelines/asset-pack/src/__tests__/read-need.test.ts',
-  runtimeTest: 'packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts',
-  readingContractTest: 'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts',
+  readNeed: 'packages/asset-packs-pipelines/domain/src/read-need.ts',
+  readNeedRuntime: 'packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts',
+  readingPipelineContract: 'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+  packageIndex: 'packages/asset-packs-pipelines/domain/src/index.ts',
+  packageJson: 'packages/asset-packs-pipelines/domain/package.json',
+  readNeedTest: 'packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts',
+  runtimeTest: 'packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts',
+  readingContractTest: 'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts',
   readReviewRoute: 'uapi/app/api/read-review/route.ts',
   readReviewRouteTest: 'uapi/tests/api/readReviewRoute.test.ts',
   readReviewProtocolParityTest: 'uapi/tests/api/readReviewProtocolParity.test.ts',
@@ -57,7 +57,7 @@ const SOURCE_ROOTS = Object.freeze({
   roadmap: 'SPECIFICATIONS_ROADMAP.md',
   rootReadme: 'README.md',
   terminalReadme: 'uapi/app/terminal/README.md',
-  assetPackReadme: 'packages/pipelines/asset-pack/README.md',
+  assetPackReadme: 'packages/asset-packs-pipelines/domain/README.md',
   protocolReadme: 'packages/protocol/README.md',
 });
 

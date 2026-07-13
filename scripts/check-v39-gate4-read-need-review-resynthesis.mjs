@@ -106,11 +106,11 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/read-need.ts',
-    'packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/pipelines/asset-pack/src/__tests__/read-need.test.ts',
-    'packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts',
+    'packages/asset-packs-pipelines/domain/src/read-need.ts',
+    'packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts',
+    'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts',
     'uapi/app/api/read-review/route.ts',
     'uapi/tests/api/readReviewRoute.test.ts',
     'uapi/tests/api/readReviewProtocolParity.test.ts',
@@ -124,7 +124,7 @@ function main() {
     'BITCODE_SPEC_V39_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/pipelines/asset-pack/README.md',
+    'packages/asset-packs-pipelines/domain/README.md',
     'packages/protocol/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -159,7 +159,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -227,7 +227,7 @@ function main() {
 
   const spec = read(root, 'BITCODE_SPEC_V39.md');
   const parity = read(root, 'BITCODE_SPEC_V39_PARITY_MATRIX.md');
-  const packageReadme = read(root, 'packages/pipelines/asset-pack/README.md');
+  const packageReadme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('v39-read-need-review-resynthesis'), 'V39 spec must name the Gate 4 artifact.');
   assertCheck(failures, parity.includes('Gate 4 Parity'), 'V39 parity matrix must include Gate 4 parity.');
   assertCheck(failures, packageReadme.includes('ReadNeed review'), 'AssetPack package README must document ReadNeed review runtime.');

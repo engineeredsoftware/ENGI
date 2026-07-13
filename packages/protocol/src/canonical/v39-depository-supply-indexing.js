@@ -40,13 +40,13 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  depositorySupplyIndex: 'packages/pipelines/asset-pack/src/depository-supply-index.ts',
-  depositorySupplyIndexTest: 'packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts',
-  depositorySearch: 'packages/pipelines/asset-pack/src/depository-search.ts',
-  embeddingConfig: 'packages/pipelines/asset-pack/src/embedding-config.ts',
-  assetPackPackage: 'packages/pipelines/asset-pack/package.json',
-  assetPackIndex: 'packages/pipelines/asset-pack/src/index.ts',
-  assetPackReadme: 'packages/pipelines/asset-pack/README.md',
+  depositorySupplyIndex: 'packages/asset-packs-pipelines/domain/src/depository-supply-index.ts',
+  depositorySupplyIndexTest: 'packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts',
+  depositorySearch: 'packages/asset-packs-pipelines/domain/src/depository-search.ts',
+  embeddingConfig: 'packages/asset-packs-pipelines/domain/src/embedding-config.ts',
+  assetPackPackage: 'packages/asset-packs-pipelines/domain/package.json',
+  assetPackIndex: 'packages/asset-packs-pipelines/domain/src/index.ts',
+  assetPackReadme: 'packages/asset-packs-pipelines/domain/README.md',
   uapiDepositRoute: 'uapi/app/api/deposits/route.ts',
   terminalDepositComposer: 'uapi/app/terminal/TerminalDepositComposer.tsx',
   ormAssetPackEvidence: 'packages/orm/src/models/asset-pack-evidence.ts',

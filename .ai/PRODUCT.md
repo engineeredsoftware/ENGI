@@ -9,7 +9,7 @@ Bitcode V26 is the first commercial promotion of the source-to-shares system:
 - `protocol-demonstration/` is the deterministic protocol witness and proof substrate.
 - `uapi/app/application/*` is the Bitcode Terminal route for deposit, read, review, fit, settlement, and reread.
 - `packages/api/*`, `uapi/app/api/*`, `packages/orm/*`, and Supabase schemas carry Bitcode Exchange state.
-- `packages/pipelines/asset-pack/*` carries Read-satisfaction AssetPack synthesis and Finish delivery.
+- `packages/asset-packs-pipelines/domain/*` carries Read-satisfaction AssetPack synthesis and Finish delivery.
 - MCP, ChatGPT App, GitHub/VCS, webhooks, and other connections are admitted interfaces, not separate product owners.
 
 ## Terminal

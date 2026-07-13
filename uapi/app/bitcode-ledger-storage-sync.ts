@@ -18,8 +18,8 @@ export const BITCODE_LEDGER_STORAGE_SYNC_SURFACES = [
       'projections-aligned',
     ],
     evidenceFiles: [
-      'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-      'packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+      'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+      'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
       'packages/btd/src/reconciliation.ts',
       'uapi/tests/terminalJournalReconciliation.test.ts',
     ],
@@ -64,8 +64,8 @@ export const BITCODE_LEDGER_STORAGE_SYNC_SURFACES = [
       'repairable-delivery-failure',
     ],
     evidenceFiles: [
-      'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-      'packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts',
+      'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+      'packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts',
       'uapi/tests/terminalTransactionDetailCards.test.tsx',
     ],
   },

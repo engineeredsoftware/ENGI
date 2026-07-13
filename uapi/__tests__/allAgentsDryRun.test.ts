@@ -3,7 +3,7 @@ import { testAgent } from './agentTestFactory';
 // ------------------------------------------------------------------
 // AssetPack - Setup
 // ------------------------------------------------------------------
-import { AssetPackCloneVCSRepositoryAgent } from '@bitcode/pipeline-asset-pack';
+import { AssetPackCloneVCSRepositoryAgent } from '@bitcode/asset-packs-pipelines-domain';
 
 // ------------------------------------------------------------------
 // Discovery (subset)

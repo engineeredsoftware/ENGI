@@ -83,7 +83,7 @@ function runPackageSmoke(root, failures) {
     ['pnpm', ['--filter', '@bitcode/agent-generics', 'test']],
     ['pnpm', ['--filter', '@bitcode/pipelines-generics', 'test']],
     ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'test']],
-    ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'test']],
+    ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'test']],
   ];
 
   for (const [command, args] of commands) {

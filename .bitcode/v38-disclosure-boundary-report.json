@@ -297,7 +297,7 @@
       "label": "ThricifiedGeneration Reason/Judge/StructuredOutput rows",
       "sourceRoots": [
         "packages/agent-generics/src/steps/thinkings-generation.ts",
-        "packages/pipelines/asset-pack/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "packages/agent-generics/src/diagnostics/instrumentation.ts",
         "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts"
       ],
@@ -467,8 +467,8 @@
       "eventKindId": "prompt-template-interpolation",
       "label": "Prompt template identity and interpolated prompt boundary rows",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
-        "packages/pipelines/asset-pack/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "uapi/app/terminal/terminal-pipeline-harness-client.ts",
         "uapi/tests/terminalPipelineHarnessClient.test.ts",
         "packages/protocol/src/canonical/prompt-benchmark-report.js"
@@ -543,10 +543,10 @@
       "eventKindId": "raw-response-parsed-output-schema",
       "label": "Raw response root, parsed typed output shape, and schema verdict rows",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
         "uapi/tests/terminalPipelineHarnessClient.test.ts"
       ],
       "requiredTelemetryLevelIds": [
@@ -626,7 +626,7 @@
       "label": "Execution stream storage projection and rich log UI rows",
       "sourceRoots": [
         "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
         "uapi/app/terminal/terminal-pipeline-harness-client.ts",
         "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
         "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
@@ -785,32 +785,32 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-disclosure.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts",
       "exists": true,
       "legacy": false
     },
@@ -1018,7 +1018,7 @@
     {
       "id": "telemetry:thricified-generation-lifecycle.source-roots-present",
       "rowId": "telemetry:thricified-generation-lifecycle",
-      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts,packages/pipelines/asset-pack/src/read-need.ts,packages/agent-generics/src/diagnostics/instrumentation.ts,packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/agent-generics/src/diagnostics/instrumentation.ts,packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
       "passed": true
     },
     {
@@ -1048,13 +1048,13 @@
     {
       "id": "generation.source-stores-prompt-template-and-interpolated-prompt",
       "rowId": "telemetry:thricified-generation-lifecycle",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "generation.source-stores-raw-and-parsed-output",
       "rowId": "telemetry:thricified-generation-lifecycle",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
@@ -1120,7 +1120,7 @@
     {
       "id": "telemetry:prompt-template-interpolation.source-roots-present",
       "rowId": "telemetry:prompt-template-interpolation",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts,packages/pipelines/asset-pack/src/read-need.ts,uapi/app/terminal/terminal-pipeline-harness-client.ts,uapi/tests/terminalPipelineHarnessClient.test.ts,packages/protocol/src/canonical/prompt-benchmark-report.js",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,uapi/app/terminal/terminal-pipeline-harness-client.ts,uapi/tests/terminalPipelineHarnessClient.test.ts,packages/protocol/src/canonical/prompt-benchmark-report.js",
       "passed": true
     },
     {
@@ -1150,7 +1150,7 @@
     {
       "id": "prompt.observability-records-template-and-interpolation-flags",
       "rowId": "telemetry:prompt-template-interpolation",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
       "passed": true
     },
     {
@@ -1168,7 +1168,7 @@
     {
       "id": "telemetry:raw-response-parsed-output-schema.source-roots-present",
       "rowId": "telemetry:raw-response-parsed-output-schema",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts,packages/pipelines/asset-pack/src/read-need.ts,packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts,packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts,uapi/tests/terminalPipelineHarnessClient.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts,packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts,uapi/tests/terminalPipelineHarnessClient.test.ts",
       "passed": true
     },
     {
@@ -1198,13 +1198,13 @@
     {
       "id": "schema.tests-cover-raw-and-parsed-output-evidence",
       "rowId": "telemetry:raw-response-parsed-output-schema",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts,packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts,packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
       "passed": true
     },
     {
       "id": "schema.observability-records-raw-and-parsed-evidence",
       "rowId": "telemetry:raw-response-parsed-output-schema",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
       "passed": true
     },
     {
@@ -1216,7 +1216,7 @@
     {
       "id": "telemetry:stream-ui-storage-projection.source-roots-present",
       "rowId": "telemetry:stream-ui-storage-projection",
-      "sourcePath": "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts,packages/pipelines/asset-pack/src/reading-pipeline-observability.ts,uapi/app/terminal/terminal-pipeline-harness-client.ts,uapi/components/base/bitcode/execution/pipeline-execution-log.tsx,uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx,uapi/tests/pipelineExecutionLogHeader.test.tsx,uapi/tests/conversationStreamPipelineLog.test.tsx,packages/protocol/src/canonical/conversation-stream-event-contract.js,packages/protocol/src/canonical/telemetry-taxonomy-catalog.js",
+      "sourcePath": "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts,packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,uapi/app/terminal/terminal-pipeline-harness-client.ts,uapi/components/base/bitcode/execution/pipeline-execution-log.tsx,uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx,uapi/tests/pipelineExecutionLogHeader.test.tsx,uapi/tests/conversationStreamPipelineLog.test.tsx,packages/protocol/src/canonical/conversation-stream-event-contract.js,packages/protocol/src/canonical/telemetry-taxonomy-catalog.js",
       "passed": true
     },
     {

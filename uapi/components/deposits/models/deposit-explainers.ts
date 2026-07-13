@@ -211,8 +211,8 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     references: {
       source: [
         ...DEPOSIT_SOURCE_REFS,
-        'packages/pipelines/asset-pack/src/phases/setup.ts',
-        'packages/pipelines/asset-pack/src/agents/setup/deposit-input-comprehension-agent.ts',
+        'packages/asset-packs-pipelines/domain/src/phases/setup.ts',
+        'packages/asset-packs-pipelines/domain/src/agents/setup/deposit-input-comprehension-agent.ts',
       ],
       canon: [
         ...DEPOSIT_CANON_REFS,
@@ -229,7 +229,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       'This is guidance for the model\'s framing, not a hard technical boundary — for a guaranteed, fail-closed exclusion, use Forced Exclusions below instead. The Setup phase\'s input-comprehension agent turns this into structured guidance the rest of the pipeline honors.',
     points: ['Shapes how synthesized options are framed and worded', 'Pair with Forced Exclusions for a hard boundary'],
     references: {
-      source: ['packages/pipelines/asset-pack/src/agents/setup/deposit-input-comprehension-agent.ts'],
+      source: ['packages/asset-packs-pipelines/domain/src/agents/setup/deposit-input-comprehension-agent.ts'],
       canon: DEPOSIT_CANON_REFS,
     },
   }),
@@ -306,8 +306,8 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     references: {
       source: [
         ...DEPOSIT_SOURCE_REFS,
-        'packages/pipelines/asset-pack/src/asset-packs-synthesis-pipeline.ts',
-        'packages/pipelines/asset-pack/src/deposit-option-real-synthesis.ts',
+        'packages/asset-packs-pipelines/domain/src/asset-packs-synthesis-pipeline.ts',
+        'packages/asset-packs-pipelines/domain/src/deposit-option-real-synthesis.ts',
       ],
       canon: [
         ...DEPOSIT_CANON_REFS,
@@ -330,7 +330,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     references: {
       source: [
         ...DEPOSIT_SOURCE_REFS,
-        'packages/pipelines/asset-pack/src/depositor-earning-supply-intelligence.ts',
+        'packages/asset-packs-pipelines/domain/src/depositor-earning-supply-intelligence.ts',
       ],
       canon: [
         ...DEPOSIT_CANON_REFS,

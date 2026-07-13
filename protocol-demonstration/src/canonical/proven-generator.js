@@ -269,7 +269,7 @@ const V26_FOURTH_GATE_RUNS_PIPELINES_FILES = [
   'packages/pipelines-generics/src/execution/PipelineExecution.ts',
   'packages/pipelines-generics/src/execution/PipelineExecutor.ts',
   'packages/pipelines-generics/src/execution/route-pipeline-execution.ts',
-  'packages/pipelines/asset-pack/src/run.ts',
+  'packages/asset-packs-pipelines/domain/src/run.ts',
   'uapi/tests/api/shippableTemplatesRoute.test.ts',
   'uapi/tests/api/vcsCompatibilityRoute.test.ts',
   'uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts',
@@ -399,8 +399,8 @@ const V26_FOURTH_GATE_PROMPT_SYSTEM_FILES = [
   'packages/generic-doc-comments/doc-developing/TLDR.md',
   'packages/generic-doc-comments/doc-developing/tsconfig.json',
   'protocol-demonstration/test/v26-prompt-runtime-loadability.test.js',
-  'packages/pipelines/asset-pack/src/agents/prompts/understand-requirements-prompt.ts',
-  'packages/pipelines/asset-pack/src/agents/prompts/plan-implementation-prompt.ts'
+  'packages/asset-packs-pipelines/domain/src/agents/prompts/understand-requirements-prompt.ts',
+  'packages/asset-packs-pipelines/domain/src/agents/prompts/plan-implementation-prompt.ts'
 ];
 const V26_RETAINED_PACKAGE_ADMISSIONS = [
   {
@@ -718,7 +718,7 @@ const V26_INGRESS_OR_SUPPORT_PACKAGE_NAMES = new Set([
 ]);
 const V26_COMPATIBILITY_PACKAGE_NAMES = new Set([
   '@bitcode/generic-tools-read-comprehension',
-  '@bitcode/pipeline-asset-pack',
+  '@bitcode/asset-packs-pipelines-domain',
   '@bitcode/test-intelligence'
 ]);
 
@@ -2439,15 +2439,15 @@ function buildV26PromptSystemTotalityProof({
         'protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
         'packages/generic-agents/jira-processor/src/prompts/system-prompt-jira-processor.ts',
         'packages/generic-agents/jira-processor/src/prompts/agent-prompt-jira-processor.ts',
-        'packages/pipelines/asset-pack/src/types/PipelineSchemas.ts',
-        'packages/pipelines/asset-pack/src/index.ts',
-        'packages/pipelines/asset-pack/src/phases/index.ts',
-        'packages/pipelines/asset-pack/src/phases/finish.ts',
-        'packages/pipelines/asset-pack/src/postprocess.ts',
-        'packages/pipelines/asset-pack/src/agents/prompts/understand-requirements-prompt.ts',
-        'packages/pipelines/asset-pack/src/agents/prompts/plan-implementation-prompt.ts',
-        'packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts',
-        'packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts',
+        'packages/asset-packs-pipelines/domain/src/types/PipelineSchemas.ts',
+        'packages/asset-packs-pipelines/domain/src/index.ts',
+        'packages/asset-packs-pipelines/domain/src/phases/index.ts',
+        'packages/asset-packs-pipelines/domain/src/phases/finish.ts',
+        'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+        'packages/asset-packs-pipelines/domain/src/agents/prompts/understand-requirements-prompt.ts',
+        'packages/asset-packs-pipelines/domain/src/agents/prompts/plan-implementation-prompt.ts',
+        'packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts',
+        'packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_system_identity.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_system_instructions.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_plan_strategy.ts',
@@ -2456,13 +2456,13 @@ function buildV26PromptSystemTotalityProof({
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendread_purpose_corestatement.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendread_output_readdefinitionanalysis_spec.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpacksetupcomprehendread_output_types_spec.ts',
-        'packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts',
-        'packages/pipelines/asset-pack/src/agents/setup/asset-pack-ready-to-iterate-agent.ts',
-        'packages/pipelines/asset-pack/src/agents/setup/asset-pack-setup-plan-agent.ts',
-        'packages/pipelines/asset-pack/src/agents/finish/asset-pack-finish-create-pull-request-delivery-agent.ts',
-        'packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts',
-        'packages/pipelines/asset-pack/src/agents/finish/asset-pack-completion-agent.ts',
-        'packages/pipelines/asset-pack/src/tools/AssetPackCloneVCSRepositoryTool.ts',
+        'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts',
+        'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-ready-to-iterate-agent.ts',
+        'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-setup-plan-agent.ts',
+        'packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-finish-create-pull-request-delivery-agent.ts',
+        'packages/asset-packs-pipelines/domain/src/agents/finish/deliver-asset-pack-to-destination-agent.ts',
+        'packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-completion-agent.ts',
+        'packages/asset-packs-pipelines/domain/src/tools/AssetPackCloneVCSRepositoryTool.ts',
         'scripts/fix-execution-to-directives.sh',
         'scripts/generate-asset-pack-promptparts.ts',
         'scripts/prompt-audit.sh',
@@ -2743,8 +2743,8 @@ function buildV26SourceToSharesFifthGateProof({
         'protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
         'packages/pipelines-generics/src/phases/sdivf-factory.ts',
         'packages/pipelines-generics/src/phases/phase-factory.ts',
-        'packages/pipelines/asset-pack/src/agents/finish-delivery-agents.ts',
-        'packages/pipelines/asset-pack/src/agents/validation-agents.ts'
+        'packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts',
+        'packages/asset-packs-pipelines/domain/src/agents/validation-agents.ts'
       ]
     )
   ];
@@ -4113,12 +4113,12 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
     fifthGateUse: 'Keeps request carriers mapped to Bitcode read, written asset, asset pack, and delivery mechanism meaning while proving noncanonical read-comprehension owners are removed after read-first owners exist.',
     laterGateRemaining: 'Remaining work is broader raw PromptPart reservoir saturation outside the recut read-comprehension families.',
     requiredFiles: [
-      'packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts',
-      'packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts',
-      'packages/pipelines/asset-pack/src/semantic-resolution.ts',
-      'packages/pipelines/asset-pack/src/types/AssetPackWrittenAssetType.ts',
-      'packages/pipelines/asset-pack/src/tools/search.ts',
-      'packages/pipelines/asset-pack/scripts/render-prompts.ts',
+      'packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts',
+      'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts',
+      'packages/asset-packs-pipelines/domain/src/semantic-resolution.ts',
+      'packages/asset-packs-pipelines/domain/src/types/AssetPackWrittenAssetType.ts',
+      'packages/asset-packs-pipelines/domain/src/tools/search.ts',
+      'packages/asset-packs-pipelines/domain/scripts/render-prompts.ts',
       'packages/generic-agents/read-comprehension/README.md',
       'packages/generic-agents/read-comprehension/package.json',
       'packages/generic-agents/read-comprehension/tsconfig.json',
@@ -4533,7 +4533,7 @@ function buildV26RunsPipelinesTotalityProof({
         'packages/pipelines-generics/src/execution/PipelineExecution.ts',
         'packages/pipelines-generics/src/execution/PipelineExecutor.ts',
         'packages/pipelines-generics/src/execution/route-pipeline-execution.ts',
-        'packages/pipelines/asset-pack/src/run.ts',
+        'packages/asset-packs-pipelines/domain/src/run.ts',
         'uapi/tests/api/shippableTemplatesRoute.test.ts',
         'uapi/tests/api/executionsHistoryRoute.test.ts',
         'uapi/tests/api/executionsHistoryRunRoute.test.ts',
@@ -4742,8 +4742,8 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     reformClass: 'compatibility-only',
     livePathRole: 'Admitted path exports stay available for current callers while canonical Bitcode behavior remains elsewhere.',
     requiredFiles: [
-      'packages/pipelines/asset-pack/src/run.ts',
-      'packages/pipelines/asset-pack/src/index.ts'
+      'packages/asset-packs-pipelines/domain/src/run.ts',
+      'packages/asset-packs-pipelines/domain/src/index.ts'
     ]
   },
   {
@@ -4766,8 +4766,8 @@ const V26_SYSTEM_REFORM_DECISIONS = [
       'packages/generic-tools/use-computer/src/index.ts',
       'packages/generic-tools/use-computer/src/prompts/UseComputerDocCodeToolPrompt.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_usecomputer_doccodetoolpurpose.ts',
-      'packages/pipelines/asset-pack/src/tools/BitcodeReadMeasurementComputerUseTool.ts',
-      'packages/pipelines/asset-pack/src/tools/index.ts',
+      'packages/asset-packs-pipelines/domain/src/tools/BitcodeReadMeasurementComputerUseTool.ts',
+      'packages/asset-packs-pipelines/domain/src/tools/index.ts',
       'packages/api/src/routes/shippables.ts',
       'packages/execution-generics/src/store/registry.ts',
       'uapi/app/executions/components/ExecutionsPageClient.tsx',
@@ -4993,8 +4993,8 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
         'packages/generic-tools/git-interactor/src/index.ts',
         'packages/btd/src/index.ts',
         'packages/api/src/routes/shippables.ts',
-        'packages/pipelines/asset-pack/src/run.ts',
-        'packages/pipelines/asset-pack/src/postprocess.ts',
+        'packages/asset-packs-pipelines/domain/src/run.ts',
+        'packages/asset-packs-pipelines/domain/src/postprocess.ts',
         'packages/prompts/src/index.ts',
         'packages/orm/src/models/bitcode-execution-storage.ts',
         'supabase/migrations/001_v26_production.sql'

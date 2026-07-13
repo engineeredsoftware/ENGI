@@ -224,11 +224,11 @@
       "hardeningId": "readfits-bounded-inference-prompt-context",
       "label": "ReadFitsFinding always-real inference prompt contract carries accepted Need, search roots, and source-safe boundaries",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
-        "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts"
+        "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts"
       ],
       "promptFamilyIds": [
         "ReadFitsFindingSynthesis",
@@ -312,31 +312,31 @@
         "unpaid-assetpack-source"
       ],
       "sourceFiles": [
-        "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
-        "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts"
+        "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts"
       ],
       "sourceHashes": [
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
           "sourceHash": "c10ce62aeee327689683d323"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
           "sourceHash": "c13740504e7ad4f3b6bd3bce"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
           "sourceHash": "e4ca2a51636c21a9bf4c911d"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
           "sourceHash": "4a688c72b552579ba1373a74"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
           "sourceHash": "1319dd4223292e03b795ab87"
         }
       ],
@@ -345,67 +345,67 @@
         {
           "id": "bounded.setup-plan-template-id",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "bounded.setup-plan-accepted-need",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "bounded.setup-plan-search-objectives",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "bounded.read-comprehension-source-constraints",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "bounded.read-comprehension-many-candidate-search",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "bounded.assetpack-source-safe-boundary",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
           "passed": true
         },
         {
           "id": "bounded.assetpack-selected-fit-provenance-root",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "bounded.assetpack-no-unpaid-source",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "bounded.contract-interpolation-keys-expanded",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "bounded.contract-fit-quality-selected-provenance",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
           "passed": true
         },
         {
           "id": "bounded.ptrr-failsafe-thricified-composition-present",
           "rowId": "readfits-bounded-inference-prompt-context",
-          "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
           "passed": true
         }
       ],
@@ -418,8 +418,8 @@
       "hardeningId": "readfits-depository-search-query-ranking",
       "label": "Depository search query synthesis, embeddings, ranking, and selected-fit provenance remain many-candidate",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-search.ts",
-        "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts"
       ],
       "promptFamilyIds": [
         "ReadFitsFindingSynthesis",
@@ -500,16 +500,16 @@
         "unpaid-assetpack-source"
       ],
       "sourceFiles": [
-        "packages/pipelines/asset-pack/src/depository-search.ts",
-        "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts"
       ],
       "sourceHashes": [
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
           "sourceHash": "8c79c6f9c479ba664206175d"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
           "sourceHash": "f67631d6826e305b99ac1c36"
         }
       ],
@@ -518,73 +518,73 @@
         {
           "id": "search.derived-from-accepted-need",
           "rowId": "readfits-depository-search-query-ranking",
-          "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
           "passed": true
         },
         {
           "id": "search.all-channel-ids-present",
           "rowId": "readfits-depository-search-query-ranking",
-          "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
           "passed": true
         },
         {
           "id": "search.embedding-policy-bound",
           "rowId": "readfits-depository-search-query-ranking",
-          "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
           "passed": true
         },
         {
           "id": "search.provider-matches-supported",
           "rowId": "readfits-depository-search-query-ranking",
-          "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
           "passed": true
         },
         {
           "id": "search.max-selected-candidates-gt-one",
           "rowId": "readfits-depository-search-query-ranking",
-          "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
           "passed": true
         },
         {
           "id": "search.selects-all-above-threshold",
           "rowId": "readfits-depository-search-query-ranking",
-          "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
           "passed": true
         },
         {
           "id": "search.selected-fit-provenance-root",
           "rowId": "readfits-depository-search-query-ranking",
-          "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
           "passed": true
         },
         {
           "id": "search.query-root-and-ranking-root",
           "rowId": "readfits-depository-search-query-ranking",
-          "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
           "passed": true
         },
         {
           "id": "search.source-safe-search-receipt",
           "rowId": "readfits-depository-search-query-ranking",
-          "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
           "passed": true
         },
         {
           "id": "search.tool-telemetry-lexical-and-vector",
           "rowId": "readfits-depository-search-query-ranking",
-          "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
           "passed": true
         },
         {
           "id": "test.many-qualifying-fit-deposits",
           "rowId": "readfits-depository-search-query-ranking",
-          "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
           "passed": true
         },
         {
           "id": "test.embedding-vector-policy",
           "rowId": "readfits-depository-search-query-ranking",
-          "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
           "passed": true
         }
       ],
@@ -597,8 +597,8 @@
       "hardeningId": "readfits-runtime-replay-telemetry",
       "label": "ReadFitsFinding runtime persists source-safe search, replay, repair, and telemetry receipts",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts"
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts"
       ],
       "promptFamilyIds": [
         "ReadFitsFindingSynthesis",
@@ -675,16 +675,16 @@
         "unpaid-assetpack-source"
       ],
       "sourceFiles": [
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts"
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts"
       ],
       "sourceHashes": [
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
           "sourceHash": "6b91862fe0c4c802b9a19e15"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
           "sourceHash": "58db4f0377fdbd4440e6de7a"
         }
       ],
@@ -693,61 +693,61 @@
         {
           "id": "runtime.source-safe-class",
           "rowId": "readfits-runtime-replay-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
           "passed": true
         },
         {
           "id": "runtime.query-plan-storage",
           "rowId": "readfits-runtime-replay-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
           "passed": true
         },
         {
           "id": "runtime.search-channel-storage",
           "rowId": "readfits-runtime-replay-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
           "passed": true
         },
         {
           "id": "runtime.candidate-ranking-storage",
           "rowId": "readfits-runtime-replay-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
           "passed": true
         },
         {
           "id": "runtime.selected-fit-provenance-storage",
           "rowId": "readfits-runtime-replay-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
           "passed": true
         },
         {
           "id": "runtime.fit-result-storage",
           "rowId": "readfits-runtime-replay-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
           "passed": true
         },
         {
           "id": "runtime.replay-mode",
           "rowId": "readfits-runtime-replay-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
           "passed": true
         },
         {
           "id": "runtime.telemetry-root",
           "rowId": "readfits-runtime-replay-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
           "passed": true
         },
         {
           "id": "runtime.source-safe-selected-fit-evidence",
           "rowId": "readfits-runtime-replay-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
           "passed": true
         },
         {
           "id": "runtime.no-source-leak-test",
           "rowId": "readfits-runtime-replay-telemetry",
-          "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
           "passed": true
         }
       ],
@@ -760,7 +760,7 @@
       "hardeningId": "readfits-lexical-tool-doc-prompt",
       "label": "Depository search tool prompt describes many-fit source-safe search and output boundaries",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts"
+        "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts"
       ],
       "promptFamilyIds": [
         "ReadFitsFindingSynthesis",
@@ -831,11 +831,11 @@
         "unpaid-assetpack-source"
       ],
       "sourceFiles": [
-        "packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts"
+        "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts"
       ],
       "sourceHashes": [
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
           "sourceHash": "7b572ae320692396fd368fad"
         }
       ],
@@ -844,43 +844,43 @@
         {
           "id": "tool.names-readfitsfindingsynthesis",
           "rowId": "readfits-lexical-tool-doc-prompt",
-          "sourcePath": "packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
           "passed": true
         },
         {
           "id": "tool.accepted-read-need-input",
           "rowId": "readfits-lexical-tool-doc-prompt",
-          "sourcePath": "packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
           "passed": true
         },
         {
           "id": "tool.many-qualifying-fit-deposit-output",
           "rowId": "readfits-lexical-tool-doc-prompt",
-          "sourcePath": "packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
           "passed": true
         },
         {
           "id": "tool.query-ranking-provenance-roots",
           "rowId": "readfits-lexical-tool-doc-prompt",
-          "sourcePath": "packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
           "passed": true
         },
         {
           "id": "tool.embedding-policy-output",
           "rowId": "readfits-lexical-tool-doc-prompt",
-          "sourcePath": "packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
           "passed": true
         },
         {
           "id": "tool.no-protected-source-output",
           "rowId": "readfits-lexical-tool-doc-prompt",
-          "sourcePath": "packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
           "passed": true
         },
         {
           "id": "tool.no-unpaid-assetpack-source-output",
           "rowId": "readfits-lexical-tool-doc-prompt",
-          "sourcePath": "packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
           "passed": true
         }
       ],
@@ -893,7 +893,7 @@
       "hardeningId": "readfits-preview-quote-disclosure-boundary",
       "label": "AssetPack preview exposes measurements, quote, and provenance while withholding source",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts"
       ],
       "promptFamilyIds": [
         "ReadFitsFindingSynthesis",
@@ -969,11 +969,11 @@
         "unpaid-assetpack-source"
       ],
       "sourceFiles": [
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts"
       ],
       "sourceHashes": [
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
           "sourceHash": "1319dd4223292e03b795ab87"
         }
       ],
@@ -982,55 +982,55 @@
         {
           "id": "preview.source-safe-class",
           "rowId": "readfits-preview-quote-disclosure-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
           "passed": true
         },
         {
           "id": "preview.fit-measurement-preview-record",
           "rowId": "readfits-preview-quote-disclosure-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
           "passed": true
         },
         {
           "id": "preview.selected-fit-provenance-record",
           "rowId": "readfits-preview-quote-disclosure-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
           "passed": true
         },
         {
           "id": "preview.deterministic-btc-quote",
           "rowId": "readfits-preview-quote-disclosure-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
           "passed": true
         },
         {
           "id": "preview.settlement-required-before-unlock",
           "rowId": "readfits-preview-quote-disclosure-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
           "passed": true
         },
         {
           "id": "preview.delivery-withheld-until-settlement",
           "rowId": "readfits-preview-quote-disclosure-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
           "passed": true
         },
         {
           "id": "preview.forbidden-before-settlement",
           "rowId": "readfits-preview-quote-disclosure-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
           "passed": true
         },
         {
           "id": "preview.no-unpaid-source",
           "rowId": "readfits-preview-quote-disclosure-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
           "passed": true
         },
         {
           "id": "preview.no-wallet-private-material",
           "rowId": "readfits-preview-quote-disclosure-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
           "passed": true
         }
       ],
@@ -1043,7 +1043,7 @@
       "hardeningId": "readfits-settlement-delivery-rights-boundary",
       "label": "Settlement, BTD rights, contributor compensation, ledger sync, and delivery unlock stay post-payment",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts"
       ],
       "promptFamilyIds": [
         "ReadFitsFindingSynthesis",
@@ -1117,11 +1117,11 @@
         "unpaid-assetpack-source"
       ],
       "sourceFiles": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts"
       ],
       "sourceHashes": [
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
           "sourceHash": "3d2b0984fc9e2c3c108d6eb0"
         }
       ],
@@ -1130,55 +1130,55 @@
         {
           "id": "settlement.reader-pays-depositor",
           "rowId": "readfits-settlement-delivery-rights-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
           "passed": true
         },
         {
           "id": "settlement.payment-observation",
           "rowId": "readfits-settlement-delivery-rights-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
           "passed": true
         },
         {
           "id": "settlement.finality-receipt",
           "rowId": "readfits-settlement-delivery-rights-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
           "passed": true
         },
         {
           "id": "settlement.source-to-shares-compensation",
           "rowId": "readfits-settlement-delivery-rights-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
           "passed": true
         },
         {
           "id": "settlement.btd-rights-transfer",
           "rowId": "readfits-settlement-delivery-rights-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
           "passed": true
         },
         {
           "id": "settlement.delivery-unlock",
           "rowId": "readfits-settlement-delivery-rights-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
           "passed": true
         },
         {
           "id": "settlement.ledger-database-storage-reconciliation",
           "rowId": "readfits-settlement-delivery-rights-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
           "passed": true
         },
         {
           "id": "settlement.protected-source-serialized-false",
           "rowId": "readfits-settlement-delivery-rights-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
           "passed": true
         },
         {
           "id": "settlement.source-bearing-visible-boolean",
           "rowId": "readfits-settlement-delivery-rights-boundary",
-          "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
           "passed": true
         }
       ],
@@ -1191,9 +1191,9 @@
       "hardeningId": "readfits-source-safe-tests-and-docs",
       "label": "Gate 6 checks bind tests, docs, package exports, workflows, and current roadmap posture",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
         "BITCODE_SPEC_V41.md",
         "BITCODE_SPEC_V41_DELTA.md",
         "BITCODE_SPEC_V41_NOTES.md",
@@ -1278,9 +1278,9 @@
         "unpaid-assetpack-source"
       ],
       "sourceFiles": [
-        "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
         "BITCODE_SPEC_V41.md",
         "BITCODE_SPEC_V41_DELTA.md",
         "BITCODE_SPEC_V41_NOTES.md",
@@ -1294,15 +1294,15 @@
       ],
       "sourceHashes": [
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
           "sourceHash": "f67631d6826e305b99ac1c36"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
           "sourceHash": "58db4f0377fdbd4440e6de7a"
         },
         {
-          "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
           "sourceHash": "e2e172cbbb050fa57eb16c0d"
         },
         {
@@ -1387,19 +1387,19 @@
         {
           "id": "tests.depository-search",
           "rowId": "readfits-source-safe-tests-and-docs",
-          "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
           "passed": true
         },
         {
           "id": "tests.readfits-runtime",
           "rowId": "readfits-source-safe-tests-and-docs",
-          "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
           "passed": true
         },
         {
           "id": "tests.assetpack-synthesis",
           "rowId": "readfits-source-safe-tests-and-docs",
-          "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
+          "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
           "passed": true
         }
       ],

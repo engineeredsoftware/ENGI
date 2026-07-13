@@ -59,15 +59,15 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  parity: 'packages/pipelines/asset-pack/src/reading-interface-product-parity.ts',
-  parityTest: 'packages/pipelines/asset-pack/src/__tests__/reading-interface-product-parity.test.ts',
-  postprocess: 'packages/pipelines/asset-pack/src/postprocess.ts',
-  packageIndex: 'packages/pipelines/asset-pack/src/index.ts',
-  packageJson: 'packages/pipelines/asset-pack/package.json',
+  parity: 'packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts',
+  parityTest: 'packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts',
+  postprocess: 'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+  packageIndex: 'packages/asset-packs-pipelines/domain/src/index.ts',
+  packageJson: 'packages/asset-packs-pipelines/domain/package.json',
   conversationTest: 'uapi/tests/api/conversationReadingInterfaceParity.test.ts',
   mcpTest: 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
   chatgptTest: 'packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts',
-  assetPackReadme: 'packages/pipelines/asset-pack/README.md',
+  assetPackReadme: 'packages/asset-packs-pipelines/domain/README.md',
   protocolReadme: 'packages/protocol/README.md',
   rootReadme: 'README.md',
   v39Spec: 'BITCODE_SPEC_V39.md',

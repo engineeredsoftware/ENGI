@@ -207,7 +207,7 @@ packages/generic-<family>/          # README only (no package.json)
 | `generic-agents/` | `PTRR/`, `vcs/`, `danger-wall/`, … | `@bitcode/generic-agents-ptrr`, `@bitcode/generic-agent-*` |
 | `generic-tools/` | `files-maintaining/`, `vcs/`, … | `@bitcode/generic-tools-*` |
 | `generic-pipelines/` | `SDIVF/`, `Simple/` | `@bitcode/generic-pipelines-sdivf`, `-simple` |
-| `asset-packs-pipelines/` | `synthesize-deposits/`, `synthesize-reads/`, `settle-reads/` | `@bitcode/asset-packs-pipelines-*` |
+| `asset-packs-pipelines/` | `domain/`, `synthesize-deposits/`, `synthesize-reads/`, `settle-asset-packs/` | domain + product pipelines (no `packages/pipelines/`) |
 | `generic-llms/` | `xAI/`, `OpenAI/`, `Anthropic/`, `Google/`, `defaults/`, `registry/`, `models/` | `@bitcode/generic-llms-*` (+ aggregator) |
 | `generic-generations/` | `failsafes/`, `thinkings/` | `@bitcode/generic-generations-*` |
 | `generic-measurements/` | `measure-agent/`, `absolutes/`, `needinesses/`, `tech-types/` | `@bitcode/generic-measurements-*` |
@@ -262,7 +262,7 @@ packages/
   asset-packs-generics/        # AssetPack protocol primitive
   generic-asset-packs/         # measured-patch, synthesis, settle
   asset-packs-pipelines/       # product SDIVF / Simple pipelines
-  pipelines/asset-pack/        # SynthesizeAssetPacks agents/tools/domain
+  asset-packs-pipelines/       # domain + SynthesizeDeposit/Read + SettleAssetPacks pipelines
   pipelines-generics/          # Pipeline primitive
   generic-pipelines/SDIVF/     # SDIVF base
   generic-llms/{xAI,OpenAI,…}/ # LLM providers + models/

@@ -233,8 +233,8 @@
         "compensation-follows-source-to-shares"
       ],
       "sourcePaths": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
         "packages/btd/src/receipts.ts",
         "packages/protocol/src/canonical/v40-ledger-storage-sync.js"
       ],
@@ -311,8 +311,8 @@
       ],
       "rowRoot": "v46-proof-readback-row:2000640bb0399236b3bf9699",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts:f40f6cf958404cc64d6d5b1a",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts:f40f6cf958404cc64d6d5b1a",
         "packages/btd/src/receipts.ts:663e799baf0715924cb67c14",
         "packages/protocol/src/canonical/v40-ledger-storage-sync.js:72fdfd6eee4b7dfb5a3496bc"
       ],
@@ -424,7 +424,7 @@
       ],
       "sourcePaths": [
         "packages/btd/src/reconciliation.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/protocol/src/canonical/v40-ledger-storage-sync.js"
       ],
       "requiredCopyTokens": [
@@ -499,7 +499,7 @@
       "rowRoot": "v46-proof-readback-row:affa1e9a671eec036e3e267b",
       "sourceRoots": [
         "packages/btd/src/reconciliation.ts:d4bc6c129196572ae673c05b",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
         "packages/protocol/src/canonical/v40-ledger-storage-sync.js:72fdfd6eee4b7dfb5a3496bc"
       ],
       "sourceFilesPresent": true,
@@ -611,7 +611,7 @@
       "sourcePaths": [
         "packages/btd/src/wallet.ts",
         "packages/btd/src/btc-fee-operation.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "uapi/app/bitcode-ledger-storage-sync.ts"
       ],
       "requiredCopyTokens": [
@@ -686,7 +686,7 @@
       "sourceRoots": [
         "packages/btd/src/wallet.ts:36133f892f3a3dd34cf4f153",
         "packages/btd/src/btc-fee-operation.ts:65f910e8e471fe199939e9c4",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
         "uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d"
       ],
       "sourceFilesPresent": true,
@@ -703,8 +703,8 @@
         "finality-authorizes-rights-and-delivery"
       ],
       "sourcePaths": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
         "uapi/app/bitcode-ledger-storage-sync.ts"
       ],
       "requiredCopyTokens": [
@@ -778,8 +778,8 @@
       ],
       "rowRoot": "v46-proof-readback-row:33a85b0ac910e3b2656ec29c",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts:f40f6cf958404cc64d6d5b1a",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts:f40f6cf958404cc64d6d5b1a",
         "uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d"
       ],
       "sourceFilesPresent": true,
@@ -800,8 +800,8 @@
       ],
       "sourcePaths": [
         "packages/btd/src/reconciliation.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
         "packages/protocol/src/canonical/v40-ledger-storage-sync.js"
       ],
       "requiredCopyTokens": [
@@ -878,8 +878,8 @@
       "rowRoot": "v46-proof-readback-row:7f4f6bc57397604dadf11f50",
       "sourceRoots": [
         "packages/btd/src/reconciliation.ts:d4bc6c129196572ae673c05b",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts:f40f6cf958404cc64d6d5b1a",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts:f40f6cf958404cc64d6d5b1a",
         "packages/protocol/src/canonical/v40-ledger-storage-sync.js:72fdfd6eee4b7dfb5a3496bc"
       ],
       "sourceFilesPresent": true,
@@ -954,12 +954,12 @@
     },
     {
       "id": "settlement-boundary-blocks-until-finality-and-delivery",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "passed": true
     },
     {
       "id": "settlement-tests-cover-fail-closed-delivery",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
       "passed": true
     },
     {

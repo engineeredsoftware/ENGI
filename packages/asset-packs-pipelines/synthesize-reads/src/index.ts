@@ -1,12 +1,12 @@
 /**
  * @bitcode/asset-packs-pipelines-synthesize-reads
  *
- * Hierarchy: SynthesizeReads + SDIVF + Pipeline
- *   factorySynthesizeReadsSDIVFPipeline → SynthesizeReadsSDIVFPipeline
+ * Hierarchy: SynthesizeReadAssetPacks + SDIVF + Pipeline
+ *   factorySynthesizeReadAssetPacksSDIVFPipeline
+ *     → SynthesizeReadAssetPacksSDIVFPipeline
  *
  * Reader's accepted Need is satisfied by finding + synthesizing Need-fitting
- * AssetPacks from the Depository. Settlement (BTC/BTD/rights/PR ship) is
- * SettleReadsSimplePipeline — not this factory.
+ * AssetPacks from the Depository. Settlement is SettleAssetPacksSimplePipeline.
  */
 
 import type { Execution } from '@bitcode/execution-generics';
@@ -21,13 +21,14 @@ import {
   normalizeAssetPackOutput,
   buildAssetPackPostprocessedResult,
   factoryPreprocessReadOnly,
-} from '@bitcode/pipeline-asset-pack';
+} from '@bitcode/asset-packs-pipelines-domain';
 
-export type SynthesizeReadsSDIVFPipeline = SDIVFPipeline<any, any>;
+/** Full hierarchy name: SynthesizeReadAssetPacks + SDIVF + Pipeline. */
+export type SynthesizeReadAssetPacksSDIVFPipeline = SDIVFPipeline<any, any>;
 
-export function factorySynthesizeReadsSDIVFPipeline(
-  pipelineName: string = 'synthesize-reads',
-): SynthesizeReadsSDIVFPipeline {
+export function factorySynthesizeReadAssetPacksSDIVFPipeline(
+  pipelineName: string = 'synthesize-read-asset-packs',
+): SynthesizeReadAssetPacksSDIVFPipeline {
   const maxIterations = 1;
   const sdivf = factorySDIVFPipelineFromExecutors(pipelineName, {
     preprocess: factoryPreprocessReadOnly() as any,
@@ -45,12 +46,22 @@ export function factorySynthesizeReadsSDIVFPipeline(
 
   return async (input, execution) => {
     await initializeAssetPackPipeline(execution as any);
-    storeCrossPhaseArtifact(execution, 'pipeline', 'productPipeline', 'synthesize-reads');
+    storeCrossPhaseArtifact(execution, 'pipeline', 'productPipeline', 'synthesize-read-asset-packs');
     return sdivf(input, execution);
   };
 }
 
-export const synthesizeReadsSDIVFPipeline: SynthesizeReadsSDIVFPipeline =
-  factorySynthesizeReadsSDIVFPipeline();
+export const synthesizeReadAssetPacksSDIVFPipeline: SynthesizeReadAssetPacksSDIVFPipeline =
+  factorySynthesizeReadAssetPacksSDIVFPipeline();
 
-export const runSynthesizeReadsSDIVFPipeline = synthesizeReadsSDIVFPipeline;
+export const runSynthesizeReadAssetPacksSDIVFPipeline = synthesizeReadAssetPacksSDIVFPipeline;
+
+// --- BC short aliases ---
+/** @deprecated Prefer SynthesizeReadAssetPacksSDIVFPipeline */
+export type SynthesizeReadsSDIVFPipeline = SynthesizeReadAssetPacksSDIVFPipeline;
+/** @deprecated Prefer factorySynthesizeReadAssetPacksSDIVFPipeline */
+export const factorySynthesizeReadsSDIVFPipeline = factorySynthesizeReadAssetPacksSDIVFPipeline;
+/** @deprecated Prefer synthesizeReadAssetPacksSDIVFPipeline */
+export const synthesizeReadsSDIVFPipeline = synthesizeReadAssetPacksSDIVFPipeline;
+/** @deprecated Prefer runSynthesizeReadAssetPacksSDIVFPipeline */
+export const runSynthesizeReadsSDIVFPipeline = runSynthesizeReadAssetPacksSDIVFPipeline;

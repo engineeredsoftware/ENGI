@@ -29,7 +29,7 @@ The Figma integration consists of three layers:
 ## 🔄 Pipeline Integration
 
 ### Setup Phase Integration
-**File**: `packages/pipelines/asset-pack/src/phases/setup.ts`
+**File**: `packages/asset-packs-pipelines/domain/src/phases/setup.ts`
 
 ```typescript
 const agentGroups = [
@@ -46,7 +46,7 @@ const agentGroups = [
 - **Output**: Extracts PNG images and adds them as new attachments to global context
 
 ### Discovery Phase Enhancement
-**File**: `packages/pipelines/asset-pack/src/agents/discovery-agents.ts`
+**File**: `packages/asset-packs-pipelines/domain/src/agents/discovery-agents.ts`
 
 **Enhanced**: Existing multimodal comprehension agent now detects Figma-extracted images
 - **Detection**: Identifies attachments with `metadata.extractedFromFigma = true`

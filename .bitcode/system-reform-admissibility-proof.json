@@ -61,8 +61,8 @@
       "passed": true,
       "detail": "2 required files present",
       "requiredFiles": [
-        "packages/pipelines/asset-pack/src/run.ts",
-        "packages/pipelines/asset-pack/src/index.ts"
+        "packages/asset-packs-pipelines/domain/src/run.ts",
+        "packages/asset-packs-pipelines/domain/src/index.ts"
       ],
       "missingFiles": [],
       "reformClass": "compatibility-only",
@@ -91,8 +91,8 @@
         "packages/generic-tools/use-computer/src/index.ts",
         "packages/generic-tools/use-computer/src/prompts/UseComputerDocCodeToolPrompt.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_usecomputer_doccodetoolpurpose.ts",
-        "packages/pipelines/asset-pack/src/tools/BitcodeReadMeasurementComputerUseTool.ts",
-        "packages/pipelines/asset-pack/src/tools/index.ts",
+        "packages/asset-packs-pipelines/domain/src/tools/BitcodeReadMeasurementComputerUseTool.ts",
+        "packages/asset-packs-pipelines/domain/src/tools/index.ts",
         "packages/api/src/routes/shippables.ts",
         "packages/execution-generics/src/store/registry.ts",
         "uapi/app/executions/components/ExecutionsPageClient.tsx",

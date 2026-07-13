@@ -4,88 +4,88 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 const reformSource = readFileSync(new URL('../V26_SHIPPABLE_REFORM.md', import.meta.url), 'utf8');
 const pipelineSchemasSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/types/PipelineSchemas.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/types/PipelineSchemas.ts', import.meta.url),
   'utf8'
 );
 const assetPackWrittenAssetTypeSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/types/AssetPackWrittenAssetType.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/types/AssetPackWrittenAssetType.ts', import.meta.url),
   'utf8'
 );
 const assetPackSearchSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/tools/search.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/tools/search.ts', import.meta.url),
   'utf8'
 );
 const assetPackPipelineSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/index.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/index.ts', import.meta.url),
   'utf8'
 );
 const postprocessSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/postprocess.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/postprocess.ts', import.meta.url),
   'utf8'
 );
 const comprehendReadSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts', import.meta.url),
   'utf8'
 );
 const comprehendReadPromptSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts', import.meta.url),
   'utf8'
 );
 const cloneRepositoryPromptSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/clone-vcs-repository-prompt.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/clone-vcs-repository-prompt.ts', import.meta.url),
   'utf8'
 );
 const assetPackCloneOverlayPromptSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/asset-pack-vcs-clone-repository-agent-prompts.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-vcs-clone-repository-agent-prompts.ts', import.meta.url),
   'utf8'
 );
 const dangerWallPromptSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/danger-wall-prompt.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/danger-wall-prompt.ts', import.meta.url),
   'utf8'
 );
 const readyToIteratePromptSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/ready-to-iterate-prompt.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/ready-to-iterate-prompt.ts', import.meta.url),
   'utf8'
 );
 const initializeLspPromptSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/initialize-lsp-prompt.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/initialize-lsp-prompt.ts', import.meta.url),
   'utf8'
 );
 const understandRequirementsPromptSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/understand-requirements-prompt.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/understand-requirements-prompt.ts', import.meta.url),
   'utf8'
 );
 const analyzeParallelPromptSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/analyze-parallel-prompt.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-parallel-prompt.ts', import.meta.url),
   'utf8'
 );
 const assessComplexityPromptSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/assess-complexity-prompt.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/assess-complexity-prompt.ts', import.meta.url),
   'utf8'
 );
 const planImplementationPromptSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/plan-implementation-prompt.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/plan-implementation-prompt.ts', import.meta.url),
   'utf8'
 );
 const comprehendAttachmentsPromptSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/comprehend-attachments-prompt.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-attachments-prompt.ts', import.meta.url),
   'utf8'
 );
 const selectFilesParallelPromptSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/select-files-parallel-prompt.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/select-files-parallel-prompt.ts', import.meta.url),
   'utf8'
 );
 const comprehendReadBasePromptSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts', import.meta.url),
   'utf8'
 );
 const removedComprehendTaskEntrypoints = [
-  '../../packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-task-agent.ts',
-  '../../packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-task-agent.js',
-  '../../packages/pipelines/asset-pack/src/agents/prompts/comprehend-task-prompt.ts',
-  '../../packages/pipelines/asset-pack/src/agents/prompts/comprehend-task-prompt.js',
-  '../../packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-task-agent-prompts.ts',
-  '../../packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-task-agent-prompts.js',
+  '../../packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-task-agent.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-task-agent.js',
+  '../../packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-task-prompt.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-task-prompt.js',
+  '../../packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-task-agent-prompts.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-task-agent-prompts.js',
 ];
 const removedTerminalExecutionGeneratedJsMirrors = [
   '../../uapi/app/terminal/TerminalTransactionDetailSurface.js',
@@ -111,22 +111,22 @@ const removedExecutionSupportGeneratedJsMirrors = [
   '../../uapi/scripts/sync-deliverables-embeddings.js',
 ];
 const removedTypeKeyedImplementationEntrypoints = [
-  '../../packages/pipelines/asset-pack/src/agents/implementation-agents.ts',
-  '../../packages/pipelines/asset-pack/src/agents/implementation/asset-pack-divide-code-change-agent.ts',
-  '../../packages/pipelines/asset-pack/src/agents/implementation/asset-pack-conquer-file-agent.ts',
-  '../../packages/pipelines/asset-pack/src/agents/implementation/asset-pack-correct-code-change-agent.ts',
-  '../../packages/pipelines/asset-pack/src/agents/implementation/asset-pack-review-code-change-agent.ts',
-  '../../packages/pipelines/asset-pack/src/agents/implementation/asset-pack-create-design-document-agent.ts',
-  '../../packages/pipelines/asset-pack/src/agents/implementation/asset-pack-review-design-document-agent.ts',
-  '../../packages/pipelines/asset-pack/src/agents/prompts/divide-code-change-prompt.ts',
-  '../../packages/pipelines/asset-pack/src/agents/prompts/conquer-file-prompt.ts',
-  '../../packages/pipelines/asset-pack/src/agents/prompts/correct-code-change-prompt.ts',
-  '../../packages/pipelines/asset-pack/src/agents/prompts/review-code-change-prompt.ts',
-  '../../packages/pipelines/asset-pack/src/agents/prompts/create-design-document-prompt.ts',
-  '../../packages/pipelines/asset-pack/src/agents/prompts/review-design-document-prompt.ts',
-  '../../packages/pipelines/asset-pack/src/agents/prompts/validate-code-changes-prompt.ts',
-  '../../packages/pipelines/asset-pack/src/agents/prompts/validate-document-prompt.ts',
-  '../../packages/pipelines/asset-pack/src/agents/prompts/validate-review-prompt.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/implementation-agents.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/implementation/asset-pack-divide-code-change-agent.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/implementation/asset-pack-conquer-file-agent.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/implementation/asset-pack-correct-code-change-agent.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/implementation/asset-pack-review-code-change-agent.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/implementation/asset-pack-create-design-document-agent.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/implementation/asset-pack-review-design-document-agent.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/prompts/divide-code-change-prompt.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/prompts/conquer-file-prompt.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/prompts/correct-code-change-prompt.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/prompts/review-code-change-prompt.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/prompts/create-design-document-prompt.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/prompts/review-design-document-prompt.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/prompts/validate-code-changes-prompt.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/prompts/validate-document-prompt.ts',
+  '../../packages/asset-packs-pipelines/domain/src/agents/prompts/validate-review-prompt.ts',
 ];
 const comprehendReadRawIdentityPromptSource = readFileSync(
   new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_system_identity.ts', import.meta.url),
@@ -145,39 +145,39 @@ const assetPackReadyToIterateStructuredOutputSource = readFileSync(
   'utf8'
 );
 const semanticResolutionSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/semantic-resolution.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/semantic-resolution.ts', import.meta.url),
   'utf8'
 );
 const phaseIndexSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/phases/index.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/phases/index.ts', import.meta.url),
   'utf8'
 );
 const setupPhaseSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/phases/setup.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/phases/setup.ts', import.meta.url),
   'utf8'
 );
 const preprocessSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/preprocess.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/preprocess.ts', import.meta.url),
   'utf8'
 );
 const shipAgentSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/finish/deliver-asset-pack-to-destination-agent.ts', import.meta.url),
   'utf8'
 );
 const createPullRequestSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/finish/asset-pack-finish-create-pull-request-delivery-agent.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-finish-create-pull-request-delivery-agent.ts', import.meta.url),
   'utf8'
 );
 const discoveryAgentsSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/discovery-agents.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/discovery-agents.ts', import.meta.url),
   'utf8'
 );
 const selectFilesSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/discovery/asset-pack-select-files-parallel-agent.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/discovery/asset-pack-select-files-parallel-agent.ts', import.meta.url),
   'utf8'
 );
 const assetPackCompletionSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/finish/asset-pack-completion-agent.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-completion-agent.ts', import.meta.url),
   'utf8'
 );
 const semanticPayloadSource = readFileSync(
@@ -610,7 +610,7 @@ test('V26 shippable reform supplement removes active deliverable compatibility b
 });
 
 test('AssetPack schemas expose written-asset semantic aliases and bounded compatibility keys', () => {
-  assert.equal(existsSync(new URL('../../packages/pipelines/asset-pack/src/types/DeliverableType.ts', import.meta.url)), false);
+  assert.equal(existsSync(new URL('../../packages/asset-packs-pipelines/domain/src/types/DeliverableType.ts', import.meta.url)), false);
   assert.match(assetPackWrittenAssetTypeSource, /export enum AssetPackWrittenAssetType/u);
   assert.doesNotMatch(assetPackWrittenAssetTypeSource, /DeliverableType/u);
   assert.match(pipelineSchemasSource, /type ShippableMeta = AssetPackResultMeta;/u);

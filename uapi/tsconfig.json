@@ -58,35 +58,36 @@
       "@bitcode/btd/read-license-assetpack-rights-contract": [
         "../packages/btd/src/read-license-assetpack-rights-contract.ts"
       ],
-      "@bitcode/pipeline-asset-pack": [
-        "../packages/pipelines/asset-pack/src/index.ts"
+      "@bitcode/asset-packs-pipelines-domain": ["../packages/asset-packs-pipelines/domain/src/index.ts"],
+      "@bitcode/asset-packs-pipelines-domain": [
+        "../packages/asset-packs-pipelines/domain/src/index.ts"
       ],
       "@bitcode/pipeline-asset-pack/read-need": [
-        "../packages/pipelines/asset-pack/src/read-need.ts"
+        "../packages/asset-packs-pipelines/domain/src/read-need.ts"
       ],
       "@bitcode/pipeline-asset-pack/read-need-review-resynthesis": [
-        "../packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts"
+        "../packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts"
       ],
       "@bitcode/pipeline-asset-pack/reading-pipeline-contract": [
-        "../packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+        "../packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
       ],
       "@bitcode/pipeline-asset-pack/deposit-asset-pack-options": [
-        "../packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts"
+        "../packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts"
       ],
       "@bitcode/pipeline-asset-pack/deposit-asset-pack-option-policy": [
-        "../packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts"
+        "../packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts"
       ],
       "@bitcode/pipeline-asset-pack/asset-packs-synthesis": [
-        "../packages/pipelines/asset-pack/src/asset-packs-synthesis.ts"
+        "../packages/asset-packs-pipelines/domain/src/asset-packs-synthesis.ts"
       ],
       "@bitcode/pipeline-asset-pack/deposit-option-real-synthesis": [
-        "../packages/pipelines/asset-pack/src/deposit-option-real-synthesis.ts"
+        "../packages/asset-packs-pipelines/domain/src/deposit-option-real-synthesis.ts"
       ],
       "@bitcode/pipeline-asset-pack/depository-settled-demand-estimate": [
-        "../packages/pipelines/asset-pack/src/depository-settled-demand-estimate.ts"
+        "../packages/asset-packs-pipelines/domain/src/depository-settled-demand-estimate.ts"
       ],
       "@bitcode/pipeline-asset-pack/runtime-inference-policy": [
-        "../packages/pipelines/asset-pack/src/runtime-inference-policy.ts"
+        "../packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts"
       ],
       "@bitcode/*": [
         "../packages/*/src",
@@ -155,7 +156,7 @@
         "../packages/pipelines-generics/src/phases/validation/index.ts"
       ],
       "@/lib/engine/pipeline/pipelineSDIVF": [
-        "../packages/pipelines/asset-pack/src/run.ts"
+        "../packages/asset-packs-pipelines/domain/src/run.ts"
       ],
       "@/lib/engine/pipeline/pipelineMeasureSDIVS": [
         "../packages/pipelines/measure/src/run.ts"
@@ -236,11 +237,11 @@
       "@/lib/dryrun/*": [
         "../packages/observability/src/dryrun/*"
       ],
-      "@bitcode/pipeline-asset-pack": [
-        "../packages/pipelines/asset-pack/src/index.ts"
+      "@bitcode/asset-packs-pipelines-domain": [
+        "../packages/asset-packs-pipelines/domain/src/index.ts"
       ],
       "@bitcode/pipeline-asset-pack/*": [
-        "../packages/pipelines/asset-pack/*"
+        "../packages/asset-packs-pipelines/domain/*"
       ],
       "@bitcode/generic-agents-initialize-mcps": [
         "../packages/generic-agents/mcps-initializer/src/index.ts"
@@ -585,7 +586,7 @@
         "../packages/web-search/multi/src/index.ts"
       ],
       "@/lib/asset-pack": [
-        "../packages/pipelines/asset-pack/src/index.ts"
+        "../packages/asset-packs-pipelines/domain/src/index.ts"
       ],
       "@/lib/models": [
         "../packages/generic-llms/models/src/index.ts"

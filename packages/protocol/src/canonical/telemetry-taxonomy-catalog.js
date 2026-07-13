@@ -70,8 +70,8 @@ const taxonomyRows = Object.freeze([
     alertThreshold: 'failed_or_missing_completion_warning',
     runbookLink: 'runbook.pipeline.execution-repair',
     sourceRoots: [
-      'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts',
-      'packages/pipelines/asset-pack/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts',
+      'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts',
+      'packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts',
       'uapi/app/api/pipeline-host/asset-pack/runner.ts',
     ],
   },
@@ -111,7 +111,7 @@ const taxonomyRows = Object.freeze([
     runbookLink: 'runbook.inference.ptrr-agent-debug',
     sourceRoots: [
       'packages/agent-generics/README.md',
-      'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts',
+      'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts',
       'internal-docs/BITCODE_AGENTIC_EXECUTION.md',
     ],
   },
@@ -136,7 +136,7 @@ const taxonomyRows = Object.freeze([
     runbookLink: 'runbook.inference.generation-redaction',
     sourceRoots: [
       'packages/llm-generics/README.md',
-      'packages/pipelines/asset-pack/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts',
+      'packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts',
       'internal-docs/BITCODE_PROMPT_TRACE.md',
     ],
   },

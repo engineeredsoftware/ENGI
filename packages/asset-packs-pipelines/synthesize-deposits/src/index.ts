@@ -1,14 +1,15 @@
 /**
  * @bitcode/asset-packs-pipelines-synthesize-deposits
  *
- * Hierarchy: SynthesizeDeposits + SDIVF + Pipeline
- *   factorySynthesizeDepositsSDIVFPipeline → SynthesizeDepositsSDIVFPipeline
+ * Hierarchy: SynthesizeDepositAssetPacks + SDIVF + Pipeline
+ *   factorySynthesizeDepositAssetPacksSDIVFPipeline
+ *     → SynthesizeDepositAssetPacksSDIVFPipeline
  *
  * Depositor supplies a repository; pipeline synthesizes measured AssetPack
  * options for Depository review/admission. Not mode/lens-parameterized.
  */
 
-import type { Executor, Execution } from '@bitcode/execution-generics';
+import type { Execution } from '@bitcode/execution-generics';
 import {
   factorySDIVFPipelineFromExecutors,
   type SDIVFPipeline,
@@ -20,13 +21,14 @@ import {
   storeCrossPhaseArtifact,
   normalizeAssetPackOutput,
   buildAssetPackPostprocessedResult,
-} from '@bitcode/pipeline-asset-pack';
+} from '@bitcode/asset-packs-pipelines-domain';
 
-export type SynthesizeDepositsSDIVFPipeline = SDIVFPipeline<any, any>;
+/** Full hierarchy name: SynthesizeDepositAssetPacks + SDIVF + Pipeline. */
+export type SynthesizeDepositAssetPacksSDIVFPipeline = SDIVFPipeline<any, any>;
 
-export function factorySynthesizeDepositsSDIVFPipeline(
-  pipelineName: string = 'synthesize-deposits',
-): SynthesizeDepositsSDIVFPipeline {
+export function factorySynthesizeDepositAssetPacksSDIVFPipeline(
+  pipelineName: string = 'synthesize-deposit-asset-packs',
+): SynthesizeDepositAssetPacksSDIVFPipeline {
   const maxIterations = 1;
   const sdivf = factorySDIVFPipelineFromExecutors(pipelineName, {
     preprocess: factoryPreprocessDepositOnly() as any,
@@ -44,12 +46,22 @@ export function factorySynthesizeDepositsSDIVFPipeline(
 
   return async (input, execution) => {
     await initializeAssetPackPipeline(execution as any);
-    storeCrossPhaseArtifact(execution, 'pipeline', 'productPipeline', 'synthesize-deposits');
+    storeCrossPhaseArtifact(execution, 'pipeline', 'productPipeline', 'synthesize-deposit-asset-packs');
     return sdivf(input, execution);
   };
 }
 
-export const synthesizeDepositsSDIVFPipeline: SynthesizeDepositsSDIVFPipeline =
-  factorySynthesizeDepositsSDIVFPipeline();
+export const synthesizeDepositAssetPacksSDIVFPipeline: SynthesizeDepositAssetPacksSDIVFPipeline =
+  factorySynthesizeDepositAssetPacksSDIVFPipeline();
 
-export const runSynthesizeDepositsSDIVFPipeline = synthesizeDepositsSDIVFPipeline;
+export const runSynthesizeDepositAssetPacksSDIVFPipeline = synthesizeDepositAssetPacksSDIVFPipeline;
+
+// --- BC short aliases (pre-rename names) ---
+/** @deprecated Prefer SynthesizeDepositAssetPacksSDIVFPipeline */
+export type SynthesizeDepositsSDIVFPipeline = SynthesizeDepositAssetPacksSDIVFPipeline;
+/** @deprecated Prefer factorySynthesizeDepositAssetPacksSDIVFPipeline */
+export const factorySynthesizeDepositsSDIVFPipeline = factorySynthesizeDepositAssetPacksSDIVFPipeline;
+/** @deprecated Prefer synthesizeDepositAssetPacksSDIVFPipeline */
+export const synthesizeDepositsSDIVFPipeline = synthesizeDepositAssetPacksSDIVFPipeline;
+/** @deprecated Prefer runSynthesizeDepositAssetPacksSDIVFPipeline */
+export const runSynthesizeDepositsSDIVFPipeline = runSynthesizeDepositAssetPacksSDIVFPipeline;

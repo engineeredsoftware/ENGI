@@ -13,7 +13,7 @@ import {
   TELEMETRY_PATH,
 } from './asset-pack-host-constants';
 
-export export function createHostSmokeRunner(): string {
+export function createHostSmokeRunner(): string {
   return `import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { arch, platform, release } from 'node:os';
@@ -81,7 +81,7 @@ await writeFile(\`\${artifactDir}/evidence.json\`, JSON.stringify(evidence, null
 `;
 }
 
-export export function createLiveAssetPackPipelineRunner(): string {
+export function createLiveAssetPackPipelineRunner(): string {
   return `import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createHash, randomUUID } from 'node:crypto';
 
@@ -1413,7 +1413,7 @@ try {
 	    { evaluateBtdOrganizationInterfaceAuthority },
       btdReceiptBuilders,
 	  ] = await Promise.all([
-	    import('../../packages/pipelines/asset-pack/src/index'),
+	    import('../../packages/asset-packs-pipelines/domain/src/index'),
 	    import('../../packages/pipelines-generics/src/index'),
 	    import('../../packages/btd/src/settlement'),
 	    import('../../packages/btd/src/reconciliation'),

@@ -266,7 +266,7 @@
   ],
   "sourceEvidence": [
     {
-      "relativePath": "packages/pipelines/asset-pack/src/btd-scalar-volume-quote.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts",
       "present": true,
       "digest": "sha256:eda1442a63433a49e4c561c946a766eae8778e7a841d8d73db7c328dd25f5e65",
       "byteLength": 25700,
@@ -292,7 +292,7 @@
       ]
     },
     {
-      "relativePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "present": true,
       "digest": "sha256:3d2b0984fc9e2c3c108d6eb09bd5a7afc6dd00fa778cf7e16af8c662f6caccae",
       "byteLength": 47753,
@@ -318,7 +318,7 @@
       ]
     },
     {
-      "relativePath": "packages/pipelines/asset-pack/src/btd-btc-compensation-statements.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts",
       "present": true,
       "digest": "sha256:a239683c231a0127c4777a3fef909dcb0ea5e44f623616c8c36a66a585376a3b",
       "byteLength": 22075,
@@ -421,8 +421,8 @@
     "allocation"
   ],
   "generatedArtifactAndTestBindings": [
-    "packages/pipelines/asset-pack/src/__tests__/btd-scalar-volume-quote.test.ts",
-    "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+    "packages/asset-packs-pipelines/domain/src/__tests__/btd-scalar-volume-quote.test.ts",
+    "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
     "packages/btd/__tests__/source-to-shares.test.ts",
     "packages/protocol/test/v45-proof-family-artifacts.test.js"
   ],

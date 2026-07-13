@@ -6,7 +6,7 @@ const ruleTester = new TSESLint.RuleTester({
 });
 
 const ASSET_PACK_IMPLEMENTATION_AGENT =
-  'packages/pipelines/asset-pack/src/agents/implementation/asset-pack-synthesize-artifacts-agent.ts';
+  'packages/asset-packs-pipelines/domain/src/agents/implementation/asset-pack-synthesize-artifacts-agent.ts';
 
 ruleTester.run('no-write-tools-outside-implementation', noWriteToolsOutsideImplementation, {
   valid: [
@@ -15,7 +15,7 @@ ruleTester.run('no-write-tools-outside-implementation', noWriteToolsOutsideImple
       code: "import { textEditorTool } from '@bitcode/generic-tools-files-maintaining';",
     },
     {
-      filename: 'packages/pipelines/asset-pack/src/agents/discovery/gather-context-agent.ts',
+      filename: 'packages/asset-packs-pipelines/domain/src/agents/discovery/gather-context-agent.ts',
       code: "import { definitionTool } from '@bitcode/generic-tools-lsp-query';",
     },
   ],

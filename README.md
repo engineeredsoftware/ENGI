@@ -145,7 +145,7 @@ Full QA checklist: `BITCODE_V48_QA.md` → Gate 3 depositing runbook.
 | Path | Role |
 |---|---|
 | `uapi/` | Next.js app — `/deposits`, `/reads`, `/packs`, APIs |
-| `packages/pipelines/asset-pack/` | SynthesizeAssetPacks SDIVF, deposit agents, policy, demand estimate |
+| `packages/asset-packs-pipelines/domain/` | SynthesizeAssetPacks SDIVF, deposit agents, policy, demand estimate |
 | `packages/asset-packs-pipelines/` | Product pipelines (synthesize-deposits/reads, settle-reads) |
 | `packages/asset-packs-generics/` | AssetPack protocol primitive |
 | `packages/generic-asset-packs/` | measured-patch base + synthesis/settle product surfaces |

@@ -430,7 +430,7 @@
         "packages/protocol/README.md",
         "packages/btd/README.md",
         "packages/api/README.md",
-        "packages/pipelines/asset-pack/README.md",
+        "packages/asset-packs-pipelines/domain/README.md",
         "packages/pipeline-hosts/README.md"
       ],
       "linkedSpecSections": [
@@ -443,7 +443,7 @@
         "packages/protocol/src/index.js",
         "packages/btd/src/index.ts",
         "packages/api/src",
-        "packages/pipelines/asset-pack/src"
+        "packages/asset-packs-pipelines/domain/src"
       ],
       "proofCoverage": [
         "package-boundary-test",
@@ -486,7 +486,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/pipelines/asset-pack/README.md",
+          "sourceRoot": "packages/asset-packs-pipelines/domain/README.md",
           "present": true
         },
         {
@@ -1185,7 +1185,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/pipelines/asset-pack/README.md",
+          "sourceRoot": "packages/asset-packs-pipelines/domain/README.md",
           "present": true
         },
         {

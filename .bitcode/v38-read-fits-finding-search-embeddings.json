@@ -320,87 +320,87 @@
   "predicateResults": [
     {
       "id": "contract.names-read-fits-finding-pipeline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
       "id": "contract.has-seven-phases",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
       "id": "contract.has-discovery-tools",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
       "id": "contract.has-assetpack-handoff-fields",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
       "id": "search-defines-query-plan",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "search-defines-search-receipt",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "search-has-seven-channel-ids",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "search-defaults-many-fit-limit",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "search-stores-query-plan-and-receipt",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "search-stores-selected-fit-provenance-root",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "search-blocks-source-and-credentials",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "search-channel-scores-include-vector-and-metadata",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "embedding-policy-model",
-      "sourcePath": "packages/pipelines/asset-pack/src/embedding-config.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
       "passed": true
     },
     {
       "id": "embedding-policy-dimensions",
-      "sourcePath": "packages/pipelines/asset-pack/src/embedding-config.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
       "passed": true
     },
     {
       "id": "embedding-policy-rpc",
-      "sourcePath": "packages/pipelines/asset-pack/src/embedding-config.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
       "passed": true
     },
     {
       "id": "lexical-tool-doc-prompt",
-      "sourcePath": "packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
       "passed": true
     },
     {
       "id": "vector-evidence-uses-embedding-config",
-      "sourcePath": "packages/pipelines/asset-pack/src/tools/search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/tools/search.ts",
       "passed": true
     },
     {
@@ -410,22 +410,22 @@
     },
     {
       "id": "tests-cover-query-plan-and-receipt",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
       "passed": true
     },
     {
       "id": "tests-cover-many-fit-limit",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
       "passed": true
     },
     {
       "id": "tests-cover-embedding-policy",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/embedding-config.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/embedding-config.test.ts",
       "passed": true
     },
     {
       "id": "contract-tests-cover-read-fits-counts",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
       "passed": true
     },
     {
@@ -468,14 +468,14 @@
     "legacySourceRoots": false
   },
   "sourceRoots": {
-    "readingContract": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-    "depositorySearch": "packages/pipelines/asset-pack/src/depository-search.ts",
-    "embeddingConfig": "packages/pipelines/asset-pack/src/embedding-config.ts",
-    "depositorySearchTests": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
-    "embeddingConfigTests": "packages/pipelines/asset-pack/src/__tests__/embedding-config.test.ts",
-    "readingContractTests": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
-    "lexicalTool": "packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts",
-    "vectorEvidenceSearch": "packages/pipelines/asset-pack/src/tools/search.ts",
+    "readingContract": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+    "depositorySearch": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+    "embeddingConfig": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
+    "depositorySearchTests": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+    "embeddingConfigTests": "packages/asset-packs-pipelines/domain/src/__tests__/embedding-config.test.ts",
+    "readingContractTests": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
+    "lexicalTool": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
+    "vectorEvidenceSearch": "packages/asset-packs-pipelines/domain/src/tools/search.ts",
     "uapiSearch": "uapi/lib/search.ts",
     "terminalWorkbench": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
     "gate2Inventory": "packages/protocol/src/canonical/inference-surface-inventory.js",

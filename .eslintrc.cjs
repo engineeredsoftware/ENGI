@@ -81,7 +81,7 @@ module.exports = {
       files: [
         'packages/chatgptapp/src/tools.ts',
         'packages/generic-tools/files-maintaining/src/__tests__/**',
-        'packages/pipelines/asset-pack/src/tools/**',
+        'packages/asset-packs-pipelines/domain/src/tools/**',
       ],
       rules: {
         'bitcode/no-write-tools-outside-implementation': 'off',

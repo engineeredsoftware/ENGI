@@ -226,8 +226,8 @@
         "protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
         "packages/pipelines-generics/src/phases/sdivf-factory.ts",
         "packages/pipelines-generics/src/phases/phase-factory.ts",
-        "packages/pipelines/asset-pack/src/agents/finish-delivery-agents.ts",
-        "packages/pipelines/asset-pack/src/agents/validation-agents.ts"
+        "packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/validation-agents.ts"
       ],
       "missingFiles": []
     }

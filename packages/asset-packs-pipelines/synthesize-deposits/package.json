@@ -1,10 +1,12 @@
 {
   "name": "@bitcode/asset-packs-pipelines-synthesize-deposits",
   "version": "1.0.0",
-  "description": "SynthesizeDepositsSDIVFPipeline: depositor repo → measured AssetPack options for the Depository",
+  "description": "SynthesizeDepositAssetPacksSDIVFPipeline: depositor repo \u2192 measured AssetPack options",
   "main": "src/index.ts",
   "types": "src/index.ts",
-  "exports": { ".": "./src/index.ts" },
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": {
     "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests",
     "typecheck": "tsc --noEmit"
@@ -12,7 +14,7 @@
   "dependencies": {
     "@bitcode/execution-generics": "workspace:*",
     "@bitcode/generic-pipelines-sdivf": "workspace:*",
-    "@bitcode/pipeline-asset-pack": "workspace:*"
+    "@bitcode/asset-packs-pipelines-domain": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

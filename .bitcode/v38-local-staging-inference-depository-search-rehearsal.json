@@ -106,7 +106,7 @@
         "packages/pipeline-hosts/src/asset-pack-harness.ts",
         "packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts",
         "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts"
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts"
       ],
       "primitiveIds": [
         "ReadNeedComprehensionSynthesis",
@@ -149,9 +149,9 @@
       "laneId": "local-and-staging-testnet",
       "purpose": "Rehearse depository-wide many-fit discovery across lexical, symbolic, path, metadata, measurement, embedding-vector, and provider-specific channels before AssetPack synthesis.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-search.ts",
-        "packages/pipelines/asset-pack/src/embedding-config.ts",
-        "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts"
       ],
       "primitiveIds": [
         "ReadFitsFindingSynthesisSearchReceipt",
@@ -195,7 +195,7 @@
       "sourceRoots": [
         "packages/pipeline-hosts/src/asset-pack-harness.ts",
         "packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts",
         "uapi/app/api/pipeline-harness/asset-pack/runner.ts"
       ],
       "primitiveIds": [
@@ -521,52 +521,52 @@
     },
     {
       "id": "depository-search-selects-many-candidates",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "depository-search-declares-all-channels",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "depository-search-carries-selected-fit-provenance",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "depository-search-source-safe-receipt",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "embedding-config-preserves-openai-policy",
-      "sourcePath": "packages/pipelines/asset-pack/src/embedding-config.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
       "passed": true
     },
     {
       "id": "depository-search-tests-cover-policy-and-channels",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
       "passed": true
     },
     {
       "id": "depository-search-tests-cover-selected-provenance",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
       "passed": true
     },
     {
       "id": "reading-contract-tests-cover-tool-contracts",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
       "passed": true
     },
     {
       "id": "reading-observability-tests-cover-tool-telemetry",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
       "passed": true
     },
     {
       "id": "assetpack-disclosure-tests-cover-source-safety",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts",
       "passed": true
     },
     {
@@ -637,12 +637,12 @@
     "harness": "packages/pipeline-hosts/src/asset-pack-harness.ts",
     "harnessDevRunner": "packages/pipeline-hosts/src/dev/run-asset-pack-sandbox-harness.ts",
     "harnessTest": "packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts",
-    "depositorySearch": "packages/pipelines/asset-pack/src/depository-search.ts",
-    "embeddingConfig": "packages/pipelines/asset-pack/src/embedding-config.ts",
-    "depositorySearchTest": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
-    "readingPipelineContractTest": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
-    "readingPipelineObservabilityTest": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts",
-    "assetPackDisclosureTest": "packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts",
+    "depositorySearch": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+    "embeddingConfig": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
+    "depositorySearchTest": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+    "readingPipelineContractTest": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
+    "readingPipelineObservabilityTest": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
+    "assetPackDisclosureTest": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts",
     "terminalPipelineHarnessClientTest": "uapi/tests/terminalPipelineHarnessClient.test.ts",
     "pipelineExecutionLogHeaderTest": "uapi/tests/pipelineExecutionLogHeader.test.tsx",
     "pipelineExecutionLogUi": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"

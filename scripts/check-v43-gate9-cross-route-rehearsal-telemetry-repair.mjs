@@ -108,7 +108,7 @@ function runFocusedTests(root, failures, args) {
 
   if (!args.skipPackageTests && commandExists(root, 'pnpm')) {
     commands.push(
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/deposit-asset-pack-option-admission.test.ts', 'src/__tests__/reading-local-staging-rehearsal.test.ts', '--runInBand', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/deposit-asset-pack-option-admission.test.ts', 'src/__tests__/reading-local-staging-rehearsal.test.ts', '--runInBand', '--forceExit']],
     );
   }
 

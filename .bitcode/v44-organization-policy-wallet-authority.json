@@ -80,7 +80,7 @@
     },
     {
       "rowId": "source-safe-governance-statement",
-      "owner": "packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts",
+      "owner": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts",
       "contract": "OrganizationPolicyWalletAuthority composes budget approval, deposit approval, wallet authority, action statements, aggregate blockers, roots, and source-safety disclosure.",
       "requiredFields": [
         "OrganizationPolicyWalletAuthority",
@@ -156,7 +156,7 @@
     },
     {
       "rowId": "fail-closed-tests",
-      "owner": "packages/pipelines/asset-pack/src/__tests__/organization-policy-wallet-authority.test.ts",
+      "owner": "packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts",
       "contract": "Focused tests prove approved Reading spend, missing wallet denial, approved deposit submission, and critical-source deposit blocking.",
       "requiredFields": [
         "pay_btc_fee",
@@ -243,27 +243,27 @@
     },
     {
       "id": "package-helper-defined",
-      "sourcePath": "packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts",
       "passed": true
     },
     {
       "id": "package-helper-source-safe-assertion",
-      "sourcePath": "packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts",
       "passed": true
     },
     {
       "id": "package-helper-test-covers-policy-paths",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/organization-policy-wallet-authority.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts",
       "passed": true
     },
     {
       "id": "asset-pack-package-exports-helper",
-      "sourcePath": "packages/pipelines/asset-pack/src/index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/index.ts",
       "passed": true
     },
     {
       "id": "asset-pack-manifest-exports-helper",
-      "sourcePath": "packages/pipelines/asset-pack/package.json",
+      "sourcePath": "packages/asset-packs-pipelines/domain/package.json",
       "passed": true
     },
     {
@@ -381,10 +381,10 @@
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
     "btdAuthority": "packages/btd/src/authority.ts:20b1fe9ef12d791fab3e1de7",
     "btdAuthorityTest": "packages/btd/__tests__/btd.test.ts:21a5e15a3ec931d2c4c7a1cd",
-    "packageHelper": "packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts:ed6fa07bc3f69caaca598249",
-    "packageHelperTest": "packages/pipelines/asset-pack/src/__tests__/organization-policy-wallet-authority.test.ts:dffe4b5f7918abac32d9930b",
-    "assetPackPackageIndex": "packages/pipelines/asset-pack/src/index.ts:aca8dabbfc7a4348a1e9eed8",
-    "assetPackPackageManifest": "packages/pipelines/asset-pack/package.json:6e9dd21d8ac1fb420997527a",
+    "packageHelper": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts:ed6fa07bc3f69caaca598249",
+    "packageHelperTest": "packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts:dffe4b5f7918abac32d9930b",
+    "assetPackPackageIndex": "packages/asset-packs-pipelines/domain/src/index.ts:aca8dabbfc7a4348a1e9eed8",
+    "assetPackPackageManifest": "packages/asset-packs-pipelines/domain/package.json:6e9dd21d8ac1fb420997527a",
     "readRouteModel": "uapi/app/read/read-route-model.ts:670e1abd63cccea6365a491f",
     "readRouteTest": "uapi/tests/readRouteModel.test.ts:5ad610c538f65fb0c860777f",
     "readClient": "uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",

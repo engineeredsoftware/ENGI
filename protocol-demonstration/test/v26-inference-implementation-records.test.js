@@ -160,7 +160,7 @@ test('V26 inference implementation registry binds records to canonical Bitcode s
   );
   assert.ok(
     recordsById['read-comprehension-reform'].agentImplementation.owners.includes(
-      'packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts'
+      'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts'
     )
   );
   assert.match(recordsById['read-comprehension-reform'].agentImplementation.contract, /bitcodeSetupReadComprehensionAgent/u);

@@ -4981,7 +4981,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/README.md",
+      "path": "packages/asset-packs-pipelines/domain/README.md",
       "pathRoot": "v43-route-vocabulary-file:43791b5b45d144c1a0433132",
       "categories": [
         "doc",
@@ -5000,7 +5000,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/TLDR.md",
+      "path": "packages/asset-packs-pipelines/domain/TLDR.md",
       "pathRoot": "v43-route-vocabulary-file:56d003fecd63d3c9907ee1ee",
       "categories": [
         "doc",
@@ -5016,7 +5016,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/scripts/v32-reading-pipeline-proof-coverage.ts",
+      "path": "packages/asset-packs-pipelines/domain/scripts/v32-reading-pipeline-proof-coverage.ts",
       "pathRoot": "v43-route-vocabulary-file:947468ddcdbed6002035b230",
       "categories": [
         "package",
@@ -5031,7 +5031,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts",
       "pathRoot": "v43-route-vocabulary-file:0f7b6701bccae99efd97d64a",
       "categories": [
         "package",
@@ -5046,7 +5046,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/btd-scalar-volume-quote.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/btd-scalar-volume-quote.test.ts",
       "pathRoot": "v43-route-vocabulary-file:ecd613a5c9cbf68b5b94145a",
       "categories": [
         "package",
@@ -5061,7 +5061,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-option-admission.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-admission.test.ts",
       "pathRoot": "v43-route-vocabulary-file:4b924edfa6b14fbd2fd2ae95",
       "categories": [
         "package",
@@ -5078,7 +5078,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-option-policy.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-policy.test.ts",
       "pathRoot": "v43-route-vocabulary-file:afe8e3fb4d29f1b988768184",
       "categories": [
         "package",
@@ -5094,7 +5094,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-options.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-options.test.ts",
       "pathRoot": "v43-route-vocabulary-file:96749aa8ed22eaa357174623",
       "categories": [
         "package",
@@ -5113,7 +5113,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/depositor-earning-supply-intelligence.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/depositor-earning-supply-intelligence.test.ts",
       "pathRoot": "v43-route-vocabulary-file:2aa03d1fad0f82d4d7a6be30",
       "categories": [
         "package",
@@ -5129,7 +5129,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
       "pathRoot": "v43-route-vocabulary-file:6b61825a505385f68c841c3a",
       "categories": [
         "package",
@@ -5147,7 +5147,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts",
       "pathRoot": "v43-route-vocabulary-file:c0e583218a482d0337a40e04",
       "categories": [
         "package",
@@ -5165,7 +5165,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/interface-disclosure-boundary.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/interface-disclosure-boundary.test.ts",
       "pathRoot": "v43-route-vocabulary-file:3ebca5064671391cff833543",
       "categories": [
         "package",
@@ -5185,7 +5185,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/organization-policy-wallet-authority.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts",
       "pathRoot": "v43-route-vocabulary-file:7f5709ff8ad9be9031363dda",
       "categories": [
         "package",
@@ -5202,7 +5202,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/postprocess.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts",
       "pathRoot": "v43-route-vocabulary-file:c6c5774751b10f12d46d2f29",
       "categories": [
         "package",
@@ -5218,7 +5218,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
       "pathRoot": "v43-route-vocabulary-file:5c819fc7aa870c9d9963158e",
       "categories": [
         "package",
@@ -5235,7 +5235,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
       "pathRoot": "v43-route-vocabulary-file:f3dc652661d3eb8e0f201e3d",
       "categories": [
         "package",
@@ -5251,7 +5251,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts",
       "pathRoot": "v43-route-vocabulary-file:13b52f90fee641016216b456",
       "categories": [
         "package",
@@ -5268,7 +5268,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
       "pathRoot": "v43-route-vocabulary-file:9c008d75a2b96314d137ec0c",
       "categories": [
         "package",
@@ -5285,7 +5285,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/reading-interface-product-parity.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts",
       "pathRoot": "v43-route-vocabulary-file:ef1322191e9b93ba4eb1c37a",
       "categories": [
         "package",
@@ -5303,7 +5303,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts",
       "pathRoot": "v43-route-vocabulary-file:6fcf868f063bfb4ed8e0bd77",
       "categories": [
         "package",
@@ -5319,7 +5319,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/reading-operational-telemetry-repair-readback.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts",
       "pathRoot": "v43-route-vocabulary-file:5595dc0fed63c73b09880f22",
       "categories": [
         "package",
@@ -5335,7 +5335,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
       "pathRoot": "v43-route-vocabulary-file:2efcc5170423ed6b4c775977",
       "categories": [
         "package",
@@ -5352,7 +5352,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts",
       "pathRoot": "v43-route-vocabulary-file:27a1581ca2dde0365081270e",
       "categories": [
         "package",
@@ -5368,7 +5368,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
       "pathRoot": "v43-route-vocabulary-file:85be3e029f21653cff93447d",
       "categories": [
         "package",
@@ -5384,7 +5384,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/semantic-resolution.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/semantic-resolution.test.ts",
       "pathRoot": "v43-route-vocabulary-file:64c97388c9fccc022d12b68a",
       "categories": [
         "package",
@@ -5400,7 +5400,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/setup-agents.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/setup-agents.test.ts",
       "pathRoot": "v43-route-vocabulary-file:d12cf4c1d5fa640da40c63d5",
       "categories": [
         "package",
@@ -5417,7 +5417,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
       "pathRoot": "v43-route-vocabulary-file:06b937a59d2448cfb23c8488",
       "categories": [
         "package",
@@ -5433,7 +5433,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/agents/discovery/asset-pack-select-files-parallel-agent.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/agents/discovery/asset-pack-select-files-parallel-agent.ts",
       "pathRoot": "v43-route-vocabulary-file:be73a7eb7d6df633e253fe81",
       "categories": [
         "package",
@@ -5448,7 +5448,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/agents/finish/asset-pack-finish-generate-final-response-agent.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-finish-generate-final-response-agent.ts",
       "pathRoot": "v43-route-vocabulary-file:c2436cb34f9003e8e12629a0",
       "categories": [
         "package",
@@ -5463,7 +5463,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/agents/finish/deliver-asset-pack-to-destination-agent.ts",
       "pathRoot": "v43-route-vocabulary-file:ecb6e9be7f28074b8a1fc27a",
       "categories": [
         "package",
@@ -5478,7 +5478,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-danger-wall-agent.ts",
       "pathRoot": "v43-route-vocabulary-file:fe6ff0b009fadc3d88ee229f",
       "categories": [
         "package",
@@ -5493,7 +5493,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
       "pathRoot": "v43-route-vocabulary-file:a68a8ffd78f542087b5f5317",
       "categories": [
         "package",
@@ -5508,7 +5508,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "pathRoot": "v43-route-vocabulary-file:18ffce5cb1faa6fe1648d16e",
       "categories": [
         "package",
@@ -5525,7 +5525,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
       "pathRoot": "v43-route-vocabulary-file:c16791dbd3acae9a9143790b",
       "categories": [
         "package"
@@ -5540,7 +5540,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts",
       "pathRoot": "v43-route-vocabulary-file:f3d165e7891d499973f55f24",
       "categories": [
         "package",
@@ -5557,7 +5557,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/depositor-earning-supply-intelligence.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/depositor-earning-supply-intelligence.ts",
       "pathRoot": "v43-route-vocabulary-file:6eaf571927a484e88c9e91c1",
       "categories": [
         "package"
@@ -5571,7 +5571,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/index.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/index.ts",
       "pathRoot": "v43-route-vocabulary-file:6d4401bdde8d14a689e26e57",
       "categories": [
         "package",
@@ -5586,7 +5586,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/interface-disclosure-boundary.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts",
       "pathRoot": "v43-route-vocabulary-file:d1c0513541b1d82fd789fa17",
       "categories": [
         "package",
@@ -5607,7 +5607,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts",
       "pathRoot": "v43-route-vocabulary-file:1cfe68ab62cb80f0102dae34",
       "categories": [
         "package"
@@ -5624,7 +5624,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/read-need.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "pathRoot": "v43-route-vocabulary-file:4ba001592847e76420761c05",
       "categories": [
         "package",
@@ -5639,7 +5639,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/reading-interface-product-parity.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
       "pathRoot": "v43-route-vocabulary-file:27ab0d4edc9a0db73186fd4d",
       "categories": [
         "package",
@@ -5656,7 +5656,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
       "pathRoot": "v43-route-vocabulary-file:3605472d687fd252d023f9e6",
       "categories": [
         "package",
@@ -5671,7 +5671,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
       "pathRoot": "v43-route-vocabulary-file:ffa04f235af58965e369c6ab",
       "categories": [
         "package",
@@ -5686,7 +5686,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/semantic-resolution.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/semantic-resolution.ts",
       "pathRoot": "v43-route-vocabulary-file:fca0d1ae9c15aeb71d940515",
       "categories": [
         "package",
@@ -5701,7 +5701,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/tools/index.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/tools/index.ts",
       "pathRoot": "v43-route-vocabulary-file:7dc6f6c3bb6ff5a2ffb5d87d",
       "categories": [
         "package",
@@ -5716,7 +5716,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/pipelines/asset-pack/src/tools/search.ts",
+      "path": "packages/asset-packs-pipelines/domain/src/tools/search.ts",
       "pathRoot": "v43-route-vocabulary-file:57a8d9d62174e56ed2ecdcbb",
       "categories": [
         "package",

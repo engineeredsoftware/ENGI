@@ -109,16 +109,16 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts',
-    'packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts',
-    'packages/pipelines/asset-pack/src/depository-search.ts',
-    'packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts',
-    'packages/pipelines/asset-pack/src/depository-supply-index.ts',
-    'packages/pipelines/asset-pack/src/embedding-config.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/pipelines/asset-pack/src/index.ts',
-    'packages/pipelines/asset-pack/package.json',
-    'packages/pipelines/asset-pack/README.md',
+    'packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts',
+    'packages/asset-packs-pipelines/domain/src/depository-search.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts',
+    'packages/asset-packs-pipelines/domain/src/depository-supply-index.ts',
+    'packages/asset-packs-pipelines/domain/src/embedding-config.ts',
+    'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/domain/src/index.ts',
+    'packages/asset-packs-pipelines/domain/package.json',
+    'packages/asset-packs-pipelines/domain/README.md',
     'packages/protocol/src/canonical/v39-read-fits-finding-runtime.js',
     'packages/protocol/test/v39-read-fits-finding-runtime.test.js',
     'scripts/generate-v39-read-fits-finding-runtime.mjs',
@@ -163,7 +163,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -228,7 +228,7 @@ function main() {
 
   const spec = read(root, 'BITCODE_SPEC_V39.md');
   const parity = read(root, 'BITCODE_SPEC_V39_PARITY_MATRIX.md');
-  const readme = read(root, 'packages/pipelines/asset-pack/README.md');
+  const readme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('ReadFitsFindingReplayReceipt'), 'V39 spec must name ReadFitsFindingReplayReceipt.');
   assertCheck(failures, spec.includes('v39-read-fits-finding-runtime'), 'V39 spec must name the Gate 5 artifact.');
   assertCheck(failures, parity.includes('Gate 5 Parity'), 'V39 parity matrix must include Gate 5 parity.');

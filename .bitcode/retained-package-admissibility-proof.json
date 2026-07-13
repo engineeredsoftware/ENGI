@@ -2075,8 +2075,8 @@
       "passed": true
     },
     {
-      "packageName": "@bitcode/pipeline-asset-pack",
-      "packagePath": "packages/pipelines/asset-pack/package.json",
+      "packageName": "@bitcode/asset-packs-pipelines-domain",
+      "packagePath": "packages/asset-packs-pipelines/domain/package.json",
       "primaryRole": "compatibility",
       "classificationBasis": "compatibility-name",
       "rationale": "package keeps retained naming or behavior temporarily while its semantics are repurposed to need, asset-pack, or support meaning",
@@ -2084,9 +2084,9 @@
       "writeBoundary": "compatibility packages must expose Bitcode semantics at active boundaries and avoid becoming new source-of-truth product owners",
       "proofObligation": "compatibility packages must keep source-visible reform notes, tests, prompt proof, and a later retirement or promotion path",
       "requiredFiles": [
-        "packages/pipelines/asset-pack/package.json",
-        "packages/pipelines/asset-pack/src/index.ts",
-        "packages/pipelines/asset-pack/README.md"
+        "packages/asset-packs-pipelines/domain/package.json",
+        "packages/asset-packs-pipelines/domain/src/index.ts",
+        "packages/asset-packs-pipelines/domain/README.md"
       ],
       "missingFiles": [],
       "unclassified": false,

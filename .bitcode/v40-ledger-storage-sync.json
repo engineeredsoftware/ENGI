@@ -43,12 +43,12 @@
       "rowId": "settlement:btc-fee-finality-wallet-authority",
       "surfaceKind": "settlement",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/btd/src/btc-fee-operation.ts",
         "packages/btd/src/wallet.ts"
       ],
       "testPaths": [
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
         "uapi/tests/terminalWalletBtcOperation.test.ts",
         "uapi/tests/api/transactionWriteReadinessRoutes.test.ts"
       ],
@@ -92,12 +92,12 @@
       "rowId": "rights:btd-read-right-transfer-projection",
       "surfaceKind": "rights-transfer",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/btd/src/receipts.ts",
         "packages/btd/src/settlement.ts"
       ],
       "testPaths": [
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
         "uapi/tests/terminalTransactionDetailCards.test.tsx"
       ],
       "commandIds": [
@@ -139,12 +139,12 @@
       "rowId": "compensation:source-to-shares-conservation",
       "surfaceKind": "compensation",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/btd/src/source-to-shares.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
       ],
       "testPaths": [
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
@@ -185,12 +185,12 @@
       "rowId": "ledger:database-storage-reconciliation",
       "surfaceKind": "reconciliation",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/btd/src/reconciliation.ts",
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts"
       ],
       "testPaths": [
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
         "uapi/tests/terminalJournalReconciliation.test.ts"
       ],
       "commandIds": [
@@ -233,13 +233,13 @@
       "rowId": "storage:artifact-lock-and-source-safe-projection",
       "surfaceKind": "storage",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
         "uapi/app/bitcode-ledger-storage-sync.ts"
       ],
       "testPaths": [
         "uapi/tests/bitcodeLedgerStorageSync.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
       ],
       "commandIds": [
         "pnpm --dir uapi exec jest --runTestsByPath tests/bitcodeLedgerStorageSync.test.ts --runInBand"
@@ -280,12 +280,12 @@
       "rowId": "delivery:post-settlement-pull-request-unlock",
       "surfaceKind": "delivery",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
         "uapi/app/bitcode-ledger-storage-sync.ts"
       ],
       "testPaths": [
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
         "uapi/tests/bitcodeLedgerStorageSync.test.ts"
       ],
       "commandIds": [
@@ -327,12 +327,12 @@
       "rowId": "repair:drift-finality-delivery-recovery",
       "surfaceKind": "repair",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/btd/src/reconciliation.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
       ],
       "testPaths": [
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
         "uapi/tests/terminalJournalReconciliation.test.ts"
       ],
       "commandIds": [
@@ -519,12 +519,12 @@
   "predicateResults": [
     {
       "id": "settlement-boundary-defines-sync-types",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "passed": true
     },
     {
       "id": "settlement-boundary-composes-btd-primitives",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "passed": true
     },
     {
@@ -554,12 +554,12 @@
     },
     {
       "id": "settlement-fail-closed-tests-covered",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
       "passed": true
     },
     {
       "id": "local-staging-sync-readback-covered",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
       "passed": true
     },
     {

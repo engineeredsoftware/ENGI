@@ -57,7 +57,7 @@ const ACTIVE_PROMPT_CORRIDORS = [
   'packages/agent-generics/src',
   'packages/conversations-generics/src',
   'packages/tools-generics/src',
-  'packages/pipelines/asset-pack/scripts',
+  'packages/asset-packs-pipelines/domain/scripts',
 ];
 const SUPPORT_PROMPT_CORRIDORS = [
   'packages/digest/prompts',
@@ -129,7 +129,7 @@ const ACTIVE_PROMPT_PRIMITIVE_CARRIERS = [
   'packages/conversations-generics/src/agent/ConversationAgent.ts',
 ];
 const ADMITTED_PROMPT_PRIMITIVE_CORRIDORS = [
-  'packages/pipelines/asset-pack/src',
+  'packages/asset-packs-pipelines/domain/src',
 ];
 const ADMITTED_PROMPT_PRIMITIVE_FILES = [
   'packages/tools-generics/src/types.ts',

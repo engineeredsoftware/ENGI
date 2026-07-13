@@ -85,9 +85,9 @@
         "source_constraints_preserved"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts",
         "packages/generic-tools/read-comprehension/src/prompts"
       ],
       "rowRoot": "v41-reading-prompt-baseline-row:defc86fa0c00aa26a23989c4",
@@ -156,11 +156,11 @@
           "packages/generic-tools/read-comprehension/src/prompts/IdentifyReadConstraintsDocCodeToolPrompt.ts",
           "packages/generic-tools/read-comprehension/src/prompts/ValidateReadComprehensionDocCodeToolPrompt.ts",
           "packages/generic-tools/read-comprehension/src/prompts/index.ts",
-          "packages/pipelines/asset-pack/src/agents/prompts/analyze-codebase-prompt.ts",
-          "packages/pipelines/asset-pack/src/agents/prompts/analyze-parallel-prompt.ts",
-          "packages/pipelines/asset-pack/src/agents/prompts/assess-complexity-prompt.ts",
-          "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
-          "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-validation-ready-to-finish-prompt.ts"
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-codebase-prompt.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-parallel-prompt.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/assess-complexity-prompt.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-validation-ready-to-finish-prompt.ts"
         ],
         "promptTemplateIdCount": 10,
         "interpolatedContextKeyCount": 7,
@@ -237,9 +237,9 @@
         "reviewable_need_shape"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts"
       ],
       "rowRoot": "v41-reading-prompt-baseline-row:1d8ac98852bf83082ad63c83",
       "benchmarkMode": "source-safe-deterministic-metadata-baseline",
@@ -300,9 +300,9 @@
         "sourceRootsPresent": true,
         "sourceFileCount": 3,
         "sourceFileSample": [
-          "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-          "packages/pipelines/asset-pack/src/read-need.ts",
-          "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+          "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+          "packages/asset-packs-pipelines/domain/src/read-need.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
         ],
         "promptTemplateIdCount": 12,
         "interpolatedContextKeyCount": 7,
@@ -377,8 +377,8 @@
         "share_to_fee_formula_named"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/read-need.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts"
       ],
       "rowRoot": "v41-reading-prompt-baseline-row:37e0cc83f0e7f36cecc22a39",
       "benchmarkMode": "source-safe-deterministic-metadata-baseline",
@@ -439,8 +439,8 @@
         "sourceRootsPresent": true,
         "sourceFileCount": 2,
         "sourceFileSample": [
-          "packages/pipelines/asset-pack/src/read-need.ts",
-          "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+          "packages/asset-packs-pipelines/domain/src/read-need.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
         ],
         "promptTemplateIdCount": 10,
         "interpolatedContextKeyCount": 7,
@@ -521,11 +521,11 @@
         "selected_fit_provenance_present"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-        "packages/pipelines/asset-pack/src/depository-search.ts",
-        "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-        "packages/pipelines/asset-pack/src/embedding-config.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
         "packages/generic-tools/simple-system-text-search/src/prompts",
         "packages/generic-tools/web-search/src/prompts"
       ],
@@ -594,11 +594,11 @@
           "packages/generic-tools/web-search/src/prompts/GetContentsDocCodeToolPrompt.ts",
           "packages/generic-tools/web-search/src/prompts/MultiProviderSearchDocCodeToolPrompt.ts",
           "packages/generic-tools/web-search/src/prompts/WebSearchDocCodeToolPrompt.ts",
-          "packages/pipelines/asset-pack/src/depository-search.ts",
-          "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-          "packages/pipelines/asset-pack/src/embedding-config.ts",
-          "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-          "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+          "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+          "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+          "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
+          "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
         ],
         "promptTemplateIdCount": 6,
         "interpolatedContextKeyCount": 6,
@@ -678,10 +678,10 @@
         "selected_fit_provenance_present"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-        "packages/pipelines/asset-pack/src/depository-search.ts",
-        "packages/pipelines/asset-pack/src/depository-supply-index.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts"
       ],
       "rowRoot": "v41-reading-prompt-baseline-row:45c58e9bd71a8bfc05becdf6",
       "benchmarkMode": "source-safe-deterministic-metadata-baseline",
@@ -743,10 +743,10 @@
         "sourceRootsPresent": true,
         "sourceFileCount": 4,
         "sourceFileSample": [
-          "packages/pipelines/asset-pack/src/depository-search.ts",
-          "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-          "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-          "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+          "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+          "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+          "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
         ],
         "promptTemplateIdCount": 6,
         "interpolatedContextKeyCount": 6,
@@ -830,9 +830,9 @@
         "typed_output_matches_schema"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts",
         "packages/generic-tools/vcs/src/prompts"
       ],
       "rowRoot": "v41-reading-prompt-baseline-row:f4de640d212668ae5f30290f",
@@ -903,10 +903,10 @@
           "packages/generic-tools/vcs/src/prompts/ListBranchesDocCodeToolPrompt.ts",
           "packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts",
           "packages/generic-tools/vcs/src/prompts/index.ts",
-          "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
-          "packages/pipelines/asset-pack/src/agents/prompts/analyze-codebase-prompt.ts",
-          "packages/pipelines/asset-pack/src/agents/prompts/analyze-parallel-prompt.ts",
-          "packages/pipelines/asset-pack/src/agents/prompts/assess-complexity-prompt.ts"
+          "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-codebase-prompt.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-parallel-prompt.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/assess-complexity-prompt.ts"
         ],
         "promptTemplateIdCount": 6,
         "interpolatedContextKeyCount": 6,
@@ -984,10 +984,10 @@
         "protected_source_not_serialized"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-disclosure.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts"
       ],
       "rowRoot": "v41-reading-prompt-baseline-row:2659c9cb5c85eb7b42b8840c",
       "benchmarkMode": "source-safe-deterministic-metadata-baseline",
@@ -1049,10 +1049,10 @@
         "sourceRootsPresent": true,
         "sourceFileCount": 4,
         "sourceFileSample": [
-          "packages/pipelines/asset-pack/src/asset-pack-disclosure.ts",
-          "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-          "packages/pipelines/asset-pack/src/read-need.ts",
-          "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+          "packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
+          "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "packages/asset-packs-pipelines/domain/src/read-need.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
         ],
         "promptTemplateIdCount": 10,
         "interpolatedContextKeyCount": 7,
@@ -1131,8 +1131,8 @@
         "protected_source_payload_absent"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/generic-tools/vcs/src/prompts"
       ],
       "rowRoot": "v41-reading-prompt-baseline-row:92dada46326d44f5e23210f2",
@@ -1203,8 +1203,8 @@
           "packages/generic-tools/vcs/src/prompts/ListBranchesDocCodeToolPrompt.ts",
           "packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts",
           "packages/generic-tools/vcs/src/prompts/index.ts",
-          "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-          "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+          "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
         ],
         "promptTemplateIdCount": 6,
         "interpolatedContextKeyCount": 6,
@@ -1291,9 +1291,9 @@
         "raw_interpolated_prompt_hidden"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts"
       ],
       "rowRoot": "v41-reading-prompt-baseline-row:6144e46eb2226ccda513d954",
       "benchmarkMode": "source-safe-deterministic-metadata-baseline",
@@ -1356,9 +1356,9 @@
         "sourceRootsPresent": true,
         "sourceFileCount": 3,
         "sourceFileSample": [
-          "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
-          "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-          "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts"
+          "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts"
         ],
         "promptTemplateIdCount": 8,
         "interpolatedContextKeyCount": 6,
@@ -1448,11 +1448,11 @@
         "operator_next_action_present"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts"
       ],
       "rowRoot": "v41-reading-prompt-baseline-row:804e281bc10eb74dadb441fd",
       "benchmarkMode": "source-safe-deterministic-metadata-baseline",
@@ -1515,11 +1515,11 @@
         "sourceRootsPresent": true,
         "sourceFileCount": 5,
         "sourceFileSample": [
-          "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-          "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-          "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-          "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-          "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts"
+          "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+          "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+          "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+          "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+          "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts"
         ],
         "promptTemplateIdCount": 2,
         "interpolatedContextKeyCount": 0,
@@ -1568,11 +1568,11 @@
         "packages/generic-tools/read-comprehension/src/prompts/IdentifyReadConstraintsDocCodeToolPrompt.ts",
         "packages/generic-tools/read-comprehension/src/prompts/ValidateReadComprehensionDocCodeToolPrompt.ts",
         "packages/generic-tools/read-comprehension/src/prompts/index.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/analyze-codebase-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/analyze-parallel-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/assess-complexity-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-validation-ready-to-finish-prompt.ts"
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-codebase-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-parallel-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/assess-complexity-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-validation-ready-to-finish-prompt.ts"
       ],
       "promptTemplateIdCount": 10,
       "interpolatedContextKeyCount": 7,
@@ -1602,9 +1602,9 @@
       "sourceRootsPresent": true,
       "sourceFileCount": 3,
       "sourceFileSample": [
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
       ],
       "promptTemplateIdCount": 12,
       "interpolatedContextKeyCount": 7,
@@ -1635,8 +1635,8 @@
       "sourceRootsPresent": true,
       "sourceFileCount": 2,
       "sourceFileSample": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
       ],
       "promptTemplateIdCount": 10,
       "interpolatedContextKeyCount": 7,
@@ -1671,11 +1671,11 @@
         "packages/generic-tools/web-search/src/prompts/GetContentsDocCodeToolPrompt.ts",
         "packages/generic-tools/web-search/src/prompts/MultiProviderSearchDocCodeToolPrompt.ts",
         "packages/generic-tools/web-search/src/prompts/WebSearchDocCodeToolPrompt.ts",
-        "packages/pipelines/asset-pack/src/depository-search.ts",
-        "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-        "packages/pipelines/asset-pack/src/embedding-config.ts",
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
       ],
       "promptTemplateIdCount": 6,
       "interpolatedContextKeyCount": 6,
@@ -1706,10 +1706,10 @@
       "sourceRootsPresent": true,
       "sourceFileCount": 4,
       "sourceFileSample": [
-        "packages/pipelines/asset-pack/src/depository-search.ts",
-        "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
       ],
       "promptTemplateIdCount": 6,
       "interpolatedContextKeyCount": 6,
@@ -1748,10 +1748,10 @@
         "packages/generic-tools/vcs/src/prompts/ListBranchesDocCodeToolPrompt.ts",
         "packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts",
         "packages/generic-tools/vcs/src/prompts/index.ts",
-        "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/analyze-codebase-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/analyze-parallel-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/assess-complexity-prompt.ts"
+        "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-codebase-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-parallel-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/assess-complexity-prompt.ts"
       ],
       "promptTemplateIdCount": 6,
       "interpolatedContextKeyCount": 6,
@@ -1782,10 +1782,10 @@
       "sourceRootsPresent": true,
       "sourceFileCount": 4,
       "sourceFileSample": [
-        "packages/pipelines/asset-pack/src/asset-pack-disclosure.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
       ],
       "promptTemplateIdCount": 10,
       "interpolatedContextKeyCount": 7,
@@ -1824,8 +1824,8 @@
         "packages/generic-tools/vcs/src/prompts/ListBranchesDocCodeToolPrompt.ts",
         "packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts",
         "packages/generic-tools/vcs/src/prompts/index.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
       ],
       "promptTemplateIdCount": 6,
       "interpolatedContextKeyCount": 6,
@@ -1856,9 +1856,9 @@
       "sourceRootsPresent": true,
       "sourceFileCount": 3,
       "sourceFileSample": [
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts"
       ],
       "promptTemplateIdCount": 8,
       "interpolatedContextKeyCount": 6,
@@ -1889,11 +1889,11 @@
       "sourceRootsPresent": true,
       "sourceFileCount": 5,
       "sourceFileSample": [
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts"
       ],
       "promptTemplateIdCount": 2,
       "interpolatedContextKeyCount": 0,
@@ -1924,13 +1924,13 @@
     {
       "id": "readneed-request-to-need-baseline.source-roots-present",
       "rowId": "readneed-request-to-need-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/read-need.ts,packages/pipelines/asset-pack/src/agents/prompts,packages/generic-tools/read-comprehension/src/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/agents/prompts,packages/generic-tools/read-comprehension/src/prompts",
       "passed": true
     },
     {
       "id": "readneed-request-to-need-baseline.source-files-present",
       "rowId": "readneed-request-to-need-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/read-need.ts,packages/pipelines/asset-pack/src/agents/prompts,packages/generic-tools/read-comprehension/src/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/agents/prompts,packages/generic-tools/read-comprehension/src/prompts",
       "passed": true
     },
     {
@@ -1996,13 +1996,13 @@
     {
       "id": "readneed-review-resynthesis-baseline.source-roots-present",
       "rowId": "readneed-review-resynthesis-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/read-need.ts,packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
       "passed": true
     },
     {
       "id": "readneed-review-resynthesis-baseline.source-files-present",
       "rowId": "readneed-review-resynthesis-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/read-need.ts,packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
       "passed": true
     },
     {
@@ -2068,13 +2068,13 @@
     {
       "id": "readneed-measurement-pricing-baseline.source-roots-present",
       "rowId": "readneed-measurement-pricing-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "readneed-measurement-pricing-baseline.source-files-present",
       "rowId": "readneed-measurement-pricing-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
@@ -2140,13 +2140,13 @@
     {
       "id": "readfits-query-synthesis-baseline.source-roots-present",
       "rowId": "readfits-query-synthesis-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts,packages/pipelines/asset-pack/src/depository-search.ts,packages/pipelines/asset-pack/src/depository-supply-index.ts,packages/pipelines/asset-pack/src/embedding-config.ts,packages/generic-tools/simple-system-text-search/src/prompts,packages/generic-tools/web-search/src/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts,packages/asset-packs-pipelines/domain/src/depository-search.ts,packages/asset-packs-pipelines/domain/src/depository-supply-index.ts,packages/asset-packs-pipelines/domain/src/embedding-config.ts,packages/generic-tools/simple-system-text-search/src/prompts,packages/generic-tools/web-search/src/prompts",
       "passed": true
     },
     {
       "id": "readfits-query-synthesis-baseline.source-files-present",
       "rowId": "readfits-query-synthesis-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts,packages/pipelines/asset-pack/src/depository-search.ts,packages/pipelines/asset-pack/src/depository-supply-index.ts,packages/pipelines/asset-pack/src/embedding-config.ts,packages/generic-tools/simple-system-text-search/src/prompts,packages/generic-tools/web-search/src/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts,packages/asset-packs-pipelines/domain/src/depository-search.ts,packages/asset-packs-pipelines/domain/src/depository-supply-index.ts,packages/asset-packs-pipelines/domain/src/embedding-config.ts,packages/generic-tools/simple-system-text-search/src/prompts,packages/generic-tools/web-search/src/prompts",
       "passed": true
     },
     {
@@ -2212,13 +2212,13 @@
     {
       "id": "readfits-many-candidate-ranking-baseline.source-roots-present",
       "rowId": "readfits-many-candidate-ranking-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts,packages/pipelines/asset-pack/src/depository-search.ts,packages/pipelines/asset-pack/src/depository-supply-index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts,packages/asset-packs-pipelines/domain/src/depository-search.ts,packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
       "passed": true
     },
     {
       "id": "readfits-many-candidate-ranking-baseline.source-files-present",
       "rowId": "readfits-many-candidate-ranking-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts,packages/pipelines/asset-pack/src/depository-search.ts,packages/pipelines/asset-pack/src/depository-supply-index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts,packages/asset-packs-pipelines/domain/src/depository-search.ts,packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
       "passed": true
     },
     {
@@ -2284,13 +2284,13 @@
     {
       "id": "readfits-assetpack-context-synthesis-baseline.source-roots-present",
       "rowId": "readfits-assetpack-context-synthesis-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts,packages/pipelines/asset-pack/src/agents/prompts,packages/generic-tools/vcs/src/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts,packages/asset-packs-pipelines/domain/src/agents/prompts,packages/generic-tools/vcs/src/prompts",
       "passed": true
     },
     {
       "id": "readfits-assetpack-context-synthesis-baseline.source-files-present",
       "rowId": "readfits-assetpack-context-synthesis-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts,packages/pipelines/asset-pack/src/agents/prompts,packages/generic-tools/vcs/src/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts,packages/asset-packs-pipelines/domain/src/agents/prompts,packages/generic-tools/vcs/src/prompts",
       "passed": true
     },
     {
@@ -2356,13 +2356,13 @@
     {
       "id": "assetpack-preview-disclosure-quote-baseline.source-roots-present",
       "rowId": "assetpack-preview-disclosure-quote-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/read-need.ts,packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts,packages/pipelines/asset-pack/src/asset-pack-disclosure.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts,packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
       "passed": true
     },
     {
       "id": "assetpack-preview-disclosure-quote-baseline.source-files-present",
       "rowId": "assetpack-preview-disclosure-quote-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/read-need.ts,packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts,packages/pipelines/asset-pack/src/asset-pack-disclosure.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts,packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
       "passed": true
     },
     {
@@ -2428,13 +2428,13 @@
     {
       "id": "settlement-rights-delivery-baseline.source-roots-present",
       "rowId": "settlement-rights-delivery-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts,packages/generic-tools/vcs/src/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts,packages/generic-tools/vcs/src/prompts",
       "passed": true
     },
     {
       "id": "settlement-rights-delivery-baseline.source-files-present",
       "rowId": "settlement-rights-delivery-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts,packages/generic-tools/vcs/src/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts,packages/generic-tools/vcs/src/prompts",
       "passed": true
     },
     {
@@ -2500,13 +2500,13 @@
     {
       "id": "reading-telemetry-summary-baseline.source-roots-present",
       "rowId": "reading-telemetry-summary-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts,packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts,packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
       "passed": true
     },
     {
       "id": "reading-telemetry-summary-baseline.source-files-present",
       "rowId": "reading-telemetry-summary-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts,packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts,packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts,packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts,packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
       "passed": true
     },
     {
@@ -2572,13 +2572,13 @@
     {
       "id": "failure-repair-prompt-baseline.source-roots-present",
       "rowId": "failure-repair-prompt-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts,packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts,packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts,packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts,packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts,packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts,packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts,packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts,packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
       "passed": true
     },
     {
       "id": "failure-repair-prompt-baseline.source-files-present",
       "rowId": "failure-repair-prompt-baseline",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts,packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts,packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts,packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts,packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts,packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts,packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts,packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts,packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
       "passed": true
     },
     {
@@ -2664,72 +2664,72 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-disclosure.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-supply-index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/embedding-config.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
       "exists": true,
       "legacy": false
     }

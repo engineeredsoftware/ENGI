@@ -39,7 +39,7 @@
   "contractRows": [
     {
       "rowId": "depositor-review-decisions",
-      "owner": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "owner": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "contract": "DepositOptionReviewDecision records approved, rejected, resynthesis-requested, and pending decisions before any source-safe option can enter the Depository.",
       "requiredFields": [
         "approved-for-admission",
@@ -54,7 +54,7 @@
     },
     {
       "rowId": "admission-receipts",
-      "owner": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "owner": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "contract": "DepositOptionAdmissionReceipt admits only approved, policy-eligible, source-safe options and emits deterministic blockers for pending, rejected, resynthesis, or policy-blocked options.",
       "requiredFields": [
         "admitted-to-depository",
@@ -68,7 +68,7 @@
     },
     {
       "rowId": "depository-index-storage",
-      "owner": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "owner": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "contract": "Admitted deposit AssetPacks project only measurement and metadata search indexes plus object-storage metadata and external source pointer roots.",
       "requiredFields": [
         "depositoryIndexProjection",
@@ -96,7 +96,7 @@
     },
     {
       "rowId": "telemetry-source-safety",
-      "owner": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "owner": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "contract": "Admission telemetry emits execution-stream source-safe metadata while protected source, prompts, provider responses, wallet material, and settlement private payloads remain invisible.",
       "requiredFields": [
         "deposit-option-admission",
@@ -121,12 +121,12 @@
     "packageJson": "package.json:b79014968c556bc1b43ab341",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
-    "optionModel": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts:df560ea2544282645f57a6b5",
-    "policyModel": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts:12816b23b2d8e304ab4a1638",
-    "admissionModel": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts:4d2b0c5e6e10c2b14a75a8c8",
-    "optionModelTest": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-options.test.ts:66cfc8c728f134087476a3a3",
-    "policyModelTest": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-option-policy.test.ts:1af7adccac488298ccd7f048",
-    "admissionModelTest": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-option-admission.test.ts:9f156ea0d8c603487a7a8152",
+    "optionModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts:df560ea2544282645f57a6b5",
+    "policyModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts:12816b23b2d8e304ab4a1638",
+    "admissionModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts:4d2b0c5e6e10c2b14a75a8c8",
+    "optionModelTest": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-options.test.ts:66cfc8c728f134087476a3a3",
+    "policyModelTest": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-policy.test.ts:1af7adccac488298ccd7f048",
+    "admissionModelTest": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-admission.test.ts:9f156ea0d8c603487a7a8152",
     "routeModel": "uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
     "client": "uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
     "routeModelTest": "uapi/tests/depositRouteModel.test.ts:3f7377f8c55ce132f970ad09",
@@ -134,8 +134,8 @@
     "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
     "packActivityModelTest": "uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
     "uapiJestConfig": "uapi/jest.config.cjs:7384e1c2812fc3479936eef8",
-    "packageIndex": "packages/pipelines/asset-pack/src/index.ts:aca8dabbfc7a4348a1e9eed8",
-    "packageManifest": "packages/pipelines/asset-pack/package.json:6e9dd21d8ac1fb420997527a",
+    "packageIndex": "packages/asset-packs-pipelines/domain/src/index.ts:aca8dabbfc7a4348a1e9eed8",
+    "packageManifest": "packages/asset-packs-pipelines/domain/package.json:6e9dd21d8ac1fb420997527a",
     "protocolIndex": "packages/protocol/src/index.js:1f16ea428bd71351a1292cb6",
     "protocolTypes": "packages/protocol/src/index.d.ts:278dfc652c621533b5e86f4d",
     "protocolTest": "packages/protocol/test/v43-deposit-option-admission.test.js:53ae55cfef55536ebc552b65",
@@ -190,37 +190,37 @@
     },
     {
       "id": "admission-model-defines-report",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "passed": true
     },
     {
       "id": "admission-model-defines-review-decisions",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "passed": true
     },
     {
       "id": "admission-model-defines-admission-states",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "passed": true
     },
     {
       "id": "admission-model-defines-index-storage",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "passed": true
     },
     {
       "id": "admission-model-defines-packs-sync",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "passed": true
     },
     {
       "id": "admission-model-defines-telemetry",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "passed": true
     },
     {
       "id": "admission-model-forbids-source-leakage",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "passed": true
     },
     {
@@ -240,12 +240,12 @@
     },
     {
       "id": "asset-pack-package-exports-admission",
-      "sourcePath": "packages/pipelines/asset-pack/src/index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/index.ts",
       "passed": true
     },
     {
       "id": "asset-pack-manifest-exports-admission",
-      "sourcePath": "packages/pipelines/asset-pack/package.json",
+      "sourcePath": "packages/asset-packs-pipelines/domain/package.json",
       "passed": true
     },
     {
@@ -255,7 +255,7 @@
     },
     {
       "id": "admission-test-covers-report",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-option-admission.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-admission.test.ts",
       "passed": true
     },
     {

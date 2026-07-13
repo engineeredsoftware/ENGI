@@ -33,7 +33,7 @@
       "coverageTier": "needs-new-v40-artifact",
       "sourceRoots": [
         "packages/btd/__tests__",
-        "packages/pipelines/asset-pack/src/__tests__",
+        "packages/asset-packs-pipelines/domain/src/__tests__",
         "packages/protocol/test"
       ],
       "commandIds": [
@@ -108,7 +108,7 @@
       "requiredResult": "Inventory primitive pipeline tests and real ReadNeedComprehensionSynthesis and ReadFitsFindingSynthesis implementation tests.",
       "coverageTier": "needs-new-v40-artifact",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/__tests__",
+        "packages/asset-packs-pipelines/domain/src/__tests__",
         "packages/protocol/test/v38-read-need-comprehension-inference-hardening.test.js",
         "packages/protocol/test/v38-read-fits-finding-search-embeddings.test.js"
       ],
@@ -459,7 +459,7 @@
     },
     {
       "id": "reading-pipeline-evidence-exists",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__",
       "passed": true
     },
     {

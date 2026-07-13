@@ -61,10 +61,10 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  settlementBoundary: 'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-  settlementBoundaryTest: 'packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
-  previewBoundary: 'packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts',
-  localStagingRehearsal: 'packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts',
+  settlementBoundary: 'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+  settlementBoundaryTest: 'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+  previewBoundary: 'packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts',
+  localStagingRehearsal: 'packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts',
   btdWallet: 'packages/btd/src/wallet.ts',
   btdBtcFeeOperation: 'packages/btd/src/btc-fee-operation.ts',
   btdReceipts: 'packages/btd/src/receipts.ts',

@@ -84,9 +84,9 @@ function main() {
     'BITCODE_SPEC_V29_DELTA.md',
     'BITCODE_SPEC_V29_NOTES.md',
     'BITCODE_SPEC_V29_PARITY_MATRIX.md',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-observability.ts',
-    'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts',
+    'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
     'uapi/app/terminal/terminal-pipeline-host-client.ts',
@@ -109,8 +109,8 @@ function main() {
   const delta = read(root, 'BITCODE_SPEC_V29_DELTA.md');
   const notes = read(root, 'BITCODE_SPEC_V29_NOTES.md');
   const parity = read(root, 'BITCODE_SPEC_V29_PARITY_MATRIX.md');
-  const observability = read(root, 'packages/pipelines/asset-pack/src/reading-pipeline-observability.ts');
-  const observabilityTest = read(root, 'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts');
+  const observability = read(root, 'packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts');
+  const observabilityTest = read(root, 'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts');
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
   const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
   const terminalClient = read(root, 'uapi/app/terminal/terminal-pipeline-host-client.ts');

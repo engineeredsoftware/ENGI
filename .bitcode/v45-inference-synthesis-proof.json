@@ -233,7 +233,7 @@
   ],
   "sourceEvidence": [
     {
-      "relativePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "present": true,
       "digest": "sha256:eeb93c86b190cd11b3e0c059431a939f7f06534967e72a31113b5e110a72c4b5",
       "byteLength": 39745,
@@ -259,7 +259,7 @@
       ]
     },
     {
-      "relativePath": "packages/pipelines/asset-pack/src/bounded-structured-inference.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/bounded-structured-inference.ts",
       "present": true,
       "digest": "sha256:c918c2d3ef7da0ab94a2a7edd7d5c3bf7b7c08c187b1ed946b72293ef3d30e8d",
       "byteLength": 11192,
@@ -285,7 +285,7 @@
       ]
     },
     {
-      "relativePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "present": true,
       "digest": "sha256:e983ef9a11ae67d867ebaa99af6d1e55af1fb74ea382fde283f5a96bc7c69421",
       "byteLength": 67438,
@@ -311,7 +311,7 @@
       ]
     },
     {
-      "relativePath": "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
       "present": true,
       "digest": "sha256:80d7185a2ecedd5d71880a277800ffecfa37c5706aa7e72e5a8b09a1bc82ede9",
       "byteLength": 20343,
@@ -364,9 +364,9 @@
   ],
   "generatedArtifactAndTestBindings": [
     "packages/protocol/test/v45-proof-family-artifacts.test.js",
-    "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
-    "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
-    "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts"
+    "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
+    "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+    "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts"
   ],
   "failClosedConditions": [
     "missing prompt",

@@ -12,8 +12,8 @@
       "rowId": "request:read-request-persistence",
       "purpose": "Persist the source-safe Read Request with prompt, repository, branch, commit, target artifact kinds, closure criteria, failure modes, and previous Need lineage.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
         "uapi/app/api/read-review/route.ts"
       ],
       "emittedTypes": [
@@ -49,9 +49,9 @@
       "rowId": "need:synthesized-need-storage",
       "purpose": "Persist reviewable synthesized Need output before Finding Fits, including requirements, target artifacts, source constraints, proof expectations, and review state.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts"
       ],
       "emittedTypes": [
         "ReadNeed",
@@ -86,8 +86,8 @@
       "rowId": "feedback:resynthesis-lineage",
       "purpose": "Persist feedback history and resynthesis attempts so each new Need remains linked to the previous Need and reviewed feedback.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
         "uapi/tests/api/readReviewRoute.test.ts"
       ],
       "emittedTypes": [
@@ -123,9 +123,9 @@
       "rowId": "measurement:need-measurement-storage",
       "purpose": "Persist Need measurement roots and pricing measurement inputs that later drive deterministic preview quotes without exposing source.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts"
       ],
       "emittedTypes": [
         "ReadNeedMeasurementDimension",
@@ -160,8 +160,8 @@
       "rowId": "admission:accepted-need-gates-finding-fits",
       "purpose": "Persist accepted-Need admission as the only source-safe handoff into ReadFitsFindingSynthesis and block Finding Fits without acceptance.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
         "uapi/tests/api/readReviewRoute.test.ts"
       ],
       "emittedTypes": [
@@ -197,8 +197,8 @@
       "rowId": "rejection:rejected-need-posture",
       "purpose": "Persist rejected-Need posture with rejection root, feedback, blocked Finding Fits stage, and repair/resynthesis next action.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
         "uapi/tests/api/readReviewRoute.test.ts"
       ],
       "emittedTypes": [
@@ -234,9 +234,9 @@
       "rowId": "telemetry:source-safe-runtime-receipts",
       "purpose": "Emit source-safe telemetry receipts containing phase, PTRR step, Failsafe, ThricifiedGeneration, prompt-template, output-schema, and proof-root identities.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
       ],
       "emittedTypes": [
         "ReadNeedReviewTelemetryReceipt",
@@ -311,7 +311,7 @@
       "rowId": "proof:tests-artifact-workflow",
       "purpose": "Bind Gate 4 closure to package tests, route tests, protocol artifact tests, docs, scripts, and gate/canon workflow checks.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts",
         "uapi/tests/api/readReviewRoute.test.ts",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml"
@@ -358,57 +358,57 @@
   "predicateResults": [
     {
       "id": "read-need-defines-review-states",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "read-need-accept-and-reject-actions",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "runtime-defines-storage-records",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
       "passed": true
     },
     {
       "id": "runtime-defines-resynthesis-admission-rejection",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
       "passed": true
     },
     {
       "id": "runtime-source-safety",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
       "passed": true
     },
     {
       "id": "runtime-persists-to-execution-store",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
       "passed": true
     },
     {
       "id": "contract-review-covers-rejection",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
       "id": "package-exports-runtime",
-      "sourcePath": "packages/pipelines/asset-pack/src/index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/index.ts",
       "passed": true
     },
     {
       "id": "package-tests-cover-runtime",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts",
       "passed": true
     },
     {
       "id": "read-need-tests-cover-inference-receipts",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
       "passed": true
     },
     {
       "id": "contract-tests-cover-review-output",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
       "passed": true
     },
     {
@@ -521,14 +521,14 @@
     "legacySourceRoots": false
   },
   "sourceRoots": {
-    "readNeed": "packages/pipelines/asset-pack/src/read-need.ts",
-    "readNeedReviewRuntime": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts",
-    "readingPipelineContract": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-    "packageIndex": "packages/pipelines/asset-pack/src/index.ts",
-    "packageJson": "packages/pipelines/asset-pack/package.json",
-    "readNeedTest": "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
-    "runtimeTest": "packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts",
-    "readingContractTest": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
+    "readNeed": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+    "readNeedReviewRuntime": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+    "readingPipelineContract": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+    "packageIndex": "packages/asset-packs-pipelines/domain/src/index.ts",
+    "packageJson": "packages/asset-packs-pipelines/domain/package.json",
+    "readNeedTest": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
+    "runtimeTest": "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts",
+    "readingContractTest": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
     "readReviewRoute": "uapi/app/api/read-review/route.ts",
     "readReviewRouteTest": "uapi/tests/api/readReviewRoute.test.ts",
     "readReviewProtocolParityTest": "uapi/tests/api/readReviewProtocolParity.test.ts",
@@ -541,7 +541,7 @@
     "v39Parity": "BITCODE_SPEC_V39_PARITY_MATRIX.md",
     "roadmap": "SPECIFICATIONS_ROADMAP.md",
     "rootReadme": "README.md",
-    "assetPackReadme": "packages/pipelines/asset-pack/README.md",
+    "assetPackReadme": "packages/asset-packs-pipelines/domain/README.md",
     "protocolReadme": "packages/protocol/README.md",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml"

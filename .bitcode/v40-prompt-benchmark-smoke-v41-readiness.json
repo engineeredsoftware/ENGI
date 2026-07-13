@@ -82,7 +82,7 @@
       "surfaceKind": "Prompt-benchmark-execution",
       "sourceRoots": [
         "packages/prompts/src/benchmarking/runner.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts",
         "packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts"
       ],
       "commandIds": [
@@ -149,7 +149,7 @@
       "rowId": "coverage:reading-prompt-suites-and-fixtures",
       "surfaceKind": "Reading-prompt-coverage",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/agents/prompts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts",
         "packages/prompts/src/raw_promptparts/specific",
         "packages/protocol/src/canonical/prompt-benchmark-report.js"
       ],
@@ -410,7 +410,7 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
       "exists": true,
       "legacy": false
     },
@@ -551,7 +551,7 @@
     },
     {
       "id": "smoke.prompt-constructions-present",
-      "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
       "passed": true
     },
     {

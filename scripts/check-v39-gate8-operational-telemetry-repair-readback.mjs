@@ -107,12 +107,12 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts',
-    'packages/pipelines/asset-pack/src/__tests__/reading-operational-telemetry-repair-readback.test.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/pipelines/asset-pack/src/postprocess.ts',
-    'packages/pipelines/asset-pack/src/index.ts',
-    'packages/pipelines/asset-pack/package.json',
+    'packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts',
+    'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+    'packages/asset-packs-pipelines/domain/src/index.ts',
+    'packages/asset-packs-pipelines/domain/package.json',
     'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
     'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
     'uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx',
@@ -127,7 +127,7 @@ function main() {
     'BITCODE_SPEC_V39_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/pipelines/asset-pack/README.md',
+    'packages/asset-packs-pipelines/domain/README.md',
     'packages/protocol/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -162,7 +162,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -230,7 +230,7 @@ function main() {
 
   const spec = read(root, 'BITCODE_SPEC_V39.md');
   const parity = read(root, 'BITCODE_SPEC_V39_PARITY_MATRIX.md');
-  const readme = read(root, 'packages/pipelines/asset-pack/README.md');
+  const readme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('ReadingOperationalTelemetryRepairReadback'), 'V39 spec must name ReadingOperationalTelemetryRepairReadback.');
   assertCheck(failures, spec.includes('v39-operational-telemetry-repair-readback'), 'V39 spec must name the Gate 8 artifact.');
   assertCheck(failures, parity.includes('Gate 8 Parity'), 'V39 parity matrix must include Gate 8 parity.');

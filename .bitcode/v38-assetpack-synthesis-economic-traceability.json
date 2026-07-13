@@ -13,9 +13,9 @@
       "phaseId": "ReadFitsFindingSynthesis.implementation",
       "purpose": "Carry selected fit deposit ids, selected candidate ids, query roots, ranking roots, proof roots, and selected-fit provenance roots into AssetPack synthesis.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-search.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/postprocess.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/postprocess.ts"
       ],
       "receiptFields": [
         "acceptedNeedRoot",
@@ -53,8 +53,8 @@
       "phaseId": "ReadFitsFindingSynthesis.preview",
       "purpose": "Build a reader-visible preview with measurements, roots, fit ids, score posture, BTC quote, and withheld protected source before settlement.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/postprocess.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/postprocess.ts"
       ],
       "receiptFields": [
         "assetPackId",
@@ -92,8 +92,8 @@
       "phaseId": "ReadFitsFindingSynthesis.preview",
       "purpose": "Fail closed if preview or disclosure metadata carries protected source fields, patch markers, credentials, or unpaid AssetPack source.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-disclosure.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts"
       ],
       "receiptFields": [
         "sourceSafePreviewRoot",
@@ -127,8 +127,8 @@
       "phaseId": "ReadFitsFindingSynthesis.preview",
       "purpose": "Derive a deterministic BTC fee quote from Need measurement weights, requested volume, admitted fit quality, minimum sats, and dust floor.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/__tests__/postprocess.test.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts"
       ],
       "receiptFields": [
         "acceptedNeedRoot",
@@ -384,42 +384,42 @@
   "predicateResults": [
     {
       "id": "search-carries-selected-fit-provenance-root",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "contract-carries-fits-into-assetpack-synthesis",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
       "id": "postprocess-builds-source-safe-preview-from-fit-result",
-      "sourcePath": "packages/pipelines/asset-pack/src/postprocess.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
       "passed": true
     },
     {
       "id": "postprocess-stores-fee-quote-and-disclosure-review",
-      "sourcePath": "packages/pipelines/asset-pack/src/postprocess.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
       "passed": true
     },
     {
       "id": "read-need-builds-share-to-fee-preview",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "read-need-preview-withholds-protected-source",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "read-need-preview-binds-roots",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "disclosure-review-scans-source-leakage",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-disclosure.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
       "passed": true
     },
     {
@@ -504,12 +504,12 @@
     },
     {
       "id": "asset-pack-postprocess-test-covers-preview",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/postprocess.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts",
       "passed": true
     },
     {
       "id": "asset-pack-disclosure-test-covers-leak-scan",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts",
       "passed": true
     },
     {
@@ -563,11 +563,11 @@
     "legacySourceRoots": false
   },
   "sourceRoots": {
-    "readNeed": "packages/pipelines/asset-pack/src/read-need.ts",
-    "postprocess": "packages/pipelines/asset-pack/src/postprocess.ts",
-    "disclosure": "packages/pipelines/asset-pack/src/asset-pack-disclosure.ts",
-    "depositorySearch": "packages/pipelines/asset-pack/src/depository-search.ts",
-    "readingContract": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+    "readNeed": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+    "postprocess": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+    "disclosure": "packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
+    "depositorySearch": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+    "readingContract": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
     "harness": "packages/pipeline-hosts/src/asset-pack-harness.ts",
     "harnessTest": "packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts",
     "btdReceipts": "packages/btd/src/receipts.ts",
@@ -578,8 +578,8 @@
     "btdSourceToSharesTest": "packages/btd/__tests__/source-to-shares.test.ts",
     "btdReconciliationTest": "packages/btd/__tests__/reconciliation.test.ts",
     "btdSettlementTest": "packages/btd/__tests__/btd.test.ts",
-    "assetPackPostprocessTest": "packages/pipelines/asset-pack/src/__tests__/postprocess.test.ts",
-    "assetPackDisclosureTest": "packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts",
+    "assetPackPostprocessTest": "packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts",
+    "assetPackDisclosureTest": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts",
     "gate5Disclosure": "packages/protocol/src/canonical/inference-telemetry-disclosure-report.js",
     "gate6ReadNeed": "packages/protocol/src/canonical/read-need-comprehension-inference-hardening.js",
     "gate7Search": "packages/protocol/src/canonical/read-fits-finding-search-embeddings.js"

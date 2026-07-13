@@ -85,7 +85,7 @@ const SOURCE_ROOTS = Object.freeze({
   promptPackageJson: 'packages/prompts/package.json',
   promptGenericParts: 'packages/prompts/src/raw_promptparts/generic',
   promptSpecificParts: 'packages/prompts/src/raw_promptparts/specific',
-  readingAgentPrompts: 'packages/pipelines/asset-pack/src/agents/prompts',
+  readingAgentPrompts: 'packages/asset-packs-pipelines/domain/src/agents/prompts',
   conversationPrompt: 'packages/conversations-generics/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
   toolPrompt: 'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
   smokeRunner: 'scripts/run-v40-prompt-benchmark-smoke.mjs',

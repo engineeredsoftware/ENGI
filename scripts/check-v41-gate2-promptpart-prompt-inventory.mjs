@@ -149,7 +149,7 @@ function main() {
     '.github/workflows/bitcode-canon-quality.yml',
     'packages/prompts/src/raw_promptparts/generic',
     'packages/prompts/src/raw_promptparts/specific',
-    'packages/pipelines/asset-pack/src/agents',
+    'packages/asset-packs-pipelines/domain/src/agents',
     'packages/conversations-generics/src',
     'packages/tools-generics/src',
     'packages/generic-tools',

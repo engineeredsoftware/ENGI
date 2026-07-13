@@ -138,8 +138,8 @@
       "alertThreshold": "failed_or_missing_completion_warning",
       "runbookLink": "runbook.pipeline.execution-repair",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
         "uapi/app/api/pipeline-harness/asset-pack/runner.ts"
       ],
       "forbiddenPayload": [
@@ -154,11 +154,11 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts",
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "packages/pipelines/asset-pack/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
           "present": true
         },
         {
@@ -277,7 +277,7 @@
       "runbookLink": "runbook.inference.ptrr-agent-debug",
       "sourceRoots": [
         "packages/agent-generics/README.md",
-        "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
         "internal-docs/BITCODE_AGENTIC_EXECUTION.md"
       ],
       "forbiddenPayload": [
@@ -296,7 +296,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
           "present": true
         },
         {
@@ -348,7 +348,7 @@
       "runbookLink": "runbook.inference.generation-redaction",
       "sourceRoots": [
         "packages/llm-generics/README.md",
-        "packages/pipelines/asset-pack/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
         "internal-docs/BITCODE_PROMPT_TRACE.md"
       ],
       "forbiddenPayload": [
@@ -367,7 +367,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/pipelines/asset-pack/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
           "present": true
         },
         {
@@ -1084,11 +1084,11 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts",
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "packages/pipelines/asset-pack/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
           "present": true
         },
         {
@@ -1124,7 +1124,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
           "present": true
         },
         {
@@ -1142,7 +1142,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/pipelines/asset-pack/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
+          "sourceRoot": "packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
           "present": true
         },
         {

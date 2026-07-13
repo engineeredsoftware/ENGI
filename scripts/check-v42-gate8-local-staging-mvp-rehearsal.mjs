@@ -108,7 +108,7 @@ function runFocusedTests(root, failures, args) {
 
   if (!args.skipPackageTests && commandExists(root, 'pnpm')) {
     commands.push(
-      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/reading-local-staging-rehearsal.test.ts', '--runInBand', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/reading-local-staging-rehearsal.test.ts', '--runInBand', '--forceExit']],
     );
   }
 
@@ -161,8 +161,8 @@ function main() {
     'scripts/check-v42-gate8-local-staging-mvp-rehearsal.mjs',
     'packages/protocol/src/canonical/v42-local-staging-mvp-rehearsal.js',
     'packages/protocol/test/v42-local-staging-mvp-rehearsal.test.js',
-    'packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts',
-    'packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts',
+    'packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts',
     'uapi/app/api/pipeline-host/asset-pack/preflight.ts',
     'uapi/app/api/pipeline-host/asset-pack/runner.ts',
     'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
@@ -173,7 +173,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'packages/protocol/README.md',
-    'packages/pipelines/asset-pack/README.md',
+    'packages/asset-packs-pipelines/domain/README.md',
     'uapi/app/terminal/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',

@@ -82,8 +82,8 @@ function main() {
 
   for (const relativePath of [
     V43_DEPOSIT_OPTION_ADMISSION_ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts',
-    'packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-option-admission.test.ts',
+    'packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-admission.test.ts',
     'uapi/app/deposit/deposit-route-model.ts',
     'uapi/app/deposit/DepositPageClient.tsx',
     'uapi/components/bitcode/activity/pack-activity-model.ts',
@@ -153,7 +153,7 @@ function main() {
 
   if (!args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', 'deposit-asset-pack-option-admission.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', 'deposit-asset-pack-option-admission.test.ts', '--runInBand']);
     } catch {
       failures.push('asset-pack deposit-asset-pack-option-admission.test.ts must pass.');
     }

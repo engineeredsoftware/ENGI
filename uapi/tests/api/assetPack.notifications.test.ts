@@ -52,7 +52,7 @@ jest.mock('@bitcode/logger', () => ({
 // Mock GA telemetry to no-op
 jest.mock('@bitcode/google-analytics', () => ({ sendServerEvent: jest.fn() }));
 jest.mock('@bitcode/email', () => ({ sendEmail: jest.fn() }));
-jest.mock('@bitcode/pipeline-asset-pack', () => ({ assetPackPipeline: jest.fn().mockResolvedValue({}) }));
+jest.mock('@bitcode/asset-packs-pipelines-domain', () => ({ assetPackPipeline: jest.fn().mockResolvedValue({}) }));
 jest.mock('@bitcode/generic-llms', () => ({ factoryLLMRegistryWithProviders: jest.fn(() => ({})) }));
 jest.mock('@bitcode/execution-generics', () => ({
   Execution: jest.fn().mockImplementation(() => ({

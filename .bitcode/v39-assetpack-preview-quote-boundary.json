@@ -20,9 +20,9 @@
       "rowId": "preview:source-safe-measurement",
       "purpose": "Expose only source-safe Need measurement, fit measurement, score band, result reasons, proof roots, and selected fit-deposit ids before settlement.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts"
       ],
       "emittedTypes": [
         "AssetPackSourceSafePreview",
@@ -58,9 +58,9 @@
       "rowId": "quote:deterministic-share-to-fee",
       "purpose": "Calculate deterministic BTC fee quotes from Need measurement vector, admitted fit quality, weighted volume, dust floor, and fee schedule.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts"
       ],
       "emittedTypes": [
         "ShareToFeeQuote",
@@ -96,10 +96,10 @@
       "rowId": "disclosure:leak-scan-fail-closed",
       "purpose": "Fail closed when preview payloads contain source-bearing field names, patch markers, source code markers, secrets, or unpaid AssetPack source.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-disclosure.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts"
       ],
       "emittedTypes": [
         "AssetPackDisclosureReview",
@@ -134,8 +134,8 @@
       "rowId": "settlement:reader-payment-unlock-instructions",
       "purpose": "Tell the Reader exactly which BTC payment and readback receipts must exist before any source-bearing AssetPack content unlocks.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts"
       ],
       "emittedTypes": [
         "AssetPackPreviewSettlementInstructions"
@@ -169,9 +169,9 @@
       "rowId": "delivery:source-withheld-pr-posture",
       "purpose": "Project pull-request delivery posture as visible-after-settlement while keeping source-bearing delivery invisible during unpaid preview.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/postprocess.ts",
-        "packages/pipelines/asset-pack/src/__tests__/postprocess.test.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts"
       ],
       "emittedTypes": [
         "AssetPackPreviewDeliveryPosture"
@@ -205,9 +205,9 @@
       "rowId": "provenance:selected-fit-measurement-roots",
       "purpose": "Carry selected fit-deposit asset ids, proof roots, measurement roots, readback roots, query root, and ranking root into the preview boundary.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts"
       ],
       "emittedTypes": [
         "AssetPackPreviewSelectedFitProvenance"
@@ -241,9 +241,9 @@
       "rowId": "storage:preview-boundary-projection",
       "purpose": "Persist source-safe preview, fit measurement, selected-fit provenance, quote, disclosure, settlement, delivery, replay, and repair records.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/index.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/index.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts"
       ],
       "emittedTypes": [
         "AssetPackPreviewStorageRecord",
@@ -278,8 +278,8 @@
       "rowId": "replay:quote-preview-disclosure-receipt",
       "purpose": "Replay the preview boundary from preview root, quote root, disclosure root, settlement root, delivery root, and source-safety verification flags.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts"
       ],
       "emittedTypes": [
         "AssetPackPreviewReplayReceipt"
@@ -313,7 +313,7 @@
       "rowId": "proof:tests-artifact-workflow",
       "purpose": "Bind Gate 6 closure to package tests, protocol artifact tests, generated artifact, docs, package exports, and workflow wiring.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml"
       ],
@@ -348,87 +348,87 @@
   "predicateResults": [
     {
       "id": "boundary-defines-core-types",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "passed": true
     },
     {
       "id": "boundary-source-safety-class",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "passed": true
     },
     {
       "id": "boundary-builds-deterministic-quote",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "passed": true
     },
     {
       "id": "read-need-share-to-fee-formula",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "boundary-builds-settlement-instructions",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "passed": true
     },
     {
       "id": "boundary-builds-delivery-posture",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "passed": true
     },
     {
       "id": "boundary-builds-replay-receipt",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "passed": true
     },
     {
       "id": "boundary-persists-storage-projection",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "passed": true
     },
     {
       "id": "disclosure-fail-closed-scan",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-disclosure.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts",
       "passed": true
     },
     {
       "id": "postprocess-emits-boundary",
-      "sourcePath": "packages/pipelines/asset-pack/src/postprocess.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
       "passed": true
     },
     {
       "id": "pipeline-preprocess-persists-boundary",
-      "sourcePath": "packages/pipelines/asset-pack/src/index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/index.ts",
       "passed": true
     },
     {
       "id": "package-exports-boundary",
-      "sourcePath": "packages/pipelines/asset-pack/package.json",
+      "sourcePath": "packages/asset-packs-pipelines/domain/package.json",
       "passed": true
     },
     {
       "id": "tests-cover-deterministic-quote",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
       "passed": true
     },
     {
       "id": "tests-cover-blocked-repair",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
       "passed": true
     },
     {
       "id": "tests-cover-leak-fail-closed",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
       "passed": true
     },
     {
       "id": "tests-cover-postprocess-boundary",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/postprocess.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts",
       "passed": true
     },
     {
       "id": "read-fits-runtime-provenance-available",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
       "passed": true
     },
     {

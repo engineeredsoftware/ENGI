@@ -60,9 +60,9 @@
       "purpose": "Synthesize a source-constrained enterprise Read Request into a reviewable Need before any Finding Fits work may run.",
       "pipelineName": "ReadNeedComprehensionSynthesis",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/runtime-inference-policy.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts"
       ],
       "phaseCount": 4,
       "ptrrAgentCount": 4,
@@ -167,11 +167,11 @@
       "purpose": "Admit an accepted Need, find many qualifying depository fits, synthesize the AssetPack, preview source-safe measurements, and settle before delivery.",
       "pipelineName": "ReadFitsFindingSynthesis",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/depository-search.ts",
-        "packages/pipelines/asset-pack/src/embedding-config.ts",
-        "packages/pipelines/asset-pack/src/runtime-inference-policy.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
+        "packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts"
       ],
       "phaseCount": 7,
       "ptrrAgentCount": 8,
@@ -858,27 +858,27 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/embedding-config.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/runtime-inference-policy.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts",
       "exists": true,
       "legacy": false
     },

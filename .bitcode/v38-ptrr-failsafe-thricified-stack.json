@@ -550,7 +550,7 @@
       "label": "Gate 2 Reading and Conversation counts bound to Gate 3 stack law",
       "sourceRoots": [
         "packages/protocol/src/canonical/inference-surface-inventory.js",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
       ],
       "ptrrStepIds": [
         "plan",
@@ -949,7 +949,7 @@
     },
     {
       "id": "reading.contract-names-both-pipelines",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     }
   ],
@@ -980,7 +980,7 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "exists": true,
       "legacy": false
     },

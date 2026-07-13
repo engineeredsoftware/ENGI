@@ -87,9 +87,9 @@ function main() {
 
   for (const relativePath of [
     V44_BTD_BTC_COMPENSATION_STATEMENTS_ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/btd-btc-compensation-statements.ts',
-    'packages/pipelines/asset-pack/src/__tests__/btd-btc-compensation-statements.test.ts',
-    'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
+    'packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/btd-btc-compensation-statements.test.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
     'packages/btd/src/source-to-shares.ts',
     'packages/btd/src/settlement.ts',
     'packages/btd/src/receipts.ts',
@@ -168,7 +168,7 @@ function main() {
     }
 
     try {
-      run(root, 'pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'test', '--', 'btd-btc-compensation-statements.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'test', '--', 'btd-btc-compensation-statements.test.ts', '--runInBand']);
     } catch {
       failures.push('packages/pipelines/asset-pack BTD/BTC compensation statement tests must pass.');
     }

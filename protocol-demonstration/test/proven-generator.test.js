@@ -430,7 +430,7 @@ test('V26 proven generator renders active Bitcode posture without overstating su
   );
   assert.equal(
     generated.data.v26.retainedPackageAdmissibilityProof.packageCensus.some((entry) =>
-      entry.packagePath === 'packages/pipelines/asset-pack/package.json' &&
+      entry.packagePath === 'packages/asset-packs-pipelines/domain/package.json' &&
       entry.primaryRole === 'compatibility'
     ),
     true,

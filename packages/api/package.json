@@ -28,7 +28,7 @@
     "@bitcode/notion": "workspace:*",
     "@bitcode/observability": "workspace:*",
     "@bitcode/orm": "workspace:*",
-    "@bitcode/pipeline-asset-pack": "workspace:*",
+    "@bitcode/asset-packs-pipelines-domain": "workspace:*",
     "@bitcode/pipelines-generics": "workspace:*",
     "@bitcode/networking": "workspace:*",
     "@bitcode/security": "workspace:*",

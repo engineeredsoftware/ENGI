@@ -22,8 +22,8 @@
       "rowId": "purchase:quote-to-payment-observation",
       "purpose": "Convert the Gate 5 deterministic quote into a reader BTC payment observation without server custody or private wallet material.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
         "uapi/app/api/pipeline-harness/asset-pack/runner.ts"
       ],
       "emittedTypes": [
@@ -60,8 +60,8 @@
       "rowId": "finality:btc-testnet-confirmation-gate",
       "purpose": "Require confirmed BTC/testnet finality before BTD rights transfer, source unlock, or source-bearing repository delivery.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
         "packages/btd/src/receipts.ts"
       ],
       "emittedTypes": [
@@ -97,9 +97,9 @@
       "rowId": "rights:btd-read-right-transfer",
       "purpose": "Transfer the BTD read right to the paying reader only after the quote, payment, finality, and conservation checks agree.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/btd/src/receipts.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
       ],
       "emittedTypes": [
         "BtdRightsTransferReceipt",
@@ -135,9 +135,9 @@
       "rowId": "compensation:source-to-shares-conservation",
       "purpose": "Allocate BTC sats to selected fit deposits with deterministic source-to-shares conservation and proof roots.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/btd/src/source-to-shares.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
       ],
       "emittedTypes": [
         "SourceToSharesProof",
@@ -172,7 +172,7 @@
       "rowId": "delivery:source-bearing-pull-request-unlock",
       "purpose": "Unlock the source-bearing pull request only after payment finality, BTD rights, compensation, and reconciliation readbacks pass.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/btd/src/settlement.ts",
         "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
@@ -209,7 +209,7 @@
       "rowId": "sync:ledger-database-object-storage-reconciliation",
       "purpose": "Synchronize ledger facts, database projections, object storage roots, and staging-testnet readback before delivery is visible.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/btd/src/reconciliation.ts",
         "uapi/app/api/pipeline-harness/asset-pack/runner.ts"
       ],
@@ -245,8 +245,8 @@
       "rowId": "repair:fail-closed-settlement-posture",
       "purpose": "Represent underpayment, missing finality, projection drift, and missing delivery as repairable blockers without leaking source.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
       ],
       "emittedTypes": [
         "AssetPackSettlementRightsDeliveryRepairPosture"
@@ -422,47 +422,47 @@
   "predicateResults": [
     {
       "id": "boundary-defines-core-types",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "passed": true
     },
     {
       "id": "boundary-composes-btd-primitives",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "passed": true
     },
     {
       "id": "boundary-builds-source-to-shares",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "passed": true
     },
     {
       "id": "boundary-builds-reconciliation",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "passed": true
     },
     {
       "id": "boundary-source-safety",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "passed": true
     },
     {
       "id": "tests-cover-confirmed-delivery",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
       "passed": true
     },
     {
       "id": "tests-cover-underpayment",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
       "passed": true
     },
     {
       "id": "tests-cover-finality",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
       "passed": true
     },
     {
       "id": "tests-cover-reconciliation-drift",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
       "passed": true
     },
     {

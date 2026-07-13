@@ -41,8 +41,8 @@
       "purpose": "Bind the local MVP rehearsal to source-safe dry-run receipts, local package checks, and explicit sandbox execution opt-in.",
       "sourceRoots": [
         "scripts/rehearse-v42-local-staging-mvp.mjs",
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts"
       ],
       "requiredEvidence": [
         "local",
@@ -203,7 +203,7 @@
       "purpose": "Carry Gate 4 Need synthesis, review, feedback, resynthesis, accepted Need admission, and telemetry receipts through rehearsal.",
       "sourceRoots": [
         ".bitcode/v42-readneed-review-resynthesis-product-closure.json",
-        "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts"
       ],
       "requiredEvidence": [
         "ReadNeedReviewResynthesisRuntime",
@@ -243,8 +243,8 @@
       "purpose": "Carry Gate 5 Finding Fits across many Depository candidates with query roots, ranking roots, and selected-fit provenance.",
       "sourceRoots": [
         ".bitcode/v42-readfitsfinding-preview-quote.json",
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-        "packages/pipelines/asset-pack/src/depository-search.ts"
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts"
       ],
       "requiredEvidence": [
         "ReadFitsFindingRuntime",
@@ -284,7 +284,7 @@
       "purpose": "Carry source-safe AssetPack preview, deterministic quote, disclosure review, and pre-settlement delivery lock through rehearsal.",
       "sourceRoots": [
         ".bitcode/v42-readfitsfinding-preview-quote.json",
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts"
       ],
       "requiredEvidence": [
         "AssetPackPreviewBoundary",
@@ -324,7 +324,7 @@
       "purpose": "Carry Gate 6 BTC/testnet finality, BTD read-right transfer, source-to-shares compensation, reconciliation, and pull-request delivery.",
       "sourceRoots": [
         ".bitcode/v42-settlement-rights-delivery.json",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts"
       ],
       "requiredEvidence": [
         "AssetPackSettlementRightsDeliveryBoundary",
@@ -402,8 +402,8 @@
       "stageId": null,
       "purpose": "Prove rich pipeline stream rows, execution ids, phase/agent/step/generation metadata, and database readback remain available for debugging.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
         "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
       ],
       "requiredEvidence": [
@@ -446,8 +446,8 @@
       "purpose": "Prove ledger, database, object storage, wallet, and repository delivery projections reconcile before source-bearing delivery.",
       "sourceRoots": [
         ".bitcode/v42-settlement-rights-delivery.json",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts"
       ],
       "requiredEvidence": [
         "ledgerDatabaseStorageSynchronized",
@@ -527,7 +527,7 @@
       "purpose": "Keep the MVP rehearsal non-value-bearing and blocked from mainnet while proving the staged BTC/BTD protocol path.",
       "sourceRoots": [
         "scripts/rehearse-v42-local-staging-mvp.mjs",
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts"
       ],
       "requiredEvidence": [
         "valueBearingMainnetAdmitted: false",
@@ -636,27 +636,27 @@
     },
     {
       "id": "rehearsal-model-covers-lanes",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
       "passed": true
     },
     {
       "id": "rehearsal-model-covers-five-reading-stages",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
       "passed": true
     },
     {
       "id": "rehearsal-model-covers-source-safety",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
       "passed": true
     },
     {
       "id": "rehearsal-test-covers-settled-flow",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts",
       "passed": true
     },
     {
       "id": "postprocess-persists-rehearsal",
-      "sourcePath": "packages/pipelines/asset-pack/src/postprocess.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
       "passed": true
     },
     {

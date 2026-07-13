@@ -133,12 +133,12 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts',
-    'packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts',
-    'packages/pipelines/asset-pack/src/index.ts',
-    'packages/pipelines/asset-pack/src/postprocess.ts',
-    'packages/pipelines/asset-pack/package.json',
-    'packages/pipelines/asset-pack/README.md',
+    'packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts',
+    'packages/asset-packs-pipelines/domain/src/index.ts',
+    'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+    'packages/asset-packs-pipelines/domain/package.json',
+    'packages/asset-packs-pipelines/domain/README.md',
     'packages/protocol/src/canonical/v39-local-staging-reading-rehearsal.js',
     'packages/protocol/test/v39-local-staging-reading-rehearsal.test.js',
     'packages/protocol/src/index.js',
@@ -185,7 +185,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -250,7 +250,7 @@ function main() {
 
   const spec = read(root, 'BITCODE_SPEC_V39.md');
   const parity = read(root, 'BITCODE_SPEC_V39_PARITY_MATRIX.md');
-  const readme = read(root, 'packages/pipelines/asset-pack/README.md');
+  const readme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('ReadingLocalStagingRehearsal'), 'V39 spec must name ReadingLocalStagingRehearsal.');
   assertCheck(failures, spec.includes('v39-local-staging-reading-rehearsal'), 'V39 spec must name the Gate 10 artifact.');
   assertCheck(failures, parity.includes('Gate 10 Parity'), 'V39 parity matrix must include Gate 10 parity.');

@@ -203,10 +203,10 @@ const guideRows = Object.freeze([
     sourceRoots: [
       'uapi/app/docs/bitcode-docs-content.ts',
       'internal-docs/ASSETPACK_EXECUTION.md',
-      'packages/pipelines/asset-pack/README.md',
+      'packages/asset-packs-pipelines/domain/README.md',
       'packages/btd/README.md',
     ],
-    packageSurfaces: ['packages/pipelines/asset-pack/src', 'packages/btd/src'],
+    packageSurfaces: ['packages/asset-packs-pipelines/domain/src', 'packages/btd/src'],
     docsSections: ['read-results', 'settlement-btd', 'proofs'],
     proofSignals: ['fit quality measurement', 'preview metadata', 'disclosure boundary state'],
     disclosureNotes: [
@@ -223,10 +223,10 @@ const guideRows = Object.freeze([
     canonicalTruth: ['BITCODE_SPEC_V35.md', 'packages/pipelines/asset-pack'],
     sourceRoots: [
       'uapi/app/docs/bitcode-docs-content.ts',
-      'packages/pipelines/asset-pack/README.md',
+      'packages/asset-packs-pipelines/domain/README.md',
       'internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md',
     ],
-    packageSurfaces: ['packages/pipelines/asset-pack/src', 'uapi/app/api/read-review/route.ts'],
+    packageSurfaces: ['packages/asset-packs-pipelines/domain/src', 'uapi/app/api/read-review/route.ts'],
     docsSections: ['read-results', 'terminal-actions'],
     proofSignals: ['read measurement', 'fit search admission', 'blocked readiness evidence'],
     disclosureNotes: [

@@ -61,10 +61,10 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  readingContract: 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-  readNeed: 'packages/pipelines/asset-pack/src/read-need.ts',
-  readNeedTests: 'packages/pipelines/asset-pack/src/__tests__/read-need.test.ts',
-  readingContractTests: 'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts',
+  readingContract: 'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+  readNeed: 'packages/asset-packs-pipelines/domain/src/read-need.ts',
+  readNeedTests: 'packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts',
+  readingContractTests: 'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts',
   readReviewRoute: 'uapi/app/api/read-review/route.ts',
   terminalWorkbench: 'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
   gate2Inventory: 'packages/protocol/src/canonical/inference-surface-inventory.js',

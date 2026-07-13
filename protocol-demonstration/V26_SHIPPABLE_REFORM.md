@@ -2,7 +2,7 @@
 
 ## Status
 
-- Scope: supplementary V26 reform note for the retained `packages/pipelines/asset-pack/*` corridor
+- Scope: supplementary V26 reform note for the retained `packages/asset-packs-pipelines/domain/*` corridor
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V26`
 - Purpose: use the non-Bitcode `deliverable` family as a trace surface while removing it from active Bitcode shippable semantics
 - Generic strategy companion: `protocol-demonstration/V26_REFORM_STRATEGY.md`
@@ -34,7 +34,7 @@ The V26 Shippable form is:
 
 ## Required mapping
 
-The retained `packages/pipelines/asset-pack/*` corridor is therefore interpreted as:
+The retained `packages/asset-packs-pipelines/domain/*` corridor is therefore interpreted as:
 - `deliverable pipeline`
   non-Bitcode path naming for an AssetPack synthesis and stored-evidence corridor; active code should move toward AssetPack / Shippable route, type, and payload names rather than introducing new `deliverable` wrappers
 - `deliverableType`
@@ -61,7 +61,7 @@ Where physical storage identifiers still include `deliverable` during V26:
 - comments, descriptions, and exported names inside the retained corridor should use `comprehend read` where behavior is about Read understanding
 - execution stores and postprocessed artifacts must use semantic `read`, canonical `writtenAssetType = read-satisfaction-asset-pack`, `writtenAssetRequest`, `deliveryMechanismTemplate = pull-request`, `assetPackCompletion`, `assetPackSynthesisArtifacts`, `writtenAssets`, `shippables`, and `deliveryMechanism` so later-gate reform does not have to recover meaning from non-Bitcode keys
 - internal implementation and validation logic must resolve one canonical AssetPack synthesis kind from `read` and proof evidence; Finish/Delivering must resolve the single V26 `pull-request` delivery mechanism, so the retained corridor shapes live protocol behavior through Bitcode's commercial infrastructure rather than silently recentering non-Bitcode `deliverableType` logic
-- package-owned filesystem and export names must prefer current Bitcode objects before compatibility payloads: `packages/pipelines/asset-pack/src/types/AssetPackWrittenAssetType.ts` owns written-asset kinds, `searchRelevantAssetPackEvidence` owns prior AssetPack evidence lookup, and stale `DeliverableType.ts` / `searchRelevantDeliverables` / shipping-wrapper test files are not active V26 surfaces
+- package-owned filesystem and export names must prefer current Bitcode objects before compatibility payloads: `packages/asset-packs-pipelines/domain/src/types/AssetPackWrittenAssetType.ts` owns written-asset kinds, `searchRelevantAssetPackEvidence` owns prior AssetPack evidence lookup, and stale `DeliverableType.ts` / `searchRelevantDeliverables` / shipping-wrapper test files are not active V26 surfaces
 - read routes, workspace-run summaries, mock reread projections, and active UI detail surfaces should prefer primary `assetPackSynthesisArtifacts` for Bitcode-owned AssetPack artifact/evidence and file-change meaning, expose `writtenAssets` only as a semantic reread of those artifacts, and expose `shippables` / `deliveryMechanism` only for the PR delivery object
 - the operator-facing executions header and active route/API surface must teach this corridor as asset-pack synthesis plus Finish/Delivering mechanisms; `/api/deliverables` compatibility mounting is removed from active V26 source
 - streamed completion payloads must emit primary `assetPackSynthesisArtifacts` plus semantic `writtenAssets`, `shippables`, `deliveryMechanism`, `read`, `writtenAssetType`, and `assetPack` fields; `actions` may remain only as the command-result envelope, not as a `deliverables` mirror

@@ -117,7 +117,7 @@ uapi                               →  HTTP + React adapters only
         ↑
 @bitcode/generic-agents/*       Base agents (VCS, danger-wall, code-editor, …)
         ↑
-@bitcode/pipeline-asset-pack    Deposit/read SDIVF agents (setup/discovery/…)
+@bitcode/asset-packs-pipelines-domain    Deposit/read SDIVF agents (setup/discovery/…)
 ```
 
 ### 3.1.1 Measurements
@@ -132,7 +132,7 @@ uapi                               →  HTTP + React adapters only
 @bitcode/generic-asset-packs-synthesis           SynthesizeAssetPacksAbsolutesMeasureAgent + catalogs
 @bitcode/generic-asset-packs-settle              SettleAssetPacks* (Gate 6 surface)
         ↑
-@bitcode/pipeline-asset-pack                     SDIVF pipeline host (static-analysis tools, phases)
+@bitcode/asset-packs-pipelines-domain                     SDIVF pipeline host (static-analysis tools, phases)
 ```
 
 Package paths: `packages/measurement-generics/`, `packages/generic-measurements/*`
@@ -218,7 +218,7 @@ inside `agent-generics` until inverted onto pure Execution + LLM registry.
 @bitcode/generic-asset-packs-settle               Settle product surface
         ↑
 @bitcode/asset-packs-pipelines-*                  synthesize-deposits / -reads / settle-reads
-@bitcode/pipeline-asset-pack                      agents, tools, deposit options helpers
+@bitcode/asset-packs-pipelines-domain                      agents, tools, deposit options helpers
 ```
 
 Package paths: `packages/asset-packs-generics/`, `packages/generic-asset-packs/*`.
@@ -335,9 +335,9 @@ Package paths: `packages/mcp-generics/`, `packages/generic-mcps/bitcode/`.
 | Primitive | `Pipeline` | `factoryPipeline` |
 | Base + primitive | `SDIVFPipeline` | `factorySDIVFPipeline`, `factorySDIVFPipelineFromExecutors` |
 | Base + primitive | `SimplePipeline` | `factorySimplePipeline` (linear; like QuickAgent vs PTRR) |
-| Specific + SDIVF | `SynthesizeDepositsSDIVFPipeline` | `factorySynthesizeDepositsSDIVFPipeline` |
-| Specific + SDIVF | `SynthesizeReadsSDIVFPipeline` | `factorySynthesizeReadsSDIVFPipeline` |
-| Specific + Simple | `SettleReadsSimplePipeline` | `factorySettleReadsSimplePipeline` |
+| Specific + SDIVF | `SynthesizeDepositAssetPacksSDIVFPipeline` | `factorySynthesizeDepositAssetPacksSDIVFPipeline` |
+| Specific + SDIVF | `SynthesizeReadAssetPacksSDIVFPipeline` | `factorySynthesizeReadAssetPacksSDIVFPipeline` |
+| Specific + Simple | `SettleAssetPacksSimplePipeline` | `factorySettleAssetPacksSimplePipeline` |
 
 **No lens:** deposit synthesis, read synthesis, and settle-reads are separate
 packages under `packages/asset-packs-pipelines/*`.
@@ -350,8 +350,8 @@ packages under `packages/asset-packs-pipelines/*`.
         ↑
 @bitcode/asset-packs-pipelines-synthesize-deposits
 @bitcode/asset-packs-pipelines-synthesize-reads
-@bitcode/asset-packs-pipelines-settle-reads   # validate → BTC/BTD/rights → PR ship
-@bitcode/pipeline-asset-pack             agents/tools/domain + BC dual entry
+@bitcode/asset-packs-pipelines-settle-asset-packs   # validate → BTC/BTD/rights → PR ship
+@bitcode/asset-packs-pipelines-domain             agents/tools/domain + BC dual entry
 @bitcode/pipeline-hosts                  Local host + Vercel Sandbox host
 ```
 
@@ -504,7 +504,7 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 
 | Package | Responsibility |
 | --- | --- |
-| `pipelines/asset-pack` (`@bitcode/pipeline-asset-pack`) | **SynthesizeAssetPacks**, deposit options/policy/admission/earnings, depository search/supply, settlement/rights contracts, deposit agents |
+| `asset-packs-pipelines/domain` (`@bitcode/asset-packs-pipelines-domain`; BC `@bitcode/asset-packs-pipelines-domain`; BC `@bitcode/pipeline-asset-pack`) | **SynthesizeAssetPacks**, deposit options/policy/admission/earnings, depository search/supply, settlement/rights contracts, deposit agents |
 | `asset-packs-pipelines/*` | Product SDIVF/Simple pipelines (synthesize-deposits/reads, settle-reads) |
 | `pipeline-hosts` | AssetPack host orchestration barrel over `host-generics` + `generic-hosts/*` |
 | `btd` | BTD measurement, journal, authority, settlement, interface contracts |
@@ -664,7 +664,7 @@ IP-seller MVP. Modular reference experience:
 
 - Page client orchestration + hooks (live runs, demand, synthesis lifecycle, …)
 - Source selection, obfuscations, option cards, telemetry, pipelines master, aside
-- Domain law in `@bitcode/pipeline-asset-pack` + G3 SPEC sections
+- Domain law in `@bitcode/asset-packs-pipelines-domain` + G3 SPEC sections
 
 ### 7.3 Reads (`/reads`)
 
@@ -801,7 +801,7 @@ as if they were source of product law.
 ### 9.1 “How does deposit synthesis work?”
 
 1. `BITCODE_SPEC_V48.md` §G3-1…G3-15  
-2. `packages/pipelines/asset-pack/src/asset-packs-synthesis.ts` (barrel)  
+2. `packages/asset-packs-pipelines/domain/src/asset-packs-synthesis.ts` (barrel)  
 3. `.../agents/{setup,discovery,implementation,validation}/deposit-*.ts`  
 4. `packages/pipeline-hosts/src/asset-pack-host.ts`  
 5. `uapi/app/api/deposit/synthesize-options/route.ts` + `dispatch-deposit-synthesis.ts`  
@@ -947,7 +947,7 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | --- | --- |
 | **`*-generics` package** | Primitive layer: types, contracts, factories, abstract bases (e.g. `vcs-generics`, `asset-packs-generics`). Use **only** when a matching `generic-*` implementor family exists. |
 | **`generic-*` family** | Folder of nested implementor packages (no root `package.json` on the family folder), e.g. `generic-vcs/{github,gitlab,…}`. |
-| **Hierarchy naming law** | Type/export names encode full ancestry: primitive → base → specific (e.g. `SynthesizeDepositsSDIVFPipeline`). |
+| **Hierarchy naming law** | Type/export names encode full ancestry: primitive → base → specific (e.g. `SynthesizeDepositAssetPacksSDIVFPipeline`). |
 | **Primitive** | Lowest shared vocabulary (e.g. `Pipeline`, `Execution`, `AssetPack`, `FilePath`). |
 | **Base (implementor)** | Reusable middle layer in `generic-*/*` (e.g. `MeasuredPatchAssetPack`, `SDIVFPipeline`, `LocalHost`). |
 | **Product / specific** | Bitcode product specialization (pipelines, agents, experience UI). |
@@ -994,9 +994,9 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | **PipelineHost / BitcodePipelineHost** | Host contract (`host-generics`). |
 | **SimplePipeline** | Linear stage pipeline base (contrast SDIVF). |
 | **SDIVFPipeline** | Pipeline base implementing Setup-[DIV]*-Finish. |
-| **SynthesizeDepositsSDIVFPipeline** | Product deposit synthesis pipeline (full hierarchy name). |
-| **SynthesizeReadsSDIVFPipeline** | Product read synthesis pipeline. |
-| **SettleReadsSimplePipeline** | Product settle-reads simple pipeline. |
+| **SynthesizeDepositAssetPacksSDIVFPipeline** | Deposit synthesis product pipeline (`asset-packs-pipelines/synthesize-deposits`). |
+| **SynthesizeReadAssetPacksSDIVFPipeline** | Read synthesis product pipeline (`asset-packs-pipelines/synthesize-reads`). |
+| **SettleAssetPacksSimplePipeline** | Settlement Simple pipeline (`asset-packs-pipelines/settle-asset-packs`). |
 | **VercelSandboxHost** | Decoupled Firecracker/sandbox host for pipeline boxes. |
 | **maxIterations** | SDIVF loop bound; Gate 3 deposit synthesis uses **1**. |
 

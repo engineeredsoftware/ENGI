@@ -3,7 +3,7 @@
  * factorySDIVFPipelineFromExecutors semantics (V48 Gate 3).
  *
  * This is the SDIVF variant the SynthesizeAssetPacks pipeline actually runs
- * (packages/pipelines/asset-pack/src/index.ts) — NOT factorySDIVFPipeline,
+ * (packages/asset-packs-pipelines/domain/src/index.ts) — NOT factorySDIVFPipeline,
  * which sdivf.events.integration.test.ts covers. Pins, with stub phase
  * executors on a plain Execution root:
  *

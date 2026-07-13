@@ -33,11 +33,11 @@ export const V42_SETTLEMENT_RIGHTS_DELIVERY_ROW_IDS = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  boundary: 'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-  boundaryTest: 'packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
-  previewBoundary: 'packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts',
-  postprocess: 'packages/pipelines/asset-pack/src/postprocess.ts',
-  packageIndex: 'packages/pipelines/asset-pack/src/index.ts',
+  boundary: 'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+  boundaryTest: 'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+  previewBoundary: 'packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts',
+  postprocess: 'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+  packageIndex: 'packages/asset-packs-pipelines/domain/src/index.ts',
   pipelineHostHarness: 'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
   pipelineHostHarnessTest: 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
   harnessRunner: 'uapi/app/api/pipeline-host/asset-pack/runner.ts',
@@ -50,7 +50,7 @@ const SOURCE_ROOTS = Object.freeze({
   btdSettlement: 'packages/btd/src/settlement.ts',
   btdReconciliation: 'packages/btd/src/reconciliation.ts',
   protocolReadme: 'packages/protocol/README.md',
-  assetPackReadme: 'packages/pipelines/asset-pack/README.md',
+  assetPackReadme: 'packages/asset-packs-pipelines/domain/README.md',
   terminalReadme: 'uapi/app/terminal/README.md',
   rootReadme: 'README.md',
   v42Spec: 'BITCODE_SPEC_V42.md',

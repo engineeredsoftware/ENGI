@@ -68,7 +68,7 @@
     },
     {
       "rowId": "deposit-option-synthesis-model",
-      "owner": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts",
+      "owner": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts",
       "contract": "DepositAssetPackOptionSynthesis proposes multiple source-safe AssetPack options from connected source, depositor instruction, Depository demand, Reading demand, and existing supply signals.",
       "requiredFields": [
         "DepositOptionSynthesisRequest",
@@ -125,10 +125,10 @@
     "routeModel": "uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
     "page": "uapi/app/deposit/page.tsx:6bab6a9debab3f4350d0ddca",
     "client": "uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
-    "optionModel": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts:df560ea2544282645f57a6b5",
-    "optionModelTest": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-options.test.ts:66cfc8c728f134087476a3a3",
-    "packageIndex": "packages/pipelines/asset-pack/src/index.ts:aca8dabbfc7a4348a1e9eed8",
-    "packageManifest": "packages/pipelines/asset-pack/package.json:6e9dd21d8ac1fb420997527a",
+    "optionModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts:df560ea2544282645f57a6b5",
+    "optionModelTest": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-options.test.ts:66cfc8c728f134087476a3a3",
+    "packageIndex": "packages/asset-packs-pipelines/domain/src/index.ts:aca8dabbfc7a4348a1e9eed8",
+    "packageManifest": "packages/asset-packs-pipelines/domain/package.json:6e9dd21d8ac1fb420997527a",
     "publicCopy": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts:9b39322f872b899e1c752701",
     "publicExplainers": "uapi/components/base/bitcode/layout/bitcode-public-explainers.ts:4e3b84dda50607ea8ea2b73e",
     "workspaceSurface": "uapi/components/base/bitcode/layout/workspace-surface.ts:12418d5db9c3ddad6d10c841",
@@ -230,32 +230,32 @@
     },
     {
       "id": "option-model-defines-request",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts",
       "passed": true
     },
     {
       "id": "option-model-builds-multiple-options",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts",
       "passed": true
     },
     {
       "id": "option-model-defers-gate6-policy",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts",
       "passed": true
     },
     {
       "id": "option-model-forbids-source-leakage",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts",
       "passed": true
     },
     {
       "id": "asset-pack-package-exports-model",
-      "sourcePath": "packages/pipelines/asset-pack/src/index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/index.ts",
       "passed": true
     },
     {
       "id": "asset-pack-manifest-exports-model",
-      "sourcePath": "packages/pipelines/asset-pack/package.json",
+      "sourcePath": "packages/asset-packs-pipelines/domain/package.json",
       "passed": true
     },
     {
@@ -295,7 +295,7 @@
     },
     {
       "id": "asset-pack-test-covers-option-synthesis",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-options.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-options.test.ts",
       "passed": true
     },
     {

@@ -89,8 +89,8 @@ function main() {
     V44_ORGANIZATION_POLICY_WALLET_AUTHORITY_ARTIFACT_PATH,
     'packages/btd/src/authority.ts',
     'packages/btd/__tests__/btd.test.ts',
-    'packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts',
-    'packages/pipelines/asset-pack/src/__tests__/organization-policy-wallet-authority.test.ts',
+    'packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts',
     'uapi/app/read/read-route-model.ts',
     'uapi/tests/readRouteModel.test.ts',
     'uapi/app/read/ReadPageClient.tsx',
@@ -170,7 +170,7 @@ function main() {
     }
 
     try {
-      run(root, 'pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'test', '--', 'organization-policy-wallet-authority.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'test', '--', 'organization-policy-wallet-authority.test.ts', '--runInBand']);
     } catch {
       failures.push('packages/pipelines/asset-pack organization policy wallet authority tests must pass.');
     }

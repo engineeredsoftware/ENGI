@@ -107,8 +107,8 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
     'uapi/app/api/pipeline-host/asset-pack/runner.ts',
@@ -126,7 +126,7 @@ function main() {
     'BITCODE_SPEC_V42_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/pipelines/asset-pack/README.md',
+    'packages/asset-packs-pipelines/domain/README.md',
     'packages/protocol/README.md',
     'uapi/app/terminal/README.md',
     'package.json',
@@ -162,7 +162,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',

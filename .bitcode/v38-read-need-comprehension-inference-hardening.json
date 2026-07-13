@@ -232,87 +232,87 @@
   "predicateResults": [
     {
       "id": "contract.names-read-need-pipeline",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
       "id": "contract.has-four-phases",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
       "id": "contract.has-four-ptrr-steps",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
       "id": "contract.has-three-failsafe-stages",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
       "id": "contract.has-thricified-generation-contract",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
       "id": "read-need.imports-contract-trace",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "read-need.defines-receipt-type",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "read-need.builds-receipt",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "read-need.attaches-receipt-to-output",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "read-need.stores-receipt-in-execution",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "read-need.requires-accepted-need-for-fits",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "read-need.supports-resynthesis-feedback",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "read-need.blocks-source-disclosure",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "read-need.blocks-credentials",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "bounded-inference-records-failsafe-stack",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "bounded-inference-records-thricified-stages",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "bounded-inference-records-prompt-output",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
@@ -327,17 +327,17 @@
     },
     {
       "id": "tests-cover-receipt-counts",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
       "passed": true
     },
     {
       "id": "tests-cover-real-inference-receipt",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
       "passed": true
     },
     {
       "id": "contract-tests-cover-read-need-counts",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
       "passed": true
     }
   ],
@@ -368,10 +368,10 @@
     "legacySourceRoots": false
   },
   "sourceRoots": {
-    "readingContract": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-    "readNeed": "packages/pipelines/asset-pack/src/read-need.ts",
-    "readNeedTests": "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
-    "readingContractTests": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts",
+    "readingContract": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+    "readNeed": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+    "readNeedTests": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
+    "readingContractTests": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
     "readReviewRoute": "uapi/app/api/read-review/route.ts",
     "terminalWorkbench": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
     "gate2Inventory": "packages/protocol/src/canonical/inference-surface-inventory.js",

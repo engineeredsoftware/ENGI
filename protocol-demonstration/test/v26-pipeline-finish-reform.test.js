@@ -22,57 +22,57 @@ const primitivesSource = readFileSync(
   'utf8'
 );
 const assetPackIndexSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/index.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/index.ts', import.meta.url),
   'utf8'
 );
 const assetPackPackageSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/package.json', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/package.json', import.meta.url),
   'utf8'
 );
 const assetPackReadmeSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/README.md', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/README.md', import.meta.url),
   'utf8'
 );
 const rootTsconfigSource = readFileSync(new URL('../../tsconfig.json', import.meta.url), 'utf8');
 const uapiNextConfigSource = readFileSync(new URL('../../uapi/next.config.mjs', import.meta.url), 'utf8');
 const pnpmLockSource = readFileSync(new URL('../../pnpm-lock.yaml', import.meta.url), 'utf8');
 const assetPackPhasesSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/phases/index.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/phases/index.ts', import.meta.url),
   'utf8'
 );
 const finishPhaseSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/phases/finish.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/phases/finish.ts', import.meta.url),
   'utf8'
 );
 const deliverAgentSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/finish/deliver-asset-pack-to-destination-agent.ts', import.meta.url),
   'utf8'
 );
 const assetPackNamedDeliverAgentSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/finish/asset-pack-finish-deliver-asset-pack-to-destination-agent.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-finish-deliver-asset-pack-to-destination-agent.ts', import.meta.url),
   'utf8'
 );
 const assetPackCompletionSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/finish/asset-pack-completion-agent.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-completion-agent.ts', import.meta.url),
   'utf8'
 );
 const assetPackNamedCompletionSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/finish/asset-pack-finish-asset-pack-completion-agent.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-finish-asset-pack-completion-agent.ts', import.meta.url),
   'utf8'
 );
 const postprocessSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/postprocess.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/postprocess.ts', import.meta.url),
   'utf8'
 );
-const promptBuilderDir = new URL('../../packages/pipelines/asset-pack/src/agents/prompts/', import.meta.url);
-const readyToFinishPromptSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/agents/prompts/asset-pack-validation-ready-to-finish-prompt.ts', import.meta.url), 'utf8');
-const finalizeDeliveryEvidencePromptSource = readFileSync(new URL('../../packages/pipelines/asset-pack/src/agents/prompts/finalize-delivery-evidence-prompt.ts', import.meta.url), 'utf8');
+const promptBuilderDir = new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/', import.meta.url);
+const readyToFinishPromptSource = readFileSync(new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-validation-ready-to-finish-prompt.ts', import.meta.url), 'utf8');
+const finalizeDeliveryEvidencePromptSource = readFileSync(new URL('../../packages/asset-packs-pipelines/domain/src/agents/prompts/finalize-delivery-evidence-prompt.ts', import.meta.url), 'utf8');
 const validationReadyAgentSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/validation/asset-pack-ready-to-finish-agent.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/validation/asset-pack-ready-to-finish-agent.ts', import.meta.url),
   'utf8'
 );
 const finishDeliveryAgentsSource = readFileSync(
-  new URL('../../packages/pipelines/asset-pack/src/agents/finish-delivery-agents.ts', import.meta.url),
+  new URL('../../packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts', import.meta.url),
   'utf8'
 );
 
@@ -108,7 +108,7 @@ test('pipeline generics expose canonical SDIVF APIs without active SDIVS wrapper
 });
 
 test('AssetPack pipeline owns the live package filesystem after deliverable package removal', () => {
-  assert.equal(existsSync(new URL('../../packages/pipelines/asset-pack/package.json', import.meta.url)), true);
+  assert.equal(existsSync(new URL('../../packages/asset-packs-pipelines/domain/package.json', import.meta.url)), true);
   assert.equal(existsSync(new URL('../../packages/pipelines/deliverable/package.json', import.meta.url)), false);
   assert.match(assetPackPackageSource, /"name": "@bitcode\/pipeline-asset-pack"/);
   assert.match(assetPackPackageSource, /"description": "Bitcode AssetPack pipeline/u);
@@ -121,7 +121,7 @@ test('AssetPack pipeline owns the live package filesystem after deliverable pack
   assert.doesNotMatch(uapiNextConfigSource, /'packages'[\s\S]{0,120}'pipelines'[\s\S]{0,120}'deliverable'/u);
   assert.doesNotMatch(pnpmLockSource, /pipeline-deliverable|pipelines\/deliverable|packages\/pipelines\/deliverable/u);
   assert.deepEqual(
-    listFiles(new URL('../../packages/pipelines/asset-pack/src/', import.meta.url)).filter((path) => path.endsWith('.js')),
+    listFiles(new URL('../../packages/asset-packs-pipelines/domain/src/', import.meta.url)).filter((path) => path.endsWith('.js')),
     []
   );
 });
@@ -140,7 +140,7 @@ test('retained AssetPack corridor executes Finish through canonical Finish regis
   assert.match(finishPhaseSource, /finish:deliver-asset-pack-to-destination-agent/);
   assert.doesNotMatch(finishPhaseSource, /shipping:deliverable-pipeline|createShippingPhaseConfig|runShippingPhase|registerShippingAgentsForType/u);
   assert.match(finishPhaseSource, /agents\/finish\/deliver-asset-pack-to-destination-agent/);
-  assert.equal(existsSync(new URL('../../packages/pipelines/asset-pack/src/phases/shipping.ts', import.meta.url)), false);
+  assert.equal(existsSync(new URL('../../packages/asset-packs-pipelines/domain/src/phases/shipping.ts', import.meta.url)), false);
 });
 
 test('Finish agents and postprocess use Finish stores without shipping fallbacks', () => {

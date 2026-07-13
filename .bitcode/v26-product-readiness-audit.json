@@ -605,14 +605,14 @@
       ],
       "evidenceChecks": [
         {
-          "file": "packages/pipelines/asset-pack/src/postprocess.ts",
+          "file": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
           "requiredText": "assetPackSynthesisArtifacts",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/pipelines/asset-pack/src/agents/finish-delivery-agents.ts",
+          "file": "packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts",
           "requiredText": "finish:asset-pack",
           "filePresent": true,
           "evidencePresent": true,
@@ -642,14 +642,14 @@
       ],
       "mvpEvidenceChecks": [
         {
-          "file": "packages/pipelines/asset-pack/src/postprocess.ts",
+          "file": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
           "requiredText": "assetPackSynthesisArtifacts",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/pipelines/asset-pack/src/agents/finish-delivery-agents.ts",
+          "file": "packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts",
           "requiredText": "finish:asset-pack",
           "filePresent": true,
           "evidencePresent": true,
@@ -672,14 +672,14 @@
           "passed": true
         },
         {
-          "file": "packages/pipelines/asset-pack/src/postprocess.ts",
+          "file": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
           "requiredText": "assetPackSynthesisArtifacts",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/pipelines/asset-pack/src/agents/finish-delivery-agents.ts",
+          "file": "packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts",
           "requiredText": "finish:asset-pack-create-pull-request-delivery-agent",
           "filePresent": true,
           "evidencePresent": true,

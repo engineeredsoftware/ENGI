@@ -90,7 +90,7 @@ function main() {
     'BITCODE_SPEC_V46_NOTES.md',
     'BITCODE_SPEC_V46_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
-    'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
     'packages/btd/src/reconciliation.ts',
     'packages/btd/src/wallet.ts',
     'packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts',

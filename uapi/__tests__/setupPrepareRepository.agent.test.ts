@@ -4,7 +4,7 @@ import { initializeContext } from '@bitcode/context/context';
 import { getGlobalContext } from '@bitcode/context';
 import { executeAgentSteps } from '@bitcode/steps/runner';
 import { resolveTool } from '@bitcode/generic-tools-registry';
-import { AssetPackCloneVCSRepositoryAgent as AGENT } from '@bitcode/pipeline-asset-pack';
+import { AssetPackCloneVCSRepositoryAgent as AGENT } from '@bitcode/asset-packs-pipelines-domain';
 
 
 // ---------------------------------------------------------------------------

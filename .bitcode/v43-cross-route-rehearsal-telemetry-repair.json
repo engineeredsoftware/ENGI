@@ -215,7 +215,7 @@
       "sourceRoots": [
         ".bitcode/v43-read-route-five-step-ux.json",
         "uapi/app/read/read-route-model.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts"
       ],
       "requiredEvidence": [
         "ReadNeedComprehensionSynthesis",
@@ -260,9 +260,9 @@
         "delivery:repository-pull-request"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts"
       ],
       "requiredEvidence": [
         "BTC",
@@ -364,7 +364,7 @@
       ],
       "sourceRoots": [
         "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
         "scripts/rehearse-v43-cross-route-product-flow.mjs"
       ],
       "requiredEvidence": [
@@ -410,8 +410,8 @@
         "delivery:repository-pull-request"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
         ".bitcode/v43-deposit-option-admission.json"
       ],
       "requiredEvidence": [
@@ -735,17 +735,17 @@
     },
     {
       "id": "settlement-boundary-syncs-delivery",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "passed": true
     },
     {
       "id": "preview-boundary-repairs-withheld-source",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "passed": true
     },
     {
       "id": "deposit-admission-syncs-storage-telemetry",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "passed": true
     },
     {

@@ -128,7 +128,7 @@ generics (agents, pipelines) rather than inventing parallel machinery.
 Accepted V48 architecture law (decided 2026-06-12):
 
 - Bitcode has a single synthesis/measurement pipeline: **AssetPacksSynthesis**
-  (`packages/pipelines/asset-pack/src/asset-packs-synthesis.ts`). Depositing
+  (`packages/asset-packs-pipelines/domain/src/asset-packs-synthesis.ts`). Depositing
   and Reading are the same operation at the core — measuring source knowledge
   into commercially legible AssetPack candidates — with variance carried
   entirely by the lens: steering prompts (depositor instructions versus read
@@ -317,7 +317,7 @@ AssetPack model (decided 2026-06-25):
   weighted sum of all fit-only measurements**; the reader's Need unlocks the
   additional fit measurements that finalize the pack's BTD content.
 - Measurement + BTD grounding (mapped 2026-06-25): the canonical V48 measurement
-  catalogs live in `packages/pipelines/asset-pack/src/asset-packs-synthesis.ts`.
+  catalogs live in `packages/asset-packs-pipelines/domain/src/asset-packs-synthesis.ts`.
   **Absolute** (deposit): source-coverage (0.36) / demand-alignment (0.40) /
   reuse-likelihood (0.24). The read catalog adds the **fit-only `need-fit`**
   (0.44) alongside source-coverage (0.28) / reuse-likelihood (0.28). The BTD
@@ -1762,9 +1762,9 @@ Three specific product pipelines (hierarchy names encode base):
 
 ```
 @bitcode/generic-pipelines-sdivf / -simple
-  → synthesize-deposits   SynthesizeDepositsSDIVFPipeline
-  → synthesize-reads      SynthesizeReadsSDIVFPipeline
-  → settle-reads          SettleReadsSimplePipeline
+  → synthesize-deposits   SynthesizeDepositAssetPacksSDIVFPipeline
+  → synthesize-reads      SynthesizeReadAssetPacksSDIVFPipeline
+  → settle-reads          SettleAssetPacksSimplePipeline
 ```
 
 - **synthesize-deposits** — depositor repo → measured packs for Depository
@@ -1883,3 +1883,14 @@ demo/runtime shell; generators/proof tooling prefer `@bitcode/protocol-canonical
 - Per-package READMEs refreshed for `api`, `asset-packs-generics`, `obfuscation`,
   `conversations`, `security`, `generic-measurements`, `files`, `templates-generics`,
   `protocol`, and family folders already introduced during modularization.
+
+## AssetPacks pipelines only under asset-packs-pipelines (Garrett, 2026-07-13)
+
+- Removed `packages/pipelines/` (was only `asset-pack/`).
+- Domain: `packages/asset-packs-pipelines/domain` → `@bitcode/asset-packs-pipelines-domain`
+  (BC `@bitcode/pipeline-asset-pack`).
+- Product pipelines (full hierarchy names):
+  - `SynthesizeDepositAssetPacksSDIVFPipeline` — `synthesize-deposits/`
+  - `SynthesizeReadAssetPacksSDIVFPipeline` — `synthesize-reads/`
+  - `SettleAssetPacksSimplePipeline` — `settle-asset-packs/`
+- No deposit|read lens on a single pipeline factory.

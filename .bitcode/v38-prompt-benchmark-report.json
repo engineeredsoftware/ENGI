@@ -260,7 +260,7 @@
       ],
       "sourceRoots": [
         "packages/prompts/src/raw_promptparts/specific",
-        "packages/pipelines/asset-pack/src/read-need.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts"
       ],
       "filePathIncludes": [
         "promptpart_specific_agent_comprehendread",
@@ -365,7 +365,7 @@
       ],
       "sourceRoots": [
         "packages/prompts/src/raw_promptparts/specific",
-        "packages/pipelines/asset-pack/src/depository-search.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts"
       ],
       "filePathIncludes": [
         "promptpart_specific_agent_assetpack",
@@ -471,8 +471,8 @@
         "ReadFitsFindingSynthesis.prompts"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/agents/prompts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+        "packages/asset-packs-pipelines/domain/src/agents/prompts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
       ],
       "requiredMetricIds": [
         "intent_alignment",
@@ -1124,13 +1124,13 @@
     {
       "id": "promptpart:read-need-comprehension-specific.source-roots-present",
       "rowId": "promptpart:read-need-comprehension-specific",
-      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "promptpart:read-need-comprehension-specific.source-files-present",
       "rowId": "promptpart:read-need-comprehension-specific",
-      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
@@ -1154,55 +1154,55 @@
     {
       "id": "promptpart.read-need-has-doc-comments",
       "rowId": "promptpart:read-need-comprehension-specific",
-      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "promptpart.read-need-has-benchmark-definitions",
       "rowId": "promptpart:read-need-comprehension-specific",
-      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "promptpart.read-need-exports-promptparts",
       "rowId": "promptpart:read-need-comprehension-specific",
-      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "promptpart.read-need-semantic-division-present",
       "rowId": "promptpart:read-need-comprehension-specific",
-      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "promptpart.read-need-current-version-present",
       "rowId": "promptpart:read-need-comprehension-specific",
-      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "promptpart.read-need-contract-names-pipeline",
       "rowId": "promptpart:read-need-comprehension-specific",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "promptpart.read-need-schema-names-output",
       "rowId": "promptpart:read-need-comprehension-specific",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "promptpart:read-fits-finding-specific.source-roots-present",
       "rowId": "promptpart:read-fits-finding-specific",
-      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "promptpart:read-fits-finding-specific.source-files-present",
       "rowId": "promptpart:read-fits-finding-specific",
-      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
@@ -1226,55 +1226,55 @@
     {
       "id": "promptpart.read-fits-has-doc-comments",
       "rowId": "promptpart:read-fits-finding-specific",
-      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "promptpart.read-fits-has-benchmark-definitions",
       "rowId": "promptpart:read-fits-finding-specific",
-      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "promptpart.read-fits-exports-promptparts",
       "rowId": "promptpart:read-fits-finding-specific",
-      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "promptpart.read-fits-semantic-division-present",
       "rowId": "promptpart:read-fits-finding-specific",
-      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "promptpart.read-fits-current-version-present",
       "rowId": "promptpart:read-fits-finding-specific",
-      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "promptpart.read-fits-contract-names-pipeline",
       "rowId": "promptpart:read-fits-finding-specific",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "promptpart.read-fits-depository-search-names-tools",
       "rowId": "promptpart:read-fits-finding-specific",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "prompt:reading-pipeline-agent-prompts.source-roots-present",
       "rowId": "prompt:reading-pipeline-agent-prompts",
-      "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts,packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts,packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
       "id": "prompt:reading-pipeline-agent-prompts.source-files-present",
       "rowId": "prompt:reading-pipeline-agent-prompts",
-      "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts,packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts,packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
@@ -1298,37 +1298,37 @@
     {
       "id": "prompt.reading-has-doc-comments",
       "rowId": "prompt:reading-pipeline-agent-prompts",
-      "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
       "passed": true
     },
     {
       "id": "prompt.reading-has-benchmark-definitions",
       "rowId": "prompt:reading-pipeline-agent-prompts",
-      "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
       "passed": true
     },
     {
       "id": "prompt.reading-constructs-prompts",
       "rowId": "prompt:reading-pipeline-agent-prompts",
-      "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
       "passed": true
     },
     {
       "id": "prompt.reading-sets-promptparts",
       "rowId": "prompt:reading-pipeline-agent-prompts",
-      "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
       "passed": true
     },
     {
       "id": "prompt.reading-requires-promptparts",
       "rowId": "prompt:reading-pipeline-agent-prompts",
-      "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
       "passed": true
     },
     {
       "id": "prompt.reading-contract-has-template-ids",
       "rowId": "prompt:reading-pipeline-agent-prompts",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
@@ -1480,22 +1480,22 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/agents/prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "exists": true,
       "legacy": false
     },
@@ -1626,7 +1626,7 @@
       "sourceRootExists": true,
       "sourceFileCount": 16,
       "sourceFileSample": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_context_awareness_detailcontent.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_phase_plan_label.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_phase_refine_label.ts",
@@ -1670,7 +1670,7 @@
       "sourceRootExists": true,
       "sourceFileCount": 201,
       "sourceFileSample": [
-        "packages/pipelines/asset-pack/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryanalyzeparallel_capabilities_list.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryanalyzeparallel_identity_definition.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryanalyzeparallel_ptrrplan_purpose.ts",
@@ -1714,18 +1714,18 @@
       "sourceRootExists": true,
       "sourceFileCount": 18,
       "sourceFileSample": [
-        "packages/pipelines/asset-pack/src/agents/prompts/analyze-codebase-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/analyze-parallel-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/assess-complexity-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-validation-ready-to-finish-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-vcs-clone-repository-agent-prompts.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/clone-vcs-repository-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/comprehend-attachments-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/create-pull-request-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/danger-wall-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/finalize-delivery-evidence-prompt.ts"
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-codebase-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-parallel-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/assess-complexity-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-validation-ready-to-finish-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-vcs-clone-repository-agent-prompts.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/clone-vcs-repository-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-attachments-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/create-pull-request-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/danger-wall-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/finalize-delivery-evidence-prompt.ts"
       ],
       "promptPartDocCommentCount": 0,
       "promptDocCommentCount": 21,

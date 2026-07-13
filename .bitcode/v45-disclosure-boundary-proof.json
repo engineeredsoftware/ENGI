@@ -273,7 +273,7 @@
   ],
   "sourceEvidence": [
     {
-      "relativePath": "packages/pipelines/asset-pack/src/interface-disclosure-boundary.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts",
       "present": true,
       "digest": "sha256:1fde9c12eddfffc5c04f82fbe98d53f92cbebfeb9dcb3b277b0eb6073ccd85fb",
       "byteLength": 18415,
@@ -400,7 +400,7 @@
     "redactions"
   ],
   "generatedArtifactAndTestBindings": [
-    "packages/pipelines/asset-pack/src/__tests__/interface-disclosure-boundary.test.ts",
+    "packages/asset-packs-pipelines/domain/src/__tests__/interface-disclosure-boundary.test.ts",
     "uapi/tests/readPageClient.test.tsx",
     "uapi/tests/depositPageClient.test.tsx",
     "uapi/tests/packsPageClient.test.tsx",

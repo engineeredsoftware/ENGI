@@ -66,22 +66,22 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  setupPlanAgent: 'packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts',
+  setupPlanAgent: 'packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts',
   readComprehensionAgent:
-    'packages/pipelines/asset-pack/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts',
+    'packages/asset-packs-pipelines/domain/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts',
   assetPackSynthesisAgent:
-    'packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts',
+    'packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts',
   assetPackSynthesisPromptParts: 'packages/prompts/src/raw_promptparts/specific',
-  depositorySearch: 'packages/pipelines/asset-pack/src/depository-search.ts',
-  readFitsRuntime: 'packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts',
-  readingPipelineContract: 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-  lexicalDepositorySearchTool: 'packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts',
-  previewBoundary: 'packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts',
-  settlementRightsDelivery: 'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-  depositorySearchTest: 'packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts',
-  readFitsRuntimeTest: 'packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts',
+  depositorySearch: 'packages/asset-packs-pipelines/domain/src/depository-search.ts',
+  readFitsRuntime: 'packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts',
+  readingPipelineContract: 'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+  lexicalDepositorySearchTool: 'packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts',
+  previewBoundary: 'packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts',
+  settlementRightsDelivery: 'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+  depositorySearchTest: 'packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts',
+  readFitsRuntimeTest: 'packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts',
   assetPackSynthesisTest:
-    'packages/pipelines/asset-pack/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts',
   gate2InventorySource: 'packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js',
   gate2InventoryArtifact: '.bitcode/v41-promptpart-prompt-inventory.json',
   gate3ContractsSource: 'packages/protocol/src/canonical/v41-registry-interpolation-contracts.js',

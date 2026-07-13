@@ -90,9 +90,9 @@
       "rowId": "supply:depository-record-compensation-preview",
       "purpose": "Attach a deterministic compensation preview to DepositorySupplyRecord without minting BTD or exposing source before an accepted Need-Fit and settlement.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-        "packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts",
-        "packages/pipelines/asset-pack/src/embedding-config.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts",
+        "packages/asset-packs-pipelines/domain/src/embedding-config.ts"
       ],
       "emittedTypes": [
         "DepositorySupplyCompensationPreview",
@@ -127,8 +127,8 @@
       "rowId": "documents:source-safe-search-and-vector-projection",
       "purpose": "Preserve source-safe lexical, metadata, measurement, and vector search documents so deposits become searchable without protected source payloads.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-        "packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts"
       ],
       "emittedTypes": [
         "DepositorySupplySearchDocument",
@@ -163,8 +163,8 @@
       "rowId": "storage:depository-readback-projection",
       "purpose": "Bind Depository admission to durable source-safe storage readback through deliverables, vector rows, ledger rows, and source-to-shares allocation posture.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-        "packages/pipelines/asset-pack/README.md",
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/README.md",
         "BITCODE_SPEC_V42.md"
       ],
       "emittedTypes": [
@@ -345,32 +345,32 @@
     },
     {
       "id": "supply-index-defines-compensation-preview",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-supply-index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
       "passed": true
     },
     {
       "id": "supply-index-defers-btd-mint",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-supply-index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
       "passed": true
     },
     {
       "id": "supply-index-projects-source-to-shares-readback",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-supply-index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
       "passed": true
     },
     {
       "id": "supply-index-preserves-search-documents",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-supply-index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
       "passed": true
     },
     {
       "id": "supply-tests-cover-compensation-preview",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts",
       "passed": true
     },
     {
       "id": "supply-tests-cover-no-protected-source",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts",
       "passed": true
     },
     {
@@ -400,7 +400,7 @@
     },
     {
       "id": "asset-pack-readme-documents-compensation-preview",
-      "sourcePath": "packages/pipelines/asset-pack/README.md",
+      "sourcePath": "packages/asset-packs-pipelines/domain/README.md",
       "passed": true
     },
     {
@@ -462,10 +462,10 @@
     "legacySourceRoots": false
   },
   "sourceRoots": {
-    "depositorySupplyIndex": "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-    "depositorySupplyIndexTest": "packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts",
-    "embeddingConfig": "packages/pipelines/asset-pack/src/embedding-config.ts",
-    "assetPackReadme": "packages/pipelines/asset-pack/README.md",
+    "depositorySupplyIndex": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+    "depositorySupplyIndexTest": "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts",
+    "embeddingConfig": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
+    "assetPackReadme": "packages/asset-packs-pipelines/domain/README.md",
     "protocolServer": "packages/protocol/server.js",
     "protocolRuntime": "packages/protocol/src/bitcode-demo.js",
     "protocolBoundaryTest": "packages/protocol/test/protocol-package-boundary.test.js",

@@ -41,7 +41,7 @@
   "contractRows": [
     {
       "rowId": "criticality-policy",
-      "owner": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts",
+      "owner": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
       "contract": "DepositAssetPackOptionPolicy evaluates source criticality from source-safe criticality signals and blocks critical IP before Gate 7 admission.",
       "requiredFields": [
         "sourceCriticality",
@@ -55,7 +55,7 @@
     },
     {
       "rowId": "demand-roi-policy",
-      "owner": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts",
+      "owner": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
       "contract": "Policy evaluates likely demand and ROI deterministically from source-safe option measurements, demand confidence, estimated settlement, and development cost.",
       "requiredFields": [
         "demand",
@@ -70,7 +70,7 @@
     },
     {
       "rowId": "btd-compensation-policy",
-      "owner": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts",
+      "owner": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
       "contract": "Policy exposes BTD potential as estimate-only and previews future-reader BTC source-to-shares compensation without minting BTD or transferring rights.",
       "requiredFields": [
         "btdPotential",
@@ -110,16 +110,16 @@
     "packageJson": "package.json:b79014968c556bc1b43ab341",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
-    "optionModel": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts:df560ea2544282645f57a6b5",
-    "policyModel": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts:12816b23b2d8e304ab4a1638",
-    "optionModelTest": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-options.test.ts:66cfc8c728f134087476a3a3",
-    "policyModelTest": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-option-policy.test.ts:1af7adccac488298ccd7f048",
+    "optionModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts:df560ea2544282645f57a6b5",
+    "policyModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts:12816b23b2d8e304ab4a1638",
+    "optionModelTest": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-options.test.ts:66cfc8c728f134087476a3a3",
+    "policyModelTest": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-policy.test.ts:1af7adccac488298ccd7f048",
     "routeModel": "uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
     "client": "uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
     "routeModelTest": "uapi/tests/depositRouteModel.test.ts:3f7377f8c55ce132f970ad09",
     "pageTest": "uapi/tests/depositPageClient.test.tsx:3385b14ea538e4ea1bb3ed01",
-    "packageIndex": "packages/pipelines/asset-pack/src/index.ts:aca8dabbfc7a4348a1e9eed8",
-    "packageManifest": "packages/pipelines/asset-pack/package.json:6e9dd21d8ac1fb420997527a",
+    "packageIndex": "packages/asset-packs-pipelines/domain/src/index.ts:aca8dabbfc7a4348a1e9eed8",
+    "packageManifest": "packages/asset-packs-pipelines/domain/package.json:6e9dd21d8ac1fb420997527a",
     "protocolIndex": "packages/protocol/src/index.js:1f16ea428bd71351a1292cb6",
     "protocolTypes": "packages/protocol/src/index.d.ts:278dfc652c621533b5e86f4d",
     "protocolTest": "packages/protocol/test/v43-deposit-policy-compensation.test.js:f84b0c016065b10f796eb775",
@@ -174,32 +174,32 @@
     },
     {
       "id": "policy-model-defines-report",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
       "passed": true
     },
     {
       "id": "policy-model-defines-criticality",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
       "passed": true
     },
     {
       "id": "policy-model-defines-demand-roi",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
       "passed": true
     },
     {
       "id": "policy-model-defines-btd-compensation",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
       "passed": true
     },
     {
       "id": "policy-model-defers-gate7-admission",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
       "passed": true
     },
     {
       "id": "policy-model-forbids-source-leakage",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts",
       "passed": true
     },
     {
@@ -214,17 +214,17 @@
     },
     {
       "id": "asset-pack-package-exports-policy",
-      "sourcePath": "packages/pipelines/asset-pack/src/index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/index.ts",
       "passed": true
     },
     {
       "id": "asset-pack-manifest-exports-policy",
-      "sourcePath": "packages/pipelines/asset-pack/package.json",
+      "sourcePath": "packages/asset-packs-pipelines/domain/package.json",
       "passed": true
     },
     {
       "id": "policy-test-covers-report",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-option-policy.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-policy.test.ts",
       "passed": true
     },
     {

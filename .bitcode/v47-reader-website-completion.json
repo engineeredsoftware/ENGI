@@ -333,7 +333,7 @@
     },
     {
       "id": "pipeline-models-bind-reader-website-dependencies",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "passed": true
     },
     {
@@ -375,11 +375,11 @@
     "readRouteModelTest": "uapi/tests/readRouteModel.test.ts:be174a4be0d7e7bfe56266f3",
     "readPageTest": "uapi/tests/readPageClient.test.tsx:96cbea4852b42501b7e08181",
     "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
-    "previewBoundaryModel": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts:1319dd4223292e03b795ab87",
-    "settlementRightsDeliveryModel": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
-    "needReviewModel": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts:347bd88040c9456420e03c0e",
-    "fitsFindingModel": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts:4e89eacdc2b73bd6bc70a085",
-    "authorityModel": "packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts:ed6fa07bc3f69caaca598249",
+    "previewBoundaryModel": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts:1319dd4223292e03b795ab87",
+    "settlementRightsDeliveryModel": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
+    "needReviewModel": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts:347bd88040c9456420e03c0e",
+    "fitsFindingModel": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts:4e89eacdc2b73bd6bc70a085",
+    "authorityModel": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts:ed6fa07bc3f69caaca598249",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
     "protocolIndex": "packages/protocol/src/index.js:fdc9c740328fe41b9c7134c8",
     "protocolTypes": "packages/protocol/src/index.d.ts:df3330e66cf6b01b41c762ee",

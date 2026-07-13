@@ -85,10 +85,10 @@ function main() {
     'BITCODE_SPEC_V45_PARITY_MATRIX.md',
     'BITCODE_SPEC.txt',
     'package.json',
-    'packages/pipelines/asset-pack/package.json',
-    'packages/pipelines/asset-pack/src/index.ts',
-    'packages/pipelines/asset-pack/src/btd-scalar-volume-quote.ts',
-    'packages/pipelines/asset-pack/src/__tests__/btd-scalar-volume-quote.test.ts',
+    'packages/asset-packs-pipelines/domain/package.json',
+    'packages/asset-packs-pipelines/domain/src/index.ts',
+    'packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/btd-scalar-volume-quote.test.ts',
     'packages/btd/src/source-to-shares.ts',
   ];
 
@@ -96,11 +96,11 @@ function main() {
     assertCheck(failures, exists(root, relativePath), `Missing required V45 Gate 13 file: ${relativePath}`);
   }
 
-  const implementation = read(root, 'packages/pipelines/asset-pack/src/btd-scalar-volume-quote.ts');
-  const test = read(root, 'packages/pipelines/asset-pack/src/__tests__/btd-scalar-volume-quote.test.ts');
+  const implementation = read(root, 'packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts');
+  const test = read(root, 'packages/asset-packs-pipelines/domain/src/__tests__/btd-scalar-volume-quote.test.ts');
   const packageJson = read(root, 'package.json');
-  const assetPackPackageJson = read(root, 'packages/pipelines/asset-pack/package.json');
-  const assetPackIndex = read(root, 'packages/pipelines/asset-pack/src/index.ts');
+  const assetPackPackageJson = read(root, 'packages/asset-packs-pipelines/domain/package.json');
+  const assetPackIndex = read(root, 'packages/asset-packs-pipelines/domain/src/index.ts');
   const parity = read(root, 'BITCODE_SPEC_V45_PARITY_MATRIX.md');
 
   assertIncludesAll(failures, implementation, [
@@ -166,8 +166,8 @@ function main() {
 
   assertIncludesAll(failures, parity, [
     'Gate 13 implementation readback',
-    'packages/pipelines/asset-pack/src/btd-scalar-volume-quote.ts',
-    'packages/pipelines/asset-pack/src/__tests__/btd-scalar-volume-quote.test.ts',
+    'packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/btd-scalar-volume-quote.test.ts',
     'check:v45-gate13',
   ], 'V45 parity matrix Gate 13 readback');
 

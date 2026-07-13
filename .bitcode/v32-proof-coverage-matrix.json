@@ -90,7 +90,7 @@
         "blocked-readiness-without-repair-path",
         "pre-settlement-source-disclosure"
       ],
-      "fixture": "packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts; packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts; packages/pipelines/asset-pack/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts; packages/pipelines/asset-pack/src/__tests__/read-need.test.ts; packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts",
+      "fixture": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts; packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts; packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts; packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts; packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts",
       "owner": "packages/pipelines/asset-pack",
       "plannedGate": "Gate 4",
       "promotedBehavior": "Read Request to reviewed Need, Finding Fits, source-safe AssetPack preview, settlement boundary, and paid PR delivery.",

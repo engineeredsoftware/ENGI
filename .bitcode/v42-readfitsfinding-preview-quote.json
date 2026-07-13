@@ -12,8 +12,8 @@
       "rowId": "admission:accepted-need-required",
       "purpose": "Require an accepted ReadNeedComprehensionSynthesis Need before ReadFitsFindingSynthesis can search or preview an AssetPack.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
         "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "emittedTypes": [
@@ -49,8 +49,8 @@
       "rowId": "search:many-candidate-depository-discovery",
       "purpose": "Search Depository AssetPack supply for many candidates above threshold before selecting the fit set.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-search.ts",
-        "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts"
       ],
       "emittedTypes": [
         "DepositorySearchResult",
@@ -85,8 +85,8 @@
       "rowId": "search:multi-channel-vector-provider-tooling",
       "purpose": "Bind lexical, symbolic, path, metadata, measurement, embedding-vector, and provider-specific search channels to source-safe tool receipts.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-search.ts",
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts"
       ],
       "emittedTypes": [
         "ReadFitsFindingSynthesisSearchReceipt",
@@ -126,8 +126,8 @@
       "rowId": "ranking:candidate-ranking-and-thresholds",
       "purpose": "Rank candidates with deterministic scores, thresholds, blockers, rejected counts, and proof/measurement requirements.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-search.ts",
-        "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts"
       ],
       "emittedTypes": [
         "DepositoryCandidateRanking",
@@ -164,9 +164,9 @@
       "rowId": "provenance:selected-fit-provenance",
       "purpose": "Persist selected fit provenance with selected candidate ids, fit deposit ids, proof roots, measurement roots, and reconciliation roots.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts"
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts"
       ],
       "emittedTypes": [
         "selected_fit_provenance",
@@ -201,9 +201,9 @@
       "rowId": "preview:source-safe-assetpack-preview",
       "purpose": "Create the source-safe AssetPack preview that exposes measurements, fit posture, roots, and delivery posture while source stays locked.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts"
       ],
       "emittedTypes": [
         "AssetPackSourceSafePreview",
@@ -238,9 +238,9 @@
       "rowId": "quote:deterministic-share-to-fee-btc-quote",
       "purpose": "Read back deterministic BTD/BTC quote calculation from measurement weight, measurement volume, admitted fit quality, dust floor, and minimum sats.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts"
       ],
       "emittedTypes": [
         "ShareToFeeQuote",
@@ -275,7 +275,7 @@
       "rowId": "disclosure:no-pre-settlement-source",
       "purpose": "Fail closed when preview, telemetry, route summary, or UI readback would expose protected source or unpaid AssetPack source before settlement.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
         "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
         "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
@@ -312,8 +312,8 @@
       "rowId": "settlement:instructions-before-rights-transfer",
       "purpose": "Expose source-safe settlement instructions and delivery lock before Gate 6 rights-transfer and repository delivery unlock.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts"
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts"
       ],
       "emittedTypes": [
         "AssetPackPreviewSettlementInstructions",
@@ -423,9 +423,9 @@
       "rowId": "proof:tests-artifact-workflow",
       "purpose": "Bind V42 Gate 5 closure to package tests, UAPI tests, protocol artifact tests, docs, scripts, workflows, and generated source-safe proof.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
         "uapi/tests/api/pipelineHarnessRoute.test.ts",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml",
@@ -478,72 +478,72 @@
   "predicateResults": [
     {
       "id": "accepted-need-gates-finding-fits",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
       "passed": true
     },
     {
       "id": "search-defines-many-channel-ids",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "search-defines-tool-ids",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "search-covers-provider-embedding-policy",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "search-tests-many-candidates",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
       "passed": true
     },
     {
       "id": "runtime-persists-selected-fit-provenance",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
       "passed": true
     },
     {
       "id": "runtime-telemetry-counts",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
       "passed": true
     },
     {
       "id": "runtime-tests-source-safe-counts",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
       "passed": true
     },
     {
       "id": "preview-boundary-defines-quote-provenance-settlement-delivery",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "passed": true
     },
     {
       "id": "preview-boundary-source-safety",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "passed": true
     },
     {
       "id": "quote-formula-implemented",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "preview-tests-cover-determinism-and-storage-safety",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
       "passed": true
     },
     {
       "id": "package-postprocess-surfaces-boundary",
-      "sourcePath": "packages/pipelines/asset-pack/src/postprocess.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
       "passed": true
     },
     {
       "id": "contract-keeps-readfitsfinding-topology",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "passed": true
     },
     {
@@ -645,17 +645,17 @@
     "legacySourceRoots": false
   },
   "sourceRoots": {
-    "depositorySearch": "packages/pipelines/asset-pack/src/depository-search.ts",
-    "readFitsFindingRuntime": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
-    "assetPackPreviewBoundary": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
-    "readNeed": "packages/pipelines/asset-pack/src/read-need.ts",
-    "packageIndex": "packages/pipelines/asset-pack/src/index.ts",
-    "postprocess": "packages/pipelines/asset-pack/src/postprocess.ts",
-    "readingPipelineContract": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-    "depositorySearchTest": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
-    "runtimeTest": "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
-    "previewBoundaryTest": "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts",
-    "postprocessTest": "packages/pipelines/asset-pack/src/__tests__/postprocess.test.ts",
+    "depositorySearch": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+    "readFitsFindingRuntime": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+    "assetPackPreviewBoundary": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+    "readNeed": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+    "packageIndex": "packages/asset-packs-pipelines/domain/src/index.ts",
+    "postprocess": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+    "readingPipelineContract": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+    "depositorySearchTest": "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+    "runtimeTest": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+    "previewBoundaryTest": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
+    "postprocessTest": "packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts",
     "harnessRunner": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
     "harnessRouteTest": "uapi/tests/api/pipelineHarnessRoute.test.ts",
     "terminalWorkbench": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
@@ -670,7 +670,7 @@
     "roadmap": "SPECIFICATIONS_ROADMAP.md",
     "rootReadme": "README.md",
     "terminalReadme": "uapi/app/terminal/README.md",
-    "assetPackReadme": "packages/pipelines/asset-pack/README.md",
+    "assetPackReadme": "packages/asset-packs-pipelines/domain/README.md",
     "protocolReadme": "packages/protocol/README.md"
   }
 }

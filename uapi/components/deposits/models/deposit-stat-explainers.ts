@@ -136,7 +136,7 @@ export const DEPOSIT_STAT_TOOLTIP_SECTIONS = {
     references: {
       source: [
         "uapi/app/deposits/DepositPageClient.tsx",
-        "packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts",
+        "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts",
       ],
       canon: ["BITCODE_SPEC_V48_NOTES.md § Deposit/Read product-surface presentation laws"],
     },
@@ -149,7 +149,7 @@ export const DEPOSIT_STAT_TOOLTIP_SECTIONS = {
     references: {
       source: [
         "uapi/app/deposits/DepositPageClient.tsx",
-        "packages/pipelines/asset-pack/src/depositor-earning-supply-intelligence.ts",
+        "packages/asset-packs-pipelines/domain/src/depositor-earning-supply-intelligence.ts",
       ],
       canon: ["BITCODE_SPEC_V48_NOTES.md § Deposit/Read product-surface presentation laws"],
     },
@@ -162,7 +162,7 @@ export const DEPOSIT_STAT_TOOLTIP_SECTIONS = {
     references: {
       source: [
         "uapi/app/deposits/DepositPageClient.tsx",
-        "packages/pipelines/asset-pack/src/depositor-earning-supply-intelligence.ts",
+        "packages/asset-packs-pipelines/domain/src/depositor-earning-supply-intelligence.ts",
       ],
       canon: ["BITCODE_SPEC_V48_NOTES.md § Deposit/Read product-surface presentation laws"],
     },

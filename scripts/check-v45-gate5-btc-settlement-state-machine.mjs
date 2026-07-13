@@ -80,8 +80,8 @@ function main() {
     'packages/btd/src/bitcoin-fees.ts',
     'packages/btd/src/btc-fee-operation.ts',
     'packages/btd/src/settlement.ts',
-    'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/pipelines/asset-pack/src/btd-btc-compensation-statements.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+    'packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts',
     'package.json',
     'scripts/check-v45-gate4-btd-scalar-volume-state-machine.mjs',
   ]) {

@@ -59,13 +59,13 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  readNeed: 'packages/pipelines/asset-pack/src/read-need.ts',
-  readNeedReview: 'packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts',
-  readingPipelineContract: 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-  runtimeInferencePolicy: 'packages/pipelines/asset-pack/src/runtime-inference-policy.ts',
-  comprehendReadPrompt: 'packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts',
+  readNeed: 'packages/asset-packs-pipelines/domain/src/read-need.ts',
+  readNeedReview: 'packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts',
+  readingPipelineContract: 'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+  runtimeInferencePolicy: 'packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts',
+  comprehendReadPrompt: 'packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts',
   comprehendReadOverlayPrompt:
-    'packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts',
+    'packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts',
   readComprehensionToolPrompts: 'packages/generic-tools/read-comprehension/src/prompts',
   comprehendReadPromptParts: 'packages/prompts/src/raw_promptparts/specific',
   gate2InventorySource: 'packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js',
@@ -78,8 +78,8 @@ const SOURCE_ROOTS = Object.freeze({
   packageTest: 'packages/protocol/test/v41-readneed-prompt-hardening.test.js',
   generator: 'scripts/generate-v41-readneed-prompt-hardening.mjs',
   checker: 'scripts/check-v41-gate5-readneed-prompt-hardening.mjs',
-  readNeedUnitTest: 'packages/pipelines/asset-pack/src/__tests__/read-need.test.ts',
-  readNeedReviewUnitTest: 'packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts',
+  readNeedUnitTest: 'packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts',
+  readNeedReviewUnitTest: 'packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts',
   spec: 'BITCODE_SPEC_V41.md',
   delta: 'BITCODE_SPEC_V41_DELTA.md',
   notes: 'BITCODE_SPEC_V41_NOTES.md',

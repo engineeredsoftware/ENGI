@@ -83,14 +83,14 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  readingContract: 'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-  depositorySearch: 'packages/pipelines/asset-pack/src/depository-search.ts',
-  embeddingConfig: 'packages/pipelines/asset-pack/src/embedding-config.ts',
-  depositorySearchTests: 'packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts',
-  embeddingConfigTests: 'packages/pipelines/asset-pack/src/__tests__/embedding-config.test.ts',
-  readingContractTests: 'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts',
-  lexicalTool: 'packages/pipelines/asset-pack/src/tools/AssetPackLexicalDepositorySearchTool.ts',
-  vectorEvidenceSearch: 'packages/pipelines/asset-pack/src/tools/search.ts',
+  readingContract: 'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+  depositorySearch: 'packages/asset-packs-pipelines/domain/src/depository-search.ts',
+  embeddingConfig: 'packages/asset-packs-pipelines/domain/src/embedding-config.ts',
+  depositorySearchTests: 'packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts',
+  embeddingConfigTests: 'packages/asset-packs-pipelines/domain/src/__tests__/embedding-config.test.ts',
+  readingContractTests: 'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts',
+  lexicalTool: 'packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts',
+  vectorEvidenceSearch: 'packages/asset-packs-pipelines/domain/src/tools/search.ts',
   uapiSearch: 'uapi/lib/search.ts',
   terminalWorkbench: 'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
   gate2Inventory: 'packages/protocol/src/canonical/inference-surface-inventory.js',

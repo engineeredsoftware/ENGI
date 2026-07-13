@@ -48,9 +48,9 @@ jest.mock('@bitcode/pipeline-asset-pack/runtime-inference-policy', () => ({
 // is dispatched + that its persisted output is built from the real lens adapter.
 // Also stub neediness grounding (settled Depository search) for unit isolation.
 jest.mock('@bitcode/asset-packs-pipelines-synthesize-deposits', () => ({
-  synthesizeDepositsSDIVFPipeline: jest.fn(async () => undefined),
+  synthesizeDepositAssetPacksSDIVFPipeline: jest.fn(async () => undefined),
 }));
-jest.mock('@bitcode/pipeline-asset-pack', () => ({
+jest.mock('@bitcode/asset-packs-pipelines-domain', () => ({
   synthesizeAssetPacksPipeline: jest.fn(async () => undefined),
   // re-exports / shared helpers still imported from pipeline-asset-pack
   groundOptionNeedinessFromSettledDepository: jest.fn((options: unknown[]) => options),
@@ -90,7 +90,7 @@ jest.mock('@/lib/depository-settled-demand', () => ({
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createStreamingExecution } from '@bitcode/pipelines-generics';
-import { synthesizeDepositsSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-deposits';
+import { synthesizeDepositAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-deposits';
 import { isAssetPackRealInferenceEnabled } from '@bitcode/pipeline-asset-pack/runtime-inference-policy';
 import {
   provisionDepositSourceInventory,
@@ -101,7 +101,7 @@ import { waitUntil } from '@vercel/functions';
 import { POST } from '@/app/api/deposit/synthesize-options/route';
 
 const mockRealInference = isAssetPackRealInferenceEnabled as jest.Mock;
-const mockPipeline = synthesizeDepositsSDIVFPipeline as jest.Mock;
+const mockPipeline = synthesizeDepositAssetPacksSDIVFPipeline as jest.Mock;
 const mockCreateExecution = createStreamingExecution as jest.Mock;
 const mockProvision = provisionDepositSourceInventory as jest.Mock;
 const mockSelectKind = selectDepositHostKind as jest.Mock;

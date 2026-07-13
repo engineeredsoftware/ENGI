@@ -151,8 +151,8 @@
         ".bitcode/v41-reading-prompt-benchmark-baselines.json",
         "packages/protocol/src/canonical/v41-readneed-prompt-hardening.js",
         ".bitcode/v41-readneed-prompt-hardening.json",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts"
       ],
       "promptProgramArtifactIds": [
         "v41-reading-prompt-benchmark-baselines",
@@ -232,8 +232,8 @@
         "sourceFileHashes": {
           ".bitcode/v41-reading-prompt-benchmark-baselines.json": "2a3cb69f485bc68a4226953b",
           ".bitcode/v41-readneed-prompt-hardening.json": "d26d4bdca49dfe6505b9c9d2",
-          "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
-          "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
           "packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32",
           "packages/protocol/src/canonical/v41-readneed-prompt-hardening.js": "b27719097ae70a129c6fa5aa"
         }
@@ -252,9 +252,9 @@
         "packages/protocol/src/canonical/v41-readfitsfinding-prompt-hardening.js",
         ".bitcode/v41-readfitsfinding-prompt-hardening.json",
         "packages/protocol/src/canonical/read-fits-finding-search-embeddings.js",
-        "packages/pipelines/asset-pack/src/depository-search.ts",
-        "packages/pipelines/asset-pack/src/embedding-config.ts",
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts"
       ],
       "promptProgramArtifactIds": [
         "v41-reading-prompt-benchmark-baselines",
@@ -335,9 +335,9 @@
         "sourceFileHashes": {
           ".bitcode/v41-readfitsfinding-prompt-hardening.json": "e729ad0133513f67654ddae4",
           ".bitcode/v41-reading-prompt-benchmark-baselines.json": "2a3cb69f485bc68a4226953b",
-          "packages/pipelines/asset-pack/src/depository-search.ts": "8c79c6f9c479ba664206175d",
-          "packages/pipelines/asset-pack/src/embedding-config.ts": "e1dc97ae0aafc3cf8464ba4a",
-          "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts": "6b91862fe0c4c802b9a19e15",
+          "packages/asset-packs-pipelines/domain/src/depository-search.ts": "8c79c6f9c479ba664206175d",
+          "packages/asset-packs-pipelines/domain/src/embedding-config.ts": "e1dc97ae0aafc3cf8464ba4a",
+          "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts": "6b91862fe0c4c802b9a19e15",
           "packages/protocol/src/canonical/read-fits-finding-search-embeddings.js": "4b37e8da18a4838d825789b8",
           "packages/protocol/src/canonical/v41-readfitsfinding-prompt-hardening.js": "a89d1e83c1eb187787d521f0",
           "packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32"
@@ -455,7 +455,7 @@
         ".bitcode/v41-registry-interpolation-contracts.json",
         "packages/prompts/src/benchmarking/types.ts",
         "packages/prompts/src/benchmarking/runner.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
       ],
       "promptProgramArtifactIds": [
         "v41-registry-interpolation-contracts",
@@ -534,7 +534,7 @@
         "sourceFileCount": 5,
         "sourceFileHashes": {
           ".bitcode/v41-registry-interpolation-contracts.json": "81bd514a492f142f6244f18a",
-          "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
           "packages/prompts/src/benchmarking/runner.ts": "dfe65501927783fca7cd3305",
           "packages/prompts/src/benchmarking/types.ts": "e996cfbbcf4906498f2821b0",
           "packages/protocol/src/canonical/v41-registry-interpolation-contracts.js": "768a5f3eb42a527d303c57f6"
@@ -552,8 +552,8 @@
         "packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js",
         "packages/protocol/src/canonical/inference-telemetry-disclosure-report.js",
         ".bitcode/v38-disclosure-boundary-report.json",
-        "packages/pipelines/asset-pack/src/read-need.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts"
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts"
       ],
       "promptProgramArtifactIds": [
         "v38-ptrr-failsafe-thricified-stack",
@@ -639,8 +639,8 @@
         "sourceFileCount": 5,
         "sourceFileHashes": {
           ".bitcode/v38-disclosure-boundary-report.json": "aca461f0fc6f08c221fe7be5",
-          "packages/pipelines/asset-pack/src/read-need.ts": "3d827283d8dc1234cc31d348",
-          "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+          "packages/asset-packs-pipelines/domain/src/read-need.ts": "3d827283d8dc1234cc31d348",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
           "packages/protocol/src/canonical/inference-telemetry-disclosure-report.js": "b254b893e52f30c9530b3718",
           "packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js": "d60b3e5d7bde4d4ffe3a5fd6"
         }
@@ -656,8 +656,8 @@
       "sourceRoots": [
         "packages/api/src/conversations/stream-events.ts",
         "packages/api/src/conversations/telemetry.ts",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
         "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
         "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
         "uapi/tests/conversationStreamPipelineLog.test.tsx",
@@ -741,8 +741,8 @@
         "sourceFileHashes": {
           "packages/api/src/conversations/stream-events.ts": "049a26286565e121f20c6874",
           "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
-          "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
-          "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+          "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
           "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
           "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99",
           "uapi/tests/conversationStreamPipelineLog.test.tsx": "73e3ba9c6f058ffe4418b3e4",
@@ -758,10 +758,10 @@
       "reportRowId": "repair-hooks-parsed-output-redaction-posture",
       "label": "Repair hooks and parsed output projections remain debuggable without leaking source, prompts, responses, or settlement payloads",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
         "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js",
         ".bitcode/v39-operational-telemetry-repair-readback.json",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
         "packages/api/src/conversations/telemetry.ts"
       ],
       "promptProgramArtifactIds": [
@@ -842,8 +842,8 @@
         "sourceFileHashes": {
           ".bitcode/v39-operational-telemetry-repair-readback.json": "7522f7709b545d11b7f9ba74",
           "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
-          "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
-          "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+          "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
+          "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
           "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js": "bcb00519d05408c295c53d1c"
         }
       },
@@ -1104,49 +1104,49 @@
       "sourceRootHash": "3dd00b34096a0084485bf679"
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "f5c24b4d292e9025fd35131a"
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/embedding-config.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "15469b3c0f1714d73ec3c669"
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "9c9bab0d4b8591aba6589173"
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "7fc546f4cc0d49f656399b80"
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "1b12c27c83154d3db95598aa"
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "f979cd718be5c41eadcf772f"
     },
     {
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
@@ -1320,8 +1320,8 @@
       "sourceFileHashes": {
         ".bitcode/v41-reading-prompt-benchmark-baselines.json": "2a3cb69f485bc68a4226953b",
         ".bitcode/v41-readneed-prompt-hardening.json": "d26d4bdca49dfe6505b9c9d2",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
         "packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32",
         "packages/protocol/src/canonical/v41-readneed-prompt-hardening.js": "b27719097ae70a129c6fa5aa"
       }
@@ -1333,9 +1333,9 @@
       "sourceFileHashes": {
         ".bitcode/v41-readfitsfinding-prompt-hardening.json": "e729ad0133513f67654ddae4",
         ".bitcode/v41-reading-prompt-benchmark-baselines.json": "2a3cb69f485bc68a4226953b",
-        "packages/pipelines/asset-pack/src/depository-search.ts": "8c79c6f9c479ba664206175d",
-        "packages/pipelines/asset-pack/src/embedding-config.ts": "e1dc97ae0aafc3cf8464ba4a",
-        "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts": "6b91862fe0c4c802b9a19e15",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts": "8c79c6f9c479ba664206175d",
+        "packages/asset-packs-pipelines/domain/src/embedding-config.ts": "e1dc97ae0aafc3cf8464ba4a",
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts": "6b91862fe0c4c802b9a19e15",
         "packages/protocol/src/canonical/read-fits-finding-search-embeddings.js": "4b37e8da18a4838d825789b8",
         "packages/protocol/src/canonical/v41-readfitsfinding-prompt-hardening.js": "a89d1e83c1eb187787d521f0",
         "packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32"
@@ -1360,7 +1360,7 @@
       "sourceFileCount": 5,
       "sourceFileHashes": {
         ".bitcode/v41-registry-interpolation-contracts.json": "81bd514a492f142f6244f18a",
-        "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
         "packages/prompts/src/benchmarking/runner.ts": "dfe65501927783fca7cd3305",
         "packages/prompts/src/benchmarking/types.ts": "e996cfbbcf4906498f2821b0",
         "packages/protocol/src/canonical/v41-registry-interpolation-contracts.js": "768a5f3eb42a527d303c57f6"
@@ -1372,8 +1372,8 @@
       "sourceFileCount": 5,
       "sourceFileHashes": {
         ".bitcode/v38-disclosure-boundary-report.json": "aca461f0fc6f08c221fe7be5",
-        "packages/pipelines/asset-pack/src/read-need.ts": "3d827283d8dc1234cc31d348",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts": "3d827283d8dc1234cc31d348",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
         "packages/protocol/src/canonical/inference-telemetry-disclosure-report.js": "b254b893e52f30c9530b3718",
         "packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js": "d60b3e5d7bde4d4ffe3a5fd6"
       }
@@ -1385,8 +1385,8 @@
       "sourceFileHashes": {
         "packages/api/src/conversations/stream-events.ts": "049a26286565e121f20c6874",
         "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
         "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
         "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99",
         "uapi/tests/conversationStreamPipelineLog.test.tsx": "73e3ba9c6f058ffe4418b3e4",
@@ -1400,8 +1400,8 @@
       "sourceFileHashes": {
         ".bitcode/v39-operational-telemetry-repair-readback.json": "7522f7709b545d11b7f9ba74",
         "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
-        "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
         "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js": "bcb00519d05408c295c53d1c"
       }
     },
@@ -1485,7 +1485,7 @@
     {
       "id": "readneed-observability-projects-parsed-output",
       "rowId": "readneed-post-rewrite-benchmark-delta",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
       "passed": true
     },
     {
@@ -1503,13 +1503,13 @@
     {
       "id": "readfitsfinding-has-many-candidate-search",
       "rowId": "readfitsfinding-post-rewrite-benchmark-delta",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "readfitsfinding-embedding-config-present",
       "rowId": "readfitsfinding-post-rewrite-benchmark-delta",
-      "sourcePath": "packages/pipelines/asset-pack/src/embedding-config.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
       "passed": true
     },
     {
@@ -1605,13 +1605,13 @@
     {
       "id": "bounded-inference-records-raw-and-parsed",
       "rowId": "failsafe-thricified-inference-receipt-projection",
-      "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
       "passed": true
     },
     {
       "id": "observability-projects-generation-receipts",
       "rowId": "failsafe-thricified-inference-receipt-projection",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
       "passed": true
     },
     {
@@ -1653,13 +1653,13 @@
     {
       "id": "repair-hooks-present",
       "rowId": "repair-hooks-parsed-output-redaction-posture",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
       "passed": true
     },
     {
       "id": "repair-readback-redacts-raw-prompts",
       "rowId": "repair-hooks-parsed-output-redaction-posture",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
       "passed": true
     },
     {
@@ -1671,7 +1671,7 @@
     {
       "id": "parsed-output-shape-source-safe",
       "rowId": "repair-hooks-parsed-output-redaction-posture",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-observability.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
       "passed": true
     },
     {

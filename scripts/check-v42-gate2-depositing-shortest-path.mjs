@@ -106,9 +106,9 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/depository-supply-index.ts',
-    'packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts',
-    'packages/pipelines/asset-pack/README.md',
+    'packages/asset-packs-pipelines/domain/src/depository-supply-index.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts',
+    'packages/asset-packs-pipelines/domain/README.md',
     'packages/protocol/src/canonical/v42-depositing-shortest-path.js',
     'packages/protocol/test/v42-depositing-shortest-path.test.js',
     'packages/protocol/test/protocol-package-boundary.test.js',
@@ -162,7 +162,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -213,7 +213,7 @@ function main() {
 
   const spec = read(root, 'BITCODE_SPEC_V42.md');
   const parity = read(root, 'BITCODE_SPEC_V42_PARITY_MATRIX.md');
-  const readme = read(root, 'packages/pipelines/asset-pack/README.md');
+  const readme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('V42 Gate 2') && spec.includes('compensation route preview'), 'V42 spec must expand Gate 2 compensation route preview.');
   assertCheck(failures, parity.includes('Gate 2') && parity.includes('implemented'), 'V42 parity matrix must mark Gate 2 implemented.');
   assertCheck(failures, readme.includes('compensation preview') && readme.includes('source-to-shares'), 'AssetPack README must document compensation preview.');

@@ -15,7 +15,7 @@ const explicitMapper = {
   '^@bitcode/pipelines-generics/src/llm/dry_running/config$': '<rootDir>/src/__stubs__/dry-run-config.ts',
   '^@bitcode/pipelines-generics/src/(.*)$': '<rootDir>/../../../packages/pipelines-generics/src/$1',
   '^@bitcode/pipelines-generics/(.*)$': '<rootDir>/../../../packages/pipelines-generics/src/$1',
-  '^@bitcode/pipelines/asset-pack$': '<rootDir>/../../../packages/pipelines/asset-pack/src/index.ts',
+  '^@bitcode/pipelines/asset-pack$': '<rootDir>/../../../packages/asset-packs-pipelines/domain/src/index.ts',
   '^@bitcode/agent-generics$': '<rootDir>/../../../packages/agent-generics/src/index.ts',
   '^@bitcode/agent-generics/(.*)$': '<rootDir>/../../../packages/agent-generics/src/$1',
   '^@bitcode/generic-llms$': '<rootDir>/../../../packages/generic-llms/registry/src/index.ts',

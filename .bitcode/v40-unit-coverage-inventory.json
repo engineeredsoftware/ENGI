@@ -309,18 +309,18 @@
     {
       "unitSurfaceId": "pipelines:reading-assetpack-implementation",
       "packageNames": [
-        "@bitcode/pipeline-asset-pack"
+        "@bitcode/asset-packs-pipelines-domain"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src"
+        "packages/asset-packs-pipelines/domain/src"
       ],
       "testPaths": [
-        "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-preview-boundary.test.ts",
-        "packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/pipeline-asset-pack test"
@@ -641,12 +641,12 @@
     },
     {
       "id": "pipelines-reading-assetpack-implementation:source-roots-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src",
       "passed": true
     },
     {
       "id": "pipelines-reading-assetpack-implementation:test-paths-exist",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/read-need.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
       "passed": true
     },
     {

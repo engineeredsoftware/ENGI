@@ -36,9 +36,9 @@ test('V26 read-comprehension keeps canonical owners and removes noncanonical wra
   const agentPackageJson = JSON.parse(readRepoFile('packages/generic-agents/read-comprehension/package.json'));
   const agentReadme = readRepoFile('packages/generic-agents/read-comprehension/README.md');
   const agentSource = readRepoFile('packages/generic-agents/read-comprehension/src/index.ts');
-  const pipelineAdapter = readRepoFile('packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts');
-  const dangerWallAdapter = readRepoFile('packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts');
-  const setupPhase = readRepoFile('packages/pipelines/asset-pack/src/phases/setup.ts');
+  const pipelineAdapter = readRepoFile('packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts');
+  const dangerWallAdapter = readRepoFile('packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-danger-wall-agent.ts');
+  const setupPhase = readRepoFile('packages/asset-packs-pipelines/domain/src/phases/setup.ts');
 
   assert.match(canonicalToolTs, /Canonical Bitcode read-semantics tool owner/u);
   assert.match(canonicalToolTs, /export class AnalyzeReadSemanticsTool/u);

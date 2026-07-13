@@ -87,9 +87,9 @@ function main() {
 
   for (const relativePath of [
     V44_DEPOSITOR_EARNINGS_SUPPLY_OPPORTUNITIES_ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/depositor-earning-supply-intelligence.ts',
-    'packages/pipelines/asset-pack/src/__tests__/depositor-earning-supply-intelligence.test.ts',
-    'packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts',
+    'packages/asset-packs-pipelines/domain/src/depositor-earning-supply-intelligence.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/depositor-earning-supply-intelligence.test.ts',
+    'packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts',
     'uapi/app/deposit/deposit-route-model.ts',
     'uapi/app/deposit/DepositPageClient.tsx',
     'uapi/tests/depositRouteModel.test.ts',
@@ -165,7 +165,7 @@ function main() {
     }
 
     try {
-      run(root, 'pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'test', '--', 'depositor-earning-supply-intelligence.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'test', '--', 'depositor-earning-supply-intelligence.test.ts', '--runInBand']);
     } catch {
       failures.push('packages/pipelines/asset-pack depositor earning supply intelligence tests must pass.');
     }

@@ -386,7 +386,7 @@
       ],
       "sourceRoots": [
         ".bitcode/v44-btd-btc-compensation-statements.json",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "uapi/app/packs/PacksPageClient.tsx"
       ],
       "requiredEvidence": [
@@ -435,7 +435,7 @@
       "sourceRoots": [
         ".bitcode/v44-depositor-earnings-supply-opportunities.json",
         ".bitcode/v44-btd-btc-compensation-statements.json",
-        "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts"
+        "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts"
       ],
       "requiredEvidence": [
         "contributorCount",
@@ -484,7 +484,7 @@
       "sourceRoots": [
         ".bitcode/v44-economic-domain-model.json",
         ".bitcode/v44-btd-btc-compensation-statements.json",
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts"
       ],
       "requiredEvidence": [
         "repairCaseCount",
@@ -531,7 +531,7 @@
       ],
       "sourceRoots": [
         ".bitcode/v44-btd-btc-compensation-statements.json",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "uapi/app/api/packs/activity/route.ts"
       ],
       "requiredEvidence": [
@@ -588,7 +588,7 @@
       ],
       "sourceRoots": [
         "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
         "scripts/rehearse-v44-scaled-network-flow.mjs"
       ],
       "requiredEvidence": [
@@ -708,9 +708,9 @@
     "readModel": "uapi/app/read/read-route-model.ts:670e1abd63cccea6365a491f",
     "depositModel": "uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
     "pipelineLogUi": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:bb7e1773303e04b9027ae2c7",
-    "compensationBoundary": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
-    "depositAdmission": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts:4d2b0c5e6e10c2b14a75a8c8",
-    "operationalReadback": "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts:4b0d32180a32720cb0086ffe",
+    "compensationBoundary": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
+    "depositAdmission": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts:4d2b0c5e6e10c2b14a75a8c8",
+    "operationalReadback": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts:4b0d32180a32720cb0086ffe",
     "protocolSource": "packages/protocol/src/canonical/v44-scaled-network-rehearsal.js:985cc71326634cddf0d51104",
     "protocolTest": "packages/protocol/test/v44-scaled-network-rehearsal.test.js:90553fc320fa30ebdf70a44f",
     "protocolIndex": "packages/protocol/src/index.js:1f16ea428bd71351a1292cb6",
@@ -807,12 +807,12 @@
     },
     {
       "id": "settlement-boundary-syncs-delivery",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "passed": true
     },
     {
       "id": "deposit-admission-syncs-compensation",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "passed": true
     },
     {

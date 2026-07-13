@@ -135,7 +135,7 @@
       ],
       "sourceRoots": [
         "scripts/rehearse-v45-source-safe-e2e.mjs",
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
         ".bitcode/v44-scaled-network-rehearsal.json"
       ],
       "rowRoot": "v45-source-safe-e2e-rehearsal-row:681d7fdd92d552cb0675b2e3",
@@ -179,8 +179,8 @@
         "repair-posture-receipt"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
-        "packages/pipelines/asset-pack/src/interface-disclosure-boundary.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts",
         "scripts/rehearse-v45-source-safe-e2e.mjs"
       ],
       "rowRoot": "v45-source-safe-e2e-rehearsal-row:4a21713c005233db5112b63c",
@@ -223,7 +223,7 @@
         "depository-admission-receipt"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+        "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
         "uapi/app/deposit/deposit-route-model.ts",
         "uapi/app/deposit/DepositPageClient.tsx"
       ],
@@ -311,7 +311,7 @@
         "assetpack-preview-receipt"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
         ".bitcode/v45-selection-materialization-proof.json",
         ".bitcode/v45-disclosure-boundary-proof.json"
       ],
@@ -354,8 +354,8 @@
         "btc-settlement-readiness-receipt"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/btd-scalar-volume-quote.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-commodity-state.ts",
+        "packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-commodity-state.ts",
         ".bitcode/v45-settlement-source-to-shares-proof.json"
       ],
       "rowRoot": "v45-source-safe-e2e-rehearsal-row:bfa346a261014f0abf7fe2cf",
@@ -397,7 +397,7 @@
         "delivery-posture-receipt"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         ".bitcode/v45-settlement-source-to-shares-proof.json",
         ".bitcode/v45-authorization-sensitive-flow-proof.json"
       ],
@@ -440,8 +440,8 @@
         "btd-quote-receipt"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/btd-scalar-volume-quote.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         ".bitcode/v45-settlement-source-to-shares-proof.json"
       ],
       "rowRoot": "v45-source-safe-e2e-rehearsal-row:02471e57d0d2497d41271a32",
@@ -482,7 +482,7 @@
         "ledger-database-storage-readback-root"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "uapi/components/base/bitcode/activity/pack-activity-model.ts",
         ".bitcode/v45-proof-contract-proof.json"
       ],
@@ -568,8 +568,8 @@
         "repair-posture-receipt"
       ],
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
-        "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "scripts/check-v45-gate17-source-safe-e2e-rehearsal.mjs"
       ],
       "rowRoot": "v45-source-safe-e2e-rehearsal-row:60b0287e23bab51fa1f30a67",
@@ -733,7 +733,7 @@
       "evidenceClassId": "deposit-option-receipt",
       "present": true,
       "contradictory": false,
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "sourceSafeMetadataOnly": true,
       "protectedSourcePayloadSerialized": false,
       "rawPromptVisible": false,
@@ -753,7 +753,7 @@
       "evidenceClassId": "depository-admission-receipt",
       "present": true,
       "contradictory": false,
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "sourceSafeMetadataOnly": true,
       "protectedSourcePayloadSerialized": false,
       "rawPromptVisible": false,
@@ -813,7 +813,7 @@
       "evidenceClassId": "finding-fits-receipt",
       "present": true,
       "contradictory": false,
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "sourceSafeMetadataOnly": true,
       "protectedSourcePayloadSerialized": false,
       "rawPromptVisible": false,
@@ -853,7 +853,7 @@
       "evidenceClassId": "btd-quote-receipt",
       "present": true,
       "contradictory": false,
-      "sourcePath": "packages/pipelines/asset-pack/src/btd-scalar-volume-quote.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts",
       "sourceSafeMetadataOnly": true,
       "protectedSourcePayloadSerialized": false,
       "rawPromptVisible": false,
@@ -873,7 +873,7 @@
       "evidenceClassId": "btc-settlement-readiness-receipt",
       "present": true,
       "contradictory": false,
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "sourceSafeMetadataOnly": true,
       "protectedSourcePayloadSerialized": false,
       "rawPromptVisible": false,
@@ -933,7 +933,7 @@
       "evidenceClassId": "delivery-posture-receipt",
       "present": true,
       "contradictory": false,
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "sourceSafeMetadataOnly": true,
       "protectedSourcePayloadSerialized": false,
       "rawPromptVisible": false,
@@ -953,7 +953,7 @@
       "evidenceClassId": "compensation-posture-receipt",
       "present": true,
       "contradictory": false,
-      "sourcePath": "packages/pipelines/asset-pack/src/btd-scalar-volume-quote.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts",
       "sourceSafeMetadataOnly": true,
       "protectedSourcePayloadSerialized": false,
       "rawPromptVisible": false,
@@ -973,7 +973,7 @@
       "evidenceClassId": "repair-posture-receipt",
       "present": true,
       "contradictory": false,
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
       "sourceSafeMetadataOnly": true,
       "protectedSourcePayloadSerialized": false,
       "rawPromptVisible": false,
@@ -1003,13 +1003,13 @@
     "packageJson": "package.json:b79014968c556bc1b43ab341",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
-    "commodityState": "packages/pipelines/asset-pack/src/asset-pack-commodity-state.ts:59c51e251fd516e2c268749e",
-    "scalarQuote": "packages/pipelines/asset-pack/src/btd-scalar-volume-quote.ts:eda1442a63433a49e4c561c9",
-    "settlementReadback": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
-    "interfaceDisclosure": "packages/pipelines/asset-pack/src/interface-disclosure-boundary.ts:1fde9c12eddfffc5c04f82fb",
-    "depositAdmission": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts:4d2b0c5e6e10c2b14a75a8c8",
-    "depositorySearch": "packages/pipelines/asset-pack/src/depository-search.ts:e983ef9a11ae67d867ebaa99",
-    "operationalReadback": "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts:4b0d32180a32720cb0086ffe",
+    "commodityState": "packages/asset-packs-pipelines/domain/src/asset-pack-commodity-state.ts:59c51e251fd516e2c268749e",
+    "scalarQuote": "packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts:eda1442a63433a49e4c561c9",
+    "settlementReadback": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
+    "interfaceDisclosure": "packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts:1fde9c12eddfffc5c04f82fb",
+    "depositAdmission": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts:4d2b0c5e6e10c2b14a75a8c8",
+    "depositorySearch": "packages/asset-packs-pipelines/domain/src/depository-search.ts:e983ef9a11ae67d867ebaa99",
+    "operationalReadback": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts:4b0d32180a32720cb0086ffe",
     "readModel": "uapi/app/read/read-route-model.ts:670e1abd63cccea6365a491f",
     "depositModel": "uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
     "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
@@ -1081,37 +1081,37 @@
     },
     {
       "id": "commodity-state-covers-v45-states",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-commodity-state.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-commodity-state.ts",
       "passed": true
     },
     {
       "id": "scalar-quote-conserves-btd-and-shares",
-      "sourcePath": "packages/pipelines/asset-pack/src/btd-scalar-volume-quote.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts",
       "passed": true
     },
     {
       "id": "settlement-readback-covers-rights-delivery-repair",
-      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "passed": true
     },
     {
       "id": "interface-disclosure-covers-all-surfaces",
-      "sourcePath": "packages/pipelines/asset-pack/src/interface-disclosure-boundary.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts",
       "passed": true
     },
     {
       "id": "deposit-admission-covers-source-safe-supply",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
       "passed": true
     },
     {
       "id": "depository-search-covers-many-fits",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "operational-readback-covers-repair",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
       "passed": true
     },
     {

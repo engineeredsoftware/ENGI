@@ -246,7 +246,7 @@
   ],
   "sourceEvidence": [
     {
-      "relativePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "present": true,
       "digest": "sha256:e983ef9a11ae67d867ebaa99af6d1e55af1fb74ea382fde283f5a96bc7c69421",
       "byteLength": 67438,
@@ -272,7 +272,7 @@
       ]
     },
     {
-      "relativePath": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
       "present": true,
       "digest": "sha256:4e89eacdc2b73bd6bc70a0859b7597b6bb5d5e5072935996f1b3e06190a03648",
       "byteLength": 21205,
@@ -298,7 +298,7 @@
       ]
     },
     {
-      "relativePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
       "present": true,
       "digest": "sha256:1319dd4223292e03b795ab8777654944d85b52b18748b442e1ac5b9f2a1eaaef",
       "byteLength": 22337,
@@ -324,7 +324,7 @@
       ]
     },
     {
-      "relativePath": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts",
+      "relativePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
       "present": true,
       "digest": "sha256:3d2b0984fc9e2c3c108d6eb09bd5a7afc6dd00fa778cf7e16af8c662f6caccae",
       "byteLength": 47753,
@@ -373,9 +373,9 @@
     "delivery id"
   ],
   "generatedArtifactAndTestBindings": [
-    "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
-    "packages/pipelines/asset-pack/src/__tests__/read-fits-finding-runtime.test.ts",
-    "packages/pipelines/asset-pack/src/__tests__/finish-delivery.test.ts",
+    "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
+    "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
+    "packages/asset-packs-pipelines/domain/src/__tests__/finish-delivery.test.ts",
     "packages/protocol/test/v45-proof-family-artifacts.test.js"
   ],
   "failClosedConditions": [

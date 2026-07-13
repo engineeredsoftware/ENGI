@@ -300,8 +300,8 @@
       "laneId": "local-and-staging-testnet",
       "surfaceKind": "reading-rehearsal",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
-        "packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-local-staging-rehearsal.test.ts --runInBand --forceExit"
@@ -390,7 +390,7 @@
       "surfaceKind": "value-boundary",
       "sourceRoots": [
         "scripts/rehearse-v40-local-staging-testnet.mjs",
-        "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts"
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts"
       ],
       "commandIds": [
         "node scripts/rehearse-v40-local-staging-testnet.mjs --lane staging-testnet --dry-run --json"
@@ -522,7 +522,7 @@
     },
     {
       "id": "reading-rehearsal-five-stage-source-safe",
-      "sourcePath": "packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
       "passed": true
     },
     {

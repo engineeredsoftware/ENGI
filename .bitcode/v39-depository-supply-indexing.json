@@ -12,8 +12,8 @@
       "rowId": "lifecycle:source-bound-deposit-normalization",
       "purpose": "Normalize deposited repository/material records into source-bound DepositorySupplyRecord receipts with repository, branch, commit, proof, measurement, and readback roots.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-        "packages/pipelines/asset-pack/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
         "uapi/app/api/deposits/route.ts"
       ],
       "emittedTypes": [
@@ -51,8 +51,8 @@
       "rowId": "documents:source-safe-search-documents",
       "purpose": "Generate lexical, metadata, measurement, and vector search documents from source-safe titles, summaries, paths, symbols, stack tags, constraints, and roots without serializing protected source.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-        "packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts"
       ],
       "emittedTypes": [
         "DepositorySupplySearchDocument"
@@ -86,8 +86,8 @@
       "rowId": "vectors:active-embedding-projection",
       "purpose": "Bind every searchable supply record to the active OpenAI text-embedding-3-small, 1536-dimension, cosine match_deliverable_vectors vector policy.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-        "packages/pipelines/asset-pack/src/embedding-config.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/embedding-config.ts"
       ],
       "emittedTypes": [
         "DepositorySupplyVectorProjection"
@@ -121,7 +121,7 @@
       "rowId": "storage:supabase-search-readback-projection",
       "purpose": "Describe the Supabase storage projection that maps source-safe AssetPack evidence rows and vector rows into searchable Depository supply readbacks.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
         "packages/orm/src/models/asset-pack-evidence.ts",
         "packages/orm/src/models/bitcode-execution-storage.ts"
       ],
@@ -156,7 +156,7 @@
       "rowId": "rights:depositor-reader-settlement-boundary",
       "purpose": "Preserve the depositor ownership and reader visibility boundary: BTD remains depositor-owned until settlement transfer and source-bearing AssetPack content remains hidden before settlement.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
         "uapi/app/terminal/TerminalDepositComposer.tsx",
         "BITCODE_SPEC_V39.md"
       ],
@@ -191,8 +191,8 @@
       "rowId": "repair:searchability-readiness-actions",
       "purpose": "Emit deterministic blockers, warnings, and repair actions for missing repository binding, source revision binding, proof, measurement, and embedding vector rows.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-        "packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts"
       ],
       "emittedTypes": [
         "DepositorySupplyLifecycleState",
@@ -226,9 +226,9 @@
       "rowId": "handoff:finding-fits-search-assets",
       "purpose": "Convert source-safe Depository supply records into ReadFitsFindingSynthesis candidate DepositoryAsset inputs without importing source-bearing payloads.",
       "sourceRoots": [
-        "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-        "packages/pipelines/asset-pack/src/depository-search.ts",
-        "packages/pipelines/asset-pack/src/index.ts"
+        "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/asset-packs-pipelines/domain/src/index.ts"
       ],
       "emittedTypes": [
         "depositorySupplyAssetsFromIndex",
@@ -271,67 +271,67 @@
   "predicateResults": [
     {
       "id": "supply-index-defines-core-types",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-supply-index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
       "passed": true
     },
     {
       "id": "supply-index-builds-source-safe-records",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-supply-index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
       "passed": true
     },
     {
       "id": "supply-index-has-rights-boundary",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-supply-index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
       "passed": true
     },
     {
       "id": "supply-index-has-storage-projection",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-supply-index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
       "passed": true
     },
     {
       "id": "supply-index-has-vector-projection",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-supply-index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
       "passed": true
     },
     {
       "id": "supply-index-has-repair-actions",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-supply-index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
       "passed": true
     },
     {
       "id": "supply-index-handoff-to-search-assets",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-supply-index.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
       "passed": true
     },
     {
       "id": "search-consumes-supply-index",
-      "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
       "passed": true
     },
     {
       "id": "package-exports-supply-index",
-      "sourcePath": "packages/pipelines/asset-pack/package.json",
+      "sourcePath": "packages/asset-packs-pipelines/domain/package.json",
       "passed": true
     },
     {
       "id": "embedding-policy-preserved",
-      "sourcePath": "packages/pipelines/asset-pack/src/embedding-config.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
       "passed": true
     },
     {
       "id": "tests-cover-source-safety",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts",
       "passed": true
     },
     {
       "id": "tests-cover-vector-repair",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts",
       "passed": true
     },
     {
       "id": "tests-cover-search-handoff",
-      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts",
       "passed": true
     },
     {
@@ -356,7 +356,7 @@
     },
     {
       "id": "readme-documents-supply-indexing",
-      "sourcePath": "packages/pipelines/asset-pack/README.md",
+      "sourcePath": "packages/asset-packs-pipelines/domain/README.md",
       "passed": true
     },
     {
@@ -412,13 +412,13 @@
     "legacySourceRoots": false
   },
   "sourceRoots": {
-    "depositorySupplyIndex": "packages/pipelines/asset-pack/src/depository-supply-index.ts",
-    "depositorySupplyIndexTest": "packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts",
-    "depositorySearch": "packages/pipelines/asset-pack/src/depository-search.ts",
-    "embeddingConfig": "packages/pipelines/asset-pack/src/embedding-config.ts",
-    "assetPackPackage": "packages/pipelines/asset-pack/package.json",
-    "assetPackIndex": "packages/pipelines/asset-pack/src/index.ts",
-    "assetPackReadme": "packages/pipelines/asset-pack/README.md",
+    "depositorySupplyIndex": "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
+    "depositorySupplyIndexTest": "packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts",
+    "depositorySearch": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+    "embeddingConfig": "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
+    "assetPackPackage": "packages/asset-packs-pipelines/domain/package.json",
+    "assetPackIndex": "packages/asset-packs-pipelines/domain/src/index.ts",
+    "assetPackReadme": "packages/asset-packs-pipelines/domain/README.md",
     "uapiDepositRoute": "uapi/app/api/deposits/route.ts",
     "terminalDepositComposer": "uapi/app/terminal/TerminalDepositComposer.tsx",
     "ormAssetPackEvidence": "packages/orm/src/models/asset-pack-evidence.ts",

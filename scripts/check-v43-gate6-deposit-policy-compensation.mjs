@@ -82,8 +82,8 @@ function main() {
 
   for (const relativePath of [
     V43_DEPOSIT_POLICY_COMPENSATION_ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts',
-    'packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-option-policy.test.ts',
+    'packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-policy.test.ts',
     'uapi/app/deposit/deposit-route-model.ts',
     'uapi/app/deposit/DepositPageClient.tsx',
     'uapi/tests/depositRouteModel.test.ts',
@@ -140,7 +140,7 @@ function main() {
 
   if (!args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', 'deposit-asset-pack-option-policy.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', 'deposit-asset-pack-option-policy.test.ts', '--runInBand']);
     } catch {
       failures.push('asset-pack deposit-asset-pack-option-policy.test.ts must pass.');
     }

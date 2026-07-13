@@ -47,7 +47,7 @@
     "@bitcode/errors": "workspace:*",
     "@bitcode/google-analytics": "workspace:*",
     "@bitcode/observability": "workspace:*",
-    "@bitcode/pipeline-asset-pack": "workspace:*",
+    "@bitcode/asset-packs-pipelines-domain": "workspace:*",
     "@bitcode/pipeline-hosts": "workspace:*",
     "@bitcode/prompts": "workspace:*",
     "@bitcode/protocol": "workspace:*",

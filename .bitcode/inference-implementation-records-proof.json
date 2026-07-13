@@ -465,9 +465,9 @@
       "invalidBoundaryPosture": null,
       "missingSectionFields": [],
       "implementationOwnerRefs": [
-        "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
-        "packages/pipelines/asset-pack/scripts/render-prompts.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
+        "packages/asset-packs-pipelines/domain/scripts/render-prompts.ts",
         "packages/generic-agents/text-searcher/src/prompts/agent-prompt-text-searcher.ts",
         "packages/generic-agents/text-searcher/src/prompts/system-prompt-text-searcher.ts",
         "packages/generic-agents/text-searcher/src/prompts/plan-prompt-text-searcher.ts",
@@ -476,8 +476,8 @@
         "packages/generic-agents/text-searcher/src/prompts/retry-prompt-text-searcher.ts",
         "packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts",
         "packages/generic-tools/simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt.ts",
-        "packages/pipelines/asset-pack/src/tools/AssetPackCloneVCSRepositoryTool.ts",
-        "packages/pipelines/asset-pack/src/tools/search.ts",
+        "packages/asset-packs-pipelines/domain/src/tools/AssetPackCloneVCSRepositoryTool.ts",
+        "packages/asset-packs-pipelines/domain/src/tools/search.ts",
         "packages/system-grep/src/index.ts",
         "packages/generic-tools/simple-system-text-search/src/index.ts",
         "packages/generic-tools/files-maintaining/src/index.ts",
@@ -486,16 +486,16 @@
         "packages/generic-tools/files-maintaining/src/prompts/ReplaceFileDocCodeToolPrompt.ts",
         "packages/generic-tools/files-maintaining/src/prompts/DeleteFileDocCodeToolPrompt.ts",
         "packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts",
         "packages/generic-agents/text-searcher/src/index.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-ready-to-iterate-agent.ts",
-        "packages/pipelines/asset-pack/src/phases/index.ts",
-        "packages/pipelines/asset-pack/src/phases/finish.ts",
-        "packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts",
-        "packages/pipelines/asset-pack/src/agents/finish/asset-pack-completion-agent.ts",
-        "packages/pipelines/asset-pack/src/index.ts",
-        "packages/pipelines/asset-pack/src/postprocess.ts",
-        "packages/pipelines/asset-pack/src/types/PipelineSchemas.ts"
+        "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-ready-to-iterate-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/phases/index.ts",
+        "packages/asset-packs-pipelines/domain/src/phases/finish.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/finish/deliver-asset-pack-to-destination-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-completion-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/index.ts",
+        "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+        "packages/asset-packs-pipelines/domain/src/types/PipelineSchemas.ts"
       ],
       "missingImplementationOwnerRefs": [],
       "sourceEvidenceRefs": [
@@ -505,13 +505,13 @@
         "protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
         "protocol-demonstration/test/v26-simple-system-text-search-compatibility.test.js",
         "protocol-demonstration/test/v26-text-searcher-agent-compatibility.test.js",
-        "packages/pipelines/asset-pack/src/index.ts",
-        "packages/pipelines/asset-pack/src/phases/index.ts",
-        "packages/pipelines/asset-pack/src/phases/finish.ts",
-        "packages/pipelines/asset-pack/src/postprocess.ts",
-        "packages/pipelines/asset-pack/src/types/PipelineSchemas.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/index.ts",
+        "packages/asset-packs-pipelines/domain/src/phases/index.ts",
+        "packages/asset-packs-pipelines/domain/src/phases/finish.ts",
+        "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+        "packages/asset-packs-pipelines/domain/src/types/PipelineSchemas.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts",
         "packages/generic-agents/text-searcher/README.md",
         "packages/generic-agents/text-searcher/package.json",
         "packages/generic-agents/text-searcher/src/index.ts",
@@ -613,9 +613,9 @@
         "packages/generic-tools/read-comprehension/src/ReadComprehensionToolset.ts",
         "packages/generic-tools/read-comprehension/src/read-comprehension-primitives.ts",
         "packages/generic-tools/read-comprehension/src/read-comprehension-schemas.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
-        "packages/pipelines/asset-pack/src/phases/setup.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-danger-wall-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/phases/setup.ts",
         "packages/generic-agents/read-comprehension/tsconfig.json",
         "packages/generic-agents/read-comprehension/package.json",
         "packages/generic-tools/read-comprehension/tsconfig.json",
@@ -653,9 +653,9 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_refine_assessment.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_retry_errorhandling.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeneedsemantics_doccodetoolpurpose.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
-        "packages/pipelines/asset-pack/src/phases/setup.ts"
+        "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-danger-wall-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/phases/setup.ts"
       ],
       "missingSourceEvidenceRefs": [],
       "verificationSet": [
@@ -882,7 +882,7 @@
         "packages/generic-agents/danger-wall/src/prompts/refine-prompt-dangerwall.ts",
         "packages/generic-agents/danger-wall/src/prompts/retry-prompt-dangerwall.ts",
         "packages/generic-agents/danger-wall/src/index.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-danger-wall-agent.ts",
         "packages/agent-generics/src/execution/AgentExecution.ts"
       ],
       "missingImplementationOwnerRefs": [],
@@ -905,7 +905,7 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_identity.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_instructions.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_role.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-danger-wall-agent.ts",
         "protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js"
       ],
       "missingSourceEvidenceRefs": [],
@@ -1361,9 +1361,9 @@
       "canonicalNeed": "Operate Bitcode AssetPack pipeline machinery as asset-pack written-asset synthesis plus delivery-mechanism compatibility.",
       "promptImplementation": {
         "owners": [
-          "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
-          "packages/pipelines/asset-pack/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
-          "packages/pipelines/asset-pack/scripts/render-prompts.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
+          "packages/asset-packs-pipelines/domain/scripts/render-prompts.ts",
           "packages/generic-agents/text-searcher/src/prompts/agent-prompt-text-searcher.ts",
           "packages/generic-agents/text-searcher/src/prompts/system-prompt-text-searcher.ts",
           "packages/generic-agents/text-searcher/src/prompts/plan-prompt-text-searcher.ts",
@@ -1379,8 +1379,8 @@
       },
       "toolImplementation": {
         "owners": [
-          "packages/pipelines/asset-pack/src/tools/AssetPackCloneVCSRepositoryTool.ts",
-          "packages/pipelines/asset-pack/src/tools/search.ts",
+          "packages/asset-packs-pipelines/domain/src/tools/AssetPackCloneVCSRepositoryTool.ts",
+          "packages/asset-packs-pipelines/domain/src/tools/search.ts",
           "packages/system-grep/src/index.ts",
           "packages/generic-tools/simple-system-text-search/src/index.ts",
           "packages/generic-tools/files-maintaining/src/index.ts",
@@ -1394,21 +1394,21 @@
       },
       "agentImplementation": {
         "owners": [
-          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts",
           "packages/generic-agents/text-searcher/src/index.ts",
-          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-ready-to-iterate-agent.ts",
-          "packages/pipelines/asset-pack/src/phases/index.ts",
-          "packages/pipelines/asset-pack/src/phases/finish.ts",
-          "packages/pipelines/asset-pack/src/agents/finish/deliver-asset-pack-to-destination-agent.ts",
-          "packages/pipelines/asset-pack/src/agents/finish/asset-pack-completion-agent.ts"
+          "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-ready-to-iterate-agent.ts",
+          "packages/asset-packs-pipelines/domain/src/phases/index.ts",
+          "packages/asset-packs-pipelines/domain/src/phases/finish.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/finish/deliver-asset-pack-to-destination-agent.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-completion-agent.ts"
         ],
         "contract": "Setup, iteration, validation, and Finish agents must resolve semantic read and writtenAsset fields before bounded storage compatibility fields; Delivering is only the third-party AssetPack/partial handoff inside Finish."
       },
       "executionImplementation": {
         "owners": [
-          "packages/pipelines/asset-pack/src/index.ts",
-          "packages/pipelines/asset-pack/src/postprocess.ts",
-          "packages/pipelines/asset-pack/src/types/PipelineSchemas.ts"
+          "packages/asset-packs-pipelines/domain/src/index.ts",
+          "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+          "packages/asset-packs-pipelines/domain/src/types/PipelineSchemas.ts"
         ],
         "carriers": [
           "PipelineExecution compatibility entry",
@@ -1434,13 +1434,13 @@
         "protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
         "protocol-demonstration/test/v26-simple-system-text-search-compatibility.test.js",
         "protocol-demonstration/test/v26-text-searcher-agent-compatibility.test.js",
-        "packages/pipelines/asset-pack/src/index.ts",
-        "packages/pipelines/asset-pack/src/phases/index.ts",
-        "packages/pipelines/asset-pack/src/phases/finish.ts",
-        "packages/pipelines/asset-pack/src/postprocess.ts",
-        "packages/pipelines/asset-pack/src/types/PipelineSchemas.ts",
-        "packages/pipelines/asset-pack/src/agents/prompts/comprehend-read-prompt.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/index.ts",
+        "packages/asset-packs-pipelines/domain/src/phases/index.ts",
+        "packages/asset-packs-pipelines/domain/src/phases/finish.ts",
+        "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+        "packages/asset-packs-pipelines/domain/src/types/PipelineSchemas.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts",
         "packages/generic-agents/text-searcher/README.md",
         "packages/generic-agents/text-searcher/package.json",
         "packages/generic-agents/text-searcher/src/index.ts",
@@ -1515,9 +1515,9 @@
       "agentImplementation": {
         "owners": [
           "packages/generic-agents/read-comprehension/src/index.ts",
-          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
-          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
-          "packages/pipelines/asset-pack/src/phases/setup.ts"
+          "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-danger-wall-agent.ts",
+          "packages/asset-packs-pipelines/domain/src/phases/setup.ts"
         ],
         "contract": "bitcodeSetupReadComprehensionAgent is the setup/pre-danger-wall PTRR agent. It composes the generic-tools Read-comprehension toolset, emits semantic Read, source-to-shares service-question, commercial-accountability, and AssetPack evidence, and hands bounded riskAdmissionInput to bitcodeNeedRiskAdmissionAgent."
       },
@@ -1528,7 +1528,7 @@
           "packages/generic-tools/read-comprehension/tsconfig.json",
           "packages/generic-tools/read-comprehension/src/index.ts",
           "packages/generic-tools/read-comprehension/src/types/tools-generics.ts",
-          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts"
+          "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts"
         ],
         "carriers": [
           "AgentExecution for bitcode-setup-read-comprehension",
@@ -1577,9 +1577,9 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_refine_assessment.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendneed_retry_errorhandling.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeneedsemantics_doccodetoolpurpose.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-comprehend-read-agent.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
-        "packages/pipelines/asset-pack/src/phases/setup.ts"
+        "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-danger-wall-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/phases/setup.ts"
       ]
     },
     {
@@ -1774,7 +1774,7 @@
       "executionImplementation": {
         "owners": [
           "packages/generic-agents/danger-wall/src/index.ts",
-          "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
+          "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-danger-wall-agent.ts",
           "packages/agent-generics/src/execution/AgentExecution.ts"
         ],
         "carriers": [
@@ -1813,7 +1813,7 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_identity.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_instructions.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_role.ts",
-        "packages/pipelines/asset-pack/src/agents/setup/asset-pack-danger-wall-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-danger-wall-agent.ts",
         "protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js"
       ]
     },

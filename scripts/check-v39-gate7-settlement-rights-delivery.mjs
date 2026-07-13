@@ -105,13 +105,13 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
-    'packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts',
-    'packages/pipelines/asset-pack/src/postprocess.ts',
-    'packages/pipelines/asset-pack/src/index.ts',
-    'packages/pipelines/asset-pack/package.json',
-    'packages/pipelines/asset-pack/README.md',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+    'packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts',
+    'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+    'packages/asset-packs-pipelines/domain/src/index.ts',
+    'packages/asset-packs-pipelines/domain/package.json',
+    'packages/asset-packs-pipelines/domain/README.md',
     'packages/btd/src/receipts.ts',
     'packages/btd/src/source-to-shares.ts',
     'packages/btd/src/settlement.ts',
@@ -160,7 +160,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',
@@ -212,7 +212,7 @@ function main() {
 
   const spec = read(root, 'BITCODE_SPEC_V39.md');
   const parity = read(root, 'BITCODE_SPEC_V39_PARITY_MATRIX.md');
-  const readme = read(root, 'packages/pipelines/asset-pack/README.md');
+  const readme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('AssetPackSettlementRightsDeliveryBoundary'), 'V39 spec must name AssetPackSettlementRightsDeliveryBoundary.');
   assertCheck(failures, spec.includes('v39-settlement-rights-delivery'), 'V39 spec must name the Gate 7 artifact.');
   assertCheck(failures, parity.includes('Gate 7 Parity'), 'V39 parity matrix must include Gate 7 parity.');

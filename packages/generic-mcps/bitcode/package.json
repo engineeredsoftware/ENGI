@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@bitcode/pipelines-generics": "workspace:*",
-    "@bitcode/pipeline-asset-pack": "workspace:*",
+    "@bitcode/asset-packs-pipelines-domain": "workspace:*",
     "@bitcode/supabase": "workspace:*",
     "@bitcode/auth": "workspace:*",
     "@bitcode/btd": "workspace:*",

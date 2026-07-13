@@ -107,12 +107,12 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/pipelines/asset-pack/src/read-need.ts',
-    'packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts',
-    'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
-    'packages/pipelines/asset-pack/src/__tests__/read-need.test.ts',
-    'packages/pipelines/asset-pack/src/__tests__/read-need-review-resynthesis.test.ts',
-    'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-contract.test.ts',
+    'packages/asset-packs-pipelines/domain/src/read-need.ts',
+    'packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts',
+    'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts',
+    'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts',
     'uapi/app/api/read-review/route.ts',
     'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
     'uapi/tests/api/readReviewRoute.test.ts',
@@ -128,7 +128,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'uapi/app/terminal/README.md',
-    'packages/pipelines/asset-pack/README.md',
+    'packages/asset-packs-pipelines/domain/README.md',
     'packages/protocol/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -163,7 +163,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--filter',
-        '@bitcode/pipeline-asset-pack',
+        '@bitcode/asset-packs-pipelines-domain',
         'exec',
         'jest',
         '--config',

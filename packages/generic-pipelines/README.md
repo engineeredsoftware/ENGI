@@ -10,9 +10,9 @@ Pipeline                                    # primitive (@bitcode/pipelines-gene
 SDIVFPipeline                               # base + primitive (@bitcode/generic-pipelines-sdivf)
 SimplePipeline                              # base + primitive (@bitcode/generic-pipelines-simple)
         ↑
-SynthesizeDepositsSDIVFPipeline             # asset-packs-pipelines/synthesize-deposits
-SynthesizeReadsSDIVFPipeline                # asset-packs-pipelines/synthesize-reads
-SettleReadsSimplePipeline                   # asset-packs-pipelines/settle-reads
+SynthesizeDepositAssetPacksSDIVFPipeline             # asset-packs-pipelines/synthesize-deposits
+SynthesizeReadAssetPacksSDIVFPipeline                # asset-packs-pipelines/synthesize-reads
+SettleAssetPacksSimplePipeline                   # asset-packs-pipelines/settle-reads
 ```
 
 Parity with agents: **SimplePipeline** is to **SDIVFPipeline** as **QuickAgent** is to **PTRRAgent**.
@@ -35,7 +35,7 @@ Parity with agents: **SimplePipeline** is to **SDIVFPipeline** as **QuickAgent**
 
 Product pipelines supply stage/phase agents; they do not reimplement base loops.
 **Naming law:** every type/factory name must express the full inheritance chain
-(e.g. `SettleReadsSimplePipeline`, not bare `SettlePipeline`).
+(e.g. `SettleAssetPacksSimplePipeline`, not bare `SettlePipeline`).
 **No lens:** deposit synthesis, read synthesis, and settle-reads are separate
 specific pipelines — never one factory parameterized by deposit|read.
 ## Nested-package pattern
