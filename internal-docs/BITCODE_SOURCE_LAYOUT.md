@@ -225,6 +225,9 @@ packages/generic-<family>/          # README only (no package.json)
 | `generic-executors/` | (package root) | `@bitcode/generic-executors` (sequential, parallel, …) |
 | `generic-executions/` | (package root) | `@bitcode/generic-executions` (process-root Execution) |
 | `context-generics/` | (package root) | `@bitcode/context-generics` (BC only; no separate Context state) |
+| `artifact-generics/` | (package root) | `@bitcode/artifact-generics` (Artifact + storage contract) |
+| `generic-artifacts/` | `patch/` | `@bitcode/generic-artifacts-patch` (PatchArtifact base) |
+| `artifacts/` | (package root) | `@bitcode/artifacts` (S3/Supabase ArtifactStorage backend) |
 | `generic-doc-comment-plugins/` | `doc-developing/` | `@bitcode/doc-comment-developing` |
 
 **Do not** put a root `package.json` on the family folder. Workspace globs are

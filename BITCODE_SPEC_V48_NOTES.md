@@ -1652,6 +1652,20 @@ Measured-patch is the sole AssetPack implementation used by synthesize-deposits,
 synthesize-reads, and settle-reads. Deposit option `contents` projects from
 MeasuredPatchAssetPack (path+op patch + provenant paths; never raw source).
 
+## Artifact hierarchy: generics + patch + product (Garrett, 2026-07-13)
+
+```
+@bitcode/artifact-generics                           # Artifact + ArtifactStorage contract
+  → @bitcode/generic-artifacts-patch                 # PatchArtifact (path+op patchfiles)
+      → @bitcode/asset-packs-synthesis               # AssetPackPatchArtifact (product)
+@bitcode/artifacts                                   # S3/Supabase ArtifactStorage backend (BC)
+```
+
+Primitive storage requirements live in artifact-generics. Patch base stores
+AssetPack path+op envelopes without requiring raw source. Product binds
+`assetPackId`. Existing `saveArtifact` / `putArtifactAtKey` callers keep
+`@bitcode/artifacts`.
+
 ## AssetPack product pipelines: no lens; Simple settle-reads (Garrett, 2026-07-13)
 
 Removed the deposit|read **lens** on a single SynthesizeAssetPacks factory.

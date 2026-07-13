@@ -18,8 +18,14 @@ elsewhere:
 
 | Path | Package | Role |
 | --- | --- | --- |
-| `synthesis/` | `@bitcode/asset-packs-synthesis` | Synthesize* measurement catalogs + AbsolutesMeasureAgent |
+| `synthesis/` | `@bitcode/asset-packs-synthesis` | Measurement catalogs + AbsolutesMeasureAgent + **AssetPackPatchArtifact** |
 | `settle/` | `@bitcode/asset-packs-settle` | Settle product measurement surface (stub / Gate 6) |
 
 Prefer importing **MeasuredPatchAssetPack** from
 `@bitcode/generic-asset-packs-measured-patch` when constructing pack objects.
+
+Artifact hierarchy for patch payloads:
+
+```
+Artifact → PatchArtifact → AssetPackPatchArtifact (synthesis product)
+```

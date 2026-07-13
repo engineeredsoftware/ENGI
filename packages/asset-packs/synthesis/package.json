@@ -7,13 +7,26 @@
   "exports": {
     ".": "./src/index.ts",
     "./measurement-catalogs": "./src/measurement-catalogs.ts",
-    "./types": "./src/types.ts"
+    "./types": "./src/types.ts",
+    "./asset-pack-patch-artifact": "./src/asset-pack-patch-artifact.ts"
   },
-  "scripts": { "typecheck": "tsc --noEmit" },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests"
+  },
   "dependencies": {
     "@bitcode/measurement-generics": "workspace:*",
     "@bitcode/generic-measurements-absolutes": "workspace:*",
-    "@bitcode/generic-measurements-measure-agent": "workspace:*"
+    "@bitcode/generic-measurements-measure-agent": "workspace:*",
+    "@bitcode/artifact-generics": "workspace:*",
+    "@bitcode/generic-artifacts-patch": "workspace:*",
+    "@bitcode/asset-pack-generics": "workspace:*"
   },
-  "devDependencies": { "typescript": "^5.0.0" }
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^25.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.0.0"
+  }
 }

@@ -225,6 +225,26 @@ Package paths: `packages/asset-pack-generics/`, `packages/generic-asset-packs/me
 | Base | `MeasuredPatchAssetPack` | + measurements, neediness, provenant paths |
 | Product | deposit options / pipeline outputs | project from MeasuredPatchAssetPack |
 
+### 3.1.4 Artifacts (primitive → patch → product)
+
+```
+@bitcode/artifact-generics                        Artifact + ArtifactStorage contract
+        ↑
+@bitcode/generic-artifacts-patch                  PatchArtifact (path+op patchfiles)
+        ↑
+@bitcode/asset-packs-synthesis                    AssetPackPatchArtifact (product)
+@bitcode/artifacts                                concrete S3/Supabase storage (BC)
+```
+
+Package paths: `packages/artifact-generics/`, `packages/generic-artifacts/patch/`,
+`packages/artifacts/`, product in `packages/asset-packs/synthesis/`.
+
+| Layer | Type | Role |
+| --- | --- | --- |
+| Primitive | `Artifact` / `ArtifactStorage` | identity + storage requirements + save/putAtKey |
+| Base | `PatchArtifact` | path+op patchfile envelope for AssetPack patches |
+| Product | `AssetPackPatchArtifact` | patch bound to `assetPackId` for synthesis |
+
 ### 3.2.0 VCS
 
 

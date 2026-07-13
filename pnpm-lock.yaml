@@ -103,10 +103,10 @@ importers:
         version: 29.5.14
       jest:
         specifier: ^29.0.0
-        version: 29.7.0(@types/node@20.19.41)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
       ts-jest:
         specifier: ^29.0.0
-        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.41)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3)))(typescript@5.8.3)
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
       typescript:
         specifier: ^5.0.0
         version: 5.8.3
@@ -226,11 +226,32 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
+  packages/artifact-generics:
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^25.0.0
+        version: 25.6.0
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
   packages/artifacts:
     dependencies:
       '@aws-sdk/client-s3':
         specifier: ^3.817.0
         version: 3.840.0
+      '@bitcode/artifact-generics':
+        specifier: workspace:*
+        version: link:../artifact-generics
       '@supabase/supabase-js':
         specifier: ^2.50.2
         version: 2.50.2
@@ -349,6 +370,15 @@ importers:
 
   packages/asset-packs/synthesis:
     dependencies:
+      '@bitcode/artifact-generics':
+        specifier: workspace:*
+        version: link:../../artifact-generics
+      '@bitcode/asset-pack-generics':
+        specifier: workspace:*
+        version: link:../../asset-pack-generics
+      '@bitcode/generic-artifacts-patch':
+        specifier: workspace:*
+        version: link:../../generic-artifacts/patch
       '@bitcode/generic-measurements-absolutes':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes
@@ -359,6 +389,18 @@ importers:
         specifier: workspace:*
         version: link:../../measurement-generics
     devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^25.0.0
+        version: 25.6.0
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
       typescript:
         specifier: ^5.0.0
         version: 5.8.3
@@ -1286,6 +1328,28 @@ importers:
       zod:
         specifier: ^3.22.4
         version: 3.24.1
+
+  packages/generic-artifacts/patch:
+    dependencies:
+      '@bitcode/artifact-generics':
+        specifier: workspace:*
+        version: link:../../artifact-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^25.0.0
+        version: 25.6.0
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
 
   packages/generic-asset-packs/measured-patch:
     dependencies:
