@@ -1,17 +1,12 @@
 /**
- * PTRR step factories — Plan / Try / Refine / Retry with EXACTLY 7 substeps.
+ * PTRR step factories — Plan / Try / Refine / Retry.
  *
- * PTRR step factories (Plan/Try/Refine/Retry). Composed by @bitcode/generic-agents-ptrr.
+ * Composed by @bitcode/generic-agents-ptrr (PTRRAgent base).
  *
- * CRITICAL ARCHITECTURE:
- * Each PTRR Step runs EXACTLY the same sequence:
- * 3 FailsafeMetaSubSteps (parents) each running 3 GenerationSubMetaSubSteps (children) + Tools
- *
- * The 7-substep sequence:
- * 1. PrepareConciseContext (CONTEXT SIGNAL/NOISE) → Reason→Judge→StructuredOutput
- * 2. ChunkThenSum (BIG INPUT) → Reason→Judge→StructuredOutput
- * 3. StitchUntilComplete (large output handling) → Reason→Judge→StructuredOutput
- * 4. Tool execution (AFTER all failsafes, conditional on reasoning + judgment output)
+ * Hierarchy within each step:
+ *   FailsafeGeneration ×3 (PCC → ChunkThenSum → Stitch)
+ *     → each runs ThinkingsGeneration (Reason → Judge → StructuredOutput)
+ *   + tools postprocess after failsafes
  */
 
 import {

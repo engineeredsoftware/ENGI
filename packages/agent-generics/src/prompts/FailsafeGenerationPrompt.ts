@@ -1,11 +1,13 @@
 /**
- * Failsafe Meta SubStep Prompt - Minimal prompt for failsafe substeps
- * 
- * FailsafeMetaSubStepPrompt adds context for handling the three universal concerns:
+ * FailsafeGenerationPrompt — minimal prompt for a FailsafeGeneration parent.
+ *
+ * Adds context for the three failsafe kinds:
  * - PrepareConciseContext: CONTEXT SIGNAL/NOISE
  * - ChunkThenSum: BIG INPUT
  * - StitchUntilComplete: CONVERSATIONSUTPUT
- * 
+ *
+ * Hierarchy: Generation → FailsafeGeneration → (ThinkingsGeneration children)
+ *
  * @doc-comment-developing-promptdevelopment
  * domain: agent
  * intent: "Provide failsafe handling instruction"
@@ -15,19 +17,19 @@
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
-export interface FailsafeMetaSubStepPromptConfig {
+export interface FailsafeGenerationPromptConfig {
   // Just what this failsafe handles
   handle: PromptPart; // e.g., "Filter context noise" / "Process chunks" / "Complete output"
 }
 
 /**
- * FailsafeMetaSubStepPrompt - Minimal failsafe substep prompt
- * 
- * Contains only the handling instruction for this failsafe.
- * Each failsafe runs its generation substeps as children.
+ * FailsafeGenerationPrompt — handling instruction for one FailsafeGeneration.
+ *
+ * Contains only the handling instruction. Each failsafe runs ThinkingsGeneration
+ * children (Reason → Judge → StructuredOutput).
  */
-export class FailsafeMetaSubStepPrompt extends Prompt {
-  constructor(config: FailsafeMetaSubStepPromptConfig) {
+export class FailsafeGenerationPrompt extends Prompt {
+  constructor(config: FailsafeGenerationPromptConfig) {
     super();
     
     // Set only the handling instruction

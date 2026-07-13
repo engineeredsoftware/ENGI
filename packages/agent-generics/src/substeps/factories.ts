@@ -67,7 +67,12 @@ import {
 } from '@bitcode/execution-generics';
 import type { Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
-import { SubStepExecution, AgentExecution, FailsafeExecution, GenerationExecution } from '../execution';
+import {
+  GenerationExecution,
+  AgentExecution,
+  FailsafeGenerationExecution,
+  ThinkingsGenerationExecution,
+} from '../execution';
 import { LLMInput } from '@bitcode/llm-generics';
 import { parseResponse } from '@bitcode/parsing';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
@@ -229,8 +234,8 @@ export function safePromptJson(value: unknown, space: number | null = 2): string
 //
 import { z } from 'zod';
 import {
-  FailsafeMetaSubStep,
-  GenerationSubMetaSubStep,
+  FailsafeGeneration,
+  ThinkingsGeneration,
   PreparedContext,
   Chunk,
   Reasoning,
@@ -245,48 +250,55 @@ import { logLLMSubstepStart, logLLMSubstepSuccess, logLLMSubstepError, logFailsa
 // ==================== SUBSTEP EXECUTION FACTORIES ====================
 
 /**
- * Factory for Failsafe SubStep Executions
+ * Factory for FailsafeGeneration parent executions
  */
-export function factoryAgentFailsafeSubStepExecution(
+export function factoryAgentFailsafeGenerationExecution(
   name: string,
   execution: Execution
-): SubStepExecution {
-  return new FailsafeExecution(`failsafe:${name}`, execution);
+): FailsafeGenerationExecution {
+  return new FailsafeGenerationExecution(`failsafe:${name}`, execution);
 }
 
 /**
- * Factory for Generation SubStep Executions
+ * Factory for ThinkingsGeneration child executions
  */
-export function factoryAgentGenerationSubStepExecution(
+export function factoryAgentThinkingsGenerationExecution(
   name: string,
   execution: Execution
-): SubStepExecution {
-  return new GenerationExecution(`generation:${name}`, execution);
+): ThinkingsGenerationExecution {
+  return new ThinkingsGenerationExecution(`thinkings:${name}`, execution);
 }
 
 /**
- * Factory for Tools SubStep Execution
+ * Factory for tools generation-layer execution (postprocess after failsafes)
  */
-export function factoryAgentToolSubStepExecution(
+export function factoryAgentToolGenerationExecution(
   execution: Execution
-): SubStepExecution {
-  return new SubStepExecution('tools:execution', execution);
+): GenerationExecution {
+  return new GenerationExecution('tools:execution', execution);
 }
 
-// ==================== CORE LLM SUBSTEP FACTORY ====================
+/** @deprecated Prefer factoryAgentFailsafeGenerationExecution */
+export const factoryAgentFailsafeSubStepExecution = factoryAgentFailsafeGenerationExecution;
+/** @deprecated Prefer factoryAgentThinkingsGenerationExecution */
+export const factoryAgentGenerationSubStepExecution = factoryAgentThinkingsGenerationExecution;
+/** @deprecated Prefer factoryAgentToolGenerationExecution */
+export const factoryAgentToolSubStepExecution = factoryAgentToolGenerationExecution;
+
+// ==================== CORE LLM GENERATION FACTORY ====================
 
 /**
- * Creates a SubStep Executor that uses LLM
- * 
+ * Creates a Generation Executor that uses LLM (Failsafe or Thinkings kind).
+ *
  * This is the foundation - pure, elegant, reusable.
- * Each SubStep creates its own execution with its own prompt.
+ * Each generation creates its own execution with its own prompt.
  */
 function factoryLLMSubStep<TInput, TOutput>(
-  sequence: FailsafeMetaSubStep | GenerationSubMetaSubStep,
+  sequence: FailsafeGeneration | ThinkingsGeneration,
   config: {
     buildUserPrompt: (input: TInput) => string;
     parseOutput?: (output: string, input: TInput) => Promise<TOutput>;
-    enrichPrompt?: (execution: SubStepExecution) => void;
+    enrichPrompt?: (execution: GenerationExecution) => void;
   }
 ): Executor<TInput, TOutput> {
 
@@ -304,10 +316,10 @@ function factoryLLMSubStep<TInput, TOutput>(
     // Proceed without hard throw to allow Pipeline/Step/SubStep executions with proxy getters.
 
     // 1. Create SubStep execution with its own prompt registry
-    const isFailsafe = Object.values(FailsafeMetaSubStep).includes(sequence as FailsafeMetaSubStep);
+    const isFailsafe = Object.values(FailsafeGeneration).includes(sequence as FailsafeGeneration);
     const substep = isFailsafe
-      ? factoryAgentFailsafeSubStepExecution(sequence, execution)
-      : factoryAgentGenerationSubStepExecution(sequence, execution);
+      ? factoryAgentFailsafeGenerationExecution(sequence, execution)
+      : factoryAgentThinkingsGenerationExecution(sequence, execution);
 
     // Persist PTRR substep for downstream streaming/traces (generation only)
     try {
@@ -351,7 +363,7 @@ function factoryLLMSubStep<TInput, TOutput>(
 
     // Enforce strict JSON output for generation substeps to support parsing
     // Provide minimal key shape hints per sequence to improve reliability
-    if (sequence === GenerationSubMetaSubStep.REASON) {
+    if (sequence === ThinkingsGeneration.REASON) {
       const shape = (ReasoningSchema as any)?.description || '{ "analysis": string, "steps": string[], "conclusion": string, "confidence": number (0..1), "useTools"?: [{ "name": string, "input": any, "reason": string }] }';
       userPrompt = [
         String(PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER),
@@ -360,7 +372,7 @@ function factoryLLMSubStep<TInput, TOutput>(
         '',
         userPrompt,
       ].join('\n');
-    } else if (sequence === GenerationSubMetaSubStep.JUDGE) {
+    } else if (sequence === ThinkingsGeneration.JUDGE) {
       const shape = (JudgmentSchema as any)?.description || '{ "quality": number (0..1), "issues": string[], "suggestions": string[], "approved": boolean }';
       userPrompt = [
         String(PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER),
@@ -369,7 +381,7 @@ function factoryLLMSubStep<TInput, TOutput>(
         '',
         userPrompt,
       ].join('\n');
-    } else if (sequence === GenerationSubMetaSubStep.STRUCTURED_OUTPUT) {
+    } else if (sequence === ThinkingsGeneration.STRUCTURED_OUTPUT) {
       userPrompt = [
         String(PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_SINGLE_OBJECT),
         String(PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA),
@@ -491,14 +503,14 @@ export function factoryPrepareConciseContext<T>(
   selectionGeneration?: Executor<any, any>
 ): Executor<T, T & { selectedKeys: string[]; selectedContext: Record<string, unknown> }> {
   return async (input: T, execution: Execution) => {
-    // Create failsafe parent execution as SubStepExecution for proper registry proxying
-    const failsafeExec = factoryAgentFailsafeSubStepExecution(
-      FailsafeMetaSubStep.PREPARE_CONCISE_CONTEXT,
+    // Create failsafe parent execution as GenerationExecution for proper registry proxying
+    const failsafeExec = factoryAgentFailsafeGenerationExecution(
+      FailsafeGeneration.PREPARE_CONCISE_CONTEXT,
       execution
     );
     // Surface PTRR meta step for downstream streaming and traces
-    try { failsafeExec.store('ptrr', 'failsafe', FailsafeMetaSubStep.PREPARE_CONCISE_CONTEXT as any); } catch {}
-    try { execution.store('ptrr', 'failsafe', FailsafeMetaSubStep.PREPARE_CONCISE_CONTEXT as any); } catch {}
+    try { failsafeExec.store('ptrr', 'failsafe', FailsafeGeneration.PREPARE_CONCISE_CONTEXT as any); } catch {}
+    try { execution.store('ptrr', 'failsafe', FailsafeGeneration.PREPARE_CONCISE_CONTEXT as any); } catch {}
     try { logFailsafeEvent(execution, 'prepare-context', { start: true }); } catch {}
 
     // 1. The FULL root execution state, keys only.
@@ -629,14 +641,14 @@ export function factoryChunkThenSum<T extends { selectedContext?: Record<string,
   options?: { parallel?: boolean }
 ): Executor<T, T & { processedResult: any }> {
   return async (input: T, execution: Execution) => {
-    // Create failsafe parent execution as SubStepExecution
-    const failsafeExec = factoryAgentFailsafeSubStepExecution(
-      FailsafeMetaSubStep.CHUNK_THEN_SUM,
+    // Create failsafe parent execution as GenerationExecution
+    const failsafeExec = factoryAgentFailsafeGenerationExecution(
+      FailsafeGeneration.CHUNK_THEN_SUM,
       execution
     );
     // Surface PTRR meta step for downstream streaming and traces
-    try { failsafeExec.store('ptrr', 'failsafe', FailsafeMetaSubStep.CHUNK_THEN_SUM as any); } catch {}
-    try { execution.store('ptrr', 'failsafe', FailsafeMetaSubStep.CHUNK_THEN_SUM as any); } catch {}
+    try { failsafeExec.store('ptrr', 'failsafe', FailsafeGeneration.CHUNK_THEN_SUM as any); } catch {}
+    try { execution.store('ptrr', 'failsafe', FailsafeGeneration.CHUNK_THEN_SUM as any); } catch {}
 
     // TRIGGER MEASUREMENT: the composed request the task generation would send.
     const systemPrompt = buildHierarchicalPrompt(failsafeExec);
@@ -774,14 +786,14 @@ export function factoryStitchUntilComplete<T>(
     })();
     // Allow proxy-based registries resolution without hard fail.
 
-    // Create failsafe parent execution as SubStepExecution  
-    const failsafeExec = factoryAgentFailsafeSubStepExecution(
-      FailsafeMetaSubStep.STITCH_UNTIL_COMPLETE,
+    // Create failsafe parent execution as GenerationExecution  
+    const failsafeExec = factoryAgentFailsafeGenerationExecution(
+      FailsafeGeneration.STITCH_UNTIL_COMPLETE,
       execution
     );
     // Surface PTRR meta step for downstream streaming and traces
-    try { failsafeExec.store('ptrr', 'failsafe', FailsafeMetaSubStep.STITCH_UNTIL_COMPLETE as any); } catch {}
-    try { execution.store('ptrr', 'failsafe', FailsafeMetaSubStep.STITCH_UNTIL_COMPLETE as any); } catch {}
+    try { failsafeExec.store('ptrr', 'failsafe', FailsafeGeneration.STITCH_UNTIL_COMPLETE as any); } catch {}
+    try { execution.store('ptrr', 'failsafe', FailsafeGeneration.STITCH_UNTIL_COMPLETE as any); } catch {}
     try { logFailsafeEvent(execution, 'stitch-until-complete', { start: true }); } catch { }
 
     // Get LLM config to check token limits
@@ -919,7 +931,7 @@ export function factoryStitchUntilComplete<T>(
  */
 export function factoryJudge<T>(): Executor<T, T & { judgment: Judgment }> {
   const exec = factoryLLMSubStep(
-    GenerationSubMetaSubStep.JUDGE,
+    ThinkingsGeneration.JUDGE,
     {
       buildUserPrompt: (input) => {
         const typedInput = input as any;
@@ -956,7 +968,7 @@ export function factoryJudge<T>(): Executor<T, T & { judgment: Judgment }> {
  */
 export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
   const exec = factoryLLMSubStep(
-    GenerationSubMetaSubStep.REASON,
+    ThinkingsGeneration.REASON,
     {
       buildUserPrompt: (input) => {
         const typedInput = input && typeof input === 'object' ? input as any : {};
@@ -1003,7 +1015,7 @@ export function factoryStructuredOutput<T, TSchema>(
   schema: z.ZodType<TSchema>
 ): Executor<T, T & { output: TSchema }> {
   const exec = factoryLLMSubStep(
-    GenerationSubMetaSubStep.STRUCTURED_OUTPUT,
+    ThinkingsGeneration.STRUCTURED_OUTPUT,
     {
       buildUserPrompt: (input) => {
         const shape = schema.description || inferSchemaShape(schema);
@@ -1205,7 +1217,7 @@ export function factoryToolsExecution<T extends { output?: { useTools?: UseTool[
     })();
     // Allow proxy-based registries resolution without hard fail.
 
-    const substep = factoryAgentToolSubStepExecution(execution);
+    const substep = factoryAgentToolGenerationExecution(execution);
 
     // Get tools to use from the structured output (after reasoning + judgment)
     const useTools = input.output?.useTools;
@@ -1478,17 +1490,17 @@ function buildHierarchicalPrompt(execution: Execution): string {
   return prompts.join('\n\n---\n\n');
 }
 
-function getSequencePrompt(sequence: FailsafeMetaSubStep | GenerationSubMetaSubStep): PromptPart {
+function getSequencePrompt(sequence: FailsafeGeneration | ThinkingsGeneration): PromptPart {
   const prompts: Record<string, PromptPart> = {
-    // FailsafeMetaSubSteps - handling context/input/output concerns
-    [FailsafeMetaSubStep.PREPARE_CONCISE_CONTEXT]: PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT,
-    [FailsafeMetaSubStep.CHUNK_THEN_SUM]: PROMPTPART_GENERIC_AGENT_FAILSAFE_CHUNK, // TODO: Create combined prompt
-    [FailsafeMetaSubStep.STITCH_UNTIL_COMPLETE]: PROMPTPART_GENERIC_AGENT_FAILSAFE_STITCH,
-    // GenerationSubMetaSubSteps - the intelligence sequence
+    // FailsafeGenerations - handling context/input/output concerns
+    [FailsafeGeneration.PREPARE_CONCISE_CONTEXT]: PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT,
+    [FailsafeGeneration.CHUNK_THEN_SUM]: PROMPTPART_GENERIC_AGENT_FAILSAFE_CHUNK, // TODO: Create combined prompt
+    [FailsafeGeneration.STITCH_UNTIL_COMPLETE]: PROMPTPART_GENERIC_AGENT_FAILSAFE_STITCH,
+    // ThinkingsGenerations - the intelligence sequence
     // Order here mirrors execution: REASON → JUDGE → STRUCTURED_OUTPUT
-    [GenerationSubMetaSubStep.REASON]: PROMPTPART_GENERIC_AGENT_GENERATION_REASON,
-    [GenerationSubMetaSubStep.JUDGE]: PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE,
-    [GenerationSubMetaSubStep.STRUCTURED_OUTPUT]: PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT
+    [ThinkingsGeneration.REASON]: PROMPTPART_GENERIC_AGENT_GENERATION_REASON,
+    [ThinkingsGeneration.JUDGE]: PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE,
+    [ThinkingsGeneration.STRUCTURED_OUTPUT]: PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT
   };
 
   return prompts[sequence] || `Execute ${sequence} operation` as PromptPart;

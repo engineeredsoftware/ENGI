@@ -7,12 +7,12 @@
 
 export type { PreparedContext } from '@bitcode/generic-generations-failsafes';
 import {
-  FailsafeMetaSubStep,
-  GenerationSubMetaSubStep,
+  FailsafeGeneration,
+  ThinkingsGeneration,
 } from '@bitcode/generation-generics';
 export {
-  FailsafeMetaSubStep,
-  GenerationSubMetaSubStep,
+  FailsafeGeneration,
+  ThinkingsGeneration,
   type Generation,
 } from '@bitcode/generation-generics';
 import type { Executor } from '@bitcode/execution-generics';
@@ -33,40 +33,48 @@ export enum AgentVariationStep {
 }
 
 /**
- * The complete PTRR substep architecture - EXACTLY 7 substeps per step
- * 3 FailsafeMetaSubSteps + 3 GenerationSubMetaSubSteps + 1 Tool execution
+ * PTRR step generation architecture — EXACTLY 7 generation units per step:
+ * 3 FailsafeGenerations × Thinkings (3) composition + 1 tools postprocess.
+ *
+ * Hierarchy within a step:
+ *   FailsafeGeneration (PCC → ChunkThenSum → Stitch)
+ *     → each runs ThinkingsGeneration (Reason → Judge → StructuredOutput)
+ *   + tools_execution after failsafes
  */
-export interface PTRRSubStepArchitecture {
-  failsafeMetaSubSteps: [
-    FailsafeMetaSubStep.PREPARE_CONCISE_CONTEXT,
-    FailsafeMetaSubStep.CHUNK_THEN_SUM,
-    FailsafeMetaSubStep.STITCH_UNTIL_COMPLETE
+export interface PTRRStepGenerationArchitecture {
+  failsafeGenerations: [
+    FailsafeGeneration.PREPARE_CONCISE_CONTEXT,
+    FailsafeGeneration.CHUNK_THEN_SUM,
+    FailsafeGeneration.STITCH_UNTIL_COMPLETE
   ];
-  generationSubMetaSubSteps: [
+  thinkingsGenerations: [
     // CRITICAL ORDER: Reason → Judge → StructuredOutput
-    GenerationSubMetaSubStep.REASON,
-    GenerationSubMetaSubStep.JUDGE,
-    GenerationSubMetaSubStep.STRUCTURED_OUTPUT
+    ThinkingsGeneration.REASON,
+    ThinkingsGeneration.JUDGE,
+    ThinkingsGeneration.STRUCTURED_OUTPUT
   ];
   toolExecution: 'tools_execution';
   total: 7; // Type-level assertion
 }
 
+/** @deprecated Prefer PTRRStepGenerationArchitecture */
+export type PTRRSubStepArchitecture = PTRRStepGenerationArchitecture;
+
 /**
  * Failsafe execution context - what each failsafe handles
  */
 export interface FailsafeContext {
-  [FailsafeMetaSubStep.PREPARE_CONCISE_CONTEXT]: {
+  [FailsafeGeneration.PREPARE_CONCISE_CONTEXT]: {
     purpose: 'CONTEXT SIGNAL/NOISE';
     input: 'Keys-only tree of the FULL root execution state (values never included)';
     output: 'Selected keys + the read-in selected context values';
   };
-  [FailsafeMetaSubStep.CHUNK_THEN_SUM]: {
+  [FailsafeGeneration.CHUNK_THEN_SUM]: {
     purpose: 'BIG INPUT';
     input: 'Task input + PCC-selected context values';
     output: 'Task result (one pass, or per-chunk passes + one summing pass)';
   };
-  [FailsafeMetaSubStep.STITCH_UNTIL_COMPLETE]: {
+  [FailsafeGeneration.STITCH_UNTIL_COMPLETE]: {
     purpose: 'CONVERSATIONSUTPUT';
     input: 'Potentially truncated output';
     output: 'Complete validated output matching schema';
@@ -82,7 +90,7 @@ export interface FailsafeContext {
  * the PTRR (Plan-Try-Refine-Retry) pattern with 7 substeps.
  * No more variations - agents are selected from registries dynamically.
  * 
- * Execution hierarchy: Agent → Step → SubStep
+ * Execution hierarchy: Agent → Step → FailsafeGeneration → ThinkingsGeneration
  */
 export interface Agent<TInput = any, TOutput = any> extends Executor<TInput, TOutput> {
   readonly name: string;

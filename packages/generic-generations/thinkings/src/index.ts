@@ -1,8 +1,9 @@
 /**
  * @bitcode/generic-generations-thinkings
  *
- * Thinkings base: Reason → Judge → StructuredOutput.
+ * ThinkingsGeneration base: Reason → Judge → StructuredOutput.
  *
+ * Hierarchy: Generation → ThinkingsGeneration (this layer's kinds).
  * Composition helper `createThinkingsGeneration` and the LLM-bound
  * factoryReason / factoryJudge / factoryStructuredOutput currently execute
  * through AgentExecution in @bitcode/agent-generics. This package owns the
@@ -10,10 +11,14 @@
  * code and agent-generics share one hierarchy entrypoint.
  *
  * Prefer:
- *   import { GenerationSubMetaSubStep, type Reasoning, type Judgment } from
+ *   import { ThinkingsGeneration, type Reasoning, type Judgment } from
  *     '@bitcode/generic-generations-thinkings'
  * and factory/create helpers from @bitcode/agent-generics until factories move.
  */
 
 export type { Generation, Reasoning, Judgment } from '@bitcode/generation-generics';
-export { GenerationSubMetaSubStep } from '@bitcode/generation-generics';
+export {
+  ThinkingsGeneration,
+  /** @deprecated Prefer ThinkingsGeneration */
+  GenerationSubMetaSubStep,
+} from '@bitcode/generation-generics';

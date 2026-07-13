@@ -26,7 +26,11 @@
 
 // Generation vocabulary (prefer direct import from generation-generics)
 export {
+  FailsafeGeneration,
+  ThinkingsGeneration,
+  /** @deprecated Prefer FailsafeGeneration */
   FailsafeMetaSubStep,
+  /** @deprecated Prefer ThinkingsGeneration */
   GenerationSubMetaSubStep,
   type Generation,
 } from '@bitcode/generation-generics';
@@ -182,11 +186,17 @@ export {
   factoryValidation
 } from './substeps/factories';
 
-// Substep execution factories
+// Generation-layer execution factories (within a PTRR step)
 export {
+  factoryAgentFailsafeGenerationExecution,
+  factoryAgentThinkingsGenerationExecution,
+  factoryAgentToolGenerationExecution,
+  /** @deprecated Prefer factoryAgentFailsafeGenerationExecution */
   factoryAgentFailsafeSubStepExecution,
+  /** @deprecated Prefer factoryAgentThinkingsGenerationExecution */
   factoryAgentGenerationSubStepExecution,
-  factoryAgentToolSubStepExecution
+  /** @deprecated Prefer factoryAgentToolGenerationExecution */
+  factoryAgentToolSubStepExecution,
 } from './substeps/factories';
 
 // ==================== EXECUTION TYPES ====================
@@ -196,16 +206,28 @@ export {
   AgentExecution,
   createAgentExecution,
   StepExecution,
-  SubStepExecution,
+  GenerationExecution,
+  FailsafeGenerationExecution,
+  ThinkingsGenerationExecution,
   factoryStepExecution,
+  factoryGenerationExecution,
+  factoryFailsafeGenerationExecution,
+  factoryThinkingsGenerationExecution,
+  /** @deprecated Prefer GenerationExecution */
+  SubStepExecution,
+  /** @deprecated Prefer FailsafeGenerationExecution */
+  FailsafeExecution,
+  /** @deprecated Prefer factoryGenerationExecution */
+  factoryNestedGenerationExecution,
+  /** @deprecated Prefer factoryGenerationExecution */
   factorySubStepExecution,
-  
+
   // Registries
   AgentPromptsRegistry,
   AgentToolsRegistry,
   AgentLLMsRegistry,
   AgentAgentsRegistry,
-  
+
   // Types
   ExecutionTool
 } from './execution';

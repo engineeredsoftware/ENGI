@@ -88,7 +88,7 @@ describe('createFailsafeGenerationSequence composition', () => {
     const nodes = collectNodes(root);
     for (const failsafe of ['prepare_concise_context', 'chunk_then_sum', 'stitch_until_complete']) {
       const failsafeNodes = nodes.filter(n => n.get?.('ptrr', 'failsafe') === failsafe);
-      // One FailsafeExecution node + the sequential seq-N child it runs under.
+      // One FailsafeGenerationExecution node + the sequential seq-N child it runs under.
       expect(failsafeNodes.length).toBeGreaterThanOrEqual(2);
       expect(failsafeNodes.some(n => String(n.id).includes(`failsafe:${failsafe}`))).toBe(true);
       expect(failsafeNodes.some(n => /seq-\d+$/.test(String(n.id)))).toBe(true);

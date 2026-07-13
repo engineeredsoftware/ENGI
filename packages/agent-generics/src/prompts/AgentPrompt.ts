@@ -3,7 +3,8 @@
  * 
  * AgentPrompt is intentionally minimal: it contains only what applies
  * to every LLM call within the agent. Progressive specificity is achieved
- * through the Bitcode Registry-backed prompt hierarchy: Agent -> Step -> SubStep.
+ * through the Bitcode Registry-backed prompt hierarchy:
+ * Agent → Step → FailsafeGeneration → ThinkingsGeneration.
  * 
  * Tools are NOT part of prompts - they're declared at agent level and
  * their doc-code-tool prompts are automatically included when available.

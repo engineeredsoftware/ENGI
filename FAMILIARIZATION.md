@@ -139,43 +139,53 @@ Package paths: `packages/measurement-generics/`, `packages/generic-measurements/
 Hierarchy names: `Measurement` → `AbsolutesMeasureAgent` →
 `SynthesizeAssetPacksAbsolutesMeasureAgent`.
 
-### 3.1.2 Generations (failsafes + thinkings)
+### 3.1.2 Generations (FailsafeGeneration + ThinkingsGeneration)
 
 ```
-@bitcode/generation-generics              Generation type + failsafe/thinkings enums
+Generation                                    # primitive (@bitcode/generation-generics)
         ↑
-@bitcode/generic-generations-failsafes    failsafes/ — prepared-context types + base
-@bitcode/generic-generations-thinkings    thinkings/ — Reason→Judge→StructuredOutput base
+FailsafeGeneration                            # base kinds: PCC / ChunkThenSum / Stitch
+ThinkingsGeneration                           # base kinds: Reason → Judge → StructuredOutput
         ↑
-@bitcode/agent-generics                   Agent primitive (factoryAgent, factoryQuickAgent, substeps)
+@bitcode/generic-generations-failsafes        failsafes/ — prepared-context + Failsafe surface
+@bitcode/generic-generations-thinkings        thinkings/ — Thinkings vocabulary surface
         ↑
-@bitcode/generic-agents-ptrr              PTRRAgent base (Plan→Try→Refine→Retry)
+@bitcode/agent-generics                       Agent primitive; LLM-bound generation factories
         ↑
-@bitcode/generic-agent-* / product agents specialized prompts/tools (no PTRR reimplementation)
+@bitcode/generic-agents-ptrr                  PTRRAgent steps compose Failsafe + Thinkings
+        ↑
+product agents                                specialized prompts/tools (no reimplementation)
 ```
 
 Package paths: `packages/generic-generations/{failsafes,thinkings}/`,
 `packages/generic-agents/PTRR/`.
 
 **PTRR** (Plan / Try / Refine / Retry) is the base Agent step model
-(`@bitcode/generic-agents-ptrr`). Each step runs a **Failsafes** sequence:
+(`@bitcode/generic-agents-ptrr`). Each step runs **FailsafeGeneration** kinds:
 
 1. **PrepareConciseContext** — select execution-state *keys* (not values)
 2. **ChunkThenSum** — task generation; chunk only if request too large
 3. **StitchUntilComplete** — repair schema-incomplete/truncated output
 
-Each failsafe’s generation is **Thinkings**: Reason → Judge → StructuredOutput.
+Each FailsafeGeneration runs **ThinkingsGeneration**: Reason → Judge → StructuredOutput.
+Tools run after failsafes (postprocess).
+
+**Legacy naming (BC only):** `FailsafeMetaSubStep`, `GenerationSubMetaSubStep`, `SubStep` —
+SubStep was the old term for Generation within a Step; Meta is not a term. Prefer
+`FailsafeGeneration` / `ThinkingsGeneration`.
 
 Prepared-context types (`PreparedContext`, `prepareConciseContext`, …) live with
-**failsafes** (`@bitcode/generic-generations-failsafes`), not a free-floating
-context domain. `@bitcode/context` retains only process-global `GlobalContext`
-(+ BC re-exports of failsafe prepared-context helpers).
+**failsafes** (`@bitcode/generic-generations-failsafes`). `@bitcode/context` retains
+only process-global `GlobalContext` (+ BC re-exports of failsafe helpers).
 
 LLM-bound failsafe/thinkings **factories** still execute via `AgentExecution`
 inside `agent-generics` until inverted onto pure Execution + LLM registry.
 
-| Layer | Type name | Factory |
+| Layer | Type name | Factory / kinds |
 | --- | --- | --- |
+| Primitive | `Generation` | typed Executor |
+| Base | `FailsafeGeneration` | PCC / ChunkThenSum / Stitch kinds |
+| Base | `ThinkingsGeneration` | Reason / Judge / StructuredOutput kinds |
 | Primitive | `Agent` | `factoryAgent`, `factoryQuickAgent` |
 | Base + primitive | `PTRRAgent` | `factoryPTRRAgent` (`factoryAgentWithPTRR` BC) |
 | Specific | product agents | specialized configs over `factoryPTRRAgent` |
@@ -736,8 +746,8 @@ Land the edit with the structural change (same commit or accompanying
 | Execution | Accumulating hierarchical state for a run |
 | PhaseDelegator | Pipeline phase that resolves/runs agents |
 | PTRR | Plan-Try-Refine-Retry agent steps |
-| Thinkings | Reason → Judge → StructuredOutput generations |
-| Failsafe | PCC / ChunkThenSum / Stitch context&size&schema guards |
+| ThinkingsGeneration | Reason → Judge → StructuredOutput (children of each FailsafeGeneration) |
+| FailsafeGeneration | PCC / ChunkThenSum / Stitch (parents within a PTRR step) |
 | Lens / mode | deposit vs read variance on shared SynthesizeAssetPacks |
 | Host | Decoupled pipeline host (inline or sandbox) |
 | Journal | BTD ledger rows / reconciliation |

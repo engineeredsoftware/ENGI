@@ -1618,6 +1618,21 @@ not provider packages.
 HostKind `local` replaces `inline` (BITCODE_PIPELINE_HOST; `inline` accepted as alias).
 Spec G3-4 tables updated to LocalHost / hostKind `local`.
 
+## Generation vocabulary: FailsafeGeneration / ThinkingsGeneration (Garrett, 2026-07-13)
+
+Legacy `FailsafeMetaSubStep` / `GenerationSubMetaSubStep` / `SubStep` naming retired
+for active vocabulary. SubStep was the old term for Generation within a PTRR step;
+Meta is not a term.
+
+```
+Generation (primitive)
+  → FailsafeGeneration   # PCC / ChunkThenSum / Stitch kinds
+  → ThinkingsGeneration  # Reason → Judge → StructuredOutput kinds
+```
+
+BC aliases remain on enums and execution classes. Prefer hierarchy names in new code.
+Architecture interface: `PTRRStepGenerationArchitecture`.
+
 ## Host vocabulary: no "Harness" for Host (Garrett, 2026-07-13)
 
 Product/runtime Host-domain identifiers no longer use the word **Harness**

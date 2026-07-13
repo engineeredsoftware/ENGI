@@ -24,6 +24,8 @@ export {
 } from './prepared-context';
 
 export {
+  FailsafeGeneration,
+  /** @deprecated Prefer FailsafeGeneration */
   FailsafeMetaSubStep,
   type FailsafeContext,
   type Generation,

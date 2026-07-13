@@ -3,6 +3,11 @@
  *
  * Generation primitive package. Base implementations live under
  * packages/generic-generations/{failsafes,thinkings}/.
+ *
+ * Hierarchy:
+ *   Generation (primitive)
+ *     → FailsafeGeneration (base kinds: PCC / ChunkThenSum / Stitch)
+ *     → ThinkingsGeneration (base kinds: Reason → Judge → StructuredOutput)
  */
 
 export type {
@@ -13,6 +18,10 @@ export type {
 } from './types';
 
 export {
+  FailsafeGeneration,
+  ThinkingsGeneration,
+  /** @deprecated Prefer FailsafeGeneration */
   FailsafeMetaSubStep,
+  /** @deprecated Prefer ThinkingsGeneration */
   GenerationSubMetaSubStep,
 } from './types';

@@ -2,29 +2,42 @@
 
 Base generation implementations that extend `@bitcode/generation-generics` primitives.
 
-## Nested-package pattern
-
-`packages/generic-generations/` is a **family folder** (README only). Each base
-implementation is a nested package — same rule as `generic-llms/*`,
-`generic-pipelines/*`, `generic-agents/*`.
+## Hierarchy (names encode full ancestry)
 
 ```
-@bitcode/generation-generics                 # Generation / failsafe / thinkings vocabulary
+Generation                                    # primitive (@bitcode/generation-generics)
         ↑
-@bitcode/generic-generations-failsafes       # failsafes/  (PCC, ChunkThenSum, Stitch + context types)
-@bitcode/generic-generations-thinkings       # thinkings/  (Reason → Judge → StructuredOutput)
+FailsafeGeneration                            # base kinds: PCC / ChunkThenSum / Stitch
+ThinkingsGeneration                           # base kinds: Reason → Judge → StructuredOutput
         ↑
-@bitcode/agent-generics                      # Agent + PTRR composition (hosts LLM-bound factories today)
+(createFailsafeGenerationSequence / createThinkingsGeneration — composition)
         ↑
-@bitcode/pipeline-asset-pack                 # product synthesis / phase agents
+PTRRAgent steps                               # each step: 3 FailsafeGenerations × Thinkings + tools
 ```
+
+```
+@bitcode/generation-generics                 # Generation / FailsafeGeneration / ThinkingsGeneration
+        ↑
+@bitcode/generic-generations-failsafes       # failsafes/  (prepared-context + Failsafe surface)
+@bitcode/generic-generations-thinkings       # thinkings/  (Thinkings vocabulary surface)
+        ↑
+@bitcode/agent-generics                      # Agent primitive; hosts LLM-bound factories today
+        ↑
+@bitcode/generic-agents-ptrr                 # PTRRAgent steps compose Failsafe + Thinkings
+        ↑
+product                                      # specialized agents (no reimplementation)
+```
+
+**Legacy naming (do not use in new code):** `FailsafeMetaSubStep`, `GenerationSubMetaSubStep`,
+`SubStep` — SubStep was the old term for Generation within a Step; Meta is not a term.
+BC aliases remain on the enums for existing imports.
 
 ## Packages
 
 | Path | Package | Role |
 | --- | --- | --- |
-| `failsafes/` | `@bitcode/generic-generations-failsafes` | Failsafe base + **prepared-context types** (formerly `@bitcode/context` concise helpers) |
-| `thinkings/` | `@bitcode/generic-generations-thinkings` | Thinkings base composition |
+| `failsafes/` | `@bitcode/generic-generations-failsafes` | FailsafeGeneration base + prepared-context types |
+| `thinkings/` | `@bitcode/generic-generations-thinkings` | ThinkingsGeneration base vocabulary |
 
 ### Ownership note (LLM-bound factories)
 
@@ -33,7 +46,4 @@ implementation is a nested package — same rule as `generic-llms/*`,
 `createFailsafeGenerationSequence` currently still execute through
 `AgentExecution` registries inside `@bitcode/agent-generics`. Those factories
 are **logically** generic-generation bases; physical extraction continues as
-execution dependencies invert onto pure `Execution` + LLM registry. Prefer
-importing pure failsafe **context types** from
-`@bitcode/generic-generations-failsafes` and generation **vocabulary** from
-`@bitcode/generation-generics` in new code.
+execution dependencies invert onto pure `Execution` + LLM registry.
