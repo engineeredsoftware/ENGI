@@ -30,7 +30,7 @@ implementing V48 gates.
 ## Concise current-system reading
 
 V48 is the full-stack draft target: wallet/GitHub identity, `/deposits`
-SynthesizeAssetPacks SDIVF (maxIterations 1, grok-build-0.1 default, settled
+SynthesizeAssetPacks SDIVF (maxIterations 1, anthropic claude-haiku-4-5 default, settled
 demand honesty), `/reads` reading contracts retained for later gates, `/packs`
 activity master-detail, Auxillaries, source-safe telemetry, and testnet-only
 value semantics. Gate 3 closes synthesis pipeline algorithmic + telemetric
@@ -1168,7 +1168,7 @@ Parity: ✅ specified + implemented + tested · 🟦 specified + implemented as 
 option projection); real in-sandbox execution is verified against deployed sandbox infra.
 
 **Gate-3 product defaults (closing wave):**
-- Default xAI model: **`grok-build-0.1`** (`packages/generic-llms` defaults + xAI provider).
+- Default LLM: provider **`anthropic`**, model **`claude-haiku-4-5`** (`packages/generic-llms` defaults; overridable via `BITCODE_LLM_*`).
 - DIV **maxIterations = 1** (single Discovery→Implementation→Validation pass).
 - LLM call timeout default **180s** (`BITCODE_LLM_CALL_TIMEOUT_MS`).
 - Empty Obfuscations: **skip** Setup input-comprehension LLM (empty guidance stored).

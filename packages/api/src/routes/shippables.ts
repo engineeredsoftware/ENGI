@@ -863,8 +863,8 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           const hasDefault = (execution as any).llms?.ensureDefaultConfigured?.({ throw: false });
           if (!hasDefault) {
             const reg = factoryLLMRegistryWithProviders();
-            const provider = (process.env.BITCODE_LLM_PROVIDER || 'google').toLowerCase();
-            const model = process.env.BITCODE_LLM_MODEL || 'gemini-2.5-flash';
+            const provider = (process.env.BITCODE_LLM_PROVIDER || 'anthropic').toLowerCase();
+            const model = process.env.BITCODE_LLM_MODEL || 'claude-haiku-4-5';
             if (typeof (reg as any).setDefaultProvider === 'function') {
               (reg as any).setDefaultProvider(provider);
             }

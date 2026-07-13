@@ -33,7 +33,7 @@ deposit, Need-relative fit on read, weighted BTD scalar for quote/rights, and
 seller/buyer visualization without source leakage.
 
 Gate 3 product defaults that must appear in any rebuild: xAI model
-`grok-build-0.1`, DIV `maxIterations=1`, LLM call timeout 180s, empty Obfuscations
+`claude-haiku-4-5` (Anthropic), DIV `maxIterations=1`, LLM call timeout 180s, empty Obfuscations
 skip Setup LLM, Forced Inclusions/Exclusions path scope, Unestimatable demand
 when settled Depository search cannot ground estimates.
 
@@ -353,7 +353,7 @@ can locate the living system; the **law** is this SPEC.
 | Modes | `deposit` \| `read` |
 | Mode storage | On the **shared pipeline execution** (parent of all `seq-N` phase children). Mode resolution walks **ancestors only** — never store mode only on preprocess sibling (QA F20). |
 | Inference | Non-configurable: always full formal hierarchy; always real generation at leaf. Tests mock LLM at provider boundary only. |
-| Default LLM | Provider `xai` when `XAI_API_KEY` set; model **`grok-build-0.1`** (`BITCODE_LLM_MODEL` override). |
+| Default LLM | Provider **`anthropic`**; model **`claude-haiku-4-5`** (`BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` override). |
 | Per-call timeout | `BITCODE_LLM_CALL_TIMEOUT_MS` default **180000**; reject cleanly (no hang). |
 | Entry | `synthesizeAssetPacksPipeline` in `packages/asset-packs-pipelines/domain/src/index.ts` |
 | Formal hierarchy | PipelineExecution → Phase → Agent (`factoryAgent` / `factoryPTRRAgent`) → Step (plan/try/refine/retry) → Failsafe (prepare_concise_context → chunk_then_sum → stitch_until_complete) → Thinkings (reason → judge → structured_output) |
@@ -543,7 +543,7 @@ Rebuild order in `buildDepositRouteSession` / `DepositPageClient`:
 | Variable | Gate 3 law |
 |---|---|
 | `BITCODE_ASSET_PACK_REAL_INFERENCE` | `true` for live deposit |
-| `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | `xai` / `grok-build-0.1` default when key present |
+| `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | `anthropic` / `claude-haiku-4-5` product default |
 | `BITCODE_LLM_CALL_TIMEOUT_MS` | `180000` |
 | `BITCODE_PIPELINE_HOST` | unset=local; `sandbox`=in-box |
 | `XAI_API_KEY` | Required for xAI |

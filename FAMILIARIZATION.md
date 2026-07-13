@@ -377,7 +377,7 @@ Product UI says **Pipeline**. Low-level packages may still say `execution` /
 `packages/generic-*` is always a **family of nested packages** (never a flat
 single package). Example: `packages/generic-llms/{xAI,OpenAI,Anthropic,Google,defaults,registry}/`.
 
-Deposit default model (V48 Gate 3): `grok-build-0.1` when `XAI_API_KEY` is set.
+Default LLM (V48): Anthropic `claude-haiku-4-5` (`BITCODE_LLM_PROVIDER=anthropic`).
 Inference is **non-configurable** inside the pipeline (mock at the provider
 boundary in tests only).
 

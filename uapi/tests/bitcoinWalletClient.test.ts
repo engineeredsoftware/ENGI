@@ -2,9 +2,10 @@
  * @jest-environment jsdom
  */
 
-// Shared mock via jest moduleNameMapper (auth + uapi pnpm paths differ).
+// Shared mock via jest moduleNameMapper (`^sats-connect$` → tests/mocks/sats-connect.js).
+// Import the package name so the mapper always wins (relative path can miss on CI).
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const satsConnect = require('./mocks/sats-connect') as {
+const satsConnect = require('sats-connect') as {
   __mockGetProviders: jest.Mock;
   __mockRequest: jest.Mock;
 };

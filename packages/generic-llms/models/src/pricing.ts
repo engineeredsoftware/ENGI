@@ -90,6 +90,15 @@ export const SUPPORTED_LLM_MODELS: ProviderModels[] = [
     provider: 'anthropic',
     models: [
       {
+        id: 'Anthropic-Claude-Haiku_4.5',
+        apiId: 'claude-haiku-4-5',
+        inputPriceUSDPerMTok: 1.0,
+        outputPriceUSDPerMTok: 5.0,
+        inputLimit: 200_000,
+        outputLimit: 64_000,
+        notes: 'Product default Anthropic model (fast/cheap Haiku 4.5).',
+      },
+      {
         id: 'Anthropic-Claude-Opus_4.1',
         apiId: 'opus-4.1',
         inputPriceUSDPerMTok: 15.0,
@@ -147,5 +156,5 @@ export function getUsdPricingForApiModel(apiModel: string): { input: number; out
 }
 
 // Defaults for app usage (override via env in apps as needed)
-export const DEFAULT_PROVIDER: ProviderId = (process.env.BITCODE_LLM_PROVIDER as ProviderId) || 'google';
-export const DEFAULT_MODEL_API: string = process.env.BITCODE_LLM_MODEL || 'gemini-2.5-flash';
+export const DEFAULT_PROVIDER: ProviderId = (process.env.BITCODE_LLM_PROVIDER as ProviderId) || 'anthropic';
+export const DEFAULT_MODEL_API: string = process.env.BITCODE_LLM_MODEL || 'claude-haiku-4-5';

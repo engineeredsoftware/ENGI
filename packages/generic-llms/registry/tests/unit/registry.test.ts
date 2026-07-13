@@ -27,6 +27,30 @@ describe('factoryLLMRegistryWithProviders', () => {
     expect(typeof llm).toBe('function');
   });
 
+  test('selects Anthropic defaults when only an Anthropic key is configured', () => {
+    const defaults = resolveDefaultLLMConfig({
+      ANTHROPIC_API_KEY: 'sk-ant-test',
+    });
+
+    expect(defaults).toEqual({
+      provider: 'anthropic',
+      model: 'claude-haiku-4-5',
+    });
+  });
+
+  test('selects Anthropic as product default when Anthropic key is present among others', () => {
+    const defaults = resolveDefaultLLMConfig({
+      ANTHROPIC_API_KEY: 'sk-ant-test',
+      XAI_API_KEY: 'xai-test',
+      OPENAI_API_KEY: 'sk-test',
+    });
+
+    expect(defaults).toEqual({
+      provider: 'anthropic',
+      model: 'claude-haiku-4-5',
+    });
+  });
+
   test('selects OpenAI defaults when only an OpenAI key is configured', () => {
     const defaults = resolveDefaultLLMConfig({
       OPENAI_API_KEY: 'sk-test',
@@ -38,16 +62,24 @@ describe('factoryLLMRegistryWithProviders', () => {
     });
   });
 
-  test('selects xAI / Grok as default when XAI_API_KEY is configured', () => {
+  test('selects xAI / Grok when XAI_API_KEY is configured without Anthropic', () => {
     const defaults = resolveDefaultLLMConfig({
       XAI_API_KEY: 'xai-test',
       OPENAI_API_KEY: 'sk-test',
-      ANTHROPIC_API_KEY: 'sk-ant-test',
     });
 
     expect(defaults).toEqual({
       provider: 'xai',
       model: 'grok-build-0.1',
+    });
+  });
+
+  test('falls back to Anthropic product default with no keys', () => {
+    const defaults = resolveDefaultLLMConfig({});
+
+    expect(defaults).toEqual({
+      provider: 'anthropic',
+      model: 'claude-haiku-4-5',
     });
   });
 

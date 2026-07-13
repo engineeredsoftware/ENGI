@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ShieldCheckIcon } from '@heroicons/react/24/outline';
 
 import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy';
 
@@ -20,7 +19,6 @@ export function MarketingLandingTestnetSection() {
           <span className="rounded-none border border-emerald-300/35 bg-emerald-300/12 px-3 py-1 text-[0.62rem] font-medium uppercase tracking-[0.2em] text-emerald-100">
             {copy.badge}
           </span>
-          <ShieldCheckIcon className="h-4 w-4 text-emerald-200" aria-hidden="true" />
         </div>
         <h2 className="mt-4 text-xl font-semibold text-white tablet:text-2xl">{copy.title}</h2>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-neutral-300">{copy.meaning}</p>

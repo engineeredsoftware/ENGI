@@ -46,15 +46,17 @@ describe('NavBrand', () => {
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
   });
 
-  it('renders beta posture outside the product workspace and remains clickable', () => {
+  it('renders logo-only chrome outside the product workspace and remains clickable', () => {
     const onClick = jest.fn();
 
     render(<NavBrand surface={null} onClick={onClick} />);
 
     fireEvent.click(screen.getByLabelText('Bitcode logo'));
 
-    expect(screen.getByText('V26')).toBeTruthy();
-    expect(screen.getByText('PRC')).toBeTruthy();
+    // No wordmark or secondary links when surface is null (marketing/public chrome).
+    expect(screen.queryByText('Bitcode')).toBeNull();
+    expect(screen.queryByText('V26')).toBeNull();
+    expect(screen.queryByText('PRC')).toBeNull();
     expect(onClick).toHaveBeenCalled();
     expect(screen.queryByRole('link', { name: 'Docs' })).toBeNull();
     expect(screen.queryByRole('link', { name: 'Whitepaper' })).toBeNull();

@@ -9,10 +9,10 @@ LLM registry configuration selects model providers for Bitcode inference without
 ## Current Environment Keys
 
 Examples:
-- `BITCODE_LLM_PROVIDER=google`
-- `BITCODE_LLM_MODEL=gemini-2.5-flash`
-- `BITCODE_LLM_PROVIDER=anthropic`
-- `BITCODE_LLM_MODEL=opus-4.1`
+- `BITCODE_LLM_PROVIDER=anthropic` (product default)
+- `BITCODE_LLM_MODEL=claude-haiku-4-5` (product default)
+- `BITCODE_LLM_PROVIDER=openai`
+- `BITCODE_LLM_MODEL=gpt-4.1-mini`
 
 ## Rules
 

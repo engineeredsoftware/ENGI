@@ -104,7 +104,7 @@ export const anthropicProvider: LLMProvider = {
 
   getDefaultConfig(): Partial<LLMConfig> {
     return {
-      model: 'claude-3-opus-20240229',
+      model: 'claude-haiku-4-5',
       temperature: 0.7,
       maxTokens: 4096
     };

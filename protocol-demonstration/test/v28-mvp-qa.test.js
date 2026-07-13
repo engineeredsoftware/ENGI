@@ -2,12 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 
+/**
+ * V28 commercial-MVP static product-surface witnesses.
+ * Paths track the current Bitcode layout (no dual `components/base/*` homes).
+ */
+
 const btdTrackerSource = readFileSync(
-  new URL('../../uapi/components/base/bitcode/btd/btd-tracker.tsx', import.meta.url),
+  new URL('../../uapi/components/bitcode/btd/BtdTracker/BtdTracker.tsx', import.meta.url),
   'utf8',
 );
 const navSource = readFileSync(
-  new URL('../../uapi/components/base/bitcode/layout/nav.tsx', import.meta.url),
+  new URL('../../uapi/components/bitcode/layout/Nav/Nav.tsx', import.meta.url),
   'utf8',
 );
 const userDataHookSource = readFileSync(
@@ -23,23 +28,35 @@ const mockReviewModeSource = readFileSync(
   'utf8',
 );
 const packsPageClientSource = readFileSync(
-  new URL('../../uapi/app/packs/PacksPageClient.tsx', import.meta.url),
-  'utf8',
-);
-const terminalTransactionDetailSurfaceSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalTransactionDetailSurface.tsx', import.meta.url),
+  new URL('../../uapi/components/packs/PacksPageClient/PacksPageClient.tsx', import.meta.url),
   'utf8',
 );
 const shippablesCardsPanelSource = readFileSync(
-  new URL('../../uapi/components/base/bitcode/execution/ShippablesCardsPanel.tsx', import.meta.url),
+  new URL('../../uapi/components/bitcode/pipeline/ShippablesCardsPanel/ShippablesCardsPanel.tsx', import.meta.url),
+  'utf8',
+);
+const executionsPageClientSource = readFileSync(
+  new URL('../../uapi/components/bitcode/pipeline/ExecutionsPageClient/ExecutionsPageClient.tsx', import.meta.url),
   'utf8',
 );
 const uapiPackageSource = readFileSync(
   new URL('../../uapi/package.json', import.meta.url),
   'utf8',
 );
-const genericLlmsPackageSource = readFileSync(
-  new URL('../../packages/generic-llms/package.json', import.meta.url),
+const genericLlmsRegistryPackageSource = readFileSync(
+  new URL('../../packages/generic-llms/registry/package.json', import.meta.url),
+  'utf8',
+);
+const genericLlmsOpenAiPackageSource = readFileSync(
+  new URL('../../packages/generic-llms/OpenAI/package.json', import.meta.url),
+  'utf8',
+);
+const genericLlmsAnthropicPackageSource = readFileSync(
+  new URL('../../packages/generic-llms/Anthropic/package.json', import.meta.url),
+  'utf8',
+);
+const genericLlmsGooglePackageSource = readFileSync(
+  new URL('../../packages/generic-llms/Google/package.json', import.meta.url),
   'utf8',
 );
 const v28SpecSource = readFileSync(new URL('../../BITCODE_SPEC_V28.md', import.meta.url), 'utf8');
@@ -49,7 +66,7 @@ const productMvpE2eFiles = [
   '../../uapi/tests/e2e/commercial-mvp.helpers.ts',
   '../../uapi/tests/e2e/commercial-mvp.routes.spec.ts',
   '../../uapi/tests/e2e/commercial-mvp.btd-exchange.spec.ts',
-  '../../uapi/tests/e2e/commercial-mvp.terminal.spec.ts',
+  '../../uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
   '../../uapi/tests/e2e/commercial-mvp.auxillaries.spec.ts',
   '../../uapi/tests/e2e/commercial-mvp.conversations-docs.spec.ts',
   '../../uapi/tests/e2e/commercial-mvp.responsive.spec.ts',
@@ -83,7 +100,9 @@ test('V28 generic Exchange intent entry does not auto-focus the first activity r
     /replaceExchangeSearchParams\(writeTerminalTransactionId\(routeSearchParams, runs\[0\]\.id\)\)/u,
   );
   assert.match(shippablesCardsPanelSource, /autoScrollOnAnimation = true/u);
-  assert.match(terminalTransactionDetailSurfaceSource, /autoScrollOnAnimation=\{surface !== 'exchange'\}/u);
+  // Terminal surface retired; executions host uses default autoScroll (true).
+  assert.match(executionsPageClientSource, /<ShippablesCardsPanel/u);
+  assert.doesNotMatch(executionsPageClientSource, /autoScrollOnAnimation=\{false\}/u);
 });
 
 test('V28 BTD tracker hover context lists recent BTD AssetPacks', () => {
@@ -130,7 +149,7 @@ test('V28 MVP Playwright suite covers product-experiential route and interaction
   assert.match(suiteSource, /\/docs/u);
   assert.match(suiteSource, /Open BTD wallet auxillary|bitcode:btd-wallet-intent/u);
   assert.match(suiteSource, /Search transactions/u);
-  assert.match(suiteSource, /transactionStatus/u);
+  assert.match(suiteSource, /transactionSearch/u);
   assert.match(suiteSource, /transactionOwnership/u);
   assert.match(suiteSource, /Clear all filters/u);
   assert.match(suiteSource, /Read-space knowledge sharing/u);
@@ -142,8 +161,10 @@ test('V28 MVP Playwright suite covers product-experiential route and interaction
 });
 
 test('V28 provider dependencies are owned at the provider package boundary', () => {
-  assert.match(genericLlmsPackageSource, /"@ai-sdk\/google": "1\.0\.4"/u);
-  assert.match(genericLlmsPackageSource, /"@anthropic-ai\/sdk": "0\.15\.0"/u);
-  assert.match(genericLlmsPackageSource, /"ai": "4\.3\.16"/u);
-  assert.match(genericLlmsPackageSource, /"openai": "4\.97\.0"/u);
+  assert.match(genericLlmsRegistryPackageSource, /"@bitcode\/generic-llms-openai": "workspace:\*"/u);
+  assert.match(genericLlmsRegistryPackageSource, /"@bitcode\/generic-llms-anthropic": "workspace:\*"/u);
+  assert.match(genericLlmsRegistryPackageSource, /"@bitcode\/generic-llms-google": "workspace:\*"/u);
+  assert.match(genericLlmsOpenAiPackageSource, /"openai": "4\.97\.0"/u);
+  assert.match(genericLlmsAnthropicPackageSource, /"@anthropic-ai\/sdk": "0\.15\.0"/u);
+  assert.match(genericLlmsGooglePackageSource, /"@ai-sdk\/google": "1\.0\.4"/u);
 });

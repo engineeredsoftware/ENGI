@@ -207,7 +207,12 @@ function normalizeModelEnvironment(env: Record<string, string>): void {
     delete env.BITCODE_LLM_MODEL;
   }
 
-  if (!env.BITCODE_LLM_PROVIDER && env.OPENAI_API_KEY) {
+  if (!env.BITCODE_LLM_PROVIDER && env.ANTHROPIC_API_KEY) {
+    env.BITCODE_LLM_PROVIDER = 'anthropic';
+    if (!env.BITCODE_LLM_MODEL) {
+      env.BITCODE_LLM_MODEL = 'claude-haiku-4-5';
+    }
+  } else if (!env.BITCODE_LLM_PROVIDER && env.OPENAI_API_KEY) {
     env.BITCODE_LLM_PROVIDER = 'openai';
   }
 }

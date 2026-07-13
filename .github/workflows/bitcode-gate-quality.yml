@@ -637,7 +637,8 @@ jobs:
         run: |
           pnpm --filter @bitcode/btd typecheck
           pnpm --filter @bitcode/api build
-          pnpm --dir packages/mcp-generics/src/mcp-server run type-check
+          # MCP primitives stay typecheck-gated; Exchange MCP server behavior is covered by unit tests below.
+          pnpm --filter @bitcode/mcp-generics typecheck
           pnpm --dir packages/chatgptapp exec tsc --noEmit --pretty false
           pnpm --filter @bitcode/asset-packs-pipelines-domain typecheck
           pnpm --filter @bitcode/pipeline-hosts typecheck
@@ -809,8 +810,8 @@ jobs:
           pnpm --dir packages/specifying exec node --test --test-force-exit test/v36-promotion-readiness.test.js
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand --forceExit
-          pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand --forceExit
-          pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/generic-mcps-bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/generic-mcps-bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand --forceExit
           pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/distributed-execution-runtime-receipt.test.ts --runInBand --forceExit

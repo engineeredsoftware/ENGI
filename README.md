@@ -68,7 +68,7 @@ Branch: `v48/gate-3-synthesis-pipeline-correctness` → PR into `version/v48`.
 | Area | Law |
 |---|---|
 | Pipeline | `SynthesizeAssetPacks` SDIVF, deposit mode, **maxIterations = 1** |
-| Default LLM | xAI **`grok-build-0.1`** when `XAI_API_KEY` set |
+| Default LLM | Anthropic **`claude-haiku-4-5`** (`BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` override) |
 | LLM timeout | `BITCODE_LLM_CALL_TIMEOUT_MS` default **180000** |
 | Inputs | Obfuscations (empty → skip Setup LLM), Forced Inclusions / Exclusions |
 | Demand | Settled Depository search or **Unestimatable** (no hardcoded %) |
@@ -101,8 +101,8 @@ cp uapi/.env.example uapi/.env.local # if present; else create from team secrets
 
 # Minimum for deposit synthesis (live inference)
 # BITCODE_ASSET_PACK_REAL_INFERENCE=true
-# BITCODE_LLM_PROVIDER=xai
-# BITCODE_LLM_MODEL=grok-build-0.1
+# BITCODE_LLM_PROVIDER=anthropic
+# BITCODE_LLM_MODEL=claude-haiku-4-5
 # BITCODE_LLM_CALL_TIMEOUT_MS=180000
 # XAI_API_KEY=...
 # Supabase URL + keys (local or remote)
