@@ -60,13 +60,19 @@ export {
   factoryParallelPhaseDelegator,
 } from './phases/phase-factory';
 
-// SDIVF base implementation — owned by @bitcode/generic-pipelines-sdivf
+// SDIVFPipeline base — owned by @bitcode/generic-pipelines-sdivf
 // (re-exported for compatibility; prefer importing that package directly)
 export {
+  factorySDIVFPipelinePhaseDelegators,
   factorySDIVFPhaseDelegators,
+  SDIVFPipelinePhase,
   SDIVFPhase,
   factorySDIVFPipeline,
+  factorySDIVFPipelineFromExecutors,
   factorySDIVFExecutorPipeline,
+  type SDIVFPipeline,
+  type SDIVFPipelineConfig,
+  type SDIVFPipelineExecutorConfig,
   type SDIVFConfig,
   type SDIVFExecutorConfig,
 } from '@bitcode/generic-pipelines-sdivf';

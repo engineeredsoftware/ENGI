@@ -7,7 +7,12 @@
  * The actual implementation is in index.ts
  */
 
-export { runSDIVFPipeline, assetPackPipeline } from './index';
+export {
+  runSynthesizeAssetPacksSDIVFPipeline,
+  runSDIVFPipeline,
+  synthesizeAssetPacksSDIVFPipeline,
+  assetPackPipeline,
+} from './index';
 
-import { runSDIVFPipeline } from './index';
-export default runSDIVFPipeline;
+import { runSynthesizeAssetPacksSDIVFPipeline } from './index';
+export default runSynthesizeAssetPacksSDIVFPipeline;

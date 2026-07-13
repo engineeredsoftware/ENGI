@@ -9,7 +9,10 @@
 
 import { Executor, Execution } from '@bitcode/execution-generics';
 import { createGuidedPipelineExecution, gatePreprocess } from '@bitcode/pipelines-generics';
-import { factorySDIVFExecutorPipeline } from '@bitcode/generic-pipelines-sdivf';
+import {
+  factorySDIVFPipelineFromExecutors,
+  type SDIVFPipeline,
+} from '@bitcode/generic-pipelines-sdivf';
 import { assetPackPhases } from './phases';
 import { initializeAssetPackPipeline } from './preprocess';
 import { normalizeAssetPackOutput, buildAssetPackPostprocessedResult } from './postprocess';
@@ -431,9 +434,15 @@ function isAssetPackSetupRuntimeEnabledInTest(): boolean {
   );
 }
 
-function factorySynthesizeAssetPacksPipeline(
+/**
+ * SynthesizeAssetPacksSDIVFPipeline — product + SDIVF + Pipeline hierarchy name.
+ * Extends the SDIVFPipeline base; does not reimplement the DIV loop.
+ */
+export type SynthesizeAssetPacksSDIVFPipeline = SDIVFPipeline<any, any>;
+
+function factorySynthesizeAssetPacksSDIVFPipeline(
   pipelineName: string = 'synthesize-asset-packs',
-): Executor<any, any> {
+): SynthesizeAssetPacksSDIVFPipeline {
   // Gate 3 MVP: single DIV pass (Setup → D → I → V → Finish). Iteration loops
   // are deferred — max 1 keeps deposit wall-time bounded and telemetric.
   const maxIterations = 1;
@@ -485,7 +494,7 @@ function factorySynthesizeAssetPacksPipeline(
     return assetPackPhases.finish(input, execution);
   };
 
-  const developExecutor = factorySDIVFExecutorPipeline(pipelineName, {
+  const sdivfPipeline = factorySDIVFPipelineFromExecutors(pipelineName, {
     preprocess: factoryPreprocess(),
     setup: setupPhase,
     discovery: discoveryPhase,
@@ -500,19 +509,22 @@ function factorySynthesizeAssetPacksPipeline(
   return async (input, execution) => {
     await initializeAssetPackPipeline(execution as any);
     // Resolve + store the synthesis mode on THIS (shared) execution so every
-    // SDIVF phase can read it. factorySDIVFExecutorPipeline composes the phases
-    // with `sequential`, which runs preprocess and each phase on ISOLATED sibling
-    // child executions (`execution.child('seq-N')`). Storing the mode only inside
-    // preprocess (itself a sibling) left it unreachable from the phase children —
-    // synthesizeAssetPacksModeFromExecution only walks ancestors — so every phase
-    // defaulted to `read` and ran the read-lens agents during deposit runs (QA
-    // F20). Storing it here, on the parent of all phase children, makes the
-    // upward resolution find it; the shared agents registry then receives each
-    // phase's mode-conditional (deposit) registrations.
+    // SDIVF phase can read it. factorySDIVFPipelineFromExecutors composes the
+    // phases with `sequential`, which runs preprocess and each phase on ISOLATED
+    // sibling child executions (`execution.child('seq-N')`). Storing the mode only
+    // inside preprocess (itself a sibling) left it unreachable from the phase
+    // children — synthesizeAssetPacksModeFromExecution only walks ancestors — so
+    // every phase defaulted to `read` and ran the read-lens agents during deposit
+    // runs (QA F20 / V48-Gate3). Storing it here, on the parent of all phase
+    // children, makes the upward resolution find it; the shared agents registry
+    // then receives each phase's mode-conditional (deposit) registrations.
     storeSynthesizeAssetPacksMode(execution, resolveSynthesizeAssetPacksMode(input, execution));
-    return developExecutor(input, execution);
+    return sdivfPipeline(input, execution);
   };
 }
+
+/** @deprecated Use factorySynthesizeAssetPacksSDIVFPipeline */
+const factorySynthesizeAssetPacksPipeline = factorySynthesizeAssetPacksSDIVFPipeline;
 
 /**
  * Legacy alias: the Design/Develop/Digest "Develop" gate is the same SDIVF
@@ -521,7 +533,7 @@ function factorySynthesizeAssetPacksPipeline(
  * deposit/read entry runs as `synthesize-asset-packs`.
  */
 function factoryDevelopPhase(): Executor<any, any> {
-  return factorySynthesizeAssetPacksPipeline('develop');
+  return factorySynthesizeAssetPacksSDIVFPipeline('develop');
 }
 
 // ==================== DDD GATE ROUTER ====================
@@ -543,13 +555,16 @@ export const assetPackPipeline: Executor<any, any> = createGuidedPipelineExecuti
 });
 
 /**
- * SynthesizeAssetPacks — the unified SDIVF synthesis pipeline, callable directly
- * in deposit or read mode (mode is resolved from the input / execution in
- * preprocess). This is the one-and-only synthesis entry; deposit and read both
- * run it. `assetPackPipeline` above remains the legacy Design/Develop/Digest
- * gate router whose Develop gate is this same SDIVF synthesis.
+ * SynthesizeAssetPacksSDIVFPipeline — unified synthesis (deposit | read).
+ * Hierarchy name: Specific + SDIVF + Pipeline. Mode resolved from input/execution.
+ * `assetPackPipeline` remains the legacy Design/Develop/Digest router whose
+ * Develop gate is this same SDIVF synthesis.
  */
-export const synthesizeAssetPacksPipeline: Executor<any, any> = factorySynthesizeAssetPacksPipeline();
+export const synthesizeAssetPacksSDIVFPipeline: SynthesizeAssetPacksSDIVFPipeline =
+  factorySynthesizeAssetPacksSDIVFPipeline();
+
+/** @deprecated Use synthesizeAssetPacksSDIVFPipeline */
+export const synthesizeAssetPacksPipeline = synthesizeAssetPacksSDIVFPipeline;
 
 // ==================== EXPORTS ====================
 
@@ -609,11 +624,19 @@ export {
   type ShareToFeeQuote,
 } from './read-need';
 export default assetPackPipeline;
-/** Canonical SDIVF synthesis entry (deposit | read). Prefer this over the DDD router. */
-export const runSynthesizeAssetPacksPipeline = synthesizeAssetPacksPipeline;
+
+/** Canonical SynthesizeAssetPacksSDIVFPipeline entry (deposit | read). Prefer over DDD router. */
+export const runSynthesizeAssetPacksSDIVFPipeline = synthesizeAssetPacksSDIVFPipeline;
+
+/** @deprecated Use runSynthesizeAssetPacksSDIVFPipeline */
+export const runSynthesizeAssetPacksPipeline = synthesizeAssetPacksSDIVFPipeline;
+
 /**
- * @deprecated Name historically pointed at the DDD gate router. Now aliases the
- * true SDIVF SynthesizeAssetPacks pipeline so callers that import runSDIVFPipeline
- * get the unified synthesis stack. Use runSynthesizeAssetPacksPipeline / synthesizeAssetPacksPipeline.
+ * @deprecated Use runSynthesizeAssetPacksSDIVFPipeline / synthesizeAssetPacksSDIVFPipeline.
+ * Historical alias once pointed at the DDD router; now the unified SDIVF synthesis.
  */
-export const runSDIVFPipeline = synthesizeAssetPacksPipeline;
+export const runSDIVFPipeline = synthesizeAssetPacksSDIVFPipeline;
+
+export {
+  factorySynthesizeAssetPacksSDIVFPipeline,
+};

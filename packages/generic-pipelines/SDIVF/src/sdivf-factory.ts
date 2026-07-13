@@ -21,6 +21,13 @@ import type {
 import { factoryPipelineExecution } from '@bitcode/pipelines-generics/execution/pipeline-types';
 import { descendExecution } from '@bitcode/pipelines-generics/execution/resume';
 
+/**
+ * SDIVF base Pipeline (hierarchy name: SDIVF + Pipeline).
+ * Product pipelines must extend this pattern:
+ *   SynthesizeAssetPacksSDIVFPipeline, SettleAssetPacksSDIVFPipeline, …
+ */
+export type SDIVFPipeline<TInput = any, TOutput = any> = Pipeline<TInput, TOutput>;
+
 // ==================== SDIVF CONFIGURATION ====================
 
 async function emitPipelineDataStreamEvent(
@@ -53,7 +60,7 @@ interface SDIVBaseConfig<TInput = any> {
   initialize?: (execution: PipelineExecution, input: TInput) => void | Promise<void>;
 }
 
-export interface SDIVFConfig<TInput = any, TOutput = any> extends SDIVBaseConfig<TInput> {
+export interface SDIVFPipelineConfig<TInput = any, TOutput = any> extends SDIVBaseConfig<TInput> {
   finish: PhaseDelegator<any, TOutput>;
   readyToFinish?: Executor<any, boolean>;
 }
@@ -189,8 +196,8 @@ function summarizePhaseError(error: unknown): Record<string, unknown> {
  */
 export function factorySDIVFPipeline<TInput, TOutput>(
   name: string,
-  config: SDIVFConfig<TInput, TOutput>
-): Pipeline<TInput, TOutput> {
+  config: SDIVFPipelineConfig<TInput, TOutput>
+): SDIVFPipeline<TInput, TOutput> {
   const maxIterations = config.maxIterations || 3;
   
   return async (input: TInput, execution: Execution): Promise<TOutput> => {
@@ -319,7 +326,7 @@ export function factorySDIVFPipeline<TInput, TOutput>(
 
 // ==================== COMPOSED SDIVF EXECUTOR ====================
 
-export interface SDIVFExecutorConfig<TInput = any, TOutput = any> {
+export interface SDIVFPipelineExecutorConfig<TInput = any, TOutput = any> {
   // Phase executors (already-resolved functions)
   setup: Executor<TInput, any>;
   discovery?: Executor<any, any>;
@@ -369,15 +376,14 @@ function executorValidationSignalsReadyToFinish(result: any, exec: any): boolean
 }
 
 /**
- * factorySDIVFExecutorPipeline - Build a complete SDIVF reference
- * pipeline as a pure Executor using execution-generics composition. This mirrors the intended
- * [preprocess] -> Setup -> [Discovery -> Implementation -> Validation]* -> Finish -> [postprocess]
- * pattern without requiring call-site abstractions.
+ * factorySDIVFPipelineFromExecutors — build an SDIVFPipeline from phase Executors.
+ * Hierarchy return type: SDIVFPipeline. Construction uses execution-generics
+ * sequential composition: [preprocess] → Setup → [DIV]* → Finish → [postprocess].
  */
-export function factorySDIVFExecutorPipeline<TInput, TOutput>(
+export function factorySDIVFPipelineFromExecutors<TInput, TOutput>(
   name: string,
-  cfg: SDIVFExecutorConfig<TInput, TOutput>
-): Executor<TInput, TOutput> {
+  cfg: SDIVFPipelineExecutorConfig<TInput, TOutput>
+): SDIVFPipeline<TInput, TOutput> {
   const maxIter = cfg.maxIterations ?? 3;
 
   // Optional preprocess/postprocess
@@ -446,3 +452,14 @@ export function factorySDIVFExecutorPipeline<TInput, TOutput>(
 
   return pipelineExec;
 }
+
+// ==================== COMPATIBILITY ALIASES ====================
+// Prefer hierarchy-encoded names: SDIVFPipeline, factorySDIVFPipeline,
+// factorySDIVFPipelineFromExecutors, SDIVFPipelineConfig.
+
+/** @deprecated Use SDIVFPipelineConfig */
+export type SDIVFConfig<TInput = any, TOutput = any> = SDIVFPipelineConfig<TInput, TOutput>;
+/** @deprecated Use SDIVFPipelineExecutorConfig */
+export type SDIVFExecutorConfig<TInput = any, TOutput = any> = SDIVFPipelineExecutorConfig<TInput, TOutput>;
+/** @deprecated Use factorySDIVFPipelineFromExecutors */
+export const factorySDIVFExecutorPipeline = factorySDIVFPipelineFromExecutors;

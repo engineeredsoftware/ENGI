@@ -1550,3 +1550,21 @@ Those failsafe types now live with failsafes.
 Physical move of `createFailsafeGenerationSequence` / Thinkings factories out of
 agent-generics remains gated on inverting AgentExecution LLM coupling.
 
+## Pipeline hierarchy naming law (Garrett, 2026-07-13)
+
+Type and factory names must always express full inheritance ancestry:
+
+```
+Pipeline                              # primitive
+SDIVFPipeline                         # base + primitive
+SynthesizeAssetPacksSDIVFPipeline     # specific + base + primitive
+```
+
+Canonical factories:
+- `factoryPipeline` → `Pipeline`
+- `factorySDIVFPipeline` / `factorySDIVFPipelineFromExecutors` → `SDIVFPipeline`
+- `factorySynthesizeAssetPacksSDIVFPipeline` → `SynthesizeAssetPacksSDIVFPipeline`
+
+Short aliases (`factorySDIVFExecutorPipeline`, `synthesizeAssetPacksPipeline`,
+`runSDIVFPipeline`) are deprecated compatibility shims only.
+

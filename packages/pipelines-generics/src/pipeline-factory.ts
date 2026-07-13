@@ -1,8 +1,13 @@
 /**
- * Pipeline Factory - Creates Pipeline Executors that sequence Phases
- * 
- * Pipelines are the top-level Executors that orchestrate the entire
- * SDIVF phase sequence. They are just sequential executors of phases.
+ * Pipeline Factory — Pipeline *primitive* factories.
+ *
+ * Hierarchy naming law (always encode full ancestry):
+ *   Pipeline                              — primitive
+ *   SDIVFPipeline                         — base + primitive
+ *   SynthesizeAssetPacksSDIVFPipeline     — specific + base + primitive
+ *
+ * SDIVF base: @bitcode/generic-pipelines-sdivf
+ * Product:    @bitcode/pipeline-asset-pack
  */
 
 import { sequential, conditional, repeat } from '@bitcode/execution-generics';

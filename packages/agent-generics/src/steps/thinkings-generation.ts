@@ -11,6 +11,11 @@ import { sequential, type Executor } from '@bitcode/execution-generics';
 import { z } from 'zod';
 import { factoryReason, factoryJudge, factoryStructuredOutput } from '../substeps/factories';
 
+/**
+ * Thinkings + Generation hierarchy name (base Thinkings composition of the
+ * Generation primitive). Prefer hierarchy-encoded names for product extensions
+ * (e.g. MeasureAbsolutesThinkingsGeneration) when introducing specialized bases.
+ */
 export type ThinkingsGeneration<TIn = any, TOut = any> = Executor<TIn, TOut>;
 
 export function createThinkingsGeneration<TIn, TOut>(outputSchema: z.ZodType<TOut>): ThinkingsGeneration<TIn, TOut> {

@@ -174,6 +174,21 @@ uapi/components/bitcode/
 Packages hold **framework-agnostic** domain logic. Prefer existing packages;
 add new packages when a domain is clearly shared and non-UI.
 
+### 6.0 Hierarchy naming law (required)
+
+Type, factory, and export names **always encode full inheritance ancestry**:
+
+```
+Pipeline                              # primitive
+SDIVFPipeline                         # base + primitive
+SynthesizeAssetPacksSDIVFPipeline     # specific + base + primitive
+```
+
+Do not introduce leaf-only names for layered types (e.g. avoid a product
+pipeline named only `AssetPackPipeline` when it is an `…SDIVFPipeline`).
+Deprecated short aliases may exist for compatibility; new code uses the
+full hierarchy name.
+
 ### 6.1 Nested `generic-*` families (required)
 
 Every `packages/generic-*` path is a **family folder**, not a single package.
@@ -191,7 +206,7 @@ packages/generic-<family>/          # README only (no package.json)
 | --- | --- | --- |
 | `generic-agents/` | `vcs/`, `danger-wall/`, … | `@bitcode/generic-agents-*` |
 | `generic-tools/` | `web-search/`, `vcs/`, … | `@bitcode/generic-tools-*` |
-| `generic-pipelines/` | `SDIVF/` | `@bitcode/generic-pipelines-sdivf` |
+| `generic-pipelines/` | `SDIVF/` | `@bitcode/generic-pipelines-sdivf` (`SDIVFPipeline`) |
 | `generic-llms/` | `xAI/`, `OpenAI/`, `Anthropic/`, `Google/`, `defaults/`, `registry/` | `@bitcode/generic-llms-*` (+ aggregator `@bitcode/generic-llms`) |
 | `generic-generations/` | `failsafes/`, `thinkings/` | `@bitcode/generic-generations-failsafes`, `-thinkings` |
 | `generic-doc-comment-plugins/` | `doc-developing/` | `@bitcode/doc-comment-developing` |

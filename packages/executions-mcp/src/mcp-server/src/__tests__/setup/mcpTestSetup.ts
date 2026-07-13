@@ -382,6 +382,20 @@ jest.mock('@bitcode/pipelines-generics', () => ({
       success: true
     }))
   ),
+  factorySDIVFPipelineFromExecutors: jest.fn().mockImplementation((_name: string, config: any) =>
+    jest.fn().mockImplementation(async (input: any, execution: any) => {
+      let current = input;
+      if (config?.preprocess) current = await config.preprocess(current, execution);
+      if (config?.setup) current = await config.setup(current, execution);
+      if (config?.discovery) current = await config.discovery(current, execution);
+      if (config?.implementation) current = await config.implementation(current, execution);
+      if (config?.validation) current = await config.validation(current, execution);
+      if (config?.finish) current = await config.finish(current, execution);
+      if (config?.postprocess) current = await config.postprocess(current, execution);
+      return current;
+    })
+  ),
+  // @deprecated alias of factorySDIVFPipelineFromExecutors
   factorySDIVFExecutorPipeline: jest.fn().mockImplementation((_name: string, config: any) =>
     jest.fn().mockImplementation(async (input: any, execution: any) => {
       let current = input;

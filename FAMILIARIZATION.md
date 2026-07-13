@@ -164,13 +164,22 @@ pipeline-local tools            e.g. AssetPackLexicalDepositorySearchTool
 
 ### 3.3 Pipelines
 
+**Hierarchy naming law:** names always encode full ancestry
+(specific → base → primitive), never a leaf-only label.
+
+| Layer | Type name | Factory (examples) |
+| --- | --- | --- |
+| Primitive | `Pipeline` | `factoryPipeline` |
+| Base + primitive | `SDIVFPipeline` | `factorySDIVFPipeline`, `factorySDIVFPipelineFromExecutors` |
+| Specific + base + primitive | `SynthesizeAssetPacksSDIVFPipeline` | `factorySynthesizeAssetPacksSDIVFPipeline` |
+
 ```
-@bitcode/pipelines-generics              Pipeline, PhaseDelegator, composition, streaming
+@bitcode/pipelines-generics              Pipeline primitive
         ↑
-@bitcode/generic-pipelines-sdivf         SDIVF *base* loop (Setup-[DIV]*-Finish)
+@bitcode/generic-pipelines-sdivf         SDIVFPipeline base (Setup-[DIV]*-Finish)
         ↑
-@bitcode/pipeline-asset-pack             SynthesizeAssetPacks (deposit | read);
-                                         future SettleAssetPacks extends SDIVF base
+@bitcode/pipeline-asset-pack             SynthesizeAssetPacksSDIVFPipeline (deposit | read);
+                                         future SettleAssetPacksSDIVFPipeline
 @bitcode/pipeline-hosts                  Inline host + Vercel Sandbox harness
 ```
 
@@ -181,6 +190,9 @@ Package path: `packages/generic-pipelines/SDIVF/` (`@bitcode/generic-pipelines-s
 Product pipelines supply phase executors/agents; they do not reimplement the DIV loop.
 `pipelines-generics` re-exports SDIVF for compatibility — prefer importing
 `@bitcode/generic-pipelines-sdivf` in new code.
+
+Deprecated short aliases (`synthesizeAssetPacksPipeline`, `factorySDIVFExecutorPipeline`,
+`runSDIVFPipeline`, …) remain for BC; new code uses hierarchy-encoded names.
 
 Product UI says **Pipeline**. Low-level packages may still say `execution` /
 `Execution` — do **not** rename `execution-generics` blindly.

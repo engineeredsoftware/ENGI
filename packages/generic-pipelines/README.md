@@ -2,23 +2,35 @@
 
 Base pipeline implementations that extend `@bitcode/pipelines-generics` primitives.
 
-## Hierarchy
+## Hierarchy (names encode full ancestry)
 
 ```
-@bitcode/pipelines-generics          # Pipeline / PhaseDelegator / composition primitives
+Pipeline                                    # primitive (@bitcode/pipelines-generics)
         ↑
-@bitcode/generic-pipelines-sdivf     # SDIVF base loop (this folder: SDIVF/)
+SDIVFPipeline                               # base + primitive (@bitcode/generic-pipelines-sdivf)
         ↑
-@bitcode/pipeline-asset-pack         # SynthesizeAssetPacks (and future SettleAssetPacks)
+SynthesizeAssetPacksSDIVFPipeline           # specific + base + primitive (pipeline-asset-pack)
+SettleAssetPacksSDIVFPipeline               # future product
+```
+
+```
+@bitcode/pipelines-generics          # factoryPipeline → Pipeline
+        ↑
+@bitcode/generic-pipelines-sdivf     # factorySDIVFPipeline / FromExecutors → SDIVFPipeline
+        ↑
+@bitcode/pipeline-asset-pack         # factorySynthesizeAssetPacksSDIVFPipeline
 ```
 
 ## Packages
 
 | Path | Package name | Role |
 | --- | --- | --- |
-| `SDIVF/` | `@bitcode/generic-pipelines-sdivf` | Setup-[Discovery-Implementation-Validation]*-Finish base |
+| `SDIVF/` | `@bitcode/generic-pipelines-sdivf` | `SDIVFPipeline` base (Setup-[DIV]*-Finish) |
 
 Product pipelines supply phase agents/executors; they do not reimplement the DIV loop.
+**Naming law:** every type/factory name must express the full inheritance chain
+(e.g. never call a product pipeline merely `AssetPackPipeline` when it is an
+`…SDIVFPipeline`).
 
 ## Nested-package pattern
 

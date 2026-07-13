@@ -1,16 +1,15 @@
 /**
- * SDIVF phase names and phase-delegator assembly helpers.
+ * SDIVFPipeline phase names and phase-delegator assembly helpers.
  *
- * PhaseDelegator construction uses pipelines-generics phase factories; the
- * SDIVF phase vocabulary and ordered assembly live here as the base layer.
+ * Hierarchy: phases of an SDIVFPipeline (base + Pipeline primitive).
  */
 
 import type { Agent } from '@bitcode/agent-generics';
 import type { PhaseDelegator } from '@bitcode/pipelines-generics/phases/phase-factory';
 import { factoryPhaseDelegator } from '@bitcode/pipelines-generics/phases/phase-factory';
 
-/** Canonical SDIVF phase ids (Setup → Discovery → Implementation → Validation → Finish). */
-export enum SDIVFPhase {
+/** Canonical SDIVFPipeline phase ids (Setup → Discovery → Implementation → Validation → Finish). */
+export enum SDIVFPipelinePhase {
   SETUP = 'setup',
   DISCOVERY = 'discovery',
   IMPLEMENTATION = 'implementation',
@@ -18,12 +17,17 @@ export enum SDIVFPhase {
   FINISH = 'finish',
 }
 
+/** @deprecated Use SDIVFPipelinePhase */
+export const SDIVFPhase = SDIVFPipelinePhase;
+/** @deprecated Use SDIVFPipelinePhase */
+export type SDIVFPhase = SDIVFPipelinePhase;
+
 /**
- * Create ordered SDIVF PhaseDelegators from agents (one agent per phase).
- * Product pipelines may instead supply already-composed phase executors to
- * factorySDIVFExecutorPipeline.
+ * Create ordered SDIVFPipeline PhaseDelegators from agents (one agent per phase).
+ * Product pipelines may instead supply phase executors to
+ * factorySDIVFPipelineFromExecutors.
  */
-export function factorySDIVFPhaseDelegators<TInput, TOutput>(config: {
+export function factorySDIVFPipelinePhaseDelegators<TInput, TOutput>(config: {
   setup: Agent<TInput, any>;
   discovery: Agent<any, any>;
   implementation: Agent<any, any>;
@@ -31,10 +35,13 @@ export function factorySDIVFPhaseDelegators<TInput, TOutput>(config: {
   finish: Agent<any, TOutput>;
 }): PhaseDelegator<TInput, TOutput>[] {
   return [
-    factoryPhaseDelegator(SDIVFPhase.SETUP, config.setup),
-    factoryPhaseDelegator(SDIVFPhase.DISCOVERY, config.discovery),
-    factoryPhaseDelegator(SDIVFPhase.IMPLEMENTATION, config.implementation),
-    factoryPhaseDelegator(SDIVFPhase.VALIDATION, config.validation),
-    factoryPhaseDelegator(SDIVFPhase.FINISH, config.finish),
+    factoryPhaseDelegator(SDIVFPipelinePhase.SETUP, config.setup),
+    factoryPhaseDelegator(SDIVFPipelinePhase.DISCOVERY, config.discovery),
+    factoryPhaseDelegator(SDIVFPipelinePhase.IMPLEMENTATION, config.implementation),
+    factoryPhaseDelegator(SDIVFPipelinePhase.VALIDATION, config.validation),
+    factoryPhaseDelegator(SDIVFPipelinePhase.FINISH, config.finish),
   ];
 }
+
+/** @deprecated Use factorySDIVFPipelinePhaseDelegators */
+export const factorySDIVFPhaseDelegators = factorySDIVFPipelinePhaseDelegators;

@@ -16,6 +16,8 @@ export {
 } from './phase-factory';
 
 export {
+  SDIVFPipelinePhase,
   SDIVFPhase,
+  factorySDIVFPipelinePhaseDelegators,
   factorySDIVFPhaseDelegators,
 } from '@bitcode/generic-pipelines-sdivf';
