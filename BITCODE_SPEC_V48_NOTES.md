@@ -1553,9 +1553,30 @@ Those failsafe types now live with failsafes.
       → @bitcode/pipeline-asset-pack         # product uses bases; does not reimplement
 ```
 
-`@bitcode/context` keeps only `GlobalContext` (+ BC re-exports of failsafe helpers).
 Physical move of `createFailsafeGenerationSequence` / Thinkings factories out of
 agent-generics remains gated on inverting AgentExecution LLM coupling.
+
+## Execution / Executor modularization + Context retirement (Garrett, 2026-07-13)
+
+There is **no separate Context state**. Execution is the large state holder.
+
+```
+@bitcode/execution-generics              # Execution class + storage + registry
+@bitcode/executor-generics               # Executor type primitive
+  → @bitcode/generic-executors           # sequential, parallel, pipe, retry, resilient, …
+  → @bitcode/generic-executions          # process-root Execution (was GlobalContext)
+      → product pipelines / agents
+```
+
+- Combinators moved out of `execution-generics/src/executors` into
+  `@bitcode/generic-executors` (stubs remain for BC deep paths).
+- Process defaults: `initializeProcessRoot` / `getProcessRootExecution` on a
+  registered process-root Execution (`process` namespace). BC aliases
+  `initializeContext` / `getGlobalContext` remain on
+  `@bitcode/generic-executions` and `@bitcode/context-generics`.
+- `@bitcode/context` is a deprecated barrel over context-generics.
+- Failsafe "prepared context" remains key-selection over Execution state
+  (not a parallel bag).
 
 ## Pipeline hierarchy naming law (Garrett, 2026-07-13)
 

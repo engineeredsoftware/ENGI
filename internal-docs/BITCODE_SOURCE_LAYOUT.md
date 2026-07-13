@@ -220,6 +220,11 @@ packages/generic-<family>/          # README only (no package.json)
 | `asset-pack-generics/` | (package root) | `@bitcode/asset-pack-generics` |
 | `generic-asset-packs/` | `measured-patch/` | `@bitcode/generic-asset-packs-measured-patch` |
 | `asset-packs/` | `synthesis/`, `settle/` | `@bitcode/asset-packs-synthesis`, `-settle` |
+| `execution-generics/` | (package root) | `@bitcode/execution-generics` (Execution state) |
+| `executor-generics/` | (package root) | `@bitcode/executor-generics` (Executor type) |
+| `generic-executors/` | (package root) | `@bitcode/generic-executors` (sequential, parallel, …) |
+| `generic-executions/` | (package root) | `@bitcode/generic-executions` (process-root Execution) |
+| `context-generics/` | (package root) | `@bitcode/context-generics` (BC only; no separate Context state) |
 | `generic-doc-comment-plugins/` | `doc-developing/` | `@bitcode/doc-comment-developing` |
 
 **Do not** put a root `package.json` on the family folder. Workspace globs are

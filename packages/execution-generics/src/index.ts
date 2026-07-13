@@ -1,18 +1,17 @@
 /**
- * EXECUTION GENERICS - Pure Bitcode execution primitives
+ * EXECUTION GENERICS - Bitcode Execution primitive + BC barrel
  *
- * Canonical reusable execution infrastructure for Bitcode.
- * Two primitives that compose broadly:
- * 
- * 1. Execution - State accumulation with storage control
- * 2. Executor - Pure functions that transform input to output
- * 
- * From these, the repository can build:
- * - agents and tool invocations
- * - phase and pipeline orchestrators
- * - live `ad hoc` execution
- * - retained reference execution families admitted for porting
- * 
+ * Hierarchy (prefer leaf packages for new code):
+ *   @bitcode/execution-generics              Execution (state) — this package owns the class
+ *   @bitcode/executor-generics               Executor (sequence type)
+ *   @bitcode/generic-executors               sequential, parallel, pipe, retry, …
+ *   @bitcode/generic-executions              process-root Execution helpers
+ *
+ * There is no separate "Context" state model. Process defaults are a process-root
+ * Execution (@bitcode/generic-executions). Product state lives on pipeline trees.
+ *
+ * This package re-exports Executor combinators and process-root helpers for BC.
+ *
  * @doc-package
  * version: 1.0.0
  * pattern: executor-composition
@@ -36,8 +35,8 @@ export {
   getActiveExecutionCount
 } from './execution-registry';
 
-// The Executor type - the heart of everything
-export type { Executor } from './types';
+// The Executor type — owned by @bitcode/executor-generics
+export type { Executor } from '@bitcode/executor-generics';
 
 // Keys-only execution-state projection (PrepareConciseContext selection input)
 export {
@@ -52,43 +51,54 @@ export {
 // Store Keys/Namespaces Registry (typed helpers)
 export * from './store/registry';
 
-// ==================== EXECUTOR COMPOSITION ====================
+// ==================== EXECUTOR COMPOSITION (generic-executors) ====================
 
-// Core composition patterns
-export { sequential } from './executors/sequential_executor';
-export { parallel } from './executors/parallel_executor';
-export { pipe } from './executors/pipe_executor';
-
-// Control flow executors
-export { conditional } from './executors/conditional_executor';
-export { repeat } from './executors/repeat_executor';
-export { dynamic } from './executors/dynamic_executor';
-export { switchExecutor } from './executors/switch_executor';
-export { branch } from './executors/branch_executor';
-
-// Transform executors
-export { identity } from './executors/identity_executor';
-export { transform } from './executors/transform_executor';
-
-// Error handling executors
-export { tryExecutor } from './executors/try_executor';
-export { timeout } from './executors/timeout_executor';
-export { retry } from './executors/retry_executor';
-
-// Resilience patterns
 export {
+  sequential,
+  parallel,
+  pipe,
+  conditional,
+  repeat,
+  dynamic,
+  switchExecutor,
+  branch,
+  identity,
+  transform,
+  tryExecutor,
+  timeout,
+  retry,
   ResilientExecutor,
   withResilience,
   withRetry,
   withTimeout,
+  cache,
+  gate,
   type RetryOptions,
   type CircuitBreakerOptions,
-  type ResilientExecutorConfig
-} from './executors/resilient_executor';
+  type ResilientExecutorConfig,
+} from '@bitcode/generic-executors';
 
-// Stateful utility executors
-export { cache } from './executors/cache_executor';
-export { gate } from './executors/gate_executor';
+// Process-root Execution helpers (formerly GlobalContext)
+export {
+  PROCESS_ROOT_EXECUTION_ID,
+  PROCESS_NAMESPACE,
+  type ProcessRootFields,
+  initializeProcessRoot,
+  setProcessRootFields,
+  getProcessRootExecution,
+  getProcessRootFields,
+  endProcessRoot,
+  prepareProcessRootForPrompt,
+  serializeProcessRootFields,
+  type GlobalContext,
+  initializeContext,
+  createContext,
+  getGlobalContext,
+  endContext,
+  setGlobalContext,
+  prepareContextForPrompt,
+  serializeContext,
+} from '@bitcode/generic-executions';
 
 // ==================== STORAGE CONTROL ====================
 

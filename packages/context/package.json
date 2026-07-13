@@ -2,13 +2,15 @@
   "name": "@bitcode/context",
   "version": "0.1.0",
   "private": true,
-  "description": "Process-global GlobalContext bag; failsafe prepared-context types re-exported from generic-generations-failsafes",
+  "description": "Deprecated barrel — re-exports @bitcode/context-generics (process-root Execution). Prefer @bitcode/generic-executions.",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./context": "./src/context.ts",
+    "./serialize": "./src/serialize.ts"
   },
   "dependencies": {
-    "@bitcode/generic-generations-failsafes": "workspace:*"
+    "@bitcode/context-generics": "workspace:*"
   }
 }

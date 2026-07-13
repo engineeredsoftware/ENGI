@@ -1,6 +1,18 @@
 # Execution Generics
 
-The retained Bitcode execution-primitives package. Fourth-gate keeps `Execution` explicit as the low-level state-and-sequence abstraction beneath activity, pipeline runs, read measurement, and later proveable Bitcode intelligence execution.
+**Execution** state primitive (namespaced store + tree + registry). Sequence
+combinators and process-root helpers are re-exported here for BC; prefer the
+leaf packages for new code:
+
+```
+@bitcode/execution-generics     Execution (this package)
+@bitcode/executor-generics      Executor type
+@bitcode/generic-executors      sequential, parallel, pipe, retry, …
+@bitcode/generic-executions     process-root Execution (was GlobalContext)
+```
+
+There is no separate Context state model — process defaults are a process-root
+Execution.
 
 ## Role In V26
 

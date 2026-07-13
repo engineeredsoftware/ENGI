@@ -1,0 +1,31 @@
+{
+  "name": "@bitcode/generic-executors",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Base Executor implementations: sequential, parallel, pipe, retry, resilient, …",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./sequential": "./src/sequential_executor.ts",
+    "./parallel": "./src/parallel_executor.ts",
+    "./pipe": "./src/pipe_executor.ts",
+    "./resilient": "./src/resilient_executor.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests"
+  },
+  "dependencies": {
+    "@bitcode/execution-generics": "workspace:*",
+    "@bitcode/executor-generics": "workspace:*",
+    "@bitcode/logger": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^25.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.0.0"
+  }
+}

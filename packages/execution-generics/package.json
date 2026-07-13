@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/execution-generics",
   "version": "1.0.0",
-  "description": "Core execution primitives and combinators",
+  "description": "Execution primitive (state) + BC re-exports of Executor combinators and process-root helpers",
   "main": "src/index.js",
   "types": "src/index.ts",
   "exports": {
@@ -12,6 +12,10 @@
     "./Execution": {
       "types": "./src/Execution.ts",
       "default": "./src/Execution.js"
+    },
+    "./types": {
+      "types": "./src/types.ts",
+      "default": "./src/types.js"
     },
     "./prompts/ExecutionPrompt": {
       "types": "./src/prompts/ExecutionPrompt.ts",
@@ -46,6 +50,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@bitcode/executor-generics": "workspace:*",
+    "@bitcode/generic-executors": "workspace:*",
+    "@bitcode/generic-executions": "workspace:*",
     "@bitcode/prompts": "workspace:*",
     "@bitcode/registry": "workspace:*",
     "zod": "^3.22.4"

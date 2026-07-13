@@ -14,6 +14,11 @@ module.exports = {
   moduleNameMapper: {
     '^@bitcode/execution-generics$': '<rootDir>/src/index.ts',
     '^@bitcode/execution-generics/(.*)$': '<rootDir>/src/$1',
+    '^@bitcode/executor-generics$': '<rootDir>/../executor-generics/src/index.ts',
+    '^@bitcode/generic-executors$': '<rootDir>/../generic-executors/src/index.ts',
+    '^@bitcode/generic-executors/(.*)$': '<rootDir>/../generic-executors/src/$1',
+    '^@bitcode/generic-executions$': '<rootDir>/../generic-executions/src/index.ts',
+    '^@bitcode/generic-executions/(.*)$': '<rootDir>/../generic-executions/src/$1',
     '^@bitcode/logger$': '<rootDir>/../logger/src/index.ts',
     '^@bitcode/parsing$': '<rootDir>/../parsing/src/parsing.ts',
     '^@bitcode/streams$': '<rootDir>/../streams/src/index.ts',

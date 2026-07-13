@@ -175,8 +175,24 @@ SubStep was the old term for Generation within a Step; Meta is not a term. Prefe
 `FailsafeGeneration` / `ThinkingsGeneration`.
 
 Prepared-context types (`PreparedContext`, `prepareConciseContext`, …) live with
-**failsafes** (`@bitcode/generic-generations-failsafes`). `@bitcode/context` retains
-only process-global `GlobalContext` (+ BC re-exports of failsafe helpers).
+**failsafes** (`@bitcode/generic-generations-failsafes`) — they select Execution
+state **keys**, not a second state bag.
+
+### 3.1.2b Execution / Executor hierarchy (no separate Context state)
+
+```
+@bitcode/execution-generics                 Execution (state primitive)
+@bitcode/executor-generics                  Executor (sequence primitive)
+        ↑
+@bitcode/generic-executors                  sequential, parallel, pipe, retry, …
+@bitcode/generic-executions                 process-root Execution helpers
+        ↑
+product pipelines / agents                  own Execution trees
+```
+
+Process defaults formerly called `GlobalContext` are a **process-root Execution**
+(`initializeProcessRoot` / `getProcessRootExecution`). `@bitcode/context-generics`
+(+ `@bitcode/context` barrel) is BC only.
 
 LLM-bound failsafe/thinkings **factories** still execute via `AgentExecution`
 inside `agent-generics` until inverted onto pure Execution + LLM registry.
