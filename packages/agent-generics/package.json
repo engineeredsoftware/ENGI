@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@bitcode/execution-generics": "workspace:*",
+    "@bitcode/generic-llms": "workspace:*",
     "@bitcode/prompts": "workspace:*",
     "@bitcode/tools-generics": "workspace:*",
     "@bitcode/pipelines-generics": "workspace:*",

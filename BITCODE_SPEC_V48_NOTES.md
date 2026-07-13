@@ -1493,6 +1493,23 @@ SOURCE_LAYOUT:
 Navigation map: `FAMILIARIZATION.md`. Layout contract: `internal-docs/BITCODE_SOURCE_LAYOUT.md`.
 
 
+## generic-* nested-package rule (Garrett, 2026-07-13)
+
+Every `packages/generic-*` family is nested packages only (no family-root
+`package.json`), matching `generic-agents/*`, `generic-tools/*`,
+`generic-pipelines/*`.
+
+`packages/generic-llms/` was flattened into:
+
+```
+xAI/ OpenAI/ Anthropic/ Google/ defaults/ registry/
+```
+
+`@bitcode/generic-llms` remains the registry aggregator for compatibility;
+prefer `@bitcode/generic-llms-{xai|openai|anthropic|google|defaults}` when a
+single surface is enough. Workspace globs include `packages/generic-llms/*`
+and `packages/generic-doc-comment-plugins/*`.
+
 ## SDIVF base package (Garrett, 2026-07-13)
 
 Pipeline inheritance hierarchy is now explicit:

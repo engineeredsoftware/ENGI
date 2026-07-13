@@ -9,8 +9,11 @@
   "workspaces": [
     "packages/*",
     "packages/generic-tools/*",
+    "packages/generic-tools/mcps-tools/*",
     "packages/generic-agents/*",
     "packages/generic-pipelines/*",
+    "packages/generic-llms/*",
+    "packages/generic-doc-comment-plugins/*",
     "packages/pipelines/*",
     "uapi",
     "admin"

@@ -1,10 +1,10 @@
 import { describe, test, expect, beforeEach, afterEach } from '@jest/globals';
 import {
   factoryLLMRegistryWithProviders,
-} from '../../src';
+} from '@bitcode/generic-llms';
 import {
   resolveDefaultLLMConfig,
-} from '../../src/defaults';
+} from '@bitcode/generic-llms-defaults';
 
 describe('factoryLLMRegistryWithProviders', () => {
   const OLD_ENV = process.env;

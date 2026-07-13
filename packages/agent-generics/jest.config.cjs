@@ -7,6 +7,14 @@ module.exports = {
   moduleNameMapper: {
     '^@bitcode/pipelines-generics$': '<rootDir>/../pipelines-generics/src/index.ts',
     '^@bitcode/pipelines-generics/(.*)$': '<rootDir>/../pipelines-generics/src/$1',
+    // nested generic-llms family (not packages/generic-llms/src)
+    '^@bitcode/generic-llms$': '<rootDir>/../generic-llms/registry/src/index.ts',
+    '^@bitcode/generic-llms/defaults$': '<rootDir>/../generic-llms/defaults/src/index.ts',
+    '^@bitcode/generic-llms-defaults$': '<rootDir>/../generic-llms/defaults/src/index.ts',
+    '^@bitcode/generic-llms-xai$': '<rootDir>/../generic-llms/xAI/src/index.ts',
+    '^@bitcode/generic-llms-openai$': '<rootDir>/../generic-llms/OpenAI/src/index.ts',
+    '^@bitcode/generic-llms-anthropic$': '<rootDir>/../generic-llms/Anthropic/src/index.ts',
+    '^@bitcode/generic-llms-google$': '<rootDir>/../generic-llms/Google/src/index.ts',
     '^@bitcode/logger$': '<rootDir>/../logger/src/index.ts',
     '^@bitcode/parsing$': '<rootDir>/../parsing/src/parsing.ts',
     '^@bitcode/streams$': '<rootDir>/../streams/src/index.ts',

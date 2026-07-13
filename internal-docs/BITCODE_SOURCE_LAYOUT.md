@@ -174,6 +174,31 @@ uapi/components/bitcode/
 Packages hold **framework-agnostic** domain logic. Prefer existing packages;
 add new packages when a domain is clearly shared and non-UI.
 
+### 6.1 Nested `generic-*` families (required)
+
+Every `packages/generic-*` path is a **family folder**, not a single package.
+
+```
+packages/generic-<family>/          # README only (no package.json)
+  <ImplementorA>/                   # nested package
+    package.json                    # @bitcode/generic-<family>-…
+    src/
+  <ImplementorB>/
+    ...
+```
+
+| Family | Nested examples | Package names |
+| --- | --- | --- |
+| `generic-agents/` | `vcs/`, `danger-wall/`, … | `@bitcode/generic-agents-*` |
+| `generic-tools/` | `web-search/`, `vcs/`, … | `@bitcode/generic-tools-*` |
+| `generic-pipelines/` | `SDIVF/` | `@bitcode/generic-pipelines-sdivf` |
+| `generic-llms/` | `xAI/`, `OpenAI/`, `Anthropic/`, `Google/`, `defaults/`, `registry/` | `@bitcode/generic-llms-*` (+ aggregator `@bitcode/generic-llms`) |
+| `generic-doc-comment-plugins/` | `doc-developing/` | `@bitcode/doc-comment-developing` |
+
+**Do not** put a root `package.json` on the family folder. Workspace globs are
+`packages/generic-<family>/*` (and deeper globs such as
+`packages/generic-tools/mcps-tools/*` when needed).
+
 ```
 packages/
   api/                         # route handlers, orchestration
@@ -194,6 +219,7 @@ packages/
   btd/                         # BTD measurement, journal, settlement, authority
   pipelines-generics/          # Pipeline / PhaseDelegator primitives
   generic-pipelines/SDIVF/     # SDIVF base Pipeline (extends pipelines-generics)
+  generic-llms/{xAI,OpenAI,…}/ # nested LLM providers + registry aggregator
   pipelines/asset-pack/        # SynthesizeAssetPacks (extends SDIVF base)
   agent-generics/              # PTRR agents (not product “Pipeline” UI)
   execution-generics/          # low-level executor primitives
@@ -252,6 +278,13 @@ bitcode/
 │   ├── pipelines-generics/            # Pipeline / PhaseDelegator primitives
 │   ├── generic-pipelines/
 │   │   └── SDIVF/                     # @bitcode/generic-pipelines-sdivf base
+│   ├── generic-llms/                  # nested LLM providers (no family package.json)
+│   │   ├── xAI/                       # @bitcode/generic-llms-xai
+│   │   ├── OpenAI/                    # @bitcode/generic-llms-openai
+│   │   ├── Anthropic/                 # @bitcode/generic-llms-anthropic
+│   │   ├── Google/                    # @bitcode/generic-llms-google
+│   │   ├── defaults/                  # @bitcode/generic-llms-defaults
+│   │   └── registry/                  # @bitcode/generic-llms (aggregator)
 │   ├── pipelines/
 │   │   └── asset-pack/                # SynthesizeAssetPacks (extends SDIVF)
 │   ├── agent-generics/

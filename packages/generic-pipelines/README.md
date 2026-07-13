@@ -19,3 +19,9 @@ Base pipeline implementations that extend `@bitcode/pipelines-generics` primitiv
 | `SDIVF/` | `@bitcode/generic-pipelines-sdivf` | Setup-[Discovery-Implementation-Validation]*-Finish base |
 
 Product pipelines supply phase agents/executors; they do not reimplement the DIV loop.
+
+## Nested-package pattern
+
+`packages/generic-pipelines/` is a **family folder** (README only). Each base
+pipeline implementation is a nested package under this folder — same rule as
+`generic-agents/*`, `generic-tools/*`, and `generic-llms/*`.

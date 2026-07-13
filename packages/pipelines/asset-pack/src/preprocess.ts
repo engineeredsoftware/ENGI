@@ -62,16 +62,20 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
       const fallback = new LLMRegistry();
       // Best-effort register providers
       try {
-        const { openAIProvider } = require('@bitcode/generic-llms/src/providers/openai');
+        const { openAIProvider } = require('@bitcode/generic-llms-openai');
         fallback.registerProvider(openAIProvider);
       } catch {}
       try {
-        const { anthropicProvider } = require('@bitcode/generic-llms/src/providers/anthropic');
+        const { anthropicProvider } = require('@bitcode/generic-llms-anthropic');
         fallback.registerProvider(anthropicProvider);
       } catch {}
       try {
-        const { googleProvider } = require('@bitcode/generic-llms/src/providers/google');
+        const { googleProvider } = require('@bitcode/generic-llms-google');
         fallback.registerProvider(googleProvider);
+      } catch {}
+      try {
+        const { xaiProvider } = require('@bitcode/generic-llms-xai');
+        fallback.registerProvider(xaiProvider);
       } catch {}
       const { provider, model } = resolveDefaultLLMConfig();
       if (typeof (fallback as any).setDefaultProvider === 'function') {

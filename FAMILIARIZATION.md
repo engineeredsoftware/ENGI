@@ -165,10 +165,16 @@ Product UI says **Pipeline**. Low-level packages may still say `execution` /
 ### 3.4 LLMs
 
 ```
-@bitcode/llm-generics           Provider-agnostic LLM call primitives
+@bitcode/llm-generics                    Provider-agnostic LLM call primitives
         ↑
-@bitcode/generic-llms           xAI / other provider implementations + defaults
+@bitcode/generic-llms-{xai|openai|…}     Nested providers under packages/generic-llms/
+@bitcode/generic-llms-defaults           Env-resolved default provider/model
+        ↑
+@bitcode/generic-llms                    registry/ aggregator (all providers)
 ```
+
+`packages/generic-*` is always a **family of nested packages** (never a flat
+single package). Example: `packages/generic-llms/{xAI,OpenAI,Anthropic,Google,defaults,registry}/`.
 
 Deposit default model (V48 Gate 3): `grok-build-0.1` when `XAI_API_KEY` is set.
 Inference is **non-configurable** inside the pipeline (mock at the provider
@@ -247,10 +253,11 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 
 | Package family | Responsibility |
 | --- | --- |
-| `generic-agents/*` | Base agents: VCS, danger-wall, code-editor, digester, web-research, read-comprehension, jira, figma, multimodal processors, … |
-| `generic-tools/*` | Base tools: editing, git, VCS, LSP, web-search, repository-setup, firecrawl, … |
-| `generic-llms` | Concrete providers (xAI, …) and model defaults |
-| `generic-doc-comment-plugins` | Doc-comment plugins |
+| `generic-agents/*` | Nested base agents: VCS, danger-wall, code-editor, digester, web-research, … |
+| `generic-tools/*` | Nested base tools: editing, git, VCS, LSP, web-search, repository-setup, … |
+| `generic-pipelines/*` | Nested base pipelines: SDIVF, … |
+| `generic-llms/*` | Nested providers (xAI, OpenAI, Anthropic, Google), defaults, registry aggregator |
+| `generic-doc-comment-plugins/*` | Nested doc-comment plugins |
 
 ### 5.3 Product domain (AssetPack / BTD / market)
 
