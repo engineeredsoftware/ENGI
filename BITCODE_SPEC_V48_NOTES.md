@@ -1459,3 +1459,19 @@ Public package export paths preserved. Jest deposit/depository/synthesis suites 
 hierarchies (`*-generics` → `generic-*` → product specializations). It is a
 teaching/navigation document, not stronger than `BITCODE_SPEC_V48.md`. Update it
 when package families or experience entry paths change.
+
+
+## Experience modularization wave (Garrett, 2026-07-13)
+
+Working groups modularized remaining commercial experiences on `version/v48`:
+
+| Experience | Result |
+| --- | --- |
+| Packs | Filter bar / table / detail sections; pure packs-format; thin page client |
+| Reads | ReadPageClient ~273; repository field grid; read-route model facade; workbench hooks |
+| Auxillaries | All panes ≤400 LOC; wallet/profile/org/interfaces/externals/surface units |
+| Marketing | Large landing sections split into data/hooks/subcomponents |
+| Docs | bitcode-docs-content → content modules + Docs* section components |
+| Conversations | Overlay/rich-text/edge-case modularization (structure retained; commercial UX deferred) |
+
+Navigation map: `FAMILIARIZATION.md`. Layout contract: `internal-docs/BITCODE_SOURCE_LAYOUT.md`.

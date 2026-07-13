@@ -70,6 +70,7 @@ storage readback, wallet/provider receipts, and repository delivery receipts.
 | Package-first utilities | Generalizable pure logic from uapi `lib/` and pure terminal models live in `packages/` or Bitcode models | substantially advanced| Law specified; wallet/cancel/analytics extractions planned Phase 7 | version/v48 workstream |
 | God-client modularization | Deposit/Read/Packs page clients thin; logic in experience subcomponents/hooks/models (SRP) | substantially advanced | Packs shell ~187 LOC; DepositPageClient ~677 LOC orchestration with models + hooks (live runs, demand, URL, VCS inventory, option actions, activity recording, synthesis lifecycle); DepositSourceSelection ~682 render + VCS hook; Read still pending | version/v48 workstream |
 | Deposit modular units | Pure deposit projections + hooks unit-tested; G3-14 source map lists modular paths | substantially advanced | UAPI deposits+reads workbench modular; packages asset-pack depository-search/options/supply/synthesis + agents + harness split with stable exports; jest deposit/depository/synthesis green | version/v48 workstream |
+| Experience modularization (reads packs aux marketing docs conversations) | All seven experiences use named component units; page clients thin | substantially advanced | Packs/Reads/Auxillaries/Marketing/Docs/Conversations modularized on version/v48; FAMILIARIZATION.md maps packages+uapi | version/v48 workstream |
 
 ## Grouped closure gates
 
