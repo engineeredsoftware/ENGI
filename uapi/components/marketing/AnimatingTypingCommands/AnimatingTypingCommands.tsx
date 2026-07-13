@@ -1,1 +1,1 @@
-export { default } from './MarketingAnimatingTypingCommands';
+export { default } from '@/components/marketing/MarketingAnimatingTypingCommands/MarketingAnimatingTypingCommands';

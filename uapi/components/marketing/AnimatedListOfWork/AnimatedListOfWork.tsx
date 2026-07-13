@@ -1,1 +1,1 @@
-export { AnimatedListWork } from './MarketingAnimatedListOfWork';
+export { AnimatedListWork } from '@/components/marketing/MarketingAnimatedListOfWork/MarketingAnimatedListOfWork';

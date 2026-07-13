@@ -3,7 +3,7 @@
 import React, { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 
 import Image from 'next/image';
-import MarketingSectionWrapper from './MarketingSectionWrapper';
+import MarketingSectionWrapper from '@/components/marketing/MarketingSectionWrapper/MarketingSectionWrapper';
 import MarketingButtonShimmer from '@/components/bitcode/effects/ButtonShimmer/ButtonShimmer';
 import { FEATURE_FLAGS } from '@/config/features';
 

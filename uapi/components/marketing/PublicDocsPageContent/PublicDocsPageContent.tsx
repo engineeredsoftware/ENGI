@@ -11,7 +11,7 @@ import {
   TERMINAL_READ_GUIDES,
 } from '@/app/docs/bitcode-docs-content';
 
-import MarketingOperatorGuideCard from './MarketingOperatorGuideCard';
+import MarketingOperatorGuideCard from '@/components/marketing/MarketingOperatorGuideCard/MarketingOperatorGuideCard';
 
 type PublicDocsPageContentProps = {
   sourcePlayable: boolean;

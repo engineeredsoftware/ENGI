@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
 import { createClient } from '@bitcode/supabase/ssr/client';
-import MarketingSectionWrapper from './MarketingSectionWrapper';
+import MarketingSectionWrapper from '@/components/marketing/MarketingSectionWrapper/MarketingSectionWrapper';
 // Bundle presets are intentionally absent: V47 routes acquisition through Read
 // and Packs paths, not fungible checkout bundles.
 import { ProcessingIndicator } from '@/components/bitcode/indicators/ProcessingIndicator/ProcessingIndicator';

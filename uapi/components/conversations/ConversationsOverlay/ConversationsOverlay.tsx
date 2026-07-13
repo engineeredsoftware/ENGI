@@ -30,8 +30,13 @@ import {
   SIDEBAR_WIDTH_REM,
   ORB_GAP_REM,
 } from './conversations-overlay-constants';
+import { useConversationHydration } from './hooks/use-conversation-hydration';
+import { ConversationsOverlaySidePanels } from './ConversationsOverlaySidePanels';
 
 /**
+ * Conversations Overlay shell - Bitcode production surface.
+ * Types, hydration, and helpers live in co-located modules.
+ *
  * Conversations Overlay - Bitcode production surface
  *
  * A sophisticated conversation interface with:
@@ -101,10 +106,6 @@ import { ThinkingLog } from '@/components/conversations/ConversationsThinkingLog
 import { FloatingOrb } from '@/components/conversations/ConversationsFloatingOrb/ConversationsFloatingOrb';
 import FullscreenPortal from '@/components/conversations/ConversationsFullscreenPortal/ConversationsFullscreenPortal';
 import ConversationSourceSelector from '@/components/conversations/ConversationSourceSelector/ConversationSourceSelector';
-import ConversationTerminalHandoff from '@/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff';
-import ConversationPersistencePrivacyPanel from '@/components/conversations/ConversationPersistencePrivacyPanel/ConversationPersistencePrivacyPanel';
-import ConversationTelemetryProofPanel from '@/components/conversations/ConversationTelemetryProofPanel/ConversationTelemetryProofPanel';
-import ConversationRehearsalPanel from '@/components/conversations/ConversationRehearsalPanel/ConversationRehearsalPanel';
 import ConversationWritingWorkspace from '@/components/conversations/ConversationWritingWorkspace/ConversationWritingWorkspace';
 import type { ConversationSourceSelectorPreview } from '@/components/conversations/models/conversation-source-selector';
 import type { ConversationWritingWorkspaceMode } from '@/components/conversations/models/conversation-writing-workspace';
@@ -144,32 +145,7 @@ import type { Chat, ChatMessage } from '@/components/conversations/hooks/UseChat
 
 // Token rendering helper
 
-type ConversationDetailResponse = DBConversation & {
-  message_count?: number;
-  attachment_count?: number;
-  last_message?: string | null;
-  messages?: Array<
-    DBMessage & {
-      message_attachments?: Array<Record<string, unknown>>;
-    }
-  >;
-};
-
-// ---------------------------------------------------------------------------
-// Main Component Props
-// ---------------------------------------------------------------------------
-
-interface ConversationProps {
-  position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
-  size?: number;
-  inSidebar?: boolean;
-  isOpen?: boolean;
-  forceOpen?: boolean;
-  forceFullscreen?: boolean;
-  onToggle?: () => void;
-  onCloseRequest?: () => void;
-  showFloatingOrb?: boolean;
-}
+import type { ConversationsOverlayProps as ConversationProps } from './conversations-overlay-types';
 
 // ---------------------------------------------------------------------------
 // Conversations Overlay - The Excellence Continues
@@ -366,40 +342,11 @@ const Conversation = memo(function Conversation({
     });
   }, [conversations, setChats, setCurrentChat]);
 
-  const hydrateConversation = useCallback(async (chat: Chat) => {
-    if (!chat.persisted) {
-      setCurrentChat(chat);
-      setShowHistory(false);
-      return chat;
-    }
-
-    if (chat.loaded && chat.messageCount !== undefined && chat.messages.length >= chat.messageCount) {
-      setCurrentChat(chat);
-      setShowHistory(false);
-      return chat;
-    }
-
-    const response = await fetch(`/api/conversations/${chat.id}`, {
-      credentials: 'include',
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to load conversation ${chat.id}`);
-    }
-
-    const detail = (await response.json()) as ConversationDetailResponse;
-    const hydratedChat = mapConversationDetailToChat(detail, chat);
-
-    startTransition(() => {
-      setChats((prev) =>
-        prev.map((candidate) => (candidate.id === hydratedChat.id ? hydratedChat : candidate)),
-      );
-      setCurrentChat(hydratedChat);
-      setShowHistory(false);
-    });
-
-    return hydratedChat;
-  }, [setChats, setCurrentChat, setShowHistory]);
+  const { hydrateConversation } = useConversationHydration({
+    setChats,
+    setCurrentChat,
+    setShowHistory,
+  });
 
   const appendAssistantToken = useCallback((chatId: string, token: string) => {
     const updateChat = (chat: Chat) => {
@@ -903,60 +850,26 @@ const Conversation = memo(function Conversation({
           </SidebarTitleBar>
         </div>
 
-        {showSourceSelector && (
-          <ConversationSourceSelector
-            initialSourceRef={sourceSelectorInitialRef}
-            onSelect={handleConversationSourceSelect}
-          />
-        )}
-
-        {conversationSourcePreview && !showSourceSelector && (
-          <div className="conversation-source-selector__status" role="status" aria-live="polite">
-            Source context: {conversationSourcePreview.label} · {conversationSourcePreview.previewState.replace('_', ' ')} ·{' '}
-            {conversationSourcePreview.sourceSafeRefSummary}
-          </div>
-        )}
-
-        {showTerminalHandoff && (
-          <ConversationTerminalHandoff
-            conversationId={currentChat?.id}
-            transactionId={activeRunId}
-            repositoryAnchor={currentSource?.repoSlug || null}
-            sourcePreview={conversationSourcePreview}
-          />
-        )}
-
-        {showPersistencePrivacy && (
-          <ConversationPersistencePrivacyPanel
-            conversationId={currentChat?.id}
-            defaultSourceText={currentChat?.messages[currentChat.messages.length - 1]?.content || ''}
-          />
-        )}
-
-        {showTelemetryProof && (
-          <ConversationTelemetryProofPanel
-            conversationId={currentChat?.id}
-            defaultSourceText={currentChat?.messages[currentChat.messages.length - 1]?.content || ''}
-          />
-        )}
-
-        {showRehearsalProof && (
-          <ConversationRehearsalPanel
-            conversationId={currentChat?.id}
-            defaultSourceText={currentChat?.messages[currentChat.messages.length - 1]?.content || ''}
-          />
-        )}
-
-        {showWritingWorkspace && (
-          <ConversationWritingWorkspace
-            conversationId={currentChat?.id}
-            initialMode={writingWorkspaceMode}
-            onClose={() => setShowWritingWorkspace(false)}
-            onHandoff={(handoff) => {
-              void handleSendMessageCallback(handoff.message, []);
-            }}
-          />
-        )}
+        <ConversationsOverlaySidePanels
+          showSourceSelector={showSourceSelector}
+          showTerminalHandoff={showTerminalHandoff}
+          showPersistencePrivacy={showPersistencePrivacy}
+          showTelemetryProof={showTelemetryProof}
+          showRehearsalProof={showRehearsalProof}
+          showWritingWorkspace={showWritingWorkspace}
+          sourceSelectorInitialRef={sourceSelectorInitialRef}
+          conversationSourcePreview={conversationSourcePreview}
+          writingWorkspaceMode={writingWorkspaceMode}
+          conversationId={currentChat?.id}
+          activeRunId={activeRunId}
+          repositoryAnchor={currentSource?.repoSlug || null}
+          defaultSourceText={currentChat?.messages[currentChat.messages.length - 1]?.content || ''}
+          onSourceSelect={handleConversationSourceSelect}
+          onCloseWritingWorkspace={() => setShowWritingWorkspace(false)}
+          onWritingHandoff={(message, tokens) => {
+            void handleSendMessageCallback(message, tokens);
+          }}
+        />
 
         {/* Messages */}
         <ConversationsChat

@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import MarketingSectionWrapper from './MarketingSectionWrapper';
+import MarketingSectionWrapper from '@/components/marketing/MarketingSectionWrapper/MarketingSectionWrapper';
 import { Disclosure, Transition } from '@headlessui/react';
 
 const faqs = [

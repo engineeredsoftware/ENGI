@@ -372,8 +372,9 @@ Named entry file — **not** `index.tsx`. Top-of-file overview comment on non-tr
 ### 7.1 Marketing (`/`)
 
 Landing, walkthrough, marketplace narrative, competitor tables, BTD education.  
-Home: `uapi/components/marketing/`. Large section components; prefer SRP splits
-into sub-units when editing.
+Home: `uapi/components/marketing/`. Large sections are modularized (data/helpers
++ co-located subcomponents under each `Marketing*Section/` directory); see
+`uapi/components/marketing/README.md`.
 
 ### 7.2 Deposits (`/deposits`)
 
@@ -432,14 +433,17 @@ App shell: `uapi/app/packs/` re-exports the page client. Layout contract:
 
 ### 7.5 Docs (`/docs`)
 
-Public documentation articles. Content largely in `docs/models/bitcode-docs-content.ts`
-+ `DocsArticlePage`.
+Public documentation articles. Content is modular under
+`docs/models/` (`bitcode-docs-types`, `bitcode-docs-helpers`, `content/*`) with
+stable re-export `bitcode-docs-content.ts`. UI: thin `DocsArticlePage` plus
+rail/card/specimen/API/manual subcomponents.
 
 ### 7.6 Conversations
 
 Full commercial Conversations UX is **deferred post-V48**, but structure remains
-under `uapi/components/conversations/` (overlay, waterfall, source selectors,
-utilities). Prefer `/packs` as post-auth landing, not Terminal.
+under `uapi/components/conversations/`. Overlay is a shell + side panels +
+hydration hook; rich-text input has co-located token helpers; utilities split
+factory vs edge-case concerns. Prefer `/packs` as post-auth landing, not Terminal.
 
 ### 7.7 Auxillaries
 

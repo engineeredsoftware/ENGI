@@ -3,12 +3,12 @@
 import React, { useEffect, useRef } from 'react';
 import Footer from '@/components/bitcode/layout/Footer/Footer';
 
-import { MarketingLandingHero } from './landing/MarketingLandingHero';
-import { MarketingLandingTerminalPreview } from './landing/MarketingLandingTerminalPreview';
-import { MarketingLandingTestnetSection } from './landing/MarketingLandingTestnetSection';
-import '../../../styles/marketing-landing-shell.css';
-import '../../../styles/marketing-landing-glow.css';
-import '../../../styles/particle-effect.css';
+import { MarketingLandingHero } from '@/components/marketing/MarketingLandingHero/MarketingLandingHero';
+import { MarketingLandingTerminalPreview } from '@/components/marketing/MarketingLandingTerminalPreview/MarketingLandingTerminalPreview';
+import { MarketingLandingTestnetSection } from '@/components/marketing/MarketingLandingTestnetSection/MarketingLandingTestnetSection';
+import '@/styles/marketing-landing-shell.css';
+import '@/styles/marketing-landing-glow.css';
+import '@/styles/particle-effect.css';
 
 type Particle = {
   id: number;

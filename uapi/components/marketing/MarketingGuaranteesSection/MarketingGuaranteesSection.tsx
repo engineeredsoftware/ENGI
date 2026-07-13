@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import MarketingSectionWrapper from './MarketingSectionWrapper';
+import MarketingSectionWrapper from '@/components/marketing/MarketingSectionWrapper/MarketingSectionWrapper';
 import { NavProcessingIndicator } from '@/components/bitcode/indicators/NavProcessingIndicator/NavProcessingIndicator';
 
 export default function MarketingGuaranteesSection() {

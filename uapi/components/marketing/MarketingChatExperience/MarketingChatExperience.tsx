@@ -11,9 +11,9 @@ import React, {
 
 import RichTextInput from '@/components/conversations/ConversationsRichTextInput/ConversationsRichTextInput';
 import QuantumOrb from '@/components/bitcode/effects/quantum-orb/QuantumOrb/QuantumOrb';
-import MarketingPlaceholderImage from './MarketingPlaceholderImage';
-import MarketingFullScreenGallery from './MarketingFullScreenGallery';
-import type { Screenshot } from './marketing-types';
+import MarketingPlaceholderImage from '@/components/marketing/MarketingPlaceholderImage/MarketingPlaceholderImage';
+import MarketingFullScreenGallery from '@/components/marketing/MarketingFullScreenGallery/MarketingFullScreenGallery';
+import type { Screenshot } from '@/components/marketing/MarketingTypes/marketing-types';
 
 // Re-use core Conversations styles so the experience matches the in-product chat.
 import '@/styles/conversations.css';

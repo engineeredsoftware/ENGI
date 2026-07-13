@@ -1,1 +1,1 @@
-export { default } from './MarketingSectionWrapper';
+export { default } from '@/components/marketing/MarketingSectionWrapper/MarketingSectionWrapper';

@@ -1,7 +1,12 @@
 "use client";
+
+/**
+ * Marketing screenshot gallery and How-it-Works steps.
+ * Data, mobile grid, and arrow geometry live in co-located modules.
+ */
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
-import MarketingThumbnailStack from './MarketingThumbnailStack';
+import MarketingThumbnailStack from '@/components/marketing/MarketingThumbnailStack/MarketingThumbnailStack';
 import {
   EnvelopeIcon,
   ArrowDownTrayIcon,
@@ -26,8 +31,11 @@ import {
   PaperAirplaneIcon
 } from '@heroicons/react/24/outline';
 // Fullscreen gallery for screenshots with thumbnail carousel
-import MarketingFullScreenGallery from './MarketingFullScreenGallery';
-import type { Screenshot } from './marketing-types';
+import MarketingFullScreenGallery from '@/components/marketing/MarketingFullScreenGallery/MarketingFullScreenGallery';
+import type { Screenshot } from '@/components/marketing/MarketingTypes/marketing-types';
+import { STEP1_SCREENS, STEP2_SCREENS, STEP3_SCREENS, SCREENSHOT_FRAME_CLASS } from './marketing-screenshot-data';
+import { useScreenshotArrow } from './hooks/use-screenshot-arrow';
+import { MarketingScreenshotMobileGrid } from './MarketingScreenshotMobileGrid';
 // Reuse the global neon underline + glow styles defined for Bitcode headers.
 import "@/styles/bitcode-header-shiny-text.css";
 import { motion, useInView } from "framer-motion";
@@ -60,82 +68,9 @@ const MarketingScreenshotSection: React.FC = () => {
     setActiveScreens(null);
   }, []);
 
-  // ---------------------------------------------------------------------
-  // Screenshot bundles used by the three steps
-  // ---------------------------------------------------------------------
-
-  const step1Screens: Screenshot[] = [
-    {
-      id: 'setup-marketplace',
-      src: '/screenshots/setup-marketplace.png',
-      alt: 'Marketplace setup',
-      revealingSoon: true,
-      description: 'Quickly connect your repo and configure Bitcode in the GitHub marketplace.'
-    },
-    {
-      id: 'setup-btd',
-      src: '/screenshots/setup-btd.png',
-      alt: 'Acquire BTD',
-      revealingSoon: true,
-      description: 'Fund your Bitcode account with $BTD for protocol activity.'
-    },
-    {
-      id: 'setup-btd-balance',
-      src: '/screenshots/setup-btd-balance.png',
-      alt: 'BTD balance widget',
-      revealingSoon: true,
-      description: 'Real-time balance overview.'
-    },
-  ];
-
-  const step2Screens: Screenshot[] = [
-    {
-      id: 'asset-pack-request',
-      src: '/screenshots/asset-pack-page-minimal-state.png',
-      alt: 'Create an AssetPack request',
-      revealingSoon: true,
-      description: 'Open a new Read describing the AssetPack you want finished.'
-    },
-    {
-      id: 'execution-kickoff',
-      src: '/screenshots/executions-page.png',
-      alt: 'Kick-off an execution',
-      revealingSoon: true,
-      description: 'Start a one-click execution pipeline.'
-    },
-  ];
-
-  const step3Screens: Screenshot[] = [
-    {
-      id: 'execution-summary',
-      src: '/screenshots/sidebar-executions.png',
-      alt: 'Execution summary',
-      revealingSoon: true,
-      description: 'Concise summary of completed execution.'
-    },
-    {
-      id: 'conversations-widget',
-      src: '/screenshots/conversations-small.png',
-      alt: 'Conversations widget',
-      revealingSoon: true,
-      description: 'Automated complexity analysis attached to PRs.'
-    },
-    {
-      id: 'notifications',
-      src: '/screenshots/notifications-widget.png',
-      alt: 'Instant notifications',
-      revealingSoon: true,
-      description: 'Stay in the loop with subtle Dock notifications.'
-    },
-    //{
-    //id: 'btd-tracker',
-    //src: '/screenshots/btd-tracker-widget.png',
-    //alt: 'BTD tracker',
-    //type: 'component',
-    //category: 'setup_steps',
-    //description: 'Real-time view of your remaining $BTD balance.'
-    //},
-  ];
+  const step1Screens = STEP1_SCREENS;
+  const step2Screens = STEP2_SCREENS;
+  const step3Screens = STEP3_SCREENS;
   // Refs for dynamic arrow
   const howItWorksRef = useRef<HTMLDivElement>(null);
   const linkRef = useRef<HTMLAnchorElement>(null);
@@ -170,97 +105,17 @@ const MarketingScreenshotSection: React.FC = () => {
   const [highlightGroup, setHighlightGroup] = useState<null | 'assetPacks' | 'evidenceDocuments'>(null);
 
   // Reused class names (SRP/DRY)
-  const screenshotFrameClass = "relative w-full aspect-video overflow-hidden rounded-lg shadow-lg";
+  const screenshotFrameClass = SCREENSHOT_FRAME_CLASS;
 
-  // -----------------------------------------------------------------------
-  // Dynamic arrow positioning
-  // -----------------------------------------------------------------------
-  const updateArrow = useCallback(() => {
-    if (!linkRef.current || !step1Ref.current || !arrowRef.current || !arrowPathRef.current || !arrowHeadRef.current || !howItWorksRef.current) {
-      return;
-    }
-
-    const containerRect = howItWorksRef.current.getBoundingClientRect();
-    const source = linkRef.current.getBoundingClientRect();
-    // Determine the target element (list item for 'Install GitHub App' if available)
-    const defaultTarget = step1Ref.current.getBoundingClientRect();
-    const installEl = installRef.current;
-    const targetRect = installEl
-      ? installEl.getBoundingClientRect()
-      : defaultTarget;
-
-    // start point – left-most x of link, slight offset from bottom
-    // coordinates relative to container
-    const startX = source.left - containerRect.left - 6;
-    const startY = source.bottom - containerRect.top + .33; // small offset
-
-    // end point – left edge, mid-point of target element
-    const endX = targetRect.left - containerRect.left;
-    const endY = targetRect.top - containerRect.top + targetRect.height / 2;
-
-    // Calculate horizontal gap and arc to slot into available space
-    const dx = Math.abs(endX - startX);
-    // Determine available space between card's left edge and screen edge
-    const cardLeft = targetRect.left; // px from viewport left
-    const screenMargin = 16; // px inset from screen edge
-    const available = Math.max(cardLeft - screenMargin, 0);
-    const arc = available;
-    const minX = Math.min(startX, endX) - arc;
-    const minY = Math.min(startY, endY) - 20;
-    const width = dx + arc * 2;
-    const height = Math.abs(endY - startY) + 40;
-
-    const svg = arrowRef.current;
-    svg.style.left = `${minX}px`;
-    svg.style.top = `${minY}px`;
-    svg.setAttribute('width', `${width}`);
-    svg.setAttribute('height', `${height}`);
-    svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-
-    const sx = startX - minX;
-    const sy = startY - minY;
-    const ex = endX - minX;
-    const ey = endY - minY;
-
-    // control points for wide arch hugging the left side
-    const cx1 = 0;
-    const cy1 = sy;
-    const cx2 = 0;
-    const cy2 = ey;
-    arrowPathRef.current.setAttribute(
-      'd',
-      `M ${sx} ${sy} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${ex} ${ey}`
-    );
-
-    // arrow head triangle
-    const angle = Math.atan2(ey - cy2, ex - cx2);
-    const size = 16;
-    const hx = ex;
-    const hy = ey;
-    const leftX = hx - size * Math.cos(angle - Math.PI / 6);
-    const leftY = hy - size * Math.sin(angle - Math.PI / 6);
-    const rightX = hx - size * Math.cos(angle + Math.PI / 6);
-    const rightY = hy - size * Math.sin(angle + Math.PI / 6);
-    arrowHeadRef.current.setAttribute('d', `M ${hx} ${hy} L ${leftX} ${leftY} L ${rightX} ${rightY} Z`);
-  }, []);
-
-  useEffect(() => {
-    updateArrow();
-
-    let raf = 0;
-    const schedule = () => {
-      if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(updateArrow);
-    };
-
-    window.addEventListener('resize', schedule);
-    window.addEventListener('orientationchange', schedule);
-    return () => {
-      window.removeEventListener('resize', schedule);
-      window.removeEventListener('orientationchange', schedule);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, [updateArrow]);
+  useScreenshotArrow({
+    howItWorksRef,
+    linkRef,
+    step1Ref,
+    installRef,
+    arrowRef,
+    arrowPathRef,
+    arrowHeadRef,
+  });
 
   // If the hero already fired the event before we mounted, we’ll detect that
   // via a flag set on `window` (added in the hero component).  This guarantees
@@ -307,90 +162,7 @@ const MarketingScreenshotSection: React.FC = () => {
         className="relative w-screen overflow-visible -mt-[38vh] pt-0 pb-8 tablet:pb-10 laptop:pb-12 desktop:pb-16 px-4 laptop:px-0"
         style={{ contain: 'layout style' }}
       >
-        {/* Mobile: staggered hero screenshot layout (large → medium → small) */}
-        <div className="block laptop:hidden px-4 py-6 space-y-2">
-          {(() => {
-            const shots = [
-              { src: '/screenshots/asset-pack-page-maximal-state.png', alt: 'AssetPack evidence screenshot' },
-              { src: '/screenshots/asset-pack-page-minimal-state.png', alt: 'AssetPack request screenshot' },
-              { src: '/screenshots/conversations-fullscreen.png', alt: 'Conversations fullscreen chat screenshot' },
-              { src: '/screenshots/sidebar-shippables.png', alt: 'Sidebar Shippables panel screenshot' },
-              { src: '/screenshots/setup-marketplace.png', alt: 'Marketplace setup screenshot' },
-              { src: '/screenshots/setup-btd-balance.png', alt: 'BTD balance panel screenshot' },
-            ] as const;
-
-            const [large, medium1, medium2, small1, small2, small3] = shots;
-
-            return (
-              <>
-                {/* Large hero image */}
-                <motion.div
-                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, amount: 0.4 }}
-                  transition={{ duration: 0.6, ease: 'easeOut' }}
-                  className={screenshotFrameClass}
-                  style={{ filter: 'drop-shadow(0 0 20px rgba(101,254,183,0.3))' }}
-                >
-                  <Image
-                    src={large.src}
-                    alt={large.alt}
-                    fill
-                    className="object-cover"
-                    sizes="100vw"
-                    priority={false}
-                  />
-                </motion.div>
-
-                {/* Two mediums */}
-                <div className="grid grid-cols-2 gap-2">
-                  {[medium1, medium2].map((shot, idx) => (
-                    <motion.div
-                      key={shot.src}
-                      initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                      viewport={{ once: true, amount: 0.4 }}
-                      transition={{ duration: 0.6, delay: 0.1 * (idx + 1), ease: 'easeOut' }}
-                      className={screenshotFrameClass}
-                      style={{ filter: 'drop-shadow(0 0 16px rgba(59,130,246,0.25))' }}
-                    >
-                      <Image
-                        src={shot.src}
-                        alt={shot.alt}
-                        fill
-                        className="object-cover"
-                        sizes="50vw"
-                      />
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Three smalls */}
-                <div className="grid grid-cols-3 gap-2">
-                  {[small1, small2, small3].map((shot, idx) => (
-                    <motion.div
-                      key={shot.src}
-                      initial={{ opacity: 0, y: 40, scale: 0.9 }}
-                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                      viewport={{ once: true, amount: 0.4 }}
-                      transition={{ duration: 0.55, delay: 0.15 * (idx + 1), ease: 'easeOut' }}
-                      className="relative w-full aspect-video overflow-hidden rounded-lg shadow"
-                      style={{ filter: 'drop-shadow(0 0 12px rgba(147,51,234,0.25))' }}
-                    >
-                      <Image
-                        src={shot.src}
-                        alt={shot.alt}
-                        fill
-                        className="object-cover"
-                        sizes="33vw"
-                      />
-                    </motion.div>
-                  ))}
-                </div>
-              </>
-            );
-          })()}
-        </div>
+        <MarketingScreenshotMobileGrid />
         {/* Wrapper for 3D-perspective screenshots peek under fold */}
         <motion.div
           ref={ref}

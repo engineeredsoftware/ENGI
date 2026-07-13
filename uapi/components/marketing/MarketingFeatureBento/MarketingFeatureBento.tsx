@@ -5,7 +5,7 @@ import { Button } from "@/components/shadcn/Button/Button";
 import { cn } from '@bitcode/styling';
 import React, { ReactNode } from 'react';
 import { ScaleIcon } from '@heroicons/react/24/outline'
-import { RichContextBeams } from "./rich-context-beams";
+import { RichContextBeams } from "@/components/marketing/RichContextBeams/RichContextBeams";
 import { Calendar } from "@/components/shadcn/Calendar/Calendar";
 import {
   Command,
@@ -25,9 +25,9 @@ import {
   MixerHorizontalIcon
 } from "@radix-ui/react-icons";
 import Image from "next/image";
-import ModelOptions from "./model-options";
-import AnimatingTypeCommands from "./animating-typing-commands";
-import AnimatingTypingCommands from "./animating-typing-commands";
+import ModelOptions from "@/components/marketing/ModelOptions/ModelOptions";
+import AnimatingTypeCommands from "@/components/marketing/AnimatingTypingCommands/AnimatingTypingCommands";
+import AnimatingTypingCommands from "@/components/marketing/AnimatingTypingCommands/AnimatingTypingCommands";
 // Drop heavy react-icons; use Radix MixIcon as the default for robot symbol.
 // Reuse `MixIcon` as our robot symbol to keep the bundle small while preserving
 // the component prop shape.

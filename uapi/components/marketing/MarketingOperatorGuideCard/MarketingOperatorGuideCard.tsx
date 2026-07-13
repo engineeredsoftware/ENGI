@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { Play } from 'lucide-react';
 import Link from 'next/link';
 import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy';
-import { MARKETING_OPERATOR_GUIDE_SOURCE } from './marketing-operator-guide-assets';
+import { MARKETING_OPERATOR_GUIDE_SOURCE } from '@/components/marketing/MarketingOperatorGuideAssets/marketing-operator-guide-assets';
 
 type MarketingOperatorGuideCardProps = {
   initialSourcePlayable?: boolean | null;

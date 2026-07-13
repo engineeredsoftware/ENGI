@@ -2,6 +2,11 @@
 
 "use client";
 
+/**
+ * Live marketplace ticker section for marketing.
+ * Listing generation and tech icons are co-located modules.
+ */
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import './marketing-marketplace-section.module.css';
 import Image from "next/image";
@@ -35,142 +40,15 @@ import BitcodeSoftwareSvgLogo from "@/components/bitcode/branding/BitcodeSoftwar
 /* ------------------------------------------------------------------
    Marketplace Color Constants - Design System Integration
 ------------------------------------------------------------------- */
-const MARKETPLACE_COLORS = {
-  bullish: {
-    wick: 'rgba(103, 254, 183, 0.2)',
-    body: 'rgba(103, 254, 183, 0.4)',
-  },
-  bearish: {
-    wick: 'rgba(239, 68, 68, 0.2)',
-    body: 'rgba(239, 68, 68, 0.4)',
-  },
-} as const;
 
-/* ------------------------------------------------------------------
-   Background hex mesh keyframes
-------------------------------------------------------------------- */
-
-function TechIcon({ tech }: { tech: string }) {
-  const size = 16;
-  switch (tech) {
-    case "react":
-      return <SiReact size={size} className="text-sky-400" />;
-    case "rust":
-      return <SiRust size={size} className="text-orange-400" />;
-    case "python":
-      return <SiPython size={size} className="text-yellow-300" />;
-    case "solidity":
-      return <SiSolidity size={size} className="text-gray-300" />;
-    case "typescript":
-      return <SiTypescript size={size} className="text-blue-400" />;
-    case "swift":
-      return <SiSwift size={size} className="text-orange-300" />;
-    default:
-      return null;
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Types & helpers
-// ---------------------------------------------------------------------------
-
-type Side = "buy" | "sell";
-type ListingType = "shippable" | "evidence_document";
-type Asset = "pr" | "knowledge_extension";
-
-interface Listing {
-  id: string;
-  type: ListingType;
-  asset: Asset;
-  side: Side;
-  price: number;
-  title: string;
-  tech: Array<"react" | "rust" | "python" | "solidity" | "typescript" | "swift">;
-  /**
-   * Amount of Bitcode `$BTD` involved in this listing. This will be highlighted
-   * in the detail card together with the glowing "e" logo.
-   */
-  measuredBtd: number;
-
-  /** Remaining quantity for this listing */
-  available: number;
-
-  /** Quick quality/measure indicator shown in the order book */
-  measure: number;
-
-  flash?: "add" | "trade";
-}
-
-const randomElement = <T,>(arr: readonly T[]): T => arr[Math.floor(Math.random() * arr.length)];
-const randomInt = (min: number, max: number) =>
-  Math.floor(Math.random() * (max - min + 1)) + min;
-
-const owners = [
-  "@stellar-ai",
-  "@openbuild",
-  "@infra-gurus",
-  "@low-latency",
-  "@frontend-speed",
-  "@vision-labs",
-  "@ops-bot",
-  "@algo-kings",
-  "@qa-reviewers",
-];
-
-let idCounter = 1;
-const genId = () => `L${idCounter++}`;
-
-function generateListing(): Listing {
-  const type = randomElement(["shippable", "evidence_document"] as const);
-  const asset = type === "shippable" ? "pr" : "knowledge_extension";
-  const side = randomElement(["buy", "sell"] as const);
-  const titles = {
-    pr: [
-      "Auth Refactor PR",
-      "Next.js 14 Routes",
-      "Payment Gateway",
-      "CI Optimization",
-    ],
-    knowledge_extension: [
-      "Rust Error Fixes",
-      "OpenCV Snippets",
-      "Terraform Modules",
-      "SwiftUI Cheatsheet",
-    ],
-  };
-  const techSets = {
-    react: ["react", "typescript"],
-    rust: ["rust"],
-    python: ["python"],
-    solidity: ["solidity", "typescript"],
-    swift: ["swift"],
-  } as const;
-  const techPool = Object.keys(techSets) as Array<keyof typeof techSets>;
-  const chosen = randomElement(techPool);
-  return {
-    id: genId(),
-    type,
-    asset,
-    side,
-    price: randomInt(80, 600),
-    title: randomElement(titles[asset]),
-    tech: [...techSets[chosen]],
-    measuredBtd: randomInt(40, 600),
-    available: randomInt(1, 20),
-    measure: randomInt(60, 99),
-    flash: "add",
-  };
-}
-
-// ---------------------------------------------------------------------------
-// Section component
-// ---------------------------------------------------------------------------
-
-const ROW_VARIANTS = {
-  hidden: { opacity: 0, y: -10 },
-  visible: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: 10 },
-} as const;
+import {
+  generateListing,
+  ROW_VARIANTS,
+  MARKETPLACE_COLORS,
+  type Listing,
+  type Side,
+} from './marketing-marketplace-data';
+import { MarketingMarketplaceTechIcon as TechIcon } from './MarketingMarketplaceTechIcon';
 
 interface MarketplaceSectionProps {
   disableTickerFetch?: boolean;

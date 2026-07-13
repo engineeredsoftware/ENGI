@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable react/no-multi-comp */
 import React, { useState } from 'react';
-import MarketingSectionWrapper from "./MarketingSectionWrapper";
+import MarketingSectionWrapper from "@/components/marketing/MarketingSectionWrapper/MarketingSectionWrapper";
 
 const cardFrameEmerald =
   "relative overflow-hidden rounded-lg border border-emerald-400/20 bg-emerald-500/5 shadow-[0_0_28px_rgba(16,185,129,0.14)]";

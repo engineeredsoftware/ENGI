@@ -13,7 +13,7 @@ import {
   measuremintCandles,
   paintedMotionStyle,
   productPillars,
-} from './marketing-landing-shared';
+} from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 
 type MarketingLandingPillarCardProps = (typeof productPillars)[number] & {
   index: number;

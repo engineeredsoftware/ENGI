@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import type { Screenshot } from './marketing-types';
+import type { Screenshot } from '@/components/marketing/MarketingTypes/marketing-types';
 
 export interface ThumbnailStackProps {
   images: readonly Screenshot[] | readonly string[];

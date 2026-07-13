@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import MarketingSectionWrapper from './MarketingSectionWrapper';
+import MarketingSectionWrapper from '@/components/marketing/MarketingSectionWrapper/MarketingSectionWrapper';
 import Image from 'next/image';
 
 const features = [

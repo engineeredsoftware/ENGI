@@ -9,15 +9,15 @@ import Logo from '@/components/bitcode/branding/Logo/Logo';
 import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy';
 import MultiLineTypingAnimation from '@/components/bitcode/MultiLineTypingAnimation/MultiLineTypingAnimation';
 
-import { MarketingLandingGuideCard } from './MarketingLandingGuideCard';
-import { MarketingLandingPillarCard } from './MarketingLandingPillarCard';
+import { MarketingLandingGuideCard } from '@/components/marketing/MarketingLandingGuideCard/MarketingLandingGuideCard';
+import { MarketingLandingPillarCard } from '@/components/marketing/MarketingLandingPillarCard/MarketingLandingPillarCard';
 import {
   animatedMotionStyle,
   entranceEase,
   headlineHighlights,
   headlineText,
   productPillars,
-} from './marketing-landing-shared';
+} from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 
 export const MarketingLandingHero = memo(function MarketingLandingHero() {
   return (

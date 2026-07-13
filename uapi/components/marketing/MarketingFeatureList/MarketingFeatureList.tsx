@@ -1,9 +1,9 @@
 import React from 'react';
 /* eslint-disable react/no-multi-comp */
 import { BoltIcon, WrenchScrewdriverIcon, ChartPieIcon } from '@heroicons/react/20/solid'
-import { AnimatedListWork } from './animated-list-of-work'
+import { AnimatedListWork } from '@/components/marketing/AnimatedListOfWork/AnimatedListOfWork'
 import Image from 'next/image'
-import Pill from './pill'
+import Pill from '@/components/marketing/Pill/Pill'
 
 const features = [
   {

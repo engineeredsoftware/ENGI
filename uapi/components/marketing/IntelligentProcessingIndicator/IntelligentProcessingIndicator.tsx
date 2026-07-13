@@ -1,1 +1,1 @@
-export { default, MarketingIntelligentProcessingIndicator as IntelligentProcessingIndicator } from './MarketingIntelligentProcessingIndicator';
+export { default, MarketingIntelligentProcessingIndicator as IntelligentProcessingIndicator } from '@/components/marketing/MarketingIntelligentProcessingIndicator/MarketingIntelligentProcessingIndicator';

@@ -19,7 +19,7 @@ import {
   renderTrailingOrangeAsterisk,
   verificationRows,
   verifiedAccessOrbConfig,
-} from './marketing-landing-shared';
+} from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 
 export const MarketingLandingTerminalPreview = memo(function MarketingLandingTerminalPreview() {
   return (

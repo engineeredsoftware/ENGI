@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy';
 
-import { animatedMotionStyle, entranceEase } from './marketing-landing-shared';
+import { animatedMotionStyle, entranceEase } from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 
 function renderMicroBlogBody(body: string, highlights: readonly string[]) {
   if (!highlights.length) return body;

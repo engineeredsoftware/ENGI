@@ -37,8 +37,8 @@ const cardVariants = {
     transition: { duration: 0.22, ease: [0.23, 1, 0.32, 1] },
   },
 } as const;
-import MarketingSectionWrapper from './MarketingSectionWrapper';
-import MarketingPlaceholderImage from './MarketingPlaceholderImage';
+import MarketingSectionWrapper from '@/components/marketing/MarketingSectionWrapper/MarketingSectionWrapper';
+import MarketingPlaceholderImage from '@/components/marketing/MarketingPlaceholderImage/MarketingPlaceholderImage';
 import RevealingSoonOverlay from '@/components/bitcode/overlays/RevealingSoonOverlay/RevealingSoonOverlay';
 
 // Heroicons
