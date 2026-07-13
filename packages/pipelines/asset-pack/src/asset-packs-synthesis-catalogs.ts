@@ -10,4 +10,4 @@ export {
   ASSET_PACK_ABSOLUTES_CATALOG,
   ASSET_PACK_ABSOLUTE_KINDS,
   DEPOSIT_NEEDINESS_MEASUREMENT,
-} from '@bitcode/asset-packs-synthesis';
+} from '@bitcode/generic-asset-packs-synthesis';

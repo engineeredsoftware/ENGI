@@ -18,7 +18,6 @@
     "packages/generic-vcs/*",
     "packages/generic-hosts/*",
     "packages/generic-mcps/*",
-    "packages/asset-packs/*",
     "packages/generic-asset-packs/*",
     "packages/generic-artifacts/*",
     "packages/generic-attachments/*",
@@ -35,6 +34,7 @@
     "packages/linting/*",
     "packages/host-commands/*",
     "packages/web-search/*",
+    "packages/security/*",
     "uapi",
     "admin"
   ],
@@ -46,7 +46,8 @@
     "eslint-plugin-bitcode": "workspace:*",
     "eslint-plugin-react-hooks": "^7.1.1",
     "playwright": "^1.31.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "@types/lodash": "^4.17.0"
   },
   "pnpm": {
     "overrides": {
@@ -588,6 +589,7 @@
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "clsx": "2.1.1",
-    "tailwind-merge": "2.5.2"
+    "tailwind-merge": "2.5.2",
+    "lodash": "^4.17.21"
   }
 }

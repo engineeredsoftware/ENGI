@@ -21,5 +21,5 @@
    - Confirm negative-prompt refusals match OpenAI UX guidelines.
 
 6. **Digest alignment**
-   - Wire `design_code` to lean on `@bitcode/digest` primitives for first PRODUCT.md drafts.
+   - Wire `design_code` to lean on `@bitcode/generic-agents-digesting` primitives for first PRODUCT.md drafts.
    - Prototype digest-to-AGENTS.md scaffolding so behaviour guidance inherits pattern metadata.

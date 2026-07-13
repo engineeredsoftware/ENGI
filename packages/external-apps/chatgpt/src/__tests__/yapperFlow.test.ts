@@ -17,7 +17,7 @@ jest.mock('@bitcode/generic-tools-web-search', () => ({
   search: { execute: jest.fn() },
 }));
 
-jest.mock('@bitcode/digest/run', () => ({
+jest.mock('@bitcode/generic-agents-digesting', () => ({
   generateDigest: jest.fn(),
 }));
 
@@ -25,7 +25,7 @@ const simpleSystemTextSearchExecute =
   (jest.requireMock('@bitcode/generic-tools-simple-system-text-search').simpleSystemTextSearch.execute as jest.Mock);
 const webSearchExecute =
   (jest.requireMock('@bitcode/generic-tools-web-search').search.execute as jest.Mock);
-const generateDigestMock = (jest.requireMock('@bitcode/digest/run').generateDigest as jest.Mock);
+const generateDigestMock = (jest.requireMock('@bitcode/generic-agents-digesting').generateDigest as jest.Mock);
 const READ_ACCESS = {
   assetPackId: 'asset-pack-yapper',
   walletId: 'wallet-yapper-reader',

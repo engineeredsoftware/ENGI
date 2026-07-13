@@ -4,7 +4,6 @@
   "main": "src/index.ts",
   "private": true,
   "dependencies": {
-    "@bitcode/agent-generics": "workspace:*",
-    "@bitcode/digest": "workspace:*"
+    "@bitcode/agent-generics": "workspace:*"
   }
 }

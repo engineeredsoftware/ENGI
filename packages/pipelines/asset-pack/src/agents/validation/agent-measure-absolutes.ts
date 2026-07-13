@@ -18,7 +18,7 @@
 import type { MeasureAgent } from '@bitcode/generic-measurements-measure-agent';
 import {
   factorySynthesizeAssetPacksAbsolutesMeasureAgent,
-} from '@bitcode/asset-packs-synthesis';
+} from '@bitcode/generic-asset-packs-synthesis';
 
 import {
   ASSET_PACK_ABSOLUTES_CATALOG,

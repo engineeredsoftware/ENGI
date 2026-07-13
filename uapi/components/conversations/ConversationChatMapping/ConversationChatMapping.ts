@@ -1,7 +1,7 @@
 import type {
   Conversation as DBConversation,
   ConversationMessage as DBMessage,
-} from '@bitcode/conversations-generics';
+} from '@bitcode/conversations';
 
 import type { Chat } from '@/components/conversations/hooks/UseChatState/UseChatState';
 

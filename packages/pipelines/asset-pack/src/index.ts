@@ -83,13 +83,13 @@ export type {
   AssetPackPatchDescriptor,
   AssetPackPatchFileChange,
   AssetPackDeliveryMechanism,
-} from '@bitcode/asset-pack-generics';
+} from '@bitcode/asset-packs-generics';
 export {
   ASSET_PACK_SCHEMA_PREFIX,
   assertAssetPackId,
   createAssetPackSourceBinding,
   createAssetPackPatchDescriptor,
-} from '@bitcode/asset-pack-generics';
+} from '@bitcode/asset-packs-generics';
 export type {
   MeasuredPatchAssetPack,
   MeasuredPatchMeasurement,

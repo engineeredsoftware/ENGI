@@ -217,9 +217,9 @@ packages/generic-<family>/          # README only (no package.json)
 | `generic-hosts/` | `Local/`, `VercelSandbox/` | `@bitcode/generic-hosts-*` |
 | `mcp-generics/` | (package root) | `@bitcode/mcp-generics` |
 | `generic-mcps/` | `bitcode/` | `@bitcode/generic-mcps-bitcode` |
-| `asset-pack-generics/` | (package root) | `@bitcode/asset-pack-generics` |
-| `generic-asset-packs/` | `measured-patch/` | `@bitcode/generic-asset-packs-measured-patch` |
-| `asset-packs/` | `synthesis/`, `settle/` | `@bitcode/asset-packs-synthesis`, `-settle` |
+| `asset-packs-generics/` | (package root) | `@bitcode/asset-packs-generics` (BC `@bitcode/asset-pack-generics`) |
+| `generic-asset-packs/` | `measured-patch/`, `synthesis/`, `settle/` | `@bitcode/generic-asset-packs-*` |
+| `generic-asset-packs/` | `measured-patch/`, `synthesis/`, `settle/` | `@bitcode/generic-asset-packs-*` |
 | `execution-generics/` | (package root) | `@bitcode/execution-generics` (Execution state) |
 | `executor-generics/` | (package root) | `@bitcode/executor-generics` (Executor type) |
 | `generic-executors/` | (package root) | `@bitcode/generic-executors` (sequential, parallel, …) |
@@ -239,6 +239,9 @@ packages/generic-<family>/          # README only (no package.json)
 | `generic-measurements/tech-types/` | (nested) | tech-types as absolute measurement |
 | `protocol-canonical/` | (package root) | canonical generators (split from protocol) |
 | `web-scrapers/` | `firecrawl/` | `@bitcode/web-scrapers-firecrawl` |
+| `security/` | `encryption/`, `credentials/`, … | `@bitcode/security-*` (BC `@bitcode/security`) |
+| `obfuscation/` | (package root) | `@bitcode/obfuscation` |
+| `conversations/` | (package root) | `@bitcode/conversations` |
 | `files/` | (package root) | `@bitcode/files` (file path/op primitives for all packages) |
 | `context-generics/` | (package root) | `@bitcode/context-generics` (BC only; no separate Context state) |
 | `artifact-generics/` | (package root) | `@bitcode/artifact-generics` (Artifact + storage contract) |

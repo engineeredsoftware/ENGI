@@ -1,0 +1,19 @@
+{
+  "name": "@bitcode/security-client",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Client-only security form hooks (packages/security/client)",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/index.ts"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "zod": "^3.25.76"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  }
+}

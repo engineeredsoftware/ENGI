@@ -17,7 +17,7 @@ const customModuleNameMapper = {
   '^@bitcode/generic-tools-mcps-vercel$': '<rootDir>/src/__stubs__/generic-tools-mcps-vercel.ts',
   '^@bitcode/generic-tools-simple-system-text-search$': '<rootDir>/src/__stubs__/generic-tools-simple-system-text-search.ts',
   '^@bitcode/generic-tools-web-search$': '<rootDir>/src/__stubs__/generic-tools-web-search.ts',
-  '^@bitcode/digest/run$': '<rootDir>/src/__stubs__/digest-run.ts',
+  '^@bitcode/generic-agents-digesting$': '<rootDir>/src/__stubs__/digest-run.ts',
   '^@bitcode/github$': '<rootDir>/src/__stubs__/github.ts',
   '^@bitcode/vcs$': '<rootDir>/src/__stubs__/vcs.ts',
   '^@bitcode/context$': '<rootDir>/src/__stubs__/context.ts',

@@ -31,7 +31,7 @@ import { z } from 'zod';
 
 // ==================== TOOLS ====================
 // Tools this agent can use for repository analysis
-import { generateDigest as generateDigestCore } from '@bitcode/digest/run';
+import { generateDigest as generateDigestCore } from './generate-digest';
 import { ExecutionTool } from '@bitcode/execution-generics';
 import * as fs from 'fs';
 
@@ -446,3 +446,5 @@ export function selectDigesterAgent(input: DigestInput): string {
  * 
  * We just defined schemas - the framework does ALL digest generation logic!
  */
+
+export { generateDigest, callLLMAPI } from './generate-digest';

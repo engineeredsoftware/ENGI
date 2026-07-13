@@ -15,7 +15,7 @@
     "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests"
   },
   "dependencies": {
-    "@bitcode/asset-pack-generics": "workspace:*"
+    "@bitcode/asset-packs-generics": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

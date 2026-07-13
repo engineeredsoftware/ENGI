@@ -6,5 +6,9 @@
   "types": "src/index.ts",
   "dependencies": {
     "@bitcode/logger": "workspace:*"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./generate-digest": "./src/generate-digest.ts"
   }
 }

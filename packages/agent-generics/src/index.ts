@@ -101,7 +101,7 @@ export {
 //   MeasureAgent base          → @bitcode/generic-measurements-measure-agent
 //   AbsolutesMeasureAgent      → @bitcode/generic-measurements-absolutes
 //   NeedinessesMeasureAgent    → @bitcode/generic-measurements-needinesses
-//   SynthesizeAssetPacks…      → @bitcode/asset-packs-synthesis
+//   SynthesizeAssetPacks…      → @bitcode/generic-asset-packs-synthesis
 //
 // Re-exported for compatibility; prefer package-direct imports in new code.
 

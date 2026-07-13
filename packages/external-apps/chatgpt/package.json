@@ -21,7 +21,7 @@
     "@bitcode/generic-tools-web-search": "workspace:*",
     "@bitcode/generic-tools-mcps-aws": "workspace:*",
     "@bitcode/generic-tools-mcps-vercel": "workspace:*",
-    "@bitcode/digest": "workspace:*",
+    "@bitcode/generic-agents-digesting": "workspace:*",
     "@octokit/rest": "^20.0.0",
     "tsx": "^4.6.0"
   },

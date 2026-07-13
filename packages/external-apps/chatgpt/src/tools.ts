@@ -9,7 +9,7 @@ import { Octokit } from '@octokit/rest';
 import { awsCloudWatchLogTool, awsDynamoGetItemTool, awsDynamoPutItemTool, awsLambdaInvokeTool, awsMcpTool, awsS3GetObjectTool, awsS3PutObjectTool } from '@bitcode/generic-tools-mcps-aws';
 import { simpleSystemTextSearch } from '@bitcode/generic-tools-simple-system-text-search';
 import { search as webSearch } from '@bitcode/generic-tools-web-search';
-import { generateDigest } from '@bitcode/digest/run';
+import { generateDigest } from '@bitcode/generic-agents-digesting';
 import {
   evaluateBtdOrganizationInterfaceAuthority,
   type BtdOrganizationRole,

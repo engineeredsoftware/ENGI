@@ -1,4 +1,4 @@
-declare module '@bitcode/digest/run' {
+declare module '@bitcode/generic-agents-digesting' {
   export interface GenerateDigestOptions {
     owner: string;
     repo: string;

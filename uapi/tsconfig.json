@@ -357,6 +357,14 @@
             "@bitcode/web-search-exa": ["packages/web-search/exa/src/index.ts"],
             "@bitcode/protocol-canonical": ["packages/protocol-canonical/src/index.js"],
             "@bitcode/api/responses": ["packages/api/src/responses/index.ts"],
+            "@bitcode/obfuscation": ["../packages/obfuscation/src/index.ts"],
+            "@bitcode/conversations": ["packages/conversations/src/index.ts"],
+            "@bitcode/asset-packs-generics": ["packages/asset-packs-generics/src/index.ts"],
+            "@bitcode/generic-asset-packs-synthesis": ["packages/generic-asset-packs/synthesis/src/index.ts"],
+            "@bitcode/generic-asset-packs-settle": ["packages/generic-asset-packs/settle/src/index.ts"],
+            "@bitcode/security-encryption": ["packages/security/encryption/src/index.ts"],
+            "@bitcode/security-credentials": ["packages/security/credentials/src/index.ts"],
+            "@bitcode/security-client": ["packages/security/client/src/index.ts"],
       "@bitcode/logger": [
         "../packages/logger/src/logger.ts"
       ],
@@ -518,11 +526,7 @@
       "@bitcode/tools": [
         "../packages/generic-tools/src/index.ts"
       ],
-      "@bitcode/digest": [
-        "../packages/digest/run/index.ts"
       ],
-      "@bitcode/digest/*": [
-        "../packages/digest/*"
       ],
       "@bitcode/email": [
         "../packages/notifications/src/index.ts"
@@ -560,11 +564,7 @@
       "@/lib/mcp/validation": [
         "../packages/mcp-generics/src/index.ts"
       ],
-      "@bitcode/objects-arrays-objects": [
-        "../packages/objects-arrays/objects/src/index.ts"
       ],
-      "@bitcode/objects-arrays-objects/*": [
-        "../packages/objects-arrays/objects/src/*"
       ],
       "@/lib/email": [
         "../packages/notifications/src/index.ts"
@@ -613,13 +613,10 @@
         "../packages/git/src/*"
       ],
       "@/digest/*": [
-        "../packages/digest/*"
       ],
       "@/lib/digest": [
-        "../packages/digest/run/index.ts"
       ],
       "@/lib/digest/*": [
-        "../packages/digest/*"
       ]
     }
   },

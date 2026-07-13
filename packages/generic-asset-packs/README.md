@@ -1,18 +1,12 @@
 # generic-asset-packs
 
-Nested **base implementations** of `@bitcode/asset-pack-generics`.
+Nested AssetPack bases and product surfaces over `@bitcode/asset-packs-generics`.
 
-## Hierarchy
-
-```
-@bitcode/asset-pack-generics
-        ↑
-@bitcode/generic-asset-packs-measured-patch   # measured-patch/  (only admitted AP base)
-```
-
-| Path | Package | Role |
+| Nested | Package | Role |
 | --- | --- | --- |
-| `measured-patch/` | `@bitcode/generic-asset-packs-measured-patch` | Measured patch AssetPack used by all product pipelines |
+| `measured-patch/` | `@bitcode/generic-asset-packs-measured-patch` | MeasuredPatchAssetPack base |
+| `synthesis/` | `@bitcode/generic-asset-packs-synthesis` | Synthesize product measurements |
+| `settle/` | `@bitcode/generic-asset-packs-settle` | Settle product surface |
 
-Product pipelines (synthesize-deposits/reads, settle-reads) synthesize and settle
-**MeasuredPatchAssetPack** instances — not alternate AssetPack bases.
+Primitives: `packages/asset-packs-generics` (`@bitcode/asset-packs-generics`).
+BC: `@bitcode/asset-pack-generics`, `@bitcode/asset-packs-synthesis`, `@bitcode/asset-packs-settle`.

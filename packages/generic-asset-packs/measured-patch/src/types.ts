@@ -15,11 +15,11 @@ import type {
   AssetPackId,
   AssetPackPatchFileChange,
   AssetPackSourceBinding,
-} from '@bitcode/asset-pack-generics';
+} from '@bitcode/asset-packs-generics';
 import {
   ASSET_PACK_SCHEMA_PREFIX,
   ASSET_PACK_WRITTEN_ASSET_KIND_READ_SATISFACTION,
-} from '@bitcode/asset-pack-generics';
+} from '@bitcode/asset-packs-generics';
 
 export const MEASURED_PATCH_ASSET_PACK_SCHEMA =
   `${ASSET_PACK_SCHEMA_PREFIX}.measured-patch` as const;

@@ -1865,3 +1865,11 @@ demo/runtime shell; generators/proof tooling prefer `@bitcode/protocol-canonical
 - Moved `@bitcode/streams` implementation into `packages/api/src/streams`.
 - Export: `@bitcode/api/streams` (with `./streams/*`).
 - BC: `@bitcode/streams` re-exports the API streams module (same pattern as responses).
+
+## Package renames/removals: obfuscation, conversations, security, asset-packs (Garrett, 2026-07-13)
+
+- `obfuscate-generics` → `obfuscation` (`@bitcode/obfuscation`; BC `@bitcode/obfuscate`) — no generic-* peer.
+- `conversations-generics` → `conversations` (`@bitcode/conversations`; BC `@bitcode/conversations-generics`).
+- `asset-pack-generics` → `asset-packs-generics`; `asset-packs/{synthesis,settle}` → `generic-asset-packs/*`.
+- `security` split into `packages/security/{encryption,credentials,rate-limiting,audit,validation,headers,monitoring,error-handling,twilio,client}`.
+- Removed: `digest`, `cloudflare` (+ MCP), `repository-health`, `objects-arrays` (use lodash for equality helpers if needed).

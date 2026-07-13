@@ -10,7 +10,7 @@
 
 import type { Execution } from '@bitcode/execution-generics/Execution';
 import type { MeasurementSpec } from '@bitcode/measurement-generics';
-import type { AssetPackPatchDescriptor } from '@bitcode/asset-pack-generics';
+import type { AssetPackPatchDescriptor } from '@bitcode/asset-packs-generics';
 import type { MeasuredPatchNeedinessPreview } from '@bitcode/generic-asset-packs-measured-patch';
 
 export type AssetPacksSynthesisLens = 'deposit' | 'read';

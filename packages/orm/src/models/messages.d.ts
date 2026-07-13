@@ -11,7 +11,7 @@
 import { BaseModel } from './base';
 import { Database } from '../types/database';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { ConversationMessage, MessageWithDetails, CreateMessageInput, MessageListOptions, MessageListResult } from '@bitcode/conversations-generics';
+import { ConversationMessage, MessageWithDetails, CreateMessageInput, MessageListOptions, MessageListResult } from '@bitcode/conversations';
 export declare class MessagesModel extends BaseModel<'messages'> {
     constructor(supabase: SupabaseClient<Database>);
     /**

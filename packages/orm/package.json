@@ -22,7 +22,8 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.0.0",
     "pg": "^8.16.3",
-    "zod": "^3.0.0"
+    "zod": "^3.0.0",
+    "@bitcode/conversations": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

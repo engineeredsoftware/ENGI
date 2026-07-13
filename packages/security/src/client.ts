@@ -1,10 +1,5 @@
-"use client";
-
-export type { SecureInputConfig, SecureFormState } from './secure-forms';
-export {
-  useSecureCredentialInput,
-  useSecureFormSubmission,
-  createSecureFormField,
-  SecureFormUtils,
-} from './secure-forms';
-
+/**
+ * @deprecated Prefer `@bitcode/security-client`.
+ * BC path for `@bitcode/security/client`.
+ */
+export * from '@bitcode/security-client';

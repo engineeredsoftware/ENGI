@@ -8,7 +8,7 @@ import {
   createAssetPackSourceBinding,
   ASSET_PACK_WRITTEN_ASSET_KIND_READ_SATISFACTION,
   type AssetPackPatchFileChange,
-} from '@bitcode/asset-pack-generics';
+} from '@bitcode/asset-packs-generics';
 import {
   MEASURED_PATCH_ASSET_PACK_SCHEMA,
   type MeasuredPatchAssetPack,

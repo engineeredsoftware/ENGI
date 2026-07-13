@@ -4,7 +4,7 @@
 import type {
   Conversation as DBConversation,
   ConversationMessage as DBMessage,
-} from '@bitcode/conversations-generics';
+} from '@bitcode/conversations';
 
 export type ConversationDetailResponse = DBConversation & {
   message_count?: number;

@@ -11,7 +11,7 @@
 import { BaseModel } from './base';
 import { Database } from '../types/database';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { MessageAttachment, CreateMessageAttachmentInput } from '@bitcode/conversations-generics';
+import { MessageAttachment, CreateMessageAttachmentInput } from '@bitcode/conversations';
 export declare class MessageAttachmentsModel extends BaseModel<'message_attachments'> {
     constructor(supabase: SupabaseClient<Database>);
     /**
