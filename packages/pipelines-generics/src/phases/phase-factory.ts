@@ -4,8 +4,9 @@
  * PhaseDelegators are Executors that coordinate agent execution within
  * a pipeline phase. They delegate work to agents and accumulate results.
  *
- * The generic phase abstraction is reusable. The canonical phased family is
- * SDIVF: Setup -> Discovery -> Implementation -> Validation -> Finish.
+ * The generic phase abstraction is reusable (PhaseDelegator factories).
+ * The SDIVF base pipeline (Setup-[DIV]*-Finish) lives in
+ * `@bitcode/generic-pipelines-sdivf`, not in this primitive package.
  */
 
 import { sequential, parallel } from '@bitcode/execution-generics';
@@ -110,34 +111,4 @@ export function factoryParallelPhaseDelegator<TInput, TOutput>(
     
     return output;
   };
-}
-
-/**
- * The canonical SDIVF reference phases.
- */
-export enum SDIVFPhase {
-  SETUP = 'setup',
-  DISCOVERY = 'discovery',
-  IMPLEMENTATION = 'implementation',
-  VALIDATION = 'validation',
-  FINISH = 'finish'
-}
-
-/**
- * Create canonical SDIVF reference phase delegators.
- */
-export function factorySDIVFPhaseDelegators<TInput, TOutput>(config: {
-  setup: Agent<TInput, any>;
-  discovery: Agent<any, any>;
-  implementation: Agent<any, any>;
-  validation: Agent<any, any>;
-  finish: Agent<any, TOutput>;
-}): PhaseDelegator<TInput, TOutput>[] {
-  return [
-    factoryPhaseDelegator(SDIVFPhase.SETUP, config.setup),
-    factoryPhaseDelegator(SDIVFPhase.DISCOVERY, config.discovery),
-    factoryPhaseDelegator(SDIVFPhase.IMPLEMENTATION, config.implementation),
-    factoryPhaseDelegator(SDIVFPhase.VALIDATION, config.validation),
-    factoryPhaseDelegator(SDIVFPhase.FINISH, config.finish)
-  ];
 }

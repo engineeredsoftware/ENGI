@@ -5,7 +5,8 @@ import {
 } from '../synthesize-asset-packs';
 
 /**
- * QA F20 — deposit-mode propagation. `factorySDIVFExecutorPipeline` composes the
+ * QA F20 — deposit-mode propagation. `@bitcode/generic-pipelines-sdivf`
+ * `factorySDIVFExecutorPipeline` composes the
  * phases with `sequential`, which runs preprocess and every phase on ISOLATED
  * sibling child executions (`execution.child('seq-N')`). The mode must therefore
  * be stored on the SHARED parent so the phase children resolve it via the upward

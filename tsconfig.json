@@ -16,6 +16,8 @@
       "@bitcode/types/*": ["packages/tech-types/src/*"],
       "@bitcode/pipelines-generics": ["packages/pipelines-generics/src/index.ts"],
       "@bitcode/pipelines-generics/*": ["packages/pipelines-generics/src/*"],
+      "@bitcode/generic-pipelines-sdivf": ["packages/generic-pipelines/SDIVF/src/index.ts"],
+      "@bitcode/generic-pipelines-sdivf/*": ["packages/generic-pipelines/SDIVF/src/*"],
       "@bitcode/pipeline-asset-pack": ["packages/pipelines/asset-pack/src/index.ts"],
       "@bitcode/pipeline-asset-pack/*": ["packages/pipelines/asset-pack/src/*"],
       "@bitcode/pipeline-hosts": ["packages/pipeline-hosts/src/index.ts"],

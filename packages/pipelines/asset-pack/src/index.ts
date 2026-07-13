@@ -8,7 +8,8 @@
  */
 
 import { Executor, Execution } from '@bitcode/execution-generics';
-import { factorySDIVFExecutorPipeline, createGuidedPipelineExecution, gatePreprocess } from '@bitcode/pipelines-generics';
+import { createGuidedPipelineExecution, gatePreprocess } from '@bitcode/pipelines-generics';
+import { factorySDIVFExecutorPipeline } from '@bitcode/generic-pipelines-sdivf';
 import { assetPackPhases } from './phases';
 import { initializeAssetPackPipeline } from './preprocess';
 import { normalizeAssetPackOutput, buildAssetPackPostprocessedResult } from './postprocess';

@@ -5,14 +5,19 @@
  * pipelines. Pipelines are Executors that sequence PhaseDelegators.
  * PhaseDelegators are Executors that delegate to Agents.
  *
- * These are reusable orchestration primitives. SDIVF and meta-phase flows are
- * canonical reference patterns when a Bitcode package explicitly owns their
- * behavior.
- * 
+ * These are reusable orchestration primitives (Pipeline, PhaseDelegator,
+ * composition). The SDIVF *base implementation* lives in
+ * `@bitcode/generic-pipelines-sdivf` and is re-exported here for compatibility.
+ *
+ * Hierarchy:
+ *   pipelines-generics (this package — primitives)
+ *     → generic-pipelines/SDIVF (base SDIVF loop)
+ *       → pipeline-asset-pack (SynthesizeAssetPacks / SettleAssetPacks)
+ *
  * Core Concepts:
- * - Pipeline: Top-level Executor orchestrating phases (EE)
+ * - Pipeline: Top-level Executor orchestrating phases
  * - PhaseDelegator: Executor that delegates work to Agents
- * - SDIVF: setup/discovery/implementation/validation/finish reference family
+ * - SDIVF base: Setup-[Discovery-Implementation-Validation]*-Finish (generic-pipelines-sdivf)
  * 
  * @doc-code
  * type: package
@@ -48,24 +53,23 @@ export {
   type QuickPhase
 } from './quick-pipeline';
 
-// Phase factories and SDIVF reference helpers
+// Phase factories (primitives)
 export {
   factoryPhaseDelegator,
   factorySequentialPhaseDelegator,
   factoryParallelPhaseDelegator,
-  factorySDIVFPhaseDelegators,
-  SDIVFPhase
 } from './phases/phase-factory';
 
-// SDIVF reference pipeline factories
+// SDIVF base implementation — owned by @bitcode/generic-pipelines-sdivf
+// (re-exported for compatibility; prefer importing that package directly)
 export {
+  factorySDIVFPhaseDelegators,
+  SDIVFPhase,
   factorySDIVFPipeline,
-  type SDIVFConfig
-} from './phases/sdivf-factory';
-export {
   factorySDIVFExecutorPipeline,
-  type SDIVFExecutorConfig
-} from './phases/sdivf-factory';
+  type SDIVFConfig,
+  type SDIVFExecutorConfig,
+} from '@bitcode/generic-pipelines-sdivf';
 
 // Streaming integration for real-time pipeline updates
 export {

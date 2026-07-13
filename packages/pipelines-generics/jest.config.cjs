@@ -9,6 +9,9 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
     '^@bitcode/pipelines-generics$': '<rootDir>/src/index.ts',
+    '^@bitcode/pipelines-generics/(.*)$': '<rootDir>/src/$1',
+    '^@bitcode/generic-pipelines-sdivf$': '<rootDir>/../generic-pipelines/SDIVF/src/index.ts',
+    '^@bitcode/generic-pipelines-sdivf/(.*)$': '<rootDir>/../generic-pipelines/SDIVF/src/$1',
     '^@bitcode/execution-generics$': '<rootDir>/../execution-generics/src/index.ts',
     '^@bitcode/registry$': '<rootDir>/../registry/src/index.ts',
     '^@bitcode/prompts$': '<rootDir>/../prompts/src/index.ts',

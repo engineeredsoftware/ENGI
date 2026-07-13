@@ -192,8 +192,9 @@ packages/
     src/
       product-analytics.ts
   btd/                         # BTD measurement, journal, settlement, authority
-  pipelines/                   # AssetPack synthesis pipelines (SDIVF, …)
-  pipelines-generics/
+  pipelines-generics/          # Pipeline / PhaseDelegator primitives
+  generic-pipelines/SDIVF/     # SDIVF base Pipeline (extends pipelines-generics)
+  pipelines/asset-pack/        # SynthesizeAssetPacks (extends SDIVF base)
   agent-generics/              # PTRR agents (not product “Pipeline” UI)
   execution-generics/          # low-level executor primitives
   prompts/
@@ -248,8 +249,11 @@ bitcode/
 │   │       ├── journal.ts
 │   │       ├── operational-health.ts
 │   │       └── ...
+│   ├── pipelines-generics/            # Pipeline / PhaseDelegator primitives
+│   ├── generic-pipelines/
+│   │   └── SDIVF/                     # @bitcode/generic-pipelines-sdivf base
 │   ├── pipelines/
-│   │   └── asset-pack/                # SynthesizeAssetPacks SDIVF, …
+│   │   └── asset-pack/                # SynthesizeAssetPacks (extends SDIVF)
 │   ├── agent-generics/
 │   ├── execution-generics/
 │   ├── prompts/

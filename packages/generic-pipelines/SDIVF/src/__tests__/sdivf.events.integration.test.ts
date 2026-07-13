@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { factorySDIVFPipeline } from '@bitcode/generic-pipelines-sdivf';
-import { Execution } from '../../../../execution-generics/src/Execution';
+import { factorySDIVFPipeline } from '../index';
+import { Execution } from '@bitcode/execution-generics/Execution';
 
 describe('SDIVF pipeline event emission (integration)', () => {
   it('emits pipeline start/end and phase/agent events in sequence', async () => {

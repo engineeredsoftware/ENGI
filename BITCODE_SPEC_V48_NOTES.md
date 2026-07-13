@@ -1491,3 +1491,18 @@ SOURCE_LAYOUT:
 | Edge-case handler | Real concern modules + thin class facade |
 
 Navigation map: `FAMILIARIZATION.md`. Layout contract: `internal-docs/BITCODE_SOURCE_LAYOUT.md`.
+
+
+## SDIVF base package (Garrett, 2026-07-13)
+
+Pipeline inheritance hierarchy is now explicit:
+
+```
+@bitcode/pipelines-generics              # Pipeline / PhaseDelegator primitives
+  → @bitcode/generic-pipelines-sdivf     # packages/generic-pipelines/SDIVF
+    → @bitcode/pipeline-asset-pack       # SynthesizeAssetPacks (future SettleAssetPacks)
+```
+
+`factorySDIVFExecutorPipeline` / `factorySDIVFPipeline` / `SDIVFPhase` live in
+`@bitcode/generic-pipelines-sdivf`. AssetPack imports the base package directly.
+`pipelines-generics` re-exports for compatibility.

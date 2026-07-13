@@ -39,6 +39,7 @@
   "dependencies": {
     "@bitcode/btd": "workspace:*",
     "@bitcode/pipelines-generics": "workspace:*",
+    "@bitcode/generic-pipelines-sdivf": "workspace:*",
     "@bitcode/agent-generics": "workspace:*",
     "@bitcode/execution-generics": "workspace:*",
     "@bitcode/generic-llms": "workspace:*",

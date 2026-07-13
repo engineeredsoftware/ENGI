@@ -10,6 +10,7 @@
     "packages/*",
     "packages/generic-tools/*",
     "packages/generic-agents/*",
+    "packages/generic-pipelines/*",
     "packages/pipelines/*",
     "uapi",
     "admin"

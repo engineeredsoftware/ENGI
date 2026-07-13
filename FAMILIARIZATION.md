@@ -142,14 +142,22 @@ pipeline-local tools            e.g. AssetPackLexicalDepositorySearchTool
 ### 3.3 Pipelines
 
 ```
-@bitcode/pipelines-generics     Pipeline, PhaseDelegator, SDIVF factories, streaming
+@bitcode/pipelines-generics              Pipeline, PhaseDelegator, composition, streaming
         ↑
-@bitcode/pipeline-asset-pack    SynthesizeAssetPacks SDIVF (deposit | read modes)
-@bitcode/pipeline-hosts         Inline host + Vercel Sandbox harness
+@bitcode/generic-pipelines-sdivf         SDIVF *base* loop (Setup-[DIV]*-Finish)
+        ↑
+@bitcode/pipeline-asset-pack             SynthesizeAssetPacks (deposit | read);
+                                         future SettleAssetPacks extends SDIVF base
+@bitcode/pipeline-hosts                  Inline host + Vercel Sandbox harness
 ```
 
 **SDIVF** = Setup → Discovery → Implementation → Validation → Finish  
 (Discovery/Implementation/Validation may loop up to `maxIterations`).
+
+Package path: `packages/generic-pipelines/SDIVF/` (`@bitcode/generic-pipelines-sdivf`).
+Product pipelines supply phase executors/agents; they do not reimplement the DIV loop.
+`pipelines-generics` re-exports SDIVF for compatibility — prefer importing
+`@bitcode/generic-pipelines-sdivf` in new code.
 
 Product UI says **Pipeline**. Low-level packages may still say `execution` /
 `Execution` — do **not** rename `execution-generics` blindly.
@@ -227,7 +235,8 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `execution-generics` | `Execution` state tree, `Executor`, sequential/parallel/pipe |
 | `agent-generics` | Agent = Executor + PTRR + failsafes + generations |
 | `tools-generics` | `Tool` class, factories, MCP bridges |
-| `pipelines-generics` | Pipeline / PhaseDelegator / SDIVF factories / stream hooks |
+| `pipelines-generics` | Pipeline / PhaseDelegator primitives / stream hooks (re-exports SDIVF) |
+| `generic-pipelines-sdivf` | SDIVF base loop (`packages/generic-pipelines/SDIVF`) |
 | `llm-generics` | Pure LLM call contracts |
 | `registry` | Hierarchical registry (Prompt is a Registry) |
 | `prompts` | Prompt + PromptPart + **all** raw prompt parts |
@@ -562,7 +571,7 @@ as if they were source of product law.
 | --- | --- |
 | Executor composition | `execution-generics` sequential/parallel/pipe |
 | Agent PTRR | `agent-generics` |
-| Phase pipeline | `pipelines-generics` SDIVF factories |
+| Phase pipeline | `generic-pipelines-sdivf` base (via `pipelines-generics` primitives) |
 | Registry hierarchy | `registry` → `Prompt` |
 | Source-safe allowlist | pipeline streaming + deposit UI contracts |
 | Thin HTTP route | validate → dispatch → return id; long work off-request |
