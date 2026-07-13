@@ -45,7 +45,7 @@ const checks = [
     ],
   },
   {
-    file: 'uapi/app/terminal/terminal-pipeline-harness-client.ts',
+    file: 'uapi/app/terminal/terminal-pipeline-host-client.ts',
     needles: [
       'depositProofRoot',
       'depositMeasurementRoot',

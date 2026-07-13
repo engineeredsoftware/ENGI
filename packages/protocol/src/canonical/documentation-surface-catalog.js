@@ -169,14 +169,14 @@ const catalogRows = Object.freeze([
     disclosureClass: 'public_source_safe',
     sourceRoots: [
       'uapi/app/api/read-review/route.ts',
-      'uapi/app/api/pipeline-harness/asset-pack/route.ts',
-      'uapi/app/api/pipeline-harness/asset-pack/preflight.ts',
+      'uapi/app/api/pipeline-host/asset-pack/route.ts',
+      'uapi/app/api/pipeline-host/asset-pack/preflight.ts',
       'uapi/app/api/executions/stream/route.ts',
       'docs/api/conversations-openapi.yaml',
     ],
     linkedSpecSections: ['V35 system architecture and layer boundaries', 'V35 whole Bitcode operator chain'],
     linkedGeneratedArtifacts: [DOCUMENTATION_SURFACE_CATALOG_ARTIFACT_PATH],
-    routePackageBindings: ['uapi/tests/api/pipelineHarnessRoute.test.ts', 'uapi/tests/readReviewRoute.test.ts'],
+    routePackageBindings: ['uapi/tests/api/pipelineHostRoute.test.ts', 'uapi/tests/readReviewRoute.test.ts'],
     proofCoverage: ['route-contract-test', 'terminal-harness-test'],
   },
   {

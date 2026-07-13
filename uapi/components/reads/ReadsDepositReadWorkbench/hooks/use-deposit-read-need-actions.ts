@@ -17,13 +17,13 @@ import {
 
 export type UseDepositReadNeedActionsParams = {
   workbench: TerminalDepositReadWorkbench | null;
-  harnessReadActivityId: string | null;
+  hostReadActivityId: string | null;
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
 };
 
 export function useDepositReadNeedActions({
   workbench,
-  harnessReadActivityId,
+  hostReadActivityId,
   onRecordActivity,
 }: UseDepositReadNeedActionsParams) {
   const [readNeed, setReadNeed] = useState<TerminalReadNeedState | null>(null);
@@ -71,7 +71,7 @@ export function useDepositReadNeedActions({
             action,
             readNeed: action === 'resynthesize_read_need' ? readNeed : undefined,
             previousReadNeed: action === 'resynthesize_read_need' ? readNeed : undefined,
-            readId: harnessReadActivityId || workbench.scenarioLabel,
+            readId: hostReadActivityId || workbench.scenarioLabel,
             readPrompt: workbench.read.summary,
             sourceRevision,
             repositoryFullName: sourceRevision?.repositoryFullName,
@@ -113,7 +113,7 @@ export function useDepositReadNeedActions({
         setReadNeedAction(null);
       }
     },
-    [harnessReadActivityId, readNeed, readNeedFeedback, workbench],
+    [hostReadActivityId, readNeed, readNeedFeedback, workbench],
   );
 
   const handleAcceptReadNeed = useCallback(async () => {

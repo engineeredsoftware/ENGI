@@ -39,4 +39,4 @@ const workspace = await host.provisionRepository({
 });
 ```
 
-Compatibility: `@bitcode/pipeline-hosts` re-exports host-generics + generic-hosts + harness.
+Compatibility: `@bitcode/pipeline-hosts` re-exports host-generics + generic-hosts + host.

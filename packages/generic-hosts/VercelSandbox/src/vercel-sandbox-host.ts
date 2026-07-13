@@ -1,9 +1,9 @@
 import type {
-  PipelineHarnessCommand,
-  PipelineHarnessHostEvent,
-  PipelineHarnessCommandResult,
-  PipelineHarnessPlan,
-  PipelineHarnessRunResult,
+  PipelineHostCommand,
+  PipelineHostEvent,
+  PipelineHostCommandResult,
+  PipelineHostPlan,
+  PipelineHostRunResult,
   SandboxCommandResult,
   SandboxFactory,
   SandboxSession,
@@ -13,10 +13,10 @@ export interface VercelSandboxPipelineHostOptions {
   sandboxFactory: SandboxFactory;
   stopAfterRun?: boolean;
   sandboxCreateTimeoutMs?: number;
-  onEvent?: (event: PipelineHarnessHostEvent) => void | Promise<void>;
+  onEvent?: (event: PipelineHostEvent) => void | Promise<void>;
   /**
    * Cooperative cancel: polled during detached command waits. When true, the
-   * harness stops the sandbox and returns outcome `'cancelled'`.
+   * host stops the sandbox and returns outcome `'cancelled'`.
    */
   shouldAbort?: () => boolean | Promise<boolean>;
 }
@@ -25,7 +25,7 @@ export class VercelSandboxPipelineHost {
   private readonly sandboxFactory: SandboxFactory;
   private readonly stopAfterRun: boolean;
   private readonly sandboxCreateTimeoutMs: number;
-  private readonly onEvent?: (event: PipelineHarnessHostEvent) => void | Promise<void>;
+  private readonly onEvent?: (event: PipelineHostEvent) => void | Promise<void>;
   private readonly shouldAbort?: () => boolean | Promise<boolean>;
 
   constructor(options: VercelSandboxPipelineHostOptions) {
@@ -36,19 +36,19 @@ export class VercelSandboxPipelineHost {
     this.shouldAbort = options.shouldAbort;
   }
 
-  async runHarness(plan: PipelineHarnessPlan): Promise<PipelineHarnessRunResult> {
-    // Auth is enforced by product callers (runDepositInBoxHarness) before
+  async runHostPlan(plan: PipelineHostPlan): Promise<PipelineHostRunResult> {
+    // Auth is enforced by product callers (runDepositInBoxHost) before
     // constructing a real factory; unit tests inject mock factories without env.
     //
     // Vercel Sandbox v2: persistence is DEFAULT. createOptions.persistent must
-    // be explicit false for one-shot deposit/read harnesses (Snapshot Storage
+    // be explicit false for one-shot deposit/read hosts (Snapshot Storage
     // is billed separately). normalizeCreateOptions enforces that + a unique name.
     const createOptions = normalizeCreateOptions(plan.createOptions);
     await this.emit({
       type: 'sandbox-create-started',
       timestamp: new Date().toISOString(),
       runtime: createOptions.runtime,
-      mode: plan.manifest.harnessMode,
+      mode: plan.manifest.hostMode,
     });
     const sandbox = await withTimeout(
       this.sandboxFactory.create(withVercelAccessTokenAuth(createOptions)),
@@ -64,10 +64,10 @@ export class VercelSandboxPipelineHost {
       persistent: createOptions.persistent === true,
       status: sandbox.status,
     });
-    const commands: PipelineHarnessCommandResult[] = [];
+    const commands: PipelineHostCommandResult[] = [];
     let stopped = false;
     let deleted = false;
-    let outcome: PipelineHarnessRunResult['outcome'] = 'completed';
+    let outcome: PipelineHostRunResult['outcome'] = 'completed';
     let evidence: unknown | null = null;
     let telemetry: string | null = null;
 
@@ -79,12 +79,12 @@ export class VercelSandboxPipelineHost {
           timestamp: new Date().toISOString(),
           sandboxId: sandboxIdentity.id,
           name: sandboxIdentity.name,
-          reason: 'cancelled before harness commands',
+          reason: 'cancelled before host commands',
         });
       } else {
         await sandbox.writeFiles(plan.files);
         await this.emit({
-          type: 'harness-files-written',
+          type: 'host-files-written',
           timestamp: new Date().toISOString(),
           fileCount: plan.files.length,
         });
@@ -133,7 +133,7 @@ export class VercelSandboxPipelineHost {
       }
     } finally {
       // stop() ends the session (persistent → auto-snapshot; non-persistent →
-      // discard FS). For ephemeral harnesses, also delete() so the named entity
+      // discard FS). For ephemeral hosts, also delete() so the named entity
       // and any residual snapshots do not linger / bill Snapshot Storage.
       if (this.stopAfterRun && sandbox.stop) {
         try {
@@ -193,9 +193,9 @@ export class VercelSandboxPipelineHost {
 
   private async runCommand(
     sandbox: SandboxSession,
-    command: PipelineHarnessCommand,
+    command: PipelineHostCommand,
     telemetryPath?: string
-  ): Promise<PipelineHarnessCommandResult> {
+  ): Promise<PipelineHostCommandResult> {
     await this.emit({
       type: 'command-started',
       timestamp: new Date().toISOString(),
@@ -261,7 +261,7 @@ export class VercelSandboxPipelineHost {
 
   private async waitForDetachedCommand(
     sandbox: SandboxSession,
-    command: PipelineHarnessCommand,
+    command: PipelineHostCommand,
     telemetryPath?: string
   ): Promise<{ exitCode: number | null; stdout: string; stderr: string }> {
     const startedAt = Date.now();
@@ -289,7 +289,7 @@ export class VercelSandboxPipelineHost {
         return {
           exitCode: 130,
           stdout: '',
-          stderr: 'Harness aborted: execution cancelled.',
+          stderr: 'Host aborted: execution cancelled.',
         };
       }
       emittedTelemetryLineCount = await this.emitNewTelemetryArtifactEvents(
@@ -342,7 +342,7 @@ export class VercelSandboxPipelineHost {
 
   private async emitNewTelemetryArtifactEvents(
     sandbox: SandboxSession,
-    command: PipelineHarnessCommand,
+    command: PipelineHostCommand,
     telemetryPath: string | undefined,
     emittedLineCount: number
   ): Promise<number> {
@@ -383,7 +383,7 @@ export class VercelSandboxPipelineHost {
     return buffer ? buffer.toString('utf8') : null;
   }
 
-  private async emit(event: PipelineHarnessHostEvent): Promise<void> {
+  private async emit(event: PipelineHostEvent): Promise<void> {
     if (!this.onEvent) return;
     await this.onEvent(event);
   }
@@ -419,7 +419,7 @@ function withTimeout<T>(
   });
 }
 
-function withVercelAccessTokenAuth(createOptions: PipelineHarnessPlan['createOptions']): PipelineHarnessPlan['createOptions'] {
+function withVercelAccessTokenAuth(createOptions: PipelineHostPlan['createOptions']): PipelineHostPlan['createOptions'] {
   if (!process.env.VERCEL_TOKEN || process.env.VERCEL_OIDC_TOKEN) {
     return createOptions;
   }
@@ -433,16 +433,16 @@ function withVercelAccessTokenAuth(createOptions: PipelineHarnessPlan['createOpt
 
 /**
  * Enforce explicit create options for Vercel Sandbox v2:
- * - `persistent` defaults FALSE for Bitcode harnesses (v2 SDK default is true)
+ * - `persistent` defaults FALSE for Bitcode hosts (v2 SDK default is true)
  * - unique `name` always present for identity/logs
  */
 export function normalizeCreateOptions(
-  createOptions: PipelineHarnessPlan['createOptions'],
-): PipelineHarnessPlan['createOptions'] {
+  createOptions: PipelineHostPlan['createOptions'],
+): PipelineHostPlan['createOptions'] {
   const persistent = createOptions.persistent === true;
   const name =
     (typeof createOptions.name === 'string' && createOptions.name.trim()) ||
-    `bitcode-harness-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+    `bitcode-host-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
   return {
     ...createOptions,
     persistent,

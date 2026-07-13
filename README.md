@@ -146,7 +146,7 @@ Full QA checklist: `BITCODE_V48_QA.md` → Gate 3 depositing runbook.
 |---|---|
 | `uapi/` | Next.js app — `/deposits`, `/reads`, `/packs`, APIs |
 | `packages/pipelines/asset-pack/` | SynthesizeAssetPacks SDIVF, deposit agents, policy, demand estimate |
-| `packages/pipeline-hosts/` | LocalHost, VercelSandbox, harness |
+| `packages/pipeline-hosts/` | LocalHost, VercelSandbox, host |
 | `packages/agent-generics/` | PTRR, failsafes, Thinkings, LLM call timeout |
 | `packages/generic-llms/` | xAI/Grok and other LLM providers |
 | `packages/execution-generics/` | Execution tree, streaming adapters |
@@ -390,7 +390,7 @@ V42 Gate 5 adds Finding Fits preview and quote closure with
 accepted-Need-gated `ReadFitsFindingRuntime`, many-channel Depository search,
 selected-fit provenance, `AssetPackPreviewBoundary`, deterministic
 share-to-fee quote receipts, disclosure review, settlement instructions,
-delivery lock, harness evidence summaries, Terminal preview/quote/provenance
+delivery lock, host evidence summaries, Terminal preview/quote/provenance
 readback, `.bitcode/v42-readfitsfinding-preview-quote.json`, and
 `check:v42-gate5`. The preview remains metadata-only before settlement:
 protected source, unpaid AssetPack source, wallet private material, private
@@ -929,7 +929,7 @@ AssetPack handoff report binds selected fit provenance into AssetPack
 synthesis, source-safe preview, deterministic share-to-fee BTC quote, BTD
 mint/read/rights receipts, source-to-shares contributor compensation,
 settlement unlock, post-settlement pull-request delivery, ledger/database
-reconciliation, repair posture, and harness evidence projection without
+reconciliation, repair posture, and host evidence projection without
 exposing protected source, raw provider response content, unpaid AssetPack
 source, credentials, wallet private material, or private settlement payloads.
 Use `pnpm run generate:v38-assetpack-synthesis-economic-traceability`,
@@ -1277,14 +1277,14 @@ generated `.bitcode/v40-reading-pipeline-integration-coverage.json`, and
 `check:v40-gate5` to close source-safe integration coverage for
 `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, many-fit
 Depository search, PTRR agent wiring, AssetPack preview/settlement/delivery,
-telemetry/readback, Terminal harnesses, pipeline primitives, hosts, and local
+telemetry/readback, Terminal hosts, pipeline primitives, hosts, and local
 staging rehearsal linkage.
 V40 Gate 6 adds the package-backed `V40ConversationTerminalIntegration`,
 generated `.bitcode/v40-conversation-terminal-integration.json`, and
 `check:v40-gate6` to close source-safe integration coverage for Conversation
 handoff route contracts, Conversation stream-to-rich-log projection,
 Conversation route/API persistence and branch contracts, writing/source
-selector handoff, Terminal Reading state readback, Terminal harness log
+selector handoff, Terminal Reading state readback, Terminal host log
 streaming, transaction-cockpit authority boundaries, and rehearsal/docs parity.
 V40 Gate 7 adds the package-backed `V40BrowserE2eVisualProof`, generated
 `.bitcode/v40-browser-e2e-visual-proof.json`, and `check:v40-gate7` to close
@@ -1307,7 +1307,7 @@ generated `.bitcode/v40-local-staging-rehearsal-automation.json`,
 and staging-testnet rehearsal automation. Operator receipts use lane-bound
 secret-family readiness rather than secret values, are dry-run by default, bind
 staging-testnet to Supabase project `tkpyosihuouusyaxtbau`, and require explicit
-live execution opt-in before delegating to the Vercel Sandbox AssetPack harness.
+live execution opt-in before delegating to the Vercel Sandbox AssetPack host.
 V40 Gate 10 adds the package-backed `V40PromptBenchmarkSmokeV41Readiness`,
 generated `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`,
 `prompt-benchmark:smoke`, and `check:v40-gate10` to close source-safe PromptPart

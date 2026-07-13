@@ -1,17 +1,17 @@
 /**
- * Extract/derive completed harness evidence for the deposit-read workbench.
+ * Extract/derive completed host evidence for the deposit-read workbench.
  */
 
-import type { TerminalReadFitsFindingSynthesisHarnessEvent } from '@/components/bitcode/pipeline/PipelineHarnessClient/pipeline-harness-client';
+import type { TerminalReadFitsFindingSynthesisHostEvent } from '@/components/bitcode/pipeline/PipelineHostClient/pipeline-host-client';
 import { objectValue, textValue } from './read-workbench-values';
 import type { DepositReadCompletedEvidence } from './deposit-read-evidence-types';
 
-export function extractCompletedHarnessEvidence(
-  harnessEvents: TerminalReadFitsFindingSynthesisHarnessEvent[],
+export function extractCompletedHostEvidence(
+  hostEvents: TerminalReadFitsFindingSynthesisHostEvent[],
 ): Record<string, unknown> | null {
-  for (let index = harnessEvents.length - 1; index >= 0; index -= 1) {
-    const event = harnessEvents[index];
-    if (event.event !== 'harness-completed') continue;
+  for (let index = hostEvents.length - 1; index >= 0; index -= 1) {
+    const event = hostEvents[index];
+    if (event.event !== 'host-completed') continue;
     const data = objectValue(event.data);
     const evidence = objectValue(data?.evidence);
     if (evidence) return evidence;
@@ -20,26 +20,26 @@ export function extractCompletedHarnessEvidence(
 }
 
 export function deriveDepositReadCompletedEvidence(
-  completedHarnessEvidence: Record<string, unknown> | null,
+  completedHostEvidence: Record<string, unknown> | null,
 ): DepositReadCompletedEvidence {
-  const assetPackPreviewBoundary = objectValue(completedHarnessEvidence?.assetPackPreviewBoundary);
+  const assetPackPreviewBoundary = objectValue(completedHostEvidence?.assetPackPreviewBoundary);
   const boundarySourceSafePreview = objectValue(assetPackPreviewBoundary?.sourceSafePreview);
   const sourceSafePreview =
-    objectValue(completedHarnessEvidence?.sourceSafePreview) || boundarySourceSafePreview;
+    objectValue(completedHostEvidence?.sourceSafePreview) || boundarySourceSafePreview;
   const assetPackSelectedFitProvenance = objectValue(assetPackPreviewBoundary?.selectedFitProvenance);
   const assetPackQuoteReceipt =
     objectValue(assetPackPreviewBoundary?.quoteReceipt) ||
-    objectValue(completedHarnessEvidence?.assetPackQuoteReceipt);
+    objectValue(completedHostEvidence?.assetPackQuoteReceipt);
   const assetPackSettlementInstructions =
     objectValue(assetPackPreviewBoundary?.settlementInstructions) ||
-    objectValue(completedHarnessEvidence?.assetPackSettlementInstructions);
+    objectValue(completedHostEvidence?.assetPackSettlementInstructions);
   const assetPackDeliveryPosture =
     objectValue(assetPackPreviewBoundary?.deliveryPosture) ||
-    objectValue(completedHarnessEvidence?.assetPackDeliveryPosture);
+    objectValue(completedHostEvidence?.assetPackDeliveryPosture);
   const assetPackPreviewProofRoots = objectValue(assetPackPreviewBoundary?.proofRoots);
   const assetPackPreviewReplayReceipt = objectValue(assetPackPreviewBoundary?.replayReceipt);
   const assetPackDisclosureReview =
-    objectValue(completedHarnessEvidence?.assetPackDisclosureReview) ||
+    objectValue(completedHostEvidence?.assetPackDisclosureReview) ||
     objectValue(assetPackPreviewBoundary?.disclosureReview) ||
     objectValue(sourceSafePreview?.disclosureReview);
   const disclosureAccess = objectValue(assetPackDisclosureReview?.access);
@@ -47,9 +47,9 @@ export function deriveDepositReadCompletedEvidence(
   const disclosureLeakage = objectValue(assetPackDisclosureReview?.sourceLeakage);
   const disclosureRoots = objectValue(assetPackDisclosureReview?.roots);
   const disclosureSourceSafe = disclosureLeakage?.protectedSourceDetected !== true;
-  const ledgerSettlement = objectValue(completedHarnessEvidence?.ledgerSettlement);
+  const ledgerSettlement = objectValue(completedHostEvidence?.ledgerSettlement);
   const assetPackSettlementRightsDeliveryBoundary = objectValue(
-    completedHarnessEvidence?.assetPackSettlementRightsDeliveryBoundary,
+    completedHostEvidence?.assetPackSettlementRightsDeliveryBoundary,
   );
   const assetPackSettlementPaymentObservation = objectValue(
     assetPackSettlementRightsDeliveryBoundary?.paymentObservation,
@@ -59,15 +59,15 @@ export function deriveDepositReadCompletedEvidence(
   );
   const assetPackSettlementDeliveryUnlock =
     objectValue(assetPackSettlementRightsDeliveryBoundary?.deliveryUnlock) ||
-    objectValue(completedHarnessEvidence?.assetPackDeliveryUnlock);
+    objectValue(completedHostEvidence?.assetPackDeliveryUnlock);
   const assetPackSettlementReplayReceipt =
     objectValue(assetPackSettlementRightsDeliveryBoundary?.replayReceipt) ||
-    objectValue(completedHarnessEvidence?.assetPackSettlementReplayReceipt);
+    objectValue(completedHostEvidence?.assetPackSettlementReplayReceipt);
   const assetPackSettlementReconciliation =
     objectValue(assetPackSettlementRightsDeliveryBoundary?.reconciliationReport) ||
-    objectValue(completedHarnessEvidence?.assetPackLedgerDatabaseStorageReconciliation);
+    objectValue(completedHostEvidence?.assetPackLedgerDatabaseStorageReconciliation);
   const assetPackSettlementProofRoots = objectValue(assetPackSettlementRightsDeliveryBoundary?.proofRoots);
-  const readingLocalStagingRehearsal = objectValue(completedHarnessEvidence?.readingLocalStagingRehearsal);
+  const readingLocalStagingRehearsal = objectValue(completedHostEvidence?.readingLocalStagingRehearsal);
   const readingLocalStagingCoverage = objectValue(readingLocalStagingRehearsal?.coverage);
   const readingLocalStagingProofRoots = objectValue(readingLocalStagingRehearsal?.proofRoots);
   const readingLocalStagingStageReadback = objectValue(readingLocalStagingRehearsal?.stageReadback);

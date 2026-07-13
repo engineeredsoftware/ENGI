@@ -83,7 +83,7 @@ export interface BitcodeHostWorkspace {
   dispose(): Promise<void>;
 }
 
-/** The primitive Host harness. */
+/** The primitive Host host. */
 export interface BitcodePipelineHost {
   readonly capabilities: BitcodeHostCapabilities;
   /** Check out the FULL working tree at the revision and return the workspace. */

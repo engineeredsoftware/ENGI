@@ -97,8 +97,8 @@ function main() {
     'packages/chatgptapp/src/tools.ts',
     'packages/chatgptapp/src/__tests__/tools.test.ts',
     'packages/chatgptapp/package.json',
-    'packages/pipeline-hosts/src/asset-pack-harness.ts',
-    'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts',
+    'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
+    'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
     'uapi/app/terminal/terminal-organization-authority.ts',
     'uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx',
     'uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
@@ -132,8 +132,8 @@ function main() {
   const chatgptTools = read(root, 'packages/chatgptapp/src/tools.ts');
   const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/tools.test.ts');
   const chatgptPackage = read(root, 'packages/chatgptapp/package.json');
-  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-harness.ts');
-  const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts');
+  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
+  const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
   const terminalProjection = read(root, 'uapi/app/terminal/terminal-organization-authority.ts');
   const terminalCard = read(root, 'uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx');
   const terminalSnapshot = read(root, 'uapi/app/terminal/terminal-transaction-detail-snapshot.ts');

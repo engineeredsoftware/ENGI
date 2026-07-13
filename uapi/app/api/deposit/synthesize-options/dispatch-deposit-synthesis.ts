@@ -2,7 +2,7 @@
  * Background orchestration for POST /api/deposit/synthesize-options.
  *
  * Runs after the route returns runId: provision/host dispatch → SDIVF pipeline
- * (or sandbox harness) → fail-closed option validation → neediness grounding →
+ * (or sandbox host) → fail-closed option validation → neediness grounding →
  * persist execution row. Keeps route POST thin (auth + dispatch only).
  */
 
@@ -24,7 +24,7 @@ import { buildRealDepositAssetPackOptionSynthesis } from '@bitcode/pipeline-asse
 import {
   provisionDepositSourceInventory,
   resolveDepositPipelineHost,
-  runDepositInBoxHarness,
+  runDepositInBoxHost,
   selectDepositHostKind,
 } from '@/lib/deposit-source-provisioning';
 import { loadSettledDepositoryPacks } from '@/lib/depository-settled-demand';
@@ -167,7 +167,7 @@ export async function runDepositOptionSynthesis(
       await emitStatus(
         `Dispatching deposit synthesis to the sandbox host (in-box) for ${repositoryFullName}@${reference}…`,
       );
-      const harnessResult = await runDepositInBoxHarness({
+      const hostResult = await runDepositInBoxHost({
         repositoryFullName,
         revision: reference,
         branch: sourceBranch,
@@ -188,11 +188,11 @@ export async function runDepositOptionSynthesis(
           }
         },
       });
-      boundSandboxId = harnessResult.sandboxId ?? boundSandboxId;
-      if (harnessResult.outcome === 'cancelled') {
+      boundSandboxId = hostResult.sandboxId ?? boundSandboxId;
+      if (hostResult.outcome === 'cancelled') {
         throw new ExecutionCancelledError(runId);
       }
-      rawOptions = harnessResult.options as Parameters<typeof validateDepositSynthesisOptions>[0];
+      rawOptions = hostResult.options as Parameters<typeof validateDepositSynthesisOptions>[0];
       inventoryPaths = [
         ...new Set((rawOptions || []).flatMap((option: any) => option?.coveredSourcePaths || [])),
       ] as string[];

@@ -3,7 +3,7 @@
  */
 
 const mockGetUser = jest.fn();
-const mockBuildAssetPackSandboxHarness = jest.fn();
+const mockBuildAssetPackSandboxHost = jest.fn();
 const mockLoadVercelSandboxFactory = jest.fn();
 let mockHostOptions: { onEvent?: (event: unknown) => void | Promise<void> } | null = null;
 let mockCapturedPlan: any = null;
@@ -25,14 +25,14 @@ jest.mock('@bitcode/vcs', () => ({
 }));
 
 jest.mock('@bitcode/pipeline-hosts', () => ({
-  buildAssetPackSandboxHarness: (...args: unknown[]) => mockBuildAssetPackSandboxHarness(...args),
+  buildAssetPackSandboxHostPlan: (...args: unknown[]) => mockBuildAssetPackSandboxHost(...args),
   loadVercelSandboxFactory: (...args: unknown[]) => mockLoadVercelSandboxFactory(...args),
   VercelSandboxPipelineHost: class {
     constructor(options: { onEvent?: (event: unknown) => void | Promise<void> }) {
       mockHostOptions = options;
     }
 
-    async runHarness(plan: unknown) {
+    async runHostPlan(plan: unknown) {
       mockCapturedPlan = plan;
       await mockHostOptions?.onEvent?.({
         type: 'sandbox-created',
@@ -58,7 +58,7 @@ jest.mock('@bitcode/pipeline-hosts', () => ({
         ],
         artifacts: {
           evidence: {
-            schema: 'bitcode.pipeline-harness.evidence',
+            schema: 'bitcode.pipeline-host.evidence',
             resultState: 'blocked_readiness',
             output: {
               fitResult: {
@@ -320,8 +320,8 @@ jest.mock('@bitcode/pipeline-hosts', () => ({
   },
 }));
 
-import { runAssetPackHarnessRoute } from '@/app/api/pipeline-harness/asset-pack/runner';
-import { POST } from '@/app/api/pipeline-harness/asset-pack/route';
+import { runAssetPackHostRoute } from '@/app/api/pipeline-host/asset-pack/runner';
+import { POST } from '@/app/api/pipeline-host/asset-pack/route';
 
 const responseWithJson = Response as typeof Response & {
   json?: (body: unknown, init?: ResponseInit) => Response;
@@ -349,11 +349,11 @@ const staleAdminCredential = fakeSupabaseJwt('service_role', 'production-mainnet
 const modelCredential = 'model-credential-placeholder';
 
 const ENV_KEYS = [
-  'BITCODE_ENABLE_PIPELINE_HARNESS_API',
-  'BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE',
+  'BITCODE_ENABLE_PIPELINE_HOST_API',
+  'BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE',
   'BITCODE_ASSET_PACK_REAL_INFERENCE',
   'BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE',
-  'BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS',
+  'BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS',
   'OPENAI_API_KEY',
   'SUPABASE_URL',
   'NEXT_PUBLIC_SUPABASE_URL',
@@ -382,7 +382,7 @@ function restoreEnv() {
   }
 }
 
-function validHarnessBody(overrides: Record<string, unknown> = {}) {
+function validHostBody(overrides: Record<string, unknown> = {}) {
   return {
     mode: 'asset_pack_pipeline',
     repositoryFullName: 'engineeredsoftware/ENGI',
@@ -432,14 +432,14 @@ function acceptedReadNeed() {
 }
 
 function requestFor(body: Record<string, unknown>) {
-  return new Request('http://localhost/api/pipeline-harness/asset-pack', {
+  return new Request('http://localhost/api/pipeline-host/asset-pack', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
 }
 
-describe('POST /api/pipeline-harness/asset-pack', () => {
+describe('POST /api/pipeline-host/asset-pack', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     restoreEnv();
@@ -450,16 +450,16 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
     process.env.SUPABASE_SERVICE_ROLE_KEY = adminCredential;
     process.env.OPENAI_API_KEY = modelCredential;
     mockGetUser.mockResolvedValue({ data: { user: { id: 'user-local-route' } }, error: null });
-    mockBuildAssetPackSandboxHarness.mockImplementation((input) => ({
+    mockBuildAssetPackSandboxHost.mockImplementation((input) => ({
       manifest: {
-        schema: 'bitcode.pipeline-harness.manifest',
-        harnessMode: input.mode,
+        schema: 'bitcode.pipeline-host.manifest',
+        hostMode: input.mode,
       },
       files: [],
       commands: [],
       artifactPaths: {
-        evidence: '.bitcode/pipeline-harness/evidence.json',
-        telemetry: '.bitcode/pipeline-harness/telemetry.jsonl',
+        evidence: '.bitcode/pipeline-host/evidence.json',
+        telemetry: '.bitcode/pipeline-host/telemetry.jsonl',
       },
     }));
     mockLoadVercelSandboxFactory.mockResolvedValue({ create: jest.fn() });
@@ -471,16 +471,16 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
     restoreEnv();
   });
 
-  it('fails closed in production unless the harness API is explicitly enabled', async () => {
+  it('fails closed in production unless the host API is explicitly enabled', async () => {
     process.env.VERCEL_ENV = 'production';
-    delete process.env.BITCODE_ENABLE_PIPELINE_HARNESS_API;
+    delete process.env.BITCODE_ENABLE_PIPELINE_HOST_API;
 
-    const response = await POST(requestFor(validHarnessBody()) as any);
+    const response = await POST(requestFor(validHostBody()) as any);
 
-    await expect(response.json()).resolves.toEqual({ error: 'pipeline_harness_disabled' });
+    await expect(response.json()).resolves.toEqual({ error: 'pipeline_host_disabled' });
     expect(response.status).toBe(404);
     expect(mockGetUser).not.toHaveBeenCalled();
-    expect(mockBuildAssetPackSandboxHarness).not.toHaveBeenCalled();
+    expect(mockBuildAssetPackSandboxHost).not.toHaveBeenCalled();
   });
 
   it('rejects unauthenticated route calls before sandbox execution', async () => {
@@ -489,37 +489,37 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
       error: new Error('missing session'),
     });
 
-    const response = await POST(requestFor(validHarnessBody()) as any);
+    const response = await POST(requestFor(validHostBody()) as any);
 
     await expect(response.json()).resolves.toEqual({ error: 'unauthorized' });
     expect(response.status).toBe(401);
-    expect(mockBuildAssetPackSandboxHarness).not.toHaveBeenCalled();
+    expect(mockBuildAssetPackSandboxHost).not.toHaveBeenCalled();
   });
 
-  it('rejects incomplete harness requests before sandbox execution', async () => {
+  it('rejects incomplete host requests before sandbox execution', async () => {
     const response = await POST(requestFor({}) as any);
 
     await expect(response.json()).resolves.toEqual({ error: 'repositoryFullName is required' });
     expect(response.status).toBe(400);
-    expect(mockBuildAssetPackSandboxHarness).not.toHaveBeenCalled();
+    expect(mockBuildAssetPackSandboxHost).not.toHaveBeenCalled();
   });
 
   it('streams a local strict preflight failure before sandbox creation', async () => {
-    process.env.BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE = '1';
+    process.env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE = '1';
     delete process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;
 
     const events: Array<{ event: string; data: any }> = [];
-    await runAssetPackHarnessRoute(
-      validHarnessBody(),
+    await runAssetPackHostRoute(
+      validHostBody(),
       'user-local-route',
       (event, data) => events.push({ event, data }),
       { runId: 'route-test-run', logErrors: false },
     );
 
     expect(events.map((event) => event.event)).toEqual([
-      'harness-started',
-      'harness-preflight',
-      'harness-failed',
+      'host-started',
+      'host-preflight',
+      'host-failed',
     ]);
     expect(events[1].data).toMatchObject({
       realInferenceRequired: true,
@@ -528,29 +528,29 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
     });
     expect(events[2].data.runId).toBe('route-test-run');
     expect(events[2].data.error).toContain('BITCODE_ASSET_PACK_REAL_INFERENCE=1');
-    expect(mockBuildAssetPackSandboxHarness).not.toHaveBeenCalled();
+    expect(mockBuildAssetPackSandboxHost).not.toHaveBeenCalled();
     expect(mockLoadVercelSandboxFactory).not.toHaveBeenCalled();
   });
 
   it('blocks mixed Supabase REST and DB hosts before sandbox creation', async () => {
-    process.env.BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE = '1';
+    process.env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE = '1';
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
     process.env.SUPABASE_DB_URL =
       'postgresql://postgres:password@db.other-staging.example.test:5432/postgres?sslmode=require';
 
     const events: Array<{ event: string; data: any }> = [];
-    await runAssetPackHarnessRoute(
-      validHarnessBody(),
+    await runAssetPackHostRoute(
+      validHostBody(),
       'user-local-route',
       (event, data) => events.push({ event, data }),
       { runId: 'route-test-run', logErrors: false },
     );
 
     expect(events.map((event) => event.event)).toEqual([
-      'harness-started',
-      'harness-preflight',
-      'harness-failed',
+      'host-started',
+      'host-preflight',
+      'host-failed',
     ]);
     expect(events[1].data).toMatchObject({
       supabaseHost: 'staging.example.test',
@@ -559,17 +559,17 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
     });
     expect(events[2].data.runId).toBe('route-test-run');
     expect(events[2].data.error).toContain('Supabase REST host must match DB readback host');
-    expect(mockBuildAssetPackSandboxHarness).not.toHaveBeenCalled();
+    expect(mockBuildAssetPackSandboxHost).not.toHaveBeenCalled();
   });
 
   it('blocks rejected staging Supabase REST credentials before sandbox creation', async () => {
-    process.env.BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE = '1';
+    process.env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE = '1';
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
 
     const events: Array<{ event: string; data: any }> = [];
-    await runAssetPackHarnessRoute(
-      validHarnessBody(),
+    await runAssetPackHostRoute(
+      validHostBody(),
       'user-local-route',
       (event, data) => events.push({ event, data }),
       {
@@ -585,27 +585,27 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
     );
 
     expect(events.map((event) => event.event)).toEqual([
-      'harness-started',
-      'harness-preflight',
-      'harness-failed',
+      'host-started',
+      'host-preflight',
+      'host-failed',
     ]);
     expect(events[2].data.runId).toBe('route-test-run');
     expect(events[2].data.error).toContain('Supabase REST readback credential check failed');
     expect(events[2].data.error).toContain('no admin-capable Supabase credential was accepted');
     expect(events[2].data.error).toContain('Invalid API key');
-    expect(mockBuildAssetPackSandboxHarness).not.toHaveBeenCalled();
+    expect(mockBuildAssetPackSandboxHost).not.toHaveBeenCalled();
   });
 
   it('uses the Supabase credential accepted by the staging Data API when stale admin keys are also present', async () => {
-    process.env.BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE = '1';
+    process.env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE = '1';
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
     process.env.SUPABASE_SERVICE_ROLE_KEY = staleAdminCredential;
     process.env.SUPABASE_SECRET_KEY = adminCredential;
 
     const events: Array<{ event: string; data: any }> = [];
-    await runAssetPackHarnessRoute(
-      validHarnessBody(),
+    await runAssetPackHostRoute(
+      validHostBody(),
       'user-local-route',
       (event, data) => events.push({ event, data }),
       {
@@ -625,12 +625,12 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
     );
 
     expect(events.map((event) => event.event)).toEqual([
-      'harness-started',
-      'harness-preflight',
-      'harness-event',
-      'harness-completed',
+      'host-started',
+      'host-preflight',
+      'host-event',
+      'host-completed',
     ]);
-    expect(mockBuildAssetPackSandboxHarness).toHaveBeenCalledWith(
+    expect(mockBuildAssetPackSandboxHost).toHaveBeenCalledWith(
       expect.objectContaining({
         commandEnvironment: expect.objectContaining({
           SUPABASE_SERVICE_ROLE_KEY: adminCredential,
@@ -640,14 +640,14 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
   });
 
   it('forwards strict local route context and redacts secrets from completion output', async () => {
-    process.env.BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE = '1';
+    process.env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE = '1';
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
-    process.env.BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS = '600000';
+    process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS = '600000';
 
     const events: Array<{ event: string; data: any }> = [];
-    await runAssetPackHarnessRoute(
-      validHarnessBody(),
+    await runAssetPackHostRoute(
+      validHostBody(),
       'user-local-route',
       (event, data) => events.push({ event, data }),
       {
@@ -664,10 +664,10 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
     const eventText = JSON.stringify(events);
 
     expect(events.map((event) => event.event)).toEqual([
-      'harness-started',
-      'harness-preflight',
-      'harness-event',
-      'harness-completed',
+      'host-started',
+      'host-preflight',
+      'host-event',
+      'host-completed',
     ]);
     expect(events[1].data).toMatchObject({
       realInferenceRequired: true,
@@ -773,15 +773,15 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
     expect(eventText).toContain('[redacted]');
     expect(eventText).not.toContain(modelCredential);
     expect(eventText).not.toContain(adminCredential);
-    expect(mockBuildAssetPackSandboxHarness).toHaveBeenCalledWith(
+    expect(mockBuildAssetPackSandboxHost).toHaveBeenCalledWith(
       expect.objectContaining({
         mode: 'asset_pack_pipeline',
         assumeRepositoryPresent: true,
         commandEnvironment: expect.objectContaining({
-          BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE: '1',
+          BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE: '1',
           BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
           BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE: 'bounded',
-          BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS: '600000',
+          BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS: '600000',
           BITCODE_PIPELINE_USER_ID: 'user-local-route',
           BITCODE_PIPELINE_STREAM_TO_DATABASE: '1',
           BITCODE_PIPELINE_STRUCTURED_DB: '1',
@@ -791,20 +791,20 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
     );
     expect(mockCapturedPlan).toMatchObject({
       manifest: {
-        schema: 'bitcode.pipeline-harness.manifest',
+        schema: 'bitcode.pipeline-host.manifest',
       },
     });
   });
 
-  it('forwards accepted Read-Need into the sandbox harness plan', async () => {
-    process.env.BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE = '1';
+  it('forwards accepted Read-Need into the sandbox host plan', async () => {
+    process.env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE = '1';
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
     const readNeed = acceptedReadNeed();
 
     const events: Array<{ event: string; data: any }> = [];
-    await runAssetPackHarnessRoute(
-      validHarnessBody({
+    await runAssetPackHostRoute(
+      validHostBody({
         acceptedReadNeed: readNeed,
         requireAcceptedReadNeed: true,
       }),
@@ -823,13 +823,13 @@ describe('POST /api/pipeline-harness/asset-pack', () => {
     );
 
     expect(events[0]).toMatchObject({
-      event: 'harness-started',
+      event: 'host-started',
       data: {
         readNeedId: 'need-route-test',
         requireAcceptedReadNeed: true,
       },
     });
-    expect(mockBuildAssetPackSandboxHarness).toHaveBeenCalledWith(
+    expect(mockBuildAssetPackSandboxHost).toHaveBeenCalledWith(
       expect.objectContaining({
         readNeed,
       }),

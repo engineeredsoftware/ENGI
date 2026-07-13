@@ -398,7 +398,7 @@ Settled demand search may scan `executions` for admitted/settled AssetPack rows 
 
 | Method | Path | Law |
 |---|---|---|
-| POST | `/api/deposit/synthesize-options` | Auth required. Validate body (`repositoryFullName`, branch, commit, obfuscations, forcedInclusions, forcedExclusions, demand signals). Create `executions` row `running`. Register `waitUntil` continuation. Return `{ runId, status: 'dispatched' }` immediately. `maxDuration` high enough for deposit (800s class). Background: provision host → run SDIVF or sandbox harness → validate candidates → build real option synthesis → ground neediness from settled packs → persist `output` **before** completion event. Fail-closed messages on zero options / cancel / timeout. |
+| POST | `/api/deposit/synthesize-options` | Auth required. Validate body (`repositoryFullName`, branch, commit, obfuscations, forcedInclusions, forcedExclusions, demand signals). Create `executions` row `running`. Register `waitUntil` continuation. Return `{ runId, status: 'dispatched' }` immediately. `maxDuration` high enough for deposit (800s class). Background: provision host → run SDIVF or sandbox host → validate candidates → build real option synthesis → ground neediness from settled packs → persist `output` **before** completion event. Fail-closed messages on zero options / cancel / timeout. |
 | GET | `/api/deposit/demand-estimate` | Auth required. Query settled Depository packs; return `{ ok, estimate, signals }`. `estimatable:false` when corpus thin. |
 | GET | `/api/executions/history` | List owner runs (deposit lens filters). |
 | GET | `/api/executions/history/[runId]` | Full row + optional event page; support `?tail=N` for last N events. |
@@ -412,7 +412,7 @@ Dispatch must use Vercel `waitUntil` (QA F31) — bare `void` after response is 
 | HostKind | Implementation | Law |
 |---|---|---|
 | `local` | `packages/pipeline-hosts` LocalHost + `uapi/lib/deposit-source-provisioning` | Default when `BITCODE_PIPELINE_HOST` unset. Real `git clone` of full tree; Node fs workspace; inventory `paths` + `sources` + `samples`. |
-| `sandbox` | `VercelSandboxPipelineHost` + asset-pack harness | When `BITCODE_PIPELINE_HOST=sandbox`. Auth: OIDC or `VERCEL_TOKEN`+team+project — fail closed if missing. Deposit boxes **`persistent: false`**. Create → run harness in-box → stop/delete. Persist `context.sandboxId` while running for cancel. Events: `sandbox-create-started`, `sandbox-created`, `command-started`, `sandbox-stopped`, `sandbox-cancelled`. |
+| `sandbox` | `VercelSandboxPipelineHost` + asset-pack host | When `BITCODE_PIPELINE_HOST=sandbox`. Auth: OIDC or `VERCEL_TOKEN`+team+project — fail closed if missing. Deposit boxes **`persistent: false`**. Create → run host in-box → stop/delete. Persist `context.sandboxId` while running for cancel. Events: `sandbox-create-started`, `sandbox-created`, `command-started`, `sandbox-stopped`, `sandbox-cancelled`. |
 
 Inventory scope after provision: `applyInventoryScope({ inclusions: forcedInclusions, exclusions: forcedExclusions })`. Prompt path uses `projectInventoryForPrompt` (paths+samples only — never full `sources` in prompts).
 
@@ -561,7 +561,7 @@ Rebuild order in `buildDepositRouteSession` / `DepositPageClient`:
 | Real option projection | `deposit-option-real-synthesis.ts` |
 | Policy / admission / earnings | `deposit-asset-pack-option-policy.ts`, `deposit-asset-pack-option-admission.ts`, `depositor-earning-supply-intelligence.ts` |
 | Settled demand | `depository-settled-demand-estimate.ts`, `uapi/lib/depository-settled-demand.ts` |
-| Hosts | `packages/pipeline-hosts/src/{local-host,vercel-sandbox-host,asset-pack-harness,host}.ts` |
+| Hosts | `packages/pipeline-hosts/src/{local-host,vercel-sandbox-host,asset-pack-host,host}.ts` |
 | Provisioning | `uapi/lib/deposit-source-provisioning.ts` |
 | Synthesize route | `uapi/app/api/deposit/synthesize-options/route.ts` |
 | Demand route | `uapi/app/api/deposit/demand-estimate/route.ts` |
@@ -595,7 +595,7 @@ The `/deposits` commercial surface is modular by SRP, not a single god client:
 Package modularization (deposit domain): depository-search, deposit option
 policy/admission/options/earnings/demand, depository-supply-index, and
 asset-packs-synthesis are split into types/helpers/builders with stable public
-entry paths under `@bitcode/pipeline-asset-pack/*`. Harness plan builder is
+entry paths under `@bitcode/pipeline-asset-pack/*`. Host plan builder is
 split from in-box runner templates. Agents co-locate schema/prompts/checks.
 
 
@@ -1173,7 +1173,7 @@ scenarios (IP seller deposits an AssetPack on `/deposits`; IP buyer reviews
 fit measurements, quote basis, settlement finality, BTD rights, and
 repository delivery on `/reads`; `/packs` reads back settlement, rights,
 compensation, delivery, and the fail-closed repair surface), the
-deterministic mock-mode harness bindings (stateful execution-history
+deterministic mock-mode host bindings (stateful execution-history
 journaling, VCS/auxillary mocks, browser error trap), the verification ids
 covering source-connection-before-synthesis through
 fail-closed-repair-surface, forbidden payload classes, source-root digests,

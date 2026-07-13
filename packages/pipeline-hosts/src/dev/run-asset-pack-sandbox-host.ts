@@ -1,8 +1,8 @@
 import {
-  buildAssetPackSandboxHarness,
+  buildAssetPackSandboxHostPlan,
   loadVercelSandboxFactory,
   VercelSandboxPipelineHost,
-  type PipelineHarnessMode,
+  type PipelineHostMode,
 } from '..';
 import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -40,7 +40,7 @@ const TRUSTED_SANDBOX_ENV_KEYS = [
   'BITCODE_ASSET_PACK_VALIDATION_READY_TO_FINISH_USE_PTRR',
   'BITCODE_ASSET_PACK_FINISH_DELIVER_USE_PTRR',
   'BITCODE_VCS_ALLOW_ENV_TOKEN_FALLBACK',
-  'BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS',
+  'BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS',
 ] as const;
 
 const REDACTED_OUTPUT_ENV_KEYS = [
@@ -79,10 +79,10 @@ function loadLocalEnvFile(path: string, seen: Set<string>, override: boolean): v
   }
 }
 
-function requireHarnessOptIn(): void {
-  if (process.env.BITCODE_RUN_VERCEL_SANDBOX_HARNESS !== '1') {
+function requireHostOptIn(): void {
+  if (process.env.BITCODE_RUN_VERCEL_SANDBOX_HOST !== '1') {
     throw new Error(
-      'Set BITCODE_RUN_VERCEL_SANDBOX_HARNESS=1 before creating a live Vercel Sandbox.'
+      'Set BITCODE_RUN_VERCEL_SANDBOX_HOST=1 before creating a live Vercel Sandbox.'
     );
   }
 }
@@ -322,7 +322,7 @@ function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
 
   return {
     schema: record.schema,
-    harnessMode: record.harnessMode,
+    hostMode: record.hostMode,
     resultState: record.resultState,
     pipelineResultState: record.pipelineResultState,
     sourceOverlay: record.manifest && typeof record.manifest === 'object'
@@ -353,8 +353,8 @@ function persistLocalArtifacts(result: {
   artifacts: { evidence: unknown | null; telemetry: string | null };
 }): string | null {
   const outputRoot =
-    process.env.BITCODE_PIPELINE_HARNESS_LOCAL_ARTIFACT_DIR ||
-    resolve(findRepositoryRoot(), '.bitcode/pipeline-harness-runs');
+    process.env.BITCODE_PIPELINE_HOST_LOCAL_ARTIFACT_DIR ||
+    resolve(findRepositoryRoot(), '.bitcode/pipeline-host-runs');
   const stamp = new Date().toISOString().replace(/[:.]/g, '-');
   const sandboxId = result.sandboxId || 'unknown-sandbox';
   const dir = resolve(outputRoot, `${stamp}-${sandboxId}`);
@@ -382,10 +382,10 @@ function persistLocalArtifacts(result: {
 
 async function main(): Promise<void> {
   loadLocalEnvFiles();
-  requireHarnessOptIn();
+  requireHostOptIn();
   requireVercelAuth();
 
-  const mode = (process.env.BITCODE_SANDBOX_MODE || 'host_smoke') as PipelineHarnessMode;
+  const mode = (process.env.BITCODE_SANDBOX_MODE || 'host_smoke') as PipelineHostMode;
   const repositoryFullName =
     process.env.BITCODE_SANDBOX_REPOSITORY || 'engineeredsoftware/ENGI';
   const branch = process.env.BITCODE_SANDBOX_SOURCE_BRANCH || 'main';
@@ -393,7 +393,7 @@ async function main(): Promise<void> {
   const sourceUrl = process.env.BITCODE_SANDBOX_SOURCE_GIT_URL;
   const credentials = sourceCredentials();
 
-  const plan = buildAssetPackSandboxHarness({
+  const plan = buildAssetPackSandboxHostPlan({
     mode,
     read: {
       id: process.env.BITCODE_SANDBOX_READ_ID || 'manual-read-fit-qa',
@@ -437,10 +437,10 @@ async function main(): Promise<void> {
     stopAfterRun: process.env.BITCODE_SANDBOX_LEAVE_RUNNING !== '1',
     sandboxCreateTimeoutMs: Number(process.env.BITCODE_SANDBOX_CREATE_TIMEOUT_MS || 180_000),
     onEvent: (event) => {
-      process.stderr.write(`[harness:${event.type}] ${redactKnownSecrets(JSON.stringify(event))}\n`);
+      process.stderr.write(`[host:${event.type}] ${redactKnownSecrets(JSON.stringify(event))}\n`);
     },
   });
-  const result = await host.runHarness(plan);
+  const result = await host.runHostPlan(plan);
   const localArtifactDir = persistLocalArtifacts(result);
 
   process.stdout.write(

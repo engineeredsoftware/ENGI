@@ -154,7 +154,7 @@ const gateRows = Object.freeze([
     schemaDiffRootPolicy: 'Vercel lane approval carries schema diff root before preview or staging deployment unlock',
     generatedTypeRootPolicy: 'Vercel lane approval carries generated type root before preview or staging deployment unlock',
     dryRunCommand: 'pnpm --dir uapi exec jest pipeline harness preflight as Vercel lane dry-run',
-    validationCommand: 'pnpm --dir uapi exec jest --runTestsByPath tests/api/pipelineHarnessPreflight.test.ts --runInBand',
+    validationCommand: 'pnpm --dir uapi exec jest --runTestsByPath tests/api/pipelineHostPreflight.test.ts --runInBand',
     reviewerApprovalPosture: 'human_review_required',
     reviewerApprovalEvidence: 'review approval confirms Vercel preview lane environment and Sandbox posture are non-value',
     rollbackPlan: 'rollback by disabling preview promotion, reverting lane env binding, and replaying harness preflight',

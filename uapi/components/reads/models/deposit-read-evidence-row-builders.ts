@@ -11,5 +11,5 @@ export {
 export {
   buildReadNeedRows,
   buildReadNeedRuntimeRows,
-  buildHarnessIdentifierRows,
+  buildHostIdentifierRows,
 } from './deposit-read-evidence-need-rows';

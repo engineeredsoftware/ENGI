@@ -95,7 +95,7 @@ const SOURCE_ROOTS = Object.freeze({
   disclosure: 'packages/pipelines/asset-pack/src/asset-pack-disclosure.ts',
   observabilityTest: 'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts',
   readingIntegrationCoverageTest: 'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-integration-coverage.test.ts',
-  terminalHarnessClient: 'uapi/app/terminal/terminal-pipeline-harness-client.ts',
+  terminalHarnessClient: 'uapi/app/terminal/terminal-pipeline-host-client.ts',
   terminalHarnessClientTest: 'uapi/tests/terminalPipelineHarnessClient.test.ts',
   pipelineExecutionLog: 'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
   pipelineExecutionLogHeader: 'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',

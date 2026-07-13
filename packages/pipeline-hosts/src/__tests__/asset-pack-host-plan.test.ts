@@ -1,4 +1,4 @@
-import { buildAssetPackSandboxHarness } from '../asset-pack-harness';
+import { buildAssetPackSandboxHostPlan } from '../asset-pack-host-plan';
 import ts from 'typescript';
 
 const baseOptions = {
@@ -16,31 +16,31 @@ const baseOptions = {
   },
 };
 
-describe('asset-pack sandbox harness plan', () => {
+describe('asset-pack sandbox host plan', () => {
   it('builds a host smoke plan that exports manifest and artifact paths', () => {
-    const plan = buildAssetPackSandboxHarness(baseOptions);
+    const plan = buildAssetPackSandboxHostPlan(baseOptions);
 
     expect(plan.createOptions.runtime).toBe('node24');
     expect(plan.createOptions.timeout).toBe(45 * 60 * 1000);
     expect(plan.createOptions.networkPolicy).toBe('allow-all');
     expect(plan.commands.map((command) => command.label)).toEqual([
       'runtime-readiness',
-      'host-smoke-harness-run',
+      'host-smoke-run',
     ]);
     expect(plan.files.map((file) => file.path)).toEqual([
-      '.bitcode/pipeline-harness/manifest.json',
-      '.bitcode/pipeline-harness/run-host-smoke.mjs',
-      '.bitcode/pipeline-harness/run-live-asset-pack-pipeline.ts',
+      '.bitcode/pipeline-host/manifest.json',
+      '.bitcode/pipeline-host/run-host-smoke.mjs',
+      '.bitcode/pipeline-host/run-live-asset-pack-pipeline.ts',
     ]);
     expect(plan.artifactPaths).toEqual({
-      evidence: '.bitcode/pipeline-harness/evidence.json',
-      telemetry: '.bitcode/pipeline-harness/telemetry.jsonl',
+      evidence: '.bitcode/pipeline-host/evidence.json',
+      telemetry: '.bitcode/pipeline-host/telemetry.jsonl',
     });
     expect(plan.manifest.expectedEvidenceTables).toContain('deliverable_pipeline_events');
   });
 
   it('carries deposit synthesis mode + steering into the manifest (#25)', () => {
-    const plan = buildAssetPackSandboxHarness({
+    const plan = buildAssetPackSandboxHostPlan({
       ...baseOptions,
       mode: 'asset_pack_pipeline',
       source: {
@@ -65,12 +65,12 @@ describe('asset-pack sandbox harness plan', () => {
   });
 
   it('defaults synthesizeMode to read when unset', () => {
-    expect(buildAssetPackSandboxHarness(baseOptions).manifest.synthesizeMode).toBe('read');
+    expect(buildAssetPackSandboxHostPlan(baseOptions).manifest.synthesizeMode).toBe('read');
   });
 
   it('requires a repository source before planning the real pipeline mode', () => {
     expect(() =>
-      buildAssetPackSandboxHarness({
+      buildAssetPackSandboxHostPlan({
         ...baseOptions,
         mode: 'asset_pack_pipeline',
       })
@@ -78,7 +78,7 @@ describe('asset-pack sandbox harness plan', () => {
   });
 
   it('plans dependency install and live runner commands for real pipeline mode', () => {
-    const plan = buildAssetPackSandboxHarness({
+    const plan = buildAssetPackSandboxHostPlan({
       ...baseOptions,
       mode: 'asset_pack_pipeline',
       source: {
@@ -99,7 +99,7 @@ describe('asset-pack sandbox harness plan', () => {
       'runtime-readiness',
       'package-manager-readiness',
       'workspace-install',
-      'harness-runtime-install',
+      'host-runtime-install',
       'asset-pack-pipeline-run',
     ]);
     expect(plan.commands.find((command) => command.label === 'package-manager-readiness')).toMatchObject({
@@ -109,14 +109,14 @@ describe('asset-pack sandbox harness plan', () => {
     expect(plan.commands.find((command) => command.label === 'asset-pack-pipeline-run')).toMatchObject({
       cmd: 'sh',
       detached: true,
-      exitCodePath: '.bitcode/pipeline-harness/pipeline.exit-code',
-      stdoutPath: '.bitcode/pipeline-harness/pipeline.stdout.log',
-      stderrPath: '.bitcode/pipeline-harness/pipeline.stderr.log',
+      exitCodePath: '.bitcode/pipeline-host/pipeline.exit-code',
+      stdoutPath: '.bitcode/pipeline-host/pipeline.stdout.log',
+      stderrPath: '.bitcode/pipeline-host/pipeline.stderr.log',
     });
   });
 
   it('can apply a local source overlay before installing and running the pipeline', () => {
-    const plan = buildAssetPackSandboxHarness({
+    const plan = buildAssetPackSandboxHostPlan({
       ...baseOptions,
       mode: 'asset_pack_pipeline',
       source: {
@@ -129,29 +129,29 @@ describe('asset-pack sandbox harness plan', () => {
     });
 
     expect(plan.sourceOverlay).toEqual({
-      path: '.bitcode/pipeline-harness/source-overlay.patch',
+      path: '.bitcode/pipeline-host/source-overlay.patch',
       patchRoot: '/vercel/sandbox',
       admissibility: 'qa-only-not-source-revision-evidence',
     });
     expect(plan.files.map((file) => file.path)).toContain(
-      '.bitcode/pipeline-harness/source-overlay.patch'
+      '.bitcode/pipeline-host/source-overlay.patch'
     );
     expect(plan.commands.map((command) => command.label)).toEqual([
       'runtime-readiness',
       'apply-source-overlay',
       'package-manager-readiness',
       'workspace-install',
-      'harness-runtime-install',
+      'host-runtime-install',
       'asset-pack-pipeline-run',
     ]);
     expect(plan.commands.find((command) => command.label === 'apply-source-overlay')).toMatchObject({
       cmd: 'git',
-      args: ['apply', '--whitespace=nowarn', '.bitcode/pipeline-harness/source-overlay.patch'],
+      args: ['apply', '--whitespace=nowarn', '.bitcode/pipeline-host/source-overlay.patch'],
     });
   });
 
   it('materializes manifest-bound deposit evidence roots when activity flags are present', () => {
-    const plan = buildAssetPackSandboxHarness({
+    const plan = buildAssetPackSandboxHostPlan({
       ...baseOptions,
       deposit: {
         id: 'deposit-1',
@@ -173,7 +173,7 @@ describe('asset-pack sandbox harness plan', () => {
   });
 
   it('generates a syntactically valid live pipeline runner', () => {
-    const plan = buildAssetPackSandboxHarness({
+    const plan = buildAssetPackSandboxHostPlan({
       ...baseOptions,
       mode: 'asset_pack_pipeline',
       assumeRepositoryPresent: true,
@@ -204,7 +204,7 @@ describe('asset-pack sandbox harness plan', () => {
     expect(source).toContain('requireAcceptedReadNeed');
     expect(source).toContain('artifact-streaming-enabled');
     expect(source).toContain('execution: execution ? summarizeExecution(execution) : null');
-    expect(source).toContain('PipelineHarnessTimeoutError');
+    expect(source).toContain('PipelineHostTimeoutError');
     expect(source).toContain('settlementOwnershipBoundary');
     expect(source).toContain('normalizeBtcLedgerNetwork');
     expect(source).toContain('requestedNetwork');

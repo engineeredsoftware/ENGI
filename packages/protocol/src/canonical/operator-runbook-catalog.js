@@ -92,7 +92,7 @@ const runbookRows = Object.freeze([
     incidentClass: 'execution_orphan_or_missing_completion',
     escalationPath: ['execution operator', 'api maintainer', 'deployment owner'],
     commandSequence: [
-      'pnpm --dir uapi exec jest --runTestsByPath tests/api/pipelineHarnessRoute.test.ts --runInBand',
+      'pnpm --dir uapi exec jest --runTestsByPath tests/api/pipelineHostRoute.test.ts --runInBand',
       'pnpm --dir uapi exec jest --runTestsByPath tests/terminalPipelineHarnessClient.test.ts --runInBand',
     ],
     verificationCommands: ['pnpm run check:v35-gate5'],
@@ -153,7 +153,7 @@ const runbookRows = Object.freeze([
     escalationPath: ['storage operator', 'pipeline host maintainer', 'security reviewer'],
     commandSequence: [
       'pnpm run check:v34-deployment-storage-posture',
-      'pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand',
+      'pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-host-plan.test.ts --runInBand',
     ],
     verificationCommands: ['pnpm run check:v35-gate5'],
     repairReferences: ['DeploymentStoragePosture', 'AssetPack lock policy', 'object storage manifest'],

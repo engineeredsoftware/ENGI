@@ -1,7 +1,7 @@
 /**
  * @bitcode/pipeline-hosts
  *
- * Compatibility barrel + AssetPack harness orchestration.
+ * Compatibility barrel + AssetPack host orchestration.
  *
  * Prefer:
  *   @bitcode/host-generics
@@ -9,7 +9,7 @@
  *   @bitcode/generic-hosts-vercel-sandbox
  */
 
-export * from './asset-pack-harness';
+export * from './asset-pack-host-plan';
 export * from './distributed-execution-runtime-receipt';
 export * from './host';
 export * from './local-host';

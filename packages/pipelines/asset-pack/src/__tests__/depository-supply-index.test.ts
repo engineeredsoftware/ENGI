@@ -52,8 +52,8 @@ function deposit(overrides: Record<string, unknown> = {}) {
         text: 'PRIVATE_SOURCE_DO_NOT_SERIALIZE function terminalSecret() {}',
         path: 'uapi/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench.tsx',
         codeAnalysisFacts: {
-          symbols: ['TerminalDepositReadWorkbench', 'streamTerminalReadFitsFindingSynthesisHarness'],
-          paths: ['uapi/components/bitcode/pipeline/pipeline-harness-client.ts'],
+          symbols: ['TerminalDepositReadWorkbench', 'streamTerminalReadFitsFindingSynthesisHost'],
+          paths: ['uapi/components/bitcode/pipeline/pipeline-host-client.ts'],
           stackTags: ['terminal', 'supabase', 'assetpack'],
           constraints: ['protected source remains hidden until settlement'],
         },

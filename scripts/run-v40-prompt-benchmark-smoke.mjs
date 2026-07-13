@@ -19,7 +19,7 @@ const require = createRequire(import.meta.url);
 const { BenchmarkRunner } = require('../packages/prompts/src/benchmarking/runner.js');
 
 const GENERATED_AT = '2026-05-25T00:00:00.000Z';
-const DEFAULT_RECEIPT_DIR = '.bitcode/pipeline-harness-runs/v40-prompt-benchmark-smoke';
+const DEFAULT_RECEIPT_DIR = '.bitcode/pipeline-host-runs/v40-prompt-benchmark-smoke';
 
 class SourceSafeMockProvider {
   name = 'source-safe-mock';

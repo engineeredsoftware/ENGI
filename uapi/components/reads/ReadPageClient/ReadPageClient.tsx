@@ -255,7 +255,7 @@ export default function ReadPageClient() {
               admittedReadActivityId={admittedReadActivityId}
               routeReadingStage={routeReadingStage}
               onRecordActivity={handleRecordActivity}
-              onHarnessCompleted={refreshLiveRuns}
+              onHostCompleted={refreshLiveRuns}
               showDemonstrationWorkbench={false}
             />
           </div>

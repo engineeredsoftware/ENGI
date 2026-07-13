@@ -2674,15 +2674,15 @@ Format: `path  -- <1 sentence TL;DR>`.
     pipeline-hosts/  -- Domain package `pipeline-hosts` (pure reusable logic).
       src/  -- Subfolder of package `pipeline-hosts`.
         __tests__/  -- Package tests for this module.
-          asset-pack-harness.test.ts  -- Package tests for this module.
+          asset-pack-host-plan.test.ts  -- Package tests for this module.
           distributed-execution-runtime-receipt.test.ts  -- Package tests for this module.
           inline-host.test.ts  -- Package tests for this module.
           manifest.test.ts  -- Package tests for this module.
           sandbox-host.test.ts  -- Package tests for this module.
           vercel-sandbox-host.test.ts  -- Package tests for this module.
         dev/  -- Subfolder of package `pipeline-hosts`.
-          run-asset-pack-sandbox-harness.ts  -- Source module in package `pipeline-hosts`.
-        asset-pack-harness.ts  -- Source module in package `pipeline-hosts`.
+          run-asset-pack-sandbox-host.ts  -- Source module in package `pipeline-hosts`.
+        asset-pack-host-plan.ts  -- Source module in package `pipeline-hosts`.
         distributed-execution-runtime-receipt.ts  -- Source module in package `pipeline-hosts`.
         host.ts  -- Source module in package `pipeline-hosts`.
         index.ts  -- Public package export surface.
@@ -7575,7 +7575,7 @@ Format: `path  -- <1 sentence TL;DR>`.
         packs/  -- App Router API routes (adapters to packages).
           activity/  -- App Router API routes (adapters to packages).
             route.ts  -- Next.js API route handler.
-        pipeline-harness/  -- App Router API routes (adapters to packages).
+        pipeline-host/  -- App Router API routes (adapters to packages).
           asset-pack/  -- App Router API routes (adapters to packages).
             preflight.ts  -- App Router shell or thin re-export.
             route.ts  -- Next.js API route handler.
@@ -9238,7 +9238,7 @@ Format: `path  -- <1 sentence TL;DR>`.
               .gitkeep  -- UAPI file.
             styles/  -- Local styles for the parent component unit.
               .gitkeep  -- UAPI file.
-            pipeline-harness-client.ts  -- Supporting module for unit `PipelineHarnessClient`.
+            pipeline-host-client.ts  -- Supporting module for unit `PipelineHarnessClient`.
           RunClock/  -- Component unit `RunClock` (SRP entry + optional hooks/tests).
             __tests__/  -- Co-located unit tests for the parent component unit.
               .gitkeep  -- UAPI file.
@@ -10858,8 +10858,8 @@ Format: `path  -- <1 sentence TL;DR>`.
         orbitalsTemplatePreferencesRoute.test.ts  -- App-level test suite.
         orbitalsUserDataShareRoute.test.ts  -- App-level test suite.
         orbitalUsageRoute.test.ts  -- App-level test suite.
-        pipelineHarnessPreflight.test.ts  -- App-level test suite.
-        pipelineHarnessRoute.test.ts  -- App-level test suite.
+        pipelineHostPreflight.test.ts  -- App-level test suite.
+        pipelineHostRoute.test.ts  -- App-level test suite.
         readReviewProtocolParity.test.ts  -- App-level test suite.
         readReviewRoute.test.ts  -- App-level test suite.
         shippableTemplatesRoute.test.ts  -- App-level test suite.

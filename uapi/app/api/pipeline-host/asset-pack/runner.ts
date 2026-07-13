@@ -2,27 +2,27 @@ import { randomUUID } from 'node:crypto';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { VCSConnections } from '@bitcode/vcs';
 import {
-  buildAssetPackSandboxHarness,
+  buildAssetPackSandboxHostPlan,
   loadVercelSandboxFactory,
   VercelSandboxPipelineHost,
-  type PipelineHarnessCommandResult,
-  type PipelineHarnessHostEvent,
-  type PipelineHarnessMode,
+  type PipelineHostCommandResult,
+  type PipelineHostEvent,
+  type PipelineHostMode,
 } from '@bitcode/pipeline-hosts';
 import {
   assertDatabaseStreamingEnvironment,
   assertRealInferenceEnvironment,
   isEnabled,
-  isPipelineHarnessRealInferenceRequired,
+  isPipelineHostRealInferenceRequired,
   listSupabaseAdminCredentials,
   normalizeModelEnvironment,
   selectSupabaseAdminCredential,
-  summarizeHarnessPreflight,
-  type PipelineHarnessPreflightBody,
+  summarizeHostPreflight,
+  type PipelineHostPreflightBody,
 } from './preflight';
 
-export type AssetPackHarnessRequest = PipelineHarnessPreflightBody & {
-  mode?: PipelineHarnessMode;
+export type AssetPackHostRequest = PipelineHostPreflightBody & {
+  mode?: PipelineHostMode;
   readPrompt?: string;
   depositAssetId?: string | null;
   depositHasWalletOrAttestationProof?: boolean;
@@ -42,9 +42,9 @@ export type AssetPackHarnessRequest = PipelineHarnessPreflightBody & {
   leaveRunning?: boolean;
 };
 
-export type HarnessRouteEmitter = (event: string, data: unknown) => void;
+export type HostRouteEmitter = (event: string, data: unknown) => void;
 
-export type HarnessRouteRunnerOptions = {
+export type HostRouteOptions = {
   runId?: string;
   logErrors?: boolean;
   validateDatabaseAccess?: boolean;
@@ -79,8 +79,8 @@ const TRUSTED_COMMAND_ENV_KEYS = [
   'BITCODE_ASSET_PACK_READY_TO_INSTRUCT_USE_PTRR',
   'BITCODE_ASSET_PACK_VALIDATION_READY_TO_FINISH_USE_PTRR',
   'BITCODE_ASSET_PACK_FINISH_DELIVER_USE_PTRR',
-  'BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS',
-  'BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE',
+  'BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS',
+  'BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE',
   'BITCODE_PIPELINE_BTC_NETWORK',
   'BITCODE_PIPELINE_BTC_FEE_SATS',
   'BITCODE_PIPELINE_DEPOSITOR_WALLET_ID',
@@ -97,7 +97,7 @@ const REDACTED_OUTPUT_ENV_KEYS = [
   'GH_TOKEN',
 ] as const;
 
-export function validateHarnessRequest(body: AssetPackHarnessRequest): string | null {
+export function validateHostRequest(body: AssetPackHostRequest): string | null {
   if (!body.repositoryFullName) return 'repositoryFullName is required';
   if (!body.sourceBranch) return 'sourceBranch is required';
   if (!body.sourceCommit) return 'sourceCommit is required';
@@ -106,11 +106,11 @@ export function validateHarnessRequest(body: AssetPackHarnessRequest): string | 
   return null;
 }
 
-export async function runAssetPackHarnessRoute(
-  body: AssetPackHarnessRequest,
+export async function runAssetPackHostRoute(
+  body: AssetPackHostRequest,
   userId: string,
-  emit: HarnessRouteEmitter,
-  options: HarnessRouteRunnerOptions = {},
+  emit: HostRouteEmitter,
+  options: HostRouteOptions = {},
 ): Promise<void> {
   const routeRunId = options.runId || randomUUID();
   try {
@@ -118,7 +118,7 @@ export async function runAssetPackHarnessRoute(
     const sourceUrl = body.sourceGitUrl || `https://github.com/${repositoryFullName}.git`;
     const mode = body.mode || 'asset_pack_pipeline';
 
-    emit('harness-started', {
+    emit('host-started', {
       runId: routeRunId,
       mode,
       repositoryFullName,
@@ -129,9 +129,9 @@ export async function runAssetPackHarnessRoute(
       readNeedId: readNeedId(body.acceptedReadNeed || body.readNeed),
       requireAcceptedReadNeed: body.requireAcceptedReadNeed !== false,
     });
-    emit('harness-preflight', {
+    emit('host-preflight', {
       runId: routeRunId,
-      ...summarizeHarnessPreflight(body),
+      ...summarizeHostPreflight(body),
     });
 
     const commandEnvironment = {
@@ -142,7 +142,7 @@ export async function runAssetPackHarnessRoute(
       await assertSupabaseRestReadbackAccess(commandEnvironment, options.fetchImpl || fetch);
     }
 
-    const plan = buildAssetPackSandboxHarness({
+    const plan = buildAssetPackSandboxHostPlan({
       mode,
       read: {
         id: body.readId!,
@@ -181,14 +181,14 @@ export async function runAssetPackHarnessRoute(
     const host = new VercelSandboxPipelineHost({
       sandboxFactory,
       stopAfterRun: body.leaveRunning !== true,
-      onEvent: (event) => emit('harness-event', {
+      onEvent: (event) => emit('host-event', {
         runId: routeRunId,
         ...safeHostEvent(event),
       }),
     });
-    const result = await host.runHarness(plan);
+    const result = await host.runHostPlan(plan);
 
-    emit('harness-completed', {
+    emit('host-completed', {
       runId: routeRunId,
       outcome: result.outcome,
       sandboxId: result.sandboxId,
@@ -202,15 +202,15 @@ export async function runAssetPackHarnessRoute(
         : 0,
     });
   } catch (runError) {
-    emit('harness-failed', {
+    emit('host-failed', {
       runId: routeRunId,
       error: runError instanceof Error ? runError.message : String(runError),
-      preflight: summarizeHarnessPreflight(body),
+      preflight: summarizeHostPreflight(body),
     });
     if (options.logErrors !== false) {
-      console.error('[bitcode-pipeline-harness-route-failed]', {
+      console.error('[bitcode-pipeline-host-route-failed]', {
         error: runError instanceof Error ? runError.message : String(runError),
-        preflight: summarizeHarnessPreflight(body),
+        preflight: summarizeHostPreflight(body),
       });
     }
   }
@@ -248,9 +248,9 @@ function selectedCommandEnvironment(userId: string): Record<string, string> {
   env.BITCODE_PIPELINE_USER_ID = userId;
   env.BITCODE_PIPELINE_STREAM_TO_DATABASE = '1';
   env.BITCODE_PIPELINE_STRUCTURED_DB = '1';
-  const realInferenceRequired = isPipelineHarnessRealInferenceRequired();
+  const realInferenceRequired = isPipelineHostRealInferenceRequired();
   if (realInferenceRequired) {
-    env.BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE = '1';
+    env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE = '1';
   }
   if (realInferenceRequired && isEnabled(env.BITCODE_ASSET_PACK_REAL_INFERENCE) && !env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE) {
     env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
@@ -291,7 +291,7 @@ async function assertSupabaseRestReadbackAccess(
   }
 
   throw new Error(
-    `Pipeline harness Supabase REST readback credential check failed for ${endpoint.origin}: no admin-capable Supabase credential was accepted. ${failures[0] || 'No response detail.'}`
+    `Pipeline host Supabase REST readback credential check failed for ${endpoint.origin}: no admin-capable Supabase credential was accepted. ${failures[0] || 'No response detail.'}`
   );
 }
 
@@ -339,7 +339,7 @@ function readConnectionId(value: unknown): string | null {
 
 async function sourceCredentialsForUser(
   userId: string,
-  body: AssetPackHarnessRequest
+  body: AssetPackHostRequest
 ): Promise<{ username?: string; password?: string }> {
   const envCredentials = sourceCredentialsFromEnv();
   if (envCredentials.password) return envCredentials;
@@ -370,7 +370,7 @@ async function sourceCredentialsForUser(
   };
 }
 
-function summarizeCommand(command: PipelineHarnessCommandResult): Record<string, unknown> {
+function summarizeCommand(command: PipelineHostCommandResult): Record<string, unknown> {
   return {
     label: command.label,
     exitCode: command.exitCode,
@@ -541,7 +541,7 @@ function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
       : null;
   return {
     schema: record.schema,
-    harnessMode: record.harnessMode ?? record.mode,
+    hostMode: record.hostMode ?? record.mode,
     resultState: record.resultState,
     pipelineResultState: record.pipelineResultState,
     sourceOverlay: record.manifest && typeof record.manifest === 'object'
@@ -996,6 +996,6 @@ function summarizeAssetPackSettlementRightsDeliveryBoundary(
   };
 }
 
-function safeHostEvent(event: PipelineHarnessHostEvent): PipelineHarnessHostEvent {
+function safeHostEvent(event: PipelineHostEvent): PipelineHostEvent {
   return event;
 }

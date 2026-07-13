@@ -17,7 +17,7 @@ import type {
   WorkbenchKeyValueRow,
 } from './deposit-read-evidence-types';
 
-import type { TerminalReadFitsFindingSynthesisHarnessEvent } from '@/components/bitcode/pipeline/PipelineHarnessClient/pipeline-harness-client';
+import type { TerminalReadFitsFindingSynthesisHostEvent } from '@/components/bitcode/pipeline/PipelineHostClient/pipeline-host-client';
 
 export function buildReadNeedRows(currentReadNeed: TerminalReadNeedState | null): WorkbenchKeyValueRow[] {
   if (!currentReadNeed) return [];
@@ -107,8 +107,8 @@ export function buildReadNeedRuntimeRows(params: {
   ];
 }
 
-export function buildHarnessIdentifierRows(params: {
-  harnessRequestState: {
+export function buildHostIdentifierRows(params: {
+  hostRequestState: {
     ready: boolean;
     request?: {
       readId?: string;
@@ -118,12 +118,12 @@ export function buildHarnessIdentifierRows(params: {
     } | null;
   };
   acceptedReadNeed: TerminalReadNeedState | null;
-  harnessEvents: TerminalReadFitsFindingSynthesisHarnessEvent[];
+  hostEvents: TerminalReadFitsFindingSynthesisHostEvent[];
 }): WorkbenchKeyValueRow[] {
-  const { harnessRequestState, acceptedReadNeed, harnessEvents } = params;
+  const { hostRequestState, acceptedReadNeed, hostEvents } = params;
   const rows: WorkbenchKeyValueRow[] = [];
-  const request = harnessRequestState.request;
-  if (harnessRequestState.ready && request) {
+  const request = hostRequestState.request;
+  if (hostRequestState.ready && request) {
     rows.push(
       {
         label: 'read',
@@ -158,7 +158,7 @@ export function buildHarnessIdentifierRows(params: {
   let runtimeBudget: string | null = null;
   let supabaseHost: string | null = null;
 
-  for (const event of harnessEvents) {
+  for (const event of hostEvents) {
     const data = objectValue(event.data);
     if (!data) continue;
     runId = textValue(data.runId) || runId;
@@ -175,7 +175,7 @@ export function buildHarnessIdentifierRows(params: {
         ? `${data.runtimeBudgetMs}ms`
         : runtimeBudget;
     supabaseHost = textValue(data.supabaseHost) || supabaseHost;
-    if (event.event === 'harness-event') {
+    if (event.event === 'host-event') {
       sandboxId = textValue(data.sandboxId) || sandboxId;
       const telemetryEvent = objectValue(data.telemetryEvent);
       runId = textValue(telemetryEvent?.runId) || runId;

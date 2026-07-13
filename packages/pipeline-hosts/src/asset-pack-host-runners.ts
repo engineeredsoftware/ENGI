@@ -1,25 +1,25 @@
 /**
  * In-box host-smoke and live AssetPack pipeline runner source templates
- * embedded into the Vercel Sandbox harness plan.
+ * embedded into the Vercel Sandbox host plan.
  */
 
 import {
   EVIDENCE_PATH,
-  HARNESS_DIRECTORY,
+  HOST_RUN_DIRECTORY,
   MANIFEST_PATH,
   PIPELINE_EXIT_CODE_PATH,
   PIPELINE_STDERR_PATH,
   PIPELINE_STDOUT_PATH,
   TELEMETRY_PATH,
-} from './asset-pack-harness-constants';
+} from './asset-pack-host-constants';
 
 export export function createHostSmokeRunner(): string {
   return `import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { arch, platform, release } from 'node:os';
 
-const manifestPath = process.env.BITCODE_PIPELINE_HARNESS_MANIFEST || '${MANIFEST_PATH}';
-const artifactDir = process.env.BITCODE_PIPELINE_HARNESS_ARTIFACT_DIR || '${HARNESS_DIRECTORY}';
+const manifestPath = process.env.BITCODE_PIPELINE_HOST_MANIFEST || '${MANIFEST_PATH}';
+const artifactDir = process.env.BITCODE_PIPELINE_HOST_ARTIFACT_DIR || '${HOST_RUN_DIRECTORY}';
 const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
 const startedAt = new Date().toISOString();
 const manifestRoot = createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
@@ -28,9 +28,9 @@ await mkdir(artifactDir, { recursive: true });
 
 const events = [
   {
-    type: 'harness-start',
+    type: 'host-start',
     stage: 'telemetry-readback',
-    harnessMode: manifest.harnessMode,
+    hostMode: manifest.hostMode,
     sourceRevision: manifest.sourceRevision,
     startedAt,
   },
@@ -49,15 +49,15 @@ const events = [
     reason: 'Host smoke mode verifies sandbox execution and artifact export only. Run asset_pack_pipeline mode for repository pipeline execution evidence.',
   },
   {
-    type: 'harness-complete',
+    type: 'host-complete',
     stage: 'telemetry-readback',
     completedAt: new Date().toISOString(),
   },
 ];
 
 const evidence = {
-  schema: 'bitcode.pipeline-harness.evidence',
-  harnessMode: manifest.harnessMode,
+  schema: 'bitcode.pipeline-host.evidence',
+  hostMode: manifest.hostMode,
   resultState: 'blocked_readiness',
   resultReasons: [
     'Vercel Sandbox host lifecycle completed.',
@@ -85,14 +85,14 @@ export export function createLiveAssetPackPipelineRunner(): string {
   return `import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createHash, randomUUID } from 'node:crypto';
 
-const manifestPath = process.env.BITCODE_PIPELINE_HARNESS_MANIFEST || '${MANIFEST_PATH}';
-const artifactDir = process.env.BITCODE_PIPELINE_HARNESS_ARTIFACT_DIR || '${HARNESS_DIRECTORY}';
+const manifestPath = process.env.BITCODE_PIPELINE_HOST_MANIFEST || '${MANIFEST_PATH}';
+const artifactDir = process.env.BITCODE_PIPELINE_HOST_ARTIFACT_DIR || '${HOST_RUN_DIRECTORY}';
 const runId = process.env.BITCODE_PIPELINE_RUN_ID || randomUUID();
 const DEFAULT_USER_ID = '00000000-0000-4000-8000-000000000000';
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const startedAt = new Date().toISOString();
-const harnessMaxRuntimeMs = Number(process.env.BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS || 240000);
-const checkpointIntervalMs = Number(process.env.BITCODE_PIPELINE_HARNESS_CHECKPOINT_INTERVAL_MS || 2000);
+const hostMaxRuntimeMs = Number(process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS || 240000);
+const checkpointIntervalMs = Number(process.env.BITCODE_PIPELINE_HOST_CHECKPOINT_INTERVAL_MS || 2000);
 let manifest = null;
 let manifestRoot = null;
 let userId = process.env.BITCODE_PIPELINE_USER_ID || DEFAULT_USER_ID;
@@ -380,7 +380,7 @@ function findExecutionValueDown(node, namespace, key) {
   return undefined;
 }
 
-async function withHarnessTimeout(promise, maxRuntimeMs) {
+async function withHostTimeout(promise, maxRuntimeMs) {
   if (!Number.isFinite(maxRuntimeMs) || maxRuntimeMs <= 0) return promise;
   let timeout = null;
   try {
@@ -388,8 +388,8 @@ async function withHarnessTimeout(promise, maxRuntimeMs) {
       promise,
       new Promise((_, reject) => {
         timeout = setTimeout(() => {
-          const timeoutError = new Error(\`AssetPack pipeline exceeded harness runtime budget of \${maxRuntimeMs}ms.\`);
-          timeoutError.name = 'PipelineHarnessTimeoutError';
+          const timeoutError = new Error(\`AssetPack pipeline exceeded host runtime budget of \${maxRuntimeMs}ms.\`);
+          timeoutError.name = 'PipelineHostTimeoutError';
           reject(timeoutError);
         }, maxRuntimeMs);
       }),
@@ -401,13 +401,13 @@ async function withHarnessTimeout(promise, maxRuntimeMs) {
 
 function checkpointEvidence(reason) {
   return {
-    schema: 'bitcode.pipeline-harness.evidence',
+    schema: 'bitcode.pipeline-host.evidence',
     checkpoint: true,
     checkpointReason: reason,
-    harnessMode: manifest?.harnessMode || 'asset_pack_pipeline',
+    hostMode: manifest?.hostMode || 'asset_pack_pipeline',
     resultState,
     resultReasons: [
-      'AssetPack pipeline harness checkpoint; final admissibility requires completed finish evidence.',
+      'AssetPack pipeline host checkpoint; final admissibility requires completed finish evidence.',
       reason,
     ],
     runId,
@@ -443,7 +443,7 @@ function scheduleCheckpoint(reason) {
     .then(() => writeCheckpoint(reason))
     .catch((checkpointError) => {
       try {
-        process.stderr.write(\`[bitcode-harness-checkpoint-error] \${checkpointError?.message || String(checkpointError)}\\n\`);
+        process.stderr.write(\`[bitcode-host-checkpoint-error] \${checkpointError?.message || String(checkpointError)}\\n\`);
       } catch {}
     });
 }
@@ -453,7 +453,7 @@ function startHeartbeat() {
   heartbeatTimer = setInterval(() => {
     const phase = execution?.get?.('phase', 'current') || 'initializing';
     const agent = execution?.get?.('agent', 'name') || 'none';
-    process.stderr.write(\`[bitcode-harness-heartbeat] runId=\${runId} phase=\${phase} agent=\${agent} events=\${events.length}\\n\`);
+    process.stderr.write(\`[bitcode-host-heartbeat] runId=\${runId} phase=\${phase} agent=\${agent} events=\${events.length}\\n\`);
     scheduleCheckpoint('heartbeat');
   }, 30000);
   heartbeatTimer.unref?.();
@@ -478,8 +478,8 @@ async function insertPipelineRun() {
       correlation_id: runId,
       started_at: startedAt,
       metadata: {
-        bitcodePipelineHarness: true,
-        harnessMode: manifest?.harnessMode || 'asset_pack_pipeline',
+        bitcodePipelineHost: true,
+        hostMode: manifest?.hostMode || 'asset_pack_pipeline',
         manifestRoot,
         sourceRevision: manifest?.sourceRevision || null,
       },
@@ -574,22 +574,22 @@ async function resolvePipelineUserId() {
     record({ type: 'pipeline-user-lookup-blocked', stage: 'telemetry-readback', error: lookupError?.message || String(lookupError) });
   }
 
-  throw new Error('BITCODE_PIPELINE_USER_ID is required for database-backed pipeline harness telemetry.');
+  throw new Error('BITCODE_PIPELINE_USER_ID is required for database-backed pipeline host telemetry.');
 }
 
-async function insertHarnessStreamLog(status) {
+async function insertHostStreamLog(status) {
   if (!supabase) return;
   try {
     await supabase.from('stream_logs').insert({
       stream_id: runId,
       user_id: userId,
-      log_type: 'pipeline-harness',
+      log_type: 'pipeline-host',
       log_data: {
-        event: 'pipeline-harness-complete',
+        event: 'pipeline-host-complete',
         status,
         resultState,
         manifestRoot,
-        harnessMode: manifest?.harnessMode || 'asset_pack_pipeline',
+        hostMode: manifest?.hostMode || 'asset_pack_pipeline',
       },
     });
   } catch (persistError) {
@@ -1374,13 +1374,13 @@ async function main() {
 await mkdir(artifactDir, { recursive: true });
 startHeartbeat();
 process.once('SIGTERM', () => {
-  error = { name: 'SIGTERM', message: 'AssetPack pipeline harness received SIGTERM.', stack: null };
+  error = { name: 'SIGTERM', message: 'AssetPack pipeline host received SIGTERM.', stack: null };
   resultState = 'blocked_readiness';
   record({ type: 'pipeline-blocked', stage: 'validation', resultState, error });
   void writeCheckpoint('signal:SIGTERM').finally(() => process.exit(1));
 });
 process.once('SIGINT', () => {
-  error = { name: 'SIGINT', message: 'AssetPack pipeline harness received SIGINT.', stack: null };
+  error = { name: 'SIGINT', message: 'AssetPack pipeline host received SIGINT.', stack: null };
   resultState = 'blocked_readiness';
   record({ type: 'pipeline-blocked', stage: 'validation', resultState, error });
   void writeCheckpoint('signal:SIGINT').finally(() => process.exit(1));
@@ -1433,10 +1433,10 @@ try {
     admittedSurface: 'terminal_read_fit',
   });
 
-  execution.store('harness', 'manifestRoot', manifestRoot);
-  execution.store('harness', 'sourceRevision', manifest.sourceRevision);
-  execution.store('harness', 'runId', runId);
-  execution.store('harness', 'userId', userId);
+  execution.store('host', 'manifestRoot', manifestRoot);
+  execution.store('host', 'sourceRevision', manifest.sourceRevision);
+  execution.store('host', 'runId', runId);
+  execution.store('host', 'userId', userId);
   execution.store('pipeline', 'userId', userId);
   execution.store('read', 'request', manifest.read);
   execution.store('deposit', 'reference', manifest.deposit);
@@ -1446,7 +1446,7 @@ try {
     const { supabaseAdmin } = await import('../../packages/supabase/src/index');
     supabase = supabaseAdmin;
     userId = await resolvePipelineUserId();
-    execution.store('harness', 'userId', userId);
+    execution.store('host', 'userId', userId);
     execution.store('pipeline', 'userId', userId);
     pipelineRunId = await insertPipelineRun();
     record({ type: 'database-streaming-enabled', stage: 'telemetry-readback' });
@@ -1499,7 +1499,7 @@ try {
     depositoryAssets: [buildManifestDepositoryAsset(manifest)],
     writtenAssetType: 'asset_pack',
     deliveryMechanismTemplate: 'pull-request',
-    harness: manifest,
+    host: manifest,
     synthesizeMode: manifest.synthesizeMode || 'read',
     obfuscations: (manifest.depositSteering && manifest.depositSteering.obfuscations) || null,
     forcedExclusions: (manifest.depositSteering && manifest.depositSteering.forcedExclusions) || [],
@@ -1514,7 +1514,7 @@ try {
       sourceOverlay: manifest.sourceOverlay,
     });
   }
-  const rawOutput = await withHarnessTimeout(assetPackPipeline(input, execution), harnessMaxRuntimeMs);
+  const rawOutput = await withHostTimeout(assetPackPipeline(input, execution), hostMaxRuntimeMs);
   const postprocessedOutput = findExecutionValueDown(execution, 'postprocessed', 'result');
   output = postprocessedOutput && typeof postprocessedOutput === 'object' && !Array.isArray(postprocessedOutput)
     ? {
@@ -1578,7 +1578,7 @@ try {
       : pipelineResultState === 'worthy_fit' && !deliveryAdmissible
         ? 'Pipeline found a worthy fit, but required pull-request delivery is missing; settlement remains blocked.'
       : resultState === 'blocked_readiness'
-        ? 'Pipeline produced ' + pipelineResultState + ' evidence; final settlement remains blocked by harness readiness constraints.'
+        ? 'Pipeline produced ' + pipelineResultState + ' evidence; final settlement remains blocked by host readiness constraints.'
       : 'Review SQL must still verify durable telemetry, proof, and ledger readback before settlement.',
     ...pipelineResultReasons,
   ].filter(Boolean);
@@ -1612,7 +1612,7 @@ try {
     : null;
   const ledgerDatabaseReconciliation = ledgerSettlement?.assetPackId
     ? reconcileLedgerDatabaseProjection({
-        reconciliationId: 'harness-reconciliation-' + runId,
+        reconciliationId: 'host-reconciliation-' + runId,
         ledgerFacts: [
           {
             factId: ledgerSettlement.assetPackId,
@@ -1856,8 +1856,8 @@ try {
     : null;
 
   const evidence = {
-    schema: 'bitcode.pipeline-harness.evidence',
-    harnessMode: manifest.harnessMode,
+    schema: 'bitcode.pipeline-host.evidence',
+    hostMode: manifest.hostMode,
     resultState,
     pipelineResultState,
     resultReasons,
@@ -1900,7 +1900,7 @@ try {
     message: caught?.message || String(caught),
     stack: caught?.stack || null,
   };
-  if (error.name === 'PipelineHarnessTimeoutError') {
+  if (error.name === 'PipelineHostTimeoutError') {
     forceExitAfterFinally = true;
   }
   record({
@@ -1913,8 +1913,8 @@ try {
   await checkpointInFlight.catch(() => {});
 
   const evidence = {
-    schema: 'bitcode.pipeline-harness.evidence',
-    harnessMode: manifest?.harnessMode || 'asset_pack_pipeline',
+    schema: 'bitcode.pipeline-host.evidence',
+    hostMode: manifest?.hostMode || 'asset_pack_pipeline',
     resultState: 'blocked_readiness',
     resultReasons: [
       'AssetPack pipeline execution did not produce admissible result evidence.',
@@ -1947,7 +1947,7 @@ try {
 } finally {
   stopHeartbeat();
   await checkpointInFlight.catch(() => {});
-  await insertHarnessStreamLog(process.exitCode ? 'failed' : 'completed');
+  await insertHostStreamLog(process.exitCode ? 'failed' : 'completed');
   await writeFile(\`\${artifactDir}/telemetry.jsonl\`, events.map((event) => JSON.stringify(event)).join('\\n') + '\\n');
   if (forceExitAfterFinally) {
     process.exit(1);

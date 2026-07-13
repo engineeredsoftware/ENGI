@@ -1,6 +1,6 @@
 /**
  * Deposit/read workbench domain types (pure).
- * Shared by snapshot builders, normalizers, and pipeline harness drafts.
+ * Shared by snapshot builders, normalizers, and pipeline host drafts.
  */
 
 import type { KeyValueRow, Metric } from '@/components/bitcode/pipeline/ShellReading/shell-reading';

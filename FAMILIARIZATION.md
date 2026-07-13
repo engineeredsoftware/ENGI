@@ -212,7 +212,7 @@ pipeline-local tools            e.g. AssetPackLexicalDepositorySearchTool
 @bitcode/generic-hosts-local                   LocalHost (default; was InlineHost)
 @bitcode/generic-hosts-vercel-sandbox          VercelSandboxHost / PipelineHost
         ↑
-@bitcode/pipeline-hosts                        Harness orchestration + BC re-exports
+@bitcode/pipeline-hosts                        Host orchestration + BC re-exports
 ```
 
 `BITCODE_PIPELINE_HOST`: unset|`local` (default; `inline` alias) | `sandbox`.
@@ -247,7 +247,7 @@ Package paths: `packages/mcp-generics/`, `packages/generic-mcps/bitcode/`.
         ↑
 @bitcode/pipeline-asset-pack             SynthesizeAssetPacksSDIVFPipeline (deposit | read);
                                          future SettleAssetPacksSDIVFPipeline
-@bitcode/pipeline-hosts                  Local host + Vercel Sandbox harness
+@bitcode/pipeline-hosts                  Local host + Vercel Sandbox host
 ```
 
 **SDIVF** = Setup → Discovery → Implementation → Validation → Finish  
@@ -378,7 +378,7 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | Package | Responsibility |
 | --- | --- |
 | `pipelines/asset-pack` (`@bitcode/pipeline-asset-pack`) | **SynthesizeAssetPacks**, deposit options/policy/admission/earnings, depository search/supply, measurement catalogs, settlement/rights contracts, deposit agents |
-| `pipeline-hosts` | Inline + Vercel Sandbox harness for decoupled runs |
+| `pipeline-hosts` | Inline + Vercel Sandbox host for decoupled runs |
 | `btd` | BTD measurement, journal, authority, settlement, interface contracts, deployment posture helpers |
 | `protocol` | Protocol-level types / commercial boundary helpers |
 | `api` | Backend route orchestration modules (pipelines cancel/orphan, routes, VCS, conversations helpers) |
@@ -464,7 +464,7 @@ uapi/app/*                 page shells only
 ### 6.2 Request path (typical deposit synthesis)
 
 1. Browser: `DepositPageClient` → `POST /api/deposit/synthesize-options`
-2. Route validates + **dispatches** harness (`dispatch-deposit-synthesis.ts`); returns `runId` immediately
+2. Route validates + **dispatches** host (`dispatch-deposit-synthesis.ts`); returns `runId` immediately
 3. Host runs SynthesizeAssetPacks (inline Node or Vercel Sandbox)
 4. Events stream to `execution_events` (source-safe filter)
 5. Client tails via `usePipelineExecution` / SSE and resumes options from history
@@ -627,8 +627,8 @@ are core. Local vs staging-testnet vs production projects are documented in
 ### 8.2 Pipeline hosts
 
 - **Inline:** Node process runs pipeline after dispatch (dev)
-- **Sandbox:** Vercel Sandbox box with harness manifest + live runner template
-  (`pipeline-hosts` asset-pack-harness modules)
+- **Sandbox:** Vercel Sandbox box with host manifest + live runner template
+  (`pipeline-hosts` asset-pack-host modules)
 
 ### 8.3 Source-safety
 
@@ -659,7 +659,7 @@ as if they were source of product law.
 1. `BITCODE_SPEC_V48.md` §G3-1…G3-15  
 2. `packages/pipelines/asset-pack/src/asset-packs-synthesis.ts` (barrel)  
 3. `.../agents/{setup,discovery,implementation,validation}/deposit-*.ts`  
-4. `packages/pipeline-hosts/src/asset-pack-harness.ts`  
+4. `packages/pipeline-hosts/src/asset-pack-host.ts`  
 5. `uapi/app/api/deposit/synthesize-options/route.ts` + `dispatch-deposit-synthesis.ts`  
 6. `uapi/components/deposits/DepositPageClient/*`  
 
@@ -739,7 +739,7 @@ Land the edit with the structural change (same commit or accompanying
 | Thinkings | Reason → Judge → StructuredOutput generations |
 | Failsafe | PCC / ChunkThenSum / Stitch context&size&schema guards |
 | Lens / mode | deposit vs read variance on shared SynthesizeAssetPacks |
-| Harness | Decoupled pipeline host (inline or sandbox) |
+| Host | Decoupled pipeline host (inline or sandbox) |
 | Journal | BTD ledger rows / reconciliation |
 | Parity matrix | Spec claim ↔ implementation ↔ test ledger |
 

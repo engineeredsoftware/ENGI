@@ -114,7 +114,7 @@ function runFocusedTests(root, failures, args) {
 
   if (!args.skipUapiTests && commandExists(root, 'pnpm')) {
     commands.push(
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/api/pipelineHarnessPreflight.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', '--runInBand']],
+      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/api/pipelineHostPreflight.test.ts', 'tests/api/pipelineHostRoute.test.ts', '--runInBand']],
     );
   }
 
@@ -163,8 +163,8 @@ function main() {
     'packages/protocol/test/v42-local-staging-mvp-rehearsal.test.js',
     'packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts',
     'packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts',
-    'uapi/app/api/pipeline-harness/asset-pack/preflight.ts',
-    'uapi/app/api/pipeline-harness/asset-pack/runner.ts',
+    'uapi/app/api/pipeline-host/asset-pack/preflight.ts',
+    'uapi/app/api/pipeline-host/asset-pack/runner.ts',
     'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
     'BITCODE_SPEC_V42.md',
     'BITCODE_SPEC_V42_DELTA.md',

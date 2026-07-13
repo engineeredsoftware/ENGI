@@ -72,7 +72,7 @@ const taxonomyRows = Object.freeze([
     sourceRoots: [
       'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts',
       'packages/pipelines/asset-pack/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts',
-      'uapi/app/api/pipeline-harness/asset-pack/runner.ts',
+      'uapi/app/api/pipeline-host/asset-pack/runner.ts',
     ],
   },
   {
@@ -217,7 +217,7 @@ const taxonomyRows = Object.freeze([
     sourceRoots: [
       'packages/btd/src/deployment-storage-posture.ts',
       'packages/pipeline-hosts/README.md',
-      'uapi/app/api/pipeline-harness/asset-pack/runner.ts',
+      'uapi/app/api/pipeline-host/asset-pack/runner.ts',
     ],
   },
   {

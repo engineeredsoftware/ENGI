@@ -107,7 +107,7 @@ function main() {
     'uapi/app/terminal/terminal-enterprise-reading-ux-state.ts',
     'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
     'uapi/app/terminal/terminal-deposit-read-workbench.ts',
-    'uapi/app/terminal/terminal-pipeline-harness-client.ts',
+    'uapi/app/terminal/terminal-pipeline-host-client.ts',
     'uapi/app/conversations/conversation-terminal-handoff.ts',
     'uapi/app/terminal/terminal-transaction-query.ts',
     'uapi/tests/terminalEnterpriseReadingUxState.test.ts',

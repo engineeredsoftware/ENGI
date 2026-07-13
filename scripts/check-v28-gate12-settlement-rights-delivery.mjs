@@ -62,7 +62,7 @@ const checks = [
     ],
   },
   {
-    file: 'packages/pipeline-hosts/src/asset-pack-harness.ts',
+    file: 'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     needles: [
       'buildAssetPackSettlementUnlock',
       'applyAssetPackSettlementUnlockToPreview',
@@ -72,7 +72,7 @@ const checks = [
     ],
   },
   {
-    file: 'uapi/app/api/pipeline-harness/asset-pack/runner.ts',
+    file: 'uapi/app/api/pipeline-host/asset-pack/runner.ts',
     needles: [
       'BITCODE_PIPELINE_BTC_FEE_SATS',
       'protectedSourceUnlock',
@@ -90,7 +90,7 @@ const checks = [
     ],
   },
   {
-    file: 'uapi/app/terminal/terminal-pipeline-harness-client.ts',
+    file: 'uapi/app/terminal/terminal-pipeline-host-client.ts',
     needles: [
       'protectedSourceUnlock',
       'sourceAvailable',

@@ -1,5 +1,5 @@
 /**
- * Relocated from app/terminal/terminal-pipeline-harness-client.ts.
+ * Relocated from app/terminal/terminal-pipeline-host-client.ts.
  * @see BITCODE_SPEC_V48.md frontend architecture workstream
  */
 
@@ -9,7 +9,7 @@ import type {
 } from '@/components/reads/models/deposit-read-workbench';
 import type { TerminalRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
 
-export type TerminalReadFitsFindingSynthesisHarnessRequest = {
+export type TerminalReadFitsFindingSynthesisHostRequest = {
   mode: 'asset_pack_pipeline';
   readId: string;
   readPrompt: string;
@@ -31,10 +31,10 @@ export type TerminalReadFitsFindingSynthesisHarnessRequest = {
   sourceDepth: number;
 };
 
-export type TerminalReadFitsFindingSynthesisHarnessRequestState =
+export type TerminalReadFitsFindingSynthesisHostRequestState =
   | {
       ready: true;
-      request: TerminalReadFitsFindingSynthesisHarnessRequest;
+      request: TerminalReadFitsFindingSynthesisHostRequest;
       missing: [];
     }
   | {
@@ -43,12 +43,12 @@ export type TerminalReadFitsFindingSynthesisHarnessRequestState =
       missing: string[];
     };
 
-export type TerminalReadFitsFindingSynthesisHarnessEvent = {
+export type TerminalReadFitsFindingSynthesisHostEvent = {
   event: string;
   data: unknown;
 };
 
-export type TerminalReadFitsFindingSynthesisHarnessStreamSnapshot = {
+export type TerminalReadFitsFindingSynthesisHostStreamSnapshot = {
   runId: string | null;
   output: string;
   outputDetails: Record<string, unknown>;
@@ -59,7 +59,7 @@ export type TerminalReadFitsFindingSynthesisHarnessStreamSnapshot = {
 };
 
 type StreamCallbacks = {
-  onEvent?: (event: TerminalReadFitsFindingSynthesisHarnessEvent) => void;
+  onEvent?: (event: TerminalReadFitsFindingSynthesisHostEvent) => void;
 };
 
 function normalizedText(value?: string | null): string {
@@ -74,7 +74,7 @@ function githubCloneUrl(repositoryFullName: string): string {
   return `https://github.com/${repositoryFullName}.git`;
 }
 
-export function buildTerminalReadFitsFindingSynthesisHarnessRequest({
+export function buildTerminalReadFitsFindingSynthesisHostRequest({
   workbench,
   repositoryContext,
   depositedSourceRevision,
@@ -86,7 +86,7 @@ export function buildTerminalReadFitsFindingSynthesisHarnessRequest({
   depositedSourceRevision?: TerminalDepositedSourceRevision | null;
   readActivityId?: string | null;
   acceptedReadNeed?: unknown;
-}): TerminalReadFitsFindingSynthesisHarnessRequestState {
+}): TerminalReadFitsFindingSynthesisHostRequestState {
   const selectedRepository = repositoryContext?.selectedRepository || null;
   const sourceRevision = workbench?.sourceRevision || null;
   const repositoryFullName = normalizedText(
@@ -160,9 +160,9 @@ export function buildTerminalReadFitsFindingSynthesisHarnessRequest({
   };
 }
 
-export function parseTerminalReadFitsFindingSynthesisHarnessSseBlock(
+export function parseTerminalReadFitsFindingSynthesisHostSseBlock(
   block: string,
-): TerminalReadFitsFindingSynthesisHarnessEvent | null {
+): TerminalReadFitsFindingSynthesisHostEvent | null {
   const lines = block.split(/\r?\n/);
   let event = 'message';
   const dataLines: string[] = [];
@@ -188,9 +188,9 @@ export function parseTerminalReadFitsFindingSynthesisHarnessSseBlock(
   return { event, data };
 }
 
-export function drainTerminalReadFitsFindingSynthesisHarnessSseBuffer(
+export function drainTerminalReadFitsFindingSynthesisHostSseBuffer(
   buffer: string,
-  onEvent: (event: TerminalReadFitsFindingSynthesisHarnessEvent) => void,
+  onEvent: (event: TerminalReadFitsFindingSynthesisHostEvent) => void,
 ): string {
   let remaining = buffer.replace(/\r\n/g, '\n');
   let separatorIndex = remaining.indexOf('\n\n');
@@ -198,7 +198,7 @@ export function drainTerminalReadFitsFindingSynthesisHarnessSseBuffer(
   while (separatorIndex >= 0) {
     const block = remaining.slice(0, separatorIndex);
     remaining = remaining.slice(separatorIndex + 2);
-    const event = parseTerminalReadFitsFindingSynthesisHarnessSseBlock(block);
+    const event = parseTerminalReadFitsFindingSynthesisHostSseBlock(block);
     if (event) onEvent(event);
     separatorIndex = remaining.indexOf('\n\n');
   }
@@ -206,11 +206,11 @@ export function drainTerminalReadFitsFindingSynthesisHarnessSseBuffer(
   return remaining;
 }
 
-export async function streamTerminalReadFitsFindingSynthesisHarness(
-  request: TerminalReadFitsFindingSynthesisHarnessRequest,
+export async function streamTerminalReadFitsFindingSynthesisHost(
+  request: TerminalReadFitsFindingSynthesisHostRequest,
   callbacks: StreamCallbacks = {},
 ): Promise<void> {
-  const response = await fetch('/api/pipeline-harness/asset-pack', {
+  const response = await fetch('/api/pipeline-host/asset-pack', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -219,11 +219,11 @@ export async function streamTerminalReadFitsFindingSynthesisHarness(
   });
 
   if (!response.ok) {
-    throw new Error(await readHarnessRouteError(response));
+    throw new Error(await readHostRouteError(response));
   }
 
   if (!response.body) {
-    throw new Error('Pipeline harness response did not include a readable event stream.');
+    throw new Error('Pipeline host response did not include a readable event stream.');
   }
 
   const decoder = new TextDecoder();
@@ -233,7 +233,7 @@ export async function streamTerminalReadFitsFindingSynthesisHarness(
   for (;;) {
     const { done, value } = await reader.read();
     if (done) break;
-    buffer = drainTerminalReadFitsFindingSynthesisHarnessSseBuffer(
+    buffer = drainTerminalReadFitsFindingSynthesisHostSseBuffer(
       buffer + decoder.decode(value, { stream: true }),
       (event) => callbacks.onEvent?.(event),
     );
@@ -241,12 +241,12 @@ export async function streamTerminalReadFitsFindingSynthesisHarness(
 
   const finalChunk = decoder.decode();
   if (finalChunk) {
-    buffer = drainTerminalReadFitsFindingSynthesisHarnessSseBuffer(buffer + finalChunk, (event) =>
+    buffer = drainTerminalReadFitsFindingSynthesisHostSseBuffer(buffer + finalChunk, (event) =>
       callbacks.onEvent?.(event),
     );
   }
   if (buffer.trim()) {
-    const event = parseTerminalReadFitsFindingSynthesisHarnessSseBlock(buffer);
+    const event = parseTerminalReadFitsFindingSynthesisHostSseBlock(buffer);
     if (event) callbacks.onEvent?.(event);
   }
 }
@@ -301,7 +301,7 @@ function canonicalPhase(value: unknown, fallback = 'Setup'): string {
   return fallback;
 }
 
-function classifyHarnessLogType(event: TerminalReadFitsFindingSynthesisHarnessEvent): string {
+function classifyHostLogType(event: TerminalReadFitsFindingSynthesisHostEvent): string {
   const data = recordValue(event.data);
   const type = data?.type ? String(data.type) : '';
   const telemetryEvent = recordValue(data?.telemetryEvent);
@@ -309,9 +309,9 @@ function classifyHarnessLogType(event: TerminalReadFitsFindingSynthesisHarnessEv
   const namespace = String(telemetryEvent?.namespace || '').toLowerCase();
   const key = String(telemetryEvent?.key || '').toLowerCase();
 
-  if (event.event === 'harness-failed') return 'error';
-  if (event.event === 'harness-completed') return 'completion';
-  if (event.event === 'harness-preflight' && data?.realInferenceEnabled === false) return 'error';
+  if (event.event === 'host-failed') return 'error';
+  if (event.event === 'host-completed') return 'completion';
+  if (event.event === 'host-preflight' && data?.realInferenceEnabled === false) return 'error';
   if (type === 'command-started' || type === 'command-completed' || type === 'artifacts-read' || type === 'sandbox-created') {
     return 'tool-use';
   }
@@ -338,18 +338,18 @@ function classifyHarnessLogType(event: TerminalReadFitsFindingSynthesisHarnessEv
   return 'thinking';
 }
 
-function buildHarnessExecutionState(event: TerminalReadFitsFindingSynthesisHarnessEvent): Record<string, unknown> {
-  if (event.event === 'harness-completed') {
+function buildHostExecutionState(event: TerminalReadFitsFindingSynthesisHostEvent): Record<string, unknown> {
+  if (event.event === 'host-completed') {
     return {
       phase: 'Finish',
-      agent: 'asset-pack-pipeline-harness',
+      agent: 'asset-pack-pipeline-host',
       step: 'completed',
     };
   }
-  if (event.event === 'harness-failed') {
+  if (event.event === 'host-failed') {
     return {
       phase: 'Setup',
-      agent: 'asset-pack-pipeline-harness',
+      agent: 'asset-pack-pipeline-host',
       step: 'failed',
     };
   }
@@ -374,7 +374,7 @@ function buildHarnessExecutionState(event: TerminalReadFitsFindingSynthesisHarne
       telemetryEvent?.agentName ||
       data?.agent ||
       data?.label ||
-      'asset-pack-pipeline-harness',
+      'asset-pack-pipeline-host',
     step:
       readingTelemetry?.ptrrStepName ||
       telemetryExecutionState?.step ||
@@ -398,20 +398,20 @@ function buildHarnessExecutionState(event: TerminalReadFitsFindingSynthesisHarne
       readingTelemetry?.thricifiedGenerationId ||
       telemetryExecutionState?.generation ||
       telemetryEvent?.generation ||
-      (classifyHarnessLogType(event) === 'generation' ? [namespace, key].filter(Boolean).join('.') || 'model' : undefined),
+      (classifyHostLogType(event) === 'generation' ? [namespace, key].filter(Boolean).join('.') || 'model' : undefined),
     tool:
       readingTelemetry?.toolId ||
       telemetryExecutionState?.tool ||
       telemetryEvent?.tool ||
       telemetryEvent?.toolName ||
-      (classifyHarnessLogType(event) === 'tool-use' ? type : undefined),
+      (classifyHostLogType(event) === 'tool-use' ? type : undefined),
     promptTemplateId: readingTelemetry?.promptTemplateId || telemetryEvent?.promptTemplateId,
     outputSchema: readingTelemetry?.outputSchema || telemetryEvent?.outputSchema,
     returnType: readingTelemetry?.returnType || telemetryEvent?.returnType,
   };
 }
 
-function harnessEventTimestamp(event: TerminalReadFitsFindingSynthesisHarnessEvent): string | undefined {
+function hostEventTimestamp(event: TerminalReadFitsFindingSynthesisHostEvent): string | undefined {
   const data = recordValue(event.data);
   const telemetryEvent = recordValue(data?.telemetryEvent);
   const timestamp =
@@ -423,37 +423,37 @@ function harnessEventTimestamp(event: TerminalReadFitsFindingSynthesisHarnessEve
   return timestamp ? String(timestamp) : undefined;
 }
 
-function harnessProgress(event: TerminalReadFitsFindingSynthesisHarnessEvent): 'error' | 'success' | 'in-progress' {
-  if (event.event === 'harness-failed') return 'error';
-  if (event.event === 'harness-completed') return 'success';
+function hostProgress(event: TerminalReadFitsFindingSynthesisHostEvent): 'error' | 'success' | 'in-progress' {
+  if (event.event === 'host-failed') return 'error';
+  if (event.event === 'host-completed') return 'success';
   return 'in-progress';
 }
 
-export function buildTerminalReadFitsFindingSynthesisHarnessStreamSnapshot(
-  events: TerminalReadFitsFindingSynthesisHarnessEvent[],
-  harnessState: 'idle' | 'running' | 'completed' | 'failed',
+export function buildTerminalReadFitsFindingSynthesisHostStreamSnapshot(
+  events: TerminalReadFitsFindingSynthesisHostEvent[],
+  hostState: 'idle' | 'running' | 'completed' | 'failed',
   streamError: string | null = null,
-): TerminalReadFitsFindingSynthesisHarnessStreamSnapshot {
+): TerminalReadFitsFindingSynthesisHostStreamSnapshot {
   const outputDetails: Record<string, unknown> = {};
   const outputLines: string[] = [];
   let latestExecutionState: Record<string, unknown> = {
-    phase: harnessState === 'completed' ? 'Finish' : 'Setup',
-    agent: 'asset-pack-pipeline-harness',
-    step: harnessState,
+    phase: hostState === 'completed' ? 'Finish' : 'Setup',
+    agent: 'asset-pack-pipeline-host',
+    step: hostState,
   };
   let generationCount = 0;
   let runId: string | null = null;
 
   events.forEach((event, index) => {
-    const summary = summarizeTerminalReadFitsFindingSynthesisHarnessEvent(event);
+    const summary = summarizeTerminalReadFitsFindingSynthesisHostEvent(event);
     let line = summary;
     if (outputDetails[line]) {
       line = `${summary} #${index + 1}`;
     }
 
-    const type = classifyHarnessLogType(event);
-    const executionState = buildHarnessExecutionState(event);
-    const timestamp = harnessEventTimestamp(event);
+    const type = classifyHostLogType(event);
+    const executionState = buildHostExecutionState(event);
+    const timestamp = hostEventTimestamp(event);
     const data = recordValue(event.data);
     const telemetryEvent = recordValue(data?.telemetryEvent);
     const readingPipelineTelemetry =
@@ -473,16 +473,16 @@ export function buildTerminalReadFitsFindingSynthesisHarnessStreamSnapshot(
     outputDetails[line] = {
       type,
       timestamp,
-      harnessEvent: event.event,
+      hostEvent: event.event,
       status: {
         message: summary,
         detail: summary,
-        progress: harnessProgress(event),
+        progress: hostProgress(event),
         timestamp,
         executionState,
         metadata: {
-          harnessEvent: event.event,
-          harnessPayload: event.data,
+          hostEvent: event.event,
+          hostPayload: event.data,
           telemetryEvent,
           readingPipelineTelemetry,
           inferenceAudit: telemetryEvent?.inferenceAudit || null,
@@ -496,9 +496,9 @@ export function buildTerminalReadFitsFindingSynthesisHarnessStreamSnapshot(
     output: outputLines.join('\n'),
     outputDetails,
     executionState: latestExecutionState,
-    isStreamingComplete: harnessState === 'completed' || harnessState === 'failed',
+    isStreamingComplete: hostState === 'completed' || hostState === 'failed',
     generationCount,
-    error: streamError || (harnessState === 'failed' ? 'Live AssetPack fit harness failed.' : null),
+    error: streamError || (hostState === 'failed' ? 'Live AssetPack fit host run failed.' : null),
   };
 }
 
@@ -601,20 +601,20 @@ function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string 
   ].filter(Boolean).join('; ') + '.';
 }
 
-export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
-  event: TerminalReadFitsFindingSynthesisHarnessEvent,
+export function summarizeTerminalReadFitsFindingSynthesisHostEvent(
+  event: TerminalReadFitsFindingSynthesisHostEvent,
 ): string {
   const data = recordValue(event.data);
-  if (event.event === 'harness-started') {
+  if (event.event === 'host-started') {
     const runId = shortIdentifier(data?.runId);
     const needId = shortIdentifier(data?.readNeedId);
     return [
-      `Harness started for ${data?.repositoryFullName || 'selected repository'}`,
+      `Host started for ${data?.repositoryFullName || 'selected repository'}`,
       needId ? `Need ${needId}` : null,
       runId ? `run ${runId}` : null,
     ].filter(Boolean).join('; ') + '.';
   }
-  if (event.event === 'harness-preflight') {
+  if (event.event === 'host-preflight') {
     const realInferenceRequired = data?.realInferenceRequired !== false;
     const blockers = [
       realInferenceRequired && data?.realInferenceEnabled === false ? 'real inference flag missing' : null,
@@ -632,17 +632,17 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
     const dbHost = data?.supabaseDbHost ? String(data.supabaseDbHost) : null;
     const hostText = host && dbHost && host !== dbHost ? `rest ${host} db ${dbHost}` : host ? `db ${host}` : null;
     return blockers.length
-      ? `Harness preflight blocked: ${blockers.join(', ')}.`
+      ? `Host preflight blocked: ${blockers.join(', ')}.`
       : [
           realInferenceRequired
-            ? 'Harness preflight passed with real inference and database streaming credentials present'
-            : 'Harness preflight passed with database streaming credentials present; local real-inference strictness off',
+            ? 'Host preflight passed with real inference and database streaming credentials present'
+            : 'Host preflight passed with database streaming credentials present; local real-inference strictness off',
           profile ? `profile ${profile}` : null,
           budget ? `budget ${budget}ms` : null,
           hostText,
         ].filter(Boolean).join('; ') + '.';
   }
-  if (event.event === 'harness-completed') {
+  if (event.event === 'host-completed') {
     const evidence = recordValue(data?.evidence);
     const fitResult = recordValue(evidence?.fitResult);
     const depositorySearch = recordValue(evidence?.depositorySearch);
@@ -730,7 +730,7 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
       ? ` searched ${searchedAssetCount} assets`
       : ' searched asset count unknown';
     return [
-      `Harness completed with outcome ${String(data?.outcome || 'unknown')}`,
+      `Host completed with outcome ${String(data?.outcome || 'unknown')}`,
       `fit ${fitState}`,
       searchText,
       selectedCandidateText,
@@ -751,37 +751,37 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
       telemetryText,
     ].filter(Boolean).join('; ') + '.';
   }
-  if (event.event === 'harness-failed') {
-    return `Harness failed: ${String(data?.error || 'unknown error')}`;
+  if (event.event === 'host-failed') {
+    return `Host failed: ${String(data?.error || 'unknown error')}`;
   }
-  if (event.event === 'harness-event') {
-    if (!data) return 'Harness event: unknown.';
+  if (event.event === 'host-event') {
+    if (!data) return 'Host event: unknown.';
     const type = String(data?.type || 'event');
     const label = data?.label ? String(data.label) : '';
     if (type === 'command-started' && label) {
-      return `Harness command started: ${label}.`;
+      return `Host command started: ${label}.`;
     }
     if (type === 'command-completed' && label) {
-      return `Harness command completed: ${label} exit ${String(data?.exitCode ?? 'unknown')}.`;
+      return `Host command completed: ${label} exit ${String(data?.exitCode ?? 'unknown')}.`;
     }
     if (type === 'artifacts-read') {
-      return 'Harness artifacts read back from sandbox.';
+      return 'Host artifacts read back from sandbox.';
     }
     if (type === 'sandbox-created') {
-      return `Harness sandbox created: ${String(data?.sandboxId || 'unknown sandbox')}.`;
+      return `Host sandbox created: ${String(data?.sandboxId || 'unknown sandbox')}.`;
     }
     if (type === 'telemetry-artifact-event') {
       return summarizeTelemetryArtifactEvent(data);
     }
     if (type === 'sandbox-stopped') {
-      return 'Harness sandbox stopped after artifact export.';
+      return 'Host sandbox stopped after artifact export.';
     }
-    return `Harness event: ${type}.`;
+    return `Host event: ${type}.`;
   }
-  return `Harness stream event: ${event.event}.`;
+  return `Host stream event: ${event.event}.`;
 }
 
-async function readHarnessRouteError(response: Response): Promise<string> {
+async function readHostRouteError(response: Response): Promise<string> {
   try {
     const payload = (await response.json()) as { error?: unknown };
     if (typeof payload.error === 'string' && payload.error.trim()) return payload.error;
@@ -796,5 +796,5 @@ async function readHarnessRouteError(response: Response): Promise<string> {
     // Fall through to status fallback.
   }
 
-  return `Pipeline harness request failed with HTTP ${response.status}.`;
+  return `Pipeline host request failed with HTTP ${response.status}.`;
 }

@@ -53,7 +53,7 @@ const SOURCE_ROOTS = Object.freeze({
   terminalUxState: 'uapi/app/terminal/terminal-enterprise-reading-ux-state.ts',
   terminalWorkbench: 'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
   terminalWorkbenchContract: 'uapi/app/terminal/terminal-deposit-read-workbench.ts',
-  terminalHarnessClient: 'uapi/app/terminal/terminal-pipeline-harness-client.ts',
+  terminalHarnessClient: 'uapi/app/terminal/terminal-pipeline-host-client.ts',
   conversationHandoff: 'uapi/app/conversations/conversation-terminal-handoff.ts',
   terminalRouteQuery: 'uapi/app/terminal/terminal-transaction-query.ts',
   uxStateTest: 'uapi/tests/terminalEnterpriseReadingUxState.test.ts',

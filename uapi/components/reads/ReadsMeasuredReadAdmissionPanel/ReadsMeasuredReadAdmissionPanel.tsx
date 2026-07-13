@@ -1,5 +1,5 @@
 /**
- * Measured-Read admission steps, fit harness stream, and result-recording actions.
+ * Measured-Read admission steps, fit host stream, and result-recording actions.
  */
 
 'use client';
@@ -7,7 +7,7 @@
 import React from 'react';
 
 import BitcodeExecutionStreamPanel from '@/components/bitcode/pipeline/BitcodeExecutionStreamPanel/BitcodeExecutionStreamPanel';
-import type { TerminalReadFitsFindingSynthesisHarnessStreamSnapshot } from '@/components/bitcode/pipeline/PipelineHarnessClient/pipeline-harness-client';
+import type { TerminalReadFitsFindingSynthesisHostStreamSnapshot } from '@/components/bitcode/pipeline/PipelineHostClient/pipeline-host-client';
 import { jumpToShellSection } from '@/components/bitcode/pipeline/ShellReading/shell-reading';
 import type { WorkbenchKeyValueRow } from '@/components/reads/models/deposit-read-evidence-rows';
 import type { ReadFitsFindingProgressState } from '@/components/reads/models/read-workbench-values';
@@ -20,16 +20,16 @@ export type ReadsMeasuredReadAdmissionPanelProps = {
   liveFitActionLabel: string;
   canRunLiveFit: boolean;
   showDemonstrationWorkbench: boolean;
-  harnessMessage: string | null;
-  harnessRequestReady: boolean;
-  harnessRequestMissing: string[];
-  harnessIdentifierRows: WorkbenchKeyValueRow[];
-  harnessEventsLength: number;
-  harnessState: 'idle' | 'running' | 'completed' | 'failed';
-  harnessStreamSnapshot: TerminalReadFitsFindingSynthesisHarnessStreamSnapshot;
-  harnessUserHasScrolled: boolean;
-  setHarnessUserHasScrolled: (value: boolean) => void;
-  setHarnessMessage: (value: string | null) => void;
+  hostMessage: string | null;
+  hostRequestReady: boolean;
+  hostRequestMissing: string[];
+  hostIdentifierRows: WorkbenchKeyValueRow[];
+  hostEventsLength: number;
+  hostState: 'idle' | 'running' | 'completed' | 'failed';
+  hostStreamSnapshot: TerminalReadFitsFindingSynthesisHostStreamSnapshot;
+  hostUserHasScrolled: boolean;
+  setHostUserHasScrolled: (value: boolean) => void;
+  setHostMessage: (value: string | null) => void;
   onRecordReadAdmission: () => void;
   onRunLiveFit: () => void;
   onRecordFit: () => void;
@@ -54,16 +54,16 @@ export default function ReadsMeasuredReadAdmissionPanel({
   liveFitActionLabel,
   canRunLiveFit,
   showDemonstrationWorkbench,
-  harnessMessage,
-  harnessRequestReady,
-  harnessRequestMissing,
-  harnessIdentifierRows,
-  harnessEventsLength,
-  harnessState,
-  harnessStreamSnapshot,
-  harnessUserHasScrolled,
-  setHarnessUserHasScrolled,
-  setHarnessMessage,
+  hostMessage,
+  hostRequestReady,
+  hostRequestMissing,
+  hostIdentifierRows,
+  hostEventsLength,
+  hostState,
+  hostStreamSnapshot,
+  hostUserHasScrolled,
+  setHostUserHasScrolled,
+  setHostMessage,
   onRecordReadAdmission,
   onRunLiveFit,
   onRecordFit,
@@ -137,17 +137,17 @@ export default function ReadsMeasuredReadAdmissionPanel({
         </button>
       </div>
       {!showDemonstrationWorkbench &&
-      (harnessMessage || !harnessRequestReady || harnessEventsLength > 0) ? (
+      (hostMessage || !hostRequestReady || hostEventsLength > 0) ? (
         <div className="mt-4 rounded-[1.1rem] border border-white/8 bg-black/20 px-4 py-4 text-sm leading-6 text-neutral-300">
           <p className="font-medium text-neutral-100">
-            {harnessMessage ||
+            {hostMessage ||
               `Live fit waiting for ${
-                harnessRequestReady ? 'stream events' : harnessRequestMissing.join(', ')
+                hostRequestReady ? 'stream events' : hostRequestMissing.join(', ')
               }.`}
           </p>
-          {harnessIdentifierRows.length ? (
+          {hostIdentifierRows.length ? (
             <dl className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-              {harnessIdentifierRows.map((row) => (
+              {hostIdentifierRows.map((row) => (
                 <div key={row.label} className="rounded-[0.9rem] border border-white/8 bg-white/[0.03] px-3 py-2">
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">{row.label}</dt>
                   <dd className="mt-1 break-words font-mono text-[0.7rem] text-neutral-200">{row.value}</dd>
@@ -155,25 +155,25 @@ export default function ReadsMeasuredReadAdmissionPanel({
               ))}
             </dl>
           ) : null}
-          {harnessEventsLength || harnessState === 'running' || harnessState === 'failed' ? (
+          {hostEventsLength || hostState === 'running' || hostState === 'failed' ? (
             <div className="mt-4 overflow-hidden rounded-[1rem] border border-white/8 bg-[rgba(5,9,18,0.88)]">
               <BitcodeExecutionStreamPanel
                 className="relative"
-                isProcessing={harnessState === 'running'}
-                executionState={harnessStreamSnapshot.executionState}
-                isStreamingComplete={harnessStreamSnapshot.isStreamingComplete}
-                generationCount={harnessStreamSnapshot.generationCount}
-                error={harnessStreamSnapshot.error}
-                runId={harnessStreamSnapshot.runId || undefined}
-                metadataRows={harnessIdentifierRows}
-                output={harnessStreamSnapshot.output}
-                outputDetails={harnessStreamSnapshot.outputDetails}
+                isProcessing={hostState === 'running'}
+                executionState={hostStreamSnapshot.executionState}
+                isStreamingComplete={hostStreamSnapshot.isStreamingComplete}
+                generationCount={hostStreamSnapshot.generationCount}
+                error={hostStreamSnapshot.error}
+                runId={hostStreamSnapshot.runId || undefined}
+                metadataRows={hostIdentifierRows}
+                output={hostStreamSnapshot.output}
+                outputDetails={hostStreamSnapshot.outputDetails}
                 onRetry={onRunLiveFit}
                 onDismissError={() => {
-                  setHarnessMessage(null);
+                  setHostMessage(null);
                 }}
-                userHasScrolled={harnessUserHasScrolled}
-                setUserHasScrolled={setHarnessUserHasScrolled}
+                userHasScrolled={hostUserHasScrolled}
+                setUserHasScrolled={setHostUserHasScrolled}
                 compact={true}
               />
             </div>

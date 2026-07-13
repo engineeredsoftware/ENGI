@@ -8,7 +8,7 @@
  *         → VercelSandboxHost (this file; Vercel provider of SandboxHost)
  *         → AwsSandboxHost (stub)
  *
- * VercelSandboxPipelineHost (harness plan runner) lives in
+ * VercelSandboxPipelineHost (host plan runner) lives in
  * @bitcode/generic-hosts-vercel-sandbox — distinct from VercelSandboxHost.
  */
 

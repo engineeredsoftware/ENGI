@@ -205,7 +205,7 @@ export const V40_UNIT_COVERAGE_ROWS = Object.freeze([
     packageNames: ['@bitcode/pipeline-hosts'],
     sourceRoots: ['packages/pipeline-hosts/src'],
     testPaths: [
-      'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts',
+      'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
       'packages/pipeline-hosts/src/__tests__/distributed-execution-runtime-receipt.test.ts',
       'packages/pipeline-hosts/src/__tests__/manifest.test.ts',
       'packages/pipeline-hosts/src/__tests__/vercel-sandbox-host.test.ts',
@@ -223,7 +223,7 @@ export const V40_UNIT_COVERAGE_ROWS = Object.freeze([
       'uapi/tests/pipelineExecutionLogHeader.test.tsx',
       'uapi/tests/terminalActivityHistory.test.ts',
       'uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx',
-      'uapi/tests/api/pipelineHarnessRoute.test.ts',
+      'uapi/tests/api/pipelineHostRoute.test.ts',
     ],
     commandIds: ['pnpm --dir uapi exec jest'],
     coverageTier: 'existing-greenable',

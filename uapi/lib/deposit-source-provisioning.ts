@@ -1,7 +1,7 @@
 /**
  * Deposit source provisioning (V48 Gate 3).
  *
- * The deposit harness run provisions the FULL repository checkout on the primitive
+ * The deposit host run provisions the FULL repository checkout on the primitive
  * Host (LocalHost in-process here; the Vercel Sandbox host in prod), then builds the
  * synthesis inventory FROM the checkout — every tracked file's verbatim content for
  * measurement (`sources`), plus bounded representative excerpts for the prompts
@@ -20,14 +20,14 @@ import {
   LocalHost,
   VercelSandboxPipelineHost,
   assertVercelSandboxAuthAvailable,
-  buildAssetPackSandboxHarness,
+  buildAssetPackSandboxHostPlan,
   loadVercelSandboxFactory,
   readWorkspaceSources,
   type BitcodeHostKind,
   type BitcodePipelineHost,
   type HostSourceFile,
-  type PipelineHarnessHostEvent,
-  type PipelineHarnessRunResult,
+  type PipelineHostEvent,
+  type PipelineHostRunResult,
 } from "@bitcode/pipeline-hosts";
 import { pickDepositSourceSamples } from "@/lib/deposit-source-samples";
 
@@ -57,14 +57,14 @@ export function selectDepositHostKind(
  * Resolve the LOCAL deposit Host for provision + in-process SDIVF.
  *
  * Sandbox deposit does NOT use this primitive: the pipeline runs IN the box via
- * `runDepositInBoxHarness` / `VercelSandboxPipelineHost` (Gate-3 #25). Callers
- * that need sandbox must branch on `selectDepositHostKind()` and use the harness
+ * `runDepositInBoxHost` / `VercelSandboxPipelineHost` (Gate-3 #25). Callers
+ * that need sandbox must branch on `selectDepositHostKind()` and use the host
  * path — never treat this as a generic multi-host resolver.
  */
 export async function resolveDepositPipelineHost(): Promise<BitcodePipelineHost> {
   if (selectDepositHostKind() === "sandbox") {
     throw new Error(
-      "Sandbox deposit uses runDepositInBoxHarness (VercelSandboxPipelineHost), not " +
+      "Sandbox deposit uses runDepositInBoxHost (VercelSandboxPipelineHost), not " +
         "resolveDepositPipelineHost. Set BITCODE_PIPELINE_HOST=local for LocalHost " +
         "provision + in-process SDIVF, or use the route sandbox branch.",
     );
@@ -72,19 +72,19 @@ export async function resolveDepositPipelineHost(): Promise<BitcodePipelineHost>
   return new LocalHost();
 }
 
-/** A host that can run a harness plan (the VercelSandboxPipelineHost shape). */
-export interface DepositInBoxHarnessHost {
-  runHarness(plan: unknown): Promise<PipelineHarnessRunResult>;
+/** A host that can run a host plan (the VercelSandboxPipelineHost shape). */
+export interface DepositInBoxHost {
+  runHostPlan(plan: unknown): Promise<PipelineHostRunResult>;
 }
 
-export interface DepositInBoxHarnessResult {
+export interface DepositInBoxHostResult {
   options: unknown[];
   sandboxId: string | null;
-  outcome: PipelineHarnessRunResult["outcome"];
+  outcome: PipelineHostRunResult["outcome"];
 }
 
 /**
- * Run the deposit synthesis IN the sandbox box (#25). Builds an asset-pack harness in
+ * Run the deposit synthesis IN the sandbox box (#25). Builds an asset-pack host in
  * DEPOSIT mode (git source for the revision + steering), dispatches it on the sandbox
  * host (the pipeline runs in the box, reading its local checkout), and returns the
  * synthesized options surfaced in the evidence (`depositOptions`). The host is
@@ -97,7 +97,7 @@ export interface DepositInBoxHarnessResult {
  * workload — always `persistent: false` so stop discards the FS and we do not
  * accrue snapshot storage. The host also best-effort `delete()`s after stop.
  */
-export async function runDepositInBoxHarness(input: {
+export async function runDepositInBoxHost(input: {
   repositoryFullName: string;
   revision: string;
   branch: string | null;
@@ -106,11 +106,11 @@ export async function runDepositInBoxHarness(input: {
   obfuscations: string | null;
   forcedExclusions: string[];
   demandContext: string[];
-  onEvent?: (event: PipelineHarnessHostEvent) => void;
+  onEvent?: (event: PipelineHostEvent) => void;
   shouldAbort?: () => boolean | Promise<boolean>;
-  hostFactory?: () => Promise<DepositInBoxHarnessHost>;
-}): Promise<DepositInBoxHarnessResult> {
-  const plan = buildAssetPackSandboxHarness({
+  hostFactory?: () => Promise<DepositInBoxHost>;
+}): Promise<DepositInBoxHostResult> {
+  const plan = buildAssetPackSandboxHostPlan({
     mode: "asset_pack_pipeline",
     synthesizeMode: "deposit",
     // Explicit opt-out of v2 default persistence (one-shot deposit synthesis).
@@ -139,7 +139,7 @@ export async function runDepositInBoxHarness(input: {
       demandContext: input.demandContext,
     },
   });
-  let host: DepositInBoxHarnessHost;
+  let host: DepositInBoxHost;
   if (input.hostFactory) {
     host = await input.hostFactory();
   } else {
@@ -151,7 +151,7 @@ export async function runDepositInBoxHarness(input: {
     });
   }
 
-  const result = await host.runHarness(plan);
+  const result = await host.runHostPlan(plan);
   if (result?.outcome === "cancelled") {
     return {
       options: [],

@@ -64,12 +64,12 @@ const SOURCE_ROOTS = Object.freeze({
   generator: 'scripts/generate-v40-local-staging-rehearsal-automation.mjs',
   protocolSource: 'packages/protocol/src/canonical/v40-local-staging-rehearsal-automation.js',
   protocolTest: 'packages/protocol/test/v40-local-staging-rehearsal-automation.test.js',
-  pipelineHostDevRunner: 'packages/pipeline-hosts/src/dev/run-asset-pack-sandbox-harness.ts',
-  pipelineHostHarness: 'packages/pipeline-hosts/src/asset-pack-harness.ts',
-  pipelineHostHarnessTest: 'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts',
-  routePreflight: 'uapi/app/api/pipeline-harness/asset-pack/preflight.ts',
-  routeRunner: 'uapi/app/api/pipeline-harness/asset-pack/runner.ts',
-  routeTest: 'uapi/tests/api/pipelineHarnessPreflight.test.ts',
+  pipelineHostDevRunner: 'packages/pipeline-hosts/src/dev/run-asset-pack-sandbox-host.ts',
+  pipelineHostHarness: 'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
+  pipelineHostHarnessTest: 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
+  routePreflight: 'uapi/app/api/pipeline-host/asset-pack/preflight.ts',
+  routeRunner: 'uapi/app/api/pipeline-host/asset-pack/runner.ts',
+  routeTest: 'uapi/tests/api/pipelineHostPreflight.test.ts',
   readingRehearsal: 'packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts',
   readingRehearsalTest: 'packages/pipelines/asset-pack/src/__tests__/reading-local-staging-rehearsal.test.ts',
   ledgerStorageSync: 'packages/protocol/src/canonical/v40-ledger-storage-sync.js',
@@ -209,7 +209,7 @@ export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_ROWS = Object.freeze([
     surfaceKind: 'sandbox-harness',
     sourceRoots: [SOURCE_ROOTS.pipelineHostDevRunner, SOURCE_ROOTS.pipelineHostHarness, SOURCE_ROOTS.pipelineHostHarnessTest],
     commandIds: [
-      'pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand --forceExit',
+      'pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-host-plan.test.ts --runInBand --forceExit',
     ],
     requiredEvidence: ['Vercel Sandbox host', 'evidence artifact', 'telemetry artifact', 'redacted output'],
     closureRequirement:
@@ -220,7 +220,7 @@ export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_ROWS = Object.freeze([
     laneId: 'staging-testnet',
     surfaceKind: 'database-readback',
     sourceRoots: [SOURCE_ROOTS.routePreflight, SOURCE_ROOTS.routeRunner, SOURCE_ROOTS.routeTest],
-    commandIds: ['pnpm --dir uapi exec jest --runTestsByPath tests/api/pipelineHarnessPreflight.test.ts --runInBand'],
+    commandIds: ['pnpm --dir uapi exec jest --runTestsByPath tests/api/pipelineHostPreflight.test.ts --runInBand'],
     requiredEvidence: ['stream to database flag', 'structured database stream flag', 'staging-testnet project host'],
     closureRequirement:
       'Staging-testnet rehearsal automation requires stream/readback routing and verifies the route preflight cannot silently mock real inference.',
@@ -326,7 +326,7 @@ function buildPredicateResults(repoRoot) {
       SOURCE_ROOTS.pipelineHostDevRunner,
       sources.pipelineHostDevRunner.includes('redactKnownSecrets') &&
         sources.pipelineHostDevRunner.includes('persistLocalArtifacts') &&
-        sources.pipelineHostDevRunner.includes('.bitcode/pipeline-harness-runs') &&
+        sources.pipelineHostDevRunner.includes('.bitcode/pipeline-host-runs') &&
         sources.pipelineHostDevRunner.includes('summary.json'),
     ),
     predicateResult(
@@ -455,7 +455,7 @@ export function buildV40LocalStagingRehearsalAutomation(input = {}) {
       'node scripts/rehearse-v40-local-staging-testnet.mjs --lane staging-testnet --dry-run --json',
       'BITCODE_V40_REHEARSAL_EXECUTE=1 node scripts/rehearse-v40-local-staging-testnet.mjs --lane staging-testnet --execute --write-receipt',
     ],
-    receiptArtifactRoot: '.bitcode/pipeline-harness-runs/v40-rehearsal-receipts',
+    receiptArtifactRoot: '.bitcode/pipeline-host-runs/v40-rehearsal-receipts',
     rows,
     predicateResults,
     coverage,

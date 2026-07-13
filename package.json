@@ -541,7 +541,7 @@
     "test:qa:v28:pipeline-readback": "node --test scripts/verify-v28-pipeline-readback.test.mjs",
     "render:prompts": "pnpm -C packages/pipelines/asset-pack exec ts-node --transpile-only scripts/render-prompts.ts",
     "render:prompts:all": "pnpm -C packages/pipelines/asset-pack exec ts-node --transpile-only scripts/render-prompts.ts --scope=all",
-    "qa:pipeline-harness:sandbox": "pnpm -C packages/pipeline-hosts run qa:asset-pack:sandbox",
+    "qa:pipeline-host:sandbox": "pnpm -C packages/pipeline-hosts run qa:asset-pack:sandbox",
     "mcp:inspect": "pnpm exec mcp-inspector --stdio-command ./scripts/start-bitcode-mcp.sh",
     "generate:v37-conversation-session-route-history": "node scripts/generate-v37-conversation-session-route-history.mjs",
     "check:v37-conversation-session-route-history": "node scripts/generate-v37-conversation-session-route-history.mjs --check",

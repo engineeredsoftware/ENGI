@@ -8,7 +8,7 @@ export type {
 } from './deposit-read-evidence-types';
 
 export {
-  extractCompletedHarnessEvidence,
+  extractCompletedHostEvidence,
   deriveDepositReadCompletedEvidence,
 } from './deposit-read-evidence-extract';
 
@@ -19,6 +19,6 @@ export {
   buildReadingLocalStagingRehearsalRows,
   buildReadNeedRows,
   buildReadNeedRuntimeRows,
-  buildHarnessIdentifierRows,
+  buildHostIdentifierRows,
   buildSourceSafePreviewSummaryRows,
 } from './deposit-read-evidence-row-builders';

@@ -54,7 +54,7 @@ reads/
   ReadsDepositReadWorkbench/
     hooks/
       use-deposit-read-activity-recording.ts
-      use-deposit-read-harness.ts
+      use-deposit-read-host.ts
       use-deposit-read-need-actions.ts
   ReadsDepositReadWorkbenchEmpty/
   ReadsDepositWorkbenchSupplyCards/

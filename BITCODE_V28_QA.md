@@ -1133,7 +1133,7 @@ BITCODE_SANDBOX_MODE=host_smoke \
 BITCODE_SANDBOX_REPOSITORY=engineeredsoftware/ENGI \
 BITCODE_SANDBOX_SOURCE_BRANCH=main \
 BITCODE_SANDBOX_SOURCE_COMMIT=31bbc0c5227b6b3aed5d107fd8507d35ec22970a \
-pnpm run qa:pipeline-harness:sandbox
+pnpm run qa:pipeline-host:sandbox
 ```
 
 Expected host smoke result:
@@ -1165,7 +1165,7 @@ BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded \
 BITCODE_VCS_ALLOW_ENV_TOKEN_FALLBACK=1 \
 BITCODE_SANDBOX_ENV_KEYS=SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY,OPENAI_API_KEY,BITCODE_ASSET_PACK_REAL_INFERENCE,BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE,BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS,GITHUB_TOKEN \
 BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS=600000 \
-pnpm run qa:pipeline-harness:sandbox
+pnpm run qa:pipeline-host:sandbox
 ```
 
 `BITCODE_VCS_ALLOW_ENV_TOKEN_FALLBACK=1` is only for trusted local/staging
@@ -1226,7 +1226,7 @@ from the sandbox execution to a server-side stream/socket handler or durable
 queue instead of waiting synchronously inside the route request.
 
 ```bash
-curl -N "$BITCODE_UAPI_URL/api/pipeline-harness/asset-pack" \
+curl -N "$BITCODE_UAPI_URL/api/pipeline-host/asset-pack" \
   -H "Content-Type: application/json" \
   -H "Cookie: $BITCODE_STAGING_SESSION_COOKIE" \
   --data '{
@@ -1400,15 +1400,15 @@ a synchronous route, raw-prompt Read, or source-leaking preview model.
   this object into evidence for Terminal stream readback.
 - Focused validation added for this gate:
   `pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/read-need.test.ts --runInBand`,
-  `pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand`,
+  `pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-host-plan.test.ts --runInBand`,
   and
-  `pnpm --dir uapi exec jest --runTestsByPath tests/api/readReviewRoute.test.ts tests/api/pipelineHarnessRoute.test.ts tests/terminalPipelineHarnessClient.test.ts tests/terminalDepositReadWorkbench.test.ts tests/pipelineExecutionLogHeader.test.tsx --runInBand`.
+  `pnpm --dir uapi exec jest --runTestsByPath tests/api/readReviewRoute.test.ts tests/api/pipelineHostRoute.test.ts tests/terminalPipelineHarnessClient.test.ts tests/terminalDepositReadWorkbench.test.ts tests/pipelineExecutionLogHeader.test.tsx --runInBand`.
 
 Observed staging-testnet harness evidence on 2026-05-17:
 
 - Vercel Sandbox run `sbx_ktb5Z6VnP5A16m9k4a0FkBcJg1d3` completed all six
   host commands and exported artifacts to
-  `.bitcode/pipeline-harness-runs/2026-05-17T16-37-38-466Z-sbx_ktb5Z6VnP5A16m9k4a0FkBcJg1d3/`.
+  `.bitcode/pipeline-host-runs/2026-05-17T16-37-38-466Z-sbx_ktb5Z6VnP5A16m9k4a0FkBcJg1d3/`.
 - Pipeline run `d21240bd-ebc7-41ae-b082-06d7beb244a7` returned
   `pipelineResultState='worthy_fit'` and final `resultState='blocked_readiness'`
   because the run used `BITCODE_SANDBOX_APPLY_LOCAL_PATCH=1`.
@@ -1471,7 +1471,7 @@ Later staging-testnet evidence on 2026-05-17 after the no-overlay deployment:
 Follow-up local Vercel Sandbox overlay evidence on 2026-05-17:
 
 - Vercel Sandbox run `sbx_GLXzpbkAjP6sIceauReWGdp0GWTE` exported artifacts to
-  `.bitcode/pipeline-harness-runs/2026-05-17T20-08-16-548Z-sbx_GLXzpbkAjP6sIceauReWGdp0GWTE/`.
+  `.bitcode/pipeline-host-runs/2026-05-17T20-08-16-548Z-sbx_GLXzpbkAjP6sIceauReWGdp0GWTE/`.
 - The run progressed past setup risk admission and into real model-backed
   discovery, exporting 3237 telemetry lines with prompt/context, response,
   usage, phase, agent, step, failsafe, and generation correlation.
@@ -1489,7 +1489,7 @@ Follow-up local Vercel Sandbox overlay evidence on 2026-05-17:
 Second local overlay evidence on 2026-05-17:
 
 - Vercel Sandbox run `sbx_XO602gYd3F57rYSyc8NzkPsXIDb7` exported artifacts to
-  `.bitcode/pipeline-harness-runs/2026-05-17T20-34-37-584Z-sbx_XO602gYd3F57rYSyc8NzkPsXIDb7/`.
+  `.bitcode/pipeline-host-runs/2026-05-17T20-34-37-584Z-sbx_XO602gYd3F57rYSyc8NzkPsXIDb7/`.
 - The run found and ranked the deposited repository candidate with real
   OpenAI-backed setup and discovery telemetry, 3565 stream lines, prompt/context
   input, raw responses, parsed output, usage, phase, agent, step, failsafe, and
@@ -1516,7 +1516,7 @@ Third local overlay evidence on 2026-05-17 after bounded real-inference and
 manifest-bound Deposit evidence root fixes:
 
 - Vercel Sandbox run `sbx_rLVfPTD3HuITtCbrR0AmZ26spEYO` exported artifacts to
-  `.bitcode/pipeline-harness-runs/2026-05-17T21-19-26-275Z-sbx_rLVfPTD3HuITtCbrR0AmZ26spEYO/`.
+  `.bitcode/pipeline-host-runs/2026-05-17T21-19-26-275Z-sbx_rLVfPTD3HuITtCbrR0AmZ26spEYO/`.
 - The run intentionally passed only the UI-shaped Deposit proof and measurement
   flags, with no manual `BITCODE_SANDBOX_DEPOSIT_*_ROOT` overrides. The harness
   materialized manifest-bound `proofRoot`, `measurementRoot`, and
@@ -1675,7 +1675,7 @@ manifest-bound Deposit evidence root fixes:
   `pnpm -C packages/pipelines-generics exec tsc --noEmit --pretty false`,
   `pnpm -C packages/pipelines/asset-pack test -- setup-agents discovery-semantic-mirrors depository-search depository-search-tool read-fits-finding-synthesis-asset-pack-synthesis-agent runtime-inference-policy bounded-structured-inference`,
   `pnpm -C packages/pipelines/asset-pack exec tsc --noEmit --pretty false`,
-  `pnpm -C packages/pipeline-hosts test -- asset-pack-harness`,
+  `pnpm -C packages/pipeline-hosts test -- asset-pack-host-plan`,
   `pnpm -C packages/pipeline-hosts exec tsc --noEmit --pretty false`,
   `pnpm -C uapi exec jest --runInBand tests/terminalPipelineHarnessClient.test.ts`,
   `pnpm -C uapi exec tsc --noEmit --pretty false`,
@@ -1695,7 +1695,7 @@ manifest-bound Deposit evidence root fixes:
   no-overlay source revision
   `engineeredsoftware/ENGI@main@dc641f9ffd0f68caece9ed24ede30d7a5d947976`
   and exported local artifacts to
-  `.bitcode/pipeline-harness-runs/2026-05-18T15-44-08-076Z-sbx_gsVSO3LCl4JvX3IT9elA2aBofg02/`.
+  `.bitcode/pipeline-host-runs/2026-05-18T15-44-08-076Z-sbx_gsVSO3LCl4JvX3IT9elA2aBofg02/`.
 - The run completed source-bound, with no source overlay, and wrote umbrella
   pipeline row `13bc9a38-0f94-446f-98d7-14474d13467a` plus deliverable
   stream run `c38a98cf-403e-4fc7-9c9e-ba615d4af024`. The pipeline result was
@@ -1791,7 +1791,7 @@ Pass 2C prompt-to-artifact closure audit:
 | Vercel Sandbox harness creates a host, runs commands, exports evidence, exports telemetry, and cleans up. | `packages/pipeline-hosts` host/manifest/harness tests pass; local sandbox artifacts were exported for `sbx_rLVfPTD3HuITtCbrR0AmZ26spEYO`. | implemented and locally verified |
 | Route-started run id is visible before telemetry starts. | The route runner allocates `BITCODE_PIPELINE_RUN_ID`; Terminal stream snapshot and metadata rows consume `runId`; focused UAPI tests cover the stream adapter and runner event order. | implemented and tested |
 | Staging route uses real bounded inference, not deterministic bring-up or full-profile blocking. | Route preflight requires real inference, OpenAI key, `bounded`, and runtime budget `<=600000`; Terminal summarizes full-profile async blocker. | implemented and tested |
-| Local application deployment can enforce the same route strictness without deploying. | `BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1` makes local `next dev` require real bounded inference, OpenAI, aligned Supabase admin credentials, REST/DB host alignment, and route budget `<=600000`. `uapi/tests/api/pipelineHarnessRoute.test.ts` proves local strict failure, mixed-host failure, and strict success without live deployment. | implemented and tested |
+| Local application deployment can enforce the same route strictness without deploying. | `BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1` makes local `next dev` require real bounded inference, OpenAI, aligned Supabase admin credentials, REST/DB host alignment, and route budget `<=600000`. `uapi/tests/api/pipelineHostRoute.test.ts` proves local strict failure, mixed-host failure, and strict success without live deployment. | implemented and tested |
 | Operators can see sanitized preflight context before waiting on the sandbox. | SSE preflight includes Supabase host, profile, and runtime budget; Terminal stream metadata renders database/profile/budget; route-runner tests assert secret redaction in completion tails. | implemented and tested |
 | A repeatable readback verifier exists for staging operators. | `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co --lookback-hours 48` checks sanitized REST/DB host identity, admin credential posture, pipeline telemetry tables, latest deliverable run coherence, generation/tool rows, and ledger settlement rows. The 2026-05-18 source-bound run now reports `ready_for_v28_result_review`; `pnpm test:qa:v28:pipeline-readback` passes 12 verifier tests. | implemented and verified on staging-testnet |
 | Deposited proof/measurement flags become manifest-bound roots before Fit evaluation. | Harness materializes deterministic proof, measurement, and reconciliation roots; focused harness test asserts root shapes. | implemented and tested |
@@ -2159,7 +2159,7 @@ pnpm --filter @bitcode/btd test
 pnpm --filter @bitcode/pipeline-hosts typecheck
 pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
 pnpm --dir uapi exec jest --runTestsByPath \
-  tests/api/pipelineHarnessRoute.test.ts \
+  tests/api/pipelineHostRoute.test.ts \
   tests/terminalPipelineHarnessClient.test.ts \
   tests/terminalDepositReadWorkbench.test.ts \
   --runInBand

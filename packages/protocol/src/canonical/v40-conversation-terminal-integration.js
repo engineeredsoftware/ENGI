@@ -24,7 +24,7 @@ export const V40_CONVERSATION_TERMINAL_SURFACE_IDS = Object.freeze([
   'conversation:route-api-persistence-branch-contracts',
   'conversation:writing-source-selector-handoff',
   'terminal:reading-state-handoff-readback',
-  'terminal:pipeline-harness-log-stream',
+  'terminal:pipeline-host-log-stream',
   'terminal:transaction-cockpit-authority-boundary',
   'conversation-terminal:rehearsal-docs-and-parity',
 ]);
@@ -305,22 +305,22 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
       'Terminal reads Conversation `readingStage` intent as posture, keeps the five-stage Reading UX source-safe, and blocks protected or unpaid source disclosure.',
   }),
   row({
-    integrationSurfaceId: 'terminal:pipeline-harness-log-stream',
+    integrationSurfaceId: 'terminal:pipeline-host-log-stream',
     integrationKind: 'terminal-harness-streaming',
     sourceRoots: [
-      'uapi/app/terminal/terminal-pipeline-harness-client.ts',
-      'uapi/app/api/pipeline-harness/asset-pack/route.ts',
+      'uapi/app/terminal/terminal-pipeline-host-client.ts',
+      'uapi/app/api/pipeline-host/asset-pack/route.ts',
       'uapi/components/bitcode/pipeline/BitcodeExecutionStreamPanel.tsx',
       'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
     ],
     testPaths: [
       'uapi/tests/terminalPipelineHarnessClient.test.ts',
-      'uapi/tests/api/pipelineHarnessRoute.test.ts',
+      'uapi/tests/api/pipelineHostRoute.test.ts',
       'uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx',
       'uapi/tests/conversationTerminalIntegrationCoverage.test.tsx',
     ],
     commandIds: [
-      'pnpm --dir uapi exec jest tests/terminalPipelineHarnessClient.test.ts tests/api/pipelineHarnessRoute.test.ts tests/readingOperationalTelemetryPipelineLog.test.tsx tests/conversationTerminalIntegrationCoverage.test.tsx --runInBand',
+      'pnpm --dir uapi exec jest tests/terminalPipelineHarnessClient.test.ts tests/api/pipelineHostRoute.test.ts tests/readingOperationalTelemetryPipelineLog.test.tsx tests/conversationTerminalIntegrationCoverage.test.tsx --runInBand',
     ],
     requiredSourceMarkers: [
       'buildTerminalReadFitsFindingSynthesisHarnessStreamSnapshot',
@@ -521,7 +521,7 @@ function buildCoverage(rows, predicateResults) {
     conversationRouteApiCoverageClosed: rows.some((item) => item.integrationSurfaceId === 'conversation:route-api-persistence-branch-contracts'),
     writingSourceSelectorCoverageClosed: rows.some((item) => item.integrationSurfaceId === 'conversation:writing-source-selector-handoff'),
     terminalReadingStateCoverageClosed: rows.some((item) => item.integrationSurfaceId === 'terminal:reading-state-handoff-readback'),
-    terminalHarnessLogStreamCoverageClosed: rows.some((item) => item.integrationSurfaceId === 'terminal:pipeline-harness-log-stream'),
+    terminalHarnessLogStreamCoverageClosed: rows.some((item) => item.integrationSurfaceId === 'terminal:pipeline-host-log-stream'),
     terminalAuthorityBoundaryCoverageClosed: rows.some((item) => item.integrationSurfaceId === 'terminal:transaction-cockpit-authority-boundary'),
     rehearsalDocsParityCoverageClosed: rows.some((item) => item.integrationSurfaceId === 'conversation-terminal:rehearsal-docs-and-parity'),
     sourceSafeMetadataOnly: true,

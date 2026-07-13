@@ -65,7 +65,7 @@ uapi/app/api/deposit/synthesize-options/
   route.ts
   parse-synthesize-options-body.ts     # pure body parsers
 uapi/lib/
-  deposit-source-provisioning.ts       # host resolve + inventory + sandbox harness
+  deposit-source-provisioning.ts       # host resolve + inventory + sandbox host
   deposit-source-samples.ts            # bounded prompt sample picker
 ```
 

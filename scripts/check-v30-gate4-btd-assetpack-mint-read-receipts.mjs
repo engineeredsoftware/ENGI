@@ -83,7 +83,7 @@ function main() {
     'packages/btd/src/receipts.ts',
     'packages/btd/src/api-boundaries.ts',
     'packages/btd/__tests__/api-boundaries.test.ts',
-    'packages/pipeline-hosts/src/asset-pack-harness.ts',
+    'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     'uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
     'uapi/app/terminal/terminal-transaction-read-model.ts',
     'uapi/tests/terminalTransactionDetailSnapshot.test.ts',
@@ -100,7 +100,7 @@ function main() {
   const receipts = read(root, 'packages/btd/src/receipts.ts');
   const apiBoundary = read(root, 'packages/btd/src/api-boundaries.ts');
   const btdTest = read(root, 'packages/btd/__tests__/api-boundaries.test.ts');
-  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-harness.ts');
+  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
   const terminalSnapshot = read(root, 'uapi/app/terminal/terminal-transaction-detail-snapshot.ts');
   const terminalReadModel = read(root, 'uapi/app/terminal/terminal-transaction-read-model.ts');
   const terminalSnapshotTest = read(root, 'uapi/tests/terminalTransactionDetailSnapshot.test.ts');

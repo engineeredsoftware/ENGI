@@ -215,7 +215,7 @@ const alignmentRows = Object.freeze([
       'packages/api/README.md',
       'internal-docs/BITCODE_API.md',
       'uapi/app/api/read-review/route.ts',
-      'uapi/app/api/pipeline-harness/asset-pack/route.ts',
+      'uapi/app/api/pipeline-host/asset-pack/route.ts',
     ],
     expectedTokens: [
       'route',

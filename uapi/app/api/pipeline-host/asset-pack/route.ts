@@ -2,9 +2,9 @@ import { NextRequest } from 'next/server';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { isProductionDeployment } from './preflight';
 import {
-  runAssetPackHarnessRoute,
-  validateHarnessRequest,
-  type AssetPackHarnessRequest,
+  runAssetPackHostRoute,
+  validateHostRequest,
+  type AssetPackHostRequest,
 } from './runner';
 
 export const runtime = 'nodejs';
@@ -20,19 +20,19 @@ function emitSse(
   controller.enqueue(new TextEncoder().encode(payload));
 }
 
-function requireHarnessAllowed(): Response | null {
-  if (!isProductionDeployment() || process.env.BITCODE_ENABLE_PIPELINE_HARNESS_API === '1') {
+function requireHostApiAllowed(): Response | null {
+  if (!isProductionDeployment() || process.env.BITCODE_ENABLE_PIPELINE_HOST_API === '1') {
     return null;
   }
-  return Response.json({ error: 'pipeline_harness_disabled' }, { status: 404 });
+  return Response.json({ error: 'pipeline_host_disabled' }, { status: 404 });
 }
 
-function parseBody(request: NextRequest): Promise<AssetPackHarnessRequest> {
+function parseBody(request: NextRequest): Promise<AssetPackHostRequest> {
   return request.json().catch(() => ({}));
 }
 
 export async function POST(request: NextRequest): Promise<Response> {
-  const disabled = requireHarnessAllowed();
+  const disabled = requireHostApiAllowed();
   if (disabled) return disabled;
 
   const supabase = await createClient();
@@ -42,14 +42,14 @@ export async function POST(request: NextRequest): Promise<Response> {
   }
 
   const body = await parseBody(request);
-  const validationError = validateHarnessRequest(body);
+  const validationError = validateHostRequest(body);
   if (validationError) {
     return Response.json({ error: validationError }, { status: 400 });
   }
 
   const stream = new ReadableStream<Uint8Array>({
     start(controller) {
-      void runAssetPackHarnessRoute(
+      void runAssetPackHostRoute(
         body,
         data.user!.id,
         (event, payload) => emitSse(controller, event, payload),

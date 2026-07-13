@@ -37,7 +37,7 @@ import ReadsDepositStagedReadingSection from '@/components/reads/ReadsDepositSta
 import ReadsMeasuredReadAdmissionPanel from '@/components/reads/ReadsMeasuredReadAdmissionPanel/ReadsMeasuredReadAdmissionPanel';
 import ReadsFitWorkbenchPanel from '@/components/reads/ReadsFitWorkbenchPanel/ReadsFitWorkbenchPanel';
 import { useDepositReadActivityRecording } from '@/components/reads/ReadsDepositReadWorkbench/hooks/use-deposit-read-activity-recording';
-import { useDepositReadHarness } from '@/components/reads/ReadsDepositReadWorkbench/hooks/use-deposit-read-harness';
+import { useDepositReadHost } from '@/components/reads/ReadsDepositReadWorkbench/hooks/use-deposit-read-host';
 import { useDepositReadNeedActions } from '@/components/reads/ReadsDepositReadWorkbench/hooks/use-deposit-read-need-actions';
 
 type ReadingStageId = TerminalEnterpriseReadingStepId;
@@ -48,7 +48,7 @@ interface TerminalDepositReadWorkbenchProps {
   admittedReadActivityId?: string | null;
   routeReadingStage?: TerminalEnterpriseReadingStepId | null;
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
-  onHarnessCompleted?: () => Promise<unknown> | unknown;
+  onHostCompleted?: () => Promise<unknown> | unknown;
   showDemonstrationWorkbench?: boolean;
 }
 
@@ -58,7 +58,7 @@ export default function ReadsDepositReadWorkbench({
   admittedReadActivityId = null,
   routeReadingStage = null,
   onRecordActivity,
-  onHarnessCompleted,
+  onHostCompleted,
   showDemonstrationWorkbench = true,
 }: TerminalDepositReadWorkbenchProps) {
   const { snapshot } = useBitcodeShellBridge();
@@ -83,7 +83,7 @@ export default function ReadsDepositReadWorkbench({
   );
 
   const scenarioKey = `${workbench?.scenarioLabel || ''}:${workbench?.sourceRevision?.commit || ''}`;
-  const harnessReadActivityId = recordedAdmittedReadActivityId || admittedReadActivityId;
+  const hostReadActivityId = recordedAdmittedReadActivityId || admittedReadActivityId;
 
   const {
     recordingKey,
@@ -116,30 +116,30 @@ export default function ReadsDepositReadWorkbench({
     handleRejectReadNeed,
   } = useDepositReadNeedActions({
     workbench,
-    harnessReadActivityId,
+    hostReadActivityId,
     onRecordActivity,
   });
 
   const {
-    harnessState,
-    harnessMessage,
-    setHarnessMessage,
-    harnessEvents,
-    harnessUserHasScrolled,
-    setHarnessUserHasScrolled,
-    harnessRequestState,
-    harnessIdentifierRows,
-    harnessStreamSnapshot,
+    hostState,
+    hostMessage,
+    setHostMessage,
+    hostEvents,
+    hostUserHasScrolled,
+    setHostUserHasScrolled,
+    hostRequestState,
+    hostIdentifierRows,
+    hostStreamSnapshot,
     evidence,
-    resetHarnessSession,
+    resetHostSession,
     handleRunLiveFit,
-  } = useDepositReadHarness({
+  } = useDepositReadHost({
     workbench,
     repositoryContext,
     depositedSourceRevision,
-    harnessReadActivityId,
+    hostReadActivityId,
     acceptedReadNeed,
-    onHarnessCompleted,
+    onHostCompleted,
     setRecordMessage,
   });
 
@@ -147,9 +147,9 @@ export default function ReadsDepositReadWorkbench({
     setReadFitsFindingProgress('draft');
     setRecordedAdmittedReadActivityId(null);
     resetRecordingSession();
-    resetHarnessSession();
+    resetHostSession();
     resetReadNeedSession();
-  }, [scenarioKey, resetHarnessSession, resetReadNeedSession, resetRecordingSession]);
+  }, [scenarioKey, resetHostSession, resetReadNeedSession, resetRecordingSession]);
 
   useEffect(() => {
     if (!admittedReadActivityId) return;
@@ -178,27 +178,27 @@ export default function ReadsDepositReadWorkbench({
         ? 'Fit result recorded'
         : 'Record fit result posture';
   const liveFitActionLabel =
-    harnessState === 'running'
+    hostState === 'running'
       ? 'Running Finding Fits...'
-      : harnessState === 'completed'
+      : hostState === 'completed'
         ? 'Request Fit again'
         : 'Request Fit';
 
   const enterpriseReadingState = useMemo(
     () =>
       buildTerminalEnterpriseReadingUxState({
-        transactionId: recordedAdmittedReadActivityId || harnessReadActivityId || admittedReadActivityId || null,
+        transactionId: recordedAdmittedReadActivityId || hostReadActivityId || admittedReadActivityId || null,
         routeReadingStage,
         hasRepositorySource: Boolean(workbench?.sourceRevision),
-        hasReadMeasurement: readFitsFindingProgress !== 'draft' || Boolean(harnessReadActivityId),
+        hasReadMeasurement: readFitsFindingProgress !== 'draft' || Boolean(hostReadActivityId),
         hasSynthesizedNeed: Boolean(readNeed),
         hasAcceptedNeed: Boolean(acceptedReadNeed),
-        findingFitsRunning: harnessState === 'running',
+        findingFitsRunning: hostState === 'running',
         hasSourceSafePreview: Boolean(evidence.sourceSafePreview),
         hasSettlementReadback: evidence.settledReadback,
         hasDeliveryReadback: evidence.pullRequestDelivered,
-        retryRequested: readNeedSynthesisCount > 1 || harnessState === 'failed',
-        failureKind: harnessState === 'failed' ? 'fits_finding_failed' : null,
+        retryRequested: readNeedSynthesisCount > 1 || hostState === 'failed',
+        failureKind: hostState === 'failed' ? 'fits_finding_failed' : null,
         sourceSafePreviewBlocked: Boolean(evidence.sourceSafePreview && !evidence.disclosureSourceSafe),
         disclosureLeakageDetected: evidence.disclosureLeakage?.protectedSourceDetected === true,
       }),
@@ -210,8 +210,8 @@ export default function ReadsDepositReadWorkbench({
       evidence.pullRequestDelivered,
       evidence.settledReadback,
       evidence.sourceSafePreview,
-      harnessReadActivityId,
-      harnessState,
+      hostReadActivityId,
+      hostState,
       readNeed,
       readNeedSynthesisCount,
       readFitsFindingProgress,
@@ -252,8 +252,8 @@ export default function ReadsDepositReadWorkbench({
   const canRunLiveFit =
     !showDemonstrationWorkbench &&
     recordingKey === null &&
-    harnessState !== 'running' &&
-    harnessRequestState.ready;
+    hostState !== 'running' &&
+    hostRequestState.ready;
 
   if (!workbench) {
     return <ReadsDepositReadWorkbenchEmpty />;
@@ -313,7 +313,7 @@ export default function ReadsDepositReadWorkbench({
           readNeedSynthesisCount,
           hasSourceRevision: Boolean(workbench.sourceRevision),
           canRunLiveFit,
-          harnessState,
+          hostState,
           onFeedbackChange: setReadNeedFeedback,
           onSynthesize: (action) => {
             void handleSynthesizeReadNeed(action);
@@ -349,16 +349,16 @@ export default function ReadsDepositReadWorkbench({
         liveFitActionLabel={liveFitActionLabel}
         canRunLiveFit={canRunLiveFit}
         showDemonstrationWorkbench={showDemonstrationWorkbench}
-        harnessMessage={harnessMessage}
-        harnessRequestReady={harnessRequestState.ready}
-        harnessRequestMissing={harnessRequestState.ready ? [] : harnessRequestState.missing}
-        harnessIdentifierRows={harnessIdentifierRows}
-        harnessEventsLength={harnessEvents.length}
-        harnessState={harnessState}
-        harnessStreamSnapshot={harnessStreamSnapshot}
-        harnessUserHasScrolled={harnessUserHasScrolled}
-        setHarnessUserHasScrolled={setHarnessUserHasScrolled}
-        setHarnessMessage={setHarnessMessage}
+        hostMessage={hostMessage}
+        hostRequestReady={hostRequestState.ready}
+        hostRequestMissing={hostRequestState.ready ? [] : hostRequestState.missing}
+        hostIdentifierRows={hostIdentifierRows}
+        hostEventsLength={hostEvents.length}
+        hostState={hostState}
+        hostStreamSnapshot={hostStreamSnapshot}
+        hostUserHasScrolled={hostUserHasScrolled}
+        setHostUserHasScrolled={setHostUserHasScrolled}
+        setHostMessage={setHostMessage}
         onRecordReadAdmission={() => {
           void handleRecordReadAdmission();
         }}

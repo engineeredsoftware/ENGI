@@ -84,8 +84,8 @@ function main() {
     'packages/btd/src/api-boundaries.ts',
     'packages/btd/__tests__/reconciliation.test.ts',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'packages/pipeline-hosts/src/asset-pack-harness.ts',
-    'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts',
+    'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
+    'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
     'uapi/app/terminal/terminal-journal-reconciliation.ts',
     'uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx',
     'uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
@@ -105,8 +105,8 @@ function main() {
   const apiBoundary = read(root, 'packages/btd/src/api-boundaries.ts');
   const btdTest = read(root, 'packages/btd/__tests__/reconciliation.test.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-harness.ts');
-  const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts');
+  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
+  const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
   const terminalProjection = read(root, 'uapi/app/terminal/terminal-journal-reconciliation.ts');
   const terminalCard = read(root, 'uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx');
   const terminalSnapshot = read(root, 'uapi/app/terminal/terminal-transaction-detail-snapshot.ts');

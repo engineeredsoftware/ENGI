@@ -1,6 +1,6 @@
 # `@bitcode/pipeline-hosts`
 
-Compatibility barrel + AssetPack harness orchestration for Bitcode Hosts.
+Compatibility barrel + AssetPack host orchestration for Bitcode Hosts.
 
 ## Hierarchy (prefer these packages)
 
@@ -10,7 +10,7 @@ Compatibility barrel + AssetPack harness orchestration for Bitcode Hosts.
   → @bitcode/generic-hosts-vercel-sandbox      # VercelSandboxHost + Vercel capabilities
 ```
 
-This package re-exports those packages and owns the AssetPack sandbox harness
+This package re-exports those packages and owns the AssetPack sandbox host
 used to prove that Read/Fit and AssetPack pipeline work runs in an isolated host,
 emits artifacts, and leaves enough telemetry for SQL readback.
 
@@ -30,7 +30,7 @@ emits artifacts, and leaves enough telemetry for SQL readback.
 - Auth is through Vercel OIDC tokens from `vercel link && vercel env pull`, or
   through access-token variables for non-Vercel hosts.
 
-## Harness Modes
+## Host Modes
 
 `host_smoke` verifies the host lifecycle only. It creates a sandbox, writes a
 manifest and runner, executes Node, writes `evidence.json` and
@@ -49,24 +49,24 @@ return `blocked_readiness` rather than a worthy fit.
 The exported evidence must include the AssetPack embedding policy
 (`text-embedding-3-small`, `1536` dimensions, cosine
 `match_deliverable_vectors`) so SQL readback can detect vector-space drift.
-The harness prepares the repo-pinned `pnpm` runtime before installing so
+The host prepares the repo-pinned `pnpm` runtime before installing so
 Corepack's latest release cannot drift the frozen lockfile contract. Runtime
-helpers used only by the harness are installed under `.bitcode/pipeline-harness`
-so historical deposited source revisions do not need to carry newer harness
+helpers used only by the host are installed under `.bitcode/pipeline-host`
+so historical deposited source revisions do not need to carry newer host
 dependencies.
 
-The harness manifest includes the staged Reading boundary. The active stage
+The host manifest includes the staged Reading boundary. The active stage
 sequence begins with Need synthesis, Need review, and Finding Fits discovery
 before fit deposit ranking and AssetPack synthesis. The live runner synthesizes a
 typed `bitcode.read.need` object from the Read request, source revision, and
-Deposit context, accepts it for the current harness invocation, and passes it
+Deposit context, accepts it for the current host invocation, and passes it
 to the AssetPack pipeline as `acceptedReadNeed` with
 `requireAcceptedReadNeed=true`. Product routes that already have a user-reviewed
 Need should pass that accepted object directly; if strict Finding Fits run is
 requested without an accepted Need, depository discovery must return
 `blocked_readiness` before searching the depository.
 
-Structured database telemetry is part of the harness contract. A real Read/Fit
+Structured database telemetry is part of the host contract. A real Read/Fit
 pipeline run must write the deliverable hierarchy:
 `deliverable_pipeline_runs`, `deliverable_pipeline_events`,
 `deliverable_pipeline_phase_delegations`,
@@ -97,11 +97,11 @@ emits each new line as a `telemetry-artifact-event` so Terminal can show
 sandbox id, run id, phase, agent, generation/tool, parsed-output, and failsafe
 context before final artifact readback. Browser Network logs are not the
 operator interface for live Read/Fit debugging.
-The live runner also enforces `BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS`
+The live runner also enforces `BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS`
 (default `240000`) inside the sandbox so a heavyweight pipeline run records a
-blocked-readiness artifact before the calling Vercel Function or local harness
+blocked-readiness artifact before the calling Vercel Function or local host
 process reaches its own timeout.
-`BITCODE_PIPELINE_HARNESS_CHECKPOINT_INTERVAL_MS` defaults to `2000` so the
+`BITCODE_PIPELINE_HOST_CHECKPOINT_INTERVAL_MS` defaults to `2000` so the
 exported telemetry artifact stays close enough to the live runner for SSE
 tailing without writing on every internal event.
 
@@ -113,7 +113,7 @@ Vercel code should use automatic OIDC rather than storing a Vercel token when
 possible.
 Pull-request delivery normally uses the authenticated user's stored GitHub App
 connection. GitHub installation tokens are short lived; if staging readback
-shows the stored token has expired and the local harness is intentionally using
+shows the stored token has expired and the local host is intentionally using
 a trusted operator token, set `BITCODE_VCS_ALLOW_ENV_TOKEN_FALLBACK=1` and pass
 `GITHUB_TOKEN` only through `BITCODE_SANDBOX_ENV_KEYS=GITHUB_TOKEN`. The VCS
 tools read that token from process environment and do not include it in tool
@@ -134,9 +134,9 @@ rejects `full` preflight.
 The deployed route assigns `BITCODE_PIPELINE_RUN_ID` before sandbox creation and
 echoes that id through each SSE event so Terminal can display a stable run id
 before telemetry artifacts are written.
-Local application deployments use the same route, stream, and harness code
+Local application deployments use the same route, stream, and host code
 without deploying to Vercel. To make local route QA as strict as staging, set
-`BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1` alongside
+`BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE=1` alongside
 `BITCODE_ASSET_PACK_REAL_INFERENCE=1`,
 `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded`, OpenAI credentials,
 aligned staging-testnet Supabase admin credentials, and Vercel Sandbox local
@@ -171,24 +171,24 @@ Placeholder values, production-mainnet refs in staging mode, or anon keys in
 admin slots fail preflight before a sandbox is created.
 Vercel preview environment variables should therefore be scoped by branch:
 staging-testnet previews carry the `tkpyosihuouusyaxtbau` REST/admin/DB values,
-while production-mainnet carries `rinalyjfecxnmyczrpzo`. The harness route
+while production-mainnet carries `rinalyjfecxnmyczrpzo`. The host route
 probes admin-shaped Supabase credentials against the active Data API and passes
 only an accepted key into the sandbox.
 When the recorded Deposit activity has wallet/attestation proof and asset
-measurement posture but no explicit proof root fields, the harness materializes
+measurement posture but no explicit proof root fields, the host materializes
 deterministic manifest-bound proof, measurement, and reconciliation roots from
 the Deposit id, AssetPack id, Read id, repository, branch, and commit. Those
 roots let the Read/Fit pipeline evaluate a proof-bearing deposited candidate,
 but they do not by themselves claim BTC fee broadcast, BTD minting, or external
 ledger finality.
 The deployed streaming route declares an 800 second Vercel Function window; keep
-`BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS` at or below `600000` there so the
+`BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS` at or below `600000` there so the
 route still has time to collect and stream the blocked-readiness artifact if the
-sandbox budget expires. Local CLI harness runs can use a larger sandbox budget
+sandbox budget expires. Local CLI host runs can use a larger sandbox budget
 when the calling process is not the limiting host. On deployed/runtime
 production, the route preflight-fails without
 `BITCODE_ASSET_PACK_REAL_INFERENCE=1`, without `OPENAI_API_KEY`, or with a
-larger harness runtime budget.
+larger host runtime budget.
 
 ## Live QA
 
@@ -206,7 +206,7 @@ credentials, and either `VERCEL_OIDC_TOKEN` from `vercel link && vercel env pull
 or the access-token tuple used by `@vercel/sandbox`. `SUPABASE_URL` /
 `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_DB_URL` / `DATABASE_URL`, when both are
 present, must resolve to the same Supabase project; otherwise the route and dev
-harness fail before sandbox creation so a run cannot write to one project and
+host fail before sandbox creation so a run cannot write to one project and
 verify another. This command is a local application deployment only; it must not
 be counted as clean live settlement evidence until the resulting database and
 ledger rows pass SQL readback for the accepted environment.
@@ -221,7 +221,7 @@ vercel env pull
 Run the low-cost host smoke:
 
 ```bash
-BITCODE_RUN_VERCEL_SANDBOX_HARNESS=1 \
+BITCODE_RUN_VERCEL_SANDBOX_HOST=1 \
 BITCODE_SANDBOX_MODE=host_smoke \
 BITCODE_SANDBOX_REPOSITORY=engineeredsoftware/ENGI \
 BITCODE_SANDBOX_SOURCE_BRANCH=main \
@@ -232,7 +232,7 @@ pnpm -C packages/pipeline-hosts run qa:asset-pack:sandbox
 Run the repository pipeline path after source access and credentials are ready:
 
 ```bash
-BITCODE_RUN_VERCEL_SANDBOX_HARNESS=1 \
+BITCODE_RUN_VERCEL_SANDBOX_HOST=1 \
 BITCODE_SANDBOX_MODE=asset_pack_pipeline \
 BITCODE_SANDBOX_SOURCE_GIT_URL=https://github.com/engineeredsoftware/ENGI.git \
 BITCODE_SANDBOX_SOURCE_BRANCH=main \
@@ -244,26 +244,26 @@ BITCODE_ASSET_PACK_REAL_INFERENCE=1 \
 BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded \
 BITCODE_VCS_ALLOW_ENV_TOKEN_FALLBACK=1 \
 BITCODE_SANDBOX_ENV_KEYS=GITHUB_TOKEN \
-BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS=600000 \
+BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS=600000 \
 pnpm -C packages/pipeline-hosts run qa:asset-pack:sandbox
 ```
 
-When validating local harness changes before the pinned source revision has been
+When validating local host changes before the pinned source revision has been
 promoted, add `BITCODE_SANDBOX_APPLY_LOCAL_PATCH=1`. The runner uploads
 `git diff --binary $BITCODE_SANDBOX_SOURCE_REVISION` as a source overlay and
 applies it before dependency installation. Overlay runs are QA-only: evidence records
 `sourceOverlay.admissibility=qa-only-not-source-revision-evidence`,
-and the harness must not be used as settlement or source-revision finality
+and the host must not be used as settlement or source-revision finality
 evidence until the same changes exist at the deposited revision.
 
-On a deployed Vercel preview/staging runtime, trigger the same harness through
+On a deployed Vercel preview/staging runtime, trigger the same host through
 the authenticated streaming route so the server can use Vercel's automatic
 Sandbox OIDC. The route also reuses the authenticated user's GitHub installation
 token for private repository clone credentials when no explicit source token is
 configured:
 
 ```bash
-curl -N "$BITCODE_UAPI_URL/api/pipeline-harness/asset-pack" \
+curl -N "$BITCODE_UAPI_URL/api/pipeline-host/asset-pack" \
   -H "Content-Type: application/json" \
   -H "Cookie: $BITCODE_STAGING_SESSION_COOKIE" \
   --data '{
@@ -283,10 +283,10 @@ After the run, execute:
 
 ```bash
 psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 \
-  -f supabase/queries/v28_qa_terminal_07_pipeline_harness_after_fit.sql
+  -f supabase/queries/v28_qa_terminal_07_pipeline_host_after_fit.sql
 ```
 
-The harness is not reviewable until this query reports pipeline
+The host is not reviewable until this query reports pipeline
 run/event/phase/agent/generation/tool visibility rather than a blocker state.
 
 Only pass secrets through `BITCODE_SANDBOX_ENV_KEYS` when the sandbox code path

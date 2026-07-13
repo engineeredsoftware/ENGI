@@ -212,7 +212,7 @@ export function buildSecretRotationFamilyRows(): SecretRotationFamilyInput[] {
       supportedLaneIds: NON_VALUE_LANES,
       rotationCadence: 'on_provider_expiry',
       rotationCommand: 'refresh Vercel project authentication with linked project env pull and revoke stale operator token',
-      verificationCommand: 'pnpm --dir uapi test -- --runTestsByPath tests/api/pipelineHarnessPreflight.test.ts --runInBand',
+      verificationCommand: 'pnpm --dir uapi test -- --runTestsByPath tests/api/pipelineHostPreflight.test.ts --runInBand',
       ciMaskingPosture: 'deployment tokens are masked by provider; logs retain deployment url and env presence class only',
       leakResponsePath: 'revoke token, refresh OIDC session, redeploy preview, and replay pipeline harness preflight',
       leakSeverity: 'interface_boundary_blocking',

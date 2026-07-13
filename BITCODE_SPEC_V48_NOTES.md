@@ -213,19 +213,19 @@ Accepted V48 architecture law (decided 2026-06-25):
   `runtime-inference-policy` (the profile/`shouldUsePtrr` functions),
   `bounded-structured-inference`, and the read-lens agents' deterministic
   branches; every agent resolves to its `factoryAgent*` formal executor.
-- **SynthesizeAssetPacks executes via the pipeline HARNESS, decoupled from the
+- **SynthesizeAssetPacks executes via the pipeline HOST, decoupled from the
   dispatching request** (Garrett, 2026-06-26). Because the pipeline always runs
   the full hierarchy (many LLM calls), it must not be bound to a single HTTP
   request's `maxDuration`. The route VALIDATES + DISPATCHES a run and returns the
-  `runId` immediately; the harness runs the full pipeline to completion while
+  `runId` immediately; the host runs the full pipeline to completion while
   source-safe telemetry streams to `execution_events`; the client detects the
   completion event (already streamed) and reads the persisted synthesis from the
-  execution row `output`. Two execution hosts behind one harness interface:
+  execution row `output`. Two execution hosts behind one host interface:
   **local in-process** (dev — the persistent Node server runs the dispatched
   pipeline as a background task) and the **Vercel Sandbox** (prod — durable
   isolated execution via the existing `pipeline-hosts` host). The `/deposit`
   synthesize-options surface stops awaiting the pipeline inline; the LLM-call
-  timeout (QA F25) remains a per-call safety bound within the harness run.
+  timeout (QA F25) remains a per-call safety bound within the host run.
 - Per-phase jobs (Garrett, 2026-06-25): **Setup** clones the repository and
   runs a danger-wall (safety/risk admission); **Discovery** explores the
   source; **Implementation** synthesizes the AssetPacks; **Validation**
@@ -422,7 +422,7 @@ Implementation status vs this model (Gate-3 build-down): the deposit pipeline no
 runs the canonical agents (mode propagated to the phases — F20), the measured
 PATCH descriptor (F-series), Obfuscations + Setup input-comprehension, neediness
 v0 (F24); inference is non-configurable (profiles removed — F26-A), the synthesis
-runs decoupled via the harness (F26-B), and the PTRR envelope is unwrapped so real
+runs decoupled via the host (F26-B), and the PTRR envelope is unwrapped so real
 output flows (F26-A/F27). The remaining Gate-3 measurement obligation is the formal
 **absolutes** measurement category (see the roadmap below) — the catalog grounded
 in `protocol-demonstration/`; the current source-coverage / demand-alignment /
@@ -481,7 +481,7 @@ thinking generations (reason and judge[-reasoning]) that precede the typed outpu
      (`{ phase1: { agent1: { step1: ... } ... } ... }`) — never the values.
    - OUTPUT: the selected KEYS. PCC's inference is a Thinkings generation against the
      key-selection schema — NOT the step's output schema (PCC never attempts the task).
-   - READ-IN: the harness then reads the VALUES of exactly the selected keys from the
+   - READ-IN: the host then reads the VALUES of exactly the selected keys from the
      execution state and provides them as the task context to the subsequent
      generations (CS, SC).
 2. **ChunkThenSum (CS — the input failsafe; trigger = the composed request exceeds the
@@ -582,7 +582,7 @@ become MASTER-DETAIL:
   routes they open; action verbs elsewhere (terminal actions, footer flow
   steps, docs prose) stay singular.
 - **Known read-gate gap:** read-lens pipeline runs dispatched through the
-  sandbox harness do not yet persist their own lens-stamped executions rows
+  sandbox host do not yet persist their own lens-stamped executions rows
   (structured mode); the /reads table lists what exists and the telemetry
   detail attaches to any asset-pack pipeline row, labeled by the RUN's lens.
   Read dispatch persistence lands with the read gate.
@@ -966,7 +966,7 @@ Validation) speaks only to the primitive, so its behavior is identical on every 
 ```
 @bitcode/host-generics                         # BitcodePipelineHost, SandboxHost
   → @bitcode/generic-hosts-local               # LocalHost (was InlineHost)
-  → @bitcode/generic-hosts-vercel-sandbox      # VercelSandboxHost + harness surface
+  → @bitcode/generic-hosts-vercel-sandbox      # VercelSandboxHost + host surface
 ```
 
 **HostKinds — two implementations of the primitive:**
@@ -987,7 +987,7 @@ deprecated alias of `local`); a SandboxHost's provider comes from
 `resolveDepositPipelineHost()` constructs LocalHost for hostKind `local`. The
 operator chooses which host runs the pipeline.
 
-**Source provisioning + measurement:** the harness run provisions the full checkout on
+**Source provisioning + measurement:** the host run provisions the full checkout on
 the configured host at run start (consistent with a box being created WITH its git
 source — provisioning precedes the pipeline phases); the Setup clone agent then
 confirms source-present. The inventory is built FROM the checkout:
@@ -1051,12 +1051,12 @@ is named in spec for closure):
 ### Gate-3 #25 — SandboxHost in-box deposit dispatch (Garrett, 2026-06-27; cancel+auth hardened 2026-07-08)
 
 SandboxHost deposit runs the synthesis pipeline INSIDE the box (the asset-pack
-harness already runs `assetPackPipeline` in-box for read-fit via a runner that imports
+host already runs `assetPackPipeline` in-box for read-fit via a runner that imports
 the live packages and executes the full SDIVF). Deposit reuses that mechanism:
 
-- **Harness deposit mode.** `buildAssetPackSandboxHarness` accepts `synthesizeMode`
+- **Host deposit mode.** `buildAssetPackSandboxHostPlan` accepts `synthesizeMode`
   (`'deposit' | 'read'`) + the deposit STEERING (obfuscations, protected-IP exclusions,
-  demand context); these flow into `PipelineHarnessManifest` and the in-box runner
+  demand context); these flow into `PipelineHostManifest` and the in-box runner
   INPUT (`synthesizeMode`, steering). The in-box pipeline resolves deposit mode
   (`resolveSynthesizeAssetPacksMode` reads `input.synthesizeMode`) and runs the deposit
   SDIVF, reading the box's LOCAL checkout (the box was created WITH the git source, so
@@ -1069,17 +1069,17 @@ the live packages and executes the full SDIVF). Deposit reuses that mechanism:
   pull`; automatic on Vercel); fallback `VERCEL_TOKEN` + `VERCEL_TEAM_ID` +
   `VERCEL_PROJECT_ID`. `assertVercelSandboxAuthAvailable` fails closed before create.
 - **Route dispatch.** When `BITCODE_PIPELINE_HOST=sandbox`, the deposit route
-  dispatches via `runDepositInBoxHarness` → `VercelSandboxPipelineHost.runHarness`
+  dispatches via `runDepositInBoxHost` → `VercelSandboxPipelineHost.runHostPlan`
   instead of LocalHost provision + in-process SDIVF; it reads `evidence.depositOptions`,
   runs the SAME pure projection (`validateDepositSynthesisOptions` +
   `buildRealDepositAssetPackOptionSynthesis`) and persists the deposit option
   synthesis. `resolveDepositPipelineHost` is **inline-only** (throws if hostKind is
-  sandbox — callers must use the harness path). On `sandbox-created`, the route
+  sandbox — callers must use the host path). On `sandbox-created`, the route
   persists `context.sandboxId` on the running execution row for cancel.
 - **Cooperative cancel.** See Gate-3 #26.
 - **Parity of result.** LocalHost and SandboxHost produce the SAME deposit option
   synthesis; only WHERE the pipeline runs differs. Real-sandbox execution is verified
-  against deployed sandbox infra; harness plan-building + route dispatch + projection
+  against deployed sandbox infra; host plan-building + route dispatch + projection
   are unit-tested with a mocked host.
 
 ### Gate-3 #26 — Cooperative run cancel (Garrett, 2026-07-08)
@@ -1102,7 +1102,7 @@ Deposit (and any agentic) runs are cancelable without killing mid-token LLM stre
    validate). Sandbox detached command polls call `shouldAbort` each interval and
    return exit code 130 / outcome `'cancelled'`, then `sandbox.stop()`.
 5. **Sandbox stop.** If `context.sandboxId` is present, cancel best-effort stops the
-   box via `Sandbox.get` + `stop` (in addition to harness `finally` stop).
+   box via `Sandbox.get` + `stop` (in addition to host `finally` stop).
 6. **UI.** While a synthesis is running, Telemetry shows **Cancel run**; on success
    the detail shows a Cancelled badge and analytics fires
    `deposit_synthesis_cancelled` (duration only — no identifiers).
@@ -1157,7 +1157,7 @@ Parity: ✅ specified + implemented + tested · 🟦 specified + implemented as 
 | 22 | HostKind selection (configured, not env) | `selectDepositHostKind` / `resolveDepositPipelineHost` | depositSourceProvisioning.test | ✅ |
 | 23 | full inventory (sources+samples) + fail-closed exclusions | `provisionDepositSourceInventory` / `applyExclusionsToInventory` | depositSourceProvisioning.test, asset-packs-synthesis.test | ✅ |
 | 24 | deposit provisions full checkout via Host | deposit route + `LocalHost` path | depositSynthesizeOptionsRoute.test | ✅ |
-| 25 | SandboxHost IN-BOX deposit dispatch (run the pipeline in the box) | harness deposit mode (`synthesizeMode` + steering → in-box runner; `depositOptions` in evidence) + `runDepositInBoxHarness` + route hostKind branch; ephemeral `persistent:false`; OIDC/token auth fail-closed | asset-pack-harness.test, depositSourceProvisioning.test, depositSynthesizeOptionsRoute.test, vercel-sandbox-host.test | ✅* |
+| 25 | SandboxHost IN-BOX deposit dispatch (run the pipeline in the box) | host deposit mode (`synthesizeMode` + steering → in-box runner; `depositOptions` in evidence) + `runDepositInBoxHost` + route hostKind branch; ephemeral `persistent:false`; OIDC/token auth fail-closed | asset-pack-host.test, depositSourceProvisioning.test, depositSynthesizeOptionsRoute.test, vercel-sandbox-host.test | ✅* |
 | 26 | Cooperative run cancel | `POST /api/executions/[runId]/cancel` + `execution-cancel.ts` + deposit route polls + sandbox `shouldAbort` + UI Cancel run + `deposit_synthesis_cancelled` analytics | executionCancelRoute.test, vercel-sandbox-host.test (abort), depositPageClient (cancel control) | ✅ |
 | 27 | Run configuration locked above telemetry in run detail | `DepositPageClient` config above telemetry; `disabled` when `synthesisRunId` set | depositPageClient.test | ✅ |
 | 28 | Formal absolutes fail-closed (no placeholder catalog fallback) | `validateDepositSynthesisOptions` requires `absolutes[]` | agent-measure-absolutes.test, asset-packs-synthesis.test | ✅ |
@@ -1165,7 +1165,7 @@ Parity: ✅ specified + implemented + tested · 🟦 specified + implemented as 
 | 30 | Full deposit SDIVF integration under test (boundary LLM mock) | `BITCODE_ENABLE_ASSET_PACK_SDIVF_RUNTIME_IN_TEST` + deposit-sdivf-pipeline-integration.test | deposit-sdivf-pipeline-integration.test | ✅ |
 | 31 | Deposit implementation agent key (telemetry clarity) | `implementation:deposit-asset-pack-synthesis` | synthesize-asset-packs-phase-rosters.test | ✅ |
 
-✅* = wired + unit-tested with a mocked host (harness plan-building, the dispatch, the
+✅* = wired + unit-tested with a mocked host (host plan-building, the dispatch, the
 option projection); real in-sandbox execution is verified against deployed sandbox infra.
 
 **Gate-3 product defaults (closing wave):**
@@ -1304,7 +1304,7 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
   `buildTerminalHref` until Phase 5 redirect/eradication. Deposits/reads
   product pages no longer import Terminal modules except via residual
   transitive deps inside relocated panels (workspace explainers, pipeline
-  harness client, protocol projection).
+  host client, protocol projection).
 
 ### Phase 5 landing (Terminal eradication)
 
@@ -1312,7 +1312,7 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
   redirects `/terminal` and `/executions` → `/packs`.
 - Auxillary overlay root, nav, login default, conversations, orbitals links,
   OAuth mock, and handoff hrefs target `/packs`.
-- Residual shared modules relocated: workspace-explainers, pipeline-harness-client,
+- Residual shared modules relocated: workspace-explainers, pipeline-host-client,
   transaction-route-readiness, demonstration-witness-runtime.
 - `TERMINAL_ROUTE` / `buildTerminalHref` alias Packs in product-routes.
 - Cockpit modules may remain as shims/dead residual under `app/terminal/` until
@@ -1446,7 +1446,7 @@ Canonical filesystem and co-location rules live in
 - deposit agents → schema / prompts / checks co-located under agents/
 
 **packages/pipeline-hosts**
-- `asset-pack-harness` → constants + runners templates + plan builder
+- `asset-pack-host` → constants + runners templates + plan builder
 
 **uapi deposits**
 - Option card, source field grid, aside panels, obfuscations controls
@@ -1611,12 +1611,27 @@ not provider packages.
 ```
 @bitcode/host-generics                         # primitives (BitcodePipelineHost, SandboxHost)
   → @bitcode/generic-hosts-local               # LocalHost (renamed from InlineHost)
-  → @bitcode/generic-hosts-vercel-sandbox      # VercelSandboxHost + PipelineHost harness
-    → @bitcode/pipeline-hosts                  # AssetPack harness barrel + BC re-exports
+  → @bitcode/generic-hosts-vercel-sandbox      # VercelSandboxHost + PipelineHost host
+    → @bitcode/pipeline-hosts                  # AssetPack host barrel + BC re-exports
 ```
 
 HostKind `local` replaces `inline` (BITCODE_PIPELINE_HOST; `inline` accepted as alias).
 Spec G3-4 tables updated to LocalHost / hostKind `local`.
+
+## Host vocabulary: no "Harness" for Host (Garrett, 2026-07-13)
+
+Product/runtime Host-domain identifiers no longer use the word **Harness**
+(that term is reserved for other agentic meanings). Active renames include:
+
+- `PipelineHarness*` → `PipelineHost*` (plan, manifest, mode, events, results)
+- `runHarness` → `runHostPlan`
+- `buildAssetPackSandboxHarness` → `buildAssetPackSandboxHostPlan`
+- `runDepositInBoxHarness` → `runDepositInBoxHost`
+- API route `/api/pipeline-harness` → `/api/pipeline-host`
+- Paths `.bitcode/pipeline-harness` → `.bitcode/pipeline-host`
+- Env: `BITCODE_*_HARNESS_*` → `BITCODE_*_HOST_*` / `BITCODE_PIPELINE_HOST_*` for run settings
+
+Historical V2x–V47 specs retain prior wording.
 
 ## PTRR base Agent extraction (Garrett, 2026-07-13)
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { usePipelineExecution } from '@/hooks/usePipelineExecution';
 
-function Harness({ runId, onResult }: { runId: string; onResult: (state: any) => void }) {
+function ExecutionProbe({ runId, onResult }: { runId: string; onResult: (state: any) => void }) {
   const state = usePipelineExecution(runId);
   React.useEffect(() => {
     onResult(state);
@@ -59,7 +59,7 @@ describe('usePipelineExecution', () => {
     }) as any;
 
     let latest: any;
-    render(<Harness runId="r1" onResult={(state) => (latest = state)} />);
+    render(<ExecutionProbe runId="r1" onResult={(state) => (latest = state)} />);
 
     await waitFor(() => expect(latest?.isLoading).toBe(false));
     expect(latest.execution?.id).toBe('r1');
@@ -110,7 +110,7 @@ describe('usePipelineExecution', () => {
     }) as any;
 
     let latest: any;
-    render(<Harness runId="r3" onResult={(state) => (latest = state)} />);
+    render(<ExecutionProbe runId="r3" onResult={(state) => (latest = state)} />);
 
     await waitFor(() => expect(latest?.isLoading).toBe(false));
     await waitFor(() =>
@@ -186,7 +186,7 @@ describe('usePipelineExecution', () => {
     }) as any;
 
     let latest: any;
-    render(<Harness runId="r4" onResult={(state) => (latest = state)} />);
+    render(<ExecutionProbe runId="r4" onResult={(state) => (latest = state)} />);
 
     // The clean close is NOT treated as terminal: a second connection opens,
     // carrying a non-empty lastTs cursor from the already-seen tail.
@@ -238,7 +238,7 @@ describe('usePipelineExecution', () => {
     }) as any;
 
     let latest: any;
-    render(<Harness runId="r5" onResult={(state) => (latest = state)} />);
+    render(<ExecutionProbe runId="r5" onResult={(state) => (latest = state)} />);
 
     await waitFor(() =>
       expect(latest?.events.some((e: any) => e.event?.type === 'error')).toBe(true),
@@ -282,7 +282,7 @@ describe('usePipelineExecution', () => {
     }) as any;
 
     let latest: any;
-    render(<Harness runId="r5b" onResult={(state) => (latest = state)} />);
+    render(<ExecutionProbe runId="r5b" onResult={(state) => (latest = state)} />);
 
     await waitFor(() =>
       expect(latest?.events.some((e: any) => e.event?.type === 'completion')).toBe(true),
@@ -311,7 +311,7 @@ describe('usePipelineExecution', () => {
     }) as any;
 
     let latest: any;
-    render(<Harness runId="r6" onResult={(state) => (latest = state)} />);
+    render(<ExecutionProbe runId="r6" onResult={(state) => (latest = state)} />);
 
     // 6 consecutive empty connections exhaust the bound (> 5 empties breaks).
     await waitFor(() => expect(streamUrls.length).toBe(6), { timeout: 5000 });
@@ -355,7 +355,7 @@ describe('usePipelineExecution', () => {
     }) as any;
 
     let latest: any;
-    render(<Harness runId="r7" onResult={(state) => (latest = state)} />);
+    render(<ExecutionProbe runId="r7" onResult={(state) => (latest = state)} />);
 
     await waitFor(() => expect(latest?.execution?.id).toBe('r7'), { timeout: 5000 });
     expect(historyCalls).toBe(3);
@@ -377,7 +377,7 @@ describe('usePipelineExecution', () => {
     }) as any;
 
     let latest: any;
-    render(<Harness runId="r8" onResult={(state) => (latest = state)} />);
+    render(<ExecutionProbe runId="r8" onResult={(state) => (latest = state)} />);
 
     await waitFor(() => expect(latest?.error).toContain('404'), { timeout: 8000 });
     // Initial attempt + HISTORY_RETRY_LIMIT retries, then it stops for good.
@@ -390,7 +390,7 @@ describe('usePipelineExecution', () => {
     global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500 });
 
     let latest: any;
-    render(<Harness runId="r2" onResult={(state) => (latest = state)} />);
+    render(<ExecutionProbe runId="r2" onResult={(state) => (latest = state)} />);
 
     await waitFor(() => expect(latest?.isLoading).toBe(false));
 

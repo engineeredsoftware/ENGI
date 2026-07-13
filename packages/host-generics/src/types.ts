@@ -2,14 +2,14 @@ export type PipelineHostKind = 'vercel-sandbox';
 
 export type VercelSandboxRuntime = 'node24' | 'node22' | 'python3.13';
 
-export type PipelineHarnessMode = 'host_smoke' | 'asset_pack_pipeline';
+export type PipelineHostMode = 'host_smoke' | 'asset_pack_pipeline';
 
 export type BitcodePipelineResultState =
   | 'worthy_fit'
   | 'no_worthy_fit'
   | 'blocked_readiness';
 
-export type PipelineHarnessStage =
+export type PipelineHostStage =
   | 'need-synthesis'
   | 'need-review'
   | 'need-fit-search'
@@ -91,17 +91,17 @@ export interface PipelineDepositReference {
   reconciliationReadbackRoot?: string | null;
 }
 
-export interface PipelineHarnessManifest {
-  schema: 'bitcode.pipeline-harness.manifest';
+export interface PipelineHostManifest {
+  schema: 'bitcode.pipeline-host.manifest';
   pipelineFamily: 'asset_pack';
   pipelineName: 'asset-pack-read-fit';
-  harnessMode: PipelineHarnessMode;
+  hostMode: PipelineHostMode;
   read: PipelineReadRequest;
   requireAcceptedReadNeed?: boolean;
   readNeed?: unknown;
   deposit: PipelineDepositReference;
   sourceRevision: PipelineSourceRevision;
-  sourceOverlay?: PipelineHarnessSourceOverlay;
+  sourceOverlay?: PipelineHostSourceOverlay;
   /** V48 Gate 3 #25: the synthesis lens the in-box pipeline runs (deposit | read). */
   synthesizeMode?: 'deposit' | 'read';
   /** Deposit steering for the in-box deposit synthesis (source-safe). */
@@ -120,7 +120,7 @@ export interface PipelineHarnessManifest {
     | 'defaultWorkingDirectory'
     | 'ephemeralFilesystem'
   >;
-  stages: readonly PipelineHarnessStage[];
+  stages: readonly PipelineHostStage[];
   expectedEvidenceTables: readonly string[];
   resultStates: readonly BitcodePipelineResultState[];
   protocolInvariants: readonly string[];
@@ -171,7 +171,7 @@ export interface SandboxCreateOptions {
   token?: string;
   /**
    * Vercel Sandbox v2: persistence is DEFAULT (auto-snapshot on stop, billed
-   * Snapshot Storage). Bitcode pipeline harnesses are one-shot CI-style work —
+   * Snapshot Storage). Bitcode pipeline hostes are one-shot CI-style work —
    * always pass `false` unless a caller explicitly opts into a long-lived
    * named workspace. See Vercel docs: Persistent sandboxes / Opt out.
    */
@@ -198,19 +198,19 @@ export interface SandboxCreateOptions {
   };
 }
 
-export interface PipelineHarnessFile {
+export interface PipelineHostFile {
   path: string;
   content: Buffer;
   mode?: number;
 }
 
-export interface PipelineHarnessSourceOverlay {
+export interface PipelineHostSourceOverlay {
   path: string;
   patchRoot: '/vercel/sandbox';
   admissibility: 'qa-only-not-source-revision-evidence';
 }
 
-export interface PipelineHarnessCommand {
+export interface PipelineHostCommand {
   label: string;
   cmd: string;
   args?: string[];
@@ -226,13 +226,13 @@ export interface PipelineHarnessCommand {
   required?: boolean;
 }
 
-export interface PipelineHarnessPlan {
+export interface PipelineHostPlan {
   capabilities: PipelineHostCapabilities;
   createOptions: SandboxCreateOptions;
-  manifest: PipelineHarnessManifest;
-  files: PipelineHarnessFile[];
-  sourceOverlay?: PipelineHarnessSourceOverlay;
-  commands: PipelineHarnessCommand[];
+  manifest: PipelineHostManifest;
+  files: PipelineHostFile[];
+  sourceOverlay?: PipelineHostSourceOverlay;
+  commands: PipelineHostCommand[];
   artifactPaths: {
     evidence: string;
     telemetry: string;
@@ -263,7 +263,7 @@ export interface SandboxSession {
   /** v2 primary identity (unique per project). */
   name?: string;
   status?: string;
-  writeFiles(files: PipelineHarnessFile[]): Promise<void>;
+  writeFiles(files: PipelineHostFile[]): Promise<void>;
   runCommand(
     command: string,
     args?: string[],
@@ -300,12 +300,12 @@ export interface SandboxFactory {
   }): Promise<SandboxSession>;
 }
 
-export type PipelineHarnessHostEvent =
+export type PipelineHostEvent =
   | {
       type: 'sandbox-create-started';
       timestamp: string;
       runtime?: VercelSandboxRuntime;
-      mode: PipelineHarnessMode;
+      mode: PipelineHostMode;
     }
   | {
       type: 'sandbox-created';
@@ -330,7 +330,7 @@ export type PipelineHarnessHostEvent =
       name?: string;
     }
   | {
-      type: 'harness-files-written';
+      type: 'host-files-written';
       timestamp: string;
       fileCount: number;
     }
@@ -372,7 +372,7 @@ export type PipelineHarnessHostEvent =
       stopped: boolean;
     };
 
-export interface PipelineHarnessCommandResult {
+export interface PipelineHostCommandResult {
   label: string;
   cmd: string;
   args: string[];
@@ -384,11 +384,11 @@ export interface PipelineHarnessCommandResult {
   completedAt: string;
 }
 
-export interface PipelineHarnessRunResult {
+export interface PipelineHostRunResult {
   sandboxId?: string;
   finalStatus?: string;
-  manifest: PipelineHarnessManifest;
-  commands: PipelineHarnessCommandResult[];
+  manifest: PipelineHostManifest;
+  commands: PipelineHostCommandResult[];
   artifacts: {
     evidence: unknown | null;
     telemetry: string | null;

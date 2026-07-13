@@ -40,7 +40,7 @@ const testFiles = Object.freeze([
   'packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts',
   'uapi/tests/terminalJournalReconciliation.test.ts',
   'uapi/tests/terminalWalletBtcOperation.test.ts',
-  'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts',
+  'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
 ]);
 
 const btcOperationPhases = Object.freeze([

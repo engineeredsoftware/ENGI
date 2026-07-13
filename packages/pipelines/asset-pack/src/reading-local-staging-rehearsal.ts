@@ -377,7 +377,7 @@ export function buildReadingLocalStagingRehearsal(
       laneId: 'local',
       status: rowStatus(laneReadbacks.some((entry) => entry.laneId === 'local')),
       purpose: 'Bind local Reading rehearsal to untracked local env files, Vercel Sandbox execution posture, local artifacts, and source-safe readback.',
-      evidence: ['untracked local env only', 'sandbox harness allowed by explicit opt-in', 'local artifact root', 'source-safe redaction'],
+      evidence: ['untracked local env only', 'sandbox host allowed by explicit opt-in', 'local artifact root', 'source-safe redaction'],
       requiredRoots: laneReadbacks.filter((entry) => entry.laneId === 'local').map((entry) => entry.proofRoot),
     }),
     row({

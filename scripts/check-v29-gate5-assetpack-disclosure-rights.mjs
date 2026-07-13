@@ -90,13 +90,13 @@ function main() {
     'packages/pipelines/asset-pack/src/postprocess.ts',
     'packages/pipelines/asset-pack/src/__tests__/postprocess.test.ts',
     'packages/pipelines/asset-pack/src/read-need.ts',
-    'packages/pipeline-hosts/src/asset-pack-harness.ts',
-    'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts',
+    'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
+    'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
     'packages/btd/src/access.ts',
     'packages/btd/src/settlement.ts',
     'packages/btd/__tests__/btd.test.ts',
     'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'uapi/app/terminal/terminal-pipeline-harness-client.ts',
+    'uapi/app/terminal/terminal-pipeline-host-client.ts',
     'uapi/tests/terminalPipelineHarnessClient.test.ts',
     'AGENTS.md',
     'README.md',
@@ -117,11 +117,11 @@ function main() {
   const disclosureTest = read(root, 'packages/pipelines/asset-pack/src/__tests__/asset-pack-disclosure.test.ts');
   const postprocess = read(root, 'packages/pipelines/asset-pack/src/postprocess.ts');
   const postprocessTest = read(root, 'packages/pipelines/asset-pack/src/__tests__/postprocess.test.ts');
-  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-harness.ts');
-  const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts');
+  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
+  const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
   const btdTest = read(root, 'packages/btd/__tests__/btd.test.ts');
   const terminal = read(root, 'uapi/app/terminal/TerminalDepositReadWorkbench.tsx');
-  const terminalClient = read(root, 'uapi/app/terminal/terminal-pipeline-harness-client.ts');
+  const terminalClient = read(root, 'uapi/app/terminal/terminal-pipeline-host-client.ts');
   const terminalClientTest = read(root, 'uapi/tests/terminalPipelineHarnessClient.test.ts');
   const agents = read(root, 'AGENTS.md');
   const readme = read(root, 'README.md');

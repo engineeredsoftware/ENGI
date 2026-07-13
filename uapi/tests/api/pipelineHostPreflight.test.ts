@@ -5,12 +5,12 @@
 import {
   assertDatabaseStreamingEnvironment,
   assertRealInferenceEnvironment,
-  isPipelineHarnessRealInferenceRequired,
+  isPipelineHostRealInferenceRequired,
   normalizeModelEnvironment,
   listSupabaseAdminCredentials,
   selectSupabaseAdminCredential,
-  summarizeHarnessPreflight,
-} from '@/app/api/pipeline-harness/asset-pack/preflight';
+  summarizeHostPreflight,
+} from '@/app/api/pipeline-host/asset-pack/preflight';
 
 function fakeSupabaseJwt(role: string, ref = 'test-project'): string {
   return [
@@ -20,7 +20,7 @@ function fakeSupabaseJwt(role: string, ref = 'test-project'): string {
   ].join('.');
 }
 
-describe('pipeline harness preflight', () => {
+describe('pipeline host preflight', () => {
   const adminCredential = fakeSupabaseJwt('service_role', 'staging-testnet');
   const staleAdminCredential = fakeSupabaseJwt('service_role', 'production-mainnet');
   const anonCredential = fakeSupabaseJwt('anon', 'wrong-project');
@@ -41,9 +41,9 @@ describe('pipeline harness preflight', () => {
       SUPABASE_SERVICE_ROLE_KEY: adminCredential,
     } as NodeJS.ProcessEnv;
 
-    expect(isPipelineHarnessRealInferenceRequired(env)).toBe(false);
+    expect(isPipelineHostRealInferenceRequired(env)).toBe(false);
     expect(() => assertRealInferenceEnvironment(env as Record<string, string>)).not.toThrow();
-    expect(summarizeHarnessPreflight(body, env)).toMatchObject({
+    expect(summarizeHostPreflight(body, env)).toMatchObject({
       realInferenceRequired: false,
       realInferenceEnabled: false,
       fullProfileRequiresAsyncCompletion: false,
@@ -53,18 +53,18 @@ describe('pipeline harness preflight', () => {
   it('lets local application deployments opt into the same real bounded inference gate', () => {
     const env = {
       NODE_ENV: 'development',
-      BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE: '1',
+      BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE: '1',
       BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
       BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE: 'bounded',
-      BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS: '600000',
+      BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS: '600000',
       OPENAI_API_KEY: modelCredential,
       SUPABASE_URL: 'https://staging.example.test',
       SUPABASE_SERVICE_ROLE_KEY: adminCredential,
     } as NodeJS.ProcessEnv;
 
-    expect(isPipelineHarnessRealInferenceRequired(env)).toBe(true);
+    expect(isPipelineHostRealInferenceRequired(env)).toBe(true);
     expect(() => assertRealInferenceEnvironment(env as Record<string, string>)).not.toThrow();
-    expect(summarizeHarnessPreflight(body, env)).toMatchObject({
+    expect(summarizeHostPreflight(body, env)).toMatchObject({
       deployedRuntime: false,
       realInferenceRequired: true,
       realInferenceEnabled: true,
@@ -76,7 +76,7 @@ describe('pipeline harness preflight', () => {
   it('fails local strict runs that would otherwise fall back to deterministic branches', () => {
     const env = {
       NODE_ENV: 'development',
-      BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE: '1',
+      BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE: '1',
       OPENAI_API_KEY: modelCredential,
     } as NodeJS.ProcessEnv;
 
@@ -88,16 +88,16 @@ describe('pipeline harness preflight', () => {
   it('keeps full profile behind the async completion gate for local strict runs', () => {
     const env = {
       NODE_ENV: 'development',
-      BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE: '1',
+      BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE: '1',
       BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
       BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE: 'full',
-      BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS: '600000',
+      BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS: '600000',
       OPENAI_API_KEY: modelCredential,
       SUPABASE_URL: 'https://staging.example.test',
       SUPABASE_SERVICE_ROLE_KEY: adminCredential,
     } as NodeJS.ProcessEnv;
 
-    expect(summarizeHarnessPreflight(body, env)).toMatchObject({
+    expect(summarizeHostPreflight(body, env)).toMatchObject({
       realInferenceRequired: true,
       fullProfileRequiresAsyncCompletion: true,
       realInferenceProfile: 'full',
@@ -152,7 +152,7 @@ describe('pipeline harness preflight', () => {
         'postgresql://postgres:password@db.db-project.example.test:5432/postgres?sslmode=require',
     };
 
-    expect(summarizeHarnessPreflight(body, { ...env, ...hostEnv })).toMatchObject({
+    expect(summarizeHostPreflight(body, { ...env, ...hostEnv })).toMatchObject({
       supabaseHost: 'rest-project.example.test',
       supabaseDbHost: 'db.db-project.example.test',
       supabaseRestDbHostAligned: false,

@@ -87,9 +87,9 @@ function main() {
     'packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
     'packages/pipelines/asset-pack/src/reading-pipeline-observability.ts',
     'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts',
-    'packages/pipeline-hosts/src/asset-pack-harness.ts',
-    'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts',
-    'uapi/app/terminal/terminal-pipeline-harness-client.ts',
+    'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
+    'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
+    'uapi/app/terminal/terminal-pipeline-host-client.ts',
     'uapi/components/bitcode/pipeline/BitcodeExecutionStreamPanel.tsx',
     'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
     'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
@@ -111,9 +111,9 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V29_PARITY_MATRIX.md');
   const observability = read(root, 'packages/pipelines/asset-pack/src/reading-pipeline-observability.ts');
   const observabilityTest = read(root, 'packages/pipelines/asset-pack/src/__tests__/reading-pipeline-observability.test.ts');
-  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-harness.ts');
-  const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts');
-  const terminalClient = read(root, 'uapi/app/terminal/terminal-pipeline-harness-client.ts');
+  const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
+  const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
+  const terminalClient = read(root, 'uapi/app/terminal/terminal-pipeline-host-client.ts');
   const header = read(root, 'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx');
   const log = read(root, 'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx');
   const terminalTest = read(root, 'uapi/tests/terminalPipelineHarnessClient.test.ts');

@@ -17,7 +17,7 @@ export type ReadsDepositReadNeedReviewPanelProps = {
   readNeedSynthesisCount: number;
   hasSourceRevision: boolean;
   canRunLiveFit: boolean;
-  harnessState: 'idle' | 'running' | 'completed' | 'failed';
+  hostState: 'idle' | 'running' | 'completed' | 'failed';
   onFeedbackChange: (value: string) => void;
   onSynthesize: (action: 'synthesize_read_need' | 'resynthesize_read_need') => void;
   onAccept: () => void;
@@ -34,7 +34,7 @@ export default function ReadsDepositReadNeedReviewPanel({
   readNeedSynthesisCount,
   hasSourceRevision,
   canRunLiveFit,
-  harnessState,
+  hostState,
   onFeedbackChange,
   onSynthesize,
   onAccept,
@@ -117,7 +117,7 @@ export default function ReadsDepositReadNeedReviewPanel({
           onClick={onRequestFit}
           className="rounded-[1.2rem] border border-amber-300/30 bg-amber-300/10 px-4 py-3 text-sm font-medium text-amber-100 transition hover:border-amber-200/50 hover:bg-amber-300/15 disabled:cursor-not-allowed disabled:opacity-55"
         >
-          {harnessState === 'running' ? 'Running Finding Fits…' : 'Request Fit'}
+          {hostState === 'running' ? 'Running Finding Fits…' : 'Request Fit'}
         </button>
       </div>
     </div>

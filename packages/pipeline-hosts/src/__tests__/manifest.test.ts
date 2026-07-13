@@ -1,13 +1,13 @@
 import {
-  ASSET_PACK_HARNESS_EVIDENCE_TABLES,
-  ASSET_PACK_HARNESS_STAGES,
-  buildAssetPackPipelineHarnessManifest,
+  ASSET_PACK_HOST_EVIDENCE_TABLES,
+  ASSET_PACK_HOST_STAGES,
+  buildAssetPackPipelineHostManifest,
   VERCEL_SANDBOX_HOST_CAPABILITIES,
 } from '../manifest';
 
-describe('pipeline harness manifest', () => {
+describe('pipeline host manifest', () => {
   it('captures Vercel Sandbox host capabilities and Read/Fit evidence expectations', () => {
-    const manifest = buildAssetPackPipelineHarnessManifest({
+    const manifest = buildAssetPackPipelineHostManifest({
       mode: 'host_smoke',
       read: {
         id: 'read-1',
@@ -28,15 +28,15 @@ describe('pipeline harness manifest', () => {
       createdAt: '2026-05-16T00:00:00.000Z',
     });
 
-    expect(manifest.schema).toBe('bitcode.pipeline-harness.manifest');
+    expect(manifest.schema).toBe('bitcode.pipeline-host.manifest');
     expect(manifest.host.isolationBoundary).toBe('firecracker-microvm');
     expect(manifest.host.defaultWorkingDirectory).toBe('/vercel/sandbox');
-    expect(manifest.stages).toEqual(ASSET_PACK_HARNESS_STAGES);
+    expect(manifest.stages).toEqual(ASSET_PACK_HOST_STAGES);
     expect(manifest.stages).toEqual(
       expect.arrayContaining(['need-synthesis', 'need-review', 'need-fit-search'])
     );
     expect(manifest.requireAcceptedReadNeed).toBe(true);
-    expect(manifest.expectedEvidenceTables).toEqual(ASSET_PACK_HARNESS_EVIDENCE_TABLES);
+    expect(manifest.expectedEvidenceTables).toEqual(ASSET_PACK_HOST_EVIDENCE_TABLES);
     expect(manifest.resultStates).toEqual([
       'worthy_fit',
       'no_worthy_fit',

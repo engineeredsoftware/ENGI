@@ -92,14 +92,14 @@ function runIntegrationSmoke(root, failures) {
       '--forceExit',
     ]],
     ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath',
-      'src/__tests__/asset-pack-harness.test.ts',
+      'src/__tests__/asset-pack-host-plan.test.ts',
       'src/__tests__/distributed-execution-runtime-receipt.test.ts',
       '--runInBand',
       '--forceExit',
     ]],
     ['pnpm', ['--filter', '@bitcode/pipelines-generics', 'test']],
     ['pnpm', ['--filter', '@bitcode/agent-generics', 'test']],
-    ['pnpm', ['--dir', 'uapi', 'exec', 'jest', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/readingOperationalTelemetryPipelineLog.test.tsx', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
+    ['pnpm', ['--dir', 'uapi', 'exec', 'jest', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/readingOperationalTelemetryPipelineLog.test.tsx', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
   ];
 
   for (const [command, args] of commands) {

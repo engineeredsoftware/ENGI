@@ -7,7 +7,7 @@ import path from 'node:path';
 
 export const V42_REHEARSAL_LANES = ['local', 'staging-testnet'];
 
-const DEFAULT_RECEIPT_DIR = '.bitcode/pipeline-harness-runs/v42-mvp-rehearsal-receipts';
+const DEFAULT_RECEIPT_DIR = '.bitcode/pipeline-host-runs/v42-mvp-rehearsal-receipts';
 const STAGING_PROJECT_REF = 'tkpyosihuouusyaxtbau';
 const STAGING_REST_HOST = 'https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/';
 
@@ -41,7 +41,7 @@ const ENVIRONMENT_FAMILIES = Object.freeze({
     posture: 'explicit-live-sandbox-opt-in',
   },
   harnessApi: {
-    familyId: 'pipeline-harness-api-enabled',
+    familyId: 'pipeline-host-api-enabled',
     required: true,
     acceptedKeyNames: ['BITCODE_ENABLE_PIPELINE_HARNESS_API'],
     requiredLiteralValue: '1',

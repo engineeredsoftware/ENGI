@@ -4,7 +4,7 @@
 import {
   provisionDepositSourceInventory,
   resolveDepositPipelineHost,
-  runDepositInBoxHarness,
+  runDepositInBoxHost,
   selectDepositHostKind,
 } from '@/lib/deposit-source-provisioning';
 import type { BitcodeHostWorkspace, BitcodePipelineHost } from '@bitcode/pipeline-hosts';
@@ -105,19 +105,19 @@ describe('resolveDepositPipelineHost', () => {
     expect(host.capabilities.hostKind).toBe('local');
   });
 
-  it('rejects resolveDepositPipelineHost for sandbox (harness path is separate)', async () => {
+  it('rejects resolveDepositPipelineHost for sandbox (host path is separate)', async () => {
     process.env.BITCODE_PIPELINE_HOST = 'sandbox';
     await expect(resolveDepositPipelineHost()).rejects.toThrow(
-      /runDepositInBoxHarness/i,
+      /runDepositInBoxHost/i,
     );
   });
 });
 
-describe('runDepositInBoxHarness (#25)', () => {
-  it('dispatches a deposit-mode harness and returns evidence.depositOptions', async () => {
+describe('runDepositInBoxHost (#25)', () => {
+  it('dispatches a deposit-mode host and returns evidence.depositOptions', async () => {
     let receivedPlan: any;
     const fakeHost = {
-      runHarness: async (plan: any) => {
+      runHostPlan: async (plan: any) => {
         receivedPlan = plan;
         return {
           sandboxId: 'sbx_test_1',
@@ -129,7 +129,7 @@ describe('runDepositInBoxHarness (#25)', () => {
         };
       },
     };
-    const result = await runDepositInBoxHarness({
+    const result = await runDepositInBoxHost({
       repositoryFullName: 'engineeredsoftware/demo',
       revision: 'abc123',
       branch: 'main',
@@ -156,7 +156,7 @@ describe('runDepositInBoxHarness (#25)', () => {
 
   it('returns empty options when the evidence has no depositOptions', async () => {
     const fakeHost = {
-      runHarness: async () => ({
+      runHostPlan: async () => ({
         sandboxId: null,
         artifacts: { evidence: {}, telemetry: null },
         outcome: 'completed',
@@ -165,7 +165,7 @@ describe('runDepositInBoxHarness (#25)', () => {
         commands: [],
       }),
     };
-    const result = await runDepositInBoxHarness({
+    const result = await runDepositInBoxHost({
       repositoryFullName: 'o/r', revision: 'main', branch: 'main', commit: null,
       obfuscations: null, forcedExclusions: [], demandContext: [], hostFactory: async () => fakeHost,
     });

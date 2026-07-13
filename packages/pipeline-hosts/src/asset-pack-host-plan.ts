@@ -1,19 +1,19 @@
 /**
- * AssetPack sandbox harness plan builder (deposit + read synthesize modes).
+ * AssetPack sandbox host plan builder (deposit + read synthesize modes).
  * Constants and in-box runner templates live in sibling modules.
  */
 
 import { createHash } from 'node:crypto';
 
 import {
-  buildAssetPackPipelineHarnessManifest,
+  buildAssetPackPipelineHostManifest,
   VERCEL_SANDBOX_HOST_CAPABILITIES,
 } from './manifest';
 import type {
   PipelineDepositReference,
-  PipelineHarnessCommand,
-  PipelineHarnessMode,
-  PipelineHarnessPlan,
+  PipelineHostCommand,
+  PipelineHostMode,
+  PipelineHostPlan,
   PipelineNetworkPolicy,
   PipelineReadRequest,
   PipelineSandboxSource,
@@ -24,7 +24,7 @@ import type {
 import {
   DEFAULT_LONG_TIMEOUT_MS,
   EVIDENCE_PATH,
-  HARNESS_DIRECTORY,
+  HOST_RUN_DIRECTORY,
   HOST_SMOKE_RUNNER_PATH,
   LIVE_PIPELINE_RUNNER_PATH,
   MANIFEST_PATH,
@@ -36,21 +36,21 @@ import {
   SOURCE_OVERLAY_PATCH_PATH,
   TELEMETRY_PATH,
   TSCONFIG_PATHS_REGISTER_PATH,
-} from './asset-pack-harness-constants';
+} from './asset-pack-host-constants';
 import {
   createHostSmokeRunner,
   createLiveAssetPackPipelineRunner,
-} from './asset-pack-harness-runners';
+} from './asset-pack-host-runners';
 
 /**
- * Unique name per harness create (Vercel project-scoped). Even non-persistent
+ * Unique name per host create (Vercel project-scoped). Even non-persistent
  * sandboxes take a name for dashboard/log correlation; names are not reused.
  */
 export function buildEphemeralSandboxName(
   synthesizeMode: 'deposit' | 'read',
   depositId?: string | null,
 ): string {
-  const slug = String(depositId || 'harness')
+  const slug = String(depositId || 'host')
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
@@ -59,8 +59,8 @@ export function buildEphemeralSandboxName(
   return `bitcode-${synthesizeMode}-${slug || 'run'}-${stamp}`.slice(0, 96);
 }
 
-export interface BuildAssetPackSandboxHarnessOptions {
-  mode?: PipelineHarnessMode;
+export interface BuildAssetPackSandboxHostPlanOptions {
+  mode?: PipelineHostMode;
   read: PipelineReadRequest;
   readNeed?: unknown;
   deposit: PipelineDepositReference;
@@ -83,7 +83,7 @@ export interface BuildAssetPackSandboxHarnessOptions {
   };
   /**
    * Vercel Sandbox v2 defaults to persistent (auto-snapshot + Snapshot Storage
-   * billing). Bitcode harness runs are one-shot — default `false` unless a
+   * billing). Bitcode host runs are one-shot — default `false` unless a
    * caller explicitly opts into a long-lived named workspace.
    */
   persistent?: boolean;
@@ -91,13 +91,13 @@ export interface BuildAssetPackSandboxHarnessOptions {
   sandboxName?: string;
 }
 
-export function buildAssetPackSandboxHarness(
-  options: BuildAssetPackSandboxHarnessOptions
-): PipelineHarnessPlan {
+export function buildAssetPackSandboxHostPlan(
+  options: BuildAssetPackSandboxHostPlanOptions
+): PipelineHostPlan {
   const mode = options.mode ?? 'host_smoke';
   if (mode === 'asset_pack_pipeline' && !options.source && !options.assumeRepositoryPresent) {
     throw new Error(
-      'asset_pack_pipeline harness mode requires a sandbox source or assumeRepositoryPresent=true.'
+      'asset_pack_pipeline host mode requires a sandbox source or assumeRepositoryPresent=true.'
     );
   }
 
@@ -110,9 +110,9 @@ export function buildAssetPackSandboxHarness(
       }
     : undefined;
   const commandEnvironment = {
-    BITCODE_PIPELINE_HARNESS_MANIFEST: `${SANDBOX_WORKING_DIRECTORY}/${MANIFEST_PATH}`,
-    BITCODE_PIPELINE_HARNESS_ARTIFACT_DIR: `${SANDBOX_WORKING_DIRECTORY}/${HARNESS_DIRECTORY}`,
-    BITCODE_PIPELINE_HARNESS_MODE: mode,
+    BITCODE_PIPELINE_HOST_MANIFEST: `${SANDBOX_WORKING_DIRECTORY}/${MANIFEST_PATH}`,
+    BITCODE_PIPELINE_HOST_ARTIFACT_DIR: `${SANDBOX_WORKING_DIRECTORY}/${HOST_RUN_DIRECTORY}`,
+    BITCODE_PIPELINE_HOST_MODE: mode,
     ...(sourceOverlay ? { BITCODE_PIPELINE_SOURCE_OVERLAY_APPLIED: '1' } : {}),
     ...options.commandEnvironment,
   };
@@ -122,7 +122,7 @@ export function buildAssetPackSandboxHarness(
     read: options.read,
   });
 
-  const manifest = buildAssetPackPipelineHarnessManifest({
+  const manifest = buildAssetPackPipelineHostManifest({
     mode,
     read: options.read,
     readNeed: options.readNeed,
@@ -143,7 +143,7 @@ export function buildAssetPackSandboxHarness(
   );
 
   // Vercel Sandbox v2: persistence is ON by default. Never leave `persistent`
-  // undefined for harness creates — that would silently bill Snapshot Storage
+  // undefined for host creates — that would silently bill Snapshot Storage
   // for one-shot deposit/read synthesis. Opt-in only when the caller sets true.
   const persistent = options.persistent === true;
   const sandboxName =
@@ -239,12 +239,12 @@ function evidenceRoot(kind: string, basis: Record<string, unknown>): string {
 }
 
 function buildCommands(
-  mode: PipelineHarnessMode,
+  mode: PipelineHostMode,
   commandEnvironment: Record<string, string>,
   installDependencies: boolean,
   hasSourceOverlayPatch: boolean
-): PipelineHarnessCommand[] {
-  const commands: PipelineHarnessCommand[] = [
+): PipelineHostCommand[] {
+  const commands: PipelineHostCommand[] = [
     {
       label: 'runtime-readiness',
       cmd: 'node',
@@ -280,9 +280,9 @@ function buildCommands(
     }
 
     commands.push({
-      label: 'harness-runtime-install',
+      label: 'host-runtime-install',
       cmd: 'npm',
-      args: ['install', '--prefix', HARNESS_DIRECTORY, 'tsconfig-paths@4.2.0'],
+      args: ['install', '--prefix', HOST_RUN_DIRECTORY, 'tsconfig-paths@4.2.0'],
       required: true,
     });
 
@@ -299,7 +299,7 @@ function buildCommands(
       '--transpile-only',
       `../../${LIVE_PIPELINE_RUNNER_PATH}`,
     ];
-    const maxWaitMs = Number(commandEnvironment.BITCODE_PIPELINE_HARNESS_MAX_RUNTIME_MS || DEFAULT_LONG_TIMEOUT_MS) + 120000;
+    const maxWaitMs = Number(commandEnvironment.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS || DEFAULT_LONG_TIMEOUT_MS) + 120000;
     commands.push({
       label: 'asset-pack-pipeline-run',
       cmd: 'sh',
@@ -326,7 +326,7 @@ function buildCommands(
   }
 
   commands.push({
-    label: 'host-smoke-harness-run',
+    label: 'host-smoke-run',
     cmd: 'node',
     args: [HOST_SMOKE_RUNNER_PATH],
     env: commandEnvironment,

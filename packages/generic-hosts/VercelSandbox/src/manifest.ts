@@ -1,10 +1,10 @@
 import type {
   BitcodePipelineResultState,
   PipelineDepositReference,
-  PipelineHarnessManifest,
-  PipelineHarnessMode,
-  PipelineHarnessSourceOverlay,
-  PipelineHarnessStage,
+  PipelineHostManifest,
+  PipelineHostMode,
+  PipelineHostSourceOverlay,
+  PipelineHostStage,
   PipelineHostCapabilities,
   PipelineReadRequest,
   PipelineSourceRevision,
@@ -48,7 +48,7 @@ export const VERCEL_SANDBOX_HOST_CAPABILITIES: PipelineHostCapabilities = {
   ],
 };
 
-export const ASSET_PACK_HARNESS_STAGES: readonly PipelineHarnessStage[] = [
+export const ASSET_PACK_HOST_STAGES: readonly PipelineHostStage[] = [
   'need-synthesis',
   'need-review',
   'need-fit-search',
@@ -62,13 +62,13 @@ export const ASSET_PACK_HARNESS_STAGES: readonly PipelineHarnessStage[] = [
   'telemetry-readback',
 ];
 
-export const ASSET_PACK_HARNESS_RESULT_STATES: readonly BitcodePipelineResultState[] = [
+export const ASSET_PACK_HOST_RESULT_STATES: readonly BitcodePipelineResultState[] = [
   'worthy_fit',
   'no_worthy_fit',
   'blocked_readiness',
 ];
 
-export const ASSET_PACK_HARNESS_EVIDENCE_TABLES = [
+export const ASSET_PACK_HOST_EVIDENCE_TABLES = [
   'executions',
   'execution_events',
   'pipeline_runs',
@@ -93,7 +93,7 @@ export const ASSET_PACK_PROTOCOL_INVARIANTS = [
 
 export function redactCommandEnvironment(
   env: Record<string, string | undefined> = {}
-): PipelineHarnessManifest['commandEnvironment'] {
+): PipelineHostManifest['commandEnvironment'] {
   return Object.keys(env)
     .sort()
     .map((name) => ({
@@ -103,29 +103,29 @@ export function redactCommandEnvironment(
     }));
 }
 
-export function buildAssetPackPipelineHarnessManifest(input: {
-  mode: PipelineHarnessMode;
+export function buildAssetPackPipelineHostManifest(input: {
+  mode: PipelineHostMode;
   read: PipelineReadRequest;
   deposit: PipelineDepositReference;
   sourceRevision: PipelineSourceRevision;
-  sourceOverlay?: PipelineHarnessSourceOverlay;
+  sourceOverlay?: PipelineHostSourceOverlay;
   commandEnvironment?: Record<string, string | undefined>;
   readNeed?: unknown;
   requireAcceptedReadNeed?: boolean;
   synthesizeMode?: 'deposit' | 'read';
-  depositSteering?: PipelineHarnessManifest['depositSteering'];
+  depositSteering?: PipelineHostManifest['depositSteering'];
   createdAt?: string;
-}): PipelineHarnessManifest {
+}): PipelineHostManifest {
   assertNonEmpty(input.read.id, 'read.id');
   assertNonEmpty(input.read.prompt, 'read.prompt');
   assertNonEmpty(input.deposit.id, 'deposit.id');
   assertSourceRevision(input.sourceRevision);
 
   return {
-    schema: 'bitcode.pipeline-harness.manifest',
+    schema: 'bitcode.pipeline-host.manifest',
     pipelineFamily: 'asset_pack',
     pipelineName: 'asset-pack-read-fit',
-    harnessMode: input.mode,
+    hostMode: input.mode,
     read: input.read,
     requireAcceptedReadNeed: input.requireAcceptedReadNeed ?? true,
     readNeed: input.readNeed,
@@ -143,9 +143,9 @@ export function buildAssetPackPipelineHarnessManifest(input: {
       defaultWorkingDirectory: VERCEL_SANDBOX_HOST_CAPABILITIES.defaultWorkingDirectory,
       ephemeralFilesystem: VERCEL_SANDBOX_HOST_CAPABILITIES.ephemeralFilesystem,
     },
-    stages: ASSET_PACK_HARNESS_STAGES,
-    expectedEvidenceTables: ASSET_PACK_HARNESS_EVIDENCE_TABLES,
-    resultStates: ASSET_PACK_HARNESS_RESULT_STATES,
+    stages: ASSET_PACK_HOST_STAGES,
+    expectedEvidenceTables: ASSET_PACK_HOST_EVIDENCE_TABLES,
+    resultStates: ASSET_PACK_HOST_RESULT_STATES,
     protocolInvariants: ASSET_PACK_PROTOCOL_INVARIANTS,
     commandEnvironment: redactCommandEnvironment(input.commandEnvironment),
     createdAt: input.createdAt ?? new Date().toISOString(),
@@ -163,6 +163,6 @@ export function assertSourceRevision(sourceRevision: PipelineSourceRevision): vo
 
 function assertNonEmpty(value: string | undefined | null, field: string): void {
   if (!value || !value.trim()) {
-    throw new Error(`${field} is required for a Bitcode pipeline harness manifest.`);
+    throw new Error(`${field} is required for a Bitcode pipeline host manifest.`);
   }
 }

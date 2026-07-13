@@ -1,11 +1,11 @@
-import { buildAssetPackSandboxHarness } from '../asset-pack-harness';
+import { buildAssetPackSandboxHostPlan } from '../asset-pack-host-plan';
 import {
   normalizeCreateOptions,
   VercelSandboxPipelineHost,
 } from '../vercel-sandbox-host';
 import type {
-  PipelineHarnessFile,
-  PipelineHarnessHostEvent,
+  PipelineHostFile,
+  PipelineHostEvent,
   SandboxCommandResult,
   SandboxCreateOptions,
   SandboxFactory,
@@ -15,12 +15,12 @@ class FakeSandbox {
   sandboxId = 'sbx_test';
   name?: string;
   status = 'running';
-  readonly writtenFiles: PipelineHarnessFile[] = [];
+  readonly writtenFiles: PipelineHostFile[] = [];
   readonly commands: { cmd: string; args: string[] }[] = [];
   stopped = false;
   deleted = false;
 
-  async writeFiles(files: PipelineHarnessFile[]): Promise<void> {
+  async writeFiles(files: PipelineHostFile[]): Promise<void> {
     this.writtenFiles.push(...files);
   }
 
@@ -38,7 +38,7 @@ class FakeSandbox {
       return Buffer.from(JSON.stringify({ resultState: 'blocked_readiness' }));
     }
     if (file.path.endsWith('telemetry.jsonl')) {
-      return Buffer.from('{"type":"harness-complete"}\n');
+      return Buffer.from('{"type":"host-complete"}\n');
     }
     return null;
   }
@@ -65,13 +65,13 @@ class DetachedFakeSandbox extends FakeSandbox {
   }
 
   async readFileToBuffer(file: { path: string }): Promise<Buffer | null> {
-    if (file.path === '.bitcode/pipeline-harness/pipeline.exit-code') {
+    if (file.path === '.bitcode/pipeline-host/pipeline.exit-code') {
       return Buffer.from('0');
     }
-    if (file.path === '.bitcode/pipeline-harness/pipeline.stdout.log') {
+    if (file.path === '.bitcode/pipeline-host/pipeline.stdout.log') {
       return Buffer.from('detached stdout');
     }
-    if (file.path === '.bitcode/pipeline-harness/pipeline.stderr.log') {
+    if (file.path === '.bitcode/pipeline-host/pipeline.stderr.log') {
       return Buffer.from('');
     }
     return super.readFileToBuffer(file);
@@ -98,7 +98,7 @@ describe('VercelSandboxPipelineHost', () => {
         return polls >= 2;
       },
     });
-    const plan = buildAssetPackSandboxHarness({
+    const plan = buildAssetPackSandboxHostPlan({
       read: { id: 'read-1', prompt: 'Read.' },
       deposit: { id: 'deposit-1' },
       sourceRevision: {
@@ -113,20 +113,20 @@ describe('VercelSandboxPipelineHost', () => {
         cmd: 'sh',
         args: ['-lc', 'long command'],
         detached: true,
-        exitCodePath: '.bitcode/pipeline-harness/pipeline.exit-code',
-        stdoutPath: '.bitcode/pipeline-harness/pipeline.stdout.log',
-        stderrPath: '.bitcode/pipeline-harness/pipeline.stderr.log',
+        exitCodePath: '.bitcode/pipeline-host/pipeline.exit-code',
+        stdoutPath: '.bitcode/pipeline-host/pipeline.stdout.log',
+        stderrPath: '.bitcode/pipeline-host/pipeline.stderr.log',
         pollIntervalMs: 5,
         maxWaitMs: 5_000,
       },
     ];
 
-    const result = await host.runHarness(plan);
+    const result = await host.runHostPlan(plan);
     expect(result.outcome).toBe('cancelled');
     expect(fakeSandbox.stopped).toBe(true);
   });
 
-  it('creates the sandbox, writes harness files, runs commands, reads artifacts, and stops', async () => {
+  it('creates the sandbox, writes host files, runs commands, reads artifacts, and stops', async () => {
     const fakeSandbox = new FakeSandbox();
     const createOptions: SandboxCreateOptions[] = [];
     const factory: SandboxFactory = {
@@ -136,7 +136,7 @@ describe('VercelSandboxPipelineHost', () => {
       },
     };
     const host = new VercelSandboxPipelineHost({ sandboxFactory: factory });
-    const plan = buildAssetPackSandboxHarness({
+    const plan = buildAssetPackSandboxHostPlan({
       read: {
         id: 'read-1',
         prompt: 'Read the deposited repository revision.',
@@ -151,21 +151,21 @@ describe('VercelSandboxPipelineHost', () => {
       },
     });
 
-    const result = await host.runHarness(plan);
+    const result = await host.runHostPlan(plan);
 
     expect(createOptions[0].runtime).toBe('node24');
     expect(fakeSandbox.writtenFiles).toHaveLength(3);
     expect(fakeSandbox.commands.map((command) => command.cmd)).toEqual(['node', 'node']);
     expect(result.outcome).toBe('completed');
     expect(result.artifacts.evidence).toEqual({ resultState: 'blocked_readiness' });
-    expect(result.artifacts.telemetry).toContain('harness-complete');
+    expect(result.artifacts.telemetry).toContain('host-complete');
     expect(result.stopped).toBe(true);
     expect(fakeSandbox.stopped).toBe(true);
   });
 
-  it('emits host lifecycle events for streaming harness observers', async () => {
+  it('emits host lifecycle events for streaming host observers', async () => {
     const fakeSandbox = new FakeSandbox();
-    const events: PipelineHarnessHostEvent[] = [];
+    const events: PipelineHostEvent[] = [];
     const factory: SandboxFactory = {
       create: async () => fakeSandbox,
     };
@@ -175,7 +175,7 @@ describe('VercelSandboxPipelineHost', () => {
         events.push(event);
       },
     });
-    const plan = buildAssetPackSandboxHarness({
+    const plan = buildAssetPackSandboxHostPlan({
       read: {
         id: 'read-1',
         prompt: 'Read the deposited repository revision.',
@@ -190,18 +190,18 @@ describe('VercelSandboxPipelineHost', () => {
       },
     });
 
-    await host.runHarness(plan);
+    await host.runHostPlan(plan);
 
     expect(events.map((event) => event.type)).toEqual([
       'sandbox-create-started',
       'sandbox-created',
-      'harness-files-written',
+      'host-files-written',
       'command-started',
       'command-completed',
       'command-started',
       'command-completed',
       'artifacts-read',
-      // Ephemeral harnesses stop then delete (v2: avoid Snapshot Storage linger).
+      // Ephemeral hosts stop then delete (v2: avoid Snapshot Storage linger).
       'sandbox-deleted',
       'sandbox-stopped',
     ]);
@@ -217,7 +217,7 @@ describe('VercelSandboxPipelineHost', () => {
 
   it('polls detached command artifacts instead of relying on the command stream', async () => {
     const fakeSandbox = new DetachedFakeSandbox();
-    const events: PipelineHarnessHostEvent[] = [];
+    const events: PipelineHostEvent[] = [];
     const factory: SandboxFactory = {
       create: async () => fakeSandbox,
     };
@@ -227,7 +227,7 @@ describe('VercelSandboxPipelineHost', () => {
         events.push(event);
       },
     });
-    const plan = buildAssetPackSandboxHarness({
+    const plan = buildAssetPackSandboxHostPlan({
       read: {
         id: 'read-1',
         prompt: 'Read the deposited repository revision.',
@@ -247,15 +247,15 @@ describe('VercelSandboxPipelineHost', () => {
         cmd: 'sh',
         args: ['-lc', 'long command'],
         detached: true,
-        exitCodePath: '.bitcode/pipeline-harness/pipeline.exit-code',
-        stdoutPath: '.bitcode/pipeline-harness/pipeline.stdout.log',
-        stderrPath: '.bitcode/pipeline-harness/pipeline.stderr.log',
+        exitCodePath: '.bitcode/pipeline-host/pipeline.exit-code',
+        stdoutPath: '.bitcode/pipeline-host/pipeline.stdout.log',
+        stderrPath: '.bitcode/pipeline-host/pipeline.stderr.log',
         pollIntervalMs: 1,
         maxWaitMs: 50,
       },
     ];
 
-    const result = await host.runHarness(plan);
+    const result = await host.runHostPlan(plan);
 
     expect(result.outcome).toBe('completed');
     expect(result.commands[0]).toMatchObject({
@@ -268,7 +268,7 @@ describe('VercelSandboxPipelineHost', () => {
         type: 'telemetry-artifact-event',
         label: 'detached-run',
         lineNumber: 1,
-        telemetryEvent: { type: 'harness-complete' },
+        telemetryEvent: { type: 'host-complete' },
       }),
     );
   });
@@ -295,7 +295,7 @@ describe('VercelSandboxPipelineHost', () => {
         },
       };
       const host = new VercelSandboxPipelineHost({ sandboxFactory: factory });
-      const plan = buildAssetPackSandboxHarness({
+      const plan = buildAssetPackSandboxHostPlan({
         read: {
           id: 'read-1',
           prompt: 'Read the deposited repository revision.',
@@ -310,13 +310,13 @@ describe('VercelSandboxPipelineHost', () => {
         },
       });
 
-      await host.runHarness(plan);
+      await host.runHostPlan(plan);
 
       expect(createOptions[0]).toMatchObject({
         token: 'test-token',
         teamId: 'team_test',
         projectId: 'prj_test',
-        // v2 default is persistent=true; Bitcode harnesses force false.
+        // v2 default is persistent=true; Bitcode hosts force false.
         persistent: false,
       });
       expect(typeof createOptions[0].name).toBe('string');
@@ -340,11 +340,11 @@ describe('VercelSandboxPipelineHost', () => {
     });
     const named = normalizeCreateOptions({ name: '  ' });
     expect(named.persistent).toBe(false);
-    expect(named.name).toMatch(/^bitcode-harness-/);
+    expect(named.name).toMatch(/^bitcode-host-/);
   });
 
-  it('deposit harness createOptions are non-persistent with a unique name', () => {
-    const plan = buildAssetPackSandboxHarness({
+  it('deposit host createOptions are non-persistent with a unique name', () => {
+    const plan = buildAssetPackSandboxHostPlan({
       mode: 'asset_pack_pipeline',
       synthesizeMode: 'deposit',
       persistent: false,
@@ -369,7 +369,7 @@ describe('VercelSandboxPipelineHost', () => {
       sandboxFactory: factory,
       sandboxCreateTimeoutMs: 5,
     });
-    const plan = buildAssetPackSandboxHarness({
+    const plan = buildAssetPackSandboxHostPlan({
       read: {
         id: 'read-1',
         prompt: 'Read the deposited repository revision.',
@@ -384,7 +384,7 @@ describe('VercelSandboxPipelineHost', () => {
       },
     });
 
-    await expect(host.runHarness(plan)).rejects.toThrow(
+    await expect(host.runHostPlan(plan)).rejects.toThrow(
       'Vercel Sandbox create did not complete within 5ms.'
     );
   });

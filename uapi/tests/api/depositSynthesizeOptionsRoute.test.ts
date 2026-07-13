@@ -58,7 +58,7 @@ jest.mock('@/lib/deposit-source-provisioning', () => ({
   resolveDepositPipelineHost: jest.fn(() => ({ capabilities: { hostKind: 'local' } })),
   provisionDepositSourceInventory: jest.fn(),
   selectDepositHostKind: jest.fn(() => 'local'),
-  runDepositInBoxHarness: jest.fn(),
+  runDepositInBoxHost: jest.fn(),
 }));
 
 // Settled-Depository demand grounding after synthesis (empty corpus → Unestimatable).
@@ -90,7 +90,7 @@ import { synthesizeAssetPacksPipeline } from '@bitcode/pipeline-asset-pack';
 import { isAssetPackRealInferenceEnabled } from '@bitcode/pipeline-asset-pack/runtime-inference-policy';
 import {
   provisionDepositSourceInventory,
-  runDepositInBoxHarness,
+  runDepositInBoxHost,
   selectDepositHostKind,
 } from '@/lib/deposit-source-provisioning';
 import { waitUntil } from '@vercel/functions';
@@ -101,7 +101,7 @@ const mockPipeline = synthesizeAssetPacksPipeline as jest.Mock;
 const mockCreateExecution = createStreamingExecution as jest.Mock;
 const mockProvision = provisionDepositSourceInventory as jest.Mock;
 const mockSelectKind = selectDepositHostKind as jest.Mock;
-const mockRunHarness = runDepositInBoxHarness as jest.Mock;
+const mockRunHost = runDepositInBoxHost as jest.Mock;
 const mockWaitUntil = waitUntil as jest.Mock;
 
 // The synthesized options the pipeline leaves at implementation:options. The route's
@@ -266,9 +266,9 @@ describe('POST /api/deposit/synthesize-options', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     // Reset queued .once() implementations (clearAllMocks does not) so a pipeline/
-    // harness mock queued by one test never leaks into the next.
+    // host mock queued by one test never leaks into the next.
     mockPipeline.mockReset();
-    mockRunHarness.mockReset();
+    mockRunHost.mockReset();
     mockRealInference.mockReturnValue(true);
     mockProvision.mockResolvedValue(PROVISIONED);
     mockSelectKind.mockReturnValue('local');
@@ -409,7 +409,7 @@ describe('POST /api/deposit/synthesize-options', () => {
     const { executionRow } = installSupabaseMocks({});
     installExecutionMock();
     mockSelectKind.mockReturnValue('sandbox');
-    mockRunHarness.mockResolvedValue({
+    mockRunHost.mockResolvedValue({
       options: RAW_OPTIONS,
       sandboxId: 'sbx_deposit_test',
       outcome: 'completed',
@@ -421,8 +421,8 @@ describe('POST /api/deposit/synthesize-options', () => {
     await flushBackground(() =>
       executionRow.upsert.mock.calls.some((call) => call[0]?.status === 'completed'),
     );
-    // Dispatched to the in-box harness; the in-process pipeline + provisioning were NOT run.
-    expect(mockRunHarness).toHaveBeenCalledTimes(1);
+    // Dispatched to the in-box host; the in-process pipeline + provisioning were NOT run.
+    expect(mockRunHost).toHaveBeenCalledTimes(1);
     expect(mockPipeline).not.toHaveBeenCalled();
     expect(mockProvision).not.toHaveBeenCalled();
     const completed = executionRow.upsert.mock.calls.find((call) => call[0]?.status === 'completed')![0];
