@@ -172,7 +172,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
     const policy = buildBtdInterfaceAuthorizationPolicy(fixture.input);
 
     expect(fixture.fixturePath).toBe(
-      'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+      'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     );
     expect(policy).toMatchObject({
       interfaceSurface: 'mcp',
@@ -193,7 +193,7 @@ describe('Bitcode MCP pipeline ingress contract', () => {
     const rights = buildBtdAssetPackRightsInterfaceContract(fixture.assetPackRightsInput);
 
     expect(fixture.fixturePath).toBe(
-      'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+      'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     );
     expect(readLicense).toMatchObject({
       interfaceSurface: 'mcp',

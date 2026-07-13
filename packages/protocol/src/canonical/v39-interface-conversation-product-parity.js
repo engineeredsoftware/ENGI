@@ -65,7 +65,7 @@ const SOURCE_ROOTS = Object.freeze({
   packageIndex: 'packages/pipelines/asset-pack/src/index.ts',
   packageJson: 'packages/pipelines/asset-pack/package.json',
   conversationTest: 'uapi/tests/api/conversationReadingInterfaceParity.test.ts',
-  mcpTest: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+  mcpTest: 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
   chatgptTest: 'packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts',
   assetPackReadme: 'packages/pipelines/asset-pack/README.md',
   protocolReadme: 'packages/protocol/README.md',

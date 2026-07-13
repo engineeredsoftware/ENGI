@@ -12,7 +12,8 @@ WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
-COPY packages/mcp-server/package*.json ./packages/mcp-server/
+COPY packages/generic-mcps/bitcode/package*.json ./packages/generic-mcps/bitcode/
+COPY packages/mcp-generics/package*.json ./packages/mcp-generics/
 
 # Install dependencies
 RUN npm ci --only=production
@@ -51,7 +52,7 @@ ENV SERVER_ID=mcp-server-${HOSTNAME}
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node packages/mcp-server/scripts/healthcheck.js || exit 1
+  CMD node packages/generic-mcps/bitcode/scripts/healthcheck.js || exit 1
 
 # Switch to non-root user
 USER nodejs
@@ -63,4 +64,4 @@ EXPOSE 3000 8080
 ENTRYPOINT ["/sbin/tini", "--"]
 
 # Start server
-CMD ["node", "packages/mcp-server/dist/index.js"]
+CMD ["node", "packages/generic-mcps/bitcode/dist/index.js"]

@@ -89,7 +89,7 @@ const SOURCE_PATHS = Object.freeze({
   depositClient: 'uapi/app/deposit/DepositPageClient.tsx',
   btdApiSchema: 'packages/btd/src/api-schema-compatibility-matrix.ts',
   btdMcpContract: 'packages/btd/src/mcp-tool-contract.ts',
-  mcpDocsReference: 'packages/executions-mcp/src/mcp-server/docs/mcp/mcp-api-reference.md',
+  mcpDocsReference: 'packages/generic-mcps/bitcode/docs/mcp/mcp-api-reference.md',
   btdChatGptContract: 'packages/btd/src/chatgpt-app-action-contract.ts',
   chatGptTools: 'packages/chatgptapp/src/tools.ts',
   conversationHandoff: 'uapi/app/conversations/conversation-terminal-handoff.ts',

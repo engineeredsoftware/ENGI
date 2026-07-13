@@ -352,7 +352,7 @@ export function buildBtdReadLicenseAssetPackRightsInterfaceFixtures(): BtdReadLi
   const mcp = buildPreviewFixture({
     fixtureId: 'mcp-finding-fits-source-safe-preview',
     interfaceSurface: 'mcp',
-    fixturePath: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    fixturePath: 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     action: 'request_finding_fits',
     organizationPermissionGrants: ['reading:request_finding_fits'],
     authIssuerKind: 'api_key',

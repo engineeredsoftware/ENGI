@@ -73,29 +73,29 @@ const toolContracts = Object.freeze([
         exampleId: 'mcp-asset-pack-create-success-queued',
         posture: 'success_queued',
         fixturePath:
-          'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+          'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
       },
       {
         exampleId: 'mcp-asset-pack-create-denied-permission',
         posture: 'denied_permission',
         fixturePath:
-          'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+          'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
       },
       {
         exampleId: 'mcp-asset-pack-create-denied-auth',
         posture: 'denied_auth',
-        fixturePath: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/auth.test.ts',
+        fixturePath: 'packages/generic-mcps/bitcode/src/__tests__/unit/auth.test.ts',
       },
       {
         exampleId: 'mcp-asset-pack-create-denied-provider-binding',
         posture: 'denied_provider_binding',
         fixturePath:
-          'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+          'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
       },
     ],
     validationCommands: [
       'pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/mcp-tool-contract.test.ts',
-      'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+      'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
     ],
   },
 ]);
@@ -103,16 +103,16 @@ const toolContracts = Object.freeze([
 const sourceFiles = Object.freeze([
   'packages/btd/src/mcp-tool-contract.ts',
   'packages/btd/src/index.ts',
-  'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
-  'packages/executions-mcp/src/mcp-server/src/types/index.ts',
-  'packages/executions-mcp/src/mcp-server/src/server.ts',
+  'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts',
+  'packages/generic-mcps/bitcode/src/types/index.ts',
+  'packages/generic-mcps/bitcode/src/server.ts',
 ]);
 
 const testFiles = Object.freeze([
   'packages/btd/__tests__/mcp-tool-contract.test.ts',
-  'packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts',
-  'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-  'packages/executions-mcp/src/mcp-server/src/__tests__/unit/auth.test.ts',
+  'packages/generic-mcps/bitcode/src/__tests__/unit/mcp-tool-contract.test.ts',
+  'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+  'packages/generic-mcps/bitcode/src/__tests__/unit/auth.test.ts',
   'scripts/check-v33-gate3-mcp-api-tool-contracts.mjs',
 ]);
 
@@ -196,13 +196,13 @@ export function buildV33McpApiToolContractsArtifact() {
       'PROVIDER_BINDING_REQUIRED',
       'source-safe-preview-and-metadata-before-settlement',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts', [
+    scanTokens('packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts', [
       'getBtdMcpToolContract',
       'assetPackCreateContract.toolId',
       'assetPackCreateContract.description',
       'AssetPackPipelineToolSchema',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/types/index.ts', [
+    scanTokens('packages/generic-mcps/bitcode/src/types/index.ts', [
       'AssetPackPipelineToolSchema',
       'PipelineNameValues',
       'PipelineConnectionInputSchema',
@@ -214,12 +214,12 @@ export function buildV33McpApiToolContractsArtifact() {
       'carries proof-root fields, request roots, response roots, denied states, and examples',
       'fails closed when the required MCP tool id is missing',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts', [
+    scanTokens('packages/generic-mcps/bitcode/src/__tests__/unit/mcp-tool-contract.test.ts', [
       'discovers the AssetPack create tool from the package-owned BTD contract',
       'rejects invalid MCP tool input before execution',
       'declares source-safe output fields and proof roots for MCP responses',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'rejects MCP pipeline writes without pipelines.create permission',
       'rejects incoherent repository/provider ingress before queueing MCP work',
       'returns asset-pack-normalized results for completed MCP writes',

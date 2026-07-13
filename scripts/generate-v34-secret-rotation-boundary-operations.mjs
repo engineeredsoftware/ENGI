@@ -190,7 +190,7 @@ const familyRows = Object.freeze([
     label: 'MCP server auth family',
     credentialClass: 'mcp_transport_auth_secret',
     storageOwner: 'interface_connector_secret_store',
-    ownerPackage: 'packages/executions-mcp',
+    ownerPackage: 'packages/generic-mcps/bitcode',
     requiredHostIds: ['mcp_api', 'api'],
     supportedLaneIds: nonValueLanes,
     rotationCadence: 'every_60_days',

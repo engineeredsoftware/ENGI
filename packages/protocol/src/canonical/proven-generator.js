@@ -3596,7 +3596,7 @@ function buildV26SixthGateMvpClosureProof({
         'API, MCP, and ChatGPT App interfaces share Bitcode Exchange state, write admission, and connected-interface boundaries',
         [
           {
-            file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+            file: 'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts',
             evidence: 'writeAdmission',
             description: 'Bitcode MCP writes emit write-admission receipts'
           },
@@ -3611,7 +3611,7 @@ function buildV26SixthGateMvpClosureProof({
             description: 'commercial API rereads protocol state'
           },
           {
-            file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+            file: 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
             evidence: 'normalizes third-party MCP repository and attachment ingress as input context only',
             description: 'MCP third-party inputs stay ingress context'
           }
@@ -3960,7 +3960,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
             description: 'launch map blocks parallel Exchange ownership by connected interfaces'
           },
           {
-            file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+            file: 'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts',
             evidence: 'writeAdmission',
             description: 'MCP accepted writes emit write-admission metadata'
           },
@@ -4188,12 +4188,12 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
       'uapi/prompts/bitcode-terminal-system-prompt.ts',
       'uapi/app/api/conversations/stream/route.ts',
       'uapi/app/api/conversations/[conversationId]/stream/route.ts',
-      'packages/executions-mcp/package.json',
-      'packages/executions-mcp/src/mcp-server/src/prompts/analysis-prompts.ts',
-      'packages/executions-mcp/src/mcp-server/src/prompts/workflow-prompts.ts',
-      'packages/executions-mcp/src/mcp-server/src/prompts/development-prompts.ts',
-      'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
-      'packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts'
+      'packages/mcp-generics/package.json',
+      'packages/generic-mcps/bitcode/src/prompts/analysis-prompts.ts',
+      'packages/generic-mcps/bitcode/src/prompts/workflow-prompts.ts',
+      'packages/generic-mcps/bitcode/src/prompts/development-prompts.ts',
+      'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts',
+      'packages/generic-mcps/bitcode/src/__tests__/unit/prompt-asset-pack-canon.test.ts'
     ]
   },
   {
@@ -4553,47 +4553,47 @@ function buildV26RunsPipelinesTotalityProof({
       'Bitcode MCP write admission and third-party ingress are source-checked as Exchange-facing interface contracts rather than package-presence witnesses',
       [
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/types/index.ts',
+          file: 'packages/generic-mcps/bitcode/src/types/index.ts',
           evidence: "| 'third_party_mcp'",
           description: 'MCP type surface admits third-party MCP as ingress context, not as a parallel product output'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/pipeline-execution/adapter.ts',
+          file: 'packages/generic-mcps/bitcode/src/pipeline-execution/adapter.ts',
           evidence: 'export function buildPipelineInputContext',
           description: 'pipeline adapter exposes explicit input-context normalization for interface ingress'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+          file: 'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts',
           evidence: "permission: 'pipelines.create'",
           description: 'pipeline tool emits an explicit write-admission permission receipt'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+          file: 'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts',
           evidence: 'const writeAdmission = assertPipelineWriteAdmission(params, context, interfaceSurface)',
           description: 'pipeline write admission is evaluated before BTD estimation and queueing'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+          file: 'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts',
           evidence: 'writeAdmission,',
           description: 'accepted write admission is returned and queued in metadata'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+          file: 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
           evidence: 'normalizes third-party MCP repository and attachment ingress as input context only',
           description: 'unit proof covers third-party MCP ingress as input context'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+          file: 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
           evidence: "expect(inputContext).not.toHaveProperty('assetPacks')",
           description: 'unit proof rejects treating third-party ingress as asset-pack output'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+          file: 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
           evidence: "repositoryAnchor: 'github:bitcode-labs/terminal@main'",
           description: 'unit proof binds accepted MCP writes to a concrete repository anchor'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+          file: 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
           evidence: 'metadata: expect.objectContaining({',
           description: 'unit proof verifies write-admission metadata is queued with the pipeline job'
         }
@@ -4604,22 +4604,22 @@ function buildV26RunsPipelinesTotalityProof({
       'Bitcode MCP prompt and tool surfaces teach asset-pack pipeline semantics while retaining compatibility URI and subtype names',
       [
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/prompts/workflow-prompts.ts',
+          file: 'packages/generic-mcps/bitcode/src/prompts/workflow-prompts.ts',
           evidence: 'Please execute the Bitcode asset-pack pipeline',
           description: 'workflow prompts teach the active asset-pack pipeline meaning'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/prompts/development-prompts.ts',
+          file: 'packages/generic-mcps/bitcode/src/prompts/development-prompts.ts',
           evidence: "Bitcode's asset-pack pipeline with the following comprehensive source-to-shares approach",
           description: 'development prompts teach source-to-shares asset-pack execution'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+          file: 'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts',
           evidence: 'Create and execute a Bitcode asset-pack pipeline',
           description: 'pipeline tool description exposes canonical asset-pack semantics'
         },
         {
-          file: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts',
+          file: 'packages/generic-mcps/bitcode/src/__tests__/unit/prompt-asset-pack-canon.test.ts',
           evidence: 'MCP prompt asset-pack canon',
           description: 'package-local test renders prompts and proves they teach AssetPack canon'
         }
@@ -4987,9 +4987,9 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
         'packages/chatgptapp/src/server.ts',
         'packages/chatgptapp/src/tools.ts',
         'packages/chatgptapp/src/__tests__/tools.test.ts',
-        'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
-        'packages/executions-mcp/src/mcp-server/src/types/index.ts',
-        'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+        'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts',
+        'packages/generic-mcps/bitcode/src/types/index.ts',
+        'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
         'packages/git/package.json',
         'packages/git/src/index.ts',
         'packages/generic-tools/git-interactor/src/index.ts',

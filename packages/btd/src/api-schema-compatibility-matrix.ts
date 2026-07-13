@@ -226,10 +226,10 @@ export function buildBtdApiSchemaCompatibilityRows(): BtdApiSchemaCompatibilityR
       examplePosture: 'success',
       exampleId: 'mcp-asset-pack-create-success',
       examplePath:
-        'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts#queues-asset-pack-create',
-      fixturePath: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+        'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts#queues-asset-pack-create',
+      fixturePath: 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
       validationCommand:
-        'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+        'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
       example: {
         request: {
           task: 'Synthesize a source-safe AssetPack preview for a reviewed ReadNeed.',

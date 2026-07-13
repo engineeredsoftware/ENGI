@@ -1,6 +1,6 @@
 import { factoryAgentWithSingleStep } from '@bitcode/agent-generics';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
-import { McpConfigSchema } from '@bitcode/mcp';
+import { McpConfigSchema } from '@bitcode/mcp-generics';
 import {
   entriesToEvidenceDocumentList,
   loadMcpDocumentFromWorkspace,

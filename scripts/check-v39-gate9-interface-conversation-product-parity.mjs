@@ -113,7 +113,7 @@ function main() {
     'packages/pipelines/asset-pack/src/index.ts',
     'packages/pipelines/asset-pack/package.json',
     'uapi/tests/api/conversationReadingInterfaceParity.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     'packages/chatgptapp/src/__tests__/chatgpt-action-contract.test.ts',
     'packages/protocol/src/canonical/v39-interface-conversation-product-parity.js',
     'packages/protocol/test/v39-interface-conversation-product-parity.test.js',
@@ -190,7 +190,7 @@ function main() {
       ]);
       run(root, 'pnpm', [
         '--dir',
-        'packages/executions-mcp/src/mcp-server',
+        'packages/generic-mcps/bitcode',
         'run',
         'test:mcp',
         '--',

@@ -124,7 +124,7 @@ export function buildV33InterfaceAuthorizationPolicyArtifact() {
       'interfaceAuthorizationPolicy',
       'Bitcode ChatGPT App write admission denied by interface authorization policy',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts', [
+    scanTokens('packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts', [
       'buildBtdInterfaceAuthorizationPolicy',
       'mcp-pipeline-create-request-finding-fits',
       'interfaceAuthorizationPolicy',
@@ -139,7 +139,7 @@ export function buildV33InterfaceAuthorizationPolicyArtifact() {
     scanTokens('packages/api/src/routes/__tests__/btd-crypto.test.ts', [
       'shares the package-owned InterfaceAuthorizationPolicy fixture for API request admission',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'shares the package-owned InterfaceAuthorizationPolicy fixture for MCP Finding Fits admission',
     ]),
     scanTokens('packages/chatgptapp/src/__tests__/tools.test.ts', [

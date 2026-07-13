@@ -162,7 +162,7 @@ const rehearsalRows = Object.freeze([
     rolloutGuideIds: ['operator_use', 'enterprise_reader_flow', 'depositor_flow', 'interface_consumer_flow', 'environment_lane_posture'],
     sourceRoots: [
       'packages/api/README.md',
-      'packages/executions-mcp/src/mcp-server/README.md',
+      'packages/generic-mcps/bitcode/README.md',
       'packages/chatgptapp/README.md',
       'internal-docs/DEPLOYMENT.md',
       'uapi/app/terminal/README.md',

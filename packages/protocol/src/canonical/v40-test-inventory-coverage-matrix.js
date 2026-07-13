@@ -142,8 +142,8 @@ export const V40_TEST_INVENTORY_COVERAGE_ROWS = Object.freeze([
     requiredResult:
       'Inventory UAPI, package API, public API, MCP API, ChatGPT App, persistence, authorization, and response schema contract suites.',
     coverageTier: 'needs-new-v40-artifact',
-    sourceRoots: [SOURCE_ROOTS.apiTests, SOURCE_ROOTS.uapiTests, 'packages/executions-mcp/src/mcp-server/src/__tests__', 'packages/chatgptapp/src/__tests__'],
-    commandIds: ['pnpm --dir uapi exec jest', 'pnpm --filter @bitcode/api exec jest', 'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp', 'pnpm --dir packages/chatgptapp exec jest'],
+    sourceRoots: [SOURCE_ROOTS.apiTests, SOURCE_ROOTS.uapiTests, 'packages/generic-mcps/bitcode/src/__tests__', 'packages/chatgptapp/src/__tests__'],
+    commandIds: ['pnpm --dir uapi exec jest', 'pnpm --filter @bitcode/api exec jest', 'pnpm --dir packages/generic-mcps/bitcode run test:mcp', 'pnpm --dir packages/chatgptapp exec jest'],
     generatedArtifactPath: '.bitcode/v40-api-integration-contracts.json',
     missingCoverageClosesInGate: 4,
   }),

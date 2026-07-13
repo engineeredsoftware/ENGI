@@ -67,11 +67,11 @@ const hookRows = Object.freeze([
     executionId: 'execution-mcp-reading-pipeline',
     rootId: 'mcp-reading-pipeline',
     replayCommand:
-      'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+      'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
     theoremIds: ['interface-execution-rooted', 'interface-proof-replayable'],
     replayStepIds: ['mcp-auth-context', 'mcp-pipeline-queue-readback'],
     witnessArtifactPaths: [
-      'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+      'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     ],
     successSummary: 'mcp-reading-pipeline-queued-with-source-safe-roots',
     repairPosture: 'replay-mcp-pipeline-ingress-before-investigating-downstream-hosts',
@@ -260,7 +260,7 @@ export function buildV33InterfaceTelemetryProofHooksArtifact() {
       'shares the package-owned InterfaceTelemetryProofHook for public API readback replay',
       'interface.telemetry.public-api-reading',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'shares the package-owned InterfaceTelemetryProofHook for MCP pipeline replay',
       'interface.telemetry.mcp-reading-tool',
     ]),

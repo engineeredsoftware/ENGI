@@ -62,7 +62,7 @@ const sourceFiles = Object.freeze([
   'packages/btd/src/interface-integration-contract.ts',
   'packages/btd/src/interface-integration.ts',
   'uapi/app/terminal/terminal-interface-integration-regression.ts',
-  'packages/executions-mcp/src/mcp-server/src/interface-integration.ts',
+  'packages/generic-mcps/bitcode/src/interface-integration.ts',
   'packages/chatgptapp/src/interface-integration.ts',
 ]);
 
@@ -71,7 +71,7 @@ const testFiles = Object.freeze([
   'packages/btd/__tests__/interface-integration.test.ts',
   'uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
   'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-  'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+  'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
   'packages/chatgptapp/src/__tests__/tools.test.ts',
   'uapi/tests/auxillariesContent.access.test.tsx',
   'uapi/tests/api/conversationsRouteRead.test.ts',
@@ -106,7 +106,7 @@ const fixtureRows = Object.freeze([
     surface: 'mcp',
     status: 'active_contract',
     boundaryKind: 'mcp_tool',
-    fixturePath: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    fixturePath: 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     authBoundary: 'pipeline_permission',
     policyDenial: 'mcp-pipeline-write-denies-missing-pipelines-create',
     sourceSafetyClass: 'source-safe-internal',
@@ -224,7 +224,7 @@ export function buildV32InterfaceContractRegressionSuite() {
       'conversations-interface-hook',
       'exchange-interface-hook',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'pipelines.create permission',
       'writeAdmission',
     ]),

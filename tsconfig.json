@@ -40,6 +40,9 @@
       "@bitcode/host-generics": ["packages/host-generics/src/index.ts"],
       "@bitcode/generic-hosts-local": ["packages/generic-hosts/Local/src/index.ts"],
       "@bitcode/generic-hosts-vercel-sandbox": ["packages/generic-hosts/VercelSandbox/src/index.ts"],
+      "@bitcode/mcp-generics": ["packages/mcp-generics/src/index.ts"],
+      "@bitcode/generic-mcps-bitcode": ["packages/generic-mcps/bitcode/src/index.ts"],
+      "@bitcode/mcp-server": ["packages/mcp-server/src/index.ts"],
       "@bitcode/pipeline-hosts/*": ["packages/pipeline-hosts/src/*"],
       "@bitcode/refactoring/*": ["packages/refactoring/src/*"],
       "@bitcode/refactoring": ["packages/refactoring/src/index.ts"],
@@ -110,7 +113,7 @@
       // New @bitcode/* aliases replacing the historical @/lib/* imports.
       // -------------------------------------------------------------------
       "@bitcode/validation/validationOTFAdherencePhaseModule": ["packages/validation/validationOTFAdherencePhaseModule.ts"],
-      "@bitcode/mcp/validation": ["packages/executions-mcp/src/index.ts"],
+      "@bitcode/mcp/validation": ["packages/mcp-generics/src/index.ts"],
       "@bitcode/chatgptapp": ["packages/chatgptapp/src/index.ts"],
       "@bitcode/supabase/ssr/*": ["packages/supabase/src/ssr/*"],
       "@bitcode/context/*": ["packages/context/src/*"],
@@ -206,7 +209,7 @@
       "@bitcode/supabase": ["packages/supabase/src/index.ts"],
       // Git helpers alias (defined earlier; keep only one canonical mapping)
     "@/lib/validation/validationOTFAdherencePhaseModule": ["packages/validation/validationOTFAdherencePhaseModule.ts"],
-    "@/lib/mcp/validation": ["packages/executions-mcp/src/index.ts"],
+    "@/lib/mcp/validation": ["packages/mcp-generics/src/index.ts"],
       "@bitcode/web-search": ["packages/web-search/src/index.ts"],
       
       "@bitcode/obfuscate": ["packages/obfuscate-generics/src/index.ts"],
@@ -296,7 +299,7 @@
       "@/lib/dockerUtils": ["packages/docker/src/index.ts"],
       "@/lib/git": ["packages/git/src"],
       "@/lib/git/*": ["packages/git/src/*"],
-      "@bitcode/mcp": ["packages/executions-mcp/src/index.ts"],
+      "@bitcode/mcp": ["packages/mcp-generics/src/index.ts"],
       "@bitcode/notion": ["packages/notion/src/index.ts"],
       "@bitcode/vcs-tools": ["packages/generic-tools/vcs/src/index.ts"],
       "@bitcode/generic-tools/use-computer": ["packages/generic-tools/use-computer/src/index.ts"],

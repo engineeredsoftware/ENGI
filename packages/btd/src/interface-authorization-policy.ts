@@ -278,7 +278,7 @@ export function buildBtdInterfaceAuthorizationPolicyFixtures(): BtdInterfaceAuth
     {
       fixtureId: 'mcp-finding-fits-allowed',
       interfaceSurface: 'mcp',
-      fixturePath: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+      fixturePath: 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
       input: {
         policyId: 'interface-auth-mcp-finding-fits',
         interfaceSurface: 'mcp',

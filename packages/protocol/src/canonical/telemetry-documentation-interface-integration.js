@@ -141,18 +141,18 @@ const integrationRows = Object.freeze([
   row({
     integrationId: 'mcp_api',
     surfaceKind: 'interface_package',
-    owner: 'packages/executions-mcp',
+    owner: 'packages/generic-mcps/bitcode',
     docsLinks: ['/docs/mcp-api', '/docs/commercial-interfaces'],
     eventFamilies: ['tool', 'execution', 'interface', 'docs_qa'],
     sourceRoots: [
-      'packages/executions-mcp/src/mcp-server/README.md',
-      'packages/executions-mcp/src/mcp-server/docs/public/mcp-overview.md',
-      'packages/executions-mcp/src/mcp-server/src/interface-integration.ts',
-      'packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts',
+      'packages/generic-mcps/bitcode/README.md',
+      'packages/generic-mcps/bitcode/docs/public/mcp-overview.md',
+      'packages/generic-mcps/bitcode/src/interface-integration.ts',
+      'packages/generic-mcps/bitcode/src/__tests__/unit/mcp-tool-contract.test.ts',
     ],
     routePayloadSurfaces: ['mcp tool list', 'mcp pipeline ingress', 'mcp source-safe result payload'],
     validationCommands: [
-      'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+      'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
     ],
   }),
   row({
@@ -182,7 +182,7 @@ const integrationRows = Object.freeze([
       'packages/protocol/README.md',
       'packages/btd/README.md',
       'packages/api/README.md',
-      'packages/executions-mcp/src/mcp-server/README.md',
+      'packages/generic-mcps/bitcode/README.md',
       'packages/chatgptapp/README.md',
     ],
     routePayloadSurfaces: ['package exported helper docs', 'package interface payload docs'],

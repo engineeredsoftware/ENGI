@@ -90,9 +90,9 @@ const coverageRows = Object.freeze([
   {
     surfaceId: 'mcp',
     promotedBehavior: 'MCP write admission, auth boundaries, pipeline tool contracts, prompt canon, and queued execution metadata.',
-    owner: 'packages/executions-mcp/src/mcp-server',
-    fixture: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/auth.test.ts; packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts; packages/executions-mcp/src/mcp-server/src/__tests__/unit/prompt-asset-pack-canon.test.ts',
-    replayCommand: 'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts src/__tests__/unit/prompt-asset-pack-canon.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites',
+    owner: 'packages/generic-mcps/bitcode',
+    fixture: 'packages/generic-mcps/bitcode/src/__tests__/unit/auth.test.ts; packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts; packages/generic-mcps/bitcode/src/__tests__/unit/prompt-asset-pack-canon.test.ts',
+    replayCommand: 'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts src/__tests__/unit/prompt-asset-pack-canon.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites',
     expectedArtifact: '.bitcode/v32-interface-contract-regression-suite.json',
     sourceSafetyClass: 'source-safe-internal',
     coverageStatus: 'v32-expansion-required',

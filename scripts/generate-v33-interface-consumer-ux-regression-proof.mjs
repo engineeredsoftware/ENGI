@@ -63,9 +63,9 @@ const rows = Object.freeze([
     previewState: 'preview_admitted',
     rightsPosture: 'preview_only_locked',
     fixturePath:
-      'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+      'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     replayCommand:
-      'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+      'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
     successSummary: 'Finding Fits request is queued with source-safe proof roots and rights preview.',
   }),
   row({
@@ -279,7 +279,7 @@ export function buildV33InterfaceConsumerUxRegressionProofArtifact() {
       'shares the package-owned InterfaceConsumerUxRegressionProof for public API denied states',
       'interface.consumer.public-api-read-access-denied',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'shares the package-owned InterfaceConsumerUxRegressionProof for MCP Finding Fits readability',
       'interface.consumer.mcp-finding-fits-readable',
     ]),

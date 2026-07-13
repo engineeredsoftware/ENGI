@@ -150,7 +150,7 @@ export function buildV33ApiSchemaCompatibilityMatrixArtifact() {
       'shares the package-owned API schema compatibility matrix for versionless public routes',
       'public-api-btd-registry-success',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'shares the package-owned API schema compatibility matrix for MCP tool calls',
       'mcp-api-asset-pack-create-success',
     ]),

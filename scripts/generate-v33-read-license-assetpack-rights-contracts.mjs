@@ -163,7 +163,7 @@ export function buildV33ReadLicenseAssetPackRightsContractsArtifact() {
       'shares the package-owned ReadLicense and AssetPackRights fixture for API preview admission',
       'api-read-license-source-safe-preview',
     ]),
-    scanTokens('packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'shares the package-owned ReadLicense and AssetPackRights fixture for MCP Finding Fits preview',
       'mcp-finding-fits-source-safe-preview',
     ]),

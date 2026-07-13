@@ -181,15 +181,15 @@ export function buildBtdInterfaceContractCatalogRows(): BtdInterfaceContractCata
       interfaceId: 'mcp_api',
       status: 'active_contract',
       bindingKind: 'mcp_tool',
-      ownerPackage: 'packages/executions-mcp/src/mcp-server',
+      ownerPackage: 'packages/generic-mcps/bitcode',
       actionId: 'mcp.reading.pipeline',
       schemaId: 'bitcode.interface.mcpReadingTool.v1',
       authPolicyId: 'interface.authorization.pipeline-permission',
       sourceSafetyClass: 'source-safe-internal',
       exampleFixturePath:
-        'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+        'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
       validationCommand:
-        'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+        'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
       compatibilityStatus: 'compatible',
       failureMode: 'mcp-tool-denies-missing-pipelines-create-permission',
       repairPosture: 'grant-pipeline-permission-or-use-source-safe-readonly-tool',

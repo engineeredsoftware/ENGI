@@ -121,9 +121,9 @@ function main() {
     ARTIFACT,
     'packages/btd/src/mcp-tool-contract.ts',
     'packages/btd/__tests__/mcp-tool-contract.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts',
+    'packages/generic-mcps/bitcode/src/__tests__/unit/mcp-tool-contract.test.ts',
+    'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     'scripts/generate-v33-mcp-api-tool-contracts.mjs',
     'scripts/check-v33-gate3-mcp-api-tool-contracts.mjs',
     'BITCODE_SPEC_V33.md',
@@ -201,9 +201,9 @@ function main() {
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const btdSource = read(root, 'packages/btd/src/mcp-tool-contract.ts');
-  const mcpSource = read(root, 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts');
+  const mcpSource = read(root, 'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts');
   const btdTest = read(root, 'packages/btd/__tests__/mcp-tool-contract.test.ts');
-  const mcpTest = read(root, 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/mcp-tool-contract.test.ts');
+  const mcpTest = read(root, 'packages/generic-mcps/bitcode/src/__tests__/unit/mcp-tool-contract.test.ts');
   const specifying = read(root, 'packages/protocol/src/canonical/v21-specifying.js');
 
   for (const doc of [spec, delta, notes, parity]) {

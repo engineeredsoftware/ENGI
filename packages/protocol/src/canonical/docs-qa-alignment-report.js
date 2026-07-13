@@ -232,8 +232,8 @@ const alignmentRows = Object.freeze([
     alignmentClass: 'interface_docs',
     owner: 'interface-packages',
     checkedSources: [
-      'packages/executions-mcp/src/mcp-server/README.md',
-      'packages/executions-mcp/src/mcp-server/docs/public/mcp-overview.md',
+      'packages/generic-mcps/bitcode/README.md',
+      'packages/generic-mcps/bitcode/docs/public/mcp-overview.md',
       'packages/chatgptapp/README.md',
       'internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md',
     ],

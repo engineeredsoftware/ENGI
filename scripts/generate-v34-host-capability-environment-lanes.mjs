@@ -79,13 +79,13 @@ const hostRows = Object.freeze([
   {
     hostId: 'mcp_api',
     runtimeSurface: 'mcp_api',
-    ownerPackage: 'packages/executions-mcp/src/mcp-server',
+    ownerPackage: 'packages/generic-mcps/bitcode',
     runtimeCarrier: 'mcp-server-process',
     outboundNetworkPosture: 'outbound_restricted',
     admissionStatus: 'admitted_non_value_lanes',
     proofOutputPaths: ['.bitcode/v33-mcp-api-tool-contracts.json'],
     validationCommand:
-      'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+      'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
     supportedLaneIds: ['local', 'staging-testnet', 'public-testnet'],
     telemetryProofHookId: 'deployment.telemetry.mcp-api',
   },

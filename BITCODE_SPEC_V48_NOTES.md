@@ -1618,3 +1618,13 @@ not provider packages.
 HostKind `local` replaces `inline` (BITCODE_PIPELINE_HOST; `inline` accepted as alias).
 Spec G3-4 tables updated to LocalHost / hostKind `local`.
 
+## MCP hierarchy modularization (Garrett, 2026-07-13)
+
+```
+@bitcode/mcp-generics                          # packages/mcp-generics (was executions-mcp primitives)
+  → @bitcode/generic-mcps-bitcode              # packages/generic-mcps/bitcode (was executions-mcp/mcp-server)
+```
+
+Compatibility barrels: `@bitcode/mcp` → mcp-generics; `@bitcode/mcp-server` → generic-mcps-bitcode.
+Active proof/catalog path strings and docs:refresh scripts point at the new layout.
+

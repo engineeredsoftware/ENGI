@@ -283,7 +283,7 @@ export function buildDeploymentHostCapabilityRows(): DeploymentHostCapabilityRow
     {
       hostId: 'mcp_api',
       runtimeSurface: 'mcp_api',
-      ownerPackage: 'packages/executions-mcp/src/mcp-server',
+      ownerPackage: 'packages/generic-mcps/bitcode',
       runtimeCarrier: 'mcp-server-process',
       requiredPackages: ['@bitcode/btd', '@bitcode/pipeline-asset-pack'],
       outboundNetworkPosture: 'outbound_restricted',
@@ -294,7 +294,7 @@ export function buildDeploymentHostCapabilityRows(): DeploymentHostCapabilityRow
       repairCapability: 'supported',
       proofOutputPaths: ['.bitcode/v33-mcp-api-tool-contracts.json'],
       validationCommand:
-        'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+        'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
       supportedLaneIds: ['local', 'staging-testnet', 'public-testnet'],
       admissionStatus: 'admitted_non_value_lanes',
       failureMode: 'mcp-api-host-without-tool-contract-or-permission-proof',

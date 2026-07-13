@@ -122,7 +122,7 @@ const runbookRows = Object.freeze([
     incidentClass: 'tool_policy_denial_or_repeated_failure',
     escalationPath: ['tool operator', 'agent maintainer', 'security reviewer'],
     commandSequence: [
-      'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts --runInBand',
+      'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts --runInBand',
       'pnpm run check:v35-telemetry-taxonomy-catalog',
     ],
     verificationCommands: ['pnpm run check:v35-gate5'],

@@ -313,7 +313,7 @@ function interfaceIntegrationRegressionBody(overrides: Record<string, unknown> =
         surface: 'mcp',
         consumerId: 'bitcode-mcp-interface',
         packageExport: '@bitcode/btd/interface-integration-contract',
-        adapterPath: 'packages/executions-mcp/src/mcp-server/src/interface-integration.ts',
+        adapterPath: 'packages/generic-mcps/bitcode/src/interface-integration.ts',
         objectFamilies: ['source_to_shares_proof', 'organization_authority'],
         proofRoot: 'mcp-interface-proof-root',
       },

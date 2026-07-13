@@ -187,7 +187,7 @@ const catalogRows = Object.freeze([
     disclosureClass: 'public_source_safe',
     sourceRoots: [
       'packages/api/README.md',
-      'packages/executions-mcp/README.md',
+      'packages/mcp-generics/README.md',
       'packages/chatgptapp/README.md',
       'uapi/README.md',
       'docs/api/conversations-openapi.yaml',
@@ -199,7 +199,7 @@ const catalogRows = Object.freeze([
       '.bitcode/v33-chatgpt-app-action-contracts.json',
       DOCUMENTATION_SURFACE_CATALOG_ARTIFACT_PATH,
     ],
-    routePackageBindings: ['packages/executions-mcp/src/mcp-server', 'packages/chatgptapp/src'],
+    routePackageBindings: ['packages/generic-mcps/bitcode', 'packages/chatgptapp/src'],
     proofCoverage: ['interface-contract-test', 'schema-compatibility-check'],
   },
   {

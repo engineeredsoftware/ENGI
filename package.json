@@ -17,6 +17,7 @@
     "packages/generic-measurements/*",
     "packages/generic-vcs/*",
     "packages/generic-hosts/*",
+    "packages/generic-mcps/*",
     "packages/asset-packs/*",
     "packages/generic-doc-comment-plugins/*",
     "packages/pipelines/*",
@@ -40,7 +41,7 @@
     }
   },
   "scripts": {
-    "docs:refresh": "npm --prefix packages/executions-mcp/src/mcp-server run docs:generate && npm --prefix packages/executions-mcp/src/mcp-server run docs:openapi",
+    "docs:refresh": "npm --prefix packages/generic-mcps/bitcode run docs:generate && npm --prefix packages/generic-mcps/bitcode run docs:openapi",
     "verify:ui": "node scripts/verify-ui-ssot.mjs",
     "generate:proven": "node scripts/generate-bitcode-proven.mjs",
     "promote:canon": "node scripts/promote-bitcode-canon.mjs",

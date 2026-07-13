@@ -131,7 +131,7 @@ function main() {
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
     'uapi/app/terminal/terminal-interface-integration-regression.ts',
     'uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     'packages/chatgptapp/src/__tests__/tools.test.ts',
     'BITCODE_SPEC_V32.md',
     'BITCODE_SPEC_V32_DELTA.md',

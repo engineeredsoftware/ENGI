@@ -131,8 +131,8 @@ function main() {
     'packages/btd/src/index.ts',
     'packages/btd/package.json',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts',
+    'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     'packages/chatgptapp/src/tools.ts',
     'packages/chatgptapp/src/__tests__/tools.test.ts',
     'uapi/tests/terminalOrganizationAuthority.test.ts',
@@ -195,10 +195,10 @@ function main() {
 
   const btdSource = read(root, 'packages/btd/src/interface-authorization-policy.ts');
   const chatgptSource = read(root, 'packages/chatgptapp/src/tools.ts');
-  const mcpSource = read(root, 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts');
+  const mcpSource = read(root, 'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts');
   const btdTest = read(root, 'packages/btd/__tests__/interface-authorization-policy.test.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const mcpTest = read(root, 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts');
+  const mcpTest = read(root, 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts');
   const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/tools.test.ts');
   const terminalTest = read(root, 'uapi/tests/terminalOrganizationAuthority.test.ts');
   const specs = [

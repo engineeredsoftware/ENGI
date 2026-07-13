@@ -161,11 +161,11 @@ export function buildBtdInterfaceTelemetryProofHookInputs(): BtdInterfaceTelemet
       roots: rootSet('mcp-reading-pipeline'),
       posture: 'success',
       replayCommand:
-        'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+        'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
       theoremIds: ['interface-execution-rooted', 'interface-proof-replayable'],
       replayStepIds: ['mcp-auth-context', 'mcp-pipeline-queue-readback'],
       witnessArtifactPaths: [
-        'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+        'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
       ],
       successSummary: 'mcp-reading-pipeline-queued-with-source-safe-roots',
       repairPosture: 'replay-mcp-pipeline-ingress-before-investigating-downstream-hosts',

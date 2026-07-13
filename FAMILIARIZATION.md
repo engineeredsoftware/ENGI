@@ -210,6 +210,18 @@ pipeline-local tools            e.g. AssetPackLexicalDepositorySearchTool
 
 `BITCODE_PIPELINE_HOST`: unset|`local` (default; `inline` alias) | `sandbox`.
 
+### 3.2.2 MCP
+
+```
+@bitcode/mcp-generics                          MCP primitives (McpConfig, schema, validate)
+        ↑
+@bitcode/generic-mcps-bitcode                  Bitcode Exchange-facing MCP server
+        ↑
+@bitcode/mcp / @bitcode/mcp-server             BC re-exports (was packages/executions-mcp)
+```
+
+Package paths: `packages/mcp-generics/`, `packages/generic-mcps/bitcode/`.
+
 ### 3.3 Pipelines
 
 **Hierarchy naming law:** names always encode full ancestry
@@ -399,7 +411,9 @@ public entries remain stable (`./deposit-asset-pack-options`, `./depository-sear
 | --- | --- |
 | `conversations-generics` | Conversation domain types |
 | `chatgptapp` | ChatGPT App MCP scaffolding (commercialization deferred) |
-| `executions-mcp` | MCP server for executions |
+| `mcp-generics` | MCP primitives (`McpConfig`, validation) |
+| `generic-mcps-bitcode` | Bitcode Exchange MCP server (`packages/generic-mcps/bitcode`) |
+| `mcp` / `mcp-server` | BC re-exports of mcp-generics / generic-mcps-bitcode |
 | `templates-generics`, `attachments-generics` | Template / attachment types |
 | `styling`, `responses`, `networking` | Shared UI/HTTP utilities |
 | `models` | Pricing / model registry helpers |

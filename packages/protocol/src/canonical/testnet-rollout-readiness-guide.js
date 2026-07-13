@@ -239,12 +239,12 @@ const guideRows = Object.freeze([
     workflowStages: ['route-contract-review', 'authorization-check', 'tool-contract-check', 'redaction-check', 'proof-root-readback'],
     sourceRoots: [
       'packages/api/README.md',
-      'packages/executions-mcp/src/mcp-server/README.md',
+      'packages/generic-mcps/bitcode/README.md',
       'packages/chatgptapp/README.md',
     ],
     reproducibleCommands: [
       'pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/interface-authorization-policy.test.ts',
-      'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts --runInBand',
+      'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts --runInBand',
       'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts --runInBand',
     ],
     guideExamples: [

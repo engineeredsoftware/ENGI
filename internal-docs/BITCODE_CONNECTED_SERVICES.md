@@ -33,5 +33,5 @@ Examples:
 - `packages/github/*`
 - `packages/jira/*`
 - `packages/chatgptapp/*`
-- `packages/executions-mcp/*`
+- `packages/mcp-generics/* + packages/generic-mcps/bitcode/*`
 - `packages/api/src/routes/*`

@@ -81,7 +81,7 @@ function runIntegrationSmoke(root, failures) {
     ['pnpm', ['--filter', '@bitcode/protocol', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-api-integration-contracts.test.js']],
     ['pnpm', ['--dir', 'uapi', 'exec', 'jest', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHarnessRoute.test.ts', 'tests/api/conversationsRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/api/walletOAuthRoutes.test.ts', 'tests/api/webhookSignature.test.ts']],
     ['pnpm', ['--filter', '@bitcode/api', 'test']],
-    ['pnpm', ['--dir', 'packages/executions-mcp/src/mcp-server', 'run', 'test:mcp']],
+    ['pnpm', ['--dir', 'packages/generic-mcps/bitcode', 'run', 'test:mcp']],
     ['pnpm', ['--dir', 'packages/chatgptapp', 'test']],
   ];
 

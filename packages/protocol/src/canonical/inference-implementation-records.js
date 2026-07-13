@@ -813,8 +813,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     canonicalRead: 'Admit Exchange-facing MCP and external interface operations as fail-closed ingress into Bitcode execution state, not as sibling product logic.',
     promptImplementation: {
       owners: [
-        'packages/executions-mcp/README.md',
-        'packages/executions-mcp/src/index.ts'
+        'packages/mcp-generics/README.md',
+        'packages/mcp-generics/src/index.ts'
       ],
       rawPromptPartBoundary: 'MCP tool descriptions only where admitted by V26 prompt/tool records',
       registryLayering: 'MCP ingress prompt descriptions may enter prompt-aware registries only as specific implementation layers bound to admitted Bitcode tool records.',
@@ -822,7 +822,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     toolImplementation: {
       owners: [
-        'packages/executions-mcp/src/index.ts',
+        'packages/mcp-generics/src/index.ts',
         'packages/tools-generics/src/mcp/MCPToolWrapper.ts'
       ],
       contract: 'Admitted Exchange-facing tool families are narrowed and create admission fails closed on permission, repository, and provider readiness.'
@@ -833,7 +833,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     executionImplementation: {
       owners: [
-        'packages/executions-mcp/src/index.ts',
+        'packages/mcp-generics/src/index.ts',
         'uapi/components/bitcode/pipeline/BitcodeExecutionStreamPanel.tsx'
       ],
       carriers: ['queue/run/execution creation', 'provider ingress', 'operator reread']
@@ -846,14 +846,14 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     verificationSet: [
       '.bitcode/retained-package-admissibility-proof.json',
       '.bitcode/system-reform-admissibility-proof.json',
-      'pnpm -C packages/executions-mcp run typecheck'
+      'pnpm -C packages/mcp-generics run typecheck'
     ],
     sourceEvidenceRefs: [
-      'packages/executions-mcp/package.json',
-      'packages/executions-mcp/README.md',
-      'packages/executions-mcp/src/index.ts',
-      'packages/executions-mcp/src/mcp-server/package.json',
-      'packages/executions-mcp/src/mcp-server/tsconfig.typecheck.json',
+      'packages/mcp-generics/package.json',
+      'packages/mcp-generics/README.md',
+      'packages/mcp-generics/src/index.ts',
+      'packages/generic-mcps/bitcode/package.json',
+      'packages/generic-mcps/bitcode/tsconfig.typecheck.json',
       'packages/tools-generics/src/mcp/MCPToolWrapper.ts',
       'uapi/components/bitcode/pipeline/BitcodeExecutionStreamPanel.tsx',
       'protocol-demonstration/V26_TERMINAL_SYSTEMS.md'

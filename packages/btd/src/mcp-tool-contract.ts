@@ -219,35 +219,35 @@ export function buildBtdMcpToolContractInputs(): BtdMcpToolContractInput[] {
           exampleId: 'mcp-asset-pack-create-success-queued',
           posture: 'success_queued',
           fixturePath:
-            'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+            'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
           validationCommand:
-            'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+            'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
           sourceSafetyClass: 'source-safe-internal',
         },
         {
           exampleId: 'mcp-asset-pack-create-denied-permission',
           posture: 'denied_permission',
           fixturePath:
-            'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+            'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
           validationCommand:
-            'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+            'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
           sourceSafetyClass: 'source-safe-internal',
         },
         {
           exampleId: 'mcp-asset-pack-create-denied-auth',
           posture: 'denied_auth',
-          fixturePath: 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/auth.test.ts',
+          fixturePath: 'packages/generic-mcps/bitcode/src/__tests__/unit/auth.test.ts',
           validationCommand:
-            'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand',
+            'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand',
           sourceSafetyClass: 'source-safe-internal',
         },
         {
           exampleId: 'mcp-asset-pack-create-denied-provider-binding',
           posture: 'denied_provider_binding',
           fixturePath:
-            'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+            'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
           validationCommand:
-            'pnpm --dir packages/executions-mcp/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+            'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
           sourceSafetyClass: 'source-safe-internal',
         },
       ],

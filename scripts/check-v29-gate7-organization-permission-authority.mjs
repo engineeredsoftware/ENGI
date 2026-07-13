@@ -91,9 +91,9 @@ function main() {
     'packages/api/src/routes/btd-crypto.ts',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
     'uapi/app/api/btd/organization-interface-authority/route.ts',
-    'packages/executions-mcp/src/mcp-server/src/auth/middleware.ts',
-    'packages/executions-mcp/src/mcp-server/src/types/index.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/auth.test.ts',
+    'packages/generic-mcps/bitcode/src/auth/middleware.ts',
+    'packages/generic-mcps/bitcode/src/types/index.ts',
+    'packages/generic-mcps/bitcode/src/__tests__/unit/auth.test.ts',
     'packages/chatgptapp/src/tools.ts',
     'packages/chatgptapp/src/__tests__/tools.test.ts',
     'packages/chatgptapp/package.json',
@@ -126,9 +126,9 @@ function main() {
   const apiRoute = read(root, 'packages/api/src/routes/btd-crypto.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
   const uapiRoute = read(root, 'uapi/app/api/btd/organization-interface-authority/route.ts');
-  const mcpAuth = read(root, 'packages/executions-mcp/src/mcp-server/src/auth/middleware.ts');
-  const mcpTypes = read(root, 'packages/executions-mcp/src/mcp-server/src/types/index.ts');
-  const mcpTest = read(root, 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/auth.test.ts');
+  const mcpAuth = read(root, 'packages/generic-mcps/bitcode/src/auth/middleware.ts');
+  const mcpTypes = read(root, 'packages/generic-mcps/bitcode/src/types/index.ts');
+  const mcpTest = read(root, 'packages/generic-mcps/bitcode/src/__tests__/unit/auth.test.ts');
   const chatgptTools = read(root, 'packages/chatgptapp/src/tools.ts');
   const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/tools.test.ts');
   const chatgptPackage = read(root, 'packages/chatgptapp/package.json');
@@ -241,7 +241,7 @@ function main() {
       gateWorkflow.includes('check-v29-gate7-organization-permission-authority.mjs') &&
       gateWorkflow.includes('terminalOrganizationAuthority.test.ts') &&
       gateWorkflow.includes('packages/chatgptapp') &&
-      gateWorkflow.includes('packages/executions-mcp/src/mcp-server'),
+      gateWorkflow.includes('packages/generic-mcps/bitcode'),
     'Package scripts and gate-quality workflow must invoke Gate 7 checker and focused tests.',
   );
 

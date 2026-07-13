@@ -1,4 +1,18 @@
-# Bitcode MCP Server - Bitcode Exchange interface
+# @bitcode/generic-mcps-bitcode
+
+Bitcode Exchange-facing Model Context Protocol server (`packages/generic-mcps/bitcode`).
+
+## Hierarchy
+
+```
+@bitcode/mcp-generics                         # primitives (McpConfig, validation)
+        ↑
+@bitcode/generic-mcps-bitcode                 # this package
+```
+
+Compatibility: `@bitcode/mcp-server` re-exports this package.
+
+---
 
 The **Bitcode MCP Server** is the Exchange-facing Model Context Protocol interface admitted by V26.
 

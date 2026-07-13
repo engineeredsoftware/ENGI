@@ -309,10 +309,16 @@
         "../packages/validation/validationOTFAdherencePhaseModule.ts"
       ],
       "@bitcode/mcp": [
-        "../packages/executions-mcp/src/index.ts"
+        "../packages/mcp-generics/src/index.ts"
       ],
       "@bitcode/mcp/validation": [
-        "../packages/executions-mcp/src/index.ts"
+        "../packages/mcp-generics/src/index.ts"
+      ],
+      "@bitcode/mcp-generics": [
+        "../packages/mcp-generics/src/index.ts"
+      ],
+      "@bitcode/generic-mcps-bitcode": [
+        "../packages/generic-mcps/bitcode/src/index.ts"
       ],
       "@bitcode/context/*": [
         "../packages/context/src/*"
@@ -518,7 +524,7 @@
         "../packages/validation/validationOTFAdherencePhaseModule.ts"
       ],
       "@/lib/mcp/validation": [
-        "../packages/executions-mcp/src/index.ts"
+        "../packages/mcp-generics/src/index.ts"
       ],
       "@bitcode/objects-arrays-objects": [
         "../packages/objects-arrays/objects/src/index.ts"

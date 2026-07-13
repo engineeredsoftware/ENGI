@@ -117,7 +117,7 @@ function main() {
     'packages/btd/src/index.ts',
     'packages/btd/package.json',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     'packages/chatgptapp/src/__tests__/tools.test.ts',
     'uapi/tests/terminalOrganizationAuthority.test.ts',
     'scripts/generate-v33-read-license-assetpack-rights-contracts.mjs',
@@ -184,7 +184,7 @@ function main() {
   const btdSource = read(root, 'packages/btd/src/read-license-assetpack-rights-contract.ts');
   const btdTest = read(root, 'packages/btd/__tests__/read-license-assetpack-rights-contract.test.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const mcpTest = read(root, 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts');
+  const mcpTest = read(root, 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts');
   const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/tools.test.ts');
   const terminalTest = read(root, 'uapi/tests/terminalOrganizationAuthority.test.ts');
   const specs = [

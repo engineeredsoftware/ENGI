@@ -302,7 +302,7 @@ function ownerPackage(surface: ReadingInterfaceProductParitySurface): string {
     case 'public_api':
       return 'packages/api/src/routes';
     case 'mcp_api':
-      return 'packages/executions-mcp/src/mcp-server';
+      return 'packages/generic-mcps/bitcode';
     case 'chatgpt_app':
       return 'packages/chatgptapp';
     case 'package_consumer':

@@ -87,7 +87,7 @@ test('binds active interface surfaces to docs telemetry runbooks and proof roots
   assert.ok(byIntegrationId.get('terminal')?.eventFamilies.includes('pipeline'));
   assert.ok(byIntegrationId.get('auxillaries')?.docsLinks.includes('/docs/auxillaries'));
   assert.ok(byIntegrationId.get('api')?.sourceRoots.includes('packages/api/src/routes/btd-crypto.ts'));
-  assert.ok(byIntegrationId.get('mcp_api')?.sourceRoots.includes('packages/executions-mcp/src/mcp-server/README.md'));
+  assert.ok(byIntegrationId.get('mcp_api')?.sourceRoots.includes('packages/generic-mcps/bitcode/README.md'));
   assert.ok(byIntegrationId.get('chatgpt_app')?.sourceRoots.includes('packages/chatgptapp/README.md'));
   assert.ok(byIntegrationId.get('package_readmes')?.packageOwnedContracts.includes('DocumentationSurfaceCatalog'));
   assert.ok(byIntegrationId.get('internal_docs')?.eventFamilies.includes('promotion'));

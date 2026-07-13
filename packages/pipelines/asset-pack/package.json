@@ -55,6 +55,7 @@
     "@bitcode/generic-tools-editing": "workspace:*",
     "@bitcode/llm-generics": "workspace:*",
     "@bitcode/logger": "workspace:*",
+    "@bitcode/mcp-generics": "workspace:*",
     "@bitcode/prompts": "workspace:*",
     "@bitcode/registry": "workspace:*",
     "@bitcode/supabase": "workspace:*",

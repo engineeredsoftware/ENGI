@@ -9,12 +9,12 @@ export const mcpApiReference = [
     title: 'MCP call lifecycle',
     summary:
       'The proof-readback MCP server exposes tools/list and tools/call over the Model Context Protocol, authenticates each call, applies rate/resource limits, and dispatches by bitcode:// prefix.',
-    packagePath: 'packages/executions-mcp/src/mcp-server/src/server.ts',
+    packagePath: 'packages/generic-mcps/bitcode/src/server.ts',
     features: [
       {
         name: 'tools/list',
         method: 'MCP request',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/server.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/server.ts',
         useWhen: 'Discover the active default Bitcode MCP tools available to a client.',
         howToUse:
           'Call tools/list after connecting. The default server registers pipeline, analysis, intelligence, enterprise, LSP, and observability categories.',
@@ -27,7 +27,7 @@ export const mcpApiReference = [
       {
         name: 'tools/call',
         method: 'MCP request',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/server.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/server.ts',
         useWhen: 'Execute one proof-readback MCP feature.',
         howToUse:
           'Pass name and arguments. Include request params _meta.authorization when auth is required. Local repositories are prepared before execution when repository.provider is local.',
@@ -53,12 +53,12 @@ export const mcpApiReference = [
     title: 'Pipeline tools',
     summary:
       'Pipeline tools write bounded AssetPack intent into route-facing execution, require pipeline create permission, and return rereadable run/admission metadata.',
-    packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+    packagePath: 'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts',
     features: [
       {
         name: 'bitcode://pipelines/asset-pack/create',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/pipeline-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts',
         useWhen: 'Create an AssetPack pipeline for implementation, review, issue work, docs, diagrams, API specs, scaffolding, planning, or refactoring.',
         howToUse:
           'Pass task, repository, subtype, and optional attachments/connections. Use streaming for queued run reread or wait for completion when streaming is false.',
@@ -90,12 +90,12 @@ export const mcpApiReference = [
     title: 'Analysis tools',
     summary:
       'Analysis tools read repository, dependency, pattern, and trend evidence for route and interface users.',
-    packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/analysis-tools.ts',
+    packagePath: 'packages/generic-mcps/bitcode/src/tools/analysis-tools.ts',
     features: [
       {
         name: 'bitcode://analysis/repository/analyze',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/analysis-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/analysis-tools.ts',
         useWhen: 'Analyze one repository for architecture, dependencies, security, performance, quality, complexity, patterns, or technical debt.',
         howToUse: 'Pass repository coordinates, analysisType, and optional depth/output controls.',
         inputs: [
@@ -109,7 +109,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://analysis/intelligence/synthesize',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/analysis-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/analysis-tools.ts',
         useWhen: 'Synthesize trends across repository, organization, or user scope.',
         howToUse: 'Pass scope/timeframe and optional repositories, analysisTypes, recommendation, and confidence settings.',
         inputs: [
@@ -123,7 +123,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://analysis/patterns/detect',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/analysis-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/analysis-tools.ts',
         useWhen: 'Find design patterns, anti-patterns, architecture patterns, testing patterns, security patterns, or performance patterns.',
         howToUse: 'Pass repository/path plus pattern type filters and severity.',
         inputs: [
@@ -136,7 +136,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://analysis/dependencies/analyze',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/analysis-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/analysis-tools.ts',
         useWhen: 'Analyze dependency graph, vulnerabilities, licenses, updates, and dependency risk.',
         howToUse: 'Pass repository plus depth and inclusion toggles.',
         inputs: [
@@ -154,12 +154,12 @@ export const mcpApiReference = [
     title: 'Intelligence tools',
     summary:
       'Intelligence tools turn measured code, repositories, research, and attachments into higher-level recommendations.',
-    packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/intelligence-tools.ts',
+    packagePath: 'packages/generic-mcps/bitcode/src/tools/intelligence-tools.ts',
     features: [
       {
         name: 'bitcode://intelligence/effectiveness/track',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/intelligence-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/intelligence-tools.ts',
         useWhen: 'Measure, predict, learn, or optimize code-change effectiveness.',
         howToUse: 'Choose operation and provide the matching metrics, proposedChanges, outcomes, or targetMetrics.',
         inputs: ['operation: measure, predict, learn, or optimize.', 'pipelineId, beforeMetrics, afterMetrics, repository, proposedChanges, outcomes, targetMetrics, constraints, timeframe, includeConfidence.'],
@@ -168,7 +168,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://intelligence/cross-repo/learn',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/intelligence-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/intelligence-tools.ts',
         useWhen: 'Extract, propagate, analyze, or recommend cross-repository patterns.',
         howToUse: 'Choose operation and provide source repositories, patterns, targets, analysisType, or repositoryContext.',
         inputs: ['operation: extract, propagate, analyze, or recommend.', 'sourceRepositories, patterns, targetRepositories, analysisType, repositoryContext, includeVisualization, maxResults.'],
@@ -177,7 +177,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://intelligence/research/advanced',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/intelligence-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/intelligence-tools.ts',
         useWhen: 'Run multi-provider research with URL credibility and synthesis.',
         howToUse: 'Pass a detailed query, researchType, provider list, filters, and synthesis options.',
         inputs: ['query, researchType, providers, filters, synthesisType, maxResults, includeUrlIntelligence, contextAware.'],
@@ -186,7 +186,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://intelligence/multimodal/process',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/intelligence-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/intelligence-tools.ts',
         useWhen: 'Process images, audio, video, documents, Figma files, or URLs into technical knowledge evidence.',
         howToUse: 'Pass at least one attachment, a processingType, and desired output format/synthesis settings.',
         inputs: ['attachments: array of { type, content, metadata? }.', 'processingType, outputFormat, crossModalSynthesis, includeImplementationGuidance, contextRepository, qualityThreshold.'],
@@ -195,7 +195,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://intelligence/enterprise/orchestrate',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/intelligence-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/intelligence-tools.ts',
         useWhen: 'Analyze team, organization, knowledge, skill-gap, collaboration, innovation, risk, or strategy posture.',
         howToUse: 'Pass operation, organizationId, scope, time horizon, depth, recommendation, benchmarking, and confidentiality settings.',
         inputs: ['operation, organizationId, scope, timeHorizon, analysisDepth, includeRecommendations, includeBenchmarking, confidentialityLevel.'],
@@ -204,7 +204,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://intelligence/marketplace/analyze',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/intelligence-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/intelligence-tools.ts',
         useWhen: 'Discover, assess, price, or risk-review marketplace solutions and providers.',
         howToUse: 'Choose marketplace operation and provide requirements, listing/provider IDs, search query, filters, and risk settings.',
         inputs: ['operation, requirements, listingId, providerId, searchQuery, filters, includeCompetitiveAnalysis, riskTolerance.'],
@@ -217,12 +217,12 @@ export const mcpApiReference = [
     title: 'Enterprise interface tools',
     summary:
       'Enterprise tools configure webhooks, managed APIs, integration marketplace connectors, and observability surfaces.',
-    packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/enterprise-tools.ts',
+    packagePath: 'packages/generic-mcps/bitcode/src/tools/enterprise-tools.ts',
     features: [
       {
         name: 'bitcode://enterprise/webhook/orchestrate',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/enterprise-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/enterprise-tools.ts',
         useWhen: 'Create, update, delete, test, route, batch, or inspect enterprise webhooks.',
         howToUse: 'Pass operation and the webhook/routing/test/analytics payload that matches it.',
         inputs: ['operation plus webhook config, testPayload, analyticsTimeRange, webhookIds, or routingRules.'],
@@ -231,7 +231,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://enterprise/api/manage',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/enterprise-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/enterprise-tools.ts',
         useWhen: 'Manage API lifecycle: create, version, deploy, govern, document, rate-limit, monitor, or test APIs.',
         howToUse: 'Pass operation and API config, environment, versioning strategy, governance rules, or test suite.',
         inputs: ['operation plus api, versioningStrategy, environment, governanceRules, or testSuite.'],
@@ -240,7 +240,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://enterprise/integration/marketplace',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/enterprise-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/enterprise-tools.ts',
         useWhen: 'Browse, install, configure, update, uninstall, analyze, develop, or publish enterprise integrations.',
         howToUse: 'Pass operation and the relevant marketplace, integration, connector, or filter payload.',
         inputs: ['operation plus filters, integration config, connector config, dataMapping, triggers, schedule, or tests.'],
@@ -249,7 +249,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://enterprise/observability/configure',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/enterprise-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/enterprise-tools.ts',
         useWhen: 'Configure metrics, traces, logs, alerts, dashboards, and analysis settings for enterprise observability.',
         howToUse: 'Pass monitoringConfig, alerts, dashboard, and analysisConfig.',
         inputs: ['monitoringConfig, alerts, dashboard, analysisConfig.'],
@@ -262,12 +262,12 @@ export const mcpApiReference = [
     title: 'LSP and code-intelligence tools',
     summary:
       'LSP tools provide semantic analysis, navigation/refactoring, diagnostics, and workspace-wide intelligence.',
-    packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/lsp-tools.ts',
+    packagePath: 'packages/generic-mcps/bitcode/src/tools/lsp-tools.ts',
     features: [
       {
         name: 'bitcode://lsp/semantic/analyze',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/lsp-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/lsp-tools.ts',
         useWhen: 'Analyze symbols, types, dependency graphs, call graphs, semantic search, hover, or signatures.',
         howToUse: 'Pass repository, targets, optional position, analysisConfig, and filters.',
         inputs: ['repository, targets, position, analysisConfig, filters.'],
@@ -276,7 +276,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://lsp/intelligence/navigate',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/lsp-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/lsp-tools.ts',
         useWhen: 'Find references, rename symbols, extract methods, find implementations, get actions, or organize imports.',
         howToUse: 'Pass repository, symbol target, refactoring config, optional range, and formatting options.',
         inputs: ['repository, symbol, refactoringConfig, range, formattingOptions.'],
@@ -285,7 +285,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://lsp/diagnostic/analyze',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/lsp-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/lsp-tools.ts',
         useWhen: 'Run diagnostics across syntax, semantics, performance, security, complexity, tests, or dependencies.',
         howToUse: 'Pass repository, scope, diagnosticConfig, thresholds, preferences, and outputConfig.',
         inputs: ['repository, scope, diagnosticConfig, qualityThresholds, analysisPreferences, outputConfig.'],
@@ -294,7 +294,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://lsp/workspace/intelligence',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/lsp-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/lsp-tools.ts',
         useWhen: 'Understand architecture, module dependencies, API surface, change impact, technical debt, and knowledge graph.',
         howToUse: 'Pass repository, analysisScope, changeAnalysis, architectureConfig, knowledgeGraphConfig, migrationConfig, and visualizationConfig.',
         inputs: ['repository, analysisScope, changeAnalysis, architectureConfig, knowledgeGraphConfig, migrationConfig, visualizationConfig.'],
@@ -307,12 +307,12 @@ export const mcpApiReference = [
     title: 'Observability tools',
     summary:
       'Observability tools read and configure metrics, traces, business intelligence, and log analytics.',
-    packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/observability-tools.ts',
+    packagePath: 'packages/generic-mcps/bitcode/src/tools/observability-tools.ts',
     features: [
       {
         name: 'bitcode://observability/metrics/realtime',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/observability-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/observability-tools.ts',
         useWhen: 'Collect/query metrics, configure alerts, build dashboards, or stream real-time data.',
         howToUse: 'Pass metrics, query, alert, dashboard, and streamConfig depending on the operation.',
         inputs: ['metrics, query, alert, dashboard, streamConfig.'],
@@ -321,7 +321,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://observability/tracing/distributed',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/observability-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/observability-tools.ts',
         useWhen: 'Analyze distributed traces, spans, service maps, profiling, bottlenecks, and request flow.',
         howToUse: 'Pass trace/span data and analysis, profiling, and service-map config.',
         inputs: ['trace, span, analysisConfig, profilingConfig, serviceMapConfig.'],
@@ -330,7 +330,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://observability/intelligence/business',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/observability-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/observability-tools.ts',
         useWhen: 'Read technical productivity, ROI, technical debt cost, velocity, quality, innovation, and benchmark metrics.',
         howToUse: 'Pass scope, metricsConfig, analysisPreferences, outputConfig, and benchmarkConfig.',
         inputs: ['scope, metricsConfig, analysisPreferences, outputConfig, benchmarkConfig.'],
@@ -339,7 +339,7 @@ export const mcpApiReference = [
       {
         name: 'bitcode://observability/logs/analytics',
         method: 'tools/call',
-        packagePath: 'packages/executions-mcp/src/mcp-server/src/tools/observability-tools.ts',
+        packagePath: 'packages/generic-mcps/bitcode/src/tools/observability-tools.ts',
         useWhen: 'Run log search, pattern detection, anomaly analysis, security analysis, or compliance reporting.',
         howToUse: 'Pass logs or searchQuery with analysis, pattern, anomaly, and compliance config.',
         inputs: ['logs, analysisConfig, searchQuery, patternConfig, anomalyConfig, complianceConfig.'],

@@ -118,7 +118,7 @@ function main() {
     'packages/btd/src/index.ts',
     'packages/btd/package.json',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     'packages/chatgptapp/src/__tests__/tools.test.ts',
     'uapi/tests/terminalOrganizationAuthority.test.ts',
     'scripts/generate-v33-api-schema-compatibility-matrix.mjs',
@@ -183,7 +183,7 @@ function main() {
   const btdSource = read(root, 'packages/btd/src/api-schema-compatibility-matrix.ts');
   const btdTest = read(root, 'packages/btd/__tests__/api-schema-compatibility-matrix.test.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const mcpTest = read(root, 'packages/executions-mcp/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts');
+  const mcpTest = read(root, 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts');
   const chatgptTest = read(root, 'packages/chatgptapp/src/__tests__/tools.test.ts');
   const terminalTest = read(root, 'uapi/tests/terminalOrganizationAuthority.test.ts');
   const specs = [
