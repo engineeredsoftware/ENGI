@@ -1356,9 +1356,14 @@ Packs experience (thin page client):
 | Activity detail aside | `PacksActivityDetail/` |
 | Payload types | `packs/models/packs-activity-types.ts` |
 
-**Still deposit-touched and thinning:** synthesis completion / adoption /
-dispatch effects still in `DepositPageClient` (~920 LOC after option +
-activity hooks); option cards still nested in `DepositAssetPackOptions`.
+**Deposit experience modularization status:** `DepositPageClient` is
+orchestration (~677 LOC) with models + hooks covering live runs, demand, URL,
+VCS inventory, option actions, activity recording, and synthesis lifecycle.
+Remaining markup density lives in single-purpose units (`DepositAssetPackOptions`
+~749, `DepositSourceSelection` render ~682, aside/obfuscations panels) —
+SRP-valid; further card splits optional. Shared bitcode/pipeline and
+`packages/pipelines/asset-pack` deposit domain files are already package-shaped
+and not page god-clients.
 
 **Further landings (same modularization pass):**
 
