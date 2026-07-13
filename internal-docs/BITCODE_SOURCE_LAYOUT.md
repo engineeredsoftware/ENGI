@@ -235,7 +235,9 @@ packages/generic-<family>/          # README only (no package.json)
 | `attachment-generics/` | (package root) | `@bitcode/attachment-generics` (file|external primitives) |
 | `generic-attachments/` | `file/`, `external/` | `@bitcode/generic-attachments-*` |
 | `attachments-generics/` | (package root) | BC barrel over attachment hierarchy |
-| `generic-doc-comment-plugins/` | `doc-developing/` | `@bitcode/doc-comment-developing` |
+| `doc-comment-generics/` | (package root) | `@bitcode/doc-comment-generics` (doc-comment primitives) |
+| `generic-doc-comments/` | `doc-code/`, `doc-developing/` | `@bitcode/generic-doc-comments-*` |
+| `file-editing/` | (package root) | `@bitcode/file-editing` (atomic edits over `@bitcode/files`) |
 
 **Do not** put a root `package.json` on the family folder. Workspace globs are
 `packages/generic-<family>/*` (and deeper globs such as

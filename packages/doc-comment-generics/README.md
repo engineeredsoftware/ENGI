@@ -1,4 +1,7 @@
-# @bitcode/doc-comment
+# @bitcode/doc-comment-generics
+
+> BC alias: `@bitcode/doc-comment`
+
 
 V26 status: admitted `ingress-or-support` primitive for build-time parsing and metadata extraction.
 This package is not a direct Bitcode product or inference-runtime authority by itself, but it may still serve admitted Bitcode build-time prompt injection when explicit corridors such as `@bitcode/doc-code` consume it.
@@ -81,7 +84,7 @@ This naming convention makes it immediately clear whether a plugin affects runti
 
 ## V26 reform note
 
-The examples under `packages/doc-comment/examples/*` are illustrative reference material.
+The examples under `packages/doc-comment-generics/examples/*` are illustrative reference material.
 They may describe intricate non-Bitcode tactics for comments-as-prompts, but they are not by themselves proof that the same behavior is admitted on the live Bitcode path.
 The admitted use of this package is the base parsing primitive, not the blanket promotion of every non-Bitcode example or plugin.
 See `protocol-demonstration/V26_DOC_COMMENT_REFORM.md` for the active reform boundary.

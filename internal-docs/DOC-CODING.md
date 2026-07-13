@@ -9,18 +9,18 @@ The doc-coding system provides infrastructure for attaching metadata to code thr
 ### ✅ What Exists
 
 #### Infrastructure Packages
-- **`@bitcode/doc-comment`** - Pure plugin infrastructure
+- **`@bitcode/doc-comment-generics`** - Pure plugin infrastructure (BC: `@bitcode/doc-comment`)
   - Base plugin classes and interfaces
   - Plugin registry system
   - Parser foundations
   - TypeScript transformer factory (not integrated)
 
-- **`@bitcode/doc-code`** - Runtime injection system  
+- **`@bitcode/generic-doc-comments-doc-code`** - Runtime injection system (BC: `@bitcode/doc-code`)
   - Transform interface for build tools
   - Prompt injection pattern definitions
   - Build integration helpers (not active)
 
-- **`@bitcode/doc-comment-developing`** - Development annotation base
+- **`@bitcode/generic-doc-comments-doc-developing`** - Development annotation base (BC: `@bitcode/doc-comment-developing`)
   - Base class for development-time annotations
   - Validation framework
 
@@ -258,9 +258,10 @@ export class Component {
 
 ## Implementation Locations
 
-- **Core Infrastructure**: `/packages/doc-comment/`
-- **Runtime Injection**: `/packages/doc-code/`
-- **Development Plugins**: `/packages/doc-comment-developing*/`
+- **Core Infrastructure**: `/packages/doc-comment-generics/` (`@bitcode/doc-comment-generics`)
+- **Runtime Injection**: `/packages/generic-doc-comments/doc-code/`
+- **Development Plugins**: `/packages/generic-doc-comments/doc-developing/`
+- **File editing**: `/packages/file-editing/` (`@bitcode/file-editing`; BC `@bitcode/editing`)
 - **Co-located Plugins**: Within respective packages' `/src/doc-plugins/`
 - **MCP Tool Examples**: `/packages/generic-tools/mcps-tools/*/`
 

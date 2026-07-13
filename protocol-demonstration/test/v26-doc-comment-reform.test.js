@@ -4,27 +4,27 @@ import { readFileSync } from 'node:fs';
 
 const reformSource = readFileSync(new URL('../V26_DOC_COMMENT_REFORM.md', import.meta.url), 'utf8');
 const promptSurfaceSource = readFileSync(new URL('../V26_PROMPT_SURFACES.md', import.meta.url), 'utf8');
-const docCommentReadme = readFileSync(new URL('../../packages/doc-comment/README.md', import.meta.url), 'utf8');
-const docCommentImplementation = readFileSync(new URL('../../packages/doc-comment/IMPLEMENTATION.md', import.meta.url), 'utf8');
-const docCommentExample = readFileSync(new URL('../../packages/doc-comment/examples/doc-comments-as-prompts.ts', import.meta.url), 'utf8');
-const docCodeReadme = readFileSync(new URL('../../packages/doc-code/README.md', import.meta.url), 'utf8');
-const docCodePackage = readFileSync(new URL('../../packages/doc-code/package.json', import.meta.url), 'utf8');
-const docCodeTypecheckTsconfig = readFileSync(new URL('../../packages/doc-code/tsconfig.typecheck.json', import.meta.url), 'utf8');
-const docCodeIndexJs = readFileSync(new URL('../../packages/doc-code/src/index.js', import.meta.url), 'utf8');
-const docCodeTransformJs = readFileSync(new URL('../../packages/doc-code/src/transformDocCodeTools.js', import.meta.url), 'utf8');
-const docCodeTransformTest = readFileSync(new URL('../../packages/doc-code/src/__tests__/transform.test.ts', import.meta.url), 'utf8');
+const docCommentReadme = readFileSync(new URL('../../packages/doc-comment-generics/README.md', import.meta.url), 'utf8');
+const docCommentImplementation = readFileSync(new URL('../../packages/doc-comment-generics/IMPLEMENTATION.md', import.meta.url), 'utf8');
+const docCommentExample = readFileSync(new URL('../../packages/doc-comment-generics/examples/doc-comments-as-prompts.ts', import.meta.url), 'utf8');
+const docCodeReadme = readFileSync(new URL('../../packages/generic-doc-comments/doc-code/README.md', import.meta.url), 'utf8');
+const docCodePackage = readFileSync(new URL('../../packages/generic-doc-comments/doc-code/package.json', import.meta.url), 'utf8');
+const docCodeTypecheckTsconfig = readFileSync(new URL('../../packages/generic-doc-comments/doc-code/tsconfig.typecheck.json', import.meta.url), 'utf8');
+const docCodeIndexJs = readFileSync(new URL('../../packages/generic-doc-comments/doc-code/src/index.js', import.meta.url), 'utf8');
+const docCodeTransformJs = readFileSync(new URL('../../packages/generic-doc-comments/doc-code/src/transformDocCodeTools.js', import.meta.url), 'utf8');
+const docCodeTransformTest = readFileSync(new URL('../../packages/generic-doc-comments/doc-code/src/__tests__/transform.test.ts', import.meta.url), 'utf8');
 const toolsDocCodeIndex = readFileSync(new URL('../../packages/tools-generics/src/doc-code-tool/index.ts', import.meta.url), 'utf8');
 const toolBaseSource = readFileSync(new URL('../../packages/tools-generics/src/Tool.ts', import.meta.url), 'utf8');
 const docDevelopingReadme = readFileSync(
-  new URL('../../packages/generic-doc-comment-plugins/doc-developing/README.md', import.meta.url),
+  new URL('../../packages/generic-doc-comments/doc-developing/README.md', import.meta.url),
   'utf8'
 );
 const docDevelopingTldr = readFileSync(
-  new URL('../../packages/generic-doc-comment-plugins/doc-developing/TLDR.md', import.meta.url),
+  new URL('../../packages/generic-doc-comments/doc-developing/TLDR.md', import.meta.url),
   'utf8'
 );
 const docDevelopingTsconfig = readFileSync(
-  new URL('../../packages/generic-doc-comment-plugins/doc-developing/tsconfig.json', import.meta.url),
+  new URL('../../packages/generic-doc-comments/doc-developing/tsconfig.json', import.meta.url),
   'utf8'
 );
 

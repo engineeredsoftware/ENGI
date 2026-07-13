@@ -439,11 +439,26 @@
       "@bitcode/llm-generics/*": [
         "../packages/llm-generics/src/*"
       ],
+      "@bitcode/doc-comment-generics": [
+        "../packages/doc-comment-generics/src/index.ts"
+      ],
+      "@bitcode/doc-comment-generics/*": [
+        "../packages/doc-comment-generics/src/*"
+      ],
       "@bitcode/doc-comment": [
         "../packages/doc-comment/src/index.ts"
       ],
       "@bitcode/doc-comment/*": [
         "../packages/doc-comment/src/*"
+      ],
+      "@bitcode/generic-doc-comments-doc-code": [
+        "../packages/generic-doc-comments/doc-code/src/index.ts"
+      ],
+      "@bitcode/file-editing": [
+        "../packages/file-editing/src/index.ts"
+      ],
+      "@bitcode/editing": [
+        "../packages/editing/src/index.ts"
       ],
       "@bitcode/github": [
         "../packages/github/src/index.ts"

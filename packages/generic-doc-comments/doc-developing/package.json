@@ -1,9 +1,12 @@
 {
-  "name": "@bitcode/doc-comment-developing",
+  "name": "@bitcode/generic-doc-comments-doc-developing",
   "version": "1.0.0",
-  "description": "Development-time doc-comment plugins for Bitcode",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "description": "Development-time doc-comment plugins for Bitcode (generic-doc-comments/doc-developing)",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
@@ -11,7 +14,7 @@
     "typecheck": "tsc -p tsconfig.typecheck.json --noEmit"
   },
   "dependencies": {
-    "@bitcode/doc-comment": "workspace:*"
+    "@bitcode/doc-comment-generics": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

@@ -13,7 +13,7 @@ import {
   DocCommentPlugin, 
   DocComment, 
   DocCommentMetadata
-} from '@bitcode/doc-comment';
+} from '@bitcode/doc-comment-generics';
 
 export interface BenchmarkMetadata extends DocCommentMetadata {
   type: 'benchmark';
@@ -131,5 +131,5 @@ export class DocBenchmarkPlugin implements DocCommentPlugin {
 
 export const docBenchmarkPlugin = new DocBenchmarkPlugin();
 
-import { registerPlugin } from '@bitcode/doc-comment';
+import { registerPlugin } from '@bitcode/doc-comment-generics';
 registerPlugin(docBenchmarkPlugin);

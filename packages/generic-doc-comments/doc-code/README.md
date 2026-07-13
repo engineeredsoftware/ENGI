@@ -1,6 +1,9 @@
-# @bitcode/doc-code
+# @bitcode/generic-doc-comments-doc-code
 
-V26 status: admitted support corridor for build-time tool prompt attachment.
+> BC alias: `@bitcode/doc-code`
+
+
+V26 status: admitted `ingress-or-support` plus `compatibility` corridor for build-time tool prompt attachment.
 `@bitcode/doc-code` keeps tool prompt descriptions attached to tool instances so Bitcode agentic runs can consume full tool documentation without each package inventing its own runtime convention.
 
 Runtime prompt injection system - automatically attaches prompt instances to tool instances based on `@doc-code-*` comment patterns.

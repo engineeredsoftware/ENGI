@@ -10,6 +10,7 @@
 @bitcode/asset-pack-generics                AssetPack path+op (aliases FileOp)
 @bitcode/generic-artifacts-patch            PatchFileEntry builds on FileChange
 @bitcode/generic-attachments-file           FileAttachment paths
+@bitcode/file-editing                       atomic edit transactions
 @bitcode/generic-tools/* / Host             checkout + editing tools
 ```
 

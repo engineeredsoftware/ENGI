@@ -464,7 +464,9 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `generic-generations/*` | Nested generation bases: failsafes, thinkings |
 | `generic-measurements/*` | Nested measurement bases: measure-agent, absolutes, needinesses |
 | `asset-packs/*` | Product AssetPack packages: synthesis, settle |
-| `generic-doc-comment-plugins/*` | Nested doc-comment plugins |
+| `doc-comment-generics` | Doc-comment plugin primitives (`@bitcode/doc-comment-generics`; BC `@bitcode/doc-comment`) |
+| `generic-doc-comments/*` | Nested doc-comment implementors: doc-code, doc-developing |
+| `file-editing` | Atomic file editing over `@bitcode/files` (`@bitcode/file-editing`; BC `@bitcode/editing`) |
 
 ### 5.3 Product domain (AssetPack / BTD / market)
 

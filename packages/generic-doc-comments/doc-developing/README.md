@@ -1,4 +1,7 @@
-# @bitcode/doc-comment-developing
+# @bitcode/generic-doc-comments-doc-developing
+
+> BC alias: `@bitcode/doc-comment-developing`
+
 
 Development-time doc-comment plugins for testing and profiling. This package contains utility plugins for development workflows.
 

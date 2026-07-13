@@ -1523,7 +1523,7 @@ xAI/ OpenAI/ Anthropic/ Google/ defaults/ registry/
 `@bitcode/generic-llms` remains the registry aggregator for compatibility;
 prefer `@bitcode/generic-llms-{xai|openai|anthropic|google|defaults}` when a
 single surface is enough. Workspace globs include `packages/generic-llms/*`
-and `packages/generic-doc-comment-plugins/*`.
+and `packages/generic-doc-comments/*`.
 
 ## SDIVF base package (Garrett, 2026-07-13)
 
@@ -1657,6 +1657,22 @@ MeasuredPatchAssetPack (path+op patch + provenant paths; never raw source).
 See “Artifact storage providers + remove @bitcode/aws” — providers split into
 `generic-artifacts/{aws,supabase,vercel}`; patch remains the type base;
 `@bitcode/artifacts` composes storage.
+
+## Doc-comment hierarchy + file-editing (Garrett, 2026-07-13)
+
+```
+packages/doc-comment-generics/                 # @bitcode/doc-comment-generics
+packages/generic-doc-comments/
+  doc-code/                                    # @bitcode/generic-doc-comments-doc-code
+  doc-developing/                              # @bitcode/generic-doc-comments-doc-developing
+packages/file-editing/                         # @bitcode/file-editing (uses @bitcode/files)
+```
+
+- Moved `doc-comment` → `doc-comment-generics` (BC `@bitcode/doc-comment`).
+- Moved `doc-code` + `generic-doc-comment-plugins/doc-developing` → `generic-doc-comments/*`
+  (BC `@bitcode/doc-code`, `@bitcode/doc-comment-developing`).
+- Renamed `editing` → `file-editing`; uses `FilePath` / `FileChange` / `normalizeRepoPath`
+  from `@bitcode/files` (BC `@bitcode/editing`).
 
 ## Remove firebase; firecrawl → web-scrapers (Garrett, 2026-07-13)
 

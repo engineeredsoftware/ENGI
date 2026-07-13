@@ -13,7 +13,7 @@ import {
   DocCommentPlugin, 
   DocComment, 
   DocCommentMetadata
-} from '@bitcode/doc-comment';
+} from '@bitcode/doc-comment-generics';
 
 export interface ProfileMetadata extends DocCommentMetadata {
   type: 'profile';
@@ -160,5 +160,5 @@ export class DocProfilePlugin implements DocCommentPlugin {
 export const docProfilePlugin = new DocProfilePlugin();
 
 // Auto-register when imported
-import { registerPlugin } from '@bitcode/doc-comment';
+import { registerPlugin } from '@bitcode/doc-comment-generics';
 registerPlugin(docProfilePlugin);

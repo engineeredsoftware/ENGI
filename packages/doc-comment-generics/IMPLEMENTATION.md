@@ -12,7 +12,7 @@ This document shows the actual implementation of how doc-comments become prompts
 ## 1. AST Parsing and Extraction
 
 ```typescript
-// packages/doc-comment/src/parser.ts
+// packages/doc-comment-generics/src/parser.ts
 
 export class DocCommentParser {
   /**
@@ -100,7 +100,7 @@ export class DocCommentParser {
 ## 2. Plugin System for Different Doc-Comment Types
 
 ```typescript
-// packages/doc-comment/src/plugins/doc-promptpart.ts
+// packages/doc-comment-generics/src/plugins/doc-promptpart.ts
 
 export class DocPromptPartPlugin implements DocCommentPlugin {
   name = 'doc-promptpart';
@@ -130,7 +130,7 @@ export class DocPromptPartPlugin implements DocCommentPlugin {
 ## 3. Build-Time Code Generation
 
 ```typescript
-// packages/doc-comment/src/build-plugin.ts
+// packages/doc-comment-generics/src/build-plugin.ts
 
 /**
  * Transform a node to include doc-comment injections

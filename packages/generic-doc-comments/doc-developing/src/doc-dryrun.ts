@@ -13,7 +13,7 @@ import {
   DocCommentPlugin, 
   DocComment, 
   DocCommentMetadata
-} from '@bitcode/doc-comment';
+} from '@bitcode/doc-comment-generics';
 
 export interface DryRunMetadata extends DocCommentMetadata {
   type: 'dryrun';
@@ -107,5 +107,5 @@ ${dryRunMeta.sideEffects ? `// Side Effects: ${dryRunMeta.sideEffects.join(', ')
 
 export const docDryRunPlugin = new DocDryRunPlugin();
 
-import { registerPlugin } from '@bitcode/doc-comment';
+import { registerPlugin } from '@bitcode/doc-comment-generics';
 registerPlugin(docDryRunPlugin);

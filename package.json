@@ -26,7 +26,7 @@
     "packages/containerizations/*",
     "packages/web-scrapers/*",
     "packages/asset-packs-pipelines/*",
-    "packages/generic-doc-comment-plugins/*",
+    "packages/generic-doc-comments/*",
     "packages/pipelines/*",
     "uapi",
     "admin"

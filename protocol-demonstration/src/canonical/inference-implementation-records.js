@@ -107,7 +107,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       owners: [
         'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
         'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
-        'packages/doc-code/src/transformDocCodeTools.ts'
+        'packages/generic-doc-comments/doc-code/src/transformDocCodeTools.ts'
       ],
       rawPromptPartBoundary: 'doc-code labels and DocCodeToolPrompt paths',
       registryLayering: 'Tool prompt descriptions enter agent runs through prompt-aware registries while generic prompt fragments remain reusable base layers and tool-specific DocCodeToolPrompt material specializes implementation paths.',
@@ -140,7 +140,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     verificationSet: [
       'node --test protocol-demonstration/test/v26-prompt-runtime-loadability.test.js',
       'node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js',
-      'packages/doc-code/src/__tests__/transform.test.ts'
+      'packages/generic-doc-comments/doc-code/src/__tests__/transform.test.ts'
     ],
     sourceEvidenceRefs: [
       'packages/tools-generics/package.json',
@@ -149,8 +149,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/tools-generics/src/execution/ToolPromptRegistry.ts',
       'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
       'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
-      'packages/doc-code/src/transformDocCodeTools.ts',
-      'packages/doc-comment/src/build-plugin.ts'
+      'packages/generic-doc-comments/doc-code/src/transformDocCodeTools.ts',
+      'packages/doc-comment-generics/src/build-plugin.ts'
     ]
   },
   {
