@@ -165,10 +165,9 @@ Bitcode provides 20+ MCP tool integrations through the `packages/generic-tools/m
 ### Available MCP Tools
 
 #### Cloud Infrastructure
-1. **AWS** (`aws/`) - Amazon Web Services integration
-   - EC2, S3, Lambda management
-   - CloudFormation and CDK support
-   - IAM and security management
+1. **AWS MCP tools** (`generic-tools/mcps-tools/aws/`) - AWS service tool stubs
+   - Lambda, S3 get/put, Dynamo, CloudWatch placeholders
+   - Artifact S3 storage is **not** here — use `@bitcode/generic-artifacts-aws`
 
 2. **AWS Location** (`aws-location/`) - AWS Location Services
    - Geospatial data management

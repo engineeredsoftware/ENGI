@@ -8,10 +8,13 @@ artifact and express storage requirements without binding a backend.
 ```
 @bitcode/artifact-generics                         # this package (Artifact primitive)
         ↑
-@bitcode/generic-artifacts-patch                   # PatchArtifact base (patchfile storage)
+@bitcode/generic-artifacts-patch                   # type: path+op patch
+@bitcode/generic-artifacts-aws                     # storage: S3
+@bitcode/generic-artifacts-supabase                # storage: Supabase
+@bitcode/generic-artifacts-vercel                  # storage: Vercel Blob
         ↑
-@bitcode/asset-packs-synthesis                     # AssetPackPatchArtifact (product)
-@bitcode/artifacts                                 # concrete S3/Supabase storage (BC)
+@bitcode/artifacts                                 # compose providers (BC)
+@bitcode/asset-packs-synthesis                     # AssetPackPatchArtifact product
 ```
 
 ## Primitive surface

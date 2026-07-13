@@ -1654,17 +1654,23 @@ MeasuredPatchAssetPack (path+op patch + provenant paths; never raw source).
 
 ## Artifact hierarchy: generics + patch + product (Garrett, 2026-07-13)
 
+See “Artifact storage providers + remove @bitcode/aws” — providers split into
+`generic-artifacts/{aws,supabase,vercel}`; patch remains the type base;
+`@bitcode/artifacts` composes storage.
+
+## Artifact storage providers + remove @bitcode/aws (Garrett, 2026-07-13)
+
 ```
-@bitcode/artifact-generics                           # Artifact + ArtifactStorage contract
-  → @bitcode/generic-artifacts-patch                 # PatchArtifact (path+op patchfiles)
-      → @bitcode/asset-packs-synthesis               # AssetPackPatchArtifact (product)
-@bitcode/artifacts                                   # S3/Supabase ArtifactStorage backend (BC)
+@bitcode/artifact-generics
+  → generic-artifacts/patch       # type
+  → generic-artifacts/aws         # S3 storage provider
+  → generic-artifacts/supabase    # Supabase Storage provider
+  → generic-artifacts/vercel      # Vercel Blob provider
+@bitcode/artifacts                # compose: aws → supabase → vercel
 ```
 
-Primitive storage requirements live in artifact-generics. Patch base stores
-AssetPack path+op envelopes without requiring raw source. Product binds
-`assetPackId`. Existing `saveArtifact` / `putArtifactAtKey` callers keep
-`@bitcode/artifacts`.
+Removed standalone `@bitcode/aws` (stubs only). AWS MCP tools (location/terraform/aws)
+inline their stubs; S3 for **artifacts** is `@bitcode/generic-artifacts-aws`.
 
 ## Remove aurora-postgres (Supabase is the data plane) (Garrett, 2026-07-13)
 

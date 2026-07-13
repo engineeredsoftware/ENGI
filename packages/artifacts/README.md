@@ -1,25 +1,21 @@
 # @bitcode/artifacts
 
-Concrete **ArtifactStorage** (S3 primary, Supabase fallback) and BC entry for
-artifact persistence used by execution and logger.
+BC **composition** of ArtifactStorage providers. Prefer leaf packages for new code.
 
 ## Hierarchy
 
 ```
-@bitcode/artifact-generics                 Artifact primitive + storage contract
+@bitcode/artifact-generics
         ↑
-@bitcode/generic-artifacts-patch           PatchArtifact (path+op patchfiles)
+@bitcode/generic-artifacts-patch       # artifact *type* (path+op patch)
+@bitcode/generic-artifacts-aws         # S3 storage provider
+@bitcode/generic-artifacts-supabase    # Supabase Storage provider
+@bitcode/generic-artifacts-vercel      # Vercel Blob provider
         ↑
-@bitcode/asset-packs-synthesis             AssetPackPatchArtifact (product)
-@bitcode/artifacts                         this package (S3/Supabase backend)
+@bitcode/artifacts                     # this package (compose: aws → supabase → vercel)
 ```
-
-## API
 
 ```ts
-import { saveArtifact, putArtifactAtKey, defaultArtifactStorage } from '@bitcode/artifacts';
-import type { ArtifactStorage } from '@bitcode/artifact-generics';
+import { saveArtifact, resolveArtifactStorage } from '@bitcode/artifacts';
+import { createAwsS3ArtifactStorage } from '@bitcode/generic-artifacts-aws';
 ```
-
-Prefer `@bitcode/artifact-generics` for types/contracts and
-`@bitcode/generic-artifacts-patch` for patch payloads.

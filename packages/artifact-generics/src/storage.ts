@@ -1,8 +1,12 @@
 /**
  * Artifact storage contract + requirements (backend-agnostic).
  *
- * Concrete backends (S3, Supabase) implement `ArtifactStorage`.
- * Prefer `@bitcode/artifacts` for the default S3→Supabase implementation.
+ * Provider bases (implement ArtifactStorage):
+ *   @bitcode/generic-artifacts-aws
+ *   @bitcode/generic-artifacts-supabase
+ *   @bitcode/generic-artifacts-vercel
+ *
+ * Compose via @bitcode/artifacts (aws → supabase → vercel).
  */
 
 import type { ArtifactBytes, ArtifactInfo } from './types';
@@ -42,7 +46,7 @@ export const DEFAULT_ARTIFACT_CONTENT_TYPE = 'application/octet-stream';
 
 /**
  * Backend-agnostic storage port.
- * Implementations: `@bitcode/artifacts` (S3 primary, Supabase fallback).
+ * Implementations: generic-artifacts/{aws,supabase,vercel}.
  */
 export interface ArtifactStorage {
   /**

@@ -226,8 +226,8 @@ packages/generic-<family>/          # README only (no package.json)
 | `generic-executions/` | (package root) | `@bitcode/generic-executions` (process-root Execution) |
 | `context-generics/` | (package root) | `@bitcode/context-generics` (BC only; no separate Context state) |
 | `artifact-generics/` | (package root) | `@bitcode/artifact-generics` (Artifact + storage contract) |
-| `generic-artifacts/` | `patch/` | `@bitcode/generic-artifacts-patch` (PatchArtifact base) |
-| `artifacts/` | (package root) | `@bitcode/artifacts` (S3/Supabase ArtifactStorage backend) |
+| `generic-artifacts/` | `patch/`, `aws/`, `supabase/`, `vercel/` | type + storage providers |
+| `artifacts/` | (package root) | `@bitcode/artifacts` (compose providers, BC) |
 | `attachment-generics/` | (package root) | `@bitcode/attachment-generics` (file|external primitives) |
 | `generic-attachments/` | `file/`, `external/` | `@bitcode/generic-attachments-*` |
 | `attachments-generics/` | (package root) | BC barrel over attachment hierarchy |

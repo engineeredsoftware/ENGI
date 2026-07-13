@@ -2,7 +2,7 @@
   "name": "@bitcode/artifacts",
   "version": "0.1.0",
   "private": true,
-  "description": "Concrete ArtifactStorage (S3/Supabase) + BC re-exports of artifact-generics",
+  "description": "BC ArtifactStorage composition (aws | supabase | vercel providers) + artifact-generics re-exports",
   "main": "src/artifacts.ts",
   "types": "src/artifacts.ts",
   "exports": {
@@ -15,7 +15,8 @@
   "files": ["src"],
   "dependencies": {
     "@bitcode/artifact-generics": "workspace:*",
-    "@aws-sdk/client-s3": "^3.817.0",
-    "@supabase/supabase-js": "^2.50.2"
+    "@bitcode/generic-artifacts-aws": "workspace:*",
+    "@bitcode/generic-artifacts-supabase": "workspace:*",
+    "@bitcode/generic-artifacts-vercel": "workspace:*"
   }
 }

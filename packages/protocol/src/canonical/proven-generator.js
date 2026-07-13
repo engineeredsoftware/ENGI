@@ -660,7 +660,6 @@ const V26_COMMERCIAL_INFRASTRUCTURE_PACKAGE_NAMES = new Set([
 ]);
 const V26_INGRESS_OR_SUPPORT_PACKAGE_NAMES = new Set([
 
-  '@bitcode/aws',
   '@bitcode/bitbucket',
   '@bitcode/circleci',
   '@bitcode/cloudflare',

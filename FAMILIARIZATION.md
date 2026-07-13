@@ -225,25 +225,28 @@ Package paths: `packages/asset-pack-generics/`, `packages/generic-asset-packs/me
 | Base | `MeasuredPatchAssetPack` | + measurements, neediness, provenant paths |
 | Product | deposit options / pipeline outputs | project from MeasuredPatchAssetPack |
 
-### 3.1.4 Artifacts (primitive → patch → product)
+### 3.1.4 Artifacts (primitive → types + storage providers)
 
 ```
 @bitcode/artifact-generics                        Artifact + ArtifactStorage contract
         ↑
-@bitcode/generic-artifacts-patch                  PatchArtifact (path+op patchfiles)
+@bitcode/generic-artifacts-patch                  type: path+op patch
+@bitcode/generic-artifacts-aws                    storage: S3
+@bitcode/generic-artifacts-supabase               storage: Supabase
+@bitcode/generic-artifacts-vercel                 storage: Vercel Blob
         ↑
-@bitcode/asset-packs-synthesis                    AssetPackPatchArtifact (product)
-@bitcode/artifacts                                concrete S3/Supabase storage (BC)
+@bitcode/artifacts                                compose providers (aws → supabase → vercel)
+@bitcode/asset-packs-synthesis                    AssetPackPatchArtifact product
 ```
 
-Package paths: `packages/artifact-generics/`, `packages/generic-artifacts/patch/`,
-`packages/artifacts/`, product in `packages/asset-packs/synthesis/`.
+No standalone `@bitcode/aws` package — S3 for artifacts is `generic-artifacts-aws`.
 
 | Layer | Type | Role |
 | --- | --- | --- |
-| Primitive | `Artifact` / `ArtifactStorage` | identity + storage requirements + save/putAtKey |
-| Base | `PatchArtifact` | path+op patchfile envelope for AssetPack patches |
-| Product | `AssetPackPatchArtifact` | patch bound to `assetPackId` for synthesis |
+| Primitive | `Artifact` / `ArtifactStorage` | identity + storage contract |
+| Type base | `PatchArtifact` | path+op patch envelope |
+| Storage bases | aws / supabase / vercel | provider implementations |
+| Product | `AssetPackPatchArtifact` | patch bound to `assetPackId` |
 
 ### 3.1.5 Attachments (primitive → file | external)
 
@@ -495,8 +498,9 @@ public entries remain stable (`./deposit-asset-pack-options`, `./depository-sear
 | `orm` | DB access, generated types, profile contract, data-health |
 | `files`, `browser-storage`, `artifacts` | File / storage helpers |
 | `streams` | Streaming progress helpers |
-| `aws`, `vercel`, `cloudflare`, `docker`, `kubernetes` | Host adapters |
+| `vercel`, `cloudflare`, `docker`, `kubernetes` | Host / infra adapters |
 | `supabase`, `orm` | Live data plane (Postgres via Supabase) |
+| `generic-artifacts-{aws,supabase,vercel}` | Artifact storage providers (S3 / Supabase / Blob) |
 | `postgresql`, `mysql` | Optional/legacy DB MCP tool helpers (not product storage) |
 | `security`, `sentry`, `observability` | Security + telemetry |
 

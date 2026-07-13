@@ -4,10 +4,12 @@
  * Artifact **primitive** contracts for Bitcode Protocol.
  *
  * Prefer:
- *   @bitcode/artifact-generics                 # this package
- *   @bitcode/generic-artifacts-patch           # PatchArtifact base
- *   @bitcode/asset-packs-synthesis             # AssetPackPatchArtifact product
- *   @bitcode/artifacts                         # concrete S3/Supabase storage
+ *   @bitcode/artifact-generics                 # this package (primitives)
+ *   @bitcode/generic-artifacts-patch           # PatchArtifact type
+ *   @bitcode/generic-artifacts-aws             # S3 storage provider
+ *   @bitcode/generic-artifacts-supabase        # Supabase storage provider
+ *   @bitcode/generic-artifacts-vercel          # Vercel Blob storage provider
+ *   @bitcode/artifacts                         # compose providers (BC)
  */
 
 export type {
