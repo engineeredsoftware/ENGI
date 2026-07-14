@@ -892,11 +892,76 @@
 }
 
 .wallet-required-section--pending {
-  --wallet-section-rest-border: rgba(251, 146, 60, 0.36);
+  --wallet-section-rest-border: rgba(251, 146, 60, 0.42);
 }
 
 .wallet-required-section--connected {
-  --wallet-section-rest-border: rgba(103, 254, 183, 0.34);
+  /* Stay in bitcoin-orange family when connected (not emerald). */
+  --wallet-section-rest-border: rgba(251, 146, 60, 0.55);
+}
+
+/*
+ * Section 1. Required wallet — full orange theme for nested chrome.
+ * Global enterprise/form-input styles default to emerald; override here.
+ */
+.wallet-required-section .orbitals-users-input-container.enterprise,
+.wallet-required-section .orbitals-users-input-container {
+  background: rgba(28, 18, 12, 0.72) !important;
+  border: 1px solid rgba(251, 146, 60, 0.32) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18) !important;
+}
+
+.wallet-required-section .form-input {
+  color: rgba(255, 247, 237, 0.92) !important;
+  caret-color: rgba(251, 146, 60, 0.9);
+}
+
+.wallet-required-section .form-input::placeholder {
+  color: rgba(253, 186, 116, 0.45) !important;
+}
+
+.wallet-required-section .form-input:focus {
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.wallet-required-section .input-focus-indicator {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(251, 146, 60, 0.85),
+    rgba(254, 215, 170, 0.95),
+    rgba(251, 146, 60, 0.85),
+    transparent
+  ) !important;
+  box-shadow: 0 0 12px rgba(251, 146, 60, 0.35) !important;
+}
+
+.wallet-required-section .wallet-section-secondary-button {
+  border-color: rgba(251, 146, 60, 0.28);
+  background: rgba(251, 146, 60, 0.08);
+  color: rgba(255, 237, 213, 0.88);
+}
+
+.wallet-required-section .wallet-section-secondary-button:hover:not(:disabled) {
+  border-color: rgba(251, 146, 60, 0.48);
+  background: rgba(251, 146, 60, 0.14);
+  color: rgba(255, 247, 237, 0.96);
+}
+
+.wallet-required-section .wallet-section-meta-panel {
+  border-color: rgba(251, 146, 60, 0.22);
+  background: rgba(20, 12, 8, 0.55);
+}
+
+.wallet-required-section .wallet-section-state-panel {
+  border-color: rgba(251, 146, 60, 0.26);
+  background: rgba(22, 14, 10, 0.62);
+}
+
+.wallet-required-section .wallet-section-state-kicker {
+  color: rgba(253, 186, 116, 0.72);
 }
 
 /*

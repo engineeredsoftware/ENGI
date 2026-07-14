@@ -139,7 +139,7 @@ export default function AuxillariesWalletConnectionPanel({
         <span
           className={`rounded-none border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${
             hasWalletIdentity
-              ? 'border-emerald-300/26 bg-emerald-400/12 text-emerald-100'
+              ? 'border-orange-300/40 bg-orange-400/16 text-orange-50'
               : 'border-orange-300/26 bg-orange-400/12 text-orange-100'
           }`}
         >
@@ -183,7 +183,7 @@ export default function AuxillariesWalletConnectionPanel({
           type="button"
           onClick={refreshBitcoinWalletProviders}
           disabled={walletAuthStatus === 'requesting'}
-          className="inline-flex items-center justify-center rounded-none border border-white/12 bg-white/6 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/66 transition hover:border-white/24 hover:bg-white/10 disabled:cursor-wait disabled:opacity-45"
+          className="wallet-section-secondary-button inline-flex items-center justify-center rounded-none border px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] transition disabled:cursor-wait disabled:opacity-45"
         >
           Rescan wallets
         </button>
@@ -193,7 +193,7 @@ export default function AuxillariesWalletConnectionPanel({
             data-testid="wallet-disconnect-bitcode"
             onClick={handleDisconnectWallet}
             disabled={walletAuthStatus === 'requesting'}
-            className="inline-flex items-center justify-center rounded-none border border-rose-300/24 bg-rose-400/10 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-rose-100 transition hover:border-rose-300/42 hover:bg-rose-400/18 disabled:cursor-wait disabled:opacity-45"
+            className="inline-flex items-center justify-center rounded-none border border-rose-300/28 bg-rose-400/10 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-rose-100 transition hover:border-rose-300/45 hover:bg-rose-400/18 disabled:cursor-wait disabled:opacity-45"
           >
             Disconnect wallet
           </button>
@@ -202,7 +202,7 @@ export default function AuxillariesWalletConnectionPanel({
           type="button"
           onClick={handleStageBitcoinAddress}
           disabled={walletAuthStatus === 'requesting' || !walletAddress.trim()}
-          className="inline-flex items-center justify-center rounded-none border border-white/14 bg-white/7 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/76 transition hover:border-white/24 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-45"
+          className="wallet-section-secondary-button inline-flex items-center justify-center rounded-none border px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] transition disabled:cursor-not-allowed disabled:opacity-45"
         >
           Stage Bitcoin address
         </button>
@@ -210,21 +210,21 @@ export default function AuxillariesWalletConnectionPanel({
       {walletAuthError ? (
         <div
           role="alert"
-          className="mt-3 border border-amber-300/24 bg-amber-400/10 px-4 py-3 text-sm leading-6 text-amber-100"
+          className="mt-3 border border-orange-300/28 bg-orange-400/10 px-4 py-3 text-sm leading-6 text-orange-50"
         >
           <p>{walletAuthError}</p>
           {pendingAuthorizeUrl ? (
             <a
               href={pendingAuthorizeUrl}
-              className="mt-2 inline-flex items-center border border-amber-300/34 bg-amber-400/14 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-50 transition hover:border-amber-300/54 hover:bg-amber-400/22"
+              className="mt-2 inline-flex items-center border border-orange-300/40 bg-orange-400/14 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/58 hover:bg-orange-400/22"
             >
               Open Bitcoin authentication manually
             </a>
           ) : null}
         </div>
       ) : null}
-      <div className="mt-3 rounded-none border border-white/10 bg-black/18 px-4 py-3 text-sm leading-6 text-white/68">
-        <span className="font-semibold text-white/82">
+      <div className="wallet-section-meta-panel mt-3 rounded-none border px-4 py-3 text-sm leading-6 text-orange-50/72">
+        <span className="font-semibold text-orange-50/90">
           {walletProviderScanStatus === 'checking'
             ? 'Checking installed Bitcoin wallets'
             : walletProviderOptions.length > 0
@@ -234,7 +234,7 @@ export default function AuxillariesWalletConnectionPanel({
         {walletAuthNotice ? (
           <span className="ml-2 text-orange-100/82">{walletAuthNotice}</span>
         ) : walletProviderScanStatus === 'none' ? (
-          <span className="ml-2">
+          <span className="ml-2 text-orange-100/70">
             Xverse or Leather must be unlocked, enabled on this site, and set to Testnet4 for this QA pass.
           </span>
         ) : null}
@@ -253,11 +253,11 @@ export default function AuxillariesWalletConnectionPanel({
           />
           <div className="input-focus-indicator"></div>
         </div>
-        <div className="rounded-none border border-white/10 bg-black/22 p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/58">
+        <div className="wallet-section-state-panel rounded-none border p-4">
+          <p className="wallet-section-state-kicker text-xs font-semibold uppercase tracking-[0.18em]">
             Current wallet state
           </p>
-          <p className="mt-2 text-sm font-medium text-white">
+          <p className="mt-2 text-sm font-medium text-orange-50">
             {walletAddress
               ? walletBindingStatus === 'verified'
                 ? 'Verified Bitcoin signer'
@@ -267,38 +267,38 @@ export default function AuxillariesWalletConnectionPanel({
               : 'No Bitcoin wallet connected'}
           </p>
           {walletBoundAt ? (
-            <p className="mt-1 text-xs text-white/54">
+            <p className="mt-1 text-xs text-orange-100/55">
               Bound {new Date(walletBoundAt).toLocaleString()}
             </p>
           ) : null}
-          <dl className="mt-3 grid gap-2 text-xs leading-5 text-white/66">
+          <dl className="mt-3 grid gap-2 text-xs leading-5 text-orange-50/70">
             <div className="grid grid-cols-[6.75rem_minmax(0,1fr)] gap-2">
-              <dt className="text-white/42">Provider</dt>
-              <dd className="min-w-0 break-words text-white/86">{walletReadout.providerLabel}</dd>
+              <dt className="text-orange-100/45">Provider</dt>
+              <dd className="min-w-0 break-words text-orange-50/90">{walletReadout.providerLabel}</dd>
             </div>
             <div className="grid grid-cols-[6.75rem_minmax(0,1fr)] gap-2">
-              <dt className="text-white/42">Network</dt>
-              <dd className="min-w-0 break-words text-white/80">{walletReadout.network ?? 'Not provided'}</dd>
+              <dt className="text-orange-100/45">Network</dt>
+              <dd className="min-w-0 break-words text-orange-50/84">{walletReadout.network ?? 'Not provided'}</dd>
             </div>
             <div className="grid grid-cols-[6.75rem_minmax(0,1fr)] gap-2">
-              <dt className="text-white/42">Auth address</dt>
-              <dd className="min-w-0 break-all text-white/80">{formatWalletReadout(walletReadout.authAddress)}</dd>
+              <dt className="text-orange-100/45">Auth address</dt>
+              <dd className="min-w-0 break-all text-orange-50/84">{formatWalletReadout(walletReadout.authAddress)}</dd>
             </div>
             <div className="grid grid-cols-[6.75rem_minmax(0,1fr)] gap-2">
-              <dt className="text-white/42">Payment</dt>
-              <dd className="min-w-0 break-all text-white/80">{formatWalletReadout(walletReadout.paymentAddress)}</dd>
+              <dt className="text-orange-100/45">Payment</dt>
+              <dd className="min-w-0 break-all text-orange-50/84">{formatWalletReadout(walletReadout.paymentAddress)}</dd>
             </div>
             <div className="grid grid-cols-[6.75rem_minmax(0,1fr)] gap-2">
-              <dt className="text-white/42">Address type</dt>
-              <dd className="min-w-0 break-words text-white/80">{walletReadout.addressType ?? 'Not provided'}</dd>
+              <dt className="text-orange-100/45">Address type</dt>
+              <dd className="min-w-0 break-words text-orange-50/84">{walletReadout.addressType ?? 'Not provided'}</dd>
             </div>
             <div className="grid grid-cols-[6.75rem_minmax(0,1fr)] gap-2">
-              <dt className="text-white/42">Proof</dt>
-              <dd className="min-w-0 break-words text-white/80">{walletReadout.proofKind ?? 'Not provided'}</dd>
+              <dt className="text-orange-100/45">Proof</dt>
+              <dd className="min-w-0 break-words text-orange-50/84">{walletReadout.proofKind ?? 'Not provided'}</dd>
             </div>
             <div className="grid grid-cols-[6.75rem_minmax(0,1fr)] gap-2">
-              <dt className="text-white/42">Persistence</dt>
-              <dd className="min-w-0 break-words text-white/80">{walletReadout.persistence ?? 'wallet'}</dd>
+              <dt className="text-orange-100/45">Persistence</dt>
+              <dd className="min-w-0 break-words text-orange-50/84">{walletReadout.persistence ?? 'wallet'}</dd>
             </div>
           </dl>
         </div>
