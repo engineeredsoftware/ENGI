@@ -55,7 +55,10 @@ describe("VCSConnectionCard — regeneration-failure diagnostic (V48-Gate3-F34)"
       screen.getByText(/Failed to generate installation token: 404 Not Found/i),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Try Disconnect below, then reconnect/i),
+      screen.getByText(/bitcode-github-auxiliary/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Try Disconnect, then Install GitHub App again/i),
     ).toBeInTheDocument();
   });
 
@@ -76,7 +79,7 @@ describe("VCSConnectionCard — regeneration-failure diagnostic (V48-Gate3-F34)"
       screen.getByText(/GitHub App credentials are not configured/i),
     ).toBeInTheDocument();
     expect(
-      screen.queryByText(/Try Disconnect below, then reconnect/i),
+      screen.queryByText(/Try Disconnect, then Install GitHub App again/i),
     ).not.toBeInTheDocument();
   });
 

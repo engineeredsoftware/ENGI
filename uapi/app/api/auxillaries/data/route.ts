@@ -47,9 +47,16 @@ const getAuxillaryData = buildGetAuxillaryDataRoute({
     });
 
     // Prefer post-validation connection row (may include regeneration diagnostics).
-    const refreshedConnection = valid
-      ? (await manager.getConnection(userId, 'github').catch(() => null)) || connection
-      : (await manager.getConnection(userId, 'github').catch(() => null)) || connection;
+    // getConnection is optional on lightweight managers in tests — never throw.
+    let refreshedConnection = connection;
+    try {
+      if (manager && typeof manager.getConnection === 'function') {
+        refreshedConnection =
+          (await manager.getConnection(userId, 'github')) || connection;
+      }
+    } catch {
+      refreshedConnection = connection;
+    }
 
     return {
       repositoryConnectionStatus: buildStoredConnectionStatus(
