@@ -1,7 +1,25 @@
 # AssetPacks
 
-**Status:** Living product document for V48 Gate 3 depositing systems.  
-**Canon:** Requirements remain in `BITCODE_SPEC_V48*` / `BITCODE_SPEC.txt`. This document describes **what an AssetPack is** and **how Bitcode synthesizes options** for depositors (fully) and for readers (outline until the read gate lands).
+**Status:** Non-canonical companion / orientation guide for humans and agents.  
+**Not rebuild law.** Complete Implementation Derivability lives **only** in the
+active/draft `BITCODE_SPEC_*` family (`BITCODE_SPECIFYING.md`). Do not use this
+file to recover system semantics omitted from SPEC. If this document and SPEC
+diverge, **SPEC wins**.
+
+**Canon (must be complete on their own):**
+
+| File | Role |
+|------|------|
+| `BITCODE_SPEC.txt` | Active version pointer (promoted on `main`) |
+| `BITCODE_SPEC_V48.md` | Draft full-system SPEC — AssetPack + deposit SDIVF law in § measurement + § Gate 3 |
+| `BITCODE_SPEC_V48_NOTES.md` | Architecture intent / simplified reading (weaker than SPEC) |
+| `BITCODE_SPEC_V48_DELTA.md` | Version decisions |
+| `BITCODE_SPEC_V48_PARITY_MATRIX.md` | Spec ↔ implementation ↔ test audit |
+| `BITCODE_SPEC_V48_PROVEN.md` | Generated proof appendix |
+
+This document **summarizes** what an AssetPack is and how deposit options are
+synthesized for readability. Every normative claim must also appear in
+`BITCODE_SPEC_V48.md` (especially Gate 3 G3-1…G3-15 and measurement law).
 
 **Product language**
 - **Pipeline** = product run language (Setup → Discovery → Implementation → Validation → Finish).

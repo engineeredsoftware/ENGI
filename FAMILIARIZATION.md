@@ -7,16 +7,21 @@ guessing architecture.
 
 Companion docs (do not duplicate their contracts here):
 
-| Doc | Role |
-| --- | --- |
-| `AGENTS.md` | Contributor / agent engineering law (gates, commits, Bezalel craft) |
-| `BITCODE_SPEC.txt` | Active canon pointer |
-| `BITCODE_SPEC_V48.md` (+ family) | Draft rebuild-alone SPEC for current work |
-| `BITCODE_SPECIFYING.md` | Metaspec: Complete Implementation Derivability |
-| `internal-docs/BITCODE_SOURCE_LAYOUT.md` | Filesystem / component unit contract |
-| `internal-docs/TERMINOLOGY.md` | Product vs agent vocabulary |
-| `uapi/ARCHITECTURE.md` | Next app architecture notes |
-| `README.md` | Product entry + local dev |
+| Doc | Role | Canonical? |
+| --- | --- | --- |
+| `BITCODE_SPEC.txt` | Active canon pointer | **Yes** (pointer) |
+| `BITCODE_SPEC_V48.md` (+ NOTES / DELTA / PARITY / PROVEN) | Draft rebuild-alone SPEC for current work | **Yes** (draft family) |
+| `BITCODE_SPECIFYING.md` | Metaspec: Complete Implementation Derivability | Metaspec |
+| `AGENTS.md` | Contributor / agent engineering law (gates, commits, Bezalel craft) | No |
+| `README.md` | Product entry + local dev | No |
+| `ASSET_PACKS.md` | AssetPack / deposit-synthesis orientation summary | **No** — SPEC § measurement + G3 is law |
+| `internal-docs/BITCODE_SOURCE_LAYOUT.md` | Filesystem / component unit contract | No |
+| `internal-docs/TERMINOLOGY.md` | Product vs agent vocabulary | No |
+| `uapi/ARCHITECTURE.md` | Next app architecture notes | No |
+
+**This file (`FAMILIARIZATION.md`) is non-canonical.** If it conflicts with
+`BITCODE_SPEC_V48.md`, the SPEC wins. Never omit system semantics from SPEC on
+the assumption that FAMILIARIZATION or ASSET_PACKS carries them.
 
 ---
 
@@ -51,7 +56,9 @@ receive **BTD** rights, then entitled delivery.
 
 | Term | Meaning |
 | --- | --- |
-| AssetPack | Always a *synthesized* artifact (patch descriptor + measurements + metadata), not a raw source slice |
+| AssetPack | Always a *synthesized* artifact (**patch + measurements + metadata**), not a raw source slice |
+| Absolutes | Formal material-property catalog (`ASSET_PACK_ABSOLUTES_CATALOG`); required before Finish |
+| sourceCheckoutCatalog | This-run Host path/sample/source index (`deposit:sourceCheckoutCatalog`) |
 | BTD | Weighted scalar knowledge-volume; after settlement, rights-bearing receipt |
 | BTC | Settlement money; testnet-only value in V48 deployment |
 | Measurement | Basis of price (absolute on deposit; Need-relative fit on read) |
@@ -60,6 +67,9 @@ receive **BTD** rights, then entitled delivery.
 | Terminal | **Deleted** product surface — do not reintroduce |
 
 Launch routes: `/deposits`, `/reads`, `/packs`, Auxillaries, `/`, `/docs`.
+
+AssetPack / deposit SDIVF orientation (non-canonical): [`ASSET_PACKS.md`](ASSET_PACKS.md).  
+Binding rebuild law: `BITCODE_SPEC_V48.md` measurement law + §G3-1…G3-15.
 
 ---
 

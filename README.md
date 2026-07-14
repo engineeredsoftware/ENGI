@@ -15,16 +15,24 @@ in paths** — always the single current Bitcode system under the active canon.
 |---|---|
 | `BITCODE_SPEC.txt` | **Active** pointer on `main` (currently **V47**) |
 | `BITCODE_SPEC_V47.md` (+ DELTA / NOTES / PARITY / PROVEN) | Promoted commercial website testnet launch canon |
-| `BITCODE_SPEC_V48.md` (+ family) | **Draft** full-stack rebuild-alone SPEC for V48 work |
+| `BITCODE_SPEC_V48.md` (+ family) | **Draft** full-stack rebuild-alone SPEC for V48 work (sole Gate 3 rebuild law) |
 | `BITCODE_SPEC_V48_NOTES.md` | V48 architecture decisions + Gate 3 depositing parity matrix |
+| `BITCODE_SPEC_V48_PARITY_MATRIX.md` | Spec ↔ source ↔ tests (incl. deposit SDIVF algorithm rows) |
 | `BITCODE_V48_QA.md` | Interactive QA ledger and Gate 3 runbook |
-| `AGENTS.md` | Agent/contributor engineering rules (gates, commits, Bezalel craft) |
-| `FAMILIARIZATION.md` | **Full codebase walkthrough** — packages, uapi, inheritance hierarchies |
 | `BITCODE_SPECIFYING.md` | Metaspec: Complete Implementation Derivability |
+| `AGENTS.md` | Agent/contributor engineering rules (gates, commits, Bezalel craft) |
+| `FAMILIARIZATION.md` | **Non-canonical** codebase walkthrough — packages, uapi, hierarchies |
+| `ASSET_PACKS.md` | **Non-canonical** AssetPack / deposit-synthesis orientation summary |
+
+**Canonical truth:** only `BITCODE_SPEC_*` (and generated PROVEN / `.bitcode/vN-*`
+when part of the family). `README.md`, `FAMILIARIZATION.md`, `ASSET_PACKS.md`,
+and `AGENTS.md` must **not** be required to rebuild the system; they link and
+orient only.
 
 **V48 Gate 3 (Deposit systems MVP)** is specified for rebuild from
-`BITCODE_SPEC_V48.md` alone (§G3-1…G3-15). Do not treat superseded version
-files as live law when implementing V48 gates.
+`BITCODE_SPEC_V48.md` alone (measurement law + §G3-1…G3-15). Do not treat
+superseded version files or non-canonical companions as live law when
+implementing V48 gates.
 
 ---
 
@@ -67,15 +75,18 @@ Branch: `v48/gate-3-synthesis-pipeline-correctness` → PR into `version/v48`.
 
 | Area | Law |
 |---|---|
-| Pipeline | `SynthesizeAssetPacks` SDIVF, deposit mode, **maxIterations = 1** |
+| Pipeline | **SynthesizeDepositAssetPacks** SDIVF (deposit-native roster, no lens), **maxIterations = 1** |
+| AssetPack | **patch + measurements + metadata**; formal `ASSET_PACK_ABSOLUTES_CATALOG` |
+| Catalog | `deposit:sourceCheckoutCatalog` (paths/samples/sources); inventory is legacy dual-write only |
 | Default LLM | Anthropic **`claude-haiku-4-5`** (`BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` override) |
 | LLM timeout | `BITCODE_LLM_CALL_TIMEOUT_MS` default **180000** |
 | Inputs | Obfuscations (empty → skip Setup LLM), Forced Inclusions / Exclusions |
 | Demand | Settled Depository search or **Unestimatable** (no hardcoded %) |
-| Hosts | Inline (default) or Vercel Sandbox (`persistent: false` deposit boxes) |
+| Hosts | LocalHost (default) or Vercel Sandbox (`persistent: false` deposit boxes) |
 | UI | `/deposits` master-detail, option cards, telemetry, cancel, authority/earnings |
 
-Rebuild index: `BITCODE_SPEC_V48.md` §G3-14.
+Rebuild law: `BITCODE_SPEC_V48.md` measurement law + §G3-1…G3-15. Orientation only:
+[`ASSET_PACKS.md`](ASSET_PACKS.md) (non-canonical).
 
 ---
 
