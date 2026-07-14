@@ -105,6 +105,37 @@ async function readGlobalDepositoryRecords(limit: number): Promise<BitcodeActivi
   }
 }
 
+/** Settled read deliveries (SettleAssetPacks) surface on /packs as settled-assetpack rows. */
+async function readSettledAssetPackRecords(limit: number): Promise<BitcodeActivityRecord[]> {
+  try {
+    const { data } = await supabaseAdmin
+      .from('executions')
+      .select('id, created_at, status, type, output, context')
+      .eq('context->>source', 'read-settle-asset-packs')
+      .eq('status', 'completed')
+      .order('created_at', { ascending: false })
+      .limit(Math.min(limit, 50));
+    return (data || []).map((row: Record<string, unknown>) => {
+      const output = (row.output as Record<string, unknown> | null) || {};
+      const context = (row.context as Record<string, unknown> | null) || {};
+      return buildBitcodeActivityRecordFromExecutionHistory({
+        ...row,
+        summary:
+          typeof output.summary === 'string'
+            ? String(output.summary)
+            : `Settled ${context.optionCount ?? ''} AssetPack option(s)`.trim(),
+        context: {
+          ...context,
+          activityType: 'settled-assetpack',
+          packActivityType: 'settled-assetpack',
+        },
+      } as never);
+    });
+  } catch {
+    return [];
+  }
+}
+
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const params = url.searchParams;
@@ -126,10 +157,12 @@ export async function GET(request: Request) {
     ? (payload.records as BitcodeActivityRecord[])
     : [];
   const globalRecords = await readGlobalDepositoryRecords(limit);
+  const settledRecords = await readSettledAssetPackRecords(limit);
   const seenIds = new Set(baseRecords.map((record) => String(record.id)));
   const mergedRecords = [
     ...baseRecords,
     ...globalRecords.filter((record) => !seenIds.has(String(record.id))),
+    ...settledRecords.filter((record) => !seenIds.has(String(record.id))),
   ];
   const packRecords = mergedRecords.map(normalizePackActivityRecord);
   const query = queryPackActivityRecords(packRecords, {

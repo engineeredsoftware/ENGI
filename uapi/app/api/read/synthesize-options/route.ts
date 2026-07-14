@@ -133,5 +133,10 @@ export async function POST(request: Request) {
     }),
   );
 
-  return NextResponse.json({ runId: requestedRunId, status: 'dispatched' });
+  return NextResponse.json({
+    ok: true,
+    executionId: requestedRunId,
+    runId: requestedRunId,
+    status: 'dispatched',
+  });
 }

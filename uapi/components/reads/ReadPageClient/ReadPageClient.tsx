@@ -9,7 +9,7 @@
  */
 
 import { formatSats } from "@/components/reads/models/read-format";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Workflow } from "lucide-react";
 import { useReadRouteParams } from "./hooks/use-read-route-params";
 import { useReadLiveRuns } from "./hooks/use-read-live-runs";
@@ -17,6 +17,7 @@ import { useReadUrlNavigation } from "./hooks/use-read-url-navigation";
 import { useReadPipelineTelemetry } from "./hooks/use-read-pipeline-telemetry";
 import { useReadSessionProjections } from "./hooks/use-read-session-projections";
 import { useReadActivityRecording } from "./hooks/use-read-activity-recording";
+import { useReadOptionSynthesis } from "./hooks/use-read-option-synthesis";
 
 import {
   ProductRouteEnterpriseSummary,
@@ -26,6 +27,7 @@ import {
 import ReadsDepositReadWorkbench from "@/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench";
 import ReadsRepositoryContextPanel from "@/components/reads/ReadsRepositoryContextPanel/ReadsRepositoryContextPanel";
 import ReadsReadScenarioPanel from "@/components/reads/ReadsReadScenarioPanel/ReadsReadScenarioPanel";
+import { ReadsNeedComposePanel } from "@/components/reads/ReadsNeedComposePanel/ReadsNeedComposePanel";
 import { ReadsPipelinesSection } from "@/components/reads/ReadsPipelinesSection/ReadsPipelinesSection";
 import { ReadsRouteStateAside } from "@/components/reads/ReadsRouteStateAside/ReadsRouteStateAside";
 import { BitcodeShellBridgeProvider } from "@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge";
@@ -61,6 +63,78 @@ export default function ReadPageClient() {
 
   const [repositoryContext, setRepositoryContext] =
     useState<TerminalRepositoryContextState | null>(null);
+  const [need, setNeed] = useState("");
+  const [settleBusy, setSettleBusy] = useState(false);
+  const [settleError, setSettleError] = useState<string | null>(null);
+  const [settleMessage, setSettleMessage] = useState<string | null>(null);
+
+  const synthesis = useReadOptionSynthesis({
+    repositoryContext,
+    need,
+    refreshLiveRuns,
+    onRunDispatched: (runId) => {
+      openReadRouteTransaction(runId);
+    },
+  });
+
+  const handleSettleSelected = useCallback(async () => {
+    const selected = synthesis.options.filter((o) =>
+      synthesis.selectedIndexes.includes(o.index),
+    );
+    if (selected.length === 0) return;
+    setSettleBusy(true);
+    setSettleError(null);
+    setSettleMessage(null);
+    try {
+      const response = await fetch("/api/read/settle", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          selectedOptions: selected,
+          synthesisRunId: synthesis.runId,
+          need: need.trim() || null,
+          repositoryFullName:
+            repositoryContext?.selectedRepository?.fullName || null,
+          repository: {
+            fullName: repositoryContext?.selectedRepository?.fullName || null,
+            owner: repositoryContext?.selectedRepository?.owner || null,
+            name: repositoryContext?.selectedRepository?.name || null,
+            branch: repositoryContext?.selectedBranch || null,
+            commit: repositoryContext?.selectedCommit || null,
+          },
+        }),
+      });
+      const payload = await response.json().catch(() => null);
+      if (!response.ok || !payload?.ok) {
+        throw new Error(
+          typeof payload?.error === "string"
+            ? payload.error
+            : "SettleAssetPacks failed.",
+        );
+      }
+      setSettleMessage(
+        `Settled ${selected.length} option(s). Settle run ${payload.settleRunId} — see /packs for activity.`,
+      );
+      void Promise.resolve(refreshLiveRuns() as unknown);
+    } catch (err) {
+      setSettleError(
+        err instanceof Error ? err.message : "SettleAssetPacks failed.",
+      );
+    } finally {
+      setSettleBusy(false);
+    }
+  }, [
+    need,
+    refreshLiveRuns,
+    repositoryContext?.selectedBranch,
+    repositoryContext?.selectedCommit,
+    repositoryContext?.selectedRepository?.fullName,
+    repositoryContext?.selectedRepository?.name,
+    repositoryContext?.selectedRepository?.owner,
+    synthesis.options,
+    synthesis.runId,
+    synthesis.selectedIndexes,
+  ]);
   // Master-detail pipelines table: filters + pagination for the Reads run
   // table (selection itself lives in the URL transactionId). The lens filter
   // defaults to 'all': pipeline runs are typed 'agentic-execution:asset-pack'
@@ -112,7 +186,7 @@ export default function ReadPageClient() {
         tone="sky"
         label="Read"
         title="Reading"
-        summary="Read request -> Need -> Finding Fits -> Preview -> Settlement."
+        summary="Need -> SynthesizeReadAssetPacks (SDIVF) -> select options -> SettleAssetPacks (pay · BTD · PR) -> /packs."
         icon={Workflow}
         metrics={[
           {
@@ -249,6 +323,25 @@ export default function ReadPageClient() {
                 showDemonstrationScenarios={false}
               />
             </div>
+            <ReadsNeedComposePanel
+              need={need}
+              onNeedChange={setNeed}
+              status={synthesis.status}
+              error={synthesis.error}
+              runId={synthesis.runId}
+              options={synthesis.options}
+              envelope={synthesis.envelope}
+              selectedIndexes={synthesis.selectedIndexes}
+              onToggleSelect={synthesis.toggleSelect}
+              onSynthesize={() => void synthesis.synthesize()}
+              onSettleSelected={() => void handleSettleSelected()}
+              settleBusy={settleBusy}
+              settleError={settleError}
+              settleMessage={settleMessage}
+              canSynthesize={Boolean(
+                repositoryContext?.selectedRepository?.fullName,
+              )}
+            />
             <ReadsDepositReadWorkbench
               repositoryContext={repositoryContext}
               depositedSourceRevision={depositedSourceRevision}
