@@ -92,6 +92,13 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
           {BITCODE_PUBLIC_COPY.secondaryCta.label}
           <ArrowRightIcon className="h-4 w-4" />
         </Link>
+        <Link
+          href={BITCODE_PUBLIC_COPY.tertiaryCta.href}
+          className="inline-flex items-center gap-2 rounded-none border border-orange-300/22 bg-orange-400/8 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50/90 transition-colors hover:border-orange-300/40 hover:bg-orange-400/14"
+        >
+          {BITCODE_PUBLIC_COPY.tertiaryCta.label}
+          <ArrowRightIcon className="h-4 w-4" />
+        </Link>
       </div>
 
       <MarketingLandingGuideCard />

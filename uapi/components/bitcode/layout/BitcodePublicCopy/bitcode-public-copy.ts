@@ -17,6 +17,10 @@ export const BITCODE_PUBLIC_COPY = {
     href: '/deposits',
     label: 'Sell AssetPacks',
   },
+  tertiaryCta: {
+    href: '/packs',
+    label: 'View AssetPacks',
+  },
   guide: {
     posts: [
       {
