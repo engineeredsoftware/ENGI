@@ -95,7 +95,9 @@ export const previewRows = [
     valueParts: ['measurements', 'fit', 'proof roots'],
     accentClassName: 'from-emerald-400/18 via-teal-400/8 to-transparent',
     Icon: Squares2X2Icon,
-    valuesGridClassName: 'grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-2',
+    // Long label "measurements" + "fit" collide in 2-col laptop layouts;
+    // keep three columns from tablet up so chips stay separated.
+    valuesGridClassName: 'grid-cols-1 phone:grid-cols-3',
     iconClassName: 'text-white/58',
   },
   {

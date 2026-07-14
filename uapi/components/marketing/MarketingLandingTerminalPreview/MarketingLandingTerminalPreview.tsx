@@ -266,7 +266,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                             </p>
                           </div>
                           <div
-                            className={`mt-3 grid gap-x-5 gap-y-3 text-emerald-50/88 laptop:gap-x-4 laptop:gap-y-2 ${valuesGridClassName}`}
+                            className={`mt-3 grid min-w-0 gap-x-4 gap-y-3 text-emerald-50/88 laptop:gap-x-3 laptop:gap-y-2 ${valuesGridClassName}`}
                           >
                             {valueParts.map((valuePart) => {
                               const isHighlightValue =
@@ -277,14 +277,16 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                               return (
                                 <span
                                   key={`${key}-${valuePart}`}
-                                  className="inline-flex min-w-0 items-start gap-2.5 tablet:gap-3 laptop:gap-2"
+                                  className="inline-flex min-w-0 max-w-full items-start gap-2 overflow-hidden tablet:gap-2.5"
                                 >
-                                  {renderOrbitalBullet(
-                                    'mt-0.5 scale-110 tablet:scale-[1.2] laptop:scale-100',
-                                    isHighlightValue ? 'green' : 'orange',
-                                  )}
+                                  <span className="shrink-0">
+                                    {renderOrbitalBullet(
+                                      'mt-0.5 scale-110 tablet:scale-[1.2] laptop:scale-100',
+                                      isHighlightValue ? 'green' : 'orange',
+                                    )}
+                                  </span>
                                   <span
-                                    className={`min-w-0 break-normal text-pretty text-[13px] leading-6 tablet:text-[15px] laptop:text-[12px] laptop:leading-5 ${
+                                    className={`min-w-0 flex-1 break-words text-pretty text-[13px] leading-6 tablet:text-[15px] laptop:text-[12px] laptop:leading-5 ${
                                       isHighlightValue
                                         ? 'super-shiny-text special-text text-[rgba(103,254,183,0.95)]'
                                         : ''
