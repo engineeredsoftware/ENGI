@@ -70,9 +70,11 @@ export default function AuxillariesSurface({
       )}
 
       {/*
-        Wallet-native chrome: Connect focuses Wallet auxillary + connect CTAs;
-        Disconnect when session or Bitcoin wallet is bound. No Connect
-        chrome — identity entry is wallet binding.
+        Wallet-native chrome:
+        - Connect → Wallet pane + orange connect CTAs (identity entry)
+        - Authorize GitHub → Externals pane + purple GitHub card/button
+          (only after wallet bind, before App + ≥1 authorized repository)
+        - Disconnect when session or Bitcoin wallet is bound
       */}
       {surface.authLoaded && !surface.hasConnectedIdentity && (
         <button
@@ -84,6 +86,19 @@ export default function AuxillariesSurface({
           aria-label="Connect"
         >
           Connect
+        </button>
+      )}
+
+      {surface.authLoaded && surface.needsGitHubConnectAttention && (
+        <button
+          type="button"
+          data-auxillaries-testid="auxillaries-authorize-github-button"
+          data-testid="auxillaries-authorize-github-button"
+          onClick={surface.handleAuthorizeGitHubChrome}
+          className="auxillaries-action-button auxillaries-authorize-github-button auxillaries-toggle-button orbital-toggle-button inline-flex h-10 min-w-[11.5rem] items-center justify-center rounded-none border border-fuchsia-300/40 bg-fuchsia-950/85 px-4 text-xs font-bold uppercase tracking-[0.12em] text-fuchsia-50 shadow-[0_14px_32px_rgba(0,0,0,0.24),0_0_0_1px_rgba(232,121,249,0.12)_inset] transition hover:-translate-y-px hover:border-fuchsia-200/55 hover:bg-fuchsia-900/90 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-300/50"
+          aria-label="Authorize GitHub"
+        >
+          Authorize GitHub
         </button>
       )}
 

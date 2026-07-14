@@ -56,15 +56,24 @@ export function useAuxillariesSurface({
   const { data: sessionUser, isLoading: userLoading } = useUser();
   const { data: profileData, isLoading: profileLoading } = useProfile();
   const { data: onboardingData } = useOnboarding();
-  const { data: auxillaryData, hasWalletConnection, hasGitHubConnection, hasValidGitHubConnection } =
-    useUserData();
+  const {
+    data: auxillaryData,
+    hasWalletConnection,
+    hasGitHubConnection,
+    hasValidGitHubConnection,
+    repositories,
+  } = useUserData();
 
   const authLoaded = !userLoading;
   // Wallet-native identity: a bound Bitcoin wallet counts as connected even
   // before a Supabase session user is present (Connect / Disconnect chrome).
   const hasConnectedIdentity = Boolean(sessionUser) || hasWalletConnection;
-  const needsGitHubConnectAttention =
-    hasWalletConnection && !(hasValidGitHubConnection || hasGitHubConnection);
+  // Onboarding GitHub step: App install + at least one authorized repository.
+  const hasAuthorizedGitHubRepository =
+    (hasValidGitHubConnection || hasGitHubConnection) &&
+    Array.isArray(repositories) &&
+    repositories.length >= 1;
+  const needsGitHubConnectAttention = hasWalletConnection && !hasAuthorizedGitHubRepository;
   const [supabaseClient] = useState(() => createClient());
   const router = useRouter();
   const pathname = usePathname();
@@ -327,12 +336,18 @@ export function useAuxillariesSurface({
   /**
    * After wallet is bound but GitHub is not: open Externals and purple-spotlight
    * the Repository Connection card + Install GitHub App button.
+   * Used by auto-cue after wallet bind and by chrome "Authorize GitHub".
    */
   const focusExternalsGitHubConnect = useCallback(() => {
     setCurrentStep('externals');
     trackEvent('auxillaries_connect_focus_github');
     requestGitHubConnectAttention();
   }, []);
+
+  /** Chrome twin of Connect: Externals pane + purple GitHub attention. */
+  const handleAuthorizeGitHubChrome = useCallback(() => {
+    focusExternalsGitHubConnect();
+  }, [focusExternalsGitHubConnect]);
 
   const prevWalletConnectedRef = useRef(false);
   const githubCueOnOpenRef = useRef(false);
@@ -410,6 +425,7 @@ export function useAuxillariesSurface({
     sessionUser,
     hasWalletConnection,
     hasConnectedIdentity,
+    needsGitHubConnectAttention,
     profileData,
     profileLoading,
     auxillaryData,
@@ -434,6 +450,7 @@ export function useAuxillariesSurface({
     auxillariesBackgroundAnimationClass,
     handleSignOut,
     handleConnectChrome,
+    handleAuthorizeGitHubChrome,
     handleStepComplete,
     handleStepClick,
     handleStepCompletionChange,
