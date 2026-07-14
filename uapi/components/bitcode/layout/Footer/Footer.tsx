@@ -30,7 +30,8 @@ const DEFAULT_OPERATOR_GUIDE_URL =
 const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/BITCODE_SPEC.txt';
 const BITCODE_REPOSITORY_URL = 'https://github.com/engineeredsoftware/bitcode';
 const BITCODE_X_URL = 'https://x.com/bitcode';
-const BITCODE_SUPPORT_EMAIL = 'mailto:support@bitcode.exchange';
+const BITCODE_SUPPORT_EMAIL_ADDRESS = 'support@bitcode.exchange';
+const BITCODE_SUPPORT_MAILTO = `mailto:${BITCODE_SUPPORT_EMAIL_ADDRESS}`;
 const DISABLED_FEATURE_TOOLTIPS = {
   packs:
     'Disabled for launch mode. When enabled, Packs opens the public activity and pack-reading surface.',
@@ -519,9 +520,9 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       <span>X</span>
                     </a>
                     <a
-                      href={BITCODE_SUPPORT_EMAIL}
-                      aria-label="Email Bitcode support"
-                      className="inline-flex items-center gap-1.5 rounded-none border border-white/8 bg-white/[0.03] px-2.5 py-1 text-gray-400 transition-colors hover:border-emerald-300/25 hover:bg-emerald-400/[0.06] hover:text-emerald-100"
+                      href={BITCODE_SUPPORT_MAILTO}
+                      aria-label={`Email ${BITCODE_SUPPORT_EMAIL_ADDRESS}`}
+                      className="pointer-events-auto relative z-10 inline-flex cursor-pointer items-center gap-1.5 rounded-none border border-white/8 bg-white/[0.03] px-2.5 py-1 text-gray-400 underline-offset-2 transition-colors hover:border-emerald-300/25 hover:bg-emerald-400/[0.06] hover:text-emerald-100 hover:underline"
                     >
                       <svg
                         viewBox="0 0 24 24"
@@ -536,7 +537,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                         <rect x="3" y="5" width="18" height="14" rx="1.5" />
                         <path d="m4 7 8 6 8-6" />
                       </svg>
-                      <span>support@bitcode.exchange</span>
+                      <span>{BITCODE_SUPPORT_EMAIL_ADDRESS}</span>
                     </a>
                   </span>
                 </div>
