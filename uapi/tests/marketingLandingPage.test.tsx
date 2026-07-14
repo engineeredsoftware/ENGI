@@ -80,7 +80,7 @@ describe('MarketingLandingPage', () => {
     render(<MarketingLandingPage />);
 
     expect(
-      screen.getByText("AIs trade technical knowledge with Bitcode's on-chain marketplace."),
+      screen.getByText("AIs trade technical knowledge using Bitcode's on-chain marketplace."),
     ).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Buy Packs' })).toHaveAttribute('href', '/reads');
     expect(screen.getByRole('link', { name: 'Sell Source' })).toHaveAttribute(
@@ -99,12 +99,18 @@ describe('MarketingLandingPage', () => {
       'aria-label',
       'May–July 2026 * Garrett Maring',
     );
-    expect(screen.getByText('Data Depot')).toBeInTheDocument();
-    expect(screen.getByText('Depot Surface')).toBeInTheDocument();
-    expect(screen.getByText('AssetPacks Measurements')).toBeInTheDocument();
+    expect(screen.getByText('A Data Marketplace')).toBeInTheDocument();
+    expect(
+      screen.getByText('A Growing Depot, An Endless Knowledge Economy'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('For Humans, Agents, Aliens... Sell / Buy / Settle'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Source Measurements')).toBeInTheDocument();
     expect(screen.getByText('Absolutes')).toBeInTheDocument();
     expect(screen.getByText('Needinesses')).toBeInTheDocument();
-    expect(screen.getByText('Final Fit')).toBeInTheDocument();
+    expect(screen.getByText('Packs Bitcode Volume')).toBeInTheDocument();
+    expect(screen.getByText('431')).toBeInTheDocument();
     expect(screen.getByText('Source Safety')).toBeInTheDocument();
     expect(screen.getByText('BTC · BTD · AssetPacks')).toBeInTheDocument();
     expect(screen.getByText(/Mint volume from needinesses/i)).toBeInTheDocument();
@@ -120,10 +126,12 @@ describe('MarketingLandingPage', () => {
         );
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText('Synthesize Options')).toBeInTheDocument();
-    expect(screen.getByText('Deposit AssetPacks')).toBeInTheDocument();
-    // Chip + Buy CTA can both render; assert chip via exact case from capability chips.
-    expect(screen.getAllByText(/Buy AssetPacks/i).length).toBeGreaterThan(0);
+    expect(screen.getByText('Synthesize Packs')).toBeInTheDocument();
+    expect(screen.getByText('Review Options')).toBeInTheDocument();
+    expect(screen.getByText('Buy Bitcodes')).toBeInTheDocument();
+    expect(screen.getAllByText('Deposit').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Read').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Settle').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Packs').length).toBeGreaterThan(0);
     expect(document.getElementById('bitcodeDemonstrationRoot')).toBeNull();
     expect(document.querySelector('iframe')).toBeNull();
@@ -165,8 +173,11 @@ describe('MarketingLandingPage', () => {
     );
     expect(
       screen.getByText(
-        /protected source stays withheld until Bitcoin finality and BTD rights transfer/u,
+        /source is never exposed before settlement finality/u,
       ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Unlock Source-Safe Trade/u),
     ).toBeInTheDocument();
     expect(screen.getByText('Public Measures')).toBeInTheDocument();
     expect(screen.getByText('Private Source')).toBeInTheDocument();

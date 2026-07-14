@@ -17,11 +17,21 @@ import {
   measurementNeedinessItems,
   paintedMotionStyle,
   previewRows,
+  previewValueNeonClass,
+  type PreviewValueTone,
   renderOrbitalBullet,
   renderTrailingOrangeAsterisk,
   verificationRows,
   verifiedAccessOrbConfig,
 } from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
+
+/** Operator-frame mode chips: Packs purple, Deposit green, Read orange, Proofs white. */
+const OPERATOR_MODE_BULLET: Record<string, 'purple' | 'orange' | 'green' | 'white'> = {
+  Packs: 'purple',
+  Deposit: 'green',
+  Read: 'orange',
+  Proofs: 'white',
+};
 
 export const MarketingLandingTerminalPreview = memo(function MarketingLandingTerminalPreview() {
   return (
@@ -40,25 +50,23 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
         <div className="flex items-center justify-between gap-3">
           <BitcodePill className="border-emerald-300/30 bg-emerald-400/10 text-emerald-100">
             <CircleStackIcon className="h-3.5 w-3.5" />
-            Data Depot
+            A Data Marketplace
           </BitcodePill>
-          <p className="text-[11px] uppercase tracking-[0.24em] text-emerald-200/58">Depot Surface</p>
+          <p className="max-w-[14rem] text-right text-[10px] uppercase leading-snug tracking-[0.14em] text-emerald-200/58 phone:max-w-[18rem] phone:text-[11px] phone:tracking-[0.18em]">
+            A Growing Depot, An Endless Knowledge Economy
+          </p>
         </div>
 
         <div className="mt-4 rounded-none border border-white/10 bg-black/30">
-          <div className="flex items-center justify-between border-b border-white/8 px-4 py-3">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between gap-3 border-b border-white/8 px-4 py-3">
+            <div className="flex shrink-0 items-center gap-2">
               <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
               <span className="h-2.5 w-2.5 rounded-full bg-amber-300/70" />
               <span className="h-2.5 w-2.5 rounded-full bg-emerald-300/70" />
             </div>
-            <div className="flex flex-wrap items-center justify-end gap-x-2 gap-y-1 text-[11px] uppercase tracking-[0.22em] text-emerald-200/60">
-              <span>{BITCODE_PUBLIC_COPY.terminalPreview.rail[0]}</span>
-              <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 text-emerald-200/42" />
-              <span>{BITCODE_PUBLIC_COPY.terminalPreview.rail[1]}</span>
-              <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 text-emerald-200/42" />
-              <span>{BITCODE_PUBLIC_COPY.terminalPreview.rail[2]}</span>
-            </div>
+            <p className="min-w-0 text-right text-[9px] uppercase leading-snug tracking-[0.12em] text-emerald-200/60 phone:text-[10px] phone:tracking-[0.16em] laptop:text-[11px] laptop:tracking-[0.18em]">
+              {BITCODE_PUBLIC_COPY.terminalPreview.rail}
+            </p>
           </div>
 
           <div className="grid gap-3 p-4 laptop:hidden">
@@ -93,8 +101,8 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
             </div>
 
             <div className="rounded-none border border-white/8 bg-white/5 p-4">
-              <div className="flex items-start justify-between gap-3">
-                <p className="min-w-0 bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold text-transparent">
+              <div className="flex items-center justify-between gap-3">
+                <p className="min-w-0 bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold leading-none text-transparent">
                   {BITCODE_PUBLIC_COPY.operatorFrame.title}
                 </p>
                 <span className="inline-flex min-w-[92px] shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 px-2.5 py-1.5 text-center text-[10px] uppercase leading-4 tracking-[0.16em] text-white/60">
@@ -110,7 +118,10 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                     key={surface}
                     className="inline-flex items-center gap-2 rounded-none border border-white/10 bg-black/20 px-3 py-2 text-[11px] text-white/84"
                   >
-                    {renderOrbitalBullet('scale-100', surface === 'Read' ? 'green' : 'purple')}
+                    {renderOrbitalBullet(
+                      'scale-100',
+                      OPERATOR_MODE_BULLET[surface] ?? 'purple',
+                    )}
                     {surface}
                   </span>
                 ))}
@@ -122,8 +133,8 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
           <div className="hidden gap-3 p-4 laptop:grid laptop:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] laptop:grid-rows-1 laptop:items-stretch">
             <div className="flex h-full min-h-0 flex-col gap-3 self-stretch">
               <div className="shrink-0 rounded-none border border-white/8 bg-white/5 p-4">
-                <p className="whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.14em] text-emerald-200/74">
-                  AssetPacks Measurements
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
+                  Source Measurements
                 </p>
 
                 <div className="mt-4 space-y-4">
@@ -212,7 +223,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                     <div className="mt-2.5 h-2.5 overflow-hidden rounded-none bg-black/30">
                       <div
                         className="h-full origin-left"
-                        style={{ width: `${measurementFinalFit.value}%` }}
+                        style={{ width: `${measurementFinalFit.barPercent}%` }}
                       >
                         <motion.div
                           initial={{ scaleX: 0 }}
@@ -228,8 +239,8 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
               </div>
 
               <div className="shrink-0 rounded-none border border-white/8 bg-white/5 p-4">
-                <div className="flex items-start justify-between gap-3">
-                  <p className="min-w-0 bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold text-transparent">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="min-w-0 bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold leading-none text-transparent">
                     {BITCODE_PUBLIC_COPY.operatorFrame.title}
                   </p>
                   <span className="inline-flex min-w-[92px] shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 px-2.5 py-1.5 text-center text-[10px] uppercase leading-4 tracking-[0.16em] text-white/60">
@@ -248,7 +259,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                     >
                       {renderOrbitalBullet(
                         'scale-110 tablet:scale-[1.25] laptop:scale-100',
-                        surface === 'Read' ? 'green' : 'purple',
+                        OPERATOR_MODE_BULLET[surface] ?? 'purple',
                       )}
                       <span className="text-left text-[15px] leading-snug text-white/90 tablet:text-[17px] laptop:text-[13px]">
                         {surface}
@@ -285,7 +296,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                     </div>
                     <span className="mt-2 inline-flex items-center gap-1 rounded-none border border-emerald-300/14 bg-emerald-400/8 px-2 py-1 text-[8px] uppercase tracking-[0.14em] text-emerald-50/72">
                       <EyeIcon className="h-3 w-3" />
-                      usage pays
+                      Fitting Pays
                     </span>
                   </div>
 
@@ -325,8 +336,21 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                   {BITCODE_PUBLIC_COPY.giveContribution.title}
                 </p>
                 <div className="mt-4 space-y-3 font-mono text-[12px] leading-5 text-emerald-100/80">
-                  {previewRows.map(
-                    ({ key, valueParts, Icon: RowIcon, accentClassName, valuesGridClassName, iconClassName }) => (
+                  {previewRows.map((row) => {
+                    const {
+                      key,
+                      valueParts,
+                      Icon: RowIcon,
+                      accentClassName,
+                      valuesGridClassName,
+                      iconClassName,
+                    } = row;
+                    const valueTones =
+                      'valueTones' in row
+                        ? (row.valueTones as Partial<Record<string, PreviewValueTone>>)
+                        : undefined;
+
+                    return (
                       <div
                         key={key}
                         className="relative overflow-hidden rounded-none border border-white/6 bg-black/20 px-3 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
@@ -348,11 +372,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                             className={`mt-3 grid min-w-0 gap-x-4 gap-y-3 text-emerald-50/88 laptop:gap-x-3 laptop:gap-y-2 ${valuesGridClassName}`}
                           >
                             {valueParts.map((valuePart) => {
-                              const isHighlightValue =
-                                valuePart === 'BTD' ||
-                                valuePart === 'BTC' ||
-                                valuePart === 'fit' ||
-                                valuePart === 'Delivery';
+                              const tone = valueTones?.[valuePart];
 
                               return (
                                 <span
@@ -362,14 +382,12 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                                   <span className="shrink-0">
                                     {renderOrbitalBullet(
                                       'scale-110 tablet:scale-[1.2] laptop:scale-100',
-                                      isHighlightValue ? 'green' : 'orange',
+                                      tone ?? 'orange',
                                     )}
                                   </span>
                                   <span
                                     className={`min-w-0 flex-1 whitespace-nowrap text-[13px] leading-5 tablet:text-[15px] laptop:text-[12px] laptop:leading-5 ${
-                                      isHighlightValue
-                                        ? 'super-shiny-text special-text text-[rgba(103,254,183,0.95)]'
-                                        : ''
+                                      tone ? previewValueNeonClass[tone] : ''
                                     }`}
                                   >
                                     {valuePart}
@@ -380,8 +398,8 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                           </div>
                         </div>
                       </div>
-                    ),
-                  )}
+                    );
+                  })}
                 </div>
               </div>
 

@@ -1,6 +1,6 @@
 export const BITCODE_PUBLIC_COPY = {
   eyebrow: 'Buy and sell measured AssetPacks',
-  headline: "AIs trade technical knowledge with Bitcode's on-chain marketplace.",
+  headline: "AIs trade technical knowledge using Bitcode's on-chain marketplace.",
   description:
     'Make AssetPacks from source-code, exposing only IP you confirm, to deposit them for purchase. Buy them with Bitcoin to consume the specific knowledge you request. All running on fully open-source, proven, and ledgerized infrastructure.',
   descriptionHighlights: [
@@ -8,9 +8,9 @@ export const BITCODE_PUBLIC_COPY = {
     { text: 'Bitcoin', tone: 'orange' },
   ],
   capabilityChips: [
-    'Synthesize Options',
-    'Deposit AssetPacks',
-    'Buy AssetPacks',
+    'Synthesize Packs',
+    'Review Options',
+    'Buy Bitcodes',
   ],
   primaryCta: {
     href: '/reads',
@@ -68,7 +68,8 @@ export const BITCODE_PUBLIC_COPY = {
   terminalPreview: {
     pill: 'Market',
     kicker: 'AssetPack commerce',
-    rail: ['sell', 'buy', 'settle'],
+    // Single rail label (depot window chrome).
+    rail: 'For Humans, Agents, Aliens... Sell / Buy / Settle',
   },
   // Marketing presents the commercial product as production — no testnet language.
   // AssetPacks + BTD are ERC-1155 on Ethereum; purchase/settlement money is Bitcoin.
@@ -101,20 +102,20 @@ export const BITCODE_PUBLIC_COPY = {
       },
     ],
     sourceSafety:
-      'Source-safe trade: buyers see measurements before pay; protected source stays withheld until Bitcoin finality and BTD rights transfer.',
+      'Unlock Source-Safe Trade: readers see rich measurements enough to confidently decide to purchase; source is never exposed before settlement finality.',
   },
   operatorFrame: {
-    title: 'AssetPack market',
+    title: 'Marketplace',
     subtitle: 'sell supply · buy against Need · settle with proof',
-    badge: 'live paths',
+    badge: 'AssetPacks',
     modes: ['Packs', 'Deposit', 'Read', 'Proofs'],
   },
   giveContribution: {
-    title: 'What you sell',
+    title: 'Selling Knowledge',
   },
   sourceToSettlement: {
-    title: 'From repo to paid delivery',
-    subtitle: 'seller → buyer market path',
+    title: 'From Source to Delivery',
+    subtitle: 'Seller → Deposits → Buyer → Fits → Settle',
     badge: '6 stages',
     stages: [
       { number: '01', stage: 'deposit' },
@@ -122,7 +123,7 @@ export const BITCODE_PUBLIC_COPY = {
       { number: '03', stage: 'fit' },
       { number: '04', stage: 'prove' },
       { number: '05', stage: 'settle' },
-      { number: '06', stage: 'issue' },
+      { number: '06', stage: 'Deliver' },
     ],
   },
   // Bottom-right depot card — fills residual height beside Verified access.
