@@ -103,6 +103,8 @@ export interface PackActivityRecord {
   rightsState: string | null;
   compensationState: string | null;
   deliveryState: string | null;
+  /** Live or projected PR URL / delivery reference for settled rows (source-safe). */
+  deliveryReference: string | null;
   repairState: string | null;
   measurements: PackActivityMeasurement[];
   values: PackActivityValue[];
@@ -160,6 +162,8 @@ export interface PackActivityDetailProjection {
     delivery: string | null;
     repair: string | null;
   };
+  /** Live or projected PR URL for settled AssetPack delivery (source-safe). */
+  deliveryReference: string | null;
   telemetry: {
     sourceEventId: string;
     sourceKind: string | null;
@@ -380,13 +384,29 @@ function includesAny(text: string, tokens: string[]) {
 
 function inferPackActivityType(record: BitcodeActivityRecord): PackActivityType {
   const payload = asRecord(record.payload);
+  // Explicit packActivityType / activityType (settle + depository writers set these).
+  const explicitType = findFirstString(payload, [
+    'packActivityType',
+    'activityType',
+    'pack_activity_type',
+  ]);
+  if (explicitType) {
+    const normalized = explicitType.toLowerCase().replace(/_/g, '-');
+    if (PACK_ACTIVITY_TYPES.includes(normalized as PackActivityType)) {
+      return normalized as PackActivityType;
+    }
+  }
+  const source = findFirstString(payload, ['source']);
+  if (source === 'read-settle-asset-packs') return 'settled-assetpack';
+  if (source === 'deposit-option-review-admission') return 'depository-assetpack';
+
   const haystack = [
     record.kind,
     record.title,
     record.summary,
     record.state,
     readString(payload, 'type', 'status', 'kind', 'eventType'),
-    findFirstString(payload, ['canonicalType', 'family', 'label', 'reviewStage']),
+    findFirstString(payload, ['canonicalType', 'family', 'label', 'reviewStage', 'productPipeline']),
   ]
     .filter(Boolean)
     .join(' ')
@@ -405,7 +425,22 @@ function inferPackActivityType(record: BitcodeActivityRecord): PackActivityType 
   }
   if (includesAny(haystack, ['deposit option', 'deposit-option', 'option synthesis'])) return 'deposit-option';
   if (includesAny(haystack, ['finding fits', 'fits finding', 'read-fits', 'fit preview', 'assetpack preview'])) return 'read-need-fit-preview';
-  if (includesAny(haystack, ['settled assetpack', 'settled asset pack', 'rights transfer'])) return 'settled-assetpack';
+  if (
+    includesAny(haystack, [
+      'settled assetpack',
+      'settled asset pack',
+      'settled assetpack option',
+      'settle-asset-packs',
+      'settle asset packs',
+      'rights transfer',
+    ])
+  ) {
+    return 'settled-assetpack';
+  }
+  // "Settled N AssetPack option(s)" — word-gap form from settle summary.
+  if (/\bsettled\b/u.test(haystack) && /\basset\s*pack/u.test(haystack)) {
+    return 'settled-assetpack';
+  }
   if (includesAny(haystack, ['settlement', 'btc', 'finality'])) return 'settlement';
   if (includesAny(haystack, ['compensation', 'source-to-shares', 'shares allocation'])) return 'compensation';
   if (includesAny(haystack, ['delivery', 'pull request', 'pr delivery', 'repository delivery'])) return 'delivery';
@@ -443,6 +478,92 @@ function inferAssetPackTitle(record: BitcodeActivityRecord) {
   );
 }
 
+/**
+ * Project nested AssetPack measurement kinds (absolutes + needinesses *-fit)
+ * into flat source-safe PackActivity measurement rows.
+ */
+function collectNestedKindMeasurements(
+  source: unknown,
+  measurements: PackActivityMeasurement[],
+  seen = new Set<string>(),
+  depth = 0,
+) {
+  if (depth > 8 || source === null || source === undefined) return;
+  if (Array.isArray(source)) {
+    for (const item of source) collectNestedKindMeasurements(item, measurements, seen, depth + 1);
+    return;
+  }
+  const record = asRecord(source);
+  // Settled packActivity.measurements[] rows: { kind, category, volume, magnitude }
+  if (typeof record.kind === 'string' && (record.category === 'absolute' || record.category === 'neediness')) {
+    const kind = record.kind;
+    const id = `${record.category}:${kind}`;
+    if (!seen.has(id)) {
+      seen.add(id);
+      const value =
+        typeof record.volume === 'number'
+          ? record.volume
+          : typeof record.magnitude === 'number'
+            ? record.magnitude
+            : null;
+      if (value !== null) {
+        measurements.push({
+          id,
+          label: normalizeLabel(kind),
+          value,
+          unit: typeof record.unit === 'string' ? record.unit : record.category === 'neediness' ? 'fit' : null,
+          root: null,
+        });
+      }
+    }
+  }
+  // Nested shape measurements: { absolutes: [...], needinesses: [...] }
+  const absolutes = Array.isArray(record.absolutes) ? record.absolutes : [];
+  for (const raw of absolutes) {
+    if (!raw || typeof raw !== 'object') continue;
+    const a = raw as Record<string, unknown>;
+    const kind = typeof a.kind === 'string' ? a.kind : typeof a.id === 'string' ? a.id : null;
+    if (!kind) continue;
+    const id = `absolute:${kind}`;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    const value =
+      typeof a.volume === 'number' ? a.volume : typeof a.magnitude === 'number' ? a.magnitude : null;
+    if (value === null) continue;
+    measurements.push({
+      id,
+      label: normalizeLabel(kind),
+      value,
+      unit: typeof a.unit === 'string' ? a.unit : null,
+      root: null,
+    });
+  }
+  const needinesses = Array.isArray(record.needinesses) ? record.needinesses : [];
+  for (const raw of needinesses) {
+    if (!raw || typeof raw !== 'object') continue;
+    const n = raw as Record<string, unknown>;
+    const kind = typeof n.kind === 'string' ? n.kind : typeof n.id === 'string' ? n.id : null;
+    if (!kind) continue;
+    const id = `neediness:${kind}`;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    const value = typeof n.volume === 'number' ? n.volume : null;
+    if (value === null) continue;
+    measurements.push({
+      id,
+      label: normalizeLabel(kind),
+      value,
+      unit: typeof n.unit === 'string' ? n.unit : 'fit',
+      root: null,
+    });
+  }
+  for (const value of Object.values(record)) {
+    if (value && typeof value === 'object') {
+      collectNestedKindMeasurements(value, measurements, seen, depth + 1);
+    }
+  }
+}
+
 function buildMeasurements(record: BitcodeActivityRecord): PackActivityMeasurement[] {
   const payload = asRecord(record.payload);
   const measurements: PackActivityMeasurement[] = [];
@@ -463,6 +584,8 @@ function buildMeasurements(record: BitcodeActivityRecord): PackActivityMeasureme
       measurements.push({ id, label: normalizeLabel(id), value, unit, root: null });
     }
   }
+
+  collectNestedKindMeasurements(payload, measurements);
 
   const measurementRoot = findFirstString(payload, [
     'measurementRoot',
@@ -650,7 +773,9 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
   const settlementState = readState(record, ['settlementState', 'settlement_state', 'finalityState']) || commodityState.btcState;
   const rightsState =
     readState(record, ['rightsState', 'rights_state', 'btdRightsState']) ||
-    (['btd-rights-transferred', 'btd-source-to-shares-allocated'].includes(commodityState.btdState)
+    (['btd-rights-transferred', 'btd-source-to-shares-allocated', 'btd-rights-projected'].includes(
+      commodityState.btdState,
+    )
       ? commodityState.btdState
       : null);
   const compensationState =
@@ -659,24 +784,43 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
   const deliveryState =
     readState(record, ['deliveryState', 'delivery_state', 'pullRequestState']) ||
     (commodityState.assetPackState === 'source-unlocked-delivery' ? commodityState.assetPackState : null);
+  const deliveryReference =
+    readState(record, ['deliveryReference', 'delivery_reference', 'prUrl', 'pr_url', 'pullRequestUrl']) ||
+    null;
   const repairState =
     readState(record, ['repairState', 'repair_state', 'reconciliationState']) ||
     (commodityState.repairRequired ? 'repair-required' : null);
+
+  const assetPackTitle = inferAssetPackTitle(record);
+  // Prefer settle/deposit authored titles over generic execution-history labels.
+  const title =
+    (type === 'settled-assetpack' &&
+      (assetPackTitle
+        ? `Settled AssetPack: ${assetPackTitle}`
+        : record.summary?.startsWith('Settled')
+          ? record.summary.split('.')[0]
+          : null)) ||
+    (type === 'depository-assetpack' && assetPackTitle
+      ? `Depository AssetPack: ${assetPackTitle}`
+      : null) ||
+    record.title ||
+    normalizeLabel(type);
 
   return {
     id: record.id,
     type,
     scope: record.scope,
-    title: record.title || normalizeLabel(type),
+    title,
     description: record.summary || 'Pack activity',
     timestamp: record.timestamp,
     state: record.state || commodityState.assetPackState,
     repository: inferRepository(record),
-    assetPackTitle: inferAssetPackTitle(record),
+    assetPackTitle,
     settlementState,
     rightsState,
     compensationState,
     deliveryState,
+    deliveryReference,
     repairState,
     measurements: buildMeasurements(record),
     values: buildValues(record),
@@ -899,6 +1043,7 @@ export function buildPackActivityDetailProjection(
       delivery: record.deliveryState,
       repair: record.repairState,
     },
+    deliveryReference: record.deliveryReference,
     telemetry: {
       sourceEventId: record.id,
       sourceKind: String(record.metadata.kind || record.metadata.type || '') || null,
@@ -929,7 +1074,9 @@ export function summarizePackActivityRecords(records: PackActivityRecord[]): Pac
     repositories: [...repositories].sort(compareText),
     settlementReady: records.filter((record) => /ready|settled|final/i.test(record.settlementState || '')).length,
     compensationReady: records.filter((record) => /ready|allocated|paid/i.test(record.compensationState || '')).length,
-    deliveryReady: records.filter((record) => /ready|delivered|pull/i.test(record.deliveryState || '')).length,
+    deliveryReady: records.filter((record) =>
+      /ready|delivered|pull|opened|projected/i.test(record.deliveryState || ''),
+    ).length,
     repairOpen: records.filter((record) => /open|repair|reconcile|failed/i.test(record.repairState || '')).length,
   };
 }

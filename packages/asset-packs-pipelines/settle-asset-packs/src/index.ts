@@ -246,23 +246,162 @@ const shipAssetPackPatchPr: Executor<SettleAssetPacksInput, any> = async (input,
   return { ...input, shippable, success: status !== 'failed' };
 };
 
+/**
+ * Source-safe measurement rows for /packs (no patch bodies, no raw source).
+ * Nested kinds: absolutes + needinesses (*-fit).
+ */
+function projectSourceSafePackMeasurements(selected: unknown[]): Array<{
+  kind: string;
+  category: 'absolute' | 'neediness';
+  volume: number | null;
+  magnitude: number | null;
+  unit: string | null;
+  weight: number | null;
+}> {
+  const rows: Array<{
+    kind: string;
+    category: 'absolute' | 'neediness';
+    volume: number | null;
+    magnitude: number | null;
+    unit: string | null;
+    weight: number | null;
+  }> = [];
+  for (const opt of selected) {
+    const measurements =
+      opt && typeof opt === 'object'
+        ? ((opt as Record<string, unknown>).measurements as Record<string, unknown> | undefined)
+        : undefined;
+    if (!measurements || typeof measurements !== 'object') continue;
+    const absolutes = Array.isArray(measurements.absolutes) ? measurements.absolutes : [];
+    for (const raw of absolutes) {
+      if (!raw || typeof raw !== 'object') continue;
+      const a = raw as Record<string, unknown>;
+      const kind = typeof a.kind === 'string' ? a.kind : typeof a.id === 'string' ? a.id : null;
+      if (!kind) continue;
+      rows.push({
+        kind,
+        category: 'absolute',
+        volume: typeof a.volume === 'number' ? a.volume : null,
+        magnitude: typeof a.magnitude === 'number' ? a.magnitude : null,
+        unit: typeof a.unit === 'string' ? a.unit : null,
+        weight: typeof a.weight === 'number' ? a.weight : null,
+      });
+    }
+    const needinesses = Array.isArray(measurements.needinesses) ? measurements.needinesses : [];
+    for (const raw of needinesses) {
+      if (!raw || typeof raw !== 'object') continue;
+      const n = raw as Record<string, unknown>;
+      const kind = typeof n.kind === 'string' ? n.kind : typeof n.id === 'string' ? n.id : null;
+      if (!kind) continue;
+      rows.push({
+        kind,
+        category: 'neediness',
+        volume: typeof n.volume === 'number' ? n.volume : null,
+        magnitude: null,
+        unit: typeof n.unit === 'string' ? n.unit : null,
+        weight: typeof n.weight === 'number' ? n.weight : null,
+      });
+    }
+  }
+  return rows;
+}
+
+function projectSourceSafeOptionTitles(selected: unknown[]): string[] {
+  return selected
+    .map((opt) => {
+      if (!opt || typeof opt !== 'object') return null;
+      const title = (opt as Record<string, unknown>).title;
+      return typeof title === 'string' && title.trim() ? title.trim() : null;
+    })
+    .filter((title): title is string => Boolean(title));
+}
+
 const journalAndPackActivity: Executor<any, any> = async (input, execution) => {
   storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'stage', 'journal-and-pack-activity');
+  const selected = Array.isArray(input?.selectedOptions) ? input.selectedOptions : [];
+  const shippable = input?.shippable || execution?.get?.('settle-asset-packs', 'shippable') || null;
+  const paymentObservation =
+    input?.paymentObservation || execution?.get?.('settle-asset-packs', 'paymentObservation') || null;
+  const rights = execution?.get?.('settle-asset-packs', 'rights') || null;
+  const settlement = execution?.get?.('settle-asset-packs', 'settlement') || null;
+  const measurementRows = projectSourceSafePackMeasurements(selected);
+  const optionTitles = projectSourceSafeOptionTitles(selected);
+  const prUrl =
+    shippable && typeof shippable === 'object' && typeof (shippable as any).prUrl === 'string'
+      ? (shippable as any).prUrl
+      : null;
+  const deliveryStatus =
+    shippable && typeof shippable === 'object' && typeof (shippable as any).status === 'string'
+      ? (shippable as any).status
+      : 'projected';
+  const repositoryFullName =
+    shippable && typeof shippable === 'object'
+      ? (shippable as any)?.repository?.fullName || null
+      : null;
+
+  // Source-safe PackActivity envelope for /packs master-detail (G4-6).
   const activity = {
     schema: 'bitcode.packs.activity',
     surface: '/packs',
+    packActivityType: 'settled-assetpack',
+    activityType: 'settled-assetpack',
     settledAt: new Date().toISOString(),
-    shippable: input?.shippable || null,
-    settlement: execution?.get?.('settle-asset-packs', 'settlement') || null,
-    rights: execution?.get?.('settle-asset-packs', 'rights') || null,
+    repositoryFullName,
+    optionCount: selected.length,
+    assetPackTitle: optionTitles[0] || null,
+    optionTitles,
+    measurements: measurementRows,
+    settlementState: 'settled',
+    rightsState:
+      rights && typeof rights === 'object' && (rights as any).status === 'projected'
+        ? 'btd-rights-projected'
+        : 'btd-rights-transferred',
+    deliveryState: deliveryStatus,
+    deliveryReference: prUrl,
+    prUrl,
+    paymentObservation: paymentObservation
+      ? {
+          schema: (paymentObservation as any).schema || 'bitcode.settle-asset-packs.payment-observation',
+          network: (paymentObservation as any).network || 'btc-testnet',
+          status: (paymentObservation as any).status || null,
+          txId: (paymentObservation as any).txId || null,
+          amountSats:
+            typeof (paymentObservation as any).amountSats === 'number'
+              ? (paymentObservation as any).amountSats
+              : null,
+          finality: (paymentObservation as any).finality || null,
+        }
+      : null,
+    // shippable without patch bodies (source-safe redaction still applies on packs model)
+    shippable: shippable
+      ? {
+          schema: (shippable as any).schema || 'bitcode.settle-asset-packs.shippable',
+          deliveryMechanism: (shippable as any).deliveryMechanism || 'pull_request',
+          repository: (shippable as any).repository || null,
+          headBranch: (shippable as any).headBranch || null,
+          baseBranch: (shippable as any).baseBranch || null,
+          patchCount: (shippable as any).patchCount ?? selected.length,
+          prUrl,
+          status: deliveryStatus,
+          note: (shippable as any).note || null,
+        }
+      : null,
+    settlement,
+    rights,
   };
   storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'packActivity', activity);
   storeCrossPhaseArtifact(execution, 'finish', 'packActivity', activity);
+  const title =
+    optionTitles.length === 1
+      ? `Settled AssetPack: ${optionTitles[0]}`
+      : optionTitles.length > 1
+        ? `Settled ${optionTitles.length} AssetPack options`
+        : `Settled ${selected.length || 0} AssetPack option(s)`;
   return {
     ...input,
     success: true,
     packActivity: activity,
-    summary: 'SettleAssetPacks completed validate → pay → mint/rights → ship PR → pack activity.',
+    summary: `${title}. SettleAssetPacks: validate → pay → mint/rights → ship PR → pack activity.`,
   };
 };
 

@@ -128,7 +128,18 @@ function formatExecutionTitle(payload: Record<string, any>) {
   }
 }
 
-function formatExecutionHistoryTitle(type: string | null | undefined) {
+function formatExecutionHistoryTitle(
+  type: string | null | undefined,
+  context?: Record<string, unknown> | null,
+) {
+  const packActivityType = String(
+    context?.packActivityType || context?.activityType || '',
+  ).toLowerCase();
+  if (packActivityType === 'settled-assetpack') return 'Settled AssetPack';
+  if (packActivityType === 'depository-assetpack') return 'Depository AssetPack';
+  const source = String(context?.source || '').toLowerCase();
+  if (source === 'read-settle-asset-packs') return 'Settled AssetPack';
+  if (source === 'deposit-option-review-admission') return 'Depository AssetPack';
   const normalizedType = String(type || '').trim().toLowerCase();
   if (!normalizedType) return 'Execution activity';
   if (normalizedType.includes('measure')) return 'Read measurement execution';
@@ -246,10 +257,14 @@ export function inferExecutionHistoryScope(
 ): BitcodeActivityScope {
   const context = asObject((row as Record<string, any>).context);
   const admissionState = String(context.admissionState || context.admission_state || '');
-  if (admissionState === 'admitted-to-depository') return 'network';
+  if (admissionState === 'admitted-to-depository' || admissionState === 'settled') return 'network';
   const type = String(row.type || '');
   if (type.includes('settlement') || type.includes('settled')) return 'network';
-  const packActivityType = String(context.packActivityType || '');
+  const source = String(context.source || '');
+  if (source === 'read-settle-asset-packs' || source === 'deposit-option-review-admission') {
+    return 'network';
+  }
+  const packActivityType = String(context.packActivityType || context.activityType || '');
   if (packActivityType === 'depository-assetpack' || packActivityType === 'settled-assetpack') {
     return 'network';
   }
@@ -262,10 +277,11 @@ export function buildBitcodeActivityRecordFromExecutionHistory(
   const repo = row.repo_snapshot?.org && row.repo_snapshot?.repo
     ? `${row.repo_snapshot.org}/${row.repo_snapshot.repo}`
     : null;
+  const context = asObject((row as Record<string, any>).context);
   const summary =
     String(row.summary || '').trim() ||
     [
-      formatExecutionHistoryTitle(row.type),
+      formatExecutionHistoryTitle(row.type, context),
       row.status ? `status ${String(row.status)}` : null,
       repo ? `for ${repo}` : null,
     ]
@@ -278,7 +294,7 @@ export function buildBitcodeActivityRecordFromExecutionHistory(
     scope: inferExecutionHistoryScope(row),
     channel: 'system-surface',
     label: getBitcodeActivityKindLabel('execution'),
-    title: formatExecutionHistoryTitle(row.type),
+    title: formatExecutionHistoryTitle(row.type, context),
     summary,
     timestamp: row.created_at || null,
     state: String(row.status || '').trim() || null,

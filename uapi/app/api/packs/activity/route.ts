@@ -118,16 +118,65 @@ async function readSettledAssetPackRecords(limit: number): Promise<BitcodeActivi
     return (data || []).map((row: Record<string, unknown>) => {
       const output = (row.output as Record<string, unknown> | null) || {};
       const context = (row.context as Record<string, unknown> | null) || {};
+      const packActivity =
+        output.packActivity && typeof output.packActivity === 'object'
+          ? (output.packActivity as Record<string, unknown>)
+          : {};
+      const optionCount = context.optionCount ?? output.optionCount ?? packActivity.optionCount;
+      const assetPackTitle =
+        (typeof context.assetPackTitle === 'string' && context.assetPackTitle) ||
+        (typeof output.assetPackTitle === 'string' && output.assetPackTitle) ||
+        (typeof packActivity.assetPackTitle === 'string' && packActivity.assetPackTitle) ||
+        null;
+      const summary =
+        typeof output.summary === 'string'
+          ? String(output.summary)
+          : assetPackTitle
+            ? `Settled AssetPack: ${assetPackTitle}`
+            : `Settled ${optionCount ?? ''} AssetPack option(s)`.trim();
+      // Flatten settle fields onto the history row so pack-activity-model can
+      // project measurements, PR delivery, and states without deep-only scans.
       return buildBitcodeActivityRecordFromExecutionHistory({
         ...row,
-        summary:
-          typeof output.summary === 'string'
-            ? String(output.summary)
-            : `Settled ${context.optionCount ?? ''} AssetPack option(s)`.trim(),
+        summary,
         context: {
           ...context,
+          source: 'read-settle-asset-packs',
           activityType: 'settled-assetpack',
           packActivityType: 'settled-assetpack',
+          assetPackTitle,
+          settlementState: context.settlementState || output.settlementState || 'settled',
+          rightsState: context.rightsState || output.rightsState || null,
+          deliveryState: context.deliveryState || output.deliveryState || null,
+          deliveryReference:
+            context.deliveryReference ||
+            output.deliveryReference ||
+            context.prUrl ||
+            output.prUrl ||
+            packActivity.prUrl ||
+            null,
+          prUrl: context.prUrl || output.prUrl || packActivity.prUrl || null,
+          repositoryFullName:
+            context.repositoryFullName ||
+            output.repositoryFullName ||
+            packActivity.repositoryFullName ||
+            null,
+          optionCount,
+          measurements: output.measurements || packActivity.measurements || [],
+          amountSats:
+            output.amountSats ??
+            (packActivity.paymentObservation &&
+            typeof packActivity.paymentObservation === 'object' &&
+            typeof (packActivity.paymentObservation as Record<string, unknown>).amountSats ===
+              'number'
+              ? (packActivity.paymentObservation as Record<string, unknown>).amountSats
+              : null),
+        },
+        output: {
+          ...output,
+          packActivityType: 'settled-assetpack',
+          assetPackTitle,
+          measurements: output.measurements || packActivity.measurements || [],
         },
       } as never);
     });

@@ -147,6 +147,26 @@ export async function POST(request: Request) {
       null;
     const shippable =
       exec.get?.('settle-asset-packs', 'shippable') || (result as any)?.shippable || null;
+    const summary =
+      typeof (result as any)?.summary === 'string'
+        ? (result as any).summary
+        : `Settled ${selectedOptions.length} read AssetPack option(s).`;
+    const deliveryState =
+      (packActivity as any)?.deliveryState || shippable?.status || 'projected';
+    const rightsState =
+      (packActivity as any)?.rightsState || 'btd-rights-projected';
+    const assetPackTitle =
+      (packActivity as any)?.assetPackTitle ||
+      (typeof selectedOptions[0] === 'object' &&
+      selectedOptions[0] &&
+      typeof (selectedOptions[0] as any).title === 'string'
+        ? (selectedOptions[0] as any).title
+        : null);
+    const prUrl =
+      (packActivity as any)?.prUrl || shippable?.prUrl || null;
+    const measurementRows = Array.isArray((packActivity as any)?.measurements)
+      ? (packActivity as any).measurements
+      : [];
 
     await admin
       .from('executions')
@@ -157,23 +177,47 @@ export async function POST(request: Request) {
           productPipeline: 'settle-asset-packs',
           success: true,
           packActivity,
-          shippable,
+          shippable: packActivity?.shippable || {
+            schema: shippable?.schema,
+            deliveryMechanism: shippable?.deliveryMechanism,
+            repository: shippable?.repository,
+            patchCount: shippable?.patchCount,
+            prUrl,
+            status: deliveryState,
+            note: shippable?.note,
+          },
           selectedCount: selectedOptions.length,
-          summary:
-            typeof (result as any)?.summary === 'string'
-              ? (result as any).summary
-              : `Settled ${selectedOptions.length} read AssetPack option(s).`,
+          optionCount: selectedOptions.length,
+          assetPackTitle,
+          measurements: measurementRows,
+          settlementState: 'settled',
+          rightsState,
+          deliveryState,
+          deliveryReference: prUrl,
+          prUrl,
+          amountSats:
+            typeof (packActivity as any)?.paymentObservation?.amountSats === 'number'
+              ? (packActivity as any).paymentObservation.amountSats
+              : null,
+          summary,
         },
         context: {
           source: 'read-settle-asset-packs',
           route: '/reads',
           pipelineCore: 'settle-asset-packs',
           synthesisMode: 'read',
-          repositoryFullName,
+          repositoryFullName:
+            repositoryFullName || (packActivity as any)?.repositoryFullName || null,
           optionCount: selectedOptions.length,
+          packActivityType: 'settled-assetpack',
+          activityType: 'settled-assetpack',
           admissionState: 'settled',
           settlementState: 'settled',
-          deliveryState: shippable?.status || 'projected',
+          rightsState,
+          deliveryState,
+          deliveryReference: prUrl,
+          prUrl,
+          assetPackTitle,
         },
       })
       .eq('id', settleRunId)
@@ -183,7 +227,11 @@ export async function POST(request: Request) {
       ok: true,
       settleRunId,
       packActivity,
-      shippable,
+      shippable: {
+        prUrl,
+        status: deliveryState,
+        repository: shippable?.repository || null,
+      },
       status: 'completed',
     });
   } catch (err) {

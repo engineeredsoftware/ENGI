@@ -2020,3 +2020,13 @@ Accepted sequencing (must match SPEC):
 
 Env: `BITCODE_DEPOSITORY_VECTOR_SEARCH=1` enables embedding + Supabase match RPC when credentials present.
 
+
+## Settle → /packs rich projection (2026-07-14)
+
+Closed PARITY R-07 / R-14: SettleAssetPacks journals a source-safe
+`bitcode.packs.activity` envelope (measurements as absolutes + needinesses *-fit,
+option titles, settlement/rights/delivery states, prUrl). `/api/packs/activity`
+flattens settle executions into `settled-assetpack` rows; pack-activity-model
+infers type from `packActivityType` / `source=read-settle-asset-packs`, projects
+nested measurement kinds, and surfaces delivery references on detail. Patch
+bodies remain withheld by source-safety redaction.

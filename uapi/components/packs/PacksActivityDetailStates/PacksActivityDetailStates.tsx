@@ -48,6 +48,31 @@ export function PacksActivityDetailStates({
               fallback="delivery not recorded"
             />
           </div>
+          {detail.deliveryReference ? (
+            <div className="mt-1 border border-white/10 bg-black/18 px-3 py-2 text-xs">
+              <p className="text-[0.66rem] uppercase tracking-[0.16em] text-neutral-500">
+                Delivery reference
+              </p>
+              {/^https?:\/\//u.test(detail.deliveryReference) ? (
+                <a
+                  href={detail.deliveryReference}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-testid="packs-delivery-reference-link"
+                  className="mt-1 block break-all font-mono text-emerald-200/90 underline-offset-2 hover:underline"
+                >
+                  {detail.deliveryReference}
+                </a>
+              ) : (
+                <p
+                  data-testid="packs-delivery-reference"
+                  className="mt-1 break-all font-mono text-neutral-200"
+                >
+                  {detail.deliveryReference}
+                </p>
+              )}
+            </div>
+          ) : null}
           <div className="flex items-center justify-between gap-3">
             <PacksStatusPill
               value={detail.states.repair}

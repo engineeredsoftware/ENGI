@@ -266,6 +266,132 @@ describe('pack-activity-model', () => {
     expect(JSON.stringify(record)).not.toContain('protected source body');
   });
 
+  it('projects SettleAssetPacks executions as settled-assetpack with nested measurements and PR delivery', () => {
+    const settleRecord = normalizePackActivityRecord({
+      id: 'settle-run-1',
+      kind: 'execution',
+      scope: 'network',
+      channel: 'system-surface',
+      label: 'Executions',
+      title: 'AssetPack execution',
+      summary: 'Settled AssetPack: Auth rollback proof pack. SettleAssetPacks completed.',
+      timestamp: '2026-07-14T12:00:00.000Z',
+      state: 'completed',
+      read: null,
+      payload: {
+        type: 'agentic-execution:asset-pack',
+        status: 'completed',
+        context: {
+          source: 'read-settle-asset-packs',
+          packActivityType: 'settled-assetpack',
+          activityType: 'settled-assetpack',
+          repositoryFullName: 'engineeredsoftware/ENGI',
+          optionCount: 1,
+          settlementState: 'settled',
+          rightsState: 'btd-rights-projected',
+          deliveryState: 'opened',
+          deliveryReference: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+          prUrl: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+          assetPackTitle: 'Auth rollback proof pack',
+        },
+        output: {
+          productPipeline: 'settle-asset-packs',
+          summary: 'Settled AssetPack: Auth rollback proof pack. SettleAssetPacks completed.',
+          assetPackTitle: 'Auth rollback proof pack',
+          optionCount: 1,
+          settlementState: 'settled',
+          rightsState: 'btd-rights-projected',
+          deliveryState: 'opened',
+          prUrl: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+          amountSats: 4500,
+          measurements: [
+            {
+              kind: 'functions',
+              category: 'absolute',
+              volume: 0.42,
+              magnitude: 12,
+              unit: 'functions',
+              weight: 0.18,
+            },
+            {
+              kind: 'language-fit',
+              category: 'neediness',
+              volume: 0.88,
+              magnitude: null,
+              unit: null,
+              weight: 0.25,
+            },
+            {
+              kind: 'need-fit',
+              category: 'neediness',
+              volume: 0.81,
+              magnitude: null,
+              unit: null,
+              weight: null,
+            },
+          ],
+          packActivity: {
+            schema: 'bitcode.packs.activity',
+            packActivityType: 'settled-assetpack',
+            prUrl: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+          },
+          // Must be redacted if present
+          protectedSource: 'protected source body',
+          patch: 'diff --git a/secret b/secret',
+        },
+      },
+    });
+
+    expect(settleRecord.type).toBe('settled-assetpack');
+    expect(settleRecord.repository).toBe('engineeredsoftware/ENGI');
+    expect(settleRecord.assetPackTitle).toBe('Auth rollback proof pack');
+    expect(settleRecord.title).toContain('Auth rollback proof pack');
+    expect(settleRecord.settlementState).toBe('settled');
+    expect(settleRecord.rightsState).toBe('btd-rights-projected');
+    expect(settleRecord.deliveryState).toBe('opened');
+    expect(settleRecord.deliveryReference).toBe(
+      'https://github.com/engineeredsoftware/ENGI/pull/42',
+    );
+    expect(settleRecord.measurements.some((m) => m.id === 'absolute:functions')).toBe(true);
+    expect(settleRecord.measurements.some((m) => m.id === 'neediness:language-fit')).toBe(true);
+    expect(settleRecord.measurements.some((m) => m.id === 'neediness:need-fit')).toBe(true);
+    expect(settleRecord.values.some((v) => v.id === 'settlement-price' && v.amount === 4500)).toBe(
+      true,
+    );
+    expect(assertPackActivitySourceSafe(settleRecord)).toBe(true);
+    expect(JSON.stringify(settleRecord)).not.toContain('protected source body');
+    expect(JSON.stringify(settleRecord)).not.toContain('diff --git');
+
+    const detail = buildPackActivityDetailProjection(settleRecord);
+    expect(detail.deliveryReference).toBe(
+      'https://github.com/engineeredsoftware/ENGI/pull/42',
+    );
+    expect(detail.states.delivery).toBe('opened');
+    expect(detail.states.settlement).toBe('settled');
+    expect(detail.measurements.length).toBeGreaterThanOrEqual(3);
+  });
+
+  it('infers settled-assetpack from summary word-gap form without explicit type', () => {
+    const record = normalizePackActivityRecord({
+      id: 'settle-summary-only',
+      kind: 'execution',
+      scope: 'network',
+      channel: 'system-surface',
+      label: 'Executions',
+      title: 'AssetPack execution',
+      summary: 'Settled 2 AssetPack option(s)',
+      timestamp: '2026-07-14T12:00:00.000Z',
+      state: 'completed',
+      read: null,
+      payload: {
+        type: 'agentic-execution:asset-pack',
+        context: { source: 'read-settle-asset-packs' },
+        optionCount: 2,
+      },
+    });
+    expect(record.type).toBe('settled-assetpack');
+  });
+
   it('builds source-safe portfolio positions, saved filters, market signals, and facets', () => {
     const records = [
       normalizePackActivityRecord(baseRecord),

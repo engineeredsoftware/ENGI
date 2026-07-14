@@ -263,11 +263,12 @@ AssetPack = **patch + measurements + metadata**.
 | R-04 | Read synthesis attaches absolutes + needinesses | closed | `read-asset-pack-synthesis-agent.ts` |
 | R-05 | Read API synthesize-options | closed | `uapi/app/api/read/synthesize-options/` |
 | R-06 | Settle Simple: pay → mint → rights → PR ship | closed | `settle-asset-packs` 5 stages |
-| R-07 | `/packs` master-detail | substantially advanced | PacksPageClient master + detail units; settle executions merged into activity |
+| R-07 | `/packs` master-detail | closed | PacksPageClient master-detail; settle executions projected as settled-assetpack with nested measurements + PR delivery reference |
 | R-08 | SPEC G4 rebuild law | closed | `BITCODE_SPEC_V48.md` Gate 4 |
 | R-09 | `/reads` Need compose + synthesize dispatch + option select | closed | ReadsNeedComposePanel + use-read-option-synthesis + `/api/read/synthesize-options` |
 | R-10 | Settle API handoff from selected options | closed | `POST /api/read/settle` → SettleAssetPacksSimplePipeline |
 | R-11 | NeedinessesMeasureAgent + *-fit measure path | closed | `factoryNeedinessesMeasureAgent`; read measure async with deterministic fallback |
 | R-12 | Richer read option cards | closed | `ReadsOptionCard` patch + absolutes + needinesses expand |
 | R-13 | Settle payment observation + live PR when token | closed | structured BTC-testnet observation; createPullRequest when GitHub token present |
+| R-14 | Settle → packs rich projection | closed | packActivity envelope (measurements, prUrl, states); pack-activity-model nested kinds; detail delivery reference |
 
