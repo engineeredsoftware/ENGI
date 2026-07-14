@@ -90,16 +90,17 @@ export const previewRows = [
     valueParts: ['code', 'docs', 'diagrams', 'PDFs'],
     accentClassName: 'from-cyan-400/18 via-sky-400/8 to-transparent',
     Icon: DocumentTextIcon,
-    valuesGridClassName: 'grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-2',
+    // 2×2 — short chips must stay single-line.
+    valuesGridClassName: 'grid-cols-2',
     iconClassName: 'text-white/58',
   },
   {
     key: 'proven at deposit',
-    valueParts: ['commits', 'authorship', 'paths', 'SHA'],
+    valueParts: ['commits', 'author', 'paths', 'SHA'],
     accentClassName: 'from-fuchsia-400/18 via-purple-400/8 to-transparent',
     Icon: LinkIcon,
-    // "authorship" overflows a tight 2-col desktop cell; keep 2-col from phone up with wrap room.
-    valuesGridClassName: 'grid-cols-1 phone:grid-cols-2',
+    // 2×2 with short "author" (was authorship) so nothing wraps mid-word.
+    valuesGridClassName: 'grid-cols-2',
     iconClassName: 'text-white/58',
   },
   {
@@ -107,18 +108,17 @@ export const previewRows = [
     valueParts: ['measurements', 'fit', 'proof roots'],
     accentClassName: 'from-emerald-400/18 via-teal-400/8 to-transparent',
     Icon: Squares2X2Icon,
-    // Long label "measurements" + "fit" collide in 2-col laptop layouts;
-    // keep three columns from tablet up so chips stay separated.
-    valuesGridClassName: 'grid-cols-1 phone:grid-cols-3',
+    // Three stacked rows — never a tight multi-col that letter-breaks words.
+    valuesGridClassName: 'grid-cols-1',
     iconClassName: 'text-white/58',
   },
   {
     key: 'what settles',
-    valueParts: ['BTC pay', 'BTD rights', 'delivery'],
+    // 2×2: BTC | BTD / AssetPacks | Delivery — all single-line tokens.
+    valueParts: ['BTC', 'BTD', 'AssetPacks', 'Delivery'],
     accentClassName: 'from-orange-400/18 via-amber-300/8 to-transparent',
     Icon: CurrencyDollarIcon,
-    valuesGridClassName:
-      'grid-cols-1 phone:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-[minmax(0,1.28fr)_minmax(0,0.92fr)]',
+    valuesGridClassName: 'grid-cols-2',
     iconClassName: 'text-white/58',
   },
 ] as const;
@@ -190,8 +190,8 @@ export const verifiedAccessOrbConfig = {
 export const headlineText = BITCODE_PUBLIC_COPY.headline;
 export const heroHighlightClass = 'super-shiny-text special-text text-[rgba(103,254,183,0.95)]';
 export const headlineHighlights = [
+  { text: 'trade technical knowledge', className: heroHighlightClass },
   { text: 'Bitcode', className: `${heroHighlightClass} font-semibold text-white` },
-  { text: 'market infrastructure for engineering', className: heroHighlightClass },
 ] as const;
 
 export function renderOrbitalBullet(className = '', variant: 'purple' | 'orange' | 'green' = 'purple') {

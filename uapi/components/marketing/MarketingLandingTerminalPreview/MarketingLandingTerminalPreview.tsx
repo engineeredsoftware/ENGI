@@ -118,8 +118,9 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
             </div>
           </div>
 
-          <div className="hidden gap-4 p-4 laptop:grid desktop:grid-cols-[0.9fr_1.1fr]">
-            <div className="space-y-3">
+          <div className="hidden gap-4 p-4 laptop:grid laptop:grid-cols-[0.9fr_1.1fr] laptop:grid-rows-1 laptop:items-stretch">
+            <div className="flex h-full min-h-0 flex-col self-stretch">
+              <div className="flex flex-col gap-3">
               <div className="rounded-none border border-white/8 bg-white/5 p-4">
                 <p className="whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.14em] text-emerald-200/74">
                   AssetPacks Measurements
@@ -256,8 +257,10 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                   ))}
                 </ul>
               </div>
+              </div>
 
-              <div className="relative overflow-hidden rounded-none border border-cyan-300/12 bg-[linear-gradient(135deg,rgba(6,13,24,0.96),rgba(4,22,31,0.92))] p-4 shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
+              {/* Pinned to column foot so left/right bottoms stay flush with no dangling void. */}
+              <div className="relative mt-auto overflow-hidden rounded-none border border-cyan-300/12 bg-[linear-gradient(135deg,rgba(6,13,24,0.96),rgba(4,22,31,0.92))] p-4 shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(103,254,183,0.14),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.12),transparent_34%)]" />
                 <div className="absolute inset-0 opacity-15 [background-image:linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:28px_28px]" />
                 <div className="pointer-events-none absolute right-8 top-8 h-[72px] w-[72px] overflow-visible">
@@ -313,7 +316,8 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
               </div>
             </div>
 
-            <div className="space-y-3">
+            <div className="flex h-full min-h-0 flex-col self-stretch">
+              <div className="flex flex-col gap-3">
               <div className="rounded-none border border-white/8 bg-white/5 p-4">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
                   {BITCODE_PUBLIC_COPY.giveContribution.title}
@@ -343,23 +347,24 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                           >
                             {valueParts.map((valuePart) => {
                               const isHighlightValue =
-                                valuePart === 'BTD rights' ||
-                                valuePart === 'BTC pay' ||
-                                valuePart === 'fit';
+                                valuePart === 'BTD' ||
+                                valuePart === 'BTC' ||
+                                valuePart === 'fit' ||
+                                valuePart === 'Delivery';
 
                               return (
                                 <span
                                   key={`${key}-${valuePart}`}
-                                  className="inline-flex min-w-0 max-w-full items-start gap-2 tablet:gap-2.5"
+                                  className="inline-flex min-w-0 max-w-full items-center gap-2 tablet:gap-2.5"
                                 >
                                   <span className="shrink-0">
                                     {renderOrbitalBullet(
-                                      'mt-0.5 scale-110 tablet:scale-[1.2] laptop:scale-100',
+                                      'scale-110 tablet:scale-[1.2] laptop:scale-100',
                                       isHighlightValue ? 'green' : 'orange',
                                     )}
                                   </span>
                                   <span
-                                    className={`min-w-0 flex-1 break-words text-pretty text-[13px] leading-6 tablet:text-[15px] laptop:text-[12px] laptop:leading-5 ${
+                                    className={`min-w-0 flex-1 whitespace-nowrap text-[13px] leading-5 tablet:text-[15px] laptop:text-[12px] laptop:leading-5 ${
                                       isHighlightValue
                                         ? 'super-shiny-text special-text text-[rgba(103,254,183,0.95)]'
                                         : ''
@@ -430,6 +435,34 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                       {BITCODE_PUBLIC_COPY.sourceToSettlement.stages[5].stage}
                     </span>
                   </div>
+                </div>
+              </div>
+              </div>
+
+              {/* Content-height card pinned to column foot — bottoms flush with Verified access. */}
+              <div className="relative mt-auto overflow-hidden rounded-none border border-orange-300/16 bg-[linear-gradient(160deg,rgba(23,9,0,0.96),rgba(12,8,4,0.94)_55%,rgba(4,10,16,0.96))] p-3 shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(251,146,60,0.18),transparent_36%),radial-gradient(circle_at_bottom_left,rgba(251,191,36,0.08),transparent_32%)]" />
+                <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:24px_24px]" />
+                <div className="relative">
+                  <p className="whitespace-nowrap bg-gradient-to-r from-orange-100 via-amber-100 to-white bg-clip-text text-[13px] font-semibold tracking-tight text-transparent">
+                    {BITCODE_PUBLIC_COPY.settlementLedger.title}
+                  </p>
+                  <p className="mt-0.5 whitespace-nowrap text-[10px] uppercase tracking-[0.14em] text-orange-100/58">
+                    {BITCODE_PUBLIC_COPY.settlementLedger.subtitle}
+                  </p>
+                  <ul className="mt-2.5 space-y-1.5">
+                    {BITCODE_PUBLIC_COPY.settlementLedger.rows.map((row) => (
+                      <li
+                        key={row.label}
+                        className="rounded-none border border-orange-200/10 bg-black/25 px-2.5 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
+                      >
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-orange-50/92">
+                          {row.label}
+                        </p>
+                        <p className="mt-0.5 text-[11px] leading-4 text-orange-100/68">{row.detail}</p>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
