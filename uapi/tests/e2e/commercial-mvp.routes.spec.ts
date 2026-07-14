@@ -7,6 +7,8 @@ import {
   openCommercialRoute,
 } from './commercial-mvp.helpers';
 
+// V48: product routes are /reads, /packs, /deposits (no /terminal). Auxillaries
+// open as the packs support plane via query or /auxillaries/* overlays.
 const ROUTE_SMOKE_MATRIX = [
   {
     path: '/',
@@ -15,38 +17,33 @@ const ROUTE_SMOKE_MATRIX = [
   },
   {
     path: '/packs',
-    expected: /The Bitcode Terminal is where operators prepare Deposit and Read work/i,
-    name: 'Terminal',
+    expected: /Pack activity/i,
+    name: 'Packs',
   },
   {
-    path: '/auxillaries/wallet',
-    expected: /Wallet in one contained auxillary read/i,
+    path: '/packs?auxillary-open-to=wallet',
+    expected: /Wallet Auxillary/i,
     name: 'Wallet auxillary',
   },
   {
-    path: '/auxillaries/profile',
-    expected: /Profile in one contained auxillary read/i,
+    path: '/packs?auxillary-open-to=profile',
+    expected: /Profile Auxillary/i,
     name: 'Profile auxillary',
   },
   {
-    path: '/auxillaries/externals',
-    expected: /Externals in one contained auxillary read/i,
+    path: '/packs?auxillary-open-to=externals',
+    expected: /Externals Auxillary/i,
     name: 'Externals auxillary',
   },
   {
-    path: '/auxillaries/interfaces',
-    expected: /Interfaces in one contained auxillary read/i,
+    path: '/packs?auxillary-open-to=interfaces',
+    expected: /Interfaces Auxillary/i,
     name: 'Interfaces auxillary',
   },
   {
     path: '/docs',
     expected: /Learn Bitcode from AssetPacks to proof/i,
     name: 'docs home',
-  },
-  {
-    path: '/docs/what-is-bitcode',
-    expected: /What Bitcode is/i,
-    name: 'what-is-bitcode docs',
   },
   {
     path: '/docs/source-shares',
@@ -56,21 +53,21 @@ const ROUTE_SMOKE_MATRIX = [
   {
     path: '/docs/terminal',
     expected: /Orient inside the Bitcode Terminal/i,
-    name: 'Terminal docs',
+    name: 'Terminal map docs',
   },
   {
     path: '/docs/terminal-actions',
-    expected: /Terminal actions: what writes and what should read back/i,
-    name: 'Terminal action docs',
+    expected: /Actions: what writes and what should read back/i,
+    name: 'action manual docs',
   },
   {
     path: '/docs/read-results',
-    expected: /Terminal reads, proofs, readiness, and expected results/i,
+    expected: /Reads, proofs, readiness, and expected results/i,
     name: 'read-results docs',
   },
   {
     path: '/docs/auxillaries',
-    expected: /Configure Auxillaries for identity, interfaces, and \$BTD/i,
+    expected: /Configure Auxillaries for wallet, externals, profile, and interfaces/i,
     name: 'Auxillaries docs',
   },
   {

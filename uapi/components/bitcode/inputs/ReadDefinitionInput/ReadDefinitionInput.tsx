@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { usePatternRecognition } from '../hooks/usePatternRecognition';
+import { usePatternRecognition } from '@/hooks/usePatternRecognition';
 
 interface ReadDefinitionInputProps {
   /** Core functionality */

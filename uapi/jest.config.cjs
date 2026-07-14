@@ -250,6 +250,11 @@ module.exports = {
     '<rootDir>/tests/e2e/',
     'fetchEvidenceDocumentsAgent.test.[jt]sx?$',
   ],
+  // USE_REAL_DB loads real @supabase/supabase-js, which pulls ESM-only isows.
+  // Transform those packages (pnpm nests them under .pnpm/) so Jest can load them.
+  transformIgnorePatterns: [
+    '/node_modules/(?!(.pnpm/)?(isows|until-async|@supabase|ws)(@|/|\\+|$))',
+  ],
   collectCoverage: false,
   coverageDirectory: 'coverage',
   collectCoverageFrom: [

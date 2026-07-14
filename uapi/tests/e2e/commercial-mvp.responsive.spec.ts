@@ -1,3 +1,7 @@
+/**
+ * Commercial MVP responsive route health for V48 product surfaces.
+ * Uses /packs (not deleted /terminal) and packs?auxillary-open-to=* overlays.
+ */
 import { expect, test } from '@playwright/test';
 
 import {
@@ -9,16 +13,16 @@ import {
 
 const RESPONSIVE_ROUTES = [
   {
-    path: '/terminal',
-    expected: /The Bitcode Terminal is where operators prepare Deposit and Read work/i,
+    path: '/packs',
+    expected: /Pack activity/i,
   },
   {
-    path: '/auxillaries/wallet',
-    expected: /Wallet in one contained auxillary read/i,
+    path: '/packs?auxillary-open-to=wallet',
+    expected: /Wallet Auxillary/i,
   },
   {
-    path: '/auxillaries/externals',
-    expected: /Externals in one contained auxillary read/i,
+    path: '/packs?auxillary-open-to=externals',
+    expected: /Externals Auxillary/i,
   },
 ] as const;
 
@@ -32,7 +36,7 @@ test.describe('commercial MVP responsive route health', () => {
       const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
       await page.setViewportSize({ width: 390, height: 844 });
-      const firstDataShareResponse = route.path === '/auxillaries/externals'
+      const firstDataShareResponse = route.path.includes('externals')
         ? page.waitForResponse((response) =>
           response.url().includes('/api/auxillaries/user/data-share'),
         )
@@ -42,7 +46,7 @@ test.describe('commercial MVP responsive route health', () => {
       await expect(page.locator('body')).toBeVisible();
 
       await page.setViewportSize({ width: 1440, height: 900 });
-      const reloadDataShareResponse = route.path === '/auxillaries/externals'
+      const reloadDataShareResponse = route.path.includes('externals')
         ? page.waitForResponse((response) =>
           response.url().includes('/api/auxillaries/user/data-share'),
         )
@@ -61,7 +65,7 @@ test.describe('commercial MVP responsive route health', () => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
     await page.setViewportSize({ width: 1024, height: 768 });
-    await openCommercialRoute(page, '/terminal', /The Bitcode Terminal is where operators prepare Deposit and Read work/i);
+    await openCommercialRoute(page, '/packs', /Pack activity/i);
 
     await expect(page.getByRole('link', { name: /^Read$/ })).toBeVisible();
     await expect(page.getByRole('link', { name: /^Packs$/ })).toBeVisible();

@@ -209,9 +209,36 @@ const BENIGN_DEV_NAVIGATION_ERROR_PATTERNS = [
   /Failed to fetch RSC payload .* Falling back to browser navigation\. TypeError: Failed to fetch/i,
   /Failed to fetch RSC payload .* Falling back to browser navigation\. TypeError: network error/i,
   /\[notifications\] fetch failed TypeError: Failed to fetch/i,
+  // Mock-mode browser proofs: auth-gated API noise when no session is present.
+  /Failed to load resource: the server responded with a status of 401 \(Unauthorized\)/i,
 ];
 
 export async function installCommercialMvpApiMocks(page: Page) {
+  // Wallet balance is auth-gated; fulfill so mock browser proofs do not log 401 noise.
+  await page.route('**/api/wallet/btc-balance**', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        balanceSats: 0,
+        network: 'testnet',
+        mock_mode: true,
+      }),
+    });
+  });
+
+  await page.route('**/api/deposit/demand-estimate**', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        mock_mode: true,
+        demand: 0,
+        estimates: [],
+      }),
+    });
+  });
+
   await page.route('**/api/vcs/*/connection', async (route) => {
     await route.fulfill({
       status: 200,

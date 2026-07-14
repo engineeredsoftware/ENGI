@@ -6,7 +6,8 @@ import { defineConfig, devices } from '@playwright/test';
 // it here would accidentally launch / hit the admin interface instead of
 // the main product and make the tests fail with `ERR_CONNECTION_REFUSED`.
 const devPort = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
-const appReadyUrl = process.env.PLAYWRIGHT_READY_URL || `http://127.0.0.1:${devPort}/terminal`;
+// V48: /terminal product route is deleted. Ready-check a stable public route.
+const appReadyUrl = process.env.PLAYWRIGHT_READY_URL || `http://127.0.0.1:${devPort}/`;
 // Port for Storybook server during Playwright tests; override via STORYBOOK_PORT env var or default to 6006
 const storybookPort = process.env.STORYBOOK_PORT ? parseInt(process.env.STORYBOOK_PORT, 10) : 6006;
 
@@ -14,6 +15,11 @@ const storybookPort = process.env.STORYBOOK_PORT ? parseInt(process.env.STORYBOO
 const startStorybook = process.env.START_STORYBOOK !== 'false';
 export default defineConfig({
   testDir: './tests/e2e',
+  // Playwright only collects .spec.* files. Co-located Jest unit tests under
+  // tests/e2e use .test.ts and import @jest/globals, which must not be loaded
+  // by Playwright's collector (breaks `playwright test --list` / test:e2e:ui).
+  testMatch: /.*\.spec\.(ts|tsx|js|jsx)$/,
+  testIgnore: [/.*\.test\.(ts|tsx|js|jsx)$/, /node_modules/],
   timeout: 120000,
   expect: { timeout: 5000 },
   reporter: [['list'], ['html', { open: 'never' }]],

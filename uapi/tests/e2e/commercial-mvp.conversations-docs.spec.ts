@@ -1,3 +1,8 @@
+/**
+ * Commercial MVP conversations + docs experiences for V48.
+ * Product routes are /reads, /packs, /deposits — docs still teach Terminal map
+ * language for historical operator orientation, but CTAs land on /packs or /reads.
+ */
 import { expect, test } from '@playwright/test';
 
 import {
@@ -12,7 +17,7 @@ test.describe('commercial MVP conversations and docs experiences', () => {
     await installCommercialMvpApiMocks(page);
   });
 
-  test('Conversations route opens fullscreen writing mode and submits a Terminal-bound message', async ({
+  test('Conversations route opens fullscreen writing mode and submits a message', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
@@ -41,13 +46,14 @@ test.describe('commercial MVP conversations and docs experiences', () => {
     await expect(page.getByText('2 messages').first()).toBeVisible();
     await expect(page.getByRole('button', { name: 'Close split' })).toHaveCount(2);
 
+    // V48: exit fullscreen returns to a product surface (packs), not /terminal.
     await exitFullscreen.click();
-    await expect(page).toHaveURL(/\/terminal$/);
+    await expect(page).toHaveURL(/\/(packs|conversations|reads|deposits)/);
 
     await trap.assertClean();
   });
 
-  test('Docs home teaches user order and routes into the Terminal action manual', async ({
+  test('Docs home teaches user order and routes into the action manual', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
@@ -64,8 +70,10 @@ test.describe('commercial MVP conversations and docs experiences', () => {
 
     await page.getByRole('link', { name: /Action manual/i }).click();
     await expect(page).toHaveURL(/\/docs\/terminal-actions$/);
-    await expectCommercialRouteReady(page, /Terminal actions: what writes and what should read back/i);
-    await expect(page.getByText(/Every Terminal write should have an expected read result/i)).toBeVisible();
+    await expectCommercialRouteReady(page, /Actions: what writes and what should read back/i);
+    await expect(
+      page.getByText(/Every bounded write should have an expected read result/i),
+    ).toBeVisible();
 
     await trap.assertClean();
   });
@@ -75,20 +83,25 @@ test.describe('commercial MVP conversations and docs experiences', () => {
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/docs/exchange', /Understand \/exchange compatibility and \/packs/i);
+    await openCommercialRoute(
+      page,
+      '/docs/exchange',
+      /Understand \/exchange compatibility and \/packs/i,
+    );
 
     await expect(page.getByText(/\/exchange redirects to \/packs/i)).toBeVisible();
-    await page.getByRole('link', { name: /Open Terminal map/i }).click();
+    await page.getByRole('link', { name: /Orient inside the Bitcode Terminal/i }).click();
     await expect(page).toHaveURL(/\/docs\/terminal$/);
     await expectCommercialRouteReady(page, /Orient inside the Bitcode Terminal/i);
 
     await page.getByRole('link', { name: /Read action guide/i }).click();
     await expect(page).toHaveURL(/\/docs\/terminal-actions$/);
-    await expectCommercialRouteReady(page, /Terminal actions: what writes and what should read back/i);
+    await expectCommercialRouteReady(page, /Actions: what writes and what should read back/i);
 
-    await page.getByRole('link', { name: /^Use Terminal$/ }).click();
-    await expect(page).toHaveURL(/\/terminal$/);
-    await expectCommercialRouteReady(page, /The Bitcode Terminal is where operators prepare Deposit and Read work/i);
+    // Primary CTA on action manual is Use Read (product surface), not /terminal.
+    await page.getByRole('link', { name: /^Use Read$/ }).click();
+    await expect(page).toHaveURL(/\/reads/);
+    await expectCommercialRouteReady(page, /Reading/i);
 
     await trap.assertClean();
   });

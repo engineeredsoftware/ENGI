@@ -86,14 +86,14 @@ test.describe('Bitcode browser proof across product surfaces', () => {
     await expect(page.locator('textarea.rich-text-input').first()).toBeVisible();
     await expectReadableViewport(page);
 
+    // V48: /exchange is a compatibility redirect into Packs activity.
     await openCommercialRoute(
       page,
       '/exchange?assetPack=asset-pack-run-branch-remediation&intent=buy-existing-btd',
-      /Read market activity, select an order, and inspect Exchange state/i,
+      /Packs|Activity|AssetPack/i,
     );
-    await expect(page.getByText(/source-safe preview/i).first()).toBeVisible();
-    await expect(page.getByRole('button', { name: /mock-run-branch-remediation/i })).toBeVisible();
-    await expectNoHorizontalOverflow(page, 'Exchange rights review');
+    await expect(page.getByRole('main').first()).toBeVisible();
+    await expectNoHorizontalOverflow(page, 'Exchange→Packs rights review');
 
     await openCommercialRoute(page, '/docs', /Learn Bitcode from AssetPacks to proof/i);
     await expect(page.getByText(/Action manual/i)).toBeVisible();
