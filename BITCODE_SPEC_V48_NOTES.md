@@ -1999,3 +1999,17 @@ it reifies “protocol” as one package when the monorepo *is* the protocol sur
 - `FAMILIARIZATION.md`, root `README.md`, and modern internal docs teach only the current tree.
   Historical era-pinned specs may still mention old package names as historical fact.
 
+
+### Deposit SDIVF target algorithm (Host · sourceCheckoutCatalog · 2026-07-13)
+
+Full target sequence and open parity rows: `BITCODE_SPEC_V48_PARITY_MATRIX.md`
+section **Deposit SynthesizeAssetPacks SDIVF — target algorithm parity**.
+
+Accepted sequencing:
+- Setup: **clone alone** → **parallel** (initialize-lsp, initialize-mcps-tools, comprehend-obfuscations) → **danger-wall alone** (admits obfuscations).
+- Discovery: **parallel** comprehend-codebase (includes absolute measurement + LSP + tree/file analysis), search-depository (vector tool + Plan queries), inherent-regurgitation.
+- AssetPack = patch + measurements + metadata.
+- Validation: one ready-to-finish deposit agent (A/B/C).
+- Finish: store-artifacts → ledgerize → finish-synthesize-asset-packs-for-deposit-run.
+- Naming: `sourceCheckoutCatalog` (not inventory). No Fits Finding / lens language.
+

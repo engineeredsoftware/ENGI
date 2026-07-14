@@ -174,3 +174,80 @@ spec-family and runtime promotion preparation, proven generation, and
 pointer postures, the draft-preview `BITCODE_SPEC_V48_PROVEN.md` exists, the
 V48 promotion dry-run passes, and gate/canon workflows run
 `check:v48-gate10`.
+
+## Deposit SynthesizeAssetPacks SDIVF — target algorithm parity (2026-07-13)
+
+Target E/E for `SynthesizeDepositAssetPacksSDIVFPipeline` after Host-clone,
+sourceCheckoutCatalog naming, and deposit-native Setup/Discovery/Validation/Finish.
+No Fits Finding / Read-Need language in deposit Setup. No “lens” vocabulary.
+AssetPack = **patch + measurements + metadata**.
+
+### Target phase sequence
+
+| Phase | Sequence | Notes |
+| --- | --- | --- |
+| preprocess | deposit-only | Coords + steering; catalog may be empty until Setup clone |
+| Setup | (1) clone alone → (2) **parallel** {initialize-lsp, initialize-mcps-tools, comprehend-obfuscations} → (3) danger-wall alone | Clone first; danger wall last admits obfuscations |
+| Discovery | **parallel** {comprehend-codebase, search-depository, inherent-regurgitation} | Measure is **inside** comprehend-codebase (tools/objectives), not a separate agent |
+| Implementation | synthesize-deposit-asset-packs | Patch options; kinds: capability-slice \| implementation-pattern \| proof-operations-slice |
+| Validation | **one** agent: ready-to-finish-asset-packs-synthesis-deposit-pipeline | A prior phases/tools · B pack quality · C obfuscations vs patch |
+| Finish | (1) store-artifacts → (2) ledgerize → (3) finish-synthesize-asset-packs-for-deposit-run | Store (Supabase + patch artifacts) · on-chain ledger · envelope/cleanup last |
+| postprocess | normalize | Presentation-safe result |
+
+### Naming (sourceCheckoutCatalog)
+
+| Concept | Store / type key |
+| --- | --- |
+| This-run Host checkout catalog | `deposit:sourceCheckoutCatalog` (paths, promptSamples, fileBodies) |
+| Loader for file bodies | `deposit:loadSourceCheckoutFileBodies` |
+| Host workspace | `repository:workspacePath` |
+| Legacy alias during migration | `deposit:inventory` dual-written until callers migrated |
+
+### Setup agents (target registry keys)
+
+| # | Key | Objective | Tools |
+| --- | --- | --- | --- |
+| 1 | `setup:clone-vcs-repository` | Host adopt this-run tree or clone complete tree at SHA | Host provision / clone tool |
+| 2a | `setup:initialize-lsp` | LSP on `repository:workspacePath` for Discovery | LSP init |
+| 2b | `setup:initialize-mcps-tools` | MCP config + documented tools | MCP helpers |
+| 2c | `setup:comprehend-obfuscations` | Obfuscations → structured guidance | none (PTRR) |
+| 3 | `setup:danger-wall` | Fail closed unless obfuscations admission is valid | none (deterministic + optional LLM) |
+
+### Discovery agents (target; parallel)
+
+| Key | Objective | Tools |
+| --- | --- | --- |
+| `discovery:comprehend-codebase` | Rich codebase analysis: **absolute measurements**, LSP queries, full file-tree structure, key file reads → stored analysis | LSP tools, measure/static-analysis, Host file reads |
+| `discovery:search-depository` | Plan queries from source+obfuscations+measurements+demand; search settled APs (embeddings/vectors) | `depository-asset-pack-search` (vector+lexical) |
+| `discovery:inherent-regurgitation` | Model-inherent patterns for synthesis (source-safe) | none |
+
+### Implementation / Validation / Finish (target)
+
+| Key | Objective |
+| --- | --- |
+| `implementation:synthesize-deposit-asset-packs` | Options as patch + measurements + metadata |
+| `validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline` | Single gate A/B/C |
+| `finish:store-artifacts` | Persist run artifacts (APs, patches, measurements) to Supabase |
+| `finish:ledgerize` | Update on-chain ledger with now-stored data |
+| `finish:finish-synthesize-asset-packs-for-deposit-run` | Metrics, UI selection envelope, cleanup |
+
+### Parity rows (open → closed as implementation lands)
+
+| # | Capability | Current judgment | Closure evidence |
+| --- | --- | --- | --- |
+| D-01 | Setup: clone alone first | closed | `depositSetupPhase` sequential clone first |
+| D-02 | Setup: parallel LSP + MCP + obfuscations | closed | `parallel(initialize-lsp, initialize-mcps-tools, comprehend-obfuscations)` |
+| D-03 | Setup: danger wall last, admits obfuscations (not passthrough) | closed | `deposit-danger-wall-agent` + ShortCircuitError |
+| D-04 | No Fits Finding / ReadFitsFinding names in deposit Setup | closed | deposit-native keys only in deposit-phases |
+| D-05 | sourceCheckoutCatalog naming (not inventory) | partial | dual-write `sourceCheckoutCatalog` + legacy `inventory` |
+| D-06 | Discovery agents parallel (3) | closed | `parallel(codebase, depository, regurgitation)` |
+| D-07 | comprehend-codebase measures + LSP + tree/file analysis | partial | measures + lsp-query tool + path tree; deeper LSP wiring open |
+| D-08 | Depository search tool (embeddings/vectors) + Plan queries | open | still LLM-primary; wire `depository-asset-pack-search` |
+| D-09 | AssetPack = patch + measurements + metadata (required) | partial | schema; discovery sourceMeasurements; pack-level still Validation-heavy |
+| D-10 | Single validation ready-to-finish deposit agent | partial | alias key registered; still two-step quality+ready |
+| D-11 | Finish store-artifacts | partial | alias → upload-for-review |
+| D-12 | Finish ledgerize | partial | placeholder store pending ledger binding |
+| D-13 | Finish finish-synthesize-deposit-run (last) | partial | alias → completion agent |
+| D-14 | Host-only clone (no pre-Setup clone; LocalHost this-run only) | closed | Host clone commits |
+| D-15 | Kinds capability-slice / implementation-pattern / proof-operations-slice | closed | deposit schemas |
+
