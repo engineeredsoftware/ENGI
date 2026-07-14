@@ -204,6 +204,8 @@ function readNumericField(source: unknown, ...keys: string[]) {
 
 let cached: AggregatedUserData | null = null;
 let inFlight: Promise<AggregatedUserData> | null = null;
+/** Bumped on Disconnect so in-flight fetches cannot restore cleared identity. */
+let cacheGeneration = 0;
 
 async function fetchUserData(options: { revalidate?: boolean } = {}): Promise<AggregatedUserData> {
   // Return the cached object immediately if available so callers can render
@@ -227,6 +229,8 @@ async function fetchUserData(options: { revalidate?: boolean } = {}): Promise<Ag
     return inFlight;
   }
 
+  const generationAtStart = cacheGeneration;
+
   inFlight = (async () => {
     try {
       bitcodeQaTelemetry('info', 'user-data', 'fetch-start', {
@@ -234,8 +238,13 @@ async function fetchUserData(options: { revalidate?: boolean } = {}): Promise<Ag
         hadCache: Boolean(cached),
       });
       const res = await fetch('/api/auxillaries/data');
+      // Disconnect may have wiped identity while this request was in flight.
+      if (generationAtStart !== cacheGeneration) {
+        bitcodeQaTelemetry('info', 'user-data', 'fetch-stale-after-clear');
+        return cached ?? buildAnonymousUserData();
+      }
       if (res.status === 401) {
-        cached = mergeLocalBitcodeWalletIdentity(ANONYMOUS_USER_DATA);
+        cached = mergeLocalBitcodeWalletIdentity(buildAnonymousUserData());
         bitcodeQaTelemetry('info', 'user-data', 'anonymous-read', {
           localWallet: cached.walletConnectionStatus
             ? {
@@ -255,6 +264,10 @@ async function fetchUserData(options: { revalidate?: boolean } = {}): Promise<Ag
         throw new Error(`Status ${res.status}`);
       }
       const data = (await res.json()) as AggregatedUserData;
+      if (generationAtStart !== cacheGeneration) {
+        bitcodeQaTelemetry('info', 'user-data', 'fetch-stale-after-clear');
+        return cached ?? buildAnonymousUserData();
+      }
       cached = mergeLocalBitcodeWalletIdentity(data);
       bitcodeQaTelemetry('info', 'user-data', 'read', {
         hasProfile: Boolean(cached.profile),
@@ -285,8 +298,48 @@ export async function mutateUserData(): Promise<AggregatedUserData> {
   return fetchUserData();
 }
 
+/** Browser event: Disconnect / sign-out optimistically wiped shared user data. */
+export const BITCODE_USER_DATA_CLEARED_EVENT = 'bitcode-user-data-cleared';
+
+function buildAnonymousUserData(): AggregatedUserData {
+  return {
+    ...ANONYMOUS_USER_DATA,
+    repositories: [],
+    organizations: [],
+    recentBtdAssetPacks: [],
+    connectionReadiness: [],
+    interfaceAdmissions: [],
+    readinessDiagnostics: [],
+    recoveryRuns: [],
+    telemetryProofHooks: [],
+    onboardedPanes: [],
+    onboarded_steps: [],
+  };
+}
+
+/**
+ * Optimistically wipe shared user/wallet posture so Connect chrome and panes
+ * flip immediately on Disconnect — before Supabase signOut + network revalidate.
+ */
+export function clearUserDataIdentity(): AggregatedUserData {
+  cacheGeneration += 1;
+  cached = buildAnonymousUserData();
+  inFlight = null;
+  if (typeof window !== 'undefined') {
+    try {
+      window.localStorage.removeItem('btd_balance_cached');
+    } catch {
+      // ignore quota / privacy errors
+    }
+    window.dispatchEvent(new CustomEvent(BITCODE_USER_DATA_CLEARED_EVENT));
+  }
+  bitcodeQaTelemetry('info', 'user-data', 'identity-cleared');
+  return cached;
+}
+
 export function resetUserDataCacheForTests() {
   if (process.env.NODE_ENV !== 'test') return;
+  cacheGeneration += 1;
   cached = null;
   inFlight = null;
 }
@@ -357,12 +410,20 @@ export function useUserData() {
       if (event.key !== 'bitcode_local_wallet_identity') return;
       refreshAfterLocalWalletChange();
     };
+    const applyClearedIdentity = () => {
+      bitcodeQaTelemetry('info', 'user-data', 'identity-cleared-applied');
+      setData(buildAnonymousUserData());
+      setCachedBtdBalance(0);
+      setError(null);
+    };
 
     window.addEventListener(BITCODE_LOCAL_WALLET_EVENT, refreshAfterLocalWalletChange);
     window.addEventListener('storage', refreshAfterStorageChange);
+    window.addEventListener(BITCODE_USER_DATA_CLEARED_EVENT, applyClearedIdentity);
     return () => {
       window.removeEventListener(BITCODE_LOCAL_WALLET_EVENT, refreshAfterLocalWalletChange);
       window.removeEventListener('storage', refreshAfterStorageChange);
+      window.removeEventListener(BITCODE_USER_DATA_CLEARED_EVENT, applyClearedIdentity);
     };
   }, [refresh]);
 

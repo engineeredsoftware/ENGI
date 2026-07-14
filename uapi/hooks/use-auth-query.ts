@@ -160,9 +160,13 @@ export async function prefetchAuthData(queryClient: QueryClient) {
 }
 
 /**
- * Clear all auth queries (for sign out)
+ * Clear all auth queries (for sign out / Disconnect).
+ * Explicitly null the user first so Connect chrome flips even if a refetch races.
  */
 export function clearAuthQueries(queryClient: QueryClient) {
+  queryClient.setQueryData(authQueryKeys.user, null);
+  queryClient.setQueryData(authQueryKeys.profile, null);
+  queryClient.setQueryData(authQueryKeys.onboarding, null);
   queryClient.removeQueries({ queryKey: ['auth'] });
 }
 

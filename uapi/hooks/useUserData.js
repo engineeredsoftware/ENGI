@@ -2,6 +2,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mutateUserData = mutateUserData;
+exports.clearUserDataIdentity = clearUserDataIdentity;
 exports.resetUserDataCacheForTests = resetUserDataCacheForTests;
 exports.useUserData = useUserData;
 // Centralised user data fetch & cache so all UI surfaces (Nav, the BTD balance
@@ -141,6 +142,37 @@ async function fetchUserData(options = {}) {
 async function mutateUserData() {
     cached = null;
     return fetchUserData();
+}
+const BITCODE_USER_DATA_CLEARED_EVENT = 'bitcode-user-data-cleared';
+exports.BITCODE_USER_DATA_CLEARED_EVENT = BITCODE_USER_DATA_CLEARED_EVENT;
+function buildAnonymousUserData() {
+    return {
+        ...ANONYMOUS_USER_DATA,
+        repositories: [],
+        organizations: [],
+        recentBtdAssetPacks: [],
+        connectionReadiness: [],
+        interfaceAdmissions: [],
+        readinessDiagnostics: [],
+        recoveryRuns: [],
+        telemetryProofHooks: [],
+        onboardedPanes: [],
+        onboarded_steps: [],
+    };
+}
+function clearUserDataIdentity() {
+    cached = buildAnonymousUserData();
+    inFlight = null;
+    if (typeof window !== 'undefined') {
+        try {
+            window.localStorage.removeItem('btd_balance_cached');
+        }
+        catch {
+            // ignore
+        }
+        window.dispatchEvent(new CustomEvent(BITCODE_USER_DATA_CLEARED_EVENT));
+    }
+    return cached;
 }
 function resetUserDataCacheForTests() {
     if (process.env.NODE_ENV !== 'test')

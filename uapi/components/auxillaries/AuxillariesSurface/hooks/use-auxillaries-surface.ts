@@ -28,7 +28,8 @@ import {
   type ConcreteAuxillaryPane,
   type AuxillaryPane,
 } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
-import { mutateUserData, useUserData } from '@/hooks/useUserData';
+import { clearAuthQueries, updateCachedUser } from '@/hooks/use-auth-query';
+import { clearUserDataIdentity, mutateUserData, useUserData } from '@/hooks/useUserData';
 import { clearLocalBitcodeWalletIdentity } from '@bitcode/auth/wallet-local';
 
 import { parseAuxillaryPath, reportError, trackEvent } from '../models/auxillaries-surface-path';
@@ -219,16 +220,38 @@ export function useAuxillariesSurface({
   });
 
   const handleSignOut = useCallback(async () => {
+    /*
+     * Full Disconnect: wipe local wallet + shared user-data + auth cache so
+     * chrome flips to Connect immediately. Sign out Supabase after the
+     * optimistic null so a pre-signOut refetch cannot restore the session.
+     */
+    clearLocalBitcodeWalletIdentity();
+    clearUserDataIdentity();
+    await queryClient.cancelQueries({ queryKey: ['auth'] });
+    updateCachedUser(queryClient, null);
+    setCompletedSteps([]);
+    setStepCompletionStates({
+      wallet: false,
+      externals: false,
+      profile: false,
+      interfaces: false,
+    });
+    setActiveWindow('SignInWindow');
+
     try {
-      clearLocalBitcodeWalletIdentity();
-      await supabaseClient.auth.signOut();
+      await supabaseClient.auth.signOut({ scope: 'local' });
       trackEvent('auth_sign_out');
-      queryClient.removeQueries({ queryKey: ['auth'] });
-      void mutateUserData();
     } catch (err) {
       reportError(err);
     } finally {
-      setActiveWindow('SignInWindow');
+      // Drop profile/onboarding and re-assert user=null after auth listeners.
+      updateCachedUser(queryClient, null);
+      clearAuthQueries(queryClient);
+      try {
+        await mutateUserData();
+      } catch (err) {
+        reportError(err);
+      }
       if (pathname && pathname.startsWith('/executions')) {
         router.replace('/');
       }

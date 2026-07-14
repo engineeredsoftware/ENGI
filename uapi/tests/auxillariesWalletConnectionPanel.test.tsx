@@ -1,10 +1,11 @@
 import '@testing-library/jest-dom';
 import React from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import AuxillariesWalletConnectionPanel from '@/components/auxillaries/AuxillariesWalletConnectionPanel/AuxillariesWalletConnectionPanel';
 import { BITCODE_LOCAL_WALLET_STORAGE_KEY } from '@bitcode/auth/wallet-local';
-import { mutateUserData } from '@/hooks/useUserData';
+import { clearUserDataIdentity, mutateUserData } from '@/hooks/useUserData';
 
 const signOut = jest.fn(async () => ({ error: null }));
 
@@ -20,6 +21,7 @@ jest.mock('@bitcode/supabase/ssr/client', () => ({
 
 jest.mock('@/hooks/useUserData', () => ({
   mutateUserData: jest.fn(async () => undefined),
+  clearUserDataIdentity: jest.fn(() => ({ profile: null })),
 }));
 
 jest.mock('@bitcode/auth/bitcoin-wallet-client', () => ({
@@ -30,6 +32,16 @@ jest.mock('@bitcode/auth/bitcoin-wallet-client', () => ({
 }));
 
 const mockMutateUserData = mutateUserData as jest.MockedFunction<typeof mutateUserData>;
+const mockClearUserDataIdentity = clearUserDataIdentity as jest.MockedFunction<
+  typeof clearUserDataIdentity
+>;
+
+function renderWithQueryClient(ui: React.ReactElement) {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  });
+  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
+}
 
 describe('AuxillariesWalletConnectionPanel', () => {
   beforeEach(() => {
@@ -54,7 +66,7 @@ describe('AuxillariesWalletConnectionPanel', () => {
       }),
     );
 
-    render(
+    renderWithQueryClient(
       <AuxillariesWalletConnectionPanel
         initialWalletAddress="tb1p6x9nmz5we6wc2"
         initialWalletProvider="leather"
@@ -68,7 +80,8 @@ describe('AuxillariesWalletConnectionPanel', () => {
 
     await waitFor(() => {
       expect(window.localStorage.getItem(BITCODE_LOCAL_WALLET_STORAGE_KEY)).toBeNull();
-      expect(signOut).toHaveBeenCalled();
+      expect(mockClearUserDataIdentity).toHaveBeenCalled();
+      expect(signOut).toHaveBeenCalledWith({ scope: 'local' });
       expect(mockMutateUserData).toHaveBeenCalled();
       expect(onWalletIdentityChange).toHaveBeenCalledWith(false);
     });

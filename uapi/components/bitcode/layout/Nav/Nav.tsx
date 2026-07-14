@@ -4,7 +4,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { BTDTracker } from "@/components/bitcode/btd/BtdTracker/BtdTracker";
 import { useAuth } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
-import { useUserData } from '@/hooks/useUserData';
+import { clearUserDataIdentity, useUserData } from '@/hooks/useUserData';
 import { openAuxillaries, prefetchAuxillaries } from '@/components/auxillaries/AuxillariesProvider/AuxillariesProvider';
 import { NotificationsWidget } from "@/components/bitcode/notifications/NotificationsWidget/NotificationsWidget"
 import { AuxillariesUseButton } from "@/components/bitcode/nav/AuxillariesUseButton/AuxillariesUseButton";
@@ -600,8 +600,9 @@ export default function Nav() {
                     onSignOut={() => {
                       import('@bitcode/supabase/ssr/client').then(({ createClient }) => {
                         const client = createClient();
-                        client.auth.signOut().finally(() => {
+                        client.auth.signOut({ scope: 'local' }).finally(() => {
                           clearLocalBitcodeWalletIdentity();
+                          clearUserDataIdentity();
                           // Show login pane after sign out
                           openAuxillaries('login');
                           // Redirect from authenticated pages

@@ -4,10 +4,12 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { createClient } from '@bitcode/supabase/ssr/client';
 
-import { mutateUserData } from '@/hooks/useUserData';
+import { clearAuthQueries, updateCachedUser } from '@/hooks/use-auth-query';
+import { clearUserDataIdentity, mutateUserData } from '@/hooks/useUserData';
 import {
   connectBitcoinWallet,
   inspectBitcoinWalletProviders,
@@ -42,6 +44,7 @@ export function useWalletConnection({
   initialWalletBoundAt = null,
   onWalletIdentityChange,
 }: UseWalletConnectionArgs) {
+  const queryClient = useQueryClient();
   const [walletAddress, setWalletAddress] = useState(initialWalletAddress || '');
   const [walletProvider, setWalletProvider] = useState(
     initialWalletProvider || (initialWalletAddress ? 'manual' : ''),
@@ -312,7 +315,13 @@ export function useWalletConnection({
   };
 
   const handleDisconnectWallet = async () => {
+    /*
+     * Full identity clear (same posture as chrome Disconnect): local wallet,
+     * shared user-data, React Query auth, then Supabase signOut so the
+     * Auxillaries chrome returns to Connect — not a half-cleared Disconnect.
+     */
     clearLocalBitcodeWalletIdentity();
+    clearUserDataIdentity();
     setWalletAddress('');
     setWalletProvider('');
     setWalletBindingStatus(null);
@@ -326,18 +335,23 @@ export function useWalletConnection({
     onWalletIdentityChange?.(false);
     bitcodeQaTelemetry('info', 'wallet-auxillary', 'disconnect-local');
 
+    await queryClient.cancelQueries({ queryKey: ['auth'] });
+    updateCachedUser(queryClient, null);
+
     try {
       const readiness = readSupabaseClientReadiness();
       if (readiness.ready) {
-        await createClient().auth.signOut();
+        await createClient().auth.signOut({ scope: 'local' });
       }
     } catch (error) {
       bitcodeQaTelemetry('warn', 'wallet-auxillary', 'disconnect-signout-failed', {
         message: error instanceof Error ? error.message : 'unknown',
       });
+    } finally {
+      updateCachedUser(queryClient, null);
+      clearAuthQueries(queryClient);
+      await mutateUserData();
     }
-
-    await mutateUserData();
   };
 
   const handleWalletAddressChange = (nextValue: string) => {
