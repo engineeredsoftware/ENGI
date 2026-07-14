@@ -14,9 +14,9 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
 
 - Experience: Auxillaries (user-facing), canonical `/auxillaries/*` route family
 - Windows (overlay top-level):
-  - `SignInWindow`: Authentication (login) surface.
-  - `SignUpWindow`: Onboarding/account surface that contains the panes.
-- Panes (inside SignUpWindow):
+  - `ConnectWindow`: Identity Connect surface.
+  - `AuxillariesWindow`: Connected/workspace surface that contains the panes.
+- Panes (inside AuxillariesWindow):
   - `wallet`, `externals`, `profile`, `interfaces`
 - Headers: a singular auxillary header per pane for consistent title/copy.
   Retained `uapi/app/orbitals/components/headers/*` files are redirect-support re-exports only; canonical header ownership lives under `uapi/app/auxillaries/components/headers/*`.
@@ -38,13 +38,13 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
 3) Events and API
 
 - Global events:
-  - Open: `window.dispatchEvent(new CustomEvent('open-auxillaries', { detail: { window: 'SignInWindow' | 'SignUpWindow', step?: AuxillaryPane } }))`
+  - Open: `window.dispatchEvent(new CustomEvent('open-auxillaries', { detail: { window: 'ConnectWindow' | 'AuxillariesWindow', step?: AuxillaryPane } }))`
   - Close: `window.dispatchEvent(new CustomEvent('close-auxillaries'))`
 - Types:
   - `type AuxillaryPane = 'wallet' | 'externals' | 'profile' | 'interfaces' | null`
-  - Overlay prop: `window?: 'SignInWindow' | 'SignUpWindow'`
+  - Overlay prop: `window?: 'ConnectWindow' | 'AuxillariesWindow'`
 - Deep links: canonical `/auxillaries/(wallet|externals|profile|interfaces)` open the focused contained read. Legacy `btd` and `connects` route segments normalize to `wallet` and `externals`.
-- Provider API: `openAuxillaries(window?: 'SignInWindow' | 'SignUpWindow', step?: AuxillaryPane)`, `closeAuxillaries()`, `prefetchAuxillaries()`
+- Provider API: `openAuxillaries(window?: 'ConnectWindow' | 'AuxillariesWindow', step?: AuxillaryPane)`, `closeAuxillaries()`, `prefetchAuxillaries()`
 
 4) HTTP and CSS Conventions
 
@@ -54,8 +54,8 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
 
 ## Consequences
 
-- The left toggle in the overlay switches between `SignInWindow` and `SignUpWindow`.
-- Per-auxillary panes remain as the right abstraction inside SignUpWindow.
+- The left toggle in the overlay switches between `ConnectWindow` and `AuxillariesWindow`.
+- Per-auxillary panes remain as the right abstraction inside AuxillariesWindow.
 - User-facing naming and canonical routes read as Auxillaries.
 - Tests, stories, and fetchers should target `/auxillaries` owners first.
 - Future work should place components according to the experience vs base boundary described above.
@@ -65,12 +65,12 @@ We standardized the user-facing Auxillaries overlay across the app. The canonica
 ```ts
 import { openAuxillaries } from '@/components/auxillaries/AuxillariesProvider/AuxillariesProvider';
 
-// Open onboarding (SignUp) directly to Externals pane
-openAuxillaries('SignUpWindow', 'externals');
+// Open connected Auxillaries workspace directly to Externals pane
+openAuxillaries('AuxillariesWindow', 'externals');
 
-// Open SignIn window
-openAuxillaries('SignInWindow');
+// Open Connect window
+openAuxillaries('ConnectWindow');
 
 // Global events (alternative)
-window.dispatchEvent(new CustomEvent('open-auxillaries', { detail: { window: 'SignInWindow' } }));
+window.dispatchEvent(new CustomEvent('open-auxillaries', { detail: { window: 'ConnectWindow' } }));
 ```

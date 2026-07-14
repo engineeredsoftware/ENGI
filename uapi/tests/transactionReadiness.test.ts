@@ -4,13 +4,13 @@
 import { deriveBitcodeTransactionReadiness } from '@/components/bitcode/pipeline/models/transaction-readiness';
 
 describe('transaction-readiness', () => {
-  it('requires sign-in before transacting', () => {
+  it('requires connect before transacting', () => {
     const readiness = deriveBitcodeTransactionReadiness({
       signedIn: false,
       hasRepositoryProvider: false,
       hasWalletBinding: false,
     });
-    expect(readiness.status).toBe('sign-in-required');
+    expect(readiness.status).toBe('connect-required');
     expect(readiness.canSettle).toBe(false);
   });
 

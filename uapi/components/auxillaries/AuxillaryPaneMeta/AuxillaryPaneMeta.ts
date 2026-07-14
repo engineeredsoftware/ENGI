@@ -145,7 +145,7 @@ export function getAuxillaryOpenActionLabel(step?: ConcreteAuxillaryPane | null)
 export function getAuxillariesWorkspaceHeading(mode: 'onboarding' | 'auxillaries') {
   return mode === 'auxillaries'
     ? `Keep ${AUXILLARIES_LIST_LABEL} in one contained auxillary read.`
-    : `Sign in once, then keep ${AUXILLARIES_LIST_LABEL} in one contained auxillary read.`;
+    : `Connect once, then keep ${AUXILLARIES_LIST_LABEL} in one contained auxillary read.`;
 }
 
 export function getAuxillariesWorkspaceDescription(mode: 'onboarding' | 'auxillaries') {
@@ -157,5 +157,5 @@ export function getAuxillariesWorkspaceDescription(mode: 'onboarding' | 'auxilla
 export function getAuxillariesTabsDescription(mode: 'onboarding' | 'auxillaries') {
   return mode === 'auxillaries'
     ? `Move between ${AUXILLARIES_LIST_COMPACT_LABEL} without losing your place in the auxillary read.`
-    : `Sign in to unlock the four auxillaries, then keep ${AUXILLARIES_LIST_LABEL} in one contained auxillary read.`;
+    : `Connect to unlock the four auxillaries, then keep ${AUXILLARIES_LIST_LABEL} in one contained auxillary read.`;
 }

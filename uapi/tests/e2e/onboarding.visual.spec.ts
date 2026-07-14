@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('@profile UI Visual - Auth and Onboarding Flows', () => {
-  test('Login modal snapshot', async ({ page }) => {
+  test('Connect modal snapshot', async ({ page }) => {
     // Open the login modal via the public-shell launcher.
     await page.goto('/');
     await page.click('[data-auxillaries-testid="auxillaries-open-button"]');

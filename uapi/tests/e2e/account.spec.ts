@@ -48,10 +48,10 @@ test.describe.skip('Account Modal Flow (skipped - focusing on onboarding only)',
   test('renders GitHub summary after login and opening account modal', async ({ page }) => {
     // Navigate and perform login
     await page.goto('/');
-    // Open login modal via sign-in button
+    // Open login modal via connect button
     await page.click('button.neo-signin-btn');
     await page.fill('input#email', 'test@playwright.com');
-    await page.click('button:has-text("Send Login Code")');
+    await page.click('button:has-text("Send Connect Code")');
     // Verify stage
     await page.fill('input#otp', '123456');
     await page.click('button:has-text("Verify Code")');

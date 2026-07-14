@@ -180,7 +180,7 @@ export function PhoneSSO({
       if (needsProfile) {
         setStep('profile');
       } else {
-        // Login complete
+        // Connect complete
         toast.success('Welcome back!');
         onSuccess?.();
         router.push(redirectTo);
@@ -256,7 +256,7 @@ export function PhoneSSO({
                 Welcome to Bitcode 🚀
               </h2>
               <p className="text-gray-400">
-                Sign in or create an account with your phone
+                Connect or create an account with your phone
               </p>
             </div>
             

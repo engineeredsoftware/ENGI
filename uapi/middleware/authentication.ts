@@ -121,7 +121,7 @@ async function validateAuthentication(request: NextRequest): Promise<{
       });
       return {
         success: false,
-        error: 'Session expired - please sign in again',
+        error: 'Session expired - please connect again',
         requestId
       };
     }

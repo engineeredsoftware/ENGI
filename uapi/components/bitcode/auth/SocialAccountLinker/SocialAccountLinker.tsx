@@ -171,7 +171,7 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
         handleUnlink()
       }}
       title={`Disconnect ${providerLabel}?`}
-      description="You’ll no longer be able to sign in with this provider until you connect it again."
+      description="You’ll no longer be able to connect with this provider until you connect it again."
       confirmLabel="Disconnect"
       variant="danger"
     />
@@ -222,7 +222,7 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
             {linked
               ? 'Connected to your Bitcode account'
               : isSupported
-              ? 'Available for sign-in and account linking'
+              ? 'Available for connect and account linking'
               : provider === 'metamask'
                 ? 'Wallet-provider verification remains staged through Profile'
                 : 'Not yet available from this orbital surface'}

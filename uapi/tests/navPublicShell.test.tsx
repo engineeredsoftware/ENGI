@@ -126,7 +126,7 @@ describe('Nav public shell', () => {
 
     expect(screen.queryByText('Use button')).toBeNull();
     expect(mockPrefetchOrbital).toHaveBeenCalledTimes(1);
-    expect(mockOpenOrbital).toHaveBeenCalledWith('SignUpWindow');
+    expect(mockOpenOrbital).toHaveBeenCalledWith('AuxillariesWindow');
   });
 
   it('waits for wallet readiness before showing public guest wallet actions', () => {

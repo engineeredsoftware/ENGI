@@ -263,7 +263,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
    * We now leverage the Supabase JS client instead of hitting the REST
    * endpoint manually.  This gives us built-in retry / error handling and –
    * most importantly – ensures that we are sending the additional
-   * `shouldCreateUser: true` flag required for sign-in-with-OTP flows when the
+   * `shouldCreateUser: true` flag required for connect-with-OTP flows when the
    * user doesn’t already exist.
    */
   const handleRequest = async (e?: React.FormEvent | React.MouseEvent) => {
@@ -643,7 +643,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
                 label={stage === 'request'
                   ? cooldown > 0
                     ? `Wait ${cooldown}s`
-                    : 'Send Login Code'
+                    : 'Send Connect Code'
                   : 'Verify Code'}
                 processingLabel={stage === 'request' ? 'Sending…' : 'Verifying…'}
                 cancelLabel="Cancel"

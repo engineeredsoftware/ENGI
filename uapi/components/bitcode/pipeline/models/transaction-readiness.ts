@@ -5,7 +5,7 @@
  */
 
 export type BitcodeTransactionReadinessStatus =
-  | 'sign-in-required'
+  | 'connect-required'
   | 'repository-provider-pending'
   | 'wallet-binding-pending'
   | 'wallet-and-repository-pending'
@@ -14,7 +14,7 @@ export type BitcodeTransactionReadinessStatus =
   | 'ready';
 
 export type BitcodeTransactionReadinessBlockerId =
-  | 'sign-in'
+  | 'connect'
   | 'repository-provider'
   | 'wallet-binding'
   | 'wallet-verification'
@@ -81,13 +81,13 @@ export function deriveBitcodeTransactionReadiness(
   let blockers: BitcodeTransactionReadinessBlocker[] = [];
 
   if (!signedIn) {
-    status = 'sign-in-required';
-    label = 'sign-in required';
+    status = 'connect-required';
+    label = 'connect required';
     summary =
-      'Bitcode is in review-only mode. Sign in first, then bind wallet identity in Wallet and repository scope in Externals before you transact, settle, or sign Bitcode activity.';
-    nextAction = 'Sign in, then open Wallet and Externals.';
+      'Bitcode is in review-only mode. Connect first, then bind wallet identity in Wallet and repository scope in Externals before you transact, settle, or sign Bitcode activity.';
+    nextAction = 'Connect, then open Wallet and Externals.';
     blockers = [
-      blocker('sign-in', 'Operator sign-in'),
+      blocker('connect', 'Operator connect'),
       blocker('wallet-binding', 'Wallet identity in Wallet'),
       blocker('repository-provider', 'Repository scope in Externals'),
     ];

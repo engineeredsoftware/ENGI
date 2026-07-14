@@ -96,6 +96,6 @@ describe('Footer public shell', () => {
     fireEvent.click(button);
 
     expect(mockPrefetchOrbital).toHaveBeenCalledTimes(1);
-    expect(mockOpenOrbital).toHaveBeenCalledWith('login', undefined);
+    expect(mockOpenOrbital).toHaveBeenCalledWith('connect', undefined);
   });
 });

@@ -25,7 +25,7 @@ describe('OrbitalsContent', () => {
     expect(screen.getAllByText('Auxillaries access')).toHaveLength(2);
     expect(
       screen.getByText(
-        /sign in once, then keep connects, interfaces, profile, and \$btd in one contained auxillary read/i,
+        /connect once, then keep connects, interfaces, profile, and \$btd in one contained auxillary read/i,
       ),
     ).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Externals auxillary' })).toBeTruthy();

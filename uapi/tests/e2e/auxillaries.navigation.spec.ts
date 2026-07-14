@@ -15,7 +15,7 @@ test.describe('Auxillaries Navigation & Close Flows', () => {
     }) }));
   });
 
-  test('toggle between Login and Signup in modal', async ({ page }) => {
+  test('toggle between Connect and Signup in modal', async ({ page }) => {
     // Navigate to app
     await page.goto('/');
     // Open the auxillaries modal in login mode.
@@ -43,7 +43,7 @@ test.describe('Auxillaries Navigation & Close Flows', () => {
   test('navigate steps via sidebar labels', async ({ page }) => {
     // Navigate to app
     await page.goto('/');
-    // Login and OTP success to unlock onboarding
+    // Connect and OTP success to unlock onboarding
     await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     await page.fill('[data-testid="login-email-input"]', 'x@x.com');
     await page.click('[data-testid="login-send-code"]');

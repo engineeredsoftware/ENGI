@@ -66,7 +66,7 @@ deployed staging-testnet system end to end, step by step, and fix what breaks.
 - Environment preparation: staging Supabase database readiness, wallet-fauceted
  testnet BTC, local telemetry expectations, and a step-by-step debugging
  experience that validates each core user step.
-- Identity and authentication: sign up/in, and Auxillaries readiness for
+- Identity and authentication: connect, and Auxillaries readiness for
  connecting GitHub, wallet(s), and other external surfaces.
 - Depositing: connecting knowledge, requesting AssetPack syntheses to review,
  reviewing, and depositing.
@@ -89,9 +89,9 @@ Accepted findings converted to repairs so far:
  exact string match, so `redirect_to` must stay query-free. The post-auth
  destination travels through origin-local storage
  (`uapi/lib/supabase-auth-redirect.ts`) and is consumed once by the callback.
- This repaired wallet sign-in from both localhost and production www, which
+ This repaired wallet connect from both localhost and production www, which
  previously stranded the PKCE verifier and never minted a session.
-- Identity-derived wallet binding: the canonical wallet sign-up signs on the
+- Identity-derived wallet binding: the canonical wallet connect signs on the
  OAuth provider authorize page, so nothing is staged client-side to replay.
  `/api/wallet/authenticate` now derives the binding server-side from the
  session's GoTrue-verified `custom:bitcode-bitcoin` identity
@@ -104,7 +104,7 @@ law): eradicate legacy email/phone authentication residue (`/login`,
 `LoginForm`, PhoneSSO) and the legacy `/terminal` route after verifying its
 capabilities ported to `/packs`, `/read`, and `/deposit`; decide the
 solo-operator organization-authority posture (personal-organization bootstrap
-at wallet sign-up versus a neutral unconfigured state); complete the GitHub
+at wallet connect versus a neutral unconfigured state); complete the GitHub
 App sessionless install staging path, whose pending-installation cookie
 currently has no consumer.
 

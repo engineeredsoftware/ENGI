@@ -35,7 +35,7 @@ Legacy `/auxillaries/btd` and `/auxillaries/connects` aliases redirect into the 
 - `components/AuxillariesProvider.tsx`
   Canonical fullscreen auxillary overlay provider, event bridge, and portal owner.
 - `components/AuxillariesSurface.tsx`, `components/AuxillariesContent.tsx`, `components/AuxillariesLoginPane.tsx`
-  Canonical auxillary shell, contained reading surface, and sign-in entry owners.
+  Canonical auxillary shell, contained reading surface, and connect entry owners.
 - `components/Auxillaries{Wallet,Externals,Profile,Interfaces}Pane.tsx`
   Canonical pane implementation owners imported by the auxillary surface. These files now hold the live pane logic and import canonical auxillary headers, shared carriers, explainer maps, data-share panels, and model sections directly.
 - `components/headers/*`, `components/shared/*`, `components/models/*`, `components/AuxillariesDataSharingPanel.tsx`, `components/auxillary-pane-explainers.ts`, `components/profile-pane.module.css`

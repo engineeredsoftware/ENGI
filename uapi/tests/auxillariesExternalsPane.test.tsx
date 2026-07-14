@@ -281,7 +281,7 @@ describe('AuxillariesExternalsPane', () => {
 
     expect(screen.getByText('Connect GitHub for source-bearing input')).toBeInTheDocument();
     expect(screen.getByTestId('mock-vcs-integration-panel')).toBeInTheDocument();
-    expect(screen.queryByText(/Sign in to open Externals/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Connect to open Externals/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Connect Bitcoin wallet first/i)).not.toBeInTheDocument();
   });
 

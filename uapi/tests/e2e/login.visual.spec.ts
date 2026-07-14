@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('@profile UI Visual - Login Flows', () => {
+test.describe('@profile UI Visual - Connect Flows', () => {
   test('login-first-load', async ({ page }) => {
     await page.goto('/');
     await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
@@ -28,7 +28,7 @@ test.describe('@profile UI Visual - Login Flows', () => {
       .toMatchSnapshot('login-hover-send-link.png');
   });
 
-  test('Sign In Returning Customer', async ({ page, context }) => {
+  test('Connect Returning Customer', async ({ page, context }) => {
     // Stub Supabase OTP request
     await context.route('**/auth/v1/otp*', route =>
       route.fulfill({
@@ -97,6 +97,6 @@ test.describe('@profile UI Visual - Login Flows', () => {
     await page.waitForSelector('text=Welcome back!');
     // Capture full-page visual snapshot
     expect(await page.screenshot({ fullPage: true }))
-      .toMatchSnapshot('login-sign-in-returning-customer.png');
+      .toMatchSnapshot('login-connect-returning-customer.png');
   });
 });

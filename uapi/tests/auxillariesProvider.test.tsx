@@ -61,7 +61,7 @@ describe('AuxillariesProvider', () => {
     });
 
     expect(document.documentElement.classList.contains('auxillaries-open')).toBe(true);
-    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('SignUpWindow:externals');
+    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('AuxillariesWindow:externals');
 
     act(() => {
       closeAuxillaries();
@@ -81,17 +81,17 @@ describe('AuxillariesProvider', () => {
       openAuxillaries('auxillaries', 'externals');
     });
 
-    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('SignUpWindow:externals');
+    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('AuxillariesWindow:externals');
 
     act(() => {
       closeAuxillaries();
     });
 
     act(() => {
-      openAuxillaries('login');
+      openAuxillaries('connect');
     });
 
-    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('SignInWindow:none');
+    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('ConnectWindow:none');
   });
 
   it('opens the requested pane from the overlay query parameter without rendering a route page', () => {
@@ -103,6 +103,6 @@ describe('AuxillariesProvider', () => {
       </AuxillariesProvider>,
     );
 
-    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('SignUpWindow:wallet');
+    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('AuxillariesWindow:wallet');
   });
 });

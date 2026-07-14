@@ -148,7 +148,7 @@ Open `http://127.0.0.1:3000/deposits` after wallet + GitHub connect.
 
 ### Deposit smoke (recommended)
 
-1. Sign in with wallet (testnet).
+1. Connect with wallet (testnet).
 2. Connect GitHub; pick a **small** repo **or** set **Forced Inclusions** on a monorepo.
 3. Leave Obfuscations empty or set withhold text; set Forced Exclusions for secrets.
 4. **Synthesize** — watch SDIVF telemetry; options appear on completion.

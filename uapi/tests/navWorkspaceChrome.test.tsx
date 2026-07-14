@@ -110,7 +110,7 @@ describe('Nav product chrome', () => {
 
     expect(screen.queryByText('Use button')).toBeNull();
     expect(mockPrefetchOrbital).toHaveBeenCalledTimes(1);
-    expect(mockOpenOrbital).toHaveBeenCalledWith('SignUpWindow');
+    expect(mockOpenOrbital).toHaveBeenCalledWith('AuxillariesWindow');
   });
 
   it('shows wallet readiness loading instead of Connect Wallet before user data settles', () => {

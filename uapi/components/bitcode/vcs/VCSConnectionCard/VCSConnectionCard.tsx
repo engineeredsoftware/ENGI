@@ -190,7 +190,7 @@ export function VCSConnectionCard({
         );
       } else if (vcsConnection === 'installation_staged') {
         toast.info(
-          'GitHub App installed. Sign in to Bitcode if needed — Bitcode will finish linking automatically.',
+          'GitHub App installed. Connect to Bitcode if needed — Bitcode will finish linking automatically.',
         );
         // Claim now that a session may exist on this page load.
         void checkConnection();

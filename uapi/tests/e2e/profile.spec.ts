@@ -34,9 +34,9 @@ test.describe('Profile Editing in Account Modal', () => {
   test('edits and saves profile fields', async ({ page }) => {
     // Perform OTP login
     await page.goto('/');
-    await page.click('button:has-text("Login")');
+    await page.click('button:has-text("Connect")');
     await page.fill('input#email', 'test@playwright.com');
-    await page.click('button:has-text("Send Login Code")');
+    await page.click('button:has-text("Send Connect Code")');
     await page.fill('input#otp', '123456');
     await page.click('button:has-text("Verify Code")');
     // Open account modal

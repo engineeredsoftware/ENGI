@@ -33,9 +33,10 @@ export default function AuthButton() {
     }
   }, [router, supabase])
 
-  const handleLogin = () => {
-    // No separate login page; redirect to home and open login modal
+  const handleConnect = () => {
+    // No separate login page; open Connect surface from home.
     router.push('/')
+    openAuxillaries('ConnectWindow')
   }
 
   if (loading) {
@@ -49,28 +50,28 @@ export default function AuthButton() {
     )
   }
 
-  const handleLogout = async () => {
+  const handleDisconnect = async () => {
     await supabase.auth.signOut()
-    // Open login pane and redirect off authed routes
-    openAuxillaries('SignInWindow')
+    // Open connect pane and redirect off authed routes
+    openAuxillaries('ConnectWindow')
     router.replace('/')
   }
 
   return user ? (
     <ExecuteButton
       isProcessing={false}
-      onSubmit={handleLogout}
+      onSubmit={handleDisconnect}
       disabled={false}
-      label="Logout"
+      label="Disconnect"
       compact
       className="!w-auto !max-w-none px-6 py-4 text-lg tracking-wider font-light"
     />
   ) : (
     <ExecuteButton
       isProcessing={false}
-      onSubmit={handleLogin}
+      onSubmit={handleConnect}
       disabled={false}
-      label="Login"
+      label="Connect"
       compact
       className="!w-auto !max-w-none px-6 py-4 text-lg tracking-wider font-light"
     />

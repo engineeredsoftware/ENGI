@@ -21,14 +21,14 @@ test.describe('User Story: Account Modal Navigation', () => {
 
   test('navigate through Profile, Externals, Interfaces, and $BTD', async ({ page }) => {
     await page.goto('/');
-    // Login modal
-    await page.click('button:has-text("Login")');
+    // Connect modal
+    await page.click('button:has-text("Connect")');
     await page.waitForSelector('input#email');
     await page.waitForTimeout(300);
     expect(await page.screenshot({ fullPage: true }))
       .toMatchSnapshot('story-profile-login.png');
     await page.fill('input#email', 'test@playwright.com');
-    await page.click('button:has-text("Send Login Code")');
+    await page.click('button:has-text("Send Connect Code")');
     await page.fill('input#otp', '123456');
     await page.click('button:has-text("Verify Code")');
     // Open account modal

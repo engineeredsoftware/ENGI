@@ -333,7 +333,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   <button
                     type="button"
                     onMouseEnter={() => prefetchAuxillaries()}
-                    onClick={() => openAuxillaries(user ? 'auxillaries' : 'login', user ? 'profile' : undefined)}
+                    onClick={() => openAuxillaries(user ? 'auxillaries' : 'connect', user ? 'profile' : undefined)}
                     className="mt-3 inline-flex w-full max-w-xs items-center justify-center gap-1 rounded-none border border-emerald-300/24 bg-emerald-400/10 px-4 py-2 font-medium text-emerald-50 transition hover:border-emerald-300/42 hover:bg-emerald-400/16"
                   >
                     {footerCtaLabel}

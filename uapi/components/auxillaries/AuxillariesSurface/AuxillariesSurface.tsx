@@ -23,14 +23,14 @@ import { useAuxillariesStepContent } from './hooks/use-auxillaries-step-content'
 export type { ConcreteAuxillaryPane, AuxillaryPane } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 
 export interface AuxillariesSurfaceProps {
-  window?: 'SignInWindow' | 'SignUpWindow';
+  window?: 'ConnectWindow' | 'AuxillariesWindow';
   onClose?: () => void;
   className?: string;
   initialStep?: AuxillaryPane | null;
 }
 
 export default function AuxillariesSurface({
-  window: windowProp = 'SignInWindow',
+  window: windowProp = 'ConnectWindow',
   onClose,
   className = '',
   initialStep = null,
@@ -50,9 +50,9 @@ export default function AuxillariesSurface({
   });
 
   // Contained workspace: mount Close / Disconnect above the left selector column.
-  // Login + non-contained shells keep the surface-level header chrome.
+  // Connect + non-contained shells keep the surface-level header chrome.
   const placeChromeAboveLeftPane =
-    surface.usesContainedAuxillariesSurface && !surface.showLoginPane;
+    surface.usesContainedAuxillariesSurface && !surface.showConnectPane;
 
   const chromeActions = (
     <>
@@ -71,7 +71,7 @@ export default function AuxillariesSurface({
 
       {/*
         Wallet-native chrome: Connect focuses Wallet auxillary + connect CTAs;
-        Disconnect when session or Bitcoin wallet is bound. No Create Account
+        Disconnect when session or Bitcoin wallet is bound. No Connect
         chrome — identity entry is wallet binding.
       */}
       {surface.authLoaded && !surface.hasConnectedIdentity && (
@@ -103,7 +103,7 @@ export default function AuxillariesSurface({
   return (
     <div
       ref={surface.containerRef}
-      className={`orbital-system ${surface.auxillariesSurfaceClass} ${surface.usesBitcodeAuxillariesSurface ? 'auxillaries-bitcode-surface' : ''} ${surface.activeWindow === 'SignUpWindow' && !surface.isAuxillariesSurface && !surface.usesContainedAuxillariesSurface ? 'orbital-system-onboarding' : ''} ${surface.usesContainedAuxillariesSurface ? 'orbital-system-application' : ''} ${surface.isDedicatedAuxillariesRoute ? 'orbital-system-route-surface auxillaries-bitcode-route-surface' : ''} ${surface.deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
+      className={`orbital-system ${surface.auxillariesSurfaceClass} ${surface.usesBitcodeAuxillariesSurface ? 'auxillaries-bitcode-surface' : ''} ${surface.activeWindow === 'AuxillariesWindow' && !surface.isAuxillariesSurface && !surface.usesContainedAuxillariesSurface ? 'orbital-system-onboarding' : ''} ${surface.usesContainedAuxillariesSurface ? 'orbital-system-application' : ''} ${surface.isDedicatedAuxillariesRoute ? 'orbital-system-route-surface auxillaries-bitcode-route-surface' : ''} ${surface.deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
       tabIndex={0}
       onKeyDown={(event) => event.key === 'Escape' && onClose?.()}
     >
@@ -117,14 +117,14 @@ export default function AuxillariesSurface({
             count={4}
             baseSize={30}
             sizeIncrement={15}
-            activeIndex={surface.showLoginPane ? 0 : getAuxillaryRingIndex(surface.currentStep)}
+            activeIndex={surface.showConnectPane ? 0 : getAuxillaryRingIndex(surface.currentStep)}
             className={`${surface.auxillariesBackgroundClass} ${surface.auxillariesBackgroundAnimationClass}`.trim()}
           />
         </GPUAcceleration>
       ) : null}
 
       <ContentVisibility containSize="600px 400px">
-        {surface.showLoginPane ? (
+        {surface.showConnectPane ? (
           <motion.div
             key="login"
             className="orbital-content-container orbital-auth-container"
@@ -134,7 +134,7 @@ export default function AuxillariesSurface({
           >
             <AuxillariesLoginPane
               onClose={onClose}
-              onToggle={surface.showSignup}
+              onToggle={surface.showAuxillariesWorkspace}
               surfaceVariant={surface.usesContainedAuxillariesSurface ? 'contained' : 'default'}
             />
           </motion.div>

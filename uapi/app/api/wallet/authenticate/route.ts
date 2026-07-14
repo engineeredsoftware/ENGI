@@ -185,7 +185,7 @@ export async function POST(request: Request) {
   const issuedAt = readNonEmptyString(body.issuedAt);
   let connectedAt = readNonEmptyString(body.connectedAt) ?? issuedAt;
 
-  // OAuth-identity mode: the canonical wallet sign-up signs on the provider
+  // OAuth-identity mode: the canonical wallet connect signs on the provider
   // authorize page, so nothing is staged client-side to replay. Derive the
   // binding from the session's GoTrue-verified identity instead of trusting
   // any client-supplied wallet fields.

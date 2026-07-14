@@ -131,12 +131,12 @@ export default function Nav() {
 
   // Global event listeners for opening Auxillaries
   useEffect(() => {
-    const openLogin = () => openAuxillaries('SignInWindow');
-    const openOnboarding = () => openAuxillaries('SignUpWindow');
-    document.addEventListener('open-auxillaries', openLogin);
+    const openConnect = () => openAuxillaries('ConnectWindow');
+    const openOnboarding = () => openAuxillaries('AuxillariesWindow');
+    document.addEventListener('open-auxillaries', openConnect);
     document.addEventListener('start-onboarding', openOnboarding);
     return () => {
-      document.removeEventListener('open-auxillaries', openLogin);
+      document.removeEventListener('open-auxillaries', openConnect);
       document.removeEventListener('start-onboarding', openOnboarding);
     };
   }, []);
@@ -316,7 +316,7 @@ export default function Nav() {
         <button
           type="button"
           onMouseEnter={() => prefetchAuxillaries()}
-          onClick={() => openAuxillaries('SignUpWindow')}
+          onClick={() => openAuxillaries('AuxillariesWindow')}
           className="rounded-none border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18"
         >
           Connect Wallet
@@ -342,7 +342,7 @@ export default function Nav() {
         <button
           type="button"
           onMouseEnter={() => prefetchAuxillaries()}
-          onClick={() => openAuxillaries('SignUpWindow')}
+          onClick={() => openAuxillaries('AuxillariesWindow')}
           className={publicActionClassName}
         >
           {BITCODE_PUBLIC_COPY.publicNav.guestSecondaryCta}
@@ -557,14 +557,14 @@ export default function Nav() {
                   <UserMenu
                     user={user}
                     onOpenAuxillaries={() => openAuxillaries('auxillaries', 'profile')}
-                    onSignOut={() => {
+                    onDisconnect={() => {
                       import('@bitcode/supabase/ssr/client').then(({ createClient }) => {
                         const client = createClient();
                         client.auth.signOut({ scope: 'local' }).finally(() => {
                           clearLocalBitcodeWalletIdentity();
                           clearUserDataIdentity();
-                          // Show login pane after sign out
-                          openAuxillaries('login');
+                          // Show connect pane after disconnect
+                          openAuxillaries('connect');
                           // Redirect from authenticated pages
                           if (pathname && pathname.startsWith('/upgrades')) {
                             router.replace('/');
@@ -594,7 +594,7 @@ export default function Nav() {
                   ) : (
                     <AuxillariesUseButton
                       onHoverPrefetch={() => prefetchAuxillaries()}
-                      onClick={() => openAuxillaries(user ? 'auxillaries' : 'login')}
+                      onClick={() => openAuxillaries(user ? 'auxillaries' : 'connect')}
                       auxillaries={orbitalElements}
                       particles={particleElements}
                     />

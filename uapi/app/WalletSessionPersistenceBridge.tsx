@@ -40,7 +40,7 @@ export default function WalletSessionPersistenceBridge() {
   useEffect(() => {
     let cancelled = false;
 
-    // Canonical wallet sign-up signs on the OAuth provider authorize page, so
+    // Canonical wallet connect signs on the OAuth provider authorize page, so
     // nothing is staged locally to replay. Ask the server to derive the
     // binding from the session's GoTrue-verified Bitcoin identity instead.
     const persistOAuthIdentityBinding = async (

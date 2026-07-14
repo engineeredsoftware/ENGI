@@ -14,7 +14,7 @@ Examples
 - `/tps/twilio/sms/[runId]` – SMS run viewer
 
 Bitcoin wallet authentication
-- Supabase uses `custom:bitcode-bitcoin` for V28 wallet-backed sign-in.
+- Supabase uses `custom:bitcode-bitcoin` for V28 wallet-backed connect.
 - `/tps/wallet/authorize` captures the browser wallet proof, returns an authorization code to Supabase, and never treats `window.ethereum` as a Bitcoin signer.
 - The OAuth token and userinfo routes expose wallet identity metadata to Supabase; server logs are emitted only when `BITCODE_QA_VERBOSE=true` or `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true`.
 - Public Supabase callbacks must point to a reachable Bitcode origin. A localhost-only dev server can stage wallet proofs locally, but cloud Supabase cannot exchange OAuth codes against localhost token/userinfo endpoints.

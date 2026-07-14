@@ -17,8 +17,8 @@ interface UserMenuProps {
   user: import("@supabase/supabase-js").User;
   /** Callback when the user selects “Auxillaries” */
   onOpenAuxillaries?: () => void;
-  /** Callback when the user selects “Sign out” */
-  onSignOut: () => void;
+  /** Callback when the user selects “Disconnect” */
+  onDisconnect: () => void;
 }
 
 // ---------------------------------------------------------------------------
@@ -44,7 +44,7 @@ const contentStyles = `${menuStyles.menu}`;
  * Increased padding, smooth colour transitions and active/hover feedback that
  * follow the emerald accent used across interactive elements.
  */
-export function UserMenu({ user, onOpenAuxillaries, onSignOut }: UserMenuProps) {
+export function UserMenu({ user, onOpenAuxillaries, onDisconnect }: UserMenuProps) {
   const avatarUrl =
     (user.user_metadata && (user.user_metadata.avatar_url as string)) || "";
 
@@ -135,13 +135,13 @@ export function UserMenu({ user, onOpenAuxillaries, onSignOut }: UserMenuProps) 
             <DropdownMenu.Item
               onSelect={(e) => {
                 e.preventDefault();
-                onSignOut();
+                onDisconnect();
               }}
               className={classNames(menuStyles.item, menuStyles.danger)}
             >
               <ArrowRightOnRectangleIcon className={classNames("h-5 w-5 flex-shrink-0 mr-2", menuStyles.dangerIcon)} aria-hidden="true" />
               <div className="min-w-0">
-                <span className="block">Sign out</span>
+                <span className="block">Disconnect</span>
                 <span className="mt-0.5 block text-[0.64rem] uppercase tracking-[0.18em] text-red-200/60">
                   Leave the current Bitcode session
                 </span>

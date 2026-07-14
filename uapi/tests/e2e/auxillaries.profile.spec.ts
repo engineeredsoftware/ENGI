@@ -15,8 +15,8 @@ test.describe('@profile Auxillaries - Profile Step Variations', () => {
     );
   });
 
-  test('login pane first load', async ({ page }) => {
-    // Navigate to app and open login modal
+  test('connect pane first load', async ({ page }) => {
+    // Navigate to app and open connect surface
     await page.goto('/');
     await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     // Wait for login form email input to appear
@@ -26,7 +26,7 @@ test.describe('@profile Auxillaries - Profile Step Variations', () => {
       .toMatchSnapshot('auxillaries-login-first-load.png');
   });
 
-  test('login pane enter email', async ({ page }) => {
+  test('connect pane enter email', async ({ page }) => {
     // Navigate to app and open onboarding modal, then switch to login view
     await page.goto('/');
     await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
@@ -43,7 +43,7 @@ test.describe('@profile Auxillaries - Profile Step Variations', () => {
     await page.click('[data-auxillaries-testid="auxillaries-open-button"]');
     await page.click('[data-auxillaries-testid="auxillaries-toggle-button"]');
     await page.fill('[data-testid="login-email-input"]', 'test@playwright.com');
-    // Send login code
+    // Send connect code
     await page.click('[data-testid="login-send-code"]');
     // Wait for OTP input to appear and focus it
     await page.waitForSelector('[data-testid="login-otp-input"]');
@@ -68,7 +68,7 @@ test.describe('@profile Auxillaries - Profile Step Variations', () => {
       .toMatchSnapshot('profile-onboarding-otp-input-filled.png');
   });
 
-  test('login pane invalid OTP error', async ({ page, context }) => {
+  test('connect pane invalid OTP error', async ({ page, context }) => {
     // Stub verify to error
     await context.route(`${supabaseUrl}/auth/v1/verify`, (route) =>
       route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ data: { session: null }, error: { message: 'Invalid OTP', status: 400 } }) })
@@ -87,7 +87,7 @@ test.describe('@profile Auxillaries - Profile Step Variations', () => {
       .toMatchSnapshot('auxillaries-login-invalid-otp.png');
   });
 
-  test('login pane success transitions to profile', async ({ page, context }) => {
+  test('connect pane success transitions to profile', async ({ page, context }) => {
     // Stub verify success
     await context.route(`${supabaseUrl}/auth/v1/verify`, (route) =>
       route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ data: { session: { user: { id: 'user1' } } }, error: null }) })

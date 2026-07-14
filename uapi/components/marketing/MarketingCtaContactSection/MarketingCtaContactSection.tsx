@@ -133,7 +133,7 @@ const MarketingCtaContactSection: React.FC = () => {
                             innerClassName="text-base leading-none tracking-wider font-light text-white"
                             disabled
                           >
-                            Sign Up
+                            Connect
                           </MarketingButtonShimmer>
                         </div>
                       ) : (
@@ -145,7 +145,7 @@ const MarketingCtaContactSection: React.FC = () => {
                             innerClassName="text-base leading-none tracking-wider font-light text-white"
                             onClick={() => document.dispatchEvent(new CustomEvent('start-onboarding'))}
                           >
-                            Sign Up
+                            Connect
                           </MarketingButtonShimmer>
                         </div>
                       )}
@@ -164,7 +164,7 @@ const MarketingCtaContactSection: React.FC = () => {
                           disabled={DISABLE_USING}
                           onClick={() => document.dispatchEvent(new CustomEvent('open-auxillaries'))}
                         >
-                          Sign In
+                          Connect
                         </MarketingButtonShimmer>
                       </div>
 

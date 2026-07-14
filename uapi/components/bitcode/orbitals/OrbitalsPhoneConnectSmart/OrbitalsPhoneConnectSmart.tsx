@@ -216,7 +216,7 @@ export function PhoneConnectSmart({
                 
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-1">
-                    SMS Connected {phoneData.isSSO && '(via Phone Login)'}
+                    SMS Connected {phoneData.isSSO && '(via Phone Connect)'}
                   </h3>
                   <p className="text-gray-400 text-sm mb-3">
                     {formatPhoneNumber(phoneData.number)}

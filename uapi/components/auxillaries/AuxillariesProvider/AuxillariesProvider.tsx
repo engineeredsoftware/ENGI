@@ -29,16 +29,16 @@ const prefetchAuxillaries = () => {
   }
 };
 
-type AuxillaryWindow = 'SignInWindow' | 'SignUpWindow';
-type AuxillaryOpenMode = AuxillaryWindow | 'login' | 'account' | 'auxillaries';
+type AuxillaryWindow = 'ConnectWindow' | 'AuxillariesWindow';
+type AuxillaryOpenMode = AuxillaryWindow | 'connect' | 'account' | 'auxillaries';
 
-function normalizeAuxillaryWindow(requestedWindow: AuxillaryOpenMode = 'SignUpWindow'): AuxillaryWindow {
-  if (requestedWindow === 'login') {
-    return 'SignInWindow';
+function normalizeAuxillaryWindow(requestedWindow: AuxillaryOpenMode = 'AuxillariesWindow'): AuxillaryWindow {
+  if (requestedWindow === 'connect') {
+    return 'ConnectWindow';
   }
 
   if (requestedWindow === 'account' || requestedWindow === 'auxillaries') {
-    return 'SignUpWindow';
+    return 'AuxillariesWindow';
   }
 
   return requestedWindow;
@@ -65,7 +65,7 @@ const AuxillariesContext = createContext<AuxillariesContextType | null>(null);
 
 export default function AuxillariesProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [windowState, setWindowState] = useState<AuxillaryWindow>('SignUpWindow');
+  const [windowState, setWindowState] = useState<AuxillaryWindow>('AuxillariesWindow');
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
   const [deepLinkStep, setDeepLinkStep] = useState<AuxillaryPane | null>(null);
 
@@ -84,7 +84,7 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
     const openFromLocation = () => {
       const step = readAuxillaryOverlayStep(new URLSearchParams(window.location.search));
       if (!step || isDedicatedAuxillariesLocation()) return;
-      setWindowState('SignUpWindow');
+      setWindowState('AuxillariesWindow');
       setDeepLinkStep(step);
       setIsOpen(true);
     };
@@ -108,7 +108,7 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
     const onOpen = (e: Event) => {
       const detail = (e as CustomEvent)?.detail as {
         window?: AuxillaryWindow;
-        mode?: 'login' | 'account' | 'auxillaries';
+        mode?: 'connect' | 'account' | 'auxillaries';
         step?: AuxillaryPane;
       } | undefined;
 
@@ -138,7 +138,7 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
     };
   }, []);
 
-  const openAuxillaries = useCallback((win: AuxillaryWindow = 'SignUpWindow') => {
+  const openAuxillaries = useCallback((win: AuxillaryWindow = 'AuxillariesWindow') => {
     if (isDedicatedAuxillariesLocation()) {
       setIsOpen(false);
       setDeepLinkStep(null);
@@ -204,7 +204,7 @@ export function useAuxillaries() {
   return ctx;
 }
 
-export function openAuxillaries(requestedWindow: AuxillaryOpenMode = 'SignUpWindow', step?: AuxillaryPane) {
+export function openAuxillaries(requestedWindow: AuxillaryOpenMode = 'AuxillariesWindow', step?: AuxillaryPane) {
   prefetchAuxillaries();
   const win = normalizeAuxillaryWindow(requestedWindow);
   const ev = new CustomEvent('open-auxillaries', { detail: { window: win, step } });

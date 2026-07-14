@@ -23,9 +23,9 @@ test.describe('OTP Authentication Flow', () => {
 
   test('sends login code and transitions to verify stage', async ({ page }) => {
     await page.goto('/');
-    await page.click('button:has-text("Login")');
+    await page.click('button:has-text("Connect")');
     await page.fill('input#email', 'test@playwright.com');
-    await page.click('button:has-text("Send Login Code")');
+    await page.click('button:has-text("Send Connect Code")');
     // Verify that OTP input appears
     await expect(page.locator('input#otp')).toBeVisible();
     await expect(page.locator('button:has-text("Verify Code")')).toBeVisible();
@@ -41,9 +41,9 @@ test.describe('OTP Authentication Flow', () => {
       })
     );
     await page.goto('/');
-    await page.click('button:has-text("Login")');
+    await page.click('button:has-text("Connect")');
     await page.fill('input#email', 'test@playwright.com');
-    await page.click('button:has-text("Send Login Code")');
+    await page.click('button:has-text("Send Connect Code")');
     await page.fill('input#otp', '000000');
     await page.click('button:has-text("Verify Code")');
     // Error text should be visible and remain on verify stage
@@ -60,9 +60,9 @@ test.describe('OTP Authentication Flow', () => {
       })
     );
     await page.goto('/');
-    await page.click('button:has-text("Login")');
+    await page.click('button:has-text("Connect")');
     await page.fill('input#email', 'test@playwright.com');
-    await page.click('button:has-text("Send Login Code")');
+    await page.click('button:has-text("Send Connect Code")');
     // Expect error displayed and remain on request stage
     await expect(page.locator('[data-testid="login-error"]')).toHaveText('Too many requests');
     await expect(page.locator('input#otp')).toBeHidden();
@@ -89,9 +89,9 @@ test.describe('OTP Authentication Flow', () => {
       })
     );
     await page.goto('/');
-    await page.click('button:has-text("Login")');
+    await page.click('button:has-text("Connect")');
     await page.fill('input#email', 'test@playwright.com');
-    await page.click('button:has-text("Send Login Code")');
+    await page.click('button:has-text("Send Connect Code")');
     await page.fill('input#otp', '123456');
     await page.click('button:has-text("Verify Code")');
     // After successful login, the login modal should close
@@ -100,8 +100,8 @@ test.describe('OTP Authentication Flow', () => {
 
   test('toggles to signup onboarding view', async ({ page }) => {
     await page.goto('/');
-    await page.click('button:has-text("Login")');
-    await page.click('text=Sign up');
+    await page.click('button:has-text("Connect")');
+    await page.click('text=Connect');
     // Should navigate to onboarding profile step
     await expect(page.locator('[data-testid="profile-email-input"]')).toBeVisible();
   });

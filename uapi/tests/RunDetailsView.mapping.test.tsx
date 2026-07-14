@@ -26,7 +26,7 @@ jest.mock('@/hooks/usePipelineExecution', () => ({
 
 // Mock PipelineExecutionLog to surface the "output" prop
 jest.mock('@/components/bitcode/pipeline/PipelineExecutionLog/PipelineExecutionLog', () => ({
-  PipelineExecutionLog: ({ output }: any) => <pre data-testid="log-output">{output}</pre>
+  PipelineExecutionLog: ({ output }: any) => <pre data-testid="disconnectput">{output}</pre>
 }));
 
 jest.mock('@/components/bitcode/pipeline/PipelineExecutionLogHeader/PipelineExecutionLogHeader', () => ({
@@ -36,7 +36,7 @@ jest.mock('@/components/bitcode/pipeline/PipelineExecutionLogHeader/PipelineExec
 describe('RunDetailsView event mapping', () => {
   it('maps structured events to readable log lines', () => {
     render(<ExecutionDetailsView runId="run-1" />);
-    const output = screen.getByTestId('log-output').textContent || '';
+    const output = screen.getByTestId('disconnectput').textContent || '';
     expect(output).toContain('[pipeline:start]');
     expect(output).toContain('[phase:start] setup');
     expect(output).toContain('[agent:start] vcs:clone');

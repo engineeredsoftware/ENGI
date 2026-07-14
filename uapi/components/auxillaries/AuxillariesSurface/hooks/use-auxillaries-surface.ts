@@ -37,13 +37,13 @@ import { requestWalletConnectAttention } from '@/components/auxillaries/Auxillar
 import { parseAuxillaryPath, reportError, trackEvent } from '../models/auxillaries-surface-path';
 
 export interface UseAuxillariesSurfaceArgs {
-  windowProp?: 'SignInWindow' | 'SignUpWindow';
+  windowProp?: 'ConnectWindow' | 'AuxillariesWindow';
   onClose?: () => void;
   initialStep?: AuxillaryPane | null;
 }
 
 export function useAuxillariesSurface({
-  windowProp = 'SignInWindow',
+  windowProp = 'ConnectWindow',
   onClose,
   initialStep = null,
 }: UseAuxillariesSurfaceArgs) {
@@ -73,7 +73,7 @@ export function useAuxillariesSurface({
     usesPortalOverlay || usesTerminalOverlay || isDedicatedAuxillariesRoute || Boolean(sessionUser);
   const treatsContainedSurfaceAsAuxillaries = usesContainedAuxillariesSurface;
 
-  const [activeWindow, setActiveWindow] = useState<'SignInWindow' | 'SignUpWindow'>(windowProp);
+  const [activeWindow, setActiveWindow] = useState<'ConnectWindow' | 'AuxillariesWindow'>(windowProp);
   const [currentStep, setCurrentStep] = useState<ConcreteAuxillaryPane>(
     normalizeAuxillaryPane(initialStep) ?? routeStep ?? 'wallet',
   );
@@ -127,14 +127,14 @@ export function useAuxillariesSurface({
     if (!requestedStep) return;
 
     if (sessionUser) {
-      setActiveWindow('SignUpWindow');
+      setActiveWindow('AuxillariesWindow');
     }
     setCurrentStep(requestedStep);
   }, [initialStep, routeStep, sessionUser]);
 
   useEffect(() => {
-    if (sessionUser && activeWindow === 'SignInWindow') {
-      setActiveWindow('SignUpWindow');
+    if (sessionUser && activeWindow === 'ConnectWindow') {
+      setActiveWindow('AuxillariesWindow');
     }
   }, [activeWindow, sessionUser]);
 
@@ -224,7 +224,7 @@ export function useAuxillariesSurface({
   const handleSignOut = useCallback(async () => {
     /*
      * Full Disconnect: wipe local wallet + shared user-data + auth cache so
-     * chrome flips to Connect immediately. Sign out Supabase after the
+     * chrome flips to Connect immediately. Disconnect Supabase after the
      * optimistic null so a pre-signOut refetch cannot restore the session.
      */
     clearLocalBitcodeWalletIdentity();
@@ -238,7 +238,7 @@ export function useAuxillariesSurface({
       profile: false,
       interfaces: false,
     });
-    setActiveWindow('SignInWindow');
+    setActiveWindow('ConnectWindow');
 
     try {
       await supabaseClient.auth.signOut({ scope: 'local' });
@@ -308,7 +308,7 @@ export function useAuxillariesSurface({
 
   /**
    * Chrome Connect: open Wallet auxillary and briefly spotlight the
-   * required-wallet section + Connect Xverse/Leather buttons. Create Account
+   * required-wallet section + Connect Xverse/Leather buttons. Connect
    * is not a chrome action — wallet binding is the identity entry.
    *
    * requestWalletConnectAttention sets a pending flag so a Wallet pane that
@@ -321,11 +321,11 @@ export function useAuxillariesSurface({
   }, []);
 
   const toggleWindow = useCallback(() => {
-    setActiveWindow((value) => (value === 'SignInWindow' ? 'SignUpWindow' : 'SignInWindow'));
+    setActiveWindow((value) => (value === 'ConnectWindow' ? 'AuxillariesWindow' : 'ConnectWindow'));
   }, []);
 
-  const showSignup = useCallback(() => {
-    setActiveWindow('SignUpWindow');
+  const showAuxillariesWorkspace = useCallback(() => {
+    setActiveWindow('AuxillariesWindow');
   }, []);
 
   useEffect(() => {
@@ -345,12 +345,12 @@ export function useAuxillariesSurface({
     }
   }, [canonicalOnboardingComplete]);
 
-  const showLoginPane = activeWindow === 'SignInWindow' && !sessionUser && !usesContainedAuxillariesSurface;
+  const showConnectPane = activeWindow === 'ConnectWindow' && !sessionUser && !usesContainedAuxillariesSurface;
   const usesBitcodeAuxillariesSurface = usesContainedAuxillariesSurface;
   const auxillariesSurfaceClass = isDedicatedAuxillariesRoute ? 'orbital-system-route' : 'orbital-system-overlay';
   const auxillariesBackgroundClass = usesContainedAuxillariesSurface
     ? 'orbital-terminal-background'
-    : showLoginPane
+    : showConnectPane
       ? 'login-background-glow'
       : 'account-background-highlight';
   const auxillariesBackgroundAnimationClass =
@@ -379,7 +379,7 @@ export function useAuxillariesSurface({
     shouldPersistOnboardingProgress,
     canonicalOnboardingComplete,
     activeWindow,
-    showLoginPane,
+    showConnectPane,
     usesBitcodeAuxillariesSurface,
     auxillariesSurfaceClass,
     auxillariesBackgroundClass,
@@ -390,7 +390,7 @@ export function useAuxillariesSurface({
     handleStepClick,
     handleStepCompletionChange,
     toggleWindow,
-    showSignup,
+    showAuxillariesWorkspace,
     updateProfileMutation,
     onClose,
   };

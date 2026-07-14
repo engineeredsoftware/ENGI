@@ -36,7 +36,7 @@ interface SocialLoginButtonProps {
   iconOnly?: boolean
   /** Preserve `next` query param when redirecting */
   nextPath?: string
-  /** Button style variant for sign-up flow or default login */
+  /** Button style variant for connect flow or default login */
   variant?: 'default' | 'signup' | 'icon-square'
   /** Force disabled state (overrides internal provider-based logic) */
   disabled?: boolean
@@ -173,7 +173,7 @@ export default function SocialLoginButton({ provider, iconOnly = false, nextPath
     ? shortLabel
     : label
   const disabledReason = isStagedProvider
-    ? 'Wallet-provider verification remains staged in Profile; direct wallet sign-in is not yet active here'
+    ? 'Wallet-provider verification remains staged in Profile; direct wallet connect is not yet active here'
     : `${shortLabel} is not active in the current Bitcode surface`
   // Icon element, override size/color for iconOnly
   let iconElement = icon

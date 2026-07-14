@@ -61,7 +61,7 @@ export default function AuxillariesLoginPane({
 
             <div className="orbital-auth-support-card orbital-auth-support-card-wide rounded-none border border-white/10 bg-black/20 px-4 py-4">
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-white/72">
-                Auxillaries after sign-in
+                Auxillaries after connect
               </p>
               <ul className="mt-2 space-y-2 text-sm leading-7 text-white/74">
                 <li>Transactions and selected detail stay where you left them.</li>

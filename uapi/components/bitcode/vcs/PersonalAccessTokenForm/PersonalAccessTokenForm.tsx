@@ -82,7 +82,7 @@ export function PersonalAccessTokenForm({
         throw new Error(
           (data && typeof data.error === 'string' && data.error) ||
             (response.status === 401
-              ? 'Sign in to Bitcode before connecting a personal access token.'
+              ? 'Connect to Bitcode before connecting a personal access token.'
               : 'Failed to connect'),
         );
       }

@@ -45,10 +45,10 @@ describe('UserMenu', () => {
 
   it('opens Auxillaries through the workspace account menu with current product naming', async () => {
     const onOpenAuxillaries = jest.fn();
-    const onSignOut = jest.fn();
+    const onDisconnect = jest.fn();
 
     render(
-      <UserMenu user={mockUser} onOpenAuxillaries={onOpenAuxillaries} onSignOut={onSignOut} />,
+      <UserMenu user={mockUser} onOpenAuxillaries={onOpenAuxillaries} onDisconnect={onDisconnect} />,
     );
 
     expect(screen.getByText('Bitcode account')).toBeInTheDocument();
@@ -59,6 +59,6 @@ describe('UserMenu', () => {
     fireEvent.click(screen.getByText('Open Auxillaries fullscreen'));
 
     expect(onOpenAuxillaries).toHaveBeenCalledTimes(1);
-    expect(onSignOut).not.toHaveBeenCalled();
+    expect(onDisconnect).not.toHaveBeenCalled();
   });
 });

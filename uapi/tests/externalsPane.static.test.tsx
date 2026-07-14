@@ -33,7 +33,7 @@ describe('ExternalsPane SSR Onboarding View', () => {
     );
     expect(html).toContain('Externals Auxillary');
     expect(html).toContain('Auxillary step <!-- -->2');
-    expect(html).toContain('Sign in to open Externals');
+    expect(html).toContain('Connect to open Externals');
     expect(html).toContain('read measurement');
     expect(html).toContain('Open Profile auxillary');
   });

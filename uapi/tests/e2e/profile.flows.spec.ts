@@ -46,9 +46,9 @@ test.describe('Profile Flows', () => {
         githubConnection: { installationId: 42 }, btdBalance: 0, modelPreferences: {}
       })
     }));
-    // Login & open account
+    // Connect & open account
     await page.goto('/');
-    await page.click('button:has-text("Login")');
+    await page.click('button:has-text("Connect")');
     await page.fill('input#email','user@playwright.com');
     await page.click('button:has-text("Send Code")');
     await page.fill('input#otp','123456');

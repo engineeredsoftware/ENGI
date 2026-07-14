@@ -51,7 +51,7 @@ export default function AuxillariesOpenButton({
   return (
     <button
       type="button"
-      onClick={() => openAuxillaries('login', step ?? 'externals')}
+      onClick={() => openAuxillaries('connect', step ?? 'externals')}
       className={className}
     >
       {resolvedLabel}

@@ -8,13 +8,13 @@ export const useOnboardCTA = () => {
   const [href, setHref] = useState('SIGNIN')
   const subscriptionFlowEnabled = false
 
-  // 1. sign in 2. pay 3. install
+  // 1. connect 2. pay 3. install
   useEffect(() => {
     if (user) {
       const { publicMetadata: { isCustomer, isInstalled }, ...t } = user
       console.log(t)
 
-      // V26 keeps acquisition wallet-native; onboarding only steers to sign-in or installation surfaces.
+      // V26 keeps acquisition wallet-native; onboarding only steers to connect or installation surfaces.
       if (subscriptionFlowEnabled) {
         setText('Mint Bitcode')
         setHref('SUBSCRIBE')
