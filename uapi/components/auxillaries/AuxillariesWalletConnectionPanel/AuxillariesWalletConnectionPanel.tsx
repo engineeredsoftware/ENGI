@@ -100,7 +100,8 @@ export default function AuxillariesWalletConnectionPanel({
   }, []);
 
   const connectButtonClassName = [
-    'wallet-connect-provider-button inline-flex items-center justify-center rounded-none border border-orange-300/34 bg-orange-400/14 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/54 hover:bg-orange-400/22 disabled:cursor-wait disabled:opacity-60',
+    /* Border/fill owned in CSS so default border never drops after attention. */
+    'wallet-connect-provider-button inline-flex items-center justify-center rounded-none px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] transition disabled:cursor-wait disabled:opacity-60',
     attentionActive ? 'wallet-connect-attention-button' : '',
   ]
     .filter(Boolean)
