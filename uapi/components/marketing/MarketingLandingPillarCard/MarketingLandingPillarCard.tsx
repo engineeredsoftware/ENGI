@@ -75,8 +75,9 @@ export function MarketingLandingPillarCard({
                   <p className="bg-gradient-to-r from-purple-300 via-pink-300 to-red-300 bg-clip-text text-[11px] font-semibold uppercase tracking-[0.18em] text-transparent">
                     {title}
                   </p>
-                  <p className="mt-1 max-w-[14ch] text-[9px] uppercase tracking-[0.16em] text-violet-100/52 phone:max-w-[16ch] phone:text-[10px]">
-                    supply intake
+                  <p className="mt-1 max-w-[16ch] text-[9px] uppercase leading-snug tracking-[0.16em] text-violet-100/52 phone:text-[10px]">
+                    <span className="block whitespace-nowrap">Deposit Knowledge</span>
+                    <span className="block whitespace-nowrap">Supply</span>
                   </p>
                 </div>
               </div>
@@ -161,8 +162,9 @@ export function MarketingLandingPillarCard({
                   <p className="bg-gradient-to-r from-emerald-300 via-emerald-500 to-teal-300 bg-clip-text text-[11px] font-semibold uppercase tracking-[0.18em] text-transparent">
                     {title}
                   </p>
-                  <p className="mt-1 max-w-[16ch] text-[9px] uppercase tracking-[0.16em] text-emerald-100/52 phone:max-w-[18ch] phone:text-[10px]">
-                    need · fit · options
+                  <p className="mt-1 max-w-[16ch] text-[9px] uppercase leading-snug tracking-[0.16em] text-emerald-100/52 phone:text-[10px]">
+                    <span className="block whitespace-nowrap">Options that</span>
+                    <span className="block whitespace-nowrap">fit Need</span>
                   </p>
                 </div>
               </div>
@@ -225,8 +227,9 @@ export function MarketingLandingPillarCard({
                   <p className="bg-gradient-to-r from-white via-orange-100 to-white/80 bg-clip-text text-[11px] font-semibold uppercase tracking-[0.18em] text-transparent">
                     {title}
                   </p>
-                  <p className="mt-1 max-w-[14ch] text-[9px] uppercase tracking-[0.16em] text-orange-100/52 phone:max-w-[16ch] phone:text-[10px]">
-                    btc · btd · delivery
+                  <p className="mt-1 max-w-[18ch] text-[9px] uppercase leading-snug tracking-[0.16em] text-orange-100/52 phone:text-[10px]">
+                    <span className="block whitespace-nowrap">BTC · BTD</span>
+                    <span className="block whitespace-nowrap">On-Chain Delivery</span>
                   </p>
                 </div>
               </div>
