@@ -252,6 +252,9 @@ importers:
       '@bitcode/files':
         specifier: workspace:*
         version: link:../files
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../measurement-generics
     devDependencies:
       '@types/jest':
         specifier: ^29.5.12
@@ -1559,11 +1562,64 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
+  packages/generic-asset-packs/deposit-synthesized:
+    dependencies:
+      '@bitcode/asset-packs-generics':
+        specifier: workspace:*
+        version: link:../../asset-packs-generics
+      '@bitcode/generic-asset-packs-synthesis':
+        specifier: workspace:*
+        version: link:../synthesis
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^25.0.0
+        version: 25.6.0
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
   packages/generic-asset-packs/measured-patch:
     dependencies:
       '@bitcode/asset-packs-generics':
         specifier: workspace:*
         version: link:../../asset-packs-generics
+      '@bitcode/generic-asset-packs-synthesis':
+        specifier: workspace:*
+        version: link:../synthesis
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^25.0.0
+        version: 25.6.0
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
+  packages/generic-asset-packs/read-synthesized:
+    dependencies:
+      '@bitcode/asset-packs-generics':
+        specifier: workspace:*
+        version: link:../../asset-packs-generics
+      '@bitcode/generic-asset-packs-synthesis':
+        specifier: workspace:*
+        version: link:../synthesis
     devDependencies:
       '@types/jest':
         specifier: ^29.5.12

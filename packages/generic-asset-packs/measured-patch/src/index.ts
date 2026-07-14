@@ -1,8 +1,11 @@
 /**
  * @bitcode/generic-asset-packs-measured-patch
  *
- * MeasuredPatchAssetPack base — the only AssetPack implementation used by
- * Bitcode product pipelines (synthesize-deposits, synthesize-reads, settle-reads).
+ * @deprecated Compatibility re-export of SynthesisAssetPack.
+ * Prefer:
+ *   @bitcode/generic-asset-packs-synthesis
+ *   @bitcode/generic-asset-packs-deposit-synthesized
+ *   @bitcode/generic-asset-packs-read-synthesized
  */
 
 export type {
@@ -10,16 +13,19 @@ export type {
   MeasuredPatchMeasurement,
   MeasuredPatchMeasurementCategory,
   MeasuredPatchNeedinessPreview,
+  SynthesisAssetPack,
 } from './types';
-export { MEASURED_PATCH_ASSET_PACK_SCHEMA } from './types';
+export { MEASURED_PATCH_ASSET_PACK_SCHEMA, SYNTHESIS_ASSET_PACK_SCHEMA } from './types';
 
 export {
   buildMeasuredPatchAssetPack,
+  buildSynthesisAssetPack,
   measuredPatchToDepositContents,
+  synthesisAssetPackToDepositContents,
   type BuildMeasuredPatchAssetPackInput,
+  type BuildSynthesisAssetPackInput,
 } from './builders';
 
-// Primitive re-exports for convenience (prefer asset-pack-generics for pure primitives)
 export type {
   AssetPack,
   AssetPackId,
@@ -28,4 +34,5 @@ export type {
   AssetPackPatchDescriptor,
   AssetPackPatchFileChange,
   AssetPackDeliveryMechanism,
+  AssetPackMeasurements,
 } from '@bitcode/asset-packs-generics';

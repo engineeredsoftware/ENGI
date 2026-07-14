@@ -18,7 +18,8 @@
     "type-check": "pnpm run typecheck"
   },
   "dependencies": {
-    "@bitcode/files": "workspace:*"
+    "@bitcode/files": "workspace:*",
+    "@bitcode/measurement-generics": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

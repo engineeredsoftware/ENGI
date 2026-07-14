@@ -31,10 +31,18 @@ amountBaseUnits        = floor(needFitVolume × 10^18)
 
 Absolutes **never** mint BTD. On-chain enforces supply cap and master destination.
 
-## Behavior mirror
+## Behavior mirror (dual maintain — not generated)
 
 Executable TypeScript mirror (tests + projected receipts):
 
 `packages/btd/src/erc1155/`
+
+**This `contracts/` tree is not auto-built from `src/erc1155/`.** Both are
+hand-maintained sources of the same settlement token law. See
+`packages/btd/README.md` § “Dual maintain” for why (chain vs Node runtime,
+off-chain needinesses mint math, no silent codegen drift).
+
+When changing mint/transfer/co-own/burn rules: update **both** this Solidity
+and the TS mirror, then run `@bitcode/btd` erc1155 tests.
 
 Deploy with `solc >= 0.8.20`. No OpenZeppelin dependency in-repo.

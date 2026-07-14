@@ -59,6 +59,11 @@ export const AssetPackMeasurementsSchema = z.object({
 });
 export type AssetPackMeasurements = z.infer<typeof AssetPackMeasurementsSchema>;
 
+/** Empty nested measurements bag (deposit starts with needinesses: []). */
+export function emptyAssetPackMeasurements(): AssetPackMeasurements {
+  return { absolutes: [], needinesses: [] };
+}
+
 /** Canonical measure-agent output shape (flat readings; host nests by kind). */
 export const MeasurementOutputSchema = z.object({
   measurements: z.array(MeasurementReadingSchema).min(1),

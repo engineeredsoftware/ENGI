@@ -9,14 +9,18 @@
 
 export type {
   MeasurementCategory,
+  MeasurementKindCategory,
   MeasurementSpec,
   MeasurementReading,
   MeasurementOutput,
   MeasureAgentOutput,
+  AssetPackMeasurements,
 } from './types';
 
 export {
   MeasurementReadingSchema,
   MeasurementOutputSchema,
   MeasureAgentOutputSchema,
+  AssetPackMeasurementsSchema,
+  emptyAssetPackMeasurements,
 } from './types';

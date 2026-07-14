@@ -1,16 +1,19 @@
 /**
  * @bitcode/generic-asset-packs-synthesis
  *
- * Product surface for SynthesizeAssetPacks:
+ * Shared synthesize AssetPack base for **both** deposit and read pipelines:
+ * - SynthesisAssetPack (extends AssetPack primitive + measurements)
  * - measurement catalogs + AbsolutesMeasureAgent
- * - AssetPackPatchArtifact (product Artifact over PatchArtifact base)
+ * - AssetPackPatchArtifact
  *
- * Hierarchy (artifacts):
+ * Hierarchy:
+ *   AssetPack → SynthesisAssetPack → DepositSynthesized | ReadSynthesized
  *   Artifact → PatchArtifact → AssetPackPatchArtifact
  */
 
 export * from './types';
 export * from './measurement-catalogs';
+export * from './synthesis-asset-pack';
 export {
   factorySynthesizeAssetPacksAbsolutesMeasureAgent,
   factoryAssetPackMeasureAbsolutesAgent,

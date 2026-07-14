@@ -1,13 +1,14 @@
 {
   "name": "@bitcode/generic-asset-packs-synthesis",
   "version": "0.1.0",
-  "description": "SynthesizeAssetPacks product measurements: catalogs + AbsolutesMeasureAgent specialization surface",
+  "description": "Shared SynthesizeAssetPacks base: SynthesisAssetPack + catalogs + AbsolutesMeasureAgent + patch artifact",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
     "./measurement-catalogs": "./src/measurement-catalogs.ts",
     "./types": "./src/types.ts",
+    "./synthesis-asset-pack": "./src/synthesis-asset-pack.ts",
     "./asset-pack-patch-artifact": "./src/asset-pack-patch-artifact.ts"
   },
   "scripts": {

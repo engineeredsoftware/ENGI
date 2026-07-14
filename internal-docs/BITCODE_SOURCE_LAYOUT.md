@@ -218,7 +218,7 @@ packages/generic-<family>/ # README only (no package.json)
 | `mcp-generics/` | (package root) | `@bitcode/mcp-generics` |
 | `generic-mcps/` | `bitcode/` | `@bitcode/generic-mcps-bitcode` |
 | `asset-packs-generics/` | (package root) | `@bitcode/asset-packs-generics` |
-| `generic-asset-packs/` | `measured-patch/`, `synthesis/`, `settle/` | `@bitcode/generic-asset-packs-*` |
+| `generic-asset-packs/` | `synthesis/`, `deposit-synthesized/`, `read-synthesized/`, `settle/`, `measured-patch/` (deprecated re-export) | `@bitcode/generic-asset-packs-*` |
 | `execution-generics/` | (package root) | `@bitcode/execution-generics` |
 | `executor-generics/` | (package root) | `@bitcode/executor-generics` |
 | `generic-executors/` | (package root) | `@bitcode/generic-executors` |

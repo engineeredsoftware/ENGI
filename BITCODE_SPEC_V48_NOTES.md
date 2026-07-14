@@ -2046,3 +2046,16 @@ Settlement law upgraded for commercial read buy:
   retains; buyer added; burn forbidden).
 - Sources: `packages/btd/contracts/BitcodeERC1155.sol`,
   `packages/btd/src/erc1155/`, `packages/asset-packs-pipelines/settle-asset-packs/`.
+
+## AssetPack hierarchy: measurements on primitive + synthesize specializations (2026-07-14)
+
+- `AssetPack` primitive (`@bitcode/asset-packs-generics`) now **includes**
+  `measurements` from `@bitcode/measurement-generics` (nested absolutes |
+  needinesses).
+- `generic-asset-packs` layout:
+  - `synthesis/` — shared `SynthesisAssetPack` for deposit+read synthesize
+  - `deposit-synthesized/` — needinesses always `[]`; **never** obfuscations on pack
+  - `read-synthesized/` — needinesses + BTD/BTC commercial fields
+  - `measured-patch/` — deprecated re-export of synthesis
+- BTD: `contracts/` and `src/erc1155/` are dual-maintained (not codegen); see
+  `packages/btd/README.md`.

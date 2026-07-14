@@ -1,14 +1,12 @@
 {
-  "name": "@bitcode/generic-asset-packs-measured-patch",
+  "name": "@bitcode/generic-asset-packs-deposit-synthesized",
   "version": "0.1.0",
   "private": true,
-  "description": "DEPRECATED re-export of SynthesisAssetPack — prefer generic-asset-packs-synthesis / deposit-synthesized / read-synthesized",
+  "description": "DepositSynthesizedAssetPack: shared synthesis base + deposit-only fields (never obfuscations, needinesses always [])",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./types": "./src/types.ts",
-    "./builders": "./src/builders.ts"
+    ".": "./src/index.ts"
   },
   "scripts": {
     "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",

@@ -38,7 +38,11 @@ describe('MeasuredPatchAssetPack', () => {
 
     expect(pack.identity.schema).toBe(MEASURED_PATCH_ASSET_PACK_SCHEMA);
     expect(pack.deliveryMechanism).toBe('pull-request');
-    expect(pack.measurements).toHaveLength(1);
+    // Nested kinds (or flat-normalized into nested) — absolutes present
+    const absolutes = Array.isArray(pack.measurements)
+      ? pack.measurements
+      : pack.measurements.absolutes;
+    expect(absolutes).toHaveLength(1);
     expect(pack.sourceBinding.protectedSourceVisible).toBe(false);
 
     const contents = measuredPatchToDepositContents(pack);
