@@ -19,6 +19,7 @@ import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineE
 import { BITCODE_PUBLIC_EXPLAINERS } from "@/components/bitcode/layout/BitcodePublicExplainers/bitcode-public-explainers";
 import { bitcodeQaTelemetry, compactBitcodeAddress } from "@bitcode/auth/qa-telemetry";
 import { clearLocalBitcodeWalletIdentity } from "@bitcode/auth/wallet-local";
+import BitcodeQuantumChromeButton from "@/components/bitcode/layout/BitcodeQuantumChromeButton/BitcodeQuantumChromeButton";
 
 const MemoBTDTracker = React.memo(BTDTracker);
 const MemoNotificationsWidget = React.memo(NotificationsWidget);
@@ -297,30 +298,35 @@ export default function Nav() {
       </div>
     ) : null;
 
-  // Guests (no session / wallet identity): Connect Wallet only — Open Auxillaries
-  // is for operators who already have identity (user menu / signed-in chrome).
+  // Guests (no session / wallet identity): rich quantum Connect Wallet CTA
+  // matching the BTD tracker chrome (not the flat emerald outline).
+  // ButtonShimmer (marketing) is the other rich button family — reserved for
+  // landing CTAs; nav/wallet chrome uses this quantum tracker language.
+  const renderConnectWalletCta = () => (
+    <BitcodeQuantumChromeButton
+      disabled={disableCreateAccount}
+      aria-label={BITCODE_PUBLIC_COPY.publicNav.guestSecondaryCta}
+      onMouseEnter={() => {
+        if (!disableCreateAccount) prefetchAuxillaries();
+      }}
+      onClick={() => {
+        if (disableCreateAccount) return;
+        openAuxillaries('AuxillariesWindow');
+      }}
+      className="h-8 min-h-8 px-5"
+    >
+      {BITCODE_PUBLIC_COPY.publicNav.guestSecondaryCta}
+    </BitcodeQuantumChromeButton>
+  );
+
   const workspaceGuestActions = usesWorkspaceOnlyChrome && !hasChromeWalletIdentity && !isWalletReadinessLoading ? (
     <div className={`${controlsEntranceClassName} flex items-center gap-2.5`}>
       {disableCreateAccount ? (
         <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.createAccount}>
-          <button
-            type="button"
-            disabled
-            aria-disabled="true"
-            className={disabledClassName('rounded-none border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18')}
-          >
-            Connect Wallet
-          </button>
+          {renderConnectWalletCta()}
         </DisabledTooltipWrapper>
       ) : (
-        <button
-          type="button"
-          onMouseEnter={() => prefetchAuxillaries()}
-          onClick={() => openAuxillaries('AuxillariesWindow')}
-          className="rounded-none border border-emerald-400/28 bg-emerald-400/12 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/18"
-        >
-          Connect Wallet
-        </button>
+        renderConnectWalletCta()
       )}
     </div>
   ) : null;
@@ -329,24 +335,10 @@ export default function Nav() {
     <div className={`${controlsEntranceClassName} flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-2.5`}>
       {disableCreateAccount ? (
         <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.createAccount} className="flex-1 tablet:flex-none">
-          <button
-            type="button"
-            disabled
-            aria-disabled="true"
-            className={disabledClassName(publicActionClassName)}
-          >
-            {BITCODE_PUBLIC_COPY.publicNav.guestSecondaryCta}
-          </button>
+          {renderConnectWalletCta()}
         </DisabledTooltipWrapper>
       ) : (
-        <button
-          type="button"
-          onMouseEnter={() => prefetchAuxillaries()}
-          onClick={() => openAuxillaries('AuxillariesWindow')}
-          className={publicActionClassName}
-        >
-          {BITCODE_PUBLIC_COPY.publicNav.guestSecondaryCta}
-        </button>
+        renderConnectWalletCta()
       )}
     </div>
   ) : null;
