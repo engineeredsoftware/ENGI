@@ -31,14 +31,15 @@ export const paintedMotionStyle: React.CSSProperties = {
 };
 
 // Keep descriptions near-identical length (~79–80 chars) so all three wrap to four lines.
+// Color order: Deposit purple · Read orange · Settle green.
 export const productPillars = [
   {
-    title: 'Sell',
+    title: 'Deposit',
     description: 'Deposit repositories as measured AssetPack supply buyers can find and settle.',
     Icon: CubeTransparentIcon,
   },
   {
-    title: 'Buy',
+    title: 'Read',
     description: 'State a Need, compare fit measurements, and pick source-safe AssetPack options.',
     Icon: ScaleIcon,
   },
@@ -51,7 +52,7 @@ export const productPillars = [
 
 /**
  * Marketing depot measurements: per-metric Absolutes + Needinesses (small bars),
- * then Final Fit (BTD volume) as the standout summary axis.
+ * then Packs Bitcode Volume as the standout summary axis (display value ≠ 0–100 bar).
  */
 export const measurementAbsoluteItems = [
   { label: 'functions', value: 92 },
@@ -72,8 +73,11 @@ export const measurementNeedinessItems = [
 ] as const;
 
 export const measurementFinalFit = {
-  label: 'Final Fit',
-  value: 73,
+  label: 'Packs Bitcode Volume',
+  /** Display volume (not a 0–100 score). */
+  value: 431,
+  /** Marketing bar fill only — volume is not a percentage axis. */
+  barPercent: 86,
   detail: 'BTD volume — weighted scalar over needinesses-fits for the settled AssetPack',
 } as const;
 
@@ -85,9 +89,23 @@ export const measureCardAxes = [
   { label: 'Trust', value: 73 },
 ] as const;
 
+/** Neon tone for highlighted mosaic chips (bullet + glowing label). */
+export type PreviewValueTone = 'orange' | 'green' | 'purple' | 'white';
+
+export const previewValueNeonClass: Record<PreviewValueTone, string> = {
+  green:
+    'font-semibold text-emerald-200 [text-shadow:0_0_12px_rgba(103,254,183,0.75),0_0_28px_rgba(52,211,153,0.4)]',
+  orange:
+    'font-semibold text-orange-200 [text-shadow:0_0_12px_rgba(251,146,60,0.75),0_0_28px_rgba(251,191,36,0.4)]',
+  purple:
+    'font-semibold text-fuchsia-200 [text-shadow:0_0_12px_rgba(232,121,249,0.75),0_0_28px_rgba(192,132,252,0.45)]',
+  white:
+    'font-semibold text-white [text-shadow:0_0_12px_rgba(255,255,255,0.8),0_0_28px_rgba(255,255,255,0.38)]',
+};
+
 export const previewRows = [
   {
-    key: 'what sellers ship',
+    key: 'What sells?',
     valueParts: ['code', 'docs', 'diagrams', 'PDFs'],
     accentClassName: 'from-cyan-400/18 via-sky-400/8 to-transparent',
     Icon: DocumentTextIcon,
@@ -96,7 +114,7 @@ export const previewRows = [
     iconClassName: 'text-white/58',
   },
   {
-    key: 'proven at deposit',
+    key: 'Snapshots',
     valueParts: ['commits', 'author', 'paths', 'SHA'],
     accentClassName: 'from-fuchsia-400/18 via-purple-400/8 to-transparent',
     Icon: LinkIcon,
@@ -105,8 +123,11 @@ export const previewRows = [
     iconClassName: 'text-white/58',
   },
   {
-    key: 'what buyers inspect',
-    valueParts: ['measurements', 'fit', 'proof roots'],
+    key: "Buyer's View",
+    valueParts: ['measurements', 'fitting-to-needs', 'proof roots'],
+    valueTones: {
+      'fitting-to-needs': 'green',
+    } satisfies Partial<Record<string, PreviewValueTone>>,
     accentClassName: 'from-emerald-400/18 via-teal-400/8 to-transparent',
     Icon: Squares2X2Icon,
     // Three stacked rows — never a tight multi-col that letter-breaks words.
@@ -114,9 +135,15 @@ export const previewRows = [
     iconClassName: 'text-white/58',
   },
   {
-    key: 'what settles',
-    // 2×2: BTC | BTD / AssetPacks | Delivery — all single-line tokens.
-    valueParts: ['BTC', 'BTD', 'AssetPacks', 'Delivery'],
+    key: 'what settles?',
+    // 2×2: BTC | BTD / APs | Delivery — all single-line tokens.
+    valueParts: ['BTC', 'BTD', 'APs', 'Delivery'],
+    valueTones: {
+      BTC: 'orange',
+      BTD: 'green',
+      APs: 'purple',
+      Delivery: 'white',
+    } satisfies Partial<Record<string, PreviewValueTone>>,
     accentClassName: 'from-orange-400/18 via-amber-300/8 to-transparent',
     Icon: CurrencyDollarIcon,
     valuesGridClassName: 'grid-cols-2',
@@ -146,7 +173,7 @@ export const verificationRows = [
     label: 'Reading',
     detail:
       'Bitcode searches the depository for potential matches to synthesize candidate AssetPacks for review.',
-    status: 'private*',
+    status: 'private',
     Icon: LockClosedIcon,
   },
   {
@@ -202,31 +229,42 @@ export const headlineHighlights = [
   { text: 'Bitcode', className: `${heroHighlightClass} font-semibold text-white` },
 ] as const;
 
-export function renderOrbitalBullet(className = '', variant: 'purple' | 'orange' | 'green' = 'purple') {
+export function renderOrbitalBullet(
+  className = '',
+  variant: 'purple' | 'orange' | 'green' | 'white' = 'purple',
+) {
   const outerRingClassName =
     variant === 'orange'
       ? 'border-orange-400/46'
       : variant === 'green'
         ? 'border-emerald-400/52'
-        : 'border-fuchsia-400/46';
+        : variant === 'white'
+          ? 'border-white/48'
+          : 'border-fuchsia-400/46';
   const innerRingClassName =
     variant === 'orange'
       ? 'border-orange-300/32'
       : variant === 'green'
         ? 'border-emerald-300/38'
-        : 'border-purple-300/32';
+        : variant === 'white'
+          ? 'border-white/34'
+          : 'border-purple-300/32';
   const coreClassName =
     variant === 'orange'
       ? 'bg-orange-400 shadow-[0_0_10px_rgba(251,146,60,0.48)]'
       : variant === 'green'
         ? 'bg-emerald-300 shadow-[0_0_12px_rgba(103,254,183,0.58)]'
-        : 'bg-fuchsia-300 shadow-[0_0_10px_rgba(232,121,249,0.48)]';
+        : variant === 'white'
+          ? 'bg-white shadow-[0_0_12px_rgba(255,255,255,0.62)]'
+          : 'bg-fuchsia-300 shadow-[0_0_10px_rgba(232,121,249,0.48)]';
   const planetClassName =
     variant === 'orange'
       ? 'bg-orange-200 shadow-[0_0_6px_rgba(251,146,60,0.42)]'
       : variant === 'green'
         ? 'bg-emerald-100 shadow-[0_0_8px_rgba(103,254,183,0.52)]'
-        : 'bg-purple-200 shadow-[0_0_6px_rgba(216,180,254,0.42)]';
+        : variant === 'white'
+          ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.55)]'
+          : 'bg-purple-200 shadow-[0_0_6px_rgba(216,180,254,0.42)]';
 
   return (
     <span className={`relative inline-flex h-5 w-5 shrink-0 items-center justify-center ${className}`}>

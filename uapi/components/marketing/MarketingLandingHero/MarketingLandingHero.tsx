@@ -54,28 +54,28 @@ function renderNeonHighlights(
   });
 }
 
-/** CTA under each pillar — order and colors match Sell · Buy · Settle columns. */
+/** CTA under each pillar — purple Deposit · orange Read · green Settle. */
 const pillarCtas = [
   {
-    pillarTitle: 'Sell',
+    pillarTitle: 'Deposit',
     href: BITCODE_PUBLIC_COPY.secondaryCta.href,
     label: BITCODE_PUBLIC_COPY.secondaryCta.label,
     className:
-      'border-fuchsia-300/28 bg-fuchsia-500/12 text-fuchsia-50 hover:border-fuchsia-300/48 hover:bg-fuchsia-500/18',
+      'border-fuchsia-300/28 bg-fuchsia-500/12 text-fuchsia-50/88 transition-[color,background-color,border-color,box-shadow,text-shadow] duration-200 hover:border-fuchsia-300/80 hover:bg-fuchsia-500/28 hover:text-fuchsia-50 hover:shadow-[0_0_22px_rgba(232,121,249,0.28)] hover:[text-shadow:0_0_12px_rgba(232,121,249,0.55)]',
   },
   {
-    pillarTitle: 'Buy',
+    pillarTitle: 'Read',
     href: BITCODE_PUBLIC_COPY.primaryCta.href,
     label: BITCODE_PUBLIC_COPY.primaryCta.label,
     className:
-      'border-emerald-300/28 bg-emerald-400/12 text-emerald-50 hover:border-emerald-300/48 hover:bg-emerald-400/18',
+      'border-orange-300/28 bg-orange-400/12 text-orange-50/88 transition-[color,background-color,border-color,box-shadow,text-shadow] duration-200 hover:border-orange-300/80 hover:bg-orange-400/28 hover:text-orange-50 hover:shadow-[0_0_22px_rgba(251,146,60,0.28)] hover:[text-shadow:0_0_12px_rgba(251,146,60,0.55)]',
   },
   {
     pillarTitle: 'Settle',
     href: BITCODE_PUBLIC_COPY.tertiaryCta.href,
     label: BITCODE_PUBLIC_COPY.tertiaryCta.label,
     className:
-      'border-orange-300/28 bg-orange-400/12 text-orange-50 hover:border-orange-300/48 hover:bg-orange-400/18',
+      'border-emerald-300/28 bg-emerald-400/12 text-emerald-50/88 transition-[color,background-color,border-color,box-shadow,text-shadow] duration-200 hover:border-emerald-300/80 hover:bg-emerald-400/28 hover:text-emerald-50 hover:shadow-[0_0_22px_rgba(103,254,183,0.28)] hover:[text-shadow:0_0_12px_rgba(103,254,183,0.55)]',
   },
 ] as const;
 
@@ -114,39 +114,35 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
         </p>
       </div>
 
-      <div className="mt-4 flex flex-nowrap gap-2 overflow-x-auto text-[11px] uppercase tracking-[0.18em] text-emerald-200/68 phone:mt-5 phone:tracking-[0.22em]">
-        {BITCODE_PUBLIC_COPY.capabilityChips.map((item) => (
-          <span
-            key={item}
-            className="relative shrink-0 overflow-hidden rounded-none border border-cyan-200/18 bg-[linear-gradient(135deg,rgba(9,22,48,0.82),rgba(18,49,88,0.38))] px-3 py-2 text-cyan-100 shadow-[0_12px_28px_rgba(6,182,212,0.08)] backdrop-blur-md"
-          >
-            <span
-              className="absolute inset-0 opacity-30"
-              style={{
-                backgroundImage:
-                  'repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 32px)',
-              }}
-            />
-            <span className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(103,254,183,0.16),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(56,189,248,0.12),transparent_34%)]" />
-            <span className="absolute inset-[1px] rounded-none border border-white/8" />
-            <span className="relative whitespace-nowrap">{item}</span>
-          </span>
-        ))}
-      </div>
-
-      {/* Pillar + CTA share one column so each button sits under its card; cards stretch equal height. */}
+      {/*
+        Chip + pillar + CTA share one column so each chip aligns to its card
+        (same grid as the buttons below).
+      */}
       <div className="mt-4 grid grid-cols-1 items-stretch gap-x-2 gap-y-3 phone:mt-5 phone:grid-cols-2 phone:gap-x-3 desktop:grid-cols-3">
         {productPillars.map((pillar, index) => {
           const cta = pillarCtas.find((entry) => entry.pillarTitle === pillar.title) ?? pillarCtas[index];
+          const chip = BITCODE_PUBLIC_COPY.capabilityChips[index] ?? BITCODE_PUBLIC_COPY.capabilityChips[0];
 
           return (
             <div key={pillar.title} className="flex min-h-0 min-w-0 flex-col gap-3">
+              <span className="relative flex w-full shrink-0 items-center justify-center overflow-hidden rounded-none border border-cyan-200/18 bg-[linear-gradient(135deg,rgba(9,22,48,0.82),rgba(18,49,88,0.38))] px-3 py-2 text-center text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100 shadow-[0_12px_28px_rgba(6,182,212,0.08)] backdrop-blur-md">
+                <span
+                  className="absolute inset-0 opacity-30"
+                  style={{
+                    backgroundImage:
+                      'repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 32px)',
+                  }}
+                />
+                <span className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(103,254,183,0.16),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(56,189,248,0.12),transparent_34%)]" />
+                <span className="absolute inset-[1px] rounded-none border border-white/8" />
+                <span className="relative whitespace-nowrap">{chip}</span>
+              </span>
               <div className="min-h-0 flex-1">
                 <MarketingLandingPillarCard {...pillar} index={index} />
               </div>
               <Link
                 href={cta.href}
-                className={`inline-flex w-full shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-none border px-3 py-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] transition-colors ${cta.className}`}
+                className={`inline-flex w-full shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-none border px-3 py-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] ${cta.className}`}
               >
                 {cta.label}
                 <ArrowRightIcon className="h-4 w-4 shrink-0" />
@@ -158,7 +154,11 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
 
       {/*
         Residual left-column height is split evenly:
-        (1) buttons → product card, (2) product card → micro-blog.
+        (1) buttons → product card, (2) product card → micro-blog date pills.
+        Micro-blog tabs hang half their height above the card (-translate-y-1/2),
+        so a fixed half-pill reserve is added under the lower flex spacer —
+        visual gap is measured to pill tops, not the card border. Without it the
+        lower band reads tighter than the upper.
         Micro-blog stays last (no trailing spacer) so its lower edge keeps
         aligning with the Data Depot column.
         Product stays content-height — no internal flex grow.
@@ -169,6 +169,11 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
           <MarketingLandingTestnetSection />
         </div>
         <div className="min-h-0 flex-1 basis-0" aria-hidden="true" />
+        {/*
+          Half of micro-blog tab height (py-1 + text-[10px] ≈ 22–24px → ~12px).
+          Keeps product→pill-top optical spacing equal to buttons→product.
+        */}
+        <div className="h-3 shrink-0" aria-hidden="true" />
         <div className="shrink-0">
           <MarketingLandingGuideCard />
         </div>
