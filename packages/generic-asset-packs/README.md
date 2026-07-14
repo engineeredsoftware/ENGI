@@ -7,47 +7,31 @@ include measurements from `@bitcode/measurement-generics`).
 
 | Nested package | npm name | Role |
 | --- | --- | --- |
-| `synthesis/` | `@bitcode/generic-asset-packs-synthesis` | **Base AP of Bitcode** shared by all three products: patch, absolutes, title/summary, provenant paths, catalogs |
-| `deposit-synthesized/` | `@bitcode/generic-asset-packs-deposit-synthesized` | Deposit product: no needinesses; never obfuscations on pack |
-| `read-synthesized/` | `@bitcode/generic-asset-packs-read-synthesized` | Read product: needinesses + BTD/BTC quote projection |
-| `settled-read-synthesized/` | `@bitcode/generic-asset-packs-settled-read-synthesized` | Settled product: BTD rights, BTC finality, ERC1155 co-own, PR delivery |
-| `settle/` | `@bitcode/generic-asset-packs-settle` | Settle surface markers (stages list) |
-| `measured-patch/` | `@bitcode/generic-asset-packs-measured-patch` | Deprecated re-export of synthesis |
+| `synthesis/` | `@bitcode/generic-asset-packs-synthesis` | **Base AP of Bitcode** shared by all three products |
+| `deposit-synthesized/` | `@bitcode/generic-asset-packs-deposit-synthesized` | Deposit product |
+| `read-synthesized/` | `@bitcode/generic-asset-packs-read-synthesized` | Read product |
+| `settled-read-synthesized/` | `@bitcode/generic-asset-packs-settled-read-synthesized` | Settled product after settle-asset-pack-pipeline |
+| `settle/` | `@bitcode/generic-asset-packs-settle` | Settle stage markers |
 
 ## Hierarchy
 
 ```
 @bitcode/measurement-generics
-@bitcode/asset-packs-generics                 # AssetPack { …, measurements }
-  → generic-asset-packs/synthesis             # SynthesisAssetPack  ← base of all 3 products
-      → deposit-synthesized                   # DepositSynthesizedAssetPack
-      → read-synthesized                      # ReadSynthesizedAssetPack
-      → settled-read-synthesized              # SettledReadSynthesizedAssetPack
-  → settle
+@bitcode/asset-packs-generics
+  → synthesis/                 # SynthesisAssetPack
+      → deposit-synthesized    # DepositSynthesizedAssetPack
+      → read-synthesized       # ReadSynthesizedAssetPack
+      → settled-read-synthesized  # SettledReadSynthesizedAssetPack
+  → settle/
   → asset-packs-pipelines-*
 ```
 
-### Shared base vs three products
+Obfuscations are never stored on any AssetPack.
 
-| Field | Synthesis (base) | Deposit | Read | Settled read |
-| --- | --- | --- | --- | --- |
-| identity, sourceBinding, patch | ✓ | ✓ | ✓ | ✓ |
-| measurements.absolutes | ✓ | ✓ | ✓ | ✓ |
-| measurements.needinesses | open | always `[]` | *-fit | *-fit (from read) |
-| title, summary, provenant | ✓ | ✓ | ✓ | ✓ |
-| kind / confidence / covered paths | — | ✓ | optional | from read |
-| needFit, settleable (pre-pay) | — | — | ✓ | settleable false |
-| btd / btc **quote** | — | — | ✓ | ✓ |
-| btdRights (mint + transfer) | — | — | — | ✓ |
-| btcSettlement (finality) | — | — | — | ✓ |
-| assetPackRights (ERC1155 co-own) | — | — | — | ✓ |
-| delivery (PR) | — | — | — | ✓ |
-| **obfuscations** | never | never on pack | never | never |
+## Pipelines
 
-## Pipelines (product names)
-
-| Pipeline | Package dir | Consumes / produces |
-| --- | --- | --- |
-| `synthesize-deposits-asset-packs-pipeline` | `asset-packs-pipelines/synthesize-deposits-asset-packs-pipeline` | → DepositSynthesizedAssetPack options |
-| `synthesize-reads-asset-packs-pipeline` | `asset-packs-pipelines/synthesize-reads-asset-packs-pipeline` | → ReadSynthesizedAssetPack options |
-| `settle-asset-pack-pipeline` | `asset-packs-pipelines/settle-asset-pack-pipeline` | Read option → SettledReadSynthesizedAssetPack |
+| Name | Package |
+| --- | --- |
+| synthesize-deposits-asset-packs-pipeline | `@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline` |
+| synthesize-reads-asset-packs-pipeline | `@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline` |
+| settle-asset-pack-pipeline | `@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline` |

@@ -17,5 +17,5 @@ You specialize in the Bitcode monorepo.
 
 ## Out of scope
 
-- Inventing alternate AssetPack bases besides MeasuredPatch without user direction
+- Inventing alternate AssetPack bases besides Synthesis without user direction
 - Weakening source-safety or auth boundaries for demos

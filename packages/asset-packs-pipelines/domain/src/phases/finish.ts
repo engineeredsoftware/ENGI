@@ -53,7 +53,7 @@ export function registerFinishAgentsForType(
   // BOTH synthesis modes Finish by uploading the synthesized artifacts to
   // Bitcode for user review (deposit: before Depository admission; read: before
   // purchase). Opening a pull request is NO LONGER part of synthesis — PR /
-  // settlement delivery moves to the future Gate-6 SettleAssetPacks pipeline
+  // settlement delivery moves to the future Gate-6 SettleAssetPack pipeline
   // (the legacy deliver-asset-pack-to-destination-agent is retained for it).
   _mode?: SynthesizeAssetPacksMode,
 ): void {

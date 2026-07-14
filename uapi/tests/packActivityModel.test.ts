@@ -266,7 +266,7 @@ describe('pack-activity-model', () => {
     expect(JSON.stringify(record)).not.toContain('protected source body');
   });
 
-  it('projects SettleAssetPacks executions as settled-assetpack with nested measurements and PR delivery', () => {
+  it('projects SettleAssetPack executions as settled-assetpack with nested measurements and PR delivery', () => {
     const settleRecord = normalizePackActivityRecord({
       id: 'settle-run-1',
       kind: 'execution',
@@ -274,7 +274,7 @@ describe('pack-activity-model', () => {
       channel: 'system-surface',
       label: 'Executions',
       title: 'AssetPack execution',
-      summary: 'Settled AssetPack: Auth rollback proof pack. SettleAssetPacks completed.',
+      summary: 'Settled AssetPack: Auth rollback proof pack. SettleAssetPack completed.',
       timestamp: '2026-07-14T12:00:00.000Z',
       state: 'completed',
       read: null,
@@ -282,7 +282,7 @@ describe('pack-activity-model', () => {
         type: 'agentic-execution:asset-pack',
         status: 'completed',
         context: {
-          source: 'read-settle-asset-packs',
+          source: 'read-settle-asset-pack',
           packActivityType: 'settled-assetpack',
           activityType: 'settled-assetpack',
           repositoryFullName: 'engineeredsoftware/ENGI',
@@ -296,7 +296,7 @@ describe('pack-activity-model', () => {
         },
         output: {
           productPipeline: 'settle-asset-pack-pipeline',
-          summary: 'Settled AssetPack: Auth rollback proof pack. SettleAssetPacks completed.',
+          summary: 'Settled AssetPack: Auth rollback proof pack. SettleAssetPack completed.',
           assetPackTitle: 'Auth rollback proof pack',
           optionCount: 1,
           settlementState: 'settled',
@@ -385,7 +385,7 @@ describe('pack-activity-model', () => {
       read: null,
       payload: {
         type: 'agentic-execution:asset-pack',
-        context: { source: 'read-settle-asset-packs' },
+        context: { source: 'read-settle-asset-pack' },
         optionCount: 2,
       },
     });

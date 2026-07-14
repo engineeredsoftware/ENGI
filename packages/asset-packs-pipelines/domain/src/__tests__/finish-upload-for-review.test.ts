@@ -4,7 +4,7 @@
  * synthesized AssetPack artifacts to Bitcode for USER review — deposit before
  * Depository admission, read before purchase. Opening a pull request is NOT
  * part of synthesis (PR/settlement delivery is reserved for the future Gate-6
- * SettleAssetPacks pipeline).
+ * SettleAssetPack pipeline).
  *
  * Pins the upload-for-review agent's behavior: mode-appropriate review surface,
  * 'bitcode-review-upload' delivery mechanism (never a PR shape), resolution of

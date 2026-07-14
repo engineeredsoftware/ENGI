@@ -20,7 +20,7 @@ const OPTIONS = [
 /**
  * Both synthesis modes Finish by UPLOADING the synthesized artifacts to Bitcode
  * for user review. Opening a pull request is NOT part of synthesis (that moves
- * to the future Gate-6 SettleAssetPacks pipeline), so the upload record must
+ * to the future Gate-6 SettleAssetPack pipeline), so the upload record must
  * carry review semantics and NO PR side effects.
  */
 describe('runUploadAssetPacksForReviewAgent', () => {

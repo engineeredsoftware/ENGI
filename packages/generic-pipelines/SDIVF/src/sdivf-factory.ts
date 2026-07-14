@@ -4,7 +4,7 @@
  * Hierarchy:
  *   @bitcode/pipelines-generics     — Pipeline / PhaseDelegator primitives
  *   @bitcode/generic-pipelines-sdivf — this package (SDIVF base loop)
- *   @bitcode/asset-packs-pipelines-domain    — SynthesizeAssetPacks (and future SettleAssetPacks)
+ *   @bitcode/asset-packs-pipelines-domain    — SynthesizeDeposit/Read + settle-asset-pack-pipeline
  *
  * Pattern: Setup → [Discovery → Implementation → Validation]* → Finish
  * with bounded DIV iteration. Product pipelines supply phase executors/agents.
@@ -24,7 +24,7 @@ import { descendExecution } from '@bitcode/pipelines-generics/execution/resume';
 /**
  * SDIVF base Pipeline (hierarchy name: SDIVF + Pipeline).
  * Product pipelines must extend this pattern:
- *   SynthesizeAssetPacksSDIVFPipeline, SettleAssetPacksSDIVFPipeline, …
+ *   SynthesizeAssetPacksSDIVFPipeline, settle-asset-pack-pipelineSDIVFPipeline, …
  */
 export type SDIVFPipeline<TInput = any, TOutput = any> = Pipeline<TInput, TOutput>;
 

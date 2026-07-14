@@ -152,12 +152,12 @@ function resolveSingleOption(input: SettleAssetPackInput): SettleAssetPackOption
       : [];
   if (list.length === 0) {
     throw new Error(
-      'SettleAssetPacks requires exactly one assetPackOption (1:1 AssetPack : settle pipeline).',
+      'SettleAssetPack requires exactly one assetPackOption (1:1 AssetPack : settle pipeline).',
     );
   }
   if (list.length > 1) {
     throw new Error(
-      `SettleAssetPacks is 1:1 per bought option; received ${list.length}. Spawn one pipeline per option.`,
+      `SettleAssetPack is 1:1 per bought option; received ${list.length}. Spawn one pipeline per option.`,
     );
   }
   return list[0];
@@ -221,7 +221,7 @@ function isSettleBtcObservation(
     'agent' in value &&
     (value as SettleBtcPaymentObservation).agent === 'settle-btc' &&
     (value as SettleBtcPaymentObservation).schema ===
-      'bitcode.settle-asset-packs.payment-observation'
+      'bitcode.settle-asset-pack.payment-observation'
   );
 }
 
@@ -237,7 +237,7 @@ const validateSettlementReadiness: Executor<SettleAssetPackInput, SettleAssetPac
   const assetPackKey = assetPackKeyFor(assetPackOption, input);
   const boundary: SettleValidationBoundary =
     input.assetPackSettlementRightsDeliveryBoundary || {
-      schema: 'bitcode.settle-asset-packs.validation',
+      schema: 'bitcode.settle-asset-pack.validation',
       state: 'ready',
       pipeline: 'settle-asset-pack-pipeline',
       selectedCount: 1,
@@ -325,7 +325,7 @@ const settleBtc: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
 
   const confirmed = Boolean(mempool?.confirmed);
   const observation: SettleBtcPaymentObservation = {
-    schema: 'bitcode.settle-asset-packs.payment-observation',
+    schema: 'bitcode.settle-asset-pack.payment-observation',
     agent: 'settle-btc',
     network: typeof prior.network === 'string' ? prior.network : 'btc-testnet',
     status: confirmed ? 'final' : txId ? 'observed' : 'observed-projection',
@@ -385,7 +385,7 @@ const mintBtd: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
   });
 
   const mintArtifact: MintBtdArtifact = {
-    schema: 'bitcode.settle-asset-packs.mint-btd',
+    schema: 'bitcode.settle-asset-pack.mint-btd',
     agent: 'mint-btd',
     settlementBtd,
     receipt: {
@@ -470,7 +470,7 @@ const settleBtd: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
   });
 
   const settleBtdArtifact: SettleBtdArtifact = {
-    schema: 'bitcode.settle-asset-packs.settle-btd',
+    schema: 'bitcode.settle-asset-pack.settle-btd',
     agent: 'settle-btd',
     receipt: {
       kind: receipt.kind,
@@ -489,7 +489,7 @@ const settleBtd: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
     note: 'BTD transferred from master treasury to buyer Ethereum wallet.',
   };
   const rights: SettleRightsArtifact = {
-    schema: 'bitcode.settle-asset-packs.rights-transfer',
+    schema: 'bitcode.settle-asset-pack.rights-transfer',
     readerWalletId: input.readerWalletId || null,
     depositorWalletId: input.depositorWalletId || null,
     buyerEthereumAddress: buyer,
@@ -546,7 +546,7 @@ const settleAssetPack: Executor<SettleAssetPackInput, SettleAssetPackInput> = as
   });
 
   const settleApArtifact: SettleAssetPackArtifact = {
-    schema: 'bitcode.settle-asset-packs.settle-asset-pack',
+    schema: 'bitcode.settle-asset-pack.settle-asset-pack',
     agent: 'settle-asset-pack',
     receipt: {
       kind: receipt.kind,
@@ -619,7 +619,7 @@ const shipAssetPackPatchPr: Executor<SettleAssetPackInput, SettleAssetPackInput>
     try {
       const { createPullRequest } = await import('@bitcode/generic-vcs-git');
       const bodyLines = [
-        '## Bitcode SettleAssetPacks delivery',
+        '## Bitcode SettleAssetPack delivery',
         '',
         '1:1 AssetPack settlement after BTC finality, BTD mint/transfer, and ERC1155 co-ownership.',
         '',
@@ -652,7 +652,7 @@ const shipAssetPackPatchPr: Executor<SettleAssetPackInput, SettleAssetPackInput>
   }
 
   const shippable: SettleShippable = {
-    schema: 'bitcode.settle-asset-packs.shippable',
+    schema: 'bitcode.settle-asset-pack.shippable',
     deliveryMechanism: 'pull_request',
     repository: {
       url: repo.url || null,

@@ -12,7 +12,7 @@
  * Hierarchy:
  *   pipelines-generics (this package — primitives)
  *     → generic-pipelines/SDIVF (base SDIVF loop)
- *       → pipeline-asset-pack (SynthesizeAssetPacks / SettleAssetPacks)
+ *       → pipeline-asset-pack (SynthesizeAssetPacks / settle-asset-pack-pipeline)
  *
  * Core Concepts:
  * - Pipeline: Top-level Executor orchestrating phases

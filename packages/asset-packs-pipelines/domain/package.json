@@ -68,7 +68,7 @@
     "@bitcode/generic-measurements-measure-agent": "workspace:*",
     "@bitcode/generic-measurements-absolutes": "workspace:*",
     "@bitcode/asset-packs-generics": "workspace:*",
-    "@bitcode/generic-asset-packs-measured-patch": "workspace:*",
+    "@bitcode/generic-asset-packs-synthesis": "workspace:*",
     "@bitcode/generic-asset-packs-synthesis": "workspace:*",
     "@bitcode/generic-asset-packs-settle": "workspace:*"
   },

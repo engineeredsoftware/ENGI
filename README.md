@@ -41,7 +41,7 @@ implementing V48 gates.
 | Route | Purpose |
 |---|---|
 | `/deposits` | **Deposit MVP** — connect source, synthesize measured AssetPack options (SynthesizeAssetPacks SDIVF), review, admit to Depository |
-| `/reads` | **Read MVP** — connect target repo, Need instruction, synthesize measured options (SynthesizeReadAssetPacks SDIVF, same shape as deposit), select → SettleAssetPacks |
+| `/reads` | **Read MVP** — connect target repo, Need instruction, synthesize measured options (SynthesizeReadAssetPacks SDIVF, same shape as deposit), select → SettleAssetPack |
 | `/packs` | Master-detail PackActivity (settled/admitted AssetPacks; searchable table + detail) |
 | Auxillaries | Wallet identity, GitHub, organization panes |
 | `/` · `/docs` | Marketing and public docs |
@@ -94,7 +94,7 @@ Orientation only: [`ASSET_PACKS.md`](ASSET_PACKS.md) (non-canonical).
 |---|---|---|
 | SynthesizeDepositAssetPacks | SDIVF | `/deposits` |
 | SynthesizeReadAssetPacks | SDIVF (Need + *-fit needinesses) | `/reads` |
-| SettleAssetPacks | Simple (pay → mint BTD → rights → **PR ship**) | after `/reads` select → activity on `/packs` |
+| SettleAssetPack | Simple (pay → mint BTD → rights → **PR ship**) | after `/reads` select → activity on `/packs` |
 
 ---
 
@@ -167,7 +167,7 @@ Full QA checklist: `BITCODE_V48_QA.md` → Gate 3 depositing runbook.
 | `packages/asset-packs-pipelines/domain/` | SynthesizeAssetPacks SDIVF, deposit agents, policy, demand estimate |
 | `packages/asset-packs-pipelines/` | Product pipelines (synthesize-deposits/reads, settle-reads) |
 | `packages/asset-packs-generics/` | AssetPack protocol primitive |
-| `packages/generic-asset-packs/` | measured-patch base + synthesis/settle product surfaces |
+| `packages/generic-asset-packs/` | synthesis base + synthesis/settle product surfaces |
 | `packages/pipeline-hosts/` | AssetPack host orchestration over `generic-hosts/*` |
 | `packages/host-generics/` + `generic-hosts/*` | Host primitive + Local / VercelSandbox bases |
 | `packages/agent-generics/` | Agent = Executor + PTRR composition |

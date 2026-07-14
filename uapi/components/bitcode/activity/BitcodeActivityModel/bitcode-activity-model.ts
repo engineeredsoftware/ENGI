@@ -138,7 +138,7 @@ function formatExecutionHistoryTitle(
   if (packActivityType === 'settled-assetpack') return 'Settled AssetPack';
   if (packActivityType === 'depository-assetpack') return 'Depository AssetPack';
   const source = String(context?.source || '').toLowerCase();
-  if (source === 'read-settle-asset-packs') return 'Settled AssetPack';
+  if (source === 'read-settle-asset-pack') return 'Settled AssetPack';
   if (source === 'deposit-option-review-admission') return 'Depository AssetPack';
   const normalizedType = String(type || '').trim().toLowerCase();
   if (!normalizedType) return 'Execution activity';
@@ -261,7 +261,7 @@ export function inferExecutionHistoryScope(
   const type = String(row.type || '');
   if (type.includes('settlement') || type.includes('settled')) return 'network';
   const source = String(context.source || '');
-  if (source === 'read-settle-asset-packs' || source === 'deposit-option-review-admission') {
+  if (source === 'read-settle-asset-pack' || source === 'deposit-option-review-admission') {
     return 'network';
   }
   const packActivityType = String(context.packActivityType || context.activityType || '');

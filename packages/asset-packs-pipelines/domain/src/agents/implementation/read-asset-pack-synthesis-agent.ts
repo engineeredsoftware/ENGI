@@ -8,7 +8,7 @@
  * }
  *
  * LLM synthesizes patch + metadata; host attaches absolutes + needinesses.
- * BTC/PR settlement is SettleAssetPacks, not this agent.
+ * BTC/PR settlement is settle-asset-pack-pipeline, not this agent.
  */
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';

@@ -60,8 +60,8 @@ const INVENTORY = {
   samples: [{ path: 'src/auth/session.ts', excerpt: 'export function createSession() {}' }],
 };
 
-/** A candidateSchema-valid measured-patch option (deposit implementation output). */
-function measuredPatchOption(overrides: Record<string, unknown> = {}) {
+/** A candidateSchema-valid deposit AssetPack option (deposit implementation output). */
+function depositSynthesisOption(overrides: Record<string, unknown> = {}) {
   return {
     kind: 'capability-slice',
     title: 'Auth capability slice',
@@ -235,10 +235,10 @@ describe('deposit agent context/store contract', () => {
   });
 
   describe('Implementation — runDepositAssetPackSynthesisAgent', () => {
-    it('unwraps the envelope and stores the measured-patch options under the EXACT keys the route, validation, and Finish read', async () => {
+    it('unwraps the envelope and stores the deposit AssetPack options under the EXACT keys the route, validation, and Finish read', async () => {
       const options = [
-        measuredPatchOption(),
-        measuredPatchOption({
+        depositSynthesisOption(),
+        depositSynthesisOption({
           title: 'Billing implementation pattern',
           kind: 'implementation-pattern',
           summary:
@@ -305,7 +305,7 @@ describe('deposit agent context/store contract', () => {
     }, 60000);
 
     it('threads cross-phase stores written on the SHARED parent into the synthesis generation context (F20 law)', async () => {
-      setBoundaryLLMOutput({ options: [measuredPatchOption()] });
+      setBoundaryLLMOutput({ options: [depositSynthesisOption()] });
 
       const shared = new Execution('pipeline-root');
       // The deposit data plane + upstream phase outputs, stored on the SHARED
@@ -346,7 +346,7 @@ describe('deposit agent context/store contract', () => {
 
       const shared = new Execution('pipeline-root');
       const validationExec = shared.child('seq-2');
-      const packs = [measuredPatchOption()];
+      const packs = [depositSynthesisOption()];
       const result = await runDepositValidationAgent(
         { assetPacks: packs, inventory: INVENTORY, forcedExclusions: [] },
         validationExec,
@@ -391,7 +391,7 @@ describe('deposit agent context/store contract', () => {
 
       const shared = new Execution('pipeline-root');
       const validationExec = shared.child('seq-2');
-      const violating = measuredPatchOption({
+      const violating = depositSynthesisOption({
         title: 'Secret-touching slice',
         coveredSourcePaths: ['src/secret/keys.ts'],
         patch: {
@@ -421,7 +421,7 @@ describe('deposit agent context/store contract', () => {
       setBoundaryLLMOutput({ issues: [], qualityScore: 0.8, coverageGaps: [], recommendation: 'complete' });
 
       const shared = new Execution('pipeline-root');
-      const packs = [measuredPatchOption()];
+      const packs = [depositSynthesisOption()];
       // Producer side of the repaired topology: the options + deposit stores live
       // on the SHARED parent, where every sibling phase child can findUp them.
       shared.store('implementation', 'options', packs);
@@ -446,7 +446,7 @@ describe('deposit agent context/store contract', () => {
     it('deposit mode: uploads implementation:options read from the shared parent for /deposits admission review', async () => {
       const shared = new Execution('pipeline-root');
       storeSynthesizeAssetPacksMode(shared, 'deposit');
-      const options = [measuredPatchOption()];
+      const options = [depositSynthesisOption()];
       shared.store('implementation', 'options', options);
       shared.store('implementation', 'assetPack', { repository: REPOSITORY });
       shared.store('implementation', 'summary', 'Synthesized 1 measured deposit AssetPack patch(es).');
@@ -503,7 +503,7 @@ describe('deposit agent context/store contract', () => {
   describe('cross-phase store visibility (F20 topology law)', () => {
     it('a store written on the SHARED parent is visible from every sibling phase child (and their children) via findUp', () => {
       const shared = new Execution('pipeline-root');
-      const options = [measuredPatchOption()];
+      const options = [depositSynthesisOption()];
       shared.store('implementation', 'options', options);
       shared.store('deposit', 'inventory', INVENTORY);
       shared.store('setup', 'inputComprehension', { summary: 'guidance', obfuscatedPaths: [] });

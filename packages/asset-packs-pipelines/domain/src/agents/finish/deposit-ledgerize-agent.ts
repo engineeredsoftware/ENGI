@@ -8,7 +8,7 @@
  *    payload (on-chain / BTD journal bridge). Record finish:ledgerWriteResult.
  * 4. Always store finish:ledgerize receipt for audit.
  *
- * Full commercial settlement (BTC pay → mint → rights) remains SettleAssetPacks;
+ * Full commercial settlement (BTC pay → mint → rights) remains settle-asset-pack-pipeline;
  * this agent ledgerizes **synthesis outputs** so stored APs are ledger-addressable.
  */
 

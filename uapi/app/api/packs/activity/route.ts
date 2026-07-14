@@ -105,13 +105,13 @@ async function readGlobalDepositoryRecords(limit: number): Promise<BitcodeActivi
   }
 }
 
-/** Settled read deliveries (SettleAssetPacks) surface on /packs as settled-assetpack rows. */
+/** Settled read deliveries (settle-asset-pack-pipeline) surface on /packs as settled-assetpack rows. */
 async function readSettledAssetPackRecords(limit: number): Promise<BitcodeActivityRecord[]> {
   try {
     const { data } = await supabaseAdmin
       .from('executions')
       .select('id, created_at, status, type, output, context')
-      .eq('context->>source', 'read-settle-asset-packs')
+      .eq('context->>source', 'read-settle-asset-pack')
       .eq('status', 'completed')
       .order('created_at', { ascending: false })
       .limit(Math.min(limit, 50));
@@ -141,7 +141,7 @@ async function readSettledAssetPackRecords(limit: number): Promise<BitcodeActivi
         summary,
         context: {
           ...context,
-          source: 'read-settle-asset-packs',
+          source: 'read-settle-asset-pack',
           activityType: 'settled-assetpack',
           packActivityType: 'settled-assetpack',
           assetPackTitle,

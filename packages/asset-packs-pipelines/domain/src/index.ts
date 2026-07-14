@@ -92,15 +92,16 @@ export {
   createAssetPackPatchDescriptor,
 } from '@bitcode/asset-packs-generics';
 export type {
-  MeasuredPatchAssetPack,
-  MeasuredPatchMeasurement,
-  MeasuredPatchNeedinessPreview,
-} from '@bitcode/generic-asset-packs-measured-patch';
+  SynthesisAssetPack,
+  SynthesisMeasurementReading,
+  SynthesisMeasurementsByKind,
+  BuildSynthesisAssetPackInput,
+} from '@bitcode/generic-asset-packs-synthesis/synthesis-asset-pack';
 export {
-  MEASURED_PATCH_ASSET_PACK_SCHEMA,
-  buildMeasuredPatchAssetPack,
-  measuredPatchToDepositContents,
-} from '@bitcode/generic-asset-packs-measured-patch';
+  SYNTHESIS_ASSET_PACK_SCHEMA,
+  buildSynthesisAssetPack,
+  synthesisAssetPackToDepositContents,
+} from '@bitcode/generic-asset-packs-synthesis/synthesis-asset-pack';
 
 // ==================== FACTORIES ====================
 
@@ -210,7 +211,7 @@ export async function preprocessDepositMode(processedInput: any, execution: Exec
 }
 
 /**
- * @deprecated Prefer product pipelines (synthesize-deposits / synthesize-reads).
+ * @deprecated Prefer product pipelines (synthesize-deposits-asset-packs-pipeline / synthesize-reads-asset-packs-pipeline).
  * Dual-path preprocess retained only for callers that still pass mode.
  */
 function factoryPreprocess(): Executor<any, any> {

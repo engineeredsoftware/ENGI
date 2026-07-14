@@ -12,17 +12,20 @@ describe('DepositSynthesizedAssetPack', () => {
       summary: 'Deposit option',
       repositoryFullName: 'org/repo',
       kind: 'capability-slice',
-      measurements: [
-        {
-          measurementKind: 'functions',
-          label: 'Functions',
-          volume: 0.5,
-          magnitude: 10,
-          weight: 0.18,
-          unit: 'functions',
-          category: 'absolute',
-        },
-      ],
+      measurements: {
+        absolutes: [
+          {
+            measurementKind: 'functions',
+            label: 'Functions',
+            volume: 0.5,
+            magnitude: 10,
+            weight: 0.18,
+            unit: 'functions',
+            category: 'absolute',
+          },
+        ],
+        needinesses: [],
+      },
     });
 
     expect(pack.identity.schema).toBe(DEPOSIT_SYNTHESIZED_ASSET_PACK_SCHEMA);

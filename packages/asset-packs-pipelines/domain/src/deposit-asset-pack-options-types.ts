@@ -4,12 +4,17 @@
  * Schema contracts for source-safe deposit options shown on /deposits before
  * depositor approval, admission, or BTD mint. No builders live here.
  *
- * Pack contents project from MeasuredPatchAssetPack
- * (@bitcode/generic-asset-packs-measured-patch) — the only AssetPack base used
- * by product pipelines. Protocol primitives: @bitcode/asset-packs-generics.
+ * Pack contents project from SynthesisAssetPack / DepositSynthesizedAssetPack.
+ * Protocol primitives: @bitcode/asset-packs-generics.
  */
 
-import type { MeasuredPatchNeedinessPreview } from '@bitcode/generic-asset-packs-measured-patch';
+/** Settled-depository demand estimate shown on a deposit option (not a measurement kind). */
+export interface DepositDemandEstimate {
+  volume: number;
+  demand: number;
+  saturation: number;
+  rationale: string;
+}
 
 export type DepositAssetPackOptionKind =
   | 'capability-slice'
@@ -43,9 +48,7 @@ export interface DepositOptionSynthesisRequest {
 export interface DepositAssetPackOptionMeasurement {
   id: string;
   label: string;
-  // V48 Gate 3: widened to the absolutes catalog kinds (function-count, type-count,
-  // file-span, correctness-estimate, semantic-volume) — the formal measurements —
-  // as well as the legacy placeholder kinds the deterministic blueprint emits.
+  // Absolutes catalog kinds (function-count, type-count, file-span, …).
   measurementKind: string;
   weight: number;
   volume: number;
@@ -93,10 +96,9 @@ export interface DepositAssetPackOption {
     provenantSourcePaths: string[];
     provenantSourceCount: number;
   } | null;
-  // Deposit neediness PREVIEW (v0): MeasuredPatchNeedinessPreview — the
-  // deposit-side preview of read Need-fit / earning potential. Separate from the
-  // absolute `measurements` composite; absent (null) when no signal was produced.
-  neediness?: MeasuredPatchNeedinessPreview | null;
+  // Deposit demand estimate (settled-depository grounded when available).
+  // Not a measurements.needinesses row — deposit needinesses are always [].
+  neediness?: DepositDemandEstimate | null;
   reviewBoundary: {
     state: DepositAssetPackOptionReviewState;
     decision: 'pending-depositor-review';

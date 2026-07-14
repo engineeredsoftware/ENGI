@@ -11,7 +11,7 @@ import { setBoundaryLLMOutput, resetBoundaryLLMOutput } from './support/generic-
 
 const VALID_OPS = new Set(['create', 'modify', 'delete']);
 
-/** Two schema-valid measured-patch options the boundary LLM "synthesizes". */
+/** Two schema-valid deposit AssetPack options the boundary LLM "synthesizes". */
 const MOCK_OPTIONS = [
   {
     kind: 'capability-slice',
@@ -56,7 +56,7 @@ describe('runDepositAssetPackSynthesisAgent (boundary-mocked PTRR)', () => {
   beforeEach(() => setBoundaryLLMOutput({ options: MOCK_OPTIONS }));
   afterEach(() => resetBoundaryLLMOutput());
 
-  it('synthesizes measured-patch options matching the candidate-set contract', async () => {
+  it('synthesizes deposit AssetPack options matching the candidate-set contract', async () => {
     const exec = new Execution('implementation-node');
     const out = await runDepositAssetPackSynthesisAgent(INPUT, exec);
 

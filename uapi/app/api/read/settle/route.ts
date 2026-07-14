@@ -55,7 +55,7 @@ function parsePaymentObservation(
   txId: unknown,
 ): SettleBtcPaymentObservationInput {
   const base: SettleBtcPaymentObservationInput = {
-    schema: 'bitcode.settle-asset-packs.payment-observation',
+    schema: 'bitcode.settle-asset-pack.payment-observation',
     network: 'btc-testnet',
     status: 'observed-projection',
     amountSats: typeof amountSats === 'number' ? amountSats : null,
@@ -144,7 +144,7 @@ async function runOneSettle(input: RunOneSettleInput) {
       needLength: input.need?.length ?? 0,
     },
     context: {
-      source: 'read-settle-asset-packs',
+      source: 'read-settle-asset-pack',
       route: '/reads',
       pipelineCore: 'settle-asset-pack-pipeline',
       synthesisMode: 'read',
@@ -231,7 +231,7 @@ async function runOneSettle(input: RunOneSettleInput) {
           summary,
         },
         context: {
-          source: 'read-settle-asset-packs',
+          source: 'read-settle-asset-pack',
           route: '/reads',
           pipelineCore: 'settle-asset-pack-pipeline',
           synthesisMode: 'read',

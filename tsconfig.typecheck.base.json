@@ -112,14 +112,7 @@
       ],
       "@bitcode/asset-packs-generics/*": [
         "packages/asset-packs-generics/src/*"
-      ],
-      "@bitcode/generic-asset-packs-measured-patch": [
-        "packages/generic-asset-packs/measured-patch/src/index.ts"
-      ],
-      "@bitcode/generic-asset-packs-measured-patch/*": [
-        "packages/generic-asset-packs/measured-patch/src/*"
-      ],
-      "@bitcode/artifact-generics": [
+      ],      "@bitcode/artifact-generics": [
         "packages/artifact-generics/src/index.ts"
       ],
       "@bitcode/artifact-generics/*": [

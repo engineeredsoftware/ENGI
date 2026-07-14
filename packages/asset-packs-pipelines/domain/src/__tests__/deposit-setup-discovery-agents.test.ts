@@ -75,7 +75,7 @@ const MOCK_REGURGITATION = {
   references: ['idempotency-key convention'],
 };
 
-/** A minimal schema-valid measured-patch option for the Implementation agent. */
+/** A minimal schema-valid deposit AssetPack option for the Implementation agent. */
 const MOCK_SYNTHESIS_OPTION = {
   kind: 'capability-slice',
   title: 'Billing reconciliation capability slice',

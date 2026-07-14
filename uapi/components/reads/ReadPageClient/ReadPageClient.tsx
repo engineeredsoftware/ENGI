@@ -109,7 +109,7 @@ export default function ReadPageClient() {
         throw new Error(
           typeof payload?.error === "string"
             ? payload.error
-            : "SettleAssetPacks failed.",
+            : "SettleAssetPack failed.",
         );
       }
       const runIds = Array.isArray(payload.settleRunIds)
@@ -121,7 +121,7 @@ export default function ReadPageClient() {
       void Promise.resolve(refreshLiveRuns() as unknown);
     } catch (err) {
       setSettleError(
-        err instanceof Error ? err.message : "SettleAssetPacks failed.",
+        err instanceof Error ? err.message : "SettleAssetPack failed.",
       );
     } finally {
       setSettleBusy(false);
@@ -189,7 +189,7 @@ export default function ReadPageClient() {
         tone="sky"
         label="Read"
         title="Reading"
-        summary="Need -> SynthesizeReadAssetPacks (SDIVF) -> select options -> SettleAssetPacks (pay · BTD · PR) -> /packs."
+        summary="Need -> SynthesizeReadAssetPacks (SDIVF) -> select options -> SettleAssetPack (pay · BTD · PR) -> /packs."
         icon={Workflow}
         metrics={[
           {

@@ -147,7 +147,7 @@ describe('per-mode agent rosters (conditional runtime registries)', () => {
       ]);
       // The deliver key resolves to the Gate-3 upload-for-review agent, NOT the
       // legacy pull-request delivery agent (that is reserved for the future
-      // Gate-6 SettleAssetPacks pipeline).
+      // Gate-6 SettleAssetPack pipeline).
       expect(await resolveEntry(registry.entries.get('finish:deliver-asset-pack-to-destination-agent')))
         .toBe(uploadAssetPacksForReviewAgent);
       expect(await resolveEntry(registry.entries.get('finish:asset-pack-completion')))

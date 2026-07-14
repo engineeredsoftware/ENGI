@@ -298,7 +298,7 @@ AssetPack = patch + measurements + metadata
 An AssetPack is **always** a completely synthesized artifact — never a raw
 source slice and never a bare path list. Product hierarchy:
 
-`AssetPack` (primitive) → `MeasuredPatchAssetPack` → deposit option / selection
+`AssetPack` (primitive) → `SynthesisAssetPack` → deposit option / selection
 envelope row / durable artifact projection.
 
 Deposit option `kind` (v0): `capability-slice` | `implementation-pattern` |
@@ -476,7 +476,7 @@ keys for the same agent loader.
 | Law | Value |
 |---|---|
 | Product pipeline | **SynthesizeDepositAssetPacks** (deposit-only SDIVF) |
-| Domain package | `@bitcode/asset-packs-pipelines-domain` (+ product package under `asset-packs-pipelines/synthesize-deposits` when used) |
+| Domain package | `@bitcode/asset-packs-pipelines-domain` (+ product package under `asset-packs-pipelines/synthesize-deposits-asset-packs-pipeline` when used) |
 | Phase roster | `depositPhases` in `packages/asset-packs-pipelines/domain/src/phases/deposit-phases.ts` |
 | Phases | **preprocess** → **Setup** → (**Discovery** → **Implementation** → **Validation**) × maxIterations → **Finish** → **postprocess** |
 | DIV loop | Substrate supports early exit via `validation:readyToFinish`; product default **maxIterations = 1** (one D→I→V pass) |
@@ -749,7 +749,7 @@ Stores: `finish:storedArtifacts`, `finish:uploadForReview`, `finish:persistResul
 
 Requires storedArtifacts. Builds per-option `contentsRoot`, `measurementRoot`,
 `metadataRoot` + discovery/validation roots. Optional `deposit:ledgerWrite`.
-**Not** full commercial settlement (SettleAssetPacks later). Stores:
+**Not** full commercial settlement (SettleAssetPack later). Stores:
 `finish:ledgerize`, `finish:ledgerReceipt`, `finish:ledgerWriteResult`.
 
 ##### selection envelope schema
@@ -937,7 +937,7 @@ Rebuild order in `buildDepositRouteSession` / `DepositPageClient`:
 | sourceCheckoutCatalog resolve | `packages/asset-packs-pipelines/domain/src/resolve-source-checkout-catalog.ts` |
 | Deposit agents | `…/agents/{setup,discovery,implementation,validation,finish}/deposit-*.ts` |
 | Absolutes catalog | `packages/generic-asset-packs/synthesis/src/measurement-catalogs.ts` |
-| Measured patch type | `packages/generic-asset-packs/measured-patch/` |
+| Measured patch type | `packages/generic-asset-packs/synthesis/` |
 | Measure host | `…/agents/validation/agent-measure-absolutes.ts` |
 | Static analysis tool | `…/agents/validation/source-static-analysis-tool.ts` |
 | Depository search pure | `…/tools/deposit-depository-asset-pack-search.ts` |
@@ -1012,7 +1012,7 @@ include **needinesses** (all kinds end with `-fit`). BTC settle / PR ship are
 |---|---|---|
 | **SynthesizeDepositAssetPacks** | SDIVF | Depositor repo + Obfuscations → option selection on `/deposits` |
 | **SynthesizeReadAssetPacks** | SDIVF | Reader repo + **Need** → option selection on `/reads` |
-| **SettleAssetPacks** | **Simple** (linear) | **1:1 AssetPack : pipeline run** after buy: settle-btc → mint-btd → settle-btd → settle-asset-pack (ERC1155) → PR-ship → `/packs` |
+| **settle-asset-pack-pipeline** | **Simple** (linear) | **1:1 AssetPack : pipeline run** after buy: settle-btc → mint-btd → settle-btd → settle-asset-pack (ERC1155) → PR-ship → `/packs` |
 
 Synthesize-deposit and synthesize-read look like each other (multi-option). Settle does **not**: each bought option starts its own settle pipeline.
 
@@ -1051,9 +1051,9 @@ Deposit: `needinesses: []` always. Read: fail-closed if needinesses empty or any
 | Instruction | Obfuscations | **Need** |
 | Submit | synthesize-options | `POST /api/read/synthesize-options` |
 | Review options | master-detail + option cards | master-detail + option cards (same pattern) |
-| Next step after select | admit to Depository | **SettleAssetPacks** (pay → rights → PR) |
+| Next step after select | admit to Depository | **settle-asset-pack-pipeline** (pay → rights → PR) |
 
-### G4-5 SettleAssetPacks Simple stages (binding)
+### G4-5 SettleAssetPack Simple stages (binding)
 
 **Cardinality:** SynthesizeRead produces multiple options; the buyer may select
 one or more. **Each bought option starts its own** `SettleAssetPackSimplePipeline`

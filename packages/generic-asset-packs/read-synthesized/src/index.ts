@@ -7,7 +7,7 @@
  * - Built from shared synthesis base (same patch + absolutes shape as deposit).
  * - Includes **needinesses** (*-fit) and commercial **BTD / BTC** quote fields.
  * - need-fit composite is derived (not a raw measure-agent target).
- * - After selection, settle is 1:1 SettleAssetPacks (not this package).
+ * - After selection, settle is 1:1 SettleAssetPack (not this package).
  *
  * Hierarchy:
  *   AssetPack → SynthesisAssetPack → ReadSynthesizedAssetPack
@@ -73,20 +73,16 @@ export function buildReadSynthesizedAssetPack(
   },
 ): ReadSynthesizedAssetPack {
   const base = buildSynthesisAssetPack(input);
-  const nested = Array.isArray(base.measurements)
-    ? { absolutes: base.measurements as SynthesisMeasurementReading[], needinesses: [] as SynthesisMeasurementReading[] }
-    : {
-        absolutes: (base.measurements.absolutes ?? []) as SynthesisMeasurementReading[],
-        needinesses: (base.measurements.needinesses ?? []) as SynthesisMeasurementReading[],
-      };
-
   return {
     ...base,
     identity: {
       ...base.identity,
       schema: READ_SYNTHESIZED_ASSET_PACK_SCHEMA,
     },
-    measurements: nested,
+    measurements: {
+      absolutes: [...base.measurements.absolutes],
+      needinesses: [...base.measurements.needinesses],
+    },
     kind: input.kind ?? null,
     needFit: input.needFit ?? null,
     selectable: input.selectable ?? true,

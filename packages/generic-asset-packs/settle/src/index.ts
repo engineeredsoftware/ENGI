@@ -1,7 +1,7 @@
 /**
  * @bitcode/generic-asset-packs-settle
  *
- * SettleAssetPacks product surface markers. Executable pipeline lives at
+ * SettleAssetPack product surface markers. Executable pipeline lives at
  * `@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline` (1:1 AssetPack settle).
  *
  * Stages: validate → settle-btc → mint-btd → settle-btd → settle-asset-pack

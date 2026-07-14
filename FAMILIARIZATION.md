@@ -140,13 +140,13 @@ uapi → HTTP + React adapters only
 @bitcode/generic-measurements-needinesses Needinesses surface (Gate 4)
  ↑
 @bitcode/generic-asset-packs-synthesis SynthesizeAssetPacksAbsolutesMeasureAgent + catalogs
-@bitcode/generic-asset-packs-settle SettleAssetPacks* (Gate 6 surface)
+@bitcode/generic-asset-packs-settle settle-asset-pack-pipeline (Gate 6 surface)
  ↑
 @bitcode/asset-packs-pipelines-domain SDIVF pipeline host (static-analysis tools, phases)
 ```
 
 Package paths: `packages/measurement-generics/`, `packages/generic-measurements/*`
-(incl. `tech-types/`), `packages/generic-asset-packs/{measured-patch,synthesis,settle}/`.
+(incl. `tech-types/`), `packages/generic-asset-packs/{synthesis,synthesis,settle}/`.
 
 Hierarchy names: `Measurement` → `AbsolutesMeasureAgent` →
 `SynthesizeAssetPacksAbsolutesMeasureAgent`.
@@ -218,12 +218,12 @@ inside `agent-generics` until inverted onto pure Execution + LLM registry.
 | Base + primitive | `PTRRAgent` | `factoryPTRRAgent` |
 | Specific | product agents | specialized configs over `factoryPTRRAgent` |
 
-### 3.1.3 AssetPacks (primitive → measured-patch → product)
+### 3.1.3 AssetPacks (primitive → synthesis → product)
 
 ```
 @bitcode/asset-packs-generics AssetPack primitive (protocol minimum)
  ↑
-@bitcode/generic-asset-packs-measured-patch MeasuredPatchAssetPack (only AP base)
+@bitcode/generic-asset-packs-synthesis SynthesisAssetPack (only AP base)
 @bitcode/generic-asset-packs-synthesis Synthesize measurement catalogs / Absolutes agent
 @bitcode/generic-asset-packs-settle Settle product surface
  ↑
@@ -237,9 +237,9 @@ Packages: `@bitcode/asset-packs-generics`, `@bitcode/generic-asset-packs-synthes
 | Layer | Type | Role |
 | --- | --- | --- |
 | Primitive | `AssetPack` | identity + source binding + patch descriptor + delivery |
-| Base | `MeasuredPatchAssetPack` | + measurements, neediness, provenant paths |
+| Base | `SynthesisAssetPack` | + measurements, neediness, provenant paths |
 | Product surfaces | synthesis / settle packages | catalogs + product measure agents |
-| Product pipelines | deposit options / pipeline outputs | project from MeasuredPatchAssetPack |
+| Product pipelines | deposit options / pipeline outputs | project from SynthesisAssetPack |
 
 ### 3.1.4 Artifacts (primitive → types + storage providers)
 
@@ -959,7 +959,7 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | **`generic-*` family** | Folder of nested implementor packages (no root `package.json` on the family folder), e.g. `generic-vcs/{github,gitlab,…}`. |
 | **Hierarchy naming law** | Type/export names encode full ancestry: primitive → base → specific (e.g. `SynthesizeDepositAssetPacksSDIVFPipeline`). |
 | **Primitive** | Lowest shared vocabulary (e.g. `Pipeline`, `Execution`, `AssetPack`, `FilePath`). |
-| **Base (implementor)** | Reusable middle layer in `generic-*/*` (e.g. `MeasuredPatchAssetPack`, `SDIVFPipeline`, `LocalHost`). |
+| **Base (implementor)** | Reusable middle layer in `generic-*/*` (e.g. `SynthesisAssetPack`, `SDIVFPipeline`, `LocalHost`). |
 | **Product / specific** | Bitcode product specialization (pipelines, agents, experience UI). |
 | **Family folder** | Directory that groups nested packages; itself is not a package (except rare composition barrels like `@bitcode/security`). |
 | **Workspace package** | A `package.json` with `@bitcode/…` (or `eslint-plugin-bitcode`) name in the pnpm workspace. |
@@ -1005,7 +1005,7 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 | **Host** | Where a pipeline runs: Local (default) or Vercel Sandbox — **not** “Harness”. |
 | **InlineHost** | Legacy name; prefer **LocalHost** (`generic-hosts-local`; `inline` env alias). |
 | **LocalHost** | In-process default pipeline host. |
-| **MeasuredPatchAssetPack** | Only AssetPack **base**: measured + source-safe patch over the AssetPack primitive. |
+| **SynthesisAssetPack** | Only AssetPack **base**: measured + source-safe patch over the AssetPack primitive. |
 | **Needinesses** | Read-side measurement framing (relative to Need). |
 | **Pipeline** | Product run language (UI tables, logs, history) and/or `pipelines-generics` primitive. |
 | **PipelineHost / BitcodePipelineHost** | Host contract (`host-generics`). |

@@ -71,7 +71,7 @@ export interface SettleBtcMempoolObservation {
 }
 
 export interface SettleBtcPaymentObservation {
-  schema: 'bitcode.settle-asset-packs.payment-observation';
+  schema: 'bitcode.settle-asset-pack.payment-observation';
   agent: 'settle-btc';
   network: string;
   status: 'final' | 'observed' | 'observed-projection';
@@ -88,7 +88,7 @@ export interface SettleBtcPaymentObservation {
 // ---------------------------------------------------------------------------
 
 export interface SettleValidationBoundary {
-  schema: 'bitcode.settle-asset-packs.validation';
+  schema: 'bitcode.settle-asset-pack.validation';
   state: string;
   pipeline: 'settle-asset-pack-pipeline';
   selectedCount: 1;
@@ -114,7 +114,7 @@ export interface MintBtdReceiptWire {
 }
 
 export interface MintBtdArtifact {
-  schema: 'bitcode.settle-asset-packs.mint-btd';
+  schema: 'bitcode.settle-asset-pack.mint-btd';
   agent: 'mint-btd';
   settlementBtd: SettlementBtdFromNeedinessesResult;
   receipt: MintBtdReceiptWire;
@@ -136,7 +136,7 @@ export interface SettleBtdReceiptWire {
 }
 
 export interface SettleBtdArtifact {
-  schema: 'bitcode.settle-asset-packs.settle-btd';
+  schema: 'bitcode.settle-asset-pack.settle-btd';
   agent: 'settle-btd';
   receipt: SettleBtdReceiptWire;
   buyerAccount: string;
@@ -158,7 +158,7 @@ export interface SettleAssetPackReceiptWire {
 }
 
 export interface SettleAssetPackArtifact {
-  schema: 'bitcode.settle-asset-packs.settle-asset-pack';
+  schema: 'bitcode.settle-asset-pack.settle-asset-pack';
   agent: 'settle-asset-pack';
   receipt: SettleAssetPackReceiptWire;
   coOwners: string[];
@@ -167,7 +167,7 @@ export interface SettleAssetPackArtifact {
 }
 
 export interface SettleRightsArtifact {
-  schema: 'bitcode.settle-asset-packs.rights-transfer';
+  schema: 'bitcode.settle-asset-pack.rights-transfer';
   readerWalletId: string | null;
   depositorWalletId: string | null;
   buyerEthereumAddress: string;
@@ -187,7 +187,7 @@ export interface SettleShippableRepository {
 }
 
 export interface SettleShippable {
-  schema: 'bitcode.settle-asset-packs.shippable';
+  schema: 'bitcode.settle-asset-pack.shippable';
   deliveryMechanism: 'pull_request';
   repository: SettleShippableRepository;
   headBranch: string;

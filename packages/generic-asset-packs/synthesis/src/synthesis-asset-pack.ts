@@ -1,16 +1,12 @@
 /**
- * SynthesisAssetPack — shared base AssetPack for **both** synthesize pipelines
- * (deposit and read). Built on AssetPack primitive (identity + patch +
- * measurements from measurement-generics).
+ * SynthesisAssetPack — base AssetPack of Bitcode shared by all three product
+ * implementations (deposit-synthesized, read-synthesized, settled-read-synthesized).
  *
- * Hierarchy:
- *   AssetPack (asset-packs-generics)
- *     → SynthesisAssetPack (this)
- *         → DepositSynthesizedAssetPack
- *         → ReadSynthesizedAssetPack
+ * Built on AssetPack primitive (identity + patch + measurements from
+ * measurement-generics). Shared commercial fields only: title, summary,
+ * absolutes-capable nested measurements, provenant paths.
  *
- * Shared commercial fields only. Lens-specific fields live on deposit/read
- * packages. Obfuscations are never stored on any AssetPack.
+ * Obfuscations are never stored on any AssetPack.
  */
 
 import type {
@@ -18,7 +14,6 @@ import type {
   AssetPackId,
   AssetPackPatchFileChange,
   AssetPackSourceBinding,
-  AssetPackMeasurements,
 } from '@bitcode/asset-packs-generics';
 import {
   ASSET_PACK_SCHEMA_PREFIX,
@@ -26,20 +21,13 @@ import {
   assertAssetPackId,
   createAssetPackPatchDescriptor,
   createAssetPackSourceBinding,
-  emptyAssetPackMeasurements,
 } from '@bitcode/asset-packs-generics';
 import type { MeasurementReading } from '@bitcode/measurement-generics';
 
 export const SYNTHESIS_ASSET_PACK_SCHEMA =
   `${ASSET_PACK_SCHEMA_PREFIX}.synthesis` as const;
 
-/**
- * @deprecated Prefer SYNTHESIS_ASSET_PACK_SCHEMA. Kept for MeasuredPatch
- * compatibility during import migration.
- */
-export const MEASURED_PATCH_ASSET_PACK_SCHEMA = SYNTHESIS_ASSET_PACK_SCHEMA;
-
-/** Product-grade reading with required magnitude (synthesis host always fills). */
+/** Product-grade reading with required magnitude (host always fills). */
 export interface SynthesisMeasurementReading extends MeasurementReading {
   magnitude: number;
   weight: number;
@@ -50,6 +38,7 @@ export interface SynthesisMeasurementReading extends MeasurementReading {
   evidenceRoot?: string;
 }
 
+/** Nested measurement kinds — only admitted shape on synthesis packs. */
 export interface SynthesisMeasurementsByKind {
   absolutes: SynthesisMeasurementReading[];
   needinesses: SynthesisMeasurementReading[];
@@ -57,8 +46,7 @@ export interface SynthesisMeasurementsByKind {
 
 /**
  * Shared synthesize AssetPack — title/summary/provenant paths over the primitive.
- * measurements may be nested kinds (canonical) or, during migration, a flat
- * absolute-only array that builders normalize into nested form.
+ * measurements is always nested { absolutes, needinesses }.
  */
 export interface SynthesisAssetPack extends AssetPack {
   identity: AssetPack['identity'] & {
@@ -66,37 +54,17 @@ export interface SynthesisAssetPack extends AssetPack {
   };
   title: string;
   summary: string;
-  /** Prefer nested kinds; host normalizes flat absolute arrays. */
-  measurements: SynthesisMeasurementsByKind | AssetPackMeasurements;
+  measurements: SynthesisMeasurementsByKind;
   absoluteVolume?: number | null;
   provenantSourcePaths: string[];
   provenantSourceCount: number;
   writtenAssetKind?: typeof ASSET_PACK_WRITTEN_ASSET_KIND_READ_SATISFACTION;
 }
 
-/**
- * @deprecated Alias of SynthesisAssetPack for existing imports.
- * Prefer SynthesisAssetPack / DepositSynthesized / ReadSynthesized.
- */
-export type MeasuredPatchAssetPack = SynthesisAssetPack;
-
-/** @deprecated */
-export type MeasuredPatchMeasurement = SynthesisMeasurementReading;
-/** @deprecated */
-export type MeasuredPatchMeasurementCategory = 'absolute' | 'neediness';
-/** @deprecated Deposit must not use neediness preview. */
-export interface MeasuredPatchNeedinessPreview {
-  volume: number;
-  demand: number;
-  saturation: number;
-  rationale: string;
-}
-
 export type {
   AssetPackId,
   AssetPackSourceBinding,
   AssetPackPatchFileChange,
-  AssetPackMeasurements,
 };
 
 export interface BuildSynthesisAssetPackInput {
@@ -109,14 +77,27 @@ export interface BuildSynthesisAssetPackInput {
   sourcePathRoots?: string[] | null;
   patchSummary?: string | null;
   fileChanges?: AssetPackPatchFileChange[] | null;
-  /** Nested kinds or flat absolute readings (normalized to nested). */
-  measurements?:
-    | SynthesisMeasurementsByKind
-    | AssetPackMeasurements
-    | SynthesisMeasurementReading[]
-    | null;
+  measurements?: SynthesisMeasurementsByKind | null;
   absoluteVolume?: number | null;
   provenantSourcePaths?: string[] | null;
+}
+
+function normalizeMeasurementRow(
+  row: SynthesisMeasurementReading,
+  category: 'absolute' | 'neediness',
+): SynthesisMeasurementReading {
+  return {
+    measurementKind: row.measurementKind,
+    volume: row.volume,
+    magnitude: typeof row.magnitude === 'number' ? row.magnitude : 0,
+    weight: typeof row.weight === 'number' ? row.weight : 0,
+    unit: typeof row.unit === 'string' ? row.unit : 'normalized',
+    label: row.label,
+    category,
+    rationale: row.rationale,
+    id: row.id,
+    evidenceRoot: row.evidenceRoot,
+  };
 }
 
 function normalizeMeasurements(
@@ -125,55 +106,13 @@ function normalizeMeasurements(
   if (!input) {
     return { absolutes: [], needinesses: [] };
   }
-  if (Array.isArray(input)) {
-    return {
-      absolutes: input.map((row) => ({
-        ...row,
-        category: row.category ?? 'absolute',
-        magnitude: typeof row.magnitude === 'number' ? row.magnitude : 0,
-        weight: typeof row.weight === 'number' ? row.weight : 0,
-        unit: typeof row.unit === 'string' ? row.unit : 'normalized',
-      })),
-      needinesses: [],
-    };
-  }
-  const absolutes = Array.isArray(input.absolutes) ? input.absolutes : [];
-  const needinesses = Array.isArray(input.needinesses) ? input.needinesses : [];
   return {
-    absolutes: absolutes.map((row) => ({
-      measurementKind: row.measurementKind,
-      volume: row.volume,
-      magnitude: typeof row.magnitude === 'number' ? row.magnitude : 0,
-      weight: typeof (row as SynthesisMeasurementReading).weight === 'number'
-        ? (row as SynthesisMeasurementReading).weight
-        : 0,
-      unit:
-        typeof (row as SynthesisMeasurementReading).unit === 'string'
-          ? (row as SynthesisMeasurementReading).unit
-          : 'normalized',
-      label: (row as SynthesisMeasurementReading).label,
-      category: 'absolute' as const,
-      rationale: row.rationale,
-      id: (row as SynthesisMeasurementReading).id,
-      evidenceRoot: (row as SynthesisMeasurementReading).evidenceRoot,
-    })),
-    needinesses: needinesses.map((row) => ({
-      measurementKind: row.measurementKind,
-      volume: row.volume,
-      magnitude: typeof row.magnitude === 'number' ? row.magnitude : 0,
-      weight: typeof (row as SynthesisMeasurementReading).weight === 'number'
-        ? (row as SynthesisMeasurementReading).weight
-        : 0,
-      unit:
-        typeof (row as SynthesisMeasurementReading).unit === 'string'
-          ? (row as SynthesisMeasurementReading).unit
-          : 'normalized',
-      label: (row as SynthesisMeasurementReading).label,
-      category: 'neediness' as const,
-      rationale: row.rationale,
-      id: (row as SynthesisMeasurementReading).id,
-      evidenceRoot: (row as SynthesisMeasurementReading).evidenceRoot,
-    })),
+    absolutes: (input.absolutes ?? []).map((row) =>
+      normalizeMeasurementRow(row, 'absolute'),
+    ),
+    needinesses: (input.needinesses ?? []).map((row) =>
+      normalizeMeasurementRow(row, 'neediness'),
+    ),
   };
 }
 
@@ -213,11 +152,6 @@ export function buildSynthesisAssetPack(
   };
 }
 
-/** @deprecated Prefer buildSynthesisAssetPack */
-export const buildMeasuredPatchAssetPack = buildSynthesisAssetPack;
-/** @deprecated */
-export type BuildMeasuredPatchAssetPackInput = BuildSynthesisAssetPackInput;
-
 /**
  * Project a synthesis pack into deposit option `contents` (source-safe).
  * Never includes obfuscations.
@@ -235,8 +169,3 @@ export function synthesisAssetPackToDepositContents(pack: SynthesisAssetPack): {
     provenantSourceCount: pack.provenantSourceCount,
   };
 }
-
-/** @deprecated Prefer synthesisAssetPackToDepositContents */
-export const measuredPatchToDepositContents = synthesisAssetPackToDepositContents;
-
-export { emptyAssetPackMeasurements };

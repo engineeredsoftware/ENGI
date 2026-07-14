@@ -5,13 +5,13 @@
  * projection. No runtime logic — pure type surface for the synthesis core.
  *
  * Pack/patch primitives: @bitcode/asset-packs-generics
- * Measured pack base: @bitcode/generic-asset-packs-measured-patch
+ * Synthesis base: @bitcode/generic-asset-packs-synthesis
  */
 
 import type { Execution } from '@bitcode/execution-generics/Execution';
 import type { MeasurementSpec } from '@bitcode/measurement-generics';
 import type { AssetPackPatchDescriptor } from '@bitcode/asset-packs-generics';
-import type { MeasuredPatchNeedinessPreview } from '@bitcode/generic-asset-packs-measured-patch';
+import type { DepositDemandEstimate } from './deposit-asset-pack-options-types';
 
 export type AssetPacksSynthesisLens = 'deposit' | 'read';
 
@@ -111,11 +111,10 @@ export interface AssetPackCandidateMeasurement {
 }
 
 /**
- * Neediness — deposit PREVIEW of read Need-fit (v0). SEPARATE from the
- * absolute deposit composite. Source-safe: scalars + topic-level rationale only.
- * Aligned with MeasuredPatchNeedinessPreview (measured-patch base).
+ * Deposit demand estimate (not a measurements.needinesses row).
+ * Source-safe: scalars + topic-level rationale only.
  */
-export type AssetPackNeediness = MeasuredPatchNeedinessPreview;
+export type AssetPackNeediness = DepositDemandEstimate;
 
 /** Source-safe patch descriptor (protocol primitive; never raw source). */
 export type { AssetPackPatchDescriptor };

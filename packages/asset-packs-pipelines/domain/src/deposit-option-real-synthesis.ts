@@ -13,9 +13,9 @@
  */
 
 import {
-  buildMeasuredPatchAssetPack,
-  measuredPatchToDepositContents,
-} from '@bitcode/generic-asset-packs-measured-patch';
+  buildSynthesisAssetPack,
+  synthesisAssetPackToDepositContents,
+} from '@bitcode/generic-asset-packs-synthesis/synthesis-asset-pack';
 import {
   applyExclusionsToInventory,
   applyInventoryScope,
@@ -188,9 +188,9 @@ export function buildRealDepositAssetPackOptionSynthesis(
           rationale: candidate.neediness.rationale,
         }
       : null;
-    // Project through MeasuredPatchAssetPack (only AP base) → deposit contents
-    // (path+op patch + provenant paths; never raw source).
-    const measuredPack = buildMeasuredPatchAssetPack({
+    // Project through SynthesisAssetPack → deposit contents
+    // (path+op patch + provenant paths; never raw source or obfuscations).
+    const synthesisPack = buildSynthesisAssetPack({
       assetPackId: optionId,
       title: candidate.title,
       summary: candidate.summary,
@@ -203,21 +203,23 @@ export function buildRealDepositAssetPackOptionSynthesis(
         path: fc.path,
         op: fc.op,
       })),
-      measurements: measurements.map((m) => ({
-        id: m.id,
-        label: m.label,
-        measurementKind: m.measurementKind,
-        weight: m.weight,
-        volume: m.volume,
-        category: m.category,
-        magnitude: m.magnitude,
-        unit: m.unit,
-        evidenceRoot: m.evidenceRoot,
-      })),
-      neediness,
+      measurements: {
+        absolutes: measurements.map((m) => ({
+          id: m.id,
+          label: m.label,
+          measurementKind: m.measurementKind,
+          weight: m.weight,
+          volume: m.volume,
+          category: 'absolute' as const,
+          magnitude: m.magnitude,
+          unit: m.unit,
+          evidenceRoot: m.evidenceRoot,
+        })),
+        needinesses: [],
+      },
       provenantSourcePaths: candidate.coveredSourcePaths,
     });
-    const contents = measuredPatchToDepositContents(measuredPack);
+    const contents = synthesisAssetPackToDepositContents(synthesisPack);
     const optionBase = {
       optionId,
       kind: candidateKind(candidate),

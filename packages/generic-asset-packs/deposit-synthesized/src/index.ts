@@ -59,12 +59,9 @@ export function buildDepositSynthesizedAssetPack(
   },
 ): DepositSynthesizedAssetPack {
   const base = buildSynthesisAssetPack(input);
-  const absolutes: SynthesisMeasurementReading[] = Array.isArray(base.measurements)
-    ? (base.measurements as SynthesisMeasurementReading[])
-    : ((base.measurements.absolutes ?? []) as SynthesisMeasurementReading[]);
   // Force needinesses empty — deposit law (even if input accidentally included them).
   const measurements: DepositSynthesizedAssetPack['measurements'] = {
-    absolutes,
+    absolutes: [...base.measurements.absolutes],
     needinesses: [],
   };
 

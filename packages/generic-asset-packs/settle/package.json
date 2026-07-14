@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/generic-asset-packs-settle",
   "version": "0.1.0",
-  "description": "SettleAssetPacks product surface (measurement/settlement; Gate 6)",
+  "description": "SettleAssetPack product surface (measurement/settlement; Gate 6)",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {

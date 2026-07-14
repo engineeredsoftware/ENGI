@@ -10,7 +10,7 @@ under the `process` namespace — not a second Context state model.
   ↑
 @bitcode/generic-executions   process-root + helpers (this package)
   ↑
-product pipelines (synthesize-deposits / synthesize-reads / settle-asset-packs)
+product pipelines (synthesize-deposits-asset-packs-pipeline / synthesize-reads-asset-packs-pipeline / settle-asset-pack-pipeline)
 ```
 
 ## Prefer

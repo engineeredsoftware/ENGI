@@ -10,7 +10,7 @@ export const ASSET_PACK_SCHEMA_PREFIX = 'bitcode.asset-pack' as const;
 
 export interface AssetPackIdentity {
   assetPackId: AssetPackId;
-  /** Full schema string, e.g. bitcode.asset-pack.measured-patch */
+  /** Full schema string, e.g. bitcode.asset-pack.synthesis */
   schema: string;
 }
 

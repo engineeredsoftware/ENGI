@@ -22,7 +22,7 @@ Prefer hierarchy packages; avoid inventing versioned paths:
 - `@bitcode/vcs-generics` + `@bitcode/generic-vcs-{github,gitlab,bitbucket}`
 - `@bitcode/artifact-generics` + `@bitcode/generic-artifacts-{patch,aws,supabase,vercel}`
 - `@bitcode/attachment-generics` + `@bitcode/generic-attachments-{file,external}`
-- `@bitcode/asset-packs-generics` + `@bitcode/generic-asset-packs-measured-patch`
+- `@bitcode/asset-packs-generics` + `@bitcode/generic-asset-packs-synthesis`
 
 ## Source-safe rule
 

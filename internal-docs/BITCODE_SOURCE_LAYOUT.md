@@ -218,7 +218,7 @@ packages/generic-<family>/ # README only (no package.json)
 | `mcp-generics/` | (package root) | `@bitcode/mcp-generics` |
 | `generic-mcps/` | `bitcode/` | `@bitcode/generic-mcps-bitcode` |
 | `asset-packs-generics/` | (package root) | `@bitcode/asset-packs-generics` |
-| `generic-asset-packs/` | `synthesis/` (base of 3 products), `deposit-synthesized/`, `read-synthesized/`, `settled-read-synthesized/`, `settle/`, `measured-patch/` (deprecated) | `@bitcode/generic-asset-packs-*` |
+| `generic-asset-packs/` | `synthesis/` (base of 3 products), `deposit-synthesized/`, `read-synthesized/`, `settled-read-synthesized/`, `settle/`, `synthesis/` (deprecated) | `@bitcode/generic-asset-packs-*` |
 | `execution-generics/` | (package root) | `@bitcode/execution-generics` |
 | `executor-generics/` | (package root) | `@bitcode/executor-generics` |
 | `generic-executors/` | (package root) | `@bitcode/generic-executors` |
@@ -260,9 +260,9 @@ packages/
  api/ # routes + responses/ + streams/ primitives
  auth/ # wallet, OAuth, auth redirect helpers
  asset-packs-generics/ # AssetPack protocol primitive
- generic-asset-packs/ # measured-patch, synthesis, settle
+ generic-asset-packs/ # synthesis, deposit/read/settled-read, settle
  asset-packs-pipelines/ # product SDIVF / Simple pipelines
- asset-packs-pipelines/ # domain + SynthesizeDeposit/Read + SettleAssetPacks pipelines
+ asset-packs-pipelines/ # domain + SynthesizeDeposit/Read + SettleAssetPack pipelines
  pipelines-generics/ # Pipeline primitive
  generic-pipelines/SDIVF/ # SDIVF base
  generic-llms/{xAI,OpenAI,…}/ # LLM providers + models/
@@ -343,7 +343,7 @@ bitcode/
 │ │ └── needinesses/ # Needinesses surface (Gate 4)
 │ ├── asset-packs/
 │ │ ├── synthesis/ # SynthesizeAssetPacks measurements/catalogs
-│ │ └── settle/ # SettleAssetPacks product surface
+│ │ └── settle/ # SettleAssetPack product surface
 │ ├── pipelines/
 │ │ └── asset-pack/ # SynthesizeAssetPacks (extends SDIVF)
 │ ├── agent-generics/

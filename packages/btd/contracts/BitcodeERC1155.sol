@@ -7,7 +7,7 @@ pragma solidity ^0.8.20;
  *         - token id 0 = fungible BTD (Bitcode), max supply 21_000_000 * 10^18
  *         - token ids ≥ 1 = AssetPack co-ownership units (add-only; never burned)
  *
- * Settlement is one AssetPack per SettleAssetPacks pipeline run:
+ * Settlement is one AssetPack per settle-asset-pack-pipeline run:
  *   1. settle-btc   — BTC-testnet payment finality (off-chain / oracle)
  *   2. mint-btd     — mint BTD to master from needinesses-weighted scalar
  *   3. settle-btd   — transfer BTD master → buyer

@@ -154,7 +154,7 @@ export function ReadsNeedComposePanel(props: {
               : `Settle selected (${selectedIndexes.length}) → pay · BTD · PR`}
           </button>
           <span className="text-xs text-neutral-500">
-            SettleAssetPacks Simple pipeline (not SDIVF)
+            SettleAssetPack Simple pipeline (not SDIVF)
           </span>
         </div>
       ) : null}

@@ -49,11 +49,11 @@ Hierarchy in code:
 
 ```
 AssetPack (primitive, @bitcode/asset-packs-generics)
-  └── MeasuredPatchAssetPack (@bitcode/generic-asset-packs-measured-patch)
+  └── SynthesisAssetPack (@bitcode/generic-asset-packs-synthesis)
         └── Deposit option / selection-envelope row / durable artifact projection
 ```
 
-`MeasuredPatchAssetPack` carries protocol identity, source binding, path+op patch, absolute (and optional neediness) measurements, and **provenant source paths** (depositor-owned path list — still no raw source blobs in the commercial object).
+`SynthesisAssetPack` carries protocol identity, source binding, path+op patch, absolute (and optional neediness) measurements, and **provenant source paths** (depositor-owned path list — still no raw source blobs in the commercial object).
 
 ### 1.2 Deposit option kinds (v0)
 
@@ -80,7 +80,7 @@ These are commercially legible **knowledge groups**, not file dumps.
 | Input | Depositor repository + Obfuscations + Forced In/Exclusions + demand context | Reader Need + depository supply |
 | AssetPack base | Measured patch against the **depositing** repo | Measured patch against the **reading** repo, built from fitted deposited packs |
 | Measurements | **Absolutes** (+ optional neediness **preview**) | Absolutes **+** fit/relative measurements (BTD from fit-only family) |
-| Finish | Store options for **/deposits** review selection | Settle / deliver for the Need (SettleAssetPacks / shippables — later) |
+| Finish | Store options for **/deposits** review selection | Settle / deliver for the Need (SettleAssetPack / shippables — later) |
 
 ---
 
@@ -502,7 +502,7 @@ Default without hook: **execution-store-only** (route upsert owns durability).
 | **Requires** | `finish:storedArtifacts` |
 | **Builds** | Per-option `contentsRoot`, `measurementRoot`, `metadataRoot` + discovery/validation roots |
 | **Hook** | Optional `deposit:ledgerWrite` (BTD **journal** bridge) |
-| **Not** | Full commercial settlement (BTC pay → mint → rights) — that is **SettleAssetPacks** later |
+| **Not** | Full commercial settlement (BTC pay → mint → rights) — that is **settle-asset-pack-pipeline** later |
 
 Stores: `finish:ledgerize`, `finish:ledgerReceipt`, `finish:ledgerWriteResult`.
 
@@ -678,9 +678,9 @@ Depositor UI (/deposits)
 | Measurements | `absolutes` + `needinesses` (every neediness kind ends with **`-fit`**; static catalogue + dynamic from Need; **need-fit** = weighted mean) |
 | API | `POST /api/read/synthesize-options` |
 | UI | `/reads` master-detail + option review (deposit twin) |
-| After select | **SettleAssetPacks** Simple (not SDIVF), **1:1 per bought option**: settle-btc → mint-btd (needinesses scalar → master) → settle-btd (master→buyer) → settle-asset-pack (ERC1155 co-own) → **PR** → `/packs` |
+| After select | **settle-asset-pack-pipeline** Simple (not SDIVF), **1:1 per bought option**: settle-btc → mint-btd (needinesses scalar → master) → settle-btd (master→buyer) → settle-asset-pack (ERC1155 co-own) → **PR** → `/packs` |
 
-## 14. SettleAssetPacks (not a synthesize pipeline)
+## 14. SettleAssetPack (not a synthesize pipeline)
 
 Linear stages: validate → observe BTC finality → mint BTD / transfer rights →
 ship AssetPack patch PR → journal PackActivity. Package:
@@ -695,7 +695,7 @@ ship AssetPack patch PR → journal PackActivity. Package:
 | Deposit phase roster | `packages/asset-packs-pipelines/domain/src/phases/deposit-phases.ts` |
 | Discovery registration | `…/phases/discovery.ts` |
 | Absolutes catalog | `packages/generic-asset-packs/synthesis/src/measurement-catalogs.ts` |
-| Measured patch type | `packages/generic-asset-packs/measured-patch/` |
+| Measured patch type | `packages/generic-asset-packs/synthesis/` |
 | Deposit synthesis agent | `…/agents/implementation/deposit-asset-pack-synthesis-*.ts` |
 | Validation ready-to-finish | `…/agents/validation/deposit-ready-to-finish-agent.ts` |
 | Measure host | `…/agents/validation/agent-measure-absolutes.ts` |

@@ -185,7 +185,7 @@ Accepted V48 architecture law (decided 2026-06-25):
  resolves the mode-appropriate agents, tools, and prompts under the same phase
  keys (the registry is shared up the execution tree, so a phase's registrations
  are visible to its agent resolution). Renamed SynthesizeAssetPacks for parity with the future
- Gate-6 **SettleAssetPacks** pipeline; it subsumes the legacy, poorly-named
+ Gate-6 **settle-asset-pack-pipeline** pipeline; it subsumes the legacy, poorly-named
  "Develop" gate (which remains a thin alias so its `develop.*` observability
  is unchanged).
 - Every LLM call builds upwards the prompt registry of
@@ -234,7 +234,7 @@ Accepted V48 architecture law (decided 2026-06-25):
 - **Finish uploads the synthesized artifacts to Bitcode for user review in
  BOTH modes** (deposit: before Depository admission; read: before purchase).
  Opening a pull request is NO LONGER part of synthesis — PR / settlement
- delivery moves to the future Gate-6 SettleAssetPacks pipeline (confirm BTC
+ delivery moves to the future Gate-6 SettleAssetPack pipeline (confirm BTC
  payment, mint BTD, transfer rights to the reader). Develop-gate consumers
  degrade gracefully to no-PR.
 - The deposit lens now RUNS the full SDIVF pipeline inline from
@@ -1543,7 +1543,7 @@ Pipeline inheritance hierarchy is now explicit:
 ```
 @bitcode/pipelines-generics # Pipeline / PhaseDelegator primitives
  → @bitcode/generic-pipelines-sdivf # packages/generic-pipelines/SDIVF
- → @bitcode/asset-packs-pipelines-domain # SynthesizeAssetPacks (future SettleAssetPacks)
+ → @bitcode/asset-packs-pipelines-domain # SynthesizeAssetPacks (future settle-asset-pack-pipeline)
 ```
 
 `factorySDIVFExecutorPipeline` / `factorySDIVFPipeline` / `SDIVFPhase` live in
@@ -1615,7 +1615,7 @@ Measurement # @bitcode/measurement-generics
  → AbsolutesMeasureAgent # generic-measurements/absolutes
  → NeedinessesMeasureAgent # generic-measurements/needinesses (Gate 4 surface)
  → SynthesizeAssetPacksAbsolutesMeasureAgent # asset-packs/synthesis
- → SettleAssetPacks… # asset-packs/settle (Gate 6 surface)
+ → settle-asset-pack-pipeline… # asset-packs/settle (Gate 6 surface)
  → pipeline-asset-pack # SDIVF host + static-analysis tools
 ```
 
@@ -1656,13 +1656,13 @@ Spec G3-4 tables updated to LocalHost / hostKind `local`.
 
 ```
 @bitcode/asset-packs-generics # primitive (protocol minimum)
- → @bitcode/generic-asset-packs-measured-patch # MeasuredPatchAssetPack (only base)
+ → @bitcode/generic-asset-packs-synthesis # SynthesisAssetPack (only base)
  → asset-packs-pipelines / pipeline-asset-pack # product
 ```
 
 Measured-patch is the sole AssetPack implementation used by synthesize-deposits,
 synthesize-reads, and settle-reads. Deposit option `contents` projects from
-MeasuredPatchAssetPack (path+op patch + provenant paths; never raw source).
+SynthesisAssetPack (path+op patch + provenant paths; never raw source).
 
 ## Artifact hierarchy: generics + patch + product (Garrett, 2026-07-13)
 
@@ -2023,11 +2023,11 @@ Env: `BITCODE_DEPOSITORY_VECTOR_SEARCH=1` enables embedding + Supabase match RPC
 
 ## Settle → /packs rich projection (2026-07-14)
 
-Closed PARITY R-07 / R-14: SettleAssetPacks journals a source-safe
+Closed PARITY R-07 / R-14: SettleAssetPack journals a source-safe
 `bitcode.packs.activity` envelope (measurements as absolutes + needinesses *-fit,
 option titles, settlement/rights/delivery states, prUrl). `/api/packs/activity`
 flattens settle executions into `settled-assetpack` rows; pack-activity-model
-infers type from `packActivityType` / `source=read-settle-asset-packs`, projects
+infers type from `packActivityType` / `source=read-settle-asset-pack`, projects
 nested measurement kinds, and surfaces delivery references on detail. Patch
 bodies remain withheld by source-safety redaction.
 

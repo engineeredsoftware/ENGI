@@ -1,13 +1,11 @@
 /**
  * @bitcode/generic-asset-packs-synthesis
  *
- * Shared synthesize AssetPack base for **both** deposit and read pipelines:
- * - SynthesisAssetPack (extends AssetPack primitive + measurements)
- * - measurement catalogs + AbsolutesMeasureAgent
- * - AssetPackPatchArtifact
+ * Base AssetPack of Bitcode shared by all three product implementations:
+ * DepositSynthesized, ReadSynthesized, SettledReadSynthesized.
  *
  * Hierarchy:
- *   AssetPack → SynthesisAssetPack → DepositSynthesized | ReadSynthesized
+ *   AssetPack → SynthesisAssetPack → {Deposit,Read,SettledRead}Synthesized
  *   Artifact → PatchArtifact → AssetPackPatchArtifact
  */
 

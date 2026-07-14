@@ -397,7 +397,7 @@ function inferPackActivityType(record: BitcodeActivityRecord): PackActivityType 
     }
   }
   const source = findFirstString(payload, ['source']);
-  if (source === 'read-settle-asset-packs') return 'settled-assetpack';
+  if (source === 'read-settle-asset-pack') return 'settled-assetpack';
   if (source === 'deposit-option-review-admission') return 'depository-assetpack';
 
   const haystack = [

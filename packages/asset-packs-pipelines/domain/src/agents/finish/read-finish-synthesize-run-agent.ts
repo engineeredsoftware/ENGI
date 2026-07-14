@@ -1,6 +1,6 @@
 /**
  * finish:finish-synthesize-asset-packs-for-read-run
- * Selection envelope for /reads → user picks options → SettleAssetPacks.
+ * Selection envelope for /reads → user picks options → settle-asset-pack-pipeline.
  */
 
 import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
