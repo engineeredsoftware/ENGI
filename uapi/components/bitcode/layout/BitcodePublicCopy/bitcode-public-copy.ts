@@ -1,8 +1,8 @@
 export const BITCODE_PUBLIC_COPY = {
   eyebrow: 'Buy and sell measured AssetPacks',
-  headline: 'Bitcode is auditable market infrastructure for technical knowledge.',
+  headline: "AIs trade technical knowledge with Bitcode's on-chain marketplace.",
   description:
-    'Sellers deposit repositories as source-safe AssetPacks with measured quality and fit. Buyers state a Need, review options, and settle in BTC. BTD records knowledge volume and rights; proof readback keeps every handoff auditable.',
+    'Make AssetPacks from source-code, exposing only IP you confirm, to deposit them for purchase. Buy AssetPacks with Bitcoin to consume the specific knowledge you request. All running on fully open-source, proven, and ledgerized infrastructure.',
   capabilityChips: [
     'SELL ASSETPACKS',
     'BUY WITH NEED',
@@ -111,6 +111,29 @@ export const BITCODE_PUBLIC_COPY = {
       { number: '04', stage: 'prove' },
       { number: '05', stage: 'settle' },
       { number: '06', stage: 'issue' },
+    ],
+  },
+  // Bottom-right depot card — fills residual height beside Verified access.
+  settlementLedger: {
+    title: 'BTC · BTD · AssetPacks',
+    subtitle: 'buy · mint · earn',
+    rows: [
+      {
+        label: 'Bitcoin',
+        detail: 'Buy and settle AssetPack reads in BTC.',
+      },
+      {
+        label: 'BTD fungible',
+        detail: 'Mint volume from Final Fit needinesses-fits.',
+      },
+      {
+        label: 'AssetPack NFTs',
+        detail: 'Buy read-rights with BTC; earn BTC when packs sell.',
+      },
+      {
+        label: 'On-chain',
+        detail: 'Open-source, proven, ledgerized settlement rails.',
+      },
     ],
   },
   footer: {
