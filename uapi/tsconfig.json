@@ -585,6 +585,12 @@
       "@bitcode/generic-vcs-github/*": [
         "../packages/generic-vcs/github/src/*"
       ],
+      "@bitcode/generic-vcs-git": [
+        "../packages/generic-vcs/git/src/index.ts"
+      ],
+      "@bitcode/generic-vcs-git/*": [
+        "../packages/generic-vcs/git/src/*"
+      ],
       "@bitcode/vcs-generics": [
         "../packages/vcs-generics/src/index.ts"
       ],
