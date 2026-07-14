@@ -138,13 +138,14 @@ export const measuremintCandles = [
 export const verificationRows = [
   {
     label: 'Depositing',
-    detail: "AssetPacks' source-IP is secure until payment is settled.",
+    detail: 'AssetPacks are securely measured; rights and payments are settled.',
     status: 'public',
     Icon: CircleStackIcon,
   },
   {
     label: 'Reading',
-    detail: 'Bitcode finds candidates from the depository for requests.',
+    detail:
+      'Bitcode searches the depository for potential matches to synthesize candidate AssetPacks for review.',
     status: 'private*',
     Icon: LockClosedIcon,
   },
@@ -156,7 +157,7 @@ export const verificationRows = [
   },
   {
     label: 'Immutable',
-    detail: 'On-chain settlement establishes an auditable knowledge-market.',
+    detail: 'The on-chain settlement ledger establishes an auditable knowledge-market.',
     status: 'final',
     Icon: CheckBadgeIcon,
   },
