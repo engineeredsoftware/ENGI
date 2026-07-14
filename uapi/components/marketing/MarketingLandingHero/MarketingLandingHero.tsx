@@ -10,6 +10,7 @@ import MultiLineTypingAnimation from '@/components/bitcode/MultiLineTypingAnimat
 
 import { MarketingLandingGuideCard } from '@/components/marketing/MarketingLandingGuideCard/MarketingLandingGuideCard';
 import { MarketingLandingPillarCard } from '@/components/marketing/MarketingLandingPillarCard/MarketingLandingPillarCard';
+import { MarketingLandingTestnetSection } from '@/components/marketing/MarketingLandingTestnetSection/MarketingLandingTestnetSection';
 import {
   animatedMotionStyle,
   entranceEase,
@@ -24,8 +25,8 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.9, ease: entranceEase }}
-      // Top-align with the Data Depot column (not vertically centered in a taller row).
-      className="flex flex-col justify-start"
+      // Full column height so testnet can pin to the shared lower edge with Data Depot.
+      className="flex h-full min-h-0 flex-col justify-start self-stretch"
       style={animatedMotionStyle}
     >
       <div className="max-w-2xl space-y-4">
@@ -94,6 +95,9 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
       </div>
 
       <MarketingLandingGuideCard />
+
+      {/* Fills residual left-column space; lower edge aligns with Data Depot. */}
+      <MarketingLandingTestnetSection />
     </motion.section>
   );
 });

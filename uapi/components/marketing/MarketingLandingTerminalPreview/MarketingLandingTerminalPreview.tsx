@@ -29,7 +29,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
       initial={{ opacity: 0, y: 28 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, delay: 0.12, ease: entranceEase }}
-      className="relative overflow-hidden rounded-none border border-white/10 bg-white/5 p-4 shadow-[0_26px_80px_rgba(2,8,17,0.48)] backdrop-blur-xl"
+      className="relative flex h-full min-h-0 flex-col self-stretch overflow-hidden rounded-none border border-white/10 bg-white/5 p-4 shadow-[0_26px_80px_rgba(2,8,17,0.48)] backdrop-blur-xl"
       style={paintedMotionStyle}
     >
       <div className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/70 to-transparent" />

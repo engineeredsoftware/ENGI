@@ -5,7 +5,6 @@ import Footer from '@/components/bitcode/layout/Footer/Footer';
 
 import { MarketingLandingHero } from '@/components/marketing/MarketingLandingHero/MarketingLandingHero';
 import { MarketingLandingTerminalPreview } from '@/components/marketing/MarketingLandingTerminalPreview/MarketingLandingTerminalPreview';
-import { MarketingLandingTestnetSection } from '@/components/marketing/MarketingLandingTestnetSection/MarketingLandingTestnetSection';
 import '@/styles/marketing-landing-shell.css';
 import '@/styles/marketing-landing-glow.css';
 import '@/styles/particle-effect.css';
@@ -170,16 +169,14 @@ export default function MarketingLandingPage() {
             className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[46rem] w-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-300/10 blur-3xl motion-reduce:hidden laptop:block"
           />
 
-          {/* Horizontal rhythm matches Nav max-w-7xl + gutters so hero left edge aligns under the brand mark. */}
-          {/* items-start keeps hero + Data Depot top edges aligned (depot is taller after per-metric measurements). */}
-          <main className="relative z-20 mx-auto flex w-full max-w-7xl flex-1 items-start px-4 pb-4 pt-28 phone:pb-5 tablet:px-6 laptop:px-8 laptop:pb-4 laptop:pt-32 desktop:px-12 wide:px-16">
-            <div className="grid w-full items-start gap-4 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] tablet:gap-5 laptop:gap-6">
+          {/* Horizontal rhythm matches Nav max-w-7xl + gutters so hero left edge aligns under the brand mark.
+              items-stretch equalizes column height so left testnet and right depot lower edges meet. */}
+          <main className="relative z-20 mx-auto flex w-full max-w-7xl flex-1 items-start px-4 pb-8 pt-28 phone:pb-10 tablet:px-6 laptop:px-8 laptop:pb-10 laptop:pt-32 desktop:px-12 wide:px-16">
+            <div className="grid w-full items-stretch gap-4 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] tablet:gap-5 laptop:gap-6">
               <MarketingLandingHero />
               <MarketingLandingTerminalPreview />
             </div>
           </main>
-
-          <MarketingLandingTestnetSection />
 
           <div className="relative z-20 mt-auto w-full">
             <Footer showPrimaryContent={false} className="mt-0 border-white/10 bg-[#02060d]/72 backdrop-blur-xl" />
