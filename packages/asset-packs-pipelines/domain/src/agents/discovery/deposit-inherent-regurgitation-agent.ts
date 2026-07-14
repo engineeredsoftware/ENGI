@@ -109,7 +109,11 @@ function findValue(execution: any, namespace: string, key: string): any {
 
 export default async function runDepositInherentRegurgitationAgent(input: any, execution: any) {
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
-  const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
+  const inventory =
+    input?.sourceCheckoutCatalog ??
+    input?.inventory ??
+    findValue(execution, 'deposit', 'sourceCheckoutCatalog') ??
+    findValue(execution, 'deposit', 'inventory');
 
   const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
   const inventoryForPrompt = projectInventoryForPrompt(inventory);

@@ -1,7 +1,6 @@
 /**
  * Deposit-only SDIVF phase rosters for SynthesizeDepositAssetPacksSDIVFPipeline.
  *
- * Deposit-native sequence (no Fits Finding / Read-Need agents):
  * Setup: clone alone → parallel {LSP, MCP, obfuscations} → danger wall alone.
  * Discovery: parallel {comprehend-codebase, search-depository, inherent-regurgitation}.
  * Implementation: synthesize deposit AssetPacks (patch + measurements + metadata).
@@ -24,7 +23,6 @@ function registerDepositSetupAgents(agentRegistry: any): void {
     () =>
       import('../agents/setup/asset-pack-clone-vcs-repository-agent').then((m) => m.default),
   );
-  // Compat alias for older telemetry / tests
   agentRegistry.registerAgent(
     'setup:asset-pack-clone-vcs-repository-agent',
     () =>
@@ -49,9 +47,6 @@ function registerDepositSetupAgents(agentRegistry: any): void {
   );
 }
 
-/**
- * Setup: clone alone → parallel {LSP, MCP, obfuscations} → danger wall alone.
- */
 export const depositSetupPhase: PhaseDelegator<AssetPackInput, SetupOutput> = (async (
   input: AssetPackInput,
   execution: any,
@@ -73,7 +68,6 @@ export const depositSetupPhase: PhaseDelegator<AssetPackInput, SetupOutput> = (a
   try {
     return await exec(input, execution);
   } catch (error: any) {
-    // ShortCircuitSignal or hard fail: surface as setup terminal error.
     const message = error?.message || String(error);
     try {
       (execution as any).store?.('pipeline', 'terminalError', {
@@ -86,9 +80,6 @@ export const depositSetupPhase: PhaseDelegator<AssetPackInput, SetupOutput> = (a
   }
 }) as unknown as PhaseDelegator<AssetPackInput, SetupOutput>;
 
-/**
- * Discovery: three agents in parallel (measure is inside comprehend-codebase).
- */
 export const depositDiscoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (async (
   input: AssetPackInput,
   execution: any,
@@ -97,27 +88,10 @@ export const depositDiscoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput>
     const { registerDiscoveryAgents } = await import('./discovery');
     registerDiscoveryAgents((execution as any).agents, 'deposit');
   } catch {}
-  // Deposit-native keys (aliases registered below for discovery register).
-  try {
-    (execution as any).agents?.registerAgent?.(
-      'discovery:comprehend-codebase',
-      (execution as any).agents?.getAgent?.('discovery:codebase-comprehension') ||
-        (() =>
-          import('../agents/discovery/deposit-codebase-comprehension-agent').then(
-            (m) => m.default,
-          )),
-    );
-    (execution as any).agents?.registerAgent?.(
-      'discovery:search-depository',
-      (execution as any).agents?.getAgent?.('discovery:depository-search') ||
-        (() =>
-          import('../agents/discovery/deposit-depository-search-agent').then((m) => m.default)),
-    );
-  } catch {}
 
   const exec: Executor<any, any> = parallel(
-    createAgentExecutor('discovery:codebase-comprehension'),
-    createAgentExecutor('discovery:depository-search'),
+    createAgentExecutor('discovery:comprehend-codebase'),
+    createAgentExecutor('discovery:search-depository'),
     createAgentExecutor('discovery:inherent-regurgitation'),
   );
   return await exec(input, execution);
@@ -131,73 +105,55 @@ export const depositImplementationPhase: PhaseDelegator<
     const { registerImplementationAgents } = await import('./implementation');
     registerImplementationAgents((execution as any).agents, 'deposit');
   } catch {}
-  const synthesize = createAgentExecutor('implementation:deposit-asset-pack-synthesis');
-  return await synthesize(input, execution);
+  return await createAgentExecutor('implementation:deposit-asset-pack-synthesis')(input, execution);
 }) as unknown as PhaseDelegator<DiscoveryOutput, ImplementationOutput>;
 
-/**
- * Validation: single ready-to-finish deposit gate (quality + prior phases + obfuscations).
- * During migration still runs deposit-quality then ready-to-finish; target is one agent.
- */
+/** Single Validation agent: prior phases + pack quality + obfuscations. */
 export const depositValidationPhase: PhaseDelegator<
   ImplementationOutput,
   ValidationOutput
 > = (async (input: any, execution: any) => {
   try {
-    const { registerValidationAgentsForType } = await import('./validation');
-    const { resolveWrittenAssetTypeFromExecution } = await import('../semantic-resolution');
-    const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
-    registerValidationAgentsForType(writtenAssetType, (execution as any).agents, 'deposit');
-    // Target single-agent key → same ready-to-finish for now; quality still runs first.
     (execution as any).agents?.registerAgent?.(
       'validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline',
-      (execution as any).agents?.getAgent?.('validation:asset-pack-ready-to-finish-agent'),
+      () =>
+        import('../agents/validation/deposit-ready-to-finish-agent').then((m) => m.default),
+    );
+    // Compat alias for older roster tests
+    (execution as any).agents?.registerAgent?.(
+      'validation:deposit-quality',
+      () =>
+        import('../agents/validation/deposit-ready-to-finish-agent').then((m) => m.default),
+    );
+    (execution as any).agents?.registerAgent?.(
+      'validation:asset-pack-ready-to-finish-agent',
+      () =>
+        import('../agents/validation/deposit-ready-to-finish-agent').then((m) => m.default),
     );
   } catch {}
-  const exec: Executor<any, any> = sequential(
-    createAgentExecutor('validation:deposit-quality'),
-    createAgentExecutor('validation:asset-pack-ready-to-finish-agent'),
-  );
-  return await exec(input, execution);
+  return await createAgentExecutor(
+    'validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline',
+  )(input, execution);
 }) as unknown as PhaseDelegator<ImplementationOutput, ValidationOutput>;
 
-/**
- * Finish: store-artifacts → ledgerize → finish-synthesize-deposit-run.
- * Migration: upload-for-review as store-artifacts; completion as final finish.
- */
+/** Finish: store-artifacts → ledgerize → finish-synthesize-deposit-run. */
 export const depositFinishPhase: PhaseDelegator<ValidationOutput, AssetPackOutput> = (async (
   input: any,
   execution: any,
 ) => {
   try {
-    const { registerFinishAgentsForType } = await import('./finish');
-    const { resolveDeliveryMechanismTemplateFromExecution } = await import(
-      '../semantic-resolution'
-    );
-    const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
-    registerFinishAgentsForType(deliveryMechanismTemplate, (execution as any).agents, 'deposit');
-
     (execution as any).agents?.registerAgent?.(
       'finish:store-artifacts',
-      () =>
-        import('../agents/finish/upload-asset-packs-for-review-agent').then((m) => m.default),
+      () => import('../agents/finish/deposit-store-artifacts-agent').then((m) => m.default),
     );
     (execution as any).agents?.registerAgent?.(
       'finish:ledgerize',
-      async (passthrough: any, exec: any) => {
-        // Placeholder: ledger update after durable store (Gate follow-on).
-        try {
-          exec?.store?.('finish', 'ledgerize', {
-            status: 'pending-ledger-binding',
-            note: 'On-chain ledger update after store-artifacts; bound in ledgerize gate.',
-          });
-        } catch {}
-        return passthrough;
-      },
+      () => import('../agents/finish/deposit-ledgerize-agent').then((m) => m.default),
     );
     (execution as any).agents?.registerAgent?.(
       'finish:finish-synthesize-asset-packs-for-deposit-run',
-      () => import('../agents/finish/asset-pack-completion-agent').then((m) => m.default),
+      () =>
+        import('../agents/finish/deposit-finish-synthesize-run-agent').then((m) => m.default),
     );
   } catch {}
 

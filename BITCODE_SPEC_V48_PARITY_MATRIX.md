@@ -239,15 +239,15 @@ AssetPack = **patch + measurements + metadata**.
 | D-02 | Setup: parallel LSP + MCP + obfuscations | closed | `parallel(initialize-lsp, initialize-mcps-tools, comprehend-obfuscations)` |
 | D-03 | Setup: danger wall last, admits obfuscations (not passthrough) | closed | `deposit-danger-wall-agent` + ShortCircuitError |
 | D-04 | No Fits Finding / ReadFitsFinding names in deposit Setup | closed | deposit-native keys only in deposit-phases |
-| D-05 | sourceCheckoutCatalog naming (not inventory) | partial | dual-write `sourceCheckoutCatalog` + legacy `inventory` |
-| D-06 | Discovery agents parallel (3) | closed | `parallel(codebase, depository, regurgitation)` |
-| D-07 | comprehend-codebase measures + LSP + tree/file analysis | partial | measures + lsp-query tool + path tree; deeper LSP wiring open |
-| D-08 | Depository search tool (embeddings/vectors) + Plan queries | open | still LLM-primary; wire `depository-asset-pack-search` |
-| D-09 | AssetPack = patch + measurements + metadata (required) | partial | schema; discovery sourceMeasurements; pack-level still Validation-heavy |
-| D-10 | Single validation ready-to-finish deposit agent | partial | alias key registered; still two-step quality+ready |
-| D-11 | Finish store-artifacts | partial | alias → upload-for-review |
-| D-12 | Finish ledgerize | partial | placeholder store pending ledger binding |
-| D-13 | Finish finish-synthesize-deposit-run (last) | partial | alias → completion agent |
+| D-05 | sourceCheckoutCatalog naming (not inventory) | closed | resolve helper + dual-write; agents prefer `sourceCheckoutCatalog` |
+| D-06 | Discovery agents parallel (3) | closed | `parallel(comprehend-codebase, search-depository, inherent-regurgitation)` |
+| D-07 | comprehend-codebase measures + LSP + tree/file analysis | closed | measureAssetPackAbsolutes + lsp-query registration + catalog tree |
+| D-08 | Depository search tool (embeddings/vectors) + Plan queries | closed | `DepositDepositoryAssetPackSearchTool` + agent Plan queries |
+| D-09 | AssetPack = patch + measurements + metadata (required) | closed | Implementation attaches absolutes; Validation requires them |
+| D-10 | Single validation ready-to-finish deposit agent | closed | `deposit-ready-to-finish-agent` only (A/B/C) |
+| D-11 | Finish store-artifacts | closed | `deposit-store-artifacts-agent` (AP patches + discovery + catalog paths) |
+| D-12 | Finish ledgerize | closed | `deposit-ledgerize-agent` synthesis-side ledger projection roots |
+| D-13 | Finish finish-synthesize-deposit-run (last) | closed | selection envelope + cleanup posture |
 | D-14 | Host-only clone (no pre-Setup clone; LocalHost this-run only) | closed | Host clone commits |
 | D-15 | Kinds capability-slice / implementation-pattern / proof-operations-slice | closed | deposit schemas |
 

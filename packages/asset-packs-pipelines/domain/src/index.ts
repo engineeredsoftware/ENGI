@@ -167,18 +167,26 @@ export async function preprocessDepositMode(processedInput: any, execution: Exec
   // Setup/Discovery/Implementation/Validation agents ground in) must land on
   // the SHARED execution (cross-phase store-visibility law).
   // pipeline:input is telemetried — never attach inventory.sources here (64MB+
-  // monorepo sources). Full sources live only on deposit:inventory for measurement.
-  const inventory = processedInput?.inventory;
+  // monorepo sources). Full file bodies live only on deposit:sourceCheckoutCatalog for measurement.
+  const catalog =
+    processedInput?.sourceCheckoutCatalog || processedInput?.inventory;
   const pipelineInputForStore =
-    inventory && typeof inventory === 'object'
+    catalog && typeof catalog === 'object'
       ? {
           ...processedInput,
+          sourceCheckoutCatalog: {
+            paths: catalog.paths,
+            samples: catalog.samples,
+            totalPathCount: catalog.totalPathCount,
+            excludedPathCount: catalog.excludedPathCount,
+            sourceFileCount: Array.isArray(catalog.sources) ? catalog.sources.length : 0,
+          },
           inventory: {
-            paths: inventory.paths,
-            samples: inventory.samples,
-            totalPathCount: inventory.totalPathCount,
-            excludedPathCount: inventory.excludedPathCount,
-            sourceFileCount: Array.isArray(inventory.sources) ? inventory.sources.length : 0,
+            paths: catalog.paths,
+            samples: catalog.samples,
+            totalPathCount: catalog.totalPathCount,
+            excludedPathCount: catalog.excludedPathCount,
+            sourceFileCount: Array.isArray(catalog.sources) ? catalog.sources.length : 0,
           },
         }
       : processedInput;
@@ -194,8 +202,9 @@ export async function preprocessDepositMode(processedInput: any, execution: Exec
   );
   storeCrossPhaseArtifact(execution, 'deposit', 'forcedExclusions', processedInput?.forcedExclusions || []);
   storeCrossPhaseArtifact(execution, 'deposit', 'demandContext', processedInput?.demandContext || []);
-  if (processedInput?.inventory) {
-    storeCrossPhaseArtifact(execution, 'deposit', 'inventory', processedInput.inventory);
+  if (catalog) {
+    storeCrossPhaseArtifact(execution, 'deposit', 'sourceCheckoutCatalog', catalog);
+    storeCrossPhaseArtifact(execution, 'deposit', 'inventory', catalog);
   }
   return processedInput;
 }

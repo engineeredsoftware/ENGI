@@ -11,6 +11,7 @@ import { Tool } from '@bitcode/tools-generics';
 import { assetPackCloneVCSRepositoryTool } from './AssetPackCloneVCSRepositoryTool';
 import { bitcodeReadMeasurementComputerUseTool } from './BitcodeReadMeasurementComputerUseTool';
 import { lexicalDepositorySearchTool } from './AssetPackLexicalDepositorySearchTool';
+import { depositDepositoryAssetPackSearchTool } from './DepositDepositoryAssetPackSearchTool';
 import { assetPackVerificationEvidenceTool } from './AssetPackVerificationEvidenceTool';
 import { assetPackMultimodalProcessingTool } from './AssetPackMultimodalProcessingTool';
 import { assetPackImageComprehensionTool } from './AssetPackImageComprehensionTool';
@@ -91,13 +92,13 @@ export const SETUP_PHASE_TOOLS: Tool[] = [
  */
 export const DISCOVERY_PHASE_TOOLS: Tool[] = [
   lexicalDepositorySearchTool,
+  depositDepositoryAssetPackSearchTool,
   assetPackVerificationEvidenceTool,
-  // Code Analysis
-  //lspSemanticAnalysisEngine,
-  //lspCodeIntelligenceEngine,
-  // File Operations
-  //lspWorkspaceNavigationEngine,
-  // Providers disabled for GA‑1
+  ...optionalTools(
+    lspSemanticAnalysisEngine,
+    lspCodeIntelligenceEngine,
+    lspWorkspaceNavigationEngine,
+  ),
 ].filter(present);
 
 /**
@@ -171,7 +172,24 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     'asset-pack-plan-implementation-agent': [lexicalDepositorySearchTool],
     'asset-pack-digest-codebase-agent': [],
     'asset-pack-research-web-agent': [],
-    //'asset-pack-select-files-agent': [],
+    'DepositCodebaseComprehensionAgent': optionalTools(
+      lspSemanticAnalysisEngine,
+      lspCodeIntelligenceEngine,
+      lspWorkspaceNavigationEngine,
+    ),
+    'discovery:comprehend-codebase': optionalTools(
+      lspSemanticAnalysisEngine,
+      lspCodeIntelligenceEngine,
+      lspWorkspaceNavigationEngine,
+    ),
+    'discovery:codebase-comprehension': optionalTools(
+      lspSemanticAnalysisEngine,
+      lspCodeIntelligenceEngine,
+      lspWorkspaceNavigationEngine,
+    ),
+    'DepositDepositorySearchAgent': [depositDepositoryAssetPackSearchTool, lexicalDepositorySearchTool],
+    'discovery:search-depository': [depositDepositoryAssetPackSearchTool, lexicalDepositorySearchTool],
+    'discovery:depository-search': [depositDepositoryAssetPackSearchTool, lexicalDepositorySearchTool],
 
     // Implementation Phase
     'ReadFitsFindingSynthesisAssetPackSynthesisAgent': [],
@@ -185,11 +203,16 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     'asset-pack-validate-synthesis-artifacts-agent': optionalTools(lspSemanticAnalysisEngine),
     'asset-pack-validation-ready-to-finish-agent': [],
     'asset-pack-ready-to-finish-agent': [],
+    'validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline': [],
+    'validation:deposit-quality': [],
 
     // Internal Read-measurement computer-use option
     'read-measurement:computer-use-evidence-agent': getComputerUseReadMeasurementTools(),
 
-    // Finish Phase / Delivering destination tools
+    // Finish Phase
+    'finish:store-artifacts': [],
+    'finish:ledgerize': [],
+    'finish:finish-synthesize-asset-packs-for-deposit-run': [],
     'finish:deliver-asset-pack-to-destination-agent': [
       createBranchTool,
       createOrUpdateFileTool,

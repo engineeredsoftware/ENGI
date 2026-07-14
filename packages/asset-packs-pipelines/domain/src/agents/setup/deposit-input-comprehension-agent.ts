@@ -118,7 +118,11 @@ function hasDeclaredObfuscations(value: unknown): boolean {
 export default async function runDepositInputComprehensionAgent(input: any, execution: any) {
   const obfuscations = input?.obfuscations ?? findValue(execution, 'deposit', 'obfuscations') ?? null;
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
-  const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
+  const inventory =
+    input?.sourceCheckoutCatalog ??
+    input?.inventory ??
+    findValue(execution, 'deposit', 'sourceCheckoutCatalog') ??
+    findValue(execution, 'deposit', 'inventory');
 
   // Empty Obfuscations: no LLM work. Full monorepo inventory + PTRR plan/try
   // against blank text was burning minutes and timing out (90s per call) with

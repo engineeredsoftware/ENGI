@@ -109,15 +109,38 @@ export default async function initializeLSP(input: any, execution: any) {
     execution.store('setup/lsp', 'workspacePath', repoPath);
   } catch {}
   
-  // Register LSP tool for other phases if initialized
-  if (result.initialized) {
-    execution.tools.registerTool('lsp-query', {
+  // Always register lsp-query for Discovery codebase comprehension (best-effort).
+  try {
+    const workspacePath = repoPath;
+    execution?.tools?.registerTool?.('lsp-query', {
+      name: 'lsp-query',
       execute: async (query: any) => {
-        // LSP query implementation
-        return { results: [] };
-      }
+        // Prefer real LSP engines when generic-tools-lsp-query is available.
+        try {
+          const m = require('@bitcode/generic-tools-lsp-query');
+          if (query?.op === 'workspaceSymbols' && m.workspaceSymbolsTool) {
+            return m.workspaceSymbolsTool.use?.({ ...query, workspacePath }) ?? { results: [] };
+          }
+          if (query?.op === 'documentSymbols' && m.documentSymbolsTool) {
+            return m.documentSymbolsTool.use?.({ ...query, workspacePath }) ?? { results: [] };
+          }
+          if (query?.op === 'definition' && m.definitionTool) {
+            return m.definitionTool.use?.({ ...query, workspacePath }) ?? { results: [] };
+          }
+        } catch {
+          /* LSP package optional */
+        }
+        return {
+          results: [],
+          workspacePath,
+          initialized: Boolean(result.initialized),
+          note: result.initialized
+            ? 'LSP query surface registered; engine may be stubbed.'
+            : 'LSP not fully initialized; query returns empty results.',
+        };
+      },
     });
-  }
-  
+  } catch {}
+
   return result;
 }

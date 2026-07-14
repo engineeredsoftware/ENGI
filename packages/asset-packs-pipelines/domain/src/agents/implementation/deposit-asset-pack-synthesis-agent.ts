@@ -75,12 +75,17 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
   const { ensureDepositCheckoutSourceFiles } = await import(
     '../../ensure-deposit-checkout-source-files'
   );
-  const inventory = await ensureDepositCheckoutSourceFiles(
+  const { resolveSourceCheckoutCatalog } = await import('../../resolve-source-checkout-catalog');
+  const sourceCheckoutCatalog = await ensureDepositCheckoutSourceFiles(
     execution,
-    input?.inventory ?? findValue(execution, 'deposit', 'inventory'),
+    resolveSourceCheckoutCatalog(
+      execution,
+      input?.sourceCheckoutCatalog ?? input?.inventory,
+    ),
   );
   const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
-  const inventoryForPrompt = projectInventoryForPrompt(inventory);
+  const catalogForPrompt = projectInventoryForPrompt(sourceCheckoutCatalog);
+  const sourceMeasurements = findValue(execution, 'discovery', 'sourceMeasurements') ?? [];
 
   const raw = await DepositAssetPackSynthesisAgent(
     {
@@ -89,51 +94,92 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
       instructions: obfuscations,
       forcedExclusions,
       demandContext,
-      // Paths + samples only for PTRR prompts; full sources stay on deposit:inventory.
-      inventory: inventoryForPrompt,
-      inventoryPaths: inventoryForPrompt?.paths ?? inventory?.paths,
-      excerpts: inventoryForPrompt?.samples ?? inventory?.samples,
+      // Paths + samples only for PTRR prompts; file bodies on deposit:sourceCheckoutCatalog.
+      sourceCheckoutCatalog: catalogForPrompt,
+      inventory: catalogForPrompt,
+      inventoryPaths: catalogForPrompt?.paths ?? sourceCheckoutCatalog?.paths,
+      excerpts: catalogForPrompt?.samples ?? sourceCheckoutCatalog?.samples,
       obfuscationGuidance,
+      sourceMeasurements,
       discovery: {
         context: execution?.get?.('discovery', 'context'),
         plan: execution?.get?.('discovery', 'plan'),
         codebase: codebaseComprehension,
         depository: depositorySearch,
         regurgitation: inherentRegurgitation,
+        sourceMeasurements,
       },
     },
     execution,
   );
-  // factoryPTRRAgent returns an envelope ({ context, output, finalOutput });
-  // unwrap it to the agent's typed structured output (F27).
   const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
   const options = Array.isArray((result as any)?.options) ? (result as any).options : [];
 
-  // Record each AssetPack's patch through the formal code-edit tool (source-safe).
+  // AssetPack = patch + measurements + metadata. Attach absolutes per option.
   try {
     (execution as any)?.tools?.registerTool?.('asset-pack-patch-write', new AssetPackPatchWriteTool());
   } catch {}
+  const bodies = Array.isArray((sourceCheckoutCatalog as any)?.sources)
+    ? (sourceCheckoutCatalog as any).sources
+        .filter((s: any) => s && typeof s.path === 'string' && typeof s.content === 'string')
+        .map((s: any) => ({ path: s.path as string, content: s.content as string }))
+    : [];
+  const { measureAssetPackAbsolutes } = await import('../validation/agent-measure-absolutes');
+
   for (const option of options) {
     const fileChanges = (option as any)?.patch?.fileChanges;
-    if (!Array.isArray(fileChanges)) continue;
-    try {
-      const tool = (execution as any)?.tools?.getTool?.('asset-pack-patch-write');
-      if (tool) {
-        const descriptor = await tool.execute({
-          fileChanges,
-          assetPackTitle: (option as any)?.title,
-        });
-        (option as any).patch.fileChanges = descriptor.fileChanges;
+    if (Array.isArray(fileChanges)) {
+      try {
+        const tool = (execution as any)?.tools?.getTool?.('asset-pack-patch-write');
+        if (tool) {
+          const descriptor = await tool.execute({
+            fileChanges,
+            assetPackTitle: (option as any)?.title,
+          });
+          (option as any).patch.fileChanges = descriptor.fileChanges;
+        }
+      } catch {}
+    }
+    // Required measurements element
+    if (!Array.isArray((option as any).absolutes) || (option as any).absolutes.length === 0) {
+      try {
+        if (Array.isArray(sourceMeasurements) && sourceMeasurements.length > 0) {
+          (option as any).absolutes = sourceMeasurements;
+        } else {
+          (option as any).absolutes = await measureAssetPackAbsolutes(
+            {
+              title: String((option as any)?.title ?? ''),
+              summary: String((option as any)?.summary ?? ''),
+              coveredSourcePaths: Array.isArray((option as any)?.coveredSourcePaths)
+                ? (option as any).coveredSourcePaths
+                : [],
+              fileChanges: Array.isArray((option as any)?.patch?.fileChanges)
+                ? (option as any).patch.fileChanges
+                : undefined,
+              confidence:
+                typeof (option as any)?.confidence === 'number'
+                  ? (option as any).confidence
+                  : undefined,
+              patchSummary:
+                typeof (option as any)?.patch?.patchSummary === 'string'
+                  ? (option as any).patch.patchSummary
+                  : undefined,
+            },
+            { lens: 'deposit', execution, sources: bodies },
+          );
+        }
+      } catch {
+        (option as any).absolutes = [];
       }
-    } catch {}
+    }
   }
 
   const output = {
     success: true,
     semanticKind: 'asset-pack-written-asset' as const,
     options,
-    summary: `Synthesized ${options.length} measured deposit AssetPack patch(es).`,
+    summary: `Synthesized ${options.length} measured deposit AssetPack(s) (patch + measurements + metadata).`,
     assetPack: { repository },
   };
 
