@@ -43,20 +43,22 @@ export const BITCODE_PUBLIC_COPY = {
       {
         id: 'april-2026',
         tab: 'April',
-        title: '$BTD: Scalar Volume And Rights For Technical Knowledge',
+        // Restored pre-Gate-15 original micro-blog content from commit history.
+        title: '$BTD: Shares of Source Technical Knowledge',
         meta: 'April 2026 * Garrett Maring',
         body:
-          "April launched the Bitcode Protocol. Open-source, auditable, and reproducible — with Packs, Deposit, and Read as the live surfaces for AssetPack commerce.",
-        highlights: ['$BTD', 'Bitcode Protocol', 'AssetPacks'],
+          'April launched the Bitcode Protocol. It is available at our open-source repository which includes a commercially-ready whole-system specification (auditable, reproducible). The website now includes the first pieces of the $BTD Terminal along with documentation on the internals and interfaces of the ecosystem.',
+        highlights: ['$BTD', 'Bitcode Protocol', 'Terminal'],
       },
       {
         id: 'march-2026',
         tab: 'March',
-        title: "Bitcode's source-to-AssetPack protocol, now",
+        // Restored original March micro-blog; only change: hoard → collect.
+        title: "Bitcode's source-to-shares protocol, now",
         meta: 'March 2026 * Garrett Maring',
         body:
-          "$BTD measures technical knowledge volume and rights while BTC settlement compensates contributors. Measured deposit and Reading form the market path for source-safe AssetPack trade.",
-        highlights: ['$BTD', 'BTC settlement'],
+          "$BTD's purpose is to collect valuable technical information and compensate contributors fairly. Provable knowledge measuring algorithms build the foundations for collection and issuance. Ideal long-term partnerships for asset management and infrastructure will be finalized to empower the secure and thriving future of $BTD.",
+        highlights: ['$BTD'],
       },
     ],
   },
