@@ -18,24 +18,24 @@ export function MarketingLandingTestnetSection() {
     <section
       data-testid="landing-testnet-launch"
       aria-label="Commercial product launch readiness"
-      className="relative mt-4 w-full"
+      className="relative mt-4 flex min-h-0 w-full flex-1 flex-col"
     >
-      <div className="rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-3.5 py-3.5 backdrop-blur-sm phone:px-4 phone:py-4">
+      <div className="flex min-h-0 flex-1 flex-col rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-4 py-4 backdrop-blur-sm phone:px-5 phone:py-5">
         <div className="flex flex-wrap items-center gap-2">
           <span className="rounded-none border border-emerald-300/35 bg-emerald-300/12 px-2.5 py-1 text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-100">
             {copy.badge}
           </span>
         </div>
-        <h2 className="mt-2.5 text-base font-semibold leading-snug text-white phone:text-lg">
+        <h2 className="mt-3 text-lg font-semibold leading-snug text-white phone:text-xl">
           {copy.title}
         </h2>
-        <p className="mt-2 text-[12px] leading-5 text-neutral-300 phone:text-[13px]">{copy.meaning}</p>
-        <ol className="mt-3 grid grid-cols-1 gap-2" aria-label="Core product flow">
+        <p className="mt-2 text-[13px] leading-5 text-neutral-300 phone:text-[14px]">{copy.meaning}</p>
+        <ol className="mt-3 grid min-h-0 flex-1 grid-cols-1 gap-2.5" aria-label="Core product flow">
           {copy.flow.map((entry) => (
-            <li key={entry.step}>
+            <li key={entry.step} className="min-h-0">
               <Link
                 href={entry.href}
-                className="block rounded-none border border-white/10 bg-black/25 px-3 py-2.5 transition hover:border-emerald-300/35 hover:bg-emerald-300/[0.07]"
+                className="block h-full rounded-none border border-white/10 bg-black/25 px-3 py-3 transition hover:border-emerald-300/35 hover:bg-emerald-300/[0.07]"
               >
                 <span className="inline-flex items-baseline gap-2">
                   <span className="text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-200/85">
@@ -48,7 +48,7 @@ export function MarketingLandingTestnetSection() {
             </li>
           ))}
         </ol>
-        <div className="mt-2.5 grid gap-1.5 border-t border-white/8 pt-2.5 text-[11px] leading-4 text-neutral-400">
+        <div className="mt-3 grid gap-1.5 border-t border-white/8 pt-3 text-[11px] leading-5 text-neutral-400">
           <p>{copy.trust}</p>
           <p>{copy.sourceSafety}</p>
         </div>

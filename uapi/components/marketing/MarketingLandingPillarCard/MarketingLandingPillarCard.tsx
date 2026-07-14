@@ -220,20 +220,22 @@ export function MarketingLandingPillarCard({
           <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-orange-100/70 to-transparent" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(251,146,60,0.24),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(251,191,36,0.08),transparent_30%)]" />
           <div className="relative flex min-h-0 flex-1 flex-col">
-            <div className="relative pr-16 text-orange-100 phone:pr-20">
-              <div className="flex items-start gap-2">
-                <Icon className="h-5 w-5 text-orange-300" />
+            <div className="relative pr-14 text-orange-100 phone:pr-16">
+              {/* Logo top-aligned with Settle title; icon size matches Sell/Buy title row. */}
+              <div className="absolute right-0 top-0">
+                <BitcodeSoftwareSvgLogo width="36px" softwareClassName="hidden" className="opacity-90" />
+              </div>
+              <div className="flex min-w-0 items-start gap-2">
+                <Icon className="mt-0.5 h-4 w-4 shrink-0 text-orange-300" />
                 <div className="min-w-0">
                   <p className="bg-gradient-to-r from-white via-orange-100 to-white/80 bg-clip-text text-[11px] font-semibold uppercase tracking-[0.18em] text-transparent">
                     {title}
                   </p>
-                  <p className="mt-1 max-w-[20ch] text-[9px] uppercase leading-snug tracking-[0.14em] text-orange-100/52 phone:text-[10px]">
-                    <span className="block whitespace-nowrap">BTC · BTD · On-Chain</span>
+                  <p className="mt-1 max-w-[16ch] text-[9px] uppercase leading-snug tracking-[0.16em] text-orange-100/52 phone:text-[10px]">
+                    <span className="block whitespace-nowrap">BTC · BTD</span>
+                    <span className="block whitespace-nowrap">On-Chain</span>
                   </p>
                 </div>
-              </div>
-              <div className="absolute right-0 top-0">
-                <BitcodeSoftwareSvgLogo width="44px" softwareClassName="hidden" className="opacity-90" />
               </div>
             </div>
             <p className="mt-1.5 min-h-[4.5rem] text-[11px] leading-4 text-orange-50/88 phone:min-h-[5rem] phone:text-[13px] phone:leading-5">

@@ -59,7 +59,7 @@ export const MarketingLandingGuideCard = memo(function MarketingLandingGuideCard
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.3, ease: entranceEase }}
-      className="relative mt-6 max-w-xl overflow-visible rounded-none border border-emerald-300/12 bg-black/25 p-4 pt-5 shadow-[0_20px_60px_rgba(0,0,0,0.32)] backdrop-blur-xl phone:mt-7 phone:pt-6"
+      className="relative mt-6 w-full max-w-none overflow-visible rounded-none border border-emerald-300/12 bg-black/25 p-4 pt-5 shadow-[0_20px_60px_rgba(0,0,0,0.32)] backdrop-blur-xl phone:mt-7 phone:pt-6"
       style={animatedMotionStyle}
     >
       <div className="absolute left-0 top-0 flex -translate-y-1/2 flex-wrap items-center gap-2">

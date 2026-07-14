@@ -139,9 +139,11 @@ describe('MarketingLandingPage', () => {
     const section = screen.getByTestId('landing-testnet-launch');
     expect(section).toBeInTheDocument();
     expect(screen.getByText('Commercial Product')).toBeInTheDocument();
-    expect(screen.getByText('Sell and buy AssetPacks on Bitcoin.')).toBeInTheDocument();
+    expect(screen.getByText('Sell and buy AssetPacks with Bitcoin.')).toBeInTheDocument();
+    expect(screen.getByText(/ERC-1155 on Ethereum/i)).toBeInTheDocument();
     expect(screen.getByText(/measurements, quotes, settlement order/iu)).toBeInTheDocument();
     expect(screen.queryByText(/testnet/i)).toBeNull();
+    expect(screen.queryByText(/on Bitcoin/i)).toBeNull();
     expect(screen.getByRole('link', { name: /01\s*Sell \(Deposit\)/u })).toHaveAttribute(
       'href',
       '/deposits',
@@ -158,7 +160,9 @@ describe('MarketingLandingPage', () => {
       screen.getByText(/protocol law and proof readback decide state/u),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/protected source stays withheld until BTC finality and BTD rights transfer/u),
+      screen.getByText(
+        /protected source stays withheld until Bitcoin finality and BTD rights transfer/u,
+      ),
     ).toBeInTheDocument();
     expect(screen.getByText('Public Measures')).toBeInTheDocument();
     expect(screen.getByText('Private Source')).toBeInTheDocument();

@@ -66,11 +66,12 @@ export const BITCODE_PUBLIC_COPY = {
     rail: ['sell', 'buy', 'settle'],
   },
   // Marketing presents the commercial product as production — no testnet language.
+  // AssetPacks + BTD are ERC-1155 on Ethereum; purchase/settlement money is Bitcoin.
   testnetLaunch: {
     badge: 'Commercial Product',
-    title: 'Sell and buy AssetPacks on Bitcoin.',
+    title: 'Sell and buy AssetPacks with Bitcoin.',
     meaning:
-      'Measurements, quotes, settlement order, BTD rights, and delivery are live protocol state—trade AssetPacks with BTC.',
+      'Measurements, quotes, settlement order, BTD rights, and delivery are live protocol state—AssetPacks and BTD are ERC-1155 on Ethereum; purchase with Bitcoin.',
     flow: [
       {
         step: '01',
@@ -84,7 +85,7 @@ export const BITCODE_PUBLIC_COPY = {
         label: 'Buy (Read)',
         href: '/reads',
         detail:
-          'Write a Need, review fit measurements and the quote, then SettleAssetPack in BTC.',
+          'Write a Need, review fit measurements and the quote, then SettleAssetPack with Bitcoin.',
       },
       {
         step: '03',
@@ -97,7 +98,7 @@ export const BITCODE_PUBLIC_COPY = {
     trust:
       'Trust the proof: protocol law and proof readback decide state; the product surfaces explain it.',
     sourceSafety:
-      'Source-safe trade: buyers see measurements before pay; protected source stays withheld until BTC finality and BTD rights transfer.',
+      'Source-safe trade: buyers see measurements before pay; protected source stays withheld until Bitcoin finality and BTD rights transfer.',
   },
   operatorFrame: {
     title: 'AssetPack market',
