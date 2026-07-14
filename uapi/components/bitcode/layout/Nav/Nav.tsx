@@ -27,16 +27,18 @@ const MemoNotificationsWidget = React.memo(NotificationsWidget);
 const baseShadow = '[text-shadow:_0_0_6px_rgba(255,255,255,0.33)]';
 const hoverShadowClass = 'hover:[text-shadow:_0_0_12px_rgba(101,254,183,0.66),_0_0_20px_rgba(101,254,183,0.66)]';
 
-function useScrollPosition() {
+function useScrollPosition(thresholdPx = 10) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     let ticking = false;
 
+    const readScrolled = () => window.scrollY > thresholdPx;
+
     const handleScroll = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
-          const isScrolled = window.scrollY > 10;
+          const isScrolled = readScrolled();
           setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
           ticking = false;
         });
@@ -44,9 +46,11 @@ function useScrollPosition() {
       }
     };
 
+    // Sync initial paint (e.g. restore scroll / deep-link mid-page).
+    setScrolled(readScrolled());
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [thresholdPx]);
 
   return scrolled;
 }
@@ -425,7 +429,7 @@ export default function Nav() {
   return (
     <div className="relative">
       <div
-        className={`nav-container-global ${positionClass} z-50 ${usesWorkspaceOnlyChrome ? 'border-b border-white/8 bg-[rgba(4,8,18,0.92)] shadow-[0_18px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl' : ''} ${usesProductChrome ? 'bg-transparent shadow-none' : ''} ${!usesWorkspaceOnlyChrome && !usesProductChrome && isCollapsed ? 'nav-scrolled-bg' : ''} ${containerEntranceClassName} ${!usesWorkspaceOnlyChrome && !usesProductChrome && isCollapsed ? 'w-[80%]' : 'w-full'}`}
+        className={`nav-container-global ${positionClass} z-50 ${usesWorkspaceOnlyChrome ? 'border-b border-white/8 bg-[rgba(4,8,18,0.92)] shadow-[0_18px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl' : ''} ${usesProductChrome ? (isScrolled ? 'nav-product-scrolled-bg shadow-none' : 'bg-transparent shadow-none') : ''} ${!usesWorkspaceOnlyChrome && !usesProductChrome && isCollapsed ? 'nav-scrolled-bg' : ''} ${containerEntranceClassName} ${!usesWorkspaceOnlyChrome && !usesProductChrome && isCollapsed ? 'w-[80%]' : 'w-full'}`}
         style={{
           transformOrigin: 'center top',
           transform: transformValue,

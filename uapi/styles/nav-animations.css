@@ -227,6 +227,24 @@
   animation-duration: 3s !important;
 }
 
+/**
+ * Product / public fixed nav: when scrolled off top of page, a dark veil
+ * keeps READ / PACKS / DEPOSIT / Connect Wallet legible over content.
+ * 100% opaque at the top → 0% at the bottom; solid hold extends near the
+ * lower edge (~78%) so chrome sits fully in contrast before the fade.
+ */
+.nav-product-scrolled-bg {
+  background-image: linear-gradient(
+    to bottom,
+    rgb(0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 78%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  background-color: transparent;
+  box-shadow: none;
+  transition: background-image 180ms ease-out;
+}
+
 /* Ambient glow animation for the nav background */
 @keyframes nav-ambient-glow {
   0% {
