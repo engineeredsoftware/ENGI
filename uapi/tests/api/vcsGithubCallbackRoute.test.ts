@@ -139,4 +139,26 @@ describe('GitHub App callback handling', () => {
       'https://bitcode.exchange/tps/github/callback?code=abc&state=state-1',
     );
   });
+
+  it('stages installation when no Bitcode session is present', async () => {
+    (createClient as jest.Mock).mockResolvedValueOnce({
+      auth: {
+        getUser: jest.fn().mockResolvedValue({
+          data: { user: null },
+          error: null,
+        }),
+      },
+    });
+
+    const { GET } = await import('@/app/tps/github/app-install/route');
+    const staged = await GET(
+      new Request(
+        'https://bitcode.exchange/tps/github/app-install?installation_id=131722518&setup_action=install',
+      ) as any,
+    );
+    const stagedLocation = readHeader(staged, 'location') || '';
+    expect(stagedLocation).toContain('vcsConnection=installation_staged');
+    expect(stagedLocation).toContain('vcsSession=required');
+    expect(mockSaveConnection).not.toHaveBeenCalled();
+  });
 });

@@ -93,21 +93,39 @@ export function VCSConnectionCard({
       const data = await readJsonResponse(response);
 
       if (!response.ok) {
-        setStatus({ connected: false });
+        // Never leave the card in a hard-loading/broken state after provider
+        // errors (e.g. uninstalled GitHub App inventory failures).
+        setStatus({ connected: false, valid: false });
         onConnectionChange?.(false);
         return;
       }
 
       if (!data || typeof data.connected !== 'boolean') {
-        setStatus({ connected: false });
+        setStatus({ connected: false, valid: false });
         onConnectionChange?.(false);
         return;
       }
+
+      if (data.claimedInstallation?.claimed) {
+        toast.success(
+          data.claimedInstallation.account
+            ? `GitHub App installation linked for ${data.claimedInstallation.account}`
+            : 'GitHub App installation linked to Bitcode',
+        );
+      } else if (
+        data.claimedInstallation?.error &&
+        data.claimedInstallation.error !== 'session_required'
+      ) {
+        toast.error(
+          `Could not finish GitHub App install: ${String(data.claimedInstallation.error).slice(0, 160)}`,
+        );
+      }
       
       setStatus(data);
-      onConnectionChange?.(data.connected);
+      // Report attached (even if invalid) so Externals can show reconnect UX.
+      onConnectionChange?.(Boolean(data.connected));
     } catch {
-      setStatus({ connected: false });
+      setStatus({ connected: false, valid: false });
       onConnectionChange?.(false);
     } finally {
       setIsLoading(false);
@@ -152,6 +170,57 @@ export function VCSConnectionCard({
   useEffect(() => {
     checkConnection();
   }, [provider, instanceUrl]);
+
+  // Surface GitHub App callback outcomes that land back on Externals
+  // (?vcsConnection=installation_staged|failed|installation_connected).
+  useEffect(() => {
+    if (provider !== 'github' || typeof window === 'undefined') return;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const vcsConnection = params.get('vcsConnection');
+      const account = params.get('account');
+      const vcsError = params.get('vcsError');
+      if (!vcsConnection) return;
+
+      if (vcsConnection === 'installation_connected') {
+        toast.success(
+          account
+            ? `GitHub App connected for ${account}`
+            : 'GitHub App connected to Bitcode',
+        );
+      } else if (vcsConnection === 'installation_staged') {
+        toast.info(
+          'GitHub App installed. Sign in to Bitcode if needed — Bitcode will finish linking automatically.',
+        );
+        // Claim now that a session may exist on this page load.
+        void checkConnection();
+      } else if (vcsConnection === 'failed') {
+        toast.error(
+          vcsError
+            ? `GitHub connection failed: ${vcsError}`
+            : 'GitHub connection failed. Try reconnect or a personal access token.',
+        );
+      }
+
+      // Clean query noise so reloads do not re-toast.
+      params.delete('vcsConnection');
+      params.delete('vcsError');
+      params.delete('vcsErrorDescription');
+      params.delete('vcsSession');
+      params.delete('vcsProvider');
+      params.delete('installation_id');
+      params.delete('setup_action');
+      params.delete('account');
+      params.delete('repository_selection');
+      const next = params.toString();
+      const path = `${window.location.pathname}${next ? `?${next}` : ''}${window.location.hash || ''}`;
+      window.history.replaceState({}, '', path);
+    } catch {
+      // ignore malformed URL handling
+    }
+    // Intentionally once per mount for github cards.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [provider]);
   
   if (isLoading) {
     return (

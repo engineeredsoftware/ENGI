@@ -182,8 +182,16 @@ export default class GitHubProvider extends VCSProvider implements AbstractVCSPr
           return true;
         }
 
-        await octokit.users.getAuthenticated();
-        return true;
+        // Classic (ghp_) and fine-grained (github_pat_) personal tokens.
+        // Fine-grained tokens often lack "Read user" profile scope — fall
+        // back to a repository list probe so PAT connect still works.
+        try {
+          await octokit.users.getAuthenticated();
+          return true;
+        } catch {
+          await octokit.repos.listForAuthenticatedUser({ per_page: 1 });
+          return true;
+        }
       } catch {
         return false;
       }
@@ -200,16 +208,38 @@ export default class GitHubProvider extends VCSProvider implements AbstractVCSPr
   async getCurrentUser(auth: VCSAuth): Promise<VCSUser> {
     return this.executeWithResilience(async () => {
       const octokit = this.getOctokit(auth);
-      const { data } = await octokit.users.getAuthenticated();
+      try {
+        const { data } = await octokit.users.getAuthenticated();
 
-      return {
-        id: data.id.toString(),
-        username: data.login,
-        displayName: data.name || undefined,
-        email: data.email || undefined,
-        avatarUrl: data.avatar_url,
-        url: data.html_url
-      };
+        return {
+          id: data.id.toString(),
+          username: data.login,
+          displayName: data.name || undefined,
+          email: data.email || undefined,
+          avatarUrl: data.avatar_url,
+          url: data.html_url
+        };
+      } catch {
+        // Fine-grained PAT without profile scope: derive identity from a repo.
+        const { data: repos } = await octokit.repos.listForAuthenticatedUser({
+          per_page: 1,
+          affiliation: 'owner,collaborator,organization_member',
+        });
+        const owner = repos[0]?.owner;
+        if (!owner?.login) {
+          throw new VCSError(
+            'GitHub token is valid for repositories but cannot resolve a user profile. Grant Account → Read access to profile, or use a classic PAT with the `read:user` scope.',
+            'AUTH_ERROR',
+          );
+        }
+        return {
+          id: String(owner.id),
+          username: owner.login,
+          displayName: owner.login,
+          avatarUrl: owner.avatar_url,
+          url: owner.html_url,
+        };
+      }
     }, {
       operationName: 'getCurrentUser'
     });

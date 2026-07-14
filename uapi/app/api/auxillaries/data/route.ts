@@ -35,17 +35,29 @@ const getAuxillaryData = buildGetAuxillaryDataRoute({
 
     const valid = await validateStoredConnection(manager, 'github', connection).catch(() => false);
 
+    // Invalid / uninstalled GitHub App sessions must not attempt live inventory
+    // (provider 404s used to 500 this route and crash Auxillaries Externals).
     const { repositories, inventorySource } = await listBitcodeRepositoriesForConnection({
       supabase,
       userId,
       manager,
       provider: 'github',
       connection,
+      allowLiveInventory: valid,
     });
 
+    // Prefer post-validation connection row (may include regeneration diagnostics).
+    const refreshedConnection = valid
+      ? (await manager.getConnection(userId, 'github').catch(() => null)) || connection
+      : (await manager.getConnection(userId, 'github').catch(() => null)) || connection;
+
     return {
-      repositoryConnectionStatus: buildStoredConnectionStatus('github', connection, valid),
-      repositories,
+      repositoryConnectionStatus: buildStoredConnectionStatus(
+        'github',
+        refreshedConnection,
+        valid,
+      ),
+      repositories: valid ? repositories : [],
       repositoryInventorySource: inventorySource,
     };
   },

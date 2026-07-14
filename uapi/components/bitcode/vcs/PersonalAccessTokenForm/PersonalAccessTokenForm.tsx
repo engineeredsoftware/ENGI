@@ -79,14 +79,23 @@ export function PersonalAccessTokenForm({
       const data = await readJsonResponse(response);
       
       if (!response.ok) {
-        throw new Error((data && typeof data.error === 'string' && data.error) || 'Failed to connect');
+        throw new Error(
+          (data && typeof data.error === 'string' && data.error) ||
+            (response.status === 401
+              ? 'Sign in to Bitcode before connecting a personal access token.'
+              : 'Failed to connect'),
+        );
       }
 
       if (!data) {
         throw new Error('The connection endpoint returned an invalid response');
       }
       
-      toast.success(`Successfully connected to ${providerInfo.label}`);
+      toast.success(
+        data.connection?.username
+          ? `Connected to ${providerInfo.label} as ${data.connection.username}`
+          : `Successfully connected to ${providerInfo.label}`,
+      );
       setToken('');
       
       if (onSuccess) {

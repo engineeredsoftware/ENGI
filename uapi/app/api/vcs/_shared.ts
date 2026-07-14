@@ -392,6 +392,8 @@ export async function listBitcodeRepositoriesForConnection({
   provider,
   connection,
   instanceUrl,
+  /** When false, never hit the live provider (stale/uninstalled installs). */
+  allowLiveInventory = true,
 }: {
   supabase: SupabaseClient<any>;
   userId: string;
@@ -399,8 +401,11 @@ export async function listBitcodeRepositoriesForConnection({
   provider: VCSProviderType;
   connection: NonNullable<StoredConnection>;
   instanceUrl?: string;
+  allowLiveInventory?: boolean;
 }) {
-  const storedRepositories = await readStoredRepositoryInventory(supabase, userId, provider);
+  const storedRepositories = await readStoredRepositoryInventory(supabase, userId, provider).catch(
+    () => [] as VCSRepository[],
+  );
   if (storedRepositories.length > 0) {
     return {
       repositories: storedRepositories,
@@ -408,11 +413,34 @@ export async function listBitcodeRepositoriesForConnection({
     };
   }
 
-  const liveRepositories = await listLiveProviderRepositories(manager, provider, connection, instanceUrl);
-  await persistLiveRepositoryInventory(supabase, userId, provider, liveRepositories);
+  if (!allowLiveInventory) {
+    return {
+      repositories: [] as VCSRepository[],
+      inventorySource: 'stored_repository_inventory' as RepositoryInventorySource,
+    };
+  }
 
-  return {
-    repositories: liveRepositories,
-    inventorySource: 'live_provider_inventory' as RepositoryInventorySource,
-  };
+  try {
+    const liveRepositories = await listLiveProviderRepositories(
+      manager,
+      provider,
+      connection,
+      instanceUrl,
+    );
+    await persistLiveRepositoryInventory(supabase, userId, provider, liveRepositories).catch(
+      () => undefined,
+    );
+
+    return {
+      repositories: liveRepositories,
+      inventorySource: 'live_provider_inventory' as RepositoryInventorySource,
+    };
+  } catch {
+    // Uninstalled / revoked provider sessions must not 500 the Auxillaries
+    // Externals pane — return empty inventory so the UI can reconnect.
+    return {
+      repositories: [] as VCSRepository[],
+      inventorySource: 'stored_repository_inventory' as RepositoryInventorySource,
+    };
+  }
 }

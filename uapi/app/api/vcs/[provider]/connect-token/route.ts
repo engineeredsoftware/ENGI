@@ -43,12 +43,47 @@ export const POST = createRouteWrapper(async (request: Request, context: Provide
     accessToken: payload.token,
   };
 
-  const isValid = await vcsProvider.validateToken(auth);
+  let isValid = false;
+  try {
+    isValid = await vcsProvider.validateToken(auth);
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : 'Unable to validate the personal access token with the provider.',
+      },
+      { status: 400 },
+    );
+  }
   if (!isValid) {
-    return NextResponse.json({ error: 'Invalid token' }, { status: 400 });
+    return NextResponse.json(
+      {
+        error:
+          provider === 'github'
+            ? 'Invalid GitHub token. Use a classic PAT with `repo` + `read:user`, or a fine-grained PAT with repository access (and ideally Account → Read profile).'
+            : 'Invalid token',
+      },
+      { status: 400 },
+    );
   }
 
-  const vcsUser = await vcsProvider.getCurrentUser(auth);
+  let vcsUser;
+  try {
+    vcsUser = await vcsProvider.getCurrentUser(auth);
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : 'Token validated but the provider user profile could not be read.',
+      },
+      { status: 400 },
+    );
+  }
+
   const manager = new VCSConnections(supabase);
   const connectionId = await manager.saveConnection(user.id, provider, {
     accessToken: payload.token,
@@ -61,6 +96,8 @@ export const POST = createRouteWrapper(async (request: Request, context: Provide
       email: vcsUser.email,
       avatar_url: vcsUser.avatarUrl,
       url: vcsUser.url,
+      // Clear any prior app-install failure diagnostics when operator switches to PAT.
+      last_regeneration_error: null,
     },
   });
 

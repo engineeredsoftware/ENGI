@@ -49,11 +49,31 @@ export const GET = createRouteWrapper(async (request: Request, context: Provider
     });
   }
 
+  // Complete a GitHub App install that was staged while the session was absent
+  // (reinstall / account switch / cookie race on the App callback).
+  let claimedInstallation: {
+    claimed: boolean;
+    installationId?: number;
+    account?: string | null;
+    error?: string;
+  } | null = null;
+  if (provider === 'github') {
+    try {
+      const { claimPendingGitHubInstallation } = await import(
+        '@/app/tps/github/_callback-handler'
+      );
+      claimedInstallation = await claimPendingGitHubInstallation();
+    } catch {
+      claimedInstallation = null;
+    }
+  }
+
   const { manager, connection } = await getStoredConnection(supabase, user.id, provider);
   if (!connection) {
     const connectionStatus = buildDisconnectedConnectionStatus(provider);
     return NextResponse.json({
       ...connectionStatus,
+      claimedInstallation,
       providerReadiness: buildAuxillariesConnectionReadiness({
         provider,
         connectionStatus,
@@ -78,6 +98,7 @@ export const GET = createRouteWrapper(async (request: Request, context: Provider
 
   return NextResponse.json({
     ...connectionStatus,
+    claimedInstallation,
     providerReadiness: buildAuxillariesConnectionReadiness({
       provider,
       connection: refreshedConnection.connectionData,

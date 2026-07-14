@@ -176,6 +176,157 @@ async function persistGitHubInstallationConnection({
   return account;
 }
 
+const PENDING_INSTALLATION_COOKIE = 'bitcode_github_installation_pending';
+
+type PendingInstallationCookie = {
+  installation_id: number;
+  setup_action: string | null;
+  state: string | null;
+  account?: { login?: string | null };
+  captured_at?: string;
+};
+
+function readPendingInstallationCookie(): PendingInstallationCookie | null {
+  try {
+    const raw = cookies().get(PENDING_INSTALLATION_COOKIE)?.value;
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as PendingInstallationCookie;
+    const installationId = readPositiveInteger(parsed?.installation_id);
+    if (!installationId) return null;
+    return {
+      ...parsed,
+      installation_id: installationId,
+      setup_action: readString(parsed.setup_action),
+      state: readString(parsed.state),
+    };
+  } catch {
+    // Jest / non-request contexts have no Next cookie store.
+    return null;
+  }
+}
+
+function clearPendingInstallationCookie() {
+  try {
+    cookies().set(PENDING_INSTALLATION_COOKIE, '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 0,
+      path: '/',
+    });
+  } catch {
+    // ignore missing request cookie store
+  }
+}
+
+function stagePendingInstallation(
+  installationId: number,
+  setupFields: ReturnType<typeof collectInstallationCallbackFields>,
+  account: ReturnType<typeof resolveInstallationAccount>,
+) {
+  try {
+    cookies().set(
+      PENDING_INSTALLATION_COOKIE,
+      JSON.stringify({
+        installation_id: installationId,
+        setup_action: setupFields.setup_action,
+        state: setupFields.state,
+        account,
+        captured_at: new Date().toISOString(),
+      }),
+      {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 15 * 60,
+        path: '/',
+      },
+    );
+  } catch {
+    // ignore missing request cookie store
+  }
+}
+
+/**
+ * Complete a GitHub App installation that was staged while the operator had
+ * no Bitcode session (common after fresh install/reinstall). Safe to call
+ * repeatedly: no-ops when cookie absent or user missing.
+ */
+export async function claimPendingGitHubInstallation(): Promise<{
+  claimed: boolean;
+  installationId?: number;
+  account?: string | null;
+  error?: string;
+}> {
+  const pending = readPendingInstallationCookie();
+  if (!pending) {
+    return { claimed: false };
+  }
+
+  const userContext = await readOptionalUser();
+  if (!userContext?.user) {
+    return {
+      claimed: false,
+      installationId: pending.installation_id,
+      error: 'session_required',
+    };
+  }
+
+  const githubApp = createGitHubAppAuth();
+  if (!githubApp) {
+    return {
+      claimed: false,
+      installationId: pending.installation_id,
+      error: 'github_app_not_configured',
+    };
+  }
+
+  try {
+    const installation = await githubApp.getInstallation(pending.installation_id);
+    const tokenData = await githubApp.generateInstallationToken(pending.installation_id);
+    const setupFields = {
+      installation_id: String(pending.installation_id),
+      setup_action: pending.setup_action,
+      state: pending.state,
+      target_id: null,
+      target_type: null,
+    };
+    const account = await persistGitHubInstallationConnection({
+      userContext,
+      installation,
+      installationId: pending.installation_id,
+      setupFields,
+      tokenData,
+    });
+    clearPendingInstallationCookie();
+    bitcodeServerTelemetry('info', 'github-callback', 'installation-claimed', {
+      userId: compactBitcodeServerId(userContext.user.id),
+      installationId: pending.installation_id,
+      account: account.login,
+    });
+    return {
+      claimed: true,
+      installationId: pending.installation_id,
+      account: account.login,
+    };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'claim_failed';
+    bitcodeServerTelemetry('warn', 'github-callback', 'installation-claim-failed', {
+      installationId: pending.installation_id,
+      message,
+    });
+    // Drop a dead staged install (uninstalled / wrong app) so the UI can recover.
+    if (/\b40[134]\b/.test(message) || /not found/i.test(message)) {
+      clearPendingInstallationCookie();
+    }
+    return {
+      claimed: false,
+      installationId: pending.installation_id,
+      error: message,
+    };
+  }
+}
+
 async function handleInstallationCallback(request: Request) {
   const url = new URL(request.url);
   const installationId = readPositiveInteger(url.searchParams.get('installation_id'));
@@ -208,62 +359,68 @@ async function handleInstallationCallback(request: Request) {
     targetId: setupFields.target_id,
     targetType: setupFields.target_type,
   });
-  const installation = await githubApp.getInstallation(installationId);
-  const userContext = await readOptionalUser();
 
-  if (!userContext) {
-    cookies().set('bitcode_github_installation_pending', JSON.stringify({
-      installation_id: installationId,
-      setup_action: setupFields.setup_action,
-      state: setupFields.state,
-      account: resolveInstallationAccount(installation),
-      captured_at: new Date().toISOString(),
-    }), {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 15 * 60,
-      path: '/',
-    });
+  try {
+    const installation = await githubApp.getInstallation(installationId);
+    const userContext = await readOptionalUser();
 
-    bitcodeServerTelemetry('info', 'github-callback', 'installation-staged', {
+    if (!userContext) {
+      const account = resolveInstallationAccount(installation);
+      stagePendingInstallation(installationId, setupFields, account);
+      bitcodeServerTelemetry('info', 'github-callback', 'installation-staged', {
+        installationId,
+        account: account.login,
+      });
+      return buildConnectsRedirect(request, {
+        vcsProvider: 'github',
+        vcsConnection: 'installation_staged',
+        vcsSession: 'required',
+        installation_id: installationId,
+        setup_action: setupFields.setup_action,
+        account: account.login,
+      });
+    }
+
+    const tokenData = await githubApp.generateInstallationToken(installationId);
+    const account = await persistGitHubInstallationConnection({
+      userContext,
+      installation,
       installationId,
-      account: resolveInstallationAccount(installation).login,
+      setupFields,
+      tokenData,
+    });
+    clearPendingInstallationCookie();
+
+    bitcodeServerTelemetry('info', 'github-callback', 'installation-connected', {
+      userId: compactBitcodeServerId(userContext.user?.id),
+      installationId,
+      account: account.login,
+      repositorySelection:
+        readString(installation.repository_selection) || tokenData.repositorySelection,
     });
     return buildConnectsRedirect(request, {
       vcsProvider: 'github',
-      vcsConnection: 'installation_staged',
-      vcsSession: 'required',
+      vcsConnection: 'installation_connected',
       installation_id: installationId,
       setup_action: setupFields.setup_action,
-      account: resolveInstallationAccount(installation).login,
+      account: account.login,
+      repository_selection:
+        readString(installation.repository_selection) || tokenData.repositorySelection,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'installation_callback_failed';
+    bitcodeServerTelemetry('error', 'github-callback', 'installation-callback-failed', {
+      installationId,
+      message,
+    });
+    return buildConnectsRedirect(request, {
+      vcsProvider: 'github',
+      vcsConnection: 'failed',
+      vcsError: 'installation_callback_failed',
+      vcsErrorDescription: message.slice(0, 180),
+      installation_id: installationId,
     });
   }
-
-  const tokenData = await githubApp.generateInstallationToken(installationId);
-  const account = await persistGitHubInstallationConnection({
-    userContext,
-    installation,
-    installationId,
-    setupFields,
-    tokenData,
-  });
-
-  bitcodeServerTelemetry('info', 'github-callback', 'installation-connected', {
-    userId: compactBitcodeServerId(userContext.user?.id),
-    installationId,
-    account: account.login,
-    repositorySelection: readString(installation.repository_selection) || tokenData.repositorySelection,
-  });
-  return buildConnectsRedirect(request, {
-    vcsProvider: 'github',
-    vcsConnection: 'installation_connected',
-    installation_id: installationId,
-    setup_action: setupFields.setup_action,
-    account: account.login,
-    repository_selection:
-      readString(installation.repository_selection) || tokenData.repositorySelection,
-  });
 }
 
 async function saveOAuthConnection({
