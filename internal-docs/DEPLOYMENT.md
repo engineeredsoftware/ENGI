@@ -126,11 +126,18 @@ EMAIL_SMTP_URL=smtp://user:pass@smtp.sendgrid.net:587
 CONTACT_SUPPORT_EMAIL=support@bitcode.example
 
 # ============================================
-# FEATURE FLAGS (DEVELOPMENT)
+# MOCK FLAGS — production: all false / unset
 # ============================================
 NODE_ENV=production
+NEXT_PUBLIC_MASTER_MOCK_MODE=false
 NEXT_PUBLIC_ENABLE_MOCKS=false
+NEXT_PUBLIC_MOCK_USER_AUXILLARIES=false
 NEXT_PUBLIC_MOCK_CHAT_STREAM=false
+NEXT_PUBLIC_MOCK_GITHUB_ACCOUNTS=false
+NEXT_PUBLIC_MOCK_GITHUB_REPOS=false
+NEXT_PUBLIC_MOCK_GITHUB_BRANCHES=false
+NEXT_PUBLIC_MOCK_GITHUB_COMMITS=false
+# Feature mocks only apply when ENABLE_MOCKS (or MASTER) is true.
 ```
 
 ## Environment Variable Documentation
