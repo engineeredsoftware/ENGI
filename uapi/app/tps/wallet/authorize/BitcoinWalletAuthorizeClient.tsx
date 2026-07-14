@@ -23,10 +23,10 @@ type BitcoinWalletAuthorizeClientProps = {
   walletProviderHint: string;
 };
 
-const supportedHints = new Set(['xverse', 'leather', 'unisat', 'okx-bitcoin']);
+const supportedHints = new Set(['leather', 'xverse', 'unisat', 'okx-bitcoin']);
 const providerLabels: Record<BitcoinWalletProviderId, string> = {
-  xverse: 'Xverse',
   leather: 'Leather',
+  xverse: 'Xverse',
   unisat: 'UniSat',
   'okx-bitcoin': 'OKX Bitcoin',
 };

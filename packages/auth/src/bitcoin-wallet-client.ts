@@ -3,11 +3,32 @@ import { bitcodeQaTelemetry, compactBitcodeAddress } from './qa-telemetry';
 
 type UnknownRecord = Record<string, unknown>;
 
-export type BitcoinWalletProviderId = 'xverse' | 'unisat' | 'leather' | 'okx-bitcoin';
+export type BitcoinWalletProviderId = 'leather' | 'xverse' | 'unisat' | 'okx-bitcoin';
+
+/** Canonical UI order: Leather first, then Xverse, then others. */
+export const BITCOIN_WALLET_PROVIDER_DISPLAY_ORDER: readonly BitcoinWalletProviderId[] = [
+  'leather',
+  'xverse',
+  'unisat',
+  'okx-bitcoin',
+] as const;
 
 export interface BitcoinWalletProviderSummary {
   id: BitcoinWalletProviderId;
   label: string;
+}
+
+function sortBitcoinWalletProvidersByDisplayOrder<T extends { id: BitcoinWalletProviderId }>(
+  providers: T[],
+): T[] {
+  const rank = new Map(
+    BITCOIN_WALLET_PROVIDER_DISPLAY_ORDER.map((id, index) => [id, index] as const),
+  );
+  return [...providers].sort((left, right) => {
+    const leftRank = rank.get(left.id) ?? Number.MAX_SAFE_INTEGER;
+    const rightRank = rank.get(right.id) ?? Number.MAX_SAFE_INTEGER;
+    return leftRank - rightRank;
+  });
 }
 
 type BitcoinWalletProvider =
@@ -234,6 +255,16 @@ function detectDirectBitcoinWalletProviders(): BitcoinWalletProvider[] {
   if (!windowRecord) return [];
   const providers: BitcoinWalletProvider[] = [];
 
+  // Leather first (product display order).
+  const leather = asRecord(windowRecord.LeatherProvider);
+  if (typeof leather?.request === 'function') {
+    providers.push({
+      id: 'leather',
+      label: 'Leather',
+      request: leather.request.bind(leather) as Extract<BitcoinWalletProvider, { id: 'leather' }>['request'],
+    });
+  }
+
   const unisat = asRecord(windowRecord.unisat);
   if (typeof unisat?.requestAccounts === 'function') {
     providers.push({
@@ -243,15 +274,6 @@ function detectDirectBitcoinWalletProviders(): BitcoinWalletProvider[] {
       getNetwork: bindFunction(unisat, unisat.getNetwork),
       getChain: bindFunction(unisat, unisat.getChain),
       signMessage: bindFunction(unisat, unisat.signMessage),
-    });
-  }
-
-  const leather = asRecord(windowRecord.LeatherProvider);
-  if (typeof leather?.request === 'function') {
-    providers.push({
-      id: 'leather',
-      label: 'Leather',
-      request: leather.request.bind(leather) as Extract<BitcoinWalletProvider, { id: 'leather' }>['request'],
     });
   }
 
@@ -355,9 +377,10 @@ async function detectXverseProvider(): Promise<Extract<BitcoinWalletProvider, { 
 
 async function detectAvailableBitcoinWalletProviders(): Promise<BitcoinWalletProvider[]> {
   const providers: BitcoinWalletProvider[] = [];
+  // Direct providers first (Leather), then Xverse — sort enforces display order.
+  providers.push(...detectDirectBitcoinWalletProviders());
   const xverseProvider = await detectXverseProvider();
   if (xverseProvider) providers.push(xverseProvider);
-  providers.push(...detectDirectBitcoinWalletProviders());
 
   const seen = new Set<BitcoinWalletProviderId>();
   const dedupedProviders = providers.filter((provider) => {
@@ -365,11 +388,12 @@ async function detectAvailableBitcoinWalletProviders(): Promise<BitcoinWalletPro
     seen.add(provider.id);
     return true;
   });
-  bitcodeQaTelemetry('info', 'wallet-client', 'providers-detected', dedupedProviders.map((provider) => ({
+  const orderedProviders = sortBitcoinWalletProvidersByDisplayOrder(dedupedProviders);
+  bitcodeQaTelemetry('info', 'wallet-client', 'providers-detected', orderedProviders.map((provider) => ({
     id: provider.id,
     label: provider.label,
   })));
-  return dedupedProviders;
+  return orderedProviders;
 }
 
 export async function inspectBitcoinWalletProviders(): Promise<BitcoinWalletProviderSummary[]> {

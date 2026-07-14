@@ -283,8 +283,8 @@ describe('connectBitcoinWallet', () => {
     (window as any).LeatherProvider = { request: leatherRequest };
 
     await expect(inspectBitcoinWalletProviders()).resolves.toEqual([
-      { id: 'xverse', label: 'Xverse' },
       { id: 'leather', label: 'Leather' },
+      { id: 'xverse', label: 'Xverse' },
     ]);
 
     const connection = await connectBitcoinWallet('leather');
