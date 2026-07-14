@@ -4,10 +4,9 @@
  * Hierarchy:
  *   AssetPack (primitive) → MeasuredPatchAssetPack (this) → product options / settlement
  *
- * A measured patch carries:
- * - protocol identity + source binding + path+op patch (from asset-pack-generics)
- * - absolute/neediness measurements (Bitcode measurement law)
- * - provenant source path list (depositor-owned; still no raw source blobs)
+ * Measurement KINDS (nested carrier):
+ *   measurements: { absolutes: [...], needinesses: [...] }
+ * Deposit: needinesses always []. Read: needinesses populated; need-fit is composite.
  */
 
 import type {
@@ -26,21 +25,29 @@ export const MEASURED_PATCH_ASSET_PACK_SCHEMA =
 
 export type MeasuredPatchMeasurementCategory = 'absolute' | 'neediness';
 
+/** One absolute or neediness reading — magnitude + volume always required. */
 export interface MeasuredPatchMeasurement {
-  id: string;
+  id?: string;
   label: string;
   measurementKind: string;
   weight: number;
   volume: number;
-  category?: MeasuredPatchMeasurementCategory;
-  /** Raw count for size measurements (functions / types / files). */
-  magnitude?: number;
-  /** functions | types | files | estimate | normalized. */
-  unit?: string;
+  magnitude: number;
+  unit: string;
+  category: MeasuredPatchMeasurementCategory;
   evidenceRoot?: string;
+  rationale?: string;
 }
 
-/** Deposit-side preview of read demand (0..1 family); separate from absolute composite. */
+/** Nested measurement kinds object (canonical). */
+export interface MeasuredPatchMeasurementsByKind {
+  absolutes: MeasuredPatchMeasurement[];
+  needinesses: MeasuredPatchMeasurement[];
+}
+
+/**
+ * @deprecated Deposit must not use neediness preview. Read uses needinesses[].
+ */
 export interface MeasuredPatchNeedinessPreview {
   volume: number;
   demand: number;
@@ -50,23 +57,24 @@ export interface MeasuredPatchNeedinessPreview {
 
 /**
  * MeasuredPatchAssetPack — the only admitted AssetPack base implementation.
- * All synthesize/settle product pipelines produce or consume this shape.
  */
 export interface MeasuredPatchAssetPack extends AssetPack {
   identity: AssetPack['identity'] & {
     schema: typeof MEASURED_PATCH_ASSET_PACK_SCHEMA;
   };
-  /** Human title for review UIs (source-safe). */
   title: string;
-  /** Short source-safe summary. */
   summary: string;
-  /** Absolute (and optional neediness) measurements. */
-  measurements: MeasuredPatchMeasurement[];
+  /**
+   * Nested kinds: absolutes (always) + needinesses (read only; [] on deposit).
+   * Dual-compat: some paths still accept a flat MeasuredPatchMeasurement[] during migration.
+   */
+  measurements: MeasuredPatchMeasurementsByKind | MeasuredPatchMeasurement[];
   /** Weighted absolute composite when computed. */
   absoluteVolume?: number | null;
-  /** Read-demand preview (deposit earning estimate); null when unestimated. */
+  /**
+   * @deprecated Removed from deposit. Prefer measurements.needinesses on read.
+   */
   neediness?: MeasuredPatchNeedinessPreview | null;
-  /** Paths that become available for future reader settlement (no raw source). */
   provenantSourcePaths: string[];
   provenantSourceCount: number;
   writtenAssetKind?: typeof ASSET_PACK_WRITTEN_ASSET_KIND_READ_SATISFACTION;

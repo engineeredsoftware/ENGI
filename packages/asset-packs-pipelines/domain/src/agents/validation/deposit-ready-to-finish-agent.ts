@@ -24,6 +24,7 @@ import {
 import { resolveSourceCheckoutCatalog } from '../../resolve-source-checkout-catalog';
 import { projectInventoryForPrompt } from '../../asset-packs-synthesis';
 import { ensureDepositCheckoutSourceFiles } from '../../ensure-deposit-checkout-source-files';
+import { hasRequiredAbsolutes } from '../../asset-pack-measurements';
 
 const prompt = createDepositValidationPrompt();
 
@@ -110,8 +111,10 @@ function obfuscationComplianceIssues(
     if (!pack?.patch || !Array.isArray(pack.patch.fileChanges) || pack.patch.fileChanges.length === 0) {
       issues.push(`Pack "${pack?.title || '?'}" missing patch.fileChanges.`);
     }
-    if (!Array.isArray(pack?.absolutes) || pack.absolutes.length === 0) {
-      issues.push(`Pack "${pack?.title || '?'}" missing required measurements (absolutes).`);
+    if (!hasRequiredAbsolutes(pack)) {
+      issues.push(
+        `Pack "${pack?.title || '?'}" missing required measurements.absolutes (magnitude+volume).`,
+      );
     }
   }
   return issues;
@@ -164,7 +167,10 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
   const agentOutput = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
   const smokeIssues = smokeCheckAssetPacks(packs, forcedExclusions, obfuscatedPaths);
 
-  // Ensure measurements on every pack (required AssetPack element)
+  // Ensure nested measurements.absolutes on every pack (deposit needinesses = []).
+  const { attachNestedAbsolutes, resolvePackAbsolutes } = await import(
+    '../../asset-pack-measurements'
+  );
   const inventorySources = Array.isArray((catalog as any)?.sources)
     ? (catalog as any).sources
         .filter((s: any) => s && typeof s.path === 'string' && typeof s.content === 'string')
@@ -173,26 +179,33 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
   const discoveryMeasurements = findValue(execution, 'discovery', 'sourceMeasurements');
   await Promise.all(
     packs.map(async (pack: any) => {
-      if (Array.isArray(pack?.absolutes) && pack.absolutes.length > 0) return;
+      delete pack.needinessSignal;
+      delete pack.neediness;
+      if (resolvePackAbsolutes(pack).length > 0) {
+        attachNestedAbsolutes(pack, resolvePackAbsolutes(pack));
+        return;
+      }
       try {
+        let absolutes: any[];
         if (Array.isArray(discoveryMeasurements) && discoveryMeasurements.length > 0) {
-          pack.absolutes = discoveryMeasurements;
-          return;
+          absolutes = discoveryMeasurements;
+        } else {
+          absolutes = await measureAssetPackAbsolutes(
+            {
+              title: String(pack?.title ?? ''),
+              summary: String(pack?.summary ?? ''),
+              coveredSourcePaths: asPathList(pack?.coveredSourcePaths),
+              fileChanges: Array.isArray(pack?.patch?.fileChanges) ? pack.patch.fileChanges : undefined,
+              confidence: typeof pack?.confidence === 'number' ? pack.confidence : undefined,
+              patchSummary:
+                typeof pack?.patch?.patchSummary === 'string' ? pack.patch.patchSummary : undefined,
+            },
+            { lens: 'deposit', execution, sources: inventorySources },
+          );
         }
-        pack.absolutes = await measureAssetPackAbsolutes(
-          {
-            title: String(pack?.title ?? ''),
-            summary: String(pack?.summary ?? ''),
-            coveredSourcePaths: asPathList(pack?.coveredSourcePaths),
-            fileChanges: Array.isArray(pack?.patch?.fileChanges) ? pack.patch.fileChanges : undefined,
-            confidence: typeof pack?.confidence === 'number' ? pack.confidence : undefined,
-            patchSummary:
-              typeof pack?.patch?.patchSummary === 'string' ? pack.patch.patchSummary : undefined,
-          },
-          { lens: 'deposit', execution, sources: inventorySources },
-        );
+        attachNestedAbsolutes(pack, absolutes);
       } catch {
-        pack.absolutes = [];
+        attachNestedAbsolutes(pack, []);
       }
     }),
   );

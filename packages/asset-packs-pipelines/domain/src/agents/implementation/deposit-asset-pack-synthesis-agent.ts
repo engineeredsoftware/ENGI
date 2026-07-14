@@ -127,6 +127,10 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
     : [];
   const { measureAssetPackAbsolutes } = await import('../validation/agent-measure-absolutes');
 
+  const { attachNestedAbsolutes, resolvePackAbsolutes } = await import(
+    '../../asset-pack-measurements'
+  );
+
   for (const option of options) {
     const fileChanges = (option as any)?.patch?.fileChanges;
     if (Array.isArray(fileChanges)) {
@@ -141,13 +145,18 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
         }
       } catch {}
     }
-    // Required measurements element
-    if (!Array.isArray((option as any).absolutes) || (option as any).absolutes.length === 0) {
+    // Deposit: strip any model-emitted neediness (read-only measurement KIND).
+    delete (option as any).needinessSignal;
+    delete (option as any).neediness;
+
+    // Required nested measurements.absolutes (deposit needinesses always []).
+    if (resolvePackAbsolutes(option).length === 0) {
       try {
+        let absolutes: any[];
         if (Array.isArray(sourceMeasurements) && sourceMeasurements.length > 0) {
-          (option as any).absolutes = sourceMeasurements;
+          absolutes = sourceMeasurements;
         } else {
-          (option as any).absolutes = await measureAssetPackAbsolutes(
+          absolutes = await measureAssetPackAbsolutes(
             {
               title: String((option as any)?.title ?? ''),
               summary: String((option as any)?.summary ?? ''),
@@ -169,9 +178,12 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
             { lens: 'deposit', execution, sources: bodies },
           );
         }
+        attachNestedAbsolutes(option as any, absolutes);
       } catch {
-        (option as any).absolutes = [];
+        attachNestedAbsolutes(option as any, []);
       }
+    } else {
+      attachNestedAbsolutes(option as any, resolvePackAbsolutes(option));
     }
   }
 

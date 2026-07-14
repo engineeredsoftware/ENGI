@@ -1,9 +1,10 @@
 /**
  * @bitcode/generic-measurements-needinesses
  *
- * NeedinessesMeasureAgent base (hierarchy: Needinesses + MeasureAgent).
- * Gate 4: reader/Need-relative measurements. Surface reserved so product
- * settle/synthesis neediness can extend a real base package path.
+ * Needinesses measurement KIND base (hierarchy: Needinesses + MeasureAgent).
+ * Used only on **reading** paths. Deposit AssetPacks carry needinesses: [].
+ *
+ * Hybrid: static catalogue + dynamic inferred dimensions; need-fit = weighted mean.
  */
 
 import type { MeasurementCategory } from '@bitcode/measurement-generics';
@@ -14,14 +15,24 @@ export const NEEDINESSES_FRAMING =
   'You measure NEEDINESSES — READER-RELATIVE properties of digital material: how ' +
   'well the artifact fits a stated Need, demand, or buyer context. Needinesses are ' +
   'NOT absolute/intrinsic sizes; they depend on the reader and the Need. Do not ' +
-  'confuse neediness with absolute quantity or quality of the artifact alone.';
+  'confuse neediness with absolute quantity or quality of the artifact alone. ' +
+  'need-fit is a composite (weighted mean of needinesses), not a raw measurement target.';
 
 /**
- * Placeholder for factoryNeedinessesMeasureAgent (Gate 4).
+ * Placeholder for factoryNeedinessesMeasureAgent (read / Gate 4).
  * Product code must not invent a parallel neediness base outside this package.
  */
 export type NeedinessesMeasureAgentConfig = {
   name: string;
   subject: string;
-  // measurements: MeasurementSpec[] — wired when Gate 4 lands
+  // measurements: MeasurementSpec[] — wired when read synthesis lands
 };
+
+export {
+  ASSET_PACK_NEEDINESSES_CATALOG,
+  NEED_FIT_COMPOSITE_KIND,
+  computeNeedFitVolume,
+  type AssetPackNeedinessSpec,
+  type NeedinessPropertyClass,
+  type NeedinessReadingLike,
+} from './needinesses-catalog';

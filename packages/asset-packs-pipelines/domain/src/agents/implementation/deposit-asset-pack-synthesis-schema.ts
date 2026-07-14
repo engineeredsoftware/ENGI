@@ -2,9 +2,10 @@
  * Zod schemas for deposit-mode AssetPack synthesis agent output.
  *
  * AssetPack = patch + measurements + metadata.
- * LLM PTRR may omit absolutes; Implementation run wrapper MUST attach
- * `absolutes[]` (from Discovery source measurements or measureAssetPackAbsolutes)
- * before Validation. Validation fail-closes if measurements are missing.
+ * Nested measurement kinds:
+ *   measurements: { absolutes: [...], needinesses: [] }
+ * Deposit: needinesses always empty. LLM omits absolutes; Implementation host
+ * MUST attach measurements.absolutes before Validation.
  */
 
 import { z } from 'zod';
@@ -28,11 +29,10 @@ export const depositPatchSchema = z.object({
   patchSummary: z.string(),
 });
 
-// Neediness preview signal (v0): inputs from which neediness is COMPUTED downstream.
-export const depositNeedinessSignalSchema = z.object({
-  demand: z.coerce.number().min(0).max(1),
-  saturation: z.coerce.number().min(0).max(1),
-  rationale: z.string().min(10).max(400),
+/** Nested measurement kinds (host-attached absolutes on deposit). */
+export const depositMeasurementsByKindSchema = z.object({
+  absolutes: z.array(z.record(z.any())).optional(),
+  needinesses: z.array(z.record(z.any())).optional(),
 });
 
 export const depositCandidateSchema = z.object({
@@ -40,14 +40,27 @@ export const depositCandidateSchema = z.object({
   title: z.string().min(8).max(160),
   summary: z.string().min(40).max(900),
   coveredSourcePaths: z.array(z.string().min(1)).min(1).max(40),
-  // Optional legacy record; ignored when formal absolutes are present.
-  measurements: z.record(z.string(), z.coerce.number().min(0).max(1)).optional(),
+  /**
+   * Nested kinds object (canonical) OR legacy flat 0..1 record (ignored when
+   * nested absolutes are present).
+   */
+  measurements: z.union([depositMeasurementsByKindSchema, z.record(z.string(), z.coerce.number().min(0).max(1))]).optional(),
   measurementRationale: z.string().max(700).optional(),
-  /** Formal absolute measurements (attached by Implementation after PTRR). */
+  /** @deprecated Prefer measurements.absolutes — dual-write only. */
   absolutes: z.array(z.record(z.any())).optional(),
   confidence: z.coerce.number().min(0).max(1),
   patch: depositPatchSchema,
-  needinessSignal: depositNeedinessSignalSchema.optional(),
+  /**
+   * @deprecated Deposit must not emit neediness. Removed from product prompts;
+   * stripped by Implementation host if model still emits.
+   */
+  needinessSignal: z
+    .object({
+      demand: z.coerce.number().min(0).max(1),
+      saturation: z.coerce.number().min(0).max(1),
+      rationale: z.string().min(10).max(400),
+    })
+    .optional(),
 });
 
 export const depositCandidateSetSchema = z.object({

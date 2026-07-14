@@ -53,11 +53,38 @@ export function smokeCheckAssetPacks(
       issues.push(`AssetPack ${label} has a missing or out-of-range confidence (expected 0..1).`);
     }
 
-    const measurements = pack?.measurements;
-    if (!measurements || typeof measurements !== 'object' || Array.isArray(measurements)) {
-      issues.push(`AssetPack ${label} is missing its 0..1 measurements object.`);
+    // Nested kinds: measurements.absolutes[] (deposit needinesses must be empty/absent).
+    const nested = pack?.measurements;
+    const absolutes = Array.isArray(nested?.absolutes)
+      ? nested.absolutes
+      : Array.isArray(pack?.absolutes)
+        ? pack.absolutes
+        : null;
+    if (!absolutes || absolutes.length === 0) {
+      issues.push(`AssetPack ${label} is missing measurements.absolutes (required absolute kind).`);
     } else {
-      for (const [key, value] of Object.entries(measurements)) {
+      for (const row of absolutes) {
+        if (!isNum01(row?.volume)) {
+          issues.push(
+            `AssetPack ${label} absolute "${row?.measurementKind || '?'}" volume is not honest 0..1.`,
+          );
+        }
+        if (typeof row?.magnitude !== 'number' || !Number.isFinite(row.magnitude)) {
+          issues.push(
+            `AssetPack ${label} absolute "${row?.measurementKind || '?'}" missing required magnitude.`,
+          );
+        }
+      }
+    }
+    // Legacy flat 0..1 map (only when nested absolutes absent)
+    if (
+      nested &&
+      typeof nested === 'object' &&
+      !Array.isArray(nested) &&
+      !Array.isArray((nested as any).absolutes)
+    ) {
+      for (const [key, value] of Object.entries(nested)) {
+        if (key === 'absolutes' || key === 'needinesses') continue;
         if (!isNum01(value)) {
           issues.push(`AssetPack ${label} measurement "${key}" is not an honest 0..1 volume.`);
         }

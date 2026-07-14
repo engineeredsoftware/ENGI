@@ -19,7 +19,21 @@ function makePack(overrides: Record<string, any> = {}) {
     summary:
       'A bounded, source-safe capability slice covering session authentication and refresh.',
     coveredSourcePaths: ['src/auth/session.ts'],
-    measurements: { 'source-coverage': 0.7, 'demand-alignment': 0.6, 'reuse-likelihood': 0.5 },
+    // Nested measurement kinds (deposit needinesses empty). Host may still attach more.
+    measurements: {
+      absolutes: [
+        {
+          measurementKind: 'function-count',
+          label: 'Functions',
+          weight: 0.12,
+          volume: 0.3,
+          magnitude: 4,
+          unit: 'functions',
+          category: 'absolute',
+        },
+      ],
+      needinesses: [],
+    },
     measurementRationale: 'Covers the auth module knowledge end to end.',
     confidence: 0.8,
     patch: {
@@ -78,11 +92,12 @@ describe('runDepositValidationAgent (boundary-mocked PTRR + deterministic smoke 
   it('attaches the full formal absolutes catalog to each pack in place and re-stores the packs', async () => {
     setCleanVerdict();
     const exec = new Execution('validation-node');
-    const packs = [makePack()];
+    // No pre-attached absolutes — host measure must fill the full catalog.
+    const packs = [makePack({ measurements: undefined, absolutes: undefined })];
 
     await runDepositValidationAgent({ assetPacks: packs }, exec);
 
-    const absolutes = packs[0].absolutes;
+    const absolutes = packs[0].absolutes ?? packs[0].measurements?.absolutes;
     expect(Array.isArray(absolutes)).toBe(true);
     expect(absolutes.map((m: any) => m.measurementKind).sort()).toEqual(
       ASSET_PACK_ABSOLUTES_CATALOG.map((s) => s.measurementKind).sort(),
@@ -103,7 +118,7 @@ describe('runDepositValidationAgent (boundary-mocked PTRR + deterministic smoke 
   it('prefers inventory.sources (full checkout) over inventory.samples for size measurement', async () => {
     setCleanVerdict();
     const exec = new Execution('validation-node');
-    const packs = [makePack()];
+    const packs = [makePack({ measurements: undefined, absolutes: undefined })];
     const inventory = {
       paths: ['src/auth/session.ts'],
       // Full checkout content: 2 functions.
@@ -119,7 +134,8 @@ describe('runDepositValidationAgent (boundary-mocked PTRR + deterministic smoke 
 
     await runDepositValidationAgent({ assetPacks: packs, inventory }, exec);
 
-    const fn = packs[0].absolutes.find((m: any) => m.measurementKind === 'function-count');
+    const abs = packs[0].absolutes ?? packs[0].measurements?.absolutes ?? [];
+    const fn = abs.find((m: any) => m.measurementKind === 'function-count');
     expect(fn?.magnitude).toBe(2);
   }, 120000);
 
@@ -158,8 +174,8 @@ describe('runDepositValidationAgent (boundary-mocked PTRR + deterministic smoke 
 
     expect(result.recommendation).toBe('iterate');
     const issues = result.issues.join('\n');
-    expect(issues).toContain('missing its 0..1 measurements object');
-    expect(issues).toContain('measurement "source-coverage" is not an honest 0..1 volume');
+    expect(issues).toContain('missing measurements.absolutes');
+    expect(issues).toContain('is not an honest 0..1 volume');
     expect(issues).toContain('declares no coveredSourcePaths');
     expect(issues).toContain('has no patch descriptor with fileChanges (patch coherence)');
     expect(issues).toContain('missing a source-safe patchSummary');

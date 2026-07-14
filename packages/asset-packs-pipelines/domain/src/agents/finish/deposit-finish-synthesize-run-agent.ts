@@ -39,11 +39,19 @@ export default async function runDepositFinishSynthesizeRunAgent(input: any, exe
       summary: opt?.summary ?? null,
       coveredSourcePaths: opt?.coveredSourcePaths ?? [],
       confidence: opt?.confidence ?? null,
-      // patch + measurements + metadata (full AP shape for review)
+      // patch + measurements + metadata (nested kinds; deposit needinesses empty)
       patch: opt?.patch ?? null,
-      measurements: opt?.absolutes ?? opt?.measurements ?? [],
+      measurements:
+        opt?.measurements && typeof opt.measurements === 'object' && !Array.isArray(opt.measurements)
+          ? {
+              absolutes: opt.measurements.absolutes ?? opt?.absolutes ?? [],
+              needinesses: opt.measurements.needinesses ?? [],
+            }
+          : {
+              absolutes: opt?.absolutes ?? [],
+              needinesses: [],
+            },
       metadata: {
-        needinessSignal: opt?.needinessSignal ?? null,
         measurementRationale: opt?.measurementRationale ?? null,
       },
       selectable: true,

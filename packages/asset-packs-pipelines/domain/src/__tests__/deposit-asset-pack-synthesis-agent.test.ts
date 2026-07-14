@@ -19,7 +19,6 @@ const MOCK_OPTIONS = [
     summary:
       'A bounded, source-safe capability slice covering session authentication and token refresh flows.',
     coveredSourcePaths: ['src/auth/session.ts', 'src/auth/token.ts'],
-    measurements: { 'source-coverage': 0.72, 'demand-alignment': 0.61, 'reuse-likelihood': 0.55 },
     measurementRationale: 'Covers the complete auth module knowledge with reusable session handling.',
     confidence: 0.82,
     patch: {
@@ -29,11 +28,6 @@ const MOCK_OPTIONS = [
       ],
       patchSummary: 'Encodes the session lifecycle knowledge and its refresh entry points.',
     },
-    needinessSignal: {
-      demand: 0.8,
-      saturation: 0.3,
-      rationale: 'Auth session knowledge is demanded and underserved in the Depository.',
-    },
   },
   {
     kind: 'implementation-pattern',
@@ -41,17 +35,11 @@ const MOCK_OPTIONS = [
     summary:
       'A reusable implementation pattern for resilient retries with jittered exponential backoff over transport calls.',
     coveredSourcePaths: ['src/net/retry.ts'],
-    measurements: { 'source-coverage': 0.4, 'demand-alignment': 0.5, 'reuse-likelihood': 0.7 },
     measurementRationale: 'Bounded pattern knowledge that transfers to any transport layer.',
     confidence: 0.74,
     patch: {
       fileChanges: [{ path: 'src/net/legacy-retry.ts', op: 'delete' }],
       patchSummary: 'Encodes the resilient retry pattern replacing the legacy retry helper.',
-    },
-    needinessSignal: {
-      demand: 0.6,
-      saturation: 0.5,
-      rationale: 'Retry patterns see steady reading demand across depositor repositories.',
     },
   },
 ];
@@ -89,9 +77,14 @@ describe('runDepositAssetPackSynthesisAgent (boundary-mocked PTRR)', () => {
       expect(option.coveredSourcePaths.length).toBeGreaterThanOrEqual(1);
       expect(option.confidence).toBeGreaterThanOrEqual(0);
       expect(option.confidence).toBeLessThanOrEqual(1);
-      for (const value of Object.values(option.measurements)) {
-        expect(value).toBeGreaterThanOrEqual(0);
-        expect(value).toBeLessThanOrEqual(1);
+      // Nested measurement kinds: absolutes required; needinesses empty on deposit.
+      expect(Array.isArray(option.measurements?.absolutes)).toBe(true);
+      expect(option.measurements.absolutes.length).toBeGreaterThan(0);
+      expect(option.measurements.needinesses).toEqual([]);
+      for (const row of option.measurements.absolutes) {
+        expect(row.volume).toBeGreaterThanOrEqual(0);
+        expect(row.volume).toBeLessThanOrEqual(1);
+        expect(typeof row.magnitude).toBe('number');
       }
       // The SOURCE-SAFE patch descriptor: non-empty path+op fileChanges + summary.
       expect(Array.isArray(option.patch.fileChanges)).toBe(true);
@@ -102,12 +95,8 @@ describe('runDepositAssetPackSynthesisAgent (boundary-mocked PTRR)', () => {
       }
       expect(typeof option.patch.patchSummary).toBe('string');
       expect(option.patch.patchSummary.length).toBeGreaterThan(0);
-      // Neediness preview signal coerced into [0,1] with a bounded rationale.
-      expect(option.needinessSignal.demand).toBeGreaterThanOrEqual(0);
-      expect(option.needinessSignal.demand).toBeLessThanOrEqual(1);
-      expect(option.needinessSignal.saturation).toBeGreaterThanOrEqual(0);
-      expect(option.needinessSignal.saturation).toBeLessThanOrEqual(1);
-      expect(option.needinessSignal.rationale.length).toBeGreaterThanOrEqual(10);
+      // Deposit must not carry neediness.
+      expect(option.needinessSignal).toBeUndefined();
     }
 
     // Envelope unwrap (F27): reading `.options` off the returned output must yield

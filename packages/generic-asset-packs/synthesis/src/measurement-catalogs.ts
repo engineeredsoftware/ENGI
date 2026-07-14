@@ -60,13 +60,15 @@ export function measurementCatalogForLens(lens: AssetPacksSynthesisLens): AssetP
 }
 
 /**
- * The ABSOLUTES catalog (formalized non-needinesses).
+ * ABSOLUTES measurement KIND catalog (intrinsic digital-material properties).
  *
- * Absolute measurements are INTRINSIC properties of digital material:
  *   - Quantity — size, symbolic richness, modularity (Tool-authoritative)
  *   - Quality — objectives fidelity, correctness, computational usage (measure-agent)
  *
- * Weights sum to 1. Lens-shared; reading finalizes its own relative catalog separately.
+ * Weights sum to 1. Shared for deposit and read **absolute** readings.
+ * Every absolute reading must carry **magnitude + volume + unit + weight**.
+ * Needinesses are a **separate** measurement KIND (reading only) — see
+ * `@bitcode/generic-measurements-needinesses`.
  */
 export const ASSET_PACK_ABSOLUTES_CATALOG: AssetPackAbsoluteSpec[] = [
   // —— Quantity properties (Tool-authoritative sizes / structure) ——
@@ -78,7 +80,7 @@ export const ASSET_PACK_ABSOLUTES_CATALOG: AssetPackAbsoluteSpec[] = [
     weight: 0.12,
     propertyClass: 'quantity',
     guidance:
-      'QUANTITY · size: how many distinct functions/behaviors the synthesized patch encodes. magnitude = the count (static analysis).',
+      'QUANTITY · size: how many distinct functions/behaviors the synthesized patch encodes. magnitude = the count (static analysis); volume = normalized 0..1.',
   },
   {
     measurementKind: 'type-count',
@@ -88,7 +90,7 @@ export const ASSET_PACK_ABSOLUTES_CATALOG: AssetPackAbsoluteSpec[] = [
     weight: 0.1,
     propertyClass: 'quantity',
     guidance:
-      'QUANTITY · size: how many distinct types/interfaces/schemas the patch defines. magnitude = the count (static analysis).',
+      'QUANTITY · size: how many distinct types/interfaces/schemas the patch defines. magnitude = the count; volume = normalized 0..1.',
   },
   {
     measurementKind: 'file-span',
@@ -98,7 +100,7 @@ export const ASSET_PACK_ABSOLUTES_CATALOG: AssetPackAbsoluteSpec[] = [
     weight: 0.08,
     propertyClass: 'quantity',
     guidance:
-      'QUANTITY · size: how many files the patch creates/modifies (patch descriptor). magnitude = the count.',
+      'QUANTITY · size: how many files the patch creates/modifies. magnitude = the count; volume = normalized 0..1.',
   },
   {
     measurementKind: 'symbolic-richness',
@@ -108,7 +110,7 @@ export const ASSET_PACK_ABSOLUTES_CATALOG: AssetPackAbsoluteSpec[] = [
     weight: 0.12,
     propertyClass: 'quantity',
     guidance:
-      'QUANTITY · symbolic richness: how dense the material is in distinct symbols/identifiers (static analysis). magnitude = unique symbol count; volume normalizes richness per file.',
+      'QUANTITY · symbolic richness: magnitude = unique symbol count; volume normalizes richness per file.',
   },
   {
     measurementKind: 'modularity',
@@ -118,35 +120,38 @@ export const ASSET_PACK_ABSOLUTES_CATALOG: AssetPackAbsoluteSpec[] = [
     weight: 0.08,
     propertyClass: 'quantity',
     guidance:
-      'QUANTITY · modularity: how modular the material is (distinct path modules / top-level packages touched). magnitude = module count; volume rewards multi-module structure without sprawl.',
+      'QUANTITY · modularity: magnitude = module count; volume rewards multi-module structure without sprawl.',
   },
   // —— Quality properties (measure-agent judgment, grounded in quantities) ——
   {
     measurementKind: 'correctness-estimate',
     label: 'Correctness',
     unit: 'estimate',
+    hasMagnitude: true,
     weight: 0.18,
     propertyClass: 'quality',
     guidance:
-      'QUALITY · correctness: 0..1 fidelity and internal coherence of the synthesized knowledge — faithful to Discovery comprehension and buildable as described.',
+      'QUALITY · correctness: volume 0..1 fidelity/coherence; magnitude mirrors volume (always required).',
   },
   {
     measurementKind: 'objectives-fidelity',
     label: 'Objectives fidelity',
     unit: 'estimate',
+    hasMagnitude: true,
     weight: 0.16,
     propertyClass: 'quality',
     guidance:
-      'QUALITY · objectives: 0..1 how well the pack serves the deposit/read objectives (obfuscation guidance, demand context, Discovery intent) without leaking withheld material.',
+      'QUALITY · objectives: volume 0..1 serves deposit/read objectives without leakage; magnitude mirrors volume.',
   },
   {
     measurementKind: 'computational-usage',
     label: 'Computational usage',
     unit: 'estimate',
+    hasMagnitude: true,
     weight: 0.16,
     propertyClass: 'quality',
     guidance:
-      'QUALITY · computational-usage requirements: 0..1 estimated computational demand of the material (complexity of the knowledge surface: denser/richer packs score higher usage requirements).',
+      'QUALITY · computational-usage: volume 0..1 estimated computational demand; magnitude mirrors volume.',
   },
 ];
 
@@ -155,12 +160,12 @@ export const ASSET_PACK_ABSOLUTE_KINDS: string[] = ASSET_PACK_ABSOLUTES_CATALOG.
 );
 
 /**
- * Deposit neediness — read-demand PREVIEW. NOT a member of DEPOSIT_MEASUREMENT_CATALOG;
- * a separate, forward-looking estimate previewed beside the absolutes.
+ * @deprecated Deposit must not carry neediness. Needinesses are read-only
+ * measurement KIND rows under measurements.needinesses (see needinesses package).
  */
 export const DEPOSIT_NEEDINESS_MEASUREMENT = {
   measurementKind: 'neediness',
-  label: 'Neediness (est. read demand)',
+  label: 'Neediness (REMOVED from deposit)',
   guidance:
-    'Estimated reading demand the AssetPack would satisfy — the deposit-side preview of read Need-fit and earning potential. Computed from the depository-search demand signal and the supply scarcity it addresses.',
+    'Deprecated. Deposit AssetPacks use measurements.absolutes only; needinesses are read-path only.',
 } as const;

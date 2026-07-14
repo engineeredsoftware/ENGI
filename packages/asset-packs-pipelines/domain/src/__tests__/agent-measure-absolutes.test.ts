@@ -57,7 +57,8 @@ describe('agent-measure-absolutes', () => {
     expect(fileSpan?.unit).toBe('files');
     const correctness = measurements.find((m) => m.measurementKind === 'correctness-estimate');
     expect(correctness?.volume).toBe(0.82); // = confidence
-    expect(correctness?.magnitude).toBeUndefined(); // estimate unit carries no magnitude
+    // Absolute law: magnitude always present; quality mirrors volume.
+    expect(correctness?.magnitude).toBe(0.82);
   });
 
   it('maps agent readings onto the catalog and falls back per-missing-reading', () => {
@@ -98,7 +99,8 @@ describe('agent-measure-absolutes', () => {
       ]),
     );
     expect(quantity.every((s) => s.hasMagnitude)).toBe(true);
-    expect(quality.every((s) => !s.hasMagnitude)).toBe(true);
+    // Absolute law: magnitude always required (quality mirrors volume).
+    expect(quality.every((s) => s.hasMagnitude)).toBe(true);
   });
 
   it('builds a lens-parameterized measurer agent', () => {

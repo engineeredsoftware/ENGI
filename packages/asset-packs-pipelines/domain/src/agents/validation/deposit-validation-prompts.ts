@@ -39,9 +39,10 @@ const REQUIREMENTS = part(
     '',
     'B) AssetPack quality — each pack is patch + measurements + metadata:',
     '- Patch: non-empty fileChanges (path + op = create|modify|delete) and patchSummary; no raw code.',
-    '- Measurements: formal absolutes present and honest for kinds ' +
+    '- Measurements KINDS: deposit packs must have measurements.absolutes (not needinesses).',
+    '  Absolutes kinds: ' +
       ASSET_PACK_ABSOLUTES_CATALOG.map((spec) => spec.measurementKind).join(', ') +
-      ' (quantity/quality of digital material). Flag missing or invented-looking volumes without evidence.',
+      '. Each absolute reading requires magnitude AND volume (0..1). Needinesses are READ-ONLY — flag if present on deposit.',
     '- Metadata: title, summary, kind, confidence in [0,1], coveredSourcePaths from sourceCheckoutCatalog only.',
     '- Distinctness: packs are complementary knowledge slices, not near-duplicates.',
     '- Source-safety: no raw source, secrets, or file contents in titles/summaries/patchSummary.',

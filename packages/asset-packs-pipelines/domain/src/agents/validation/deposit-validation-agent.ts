@@ -125,8 +125,11 @@ export default async function runDepositValidationAgent(input: any, execution: a
   storeCrossPhaseArtifact(execution, 'validation/implementation', 'issues', result.issues);
   storeCrossPhaseArtifact(execution, 'validation', 'depositQuality', result);
 
-  // Backfill formal ABSOLUTES when Implementation did not attach them.
+  // Backfill nested measurements.absolutes when Implementation did not attach them.
   if (packs.length > 0) {
+    const { attachNestedAbsolutes, resolvePackAbsolutes } = await import(
+      '../../asset-pack-measurements'
+    );
     const catalogSources = Array.isArray((catalog as any)?.sources)
       ? (catalog as any).sources
           .filter((s: any) => s && typeof s.path === 'string' && typeof s.content === 'string')
@@ -138,7 +141,12 @@ export default async function runDepositValidationAgent(input: any, execution: a
         : [];
     await Promise.all(
       packs.map(async (pack: any) => {
-        if (Array.isArray(pack?.absolutes) && pack.absolutes.length > 0) return;
+        delete pack.needinessSignal;
+        delete pack.neediness;
+        if (resolvePackAbsolutes(pack).length > 0) {
+          attachNestedAbsolutes(pack, resolvePackAbsolutes(pack));
+          return;
+        }
         try {
           const absolutes = await measureAssetPackAbsolutes(
             {
@@ -152,8 +160,10 @@ export default async function runDepositValidationAgent(input: any, execution: a
             },
             { lens: 'deposit', execution, sources: catalogSources },
           );
-          pack.absolutes = absolutes;
-        } catch {}
+          attachNestedAbsolutes(pack, absolutes);
+        } catch {
+          attachNestedAbsolutes(pack, []);
+        }
       }),
     );
     storeCrossPhaseArtifact(execution, 'implementation', 'options', packs);

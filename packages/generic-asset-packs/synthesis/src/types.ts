@@ -1,13 +1,16 @@
 /**
  * SynthesizeAssetPacks measurement product types.
  *
+ * Measurement KINDS: absolutes | needinesses (nested carrier on AssetPacks).
  * Hierarchy: product measurement types over Measurement / MeasureAgent bases.
  */
 
 import type { MeasurementSpec } from '@bitcode/measurement-generics';
 
+/** @deprecated Prefer separate deposit/read product pipelines (no lens). */
 export type AssetPacksSynthesisLens = 'deposit' | 'read';
 
+/** Soft policy / legacy relative specs (not formal absolute or neediness kinds). */
 export interface AssetPackMeasurementSpec {
   measurementKind: string;
   label: string;
@@ -20,14 +23,47 @@ export type AbsolutePropertyClass = 'quantity' | 'quality';
 export interface AssetPackAbsoluteSpec extends MeasurementSpec {
   weight: number;
   propertyClass: AbsolutePropertyClass;
+  /** Always true under V48 absolute reading law (magnitude always required). */
+  hasMagnitude: true;
 }
 
+/**
+ * One absolute reading. **Always** carries magnitude + volume + unit + weight.
+ * Quantity: magnitude = raw count. Quality: magnitude mirrors volume (0..1).
+ */
 export interface AssetPackCandidateMeasurement {
   measurementKind: string;
   label: string;
   weight: number;
   volume: number;
-  category?: 'absolute' | 'neediness';
-  magnitude?: number;
-  unit?: string;
+  magnitude: number;
+  unit: string;
+  category: 'absolute';
+  rationale?: string;
+}
+
+/** One neediness reading (read path only). Same numeric law as absolutes for fields. */
+export interface AssetPackNeedinessMeasurement {
+  measurementKind: string;
+  label: string;
+  weight: number;
+  volume: number;
+  magnitude: number;
+  unit: string;
+  category: 'neediness';
+  rationale?: string;
+}
+
+/**
+ * Canonical nested measurement kinds object on an AssetPack / deposit option.
+ * Deposit: needinesses is always [].
+ * Read: needinesses populated; need-fit composite derived separately.
+ */
+export interface AssetPackMeasurementsByKind {
+  absolutes: AssetPackCandidateMeasurement[];
+  needinesses: AssetPackNeedinessMeasurement[];
+}
+
+export function emptyAssetPackMeasurements(): AssetPackMeasurementsByKind {
+  return { absolutes: [], needinesses: [] };
 }

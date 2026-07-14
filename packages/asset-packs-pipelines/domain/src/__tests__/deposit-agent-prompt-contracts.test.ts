@@ -226,10 +226,6 @@ const SPECS: DepositAgentPromptSpec[] = [
       'patch',
       'fileChanges',
       'patchSummary',
-      'needinessSignal',
-      'demand',
-      'saturation',
-      'rationale',
     ],
     ptrr: [
       'Plan: from the sourceCheckoutCatalog, Discovery comprehension (including absolute',
@@ -378,8 +374,10 @@ describe('Deposit SDIVF agent prompt contracts (boundary-mocked PTRR)', () => {
     const validationSystem = validationCalls[0].system;
 
     expect(synthesisSystem).toMatch(/patch \+ measurements \+ metadata/i);
-    expect(synthesisSystem).toMatch(/do NOT invent absolute measurement volumes/i);
+    expect(synthesisSystem).toMatch(/do NOT invent absolute/i);
     expect(synthesisSystem).toMatch(/sourceCheckoutCatalog/i);
+    expect(synthesisSystem).toMatch(/needinesses/i);
+    expect(synthesisSystem).not.toMatch(/needinessSignal/i);
     expect(synthesisSystem).not.toMatch(/Validation measures those/i);
 
     expect(validationSystem).toMatch(/ready-to-finish gate \(A\/B\/C\)/i);

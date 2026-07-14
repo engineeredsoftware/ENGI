@@ -238,18 +238,26 @@ function buildMeasurement(
   spec: AssetPackAbsoluteSpec,
   reading: { volume: number; magnitude?: number },
 ): AssetPackCandidateMeasurement {
-  const measurement: AssetPackCandidateMeasurement = {
+  const volume = clamp01(reading.volume);
+  // Absolute law: magnitude AND volume always present.
+  // Quantity: raw count. Quality: magnitude mirrors volume.
+  let magnitude: number;
+  if (spec.propertyClass === 'quantity' && Number.isFinite(reading.magnitude)) {
+    magnitude = Math.max(0, Math.round(Number(reading.magnitude)));
+  } else if (Number.isFinite(reading.magnitude)) {
+    magnitude = Number(reading.magnitude);
+  } else {
+    magnitude = volume;
+  }
+  return {
     measurementKind: spec.measurementKind,
     label: spec.label,
     weight: spec.weight,
-    volume: clamp01(reading.volume),
+    volume,
+    magnitude,
     category: 'absolute',
     unit: spec.unit,
   };
-  if (spec.hasMagnitude && Number.isFinite(reading.magnitude)) {
-    measurement.magnitude = Math.max(0, Math.round(Number(reading.magnitude)));
-  }
-  return measurement;
 }
 
 /**

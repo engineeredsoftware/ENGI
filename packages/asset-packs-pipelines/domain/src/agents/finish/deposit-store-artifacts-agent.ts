@@ -75,10 +75,17 @@ export default async function runDepositStoreArtifactsAgent(input: any, executio
       kind: opt?.kind,
       patch: opt?.patch,
       coveredSourcePaths: opt?.coveredSourcePaths,
-      absolutes: opt?.absolutes,
+      measurements:
+        opt?.measurements && typeof opt.measurements === 'object' && !Array.isArray(opt.measurements)
+          ? {
+              absolutes: opt.measurements.absolutes ?? opt?.absolutes ?? [],
+              needinesses: [],
+            }
+          : { absolutes: opt?.absolutes ?? [], needinesses: [] },
+      /** @deprecated dual-write of measurements.absolutes */
+      absolutes: opt?.absolutes ?? opt?.measurements?.absolutes,
       metadata: {
         confidence: opt?.confidence,
-        needinessSignal: opt?.needinessSignal,
         summary: opt?.summary,
       },
     })),

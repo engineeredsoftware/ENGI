@@ -84,7 +84,29 @@ These are commercially legible **knowledge groups**, not file dumps.
 
 ---
 
-## 2. Absolute measurements (the material-property law)
+## 2. Measurement KINDS (absolutes + needinesses)
+
+**Canonical carrier (nested):**
+
+```
+measurements: {
+  absolutes: AbsoluteReading[];      // intrinsic material properties
+  needinesses: NeedinessReading[];   // reader/Need-relative — READ ONLY
+}
+```
+
+| Kind | Deposit | Read |
+|------|---------|------|
+| **absolutes** | Required | Required (from deposit / re-measure) |
+| **needinesses** | Always `[]` | Static catalogue + dynamic per-Need; **need-fit** = weighted mean |
+
+**Absolute reading fields (always required):** `measurementKind`, `label`, `weight`,
+`volume` (0..1), `magnitude` (quantity = raw count; quality = mirrors volume), `unit`,
+`category: 'absolute'`.
+
+Digital material has properties. Bitcode **measures** them; models **do not invent** volumes.
+
+## 2.1 Absolute measurements (the material-property law)
 
 Digital material has properties. Bitcode **measures** them; models **do not invent** absolute volumes.
 
@@ -148,14 +170,12 @@ Stack:
 2. **`measureAssetPackAbsolutes` / SynthesizeAssetPacksAbsolutesMeasureAgent** — quality volumes grounded in quantity + source-safe descriptor.  
 3. Merge: quantity kinds tool-authoritative; quality from agent with deterministic fallback.
 
-### 2.4 Neediness (deposit-only preview — not an absolute)
+### 2.4 Needinesses (read-only measurement KIND)
 
-`neediness` is a **read-demand preview** for the depositor (earning estimate), **not** a member of `ASSET_PACK_ABSOLUTES_CATALOG`.
-
-- Inputs (v0): `needinessSignal { demand, saturation, rationale }` from Implementation, grounded in depository-search guidance.  
-- Downstream may compute a scalar neediness volume; shown **beside** absolutes, never substituted for them.
-
-Legacy soft priors (`source-coverage` / `demand-alignment` / `reuse-likelihood` as 0..1 records) may still appear as optional `measurements` maps in schemas; **formal law prefers `absolutes[]`**.
+Needinesses are **not** used on deposit. On read: static catalogue (e.g. language-fit,
+domain-fit, interface-fit) + dynamic inferred dimensions for the Need; **need-fit**
+is the weighted mean of needinesses volumes (`computeNeedFitVolume`). See SPEC
+measurement law and `@bitcode/generic-measurements-needinesses`.
 
 ---
 

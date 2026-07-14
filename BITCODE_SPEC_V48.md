@@ -290,11 +290,10 @@ AssetPack = patch + measurements + metadata
 
 - **Patch** — source-safe descriptor of digital material (`fileChanges[{path,op}]`,
   `patchSummary`). Path+op only; never raw code in prompts or default review payloads.
-- **Measurements** — formal **absolute** material-property readings (required on
-  every deposit option before Finish). Optional **neediness** is a deposit-side
-  read-demand **preview**, not an absolute.
+- **Measurements** — nested **measurement KINDS** object (see below). Measuring is
+  the most critical Bitcode subsystem: models do not invent measured values.
 - **Metadata** — commercially legible fields: `kind`, `title`, `summary`,
-  `coveredSourcePaths`, `confidence`, optional `needinessSignal`.
+  `coveredSourcePaths`, `confidence`.
 
 An AssetPack is **always** a completely synthesized artifact — never a raw
 source slice and never a bare path list. Product hierarchy:
@@ -304,6 +303,38 @@ envelope row / durable artifact projection.
 
 Deposit option `kind` (v0): `capability-slice` | `implementation-pattern` |
 `proof-operations-slice`. Implementation synthesizes **2–4** distinct options.
+
+### Measurement KINDS (canonical carrier)
+
+V48 admits **two** measurement kinds (more may be added later). Both are
+**kinds of measurements**, not separate commercial objects:
+
+```
+measurements: {
+  absolutes: AbsoluteReading[];     // intrinsic digital-material properties
+  needinesses: NeedinessReading[];  // reader/Need-relative (READ ONLY)
+}
+```
+
+| Kind | When used | Nature |
+|---|---|---|
+| **absolutes** | Deposit + read | Intrinsic properties of the patch/material; fixed product catalog |
+| **needinesses** | **Reading only** | Dynamic + static-catalogue reader-relative dimensions for a Need |
+
+**Deposit law:** `measurements.needinesses` is always `[]`. No `needinessSignal`,
+no deposit neediness preview, no inventing read-demand as a measurement kind on
+deposit packs.
+
+**Read law (outline; full Gate 4/read SPEC when that gate is active):**
+
+- Static **needinesses catalogue** includes fixed dimensions (e.g. `language-fit`,
+  `domain-fit`, `interface-fit`) with weights.
+- **Dynamic** needinesses may be inferred for the specific Read Request / Need
+  (additional named dimensions).
+- **`need-fit` is a composite**, not a raw catalogue target:  
+  `needFitVolume = weightedMean(needinesses[].volume)` using each row’s weight
+  (reading weight, else catalogue weight, else equal). BTD on read uses the
+  needinesses family / need-fit composite per settlement law.
 
 ### Absolute material-property catalog (`ASSET_PACK_ABSOLUTES_CATALOG`)
 
@@ -329,18 +360,19 @@ Canonical catalog in `@bitcode/generic-asset-packs-synthesis`
 | `objectives-fidelity` | Objectives fidelity | estimate | 0.16 | 0..1 serves deposit objectives; honors obfuscations/exclusions |
 | `computational-usage` | Computational usage | estimate | 0.16 | 0..1 estimated computational demand of the knowledge surface |
 
-#### Absolute reading shape (rebuild type)
+#### Absolute reading shape (rebuild type — all fields always required)
 
 ```
 {
-  measurementKind: string;   // catalog key exactly
+  measurementKind: string;   // catalog key exactly (e.g. function-count)
   label: string;
   weight: number;            // catalog weight
-  volume: number;            // 0..1 normalized
+  volume: number;            // 0..1 normalized — ALWAYS
+  magnitude: number;         // ALWAYS (quantity = raw count; quality = mirrors volume)
+  unit: string;              // functions|types|files|symbols|modules|estimate
   category: 'absolute';
-  magnitude?: number;        // raw count for quantity kinds
-  unit?: string;             // functions|types|files|symbols|modules|estimate
-  evidenceRoot?: string;     // optional audit root
+  rationale?: string;
+  evidenceRoot?: string;
 }
 ```
 
@@ -349,36 +381,35 @@ Canonical catalog in `@bitcode/generic-asset-packs-synthesis`
 | Phase | Law |
 |---|---|
 | Discovery `comprehend-codebase` | Measures **Host checkout material** → `discovery:sourceMeasurements` to ground the knowledge map |
-| Implementation | After PTRR, host **must** attach per-option `absolutes[]` (from Discovery measurements and/or `measureAssetPackAbsolutes` on pack descriptor + catalog sources) |
-| Validation ready-to-finish | **Fail-closed** if any pack lacks non-empty `absolutes[]`; may backfill then re-check |
-| LLM agent JSON | **Must not** invent absolute volumes |
+| Implementation | After PTRR, host **must** attach `measurements: { absolutes, needinesses: [] }` (from Discovery measurements and/or `measureAssetPackAbsolutes`) |
+| Validation ready-to-finish | **Fail-closed** if any pack lacks non-empty `measurements.absolutes` with magnitude+volume; may backfill then re-check |
+| LLM agent JSON | **Must not** invent absolute or neediness volumes on deposit |
 
 Stack: `SourceStaticAnalysisTool` (quantity) → `measureAssetPackAbsolutes` /
 `SynthesizeAssetPacksAbsolutesMeasureAgent` (quality grounded in quantity) →
-merge (quantity tool-authoritative).
+merge (quantity tool-authoritative). Package map:
+`@bitcode/measurement-generics`, `@bitcode/generic-measurements-absolutes`,
+`@bitcode/generic-measurements-needinesses`, `@bitcode/generic-asset-packs-synthesis`.
 
-### Neediness (deposit preview — not an absolute)
+### Needinesses (read-only measurement KIND)
 
-`neediness` / `needinessSignal` is a **read-demand preview** for depositors
-(earning estimate). It is **not** a member of `ASSET_PACK_ABSOLUTES_CATALOG`.
+Needinesses live under `measurements.needinesses[]` with the **same numeric
+field law** (magnitude + volume always; category `'neediness'`).
 
-- Inputs (v0): `{ demand, saturation, rationale }` grounded in depository-search
-  guidance (and optional settled-Depository estimate post-synthesis).
-- Formula (product): `volume = clamp01(demand × (0.5 + 0.5×(1−saturation)))`.
-- Shown **beside** absolutes; never substitutes for them. When settled corpus is
-  thin: **Unestimatable** — never invent percentages.
+| Concern | Law |
+|---|---|
+| Deposit | Always empty `needinesses: []`; no deposit neediness preview |
+| Static catalogue | e.g. language-fit, domain-fit, interface-fit (`ASSET_PACK_NEEDINESSES_CATALOG`) |
+| Dynamic | Additional dimensions may be inferred for the specific Read/Need |
+| need-fit composite | `computeNeedFitVolume(needinesses)` = weighted mean of neediness volumes; **not** a raw measure-agent target |
+| BTD (read) | Settlement BTD from needinesses / need-fit family after Need acceptance |
 
-### Relative / commercial visualization catalogs
+### Relative / commercial visualization (policy, not measurement kinds)
 
-In addition to formal absolutes, product surfaces project source-safe commercial
-measurements (coverage, specificity, novelty, reuse, risk, evidence, fit,
-delivery readiness) for seller/buyer visualization. Relative catalogs differ by
-product path:
-
-- Deposit soft priors / policy rows may include source-coverage, demand-alignment,
-  reuse-likelihood as **policy** inputs — formal law prefers `absolutes[]`.
-- Read path extends with **Need-relative fit** measurements; final BTD is the
-  weighted sum over **fit-only** readings after Need acceptance.
+Product UI may still project commercial policy rows (criticality, ROI, settled
+demand **Unestimatable** vs grounded estimate for **earnings panels**). Those are
+**not** `measurements.needinesses` and must not be confused with the measurement
+KIND taxonomy.
 
 ### Measurement prompt rule
 
