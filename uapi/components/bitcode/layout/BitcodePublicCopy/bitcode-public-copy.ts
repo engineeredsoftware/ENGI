@@ -138,8 +138,7 @@ export const BITCODE_PUBLIC_COPY = {
       },
       {
         label: 'BTD fungible',
-        detail:
-          "Mint volume from needinesses' normalized weighted sum: the Final Fit score.",
+        detail: "Mint volume from needinesses' normalized weighted sum.",
       },
       {
         label: 'AssetPack NFTs',
