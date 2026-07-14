@@ -204,7 +204,7 @@ Filesystem contract: [`internal-docs/BITCODE_SOURCE_LAYOUT.md`](internal-docs/BI
 
 1. Read `AGENTS.md` and `BITCODE_SPEC_V48.md` for the gate you touch.
 2. Branch from `version/v48`: `v48/gate-N-<topic>`.
-3. Commit titles: `V48 Gate N (specification-only|implementation-only|specification-implementation): …`
+3. Commit subjects (≤72 chars): `V48 Gate N (spec-only|impl-only|spec-impl): …` — put detail in the body
 4. Do not push straight to `main`. Gate PR → `version/v48`; version PR → `main` only at promotion.
 5. Keep CI green: Gate Quality, lint/typecheck, unit tests, Spec Basics.
 

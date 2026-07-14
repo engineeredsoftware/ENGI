@@ -233,26 +233,28 @@ If a reviewer would read to open source or generated JSON just to discover what 
 ## 2.8 Specification/Implementation Commit Categorization
 
 Complete Implementation Derivability is enforced commit by commit. Every commit
-and gate pull-request title declares its specification/implementation category —
-exactly one of `specification-only`, `implementation-only`, or
-`specification-implementation` — as a parenthetical immediately after the version
-and gate prefix, for example `V48 Gate 3 (implementation-only): ...`.
+and gate pull-request **subject line** declares its specification/implementation
+category as a short parenthetical immediately after the version and gate prefix —
+exactly one of:
 
-- `specification-only` changes touch only specification artifacts (the
- `BITCODE_SPEC_*` family and the version notes).
-- `implementation-only` changes touch only implementation (source, tests,
- tooling, scripts).
-- `specification-implementation` changes touch both in the same commit, keeping
- the implementation derivable from the specification.
+| Parenthetical | Meaning |
+| --- | --- |
+| `(spec-only)` | specification-only — only the `BITCODE_SPEC_*` family / version notes |
+| `(impl-only)` | implementation-only — source, tests, tooling, scripts |
+| `(spec-impl)` | specification-implementation — both in lockstep |
 
-A change that alters both kinds is committed as a single
-`specification-implementation` commit, or split into a `specification-only` and
-an `implementation-only` commit — never an unlabeled mix. An `implementation-only`
-change that introduces behavior not yet derivable from the current specification
-is incomplete: the specification must be brought to cover it (as
-`specification-only` or `specification-implementation`) so that no implementation
-outruns its spec. The specification↔implementation relationship of every change is
-thereby auditable from the commit history alone.
+Example: `V48 Gate 3 (impl-only): Rename deposit input to Obfuscations`.
+
+**Subject length:** keep the first line under **72 characters**. Put proof
+commands, file lists, and longer rationale in the commit body when needed.
+
+A change that alters both kinds is committed as a single `(spec-impl)` commit,
+or split into a `(spec-only)` and an `(impl-only)` commit — never an unlabeled
+mix. An `(impl-only)` change that introduces behavior not yet derivable from the
+current specification is incomplete: the specification must be brought to cover
+it (as `(spec-only)` or `(spec-impl)`) so that no implementation outruns its
+spec. The specification↔implementation relationship of every change is thereby
+auditable from the commit history alone.
 
 When a change alters package families, inheritance hierarchy, experience entry
 paths, product routes, or other structure that `FAMILIARIZATION.md` teaches,

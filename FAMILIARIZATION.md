@@ -89,13 +89,15 @@ from the active family alone — no silent inheritance from older specs or sourc
 
 ### 2.2 Commit law
 
-Every commit / gate PR title declares exactly one of:
+Every commit / gate PR **subject** (≤72 chars) declares exactly one of:
 
-- `(specification-only)`
-- `(implementation-only)`
-- `(specification-implementation)`
+- `(spec-only)` — specification only
+- `(impl-only)` — implementation only
+- `(spec-impl)` — specification + implementation
 
-Example: `V48 (implementation-only): Extract ReadsNeedReviewPanel`.
+Example: `V48 (impl-only): Extract ReadsNeedReviewPanel`.
+
+Put proof commands and longer rationale in the commit body.
 
 ### 2.3 Branches
 
@@ -876,7 +878,7 @@ Update `FAMILIARIZATION.md` when:
 
 Prefer **accurate, short section edits** over rewriting the whole file each time.
 Land the edit with the structural change (same commit or accompanying
-`specification-implementation` / documentation commit).
+`(spec-impl)` / documentation commit).
 
 ---
 
@@ -1072,7 +1074,7 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 | **PROVEN** | Generated proof appendix / `.bitcode/vN-*` artifacts. |
 | **QA finding tag** | Fully-qualified `V48-GateN-F*` in code comments and QA ledger (never bare `F26-B`). |
 | **Spec family** | Hand-authored SPEC + DELTA + NOTES + PARITY (+ PROVEN) for a version. |
-| **`(specification-only)` / `(implementation-only)` / `(specification-implementation)`** | Required commit/PR category labels after the version/gate prefix. |
+| **`(spec-only)` / `(impl-only)` / `(spec-impl)`** | Required short commit/PR category labels after the version/gate prefix (subject ≤72 chars). |
 | **Source-bearing** | Implementation that proves a SPEC claim (listed in G3-14 / parity). |
 | **Version branch** | Long-lived draft line `version/v48` (not product source versioning). |
 
