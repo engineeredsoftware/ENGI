@@ -1,8 +1,16 @@
 # Packs experience (`Packs*`)
 
-Network-scope PackActivity master-detail for `/packs`: portfolio positions,
-market intelligence, searchable activity grid, and source-safe detail
-(settlement, rights, compensation, delivery, repair, proof roots).
+Network-scope PackActivity master-detail for `/packs` — aligned with
+`/deposits` and `/reads`: compact route header metrics + drill-in main
+(table master → select AssetPack → rich detail + Back).
+
+## Master-detail (shared product pattern)
+
+| Route | Master | Detail | Back |
+| --- | --- | --- | --- |
+| `/packs` | Activity table + compact portfolio strip | Source-safe AP detail grid | Back to Packs |
+| `/deposits` | Pipelines table | Source + Obfuscations + options | Back to Deposit |
+| `/reads` | Pipelines table | Source + Need + options | Back to Read |
 
 ## Layout
 
@@ -13,32 +21,21 @@ packs/
     packs-format.ts                    # pure formatters, sort/type/facet catalogs
     packs-activity-types.ts            # API payload types
   PacksPageClient/
-    PacksPageClient.tsx                # thin orchestration (shell + sections)
+    PacksPageClient.tsx                # thin orchestration (shell + drill-in)
     hooks/
       use-packs-activity.ts            # network-scope fetch/refresh
       use-packs-route-params.ts        # URL read/write
-  PacksPortfolioOverview/
-    PacksPortfolioOverview.tsx         # positions + market signals
-  PacksActivityMaster/
-    PacksActivityMaster.tsx            # master shell: filters + table + totals
+  PacksActivityMaster/                 # master chrome: Back + table/filters
+  PacksPortfolioStrip/                 # compact positions/signals/filters strip
   PacksActivityFilterBar/
-    PacksActivityFilterBar.tsx         # keyboard hint, search/sort, facets
   PacksActivityTable/
-    PacksActivityTable.tsx             # activity data grid + row states
-  PacksActivityDetail/
-    PacksActivityDetail.tsx            # detail aside shell (overview/measurements)
+  PacksActivityDetail/                 # main + aside layouts for drill-in
   PacksActivityDetailStates/
-    PacksActivityDetailStates.tsx      # state readback + repair surface
   PacksActivityDetailAccounting/
-    PacksActivityDetailAccounting.tsx  # BTD/BTC accounting readback
   PacksActivityDetailGovernance/
-    PacksActivityDetailGovernance.tsx  # authority / governance readback
   PacksActivityDetailProofRoots/
-    PacksActivityDetailProofRoots.tsx  # expandable proof roots
   PacksDetailSection/
-    PacksDetailSection.tsx             # titled section chrome for detail
   PacksStatusPill/
-    PacksStatusPill.tsx                # status chip (React; not in models/)
 ```
 
 Page shell: `uapi/app/packs/` (metadata + re-export only).

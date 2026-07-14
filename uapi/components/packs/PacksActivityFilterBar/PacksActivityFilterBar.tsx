@@ -45,28 +45,23 @@ export function PacksActivityFilterBar({
 }: PacksActivityFilterBarProps) {
   return (
     <>
-      <div className="border-b border-white/10 px-4 py-3">
+      <div className="border-b border-white/10 px-3 py-2">
         <ProductRouteKeyboardHint
           testId="packs-keyboard-navigation"
           tone="emerald"
           shortcuts={[
             {
               keys: "Tab",
-              label: "Move through filters, rows, and detail controls.",
+              label: "Move through filters and activity rows.",
             },
             {
               keys: "Enter",
-              label:
-                "Select focused position, signal, filter, or activity row.",
-            },
-            {
-              keys: "Space",
-              label: "Open or close expandable proof detail.",
+              label: "Open the focused AssetPack into detail.",
             },
           ]}
         />
       </div>
-      <div className="grid gap-3 border-b border-white/10 p-4 laptop:grid-cols-[minmax(220px,1fr)_170px_150px_150px_auto]">
+      <div className="grid gap-2 border-b border-white/10 p-3 laptop:grid-cols-[minmax(220px,1fr)_170px_150px_150px_auto]">
         <label className="relative min-w-0">
           <span className="sr-only">Search pack activity</span>
           <Search

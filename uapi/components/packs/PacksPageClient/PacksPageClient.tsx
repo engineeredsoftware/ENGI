@@ -3,24 +3,22 @@
 /**
  * Packs experience page client — thin orchestration for /packs.
  *
- * Network-scope PackActivity master-detail: portfolio overview, filters/table,
- * and source-safe detail. Data fetch lives in `use-packs-activity`; URL state
- * in `use-packs-route-params`.
+ * Deposit/Read parity: compact ProductRouteShell header metrics + drill-in
+ * master-detail (table master → select AssetPack row → rich detail + Back).
+ * Network-scope PackActivity only. Fetch in `use-packs-activity`; URL in
+ * `use-packs-route-params`.
  */
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { Package } from "lucide-react";
 
-import {
-  ProductRouteEnterpriseSummary,
-  ProductRouteShell,
-} from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";
+import { ProductRouteShell } from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";
 import { formatCount } from "@/components/packs/models/packs-format";
 import { usePacksActivity } from "./hooks/use-packs-activity";
 import { usePacksRouteParams } from "./hooks/use-packs-route-params";
-import { PacksPortfolioOverview } from "@/components/packs/PacksPortfolioOverview/PacksPortfolioOverview";
 import { PacksActivityMaster } from "@/components/packs/PacksActivityMaster/PacksActivityMaster";
 import { PacksActivityDetail } from "@/components/packs/PacksActivityDetail/PacksActivityDetail";
+import { PacksPortfolioStrip } from "@/components/packs/PacksPortfolioStrip/PacksPortfolioStrip";
 
 export default function PacksPageClient() {
   const {
@@ -44,7 +42,10 @@ export default function PacksPageClient() {
     refresh,
   } = usePacksActivity(routeParams);
 
-  const selectedId = detail?.id || detailId || records[0]?.id || null;
+  // Drill-in selection is URL-driven only (deposit/read twin) — do not
+  // auto-open the first row into detail on list view.
+  const isDetailOpen = Boolean(detailId);
+  const selectedId = detailId || null;
   const hasRows = records.length > 0;
   const topTypes = useMemo(
     () =>
@@ -56,95 +57,90 @@ export default function PacksPageClient() {
     [summary],
   );
 
+  const closeDetail = useCallback(() => {
+    writeParams({ detailId: null });
+  }, [writeParams]);
+
   return (
     <ProductRouteShell
       testId="route-shell-packs"
       tone="emerald"
       label="Packs"
       title="Pack activity"
-      summary="Portfolio positions, market signals, proof roots, settlement, compensation, delivery, repair."
+      summary="Network AssetPack ledger: select a row for source-safe proof, settlement, compensation, and delivery."
       icon={Package}
       metrics={[
-        { label: "Rows", value: formatCount(summary?.total || records.length) },
+        {
+          label: "Rows",
+          description:
+            "How many PackActivity rows match the current filters in the network ledger.",
+          value: isLoading
+            ? "reading"
+            : formatCount(summary?.total || records.length),
+        },
         {
           label: "Positions",
+          description:
+            "Distinct AssetPack portfolio positions derived from network activity.",
           value: formatCount(marketIntelligence?.positions.length || 0),
         },
         {
           label: "Signals",
+          description:
+            "Market intelligence signals (demand, supply, settlement, repair).",
           value: formatCount(marketIntelligence?.signals.length || 0),
         },
         {
           label: "Settlement",
+          description: "Rows with settlement posture ready for inspection.",
           value: formatCount(summary?.settlementReady || 0),
         },
         {
           label: "Compensation",
+          description:
+            "Rows with contributor/depositor allocation readback ready.",
           value: formatCount(summary?.compensationReady || 0),
         },
       ]}
     >
-      <ProductRouteEnterpriseSummary
-        testId="packs-enterprise-economic-summary"
-        tone="emerald"
-        title="Enterprise economy overview"
-        metrics={[
-          {
-            label: "Portfolio rows",
-            value: formatCount(summary?.total || records.length),
-            state: "activity",
-            description: "Searchable source-safe PackActivity rows.",
-          },
-          {
-            label: "Market signals",
-            value: formatCount(marketIntelligence?.signals.length || 0),
-            state: "demand/supply",
-            description:
-              "Reading demand, supply, settlement, and repair signals.",
-          },
-          {
-            label: "Settlement ready",
-            value: formatCount(summary?.settlementReady || 0),
-            state: "quote/finality",
-            description: "Rows with settlement posture ready for inspection.",
-          },
-          {
-            label: "Compensation ready",
-            value: formatCount(summary?.compensationReady || 0),
-            state: "source-to-shares",
-            description:
-              "Rows with contributor/depositor allocation readback.",
-          },
-        ]}
-      />
-
-      <PacksPortfolioOverview
-        marketIntelligence={marketIntelligence}
+      <PacksActivityMaster
+        isDetailOpen={isDetailOpen}
+        onCloseDetail={closeDetail}
+        routeParams={routeParams}
+        search={search}
+        type={type}
+        state={state}
+        sort={sort}
+        direction={direction}
+        records={records}
+        selectedId={selectedId}
         isLoading={isLoading}
+        error={error}
+        topTypes={topTypes}
+        hasRows={hasRows}
         onWriteParams={writeParams}
+        onRefresh={() => {
+          void refresh();
+        }}
       />
 
-      <section className="grid gap-5 xl:grid-cols-[minmax(0,1.5fr)_minmax(420px,0.9fr)]">
-        <PacksActivityMaster
-          routeParams={routeParams}
-          search={search}
-          type={type}
-          state={state}
-          sort={sort}
-          direction={direction}
-          records={records}
-          selectedId={selectedId}
+      {!isDetailOpen ? (
+        <PacksPortfolioStrip
+          marketIntelligence={marketIntelligence}
           isLoading={isLoading}
-          error={error}
-          topTypes={topTypes}
-          hasRows={hasRows}
           onWriteParams={writeParams}
-          onRefresh={() => {
-            void refresh();
-          }}
         />
-        <PacksActivityDetail detail={detail} />
-      </section>
+      ) : null}
+
+      {isDetailOpen ? (
+        <section
+          className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]"
+          data-testid="packs-run-detail"
+        >
+          <PacksActivityDetail detail={detail} layout="main" />
+          <PacksActivityDetail detail={detail} layout="aside" />
+        </section>
+      ) : null}
     </ProductRouteShell>
   );
 }
