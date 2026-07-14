@@ -19,6 +19,31 @@ import {
   productPillars,
 } from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 
+/** CTA under each pillar — order and colors match Sell · Buy · Settle columns. */
+const pillarCtas = [
+  {
+    pillarTitle: 'Sell',
+    href: BITCODE_PUBLIC_COPY.secondaryCta.href,
+    label: BITCODE_PUBLIC_COPY.secondaryCta.label,
+    className:
+      'border-fuchsia-300/28 bg-fuchsia-500/12 text-fuchsia-50 hover:border-fuchsia-300/48 hover:bg-fuchsia-500/18',
+  },
+  {
+    pillarTitle: 'Buy',
+    href: BITCODE_PUBLIC_COPY.primaryCta.href,
+    label: BITCODE_PUBLIC_COPY.primaryCta.label,
+    className:
+      'border-emerald-300/28 bg-emerald-400/12 text-emerald-50 hover:border-emerald-300/48 hover:bg-emerald-400/18',
+  },
+  {
+    pillarTitle: 'Settle',
+    href: BITCODE_PUBLIC_COPY.tertiaryCta.href,
+    label: BITCODE_PUBLIC_COPY.tertiaryCta.label,
+    className:
+      'border-orange-300/28 bg-orange-400/12 text-orange-50 hover:border-orange-300/48 hover:bg-orange-400/18',
+  },
+] as const;
+
 export const MarketingLandingHero = memo(function MarketingLandingHero() {
   return (
     <motion.section
@@ -51,11 +76,11 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
         </p>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.22em] text-emerald-200/68 phone:mt-5">
+      <div className="mt-4 flex flex-nowrap gap-2 overflow-x-auto text-[11px] uppercase tracking-[0.18em] text-emerald-200/68 phone:mt-5 phone:tracking-[0.22em]">
         {BITCODE_PUBLIC_COPY.capabilityChips.map((item) => (
           <span
             key={item}
-            className="relative overflow-hidden rounded-none border border-cyan-200/18 bg-[linear-gradient(135deg,rgba(9,22,48,0.82),rgba(18,49,88,0.38))] px-3 py-2 text-cyan-100 shadow-[0_12px_28px_rgba(6,182,212,0.08)] backdrop-blur-md"
+            className="relative shrink-0 overflow-hidden rounded-none border border-cyan-200/18 bg-[linear-gradient(135deg,rgba(9,22,48,0.82),rgba(18,49,88,0.38))] px-3 py-2 text-cyan-100 shadow-[0_12px_28px_rgba(6,182,212,0.08)] backdrop-blur-md"
           >
             <span
               className="absolute inset-0 opacity-30"
@@ -66,40 +91,29 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
             />
             <span className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(103,254,183,0.16),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(56,189,248,0.12),transparent_34%)]" />
             <span className="absolute inset-[1px] rounded-none border border-white/8" />
-            <span className="relative">{item}</span>
+            <span className="relative whitespace-nowrap">{item}</span>
           </span>
         ))}
       </div>
 
-      <div className="mt-4 grid grid-cols-1 gap-2 phone:mt-5 phone:grid-cols-2 phone:gap-3 desktop:grid-cols-3">
-        {productPillars.map((pillar, index) => (
-          <MarketingLandingPillarCard key={pillar.title} {...pillar} index={index} />
-        ))}
-      </div>
+      {/* Pillar + CTA share one column so each button sits under its card. */}
+      <div className="mt-4 grid grid-cols-1 gap-x-2 gap-y-3 phone:mt-5 phone:grid-cols-2 phone:gap-x-3 desktop:grid-cols-3">
+        {productPillars.map((pillar, index) => {
+          const cta = pillarCtas.find((entry) => entry.pillarTitle === pillar.title) ?? pillarCtas[index];
 
-      <div className="mt-4 flex flex-wrap items-center gap-3 phone:mt-5">
-        {/* Colors match pillar columns: Sell purple · Buy green · Settle/View orange */}
-        <Link
-          href={BITCODE_PUBLIC_COPY.secondaryCta.href}
-          className="inline-flex items-center gap-2 rounded-none border border-fuchsia-300/28 bg-fuchsia-500/12 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-fuchsia-50 transition-colors hover:border-fuchsia-300/48 hover:bg-fuchsia-500/18"
-        >
-          {BITCODE_PUBLIC_COPY.secondaryCta.label}
-          <ArrowRightIcon className="h-4 w-4" />
-        </Link>
-        <Link
-          href={BITCODE_PUBLIC_COPY.primaryCta.href}
-          className="inline-flex items-center gap-2 rounded-none border border-emerald-300/28 bg-emerald-400/12 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/48 hover:bg-emerald-400/18"
-        >
-          {BITCODE_PUBLIC_COPY.primaryCta.label}
-          <ArrowRightIcon className="h-4 w-4" />
-        </Link>
-        <Link
-          href={BITCODE_PUBLIC_COPY.tertiaryCta.href}
-          className="inline-flex items-center gap-2 rounded-none border border-orange-300/28 bg-orange-400/12 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition-colors hover:border-orange-300/48 hover:bg-orange-400/18"
-        >
-          {BITCODE_PUBLIC_COPY.tertiaryCta.label}
-          <ArrowRightIcon className="h-4 w-4" />
-        </Link>
+          return (
+            <div key={pillar.title} className="flex min-w-0 flex-col gap-3">
+              <MarketingLandingPillarCard {...pillar} index={index} />
+              <Link
+                href={cta.href}
+                className={`inline-flex w-full items-center justify-center gap-2 rounded-none border px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors ${cta.className}`}
+              >
+                {cta.label}
+                <ArrowRightIcon className="h-4 w-4" />
+              </Link>
+            </div>
+          );
+        })}
       </div>
 
       <MarketingLandingGuideCard />

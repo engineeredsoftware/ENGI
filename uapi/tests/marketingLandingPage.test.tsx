@@ -116,10 +116,10 @@ describe('MarketingLandingPage', () => {
         /Make AssetPacks from source-code, exposing only IP you confirm/i,
       ),
     ).toBeInTheDocument();
-    expect(screen.getByText('SELL ASSETPACKS')).toBeInTheDocument();
-    expect(screen.getByText('BUY WITH NEED')).toBeInTheDocument();
-    expect(screen.getByText('BTC SETTLEMENT')).toBeInTheDocument();
-    expect(screen.getByText('PROOF READBACK')).toBeInTheDocument();
+    expect(screen.getByText('Synthesize Options')).toBeInTheDocument();
+    expect(screen.getByText('Deposit AssetPacks')).toBeInTheDocument();
+    // Chip + Buy CTA can both render; assert chip via exact case from capability chips.
+    expect(screen.getAllByText(/Buy AssetPacks/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText('Packs').length).toBeGreaterThan(0);
     expect(document.getElementById('bitcodeDemonstrationRoot')).toBeNull();
     expect(document.querySelector('iframe')).toBeNull();

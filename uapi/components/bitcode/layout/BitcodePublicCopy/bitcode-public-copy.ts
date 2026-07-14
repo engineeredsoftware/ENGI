@@ -4,10 +4,9 @@ export const BITCODE_PUBLIC_COPY = {
   description:
     'Make AssetPacks from source-code, exposing only IP you confirm, to deposit them for purchase. Buy AssetPacks with Bitcoin to consume the specific knowledge you request. All running on fully open-source, proven, and ledgerized infrastructure.',
   capabilityChips: [
-    'SELL ASSETPACKS',
-    'BUY WITH NEED',
-    'BTC SETTLEMENT',
-    'PROOF READBACK',
+    'Synthesize Options',
+    'Deposit AssetPacks',
+    'Buy AssetPacks',
   ],
   primaryCta: {
     href: '/reads',
