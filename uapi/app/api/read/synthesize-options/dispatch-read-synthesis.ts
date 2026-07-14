@@ -19,7 +19,7 @@ export type ReadSynthesisDispatchInput = {
 };
 
 export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput): Promise<void> {
-  const admin = supabaseAdmin();
+  const admin = supabaseAdmin;
   const exec = new Execution(`pipeline:read:${input.runId}`);
   storeCrossPhaseArtifact(exec, 'host', 'runId', input.runId);
   storeCrossPhaseArtifact(exec, 'pipeline', 'runId', input.runId);
@@ -56,8 +56,13 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
         (pipelineInput as any).sourceCheckoutCatalog = provisioned.sourceCatalog;
         (pipelineInput as any).inventory = provisioned.sourceCatalog;
       }
-      if (provisioned?.workspace?.path) {
-        storeCrossPhaseArtifact(exec, 'repository', 'workspacePath', provisioned.workspace.path);
+      if (provisioned?.workspace?.workspacePath) {
+        storeCrossPhaseArtifact(
+          exec,
+          'repository',
+          'workspacePath',
+          provisioned.workspace.workspacePath,
+        );
       }
     } catch {
       // Host optional in constrained environments; pipeline may still run with empty catalog.

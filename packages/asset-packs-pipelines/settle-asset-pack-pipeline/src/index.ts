@@ -120,25 +120,36 @@ function optionToReadSynthesized(option: SettleAssetPackOption) {
     settleable: true,
   });
 }
+/**
+ * Settle stages receive the pipeline `Execution` (StorableValue), not a
+ * settle-only store. Use a structural duck type so both assign cleanly.
+ */
+type SettleStageExecution = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Execution + SettleExecutionStore bridge
+  store?(namespace: string, key: string, value: any): any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Execution + SettleExecutionStore bridge
+  get?(namespace: string, key: string): any;
+};
+
 function storeCrossPhaseArtifact(
-  execution: SettleExecutionStore | null | undefined,
+  execution: SettleStageExecution | null | undefined,
   namespace: string,
   key: string,
   value: SettleStoreValue,
 ): void {
   try {
-    execution?.store(namespace, key, value);
+    execution?.store?.(namespace, key, value);
   } catch {
     /* storage must never decide pipeline success */
   }
 }
 
 function getStored<T extends SettleStoreValue>(
-  execution: SettleExecutionStore | null | undefined,
+  execution: SettleStageExecution | null | undefined,
   namespace: string,
   key: string,
 ): T | undefined {
-  return execution?.get(namespace, key) as T | undefined;
+  return execution?.get?.(namespace, key) as T | undefined;
 }
 
 function resolveSingleOption(input: SettleAssetPackInput): SettleAssetPackOption {

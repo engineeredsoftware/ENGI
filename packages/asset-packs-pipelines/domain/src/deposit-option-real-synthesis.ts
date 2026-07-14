@@ -211,8 +211,9 @@ export function buildRealDepositAssetPackOptionSynthesis(
           weight: m.weight,
           volume: m.volume,
           category: 'absolute' as const,
-          magnitude: m.magnitude,
-          unit: m.unit,
+          // SynthesisMeasurementReading requires magnitude+unit; host fills when absent.
+          magnitude: typeof m.magnitude === 'number' ? m.magnitude : m.volume,
+          unit: typeof m.unit === 'string' && m.unit.length > 0 ? m.unit : 'normalized',
           evidenceRoot: m.evidenceRoot,
         })),
         needinesses: [],

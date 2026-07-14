@@ -183,17 +183,17 @@ function isNeedinessesCarrier(
 export function extractNeedinessesForSettlement(
   source: SettlementBtdNeedinessesSource,
 ): NeedinessRowInput[] {
+  // Array.isArray does not always eliminate `readonly T[]` from the union for
+  // exhaustiveness (`never`) checks — handle each admitted shape and fail closed.
   if (Array.isArray(source)) {
     return [...source];
   }
   if (isMeasurementsCarrier(source)) {
-    return [...source.measurements.needinesses];
+    return [...(source.measurements.needinesses ?? [])];
   }
   if (isNeedinessesCarrier(source)) {
     return [...source.needinesses];
   }
-  const _exhaustive: never = source;
-  void _exhaustive;
   return [];
 }
 

@@ -35,6 +35,16 @@ export const depositMeasurementsByKindSchema = z.object({
   needinesses: z.array(z.record(z.any())).optional(),
 });
 
+/**
+ * @deprecated Deposit must not emit neediness. Kept only for dual-write strip
+ * of residual model output (never product law for deposit packs).
+ */
+export const depositNeedinessSignalSchema = z.object({
+  demand: z.coerce.number().min(0).max(1),
+  saturation: z.coerce.number().min(0).max(1),
+  rationale: z.string().min(10).max(400),
+});
+
 export const depositCandidateSchema = z.object({
   kind: z.string().min(1),
   title: z.string().min(8).max(160),
@@ -54,13 +64,7 @@ export const depositCandidateSchema = z.object({
    * @deprecated Deposit must not emit neediness. Removed from product prompts;
    * stripped by Implementation host if model still emits.
    */
-  needinessSignal: z
-    .object({
-      demand: z.coerce.number().min(0).max(1),
-      saturation: z.coerce.number().min(0).max(1),
-      rationale: z.string().min(10).max(400),
-    })
-    .optional(),
+  needinessSignal: depositNeedinessSignalSchema.optional(),
 });
 
 export const depositCandidateSetSchema = z.object({

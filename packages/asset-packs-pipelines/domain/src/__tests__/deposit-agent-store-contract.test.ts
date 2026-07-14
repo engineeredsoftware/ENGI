@@ -68,7 +68,39 @@ function depositSynthesisOption(overrides: Record<string, unknown> = {}) {
     summary:
       'A bounded, source-safe capability slice covering session authentication and token refresh flows.',
     coveredSourcePaths: ['src/auth/session.ts', 'src/auth/token.ts'],
-    measurements: { 'source-coverage': 0.7, 'demand-alignment': 0.6, 'reuse-likelihood': 0.5 },
+    // Nested kinds only (deposit: needinesses always empty; host fills absolutes).
+    measurements: {
+      absolutes: [
+        {
+          measurementKind: 'source-coverage',
+          label: 'Source coverage',
+          weight: 0.7,
+          volume: 0.7,
+          magnitude: 0.7,
+          unit: 'normalized',
+          category: 'absolute' as const,
+        },
+        {
+          measurementKind: 'demand-alignment',
+          label: 'Demand alignment',
+          weight: 0.6,
+          volume: 0.6,
+          magnitude: 0.6,
+          unit: 'normalized',
+          category: 'absolute' as const,
+        },
+        {
+          measurementKind: 'reuse-likelihood',
+          label: 'Reuse likelihood',
+          weight: 0.5,
+          volume: 0.5,
+          magnitude: 0.5,
+          unit: 'normalized',
+          category: 'absolute' as const,
+        },
+      ],
+      needinesses: [],
+    },
     measurementRationale: 'Covers both auth modules with moderate demand alignment.',
     confidence: 0.8,
     patch: {
@@ -78,7 +110,6 @@ function depositSynthesisOption(overrides: Record<string, unknown> = {}) {
       ],
       patchSummary: 'Adds a reusable session/token authentication capability.',
     },
-    needinessSignal: { demand: 0.7, saturation: 0.3, rationale: 'Auth knowledge is frequently read.' },
     ...overrides,
   };
 }

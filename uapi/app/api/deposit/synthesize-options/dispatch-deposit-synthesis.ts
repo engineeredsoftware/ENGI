@@ -215,7 +215,9 @@ export async function runDepositOptionSynthesis(
       await assertNotCancelled();
       // Init is not cloning: wire a run-scoped LocalHost cloner for Setup only.
       const host = await resolveDepositPipelineHost();
-      let runWorkspace: BitcodeHostWorkspace | null = null;
+      // Object holder so callback assignment is visible to later dispose (CFA
+      // treats bare `let x = null` as always-null when only mutated in callbacks).
+      const runWorkspaceHolder: { current: BitcodeHostWorkspace | null } = { current: null };
       const cloneRepositoryForRun = createDepositLocalHostCloneForRun({
         host,
         repositoryFullName,
@@ -223,7 +225,7 @@ export async function runDepositOptionSynthesis(
         revision: reference,
         token: auth.accessToken,
         onWorkspace: (workspace) => {
-          runWorkspace = workspace;
+          runWorkspaceHolder.current = workspace;
         },
       });
       // Empty catalog until Setup clone-repository agent fills it from this run's tree.
@@ -319,8 +321,8 @@ export async function runDepositOptionSynthesis(
           };
         }
       } finally {
-        if (runWorkspace) {
-          await runWorkspace.dispose();
+        if (runWorkspaceHolder.current) {
+          await runWorkspaceHolder.current.dispose();
         }
       }
     }

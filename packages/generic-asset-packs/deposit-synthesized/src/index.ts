@@ -33,7 +33,8 @@ export const DEPOSIT_SYNTHESIZED_ASSET_PACK_SCHEMA =
  * Explicitly excludes obfuscations from the type surface.
  */
 export interface DepositSynthesizedAssetPack extends Omit<SynthesisAssetPack, 'identity' | 'measurements'> {
-  identity: SynthesisAssetPack['identity'] & {
+  // Omit base schema literal so product schema does not collapse to `never`.
+  identity: Omit<SynthesisAssetPack['identity'], 'schema'> & {
     schema: typeof DEPOSIT_SYNTHESIZED_ASSET_PACK_SCHEMA | typeof SYNTHESIS_ASSET_PACK_SCHEMA;
   };
   /**

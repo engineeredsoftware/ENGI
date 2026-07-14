@@ -87,7 +87,7 @@ function parsePaymentObservation(
 }
 
 async function resolveGithubToken(
-  admin: ReturnType<typeof supabaseAdmin>,
+  admin: typeof supabaseAdmin,
   userId: string,
 ): Promise<string | null> {
   try {
@@ -109,7 +109,7 @@ async function resolveGithubToken(
 }
 
 interface RunOneSettleInput {
-  admin: ReturnType<typeof supabaseAdmin>;
+  admin: typeof supabaseAdmin;
   userId: string;
   option: SettleAssetPackOption;
   repository: SettleRepositoryRef;
@@ -346,7 +346,7 @@ export async function POST(request: Request) {
     body.txId,
   );
 
-  const admin = supabaseAdmin();
+  const admin = supabaseAdmin;
   const githubAccessToken = await resolveGithubToken(admin, user.id);
 
   const results = [];

@@ -581,11 +581,13 @@ function factorySynthesizeAssetPacksSDIVFPipeline(
   pipelineName: string = 'synthesize-asset-packs',
 ): SynthesizeAssetPacksSDIVFPipeline {
   const maxIterations = 1;
+  // Evaluate bypass at call time (not module-load): integration tests set
+  // BITCODE_ENABLE_ASSET_PACK_*_IN_TEST in beforeAll after this factory runs.
   const wrap =
-    (phase: Executor<any, any>, testBypass: boolean): Executor<any, any> =>
+    (phase: Executor<any, any>, shouldBypassInTest: () => boolean): Executor<any, any> =>
     async (input, execution) => {
       const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
-      if (isTest && testBypass) return input;
+      if (isTest && shouldBypassInTest()) return input;
       return phase(input, execution);
     };
 
@@ -601,19 +603,19 @@ function factorySynthesizeAssetPacksSDIVFPipeline(
     setup: wrap(async (input, execution) => {
       const phases = resolvePhases(input, execution);
       return phases.setup(input, execution as any);
-    }, !isAssetPackSetupRuntimeEnabledInTest()),
+    }, () => !isAssetPackSetupRuntimeEnabledInTest()),
     discovery: wrap(async (input, execution) => {
       const phases = resolvePhases(input, execution);
       return phases.discovery(input, execution as any);
-    }, !isAssetPackSdivfRuntimeEnabledInTest()),
+    }, () => !isAssetPackSdivfRuntimeEnabledInTest()),
     implementation: wrap(async (input, execution) => {
       const phases = resolvePhases(input, execution);
       return phases.implementation(input, execution as any);
-    }, !isAssetPackSdivfRuntimeEnabledInTest()),
+    }, () => !isAssetPackSdivfRuntimeEnabledInTest()),
     validation: wrap(async (input, execution) => {
       const phases = resolvePhases(input, execution);
       return phases.validation(input, execution as any);
-    }, !isAssetPackSdivfRuntimeEnabledInTest()),
+    }, () => !isAssetPackSdivfRuntimeEnabledInTest()),
     finish: wrap(async (input, execution) => {
       const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
       if (isTest && !isAssetPackSdivfRuntimeEnabledInTest()) {
@@ -639,7 +641,7 @@ function factorySynthesizeAssetPacksSDIVFPipeline(
       }
       const phases = resolvePhases(input, execution);
       return phases.finish(input, execution as any);
-    }, false),
+    }, () => false),
     maxIterations,
     iterationPreprocess: factoryIterationPreprocess(),
     postprocess: factoryPostprocess(),

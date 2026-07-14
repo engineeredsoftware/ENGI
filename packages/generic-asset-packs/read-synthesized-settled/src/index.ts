@@ -75,7 +75,8 @@ export interface ReadSynthesizedSettledDelivery {
  */
 export interface ReadSynthesizedSettledAssetPack
   extends Omit<ReadSynthesizedAssetPack, 'identity' | 'settleable' | 'selectable'> {
-  identity: ReadSynthesizedAssetPack['identity'] & {
+  // Omit base schema literal so settled product schema does not collapse to `never`.
+  identity: Omit<ReadSynthesizedAssetPack['identity'], 'schema'> & {
     schema: typeof READ_SYNTHESIZED_SETTLED_ASSET_PACK_SCHEMA;
   };
   measurements: {

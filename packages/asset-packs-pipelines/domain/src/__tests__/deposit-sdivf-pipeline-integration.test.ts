@@ -202,11 +202,13 @@ describe('deposit SDIVF pipeline integration (boundary-mocked LLMs)', () => {
       expect(options[0].title).toMatch(/auth/i);
       expect(options[0].patch?.fileChanges?.length).toBeGreaterThan(0);
 
-      // Validation measure-agent attaches formal absolutes in place.
-      expect(Array.isArray(options[0].absolutes)).toBe(true);
-      expect(options[0].absolutes.length).toBeGreaterThan(0);
+      // Validation measure-agent attaches formal absolutes in place (nested kinds).
+      const absolutes =
+        options[0].measurements?.absolutes ?? options[0].absolutes ?? [];
+      expect(Array.isArray(absolutes)).toBe(true);
+      expect(absolutes.length).toBeGreaterThan(0);
       expect(
-        options[0].absolutes.some((m) => m.measurementKind === 'function-count'),
+        absolutes.some((m) => m.measurementKind === 'function-count'),
       ).toBe(true);
 
       // Product projection must accept formal absolutes (no placeholder fallback).

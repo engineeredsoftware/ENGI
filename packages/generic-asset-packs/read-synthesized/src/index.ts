@@ -43,7 +43,8 @@ export interface ReadSynthesizedBtcDetails {
 }
 
 export interface ReadSynthesizedAssetPack extends Omit<SynthesisAssetPack, 'identity'> {
-  identity: SynthesisAssetPack['identity'] & {
+  // Omit base schema literal so product schema does not collapse to `never`.
+  identity: Omit<SynthesisAssetPack['identity'], 'schema'> & {
     schema: typeof READ_SYNTHESIZED_ASSET_PACK_SCHEMA;
   };
   /** Nested absolutes + needinesses (*-fit). */

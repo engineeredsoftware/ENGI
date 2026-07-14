@@ -32,15 +32,21 @@ describe('deposit finish agents (store → ledgerize → finish)', () => {
         fileChanges: [{ path: 'src/bill.ts', op: 'modify' }],
         patchSummary: 'Encodes billing capability.',
       },
-      absolutes: [
-        {
-          measurementKind: 'function-count',
-          label: 'Functions',
-          weight: 0.12,
-          volume: 0.5,
-          category: 'absolute',
-        },
-      ],
+      // Nested kinds only — AssetPack = patch + measurements + metadata.
+      measurements: {
+        absolutes: [
+          {
+            measurementKind: 'function-count',
+            label: 'Functions',
+            weight: 0.12,
+            volume: 0.5,
+            magnitude: 0.5,
+            unit: 'normalized',
+            category: 'absolute' as const,
+          },
+        ],
+        needinesses: [],
+      },
     },
   ];
 
@@ -99,7 +105,8 @@ describe('deposit finish agents (store → ledgerize → finish)', () => {
     const envelope = exec.get('finish', 'selectionEnvelope');
     expect(envelope.options).toHaveLength(1);
     expect(envelope.options[0].patch).toBeTruthy();
-    expect(envelope.options[0].measurements).toHaveLength(1);
+    expect(envelope.options[0].measurements?.absolutes).toHaveLength(1);
+    expect(envelope.options[0].measurements?.needinesses).toEqual([]);
     expect(exec.get('finish', 'completion')?.cleanup?.disposeRecommended).toBeDefined();
   });
 });

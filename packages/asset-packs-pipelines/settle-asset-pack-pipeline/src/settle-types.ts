@@ -322,10 +322,15 @@ export interface SettleAssetPackResult extends SettleAssetPackInput {
   readSynthesizedSettledAssetPack?: import('@bitcode/generic-asset-packs-read-synthesized-settled').ReadSynthesizedSettledAssetPack;
 }
 
-/** Execution store surface used by settle stages. */
+/**
+ * Execution store surface used by settle stages.
+ *
+ * Structural: must accept `@bitcode/execution-generics` Execution (StorableValue)
+ * while still documenting settle-local value shapes for callers.
+ */
 export interface SettleExecutionStore {
-  store(namespace: string, key: string, value: SettleStoreValue): void;
-  get(namespace: string, key: string): SettleStoreValue | undefined;
+  store(namespace: string, key: string, value: SettleStoreValue | string | number | boolean | null): void;
+  get(namespace: string, key: string): unknown;
 }
 
 export type SettleStoreValue =

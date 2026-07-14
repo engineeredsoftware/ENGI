@@ -80,7 +80,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const admin = supabaseAdmin();
+  const admin = supabaseAdmin;
   const { error: insertError } = await admin.from('executions').insert({
     id: requestedRunId,
     user_id: user.id,
@@ -113,10 +113,12 @@ export async function POST(request: Request) {
   }
 
   try {
-    await createStreamingExecution({
+    createStreamingExecution({
       runId: requestedRunId,
       userId: user.id,
-      type: 'agentic-execution:asset-pack',
+      supabase: admin,
+      streamToDatabase: true,
+      structuredToDatabase: false,
     });
   } catch {
     // Streaming row optional if table path differs.
