@@ -2,10 +2,11 @@
  * @bitcode/generic-asset-packs-synthesis
  *
  * Base AssetPack of Bitcode shared by all three product implementations:
- * DepositSynthesized, ReadSynthesized, SettledReadSynthesized.
+ * DepositSynthesized, ReadSynthesized, ReadSynthesizedSettled.
  *
  * Hierarchy:
- *   AssetPack → SynthesisAssetPack → {Deposit,Read,SettledRead}Synthesized
+ *   AssetPack → SynthesisAssetPack
+ *     → DepositSynthesized | ReadSynthesized | ReadSynthesizedSettled
  *   Artifact → PatchArtifact → AssetPackPatchArtifact
  */
 

@@ -65,10 +65,10 @@ describe('SettleAssetPackSimplePipeline', () => {
 
     expect(result.success).toBe(true);
     expect(result.summary).toMatch(/settle-btc → mint-btd → settle-btd → settle-asset-pack/);
-    expect(result.settledReadAssetPack?.identity.schema).toMatch(/settled-read-synthesized/);
-    expect(result.settledReadAssetPack?.btdRights.status).toBe('transferred');
-    expect(result.settledReadAssetPack?.assetPackRights.removedPriorOwner).toBe(false);
-    expect(result.settledReadAssetPack?.settleable).toBe(false);
+    expect(result.readSynthesizedSettledAssetPack?.identity.schema).toMatch(/read-synthesized-settled/);
+    expect(result.readSynthesizedSettledAssetPack?.btdRights.status).toBe('transferred');
+    expect(result.readSynthesizedSettledAssetPack?.assetPackRights.removedPriorOwner).toBe(false);
+    expect(result.readSynthesizedSettledAssetPack?.settleable).toBe(false);
 
     const mint = result.mintBtd;
     expect(mint.agent).toBe('mint-btd');

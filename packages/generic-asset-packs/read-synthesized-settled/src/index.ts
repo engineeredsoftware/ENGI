@@ -1,20 +1,21 @@
 /**
- * @bitcode/generic-asset-packs-settled-read-synthesized
+ * @bitcode/generic-asset-packs-read-synthesized-settled
  *
- * SettledReadSynthesizedAssetPack — product AssetPack after settle-asset-pack-pipeline.
+ * ReadSynthesizedSettledAssetPack — product AssetPack after settle-asset-pack-pipeline
+ * (buyer paid BTC for a read-synthesized option).
  *
- * Hierarchy (three product implementations over shared synthesis base):
+ * Hierarchy (three products over shared synthesis base):
  *   AssetPack (primitive + measurements)
- *     → SynthesisAssetPack                    # base of all three products
+ *     → SynthesisAssetPack
  *         → DepositSynthesizedAssetPack
  *         → ReadSynthesizedAssetPack
- *         → SettledReadSynthesizedAssetPack   # this package
+ *         → ReadSynthesizedSettledAssetPack   # this package
  *
  * Built from a bought ReadSynthesizedAssetPack after:
  *   settle-btc → mint-btd → settle-btd → settle-asset-pack → ship PR
  *
- * Adds: BTD mint/transfer receipts, BTC finality, ERC1155 co-ownership rights,
- * delivery PR reference. Never removes depositor co-ownership.
+ * There is no separate generic "settle" AssetPack base — settlement exists only
+ * on the read buy path.
  */
 
 import type { SynthesisMeasurementReading } from '@bitcode/generic-asset-packs-synthesis/synthesis-asset-pack';
@@ -25,11 +26,11 @@ import type {
 } from '@bitcode/generic-asset-packs-read-synthesized';
 import { ASSET_PACK_SCHEMA_PREFIX } from '@bitcode/asset-packs-generics';
 
-export const SETTLED_READ_SYNTHESIZED_ASSET_PACK_SCHEMA =
-  `${ASSET_PACK_SCHEMA_PREFIX}.settled-read-synthesized` as const;
+export const READ_SYNTHESIZED_SETTLED_ASSET_PACK_SCHEMA =
+  `${ASSET_PACK_SCHEMA_PREFIX}.read-synthesized-settled` as const;
 
 /** Settled BTD rights after mint-btd + settle-btd. */
-export interface SettledReadBtdRights {
+export interface ReadSynthesizedSettledBtdRights {
   needFitVolume: number;
   amountBaseUnits: string;
   masterAccount: string;
@@ -40,7 +41,7 @@ export interface SettledReadBtdRights {
 }
 
 /** BTC payment observation after settle-btc. */
-export interface SettledReadBtcSettlement {
+export interface ReadSynthesizedSettledBtcSettlement {
   network: string;
   status: string;
   txId: string | null;
@@ -50,7 +51,7 @@ export interface SettledReadBtcSettlement {
 }
 
 /** ERC1155 AssetPack co-ownership after settle-asset-pack. */
-export interface SettledReadAssetPackRights {
+export interface ReadSynthesizedSettledAssetPackRights {
   tokenId: string;
   assetPackKey: string;
   coOwners: string[];
@@ -60,7 +61,7 @@ export interface SettledReadAssetPackRights {
 }
 
 /** PR delivery after ship-asset-pack-patch-pr. */
-export interface SettledReadDelivery {
+export interface ReadSynthesizedSettledDelivery {
   mechanism: 'pull_request';
   status: 'projected' | 'opened' | 'failed';
   prUrl: string | null;
@@ -71,52 +72,45 @@ export interface SettledReadDelivery {
 
 /**
  * Settled read AssetPack — synthesis base + read needinesses + settlement rights.
- * Extends the commercial shape of ReadSynthesizedAssetPack with settled fields.
  */
-export interface SettledReadSynthesizedAssetPack
+export interface ReadSynthesizedSettledAssetPack
   extends Omit<ReadSynthesizedAssetPack, 'identity' | 'settleable' | 'selectable'> {
   identity: ReadSynthesizedAssetPack['identity'] & {
-    schema: typeof SETTLED_READ_SYNTHESIZED_ASSET_PACK_SCHEMA;
+    schema: typeof READ_SYNTHESIZED_SETTLED_ASSET_PACK_SCHEMA;
   };
   measurements: {
     absolutes: SynthesisMeasurementReading[];
     needinesses: SynthesisMeasurementReading[];
   };
-  /** Settled BTD mint + transfer (needinesses-derived amount). */
-  btdRights: SettledReadBtdRights;
-  /** BTC-testnet finality observation. */
-  btcSettlement: SettledReadBtcSettlement;
-  /** ERC1155 co-ownership (buyer added; depositor retained). */
-  assetPackRights: SettledReadAssetPackRights;
-  /** Patch PR delivery on the read repository. */
-  delivery: SettledReadDelivery;
+  btdRights: ReadSynthesizedSettledBtdRights;
+  btcSettlement: ReadSynthesizedSettledBtcSettlement;
+  assetPackRights: ReadSynthesizedSettledAssetPackRights;
+  delivery: ReadSynthesizedSettledDelivery;
   settledAt: string;
   settleRunId?: string | null;
-  /** Post-settle: no longer settleable as an open option. */
   settleable: false;
   selectable: false;
 }
 
-export interface BuildSettledReadSynthesizedAssetPackInput {
-  /** Bought read option (source of patch + measurements + needFit). */
+export interface BuildReadSynthesizedSettledAssetPackInput {
   readOption: ReadSynthesizedAssetPack;
-  btdRights: SettledReadBtdRights;
-  btcSettlement: SettledReadBtcSettlement;
-  assetPackRights: SettledReadAssetPackRights;
-  delivery: SettledReadDelivery;
+  btdRights: ReadSynthesizedSettledBtdRights;
+  btcSettlement: ReadSynthesizedSettledBtcSettlement;
+  assetPackRights: ReadSynthesizedSettledAssetPackRights;
+  delivery: ReadSynthesizedSettledDelivery;
   settledAt?: string;
   settleRunId?: string | null;
 }
 
-export function buildSettledReadSynthesizedAssetPack(
-  input: BuildSettledReadSynthesizedAssetPackInput,
-): SettledReadSynthesizedAssetPack {
+export function buildReadSynthesizedSettledAssetPack(
+  input: BuildReadSynthesizedSettledAssetPackInput,
+): ReadSynthesizedSettledAssetPack {
   const { readOption } = input;
   return {
     ...readOption,
     identity: {
       ...readOption.identity,
-      schema: SETTLED_READ_SYNTHESIZED_ASSET_PACK_SCHEMA,
+      schema: READ_SYNTHESIZED_SETTLED_ASSET_PACK_SCHEMA,
     },
     measurements: {
       absolutes: [...readOption.measurements.absolutes],

@@ -2060,7 +2060,7 @@ Settlement law upgraded for commercial read buy:
 - BTD: `contracts/` and `src/erc1155/` are dual-maintained (not codegen); see
   `packages/btd/README.md`.
 
-## Pipeline product names + SettledReadSynthesizedAssetPack (2026-07-14)
+## Pipeline product names + ReadSynthesizedSettledAssetPack (2026-07-14)
 
 Product pipeline directories/packages renamed:
 
@@ -2076,4 +2076,4 @@ generic-asset-packs three products over shared synthesis base:
 
 - DepositSynthesizedAssetPack
 - ReadSynthesizedAssetPack
-- SettledReadSynthesizedAssetPack (`settled-read-synthesized/`) — BTD rights, BTC finality, ERC1155 co-own, PR delivery after settle-asset-pack-pipeline
+- ReadSynthesizedSettledAssetPack (`read-synthesized-settled/`) — BTD rights, BTC finality, ERC1155 co-own, PR delivery after settle-asset-pack-pipeline

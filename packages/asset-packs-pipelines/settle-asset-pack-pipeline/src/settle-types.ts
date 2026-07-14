@@ -318,8 +318,8 @@ export interface SettleAssetPackResult extends SettleAssetPackInput {
   settlementBtd: SettlementBtdFromNeedinessesResult;
   shippable: SettleShippable;
   paymentObservation: SettleBtcPaymentObservation;
-  /** Product AssetPack after settlement (SettledReadSynthesizedAssetPack). */
-  settledReadAssetPack?: import('@bitcode/generic-asset-packs-settled-read-synthesized').SettledReadSynthesizedAssetPack;
+  /** Product AssetPack after settlement (ReadSynthesizedSettledAssetPack). */
+  readSynthesizedSettledAssetPack?: import('@bitcode/generic-asset-packs-read-synthesized-settled').ReadSynthesizedSettledAssetPack;
 }
 
 /** Execution store surface used by settle stages. */

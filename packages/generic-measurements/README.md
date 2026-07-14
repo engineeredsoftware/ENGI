@@ -13,7 +13,7 @@ NeedinessesMeasureAgent # needinesses/ neediness category base (Gate 4)
 tech-types # tech-types/ stack/signal absolute vocabulary
  ↑
 SynthesizeAssetPacksAbsolutesMeasureAgent # generic-asset-packs/synthesis
-settle-asset-pack-pipeline… # generic-asset-packs/settle
+settle-asset-pack-pipeline → ReadSynthesizedSettledAssetPack
 ```
 
 ## Packages

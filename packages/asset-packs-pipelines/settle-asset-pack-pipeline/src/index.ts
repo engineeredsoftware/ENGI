@@ -8,7 +8,7 @@
  *
  * **Not** SDIVF. Synthesize-reads produces multiple options; each **bought**
  * option starts its own settle pipeline (1:1 AssetPack : settle run) and yields
- * SettledReadSynthesizedAssetPack commercial state.
+ * ReadSynthesizedSettledAssetPack commercial state.
  *
  * Stages (binding V48 law):
  *   1. validate-settlement-readiness
@@ -42,9 +42,9 @@ import {
 } from '@bitcode/btd/erc1155';
 import { buildReadSynthesizedAssetPack } from '@bitcode/generic-asset-packs-read-synthesized';
 import {
-  buildSettledReadSynthesizedAssetPack,
-  type SettledReadSynthesizedAssetPack,
-} from '@bitcode/generic-asset-packs-settled-read-synthesized';
+  buildReadSynthesizedSettledAssetPack,
+  type ReadSynthesizedSettledAssetPack,
+} from '@bitcode/generic-asset-packs-read-synthesized-settled';
 import type {
   MintBtdArtifact,
   PackActivityPaymentObservation,
@@ -853,8 +853,8 @@ const journalAndPackActivity: Executor<SettleAssetPackInput, SettleAssetPackResu
     throw new Error('journal-and-pack-activity requires settle-btc paymentObservation.');
   }
 
-  const settledReadAssetPack: SettledReadSynthesizedAssetPack =
-    buildSettledReadSynthesizedAssetPack({
+  const readSynthesizedSettledAssetPack: ReadSynthesizedSettledAssetPack =
+    buildReadSynthesizedSettledAssetPack({
       readOption: optionToReadSynthesized(option),
       btdRights: {
         needFitVolume: settlementBtd.needFitVolume,
@@ -892,8 +892,8 @@ const journalAndPackActivity: Executor<SettleAssetPackInput, SettleAssetPackResu
   storeCrossPhaseArtifact(
     execution,
     'settle-asset-pack-pipeline',
-    'settledReadAssetPack',
-    settledReadAssetPack as never,
+    'readSynthesizedSettledAssetPack',
+    readSynthesizedSettledAssetPack as never,
   );
 
   return {
@@ -910,7 +910,7 @@ const journalAndPackActivity: Executor<SettleAssetPackInput, SettleAssetPackResu
     settlementBtd,
     shippable,
     paymentObservation,
-    settledReadAssetPack,
+    readSynthesizedSettledAssetPack,
   };
 };
 

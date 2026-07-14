@@ -26,4 +26,4 @@ import { factorySynthesizeReadAssetPacksSDIVFPipeline } from '@bitcode/asset-pac
 import { factorySettleAssetPackSimplePipeline } from '@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline';
 ```
 
-AssetPack product types: `@bitcode/generic-asset-packs-{synthesis,deposit-synthesized,read-synthesized,settled-read-synthesized}`.
+AssetPack product types: `@bitcode/generic-asset-packs-{synthesis,deposit-synthesized,read-synthesized,read-synthesized-settled}`.

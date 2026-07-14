@@ -32,8 +32,8 @@ module.exports = {
     '^@bitcode/btd/erc1155$': '<rootDir>/../../btd/src/erc1155/index.ts',
     '^@bitcode/btd/(.*)$': '<rootDir>/../../btd/src/$1',
     '^@bitcode/generic-vcs-git$': '<rootDir>/../../generic-vcs/git/src/index.ts',
-    '^@bitcode/generic-asset-packs-settled-read-synthesized$':
-      '<rootDir>/../../generic-asset-packs/settled-read-synthesized/src/index.ts',
+    '^@bitcode/generic-asset-packs-read-synthesized-settled$':
+      '<rootDir>/../../generic-asset-packs/read-synthesized-settled/src/index.ts',
     '^@bitcode/generic-asset-packs-read-synthesized$':
       '<rootDir>/../../generic-asset-packs/read-synthesized/src/index.ts',
     '^@bitcode/generic-asset-packs-synthesis/synthesis-asset-pack$':

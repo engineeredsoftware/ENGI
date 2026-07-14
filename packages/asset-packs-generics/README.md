@@ -12,8 +12,7 @@ provenance binding, path+op patch, and **measurements** (via
   → @bitcode/generic-asset-packs-synthesis           # shared synthesize base
       → @bitcode/generic-asset-packs-deposit-synthesized
       → @bitcode/generic-asset-packs-read-synthesized
-  → @bitcode/generic-asset-packs-settle              # settle surface
-  → @bitcode/asset-packs-pipelines-*                 # product pipelines
+  → @bitcode/  → @bitcode/asset-packs-pipelines-*                 # product pipelines
 ```
 
 Measurements are **part of the AssetPack shape**, not an optional product add-on:

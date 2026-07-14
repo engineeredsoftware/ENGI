@@ -1,8 +1,8 @@
 {
-  "name": "@bitcode/generic-asset-packs-settled-read-synthesized",
+  "name": "@bitcode/generic-asset-packs-read-synthesized-settled",
   "version": "0.1.0",
   "private": true,
-  "description": "SettledReadSynthesizedAssetPack: read synthesis base + BTD mint/transfer, BTC finality, ERC1155 co-ownership rights",
+  "description": "ReadSynthesizedSettledAssetPack: bought read option after settle-asset-pack-pipeline (BTD, BTC, co-own rights, PR)",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {

@@ -17,7 +17,7 @@
     "@bitcode/generic-pipelines-simple": "workspace:*",
     "@bitcode/generic-vcs-git": "workspace:*",
     "@bitcode/btd": "workspace:*",
-    "@bitcode/generic-asset-packs-settled-read-synthesized": "workspace:*",
+    "@bitcode/generic-asset-packs-read-synthesized-settled": "workspace:*",
     "@bitcode/generic-asset-packs-read-synthesized": "workspace:*"
   },
   "devDependencies": {

@@ -140,8 +140,7 @@ uapi → HTTP + React adapters only
 @bitcode/generic-measurements-needinesses Needinesses surface (Gate 4)
  ↑
 @bitcode/generic-asset-packs-synthesis SynthesizeAssetPacksAbsolutesMeasureAgent + catalogs
-@bitcode/generic-asset-packs-settle settle-asset-pack-pipeline (Gate 6 surface)
- ↑
+@bitcode/ ↑
 @bitcode/asset-packs-pipelines-domain SDIVF pipeline host (static-analysis tools, phases)
 ```
 
@@ -225,15 +224,13 @@ inside `agent-generics` until inverted onto pure Execution + LLM registry.
  ↑
 @bitcode/generic-asset-packs-synthesis SynthesisAssetPack (only AP base)
 @bitcode/generic-asset-packs-synthesis Synthesize measurement catalogs / Absolutes agent
-@bitcode/generic-asset-packs-settle Settle product surface
- ↑
+@bitcode/ ↑
 @bitcode/asset-packs-pipelines-* synthesize-deposits / -reads / settle-reads
 @bitcode/asset-packs-pipelines-domain agents, tools, deposit options helpers
 ```
 
 Package paths: `packages/asset-packs-generics/`, `packages/generic-asset-packs/*`.
-Packages: `@bitcode/asset-packs-generics`, `@bitcode/generic-asset-packs-synthesis`, `@bitcode/generic-asset-packs-settle`.
-
+Packages: `@bitcode/asset-packs-generics`, `@bitcode/generic-asset-packs-synthesis`, `@bitcode/
 | Layer | Type | Role |
 | --- | --- | --- |
 | Primitive | `AssetPack` | identity + source binding + patch descriptor + delivery |
@@ -464,8 +461,7 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `generic-measurements-tech-types` | Tech/stack signals as absolute measurement vocabulary |
 | `asset-packs-generics` | AssetPack protocol primitive (`@bitcode/asset-packs-generics`) |
 | `generic-asset-packs-synthesis` | Synthesize measurement catalogs + product AbsolutesMeasureAgent |
-| `generic-asset-packs-settle` | Settle product surface (Gate 6) |
-| `llm-generics` | Pure LLM call contracts |
+| `| `llm-generics` | Pure LLM call contracts |
 | `generic-llms-models` | Model configs + USD pricing (`@bitcode/generic-llms-models`) |
 | `registry` | Hierarchical registry (Prompt is a Registry) |
 | `prompts` | Prompt + PromptPart + **all** raw prompt parts |

@@ -313,9 +313,6 @@ importers:
       '@bitcode/generic-agents-web-research':
         specifier: workspace:*
         version: link:../../generic-agents/web-researcher
-      '@bitcode/generic-asset-packs-settle':
-        specifier: workspace:*
-        version: link:../../generic-asset-packs/settle
       '@bitcode/generic-asset-packs-synthesis':
         specifier: workspace:*
         version: link:../../generic-asset-packs/synthesis
@@ -401,9 +398,9 @@ importers:
       '@bitcode/generic-asset-packs-read-synthesized':
         specifier: workspace:*
         version: link:../../generic-asset-packs/read-synthesized
-      '@bitcode/generic-asset-packs-settled-read-synthesized':
+      '@bitcode/generic-asset-packs-read-synthesized-settled':
         specifier: workspace:*
-        version: link:../../generic-asset-packs/settled-read-synthesized
+        version: link:../../generic-asset-packs/read-synthesized-settled
       '@bitcode/generic-pipelines-simple':
         specifier: workspace:*
         version: link:../../generic-pipelines/Simple
@@ -1615,17 +1612,7 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
-  packages/generic-asset-packs/settle:
-    dependencies:
-      '@bitcode/measurement-generics':
-        specifier: workspace:*
-        version: link:../../measurement-generics
-    devDependencies:
-      typescript:
-        specifier: ^5.0.0
-        version: 5.8.3
-
-  packages/generic-asset-packs/settled-read-synthesized:
+  packages/generic-asset-packs/read-synthesized-settled:
     dependencies:
       '@bitcode/asset-packs-generics':
         specifier: workspace:*

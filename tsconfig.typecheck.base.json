@@ -103,11 +103,7 @@
       ],
       "@bitcode/generic-asset-packs-synthesis": [
         "packages/generic-asset-packs/synthesis/src/index.ts"
-      ],
-      "@bitcode/generic-asset-packs-settle": [
-        "packages/generic-asset-packs/settle/src/index.ts"
-      ],
-      "@bitcode/asset-packs-generics": [
+      ],      "@bitcode/asset-packs-generics": [
         "packages/asset-packs-generics/src/index.ts"
       ],
       "@bitcode/asset-packs-generics/*": [

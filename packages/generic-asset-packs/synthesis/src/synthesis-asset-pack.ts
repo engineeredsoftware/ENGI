@@ -1,6 +1,6 @@
 /**
  * SynthesisAssetPack — base AssetPack of Bitcode shared by all three product
- * implementations (deposit-synthesized, read-synthesized, settled-read-synthesized).
+ * implementations (deposit-synthesized, read-synthesized, read-synthesized-settled).
  *
  * Built on AssetPack primitive (identity + patch + measurements from
  * measurement-generics). Shared commercial fields only: title, summary,

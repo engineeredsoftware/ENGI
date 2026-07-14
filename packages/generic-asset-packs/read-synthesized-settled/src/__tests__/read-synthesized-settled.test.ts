@@ -1,10 +1,10 @@
 import { buildReadSynthesizedAssetPack } from '@bitcode/generic-asset-packs-read-synthesized';
 import {
-  buildSettledReadSynthesizedAssetPack,
-  SETTLED_READ_SYNTHESIZED_ASSET_PACK_SCHEMA,
+  buildReadSynthesizedSettledAssetPack,
+  READ_SYNTHESIZED_SETTLED_ASSET_PACK_SCHEMA,
 } from '../index';
 
-describe('SettledReadSynthesizedAssetPack', () => {
+describe('ReadSynthesizedSettledAssetPack', () => {
   it('builds settled pack from read option with BTD/BTC/rights/delivery', () => {
     const readOption = buildReadSynthesizedAssetPack({
       assetPackId: 'read-settle-1',
@@ -36,7 +36,7 @@ describe('SettledReadSynthesizedAssetPack', () => {
       settleable: true,
     });
 
-    const settled = buildSettledReadSynthesizedAssetPack({
+    const settled = buildReadSynthesizedSettledAssetPack({
       readOption,
       btdRights: {
         needFitVolume: 0.9,
@@ -66,7 +66,7 @@ describe('SettledReadSynthesizedAssetPack', () => {
       settleRunId: 'run-1',
     });
 
-    expect(settled.identity.schema).toBe(SETTLED_READ_SYNTHESIZED_ASSET_PACK_SCHEMA);
+    expect(settled.identity.schema).toBe(READ_SYNTHESIZED_SETTLED_ASSET_PACK_SCHEMA);
     expect(settled.measurements.needinesses).toHaveLength(1);
     expect(settled.btdRights.status).toBe('transferred');
     expect(settled.btcSettlement.amountSats).toBe(12000);

@@ -6,7 +6,7 @@
  *     → SynthesisAssetPack                 # generic-asset-packs/synthesis (base of all 3 products)
  *         → DepositSynthesizedAssetPack
  *         → ReadSynthesizedAssetPack
- *         → SettledReadSynthesizedAssetPack
+ *         → ReadSynthesizedSettledAssetPack
  *
  * Measurements are part of the primitive shape via @bitcode/measurement-generics
  * (nested absolutes | needinesses kinds). Product packages refine commercial

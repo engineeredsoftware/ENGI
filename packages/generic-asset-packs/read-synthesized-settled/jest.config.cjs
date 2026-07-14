@@ -3,7 +3,7 @@ module.exports = {
   testEnvironment: 'node',
   testMatch: ['**/__tests__/**/*.test.ts'],
   moduleNameMapper: {
-    '^@bitcode/generic-asset-packs-settled-read-synthesized$': '<rootDir>/src/index.ts',
+    '^@bitcode/generic-asset-packs-read-synthesized-settled$': '<rootDir>/src/index.ts',
     '^@bitcode/generic-asset-packs-read-synthesized$':
       '<rootDir>/../read-synthesized/src/index.ts',
     '^@bitcode/generic-asset-packs-synthesis/synthesis-asset-pack$':
