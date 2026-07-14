@@ -507,7 +507,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Bitcode on X"
-                      className="inline-flex items-center gap-1.5 rounded-none border border-white/8 bg-white/[0.03] px-2.5 py-1 text-gray-400 transition-colors hover:border-emerald-300/25 hover:bg-emerald-400/[0.06] hover:text-emerald-100"
+                      className="inline-flex items-center justify-center rounded-none border border-white/8 bg-white/[0.03] p-1.5 text-gray-400 transition-colors hover:border-emerald-300/25 hover:bg-emerald-400/[0.06] hover:text-emerald-100"
                     >
                       <svg
                         viewBox="0 0 24 24"
@@ -517,7 +517,6 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       >
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.727-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" />
                       </svg>
-                      <span>X</span>
                     </a>
                     <a
                       href={BITCODE_SUPPORT_MAILTO}
