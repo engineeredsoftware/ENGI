@@ -3,8 +3,8 @@
  * staging, server persistence, and disconnect. UI stays in the panel entry.
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { QueryClientContext } from '@tanstack/react-query';
 
 import { createClient } from '@bitcode/supabase/ssr/client';
 
@@ -44,7 +44,8 @@ export function useWalletConnection({
   initialWalletBoundAt = null,
   onWalletIdentityChange,
 }: UseWalletConnectionArgs) {
-  const queryClient = useQueryClient();
+  // Optional: panel tests render without QueryClientProvider.
+  const queryClient = useContext(QueryClientContext);
   const [walletAddress, setWalletAddress] = useState(initialWalletAddress || '');
   const [walletProvider, setWalletProvider] = useState(
     initialWalletProvider || (initialWalletAddress ? 'manual' : ''),
@@ -335,8 +336,10 @@ export function useWalletConnection({
     onWalletIdentityChange?.(false);
     bitcodeQaTelemetry('info', 'wallet-auxillary', 'disconnect-local');
 
-    await queryClient.cancelQueries({ queryKey: ['auth'] });
-    updateCachedUser(queryClient, null);
+    if (queryClient) {
+      await queryClient.cancelQueries({ queryKey: ['auth'] });
+      updateCachedUser(queryClient, null);
+    }
 
     try {
       const readiness = readSupabaseClientReadiness();
@@ -348,8 +351,10 @@ export function useWalletConnection({
         message: error instanceof Error ? error.message : 'unknown',
       });
     } finally {
-      updateCachedUser(queryClient, null);
-      clearAuthQueries(queryClient);
+      if (queryClient) {
+        updateCachedUser(queryClient, null);
+        clearAuthQueries(queryClient);
+      }
       await mutateUserData();
     }
   };

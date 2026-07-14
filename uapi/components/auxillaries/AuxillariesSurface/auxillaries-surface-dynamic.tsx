@@ -7,11 +7,6 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 
-export const FlipText = dynamic(() => import('@/components/bitcode/layout/sidebars/FlipText/FlipText'), {
-  ssr: false,
-  loading: () => <span className="inline-block">Login</span>,
-});
-
 export const AuxillariesLoginPane = dynamic(() => import('@/components/auxillaries/AuxillariesLoginPane/AuxillariesLoginPane'), {
   ssr: false,
   loading: () => <div className="animate-pulse h-96 w-full" />,

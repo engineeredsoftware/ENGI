@@ -32,6 +32,8 @@ import { clearAuthQueries, updateCachedUser } from '@/hooks/use-auth-query';
 import { clearUserDataIdentity, mutateUserData, useUserData } from '@/hooks/useUserData';
 import { clearLocalBitcodeWalletIdentity } from '@bitcode/auth/wallet-local';
 
+import { requestWalletConnectAttention } from '@/components/auxillaries/AuxillariesWalletConnectionPanel/models/wallet-connect-attention';
+
 import { parseAuxillaryPath, reportError, trackEvent } from '../models/auxillaries-surface-path';
 
 export interface UseAuxillariesSurfaceArgs {
@@ -304,6 +306,27 @@ export function useAuxillariesSurface({
     trackEvent(isAuxillariesSurface ? 'auxillaries_step_click' : 'onboarding_step_click', { step });
   }, [availableSteps, isAuxillariesSurface]);
 
+  /**
+   * Chrome Connect: open Wallet auxillary and briefly spotlight the
+   * required-wallet section + Connect Xverse/Leather buttons. Create Account
+   * is not a chrome action — wallet binding is the identity entry.
+   */
+  const handleConnectChrome = useCallback(() => {
+    setCurrentStep('wallet');
+    trackEvent('auxillaries_connect_focus_wallet');
+    // Wait a frame (or two) so WalletPane / panel listeners are mounted.
+    if (typeof window === 'undefined') return;
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        requestWalletConnectAttention();
+      });
+    });
+    // If the pane is still mounting (dynamic import), re-cue shortly after.
+    window.setTimeout(() => {
+      requestWalletConnectAttention();
+    }, 120);
+  }, []);
+
   const toggleWindow = useCallback(() => {
     setActiveWindow((value) => (value === 'SignInWindow' ? 'SignUpWindow' : 'SignInWindow'));
   }, []);
@@ -369,6 +392,7 @@ export function useAuxillariesSurface({
     auxillariesBackgroundClass,
     auxillariesBackgroundAnimationClass,
     handleSignOut,
+    handleConnectChrome,
     handleStepComplete,
     handleStepClick,
     handleStepCompletionChange,

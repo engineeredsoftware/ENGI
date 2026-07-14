@@ -860,3 +860,82 @@
 ) {
   border-radius: 50% !important;
 }
+
+/*
+ * Chrome Connect attention cue: briefly spotlight the required-wallet section
+ * and strongly pulse Connect Xverse / Leather buttons.
+ */
+@keyframes wallet-section-attention {
+  0% {
+    box-shadow:
+      0 18px 44px rgba(0, 0, 0, 0.2),
+      0 0 0 0 rgba(251, 146, 60, 0);
+  }
+  18%,
+  42% {
+    box-shadow:
+      0 18px 44px rgba(0, 0, 0, 0.28),
+      0 0 0 3px rgba(251, 146, 60, 0.72),
+      0 0 42px rgba(251, 146, 60, 0.42);
+    border-color: rgba(251, 146, 60, 0.78) !important;
+  }
+  100% {
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@keyframes wallet-connect-button-attention {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    box-shadow: none;
+  }
+  12%,
+  38% {
+    transform: translateY(-1px) scale(1.045);
+    border-color: rgba(254, 215, 170, 0.95) !important;
+    background: rgba(251, 146, 60, 0.42) !important;
+    color: #fff !important;
+    box-shadow:
+      0 0 0 2px rgba(251, 146, 60, 0.75),
+      0 0 28px rgba(251, 146, 60, 0.65),
+      0 12px 28px rgba(0, 0, 0, 0.28);
+  }
+  55% {
+    transform: translateY(0) scale(1.02);
+    border-color: rgba(253, 186, 116, 0.8) !important;
+    background: rgba(251, 146, 60, 0.28) !important;
+    box-shadow:
+      0 0 0 1px rgba(251, 146, 60, 0.45),
+      0 0 18px rgba(251, 146, 60, 0.4);
+  }
+}
+
+.wallet-connect-attention-section {
+  animation: wallet-section-attention 2.1s ease-out 1;
+  border-color: rgba(251, 146, 60, 0.62) !important;
+}
+
+.wallet-connect-attention-button {
+  animation: wallet-connect-button-attention 2.1s ease-out 1;
+  will-change: transform, box-shadow, background-color, border-color;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wallet-connect-attention-section,
+  .wallet-connect-attention-button {
+    animation: none;
+  }
+
+  .wallet-connect-attention-section {
+    box-shadow:
+      0 18px 44px rgba(0, 0, 0, 0.2),
+      0 0 0 2px rgba(251, 146, 60, 0.55);
+  }
+
+  .wallet-connect-attention-button {
+    border-color: rgba(254, 215, 170, 0.9) !important;
+    background: rgba(251, 146, 60, 0.36) !important;
+    color: #fff !important;
+  }
+}

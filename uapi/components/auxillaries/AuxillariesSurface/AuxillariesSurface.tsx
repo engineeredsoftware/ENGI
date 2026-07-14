@@ -16,7 +16,6 @@ import { getAuxillaryRingIndex, type AuxillaryPane } from '@/components/auxillar
 import {
   AuxillariesContent,
   AuxillariesLoginPane,
-  FlipText,
 } from './auxillaries-surface-dynamic';
 import { useAuxillariesSurface } from './hooks/use-auxillaries-surface';
 import { useAuxillariesStepContent } from './hooks/use-auxillaries-step-content';
@@ -71,22 +70,20 @@ export default function AuxillariesSurface({
       )}
 
       {/*
-        Wallet-native chrome: Connect when no session/wallet identity;
-        Disconnect when either Supabase session or Bitcoin wallet is bound
-        (mirrors Sign in → Connect / Sign out → Disconnect product language).
+        Wallet-native chrome: Connect focuses Wallet auxillary + connect CTAs;
+        Disconnect when session or Bitcoin wallet is bound. No Create Account
+        chrome — identity entry is wallet binding.
       */}
       {surface.authLoaded && !surface.hasConnectedIdentity && (
         <button
           type="button"
-          data-auxillaries-testid="auxillaries-toggle-button"
-          onClick={surface.toggleWindow}
+          data-auxillaries-testid="auxillaries-connect-button"
+          data-testid="auxillaries-connect-button"
+          onClick={surface.handleConnectChrome}
           className="auxillaries-action-button auxillaries-connect-button auxillaries-toggle-button orbital-toggle-button inline-flex h-10 min-w-[9.5rem] items-center justify-center rounded-none border border-emerald-300/35 bg-emerald-950/85 px-4 text-xs font-bold uppercase tracking-[0.12em] text-emerald-50 shadow-[0_14px_32px_rgba(0,0,0,0.24),0_0_0_1px_rgba(101,254,183,0.1)_inset] transition hover:-translate-y-px hover:border-emerald-200/50 hover:bg-emerald-900/90 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/50"
-          aria-label={surface.activeWindow === 'SignInWindow' ? 'Create Account' : 'Connect'}
+          aria-label="Connect"
         >
-          <FlipText
-            text={surface.activeWindow === 'SignInWindow' ? 'Create Account' : 'Connect'}
-            className="inline-block"
-          />
+          Connect
         </button>
       )}
 

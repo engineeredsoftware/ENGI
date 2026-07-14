@@ -3,10 +3,15 @@
 /**
  * Bitcoin wallet connection panel — connect/disconnect/stage UI for the wallet
  * auxillary. Lifecycle and persistence live in hooks/use-wallet-connection.
+ * Chrome Connect dispatches a brief attention cue on this section + CTAs.
  */
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
+import {
+  BITCODE_FOCUS_WALLET_CONNECT_EVENT,
+  WALLET_CONNECT_ATTENTION_MS,
+} from './models/wallet-connect-attention';
 import { formatWalletReadout } from './models/wallet-connection-format';
 import { useWalletConnection } from './hooks/use-wallet-connection';
 
@@ -25,6 +30,10 @@ export default function AuxillariesWalletConnectionPanel({
   initialWalletBoundAt = null,
   onWalletIdentityChange,
 }: AuxillariesWalletConnectionPanelProps) {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [attentionActive, setAttentionActive] = useState(false);
+  const attentionTimerRef = useRef<number | null>(null);
+
   const {
     walletAddress,
     walletBindingStatus,
@@ -51,9 +60,45 @@ export default function AuxillariesWalletConnectionPanel({
     onWalletIdentityChange,
   });
 
+  useEffect(() => {
+    const runAttention = () => {
+      setAttentionActive(true);
+      sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (attentionTimerRef.current != null) {
+        window.clearTimeout(attentionTimerRef.current);
+      }
+      attentionTimerRef.current = window.setTimeout(() => {
+        setAttentionActive(false);
+        attentionTimerRef.current = null;
+      }, WALLET_CONNECT_ATTENTION_MS);
+    };
+
+    window.addEventListener(BITCODE_FOCUS_WALLET_CONNECT_EVENT, runAttention);
+    return () => {
+      window.removeEventListener(BITCODE_FOCUS_WALLET_CONNECT_EVENT, runAttention);
+      if (attentionTimerRef.current != null) {
+        window.clearTimeout(attentionTimerRef.current);
+      }
+    };
+  }, []);
+
+  const connectButtonClassName = [
+    'wallet-connect-provider-button inline-flex items-center justify-center rounded-none border border-orange-300/34 bg-orange-400/14 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/54 hover:bg-orange-400/22 disabled:cursor-wait disabled:opacity-60',
+    attentionActive ? 'wallet-connect-attention-button' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
     <section
-      className="orbital-section mb-5"
+      ref={sectionRef}
+      data-testid="wallet-required-section"
+      className={[
+        'orbital-section mb-5 wallet-required-section',
+        attentionActive ? 'wallet-connect-attention-section' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       style={{
         background: 'linear-gradient(145deg, rgba(42, 25, 11, 0.86), rgba(14, 22, 36, 0.86))',
         border: hasWalletIdentity
@@ -95,7 +140,7 @@ export default function AuxillariesWalletConnectionPanel({
               data-testid={`wallet-connect-${provider.id}`}
               onClick={() => handleConnectBitcoinWallet(provider.id)}
               disabled={walletAuthStatus === 'requesting'}
-              className="inline-flex items-center justify-center rounded-none border border-orange-300/34 bg-orange-400/14 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/54 hover:bg-orange-400/22 disabled:cursor-wait disabled:opacity-60"
+              className={connectButtonClassName}
             >
               {walletAuthStatus === 'requesting'
                 ? `Opening ${provider.label}`
@@ -110,7 +155,7 @@ export default function AuxillariesWalletConnectionPanel({
             data-testid="wallet-connect-bitcoin-wallet"
             onClick={() => handleConnectBitcoinWallet()}
             disabled={walletAuthStatus === 'requesting'}
-            className="inline-flex items-center justify-center rounded-none border border-orange-300/34 bg-orange-400/14 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/54 hover:bg-orange-400/22 disabled:cursor-wait disabled:opacity-60"
+            className={connectButtonClassName}
           >
             {walletAuthStatus === 'requesting'
               ? 'Opening Bitcoin wallet'
