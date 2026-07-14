@@ -139,7 +139,14 @@ describe('MarketingLandingPage', () => {
     const section = screen.getByTestId('landing-testnet-launch');
     expect(section).toBeInTheDocument();
     expect(screen.getByText('Commercial Product')).toBeInTheDocument();
-    expect(screen.getByText('Exchanging Bitcode for Bitcoin.')).toBeInTheDocument();
+    expect(
+      screen.getByText((_, node) => {
+        if (node?.tagName !== 'H2') return false;
+        return (node.textContent ?? '').includes('Exchanging Bitcode for Bitcoin.');
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Bitcode', { selector: 'h2 span' })).toBeInTheDocument();
+    expect(screen.getByText('Bitcoin', { selector: 'h2 span' })).toBeInTheDocument();
     expect(screen.getByText(/ERC-1155 on Ethereum/i)).toBeInTheDocument();
     expect(screen.getByText(/measurements, quotes, settlement order/iu)).toBeInTheDocument();
     expect(screen.queryByText(/testnet/i)).toBeNull();

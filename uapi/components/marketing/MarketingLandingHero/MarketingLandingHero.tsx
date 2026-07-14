@@ -19,16 +19,18 @@ import {
   productPillars,
 } from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 
-const DESCRIPTION_HIGHLIGHT_CLASS: Record<'purple' | 'orange', string> = {
+const NEON_HIGHLIGHT_CLASS: Record<'purple' | 'orange' | 'green', string> = {
   purple:
     'font-semibold text-fuchsia-200 [text-shadow:0_0_12px_rgba(232,121,249,0.75),0_0_28px_rgba(192,132,252,0.45)]',
   orange:
     'font-semibold text-orange-200 [text-shadow:0_0_12px_rgba(251,146,60,0.75),0_0_28px_rgba(251,191,36,0.4)]',
+  green:
+    'font-semibold text-emerald-200 [text-shadow:0_0_12px_rgba(103,254,183,0.75),0_0_28px_rgba(52,211,153,0.4)]',
 };
 
-function renderDescriptionWithHighlights(
+function renderNeonHighlights(
   body: string,
-  highlights: ReadonlyArray<{ text: string; tone: 'purple' | 'orange' }>,
+  highlights: ReadonlyArray<{ text: string; tone: 'purple' | 'orange' | 'green' }>,
 ) {
   if (!highlights.length) return body;
 
@@ -42,10 +44,10 @@ function renderDescriptionWithHighlights(
     if (!part) return null;
     const tone = toneByText.get(part);
     if (!tone) {
-      return <React.Fragment key={`desc-${index}`}>{part}</React.Fragment>;
+      return <React.Fragment key={`neon-${index}`}>{part}</React.Fragment>;
     }
     return (
-      <span key={`desc-${part}-${index}`} className={DESCRIPTION_HIGHLIGHT_CLASS[tone]}>
+      <span key={`neon-${part}-${index}`} className={NEON_HIGHLIGHT_CLASS[tone]}>
         {part}
       </span>
     );
@@ -105,7 +107,7 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
           </div>
         </h1>
         <p className="max-w-[42rem] text-[17px] font-medium leading-[1.5] tracking-[-0.015em] text-white/90 [text-shadow:0_0_18px_rgba(103,254,183,0.05)] phone:text-[19px] tablet:text-[21px]">
-          {renderDescriptionWithHighlights(
+          {renderNeonHighlights(
             BITCODE_PUBLIC_COPY.description,
             BITCODE_PUBLIC_COPY.descriptionHighlights,
           )}
@@ -155,11 +157,14 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
       </div>
 
       {/*
-        Shared y-rhythm from pre-swap layout:
-        mt-6/7 after CTAs, gap-4 between the two panels — only order is swapped.
+        Pre-swap y-rhythm: mt-6/7 after CTAs, gap-4 between panels.
+        flex-1 fills residual left-column height so lower edge matches Data Depot.
+        Product grows; micro-blog pins to the shared bottom.
       */}
-      <div className="mt-6 flex w-full flex-col gap-4 phone:mt-7">
-        <MarketingLandingTestnetSection />
+      <div className="mt-6 flex min-h-0 w-full flex-1 flex-col gap-4 phone:mt-7">
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+          <MarketingLandingTestnetSection />
+        </div>
         <MarketingLandingGuideCard />
       </div>
     </motion.section>
