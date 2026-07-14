@@ -982,23 +982,36 @@ Gate 3 is closed when:
 
 ### Depositing and asset supply
 
-- Current canonical objects and emitted artifacts: deposit source bundle,
-  deposit AssetPack option, Depository AssetPack, measurement vector, estimated
-  BTD range, admission receipt, compensation expectation, PackActivity row.
-- Current algorithms and derivation rules: synthesize options from connected
-  source, measure source-safe value, classify criticality, estimate demand,
-  admit approved options, index Depository metadata.
+- Current canonical objects and emitted artifacts: deposit source bundle /
+  **sourceCheckoutCatalog**, Host workspace, obfuscation guidance, deposit
+  AssetPack option (**patch + measurements + metadata** with formal absolutes),
+  Depository AssetPack, measurement vector / absolute readings, neediness
+  preview or Unestimatable, selection envelope, storedArtifacts bundle,
+  ledgerize journal roots, admission receipt, compensation expectation,
+  PackActivity row, execution + execution_events rows.
+- Current algorithms and derivation rules: **full law in measurement section +
+  Gate 3 G3-1…G3-15** — SynthesizeDepositAssetPacks SDIVF (Setup clone → parallel
+  LSP/MCP/obfuscations → danger-wall; Discovery parallel three agents with
+  measure-inside-codebase; Implementation 2–4 kinds; Validation A/B/C ready-to-
+  finish; Finish store → journal → selection envelope); policy/admission/
+  earnings after options; settled-Depository demand estimate.
 - Current invariants and fail-closed conditions: no source exposure before
-  entitlement, no critical IP admission without explicit approval, no
-  compensation claim without settlement evidence.
+  entitlement; no full catalog bodies in prompts/telemetry; no absolute-volume
+  invention by LLMs; no Finish without absolutes; no critical IP admission
+  without explicit approval; no compensation claim without settlement evidence;
+  danger-wall short-circuit on invalid obfuscations; zero options fails the run.
 - Current proof obligations: source connection receipt, option synthesis
-  receipt, measurement receipt, approval receipt, admission receipt, index root.
-- Current source-bearing implementation basis: source remains protected behind
-  source-safe option review and storage boundaries.
-- Current validating commands and parity basis: V48 Gate 4 and Gate 7 tests
-  must prove seller flow and deposit-to-read continuity.
-- Current accepted boundaries: deposit estimates are not final BTD until a
-  Need-relative read binds them.
+  receipt, measurement receipt (absolutes), approval receipt, admission receipt,
+  index root, selection-envelope / storedArtifacts schema roots.
+- Current source-bearing implementation basis: Host checkout + catalog; source
+  remains protected behind source-safe option review and storage boundaries
+  (G3-14 source map).
+- Current validating commands and parity basis: deposit agent prompt contracts,
+  setup/discovery/validation/store-contract tests, PARITY D-01…D-18; later Gate
+  4/7 for seller E2E and deposit-to-read continuity.
+- Current accepted boundaries: deposit estimates / neediness are not final BTD
+  until a Need-relative read binds them; `deposit:inventory` is legacy dual-write
+  only.
 
 ### Reading and prompt/inference ownership
 
