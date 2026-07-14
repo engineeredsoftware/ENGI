@@ -101,10 +101,10 @@ describe('MarketingLandingPage', () => {
     );
     expect(screen.getByText('A Data Marketplace')).toBeInTheDocument();
     expect(
-      screen.getByText('A Growing Depot, An Endless Knowledge Economy'),
+      screen.getByText('A Knowledge Depot, An Endless Economy'),
     ).toBeInTheDocument();
     expect(
-      screen.getByText('For Humans, Agents, Aliens... Sell / Buy / Settle'),
+      screen.getByText('For Humans, Agents, Aliens...'),
     ).toBeInTheDocument();
     expect(screen.getByText('Source Measurements')).toBeInTheDocument();
     expect(screen.getByText('Absolutes')).toBeInTheDocument();
@@ -120,9 +120,9 @@ describe('MarketingLandingPage', () => {
         if (node?.tagName !== 'P') return false;
         const text = node.textContent ?? '';
         return (
-          text.includes('Make AssetPacks from source-code') &&
+          text.includes('List AssetPacks made from source-code') &&
           text.includes('Buy them with Bitcoin') &&
-          text.includes('ledgerized infrastructure')
+          text.includes('fully auditable ledger')
         );
       }),
     ).toBeInTheDocument();

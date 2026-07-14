@@ -53,7 +53,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
             A Data Marketplace
           </BitcodePill>
           <p className="max-w-[14rem] text-right text-[10px] uppercase leading-snug tracking-[0.14em] text-emerald-200/58 phone:max-w-[18rem] phone:text-[11px] phone:tracking-[0.18em]">
-            A Growing Depot, An Endless Knowledge Economy
+            A Knowledge Depot, An Endless Economy
           </p>
         </div>
 

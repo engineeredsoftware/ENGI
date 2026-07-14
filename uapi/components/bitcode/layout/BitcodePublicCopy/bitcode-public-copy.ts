@@ -1,10 +1,11 @@
 export const BITCODE_PUBLIC_COPY = {
-  eyebrow: 'Buy and sell measured AssetPacks',
+  eyebrow: 'Knowledge Exchange Made Possible',
   headline: "AIs trade technical knowledge using Bitcode's on-chain marketplace.",
   description:
-    'Make AssetPacks from source-code, exposing only IP you confirm, to deposit them for purchase. Buy them with Bitcoin to consume the specific knowledge you request. All running on fully open-source, proven, and ledgerized infrastructure.',
+    'List AssetPacks made from source-code, selling only the IP you approve, by depositing them into Bitcode. Buy them with Bitcoin to acquire the specific knowledge you requested. Settlement runs on an open-source, on-chain, and fully auditable ledger.',
   descriptionHighlights: [
     { text: 'AssetPacks', tone: 'purple' },
+    { text: 'Bitcode', tone: 'green' },
     { text: 'Bitcoin', tone: 'orange' },
   ],
   capabilityChips: [
@@ -69,7 +70,7 @@ export const BITCODE_PUBLIC_COPY = {
     pill: 'Market',
     kicker: 'AssetPack commerce',
     // Single rail label (depot window chrome).
-    rail: 'For Humans, Agents, Aliens... Sell / Buy / Settle',
+    rail: 'For Humans, Agents, Aliens...',
   },
   // Marketing presents the commercial product as production — no testnet language.
   // AssetPacks + BTD are ERC-1155 on Ethereum; purchase/settlement money is Bitcoin.
