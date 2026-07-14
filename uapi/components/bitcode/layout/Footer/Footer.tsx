@@ -29,6 +29,8 @@ const DEFAULT_OPERATOR_GUIDE_URL =
   process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() || '/docs';
 const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/BITCODE_SPEC.txt';
 const BITCODE_REPOSITORY_URL = 'https://github.com/engineeredsoftware/bitcode';
+const BITCODE_X_URL = 'https://x.com/bitcode';
+const BITCODE_SUPPORT_EMAIL = 'mailto:support@bitcode.exchange';
 const DISABLED_FEATURE_TOOLTIPS = {
   packs:
     'Disabled for launch mode. When enabled, Packs opens the public activity and pack-reading surface.',
@@ -399,7 +401,8 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
 
           <div className={`${showPrimaryContent ? 'border-t' : ''} w-full py-4`}>
             <div className="flex w-full flex-col gap-4 tablet:gap-5">
-              <div className="grid w-full grid-cols-1 gap-2 phone:grid-cols-2 laptop:grid-cols-[repeat(4,minmax(0,1fr))]">
+              {/* One row from laptop up (5 product/surface links). */}
+              <div className="grid w-full grid-cols-1 gap-2 phone:grid-cols-2 laptop:grid-cols-5">
                 {footerLinks.map((social) => {
                   const isDisabledRoute = social.href === PACKS_URL && disablePacksLink;
                   const explainerButton = social.explainer ? (
@@ -484,17 +487,59 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                 ) */}
               </div>
               <div className="flex w-full flex-col items-start justify-between gap-4 tablet:flex-row tablet:items-center">
-                <span className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                <span
-                  className="[filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]"
-                  style={{ display: 'inline-block', transform: 'scaleX(-1)' }}
-                >
-                  🧪
-                </span>
-                <span>
-                  Bitcode by Advanced Engineered Software, Inc. <span className="font-light">{new Date().getFullYear()}</span>
-                </span>
-                </span>
+                <div className="flex flex-col items-start gap-2 phone:flex-row phone:flex-wrap phone:items-center phone:gap-3">
+                  <span className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span
+                      className="[filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]"
+                      style={{ display: 'inline-block', transform: 'scaleX(-1)' }}
+                    >
+                      🧪
+                    </span>
+                    <span>
+                      Bitcode by Advanced Engineered Software, Inc.{' '}
+                      <span className="font-light">{new Date().getFullYear()}</span>
+                    </span>
+                  </span>
+                  <span className="inline-flex items-center gap-2 text-[12px]">
+                    <a
+                      href={BITCODE_X_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Bitcode on X"
+                      className="inline-flex items-center gap-1.5 rounded-none border border-white/8 bg-white/[0.03] px-2.5 py-1 text-gray-400 transition-colors hover:border-emerald-300/25 hover:bg-emerald-400/[0.06] hover:text-emerald-100"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                        className="h-3.5 w-3.5"
+                        fill="currentColor"
+                      >
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.727-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" />
+                      </svg>
+                      <span>X</span>
+                    </a>
+                    <a
+                      href={BITCODE_SUPPORT_EMAIL}
+                      aria-label="Email Bitcode support"
+                      className="inline-flex items-center gap-1.5 rounded-none border border-white/8 bg-white/[0.03] px-2.5 py-1 text-gray-400 transition-colors hover:border-emerald-300/25 hover:bg-emerald-400/[0.06] hover:text-emerald-100"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                        className="h-3.5 w-3.5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.7"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <rect x="3" y="5" width="18" height="14" rx="1.5" />
+                        <path d="m4 7 8 6 8-6" />
+                      </svg>
+                      <span>support@bitcode.exchange</span>
+                    </a>
+                  </span>
+                </div>
                 <div className="flex w-full flex-col items-start gap-3 tablet:w-auto tablet:items-end">
                   <Link href="/" className="cursor-pointer">
                     <BitcodeSoftwareSvgLogo
