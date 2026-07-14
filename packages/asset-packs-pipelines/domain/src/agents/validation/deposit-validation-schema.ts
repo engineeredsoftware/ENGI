@@ -9,9 +9,12 @@ import { z } from 'zod';
 
 export const DepositValidationInputSchema = z.object({
   assetPacks: z.any().optional(),
+  sourceCheckoutCatalog: z.any().optional(),
+  /** @deprecated dual-read alias for sourceCheckoutCatalog */
   inventory: z.any().optional(),
   obfuscationGuidance: z.any().optional(),
   forcedExclusions: z.any().optional(),
+  priorPhaseIssues: z.array(z.string()).optional(),
 });
 
 export const DepositValidationOutputSchema = z.object({

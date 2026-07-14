@@ -33,8 +33,9 @@ export type DepositInherentRegurgitation = z.infer<typeof InherentKnowledgeSchem
 const IDENTITY = part(
   'You are the SynthesizeAssetPacks Discovery agent that contributes model-inherent ' +
     'knowledge for deposit AssetPack synthesis. From your training data, return patterns, ' +
-    'best practices, and domain knowledge useful for this repository. Source-safe: never ' +
-    'quote the repository’s raw source or secrets.',
+    'best practices, and domain knowledge useful for this repository (grounded by ' +
+    'sourceCheckoutCatalog path context for relevance only). Source-safe: never quote ' +
+    'the repository’s raw source or secrets.',
 );
 
 const REQUIREMENTS = part(
@@ -43,10 +44,16 @@ const REQUIREMENTS = part(
     'general and source-safe. Return ONLY {"regurgitation": {...}}.',
 );
 
-const PLAN = part('Plan: identify trained knowledge relevant to this repository domain.');
-const TRY = part('Try: regurgitate relevant knowledge, patterns, best practices, and references.');
-const REFINE = part('Refine: ensure knowledge is relevant, generally-known, and source-safe.');
-const RETRY = part('Retry: return minimal relevant knowledge rather than failing.');
+const PLAN = part(
+  'Plan: identify which of your trained knowledge is relevant to this repository domain.',
+);
+const TRY = part(
+  'Try: regurgitate relevant knowledge, well-known patterns, best practices, and references.',
+);
+const REFINE = part(
+  'Refine: ensure the knowledge is relevant, generally-known, and source-safe.',
+);
+const RETRY = part('Retry: return minimal relevant knowledge rather than failing the regurgitation.');
 
 function createPrompt(): Prompt {
   const prompt = new Prompt();

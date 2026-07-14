@@ -1,14 +1,14 @@
 /**
- * Deposit-mode Validation agent — Validation phase (V48 Gate 2/3).
+ * Deposit-mode Validation agent (compat export).
  *
- * The deposit lens of the SynthesizeAssetPacks Validation phase: validate the
- * synthesized, measured-patch AssetPacks (implementation:options /
- * implementation:assetPacks) before Finish uploads them for depositor review.
- * Merges qualitative PTRR findings with deterministic smoke checks, stores
- * issues for ReadyToFinish, then attaches formal ABSOLUTES via measure-agent.
+ * Prefer deposit-ready-to-finish-agent (validation:ready-to-finish-asset-packs-
+ * synthesis-deposit-pipeline) — the single A/B/C gate. This module remains for
+ * prompt-contract tests and older roster aliases; it shares
+ * createDepositValidationPrompt and smoke/merge helpers.
  *
- * Schema, prompts, and smoke/merge logic live in co-located siblings. Default
- * export (run factory path) and `DepositValidationAgent` remain stable.
+ * Qualitative PTRR + deterministic smoke; may backfill missing absolutes so
+ * packs leave Validation as patch + measurements + metadata when Implementation
+ * did not attach them.
  */
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
@@ -48,7 +48,7 @@ export const DepositValidationAgent = factoryPTRRAgent<
 >({
   name: 'DepositValidationAgent',
   description:
-    'Validates the synthesized deposit AssetPacks for quality, distinctness, source-safety, obfuscation/exclusion compliance, patch coherence, and coverage (deposit lens).',
+    'Validates deposit AssetPacks (patch + measurements + metadata) for quality, distinctness, source-safety, and obfuscation/exclusion compliance.',
   outputSchema: DepositValidationOutputSchema,
   tools: [],
   prompt,
@@ -90,20 +90,25 @@ export default async function runDepositValidationAgent(input: any, execution: a
   const { ensureDepositCheckoutSourceFiles } = await import(
     '../../ensure-deposit-checkout-source-files'
   );
-  const inventory = await ensureDepositCheckoutSourceFiles(
-    execution,
-    input?.inventory ?? findValue(execution, 'deposit', 'inventory'),
-  );
+  const { resolveSourceCheckoutCatalog } = await import('../../resolve-source-checkout-catalog');
   const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
+  const catalog = await ensureDepositCheckoutSourceFiles(
+    execution,
+    resolveSourceCheckoutCatalog(
+      execution,
+      input?.sourceCheckoutCatalog ?? input?.inventory,
+    ),
+  );
   // LLM qualitative validation: paths only. Static-analysis measurement below
-  // still reads full inventory.sources from the shared store.
-  const inventoryForPrompt = projectInventoryForPrompt(inventory);
+  // still reads full catalog.sources from the shared store.
+  const catalogForPrompt = projectInventoryForPrompt(catalog);
   const raw = await DepositValidationAgent(
     {
       ...input,
       assetPacks: packs,
-      inventory: inventoryForPrompt,
-      inventoryPaths: inventoryForPrompt?.paths ?? inventory?.paths,
+      sourceCheckoutCatalog: catalogForPrompt,
+      inventory: catalogForPrompt, // dual-write for legacy stream filters
+      inventoryPaths: catalogForPrompt?.paths ?? catalog?.paths,
       obfuscationGuidance,
       forcedExclusions,
     },
@@ -120,19 +125,20 @@ export default async function runDepositValidationAgent(input: any, execution: a
   storeCrossPhaseArtifact(execution, 'validation/implementation', 'issues', result.issues);
   storeCrossPhaseArtifact(execution, 'validation', 'depositQuality', result);
 
-  // Formal ABSOLUTES measurement of digital material properties.
+  // Backfill formal ABSOLUTES when Implementation did not attach them.
   if (packs.length > 0) {
-    const inventorySources = Array.isArray((inventory as any)?.sources)
-      ? (inventory as any).sources
+    const catalogSources = Array.isArray((catalog as any)?.sources)
+      ? (catalog as any).sources
           .filter((s: any) => s && typeof s.path === 'string' && typeof s.content === 'string')
           .map((s: any) => ({ path: s.path as string, content: s.content as string }))
-      : Array.isArray((inventory as any)?.samples)
-        ? (inventory as any).samples
+      : Array.isArray((catalog as any)?.samples)
+        ? (catalog as any).samples
             .filter((s: any) => s && typeof s.path === 'string' && typeof s.excerpt === 'string')
             .map((s: any) => ({ path: s.path as string, content: s.excerpt as string }))
         : [];
     await Promise.all(
       packs.map(async (pack: any) => {
+        if (Array.isArray(pack?.absolutes) && pack.absolutes.length > 0) return;
         try {
           const absolutes = await measureAssetPackAbsolutes(
             {
@@ -144,7 +150,7 @@ export default async function runDepositValidationAgent(input: any, execution: a
               patchSummary:
                 typeof pack?.patch?.patchSummary === 'string' ? pack.patch.patchSummary : undefined,
             },
-            { lens: 'deposit', execution, sources: inventorySources },
+            { lens: 'deposit', execution, sources: catalogSources },
           );
           pack.absolutes = absolutes;
         } catch {}

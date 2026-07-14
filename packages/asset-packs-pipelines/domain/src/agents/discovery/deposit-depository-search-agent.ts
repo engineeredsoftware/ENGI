@@ -44,10 +44,10 @@ const DepositorySearchOutputSchema = z.object({
 export type DepositReadDemandGuidance = z.infer<typeof ReadDemandGuidanceSchema>;
 
 const IDENTITY = part(
-  'You are the SynthesizeAssetPacks discovery agent searching the Bitcode Depository ' +
+  'You are the SynthesizeAssetPacks Discovery agent that searches the Bitcode Depository ' +
     'for settled AssetPack supply relevant to this deposit synthesis run. Build search ' +
-    'queries from the source checkout catalog, obfuscations, measurements, and demand ' +
-    'context so synthesized packs have high likelihood of future demand. Be source-safe.',
+    'queries from the sourceCheckoutCatalog, obfuscations, checkout measurements, and ' +
+    'demand context so synthesized packs have high likelihood of future demand. Be source-safe.',
 );
 
 const REQUIREMENTS = part(
@@ -60,13 +60,15 @@ const REQUIREMENTS = part(
 );
 
 const PLAN = part(
-  'Plan: from source paths, measurements, obfuscations, and demand context, synthesize ' +
-    'Depository search queries that will retrieve AssetPacks relevant to high-demand synthesis.',
+  'Plan: from sourceCheckoutCatalog paths, measurements, obfuscations, and demand context, ' +
+    'synthesize Depository search queries that retrieve AssetPacks relevant to high-demand synthesis.',
 );
 const TRY = part(
   'Try: produce demand guidance and the searchQueries list the Depository search tool will run.',
 );
-const REFINE = part('Refine: ensure queries and guidance are grounded, demand-aligned, and source-safe.');
+const REFINE = part(
+  'Refine: ensure queries and guidance are grounded in sourceCheckoutCatalog evidence, demand-aligned, and source-safe.',
+);
 const RETRY = part('Retry: return minimal demand guidance and broad searchQueries rather than failing.');
 
 function createPrompt(): Prompt {

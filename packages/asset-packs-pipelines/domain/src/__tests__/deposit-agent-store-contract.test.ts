@@ -198,10 +198,17 @@ describe('deposit agent context/store contract', () => {
         discoveryExec,
       );
       expect(result.success).toBe(true);
-      expect(result.guidance).toEqual(guidance);
+      // Host may enrich with searchQueries / tool underservedTopics; core fields preserved.
+      expect(result.guidance.summary).toBe(guidance.summary);
+      expect(result.guidance.likelyReadTopics).toEqual(guidance.likelyReadTopics);
+      expect(result.guidance.underservedTopics).toEqual(
+        expect.arrayContaining(['token refresh']),
+      );
       // Stored on the SHARED execution (cross-phase law).
-      expect(shared.get('discovery', 'depositorySearch')).toEqual(guidance);
-      expect(shared.child('seq-2').findUp('discovery', 'depositorySearch')).toEqual(guidance);
+      expect(shared.get('discovery', 'depositorySearch').summary).toBe(guidance.summary);
+      expect(shared.child('seq-2').findUp('discovery', 'depositorySearch').summary).toBe(
+        guidance.summary,
+      );
     }, 60000);
 
     it('inherent regurgitation stores discovery:inherentRegurgitation (the key the synthesis agent reads)', async () => {
@@ -259,8 +266,23 @@ describe('deposit agent context/store contract', () => {
 
       expect(result.success).toBe(true);
       expect(result.semanticKind).toBe('asset-pack-written-asset');
-      expect(result.options).toEqual(options);
-      expect(result.summary).toBe('Synthesized 2 measured deposit AssetPack patch(es).');
+      // AssetPack = patch + measurements + metadata: host attaches absolutes after PTRR.
+      expect(result.options).toHaveLength(2);
+      for (const opt of result.options) {
+        expect(opt).toMatchObject({
+          kind: expect.any(String),
+          title: expect.any(String),
+          patch: expect.objectContaining({
+            fileChanges: expect.any(Array),
+            patchSummary: expect.any(String),
+          }),
+        });
+        expect(Array.isArray(opt.absolutes)).toBe(true);
+        expect(opt.absolutes.length).toBeGreaterThan(0);
+      }
+      expect(result.summary).toBe(
+        'Synthesized 2 measured deposit AssetPack(s) (patch + measurements + metadata).',
+      );
       expect(result.assetPack).toEqual({ repository: REPOSITORY });
 
       // implementation:options — the store the /deposits route's completion read
@@ -268,16 +290,18 @@ describe('deposit agent context/store contract', () => {
       // SAME array. Stored on the SHARED execution (cross-phase law): the route
       // holds the root, so its `execution.get('implementation','options')`
       // completion read (route.ts) resolves DIRECTLY.
-      expect(shared.get('implementation', 'options')).toEqual(options);
-      expect(shared.get('implementation', 'assetPacks')).toEqual(options);
+      expect(shared.get('implementation', 'options')).toBe(result.options);
+      expect(shared.get('implementation', 'assetPacks')).toBe(result.options);
       expect(shared.get('implementation', 'options')).toBe(shared.get('implementation', 'assetPacks'));
       // implementation:assetPack + implementation:summary — the stores Finish reads,
       // resolvable from the Finish sibling via the upward walk.
       expect(shared.get('implementation', 'assetPack')).toEqual({ repository: REPOSITORY });
       expect(shared.get('implementation', 'summary')).toBe(
-        'Synthesized 2 measured deposit AssetPack patch(es).',
+        'Synthesized 2 measured deposit AssetPack(s) (patch + measurements + metadata).',
       );
-      expect(shared.child('seq-3').child('seq-0').findUp('implementation', 'options')).toEqual(options);
+      expect(shared.child('seq-3').child('seq-0').findUp('implementation', 'options')).toBe(
+        result.options,
+      );
     }, 60000);
 
     it('threads cross-phase stores written on the SHARED parent into the synthesis generation context (F20 law)', async () => {

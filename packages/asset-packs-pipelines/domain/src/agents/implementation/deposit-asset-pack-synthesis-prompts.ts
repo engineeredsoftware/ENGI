@@ -1,8 +1,10 @@
 /**
  * PTRR prompt parts for deposit-mode AssetPack synthesis agent.
  *
- * Synthesize source-safe measured-patch options from Discovery comprehension;
- * do not invent absolute measurement volumes (Validation measures those).
+ * AssetPack = patch + measurements + metadata.
+ * The LLM synthesizes the source-safe patch descriptor and metadata; the
+ * Implementation host attaches absolute measurements after PTRR (do not invent
+ * volumes). Paths come only from sourceCheckoutCatalog.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
@@ -12,51 +14,55 @@ import { DEPOSIT_OPTION_KINDS } from './deposit-asset-pack-synthesis-schema';
 const part = (content: string): PromptPart => content as PromptPart;
 
 const DEPOSIT_IDENTITY = part(
-  'You are SynthesizeAssetPacks in DEPOSIT mode. A depositor supplies their ' +
-    'repository knowledge as AssetPacks — bounded, source-safe slices the ' +
-    'Depository holds as supply. Data is digital material; you SYNTHESIZE the ' +
-    'material (the patch). Absolute material properties (quantity: size, symbolic ' +
-    'richness, modularity; quality: objectives, correctness, computational-usage) ' +
-    'are MEASURED later by the Validation measure-agent + static-analysis Tool — ' +
-    'do NOT invent measurement volumes here. Synthesize 2-4 DISTINCT AssetPack ' +
-    'patches from Discovery comprehension and obfuscation guidance. Describe ' +
-    'knowledge and the SHAPE of the patch — never quote raw source, code, secrets, ' +
-    'or file contents. Honor obfuscations and protected-IP exclusions absolutely.',
+  'You are SynthesizeAssetPacks Implementation for deposit. A depositor supplies ' +
+    'repository knowledge as AssetPacks — each AssetPack is patch + measurements + ' +
+    'metadata. You SYNTHESIZE the source-safe patch descriptor and pack metadata from ' +
+    'Discovery (codebase comprehension with measurements, depository search, inherent ' +
+    'regurgitation) and Setup obfuscation guidance. Absolute material properties ' +
+    '(quantity: size, symbolic richness, modularity; quality: objectives, correctness, ' +
+    'computational-usage) are ATTACHED by the Implementation host after your output — ' +
+    'do NOT invent absolute measurement volumes. Synthesize 2-4 DISTINCT AssetPack ' +
+    'candidates. Describe knowledge and the SHAPE of the patch — never quote raw source, ' +
+    'code, secrets, or file contents. Honor obfuscations and Forced Exclusions absolutely.',
 );
 
 const DEPOSIT_REQUIREMENTS = part(
   [
-    'Ground every candidate in Discovery comprehension (codebase, depository-search,',
-    'inherent regurgitation) and honor obfuscation guidance + protected-IP exclusions.',
+    'Ground every candidate in Discovery comprehension (codebase analysis + knowledge map,',
+    'depository-search demand guidance, inherent regurgitation) and honor obfuscation',
+    'guidance + Forced Exclusions.',
     'Each candidate is a distinct commercially-legible knowledge slice:',
     `- kind: one of ${DEPOSIT_OPTION_KINDS.join(', ')}.`,
     '- title + source-safe summary (knowledge/capability, never raw text).',
-    '- coveredSourcePaths: ONLY from the provided inventory paths, exactly as written.',
-    '- confidence: 0..1 self-estimate of synthesis fidelity (used as a soft prior for quality measurement).',
+    '- coveredSourcePaths: ONLY from the provided sourceCheckoutCatalog paths, exactly as written.',
+    '- confidence: 0..1 self-estimate of synthesis fidelity (metadata soft prior).',
     '- patch: SOURCE-SAFE descriptor of the digital material you synthesize:',
     '    - fileChanges: non-empty { path, op } list (create|modify|delete); path+op ONLY — never code/diffs.',
     '    - patchSummary: source-safe natural-language summary of the knowledge the patch encodes.',
     '- needinessSignal (read-demand preview), GROUNDED in depository-search guidance:',
     '    - demand (0..1), saturation (0..1), rationale (source-safe). Neediness is COMPUTED downstream.',
-    'Do NOT emit absolute measurement volumes (functions/types/correctness/etc.) — Validation measures those.',
+    'Do NOT emit absolute measurement volumes (functions/types/correctness/etc.) — the',
+    'Implementation host attaches absolutes (from Discovery source measurements or the',
+    'measure stack) so each AssetPack leaves Implementation as patch + measurements + metadata.',
     'Return ONLY {"options":[ ... ]} — top-level key MUST be "options".',
   ].join('\n'),
 );
 
 const DEPOSIT_PLAN = part(
-  'Plan: from the explored repository inventory, the Discovery comprehension, and ' +
-    'depositor steering, identify the distinct, buyer-legible AssetPack patches the ' +
-    'repository supports.',
+  'Plan: from the sourceCheckoutCatalog, Discovery comprehension (including absolute ' +
+    'measurements of the checkout), and depositor steering, identify the distinct, ' +
+    'buyer-legible AssetPack patches the repository supports.',
 );
 const DEPOSIT_TRY = part(
   'Try: synthesize each candidate as digital material — kind, title, source-safe ' +
-    'summary, covered source paths, confidence, the source-safe patch descriptor ' +
-    '(fileChanges path+op + patchSummary), and needinessSignal. Do not invent absolute volumes.',
+    'summary, covered source paths from sourceCheckoutCatalog, confidence, the ' +
+    'source-safe patch descriptor (fileChanges path+op + patchSummary), and ' +
+    'needinessSignal. Do not invent absolute volumes.',
 );
 const DEPOSIT_REFINE = part(
   'Refine: ensure each option is distinct, source-safe, obfuscation- and ' +
     'exclusion-honoring, and legible to a future buyer; verify the patch descriptor ' +
-    'names only inventory paths (no code/contents).',
+    'names only sourceCheckoutCatalog paths (no code/contents).',
 );
 const DEPOSIT_RETRY = part(
   'Retry: complete any missing option as a minimal valid source-safe patch ' +

@@ -1,5 +1,8 @@
 /**
  * @jest-environment node
+ *
+ * Lightweight unit tests for the single deposit Validation ready-to-finish gate.
+ * Heavy PTRR / measure / catalog graph is mocked so A/B/C merge logic is isolated.
  */
 jest.mock('../agents/validation/agent-measure-absolutes', () => ({
   measureAssetPackAbsolutes: jest.fn(async () => [
@@ -13,6 +16,13 @@ jest.mock('../agents/validation/agent-measure-absolutes', () => ({
       unit: 'functions',
     },
   ]),
+}));
+
+jest.mock('../asset-packs-synthesis', () => ({
+  ASSET_PACK_ABSOLUTES_CATALOG: [
+    { measurementKind: 'function-count', label: 'Functions', weight: 0.12 },
+  ],
+  projectInventoryForPrompt: (catalog: unknown) => catalog,
 }));
 
 jest.mock('@bitcode/agent-generics', () => ({

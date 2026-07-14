@@ -90,17 +90,18 @@ const REQUIREMENTS = part(
 );
 
 const PLAN = part(
-  'Plan: combine measurements, LSP signals, file-tree structure, and key file reads to ' +
-    'map capability, structure, and synthesis opportunities.',
+  'Plan: combine absolute measurements, LSP signals, file-tree structure, and key file ' +
+    'reads from the sourceCheckoutCatalog to map capability, structure, and synthesis opportunities.',
 );
 const TRY = part(
-  'Try: synthesize the codebase knowledge map using measurements + LSP + tree + key files.',
+  'Try: synthesize the codebase knowledge map — capabilities, knowledge areas, notable ' +
+    'modules, measurementInsights, structureInsights — from measurements + LSP + tree + key files.',
 );
 const REFINE = part(
-  'Refine: ensure the map is source-safe, grounded in provided evidence, and useful for pack synthesis.',
+  'Refine: ensure the map is source-safe, grounded in provided sourceCheckoutCatalog evidence, and useful for pack synthesis.',
 );
 const RETRY = part(
-  'Retry: return a minimal source-safe map grounded in path list and measurements rather than failing.',
+  'Retry: return a minimal source-safe knowledge map grounded in path list and measurements rather than failing comprehension.',
 );
 
 function createPrompt(): Prompt {

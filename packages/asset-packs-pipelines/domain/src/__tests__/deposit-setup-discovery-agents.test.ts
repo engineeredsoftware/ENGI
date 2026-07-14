@@ -178,10 +178,16 @@ describe('deposit Discovery lens agents (boundary-mocked PTRR)', () => {
     const out = await runDepositDepositorySearchAgent(DEPOSIT_INPUT, exec);
 
     expect(out.success).toBe(true);
-    expect(out.guidance).toEqual(MOCK_DEPOSITORY_GUIDANCE);
-    expect(out.guidance.underservedTopics).toEqual(['idempotent invoice replay']);
+    // Host enriches guidance with searchQueries and may merge tool underservedTopics.
+    expect(out.guidance.summary).toBe(MOCK_DEPOSITORY_GUIDANCE.summary);
+    expect(out.guidance.likelyReadTopics).toEqual(MOCK_DEPOSITORY_GUIDANCE.likelyReadTopics);
+    expect(out.guidance.underservedTopics).toEqual(
+      expect.arrayContaining(['idempotent invoice replay']),
+    );
+    expect(Array.isArray(out.guidance.searchQueries)).toBe(true);
+    expect(out.guidance.searchQueries!.length).toBeGreaterThan(0);
     expectNoEnvelopeLeak(out);
-    expect(exec.get('discovery', 'depositorySearch')).toEqual(MOCK_DEPOSITORY_GUIDANCE);
+    expect(exec.get('discovery', 'depositorySearch').summary).toBe(MOCK_DEPOSITORY_GUIDANCE.summary);
   }, 30000);
 
   it('inherent-regurgitation: typed regurgitation result + discovery:inherentRegurgitation store', async () => {
@@ -196,15 +202,17 @@ describe('deposit Discovery lens agents (boundary-mocked PTRR)', () => {
     expect(exec.get('discovery', 'inherentRegurgitation')).toEqual(MOCK_REGURGITATION);
   }, 30000);
 
-  it('a minimal model response ({summary} only) satisfies the lens schemas without a retry storm', async () => {
+  it('a minimal model response ({summary} only) satisfies the guidance schema without a retry storm', async () => {
     setBoundaryLLMOutput({ guidance: { summary: 'Minimal demand guidance.' } });
     const exec = new Execution('discovery-node');
 
     const out = await runDepositDepositorySearchAgent(DEPOSIT_INPUT, exec);
 
     // One required string; every array dimension is optional — the schema is
-    // satisfiable by the leanest well-formed model response.
-    expect(out.guidance).toEqual({ summary: 'Minimal demand guidance.' });
+    // satisfiable by the leanest well-formed model response. Host still attaches
+    // searchQueries for the Depository search tool.
+    expect(out.guidance.summary).toBe('Minimal demand guidance.');
+    expect(Array.isArray(out.guidance.searchQueries)).toBe(true);
     // No schema-driven retry storm: a straight PTRR run is 4 steps x 3 failsafes
     // x 3 generations = 36 LLM calls; stay comfortably at/below that baseline.
     expect(getBoundaryLLMCalls().length).toBeGreaterThan(0);
@@ -246,7 +254,10 @@ describe('deposit Discovery lens agents (boundary-mocked PTRR)', () => {
     setBoundaryLLMOutput({ guidance: MOCK_DEPOSITORY_GUIDANCE });
     const exec = new Execution('shared-node');
     await runDepositDepositorySearchAgent(DEPOSIT_INPUT, exec);
-    expect(exec.get('discovery', 'depositorySearch')).toEqual(MOCK_DEPOSITORY_GUIDANCE);
+    expect(exec.get('discovery', 'depositorySearch').summary).toBe(MOCK_DEPOSITORY_GUIDANCE.summary);
+    expect(exec.get('discovery', 'depositorySearch').underservedTopics).toEqual(
+      expect.arrayContaining(['idempotent invoice replay']),
+    );
 
     // ...and the Implementation agent, reading the same node, threads that
     // guidance (summary + underservedTopics) into its synthesis prompt.
@@ -321,13 +332,15 @@ describe('discovery conditional runtime registry roster', () => {
     };
   }
 
-  it('deposit mode registers exactly the three deposit lenses and never touches the read roster', () => {
+  it('deposit mode registers the three Discovery agents (native keys + stable aliases), not the read roster', () => {
     const registry = recordingRegistry();
     registerDiscoveryAgents(registry, 'deposit');
     expect([...registry.registrations.keys()].sort()).toEqual([
       'discovery:codebase-comprehension',
+      'discovery:comprehend-codebase',
       'discovery:depository-search',
       'discovery:inherent-regurgitation',
+      'discovery:search-depository',
     ]);
   });
 

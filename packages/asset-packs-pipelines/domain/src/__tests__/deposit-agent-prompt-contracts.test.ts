@@ -14,8 +14,9 @@
  *      in any rendered system prompt;
  *  (c) schema fidelity: the instructions name the agent's actual zod output
  *      field names and the exact top-level JSON wrapper key;
- *  (d) lens purity: no read-lens verbiage (Read-satisfaction / refund) in any
- *      deposit agent's system prompt.
+ *  (d) deposit purity: no read-satisfaction / refund verbiage in any deposit
+ *      agent system prompt; no vague "inventory" product language — paths are
+ *      sourceCheckoutCatalog; no Fits Finding / lens framing.
  */
 
 // Inference is non-configurable (F26-A): determinism comes from mocking the LLM
@@ -39,7 +40,7 @@ import {
   type CapturedLLMCall,
 } from './support/generic-llms-prompt-capture-mock';
 
-/** Synthetic deposit execution tree: the deposit namespace as index.ts seeds it. */
+/** Synthetic deposit execution tree: deposit namespace as dispatch seeds it. */
 function seedDepositExecution(): Execution {
   const exec = new Execution('pipeline:asset-pack');
   exec.store('deposit', 'repository', {
@@ -49,10 +50,13 @@ function seedDepositExecution(): Execution {
   });
   exec.store('deposit', 'obfuscations', 'Withhold the payments engine internals.');
   exec.store('deposit', 'forcedExclusions', ['packages/payments/']);
-  exec.store('deposit', 'inventory', {
+  const catalog = {
     paths: ['src/telemetry/index.ts', 'src/telemetry/stream.ts', 'src/index.ts'],
     samples: [{ path: 'src/telemetry/index.ts', excerpt: 'export const telemetry = {};' }],
-  });
+  };
+  exec.store('deposit', 'sourceCheckoutCatalog', catalog);
+  // Legacy dual-write for stream filters still keyed on inventory.
+  exec.store('deposit', 'inventory', catalog);
   exec.store('deposit', 'demandContext', [
     { id: 'demand-telemetry', label: 'Readers need telemetry pipeline knowledge', weight: 0.8 },
   ]);
@@ -70,7 +74,7 @@ interface DepositAgentPromptSpec {
   wrapper: string;
   /** The agent's actual zod output field names the instructions must mention. */
   schemaFields: string[];
-  /** Lens-correct PTRR step layers (plan/try/refine/retry). */
+  /** PTRR step layers (plan/try/refine/retry). */
   ptrr: string[];
   boundaryOutput: Record<string, unknown>;
   input: Record<string, unknown>;
@@ -96,13 +100,13 @@ const SPECS: DepositAgentPromptSpec[] = [
   {
     title: 'DepositInputComprehensionAgent (Setup: comprehend Obfuscations)',
     agent: DepositInputComprehensionAgent,
-    identity: 'You are the SynthesizeAssetPacks input-comprehension agent in DEPOSIT mode.',
-    requirements: 'From the Obfuscations text and the inventory, derive',
+    identity: 'You are the SynthesizeAssetPacks Setup agent that comprehends depositor OBFUSCATIONS.',
+    requirements: 'From the Obfuscations text and the sourceCheckoutCatalog, derive',
     wrapper: 'Return ONLY {"comprehension": {...}}',
     schemaFields: ['summary', 'obfuscatedPaths', 'obfuscatedConcepts', 'honorNotes'],
     ptrr: [
       'Plan: parse the Obfuscations into the dimensions of what to withhold.',
-      'Try: map the Obfuscations onto concrete inventory paths and concepts.',
+      'Try: map the Obfuscations onto concrete sourceCheckoutCatalog paths and concepts.',
       'Refine: ensure nothing the depositor wants withheld is left exposed.',
       'Retry: return conservative obfuscation guidance when evidence is thin.',
     ],
@@ -117,18 +121,25 @@ const SPECS: DepositAgentPromptSpec[] = [
     input: { obfuscations: 'Withhold the payments engine internals.' },
   },
   {
-    title: 'DepositCodebaseComprehensionAgent (Discovery: codebase lens)',
+    title: 'DepositCodebaseComprehensionAgent (Discovery: comprehend-codebase)',
     agent: DepositCodebaseComprehensionAgent,
     identity:
-      'You are the SynthesizeAssetPacks discovery agent in DEPOSIT mode, discovering from the CODEBASE.',
-    requirements: 'From the repository coordinates and the inventory, derive',
+      'You are the SynthesizeAssetPacks Discovery agent that comprehends the depositor Host checkout (sourceCheckoutCatalog).',
+    requirements: 'You receive: repository coordinates, sourceCheckoutCatalog paths, fileTree structure,',
     wrapper: 'Return ONLY {"comprehension": {...}}',
-    schemaFields: ['summary', 'capabilities', 'knowledgeAreas', 'notableModules'],
+    schemaFields: [
+      'summary',
+      'capabilities',
+      'knowledgeAreas',
+      'notableModules',
+      'measurementInsights',
+      'structureInsights',
+    ],
     ptrr: [
-      'Plan: survey the inventory to map what knowledge and capability the codebase holds.',
-      'Try: synthesize the codebase knowledge map — capabilities, knowledge areas, notable modules.',
-      'Refine: ensure the map is source-safe, distinct, and grounded in the provided inventory.',
-      'Retry: return a minimal source-safe knowledge map rather than failing comprehension.',
+      'Plan: combine absolute measurements, LSP signals, file-tree structure, and key file',
+      'Try: synthesize the codebase knowledge map — capabilities, knowledge areas, notable',
+      'Refine: ensure the map is source-safe, grounded in provided sourceCheckoutCatalog evidence',
+      'Retry: return a minimal source-safe knowledge map grounded in path list and measurements',
     ],
     boundaryOutput: {
       comprehension: {
@@ -136,29 +147,32 @@ const SPECS: DepositAgentPromptSpec[] = [
         capabilities: ['stream telemetry events'],
         knowledgeAreas: ['telemetry'],
         notableModules: ['src/telemetry/index.ts'],
+        measurementInsights: ['rich absolute sizes on telemetry modules'],
+        structureInsights: ['src/telemetry is a top-level capability cluster'],
       },
     },
     input: {},
   },
   {
-    title: 'DepositDepositorySearchAgent (Discovery: depository lens)',
+    title: 'DepositDepositorySearchAgent (Discovery: search-depository)',
     agent: DepositDepositorySearchAgent,
     identity:
-      'You are the SynthesizeAssetPacks discovery agent in DEPOSIT mode, discovering from the DEPOSITORY.',
-    requirements: 'From the repository coordinates, the inventory, and the depositor demand context',
-    wrapper: 'Return ONLY {"guidance": {...}}',
+      'You are the SynthesizeAssetPacks Discovery agent that searches the Bitcode Depository',
+    requirements: 'From repository coordinates, sourceCheckoutCatalog (paths/samples), obfuscation guidance,',
+    wrapper: 'Return ONLY {"guidance": {...}, "searchQueries": [...]}',
     schemaFields: [
       'summary',
       'likelyReadTopics',
       'demandAlignment',
       'underservedTopics',
       'readabilityNotes',
+      'searchQueries',
     ],
     ptrr: [
-      'Plan: weigh the repository knowledge against likely reader demand and the demand context.',
-      'Try: produce read-likelihood guidance — likely topics, demand alignment, readability framing.',
-      'Refine: ensure the guidance is grounded in the inventory, demand-aligned, and source-safe.',
-      'Retry: return minimal demand guidance rather than failing the search.',
+      'Plan: from sourceCheckoutCatalog paths, measurements, obfuscations, and demand context,',
+      'Try: produce demand guidance and the searchQueries list the Depository search tool will run.',
+      'Refine: ensure queries and guidance are grounded in sourceCheckoutCatalog evidence, demand-aligned, and source-safe.',
+      'Retry: return minimal demand guidance and broad searchQueries rather than failing.',
     ],
     boundaryOutput: {
       guidance: {
@@ -167,20 +181,22 @@ const SPECS: DepositAgentPromptSpec[] = [
         demandAlignment: ['matches the telemetry demand signal'],
         underservedTopics: ['stream backpressure'],
         readabilityNotes: ['Frame packs by capability.'],
+        searchQueries: ['telemetry', 'streaming'],
       },
+      searchQueries: ['telemetry', 'streaming'],
     },
     input: {},
   },
   {
-    title: 'DepositInherentRegurgitationAgent (Discovery: model lens)',
+    title: 'DepositInherentRegurgitationAgent (Discovery: inherent-regurgitation)',
     agent: DepositInherentRegurgitationAgent,
     identity:
-      'You are the SynthesizeAssetPacks discovery agent in DEPOSIT mode, discovering from the MODEL itself.',
-    requirements: 'Given the repository coordinates and the inventory as context for relevance',
+      'You are the SynthesizeAssetPacks Discovery agent that contributes model-inherent knowledge for deposit AssetPack synthesis.',
+    requirements: 'Given repository coordinates and sourceCheckoutCatalog path context, derive from',
     wrapper: 'Return ONLY {"regurgitation": {...}}',
     schemaFields: ['summary', 'relevantKnowledge', 'patterns', 'references'],
     ptrr: [
-      'Plan: identify which of your trained knowledge is relevant',
+      'Plan: identify which of your trained knowledge is relevant to this repository domain.',
       'Try: regurgitate relevant knowledge, well-known patterns, best practices, and references.',
       'Refine: ensure the knowledge is relevant, generally-known, and source-safe.',
       'Retry: return minimal relevant knowledge rather than failing the regurgitation.',
@@ -196,9 +212,9 @@ const SPECS: DepositAgentPromptSpec[] = [
     input: {},
   },
   {
-    title: 'DepositAssetPackSynthesisAgent (Implementation: digital material patches)',
+    title: 'DepositAssetPackSynthesisAgent (Implementation: patch + measurements + metadata)',
     agent: DepositAssetPackSynthesisAgent,
-    identity: 'You are SynthesizeAssetPacks in DEPOSIT mode.',
+    identity: 'You are SynthesizeAssetPacks Implementation for deposit.',
     requirements: 'Ground every candidate in Discovery comprehension',
     wrapper: 'Return ONLY {"options":[ ... ]} — top-level key MUST be "options".',
     schemaFields: [
@@ -216,7 +232,7 @@ const SPECS: DepositAgentPromptSpec[] = [
       'rationale',
     ],
     ptrr: [
-      'Plan: from the explored repository inventory, the Discovery comprehension, and depositor steering',
+      'Plan: from the sourceCheckoutCatalog, Discovery comprehension (including absolute',
       'Try: synthesize each candidate as digital material',
       'Refine: ensure each option is distinct, source-safe, obfuscation- and exclusion-honoring',
       'Retry: complete any missing option as a minimal valid source-safe patch',
@@ -241,18 +257,18 @@ const SPECS: DepositAgentPromptSpec[] = [
     input: {},
   },
   {
-    title: 'DepositValidationAgent (Validation: deposit supply quality)',
+    title: 'DepositValidationAgent (Validation: ready-to-finish A/B/C)',
     agent: DepositValidationAgent,
-    identity: 'You are the SynthesizeAssetPacks Validation agent in DEPOSIT mode.',
-    requirements: 'Data is digital material; material has properties',
+    identity: 'You are the SynthesizeAssetPacks Validation ready-to-finish agent for deposit.',
+    requirements: 'Validate the deposit synthesis run as a single ready-to-finish gate (A/B/C).',
     wrapper:
       'Return ONLY {"issues":[...],"qualityScore":n,"coverageGaps":[...],"recommendation":"complete"|"iterate"}',
     schemaFields: ['issues', 'qualityScore', 'coverageGaps', 'recommendation'],
     ptrr: [
-      'Plan: enumerate the synthesized AssetPacks and the quality dimensions to check.',
-      'Try: run each quality, distinctness, source-safety, compliance, patch, and coverage check.',
+      'Plan: enumerate prior-phase signals and each AssetPack; walk A (sanity), B (patch +',
+      'Try: run A/B/C checks — prior phases, pack quality (patch + measurements + metadata),',
       'Refine: keep only concrete, source-safe issues and an honest qualityScore and recommendation.',
-      'Retry: when evidence is thin, validate the available AssetPack state and name what is missing.',
+      'Retry: when evidence is thin, validate the available AssetPack state and name what is missing for ready-to-finish.',
     ],
     boundaryOutput: {
       issues: [],
@@ -264,10 +280,15 @@ const SPECS: DepositAgentPromptSpec[] = [
   },
 ];
 
-// Read-lens verbiage that must NEVER reach a deposit-mode system prompt: the
-// Read-satisfaction / refund framing belongs to the read lens only (F22/F28
-// punt law — deposit prompts stay read-framing-free).
-const READ_LENS_TOKENS = [/read-satisfaction/i, /refund/i];
+// Read-satisfaction / refund framing belongs to read pipelines only — deposit
+// prompts stay free of that vocabulary (F22/F28).
+const FORBIDDEN_DEPOSIT_PROMPT_TOKENS = [
+  /read-satisfaction/i,
+  /refund/i,
+  /fits finding/i,
+  /deposit lens/i,
+  /read lens/i,
+];
 
 async function runAgentAndCapture(spec: DepositAgentPromptSpec): Promise<CapturedLLMCall[]> {
   resetCapturedLLMCalls();
@@ -285,7 +306,7 @@ describe('Deposit SDIVF agent prompt contracts (boundary-mocked PTRR)', () => {
 
   for (const spec of SPECS) {
     it(
-      `${spec.title}: renders the hierarchical deposit system prompt lens-correctly`,
+      `${spec.title}: renders the hierarchical deposit system prompt correctly`,
       async () => {
         const calls = await runAgentAndCapture(spec);
 
@@ -309,7 +330,7 @@ describe('Deposit SDIVF agent prompt contracts (boundary-mocked PTRR)', () => {
         expect(requirementsAt).toBeGreaterThan(identityAt);
         expect(planAt).toBeGreaterThan(requirementsAt);
 
-        // (a) Every lens-correct PTRR layer composes into the system prompt.
+        // (a) Every PTRR layer composes into the system prompt.
         for (const ptrrLayer of spec.ptrr) {
           expect(first).toContain(ptrrLayer);
         }
@@ -328,18 +349,26 @@ describe('Deposit SDIVF agent prompt contracts (boundary-mocked PTRR)', () => {
           expect(first).toContain(field);
         }
 
-        // (d) Lens purity: no read-lens verbiage under deposit.
-        for (const token of READ_LENS_TOKENS) {
+        // (d) Deposit purity: no read-satisfaction / lens / Fits Finding framing.
+        for (const token of FORBIDDEN_DEPOSIT_PROMPT_TOKENS) {
           expect(allSystems).not.toMatch(token);
+        }
+
+        // Canonical catalog naming (not vague "inventory" product language in prompts).
+        if (allSystems.includes('inventory')) {
+          // Dual-write keys may appear only if we slip; fail on bare inventory path language.
+          expect(allSystems).not.toMatch(/\binventory paths\b/i);
+          expect(allSystems).not.toMatch(/\brepository inventory\b/i);
+          expect(allSystems).not.toMatch(/\bexplored repository inventory\b/i);
         }
       },
       30000,
     );
   }
 
-  it('synthesis synthesizes material; validation names absolute material-property kinds', async () => {
-    // Implementation no longer self-scores absolute volumes; Validation's
-    // measure-agent catalog (quantity + quality) is pinned in the validation prompt.
+  it('Implementation synthesizes material; host attaches measurements; Validation names absolute kinds', async () => {
+    // LLM does not invent absolute volumes; Implementation host attaches them.
+    // Validation A/B/C requires absolutes and names the measure-agent catalog.
     const synthesisSpec = SPECS.find((spec) => spec.agent === DepositAssetPackSynthesisAgent)!;
     const validationSpec = SPECS.find((spec) => spec.agent === DepositValidationAgent)!;
 
@@ -348,8 +377,13 @@ describe('Deposit SDIVF agent prompt contracts (boundary-mocked PTRR)', () => {
     const validationCalls = await runAgentAndCapture(validationSpec);
     const validationSystem = validationCalls[0].system;
 
-    expect(synthesisSystem).toMatch(/digital material/i);
-    expect(synthesisSystem).toMatch(/do NOT invent measurement volumes/i);
+    expect(synthesisSystem).toMatch(/patch \+ measurements \+ metadata/i);
+    expect(synthesisSystem).toMatch(/do NOT invent absolute measurement volumes/i);
+    expect(synthesisSystem).toMatch(/sourceCheckoutCatalog/i);
+    expect(synthesisSystem).not.toMatch(/Validation measures those/i);
+
+    expect(validationSystem).toMatch(/ready-to-finish gate \(A\/B\/C\)/i);
+    expect(validationSystem).toMatch(/sourceCheckoutCatalog/i);
     expect(ASSET_PACK_ABSOLUTES_CATALOG.length).toBeGreaterThan(0);
     for (const measurementSpec of ASSET_PACK_ABSOLUTES_CATALOG) {
       expect(validationSystem).toContain(measurementSpec.measurementKind);

@@ -74,7 +74,9 @@ describe('runDepositAssetPackSynthesisAgent (boundary-mocked PTRR)', () => {
 
     expect(out.success).toBe(true);
     expect(out.semanticKind).toBe('asset-pack-written-asset');
-    expect(out.summary).toBe('Synthesized 2 measured deposit AssetPack patch(es).');
+    expect(out.summary).toBe(
+      'Synthesized 2 measured deposit AssetPack(s) (patch + measurements + metadata).',
+    );
     expect(Array.isArray(out.options)).toBe(true);
     expect(out.options.length).toBeGreaterThanOrEqual(1);
     expect(out.options.length).toBeLessThanOrEqual(4);
@@ -123,7 +125,7 @@ describe('runDepositAssetPackSynthesisAgent (boundary-mocked PTRR)', () => {
     expect(assetPacks).toBe(options); // the SAME array under both keys
     expect(exec.get('implementation', 'assetPack')).toEqual(out.assetPack);
     expect(exec.get('implementation', 'summary')).toBe(
-      'Synthesized 2 measured deposit AssetPack patch(es).',
+      'Synthesized 2 measured deposit AssetPack(s) (patch + measurements + metadata).',
     );
   }, 120000);
 

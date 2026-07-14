@@ -40,13 +40,13 @@ export const runDiscoveryPhase = createPhaseRunner(discoveryPhaseConfig);
  */
 export function registerDiscoveryAgents(
   agentRegistry: any,
-  // mode drives conditional runtime registration; deposit-mode discovery explores
-  // the depositor repository through three lenses (codebase / depository / model).
+  // mode drives conditional runtime registration; deposit Discovery runs three
+  // parallel agents: comprehend-codebase, search-depository, inherent-regurgitation.
   // Read = default (the canonical 5-agent discovery sequence).
   mode?: SynthesizeAssetPacksMode,
 ): void {
   if (mode === 'deposit') {
-    // Deposit-native keys + stable aliases (no "lens" vocabulary).
+    // Deposit-native keys + stable aliases (no lens vocabulary).
     const codebase = () =>
       import('../agents/discovery/deposit-codebase-comprehension-agent').then((m) => m.default);
     const depository = () =>

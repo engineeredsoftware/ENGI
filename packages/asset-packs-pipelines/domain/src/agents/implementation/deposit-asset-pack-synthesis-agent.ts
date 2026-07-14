@@ -1,11 +1,11 @@
 /**
  * Deposit-mode AssetPack synthesis agent (V48 Gate 3).
  *
- * The deposit lens of the SynthesizeAssetPacks Implementation phase: synthesize
- * reviewable AssetPacks from the DEPOSITOR's repository. Each AssetPack is a
- * completely synthesized artifact = MEASURED PATCH (patch + measurements +
- * metadata). Schema and prompts live in co-located siblings; this file owns
- * the PTRR factory agent, patch-write materialization, and cross-phase stores.
+ * Implementation phase of SynthesizeDepositAssetPacks: synthesize reviewable
+ * AssetPacks from the depositor Host checkout. Each AssetPack is
+ * patch + measurements + metadata. Schema and prompts are co-located siblings;
+ * this file owns the PTRR factory agent, patch-write materialization, absolute
+ * measurement attachment, and cross-phase stores.
  *
  * Default export (run factory path) and `DepositAssetPackSynthesisAgent` remain
  * stable for phase registration and tests.
@@ -34,7 +34,7 @@ const depositPrompt = createDepositSynthesisPrompt();
 export const DepositAssetPackSynthesisAgent = factoryPTRRAgent<any, DepositSynthesisOptions>({
   name: 'DepositAssetPackSynthesisAgent',
   description:
-    'Synthesizes reviewable, source-safe, measured AssetPack candidate options from the depositor repository source (deposit lens).',
+    'Synthesizes reviewable AssetPacks (patch + measurements + metadata) from the depositor Host sourceCheckoutCatalog.',
   outputSchema: depositCandidateSetSchema,
   tools: [],
   prompt: depositPrompt,

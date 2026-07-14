@@ -1,12 +1,14 @@
 /**
  * Deposit input-comprehension agent — Setup phase (V48 Gate 3).
  *
- * The deposit lens of the SynthesizeAssetPacks Setup input-comprehension: the read
- * lens comprehends the Need; the deposit lens comprehends the depositor's
- * OBFUSCATIONS — the free-text declaration of what to obfuscate/withhold — against
- * the cloned repository inventory, producing structured obfuscation guidance that
- * downstream phases honor (alongside the protected-IP exclusions) so synthesized
- * AssetPacks never expose obfuscated material. Runs on the formal PTRR machinery.
+ * Comprehends the depositor's OBFUSCATIONS — free-text declaration of what to
+ * obfuscate/withhold — against the Host sourceCheckoutCatalog, producing
+ * structured obfuscation guidance that downstream phases honor (alongside
+ * Forced Exclusions) so synthesized AssetPacks never expose obfuscated material.
+ *
+ * Setup sequencing: clone alone → parallel {LSP, MCP, this agent} → danger-wall.
+ * Runs on formal PTRR machinery. Empty Obfuscations skip the LLM (guidance is
+ * empty; Forced Exclusions remain authoritative).
  */
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
@@ -21,6 +23,8 @@ const part = (content: string): PromptPart => content as PromptPart;
 const InputComprehensionInputSchema = z.object({
   obfuscations: z.string().nullable().optional(),
   repository: z.any().optional(),
+  sourceCheckoutCatalog: z.any().optional(),
+  /** @deprecated dual-read alias for sourceCheckoutCatalog */
   inventory: z.any().optional(),
 });
 
@@ -38,25 +42,26 @@ const InputComprehensionOutputSchema = z.object({
 export type DepositObfuscationComprehension = z.infer<typeof ObfuscationGuidanceSchema>;
 
 const IDENTITY = part(
-  'You are the SynthesizeAssetPacks input-comprehension agent in DEPOSIT mode. ' +
-    "Comprehend the depositor's OBFUSCATIONS — their free-text declaration of what to " +
-    'obfuscate or withhold from the deposit — against the repository inventory. Produce ' +
-    'structured obfuscation guidance: the source paths and concepts to obfuscate, and how ' +
-    'downstream synthesis must honor them. Never expose obfuscated material; describe ' +
-    'knowledge, never raw source.',
+  'You are the SynthesizeAssetPacks Setup agent that comprehends depositor OBFUSCATIONS. ' +
+    "Map the free-text declaration of what to obfuscate or withhold against the Host " +
+    'sourceCheckoutCatalog (paths and samples only). Produce structured obfuscation ' +
+    'guidance: source paths and concepts to withhold, and how synthesis must honor them. ' +
+    'Never expose obfuscated material; describe knowledge, never raw source.',
 );
 
 const REQUIREMENTS = part(
-  'From the Obfuscations text and the inventory, derive: obfuscatedPaths (inventory paths ' +
-    'the depositor wants withheld, chosen only from the provided inventory), ' +
-    'obfuscatedConcepts (knowledge/topics to obfuscate), and honorNotes (how synthesis must ' +
-    'honor them). Be conservative — when in doubt, obfuscate. If no obfuscations are ' +
-    'declared, return an empty guidance with a summary noting the protected-IP exclusions ' +
-    'remain authoritative. Return ONLY {"comprehension": {...}}.',
+  'From the Obfuscations text and the sourceCheckoutCatalog, derive: obfuscatedPaths ' +
+    '(paths the depositor wants withheld, chosen ONLY from the provided ' +
+    'sourceCheckoutCatalog paths), obfuscatedConcepts (knowledge/topics to obfuscate), ' +
+    'and honorNotes (how synthesis must honor them). Be conservative — when in doubt, ' +
+    'obfuscate. If no obfuscations are declared, return empty guidance with a summary ' +
+    'noting Forced Exclusions remain authoritative. Return ONLY {"comprehension": {...}}.',
 );
 
 const PLAN = part('Plan: parse the Obfuscations into the dimensions of what to withhold.');
-const TRY = part('Try: map the Obfuscations onto concrete inventory paths and concepts.');
+const TRY = part(
+  'Try: map the Obfuscations onto concrete sourceCheckoutCatalog paths and concepts.',
+);
 const REFINE = part('Refine: ensure nothing the depositor wants withheld is left exposed.');
 const RETRY = part('Retry: return conservative obfuscation guidance when evidence is thin.');
 
@@ -81,7 +86,8 @@ export const DepositInputComprehensionAgent = factoryPTRRAgent<
   z.infer<typeof InputComprehensionOutputSchema>
 >({
   name: 'DepositInputComprehensionAgent',
-  description: 'Comprehends the depositor Obfuscations into structured obfuscation guidance.',
+  description:
+    'Comprehends depositor Obfuscations against sourceCheckoutCatalog into structured guidance.',
   outputSchema: InputComprehensionOutputSchema,
   tools: [],
   prompt,
@@ -105,7 +111,7 @@ function findValue(execution: any, namespace: string, key: string): any {
 
 const EMPTY_OBFUSCATION_COMPREHENSION: DepositObfuscationComprehension = {
   summary:
-    'No explicit obfuscations declared; synthesis honors the protected-IP exclusions as authoritative.',
+    'No explicit obfuscations declared; synthesis honors Forced Exclusions as authoritative.',
   obfuscatedPaths: [],
   obfuscatedConcepts: [],
   honorNotes: [],
@@ -118,15 +124,15 @@ function hasDeclaredObfuscations(value: unknown): boolean {
 export default async function runDepositInputComprehensionAgent(input: any, execution: any) {
   const obfuscations = input?.obfuscations ?? findValue(execution, 'deposit', 'obfuscations') ?? null;
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
-  const inventory =
+  const catalog =
     input?.sourceCheckoutCatalog ??
     input?.inventory ??
     findValue(execution, 'deposit', 'sourceCheckoutCatalog') ??
     findValue(execution, 'deposit', 'inventory');
 
-  // Empty Obfuscations: no LLM work. Full monorepo inventory + PTRR plan/try
+  // Empty Obfuscations: no LLM work. Full monorepo catalog + PTRR plan/try
   // against blank text was burning minutes and timing out (90s per call) with
-  // nothing to map. Protected-IP exclusions remain authoritative downstream.
+  // nothing to map. Forced Exclusions remain authoritative downstream.
   if (!hasDeclaredObfuscations(obfuscations)) {
     storeCrossPhaseArtifact(execution, 'setup', 'inputComprehension', EMPTY_OBFUSCATION_COMPREHENSION);
     storeCrossPhaseArtifact(
@@ -146,14 +152,15 @@ export default async function runDepositInputComprehensionAgent(input: any, exec
   // Prompt path: paths + samples only. Full checkout file bodies stay on the
   // shared execution store for measurement; never enter PTRR user prompts
   // (JSON.stringify of monorepo sources → Invalid string length).
-  const inventoryForPrompt = projectInventoryForPrompt(inventory);
+  const catalogForPrompt = projectInventoryForPrompt(catalog);
   const raw = await DepositInputComprehensionAgent(
     {
       ...input,
       obfuscations,
       repository,
-      inventory: inventoryForPrompt,
-      inventoryPaths: inventoryForPrompt?.paths ?? inventory?.paths,
+      sourceCheckoutCatalog: catalogForPrompt,
+      inventory: catalogForPrompt, // dual-write for legacy stream filters
+      inventoryPaths: catalogForPrompt?.paths ?? catalog?.paths,
     },
     execution,
   );
@@ -164,9 +171,8 @@ export default async function runDepositInputComprehensionAgent(input: any, exec
   const comprehension: DepositObfuscationComprehension =
     (result as any)?.comprehension ?? EMPTY_OBFUSCATION_COMPREHENSION;
 
-  // Cross-phase artifacts: the Implementation synthesis agent and the deposit
-  // Validation agent read this obfuscation guidance from OTHER phase siblings,
-  // so it must live on the SHARED execution (cross-phase store-visibility law).
+  // Cross-phase artifacts: Implementation and Validation read this guidance
+  // from other phase siblings — shared execution (cross-phase store-visibility).
   storeCrossPhaseArtifact(execution, 'setup', 'inputComprehension', comprehension);
   storeCrossPhaseArtifact(execution, 'setup', 'obfuscationComprehension', comprehension);
 

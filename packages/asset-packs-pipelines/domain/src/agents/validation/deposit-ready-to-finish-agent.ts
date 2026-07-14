@@ -152,9 +152,9 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
     {
       ...input,
       assetPacks: packs,
-      inventory: catalogForPrompt,
-      inventoryPaths: catalogForPrompt?.paths ?? catalog?.paths,
       sourceCheckoutCatalog: catalogForPrompt,
+      inventory: catalogForPrompt, // dual-write for legacy stream filters
+      inventoryPaths: catalogForPrompt?.paths ?? catalog?.paths,
       obfuscationGuidance,
       forcedExclusions,
       priorPhaseIssues: priorIssues,
