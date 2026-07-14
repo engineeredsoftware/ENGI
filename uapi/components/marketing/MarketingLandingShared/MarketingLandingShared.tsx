@@ -31,18 +31,18 @@ export const paintedMotionStyle: React.CSSProperties = {
 
 export const productPillars = [
   {
-    title: 'Deposit',
-    description: 'Deposit contributes code, docs, and context into searchable supply.',
+    title: 'Sell',
+    description: 'Deposit repositories as measured AssetPack supply buyers can find and settle.',
     Icon: CubeTransparentIcon,
   },
   {
-    title: 'Measure',
-    description: 'Read reads against measurable quality, fit, and proof-bearing context.',
+    title: 'Buy',
+    description: 'State a Need, compare fit measurements, and pick source-safe AssetPack options.',
     Icon: ScaleIcon,
   },
   {
-    title: 'BTC COMPENSATION',
-    description: 'BTC settlement and source-to-shares accounting compensate contributors after proof-backed finality.',
+    title: 'Settle',
+    description: 'Pay in BTC; BTD rights and delivery unlock with proof-backed finality.',
     Icon: CurrencyDollarIcon,
   },
 ] as const;
@@ -51,31 +51,31 @@ export const measurementAxes = [
   {
     label: 'Quantity',
     value: 92,
-    detail: 'normalized and deduplicated source volume',
+    detail: 'source volume buyers can price against',
   },
   {
     label: 'Quality',
     value: 96,
-    detail: 'correctness, structure, reproducibility, trust',
+    detail: 'structure, correctness, and reproducibility',
   },
   {
-    label: 'Valence',
+    label: 'Fit',
     value: 73,
-    detail: 'utility, novelty, demand fit, anti-noise confidence',
+    detail: 'how tightly the pack matches a buyer Need',
   },
 ] as const;
 
-export const measureCardReadNeed = 'typed auth migration rollback for monorepo services';
+export const measureCardReadNeed = 'Need: auth migration rollback for monorepo services';
 
 export const measureCardAxes = [
   { label: 'Quality', value: 96 },
-  { label: 'Trust', value: 84 },
-  { label: 'Dedupe', value: 73 },
+  { label: 'Fit', value: 84 },
+  { label: 'Trust', value: 73 },
 ] as const;
 
 export const previewRows = [
   {
-    key: 'assets',
+    key: 'what sellers ship',
     valueParts: ['code', 'docs', 'diagrams', 'PDFs'],
     accentClassName: 'from-cyan-400/18 via-sky-400/8 to-transparent',
     Icon: DocumentTextIcon,
@@ -83,24 +83,24 @@ export const previewRows = [
     iconClassName: 'text-white/58',
   },
   {
-    key: 'context at deposit',
-    valueParts: ['commits', 'citations', 'authorship', 'metadata'],
+    key: 'proven at deposit',
+    valueParts: ['commits', 'authorship', 'paths', 'SHA'],
     accentClassName: 'from-fuchsia-400/18 via-purple-400/8 to-transparent',
     Icon: LinkIcon,
     valuesGridClassName: 'grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-2',
     iconClassName: 'text-white/58',
   },
   {
-    key: 'chunks',
-    valueParts: ['stable hashes', 'segments', 'embeddings'],
+    key: 'what buyers inspect',
+    valueParts: ['measurements', 'fit', 'proof roots'],
     accentClassName: 'from-emerald-400/18 via-teal-400/8 to-transparent',
     Icon: Squares2X2Icon,
     valuesGridClassName: 'grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-2',
     iconClassName: 'text-white/58',
   },
   {
-    key: 'issuance',
-    valueParts: ['supplier', 'issuance event', '$BTD'],
+    key: 'what settles',
+    valueParts: ['BTC pay', 'BTD rights', 'delivery'],
     accentClassName: 'from-orange-400/18 via-amber-300/8 to-transparent',
     Icon: CurrencyDollarIcon,
     valuesGridClassName:
@@ -122,20 +122,20 @@ export const measuremintCandles = [
 
 export const verificationRows = [
   {
-    label: 'Public writes',
-    detail: 'technical assets enter as public writes for later measurement',
+    label: 'Seller writes',
+    detail: 'deposited supply is measured publicly before any buyer pays',
     status: 'public',
     Icon: CircleStackIcon,
   },
   {
-    label: 'Licensed reads',
-    detail: 'licensed readers hold settled AssetPack rights while BTD records scalar knowledge volume',
+    label: 'Buyer rights',
+    detail: 'settled AssetPack rights transfer only after BTC finality; BTD records volume',
     status: 'private*',
     Icon: LockClosedIcon,
   },
   {
     label: 'Public proofs',
-    detail: 'public proofs verify measurement systems without exposing private bundles',
+    detail: 'anyone can audit measurements and settlement without seeing protected source',
     status: 'verified',
     Icon: ShieldCheckIcon,
   },
@@ -144,18 +144,18 @@ export const verificationRows = [
 export const compactPreviewCards = [
   {
     title: 'Packs',
-    body: 'Live deposit, read, and settlement posture',
-    detail: 'Read the public market frame before you open a specific transaction.',
+    body: 'Network ledger of AssetPack activity',
+    detail: 'Audit supply, settlement, and delivery before you trade.',
   },
   {
     title: 'Deposit',
-    body: 'Supply options • measurements • admission',
-    detail: 'Prepare source-safe AssetPack supply before downstream settlement.',
+    body: 'Sell measured AssetPack options',
+    detail: 'Synthesize, review, and admit repository supply.',
   },
   {
     title: 'Read',
-    body: 'Need • Finding Fits • preview • quote',
-    detail: 'Request measured demand and inspect source-safe fit evidence.',
+    body: 'Buy against a Need',
+    detail: 'Compare fit, quote, and settle source-safe packs.',
   },
 ] as const;
 

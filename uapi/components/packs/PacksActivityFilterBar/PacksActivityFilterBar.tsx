@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Packs master filter bar: keyboard hint, search/type/state/sort, and facets.
+ * Packs master filter bar: search/type/state/sort and facets.
  * URL writes are owned by the parent via onWriteParams.
  */
 
@@ -11,7 +11,6 @@ import {
   ArrowUpWideNarrow,
   Search,
 } from "lucide-react";
-import { ProductRouteKeyboardHint } from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";
 import type {
   PackActivitySortDirection,
   PackActivitySortKey,
@@ -45,22 +44,6 @@ export function PacksActivityFilterBar({
 }: PacksActivityFilterBarProps) {
   return (
     <>
-      <div className="border-b border-white/10 px-3 py-2">
-        <ProductRouteKeyboardHint
-          testId="packs-keyboard-navigation"
-          tone="emerald"
-          shortcuts={[
-            {
-              keys: "Tab",
-              label: "Move through filters and activity rows.",
-            },
-            {
-              keys: "Enter",
-              label: "Open the focused AssetPack into detail.",
-            },
-          ]}
-        />
-      </div>
       <div className="grid gap-2 border-b border-white/10 p-3 laptop:grid-cols-[minmax(220px,1fr)_170px_150px_150px_auto]">
         <label className="relative min-w-0">
           <span className="sr-only">Search pack activity</span>
@@ -74,7 +57,7 @@ export function PacksActivityFilterBar({
               onWriteParams({ q: event.currentTarget.value })
             }
             className="h-11 w-full border border-white/10 bg-black/30 pl-10 pr-3 text-sm text-neutral-100 outline-none transition placeholder:text-neutral-600 focus:border-emerald-300/45"
-            placeholder="Search titles, measurements, values, proof roots"
+            placeholder="Search packs, measurements, absolutes, proofs, states…"
           />
         </label>
         <select

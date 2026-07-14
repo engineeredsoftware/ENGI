@@ -1,21 +1,21 @@
 export const BITCODE_PUBLIC_COPY = {
-  eyebrow: 'AssetPacks for measured technical intelligence',
+  eyebrow: 'Buy and sell measured AssetPacks',
   headline: 'Bitcode is auditable market infrastructure for technical knowledge.',
   description:
-    'Bitcode turns code, docs, diagrams, and technical context into source-safe AssetPack commodities. BTD records scalar knowledge volume and rights, BTC settles value transfer, and proof readback keeps deposit, Reading, delivery, and compensation auditable.',
+    'Sellers deposit repositories as source-safe AssetPacks with measured quality and fit. Buyers state a Need, review options, and settle in BTC. BTD records knowledge volume and rights; proof readback keeps every handoff auditable.',
   capabilityChips: [
-    'ASSETPACKS',
-    'BTD VOLUME',
+    'SELL ASSETPACKS',
+    'BUY WITH NEED',
     'BTC SETTLEMENT',
-    'DOCS',
+    'PROOF READBACK',
   ],
   primaryCta: {
     href: '/reads',
-    label: 'Request Read',
+    label: 'Buy AssetPacks',
   },
   secondaryCta: {
-    href: '/docs',
-    label: 'Read docs',
+    href: '/deposits',
+    label: 'Sell AssetPacks',
   },
   guide: {
     posts: [
@@ -25,7 +25,7 @@ export const BITCODE_PUBLIC_COPY = {
         title: '$BTD: Scalar Volume And Rights For Technical Knowledge',
         meta: 'April 2026 * Garrett Maring',
         body:
-          "April launched the Bitcode Protocol. It is available at our open-source repository with auditable, reproducible specification. The website now centers Packs, Deposit, Read, and proof-backed docs for AssetPack commerce.",
+          "April launched the Bitcode Protocol. Open-source, auditable, and reproducible — with Packs, Deposit, and Read as the live surfaces for AssetPack commerce.",
         highlights: ['$BTD', 'Bitcode Protocol', 'AssetPacks'],
       },
       {
@@ -34,61 +34,61 @@ export const BITCODE_PUBLIC_COPY = {
         title: "Bitcode's source-to-AssetPack protocol, now",
         meta: 'March 2026 * Garrett Maring',
         body:
-          "$BTD's purpose is to measure technical knowledge volume and rights while BTC settlement compensates contributors fairly. Provable knowledge measuring algorithms build the foundation for source-safe AssetPack deposit, Reading, settlement, and delivery.",
+          "$BTD measures technical knowledge volume and rights while BTC settlement compensates contributors. Measured deposit and Reading form the market path for source-safe AssetPack trade.",
         highlights: ['$BTD', 'BTC settlement'],
       },
     ],
   },
   terminalPreview: {
-    pill: 'Packs',
-    kicker: 'Activity preview',
-    rail: ['deposit', 'read', 'settle'],
+    pill: 'Market',
+    kicker: 'AssetPack commerce',
+    rail: ['sell', 'buy', 'settle'],
   },
   testnetLaunch: {
     badge: 'Commercial testnet',
-    title: 'Sell and buy IP the Bitcode way, live on BTC testnet.',
+    title: 'Sell and buy AssetPacks on BTC testnet.',
     meaning:
-      'Testnet means BTC amounts are testnet and free while everything else stays production-intended: source-safe measurements, deterministic quotes, settlement ordering, BTD rights, and repository delivery are real protocol state.',
+      'Testnet BTC is free; measurements, quotes, settlement order, BTD rights, and delivery remain production-shaped protocol state.',
     flow: [
       {
         step: '01',
-        label: 'Deposit IP',
+        label: 'Sell (Deposit)',
         href: '/deposits',
         detail:
-          'Connect a repository, review source-safe AssetPack measurements, and approve Depository admission.',
+          'Connect a repository, synthesize measured AssetPack options, and admit supply to the Depository.',
       },
       {
         step: '02',
-        label: 'Read and buy',
+        label: 'Buy (Read)',
         href: '/reads',
         detail:
-          'Accept a synthesized Need, review fit measurements and the BTC-testnet quote basis, then settle.',
+          'Write a Need, review fit measurements and the quote, then SettleAssetPack in BTC-testnet.',
       },
       {
         step: '03',
-        label: 'Audit on Packs',
+        label: 'Audit (Packs)',
         href: '/packs',
         detail:
-          'Follow settlement, BTD rights, delivery, and compensation through expandable proof readback.',
+          'Inspect settlement, rights, delivery, and compensation with expandable proof roots.',
       },
     ],
     trust:
-      'Proof-backed trust: protocol law and proof readback decide state; the website explains it.',
+      'Trust the proof: protocol law and proof readback decide state; the product surfaces explain it.',
     sourceSafety:
-      'Source-safe IP exchange: measurements stay visible while source-bearing AssetPack contents stay withheld until BTC finality and BTD rights transfer.',
+      'Source-safe trade: buyers see measurements before pay; protected source stays withheld until BTC finality and BTD rights transfer.',
   },
   operatorFrame: {
-    title: 'Bitcode Reading',
-    subtitle: 'deposit, read, proof, settlement, and delivery around one flow',
-    badge: 'full detail',
+    title: 'AssetPack market',
+    subtitle: 'sell supply · buy against Need · settle with proof',
+    badge: 'live paths',
     modes: ['Packs', 'Deposit', 'Read', 'Proofs'],
   },
   giveContribution: {
-    title: 'Pack supply',
+    title: 'What you sell',
   },
   sourceToSettlement: {
-    title: 'Source to settlement',
-    subtitle: 'auditable market path',
+    title: 'From repo to paid delivery',
+    subtitle: 'seller → buyer market path',
     badge: '6 stages',
     stages: [
       { number: '01', stage: 'deposit' },

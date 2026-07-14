@@ -860,6 +860,28 @@ function matchesFilter(value: string | null, filter: string | undefined) {
   return !filter || filter === 'all' || String(value || '') === filter;
 }
 
+function flattenMetadataSearchTokens(value: unknown, depth = 0): string[] {
+  if (value == null || depth > 4) return [];
+  if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+    return [String(value)];
+  }
+  if (Array.isArray(value)) {
+    return value.flatMap((entry) => flattenMetadataSearchTokens(entry, depth + 1));
+  }
+  if (typeof value === 'object') {
+    return Object.entries(value as Record<string, unknown>).flatMap(([key, entry]) => [
+      key,
+      ...flattenMetadataSearchTokens(entry, depth + 1),
+    ]);
+  }
+  return [];
+}
+
+/**
+ * Full-text corpus for /packs search: every source-safe field buyers use to
+ * find AssetPacks — titles, absolute/neediness measurements, values, proofs,
+ * states, accounting/governance roots, and shallow metadata.
+ */
 function buildSearchText(record: PackActivityRecord) {
   return [
     record.id,
@@ -870,22 +892,46 @@ function buildSearchText(record: PackActivityRecord) {
     record.repository,
     record.assetPackTitle,
     record.settlementState,
+    record.rightsState,
     record.compensationState,
     record.deliveryState,
+    record.deliveryReference,
     record.repairState,
+    record.timestamp,
+    record.scope,
     record.commodityState.assetPackState,
     record.commodityState.btdState,
     record.commodityState.btcState,
     record.commodityState.disclosureBoundary,
+    ...(Array.isArray(record.commodityState.blockers)
+      ? record.commodityState.blockers
+      : []),
     ...record.measurements.flatMap((measurement) => [
       measurement.id,
       measurement.label,
       String(measurement.value),
       measurement.unit,
       measurement.root,
+      // Common absolute / neediness phrasing so partial queries hit.
+      'absolute',
+      'measurement',
+      'neediness',
+      `${measurement.label} ${measurement.value}`,
+      measurement.unit ? `${measurement.value} ${measurement.unit}` : null,
     ]),
-    ...record.values.flatMap((value) => [value.id, value.label, String(value.amount), value.unit]),
-    ...record.proofRoots.flatMap((proofRoot) => [proofRoot.id, proofRoot.label, proofRoot.root]),
+    ...record.values.flatMap((value) => [
+      value.id,
+      value.label,
+      String(value.amount),
+      value.unit,
+      `${value.label} ${value.amount}`,
+      `${value.amount} ${value.unit}`,
+    ]),
+    ...record.proofRoots.flatMap((proofRoot) => [
+      proofRoot.id,
+      proofRoot.label,
+      proofRoot.root,
+    ]),
     record.accounting?.state,
     record.accounting?.btdRangeState,
     record.accounting?.btcSettlementState,
@@ -893,12 +939,17 @@ function buildSearchText(record: PackActivityRecord) {
     record.accounting?.reconciliationState,
     record.accounting?.treasuryRouteState,
     record.accounting?.statementRoot,
+    record.accounting ? String(record.accounting.contributorCount) : null,
+    record.accounting ? String(record.accounting.depositorCount) : null,
+    record.accounting ? String(record.accounting.finalSettlementSats) : null,
+    record.accounting ? String(record.accounting.allocatedContributorSats) : null,
     record.governance?.state,
     record.governance?.route,
     record.governance?.walletState,
     record.governance?.spendState,
     record.governance?.depositState,
     record.governance?.authorityRoot,
+    ...flattenMetadataSearchTokens(record.metadata),
   ]
     .filter(Boolean)
     .join(' ')
@@ -966,7 +1017,13 @@ export function filterPackActivityRecords(
     if (!matchesFilter(record.deliveryState, filters.deliveryState)) return false;
     if (!matchesFilter(record.repairState, filters.repairState)) return false;
     if (!matchesFilter(record.repository, filters.repository)) return false;
-    if (normalizedSearch && !buildSearchText(record).includes(normalizedSearch)) return false;
+    if (normalizedSearch) {
+      // Multi-token AND: every whitespace-separated term must appear somewhere
+      // in the pack corpus (measurements, absolutes, proofs, states, …).
+      const haystack = buildSearchText(record);
+      const tokens = normalizedSearch.split(/\s+/).filter(Boolean);
+      if (!tokens.every((token) => haystack.includes(token))) return false;
+    }
     return true;
   });
 }

@@ -204,7 +204,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                         Verified access
                       </p>
                       <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-emerald-100/58">
-                        public writes • public proofs • private reads
+                        sell public · buy private · audit proofs
                       </p>
                     </div>
                     <span className="mt-2 inline-flex items-center gap-1 rounded-none border border-emerald-300/14 bg-emerald-400/8 px-2 py-1 text-[8px] uppercase tracking-[0.14em] text-emerald-50/72">
@@ -269,7 +269,10 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                             className={`mt-3 grid gap-x-5 gap-y-3 text-emerald-50/88 laptop:gap-x-4 laptop:gap-y-2 ${valuesGridClassName}`}
                           >
                             {valueParts.map((valuePart) => {
-                              const isBtdValue = valuePart === '$BTD';
+                              const isHighlightValue =
+                                valuePart === 'BTD rights' ||
+                                valuePart === 'BTC pay' ||
+                                valuePart === 'fit';
 
                               return (
                                 <span
@@ -278,11 +281,11 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                                 >
                                   {renderOrbitalBullet(
                                     'mt-0.5 scale-110 tablet:scale-[1.2] laptop:scale-100',
-                                    isBtdValue ? 'green' : 'orange',
+                                    isHighlightValue ? 'green' : 'orange',
                                   )}
                                   <span
                                     className={`min-w-0 break-normal text-pretty text-[13px] leading-6 tablet:text-[15px] laptop:text-[12px] laptop:leading-5 ${
-                                      isBtdValue
+                                      isHighlightValue
                                         ? 'super-shiny-text special-text text-[rgba(103,254,183,0.95)]'
                                         : ''
                                     }`}

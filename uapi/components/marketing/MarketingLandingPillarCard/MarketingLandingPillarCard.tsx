@@ -44,7 +44,7 @@ export function MarketingLandingPillarCard({
       } ${title.includes('$BTD') ? 'phone:col-span-2 desktop:col-span-1' : ''}`}
       style={paintedMotionStyle}
     >
-      {title === 'Deposit' ? (
+      {title === 'Sell' ? (
         <>
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(9,6,29,0.98),rgba(40,18,62,0.9))]" />
           <div
@@ -76,7 +76,7 @@ export function MarketingLandingPillarCard({
                     {title}
                   </p>
                   <p className="mt-1 max-w-[14ch] text-[9px] uppercase tracking-[0.16em] text-violet-100/52 phone:max-w-[16ch] phone:text-[10px]">
-                    deposit-side intake
+                    supply intake
                   </p>
                 </div>
               </div>
@@ -87,7 +87,7 @@ export function MarketingLandingPillarCard({
             <div className="mt-4 space-y-3 border-t border-white/12 pt-4">
               <div className="border-l-4 border-purple-400 pl-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
-                  Technical assets
+                  What you package
                 </p>
                 <p className="mt-1 text-[11px] leading-4 text-violet-100/72">
                   code, docs, diagrams, PDFs, and notes
@@ -95,16 +95,16 @@ export function MarketingLandingPillarCard({
               </div>
               <div className="border-l-4 border-pink-400 pl-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
-                  Context at deposit
+                  Proven on deposit
                 </p>
                 <p className="mt-1 text-[11px] leading-4 text-violet-100/72">
-                  commits, citations, authorship, and metadata
+                  commits, authorship, paths, and SHA
                 </p>
               </div>
             </div>
           </div>
         </>
-      ) : title === 'Measure' ? (
+      ) : title === 'Buy' ? (
         <>
           <div className="absolute inset-0 bg-gradient-to-br from-[#021511]/95 via-[#06231f]/84 to-[#02060d]" />
           <div
@@ -153,7 +153,7 @@ export function MarketingLandingPillarCard({
           <div className="relative">
             <div className="relative min-h-[58px] pr-16 text-emerald-100 phone:min-h-[68px] phone:pr-20">
               <span className="absolute right-0 top-0 inline-flex min-w-[64px] items-center justify-center rounded-none border border-emerald-200/12 bg-emerald-400/8 px-2.5 py-1 text-center text-[8px] uppercase tracking-[0.16em] text-emerald-50/72 phone:min-w-[72px]">
-                weighted
+                read
               </span>
               <div className="flex min-w-0 items-start gap-2">
                 <Icon className="h-4 w-4 text-emerald-300" />
@@ -162,7 +162,7 @@ export function MarketingLandingPillarCard({
                     {title}
                   </p>
                   <p className="mt-1 max-w-[16ch] text-[9px] uppercase tracking-[0.16em] text-emerald-100/52 phone:max-w-[18ch] phone:text-[10px]">
-                    read fit + quality + valence
+                    need · fit · options
                   </p>
                 </div>
               </div>
@@ -187,7 +187,7 @@ export function MarketingLandingPillarCard({
             </div>
             <div className="mt-4 rounded-none border border-emerald-200/12 bg-black/25 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
               <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-emerald-200/62">
-                active read
+                example need
               </p>
               <p className="mt-1 font-mono text-[10px] leading-4 text-emerald-50/84 phone:text-[11px]">
                 {measureCardReadNeed}
@@ -208,7 +208,7 @@ export function MarketingLandingPillarCard({
               className="absolute inset-0"
               style={{
                 backgroundImage:
-                  'repeating-linear-gradient(0deg, transparent 0 20px, rgba(255,255,255,0.08) 21px), repeating-linear-gradient(90deg, transparent 0 20px, rgba(255,255,255,0.08) 21px)',
+                  'repeating-linear-gradient(0deg, transparent 0 20px,rgba(255,255,255,0.08) 21px), repeating-linear-gradient(90deg, transparent 0 20px,rgba(255,255,255,0.08) 21px)',
                 maskImage: 'radial-gradient(circle 220px at center, white 72%, transparent 100%)',
                 WebkitMaskImage: 'radial-gradient(circle 220px at center, white 72%, transparent 100%)',
               }}
@@ -226,7 +226,7 @@ export function MarketingLandingPillarCard({
                     {title}
                   </p>
                   <p className="mt-1 max-w-[14ch] text-[9px] uppercase tracking-[0.16em] text-orange-100/52 phone:max-w-[16ch] phone:text-[10px]">
-                    settlement + issuance
+                    btc · btd · delivery
                   </p>
                 </div>
               </div>
@@ -247,12 +247,12 @@ export function MarketingLandingPillarCard({
             </p>
             <div className="mt-4 rounded-none border border-orange-200/12 bg-black/25 px-3 py-2">
               <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-orange-50/76">
-                {'live supply · licensed reads · usage metering'}
+                {'buyer pays BTC · seller earns · rights transfer'}
               </p>
             </div>
             <div className="mt-4 rounded-none border border-orange-200/12 bg-black/25 px-3 py-2">
               <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-orange-50/76">
-                {'supply the depot -> consumption is metered -> value-based issuance'}
+                {'source unlocks only after finality + BTD rights'}
               </p>
             </div>
           </div>

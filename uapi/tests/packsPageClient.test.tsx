@@ -212,12 +212,11 @@ describe("PacksPageClient", () => {
     expect(screen.getByTestId("packs-portfolio-strip")).toBeInTheDocument();
     expect(screen.queryByTestId("packs-run-detail")).not.toBeInTheDocument();
     expect(
+      screen.queryByTestId("packs-keyboard-navigation"),
+    ).not.toBeInTheDocument();
+    expect(
       await screen.findByTestId("packs-enterprise-activity-grid"),
     ).toHaveAccessibleName("Pack activity economic operation table");
-    expect(screen.getByTestId("packs-keyboard-navigation")).toHaveAttribute(
-      "data-enterprise-ux",
-      "keyboard-navigation",
-    );
     await waitFor(() =>
       expect(
         within(screen.getByRole("table")).getByText(
@@ -225,6 +224,10 @@ describe("PacksPageClient", () => {
         ),
       ).toBeInTheDocument(),
     );
+    // Measurements surface on the list row (absolute / measured fields).
+    expect(
+      within(screen.getByRole("table")).getByText(/Measured btd/i),
+    ).toBeInTheDocument();
     // Source-safe detail is drill-in only (deposit/read parity).
     expect(screen.queryByText("Source-safe detail")).not.toBeInTheDocument();
     expect(

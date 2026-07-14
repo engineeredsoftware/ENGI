@@ -163,11 +163,11 @@ export function ProductRouteShell({
       className={`min-h-screen ${toneClasses.page} px-4 pb-24 pt-32 text-neutral-100 tablet:px-6 desktop:px-8`}
     >
       <div className="mx-auto grid w-full max-w-[1800px] gap-5">
-        {/* Compact route header: one wrapping row — title block left, metric
-            CHIPS (label · value inline) right — instead of a tall stacked
-            card grid. */}
+        {/* Compact route header — fixed height band shared by Packs / Reads /
+            Deposits: title left, metric chips right (never a second full-width
+            metric row that stretches one route taller than the others). */}
         <header
-          className={`flex flex-wrap items-center gap-x-6 gap-y-3 border ${toneClasses.headerBorder} bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-5 py-3.5 shadow-[0_30px_100px_rgba(0,0,0,0.34)]`}
+          className={`grid items-center gap-x-6 gap-y-2 border ${toneClasses.headerBorder} bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-5 py-3 shadow-[0_30px_100px_rgba(0,0,0,0.34)] tablet:grid-cols-[minmax(0,1fr)_auto] tablet:min-h-[5.75rem]`}
         >
           <div className="min-w-0">
             <p
@@ -179,22 +179,22 @@ export function ProductRouteShell({
             <h1 className="mt-1 text-xl font-semibold tracking-tight text-white tablet:text-2xl">
               {title}
             </h1>
-            <p className="mt-1 max-w-3xl text-xs leading-5 text-neutral-400 tablet:text-sm">
+            <p className="mt-1 line-clamp-2 max-w-3xl text-xs leading-5 text-neutral-400 tablet:text-sm">
               {summary}
             </p>
           </div>
-          <dl className="ml-auto flex flex-wrap items-center gap-2 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-300">
+          <dl className="flex max-w-full flex-wrap items-center justify-start gap-1.5 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-300 tablet:max-w-[min(42rem,52vw)] tablet:justify-end">
             {metrics.map((metric) => {
               const chipBody = (
                 <>
                   <dt className="text-neutral-500">{metric.label}</dt>
-                  <dd className="text-xs font-semibold text-white">
+                  <dd className="text-[0.7rem] font-semibold text-white">
                     {metric.value}
                   </dd>
                 </>
               );
               const chipClass =
-                "flex items-baseline gap-2 border border-white/10 bg-white/[0.045] px-2.5 py-1.5";
+                "flex shrink-0 items-baseline gap-1.5 border border-white/10 bg-white/[0.045] px-2 py-1";
               return metric.description ? (
                 <TelemetryExplainerTrigger
                   key={metric.label}
