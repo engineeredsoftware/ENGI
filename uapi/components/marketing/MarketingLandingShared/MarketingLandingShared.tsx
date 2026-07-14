@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {
+  CheckBadgeIcon,
   CircleStackIcon,
   CubeTransparentIcon,
   CurrencyDollarIcon,
@@ -152,6 +153,13 @@ export const verificationRows = [
     detail: 'anyone can audit measurements and settlement without seeing protected source',
     status: 'verified',
     Icon: ShieldCheckIcon,
+  },
+  {
+    // Fourth card extends Verified access upward to clear the residual gap above the pin.
+    label: 'Immutable Settlement',
+    detail: 'BTC finality and BTD volume commit permanently; settled state cannot be rewritten',
+    status: 'final',
+    Icon: CheckBadgeIcon,
   },
 ] as const;
 
