@@ -49,7 +49,6 @@ function AuxillariesContent(props: AuxillariesContentProps) {
   const usesTabNavigation = navigationMode === 'tabs';
   const usesContainedLayout = surfaceVariant === 'contained';
   const activePaneLabel = currentStep ? labelForAuxillaryPane(currentStep) : 'Auxillaries';
-  const activeDescriptor = currentStep ? getAuxillaryDescriptor(currentStep) : null;
   const availableStepLabels = availableSteps.filter(Boolean).map((step) => labelForAuxillaryPane(step));
   const blockedStepLabels = steps
     .filter((step) => step && !availableSteps.includes(step))
@@ -270,27 +269,11 @@ function AuxillariesContent(props: AuxillariesContentProps) {
             data-testid="auxillaries-active-pane-region"
             data-auxillaries-pane-state={showContent ? 'ready' : 'loading'}
           >
-            <div className="auxillaries-active-pane-summary" role="status" aria-atomic="true">
-              <div className="auxillaries-active-pane-summary-copy">
-                <p className="auxillaries-active-pane-kicker">Active support pane</p>
-                <h2 className="auxillaries-active-pane-title">{activePaneLabel}</h2>
-                {activeDescriptor ? (
-                  <p className="auxillaries-active-pane-description">{activeDescriptor.routeDescription}</p>
-                ) : null}
-              </div>
-              <div className="auxillaries-active-pane-chips" aria-label="Auxillaries readiness summary">
-                <span className="auxillaries-active-pane-chip" data-state={showContent ? 'ready' : 'loading'}>
-                  {showContent ? 'Ready' : 'Loading'}
-                </span>
-                <span className="auxillaries-active-pane-chip">{availableStepLabels.length} panes available</span>
-                {blockedStepLabels.length ? (
-                  <span className="auxillaries-active-pane-chip" data-state="blocked">
-                    {blockedStepLabels.length} blocked
-                  </span>
-                ) : null}
-              </div>
-            </div>
-
+            {/*
+              No redundant "Active support pane" banner — readiness lives in the
+              left selector + audit detail; content starts at the same top edge
+              as the selector column.
+            */}
             {contentPanel ?? (
               <div className="auxillaries-active-pane-loading" role="status" aria-live="polite">
                 Loading active pane.

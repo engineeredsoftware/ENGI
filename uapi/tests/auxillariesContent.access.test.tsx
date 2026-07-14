@@ -83,9 +83,9 @@ describe('AuxillariesContent contained accessibility shell', () => {
     expect(activePane).toHaveAttribute('aria-busy', 'false');
     expect(activePane).toHaveAttribute('data-auxillaries-pane-state', 'ready');
 
-    expect(within(activePane).getByRole('status')).toHaveTextContent('Interfaces');
-    expect(within(activePane).getByRole('status')).toHaveTextContent('3 panes available');
-    expect(within(activePane).getByRole('status')).toHaveTextContent('1 blocked');
+    // Banner summary removed; readiness remains in audit detail + selector cards.
+    expect(within(activePane).queryByText('Active support pane')).not.toBeInTheDocument();
+    expect(within(activePane).queryByText(/panes available/i)).not.toBeInTheDocument();
     expect(screen.getByTestId('pane-interfaces')).toHaveTextContent('Rendered interfaces');
 
     expect(screen.getByRole('button', { name: 'Interfaces auxillary' })).toHaveAttribute('aria-current', 'page');
@@ -122,7 +122,7 @@ describe('AuxillariesContent contained accessibility shell', () => {
     const activePane = screen.getByRole('region', { name: 'Wallet active support pane' });
     expect(activePane).toHaveAttribute('aria-busy', 'true');
     expect(activePane).toHaveAttribute('data-auxillaries-pane-state', 'loading');
-    expect(within(activePane).getAllByRole('status')[1]).toHaveTextContent('Loading active pane.');
+    expect(within(activePane).getByRole('status')).toHaveTextContent('Loading active pane.');
     expect(screen.getByTestId('auxillaries-audit-detail')).toHaveTextContent('source-safe summary only');
     expect(screen.queryByText(/"currentStep"/)).not.toBeInTheDocument();
   });

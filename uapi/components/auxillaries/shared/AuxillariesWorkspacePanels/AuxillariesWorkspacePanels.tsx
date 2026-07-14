@@ -1,3 +1,7 @@
+/**
+ * Auxillaries left-rail selector: one card per pane with state chip, title,
+ * description, and one-word feature pills that fill vertical card height.
+ */
 'use client';
 
 import React from 'react';
@@ -40,6 +44,7 @@ export default function AuxillariesWorkspacePanels({
               ? 'Ready auxillary'
               : 'Locked auxillary';
         const descriptionId = `auxillaries-panel-${step}-state`;
+        const pillsId = `auxillaries-panel-${step}-pills`;
 
         return (
           <div key={step} role="listitem">
@@ -61,7 +66,7 @@ export default function AuxillariesWorkspacePanels({
               aria-label={`${descriptor.label} auxillary`}
               aria-current={isActive ? 'page' : undefined}
               aria-disabled={!isAvailable}
-              aria-describedby={descriptionId}
+              aria-describedby={`${descriptionId} ${pillsId}`}
             >
               <span id={descriptionId} className="sr-only">
                 {stateLabel}. {descriptor.routeDescription}
@@ -80,6 +85,20 @@ export default function AuxillariesWorkspacePanels({
               <p className="orbital-workspace-panel-copy auxillaries-bitcode-selector-card-copy">
                 {descriptor.routeDescription}
               </p>
+              <ul
+                id={pillsId}
+                className="auxillaries-bitcode-selector-card-pills"
+                aria-label={`${descriptor.label} key features`}
+              >
+                {descriptor.featurePills.map((pill) => (
+                  <li
+                    key={pill}
+                    className="auxillaries-bitcode-selector-card-pill"
+                  >
+                    {pill}
+                  </li>
+                ))}
+              </ul>
             </button>
           </div>
         );

@@ -27,6 +27,12 @@ export interface AuxillaryPaneDescriptor {
   labelPosition: 'top' | 'right' | 'bottom' | 'left';
   routeTitle: string;
   routeDescription: string;
+  /**
+   * One-word feature pills rendered at the bottom of the selector card.
+   * Three to four short labels fill card height and reduce vertical dead space
+   * between Wallet / Externals / Profile / Interfaces in the left rail.
+   */
+  featurePills: readonly [string, string, string] | readonly [string, string, string, string];
 }
 
 export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneDescriptor> = {
@@ -38,6 +44,7 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     routeTitle: 'Profile Auxillary',
     routeDescription:
       'Manage optional email, display identity, admin role, and organization membership without mixing in wallet or third-party connection controls.',
+    featurePills: ['Email', 'Identity', 'Role', 'Org'],
   },
   externals: {
     label: 'Externals',
@@ -47,6 +54,7 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     routeTitle: 'Externals Auxillary',
     routeDescription:
       'Attach GitHub and other non-wallet third-party bindings Bitcode reuses across read measurement, asset-pack synthesis, settlement follow-through, and external interface behavior.',
+    featurePills: ['GitHub', 'Source', 'Bindings', 'Scope'],
   },
   interfaces: {
     label: 'Interfaces',
@@ -56,6 +64,7 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     routeTitle: 'Interfaces Auxillary',
     routeDescription:
       'Shape how Packs, Deposits, Reads, MCP API, ChatGPT App, proofs, and default Bitcode behavior read and operate through one focused auxillary.',
+    featurePills: ['Packs', 'Reads', 'MCP', 'Proofs'],
   },
   wallet: {
     label: 'Wallet',
@@ -65,6 +74,7 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     routeTitle: 'Wallet Auxillary',
     routeDescription:
       'Connect Bitcoin wallet providers, review BTC and BTD balances, and inspect wallet-bound source-share posture in one focused auxillary.',
+    featurePills: ['Providers', 'BTC', 'BTD', 'Posture'],
   },
 };
 

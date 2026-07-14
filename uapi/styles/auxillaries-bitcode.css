@@ -151,8 +151,11 @@
 }
 
 .auxillaries-bitcode-pane-with-chrome {
-  /* Stage still spans full height; chrome only occupies the left column row. */
-  grid-row: 1 / -1;
+  /*
+   * Align content top with the selector list (row 2), not the Close/Disconnect
+   * chrome row above the left column.
+   */
+  grid-row: 2 / -1;
 }
 
 .auxillaries-skip-link {
@@ -393,6 +396,55 @@
   font-size: 0.84rem !important;
   line-height: 1.4 !important;
   text-align: center !important;
+}
+
+/* One-word feature pills: square chips that height the card and eat dead space. */
+.auxillaries-bitcode-selector-card-pills {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  gap: 0.3rem !important;
+  list-style: none !important;
+  margin: 0.35rem 0 0 !important;
+  padding: 0.28rem 0 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.auxillaries-bitcode-selector-card-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  /* Compact square-ish chips (slightly shorter than the first pass). */
+  min-width: 2.35rem;
+  min-height: 1.85rem;
+  padding: 0.22rem 0.32rem !important;
+  border-radius: 0 !important;
+  border: 1px solid rgba(101, 254, 183, 0.22) !important;
+  background: rgba(101, 254, 183, 0.06) !important;
+  color: rgba(220, 252, 231, 0.92) !important;
+  font-size: 0.58rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1.05 !important;
+  text-transform: uppercase !important;
+  text-align: center !important;
+  white-space: nowrap;
+}
+
+.auxillaries-bitcode-selector-card-current .auxillaries-bitcode-selector-card-pill {
+  border-color: rgba(101, 254, 183, 0.42) !important;
+  background: rgba(101, 254, 183, 0.12) !important;
+  color: rgba(236, 253, 245, 0.98) !important;
+}
+
+.auxillaries-bitcode-selector-card-locked .auxillaries-bitcode-selector-card-pill {
+  border-color: rgba(148, 163, 184, 0.16) !important;
+  background: rgba(148, 163, 184, 0.06) !important;
+  color: rgba(203, 213, 225, 0.72) !important;
 }
 
 .auxillaries-bitcode-pane {

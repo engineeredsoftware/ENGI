@@ -22,4 +22,22 @@ describe('AuxillariesWorkspacePanels', () => {
     expect(screen.getByLabelText('Active auxillary')).toHaveAttribute('data-state', 'active');
     expect(screen.getAllByLabelText('Ready auxillary')).toHaveLength(3);
   });
+
+  it('renders one-word feature pills on each selector card', () => {
+    render(
+      <AuxillariesWorkspacePanels
+        steps={['wallet', 'externals', 'profile', 'interfaces']}
+        currentStep="wallet"
+        availableSteps={['wallet', 'externals', 'profile', 'interfaces']}
+        onStepClick={jest.fn()}
+      />,
+    );
+
+    expect(screen.getByLabelText('Wallet key features')).toBeInTheDocument();
+    expect(screen.getByText('Providers')).toBeInTheDocument();
+    expect(screen.getByText('BTC')).toBeInTheDocument();
+    expect(screen.getByText('GitHub')).toBeInTheDocument();
+    expect(screen.getByText('Identity')).toBeInTheDocument();
+    expect(screen.getByText('MCP')).toBeInTheDocument();
+  });
 });
