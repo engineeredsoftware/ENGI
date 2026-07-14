@@ -38,7 +38,7 @@ deposits/
       use-deposit-activity-recording.ts
       use-deposit-synthesis-lifecycle.ts
   DepositSourceSelection/
-    DepositSourceSelection.tsx         # shell: header, anchors, status, URL sync
+    DepositSourceSelection.tsx         # shared SHA source package (also used by /reads)
     DepositSourceListRefreshButton.tsx
     hooks/use-deposit-source-vcs.ts
   DepositSourceFieldGrid/              # provider/repo/branch/commit columns

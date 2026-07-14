@@ -1,11 +1,12 @@
 "use client";
 
 /**
- * Deposit-native source selection (north-star Sell step A).
+ * Shared source selection (repository · branch · commit SHA package).
  *
- * Repository + branch + commit selection shell, full-repo earnings estimate, and
- * activity-ledger anchor. Field columns live in DepositSourceFieldGrid; VCS data
- * is owned by use-deposit-source-vcs.
+ * Primary home remains deposits/; /reads reuses this control for master-detail
+ * parity (same SHA element). Field columns live in DepositSourceFieldGrid;
+ * VCS data is owned by use-deposit-source-vcs. Optional heading/description
+ * props keep route-facing copy accurate without forking the control.
  */
 
 import React, { useEffect, useState } from "react";
@@ -51,6 +52,14 @@ type DepositSourceSelectionProps = {
    * selection — the configuration that produced the loaded run is read-only.
    */
   disabled?: boolean;
+  /**
+   * Route-facing copy overrides so /reads can reuse the same SHA source
+   * package control without deposit-only wording (master-detail parity).
+   */
+  heading?: string;
+  description?: string;
+  descriptionLocked?: string;
+  ariaLabel?: string;
 };
 
 export default function DepositSourceSelection({
@@ -62,6 +71,10 @@ export default function DepositSourceSelection({
   repoEarningEstimateSats,
   repositoryAnchors = [],
   disabled = false,
+  heading = "Select the repository you are depositing",
+  description = "One connected repository, branch, and commit form the source package the rest of the Deposit reads.",
+  descriptionLocked = "Source package that produced this run — locked while reviewing run detail.",
+  ariaLabel = "Select deposit repository",
 }: DepositSourceSelectionProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -256,7 +269,7 @@ export default function DepositSourceSelection({
       className={`border border-white/10 bg-white/[0.035] px-4 py-4 ${
         disabled ? "opacity-80" : ""
       }`}
-      aria-label="Select deposit repository"
+      aria-label={ariaLabel}
       data-testid="deposit-source-selection"
       data-locked={disabled ? "true" : "false"}
       aria-disabled={disabled || undefined}
@@ -267,15 +280,13 @@ export default function DepositSourceSelection({
             Repository
           </p>
           <h2 className="mt-2 flex items-center gap-2 text-lg font-semibold text-white">
-            <span>Select the repository you are depositing</span>
+            <span>{heading}</span>
             <BitcodeInlineExplainer
               explainer={DEPOSIT_SECTION_EXPLAINERS.repository}
             />
           </h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-400">
-            {disabled
-              ? "Source package that produced this run — locked while reviewing run detail."
-              : "One connected repository, branch, and commit form the source package the rest of the Deposit reads."}
+            {disabled ? descriptionLocked : description}
           </p>
         </div>
         <div className="flex items-center gap-2">

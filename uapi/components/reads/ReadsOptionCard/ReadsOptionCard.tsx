@@ -109,10 +109,9 @@ export function ReadsOptionCard(props: {
             need-fit {option.needFit.toFixed(2)}
           </span>
         ) : null}
-        {/* Calculated total BTD scalar when provided on the option envelope. */}
-        {typeof (option as { totalBtd?: number }).totalBtd === "number" ? (
+        {typeof option.totalBtd === "number" ? (
           <span className="border border-emerald-300/25 bg-emerald-400/10 px-2 py-0.5 text-emerald-100">
-            total BTD {(option as { totalBtd: number }).totalBtd.toFixed(4)}
+            total BTD {option.totalBtd.toFixed(4)}
           </span>
         ) : null}
         {typeof option.confidence === "number" ? (

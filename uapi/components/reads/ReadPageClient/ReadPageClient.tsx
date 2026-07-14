@@ -2,7 +2,8 @@
  * Reads experience page client — deposit-parity orchestration for /reads.
  *
  * Compact header + pipelines table; New (+) opens compose/detail mode with
- * source selection (SHA), Need (+ relevant/irrelevant paths), options, settle.
+ * shared DepositSourceSelection (SHA), Need (+ relevant/irrelevant paths),
+ * options, settle. Master-detail matches /deposits and /packs (table → detail + Back).
  */
 
 "use client";
@@ -19,7 +20,8 @@ import { useReadActivityRecording } from "./hooks/use-read-activity-recording";
 import { useReadOptionSynthesis } from "./hooks/use-read-option-synthesis";
 
 import { ProductRouteShell } from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";
-import ReadsRepositoryContextPanel from "@/components/reads/ReadsRepositoryContextPanel/ReadsRepositoryContextPanel";
+import DepositSourceSelection from "@/components/deposits/DepositSourceSelection/DepositSourceSelection";
+import { deriveRepositoryAnchors } from "@/components/deposits/models/deposit-activity-ledger";
 import { ReadsNeedComposePanel } from "@/components/reads/ReadsNeedComposePanel/ReadsNeedComposePanel";
 import { ReadsAssetPackOptions } from "@/components/reads/ReadsAssetPackOptions/ReadsAssetPackOptions";
 import { ReadsPipelinesMaster } from "@/components/reads/ReadsPipelinesMaster/ReadsPipelinesMaster";
@@ -27,6 +29,10 @@ import { ReadsPipelineTelemetry } from "@/components/reads/ReadsPipelineTelemetr
 import { ReadsRouteStateAside } from "@/components/reads/ReadsRouteStateAside/ReadsRouteStateAside";
 import { BitcodeShellBridgeProvider } from "@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge";
 import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import {
+  buildReadsHref,
+  READS_ROUTE,
+} from "@/components/bitcode/routes/ProductRoutes/product-routes";
 import {
   DEFAULT_TRANSACTION_FILTERS,
   DEFAULT_TRANSACTION_PAGINATION,
@@ -153,18 +159,29 @@ export default function ReadPageClient() {
     [liveRuns, selectedTransactionId],
   );
 
+  const repositoryAnchors = useMemo(
+    () => deriveRepositoryAnchors(liveRuns),
+    [liveRuns],
+  );
+
   const isReadDetailOpen =
     Boolean(selectedTransactionId) || isComposeOpen || Boolean(synthesis.runId);
 
   const closePipelineDetail = useCallback(() => {
     closeUrlDetail();
     setIsComposeOpen(false);
-  }, [closeUrlDetail]);
+    synthesis.reset();
+    setSettleError(null);
+    setSettleMessage(null);
+  }, [closeUrlDetail, synthesis.reset]);
 
   const openComposeDetail = useCallback(() => {
     closeUrlDetail();
+    synthesis.reset();
+    setSettleError(null);
+    setSettleMessage(null);
     setIsComposeOpen(true);
-  }, [closeUrlDetail]);
+  }, [closeUrlDetail, synthesis.reset]);
 
   const telemetry = useReadPipelineTelemetry(
     selectedRun || (synthesis.runId ? ({ id: synthesis.runId } as any) : null),
@@ -267,11 +284,21 @@ export default function ReadPageClient() {
           >
             <div className="grid min-w-0 gap-5">
               <div className="grid gap-5 xl:grid-cols-2">
-                <ReadsRepositoryContextPanel
-                  preferredRepository={selectedRun?.repository || null}
-                  onContextChange={setRepositoryContext}
-                  onRecordActivity={handleRecordActivity}
-                />
+                <div id="reads-section-source" className="min-w-0">
+                  <DepositSourceSelection
+                    preferredRepository={selectedRun?.repository || null}
+                    onContextChange={setRepositoryContext}
+                    onRecordActivity={handleRecordActivity}
+                    routePath={READS_ROUTE}
+                    buildRouteHref={buildReadsHref}
+                    repositoryAnchors={repositoryAnchors}
+                    disabled={isConfigLocked}
+                    heading="Select the repository you are reading"
+                    description="One connected repository, branch, and commit form the source package SynthesizeReadAssetPacks measures against."
+                    descriptionLocked="Source package for this read run — locked while reviewing run detail."
+                    ariaLabel="Repository source selector"
+                  />
+                </div>
                 <ReadsNeedComposePanel
                   need={need}
                   onNeedChange={setNeed}
@@ -285,7 +312,8 @@ export default function ReadPageClient() {
                   runId={synthesis.runId}
                   onSynthesize={() => void synthesis.synthesize()}
                   canSynthesize={Boolean(
-                    repositoryContext?.selectedRepository?.fullName,
+                    repositoryContext?.selectedRepository?.fullName &&
+                      repositoryContext?.selectedCommit,
                   )}
                   isConfigLocked={isConfigLocked}
                 />

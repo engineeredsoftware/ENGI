@@ -1,6 +1,8 @@
 /**
  * Deposit/read workbench public model surface.
- * Stable import path: re-exports types, live snapshot builder, and normalizer.
+ * Stable import path for types still used by pipeline activity drafts and host
+ * clients. UI workbench shell/normalize/snapshot/evidence rows were removed with
+ * the Terminal multi-step workbench; route UX lives on ReadPageClient.
  */
 
 export {
@@ -15,6 +17,3 @@ export type {
   TerminalDepositReadWorkbench,
   TerminalSourceRevision,
 } from '@/components/reads/models/deposit-read-workbench-types';
-
-export { buildLiveTerminalDepositReadWorkbenchSnapshot } from '@/components/reads/models/deposit-read-workbench-snapshot';
-export { normalizeTerminalDepositReadWorkbench } from '@/components/reads/models/deposit-read-workbench-normalize';

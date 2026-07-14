@@ -22,6 +22,8 @@ export type ReadSynthesizedOption = {
     needinesses?: unknown[];
   };
   needFit?: number | null;
+  /** Aggregate BTD scalar when the selection envelope supplies it. */
+  totalBtd?: number | null;
   selectable?: boolean;
   settleable?: boolean;
 };
@@ -197,6 +199,16 @@ export function useReadOptionSynthesis(input: {
     );
   }, []);
 
+  /** Clear compose/detail synthesis state when returning to the pipelines master. */
+  const reset = useCallback(() => {
+    stopPoll();
+    setStatus("idle");
+    setRunId(null);
+    setError(null);
+    setEnvelope(null);
+    setSelectedIndexes([]);
+  }, [stopPoll]);
+
   return {
     status,
     runId,
@@ -207,5 +219,6 @@ export function useReadOptionSynthesis(input: {
     setSelectedIndexes,
     toggleSelect,
     synthesize,
+    reset,
   };
 }

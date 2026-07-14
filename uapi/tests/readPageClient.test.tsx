@@ -34,7 +34,9 @@ jest.mock("@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge", (
   }) => <>{children}</>,
 }));
 
-jest.mock("@/components/reads/ReadsRepositoryContextPanel/ReadsRepositoryContextPanel", () => ({
+// Shared SHA source package (same control as /deposits). Mock so compose
+// tests do not require live VCS connection wiring.
+jest.mock("@/components/deposits/DepositSourceSelection/DepositSourceSelection", () => ({
   __esModule: true,
   default: ({
     onContextChange,
@@ -60,42 +62,14 @@ jest.mock("@/components/reads/ReadsRepositoryContextPanel/ReadsRepositoryContext
       });
     }, [onContextChange]);
     return (
-      <section aria-label="Repository source selector">
+      <section
+        aria-label="Repository source selector"
+        data-testid="deposit-source-selection"
+      >
         Repository source selector
       </section>
     );
   },
-}));
-
-jest.mock("@/components/reads/ReadsReadScenarioPanel/ReadsReadScenarioPanel", () => ({
-  __esModule: true,
-  default: () => (
-    <section aria-label="Read request scenarios">
-      Read request scenarios
-    </section>
-  ),
-}));
-
-jest.mock("@/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench", () => ({
-  __esModule: true,
-  default: ({
-    admittedReadActivityId,
-    routeReadingStage,
-    showDemonstrationWorkbench,
-  }: {
-    admittedReadActivityId?: string | null;
-    routeReadingStage?: string | null;
-    showDemonstrationWorkbench?: boolean;
-  }) => (
-    <section
-      aria-label="Reading workbench"
-      data-admitted-read={admittedReadActivityId || ""}
-      data-route-stage={routeReadingStage || ""}
-      data-demonstration={showDemonstrationWorkbench ? "true" : "false"}
-    >
-      Reading workbench
-    </section>
-  ),
 }));
 
 describe("ReadPageClient", () => {
