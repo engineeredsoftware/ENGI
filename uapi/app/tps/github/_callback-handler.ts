@@ -260,11 +260,22 @@ export async function claimPendingGitHubInstallation(): Promise<{
 }> {
   const pending = readPendingInstallationCookie();
   if (!pending) {
+    bitcodeServerTelemetry('debug', 'github-callback', 'claim-no-pending-cookie');
     return { claimed: false };
   }
 
+  bitcodeServerTelemetry('info', 'github-callback', 'claim-pending-start', {
+    installationId: pending.installation_id,
+    setupAction: pending.setup_action,
+    account: pending.account?.login ?? null,
+    capturedAt: pending.captured_at ?? null,
+  });
+
   const userContext = await readOptionalUser();
   if (!userContext?.user) {
+    bitcodeServerTelemetry('warn', 'github-callback', 'claim-session-required', {
+      installationId: pending.installation_id,
+    });
     return {
       claimed: false,
       installationId: pending.installation_id,
@@ -274,6 +285,11 @@ export async function claimPendingGitHubInstallation(): Promise<{
 
   const githubApp = createGitHubAppAuth();
   if (!githubApp) {
+    bitcodeServerTelemetry('error', 'github-callback', 'claim-app-not-configured', {
+      installationId: pending.installation_id,
+      hasAppId: Boolean(process.env.GITHUB_APP_ID?.trim()),
+      hasPrivateKey: Boolean(process.env.GITHUB_PRIVATE_KEY?.trim()),
+    });
     return {
       claimed: false,
       installationId: pending.installation_id,
@@ -283,7 +299,19 @@ export async function claimPendingGitHubInstallation(): Promise<{
 
   try {
     const installation = await githubApp.getInstallation(pending.installation_id);
+    bitcodeServerTelemetry('info', 'github-callback', 'claim-installation-read', {
+      installationId: pending.installation_id,
+      appId: installation?.app_id ?? null,
+      account: resolveInstallationAccount(installation).login,
+      repositorySelection: readString(installation?.repository_selection),
+    });
     const tokenData = await githubApp.generateInstallationToken(pending.installation_id);
+    bitcodeServerTelemetry('info', 'github-callback', 'claim-token-minted', {
+      installationId: pending.installation_id,
+      expiresAt: tokenData.expiresAt?.toISOString?.() ?? null,
+      repositorySelection: tokenData.repositorySelection ?? null,
+      repositoryCount: Array.isArray(tokenData.repositories) ? tokenData.repositories.length : 0,
+    });
     const setupFields = {
       installation_id: String(pending.installation_id),
       setup_action: pending.setup_action,
@@ -311,13 +339,19 @@ export async function claimPendingGitHubInstallation(): Promise<{
     };
   } catch (error) {
     const message = error instanceof Error ? error.message : 'claim_failed';
-    bitcodeServerTelemetry('warn', 'github-callback', 'installation-claim-failed', {
+    const stack = error instanceof Error ? error.stack?.slice(0, 500) : null;
+    bitcodeServerTelemetry('error', 'github-callback', 'installation-claim-failed', {
       installationId: pending.installation_id,
       message,
+      stack,
     });
     // Drop a dead staged install (uninstalled / wrong app) so the UI can recover.
     if (/\b40[134]\b/.test(message) || /not found/i.test(message)) {
       clearPendingInstallationCookie();
+      bitcodeServerTelemetry('warn', 'github-callback', 'claim-pending-cookie-cleared', {
+        installationId: pending.installation_id,
+        reason: message,
+      });
     }
     return {
       claimed: false,
@@ -409,9 +443,19 @@ async function handleInstallationCallback(request: Request) {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'installation_callback_failed';
+    const stack = error instanceof Error ? error.stack?.slice(0, 800) : null;
     bitcodeServerTelemetry('error', 'github-callback', 'installation-callback-failed', {
       installationId,
       message,
+      stack,
+      setupAction: setupFields.setup_action,
+      hasAppId: Boolean(process.env.GITHUB_APP_ID?.trim()),
+      hasPrivateKey: Boolean(process.env.GITHUB_PRIVATE_KEY?.trim()),
+    });
+    console.error('[bitcode-github-callback] installation callback failed', {
+      installationId,
+      message,
+      stack,
     });
     return buildConnectsRedirect(request, {
       vcsProvider: 'github',

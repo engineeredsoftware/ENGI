@@ -21,24 +21,33 @@ const Toaster = dynamic(
   { ssr: false }
 )
 
-// Runtime utility to surface cross-page auth errors via toast.
-function useLoginErrorToast() {
+// Runtime utility to surface cross-page Connect errors via toast.
+function useConnectErrorToast() {
   React.useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
-    const err = params.get('loginError');
-    const description = params.get('loginErrorDescription');
+    // Preferred Connect language; still accept legacy loginError* once.
+    const err = params.get('connectError') || params.get('loginError');
+    const description =
+      params.get('connectErrorDescription') || params.get('loginErrorDescription');
     if (err) {
       // Remove the param from the URL so the toast doesn't repeat on refresh.
+      params.delete('connectError');
+      params.delete('connectErrorDescription');
       params.delete('loginError');
       params.delete('loginErrorDescription');
-      const newUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : '') + window.location.hash;
+      const newUrl =
+        window.location.pathname +
+        (params.toString() ? `?${params.toString()}` : '') +
+        window.location.hash;
       window.history.replaceState({}, '', newUrl);
-      import('@/components/shadcn/Sonner/Sonner').then(({ toast }) => {
-        const errorLabel = decodeURIComponent(err);
-        const detail = description ? decodeURIComponent(description) : '';
-        toast.error(detail ? `${errorLabel}: ${detail}` : errorLabel);
-      }).catch(() => {});
+      import('@/components/shadcn/Sonner/Sonner')
+        .then(({ toast }) => {
+          const errorLabel = decodeURIComponent(err);
+          const detail = description ? decodeURIComponent(description) : '';
+          toast.error(detail ? `${errorLabel}: ${detail}` : errorLabel);
+        })
+        .catch(() => {});
     }
   }, []);
 }
@@ -189,7 +198,7 @@ export default function ClientLayoutInner({ children }: { children: ReactNode })
   }, []);
 
   // Show toast if redirected back with an auth error
-  useLoginErrorToast();
+  useConnectErrorToast();
   React.useEffect(() => {
     if (mockMode) {
       const mockUser = buildMockReviewUser();

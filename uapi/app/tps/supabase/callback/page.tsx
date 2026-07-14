@@ -12,9 +12,11 @@ export default function SupabaseCallbackPage({ searchParams }: { searchParams: S
   const error = firstParam(searchParams.error);
   if (error) {
     const redirectUrl = new URL('/', 'http://bitcode.local');
-    redirectUrl.searchParams.set('loginError', error);
+    // Product language: Connect (not login). Keep legacy loginError* as
+    // aliases only if clients still strip them — writers use connectError*.
+    redirectUrl.searchParams.set('connectError', error);
     const description = firstParam(searchParams.error_description);
-    if (description) redirectUrl.searchParams.set('loginErrorDescription', description);
+    if (description) redirectUrl.searchParams.set('connectErrorDescription', description);
     redirect(`${redirectUrl.pathname}${redirectUrl.search}`);
   }
 

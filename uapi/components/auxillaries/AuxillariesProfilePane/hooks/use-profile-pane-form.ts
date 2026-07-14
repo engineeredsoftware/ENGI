@@ -138,7 +138,10 @@ export function useProfilePaneForm({
     syncFromSession().catch(() => {});
 
     const msgHandler = (event: MessageEvent) => {
-      if (event.data?.type === 'oauth-login-complete') {
+      if (
+        event.data?.type === 'oauth-connect-complete' ||
+        event.data?.type === 'oauth-login-complete'
+      ) {
         syncFromSession();
       }
     };

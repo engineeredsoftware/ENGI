@@ -98,12 +98,17 @@ export function VCSConnectionCard({
       if (!response.ok) {
         // Never leave the card in a hard-loading/broken state after provider
         // errors (e.g. uninstalled GitHub App inventory failures).
+        console.error('[bitcode-github-connection] status not ok', {
+          status: response.status,
+          data,
+        });
         setStatus({ connected: false, valid: false });
         onConnectionChange?.(false);
         return;
       }
 
       if (!data || typeof data.connected !== 'boolean') {
+        console.error('[bitcode-github-connection] malformed response', { data });
         setStatus({ connected: false, valid: false });
         onConnectionChange?.(false);
         return;
@@ -115,10 +120,11 @@ export function VCSConnectionCard({
             ? `GitHub App installation linked for ${data.claimedInstallation.account}`
             : 'GitHub App installation linked to Bitcode',
         );
-      } else if (
-        data.claimedInstallation?.error &&
-        data.claimedInstallation.error !== 'session_required'
-      ) {
+      } else if (data.claimedInstallation?.error === 'session_required') {
+        toast.info(
+          'GitHub App is installed but Bitcode still needs a Connected identity to finish linking. Connect wallet/session, then Refresh.',
+        );
+      } else if (data.claimedInstallation?.error) {
         toast.error(
           `Could not finish GitHub App install: ${String(data.claimedInstallation.error).slice(0, 160)}`,
         );
@@ -127,7 +133,8 @@ export function VCSConnectionCard({
       setStatus(data);
       // Report attached (even if invalid) so Externals can show reconnect UX.
       onConnectionChange?.(Boolean(data.connected));
-    } catch {
+    } catch (error) {
+      console.error('[bitcode-github-connection] check failed', error);
       setStatus({ connected: false, valid: false });
       onConnectionChange?.(false);
     } finally {
@@ -198,9 +205,16 @@ export function VCSConnectionCard({
         // Claim now that a session may exist on this page load.
         void checkConnection();
       } else if (vcsConnection === 'failed') {
+        const vcsErrorDescription = params.get('vcsErrorDescription');
+        const detail = [vcsError, vcsErrorDescription].filter(Boolean).join(' — ');
+        console.error('[bitcode-github-connection] callback failed', {
+          vcsError,
+          vcsErrorDescription,
+          installationId: params.get('installation_id'),
+        });
         toast.error(
-          vcsError
-            ? `GitHub connection failed: ${vcsError}`
+          detail
+            ? `GitHub connection failed: ${detail}`
             : 'GitHub connection failed. Try reconnect or a personal access token.',
         );
       }

@@ -58,11 +58,11 @@ test.describe('@sso flows', () => {
 
   test('OAuth provider error surfaces toast', async ({ page }) => {
     // Directly hit the callback with an error code – server should redirect
-    // to /?loginError=… which the ClientLayout turns into a toast.
+    // to /?connectError=… which the ClientLayout turns into a toast.
     await page.goto('/tps/supabase/callback?error=access_denied&error_description=OAuth%20error')
 
     // Wait for redirection + toast
-    await page.waitForURL(/\/?loginError/)
+    await page.waitForURL(/\/?connectError|\/?loginError/)
     await page.waitForSelector('text=Authentication error')
     await expect(page.locator('text=Authentication error')).toBeVisible()
   })

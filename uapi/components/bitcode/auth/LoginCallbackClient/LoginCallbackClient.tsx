@@ -124,7 +124,7 @@ export default function LoginCallbackClient({
         setTimeout(() => {
           try {
             if (window.opener && !window.opener.closed) {
-              window.opener.postMessage({ type: 'oauth-login-complete' }, '*');
+              window.opener.postMessage({ type: 'oauth-connect-complete' }, '*');
             }
           } catch {}
 
@@ -172,12 +172,35 @@ export default function LoginCallbackClient({
         }
 
         try {
-          const { error } = await supabase.auth.exchangeCodeForSession(code);
-          if (error) throw error;
+          const { data: exchangeData, error } = await supabase.auth.exchangeCodeForSession(code);
+          if (error) {
+            // Surface provider exchange failures (wallet OIDC / OAuth) with full
+            // diagnostics in verbose QA telemetry — not just a root toast.
+            const { bitcodeQaTelemetry } = await import('@bitcode/auth/qa-telemetry');
+            bitcodeQaTelemetry('error', 'supabase-callback', 'exchange-code-failed', {
+              message: error.message,
+              name: error.name,
+              status: (error as { status?: number }).status ?? null,
+              codeKind,
+              hasSession: Boolean(exchangeData?.session),
+              origin: typeof window !== 'undefined' ? window.location.origin : null,
+              href: typeof window !== 'undefined' ? window.location.href.slice(0, 240) : null,
+            });
+            throw error;
+          }
           if (callbackKey) {
             try {
               window.sessionStorage.setItem(callbackKey, '1');
             } catch {}
+          }
+          // Finish any GitHub App install staged while session was absent.
+          try {
+            await fetch('/api/vcs/github/connection', {
+              method: 'GET',
+              credentials: 'same-origin',
+            });
+          } catch {
+            // claim is best-effort; connection card will retry
           }
           complete();
           return;
@@ -186,8 +209,20 @@ export default function LoginCallbackClient({
           await new Promise((resolve) => setTimeout(resolve, 300));
           if (await completeIfSessionExists()) return;
 
-          const message = exchangeError instanceof Error ? exchangeError.message : String(exchangeError);
-          window.location.replace(`/?loginError=server_error&loginErrorDescription=${encodeURIComponent(message)}`);
+          const message =
+            exchangeError instanceof Error ? exchangeError.message : String(exchangeError);
+          try {
+            const { bitcodeQaTelemetry } = await import('@bitcode/auth/qa-telemetry');
+            bitcodeQaTelemetry('error', 'supabase-callback', 'exchange-unrecoverable', {
+              message,
+              codeKind,
+            });
+          } catch {
+            // ignore telemetry load failure
+          }
+          window.location.replace(
+            `/?connectError=server_error&connectErrorDescription=${encodeURIComponent(message)}`,
+          );
           return;
         }
       }
@@ -352,7 +387,7 @@ export default function LoginCallbackClient({
       {redirecting && (
         <div className="absolute inset-0 flex items-center justify-center select-none">
           <h2 className="text-5xl laptop:text-7xl font-light text-[rgba(103,254,183,0.9)] super-shiny-text">
-            Signing you in…
+            Connecting…
           </h2>
         </div>
       )}

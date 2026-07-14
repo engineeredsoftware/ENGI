@@ -6,6 +6,8 @@ import {
   buildAuxillariesRecoveryRun,
 } from '@bitcode/api/src/routes/auxillaries-contract';
 
+import { bitcodeServerTelemetry } from '@/lib/bitcode-server-telemetry';
+
 import {
   buildDisconnectedConnectionStatus,
   buildStoredConnectionStatus,
@@ -39,8 +41,39 @@ export const GET = createRouteWrapper(async (request: Request, context: Provider
   const { supabase, user } = await getRouteSupabaseUser();
   if (!user) {
     const connectionStatus = buildDisconnectedConnectionStatus(provider);
+    // Surface staged GitHub App installs even without a session so Externals
+    // can prompt Connect instead of looking idle.
+    let claimedInstallation: {
+      claimed: boolean;
+      installationId?: number;
+      account?: string | null;
+      error?: string;
+    } | null = null;
+    if (provider === 'github') {
+      try {
+        const { claimPendingGitHubInstallation } = await import(
+          '@/app/tps/github/_callback-handler'
+        );
+        claimedInstallation = await claimPendingGitHubInstallation();
+        if (claimedInstallation?.error === 'session_required') {
+          bitcodeServerTelemetry('info', 'github-connection', 'claim-needs-session', {
+            installationId: claimedInstallation.installationId ?? null,
+          });
+        }
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        bitcodeServerTelemetry('error', 'github-connection', 'claim-throw-unauthenticated', {
+          message,
+        });
+        claimedInstallation = {
+          claimed: false,
+          error: message,
+        };
+      }
+    }
     return NextResponse.json({
       ...connectionStatus,
+      claimedInstallation,
       providerReadiness: buildAuxillariesConnectionReadiness({
         provider,
         connectionStatus,
@@ -63,8 +96,21 @@ export const GET = createRouteWrapper(async (request: Request, context: Provider
         '@/app/tps/github/_callback-handler'
       );
       claimedInstallation = await claimPendingGitHubInstallation();
-    } catch {
-      claimedInstallation = null;
+      bitcodeServerTelemetry('info', 'github-connection', 'claim-result', {
+        claimed: claimedInstallation.claimed,
+        installationId: claimedInstallation.installationId ?? null,
+        account: claimedInstallation.account ?? null,
+        error: claimedInstallation.error ?? null,
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      bitcodeServerTelemetry('error', 'github-connection', 'claim-throw', {
+        message,
+      });
+      claimedInstallation = {
+        claimed: false,
+        error: message,
+      };
     }
   }
 
