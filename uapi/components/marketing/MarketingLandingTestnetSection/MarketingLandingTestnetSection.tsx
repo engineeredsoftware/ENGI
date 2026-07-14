@@ -1,9 +1,7 @@
 'use client';
 
 /**
- * Commercial product strip under the landing micro-blog.
- * One type step larger than the compact fill so residual space under the guide closes
- * with a clean gap (mt-4) between micro-blog and this panel.
+ * Commercial product strip (left column). Outer y-margins come from the hero stack wrapper.
  */
 
 import React from 'react';
@@ -18,9 +16,9 @@ export function MarketingLandingTestnetSection() {
     <section
       data-testid="landing-testnet-launch"
       aria-label="Commercial product launch readiness"
-      className="relative mt-6 flex min-h-0 w-full flex-col phone:mt-7"
+      className="relative w-full"
     >
-      <div className="flex min-h-0 flex-1 flex-col rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-4 py-4 backdrop-blur-sm phone:px-5 phone:py-5">
+      <div className="rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-4 py-4 backdrop-blur-sm phone:px-5 phone:py-5">
         <div className="flex flex-wrap items-center gap-2">
           <span className="rounded-none border border-emerald-300/35 bg-emerald-300/12 px-2.5 py-1 text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-100">
             {copy.badge}
@@ -30,12 +28,12 @@ export function MarketingLandingTestnetSection() {
           {copy.title}
         </h2>
         <p className="mt-2 text-[13px] leading-5 text-neutral-300 phone:text-[14px]">{copy.meaning}</p>
-        <ol className="mt-3 grid min-h-0 flex-1 grid-cols-1 gap-2.5" aria-label="Core product flow">
+        <ol className="mt-3 grid grid-cols-1 gap-2.5" aria-label="Core product flow">
           {copy.flow.map((entry) => (
-            <li key={entry.step} className="min-h-0">
+            <li key={entry.step}>
               <Link
                 href={entry.href}
-                className="block h-full rounded-none border border-white/10 bg-black/25 px-3 py-3 transition hover:border-emerald-300/35 hover:bg-emerald-300/[0.07]"
+                className="block rounded-none border border-white/10 bg-black/25 px-3 py-3 transition hover:border-emerald-300/35 hover:bg-emerald-300/[0.07]"
               >
                 <span className="inline-flex items-baseline gap-2">
                   <span className="text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-200/85">

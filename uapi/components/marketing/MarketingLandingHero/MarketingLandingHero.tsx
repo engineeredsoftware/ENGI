@@ -154,9 +154,14 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
         })}
       </div>
 
-      {/* Commercial product first; micro-blog sits beneath it. */}
-      <MarketingLandingTestnetSection />
-      <MarketingLandingGuideCard />
+      {/*
+        Shared y-rhythm from pre-swap layout:
+        mt-6/7 after CTAs, gap-4 between the two panels — only order is swapped.
+      */}
+      <div className="mt-6 flex w-full flex-col gap-4 phone:mt-7">
+        <MarketingLandingTestnetSection />
+        <MarketingLandingGuideCard />
+      </div>
     </motion.section>
   );
 });
