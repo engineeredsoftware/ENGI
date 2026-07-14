@@ -1112,3 +1112,136 @@
       0 0 20px rgba(251, 146, 60, 0.4);
   }
 }
+
+/*
+ * Externals Repository Connection — deposit-purple twin of wallet bitcoin-orange.
+ * After wallet Connect without GitHub, Auxillaries cues this card + Install button.
+ */
+.auxillaries-bitcode-surface .repository-connection-section,
+.repository-connection-section {
+  --github-section-rest-border: rgba(167, 139, 250, 0.42);
+  --github-section-rest-shadow: 0 18px 44px rgba(0, 0, 0, 0.2);
+  --github-section-rest-bg: linear-gradient(
+    145deg,
+    rgba(36, 22, 62, 0.9),
+    rgba(14, 12, 28, 0.9)
+  );
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--github-section-rest-border);
+  box-shadow: var(--github-section-rest-shadow);
+  background: var(--github-section-rest-bg);
+  transition: none;
+}
+
+@keyframes github-section-attention {
+  0%,
+  58%,
+  100% {
+    border-color: var(--github-section-rest-border);
+    box-shadow: var(--github-section-rest-shadow);
+    background: var(--github-section-rest-bg);
+  }
+  12%,
+  40% {
+    border-color: rgba(221, 214, 254, 0.95);
+    background: linear-gradient(
+      145deg,
+      rgba(76, 29, 149, 0.94),
+      rgba(30, 20, 56, 0.92)
+    );
+    box-shadow:
+      0 18px 44px rgba(0, 0, 0, 0.28),
+      0 0 0 2px rgba(167, 139, 250, 0.8),
+      0 0 36px rgba(139, 92, 246, 0.55),
+      0 0 0 1px rgba(167, 139, 250, 0.28) inset;
+  }
+  48% {
+    border-color: rgba(196, 181, 253, 0.78);
+    background: linear-gradient(
+      145deg,
+      rgba(55, 28, 110, 0.9),
+      rgba(22, 16, 42, 0.88)
+    );
+    box-shadow:
+      0 18px 44px rgba(0, 0, 0, 0.24),
+      0 0 0 1px rgba(167, 139, 250, 0.5),
+      0 0 20px rgba(139, 92, 246, 0.35);
+  }
+}
+
+@keyframes github-connect-button-attention {
+  0%,
+  58%,
+  100% {
+    transform: translateY(0) scale(1);
+    box-shadow: none;
+  }
+  12%,
+  40% {
+    transform: translateY(-1px) scale(1.045);
+    box-shadow:
+      0 0 0 2px rgba(167, 139, 250, 0.55),
+      0 0 28px rgba(139, 92, 246, 0.65),
+      0 12px 28px rgba(0, 0, 0, 0.28);
+  }
+  48% {
+    transform: translateY(0) scale(1.015);
+    box-shadow:
+      0 0 0 1px rgba(167, 139, 250, 0.35),
+      0 0 14px rgba(139, 92, 246, 0.32);
+  }
+}
+
+.auxillaries-bitcode-surface .repository-connection-section.github-connect-attention-section,
+.repository-connection-section.github-connect-attention-section {
+  animation: github-section-attention 2.1s ease-in-out 1 both;
+}
+
+.github-install-button {
+  border: 1px solid rgba(167, 139, 250, 0.55) !important;
+  background: rgba(139, 92, 246, 0.16) !important;
+  color: rgba(245, 243, 255, 0.96) !important;
+}
+
+.github-install-button:hover:not(:disabled) {
+  border-color: rgba(196, 181, 253, 0.78) !important;
+  background: rgba(139, 92, 246, 0.24) !important;
+}
+
+.github-connect-attention-button {
+  animation: github-connect-button-attention 2.1s ease-in-out 1 both;
+  will-change: transform, box-shadow;
+}
+
+.auxillaries-bitcode-surface .github-connection-card,
+.github-connection-card {
+  border-color: rgba(167, 139, 250, 0.32) !important;
+  background: rgba(36, 22, 62, 0.55) !important;
+}
+
+.auxillaries-bitcode-surface .github-vcs-panel,
+.github-vcs-panel {
+  min-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .github-connect-attention-section,
+  .github-connect-attention-button {
+    animation: none;
+  }
+
+  .repository-connection-section.github-connect-attention-section {
+    border-color: rgba(221, 214, 254, 0.9);
+    box-shadow:
+      0 18px 44px rgba(0, 0, 0, 0.2),
+      0 0 0 2px rgba(167, 139, 250, 0.65),
+      0 0 28px rgba(139, 92, 246, 0.4);
+  }
+
+  .github-connect-attention-button {
+    box-shadow:
+      0 0 0 2px rgba(167, 139, 250, 0.55),
+      0 0 20px rgba(139, 92, 246, 0.4);
+  }
+}

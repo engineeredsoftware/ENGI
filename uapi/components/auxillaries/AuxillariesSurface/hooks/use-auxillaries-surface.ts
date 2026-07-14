@@ -32,6 +32,7 @@ import { clearAuthQueries, updateCachedUser } from '@/hooks/use-auth-query';
 import { clearUserDataIdentity, mutateUserData, useUserData } from '@/hooks/useUserData';
 import { clearLocalBitcodeWalletIdentity } from '@bitcode/auth/wallet-local';
 
+import { requestGitHubConnectAttention } from '@/components/auxillaries/AuxillariesExternalsPane/models/github-connect-attention';
 import { requestWalletConnectAttention } from '@/components/auxillaries/AuxillariesWalletConnectionPanel/models/wallet-connect-attention';
 
 import { parseAuxillaryPath, reportError, trackEvent } from '../models/auxillaries-surface-path';
@@ -55,12 +56,15 @@ export function useAuxillariesSurface({
   const { data: sessionUser, isLoading: userLoading } = useUser();
   const { data: profileData, isLoading: profileLoading } = useProfile();
   const { data: onboardingData } = useOnboarding();
-  const { data: auxillaryData, hasWalletConnection } = useUserData();
+  const { data: auxillaryData, hasWalletConnection, hasGitHubConnection, hasValidGitHubConnection } =
+    useUserData();
 
   const authLoaded = !userLoading;
   // Wallet-native identity: a bound Bitcoin wallet counts as connected even
   // before a Supabase session user is present (Connect / Disconnect chrome).
   const hasConnectedIdentity = Boolean(sessionUser) || hasWalletConnection;
+  const needsGitHubConnectAttention =
+    hasWalletConnection && !(hasValidGitHubConnection || hasGitHubConnection);
   const [supabaseClient] = useState(() => createClient());
   const router = useRouter();
   const pathname = usePathname();
@@ -319,6 +323,50 @@ export function useAuxillariesSurface({
     trackEvent('auxillaries_connect_focus_wallet');
     requestWalletConnectAttention();
   }, []);
+
+  /**
+   * After wallet is bound but GitHub is not: open Externals and purple-spotlight
+   * the Repository Connection card + Install GitHub App button.
+   */
+  const focusExternalsGitHubConnect = useCallback(() => {
+    setCurrentStep('externals');
+    trackEvent('auxillaries_connect_focus_github');
+    requestGitHubConnectAttention();
+  }, []);
+
+  const prevWalletConnectedRef = useRef(false);
+  const githubCueOnOpenRef = useRef(false);
+
+  useEffect(() => {
+    if (!authLoaded) return;
+
+    const walletJustConnected = hasWalletConnection && !prevWalletConnectedRef.current;
+    prevWalletConnectedRef.current = hasWalletConnection;
+
+    if (walletJustConnected && needsGitHubConnectAttention) {
+      focusExternalsGitHubConnect();
+      githubCueOnOpenRef.current = true;
+      return;
+    }
+
+    // Opening Auxillaries with wallet already bound and no GitHub attachment:
+    // cue Externals once per surface session (not on every pane switch).
+    if (
+      !githubCueOnOpenRef.current &&
+      hasWalletConnection &&
+      needsGitHubConnectAttention &&
+      treatsContainedSurfaceAsAuxillaries
+    ) {
+      githubCueOnOpenRef.current = true;
+      focusExternalsGitHubConnect();
+    }
+  }, [
+    authLoaded,
+    focusExternalsGitHubConnect,
+    hasWalletConnection,
+    needsGitHubConnectAttention,
+    treatsContainedSurfaceAsAuxillaries,
+  ]);
 
   const toggleWindow = useCallback(() => {
     setActiveWindow((value) => (value === 'ConnectWindow' ? 'AuxillariesWindow' : 'ConnectWindow'));

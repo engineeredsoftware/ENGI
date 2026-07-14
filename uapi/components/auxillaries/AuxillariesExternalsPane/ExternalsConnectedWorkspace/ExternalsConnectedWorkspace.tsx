@@ -1,15 +1,24 @@
+'use client';
+
 /**
  * Connected Externals workspace — GitHub VCS panel, readiness, scope, data sharing.
+ * Repository Connection card accepts purple attention cue after wallet Connect.
  */
 
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { VCSIntegrationPanel } from '@/components/bitcode/vcs/VCSIntegrationPanel/VCSIntegrationPanel';
 import { getRepositoryInventorySourceLabel } from '@/components/bitcode/pipeline/models/repository-context';
 import AuxillariesDataSharingPanel from '@/components/auxillaries/AuxillariesDataSharingPanel/AuxillariesDataSharingPanel';
 import { buildAuxillariesRoutePath } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 
+import {
+  BITCODE_FOCUS_GITHUB_CONNECT_EVENT,
+  clearPendingGitHubConnectAttention,
+  GITHUB_CONNECT_ATTENTION_MS,
+  hasPendingGitHubConnectAttention,
+} from '../models/github-connect-attention';
 import { compactRoot, formatProviderClass } from '../models/externals-pane-format';
 
 export interface ExternalsConnectedWorkspaceProps {
@@ -61,12 +70,57 @@ export default function ExternalsConnectedWorkspace({
   onSave,
   refresh,
 }: ExternalsConnectedWorkspaceProps) {
+  const repositorySectionRef = useRef<HTMLElement | null>(null);
+  const [attentionActive, setAttentionActive] = useState(false);
+  const attentionTimerRef = useRef<number | null>(null);
+  const [attentionKey, setAttentionKey] = useState(0);
+
+  useEffect(() => {
+    const runAttention = () => {
+      clearPendingGitHubConnectAttention();
+      setAttentionActive(false);
+      setAttentionKey((key) => key + 1);
+      if (attentionTimerRef.current != null) {
+        window.clearTimeout(attentionTimerRef.current);
+      }
+      window.requestAnimationFrame(() => {
+        setAttentionActive(true);
+        repositorySectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        attentionTimerRef.current = window.setTimeout(() => {
+          setAttentionActive(false);
+          attentionTimerRef.current = null;
+        }, GITHUB_CONNECT_ATTENTION_MS);
+      });
+    };
+
+    window.addEventListener(BITCODE_FOCUS_GITHUB_CONNECT_EVENT, runAttention);
+    if (hasPendingGitHubConnectAttention()) {
+      runAttention();
+    }
+    return () => {
+      window.removeEventListener(BITCODE_FOCUS_GITHUB_CONNECT_EVENT, runAttention);
+      if (attentionTimerRef.current != null) {
+        window.clearTimeout(attentionTimerRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <div className="space-y-5">
-      <div className="grid gap-4 tablet:grid-cols-[1.15fr_0.85fr]">
-        <section className="rounded-none border border-white/10 bg-black/20 p-5">
+    <div className="min-w-0 space-y-5 overflow-x-hidden">
+      <div className="grid min-w-0 gap-4 tablet:grid-cols-[1.15fr_0.85fr]">
+        <section
+          ref={repositorySectionRef}
+          data-testid="repository-connection-section"
+          data-github-attention-key={attentionKey || undefined}
+          className={[
+            'repository-connection-section min-w-0 rounded-none border p-5',
+            attentionActive ? 'github-connect-attention-section' : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
           <div className="mb-4 space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/72">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-violet-200/78">
               Repository connection
             </p>
             <h3 className="text-lg font-semibold text-white">Connect GitHub for source-bearing input</h3>
@@ -79,6 +133,7 @@ export default function ExternalsConnectedWorkspace({
             showGitHub
             showGitLab={false}
             showBitbucket={false}
+            githubInstallAttentionActive={attentionActive}
             onConnectionChange={async (provider, connected) => {
               if (provider !== 'github') return;
               await refresh();
@@ -89,9 +144,9 @@ export default function ExternalsConnectedWorkspace({
           />
         </section>
 
-        <aside className="space-y-4">
-          <div className="rounded-none border border-white/10 bg-white/5 p-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/72">
+        <aside className="min-w-0 space-y-4 overflow-x-hidden">
+          <div className="min-w-0 rounded-none border border-violet-300/18 bg-violet-950/25 p-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-violet-200/78">
               Mainnet readiness
             </p>
             <div className="mt-3 rounded-none border border-white/8 bg-black/20 p-4">
@@ -221,10 +276,10 @@ export default function ExternalsConnectedWorkspace({
             {telemetryProofHooks.length > 0 ? (
               <div
                 data-testid="auxillaries-telemetry-proof-hooks"
-                className="mt-3 rounded-none border border-cyan-300/14 bg-cyan-400/8 p-4"
+                className="mt-3 min-w-0 overflow-hidden rounded-none border border-cyan-300/14 bg-cyan-400/8 p-4"
               >
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
+                <div className="flex min-w-0 flex-wrap items-start justify-between gap-3">
+                  <div className="min-w-0">
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-100/76">
                       Telemetry proof hooks
                     </p>
@@ -233,18 +288,30 @@ export default function ExternalsConnectedWorkspace({
                       {telemetryProofHooks.length === 1 ? 'hook' : 'hooks'} available
                     </p>
                   </div>
-                  <span className="rounded-none border border-white/10 bg-black/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/72">
+                  <span className="shrink-0 rounded-none border border-white/10 bg-black/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/72">
                     {formatProviderClass(latestTelemetryProofHook?.sourceSafetyClass)}
                   </span>
                 </div>
                 {latestTelemetryProofHook ? (
-                  <div className="mt-3 grid gap-2 text-xs leading-6 text-white/68 tablet:grid-cols-2">
-                    <p>Latest subject: {formatProviderClass(latestTelemetryProofHook.subject)}</p>
-                    <p>Theorem: {latestTelemetryProofHook.theoremId}</p>
-                    <p>Replay: {latestTelemetryProofHook.replayStepId}</p>
-                    <p>Outcome: {formatProviderClass(latestTelemetryProofHook.repairOutcome)}</p>
-                    <p>Evidence: {compactRoot(latestTelemetryProofHook.evidenceRoot)}</p>
-                    <p>Telemetry: {compactRoot(latestTelemetryProofHook.telemetryRoot)}</p>
+                  <div className="mt-3 grid min-w-0 gap-2 text-xs leading-6 text-white/68 tablet:grid-cols-2">
+                    <p className="min-w-0 break-words">
+                      Latest subject: {formatProviderClass(latestTelemetryProofHook.subject)}
+                    </p>
+                    <p className="min-w-0 break-all font-mono text-[0.7rem] leading-5">
+                      Theorem: {latestTelemetryProofHook.theoremId}
+                    </p>
+                    <p className="min-w-0 break-all font-mono text-[0.7rem] leading-5">
+                      Replay: {latestTelemetryProofHook.replayStepId}
+                    </p>
+                    <p className="min-w-0 break-words">
+                      Outcome: {formatProviderClass(latestTelemetryProofHook.repairOutcome)}
+                    </p>
+                    <p className="min-w-0 break-all font-mono text-[0.7rem] leading-5">
+                      Evidence: {compactRoot(latestTelemetryProofHook.evidenceRoot)}
+                    </p>
+                    <p className="min-w-0 break-all font-mono text-[0.7rem] leading-5">
+                      Telemetry: {compactRoot(latestTelemetryProofHook.telemetryRoot)}
+                    </p>
                   </div>
                 ) : null}
               </div>

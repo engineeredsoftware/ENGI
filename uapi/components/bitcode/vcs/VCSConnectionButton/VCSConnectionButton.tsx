@@ -15,6 +15,8 @@ interface VCSConnectionButtonProps {
   className?: string;
   variant?: 'default' | 'outline' | 'ghost';
   size?: 'default' | 'sm' | 'lg';
+  /** Purple attention pulse for Install GitHub App after wallet Connect. */
+  attentionActive?: boolean;
 }
 
 const providerConfig = {
@@ -44,7 +46,8 @@ export function VCSConnectionButton({
   onConnect,
   className = '',
   variant = 'outline',
-  size = 'default'
+  size = 'default',
+  attentionActive = false,
 }: VCSConnectionButtonProps) {
   const [isConnecting, setIsConnecting] = useState(false);
   const config = providerConfig[provider];
@@ -79,11 +82,19 @@ export function VCSConnectionButton({
   
   return (
     <Button
+      type="button"
       variant={variant}
       size={size}
       onClick={handleConnect}
       disabled={isConnecting}
-      className={`${config.color} ${className}`}
+      data-testid={provider === 'github' ? 'github-install-button' : undefined}
+      className={[
+        config.color,
+        className,
+        attentionActive ? 'github-connect-attention-button' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
       <Icon className="mr-2 h-4 w-4" />
       {isConnecting ? 'Connecting...' : config.actionLabel}

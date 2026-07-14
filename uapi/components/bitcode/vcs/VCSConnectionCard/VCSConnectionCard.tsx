@@ -24,6 +24,8 @@ import {
 interface VCSConnectionCardProps {
   provider: VCSProviderType;
   instanceUrl?: string;
+  /** Pulse Install GitHub App (purple attention after wallet Connect). */
+  installAttentionActive?: boolean;
   onConnectionChange?: (connected: boolean) => void;
 }
 
@@ -40,8 +42,8 @@ const providerConfig = {
   github: {
     icon: GitHubLogoIcon,
     label: 'GitHub',
-    description: 'Install the Bitcode GitHub App to grant repository scope for Terminal Read and Deposit work.',
-    color: 'bg-gray-900',
+    description: 'Install the Bitcode GitHub App to grant repository scope for Read and Deposit work.',
+    color: 'bg-violet-950/80',
     features: ['Installation-scoped repository access', 'Source inventory reads', 'Pull requests', 'Webhooks']
   },
   gitlab: {
@@ -63,6 +65,7 @@ const providerConfig = {
 export function VCSConnectionCard({
   provider,
   instanceUrl,
+  installAttentionActive = false,
   onConnectionChange
 }: VCSConnectionCardProps) {
   const [status, setStatus] = useState<ConnectionStatus>({ connected: false });
@@ -240,11 +243,19 @@ export function VCSConnectionCard({
     );
   }
   
+  const isGitHubCard = provider === 'github';
+
   return (
-    <Card>
+    <Card
+      className={
+        isGitHubCard
+          ? 'github-connection-card min-w-0 rounded-none border-violet-300/28 bg-violet-950/40 text-violet-50'
+          : undefined
+      }
+    >
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className={`flex items-center gap-2 ${isGitHubCard ? 'text-violet-50' : ''}`}>
             <Icon className="h-5 w-5" />
             {config.label}
             {instanceUrl && (
@@ -269,7 +280,9 @@ export function VCSConnectionCard({
             </div>
           )}
         </div>
-        <CardDescription>{config.description}</CardDescription>
+        <CardDescription className={isGitHubCard ? 'text-violet-100/72' : undefined}>
+          {config.description}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         {status.connected ? (
@@ -376,10 +389,15 @@ export function VCSConnectionCard({
         ) : (
           <div className="space-y-4">
             <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">Features:</p>
+              <p className={`text-sm ${isGitHubCard ? 'text-violet-100/70' : 'text-muted-foreground'}`}>
+                Features:
+              </p>
               <ul className="list-disc list-inside text-sm space-y-1">
                 {config.features.map((feature) => (
-                  <li key={feature} className="text-muted-foreground">
+                  <li
+                    key={feature}
+                    className={isGitHubCard ? 'text-violet-100/68' : 'text-muted-foreground'}
+                  >
                     {feature}
                   </li>
                 ))}
@@ -390,7 +408,15 @@ export function VCSConnectionCard({
               provider={provider}
               instanceUrl={instanceUrl}
               onConnect={() => checkConnection()}
-              className="w-full"
+              attentionActive={isGitHubCard && installAttentionActive}
+              className={[
+                'w-full',
+                isGitHubCard
+                  ? 'github-install-button rounded-none border border-violet-300/50 bg-violet-500/14 text-violet-50 hover:border-violet-200/70 hover:bg-violet-500/22'
+                  : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
             />
           </div>
         )}

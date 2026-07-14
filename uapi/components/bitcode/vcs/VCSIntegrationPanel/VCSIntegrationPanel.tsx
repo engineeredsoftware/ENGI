@@ -21,6 +21,8 @@ interface VCSIntegrationPanelProps {
   showGitHub?: boolean;
   showGitLab?: boolean;
   showBitbucket?: boolean;
+  /** Purple Install GitHub App attention cue (Externals after wallet Connect). */
+  githubInstallAttentionActive?: boolean;
   onConnectionChange?: (provider: VCSProviderType, connected: boolean) => void;
 }
 
@@ -52,6 +54,7 @@ export function VCSIntegrationPanel({
   showGitHub = true,
   showGitLab = false,
   showBitbucket = false,
+  githubInstallAttentionActive = false,
   onConnectionChange
 }: VCSIntegrationPanelProps) {
   const [gitlabInstanceUrl, setGitlabInstanceUrl] = useState('');
@@ -82,36 +85,47 @@ export function VCSIntegrationPanel({
   }
   
   return (
-    <div className="space-y-6">
+    <div className="github-vcs-panel min-w-0 space-y-6">
       <div>
-        <h3 className="text-lg font-medium">Version Control System Integrations</h3>
-        <p className="text-sm text-muted-foreground">
-          Install the Bitcode GitHub App so Terminal can read permitted repository
+        <h3 className="text-lg font-medium text-violet-50">Version Control System Integrations</h3>
+        <p className="text-sm text-violet-100/68">
+          Install the Bitcode GitHub App so Bitcode can read permitted repository
           context for Read, Deposit, and proof follow-through.
         </p>
       </div>
       
       <Tabs defaultValue="oauth" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="oauth">GitHub App</TabsTrigger>
-          <TabsTrigger value="pat">Personal Access Token</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 rounded-none border border-violet-300/22 bg-violet-950/40">
+          <TabsTrigger
+            value="oauth"
+            className="rounded-none data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-50"
+          >
+            GitHub App
+          </TabsTrigger>
+          <TabsTrigger
+            value="pat"
+            className="rounded-none data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-50"
+          >
+            Personal Access Token
+          </TabsTrigger>
         </TabsList>
         
         <TabsContent value="oauth" className="space-y-4">
-          <Alert>
-            <Info className="h-4 w-4" />
-            <AlertTitle>Recommended</AlertTitle>
-            <AlertDescription>
+          <Alert className="rounded-none border-violet-300/24 bg-violet-500/10 text-violet-50">
+            <Info className="h-4 w-4 text-violet-200" />
+            <AlertTitle className="text-violet-50">Recommended</AlertTitle>
+            <AlertDescription className="text-violet-100/78">
               The GitHub App returns an installation ID to Bitcode after install,
               then Bitcode stores only the installation-scoped connection needed
               for permitted repository reads.
             </AlertDescription>
           </Alert>
           
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid min-w-0 gap-4 md:grid-cols-1">
             {showGitHub && (
               <VCSConnectionCard
                 provider="github"
+                installAttentionActive={githubInstallAttentionActive}
                 onConnectionChange={(connected) => handleConnectionChange('github', connected)}
               />
             )}
