@@ -20,6 +20,8 @@ import {
   type BitcodeErc1155State,
   type BtdMintReceiptV48,
   type BtdTransferReceiptV48,
+  type SerializedAssetPackCoOwnership,
+  type SerializedBitcodeErc1155State,
   normalizeAddress,
 } from './types';
 
@@ -297,7 +299,9 @@ export function isAssetPackCoOwner(
   return pack.coOwners.includes(normalizeAddress(account));
 }
 
-export function serializeBitcodeErc1155State(state: BitcodeErc1155State): Record<string, unknown> {
+export function serializeBitcodeErc1155State(
+  state: BitcodeErc1155State,
+): SerializedBitcodeErc1155State {
   const balances: Record<string, Record<string, string>> = {};
   for (const [account, byToken] of state.balances.entries()) {
     balances[account] = {};
@@ -305,11 +309,14 @@ export function serializeBitcodeErc1155State(state: BitcodeErc1155State): Record
       balances[account][tokenId.toString()] = amount.toString();
     }
   }
-  const assetPacks: Record<string, unknown> = {};
+  const assetPacks: Record<string, SerializedAssetPackCoOwnership> = {};
   for (const [tokenId, pack] of state.assetPacks.entries()) {
     assetPacks[tokenId.toString()] = {
-      ...pack,
       tokenId: pack.tokenId.toString(),
+      assetPackKey: pack.assetPackKey,
+      coOwners: [...pack.coOwners],
+      metadataRoot: pack.metadataRoot,
+      createdAt: pack.createdAt,
     };
   }
   const assetPackTokenByKey: Record<string, string> = {};

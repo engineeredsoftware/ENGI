@@ -21,8 +21,8 @@ describe('computeSettlementBtdFromNeedinesses', () => {
   it('computes weighted need-fit scalar from needinesses only', () => {
     const result = computeSettlementBtdFromNeedinesses({
       needinesses: [
-        { kind: 'language-fit', volume: 1, weight: 0.5 },
-        { kind: 'domain-fit', volume: 0, weight: 0.5 },
+        { measurementKind: 'language-fit', volume: 1, weight: 0.5 },
+        { measurementKind: 'domain-fit', volume: 0, weight: 0.5 },
       ],
     });
     expect(result.needFitVolume).toBeCloseTo(0.5, 6);
@@ -42,11 +42,23 @@ describe('computeSettlementBtdFromNeedinesses', () => {
       needinesses: [
         { kind: 'need-fit', volume: 1, weight: 1 },
         { kind: 'bogus', volume: 1, weight: 1 },
-        { kind: 'language-fit', volume: 0.8, weight: 1 },
+        { measurementKind: 'language-fit', volume: 0.8, weight: 1 },
       ],
     });
     expect(result.needinessesCount).toBe(1);
     expect(result.needFitVolume).toBeCloseTo(0.8, 6);
+  });
+
+  it('accepts measurements carrier and kind alias forms (still strongly typed)', () => {
+    const fromCarrier = computeSettlementBtdFromNeedinesses({
+      measurements: {
+        needinesses: [{ kind: 'language-fit', volume: 1, weight: 1 }],
+      },
+    });
+    const fromArray = computeSettlementBtdFromNeedinesses([
+      { measurementKind: 'language-fit', volume: 1, weight: 1 },
+    ]);
+    expect(fromCarrier.amountBaseUnits).toBe(fromArray.amountBaseUnits);
   });
 });
 

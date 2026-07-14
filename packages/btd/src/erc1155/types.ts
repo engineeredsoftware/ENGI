@@ -111,3 +111,23 @@ export function normalizeAddress(address: string, label = 'address'): string {
   if (!value) throw new Error(`${label} must be a non-empty address string.`);
   return value.toLowerCase();
 }
+
+/** JSON-safe serialization of BitcodeErc1155State (bigint → string). */
+export interface SerializedAssetPackCoOwnership {
+  tokenId: string;
+  assetPackKey: string;
+  coOwners: string[];
+  metadataRoot: string;
+  createdAt: string;
+}
+
+export interface SerializedBitcodeErc1155State {
+  schema: 'bitcode.erc1155.state';
+  config: BitcodeErc1155Config;
+  btdTotalMinted: string;
+  nextAssetPackTokenId: string;
+  settlementSequence: string;
+  balances: Record<string, Record<string, string>>;
+  assetPackTokenByKey: Record<string, string>;
+  assetPacks: Record<string, SerializedAssetPackCoOwnership>;
+}

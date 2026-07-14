@@ -4,6 +4,8 @@
  * 1:1 AssetPack : settle pipeline. SynthesizeRead may return multiple options;
  * each selected option gets its own settle run (BTC → mint-btd → settle-btd →
  * settle-asset-pack → PR → packs).
+ *
+ * Wire JSON is parsed into strongly typed SettleAssetPackOption at this boundary.
  */
 
 import { randomUUID } from 'crypto';
@@ -12,11 +14,77 @@ import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { Execution } from '@bitcode/execution-generics';
-import { runSettleAssetPacksSimplePipeline } from '@bitcode/asset-packs-pipelines-settle-asset-packs';
+import {
+  parseSettleAssetPackOption,
+  parseSettleAssetPackOptions,
+  runSettleAssetPacksSimplePipeline,
+  type SettleAssetPackOption,
+  type SettleAssetPacksInput,
+  type SettleBtcPaymentObservationInput,
+  type SettleRepositoryRef,
+} from '@bitcode/asset-packs-pipelines-settle-asset-packs';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-domain';
 
 export const runtime = 'nodejs';
 export const maxDuration = 120;
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function parseRepository(raw: unknown, fullNameFallback: string | null): SettleRepositoryRef {
+  if (!isObject(raw)) {
+    return { fullName: fullNameFallback };
+  }
+  return {
+    url: typeof raw.url === 'string' ? raw.url : null,
+    owner: typeof raw.owner === 'string' ? raw.owner : null,
+    name: typeof raw.name === 'string' ? raw.name : null,
+    branch: typeof raw.branch === 'string' ? raw.branch : null,
+    commit: typeof raw.commit === 'string' ? raw.commit : null,
+    fullName:
+      typeof raw.fullName === 'string'
+        ? raw.fullName
+        : fullNameFallback,
+  };
+}
+
+function parsePaymentObservation(
+  raw: unknown,
+  amountSats: unknown,
+  txId: unknown,
+): SettleBtcPaymentObservationInput {
+  const base: SettleBtcPaymentObservationInput = {
+    schema: 'bitcode.settle-asset-packs.payment-observation',
+    network: 'btc-testnet',
+    status: 'observed-projection',
+    amountSats: typeof amountSats === 'number' ? amountSats : null,
+    txId: typeof txId === 'string' ? txId : null,
+  };
+  if (!isObject(raw)) return base;
+  return {
+    schema:
+      typeof raw.schema === 'string'
+        ? raw.schema
+        : base.schema,
+    network: typeof raw.network === 'string' ? raw.network : base.network,
+    status: typeof raw.status === 'string' ? raw.status : base.status,
+    txId:
+      typeof raw.txId === 'string'
+        ? raw.txId
+        : typeof txId === 'string'
+          ? txId
+          : null,
+    amountSats:
+      typeof raw.amountSats === 'number'
+        ? raw.amountSats
+        : typeof amountSats === 'number'
+          ? amountSats
+          : null,
+    confirmedAt: typeof raw.confirmedAt === 'string' ? raw.confirmedAt : null,
+    finality: typeof raw.finality === 'string' ? raw.finality : null,
+  };
+}
 
 async function resolveGithubToken(
   admin: ReturnType<typeof supabaseAdmin>,
@@ -30,41 +98,37 @@ async function resolveGithubToken(
       .eq('provider', 'github')
       .eq('is_active', true)
       .maybeSingle();
-    const data = githubConnection?.connection_data as Record<string, unknown> | null;
-    if (data && typeof data.access_token === 'string') return data.access_token;
-    if (data && typeof data.token === 'string') return data.token;
+    const data = githubConnection?.connection_data;
+    if (!isObject(data)) return null;
+    if (typeof data.access_token === 'string') return data.access_token;
+    if (typeof data.token === 'string') return data.token;
   } catch {
     /* projected PR path */
   }
   return null;
 }
 
-async function runOneSettle(input: {
+interface RunOneSettleInput {
   admin: ReturnType<typeof supabaseAdmin>;
   userId: string;
-  option: unknown;
-  repository: Record<string, unknown>;
+  option: SettleAssetPackOption;
+  repository: SettleRepositoryRef;
   repositoryFullName: string | null;
   synthesisRunId: string | null;
   need: string | null;
-  paymentObservation: unknown;
+  paymentObservation: SettleBtcPaymentObservationInput;
   githubAccessToken: string | null;
-  readerWalletId: unknown;
-  depositorWalletId: unknown;
-  buyerEthereumAddress: unknown;
-  depositorEthereumAddress: unknown;
-  masterEthereumAddress: unknown;
-  amountSats: unknown;
-  txId: unknown;
-}) {
+  readerWalletId: string | null;
+  depositorWalletId: string | null;
+  buyerEthereumAddress: string | null;
+  depositorEthereumAddress: string | null;
+  masterEthereumAddress: string | null;
+}
+
+async function runOneSettle(input: RunOneSettleInput) {
   const settleRunId = randomUUID();
   const startedAt = new Date().toISOString();
-  const optionTitle =
-    input.option &&
-    typeof input.option === 'object' &&
-    typeof (input.option as any).title === 'string'
-      ? (input.option as any).title
-      : null;
+  const optionTitle = input.option.title ?? null;
 
   await input.admin.from('executions').insert({
     id: settleRunId,
@@ -96,60 +160,42 @@ async function runOneSettle(input: {
   storeCrossPhaseArtifact(exec, 'host', 'runId', settleRunId);
   storeCrossPhaseArtifact(exec, 'pipeline', 'productPipeline', 'settle-asset-packs');
 
-  try {
-    const result = await runSettleAssetPacksSimplePipeline(
-      {
-        repository: {
-          fullName: input.repositoryFullName,
-          owner: input.repository.owner,
-          name: input.repository.name,
-          branch: input.repository.branch,
-          commit: input.repository.commit,
-          url: input.repository.url,
-        },
-        assetPackOption: input.option,
-        selectedOptions: [input.option],
-        paymentObservation: input.paymentObservation || {
-          schema: 'bitcode.settle-asset-packs.payment-observation',
-          network: 'btc-testnet',
-          status: 'observed-projection',
-          amountSats: typeof input.amountSats === 'number' ? input.amountSats : null,
-          txId: typeof input.txId === 'string' ? input.txId : null,
-        },
-        githubAccessToken: input.githubAccessToken,
-        userId: input.userId,
-        readerWalletId: input.readerWalletId || null,
-        depositorWalletId: input.depositorWalletId || null,
-        buyerEthereumAddress: input.buyerEthereumAddress || null,
-        depositorEthereumAddress: input.depositorEthereumAddress || null,
-        masterEthereumAddress: input.masterEthereumAddress || null,
-        need: input.need,
-        synthesisRunId: input.synthesisRunId,
-      },
-      exec,
-    );
+  const pipelineInput: SettleAssetPacksInput = {
+    repository: {
+      fullName: input.repositoryFullName,
+      owner: input.repository.owner,
+      name: input.repository.name,
+      branch: input.repository.branch,
+      commit: input.repository.commit,
+      url: input.repository.url,
+    },
+    assetPackOption: input.option,
+    selectedOptions: [input.option],
+    paymentObservation: input.paymentObservation,
+    githubAccessToken: input.githubAccessToken,
+    userId: input.userId,
+    readerWalletId: input.readerWalletId,
+    depositorWalletId: input.depositorWalletId,
+    buyerEthereumAddress: input.buyerEthereumAddress,
+    depositorEthereumAddress: input.depositorEthereumAddress,
+    masterEthereumAddress: input.masterEthereumAddress,
+    need: input.need,
+    synthesisRunId: input.synthesisRunId,
+  };
 
-    const packActivity =
-      exec.get?.('settle-asset-packs', 'packActivity') ||
-      (result as any)?.packActivity ||
-      null;
-    const shippable =
-      exec.get?.('settle-asset-packs', 'shippable') || (result as any)?.shippable || null;
-    const mintBtd = exec.get?.('settle-asset-packs', 'mintBtd') || null;
-    const settleBtd = exec.get?.('settle-asset-packs', 'settleBtd') || null;
-    const settleAssetPack = exec.get?.('settle-asset-packs', 'settleAssetPack') || null;
-    const summary =
-      typeof (result as any)?.summary === 'string'
-        ? (result as any).summary
-        : `Settled AssetPack${optionTitle ? `: ${optionTitle}` : ''}.`;
-    const deliveryState =
-      (packActivity as any)?.deliveryState || shippable?.status || 'projected';
-    const rightsState = 'btd-rights-transferred';
-    const prUrl =
-      (packActivity as any)?.prUrl || shippable?.prUrl || null;
-    const measurementRows = Array.isArray((packActivity as any)?.measurements)
-      ? (packActivity as any).measurements
-      : [];
+  try {
+    const result = await runSettleAssetPacksSimplePipeline(pipelineInput, exec);
+
+    const packActivity = result.packActivity;
+    const shippable = result.shippable;
+    const mintBtd = result.mintBtd;
+    const settleBtd = result.settleBtd;
+    const settleAssetPack = result.settleAssetPack;
+    const summary = result.summary;
+    const deliveryState = packActivity.deliveryState || shippable.status || 'projected';
+    const rightsState = 'btd-rights-transferred' as const;
+    const prUrl = packActivity.prUrl || shippable.prUrl || null;
+    const measurementRows = packActivity.measurements;
 
     await input.admin
       .from('executions')
@@ -160,31 +206,28 @@ async function runOneSettle(input: {
           productPipeline: 'settle-asset-packs',
           success: true,
           packActivity,
-          shippable: packActivity?.shippable || {
-            schema: shippable?.schema,
-            deliveryMechanism: shippable?.deliveryMechanism,
-            repository: shippable?.repository,
-            patchCount: shippable?.patchCount,
+          shippable: packActivity.shippable || {
+            schema: shippable.schema,
+            deliveryMechanism: shippable.deliveryMechanism,
+            repository: shippable.repository,
+            patchCount: shippable.patchCount,
             prUrl,
             status: deliveryState,
-            note: shippable?.note,
+            note: shippable.note,
           },
           mintBtd,
           settleBtd,
           settleAssetPack,
           selectedCount: 1,
           optionCount: 1,
-          assetPackTitle: optionTitle || (packActivity as any)?.assetPackTitle || null,
+          assetPackTitle: optionTitle || packActivity.assetPackTitle || null,
           measurements: measurementRows,
           settlementState: 'settled',
           rightsState,
           deliveryState,
           deliveryReference: prUrl,
           prUrl,
-          amountSats:
-            typeof (packActivity as any)?.paymentObservation?.amountSats === 'number'
-              ? (packActivity as any).paymentObservation.amountSats
-              : null,
+          amountSats: packActivity.paymentObservation?.amountSats ?? null,
           summary,
         },
         context: {
@@ -193,7 +236,7 @@ async function runOneSettle(input: {
           pipelineCore: 'settle-asset-packs',
           synthesisMode: 'read',
           repositoryFullName:
-            input.repositoryFullName || (packActivity as any)?.repositoryFullName || null,
+            input.repositoryFullName || packActivity.repositoryFullName || null,
           optionCount: 1,
           packActivityType: 'settled-assetpack',
           activityType: 'settled-assetpack',
@@ -203,7 +246,7 @@ async function runOneSettle(input: {
           deliveryState,
           deliveryReference: prUrl,
           prUrl,
-          assetPackTitle: optionTitle || (packActivity as any)?.assetPackTitle || null,
+          assetPackTitle: optionTitle || packActivity.assetPackTitle || null,
         },
       })
       .eq('id', settleRunId)
@@ -213,7 +256,11 @@ async function runOneSettle(input: {
       ok: true as const,
       settleRunId,
       packActivity,
-      shippable: { prUrl, status: deliveryState, repository: shippable?.repository || null },
+      shippable: {
+        prUrl,
+        status: deliveryState,
+        repository: shippable.repository,
+      },
       mintBtd,
       settleBtd,
       settleAssetPack,
@@ -248,47 +295,56 @@ export async function POST(request: Request) {
 
   if (!user || userError) {
     return NextResponse.json(
-      { error: 'A Bitcode session is required to settle read options.', code: 'read_session_required' },
+      {
+        error: 'A Bitcode session is required to settle read options.',
+        code: 'read_session_required',
+      },
       { status: 401 },
     );
   }
 
   let body: Record<string, unknown>;
   try {
-    body = (await request.json()) as Record<string, unknown>;
+    const parsed: unknown = await request.json();
+    if (!isObject(parsed)) {
+      return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+    }
+    body = parsed;
   } catch {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
-  // Accept single option or array — always 1:1 pipeline runs.
-  const selectedOptions = Array.isArray(body.selectedOptions)
-    ? body.selectedOptions
+  const selectedOptions: SettleAssetPackOption[] = Array.isArray(body.selectedOptions)
+    ? parseSettleAssetPackOptions(body.selectedOptions)
     : body.assetPackOption
-      ? [body.assetPackOption]
+      ? (() => {
+          const one = parseSettleAssetPackOption(body.assetPackOption);
+          return one ? [one] : [];
+        })()
       : [];
+
   if (selectedOptions.length === 0) {
     return NextResponse.json(
       {
-        error: 'selectedOptions (or assetPackOption) is required — one settle pipeline per bought option.',
+        error:
+          'selectedOptions (or assetPackOption) with measurements.needinesses is required — one settle pipeline per bought option.',
         code: 'options_required',
       },
       { status: 400 },
     );
   }
 
-  const repository =
-    body.repository && typeof body.repository === 'object'
-      ? (body.repository as Record<string, unknown>)
-      : {};
   const repositoryFullName =
-    typeof body.repositoryFullName === 'string'
-      ? body.repositoryFullName
-      : typeof repository.fullName === 'string'
-        ? repository.fullName
-        : null;
+    typeof body.repositoryFullName === 'string' ? body.repositoryFullName : null;
+  const repository = parseRepository(body.repository, repositoryFullName);
   const synthesisRunId =
     typeof body.synthesisRunId === 'string' ? body.synthesisRunId : null;
   const need = typeof body.need === 'string' ? body.need : null;
+  const paymentObservation = parsePaymentObservation(
+    body.paymentObservation,
+    body.amountSats,
+    body.txId,
+  );
 
   const admin = supabaseAdmin();
   const githubAccessToken = await resolveGithubToken(admin, user.id);
@@ -302,18 +358,22 @@ export async function POST(request: Request) {
       userId: user.id,
       option,
       repository,
-      repositoryFullName,
+      repositoryFullName: repositoryFullName || repository.fullName || null,
       synthesisRunId,
       need,
-      paymentObservation: body.paymentObservation,
+      paymentObservation,
       githubAccessToken,
-      readerWalletId: body.readerWalletId,
-      depositorWalletId: body.depositorWalletId,
-      buyerEthereumAddress: body.buyerEthereumAddress,
-      depositorEthereumAddress: body.depositorEthereumAddress,
-      masterEthereumAddress: body.masterEthereumAddress,
-      amountSats: body.amountSats,
-      txId: body.txId,
+      readerWalletId: typeof body.readerWalletId === 'string' ? body.readerWalletId : null,
+      depositorWalletId:
+        typeof body.depositorWalletId === 'string' ? body.depositorWalletId : null,
+      buyerEthereumAddress:
+        typeof body.buyerEthereumAddress === 'string' ? body.buyerEthereumAddress : null,
+      depositorEthereumAddress:
+        typeof body.depositorEthereumAddress === 'string'
+          ? body.depositorEthereumAddress
+          : null,
+      masterEthereumAddress:
+        typeof body.masterEthereumAddress === 'string' ? body.masterEthereumAddress : null,
     });
     results.push(one);
   }
@@ -324,7 +384,6 @@ export async function POST(request: Request) {
   return NextResponse.json(
     {
       ok: allOk,
-      // Multi-option: one pipeline per option
       settleRunIds,
       settleRunId: settleRunIds[0] || null,
       results,

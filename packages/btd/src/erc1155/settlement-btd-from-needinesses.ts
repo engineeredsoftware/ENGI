@@ -11,8 +11,8 @@
  *   needFitVolume          = weightSum > 0 ? weightedNeedinessesSum / weightSum : 0
  *   amountBaseUnits        = floor(needFitVolume * 10^BTD_DECIMALS)
  *
- * When catalogue weights sum to 1, needFitVolume equals the weighted mean
- * (need-fit composite). Dynamic rows re-normalize via the same division.
+ * All inputs are strongly typed. Boundary adapters that accept wire JSON live
+ * in the settle API layer — this module never takes `unknown`.
  */
 
 import { createHash } from 'crypto';
@@ -23,19 +23,84 @@ import { BTD_DECIMALS_SCALE } from './types';
  * ASSET_PACK_NEEDINESSES_CATALOG). Kept local so settlement math does not
  * pull agent-factory graphs into `@bitcode/btd` consumers/tests.
  */
-const NEEDINESSES_CATALOGUE_WEIGHTS: Record<string, number> = {
+const NEEDINESSES_CATALOGUE_WEIGHTS: Readonly<Record<string, number>> = {
   'language-fit': 0.35,
   'domain-fit': 0.35,
   'interface-fit': 0.3,
 };
 
-export type NeedinessRowForSettlement = {
+/**
+ * Canonical needinesses reading for settlement BTD mint.
+ * `measurementKind` must end with `-fit` (product law); validated at compute time.
+ */
+export interface NeedinessReadingForSettlement {
+  measurementKind: string;
+  /** Normalized volume in [0, 1]. */
+  volume: number;
+  /** Optional row weight; catalogue weight used when omitted. */
+  weight?: number;
+  magnitude?: number;
+  unit?: string | null;
+  category?: 'neediness';
+}
+
+/**
+ * Wire-compat alias used by some option cards that emit `kind` instead of
+ * `measurementKind`. Both forms are fully typed — not `unknown`.
+ */
+export interface NeedinessReadingKindAlias {
+  kind: string;
+  volume: number;
+  weight?: number;
+  magnitude?: number;
+  unit?: string | null;
+  category?: 'neediness';
+}
+
+export type NeedinessRowInput = NeedinessReadingForSettlement | NeedinessReadingKindAlias;
+
+export interface AbsoluteReadingForSettlement {
   measurementKind?: string;
   kind?: string;
-  volume?: number;
+  volume: number;
+  magnitude?: number;
   weight?: number;
-  category?: string;
-};
+  unit?: string | null;
+  category?: 'absolute';
+}
+
+/** Nested measurements bag on a settle-bound AssetPack option. */
+export interface AssetPackMeasurementsForSettlement {
+  absolutes?: readonly AbsoluteReadingForSettlement[];
+  needinesses: readonly NeedinessRowInput[];
+}
+
+/** Option-shaped carrier that only exposes measurements. */
+export interface MeasurementsCarrierForSettlement {
+  measurements: AssetPackMeasurementsForSettlement;
+}
+
+/** Needinesses-only bag (no absolutes). */
+export interface NeedinessesBagForSettlement {
+  needinesses: readonly NeedinessRowInput[];
+}
+
+/**
+ * Every accepted shape for needinesses-derived BTD mint input.
+ * Exhaustive union — no `unknown`.
+ */
+export type SettlementBtdNeedinessesSource =
+  | readonly NeedinessRowInput[]
+  | NeedinessesBagForSettlement
+  | AssetPackMeasurementsForSettlement
+  | MeasurementsCarrierForSettlement;
+
+export interface SettlementBtdContributionRow {
+  measurementKind: string;
+  volume: number;
+  weight: number;
+  contribution: number;
+}
 
 export interface SettlementBtdFromNeedinessesResult {
   schema: 'bitcode.settle.btd-from-needinesses';
@@ -49,12 +114,11 @@ export interface SettlementBtdFromNeedinessesResult {
   /** Human-readable whole-token equivalent (needFitVolume for unit-scale mint). */
   amountBtd: number;
   proofRoot: string;
-  rows: Array<{
-    measurementKind: string;
-    volume: number;
-    weight: number;
-    contribution: number;
-  }>;
+  rows: SettlementBtdContributionRow[];
+}
+
+export interface SettlementBtdComputeOptions {
+  assetPackKey?: string;
 }
 
 function clamp01(value: number): number {
@@ -62,11 +126,26 @@ function clamp01(value: number): number {
   return Math.max(0, Math.min(1, value));
 }
 
-function rowKind(row: NeedinessRowForSettlement): string | null {
-  if (typeof row.measurementKind === 'string' && row.measurementKind.trim()) {
+function isNeedinessReadingKindAlias(row: NeedinessRowInput): row is NeedinessReadingKindAlias {
+  return 'kind' in row && typeof (row as NeedinessReadingKindAlias).kind === 'string';
+}
+
+function isNeedinessReadingForSettlement(
+  row: NeedinessRowInput,
+): row is NeedinessReadingForSettlement {
+  return (
+    'measurementKind' in row &&
+    typeof (row as NeedinessReadingForSettlement).measurementKind === 'string'
+  );
+}
+
+function rowKind(row: NeedinessRowInput): string | null {
+  if (isNeedinessReadingForSettlement(row) && row.measurementKind.trim()) {
     return row.measurementKind.trim();
   }
-  if (typeof row.kind === 'string' && row.kind.trim()) return row.kind.trim();
+  if (isNeedinessReadingKindAlias(row) && row.kind.trim()) {
+    return row.kind.trim();
+  }
   return null;
 }
 
@@ -75,25 +154,46 @@ function catalogueWeight(kind: string): number | null {
   return typeof weight === 'number' ? weight : null;
 }
 
+function isMeasurementsCarrier(
+  source: SettlementBtdNeedinessesSource,
+): source is MeasurementsCarrierForSettlement {
+  return (
+    !Array.isArray(source) &&
+    'measurements' in source &&
+    typeof (source as MeasurementsCarrierForSettlement).measurements === 'object' &&
+    (source as MeasurementsCarrierForSettlement).measurements !== null
+  );
+}
+
+function isNeedinessesCarrier(
+  source: SettlementBtdNeedinessesSource,
+): source is NeedinessesBagForSettlement | AssetPackMeasurementsForSettlement {
+  return (
+    !Array.isArray(source) &&
+    'needinesses' in source &&
+    Array.isArray(
+      (source as NeedinessesBagForSettlement | AssetPackMeasurementsForSettlement).needinesses,
+    )
+  );
+}
+
 /**
- * Extract needinesses array from an AssetPack option / measurements bag.
- * Accepts nested `{ needinesses: [...] }` or a flat array of readings.
+ * Extract needinesses rows from a strongly typed settlement source.
  */
-export function extractNeedinessesForSettlement(source: unknown): NeedinessRowForSettlement[] {
-  if (!source) return [];
+export function extractNeedinessesForSettlement(
+  source: SettlementBtdNeedinessesSource,
+): NeedinessRowInput[] {
   if (Array.isArray(source)) {
-    return source.filter((row) => row && typeof row === 'object') as NeedinessRowForSettlement[];
+    return [...source];
   }
-  if (typeof source !== 'object') return [];
-  const record = source as Record<string, unknown>;
-  if (Array.isArray(record.needinesses)) {
-    return record.needinesses.filter(
-      (row) => row && typeof row === 'object',
-    ) as NeedinessRowForSettlement[];
+  if (isMeasurementsCarrier(source)) {
+    return [...source.measurements.needinesses];
   }
-  if (record.measurements && typeof record.measurements === 'object') {
-    return extractNeedinessesForSettlement(record.measurements);
+  if (isNeedinessesCarrier(source)) {
+    return [...source.needinesses];
   }
+  const _exhaustive: never = source;
+  void _exhaustive;
   return [];
 }
 
@@ -113,11 +213,11 @@ export function needFitVolumeToBaseUnits(needFitVolume: number): bigint {
  * Fail-closed: empty / all-invalid needinesses → amount 0 (caller must block mint).
  */
 export function computeSettlementBtdFromNeedinesses(
-  needinessesInput: unknown,
-  options?: { assetPackKey?: string },
+  needinessesInput: SettlementBtdNeedinessesSource,
+  options?: SettlementBtdComputeOptions,
 ): SettlementBtdFromNeedinessesResult {
   const needinesses = extractNeedinessesForSettlement(needinessesInput);
-  const rows: SettlementBtdFromNeedinessesResult['rows'] = [];
+  const rows: SettlementBtdContributionRow[] = [];
   let weightedNeedinessesSum = 0;
   let weightSum = 0;
 
@@ -128,7 +228,7 @@ export function computeSettlementBtdFromNeedinesses(
     if (kind === 'need-fit') continue;
     // All needinesses kinds must end with -fit (product law).
     if (!kind.endsWith('-fit')) continue;
-    const volume = clamp01(typeof row.volume === 'number' ? row.volume : Number.NaN);
+    const volume = clamp01(row.volume);
     if (!Number.isFinite(volume)) continue;
     const weight =
       typeof row.weight === 'number' && Number.isFinite(row.weight) && row.weight > 0
@@ -147,7 +247,7 @@ export function computeSettlementBtdFromNeedinesses(
     .update(
       JSON.stringify({
         schema: 'bitcode.settle.btd-from-needinesses',
-        assetPackKey: options?.assetPackKey || null,
+        assetPackKey: options?.assetPackKey ?? null,
         needFitVolume,
         weightedNeedinessesSum,
         weightSum,
