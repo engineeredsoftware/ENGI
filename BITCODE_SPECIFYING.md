@@ -230,18 +230,27 @@ At minimum, the current `SPEC` must enumerate where applicable:
 
 If a reviewer would read to open source or generated JSON just to discover what is in one of those current canonical sets, the spec is not yet precise enough.
 
-## 2.8 Specification/Implementation Commit Categorization
+## 2.8 Spec/Impl Commit Categorization
 
 Complete Implementation Derivability is enforced commit by commit. Every commit
-and gate pull-request **subject line** declares its specification/implementation
-category as a short parenthetical immediately after the version and gate prefix —
-exactly one of:
+and gate pull-request **subject line** declares its Spec/Impl category as a
+short parenthetical immediately after the version and gate prefix — exactly one
+of the **abbreviated** labels below. Spec and Impl are always abbreviated in
+that parenthetical.
 
-| Parenthetical | Meaning |
+| Legal parenthetical | Meaning |
 | --- | --- |
-| `(spec-only)` | specification-only — only the `BITCODE_SPEC_*` family / version notes |
-| `(impl-only)` | implementation-only — source, tests, tooling, scripts |
-| `(spec-impl)` | specification-implementation — both in lockstep |
+| `(spec-only)` | Spec only — only the `BITCODE_SPEC_*` family / version notes |
+| `(impl-only)` | Impl only — source, tests, tooling, scripts |
+| `(spec-impl)` | Spec + Impl — both in lockstep |
+
+**Illegal in subjects** (expanded forms must not appear):
+
+| Illegal | Use instead |
+| --- | --- |
+| `(specification-only)` | `(spec-only)` |
+| `(implementation-only)` | `(impl-only)` |
+| `(specification-implementation)` | `(spec-impl)` |
 
 Example: `V48 Gate 3 (impl-only): Rename deposit input to Obfuscations`.
 
@@ -253,8 +262,8 @@ or split into a `(spec-only)` and an `(impl-only)` commit — never an unlabeled
 mix. An `(impl-only)` change that introduces behavior not yet derivable from the
 current specification is incomplete: the specification must be brought to cover
 it (as `(spec-only)` or `(spec-impl)`) so that no implementation outruns its
-spec. The specification↔implementation relationship of every change is thereby
-auditable from the commit history alone.
+spec. The Spec↔Impl relationship of every change is thereby auditable from the
+commit history alone.
 
 When a change alters package families, inheritance hierarchy, experience entry
 paths, product routes, or other structure that `FAMILIARIZATION.md` teaches,
@@ -1375,7 +1384,7 @@ LLMs, and related families).
 
 Any change that alters how a reader must find or understand current
 implementation structure must update `FAMILIARIZATION.md` in the same change
-set (or in a immediately accompanying `specification-implementation` /
+set (or in a immediately accompanying `(spec-impl)` /
 documentation commit that lands with that work), including at least:
 
 - new or removed package families, nested `generic-*` packages, or product pipelines,

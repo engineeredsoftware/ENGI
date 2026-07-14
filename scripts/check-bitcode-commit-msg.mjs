@@ -36,6 +36,48 @@ export function readCommitTitle(commitMessagePath) {
   return readFileSync(commitMessagePath, 'utf8').split('\n')[0].trim();
 }
 
+/** Expanded forms are illegal in subjects; only abbreviated Spec/Impl labels. */
+const ILLEGAL_COMMIT_CATEGORY_LABELS = [
+  '(specification-only)',
+  '(implementation-only)',
+  '(specification-implementation)',
+];
+
+const LEGAL_COMMIT_CATEGORY_LABELS = ['(spec-only)', '(impl-only)', '(spec-impl)'];
+
+/**
+ * Enforce abbreviated Spec/Impl category labels in commit subjects
+ * (`BITCODE_SPECIFYING.md` §2.8, `AGENTS.md`).
+ *
+ * @param {string} commitTitle
+ */
+export function assertAbbreviatedCommitCategoryLabel(commitTitle) {
+  const lower = commitTitle.toLowerCase();
+  for (const illegal of ILLEGAL_COMMIT_CATEGORY_LABELS) {
+    if (lower.includes(illegal)) {
+      throw new Error(
+        `Commit subject uses illegal expanded category ${illegal}. ` +
+          `Use only abbreviated Spec/Impl labels: ${LEGAL_COMMIT_CATEGORY_LABELS.join(', ')}. ` +
+          `Example: V48 (impl-only): …`,
+      );
+    }
+  }
+
+  // When a V-version subject carries a category parenthetical, require a legal short form.
+  const versionCategory = commitTitle.match(
+    /^\s*V\d+(?:\s+Gate\s+\d+)?\s+(\([^)]+\))\s*:/iu,
+  );
+  if (versionCategory) {
+    const label = versionCategory[1].toLowerCase();
+    if (!LEGAL_COMMIT_CATEGORY_LABELS.includes(label)) {
+      throw new Error(
+        `Commit subject category ${versionCategory[1]} is not a legal Spec/Impl label. ` +
+          `Use exactly one of: ${LEGAL_COMMIT_CATEGORY_LABELS.join(', ')}.`,
+      );
+    }
+  }
+}
+
 /**
  * @param {{ commitMessagePath: string | null, repoRoot: string, qualityScript: string }} options
  */
@@ -45,6 +87,7 @@ export function runCommitMessageCheck({ commitMessagePath, repoRoot, qualityScri
   }
 
   const commitTitle = readCommitTitle(commitMessagePath);
+  assertAbbreviatedCommitCategoryLabel(commitTitle);
   execFileSync(
     process.execPath,
     [

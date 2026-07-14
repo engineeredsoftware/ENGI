@@ -1211,7 +1211,7 @@ These ops items do **not** block Gate 3 PR merge into `version/v48` once CI is g
 
 **Status:** active on `version/v48` (direct version-branch workstream, not a
 numbered product gate). Every commit for this workstream is
-`(specification-implementation)`: specify in the V48 family + implement in the
+`(spec-impl)`: specify in the V48 family + implement in the
 same commit.
 
 **Objective:** extraordinary maintainability — modular packages, type

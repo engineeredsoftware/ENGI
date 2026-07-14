@@ -51,7 +51,7 @@ and validate the website E2E.
   deposits,docs,conversations,auxillaries}`, Pipeline product naming over
   Execution/Terminal UI names, generalizable utilities package-first, legacy
   `/terminal` eradicated (deleted). Spec updates and implementation land
-  together as `(specification-implementation)` commits.
+  together as `(spec-impl)` commits.
 - **Deposit + Packs modularization (Phase 4 continue):** pure deposit models
   (activity ledger, demand, criticality, route-input builder, run status) and
   hooks (live runs, demand, URL nav, network count); Packs portfolio/master/

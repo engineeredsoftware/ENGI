@@ -91,9 +91,12 @@ from the active family alone — no silent inheritance from older specs or sourc
 
 Every commit / gate PR **subject** (≤72 chars) declares exactly one of:
 
-- `(spec-only)` — specification only
-- `(impl-only)` — implementation only
-- `(spec-impl)` — specification + implementation
+- `(spec-only)` — Spec only
+- `(impl-only)` — Impl only
+- `(spec-impl)` — Spec + Impl
+
+Use only these abbreviated parentheticals in commit/PR subjects — never
+`(specification-only)`, `(implementation-only)`, or `(specification-implementation)`.
 
 Example: `V48 (impl-only): Extract ReadsNeedReviewPanel`.
 
@@ -1074,7 +1077,7 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 | **PROVEN** | Generated proof appendix / `.bitcode/vN-*` artifacts. |
 | **QA finding tag** | Fully-qualified `V48-GateN-F*` in code comments and QA ledger (never bare `F26-B`). |
 | **Spec family** | Hand-authored SPEC + DELTA + NOTES + PARITY (+ PROVEN) for a version. |
-| **`(spec-only)` / `(impl-only)` / `(spec-impl)`** | Required short commit/PR category labels after the version/gate prefix (subject ≤72 chars). |
+| **`(spec-only)` / `(impl-only)` / `(spec-impl)`** | Only legal Spec/Impl commit/PR subject labels (abbreviated; never expanded `*-only` / `specification-implementation` forms; subject ≤72 chars). |
 | **Source-bearing** | Implementation that proves a SPEC claim (listed in G3-14 / parity). |
 | **Version branch** | Long-lived draft line `version/v48` (not product source versioning). |
 
