@@ -10,9 +10,7 @@
 // - schema-valid mocked output flows to the expected store + typed result;
 // - the PTRR envelope is unwrapped (F26-A/F27): consumers get the typed
 //   structured output, never {context, output, finalOutput};
-// - the deposit Setup punts (setup-plan + danger-wall) are no-LLM passthroughs
-//   registered by the conditional runtime registry, and the danger-wall punt
-//   never emits a short-circuit signal;
+// - deposit Setup is deposit-native: clone → parallel LSP/MCP/obfuscations → danger wall;
 // - depository-search guidance (incl. underservedTopics) lands where the
 //   Implementation synthesis agent reads it (discovery:depositorySearch on the
 //   shared execution node) and reaches the synthesis prompt;
@@ -28,7 +26,7 @@ import runDepositCodebaseComprehensionAgent from '../agents/discovery/deposit-co
 import runDepositDepositorySearchAgent from '../agents/discovery/deposit-depository-search-agent';
 import runDepositInherentRegurgitationAgent from '../agents/discovery/deposit-inherent-regurgitation-agent';
 import runDepositAssetPackSynthesisAgent from '../agents/implementation/deposit-asset-pack-synthesis-agent';
-import { assetPackSetupPhaseExecutor } from '../phases/setup';
+import { depositSetupPhase } from '../phases/deposit-phases';
 import { registerDiscoveryAgents } from '../phases/discovery';
 import {
   setBoundaryLLMOutput,
@@ -264,102 +262,52 @@ describe('deposit Discovery lens agents (boundary-mocked PTRR)', () => {
   }, 60000);
 });
 
-describe('deposit Setup conditional runtime registry (punts + comprehension override)', () => {
-  beforeEach(() => {
-    resetBoundaryLLMCalls();
-    resetBoundaryLLMOutput();
-  });
-  afterEach(() => resetBoundaryLLMOutput());
-
-  /** Register recording stubs for every agent key the setup sequence resolves. */
-  function registerRecordingSetupStubs(exec: any) {
-    const invoked: string[] = [];
-    const stubs: Record<string, any> = {};
-    const keys = [
-      'setup:asset-pack-clone-vcs-repository-agent',
-      'setup:ReadFitsFindingSynthesisSetupPlanAgent',
-      'setup:ReadFitsFindingSynthesisReadComprehensionAgent',
-      'setup:asset-pack-danger-wall-agent',
-      'setup:asset-pack-initialize-mcps-tools-agent',
-    ];
-    for (const key of keys) {
-      // Arity >= 1 so resolveRegisteredAgent treats these as agents, not loaders.
-      const stub = async (input: any, _execution: any) => {
-        invoked.push(key);
-        return input;
-      };
-      stubs[key] = stub;
-      exec.agents.registerAgent(key, stub);
-    }
-    return { invoked, stubs };
-  }
-
-  it('deposit mode punts setup-plan + danger-wall to no-LLM passthroughs and runs the deposit comprehension', async () => {
-    setBoundaryLLMOutput({ comprehension: MOCK_OBFUSCATION_COMPREHENSION });
-    const exec = new AgentExecution('pipeline:setup-test');
+describe('deposit Setup native sequence (clone → parallel bootstrap → danger wall)', () => {
+  it('runs clone alone then parallel LSP/MCP/obfuscations then danger wall (no Fits Finding keys)', async () => {
+    const exec = new AgentExecution('pipeline:setup-deposit-test');
     exec.store('synthesize-asset-packs', 'mode', 'deposit');
-    const { invoked, stubs } = registerRecordingSetupStubs(exec);
+    exec.store('deposit', 'obfuscations', '');
+    const invoked: string[] = [];
+    const depositKeys = [
+      'setup:clone-vcs-repository',
+      'setup:initialize-lsp',
+      'setup:initialize-mcps-tools',
+      'setup:comprehend-obfuscations',
+      'setup:danger-wall',
+    ];
+    const originalRegister = exec.agents.registerAgent.bind(exec.agents);
+    exec.agents.registerAgent = (name: string, agent: any) => {
+      if (depositKeys.includes(name)) {
+        return originalRegister(name, async (input: any, execution: any) => {
+          invoked.push(name);
+          if (name === 'setup:comprehend-obfuscations') {
+            execution.store('setup', 'inputComprehension', {
+              summary: 'No Obfuscations declared.',
+              obfuscatedPaths: [],
+              obfuscatedConcepts: [],
+              honorNotes: [],
+            });
+          }
+          if (name === 'setup:danger-wall') {
+            const { default: danger } = await import('../agents/setup/deposit-danger-wall-agent');
+            return danger(input, execution);
+          }
+          return input;
+        });
+      }
+      return originalRegister(name, agent);
+    };
 
-    const result = await assetPackSetupPhaseExecutor(DEPOSIT_INPUT, exec);
+    await depositSetupPhase(DEPOSIT_INPUT as any, exec);
 
-    // Pure sequence-and-save: the phase forwards its input unchanged.
-    expect(result).toBe(DEPOSIT_INPUT);
-
-    // The punted keys and the comprehension key were re-registered away from the
-    // canonical registrations; clone + MCPs-init still run the canonical slots.
-    expect(invoked).toContain('setup:asset-pack-clone-vcs-repository-agent');
-    expect(invoked).toContain('setup:asset-pack-initialize-mcps-tools-agent');
-    expect(invoked).not.toContain('setup:ReadFitsFindingSynthesisSetupPlanAgent');
-    expect(invoked).not.toContain('setup:asset-pack-danger-wall-agent');
-    expect(invoked).not.toContain('setup:ReadFitsFindingSynthesisReadComprehensionAgent');
-
-    // The comprehension slot now resolves to the deposit input-comprehension
-    // agent, which ran the boundary-mocked PTRR and stored setup evidence.
-    expect(exec.agents.getAgent('setup:ReadFitsFindingSynthesisReadComprehensionAgent')).toBe(
-      depositInputComprehensionDefault,
-    );
-    expect(exec.get('setup', 'inputComprehension')).toEqual(MOCK_OBFUSCATION_COMPREHENSION);
-    expect(getBoundaryLLMCalls().length).toBeGreaterThan(0);
-
-    // The punts NEVER invoke the LLM: calling the registered passthroughs
-    // directly performs zero boundary LLM calls and forwards the input.
-    const setupPlanPunt = exec.agents.getAgent('setup:ReadFitsFindingSynthesisSetupPlanAgent');
-    const dangerWallPunt = exec.agents.getAgent('setup:asset-pack-danger-wall-agent');
-    expect(setupPlanPunt).not.toBe(stubs['setup:ReadFitsFindingSynthesisSetupPlanAgent']);
-    expect(dangerWallPunt).not.toBe(stubs['setup:asset-pack-danger-wall-agent']);
-
-    resetBoundaryLLMCalls();
-    const sentinel = { marker: 'punt-passthrough' };
-    const setupPlanOut = await setupPlanPunt(sentinel, exec);
-    const dangerWallOut = await dangerWallPunt(sentinel, exec);
-    expect(setupPlanOut).toBe(sentinel);
-    expect(dangerWallOut).toBe(sentinel);
-    expect(getBoundaryLLMCalls().length).toBe(0);
-    // The danger-wall punt never emits a short-circuit signal.
-    expect(dangerWallOut.signal).toBeUndefined();
+    expect(invoked[0]).toBe('setup:clone-vcs-repository');
+    expect(invoked[invoked.length - 1]).toBe('setup:danger-wall');
+    expect(invoked).toContain('setup:initialize-lsp');
+    expect(invoked).toContain('setup:initialize-mcps-tools');
+    expect(invoked).toContain('setup:comprehend-obfuscations');
+    expect(invoked.some((k) => k.includes('ReadFitsFinding'))).toBe(false);
+    expect(exec.get('setup', 'admission')?.safe).toBe(true);
   }, 60000);
-
-  it('read mode leaves the canonical setup registrations untouched (no punts, no re-registration)', async () => {
-    const exec = new AgentExecution('pipeline:setup-test');
-    // No mode stored -> the executor resolves 'read'.
-    const { invoked, stubs } = registerRecordingSetupStubs(exec);
-
-    const result = await assetPackSetupPhaseExecutor(DEPOSIT_INPUT, exec);
-
-    expect(result).toBe(DEPOSIT_INPUT);
-    // Every canonical slot ran exactly the registration it started with.
-    expect(invoked).toEqual([
-      'setup:asset-pack-clone-vcs-repository-agent',
-      'setup:ReadFitsFindingSynthesisSetupPlanAgent',
-      'setup:ReadFitsFindingSynthesisReadComprehensionAgent',
-      'setup:asset-pack-danger-wall-agent',
-      'setup:asset-pack-initialize-mcps-tools-agent',
-    ]);
-    for (const [key, stub] of Object.entries(stubs)) {
-      expect(exec.agents.getAgent(key)).toBe(stub);
-    }
-    expect(getBoundaryLLMCalls().length).toBe(0);
-  }, 30000);
 });
 
 describe('discovery conditional runtime registry roster', () => {

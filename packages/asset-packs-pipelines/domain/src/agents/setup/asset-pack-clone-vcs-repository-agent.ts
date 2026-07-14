@@ -279,7 +279,19 @@ async function recordDepositCatalogFromRunWorkspace(
       exclusions: Array.isArray(exclusions) ? exclusions : [],
     },
   );
+  // Canonical name sourceCheckoutCatalog; dual-write inventory for migration.
+  storeCrossPhaseArtifact(execution, 'deposit', 'sourceCheckoutCatalog', catalog);
   storeCrossPhaseArtifact(execution, 'deposit', 'inventory', catalog);
+  storeCrossPhaseArtifact(execution, 'deposit', 'loadSourceCheckoutFileBodies', async () => {
+    const allPaths = await workspace.listFiles();
+    const sources: { path: string; content: string }[] = [];
+    for (const path of allPaths) {
+      const content = await workspace.readFile(path);
+      if (content == null) continue;
+      sources.push({ path, content });
+    }
+    return sources;
+  });
   storeCrossPhaseArtifact(execution, 'deposit', 'loadCheckoutSourceFiles', async () => {
     const allPaths = await workspace.listFiles();
     const sources: { path: string; content: string }[] = [];

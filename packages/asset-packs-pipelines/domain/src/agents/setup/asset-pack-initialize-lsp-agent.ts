@@ -70,17 +70,44 @@ const initializeLSPAgent = factoryPTRRAgent<
 /**
  * Export wrapper that stores LSP state
  */
+function findWorkspacePath(execution: any, input: any): string {
+  return (
+    execution?.get?.('repository', 'workspacePath') ||
+    execution?.findUp?.('repository', 'workspacePath') ||
+    execution?.get?.('setup/vcs', 'localPath') ||
+    execution?.findUp?.('setup/vcs', 'localPath') ||
+    input?.repoPath ||
+    input?.workspacePath ||
+    ''
+  );
+}
+
 export default async function initializeLSP(input: any, execution: any) {
-  // Get repo path from clone result
-  const repoPath = execution.get('setup/vcs', 'localPath') || input.repoPath;
-  
-  // Execute the agent
-  const result = await initializeLSPAgent({ ...input, repoPath }, execution);
-  
-  // Store LSP state for other phases
-  execution.store('setup/lsp', 'initialized', result.initialized);
-  execution.store('setup/lsp', 'serverInfo', result.serverInfo);
-  execution.store('setup/lsp', 'workspaceInfo', result.workspaceInfo);
+  // This-run Host checkout from Setup clone (never residual cwd).
+  const repoPath = findWorkspacePath(execution, input);
+
+  let result: any;
+  try {
+    result = await initializeLSPAgent({ ...input, repoPath }, execution);
+  } catch {
+    // Best-effort LSP: record unavailability without failing Setup (tools may no-op).
+    result = {
+      initialized: false,
+      serverInfo: { name: 'unavailable', version: '0', capabilities: [] },
+      workspaceInfo: {
+        rootUri: repoPath ? `file://${repoPath}` : '',
+        workspaceFolders: repoPath ? [repoPath] : [],
+        configuredLanguages: [],
+      },
+    };
+  }
+
+  try {
+    execution.store('setup/lsp', 'initialized', result.initialized);
+    execution.store('setup/lsp', 'serverInfo', result.serverInfo);
+    execution.store('setup/lsp', 'workspaceInfo', result.workspaceInfo);
+    execution.store('setup/lsp', 'workspacePath', repoPath);
+  } catch {}
   
   // Register LSP tool for other phases if initialized
   if (result.initialized) {

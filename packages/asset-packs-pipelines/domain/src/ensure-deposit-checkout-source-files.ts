@@ -33,6 +33,9 @@ export async function ensureDepositCheckoutSourceFiles(
 ): Promise<AssetPacksSynthesisSourceInventory | null | undefined> {
   let sourceCatalog =
     inputCatalog ??
+    (findValue(execution, 'deposit', 'sourceCheckoutCatalog') as
+      | AssetPacksSynthesisSourceInventory
+      | undefined) ??
     (findValue(execution, 'deposit', 'inventory') as AssetPacksSynthesisSourceInventory | undefined);
 
   if (sourceCatalog && Array.isArray(sourceCatalog.sources) && sourceCatalog.sources.length > 0) {
@@ -40,6 +43,7 @@ export async function ensureDepositCheckoutSourceFiles(
   }
 
   const loadSourceFiles =
+    findValue(execution, 'deposit', 'loadSourceCheckoutFileBodies') ??
     findValue(execution, 'deposit', DEPOSIT_LOAD_CHECKOUT_SOURCE_FILES_KEY) ??
     // Back-compat with the short-lived materializeInventorySources key.
     findValue(execution, 'deposit', 'materializeInventorySources');
@@ -63,6 +67,7 @@ export async function ensureDepositCheckoutSourceFiles(
     excludedPathCount: sourceCatalog?.excludedPathCount ?? 0,
   };
 
+  storeCrossPhaseArtifact(execution, 'deposit', 'sourceCheckoutCatalog', sourceCatalog);
   storeCrossPhaseArtifact(execution, 'deposit', 'inventory', sourceCatalog);
   return sourceCatalog;
 }

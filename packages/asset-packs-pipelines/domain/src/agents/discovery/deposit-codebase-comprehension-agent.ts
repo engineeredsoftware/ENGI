@@ -1,15 +1,14 @@
 /**
- * Deposit codebase-comprehension agent — Discovery phase (V48 Gate 3).
+ * Deposit codebase-comprehension agent — Discovery (parallel with search + regurgitation).
  *
- * The first of the three deposit-mode Discovery lenses. It discovers from the
- * CODEBASE: it comprehends the cloned repository source (the inventory) into a
- * source-safe codebase knowledge map — the capabilities, patterns, and distinct
- * knowledge the repository offers for AssetPack synthesis. Downstream Discovery
- * lenses (depository-search demand framing, inherent regurgitation) and the
- * Implementation synthesis read this map. Runs on the formal PTRR machinery.
+ * Rich codebase analysis of **this run’s Host checkout**:
+ * - absolute measurements of source material (measure/static-analysis tools)
+ * - LSP queries when Setup initialized LSP
+ * - full file-tree structure (dirs/names) from sourceCheckoutCatalog
+ * - key file reads via Host-bound loader
+ * → stores a source-safe knowledge map + measurements for Implementation.
  *
- * Source-safety: describe knowledge and capability — never quote raw source,
- * secrets, or file contents.
+ * Not a “lens” — a distinct procedure/agent. Source-safe: never quote secrets.
  */
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
@@ -83,9 +82,10 @@ export const DepositCodebaseComprehensionAgent = factoryPTRRAgent<
 >({
   name: 'DepositCodebaseComprehensionAgent',
   description:
-    'Comprehends the cloned repository inventory into a source-safe codebase knowledge map (deposit discovery: codebase lens).',
+    'Comprehends Host checkout: measure absolutes, LSP, file-tree structure, key files → source-safe codebase analysis.',
   outputSchema: CodebaseComprehensionOutputSchema,
-  tools: [],
+  // LSP tools when registered on the Host; measure/static-analysis via run wrapper.
+  tools: ['lsp-query'],
   prompt,
   stepPrompts: {
     plan: () => prompt,
@@ -107,43 +107,90 @@ function findValue(execution: any, namespace: string, key: string): any {
 
 export default async function runDepositCodebaseComprehensionAgent(input: any, execution: any) {
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
-  // Setup clone-repository already cloned this run's complete tree. Load
-  // in-memory file bodies for the catalog here — never re-clone, never read
-  // outside that workspace.
+  // Setup already cloned this run's complete tree. Load file bodies for analysis.
   const { ensureDepositCheckoutSourceFiles } = await import(
     '../../ensure-deposit-checkout-source-files'
   );
-  const sourceCatalog = await ensureDepositCheckoutSourceFiles(
+  const sourceCheckoutCatalog = await ensureDepositCheckoutSourceFiles(
     execution,
-    input?.inventory ?? findValue(execution, 'deposit', 'inventory'),
+    input?.sourceCheckoutCatalog ??
+      input?.inventory ??
+      findValue(execution, 'deposit', 'sourceCheckoutCatalog') ??
+      findValue(execution, 'deposit', 'inventory'),
   );
+  // Dual-write: sourceCheckoutCatalog is the canonical name; inventory is legacy alias.
+  if (sourceCheckoutCatalog) {
+    storeCrossPhaseArtifact(execution, 'deposit', 'sourceCheckoutCatalog', sourceCheckoutCatalog);
+    storeCrossPhaseArtifact(execution, 'deposit', 'inventory', sourceCheckoutCatalog);
+  }
+
   const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
-  const inventoryForPrompt = projectInventoryForPrompt(sourceCatalog);
+  const catalogForPrompt = projectInventoryForPrompt(sourceCheckoutCatalog);
+
+  // Absolute measurements of the checkout material (required AssetPack element later).
+  let sourceMeasurements: unknown[] = [];
+  try {
+    const { measureAssetPackAbsolutes } = await import('../validation/agent-measure-absolutes');
+    const bodies = Array.isArray(sourceCheckoutCatalog?.sources)
+      ? sourceCheckoutCatalog!.sources
+      : [];
+    if (bodies.length > 0) {
+      const paths = bodies.slice(0, 40).map((f: { path: string }) => f.path);
+      sourceMeasurements = await measureAssetPackAbsolutes(
+        {
+          title: 'Host checkout source measurement',
+          summary:
+            'Discovery absolute measurements of the depositor Host checkout for this synthesize-deposit run.',
+          coveredSourcePaths: paths,
+          fileChanges: paths.map((path: string) => ({ path, op: 'modify' })),
+          patchSummary: 'Host checkout source measurement for Discovery codebase comprehension.',
+        },
+        {
+          lens: 'deposit',
+          execution,
+          sources: bodies as { path: string; content: string }[],
+        },
+      );
+      storeCrossPhaseArtifact(execution, 'discovery', 'sourceMeasurements', sourceMeasurements);
+    }
+  } catch {
+    // Measurement best-effort; Implementation/Validation still require pack-level absolutes.
+  }
+
+  const lspInitialized = Boolean(findValue(execution, 'setup/lsp', 'initialized'));
+  const treePaths = catalogForPrompt?.paths ?? sourceCheckoutCatalog?.paths ?? [];
 
   const raw = await DepositCodebaseComprehensionAgent(
     {
       ...input,
       repository,
-      inventory: inventoryForPrompt,
-      inventoryPaths: inventoryForPrompt?.paths ?? sourceCatalog?.paths,
-      excerpts: inventoryForPrompt?.samples ?? sourceCatalog?.samples,
+      sourceCheckoutCatalog: catalogForPrompt,
+      inventory: catalogForPrompt,
+      inventoryPaths: treePaths,
+      excerpts: catalogForPrompt?.samples ?? sourceCheckoutCatalog?.samples,
+      sourceMeasurements,
+      lspInitialized,
+      fileTreePathCount: Array.isArray(treePaths) ? treePaths.length : 0,
     },
     execution,
   );
-  // factoryPTRRAgent returns an envelope ({ context, output, finalOutput }); unwrap (F27).
   const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
   const comprehension: DepositCodebaseComprehension = (result as any)?.comprehension ?? {
     summary:
-      'No codebase knowledge map derived; the depositor checkout source catalog yielded no source-safe comprehension.',
+      'No codebase knowledge map derived; the depositor sourceCheckoutCatalog yielded no source-safe comprehension.',
     capabilities: [],
     knowledgeAreas: [],
     notableModules: [],
   };
 
-  // Cross-phase artifact: the Implementation synthesis agent reads this from
-  // another phase sibling (cross-phase store-visibility law).
   storeCrossPhaseArtifact(execution, 'discovery', 'codebaseComprehension', comprehension);
+  storeCrossPhaseArtifact(execution, 'discovery', 'codebaseAnalysis', {
+    comprehension,
+    sourceMeasurements,
+    fileTreePathCount: Array.isArray(treePaths) ? treePaths.length : 0,
+    lspInitialized,
+  });
 
-  return { ...(input || {}), success: true, comprehension };
+  return { ...(input || {}), success: true, comprehension, sourceMeasurements };
 }
