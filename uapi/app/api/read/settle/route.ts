@@ -90,6 +90,26 @@ export async function POST(request: Request) {
   storeCrossPhaseArtifact(exec, 'host', 'runId', settleRunId);
   storeCrossPhaseArtifact(exec, 'pipeline', 'productPipeline', 'settle-asset-packs');
 
+  // Optional GitHub token for live PR ship stage.
+  let githubAccessToken: string | null = null;
+  try {
+    const { data: githubConnection } = await admin
+      .from('user_connections')
+      .select('connection_data')
+      .eq('user_id', user.id)
+      .eq('provider', 'github')
+      .eq('is_active', true)
+      .maybeSingle();
+    const data = githubConnection?.connection_data as Record<string, unknown> | null;
+    if (data && typeof data.access_token === 'string') {
+      githubAccessToken = data.access_token;
+    } else if (data && typeof data.token === 'string') {
+      githubAccessToken = data.token;
+    }
+  } catch {
+    githubAccessToken = null;
+  }
+
   try {
     const result = await runSettleAssetPacksSimplePipeline(
       {
@@ -107,7 +127,12 @@ export async function POST(request: Request) {
           schema: 'bitcode.settle-asset-packs.payment-observation',
           network: 'btc-testnet',
           status: 'observed-projection',
+          amountSats:
+            typeof body.amountSats === 'number' ? body.amountSats : null,
+          txId: typeof body.txId === 'string' ? body.txId : null,
         },
+        githubAccessToken,
+        userId: user.id,
         readerWalletId: body.readerWalletId || null,
         depositorWalletId: body.depositorWalletId || null,
         need,

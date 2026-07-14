@@ -6,6 +6,7 @@ import {
   slugifyNeedinessKind,
   assertNeedinessKindSuffix,
   measureReadNeedinesses,
+  measureReadNeedinessesDeterministic,
   computeNeedFitVolume,
   ASSET_PACK_NEEDINESSES_CATALOG,
 } from '../read-neediness-measurements';
@@ -24,8 +25,8 @@ describe('read-neediness-measurements', () => {
     }
   });
 
-  it('measureReadNeedinesses returns static + dynamic *-fit rows with magnitude+volume', () => {
-    const rows = measureReadNeedinesses({
+  it('measureReadNeedinessesDeterministic returns static + dynamic *-fit rows with magnitude+volume', () => {
+    const rows = measureReadNeedinessesDeterministic({
       title: 'Auth pack',
       summary: 'Session refresh knowledge for the Need.',
       confidence: 0.8,
@@ -43,5 +44,18 @@ describe('read-neediness-measurements', () => {
     const needFit = computeNeedFitVolume(rows);
     expect(needFit).toBeGreaterThanOrEqual(0);
     expect(needFit).toBeLessThanOrEqual(1);
+  });
+
+  it('async measureReadNeedinesses falls back when real inference is off', async () => {
+    const saved = process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;
+    delete process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;
+    const rows = await measureReadNeedinesses({
+      title: 'Auth pack',
+      summary: 'Session refresh knowledge for the Need.',
+      confidence: 0.7,
+      dynamicKinds: ['needs-auth-fit'],
+    });
+    expect(rows.every((r) => r.measurementKind.endsWith('-fit'))).toBe(true);
+    if (saved !== undefined) process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = saved;
   });
 });

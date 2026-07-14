@@ -15,7 +15,8 @@
   "dependencies": {
     "@bitcode/execution-generics": "workspace:*",
     "@bitcode/generic-pipelines-simple": "workspace:*",
-    "@bitcode/asset-packs-pipelines-domain": "workspace:*"
+    "@bitcode/asset-packs-pipelines-domain": "workspace:*",
+    "@bitcode/generic-vcs-git": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

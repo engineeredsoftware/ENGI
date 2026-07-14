@@ -180,12 +180,13 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
       absolutes = [];
     }
 
-    const needinesses = measureReadNeedinesses({
+    const needinesses = await measureReadNeedinesses({
       title: String((option as any)?.title ?? ''),
       summary: String((option as any)?.summary ?? ''),
       confidence: (option as any)?.confidence,
       needSummary: needComprehension?.summary || String(needText || ''),
       dynamicKinds,
+      execution,
     });
     const needFit = computeNeedFitVolume(needinesses);
 

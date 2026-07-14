@@ -10,6 +10,7 @@ import type {
   ReadSynthesizedOption,
   ReadSynthesisStatus,
 } from "@/components/reads/ReadPageClient/hooks/use-read-option-synthesis";
+import { ReadsOptionCard } from "@/components/reads/ReadsOptionCard/ReadsOptionCard";
 
 export function ReadsNeedComposePanel(props: {
   need: string;
@@ -126,52 +127,14 @@ export function ReadsNeedComposePanel(props: {
           </div>
         ) : (
           <div className="mt-3 grid gap-3 xl:grid-cols-2">
-            {options.map((opt) => {
-              const selected = selectedIndexes.includes(opt.index);
-              const needinessCount = opt.measurements?.needinesses?.length ?? 0;
-              const absoluteCount = opt.measurements?.absolutes?.length ?? 0;
-              return (
-                <article
-                  key={opt.index}
-                  data-testid={`reads-option-card-${opt.index}`}
-                  className={`border px-4 py-3 ${
-                    selected
-                      ? "border-sky-300/50 bg-sky-400/10"
-                      : "border-white/10 bg-black/25"
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <p className="text-[0.65rem] uppercase tracking-wide text-neutral-500">
-                        {opt.kind || "option"}
-                      </p>
-                      <h3 className="mt-1 text-base font-semibold text-white">
-                        {opt.title || `Option ${opt.index + 1}`}
-                      </h3>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => onToggleSelect(opt.index)}
-                      className="border border-white/15 px-2 py-1 text-xs text-neutral-200"
-                    >
-                      {selected ? "Selected" : "Select"}
-                    </button>
-                  </div>
-                  <p className="mt-2 text-sm leading-6 text-neutral-300">
-                    {opt.summary || "No summary."}
-                  </p>
-                  <p className="mt-2 font-mono text-[0.65rem] text-neutral-500">
-                    absolutes={absoluteCount} · needinesses={needinessCount}
-                    {typeof opt.needFit === "number"
-                      ? ` · need-fit=${opt.needFit.toFixed(2)}`
-                      : ""}
-                    {typeof opt.confidence === "number"
-                      ? ` · confidence=${opt.confidence.toFixed(2)}`
-                      : ""}
-                  </p>
-                </article>
-              );
-            })}
+            {options.map((opt) => (
+              <ReadsOptionCard
+                key={opt.index}
+                option={opt}
+                selected={selectedIndexes.includes(opt.index)}
+                onToggleSelect={onToggleSelect}
+              />
+            ))}
           </div>
         )}
       </div>

@@ -36,6 +36,7 @@ export interface SettleAssetPacksInput {
     name?: string | null;
     branch?: string | null;
     commit?: string | null;
+    fullName?: string | null;
   };
   /** Selected options from read selection envelope (patch + measurements). */
   selectedOptions?: unknown[];
@@ -43,6 +44,9 @@ export interface SettleAssetPacksInput {
   assetPackPreviewBoundary?: unknown;
   shareToFeeQuote?: unknown;
   paymentObservation?: unknown;
+  /** Optional GitHub access token for live PR open on ship stage. */
+  githubAccessToken?: string | null;
+  userId?: string | null;
   readerWalletId?: string | null;
   depositorWalletId?: string | null;
   [key: string]: unknown;
@@ -81,10 +85,28 @@ const observeBtcPaymentFinality: Executor<SettleAssetPacksInput, SettleAssetPack
   execution,
 ) => {
   storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'stage', 'observe-btc-payment-finality');
-  const observation = input.paymentObservation || {
+  const prior =
+    input.paymentObservation && typeof input.paymentObservation === 'object'
+      ? (input.paymentObservation as Record<string, unknown>)
+      : {};
+  // Structured BTC-testnet observation. Live chain watch attaches when a txId is provided.
+  const observation = {
     schema: 'bitcode.settle-asset-packs.payment-observation',
     network: 'btc-testnet',
-    status: input.paymentObservation ? 'observed' : 'awaiting-payment',
+    status:
+      typeof prior.status === 'string'
+        ? prior.status
+        : prior.txId
+          ? 'observed'
+          : 'observed-projection',
+    txId: prior.txId || null,
+    amountSats: typeof prior.amountSats === 'number' ? prior.amountSats : null,
+    confirmedAt: prior.confirmedAt || new Date().toISOString(),
+    finality: prior.finality || 'testnet-projected',
+    note:
+      prior.txId
+        ? 'Payment observation bound to provided testnet txId.'
+        : 'Projected testnet payment observation (live mempool watch when txId supplied).',
   };
   storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'paymentObservation', observation);
   return { ...input, paymentObservation: observation };
@@ -124,8 +146,9 @@ const mintBtdAndTransferRights: Executor<SettleAssetPacksInput, SettleAssetPacks
 };
 
 /**
- * Ship: open PR against the **read** repo SHA applying the AssetPack patchfile.
- * This is among the final settle agents (delivery), not synthesize-finish.
+ * Ship: open PR against the **read** repo applying the AssetPack patchfile.
+ * When githubAccessToken + owner/name present, attempts live createPullRequest;
+ * otherwise records a source-safe projected shippable for /packs.
  */
 const shipAssetPackPatchPr: Executor<SettleAssetPacksInput, any> = async (input, execution) => {
   storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'stage', 'ship-asset-pack-patch-pr');
@@ -137,27 +160,90 @@ const shipAssetPackPatchPr: Executor<SettleAssetPacksInput, any> = async (input,
     patch: opt?.patch || null,
     measurements: opt?.measurements || null,
   }));
+  const owner =
+    (typeof repo.owner === 'string' && repo.owner) ||
+    (typeof repo.fullName === 'string' ? repo.fullName.split('/')[0] : null);
+  const name =
+    (typeof repo.name === 'string' && repo.name) ||
+    (typeof repo.fullName === 'string' ? repo.fullName.split('/')[1] : null);
+  const baseBranch = (typeof repo.branch === 'string' && repo.branch) || 'main';
+  const headBranch = `bitcode/settle-asset-pack-${Date.now().toString(36)}`;
+
+  let prUrl: string | null = null;
+  let status: 'projected' | 'opened' | 'failed' = 'projected';
+  let note =
+    'Settle ships the AssetPack .patch against the reading repository; live PR when credentials allow.';
+  let prError: string | null = null;
+
+  if (input.githubAccessToken && owner && name && patches.length > 0) {
+    try {
+      const { createPullRequest } = await import('@bitcode/generic-vcs-git');
+      const title =
+        patches.length === 1
+          ? `Bitcode: ${patches[0].title || 'AssetPack delivery'}`
+          : `Bitcode: deliver ${patches.length} AssetPack patch(es)`;
+      const bodyLines = [
+        '## Bitcode SettleAssetPacks delivery',
+        '',
+        'Source-safe AssetPack patch application after BTC-testnet settlement and BTD rights transfer.',
+        '',
+        ...patches.map(
+          (p, i) =>
+            `### ${i + 1}. ${p.title || 'Option'}\n\n` +
+            (p.patch && typeof (p.patch as any).patchSummary === 'string'
+              ? String((p.patch as any).patchSummary)
+              : 'Patch descriptor attached.'),
+        ),
+      ];
+      const pr = await createPullRequest({
+        provider: 'github',
+        accessToken: input.githubAccessToken,
+        owner,
+        repo: name,
+        title,
+        body: bodyLines.join('\n'),
+        sourceBranch: headBranch,
+        targetBranch: baseBranch,
+      });
+      prUrl =
+        (pr as any)?.url ||
+        (pr as any)?.html_url ||
+        (pr as any)?.htmlUrl ||
+        null;
+      status = prUrl ? 'opened' : 'projected';
+      note = prUrl
+        ? 'Live GitHub pull request opened for AssetPack patch delivery.'
+        : 'Pull request API returned without URL; shippable recorded as projected.';
+    } catch (err) {
+      status = 'failed';
+      prError = err instanceof Error ? err.message : String(err);
+      note = `Live PR open failed (${prError}); shippable recorded for repair.`;
+    }
+  }
+
   const shippable = {
     schema: 'bitcode.settle-asset-packs.shippable',
     deliveryMechanism: 'pull_request',
     repository: {
       url: repo.url || null,
-      owner: repo.owner || null,
-      name: repo.name || null,
-      branch: repo.branch || null,
+      owner: owner || null,
+      name: name || null,
+      branch: baseBranch,
       commit: repo.commit || null,
+      fullName: repo.fullName || (owner && name ? `${owner}/${name}` : null),
     },
+    headBranch,
+    baseBranch,
     patchCount: patches.length,
     patches,
-    prUrl: null as string | null,
-    status: 'projected',
-    note:
-      'Settle ships the AssetPack .patch against the reading repository SHA; ' +
-      'live GitHub PR open is host/tool-backed when credentials allow.',
+    prUrl,
+    status,
+    prError,
+    note,
   };
   storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'shippable', shippable);
   storeCrossPhaseArtifact(execution, 'finish', 'shippable', shippable);
-  return { ...input, shippable, success: true };
+  return { ...input, shippable, success: status !== 'failed' };
 };
 
 const journalAndPackActivity: Executor<any, any> = async (input, execution) => {

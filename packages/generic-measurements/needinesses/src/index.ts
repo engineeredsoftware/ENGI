@@ -18,15 +18,11 @@ export const NEEDINESSES_FRAMING =
   'confuse neediness with absolute quantity or quality of the artifact alone. ' +
   'need-fit is a composite (weighted mean of needinesses), not a raw measurement target.';
 
-/**
- * Placeholder for factoryNeedinessesMeasureAgent (read / Gate 4).
- * Product code must not invent a parallel neediness base outside this package.
- */
-export type NeedinessesMeasureAgentConfig = {
-  name: string;
-  subject: string;
-  // measurements: MeasurementSpec[] — wired when read synthesis lands
-};
+export {
+  factoryNeedinessesMeasureAgent,
+  type NeedinessesMeasureAgent,
+  type NeedinessesMeasureAgentConfig,
+} from './needinesses-measure-agent';
 
 export {
   ASSET_PACK_NEEDINESSES_CATALOG,
