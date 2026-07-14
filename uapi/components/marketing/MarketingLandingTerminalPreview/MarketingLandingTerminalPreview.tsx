@@ -118,10 +118,10 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
             </div>
           </div>
 
-          {/* Mosaic rhythm: gap-3 between every major panel and nested card stack. */}
-          <div className="hidden gap-3 p-4 laptop:grid laptop:grid-cols-[0.9fr_1.1fr] laptop:grid-rows-1 laptop:items-stretch">
+          {/* Mosaic: equal gap-3; columns stretch; last card per column flex-1 so bottoms meet. */}
+          <div className="hidden gap-3 p-4 laptop:grid laptop:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] laptop:grid-rows-1 laptop:items-stretch">
             <div className="flex h-full min-h-0 flex-col gap-3 self-stretch">
-              <div className="rounded-none border border-white/8 bg-white/5 p-4">
+              <div className="shrink-0 rounded-none border border-white/8 bg-white/5 p-4">
                 <p className="whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.14em] text-emerald-200/74">
                   AssetPacks Measurements
                 </p>
@@ -227,7 +227,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                 </div>
               </div>
 
-              <div className="rounded-none border border-white/8 bg-white/5 p-4">
+              <div className="shrink-0 rounded-none border border-white/8 bg-white/5 p-4">
                 <div className="flex items-start justify-between gap-3">
                   <p className="min-w-0 bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold text-transparent">
                     {BITCODE_PUBLIC_COPY.operatorFrame.title}
@@ -258,7 +258,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                 </ul>
               </div>
 
-              <div className="relative overflow-hidden rounded-none border border-cyan-300/12 bg-[linear-gradient(135deg,rgba(6,13,24,0.96),rgba(4,22,31,0.92))] p-4 shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
+              <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-none border border-cyan-300/12 bg-[linear-gradient(135deg,rgba(6,13,24,0.96),rgba(4,22,31,0.92))] p-4 shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(103,254,183,0.14),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.12),transparent_34%)]" />
                 <div className="absolute inset-0 opacity-15 [background-image:linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:28px_28px]" />
                 <div className="pointer-events-none absolute right-8 top-8 h-[72px] w-[72px] overflow-visible">
@@ -271,15 +271,17 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                   />
                 </div>
 
-                <div className="relative">
+                <div className="relative flex min-h-0 flex-1 flex-col">
                   <div className="pr-20">
                     <div className="min-w-0">
                       <p className="bg-gradient-to-r from-emerald-200 via-cyan-200 to-white bg-clip-text text-sm font-semibold text-transparent">
                         Verified access
                       </p>
-                      <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-emerald-100/58">
-                        sell public · buy private · audit proofs
-                      </p>
+                      <div className="mt-1 space-y-0.5 text-[11px] uppercase leading-4 tracking-[0.14em] text-emerald-100/58">
+                        <p className="whitespace-nowrap">Public Measures</p>
+                        <p className="whitespace-nowrap">Private Source</p>
+                        <p className="whitespace-nowrap">Auditable Trade</p>
+                      </div>
                     </div>
                     <span className="mt-2 inline-flex items-center gap-1 rounded-none border border-emerald-300/14 bg-emerald-400/8 px-2 py-1 text-[8px] uppercase tracking-[0.14em] text-emerald-50/72">
                       <EyeIcon className="h-3 w-3" />
@@ -287,9 +289,12 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                     </span>
                   </div>
 
-                  <div className="mt-3 space-y-3">
+                  <div className="mt-3 flex min-h-0 flex-1 flex-col gap-3">
                     {verificationRows.map(({ label, detail, status, Icon: VerificationIcon }) => (
-                      <div key={label} className="rounded-none border border-white/8 bg-black/20 px-3 py-3">
+                      <div
+                        key={label}
+                        className="flex min-h-0 flex-1 flex-col justify-center rounded-none border border-white/8 bg-black/20 px-3 py-3"
+                      >
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex min-w-0 items-center gap-2">
                             <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/6 text-emerald-200/78">
@@ -315,7 +320,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
             </div>
 
             <div className="flex h-full min-h-0 flex-col gap-3 self-stretch">
-              <div className="rounded-none border border-white/8 bg-white/5 p-4">
+              <div className="shrink-0 rounded-none border border-white/8 bg-white/5 p-4">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
                   {BITCODE_PUBLIC_COPY.giveContribution.title}
                 </p>
@@ -380,7 +385,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                 </div>
               </div>
 
-              <div className="rounded-none border border-white/8 bg-white/5 p-4">
+              <div className="shrink-0 rounded-none border border-white/8 bg-white/5 p-4">
                 <div className="flex items-start justify-between gap-3">
                   <p className="min-w-0 bg-gradient-to-r from-emerald-200 via-white to-orange-200 bg-clip-text text-sm font-semibold text-transparent">
                     {BITCODE_PUBLIC_COPY.sourceToSettlement.title}
@@ -435,21 +440,21 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                 </div>
               </div>
 
-              <div className="relative overflow-hidden rounded-none border border-orange-300/16 bg-[linear-gradient(160deg,rgba(23,9,0,0.96),rgba(12,8,4,0.94)_55%,rgba(4,10,16,0.96))] p-3 shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
+              <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-none border border-orange-300/16 bg-[linear-gradient(160deg,rgba(23,9,0,0.96),rgba(12,8,4,0.94)_55%,rgba(4,10,16,0.96))] p-4 shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(251,146,60,0.18),transparent_36%),radial-gradient(circle_at_bottom_left,rgba(251,191,36,0.08),transparent_32%)]" />
                 <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:24px_24px]" />
-                <div className="relative">
+                <div className="relative flex min-h-0 flex-1 flex-col">
                   <p className="whitespace-nowrap bg-gradient-to-r from-orange-100 via-amber-100 to-white bg-clip-text text-[13px] font-semibold tracking-tight text-transparent">
                     {BITCODE_PUBLIC_COPY.settlementLedger.title}
                   </p>
                   <p className="mt-0.5 whitespace-nowrap text-[10px] uppercase tracking-[0.14em] text-orange-100/58">
                     {BITCODE_PUBLIC_COPY.settlementLedger.subtitle}
                   </p>
-                  <ul className="mt-3 space-y-3">
+                  <ul className="mt-3 flex min-h-0 flex-1 flex-col gap-3">
                     {BITCODE_PUBLIC_COPY.settlementLedger.rows.map((row) => (
                       <li
                         key={row.label}
-                        className="rounded-none border border-orange-200/10 bg-black/25 px-2.5 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
+                        className="flex min-h-0 flex-1 flex-col justify-center rounded-none border border-orange-200/10 bg-black/25 px-2.5 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
                       >
                         <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-orange-50/92">
                           {row.label}

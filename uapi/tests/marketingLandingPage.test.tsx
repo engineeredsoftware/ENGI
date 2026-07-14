@@ -125,18 +125,15 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByTestId('landing-ambient-glow')).toHaveClass('hidden', 'laptop:block');
   });
 
-  it('explains commercial testnet launch readiness with core flows and source-safe trust messaging', () => {
+  it('explains commercial product launch readiness with core flows and source-safe trust messaging', () => {
     render(<MarketingLandingPage />);
 
     const section = screen.getByTestId('landing-testnet-launch');
     expect(section).toBeInTheDocument();
-    expect(screen.getByText('Commercial testnet')).toBeInTheDocument();
-    expect(
-      screen.getByText('Sell and buy AssetPacks on BTC testnet.'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Testnet BTC is free; measurements, quotes, settlement order/u),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Commercial Product')).toBeInTheDocument();
+    expect(screen.getByText('Sell and buy AssetPacks on Bitcoin.')).toBeInTheDocument();
+    expect(screen.getByText(/measurements, quotes, settlement order/iu)).toBeInTheDocument();
+    expect(screen.queryByText(/testnet/i)).toBeNull();
     expect(screen.getByRole('link', { name: /01\s*Sell \(Deposit\)/u })).toHaveAttribute(
       'href',
       '/deposits',
@@ -155,5 +152,8 @@ describe('MarketingLandingPage', () => {
     expect(
       screen.getByText(/protected source stays withheld until BTC finality and BTD rights transfer/u),
     ).toBeInTheDocument();
+    expect(screen.getByText('Public Measures')).toBeInTheDocument();
+    expect(screen.getByText('Private Source')).toBeInTheDocument();
+    expect(screen.getByText('Auditable Trade')).toBeInTheDocument();
   });
 });

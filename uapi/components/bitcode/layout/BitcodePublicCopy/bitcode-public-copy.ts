@@ -58,11 +58,12 @@ export const BITCODE_PUBLIC_COPY = {
     kicker: 'AssetPack commerce',
     rail: ['sell', 'buy', 'settle'],
   },
+  // Marketing presents the commercial product as production — no testnet language.
   testnetLaunch: {
-    badge: 'Commercial testnet',
-    title: 'Sell and buy AssetPacks on BTC testnet.',
+    badge: 'Commercial Product',
+    title: 'Sell and buy AssetPacks on Bitcoin.',
     meaning:
-      'Testnet BTC is free; measurements, quotes, settlement order, BTD rights, and delivery remain production-shaped protocol state.',
+      'Measurements, quotes, settlement order, BTD rights, and delivery are live protocol state—trade AssetPacks with BTC.',
     flow: [
       {
         step: '01',
@@ -76,7 +77,7 @@ export const BITCODE_PUBLIC_COPY = {
         label: 'Buy (Read)',
         href: '/reads',
         detail:
-          'Write a Need, review fit measurements and the quote, then SettleAssetPack in BTC-testnet.',
+          'Write a Need, review fit measurements and the quote, then SettleAssetPack in BTC.',
       },
       {
         step: '03',
