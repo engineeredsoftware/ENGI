@@ -1,8 +1,10 @@
 /**
  * Zod schemas for deposit-mode AssetPack synthesis agent output.
  *
- * Measured-patch options: source-safe descriptors + neediness signal inputs.
- * Absolute measurement volumes are produced later in Validation, not here.
+ * AssetPack = patch + measurements + metadata.
+ * LLM PTRR may omit absolutes; Implementation run wrapper MUST attach
+ * `absolutes[]` (from Discovery source measurements or measureAssetPackAbsolutes)
+ * before Validation. Validation fail-closes if measurements are missing.
  */
 
 import { z } from 'zod';
@@ -38,9 +40,11 @@ export const depositCandidateSchema = z.object({
   title: z.string().min(8).max(160),
   summary: z.string().min(40).max(900),
   coveredSourcePaths: z.array(z.string().min(1)).min(1).max(40),
-  // Optional legacy record; ignored when Validation attaches formal absolutes.
+  // Optional legacy record; ignored when formal absolutes are present.
   measurements: z.record(z.string(), z.coerce.number().min(0).max(1)).optional(),
   measurementRationale: z.string().max(700).optional(),
+  /** Formal absolute measurements (attached by Implementation after PTRR). */
+  absolutes: z.array(z.record(z.any())).optional(),
   confidence: z.coerce.number().min(0).max(1),
   patch: depositPatchSchema,
   needinessSignal: depositNeedinessSignalSchema.optional(),

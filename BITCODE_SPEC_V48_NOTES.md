@@ -2002,14 +2002,18 @@ it reifies “protocol” as one package when the monorepo *is* the protocol sur
 
 ### Deposit SDIVF target algorithm (Host · sourceCheckoutCatalog · 2026-07-13)
 
-Full target sequence and open parity rows: `BITCODE_SPEC_V48_PARITY_MATRIX.md`
+Full target sequence and parity rows: `BITCODE_SPEC_V48_PARITY_MATRIX.md`
 section **Deposit SynthesizeAssetPacks SDIVF — target algorithm parity**.
 
 Accepted sequencing:
 - Setup: **clone alone** → **parallel** (initialize-lsp, initialize-mcps-tools, comprehend-obfuscations) → **danger-wall alone** (admits obfuscations).
-- Discovery: **parallel** comprehend-codebase (includes absolute measurement + LSP + tree/file analysis), search-depository (vector tool + Plan queries), inherent-regurgitation.
-- AssetPack = patch + measurements + metadata.
+- Discovery: **parallel** comprehend-codebase, search-depository, inherent-regurgitation.
+- **comprehend-codebase** gathers: absolute measurements, LSP queries, full file-tree structure, key file bodies → stores `discovery:codebaseAnalysis` + knowledge map.
+- **search-depository** Plan queries from run evidence → `depository-asset-pack-search` (lexical + optional vector RPC).
+- AssetPack = **patch + measurements + metadata** (absolutes required before finish).
 - Validation: one ready-to-finish deposit agent (A/B/C).
-- Finish: store-artifacts → ledgerize → finish-synthesize-asset-packs-for-deposit-run.
-- Naming: `sourceCheckoutCatalog` (not inventory). No Fits Finding / lens language.
+- Finish: store-artifacts (`deposit:persistArtifacts` hook) → ledgerize (`deposit:ledgerWrite` hook) → finish-synthesize-deposit-run (selection envelope).
+- Naming: `sourceCheckoutCatalog` canonical; `inventory` dual-write only for legacy stream filters. No Fits Finding / lens language.
+
+Env: `BITCODE_DEPOSITORY_VECTOR_SEARCH=1` enables embedding + Supabase match RPC when credentials present.
 

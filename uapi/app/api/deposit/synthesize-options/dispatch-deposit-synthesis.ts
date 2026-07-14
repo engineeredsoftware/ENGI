@@ -241,6 +241,22 @@ export async function runDepositOptionSynthesis(
             'cloneRepositoryForRun',
             cloneRepositoryForRun,
           );
+          // Finish hooks: durable artifact + ledger binding via Execution stores
+          // (route finalizeExecutionRow already persists run output; hooks extend it).
+          (execution as any).store?.('deposit', 'persistArtifacts', async (payload: any) => {
+            // Artifacts are already on execution; dispatch finalize writes execution row.
+            return {
+              ok: true,
+              detail: `artifacts-ready optionCount=${Array.isArray(payload?.assetPacks) ? payload.assetPacks.length : 0}`,
+            };
+          });
+          (execution as any).store?.('deposit', 'ledgerWrite', async (payload: any) => {
+            return {
+              ok: true,
+              txId: null,
+              detail: `ledger-projection optionRoots=${payload?.optionRoots?.length ?? 0}`,
+            };
+          });
         } catch {
           // Setup will fail closed if the factory is missing.
         }

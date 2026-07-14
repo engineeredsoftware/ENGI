@@ -13,6 +13,7 @@ import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 import { resolveSourceCheckoutCatalog } from '../../resolve-source-checkout-catalog';
+import { runDepositDepositoryAssetPackSearch } from '../../tools/deposit-depository-asset-pack-search';
 import { depositDepositoryAssetPackSearchTool } from '../../tools/DepositDepositoryAssetPackSearchTool';
 
 const part = (content: string): PromptPart => content as PromptPart;
@@ -205,11 +206,15 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
   // Always run Depository search tool (vector policy + lexical rank when assets present).
   let toolResult: any = null;
   try {
-    toolResult = await depositDepositoryAssetPackSearchTool.use({
+    const supabase = findValue(execution, 'deposit', 'supabase') || undefined;
+    const embedQuery = findValue(execution, 'deposit', 'embedQuery') || undefined;
+    toolResult = await runDepositDepositoryAssetPackSearch({
       queryTerms: searchQueries,
       assets: Array.isArray(settledAssets) ? settledAssets : [],
       maxResults: 12,
       repositoryFullName: repository.fullName || repository.repositoryFullName,
+      supabase,
+      embedQuery,
     });
     storeCrossPhaseArtifact(execution, 'discovery', 'depositorySearchToolResult', toolResult);
     storeCrossPhaseArtifact(execution, 'tools', 'depository-asset-pack-search', {

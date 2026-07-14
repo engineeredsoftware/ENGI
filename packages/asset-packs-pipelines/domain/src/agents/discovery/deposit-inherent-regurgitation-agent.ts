@@ -1,16 +1,10 @@
 /**
- * Deposit inherent-regurgitation agent — Discovery phase (V48 Gate 3).
+ * Deposit inherent-regurgitation agent — Discovery (parallel).
  *
- * The third of the three deposit-mode Discovery lenses. It discovers from the
- * MODEL itself: from its own training data, it returns any and all information
- * useful to synthesizing AssetPacks from this repository — relevant patterns,
- * best practices, well-known approaches, and domain knowledge. This complements
- * the codebase lens (what the repository holds) and the depository lens (what
- * readers want) with the model's inherent knowledge. Runs on the formal PTRR
- * machinery.
- *
- * Source-safety: regurgitate generally-known patterns and knowledge — never quote
- * the repository's raw source or secrets.
+ * From model training knowledge (not repository quotes): patterns, practices,
+ * and domain knowledge useful for synthesizing AssetPacks from this checkout.
+ * Complements codebase comprehension and depository search — three distinct
+ * agents/procedures, not “lenses”.
  */
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
@@ -18,13 +12,10 @@ import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
+import { resolveSourceCheckoutCatalog } from '../../resolve-source-checkout-catalog';
+import { projectInventoryForPrompt } from '../../asset-packs-synthesis';
 
 const part = (content: string): PromptPart => content as PromptPart;
-
-const InherentRegurgitationInputSchema = z.object({
-  repository: z.any().optional(),
-  inventory: z.any().optional(),
-});
 
 const InherentKnowledgeSchema = z.object({
   summary: z.string(),
@@ -40,28 +31,22 @@ const InherentRegurgitationOutputSchema = z.object({
 export type DepositInherentRegurgitation = z.infer<typeof InherentKnowledgeSchema>;
 
 const IDENTITY = part(
-  'You are the SynthesizeAssetPacks discovery agent in DEPOSIT mode, discovering ' +
-    'from the MODEL itself. From your own training data, return any and all ' +
-    'information useful to synthesizing AssetPacks from this repository — relevant ' +
-    'patterns, best practices, well-known approaches, and domain knowledge. Be ' +
-    'source-safe: regurgitate generally-known knowledge and patterns, never quote ' +
-    'the repository’s raw source or secrets.',
+  'You are the SynthesizeAssetPacks Discovery agent that contributes model-inherent ' +
+    'knowledge for deposit AssetPack synthesis. From your training data, return patterns, ' +
+    'best practices, and domain knowledge useful for this repository. Source-safe: never ' +
+    'quote the repository’s raw source or secrets.',
 );
 
 const REQUIREMENTS = part(
-  'Given the repository coordinates and the inventory as context for relevance, derive ' +
-    'from your training data: summary (what inherent knowledge bears on synthesizing ' +
-    'AssetPacks here), relevantKnowledge (facts, domain knowledge, and approaches that ' +
-    'help), patterns (well-known patterns and best practices applicable to this kind of ' +
-    'repository), and references (named techniques, standards, or bodies of knowledge to ' +
-    'draw on). Keep it general and source-safe — do not reproduce repository source. ' +
-    'Return ONLY {"regurgitation": {...}}.',
+  'Given repository coordinates and sourceCheckoutCatalog path context, derive from ' +
+    'training knowledge: summary, relevantKnowledge, patterns, and references. Keep it ' +
+    'general and source-safe. Return ONLY {"regurgitation": {...}}.',
 );
 
-const PLAN = part('Plan: identify which of your trained knowledge is relevant to this repository’s domain.');
-const TRY = part('Try: regurgitate relevant knowledge, well-known patterns, best practices, and references.');
-const REFINE = part('Refine: ensure the knowledge is relevant, generally-known, and source-safe.');
-const RETRY = part('Retry: return minimal relevant knowledge rather than failing the regurgitation.');
+const PLAN = part('Plan: identify trained knowledge relevant to this repository domain.');
+const TRY = part('Try: regurgitate relevant knowledge, patterns, best practices, and references.');
+const REFINE = part('Refine: ensure knowledge is relevant, generally-known, and source-safe.');
+const RETRY = part('Retry: return minimal relevant knowledge rather than failing.');
 
 function createPrompt(): Prompt {
   const prompt = new Prompt();
@@ -80,12 +65,12 @@ function createPrompt(): Prompt {
 const prompt = createPrompt();
 
 export const DepositInherentRegurgitationAgent = factoryPTRRAgent<
-  z.infer<typeof InherentRegurgitationInputSchema>,
+  any,
   z.infer<typeof InherentRegurgitationOutputSchema>
 >({
   name: 'DepositInherentRegurgitationAgent',
   description:
-    'Regurgitates model-inherent knowledge, patterns, and best practices useful for AssetPack synthesis (deposit discovery: model lens).',
+    'Regurgitates model-inherent knowledge, patterns, and best practices for deposit AssetPack synthesis.',
   outputSchema: InherentRegurgitationOutputSchema,
   tools: [],
   prompt,
@@ -109,37 +94,31 @@ function findValue(execution: any, namespace: string, key: string): any {
 
 export default async function runDepositInherentRegurgitationAgent(input: any, execution: any) {
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
-  const inventory =
-    input?.sourceCheckoutCatalog ??
-    input?.inventory ??
-    findValue(execution, 'deposit', 'sourceCheckoutCatalog') ??
-    findValue(execution, 'deposit', 'inventory');
+  const catalog = resolveSourceCheckoutCatalog(
+    execution,
+    input?.sourceCheckoutCatalog ?? input?.inventory,
+  );
+  const catalogForPrompt = projectInventoryForPrompt(catalog);
 
-  const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
-  const inventoryForPrompt = projectInventoryForPrompt(inventory);
   const raw = await DepositInherentRegurgitationAgent(
     {
       ...input,
       repository,
-      inventory: inventoryForPrompt,
-      inventoryPaths: inventoryForPrompt?.paths ?? inventory?.paths,
+      sourceCheckoutCatalog: catalogForPrompt,
+      inventoryPaths: catalogForPrompt?.paths ?? catalog?.paths,
     },
     execution,
   );
-  // factoryPTRRAgent returns an envelope ({ context, output, finalOutput }); unwrap (F27).
   const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
   const regurgitation: DepositInherentRegurgitation = (result as any)?.regurgitation ?? {
     summary:
-      'No inherent knowledge regurgitated; proceed with the codebase and depository discovery lenses alone.',
+      'No inherent knowledge regurgitated; proceed with codebase comprehension and depository search alone.',
     relevantKnowledge: [],
     patterns: [],
     references: [],
   };
 
-  // Cross-phase artifact: the Implementation synthesis agent reads this from
-  // another phase sibling (cross-phase store-visibility law).
   storeCrossPhaseArtifact(execution, 'discovery', 'inherentRegurgitation', regurgitation);
-
   return { ...(input || {}), success: true, regurgitation };
 }
