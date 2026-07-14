@@ -945,36 +945,26 @@
 }
 
 @keyframes wallet-connect-button-attention {
+  /* No background animation — only border, glow, and scale. */
   0%,
   58%,
   100% {
     transform: translateY(0) scale(1);
     box-shadow: none;
     border-color: rgba(251, 146, 60, 0.34);
-    background-color: rgba(251, 146, 60, 0.14);
-    background: rgba(251, 146, 60, 0.14);
-    color: rgba(255, 247, 237, 0.98);
   }
   12%,
   40% {
-    /* Peak: bg, border, glow, and scale all move together. */
     transform: translateY(-1px) scale(1.045);
     border-color: rgba(254, 215, 170, 0.95);
-    background-color: rgba(251, 146, 60, 0.42);
-    background: rgba(251, 146, 60, 0.42);
-    color: #fff;
     box-shadow:
       0 0 0 2px rgba(251, 146, 60, 0.75),
       0 0 28px rgba(251, 146, 60, 0.65),
       0 12px 28px rgba(0, 0, 0, 0.28);
   }
   48% {
-    /* Shared soft decay — bg resets with border/scale, not after. */
     transform: translateY(0) scale(1.015);
     border-color: rgba(253, 186, 116, 0.72);
-    background-color: rgba(251, 146, 60, 0.22);
-    background: rgba(251, 146, 60, 0.22);
-    color: rgba(255, 247, 237, 0.98);
     box-shadow:
       0 0 0 1px rgba(251, 146, 60, 0.4),
       0 0 14px rgba(251, 146, 60, 0.32);
@@ -990,7 +980,7 @@
 
 .wallet-connect-attention-button {
   animation: wallet-connect-button-attention 2.1s ease-in-out 1 both;
-  will-change: transform, box-shadow, background-color, border-color;
+  will-change: transform, box-shadow, border-color;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1015,7 +1005,8 @@
 
   .wallet-connect-attention-button {
     border-color: rgba(254, 215, 170, 0.9) !important;
-    background: rgba(251, 146, 60, 0.36) !important;
-    color: #fff !important;
+    box-shadow:
+      0 0 0 2px rgba(251, 146, 60, 0.65),
+      0 0 20px rgba(251, 146, 60, 0.4);
   }
 }
