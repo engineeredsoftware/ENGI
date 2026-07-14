@@ -77,9 +77,10 @@ export default function AuxillariesSurface({
       */}
       {surface.authLoaded && !surface.hasConnectedIdentity && (
         <button
+          type="button"
           data-auxillaries-testid="auxillaries-toggle-button"
           onClick={surface.toggleWindow}
-          className="auxillaries-toggle-button"
+          className="auxillaries-action-button auxillaries-connect-button auxillaries-toggle-button orbital-toggle-button inline-flex h-10 min-w-[9.5rem] items-center justify-center rounded-none border border-emerald-300/35 bg-emerald-950/85 px-4 text-xs font-bold uppercase tracking-[0.12em] text-emerald-50 shadow-[0_14px_32px_rgba(0,0,0,0.24),0_0_0_1px_rgba(101,254,183,0.1)_inset] transition hover:-translate-y-px hover:border-emerald-200/50 hover:bg-emerald-900/90 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/50"
           aria-label={surface.activeWindow === 'SignInWindow' ? 'Create Account' : 'Connect'}
         >
           <FlipText
@@ -93,7 +94,7 @@ export default function AuxillariesSurface({
         <button
           type="button"
           onClick={surface.handleSignOut}
-          className="auxillaries-action-button auxillaries-signout-button orbital-signout-button inline-flex h-10 min-w-[9.5rem] items-center justify-center rounded-none border border-red-300/32 bg-red-950/80 px-4 text-xs font-bold uppercase tracking-[0.12em] text-red-100 shadow-[0_14px_32px_rgba(0,0,0,0.24),0_0_0_1px_rgba(248,113,113,0.08)_inset] transition hover:-translate-y-px hover:border-red-200/45 hover:bg-red-900/84"
+          className="auxillaries-action-button auxillaries-signout-button orbital-signout-button inline-flex h-10 min-w-[9.5rem] items-center justify-center rounded-none border border-red-300/32 bg-red-950/80 px-4 text-xs font-bold uppercase tracking-[0.12em] text-red-100 shadow-[0_14px_32px_rgba(0,0,0,0.24),0_0_0_1px_rgba(248,113,113,0.08)_inset] transition hover:-translate-y-px hover:border-red-200/45 hover:bg-red-900/84 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300/45"
           aria-label="Disconnect"
         >
           Disconnect

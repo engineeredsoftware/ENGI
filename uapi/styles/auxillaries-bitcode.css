@@ -129,9 +129,36 @@
 }
 
 .auxillaries-left-chrome-actions .orbital-signout-button,
-.auxillaries-left-chrome-actions .auxillaries-signout-button {
+.auxillaries-left-chrome-actions .auxillaries-signout-button,
+.auxillaries-left-chrome-actions .orbital-toggle-button,
+.auxillaries-left-chrome-actions .auxillaries-toggle-button,
+.auxillaries-left-chrome-actions .auxillaries-connect-button {
   width: auto !important;
   min-width: 9.5rem;
+}
+
+/* Connect mirrors Disconnect: filled square chrome (emerald primary). */
+.auxillaries-bitcode-surface .auxillaries-connect-button,
+.auxillaries-bitcode-surface .auxillaries-toggle-button {
+  border-radius: 0 !important;
+  background: rgba(2, 44, 34, 0.88) !important;
+  border: 1px solid rgba(101, 254, 183, 0.35) !important;
+  color: rgba(236, 253, 245, 0.98) !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase;
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.24),
+    0 0 0 1px rgba(101, 254, 183, 0.1) inset !important;
+}
+
+.auxillaries-bitcode-surface .auxillaries-connect-button:hover,
+.auxillaries-bitcode-surface .auxillaries-toggle-button:hover {
+  background: rgba(6, 78, 59, 0.92) !important;
+  border-color: rgba(167, 243, 208, 0.5) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
 }
 
 .auxillaries-bitcode-selector {
