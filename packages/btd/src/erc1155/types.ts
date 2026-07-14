@@ -6,7 +6,7 @@
  * - **AssetPack** (token ids ≥ 1): non-fungible commercial objects with **add-only
  *   co-ownership** (depositor retains; buyer is added; never removed)
  *
- * Settlement is 1:1 AssetPack : SettleAssetPacksSimplePipeline run.
+ * Settlement is 1:1 AssetPack : SettleAssetPackSimplePipeline run.
  */
 
 import { BTD_MAX_MINTABLE_SUPPLY } from '../constants';

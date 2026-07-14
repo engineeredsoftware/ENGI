@@ -3,7 +3,7 @@
  *
  * Base SimplePipeline (hierarchy: Simple + Pipeline primitive).
  * Product pipelines name themselves Specific+Simple+Pipeline, e.g.
- * SettleAssetPacksSimplePipeline — linear stages, no DIV loop.
+ * SettleAssetPackSimplePipeline — linear stages, no DIV loop.
  */
 
 export type { SimplePipeline } from './simple-factory';

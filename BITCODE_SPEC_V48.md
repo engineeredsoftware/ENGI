@@ -1056,7 +1056,7 @@ Deposit: `needinesses: []` always. Read: fail-closed if needinesses empty or any
 ### G4-5 SettleAssetPacks Simple stages (binding)
 
 **Cardinality:** SynthesizeRead produces multiple options; the buyer may select
-one or more. **Each bought option starts its own** `SettleAssetPacksSimplePipeline`
+one or more. **Each bought option starts its own** `SettleAssetPackSimplePipeline`
 run (1:1 AssetPack : settle pipeline). Never settle multiple packs inside one run.
 
 | # | Stage / agent | Law |
@@ -1107,7 +1107,7 @@ Sources of truth:
 
 - Solidity: `packages/btd/contracts/BitcodeERC1155.sol`
 - TS mirror + receipts: `packages/btd/src/erc1155/`
-- Pipeline: `packages/asset-packs-pipelines/settle-asset-packs/`
+- Pipeline: `packages/asset-packs-pipelines/settle-asset-pack-pipeline/`
 
 ### G4-6 `/packs` master-detail
 
@@ -1120,11 +1120,11 @@ roots only; no raw source.
 | Area | Path |
 |---|---|
 | Read phases | `packages/asset-packs-pipelines/domain/src/phases/read-phases.ts` |
-| Read product package | `packages/asset-packs-pipelines/synthesize-reads/` |
+| Read product package | `packages/asset-packs-pipelines/synthesize-reads-asset-packs-pipeline/` |
 | Need comprehension | `agents/setup/read-need-comprehension-agent.ts` |
 | Read synthesis | `agents/implementation/read-asset-pack-synthesis-agent.ts` |
 | Needinesses helpers | `read-neediness-measurements.ts`, `@bitcode/generic-measurements-needinesses` |
-| Settle package | `packages/asset-packs-pipelines/settle-asset-packs/` |
+| Settle package | `packages/asset-packs-pipelines/settle-asset-pack-pipeline/` |
 | BitcodeERC1155 | `packages/btd/contracts/BitcodeERC1155.sol`, `packages/btd/src/erc1155/` |
 | Needinesses → BTD | `computeSettlementBtdFromNeedinesses` (`@bitcode/btd/erc1155`) |
 | Read API | `uapi/app/api/read/synthesize-options/`, `uapi/app/api/read/settle/` |

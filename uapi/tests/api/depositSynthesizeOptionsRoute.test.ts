@@ -47,7 +47,7 @@ jest.mock('@bitcode/asset-packs-pipelines-domain/runtime-inference-policy', () =
 // uapi jest env. The deposit route runs the full SDIVF pipeline here; we assert it
 // is dispatched + that its persisted output is built from the real lens adapter.
 // Also stub neediness grounding (settled Depository search) for unit isolation.
-jest.mock('@bitcode/asset-packs-pipelines-synthesize-deposits', () => ({
+jest.mock('@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline', () => ({
   synthesizeDepositAssetPacksSDIVFPipeline: jest.fn(async () => undefined),
 }));
 jest.mock('@bitcode/asset-packs-pipelines-domain', () => ({
@@ -97,7 +97,7 @@ jest.mock('@/lib/depository-settled-demand', () => ({
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createStreamingExecution } from '@bitcode/pipelines-generics';
-import { synthesizeDepositAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-deposits';
+import { synthesizeDepositAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline';
 import { isAssetPackRealInferenceEnabled } from '@bitcode/asset-packs-pipelines-domain/runtime-inference-policy';
 import {
   createDepositLocalHostCloneForRun,

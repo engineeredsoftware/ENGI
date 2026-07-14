@@ -1,5 +1,5 @@
 /**
- * POST /api/read/settle — spawn one SettleAssetPacksSimplePipeline per bought option.
+ * POST /api/read/settle — spawn one SettleAssetPackSimplePipeline per bought option.
  *
  * 1:1 AssetPack : settle pipeline. SynthesizeRead may return multiple options;
  * each selected option gets its own settle run (BTC → mint-btd → settle-btd →
@@ -17,12 +17,12 @@ import { Execution } from '@bitcode/execution-generics';
 import {
   parseSettleAssetPackOption,
   parseSettleAssetPackOptions,
-  runSettleAssetPacksSimplePipeline,
+  runSettleAssetPackSimplePipeline,
   type SettleAssetPackOption,
-  type SettleAssetPacksInput,
+  type SettleAssetPackInput,
   type SettleBtcPaymentObservationInput,
   type SettleRepositoryRef,
-} from '@bitcode/asset-packs-pipelines-settle-asset-packs';
+} from '@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-domain';
 
 export const runtime = 'nodejs';
@@ -136,7 +136,7 @@ async function runOneSettle(input: RunOneSettleInput) {
     type: 'agentic-execution:asset-pack',
     status: 'running',
     input: {
-      productPipeline: 'settle-asset-packs',
+      productPipeline: 'settle-asset-pack-pipeline',
       synthesisRunId: input.synthesisRunId,
       optionCount: 1,
       optionTitle,
@@ -146,7 +146,7 @@ async function runOneSettle(input: RunOneSettleInput) {
     context: {
       source: 'read-settle-asset-packs',
       route: '/reads',
-      pipelineCore: 'settle-asset-packs',
+      pipelineCore: 'settle-asset-pack-pipeline',
       synthesisMode: 'read',
       repositoryFullName: input.repositoryFullName,
       optionCount: 1,
@@ -158,9 +158,9 @@ async function runOneSettle(input: RunOneSettleInput) {
 
   const exec = new Execution(`pipeline:settle:${settleRunId}`);
   storeCrossPhaseArtifact(exec, 'host', 'runId', settleRunId);
-  storeCrossPhaseArtifact(exec, 'pipeline', 'productPipeline', 'settle-asset-packs');
+  storeCrossPhaseArtifact(exec, 'pipeline', 'productPipeline', 'settle-asset-pack-pipeline');
 
-  const pipelineInput: SettleAssetPacksInput = {
+  const pipelineInput: SettleAssetPackInput = {
     repository: {
       fullName: input.repositoryFullName,
       owner: input.repository.owner,
@@ -184,7 +184,7 @@ async function runOneSettle(input: RunOneSettleInput) {
   };
 
   try {
-    const result = await runSettleAssetPacksSimplePipeline(pipelineInput, exec);
+    const result = await runSettleAssetPackSimplePipeline(pipelineInput, exec);
 
     const packActivity = result.packActivity;
     const shippable = result.shippable;
@@ -203,7 +203,7 @@ async function runOneSettle(input: RunOneSettleInput) {
         status: 'completed',
         completed_at: new Date().toISOString(),
         output: {
-          productPipeline: 'settle-asset-packs',
+          productPipeline: 'settle-asset-pack-pipeline',
           success: true,
           packActivity,
           shippable: packActivity.shippable || {
@@ -233,7 +233,7 @@ async function runOneSettle(input: RunOneSettleInput) {
         context: {
           source: 'read-settle-asset-packs',
           route: '/reads',
-          pipelineCore: 'settle-asset-packs',
+          pipelineCore: 'settle-asset-pack-pipeline',
           synthesisMode: 'read',
           repositoryFullName:
             input.repositoryFullName || packActivity.repositoryFullName || null,

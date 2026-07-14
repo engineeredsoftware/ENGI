@@ -4,7 +4,7 @@
  * Hierarchy:
  *   @bitcode/pipelines-generics          Pipeline / Executor primitives
  *   @bitcode/generic-pipelines-simple    this package (Simple + Pipeline)
- *   product                              e.g. SettleAssetPacksSimplePipeline
+ *   product                              e.g. SettleAssetPackSimplePipeline
  *
  * Parity: QuickAgent vs PTRRAgent — Simple is the non-iterating pipeline base;
  * SDIVF is the iterative Setup-[DIV]*-Finish base.
@@ -20,7 +20,7 @@ import {
 
 /**
  * Simple base Pipeline (hierarchy name: Simple + Pipeline).
- * Product pipelines: SettleAssetPacksSimplePipeline, …
+ * Product pipelines: SettleAssetPackSimplePipeline, …
  */
 export type SimplePipeline<TInput = any, TOutput = any> = Pipeline<TInput, TOutput>;
 

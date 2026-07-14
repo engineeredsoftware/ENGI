@@ -1,12 +1,12 @@
 /**
- * SettleAssetPacksSimplePipeline — 1:1 option, needinesses BTD mint, ERC1155 co-own.
+ * SettleAssetPackSimplePipeline — 1:1 option, needinesses BTD mint, ERC1155 co-own.
  */
 
 import { Execution } from '@bitcode/execution-generics';
 import {
-  factorySettleAssetPacksSimplePipeline,
+  factorySettleAssetPackSimplePipeline,
   type SettleAssetPackOption,
-  type SettleAssetPacksInput,
+  type SettleAssetPackInput,
 } from '../index';
 import {
   balanceOf,
@@ -14,7 +14,7 @@ import {
   computeSettlementBtdFromNeedinesses,
 } from '@bitcode/btd/erc1155';
 
-describe('SettleAssetPacksSimplePipeline', () => {
+describe('SettleAssetPackSimplePipeline', () => {
   const option: SettleAssetPackOption = {
     title: 'Session refresh fit pack',
     kind: 'capability-slice',
@@ -38,18 +38,18 @@ describe('SettleAssetPacksSimplePipeline', () => {
   };
 
   it('rejects multi-option settle (1:1 law)', async () => {
-    const pipeline = factorySettleAssetPacksSimplePipeline();
+    const pipeline = factorySettleAssetPackSimplePipeline();
     const exec = new Execution('test:settle:multi');
-    const input: SettleAssetPacksInput = {
+    const input: SettleAssetPackInput = {
       selectedOptions: [option, { ...option, title: 'Other' }],
     };
     await expect(pipeline(input, exec)).rejects.toThrow(/1:1/);
   });
 
   it('runs settle-btc → mint-btd → settle-btd → settle-asset-pack → ship → journal', async () => {
-    const pipeline = factorySettleAssetPacksSimplePipeline();
+    const pipeline = factorySettleAssetPackSimplePipeline();
     const exec = new Execution('test:settle:happy');
-    const input: SettleAssetPacksInput = {
+    const input: SettleAssetPackInput = {
       assetPackOption: option,
       repository: { fullName: 'acme/app', owner: 'acme', name: 'app', branch: 'main' },
       buyerEthereumAddress: '0xBuyerWallet',
@@ -65,6 +65,10 @@ describe('SettleAssetPacksSimplePipeline', () => {
 
     expect(result.success).toBe(true);
     expect(result.summary).toMatch(/settle-btc → mint-btd → settle-btd → settle-asset-pack/);
+    expect(result.settledReadAssetPack?.identity.schema).toMatch(/settled-read-synthesized/);
+    expect(result.settledReadAssetPack?.btdRights.status).toBe('transferred');
+    expect(result.settledReadAssetPack?.assetPackRights.removedPriorOwner).toBe(false);
+    expect(result.settledReadAssetPack?.settleable).toBe(false);
 
     const mint = result.mintBtd;
     expect(mint.agent).toBe('mint-btd');

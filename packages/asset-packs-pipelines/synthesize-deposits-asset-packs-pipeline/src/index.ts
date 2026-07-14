@@ -1,11 +1,13 @@
 /**
- * @bitcode/asset-packs-pipelines-synthesize-deposits
+ * @bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline
+ *
+ * Product pipeline name: **synthesize-deposits-asset-packs-pipeline**
  *
  * Hierarchy: SynthesizeDepositAssetPacks + SDIVF + Pipeline
  *   factorySynthesizeDepositAssetPacksSDIVFPipeline
  *     → SynthesizeDepositAssetPacksSDIVFPipeline
  *
- * Depositor supplies a repository; pipeline synthesizes measured AssetPack
+ * Depositor supplies a repository; pipeline synthesizes DepositSynthesizedAssetPack
  * options for Depository review/admission. Not mode/lens-parameterized.
  */
 
@@ -27,7 +29,7 @@ import {
 export type SynthesizeDepositAssetPacksSDIVFPipeline = SDIVFPipeline<any, any>;
 
 export function factorySynthesizeDepositAssetPacksSDIVFPipeline(
-  pipelineName: string = 'synthesize-deposit-asset-packs',
+  pipelineName: string = 'synthesize-deposits-asset-packs-pipeline',
 ): SynthesizeDepositAssetPacksSDIVFPipeline {
   const maxIterations = 1;
   const sdivf = factorySDIVFPipelineFromExecutors(pipelineName, {
@@ -46,7 +48,7 @@ export function factorySynthesizeDepositAssetPacksSDIVFPipeline(
 
   return async (input, execution) => {
     await initializeAssetPackPipeline(execution as any);
-    storeCrossPhaseArtifact(execution, 'pipeline', 'productPipeline', 'synthesize-deposit-asset-packs');
+    storeCrossPhaseArtifact(execution, 'pipeline', 'productPipeline', 'synthesize-deposits-asset-packs-pipeline');
     return sdivf(input, execution);
   };
 }

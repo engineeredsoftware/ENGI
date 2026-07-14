@@ -93,7 +93,7 @@ export function useReadOptionSynthesis(input: {
               ? {
                   options: output!.options,
                   purpose: "user-select-options-to-settle",
-                  nextPipeline: "settle-asset-packs",
+                  nextPipeline: "settle-asset-pack-pipeline",
                 }
               : null);
           if (st === "completed" || nextEnvelope?.options?.length) {

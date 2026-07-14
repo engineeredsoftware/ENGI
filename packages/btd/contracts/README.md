@@ -9,7 +9,7 @@ Single multi-token contract for V48 settlement:
 
 ## Settlement pipeline (1:1 AssetPack : pipeline run)
 
-SynthesizeRead produces **multiple** options. Each **bought** option starts its own `SettleAssetPacksSimplePipeline`:
+SynthesizeRead produces **multiple** options. Each **bought** option starts its own `SettleAssetPackSimplePipeline`:
 
 1. `validate-settlement-readiness`
 2. `settle-btc` — BTC-testnet payment observation / finality

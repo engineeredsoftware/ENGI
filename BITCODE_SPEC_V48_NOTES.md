@@ -1776,7 +1776,7 @@ Three specific product pipelines (hierarchy names encode base):
 @bitcode/generic-pipelines-sdivf / -simple
  → synthesize-deposits SynthesizeDepositAssetPacksSDIVFPipeline
  → synthesize-reads SynthesizeReadAssetPacksSDIVFPipeline
- → settle-reads SettleAssetPacksSimplePipeline
+ → settle-reads SettleAssetPackSimplePipeline
 ```
 
 - **synthesize-deposits** — depositor repo → measured packs for Depository
@@ -1902,9 +1902,9 @@ demo/runtime shell; generators/proof tooling prefer `@bitcode/specifying`.
 - Removed `packages/pipelines/` (was only `asset-pack/`).
 - Domain: `packages/asset-packs-pipelines/domain` → `@bitcode/asset-packs-pipelines-domain` (sole home).
 - Product pipelines (full hierarchy names):
- - `SynthesizeDepositAssetPacksSDIVFPipeline` — `synthesize-deposits/`
- - `SynthesizeReadAssetPacksSDIVFPipeline` — `synthesize-reads/`
- - `SettleAssetPacksSimplePipeline` — `settle-asset-packs/`
+ - `SynthesizeDepositAssetPacksSDIVFPipeline` — `synthesize-deposits-asset-packs-pipeline/`
+ - `SynthesizeReadAssetPacksSDIVFPipeline` — `synthesize-reads-asset-packs-pipeline/`
+ - `SettleAssetPackSimplePipeline` — `settle-asset-pack-pipeline/`
 - No deposit|read lens on a single pipeline factory.
 - Removed empty empty residual `packages/asset-packs-pipelines/settle-reads` and
  `packages/asset-packs-pipelines-settle-reads`.
@@ -2035,7 +2035,7 @@ bodies remain withheld by source-safety redaction.
 
 Settlement law upgraded for commercial read buy:
 
-- **1:1** AssetPack option : `SettleAssetPacksSimplePipeline` run (API loops
+- **1:1** AssetPack option : `SettleAssetPackSimplePipeline` run (API loops
   selected options; pipeline rejects multi-option payloads).
 - Stages: validate → **settle-btc** → **mint-btd** → **settle-btd** →
   **settle-asset-pack** → ship PR → packs journal.
@@ -2045,7 +2045,7 @@ Settlement law upgraded for commercial read buy:
 - **AssetPack** is ERC1155 id ≥ 1 with **add-only co-ownership** (depositor
   retains; buyer added; burn forbidden).
 - Sources: `packages/btd/contracts/BitcodeERC1155.sol`,
-  `packages/btd/src/erc1155/`, `packages/asset-packs-pipelines/settle-asset-packs/`.
+  `packages/btd/src/erc1155/`, `packages/asset-packs-pipelines/settle-asset-pack-pipeline/`.
 
 ## AssetPack hierarchy: measurements on primitive + synthesize specializations (2026-07-14)
 
@@ -2059,3 +2059,21 @@ Settlement law upgraded for commercial read buy:
   - `measured-patch/` — deprecated re-export of synthesis
 - BTD: `contracts/` and `src/erc1155/` are dual-maintained (not codegen); see
   `packages/btd/README.md`.
+
+## Pipeline product names + SettledReadSynthesizedAssetPack (2026-07-14)
+
+Product pipeline directories/packages renamed:
+
+| Name | Package |
+| --- | --- |
+| synthesize-deposits-asset-packs-pipeline | `@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline` |
+| synthesize-reads-asset-packs-pipeline | `@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline` |
+| settle-asset-pack-pipeline (singular AP) | `@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline` |
+
+Factory: `factorySettleAssetPackSimplePipeline` / `SettleAssetPackSimplePipeline`.
+
+generic-asset-packs three products over shared synthesis base:
+
+- DepositSynthesizedAssetPack
+- ReadSynthesizedAssetPack
+- SettledReadSynthesizedAssetPack (`settled-read-synthesized/`) — BTD rights, BTC finality, ERC1155 co-own, PR delivery after settle-asset-pack-pipeline

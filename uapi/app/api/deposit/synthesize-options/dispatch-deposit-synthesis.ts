@@ -21,7 +21,7 @@ import {
   type AssetPacksSynthesisSourceInventory,
 } from '@bitcode/asset-packs-pipelines-domain/asset-packs-synthesis';
 import { groundOptionNeedinessFromSettledDepository } from '@bitcode/asset-packs-pipelines-domain';
-import { synthesizeDepositAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-deposits';
+import { synthesizeDepositAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline';
 import { buildRealDepositAssetPackOptionSynthesis } from '@bitcode/asset-packs-pipelines-domain/deposit-option-real-synthesis';
 import {
   createDepositLocalHostCloneForRun,

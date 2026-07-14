@@ -1,31 +1,29 @@
 # asset-packs-pipelines
 
-Product AssetPack **pipelines** and shared domain. There is **no** `packages/pipelines/`
-tree — domain + product pipelines live only under this family.
+Commercial AssetPack product pipelines. Domain agents/tools live in `domain/`;
+each product pipeline package is a thin factory over SDIVF or Simple.
 
-## Hierarchy
+## Product pipelines
+
+| Target name | Directory | Package | Base | Factory |
+| --- | --- | --- | --- | --- |
+| **synthesize-deposits-asset-packs-pipeline** | `synthesize-deposits-asset-packs-pipeline/` | `@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline` | SDIVF | `factorySynthesizeDepositAssetPacksSDIVFPipeline` |
+| **synthesize-reads-asset-packs-pipeline** | `synthesize-reads-asset-packs-pipeline/` | `@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline` | SDIVF | `factorySynthesizeReadAssetPacksSDIVFPipeline` |
+| **settle-asset-pack-pipeline** | `settle-asset-pack-pipeline/` | `@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline` | Simple | `factorySettleAssetPackSimplePipeline` |
 
 ```
-Pipeline
- → SDIVFPipeline
- → SynthesizeDepositAssetPacksSDIVFPipeline # synthesize-deposits/
- → SynthesizeReadAssetPacksSDIVFPipeline # synthesize-reads/
- → SimplePipeline
- → SettleAssetPacksSimplePipeline # settle-asset-packs/
+Pipeline (pipelines-generics)
+  → SDIVFPipeline
+      → SynthesizeDepositAssetPacksSDIVFPipeline
+      → SynthesizeReadAssetPacksSDIVFPipeline
+  → SimplePipeline
+      → SettleAssetPackSimplePipeline   # 1:1 AssetPack
 ```
-
-| Path | Package | Type (full hierarchy name) |
-| --- | --- | --- |
-| `domain/` | `@bitcode/asset-packs-pipelines-domain` | Shared phases, agents, tools, deposit/read domain |
-| `synthesize-deposits/` | `@bitcode/asset-packs-pipelines-synthesize-deposits` | `SynthesizeDepositAssetPacksSDIVFPipeline` |
-| `synthesize-reads/` | `@bitcode/asset-packs-pipelines-synthesize-reads` | `SynthesizeReadAssetPacksSDIVFPipeline` |
-| `settle-asset-packs/` | `@bitcode/asset-packs-pipelines-settle-asset-packs` | `SettleAssetPacksSimplePipeline` |
-| `settle-reads/` | `@bitcode/asset-packs-pipelines-settle-reads` | → settle-asset-packs |
-
-**No lens:** three separate product pipelines — never one factory with deposit|read mode.
 
 ```ts
-import { factorySynthesizeDepositAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-deposits';
-import { factorySynthesizeReadAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-reads';
-import { factorySettleAssetPacksSimplePipeline } from '@bitcode/asset-packs-pipelines-settle-asset-packs';
+import { factorySynthesizeDepositAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline';
+import { factorySynthesizeReadAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline';
+import { factorySettleAssetPackSimplePipeline } from '@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline';
 ```
+
+AssetPack product types: `@bitcode/generic-asset-packs-{synthesis,deposit-synthesized,read-synthesized,settled-read-synthesized}`.

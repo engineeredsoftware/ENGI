@@ -87,7 +87,7 @@ export async function POST(request: Request) {
     type: 'agentic-execution:asset-pack',
     status: 'running',
     input: {
-      productPipeline: 'synthesize-read-asset-packs',
+      productPipeline: 'synthesize-reads-asset-packs-pipeline',
       repositoryFullName,
       sourceBranch,
       sourceCommit: sourceCommit || null,
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
     context: {
       source: 'read-synthesize-options',
       route: '/reads',
-      pipelineCore: 'synthesize-read-asset-packs',
+      pipelineCore: 'synthesize-reads-asset-packs-pipeline',
       synthesisMode: 'read',
       repositoryFullName,
       sourceBranch,

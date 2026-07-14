@@ -78,7 +78,7 @@ export default async function runDepositFinishSynthesizeRunAgent(input: any, exe
     processingStats: {
       // Tokens rolled at dispatch from execution tree when available.
       phase: 'finish',
-      productPipeline: 'synthesize-deposit-asset-packs',
+      productPipeline: 'synthesize-deposits-asset-packs-pipeline',
     },
   };
 

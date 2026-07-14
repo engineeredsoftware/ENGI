@@ -1,5 +1,5 @@
 {
-  "name": "@bitcode/asset-packs-pipelines-synthesize-deposits",
+  "name": "@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline",
   "version": "1.0.0",
   "description": "SynthesizeDepositAssetPacksSDIVFPipeline: depositor repo → measured AssetPack options",
   "main": "src/index.ts",

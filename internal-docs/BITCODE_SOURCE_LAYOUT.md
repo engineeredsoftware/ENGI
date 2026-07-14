@@ -207,7 +207,7 @@ packages/generic-<family>/ # README only (no package.json)
 | `generic-agents/` | `PTRR/`, `vcs/`, `danger-wall/`, … | `@bitcode/generic-agents-ptrr`, `@bitcode/generic-agent-*` |
 | `generic-tools/` | `files-maintaining/`, `vcs/`, … | `@bitcode/generic-tools-*` |
 | `generic-pipelines/` | `SDIVF/`, `Simple/` | `@bitcode/generic-pipelines-sdivf`, `-simple` |
-| `asset-packs-pipelines/` | `domain/`, `synthesize-deposits/`, `synthesize-reads/`, `settle-asset-packs/` | domain + product pipelines (no `packages/pipelines/`) |
+| `asset-packs-pipelines/` | `domain/`, `synthesize-deposits-asset-packs-pipeline/`, `synthesize-reads-asset-packs-pipeline/`, `settle-asset-pack-pipeline/` | domain + product pipelines (no `packages/pipelines/`) |
 | `generic-llms/` | `xAI/`, `OpenAI/`, `Anthropic/`, `Google/`, `defaults/`, `registry/`, `models/` | `@bitcode/generic-llms-*` (+ aggregator) |
 | `generic-generations/` | `failsafes/`, `thinkings/` | `@bitcode/generic-generations-*` |
 | `generic-measurements/` | `measure-agent/`, `absolutes/`, `needinesses/`, `tech-types/` | `@bitcode/generic-measurements-*` |
@@ -218,7 +218,7 @@ packages/generic-<family>/ # README only (no package.json)
 | `mcp-generics/` | (package root) | `@bitcode/mcp-generics` |
 | `generic-mcps/` | `bitcode/` | `@bitcode/generic-mcps-bitcode` |
 | `asset-packs-generics/` | (package root) | `@bitcode/asset-packs-generics` |
-| `generic-asset-packs/` | `synthesis/`, `deposit-synthesized/`, `read-synthesized/`, `settle/`, `measured-patch/` (deprecated re-export) | `@bitcode/generic-asset-packs-*` |
+| `generic-asset-packs/` | `synthesis/` (base of 3 products), `deposit-synthesized/`, `read-synthesized/`, `settled-read-synthesized/`, `settle/`, `measured-patch/` (deprecated) | `@bitcode/generic-asset-packs-*` |
 | `execution-generics/` | (package root) | `@bitcode/execution-generics` |
 | `executor-generics/` | (package root) | `@bitcode/executor-generics` |
 | `generic-executors/` | (package root) | `@bitcode/generic-executors` |

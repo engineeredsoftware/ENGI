@@ -1,12 +1,15 @@
 /**
- * @bitcode/asset-packs-pipelines-synthesize-reads
+ * @bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline
+ *
+ * Product pipeline name: **synthesize-reads-asset-packs-pipeline**
  *
  * Hierarchy: SynthesizeReadAssetPacks + SDIVF + Pipeline
  *   factorySynthesizeReadAssetPacksSDIVFPipeline
  *     → SynthesizeReadAssetPacksSDIVFPipeline
  *
- * Reader's accepted Need is satisfied by finding + synthesizing Need-fitting
- * AssetPacks from the Depository. Settlement is SettleAssetPacksSimplePipeline.
+ * Reader's accepted Need is satisfied by finding + synthesizing
+ * ReadSynthesizedAssetPack options. Settlement is settle-asset-pack-pipeline
+ * (SettleAssetPackSimplePipeline) — one run per bought option.
  */
 
 import type { Execution } from '@bitcode/execution-generics';
@@ -27,7 +30,7 @@ import {
 export type SynthesizeReadAssetPacksSDIVFPipeline = SDIVFPipeline<any, any>;
 
 export function factorySynthesizeReadAssetPacksSDIVFPipeline(
-  pipelineName: string = 'synthesize-read-asset-packs',
+  pipelineName: string = 'synthesize-reads-asset-packs-pipeline',
 ): SynthesizeReadAssetPacksSDIVFPipeline {
   const maxIterations = 1;
   const sdivf = factorySDIVFPipelineFromExecutors(pipelineName, {
@@ -46,7 +49,7 @@ export function factorySynthesizeReadAssetPacksSDIVFPipeline(
 
   return async (input, execution) => {
     await initializeAssetPackPipeline(execution as any);
-    storeCrossPhaseArtifact(execution, 'pipeline', 'productPipeline', 'synthesize-read-asset-packs');
+    storeCrossPhaseArtifact(execution, 'pipeline', 'productPipeline', 'synthesize-reads-asset-packs-pipeline');
     return sdivf(input, execution);
   };
 }

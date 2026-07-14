@@ -32,5 +32,18 @@ module.exports = {
     '^@bitcode/btd/erc1155$': '<rootDir>/../../btd/src/erc1155/index.ts',
     '^@bitcode/btd/(.*)$': '<rootDir>/../../btd/src/$1',
     '^@bitcode/generic-vcs-git$': '<rootDir>/../../generic-vcs/git/src/index.ts',
+    '^@bitcode/generic-asset-packs-settled-read-synthesized$':
+      '<rootDir>/../../generic-asset-packs/settled-read-synthesized/src/index.ts',
+    '^@bitcode/generic-asset-packs-read-synthesized$':
+      '<rootDir>/../../generic-asset-packs/read-synthesized/src/index.ts',
+    '^@bitcode/generic-asset-packs-synthesis/synthesis-asset-pack$':
+      '<rootDir>/../../generic-asset-packs/synthesis/src/synthesis-asset-pack.ts',
+    '^@bitcode/generic-asset-packs-synthesis$':
+      '<rootDir>/../../generic-asset-packs/synthesis/src/index.ts',
+    '^@bitcode/asset-packs-generics$':
+      '<rootDir>/../../asset-packs-generics/src/index.ts',
+    '^@bitcode/measurement-generics$':
+      '<rootDir>/../../measurement-generics/src/index.ts',
+    '^@bitcode/files$': '<rootDir>/../../files/src/index.ts',
   },
 };

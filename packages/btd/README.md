@@ -47,7 +47,7 @@ the other. **Edit both when settlement token behavior changes.**
   (and SPEC); Solidity accepts the resulting `amount`.
 - Do **not** treat `contracts/` as a build output of `src/erc1155/`. Commit both.
 
-Pipeline consumer: `@bitcode/asset-packs-pipelines-settle-asset-packs`.
+Pipeline consumer: `@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline`.
 
 This package also owns (historical + continuing surfaces):
 - the 21,000,000 fixed supply ceiling (cells / whole-token cap narrative)

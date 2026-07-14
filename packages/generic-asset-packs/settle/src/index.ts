@@ -2,7 +2,7 @@
  * @bitcode/generic-asset-packs-settle
  *
  * SettleAssetPacks product surface markers. Executable pipeline lives at
- * `@bitcode/asset-packs-pipelines-settle-asset-packs` (1:1 AssetPack settle).
+ * `@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline` (1:1 AssetPack settle).
  *
  * Stages: validate → settle-btc → mint-btd → settle-btd → settle-asset-pack
  * → ship PR → packs journal. Token law: BitcodeERC1155 (BTD fungible + AP

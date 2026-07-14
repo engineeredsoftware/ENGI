@@ -6,7 +6,7 @@
 
 import { supabaseAdmin } from '@bitcode/supabase';
 import { Execution } from '@bitcode/execution-generics';
-import { runSynthesizeReadAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-reads';
+import { runSynthesizeReadAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-domain';
 
 export type ReadSynthesisDispatchInput = {
@@ -23,7 +23,7 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
   const exec = new Execution(`pipeline:read:${input.runId}`);
   storeCrossPhaseArtifact(exec, 'host', 'runId', input.runId);
   storeCrossPhaseArtifact(exec, 'pipeline', 'runId', input.runId);
-  storeCrossPhaseArtifact(exec, 'pipeline', 'productPipeline', 'synthesize-read-asset-packs');
+  storeCrossPhaseArtifact(exec, 'pipeline', 'productPipeline', 'synthesize-reads-asset-packs-pipeline');
 
   const [owner, name] = input.repositoryFullName.split('/');
   const pipelineInput = {
@@ -80,7 +80,7 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
         status: 'completed',
         completed_at: new Date().toISOString(),
         output: {
-          productPipeline: 'synthesize-read-asset-packs',
+          productPipeline: 'synthesize-reads-asset-packs-pipeline',
           selectionEnvelope,
           optionCount: Array.isArray(options) ? options.length : 0,
           options,
@@ -89,7 +89,7 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
         context: {
           source: 'read-synthesize-options',
           route: '/reads',
-          pipelineCore: 'synthesize-read-asset-packs',
+          pipelineCore: 'synthesize-reads-asset-packs-pipeline',
           synthesisMode: 'read',
           repositoryFullName: input.repositoryFullName,
           optionCount: Array.isArray(options) ? options.length : 0,

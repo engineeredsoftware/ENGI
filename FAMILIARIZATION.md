@@ -347,7 +347,7 @@ Package paths: `packages/mcp-generics/`, `packages/generic-mcps/bitcode/`.
 | Base + primitive | `SimplePipeline` | `factorySimplePipeline` (linear; like QuickAgent vs PTRR) |
 | Specific + SDIVF | `SynthesizeDepositAssetPacksSDIVFPipeline` | `factorySynthesizeDepositAssetPacksSDIVFPipeline` |
 | Specific + SDIVF | `SynthesizeReadAssetPacksSDIVFPipeline` | `factorySynthesizeReadAssetPacksSDIVFPipeline` |
-| Specific + Simple | `SettleAssetPacksSimplePipeline` | `factorySettleAssetPacksSimplePipeline` |
+| Specific + Simple | `SettleAssetPackSimplePipeline` | `factorySettleAssetPackSimplePipeline` |
 
 **No lens:** deposit synthesis, read synthesis, and settle-reads are separate
 packages under `packages/asset-packs-pipelines/*`.
@@ -358,9 +358,9 @@ packages under `packages/asset-packs-pipelines/*`.
 @bitcode/generic-pipelines-sdivf SDIVFPipeline base (Setup-[DIV]*-Finish)
 @bitcode/generic-pipelines-simple SimplePipeline base (linear stages)
  ↑
-@bitcode/asset-packs-pipelines-synthesize-deposits
-@bitcode/asset-packs-pipelines-synthesize-reads
-@bitcode/asset-packs-pipelines-settle-asset-packs # validate → BTC/BTD/rights → PR ship
+@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline
+@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline
+@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline # validate → BTC/BTD/rights → PR ship
 @bitcode/asset-packs-pipelines-domain agents/tools/domain
 @bitcode/pipeline-hosts Local host + Vercel Sandbox host
 ```
@@ -1011,9 +1011,9 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 | **PipelineHost / BitcodePipelineHost** | Host contract (`host-generics`). |
 | **SimplePipeline** | Linear stage pipeline base (contrast SDIVF). |
 | **SDIVFPipeline** | Pipeline base implementing Setup-[DIV]*-Finish. |
-| **SynthesizeDepositAssetPacksSDIVFPipeline** | Deposit synthesis product pipeline (`asset-packs-pipelines/synthesize-deposits`). |
-| **SynthesizeReadAssetPacksSDIVFPipeline** | Read synthesis product pipeline (`asset-packs-pipelines/synthesize-reads`). |
-| **SettleAssetPacksSimplePipeline** | Settlement Simple pipeline (`asset-packs-pipelines/settle-asset-packs`). |
+| **SynthesizeDepositAssetPacksSDIVFPipeline** | `synthesize-deposits-asset-packs-pipeline` |
+| **SynthesizeReadAssetPacksSDIVFPipeline** | `synthesize-reads-asset-packs-pipeline` |
+| **SettleAssetPackSimplePipeline** | `settle-asset-pack-pipeline` (1:1 AssetPack) |
 | **VercelSandboxHost** | Decoupled Firecracker/sandbox host for pipeline boxes. |
 | **maxIterations** | SDIVF loop bound; Gate 3 deposit synthesis uses **1**. |
 

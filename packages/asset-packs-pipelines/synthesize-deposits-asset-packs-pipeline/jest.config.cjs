@@ -3,7 +3,7 @@ module.exports = {
   testEnvironment: 'node',
   testMatch: ['**/__tests__/**/*.test.ts'],
   moduleNameMapper: {
-    '^@bitcode/asset-packs-pipelines-synthesize-reads$': '<rootDir>/src/index.ts',
+    '^@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline$': '<rootDir>/src/index.ts',
     '^@bitcode/generic-pipelines-sdivf$': '<rootDir>/../../generic-pipelines/SDIVF/src/index.ts',
     '^@bitcode/asset-packs-pipelines-domain$': '<rootDir>/../../asset-packs-pipelines/domain/src/index.ts',
     '^@bitcode/asset-packs-pipelines-domain/(.*)$': '<rootDir>/../../asset-packs-pipelines/domain/src/$1',

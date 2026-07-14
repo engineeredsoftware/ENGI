@@ -1,7 +1,7 @@
 {
-  "name": "@bitcode/asset-packs-pipelines-settle-asset-packs",
+  "name": "@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline",
   "version": "1.0.0",
-  "description": "SettleAssetPacksSimplePipeline: 1:1 AssetPack settle-btc → mint-btd → settle-btd → settle-asset-pack → PR → packs",
+  "description": "settle-asset-pack-pipeline (SettleAssetPackSimplePipeline): 1:1 AP settle-btc → mint-btd → settle-btd → settle-asset-pack → PR → packs",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
@@ -16,7 +16,9 @@
     "@bitcode/execution-generics": "workspace:*",
     "@bitcode/generic-pipelines-simple": "workspace:*",
     "@bitcode/generic-vcs-git": "workspace:*",
-    "@bitcode/btd": "workspace:*"
+    "@bitcode/btd": "workspace:*",
+    "@bitcode/generic-asset-packs-settled-read-synthesized": "workspace:*",
+    "@bitcode/generic-asset-packs-read-synthesized": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

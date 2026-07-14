@@ -9,7 +9,7 @@
  * Finish: store-artifacts → ledgerize → finish-synthesize-read-run (selection envelope).
  *
  * BTC settle / BTD mint / rights / PR ship are **not** this pipeline —
- * they are SettleAssetPacksSimplePipeline after the reader pays for options.
+ * they are SettleAssetPackSimplePipeline after the reader pays for options.
  */
 
 import { type PhaseDelegator, createAgentExecutor } from '@bitcode/pipelines-generics';

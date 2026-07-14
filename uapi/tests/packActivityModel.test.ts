@@ -295,7 +295,7 @@ describe('pack-activity-model', () => {
           assetPackTitle: 'Auth rollback proof pack',
         },
         output: {
-          productPipeline: 'settle-asset-packs',
+          productPipeline: 'settle-asset-pack-pipeline',
           summary: 'Settled AssetPack: Auth rollback proof pack. SettleAssetPacks completed.',
           assetPackTitle: 'Auth rollback proof pack',
           optionCount: 1,

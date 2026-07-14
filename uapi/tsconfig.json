@@ -24,14 +24,14 @@
       }
     ],
     "paths": {
-      "@bitcode/asset-packs-pipelines-settle-asset-packs": [
-        "../packages/asset-packs-pipelines/settle-asset-packs/src/index.ts"
+      "@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline": [
+        "../packages/asset-packs-pipelines/settle-asset-pack-pipeline/src/index.ts"
       ],
-      "@bitcode/asset-packs-pipelines-synthesize-reads": [
-        "../packages/asset-packs-pipelines/synthesize-reads/src/index.ts"
+      "@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline": [
+        "../packages/asset-packs-pipelines/synthesize-reads-asset-packs-pipeline/src/index.ts"
       ],
-      "@bitcode/asset-packs-pipelines-synthesize-deposits": [
-        "../packages/asset-packs-pipelines/synthesize-deposits/src/index.ts"
+      "@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline": [
+        "../packages/asset-packs-pipelines/synthesize-deposits-asset-packs-pipeline/src/index.ts"
       ],
       "@bitcode/generic-artifacts-compose": [
         "../packages/generic-artifacts/compose/src/index.ts"

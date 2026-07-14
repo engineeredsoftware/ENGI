@@ -31,7 +31,7 @@ export default async function runReadFinishSynthesizeRunAgent(input: any, execut
     schema: 'bitcode.read.synthesize-asset-packs.selection-envelope',
     surface: '/reads',
     purpose: 'user-select-options-to-settle',
-    nextPipeline: 'settle-asset-packs',
+    nextPipeline: 'settle-asset-pack-pipeline',
     need: need || null,
     repositoryFullName:
       repository.fullName ||
@@ -79,7 +79,7 @@ export default async function runReadFinishSynthesizeRunAgent(input: any, execut
     },
     processingStats: {
       phase: 'finish',
-      productPipeline: 'synthesize-read-asset-packs',
+      productPipeline: 'synthesize-reads-asset-packs-pipeline',
     },
   };
 

@@ -1,11 +1,14 @@
 /**
- * @bitcode/asset-packs-pipelines-settle-asset-packs
+ * @bitcode/asset-packs-pipelines-settle-asset-pack-pipeline
  *
- * Hierarchy: SettleAssetPacks + Simple + Pipeline
- *   factorySettleAssetPacksSimplePipeline → SettleAssetPacksSimplePipeline
+ * Product pipeline name: **settle-asset-pack-pipeline** (singular AssetPack).
  *
- * **Not** SDIVF. SynthesizeRead produces multiple options; each **bought**
- * option starts its own settle pipeline (1:1 AssetPack : settle run).
+ * Hierarchy: SettleAssetPack + Simple + Pipeline
+ *   factorySettleAssetPackSimplePipeline → SettleAssetPackSimplePipeline
+ *
+ * **Not** SDIVF. Synthesize-reads produces multiple options; each **bought**
+ * option starts its own settle pipeline (1:1 AssetPack : settle run) and yields
+ * SettledReadSynthesizedAssetPack commercial state.
  *
  * Stages (binding V48 law):
  *   1. validate-settlement-readiness
@@ -37,14 +40,19 @@ import {
   transferBtdFromMasterToBuyer,
   type BitcodeErc1155State,
 } from '@bitcode/btd/erc1155';
+import { buildReadSynthesizedAssetPack } from '@bitcode/generic-asset-packs-read-synthesized';
+import {
+  buildSettledReadSynthesizedAssetPack,
+  type SettledReadSynthesizedAssetPack,
+} from '@bitcode/generic-asset-packs-settled-read-synthesized';
 import type {
   MintBtdArtifact,
   PackActivityPaymentObservation,
   PackActivityShippableSummary,
   SettleAssetPackArtifact,
   SettleAssetPackOption,
-  SettleAssetPacksInput,
-  SettleAssetPacksResult,
+  SettleAssetPackInput,
+  SettleAssetPackResult,
   SettleBtcMempoolObservation,
   SettleBtcPaymentObservation,
   SettleExecutionStore,
@@ -57,15 +65,61 @@ import type {
   SettleBtdArtifact,
 } from './settle-types';
 
-export type { SettleAssetPacksInput, SettleAssetPacksResult, SettleAssetPackOption };
+export type { SettleAssetPackInput, SettleAssetPackResult, SettleAssetPackOption };
 export type * from './settle-types';
 export { parseSettleAssetPackOption, parseSettleAssetPackOptions } from './parse-settle-option';
 
-export type SettleAssetPacksSimplePipeline = SimplePipeline<
-  SettleAssetPacksInput,
-  SettleAssetPacksResult
+export type SettleAssetPackSimplePipeline = SimplePipeline<
+  SettleAssetPackInput,
+  SettleAssetPackResult
 >;
 
+function optionToReadSynthesized(option: SettleAssetPackOption) {
+  const needinesses = (option.measurements?.needinesses ?? []).map((row) => {
+    const measurementKind =
+      'measurementKind' in row && typeof row.measurementKind === 'string'
+        ? row.measurementKind
+        : 'kind' in row && typeof row.kind === 'string'
+          ? row.kind
+          : 'need-fit';
+    return {
+      measurementKind,
+      volume: typeof row.volume === 'number' ? row.volume : 0,
+      magnitude: typeof row.magnitude === 'number' ? row.magnitude : typeof row.volume === 'number' ? row.volume : 0,
+      weight: typeof row.weight === 'number' ? row.weight : 0,
+      unit: typeof row.unit === 'string' ? row.unit : 'fit',
+      category: 'neediness' as const,
+    };
+  });
+  const absolutes = (option.measurements?.absolutes ?? []).map((row) => {
+    const measurementKind =
+      typeof row.measurementKind === 'string'
+        ? row.measurementKind
+        : typeof row.kind === 'string'
+          ? row.kind
+          : 'absolute';
+    return {
+      measurementKind,
+      volume: typeof row.volume === 'number' ? row.volume : 0,
+      magnitude: typeof row.magnitude === 'number' ? row.magnitude : 0,
+      weight: typeof row.weight === 'number' ? row.weight : 0,
+      unit: typeof row.unit === 'string' ? row.unit : 'normalized',
+      category: 'absolute' as const,
+    };
+  });
+  return buildReadSynthesizedAssetPack({
+    assetPackId:
+      (typeof option.id === 'string' && option.id) ||
+      (typeof option.optionRoot === 'string' && option.optionRoot) ||
+      `settled-${Date.now().toString(36)}`,
+    title: option.title || 'AssetPack',
+    summary: option.summary || option.title || 'Settled AssetPack',
+    measurements: { absolutes, needinesses },
+    kind: option.kind ?? null,
+    needFit: null,
+    settleable: true,
+  });
+}
 function storeCrossPhaseArtifact(
   execution: SettleExecutionStore | null | undefined,
   namespace: string,
@@ -87,7 +141,7 @@ function getStored<T extends SettleStoreValue>(
   return execution?.get(namespace, key) as T | undefined;
 }
 
-function resolveSingleOption(input: SettleAssetPacksInput): SettleAssetPackOption {
+function resolveSingleOption(input: SettleAssetPackInput): SettleAssetPackOption {
   if (input.assetPackOption) {
     return input.assetPackOption;
   }
@@ -109,7 +163,7 @@ function resolveSingleOption(input: SettleAssetPacksInput): SettleAssetPackOptio
   return list[0];
 }
 
-function assetPackKeyFor(option: SettleAssetPackOption, input: SettleAssetPacksInput): string {
+function assetPackKeyFor(option: SettleAssetPackOption, input: SettleAssetPackInput): string {
   if (typeof option.id === 'string' && option.id.trim()) return option.id.trim();
   if (typeof option.optionRoot === 'string' && option.optionRoot.trim()) {
     return option.optionRoot.trim();
@@ -119,14 +173,14 @@ function assetPackKeyFor(option: SettleAssetPackOption, input: SettleAssetPacksI
   return createHash('sha256').update(seed).digest('hex').slice(0, 32);
 }
 
-function defaultMasterAddress(input: SettleAssetPacksInput): string {
+function defaultMasterAddress(input: SettleAssetPackInput): string {
   return (
     (typeof input.masterEthereumAddress === 'string' && input.masterEthereumAddress.trim()) ||
     '0xbitcode-master-treasury'
   );
 }
 
-function defaultBuyerAddress(input: SettleAssetPacksInput): string {
+function defaultBuyerAddress(input: SettleAssetPackInput): string {
   return (
     (typeof input.buyerEthereumAddress === 'string' && input.buyerEthereumAddress.trim()) ||
     (typeof input.readerWalletId === 'string' && input.readerWalletId.trim()) ||
@@ -134,7 +188,7 @@ function defaultBuyerAddress(input: SettleAssetPacksInput): string {
   );
 }
 
-function defaultDepositorAddress(input: SettleAssetPacksInput): string {
+function defaultDepositorAddress(input: SettleAssetPackInput): string {
   return (
     (typeof input.depositorEthereumAddress === 'string' &&
       input.depositorEthereumAddress.trim()) ||
@@ -144,7 +198,7 @@ function defaultDepositorAddress(input: SettleAssetPacksInput): string {
 }
 
 function ensureErc1155State(
-  input: SettleAssetPacksInput,
+  input: SettleAssetPackInput,
   master: string,
 ): BitcodeErc1155State {
   return (
@@ -159,7 +213,7 @@ function ensureErc1155State(
 }
 
 function isSettleBtcObservation(
-  value: SettleAssetPacksInput['paymentObservation'],
+  value: SettleAssetPackInput['paymentObservation'],
 ): value is SettleBtcPaymentObservation {
   return (
     typeof value === 'object' &&
@@ -174,25 +228,25 @@ function isSettleBtcObservation(
 // ---------------------------------------------------------------------------
 // 1. validate-settlement-readiness
 // ---------------------------------------------------------------------------
-const validateSettlementReadiness: Executor<SettleAssetPacksInput, SettleAssetPacksInput> = async (
+const validateSettlementReadiness: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
   input,
   execution,
 ) => {
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'stage', 'validate-settlement-readiness');
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'stage', 'validate-settlement-readiness');
   const assetPackOption = resolveSingleOption(input);
   const assetPackKey = assetPackKeyFor(assetPackOption, input);
   const boundary: SettleValidationBoundary =
     input.assetPackSettlementRightsDeliveryBoundary || {
       schema: 'bitcode.settle-asset-packs.validation',
       state: 'ready',
-      pipeline: 'settle-asset-packs',
+      pipeline: 'settle-asset-pack-pipeline',
       selectedCount: 1,
       assetPackKey,
       cardinality: '1:1',
     };
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'validation', boundary);
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'assetPackOption', assetPackOption);
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'assetPackKey', assetPackKey);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'validation', boundary);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'assetPackOption', assetPackOption);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'assetPackKey', assetPackKey);
   return {
     ...input,
     assetPackOption,
@@ -213,11 +267,11 @@ interface MempoolTxJson {
   };
 }
 
-const settleBtc: Executor<SettleAssetPacksInput, SettleAssetPacksInput> = async (
+const settleBtc: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
   input,
   execution,
 ) => {
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'stage', 'settle-btc');
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'stage', 'settle-btc');
   const prior = input.paymentObservation ?? {};
   const txId =
     typeof prior.txId === 'string' && prior.txId.trim() ? prior.txId.trim() : null;
@@ -294,24 +348,24 @@ const settleBtc: Executor<SettleAssetPacksInput, SettleAssetPacksInput> = async 
         ? 'BTC txId observed via mempool API; awaiting confirmations or projected finality for testnet settle.'
         : 'Projected testnet payment observation (supply txId for live mempool watch).',
   };
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'paymentObservation', observation);
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'settleBtc', observation);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'paymentObservation', observation);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'settleBtc', observation);
   return { ...input, paymentObservation: observation };
 };
 
 // ---------------------------------------------------------------------------
 // 3. mint-btd
 // ---------------------------------------------------------------------------
-const mintBtd: Executor<SettleAssetPacksInput, SettleAssetPacksInput> = async (
+const mintBtd: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
   input,
   execution,
 ) => {
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'stage', 'mint-btd');
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'stage', 'mint-btd');
   const option =
-    getStored<SettleAssetPackOption>(execution, 'settle-asset-packs', 'assetPackOption') ||
+    getStored<SettleAssetPackOption>(execution, 'settle-asset-pack-pipeline', 'assetPackOption') ||
     resolveSingleOption(input);
   const assetPackKey =
-    getStored<string>(execution, 'settle-asset-packs', 'assetPackKey') ||
+    getStored<string>(execution, 'settle-asset-pack-pipeline', 'assetPackKey') ||
     assetPackKeyFor(option, input);
 
   const settlementBtd = assertPositiveSettlementBtd(
@@ -355,11 +409,11 @@ const mintBtd: Executor<SettleAssetPacksInput, SettleAssetPacksInput> = async (
     note:
       'BTD minted to master from needinesses-weighted scalar only (absolutes excluded). Finite 21M supply.',
   };
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'mintBtd', mintArtifact);
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'settlementBtd', settlementBtd);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'mintBtd', mintArtifact);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'settlementBtd', settlementBtd);
   storeCrossPhaseArtifact(
     execution,
-    'settle-asset-packs',
+    'settle-asset-pack-pipeline',
     'erc1155State',
     serializeBitcodeErc1155State(nextState),
   );
@@ -374,17 +428,17 @@ const mintBtd: Executor<SettleAssetPacksInput, SettleAssetPacksInput> = async (
 // ---------------------------------------------------------------------------
 // 4. settle-btd
 // ---------------------------------------------------------------------------
-const settleBtd: Executor<SettleAssetPacksInput, SettleAssetPacksInput> = async (
+const settleBtd: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
   input,
   execution,
 ) => {
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'stage', 'settle-btd');
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'stage', 'settle-btd');
   const mintArtifact =
     input.mintBtd ||
-    getStored<MintBtdArtifact>(execution, 'settle-asset-packs', 'mintBtd');
+    getStored<MintBtdArtifact>(execution, 'settle-asset-pack-pipeline', 'mintBtd');
   const settlementBtd =
     input.settlementBtd ||
-    getStored<MintBtdArtifact['settlementBtd']>(execution, 'settle-asset-packs', 'settlementBtd') ||
+    getStored<MintBtdArtifact['settlementBtd']>(execution, 'settle-asset-pack-pipeline', 'settlementBtd') ||
     mintArtifact?.settlementBtd;
   if (!settlementBtd || settlementBtd.amountBaseUnits <= 0n) {
     throw new Error('settle-btd requires prior mint-btd with positive amountBaseUnits.');
@@ -394,7 +448,7 @@ const settleBtd: Executor<SettleAssetPacksInput, SettleAssetPacksInput> = async 
   const buyer = defaultBuyerAddress(input);
   const master = defaultMasterAddress(input);
   const assetPackKey =
-    getStored<string>(execution, 'settle-asset-packs', 'assetPackKey') || 'asset-pack';
+    getStored<string>(execution, 'settle-asset-pack-pipeline', 'assetPackKey') || 'asset-pack';
   let state = ensureErc1155State(input, master);
 
   if (balanceOf(state, master, BITCODE_BTD_TOKEN_ID) < amountBaseUnits) {
@@ -444,11 +498,11 @@ const settleBtd: Executor<SettleAssetPacksInput, SettleAssetPacksInput> = async 
     amountBaseUnits: amountBaseUnits.toString(),
     status: 'transferred',
   };
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'settleBtd', settleBtdArtifact);
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'rights', rights);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'settleBtd', settleBtdArtifact);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'rights', rights);
   storeCrossPhaseArtifact(
     execution,
-    'settle-asset-packs',
+    'settle-asset-pack-pipeline',
     'erc1155State',
     serializeBitcodeErc1155State(nextState),
   );
@@ -463,16 +517,16 @@ const settleBtd: Executor<SettleAssetPacksInput, SettleAssetPacksInput> = async 
 // ---------------------------------------------------------------------------
 // 5. settle-asset-pack
 // ---------------------------------------------------------------------------
-const settleAssetPack: Executor<SettleAssetPacksInput, SettleAssetPacksInput> = async (
+const settleAssetPack: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
   input,
   execution,
 ) => {
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'stage', 'settle-asset-pack');
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'stage', 'settle-asset-pack');
   const option =
-    getStored<SettleAssetPackOption>(execution, 'settle-asset-packs', 'assetPackOption') ||
+    getStored<SettleAssetPackOption>(execution, 'settle-asset-pack-pipeline', 'assetPackOption') ||
     resolveSingleOption(input);
   const assetPackKey =
-    getStored<string>(execution, 'settle-asset-packs', 'assetPackKey') ||
+    getStored<string>(execution, 'settle-asset-pack-pipeline', 'assetPackKey') ||
     assetPackKeyFor(option, input);
   const buyer = defaultBuyerAddress(input);
   const depositor = defaultDepositorAddress(input);
@@ -510,10 +564,10 @@ const settleAssetPack: Executor<SettleAssetPacksInput, SettleAssetPacksInput> = 
     note:
       'Buyer added as equal AssetPack co-owner (ERC1155). Depositor retains ownership; burn/remove forbidden.',
   };
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'settleAssetPack', settleApArtifact);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'settleAssetPack', settleApArtifact);
   storeCrossPhaseArtifact(
     execution,
-    'settle-asset-packs',
+    'settle-asset-pack-pipeline',
     'erc1155State',
     serializeBitcodeErc1155State(nextState),
   );
@@ -533,14 +587,14 @@ interface CreatePullRequestResult {
   htmlUrl?: string;
 }
 
-const shipAssetPackPatchPr: Executor<SettleAssetPacksInput, SettleAssetPacksInput> = async (
+const shipAssetPackPatchPr: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
   input,
   execution,
 ) => {
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'stage', 'ship-asset-pack-patch-pr');
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'stage', 'ship-asset-pack-patch-pr');
   const repo = input.repository || {};
   const option =
-    getStored<SettleAssetPackOption>(execution, 'settle-asset-packs', 'assetPackOption') ||
+    getStored<SettleAssetPackOption>(execution, 'settle-asset-pack-pipeline', 'assetPackOption') ||
     resolveSingleOption(input);
   const title = typeof option.title === 'string' ? option.title : 'AssetPack delivery';
   const patch = option.patch ?? null;
@@ -618,7 +672,7 @@ const shipAssetPackPatchPr: Executor<SettleAssetPacksInput, SettleAssetPacksInpu
     prError,
     note,
   };
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'shippable', shippable);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'shippable', shippable);
   storeCrossPhaseArtifact(execution, 'finish', 'shippable', shippable);
   return { ...input, shippable, success: status !== 'failed' };
 };
@@ -666,20 +720,20 @@ function projectSourceSafePackMeasurements(
   return rows;
 }
 
-const journalAndPackActivity: Executor<SettleAssetPacksInput, SettleAssetPacksResult> = async (
+const journalAndPackActivity: Executor<SettleAssetPackInput, SettleAssetPackResult> = async (
   input,
   execution,
 ) => {
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'stage', 'journal-and-pack-activity');
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'stage', 'journal-and-pack-activity');
   const option =
-    getStored<SettleAssetPackOption>(execution, 'settle-asset-packs', 'assetPackOption') ||
+    getStored<SettleAssetPackOption>(execution, 'settle-asset-pack-pipeline', 'assetPackOption') ||
     input.assetPackOption ||
     resolveSingleOption(input);
   const assetPackKey =
-    getStored<string>(execution, 'settle-asset-packs', 'assetPackKey') || null;
+    getStored<string>(execution, 'settle-asset-pack-pipeline', 'assetPackKey') || null;
   const shippable =
     input.shippable ||
-    getStored<SettleShippable>(execution, 'settle-asset-packs', 'shippable') ||
+    getStored<SettleShippable>(execution, 'settle-asset-pack-pipeline', 'shippable') ||
     null;
   const paymentObservationRaw = input.paymentObservation;
   const paymentObservation: SettleBtcPaymentObservation | null = isSettleBtcObservation(
@@ -688,21 +742,21 @@ const journalAndPackActivity: Executor<SettleAssetPacksInput, SettleAssetPacksRe
     ? paymentObservationRaw
     : getStored<SettleBtcPaymentObservation>(
         execution,
-        'settle-asset-packs',
+        'settle-asset-pack-pipeline',
         'paymentObservation',
       ) || null;
   const mintBtdArtifact =
-    input.mintBtd || getStored<MintBtdArtifact>(execution, 'settle-asset-packs', 'mintBtd') || null;
+    input.mintBtd || getStored<MintBtdArtifact>(execution, 'settle-asset-pack-pipeline', 'mintBtd') || null;
   const settleBtdArtifact =
     input.settleBtd ||
-    getStored<SettleBtdArtifact>(execution, 'settle-asset-packs', 'settleBtd') ||
+    getStored<SettleBtdArtifact>(execution, 'settle-asset-pack-pipeline', 'settleBtd') ||
     null;
   const settleApArtifact =
     input.settleAssetPack ||
-    getStored<SettleAssetPackArtifact>(execution, 'settle-asset-packs', 'settleAssetPack') ||
+    getStored<SettleAssetPackArtifact>(execution, 'settle-asset-pack-pipeline', 'settleAssetPack') ||
     null;
   const rights =
-    getStored<SettleRightsArtifact>(execution, 'settle-asset-packs', 'rights') || null;
+    getStored<SettleRightsArtifact>(execution, 'settle-asset-pack-pipeline', 'rights') || null;
   const measurementRows = projectSourceSafePackMeasurements(option);
   const title = typeof option.title === 'string' ? option.title : null;
   const prUrl = shippable?.prUrl ?? null;
@@ -778,7 +832,7 @@ const journalAndPackActivity: Executor<SettleAssetPacksInput, SettleAssetPacksRe
     shippable: shippableSummary,
     rights,
   };
-  storeCrossPhaseArtifact(execution, 'settle-asset-packs', 'packActivity', activity);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'packActivity', activity);
   storeCrossPhaseArtifact(execution, 'finish', 'packActivity', activity);
   const summaryTitle = title ? `Settled AssetPack: ${title}` : 'Settled AssetPack option';
 
@@ -799,13 +853,56 @@ const journalAndPackActivity: Executor<SettleAssetPacksInput, SettleAssetPacksRe
     throw new Error('journal-and-pack-activity requires settle-btc paymentObservation.');
   }
 
+  const settledReadAssetPack: SettledReadSynthesizedAssetPack =
+    buildSettledReadSynthesizedAssetPack({
+      readOption: optionToReadSynthesized(option),
+      btdRights: {
+        needFitVolume: settlementBtd.needFitVolume,
+        amountBaseUnits: mintBtdArtifact.receipt.amountBaseUnits,
+        masterAccount: mintBtdArtifact.masterAccount,
+        buyerAccount: settleBtdArtifact.buyerAccount,
+        mintProofRoot: mintBtdArtifact.receipt.proofRoot,
+        transferProofRoot: settleBtdArtifact.receipt.proofRoot,
+        status: 'transferred',
+      },
+      btcSettlement: {
+        network: paymentObservation.network,
+        status: paymentObservation.status,
+        txId: paymentObservation.txId,
+        amountSats: paymentObservation.amountSats,
+        finality: paymentObservation.finality,
+        confirmedAt: paymentObservation.confirmedAt,
+      },
+      assetPackRights: {
+        tokenId: settleApArtifact.receipt.tokenId,
+        assetPackKey: settleApArtifact.receipt.assetPackKey,
+        coOwners: settleApArtifact.coOwners,
+        removedPriorOwner: false,
+        proofRoot: settleApArtifact.receipt.proofRoot,
+      },
+      delivery: {
+        mechanism: 'pull_request',
+        status: shippable.status,
+        prUrl: shippable.prUrl,
+        headBranch: shippable.headBranch,
+        baseBranch: shippable.baseBranch,
+        repositoryFullName: shippable.repository.fullName,
+      },
+    });
+  storeCrossPhaseArtifact(
+    execution,
+    'settle-asset-pack-pipeline',
+    'settledReadAssetPack',
+    settledReadAssetPack as never,
+  );
+
   return {
     ...input,
     assetPackOption: option,
     selectedOptions: [option],
     success: true,
     packActivity: activity,
-    summary: `${summaryTitle}. SettleAssetPacks: validate → settle-btc → mint-btd → settle-btd → settle-asset-pack → ship PR → packs.`,
+    summary: `${summaryTitle}. settle-asset-pack-pipeline: validate → settle-btc → mint-btd → settle-btd → settle-asset-pack → ship PR → packs.`,
     erc1155State: input.erc1155State,
     mintBtd: mintBtdArtifact,
     settleBtd: settleBtdArtifact,
@@ -813,12 +910,13 @@ const journalAndPackActivity: Executor<SettleAssetPacksInput, SettleAssetPacksRe
     settlementBtd,
     shippable,
     paymentObservation,
+    settledReadAssetPack,
   };
 };
 
-export function factorySettleAssetPacksSimplePipeline(
-  pipelineName: string = 'settle-asset-packs',
-): SettleAssetPacksSimplePipeline {
+export function factorySettleAssetPackSimplePipeline(
+  pipelineName: string = 'settle-asset-pack-pipeline',
+): SettleAssetPackSimplePipeline {
   return factorySimplePipeline(pipelineName, {
     stages: [
       { id: 'validate-settlement-readiness', run: validateSettlementReadiness },
@@ -832,7 +930,7 @@ export function factorySettleAssetPacksSimplePipeline(
   });
 }
 
-export const settleAssetPacksSimplePipeline: SettleAssetPacksSimplePipeline =
-  factorySettleAssetPacksSimplePipeline();
+export const settleAssetPackSimplePipeline: SettleAssetPackSimplePipeline =
+  factorySettleAssetPackSimplePipeline();
 
-export const runSettleAssetPacksSimplePipeline = settleAssetPacksSimplePipeline;
+export const runSettleAssetPackSimplePipeline = settleAssetPackSimplePipeline;

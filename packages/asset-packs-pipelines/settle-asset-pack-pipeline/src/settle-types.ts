@@ -1,5 +1,5 @@
 /**
- * Strongly typed contracts for SettleAssetPacksSimplePipeline and BitcodeERC1155
+ * Strongly typed contracts for SettleAssetPackSimplePipeline and BitcodeERC1155
  * settlement artifacts. No `unknown` on settle/contract surfaces.
  */
 
@@ -90,7 +90,7 @@ export interface SettleBtcPaymentObservation {
 export interface SettleValidationBoundary {
   schema: 'bitcode.settle-asset-packs.validation';
   state: string;
-  pipeline: 'settle-asset-packs';
+  pipeline: 'settle-asset-pack-pipeline';
   selectedCount: 1;
   assetPackKey: string;
   cardinality: '1:1';
@@ -271,7 +271,7 @@ export interface SettlePackActivity {
 // Pipeline input / output
 // ---------------------------------------------------------------------------
 
-export interface SettleAssetPacksInput {
+export interface SettleAssetPackInput {
   repository?: SettleRepositoryRef;
   /** Exactly one bought option (1:1 settle). */
   assetPackOption?: SettleAssetPackOption;
@@ -305,7 +305,7 @@ export interface SettleAssetPacksInput {
   summary?: string;
 }
 
-export interface SettleAssetPacksResult extends SettleAssetPacksInput {
+export interface SettleAssetPackResult extends SettleAssetPackInput {
   assetPackOption: SettleAssetPackOption;
   selectedOptions: [SettleAssetPackOption];
   success: boolean;
@@ -318,6 +318,8 @@ export interface SettleAssetPacksResult extends SettleAssetPacksInput {
   settlementBtd: SettlementBtdFromNeedinessesResult;
   shippable: SettleShippable;
   paymentObservation: SettleBtcPaymentObservation;
+  /** Product AssetPack after settlement (SettledReadSynthesizedAssetPack). */
+  settledReadAssetPack?: import('@bitcode/generic-asset-packs-settled-read-synthesized').SettledReadSynthesizedAssetPack;
 }
 
 /** Execution store surface used by settle stages. */

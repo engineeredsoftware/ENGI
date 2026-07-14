@@ -1,5 +1,5 @@
 {
-  "name": "@bitcode/asset-packs-pipelines-synthesize-reads",
+  "name": "@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline",
   "version": "1.0.0",
   "description": "SynthesizeReadAssetPacksSDIVFPipeline: accepted Need → AssetPacks from Depository",
   "main": "src/index.ts",

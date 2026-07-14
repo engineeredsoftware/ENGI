@@ -14,7 +14,7 @@ export default async function runReadStoreArtifactsAgent(input: any, execution: 
       surface: '/reads',
       reviewFor: 'read-option-select-then-settle',
       decision: 'pending-user-review',
-      nextPipeline: 'settle-asset-packs',
+      nextPipeline: 'settle-asset-pack-pipeline',
     },
   });
   return out;

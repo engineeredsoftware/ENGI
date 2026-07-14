@@ -430,7 +430,7 @@ function inferPackActivityType(record: BitcodeActivityRecord): PackActivityType 
       'settled assetpack',
       'settled asset pack',
       'settled assetpack option',
-      'settle-asset-packs',
+      'settle-asset-pack-pipeline',
       'settle asset packs',
       'rights transfer',
     ])
