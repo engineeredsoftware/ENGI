@@ -8,8 +8,12 @@
 
 export const BITCODE_FOCUS_WALLET_CONNECT_EVENT = 'bitcode-focus-wallet-connect';
 
-/** How long the strong attention highlight stays active. */
-export const WALLET_CONNECT_ATTENTION_MS = 2200;
+/**
+ * Must match CSS animation duration (`wallet-section-attention` /
+ * `wallet-connect-button-attention`). Class is removed only after the run
+ * settles at rest so the border does not flash.
+ */
+export const WALLET_CONNECT_ATTENTION_MS = 2100;
 
 /** Window after request during which a newly mounted panel should auto-run attention. */
 const PENDING_ATTENTION_GRACE_MS = 4000;

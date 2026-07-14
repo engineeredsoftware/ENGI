@@ -119,8 +119,7 @@ export default function AuxillariesWalletConnectionPanel({
         .filter(Boolean)
         .join(' ')}
       style={{
-        /* Border/glow live in CSS so attention animation can own them. */
-        background: 'linear-gradient(145deg, rgba(42, 25, 11, 0.86), rgba(14, 22, 36, 0.86))',
+        /* Border / bg / glow live in CSS so attention animation can own them. */
         borderRadius: 0,
         padding: '20px',
       }}
