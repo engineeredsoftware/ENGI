@@ -17,8 +17,8 @@ import type {
   SynthesisAssetPack,
   SynthesisMeasurementReading,
   BuildSynthesisAssetPackInput,
-} from '@bitcode/generic-asset-packs-synthesis/synthesis-asset-pack';
-import { buildSynthesisAssetPack } from '@bitcode/generic-asset-packs-synthesis/synthesis-asset-pack';
+} from '@bitcode/generic-asset-packs-synthesis';
+import { buildSynthesisAssetPack } from '@bitcode/generic-asset-packs-synthesis';
 import { ASSET_PACK_SCHEMA_PREFIX } from '@bitcode/asset-packs-generics';
 
 export const READ_SYNTHESIZED_ASSET_PACK_SCHEMA =

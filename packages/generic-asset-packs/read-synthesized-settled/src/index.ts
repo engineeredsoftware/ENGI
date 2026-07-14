@@ -18,7 +18,7 @@
  * on the read buy path.
  */
 
-import type { SynthesisMeasurementReading } from '@bitcode/generic-asset-packs-synthesis/synthesis-asset-pack';
+import type { SynthesisMeasurementReading } from '@bitcode/generic-asset-packs-synthesis';
 import type {
   ReadSynthesizedAssetPack,
   ReadSynthesizedBtdDetails,

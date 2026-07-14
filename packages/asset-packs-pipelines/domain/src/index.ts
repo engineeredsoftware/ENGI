@@ -96,12 +96,12 @@ export type {
   SynthesisMeasurementReading,
   SynthesisMeasurementsByKind,
   BuildSynthesisAssetPackInput,
-} from '@bitcode/generic-asset-packs-synthesis/synthesis-asset-pack';
+} from '@bitcode/generic-asset-packs-synthesis';
 export {
   SYNTHESIS_ASSET_PACK_SCHEMA,
   buildSynthesisAssetPack,
   synthesisAssetPackToDepositContents,
-} from '@bitcode/generic-asset-packs-synthesis/synthesis-asset-pack';
+} from '@bitcode/generic-asset-packs-synthesis';
 
 // ==================== FACTORIES ====================
 

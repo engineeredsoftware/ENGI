@@ -48,9 +48,10 @@ describe('ProcessingIndicator — stall label + amber flip at 180s', () => {
     expect(label).toContain('179s since last update');
 
     render(<ProcessingIndicator label={label} stalled={likelyStalled} />);
-    const text = screen.getByText(label);
-    expect(text).toHaveClass('text-brand-emerald');
-    expect(text).not.toHaveClass('text-amber-400');
+    // Tone lives on the .processing-text wrapper; label span is class processing-label only.
+    const tone = screen.getByText(label).closest('.processing-text');
+    expect(tone).toHaveClass('text-brand-emerald');
+    expect(tone).not.toHaveClass('text-amber-400');
   });
 
   it('flips to the amber warning tone at exactly 180s (the LLM call timeout default)', () => {
@@ -60,9 +61,9 @@ describe('ProcessingIndicator — stall label + amber flip at 180s', () => {
     expect(label).toContain('180s since last update');
 
     render(<ProcessingIndicator label={label} stalled={likelyStalled} />);
-    const text = screen.getByText(label);
-    expect(text).toHaveClass('text-amber-400');
-    expect(text).not.toHaveClass('text-brand-emerald');
+    const tone = screen.getByText(label).closest('.processing-text');
+    expect(tone).toHaveClass('text-amber-400');
+    expect(tone).not.toHaveClass('text-brand-emerald');
   });
 
   it('keeps the amber tone as the silence stretches past the threshold', () => {
@@ -79,7 +80,9 @@ describe('ProcessingIndicator — stall label + amber flip at 180s', () => {
 
     expect(state.likelyStalled).toBe(true);
     expect(state.label).toContain('300s since last update');
-    expect(screen.getByText(state.label)).toHaveClass('text-amber-400');
+    expect(screen.getByText(state.label).closest('.processing-text')).toHaveClass(
+      'text-amber-400',
+    );
   });
 
   it('renders the natural-language sentence label verbatim (pipeline-name prefix trimmed from the agent)', () => {
@@ -98,7 +101,7 @@ describe('ProcessingIndicator — stall label + amber flip at 180s', () => {
     jest.setSystemTime(lastLineMs);
     const { label, likelyStalled } = buildProcessingStallLabel(undefined, Date.now());
     render(<ProcessingIndicator label={label} stalled={likelyStalled} />);
-    const text = screen.getByText('Processing');
-    expect(text).toHaveClass('text-brand-emerald');
+    const tone = screen.getByText('Processing').closest('.processing-text');
+    expect(tone).toHaveClass('text-brand-emerald');
   });
 });

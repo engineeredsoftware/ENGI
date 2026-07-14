@@ -17,12 +17,12 @@ import type {
   SynthesisAssetPack,
   SynthesisMeasurementReading,
   BuildSynthesisAssetPackInput,
-} from '@bitcode/generic-asset-packs-synthesis/synthesis-asset-pack';
+} from '@bitcode/generic-asset-packs-synthesis';
 import {
   buildSynthesisAssetPack,
   SYNTHESIS_ASSET_PACK_SCHEMA,
   synthesisAssetPackToDepositContents,
-} from '@bitcode/generic-asset-packs-synthesis/synthesis-asset-pack';
+} from '@bitcode/generic-asset-packs-synthesis';
 import { ASSET_PACK_SCHEMA_PREFIX } from '@bitcode/asset-packs-generics';
 
 export const DEPOSIT_SYNTHESIZED_ASSET_PACK_SCHEMA =

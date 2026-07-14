@@ -15,7 +15,7 @@
 import {
   buildSynthesisAssetPack,
   synthesisAssetPackToDepositContents,
-} from '@bitcode/generic-asset-packs-synthesis/synthesis-asset-pack';
+} from '@bitcode/generic-asset-packs-synthesis';
 import {
   applyExclusionsToInventory,
   applyInventoryScope,
