@@ -78,23 +78,24 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
       </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-3 phone:mt-5">
-        <Link
-          href={BITCODE_PUBLIC_COPY.primaryCta.href}
-          className="inline-flex items-center gap-2 rounded-none border border-emerald-300/24 bg-emerald-400/10 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/16"
-        >
-          {BITCODE_PUBLIC_COPY.primaryCta.label}
-          <ArrowRightIcon className="h-4 w-4" />
-        </Link>
+        {/* Colors match pillar columns: Sell purple · Buy green · Settle/View orange */}
         <Link
           href={BITCODE_PUBLIC_COPY.secondaryCta.href}
-          className="inline-flex items-center gap-2 rounded-none border border-white/12 bg-white/6 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/84 transition-colors hover:border-white/24 hover:bg-white/10"
+          className="inline-flex items-center gap-2 rounded-none border border-fuchsia-300/28 bg-fuchsia-500/12 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-fuchsia-50 transition-colors hover:border-fuchsia-300/48 hover:bg-fuchsia-500/18"
         >
           {BITCODE_PUBLIC_COPY.secondaryCta.label}
           <ArrowRightIcon className="h-4 w-4" />
         </Link>
         <Link
+          href={BITCODE_PUBLIC_COPY.primaryCta.href}
+          className="inline-flex items-center gap-2 rounded-none border border-emerald-300/28 bg-emerald-400/12 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/48 hover:bg-emerald-400/18"
+        >
+          {BITCODE_PUBLIC_COPY.primaryCta.label}
+          <ArrowRightIcon className="h-4 w-4" />
+        </Link>
+        <Link
           href={BITCODE_PUBLIC_COPY.tertiaryCta.href}
-          className="inline-flex items-center gap-2 rounded-none border border-orange-300/22 bg-orange-400/8 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50/90 transition-colors hover:border-orange-300/40 hover:bg-orange-400/14"
+          className="inline-flex items-center gap-2 rounded-none border border-orange-300/28 bg-orange-400/12 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition-colors hover:border-orange-300/48 hover:bg-orange-400/18"
         >
           {BITCODE_PUBLIC_COPY.tertiaryCta.label}
           <ArrowRightIcon className="h-4 w-4" />
