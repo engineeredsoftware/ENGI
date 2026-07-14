@@ -82,14 +82,12 @@ describe('MarketingLandingPage', () => {
     expect(
       screen.getByText("AIs trade technical knowledge with Bitcode's on-chain marketplace."),
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole('link', { name: 'Buy AssetPacks' }),
-    ).toHaveAttribute('href', '/reads');
-    expect(screen.getByRole('link', { name: 'Sell AssetPacks' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Buy Packs' })).toHaveAttribute('href', '/reads');
+    expect(screen.getByRole('link', { name: 'Sell Source' })).toHaveAttribute(
       'href',
       '/deposits',
     );
-    expect(screen.getByRole('link', { name: 'View AssetPacks' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'View Exchange' })).toHaveAttribute(
       'href',
       '/packs',
     );

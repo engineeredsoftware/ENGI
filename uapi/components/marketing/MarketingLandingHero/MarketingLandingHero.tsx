@@ -132,20 +132,22 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
         ))}
       </div>
 
-      {/* Pillar + CTA share one column so each button sits under its card. */}
-      <div className="mt-4 grid grid-cols-1 gap-x-2 gap-y-3 phone:mt-5 phone:grid-cols-2 phone:gap-x-3 desktop:grid-cols-3">
+      {/* Pillar + CTA share one column so each button sits under its card; cards stretch equal height. */}
+      <div className="mt-4 grid grid-cols-1 items-stretch gap-x-2 gap-y-3 phone:mt-5 phone:grid-cols-2 phone:gap-x-3 desktop:grid-cols-3">
         {productPillars.map((pillar, index) => {
           const cta = pillarCtas.find((entry) => entry.pillarTitle === pillar.title) ?? pillarCtas[index];
 
           return (
-            <div key={pillar.title} className="flex min-w-0 flex-col gap-3">
-              <MarketingLandingPillarCard {...pillar} index={index} />
+            <div key={pillar.title} className="flex min-h-0 min-w-0 flex-col gap-3">
+              <div className="min-h-0 flex-1">
+                <MarketingLandingPillarCard {...pillar} index={index} />
+              </div>
               <Link
                 href={cta.href}
-                className={`inline-flex w-full items-center justify-center gap-2 rounded-none border px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors ${cta.className}`}
+                className={`inline-flex w-full shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-none border px-3 py-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] transition-colors ${cta.className}`}
               >
                 {cta.label}
-                <ArrowRightIcon className="h-4 w-4" />
+                <ArrowRightIcon className="h-4 w-4 shrink-0" />
               </Link>
             </div>
           );

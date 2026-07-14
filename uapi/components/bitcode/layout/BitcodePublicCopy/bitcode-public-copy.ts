@@ -14,15 +14,15 @@ export const BITCODE_PUBLIC_COPY = {
   ],
   primaryCta: {
     href: '/reads',
-    label: 'Buy AssetPacks',
+    label: 'Buy Packs',
   },
   secondaryCta: {
     href: '/deposits',
-    label: 'Sell AssetPacks',
+    label: 'Sell Source',
   },
   tertiaryCta: {
     href: '/packs',
-    label: 'View AssetPacks',
+    label: 'View Exchange',
   },
   guide: {
     posts: [

@@ -37,7 +37,7 @@ export function MarketingLandingPillarCard({
         delay: 0.1 + index * 0.08,
         ease: entranceEase,
       }}
-      className={`relative overflow-hidden rounded-none border p-3 backdrop-blur-xl phone:p-4 ${
+      className={`relative flex h-full min-h-0 flex-col overflow-hidden rounded-none border p-3 backdrop-blur-xl phone:p-4 ${
         title.includes('$BTD')
           ? 'border-orange-300/20 bg-black/30 shadow-[0_18px_50px_rgba(79,30,0,0.34)]'
           : 'border-white/10 bg-white/5 shadow-[0_16px_50px_rgba(2,8,17,0.32)]'
@@ -64,8 +64,8 @@ export function MarketingLandingPillarCard({
               backgroundSize: '18px 18px',
             }}
           />
-          <div className="relative">
-            <div className="relative min-h-[58px] pr-16 text-violet-100 phone:min-h-[68px] phone:pr-20">
+          <div className="relative flex min-h-0 flex-1 flex-col">
+            <div className="relative pr-16 text-violet-100 phone:pr-20">
               <span className="absolute right-0 top-0 inline-flex min-w-[64px] items-center justify-center rounded-none border border-white/12 bg-white/8 px-2.5 py-1 text-center text-[8px] uppercase tracking-[0.16em] text-violet-100/70 phone:min-w-[72px]">
                 deposit
               </span>
@@ -82,10 +82,10 @@ export function MarketingLandingPillarCard({
                 </div>
               </div>
             </div>
-            <p className="mt-3 min-h-[4.5rem] text-[11px] leading-4 text-violet-50/88 phone:min-h-[5rem] phone:text-[13px] phone:leading-5">
+            <p className="mt-1.5 min-h-[4.5rem] text-[11px] leading-4 text-violet-50/88 phone:min-h-[5rem] phone:text-[13px] phone:leading-5">
               {description}
             </p>
-            <div className="mt-4 space-y-3 border-t border-white/12 pt-4">
+            <div className="mt-auto space-y-3 border-t border-white/12 pt-4">
               <div className="border-l-4 border-purple-400 pl-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
                   What you package
@@ -151,8 +151,8 @@ export function MarketingLandingPillarCard({
           <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-emerald-200/70 to-transparent" />
           <div className="absolute inset-0 -z-10 opacity-10 [mask-image:linear-gradient(to_bottom,transparent,white,white,transparent)] bg-[repeating-linear-gradient(90deg,#ffffff0d_0_40px,transparent_40px_80px)] bg-[length:160px_160px]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(45,212,191,0.12),transparent_30%)]" />
-          <div className="relative">
-            <div className="relative min-h-[58px] pr-16 text-emerald-100 phone:min-h-[68px] phone:pr-20">
+          <div className="relative flex min-h-0 flex-1 flex-col">
+            <div className="relative pr-16 text-emerald-100 phone:pr-20">
               <span className="absolute right-0 top-0 inline-flex min-w-[64px] items-center justify-center rounded-none border border-emerald-200/12 bg-emerald-400/8 px-2.5 py-1 text-center text-[8px] uppercase tracking-[0.16em] text-emerald-50/72 phone:min-w-[72px]">
                 read
               </span>
@@ -169,10 +169,10 @@ export function MarketingLandingPillarCard({
                 </div>
               </div>
             </div>
-            <p className="mt-3 min-h-[4.5rem] text-[11px] leading-4 text-emerald-50/88 phone:min-h-[5rem] phone:text-[13px] phone:leading-5">
+            <p className="mt-1.5 min-h-[4.5rem] text-[11px] leading-4 text-emerald-50/88 phone:min-h-[5rem] phone:text-[13px] phone:leading-5">
               {description}
             </p>
-            <div className="relative mt-4">
+            <div className="relative mt-auto pt-4">
               <div className="relative grid grid-cols-3 gap-2">
                 {measureCardAxes.map((axis, axisIndex) => (
                   <div
@@ -219,17 +219,16 @@ export function MarketingLandingPillarCard({
           <div className="absolute inset-[1px] rounded-none border border-orange-200/10" />
           <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-orange-100/70 to-transparent" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(251,146,60,0.24),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(251,191,36,0.08),transparent_30%)]" />
-          <div className="relative">
-            <div className="relative min-h-[58px] pr-16 text-orange-100 phone:min-h-[68px] phone:pr-20">
+          <div className="relative flex min-h-0 flex-1 flex-col">
+            <div className="relative pr-16 text-orange-100 phone:pr-20">
               <div className="flex items-start gap-2">
                 <Icon className="h-5 w-5 text-orange-300" />
                 <div className="min-w-0">
                   <p className="bg-gradient-to-r from-white via-orange-100 to-white/80 bg-clip-text text-[11px] font-semibold uppercase tracking-[0.18em] text-transparent">
                     {title}
                   </p>
-                  <p className="mt-1 max-w-[18ch] text-[9px] uppercase leading-snug tracking-[0.16em] text-orange-100/52 phone:text-[10px]">
-                    <span className="block whitespace-nowrap">BTC · BTD</span>
-                    <span className="block whitespace-nowrap">On-Chain Delivery</span>
+                  <p className="mt-1 max-w-[20ch] text-[9px] uppercase leading-snug tracking-[0.14em] text-orange-100/52 phone:text-[10px]">
+                    <span className="block whitespace-nowrap">BTC · BTD · On-Chain</span>
                   </p>
                 </div>
               </div>
@@ -237,7 +236,7 @@ export function MarketingLandingPillarCard({
                 <BitcodeSoftwareSvgLogo width="44px" softwareClassName="hidden" className="opacity-90" />
               </div>
             </div>
-            <p className="mt-3 min-h-[4.5rem] text-[11px] leading-4 text-orange-50/88 phone:min-h-[5rem] phone:text-[13px] phone:leading-5">
+            <p className="mt-1.5 min-h-[4.5rem] text-[11px] leading-4 text-orange-50/88 phone:min-h-[5rem] phone:text-[13px] phone:leading-5">
               {hasBtdInDescription ? (
                 <>
                   {beforeBtd}
@@ -248,15 +247,17 @@ export function MarketingLandingPillarCard({
                 description
               )}
             </p>
-            <div className="mt-4 rounded-none border border-orange-200/12 bg-black/25 px-3 py-2">
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-orange-50/76">
-                {'buyer pays BTC · seller earns · rights transfer'}
-              </p>
-            </div>
-            <div className="mt-4 rounded-none border border-orange-200/12 bg-black/25 px-3 py-2">
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-orange-50/76">
-                {'source unlocks only after finality + BTD rights'}
-              </p>
+            <div className="mt-auto space-y-3 pt-4">
+              <div className="rounded-none border border-orange-200/12 bg-black/25 px-3 py-2">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-orange-50/76">
+                  {'buyer pays BTC · seller earns · rights transfer'}
+                </p>
+              </div>
+              <div className="rounded-none border border-orange-200/12 bg-black/25 px-3 py-2">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-orange-50/76">
+                  {'source unlocks only after finality + BTD rights'}
+                </p>
+              </div>
             </div>
           </div>
         </>
