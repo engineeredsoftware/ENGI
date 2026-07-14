@@ -29,7 +29,7 @@ export const BITCODE_PUBLIC_COPY = {
       {
         id: 'may-july-2026',
         tab: 'May–July',
-        title: 'Commercial Viability',
+        title: 'Developing an MVP',
         meta: 'May–July 2026 * Garrett Maring',
         body:
           'Early summer developed the Commercial MVP—most notably, Measurements. Key user-flows are materializing from Wallets to Settlements. Late summer will launch Bitcode V1. The launch will support the central experiences of trading AssetPacks, along with the very first mints of $BTD.',

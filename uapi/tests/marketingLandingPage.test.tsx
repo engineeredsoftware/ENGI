@@ -94,7 +94,7 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByRole('button', { name: 'May–July' })).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByRole('button', { name: 'April' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'March' })).toBeInTheDocument();
-    expect(screen.getByText('Commercial Viability')).toBeInTheDocument();
+    expect(screen.getByText('Developing an MVP')).toBeInTheDocument();
     expect(screen.getByTestId('micro-blog-meta')).toHaveAttribute(
       'aria-label',
       'May–July 2026 * Garrett Maring',
