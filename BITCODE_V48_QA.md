@@ -16,6 +16,24 @@ when CI is green.
 
 ## Environments (project map corrected 2026-07-06)
 
+### GitHub App law (2026-07-14 — single app)
+
+**ONE GitHub App for every environment and every account:**
+[`bitcode-github-auxiliary`](https://github.com/apps/bitcode-github-auxiliary)
+(`https://github.com/apps/bitcode-github-auxiliary`).
+
+- Install / uninstall this same app on any GitHub user or org for local,
+  preview, staging, or production — do **not** maintain a separate staging app.
+- All deploys and `.env.local` must use the **same** app credentials:
+  `GITHUB_APP_ID`, `GITHUB_PRIVATE_KEY`, `GITHUB_APP_CLIENT_ID`,
+  `GITHUB_APP_CLIENT_SECRET`, and
+  `NEXT_PUBLIC_GITHUB_APP_PUBLIC_URL=https://github.com/apps/bitcode-github-auxiliary`
+  (code fallback in `uapi/lib/github-app-url.ts` also names this slug).
+- Historical notes below that mention `bitcode-github-auxillary-stag-test`,
+  dual apps, or “production vs staging app” are **superseded** by this law.
+  Stale dual-app installs on accounts should be uninstalled and reinstalled
+  against `bitcode-github-auxiliary` only.
+
 **THREE Supabase projects (Garrett, 2026-07-06 — supersedes the earlier
 two-project model that mislabeled `mwugicjpxmrtctvjghjg` as staging-testnet):**
 
@@ -34,12 +52,11 @@ two-project model that mislabeled `mwugicjpxmrtctvjghjg` as staging-testnet):**
   that say "staging-testnet = mwugicjpxmrtctvjghjg" are the OLD mislabel —
   read them as local-testnet.)
 - **production-mainnet** — Supabase **`rinalyjfecxnmyczrpzo`** + the
-  `bitcode.exchange` / `www.bitcode.exchange` domains; GitHub App
-  `bitcode-github-auxillary` (the `BITCODE_GITHUB_APP_PUBLIC_URL` code
-  fallback names this app); mainnet posture. NOTE: the 2026-07-05
-  "production == staging" Vercel push pointed the `production` env's
-  `SUPABASE_URL` at `mwugicjpxmrtctvjghjg` (local-testnet) — that must be
-  corrected to `rinalyjfecxnmyczrpzo` when mainnet returns.
+  `bitcode.exchange` / `www.bitcode.exchange` domains; GitHub App is the
+  shared **`bitcode-github-auxiliary`** (see law above); mainnet posture.
+  NOTE: the 2026-07-05 "production == staging" Vercel push pointed the
+  `production` env's `SUPABASE_URL` at `mwugicjpxmrtctvjghjg` (local-testnet)
+  — that must be corrected to `rinalyjfecxnmyczrpzo` when mainnet returns.
 
 - **local** — for Gate-3 deposit QA, `localhost:3000` develops AGAINST
   **staging-testnet (`tkpyosihuouusyaxtbau`)** so the wallet auth provider is
@@ -49,9 +66,11 @@ two-project model that mislabeled `mwugicjpxmrtctvjghjg` as staging-testnet):**
   repointed to `tkpyosihuouusyaxtbau` on 2026-07-06 (Supabase URL + anon /
   service / publishable / secret keys synced from `uapi/.env.local.remote`;
   `SUPABASE_JWT_SECRET` left as its placeholder — vestigial, no app code reads
-  it), the stag-test GitHub App creds (`GITHUB_APP_ID=4224019`, base64 private
-  key, `GITHUB_APP_CLIENT_ID/SECRET`), `NEXT_PUBLIC_GITHUB_APP_PUBLIC_URL` =
-  the stag-test app, and `NEXT_PUBLIC_BITCODE_BITCOIN_NETWORK=testnet4`.
+  it). GitHub App credentials must be the single
+  **`bitcode-github-auxiliary`** app (not the retired stag-test registration),
+  with
+  `NEXT_PUBLIC_GITHUB_APP_PUBLIC_URL=https://github.com/apps/bitcode-github-auxiliary`
+  and `NEXT_PUBLIC_BITCODE_BITCOIN_NETWORK=testnet4`.
   `.env.local.bak.*` backups retain the prior state.
 
 Bring-up state (2026-07-05): all 10 migrations applied to
@@ -61,13 +80,14 @@ wallet-OAuth secret, GitHub App id/client/secret/private key,
 testnet4 network, GoTrue callback URL); local `.env.local` flipped to the
 staging-testnet project (old staging values retained as comments);
 `SUPABASE_JWT_SECRET` confirmed vestigial (no app code reads it). The
-2026-07-05 `vercel-env` run pushed the full matrix — including
-`NEXT_PUBLIC_GITHUB_APP_PUBLIC_URL` (staging surfaces link the stag-test app
-now that the code fallback names the renamed production app
-`bitcode-github-auxillary`) and the stag-test `GITHUB_PRIVATE_KEY` (pem in
-`~/Documents/`) — to ALL THREE Vercel targets: `staginglocal-testnet`,
-`production` (the production==staging decision above), AND `preview` (the
-target every git push to a non-`main` branch builds against — see F30).
+2026-07-05 `vercel-env` run pushed the full matrix — including GitHub App
+vars — to ALL THREE Vercel targets. **2026-07-14 law:** every target must
+use the **same** app
+[`bitcode-github-auxiliary`](https://github.com/apps/bitcode-github-auxiliary)
+credentials and
+`NEXT_PUBLIC_GITHUB_APP_PUBLIC_URL=https://github.com/apps/bitcode-github-auxiliary`
+(the retired stag-test app is no longer used). Preview is the target every
+git push to a non-`main` branch builds against — see F30.
 Pushing to the `preview` target requires Vercel CLI ≥ 54.20 (54.1.0 returned
 `git_branch_required` for preview even with `--yes`; the local CLI was
 upgraded 54.1.0 → 54.20.1). `GITHUB_WEBHOOK_SECRET` stays unfilled pending the

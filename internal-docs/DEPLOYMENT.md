@@ -219,16 +219,25 @@ NEXT_PUBLIC_MOCK_CHAT_STREAM=false
 
 #### `GITHUB_APP_ID`
 - **Required**: For GitHub App
-- **Description**: GitHub App ID number
+- **Description**: App ID for the **single** shared Bitcode GitHub App
+  [`bitcode-github-auxiliary`](https://github.com/apps/bitcode-github-auxiliary)
+  (same app for local, preview, staging, and production — do not run a separate
+  staging registration).
 - **Example**: `123456`
 - **Where to find**: GitHub App settings → About → App ID
 
 #### `GITHUB_PRIVATE_KEY`
 - **Required**: For GitHub App API access
-- **Description**: RSA private key for GitHub App authentication
+- **Description**: RSA private key for the same `bitcode-github-auxiliary` app
 - **Format**: PEM format with newlines as `\n`
 - **Security**: ⚠️ Highly sensitive
 - **Generation**: GitHub App settings → Private keys → Generate
+
+#### `NEXT_PUBLIC_GITHUB_APP_PUBLIC_URL`
+- **Required**: No (code fallback is the shared app)
+- **Default**: `https://github.com/apps/bitcode-github-auxiliary`
+- **Description**: Public install link shown in Auxillaries Externals. Keep this
+  on the single shared app for every environment.
 
 #### `GITHUB_WEBHOOK_SECRET`
 - **Required**: For webhook verification
