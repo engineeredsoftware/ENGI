@@ -89,13 +89,20 @@ describe('MarketingLandingPage', () => {
       'href',
       '/deposits',
     );
-    expect(screen.getByRole('button', { name: 'April' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'May–July' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'April' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'March' })).toBeInTheDocument();
-    expect(screen.getByText('$BTD: Scalar Volume And Rights For Technical Knowledge')).toBeInTheDocument();
-    expect(screen.getByTestId('micro-blog-meta')).toHaveAttribute('aria-label', 'April 2026 * Garrett Maring');
+    expect(screen.getByText('Commercial MVP Development, Protocol Precision')).toBeInTheDocument();
+    expect(screen.getByTestId('micro-blog-meta')).toHaveAttribute(
+      'aria-label',
+      'May–July 2026 * Garrett Maring',
+    );
     expect(screen.getByText('Data Depot')).toBeInTheDocument();
     expect(screen.getByText('Depot Surface')).toBeInTheDocument();
-    expect(screen.getByText('Measurement vector')).toBeInTheDocument();
+    expect(screen.getByText('AssetPacks Measurements')).toBeInTheDocument();
+    expect(screen.getByText('Absolutes')).toBeInTheDocument();
+    expect(screen.getByText('Needinesses')).toBeInTheDocument();
+    expect(screen.getByText('Final Fit')).toBeInTheDocument();
     expect(screen.getByText('Verified access')).toBeInTheDocument();
     expect(screen.getByText('SELL ASSETPACKS')).toBeInTheDocument();
     expect(screen.getByText('BUY WITH NEED')).toBeInTheDocument();

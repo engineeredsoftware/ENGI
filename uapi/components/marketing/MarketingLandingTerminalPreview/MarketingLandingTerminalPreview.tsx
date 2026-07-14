@@ -12,7 +12,9 @@ import {
   animatedMotionStyle,
   compactPreviewCards,
   entranceEase,
-  measurementAxes,
+  measurementAbsoluteItems,
+  measurementFinalFit,
+  measurementNeedinessItems,
   paintedMotionStyle,
   previewRows,
   renderOrbitalBullet,
@@ -92,18 +94,16 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
 
             <div className="rounded-none border border-white/8 bg-white/5 p-4">
               <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0 flex-1">
-                  <p className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold text-transparent">
-                    {BITCODE_PUBLIC_COPY.operatorFrame.title}
-                  </p>
-                  <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-emerald-100/52">
-                    {BITCODE_PUBLIC_COPY.operatorFrame.subtitle}
-                  </p>
-                </div>
-                <span className="inline-flex min-w-[104px] shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 px-2.5 py-1.5 text-center text-[10px] uppercase leading-4 tracking-[0.18em] text-white/60">
+                <p className="min-w-0 bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold text-transparent">
+                  {BITCODE_PUBLIC_COPY.operatorFrame.title}
+                </p>
+                <span className="inline-flex min-w-[92px] shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 px-2.5 py-1.5 text-center text-[10px] uppercase leading-4 tracking-[0.16em] text-white/60">
                   {BITCODE_PUBLIC_COPY.operatorFrame.badge}
                 </span>
               </div>
+              <p className="mt-1 text-[10px] uppercase leading-4 tracking-[0.12em] text-emerald-100/52">
+                {BITCODE_PUBLIC_COPY.operatorFrame.subtitle}
+              </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {BITCODE_PUBLIC_COPY.operatorFrame.modes.map((surface) => (
                   <span
@@ -121,51 +121,124 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
           <div className="hidden gap-4 p-4 laptop:grid desktop:grid-cols-[0.9fr_1.1fr]">
             <div className="space-y-3">
               <div className="rounded-none border border-white/8 bg-white/5 p-4">
-                <p className="text-[12px] font-semibold uppercase tracking-[0.22em] text-emerald-200/74">
-                  Measurement vector
+                <p className="whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.14em] text-emerald-200/74">
+                  AssetPacks Measurements
                 </p>
+
                 <div className="mt-4 space-y-4">
-                  {measurementAxes.map((axis) => (
-                    <div key={axis.label}>
-                      <div className="flex items-end justify-between gap-3">
-                        <div>
-                          <p className="text-[15px] font-medium text-white">{axis.label}</p>
-                          <p className="text-[12px] leading-5 text-emerald-100/62">{axis.detail}</p>
-                        </div>
-                        <span className="text-[12px] font-semibold uppercase tracking-[0.24em] text-emerald-200/78">
-                          {axis.value}
-                        </span>
+                  <div>
+                    <p className="text-[13px] font-medium text-white">Absolutes</p>
+                    <ul className="mt-2 space-y-1.5">
+                      {measurementAbsoluteItems.map((item, index) => (
+                        <li key={item.label}>
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="min-w-0 truncate text-[11px] leading-4 text-emerald-100/70">
+                              {item.label}
+                            </p>
+                            <span className="shrink-0 font-mono text-[10px] tabular-nums text-emerald-200/68">
+                              {item.value}
+                            </span>
+                          </div>
+                          <div className="mt-1 h-1 overflow-hidden rounded-none bg-white/6">
+                            <div className="h-full origin-left" style={{ width: `${item.value}%` }}>
+                              <motion.div
+                                initial={{ scaleX: 0 }}
+                                animate={{ scaleX: 1 }}
+                                transition={{
+                                  duration: 0.7,
+                                  delay: 0.28 + index * 0.03,
+                                  ease: entranceEase,
+                                }}
+                                className="h-full rounded-none bg-gradient-to-r from-emerald-500/55 via-emerald-300/70 to-emerald-100/80"
+                                style={{ ...animatedMotionStyle, transformOrigin: 'left center' }}
+                              />
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <p className="text-[13px] font-medium text-white">Needinesses</p>
+                    <ul className="mt-2 space-y-1.5">
+                      {measurementNeedinessItems.map((item, index) => (
+                        <li key={item.label}>
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="min-w-0 truncate text-[11px] leading-4 text-emerald-100/70">
+                              <span className="text-emerald-100/48">{item.detail}</span>
+                              <span className="mx-1 text-emerald-100/28">·</span>
+                              {item.label}
+                            </p>
+                            <span className="shrink-0 font-mono text-[10px] tabular-nums text-emerald-200/68">
+                              {item.value}
+                            </span>
+                          </div>
+                          <div className="mt-1 h-1 overflow-hidden rounded-none bg-white/6">
+                            <div className="h-full origin-left" style={{ width: `${item.value}%` }}>
+                              <motion.div
+                                initial={{ scaleX: 0 }}
+                                animate={{ scaleX: 1 }}
+                                transition={{
+                                  duration: 0.7,
+                                  delay: 0.48 + index * 0.04,
+                                  ease: entranceEase,
+                                }}
+                                className="h-full rounded-none bg-gradient-to-r from-emerald-500/55 via-emerald-300/70 to-emerald-100/80"
+                                style={{ ...animatedMotionStyle, transformOrigin: 'left center' }}
+                              />
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="rounded-none border border-emerald-300/18 bg-emerald-400/[0.07] p-3 shadow-[inset_0_1px_0_rgba(103,254,183,0.08)]">
+                    <div className="flex items-end justify-between gap-3">
+                      <div className="min-w-0 flex-1">
+                        <p className="bg-gradient-to-r from-emerald-200 via-white to-emerald-100 bg-clip-text text-[15px] font-semibold text-transparent">
+                          {measurementFinalFit.label}
+                        </p>
+                        <p className="mt-1 text-[11px] leading-4 text-emerald-100/72">
+                          {measurementFinalFit.detail}
+                        </p>
                       </div>
-                      <div className="mt-2 h-2 overflow-hidden rounded-none bg-white/6">
-                        <div className="h-full origin-left" style={{ width: `${axis.value}%` }}>
-                          <motion.div
-                            initial={{ scaleX: 0 }}
-                            animate={{ scaleX: 1 }}
-                            transition={{ duration: 0.9, delay: 0.35, ease: entranceEase }}
-                            className="h-full rounded-none bg-gradient-to-r from-emerald-500/70 via-emerald-300/90 to-emerald-100"
-                            style={{ ...animatedMotionStyle, transformOrigin: 'left center' }}
-                          />
-                        </div>
+                      <span className="shrink-0 text-[14px] font-semibold uppercase tracking-[0.2em] text-emerald-100">
+                        {measurementFinalFit.value}
+                      </span>
+                    </div>
+                    <div className="mt-2.5 h-2.5 overflow-hidden rounded-none bg-black/30">
+                      <div
+                        className="h-full origin-left"
+                        style={{ width: `${measurementFinalFit.value}%` }}
+                      >
+                        <motion.div
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          transition={{ duration: 1, delay: 0.55, ease: entranceEase }}
+                          className="h-full rounded-none bg-gradient-to-r from-emerald-500/80 via-emerald-300 to-white shadow-[0_0_14px_rgba(103,254,183,0.35)]"
+                          style={{ ...animatedMotionStyle, transformOrigin: 'left center' }}
+                        />
                       </div>
                     </div>
-                  ))}
+                  </div>
                 </div>
               </div>
 
               <div className="rounded-none border border-white/8 bg-white/5 p-4">
                 <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0 flex-1">
-                    <p className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold text-transparent">
-                      {BITCODE_PUBLIC_COPY.operatorFrame.title}
-                    </p>
-                    <p className="mt-1 text-[10px] uppercase tracking-[0.14em] text-emerald-100/58">
-                      {BITCODE_PUBLIC_COPY.operatorFrame.subtitle}
-                    </p>
-                  </div>
-                  <span className="inline-flex min-w-[128px] shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 px-2.5 py-2 text-center text-[10px] uppercase leading-4 tracking-[0.18em] text-white/60">
+                  <p className="min-w-0 bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold text-transparent">
+                    {BITCODE_PUBLIC_COPY.operatorFrame.title}
+                  </p>
+                  <span className="inline-flex min-w-[92px] shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 px-2.5 py-1.5 text-center text-[10px] uppercase leading-4 tracking-[0.16em] text-white/60">
                     {BITCODE_PUBLIC_COPY.operatorFrame.badge}
                   </span>
                 </div>
+                {/* Full-width subtitle — avoids one-word-per-line squeeze beside the badge. */}
+                <p className="mt-1 text-[10px] uppercase leading-4 tracking-[0.12em] text-emerald-100/58">
+                  {BITCODE_PUBLIC_COPY.operatorFrame.subtitle}
+                </p>
                 <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 laptop:gap-x-4 laptop:gap-y-3">
                   {BITCODE_PUBLIC_COPY.operatorFrame.modes.map((surface) => (
                     <li
@@ -277,7 +350,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                               return (
                                 <span
                                   key={`${key}-${valuePart}`}
-                                  className="inline-flex min-w-0 max-w-full items-start gap-2 overflow-hidden tablet:gap-2.5"
+                                  className="inline-flex min-w-0 max-w-full items-start gap-2 tablet:gap-2.5"
                                 >
                                   <span className="shrink-0">
                                     {renderOrbitalBullet(
@@ -307,18 +380,17 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
 
               <div className="rounded-none border border-white/8 bg-white/5 p-4">
                 <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="bg-gradient-to-r from-emerald-200 via-white to-orange-200 bg-clip-text text-sm font-semibold text-transparent">
-                      {BITCODE_PUBLIC_COPY.sourceToSettlement.title}
-                    </p>
-                    <p className="mt-1 text-[12px] uppercase tracking-[0.16em] text-emerald-100/58">
-                      {BITCODE_PUBLIC_COPY.sourceToSettlement.subtitle}
-                    </p>
-                  </div>
-                  <span className="inline-flex min-w-[92px] items-center justify-center rounded-none border border-emerald-300/12 bg-emerald-400/6 px-2.5 py-1 font-mono text-center text-[10px] uppercase tracking-[0.18em] text-emerald-50/72">
+                  <p className="min-w-0 bg-gradient-to-r from-emerald-200 via-white to-orange-200 bg-clip-text text-sm font-semibold text-transparent">
+                    {BITCODE_PUBLIC_COPY.sourceToSettlement.title}
+                  </p>
+                  <span className="inline-flex min-w-[92px] shrink-0 items-center justify-center rounded-none border border-emerald-300/12 bg-emerald-400/6 px-2.5 py-1 font-mono text-center text-[10px] uppercase tracking-[0.18em] text-emerald-50/72">
                     {BITCODE_PUBLIC_COPY.sourceToSettlement.badge}
                   </span>
                 </div>
+                {/* Full-width subtitle — avoids one-word-per-line squeeze beside the badge. */}
+                <p className="mt-1 text-[12px] uppercase leading-4 tracking-[0.12em] text-emerald-100/58">
+                  {BITCODE_PUBLIC_COPY.sourceToSettlement.subtitle}
+                </p>
                 <p className="mt-3 text-[14px] leading-6 text-emerald-100/72">
                   Commits, citations, authorship, and metadata stay attached as deposit-side context for later proof and settlement.
                 </p>

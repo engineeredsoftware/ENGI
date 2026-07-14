@@ -29,6 +29,7 @@ export const paintedMotionStyle: React.CSSProperties = {
   contain: 'paint',
 };
 
+// Keep descriptions near-identical length (~79–80 chars) so all three wrap to four lines.
 export const productPillars = [
   {
     title: 'Sell',
@@ -42,28 +43,38 @@ export const productPillars = [
   },
   {
     title: 'Settle',
-    description: 'Pay in BTC; BTD rights and delivery unlock with proof-backed finality.',
+    description: 'Pay in BTC; BTD rights and delivery unlock with proof-backed finality after pay.',
     Icon: CurrencyDollarIcon,
   },
 ] as const;
 
-export const measurementAxes = [
-  {
-    label: 'Quantity',
-    value: 92,
-    detail: 'source volume buyers can price against',
-  },
-  {
-    label: 'Quality',
-    value: 96,
-    detail: 'structure, correctness, and reproducibility',
-  },
-  {
-    label: 'Fit',
-    value: 73,
-    detail: 'how tightly the pack matches a buyer Need',
-  },
+/**
+ * Marketing depot measurements: per-metric Absolutes + Needinesses (small bars),
+ * then Final Fit (BTD volume) as the standout summary axis.
+ */
+export const measurementAbsoluteItems = [
+  { label: 'functions', value: 92 },
+  { label: 'types', value: 88 },
+  { label: 'file span', value: 76 },
+  { label: 'symbolic richness', value: 90 },
+  { label: 'modularity', value: 84 },
+  { label: 'correctness', value: 96 },
+  { label: 'objectives fidelity', value: 91 },
+  { label: 'computational usage', value: 78 },
 ] as const;
+
+export const measurementNeedinessItems = [
+  { label: 'language fit', value: 94, detail: 'static' },
+  { label: 'domain fit', value: 88, detail: 'static' },
+  { label: 'interface fit', value: 82, detail: 'static' },
+  { label: 'Need-inferred *-fit', value: 79, detail: 'dynamic' },
+] as const;
+
+export const measurementFinalFit = {
+  label: 'Final Fit',
+  value: 73,
+  detail: 'BTD volume — weighted scalar over needinesses-fits for the settled AssetPack',
+} as const;
 
 export const measureCardReadNeed = 'Need: auth migration rollback for monorepo services';
 
@@ -87,7 +98,8 @@ export const previewRows = [
     valueParts: ['commits', 'authorship', 'paths', 'SHA'],
     accentClassName: 'from-fuchsia-400/18 via-purple-400/8 to-transparent',
     Icon: LinkIcon,
-    valuesGridClassName: 'grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-2',
+    // "authorship" overflows a tight 2-col desktop cell; keep 2-col from phone up with wrap room.
+    valuesGridClassName: 'grid-cols-1 phone:grid-cols-2',
     iconClassName: 'text-white/58',
   },
   {

@@ -20,6 +20,20 @@ export const BITCODE_PUBLIC_COPY = {
   guide: {
     posts: [
       {
+        id: 'may-july-2026',
+        tab: 'May–July',
+        title: 'Commercial MVP Development, Protocol Precision',
+        meta: 'May–July 2026 * Garrett Maring',
+        body:
+          'Early summer developed the Commercial MVP—most notably, AssetPack Measurements. Key user-flows are materializing from account creation to Bitcode Settlements. Late summer will launch Bitcode V1.',
+        highlights: [
+          'Commercial MVP',
+          'AssetPack Measurements',
+          'Bitcode Settlements',
+          'Bitcode V1',
+        ],
+      },
+      {
         id: 'april-2026',
         tab: 'April',
         title: '$BTD: Scalar Volume And Rights For Technical Knowledge',

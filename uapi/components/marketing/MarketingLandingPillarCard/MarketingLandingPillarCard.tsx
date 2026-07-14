@@ -81,7 +81,7 @@ export function MarketingLandingPillarCard({
                 </div>
               </div>
             </div>
-            <p className="mt-3 text-[11px] leading-4 text-violet-50/88 phone:text-[13px] phone:leading-5">
+            <p className="mt-3 min-h-[4.5rem] text-[11px] leading-4 text-violet-50/88 phone:min-h-[5rem] phone:text-[13px] phone:leading-5">
               {description}
             </p>
             <div className="mt-4 space-y-3 border-t border-white/12 pt-4">
@@ -167,7 +167,7 @@ export function MarketingLandingPillarCard({
                 </div>
               </div>
             </div>
-            <p className="mt-3 text-[11px] leading-4 text-emerald-50/88 phone:text-[13px] phone:leading-5">
+            <p className="mt-3 min-h-[4.5rem] text-[11px] leading-4 text-emerald-50/88 phone:min-h-[5rem] phone:text-[13px] phone:leading-5">
               {description}
             </p>
             <div className="relative mt-4">
@@ -234,7 +234,7 @@ export function MarketingLandingPillarCard({
                 <BitcodeSoftwareSvgLogo width="44px" softwareClassName="hidden" className="opacity-90" />
               </div>
             </div>
-            <p className="mt-3 text-[11px] leading-4 text-orange-50/88 phone:text-[13px] phone:leading-5">
+            <p className="mt-3 min-h-[4.5rem] text-[11px] leading-4 text-orange-50/88 phone:min-h-[5rem] phone:text-[13px] phone:leading-5">
               {hasBtdInDescription ? (
                 <>
                   {beforeBtd}
