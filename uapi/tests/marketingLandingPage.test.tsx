@@ -94,7 +94,7 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByRole('button', { name: 'May–July' })).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByRole('button', { name: 'April' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'March' })).toBeInTheDocument();
-    expect(screen.getByText('Commercial MVP Development, Protocol Precision')).toBeInTheDocument();
+    expect(screen.getByText('Commercial Viability')).toBeInTheDocument();
     expect(screen.getByTestId('micro-blog-meta')).toHaveAttribute(
       'aria-label',
       'May–July 2026 * Garrett Maring',
@@ -139,7 +139,7 @@ describe('MarketingLandingPage', () => {
     const section = screen.getByTestId('landing-testnet-launch');
     expect(section).toBeInTheDocument();
     expect(screen.getByText('Commercial Product')).toBeInTheDocument();
-    expect(screen.getByText('Sell and buy AssetPacks with Bitcoin.')).toBeInTheDocument();
+    expect(screen.getByText('Exchanging Bitcode for Bitcoin.')).toBeInTheDocument();
     expect(screen.getByText(/ERC-1155 on Ethereum/i)).toBeInTheDocument();
     expect(screen.getByText(/measurements, quotes, settlement order/iu)).toBeInTheDocument();
     expect(screen.queryByText(/testnet/i)).toBeNull();

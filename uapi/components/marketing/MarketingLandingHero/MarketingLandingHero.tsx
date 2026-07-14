@@ -154,10 +154,9 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
         })}
       </div>
 
-      <MarketingLandingGuideCard />
-
-      {/* Fills residual left-column space; lower edge aligns with Data Depot. */}
+      {/* Commercial product first; micro-blog sits beneath it. */}
       <MarketingLandingTestnetSection />
+      <MarketingLandingGuideCard />
     </motion.section>
   );
 });

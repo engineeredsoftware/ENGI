@@ -59,7 +59,7 @@ export const MarketingLandingGuideCard = memo(function MarketingLandingGuideCard
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.3, ease: entranceEase }}
-      className="relative mt-6 w-full max-w-none overflow-visible rounded-none border border-emerald-300/12 bg-black/25 p-4 pt-5 shadow-[0_20px_60px_rgba(0,0,0,0.32)] backdrop-blur-xl phone:mt-7 phone:pt-6"
+      className="relative mt-4 w-full max-w-none overflow-visible rounded-none border border-emerald-300/12 bg-black/25 p-4 pt-5 shadow-[0_20px_60px_rgba(0,0,0,0.32)] backdrop-blur-xl phone:mt-5 phone:pt-6"
       style={animatedMotionStyle}
     >
       <div className="absolute left-0 top-0 flex -translate-y-1/2 flex-wrap items-center gap-2">
@@ -86,7 +86,7 @@ export const MarketingLandingGuideCard = memo(function MarketingLandingGuideCard
 
       <div className="border-b border-emerald-300/10 pb-3 laptop:grid laptop:grid-cols-[minmax(0,1fr)_auto] laptop:items-center laptop:gap-4">
         <div className="min-w-0 laptop:pr-2">
-          <p className="bg-gradient-to-r from-emerald-200 via-emerald-100 to-white bg-clip-text text-[11px] font-semibold uppercase leading-[1.35] tracking-[0.18em] text-transparent phone:text-[12px] phone:tracking-[0.22em]">
+          <p className="whitespace-nowrap bg-gradient-to-r from-emerald-200 via-emerald-100 to-white bg-clip-text text-[11px] font-semibold uppercase leading-[1.35] tracking-[0.18em] text-transparent phone:text-[12px] phone:tracking-[0.22em]">
             {activePost.title}
           </p>
         </div>

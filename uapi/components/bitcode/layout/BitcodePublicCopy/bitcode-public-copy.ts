@@ -29,7 +29,7 @@ export const BITCODE_PUBLIC_COPY = {
       {
         id: 'may-july-2026',
         tab: 'May–July',
-        title: 'Commercial MVP Development, Protocol Precision',
+        title: 'Commercial Viability',
         meta: 'May–July 2026 * Garrett Maring',
         body:
           'Early summer developed the Commercial MVP—most notably, Measurements. Key user-flows are materializing from Wallets to Settlements. Late summer will launch Bitcode V1. The launch will support the central experiences of trading AssetPacks, along with the very first mints of $BTD.',
@@ -47,7 +47,7 @@ export const BITCODE_PUBLIC_COPY = {
         id: 'april-2026',
         tab: 'April',
         // Restored pre-Gate-15 original micro-blog content from commit history.
-        title: '$BTD: Shares of Source Technical Knowledge',
+        title: 'An Open-Source Exchange',
         meta: 'April 2026 * Garrett Maring',
         body:
           'April launched the Bitcode Protocol. It is available at our open-source repository which includes a commercially-ready whole-system specification (auditable, reproducible). The website now includes the first pieces of the $BTD Terminal along with documentation on the internals and interfaces of the ecosystem.',
@@ -57,7 +57,7 @@ export const BITCODE_PUBLIC_COPY = {
         id: 'march-2026',
         tab: 'March',
         // Restored original March micro-blog; only change: hoard → collect.
-        title: "Bitcode's source-to-shares protocol, now",
+        title: 'A Source-to-Shares Protocol',
         meta: 'March 2026 * Garrett Maring',
         body:
           "$BTD's purpose is to collect valuable technical information and compensate contributors fairly. Provable knowledge measuring algorithms build the foundations for collection and issuance. Ideal long-term partnerships for asset management and infrastructure will be finalized to empower the secure and thriving future of $BTD.",
@@ -74,7 +74,7 @@ export const BITCODE_PUBLIC_COPY = {
   // AssetPacks + BTD are ERC-1155 on Ethereum; purchase/settlement money is Bitcoin.
   testnetLaunch: {
     badge: 'Commercial Product',
-    title: 'Sell and buy AssetPacks with Bitcoin.',
+    title: 'Exchanging Bitcode for Bitcoin.',
     meaning:
       'Measurements, quotes, settlement order, BTD rights, and delivery are live protocol state—AssetPacks and BTD are ERC-1155 on Ethereum; purchase with Bitcoin.',
     flow: [

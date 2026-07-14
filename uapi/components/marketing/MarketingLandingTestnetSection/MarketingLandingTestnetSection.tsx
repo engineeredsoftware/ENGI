@@ -18,7 +18,7 @@ export function MarketingLandingTestnetSection() {
     <section
       data-testid="landing-testnet-launch"
       aria-label="Commercial product launch readiness"
-      className="relative mt-4 flex min-h-0 w-full flex-1 flex-col"
+      className="relative mt-6 flex min-h-0 w-full flex-col phone:mt-7"
     >
       <div className="flex min-h-0 flex-1 flex-col rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-4 py-4 backdrop-blur-sm phone:px-5 phone:py-5">
         <div className="flex flex-wrap items-center gap-2">
