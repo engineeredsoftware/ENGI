@@ -52,9 +52,12 @@ export function useAuxillariesSurface({
   const { data: sessionUser, isLoading: userLoading } = useUser();
   const { data: profileData, isLoading: profileLoading } = useProfile();
   const { data: onboardingData } = useOnboarding();
-  const { data: auxillaryData } = useUserData();
+  const { data: auxillaryData, hasWalletConnection } = useUserData();
 
   const authLoaded = !userLoading;
+  // Wallet-native identity: a bound Bitcoin wallet counts as connected even
+  // before a Supabase session user is present (Connect / Disconnect chrome).
+  const hasConnectedIdentity = Boolean(sessionUser) || hasWalletConnection;
   const [supabaseClient] = useState(() => createClient());
   const router = useRouter();
   const pathname = usePathname();
@@ -318,6 +321,8 @@ export function useAuxillariesSurface({
     containerRef,
     deferredAnimationsEnabled,
     sessionUser,
+    hasWalletConnection,
+    hasConnectedIdentity,
     profileData,
     profileLoading,
     auxillaryData,

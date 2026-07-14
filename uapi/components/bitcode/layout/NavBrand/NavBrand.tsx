@@ -33,14 +33,14 @@ interface NavBrandProps {
   surface: NavBrandSurface;
 }
 
-/** Protocol lightpaper / whitepaper (source-bearing public reference). */
+/** Protocol whitepaper (source-bearing public reference on the Bitcode repo). */
 export const BITCODE_WHITEPAPER_URL =
   process.env.NEXT_PUBLIC_BITCODE_WHITEPAPER_URL?.trim() ||
-  "https://github.com/engineeredsoftware/ENGI/blob/main/BITCODE_LIGHTOPAPER.md";
+  "https://github.com/advancedengineeredsoftware/Bitcode/blob/version/v48/Whitepaper.md";
 
-/** Bitcode on X — override with NEXT_PUBLIC_BITCODE_X_URL when handle is confirmed. */
+/** Bitcode on X — override with NEXT_PUBLIC_BITCODE_X_URL if the handle changes. */
 export const BITCODE_X_URL =
-  process.env.NEXT_PUBLIC_BITCODE_X_URL?.trim() || "https://x.com/bitcode";
+  process.env.NEXT_PUBLIC_BITCODE_X_URL?.trim() || "https://x.com/bitcodehq";
 
 const DOCS_HREF = "/docs";
 

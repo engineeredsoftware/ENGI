@@ -70,21 +70,26 @@ export default function AuxillariesSurface({
         </button>
       )}
 
-      {surface.authLoaded && !surface.sessionUser && (
+      {/*
+        Wallet-native chrome: Connect when no session/wallet identity;
+        Disconnect when either Supabase session or Bitcoin wallet is bound
+        (mirrors Sign in → Connect / Sign out → Disconnect product language).
+      */}
+      {surface.authLoaded && !surface.hasConnectedIdentity && (
         <button
           data-auxillaries-testid="auxillaries-toggle-button"
           onClick={surface.toggleWindow}
           className="auxillaries-toggle-button"
-          aria-label={surface.activeWindow === 'SignInWindow' ? 'Create Account' : 'Sign in'}
+          aria-label={surface.activeWindow === 'SignInWindow' ? 'Create Account' : 'Connect'}
         >
           <FlipText
-            text={surface.activeWindow === 'SignInWindow' ? 'Create Account' : 'Sign in'}
+            text={surface.activeWindow === 'SignInWindow' ? 'Create Account' : 'Connect'}
             className="inline-block"
           />
         </button>
       )}
 
-      {surface.authLoaded && surface.sessionUser && (
+      {surface.authLoaded && surface.hasConnectedIdentity && (
         <button
           type="button"
           onClick={surface.handleSignOut}

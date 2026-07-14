@@ -214,8 +214,9 @@
   min-width: 0;
   min-height: 0;
   flex-direction: column;
-  gap: 1rem !important;
-  /* Clip vertical scroll only; do not shave card side borders on the x-axis. */
+  /* Tighter y-stack: less air between kicker/title and the card list. */
+  gap: 0.55rem !important;
+  /* Visible overflow so 1px card borders are not clipped at the panel edge. */
   overflow-x: visible;
   overflow-y: hidden;
   border: 1px solid rgba(101, 254, 183, 0.12) !important;
@@ -226,7 +227,8 @@
   box-shadow:
     0 24px 70px rgba(0, 0, 0, 0.24),
     inset 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
-  padding: clamp(1rem, 1.5vw, 1.25rem) !important;
+  /* Extra horizontal inset so card L/R borders paint fully inside the panel. */
+  padding: clamp(0.7rem, 1.2vw, 0.95rem) clamp(0.85rem, 1.4vw, 1.15rem) !important;
 }
 
 .auxillaries-bitcode-kicker {
@@ -248,23 +250,30 @@
 .auxillaries-bitcode-selector-list {
   display: grid !important;
   box-sizing: border-box !important;
-  gap: 0.75rem !important;
+  /* Reduce y-wise spacing between Wallet / Externals / Profile / Interfaces. */
+  gap: 0.4rem !important;
   flex: 1 1 auto;
   min-height: 0;
   min-width: 0;
   width: 100%;
-  /* Vertical scroll only; inset padding keeps 1px side borders fully paintable. */
+  /*
+   * Vertical scroll only. Generous inline padding so 1px side borders are not
+   * clipped by overflow-x:hidden / scrollbar gutters (border cut-off on L/R).
+   */
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding-block: 0.2rem;
-  padding-inline: 1px;
-  scrollbar-gutter: auto;
+  padding-block: 0.15rem;
+  padding-inline: 0.45rem;
+  scrollbar-gutter: stable;
 }
 
 .auxillaries-bitcode-selector-list > [role='listitem'] {
   min-width: 0;
   max-width: 100%;
+  /* Keep the full border box inside the scrollport. */
+  padding-inline: 1px;
+  box-sizing: border-box;
 }
 
 .auxillaries-bitcode-selector-card {
@@ -273,11 +282,15 @@
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0;
+  flex-direction: column !important;
+  /* Tighter internal y-stack (topline / label / copy). */
+  gap: 0.28rem !important;
   border-radius: 0;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   background: rgba(255, 255, 255, 0.035) !important;
   color: var(--aux-bc-ink) !important;
-  padding: 0.95rem !important;
+  /* Slightly tighter vertical padding; keep horizontal so copy does not crowd edges. */
+  padding: 0.65rem 0.85rem !important;
   overflow: visible;
   overflow-wrap: anywhere;
   /* Prefer a single paint border; avoid inset rings that read as cut side edges. */
@@ -378,7 +391,7 @@
 .auxillaries-bitcode-selector-card-copy {
   color: var(--aux-bc-muted) !important;
   font-size: 0.84rem !important;
-  line-height: 1.55 !important;
+  line-height: 1.4 !important;
   text-align: center !important;
 }
 
