@@ -902,30 +902,49 @@
 
 /*
  * Section 1. Required wallet — full orange theme for nested chrome.
- * Global enterprise/form-input styles default to emerald; override here.
+ * Beat:
+ *  - .form-input green border + blue-grey fill (orbital.css)
+ *  - .orbitals-users-input-container.enterprise emerald border (profile CSS modules)
+ *  - .auxillaries-bitcode-surface .orbitals-users-input-container neutral !important
+ * Specificity must include .auxillaries-bitcode-surface + !important.
  */
-.wallet-required-section .orbitals-users-input-container.enterprise,
-.wallet-required-section .orbitals-users-input-container {
-  background: rgba(28, 18, 12, 0.72) !important;
-  border: 1px solid rgba(251, 146, 60, 0.32) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18) !important;
+.auxillaries-bitcode-surface .wallet-required-section .orbitals-users-input-container,
+.auxillaries-bitcode-surface .wallet-required-section .orbitals-users-input-container.enterprise,
+.wallet-required-section .orbitals-users-input-container,
+.wallet-required-section .orbitals-users-input-container.enterprise {
+  background: rgba(28, 18, 12, 0.88) !important;
+  border: 1px solid rgba(251, 146, 60, 0.48) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.22) !important;
+  border-radius: 0 !important;
+  overflow: hidden;
 }
 
+.auxillaries-bitcode-surface .wallet-required-section .form-input,
 .wallet-required-section .form-input {
-  color: rgba(255, 247, 237, 0.92) !important;
-  caret-color: rgba(251, 146, 60, 0.9);
-}
-
-.wallet-required-section .form-input::placeholder {
-  color: rgba(253, 186, 116, 0.45) !important;
-}
-
-.wallet-required-section .form-input:focus {
-  border-color: transparent !important;
-  outline: none !important;
+  background: rgba(22, 14, 10, 0.92) !important;
+  border: 1px solid rgba(251, 146, 60, 0.42) !important;
+  border-radius: 0 !important;
+  color: rgba(255, 247, 237, 0.94) !important;
+  caret-color: rgba(251, 146, 60, 0.95);
   box-shadow: none !important;
 }
 
+.auxillaries-bitcode-surface .wallet-required-section .form-input::placeholder,
+.wallet-required-section .form-input::placeholder {
+  color: rgba(253, 186, 116, 0.48) !important;
+}
+
+.auxillaries-bitcode-surface .wallet-required-section .form-input:focus,
+.wallet-required-section .form-input:focus {
+  background: rgba(32, 18, 10, 0.96) !important;
+  border-color: rgba(253, 186, 116, 0.72) !important;
+  outline: none !important;
+  box-shadow:
+    0 0 0 1px rgba(251, 146, 60, 0.35),
+    0 0 16px rgba(251, 146, 60, 0.18) !important;
+}
+
+.auxillaries-bitcode-surface .wallet-required-section .input-focus-indicator,
 .wallet-required-section .input-focus-indicator {
   background: linear-gradient(
     90deg,
@@ -935,7 +954,13 @@
     rgba(251, 146, 60, 0.85),
     transparent
   ) !important;
-  box-shadow: 0 0 12px rgba(251, 146, 60, 0.35) !important;
+  box-shadow: 0 0 12px rgba(251, 146, 60, 0.4) !important;
+}
+
+.auxillaries-bitcode-surface .wallet-required-section .form-input:focus ~ .input-focus-indicator,
+.wallet-required-section .form-input:focus ~ .input-focus-indicator {
+  width: 100% !important;
+  opacity: 1 !important;
 }
 
 .wallet-required-section .wallet-section-secondary-button {
