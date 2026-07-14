@@ -10,6 +10,8 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import {
   BITCODE_FOCUS_WALLET_CONNECT_EVENT,
+  clearPendingWalletConnectAttention,
+  hasPendingWalletConnectAttention,
   WALLET_CONNECT_ATTENTION_MS,
 } from './models/wallet-connect-attention';
 import { formatWalletReadout } from './models/wallet-connection-format';
@@ -33,6 +35,8 @@ export default function AuxillariesWalletConnectionPanel({
   const sectionRef = useRef<HTMLElement | null>(null);
   const [attentionActive, setAttentionActive] = useState(false);
   const attentionTimerRef = useRef<number | null>(null);
+  /** Restart CSS animation when the same class is re-applied. */
+  const [attentionKey, setAttentionKey] = useState(0);
 
   const {
     walletAddress,
@@ -62,18 +66,31 @@ export default function AuxillariesWalletConnectionPanel({
 
   useEffect(() => {
     const runAttention = () => {
-      setAttentionActive(true);
-      sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      clearPendingWalletConnectAttention();
+      // Drop then re-apply so CSS animations restart on repeated Connect clicks.
+      setAttentionActive(false);
+      setAttentionKey((key) => key + 1);
       if (attentionTimerRef.current != null) {
         window.clearTimeout(attentionTimerRef.current);
       }
-      attentionTimerRef.current = window.setTimeout(() => {
-        setAttentionActive(false);
-        attentionTimerRef.current = null;
-      }, WALLET_CONNECT_ATTENTION_MS);
+      window.requestAnimationFrame(() => {
+        setAttentionActive(true);
+        sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        attentionTimerRef.current = window.setTimeout(() => {
+          setAttentionActive(false);
+          attentionTimerRef.current = null;
+        }, WALLET_CONNECT_ATTENTION_MS);
+      });
     };
 
     window.addEventListener(BITCODE_FOCUS_WALLET_CONNECT_EVENT, runAttention);
+
+    // Connect from another pane: panel was unmounted when the event fired.
+    // Honor the pending flag once this instance mounts.
+    if (hasPendingWalletConnectAttention()) {
+      runAttention();
+    }
+
     return () => {
       window.removeEventListener(BITCODE_FOCUS_WALLET_CONNECT_EVENT, runAttention);
       if (attentionTimerRef.current != null) {
@@ -93,6 +110,7 @@ export default function AuxillariesWalletConnectionPanel({
     <section
       ref={sectionRef}
       data-testid="wallet-required-section"
+      data-wallet-attention-key={attentionKey || undefined}
       className={[
         'orbital-section mb-5 wallet-required-section',
         attentionActive ? 'wallet-connect-attention-section' : '',

@@ -862,25 +862,32 @@
 }
 
 /*
- * Chrome Connect attention cue: briefly spotlight the required-wallet section
- * and strongly pulse Connect Xverse / Leather buttons.
+ * Chrome Connect attention cue:
+ * - Section: emerald glow (same weight as orange button cue, no size growth)
+ * - Buttons: strong orange pulse (unchanged)
  */
 @keyframes wallet-section-attention {
-  0% {
-    box-shadow:
-      0 18px 44px rgba(0, 0, 0, 0.2),
-      0 0 0 0 rgba(251, 146, 60, 0);
-  }
-  18%,
-  42% {
-    box-shadow:
-      0 18px 44px rgba(0, 0, 0, 0.28),
-      0 0 0 3px rgba(251, 146, 60, 0.72),
-      0 0 42px rgba(251, 146, 60, 0.42);
-    border-color: rgba(251, 146, 60, 0.78) !important;
-  }
+  0%,
   100% {
     box-shadow: 0 18px 44px rgba(0, 0, 0, 0.2);
+    border-color: rgba(101, 254, 183, 0.34);
+  }
+  12%,
+  38% {
+    /* No transform/scale — only border + glow, emerald twin of button cue. */
+    border-color: rgba(167, 243, 208, 0.88) !important;
+    box-shadow:
+      0 18px 44px rgba(0, 0, 0, 0.28),
+      0 0 0 2px rgba(101, 254, 183, 0.72),
+      0 0 32px rgba(101, 254, 183, 0.48),
+      0 0 0 1px rgba(101, 254, 183, 0.22) inset;
+  }
+  55% {
+    border-color: rgba(110, 231, 183, 0.7) !important;
+    box-shadow:
+      0 18px 44px rgba(0, 0, 0, 0.24),
+      0 0 0 1px rgba(101, 254, 183, 0.5),
+      0 0 20px rgba(101, 254, 183, 0.32);
   }
 }
 
@@ -913,7 +920,7 @@
 
 .wallet-connect-attention-section {
   animation: wallet-section-attention 2.1s ease-out 1;
-  border-color: rgba(251, 146, 60, 0.62) !important;
+  border-color: rgba(101, 254, 183, 0.55) !important;
 }
 
 .wallet-connect-attention-button {
@@ -928,9 +935,11 @@
   }
 
   .wallet-connect-attention-section {
+    border-color: rgba(167, 243, 208, 0.75) !important;
     box-shadow:
       0 18px 44px rgba(0, 0, 0, 0.2),
-      0 0 0 2px rgba(251, 146, 60, 0.55);
+      0 0 0 2px rgba(101, 254, 183, 0.55),
+      0 0 24px rgba(101, 254, 183, 0.28);
   }
 
   .wallet-connect-attention-button {

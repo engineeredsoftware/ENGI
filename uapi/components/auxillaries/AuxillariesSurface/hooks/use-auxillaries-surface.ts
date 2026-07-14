@@ -310,21 +310,14 @@ export function useAuxillariesSurface({
    * Chrome Connect: open Wallet auxillary and briefly spotlight the
    * required-wallet section + Connect Xverse/Leather buttons. Create Account
    * is not a chrome action — wallet binding is the identity entry.
+   *
+   * requestWalletConnectAttention sets a pending flag so a Wallet pane that
+   * mounts after a cross-pane switch still runs the highlight on mount.
    */
   const handleConnectChrome = useCallback(() => {
     setCurrentStep('wallet');
     trackEvent('auxillaries_connect_focus_wallet');
-    // Wait a frame (or two) so WalletPane / panel listeners are mounted.
-    if (typeof window === 'undefined') return;
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        requestWalletConnectAttention();
-      });
-    });
-    // If the pane is still mounting (dynamic import), re-cue shortly after.
-    window.setTimeout(() => {
-      requestWalletConnectAttention();
-    }, 120);
+    requestWalletConnectAttention();
   }, []);
 
   const toggleWindow = useCallback(() => {
