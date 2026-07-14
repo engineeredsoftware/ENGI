@@ -148,7 +148,7 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('Bitcode', { selector: 'h2 span' })).toBeInTheDocument();
     expect(screen.getByText('Bitcoin', { selector: 'h2 span' })).toBeInTheDocument();
     expect(screen.getByText(/ERC-1155 on Ethereum/i)).toBeInTheDocument();
-    expect(screen.getByText(/measurements, quotes, settlement order/iu)).toBeInTheDocument();
+    expect(screen.getByText(/measurements, quotes, settlements, BTD, and delivery/iu)).toBeInTheDocument();
     expect(screen.queryByText(/testnet/i)).toBeNull();
     expect(screen.queryByText(/on Bitcoin/i)).toBeNull();
     expect(screen.getByRole('link', { name: /01\s*Sell \(Deposit\)/u })).toHaveAttribute(

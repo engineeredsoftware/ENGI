@@ -76,7 +76,7 @@ export const BITCODE_PUBLIC_COPY = {
     badge: 'Commercial Product',
     title: 'Exchanging Bitcode for Bitcoin.',
     meaning:
-      'Measurements, quotes, settlement order, BTD rights, and delivery are live protocol state—AssetPacks and BTD are ERC-1155 on Ethereum; purchase with Bitcoin.',
+      'Measurements, quotes, settlements, BTD, and delivery are protocol state—AssetPacks and BTD are ERC-1155 on Ethereum; purchase with Bitcoin.',
     flow: [
       {
         step: '01',
