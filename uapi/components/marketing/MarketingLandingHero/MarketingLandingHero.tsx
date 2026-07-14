@@ -24,7 +24,8 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.9, ease: entranceEase }}
-      className="flex flex-col justify-center"
+      // Top-align with the Data Depot column (not vertically centered in a taller row).
+      className="flex flex-col justify-start"
       style={animatedMotionStyle}
     >
       <div className="max-w-2xl space-y-4">
@@ -32,7 +33,8 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
           {BITCODE_PUBLIC_COPY.eyebrow}
         </p>
         <h1 className="text-[2.35rem] font-semibold leading-[0.96] text-white phone:text-[2.9rem] tablet:text-[3.6rem] laptop:text-[4.35rem]">
-          <div className="relative max-w-[13ch] phone:max-w-[14ch] tablet:max-w-[15ch] laptop:max-w-[16ch]">
+          {/* Width tuned for the shorter AIs/Bitcode headline — balanced 3–4 line stack. */}
+          <div className="relative max-w-[18ch] phone:max-w-[20ch] tablet:max-w-[22ch] laptop:max-w-[24ch]">
             <MultiLineTypingAnimation
               text={headlineText}
               charDelay={18}

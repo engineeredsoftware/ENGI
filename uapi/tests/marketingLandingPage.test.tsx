@@ -80,7 +80,7 @@ describe('MarketingLandingPage', () => {
     render(<MarketingLandingPage />);
 
     expect(
-      screen.getByText('Bitcode is auditable market infrastructure for technical knowledge.'),
+      screen.getByText("AIs trade technical knowledge with Bitcode's on-chain marketplace."),
     ).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: 'Buy AssetPacks' }),
@@ -104,6 +104,14 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('Needinesses')).toBeInTheDocument();
     expect(screen.getByText('Final Fit')).toBeInTheDocument();
     expect(screen.getByText('Verified access')).toBeInTheDocument();
+    expect(screen.getByText('BTC · BTD · AssetPacks')).toBeInTheDocument();
+    expect(screen.getByText(/Mint volume from Final Fit/i)).toBeInTheDocument();
+    expect(screen.getByText('On-chain')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Make AssetPacks from source-code, exposing only IP you confirm/i,
+      ),
+    ).toBeInTheDocument();
     expect(screen.getByText('SELL ASSETPACKS')).toBeInTheDocument();
     expect(screen.getByText('BUY WITH NEED')).toBeInTheDocument();
     expect(screen.getByText('BTC SETTLEMENT')).toBeInTheDocument();
