@@ -2,7 +2,7 @@
 
 /**
  * Commercial product strip (left column).
- * Fills residual height when parent is flex-1 so left/right page columns share a lower edge.
+ * Content-height only — parent stack equalizes space above/below via flex spacers.
  */
 
 import React from 'react';
@@ -50,9 +50,9 @@ export function MarketingLandingTestnetSection() {
     <section
       data-testid="landing-testnet-launch"
       aria-label="Commercial product launch readiness"
-      className="relative flex h-full min-h-0 w-full flex-col"
+      className="relative w-full shrink-0"
     >
-      <div className="flex min-h-0 flex-1 flex-col rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-4 py-4 backdrop-blur-sm phone:px-5 phone:py-5">
+      <div className="rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-4 py-4 backdrop-blur-sm phone:px-5 phone:py-5">
         <div className="flex flex-wrap items-center gap-2">
           <span className="rounded-none border border-emerald-300/35 bg-emerald-300/12 px-2.5 py-1 text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-100">
             {copy.badge}
@@ -62,12 +62,12 @@ export function MarketingLandingTestnetSection() {
           {renderTitleWithHighlights(copy.title)}
         </h2>
         <p className="mt-2 text-[13px] leading-5 text-neutral-300 phone:text-[14px]">{copy.meaning}</p>
-        <ol className="mt-3 grid min-h-0 flex-1 grid-cols-1 gap-2.5" aria-label="Core product flow">
+        <ol className="mt-3 grid grid-cols-1 gap-2.5" aria-label="Core product flow">
           {copy.flow.map((entry) => (
-            <li key={entry.step} className="min-h-0">
+            <li key={entry.step}>
               <Link
                 href={entry.href}
-                className="flex h-full flex-col justify-center rounded-none border border-white/10 bg-black/25 px-3 py-3 transition hover:border-emerald-300/35 hover:bg-emerald-300/[0.07]"
+                className="block rounded-none border border-white/10 bg-black/25 px-3 py-3 transition hover:border-emerald-300/35 hover:bg-emerald-300/[0.07]"
               >
                 <span className="inline-flex items-baseline gap-2">
                   <span className="text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-200/85">

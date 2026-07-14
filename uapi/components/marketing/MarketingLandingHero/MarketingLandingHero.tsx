@@ -157,15 +157,21 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
       </div>
 
       {/*
-        Pre-swap y-rhythm: mt-6/7 after CTAs, gap-4 between panels.
-        flex-1 fills residual left-column height so lower edge matches Data Depot.
-        Product grows; micro-blog pins to the shared bottom.
+        Residual left-column height is split evenly:
+        (1) buttons → product card, (2) product card → micro-blog.
+        Micro-blog stays last (no trailing spacer) so its lower edge keeps
+        aligning with the Data Depot column.
+        Product stays content-height — no internal flex grow.
       */}
-      <div className="mt-6 flex min-h-0 w-full flex-1 flex-col gap-4 phone:mt-7">
-        <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+      <div className="flex min-h-0 w-full flex-1 flex-col">
+        <div className="min-h-0 flex-1 basis-0" aria-hidden="true" />
+        <div className="shrink-0">
           <MarketingLandingTestnetSection />
         </div>
-        <MarketingLandingGuideCard />
+        <div className="min-h-0 flex-1 basis-0" aria-hidden="true" />
+        <div className="shrink-0">
+          <MarketingLandingGuideCard />
+        </div>
       </div>
     </motion.section>
   );
