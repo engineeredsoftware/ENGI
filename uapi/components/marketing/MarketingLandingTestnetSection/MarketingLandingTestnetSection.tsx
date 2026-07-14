@@ -82,10 +82,7 @@ export function MarketingLandingTestnetSection() {
             </li>
           ))}
         </ol>
-        <div className="mt-3 grid gap-1.5 text-[11px] leading-5 text-neutral-400">
-          <p>{copy.trust}</p>
-          <p>{copy.sourceSafety}</p>
-        </div>
+        <p className="mt-3 text-[11px] leading-5 text-neutral-400">{copy.sourceSafety}</p>
       </div>
     </section>
   );

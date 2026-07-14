@@ -100,8 +100,6 @@ export const BITCODE_PUBLIC_COPY = {
           'Inspect canonical deployment, settlement, rights, delivery, and compensation with expandable proof roots.',
       },
     ],
-    trust:
-      'Trust the proof: protocol law and proof readback decide state; the product surfaces explain it.',
     sourceSafety:
       'Source-safe trade: buyers see measurements before pay; protected source stays withheld until Bitcoin finality and BTD rights transfer.',
   },

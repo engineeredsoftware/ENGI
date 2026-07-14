@@ -164,9 +164,6 @@ describe('MarketingLandingPage', () => {
       '/packs',
     );
     expect(
-      screen.getByText(/protocol law and proof readback decide state/u),
-    ).toBeInTheDocument();
-    expect(
       screen.getByText(
         /protected source stays withheld until Bitcoin finality and BTD rights transfer/u,
       ),
