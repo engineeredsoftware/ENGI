@@ -61,7 +61,7 @@ export function MarketingLandingTestnetSection() {
         <h2 className="mt-3 text-lg font-semibold leading-snug text-white phone:text-xl">
           {renderTitleWithHighlights(copy.title)}
         </h2>
-        <p className="mt-2 text-[13px] leading-5 text-neutral-300 phone:text-[14px]">{copy.meaning}</p>
+        <p className="mt-2 text-[14px] leading-6 text-neutral-300 phone:text-[15px]">{copy.meaning}</p>
         <ol className="mt-3 grid grid-cols-1 gap-2.5" aria-label="Core product flow">
           {copy.flow.map((entry) => (
             <li key={entry.step}>
@@ -75,7 +75,9 @@ export function MarketingLandingTestnetSection() {
                   </span>
                   <span className="text-[13px] font-semibold text-white">{entry.label}</span>
                 </span>
-                <span className="mt-1 block text-[11px] leading-4 text-neutral-400">{entry.detail}</span>
+                <span className="mt-1 block text-[12px] leading-5 text-neutral-400 phone:text-[13px]">
+                  {entry.detail}
+                </span>
               </Link>
             </li>
           ))}
