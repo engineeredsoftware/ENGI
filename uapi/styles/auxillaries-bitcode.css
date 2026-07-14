@@ -899,16 +899,25 @@
   --wallet-section-rest-border: rgba(103, 254, 183, 0.34);
 }
 
+/*
+ * Shared timeline for section + buttons so border, bg, glow, and scale all
+ * rise and settle together (no trailing bg after size/border go quiet).
+ *   0%       rest
+ *   12–40%   peak hold
+ *   48%      shared soft decay (every property)
+ *   58–100%  rest hold (every property already reset)
+ */
 @keyframes wallet-section-attention {
   0%,
+  58%,
   100% {
     border-color: var(--wallet-section-rest-border);
     box-shadow: var(--wallet-section-rest-shadow);
     background: var(--wallet-section-rest-bg);
   }
   12%,
-  38% {
-    /* Same weight as button cue; border/glow only (no size growth). */
+  40% {
+    /* Peak: border + glow + wash together (no size growth). */
     border-color: rgba(254, 215, 170, 0.95);
     background: linear-gradient(
       145deg,
@@ -921,8 +930,8 @@
       0 0 36px rgba(251, 146, 60, 0.58),
       0 0 0 1px rgba(251, 146, 60, 0.28) inset;
   }
-  55% {
-    border-color: rgba(253, 186, 116, 0.82);
+  48% {
+    border-color: rgba(253, 186, 116, 0.72);
     background: linear-gradient(
       145deg,
       rgba(64, 32, 10, 0.9),
@@ -930,49 +939,57 @@
     );
     box-shadow:
       0 18px 44px rgba(0, 0, 0, 0.24),
-      0 0 0 1px rgba(251, 146, 60, 0.55),
-      0 0 22px rgba(251, 146, 60, 0.4);
+      0 0 0 1px rgba(251, 146, 60, 0.5),
+      0 0 20px rgba(251, 146, 60, 0.35);
   }
 }
 
 @keyframes wallet-connect-button-attention {
   0%,
+  58%,
   100% {
     transform: translateY(0) scale(1);
     box-shadow: none;
     border-color: rgba(251, 146, 60, 0.34);
+    background-color: rgba(251, 146, 60, 0.14);
     background: rgba(251, 146, 60, 0.14);
     color: rgba(255, 247, 237, 0.98);
   }
   12%,
-  38% {
+  40% {
+    /* Peak: bg, border, glow, and scale all move together. */
     transform: translateY(-1px) scale(1.045);
-    border-color: rgba(254, 215, 170, 0.95) !important;
-    background: rgba(251, 146, 60, 0.42) !important;
-    color: #fff !important;
+    border-color: rgba(254, 215, 170, 0.95);
+    background-color: rgba(251, 146, 60, 0.42);
+    background: rgba(251, 146, 60, 0.42);
+    color: #fff;
     box-shadow:
       0 0 0 2px rgba(251, 146, 60, 0.75),
       0 0 28px rgba(251, 146, 60, 0.65),
       0 12px 28px rgba(0, 0, 0, 0.28);
   }
-  55% {
-    transform: translateY(0) scale(1.02);
-    border-color: rgba(253, 186, 116, 0.8) !important;
-    background: rgba(251, 146, 60, 0.28) !important;
+  48% {
+    /* Shared soft decay — bg resets with border/scale, not after. */
+    transform: translateY(0) scale(1.015);
+    border-color: rgba(253, 186, 116, 0.72);
+    background-color: rgba(251, 146, 60, 0.22);
+    background: rgba(251, 146, 60, 0.22);
+    color: rgba(255, 247, 237, 0.98);
     box-shadow:
-      0 0 0 1px rgba(251, 146, 60, 0.45),
-      0 0 18px rgba(251, 146, 60, 0.4);
+      0 0 0 1px rgba(251, 146, 60, 0.4),
+      0 0 14px rgba(251, 146, 60, 0.32);
   }
 }
 
 /* Only animation — no static highlight props (those caused end flicker). */
 .auxillaries-bitcode-surface .wallet-required-section.wallet-connect-attention-section,
 .wallet-required-section.wallet-connect-attention-section {
-  animation: wallet-section-attention 2.1s ease-out 1 both;
+  /* ease-in-out keeps the settle even; rest is fully restored by 58%. */
+  animation: wallet-section-attention 2.1s ease-in-out 1 both;
 }
 
 .wallet-connect-attention-button {
-  animation: wallet-connect-button-attention 2.1s ease-out 1 both;
+  animation: wallet-connect-button-attention 2.1s ease-in-out 1 both;
   will-change: transform, box-shadow, background-color, border-color;
 }
 
