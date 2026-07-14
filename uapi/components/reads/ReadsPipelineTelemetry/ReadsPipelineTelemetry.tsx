@@ -54,7 +54,7 @@ export function ReadsPipelineTelemetry({
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
+          <p className="text-[0.68rem] uppercase tracking-[0.22em] text-orange-200/80">
             Telemetry
           </p>
           <h2 className="mt-2 text-lg font-semibold text-white">
@@ -83,7 +83,7 @@ export function ReadsPipelineTelemetry({
           {typeof readRunActivity.currentIteration === "number" && (
             <span
               title="DIV loop iteration (Discovery → Implementation → Validation)"
-              className="border border-sky-300/15 bg-sky-300/10 px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-sky-100"
+              className="border border-orange-300/15 bg-orange-300/10 px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-orange-100"
             >
               iter {readRunActivity.currentIteration}
             </span>
@@ -92,7 +92,7 @@ export function ReadsPipelineTelemetry({
             startedAtMs={readRunStartMs}
             running={readRunIsProcessing}
             endedAtMs={readRunEndMs}
-            className="font-mono text-[0.72rem] text-sky-100/90"
+            className="font-mono text-[0.72rem] text-orange-100/90"
           />
           <span className="border border-white/10 bg-black/30 px-3 py-2 font-mono text-[0.62rem] text-neutral-400">
             {selectedPipelineRunId}

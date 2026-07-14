@@ -43,14 +43,14 @@ export default function ReadsDepositStagedReadingSection({
 }: ReadsDepositStagedReadingSectionProps) {
   return (
     <section
-      className="mt-5 rounded-none border border-sky-300/18 bg-sky-300/[0.06] px-5 py-5"
+      className="mt-5 rounded-none border border-orange-300/18 bg-orange-300/[0.06] px-5 py-5"
       data-reading-route-stage={routeReadingStage || ''}
       data-reading-transaction-present={transactionIdPresent ? 'true' : 'false'}
       data-reading-failure-kind={failureKind}
     >
       <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
         <div>
-          <p className="text-[0.66rem] uppercase tracking-[0.2em] text-sky-200/80">staged reading</p>
+          <p className="text-[0.66rem] uppercase tracking-[0.2em] text-orange-200/80">staged reading</p>
           <h3 className="mt-2 text-lg font-semibold text-white">
             Request Read, review Need, request Fit, review AssetPack, buy and settle
           </h3>
@@ -84,7 +84,7 @@ export default function ReadsDepositStagedReadingSection({
 
       {readNeedRuntimeRows.length ? (
         <details className="mt-4 rounded-none border border-white/8 bg-black/20 px-4 py-4">
-          <summary className="cursor-pointer text-[0.62rem] uppercase tracking-[0.16em] text-sky-200/80">
+          <summary className="cursor-pointer text-[0.62rem] uppercase tracking-[0.16em] text-orange-200/80">
             Need runtime, storage, and telemetry
           </summary>
           <dl className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-5">

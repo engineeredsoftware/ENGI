@@ -74,7 +74,7 @@ export function DepositRouteStateAside({
           <div className="mt-3">
             <ProductRouteDisclosure
               title="Authority blockers"
-              tone="emerald"
+              tone="violet"
               summaryDescription={DEPOSIT_AUTHORITY_BLOCKERS_EXPLAINER}
             >
               {depositRouteSession.organizationPolicyWalletAuthority.aggregate.blockers.join(
@@ -105,7 +105,7 @@ export function DepositRouteStateAside({
         <div className="mt-3">
           <ProductRouteDisclosure
             title="Disclosure boundary"
-            tone="emerald"
+            tone="violet"
             summaryDescription={DEPOSIT_DISCLOSURE_BOUNDARY_EXPLAINER}
           >
             Visible: measurements, demand roots, source path roots, policy
@@ -118,7 +118,7 @@ export function DepositRouteStateAside({
           <ProductRouteProofDetail
             testId="deposit-expandable-proof-detail"
             title="Deposit proof detail"
-            tone="emerald"
+            tone="violet"
             roots={[
               {
                 id: "route-session-root",

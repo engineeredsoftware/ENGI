@@ -124,7 +124,7 @@ export default function ReadsMeasuredReadAdmissionPanel({
           type="button"
           disabled={!canRunLiveFit}
           onClick={onRunLiveFit}
-          className="rounded-none border border-sky-300/30 bg-sky-300/10 px-4 py-3 text-sm font-medium text-sky-100 transition hover:border-sky-200/50 hover:bg-sky-300/15 disabled:cursor-not-allowed disabled:opacity-55"
+          className="rounded-none border border-orange-300/30 bg-orange-300/10 px-4 py-3 text-sm font-medium text-orange-100 transition hover:border-orange-200/50 hover:bg-orange-300/15 disabled:cursor-not-allowed disabled:opacity-55"
         >
           {liveFitActionLabel}
         </button>

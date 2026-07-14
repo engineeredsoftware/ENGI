@@ -41,10 +41,21 @@ export type ReadSelectionEnvelope = {
 export function useReadOptionSynthesis(input: {
   repositoryContext: TerminalRepositoryContextState | null;
   need: string;
+  /** Deposit forcedInclusions twin — paths that should steer need comprehension. */
+  relevantPaths?: string[];
+  /** Deposit forcedExclusions twin — paths to de-emphasize / exclude from fit. */
+  irrelevantPaths?: string[];
   onRunDispatched?: (runId: string) => void;
   refreshLiveRuns?: () => void | Promise<unknown>;
 }) {
-  const { repositoryContext, need, onRunDispatched, refreshLiveRuns } = input;
+  const {
+    repositoryContext,
+    need,
+    relevantPaths = [],
+    irrelevantPaths = [],
+    onRunDispatched,
+    refreshLiveRuns,
+  } = input;
   const [status, setStatus] = useState<ReadSynthesisStatus>("idle");
   const [runId, setRunId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -144,6 +155,11 @@ export function useReadOptionSynthesis(input: {
           sourceBranch: repositoryContext?.selectedBranch || null,
           sourceCommit: repositoryContext?.selectedCommit || null,
           need: need.trim(),
+          // Deposit twin path steering (obfuscations inclusions/exclusions).
+          relevantPaths,
+          irrelevantPaths,
+          forcedInclusions: relevantPaths,
+          forcedExclusions: irrelevantPaths,
         }),
       });
       const payload = await response.json().catch(() => null);
@@ -164,6 +180,8 @@ export function useReadOptionSynthesis(input: {
     }
   }, [
     need,
+    relevantPaths,
+    irrelevantPaths,
     onRunDispatched,
     pollForOptions,
     refreshLiveRuns,

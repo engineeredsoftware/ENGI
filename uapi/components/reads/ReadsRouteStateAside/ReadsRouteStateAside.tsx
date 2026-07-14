@@ -40,7 +40,7 @@ export function ReadsRouteStateAside({
     <aside className="grid h-fit gap-5" aria-label="Reading route state">
       <ProductRouteKeyboardHint
         testId="read-keyboard-navigation"
-        tone="sky"
+        tone="orange"
         shortcuts={[
           {
             keys: "Tab",
@@ -60,7 +60,7 @@ export function ReadsRouteStateAside({
       <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
+            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-orange-200/80">
               Session
             </p>
             <h2 className="mt-2 text-lg font-semibold text-white">
@@ -85,7 +85,7 @@ export function ReadsRouteStateAside({
           ))}
         </dl>
         <div className="mt-3">
-          <ProductRouteDisclosure title="Disclosure boundary" tone="sky">
+          <ProductRouteDisclosure title="Disclosure boundary" tone="orange">
             Visible: Need measurements, fit ids, proof roots, fee quotes,
             settlement readback, delivery posture. Withheld until paid rights:
             source-bearing AssetPack contents.
@@ -95,7 +95,7 @@ export function ReadsRouteStateAside({
           <ProductRouteProofDetail
             testId="read-expandable-proof-detail"
             title="Reading proof detail"
-            tone="sky"
+            tone="orange"
             roots={[
               {
                 id: "route-session-root",
@@ -156,14 +156,14 @@ export function ReadsRouteStateAside({
       <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
+            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-orange-200/80">
               Governance
             </p>
             <h2 className="mt-2 text-lg font-semibold text-white">
               Organization authority
             </h2>
           </div>
-          <ShieldCheck className="h-5 w-5 text-sky-200" aria-hidden="true" />
+          <ShieldCheck className="h-5 w-5 text-orange-200" aria-hidden="true" />
         </div>
         <dl className="mt-4 grid gap-2">
           {authorityRows.map((row) => (
@@ -183,7 +183,7 @@ export function ReadsRouteStateAside({
         {readRouteSession.organizationPolicyWalletAuthority.aggregate.blockers
           .length ? (
           <div className="mt-3">
-            <ProductRouteDisclosure title="Authority blockers" tone="sky">
+            <ProductRouteDisclosure title="Authority blockers" tone="orange">
               {readRouteSession.organizationPolicyWalletAuthority.aggregate.blockers.join(
                 "; ",
               )}
@@ -195,7 +195,7 @@ export function ReadsRouteStateAside({
       <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
+            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-orange-200/80">
               Procurement
             </p>
             <h2 className="mt-2 text-lg font-semibold text-white">
@@ -224,7 +224,7 @@ export function ReadsRouteStateAside({
         </dl>
         <div className="mt-4 grid gap-2 text-xs text-neutral-400">
           <div className="flex items-center gap-2">
-            <Clock3 className="h-3.5 w-3.5 text-sky-200" aria-hidden="true" />
+            <Clock3 className="h-3.5 w-3.5 text-orange-200" aria-hidden="true" />
             <span>
               {readRouteSession.procurementGovernance.quotePolicy.state.replace(
                 /-/g,
@@ -233,7 +233,7 @@ export function ReadsRouteStateAside({
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <Wallet className="h-3.5 w-3.5 text-sky-200" aria-hidden="true" />
+            <Wallet className="h-3.5 w-3.5 text-orange-200" aria-hidden="true" />
             <span>
               {readRouteSession.procurementGovernance.approval
                 .walletAuthorityPresent
@@ -244,7 +244,7 @@ export function ReadsRouteStateAside({
         </div>
         {readRouteSession.procurementGovernance.settlement.blockers.length ? (
           <div className="mt-3">
-            <ProductRouteDisclosure title="Procurement blockers" tone="sky">
+            <ProductRouteDisclosure title="Procurement blockers" tone="orange">
               {readRouteSession.procurementGovernance.settlement.blockers.join(
                 "; ",
               )}
@@ -256,7 +256,7 @@ export function ReadsRouteStateAside({
       <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
+            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-orange-200/80">
               Measurement
             </p>
             <h2 className="mt-2 text-lg font-semibold text-white">
@@ -347,7 +347,7 @@ export function ReadsRouteStateAside({
       <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
+            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-orange-200/80">
               Settlement
             </p>
             <h2 className="mt-2 text-lg font-semibold text-white">
@@ -417,7 +417,7 @@ export function ReadsRouteStateAside({
         </dl>
         {readRouteSession.settlementRightsDelivery.blockers.length ? (
           <div className="mt-3">
-            <ProductRouteDisclosure title="Settlement blockers" tone="sky">
+            <ProductRouteDisclosure title="Settlement blockers" tone="orange">
               {readRouteSession.settlementRightsDelivery.blockers.join("; ")}
             </ProductRouteDisclosure>
           </div>

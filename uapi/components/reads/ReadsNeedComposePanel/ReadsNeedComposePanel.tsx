@@ -1,72 +1,67 @@
 /**
  * Read Need compose + option synthesis/review (deposit Obfuscations twin).
- * Dispatches SynthesizeReadAssetPacks; settle is a separate action on selected options.
+ * Free-text Need + Relevant / Irrelevant path pickers + synthesize CTA.
+ * Options list and settle live in the parent detail grid (deposit parity).
  */
 "use client";
 
 import React from "react";
 import type {
-  ReadSelectionEnvelope,
-  ReadSynthesizedOption,
   ReadSynthesisStatus,
 } from "@/components/reads/ReadPageClient/hooks/use-read-option-synthesis";
-import { ReadsOptionCard } from "@/components/reads/ReadsOptionCard/ReadsOptionCard";
+import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import { ReadsNeedPathPickers } from "@/components/reads/ReadsNeedPathPickers/ReadsNeedPathPickers";
 
 export function ReadsNeedComposePanel(props: {
   need: string;
   onNeedChange: (value: string) => void;
+  relevantPaths: string[];
+  onRelevantPathsChange: (paths: string[]) => void;
+  irrelevantPaths: string[];
+  onIrrelevantPathsChange: (paths: string[]) => void;
+  repositoryContext: TerminalRepositoryContextState | null;
   status: ReadSynthesisStatus;
   error: string | null;
   runId: string | null;
-  options: ReadSynthesizedOption[];
-  envelope: ReadSelectionEnvelope | null;
-  selectedIndexes: number[];
-  onToggleSelect: (index: number) => void;
   onSynthesize: () => void;
-  onSettleSelected: () => void;
-  settleBusy?: boolean;
-  settleError?: string | null;
-  settleMessage?: string | null;
   canSynthesize: boolean;
+  isConfigLocked?: boolean;
 }) {
   const {
     need,
     onNeedChange,
+    relevantPaths,
+    onRelevantPathsChange,
+    irrelevantPaths,
+    onIrrelevantPathsChange,
+    repositoryContext,
     status,
     error,
     runId,
-    options,
-    envelope,
-    selectedIndexes,
-    onToggleSelect,
     onSynthesize,
-    onSettleSelected,
-    settleBusy,
-    settleError,
-    settleMessage,
     canSynthesize,
+    isConfigLocked = false,
   } = props;
 
-  const running = status === "running";
-  const hasOptions = options.length > 0;
+  const running = status === "running" || isConfigLocked;
 
   return (
     <section
       data-testid="reads-need-compose"
-      className="border border-white/10 bg-white/[0.035] px-4 py-4"
-      aria-label="Read Need and AssetPack options"
+      className={`border border-white/10 bg-white/[0.035] px-4 py-4 ${
+        isConfigLocked ? "opacity-80" : ""
+      }`}
+      aria-label="Read Need and path steering"
+      aria-disabled={isConfigLocked ? true : undefined}
     >
-      <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
-        Need instruction
+      <p className="text-[0.68rem] uppercase tracking-[0.22em] text-orange-200/80">
+        Option synthesis
       </p>
-      <h2 className="mt-2 text-lg font-semibold text-white">
-        Synthesize read AssetPack options
-      </h2>
+      <h2 className="mt-2 text-lg font-semibold text-white">Need</h2>
       <p className="mt-2 text-sm leading-6 text-neutral-400">
-        Same SDIVF shape as deposits: select a repository, write the Need, synthesize
-        measured options (absolutes + *-fit needinesses), then settle each selected option
-        (1:1 settle-btc → mint-btd → settle-btd → settle-asset-pack)
-        (BTC-testnet → BTD rights → PR ship).
+        Same SDIVF shape as deposits: select a repository and SHA, write the Need,
+        steer with Relevant / Irrelevant paths (deposit Inclusion / Exclusion twin),
+        then synthesize measured options.
       </p>
 
       <label htmlFor="reads-need-input" className="mt-4 block text-xs text-neutral-300">
@@ -83,13 +78,22 @@ export function ReadsNeedComposePanel(props: {
         disabled={running}
       />
 
+      <ReadsNeedPathPickers
+        isConfigLocked={running}
+        relevantPaths={relevantPaths}
+        onRelevantPathsChange={onRelevantPathsChange}
+        irrelevantPaths={irrelevantPaths}
+        onIrrelevantPathsChange={onIrrelevantPathsChange}
+        repositoryContext={repositoryContext}
+      />
+
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <button
           type="button"
           data-testid="reads-synthesize-options"
           onClick={() => void onSynthesize()}
           disabled={!canSynthesize || running || !need.trim()}
-          className="border border-sky-300/40 bg-sky-400/15 px-4 py-2 text-sm font-medium text-sky-50 disabled:cursor-not-allowed disabled:opacity-40"
+          className="border border-orange-300/40 bg-orange-400/15 px-4 py-2 text-sm font-medium text-orange-50 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {running ? "Synthesizing…" : "Synthesize options"}
         </button>
@@ -107,69 +111,6 @@ export function ReadsNeedComposePanel(props: {
           className="mt-3 border border-rose-400/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-100"
         >
           {error}
-        </p>
-      ) : null}
-
-      {envelope?.validationSummary ? (
-        <p className="mt-3 text-xs text-neutral-400">{envelope.validationSummary}</p>
-      ) : null}
-
-      <div className="mt-6">
-        <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
-          Source-safe proposals
-        </p>
-        {!hasOptions ? (
-          <div
-            data-testid="reads-options-await-synthesis"
-            className="mt-3 border border-white/10 bg-black/20 px-4 py-6 text-sm text-neutral-400"
-          >
-            Measured AssetPack options appear here after synthesis — select a repository,
-            describe the Need, then Synthesize.
-          </div>
-        ) : (
-          <div className="mt-3 grid gap-3 xl:grid-cols-2">
-            {options.map((opt) => (
-              <ReadsOptionCard
-                key={opt.index}
-                option={opt}
-                selected={selectedIndexes.includes(opt.index)}
-                onToggleSelect={onToggleSelect}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-
-      {hasOptions ? (
-        <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-white/10 pt-4">
-          <button
-            type="button"
-            data-testid="reads-settle-selected"
-            onClick={() => void onSettleSelected()}
-            disabled={selectedIndexes.length === 0 || settleBusy}
-            className="border border-emerald-300/40 bg-emerald-400/15 px-4 py-2 text-sm font-medium text-emerald-50 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            {settleBusy
-              ? "Settling…"
-              : `Settle selected (${selectedIndexes.length}) → pay · BTD · PR`}
-          </button>
-          <span className="text-xs text-neutral-500">
-            SettleAssetPack Simple pipeline (not SDIVF)
-          </span>
-        </div>
-      ) : null}
-
-      {settleError ? (
-        <p className="mt-3 border border-rose-400/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-100">
-          {settleError}
-        </p>
-      ) : null}
-      {settleMessage ? (
-        <p
-          data-testid="reads-settle-message"
-          className="mt-3 border border-emerald-300/20 bg-emerald-400/10 px-3 py-2 text-sm text-emerald-50"
-        >
-          {settleMessage}
         </p>
       ) : null}
     </section>

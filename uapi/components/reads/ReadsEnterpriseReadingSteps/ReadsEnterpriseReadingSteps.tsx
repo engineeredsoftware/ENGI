@@ -36,7 +36,7 @@ export function ReadsEnterpriseReadingSteps({
             data-reading-step-state={stage.state}
             className={`rounded-none border px-3 py-4 text-sm ${
               active
-                ? "border-sky-300/35 bg-sky-300/10"
+                ? "border-orange-300/35 bg-orange-300/10"
                 : "border-white/8 bg-black/20"
             }`}
           >
@@ -50,7 +50,7 @@ export function ReadsEnterpriseReadingSteps({
               {stage.lowDetailGuidance}
             </p>
             <details className="mt-3 rounded-none border border-white/8 bg-black/20 px-3 py-2">
-              <summary className="cursor-pointer text-[0.6rem] uppercase tracking-[0.14em] text-sky-200/80">
+              <summary className="cursor-pointer text-[0.6rem] uppercase tracking-[0.14em] text-orange-200/80">
                 Source-safe detail
               </summary>
               <p className="mt-2 text-xs leading-5 text-neutral-300">

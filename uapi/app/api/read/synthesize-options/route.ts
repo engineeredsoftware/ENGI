@@ -64,6 +64,20 @@ export async function POST(request: Request) {
           : '';
   const sourceBranch = typeof body.sourceBranch === 'string' ? body.sourceBranch.trim() : 'main';
   const sourceCommit = typeof body.sourceCommit === 'string' ? body.sourceCommit.trim() : '';
+  const normalizePathList = (value: unknown): string[] =>
+    Array.isArray(value)
+      ? value
+          .filter((entry): entry is string => typeof entry === 'string')
+          .map((entry) => entry.trim())
+          .filter(Boolean)
+      : [];
+  // Deposit twin: relevant/irrelevant paths (also accept forcedInclusions/Exclusions).
+  const relevantPaths = normalizePathList(
+    body.relevantPaths ?? body.forcedInclusions ?? body.relevants,
+  );
+  const irrelevantPaths = normalizePathList(
+    body.irrelevantPaths ?? body.forcedExclusions ?? body.irrelevants,
+  );
   const requestedRunId =
     typeof body.runId === 'string' && UUID_PATTERN.test(body.runId) ? body.runId : randomUUID();
 
@@ -92,6 +106,8 @@ export async function POST(request: Request) {
       sourceBranch,
       sourceCommit: sourceCommit || null,
       needLength: need.length,
+      relevantPathCount: relevantPaths.length,
+      irrelevantPathCount: irrelevantPaths.length,
     },
     context: {
       source: 'read-synthesize-options',
@@ -101,6 +117,8 @@ export async function POST(request: Request) {
       repositoryFullName,
       sourceBranch,
       sourceCommit: sourceCommit || null,
+      relevantPaths,
+      irrelevantPaths,
     },
     started_at: new Date().toISOString(),
   });
@@ -132,6 +150,8 @@ export async function POST(request: Request) {
       sourceBranch,
       sourceCommit: sourceCommit || null,
       need,
+      relevantPaths,
+      irrelevantPaths,
     }),
   );
 

@@ -78,7 +78,7 @@ export function ReadsPipelinesSection({
       />
       {selectedRun && !selectedPipelineRunId ? (
         <div data-testid="reads-run-summary" className="mt-4">
-          <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
+          <p className="text-[0.68rem] uppercase tracking-[0.22em] text-orange-200/80">
             Run detail
           </p>
           <dl className="mt-3 grid gap-3 text-sm leading-6 text-neutral-200 tablet:grid-cols-2">

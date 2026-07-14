@@ -11,7 +11,15 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-type ProductRouteTone = "emerald" | "sky" | "violet";
+/**
+ * Product surface tints (secondary page wash). Brand primary remains Bitcode
+ * emerald green everywhere else (nav, CTAs, logo).
+ * - emerald → Packs (primary green secondary wash)
+ * - violet → Deposits (purple)
+ * - orange → Reads
+ * - sky → retained for non-product panels
+ */
+type ProductRouteTone = "emerald" | "sky" | "violet" | "orange";
 
 // Section (b) generic copy for the shell's rich tooltips.
 const ROUTE_METRIC_TOOLTIP_GENERIC =
@@ -89,15 +97,26 @@ const TONE_CLASSES: Record<ProductRouteTone, ToneClasses> = {
     panelAccent: "border-sky-300/15 bg-sky-300/[0.04] text-sky-100/85",
   },
   violet: {
-    page: "bg-[radial-gradient(circle_at_top_left,rgba(167,139,250,0.13),transparent_30%),linear-gradient(180deg,#050915_0%,#02050d_100%)]",
-    headerBorder: "border-violet-300/15",
-    eyebrow: "text-violet-200/80",
+    page: "bg-[radial-gradient(circle_at_top_left,rgba(167,139,250,0.16),transparent_30%),linear-gradient(180deg,#050915_0%,#02050d_100%)]",
+    headerBorder: "border-violet-300/18",
+    eyebrow: "text-violet-200/85",
     activeStep:
-      "border-violet-300/38 bg-violet-300/12 shadow-[0_0_24px_rgba(167,139,250,0.12)]",
+      "border-violet-300/38 bg-violet-300/12 shadow-[0_0_24px_rgba(167,139,250,0.14)]",
     inactiveStep:
       "border-white/10 bg-white/[0.035] hover:border-violet-300/24 hover:bg-violet-300/[0.06]",
     focusRing: "focus-visible:ring-violet-300/55",
     panelAccent: "border-violet-300/15 bg-violet-300/[0.04] text-violet-100/85",
+  },
+  orange: {
+    page: "bg-[radial-gradient(circle_at_top_left,rgba(251,146,60,0.16),transparent_30%),linear-gradient(180deg,#050915_0%,#02050d_100%)]",
+    headerBorder: "border-orange-300/18",
+    eyebrow: "text-orange-200/85",
+    activeStep:
+      "border-orange-300/40 bg-orange-300/12 shadow-[0_0_24px_rgba(251,146,60,0.14)]",
+    inactiveStep:
+      "border-white/10 bg-white/[0.035] hover:border-orange-300/26 hover:bg-orange-300/[0.06]",
+    focusRing: "focus-visible:ring-orange-300/55",
+    panelAccent: "border-orange-300/16 bg-orange-300/[0.05] text-orange-50/90",
   },
 };
 

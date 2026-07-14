@@ -26,7 +26,7 @@ export default function ReadsDepositReadWorkbenchEmpty() {
       </p>
       <ol className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
         {TERMINAL_ENTERPRISE_READING_STEPS.map((stage) => (
-          <li key={stage.id} className="border-l border-sky-300/30 pl-3">
+          <li key={stage.id} className="border-l border-orange-300/30 pl-3">
             <p className="text-sm font-semibold text-neutral-100">{stage.label}</p>
             <p className="mt-1 text-xs leading-5 text-neutral-400">{stage.lowDetailGuidance}</p>
           </li>

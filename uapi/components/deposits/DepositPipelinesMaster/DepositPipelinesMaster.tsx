@@ -58,7 +58,7 @@ export function DepositPipelinesMaster({
             <button
               type="button"
               onClick={onCloseDetail}
-              className="inline-flex h-9 items-center gap-2 border border-white/10 bg-white/[0.04] px-3 text-xs font-medium uppercase tracking-[0.14em] text-neutral-200 transition hover:border-emerald-300/30 hover:bg-emerald-300/10"
+              className="inline-flex h-9 items-center gap-2 border border-white/10 bg-white/[0.04] px-3 text-xs font-medium uppercase tracking-[0.14em] text-neutral-200 transition hover:border-violet-300/30 hover:bg-violet-300/10"
               aria-label="Back to Deposit"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden="true" />
@@ -80,7 +80,7 @@ export function DepositPipelinesMaster({
           <button
             type="button"
             onClick={onOpenCompose}
-            className="ml-auto inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-none border border-emerald-200/55 bg-[linear-gradient(180deg,rgba(52,211,153,0.95),rgba(16,185,129,0.88))] text-slate-950 shadow-[0_0_0_1px_rgba(167,243,208,0.35)_inset,0_12px_36px_rgba(16,185,129,0.42),0_0_28px_rgba(52,211,153,0.28)] transition hover:border-emerald-100/70 hover:bg-[linear-gradient(180deg,rgba(110,231,183,1),rgba(52,211,153,0.95))] hover:shadow-[0_0_0_1px_rgba(209,250,229,0.45)_inset,0_14px_40px_rgba(16,185,129,0.5),0_0_34px_rgba(52,211,153,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgba(4,8,18,0.9)] active:translate-y-px"
+            className="ml-auto inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-none border border-violet-200/55 bg-[linear-gradient(180deg,rgba(167,139,250,0.95),rgba(139,92,246,0.88))] text-slate-950 shadow-[0_0_0_1px_rgba(196,181,253,0.35)_inset,0_12px_36px_rgba(139,92,246,0.42),0_0_28px_rgba(167,139,250,0.28)] transition hover:border-violet-100/70 hover:bg-[linear-gradient(180deg,rgba(196,181,253,1),rgba(167,139,250,0.95))] hover:shadow-[0_0_0_1px_rgba(221,214,254,0.45)_inset,0_14px_40px_rgba(139,92,246,0.5),0_0_34px_rgba(167,139,250,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-200/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgba(4,8,18,0.9)] active:translate-y-px"
             aria-label="New deposit"
             title="New deposit"
             data-testid="deposit-open-compose"

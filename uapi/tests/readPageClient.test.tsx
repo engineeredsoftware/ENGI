@@ -179,97 +179,67 @@ describe("ReadPageClient", () => {
     jest.restoreAllMocks();
   });
 
-  it("renders the five-step /reads route with source-safe session state and live workbench ownership", async () => {
+  it("renders deposit-parity compact header + pipelines table (no always-on steps)", async () => {
+    mockQuery = "";
     render(<ReadPageClient />);
 
     expect(screen.getByTestId("route-shell-read")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Reading" }),
     ).toBeInTheDocument();
+    // Deposit twin: no enterprise step grid / economic summary on the list view.
     expect(
-      screen.getByTestId("read-route-step-request-read"),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId("read-route-step-review-synthesized-need"),
-    ).toBeInTheDocument();
-    expect(screen.getByTestId("read-route-step-request-fit")).toHaveAttribute(
-      "data-reading-step-state",
-      "current",
-    );
-    expect(screen.getByTestId("read-route-step-request-fit")).toHaveAttribute(
-      "aria-current",
-      "step",
-    );
-    expect(screen.getByText("Source-safe read state")).toBeInTheDocument();
-    expect(screen.getByText("Disclosure boundary")).toBeInTheDocument();
-    expect(
-      screen.getByText(/Withheld until paid rights: source-bearing AssetPack contents/u),
-    ).toBeInTheDocument();
-    expect(screen.getByText("Organization authority")).toBeInTheDocument();
-    expect(
-      screen.getByText("ReadNeedComprehensionSynthesis"),
-    ).toBeInTheDocument();
-    expect(screen.getByText("ReadFitsFindingSynthesis")).toBeInTheDocument();
-    expect(
-      screen.getByTestId("read-enterprise-economic-summary"),
-    ).toHaveAttribute("data-enterprise-ux", "economic-summary");
-    expect(screen.getByTestId("read-keyboard-navigation")).toHaveAttribute(
-      "data-enterprise-ux",
-      "keyboard-navigation",
-    );
-    expect(screen.getByTestId("read-expandable-proof-detail")).toHaveAttribute(
-      "data-enterprise-ux",
-      "expandable-proof-detail",
-    );
-
-    await waitFor(() =>
-      expect(
-        screen.getByLabelText("Repository source selector"),
-      ).toBeInTheDocument(),
-    );
-    const workbench = screen.getByLabelText("Reading workbench");
-    await waitFor(() =>
-      expect(workbench).toHaveAttribute(
-        "data-admitted-read",
-        "read-admission-1",
-      ),
-    );
-    expect(workbench).toHaveAttribute("data-route-stage", "request-fit");
-    expect(workbench).toHaveAttribute("data-demonstration", "false");
-    // Drill-in master-detail: the selected run (read-admission-1, not a
-    // formal pipeline execution) REPLACES the table with its run summary
-    // detail; Back returns to the table.
-    expect(screen.getByText("Read pipelines")).toBeInTheDocument();
-    expect(
-      screen.queryByTestId("reads-pipelines-table"),
+      screen.queryByTestId("read-route-step-request-read"),
     ).not.toBeInTheDocument();
-    const summary = screen.getByTestId("reads-run-summary");
-    expect(summary).toHaveTextContent("read-admission-1");
-    expect(summary).toHaveTextContent("agentic-execution:read-measurement");
     expect(
-      screen.getByRole("button", { name: "Back to Read pipelines" }),
-    ).toBeInTheDocument();
-  });
-
-  it("returns from the run detail to the pipelines table via Back", async () => {
-    mockQuery = "";
-    render(<ReadPageClient />);
-
-    // No selection: the master table shows, no detail and no Back button.
+      screen.queryByTestId("read-enterprise-economic-summary"),
+    ).not.toBeInTheDocument();
     expect(
       await screen.findByTestId("reads-pipelines-table"),
     ).toBeInTheDocument();
-    expect(screen.queryByTestId("reads-run-summary")).not.toBeInTheDocument();
     expect(
-      screen.queryByRole("button", { name: "Back to Read pipelines" }),
+      screen.getByRole("button", { name: "New read" }),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("reads-open-compose")).toBeInTheDocument();
+  });
+
+  it("opens compose detail from New and shows Need + source selector", async () => {
+    mockQuery = "";
+    render(<ReadPageClient />);
+
+    fireEvent.click(await screen.findByTestId("reads-open-compose"));
+
+    expect(
+      await screen.findByTestId("reads-run-configuration"),
+    ).toHaveAttribute("data-compose", "true");
+    expect(screen.queryByTestId("reads-pipelines-table")).not.toBeInTheDocument();
+    expect(
+      await screen.findByLabelText("Repository source selector"),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("reads-need-compose")).toBeInTheDocument();
+    expect(screen.getByTestId("reads-need-input")).toBeInTheDocument();
+    expect(screen.getByTestId("reads-synthesize-options")).toBeInTheDocument();
+    expect(screen.getByTestId("reads-asset-pack-options")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Back to Read" }),
+    ).toBeInTheDocument();
+  });
+
+  it("returns from run detail to the pipelines table via Back", async () => {
+    mockQuery = "";
+    render(<ReadPageClient />);
+
+    expect(
+      await screen.findByTestId("reads-pipelines-table"),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Back to Read" }),
     ).not.toBeInTheDocument();
 
-    // Selecting a run (URL selection) swaps the table for the detail; Back
-    // clears the URL selection.
     mockQuery = "transactionId=read-admission-1";
     const { unmount } = render(<ReadPageClient />);
     const backButton = await screen.findByRole("button", {
-      name: "Back to Read pipelines",
+      name: "Back to Read",
     });
     fireEvent.click(backButton);
     await waitFor(() => expect(mockReplace).toHaveBeenCalled());
@@ -278,36 +248,18 @@ describe("ReadPageClient", () => {
     unmount();
   });
 
-  it("renders buyer fit measurement review and settlement/rights/delivery readback", async () => {
+  it("shows route state aside with settlement and pack activity links in detail", async () => {
+    mockQuery = "";
     render(<ReadPageClient />);
+    fireEvent.click(await screen.findByTestId("reads-open-compose"));
 
     await waitFor(() =>
-      expect(
-        screen.getByLabelText("Repository source selector"),
-      ).toBeInTheDocument(),
+      expect(screen.getByLabelText("Reading route state")).toBeInTheDocument(),
     );
-
-    expect(screen.getByText("Fit measurement review")).toBeInTheDocument();
-    expect(
-      screen.getByText(/No measurement, no price/u),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("Settlement, rights, and delivery"),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/BTC-testnet finality precedes BTD rights/u),
-    ).toBeInTheDocument();
-    expect(screen.getByText("Payment observation")).toBeInTheDocument();
-    expect(screen.getByText("Finality")).toBeInTheDocument();
-    expect(screen.getByText("BTD rights receipt")).toBeInTheDocument();
-    expect(screen.getByText("Repository PR delivery")).toBeInTheDocument();
-    expect(screen.getByText(/delivery locked/u)).toBeInTheDocument();
+    expect(screen.getByText("Source-safe read state")).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: "Open settled pack activity" }),
     ).toHaveAttribute("href", "/packs?type=settled-assetpack");
-    expect(
-      screen.getByRole("link", { name: "Open pack activity" }),
-    ).toHaveAttribute("href", "/packs?type=read-need-fit-preview");
   });
 
   it("resumes a completed run's synthesized AssetPacks alongside the replayed telemetry", async () => {

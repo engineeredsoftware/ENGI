@@ -16,6 +16,10 @@ export type ReadSynthesisDispatchInput = {
   sourceBranch: string;
   sourceCommit: string | null;
   need: string;
+  /** Deposit forcedInclusions twin. */
+  relevantPaths?: string[];
+  /** Deposit forcedExclusions twin. */
+  irrelevantPaths?: string[];
 };
 
 export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput): Promise<void> {
@@ -24,6 +28,11 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
   storeCrossPhaseArtifact(exec, 'host', 'runId', input.runId);
   storeCrossPhaseArtifact(exec, 'pipeline', 'runId', input.runId);
   storeCrossPhaseArtifact(exec, 'pipeline', 'productPipeline', 'synthesize-reads-asset-packs-pipeline');
+  storeCrossPhaseArtifact(exec, 'read', 'relevantPaths', input.relevantPaths || []);
+  storeCrossPhaseArtifact(exec, 'read', 'irrelevantPaths', input.irrelevantPaths || []);
+  // Deposit steering keys so shared discovery filters can reuse exclusion law.
+  storeCrossPhaseArtifact(exec, 'deposit', 'forcedInclusions', input.relevantPaths || []);
+  storeCrossPhaseArtifact(exec, 'deposit', 'forcedExclusions', input.irrelevantPaths || []);
 
   const [owner, name] = input.repositoryFullName.split('/');
   const pipelineInput = {
@@ -33,6 +42,10 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
     repositoryFullName: input.repositoryFullName,
     sourceBranch: input.sourceBranch,
     sourceCommit: input.sourceCommit,
+    relevantPaths: input.relevantPaths || [],
+    irrelevantPaths: input.irrelevantPaths || [],
+    forcedInclusions: input.relevantPaths || [],
+    forcedExclusions: input.irrelevantPaths || [],
     repository: {
       owner,
       name,

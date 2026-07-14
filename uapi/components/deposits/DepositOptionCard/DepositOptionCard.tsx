@@ -78,7 +78,7 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
       data-testid={`deposit-option-${option.kind}`}
       className={`grid min-w-0 gap-4 border px-4 py-4 ${
         reviewed
-          ? "border-emerald-300/38 bg-emerald-300/10"
+          ? "border-violet-300/38 bg-violet-300/10"
           : "border-white/10 bg-black/20"
       }`}
     >

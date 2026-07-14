@@ -1,12 +1,11 @@
-"use client";
-
 /**
- * Reads experience page client — thin orchestration for /reads.
+ * Reads experience page client — deposit-parity orchestration for /reads.
  *
- * Owns repository context state, pipeline table filters/pagination, and
- * composition of section components. Live runs, URL, telemetry, session
- * projections, and activity recording live under hooks/.
+ * Compact header + pipelines table; New (+) opens compose/detail mode with
+ * source selection (SHA), Need (+ relevant/irrelevant paths), options, settle.
  */
+
+"use client";
 
 import { formatSats } from "@/components/reads/models/read-format";
 import React, { useCallback, useMemo, useState } from "react";
@@ -19,16 +18,12 @@ import { useReadSessionProjections } from "./hooks/use-read-session-projections"
 import { useReadActivityRecording } from "./hooks/use-read-activity-recording";
 import { useReadOptionSynthesis } from "./hooks/use-read-option-synthesis";
 
-import {
-  ProductRouteEnterpriseSummary,
-  ProductRouteShell,
-  ProductRouteStepGrid,
-} from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";
-import ReadsDepositReadWorkbench from "@/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench";
+import { ProductRouteShell } from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";
 import ReadsRepositoryContextPanel from "@/components/reads/ReadsRepositoryContextPanel/ReadsRepositoryContextPanel";
-import ReadsReadScenarioPanel from "@/components/reads/ReadsReadScenarioPanel/ReadsReadScenarioPanel";
 import { ReadsNeedComposePanel } from "@/components/reads/ReadsNeedComposePanel/ReadsNeedComposePanel";
-import { ReadsPipelinesSection } from "@/components/reads/ReadsPipelinesSection/ReadsPipelinesSection";
+import { ReadsAssetPackOptions } from "@/components/reads/ReadsAssetPackOptions/ReadsAssetPackOptions";
+import { ReadsPipelinesMaster } from "@/components/reads/ReadsPipelinesMaster/ReadsPipelinesMaster";
+import { ReadsPipelineTelemetry } from "@/components/reads/ReadsPipelineTelemetry/ReadsPipelineTelemetry";
 import { ReadsRouteStateAside } from "@/components/reads/ReadsRouteStateAside/ReadsRouteStateAside";
 import { BitcodeShellBridgeProvider } from "@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge";
 import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
@@ -38,7 +33,6 @@ import {
   type TransactionFilters,
   type TransactionPagination,
 } from "@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types";
-import { writeReadRouteStage } from "@/components/reads/models/read-route-model";
 import {
   buildReadAuthorityRows,
   buildReadProcurementRows,
@@ -55,15 +49,16 @@ export default function ReadPageClient() {
     refreshLiveRuns,
   } = useReadLiveRuns();
   const {
-    readCurrentSearchParams,
-    replaceReadSearchParams,
     openReadRouteTransaction,
-    closePipelineDetail,
+    closePipelineDetail: closeUrlDetail,
   } = useReadUrlNavigation();
 
   const [repositoryContext, setRepositoryContext] =
     useState<TerminalRepositoryContextState | null>(null);
   const [need, setNeed] = useState("");
+  const [relevantPaths, setRelevantPaths] = useState<string[]>([]);
+  const [irrelevantPaths, setIrrelevantPaths] = useState<string[]>([]);
+  const [isComposeOpen, setIsComposeOpen] = useState(false);
   const [settleBusy, setSettleBusy] = useState(false);
   const [settleError, setSettleError] = useState<string | null>(null);
   const [settleMessage, setSettleMessage] = useState<string | null>(null);
@@ -71,8 +66,11 @@ export default function ReadPageClient() {
   const synthesis = useReadOptionSynthesis({
     repositoryContext,
     need,
+    relevantPaths,
+    irrelevantPaths,
     refreshLiveRuns,
     onRunDispatched: (runId) => {
+      setIsComposeOpen(false);
       openReadRouteTransaction(runId);
     },
   });
@@ -93,6 +91,8 @@ export default function ReadPageClient() {
           selectedOptions: selected,
           synthesisRunId: synthesis.runId,
           need: need.trim() || null,
+          relevantPaths,
+          irrelevantPaths,
           repositoryFullName:
             repositoryContext?.selectedRepository?.fullName || null,
           repository: {
@@ -116,7 +116,7 @@ export default function ReadPageClient() {
         ? payload.settleRunIds.join(", ")
         : payload.settleRunId;
       setSettleMessage(
-        `Settled ${selected.length} option(s) — 1 settle pipeline per AssetPack. Run(s) ${runIds}. BTD minted from needinesses; ERC1155 co-ownership added. See /packs.`,
+        `Settled ${selected.length} option(s) — 1 settle pipeline per AssetPack. Run(s) ${runIds}. BTD from needinesses; see /packs.`,
       );
       void Promise.resolve(refreshLiveRuns() as unknown);
     } catch (err) {
@@ -128,6 +128,8 @@ export default function ReadPageClient() {
     }
   }, [
     need,
+    relevantPaths,
+    irrelevantPaths,
     refreshLiveRuns,
     repositoryContext?.selectedBranch,
     repositoryContext?.selectedCommit,
@@ -138,30 +140,38 @@ export default function ReadPageClient() {
     synthesis.runId,
     synthesis.selectedIndexes,
   ]);
-  // Master-detail pipelines table: filters + pagination for the Reads run
-  // table (selection itself lives in the URL transactionId). The lens filter
-  // defaults to 'all': pipeline runs are typed 'agentic-execution:asset-pack'
-  // whichever lens dispatched them, and a 'read'-only preset would hide every
-  // telemetry-capable row until the read dispatch stamps its own lens
-  // context (read pipeline persistence is a read-gate item).
-  const [pipelineFilters, setPipelineFilters] = useState<TransactionFilters>(
-    DEFAULT_TRANSACTION_FILTERS,
-  );
+
+  const [pipelineFilters, setPipelineFilters] = useState<TransactionFilters>({
+    ...DEFAULT_TRANSACTION_FILTERS,
+    transactionLens: "read",
+  });
   const [pipelinePagination, setPipelinePagination] =
     useState<TransactionPagination>(DEFAULT_TRANSACTION_PAGINATION);
 
-  // Selection is EXPLICIT (drill-in sub-page model): no auto-recovery to the
-  // newest run and no first-row fallback — with nothing selected the master
-  // table shows, and selecting a row replaces it with the run detail.
   const selectedRun = useMemo(
     () => liveRuns.find((run) => run.id === selectedTransactionId) || null,
     [liveRuns, selectedTransactionId],
   );
 
-  const telemetry = useReadPipelineTelemetry(selectedRun);
+  const isReadDetailOpen =
+    Boolean(selectedTransactionId) || isComposeOpen || Boolean(synthesis.runId);
+
+  const closePipelineDetail = useCallback(() => {
+    closeUrlDetail();
+    setIsComposeOpen(false);
+  }, [closeUrlDetail]);
+
+  const openComposeDetail = useCallback(() => {
+    closeUrlDetail();
+    setIsComposeOpen(true);
+  }, [closeUrlDetail]);
+
+  const telemetry = useReadPipelineTelemetry(
+    selectedRun || (synthesis.runId ? ({ id: synthesis.runId } as any) : null),
+  );
   const {
-    depositedSourceRevision,
-    admittedReadActivityId,
+    depositedSourceRevision: _depositedSourceRevision,
+    admittedReadActivityId: _admittedReadActivityId,
     readRouteSession,
   } = useReadSessionProjections({
     liveRuns,
@@ -182,187 +192,155 @@ export default function ReadPageClient() {
   const procurementRows = buildReadProcurementRows(readRouteSession);
   const authorityRows = buildReadAuthorityRows(readRouteSession);
 
+  const isConfigLocked = synthesis.status === "running";
+  const selectedPipelineRunId =
+    telemetry.selectedPipelineRunId || synthesis.runId;
+
   return (
     <BitcodeShellBridgeProvider>
       <ProductRouteShell
         testId="route-shell-read"
-        tone="sky"
+        tone="orange"
         label="Read"
         title="Reading"
-        summary="Need -> SynthesizeReadAssetPacks (SDIVF) -> select options -> SettleAssetPack (pay · BTD · PR) -> /packs."
+        summary="Need → SynthesizeReadAssetPacks (SDIVF) → select options → SettleAssetPack → /packs."
         icon={Workflow}
         metrics={[
           {
             label: "Stage",
             description:
-              "Where this reading session currently sits in the journey: request read, review the synthesized Need, request fit, review the synthesized AssetPack, then buy and settle.",
-            value: readRouteSession.activeStepId.replace(/-/g, " "),
+              "Where this reading session sits: compose Need, synthesize options, settle selected AssetPacks.",
+            value: isComposeOpen
+              ? "compose"
+              : readRouteSession.activeStepId.replace(/-/g, " "),
           },
           {
             label: "Rows",
             description:
-              "How many pipeline runs this account can read in the Read pipelines table below.",
+              "How many pipeline runs this account can read in the Read pipelines table.",
             value: isLoadingRuns ? "reading" : String(liveRuns.length),
           },
           {
-            label: "Boundary",
-            description:
-              "The disclosure boundary for this page: measurements and proofs are visible; source-bearing AssetPack contents stay withheld until BTC finality and BTD rights transfer.",
-            value: "source-safe",
+            label: "Options",
+            description: "Synthesized source-safe AssetPack options ready to settle.",
+            value: synthesis.options.length,
           },
           {
             label: "Quote",
             description:
-              "The deterministic BTC-testnet quote basis (sats) for the current read under the procurement budget policy.",
+              "Deterministic BTC-testnet quote basis (sats) for the current read under the procurement budget policy.",
             value: formatSats(
               readRouteSession.procurementGovernance.budgetPolicy.quoteSats,
             ),
           },
         ]}
       >
-        <ProductRouteStepGrid
-          ariaLabel="Reading steps"
-          activeStepId={readRouteSession.activeStepId}
-          steps={readRouteSession.steps}
-          tone="sky"
-          testIdPrefix="read-route-step"
-          stateDataAttribute="data-reading-step-state"
-          onSelect={(stepId) =>
-            replaceReadSearchParams(
-              writeReadRouteStage(readCurrentSearchParams(), stepId),
-            )
-          }
-        />
-
-        <ProductRouteEnterpriseSummary
-          testId="read-enterprise-economic-summary"
-          tone="sky"
-          title="Reading economy overview"
-          metrics={[
-            {
-              label: "Need review",
-              value: readRouteSession.readObjects.acceptedNeedPresent
-                ? "accepted"
-                : "pending",
-              state: "pre-fit",
-              description:
-                "Finding Fits remains blocked until the Need is accepted.",
-            },
-            {
-              label: "Quote",
-              value: formatSats(
-                readRouteSession.procurementGovernance.quotePolicy.shareToFee
-                  .grossSats,
-              ),
-              state: readRouteSession.procurementGovernance.quotePolicy.state,
-              description: "Measurement-weight-volume fee calculation.",
-            },
-            {
-              label: "Settlement",
-              value:
-                readRouteSession.procurementGovernance.settlement.readiness.replace(
-                  /-/g,
-                  " ",
-                ),
-              state: "BTC/BTD",
-              description: "Source remains withheld until rights are paid.",
-            },
-            {
-              label: "Authority",
-              value:
-                readRouteSession.organizationPolicyWalletAuthority.aggregate
-                  .state,
-              state:
-                readRouteSession.organizationPolicyWalletAuthority
-                  .walletAuthority.state,
-              description: "Organization spend and wallet policy readback.",
-            },
-          ]}
-        />
-
-        <ReadsPipelinesSection
-          selectedRun={selectedRun}
-          liveRuns={liveRuns}
-          isLoadingRuns={isLoadingRuns}
-          runsLoadError={runsLoadError}
-          pipelineFilters={pipelineFilters}
-          pipelinePagination={pipelinePagination}
-          onFiltersChange={setPipelineFilters}
-          onPaginationChange={setPipelinePagination}
-          onSelectTransaction={openReadRouteTransaction}
+        <ReadsPipelinesMaster
+          isReadDetailOpen={isReadDetailOpen}
           onCloseDetail={closePipelineDetail}
+          onOpenCompose={openComposeDetail}
           onRefresh={() => {
             void refreshLiveRuns();
           }}
-          selectedPipelineRunId={telemetry.selectedPipelineRunId}
-          telemetry={{
-            readRunActivity: telemetry.readRunActivity,
-            readRunIsProcessing: telemetry.readRunIsProcessing,
-            readRunMode: telemetry.readRunMode,
-            readRunTelemetryError: telemetry.readRunTelemetryError,
-            readRunStartMs: telemetry.readRunStartMs,
-            readRunEndMs: telemetry.readRunEndMs,
-            readRunEvents: telemetry.readRunEvents,
-            readLogScrolled: telemetry.readLogScrolled,
-            setReadLogScrolled: telemetry.setReadLogScrolled,
-            onDismissError: () =>
-              telemetry.setDismissedTelemetryErrorRunId(
-                telemetry.selectedPipelineRunId,
-              ),
-            selectedRunPacks: telemetry.selectedRunPacks,
+          runs={liveRuns}
+          selectedTransactionId={selectedRun?.id ?? null}
+          onSelectTransaction={(id) => {
+            if (id) {
+              setIsComposeOpen(false);
+              openReadRouteTransaction(id);
+            }
           }}
+          filters={pipelineFilters}
+          onFiltersChange={setPipelineFilters}
+          pagination={pipelinePagination}
+          onPaginationChange={setPipelinePagination}
+          isLoadingRuns={isLoadingRuns}
+          runsError={runsLoadError}
         />
 
-        <section className="grid gap-5 xl:grid-cols-[minmax(0,1.4fr)_minmax(360px,0.6fr)]">
-          <div className="grid min-w-0 gap-5">
-            <div className="grid gap-5 xl:grid-cols-2">
-              <ReadsRepositoryContextPanel
-                preferredRepository={selectedRun?.repository || null}
-                onContextChange={setRepositoryContext}
-                onRecordActivity={handleRecordActivity}
-              />
-              <ReadsReadScenarioPanel
-                onRecordActivity={handleRecordActivity}
-                showDemonstrationScenarios={false}
+        {isReadDetailOpen ? (
+          <section
+            className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]"
+            data-testid="reads-run-configuration"
+            data-compose={isComposeOpen ? "true" : "false"}
+            data-locked={isConfigLocked ? "true" : "false"}
+          >
+            <div className="grid min-w-0 gap-5">
+              <div className="grid gap-5 xl:grid-cols-2">
+                <ReadsRepositoryContextPanel
+                  preferredRepository={selectedRun?.repository || null}
+                  onContextChange={setRepositoryContext}
+                  onRecordActivity={handleRecordActivity}
+                />
+                <ReadsNeedComposePanel
+                  need={need}
+                  onNeedChange={setNeed}
+                  relevantPaths={relevantPaths}
+                  onRelevantPathsChange={setRelevantPaths}
+                  irrelevantPaths={irrelevantPaths}
+                  onIrrelevantPathsChange={setIrrelevantPaths}
+                  repositoryContext={repositoryContext}
+                  status={synthesis.status}
+                  error={synthesis.error}
+                  runId={synthesis.runId}
+                  onSynthesize={() => void synthesis.synthesize()}
+                  canSynthesize={Boolean(
+                    repositoryContext?.selectedRepository?.fullName,
+                  )}
+                  isConfigLocked={isConfigLocked}
+                />
+              </div>
+
+              {selectedPipelineRunId ? (
+                <ReadsPipelineTelemetry
+                  selectedRun={selectedRun}
+                  selectedPipelineRunId={selectedPipelineRunId}
+                  readRunActivity={telemetry.readRunActivity}
+                  readRunIsProcessing={
+                    telemetry.readRunIsProcessing ||
+                    synthesis.status === "running"
+                  }
+                  readRunMode={telemetry.readRunMode || "read"}
+                  readRunTelemetryError={
+                    telemetry.readRunTelemetryError || synthesis.error
+                  }
+                  readRunStartMs={telemetry.readRunStartMs}
+                  readRunEndMs={telemetry.readRunEndMs}
+                  readRunEvents={telemetry.readRunEvents}
+                  readLogScrolled={telemetry.readLogScrolled}
+                  setReadLogScrolled={telemetry.setReadLogScrolled}
+                  onDismissError={() =>
+                    telemetry.setDismissedTelemetryErrorRunId(
+                      selectedPipelineRunId,
+                    )
+                  }
+                  onRefresh={() => {
+                    void refreshLiveRuns();
+                  }}
+                  selectedRunPacks={telemetry.selectedRunPacks}
+                />
+              ) : null}
+
+              <ReadsAssetPackOptions
+                options={synthesis.options}
+                envelope={synthesis.envelope}
+                selectedIndexes={synthesis.selectedIndexes}
+                onToggleSelect={synthesis.toggleSelect}
+                onSettleSelected={() => void handleSettleSelected()}
+                settleBusy={settleBusy}
+                settleError={settleError}
+                settleMessage={settleMessage}
               />
             </div>
-            <ReadsNeedComposePanel
-              need={need}
-              onNeedChange={setNeed}
-              status={synthesis.status}
-              error={synthesis.error}
-              runId={synthesis.runId}
-              options={synthesis.options}
-              envelope={synthesis.envelope}
-              selectedIndexes={synthesis.selectedIndexes}
-              onToggleSelect={synthesis.toggleSelect}
-              onSynthesize={() => void synthesis.synthesize()}
-              onSettleSelected={() => void handleSettleSelected()}
-              settleBusy={settleBusy}
-              settleError={settleError}
-              settleMessage={settleMessage}
-              canSynthesize={Boolean(
-                repositoryContext?.selectedRepository?.fullName,
-              )}
-            />
-            <ReadsDepositReadWorkbench
-              repositoryContext={repositoryContext}
-              depositedSourceRevision={depositedSourceRevision}
-              admittedReadActivityId={admittedReadActivityId}
-              routeReadingStage={routeReadingStage}
-              onRecordActivity={handleRecordActivity}
-              onHostCompleted={refreshLiveRuns}
-              showDemonstrationWorkbench={false}
-            />
-          </div>
 
-          <ReadsRouteStateAside
-            readRouteSession={readRouteSession}
-            sessionRows={sessionRows}
-            authorityRows={authorityRows}
-            procurementRows={procurementRows}
-          />
-        </section>
+            <ReadsRouteStateAside
+              readRouteSession={readRouteSession}
+              sessionRows={sessionRows}
+              authorityRows={authorityRows}
+              procurementRows={procurementRows}
+            />
+          </section>
+        ) : null}
       </ProductRouteShell>
     </BitcodeShellBridgeProvider>
   );

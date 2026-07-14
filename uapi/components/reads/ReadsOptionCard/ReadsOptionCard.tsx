@@ -41,7 +41,7 @@ export function ReadsOptionCard(props: {
       data-testid={`reads-option-card-${option.index}`}
       className={`grid min-w-0 gap-3 border px-4 py-4 ${
         selected
-          ? "border-sky-300/50 bg-sky-400/10"
+          ? "border-orange-300/50 bg-orange-400/10"
           : "border-white/10 bg-black/25"
       }`}
     >
@@ -59,7 +59,7 @@ export function ReadsOptionCard(props: {
           onClick={() => onToggleSelect(option.index)}
           className={`shrink-0 border px-2 py-1 text-xs ${
             selected
-              ? "border-sky-300/50 bg-sky-400/20 text-sky-50"
+              ? "border-orange-300/50 bg-orange-400/20 text-orange-50"
               : "border-white/15 text-neutral-200"
           }`}
         >
@@ -105,8 +105,14 @@ export function ReadsOptionCard(props: {
           needinesses (*-fit) {needinesses.length}
         </span>
         {typeof option.needFit === "number" ? (
-          <span className="border border-sky-300/25 bg-sky-400/10 px-2 py-0.5 text-sky-100">
+          <span className="border border-orange-300/25 bg-orange-400/10 px-2 py-0.5 text-orange-100">
             need-fit {option.needFit.toFixed(2)}
+          </span>
+        ) : null}
+        {/* Calculated total BTD scalar when provided on the option envelope. */}
+        {typeof (option as { totalBtd?: number }).totalBtd === "number" ? (
+          <span className="border border-emerald-300/25 bg-emerald-400/10 px-2 py-0.5 text-emerald-100">
+            total BTD {(option as { totalBtd: number }).totalBtd.toFixed(4)}
           </span>
         ) : null}
         {typeof option.confidence === "number" ? (
@@ -150,7 +156,7 @@ export function ReadsOptionCard(props: {
             </ul>
           </div>
           <div>
-            <p className="text-[0.6rem] uppercase tracking-wide text-sky-200/70">
+            <p className="text-[0.6rem] uppercase tracking-wide text-orange-200/70">
               Needinesses (*-fit)
             </p>
             <ul className="mt-2 grid gap-1">

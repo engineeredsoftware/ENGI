@@ -457,7 +457,7 @@ export default function DepositPageClient() {
     <BitcodeShellBridgeProvider>
       <ProductRouteShell
         testId="route-shell-deposit"
-        tone="emerald"
+        tone="violet"
         label="Deposit"
         title="Depositing"
         summary="Synthesize, review, and deposit AssetPacks from your repository."
