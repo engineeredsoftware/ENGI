@@ -96,8 +96,7 @@ export const BITCODE_PUBLIC_COPY = {
         step: '03',
         label: 'Audit (Packs)',
         href: '/packs',
-        detail:
-          'Inspect settlement, rights, delivery, and compensation with expandable proof roots.',
+        detail: 'Inspect canonical deployment with expandable proof roots.',
       },
     ],
     trust:
