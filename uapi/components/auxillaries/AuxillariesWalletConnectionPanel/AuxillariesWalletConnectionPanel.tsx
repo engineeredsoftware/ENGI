@@ -249,7 +249,7 @@ export default function AuxillariesWalletConnectionPanel({
             value={walletAddress}
             onChange={(e) => handleWalletAddressChange(e.target.value)}
             className="form-input"
-            placeholder="Bitcoin address appears here after wallet connection"
+            placeholder="Connected Bitcoin wallets shown here"
             aria-label="Bitcode Bitcoin wallet address"
           />
           <div className="input-focus-indicator"></div>
