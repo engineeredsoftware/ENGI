@@ -537,12 +537,17 @@
   height: 2.5rem;
   border-radius: 999px;
   border-width: 1px;
-  background: rgba(5, 10, 20, 0.88);
   backdrop-filter: blur(12px);
+  transform: none;
+}
+
+/* Close keeps neutral chrome; Connect/Disconnect get their own fills below. */
+.orbital-system-application .orbital-close-button,
+.orbital-system-route .orbital-close-button {
+  background: rgba(5, 10, 20, 0.88);
   box-shadow:
     0 14px 32px rgba(0, 0, 0, 0.24),
     0 0 0 1px rgba(255, 255, 255, 0.04) inset;
-  transform: none;
 }
 
 .orbital-system-application .orbital-close-button,
@@ -558,11 +563,13 @@
   width: auto;
   min-width: 9.5rem;
   padding: 0 1rem;
-  border-color: rgba(101, 254, 183, 0.28);
-  color: rgba(236, 253, 245, 0.96);
+  /* Filled emerald chrome — same button weight as Disconnect (not border-only). */
+  border-color: rgba(101, 254, 183, 0.35);
+  background: rgba(2, 44, 34, 0.88);
+  color: rgba(236, 253, 245, 0.98);
   box-shadow:
     0 14px 32px rgba(0, 0, 0, 0.24),
-    0 0 0 1px rgba(101, 254, 183, 0.06) inset;
+    0 0 0 1px rgba(101, 254, 183, 0.1) inset;
 }
 
 .orbital-system-application .orbital-signout-button,
@@ -570,11 +577,12 @@
   width: auto;
   min-width: 8.25rem;
   padding: 0 1rem;
-  border-color: rgba(248, 113, 113, 0.28);
-  color: rgba(254, 226, 226, 0.95);
+  border-color: rgba(248, 113, 113, 0.32);
+  background: rgba(39, 9, 15, 0.82);
+  color: rgba(254, 226, 226, 0.96);
   box-shadow:
     0 14px 32px rgba(0, 0, 0, 0.24),
-    0 0 0 1px rgba(248, 113, 113, 0.06) inset;
+    0 0 0 1px rgba(248, 113, 113, 0.08) inset;
 }
 
 :is(.orbital-system-application, .orbital-system-route) .auxillaries-action-button {
@@ -599,12 +607,42 @@
     color 160ms ease;
 }
 
+/* Connect / Create Account — mirror Disconnect filled button (bg + hover). */
+:is(.orbital-system-application, .orbital-system-route) .auxillaries-connect-button,
+:is(.orbital-system-application, .orbital-system-route) .auxillaries-toggle-button {
+  min-width: 9.5rem;
+  padding: 0 1rem;
+  border-color: rgba(101, 254, 183, 0.35);
+  background: rgba(2, 44, 34, 0.88);
+  color: rgba(236, 253, 245, 0.98);
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.24),
+    0 0 0 1px rgba(101, 254, 183, 0.1) inset;
+}
+
+:is(.orbital-system-application, .orbital-system-route) .auxillaries-connect-button:hover,
+:is(.orbital-system-application, .orbital-system-route) .auxillaries-toggle-button:hover,
+.orbital-system-application .orbital-toggle-button:hover,
+.orbital-system-route .orbital-toggle-button:hover {
+  border-color: rgba(167, 243, 208, 0.5);
+  background: rgba(6, 78, 59, 0.92);
+  color: #fff;
+}
+
 :is(.orbital-system-application, .orbital-system-route) .auxillaries-signout-button {
   min-width: 8.25rem;
   padding: 0 1rem;
   border-color: rgba(248, 113, 113, 0.32);
   background: rgba(39, 9, 15, 0.82);
   color: rgba(254, 226, 226, 0.96);
+}
+
+:is(.orbital-system-application, .orbital-system-route) .auxillaries-signout-button:hover,
+.orbital-system-application .orbital-signout-button:hover,
+.orbital-system-route .orbital-signout-button:hover {
+  border-color: rgba(254, 202, 202, 0.45);
+  background: rgba(69, 10, 26, 0.9);
+  color: #fff;
 }
 
 .orbital-system-application .orbital-close-button:hover,

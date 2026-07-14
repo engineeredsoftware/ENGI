@@ -137,9 +137,17 @@
   min-width: 9.5rem;
 }
 
-/* Connect mirrors Disconnect: filled square chrome (emerald primary). */
+/*
+ * Connect mirrors Disconnect: filled square chrome (emerald primary).
+ * Use the same application/route specificity as signout so ghost orbital
+ * toggle styles cannot win on the dedicated Auxillaries route.
+ */
 .auxillaries-bitcode-surface .auxillaries-connect-button,
-.auxillaries-bitcode-surface .auxillaries-toggle-button {
+.auxillaries-bitcode-surface .auxillaries-toggle-button,
+.auxillaries-bitcode-surface .orbital-toggle-button,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface .auxillaries-connect-button,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface .auxillaries-toggle-button,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface .orbital-toggle-button {
   border-radius: 0 !important;
   background: rgba(2, 44, 34, 0.88) !important;
   border: 1px solid rgba(101, 254, 183, 0.35) !important;
@@ -154,7 +162,11 @@
 }
 
 .auxillaries-bitcode-surface .auxillaries-connect-button:hover,
-.auxillaries-bitcode-surface .auxillaries-toggle-button:hover {
+.auxillaries-bitcode-surface .auxillaries-toggle-button:hover,
+.auxillaries-bitcode-surface .orbital-toggle-button:hover,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface .auxillaries-connect-button:hover,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface .auxillaries-toggle-button:hover,
+:is(.orbital-system-application, .orbital-system-route).auxillaries-bitcode-surface .orbital-toggle-button:hover {
   background: rgba(6, 78, 59, 0.92) !important;
   border-color: rgba(167, 243, 208, 0.5) !important;
   color: #fff !important;
