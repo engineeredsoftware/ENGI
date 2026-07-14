@@ -487,21 +487,38 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   />
                 ) */}
               </div>
-              <div className="flex w-full flex-col items-start justify-between gap-4 tablet:flex-row tablet:items-center">
-                <div className="flex flex-col items-start gap-2 phone:flex-row phone:flex-wrap phone:items-center phone:gap-3">
-                  <span className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+              {/*
+                Footer chrome rows:
+                1) copyright (left) + Bitcode mark (right)
+                2) X + email (left) + version + protocol spec (right)
+              */}
+              <div className="flex w-full flex-col gap-3">
+                <div className="flex w-full items-center justify-between gap-4">
+                  <span className="flex min-w-0 items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                     <span
-                      className="[filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]"
+                      className="shrink-0 [filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]"
                       style={{ display: 'inline-block', transform: 'scaleX(-1)' }}
                     >
                       🧪
                     </span>
-                    <span>
+                    <span className="min-w-0">
                       Bitcode by Advanced Engineered Software, Inc.{' '}
                       <span className="font-light">{new Date().getFullYear()}</span>
                     </span>
                   </span>
-                  <span className="inline-flex items-center gap-2 text-[12px]">
+                  <Link href="/" className="shrink-0 cursor-pointer">
+                    <BitcodeSoftwareSvgLogo
+                      width="50px"
+                      height="auto"
+                      className="-mb-0.5"
+                      softwareClassName="ml-0.5 font-light text-xs tracking-wide bg-gradient-to-r from-[#65FEB7] via-white to-[#65FEB7] text-transparent bg-clip-text"
+                      softwareOffsetY="-2px"
+                    />
+                  </Link>
+                </div>
+
+                <div className="flex w-full items-center justify-between gap-4">
+                  <span className="inline-flex shrink-0 items-center gap-2 text-[12px]">
                     <a
                       href={BITCODE_X_URL}
                       target="_blank"
@@ -539,29 +556,24 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       <span>{BITCODE_SUPPORT_EMAIL_ADDRESS}</span>
                     </a>
                   </span>
-                </div>
-                <div className="flex w-full flex-col items-start gap-3 tablet:w-auto tablet:items-end">
-                  <Link href="/" className="cursor-pointer">
-                    <BitcodeSoftwareSvgLogo
-                      width="50px"
-                      height="auto"
-                      className="-mb-0.5"
-                      softwareClassName="ml-0.5 font-light text-xs tracking-wide bg-gradient-to-r from-[#65FEB7] via-white to-[#65FEB7] text-transparent bg-clip-text"
-                      softwareOffsetY="-2px"
-                    />
-                  </Link>
-                  <div className="flex w-full flex-wrap items-center gap-2 text-[11px] text-gray-400/80 tablet:w-auto tablet:justify-end">
+
+                  <div className="flex shrink-0 flex-wrap items-center justify-end gap-2 text-[11px] text-gray-400/80">
                     {process.env.NEXT_PUBLIC_APP_VERSION && (
                       <span className="select-none rounded-none border border-white/8 bg-white/[0.03] px-2.5 py-1">
                         v{process.env.NEXT_PUBLIC_APP_VERSION}
                         {process.env.NEXT_PUBLIC_APP_VERSION_DATE && (
                           <>
-                            {" "}
-                            ({new Date(process.env.NEXT_PUBLIC_APP_VERSION_DATE).toLocaleDateString(undefined, {
-                              year: '2-digit',
-                              month: 'short',
-                              day: 'numeric',
-                            })})
+                            {' '}
+                            (
+                            {new Date(process.env.NEXT_PUBLIC_APP_VERSION_DATE).toLocaleDateString(
+                              undefined,
+                              {
+                                year: '2-digit',
+                                month: 'short',
+                                day: 'numeric',
+                              },
+                            )}
+                            )
                           </>
                         )}
                       </span>
