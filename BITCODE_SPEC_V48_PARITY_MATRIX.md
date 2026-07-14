@@ -271,4 +271,8 @@ AssetPack = **patch + measurements + metadata**.
 | R-12 | Richer read option cards | closed | `ReadsOptionCard` patch + absolutes + needinesses expand |
 | R-13 | Settle payment observation + live PR when token | closed | structured BTC-testnet observation; createPullRequest when GitHub token present |
 | R-14 | Settle → packs rich projection | closed | packActivity envelope (measurements, prUrl, states); pack-activity-model nested kinds; detail delivery reference |
+| R-15 | 1:1 AssetPack : settle pipeline | closed | API spawns one run per bought option; pipeline rejects multi-option input |
+| R-16 | settle-btc / mint-btd / settle-btd / settle-asset-pack stages | closed | SettleAssetPacks stages; agents named in artifacts |
+| R-17 | BTD mint = needinesses weighted scalar only | closed | `computeSettlementBtdFromNeedinesses`; absolutes excluded; 21M cap |
+| R-18 | BitcodeERC1155 fungible BTD + AP co-ownership | closed | Solidity + TS mirror; add-only co-own; burn forbidden |
 

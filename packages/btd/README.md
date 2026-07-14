@@ -1,10 +1,23 @@
 # BTD Core
 
-Canonical `$BTD` registry, read-right, BTC-fee, and measureminting utilities
-for Bitcode.
+Canonical `$BTD` / Bitcode registry, settlement token law, read-right, BTC-fee,
+and measureminting utilities for Bitcode.
 
-This package owns:
-- the 21,000,000-cell fixed supply ceiling
+## V48 settlement token law (BitcodeERC1155)
+
+Commercial **read settle** uses a single ERC1155:
+
+| Token | ID | Kind | Cap / behavior |
+| --- | --- | --- | --- |
+| **BTD (Bitcode)** | `0` | Fungible | Max **21,000,000** whole tokens (18 decimals). Minted from **needinesses-only** weighted scalar after BTC settle → master, then transferred to buyer. |
+| **AssetPack** | `≥ 1` | NFT co-ownership | Add-only co-owners; depositor retains; burn forbidden. |
+
+- Solidity: `contracts/BitcodeERC1155.sol`
+- TS mirror + needinesses mint math: `src/erc1155/` (export `@bitcode/btd/erc1155`)
+- Pipeline: `@bitcode/asset-packs-pipelines-settle-asset-packs`
+
+This package also owns (historical + continuing surfaces):
+- the 21,000,000 fixed supply ceiling (cells / whole-token cap narrative)
 - fixed-supply measureminting decay and zero-cell tail receipts
 - proof-addressable semantic volume measurement
 - contiguous AssetPack range allocation and mint receipts

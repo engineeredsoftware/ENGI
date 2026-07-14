@@ -50,6 +50,7 @@
     "@bitcode/external-telemetry-google": "workspace:*",
     "@bitcode/observability": "workspace:*",
     "@bitcode/asset-packs-pipelines-domain": "workspace:*",
+    "@bitcode/asset-packs-pipelines-settle-asset-packs": "workspace:*",
     "@bitcode/pipeline-hosts": "workspace:*",
     "@bitcode/prompts": "workspace:*",
     "@bitcode/specifying": "workspace:*",

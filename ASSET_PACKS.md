@@ -678,7 +678,7 @@ Depositor UI (/deposits)
 | Measurements | `absolutes` + `needinesses` (every neediness kind ends with **`-fit`**; static catalogue + dynamic from Need; **need-fit** = weighted mean) |
 | API | `POST /api/read/synthesize-options` |
 | UI | `/reads` master-detail + option review (deposit twin) |
-| After select | **SettleAssetPacks** Simple (not SDIVF): pay BTC-testnet → mint BTD → rights → **PR** applying `.patch` on read repo → `/packs` activity |
+| After select | **SettleAssetPacks** Simple (not SDIVF), **1:1 per bought option**: settle-btc → mint-btd (needinesses scalar → master) → settle-btd (master→buyer) → settle-asset-pack (ERC1155 co-own) → **PR** → `/packs` |
 
 ## 14. SettleAssetPacks (not a synthesize pipeline)
 

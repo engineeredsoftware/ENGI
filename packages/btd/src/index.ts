@@ -167,6 +167,8 @@ export * from './api-boundaries';
 export * from './authority';
 export * from './auxillaries-support';
 export * from './constants';
+/** V48 BitcodeERC1155: fungible BTD + AssetPack co-ownership. */
+export * from './erc1155';
 export * from './deployment-lanes';
 export * from './deployment-readiness-rehearsal';
 export * from './deployment-promotion-readiness-report';

@@ -64,7 +64,8 @@ export function ReadsNeedComposePanel(props: {
       </h2>
       <p className="mt-2 text-sm leading-6 text-neutral-400">
         Same SDIVF shape as deposits: select a repository, write the Need, synthesize
-        measured options (absolutes + *-fit needinesses), then settle selected options
+        measured options (absolutes + *-fit needinesses), then settle each selected option
+        (1:1 settle-btc → mint-btd → settle-btd → settle-asset-pack)
         (BTC-testnet → BTD rights → PR ship).
       </p>
 

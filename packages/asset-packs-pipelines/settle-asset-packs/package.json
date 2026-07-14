@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/asset-packs-pipelines-settle-asset-packs",
   "version": "1.0.0",
-  "description": "SettleAssetPacksSimplePipeline: validate, BTC/BTD/rights finalize, PR ship",
+  "description": "SettleAssetPacksSimplePipeline: 1:1 AssetPack settle-btc → mint-btd → settle-btd → settle-asset-pack → PR → packs",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
@@ -15,8 +15,8 @@
   "dependencies": {
     "@bitcode/execution-generics": "workspace:*",
     "@bitcode/generic-pipelines-simple": "workspace:*",
-    "@bitcode/asset-packs-pipelines-domain": "workspace:*",
-    "@bitcode/generic-vcs-git": "workspace:*"
+    "@bitcode/generic-vcs-git": "workspace:*",
+    "@bitcode/btd": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

@@ -2030,3 +2030,19 @@ flattens settle executions into `settled-assetpack` rows; pack-activity-model
 infers type from `packActivityType` / `source=read-settle-asset-packs`, projects
 nested measurement kinds, and surfaces delivery references on detail. Patch
 bodies remain withheld by source-safety redaction.
+
+## Settle 1:1 + BitcodeERC1155 (2026-07-14)
+
+Settlement law upgraded for commercial read buy:
+
+- **1:1** AssetPack option : `SettleAssetPacksSimplePipeline` run (API loops
+  selected options; pipeline rejects multi-option payloads).
+- Stages: validate → **settle-btc** → **mint-btd** → **settle-btd** →
+  **settle-asset-pack** → ship PR → packs journal.
+- **BTD** is fungible Bitcode (max 21_000_000), ERC1155 token id 0. Mint amount
+  is the needinesses-only weighted scalar (`needFitVolume * 10^18` base units)
+  after BTC settle; mint to master, then transfer to buyer.
+- **AssetPack** is ERC1155 id ≥ 1 with **add-only co-ownership** (depositor
+  retains; buyer added; burn forbidden).
+- Sources: `packages/btd/contracts/BitcodeERC1155.sol`,
+  `packages/btd/src/erc1155/`, `packages/asset-packs-pipelines/settle-asset-packs/`.

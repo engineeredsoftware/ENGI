@@ -112,8 +112,11 @@ export default function ReadPageClient() {
             : "SettleAssetPacks failed.",
         );
       }
+      const runIds = Array.isArray(payload.settleRunIds)
+        ? payload.settleRunIds.join(", ")
+        : payload.settleRunId;
       setSettleMessage(
-        `Settled ${selected.length} option(s). Settle run ${payload.settleRunId} — see /packs for activity.`,
+        `Settled ${selected.length} option(s) — 1 settle pipeline per AssetPack. Run(s) ${runIds}. BTD minted from needinesses; ERC1155 co-ownership added. See /packs.`,
       );
       void Promise.resolve(refreshLiveRuns() as unknown);
     } catch (err) {

@@ -429,10 +429,18 @@ KIND taxonomy.
 - Normalized contribution:
   `volume * confidence * riskAdjustment * weight` (omit factors not present).
 - **Deposit-side BTD** is estimated / potential range (no reviewed buyer Need).
-- **Read-side BTD** is final Need-relative weighted scalar after measurement
-  policy lock, Need acceptance, Fit selection, and quote binding.
+- **Read-side / settlement BTD** is the **needinesses-only** weighted scalar
+  after Need acceptance and option selection, minted only after BTC settle:
+
+```
+needFitVolume = Σ(w_i × clamp01(needinesses_i.volume)) / Σ w_i
+amountBaseUnits = floor(needFitVolume × 10^18)   // fungible Bitcode (BTD)
+```
+
 - Absolute composite (Σ weight × absolute volume) is commercial legibility of
-  supply material; **settlement BTD uses fit family on read**.
+  supply material only; **absolutes never mint BTD**.
+- Fungible BTD max supply is **21,000,000** whole tokens (BitcodeERC1155 id 0).
+- AssetPack identity is a separate non-fungible co-ownership unit (ERC1155 ids ≥ 1).
 
 ### Seller / buyer visualization
 
@@ -1004,9 +1012,9 @@ include **needinesses** (all kinds end with `-fit`). BTC settle / PR ship are
 |---|---|---|
 | **SynthesizeDepositAssetPacks** | SDIVF | Depositor repo + Obfuscations → option selection on `/deposits` |
 | **SynthesizeReadAssetPacks** | SDIVF | Reader repo + **Need** → option selection on `/reads` |
-| **SettleAssetPacks** | **Simple** (linear) | After pay: mint BTD, transfer rights, **PR-ship** patch to read repo → `/packs` |
+| **SettleAssetPacks** | **Simple** (linear) | **1:1 AssetPack : pipeline run** after buy: settle-btc → mint-btd → settle-btd → settle-asset-pack (ERC1155) → PR-ship → `/packs` |
 
-Synthesize-deposit and synthesize-read look like each other. Settle does **not**.
+Synthesize-deposit and synthesize-read look like each other (multi-option). Settle does **not**: each bought option starts its own settle pipeline.
 
 ### G4-2 Read SDIVF sequence (mirrors deposit)
 
@@ -1047,11 +1055,59 @@ Deposit: `needinesses: []` always. Read: fail-closed if needinesses empty or any
 
 ### G4-5 SettleAssetPacks Simple stages (binding)
 
-1. `validate-settlement-readiness`
-2. `observe-btc-payment-finality` (BTC-testnet)
-3. `mint-btd-and-transfer-rights`
-4. `ship-asset-pack-patch-pr` — open PR on **read** repo applying AssetPack `.patch`
-5. `journal-and-pack-activity` — `/packs` activity row
+**Cardinality:** SynthesizeRead produces multiple options; the buyer may select
+one or more. **Each bought option starts its own** `SettleAssetPacksSimplePipeline`
+run (1:1 AssetPack : settle pipeline). Never settle multiple packs inside one run.
+
+| # | Stage / agent | Law |
+|---|---|---|
+| 1 | `validate-settlement-readiness` | Exactly one `assetPackOption`; fail-closed if zero or many |
+| 2 | `settle-btc` | BTC-testnet payment observation / finality (live mempool when `txId` present; else projected) |
+| 3 | `mint-btd` | Mint **fungible BTD** to **master** contract account. Amount = needinesses-only weighted scalar (see below). Absolutes never mint BTD |
+| 4 | `settle-btd` | Transfer minted BTD from master → **buyer Ethereum wallet** |
+| 5 | `settle-asset-pack` | **BitcodeERC1155**: add buyer as equal AssetPack co-owner; depositor retains; **never remove/burn** AP ownership |
+| 6 | `ship-asset-pack-patch-pr` | Open PR on **read** repo applying that option’s `.patch` |
+| 7 | `journal-and-pack-activity` | `/packs` settled-assetpack activity row |
+
+#### BTD (Bitcode) fungible token — mint amount
+
+- **BTD** is a finite fungible token named Bitcode with max supply **21,000,000**
+  whole tokens (18 decimals base units). Introduced commercially on the **read /
+  settle** path (not deposit option synthesis).
+- **Mint only after** `settle-btc` finality (or testnet-projected finality when
+  productized with projected observation).
+- Amount uses **needinesses measurements only**:
+
+```
+weightedNeedinessesSum = Σ (w_i × clamp01(volume_i))   // needinesses *-fit only
+needFitVolume          = weightedNeedinessesSum / Σ w_i   // ∈ [0,1]
+amountBaseUnits        = floor(needFitVolume × 10^18)
+```
+
+- `need-fit` composite rows are derived, not double-counted as mint inputs.
+- Absolutes and deposit-side estimates never mint settlement BTD.
+- Mint destination is the **master** treasury account on BitcodeERC1155; `settle-btd`
+  then transfers to the buyer.
+
+#### BitcodeERC1155 (single contract)
+
+One clean ERC1155 hosts both economic objects:
+
+| Token | ID | Kind | Behavior |
+|---|---|---|---|
+| BTD (Bitcode) | `0` | Fungible | Cap 21M; `mintBtdToMaster` then `settleBtdToBuyer` |
+| AssetPack | `≥ 1` | NFT co-ownership | `registerAssetPack` (depositor first); `addAssetPackCoOwner` **adds** buyer; burn/remove **forbidden** |
+
+AssetPack “transfer” is **add-only co-ownership**: the depositor always retains
+(source remains theirs; they can re-synthesize the same pack). The buyer becomes
+an equal co-owner. Neither party may remove the other. Future re-list/resale is
+a later right for both co-owners; not V48 burn semantics.
+
+Sources of truth:
+
+- Solidity: `packages/btd/contracts/BitcodeERC1155.sol`
+- TS mirror + receipts: `packages/btd/src/erc1155/`
+- Pipeline: `packages/asset-packs-pipelines/settle-asset-packs/`
 
 ### G4-6 `/packs` master-detail
 
@@ -1069,7 +1125,9 @@ roots only; no raw source.
 | Read synthesis | `agents/implementation/read-asset-pack-synthesis-agent.ts` |
 | Needinesses helpers | `read-neediness-measurements.ts`, `@bitcode/generic-measurements-needinesses` |
 | Settle package | `packages/asset-packs-pipelines/settle-asset-packs/` |
-| Read API | `uapi/app/api/read/synthesize-options/` |
+| BitcodeERC1155 | `packages/btd/contracts/BitcodeERC1155.sol`, `packages/btd/src/erc1155/` |
+| Needinesses → BTD | `computeSettlementBtdFromNeedinesses` (`@bitcode/btd/erc1155`) |
+| Read API | `uapi/app/api/read/synthesize-options/`, `uapi/app/api/read/settle/` |
 | UI | `uapi/components/reads/*`, `uapi/components/packs/*` |
 
 ## V48 whole Bitcode operator chain
@@ -1085,9 +1143,10 @@ roots only; no raw source.
 8. Bitcode runs Finding Fits against the Depository.
 9. Bitcode synthesizes a Need-Fit AssetPack and source-safe preview.
 10. Buyer reviews measurements, quote, and proof posture.
-11. Buyer settles with BTC-testnet.
-12. Bitcode transfers BTD rights, unlocks entitled delivery, creates the
-    repository PR, journals compensation, and synchronizes `/packs`.
+11. Buyer settles with BTC-testnet (**one settle pipeline per bought option**).
+12. Bitcode runs settle-btc → mint-btd (needinesses scalar to master) →
+    settle-btd (BTD to buyer) → settle-asset-pack (ERC1155 co-ownership) →
+    PR delivery, journals compensation, and synchronizes `/packs`.
 13. Operators repair only through proof-backed state transitions.
 
 ## V48 canonical subsystem surfaces
