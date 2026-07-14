@@ -815,7 +815,8 @@ jobs:
           pnpm --filter @bitcode/generic-mcps-bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/generic-mcps-bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand --forceExit
           pnpm --dir packages/external-apps/chatgpt exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand --forceExit
-          pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand --forceExit
+          # asset-pack-harness.test.ts removed; host plan + distributed receipt remain.
+          pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-host-plan.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/distributed-execution-runtime-receipt.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-integration-coverage.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-contract.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-disclosure.test.ts src/__tests__/postprocess.test.ts src/__tests__/read-need.test.ts src/__tests__/read-need-review-resynthesis.test.ts --runInBand --forceExit
@@ -883,7 +884,9 @@ jobs:
           fi
           pnpm --filter @bitcode/specifying test
 
-      - name: Test staged Reading route and Terminal harness contracts
+      # Terminal product route is deleted (V48). Keep only present uapi harness
+      # contracts (Conversations / Auxillaries / Reads / browser-proof suites).
+      - name: Test staged Reading route and product harness contracts
         run: |
           pnpm --dir uapi exec jest --runTestsByPath \
             tests/userDataRoute.test.ts \
@@ -897,8 +900,6 @@ jobs:
             tests/api/conversationSessionRouteHistoryContract.test.ts \
             tests/api/conversationStreamEventContract.test.ts \
             tests/conversationStreamPipelineLog.test.tsx \
-            tests/conversationTerminalIntegrationCoverage.test.tsx \
-            tests/conversationTerminalHandoff.test.tsx \
             tests/api/conversationPersistencePrivacyRedaction.test.ts \
             tests/conversationPersistencePrivacyPanel.test.tsx \
             tests/api/conversationTelemetryProofHooks.test.ts \
@@ -912,23 +913,8 @@ jobs:
             tests/profileStep.test.tsx \
             tests/api/readReviewRoute.test.ts \
             tests/api/readReviewProtocolParity.test.ts \
-            tests/api/pipelineHarnessRoute.test.ts \
-            tests/terminalPipelineHarnessClient.test.ts \
-            tests/terminalEnterpriseReadingUxState.test.ts \
-            tests/terminalDepositReadWorkbench.test.ts \
-            tests/terminalTransactionQuery.test.ts \
-            tests/terminalTransactionReadModel.test.ts \
-            tests/exchangePageClient.test.tsx \
-            tests/exchangeTerminalHandoff.test.ts \
-            tests/terminalProtocolProjection.test.ts \
-            tests/terminalInterfaceIntegrationRegression.test.ts \
-            tests/terminalWalletBtcOperation.test.ts \
-            tests/terminalJournalReconciliation.test.ts \
             tests/bitcodeLedgerStorageSync.test.ts \
-            tests/terminalOrganizationAuthority.test.ts \
             tests/protocolCommercialBoundary.test.ts \
-            tests/terminalTransactionDetailCards.test.tsx \
-            tests/terminalTransactionDetailSnapshot.test.ts \
             tests/bitcodeBrowserProof.test.ts \
             tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts \
             tests/readingOperationalTelemetryPipelineLog.test.tsx \

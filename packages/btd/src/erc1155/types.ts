@@ -20,7 +20,16 @@ export const BITCODE_ASSET_PACK_ID_START = 1n;
 /** ERC20-style decimals for fungible BTD balances. */
 export const BTD_DECIMALS = 18;
 
-export const BTD_DECIMALS_SCALE = 10n ** BigInt(BTD_DECIMALS);
+/**
+ * 10^BTD_DECIMALS as bigint.
+ * Avoid `10n ** n` — some Jest/ts-jest pipelines downlevel `**` to Math.pow,
+ * which cannot accept bigint operands.
+ */
+export const BTD_DECIMALS_SCALE: bigint = (() => {
+  let scale = 1n;
+  for (let i = 0; i < BTD_DECIMALS; i += 1) scale *= 10n;
+  return scale;
+})();
 
 /** Max fungible BTD in base units (21_000_000 * 10^18). */
 export const BTD_MAX_SUPPLY_BASE_UNITS =
