@@ -189,7 +189,7 @@ AssetPack = **patch + measurements + metadata**.
 | preprocess | deposit-only | Coords + steering; catalog may be empty until Setup clone |
 | Setup | (1) clone alone → (2) **parallel** {initialize-lsp, initialize-mcps-tools, comprehend-obfuscations} → (3) danger-wall alone | Clone first; danger wall last admits obfuscations |
 | Discovery | **parallel** {comprehend-codebase, search-depository, inherent-regurgitation} | Measure is **inside** comprehend-codebase (tools/objectives), not a separate agent |
-| Implementation | synthesize-deposit-asset-packs | Patch options; kinds: capability-slice \| implementation-pattern \| proof-operations-slice |
+| Implementation | `implementation:deposit-asset-pack-synthesis` | Patch options; kinds: capability-slice \| implementation-pattern \| proof-operations-slice |
 | Validation | **one** agent: ready-to-finish-asset-packs-synthesis-deposit-pipeline | A prior phases/tools · B pack quality · C obfuscations vs patch |
 | Finish | (1) store-artifacts → (2) ledgerize → (3) finish-synthesize-asset-packs-for-deposit-run | Store (Supabase + patch artifacts) · on-chain ledger · envelope/cleanup last |
 | postprocess | normalize | Presentation-safe result |
@@ -198,10 +198,9 @@ AssetPack = **patch + measurements + metadata**.
 
 | Concept | Store / type key |
 | --- | --- |
-| This-run Host checkout catalog | `deposit:sourceCheckoutCatalog` (paths, promptSamples, fileBodies) |
-| Loader for file bodies | `deposit:loadSourceCheckoutFileBodies` |
+| This-run Host checkout catalog | `deposit:sourceCheckoutCatalog` (`paths`, `samples`, optional `sources` bodies) |
 | Host workspace | `repository:workspacePath` |
-| Legacy alias during migration | `deposit:inventory` dual-written until callers migrated |
+| Legacy alias during migration | `deposit:inventory` dual-written for stream filters only — not product vocabulary |
 
 ### Setup agents (target registry keys)
 
@@ -250,4 +249,7 @@ AssetPack = **patch + measurements + metadata**.
 | D-13 | Finish finish-synthesize-deposit-run (last) | closed | selection envelope (patch+measurements+metadata) + cleanup posture |
 | D-14 | Host-only clone (no pre-Setup clone; LocalHost this-run only) | closed | Host clone commits |
 | D-15 | Kinds capability-slice / implementation-pattern / proof-operations-slice | closed | deposit schemas |
+| D-16 | One roster key per agent (no synonym aliases) | closed | discovery/deposit-phases/validation register only canonical keys |
+| D-17 | Full absolute catalog on every pack before Finish | closed | Implementation attach + Validation fail-closed; ASSET_PACK_ABSOLUTES_CATALOG |
+| D-18 | Execution store index + selection envelope schemas | closed | SPEC G3-6/G3-7 + finish agents; storeCrossPhaseArtifact law |
 

@@ -2002,18 +2002,21 @@ it reifies “protocol” as one package when the monorepo *is* the protocol sur
 
 ### Deposit SDIVF target algorithm (Host · sourceCheckoutCatalog · 2026-07-13)
 
-Full target sequence and parity rows: `BITCODE_SPEC_V48_PARITY_MATRIX.md`
-section **Deposit SynthesizeAssetPacks SDIVF — target algorithm parity**.
+**Binding rebuild law** is restated in full in `BITCODE_SPEC_V48.md` (measurement
+law + Gate 3 G3-1…G3-15). Parity rows:
+`BITCODE_SPEC_V48_PARITY_MATRIX.md` § Deposit SynthesizeAssetPacks SDIVF.
+Non-canonical orientation: `ASSET_PACKS.md` (must not replace SPEC).
 
-Accepted sequencing:
+Accepted sequencing (must match SPEC):
 - Setup: **clone alone** → **parallel** (initialize-lsp, initialize-mcps-tools, comprehend-obfuscations) → **danger-wall alone** (admits obfuscations).
-- Discovery: **parallel** comprehend-codebase, search-depository, inherent-regurgitation.
+- Discovery: **parallel** comprehend-codebase, search-depository, inherent-regurgitation (one roster key each — no synonym aliases).
 - **comprehend-codebase** gathers: absolute measurements, LSP queries, full file-tree structure, key file bodies → stores `discovery:codebaseAnalysis` + knowledge map.
 - **search-depository** Plan queries from run evidence → `depository-asset-pack-search` (lexical + optional vector RPC).
-- AssetPack = **patch + measurements + metadata** (absolutes required before finish).
+- AssetPack = **patch + measurements + metadata** (full `ASSET_PACK_ABSOLUTES_CATALOG` required before finish).
 - Validation: one ready-to-finish deposit agent (A/B/C).
 - Finish: store-artifacts (`deposit:persistArtifacts` hook) → ledgerize (`deposit:ledgerWrite` hook) → finish-synthesize-deposit-run (selection envelope).
 - Naming: `sourceCheckoutCatalog` canonical; `inventory` dual-write only for legacy stream filters. No Fits Finding / lens language.
+- Implementation roster key: `implementation:deposit-asset-pack-synthesis`.
 
 Env: `BITCODE_DEPOSITORY_VECTOR_SEARCH=1` enables embedding + Supabase match RPC when credentials present.
 

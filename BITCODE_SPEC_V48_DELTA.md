@@ -57,6 +57,16 @@ and validate the website E2E.
   hooks (live runs, demand, URL nav, network count); Packs portfolio/master/
   detail units; thin page shells. Rebuild law restated in SPEC G3-14 / G3-14a.
   Continues until every deposit-touched module is SRP modular.
+- **Deposit SDIVF full rebuild law in SPEC (2026-07):** Gate 3 measurement law
+  and G3-1…G3-15 fully restate SynthesizeDepositAssetPacks (no lens): Setup
+  clone → parallel {LSP, MCP, obfuscations} → danger-wall; Discovery parallel
+  three agents with measure-inside-codebase; AssetPack = patch + measurements +
+  metadata; full `ASSET_PACK_ABSOLUTES_CATALOG`; single Validation ready-to-finish
+  A/B/C; Finish store → ledgerize (journal) → selection envelope; complete
+  Execution store index and schemas; one roster key per agent; sourceCheckoutCatalog
+  naming. Non-canonical companions (`ASSET_PACKS.md`, README, FAMILIARIZATION)
+  may summarize only — SPEC must stand alone for Complete Implementation
+  Derivability (`BITCODE_SPECIFYING.md`).
 
 ## Explicitly deferred
 

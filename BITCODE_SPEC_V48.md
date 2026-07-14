@@ -32,10 +32,12 @@ production-intended. Measurement remains the commercial primitive: absolutes on
 deposit, Need-relative fit on read, weighted BTD scalar for quote/rights, and
 seller/buyer visualization without source leakage.
 
-Gate 3 product defaults that must appear in any rebuild: xAI model
-`claude-haiku-4-5` (Anthropic), DIV `maxIterations=1`, LLM call timeout 180s, empty Obfuscations
-skip Setup LLM, Forced Inclusions/Exclusions path scope, Unestimatable demand
-when settled Depository search cannot ground estimates.
+Gate 3 product defaults that must appear in any rebuild: Anthropic model
+`claude-haiku-4-5`, deposit-native SDIVF roster (no lens), DIV `maxIterations=1`,
+LLM call timeout 180s, **sourceCheckoutCatalog** (not inventory), AssetPack =
+patch + measurements + metadata with formal **ASSET_PACK_ABSOLUTES_CATALOG**,
+empty Obfuscations skip Setup LLM, Forced Inclusions/Exclusions path scope,
+Unestimatable demand when settled Depository search cannot ground estimates.
 
 ## Canonical Bitcode executive summary
 
@@ -65,14 +67,20 @@ The V48 **draft** family is the sole rebuild authority for all V48 gate work:
 |---|---|
 | `BITCODE_SPEC_V48.md` | **Single full-system SPEC** — Complete Implementation Derivability: the entire Bitcode stack through Gate 3 must be rebuildable from this file alone |
 | `BITCODE_SPEC_V48_DELTA.md` | Why V48 / accepted decisions / deferred / commit direction |
-| `BITCODE_SPEC_V48_NOTES.md` | Architecture decisions, Gate 3 parity matrix, non-binding working memory |
+| `BITCODE_SPEC_V48_NOTES.md` | Architecture decisions, simplified reading, non-binding working memory (weaker than SPEC) |
 | `BITCODE_SPEC_V48_PARITY_MATRIX.md` | Spec ↔ implementation ↔ test audit |
 | `BITCODE_SPEC_V48_PROVEN.md` | Generated proof appendix (draft) |
 
+**Non-canonical companions** (`README.md`, `FAMILIARIZATION.md`, `ASSET_PACKS.md`,
+`AGENTS.md`, `internal-docs/*` except when explicitly named by this SPEC):
+orientation and craft only. They **must not** be required to supply omitted
+system semantics. Adjuncts may link SPEC; SPEC must not depend on them.
+
 **No silent inheritance.** Superseded version specs (`BITCODE_SPEC_V47.md` and
 earlier) are historical anchors only. V48 implementers must not require reading
-prior `BITCODE_SPEC_V*.md` files to rebuild deposit SDIVF, identity, packs,
-telemetry, or measurement law — those laws are restated in this SPEC.
+prior `BITCODE_SPEC_V*.md` files or non-canonical companions to rebuild deposit
+SDIVF, identity, packs, telemetry, or measurement law — those laws are restated
+in this SPEC.
 
 Implementation remains unversioned in source paths. Routes, packages,
 components, tests, prompts, telemetry, schemas, APIs, and workflows move in place
@@ -271,92 +279,200 @@ Canonical V48 states:
 
 Measurement is the singular key to valuable IP commoditization and exchange.
 Every V48 sale or deposit decision must be grounded in source-safe measurement
-readback.
+readback. **Models do not invent absolute volumes.** Hosts and tools measure;
+agents reason over source-safe descriptors and measured readings.
 
-Measurement catalog:
+### AssetPack identity (measurement-bound)
 
-- Coverage measurement: how much of the Need or deposit option is addressed.
-- Specificity measurement: how precise the AssetPack is relative to a Need or
-  supply opportunity.
-- Novelty measurement: how much non-public or hard-to-recreate knowledge the
-  AssetPack contains without exposing source.
-- Reuse measurement: how likely the AssetPack is to help future Reads.
-- Risk measurement: source criticality, leakage risk, rights risk, and repair
-  risk.
-- Evidence measurement: proof-root, test, benchmark, repository, telemetry, and
-  provenance support.
-- Fit measurement: Need-relative alignment across candidate Fits.
-- Delivery measurement: confidence that the synthesized AssetPack can be
-  delivered as a repository PR or equivalent entitled delivery.
+```
+AssetPack = patch + measurements + metadata
+```
 
-Measurement prompt rule:
+- **Patch** — source-safe descriptor of digital material (`fileChanges[{path,op}]`,
+  `patchSummary`). Path+op only; never raw code in prompts or default review payloads.
+- **Measurements** — formal **absolute** material-property readings (required on
+  every deposit option before Finish). Optional **neediness** is a deposit-side
+  read-demand **preview**, not an absolute.
+- **Metadata** — commercially legible fields: `kind`, `title`, `summary`,
+  `coveredSourcePaths`, `confidence`, optional `needinessSignal`.
 
-- Each measurement must be commanded by a named Prompt or PromptPart composition
-  through the existing prompt registry.
-- Each inference-owned measurement must record its input context class, source
-  boundary, prompt template identity, interpolated prompt hash or source-safe
-  digest, typed output schema, parsed result, proof root, telemetry receipt,
-  and repair posture.
+An AssetPack is **always** a completely synthesized artifact — never a raw
+source slice and never a bare path list. Product hierarchy:
+
+`AssetPack` (primitive) → `MeasuredPatchAssetPack` → deposit option / selection
+envelope row / durable artifact projection.
+
+Deposit option `kind` (v0): `capability-slice` | `implementation-pattern` |
+`proof-operations-slice`. Implementation synthesizes **2–4** distinct options.
+
+### Absolute material-property catalog (`ASSET_PACK_ABSOLUTES_CATALOG`)
+
+Canonical catalog in `@bitcode/generic-asset-packs-synthesis`
+(`measurement-catalogs.ts`). Weights **sum to 1**. Shared for deposit and read
+**absolute** properties. Rebuild implementations must emit one reading per kind.
+
+#### Quantity (tool-authoritative: static analysis + patch descriptor)
+
+| measurementKind | Label | Unit | Weight | Law |
+|---|---|---|---|---|
+| `function-count` | Functions | functions | 0.12 | Distinct functions/behaviors the patch encodes; magnitude = count |
+| `type-count` | Types | types | 0.10 | Distinct types/interfaces/schemas; magnitude = count |
+| `file-span` | File span | files | 0.08 | Files create/modify/delete in patch; magnitude = count |
+| `symbolic-richness` | Symbolic richness | symbols | 0.12 | Distinct symbols/identifiers; magnitude = unique symbol count |
+| `modularity` | Modularity | modules | 0.08 | Distinct path modules / top-level packages; magnitude = module count |
+
+#### Quality (measure-agent judgment grounded in quantities + source-safe descriptor)
+
+| measurementKind | Label | Unit | Weight | Law |
+|---|---|---|---|---|
+| `correctness-estimate` | Correctness | estimate | 0.18 | 0..1 fidelity/coherence of synthesized knowledge |
+| `objectives-fidelity` | Objectives fidelity | estimate | 0.16 | 0..1 serves deposit objectives; honors obfuscations/exclusions |
+| `computational-usage` | Computational usage | estimate | 0.16 | 0..1 estimated computational demand of the knowledge surface |
+
+#### Absolute reading shape (rebuild type)
+
+```
+{
+  measurementKind: string;   // catalog key exactly
+  label: string;
+  weight: number;            // catalog weight
+  volume: number;            // 0..1 normalized
+  category: 'absolute';
+  magnitude?: number;        // raw count for quantity kinds
+  unit?: string;             // functions|types|files|symbols|modules|estimate
+  evidenceRoot?: string;     // optional audit root
+}
+```
+
+**Who measures when (deposit):**
+
+| Phase | Law |
+|---|---|
+| Discovery `comprehend-codebase` | Measures **Host checkout material** → `discovery:sourceMeasurements` to ground the knowledge map |
+| Implementation | After PTRR, host **must** attach per-option `absolutes[]` (from Discovery measurements and/or `measureAssetPackAbsolutes` on pack descriptor + catalog sources) |
+| Validation ready-to-finish | **Fail-closed** if any pack lacks non-empty `absolutes[]`; may backfill then re-check |
+| LLM agent JSON | **Must not** invent absolute volumes |
+
+Stack: `SourceStaticAnalysisTool` (quantity) → `measureAssetPackAbsolutes` /
+`SynthesizeAssetPacksAbsolutesMeasureAgent` (quality grounded in quantity) →
+merge (quantity tool-authoritative).
+
+### Neediness (deposit preview — not an absolute)
+
+`neediness` / `needinessSignal` is a **read-demand preview** for depositors
+(earning estimate). It is **not** a member of `ASSET_PACK_ABSOLUTES_CATALOG`.
+
+- Inputs (v0): `{ demand, saturation, rationale }` grounded in depository-search
+  guidance (and optional settled-Depository estimate post-synthesis).
+- Formula (product): `volume = clamp01(demand × (0.5 + 0.5×(1−saturation)))`.
+- Shown **beside** absolutes; never substitutes for them. When settled corpus is
+  thin: **Unestimatable** — never invent percentages.
+
+### Relative / commercial visualization catalogs
+
+In addition to formal absolutes, product surfaces project source-safe commercial
+measurements (coverage, specificity, novelty, reuse, risk, evidence, fit,
+delivery readiness) for seller/buyer visualization. Relative catalogs differ by
+product path:
+
+- Deposit soft priors / policy rows may include source-coverage, demand-alignment,
+  reuse-likelihood as **policy** inputs — formal law prefers `absolutes[]`.
+- Read path extends with **Need-relative fit** measurements; final BTD is the
+  weighted sum over **fit-only** readings after Need acceptance.
+
+### Measurement prompt rule
+
+- Each inference-owned measurement is commanded by named Prompt / PromptPart
+  composition through `@bitcode/prompts`.
+- Record: input context class, source boundary, prompt template identity,
+  source-safe prompt digest, typed output schema, parsed result, proof root,
+  telemetry receipt, repair posture.
 - Raw protected prompts, raw provider responses, protected source, and unpaid
-  AssetPack source remain private. Source-safe prompt identity, prompt digest,
-  typed measurement result, and proof root are disclosable.
+  AssetPack source remain private. Source-safe prompt identity, digest, typed
+  result, and proof root are disclosable.
 
-Weighted scalar BTD formula:
+### Weighted scalar BTD formula
 
-- Each measurement emits `measurementVolume`, `confidence`, `riskAdjustment`,
-  and `weight`.
-- Normalized contribution is
-  `measurementVolume * confidence * riskAdjustment * weight`.
-- Deposit-side BTD is an estimated or potential BTD range because no reviewed
-  buyer Need is bound yet.
-- Read-side BTD is the final Need-relative weighted scalar knowledge-volume
-  after measurement policy lock, Need acceptance, Fit selection, and quote
-  binding.
-- The sum of normalized contributions becomes the BTD scalar used for quote,
-  rights, delivery, and source-to-shares accounting.
+- Each measurement emits `measurementVolume` (or `volume`), `confidence` where
+  applicable, `riskAdjustment` where applicable, and `weight`.
+- Normalized contribution:
+  `volume * confidence * riskAdjustment * weight` (omit factors not present).
+- **Deposit-side BTD** is estimated / potential range (no reviewed buyer Need).
+- **Read-side BTD** is final Need-relative weighted scalar after measurement
+  policy lock, Need acceptance, Fit selection, and quote binding.
+- Absolute composite (Σ weight × absolute volume) is commercial legibility of
+  supply material; **settlement BTD uses fit family on read**.
 
-Seller visualization:
+### Seller / buyer visualization
 
-- Depositors must see source-safe measurements for criticality, likely demand,
-  reuse value, evidence, estimated BTD range, ROI posture, compensation
-  expectation, source-safety blockers, and repair requirements before approving
-  deposit.
+- Depositors must see source-safe absolutes (and neediness or Unestimatable),
+  criticality, demand posture, ROI/compensation expectation, source-safety
+  blockers, and repair requirements before approving deposit.
+- Readers must see Need coverage, Fit confidence, selected Fit provenance,
+  novelty, risk, delivery readiness, quote basis, final BTD scalar, and repair
+  blockers before paying BTC-testnet settlement.
 
-Buyer visualization:
-
-- Readers must see source-safe measurements for Need coverage, Fit confidence,
-  selected Fit provenance, novelty, risk, delivery readiness, quote basis,
-  final BTD scalar, and repair blockers before paying BTC-testnet settlement.
-
-Measurement theorem:
+### Measurement theorem
 
 No measurement, no price. No price, no settlement. No settlement, no market.
 
 
 
-## V48 Gate 3 SynthesizeAssetPacks SDIVF and deposit full-stack law
+## V48 Gate 3 SynthesizeDepositAssetPacks SDIVF and deposit full-stack law
 
 This section is **binding product law** for Gate 3. Together with the rest of
 this SPEC it is sufficient to **rebuild deposit synthesis and `/deposits` from
-zero** without consulting superseded version files, `protocol-demonstration/`,
-or implementation tribal knowledge. Implementation paths are listed so a rebuild
-can locate the living system; the **law** is this SPEC.
+zero** without consulting superseded version files, non-canonical companions
+(`ASSET_PACKS.md`, `README.md`, `FAMILIARIZATION.md`), `protocol-demonstration/`,
+or implementation tribal knowledge. Paths locate the living system; the **law**
+is this SPEC.
+
+**Product law: no lens.** Deposit and read are **separate** SDIVF product
+pipelines (not one lensed pipeline). Deposit roster keys below are deposit-native
+only — no Fits Finding / Read-Need agents under deposit Setup, no synonym alias
+keys for the same agent loader.
 
 ### G3-1 Pipeline identity
 
 | Law | Value |
 |---|---|
-| Pipeline name | `SynthesizeAssetPacks` |
-| Legacy alias | Develop-gate / `runSDIVFPipeline` (same executor; observability ids may still say `develop.*`) |
-| Phases | Setup → Discovery → Implementation → Validation → Finish |
-| DIV loop | **maxIterations = 1** (one D→I→V pass; no multi-iteration product loop) |
-| Modes | `deposit` \| `read` |
-| Mode storage | On the **shared pipeline execution** (parent of all `seq-N` phase children). Mode resolution walks **ancestors only** — never store mode only on preprocess sibling (QA F20). |
-| Inference | Non-configurable: always full formal hierarchy; always real generation at leaf. Tests mock LLM at provider boundary only. |
-| Default LLM | Provider **`anthropic`**; model **`claude-haiku-4-5`** (`BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` override). |
-| Per-call timeout | `BITCODE_LLM_CALL_TIMEOUT_MS` default **180000**; reject cleanly (no hang). |
-| Entry | `synthesizeAssetPacksPipeline` in `packages/asset-packs-pipelines/domain/src/index.ts` |
-| Formal hierarchy | PipelineExecution → Phase → Agent (`factoryAgent` / `factoryPTRRAgent`) → Step (plan/try/refine/retry) → Failsafe (prepare_concise_context → chunk_then_sum → stitch_until_complete) → Thinkings (reason → judge → structured_output) |
+| Product pipeline | **SynthesizeDepositAssetPacks** (deposit-only SDIVF) |
+| Domain package | `@bitcode/asset-packs-pipelines-domain` (+ product package under `asset-packs-pipelines/synthesize-deposits` when used) |
+| Phase roster | `depositPhases` in `packages/asset-packs-pipelines/domain/src/phases/deposit-phases.ts` |
+| Phases | **preprocess** → **Setup** → (**Discovery** → **Implementation** → **Validation**) × maxIterations → **Finish** → **postprocess** |
+| DIV loop | Substrate supports early exit via `validation:readyToFinish`; product default **maxIterations = 1** (one D→I→V pass) |
+| Mode | Deposit-only path stores `pipeline:synthesizeMode = deposit` / `synthesize-asset-packs:mode = deposit` on the **shared root** |
+| Dual-entry legacy | Older `synthesizeAssetPacksPipeline` may still resolve deposit vs read by input `mode` — **new product code uses deposit-only factory** |
+| Inference | Non-configurable formal hierarchy; real generation at leaf. Tests mock LLM at provider boundary only (F26-A). |
+| Default LLM | Provider **`anthropic`**; model **`claude-haiku-4-5`** (`BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` override) |
+| Per-call timeout | `BITCODE_LLM_CALL_TIMEOUT_MS` default **180000** |
+| Formal hierarchy | Pipeline Execution → Phase → Agent (`factoryPTRRAgent` where LLM) → Step (plan/try/refine/retry) → Failsafe (prepare_concise_context → chunk_then_sum → stitch_until_complete) → Thinkings (reason → judge → structured_output) |
+| PTRR unwrap (F27) | Consumers read `finalOutput ?? output ?? raw` — never assume bare schema on factory envelope |
+
+#### G3-1a Target phase sequence (binding)
+
+| Phase | Sequence | Law |
+|---|---|---|
+| preprocess | deposit-only | Repository coords + steering; catalog may be empty until Host/Setup |
+| Setup | (1) **clone alone** → (2) **parallel** {initialize-lsp, initialize-mcps-tools, comprehend-obfuscations} → (3) **danger-wall alone** | Clone first; danger wall last admits obfuscations |
+| Discovery | **parallel** {comprehend-codebase, search-depository, inherent-regurgitation} | Measure is **inside** comprehend-codebase, not a separate agent |
+| Implementation | `implementation:deposit-asset-pack-synthesis` | Options = patch + measurements + metadata; kinds as § measurement law |
+| Validation | **one** agent: `validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline` | A prior phases · B pack quality · C obfuscations vs patch |
+| Finish | (1) store-artifacts → (2) ledgerize → (3) finish-synthesize-asset-packs-for-deposit-run | Persist · journal roots · selection envelope / cleanup |
+| postprocess | normalize | Presentation-safe result for route |
+
+#### G3-1b Optimization for depositor options
+
+Bitcode optimizes **depositor-facing supply quality**, not a claimed global optimum:
+
+1. Scope control — Forced Inclusion/Exclusion + Obfuscations bound admissible knowledge.
+2. Measured structure — checkout absolutes + tree + LSP reveal capability density.
+3. Demand alignment — depository search + needinessSignal bias toward buyable topics.
+4. Pattern prior — inherent regurgitation avoids naive groupings.
+5. Multi-option synthesis — 2–4 **distinct** knowledge groups.
+6. Fail-closed Validation — missing absolutes, leakage, exclusion hits block ready.
+7. DIV substrate — may re-enter Discovery→Implementation when not ready and maxIterations > 1.
+8. Human selection — `/deposits` selection envelope; resynthesis with tighter steering is the next human loop.
 
 ### G3-2 Data storage schemas (deposit persistence)
 
@@ -400,7 +516,7 @@ Settled demand search may scan `executions` for admitted/settled AssetPack rows 
 |---|---|---|
 | POST | `/api/deposit/synthesize-options` | Auth required. Validate body (`repositoryFullName`, branch, commit, obfuscations, forcedInclusions, forcedExclusions, demand signals). Create `executions` row `running`. Register `waitUntil` continuation. Return `{ runId, status: 'dispatched' }` immediately. `maxDuration` high enough for deposit (800s class). Background: provision host → run SDIVF or sandbox host → validate candidates → build real option synthesis → ground neediness from settled packs → persist `output` **before** completion event. Fail-closed messages on zero options / cancel / timeout. |
 | GET | `/api/deposit/demand-estimate` | Auth required. Query settled Depository packs; return `{ ok, estimate, signals }`. `estimatable:false` when corpus thin. |
-| GET | `/api/executions/history` | List owner runs (deposit lens filters). |
+| GET | `/api/executions/history` | List owner runs (deposit-mode / deposit pipeline filters). |
 | GET | `/api/executions/history/[runId]` | Full row + optional event page; support `?tail=N` for last N events. |
 | GET | `/api/executions/stream/[runId]` | SSE live tail of source-safe events. |
 | POST | `/api/executions/[runId]/cancel` | Owner cancel; set `cancelled`; insert status event; best-effort sandbox stop. |
@@ -411,71 +527,291 @@ Dispatch must use Vercel `waitUntil` (QA F31) — bare `void` after response is 
 
 | HostKind | Implementation | Law |
 |---|---|---|
-| `local` | `packages/pipeline-hosts` LocalHost + `uapi/lib/deposit-source-provisioning` | Default when `BITCODE_PIPELINE_HOST` unset. Real `git clone` of full tree; Node fs workspace; inventory `paths` + `sources` + `samples`. |
-| `sandbox` | `VercelSandboxPipelineHost` + asset-pack host | When `BITCODE_PIPELINE_HOST=sandbox`. Auth: OIDC or `VERCEL_TOKEN`+team+project — fail closed if missing. Deposit boxes **`persistent: false`**. Create → run host in-box → stop/delete. Persist `context.sandboxId` while running for cancel. Events: `sandbox-create-started`, `sandbox-created`, `command-started`, `sandbox-stopped`, `sandbox-cancelled`. |
+| `local` | LocalHost + `uapi/lib/deposit-source-provisioning` | Default when `BITCODE_PIPELINE_HOST` unset. Host **adopt this-run tree or clone** complete tree at SHA; Node fs workspace; build **sourceCheckoutCatalog** `{ paths, samples, sources? }`. |
+| `sandbox` | VercelSandbox host family | When `BITCODE_PIPELINE_HOST=sandbox`. Auth fail-closed. Deposit boxes **`persistent: false`**. Persist `context.sandboxId` for cancel. |
 
-Inventory scope after provision: `applyInventoryScope({ inclusions: forcedInclusions, exclusions: forcedExclusions })`. Prompt path uses `projectInventoryForPrompt` (paths+samples only — never full `sources` in prompts).
+Scope after provision: Forced Inclusions/Exclusions applied to catalog. Prompt path uses projection of **paths + samples only** — never full `sources` in prompts or telemetried `pipeline:input`.
 
-### G3-5 Deposit lens inputs
+**Host-only clone law:** Setup clone agent is the checkout authority for the SDIVF run; pre-Setup host provision may seed the Host, but deposit Setup does not use Fits Finding harness keys.
+
+### G3-5 Deposit run inputs and preprocess stores
 
 | Input | Law |
 |---|---|
 | `repositoryFullName`, `sourceBranch`, `sourceCommit` | Required for synthesis |
-| `obfuscations` | Free-text withhold guidance. **Empty/whitespace → skip Setup input-comprehension LLM**; store empty guidance (`comprehensionMode: empty-obfuscations-skip-llm`). Forced Exclusions still authoritative. |
+| `obfuscations` | Free-text withhold guidance. **Empty/whitespace → skip Setup obfuscation LLM**; store empty guidance (`comprehensionMode: empty-obfuscations-skip-llm`). Forced Exclusions remain authoritative. |
 | `forcedInclusions` | Non-empty → only those roots in-scope |
-| `forcedExclusions` | Fail-closed exclusion from inventory |
-| Demand signal arrays | Optional; product preferred path is settled-Depository estimate |
+| `forcedExclusions` | Fail-closed exclusion from catalog before prompts/measurement |
+| `demandContext` | Optional demand signals; settled-Depository estimate preferred for earnings UI |
+| Hooks (optional) | `deposit:persistArtifacts`, `deposit:ledgerWrite` injected by dispatch |
 
-Preprocess stores on **shared** execution (cross-phase store-visibility law): `pipeline:input` (sources stripped), `pipeline:synthesizeMode=deposit`, `deposit:repository`, `deposit:obfuscations`, `deposit:forcedInclusions`, `deposit:forcedExclusions`, `deposit:demandContext`, `deposit:inventory` (full sources for measurement tools only).
+#### Naming: sourceCheckoutCatalog (binding)
 
-### G3-6 Agent roster (deposit mode)
+| Concept | Store / type key |
+|---|---|
+| This-run Host checkout catalog | **`deposit:sourceCheckoutCatalog`** (`paths`, `samples`, optional `sources` file bodies) |
+| Host workspace | `repository:workspacePath` |
+| Legacy alias | `deposit:inventory` **dual-written only** for stream filters until fully migrated — **not** product vocabulary |
 
-Registry keys and modules under `packages/asset-packs-pipelines/domain/src/`:
+#### Preprocess cross-phase stores (shared root)
 
-| Phase | Registry key / agent | Module | Notes |
+| Namespace:key | Content |
+|---|---|
+| `pipeline:input` | Request summary; catalog **without** full `sources` bodies |
+| `pipeline:synthesizeMode` | `deposit` |
+| `deposit:repository` | `{ url, owner, name, branch, commit, fullName }` |
+| `deposit:obfuscations` | string \| null |
+| `deposit:forcedInclusions` | string[] |
+| `deposit:forcedExclusions` | string[] |
+| `deposit:demandContext` | array |
+| `deposit:sourceCheckoutCatalog` | Full catalog for measurement tools (when available) |
+
+### G3-6 Agent roster (deposit mode — exactly one key per agent)
+
+Registry keys under `packages/asset-packs-pipelines/domain/src/`. **No synonym
+aliases** (e.g. do not also register `discovery:codebase-comprehension` for the
+same loader as `discovery:comprehend-codebase`).
+
+#### Setup (`depositSetupPhase`)
+
+| # | Registry key | Module | Objective | Tools / notes |
+|---|---|---|---|---|
+| 1 | `setup:clone-vcs-repository` | `agents/setup/asset-pack-clone-vcs-repository-agent.ts` | Host adopt/clone full tree at SHA | Host clone tool |
+| 2a | `setup:initialize-lsp` | `agents/setup/asset-pack-initialize-lsp-agent.ts` | LSP on workspace | LSP init |
+| 2b | `setup:initialize-mcps-tools` | `agents/setup/asset-pack-initialize-mcps-tools-agent.ts` | MCP/tools on Host | MCP helpers |
+| 2c | `setup:comprehend-obfuscations` | `agents/setup/deposit-input-comprehension-agent.ts` | Obfuscations → structured guidance vs catalog paths | PTRR; empty skip LLM |
+| 3 | `setup:danger-wall` | `agents/setup/deposit-danger-wall-agent.ts` | Admit obfuscation posture; fail-closed | Deterministic; `ShortCircuitError` |
+
+**Setup stores:** `setup:inputComprehension` / `setup:obfuscationComprehension`
+`{ summary, obfuscatedPaths?, obfuscatedConcepts?, honorNotes? }`;
+`setup:admission` / `setup:dangerWall` `{ safe, reason, flags, … }`;
+`setup/lsp:initialized`, workspace path.
+
+**Comprehend-obfuscations output schema:**
+`{ comprehension: { summary, obfuscatedPaths?, obfuscatedConcepts?, honorNotes? } }`.
+
+#### Discovery (parallel)
+
+| Registry key | Module | Objective | Tools |
 |---|---|---|---|
-| Setup | `setup:asset-pack-clone-vcs-repository-agent` | `agents/setup/asset-pack-clone-vcs-repository-agent.ts` | Clone into host workspace |
-| Setup | `setup:ReadFitsFindingSynthesisReadComprehensionAgent` | **deposit** `agents/setup/deposit-input-comprehension-agent.ts` | Obfuscations comprehension; empty skip |
-| Setup | `setup:ReadFitsFindingSynthesisSetupPlanAgent` | **punt** passthrough | Read fits-finding plan — no deposit LLM |
-| Setup | `setup:asset-pack-danger-wall-agent` | **punt** passthrough | Read risk-admission — no deposit LLM |
-| Setup | `setup:asset-pack-initialize-mcps-tools-agent` | setup MCP init | Tools registration |
-| Discovery | deposit codebase | `agents/discovery/deposit-codebase-comprehension-agent.ts` | Knowledge map |
-| Discovery | deposit depository-search | `agents/discovery/deposit-depository-search-agent.ts` | Read-demand guidance + underservedTopics |
-| Discovery | deposit inherent-regurgitation | `agents/discovery/deposit-inherent-regurgitation-agent.ts` | Prior knowledge patterns |
-| Implementation | `implementation:deposit-asset-pack-synthesis` | `agents/implementation/deposit-asset-pack-synthesis-agent.ts` | 2–4 patch options + needinessSignal |
-| Implementation tools | patch write | `agents/implementation/asset-pack-patch-write-tool.ts` | Source-safe path+op |
-| Validation | deposit validation | `agents/validation/deposit-validation-agent.ts` | Quality / iterate gate |
-| Validation | measure absolutes | `agents/validation/agent-measure-absolutes.ts` | Formal absolute measures |
-| Validation tools | static analysis | `agents/validation/source-static-analysis-tool.ts` | Size/symbolic quantities |
-| Finish | upload-for-review | finish phase agents | No PR in synthesis |
+| `discovery:comprehend-codebase` | `agents/discovery/deposit-codebase-comprehension-agent.ts` | Rich Host analysis → knowledge map for pack groups | LSP `lsp-query`, measure/static-analysis, Host file reads |
+| `discovery:search-depository` | `agents/discovery/deposit-depository-search-agent.ts` | Plan queries + demand guidance + tool search | `depository-asset-pack-search` (lexical always; vector when `BITCODE_DEPOSITORY_VECTOR_SEARCH=1` + credentials) |
+| `discovery:inherent-regurgitation` | `agents/discovery/deposit-inherent-regurgitation-agent.ts` | Model-inherent patterns (source-safe) | none |
 
-**PTRR unwrap law (F27):** every agent wrapper must read `finalOutput ?? output ?? raw` — never assume bare schema fields on the factory envelope.
+##### Codebase comprehension evidence law (binding)
 
-### G3-7 Tools, prompts, generations, running context
+Before/around PTRR, the agent **must** gather:
 
-- **Prompts:** Agent-level identity/requirements + PTRR step prompts via `@bitcode/prompts` Prompt registry; progressive specificity Pipeline→Phase→Agent→Step→Generation.
-- **Generations:** Thinkings triple = reason → judge → structured_output; each is an LLM call with execution child `llm:<key>:<model>`.
-- **Failsafes:** prepare_concise_context (selection → task) then chunk_then_sum then stitch_until_complete; selection must resolve `context:selectedKeys` (F29).
-- **Running context / stores:** Cross-phase artifacts via `storeCrossPhaseArtifact` on shared execution: `setup:inputComprehension` / `obfuscationComprehension`, `discovery:codebaseComprehension`, `discovery:depositorySearch`, `discovery:inherentRegurgitation`, `implementation:options`, validation absolutes attachment.
-- **Tools telemetry:** `tool|tools` result/error events become Tool-use log rows (Phase→Agent→Step + tool name).
+1. Absolute measurements of checkout material → `discovery:sourceMeasurements`
+2. LSP queries when available
+3. Full file-tree structure from catalog paths (`buildFileTreeStructure`)
+4. Bounded key file reads (README, manifests, configs, high-signal paths)
 
-### G3-8 AssetPack option product shape
+**Comprehension schema:**
+`{ summary, capabilities?, knowledgeAreas?, notableModules?, measurementInsights?, structureInsights? }`.
 
-An AssetPack is always a **synthesized** artifact (never a raw source slice).
+**Rich analysis store** `discovery:codebaseAnalysis`:
+`schema: bitcode.deposit.discovery.codebase-analysis` with repository,
+workspacePath, catalog counts/paths, fileTree, keyFileReads, sourceMeasurements,
+lsp queries, comprehension. Also `discovery:codebaseComprehension` (map alone).
 
-After pipeline + projection (`buildRealDepositAssetPackOptionSynthesis` + `validateDepositSynthesisOptions`):
+##### Depository search output law
+
+`{ guidance: { summary, likelyReadTopics?, demandAlignment?, underservedTopics?, readabilityNotes?, searchQueries? }, searchQueries? }`.
+Stores: `discovery:depositorySearch`, `discovery:depositorySearchQueries`,
+`discovery:depositorySearchToolResult`.
+
+##### Inherent regurgitation output law
+
+`{ regurgitation: { summary, relevantKnowledge?, patterns?, references? } }` →
+`discovery:inherentRegurgitation`.
+
+#### Implementation
+
+| Registry key | Module | Objective |
+|---|---|---|
+| `implementation:deposit-asset-pack-synthesis` | `agents/implementation/deposit-asset-pack-synthesis-agent.ts` (+ schema/prompts siblings) | 2–4 options; LLM synthesizes patch+metadata; **host attaches absolutes** |
+
+**Candidate set schema (LLM + host):**
+
+```
+{
+  options: [{
+    kind: string;                    // capability-slice | implementation-pattern | proof-operations-slice
+    title: string;                   // 8..160
+    summary: string;                 // 40..900 source-safe
+    coveredSourcePaths: string[];    // 1..40 from catalog only
+    confidence: number;              // 0..1
+    patch: {
+      fileChanges: { path: string; op: 'create'|'modify'|'delete' }[];  // min 1
+      patchSummary: string;
+    };
+    needinessSignal?: { demand: number; saturation: number; rationale: string };
+    absolutes?: AbsoluteReading[];   // REQUIRED after host attach
+    measurements?: Record<string, number>;  // optional legacy 0..1 map
+    measurementRationale?: string;
+  }]  // length 1..4
+}
+```
+
+Tools: `asset-pack-patch-write` (path+op materialization).  
+Stores: `implementation:options` **and** `implementation:assetPacks` (same array),
+`implementation:summary`, `implementation:assetPack`.
+
+#### Validation (single agent)
+
+| Registry key | Module | Objective |
+|---|---|---|
+| `validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline` | `agents/validation/deposit-ready-to-finish-agent.ts` | Single A/B/C gate |
+
+| Check | Law |
+|---|---|
+| A Prior phase / tool sanity | workspacePath; danger-wall admission; sourceCheckoutCatalog.paths; Discovery products; non-empty options |
+| B Pack quality | Each pack = patch + measurements + metadata; distinctness; source-safety; absolute kinds present |
+| C Obfuscations / Forced Exclusions | covered paths + patch paths vs blocked prefixes |
+
+**Qualitative PTRR schema:**
+`{ issues: string[]; qualityScore: number; coverageGaps: string[]; recommendation: 'complete'|'iterate' }`.
+
+Stores: `validation/implementation:issues`, `validation:depositQuality`,
+`validation:readyToFinish` `{ recommendation: 'finish'|'revise', summary, issues }`;
+re-stores measured packs on `implementation:options|assetPacks`.
+
+Compat module `deposit-validation-agent.ts` shares prompts/checks for unit tests;
+**deposit phase roster registers only the ready-to-finish key.**
+
+#### Finish (sequential)
+
+| Registry key | Module | Objective |
+|---|---|---|
+| `finish:store-artifacts` | `agents/finish/deposit-store-artifacts-agent.ts` | Durable source-safe bundle + optional persist hook |
+| `finish:ledgerize` | `agents/finish/deposit-ledgerize-agent.ts` | Journal roots + optional ledgerWrite hook |
+| `finish:finish-synthesize-asset-packs-for-deposit-run` | `agents/finish/deposit-finish-synthesize-run-agent.ts` | Selection envelope + cleanup posture |
+
+##### store-artifacts bundle schema
+
+```
+{
+  schema: 'bitcode.deposit.synthesize-asset-packs.artifacts';
+  storedAt: string;
+  assetPacks: Option[];
+  patches: [{ title, kind, patch, coveredSourcePaths, absolutes, metadata }];
+  discovery: { codebaseComprehension, codebaseAnalysisSummary, depositorySearch,
+               depositorySearchTool, inherentRegurgitation, sourceMeasurements };
+  setup: { admission };
+  validation: ReadyToFinish;
+  sourceCheckoutCatalog: { pathCount, sampleCount, fileBodyCount, paths }; // no sources bodies
+}
+```
+
+Stores: `finish:storedArtifacts`, `finish:uploadForReview`, `finish:persistResult`.
+
+##### ledgerize (journal)
+
+Requires storedArtifacts. Builds per-option `contentsRoot`, `measurementRoot`,
+`metadataRoot` + discovery/validation roots. Optional `deposit:ledgerWrite`.
+**Not** full commercial settlement (SettleAssetPacks later). Stores:
+`finish:ledgerize`, `finish:ledgerReceipt`, `finish:ledgerWriteResult`.
+
+##### selection envelope schema
+
+```
+{
+  schema: 'bitcode.deposit.synthesize-asset-packs.selection-envelope';
+  surface: '/deposits';
+  purpose: 'user-select-options-to-deposit';
+  options: [{ index, kind, title, summary, coveredSourcePaths, confidence,
+              patch, measurements /* absolutes */, metadata, selectable: true }],
+  readyToPresent, validationSummary
+}
+```
+
+Stores: `finish:selectionEnvelope`, `finish:completion`, `finish:summary`.
+Host dispose is **dispatch-owned** after Finish returns.
+
+### G3-7 Tools, prompts, execution tree, store-visibility
+
+#### Tools (deposit path)
+
+| Tool / capability | Phase | Role |
+|---|---|---|
+| Host VCS clone/adopt | Setup | Full checkout at SHA |
+| LSP init + `lsp-query` | Setup / Discovery | Symbols for comprehension |
+| MCP initialize | Setup | Host tool surface |
+| Static analysis + measure stack | Discovery / Implementation / Validation backfill | Absolutes quantity + quality |
+| `depository-asset-pack-search` | Discovery | Lexical + optional vector settled supply |
+| `asset-pack-patch-write` | Implementation | Materialize path+op descriptors |
+| `deposit:persistArtifacts` hook | Finish | Durable DB write |
+| `deposit:ledgerWrite` hook | Finish | Journal binding |
+
+#### Prompt composition law
+
+LLM deposit agents set Prompt registry parts:
+
+- `agent:identity` → `agent:requirements` → `ptrr:plan` | `ptrr:try` | `ptrr:refine` | `ptrr:retry`
+
+Hierarchical system prompt reaches **every** leaf LLM call (identity before
+requirements before PTRR step). Progressive specificity:
+Pipeline → Phase → Agent → Step → Failsafe → Thinkings generation.
+
+User/task payload: repository, **projected catalog**, Discovery maps, packs —
+**never** full monorepo sources.
+
+Prompt contracts pinned by
+`packages/asset-packs-pipelines/domain/src/__tests__/deposit-agent-prompt-contracts.test.ts`.
+
+#### Execution tree and cross-phase store-visibility law (F20 generalized)
+
+```
+Execution (ROOT)  ← dispatch / route holds this
+  preprocess (seq child)
+  setup / discovery / implementation / validation / finish (seq children)
+    agent / PTRR step / generation children
+  postprocess
+```
+
+Phases are **isolated siblings**. `findUp` walks **ancestors only**.
+
+| Role | API |
+|---|---|
+| Producer | `storeCrossPhaseArtifact(execution, ns, key, value)` → writes on **`execution.getRoot()`** |
+| Consumer | `execution.get(ns, key) ?? execution.findUp(ns, key)` |
+
+Without this law, Setup guidance is invisible to Implementation, Discovery maps
+vanish for Validation, and the route cannot read Finish outputs.
+
+#### Complete deposit store index (normative)
+
+| Namespace:key | Producer | Consumers |
+|---|---|---|
+| `deposit:sourceCheckoutCatalog` | preprocess / clone / ensure helpers | all agents, measure, Finish |
+| `deposit:repository` | preprocess | all |
+| `deposit:obfuscations` / forced* / demandContext | preprocess | Setup/Discovery/Impl |
+| `deposit:persistArtifacts` / `ledgerWrite` | dispatch | Finish |
+| `repository:workspacePath` | clone | LSP, Validation A |
+| `setup:inputComprehension` | comprehend-obfuscations | danger-wall, Impl, Validation |
+| `setup:admission` | danger-wall | Validation A, Finish |
+| `discovery:codebaseComprehension` / `codebaseAnalysis` / `sourceMeasurements` | comprehend-codebase | Impl, Validation, Finish |
+| `discovery:depositorySearch` (+ queries, tool result) | search-depository | Impl, Finish |
+| `discovery:inherentRegurgitation` | inherent-regurgitation | Impl, Finish |
+| `implementation:options` / `assetPacks` | Implementation (+ Validation re-store) | Validation, Finish, route |
+| `validation:readyToFinish` / `depositQuality` | Validation | DIV gate, Finish, UI |
+| `finish:storedArtifacts` / `ledgerize` / `selectionEnvelope` / `completion` | Finish | route, journal, UI |
+
+### G3-8 AssetPack option product shape (route projection)
+
+After pipeline + projection (`buildRealDepositAssetPackOptionSynthesis` +
+`validateDepositSynthesisOptions` when used):
 
 | Field | Law |
 |---|---|
 | `kind` | capability-slice \| implementation-pattern \| proof-operations-slice |
 | `title`, `summary` | Source-safe commercial language |
-| `measurements[]` | Formal **absolutes** with `category:'absolute'`, weights Σ=1; sizes have `magnitude`+`unit` |
-| `contents` | `{ patchSummary, fileChanges[{path,op}], provenantSourcePaths, provenantSourceCount }` — path+op only, no code |
-| `neediness` | Preview; grounded from settled Depository search post-synthesis; else Unestimatable rationale |
+| `absolutes[]` / projected `measurements[]` | Formal absolutes; category absolute; weights Σ=1; sizes have magnitude+unit |
+| `contents` | `{ patchSummary, fileChanges[{path,op}], provenantSourcePaths, provenantSourceCount }` — path+op only |
+| `neediness` | Preview or Unestimatable |
 | `visibility.*` | All raw/source flags **false** |
 | Roots | optionRoot, sourceBindingRoot, demandAlignmentRoot, measurementRoot, contentsRoot, needinessRoot, reviewBoundaryRoot |
-
-Neediness formula: `volume = clamp01(demand × (0.5 + 0.5×(1−saturation)))`.
 
 ### G3-9 Full-stack route session after options exist
 
@@ -516,7 +852,7 @@ Rebuild order in `buildDepositRouteSession` / `DepositPageClient`:
 
 | Surface | Law |
 |---|---|
-| Master table | Deposit-lens pipelines; filters; select → URL `transactionId` |
+| Master table | Deposit pipeline runs; filters; select → URL `transactionId` |
 | Compose (+) | Open new deposit configuration |
 | Config | Editable until synthesis dispatched; Obfuscations + Forced Inclusions + Forced Exclusions |
 | Telemetry accordion | Source-safe SDIVF stream for attached run |
@@ -534,7 +870,7 @@ Rebuild order in `buildDepositRouteSession` / `DepositPageClient`:
 | Missing sandbox auth | Fail closed before create |
 | Cancel mid-run | `cancelled`; no flip to failed |
 | Orphan stuck running | Sweep → `interrupted` (not cancelled) |
-| Prompt too large / Invalid string length | Scope inventory; safePromptJson; never put full sources in prompts |
+| Prompt too large / Invalid string length | Scope sourceCheckoutCatalog; safePromptJson; never put full sources in prompts |
 | Empty obfuscations on monorepo | Skip input-comprehension LLM (no thrash) |
 | Thin Depository demand | Unestimatable — never invent % |
 
@@ -546,7 +882,8 @@ Rebuild order in `buildDepositRouteSession` / `DepositPageClient`:
 | `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | `anthropic` / `claude-haiku-4-5` product default |
 | `BITCODE_LLM_CALL_TIMEOUT_MS` | `180000` |
 | `BITCODE_PIPELINE_HOST` | unset=local; `sandbox`=in-box |
-| `XAI_API_KEY` | Required for xAI |
+| `BITCODE_DEPOSITORY_VECTOR_SEARCH` | `1` enables embedding + Supabase match RPC when credentials present |
+| `XAI_API_KEY` | Required for xAI provider path when selected |
 | Vercel sandbox auth | OIDC or token+team+project when sandbox host |
 | Supabase | executions + execution_events migrations applied |
 
@@ -554,27 +891,40 @@ Rebuild order in `buildDepositRouteSession` / `DepositPageClient`:
 
 | Area | Path |
 |---|---|
-| Pipeline entry | `packages/asset-packs-pipelines/domain/src/index.ts` |
-| Phases | `packages/asset-packs-pipelines/domain/src/phases/*` |
-| Deposit agents | `packages/asset-packs-pipelines/domain/src/agents/{setup,discovery,implementation,validation}/deposit-*.ts` |
-| Absolutes / neediness | `asset-packs-synthesis.ts`, `agent-measure-absolutes.ts` |
+| Pipeline entry / preprocess | `packages/asset-packs-pipelines/domain/src/index.ts` |
+| Deposit phase roster | `packages/asset-packs-pipelines/domain/src/phases/deposit-phases.ts` |
+| Discovery registration | `packages/asset-packs-pipelines/domain/src/phases/discovery.ts` |
+| Cross-phase store law | `packages/asset-packs-pipelines/domain/src/synthesize-asset-packs.ts` |
+| sourceCheckoutCatalog resolve | `packages/asset-packs-pipelines/domain/src/resolve-source-checkout-catalog.ts` |
+| Deposit agents | `…/agents/{setup,discovery,implementation,validation,finish}/deposit-*.ts` |
+| Absolutes catalog | `packages/generic-asset-packs/synthesis/src/measurement-catalogs.ts` |
+| Measured patch type | `packages/generic-asset-packs/measured-patch/` |
+| Measure host | `…/agents/validation/agent-measure-absolutes.ts` |
+| Static analysis tool | `…/agents/validation/source-static-analysis-tool.ts` |
+| Depository search pure | `…/tools/deposit-depository-asset-pack-search.ts` |
 | Real option projection | `deposit-option-real-synthesis.ts` |
 | Policy / admission / earnings | `deposit-asset-pack-option-policy.ts`, `deposit-asset-pack-option-admission.ts`, `depositor-earning-supply-intelligence.ts` |
 | Settled demand | `depository-settled-demand-estimate.ts`, `uapi/lib/depository-settled-demand.ts` |
-| Hosts | `packages/pipeline-hosts/src/{local-host,vercel-sandbox-host,asset-pack-host,host}.ts` |
+| Hosts | `packages/pipeline-hosts/` (LocalHost, VercelSandbox, …) |
 | Provisioning | `uapi/lib/deposit-source-provisioning.ts` |
-| Synthesize route | `uapi/app/api/deposit/synthesize-options/route.ts` |
+| Synthesize route / dispatch | `uapi/app/api/deposit/synthesize-options/` |
 | Demand route | `uapi/app/api/deposit/demand-estimate/route.ts` |
 | Cancel | `uapi/lib/execution-cancel.ts`, `uapi/app/api/executions/[runId]/cancel` |
 | Stream safety | `packages/pipelines-generics/src/streaming/*` |
 | UI page shell | `uapi/app/deposits/page.tsx` (thin mount) |
 | UI orchestration | `uapi/components/deposits/DepositPageClient/DepositPageClient.tsx` |
-| UI pure models | `uapi/components/deposits/models/` (`deposit-route-model`, `deposit-activity-ledger`, `deposit-route-input-builder`, `deposit-settled-demand`, `deposit-run-status`, `deposit-source-criticality`, …) |
-| UI hooks | `uapi/components/deposits/DepositPageClient/hooks/` (`use-deposit-live-runs`, `use-deposit-settled-demand`, `use-deposit-url-navigation`, `use-deposit-network-depository-count`, `use-deposit-synthesis-activity`, `use-deposit-route-params`) |
+| UI pure models | `uapi/components/deposits/models/` |
+| UI hooks | `uapi/components/deposits/DepositPageClient/hooks/` |
 | UI units | `DepositSourceSelection`, `DepositObfuscationsPanel`, `DepositAssetPackOptions`, `DepositPipelinesMaster`, `DepositSynthesisTelemetry`, `DepositActivityLedgerDetail`, `DepositRouteStateAside` under `uapi/components/deposits/` |
 | Layout contract | `internal-docs/BITCODE_SOURCE_LAYOUT.md`, `uapi/components/deposits/README.md` |
-| LLM defaults | `packages/generic-llms/src/defaults.ts`, `providers/xai.ts` |
+| LLM defaults | `packages/generic-llms/src/defaults.ts` |
 | DB | `supabase/migrations/20260515010000_terminal_execution_history.sql` |
+| Prompt contracts (test) | `…/__tests__/deposit-agent-prompt-contracts.test.ts` |
+| Parity algorithm rows | `BITCODE_SPEC_V48_PARITY_MATRIX.md` § Deposit SDIVF target algorithm |
+
+**Non-canonical companions (not rebuild law):** `ASSET_PACKS.md`, `README.md`,
+`FAMILIARIZATION.md`, `AGENTS.md` — may summarize or link this SPEC; they must
+not supply omitted system semantics.
 
 #### G3-14a Deposit experience modularization law (rebuild)
 
@@ -603,11 +953,11 @@ split from in-box runner templates. Agents co-locate schema/prompts/checks.
 
 Gate 3 is closed when:
 
-1. This SPEC family states rebuild law for deposit SDIVF end-to-end (this section + companions).
-2. Implementation matches G3-1…G3-14 on branch `v48/gate-3-synthesis-pipeline-correctness`.
+1. This SPEC family states rebuild law for deposit SDIVF end-to-end (measurement law + this section + PARITY matrix rows D-01…D-18) **without** requiring `ASSET_PACKS.md`, `README.md`, `FAMILIARIZATION.md`, or superseded `BITCODE_SPEC_V*.md` files.
+2. Implementation matches G3-1…G3-14 (deposit-native roster, sourceCheckoutCatalog, absolutes, Finish schemas, store-visibility).
 3. Automated tests for package + uapi deposit/route/telemetry suites pass; Gate Quality CI green on PR into `version/v48`.
 4. Demand honesty (Unestimatable or settled-grounded) and full-stack stats (ROI/denials) do not present incomplete zeros for healthy sub-critical options with wallet authority.
-5. No requirement to read superseded `BITCODE_SPEC_V*.md` files to rebuild Gate 3 depositing.
+5. Every Execution store, agent schema, tool, and UI expectation listed in G3-5…G3-11 is implemented or explicitly bounded as deferred with a SPEC reopen condition.
 
 
 ## V48 whole Bitcode operator chain
