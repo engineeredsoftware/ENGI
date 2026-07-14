@@ -443,8 +443,10 @@ export default function Nav() {
               ? 'transform 500ms ease-in-out, width 250ms ease-in-out'
               : 'transform 250ms ease-in-out, width 500ms ease-in-out'
             : undefined,
-          padding: usesWorkspaceOnlyChrome ? '0px' : '2px',
-          paddingBottom: usesWorkspaceOnlyChrome ? '0px' : usesProductChrome ? '0px' : '16px',
+          // Product chrome: no outer pad — equal vertical rhythm lives on the inner row (py-3).
+          // Non-product keeps the legacy 2px shell + larger bottom pad when expanded.
+          padding: usesWorkspaceOnlyChrome || usesProductChrome ? '0px' : '2px',
+          paddingBottom: usesWorkspaceOnlyChrome || usesProductChrome ? '0px' : '16px',
           isolation: 'isolate',
           border: 'none',
         }}
