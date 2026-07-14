@@ -99,8 +99,17 @@ function executionStub() {
 }
 
 describe('AssetPack setup agents', () => {
-  it('normalizes a Vercel Sandbox source checkout without invoking clone PTRR', async () => {
+  it('adopts repository already available on the Host (VercelSandboxHost image source)', async () => {
     const execution = executionStub();
+    const sourceRevision = {
+      repositoryFullName: 'engineeredsoftware/ENGI',
+      branch: 'main',
+      commit: '07de275b3d97679321f1f596c16e48105d81d51b',
+    };
+    // Host runner stores sourceRevision on the Host context for this run.
+    execution.store('host', 'sourceRevision', sourceRevision);
+    execution.store('host', 'hostKind', 'sandbox');
+
     const result = await cloneRepositoryAgent(
       {
         repository: {
@@ -108,32 +117,31 @@ describe('AssetPack setup agents', () => {
           branch: 'main',
           commit: '07de275b3d97679321f1f596c16e48105d81d51b',
         },
-        sourceRevision: {
-          repositoryFullName: 'engineeredsoftware/ENGI',
-          branch: 'main',
-          commit: '07de275b3d97679321f1f596c16e48105d81d51b',
-        },
-        harness: { harnessMode: 'asset_pack_pipeline' },
+        sourceRevision,
+        host: { hostKind: 'sandbox' },
       },
-      execution
+      execution,
     );
 
     expect(result).toMatchObject({
       success: true,
       repository: { owner: 'engineeredsoftware', name: 'ENGI', ref: 'main' },
-      status: 'source-revision-present',
-      metadata: { workingTree: 'complete-at-revision', cloneMode: 'vercel-sandbox-source' },
+      status: 'host-source-present',
+      metadata: {
+        workingTree: 'complete-at-revision',
+        hostProvision: 'host-image-source',
+      },
     });
     expect(execution.stores).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ namespace: 'repository', key: 'owner', value: 'engineeredsoftware' }),
         expect.objectContaining({ namespace: 'repository', key: 'name', value: 'ENGI' }),
         expect.objectContaining({ namespace: 'repository', key: 'commit', value: '07de275b3d97679321f1f596c16e48105d81d51b' }),
-      ])
+      ]),
     );
   });
 
-  it('clones via deposit:cloneRepositoryForRun (Setup-only; this run workspace only)', async () => {
+  it('clones on LocalHost via deposit:cloneRepositoryForRun (Setup-only; this-run workspace)', async () => {
     const execution = executionStub();
     const workspacePath = '/tmp/bitcode-local-host-run-abc/checkout';
     const files = {
@@ -168,7 +176,7 @@ describe('AssetPack setup agents', () => {
       status: 'cloned-for-run',
       metadata: {
         workingTree: 'complete-at-revision',
-        cloneMode: 'deposit-run-clone',
+        hostProvision: 'localhost-clone-for-run',
       },
       repository: {
         owner: 'advancedengineeredsoftware',

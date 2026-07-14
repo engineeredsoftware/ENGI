@@ -1,16 +1,13 @@
 /**
  * Deposit Host helpers (V48 Gate 3).
  *
+ * Pipeline runs always execute on a Host (LocalHost, VercelSandboxHost, …).
  * **Cloning is not initialization.** Dispatch must not clone. Setup's
- * `asset-pack-clone-vcs-repository-agent` always clones for *this pipeline run*
- * via `deposit:cloneRepositoryForRun` (wired below for LocalHost).
+ * clone-repository agent ensures the repository for this run: if the Host
+ * already has the tree (e.g. VercelSandboxHost image source), adopt it;
+ * otherwise LocalHost clones via `deposit:cloneRepositoryForRun`.
  *
- * LocalHost only ever reads files from a workspace it cloned for that run —
- * never process.cwd() or residual checkouts.
- *
- * `provisionDepositCheckout` is the Host primitive the Setup factory calls:
- * shallow complete working tree at the SHA + path/sample listing. Discovery
- * later loads in-memory `sources` from that same workspace only.
+ * LocalHost only reads files from the workspace cloned for that run.
  *
  * Host selection: `BITCODE_PIPELINE_HOST` (`local` | `sandbox`).
  */

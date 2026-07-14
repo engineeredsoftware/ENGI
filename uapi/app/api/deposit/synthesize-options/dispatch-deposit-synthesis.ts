@@ -5,9 +5,10 @@
  * (or sandbox host) → fail-closed option validation → neediness grounding →
  * persist execution row.
  *
- * **No clone during initialization.** Cloning is Setup
- * (`asset-pack-clone-vcs-repository-agent`) via `deposit:cloneRepositoryForRun`
- * for LocalHost. Init only authenticates, wires the run-scoped cloner, and starts SDIVF.
+ * **No clone during initialization.** Cloning is Setup on the Host
+ * (`asset-pack-clone-vcs-repository-agent`): LocalHost wires
+ * `deposit:cloneRepositoryForRun`; VercelSandboxHost may already have the
+ * repository on the Host image. Init only authenticates, wires Host, starts SDIVF.
  */
 
 import { GitHubService } from '@bitcode/api/src/vcs/github-service';

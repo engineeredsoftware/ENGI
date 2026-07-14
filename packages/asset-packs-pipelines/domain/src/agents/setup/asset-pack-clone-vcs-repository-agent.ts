@@ -1,19 +1,19 @@
 /**
  * AssetPack Pipeline - Clone VCS Repository Agent (Setup).
  *
- * Cloning is a **Setup** responsibility (not pre-pipeline "initialization").
- * It always produces a **complete working tree at the requested SHA/ref** for
- * *this pipeline run* — all files on disk, shallow history is fine and fast.
+ * Pipeline executions always run on a **Host** (LocalHost, VercelSandboxHost, …).
+ * Cloning is a Setup responsibility only — never pre-pipeline initialization.
  *
- * Deposit LocalHost: dispatch stores `deposit:cloneRepositoryForRun` (a factory
- * that clones into an ephemeral Host workspace for this run only). Setup invokes
- * it here — never reads process.cwd() or any path not cloned for this run.
+ * For this pipeline run the agent ensures a **complete working tree at the
+ * requested SHA/ref** (all files; shallow history is fine):
+ * 1. If the Host already has the repository for this run (e.g. VercelSandboxHost
+ *    provisioned the git source on the Host image), adopt that checkout.
+ * 2. Else if the Host wired `deposit:cloneRepositoryForRun` (LocalHost deposit),
+ *    clone into an ephemeral Host workspace for this run only.
+ * 3. Else clone via the Setup VCS clone tool on the Host.
  *
- * Sandbox harness: the host plan already cloned the source into the box for
- * this run; adopt that checkout (still this-run-specific).
- *
- * Discovery builds the source *catalog* (paths/samples/bodies) from this tree;
- * that is not a second clone.
+ * LocalHost never reads paths outside the workspace cloned for this run.
+ * Discovery builds the source catalog from that same tree (not a second clone).
  */
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
@@ -37,7 +37,7 @@ import { log } from '@bitcode/logger';
 import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
 import { applyInventoryScope } from '../../asset-packs-synthesis-inventory';
 
-/** Execution key: async () => Host workspace cloned for this deposit run only. */
+/** Execution key: async () => Host workspace cloned for this deposit run only (LocalHost). */
 export const DEPOSIT_CLONE_REPOSITORY_FOR_RUN_KEY = 'cloneRepositoryForRun';
 
 const AssetPackCloneVCSRepoInputSchema = z.object({
@@ -94,7 +94,7 @@ export const AssetPackCloneVCSRepositoryAgent = factoryPTRRAgent<
 >({
   name: 'asset-pack-clone-vcs-repository-agent',
   description:
-    'Setup: clone the VCS repository working tree at the requested SHA/ref (all files) for this pipeline run',
+    'Setup on Host: ensure complete repository working tree at SHA/ref for this pipeline run (adopt Host checkout or clone)',
   outputSchema: AssetPackCloneVCSRepoOutputSchema,
   prompt: AssetPackCloneVCSRepositoryAgentSystemPrompt,
   stepPrompts: {
@@ -116,6 +116,14 @@ function findExecutionValue(execution: any, namespace: string, key: string): any
   return execution?.findUp?.(namespace, key);
 }
 
+function resolveHostSourceRevision(input: any, execution: any): Record<string, unknown> | null {
+  const fromInput = input?.sourceRevision;
+  if (fromInput && typeof fromInput === 'object') return fromInput as Record<string, unknown>;
+  const fromHost = findExecutionValue(execution, 'host', 'sourceRevision');
+  if (fromHost && typeof fromHost === 'object') return fromHost as Record<string, unknown>;
+  return null;
+}
+
 function normalizeRepositoryInput(input: any, execution: any): {
   owner: string;
   name: string;
@@ -128,10 +136,7 @@ function normalizeRepositoryInput(input: any, execution: any): {
     findExecutionValue(execution, 'deposit', 'repository') ??
     findExecutionValue(execution, 'pipeline', 'input')?.repository ??
     {};
-  const sourceRevision =
-    input?.sourceRevision ??
-    findExecutionValue(execution, 'harness', 'sourceRevision') ??
-    {};
+  const sourceRevision = resolveHostSourceRevision(input, execution) ?? {};
   const fullName =
     repository.fullName ??
     repository.repositoryFullName ??
@@ -150,15 +155,55 @@ function normalizeRepositoryInput(input: any, execution: any): {
     name: String(name),
     ref: String(input?.ref ?? repository.branch ?? sourceRevision.branch ?? 'main'),
     provider: String(input?.provider ?? repository.provider ?? sourceRevision.provider ?? 'github'),
-    commit: repository.commit ?? sourceRevision.commit,
+    commit:
+      (typeof repository.commit === 'string' ? repository.commit : undefined) ??
+      (typeof sourceRevision.commit === 'string' ? sourceRevision.commit : undefined),
   };
+}
+
+/**
+ * True when the Host already has this run's repository working tree available
+ * (VercelSandboxHost image source, explicit Host workspace path, etc.).
+ */
+function resolveHostAvailableWorkspace(
+  input: any,
+  execution: any,
+): { workspacePath: string; availability: string } | null {
+  const explicitPath =
+    (typeof input?.workspacePath === 'string' && input.workspacePath.trim()) ||
+    (typeof input?.repository?.workspacePath === 'string' && input.repository.workspacePath.trim()) ||
+    findExecutionValue(execution, 'host', 'workspacePath') ||
+    findExecutionValue(execution, 'repository', 'workspacePath') ||
+    null;
+  if (typeof explicitPath === 'string' && explicitPath.length > 0) {
+    return { workspacePath: explicitPath, availability: 'host-workspace-path' };
+  }
+
+  // Host plan already provisioned git source on the Host image for this run
+  // (VercelSandboxHost and similar). sourceRevision is stored on the Host context.
+  const hostSourceRevision = resolveHostSourceRevision(input, execution);
+  const hostContext =
+    input?.host ??
+    findExecutionValue(execution, 'host', 'manifest') ??
+    findExecutionValue(execution, 'host', 'hostKind');
+  if (hostSourceRevision && hostContext != null) {
+    // Working tree root on the Host image for this pipeline process.
+    return { workspacePath: process.cwd(), availability: 'host-image-source' };
+  }
+  // sourceRevision alone (from Host runner input) without LocalHost cloner:
+  // Host already placed the tree for in-box execution.
+  if (hostSourceRevision && !findExecutionValue(execution, 'deposit', DEPOSIT_CLONE_REPOSITORY_FOR_RUN_KEY)) {
+    return { workspacePath: process.cwd(), availability: 'host-image-source' };
+  }
+
+  return null;
 }
 
 function presentCheckoutResult(
   normalized: NonNullable<ReturnType<typeof normalizeRepositoryInput>>,
   workspacePath: string,
   status: string,
-  cloneMode: string,
+  hostProvision: string,
 ) {
   return {
     success: true,
@@ -172,7 +217,7 @@ function presentCheckoutResult(
     metadata: {
       provider: normalized.provider,
       sourceCommit: normalized.commit,
-      cloneMode,
+      hostProvision,
       workingTree: 'complete-at-revision',
     },
   };
@@ -188,7 +233,7 @@ const SAMPLE_PRIORITY = [
   /^go\.mod$/i,
 ];
 
-/** Bounded samples read only from the run's cloned workspace. */
+/** Bounded samples read only from the run's Host workspace. */
 async function pickSamplesFromWorkspace(workspace: {
   readFile: (path: string) => Promise<string | null>;
 }, allPaths: string[]): Promise<{ path: string; excerpt: string }[]> {
@@ -212,7 +257,7 @@ async function pickSamplesFromWorkspace(workspace: {
 }
 
 /**
- * After a run-scoped clone: list paths from *this* workspace only, scope them,
+ * After Host clone/adopt: list paths from *this* workspace only, scope them,
  * store the source catalog, and bind Discovery's file-body loader to this tree.
  */
 async function recordDepositCatalogFromRunWorkspace(
@@ -235,7 +280,6 @@ async function recordDepositCatalogFromRunWorkspace(
     },
   );
   storeCrossPhaseArtifact(execution, 'deposit', 'inventory', catalog);
-  // Discovery / measurement may only read bodies from this run's checkout.
   storeCrossPhaseArtifact(execution, 'deposit', 'loadCheckoutSourceFiles', async () => {
     const allPaths = await workspace.listFiles();
     const sources: { path: string; content: string }[] = [];
@@ -266,25 +310,25 @@ export default async function runAssetPackCloneVCSRepositoryAgent(input: any, ex
   };
 
   const normalized = normalizeRepositoryInput(input, execution);
-
-  // 1) Deposit LocalHost (and any host that wires a run-scoped cloner): ALWAYS clone here.
   const cloneForRun =
     findExecutionValue(execution, 'deposit', DEPOSIT_CLONE_REPOSITORY_FOR_RUN_KEY) ??
     findExecutionValue(execution, 'deposit', 'cloneRepositoryForRun');
 
   let out: any;
+
+  // 1) LocalHost deposit: Host-wired factory always clones for this run.
   if (normalized && typeof cloneForRun === 'function') {
     const workspace = await cloneForRun();
     const workspacePath =
       typeof workspace?.workspacePath === 'string' ? workspace.workspacePath.trim() : '';
     if (!workspacePath) {
       throw new Error(
-        'Setup cloneRepositoryForRun did not return a workspacePath for this pipeline run',
+        'Setup cloneRepositoryForRun did not return a Host workspacePath for this pipeline run',
       );
     }
     if (typeof workspace.listFiles !== 'function' || typeof workspace.readFile !== 'function') {
       throw new Error(
-        'Setup cloneRepositoryForRun workspace must expose listFiles/readFile for this run only',
+        'Setup Host workspace must expose listFiles/readFile for this run only',
       );
     }
     await recordDepositCatalogFromRunWorkspace(execution, workspace);
@@ -292,29 +336,34 @@ export default async function runAssetPackCloneVCSRepositoryAgent(input: any, ex
       normalized,
       workspacePath,
       'cloned-for-run',
-      'deposit-run-clone',
+      'localhost-clone-for-run',
     );
-  } else if (normalized && Boolean(input?.harness)) {
-    // 2) Sandbox host plan already cloned *this run's* source into the box.
-    out = presentCheckoutResult(
-      normalized,
-      process.cwd(),
-      'source-revision-present',
-      'vercel-sandbox-source',
-    );
-  } else {
-    // 3) Generic Setup clone via VCS tool (non-deposit / no host factory).
-    out = await AssetPackCloneVCSRepositoryAgent(input, execution);
-    if (out && typeof out === 'object') {
-      out = {
-        ...out,
-        metadata: {
-          ...(out.metadata || {}),
-          workingTree: 'complete-at-revision',
-          cloneMode: 'setup-clone-agent',
-        },
-      };
+  } else if (normalized) {
+    // 2) Host already has the repository for this run (e.g. VercelSandboxHost image).
+    const hostAvailable = resolveHostAvailableWorkspace(input, execution);
+    if (hostAvailable) {
+      out = presentCheckoutResult(
+        normalized,
+        hostAvailable.workspacePath,
+        'host-source-present',
+        hostAvailable.availability,
+      );
+    } else {
+      // 3) Clone on the Host via Setup VCS tool.
+      out = await AssetPackCloneVCSRepositoryAgent(input, execution);
+      if (out && typeof out === 'object') {
+        out = {
+          ...out,
+          metadata: {
+            ...(out.metadata || {}),
+            workingTree: 'complete-at-revision',
+            hostProvision: 'setup-clone-on-host',
+          },
+        };
+      }
     }
+  } else {
+    out = await AssetPackCloneVCSRepositoryAgent(input, execution);
   }
 
   if (out?.workspacePath) safeStore('repository', 'workspacePath', out.workspacePath);
