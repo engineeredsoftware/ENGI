@@ -83,11 +83,11 @@ describe('MarketingLandingPage', () => {
       screen.getByText('Bitcode is auditable market infrastructure for technical knowledge.'),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('link', { name: 'Request Read' }),
+      screen.getByRole('link', { name: 'Buy AssetPacks' }),
     ).toHaveAttribute('href', '/reads');
-    expect(screen.getByRole('link', { name: 'Read docs' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Sell AssetPacks' })).toHaveAttribute(
       'href',
-      '/docs',
+      '/deposits',
     );
     expect(screen.getByRole('button', { name: 'April' })).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByRole('button', { name: 'March' })).toBeInTheDocument();
@@ -97,9 +97,10 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('Depot Surface')).toBeInTheDocument();
     expect(screen.getByText('Measurement vector')).toBeInTheDocument();
     expect(screen.getByText('Verified access')).toBeInTheDocument();
-    expect(screen.getByText('ASSETPACKS')).toBeInTheDocument();
-    expect(screen.getByText('BTD VOLUME')).toBeInTheDocument();
+    expect(screen.getByText('SELL ASSETPACKS')).toBeInTheDocument();
+    expect(screen.getByText('BUY WITH NEED')).toBeInTheDocument();
     expect(screen.getByText('BTC SETTLEMENT')).toBeInTheDocument();
+    expect(screen.getByText('PROOF READBACK')).toBeInTheDocument();
     expect(screen.getAllByText('Packs').length).toBeGreaterThan(0);
     expect(document.getElementById('bitcodeDemonstrationRoot')).toBeNull();
     expect(document.querySelector('iframe')).toBeNull();
@@ -116,20 +117,20 @@ describe('MarketingLandingPage', () => {
     expect(section).toBeInTheDocument();
     expect(screen.getByText('Commercial testnet')).toBeInTheDocument();
     expect(
-      screen.getByText('Sell and buy IP the Bitcode way, live on BTC testnet.'),
+      screen.getByText('Sell and buy AssetPacks on BTC testnet.'),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/BTC amounts are testnet and free while everything else stays production-intended/u),
+      screen.getByText(/Testnet BTC is free; measurements, quotes, settlement order/u),
     ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /01\s*Deposit IP/u })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /01\s*Sell \(Deposit\)/u })).toHaveAttribute(
       'href',
       '/deposits',
     );
-    expect(screen.getByRole('link', { name: /02\s*Read and buy/u })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /02\s*Buy \(Read\)/u })).toHaveAttribute(
       'href',
       '/reads',
     );
-    expect(screen.getByRole('link', { name: /03\s*Audit on Packs/u })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /03\s*Audit \(Packs\)/u })).toHaveAttribute(
       'href',
       '/packs',
     );
@@ -137,7 +138,7 @@ describe('MarketingLandingPage', () => {
       screen.getByText(/protocol law and proof readback decide state/u),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/source-bearing AssetPack contents stay withheld until BTC finality and BTD rights transfer/u),
+      screen.getByText(/protected source stays withheld until BTC finality and BTD rights transfer/u),
     ).toBeInTheDocument();
   });
 });
