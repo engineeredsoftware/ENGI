@@ -137,27 +137,26 @@ export const measuremintCandles = [
 
 export const verificationRows = [
   {
-    label: 'Seller writes',
-    detail: 'deposited supply is measured publicly before any buyer pays',
+    label: 'Depositing',
+    detail: "AssetPacks' source-IP is secure until payment is settled.",
     status: 'public',
     Icon: CircleStackIcon,
   },
   {
-    label: 'Buyer rights',
-    detail: 'settled AssetPack rights transfer only after BTC finality; BTD records volume',
+    label: 'Reading',
+    detail: 'Bitcode finds candidates from the depository for requests.',
     status: 'private*',
     Icon: LockClosedIcon,
   },
   {
-    label: 'Public proofs',
-    detail: 'anyone can audit measurements and settlement without seeing protected source',
+    label: 'Proofs',
+    detail: 'Generated proofs of deployed protocol implementation to all live activity.',
     status: 'verified',
     Icon: ShieldCheckIcon,
   },
   {
-    // Fourth card extends Verified access upward to clear the residual gap above the pin.
-    label: 'Immutable Settlement',
-    detail: 'BTC finality and BTD volume commit permanently; settled state cannot be rewritten',
+    label: 'Immutable',
+    detail: 'On-chain settlement establishes an auditable knowledge-market.',
     status: 'final',
     Icon: CheckBadgeIcon,
   },

@@ -105,7 +105,7 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('Absolutes')).toBeInTheDocument();
     expect(screen.getByText('Needinesses')).toBeInTheDocument();
     expect(screen.getByText('Final Fit')).toBeInTheDocument();
-    expect(screen.getByText('Verified access')).toBeInTheDocument();
+    expect(screen.getByText('Source Safety')).toBeInTheDocument();
     expect(screen.getByText('BTC · BTD · AssetPacks')).toBeInTheDocument();
     expect(screen.getByText(/Mint volume from needinesses/i)).toBeInTheDocument();
     expect(screen.getByText('On-chain')).toBeInTheDocument();

@@ -275,7 +275,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                   <div className="pr-20">
                     <div className="min-w-0">
                       <p className="bg-gradient-to-r from-emerald-200 via-cyan-200 to-white bg-clip-text text-sm font-semibold text-transparent">
-                        Verified access
+                        Source Safety
                       </p>
                       <div className="mt-1 space-y-0.5 text-[11px] uppercase leading-4 tracking-[0.14em] text-emerald-100/58">
                         <p className="whitespace-nowrap">Public Measures</p>
