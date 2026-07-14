@@ -253,3 +253,16 @@ AssetPack = **patch + measurements + metadata**.
 | D-17 | Full absolute catalog on every pack before Finish | closed | Implementation attach + Validation fail-closed; ASSET_PACK_ABSOLUTES_CATALOG |
 | D-18 | Execution store index + selection envelope schemas | closed | SPEC G3-6/G3-7 + finish agents; storeCrossPhaseArtifact law |
 
+## Read / settle / packs parity (2026-07-14)
+
+| # | Capability | Current judgment | Closure evidence |
+| --- | --- | --- | --- |
+| R-01 | Read SDIVF mirrors deposit sequence | closed | `read-phases.ts` clone → parallel → danger-wall; Discovery ∥ 3; single validation; Finish triple |
+| R-02 | comprehend-needs + danger-wall (Need) | closed | `read-need-comprehension-agent`, `read-danger-wall-agent` |
+| R-03 | Needinesses all *-fit + static + dynamic | closed | `read-neediness-measurements.ts`, needinesses catalog |
+| R-04 | Read synthesis attaches absolutes + needinesses | closed | `read-asset-pack-synthesis-agent.ts` |
+| R-05 | Read API synthesize-options | closed | `uapi/app/api/read/synthesize-options/` |
+| R-06 | Settle Simple: pay → mint → rights → PR ship | closed | `settle-asset-packs` 5 stages |
+| R-07 | `/packs` master-detail | substantially advanced | PacksPageClient master + detail units |
+| R-08 | SPEC G4 rebuild law | closed | `BITCODE_SPEC_V48.md` Gate 4 |
+

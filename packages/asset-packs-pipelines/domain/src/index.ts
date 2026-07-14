@@ -475,13 +475,74 @@ export function factoryPreprocessDepositOnly(): Executor<any, any> {
 }
 
 /**
- * Read-only preprocess for SynthesizeReadAssetPacksSDIVFPipeline (Need, fits, preview).
- * Never runs deposit inventory path.
+ * Read preprocess — deposit twin: store Need + repository + catalog on shared root.
+ */
+export async function preprocessReadMode(processedInput: any, execution: Execution): Promise<any> {
+  const repo = processedInput?.repository || {};
+  const repository = {
+    url: repo.url || processedInput?.repositoryUrl || null,
+    owner: repo.owner || null,
+    name: repo.name || repo.repo || null,
+    branch: repo.branch || processedInput?.sourceBranch || null,
+    commit: processedInput?.sourceCommit || null,
+    fullName:
+      processedInput?.repositoryFullName ||
+      (repo.owner && (repo.name || repo.repo) ? `${repo.owner}/${repo.name || repo.repo}` : null),
+  };
+  try {
+    processedInput.repository = { ...repo, ...repository };
+  } catch {}
+
+  const need =
+    processedInput?.need ??
+    processedInput?.needs ??
+    processedInput?.instructions ??
+    processedInput?.readNeed?.text ??
+    '';
+
+  const catalog = processedInput?.sourceCheckoutCatalog || processedInput?.inventory;
+  const pipelineInputForStore =
+    catalog && typeof catalog === 'object'
+      ? {
+          ...processedInput,
+          need,
+          sourceCheckoutCatalog: {
+            paths: catalog.paths,
+            samples: catalog.samples,
+            totalPathCount: catalog.totalPathCount,
+            sourceFileCount: Array.isArray(catalog.sources) ? catalog.sources.length : 0,
+          },
+        }
+      : { ...processedInput, need };
+
+  storeCrossPhaseArtifact(execution, 'pipeline', 'input', pipelineInputForStore);
+  storeCrossPhaseArtifact(execution, 'pipeline', 'synthesizeMode', 'read');
+  storeCrossPhaseArtifact(execution, 'read', 'repository', repository);
+  storeCrossPhaseArtifact(execution, 'read', 'need', typeof need === 'string' ? need : '');
+  storeCrossPhaseArtifact(execution, 'deposit', 'repository', repository);
+  if (catalog) {
+    storeCrossPhaseArtifact(execution, 'read', 'sourceCheckoutCatalog', catalog);
+    storeCrossPhaseArtifact(execution, 'deposit', 'sourceCheckoutCatalog', catalog);
+    storeCrossPhaseArtifact(execution, 'deposit', 'inventory', catalog);
+  }
+  return processedInput;
+}
+
+/**
+ * Read-only preprocess for SynthesizeReadAssetPacksSDIVFPipeline.
+ * Need + Host catalog; deposit obfuscation path never required.
  */
 export function factoryPreprocessReadOnly(): Executor<any, any> {
   return async (input, execution) => {
-    const forced = { ...(input as any), mode: 'read', synthesizeMode: 'read' };
-    return factoryPreprocess()(forced, execution);
+    await initializeAssetPackPipeline(execution as any);
+    storeSynthesizeAssetPacksMode(execution, 'read');
+    const processedInput = gatePreprocess(input, execution);
+    const readInput = await preprocessReadMode(
+      { ...processedInput, synthesizeMode: 'read', mode: 'read' },
+      execution,
+    );
+    storePreprocessedSnapshot(execution, readInput, resolveWrittenAssetType(readInput));
+    return readInput;
   };
 }
 

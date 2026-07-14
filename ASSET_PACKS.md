@@ -666,21 +666,25 @@ Depositor UI (/deposits)
 
 ---
 
-## 13. Reading: synthesizing AssetPack options (outline only)
+## 13. Reading: synthesizing AssetPack options (deposit twin)
 
-**Not fully specified here** until the read gate is the active draft target. Product intent:
+**Canon:** `BITCODE_SPEC_V48.md` §G4. Product package:
+`@bitcode/asset-packs-pipelines-synthesize-reads`.
 
-| Topic | Direction |
-|-------|-----------|
-| Pipeline | **SynthesizeReadAssetPacks** SDIVF (separate package path) |
-| Input | Accepted **Need**, reading repo, depository candidates from Fits Finding |
-| AssetPack | Patch against the **reading** repo; measurements = absolutes **+ fit/relative** |
-| BTD | Weighted sum over **fit-only** measurements (Need pricing vector) |
-| Discovery | Read roster (gather / understand / research / plan / assess) — not the three deposit discovery agents |
-| Finish | Delivery mechanisms (PR shippable, etc.) via Settle / finish-delivery agents |
-| Settlement | **SettleAssetPacks** / settle-reads Simple pipeline for commercial close |
+| Topic | Law |
+|-------|-----|
+| Shape | **Same SDIVF** as deposit: Setup (clone → LSP/MCP/**comprehend-needs** → danger-wall) → Discovery ∥ three agents → Implementation → Validation ready-to-finish → Finish selection envelope |
+| Instruction | **Need** free text (deposit uses Obfuscations) |
+| Measurements | `absolutes` + `needinesses` (every neediness kind ends with **`-fit`**; static catalogue + dynamic from Need; **need-fit** = weighted mean) |
+| API | `POST /api/read/synthesize-options` |
+| UI | `/reads` master-detail + option review (deposit twin) |
+| After select | **SettleAssetPacks** Simple (not SDIVF): pay BTC-testnet → mint BTD → rights → **PR** applying `.patch` on read repo → `/packs` activity |
 
-Until then, treat deposit MeasuredPatchAssetPacks as the **supply** side that future read synthesis consumes.
+## 14. SettleAssetPacks (not a synthesize pipeline)
+
+Linear stages: validate → observe BTC finality → mint BTD / transfer rights →
+ship AssetPack patch PR → journal PackActivity. Package:
+`@bitcode/asset-packs-pipelines-settle-asset-packs`.
 
 ---
 

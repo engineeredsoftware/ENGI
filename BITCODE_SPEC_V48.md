@@ -991,6 +991,87 @@ Gate 3 is closed when:
 5. Every Execution store, agent schema, tool, and UI expectation listed in G3-5…G3-11 is implemented or explicitly bounded as deferred with a SPEC reopen condition.
 
 
+## V48 Gate 4 SynthesizeReadAssetPacks SDIVF and commercial read full-stack law
+
+Read synthesize is **nearly identical** to deposit synthesize (same SDIVF shape,
+many shared agents). Instruction input is **Need** (not Obfuscations). Measurements
+include **needinesses** (all kinds end with `-fit`). BTC settle / PR ship are
+**not** in this pipeline.
+
+### G4-1 Product split (three commercial pipelines)
+
+| Pipeline | Pattern | Purpose |
+|---|---|---|
+| **SynthesizeDepositAssetPacks** | SDIVF | Depositor repo + Obfuscations → option selection on `/deposits` |
+| **SynthesizeReadAssetPacks** | SDIVF | Reader repo + **Need** → option selection on `/reads` |
+| **SettleAssetPacks** | **Simple** (linear) | After pay: mint BTD, transfer rights, **PR-ship** patch to read repo → `/packs` |
+
+Synthesize-deposit and synthesize-read look like each other. Settle does **not**.
+
+### G4-2 Read SDIVF sequence (mirrors deposit)
+
+| Phase | Sequence |
+|---|---|
+| preprocess | Need + repository + sourceCheckoutCatalog on shared root (`read:*`) |
+| Setup | clone alone → parallel {initialize-lsp, initialize-mcps-tools, **comprehend-needs**} → **danger-wall** (admits Need + dynamic *-fit plan) |
+| Discovery | parallel {comprehend-codebase, search-depository, inherent-regurgitation} (shared with deposit) |
+| Implementation | `implementation:read-asset-pack-synthesis` — patch + host attaches absolutes + needinesses |
+| Validation | `validation:ready-to-finish-asset-packs-synthesis-read-pipeline` — A/B/C + needinesses *-fit |
+| Finish | store-artifacts → ledgerize → finish-synthesize-read-run (selection envelope for settle) |
+
+### G4-3 Needinesses measurement law (read)
+
+```
+measurements: {
+  absolutes: AbsoluteReading[];       // same catalog as deposit
+  needinesses: NeedinessReading[];    // all kinds end with "-fit"
+}
+```
+
+| Subkind | Examples | Law |
+|---|---|---|
+| Static catalogue | `language-fit`, `domain-fit`, `interface-fit` | Fixed weights; always measured on read options |
+| Dynamic (from Need) | `needs-session-refresh-fit` | Planned in Setup comprehend-needs; host measures |
+| Composite | `need-fit` | **Not** a raw row — `weightedMean(needinesses)` |
+
+Deposit: `needinesses: []` always. Read: fail-closed if needinesses empty or any kind lacks `-fit` suffix.
+
+### G4-4 User experience parity (`/reads` vs `/deposits`)
+
+| Surface | Deposit | Read |
+|---|---|---|
+| Instruction | Obfuscations | **Need** |
+| Submit | synthesize-options | `POST /api/read/synthesize-options` |
+| Review options | master-detail + option cards | master-detail + option cards (same pattern) |
+| Next step after select | admit to Depository | **SettleAssetPacks** (pay → rights → PR) |
+
+### G4-5 SettleAssetPacks Simple stages (binding)
+
+1. `validate-settlement-readiness`
+2. `observe-btc-payment-finality` (BTC-testnet)
+3. `mint-btd-and-transfer-rights`
+4. `ship-asset-pack-patch-pr` — open PR on **read** repo applying AssetPack `.patch`
+5. `journal-and-pack-activity` — `/packs` activity row
+
+### G4-6 `/packs` master-detail
+
+Network-scope PackActivity: searchable master table + detail for a selected AssetPack
+(settled/admitted supply and settled read deliveries). Source-safe measurements +
+roots only; no raw source.
+
+### G4-7 Implementation source map (read / settle / packs)
+
+| Area | Path |
+|---|---|
+| Read phases | `packages/asset-packs-pipelines/domain/src/phases/read-phases.ts` |
+| Read product package | `packages/asset-packs-pipelines/synthesize-reads/` |
+| Need comprehension | `agents/setup/read-need-comprehension-agent.ts` |
+| Read synthesis | `agents/implementation/read-asset-pack-synthesis-agent.ts` |
+| Needinesses helpers | `read-neediness-measurements.ts`, `@bitcode/generic-measurements-needinesses` |
+| Settle package | `packages/asset-packs-pipelines/settle-asset-packs/` |
+| Read API | `uapi/app/api/read/synthesize-options/` |
+| UI | `uapi/components/reads/*`, `uapi/components/packs/*` |
+
 ## V48 whole Bitcode operator chain
 
 1. Seller connects identity, wallet, organization, and source.

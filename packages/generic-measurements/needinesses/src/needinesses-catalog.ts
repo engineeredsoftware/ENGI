@@ -29,6 +29,9 @@ export interface AssetPackNeedinessSpec {
  * Dynamic inferred rows (when present) re-normalize weights with static rows
  * when computing need-fit.
  */
+/**
+ * Static reading needinesses — every kind MUST end with `-fit` (product law).
+ */
 export const ASSET_PACK_NEEDINESSES_CATALOG: AssetPackNeedinessSpec[] = [
   {
     measurementKind: 'language-fit',

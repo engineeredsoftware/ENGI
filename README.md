@@ -41,8 +41,8 @@ implementing V48 gates.
 | Route | Purpose |
 |---|---|
 | `/deposits` | **Deposit MVP** — connect source, synthesize measured AssetPack options (SynthesizeAssetPacks SDIVF), review, admit to Depository |
-| `/reads` | Reading path (Need → Finding Fits → settle → delivery); later V48 gates |
-| `/packs` | Master-detail PackActivity / ledgerized history |
+| `/reads` | **Read MVP** — connect target repo, Need instruction, synthesize measured options (SynthesizeReadAssetPacks SDIVF, same shape as deposit), select → SettleAssetPacks |
+| `/packs` | Master-detail PackActivity (settled/admitted AssetPacks; searchable table + detail) |
 | Auxillaries | Wallet identity, GitHub, organization panes |
 | `/` · `/docs` | Marketing and public docs |
 
@@ -85,8 +85,16 @@ Branch: `v48/gate-3-synthesis-pipeline-correctness` → PR into `version/v48`.
 | Hosts | LocalHost (default) or Vercel Sandbox (`persistent: false` deposit boxes) |
 | UI | `/deposits` master-detail, option cards, telemetry, cancel, authority/earnings |
 
-Rebuild law: `BITCODE_SPEC_V48.md` measurement law + §G3-1…G3-15. Orientation only:
-[`ASSET_PACKS.md`](ASSET_PACKS.md) (non-canonical).
+Rebuild law: `BITCODE_SPEC_V48.md` measurement law + §G3 (deposit) + **§G4 (read/settle/packs)**.
+Orientation only: [`ASSET_PACKS.md`](ASSET_PACKS.md) (non-canonical).
+
+### Three commercial pipelines
+
+| Pipeline | Pattern | UI |
+|---|---|---|
+| SynthesizeDepositAssetPacks | SDIVF | `/deposits` |
+| SynthesizeReadAssetPacks | SDIVF (Need + *-fit needinesses) | `/reads` |
+| SettleAssetPacks | Simple (pay → mint BTD → rights → **PR ship**) | after `/reads` select → activity on `/packs` |
 
 ---
 
