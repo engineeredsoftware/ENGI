@@ -119,7 +119,8 @@ export const BITCODE_PUBLIC_COPY = {
       { href: '/packs', label: 'Packs' },
       { href: '/deposits', label: 'Deposit' },
     ],
-    guestPrimaryCta: 'Open Auxillaries',
+    // Guests only see Connect Wallet; Open Auxillaries is signed-in chrome.
+    guestPrimaryCta: 'Connect Wallet',
     guestSecondaryCta: 'Connect Wallet',
   },
   guideRoute: {

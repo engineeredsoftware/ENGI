@@ -103,10 +103,9 @@ describe('Nav public shell', () => {
     });
   });
 
-  it('shows stable public-route links and guest workspace access actions', () => {
+  it('shows stable public-route links and guest Connect Wallet only (no Open Auxillaries)', () => {
     render(<Nav />);
 
-    const accessButton = screen.getByRole('button', { name: 'Open Auxillaries' });
     const createButton = screen.getByRole('button', { name: 'Connect Wallet' });
 
     expect(screen.getByText('Brand home')).toBeInTheDocument();
@@ -120,15 +119,14 @@ describe('Nav public shell', () => {
     expect(screen.getByRole('button', { name: 'Explain Deposit' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Read' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Explain Docs' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
 
-    fireEvent.mouseEnter(accessButton);
-    fireEvent.click(accessButton);
+    fireEvent.mouseEnter(createButton);
     fireEvent.click(createButton);
 
     expect(screen.queryByText('Use button')).toBeNull();
     expect(mockPrefetchOrbital).toHaveBeenCalledTimes(1);
-    expect(mockOpenOrbital).toHaveBeenNthCalledWith(1, 'login');
-    expect(mockOpenOrbital).toHaveBeenNthCalledWith(2, 'SignUpWindow');
+    expect(mockOpenOrbital).toHaveBeenCalledWith('SignUpWindow');
   });
 
   it('waits for wallet readiness before showing public guest wallet actions', () => {

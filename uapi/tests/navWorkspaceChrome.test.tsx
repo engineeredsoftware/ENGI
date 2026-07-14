@@ -95,24 +95,22 @@ describe('Nav product chrome', () => {
     });
   });
 
-  it('shows product-route links and guest access actions for unauthenticated product routes', () => {
+  it('shows product-route links and guest Connect Wallet only for unauthenticated product routes', () => {
     render(<Nav />);
 
-    const accessButton = screen.getByRole('button', { name: 'Open Auxillaries' });
     const createButton = screen.getByRole('button', { name: 'Connect Wallet' });
 
     expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/reads');
     expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
     expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposits');
     expect(screen.queryByRole('link', { name: 'Docs' })).toBeNull();
-    fireEvent.mouseEnter(accessButton);
-    fireEvent.click(accessButton);
+    expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
+    fireEvent.mouseEnter(createButton);
     fireEvent.click(createButton);
 
     expect(screen.queryByText('Use button')).toBeNull();
     expect(mockPrefetchOrbital).toHaveBeenCalledTimes(1);
-    expect(mockOpenOrbital).toHaveBeenNthCalledWith(1, 'login');
-    expect(mockOpenOrbital).toHaveBeenNthCalledWith(2, 'SignUpWindow');
+    expect(mockOpenOrbital).toHaveBeenCalledWith('SignUpWindow');
   });
 
   it('shows wallet readiness loading instead of Connect Wallet before user data settles', () => {

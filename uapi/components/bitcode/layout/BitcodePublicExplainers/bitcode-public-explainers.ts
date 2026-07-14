@@ -98,7 +98,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
     title: 'Open Auxillaries',
     summary: 'Open the Bitcode auxillary shell for access, profile, interface defaults, and $BTD posture.',
     detail:
-      'Use this when you want the auxillary access layer directly. Connect Wallet is for first-time wallet identity and onboarding; Open Auxillaries is for entering the contained shell.',
+      'Connect Wallet is the guest identity entry. After wallet or session identity is bound, Auxillaries opens from signed-in chrome (user menu / workspace controls).',
     points: [
       'Opens the contained auxillary shell',
       'Keeps Auxillaries distinct from Packs, Deposit, Read, and Docs',
