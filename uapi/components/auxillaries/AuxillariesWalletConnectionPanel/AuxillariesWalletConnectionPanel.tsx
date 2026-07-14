@@ -113,18 +113,16 @@ export default function AuxillariesWalletConnectionPanel({
       data-wallet-attention-key={attentionKey || undefined}
       className={[
         'orbital-section mb-5 wallet-required-section',
+        hasWalletIdentity ? 'wallet-required-section--connected' : 'wallet-required-section--pending',
         attentionActive ? 'wallet-connect-attention-section' : '',
       ]
         .filter(Boolean)
         .join(' ')}
       style={{
+        /* Border/glow live in CSS so attention animation can own them. */
         background: 'linear-gradient(145deg, rgba(42, 25, 11, 0.86), rgba(14, 22, 36, 0.86))',
-        border: hasWalletIdentity
-          ? '1px solid rgba(103, 254, 183, 0.34)'
-          : '1px solid rgba(251, 146, 60, 0.36)',
-        borderRadius: '20px',
+        borderRadius: 0,
         padding: '20px',
-        boxShadow: '0 18px 44px rgba(0, 0, 0, 0.2)',
       }}
     >
       <div className="mb-4 flex flex-wrap items-start justify-between gap-3">

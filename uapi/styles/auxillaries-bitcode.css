@@ -714,7 +714,8 @@
 }
 
 .auxillaries-bitcode-surface .onboarding-info,
-.auxillaries-bitcode-surface .orbital-section,
+/* Exclude wallet-required-section: it owns border/glow for Connect attention. */
+.auxillaries-bitcode-surface .orbital-section:not(.wallet-required-section),
 .auxillaries-bitcode-surface .orbitals-users-input-container {
   border-color: rgba(255, 255, 255, 0.1) !important;
   background: rgba(255, 255, 255, 0.045) !important;
@@ -863,31 +864,55 @@
 
 /*
  * Chrome Connect attention cue:
- * - Section: emerald glow (same weight as orange button cue, no size growth)
+ * - Section: emerald border + glow (same weight as orange button cue, no scale)
  * - Buttons: strong orange pulse (unchanged)
+ *
+ * Note: a global .orbital-section rule used border/box-shadow !important; the
+ * wallet-required card is excluded so this cue can paint.
  */
+.auxillaries-bitcode-surface .wallet-required-section,
+.wallet-required-section {
+  position: relative;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.2);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.wallet-required-section--pending {
+  border-color: rgba(251, 146, 60, 0.36);
+}
+
+.wallet-required-section--connected {
+  border-color: rgba(103, 254, 183, 0.34);
+}
+
 @keyframes wallet-section-attention {
   0%,
   100% {
-    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.2);
-    border-color: rgba(101, 254, 183, 0.34);
+    border-color: rgba(101, 254, 183, 0.4);
+    box-shadow:
+      0 18px 44px rgba(0, 0, 0, 0.2),
+      0 0 0 0 rgba(101, 254, 183, 0);
   }
   12%,
   38% {
-    /* No transform/scale — only border + glow, emerald twin of button cue. */
-    border-color: rgba(167, 243, 208, 0.88) !important;
+    /* No transform/scale — border + glow only (emerald twin of button cue). */
+    border-color: rgba(190, 255, 220, 0.95);
     box-shadow:
       0 18px 44px rgba(0, 0, 0, 0.28),
-      0 0 0 2px rgba(101, 254, 183, 0.72),
-      0 0 32px rgba(101, 254, 183, 0.48),
-      0 0 0 1px rgba(101, 254, 183, 0.22) inset;
+      0 0 0 2px rgba(101, 254, 183, 0.8),
+      0 0 36px rgba(101, 254, 183, 0.58),
+      0 0 0 1px rgba(101, 254, 183, 0.28) inset;
   }
   55% {
-    border-color: rgba(110, 231, 183, 0.7) !important;
+    border-color: rgba(134, 239, 172, 0.78);
     box-shadow:
       0 18px 44px rgba(0, 0, 0, 0.24),
-      0 0 0 1px rgba(101, 254, 183, 0.5),
-      0 0 20px rgba(101, 254, 183, 0.32);
+      0 0 0 1px rgba(101, 254, 183, 0.55),
+      0 0 22px rgba(101, 254, 183, 0.38);
   }
 }
 
@@ -918,9 +943,14 @@
   }
 }
 
-.wallet-connect-attention-section {
+.auxillaries-bitcode-surface .wallet-required-section.wallet-connect-attention-section,
+.wallet-required-section.wallet-connect-attention-section {
   animation: wallet-section-attention 2.1s ease-out 1;
-  border-color: rgba(101, 254, 183, 0.55) !important;
+  border-color: rgba(167, 243, 208, 0.88);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.28),
+    0 0 0 2px rgba(101, 254, 183, 0.72),
+    0 0 32px rgba(101, 254, 183, 0.48);
 }
 
 .wallet-connect-attention-button {
@@ -934,12 +964,13 @@
     animation: none;
   }
 
-  .wallet-connect-attention-section {
-    border-color: rgba(167, 243, 208, 0.75) !important;
+  .auxillaries-bitcode-surface .wallet-required-section.wallet-connect-attention-section,
+  .wallet-required-section.wallet-connect-attention-section {
+    border-color: rgba(167, 243, 208, 0.85);
     box-shadow:
       0 18px 44px rgba(0, 0, 0, 0.2),
-      0 0 0 2px rgba(101, 254, 183, 0.55),
-      0 0 24px rgba(101, 254, 183, 0.28);
+      0 0 0 2px rgba(101, 254, 183, 0.65),
+      0 0 28px rgba(101, 254, 183, 0.4);
   }
 
   .wallet-connect-attention-button {
