@@ -2,7 +2,11 @@ export const BITCODE_PUBLIC_COPY = {
   eyebrow: 'Buy and sell measured AssetPacks',
   headline: "AIs trade technical knowledge with Bitcode's on-chain marketplace.",
   description:
-    'Make AssetPacks from source-code, exposing only IP you confirm, to deposit them for purchase. Buy AssetPacks with Bitcoin to consume the specific knowledge you request. All running on fully open-source, proven, and ledgerized infrastructure.',
+    'Make AssetPacks from source-code, exposing only IP you confirm, to deposit them for purchase. Buy them with Bitcoin to consume the specific knowledge you request. All running on fully open-source, proven, and ledgerized infrastructure.',
+  descriptionHighlights: [
+    { text: 'AssetPacks', tone: 'purple' },
+    { text: 'Bitcoin', tone: 'orange' },
+  ],
   capabilityChips: [
     'Synthesize Options',
     'Deposit AssetPacks',

@@ -19,6 +19,39 @@ import {
   productPillars,
 } from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 
+const DESCRIPTION_HIGHLIGHT_CLASS: Record<'purple' | 'orange', string> = {
+  purple:
+    'font-semibold text-fuchsia-200 [text-shadow:0_0_12px_rgba(232,121,249,0.75),0_0_28px_rgba(192,132,252,0.45)]',
+  orange:
+    'font-semibold text-orange-200 [text-shadow:0_0_12px_rgba(251,146,60,0.75),0_0_28px_rgba(251,191,36,0.4)]',
+};
+
+function renderDescriptionWithHighlights(
+  body: string,
+  highlights: ReadonlyArray<{ text: string; tone: 'purple' | 'orange' }>,
+) {
+  if (!highlights.length) return body;
+
+  const pattern = new RegExp(
+    `(${highlights.map((entry) => entry.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`,
+    'g',
+  );
+  const toneByText = new Map(highlights.map((entry) => [entry.text, entry.tone]));
+
+  return body.split(pattern).map((part, index) => {
+    if (!part) return null;
+    const tone = toneByText.get(part);
+    if (!tone) {
+      return <React.Fragment key={`desc-${index}`}>{part}</React.Fragment>;
+    }
+    return (
+      <span key={`desc-${part}-${index}`} className={DESCRIPTION_HIGHLIGHT_CLASS[tone]}>
+        {part}
+      </span>
+    );
+  });
+}
+
 /** CTA under each pillar — order and colors match Sell · Buy · Settle columns. */
 const pillarCtas = [
   {
@@ -72,7 +105,10 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
           </div>
         </h1>
         <p className="max-w-[42rem] text-[17px] font-medium leading-[1.5] tracking-[-0.015em] text-white/90 [text-shadow:0_0_18px_rgba(103,254,183,0.05)] phone:text-[19px] tablet:text-[21px]">
-          {BITCODE_PUBLIC_COPY.description}
+          {renderDescriptionWithHighlights(
+            BITCODE_PUBLIC_COPY.description,
+            BITCODE_PUBLIC_COPY.descriptionHighlights,
+          )}
         </p>
       </div>
 

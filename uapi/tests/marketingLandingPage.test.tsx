@@ -112,9 +112,15 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText(/Mint volume from Final Fit/i)).toBeInTheDocument();
     expect(screen.getByText('On-chain')).toBeInTheDocument();
     expect(
-      screen.getByText(
-        /Make AssetPacks from source-code, exposing only IP you confirm/i,
-      ),
+      screen.getByText((_, node) => {
+        if (node?.tagName !== 'P') return false;
+        const text = node.textContent ?? '';
+        return (
+          text.includes('Make AssetPacks from source-code') &&
+          text.includes('Buy them with Bitcoin') &&
+          text.includes('ledgerized infrastructure')
+        );
+      }),
     ).toBeInTheDocument();
     expect(screen.getByText('Synthesize Options')).toBeInTheDocument();
     expect(screen.getByText('Deposit AssetPacks')).toBeInTheDocument();
