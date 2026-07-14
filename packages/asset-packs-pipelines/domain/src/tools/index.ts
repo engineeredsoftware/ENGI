@@ -172,6 +172,7 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     'asset-pack-plan-implementation-agent': [lexicalDepositorySearchTool],
     'asset-pack-digest-codebase-agent': [],
     'asset-pack-research-web-agent': [],
+    // Deposit Discovery roster keys (one entry each; factory names only if tools resolve by agent class).
     'DepositCodebaseComprehensionAgent': optionalTools(
       lspSemanticAnalysisEngine,
       lspCodeIntelligenceEngine,
@@ -182,20 +183,16 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
       lspCodeIntelligenceEngine,
       lspWorkspaceNavigationEngine,
     ),
-    'discovery:codebase-comprehension': optionalTools(
-      lspSemanticAnalysisEngine,
-      lspCodeIntelligenceEngine,
-      lspWorkspaceNavigationEngine,
-    ),
     'DepositDepositorySearchAgent': [depositDepositoryAssetPackSearchTool, lexicalDepositorySearchTool],
     'discovery:search-depository': [depositDepositoryAssetPackSearchTool, lexicalDepositorySearchTool],
-    'discovery:depository-search': [depositDepositoryAssetPackSearchTool, lexicalDepositorySearchTool],
+    'discovery:inherent-regurgitation': [],
+    'DepositInherentRegurgitationAgent': [],
 
-    // Implementation Phase
+    // Implementation Phase (roster key + factory name when tools bind by either)
     'ReadFitsFindingSynthesisAssetPackSynthesisAgent': [],
     'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent': [],
     'implementation:deposit-asset-pack-synthesis': [],
-    'deposit-asset-pack-synthesis': [],
+    'DepositAssetPackSynthesisAgent': [],
 
     // Validation Phase
     'asset-pack-validate-last-iterations-validation-phase-agent': optionalTools(lspSemanticAnalysisEngine),
@@ -204,7 +201,7 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     'asset-pack-validation-ready-to-finish-agent': [],
     'asset-pack-ready-to-finish-agent': [],
     'validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline': [],
-    'validation:deposit-quality': [],
+    'validation:asset-pack-ready-to-finish-agent': [],
 
     // Internal Read-measurement computer-use option
     'read-measurement:computer-use-evidence-agent': getComputerUseReadMeasurementTools(),

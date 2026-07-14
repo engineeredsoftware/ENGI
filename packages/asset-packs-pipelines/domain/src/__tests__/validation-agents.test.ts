@@ -6,7 +6,6 @@ jest.mock('@bitcode/generic-llms', () => require('./support/generic-llms-mock').
 
 import { Execution } from '@bitcode/execution-generics';
 import { AssetPackValidationReadyToFinishAgent } from '../agents/validation-agents';
-import runDepositValidationAgent from '../agents/validation/deposit-validation-agent';
 import { registerValidationAgentsForType } from '../phases/validation';
 import { setBoundaryLLMOutput, resetBoundaryLLMOutput } from './support/generic-llms-mock';
 
@@ -85,30 +84,26 @@ describe('registerValidationAgentsForType (mode-conditional Validation registry)
     };
   }
 
-  it('deposit mode registers the deposit-quality validator plus the envelope-unwrapping ReadyToFinish gate', async () => {
+  it('deposit mode registers exactly one ready-to-finish Validation agent (no quality alias)', async () => {
     const { registrations, registry } = captureRegistry();
 
     registerValidationAgentsForType('read-satisfaction-asset-pack', registry, 'deposit');
 
     expect([...registrations.keys()].sort()).toEqual([
-      'validation:asset-pack-ready-to-finish-agent',
-      'validation:deposit-quality',
+      'validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline',
     ]);
 
-    // The gate is the wrapper that unwraps the PTRR envelope (validation-agents.ts),
-    // NOT the orphaned readyToFinishWithShortCircuit module that reads typed fields
-    // straight off the envelope.
-    expect(registrations.get('validation:asset-pack-ready-to-finish-agent')).toBe(
-      AssetPackValidationReadyToFinishAgent,
+    const loader = registrations.get(
+      'validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline',
     );
-
-    // The deposit-quality key lazily resolves to the deposit validation runner.
-    const loader = registrations.get('validation:deposit-quality');
     const resolved = await loader();
-    expect(resolved).toBe(runDepositValidationAgent);
+    const readyToFinish = (
+      await import('../agents/validation/deposit-ready-to-finish-agent')
+    ).default;
+    expect(resolved).toBe(readyToFinish);
   });
 
-  it('read mode (no deposit) registers the canonical validator roster and no deposit-quality agent', () => {
+  it('read mode (no deposit) registers the canonical validator roster and no deposit Validation keys', () => {
     const { registrations, registry } = captureRegistry();
 
     registerValidationAgentsForType('read-satisfaction-asset-pack', registry);
@@ -120,6 +115,9 @@ describe('registerValidationAgentsForType (mode-conditional Validation registry)
       'validation:validate-last-iterations-validation-phase',
     ]);
     expect(registrations.has('validation:deposit-quality')).toBe(false);
+    expect(
+      registrations.has('validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline'),
+    ).toBe(false);
     expect(registrations.get('validation:asset-pack-ready-to-finish-agent')).toBe(
       AssetPackValidationReadyToFinishAgent,
     );

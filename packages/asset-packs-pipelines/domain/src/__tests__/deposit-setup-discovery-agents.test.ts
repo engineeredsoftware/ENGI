@@ -332,13 +332,11 @@ describe('discovery conditional runtime registry roster', () => {
     };
   }
 
-  it('deposit mode registers the three Discovery agents (native keys + stable aliases), not the read roster', () => {
+  it('deposit mode registers exactly three Discovery agents (no synonym aliases), not the read roster', () => {
     const registry = recordingRegistry();
     registerDiscoveryAgents(registry, 'deposit');
     expect([...registry.registrations.keys()].sort()).toEqual([
-      'discovery:codebase-comprehension',
       'discovery:comprehend-codebase',
-      'discovery:depository-search',
       'discovery:inherent-regurgitation',
       'discovery:search-depository',
     ]);

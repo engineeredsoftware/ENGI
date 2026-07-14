@@ -1,16 +1,12 @@
 import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
-import {
-  registerValidationAgentsForType as registerAgents,
-  AssetPackValidationReadyToFinishAgent,
-} from '../agents/validation-agents';
+import { registerValidationAgentsForType as registerAgents } from '../agents/validation-agents';
 import { AssetPackWrittenAssetType } from '../types/AssetPackWrittenAssetType';
 import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
 /**
- * Validation phase configuration placeholder.
- * The actual execution composition for validation lives in phases/index.ts
- * where three validators run in parallel followed by the AssetPack
- * ReadyToFinish agent that gates the canonical Finish phase.
+ * Validation phase configuration placeholder (read-path phase runner).
+ * Deposit Validation is registered/executed only via deposit-phases
+ * (`validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline`).
  */
 const validationPhaseConfig: PhaseConfig = {
   phaseName: 'validation',
@@ -33,14 +29,12 @@ export function registerValidationAgentsForType(
   mode?: SynthesizeAssetPacksMode,
 ): void {
   if (mode === 'deposit') {
-    // Deposit lens: a single quality validator over the synthesized AssetPacks,
-    // then the canonical ReadyToFinish gate (it reads validation/implementation:issues).
-    agentRegistry.registerAgent('validation:deposit-quality', () =>
-      import('../agents/validation/deposit-validation-agent').then(m => m.default),
-    );
+    // Deposit Validation is a single ready-to-finish gate (A/B/C). Prefer the
+    // deposit-phases roster key; this path stays for mode-conditional callers.
     agentRegistry.registerAgent(
-      'validation:asset-pack-ready-to-finish-agent',
-      AssetPackValidationReadyToFinishAgent,
+      'validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline',
+      () =>
+        import('../agents/validation/deposit-ready-to-finish-agent').then((m) => m.default),
     );
     return;
   }

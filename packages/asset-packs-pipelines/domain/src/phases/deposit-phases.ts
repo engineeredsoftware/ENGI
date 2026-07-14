@@ -18,13 +18,9 @@ type ImplementationOutput = AssetPackOutput;
 type ValidationOutput = AssetPackOutput;
 
 function registerDepositSetupAgents(agentRegistry: any): void {
+  // One roster key per Setup agent (matches depositSetupPhase executors).
   agentRegistry.registerAgent(
     'setup:clone-vcs-repository',
-    () =>
-      import('../agents/setup/asset-pack-clone-vcs-repository-agent').then((m) => m.default),
-  );
-  agentRegistry.registerAgent(
-    'setup:asset-pack-clone-vcs-repository-agent',
     () =>
       import('../agents/setup/asset-pack-clone-vcs-repository-agent').then((m) => m.default),
   );
@@ -114,19 +110,9 @@ export const depositValidationPhase: PhaseDelegator<
   ValidationOutput
 > = (async (input: any, execution: any) => {
   try {
+    // One Validation key only — no deposit-quality / read ready-to-finish aliases.
     (execution as any).agents?.registerAgent?.(
       'validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline',
-      () =>
-        import('../agents/validation/deposit-ready-to-finish-agent').then((m) => m.default),
-    );
-    // Compat alias for older roster tests
-    (execution as any).agents?.registerAgent?.(
-      'validation:deposit-quality',
-      () =>
-        import('../agents/validation/deposit-ready-to-finish-agent').then((m) => m.default),
-    );
-    (execution as any).agents?.registerAgent?.(
-      'validation:asset-pack-ready-to-finish-agent',
       () =>
         import('../agents/validation/deposit-ready-to-finish-agent').then((m) => m.default),
     );

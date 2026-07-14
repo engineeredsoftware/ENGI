@@ -46,18 +46,17 @@ export function registerDiscoveryAgents(
   mode?: SynthesizeAssetPacksMode,
 ): void {
   if (mode === 'deposit') {
-    // Deposit-native keys + stable aliases (no lens vocabulary).
-    const codebase = () =>
-      import('../agents/discovery/deposit-codebase-comprehension-agent').then((m) => m.default);
-    const depository = () =>
-      import('../agents/discovery/deposit-depository-search-agent').then((m) => m.default);
-    const regurgitation = () =>
-      import('../agents/discovery/deposit-inherent-regurgitation-agent').then((m) => m.default);
-    agentRegistry.registerAgent('discovery:codebase-comprehension', codebase);
-    agentRegistry.registerAgent('discovery:comprehend-codebase', codebase);
-    agentRegistry.registerAgent('discovery:depository-search', depository);
-    agentRegistry.registerAgent('discovery:search-depository', depository);
-    agentRegistry.registerAgent('discovery:inherent-regurgitation', regurgitation);
+    // Exactly three deposit Discovery keys (parity matrix / depositDiscoveryPhase).
+    // No synonym aliases — one roster key per agent.
+    agentRegistry.registerAgent('discovery:comprehend-codebase', () =>
+      import('../agents/discovery/deposit-codebase-comprehension-agent').then((m) => m.default),
+    );
+    agentRegistry.registerAgent('discovery:search-depository', () =>
+      import('../agents/discovery/deposit-depository-search-agent').then((m) => m.default),
+    );
+    agentRegistry.registerAgent('discovery:inherent-regurgitation', () =>
+      import('../agents/discovery/deposit-inherent-regurgitation-agent').then((m) => m.default),
+    );
     return;
   }
   registerCanonicalDiscoveryAgents(agentRegistry);
