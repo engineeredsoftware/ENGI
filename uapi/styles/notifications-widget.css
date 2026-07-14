@@ -113,11 +113,10 @@
   }
 }
 
-/* Orbital Rings */
-/* Orbital rings – shared base */
+/* Orbital rings — square pulse frames (match square bell chrome / nav tiles) */
 .orbital-bell-ring {
   position: absolute;
-  border-radius: 50%;
+  border-radius: 0;
   border: 1px solid rgba(103, 254, 183, 0.35);
   width: calc(100% + var(--ring-index, 0) * 10px);
   height: calc(100% + var(--ring-index, 0) * 10px);
