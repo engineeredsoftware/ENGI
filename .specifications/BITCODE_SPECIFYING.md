@@ -1186,7 +1186,9 @@ If the hand-authored family still truthfully points at the prior canonical targe
 
 ## 12.1 Commit Message Body
 
-The canonical commit message body must be derivable from:
+Every commit message obeys the **50/72 law** in §2.8 (subject soft ≤50, blank
+line, body lines hard ≤72). In addition, a **canonical promotion** commit
+message body must be derivable from:
 - version,
 - proof-source commit,
 - delta accepted decisions,

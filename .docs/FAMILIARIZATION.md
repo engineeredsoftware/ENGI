@@ -1083,7 +1083,8 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 | **PROVEN** | Generated proof appendix / `.bitcode/vN-*` artifacts. |
 | **QA finding tag** | Fully-qualified `V48-GateN-F*` in code comments and QA ledger (never bare `F26-B`). |
 | **Spec family** | Hand-authored SPEC + DELTA + NOTES + PARITY (+ PROVEN) for a version. |
-| **`(spec-only)` / `(impl-only)` / `(spec-impl)`** | Only legal Spec/Impl commit/PR subject labels (abbreviated; never expanded `*-only` / `specification-implementation` forms; subject ≤72 chars). |
+| **`(spec-only)` / `(impl-only)` / `(spec-impl)`** | Only legal Spec/Impl commit/PR subject labels (abbreviated; never expanded forms). |
+| **50/72 law** | Commit message shape: subject soft ≤50; blank line before body; body lines hard ≤72 (SPECIFYING §2.8). |
 | **Source-bearing** | Implementation that proves a SPEC claim (listed in G3-14 / parity). |
 | **Version branch** | Long-lived draft line `version/v48` (not product source versioning). |
 
