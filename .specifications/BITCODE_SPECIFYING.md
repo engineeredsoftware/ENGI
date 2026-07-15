@@ -256,10 +256,21 @@ that parenthetical.
 | `(implementation-only)` | `(impl-only)` |
 | `(specification-implementation)` | `(spec-impl)` |
 
-Example: `V48 Gate 3 (impl-only): Rename deposit input to Obfuscations`.
+Example: `V48 Gate 3 (impl-only): Rename Obfuscations`.
 
-**Subject length:** keep the first line under **72 characters**. Put proof
-commands, file lists, and longer rationale in the commit body when needed.
+**Commit message shape (50/72 law)** — applies to every commit and gate PR
+subject/body:
+
+| Rule | Limit | Nature |
+| --- | --- | --- |
+| **Subject** (first line) | ≤ **50** characters | Soft limit — keep the summary readable in compact logs |
+| **Blank line** | Second line empty whenever a body follows | Required separator between title and body |
+| **Body lines** | ≤ **72** characters each | Hard limit for every subsequent line |
+
+Put proof commands, file lists, and longer rationale in the **body**, wrapped at
+72. Prefer a short imperative subject; do not stuff subjects with long
+parentheticals or run-on clauses. Category labels (`(spec-only)` / `(impl-only)` /
+`(spec-impl)`) still apply on the subject.
 
 A change that alters both kinds is committed as a single `(spec-impl)` commit,
 or split into a `(spec-only)` and an `(impl-only)` commit — never an unlabeled

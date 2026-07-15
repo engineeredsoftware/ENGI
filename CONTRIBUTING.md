@@ -88,9 +88,9 @@ main                    # protected; promoted canon only
 **Never** push product work straight to `main`. Expect PRs + verified signatures
 via the **Bitcode Core Contributions** ruleset.
 
-### 2.3 Commit and PR subjects
+### 2.3 Commit and PR messages (50/72 law)
 
-Every commit / gate PR **subject** (≤72 characters) declares exactly one of:
+Every commit / gate PR **subject** declares exactly one of:
 
 | Token | Meaning |
 | --- | --- |
@@ -98,21 +98,37 @@ Every commit / gate PR **subject** (≤72 characters) declares exactly one of:
 | `(impl-only)` | Code, tests, tooling, scripts only |
 | `(spec-impl)` | Spec + implementation in lockstep |
 
+**Message shape** (`.specifications/BITCODE_SPECIFYING.md` §2.8):
+
+| Part | Rule |
+| --- | --- |
+| **Subject** (line 1) | ≤ **50** characters (soft) — readable in compact logs |
+| **Blank line** | Required between subject and body when a body is present |
+| **Body lines** | ≤ **72** characters each (hard) |
+
 Examples:
 
 ```text
-V48 Gate 3 (impl-only): Wire deposit cancel into pipeline host
-V48 Gate 4 (spec-only): Record read settle acceptance rows
-V48 Gate 4 (spec-impl): Close read need panel parity
+V48 Gate 3 (impl-only): Wire deposit cancel
+
+Wire cancel into the pipeline host and add the
+focused host route test.
+```
+
+```text
+V48 Gate 4 (spec-only): Record read settle rows
+V48 Gate 4 (spec-impl): Close need panel parity
 ```
 
 **Never** use expanded forms like `(specification-only)` in subjects. Put proof
-commands and file lists in the **body**.
+commands and file lists in the **body** (wrapped at 72).
 
-Gate PR titles: `V48 Gate N (impl-only): Short topical title`  
+Gate PR titles follow the same subject shape:  
+`V48 Gate N (impl-only): Short topical title`  
 Version promotion PRs: uppercase version + “canonical promotion” wording.
 
-Full craft rules: [`.docs/AGENTS.md`](.docs/AGENTS.md).
+Full craft rules: [`.docs/AGENTS.md`](.docs/AGENTS.md).  
+Enforced by `.githooks/commit-msg` → `scripts/check-bitcode-commit-msg.mjs`.
 
 ### 2.4 QA finding tags
 

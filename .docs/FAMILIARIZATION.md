@@ -90,7 +90,7 @@ from the active family alone — no silent inheritance from older specs or sourc
 
 ### 2.2 Commit law
 
-Every commit / gate PR **subject** (≤72 chars) declares exactly one of:
+Every commit / gate PR **subject** declares exactly one of:
 
 - `(spec-only)` — Spec only
 - `(impl-only)` — Impl only
@@ -99,9 +99,17 @@ Every commit / gate PR **subject** (≤72 chars) declares exactly one of:
 Use only these abbreviated parentheticals in commit/PR subjects — never
 `(specification-only)`, `(implementation-only)`, or `(specification-implementation)`.
 
-Example: `V48 (impl-only): Extract ReadsNeedReviewPanel`.
+**50/72 message shape** (SPECIFYING §2.8): subject ≤ **50** chars (soft); blank
+line before body; each body line ≤ **72** chars (hard).
 
-Put proof commands and longer rationale in the commit body.
+Example:
+
+```text
+V48 (impl-only): Extract NeedReviewPanel
+
+Move review chrome into ReadsNeedReviewPanel with
+co-located tests.
+```
 
 ### 2.3 Branches
 

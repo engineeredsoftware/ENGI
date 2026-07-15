@@ -31,4 +31,4 @@ Never invent or dump protected raw source into user-facing artifacts. Packs carr
 ## When to escalate
 
 - Spec vs implementation drift → open `BITCODE_SPEC_V48_*` / active draft notes
-- Gate work → follow Agents.md gate branch + `(spec-impl)` / `(impl-only)` / `(spec-only)` commit labels (subject ≤72 chars)
+- Gate work → follow Agents.md gate branch + `(spec-impl)` / `(impl-only)` / `(spec-only)` commit labels; 50/72 commit message law (subject soft ≤50, blank line, body lines hard ≤72)
