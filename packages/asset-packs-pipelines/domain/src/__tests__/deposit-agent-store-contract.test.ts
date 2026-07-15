@@ -344,7 +344,7 @@ describe('deposit agent context/store contract', () => {
       shared.store('deposit', 'repository', REPOSITORY);
       shared.store('deposit', 'obfuscations', 'obfuscations-marker: hide the signing keys');
       shared.store('deposit', 'impermissibleSources', ['src/protected/exclusion-marker.ts']);
-      shared.store('deposit', 'inventory', INVENTORY);
+      shared.store('deposit', 'sourceCheckoutCatalog', INVENTORY);
       shared.store('deposit', 'demandContext', ['demand-marker: session auth reads']);
       shared.store('setup', 'inputComprehension', {
         summary: 'guidance-marker: withhold the secret module',
@@ -456,7 +456,7 @@ describe('deposit agent context/store contract', () => {
       // Producer side of the repaired topology: the options + deposit stores live
       // on the SHARED parent, where every sibling phase child can findUp them.
       shared.store('implementation', 'options', packs);
-      shared.store('deposit', 'inventory', INVENTORY);
+      shared.store('deposit', 'sourceCheckoutCatalog', INVENTORY);
       shared.store('deposit', 'impermissibleSources', []);
       shared.store('setup', 'inputComprehension', { summary: 'no obfuscations', obfuscatedPaths: [] });
 
@@ -536,7 +536,7 @@ describe('deposit agent context/store contract', () => {
       const shared = new Execution('pipeline-root');
       const options = [depositSynthesisOption()];
       shared.store('implementation', 'options', options);
-      shared.store('deposit', 'inventory', INVENTORY);
+      shared.store('deposit', 'sourceCheckoutCatalog', INVENTORY);
       shared.store('setup', 'inputComprehension', { summary: 'guidance', obfuscatedPaths: [] });
       shared.store('discovery', 'depositorySearch', { summary: 'demand guidance' });
 
@@ -549,7 +549,7 @@ describe('deposit agent context/store contract', () => {
 
       for (const node of [setupChild, divChild, divGrandchild, finishGrandchild]) {
         expect(node.findUp('implementation', 'options')).toBe(options);
-        expect(node.findUp('deposit', 'inventory')).toBe(INVENTORY);
+        expect(node.findUp('deposit', 'sourceCheckoutCatalog')).toBe(INVENTORY);
         expect(node.findUp('setup', 'inputComprehension')).toEqual({
           summary: 'guidance',
           obfuscatedPaths: [],

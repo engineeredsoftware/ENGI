@@ -146,9 +146,7 @@ function defaultQueriesFromRun(input: {
 
 export default async function runDepositDepositorySearchAgent(input: any, execution: any) {
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
-  const catalog =
-    resolveSourceCheckoutCatalog(execution, input?.sourceCheckoutCatalog ?? input?.inventory) ??
-    input?.inventory;
+  const catalog = resolveSourceCheckoutCatalog(execution, input?.sourceCheckoutCatalog);
   const demandContext = input?.demandContext ?? findValue(execution, 'deposit', 'demandContext') ?? [];
   const obfuscations = findValue(execution, 'deposit', 'obfuscations');
   const measurements = findValue(execution, 'discovery', 'sourceMeasurements');
@@ -174,7 +172,6 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
       ...input,
       repository,
       sourceCheckoutCatalog: catalogForPrompt,
-      inventory: catalogForPrompt,
       inventoryPaths: catalogForPrompt?.paths ?? catalog?.paths,
       demandContext,
       sourceMeasurements: measurements,

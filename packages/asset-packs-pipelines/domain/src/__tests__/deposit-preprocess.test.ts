@@ -102,7 +102,7 @@ describe('deposit-mode preprocess context assembly', () => {
       obfuscations: { rules: [{ match: 'src/secret/**', action: 'redact' }] },
       impermissibleSources: ['src/secret/**'],
       demandContext: [{ topic: 'terminal reads', demand: 'high' }],
-      inventory: { assetCount: 2 },
+      sourceCheckoutCatalog: { assetCount: 2 },
     };
 
     await synthesizeAssetPacksPipeline(input, execution);
@@ -135,21 +135,21 @@ describe('deposit-mode preprocess context assembly', () => {
     expect(execution.get('deposit', 'obfuscations')).toEqual(input.obfuscations);
     expect(execution.get('deposit', 'impermissibleSources')).toEqual(['src/secret/**']);
     expect(execution.get('deposit', 'demandContext')).toEqual([{ topic: 'terminal reads', demand: 'high' }]);
-    // Full inventory stays on the deposit data plane for measurement tools.
-    expect(execution.get('deposit', 'inventory')).toEqual({ assetCount: 2 });
+    // Full catalog stays on the deposit data plane for measurement tools.
+    expect(execution.get('deposit', 'sourceCheckoutCatalog')).toEqual({ assetCount: 2 });
     expect(execution.get('pipeline', 'synthesizeMode')).toBe('deposit');
-    // pipeline:input is telemetried — inventory is projected without sources
-    // (path/sample counts only). Full sources live only on deposit:inventory.
+    // pipeline:input is telemetried — catalog is projected without sources
+    // (path/sample counts only). Full sources live only on deposit:sourceCheckoutCatalog.
     expect(execution.get('pipeline', 'input')).toMatchObject({
       mode: 'deposit',
-      inventory: {
+      sourceCheckoutCatalog: {
         sourceFileCount: 0,
       },
     });
-    expect(execution.get('pipeline', 'input').inventory).not.toHaveProperty('sources');
-    expect(execution.get('pipeline', 'input').inventory).not.toHaveProperty('assetCount');
+    expect(execution.get('pipeline', 'input').sourceCheckoutCatalog).not.toHaveProperty('sources');
+    expect(execution.get('pipeline', 'input').sourceCheckoutCatalog).not.toHaveProperty('assetCount');
     // Consumer resolution from a phase sibling's subtree.
-    expect(execution.child('probe').findUp('deposit', 'inventory')).toEqual({ assetCount: 2 });
+    expect(execution.child('probe').findUp('deposit', 'sourceCheckoutCatalog')).toEqual({ assetCount: 2 });
 
     // The preprocessed route snapshot is written for the serving surface.
     expect(execution.get('route/preprocessed', 'assetPackWrittenAsset')).toMatchObject({
@@ -192,7 +192,7 @@ describe('deposit-mode preprocess context assembly', () => {
     expect(execution.get('deposit', 'obfuscations')).toBeNull();
     expect(execution.get('deposit', 'impermissibleSources')).toEqual([]);
     expect(execution.get('deposit', 'demandContext')).toEqual([]);
-    expect(execution.get('deposit', 'inventory')).toBeUndefined();
+    expect(execution.get('deposit', 'sourceCheckoutCatalog')).toBeUndefined();
   });
 
   it('read mode keeps the read-lens preprocess: depository search runs, no deposit stores', async () => {

@@ -1,5 +1,6 @@
 import {
   ASSET_PACK_HOST_EVIDENCE_TABLES,
+  ASSET_PACK_HOST_RESULT_STATES,
   ASSET_PACK_HOST_STAGES,
   buildAssetPackPipelineHostManifest,
   VERCEL_SANDBOX_HOST_CAPABILITIES,
@@ -37,15 +38,8 @@ describe('pipeline host manifest', () => {
     );
     expect(manifest.requireAcceptedReadNeed).toBe(true);
     expect(manifest.expectedEvidenceTables).toEqual(ASSET_PACK_HOST_EVIDENCE_TABLES);
-    expect(manifest.resultStates).toEqual([
-      'worthy_fit',
-      'no_worthy_fit',
-      'worthy_deposit_candidates',
-      'no_worthy_deposit_candidates',
-      'worthy_read_candidates',
-      'no_worthy_read_candidates',
-      'blocked_readiness',
-    ]);
+    // Vocabulary lives once in @bitcode/host-generics — never re-list literals here.
+    expect(manifest.resultStates).toBe(ASSET_PACK_HOST_RESULT_STATES);
     expect(manifest.commandEnvironment).toContainEqual({
       name: 'OPENAI_API_KEY',
       provided: true,

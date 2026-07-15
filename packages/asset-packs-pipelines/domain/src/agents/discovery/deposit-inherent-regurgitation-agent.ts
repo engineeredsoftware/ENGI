@@ -103,7 +103,7 @@ export default async function runDepositInherentRegurgitationAgent(input: any, e
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
   const catalog = resolveSourceCheckoutCatalog(
     execution,
-    input?.sourceCheckoutCatalog ?? input?.inventory,
+    input?.sourceCheckoutCatalog,
   );
   const catalogForPrompt = projectInventoryForPrompt(catalog);
 

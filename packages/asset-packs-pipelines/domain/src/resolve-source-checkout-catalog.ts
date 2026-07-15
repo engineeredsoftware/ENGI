@@ -1,8 +1,7 @@
 /**
  * Resolve the depositor **sourceCheckoutCatalog** for this pipeline run.
  *
- * Canonical store: `deposit:sourceCheckoutCatalog`.
- * Legacy alias (migration): `deposit:inventory` — still dual-read/written.
+ * Canonical store only: `deposit:sourceCheckoutCatalog`.
  */
 
 import type { AssetPacksSynthesisSourceInventory } from './asset-packs-synthesis-types';
@@ -15,23 +14,19 @@ function findValue(execution: any, namespace: string, key: string): any {
   return execution?.findUp?.(namespace, key);
 }
 
-/** Prefer sourceCheckoutCatalog; fall back to legacy inventory key. */
 export function resolveSourceCheckoutCatalog(
   execution: any,
   inputCatalog?: SourceCheckoutCatalog | null,
 ): SourceCheckoutCatalog | null | undefined {
   if (inputCatalog && typeof inputCatalog === 'object') return inputCatalog;
-  return (
-    (findValue(execution, 'deposit', 'sourceCheckoutCatalog') as SourceCheckoutCatalog | undefined) ??
-    (findValue(execution, 'deposit', 'inventory') as SourceCheckoutCatalog | undefined)
-  );
+  return findValue(execution, 'deposit', 'sourceCheckoutCatalog') as
+    | SourceCheckoutCatalog
+    | undefined;
 }
 
-/** Dual-write catalog to canonical + legacy keys. */
 export function storeSourceCheckoutCatalog(
   store: (ns: string, key: string, value: unknown) => void,
   catalog: SourceCheckoutCatalog,
 ): void {
   store('deposit', 'sourceCheckoutCatalog', catalog);
-  store('deposit', 'inventory', catalog);
 }

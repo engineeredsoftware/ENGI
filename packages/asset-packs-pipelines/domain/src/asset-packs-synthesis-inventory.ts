@@ -17,13 +17,10 @@ export function normalizeSourcePathList(value: string[] | string | null | undefi
   return [...new Set(entries.map((entry) => entry.trim()).filter(Boolean))].sort();
 }
 
-/** @deprecated Prefer normalizeSourcePathList */
-export const normalizeForcedPathList = normalizeSourcePathList;
-
-export function isPathExcluded(path: string, exclusions: string[]): boolean {
+export function isPathImpermissible(path: string, impermissibleSources: string[]): boolean {
   const normalizedPath = path.trim().toLowerCase();
-  return exclusions.some((exclusion) => {
-    const normalized = exclusion.trim().toLowerCase().replace(/^\.\//, '');
+  return impermissibleSources.some((entry) => {
+    const normalized = entry.trim().toLowerCase().replace(/^\.\//, '');
     if (!normalized) return false;
     const withoutGlob = normalized.replace(/\*+/g, '');
     if (!withoutGlob) return false;
@@ -51,20 +48,6 @@ export function isPathPermissible(path: string, permissibleSources: string[]): b
     if (!root) return false;
     return normalizedPath === root || normalizedPath.startsWith(`${root}/`);
   });
-}
-
-/** @deprecated Prefer isPathPermissible */
-export const isPathForcedIncluded = isPathPermissible;
-
-export function applyExclusionsToInventory(
-  inventory: {
-    paths: string[];
-    samples: AssetPacksSynthesisSourceSample[];
-    sources?: AssetPacksSynthesisSourceFile[];
-  },
-  exclusions: string[],
-): AssetPacksSynthesisSourceInventory {
-  return applyInventoryScope(inventory, { exclusions });
 }
 
 /**
@@ -135,23 +118,15 @@ export function applyInventoryScope(
     sources?: AssetPacksSynthesisSourceFile[];
   },
   scope: {
-    /** @deprecated Prefer permissibleSources */
-    inclusions?: string[] | null;
-    /** @deprecated Prefer impermissibleSources */
-    exclusions?: string[] | null;
     permissibleSources?: string[] | null;
     impermissibleSources?: string[] | null;
   } = {},
 ): AssetPacksSynthesisSourceInventory {
-  const permissibleSources = normalizeSourcePathList(
-    scope.permissibleSources ?? scope.inclusions ?? [],
-  );
-  const impermissibleSources = normalizeSourcePathList(
-    scope.impermissibleSources ?? scope.exclusions ?? [],
-  );
+  const permissibleSources = normalizeSourcePathList(scope.permissibleSources ?? []);
+  const impermissibleSources = normalizeSourcePathList(scope.impermissibleSources ?? []);
   const inScope = (path: string) =>
     isPathPermissible(path, permissibleSources) &&
-    !isPathExcluded(path, impermissibleSources);
+    !isPathImpermissible(path, impermissibleSources);
   const keptPaths = inventory.paths.filter(inScope);
   let keptSamples = inventory.samples.filter((sample) => inScope(sample.path));
   // Out-of-scope files are never measured, sampled, or carried forward.

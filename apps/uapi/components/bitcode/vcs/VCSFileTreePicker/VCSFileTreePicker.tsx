@@ -223,7 +223,7 @@ export function VCSFileTreePicker({
   };
 
   // Select all / clear all — root-level only. A directory selection is
-  // already a PREFIX match downstream (isPathExcluded/inventory filtering),
+  // already a PREFIX match downstream (isPathImpermissible/inventory filtering),
   // so selecting every root-level file + top-level directory prefix covers
   // the entire repository without recursively fetching every subtree.
   const rootItems = childrenByPath[''] ?? [];

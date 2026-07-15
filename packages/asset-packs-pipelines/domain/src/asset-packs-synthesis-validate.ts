@@ -14,7 +14,7 @@ import type {
   AssetPacksSynthesisSourceInventory,
   DepositSynthesisRawOption,
 } from './asset-packs-synthesis-types';
-import { isPathExcluded } from './asset-packs-synthesis-inventory';
+import { isPathImpermissible } from './asset-packs-synthesis-inventory';
 import { buildNeedinessFromSignal, clampVolume } from './asset-packs-synthesis-neediness';
 
 /**
@@ -71,7 +71,7 @@ export function validateDepositSynthesisOptions(
     ];
     const unknownPaths = coveredSourcePaths.filter((path) => !inventoryPathSet.has(path));
     const excludedPaths = coveredSourcePaths.filter((path) =>
-      isPathExcluded(path, context.impermissibleSources),
+      isPathImpermissible(path, context.impermissibleSources),
     );
     if (unknownPaths.length > 0 || excludedPaths.length > 0 || coveredSourcePaths.length === 0) {
       exclusionViolations.push(

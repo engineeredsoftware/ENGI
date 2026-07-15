@@ -332,8 +332,8 @@ describe('POST /api/deposit/synthesize-options', () => {
     // Empty catalog at pipeline start; Setup clone fills paths for this run.
     const pipelineInput = mockPipeline.mock.calls[0][0];
     expect(pipelineInput.mode).toBe('deposit');
-    expect(pipelineInput.inventory.paths).toEqual([]);
-    expect(pipelineInput.inventory.sources).toEqual([]);
+    expect(pipelineInput.sourceCheckoutCatalog.paths).toEqual([]);
+    expect(pipelineInput.sourceCheckoutCatalog.sources).toEqual([]);
     expect(pipelineInput.impermissibleSources).toEqual(['secret/']);
     expect(pipelineInput.permissibleSources).toEqual([]);
 
@@ -386,8 +386,8 @@ describe('POST /api/deposit/synthesize-options', () => {
     const pipelineInput = mockPipeline.mock.calls[0][0];
     expect(pipelineInput.permissibleSources).toEqual(['src/']);
     // Catalog paths are empty at init; Setup clone scopes after this-run clone.
-    expect(pipelineInput.inventory.paths).toEqual([]);
-    expect(pipelineInput.inventory.sources).toEqual([]);
+    expect(pipelineInput.sourceCheckoutCatalog.paths).toEqual([]);
+    expect(pipelineInput.sourceCheckoutCatalog.sources).toEqual([]);
   });
 
   it('registers both the orphan sweep and the synthesis run via waitUntil (V48-Gate3-F31)', async () => {

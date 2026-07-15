@@ -364,7 +364,6 @@ export async function runDepositOptionSynthesis(
             demandContext,
             // Paths/samples/fileBodies filled by Setup clone, then Discovery.
             sourceCheckoutCatalog: sourceCatalog,
-            inventory: sourceCatalog,
             candidateKinds: [...DEPOSIT_OPTION_KINDS],
           } as never,
           execution as never,
@@ -372,9 +371,7 @@ export async function runDepositOptionSynthesis(
         // Prefer catalog after Setup clone + Discovery file-body load.
         const storedCatalog =
           (execution as any).get?.('deposit', 'sourceCheckoutCatalog') ??
-          (execution as any).findUp?.('deposit', 'sourceCheckoutCatalog') ??
-          (execution as any).get?.('deposit', 'inventory') ??
-          (execution as any).findUp?.('deposit', 'inventory');
+          (execution as any).findUp?.('deposit', 'sourceCheckoutCatalog');
         if (storedCatalog && typeof storedCatalog === 'object') {
           sourceCatalog = storedCatalog as typeof sourceCatalog;
         }

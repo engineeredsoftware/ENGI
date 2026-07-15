@@ -16,7 +16,7 @@
  *
  * Impermissible sources are honored fail-closed at BOTH ends: excluded
  * paths are removed from the inventory before any prompt is built, and any
- * candidate whose covered paths violate the exclusions (or reference paths
+ * candidate whose covered paths violate impermissible sources (or reference paths
  * outside the real inventory) is dropped after inference.
  */
 
@@ -31,7 +31,7 @@ import {
 } from './asset-packs-synthesis-pipeline';
 import { isAssetPackRealInferenceEnabled } from './runtime-inference-policy';
 import { measurementCatalogForLens } from './asset-packs-synthesis-catalogs';
-import { isPathExcluded } from './asset-packs-synthesis-inventory';
+import { isPathImpermissible } from './asset-packs-synthesis-inventory';
 import { clampVolume } from './asset-packs-synthesis-neediness';
 import { assertSourceSafeCandidates } from './asset-packs-synthesis-validate';
 import type {
@@ -81,11 +81,10 @@ export {
 
 // ---- Inventory / path scope ------------------------------------------------
 export {
-  applyExclusionsToInventory,
   applyInventoryScope,
-  isPathExcluded,
-  isPathForcedIncluded,
-  normalizeForcedPathList,
+  isPathImpermissible,
+  isPathPermissible,
+  normalizeSourcePathList,
   pickInventorySamples,
   projectInventoryForPrompt,
 } from './asset-packs-synthesis-inventory';
@@ -155,7 +154,7 @@ export async function synthesizeAssetPackCandidates(
     const coveredSourcePaths = [...new Set(option.coveredSourcePaths.map((path) => path.trim()).filter(Boolean))];
     const unknownPaths = coveredSourcePaths.filter((path) => !inventoryPathSet.has(path));
     const excludedPaths = coveredSourcePaths.filter((path) =>
-      isPathExcluded(path, request.steering.impermissibleSources),
+      isPathImpermissible(path, request.steering.impermissibleSources),
     );
     if (unknownPaths.length > 0 || excludedPaths.length > 0 || coveredSourcePaths.length === 0) {
       exclusionViolations.push(

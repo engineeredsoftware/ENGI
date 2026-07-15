@@ -55,8 +55,6 @@ function seedDepositExecution(): Execution {
     samples: [{ path: 'src/telemetry/index.ts', excerpt: 'export const telemetry = {};' }],
   };
   exec.store('deposit', 'sourceCheckoutCatalog', catalog);
-  // Legacy dual-write for stream filters still keyed on inventory.
-  exec.store('deposit', 'inventory', catalog);
   exec.store('deposit', 'demandContext', [
     { id: 'demand-telemetry', label: 'Readers need telemetry pipeline knowledge', weight: 0.8 },
   ]);

@@ -387,18 +387,18 @@ async function recordDepositCatalogFromRunWorkspace(
 ): Promise<void> {
   const paths = await workspace.listFiles();
   const samples = await pickSamplesFromWorkspace(workspace, paths);
-  const inclusions = findExecutionValue(execution, 'deposit', 'permissibleSources') ?? [];
-  const exclusions = findExecutionValue(execution, 'deposit', 'impermissibleSources') ?? [];
+  const permissibleSources =
+    findExecutionValue(execution, 'deposit', 'permissibleSources') ?? [];
+  const impermissibleSources =
+    findExecutionValue(execution, 'deposit', 'impermissibleSources') ?? [];
   const catalog = applyInventoryScope(
     { paths, samples, sources: [] },
     {
-      inclusions: Array.isArray(inclusions) ? inclusions : [],
-      exclusions: Array.isArray(exclusions) ? exclusions : [],
+      permissibleSources: Array.isArray(permissibleSources) ? permissibleSources : [],
+      impermissibleSources: Array.isArray(impermissibleSources) ? impermissibleSources : [],
     },
   );
-  // Canonical name sourceCheckoutCatalog; dual-write inventory for migration.
   storeCrossPhaseArtifact(execution, 'deposit', 'sourceCheckoutCatalog', catalog);
-  storeCrossPhaseArtifact(execution, 'deposit', 'inventory', catalog);
   storeCrossPhaseArtifact(execution, 'deposit', 'loadSourceCheckoutFileBodies', async () => {
     const allPaths = await workspace.listFiles();
     const sources: { path: string; content: string }[] = [];

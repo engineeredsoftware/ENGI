@@ -170,19 +170,12 @@ export async function preprocessDepositMode(processedInput: any, execution: Exec
   // pipeline:input is telemetried — never attach inventory.sources here (64MB+
   // monorepo sources). Full file bodies live only on deposit:sourceCheckoutCatalog for measurement.
   const catalog =
-    processedInput?.sourceCheckoutCatalog || processedInput?.inventory;
+    processedInput?.sourceCheckoutCatalog;
   const pipelineInputForStore =
     catalog && typeof catalog === 'object'
       ? {
           ...processedInput,
           sourceCheckoutCatalog: {
-            paths: catalog.paths,
-            samples: catalog.samples,
-            totalPathCount: catalog.totalPathCount,
-            excludedPathCount: catalog.excludedPathCount,
-            sourceFileCount: Array.isArray(catalog.sources) ? catalog.sources.length : 0,
-          },
-          inventory: {
             paths: catalog.paths,
             samples: catalog.samples,
             totalPathCount: catalog.totalPathCount,
@@ -195,22 +188,13 @@ export async function preprocessDepositMode(processedInput: any, execution: Exec
   storeCrossPhaseArtifact(execution, 'pipeline', 'synthesizeMode', 'deposit');
   storeCrossPhaseArtifact(execution, 'deposit', 'repository', repository);
   storeCrossPhaseArtifact(execution, 'deposit', 'obfuscations', processedInput?.obfuscations || null);
-  // Product law: permissible/impermissible sources. Dual-read legacy forced* keys.
-  const permissibleSources =
-    processedInput?.permissibleSources ||
-    processedInput?.forcedInclusions ||
-    [];
-  const impermissibleSources =
-    processedInput?.impermissibleSources ||
-    processedInput?.forcedExclusions ||
-    processedInput?.protectedIpExclusions ||
-    [];
+  const permissibleSources = processedInput?.permissibleSources || [];
+  const impermissibleSources = processedInput?.impermissibleSources || [];
   storeCrossPhaseArtifact(execution, 'deposit', 'permissibleSources', permissibleSources);
   storeCrossPhaseArtifact(execution, 'deposit', 'impermissibleSources', impermissibleSources);
   storeCrossPhaseArtifact(execution, 'deposit', 'demandContext', processedInput?.demandContext || []);
   if (catalog) {
     storeCrossPhaseArtifact(execution, 'deposit', 'sourceCheckoutCatalog', catalog);
-    storeCrossPhaseArtifact(execution, 'deposit', 'inventory', catalog);
   }
   return processedInput;
 }
@@ -506,7 +490,7 @@ export async function preprocessReadMode(processedInput: any, execution: Executi
     processedInput?.readNeed?.text ??
     '';
 
-  const catalog = processedInput?.sourceCheckoutCatalog || processedInput?.inventory;
+  const catalog = processedInput?.sourceCheckoutCatalog;
   const pipelineInputForStore =
     catalog && typeof catalog === 'object'
       ? {
@@ -529,7 +513,6 @@ export async function preprocessReadMode(processedInput: any, execution: Executi
   if (catalog) {
     storeCrossPhaseArtifact(execution, 'read', 'sourceCheckoutCatalog', catalog);
     storeCrossPhaseArtifact(execution, 'deposit', 'sourceCheckoutCatalog', catalog);
-    storeCrossPhaseArtifact(execution, 'deposit', 'inventory', catalog);
   }
   return processedInput;
 }

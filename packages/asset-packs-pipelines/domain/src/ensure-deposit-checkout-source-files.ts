@@ -8,7 +8,7 @@
  * are idempotent.
  *
  * Loader: `deposit:loadCheckoutSourceFiles` (bound to the run workspace in Setup).
- * Store key for the catalog remains `deposit:inventory`.
+ * Store key: `deposit:sourceCheckoutCatalog`.
  */
 
 import { storeCrossPhaseArtifact } from './synthesize-asset-packs';
@@ -35,8 +35,7 @@ export async function ensureDepositCheckoutSourceFiles(
     inputCatalog ??
     (findValue(execution, 'deposit', 'sourceCheckoutCatalog') as
       | AssetPacksSynthesisSourceInventory
-      | undefined) ??
-    (findValue(execution, 'deposit', 'inventory') as AssetPacksSynthesisSourceInventory | undefined);
+      | undefined);
 
   if (sourceCatalog && Array.isArray(sourceCatalog.sources) && sourceCatalog.sources.length > 0) {
     return sourceCatalog;
@@ -68,7 +67,6 @@ export async function ensureDepositCheckoutSourceFiles(
   };
 
   storeCrossPhaseArtifact(execution, 'deposit', 'sourceCheckoutCatalog', sourceCatalog);
-  storeCrossPhaseArtifact(execution, 'deposit', 'inventory', sourceCatalog);
   return sourceCatalog;
 }
 

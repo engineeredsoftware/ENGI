@@ -118,10 +118,8 @@ export default async function runReadNeedComprehensionAgent(input: any, executio
     findValue(execution, 'deposit', 'repository') ?? {};
   const catalog =
     input?.sourceCheckoutCatalog ??
-    input?.inventory ??
     findValue(execution, 'read', 'sourceCheckoutCatalog') ??
-    findValue(execution, 'deposit', 'sourceCheckoutCatalog') ??
-    findValue(execution, 'deposit', 'inventory');
+    findValue(execution, 'deposit', 'sourceCheckoutCatalog');
 
   const text = typeof needText === 'string' ? needText.trim() : '';
   if (!text) {

@@ -5,22 +5,64 @@ export type VercelSandboxRuntime = 'node24' | 'node22' | 'python3.13';
 export type PipelineHostMode = 'host_smoke' | 'asset_pack_pipeline';
 
 /**
- * Pipeline host / evidence result states.
+ * Pipeline host / evidence result-state vocabulary.
  *
- * - Fit (`worthy_fit` / `no_worthy_fit`): **read, post-read** depository fit only.
- * - Deposit synthesis: `worthy_deposit_candidates` / `no_worthy_deposit_candidates`.
- * - Read synthesis (options for a Need, pre/alongside fit): `worthy_read_candidates` /
- *   `no_worthy_read_candidates`.
- * - `blocked_readiness`: shared terminal blocked posture.
+ * Two product families + shared blocked — never dual-read across families:
+ * - Deposit candidates: deposit synthesize-options only
+ * - Read candidates: read synthesize-options and post-read depository fit
+ *   (fit is always a read-candidate outcome; never a separate family)
+ * - blocked_readiness: shared terminal blocked posture
  */
-export type BitcodePipelineResultState =
-  | 'worthy_fit'
-  | 'no_worthy_fit'
-  | 'worthy_deposit_candidates'
-  | 'no_worthy_deposit_candidates'
-  | 'worthy_read_candidates'
-  | 'no_worthy_read_candidates'
-  | 'blocked_readiness';
+
+/** Deposit synthesize AssetPack options only. Never fit / read-candidate states. */
+export const BITCODE_DEPOSIT_CANDIDATE_RESULT_STATES = [
+  'worthy_deposit_candidates',
+  'no_worthy_deposit_candidates',
+] as const;
+export type BitcodeDepositCandidateResultState =
+  (typeof BITCODE_DEPOSIT_CANDIDATE_RESULT_STATES)[number];
+
+/**
+ * Read family: synthesize AssetPack options + post-read depository fit.
+ * Fit is entirely a read-candidate posture (worthy_fit / no_worthy_fit).
+ */
+export const BITCODE_READ_CANDIDATE_RESULT_STATES = [
+  'worthy_read_candidates',
+  'no_worthy_read_candidates',
+  'worthy_fit',
+  'no_worthy_fit',
+] as const;
+export type BitcodeReadCandidateResultState =
+  (typeof BITCODE_READ_CANDIDATE_RESULT_STATES)[number];
+
+export const BITCODE_BLOCKED_RESULT_STATE = 'blocked_readiness' as const;
+
+/** Full host-admissible result-state set (single source of truth for manifests). */
+export const BITCODE_PIPELINE_RESULT_STATES = [
+  ...BITCODE_DEPOSIT_CANDIDATE_RESULT_STATES,
+  ...BITCODE_READ_CANDIDATE_RESULT_STATES,
+  BITCODE_BLOCKED_RESULT_STATE,
+] as const;
+
+export type BitcodePipelineResultState = (typeof BITCODE_PIPELINE_RESULT_STATES)[number];
+
+export function isBitcodePipelineResultState(
+  candidate: unknown,
+): candidate is BitcodePipelineResultState {
+  return (
+    typeof candidate === 'string' &&
+    (BITCODE_PIPELINE_RESULT_STATES as readonly string[]).includes(candidate)
+  );
+}
+
+/** Unknown → blocked_readiness. No legacy aliases. */
+export function normalizeBitcodePipelineResultState(
+  candidate: unknown,
+): BitcodePipelineResultState {
+  return isBitcodePipelineResultState(candidate)
+    ? candidate
+    : BITCODE_BLOCKED_RESULT_STATE;
+}
 
 export type PipelineHostStage =
   | 'need-synthesis'

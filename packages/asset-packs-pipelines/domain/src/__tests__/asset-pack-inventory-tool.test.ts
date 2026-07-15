@@ -3,11 +3,11 @@
  * AssetPackInventoryTool — the formal source-inventory ExecutionTool of the
  * SynthesizeAssetPacks pipeline (V48 Gate 3, tools/executions domain).
  *
- * Pins that the tool is the fail-closed protected-IP boundary: execute()
- * applies the exclusions to paths AND samples (an excluded file is never
- * measured, sampled, or carried forward) and reports honest exclusion counts;
- * and that, when bound to an execution, the standard ExecutionTool tracking
- * child records the invocation outcome.
+ * Pins that the tool is the fail-closed impermissible-sources boundary: execute()
+ * applies permissible + impermissible scope to paths AND samples (an out-of-scope
+ * file is never measured, sampled, or carried forward) and reports honest
+ * exclusion counts; and that, when bound to an execution, the standard
+ * ExecutionTool tracking child records the invocation outcome.
  */
 import { Execution } from '@bitcode/execution-generics';
 import { AssetPackInventoryTool } from '../asset-packs-synthesis-pipeline';
@@ -25,14 +25,14 @@ const SAMPLES = [
   { path: 'src/billing/invoice.ts', excerpt: 'export function invoice() {}' },
 ];
 
-describe('AssetPackInventoryTool.execute — protected-IP exclusions (fail-closed)', () => {
-  it('filters excluded paths and samples and reports honest counts', async () => {
+describe('AssetPackInventoryTool.execute — impermissible sources (fail-closed)', () => {
+  it('filters impermissible paths and samples and reports honest counts', async () => {
     const tool = new AssetPackInventoryTool();
 
     const inventory = await tool.execute({
       paths: PATHS,
       samples: SAMPLES,
-      exclusions: ['src/auth/secret-sauce.ts'],
+      impermissibleSources: ['src/auth/secret-sauce.ts'],
     });
 
     expect(inventory.paths).toEqual([
@@ -50,13 +50,13 @@ describe('AssetPackInventoryTool.execute — protected-IP exclusions (fail-close
     expect(JSON.stringify(inventory)).not.toContain('PROPRIETARY');
   });
 
-  it('honors glob-style exclusions across whole directories', async () => {
+  it('honors glob-style impermissible sources across whole directories', async () => {
     const tool = new AssetPackInventoryTool();
 
     const inventory = await tool.execute({
       paths: PATHS,
       samples: SAMPLES,
-      exclusions: ['src/auth/*'],
+      impermissibleSources: ['src/auth/*'],
     });
 
     expect(inventory.paths).toEqual(['src/billing/invoice.ts', 'README.md']);
@@ -64,10 +64,15 @@ describe('AssetPackInventoryTool.execute — protected-IP exclusions (fail-close
     expect(inventory.excludedPathCount).toBe(2);
   });
 
-  it('passes the inventory through untouched when there are no exclusions', async () => {
+  it('passes the inventory through untouched when scope is empty', async () => {
     const tool = new AssetPackInventoryTool();
 
-    const inventory = await tool.execute({ paths: PATHS, samples: SAMPLES, exclusions: [] });
+    const inventory = await tool.execute({
+      paths: PATHS,
+      samples: SAMPLES,
+      permissibleSources: [],
+      impermissibleSources: [],
+    });
 
     expect(inventory.paths).toEqual(PATHS);
     expect(inventory.samples).toEqual(SAMPLES);
@@ -82,7 +87,7 @@ describe('AssetPackInventoryTool.execute — protected-IP exclusions (fail-close
     const inventory = await tool.execute({
       paths: PATHS,
       samples: SAMPLES,
-      exclusions: ['src/auth/secret-sauce.ts'],
+      impermissibleSources: ['src/auth/secret-sauce.ts'],
     });
     expect(inventory.excludedPathCount).toBe(1);
 

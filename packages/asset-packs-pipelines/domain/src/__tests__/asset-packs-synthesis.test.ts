@@ -7,11 +7,10 @@ jest.mock('../runtime-inference-policy', () => ({
 
 import { synthesizeAssetPackCandidatesFormal } from '../asset-packs-synthesis-pipeline';
 import {
-  applyExclusionsToInventory,
   applyInventoryScope,
-  isPathExcluded,
-  isPathForcedIncluded,
-  normalizeForcedPathList,
+  isPathImpermissible,
+  isPathPermissible,
+  normalizeSourcePathList,
   projectInventoryForPrompt,
   synthesizeAssetPackCandidates,
   validateDepositSynthesisOptions,
@@ -63,30 +62,30 @@ describe('AssetPacksSynthesis core', () => {
     jest.clearAllMocks();
   });
 
-  it('normalizes exclusions and filters inventory fail-closed before inference', () => {
-    const exclusions = normalizeForcedPathList('secret/\n\n  secret/  ');
-    expect(exclusions).toEqual(['secret/']);
+  it('normalizes impermissible sources and filters inventory fail-closed before inference', () => {
+    const impermissibleSources = normalizeSourcePathList('secret/\n\n  secret/  ');
+    expect(impermissibleSources).toEqual(['secret/']);
 
-    const filtered = applyExclusionsToInventory(INVENTORY, exclusions);
+    const filtered = applyInventoryScope(INVENTORY, { impermissibleSources });
     expect(filtered.paths).toEqual(['README.md', 'src/app.py', 'src/utils.py']);
     expect(filtered.samples.map((sample) => sample.path)).toEqual(['README.md']);
     expect(filtered.excludedPathCount).toBe(1);
-    expect(isPathExcluded('secret/keys.py', exclusions)).toBe(true);
-    expect(isPathExcluded('src/app.py', exclusions)).toBe(false);
+    expect(isPathImpermissible('secret/keys.py', impermissibleSources)).toBe(true);
+    expect(isPathImpermissible('src/app.py', impermissibleSources)).toBe(false);
   });
 
   it('scopes inventory by Permissible sources roots then Impermissible sources', () => {
     const scoped = applyInventoryScope(INVENTORY, {
-      inclusions: ['src/'],
-      exclusions: ['src/utils.py'],
+      permissibleSources: ['src/'],
+      impermissibleSources: ['src/utils.py'],
     });
     expect(scoped.paths).toEqual(['src/app.py']);
     expect(scoped.samples).toEqual([]);
     expect(scoped.excludedPathCount).toBe(3);
-    expect(isPathForcedIncluded('src/app.py', ['src/'])).toBe(true);
-    expect(isPathForcedIncluded('README.md', ['src/'])).toBe(false);
-    // Empty inclusions leave the full tree in-scope (minus exclusions).
-    expect(isPathForcedIncluded('README.md', [])).toBe(true);
+    expect(isPathPermissible('src/app.py', ['src/'])).toBe(true);
+    expect(isPathPermissible('README.md', ['src/'])).toBe(false);
+    // Empty permissible sources leave the full tree in-scope (minus impermissible).
+    expect(isPathPermissible('README.md', [])).toBe(true);
   });
 
   it('projectInventoryForPrompt omits sources content for PTRR prompts', () => {
@@ -121,8 +120,8 @@ describe('AssetPacksSynthesis core', () => {
       ],
     };
     const scoped = applyInventoryScope(provisioned, {
-      inclusions: ['apps/uapi/'],
-      exclusions: [],
+      permissibleSources: ['apps/uapi/'],
+      impermissibleSources: [],
     });
     expect(scoped.paths).toEqual(['apps/uapi/app.ts', 'apps/uapi/lib.ts']);
     expect(scoped.samples.length).toBeGreaterThan(0);

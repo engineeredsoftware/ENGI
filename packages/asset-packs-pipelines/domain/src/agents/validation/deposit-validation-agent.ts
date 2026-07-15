@@ -81,8 +81,6 @@ export default async function runDepositValidationAgent(input: any, execution: a
   const impermissibleSources = asPathList(
     input?.impermissibleSources ??
       findValue(execution, 'deposit', 'impermissibleSources') ??
-      findValue(execution, 'deposit', 'forcedExclusions') ??
-      findValue(execution, 'deposit', 'protectedIpExclusions') ??
       [],
   );
   const obfuscatedPaths = asPathList((obfuscationGuidance as any)?.obfuscatedPaths);
@@ -97,7 +95,7 @@ export default async function runDepositValidationAgent(input: any, execution: a
     execution,
     resolveSourceCheckoutCatalog(
       execution,
-      input?.sourceCheckoutCatalog ?? input?.inventory,
+      input?.sourceCheckoutCatalog,
     ),
   );
   // LLM qualitative validation: paths only. Static-analysis measurement below
@@ -108,7 +106,6 @@ export default async function runDepositValidationAgent(input: any, execution: a
       ...input,
       assetPacks: packs,
       sourceCheckoutCatalog: catalogForPrompt,
-      inventory: catalogForPrompt, // dual-write for legacy stream filters
       inventoryPaths: catalogForPrompt?.paths ?? catalog?.paths,
       obfuscationGuidance,
       impermissibleSources,

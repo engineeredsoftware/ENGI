@@ -1,5 +1,4 @@
 import type {
-  BitcodePipelineResultState,
   PipelineDepositReference,
   PipelineHostManifest,
   PipelineHostMode,
@@ -9,6 +8,7 @@ import type {
   PipelineReadRequest,
   PipelineSourceRevision,
 } from '@bitcode/host-generics';
+import { BITCODE_PIPELINE_RESULT_STATES } from '@bitcode/host-generics';
 
 export const VERCEL_SANDBOX_HOST_CAPABILITIES: PipelineHostCapabilities = {
   hostKind: 'vercel-sandbox',
@@ -62,18 +62,8 @@ export const ASSET_PACK_HOST_STAGES: readonly PipelineHostStage[] = [
   'telemetry-readback',
 ];
 
-export const ASSET_PACK_HOST_RESULT_STATES: readonly BitcodePipelineResultState[] = [
-  // Read fit (post-read depository search)
-  'worthy_fit',
-  'no_worthy_fit',
-  // Deposit synthesize options
-  'worthy_deposit_candidates',
-  'no_worthy_deposit_candidates',
-  // Read synthesize options (Need → measured packs)
-  'worthy_read_candidates',
-  'no_worthy_read_candidates',
-  'blocked_readiness',
-];
+/** Host manifest resultStates — composed from host-generics vocabulary only. */
+export const ASSET_PACK_HOST_RESULT_STATES = BITCODE_PIPELINE_RESULT_STATES;
 
 export const ASSET_PACK_HOST_EVIDENCE_TABLES = [
   'executions',

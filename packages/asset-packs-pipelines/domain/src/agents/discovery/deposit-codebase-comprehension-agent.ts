@@ -209,13 +209,11 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
     execution,
     resolveSourceCheckoutCatalog(
       execution,
-      input?.sourceCheckoutCatalog ?? input?.inventory,
+      input?.sourceCheckoutCatalog,
     ),
   );
   if (sourceCheckoutCatalog) {
     storeCrossPhaseArtifact(execution, 'deposit', 'sourceCheckoutCatalog', sourceCheckoutCatalog);
-    // Legacy dual-write for streaming/filter callers still keyed on inventory.
-    storeCrossPhaseArtifact(execution, 'deposit', 'inventory', sourceCheckoutCatalog);
   }
 
   const paths = Array.isArray(sourceCheckoutCatalog?.paths) ? sourceCheckoutCatalog!.paths : [];

@@ -17,11 +17,10 @@ import {
   synthesisAssetPackToDepositContents,
 } from '@bitcode/generic-asset-packs-synthesis';
 import {
-  applyExclusionsToInventory,
   applyInventoryScope,
-  isPathExcluded,
-  isPathForcedIncluded,
-  normalizeForcedPathList,
+  isPathImpermissible,
+  isPathPermissible,
+  normalizeSourcePathList,
   synthesizeAssetPackCandidates,
   type AssetPacksSynthesisResult,
   type AssetPacksSynthesisSourceInventory,
@@ -44,11 +43,10 @@ import {
 import { normalizedText, root, stableHash } from './deposit-source-safe-utils';
 
 export {
-  applyExclusionsToInventory,
   applyInventoryScope,
-  isPathExcluded,
-  isPathForcedIncluded,
-  normalizeForcedPathList,
+  isPathImpermissible,
+  isPathPermissible,
+  normalizeSourcePathList,
 };
 export type { AssetPacksSynthesisSourceInventory as DepositOptionSourceInventory };
 export type {
@@ -98,7 +96,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
   const sourceBranch = normalizedText(request.sourceBranch);
   const sourceCommit = normalizedText(request.sourceCommit);
   const obfuscations = normalizedText(request.obfuscations);
-  const impermissibleSources = normalizeForcedPathList(request.impermissibleSources);
+  const impermissibleSources = normalizeSourcePathList(request.impermissibleSources);
   const depositoryDemandSignals = normalizedSignals(request.depositoryDemandSignals);
   const readingDemandSignals = normalizedSignals(request.readingDemandSignals);
   const existingDepositorySignals = normalizedSignals(request.existingDepositorySignals);

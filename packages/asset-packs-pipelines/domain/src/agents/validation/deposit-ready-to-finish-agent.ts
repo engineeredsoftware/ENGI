@@ -67,8 +67,7 @@ function phaseSanityIssues(execution: any): string[] {
     findValue(execution, 'deposit', 'workspacePath');
   // Catalog path grounding is sufficient when Host already materialised the checkout.
   const catalog =
-    findValue(execution, 'deposit', 'sourceCheckoutCatalog') ||
-    findValue(execution, 'deposit', 'inventory');
+    findValue(execution, 'deposit', 'sourceCheckoutCatalog');
   if (!workspace && !(catalog && Array.isArray(catalog.paths) && catalog.paths.length > 0)) {
     issues.push('Setup: missing repository.workspacePath (Host checkout).');
   }
@@ -197,8 +196,6 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
   const impermissibleSources = asPathList(
     input?.impermissibleSources ??
       findValue(execution, 'deposit', 'impermissibleSources') ??
-      findValue(execution, 'deposit', 'forcedExclusions') ??
-      findValue(execution, 'deposit', 'protectedIpExclusions') ??
       [],
   );
   const obfuscatedPaths = asPathList((obfuscationGuidance as any)?.obfuscatedPaths);
@@ -208,7 +205,7 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
 
   const catalog = await ensureDepositCheckoutSourceFiles(
     execution,
-    resolveSourceCheckoutCatalog(execution, input?.sourceCheckoutCatalog ?? input?.inventory),
+    resolveSourceCheckoutCatalog(execution, input?.sourceCheckoutCatalog),
   );
   const catalogForPrompt = projectInventoryForPrompt(catalog);
 

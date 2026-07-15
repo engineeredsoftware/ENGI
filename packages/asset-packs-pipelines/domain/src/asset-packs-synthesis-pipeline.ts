@@ -30,7 +30,7 @@ import { resolveDefaultLLMConfig } from '@bitcode/generic-llms';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 import { measurementCatalogForLens } from './asset-packs-synthesis-catalogs';
-import { applyExclusionsToInventory } from './asset-packs-synthesis-inventory';
+import { applyInventoryScope } from './asset-packs-synthesis-inventory';
 import type {
   AssetPackMeasurementSpec,
   AssetPacksSynthesisLens,
@@ -137,16 +137,20 @@ export function buildSynthesisPromptLayers(
 type InventoryToolArgs = {
   paths: string[];
   samples: AssetPacksSynthesisSourceSample[];
-  exclusions: string[];
+  permissibleSources?: string[];
+  impermissibleSources?: string[];
 };
 
 export class AssetPackInventoryTool extends ExecutionTool<
   (args: InventoryToolArgs) => Promise<AssetPacksSynthesisSourceInventory>
 > {
   use = async (args: InventoryToolArgs): Promise<AssetPacksSynthesisSourceInventory> => {
-    return applyExclusionsToInventory(
+    return applyInventoryScope(
       { paths: args.paths, samples: args.samples },
-      args.exclusions,
+      {
+        permissibleSources: args.permissibleSources ?? [],
+        impermissibleSources: args.impermissibleSources ?? [],
+      },
     );
   };
 }
@@ -276,9 +280,6 @@ export async function synthesizeAssetPackCandidatesFormal(
           samples: request.inventory.samples,
           permissibleSources: request.steering.permissibleSources ?? [],
           impermissibleSources: request.steering.impermissibleSources,
-          // Dual-read aliases for inventory tool scope.
-          inclusions: request.steering.permissibleSources ?? [],
-          exclusions: request.steering.impermissibleSources,
         });
       }
     } catch {}

@@ -87,7 +87,7 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
     execution,
     resolveSourceCheckoutCatalog(
       execution,
-      input?.sourceCheckoutCatalog ?? input?.inventory,
+      input?.sourceCheckoutCatalog,
     ),
   );
   const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
@@ -101,7 +101,6 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
       need: needText,
       needComprehension,
       sourceCheckoutCatalog: catalogForPrompt,
-      inventory: catalogForPrompt,
       inventoryPaths: catalogForPrompt?.paths ?? sourceCheckoutCatalog?.paths,
       discovery: {
         codebase: findValue(execution, 'discovery', 'codebaseComprehension'),

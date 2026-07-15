@@ -61,16 +61,11 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
   const obfuscations = input?.instructions ?? findValue(execution, 'deposit', 'obfuscations') ?? null;
   const impermissibleSources =
     input?.impermissibleSources ??
-    input?.forcedExclusions ??
     findValue(execution, 'deposit', 'impermissibleSources') ??
-    findValue(execution, 'deposit', 'forcedExclusions') ??
-    findValue(execution, 'deposit', 'protectedIpExclusions') ??
     [];
   const permissibleSources =
     input?.permissibleSources ??
-    input?.forcedInclusions ??
     findValue(execution, 'deposit', 'permissibleSources') ??
-    findValue(execution, 'deposit', 'forcedInclusions') ??
     [];
   const demandContext = input?.demandContext ?? findValue(execution, 'deposit', 'demandContext') ?? [];
 
@@ -88,7 +83,7 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
     execution,
     resolveSourceCheckoutCatalog(
       execution,
-      input?.sourceCheckoutCatalog ?? input?.inventory,
+      input?.sourceCheckoutCatalog,
     ),
   );
   const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
@@ -105,7 +100,6 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
       demandContext,
       // Paths + samples only for PTRR prompts; file bodies on deposit:sourceCheckoutCatalog.
       sourceCheckoutCatalog: catalogForPrompt,
-      inventory: catalogForPrompt,
       inventoryPaths: catalogForPrompt?.paths ?? sourceCheckoutCatalog?.paths,
       excerpts: catalogForPrompt?.samples ?? sourceCheckoutCatalog?.samples,
       obfuscationGuidance,

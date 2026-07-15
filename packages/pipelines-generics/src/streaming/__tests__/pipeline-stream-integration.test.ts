@@ -401,7 +401,7 @@ describe('sourceSafeStreamEvent — non-llm content-bearing stores (deposit inve
     const before = createdEvents.length;
     // Model the deposit preprocess cross-phase stores on the SHARED root
     // (storeCrossPhaseArtifact → root.store): full verbatim inventory.
-    exec.store('deposit', 'inventory', {
+    exec.store('deposit', 'sourceCheckoutCatalog', {
       sources: [{ path: 'src/secret.ts', content: SOURCE_LINE }],
     });
     exec.store('pipeline', 'input', {

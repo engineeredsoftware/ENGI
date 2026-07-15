@@ -48,8 +48,7 @@ export default async function runDepositStoreArtifactsAgent(input: any, executio
     findValue(execution, 'implementation', 'assetPacks') ??
     [];
   const catalog =
-    findValue(execution, 'deposit', 'sourceCheckoutCatalog') ??
-    findValue(execution, 'deposit', 'inventory');
+    findValue(execution, 'deposit', 'sourceCheckoutCatalog');
   const codebase = findValue(execution, 'discovery', 'codebaseComprehension');
   const codebaseAnalysis = findValue(execution, 'discovery', 'codebaseAnalysis');
   const depository = findValue(execution, 'discovery', 'depositorySearch');
@@ -78,12 +77,10 @@ export default async function runDepositStoreArtifactsAgent(input: any, executio
       measurements:
         opt?.measurements && typeof opt.measurements === 'object' && !Array.isArray(opt.measurements)
           ? {
-              absolutes: opt.measurements.absolutes ?? opt?.absolutes ?? [],
+              absolutes: opt.measurements.absolutes ?? [],
               needinesses: [],
             }
-          : { absolutes: opt?.absolutes ?? [], needinesses: [] },
-      /** @deprecated dual-write of measurements.absolutes */
-      absolutes: opt?.absolutes ?? opt?.measurements?.absolutes,
+          : { absolutes: [], needinesses: [] },
       metadata: {
         confidence: opt?.confidence,
         summary: opt?.summary,

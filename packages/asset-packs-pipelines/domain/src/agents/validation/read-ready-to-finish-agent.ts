@@ -118,7 +118,7 @@ export default async function runReadReadyToFinishAgent(input: any, execution: a
   const priorIssues = phaseSanityIssues(execution);
   const catalog = await ensureDepositCheckoutSourceFiles(
     execution,
-    resolveSourceCheckoutCatalog(execution, input?.sourceCheckoutCatalog ?? input?.inventory),
+    resolveSourceCheckoutCatalog(execution, input?.sourceCheckoutCatalog),
   );
   const catalogForPrompt = projectInventoryForPrompt(catalog);
 

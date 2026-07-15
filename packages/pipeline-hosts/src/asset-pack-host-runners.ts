@@ -3,6 +3,7 @@
  * embedded into the Vercel Sandbox host plan.
  */
 
+import { BITCODE_PIPELINE_RESULT_STATES } from '@bitcode/host-generics';
 import {
   EVIDENCE_PATH,
   HOST_RUN_DIRECTORY,
@@ -124,19 +125,11 @@ let buildBtdAssetPackMintReceiptFn = null;
 let buildBtdReadReceiptFn = null;
 let buildBtdRightsTransferReceiptFn = null;
 
+// Injected from @bitcode/host-generics — single vocabulary, no dual-read aliases.
+const PIPELINE_RESULT_STATES = ${JSON.stringify([...BITCODE_PIPELINE_RESULT_STATES])};
+
 function normalizeResultState(candidate) {
-  // Fit states are read/post-read only. Synthesis uses deposit/read candidate states.
-  return [
-    'worthy_fit',
-    'no_worthy_fit',
-    'worthy_deposit_candidates',
-    'no_worthy_deposit_candidates',
-    'worthy_read_candidates',
-    'no_worthy_read_candidates',
-    'blocked_readiness',
-  ].includes(candidate)
-    ? candidate
-    : 'blocked_readiness';
+  return PIPELINE_RESULT_STATES.includes(candidate) ? candidate : 'blocked_readiness';
 }
 
 function requiresPullRequestDelivery(output, input) {

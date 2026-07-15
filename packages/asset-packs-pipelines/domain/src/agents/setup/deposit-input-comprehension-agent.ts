@@ -24,8 +24,6 @@ const InputComprehensionInputSchema = z.object({
   obfuscations: z.string().nullable().optional(),
   repository: z.any().optional(),
   sourceCheckoutCatalog: z.any().optional(),
-  /** @deprecated dual-read alias for sourceCheckoutCatalog */
-  inventory: z.any().optional(),
 });
 
 const ObfuscationGuidanceSchema = z.object({
@@ -126,9 +124,7 @@ export default async function runDepositInputComprehensionAgent(input: any, exec
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
   const catalog =
     input?.sourceCheckoutCatalog ??
-    input?.inventory ??
-    findValue(execution, 'deposit', 'sourceCheckoutCatalog') ??
-    findValue(execution, 'deposit', 'inventory');
+    findValue(execution, 'deposit', 'sourceCheckoutCatalog');
 
   // Empty Obfuscations: no LLM work. Full monorepo catalog + PTRR plan/try
   // against blank text was burning minutes and timing out (90s per call) with
@@ -159,7 +155,6 @@ export default async function runDepositInputComprehensionAgent(input: any, exec
       obfuscations,
       repository,
       sourceCheckoutCatalog: catalogForPrompt,
-      inventory: catalogForPrompt, // dual-write for legacy stream filters
       inventoryPaths: catalogForPrompt?.paths ?? catalog?.paths,
     },
     execution,

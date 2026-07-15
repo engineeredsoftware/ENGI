@@ -14,7 +14,7 @@ import { waitUntil } from '@vercel/functions';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { createStreamingExecution } from '@bitcode/pipelines-generics';
-import { normalizeForcedPathList } from '@bitcode/asset-packs-pipelines-domain/asset-packs-synthesis';
+import { normalizeSourcePathList } from '@bitcode/asset-packs-pipelines-domain/asset-packs-synthesis';
 import { isAssetPackRealInferenceEnabled } from '@bitcode/asset-packs-pipelines-domain/runtime-inference-policy';
 import {
   bitcodeServerTelemetry,
@@ -85,8 +85,8 @@ export async function POST(request: Request) {
 
   // Fire-and-forget orphan sweep (V48-Gate3-F31: waitUntil keeps instance alive).
   waitUntil(sweepOrphanedExecutions(supabaseAdmin).catch(() => {}));
-  const permissibleSources = normalizeForcedPathList(steering.permissibleSourcesRaw);
-  const impermissibleSources = normalizeForcedPathList(steering.impermissibleSourcesRaw);
+  const permissibleSources = normalizeSourcePathList(steering.permissibleSourcesRaw);
+  const impermissibleSources = normalizeSourcePathList(steering.impermissibleSourcesRaw);
 
   const { data: ownedRepository, error: repositoryError } = await supabaseAdmin
     .from('vcs_repositories')

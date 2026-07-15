@@ -11,11 +11,8 @@ export type SynthesizeOptionsBody = {
   obfuscations?: unknown;
   /** Permissible sources roots — when non-empty, inventory is scoped to these paths. */
   permissibleSources?: unknown;
+  /** Impermissible sources — fail-closed exclusion from catalog before prompts/measurement. */
   impermissibleSources?: unknown;
-  /** @deprecated Prefer permissibleSources. Accepted for dual-read. */
-  forcedInclusions?: unknown;
-  /** @deprecated Prefer impermissibleSources. Accepted for dual-read. */
-  forcedExclusions?: unknown;
   demandContext?: unknown;
   depositoryDemandSignals?: unknown;
   readingDemandSignals?: unknown;
@@ -92,12 +89,8 @@ export function parseSynthesizeOptionsSteering(
     sourceBranch: readString(body.sourceBranch),
     sourceCommit: readString(body.sourceCommit),
     obfuscations: readString(body.obfuscations),
-    permissibleSourcesRaw: readStringList(
-      body.permissibleSources ?? body.forcedInclusions,
-    ),
-    impermissibleSourcesRaw: readStringList(
-      body.impermissibleSources ?? body.forcedExclusions,
-    ),
+    permissibleSourcesRaw: readStringList(body.permissibleSources),
+    impermissibleSourcesRaw: readStringList(body.impermissibleSources),
     demandContext: readStringList(body.demandContext),
     depositoryDemandSignals: readSignals(body.depositoryDemandSignals),
     readingDemandSignals: readSignals(body.readingDemandSignals),
