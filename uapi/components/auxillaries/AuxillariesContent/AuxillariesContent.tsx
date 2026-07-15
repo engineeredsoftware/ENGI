@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import {
@@ -15,6 +15,12 @@ import AuxillariesWorkspacePanels from '@/components/auxillaries/shared/Auxillar
 /** Matches marketing landing entranceEase. */
 const AUX_PANE_EASE = [0.16, 1, 0.3, 1] as const;
 
+/**
+ * Last CSS stagger delay (0.17s) + rise duration (0.28s) + buffer.
+ * Keep the enter class mounted through the full cascade, then strip once.
+ */
+const INNER_ENTER_MS = 560;
+
 function prefersReducedMotion(): boolean {
   if (typeof window === 'undefined') return false;
   try {
@@ -22,6 +28,64 @@ function prefersReducedMotion(): boolean {
   } catch {
     return false;
   }
+}
+
+type PaneEnterPhase = 'enter' | 'settled';
+
+/**
+ * Per-pane CSS entrance host. Remounts with the framer pane key so:
+ * 1) enter class always starts on a fresh DOM tree (never skips animation)
+ * 2) after one cascade, `settled` freezes descendants so late Profile/dynamic
+ *    mounts cannot re-fire auxillaries-inner-rise
+ * 3) timer is scoped to this mount only
+ */
+function AuxillariesPaneEnterHost({
+  reduceMotion,
+  children,
+}: {
+  reduceMotion: boolean;
+  children: React.ReactNode;
+}) {
+  const [phase, setPhase] = useState<PaneEnterPhase>(
+    reduceMotion ? 'settled' : 'enter',
+  );
+  const settleTimerRef = useRef<number | null>(null);
+
+  useLayoutEffect(() => {
+    if (reduceMotion) {
+      setPhase('settled');
+      return;
+    }
+
+    // One cascade per host mount. Do not flip enter→settled→enter on cleanup
+    // (Strict Mode); only clear the timer.
+    setPhase('enter');
+    if (settleTimerRef.current != null) {
+      window.clearTimeout(settleTimerRef.current);
+    }
+    settleTimerRef.current = window.setTimeout(() => {
+      setPhase('settled');
+      settleTimerRef.current = null;
+    }, INNER_ENTER_MS);
+
+    return () => {
+      if (settleTimerRef.current != null) {
+        window.clearTimeout(settleTimerRef.current);
+        settleTimerRef.current = null;
+      }
+    };
+  }, [reduceMotion]);
+
+  const enterClass =
+    phase === 'enter'
+      ? 'auxillaries-pane-enter'
+      : 'auxillaries-pane-enter-settled';
+
+  return (
+    <div className={enterClass} data-auxillaries-pane-enter={phase}>
+      {children}
+    </div>
+  );
 }
 
 export interface AuxillariesContentProps {
@@ -80,7 +144,8 @@ function AuxillariesContent(props: AuxillariesContentProps) {
   }, [steps, currentStep, completedSteps]);
 
   // Snappy shell motion — no enter delay; exit faster than enter so the next
-  // pane feels immediate after a tab click.
+  // pane feels immediate after a tab click. Inner CSS stagger is owned by
+  // AuxillariesPaneEnterHost (remounts with the pane key).
   const paneMotion = reduceMotion
     ? {
         initial: false as const,
@@ -94,25 +159,6 @@ function AuxillariesContent(props: AuxillariesContentProps) {
         exit: { opacity: 0, y: -8 },
         transition: { duration: 0.26, ease: AUX_PANE_EASE },
       };
-
-  /**
-   * Inner CSS stagger (auxillaries-pane-enter) only for the brief entrance window.
-   * Leave it mounted and Connect attention will toggle other classes on the same
-   * nodes — which restarts the CSS entrance after the highlight. Strip the class
-   * once the cascade finishes so attention never re-fires entrance.
-   */
-  const [innerEnterActive, setInnerEnterActive] = useState(!reduceMotion);
-
-  useEffect(() => {
-    if (reduceMotion || !currentStep || !showContent) {
-      setInnerEnterActive(false);
-      return;
-    }
-    setInnerEnterActive(true);
-    // Last stagger delay ~0.17s + 0.28s duration ≈ 0.45s; small buffer.
-    const timer = window.setTimeout(() => setInnerEnterActive(false), 520);
-    return () => window.clearTimeout(timer);
-  }, [currentStep, showContent, reduceMotion]);
 
   const ringElements = useMemo(() => {
     if (usesContainedLayout) return null;
@@ -177,7 +223,7 @@ function AuxillariesContent(props: AuxillariesContentProps) {
       <AnimatePresence mode="wait" initial={!reduceMotion}>
         <motion.div
           key={currentStep}
-          className={`orbital-content-container${innerEnterActive ? ' auxillaries-pane-enter' : ''}`}
+          className="orbital-content-container"
           initial={paneMotion.initial}
           animate={paneMotion.animate}
           exit={{
@@ -197,7 +243,9 @@ function AuxillariesContent(props: AuxillariesContentProps) {
                 }
           }
         >
-          {renderStepContent(currentStep)}
+          <AuxillariesPaneEnterHost reduceMotion={reduceMotion}>
+            {renderStepContent(currentStep)}
+          </AuxillariesPaneEnterHost>
         </motion.div>
       </AnimatePresence>
     ) : null;

@@ -4,6 +4,9 @@
  * Profile auxillary pane — email contact, identity metadata, readiness, and
  * organization authority. Stateful form logic lives in hooks/; section UI is
  * co-located under named section directories.
+ *
+ * Layout mirrors Wallet: one space-y-5 stagger list so entrance CSS does not
+ * animate both a parent form and its children (double-entrance on Profile).
  */
 
 import React from 'react';
@@ -66,37 +69,30 @@ export default function AuxillariesProfilePane({
 
   return (
     <div data-testid="profile-step-container">
-      {/* Shell/pane transition owns entrance; keep inner content free of long delays. */}
       <div className="orbital-step-content profile-step">
-        <div className="step-header">
+        {/*
+          Single stagger host (space-y-5), same as Wallet/Interfaces — avoid
+          step-header + step-form nesting that double-applied pane-enter rise.
+        */}
+        <form onSubmit={form.handleSubmit} className="space-y-5">
           <AuxillariesProfilePaneHeader
             isOnboardingComplete={isOnboardingComplete}
             isVerified={form.isVerified}
           />
-        </div>
 
-        <form onSubmit={form.handleSubmit} className="step-form">
-          {!isOnboardingComplete && (
+          {!isOnboardingComplete ? (
             <div
-              className="onboarding-info"
-              style={{
-                background: 'linear-gradient(145deg, rgba(15, 30, 50, 0.7), rgba(10, 20, 35, 0.7))',
-                borderRadius: '16px',
-                padding: '20px',
-                marginBottom: '24px',
-                border: '1px solid rgba(103, 254, 183, 0.22)',
-                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.2)',
-              }}
+              className="onboarding-info rounded-none border border-emerald-300/22 bg-[linear-gradient(145deg,rgba(15,30,50,0.7),rgba(10,20,35,0.7))] px-5 py-5 shadow-[0_8px_25px_rgba(0,0,0,0.2)]"
             >
-              <strong style={{ fontSize: '16px', color: 'rgba(255, 255, 255, 0.95)' }}>
+              <strong className="text-base text-white/95">
                 Step 3: Optional profile
               </strong>
-              <p style={{ margin: '12px 0 0 0', fontSize: '15px', lineHeight: '1.5', color: 'rgba(255, 255, 255, 0.78)' }}>
+              <p className="mt-3 text-[15px] leading-6 text-white/78">
                 Profile only holds email, display identity, organization role, and account metadata.
                 Wallets live in Wallet; GitHub and other providers live in Externals.
               </p>
             </div>
-          )}
+          ) : null}
 
           <ProfileReadinessSection profileState={profileState} />
           <OrganizationAuthoritySection organizationAuthority={organizationAuthority} />
@@ -129,7 +125,7 @@ export default function AuxillariesProfilePane({
             teamMembers={form.teamMembers}
           />
 
-          <div className="mt-5 rounded-none border border-white/10 bg-black/20 px-5 py-4">
+          <div className="rounded-none border border-white/10 bg-black/20 px-5 py-4">
             <p className="text-sm leading-7 text-white/68">
               Profile changes save automatically. Wallet connection and GitHub installation are managed in their own auxillaries.
             </p>
