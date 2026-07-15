@@ -35,7 +35,7 @@ export default function OrganizationTreasuryTab({
           <span>Organization Treasury</span>
         </CardTitle>
         <CardDescription>
-          Treasury posture is wallet-settled in BTC and issued in $BTD. Bitcode does not use Stripe or prepaid checkout units.
+          Treasury posture is wallet-settled in BTC and issued in $BTD.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

@@ -98,9 +98,8 @@ page client → page client; **never** packages → apps.
 
 Login / TPS wallet authorize and Supabase callbacks live under app shells such as
 `/login` and `app/tps/*` — infrastructure for identity, not separate product
-experiences. **TPS is not Stripe:** third-party overlays are wallet OAuth,
-Supabase auth callback, GitHub App install/callback, etc. Settlement money is
-**BTC-testnet**; prepaid Stripe checkout is **not** a V48 product path.
+experiences. TPS holds third-party overlays (wallet OAuth, Supabase auth
+callback, GitHub App install/callback). Settlement money is **BTC-testnet**.
 
 ### 3.3 Commercial loop (website MVP)
 
@@ -215,7 +214,7 @@ source-safety or auth boundaries while they remain in-tree.
 
 - Not the SPEC (no gate acceptance law here).
 - Not a V26 / GA‑1 / “precision instrument” feature catalog (PR automation,
-  design-doc issue bots, Stripe prepaid usage, exponential “network effect”
+  design-doc issue bots, prepaid usage products, exponential “network effect”
   marketing copy, fake latency/SLA tables).
 - Not package domain depth (use FAMILIARIZATION + ASSET_PACKS + package READMEs).
 - Not env/deploy runbooks (use DEPLOYMENT / VERCEL / SUPABASE / CONTRIBUTING).

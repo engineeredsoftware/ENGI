@@ -101,13 +101,11 @@ ANTHROPIC_API_KEY=YOUR_ANTHROPIC_API_KEY
 DEEPSEEK_API_KEY=YOUR_DEEPSEEK_API_KEY
 
 # ============================================
-# SETTLEMENT (V48 — BTC-testnet, NOT Stripe)
+# SETTLEMENT (V48 — BTC-testnet)
 # ============================================
-# Bitcode does not use Stripe checkout, prepaid credits, or fiat subscription
-# products. Settlement money is BTC (testnet4 by default); $BTD is non-fungible
+# Settlement money is BTC (testnet4 by default); $BTD is non-fungible
 # share/read-right language. Configure wallet auth (BITCODE_BITCOIN_OAUTH_*)
 # and NEXT_PUBLIC_BITCODE_BITCOIN_NETWORK=testnet4 — see .env.example.
-# Do not set STRIPE_* for commercial V48.
 
 # ============================================
 # MONITORING & ANALYTICS (OPTIONAL)
@@ -268,10 +266,7 @@ NEXT_PUBLIC_MOCK_GITHUB_COMMITS=false
 - **Description**: DeepSeek API key
 - **Format**: `sk-[alphanumeric]`
 
-### Settlement (V48 — not Stripe)
-
-Bitcode **does not use Stripe**. There is no checkout product, prepaid credit
-bundle, or subscription SKU for commercial V48.
+### Settlement (V48 — BTC-testnet)
 
 | Concern | V48 truth |
 | --- | --- |
@@ -279,9 +274,6 @@ bundle, or subscription SKU for commercial V48.
 | Rights / shares | **$BTD** (non-fungible share / read-right language on the ledger) |
 | Wallet auth | `BITCODE_BITCOIN_OAUTH_*` + wallet authorize under `/tps/wallet/*` |
 | Mainnet value | **Blocked** until future canon admits it |
-
-Do not configure `STRIPE_*` env vars for product deploy. Any legacy DB columns
-or historical placeholders are not the commercial payment path.
 
 ## Third‑Party Service External Settings (Callbacks/Webhooks)
 
@@ -292,9 +284,9 @@ Configure these in provider dashboards. Replace `https://app.example.com` with y
  - Email OTP links use `NEXT_PUBLIC_APP_URL` to construct the above.
  - Supabase Auth → Providers (Google/GitHub): authorized redirect is Supabase’s default `https://<your-supabase-domain>/auth/v1/callback`.
 
-- Bitcoin wallet (TPS — not Stripe)
+- Bitcoin wallet (TPS)
  - Wallet authorize / OAuth return under `/tps/wallet/*` (see `apps/uapi/app/tps/`)
- - Network default: testnet4; no Stripe checkout return URL
+ - Network default: testnet4
 
 - GitHub App (VCS)
  - OAuth callback: `https://app.example.com/api/vcs/github/callback`
@@ -325,10 +317,9 @@ Use this quick checklist when promoting an environment.
  - [ ] UI callback allowed: `https://<app-domain>/tps/supabase/callback`
  - [ ] Providers (Google/GitHub) configured in Supabase; redirect: `https://<supabase-domain>/auth/v1/callback`
 
-- Settlement / wallet (not Stripe)
+- Settlement / wallet
  - [ ] `BITCODE_BITCOIN_OAUTH_*` and `NEXT_PUBLIC_BITCODE_BITCOIN_NETWORK=testnet4` set
  - [ ] Wallet authorize callbacks under `/tps/wallet/*` allow-listed as needed
- - [ ] Confirm **no** Stripe/prepaid credit env required for commercial path
 
 - GitHub App (VCS)
  - [ ] `GITHUB_APP_ID`, `GITHUB_PRIVATE_KEY`, client creds set
@@ -352,7 +343,6 @@ Use this quick checklist when promoting an environment.
 - Former UI alias redirects (for safety)
  - [ ] `/login/callback` → `/tps/supabase/callback`
  - [ ] `/github/callback` → `/tps/github/app-install` (if retained)
- - [ ] Do **not** deploy Stripe checkout aliases — Stripe is not used
 
 ## Deployment Checklist
 
@@ -362,7 +352,7 @@ Use this quick checklist when promoting an environment.
 - [ ] GitHub OAuth App created (for SSO)
 - [ ] GitHub App created (for repo access)
 - [ ] Google OAuth credentials configured
-- [ ] Wallet / BTC-testnet settlement posture configured (no Stripe)
+- [ ] Wallet / BTC-testnet settlement posture configured
 - [ ] Database migrations run
 
 ### Security Verification
@@ -378,7 +368,7 @@ Use this quick checklist when promoting an environment.
 - [ ] Google SSO works
 - [ ] GitHub SSO works
 - [ ] GitHub App installation works
-- [ ] Wallet auth / BTC-testnet settlement path works (no Stripe checkout)
+- [ ] Wallet auth / BTC-testnet settlement path works
 - [ ] GitHub App / provider webhooks are received (if used)
 
 ## Common Issues

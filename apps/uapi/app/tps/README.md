@@ -1,10 +1,8 @@
 # /tps Naming Conventions
 
 Third-party **UI overlays** for external auth and install flows — not product
-experiences and **not payment checkout**.
-
-**V48 settlement is BTC-testnet via wallet + BTD rights. Stripe is not used.**
-Do not add `/tps/stripe/*` or prepaid credit surfaces.
+experiences. Settlement money is **BTC-testnet** via wallet + BTD rights
+(see Auxillaries / wallet authorize).
 
 - All third-party UI pages live under `/tps/[service]/...`.
 - Prefer explicit service names (e.g., `supabase`, `github`, `twilio`, `wallet`).
