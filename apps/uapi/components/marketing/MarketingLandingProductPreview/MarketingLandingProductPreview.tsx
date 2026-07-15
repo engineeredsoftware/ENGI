@@ -459,7 +459,7 @@ export const MarketingLandingProductPreview = memo(function MarketingLandingProd
                   {BITCODE_PUBLIC_COPY.sourceToSettlement.subtitle}
                 </p>
                 <p className="mt-3 text-[14px] leading-6 text-emerald-100/72">
-                  Commits, citations, authorship, and metadata stay attached as deposit-side context for later proof and settlement.
+                  Obfuscated data material is measured, at deposit-time and read-time, to synthesize AssetPacks.
                 </p>
                 <div className="mt-4 rounded-none border border-emerald-300/12 bg-emerald-400/6 p-3">
                   <div className="grid gap-3">
