@@ -128,6 +128,9 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       meta: 'Pack activity',
       href: PACKS_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.network,
+      hoverClassName:
+        'hover:border-emerald-300/30 hover:bg-emerald-400/[0.08] hover:text-emerald-50 dark:hover:text-emerald-100',
+      labelHoverClassName: 'hover:text-emerald-100',
       icon: (
         <span
           className="inline-flex items-center justify-center"
@@ -159,17 +162,20 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       meta: 'Depositing flow',
       href: DEPOSIT_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.deposit,
+      hoverClassName:
+        'hover:border-fuchsia-300/30 hover:bg-fuchsia-400/[0.08] hover:text-fuchsia-50 dark:hover:text-fuchsia-100',
+      labelHoverClassName: 'hover:text-fuchsia-100',
       icon: (
         <span
           className="inline-flex items-center justify-center"
           style={{
-            filter: 'drop-shadow(0 0 6px rgba(16,185,129,0.66)) drop-shadow(0 0 15px rgba(16,185,129,0.33))',
+            filter: 'drop-shadow(0 0 6px rgba(232,121,249,0.7)) drop-shadow(0 0 15px rgba(192,132,252,0.35))',
           }}
         >
           <svg
             viewBox="0 0 24 24"
             aria-hidden="true"
-            className="h-[15px] w-[15px] text-emerald-300"
+            className="h-[15px] w-[15px] text-fuchsia-300"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.7"
@@ -189,17 +195,20 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       meta: 'Reading flow',
       href: READ_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.read,
+      hoverClassName:
+        'hover:border-orange-300/30 hover:bg-orange-400/[0.08] hover:text-orange-50 dark:hover:text-orange-100',
+      labelHoverClassName: 'hover:text-orange-100',
       icon: (
         <span
           className="inline-flex items-center justify-center"
           style={{
-            filter: 'drop-shadow(0 0 6px rgba(56,189,248,0.66)) drop-shadow(0 0 15px rgba(56,189,248,0.33))',
+            filter: 'drop-shadow(0 0 6px rgba(251,146,60,0.7)) drop-shadow(0 0 15px rgba(251,191,36,0.35))',
           }}
         >
           <svg
             viewBox="0 0 24 24"
             aria-hidden="true"
-            className="h-[15px] w-[15px] text-sky-300"
+            className="h-[15px] w-[15px] text-orange-300"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.7"
@@ -220,17 +229,21 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       meta: 'Docs hub',
       href: DEFAULT_OPERATOR_GUIDE_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.docs,
+      // White tone needs higher border opacity than color accents or it vanishes on the dark card.
+      hoverClassName:
+        'hover:border-white/55 hover:bg-white/[0.1] hover:text-white dark:hover:text-white hover:shadow-[0_0_0_1px_rgba(255,255,255,0.14),0_0_22px_rgba(255,255,255,0.08)]',
+      labelHoverClassName: 'hover:text-white',
       icon: (
         <span
           className="inline-flex items-center justify-center"
           style={{
-            filter: 'drop-shadow(0 0 6px rgba(251,146,60,0.66)) drop-shadow(0 0 15px rgba(251,146,60,0.33))',
+            filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.65)) drop-shadow(0 0 15px rgba(255,255,255,0.32))',
           }}
         >
           <svg
             viewBox="0 0 24 24"
             aria-hidden="true"
-            className="h-[15px] w-[15px] text-orange-300"
+            className="h-[15px] w-[15px] text-white"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.7"
@@ -248,6 +261,9 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       label: BITCODE_PUBLIC_COPY.footer.links.github,
       meta: 'GitHub',
       href: BITCODE_REPOSITORY_URL,
+      hoverClassName:
+        'hover:border-slate-300/25 hover:bg-slate-400/[0.08] hover:text-slate-100 dark:hover:text-slate-100',
+      labelHoverClassName: 'hover:text-slate-100',
       icon: (
         <span
           className="inline-flex items-center justify-center"
@@ -297,7 +313,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                             </>
                           ) : (
                             <>
-                              <span className="flask-icon [filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]" style={{ display: 'inline-block', transform: 'scaleX(-1)' }}>🧪</span>
+                              <span className="flask-icon inline-block [filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]">🧪</span>
                               <span className="relative inline-block">
                                 <span className="relative z-10 bitcode-text">{step}</span>
                                 <span className="absolute left-0 top-0 z-0 bitcode-text-glow">{step}</span>
@@ -414,6 +430,8 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                     />
                   ) : null;
 
+                  const cardClassName = `group inline-flex min-h-[4.25rem] w-full items-start gap-3 rounded-none border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors dark:text-gray-400 ${social.hoverClassName}`;
+
                   return isExternalHref(social.href) ? (
                     <a
                       key={social.ariaLabel}
@@ -421,7 +439,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={social.ariaLabel}
-                      className="group inline-flex min-h-[4.25rem] w-full items-start gap-3 rounded-none border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
+                      className={cardClassName}
                     >
                       {social.icon}
                       <span className="flex min-w-0 flex-1 flex-col">
@@ -459,7 +477,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   ) : (
                     <span
                       key={social.ariaLabel}
-                      className="group inline-flex min-h-[4.25rem] w-full items-start gap-3 rounded-none border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors hover:border-emerald-300/20 hover:bg-emerald-400/[0.06] hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300"
+                      className={cardClassName}
                     >
                       {social.icon}
                       <span className="flex min-w-0 flex-1 flex-col">
@@ -467,7 +485,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                           <Link
                             href={social.href}
                             aria-label={social.ariaLabel}
-                            className="min-w-0 whitespace-nowrap transition-colors hover:text-emerald-100"
+                            className={`min-w-0 whitespace-nowrap transition-colors ${social.labelHoverClassName}`}
                           >
                             {social.label}
                           </Link>
@@ -495,10 +513,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
               <div className="flex w-full flex-col gap-3">
                 <div className="flex w-full items-center justify-between gap-4">
                   <span className="flex min-w-0 items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span
-                      className="shrink-0 [filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]"
-                      style={{ display: 'inline-block', transform: 'scaleX(-1)' }}
-                    >
+                    <span className="inline-block shrink-0 [filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]">
                       🧪
                     </span>
                     <span className="min-w-0">
