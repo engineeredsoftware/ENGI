@@ -11,6 +11,11 @@ interface GlowLayerProps {
   speed: number;
   state: QuantumOrbState;
   isAnimating?: boolean;
+  /**
+   * When true (telemetry-sized orbs), fill more of the square: tighter pad and
+   * lighter blur so the core is not a tiny blob in a large frame.
+   */
+  compact?: boolean;
 }
 
 export function GlowLayer({
@@ -19,6 +24,7 @@ export function GlowLayer({
   speed,
   state,
   isAnimating = true,
+  compact = false,
 }: GlowLayerProps) {
   // Calculate blur based on state
   // Lower blur radii during the heaviest ("active") phase – GPU samples on
@@ -26,6 +32,16 @@ export function GlowLayer({
   // is negligible once the orb brightens.  This tiny tweak shaves a few ms of
   // paint time on mid-range laptops without impacting perceived quality.
   const getBlur = () => {
+    if (compact) {
+      switch (state) {
+        case 'rest':
+          return '2px';
+        case 'hover':
+          return '1.5px';
+        case 'active':
+          return '1px';
+      }
+    }
     switch (state) {
       case 'rest':
         return '8px';
@@ -40,7 +56,7 @@ export function GlowLayer({
     <div className="glow-layer" style={{
       position: 'absolute',
       inset: 0,
-      padding: '8%',
+      padding: compact ? '2%' : '8%',
       willChange: 'transform',
       transform: 'translateZ(0)'
     }}>

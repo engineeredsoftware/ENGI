@@ -302,6 +302,26 @@ function QuantumOrb({
 
   const stateProps = getStateProperties();
 
+  // Geometry scales with `size`. Fixed-pixel outer frames (-10 / -15) dominate
+  // at telemetry sizes (e.g. 24px) and leave a tiny core with huge whitespace;
+  // large marketing/landing sizes keep the original visual ratio.
+  const isCompactTelemetrySize = size < 48;
+  const coreInset = isCompactTelemetrySize ? '2%' : '8%';
+  const coreBlurPx = isCompactTelemetrySize ? 0.5 : 2;
+  const outerGlowInsetPx = isCompactTelemetrySize
+    ? -Math.max(2, Math.round(size * 0.12))
+    : -10;
+  const activeFrameInsetPx = isCompactTelemetrySize
+    ? -Math.max(3, Math.round(size * 0.14))
+    : -15;
+  const outerGlowBlurPx = isCompactTelemetrySize
+    ? state === 'active'
+      ? 2
+      : 3
+    : state === 'active'
+      ? 4
+      : 6;
+
   // Skip heavy visual layers when animations disabled
   // (already computed earlier to feed the rAF loop)
 
@@ -362,11 +382,11 @@ function QuantumOrb({
             className="quantum-orb-transparent-backdrop"
             style={{
               position: 'absolute',
-              inset: '8%',
+              inset: coreInset,
               borderRadius: 0,
               background: `radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.18) 46%, ${orbConfig.glowColor}22 72%, transparent 88%)`,
               opacity: state === 'active' ? 0.95 : 0.8,
-              filter: 'blur(2px)',
+              filter: `blur(${coreBlurPx}px)`,
               willChange: 'transform, opacity',
               transform: 'translateZ(0)',
               backfaceVisibility: 'hidden',
@@ -420,6 +440,7 @@ function QuantumOrb({
                 speed={stateProps.particleSpeed * qualityMultiplier}
                 state={state}
                 isAnimating={isAnimating}
+                compact={isCompactTelemetrySize}
               />
             )}
 
@@ -437,15 +458,15 @@ function QuantumOrb({
         )}
       </div>
 
-      {/* Outer glow — soft falloff, square footprint. */}
+      {/* Outer glow — soft falloff, square footprint (inset scales with size). */}
       <motion.div
         className="quantum-orb-outer-glow"
         style={{
           position: 'absolute',
-          inset: -10,
+          inset: outerGlowInsetPx,
           borderRadius: 0,
           background: `radial-gradient(circle at 50% 50%, ${orbConfig.glowColor}33 0%, transparent 70%)`,
-          filter: `blur(${state === 'active' ? 4 : 6}px)`,
+          filter: `blur(${outerGlowBlurPx}px)`,
           opacity: stateProps.glowOpacity,
           willChange: 'transform, opacity, background',
           transform: 'translateZ(0)',
@@ -507,7 +528,7 @@ function QuantumOrb({
         }}
       />
 
-      {/* Active indicator — square frame */}
+      {/* Active indicator — square frame (inset scales with size). */}
       <AnimatePresence>
         {state === 'active' && (
           <motion.div
@@ -517,10 +538,10 @@ function QuantumOrb({
             className="quantum-orb-active-indicator"
             style={{
               position: 'absolute',
-              inset: -15,
+              inset: activeFrameInsetPx,
               borderRadius: 0,
               border: `1px solid ${orbConfig.glowColor}33`,
-              boxShadow: `0 0 15px ${orbConfig.glowColor}33`,
+              boxShadow: `0 0 ${isCompactTelemetrySize ? 6 : 15}px ${orbConfig.glowColor}33`,
               zIndex: -1,
             }}
           />
