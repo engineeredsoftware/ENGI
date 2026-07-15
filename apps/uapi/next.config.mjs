@@ -69,19 +69,6 @@ let nextConfig = {
   // cannot leak between lanes.
   distDir: process.env.NEXT_DIST_DIR || '.next',
   productionBrowserSourceMaps: false,
-  // Keep retired demonstration/spec fixtures out of serverless traces.
-  // (Next does not honor vercel.json excludeFiles for App Router functions.)
-  outputFileTracingExcludes: {
-    '*': [
-      '**/protocol-demonstration/**',
-      '**/v23-bitcoin-demonstration-service.*',
-      '**/bitcode-demo.js',
-      '**/ai-reading-demonstration/**',
-      '**/.proofs/**',
-      '**/storybook-static/**',
-      '**/tmp/**',
-    ],
-  },
   experimental: {
     // Allow importing source files from outside the `uapi` package directory.
     externalDir: true,
@@ -94,6 +81,20 @@ let nextConfig = {
       '@workflow/serde',
       '@vercel/oidc',
     ],
+    // Next 14.x: tracing excludes live under experimental (stable top-level
+    // only in later majors). Keep retired demo/spec fixtures out of serverless
+    // traces so product APIs do not re-inflate after demonstration removal.
+    outputFileTracingExcludes: {
+      '*': [
+        '**/protocol-demonstration/**',
+        '**/v23-bitcoin-demonstration-service.*',
+        '**/bitcode-demo.js',
+        '**/ai-reading-demonstration/**',
+        '**/.proofs/**',
+        '**/storybook-static/**',
+        '**/tmp/**',
+      ],
+    },
   },
   // Transpile workspace packages that the Next app imports directly or
   // transitively so webpack/SWC can handle TS/ESM + monorepo paths.
