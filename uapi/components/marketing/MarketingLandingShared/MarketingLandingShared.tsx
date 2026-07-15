@@ -235,7 +235,7 @@ export const verifiedAccessOrbConfig = {
 export const headlineText = BITCODE_PUBLIC_COPY.headline;
 export const heroHighlightClass = 'super-shiny-text special-text text-[rgba(103,254,183,0.95)]';
 export const headlineHighlights = [
-  { text: 'trade technical knowledge', className: heroHighlightClass },
+  { text: 'Trade technical data', className: heroHighlightClass },
   { text: 'Bitcode', className: `${heroHighlightClass} font-semibold text-white` },
 ] as const;
 

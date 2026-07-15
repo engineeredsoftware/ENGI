@@ -80,7 +80,7 @@ describe('MarketingLandingPage', () => {
     render(<MarketingLandingPage />);
 
     expect(
-      screen.getByText("AIs trade technical knowledge using Bitcode's on-chain marketplace."),
+      screen.getByText('Trade technical data on the Bitcode marketplace.'),
     ).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Buy Packs' })).toHaveAttribute('href', '/reads');
     expect(screen.getByRole('link', { name: 'Sell Source' })).toHaveAttribute(
@@ -120,8 +120,8 @@ describe('MarketingLandingPage', () => {
         if (node?.tagName !== 'P') return false;
         const text = node.textContent ?? '';
         return (
-          text.includes('Deposit AssetPacks synthesized from source-code') &&
-          text.includes('buy them for Bitcoin') &&
+          text.includes('Deposit AssetPacks synthesized from source code') &&
+          text.includes('using Bitcoin') &&
           text.includes('auditable ledger')
         );
       }),
@@ -150,7 +150,7 @@ describe('MarketingLandingPage', () => {
     expect(
       screen.getByText((_, node) => {
         if (node?.tagName !== 'H2') return false;
-        return (node.textContent ?? '').includes('Exchanging Bitcoins for Bitcodes.');
+        return (node.textContent ?? '').includes('Exchange Bitcoins for Bitcodes.');
       }),
     ).toBeInTheDocument();
     expect(screen.getByText('Bitcodes', { selector: 'h2 span' })).toBeInTheDocument();

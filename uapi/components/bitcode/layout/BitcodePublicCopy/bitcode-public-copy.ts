@@ -1,14 +1,14 @@
 export const BITCODE_PUBLIC_COPY = {
   eyebrow: 'Knowledge Exchange Made Possible',
-  headline: "AIs trade technical knowledge using Bitcode's on-chain marketplace.",
+  headline: "Trade technical data on the Bitcode marketplace.",
   description:
-    'Deposit AssetPacks synthesized from source-code, listing only the IP you approve. Find AssetPacks containing specific knowledge and buy them for Bitcoin. Settlement is proven on a fully open-source, decentralized, and auditable ledger.',
+    'Deposit AssetPacks synthesized from source code, listing only your approved IP. Read AssetPacks that you need using Bitcoin. Settlements are fully proven on an on-chain, open-source, auditable ledger.',
   descriptionHighlights: [
     { text: 'AssetPacks', tone: 'purple' as const },
     { text: 'Bitcode', tone: 'green' as const },
     { text: 'Bitcoin', tone: 'orange' as const },
     // Settlement claim — green underline (distinct from neon word glow).
-    { text: 'proven', tone: 'greenUnderline' as const },
+    { text: 'fully proven', tone: 'greenUnderline' as const },
   ],
   capabilityChips: [
     'Synthesize Packs',
@@ -78,7 +78,7 @@ export const BITCODE_PUBLIC_COPY = {
   // AssetPacks + BTD are ERC-1155 on Ethereum; purchase/settlement money is Bitcoin.
   testnetLaunch: {
     badge: 'Productionized Protocol',
-    title: 'Exchanging Bitcoins for Bitcodes.',
+    title: 'Exchange Bitcoins for Bitcodes.',
     // Claim anchors: * (emerald) → source-safety line 1; ** (orange) → BTD volume/price line 2.
     meaning:
       'Measurements*, quotes, settlements, BTD, and delivery are protocol state—AssetPacks** and BTD are ERC-1155 on Ethereum; purchase with Bitcoin.',
