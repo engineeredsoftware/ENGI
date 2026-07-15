@@ -984,7 +984,7 @@
         "packages/security/README.md",
         "packages/auth/README.md",
         "packages/btd/README.md",
-        "apps/uapi/.docs/AGENTS.md"
+        ".docs/AGENTS.md"
       ],
       "linkedSpecSections": [
         "Identity, authorization, and sensitive flow",
@@ -1044,7 +1044,7 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/.docs/AGENTS.md",
+          "sourceRoot": ".docs/AGENTS.md",
           "present": true
         }
       ],
@@ -1367,7 +1367,7 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/.docs/AGENTS.md",
+          "sourceRoot": ".docs/AGENTS.md",
           "present": true
         }
       ]

@@ -323,7 +323,7 @@ export async function performanceTestExample() {
  */
 export async function migrateFromFixtures() {
   // Read existing fixture
-  const existingFixture = await import('./old-.fixtures/user.fixture.json');
+  const existingFixture = await import('./old-fixtures/user.fixture.json');
   
   // Create TestPart from fixture
   const userPart = createTestPart(existingFixture.default);
