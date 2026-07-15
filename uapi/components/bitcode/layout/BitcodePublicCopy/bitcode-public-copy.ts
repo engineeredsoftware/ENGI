@@ -94,7 +94,7 @@ export const BITCODE_PUBLIC_COPY = {
         href: '/docs',
         status: 'live' as const,
         detail:
-          "Bitcode's API is consumable virtually everywhere, whether it be via scripting or within your own applications. Most core experiences are supported with more on the way.",
+          "Bitcode's API is consumable virtually everywhere, whether it be via scripting or within your own applications. Most core experiences are supported.",
       },
       {
         id: 'extensions',
@@ -110,8 +110,8 @@ export const BITCODE_PUBLIC_COPY = {
   },
   operatorFrame: {
     title: 'Marketplace',
-    subtitle: 'sell supply · buy against Need · settle with proof',
-    badge: 'AssetPacks',
+    subtitle: 'Sell Supplies * Buys Reads * Settle Proofs',
+    badge: 'Packs',
     modes: ['Packs', 'Deposit', 'Read', 'Proofs'],
   },
   giveContribution: {
@@ -120,15 +120,8 @@ export const BITCODE_PUBLIC_COPY = {
   sourceToSettlement: {
     title: 'Source to Delivery',
     subtitle: 'Seller → Deposits → Buyer → Fits → Settle',
-    badge: 'Stages',
-    stages: [
-      { number: '01', stage: 'deposit' },
-      { number: '02', stage: 'read' },
-      { number: '03', stage: 'fit' },
-      { number: '04', stage: 'prove' },
-      { number: '05', stage: 'settle' },
-      { number: '06', stage: 'Deliver' },
-    ],
+    badge: 'Steps',
+    stages: ['Deposit', 'Measure', 'Approve', 'Read', 'Fit', 'Settle'] as const,
   },
   // Bottom-right depot card — fills residual height beside Verified access.
   settlementLedger: {
