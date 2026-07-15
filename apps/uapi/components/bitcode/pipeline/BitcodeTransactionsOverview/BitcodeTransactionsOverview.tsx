@@ -43,7 +43,11 @@ function shouldReduceMotion(prefersReduced: boolean | null): boolean {
   return false;
 }
 
-/** Value slot: fixed-height pulse or opacity-only number — never changes chip y. */
+/** Shared value box — same width pending/ready so chip row never x-jitters. */
+const OVERVIEW_VALUE_CLASS =
+  'inline-block w-[2.75rem] text-right leading-none tabular-nums text-neutral-100';
+
+/** Value slot: fixed-size pulse or opacity-only number — never reflows x or y. */
 function OverviewStatValue({
   ready,
   reduceMotion,
@@ -53,21 +57,20 @@ function OverviewStatValue({
   reduceMotion: boolean;
   children: React.ReactNode;
 }) {
-  // Fixed min width so 0 → 13 does not reflow the chip row y (or wrap).
   if (!ready) {
     return (
       <span
-        className="inline-block h-2.5 w-5 shrink-0 bg-white/[0.12] motion-safe:animate-pulse"
+        className="inline-block h-2.5 w-[2.75rem] shrink-0 bg-white/[0.12] motion-safe:animate-pulse"
         aria-hidden="true"
       />
     );
   }
   if (reduceMotion) {
-    return <span className="inline-block min-w-[1.25rem] leading-none text-neutral-100">{children}</span>;
+    return <span className={OVERVIEW_VALUE_CLASS}>{children}</span>;
   }
   return (
     <motion.span
-      className="inline-block min-w-[1.25rem] leading-none text-neutral-100"
+      className={OVERVIEW_VALUE_CLASS}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.42, ease: productEntranceEase }}

@@ -454,6 +454,14 @@ nextjs-portal {
     @apply border-border;
   }
 
+  /*
+   * Reserve vertical scrollbar gutter so product tables/chips do not get a
+   * tiny x-wise jump when content loads and the page scrollbar appears.
+   */
+  html {
+    scrollbar-gutter: stable;
+  }
+
   body {
     @apply bg-background text-foreground;
   }

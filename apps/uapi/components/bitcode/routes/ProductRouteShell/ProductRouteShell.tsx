@@ -186,19 +186,21 @@ function ProductRouteMetricChips({
 }) {
   const reduceMotion = shouldReduceMetricMotion(useReducedMotion());
 
+  // Fixed value box (pending + ready) so chip row width never reflows on load.
+  const valueClass =
+    "inline-block w-[5.5rem] truncate text-right text-[0.7rem] font-semibold leading-none tabular-nums text-white";
+
   const chips = metrics.map((metric) => {
     const valueSlot = !ready ? (
       <span
-        className="inline-block h-2.5 w-6 shrink-0 bg-white/[0.12] motion-safe:animate-pulse"
+        className="inline-block h-2.5 w-[5.5rem] shrink-0 bg-white/[0.12] motion-safe:animate-pulse"
         aria-hidden="true"
       />
     ) : reduceMotion ? (
-      <span className="max-w-[9rem] truncate text-[0.7rem] font-semibold leading-none text-white phone:max-w-none">
-        {metric.value}
-      </span>
+      <span className={valueClass}>{metric.value}</span>
     ) : (
       <motion.span
-        className="max-w-[9rem] truncate text-[0.7rem] font-semibold leading-none text-white phone:max-w-none"
+        className={valueClass}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.42, ease: productEntranceEase }}
@@ -211,7 +213,9 @@ function ProductRouteMetricChips({
     const chipBody = (
       <>
         <dt className="leading-none text-neutral-500">{metric.label}</dt>
-        <dd className="flex min-w-0 items-center">{valueSlot}</dd>
+        <dd className="flex w-[5.5rem] shrink-0 items-center justify-end">
+          {valueSlot}
+        </dd>
       </>
     );
     return metric.description ? (
@@ -282,11 +286,12 @@ export function ProductRouteShell({
             <h1 className="min-w-0 shrink-0 text-lg font-semibold tracking-tight text-white phone:text-xl tablet:text-2xl">
               {title}
             </h1>
-            <div className="min-w-0 flex-1 overflow-x-auto">
+            <div className="min-w-0 flex-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <ProductRouteMetricChips metrics={metrics} ready={metricsReady} />
             </div>
           </div>
-          <p className="line-clamp-3 max-w-3xl text-xs leading-5 text-neutral-400 phone:line-clamp-2 tablet:text-sm">
+          {/* Full-width one-liner from tablet up; may wrap only on small widths. */}
+          <p className="w-full min-w-0 text-xs leading-5 text-neutral-400 tablet:truncate tablet:whitespace-nowrap tablet:text-sm">
             {summary}
           </p>
         </ProductEntranceItem>
