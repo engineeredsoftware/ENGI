@@ -120,9 +120,9 @@ describe('MarketingLandingPage', () => {
         if (node?.tagName !== 'P') return false;
         const text = node.textContent ?? '';
         return (
-          text.includes('Deposit AssetPacks built from source-code') &&
-          text.includes('Buy them with Bitcoin') &&
-          text.includes('fully auditable ledger')
+          text.includes('Deposit AssetPacks synthesized from source-code') &&
+          text.includes('buy them with Bitcoin') &&
+          text.includes('auditable ledger')
         );
       }),
     ).toBeInTheDocument();
