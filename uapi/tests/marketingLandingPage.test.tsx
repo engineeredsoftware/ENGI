@@ -122,7 +122,8 @@ describe('MarketingLandingPage', () => {
         return (
           text.includes('Deposit AssetPacks synthesized from source code') &&
           text.includes('using Bitcoin') &&
-          text.includes('auditable ledger')
+          text.includes('completely auditable') &&
+          text.includes('verifiable ledger')
         );
       }),
     ).toBeInTheDocument();

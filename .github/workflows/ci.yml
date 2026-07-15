@@ -56,7 +56,9 @@ jobs:
 
       - name: Dependency audit advisory report
         continue-on-error: true
-        run: pnpm -C uapi audit --audit-level=moderate
+        # npm retired the legacy audit endpoints (HTTP 410). Ignore registry
+        # transport failures so CI does not red on npm outage/deprecation.
+        run: pnpm -C uapi audit --audit-level=moderate --ignore-registry-errors
 
       - name: Build Next.js application
         run: pnpm -C uapi run build
