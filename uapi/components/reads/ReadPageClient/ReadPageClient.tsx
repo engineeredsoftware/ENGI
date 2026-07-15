@@ -20,6 +20,7 @@ import { useReadActivityRecording } from "./hooks/use-read-activity-recording";
 import { useReadOptionSynthesis } from "./hooks/use-read-option-synthesis";
 
 import { ProductRouteShell } from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";
+import { ProductDetailStage } from "@/components/bitcode/routes/ProductRouteEntrance/ProductRouteEntrance";
 import DepositSourceSelection from "@/components/deposits/DepositSourceSelection/DepositSourceSelection";
 import { deriveRepositoryAnchors } from "@/components/deposits/models/deposit-activity-ledger";
 import { ReadsNeedComposePanel } from "@/components/reads/ReadsNeedComposePanel/ReadsNeedComposePanel";
@@ -277,100 +278,106 @@ export default function ReadPageClient() {
           runsError={runsLoadError}
         />
 
-        {isReadDetailOpen ? (
-          <section
-            className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]"
-            data-testid="reads-run-configuration"
-            data-compose={isComposeOpen ? "true" : "false"}
-            data-locked={isConfigLocked ? "true" : "false"}
-          >
-            <div className="grid min-w-0 gap-5">
-              <div className="grid gap-5 xl:grid-cols-2">
-                <div id="reads-section-source" className="min-w-0">
-                  <DepositSourceSelection
-                    preferredRepository={selectedRun?.repository || null}
-                    onContextChange={setRepositoryContext}
-                    onRecordActivity={handleRecordActivity}
-                    routePath={READS_ROUTE}
-                    buildRouteHref={buildReadsHref}
-                    repositoryAnchors={repositoryAnchors}
-                    disabled={isConfigLocked}
-                    heading="Select the repository you are reading"
-                    description="One connected repository, branch, and commit form the source package measured against your Need."
-                    descriptionLocked="Source package for this read run — locked while reviewing run detail."
-                    ariaLabel="Repository source selector"
-                  />
-                </div>
-                <ReadsNeedComposePanel
-                  need={need}
-                  onNeedChange={setNeed}
-                  relevantPaths={relevantPaths}
-                  onRelevantPathsChange={setRelevantPaths}
-                  irrelevantPaths={irrelevantPaths}
-                  onIrrelevantPathsChange={setIrrelevantPaths}
-                  repositoryContext={repositoryContext}
-                  status={synthesis.status}
-                  error={synthesis.error}
-                  runId={synthesis.runId}
-                  onSynthesize={() => void synthesis.synthesize()}
-                  canSynthesize={Boolean(
-                    repositoryContext?.selectedRepository?.fullName &&
-                      repositoryContext?.selectedCommit,
-                  )}
-                  isConfigLocked={isConfigLocked}
+        <ProductDetailStage
+          open={isReadDetailOpen}
+          stageKey={
+            isComposeOpen
+              ? "reads-compose"
+              : selectedPipelineRunId || "reads-detail"
+          }
+          testId="reads-run-configuration"
+          className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]"
+          dataAttrs={{
+            "data-compose": isComposeOpen ? "true" : "false",
+            "data-locked": isConfigLocked ? "true" : "false",
+          }}
+        >
+          <div className="grid min-w-0 gap-5">
+            <div className="grid gap-5 xl:grid-cols-2">
+              <div id="reads-section-source" className="min-w-0">
+                <DepositSourceSelection
+                  preferredRepository={selectedRun?.repository || null}
+                  onContextChange={setRepositoryContext}
+                  onRecordActivity={handleRecordActivity}
+                  routePath={READS_ROUTE}
+                  buildRouteHref={buildReadsHref}
+                  repositoryAnchors={repositoryAnchors}
+                  disabled={isConfigLocked}
+                  heading="Select the repository you are reading"
+                  description="One connected repository, branch, and commit form the source package measured against your Need."
+                  descriptionLocked="Source package for this read run — locked while reviewing run detail."
+                  ariaLabel="Repository source selector"
                 />
               </div>
-
-              {selectedPipelineRunId ? (
-                <ReadsPipelineTelemetry
-                  selectedRun={selectedRun}
-                  selectedPipelineRunId={selectedPipelineRunId}
-                  readRunActivity={telemetry.readRunActivity}
-                  readRunIsProcessing={
-                    telemetry.readRunIsProcessing ||
-                    synthesis.status === "running"
-                  }
-                  readRunMode={telemetry.readRunMode || "read"}
-                  readRunTelemetryError={
-                    telemetry.readRunTelemetryError || synthesis.error
-                  }
-                  readRunStartMs={telemetry.readRunStartMs}
-                  readRunEndMs={telemetry.readRunEndMs}
-                  readRunEvents={telemetry.readRunEvents}
-                  readLogScrolled={telemetry.readLogScrolled}
-                  setReadLogScrolled={telemetry.setReadLogScrolled}
-                  onDismissError={() =>
-                    telemetry.setDismissedTelemetryErrorRunId(
-                      selectedPipelineRunId,
-                    )
-                  }
-                  onRefresh={() => {
-                    void refreshLiveRuns();
-                  }}
-                  selectedRunPacks={telemetry.selectedRunPacks}
-                />
-              ) : null}
-
-              <ReadsAssetPackOptions
-                options={synthesis.options}
-                envelope={synthesis.envelope}
-                selectedIndexes={synthesis.selectedIndexes}
-                onToggleSelect={synthesis.toggleSelect}
-                onSettleSelected={() => void handleSettleSelected()}
-                settleBusy={settleBusy}
-                settleError={settleError}
-                settleMessage={settleMessage}
+              <ReadsNeedComposePanel
+                need={need}
+                onNeedChange={setNeed}
+                relevantPaths={relevantPaths}
+                onRelevantPathsChange={setRelevantPaths}
+                irrelevantPaths={irrelevantPaths}
+                onIrrelevantPathsChange={setIrrelevantPaths}
+                repositoryContext={repositoryContext}
+                status={synthesis.status}
+                error={synthesis.error}
+                runId={synthesis.runId}
+                onSynthesize={() => void synthesis.synthesize()}
+                canSynthesize={Boolean(
+                  repositoryContext?.selectedRepository?.fullName &&
+                    repositoryContext?.selectedCommit,
+                )}
+                isConfigLocked={isConfigLocked}
               />
             </div>
 
-            <ReadsRouteStateAside
-              readRouteSession={readRouteSession}
-              sessionRows={sessionRows}
-              authorityRows={authorityRows}
-              procurementRows={procurementRows}
+            {selectedPipelineRunId ? (
+              <ReadsPipelineTelemetry
+                selectedRun={selectedRun}
+                selectedPipelineRunId={selectedPipelineRunId}
+                readRunActivity={telemetry.readRunActivity}
+                readRunIsProcessing={
+                  telemetry.readRunIsProcessing ||
+                  synthesis.status === "running"
+                }
+                readRunMode={telemetry.readRunMode || "read"}
+                readRunTelemetryError={
+                  telemetry.readRunTelemetryError || synthesis.error
+                }
+                readRunStartMs={telemetry.readRunStartMs}
+                readRunEndMs={telemetry.readRunEndMs}
+                readRunEvents={telemetry.readRunEvents}
+                readLogScrolled={telemetry.readLogScrolled}
+                setReadLogScrolled={telemetry.setReadLogScrolled}
+                onDismissError={() =>
+                  telemetry.setDismissedTelemetryErrorRunId(
+                    selectedPipelineRunId,
+                  )
+                }
+                onRefresh={() => {
+                  void refreshLiveRuns();
+                }}
+                selectedRunPacks={telemetry.selectedRunPacks}
+              />
+            ) : null}
+
+            <ReadsAssetPackOptions
+              options={synthesis.options}
+              envelope={synthesis.envelope}
+              selectedIndexes={synthesis.selectedIndexes}
+              onToggleSelect={synthesis.toggleSelect}
+              onSettleSelected={() => void handleSettleSelected()}
+              settleBusy={settleBusy}
+              settleError={settleError}
+              settleMessage={settleMessage}
             />
-          </section>
-        ) : null}
+          </div>
+
+          <ReadsRouteStateAside
+            readRouteSession={readRouteSession}
+            sessionRows={sessionRows}
+            authorityRows={authorityRows}
+            procurementRows={procurementRows}
+          />
+        </ProductDetailStage>
       </ProductRouteShell>
     </BitcodeShellBridgeProvider>
   );

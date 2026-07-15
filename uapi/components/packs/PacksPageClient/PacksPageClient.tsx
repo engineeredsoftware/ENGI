@@ -13,6 +13,7 @@ import React, { useCallback, useMemo } from "react";
 import { Package } from "lucide-react";
 
 import { ProductRouteShell } from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";
+import { ProductDetailStage } from "@/components/bitcode/routes/ProductRouteEntrance/ProductRouteEntrance";
 import { formatCount } from "@/components/packs/models/packs-format";
 import { usePacksActivity } from "./hooks/use-packs-activity";
 import { usePacksRouteParams } from "./hooks/use-packs-route-params";
@@ -124,23 +125,27 @@ export default function PacksPageClient() {
         }}
       />
 
-      {!isDetailOpen ? (
+      <ProductDetailStage
+        open={!isDetailOpen}
+        stageKey="packs-portfolio"
+        className="min-w-0"
+      >
         <PacksPortfolioStrip
           marketIntelligence={marketIntelligence}
           isLoading={isLoading}
           onWriteParams={writeParams}
         />
-      ) : null}
+      </ProductDetailStage>
 
-      {isDetailOpen ? (
-        <section
-          className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]"
-          data-testid="packs-run-detail"
-        >
-          <PacksActivityDetail detail={detail} layout="main" />
-          <PacksActivityDetail detail={detail} layout="aside" />
-        </section>
-      ) : null}
+      <ProductDetailStage
+        open={isDetailOpen}
+        stageKey={selectedId || "packs-detail"}
+        testId="packs-run-detail"
+        className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]"
+      >
+        <PacksActivityDetail detail={detail} layout="main" />
+        <PacksActivityDetail detail={detail} layout="aside" />
+      </ProductDetailStage>
     </ProductRouteShell>
   );
 }

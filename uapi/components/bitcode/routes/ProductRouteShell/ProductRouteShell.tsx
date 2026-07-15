@@ -4,6 +4,10 @@ import React from "react";
 import type { LucideIcon } from "lucide-react";
 import { TelemetryExplainerTrigger } from "@/components/bitcode/pipeline/TelemetryExplainerTrigger/TelemetryExplainerTrigger";
 import {
+  ProductEntranceItem,
+  ProductRouteEntrance,
+} from "@/components/bitcode/routes/ProductRouteEntrance/ProductRouteEntrance";
+import {
   AlertCircle,
   CircleDashed,
   Command,
@@ -162,11 +166,12 @@ export function ProductRouteShell({
       data-testid={testId}
       className={`min-h-screen ${toneClasses.page} px-4 pb-24 pt-32 text-neutral-100 tablet:px-6 desktop:px-8`}
     >
-      <div className="mx-auto grid w-full max-w-[1800px] gap-5">
+      <ProductRouteEntrance className="mx-auto grid w-full max-w-[1800px] gap-5">
         {/* Compact route header — fixed height band shared by Packs / Reads /
             Deposits: title left, metric chips right (never a second full-width
             metric row that stretches one route taller than the others). */}
-        <header
+        <ProductEntranceItem
+          as="header"
           className={`grid items-center gap-x-6 gap-y-2 border ${toneClasses.headerBorder} bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-5 py-3 shadow-[0_30px_100px_rgba(0,0,0,0.34)] tablet:grid-cols-[minmax(0,1fr)_auto] tablet:min-h-[5.75rem]`}
         >
           <div className="min-w-0">
@@ -217,9 +222,11 @@ export function ProductRouteShell({
               );
             })}
           </dl>
-        </header>
-        {children}
-      </div>
+        </ProductEntranceItem>
+        <ProductEntranceItem className="grid min-w-0 gap-5">
+          {children}
+        </ProductEntranceItem>
+      </ProductRouteEntrance>
     </main>
   );
 }

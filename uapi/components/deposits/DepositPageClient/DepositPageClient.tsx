@@ -37,6 +37,7 @@ import { Boxes } from "lucide-react";
 
 import { useAuth } from "@/components/bitcode/auth/AuthProvider/AuthProvider";
 import { ProductRouteShell } from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";
+import { ProductDetailStage } from "@/components/bitcode/routes/ProductRouteEntrance/ProductRouteEntrance";
 import { useUserData } from "@/hooks/useUserData";
 import { trackProductEvent } from "@/lib/product-analytics";
 
@@ -524,153 +525,158 @@ export default function DepositPageClient() {
           runsError={runsLoadError}
         />
 
-        {isDepositDetailOpen ? (
-          <section
-            className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]"
-            data-testid="deposit-run-configuration"
-            data-locked={isConfigLocked ? "true" : "false"}
-            data-compose={
-              isComposeOpen && !isRunReviewLocked ? "true" : "false"
-            }
-          >
-            <div className="grid min-w-0 gap-5">
-              <div className="grid gap-5 xl:grid-cols-2">
-                <div id="deposit-section-source" className="min-w-0">
-                  <DepositSourceSelection
-                    preferredRepository={selectedRun?.repository || null}
-                    onContextChange={setRepositoryContext}
-                    onRecordActivity={handleRecordActivity}
-                    routePath={DEPOSIT_ROUTE}
-                    buildRouteHref={buildDepositHref}
-                    repoEarningEstimateSats={
-                      depositRouteSession.earningSupplyIntelligence.aggregate
-                        .totalExpectedCompensationSats
-                    }
-                    repositoryAnchors={repositoryAnchors}
-                    disabled={isConfigLocked}
-                  />
-                </div>
-                <DepositObfuscationsPanel
-                  isConfigLocked={isConfigLocked}
-                  obfuscations={obfuscations}
-                  onObfuscationsChange={setObfuscations}
-                  obfuscationsAnchors={obfuscationsAnchors}
-                  obfuscationsAnchorName={obfuscationsAnchorName}
-                  onObfuscationsAnchorNameChange={setObfuscationsAnchorName}
-                  isObfuscationsAnchorPopoverOpen={
-                    isObfuscationsAnchorPopoverOpen
+        <ProductDetailStage
+          open={isDepositDetailOpen}
+          stageKey={
+            isComposeOpen && !isRunReviewLocked
+              ? "deposit-compose"
+              : synthesisRunId || "deposit-detail"
+          }
+          testId="deposit-run-configuration"
+          className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]"
+          dataAttrs={{
+            "data-locked": isConfigLocked ? "true" : "false",
+            "data-compose":
+              isComposeOpen && !isRunReviewLocked ? "true" : "false",
+          }}
+        >
+          <div className="grid min-w-0 gap-5">
+            <div className="grid gap-5 xl:grid-cols-2">
+              <div id="deposit-section-source" className="min-w-0">
+                <DepositSourceSelection
+                  preferredRepository={selectedRun?.repository || null}
+                  onContextChange={setRepositoryContext}
+                  onRecordActivity={handleRecordActivity}
+                  routePath={DEPOSIT_ROUTE}
+                  buildRouteHref={buildDepositHref}
+                  repoEarningEstimateSats={
+                    depositRouteSession.earningSupplyIntelligence.aggregate
+                      .totalExpectedCompensationSats
                   }
-                  onObfuscationsAnchorPopoverOpenChange={
-                    setIsObfuscationsAnchorPopoverOpen
-                  }
-                  isAnchoringObfuscations={isAnchoringObfuscations}
-                  obfuscationsAnchorMessage={obfuscationsAnchorMessage}
-                  onAnchorObfuscations={() => {
-                    void handleAnchorObfuscations();
-                  }}
-                  onDeleteObfuscationsAnchor={(id) => {
-                    void handleDeleteObfuscationsAnchor(id);
-                  }}
-                  forcedInclusions={forcedInclusions}
-                  onForcedInclusionsChange={setForcedInclusions}
-                  forcedExclusions={forcedExclusions}
-                  onForcedExclusionsChange={setForcedExclusions}
-                  repositoryContext={repositoryContext}
-                  repositoryFullName={
-                    depositRouteSession.routeState.repositoryFullName
-                  }
-                  onSynthesize={() => {
-                    void handleSynthesizeOptions();
-                  }}
-                  synthesisStatus={synthesisStatus}
-                  optionsRequested={optionsRequested}
-                  synthesisRunId={synthesisRunId}
-                  isRunReviewLocked={isRunReviewLocked}
+                  repositoryAnchors={repositoryAnchors}
+                  disabled={isConfigLocked}
                 />
               </div>
-
-              {synthesisRunId && isActivityLedgerDetail ? (
-                <DepositActivityLedgerDetail
-                  runId={synthesisRunId}
-                  title={
-                    selectedDetailRun?.contextSource ===
-                    "deposit-obfuscations-anchor"
-                      ? "Obfuscations anchor"
-                      : selectedDetailRun?.contextSource ===
-                          "terminal-repository-context-panel"
-                        ? "Repository anchor"
-                        : "Activity record"
-                  }
-                  summary={selectedDetailRun?.summary ?? null}
-                />
-              ) : null}
-
-              {synthesisRunId && !isActivityLedgerDetail ? (
-                <DepositSynthesisTelemetry
-                  telemetryRef={synthesisTelemetryRef}
-                  synthesisRunId={synthesisRunId}
-                  synthesisRunExpectsOptions={synthesisRunExpectsOptions}
-                  synthesisLiveContext={synthesisLiveContext}
-                  synthesisRunning={synthesisRunning}
-                  synthesisRunStartMs={synthesisRunStartMs}
-                  synthesisRunEndMs={synthesisRunEndMs}
-                  synthesisActivity={synthesisActivity}
-                  synthesisStatus={synthesisStatus}
-                  synthesisError={synthesisError}
-                  isCancellingSynthesis={isCancellingSynthesis}
-                  onCancel={() => {
-                    void handleCancelSynthesis();
-                  }}
-                  onRetry={() => {
-                    void handleSynthesizeOptions();
-                  }}
-                  onDismissError={() => setSynthesisError(null)}
-                  synthesisLogScrolled={synthesisLogScrolled}
-                  setSynthesisLogScrolled={setSynthesisLogScrolled}
-                  repositoryContext={repositoryContext}
-                  obfuscations={obfuscations}
-                  forcedInclusions={forcedInclusions}
-                  forcedExclusions={forcedExclusions}
-                  synthesisEvents={synthesisEvents}
-                />
-              ) : null}
-
-              <DepositAssetPackOptions
-                realSynthesis={realSynthesis}
-                depositRouteSession={depositRouteSession}
-                optionReviewDecisions={optionReviewDecisions}
-                selectedPackIds={selectedPackIds}
-                confirmingBatchDeposit={confirmingBatchDeposit}
-                resynthesisForOptionId={resynthesisForOptionId}
-                resynthesisInstructions={resynthesisInstructions}
-                settledDemandEstimate={settledDemandEstimate}
-                onOptionReviewDecision={(optionId, decision) => {
-                  void handleOptionReviewDecision(optionId, decision);
+              <DepositObfuscationsPanel
+                isConfigLocked={isConfigLocked}
+                obfuscations={obfuscations}
+                onObfuscationsChange={setObfuscations}
+                obfuscationsAnchors={obfuscationsAnchors}
+                obfuscationsAnchorName={obfuscationsAnchorName}
+                onObfuscationsAnchorNameChange={setObfuscationsAnchorName}
+                isObfuscationsAnchorPopoverOpen={
+                  isObfuscationsAnchorPopoverOpen
+                }
+                onObfuscationsAnchorPopoverOpenChange={
+                  setIsObfuscationsAnchorPopoverOpen
+                }
+                isAnchoringObfuscations={isAnchoringObfuscations}
+                obfuscationsAnchorMessage={obfuscationsAnchorMessage}
+                onAnchorObfuscations={() => {
+                  void handleAnchorObfuscations();
                 }}
-                onToggleSelect={handleToggleSelect}
-                onDepositSelected={() => {
-                  void handleDepositSelected();
+                onDeleteObfuscationsAnchor={(id) => {
+                  void handleDeleteObfuscationsAnchor(id);
                 }}
-                onResynthesisForOptionIdChange={setResynthesisForOptionId}
-                onResynthesisInstructionsChange={setResynthesisInstructions}
-                onResynthesize={(_optionId, instructions) => {
-                  const trimmed = (instructions || "").trim();
-                  if (trimmed) setObfuscations(trimmed);
-                  void handleSynthesizeOptions(trimmed || undefined);
+                forcedInclusions={forcedInclusions}
+                onForcedInclusionsChange={setForcedInclusions}
+                forcedExclusions={forcedExclusions}
+                onForcedExclusionsChange={setForcedExclusions}
+                repositoryContext={repositoryContext}
+                repositoryFullName={
+                  depositRouteSession.routeState.repositoryFullName
+                }
+                onSynthesize={() => {
+                  void handleSynthesizeOptions();
                 }}
-                onAnchorOption={async () => {}}
-                onRecordActivity={handleRecordActivity}
+                synthesisStatus={synthesisStatus}
+                optionsRequested={optionsRequested}
+                synthesisRunId={synthesisRunId}
+                isRunReviewLocked={isRunReviewLocked}
               />
             </div>
 
-            <DepositRouteStateAside
+            {synthesisRunId && isActivityLedgerDetail ? (
+              <DepositActivityLedgerDetail
+                runId={synthesisRunId}
+                title={
+                  selectedDetailRun?.contextSource ===
+                  "deposit-obfuscations-anchor"
+                    ? "Obfuscations anchor"
+                    : selectedDetailRun?.contextSource ===
+                        "terminal-repository-context-panel"
+                      ? "Repository anchor"
+                      : "Activity record"
+                }
+                summary={selectedDetailRun?.summary ?? null}
+              />
+            ) : null}
+
+            {synthesisRunId && !isActivityLedgerDetail ? (
+              <DepositSynthesisTelemetry
+                telemetryRef={synthesisTelemetryRef}
+                synthesisRunId={synthesisRunId}
+                synthesisRunExpectsOptions={synthesisRunExpectsOptions}
+                synthesisLiveContext={synthesisLiveContext}
+                synthesisRunning={synthesisRunning}
+                synthesisRunStartMs={synthesisRunStartMs}
+                synthesisRunEndMs={synthesisRunEndMs}
+                synthesisActivity={synthesisActivity}
+                synthesisStatus={synthesisStatus}
+                synthesisError={synthesisError}
+                isCancellingSynthesis={isCancellingSynthesis}
+                onCancel={() => {
+                  void handleCancelSynthesis();
+                }}
+                onRetry={() => {
+                  void handleSynthesizeOptions();
+                }}
+                onDismissError={() => setSynthesisError(null)}
+                synthesisLogScrolled={synthesisLogScrolled}
+                setSynthesisLogScrolled={setSynthesisLogScrolled}
+                repositoryContext={repositoryContext}
+                obfuscations={obfuscations}
+                forcedInclusions={forcedInclusions}
+                forcedExclusions={forcedExclusions}
+                synthesisEvents={synthesisEvents}
+              />
+            ) : null}
+
+            <DepositAssetPackOptions
+              realSynthesis={realSynthesis}
               depositRouteSession={depositRouteSession}
+              optionReviewDecisions={optionReviewDecisions}
+              selectedPackIds={selectedPackIds}
+              confirmingBatchDeposit={confirmingBatchDeposit}
+              resynthesisForOptionId={resynthesisForOptionId}
+              resynthesisInstructions={resynthesisInstructions}
               settledDemandEstimate={settledDemandEstimate}
-              authorityRows={authorityRows}
-              sessionRows={sessionRows}
+              onOptionReviewDecision={(optionId, decision) => {
+                void handleOptionReviewDecision(optionId, decision);
+              }}
+              onToggleSelect={handleToggleSelect}
+              onDepositSelected={() => {
+                void handleDepositSelected();
+              }}
+              onResynthesisForOptionIdChange={setResynthesisForOptionId}
+              onResynthesisInstructionsChange={setResynthesisInstructions}
+              onResynthesize={(_optionId, instructions) => {
+                const trimmed = (instructions || "").trim();
+                if (trimmed) setObfuscations(trimmed);
+                void handleSynthesizeOptions(trimmed || undefined);
+              }}
+              onAnchorOption={async () => {}}
+              onRecordActivity={handleRecordActivity}
             />
-          </section>
-        ) : null}
+          </div>
+
+          <DepositRouteStateAside
+            depositRouteSession={depositRouteSession}
+            settledDemandEstimate={settledDemandEstimate}
+            authorityRows={authorityRows}
+            sessionRows={sessionRows}
+          />
+        </ProductDetailStage>
       </ProductRouteShell>
     </BitcodeShellBridgeProvider>
   );
