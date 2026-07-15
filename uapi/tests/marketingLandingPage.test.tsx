@@ -109,7 +109,7 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('Source Measurements')).toBeInTheDocument();
     expect(screen.getByText('Absolutes')).toBeInTheDocument();
     expect(screen.getByText('Needinesses')).toBeInTheDocument();
-    expect(screen.getByText('Packs Bitcode Volume')).toBeInTheDocument();
+    expect(screen.getByText("Packs' BTD Volume")).toBeInTheDocument();
     expect(screen.getByText('431')).toBeInTheDocument();
     expect(screen.getByText('Source Safety')).toBeInTheDocument();
     expect(screen.getByText('BTC · BTD · AssetPacks')).toBeInTheDocument();

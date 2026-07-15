@@ -174,65 +174,99 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                   <div>
                     <p className="text-[13px] font-medium text-white">Needinesses</p>
                     <ul className="mt-2 space-y-1.5">
-                      {measurementNeedinessItems.map((item, index) => (
-                        <li key={item.label}>
-                          <div className="flex items-center justify-between gap-2">
-                            <p className="min-w-0 truncate text-[11px] leading-4 text-emerald-100/70">
-                              <span className="text-emerald-100/48">{item.detail}</span>
-                              <span className="mx-1 text-emerald-100/28">·</span>
-                              {item.label}
-                            </p>
-                            <span className="shrink-0 font-mono text-[10px] tabular-nums text-emerald-200/68">
-                              {item.value}
-                            </span>
-                          </div>
-                          <div className="mt-1 h-1 overflow-hidden rounded-none bg-white/6">
-                            <div className="h-full origin-left" style={{ width: `${item.value}%` }}>
-                              <motion.div
-                                initial={{ scaleX: 0 }}
-                                animate={{ scaleX: 1 }}
-                                transition={{
-                                  duration: 0.7,
-                                  delay: 0.48 + index * 0.04,
-                                  ease: entranceEase,
-                                }}
-                                className="h-full rounded-none bg-gradient-to-r from-emerald-500/55 via-emerald-300/70 to-emerald-100/80"
-                                style={{ ...animatedMotionStyle, transformOrigin: 'left center' }}
-                              />
+                      {measurementNeedinessItems.map((item, index) => {
+                        const isDynamic = item.detail === 'dynamic';
+
+                        return (
+                          <li key={item.label}>
+                            <div className="flex items-center justify-between gap-2">
+                              <p
+                                className={`min-w-0 whitespace-nowrap text-[11px] leading-4 ${
+                                  isDynamic ? 'text-emerald-50/88' : 'text-emerald-100/70'
+                                }`}
+                                title={
+                                  isDynamic
+                                    ? 'Need-inferred fit measurement synthesized for the reader’s Need, then scored'
+                                    : undefined
+                                }
+                              >
+                                <span
+                                  className={
+                                    isDynamic
+                                      ? 'font-semibold uppercase tracking-[0.12em] text-fuchsia-200/90 [text-shadow:0_0_10px_rgba(232,121,249,0.4)]'
+                                      : 'text-emerald-100/48'
+                                  }
+                                >
+                                  {item.detail}
+                                </span>
+                                <span
+                                  className={`mx-1 ${
+                                    isDynamic ? 'text-fuchsia-200/55' : 'text-emerald-100/28'
+                                  }`}
+                                >
+                                  {isDynamic ? '*' : '·'}
+                                </span>
+                                {item.label}
+                              </p>
+                              <span
+                                className={`shrink-0 font-mono text-[10px] tabular-nums ${
+                                  isDynamic ? 'text-emerald-100/90' : 'text-emerald-200/68'
+                                }`}
+                              >
+                                {item.value}
+                              </span>
                             </div>
-                          </div>
-                        </li>
-                      ))}
+                            <div className="mt-1 h-1 overflow-hidden rounded-none bg-white/6">
+                              <div className="h-full origin-left" style={{ width: `${item.value}%` }}>
+                                <motion.div
+                                  initial={{ scaleX: 0 }}
+                                  animate={{ scaleX: 1 }}
+                                  transition={{
+                                    duration: 0.7,
+                                    delay: 0.48 + index * 0.04,
+                                    ease: entranceEase,
+                                  }}
+                                  className={`h-full rounded-none ${
+                                    isDynamic
+                                      ? 'bg-gradient-to-r from-fuchsia-500/55 via-emerald-300/75 to-emerald-100/85 shadow-[0_0_10px_rgba(232,121,249,0.25)]'
+                                      : 'bg-gradient-to-r from-emerald-500/55 via-emerald-300/70 to-emerald-100/80'
+                                  }`}
+                                  style={{ ...animatedMotionStyle, transformOrigin: 'left center' }}
+                                />
+                              </div>
+                            </div>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
 
                   <div className="rounded-none border border-emerald-300/18 bg-emerald-400/[0.07] p-3 shadow-[inset_0_1px_0_rgba(103,254,183,0.08)]">
-                    <div className="flex items-end justify-between gap-3">
-                      <div className="min-w-0 flex-1">
-                        <p className="bg-gradient-to-r from-emerald-200 via-white to-emerald-100 bg-clip-text text-[15px] font-semibold text-transparent">
-                          {measurementFinalFit.label}
-                        </p>
-                        <p className="mt-1 text-[11px] leading-4 text-emerald-100/72">
-                          {measurementFinalFit.detail}
-                        </p>
+                    {/* Full-width title — no side score competing for row width. */}
+                    <p className="whitespace-nowrap bg-gradient-to-r from-emerald-200 via-white to-emerald-100 bg-clip-text pe-[0.15em] text-[15px] font-semibold text-transparent">
+                      {measurementFinalFit.label}
+                    </p>
+                    <p className="mt-1 text-[11px] leading-4 text-emerald-100/72">
+                      {measurementFinalFit.detail}
+                    </p>
+                    <div className="mt-2.5 flex items-center gap-2.5">
+                      <div className="h-2.5 min-w-0 flex-1 overflow-hidden rounded-none bg-black/30">
+                        <div
+                          className="h-full origin-left"
+                          style={{ width: `${measurementFinalFit.barPercent}%` }}
+                        >
+                          <motion.div
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: 1 }}
+                            transition={{ duration: 1, delay: 0.55, ease: entranceEase }}
+                            className="h-full rounded-none bg-gradient-to-r from-emerald-500/80 via-emerald-300 to-white shadow-[0_0_14px_rgba(103,254,183,0.35)]"
+                            style={{ ...animatedMotionStyle, transformOrigin: 'left center' }}
+                          />
+                        </div>
                       </div>
-                      <span className="shrink-0 text-[14px] font-semibold uppercase tracking-[0.2em] text-emerald-100">
+                      <span className="shrink-0 font-mono text-[12px] font-semibold tabular-nums tracking-[0.08em] text-emerald-100">
                         {measurementFinalFit.value}
                       </span>
-                    </div>
-                    <div className="mt-2.5 h-2.5 overflow-hidden rounded-none bg-black/30">
-                      <div
-                        className="h-full origin-left"
-                        style={{ width: `${measurementFinalFit.barPercent}%` }}
-                      >
-                        <motion.div
-                          initial={{ scaleX: 0 }}
-                          animate={{ scaleX: 1 }}
-                          transition={{ duration: 1, delay: 0.55, ease: entranceEase }}
-                          className="h-full rounded-none bg-gradient-to-r from-emerald-500/80 via-emerald-300 to-white shadow-[0_0_14px_rgba(103,254,183,0.35)]"
-                          style={{ ...animatedMotionStyle, transformOrigin: 'left center' }}
-                        />
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -405,12 +439,12 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
               </div>
 
               <div className="shrink-0 rounded-none border border-white/8 bg-white/5 p-4">
-                <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center justify-between gap-2">
                   {/* Same chrome as Marketplace title/badge; keep emerald→orange gradient unique. */}
-                  <p className="min-w-0 whitespace-nowrap bg-gradient-to-r from-emerald-200 via-white to-orange-200 bg-clip-text text-[15px] font-semibold leading-none text-transparent">
+                  <p className="min-w-0 flex-1 whitespace-nowrap bg-gradient-to-r from-emerald-200 via-white to-orange-200 bg-clip-text pe-[0.15em] text-[15px] font-semibold leading-none text-transparent">
                     {BITCODE_PUBLIC_COPY.sourceToSettlement.title}
                   </p>
-                  <span className="inline-flex shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 px-1.5 py-1.5 text-center text-[10px] uppercase leading-4 tracking-[0.14em] text-white/60">
+                  <span className="inline-flex shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 px-1.5 py-1 text-center text-[9px] uppercase leading-4 tracking-[0.12em] text-white/60">
                     {BITCODE_PUBLIC_COPY.sourceToSettlement.badge}
                   </span>
                 </div>
@@ -423,11 +457,8 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                 </p>
                 <div className="mt-4 rounded-none border border-emerald-300/12 bg-emerald-400/6 p-3">
                   <div className="grid gap-3">
-                    <span className="inline-flex min-w-0 items-center justify-center gap-2 rounded-none border border-white/10 bg-black/20 px-3 py-2.5 text-[10px] font-mono uppercase tracking-[0.12em] text-emerald-50/90">
-                      <span className="text-emerald-200/52">
-                        {BITCODE_PUBLIC_COPY.sourceToSettlement.stages[0].number}
-                      </span>
-                      {BITCODE_PUBLIC_COPY.sourceToSettlement.stages[0].stage}
+                    <span className="inline-flex min-w-0 items-center justify-center rounded-none border border-white/10 bg-black/20 px-3 py-2.5 text-[10px] font-mono uppercase tracking-[0.12em] text-emerald-50/90">
+                      {BITCODE_PUBLIC_COPY.sourceToSettlement.stages[0]}
                     </span>
                     <div className="grid gap-2">
                       {[
@@ -438,23 +469,18 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                           key={`canonical-middle-row-${rowIndex}`}
                           className="grid grid-cols-[minmax(0,1fr)_18px_minmax(0,1fr)] items-center gap-2"
                         >
-                          <span className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-none border border-white/10 bg-black/20 px-2 py-1.5 text-[9px] font-mono uppercase tracking-[0.1em] text-emerald-50/90">
-                            <span className="text-emerald-200/52">{row[0].number}</span>
-                            {row[0].stage}
+                          <span className="inline-flex min-w-0 items-center justify-center rounded-none border border-white/10 bg-black/20 px-2 py-1.5 text-[9px] font-mono uppercase tracking-[0.1em] text-emerald-50/90">
+                            {row[0]}
                           </span>
                           <ArrowRightIcon className="h-3.5 w-3.5 text-emerald-200/32" />
-                          <span className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-none border border-white/10 bg-black/20 px-2 py-1.5 text-[9px] font-mono uppercase tracking-[0.1em] text-emerald-50/90">
-                            <span className="text-emerald-200/52">{row[1].number}</span>
-                            {row[1].stage}
+                          <span className="inline-flex min-w-0 items-center justify-center rounded-none border border-white/10 bg-black/20 px-2 py-1.5 text-[9px] font-mono uppercase tracking-[0.1em] text-emerald-50/90">
+                            {row[1]}
                           </span>
                         </div>
                       ))}
                     </div>
-                    <span className="inline-flex min-w-0 items-center justify-center gap-2 rounded-none border border-white/10 bg-black/20 px-3 py-2.5 text-[10px] font-mono uppercase tracking-[0.12em] text-emerald-50/90">
-                      <span className="text-emerald-200/52">
-                        {BITCODE_PUBLIC_COPY.sourceToSettlement.stages[5].number}
-                      </span>
-                      {BITCODE_PUBLIC_COPY.sourceToSettlement.stages[5].stage}
+                    <span className="inline-flex min-w-0 items-center justify-center rounded-none border border-white/10 bg-black/20 px-3 py-2.5 text-[10px] font-mono uppercase tracking-[0.12em] text-emerald-50/90">
+                      {BITCODE_PUBLIC_COPY.sourceToSettlement.stages[5]}
                     </span>
                   </div>
                 </div>

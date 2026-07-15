@@ -52,7 +52,7 @@ export const productPillars = [
 
 /**
  * Marketing depot measurements: per-metric Absolutes + Needinesses (small bars),
- * then Packs Bitcode Volume as the standout summary axis (display value ≠ 0–100 bar).
+ * then Packs' BTD Volume as the standout summary axis (display value ≠ 0–100 bar).
  */
 export const measurementAbsoluteItems = [
   { label: 'functions', value: 92 },
@@ -69,11 +69,14 @@ export const measurementNeedinessItems = [
   { label: 'language fit', value: 94, detail: 'static' },
   { label: 'domain fit', value: 88, detail: 'static' },
   { label: 'interface fit', value: 82, detail: 'static' },
-  { label: 'Need-inferred *-fit', value: 79, detail: 'dynamic' },
+  // Dynamic Need-inferred fits (several rows signal many are synthesized & measured).
+  { label: 'need 1 fit', value: 79, detail: 'dynamic' },
+  { label: 'need 2 fit', value: 74, detail: 'dynamic' },
+  { label: 'need 3 fit', value: 71, detail: 'dynamic' },
 ] as const;
 
 export const measurementFinalFit = {
-  label: 'Packs Bitcode Volume',
+  label: "Packs' BTD Volume",
   /** Display volume (not a 0–100 score). */
   value: 431,
   /** Marketing bar fill only — volume is not a percentage axis. */
@@ -136,13 +139,13 @@ export const previewRows = [
   },
   {
     key: 'what settles?',
-    // 2×2: BTC | BTD / APs | Delivery — all single-line tokens.
-    valueParts: ['BTC', 'BTD', 'APs', 'Delivery'],
+    // 2×2: BTC | BTD / APs | Deliver — all single-line tokens.
+    valueParts: ['BTC', 'BTD', 'APs', 'Deliver'],
     valueTones: {
       BTC: 'orange',
       BTD: 'green',
       APs: 'purple',
-      Delivery: 'white',
+      Deliver: 'white',
     } satisfies Partial<Record<string, PreviewValueTone>>,
     accentClassName: 'from-orange-400/18 via-amber-300/8 to-transparent',
     Icon: CurrencyDollarIcon,
