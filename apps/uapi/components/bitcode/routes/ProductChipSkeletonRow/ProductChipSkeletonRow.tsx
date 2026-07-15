@@ -31,8 +31,9 @@ const DEFAULT_SPECS: ProductChipSkeletonSpec[] = [
 export const PRODUCT_METRIC_CHIP_ROW_CLASS =
   'flex h-7 w-full max-w-full flex-nowrap items-center gap-1.5 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden';
 
+/** Tight label↔value pair; chip-to-chip spacing lives on the row. */
 export const PRODUCT_METRIC_CHIP_SHELL_CLASS =
-  'flex h-7 min-w-0 shrink-0 items-center gap-1.5 border border-white/10 bg-white/[0.045] px-2';
+  'flex h-7 min-w-0 shrink-0 items-center gap-0.5 border border-white/10 bg-white/[0.045] px-2';
 
 type ProductChipSkeletonRowProps = {
   /** Number of chip placeholders (defaults to specs length). */

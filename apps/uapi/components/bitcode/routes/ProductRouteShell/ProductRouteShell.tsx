@@ -186,14 +186,15 @@ function ProductRouteMetricChips({
 }) {
   const reduceMotion = shouldReduceMetricMotion(useReducedMotion());
 
-  // Fixed value box (pending + ready) so chip row width never reflows on load.
+  // Content-sized value; UA stylesheet gives `dd` a large margin-inline-start
+  // which looked like space-between — always reset dt/dd margins.
   const valueClass =
-    "inline-block w-[5.5rem] truncate text-right text-[0.7rem] font-semibold leading-none tabular-nums text-white";
+    "inline-block max-w-[6.5rem] truncate text-left text-[0.7rem] font-semibold leading-none tabular-nums text-white";
 
   const chips = metrics.map((metric) => {
     const valueSlot = !ready ? (
       <span
-        className="inline-block h-2.5 w-[5.5rem] shrink-0 bg-white/[0.12] motion-safe:animate-pulse"
+        className="inline-block h-2.5 w-5 shrink-0 bg-white/[0.12] motion-safe:animate-pulse"
         aria-hidden="true"
       />
     ) : reduceMotion ? (
@@ -212,8 +213,8 @@ function ProductRouteMetricChips({
 
     const chipBody = (
       <>
-        <dt className="leading-none text-neutral-500">{metric.label}</dt>
-        <dd className="flex w-[5.5rem] shrink-0 items-center justify-end">
+        <dt className="m-0 leading-none text-neutral-500">{metric.label}</dt>
+        <dd className="m-0 flex min-w-0 shrink-0 items-center p-0">
           {valueSlot}
         </dd>
       </>

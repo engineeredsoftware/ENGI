@@ -43,11 +43,11 @@ function shouldReduceMotion(prefersReduced: boolean | null): boolean {
   return false;
 }
 
-/** Shared value box — same width pending/ready so chip row never x-jitters. */
+/** Content-sized value next to label (tight shell gap); tabular for stable digits. */
 const OVERVIEW_VALUE_CLASS =
-  'inline-block w-[2.75rem] text-right leading-none tabular-nums text-neutral-100';
+  'inline-block max-w-[4rem] truncate text-left leading-none tabular-nums text-neutral-100';
 
-/** Value slot: fixed-size pulse or opacity-only number — never reflows x or y. */
+/** Value slot: compact pulse or opacity-only number — sits close to the label. */
 function OverviewStatValue({
   ready,
   reduceMotion,
@@ -60,7 +60,7 @@ function OverviewStatValue({
   if (!ready) {
     return (
       <span
-        className="inline-block h-2.5 w-[2.75rem] shrink-0 bg-white/[0.12] motion-safe:animate-pulse"
+        className="inline-block h-2.5 w-5 shrink-0 bg-white/[0.12] motion-safe:animate-pulse"
         aria-hidden="true"
       />
     );
@@ -119,7 +119,8 @@ export default function BitcodeTransactionsOverview({
     references: tableTooltipReferences,
   };
 
-  const statCardClass = `${PRODUCT_METRIC_CHIP_SHELL_CLASS} border-white/8 bg-white/5 px-2.5`;
+  // gap-0.5 from PRODUCT_METRIC_CHIP_SHELL_CLASS keeps label↔value tight.
+  const statCardClass = `${PRODUCT_METRIC_CHIP_SHELL_CLASS} border-white/8 bg-white/5 px-2`;
   const pillClass =
     'cursor-default border border-white/8 bg-white/[0.035] px-2.5 py-1';
   const statsRowClass = `${PRODUCT_METRIC_CHIP_ROW_CLASS} text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500`;
@@ -179,7 +180,7 @@ export default function BitcodeTransactionsOverview({
               ...tableStatSections,
             }}
           >
-            <p className="leading-none text-emerald-300/85">{stat.title}</p>
+            <p className="m-0 leading-none text-emerald-300/85">{stat.title}</p>
             <OverviewStatValue ready={statsReady} reduceMotion={reduceMotion}>
               {stat.display}
             </OverviewStatValue>
