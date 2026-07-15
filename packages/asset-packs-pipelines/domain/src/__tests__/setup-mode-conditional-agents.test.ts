@@ -125,7 +125,7 @@ describe('assetPackSetupPhaseExecutor conditional registry', () => {
 
   it('read: the real setup-plan, read-comprehension, and danger-wall agents all run', async () => {
     const { phaseExec } = setupHarness('read', 'pipeline:setup-conditional-read');
-    const input = { read: 'Determine whether the deposited repository satisfies Terminal Read/Fit QA.' };
+    const input = { read: 'Determine whether the deposited repository satisfies Read/Fit QA.' };
 
     const result = await assetPackSetupPhaseExecutor(input, phaseExec);
 

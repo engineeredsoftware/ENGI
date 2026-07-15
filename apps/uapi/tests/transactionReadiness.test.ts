@@ -1,5 +1,5 @@
 /**
- * Transaction readiness (relocated from Terminal).
+ * Transaction readiness (relocated from product).
  */
 import { deriveBitcodeTransactionReadiness } from '@/components/bitcode/pipeline/models/transaction-readiness';
 
@@ -28,6 +28,6 @@ describe('transaction-readiness', () => {
     expect(readiness.status).toBe('ready');
     expect(readiness.canTransact).toBe(true);
     expect(readiness.canSettle).toBe(true);
-    expect(readiness.nextAction).not.toMatch(/Terminal/i);
+    expect(readiness.nextAction).not.toMatch(/product/i);
   });
 });

@@ -71,7 +71,7 @@ function printHelp() {
     [
       'Usage: node scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs [--skip-branch-check] [--skip-package-tests] [--repo-root <path>]',
       '',
-      'Checks V41 Gate 7 source-safe Conversation, tool-definition, MCP API, ChatGPT App, public API, Terminal, and interface prompt rewrite parity.',
+      'Checks V41 Gate 7 source-safe Conversation, tool-definition, MCP API, ChatGPT App, public API, product, and interface prompt rewrite parity.',
     ].join('\n'),
   );
   process.stdout.write('\n');

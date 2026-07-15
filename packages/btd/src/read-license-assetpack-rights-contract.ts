@@ -23,7 +23,7 @@ export const BTD_READ_LICENSE_INTERFACE_CONTRACT_FIXTURE_IDS = [
   'api-read-license-source-safe-preview',
   'mcp-finding-fits-source-safe-preview',
   'chatgpt-unpaid-delivery-denied',
-  'terminal-paid-rights-delivery',
+  'product-paid-rights-delivery',
 ] as const;
 
 export type BtdReadLicenseAssetPackRightsFixtureId =
@@ -204,7 +204,7 @@ const REQUIRED_SURFACES: BtdInterfaceAuthorizationPolicySurface[] = [
   'api',
   'mcp',
   'chatgpt_app',
-  'terminal',
+  'product',
 ];
 
 const SECRET_OR_SOURCE_PATTERNS = [
@@ -360,9 +360,9 @@ export function buildBtdReadLicenseAssetPackRightsInterfaceFixtures(): BtdReadLi
     issuedAt,
   });
   const chatgpt = buildUnpaidDeliveryFixture(issuedAt);
-  const terminal = buildPaidDeliveryFixture(issuedAt);
+  const product = buildPaidDeliveryFixture(issuedAt);
 
-  return [api, mcp, chatgpt, terminal];
+  return [api, mcp, chatgpt, product];
 }
 
 export function buildBtdReadLicenseAssetPackRightsInterfaceRegistry(input: {
@@ -591,7 +591,7 @@ function buildUnpaidDeliveryFixture(
 function buildPaidDeliveryFixture(
   issuedAt: string,
 ): BtdReadLicenseAssetPackRightsInterfaceFixture {
-  const fixtureId = 'terminal-paid-rights-delivery';
+  const fixtureId = 'product-paid-rights-delivery';
   const ids = fixtureIds(fixtureId);
   const readReceipt = buildBtdReadReceipt({
     assetPackId: ids.assetPackId,
@@ -639,11 +639,11 @@ function buildPaidDeliveryFixture(
     issuedAt,
   });
   const authorizationPolicy = baseAuthorizationPolicy({
-    policyId: 'terminal-paid-rights-delivery-policy',
-    interfaceSurface: 'terminal',
+    policyId: 'product-paid-rights-delivery-policy',
+    interfaceSurface: 'product',
     action: 'deliver_asset_pack',
-    issuerKind: 'terminal_session',
-    issuerId: 'terminal-paid-rights-session',
+    issuerKind: 'product_session',
+    issuerId: 'product-paid-rights-session',
     organizationPermissionGrants: ['asset_pack:deliver'],
     disclosureState: 'requested_locked_source',
     settlementState: 'settled',
@@ -655,13 +655,13 @@ function buildPaidDeliveryFixture(
 
   return {
     fixtureId,
-    interfaceSurface: 'terminal',
-    fixturePath: 'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
+    interfaceSurface: 'product',
+    fixturePath: 'apps/uapi/tests/productOrganizationAuthority.test.ts',
     readLicenseInput: {
-      contractId: 'terminal-paid-delivery-read-license',
-      interfaceSurface: 'terminal',
+      contractId: 'product-paid-delivery-read-license',
+      interfaceSurface: 'product',
       action: 'deliver_asset_pack',
-      fixturePath: 'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
+      fixturePath: 'apps/uapi/tests/productOrganizationAuthority.test.ts',
       readRequestRoot: ids.readRequestRoot,
       reviewedNeedRoot: ids.reviewedNeedRoot,
       findingFitsAdmissionRoot: ids.findingFitsAdmissionRoot,
@@ -672,10 +672,10 @@ function buildPaidDeliveryFixture(
       issuedAt,
     },
     assetPackRightsInput: {
-      contractId: 'terminal-paid-delivery-assetpack-rights',
-      interfaceSurface: 'terminal',
+      contractId: 'product-paid-delivery-assetpack-rights',
+      interfaceSurface: 'product',
       action: 'deliver_asset_pack',
-      fixturePath: 'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
+      fixturePath: 'apps/uapi/tests/productOrganizationAuthority.test.ts',
       assetPackId: ids.assetPackId,
       assetPackPreviewRoot: ids.assetPackPreviewRoot,
       sourceSafeMeasurementRoot: ids.sourceSafeMeasurementRoot,

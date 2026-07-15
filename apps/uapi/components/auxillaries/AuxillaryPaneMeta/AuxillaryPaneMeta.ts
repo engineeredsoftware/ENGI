@@ -150,7 +150,7 @@ export function getAuxillariesWorkspaceHeading(mode: 'onboarding' | 'auxillaries
 
 export function getAuxillariesWorkspaceDescription(mode: 'onboarding' | 'auxillaries') {
   return mode === 'auxillaries'
-    ? 'Use the selector list to keep each auxillary attached to the same stable reading surface: wallet identity, external connections, optional profile data, interface defaults, and follow-through stay one click apart without changing the Terminal context.'
+    ? 'Use the selector list to keep each auxillary attached to the same stable reading surface: wallet identity, external connections, optional profile data, interface defaults, and follow-through stay one click apart without changing the product context.'
     : 'Open Bitcode access in a stable auxillary read, then move between Wallet, Externals, Profile, and Interfaces without losing the active pane or route context.';
 }
 

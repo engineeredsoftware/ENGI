@@ -123,7 +123,7 @@ function deriveConversationInput(body: ConversationStreamRequest) {
 
 function deriveConversationTitle(content: string) {
   const normalized = normalizeConversationText(content);
-  if (!normalized) return 'New Bitcode Terminal conversation';
+  if (!normalized) return 'New Bitcode conversation';
   if (normalized.length <= 72) return normalized;
   return `${normalized.slice(0, 69)}...`;
 }
@@ -254,7 +254,7 @@ function buildAssistantReply(input: {
   execution?: ConversationStreamExecution | null;
 }) {
   const counts = countTokenTypes(input.tokens);
-  const parts = ['Bitcode Terminal write path accepted the instruction.'];
+  const parts = ['Bitcode write path accepted the instruction.'];
 
   if (counts.sources > 0) {
     parts.push(`Bound ${counts.sources} Connects ${pluralize(counts.sources, 'source')}.`);

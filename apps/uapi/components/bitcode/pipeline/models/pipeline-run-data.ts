@@ -1,6 +1,6 @@
 /**
  * Pipeline run row model for master-detail tables (Deposits, Reads, Packs).
- * Relocated from app/terminal — not Terminal-product vocabulary.
+ * Relocated from app/terminal — not product-product vocabulary.
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
 import type { ShippablesDoc } from '@/components/bitcode/pipeline/ShippablesDocPanel/ShippablesDocPanel';

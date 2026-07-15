@@ -201,7 +201,7 @@ export const V42_READFITSFINDING_PREVIEW_QUOTE_ROWS = Object.freeze([
   row({
     rowId: 'ui:terminal-preview-quote-provenance-readback',
     purpose:
-      'Render Terminal Finding Fits preview, quote, provenance, settlement, delivery, and replay roots as expandable source-safe metadata.',
+      'Render product Finding Fits preview, quote, provenance, settlement, delivery, and replay roots as expandable source-safe metadata.',
     sourceRoots: [SOURCE_ROOTS.terminalWorkbench, SOURCE_ROOTS.terminalHarnessClient, SOURCE_ROOTS.terminalHarnessClientTest],
     emittedTypes: ['assetPackPreviewBoundaryRows', 'TerminalReadFitsFindingSynthesisHarnessStreamSnapshot'],
     requiredEvidence: ['Finding Fits preview, quote, and provenance', 'quote_ready_settlement_required', 'withheld_until_settlement'],

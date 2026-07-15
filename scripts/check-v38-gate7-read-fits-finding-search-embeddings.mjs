@@ -166,7 +166,7 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/__tests__/embedding-config.test.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts',
     'apps/uapi/lib/search.ts',
-    'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
     'specifications/BITCODE_SPEC_V38.md',
     'specifications/BITCODE_SPEC_V38_DELTA.md',
     'specifications/BITCODE_SPEC_V38_NOTES.md',

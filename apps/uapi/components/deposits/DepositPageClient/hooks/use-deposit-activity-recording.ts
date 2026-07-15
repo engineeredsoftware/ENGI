@@ -7,18 +7,18 @@ import { useCallback } from "react";
 import type { Dispatch, MutableRefObject, SetStateAction } from "react";
 import type { PipelineExecution } from "@/types/api";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
-import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import {
-  buildTerminalExecutionHistoryRequest,
-  buildTerminalObfuscationsAnchorDraft,
+  buildProductExecutionHistoryRequest,
+  buildProductObfuscationsAnchorDraft,
   mapExecutionHistoryRunToWorkspaceRun,
-  readTerminalRouteError,
+  readProductRouteError,
   upsertWorkspaceRun,
-  type TerminalActivityRecordDraft,
+  type ProductActivityRecordDraft,
 } from "@/components/bitcode/pipeline/models/pipeline-activity-history";
 
 export function useDepositActivityRecording(input: {
-  repositoryContext: TerminalRepositoryContextState | null;
+  repositoryContext: ProductRepositoryContextState | null;
   selectedRun: WorkspaceRun | null;
   liveRuns: WorkspaceRun[];
   setLiveRuns: Dispatch<SetStateAction<WorkspaceRun[]>>;
@@ -51,12 +51,12 @@ export function useDepositActivityRecording(input: {
   } = input;
 
   const handleRecordActivity = useCallback(
-    async (draft: TerminalActivityRecordDraft) => {
+    async (draft: ProductActivityRecordDraft) => {
       const response = await fetch("/api/executions/history", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
-          buildTerminalExecutionHistoryRequest(draft, {
+          buildProductExecutionHistoryRequest(draft, {
             repositoryContext,
             fallbackRun: selectedRun,
           }),
@@ -65,7 +65,7 @@ export function useDepositActivityRecording(input: {
 
       if (!response.ok) {
         throw new Error(
-          await readTerminalRouteError(
+          await readProductRouteError(
             response,
             "Unable to record Deposit activity.",
           ),
@@ -111,7 +111,7 @@ export function useDepositActivityRecording(input: {
     setObfuscationsAnchorMessage(null);
     try {
       await handleRecordActivity(
-        buildTerminalObfuscationsAnchorDraft({
+        buildProductObfuscationsAnchorDraft({
           obfuscations,
           name: obfuscationsAnchorName,
           repositoryFullName:

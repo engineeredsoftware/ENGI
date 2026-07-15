@@ -29,7 +29,7 @@ function record(
 function records(): BtdInterfaceIntegrationRecordInput[] {
   return [
     record({
-      surface: 'terminal',
+      surface: 'product',
       consumerId: 'terminal-transaction-cockpit',
       packageExport: '@bitcode/btd/interface-integration-contract',
       adapterPath: 'apps/uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts',
@@ -81,7 +81,7 @@ function records(): BtdInterfaceIntegrationRecordInput[] {
 }
 
 describe('interface integration regression proof', () => {
-  it('proves Terminal, API, MCP, ChatGPT App, Auxillaries, Exchange, and Conversations hooks use package-owned objects', () => {
+  it('proves product, API, MCP, ChatGPT App, Auxillaries, Exchange, and Conversations hooks use package-owned objects', () => {
     const proof = buildBtdInterfaceIntegrationRegressionProof({
       records: records(),
       lowDetailProofRoot: 'terminal-low-detail-source-safe-proof-root',

@@ -29,7 +29,7 @@ import { ReadsPipelinesMaster } from "@/components/reads/ReadsPipelinesMaster/Re
 import { ReadsPipelineTelemetry } from "@/components/reads/ReadsPipelineTelemetry/ReadsPipelineTelemetry";
 import { ReadsRouteStateAside } from "@/components/reads/ReadsRouteStateAside/ReadsRouteStateAside";
 import { BitcodeShellBridgeProvider } from "@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge";
-import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import {
   buildReadsHref,
   READS_ROUTE,
@@ -61,7 +61,7 @@ export default function ReadPageClient() {
   } = useReadUrlNavigation();
 
   const [repositoryContext, setRepositoryContext] =
-    useState<TerminalRepositoryContextState | null>(null);
+    useState<ProductRepositoryContextState | null>(null);
   const [need, setNeed] = useState("");
   const [relevantPaths, setRelevantPaths] = useState<string[]>([]);
   const [irrelevantPaths, setIrrelevantPaths] = useState<string[]>([]);

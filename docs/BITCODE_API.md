@@ -12,7 +12,7 @@ API surfaces must:
 - expose measured Read review,
 - fail closed before fit search when Read review rejects or requests remeasurement,
 - write AssetPack, proof, and settlement outputs,
-- stream execution state to Terminal and admitted interfaces,
+- stream execution state to product and admitted interfaces,
 - support MCP and ChatGPT-style connected interfaces without letting those interfaces own Exchange state.
 
 ## Active Interface Families
@@ -38,7 +38,7 @@ Route behavior must preserve:
 - typed input normalization,
 - source/repository binding,
 - execution id and correlation id storage,
-- SSE events for Terminal reread,
+- SSE events for product reread,
 - Read-measurement evidence admission,
 - AssetPack written-asset snapshots,
 - Finish result summaries and delivery evidence.
@@ -58,7 +58,7 @@ Rules:
 - writes must emit admission receipts,
 - unconfirmed writes fail closed,
 - output payloads normalize toward AssetPacks, AssetPack partials, or connected-interface written assets,
-- proof/state must remain rereadable from Terminal and Exchange routes.
+- proof/state must remain rereadable from Packs and Exchange routes.
 
 ## Environment Keys
 

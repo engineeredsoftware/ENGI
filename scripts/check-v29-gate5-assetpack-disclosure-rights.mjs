@@ -95,8 +95,8 @@ function main() {
     'packages/btd/src/access.ts',
     'packages/btd/src/settlement.ts',
     'packages/btd/__tests__/btd.test.ts',
-    'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'apps/uapi/app/terminal/terminal-pipeline-host-client.ts',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
     'apps/uapi/tests/terminalPipelineHarnessClient.test.ts',
     'AGENTS.md',
     'README.md',
@@ -120,8 +120,8 @@ function main() {
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
   const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
   const btdTest = read(root, 'packages/btd/__tests__/btd.test.ts');
-  const terminal = read(root, 'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx');
-  const terminalClient = read(root, 'apps/uapi/app/terminal/terminal-pipeline-host-client.ts');
+  const terminal = read(root, 'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx');
+  const terminalClient = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts');
   const terminalClientTest = read(root, 'apps/uapi/tests/terminalPipelineHarnessClient.test.ts');
   const agents = read(root, 'AGENTS.md');
   const readme = read(root, 'README.md');
@@ -198,7 +198,7 @@ function main() {
       terminalClient.includes('leakage') &&
       terminalClientTest.includes('assetPackDisclosureReview') &&
       terminalClientTest.includes('leakage none'),
-    'Terminal surfaces must render and summarize AssetPack disclosure review evidence.',
+    'product surfaces must render and summarize AssetPack disclosure review evidence.',
   );
   assertCheck(
     failures,

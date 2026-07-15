@@ -22,8 +22,8 @@ describe('AuxillariesInterfacesPane', () => {
         interfaceAdmissions: [
           {
             kind: 'AuxillariesInterfaceAdmission',
-            interfaceId: 'terminal',
-            surface: 'terminal',
+            interfaceId: 'product',
+            surface: 'product',
             authMode: 'session',
             readiness: 'ready',
             policyRequirements: ['session_required', 'organization_policy_required_for_protected_actions'],
@@ -89,11 +89,11 @@ describe('AuxillariesInterfacesPane', () => {
     );
 
     expect(screen.getAllByText('Auxillary step 4')).toHaveLength(2);
-    expect(screen.getByText(/Terminal detail and interface defaults/i)).toBeTruthy();
+    expect(screen.getByText(/Pack detail and interface defaults/i)).toBeTruthy();
     expect(screen.getByRole('heading', { name: /Interface instruction baseline/i })).toBeTruthy();
     expect(screen.getByText(/Registry fixed/i)).toBeInTheDocument();
     expect(screen.getByTestId('auxillaries-interface-admission-catalog')).toBeInTheDocument();
-    expect(screen.getAllByText(/terminal/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/packs/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/mcp/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/exchange hook/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/wallet binding required for delivery/i).length).toBeGreaterThan(0);
@@ -112,7 +112,7 @@ describe('AuxillariesInterfacesPane', () => {
       target: { value: 'Keep closure exact and user-facing.' },
     });
 
-    expect(screen.getByText(/Changes save automatically so Terminal transactions, proofs, MCP API calls, and ChatGPT App work/i)).toBeInTheDocument();
+    expect(screen.getByText(/Changes save automatically so product transactions, proofs, MCP API calls, and ChatGPT App work/i)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Continue' })).not.toBeInTheDocument();
 
     await waitFor(

@@ -11,7 +11,7 @@ import {
   type DepositRouteSession,
 } from "@/components/deposits/models/deposit-route-model";
 import type { DepositOptionReviewDecisionState } from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-admission";
-import type { TerminalActivityRecordDraft } from "@/components/bitcode/pipeline/models/pipeline-activity-history";
+import type { ProductActivityRecordDraft } from "@/components/bitcode/pipeline/models/pipeline-activity-history";
 
 export function useDepositOptionActions(input: {
   depositRouteInput: Parameters<typeof buildDepositRouteSession>[0];
@@ -29,7 +29,7 @@ export function useDepositOptionActions(input: {
   readCurrentSearchParams: () => URLSearchParams;
   replaceDepositSearchParams: (params: URLSearchParams) => void;
   handleRecordActivity: (
-    draft: TerminalActivityRecordDraft,
+    draft: ProductActivityRecordDraft,
   ) => Promise<unknown>;
   setRunsLoadError: (error: string | null) => void;
 }) {

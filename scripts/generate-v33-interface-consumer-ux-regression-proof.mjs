@@ -96,7 +96,7 @@ const rows = Object.freeze([
     posture: 'blocked_preview',
     visibilityBoundary: 'blocked_until_settlement',
     summary:
-      'Terminal handoff shows AssetPack measurements, fee posture, proof roots, and settlement repair steps only.',
+      'product handoff shows AssetPack measurements, fee posture, proof roots, and settlement repair steps only.',
     proofRoots: ['preview-root:terminal-reading', 'settlement-root:terminal-reading'],
     repairSteps: ['review-source-safe-preview', 'settle-btc-fee-to-unlock-rights'],
     previewId: 'terminal-preview',
@@ -288,7 +288,7 @@ export function buildV33InterfaceConsumerUxRegressionProofArtifact() {
       'interface.consumer.chatgpt-delivery-blocked',
     ]),
     scanTokens('apps/uapi/tests/terminalOrganizationAuthority.test.ts', [
-      'shares the package-owned InterfaceConsumerUxRegressionProof for Terminal handoff readability',
+      'shares the package-owned InterfaceConsumerUxRegressionProof for product handoff readability',
       'interface.consumer.terminal-preview-blocked',
     ]),
   ];

@@ -1,15 +1,15 @@
 /**
- * Relocated from app/terminal/terminal-pipeline-host-client.ts.
+ * Relocated from product experience components/pipeline-host-client.ts.
  * @see BITCODE_SPEC_V48.md frontend architecture workstream
  */
 
 import type {
-  TerminalDepositedSourceRevision,
-  TerminalDepositReadWorkbench,
+  ProductDepositedSourceRevision,
+  ProductDepositReadWorkbench,
 } from '@/components/reads/models/deposit-read-workbench';
-import type { TerminalRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
+import type { ProductRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
 
-export type TerminalReadFitsFindingSynthesisHostRequest = {
+export type ProductReadFitsFindingSynthesisHostRequest = {
   mode: 'asset_pack_pipeline';
   readId: string;
   readPrompt: string;
@@ -31,10 +31,10 @@ export type TerminalReadFitsFindingSynthesisHostRequest = {
   sourceDepth: number;
 };
 
-export type TerminalReadFitsFindingSynthesisHostRequestState =
+export type ProductReadFitsFindingSynthesisHostRequestState =
   | {
       ready: true;
-      request: TerminalReadFitsFindingSynthesisHostRequest;
+      request: ProductReadFitsFindingSynthesisHostRequest;
       missing: [];
     }
   | {
@@ -43,12 +43,12 @@ export type TerminalReadFitsFindingSynthesisHostRequestState =
       missing: string[];
     };
 
-export type TerminalReadFitsFindingSynthesisHostEvent = {
+export type ProductReadFitsFindingSynthesisHostEvent = {
   event: string;
   data: unknown;
 };
 
-export type TerminalReadFitsFindingSynthesisHostStreamSnapshot = {
+export type ProductReadFitsFindingSynthesisHostStreamSnapshot = {
   runId: string | null;
   output: string;
   outputDetails: Record<string, unknown>;
@@ -59,7 +59,7 @@ export type TerminalReadFitsFindingSynthesisHostStreamSnapshot = {
 };
 
 type StreamCallbacks = {
-  onEvent?: (event: TerminalReadFitsFindingSynthesisHostEvent) => void;
+  onEvent?: (event: ProductReadFitsFindingSynthesisHostEvent) => void;
 };
 
 function normalizedText(value?: string | null): string {
@@ -74,19 +74,19 @@ function githubCloneUrl(repositoryFullName: string): string {
   return `https://github.com/${repositoryFullName}.git`;
 }
 
-export function buildTerminalReadFitsFindingSynthesisHostRequest({
+export function buildProductReadFitsFindingSynthesisHostRequest({
   workbench,
   repositoryContext,
   depositedSourceRevision,
   readActivityId,
   acceptedReadNeed,
 }: {
-  workbench: TerminalDepositReadWorkbench | null;
-  repositoryContext?: TerminalRepositoryContextState | null;
-  depositedSourceRevision?: TerminalDepositedSourceRevision | null;
+  workbench: ProductDepositReadWorkbench | null;
+  repositoryContext?: ProductRepositoryContextState | null;
+  depositedSourceRevision?: ProductDepositedSourceRevision | null;
   readActivityId?: string | null;
   acceptedReadNeed?: unknown;
-}): TerminalReadFitsFindingSynthesisHostRequestState {
+}): ProductReadFitsFindingSynthesisHostRequestState {
   const selectedRepository = repositoryContext?.selectedRepository || null;
   const sourceRevision = workbench?.sourceRevision || null;
   const repositoryFullName = normalizedText(
@@ -160,9 +160,9 @@ export function buildTerminalReadFitsFindingSynthesisHostRequest({
   };
 }
 
-export function parseTerminalReadFitsFindingSynthesisHostSseBlock(
+export function parseProductReadFitsFindingSynthesisHostSseBlock(
   block: string,
-): TerminalReadFitsFindingSynthesisHostEvent | null {
+): ProductReadFitsFindingSynthesisHostEvent | null {
   const lines = block.split(/\r?\n/);
   let event = 'message';
   const dataLines: string[] = [];
@@ -188,9 +188,9 @@ export function parseTerminalReadFitsFindingSynthesisHostSseBlock(
   return { event, data };
 }
 
-export function drainTerminalReadFitsFindingSynthesisHostSseBuffer(
+export function drainProductReadFitsFindingSynthesisHostSseBuffer(
   buffer: string,
-  onEvent: (event: TerminalReadFitsFindingSynthesisHostEvent) => void,
+  onEvent: (event: ProductReadFitsFindingSynthesisHostEvent) => void,
 ): string {
   let remaining = buffer.replace(/\r\n/g, '\n');
   let separatorIndex = remaining.indexOf('\n\n');
@@ -198,7 +198,7 @@ export function drainTerminalReadFitsFindingSynthesisHostSseBuffer(
   while (separatorIndex >= 0) {
     const block = remaining.slice(0, separatorIndex);
     remaining = remaining.slice(separatorIndex + 2);
-    const event = parseTerminalReadFitsFindingSynthesisHostSseBlock(block);
+    const event = parseProductReadFitsFindingSynthesisHostSseBlock(block);
     if (event) onEvent(event);
     separatorIndex = remaining.indexOf('\n\n');
   }
@@ -206,8 +206,8 @@ export function drainTerminalReadFitsFindingSynthesisHostSseBuffer(
   return remaining;
 }
 
-export async function streamTerminalReadFitsFindingSynthesisHost(
-  request: TerminalReadFitsFindingSynthesisHostRequest,
+export async function streamProductReadFitsFindingSynthesisHost(
+  request: ProductReadFitsFindingSynthesisHostRequest,
   callbacks: StreamCallbacks = {},
 ): Promise<void> {
   const response = await fetch('/api/pipeline-host/asset-pack', {
@@ -233,7 +233,7 @@ export async function streamTerminalReadFitsFindingSynthesisHost(
   for (;;) {
     const { done, value } = await reader.read();
     if (done) break;
-    buffer = drainTerminalReadFitsFindingSynthesisHostSseBuffer(
+    buffer = drainProductReadFitsFindingSynthesisHostSseBuffer(
       buffer + decoder.decode(value, { stream: true }),
       (event) => callbacks.onEvent?.(event),
     );
@@ -241,12 +241,12 @@ export async function streamTerminalReadFitsFindingSynthesisHost(
 
   const finalChunk = decoder.decode();
   if (finalChunk) {
-    buffer = drainTerminalReadFitsFindingSynthesisHostSseBuffer(buffer + finalChunk, (event) =>
+    buffer = drainProductReadFitsFindingSynthesisHostSseBuffer(buffer + finalChunk, (event) =>
       callbacks.onEvent?.(event),
     );
   }
   if (buffer.trim()) {
-    const event = parseTerminalReadFitsFindingSynthesisHostSseBlock(buffer);
+    const event = parseProductReadFitsFindingSynthesisHostSseBlock(buffer);
     if (event) callbacks.onEvent?.(event);
   }
 }
@@ -301,7 +301,7 @@ function canonicalPhase(value: unknown, fallback = 'Setup'): string {
   return fallback;
 }
 
-function classifyHostLogType(event: TerminalReadFitsFindingSynthesisHostEvent): string {
+function classifyHostLogType(event: ProductReadFitsFindingSynthesisHostEvent): string {
   const data = recordValue(event.data);
   const type = data?.type ? String(data.type) : '';
   const telemetryEvent = recordValue(data?.telemetryEvent);
@@ -338,7 +338,7 @@ function classifyHostLogType(event: TerminalReadFitsFindingSynthesisHostEvent): 
   return 'thinking';
 }
 
-function buildHostExecutionState(event: TerminalReadFitsFindingSynthesisHostEvent): Record<string, unknown> {
+function buildHostExecutionState(event: ProductReadFitsFindingSynthesisHostEvent): Record<string, unknown> {
   if (event.event === 'host-completed') {
     return {
       phase: 'Finish',
@@ -411,7 +411,7 @@ function buildHostExecutionState(event: TerminalReadFitsFindingSynthesisHostEven
   };
 }
 
-function hostEventTimestamp(event: TerminalReadFitsFindingSynthesisHostEvent): string | undefined {
+function hostEventTimestamp(event: ProductReadFitsFindingSynthesisHostEvent): string | undefined {
   const data = recordValue(event.data);
   const telemetryEvent = recordValue(data?.telemetryEvent);
   const timestamp =
@@ -423,17 +423,17 @@ function hostEventTimestamp(event: TerminalReadFitsFindingSynthesisHostEvent): s
   return timestamp ? String(timestamp) : undefined;
 }
 
-function hostProgress(event: TerminalReadFitsFindingSynthesisHostEvent): 'error' | 'success' | 'in-progress' {
+function hostProgress(event: ProductReadFitsFindingSynthesisHostEvent): 'error' | 'success' | 'in-progress' {
   if (event.event === 'host-failed') return 'error';
   if (event.event === 'host-completed') return 'success';
   return 'in-progress';
 }
 
-export function buildTerminalReadFitsFindingSynthesisHostStreamSnapshot(
-  events: TerminalReadFitsFindingSynthesisHostEvent[],
+export function buildProductReadFitsFindingSynthesisHostStreamSnapshot(
+  events: ProductReadFitsFindingSynthesisHostEvent[],
   hostState: 'idle' | 'running' | 'completed' | 'failed',
   streamError: string | null = null,
-): TerminalReadFitsFindingSynthesisHostStreamSnapshot {
+): ProductReadFitsFindingSynthesisHostStreamSnapshot {
   const outputDetails: Record<string, unknown> = {};
   const outputLines: string[] = [];
   let latestExecutionState: Record<string, unknown> = {
@@ -445,7 +445,7 @@ export function buildTerminalReadFitsFindingSynthesisHostStreamSnapshot(
   let runId: string | null = null;
 
   events.forEach((event, index) => {
-    const summary = summarizeTerminalReadFitsFindingSynthesisHostEvent(event);
+    const summary = summarizeProductReadFitsFindingSynthesisHostEvent(event);
     let line = summary;
     if (outputDetails[line]) {
       line = `${summary} #${index + 1}`;
@@ -601,8 +601,8 @@ function summarizeTelemetryArtifactEvent(data: Record<string, unknown>): string 
   ].filter(Boolean).join('; ') + '.';
 }
 
-export function summarizeTerminalReadFitsFindingSynthesisHostEvent(
-  event: TerminalReadFitsFindingSynthesisHostEvent,
+export function summarizeProductReadFitsFindingSynthesisHostEvent(
+  event: ProductReadFitsFindingSynthesisHostEvent,
 ): string {
   const data = recordValue(event.data);
   if (event.event === 'host-started') {

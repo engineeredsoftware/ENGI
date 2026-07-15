@@ -121,14 +121,14 @@ function main() {
 
   for (const gate of [
     'Gate 1: V29 Objectives And Gating',
-    'Gate 2: Terminal Transaction Read Models And Navigation',
+    'Gate 2: product Transaction Read Models And Navigation',
     'Gate 3: Wallet Signer Session And BTC Fee Operations',
     'Gate 4: Reading Transaction Recovery And Pipeline Observability',
     'Gate 5: AssetPack Disclosure Rights And Preview Depth',
     'Gate 6: Settlement Reconciliation And Repair',
     'Gate 7: Organization Permissions And Interface Authority',
     'Gate 8: Demonstration-Origin Commercial Formalization',
-    'Gate 9: Terminal UX Quality And Browser Proof',
+    'Gate 9: product UX Quality And Browser Proof',
     'Gate 10: Local And Staging Promotion Readiness'
   ]) {
     assertCheck(failures, hasSection(delta, gate) || notes.includes(gate), `V29 gate plan is missing ${gate}.`);

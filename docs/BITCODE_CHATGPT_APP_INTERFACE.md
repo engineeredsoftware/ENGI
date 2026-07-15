@@ -17,7 +17,7 @@ It can:
 
 It must not:
 - own Exchange state,
-- bypass Terminal/Exchange proof requirements,
+- bypass Packs/Exchange proof requirements,
 - write unconfirmed connected-interface changes,
 - write connected-interface changes without owner-read or licensed-read registry evidence for the relevant AssetPack,
 - use generic work-board examples as Bitcode product semantics.

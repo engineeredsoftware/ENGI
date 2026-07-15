@@ -4,10 +4,10 @@ Status: non-canonical internal note.
 
 ## Current Gate Posture
 
-V26 is the productization program for Bitcode Protocol, Bitcode Exchange, Bitcode Terminal, and admitted connected interfaces.
+V26 is the productization program for Bitcode Protocol, Bitcode Exchange, Bitcode, and admitted connected interfaces.
 
 Fifth-gate remains focused on:
-- minimum-functional Exchange and Terminal,
+- minimum-functional Exchange and product,
 - source-to-shares make/use abilities,
 - broad non-Bitcode reform baseline,
 - Read review before fit search,

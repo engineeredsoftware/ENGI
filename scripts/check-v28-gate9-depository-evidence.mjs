@@ -26,7 +26,7 @@ const checks = [
     ],
   },
   {
-    file: 'apps/uapi/app/terminal/TerminalDepositComposer.tsx',
+    file: 'apps/uapi/app/ (removed cockpit tree) TerminalDepositComposer.tsx',
     needles: [
       'depositProofRoot',
       'depositMeasurementRoot',
@@ -36,7 +36,7 @@ const checks = [
     ],
   },
   {
-    file: 'apps/uapi/app/terminal/terminal-deposit-read-workbench.ts',
+    file: 'apps/uapi/app/ (removed cockpit tree) terminal-deposit-read-workbench.ts',
     needles: [
       'Source proof roots',
       'Search document roots',
@@ -45,7 +45,7 @@ const checks = [
     ],
   },
   {
-    file: 'apps/uapi/app/terminal/terminal-pipeline-host-client.ts',
+    file: 'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
     needles: [
       'depositProofRoot',
       'depositMeasurementRoot',

@@ -1,7 +1,7 @@
 /**
  * Bitcode conversation persistence helpers.
  *
- * Conversations are the Terminal write corridor for rich source input,
+ * Conversations are the product write corridor for rich source input,
  * message-level attachments, assistant responses, and execution evidence.
  */
 

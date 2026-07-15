@@ -78,7 +78,7 @@ const SOURCE_ROOTS = Object.freeze({
   packsActivityTable: 'apps/uapi/components/packs/PacksActivityTable/PacksActivityTable.tsx',
   packsActivityFilterBar: 'apps/uapi/components/packs/PacksActivityFilterBar/PacksActivityFilterBar.tsx',
   packsActivityDetailStates: 'apps/uapi/components/packs/PacksActivityDetailStates/PacksActivityDetailStates.tsx',
-  packsPortfolioOverview: 'apps/uapi/components/packs/PacksPortfolioOverview/PacksPortfolioOverview.tsx',
+  packsPortfolioOverview: 'apps/uapi/components/packs/PacksPortfolioStrip/PacksPortfolioStrip.tsx',
   packsPage: 'apps/uapi/app/packs/page.tsx',
   packActivityModel: 'apps/uapi/components/bitcode/activity/PackActivityModel/pack-activity-model.ts',
   packsActivityApi: 'apps/uapi/app/api/packs/activity/route.ts',

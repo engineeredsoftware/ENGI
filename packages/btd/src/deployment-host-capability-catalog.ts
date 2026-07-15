@@ -256,7 +256,7 @@ export function buildDeploymentHostCapabilityRows(): DeploymentHostCapabilityRow
       failureMode: 'website-host-without-lane-contract-or-disclosure-lock',
       repairPosture: 'deny-read-unlock-and-run-deployment-host-capability-check',
       telemetryProofHookId: 'deployment.telemetry.website',
-      proofRootBasis: ['Terminal interface contracts', 'DeploymentHostCapabilityCatalog'],
+      proofRootBasis: ['product interface contracts', 'DeploymentHostCapabilityCatalog'],
     },
     {
       hostId: 'api',
@@ -567,7 +567,7 @@ export function buildEnvironmentLaneContractRows(): EnvironmentLaneContractInput
       failureMode: 'staging-testnet-lane-without-complete-rehearsal-proof',
       repairPosture: 'block-promotion-and-repeat-staging-testnet-rehearsal',
       telemetryProofHookId: 'deployment.telemetry.lane.staging-testnet',
-      proofRootBasis: ['DeploymentReadinessRehearsal', 'Terminal transaction proof'],
+      proofRootBasis: ['DeploymentReadinessRehearsal', 'product transaction proof'],
     },
     {
       laneId: 'public-testnet',

@@ -220,7 +220,7 @@ function main() {
   assertCheck(failures, apiTest.includes('api-request-read-allowed'), 'API tests must share Gate 5 fixture.');
   assertCheck(failures, mcpTest.includes('mcp-finding-fits-allowed'), 'MCP tests must share Gate 5 fixture.');
   assertCheck(failures, chatgptTest.includes('chatgpt-delivery-allowed'), 'ChatGPT tests must share Gate 5 fixture.');
-  assertCheck(failures, terminalTest.includes('terminal-stale-authority-denied'), 'Terminal tests must share stale authority denial fixture.');
+  assertCheck(failures, terminalTest.includes('terminal-stale-authority-denied'), 'product tests must share stale authority denial fixture.');
   assertCheck(failures, specs.includes('V33 Gate 5 Interface Authorization Policy Fail-Closed'), 'Spec/roadmap must describe Gate 5 as current work.');
   assertCheck(failures, packageJson.includes('check:v33-gate5'), 'package.json must expose check:v33-gate5.');
   assertCheck(failures, workflow.includes('check-v33-gate5-interface-authorization-policy.mjs'), 'Gate workflow must run Gate 5 checker.');

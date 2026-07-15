@@ -159,7 +159,7 @@ export const V38_INFERENCE_SURFACE_ROWS = Object.freeze([
       'feedbackHistory',
     ],
     contextFieldIds: [
-      'TerminalReadRequest',
+      'ProductReadRequest',
       'ReadNeedSourceInput',
       'sourceRevision',
       'feedbackHistory',
@@ -288,7 +288,7 @@ export const V38_INFERENCE_SURFACE_ROWS = Object.freeze([
     familyId: 'conversation_agent',
     label: 'Comprehensive Conversation PTRR agent',
     purpose:
-      'Power Bitcode Terminal Conversations with repository understanding, source-safe response synthesis, and admitted pipeline trigger suggestions.',
+      'Power Bitcode Conversations with repository understanding, source-safe response synthesis, and admitted pipeline trigger suggestions.',
     sourceRoots: [SOURCE_ROOTS.conversationAgent, SOURCE_ROOTS.conversationSystemPrompt],
     phaseCount: 1,
     ptrrAgentCount: 1,

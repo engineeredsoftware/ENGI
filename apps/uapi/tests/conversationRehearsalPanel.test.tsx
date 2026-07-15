@@ -22,7 +22,7 @@ describe('ConversationRehearsalPanel', () => {
     await user.selectOptions(screen.getByLabelText(/conversation rehearsal flow/i), 'product_handoff');
     await user.click(screen.getByRole('button', { name: /refresh conversation rehearsal preview/i }));
 
-    expect(screen.getByText('Value-bearing mainnet blocked Terminal handoff rehearsal')).toBeTruthy();
+    expect(screen.getByText('Value-bearing mainnet blocked product handoff rehearsal')).toBeTruthy();
     expect(screen.getAllByText(/mainnet blocked/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/no ledger authority/i)).toBeTruthy();
     expect(screen.getByText(/no wallet signing/i)).toBeTruthy();

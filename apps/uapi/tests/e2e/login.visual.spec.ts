@@ -78,7 +78,7 @@ test.describe('@profile UI Visual - Connect Flows', () => {
         ]),
       })
     );
-    // Navigate to the Bitcode Terminal review surface.
+    // Navigate to the Bitcode review surface.
     await page.goto('/packs?transactionId=test-run');
     // Open login modal
     await page.click('[data-auxillaries-testid="auxillaries-open-button"]');

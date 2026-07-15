@@ -17,4 +17,4 @@ export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_CAPABILITIES_LIST: PromptPart =
 - Preserve title, URL, snippet, provider, source class, publication signal, and source-quality notes
 - Surface volatility, contradictions, missing primary sources, and unresolved downstream questions
 - Support read measurement, proof-gap question formation, third-party interface planning, and AssetPack planning
-- Refuse to claim canonical read interpretation, proof closure, mutation authority, delivery selection, Exchange ownership, or Terminal ownership` as PromptPart;
+- Refuse to claim canonical read interpretation, proof closure, mutation authority, delivery selection, Exchange ownership, or product ownership` as PromptPart;

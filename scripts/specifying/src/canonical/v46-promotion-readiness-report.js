@@ -106,7 +106,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('scripts/prepare-bitcode-spec-family-promotion.mjs', [
     "if (version === 'V46')",
     'V46 canonical system specification for protocol comprehension',
-    'specifications/BITCODE_SPEC_V46_PROVEN.md',
+    'BITCODE_SPEC_V46_PROVEN.md',
     V46_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   ]),
   source('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
@@ -176,7 +176,7 @@ const REQUIRED_DOCUMENTATION_EVIDENCE = Object.freeze([
   ]),
   source('specifications/SPECIFICATIONS_ROADMAP.md', [
     'V46 Gate 8 closure anchor',
-    'specifications/BITCODE_SPEC_V46_PROVEN.md',
+    'BITCODE_SPEC_V46_PROVEN.md',
   ]),
   source('README.md', [
     'check:v46-gate8',

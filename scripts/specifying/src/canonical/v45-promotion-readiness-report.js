@@ -110,7 +110,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('scripts/prepare-bitcode-spec-family-promotion.mjs', [
     "if (version === 'V45')",
     'V45 canonical system specification for knowledge commoditization',
-    'specifications/BITCODE_SPEC_V45_PROVEN.md',
+    'BITCODE_SPEC_V45_PROVEN.md',
     V45_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   ]),
   source('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
@@ -180,7 +180,7 @@ const REQUIRED_DOCUMENTATION_EVIDENCE = Object.freeze([
   ]),
   source('specifications/SPECIFICATIONS_ROADMAP.md', [
     'V45 Gate 18 closure anchor',
-    'specifications/BITCODE_SPEC_V45_PROVEN.md',
+    'BITCODE_SPEC_V45_PROVEN.md',
   ]),
   source('README.md', [
     'check:v45-gate18',

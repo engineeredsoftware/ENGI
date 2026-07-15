@@ -2,8 +2,8 @@
  * Interfaces pane preference types and default posture values.
  */
 
-export type TerminalDetailDensity = 'signal' | 'balanced' | 'full';
-export type ExternalInterfaceEntry = 'mcp' | 'chatgpt' | 'terminal';
+export type ProductDetailDensity = 'signal' | 'balanced' | 'full';
+export type ExternalInterfaceEntry = 'mcp' | 'chatgpt' | 'packs';
 export type ProofMode = 'visual' | 'mixed' | 'raw';
 export type PromptTone = 'bounded' | 'formal' | 'decisive';
 export type ExecutionBias = 'balanced' | 'quality' | 'throughput';
@@ -24,7 +24,7 @@ export interface InterfaceAdmissionRecord {
 }
 
 export interface InterfacesDefaults {
-  productDetailDensity: TerminalDetailDensity;
+  productDetailDensity: ProductDetailDensity;
   externalInterfaceEntry: ExternalInterfaceEntry;
   proofMode: ProofMode;
   promptTone: PromptTone;
@@ -33,7 +33,7 @@ export interface InterfacesDefaults {
 
 export const DEFAULT_INTERFACES_DEFAULTS: InterfacesDefaults = {
   productDetailDensity: 'balanced',
-  externalInterfaceEntry: 'terminal',
+  externalInterfaceEntry: 'packs',
   proofMode: 'mixed',
   promptTone: 'formal',
   executionBias: 'balanced',

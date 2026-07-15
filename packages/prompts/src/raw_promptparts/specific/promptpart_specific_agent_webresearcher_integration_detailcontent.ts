@@ -16,4 +16,4 @@ export const PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_INTEGRATION_DETAILCONTENT: 
 - consumes web-search and content tools only for source-attributed external evidence needed by read synthesis
 - feeds context into read-comprehension, third-party interface planning, proof-gap question formation, and AssetPack synthesis
 - preserves stable web-researcher names only as import and package wrappers
-- does not own mutation, delivery mechanism selection, proof generation, canonical read interpretation, or live Exchange/Terminal product semantics` as PromptPart;
+- does not own mutation, delivery mechanism selection, proof generation, canonical read interpretation, or live Exchange/product semantics` as PromptPart;

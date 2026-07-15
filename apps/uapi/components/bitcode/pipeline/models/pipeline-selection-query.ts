@@ -1,6 +1,6 @@
 /**
  * URL selection/query helpers for pipeline master-detail pages.
- * Relocated from app/terminal/terminal-transaction-query.
+ * Relocated from product experience components/transaction-query.
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
 
@@ -17,7 +17,7 @@ import {
 } from '@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types';
 import type { EnterpriseReadingStepId } from '@/components/reads/models/enterprise-reading-ux-state';
 
-import { buildTerminalTransactionFilters } from '@/components/bitcode/pipeline/models/pipeline-transactions';
+import { buildProductTransactionFilters } from '@/components/bitcode/pipeline/models/pipeline-transactions';
 
 const SEARCH_PARAM_KEYS = {
   transactionId: 'transactionId',
@@ -49,21 +49,21 @@ const SEARCH_PARAM_KEYS = {
 const TRANSACTION_OWNERSHIP_VALUES: TransactionOwnership[] = ['all', 'mine', 'network'];
 const TRANSACTION_LENS_VALUES: TransactionLens[] = ['all', 'deposit', 'read', 'closure'];
 const TRANSACTION_SORT_VALUES: TransactionSort[] = ['newest', 'oldest', 'most-tokens', 'highest-btc-fee-basis'];
-export type TerminalEnvironmentMode = 'mock' | 'development' | 'staging' | 'production';
-const TERMINAL_ENVIRONMENT_MODE_VALUES: TerminalEnvironmentMode[] = [
+export type ProductEnvironmentMode = 'mock' | 'development' | 'staging' | 'production';
+const PRODUCT_ENVIRONMENT_MODE_VALUES: ProductEnvironmentMode[] = [
   'mock',
   'development',
   'staging',
   'production',
 ];
-export type TerminalConversationHandoffWorkflow =
+export type ProductConversationHandoffWorkflow =
   | 'depositing'
   | 'reading'
   | 'finding_fits'
   | 'exchange'
   | 'settlement'
   | 'delivery';
-const TERMINAL_CONVERSATION_HANDOFF_WORKFLOW_VALUES: TerminalConversationHandoffWorkflow[] = [
+const PRODUCT_CONVERSATION_HANDOFF_WORKFLOW_VALUES: ProductConversationHandoffWorkflow[] = [
   'depositing',
   'reading',
   'finding_fits',
@@ -71,13 +71,13 @@ const TERMINAL_CONVERSATION_HANDOFF_WORKFLOW_VALUES: TerminalConversationHandoff
   'settlement',
   'delivery',
 ];
-export type TerminalConversationHandoffPolicy = 'allowed' | 'retry_required' | 'denied';
-const TERMINAL_CONVERSATION_HANDOFF_POLICY_VALUES: TerminalConversationHandoffPolicy[] = [
+export type ProductConversationHandoffPolicy = 'allowed' | 'retry_required' | 'denied';
+const PRODUCT_CONVERSATION_HANDOFF_POLICY_VALUES: ProductConversationHandoffPolicy[] = [
   'allowed',
   'retry_required',
   'denied',
 ];
-const TERMINAL_ENTERPRISE_READING_STAGE_VALUES: EnterpriseReadingStepId[] = [
+const PRODUCT_ENTERPRISE_READING_STAGE_VALUES: EnterpriseReadingStepId[] = [
   'request-read',
   'review-synthesized-need',
   'request-fit',
@@ -108,11 +108,11 @@ const TRANSACTION_DETAIL_SECTION_VALUES: PipelineTransactionDetailSection[] = [
   'console',
 ];
 
-export type TerminalConversationHandoffContext = {
+export type ProductConversationHandoffContext = {
   present: boolean;
   conversationId: string | null;
-  workflow: TerminalConversationHandoffWorkflow | null;
-  policy: TerminalConversationHandoffPolicy | null;
+  workflow: ProductConversationHandoffWorkflow | null;
+  policy: ProductConversationHandoffPolicy | null;
   proofRoot: string | null;
   repositoryAnchor: string | null;
   sourceSelectors: string[];
@@ -136,7 +136,7 @@ function parsePositiveInteger(value: string | null, fallback: number) {
   return parsed;
 }
 
-export function readTerminalTransactionId(searchParams: URLSearchParams) {
+export function readProductTransactionId(searchParams: URLSearchParams) {
   return (
     searchParams.get(SEARCH_PARAM_KEYS.transactionId)
     || searchParams.get(SEARCH_PARAM_KEYS.runIdAlias)
@@ -144,14 +144,14 @@ export function readTerminalTransactionId(searchParams: URLSearchParams) {
   );
 }
 
-export function readTerminalEnvironmentMode(searchParams: URLSearchParams): TerminalEnvironmentMode | null {
+export function readProductEnvironmentMode(searchParams: URLSearchParams): ProductEnvironmentMode | null {
   const rawValue = searchParams.get(SEARCH_PARAM_KEYS.environmentMode);
-  return TERMINAL_ENVIRONMENT_MODE_VALUES.includes(rawValue as TerminalEnvironmentMode)
-    ? (rawValue as TerminalEnvironmentMode)
+  return PRODUCT_ENVIRONMENT_MODE_VALUES.includes(rawValue as productEnvironmentMode)
+    ? (rawValue as productEnvironmentMode)
     : null;
 }
 
-export function readTerminalDebugEnabled(searchParams: URLSearchParams) {
+export function readProductDebugEnabled(searchParams: URLSearchParams) {
   return searchParams.get(SEARCH_PARAM_KEYS.debug) === '1';
 }
 
@@ -161,8 +161,8 @@ export function readPipelineTransactionDetailSection(searchParams: URLSearchPara
   return parseEnumValue(rawValue, TRANSACTION_DETAIL_SECTION_VALUES, 'shippables');
 }
 
-export function readTerminalTransactionFilters(searchParams: URLSearchParams): TransactionFilters {
-  const fallback = buildTerminalTransactionFilters();
+export function readProductTransactionFilters(searchParams: URLSearchParams): TransactionFilters {
+  const fallback = buildProductTransactionFilters();
 
   return {
     searchTerm: parseTextValue(searchParams.get(SEARCH_PARAM_KEYS.search), fallback.searchTerm),
@@ -184,7 +184,7 @@ export function readTerminalTransactionFilters(searchParams: URLSearchParams): T
   };
 }
 
-export function readTerminalTransactionPagination(searchParams: URLSearchParams): TransactionPagination {
+export function readProductTransactionPagination(searchParams: URLSearchParams): TransactionPagination {
   const parsedPageSize = parsePositiveInteger(
     searchParams.get(SEARCH_PARAM_KEYS.pageSize),
     DEFAULT_TRANSACTION_PAGINATION.pageSize,
@@ -199,7 +199,7 @@ export function readTerminalTransactionPagination(searchParams: URLSearchParams)
   };
 }
 
-export function readTerminalConversationHandoffContext(searchParams: URLSearchParams): TerminalConversationHandoffContext {
+export function readProductConversationHandoffContext(searchParams: URLSearchParams): ProductConversationHandoffContext {
   const present = searchParams.get(SEARCH_PARAM_KEYS.conversationHandoff) === '1';
   const workflow = searchParams.get(SEARCH_PARAM_KEYS.handoffWorkflow);
   const policy = searchParams.get(SEARCH_PARAM_KEYS.handoffPolicy);
@@ -212,11 +212,11 @@ export function readTerminalConversationHandoffContext(searchParams: URLSearchPa
   return {
     present,
     conversationId: parseTextValue(searchParams.get(SEARCH_PARAM_KEYS.conversationId), '') || null,
-    workflow: workflow && TERMINAL_CONVERSATION_HANDOFF_WORKFLOW_VALUES.includes(workflow as TerminalConversationHandoffWorkflow)
-      ? (workflow as TerminalConversationHandoffWorkflow)
+    workflow: workflow && PRODUCT_CONVERSATION_HANDOFF_WORKFLOW_VALUES.includes(workflow as productConversationHandoffWorkflow)
+      ? (workflow as productConversationHandoffWorkflow)
       : null,
-    policy: policy && TERMINAL_CONVERSATION_HANDOFF_POLICY_VALUES.includes(policy as TerminalConversationHandoffPolicy)
-      ? (policy as TerminalConversationHandoffPolicy)
+    policy: policy && PRODUCT_CONVERSATION_HANDOFF_POLICY_VALUES.includes(policy as productConversationHandoffPolicy)
+      ? (policy as productConversationHandoffPolicy)
       : null,
     proofRoot: parseTextValue(searchParams.get(SEARCH_PARAM_KEYS.handoffProofRoot), '') || null,
     repositoryAnchor: parseTextValue(searchParams.get(SEARCH_PARAM_KEYS.handoffRepositoryAnchor), '') || null,
@@ -225,7 +225,7 @@ export function readTerminalConversationHandoffContext(searchParams: URLSearchPa
     readingStage: searchParams.get(SEARCH_PARAM_KEYS.readingStage)
       ? parseEnumValue(
           searchParams.get(SEARCH_PARAM_KEYS.readingStage),
-          TERMINAL_ENTERPRISE_READING_STAGE_VALUES,
+          PRODUCT_ENTERPRISE_READING_STAGE_VALUES,
           'request-read',
         )
       : null,
@@ -246,9 +246,9 @@ export function clearTerminalTransactionId(searchParams: URLSearchParams) {
   return nextParams;
 }
 
-export function writeTerminalEnvironmentMode(
+export function writeProductEnvironmentMode(
   searchParams: URLSearchParams,
-  environmentMode: TerminalEnvironmentMode | null,
+  environmentMode: ProductEnvironmentMode | null,
 ) {
   const nextParams = new URLSearchParams(searchParams.toString());
   if (!environmentMode) {
@@ -282,12 +282,12 @@ export function writePipelineTransactionDetailSection(
   return nextParams;
 }
 
-export function writeTerminalTransactionFilters(
+export function writeProductTransactionFilters(
   searchParams: URLSearchParams,
   filters: TransactionFilters,
 ) {
   const nextParams = new URLSearchParams(searchParams.toString());
-  const defaults = buildTerminalTransactionFilters();
+  const defaults = buildProductTransactionFilters();
 
   const writeValue = (key: string, value: string, defaultValue: string) => {
     if (value === defaultValue) {

@@ -189,7 +189,7 @@ function buildSurfaceCoverage() {
     {
       surfaceId: 'ledger',
       stateClasses: ['success', 'blocked', 'repair'],
-      proofSubjects: ['BTC fee finality', 'BTD ownership transfer', 'terminal journal root', 'ledger projection root'],
+      proofSubjects: ['BTC fee finality', 'BTD ownership transfer', 'BTD journal root', 'ledger projection root'],
       failClosedBoundary: 'rights transfer requires confirmed BTC fee finality before ownership/read rights move',
     },
     {

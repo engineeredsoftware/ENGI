@@ -107,7 +107,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('scripts/prepare-bitcode-spec-family-promotion.mjs', [
     "if (version === 'V42')",
     'V42 canonical system specification for reliable MVP experience',
-    'specifications/BITCODE_SPEC_V42_PROVEN.md',
+    'BITCODE_SPEC_V42_PROVEN.md',
     V42_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   ]),
   source('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
@@ -177,7 +177,7 @@ const REQUIRED_DOCUMENTATION_EVIDENCE = Object.freeze([
   ]),
   source('specifications/SPECIFICATIONS_ROADMAP.md', [
     'V42 Gate 9 closure anchor',
-    'specifications/BITCODE_SPEC_V42_PROVEN.md',
+    'BITCODE_SPEC_V42_PROVEN.md',
   ]),
   source('README.md', [
     'check:v42-gate9',

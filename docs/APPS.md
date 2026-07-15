@@ -17,7 +17,7 @@ domain depth see [`docs/ASSET_PACKS.md`](./ASSET_PACKS.md).
 | **chatgpt** | `apps/chatgpt` | ChatGPT App actions |
 | **claude** | `apps/claude` | Claude App surface |
 
-**Run uapi:** from repo root `pnpm run dev:remote` or `pnpm -C apps/uapi dev:remote` (symlink `uapi/` also works).
+**Run uapi:** from repo root `pnpm run dev:remote` or `pnpm -C apps/uapi dev:remote` (path is always `apps/uapi`; no root `uapi/` symlink).
 
 ## Architecture (uapi)
 
@@ -32,7 +32,7 @@ packages/* (domain)
 ```
 
 Product run language is **Pipeline**. BTD ledger language is **journal**.
-No `/terminal` product route.
+Product routes: `/packs`, `/deposits`, `/reads`, `/docs`.
 
 ## Commercial loop (Deposit → Read → Settle)
 

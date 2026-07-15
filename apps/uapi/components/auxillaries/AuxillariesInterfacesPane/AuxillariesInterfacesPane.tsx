@@ -53,14 +53,14 @@ export default function AuxillariesInterfacesPane({
           <AuxillariesWorkspaceSection
             kicker="Interfaces posture"
             title="Shape transactions before you reopen them"
-            description="Interfaces is where you keep Terminal detail density, MCP API and ChatGPT App entry posture, proof reading, and the shared instruction baseline aligned to one predictable operator posture."
+            description="Interfaces is where you keep Pack detail density, MCP API and ChatGPT App entry posture, proof reading, and the shared instruction baseline aligned to one predictable operator posture."
             explainer={auxillaryPaneExplainers.interfacesDefaults}
             tone="emerald"
           >
             <AuxillariesStatGrid
               items={[
                 {
-                  label: 'Terminal detail',
+                  label: 'Pack detail',
                   value:
                     defaults.productDetailDensity === 'signal'
                       ? 'Dense signal'
@@ -77,7 +77,7 @@ export default function AuxillariesInterfacesPane({
                       ? 'MCP API'
                       : defaults.externalInterfaceEntry === 'chatgpt'
                         ? 'ChatGPT App'
-                        : 'Terminal',
+                        : 'product',
                   detail: 'How external interface work should enter or return to Bitcode.',
                   tone: 'sky',
                 },
@@ -114,7 +114,7 @@ export default function AuxillariesInterfacesPane({
           <AuxillariesWorkspaceSection
             kicker="Interface admission catalog"
             title="Admitted surfaces and source boundaries"
-            description="Terminal, API, MCP, ChatGPT App, Exchange, and future hooks read from the same source-safe admission records before any protected action can run."
+            description="product, API, MCP, ChatGPT App, Exchange, and future hooks read from the same source-safe admission records before any protected action can run."
             explainer={auxillaryPaneExplainers.interfacesDefaults}
             tone="sky"
           >
@@ -124,8 +124,8 @@ export default function AuxillariesInterfacesPane({
           <form onSubmit={handleSubmit} className="space-y-5">
             <AuxillariesWorkspaceSection
               kicker="Interface defaults"
-              title="Terminal detail and interface defaults"
-              description="Set the opening behavior the operator should see when moving between Terminal transactions, proofs, the MCP API, and the ChatGPT App."
+              title="Pack detail and interface defaults"
+              description="Set the opening behavior the operator should see when moving between product transactions, proofs, the MCP API, and the ChatGPT App."
               explainer={auxillaryPaneExplainers.interfacesDefaults}
             >
               <AuxillariesPreferenceCards items={preferenceCards} />
@@ -148,7 +148,7 @@ export default function AuxillariesInterfacesPane({
 
             <div className="rounded-none border border-white/10 bg-black/20 px-5 py-4">
               <p className="text-sm leading-7 text-white/68">
-                Changes save automatically so Terminal transactions, proofs, MCP API calls, and ChatGPT App work reopen with the same interface defaults. Ledgerized Reading pipelines keep protocol-owned model configuration.
+                Changes save automatically so product transactions, proofs, MCP API calls, and ChatGPT App work reopen with the same interface defaults. Ledgerized Reading pipelines keep protocol-owned model configuration.
               </p>
             </div>
           </form>

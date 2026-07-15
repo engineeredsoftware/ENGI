@@ -10,7 +10,7 @@ import { Execution } from '@bitcode/execution-generics';
 const read: DepositorySearchRead = {
   id: 'read-terminal-fit',
   prompt:
-    'Read the deposited repository revision and determine whether it contains a complete non-mock Terminal path through Deposit, Read/Fit, AssetPack evidence, proof finality readback, and Supabase ledger reconciliation.',
+    'Read the deposited repository revision and determine whether it contains a complete non-mock product path through Deposit, Read/Fit, AssetPack evidence, proof finality readback, and Supabase ledger reconciliation.',
   repositoryFullName: 'engineeredsoftware/ENGI',
   sourceBranch: 'main',
   sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
@@ -33,7 +33,7 @@ function asset(overrides: Partial<DepositoryAsset> = {}): DepositoryAsset {
     assetId: 'asset_repository-revision-deposit-engineeredsoftware-engi',
     title: 'Deposited ENGI repository revision',
     summary:
-      'Repository revision evidence for Terminal Deposit, Read/Fit, AssetPack evidence, proof-root, finality readback, and Supabase ledger reconciliation.',
+      'Repository revision evidence for Deposit, Read/Fit, AssetPack evidence, proof-root, finality readback, and Supabase ledger reconciliation.',
     artifactKind: 'repository-revision',
     artifactType: 'repository/revision',
     repositoryFullName: 'engineeredsoftware/ENGI',
@@ -45,9 +45,9 @@ function asset(overrides: Partial<DepositoryAsset> = {}): DepositoryAsset {
         unitId: 'asset_repository-revision-deposit-engineeredsoftware-engi:unit-1',
         unitKind: 'repository-revision',
         text:
-          'Terminal commercial path records repository revision Deposit evidence, measured Read, Fit quality receipt, AssetPack evidence, proof-root, finality readback, wallet authorization, and reconciliation readback.',
+          'product commercial path records repository revision Deposit evidence, measured Read, Fit quality receipt, AssetPack evidence, proof-root, finality readback, wallet authorization, and reconciliation readback.',
         codeAnalysisFacts: {
-          symbols: ['TerminalDepositReadWorkbench', 'AssetPackPipelineHarness'],
+          symbols: ['ProductDepositReadWorkbench', 'AssetPackPipelineHarness'],
           paths: ['apps/uapi/components/reads/models/deposit-read-workbench.ts'],
           configKeys: ['BITCODE_PIPELINE_STREAM_TO_DATABASE'],
           stackTags: ['terminal', 'assetpack', 'supabase'],
@@ -176,17 +176,17 @@ describe('AssetPack depository search', () => {
     const result = await searchDepositoryAssetSpace({
       read,
       assets: [
-        asset({ assetId: 'fit-deposit-1', title: 'Terminal path deposit one' }),
+        asset({ assetId: 'fit-deposit-1', title: 'product path deposit one' }),
         asset({
           assetId: 'fit-deposit-2',
-          title: 'Terminal path deposit two',
+          title: 'product path deposit two',
           contentRoot: 'sha256:test-content-root-two',
           contentUnits: [
             {
               unitId: 'fit-deposit-2:unit-1',
               unitKind: 'repository-revision',
               text:
-                'Deposit Read Fit AssetPack evidence proof-root finality readback and Supabase ledger reconciliation for Terminal.',
+                'Deposit Read Fit AssetPack evidence proof-root finality readback and Supabase ledger reconciliation for product.',
             },
           ],
         }),

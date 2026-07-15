@@ -46,9 +46,9 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
   },
   {
     productId: 'bitcode-terminal',
-    productName: 'Bitcode Terminal',
+    productName: 'Bitcode',
     baselineReadiness: 'terminal-lite-and-demonstration-read-backed',
-    parityMatrixAnchor: 'Bitcode Terminal read/write loop',
+    parityMatrixAnchor: 'Bitcode read/write loop',
     requiredEvidence: [
       ['protocol-demonstration/public/app.js', '__BITCODE_DEMONSTRATION_SHELL_SNAPSHOT__'],
       ['protocol-demonstration/test/v26-uapi-app-router-entrypoints.test.js', 'TypeScript-only'],
@@ -71,12 +71,12 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['apps/uapi/tests/terminalFlowGuideCard.test.tsx', 'repository-reconnect-required'],
       ['apps/uapi/tests/terminalTransactionReadinessSource.test.ts', 'route_repository_context'],
       ['apps/uapi/tests/terminalRepositoryContextPanel.test.tsx', 'Saved GitHub attachment found, but the live provider session must reconnect'],
-      ['apps/uapi/tests/terminalReadScenarios.test.ts', 'normalizes Exchange Read-fitting review state for Terminal review controls'],
-      ['specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', '`Bitcode Terminal` read/write loop']
+      ['apps/uapi/tests/terminalReadScenarios.test.ts', 'normalizes Exchange Read-fitting review state for product review controls'],
+      ['specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', '`Bitcode` read/write loop']
     ],
     closureNotes: [
       'clean promotion and whole-flow browser provation are represented by the Gate 8 proof family',
-      'eighth-gate whole-repository provation is closed for the V26 Terminal baseline'
+      'eighth-gate whole-repository provation is closed for the V26 product baseline'
     ]
   },
   {
@@ -167,7 +167,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Transactional readiness and signed-settlement admission']
     ],
     closureNotes: [
-      'provider-backed wallet signing breadth remains V27+ Terminal/Exchange expansion work',
+      'provider-backed wallet signing breadth remains V27+ Packs/Exchange expansion work',
       'manual wallet identity is not equivalent to signed settlement',
       'stored repository inventory does not by itself prove a still-valid live provider session',
       'saved verified wallet signer posture does not by itself prove a still-live wallet-provider signing session'
@@ -221,8 +221,8 @@ const PRODUCT_MVP_EVIDENCE_BY_ID = {
   ],
   'bitcode-terminal': [
     ['apps/uapi/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge.tsx', 'TERMINAL_MVP_SURFACE_MAP'],
-    ['apps/uapi/tests/terminalExperienceArchitecture.test.ts', 'locks the Terminal map to activity, transactions, conversations, and auxillaries'],
-    ['apps/uapi/tests/e2e/terminal.flow.spec.ts', 'Terminal route keeps read, selection, and repository-anchor write-through in one Terminal surface']
+    ['apps/uapi/tests/terminalExperienceArchitecture.test.ts', 'locks the product map to activity, transactions, conversations, and auxillaries'],
+    ['apps/uapi/tests/e2e/terminal.flow.spec.ts', 'product route keeps read, selection, and repository-anchor write-through in one product surface']
   ],
   'source-to-shares-read-fitting': [
     ['apps/uapi/tests/api/readReviewRoute.test.ts', 'presents a reviewable Read before fit search'],
@@ -237,7 +237,7 @@ const PRODUCT_MVP_EVIDENCE_BY_ID = {
   'conversations-rich-input': [
     ['apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx', 'Multiple view modes (floating, sidebar, fullscreen, split-screen)'],
     ['apps/uapi/tests/conversationsRouteClient.test.tsx', 'forceFullscreen=true'],
-    ['apps/chatgpt/src/server.ts', 'connected-interface Bitcode Terminal companion']
+    ['apps/chatgpt/src/server.ts', 'connected-interface Bitcode product companion']
   ],
   'auxillaries-readiness': [
     ['apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx', '$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture'],
@@ -270,7 +270,7 @@ const PRODUCT_LAUNCH_EVIDENCE_BY_ID = {
   'bitcode-terminal': [
     ['apps/uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts', 'TERMINAL_COMMERCIAL_TESTNET_LAUNCH_MAP'],
     ['apps/uapi/tests/terminalCommercialLaunchReadiness.test.ts', 'locks the launch-readiness rows required after MVP closure'],
-    ['apps/uapi/tests/e2e/terminal.flow.spec.ts', 'Terminal route keeps read, selection, and repository-anchor write-through in one Terminal surface']
+    ['apps/uapi/tests/e2e/terminal.flow.spec.ts', 'product route keeps read, selection, and repository-anchor write-through in one product surface']
   ],
   'source-to-shares-read-fitting': [
     ['protocol-demonstration/test/v26-read-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities'],
@@ -285,7 +285,7 @@ const PRODUCT_LAUNCH_EVIDENCE_BY_ID = {
   'conversations-rich-input': [
     ['apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx', 'Multiple view modes (floating, sidebar, fullscreen, split-screen)'],
     ['apps/uapi/tests/conversationsRouteClient.test.tsx', 'forceFullscreen=true'],
-    ['apps/chatgpt/src/server.ts', 'connected-interface Bitcode Terminal companion']
+    ['apps/chatgpt/src/server.ts', 'connected-interface Bitcode product companion']
   ],
   'auxillaries-readiness': [
     ['apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx', '$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture'],
@@ -404,8 +404,8 @@ export function buildV26ProductReadinessAudit({
     promotedThroughGate: launchPassed ? 'gate-7' : (mvpPassed ? 'gate-6' : 'gate-5'),
     auditBasis: [
       'protocol-demonstration Exchange-lite implementation',
-      'protocol-demonstration Terminal-lite shell UI',
-      'uapi commercial Exchange and Terminal product surfaces',
+      'protocol-demonstration product-lite shell UI',
+      'uapi commercial Exchange and product surfaces',
       'BITCODE_SPEC_V26_PARITY_MATRIX.md acceptance rows'
     ],
     baselinePassed,

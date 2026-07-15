@@ -418,11 +418,11 @@ export function ExecutionsClient() {
             Bitcode execution route
           </p>
           <h1 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight text-white md:text-4xl">
-            The /executions path exposes Bitcode execution primitives, branch-artifact runs, and read measurement while the Bitcode Terminal converges the source-to-shares operator flow.
+            The /executions path exposes Bitcode execution primitives, branch-artifact runs, and read measurement while the Bitcode converges the source-to-shares operator flow.
           </h1>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-[#9db6c8] md:text-base">
             This route is a live Bitcode surface for run, AssetPack, and pipeline inspection. Connect source
-            context in Auxillaries to execute here, or continue in the Bitcode Terminal when you want the converged Bitcode
+            context in Auxillaries to execute here, or continue in the Bitcode when you want the converged Bitcode
             Deposit, Read, and closure flow.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -431,7 +431,7 @@ export function ExecutionsClient() {
               onClick={() => router.push('/packs')}
               className="inline-flex items-center rounded-none border border-[#7fd0ff]/30 bg-[#0c1e29] px-5 py-3 text-sm font-medium text-white transition hover:border-[#7fd0ff]/60 hover:bg-[#133244]"
             >
-              Open Bitcode Terminal
+              Open Bitcode
             </button>
             <button
               type="button"

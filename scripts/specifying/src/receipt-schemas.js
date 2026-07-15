@@ -68,7 +68,7 @@ export const RECEIPT_SCHEMAS = {
   btd_terminal_journal_coverage: {
     predicateType: 'https://bitcode.ai/receipt/btd-terminal-journal-coverage/v27',
     required: ['type', 'receiptId', 'requiredTransactionKinds', 'observedTransactionKinds', 'missingTransactionKinds', 'blocking', 'issuedAt'],
-    publicClaim: 'Terminal journal coverage proves the minimum V27 transaction families are represented before commercial finality can be claimed.'
+    publicClaim: 'BTD journal coverage proves the minimum V27 transaction families are represented before commercial finality can be claimed.'
   },
   btd_ledger_database_reconciliation: {
     predicateType: 'https://bitcode.ai/receipt/btd-ledger-database-reconciliation/v27',

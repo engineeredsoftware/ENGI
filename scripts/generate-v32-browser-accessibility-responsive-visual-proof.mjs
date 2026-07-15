@@ -28,7 +28,7 @@ const surfaces = Object.freeze([
     surfaceId: 'terminal',
     states: ['default', 'guided', 'detail'],
     evidenceFiles: [
-      'apps/uapi/app/terminal/terminal-ux-browser-proof.ts',
+      'apps/uapi/app/ (removed cockpit tree) terminal-ux-browser-proof.ts',
       'apps/uapi/tests/terminalUxBrowserProof.test.tsx',
       'apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
       'apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
@@ -121,7 +121,7 @@ export function buildV32BrowserAccessibilityResponsiveVisualProof() {
       'deterministic-visual-semantics',
       'no-screenshot-only-approval',
     ]),
-    scanTokens('apps/uapi/app/terminal/terminal-ux-browser-proof.ts', [
+    scanTokens('apps/uapi/app/ (removed cockpit tree) terminal-ux-browser-proof.ts', [
       'TERMINAL_UX_BROWSER_PROOF_VIEWPORTS',
       'source-safe-preview',
     ]),
@@ -137,18 +137,18 @@ export function buildV32BrowserAccessibilityResponsiveVisualProof() {
   ];
   const testEvidence = [
     scanTokens('apps/uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', [
-      'covers Terminal and Auxillaries default, guided, and detail states',
+      'covers product and Auxillaries default, guided, and detail states',
       'requires keyboard, labels, focus, status, contrast, motion, overflow',
       'no-screenshot-only-approval',
     ]),
     scanTokens('apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts', [
-      'Terminal default, guided, and detail states stay semantic and responsive',
+      'product default, guided, and detail states stay semantic and responsive',
       'Auxillaries default, guided, and detail states stay semantic and responsive',
       'expectNoHorizontalOverflow',
       "reducedMotion: 'reduce'",
     ]),
     scanTokens('apps/uapi/tests/terminalUxBrowserProof.test.tsx', [
-      'renders Terminal workspace loading, failed, and empty states with explicit semantics',
+      'renders product workspace loading, failed, and empty states with explicit semantics',
       'marks selected detail sections as route-owned controls',
     ]),
     scanTokens('apps/uapi/tests/auxillariesContent.access.test.tsx', [

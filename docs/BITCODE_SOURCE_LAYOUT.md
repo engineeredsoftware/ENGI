@@ -45,7 +45,7 @@ Do not nest temporary codemods under `apps/uapi` or other app packages. Prefer
 deleting a codemod after its migration is merged and verified.
 
 **Never:** experience → experience. **Never:** page client → another page client.
-**Never:** packages → apps. **Never:** new Terminal product surface.
+**Never:** packages → apps. **Never:** new product surface.
 
 ---
 
@@ -486,7 +486,7 @@ bitcode/
 
 ## 9. What is forbidden
 
-- `app/terminal/` or new `/terminal` product routes
+- `product experience components/` or new `/packs` product routes
 - `index.tsx` as the primary component entry (use named file)
 - God clients that own models + UI + fetch + formatting in one file
 - Cross-experience imports

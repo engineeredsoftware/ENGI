@@ -47,7 +47,7 @@ function printHelp() {
     [
       'Usage: node scripts/check-v30-gate5-testnet-ledger-projection-hardening.mjs [--skip-branch-check] [--repo-root <path>]',
       '',
-      'Checks V30 Gate 5 testnet ledger projection hardening, object-storage facts, secret-free Supabase readback, Terminal rendering, tests, docs, and workflow readiness.',
+      'Checks V30 Gate 5 testnet ledger projection hardening, object-storage facts, secret-free Supabase readback, product rendering, tests, docs, and workflow readiness.',
     ].join('\n'),
   );
   process.stdout.write('\n');
@@ -86,13 +86,13 @@ function main() {
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
-    'apps/uapi/app/terminal/terminal-journal-reconciliation.ts',
-    'apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx',
-    'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-journal-reconciliation.ts',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionJournalReconciliationCard.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-detail-snapshot.ts',
     'apps/uapi/tests/terminalJournalReconciliation.test.ts',
     'apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts',
     'packages/btd/README.md',
-    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'specifications/BITCODE_SPEC_V30.md',
     'specifications/BITCODE_SPEC_V30_DELTA.md',
     'specifications/BITCODE_SPEC_V30_NOTES.md',
@@ -107,12 +107,12 @@ function main() {
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
   const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
-  const terminalProjection = read(root, 'apps/uapi/app/terminal/terminal-journal-reconciliation.ts');
-  const terminalCard = read(root, 'apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx');
-  const terminalSnapshot = read(root, 'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts');
+  const terminalProjection = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-journal-reconciliation.ts');
+  const terminalCard = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalTransactionJournalReconciliationCard.tsx');
+  const terminalSnapshot = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-transaction-detail-snapshot.ts');
   const terminalTest = read(root, 'apps/uapi/tests/terminalJournalReconciliation.test.ts');
   const btdReadme = read(root, 'packages/btd/README.md');
-  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   const spec = read(root, 'specifications/BITCODE_SPEC_V30.md');
   const delta = read(root, 'specifications/BITCODE_SPEC_V30_DELTA.md');
   const notes = read(root, 'specifications/BITCODE_SPEC_V30_NOTES.md');
@@ -194,7 +194,7 @@ function main() {
         terminalCard.includes(terminalEvidence) ||
         terminalSnapshot.includes(terminalEvidence) ||
         terminalTest.includes(terminalEvidence),
-      `Terminal reconciliation surface must include ${terminalEvidence}.`,
+      `product reconciliation surface must include ${terminalEvidence}.`,
     );
   }
 
@@ -206,7 +206,7 @@ function main() {
   assertCheck(
     failures,
     terminalReadme.includes('object-storage artifact facts'),
-    'Terminal README must document object-storage reconciliation facts.',
+    'product README must document object-storage reconciliation facts.',
   );
   assertCheck(
     failures,

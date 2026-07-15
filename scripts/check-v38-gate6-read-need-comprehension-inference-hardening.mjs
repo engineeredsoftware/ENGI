@@ -144,7 +144,7 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts',
     'apps/uapi/app/api/read-review/route.ts',
-    'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
     'specifications/BITCODE_SPEC_V38.md',
     'specifications/BITCODE_SPEC_V38_DELTA.md',
     'specifications/BITCODE_SPEC_V38_NOTES.md',
@@ -234,7 +234,7 @@ function main() {
     assertCheck(failures, artifact.coverage.acceptedNeedRequiredForFindingFits === true, 'Finding Fits must require accepted Need.');
     assertCheck(failures, artifact.coverage.resynthesisWithFeedbackCovered === true, 'Resynthesis with feedback must be covered.');
     assertCheck(failures, artifact.coverage.routeUsesInferenceSynthesis === true, 'Read-review route must use inference synthesis.');
-    assertCheck(failures, artifact.coverage.terminalSupportsResynthesis === true, 'Terminal must support resynthesis feedback.');
+    assertCheck(failures, artifact.coverage.terminalSupportsResynthesis === true, 'product must support resynthesis feedback.');
     assertCheck(failures, artifact.coverage.legacySourceRoots === false, 'Gate 6 artifact must not point at _legacy roots.');
   }
 

@@ -326,7 +326,7 @@ const assetPackCategories: PromptCategory[] = [
       {
         suffix: 'stored_asset_pack_evidence',
         description: 'Stored AssetPack evidence',
-        content: 'STORED ASSETPACK EVIDENCE:\nSummarize synthesized artifacts, proof commands, and repository state.\nStore evidence for Exchange and Terminal reread.\nDo not emit non-Bitcode output mirrors.',
+        content: 'STORED ASSETPACK EVIDENCE:\nSummarize synthesized artifacts, proof commands, and repository state.\nStore evidence for Exchange and product reread.\nDo not emit non-Bitcode output mirrors.',
         priority: 'high'
       },
       {
@@ -336,7 +336,7 @@ const assetPackCategories: PromptCategory[] = [
       },
       {
         suffix: 'terminal_reread',
-        description: 'Terminal reread evidence',
+        description: 'product reread evidence',
         content: 'TERMINAL REREAD:\nPrefer assetPackSynthesisArtifacts, then semantic writtenAssets, then Shippables.\nExpose proof evidence without non-Bitcode output taxonomy.\nKeep payload fields Bitcode-native.'
       }
     ]

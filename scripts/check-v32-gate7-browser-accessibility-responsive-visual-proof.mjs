@@ -149,7 +149,7 @@ function main() {
     assertCheck(failures, artifact.version === 'V32' && artifact.currentTarget === 'V31', 'Gate 7 artifact must bind V32 over active V31.');
     assertCheck(failures, artifact.passed === true, 'Gate 7 artifact must pass.');
     assertCheck(failures, artifact.sourceSafetyVerdict === 'source-safe-browser-visual-proof-metadata', 'Gate 7 artifact must be source-safe browser proof metadata.');
-    assertCheck(failures, artifact.proofCoverage.surfaceCount === 2, 'Gate 7 artifact must cover Terminal and Auxillaries.');
+    assertCheck(failures, artifact.proofCoverage.surfaceCount === 2, 'Gate 7 artifact must cover product and Auxillaries.');
     assertCheck(failures, artifact.proofCoverage.stateCount === 6, 'Gate 7 artifact must cover default/guided/detail states for both surfaces.');
     assertCheck(failures, artifact.proofCoverage.viewportCount === 4, 'Gate 7 artifact must cover four canonical viewports.');
     assertCheck(failures, includesAll(artifact.accessibilityAssertions, REQUIRED_ASSERTIONS), 'Gate 7 artifact must enumerate every accessibility assertion.');
@@ -205,7 +205,7 @@ function main() {
     assertCheck(failures, contractTest.includes(phrase), `V32 Gate 7 contract test must assert: ${phrase}.`);
   }
   for (const phrase of [
-    'Terminal default, guided, and detail states stay semantic and responsive',
+    'product default, guided, and detail states stay semantic and responsive',
     'Auxillaries default, guided, and detail states stay semantic and responsive',
     'expectNoHorizontalOverflow',
     '/packs?auxillary-open-to=wallet',

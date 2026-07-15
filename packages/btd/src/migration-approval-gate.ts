@@ -206,7 +206,7 @@ export function buildMigrationApprovalGateRows(): MigrationApprovalGateInput[] {
       reviewerApprovalEvidence: 'review approval confirms route changes preserve shared interface contracts',
       rollbackPlan: 'rollback by reverting route change, replaying route contract subset, and preserving previous interface root',
       deploymentLaneAdmission: 'non_value_lanes_only',
-      workflowBinding: 'bitcode-gate-quality staged Reading route and Terminal harness contracts',
+      workflowBinding: 'bitcode-gate-quality staged Reading route and product harness contracts',
       blockingFailureMode: 'block deployment when route scans fail, drift from shared package contracts, or lack review proof',
       auditEventName: 'migration_cicd_approval.route_scan',
       proofRootBasis: ['apps/uapi/app/api', 'apps/uapi/tests', 'InterfaceAuthorizationPolicy', 'ReadLicenseInterfaceContract'],

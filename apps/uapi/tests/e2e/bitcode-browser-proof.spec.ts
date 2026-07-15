@@ -79,7 +79,7 @@ test.describe('Bitcode browser proof across product surfaces', () => {
     await openCommercialRoute(
       page,
       '/conversations',
-      /Keep the Bitcode Terminal write path as a first-class Terminal interface mode/i,
+      /Keep the Bitcode write path as a first-class product interface mode/i,
     );
     await expect(page.getByRole('button', { name: /Add split pane/i })).toBeVisible();
     await expect(page.getByRole('button', { name: /Toggle pipeline log location/i })).toBeVisible();

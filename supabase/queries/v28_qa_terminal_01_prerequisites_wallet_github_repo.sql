@@ -1,6 +1,6 @@
 -- Saved query name: v28_qa_terminal_01_prerequisites_wallet_github_repo
 -- Purpose: confirm the live staging user has Supabase Auth, wallet binding,
--- GitHub installation, and repository inventory before Terminal Deposit/Read QA.
+-- GitHub installation, and repository inventory before product Deposit/Read QA.
 
 WITH recent_wallet_users AS (
   SELECT

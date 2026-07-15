@@ -2,7 +2,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode Terminal conversation agent identity definition"
+ * intent: "Bitcode conversation agent identity definition"
  * current_version: "BITCODE_V26_CONVERSATION_AGENT_PROMPTPART.1"
  * versions: []
  * benchmarks: [

@@ -28,7 +28,7 @@ export type BtdInterfaceContractBoundaryKind =
   | 'api_route'
   | 'mcp_tool'
   | 'chatgpt_tool'
-  | 'terminal_ui'
+  | 'product_ui'
   | 'auxillaries_ui'
   | 'deferred_interface_hook';
 
@@ -127,16 +127,16 @@ export const BTD_INTERFACE_CONTRACT_REGRESSION_DEFERRED_SURFACES = [
 export function buildBtdInterfaceContractRegressionFixtures(): BtdInterfaceContractRegressionFixtureInput[] {
   return [
     {
-      surface: 'terminal',
+      surface: 'product',
       status: 'active_contract',
-      boundaryKind: 'terminal_ui',
+      boundaryKind: 'product_ui',
       contractOwner: 'apps/uapi/components/bitcode/pipeline',
       fixturePath: 'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
       authBoundary: 'authenticated_route',
       policyDenial: 'terminal-detail-denies-protected-source-before-paid-unlock',
       sourceSafetyClass: 'protected-source-locked',
       objectFamilies: ['btd_registry', 'read_access', 'terminal_journal', 'protocol_telemetry'],
-      sharedPrimitiveIds: ['TerminalTransactionReadModel', 'BtdReadAccessDecision'],
+      sharedPrimitiveIds: ['ProductTransactionReadModel', 'BtdReadAccessDecision'],
       assertions: DEFAULT_ASSERTIONS,
     },
     {
@@ -427,7 +427,7 @@ function assertBoundaryKind(boundaryKind: string): BtdInterfaceContractBoundaryK
     'api_route',
     'mcp_tool',
     'chatgpt_tool',
-    'terminal_ui',
+    'product_ui',
     'auxillaries_ui',
     'deferred_interface_hook',
   ];

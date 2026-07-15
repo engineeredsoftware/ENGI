@@ -76,7 +76,13 @@ test('distinguishes rollout audiences lanes caveats blockers and rehearsal evide
   const byGuideId = new Map(guide.rows.map((row) => [row.guideId, row]));
 
   assert.ok(byGuideId.get('contributor_onboarding')?.sourceRoots.includes('AGENTS.md'));
-  assert.ok(byGuideId.get('local_development')?.reproducibleCommands.includes('npm --prefix protocol-demonstration run test:v28-mvp-qa'));
+  assert.ok(
+    byGuideId
+      .get('local_development')
+      ?.reproducibleCommands.includes(
+        'pnpm --filter @bitcode/specifying test -- --test-name-pattern specifying-package-boundary',
+      ),
+  );
   assert.ok(byGuideId.get('operator_use')?.rehearsalEvidence.includes('.bitcode/v35-operator-runbook-catalog.json'));
   assert.ok(byGuideId.get('enterprise_reader_flow')?.workflowStages.includes('review-assetpack-preview'));
   assert.ok(byGuideId.get('depositor_flow')?.knownBlockers.includes('protected source visible in rollout docs'));

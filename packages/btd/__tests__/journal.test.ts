@@ -1,5 +1,5 @@
 /**
- * BTD journal coverage — non-Terminal naming for ledger transaction rows.
+ * BTD journal coverage — non-product naming for ledger transaction rows.
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
 import {
@@ -75,7 +75,7 @@ describe('journal', () => {
     expect(diff.mismatches).toContain('post_state_root');
   });
 
-  it('keeps Terminal-named shim symbols equivalent', () => {
+  it('keeps cockpit-named shim symbols equivalent', () => {
     expect(REQUIRED_JOURNAL_TRANSACTION_KINDS).toEqual(REQUIRED_JOURNAL_TRANSACTION_KINDS);
     const viaShim = buildJournalEntry({
       journalEntryId: 'je-shim',

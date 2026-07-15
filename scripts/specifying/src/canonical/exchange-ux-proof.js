@@ -364,10 +364,10 @@ export const EXCHANGE_UX_PROOF_ROWS = Object.freeze([
   }),
   uxCapability({
     capabilityId: 'terminal_context_handoff',
-    label: 'Terminal to Exchange context handoff',
+    label: 'product to Exchange context handoff',
     routeSurface: '/terminal -> /exchange',
-    collapsedStatus: 'Terminal can open Exchange with transactionId, transactionDetail, and filters preserved.',
-    expandedDetail: 'Exchange can return to Terminal with the same route-owned selection and detail section.',
+    collapsedStatus: 'product can open Exchange with transactionId, transactionDetail, and filters preserved.',
+    expandedDetail: 'Exchange can return to product with the same route-owned selection and detail section.',
     sourceRoots: [
       'apps/uapi/components/bitcode/routes/ProductRoutes/product-routes.ts',
       'apps/uapi/components/bitcode/pipeline/BitcodeActionWorkbenchCard/BitcodeActionWorkbenchCard.tsx',
@@ -481,7 +481,7 @@ export function buildExchangeUxProof(input = {}) {
       exchangeUxCovers:
         'market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state',
       terminalHandoff:
-        'Terminal can hand off to Exchange without losing transaction context',
+        'product can hand off to Exchange without losing transaction context',
       disclosureBoundary:
         'collapsed UI gives readable status and expanded UI exposes source-safe detail',
       telemetryBinding:

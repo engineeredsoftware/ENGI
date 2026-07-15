@@ -54,7 +54,7 @@ export type NotificationChannel = 'in_app' | 'email' | 'slack' | 'sms';
 export interface NotificationPayload {
   // The shape varies per type but always has a `message` for convenience.
   message: string;
-  // Optional Terminal deep-link URL (e.g. /executions/123)
+  // Optional product deep-link URL (e.g. /executions/123)
   url?: string;
   // Arbitrary additional structured data
   [key: string]: any;

@@ -157,7 +157,7 @@ export function buildBtdInterfaceContractCatalogRows(): BtdInterfaceContractCata
       failureMode: 'terminal-handoff-denies-protected-assetpack-source-before-settlement',
       repairPosture: 'review-source-safe-preview-and-settle-before-full-delivery',
       telemetryProofHookId: 'interface.telemetry.terminal-reading-handoff',
-      proofRootBasis: ['TerminalTransactionReadModel', 'BtdReadAccessDecision'],
+      proofRootBasis: ['ProductTransactionReadModel', 'BtdReadAccessDecision'],
     },
     {
       interfaceId: 'public_api',

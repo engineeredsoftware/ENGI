@@ -263,7 +263,7 @@ export interface AuxillariesConnectionReadiness {
 export interface AuxillariesInterfaceAdmission {
   kind: 'AuxillariesInterfaceAdmission';
   interfaceId: string;
-  surface: 'terminal' | 'api' | 'mcp' | 'chatgpt_app' | 'exchange' | 'future_hook';
+  surface: 'product' | 'api' | 'mcp' | 'chatgpt_app' | 'exchange' | 'future_hook';
   authMode: 'session' | 'api_key' | 'provider_oauth' | 'wallet_signature' | 'not_admitted';
   readiness: AuxillariesReadinessState;
   policyRequirements: string[];
@@ -1165,8 +1165,8 @@ export function buildAuxillariesInterfaceAdmissions(input: {
 
   return [
     buildAuxillariesInterfaceAdmission({
-      interfaceId: 'terminal',
-      surface: 'terminal',
+      interfaceId: 'product',
+      surface: 'product',
       authMode: 'session',
       readiness: profileIdentityReady ? 'ready' : 'blocked',
       policyRequirements: [
@@ -1430,7 +1430,7 @@ export function buildOrganizationPolicyAuthority(input: {
       ...readStringList(profile?.permission_grants),
       ...readStringList(profile?.permissionGrants),
     ],
-    interfaceSurface: 'terminal',
+    interfaceSurface: 'product',
     action: 'pay_btc_fee',
     walletId: input.walletBtdPaneState?.walletCapability.address ?? null,
     settlementState: 'not_required',
@@ -1793,7 +1793,7 @@ export function validateAuxillariesContractSnapshot(value: unknown): Auxillaries
   if (!Array.isArray(record.interfaceAdmissions)) errors.push('interfaceAdmissions must be an array');
   if (Array.isArray(record.interfaceAdmissions)) {
     const requiredInterfaceIds = new Set([
-      'terminal',
+      'product',
       'api',
       'mcp',
       'chatgpt-app',

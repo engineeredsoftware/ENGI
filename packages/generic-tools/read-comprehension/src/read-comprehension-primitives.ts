@@ -16,7 +16,7 @@ function buildSourceToSharesServiceQuestions(expressedRead: string) {
     when: 'When must this answer be reviewed before fit search, risk admission, Finish, Delivering, or settlement?',
     where: 'Where do repository scope, interface ingress, persistence state, and proof witnesses carry the evidence?',
     what: 'What exact code, package, interface, proof, or AssetPack object is being changed or produced?',
-    who: 'Who relies on this answer: customer, Bitcode Terminal operator, provider, contributor, reviewer, or settlement participant?',
+    who: 'Who relies on this answer: customer, Bitcode operator, provider, contributor, reviewer, or settlement participant?',
     audit: 'What evidence lets Advanced Engineered Software, Inc. defend this as auditable market infrastructure of technical knowledge?'
   };
 }

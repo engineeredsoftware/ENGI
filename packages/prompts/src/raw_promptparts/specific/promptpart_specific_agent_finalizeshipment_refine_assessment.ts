@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_REFINE_ASSESSMENT: PromptPart = 
-  'Assess Finish quality against complete context: Read satisfaction, AssetPack evidence completeness, proof receipt availability, summary clarity, delivery-mechanism fit, Shippable traceability, destination response evidence, and safe reread through Exchange and Terminal surfaces' as PromptPart;
+  'Assess Finish quality against complete context: Read satisfaction, AssetPack evidence completeness, proof receipt availability, summary clarity, delivery-mechanism fit, Shippable traceability, destination response evidence, and safe reread through Exchange and product surfaces' as PromptPart;

@@ -45,13 +45,13 @@ Shared pure logic for an experience lives under that experience’s `models/`,
 
 | Concept | Prefer | Avoid |
 | --- | --- | --- |
-| Pipeline run surface | `BitcodePipeline*`, `Deposits*`, `Reads*` | Terminal*, product Execution* |
-| BTD ledger | Journal* | Terminal-coupled journal names |
+| Pipeline run surface | `BitcodePipeline*`, `Deposits*`, `Reads*` | product*, product Execution* |
+| BTD ledger | Journal* | product-coupled journal names |
 | Agent packages | keep `execution-generics` | conflating with product Pipeline |
 
-## Legacy Terminal
+## Legacy product
 
-**Deleted.** No `/terminal` route, page, or product module tree. Use `/packs`,
+**Deleted.** No `/packs` route, page, or product module tree. Use `/packs`,
 `/deposits`, `/reads`, Auxillaries.
 
 ## Interface rules

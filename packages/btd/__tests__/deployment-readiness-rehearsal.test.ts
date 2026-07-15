@@ -41,7 +41,7 @@ describe('DeploymentReadinessRehearsal', () => {
     for (const rehearsal of localAndStaging) {
       expect(rehearsal.exercisedSurfaces).toEqual(
         expect.arrayContaining([
-          'terminal',
+          'product',
           'public_api',
           'mcp_api',
           'chatgpt_app',

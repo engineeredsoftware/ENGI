@@ -174,7 +174,7 @@ function main() {
     'README.md',
     'scripts/specifying/README.md',
     'packages/asset-packs-pipelines/domain/README.md',
-    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',

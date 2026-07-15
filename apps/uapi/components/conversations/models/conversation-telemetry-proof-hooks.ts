@@ -85,9 +85,9 @@ export const CONVERSATION_TELEMETRY_EVENT_FAMILY_OPTIONS: Array<{
   },
   {
     eventFamily: 'product_handoff',
-    label: 'Terminal handoff',
-    dashboardPanel: 'conversation.dashboard.terminal-handoff',
-    runbookId: 'runbook.conversation.terminal-handoff-repair',
+    label: 'product handoff',
+    dashboardPanel: 'conversation.dashboard.product-handoff',
+    runbookId: 'runbook.conversation.product-handoff-repair',
     defaultEventKind: 'conversation.product_handoff.opened',
   },
   {

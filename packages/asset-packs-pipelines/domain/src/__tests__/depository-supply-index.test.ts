@@ -9,7 +9,7 @@ import {
 const read: DepositorySearchRead = {
   id: 'read-supply-index',
   prompt:
-    'Find source-bound evidence for Terminal Deposit Read Fit AssetPack proof-root reconciliation readback and Supabase ledger synchronization.',
+    'Find source-bound evidence for Deposit Read Fit AssetPack proof-root reconciliation readback and Supabase ledger synchronization.',
   repositoryFullName: 'engineeredsoftware/ENGI',
   sourceBranch: 'main',
   sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
@@ -29,9 +29,9 @@ function deposit(overrides: Record<string, unknown> = {}) {
   return {
     id: 'deposit-terminal-engi',
     assetId: 'asset-terminal-engi',
-    title: 'Terminal Deposit Read Fit supply',
+    title: 'Deposit Read Fit supply',
     summary:
-      'Source-safe evidence for Terminal Deposit, Read, Finding Fits, AssetPack proof-root, reconciliation readback, and Supabase ledger synchronization.',
+      'Source-safe evidence for Deposit, Read, Finding Fits, AssetPack proof-root, reconciliation readback, and Supabase ledger synchronization.',
     artifactKind: 'repository-revision',
     artifactType: 'repository/revision',
     repositoryFullName: 'engineeredsoftware/ENGI',
@@ -52,7 +52,7 @@ function deposit(overrides: Record<string, unknown> = {}) {
         text: 'PRIVATE_SOURCE_DO_NOT_SERIALIZE function terminalSecret() {}',
         path: 'apps/uapi/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench.tsx',
         codeAnalysisFacts: {
-          symbols: ['TerminalDepositReadWorkbench', 'streamTerminalReadFitsFindingSynthesisHost'],
+          symbols: ['ProductDepositReadWorkbench', 'streamProductReadFitsFindingSynthesisHost'],
           paths: ['apps/uapi/components/bitcode/pipeline/pipeline-host-client.ts'],
           stackTags: ['terminal', 'supabase', 'assetpack'],
           constraints: ['protected source remains hidden until settlement'],

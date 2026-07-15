@@ -47,7 +47,7 @@ function printHelp() {
     [
       'Usage: node scripts/check-v31-gate6-organization-team-role-policy-authority.mjs [--skip-branch-check] [--repo-root <path>]',
       '',
-      'Checks V31 Gate 6 organization/team/role/policy authority closure, shared Auxillaries/Terminal projection, tests, docs, and workflow coverage.',
+      'Checks V31 Gate 6 organization/team/role/policy authority closure, shared Auxillaries/product projection, tests, docs, and workflow coverage.',
     ].join('\n'),
   );
   process.stdout.write('\n');
@@ -88,8 +88,8 @@ function main() {
     'apps/uapi/hooks/useUserData.js',
     'apps/uapi/app/auxillaries/components/AuxillariesSurface.tsx',
     'apps/uapi/app/auxillaries/components/AuxillariesProfilePane.tsx',
-    'apps/uapi/app/terminal/terminal-organization-authority.ts',
-    'apps/uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-organization-authority.ts',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionOrganizationAuthorityCard.tsx',
     'apps/uapi/tests/profileStep.test.tsx',
     'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
     'apps/uapi/tests/terminalTransactionDetailCards.test.tsx',
@@ -110,8 +110,8 @@ function main() {
   const useUserDataJs = read(root, 'apps/uapi/hooks/useUserData.js');
   const auxSurface = read(root, 'apps/uapi/app/auxillaries/components/AuxillariesSurface.tsx');
   const profilePane = read(root, 'apps/uapi/app/auxillaries/components/AuxillariesProfilePane.tsx');
-  const terminalProjection = read(root, 'apps/uapi/app/terminal/terminal-organization-authority.ts');
-  const terminalCard = read(root, 'apps/uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx');
+  const terminalProjection = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-organization-authority.ts');
+  const terminalCard = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalTransactionOrganizationAuthorityCard.tsx');
   const profileTest = read(root, 'apps/uapi/tests/profileStep.test.tsx');
   const terminalTest = read(root, 'apps/uapi/tests/terminalOrganizationAuthority.test.ts');
   const detailCardTest = read(root, 'apps/uapi/tests/terminalTransactionDetailCards.test.tsx');
@@ -123,7 +123,7 @@ function main() {
   const apiReadme = read(root, 'packages/api/README.md');
   const auxReadme = read(root, 'apps/uapi/app/auxillaries/README.md');
   const btdReadme = read(root, 'packages/btd/README.md');
-  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 
@@ -205,7 +205,7 @@ function main() {
     assertCheck(
       failures,
       terminalProjection.includes(terminalPhrase) || terminalCard.includes(terminalPhrase),
-      `Terminal organization authority projection must handle ${terminalPhrase}.`,
+      `product organization authority projection must handle ${terminalPhrase}.`,
     );
   }
 
@@ -264,7 +264,7 @@ function main() {
   assertCheck(failures, !/\|\s*Protected actions fail closed unless all authority inputs admit them\s*\|[^|]*\|\s*pending\s*\|/u.test(parity), 'Gate 6 fail-closed parity must not remain pending.');
   assertCheck(failures, packageJson.includes('"check:v31-gate6"'), 'package.json must expose check:v31-gate6.');
   assertCheck(failures, workflow.includes('check-v31-gate6-organization-team-role-policy-authority.mjs'), 'Gate workflow must run the V31 Gate 6 checker.');
-  assertCheck(failures, workflow.includes('terminalOrganizationAuthority.test.ts'), 'Gate workflow must run Terminal organization authority tests.');
+  assertCheck(failures, workflow.includes('terminalOrganizationAuthority.test.ts'), 'Gate workflow must run product organization authority tests.');
   assertCheck(failures, workflow.includes('profileStep.test.tsx'), 'Gate workflow must run Profile pane tests.');
 
   if (failures.length) {

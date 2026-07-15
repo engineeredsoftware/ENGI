@@ -15,7 +15,7 @@ export type InventoryEntrySnapshot = {
   tags?: string[] | null;
 };
 
-export type TerminalSourceRevision = {
+export type ProductSourceRevision = {
   repositoryFullName: string;
   branch: string;
   commit: string;
@@ -23,7 +23,7 @@ export type TerminalSourceRevision = {
   createdAt?: string | null;
 };
 
-export type TerminalDepositedSourceRevision = TerminalSourceRevision & {
+export type ProductDepositedSourceRevision = ProductSourceRevision & {
   depositAssetId?: string | null;
   hasWalletOrAttestationProof?: boolean | null;
   hasAssetMeasurementEvidence?: boolean | null;
@@ -45,7 +45,7 @@ export type TerminalDepositedSourceRevision = TerminalSourceRevision & {
 /** Raw shell / bridge snapshot shape consumed by normalize. */
 export type DepositReadWorkbenchShellSnapshot = {
   canonLabel?: string | null;
-  sourceRevision?: TerminalSourceRevision | null;
+  sourceRevision?: ProductSourceRevision | null;
   selection?: {
     projectionPrincipal?: string | null;
     branchMode?: string | null;
@@ -132,13 +132,13 @@ export type DepositReadWorkbenchShellSnapshot = {
   } | null;
 } | null;
 
-export type TerminalDepositReadWorkbench = {
+export type ProductDepositReadWorkbench = {
   canonLabel: string;
   projectionPrincipal: string;
   branchMode: string;
   scenarioLabel: string;
   profileLabel: string;
-  sourceRevision: TerminalSourceRevision | null;
+  sourceRevision: ProductSourceRevision | null;
   deposit: {
     summary: string;
     metrics: Metric[];

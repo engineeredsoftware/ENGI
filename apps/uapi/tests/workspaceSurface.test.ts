@@ -10,8 +10,7 @@ describe('workspaceSurface helpers', () => {
     expect(getWorkspaceSurface('/auxillaries/externals')).toBeNull();
     expect(getWorkspaceSurface('/conversations/thread')).toBe('conversations');
     expect(getWorkspaceSurface('/')).toBeNull();
-    // V48: /terminal product route is eradicated — not a workspace surface.
-    expect(getWorkspaceSurface('/terminal')).toBeNull();
+    expect(getWorkspaceSurface('/not-a-product-route')).toBeNull();
   });
 
   it('marks workspace chrome and footer suppression together', () => {

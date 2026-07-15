@@ -2,7 +2,7 @@
 
 /**
  * Opens Auxillaries panes (Wallet, Externals, Profile, …) from product surfaces.
- * Relocated from TerminalOpenAuxillariesButton.
+ * Relocated from productOpenAuxillariesButton.
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
 
@@ -60,4 +60,4 @@ export default function AuxillariesOpenButton({
 }
 
 /** @deprecated Prefer `AuxillariesOpenButton`. */
-export { AuxillariesOpenButton as TerminalOpenAuxillariesButton };
+export { AuxillariesOpenButton as productOpenAuxillariesButton };

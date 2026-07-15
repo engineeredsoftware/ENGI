@@ -6,7 +6,7 @@
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { readDepositRouteStage } from "@/components/deposits/models/deposit-route-model";
-import { readTerminalTransactionId } from "@/components/bitcode/pipeline/models/pipeline-selection-query";
+import { readProductTransactionId } from "@/components/bitcode/pipeline/models/pipeline-selection-query";
 
 export function useDepositRouteParams() {
   const searchParams = useSearchParams();
@@ -15,7 +15,7 @@ export function useDepositRouteParams() {
     [searchParams],
   );
   const selectedTransactionId = useMemo(
-    () => readTerminalTransactionId(routeSearchParams),
+    () => readProductTransactionId(routeSearchParams),
     [routeSearchParams],
   );
   const routeDepositStage = useMemo(

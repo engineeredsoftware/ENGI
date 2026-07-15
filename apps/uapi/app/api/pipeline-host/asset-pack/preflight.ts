@@ -151,7 +151,7 @@ export function assertRealInferenceEnvironment(env: Record<string, string>): voi
   }
   if (readRealInferenceProfile(env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE) !== 'bounded') {
     throw new Error(
-      'The current Terminal host route requires BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded. Full profile runs are scoped to the later async sandbox completion gate where the sandbox pushes finished state to a server-side stream handler.'
+      'The current product host route requires BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded. Full profile runs are scoped to the later async sandbox completion gate where the sandbox pushes finished state to a server-side stream handler.'
     );
   }
   const budgetMs = Number(env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS || 240000);

@@ -372,14 +372,14 @@ function rewritePromotionStatus(version, commit, content, kind) {
   if (version === 'V28') {
     const sharedInventory = 'active canonical `.bitcode/v28-spec-family-report.json`, `.bitcode/v28-canonical-input-report.json`, `.bitcode/v28-canon-posture-drift-report.json`, V28 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V28_PROVEN.md` as the generated proof appendix for V28 promotion';
     const scopeByKind = {
-      spec: 'V28 canonical system specification for commercial Protocol implementation, Terminal MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment after V27 tokenomics and crypto-commercial rails',
-      delta: 'V28 canonical delta for commercial Protocol implementation, Terminal MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment after V27 tokenomics and crypto-commercial rails',
-      notes: 'V28 canonical notes for commercial Protocol implementation, Terminal MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment',
-      parity: 'V28 canonical parity ledger for commercial Protocol implementation, Terminal MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment'
+      spec: 'V28 canonical system specification for commercial Protocol implementation, product MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment after V27 tokenomics and crypto-commercial rails',
+      delta: 'V28 canonical delta for commercial Protocol implementation, product MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment after V27 tokenomics and crypto-commercial rails',
+      notes: 'V28 canonical notes for commercial Protocol implementation, product MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment',
+      parity: 'V28 canonical parity ledger for commercial Protocol implementation, product MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment'
     };
     const stateByKind = {
-      spec: 'canonical promotion complete; V28 is the active commercial Protocol and Terminal MVP canon and the V28 hand-authored plus generated canon are aligned',
-      delta: 'canonical promotion complete; this delta records the promoted V27-to-V28 commercial Protocol, Terminal MVP, Reading pipeline, and promotion-proof closure set',
+      spec: 'canonical promotion complete; V28 is the active commercial Protocol and product MVP canon and the V28 hand-authored plus generated canon are aligned',
+      delta: 'canonical promotion complete; this delta records the promoted V27-to-V28 commercial Protocol, product MVP, Reading pipeline, and promotion-proof closure set',
       notes: 'canonical promotion complete; V28 notes record the accepted commercial-product and metadevelopment closure evidence',
       parity: 'canonical promotion complete; V28 parity truth, product-gate audit, generated proof, and promotion automation are aligned'
     };
@@ -392,7 +392,7 @@ function rewritePromotionStatus(version, commit, content, kind) {
       'Canonical proof-source commit': `\`${commit}\``,
       'Generated structured artifact inventory': sharedInventory,
       'Source parity state':
-        'V28 source-side Protocol, Terminal, Reading pipeline, MCP/ChatGPT App, proof, workflow, and promotion surfaces are canonicalized in the promoted V28 file family',
+        'V28 source-side Protocol, product, Reading pipeline, MCP/ChatGPT App, proof, workflow, and promotion surfaces are canonicalized in the promoted V28 file family',
       'V28 state': stateByKind[kind]
     });
   }
@@ -400,15 +400,15 @@ function rewritePromotionStatus(version, commit, content, kind) {
   if (version === 'V29') {
     const sharedInventory = 'active canonical `.bitcode/v29-spec-family-report.json`, `.bitcode/v29-canonical-input-report.json`, `.bitcode/v29-canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion';
     const scopeByKind = {
-      spec: 'V29 canonical system specification for Terminal transaction depth, operator recovery, wallet/BTC settlement operation, AssetPack disclosure and rights review, ledger/database reconciliation, organization permission decisions, and promotion-ready workflow proof over V28',
-      delta: 'V29 canonical delta for Terminal transaction depth, operator recovery, wallet/BTC settlement operation, AssetPack disclosure and rights review, ledger/database reconciliation, organization permission decisions, and promotion-ready workflow proof over V28',
-      notes: 'V29 canonical notes for Terminal transaction depth, local/staging readiness, and promotion automation over V28',
-      parity: 'V29 canonical parity ledger for Terminal transaction depth, local/staging readiness, and promotion automation over V28'
+      spec: 'V29 canonical system specification for product transaction depth, operator recovery, wallet/BTC settlement operation, AssetPack disclosure and rights review, ledger/database reconciliation, organization permission decisions, and promotion-ready workflow proof over V28',
+      delta: 'V29 canonical delta for product transaction depth, operator recovery, wallet/BTC settlement operation, AssetPack disclosure and rights review, ledger/database reconciliation, organization permission decisions, and promotion-ready workflow proof over V28',
+      notes: 'V29 canonical notes for product transaction depth, local/staging readiness, and promotion automation over V28',
+      parity: 'V29 canonical parity ledger for product transaction depth, local/staging readiness, and promotion automation over V28'
     };
     const stateByKind = {
-      spec: 'canonical promotion complete; V29 is the active Terminal transaction-depth canon and the V29 hand-authored plus generated canon are aligned',
-      delta: 'canonical promotion complete; this delta records the promoted V28-to-V29 Terminal transaction-depth and promotion-readiness closure set',
-      notes: 'canonical promotion complete; V29 notes record the accepted Terminal-depth, local/staging, and promotion-readiness evidence',
+      spec: 'canonical promotion complete; V29 is the active product transaction-depth canon and the V29 hand-authored plus generated canon are aligned',
+      delta: 'canonical promotion complete; this delta records the promoted V28-to-V29 product transaction-depth and promotion-readiness closure set',
+      notes: 'canonical promotion complete; V29 notes record the accepted product-depth, local/staging, and promotion-readiness evidence',
       parity: 'canonical promotion complete; V29 parity truth, product-gate audit, generated proof, and promotion automation are aligned'
     };
     const rewritten = rewriteStatusValues(content, {
@@ -420,7 +420,7 @@ function rewritePromotionStatus(version, commit, content, kind) {
       'Canonical proof-source commit': `\`${commit}\``,
       'Generated structured artifact inventory': sharedInventory,
       'Source parity state':
-        'V29 source-side Terminal transaction, wallet/BTC, Reading observability, AssetPack disclosure, settlement repair, organization authority, UX proof, workflow, and promotion surfaces are canonicalized in the promoted V29 file family',
+        'V29 source-side product transaction, wallet/BTC, Reading observability, AssetPack disclosure, settlement repair, organization authority, UX proof, workflow, and promotion surfaces are canonicalized in the promoted V29 file family',
       'V29 state': stateByKind[kind]
     });
     return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
@@ -487,10 +487,10 @@ function rewritePromotionStatus(version, commit, content, kind) {
   if (version === 'V32') {
     const sharedInventory = 'active canonical `.bitcode/v32-spec-family-report.json`, `.bitcode/v32-canonical-input-report.json`, `.bitcode/v32-canon-posture-drift-report.json`, `.bitcode/v32-proof-coverage-matrix.json`, `.bitcode/v32-artifact-volatility-inventory.json`, `.bitcode/v32-deterministic-replay-report.json`, `.bitcode/v32-reading-pipeline-proof-coverage.json`, `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json`, `.bitcode/v32-interface-contract-regression-suite.json`, `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`, `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json`, `.bitcode/v32-promotion-proof-generation-hardening.json`, `.bitcode/v32-promotion-readiness-report.json`, V32 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V32_PROVEN.md` as the generated proof appendix for V32 promotion';
     const scopeByKind = {
-      spec: 'V32 canonical system specification for provation/testing over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails',
-      delta: 'V32 canonical delta for provation/testing over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails',
-      notes: 'V32 canonical notes for provation/testing over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails',
-      parity: 'V32 canonical parity ledger for provation/testing over promoted Terminal, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails'
+      spec: 'V32 canonical system specification for provation/testing over promoted product, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails',
+      delta: 'V32 canonical delta for provation/testing over promoted product, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails',
+      notes: 'V32 canonical notes for provation/testing over promoted product, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails',
+      parity: 'V32 canonical parity ledger for provation/testing over promoted product, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails'
     };
     const stateByKind = {
       spec: 'canonical promotion complete; V32 is the active provation/testing canon and the V32 hand-authored plus generated canon are aligned',
@@ -632,7 +632,7 @@ function rewritePromotionStatus(version, commit, content, kind) {
   if (version === 'V37') {
     const sharedInventory = 'active canonical `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-product-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, `.bitcode/v37-conversation-telemetry-proof-hooks.json`, `.bitcode/v37-conversation-rehearsal.json`, `.bitcode/v37-promotion-readiness-report.json`, V37 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V37_PROVEN.md` as the generated proof appendix for V37 promotion';
     const scopeByKind = {
-      spec: 'V37 canonical system specification for Website Conversations over promoted sessions, route-local history, stream UI/event contracts, fullscreen writing mode, source selectors, Terminal handoff, persistence/privacy/redaction, telemetry/proof hooks, local/staging rehearsal, and promotion readiness surfaces',
+      spec: 'V37 canonical system specification for Website Conversations over promoted sessions, route-local history, stream UI/event contracts, fullscreen writing mode, source selectors, product handoff, persistence/privacy/redaction, telemetry/proof hooks, local/staging rehearsal, and promotion readiness surfaces',
       delta: 'V37 canonical delta for Website Conversations over promoted V36 Exchange canon',
       notes: 'V37 canonical notes for Website Conversations over promoted V36 Exchange canon',
       parity: 'V37 canonical parity ledger for Website Conversations over promoted V36 Exchange canon'
@@ -640,7 +640,7 @@ function rewritePromotionStatus(version, commit, content, kind) {
     const stateByKind = {
       spec: 'canonical promotion complete; V37 is the active Website Conversations canon and the V37 hand-authored plus generated canon are aligned',
       delta: 'canonical promotion complete; this delta records the promoted V36-to-V37 Website Conversations closure set',
-      notes: 'canonical promotion complete; V37 notes record the accepted Conversations session, stream, writing, source selector, Terminal handoff, persistence privacy, telemetry proof, rehearsal, and promotion-readiness evidence',
+      notes: 'canonical promotion complete; V37 notes record the accepted Conversations session, stream, writing, source selector, product handoff, persistence privacy, telemetry proof, rehearsal, and promotion-readiness evidence',
       parity: 'canonical promotion complete; V37 parity truth, generated Conversations artifacts, gate closure, and promotion automation are aligned'
     };
     const rewritten = rewriteStatusValues(content, {
@@ -719,7 +719,7 @@ function rewritePromotionStatus(version, commit, content, kind) {
   if (version === 'V40') {
     const sharedInventory = 'active canonical `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-canon-posture-drift-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, `.bitcode/v40-ledger-storage-sync.json`, `.bitcode/v40-local-staging-rehearsal-automation.json`, `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, `.bitcode/v40-promotion-readiness-report.json`, V40 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V40_PROVEN.md` as the generated proof appendix for V40 promotion';
     const scopeByKind = {
-      spec: 'V40 canonical system specification for exhaustive commercial application testing across browser E2E, visual and screenshot proof, unit coverage, API integration, Reading pipeline integration, Conversation and Terminal integration, ledger/database/storage/wallet synchronization, local/staging rehearsal, prompt benchmark smoke, and promotion readiness surfaces',
+      spec: 'V40 canonical system specification for exhaustive commercial application testing across browser E2E, visual and screenshot proof, unit coverage, API integration, Reading pipeline integration, Conversation and product integration, ledger/database/storage/wallet synchronization, local/staging rehearsal, prompt benchmark smoke, and promotion readiness surfaces',
       delta: 'V40 canonical delta for exhaustive commercial application testing over promoted V39 commercial Reading readiness canon',
       notes: 'V40 canonical notes for exhaustive commercial application testing over promoted V39 commercial Reading readiness canon',
       parity: 'V40 canonical parity ledger for exhaustive commercial application testing over promoted V39 commercial Reading readiness canon'
@@ -727,7 +727,7 @@ function rewritePromotionStatus(version, commit, content, kind) {
     const stateByKind = {
       spec: 'canonical promotion complete; V40 is the active exhaustive commercial application testing canon and the V40 hand-authored plus generated canon are aligned',
       delta: 'canonical promotion complete; this delta records the promoted V39-to-V40 exhaustive testing closure set',
-      notes: 'canonical promotion complete; V40 notes record accepted test inventory, unit coverage, API integration, Reading pipeline integration, Conversation/Terminal integration, browser proof, ledger/storage synchronization, local/staging rehearsal, prompt benchmark smoke, and promotion-readiness evidence',
+      notes: 'canonical promotion complete; V40 notes record accepted test inventory, unit coverage, API integration, Reading pipeline integration, Conversation/product integration, browser proof, ledger/storage synchronization, local/staging rehearsal, prompt benchmark smoke, and promotion-readiness evidence',
       parity: 'canonical promotion complete; V40 parity truth, generated exhaustive testing artifacts, gate closure, and promotion automation are aligned'
     };
     const rewritten = rewriteStatusValues(content, {
@@ -739,7 +739,7 @@ function rewritePromotionStatus(version, commit, content, kind) {
       'Canonical proof-source commit': `\`${commit}\``,
       'Generated structured artifact inventory': sharedInventory,
       'Source parity state':
-        'V40 source-side test inventory, unit coverage, API integration contracts, Reading pipeline integration, Conversation/Terminal integration, browser E2E visual proof, ledger/database/storage synchronization, local/staging rehearsal automation, prompt benchmark smoke, workflow, and promotion surfaces are canonicalized in the promoted V40 file family',
+        'V40 source-side test inventory, unit coverage, API integration contracts, Reading pipeline integration, Conversation/product integration, browser E2E visual proof, ledger/database/storage synchronization, local/staging rehearsal automation, prompt benchmark smoke, workflow, and promotion surfaces are canonicalized in the promoted V40 file family',
       'V40 state': stateByKind[kind]
     });
     return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;

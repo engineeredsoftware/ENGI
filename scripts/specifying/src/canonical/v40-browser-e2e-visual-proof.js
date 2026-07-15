@@ -135,8 +135,8 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
       'TERMINAL_UX_BROWSER_PROOF_CONTRACT',
     ],
     requiredTestMarkers: [
-      'Terminal five-stage Reading',
-      'Terminal detail tabs',
+      'product five-stage Reading',
+      'Pack detail tabs',
       'five-stage Reading',
       'expectNoHorizontalOverflow',
     ],
@@ -147,7 +147,7 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     },
     coverageTier: 'promotion-required',
     closureRequirement:
-      'Terminal browser proof covers the five-step Reading cockpit, selected transaction detail, blocked console state, route-owned controls, status semantics, and responsive overflow.',
+      'product browser proof covers the five-step Reading cockpit, selected transaction detail, blocked console state, route-owned controls, status semantics, and responsive overflow.',
   }),
   row({
     browserSurfaceId: 'conversations:writing-stream-log-browser-flow',
@@ -190,7 +190,7 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     },
     coverageTier: 'promotion-required',
     closureRequirement:
-      'Conversation browser proof covers fullscreen writing, split pane, pipeline log placement, and Terminal handoff while only exposing source-safe metadata.',
+      'Conversation browser proof covers fullscreen writing, split pane, pipeline log placement, and product handoff while only exposing source-safe metadata.',
   }),
   row({
     browserSurfaceId: 'auxillaries:contained-pane-accessibility-flow',
@@ -302,7 +302,7 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
       'BITCODE_BROWSER_PROOF_CONTRACT',
       'Learn Bitcode from AssetPacks to proof',
       'docsPage',
-      'Terminal action manual',
+      'product action manual',
     ],
     requiredTestMarkers: [
       'source-safe public docs',
@@ -317,7 +317,7 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     },
     coverageTier: 'promotion-required',
     closureRequirement:
-      'Docs browser proof keeps public learning routes readable, navigable, and tied to Terminal/Exchange product surfaces without exposing protected implementation source.',
+      'Docs browser proof keeps public learning routes readable, navigable, and tied to Packs/Exchange product surfaces without exposing protected implementation source.',
   }),
   row({
     browserSurfaceId: 'responsive:canonical-viewports-overflow-proof',

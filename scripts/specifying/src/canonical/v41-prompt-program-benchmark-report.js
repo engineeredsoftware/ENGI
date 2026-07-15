@@ -315,7 +315,7 @@ export const V41_PROMPT_PROGRAM_BENCHMARK_REPORT_ROWS = Object.freeze([
   }),
   row({
     reportRowId: 'conversation-interface-post-rewrite-benchmark-delta',
-    label: 'Conversation, tool-definition, MCP API, ChatGPT App, and Terminal prompt rewrites bind to benchmark metadata',
+    label: 'Conversation, tool-definition, MCP API, ChatGPT App, and product prompt rewrites bind to benchmark metadata',
     sourceRoots: [
       SOURCE_ROOTS.gate7ConversationSource,
       SOURCE_ROOTS.gate7ConversationArtifact,

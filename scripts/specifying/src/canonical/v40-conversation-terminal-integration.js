@@ -125,13 +125,13 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
     ],
     requiredSourceMarkers: [
       'buildConversationProductHandoffEnvelope',
-      'readTerminalConversationHandoffContext',
-      'TERMINAL_ENTERPRISE_READING_STAGE_VALUES',
+      'readProductConversationHandoffContext',
+      'PRODUCT_ENTERPRISE_READING_STAGE_VALUES',
       'productRemainsTransactionWorkspace',
     ],
     requiredTestMarkers: [
       'source-safe Conversation handoff',
-      'readTerminalConversationHandoffContext',
+      'readProductConversationHandoffContext',
       'source-safe enterprise Reading stages',
     ],
     expectedCounts: {
@@ -140,7 +140,7 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
     },
     coverageTier: 'promotion-required',
     closureRequirement:
-      'Conversation handoff envelopes serialize source-safe Terminal route context, read back the five enterprise Reading stages, and never claim ledger or wallet authority.',
+      'Conversation handoff envelopes serialize source-safe product route context, read back the five enterprise Reading stages, and never claim ledger or wallet authority.',
   }),
   row({
     integrationSurfaceId: 'conversation:stream-events-to-rich-log',
@@ -266,7 +266,7 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
     },
     coverageTier: 'promotion-required',
     closureRequirement:
-      'Conversation writing, source selector, and attachment mapping stay source-safe before they prepare Terminal handoff intent.',
+      'Conversation writing, source selector, and attachment mapping stay source-safe before they prepare product handoff intent.',
   }),
   row({
     integrationSurfaceId: 'terminal:reading-state-handoff-readback',
@@ -286,7 +286,7 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
       'pnpm --dir apps/uapi exec jest tests/terminalEnterpriseReadingUxState.test.ts tests/conversationTerminalHandoff.test.tsx tests/conversationTerminalIntegrationCoverage.test.tsx --runInBand',
     ],
     requiredSourceMarkers: [
-      'TERMINAL_ENTERPRISE_READING_STEPS',
+      'PRODUCT_ENTERPRISE_READING_STEPS',
       'request-fit',
       'Conversation handoff',
       'source-safe',
@@ -302,7 +302,7 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
     },
     coverageTier: 'promotion-required',
     closureRequirement:
-      'Terminal reads Conversation `readingStage` intent as posture, keeps the five-stage Reading UX source-safe, and blocks protected or unpaid source disclosure.',
+      'product reads Conversation `readingStage` intent as posture, keeps the five-stage Reading UX source-safe, and blocks protected or unpaid source disclosure.',
   }),
   row({
     integrationSurfaceId: 'terminal:pipeline-host-log-stream',
@@ -339,11 +339,11 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
     },
     coverageTier: 'promotion-required',
     closureRequirement:
-      'Terminal harness streaming converts live or replayed pipeline events into inspectable rich logs with inference telemetry and no source or secret leakage.',
+      'product harness streaming converts live or replayed pipeline events into inspectable rich logs with inference telemetry and no source or secret leakage.',
   }),
   row({
     integrationSurfaceId: 'terminal:transaction-cockpit-authority-boundary',
-    integrationKind: 'terminal-authority-boundary',
+    integrationKind: 'product-authority-boundary',
     sourceRoots: [
       'apps/uapi/components/bitcode/routes/ProductRoutes/product-routes.ts',
       'apps/uapi/components/bitcode/pipeline/models/pipeline-run-data.ts',
@@ -362,13 +362,13 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
       'pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest src/__tests__/reading-interface-product-parity.test.ts --runInBand --forceExit',
     ],
     requiredSourceMarkers: [
-      'terminal-delegated-handoff',
+      'product-delegated-handoff',
       'terminal_handoff',
       'PSBT handoff',
       'Wallet signer session',
     ],
     requiredTestMarkers: [
-      'terminal-delegated-handoff',
+      'product-delegated-handoff',
       'signed-psbt',
     ],
     expectedCounts: {
@@ -377,7 +377,7 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
     },
     coverageTier: 'promotion-required',
     closureRequirement:
-      'Terminal remains the transaction, wallet, settlement, ledger, and delivery authority while Conversation may only hand off source-safe intent.',
+      'Packs remains the transaction, wallet, settlement, ledger, and delivery authority while Conversation may only hand off source-safe intent.',
   }),
   row({
     integrationSurfaceId: 'conversation-terminal:rehearsal-docs-and-parity',
@@ -408,7 +408,7 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
     requiredTestMarkers: [
       'terminal_handoff',
       'source-safe',
-      'Terminal',
+      'product',
     ],
     expectedCounts: {
       rehearsalFlowCovered: true,
@@ -416,7 +416,7 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
     },
     coverageTier: 'promotion-required',
     closureRequirement:
-      'Conversation and Terminal documentation, rehearsal rows, and interface parity prove the same source-safe authority boundary that the integration tests execute.',
+      'Conversation and product documentation, rehearsal rows, and interface parity prove the same source-safe authority boundary that the integration tests execute.',
   }),
 ]);
 
@@ -466,10 +466,10 @@ function buildPredicateResults(repoRoot) {
     predicateResult('gate-quality-runs-conversation-terminal-integration-test', '.github/workflows/bitcode-gate-quality.yml', gateWorkflow.includes('conversationTerminalIntegrationCoverage.test.tsx')),
     predicateResult('uapi-jest-includes-conversation-terminal-integration-test', 'apps/uapi/jest.config.cjs', readSource(repoRoot, 'apps/uapi/jest.config.cjs').includes('conversationTerminalIntegrationCoverage.test.tsx')),
     predicateResult('protocol-exports-gate6', 'scripts/specifying/src/index.js', protocolIndex.includes('buildV40ConversationTerminalIntegration') && protocolTypes.includes('buildV40ConversationTerminalIntegration')),
-    predicateResult('spec-documents-gate6', 'specifications/BITCODE_SPEC_V40.md', spec.includes('V40 Gate 6 Conversation And Terminal Integration Coverage') && spec.includes(V40_CONVERSATION_TERMINAL_INTEGRATION_ARTIFACT_PATH)),
+    predicateResult('spec-documents-gate6', 'specifications/BITCODE_SPEC_V40.md', spec.includes('V40 Gate 6 Conversation And product Integration Coverage') && spec.includes(V40_CONVERSATION_TERMINAL_INTEGRATION_ARTIFACT_PATH)),
     predicateResult('delta-documents-gate6', 'specifications/BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 6 closes with package-backed `V40ConversationTerminalIntegration`')),
-    predicateResult('notes-document-gate6', 'specifications/BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 6 implementation notes') && notes.includes('Conversation and Terminal integration coverage')),
-    predicateResult('parity-documents-gate6', 'specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-conversation-terminal-integration') && parity.includes('| Gate 6 | Conversation/Terminal integration artifact | implemented |')),
+    predicateResult('notes-document-gate6', 'specifications/BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 6 implementation notes') && notes.includes('Conversation and product integration coverage')),
+    predicateResult('parity-documents-gate6', 'specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-conversation-terminal-integration') && parity.includes('| Gate 6 | Conversation/product integration artifact | implemented |')),
     predicateResult(
       'roadmap-advanced-through-gate6',
       'specifications/SPECIFICATIONS_ROADMAP.md',

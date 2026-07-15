@@ -3,7 +3,7 @@
  * experiences (Packs, Reads, Deposits).
  *
  * V48 law: launch entrypoints are `/packs`, `/reads`, `/deposits` — not the
- * retired `/terminal` cockpit. Shared selection/history models and page shells
+ * retired `/packs` cockpit. Shared selection/history models and page shells
  * must import from here (or Bitcode re-exports), never invent parallel route
  * strings in experience code.
  *
@@ -22,7 +22,7 @@ export const DEPOSITS_ROUTE = '/deposits' as const;
 
 /**
  * Compatibility aliases matching historical singular export names used by
- * deposit/read clients during the Terminal → experience migration.
+ * deposit/read clients during the product → experience migration.
  * Prefer `READS_ROUTE` / `DEPOSITS_ROUTE` in new code.
  */
 export const READ_ROUTE = READS_ROUTE;

@@ -6,8 +6,8 @@
  */
 
 import {
-  TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
-  TERMINAL_ENTERPRISE_READING_STEPS,
+  PRODUCT_ENTERPRISE_READING_FORBIDDEN_FIELDS,
+  PRODUCT_ENTERPRISE_READING_STEPS,
   assertEnterpriseReadingUxStateSourceSafe,
   buildEnterpriseReadingUxState,
 } from '@/components/reads/models/enterprise-reading-ux-state';
@@ -44,7 +44,7 @@ export { buildReadProcurementGovernance } from './read-procurement-governance';
 export { buildReadFitMeasurementReview } from './read-fit-measurement-review';
 export { buildReadSettlementRightsDelivery } from './read-settlement-rights-delivery';
 
-const READ_ROUTE_STAGE_IDS = TERMINAL_ENTERPRISE_READING_STEPS.map((step) => step.id);
+const READ_ROUTE_STAGE_IDS = PRODUCT_ENTERPRISE_READING_STEPS.map((step) => step.id);
 
 export function readReadRouteStage(params: URLSearchParams): ReadRouteStepId | null {
   const stage = params.get('readingStage')?.trim();
@@ -163,7 +163,7 @@ export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRo
       rawProviderResponseVisible: false,
       walletPrivateMaterialVisible: false,
       settlementPrivatePayloadVisible: false,
-      hiddenBeforeSettlement: TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
+      hiddenBeforeSettlement: PRODUCT_ENTERPRISE_READING_FORBIDDEN_FIELDS,
     },
     proofRoot: `read-route-session:${stableHash(seed)}`,
   };
@@ -248,7 +248,7 @@ export function assertReadRouteSessionSourceSafe(session: ReadRouteSession) {
     session.disclosure.rawProviderResponseVisible === false &&
     session.disclosure.walletPrivateMaterialVisible === false &&
     session.disclosure.settlementPrivatePayloadVisible === false &&
-    TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS.every((field) =>
+    PRODUCT_ENTERPRISE_READING_FORBIDDEN_FIELDS.every((field) =>
       session.disclosure.hiddenBeforeSettlement.includes(field),
     );
 

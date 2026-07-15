@@ -1,10 +1,10 @@
-# Bitcode Terminal Operator Experience Notes
+# Bitcode Operator Experience Notes
 
 Status: non-canonical internal note. Use this as scratch material for later V26 SPEC promotion.
 
 ## Product Thesis
 
-Bitcode Terminal lets an operator move from source to shares without leaving the Bitcode state model.
+Bitcode lets an operator move from source to shares without leaving the Bitcode state model.
 
 The operator supplies or selects:
 - repository/source context,
@@ -33,11 +33,11 @@ Bitcode returns:
 7. Let Bitcode synthesize the AssetPack.
 8. Inspect validation and proof receipts.
 9. Finish by saving and delivering the result through the selected mechanism.
-10. Reread the activity from Terminal, Exchange, API, MCP, or admitted connected interfaces.
+10. Reread the activity from product, Exchange, API, MCP, or admitted connected interfaces.
 
 ## UX Requirements
 
-The Terminal must make these boundaries visible:
+The product must make these boundaries visible:
 - repository/source scope,
 - Read measurement evidence,
 - Read review decision,
@@ -56,7 +56,7 @@ Use:
 - Read, Deposit, source, fit, shares,
 - AssetPack, AssetPack partial, connected-interface written asset,
 - Finish, delivery mechanism, settlement evidence,
-- Bitcode Terminal, Bitcode Exchange, Bitcode Protocol.
+- Bitcode, Bitcode Exchange, Bitcode Protocol.
 
 Avoid in product copy:
 - generic work-item framing,
@@ -72,6 +72,6 @@ Promote only statements that are implemented or accepted as V26 requirements:
 - Read review before fit search,
 - fit-quality rows visible before settlement,
 - one Exchange activity ledger,
-- Terminal reread after writes,
+- product reread after writes,
 - AssetPack output semantics,
 - server-owned readiness and fail-closed route behavior.

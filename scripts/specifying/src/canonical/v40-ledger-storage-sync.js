@@ -276,9 +276,9 @@ export const V40_LEDGER_STORAGE_SYNC_ROWS = Object.freeze([
     commandIds: [
       'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalTransactionDetailCards.test.tsx tests/terminalJournalReconciliation.test.ts --runInBand',
     ],
-    requiredEvidence: ['Terminal settlement status', 'journal reconciliation state', 'delivery posture', 'source-safe detail card'],
+    requiredEvidence: ['product settlement status', 'journal reconciliation state', 'delivery posture', 'source-safe detail card'],
     closureRequirement:
-      'Terminal and interface readbacks show synchronized settlement/delivery state with expandable source-safe detail and no source-bearing leakage before payment.',
+      'product and interface readbacks show synchronized settlement/delivery state with expandable source-safe detail and no source-bearing leakage before payment.',
   }),
   row({
     rowId: 'proof:artifact-tests-workflows-docs',

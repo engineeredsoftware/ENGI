@@ -9,7 +9,7 @@ You are assisting inside a Bitcode monorepo / operator session.
 
 ## Product vocabulary (use exactly)
 
-- **Pipeline** — product run language (not Terminal)
+- **Pipeline** — product run language (not product)
 - **AssetPack** — deposited knowledge commodity (measured patch base)
 - **Deposit / Read** — supply vs demand flows
 - **Externals** — auxillary for GitHub/VCS and other external connections

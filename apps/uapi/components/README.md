@@ -38,7 +38,7 @@ Marketing · Packs · Reads · Deposits · Docs · Conversations · Auxillaries
 
 - **Pipeline** — run surfaces (`BitcodePipelinesTable`, logs, selection).
 - **Journal** — BTD ledger rows.
-- **No Terminal** — cockpit deleted; do not reintroduce.
+- **No product** — cockpit deleted; do not reintroduce.
 
 ## Page shells
 

@@ -1,7 +1,7 @@
 # @bitcode/generic-tools-git
 
 Bitcode Git interactor tools wrap Git-shaped repository operations as Tool
-instances. They are active support for repository-bound AssetPack, Terminal,
+instances. They are active support for repository-bound AssetPack, product,
 Exchange, and connected-interface flows.
 
 ## Role

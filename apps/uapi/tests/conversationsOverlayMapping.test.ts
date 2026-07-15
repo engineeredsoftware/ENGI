@@ -5,7 +5,7 @@ describe('ConversationsOverlay attachment hydration', () => {
     const chat = mapConversationDetailToChat({
       id: 'conv-1',
       user_id: 'user-1',
-      title: 'Bitcode Terminal',
+      title: 'Bitcode',
       created_at: '2026-04-21T12:00:00.000Z',
       updated_at: '2026-04-21T12:05:00.000Z',
       messages: [
@@ -13,7 +13,7 @@ describe('ConversationsOverlay attachment hydration', () => {
           id: 'msg-1',
           conversation_id: 'conv-1',
           role: 'user',
-          content: 'Use bitcode/terminal and route it to Settlement lane.',
+          content: 'Use bitcode/product and route it to Settlement lane.',
           created_at: '2026-04-21T12:01:00.000Z',
           message_attachments: [
             {
@@ -22,9 +22,9 @@ describe('ConversationsOverlay attachment hydration', () => {
               attachment_type: 'github_repo',
               metadata: {
                 token_type: 'source',
-                title: 'bitcode/terminal',
+                title: 'bitcode/product',
                 provider: 'github',
-                path: 'bitcode/terminal',
+                path: 'bitcode/product',
               },
             },
             {
@@ -63,7 +63,7 @@ describe('ConversationsOverlay attachment hydration', () => {
       expect.arrayContaining([
         expect.objectContaining({
           type: 'source',
-          text: 'bitcode/terminal',
+          text: 'bitcode/product',
         }),
         expect.objectContaining({
           type: 'destination',

@@ -135,7 +135,7 @@ export const V43_READ_ROUTE_CONTRACT_ROWS = Object.freeze([
     contract:
       'ReadPageClient renders request-read, Need review, Finding Fits request, source-safe preview, settlement/delivery posture, route-owned activity readback, and live workbench controls.',
     requiredFields: [
-      'TerminalDepositReadWorkbench',
+      'ProductDepositReadWorkbench',
       'TerminalRepositoryContextPanel',
       'TerminalReadScenarioPanel',
       'buildReadRouteSession',
@@ -147,7 +147,7 @@ export const V43_READ_ROUTE_CONTRACT_ROWS = Object.freeze([
     rowId: 'navigation-read-route',
     owner: SOURCE_ROOTS.nav,
     contract:
-      'Public navigation and footer expose /read as the primary Reading path while retained Terminal remains available for debug-compatible detail.',
+      'Public navigation and footer expose /read as the primary Reading path while retained product remains available for debug-compatible detail.',
     requiredFields: ['/read', 'Read', 'BITCODE_PUBLIC_EXPLAINERS.read'],
   },
 ]);
@@ -178,9 +178,9 @@ function buildPredicateResults(repoRoot) {
         (sources.client.includes('ProductRouteStepGrid') && sources.client.includes('testIdPrefix="read-route-step"'))) &&
         sources.client.includes('Reading steps'),
     ),
-    predicateResult('read-client-reuses-live-workbench', SOURCE_ROOTS.client, sources.client.includes('TerminalDepositReadWorkbench') && sources.client.includes('showDemonstrationWorkbench={false}')),
+    predicateResult('read-client-reuses-live-workbench', SOURCE_ROOTS.client, sources.client.includes('ProductDepositReadWorkbench') && sources.client.includes('showDemonstrationWorkbench={false}')),
     predicateResult('read-client-renders-source-safe-session', SOURCE_ROOTS.client, sources.client.includes('Source-safe read state') && sources.client.includes('Disclosure boundary')),
-    predicateResult('read-client-records-activity', SOURCE_ROOTS.client, sources.client.includes('/api/executions/history') && sources.client.includes('buildTerminalExecutionHistoryRequest')),
+    predicateResult('read-client-records-activity', SOURCE_ROOTS.client, sources.client.includes('/api/executions/history') && sources.client.includes('buildProductExecutionHistoryRequest')),
     predicateResult('terminal-routes-define-read', SOURCE_ROOTS.terminalRoutes, sources.terminalRoutes.includes("READ_ROUTE = '/read'") && sources.terminalRoutes.includes('buildReadHref')),
     predicateResult('workbench-preserves-execution-stream', SOURCE_ROOTS.terminalWorkbench, sources.terminalWorkbench.includes('BitcodeExecutionStreamPanel') && sources.terminalWorkbench.includes('Request Fit')),
     predicateResult('reading-state-preserves-five-steps', SOURCE_ROOTS.terminalReadingState, V43_READ_ROUTE_STEP_IDS.every((id) => sources.terminalReadingState.includes(`'${id}'`))),

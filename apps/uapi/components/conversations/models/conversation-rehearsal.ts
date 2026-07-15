@@ -45,7 +45,7 @@ export const CONVERSATION_REHEARSAL_FLOW_OPTIONS: Array<{
   { flowId: 'streaming', label: 'Streaming' },
   { flowId: 'writing', label: 'Writing' },
   { flowId: 'source_selector', label: 'Source selector' },
-  { flowId: 'product_handoff', label: 'Terminal handoff' },
+  { flowId: 'product_handoff', label: 'product handoff' },
   { flowId: 'restore', label: 'Restore' },
   { flowId: 'retry', label: 'Retry' },
   { flowId: 'redaction', label: 'Redaction' },

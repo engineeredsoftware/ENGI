@@ -177,7 +177,7 @@ function main() {
   assertCheck(
     failures,
     prepareSpecScript.includes("if (version === 'V29')") &&
-      prepareSpecScript.includes('V29 canonical system specification for Terminal transaction depth') &&
+      prepareSpecScript.includes('V29 canonical system specification for product transaction depth') &&
       prepareSpecScript.includes('specifications/BITCODE_SPEC_V29_PROVEN.md') &&
       prepareSpecScript.includes('rewritePromotedParityJudgments') &&
       prepareSpecScript.includes('implementation matrix') &&

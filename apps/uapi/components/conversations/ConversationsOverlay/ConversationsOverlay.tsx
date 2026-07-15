@@ -351,7 +351,7 @@ const Conversation = memo(function Conversation({
       iterationUpdates={(iterationUpdates as unknown[]) || []}
       thinkingLog={thinkingLog as Array<{ type: string; content: string }>}
       showSourceSelector={view.showSourceSelector}
-      showTerminalHandoff={view.showTerminalHandoff}
+      showProductHandoff={view.showProductHandoff}
       showPersistencePrivacy={view.showPersistencePrivacy}
       showTelemetryProof={view.showTelemetryProof}
       showRehearsalProof={view.showRehearsalProof}
@@ -379,7 +379,7 @@ const Conversation = memo(function Conversation({
       onToggleSplitScreen={view.toggleSplitScreen}
       onToggleWritingWorkspace={() => view.setShowWritingWorkspace((prev) => !prev)}
       onToggleSourceSelector={() => view.setShowSourceSelector((prev) => !prev)}
-      onToggleTerminalHandoff={() => view.setShowTerminalHandoff((prev) => !prev)}
+      onToggleProductHandoff={() => view.setShowTerminalHandoff((prev) => !prev)}
       onTogglePersistencePrivacy={() => view.setShowPersistencePrivacy((prev) => !prev)}
       onToggleTelemetryProof={() => view.setShowTelemetryProof((prev) => !prev)}
       onToggleRehearsalProof={() => view.setShowRehearsalProof((prev) => !prev)}

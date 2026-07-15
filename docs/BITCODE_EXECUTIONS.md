@@ -8,9 +8,9 @@ An execution is a proof-bearing Bitcode inference run. It may measure a Read, sy
 
 Executions are not generic work items. They are source-to-shares procedures with explicit input, phase, state, output, and proof boundaries.
 
-## Terminal Experience
+## product Experience
 
-The Terminal execution surface should show:
+The product execution surface should show:
 - source and repository context,
 - measured Read and review state,
 - fit-review quality rows,
@@ -48,4 +48,4 @@ Operators should be able to:
 - Replace output-object-first labels with AssetPack or written-asset labels.
 - Replace pre-Finish labels with Finish and delivery-mechanism labels.
 - Keep computer-use hidden unless the server admits it internally for Read measurement.
-- Ensure all execution UI reads from the same Exchange activity model as `/terminal`.
+- Ensure all execution UI reads from the same Exchange activity model as `/packs`.

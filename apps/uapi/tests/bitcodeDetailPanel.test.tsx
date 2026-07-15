@@ -10,8 +10,8 @@ describe('BitcodeDetailPanel', () => {
     render(
       <BitcodeDetailPanel
         badge="master"
-        title="Bitcode Terminal"
-        summary="Search, filter, and inspect Bitcode activity inside the Bitcode Terminal."
+        title="Bitcode"
+        summary="Search, filter, and inspect Bitcode activity inside the Bitcode."
         metrics={[
           { label: 'Status', value: 'completed' },
           { label: 'Started', value: 'Apr 16, 12:00 PM' },
@@ -27,8 +27,8 @@ describe('BitcodeDetailPanel', () => {
     );
 
     expect(screen.getByText('master')).toBeTruthy();
-    expect(screen.getByText('Bitcode Terminal')).toBeTruthy();
-    expect(screen.getByText('Search, filter, and inspect Bitcode activity inside the Bitcode Terminal.')).toBeTruthy();
+    expect(screen.getByText('Bitcode')).toBeTruthy();
+    expect(screen.getByText('Search, filter, and inspect Bitcode activity inside the Bitcode.')).toBeTruthy();
     expect(screen.getByText('Status')).toBeTruthy();
     expect(screen.getByText('completed')).toBeTruthy();
     expect(screen.getByText('Activity id')).toBeTruthy();

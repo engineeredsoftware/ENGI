@@ -33,7 +33,7 @@ export const V32_COVERAGE_STATUSES = Object.freeze([
 const coverageRows = Object.freeze([
   {
     surfaceId: 'terminal',
-    promotedBehavior: 'URL-addressable Terminal transactions, live execution streams, transaction detail cards, wallet/BTC posture, and source-safe operator readback.',
+    promotedBehavior: 'URL-addressable product transactions, live execution streams, transaction detail cards, wallet/BTC posture, and source-safe operator readback.',
     owner: 'apps/uapi/app/terminal',
     fixture: 'apps/uapi/tests/terminalTransactionReadModel.test.ts; apps/uapi/tests/terminalPipelineHarnessClient.test.ts; apps/uapi/tests/pipelineExecutionLogHeader.test.tsx; apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts; apps/uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts; apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
     replayCommand: 'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts tests/terminalPipelineHarnessClient.test.ts tests/pipelineExecutionLogHeader.test.tsx tests/terminalInterfaceIntegrationRegression.test.ts tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites && pnpm run check:v32-browser-accessibility-responsive-visual-proof',
@@ -41,7 +41,7 @@ const coverageRows = Object.freeze([
     sourceSafetyClass: 'source-safe-internal',
     coverageStatus: 'v32-expansion-required',
     plannedGate: 'Gate 6 and Gate 7',
-    requiredContexts: ['TerminalTransaction', 'TerminalTransactionReadModel', 'pipeline execution telemetry', 'operator source-safe projection'],
+    requiredContexts: ['TerminalTransaction', 'ProductTransactionReadModel', 'pipeline execution telemetry', 'operator source-safe projection'],
     failureModes: ['route-state-drift', 'stream-payload-shape-drift', 'unredacted-protected-source-in-detail-pane', 'operator-detail-overflow'],
     repairPosture: 'Gate 6 hardens transaction contract fixtures; Gate 7 proves browser/accessibility/responsive presentation.'
   },
@@ -99,7 +99,7 @@ const coverageRows = Object.freeze([
     plannedGate: 'Gate 6',
     requiredContexts: ['tool schema', 'write admission receipt', 'repository anchor', 'pipeline queue metadata'],
     failureModes: ['unauthorized-write-admitted', 'write-admission-metadata-missing', 'tool-schema-drift', 'prompt-canon-drift'],
-    repairPosture: 'Gate 6 aligns MCP contract fixtures with API, Terminal, ChatGPT App, and deferred interface blockers.'
+    repairPosture: 'Gate 6 aligns MCP contract fixtures with API, product, ChatGPT App, and deferred interface blockers.'
   },
   {
     surfaceId: 'chatgpt-app',
@@ -131,7 +131,7 @@ const coverageRows = Object.freeze([
   },
   {
     surfaceId: 'ledger',
-    promotedBehavior: 'BTC fee, BTD ownership, read-license, internal ledger anchors, terminal journal entries, and reconciliation readback.',
+    promotedBehavior: 'BTC fee, BTD ownership, read-license, internal ledger anchors, BTD journal entries, and reconciliation readback.',
     owner: 'packages/btd; packages/pipeline-hosts; apps/uapi/app/terminal',
     fixture: 'apps/uapi/tests/terminalJournalReconciliation.test.ts; packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts; packages/btd/__tests__/btc-fee-operation.test.ts; packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts',
     replayCommand: 'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalJournalReconciliation.test.ts --runInBand && pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-host-plan.test.ts --runInBand && pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts __tests__/v32-ledger-btd-settlement-failure-states.test.ts && pnpm run check:v32-ledger-btd-settlement-failure-states',
@@ -139,7 +139,7 @@ const coverageRows = Object.freeze([
     sourceSafetyClass: 'source-safe-generated-proof',
     coverageStatus: 'v32-expansion-required',
     plannedGate: 'Gate 5',
-    requiredContexts: ['BtcFeeQuote', 'BtdRightsTransferReceipt', 'terminal journal entry', 'ledger projection root', 'reconciliation state'],
+    requiredContexts: ['BtcFeeQuote', 'BtdRightsTransferReceipt', 'BTD journal entry', 'ledger projection root', 'reconciliation state'],
     failureModes: ['ledger-database-drift', 'journal-entry-missing', 'settlement-conservation-drift', 'read-license-unbound'],
     repairPosture: 'Gate 5 adds failure-state rows and deterministic repair roots for ledger/database reconciliation.'
   },

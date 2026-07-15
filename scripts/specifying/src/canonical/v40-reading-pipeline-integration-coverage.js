@@ -359,7 +359,7 @@ export const V40_READING_PIPELINE_INTEGRATION_ROWS = Object.freeze([
       branchResumeRequired: true,
     },
     coverageTier: 'promotion-required',
-    closureRequirement: 'Terminal request/read, pipeline harness, preflight, branch/resume, and API route integration remain tested against the real Reading pipeline contracts.',
+    closureRequirement: 'product request/read, pipeline harness, preflight, branch/resume, and API route integration remain tested against the real Reading pipeline contracts.',
   }),
   row({
     integrationSurfaceId: 'reading:primitive-and-host-integration',

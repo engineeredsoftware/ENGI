@@ -145,7 +145,7 @@ describe('normalizeAssetPackOutput', () => {
     const acceptedNeed = acceptReadNeed(synthesizeReadNeedForPipelineInput({
       read: {
         id: 'read-1',
-        prompt: 'Find deposited source evidence for a source-safe Terminal AssetPack preview.',
+        prompt: 'Find deposited source evidence for a source-safe product AssetPack preview.',
       },
       sourceRevision: {
         repositoryFullName: 'engineeredsoftware/ENGI',

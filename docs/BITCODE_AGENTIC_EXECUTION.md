@@ -36,7 +36,7 @@ Computer-use support is only admitted as internal Read-measurement evidence in V
 Implementation rule:
 - The only server flag is `BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT`.
 - Registry admission is scoped to `read-measurement:computer-use-evidence-agent`.
-- Implementation, validation, Finish, and Terminal action controls must not expose computer-use as a general execution option.
+- Implementation, validation, Finish, and product action controls must not expose computer-use as a general execution option.
 
 Full computer-using agent ability is beyond V26.
 

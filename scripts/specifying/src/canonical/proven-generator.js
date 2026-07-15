@@ -574,7 +574,7 @@ const V26_RETAINED_PACKAGE_ADMISSIBLE_ROLES = [
 const V26_RETAINED_PACKAGE_CENSUS_POLICY_BY_ROLE = {
   'direct-product': {
     role: 'product-facing Bitcode package surface',
-    rationale: 'package participates directly in the Exchange, Terminal, MCP, API, or BTD product experience',
+    rationale: 'package participates directly in the Exchange, product, MCP, API, or BTD product experience',
     writeBoundary: 'product writes must pass through Bitcode-owned terminal/API/MCP admission, activity, and settlement semantics',
     proofObligation: 'product packages must stay bound to terminal composition, source-to-shares, runs/pipelines, and interface parity proofs'
   },
@@ -599,7 +599,7 @@ const V26_RETAINED_PACKAGE_CENSUS_POLICY_BY_ROLE = {
   'reference-only': {
     role: 'reference-only retained package corridor',
     rationale: 'package remains in the repository as bounded reference material, not as live Bitcode product behavior',
-    writeBoundary: 'reference packages do not own Exchange state, Terminal state, settlement writes, or canonical source-to-shares behavior',
+    writeBoundary: 'reference packages do not own Exchange state, product state, settlement writes, or canonical source-to-shares behavior',
     proofObligation: 'reference packages must stay classified, non-canonical for product writes, and eligible for later removal or explicit promotion'
   }
 };
@@ -1157,13 +1157,13 @@ function buildV26FourthGateReclosureReviewProof({
       'fourth-gate-criterion-01-first-class-retained-interfaces',
       'Conversations, chat, execution, and runs surfaces remain first-class commercial systems',
       ['terminal-composition', 'conversations-continuity', 'runs-pipelines-totality'],
-      'Terminal, conversation, and runs proof families keep retained interfaces inside the V26 Bitcode system.'
+      'product, conversation, and runs proof families keep retained interfaces inside the V26 Bitcode system.'
     ),
     criterion(
       'fourth-gate-criterion-02-bitcode-system-specification',
       'Retained systems are specified as Bitcode V26 systems rather than adjacent subsystems',
       ['terminal-composition', 'inference-implementation-records', 'retained-package-admissibility'],
-      'Terminal composition, inference records, and retained-package roles bind retained systems into Bitcode V26.'
+      'product composition, inference records, and retained-package roles bind retained systems into Bitcode V26.'
     ),
     criterion(
       'fourth-gate-criterion-03-fullscreen-conversations',
@@ -1175,7 +1175,7 @@ function buildV26FourthGateReclosureReviewProof({
       'fourth-gate-criterion-04-inward-master-detail-port',
       'Execution, AssetPack, and Shippable master-detail patterns are ported inward to /terminal',
       ['terminal-composition', 'runs-pipelines-totality'],
-      'Terminal composition and runs proof families cover the inward master-detail transaction/workspace posture.'
+      'product composition and runs proof families cover the inward master-detail transaction/workspace posture.'
     ),
     criterion(
       'fourth-gate-criterion-05-prompt-abstraction-source',
@@ -1229,19 +1229,19 @@ function buildV26FourthGateReclosureReviewProof({
       'fourth-gate-criterion-13-canonical-auxillary-apis',
       'Canonical auxillary APIs are explicit active owners rather than latent pane dependencies',
       ['terminal-composition', 'runs-pipelines-totality'],
-      'Terminal and runs/activity proof inputs include auxillary API, notification, profile, connection, BTD, usage, transaction, and key carriers.'
+      'product and runs/activity proof inputs include auxillary API, notification, profile, connection, BTD, usage, transaction, and key carriers.'
     ),
     criterion(
       'fourth-gate-criterion-14-compatibility-route-teaching',
       'Executions and orbitals compatibility routes teach executions and auxillaries as merged-world targets',
       ['terminal-composition', 'runs-pipelines-totality'],
-      'Terminal composition plus runs/activity proofing keeps compatibility routes bounded while /terminal and auxillaries carry the canonical topology.'
+      'product composition plus runs/activity proofing keeps compatibility routes bounded while /terminal and auxillaries carry the canonical topology.'
     ),
     criterion(
       'fourth-gate-criterion-15-shared-activity-vocabulary',
       'Transactions, execution events, and notifications share one typed Bitcode activity vocabulary',
       ['terminal-composition', 'runs-pipelines-totality'],
-      'Activity and transaction carriers are included in the Terminal and runs proof basis rather than separate product semantics.'
+      'Activity and transaction carriers are included in the product and runs proof basis rather than separate product semantics.'
     ),
     criterion(
       'fourth-gate-criterion-16-proof-family-assignment',
@@ -1383,7 +1383,7 @@ function buildV26GateCheckpointReport({
   const secondGateChecks = [
     buildV26FilePresenceCheck(
       'second-gate-terminal-carriers',
-      'Second-gate Terminal and orbital carriers',
+      'Second-gate product and orbital carriers',
       V26_SECOND_GATE_TERMINAL_FILES
     ),
     buildV26FilePresenceCheck(
@@ -1531,7 +1531,7 @@ function buildV26GateCheckpointReport({
       label: 'Fifth-gate closure deepening proof',
       passed: fifthGateClosureDeepeningPassed,
       detail: fifthGateClosureDeepeningPassed
-        ? 'Fifth-gate closure evidence has deepened after fourth-gate promotion closure across Terminal, Exchange, persistence, reform, proof, and environment axes.'
+        ? 'Fifth-gate closure evidence has deepened after fourth-gate promotion closure across product, Exchange, persistence, reform, proof, and environment axes.'
         : 'Fifth-gate closure deepening proof remains open.'
     },
     {
@@ -1570,7 +1570,7 @@ function buildV26GateCheckpointReport({
       label: 'Sixth-gate MVP closure proof',
       passed: sixthGateMvpClosureProofPassed,
       detail: sixthGateMvpClosureProofPassed
-        ? 'Sixth-gate MVP closure proof accepts every MVP row across Terminal map, operator loop, conversations, auxillaries, interfaces, and architecture.'
+        ? 'Sixth-gate MVP closure proof accepts every MVP row across product map, operator loop, conversations, auxillaries, interfaces, and architecture.'
         : 'Sixth gate remains open until the MVP closure proof passes.'
     },
     {
@@ -1709,7 +1709,7 @@ function buildV26GateCheckpointReport({
     },
     secondGate: {
       gateId: 'gate-2',
-      label: 'Terminal UX/UI and external interfacing hardening',
+      label: 'product UX/UI and external interfacing hardening',
       passed: secondGatePassed,
       checks: secondGateChecks
     },
@@ -1727,7 +1727,7 @@ function buildV26GateCheckpointReport({
     },
     fourthGate: {
       gateId: 'gate-4',
-      label: 'Merged-world Terminal and retained-system convergence',
+      label: 'Merged-world product and retained-system convergence',
       passed: fourthGateProceduralClosurePassed,
       reopened: !fourthGateProceduralClosurePassed,
       promotedClosed: fourthGatePromotedClosed,
@@ -1740,7 +1740,7 @@ function buildV26GateCheckpointReport({
     },
     fifthGate: {
       gateId: 'gate-5',
-      label: 'Minimum-functional Bitcode Exchange, Bitcode Terminal, and total retained-system reform baseline',
+      label: 'Minimum-functional Bitcode Exchange, Bitcode, and total retained-system reform baseline',
       passed: fifthGatePassed,
       open: !fifthGatePassed,
       closureDeepened: fifthGateClosureDeepened,
@@ -1752,7 +1752,7 @@ function buildV26GateCheckpointReport({
       checks: fifthGateChecks,
       detail: fifthGatePassed
         ? 'Fifth gate is closed at the minimum-functional Bitcode baseline. Sixth and seventh gate closure are judged by their generated proof families.'
-        : 'Fifth-gate drafting and implementation remain active after fourth-gate promoted closure. Fifth-gate owns minimum-functional Bitcode Exchange and Terminal closure plus the broad retained-system reform baseline required to make the kept repository read as Bitcode-native around source-to-shares.'
+        : 'Fifth-gate drafting and implementation remain active after fourth-gate promoted closure. Fifth-gate owns minimum-functional Bitcode Exchange and product closure plus the broad retained-system reform baseline required to make the kept repository read as Bitcode-native around source-to-shares.'
     },
     sixthGate: {
       gateId: 'gate-6',
@@ -1766,7 +1766,7 @@ function buildV26GateCheckpointReport({
       checks: sixthGateChecks,
       detail: sixthGatePassed
         ? 'Sixth gate is closed at the minimal viable product baseline. Seventh gate closure is judged by the commercial testnet launch proof.'
-        : 'Sixth-gate MVP elevation is blocked until the fifth-gate baseline is elevated into a coherent minimal viable product across Exchange, Terminal, Protocol, Proofs, and admitted interfaces.'
+        : 'Sixth-gate MVP elevation is blocked until the fifth-gate baseline is elevated into a coherent minimal viable product across Exchange, product, Protocol, Proofs, and admitted interfaces.'
     },
     seventhGate: {
       gateId: 'gate-7',
@@ -1898,7 +1898,7 @@ function buildV26TerminalCompositionProof({
   const checks = [
     buildV26FilePresenceCheck(
       'terminal-route-and-shell-owners',
-      'Terminal route, shell bridge, and native surface owners remain explicit',
+      'product route, shell bridge, and native surface owners remain explicit',
       [
         'apps/uapi/app/page.tsx',
         'apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx',
@@ -1950,7 +1950,7 @@ function buildV26TerminalCompositionProof({
         {
           file: 'apps/chatgpt/src/server.ts',
           evidence: 'Bitcode is the source-to-shares protocol surfaced through ChatGPT',
-          description: 'server instructions frame ChatGPT App as a Bitcode Terminal companion interface'
+          description: 'server instructions frame ChatGPT App as a Bitcode product companion interface'
         },
         {
           file: 'apps/chatgpt/src/__tests__/tools.test.ts',
@@ -2024,7 +2024,7 @@ function buildV26EnvironmentModeCoherenceProof({
     ),
     buildV26FilePresenceCheck(
       'environment-terminal-controls-and-tests',
-      'Terminal environment controls and route-local proof carriers remain explicit',
+      'product environment controls and route-local proof carriers remain explicit',
       [
         'apps/uapi/components/bitcode/pipeline/PipelineHostClient/pipeline-host-client.ts',
         'apps/uapi/components/bitcode/vcs/VCSConnectionButton/VCSConnectionButton.tsx',
@@ -2673,7 +2673,7 @@ function buildV26SourceToSharesFifthGateProof({
         {
           file: 'apps/uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
           evidence: "status: draft.status || 'completed'",
-          description: 'Terminal activity recordings default to completed Bitcode ledger writes'
+          description: 'product activity recordings default to completed Bitcode ledger writes'
         },
         {
           file: 'packages/api/src/routes/executions.ts',
@@ -2694,7 +2694,7 @@ function buildV26SourceToSharesFifthGateProof({
     ),
     buildV26FilePresenceCheck(
       'terminal-source-to-shares-settlement-read',
-      'Bitcode Terminal reads Read review, fit-search admission, quantized fit quality, and source-to-shares settlement as one closure sequence',
+      'Bitcode reads Read review, fit-search admission, quantized fit quality, and source-to-shares settlement as one closure sequence',
       [
         'apps/uapi/components/bitcode/pipeline/models/transaction-readiness.ts',
         'apps/uapi/components/bitcode/pipeline/models/transaction-readiness.ts',
@@ -2706,17 +2706,17 @@ function buildV26SourceToSharesFifthGateProof({
     ),
     buildV26FileContentCheck(
       'terminal-source-to-shares-settlement-contract',
-      'Bitcode Terminal read proof checks the native closure and selected-detail assertions for Read review, present-fit settlement review, quantized fit-quality rows, and persisted source-to-shares detail carry-through',
+      'Bitcode read proof checks the native closure and selected-detail assertions for Read review, present-fit settlement review, quantized fit-quality rows, and persisted source-to-shares detail carry-through',
       [
         {
           file: 'apps/uapi/components/bitcode/pipeline/models/transaction-readiness.ts',
           evidence: 'Read closure as one sequence from reviewable Read admission through verification, asset-pack branch materialization, source-to-shares settlement, and ledger continuity.',
-          description: 'native Terminal closure card teaches the complete review-to-settlement sequence'
+          description: 'native product closure card teaches the complete review-to-settlement sequence'
         },
         {
           file: 'apps/uapi/components/bitcode/pipeline/models/transaction-readiness.ts',
           evidence: "{ label: 'Fit search admitted', value: readReview.fitSearchAdmitted === true ? 'yes' : 'no' }",
-          description: 'closure-state normalization exposes fit-search admission as Terminal read state'
+          description: 'closure-state normalization exposes fit-search admission as product read state'
         },
         {
           file: 'apps/uapi/components/bitcode/pipeline/models/transaction-readiness.ts',
@@ -2909,9 +2909,9 @@ function buildV26FifthGateClosureDeepeningProof({
   const axes = [
     axis(
       'terminal-read-write-loop',
-      'Bitcode Terminal read/write loop',
+      'Bitcode read/write loop',
       ['terminal-composition', 'source-to-shares', 'product-readiness-audit', 'environment-mode-coherence'],
-      'Terminal-facing source-to-shares Read review, fit admission, settlement reading, TypeScript-only apps/uapi/app ownership, product readiness audit, and environment posture are generated and app/API-backed.',
+      'product-facing source-to-shares Read review, fit admission, settlement reading, TypeScript-only apps/uapi/app ownership, product readiness audit, and environment posture are generated and app/API-backed.',
       'Closed by the fifth-gate closure proof as a minimum-functional read/write baseline; sixth-gate and later harden wider browser/authenticated production coverage.'
     ),
     axis(
@@ -2925,7 +2925,7 @@ function buildV26FifthGateClosureDeepeningProof({
       'transactional-readiness-and-repository-scope',
       'Transactional readiness and repository scope',
       ['terminal-composition', 'source-to-shares', 'product-readiness-audit', 'retained-package-admissibility'],
-      'Repository-bound source-to-shares admission, stored-first/live-fallback connected-provider inventory validation, reconnect-required downgrade for invalid saved provider sessions, Terminal-side repository-supply reread that keeps stored inventory visible under reconnect-required provider drift, main-route readiness derivation that prefers route-local repository truth over auxillary reread or weak connection-presence fallback, Terminal pulse plus Deposit + Read flow-guide rendering of exact reconnect-required readiness, wallet-reconnect-required downgrade for saved verified signer posture without a live wallet-provider session, and Connects plus `$BTD` reread through `/api/auxillaries/data` are proof-backed as the current readiness baseline.',
+      'Repository-bound source-to-shares admission, stored-first/live-fallback connected-provider inventory validation, reconnect-required downgrade for invalid saved provider sessions, product-side repository-supply reread that keeps stored inventory visible under reconnect-required provider drift, main-route readiness derivation that prefers route-local repository truth over auxillary reread or weak connection-presence fallback, product pulse plus Deposit + Read flow-guide rendering of exact reconnect-required readiness, wallet-reconnect-required downgrade for saved verified signer posture without a live wallet-provider session, and Connects plus `$BTD` reread through `/api/auxillaries/data` are proof-backed as the current readiness baseline.',
       'Closed by the fifth-gate closure proof as an operative readiness baseline; live provider signing expansion remains later-gate hardening.'
     ),
     axis(
@@ -3105,12 +3105,12 @@ function buildV26FifthGateClosureProof({
   const closureRows = [
     closureRow(
       'terminal-read-write-loop',
-      'Whole Terminal read/write acceptance',
-      'Terminal read/write loop',
+      'Whole product read/write acceptance',
+      'product read/write loop',
       ['terminal-composition', 'source-to-shares', 'product-readiness-audit', 'environment-mode-coherence'],
       buildV26FileContentCheck(
         'terminal-read-write-loop-source-evidence',
-        'Terminal deposit, read, deposit, branch, closure, selected-detail, and ledger reread are source-backed by route/API tests',
+        'product deposit, read, deposit, branch, closure, selected-detail, and ledger reread are source-backed by route/API tests',
         [
           {
             file: 'apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
@@ -3189,7 +3189,7 @@ function buildV26FifthGateClosureProof({
           {
             file: 'apps/uapi/tests/terminalFlowGuideCard.test.tsx',
             evidence: 'repository-reconnect-required',
-            description: 'Terminal flow guide exposes repository reconnect-required posture'
+            description: 'product flow guide exposes repository reconnect-required posture'
           },
           {
             file: 'apps/uapi/tests/orbitalsBTDPane.test.tsx',
@@ -3464,7 +3464,7 @@ function buildV26SixthGateMvpClosureProof({
     ),
     closureRow(
       'mvp-product-readiness',
-      'Exchange, Terminal, Protocol, Proofs, API, MCP, and admitted app surfaces are MVP-ready',
+      'Exchange, product, Protocol, Proofs, API, MCP, and admitted app surfaces are MVP-ready',
       ['product-readiness-mvp', 'terminal-composition', 'runs-pipelines-totality'],
       buildV26FileContentCheck(
         'sixth-gate-product-readiness-source-evidence',
@@ -3490,16 +3490,16 @@ function buildV26SixthGateMvpClosureProof({
     ),
     closureRow(
       'explicit-terminal-map',
-      'Post-fifth-gate Terminal map is explicit and implemented',
+      'Post-fifth-gate product map is explicit and implemented',
       ['terminal-composition', 'product-readiness-mvp'],
       buildV26FileContentCheck(
         'sixth-gate-terminal-map-source-evidence',
-        'Terminal source owns activity, transactions, conversations, and auxillaries as implementation-bearing MVP surfaces',
+        'product source owns activity, transactions, conversations, and auxillaries as implementation-bearing MVP surfaces',
         [
           {
             file: 'apps/uapi/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge.tsx',
             evidence: 'SIXTH_GATE_MVP_TERMINAL_MAP',
-            description: 'Terminal map source exports the sixth-gate MVP map'
+            description: 'product map source exports the sixth-gate MVP map'
           },
           {
             file: 'apps/uapi/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge.tsx',
@@ -3508,7 +3508,7 @@ function buildV26SixthGateMvpClosureProof({
           },
           {
             file: 'apps/uapi/tests/terminalExperienceArchitecture.test.ts',
-            evidence: 'locks the post-fifth-gate Terminal map to activity, transactions, conversations, and auxillaries',
+            evidence: 'locks the post-fifth-gate product map to activity, transactions, conversations, and auxillaries',
             description: 'test locks the four-surface MVP map'
           },
           {
@@ -3539,7 +3539,7 @@ function buildV26SixthGateMvpClosureProof({
           },
           {
             file: 'apps/uapi/tests/e2e/terminal.terminal.flow.spec.ts',
-            evidence: 'Terminal route keeps read, selection, and repository-anchor write-through in one master-detail surface',
+            evidence: 'product route keeps read, selection, and repository-anchor write-through in one master-detail surface',
             description: 'browser story covers the repeated operator master-detail loop'
           },
           {
@@ -3570,8 +3570,8 @@ function buildV26SixthGateMvpClosureProof({
           },
           {
             file: 'apps/chatgpt/src/server.ts',
-            evidence: 'connected-interface Bitcode Terminal companion',
-            description: 'ChatGPT App is specified as a Terminal companion, not a parallel product'
+            evidence: 'connected-interface Bitcode product companion',
+            description: 'ChatGPT App is specified as a product companion, not a parallel product'
           },
           {
             file: 'apps/chatgpt/src/__tests__/tools.test.ts',
@@ -3868,7 +3868,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
       ['product-readiness-launch', 'environment-mode-coherence'],
       buildV26FileContentCheck(
         'seventh-gate-testnet-boundary-source-evidence',
-        'Terminal launch-readiness source keeps commercial launch scoped to testnet-first settlement and operator use',
+        'product launch-readiness source keeps commercial launch scoped to testnet-first settlement and operator use',
         [
           {
             file: 'specifications/BITCODE_SPEC_V26.md',
@@ -3890,15 +3890,15 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
     ),
     closureRow(
       'commercial-product-story',
-      'Exchange, Terminal, Protocol, Proofs, API, MCP, and admitted app surfaces are commercially legible together',
+      'Exchange, product, Protocol, Proofs, API, MCP, and admitted app surfaces are commercially legible together',
       ['product-readiness-launch', 'terminal-composition', 'conversations-continuity', 'runs-pipelines-totality'],
       buildV26FileContentCheck(
         'seventh-gate-commercial-product-story-source-evidence',
-        'Terminal source and spec teach one commercial Bitcode product story across all admitted surfaces',
+        'product source and spec teach one commercial Bitcode product story across all admitted surfaces',
         [
           {
             file: 'specifications/BITCODE_SPEC_V26.md',
-            evidence: 'the Exchange, Terminal, Protocol, Proofs, API, MCP, and admitted app surfaces are commercially legible',
+            evidence: 'the Exchange, product, Protocol, Proofs, API, MCP, and admitted app surfaces are commercially legible',
             description: 'canonical spec requires commercially legible cross-surface posture'
           },
           {
@@ -3908,7 +3908,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
           },
           {
             file: 'apps/chatgpt/src/server.ts',
-            evidence: 'connected-interface Bitcode Terminal companion',
+            evidence: 'connected-interface Bitcode product companion',
             description: 'ChatGPT App remains a companion interface'
           }
         ]
@@ -4204,10 +4204,10 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
   },
   {
     checkId: 'app-and-mcp-prompt-interface-ingress',
-    label: 'Terminal and MCP prompt ingress surfaces stay explicit and auditable',
+    label: 'product and MCP prompt ingress surfaces stay explicit and auditable',
     promptSpaceRole: 'app-mcp-ingress',
     closureTier: 'fifth-gate-baseline',
-    fifthGateUse: 'Shows that Terminal conversations and admitted MCP ingress are prompt-bearing interfaces over Bitcode state, not parallel products.',
+    fifthGateUse: 'Shows that product conversations and admitted MCP ingress are prompt-bearing interfaces over Bitcode state, not parallel products.',
     laterGateRemaining: 'MCP and third-party app prompt quality, permissioning, and commercial readiness remain sixth/seventh-gate refinements.',
     requiredFiles: [
       'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
@@ -4247,7 +4247,7 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
 
 const V26_PROMPT_SPACE_OPEN_COMPLETENESS_DIMENSIONS = [
   'whole-repository prompt inventory saturation across every retained consumer',
-  'product-grade prompt quality and commercial readiness for Exchange, Terminal, MCP, and third-party interfaces',
+  'product-grade prompt quality and commercial readiness for Exchange, product, MCP, and third-party interfaces',
   'final retirement or promotion of compatibility prompt names after all callers converge',
   'full raw promptpart reservoir audit for non-Bitcode product semantics and reference-only language',
   'eighth-gate total proof that every live inference path is explainable from the explicit prompt substrate'
@@ -4688,7 +4688,7 @@ function buildV26RunsPipelinesTotalityProof({
     ),
     buildV26FileContentCheck(
       'uapi-client-asset-pack-execution-hook',
-      'Terminal execution client hook teaches Bitcode asset-pack pipeline semantics through canonical Definition of Read input names',
+      'product execution client hook teaches Bitcode asset-pack pipeline semantics through canonical Definition of Read input names',
       [
         {
           file: 'apps/uapi/hooks/useExecutionState.ts',
@@ -4788,7 +4788,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     checkId: 'computer-use-read-measurement-boundary',
     label: 'Retained computer-use tooling is internal Read-measurement support only',
     reformClass: 'ingress-or-support',
-    livePathRole: 'Computer use may supply server-flagged Read-measurement evidence under BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT, but it is not a Terminal option, implementation agent tool, Finish/Delivering tool, multi-agent substitute, or Bitcode state owner.',
+    livePathRole: 'Computer use may supply server-flagged Read-measurement evidence under BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT, but it is not a product option, implementation agent tool, Finish/Delivering tool, multi-agent substitute, or Bitcode state owner.',
     requiredFiles: [
       'packages/generic-tools/use-computer/src/index.ts',
       'packages/generic-tools/use-computer/src/prompts/UseComputerDocCodeToolPrompt.ts',
@@ -4829,7 +4829,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     checkId: 'web-search-auxiliary-input-boundary',
     label: 'Retained web-search carriers are Bitcode read-synthesis evidence support',
     reformClass: 'ingress-or-support',
-    livePathRole: 'External search/research context may support discovery-phase read synthesis with source-attributed evidence, but it does not own canonical read, proof, mutation, delivery, Terminal, or Exchange truth.',
+    livePathRole: 'External search/research context may support discovery-phase read synthesis with source-attributed evidence, but it does not own canonical read, proof, mutation, delivery, product, or Exchange truth.',
     requiredFiles: [
       'packages/generic-agents/web-search/README.md',
       'packages/generic-agents/web-search/src/index.ts',
@@ -4954,7 +4954,7 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
         retainedPackageAdmissibilityProof,
         systemReformAdmissibilityProof
       ].every((proof) => proof?.passed === true),
-      detail: 'Terminal, conversations, environment, runs/pipelines, persistence/schema, prompt, inference, source-to-shares, retained-package, and reform proofs must all pass.'
+      detail: 'product, conversations, environment, runs/pipelines, persistence/schema, prompt, inference, source-to-shares, retained-package, and reform proofs must all pass.'
     },
     {
       checkId: 'whole-repository-product-readiness-launch-evidence',
@@ -4962,7 +4962,7 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
       passed: productReadinessAudit?.launchPassed === true
         && productReadinessAudit?.launchReadyProductCount === productReadinessAudit?.productCount
         && productReadinessAudit?.launchOpenProductCount === 0,
-      detail: 'Exchange, Terminal, Protocol, proofs, connected interfaces, and readiness surfaces must all be launch-ready before final repository closure.'
+      detail: 'Exchange, product, Protocol, proofs, connected interfaces, and readiness surfaces must all be launch-ready before final repository closure.'
     },
     {
       checkId: 'whole-repository-prompt-space-prerequisite',
@@ -4990,7 +4990,7 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
     ),
     buildV26FilePresenceCheck(
       'whole-repository-commercial-product-carriers',
-      'Commercial Exchange, Terminal, Protocol, proof, and readiness carriers',
+      'Commercial Exchange, product, Protocol, proof, and readiness carriers',
       [
         'apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx',
         'apps/uapi/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge.tsx',
@@ -7005,7 +7005,7 @@ export function renderCanonicalProvenMarkdown(data) {
       ]
     ));
     lines.push('');
-    lines.push('### V26 Terminal Composition Proof');
+    lines.push('### V26 product Composition Proof');
     lines.push('');
     lines.push(`- reportId: ${markdownCode(v26.terminalCompositionProof.reportId)}`);
     lines.push(`- passed: ${markdownCode(String(v26.terminalCompositionProof.passed === true))}`);
@@ -9171,7 +9171,7 @@ function buildV32PromotionReadinessReport({ generatedAt, baseData }) {
       tokens: [
         "if (version === 'V32')",
         'V32 canonical system specification for provation/testing',
-        'specifications/BITCODE_SPEC_V32_PROVEN.md',
+        'BITCODE_SPEC_V32_PROVEN.md',
         '.bitcode/v32-promotion-readiness-report.json'
       ]
     },
@@ -9180,7 +9180,7 @@ function buildV32PromotionReadinessReport({ generatedAt, baseData }) {
       tokens: [
         "head.ref == 'version/v32'",
         'npm run promote:canon -- --version V32',
-        'specifications/BITCODE_SPEC_V32_PROVEN.md',
+        'BITCODE_SPEC_V32_PROVEN.md',
         'Promote V32 canon files'
       ]
     },
@@ -9453,7 +9453,7 @@ function buildV33PromotionReadinessReport({ generatedAt, baseData }) {
       tokens: [
         "if (version === 'V33')",
         'V33 canonical system specification for commercial interface depth',
-        'specifications/BITCODE_SPEC_V33_PROVEN.md',
+        'BITCODE_SPEC_V33_PROVEN.md',
         '.bitcode/v33-promotion-readiness-report.json'
       ]
     },
@@ -9462,7 +9462,7 @@ function buildV33PromotionReadinessReport({ generatedAt, baseData }) {
       tokens: [
         "head.ref == 'version/v33'",
         'npm run promote:canon -- --version V33',
-        'specifications/BITCODE_SPEC_V33_PROVEN.md',
+        'BITCODE_SPEC_V33_PROVEN.md',
         'Promote V33 canon files'
       ]
     },
@@ -9719,7 +9719,7 @@ function buildV34PromotionReadinessReport({ generatedAt, baseData }) {
       tokens: [
         "if (version === 'V34')",
         'V34 canonical system specification for deployment depth',
-        'specifications/BITCODE_SPEC_V34_PROVEN.md',
+        'BITCODE_SPEC_V34_PROVEN.md',
         '.bitcode/v34-promotion-readiness-report.json'
       ]
     },
@@ -9728,7 +9728,7 @@ function buildV34PromotionReadinessReport({ generatedAt, baseData }) {
       tokens: [
         "head.ref == 'version/v34'",
         'npm run promote:canon -- --version V34',
-        'specifications/BITCODE_SPEC_V34_PROVEN.md',
+        'BITCODE_SPEC_V34_PROVEN.md',
         'Promote V34 canon files'
       ]
     },

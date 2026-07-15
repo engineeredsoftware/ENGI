@@ -5,7 +5,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 
 export type ReadSynthesisStatus = "idle" | "running" | "complete" | "failed";
 
@@ -41,7 +41,7 @@ export type ReadSelectionEnvelope = {
 };
 
 export function useReadOptionSynthesis(input: {
-  repositoryContext: TerminalRepositoryContextState | null;
+  repositoryContext: ProductRepositoryContextState | null;
   need: string;
   /** Deposit forcedInclusions twin — paths that should steer need comprehension. */
   relevantPaths?: string[];

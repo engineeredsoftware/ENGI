@@ -47,7 +47,7 @@ const readInput = {
   sourceRevision,
   targetArtifactKinds: ['asset-pack', 'rights-receipt', 'pull-request'],
   closureCriteria: [
-    'Conversation delegates to Terminal Reading authority.',
+    'Conversation delegates to Product Reading authority.',
     'API, MCP, ChatGPT App, and package consumers cannot bypass accepted Need, settlement, rights, or delivery boundaries.',
   ],
 };
@@ -132,7 +132,7 @@ async function settledInputs() {
 }
 
 describe('Reading interface product parity', () => {
-  it('binds Conversation, API, MCP, ChatGPT App, and package consumers to Terminal Reading authority', async () => {
+  it('binds Conversation, API, MCP, ChatGPT App, and package consumers to Product Reading authority', async () => {
     const parity = buildReadingInterfaceProductParity(await settledInputs());
 
     expect(parity).toMatchObject({
@@ -140,7 +140,7 @@ describe('Reading interface product parity', () => {
       requiredSurfaces: [...READING_INTERFACE_PRODUCT_PARITY_SURFACES],
       missingSurfaces: [],
       noBypassReadback: {
-        allSurfacesUseTerminalAuthority: true,
+        allSurfacesUseProductAuthority: true,
         allSourceBearingDeliveryLockedBeforeSettlement: true,
         packageConsumersReadContractsOnly: true,
       },
@@ -157,7 +157,7 @@ describe('Reading interface product parity', () => {
       [...READING_INTERFACE_PRODUCT_PARITY_SURFACES].sort(),
     );
     for (const row of parity.rows) {
-      expect(row.sameAuthorityAsTerminal).toBe(true);
+      expect(row.sameAuthorityAsProduct).toBe(true);
       expect(row.parallelAuthorityCreated).toBe(false);
       expect(row.stageContract).toMatchObject({
         acceptedNeedRequired: true,
@@ -180,9 +180,9 @@ describe('Reading interface product parity', () => {
       });
     }
     expect(parity.rows.find((row) => row.surface === 'conversation')).toMatchObject({
-      authorityMode: 'terminal-delegated-handoff',
-      ownerPackage: 'apps/uapi/app/conversations',
-      entrypoint: 'conversation.terminal-reading-handoff',
+      authorityMode: 'product-delegated-handoff',
+      ownerPackage: 'apps/uapi/components/conversations',
+      entrypoint: 'conversation.product-reading-handoff',
     });
     expect(parity.rows.find((row) => row.surface === 'package_consumer')).toMatchObject({
       authorityMode: 'package-contract-readback',
@@ -192,12 +192,12 @@ describe('Reading interface product parity', () => {
 
   it('preserves BTD rights and interface contract roots without exposing unpaid source', async () => {
     const parity = buildReadingInterfaceProductParity(await settledInputs());
-    const terminal = parity.rows.find((row) => row.surface === 'terminal');
+    const product = parity.rows.find((row) => row.surface === 'product');
     const api = parity.rows.find((row) => row.surface === 'public_api');
     const mcp = parity.rows.find((row) => row.surface === 'mcp_api');
     const chatgpt = parity.rows.find((row) => row.surface === 'chatgpt_app');
 
-    expect(terminal?.contractRoots.assetPackRightsContractRoot).toMatch(/^assetpack-rights-interface-contract:/);
+    expect(product?.contractRoots.assetPackRightsContractRoot).toMatch(/^assetpack-rights-interface-contract:/);
     expect(api?.contractRoots.readLicenseContractRoot).toMatch(/^read-license-interface-contract:/);
     expect(mcp?.contractRoots.assetPackRightsContractRoot).toMatch(/^assetpack-rights-interface-contract:/);
     expect(chatgpt?.contractRoots.telemetryHookRoot).toMatch(/^btd-interface-telemetry-proof-hook:/);
@@ -234,7 +234,7 @@ describe('Reading interface product parity', () => {
       schema: 'bitcode.reading.interface-product-parity',
       rowCount: parity.rows.length,
       missingSurfaces: [],
-      allSurfacesUseTerminalAuthority: true,
+      allSurfacesUseProductAuthority: true,
       sourceSafeMetadataOnly: true,
     });
   });

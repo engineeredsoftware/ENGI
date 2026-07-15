@@ -219,7 +219,7 @@ const familyRows = Object.freeze([
     ciMaskingPosture: 'masked connector values',
     leakResponsePath: 'revoke connector secret, disable app actions, refresh policy, re-run action contract tests',
     leakSeverity: 'interface_boundary_blocking',
-    blastRadiusNote: 'ChatGPT App actions pause while API and Terminal routes remain available',
+    blastRadiusNote: 'ChatGPT App actions pause while API and product routes remain available',
     runtimeAvailabilityCheck: 'action admission reports connector posture and denial reason only',
     auditEventName: 'secret_rotation.chatgpt_app_auth',
     serializedValuePolicy: 'connector posture and action verdict only',

@@ -2,8 +2,8 @@
  * Shared repository connection / inventory context for pipeline experiences
  * (Deposits, Reads, Packs).
  *
- * V48 naming: not Terminal-owned. Product surfaces import from this Bitcode
- * pipeline model. Temporary Terminal* aliases remain until residual cockpit
+ * V48 naming: not product-owned. Product surfaces import from this Bitcode
+ * pipeline model. Temporary product* aliases remain until residual cockpit
  * callers migrate.
  *
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
@@ -17,7 +17,7 @@ export type RepositoryInventorySource =
   | 'mock_repository_inventory';
 
 /** @deprecated Prefer `RepositoryInventorySource`. */
-export type TerminalRepositoryInventorySource = RepositoryInventorySource;
+export type ProductRepositoryInventorySource = RepositoryInventorySource;
 
 export type RepositoryConnectionStatus = {
   connected: boolean;
@@ -35,7 +35,7 @@ export type RepositoryConnectionStatus = {
 };
 
 /** @deprecated Prefer `RepositoryConnectionStatus`. */
-export type TerminalRepositoryConnectionStatus = RepositoryConnectionStatus;
+export type ProductRepositoryConnectionStatus = RepositoryConnectionStatus;
 
 export type RepositoryContextState = {
   provider: VCSProviderType;
@@ -54,12 +54,12 @@ export type RepositoryContextState = {
 };
 
 /** @deprecated Prefer `RepositoryContextState`. */
-export type TerminalRepositoryContextState = RepositoryContextState;
+export type ProductRepositoryContextState = RepositoryContextState;
 
 export const REPOSITORY_PROVIDERS: VCSProviderType[] = ['github'];
 
 /** @deprecated Prefer `REPOSITORY_PROVIDERS`. */
-export const TERMINAL_REPOSITORY_PROVIDERS = REPOSITORY_PROVIDERS;
+export const PRODUCT_REPOSITORY_PROVIDERS = REPOSITORY_PROVIDERS;
 
 export function normalizeRepositoryProvider(_value?: string | null): VCSProviderType {
   return 'github';

@@ -70,7 +70,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('scripts/prepare-bitcode-spec-family-promotion.mjs', [
     "if (version === 'V38')",
     'V38 canonical system specification for inference correctness',
-    'specifications/BITCODE_SPEC_V38_PROVEN.md',
+    'BITCODE_SPEC_V38_PROVEN.md',
     V38_INFERENCE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   ]),
   source('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
@@ -136,7 +136,7 @@ const REQUIRED_DOCUMENTATION_EVIDENCE = Object.freeze([
   ]),
   source('specifications/SPECIFICATIONS_ROADMAP.md', [
     'V38 Gate 11 closure anchor',
-    'specifications/BITCODE_SPEC_V38_PROVEN.md',
+    'BITCODE_SPEC_V38_PROVEN.md',
   ]),
   source('README.md', [
     'check:v38-gate11',

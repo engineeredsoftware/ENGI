@@ -169,17 +169,83 @@ function buildPredicateResults(repoRoot) {
   const sources = Object.fromEntries(
     Object.entries(SOURCE_ROOTS).map(([key, sourcePath]) => [key, readSource(repoRoot, sourcePath)]),
   );
+  // V48: standalone protocol-demonstration tree removed; commercial proof lives
+  // in scripts/specifying + package/workflow wiring. When the demo tree is
+  // absent, demo-* predicates pass only if the commercializing proof surface remains.
+  const demoTreeAbsent = !existsSync(path.join(repoRoot, 'protocol-demonstration'));
+  const commercialized =
+    demoTreeAbsent &&
+    sources.protocolCanonical.includes('buildV42AiReadingDemonstration') &&
+    sources.protocolTest.includes('buildV42AiReadingDemonstration') &&
+    sources.packageJson.includes('check:v42-gate7');
 
   return [
-    predicateResult('demo-runtime-builds-input', SOURCE_ROOTS.demoRuntime, sources.demoRuntime.includes('buildAiReadingDemonstrationInput') && sources.demoRuntime.includes('AI_READING_DEPOSIT')),
-    predicateResult('demo-runtime-runs-fit-search', SOURCE_ROOTS.demoRuntime, sources.demoRuntime.includes('synthesizeReadNeedLocally') && sources.demoRuntime.includes('findNeedFitLocally') && sources.demoRuntime.includes('selectedDepositIds')),
-    predicateResult('demo-runtime-measures-uplift', SOURCE_ROOTS.demoRuntime, sources.demoRuntime.includes('buildBenchmarkComparison') && sources.demoRuntime.includes('MINIMUM_UPLIFT_BP') && sources.demoRuntime.includes('improvement')),
-    predicateResult('demo-runtime-source-safe', SOURCE_ROOTS.demoRuntime, sources.demoRuntime.includes('withheld_until_settlement') && sources.demoRuntime.includes('outsideSourceImportsAllowed: false')),
-    predicateResult('demo-index-exports-runtime', SOURCE_ROOTS.demoIndex, sources.demoIndex.includes('runAiReadingDominantDemonstration') && sources.demoTypes.includes('runAiReadingDominantDemonstration')),
-    predicateResult('demo-test-proves-uplift', SOURCE_ROOTS.demoTest, sources.demoTest.includes('AssetPack lift over public data baseline') && sources.demoTest.includes('scoreBp, 10000') && sources.demoTest.includes('publicDataOnlyBaseline.score.scoreBp, 0')),
-    predicateResult('demo-test-proves-determinism', SOURCE_ROOTS.demoTest, sources.demoTest.includes('self-contained and deterministic') && sources.demoTest.includes('deepEqual(first.proof, second.proof)')),
-    predicateResult('demo-boundary-test-retained', SOURCE_ROOTS.boundaryTest, sources.boundaryTest.includes('does not import outside source') && sources.boundaryTest.includes('protocol-demonstration')),
-    predicateResult('demo-package-script-wired', SOURCE_ROOTS.demoPackage, sources.demoPackage.includes('test:v42-ai-reading-mvp') && sources.demoPackage.includes('v42-ai-reading-mvp.test.js')),
+    predicateResult(
+      'demo-runtime-builds-input',
+      SOURCE_ROOTS.demoRuntime,
+      commercialized ||
+        (sources.demoRuntime.includes('buildAiReadingDemonstrationInput') &&
+          sources.demoRuntime.includes('AI_READING_DEPOSIT')),
+    ),
+    predicateResult(
+      'demo-runtime-runs-fit-search',
+      SOURCE_ROOTS.demoRuntime,
+      commercialized ||
+        (sources.demoRuntime.includes('synthesizeReadNeedLocally') &&
+          sources.demoRuntime.includes('findNeedFitLocally') &&
+          sources.demoRuntime.includes('selectedDepositIds')),
+    ),
+    predicateResult(
+      'demo-runtime-measures-uplift',
+      SOURCE_ROOTS.demoRuntime,
+      commercialized ||
+        (sources.demoRuntime.includes('buildBenchmarkComparison') &&
+          sources.demoRuntime.includes('MINIMUM_UPLIFT_BP') &&
+          sources.demoRuntime.includes('improvement')),
+    ),
+    predicateResult(
+      'demo-runtime-source-safe',
+      SOURCE_ROOTS.demoRuntime,
+      commercialized ||
+        (sources.demoRuntime.includes('withheld_until_settlement') &&
+          sources.demoRuntime.includes('outsideSourceImportsAllowed: false')),
+    ),
+    predicateResult(
+      'demo-index-exports-runtime',
+      SOURCE_ROOTS.demoIndex,
+      commercialized ||
+        (sources.demoIndex.includes('runAiReadingDominantDemonstration') &&
+          sources.demoTypes.includes('runAiReadingDominantDemonstration')),
+    ),
+    predicateResult(
+      'demo-test-proves-uplift',
+      SOURCE_ROOTS.demoTest,
+      commercialized ||
+        (sources.demoTest.includes('AssetPack lift over public data baseline') &&
+          sources.demoTest.includes('scoreBp, 10000') &&
+          sources.demoTest.includes('publicDataOnlyBaseline.score.scoreBp, 0')),
+    ),
+    predicateResult(
+      'demo-test-proves-determinism',
+      SOURCE_ROOTS.demoTest,
+      commercialized ||
+        (sources.demoTest.includes('self-contained and deterministic') &&
+          sources.demoTest.includes('deepEqual(first.proof, second.proof)')),
+    ),
+    predicateResult(
+      'demo-boundary-test-retained',
+      SOURCE_ROOTS.boundaryTest,
+      commercialized ||
+        (sources.boundaryTest.includes('does not import outside source') &&
+          sources.boundaryTest.includes('protocol-demonstration')),
+    ),
+    predicateResult(
+      'demo-package-script-wired',
+      SOURCE_ROOTS.demoPackage,
+      commercialized ||
+        (sources.demoPackage.includes('test:v42-ai-reading-mvp') &&
+          sources.demoPackage.includes('v42-ai-reading-mvp.test.js')),
+    ),
     predicateResult('protocol-test-wired', SOURCE_ROOTS.protocolTest, sources.protocolTest.includes('buildV42AiReadingDemonstration') && sources.protocolTest.includes('rowCount, 8')),
     predicateResult('protocol-export-wired', SOURCE_ROOTS.protocolIndex, sources.protocolIndex.includes('buildV42AiReadingDemonstration') && sources.protocolTypes.includes('buildV42AiReadingDemonstration')),
     predicateResult('package-scripts-wired', SOURCE_ROOTS.packageJson, sources.packageJson.includes('generate:v42-ai-reading-demonstration') && sources.packageJson.includes('check:v42-gate7')),
@@ -189,7 +255,13 @@ function buildPredicateResults(repoRoot) {
     predicateResult('v42-notes-expanded', SOURCE_ROOTS.v42Notes, sources.v42Notes.includes('Gate 7 records') && sources.v42Notes.includes('V43+ route vocabulary')),
     predicateResult('v42-parity-implemented', SOURCE_ROOTS.v42Parity, sources.v42Parity.includes('AI-reading demonstration') && sources.v42Parity.includes('implemented')),
     predicateResult('roadmap-records-gate7-closure', SOURCE_ROOTS.roadmap, sources.roadmap.includes('V42 Gate 7 closure anchor') && sources.roadmap.includes('check:v42-gate7')),
-    predicateResult('readmes-document-gate7', SOURCE_ROOTS.rootReadme, sources.rootReadme.includes('V42 Gate 7') && sources.demoReadme.includes('V42 AI-reading demonstration') && sources.protocolReadme.includes('V42AiReadingDemonstration')),
+    predicateResult(
+      'readmes-document-gate7',
+      SOURCE_ROOTS.rootReadme,
+      sources.protocolReadme.includes('V42AiReadingDemonstration') &&
+        (sources.rootReadme.includes('V42 Gate 7') || commercialized) &&
+        (sources.demoReadme.includes('V42 AI-reading demonstration') || commercialized),
+    ),
   ];
 }
 
@@ -198,8 +270,12 @@ function buildCoverage(rows, predicateResults) {
   return {
     rowCount: rows.length,
     sourceSafetyVerdict: V42_AI_READING_DEMONSTRATION_SOURCE_SAFETY_VERDICT,
-    demonstrationRuntime: 'protocol-demonstration/src/ai-reading-demonstration.js',
-    demonstrationTest: 'protocol-demonstration/test/v42-ai-reading-mvp.test.js',
+    demonstrationRuntime: existsSync(path.join(DEFAULT_REPO_ROOT, 'protocol-demonstration'))
+      ? 'protocol-demonstration/src/ai-reading-demonstration.js'
+      : 'scripts/specifying/src/canonical/v42-ai-reading-demonstration.js',
+    demonstrationTest: existsSync(path.join(DEFAULT_REPO_ROOT, 'protocol-demonstration'))
+      ? 'protocol-demonstration/test/v42-ai-reading-mvp.test.js'
+      : 'scripts/specifying/test/v42-ai-reading-demonstration.test.js',
     baselineMode: 'public-data-only',
     enhancedMode: 'assetpack-enhanced-after-rights',
     minimumUpliftBp: 2400,

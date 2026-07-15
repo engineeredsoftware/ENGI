@@ -1,6 +1,6 @@
 /**
  * Shared shell section helpers (jump anchors, panel tones).
- * Relocated from app/terminal/terminal-shell-reading.
+ * Relocated from product experience components/shell-reading.
  */
 
 'use client';

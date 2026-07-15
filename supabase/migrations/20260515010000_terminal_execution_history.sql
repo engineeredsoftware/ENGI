@@ -1,4 +1,4 @@
--- Terminal execution history persistence for live Deposit/Read/Fit QA.
+-- product execution history persistence for live Deposit/Read/Fit QA.
 -- The API route reads and writes these rows through the service role, while
 -- authenticated owner policies keep the tables safe for future direct reads.
 

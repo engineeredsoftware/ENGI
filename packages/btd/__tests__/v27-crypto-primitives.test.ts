@@ -1371,8 +1371,8 @@ describe('V27 allocation, ancestry, and licensed-read revenue primitives', () =>
   });
 });
 
-describe('V27 Terminal journal and ledger/database reconciliation primitives', () => {
-  it('covers every required Terminal transaction family before Gate 13 can close', () => {
+describe('V27 BTD journal and ledger/database reconciliation primitives', () => {
+  it('covers every required product transaction family before Gate 13 can close', () => {
     const entries = REQUIRED_JOURNAL_TRANSACTION_KINDS.map((transactionKind, index) =>
       buildJournalEntry({
         journalEntryId: `journal-${transactionKind}`,

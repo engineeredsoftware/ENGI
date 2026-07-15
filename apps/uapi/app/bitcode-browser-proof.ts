@@ -144,7 +144,7 @@ export const BITCODE_BROWSER_PROOF_SURFACES = [
     routes: [
       { id: 'docs-home', path: '/docs', state: 'source-safe public docs' },
       { id: 'exchange-docs', path: '/docs/exchange', state: 'Exchange learning path' },
-      { id: 'terminal-actions-docs', path: '/docs/product-actions', state: 'Terminal action manual' },
+      { id: 'terminal-actions-docs', path: '/docs/product-actions', state: 'product action manual' },
     ],
     landmarks: ['main', 'navigation', 'link', 'article'],
     interactionStates: ['docs-home-to-terminal-actions', 'docs-exchange-to-terminal', 'docs-route-readability'],

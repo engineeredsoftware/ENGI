@@ -9,7 +9,7 @@ import React from "react";
 import type {
   ReadSynthesisStatus,
 } from "@/components/reads/ReadPageClient/hooks/use-read-option-synthesis";
-import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import { ReadsNeedPathPickers } from "@/components/reads/ReadsNeedPathPickers/ReadsNeedPathPickers";
 
 export function ReadsNeedComposePanel(props: {
@@ -19,7 +19,7 @@ export function ReadsNeedComposePanel(props: {
   onRelevantPathsChange: (paths: string[]) => void;
   irrelevantPaths: string[];
   onIrrelevantPathsChange: (paths: string[]) => void;
-  repositoryContext: TerminalRepositoryContextState | null;
+  repositoryContext: ProductRepositoryContextState | null;
   status: ReadSynthesisStatus;
   error: string | null;
   runId: string | null;

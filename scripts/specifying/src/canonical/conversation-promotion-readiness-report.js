@@ -68,7 +68,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('scripts/prepare-bitcode-spec-family-promotion.mjs', [
     "if (version === 'V37')",
     'V37 canonical system specification for Website Conversations',
-    'specifications/BITCODE_SPEC_V37_PROVEN.md',
+    'BITCODE_SPEC_V37_PROVEN.md',
     CONVERSATION_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   ]),
   source('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
@@ -133,7 +133,7 @@ const REQUIRED_DOCUMENTATION_EVIDENCE = Object.freeze([
   ]),
   source('specifications/SPECIFICATIONS_ROADMAP.md', [
     'V37 Gate 10 closure anchor',
-    'specifications/BITCODE_SPEC_V37_PROVEN.md',
+    'BITCODE_SPEC_V37_PROVEN.md',
   ]),
   source('README.md', [
     'check:v37-gate10',

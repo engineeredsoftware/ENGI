@@ -52,7 +52,7 @@ export type HostRouteOptions = {
 };
 
 const DEFAULT_READ_PROMPT =
-  'Read the deposited repository revision and determine whether it contains a complete non-mock Terminal path through Deposit, Read/Fit, AssetPack evidence, proof/finality readback, and Supabase/ledger reconciliation.';
+  'Read the deposited repository revision and determine whether it contains a complete non-mock product path through Deposit, Read/Fit, AssetPack evidence, proof/finality readback, and Supabase/ledger reconciliation.';
 
 const TRUSTED_COMMAND_ENV_KEYS = [
   'OPENAI_API_KEY',

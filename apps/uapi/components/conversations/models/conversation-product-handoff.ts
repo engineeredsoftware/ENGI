@@ -102,7 +102,7 @@ export function getConversationProductHandoffWorkflow(workflow: ConversationProd
     ?? CONVERSATION_PRODUCT_HANDOFF_WORKFLOWS[0];
 }
 
-export function inferConversationTerminalReadingStage(
+export function inferConversationProductReadingStage(
   workflow: ConversationProductHandoffWorkflow,
 ): EnterpriseReadingStepId | null {
   if (workflow === 'depositing') return 'request-read';
@@ -163,7 +163,7 @@ function evaluateHandoffPolicy(input: ConversationProductHandoffInput): {
   if (!input.sourceSafeSummary.trim()) {
     return {
       policyResult: 'retry_required',
-      retryAction: 'summarize_handoff_intent_before_opening_terminal',
+      retryAction: 'summarize_handoff_intent_before_opening_product',
       denialReason: null,
     };
   }
@@ -194,7 +194,7 @@ export function buildConversationProductHandoffEnvelope(
     ...input,
     sourceSafeSummary: redactedSummary.text,
   });
-  const readingStage = input.readingStage || inferConversationTerminalReadingStage(input.workflow);
+  const readingStage = input.readingStage || inferConversationProductReadingStage(input.workflow);
   const seed = JSON.stringify({
     workflow: input.workflow,
     readingStage,

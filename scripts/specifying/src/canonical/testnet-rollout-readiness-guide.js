@@ -123,11 +123,11 @@ const guideRows = Object.freeze([
     purpose: 'Run the website, protocol packages, and demonstration checks locally with source-safe environment posture.',
     laneIds: ['local'],
     workflowStages: ['workspace-install', 'uapi-typecheck', 'mock-route-tests', 'protocol-package-tests', 'demonstration-validation'],
-    sourceRoots: ['apps/uapi/README.md', 'protocol-demonstration/README.md'],
+    sourceRoots: ['apps/uapi/README.md', 'scripts/specifying/README.md'],
     reproducibleCommands: [
       'pnpm --dir apps/uapi exec tsc --noEmit --pretty false',
       'pnpm --filter @bitcode/specifying test',
-      'npm --prefix protocol-demonstration run test:v28-mvp-qa',
+      'pnpm --filter @bitcode/specifying test -- --test-name-pattern specifying-package-boundary',
     ],
     guideExamples: [
       'Use mock-mode interface proof for local inspection before staging-testnet validation.',
@@ -141,7 +141,7 @@ const guideRows = Object.freeze([
     ],
     rehearsalEvidence: [
       '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
-      'protocol-demonstration/test/v28-mvp-qa.test.js',
+      'scripts/specifying/test/specifying-package-boundary.test.js',
     ],
     validationCommands: ['pnpm --filter @bitcode/specifying test', 'pnpm run check:v35-gate7'],
   }),

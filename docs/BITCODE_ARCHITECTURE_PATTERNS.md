@@ -7,7 +7,7 @@ Status: non-canonical internal note.
 Functionality in Bitcode must flow through three layers:
 - primitive: reusable typed behavior,
 - package: bounded implementation owner,
-- interface: Terminal, Exchange, API, MCP, ChatGPT App, or connected-interface expression.
+- interface: product, Exchange, API, MCP, ChatGPT App, or connected-interface expression.
 
 ## Rules
 

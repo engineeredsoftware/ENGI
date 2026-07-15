@@ -14,7 +14,7 @@ import {
   DepositIncludePathsIcon,
 } from "@/components/deposits/DepositObfuscationsPathIcons/DepositObfuscationsPathIcons";
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/components/deposits/models/deposit-explainers";
-import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 
 export type DepositObfuscationsPathPickersProps = {
   isConfigLocked: boolean;
@@ -22,7 +22,7 @@ export type DepositObfuscationsPathPickersProps = {
   onForcedInclusionsChange: (paths: string[]) => void;
   forcedExclusions: string[];
   onForcedExclusionsChange: (paths: string[]) => void;
-  repositoryContext: TerminalRepositoryContextState | null;
+  repositoryContext: ProductRepositoryContextState | null;
 };
 
 export function DepositObfuscationsPathPickers({

@@ -46,7 +46,7 @@ export function useConversationViewMode({
   const [showSourceSelector, setShowSourceSelector] = useState(false);
   const [conversationSourcePreview, setConversationSourcePreview] =
     useState<ConversationSourceSelectorPreview | null>(null);
-  const [showTerminalHandoff, setShowTerminalHandoff] = useState(false);
+  const [showProductHandoff, setShowTerminalHandoff] = useState(false);
   const [showPersistencePrivacy, setShowPersistencePrivacy] = useState(false);
   const [showTelemetryProof, setShowTelemetryProof] = useState(false);
   const [showRehearsalProof, setShowRehearsalProof] = useState(false);
@@ -205,7 +205,7 @@ export function useConversationViewMode({
     showSourceSelector,
     setShowSourceSelector,
     conversationSourcePreview,
-    showTerminalHandoff,
+    showProductHandoff,
     setShowTerminalHandoff,
     showPersistencePrivacy,
     setShowPersistencePrivacy,

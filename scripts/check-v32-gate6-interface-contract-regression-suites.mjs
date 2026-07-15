@@ -129,7 +129,7 @@ function main() {
     'packages/btd/__tests__/v32-interface-contract-regression.test.ts',
     'packages/btd/__tests__/interface-integration.test.ts',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'apps/uapi/app/terminal/terminal-interface-integration-regression.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-interface-integration-regression.ts',
     'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
     'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     'apps/chatgpt/src/__tests__/tools.test.ts',

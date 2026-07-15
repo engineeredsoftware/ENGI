@@ -47,7 +47,7 @@ function printHelp() {
     [
       'Usage: node scripts/check-v30-gate4-btd-assetpack-mint-read-receipts.mjs [--skip-branch-check] [--repo-root <path>]',
       '',
-      'Checks V30 Gate 4 typed BTD AssetPack mint, read, rights-transfer receipts, source-safe boundaries, Terminal readback, harness evidence, docs, and workflow readiness.',
+      'Checks V30 Gate 4 typed BTD AssetPack mint, read, rights-transfer receipts, source-safe boundaries, product readback, harness evidence, docs, and workflow readiness.',
     ].join('\n'),
   );
   process.stdout.write('\n');
@@ -84,8 +84,8 @@ function main() {
     'packages/btd/src/api-boundaries.ts',
     'packages/btd/__tests__/api-boundaries.test.ts',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
-    'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
-    'apps/uapi/app/terminal/terminal-transaction-read-model.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-detail-snapshot.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-read-model.ts',
     'apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts',
     'apps/uapi/tests/terminalTransactionReadModel.test.ts',
     'packages/btd/README.md',
@@ -101,8 +101,8 @@ function main() {
   const apiBoundary = read(root, 'packages/btd/src/api-boundaries.ts');
   const btdTest = read(root, 'packages/btd/__tests__/api-boundaries.test.ts');
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
-  const terminalSnapshot = read(root, 'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts');
-  const terminalReadModel = read(root, 'apps/uapi/app/terminal/terminal-transaction-read-model.ts');
+  const terminalSnapshot = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-transaction-detail-snapshot.ts');
+  const terminalReadModel = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-transaction-read-model.ts');
   const terminalSnapshotTest = read(root, 'apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts');
   const terminalReadModelTest = read(root, 'apps/uapi/tests/terminalTransactionReadModel.test.ts');
   const btdReadme = read(root, 'packages/btd/README.md');
@@ -192,19 +192,19 @@ function main() {
     'readReceipt',
     'rightsTransferReceipt',
   ]) {
-    assertCheck(failures, terminalSnapshot.includes(terminalEvidence), `Terminal snapshot must coerce ${terminalEvidence}.`);
-    assertCheck(failures, terminalReadModel.includes(terminalEvidence), `Terminal read model must count ${terminalEvidence}.`);
+    assertCheck(failures, terminalSnapshot.includes(terminalEvidence), `product snapshot must coerce ${terminalEvidence}.`);
+    assertCheck(failures, terminalReadModel.includes(terminalEvidence), `product read model must count ${terminalEvidence}.`);
   }
   assertCheck(
     failures,
     terminalSnapshot.includes('asset_pack_mint_receipt') && terminalSnapshot.includes('btd_rights_transfer_receipt'),
-    'Terminal snapshot must accept database-style receipt payload keys.',
+    'product snapshot must accept database-style receipt payload keys.',
   );
   assertCheck(
     failures,
     terminalSnapshotTest.includes('asset-pack-mint-receipt-root-run-1') &&
       terminalReadModelTest.includes('read-receipt-root-1'),
-    'Terminal tests must cover receipt readback and read model counting.',
+    'product tests must cover receipt readback and read model counting.',
   );
 
   assertCheck(failures, btdReadme.includes('typed AssetPack mint/read/rights-transfer receipts'), 'BTD README must document Gate 4 receipt ownership.');

@@ -1,5 +1,5 @@
 /**
- * Pipeline activity history helpers (relocated from Terminal).
+ * Pipeline activity history helpers (relocated from product).
  */
 import {
   normalizeObfuscationsAnchorPaths,

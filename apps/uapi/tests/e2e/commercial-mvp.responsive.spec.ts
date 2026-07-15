@@ -1,6 +1,6 @@
 /**
  * Commercial MVP responsive route health for V48 product surfaces.
- * Uses /packs (not deleted /terminal) and packs?auxillary-open-to=* overlays.
+ * Uses /packs and packs?auxillary-open-to=* overlays.
  */
 import { expect, test } from '@playwright/test';
 

@@ -1,7 +1,10 @@
 /**
  * Sticky chapter/page rail for the docs article layout.
+ * Scrolls the active page entry into view when the route changes (e.g. landing → /docs/mcp-api).
  */
-import React from 'react';
+'use client';
+
+import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 import {
@@ -10,8 +13,20 @@ import {
 } from '@/components/docs/models/bitcode-docs-content';
 
 export function DocsPageRail({ page }: { page: BitcodeDocsPage }) {
+  const activeLinkRef = useRef<HTMLAnchorElement | null>(null);
+  const navRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const active = activeLinkRef.current;
+    const nav = navRef.current;
+    if (!active || !nav) return;
+    // Scroll the sticky rail's own overflow container so MCP/API (etc.) is visible.
+    active.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+  }, [page.slug, page.href]);
+
   return (
     <nav
+      ref={navRef}
       aria-label="Bitcode docs table of contents"
       className="max-h-[calc(100vh-8rem)] overflow-y-auto rounded-none border border-white/10 bg-black/24 p-3 backdrop-blur-xl"
     >
@@ -38,10 +53,12 @@ export function DocsPageRail({ page }: { page: BitcodeDocsPage }) {
                 {chapter.pages.map((item) => {
                   const active = item.href === page.href;
                   return (
-                    <div key={item.href}>
+                    <div key={item.href} data-docs-rail-page={item.slug}>
                       <Link
+                        ref={active ? activeLinkRef : undefined}
                         href={item.href}
                         aria-current={active ? 'page' : undefined}
+                        data-docs-rail-active={active ? 'true' : undefined}
                         className={`block rounded-none border px-3 py-2.5 transition ${
                           active
                             ? 'border-emerald-300/28 bg-emerald-400/10 text-emerald-50'

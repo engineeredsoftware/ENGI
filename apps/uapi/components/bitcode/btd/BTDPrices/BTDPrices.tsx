@@ -60,7 +60,7 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
   centerFirst = false,
 }) => {
   /* ------------------------------------------------------------------
-   * Slider bounds for a BTC-fee reference amount. V27 owns both Terminal
+   * Slider bounds for a BTC-fee reference amount. V27 owns both product
    * Read minting and the minimal Exchange path for existing AssetPack ranges.
    * Broader market depth remains later-version work.
    * ------------------------------------------------------------------ */
@@ -82,14 +82,14 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
     ? EXCHANGE_REFERENCE_BTD
     : Math.round(btcFeeReferenceUsd / referenceUsdPerBtd);
 
-  const planLabel = isExchangePreview ? 'Exchange Range' : 'Terminal Read';
-  const planId = isExchangePreview ? 'exchange-existing-btd' : 'terminal-read';
+  const planLabel = isExchangePreview ? 'Exchange Range' : 'Read';
+  const planId = isExchangePreview ? 'exchange-existing-btd' : 'product-read';
   const accent = isExchangePreview ? 'purple' : 'emerald';
   const accentColor = accent;
 
   const segmentText = isExchangePreview
     ? 'Acquire existing $BTD AssetPack range rights through the minimal V27 Exchange path'
-    : 'Submit a Read so a future Fit can mint $BTD in Terminal V27';
+    : 'Submit a Read so a future Fit can mint $BTD in product V27';
 
   /* ------------------------------------------------------------------
    * Exchange-preview advisory logic
@@ -208,7 +208,7 @@ export const BTDPrices: React.FC<BTDPricesProps> = ({
       <div
         className={`sidecards-right grid grid-cols-2 gap-4 ${centerFirst ? '' : 'laptop:flex laptop:flex-col'} w-full ${flankWidthClass} laptop:gap-4 ${centerFirst ? '' : 'desktop:w-40'} desktop:gap-6 desktop:shrink-0 ${rightOrderClass}`}
       >
-        <SideInfoCard title="Terminal Mint Path" accent="text-sky-300" icon={ChatBubbleLeftEllipsisIcon} />
+        <SideInfoCard title="product Mint Path" accent="text-sky-300" icon={ChatBubbleLeftEllipsisIcon} />
 
         <SideInfoCard title="Exchange Buy Path" accent="text-indigo-300" icon={ArrowPathIcon} />
       </div>

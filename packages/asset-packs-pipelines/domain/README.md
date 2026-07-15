@@ -145,7 +145,7 @@ V42 Gate 4 binds this runtime into product closure through
 (`synthesize_read_need`, `resynthesize_read_need`, `accept_read_need`,
 `reject_read_need`), PTRR/Failsafe/Thricified telemetry receipts, source-safe
 storage projection, accepted-Need admission, rejected Need blockers, and
-Terminal runtime readback before Finding Fits can run.
+product runtime readback before Finding Fits can run.
 
 ## ReadFitsFinding Runtime
 
@@ -190,7 +190,7 @@ V42 Gate 5 binds this boundary into product closure through
 That proof requires accepted-Need admission, many-channel Depository search,
 candidate ranking, selected-fit provenance, deterministic quote receipts,
 source-safe disclosure review, settlement instructions, delivery lock, harness
-route summaries, Terminal preview/quote/provenance readback, and focused
+route summaries, product preview/quote/provenance readback, and focused
 package/API/protocol tests before the paid boundary can proceed to Gate 6.
 
 ## Settlement Rights Delivery
@@ -217,7 +217,7 @@ V42 Gate 6 binds Settlement Rights Delivery into product closure through
 That proof requires paid BTC observation, finality gating, BTD rights transfer,
 source-to-shares conservation, repository delivery unlock,
 ledger/database/object-storage reconciliation, live harness materialization,
-route readback, Terminal readback, focused package/API/protocol tests, and
+route readback, product readback, focused package/API/protocol tests, and
 source-safe docs before the paid AssetPack can cross the Reader visibility
 boundary.
 
@@ -245,9 +245,9 @@ or credentials.
 ## Interface Product Parity
 
 `ReadingInterfaceProductParity` is the source-safe package primitive that
-keeps Terminal, Conversation, public API, MCP API, ChatGPT App, and
-package-facing consumers on one Reading authority. Terminal remains the
-transaction authority. Conversation is a Terminal-delegated handoff. Package
+keeps product, Conversation, public API, MCP API, ChatGPT App, and
+package-facing consumers on one Reading authority. Packs remains the
+transaction authority. Conversation is a product-delegated handoff. Package
 consumers receive contract readback only. API, MCP, and ChatGPT surfaces reuse
 BTD interface catalog, read-license/AssetPack-rights, telemetry hook, and
 consumer UX proof roots.

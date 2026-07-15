@@ -1,7 +1,8 @@
 const path = require('path');
 const ts = require('typescript');
 
-const repoRoot = __dirname;
+// This file lives in tests/; monorepo root is one level up.
+const repoRoot = path.resolve(__dirname, '..');
 
 function createModuleNameMapperFromTsconfig(tsconfigPath) {
   const parsed = ts.readConfigFile(tsconfigPath, ts.sys.readFile);

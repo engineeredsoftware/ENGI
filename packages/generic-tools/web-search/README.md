@@ -8,7 +8,7 @@ The tools can gather source-attributed evidence, retrieve cited source content,
 compare providers, classify URLs, and expose provider health when that improves
 source coverage. They do not own canonical read interpretation, proof closure,
 source mutation, delivery-mechanism choice, Bitcode Exchange behavior, or
-Bitcode Terminal behavior. Search output is not proof closure.
+Bitcode behavior. Search output is not proof closure.
 
 ## Admitted Tools
 

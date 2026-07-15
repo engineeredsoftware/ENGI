@@ -73,7 +73,7 @@ function printHelp() {
     [
       'Usage: node scripts/check-v42-gate4-readneed-review-resynthesis-product-closure.mjs [--skip-branch-check] [--skip-package-tests] [--skip-uapi-tests] [--repo-root <path>]',
       '',
-      'Checks V42 Gate 4 ReadNeed product closure, review/resynthesis, rejection, accepted-Need admission, source-safe runtime storage, telemetry receipts, Terminal readback, tests, docs, workflow wiring, and proof artifact.',
+      'Checks V42 Gate 4 ReadNeed product closure, review/resynthesis, rejection, accepted-Need admission, source-safe runtime storage, telemetry receipts, product readback, tests, docs, workflow wiring, and proof artifact.',
     ].join('\n'),
   );
   process.stdout.write('\n');
@@ -114,7 +114,7 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts',
     'apps/uapi/app/api/read-review/route.ts',
-    'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
     'apps/uapi/tests/api/readReviewRoute.test.ts',
     'apps/uapi/tests/api/readReviewProtocolParity.test.ts',
     'scripts/specifying/src/canonical/v42-readneed-review-resynthesis-product-closure.js',
@@ -127,7 +127,7 @@ function main() {
     'specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
     'specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'packages/asset-packs-pipelines/domain/README.md',
     'scripts/specifying/README.md',
     'package.json',
@@ -226,7 +226,7 @@ function main() {
     assertCheck(failures, artifact.coverage.thricifiedGenerationCount === 48, 'Gate 4 must cover forty-eight ThricifiedGeneration receipts.');
     assertCheck(failures, artifact.coverage.acceptedNeedRequiredForFindingFits === true, 'Gate 4 must require accepted Need before Finding Fits.');
     assertCheck(failures, artifact.coverage.rejectedNeedBlocksFindingFits === true, 'Gate 4 must block Finding Fits after rejected Need.');
-    assertCheck(failures, artifact.coverage.terminalRuntimeReadbackCovered === true, 'Gate 4 must cover Terminal runtime readback.');
+    assertCheck(failures, artifact.coverage.terminalRuntimeReadbackCovered === true, 'Gate 4 must cover product runtime readback.');
     assertCheck(failures, artifact.coverage.sourceSafeMetadataOnly === true, 'Gate 4 must remain source-safe metadata only.');
     assertCheck(failures, artifact.coverage.protectedSourceVisible === false, 'Gate 4 artifact must not expose protected source.');
     assertCheck(failures, artifact.coverage.rawProtectedPromptVisible === false, 'Gate 4 artifact must not expose protected prompts.');
@@ -241,10 +241,10 @@ function main() {
 
   const spec = read(root, 'specifications/BITCODE_SPEC_V42.md');
   const parity = read(root, 'specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md');
-  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   assertCheck(failures, spec.includes('V42 Gate 4') && spec.includes('v42-readneed-review-resynthesis-product-closure'), 'V42 spec must expand Gate 4 ReadNeed product closure.');
   assertCheck(failures, parity.includes('ReadNeed product closure') && parity.includes('implemented'), 'V42 parity matrix must mark ReadNeed product closure implemented.');
-  assertCheck(failures, terminalReadme.includes('V42 Gate 4') && terminalReadme.includes('ReadNeedReviewResynthesisRuntime'), 'Terminal README must document Gate 4 ReadNeed runtime readback.');
+  assertCheck(failures, terminalReadme.includes('V42 Gate 4') && terminalReadme.includes('ReadNeedReviewResynthesisRuntime'), 'product README must document Gate 4 ReadNeed runtime readback.');
 
   if (failures.length > 0) {
     process.stderr.write(`V42 Gate 4 ReadNeed product closure check failed:\n- ${failures.join('\n- ')}\n`);

@@ -13,7 +13,7 @@
 jest.mock('@bitcode/generic-agents-read-comprehension', () => ({
   bitcodeSetupReadComprehensionAgent: jest.fn(async () => ({
     read: {
-      expressed_read: 'Determine whether the deposited repository satisfies Terminal Read/Fit QA.',
+      expressed_read: 'Determine whether the deposited repository satisfies Read/Fit QA.',
       primary_intent: 'Find a source-bound AssetPack fit for the admitted Read.',
       satisfaction_criteria: ['Source revision evidence must match the admitted Read.'],
     },
@@ -22,7 +22,7 @@ jest.mock('@bitcode/generic-agents-read-comprehension', () => ({
     comprehension: { intent: 'Synthesize a Read-satisfying AssetPack.' },
     entities: { files: [], concepts: ['Read', 'Fit'], technologies: [] },
     riskAdmissionInput: {
-      read: 'Determine whether the deposited repository satisfies Terminal Read/Fit QA.',
+      read: 'Determine whether the deposited repository satisfies Read/Fit QA.',
       assetPackIntent: 'Read-satisfaction AssetPack synthesis',
       writtenAssetType: 'read-satisfaction-asset-pack',
       writtenAssetRequest: 'read-satisfaction-asset-pack',
@@ -198,7 +198,7 @@ describe('AssetPack setup agents', () => {
     const execution = executionStub();
     const result = await runReadFitsFindingSynthesisSetupPlanAgent(
       {
-        read: 'Determine whether the deposited repository satisfies Terminal Read/Fit QA.',
+        read: 'Determine whether the deposited repository satisfies Read/Fit QA.',
         repository: {
           fullName: 'engineeredsoftware/ENGI',
           branch: 'main',
@@ -227,7 +227,7 @@ describe('AssetPack setup agents', () => {
     const execution = executionStub();
     const result = await runReadFitsFindingSynthesisReadComprehensionAgent(
       {
-        read: 'Determine whether the deposited repository satisfies Terminal Read/Fit QA.',
+        read: 'Determine whether the deposited repository satisfies Read/Fit QA.',
         repository: {
           fullName: 'engineeredsoftware/ENGI',
           branch: 'main',
@@ -241,7 +241,7 @@ describe('AssetPack setup agents', () => {
       execution
     );
 
-    expect(result.read.expressed_read).toContain('Terminal Read/Fit QA');
+    expect(result.read.expressed_read).toContain('Read/Fit QA');
     expect(result.asset_pack_context).toMatchObject({
       repository: { fullName: 'engineeredsoftware/ENGI' },
       fitState: 'worthy_fit',

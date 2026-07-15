@@ -108,7 +108,8 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('scripts/prepare-bitcode-spec-family-promotion.mjs', [
     "if (version === 'V47')",
     'V47 canonical system specification for commercial website testnet launch readiness',
-    'specifications/BITCODE_SPEC_V47_PROVEN.md',
+    // Prose cites basename; living PROVEN filesystem path is always under specifications/.
+    'BITCODE_SPEC_V47_PROVEN.md',
     V47_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   ]),
   source('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
@@ -122,6 +123,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
     'node scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V47 --next-draft V48',
     'node scripts/generate-bitcode-proven.mjs --version V47',
     'node scripts/check-bitcode-spec-family.mjs --version V47 --mode promoted --current-target V47',
+    // All SPEC family files (including generated _PROVEN_) live under specifications/.
     'specifications/BITCODE_SPEC_V47_PROVEN.md',
     'Promote V47 canon files',
   ]),
@@ -178,7 +180,8 @@ const REQUIRED_DOCUMENTATION_EVIDENCE = Object.freeze([
   ]),
   source('specifications/SPECIFICATIONS_ROADMAP.md', [
     'V47 Gate 10 closure anchor',
-    'specifications/BITCODE_SPEC_V47_PROVEN.md',
+    // Roadmap cites basename; file lives under specifications/.
+    'BITCODE_SPEC_V47_PROVEN.md',
   ]),
   source('README.md', [
     'check:v47-gate10',

@@ -16,7 +16,7 @@ export const BTD_INTERFACE_AUTHORIZATION_POLICY_SURFACES = [
   'api',
   'mcp',
   'chatgpt_app',
-  'terminal',
+  'product',
 ] as const;
 
 export type BtdInterfaceAuthorizationPolicySurface =
@@ -25,7 +25,7 @@ export type BtdInterfaceAuthorizationPolicySurface =
 export type BtdInterfaceAuthorizationAuthIssuerKind =
   | 'api_key'
   | 'chatgpt_session'
-  | 'terminal_session'
+  | 'product_session'
   | 'vercel_oidc'
   | 'service_session';
 
@@ -342,25 +342,25 @@ export function buildBtdInterfaceAuthorizationPolicyFixtures(): BtdInterfaceAuth
       expectedDenialCodes: [],
     },
     {
-      fixtureId: 'terminal-btc-fee-allowed',
-      interfaceSurface: 'terminal',
-      fixturePath: 'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
+      fixtureId: 'product-btc-fee-allowed',
+      interfaceSurface: 'product',
+      fixturePath: 'apps/uapi/tests/productOrganizationAuthority.test.ts',
       input: {
-        policyId: 'interface-auth-terminal-btc-fee',
-        interfaceSurface: 'terminal',
+        policyId: 'interface-auth-product-btc-fee',
+        interfaceSurface: 'product',
         action: 'pay_btc_fee',
-        authIssuer: freshIssuer('terminal_session', 'terminal-session-fixture-1'),
-        actorId: 'terminal-user-1',
-        organizationId: 'org-terminal-1',
-        teamId: 'team-terminal-reading',
-        memberId: 'member-terminal-1',
+        authIssuer: freshIssuer('product_session', 'product-session-fixture-1'),
+        actorId: 'product-user-1',
+        organizationId: 'org-product-1',
+        teamId: 'team-product-reading',
+        memberId: 'member-product-1',
         organizationRole: 'admin',
         organizationPermissionGrants: ['settlement:pay_btc_fee'],
         walletCapability: {
           state: 'verified',
-          walletId: 'wallet-terminal-reader',
+          walletId: 'wallet-product-reader',
           canSignBtc: true,
-          capabilityRoot: 'wallet-capability-root-terminal',
+          capabilityRoot: 'wallet-capability-root-product',
         },
         protectedSource: { disclosureState: 'source_safe_preview', settlementState: 'not_required' },
         confirmed: true,
@@ -370,29 +370,29 @@ export function buildBtdInterfaceAuthorizationPolicyFixtures(): BtdInterfaceAuth
       expectedDenialCodes: [],
     },
     {
-      fixtureId: 'terminal-stale-authority-denied',
-      interfaceSurface: 'terminal',
-      fixturePath: 'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
+      fixtureId: 'product-stale-authority-denied',
+      interfaceSurface: 'product',
+      fixturePath: 'apps/uapi/tests/productOrganizationAuthority.test.ts',
       input: {
-        policyId: 'interface-auth-terminal-stale-denial',
-        interfaceSurface: 'terminal',
+        policyId: 'interface-auth-product-stale-denial',
+        interfaceSurface: 'product',
         action: 'pay_btc_fee',
         authIssuer: {
-          issuerKind: 'terminal_session',
-          issuerId: 'terminal-session-stale',
+          issuerKind: 'product_session',
+          issuerId: 'product-session-stale',
           issuedAt: '2026-05-21T00:00:00.000Z',
           expiresAt: '2026-05-21T00:05:00.000Z',
-          issuerRoot: 'terminal-stale-issuer-root',
+          issuerRoot: 'product-stale-issuer-root',
         },
-        actorId: 'terminal-user-1',
-        organizationId: 'org-terminal-1',
-        teamId: 'team-terminal-reading',
-        memberId: 'member-terminal-1',
+        actorId: 'product-user-1',
+        organizationId: 'org-product-1',
+        teamId: 'team-product-reading',
+        memberId: 'member-product-1',
         organizationRole: 'admin',
         organizationPermissionGrants: ['settlement:pay_btc_fee'],
         walletCapability: {
           state: 'verified',
-          walletId: 'wallet-terminal-reader',
+          walletId: 'wallet-product-reader',
           canSignBtc: true,
         },
         protectedSource: { disclosureState: 'source_safe_preview', settlementState: 'not_required' },

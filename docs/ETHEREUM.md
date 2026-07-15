@@ -138,7 +138,7 @@ When changing Ethereum settlement law:
 2. Keep needinesses → amount formula only in TS (+ SPEC).
 3. Extend unit tests (`bitcode-erc1155.test.ts`, crypto primitives).
 4. Revisit settle pipeline consumers and API serializers.
-5. Do not reintroduce Terminal cockpit as the place to “view Ethereum”; use
+5. Do not reintroduce product cockpit as the place to “view Ethereum”; use
    Packs/Reads/BTD package surfaces.
 
 ### Quick test

@@ -219,7 +219,7 @@ function main() {
     assertCheck(failures, artifact.coverage.readRequestCovered === true, 'Conversation writing workspace must cover Read Request drafting.');
     assertCheck(failures, artifact.coverage.needFeedbackCovered === true, 'Conversation writing workspace must cover Need feedback drafting.');
     assertCheck(failures, artifact.coverage.assetpackReviewNoteCovered === true, 'Conversation writing workspace must cover AssetPack review notes.');
-    assertCheck(failures, artifact.coverage.terminalHandoffSummaryCovered === true, 'Conversation writing workspace must cover Terminal handoff summaries.');
+    assertCheck(failures, artifact.coverage.terminalHandoffSummaryCovered === true, 'Conversation writing workspace must cover product handoff summaries.');
     assertCheck(failures, artifact.coverage.saveRestoreSummarizeHandoffCovered === true, 'Conversation writing workspace must cover save/restore/summarize/handoff.');
     assertCheck(failures, artifact.coverage.localDraftKeysCovered === true, 'Conversation writing workspace must cover route-local draft keys.');
     assertCheck(failures, artifact.coverage.accessibilityCovered === true, 'Conversation writing workspace must cover keyboard and fullscreen accessibility.');

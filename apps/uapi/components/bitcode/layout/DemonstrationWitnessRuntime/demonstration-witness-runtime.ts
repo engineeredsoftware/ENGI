@@ -1,5 +1,5 @@
 /**
- * Relocated from app/terminal/demonstration-witness-runtime.ts.
+ * Relocated from product experience components/demonstration-witness-runtime.ts.
  * @see BITCODE_SPEC_V48.md frontend architecture workstream
  */
 

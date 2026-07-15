@@ -1,5 +1,5 @@
 /**
- * Bitcode pipeline repository-context model (relocated from Terminal).
+ * Bitcode pipeline repository-context model (relocated from product).
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
 import {
@@ -9,7 +9,7 @@ import {
   deriveSelectedRepository,
   isLatestCommitRef,
   REPOSITORY_PROVIDERS,
-  TERMINAL_REPOSITORY_PROVIDERS,
+  PRODUCT_REPOSITORY_PROVIDERS,
 } from '@/components/bitcode/pipeline/models/repository-context';
 import type { VCSBranch, VCSCommit, VCSRepository } from '@bitcode/vcs-generics-core';
 
@@ -24,7 +24,7 @@ const commits = [{ sha: 'aaa' }, { sha: 'bbb' }] as VCSCommit[];
 describe('repository-context', () => {
   it('prefers github as the sole repository provider list', () => {
     expect(REPOSITORY_PROVIDERS).toEqual(['github']);
-    expect(TERMINAL_REPOSITORY_PROVIDERS).toEqual(REPOSITORY_PROVIDERS);
+    expect(PRODUCT_REPOSITORY_PROVIDERS).toEqual(REPOSITORY_PROVIDERS);
   });
 
   it('derives repository by fullName, id, or preferred fallback', () => {

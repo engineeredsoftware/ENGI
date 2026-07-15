@@ -109,7 +109,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('scripts/prepare-bitcode-spec-family-promotion.mjs', [
     "if (version === 'V40')",
     'V40 canonical system specification for exhaustive commercial application testing',
-    'specifications/BITCODE_SPEC_V40_PROVEN.md',
+    'BITCODE_SPEC_V40_PROVEN.md',
     V40_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   ]),
   source('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
@@ -176,7 +176,7 @@ const REQUIRED_DOCUMENTATION_EVIDENCE = Object.freeze([
   ]),
   source('specifications/SPECIFICATIONS_ROADMAP.md', [
     'V40 Gate 11 closure anchor',
-    'specifications/BITCODE_SPEC_V40_PROVEN.md',
+    'BITCODE_SPEC_V40_PROVEN.md',
   ]),
   source('README.md', [
     'check:v40-gate11',
@@ -414,7 +414,7 @@ export function buildV40PromotionReadinessReport(input = {}) {
     documentationEvidence,
     coverage,
     failClosedResult:
-      'promotion remains blocked when any V40 testing inventory, unit coverage, API contract, Reading pipeline integration, Conversation/Terminal integration, browser proof, ledger/storage sync, local/staging rehearsal, prompt benchmark smoke, workflow, promotion script, generated proof support, source-safety check, or value-bearing mainnet block is missing',
+      'promotion remains blocked when any V40 testing inventory, unit coverage, API contract, Reading pipeline integration, Conversation/product integration, browser proof, ledger/storage sync, local/staging rehearsal, prompt benchmark smoke, workflow, promotion script, generated proof support, source-safety check, or value-bearing mainnet block is missing',
     artifactRoot: `exhaustive-testing-promotion-readiness-report:${sha256(canonicalJson(artifactSeed)).slice(7, 31)}`,
     passed: failures.length === 0,
     failures,

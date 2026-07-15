@@ -18,7 +18,7 @@ Bitcoin wallet authentication
 - `/tps/wallet/authorize` captures the browser wallet proof, returns an authorization code to Supabase, and never treats `window.ethereum` as a Bitcoin signer.
 - The OAuth token and userinfo routes expose wallet identity metadata to Supabase; server logs are emitted only when `BITCODE_QA_VERBOSE=true` or `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true`.
 - Public Supabase callbacks must point to a reachable Bitcode origin. A localhost-only dev server can stage wallet proofs locally, but cloud Supabase cannot exchange OAuth codes against localhost token/userinfo endpoints.
-- Leather is supported by the documented `window.LeatherProvider.request` methods: `getAddresses`, `open`, `signMessage`, `signPsbt`, and `sendTransfer`. The authorization page uses `getAddresses` plus `signMessage`; `signPsbt` and `sendTransfer` are reserved for Terminal BTC/fee flows and must remain user-approved wallet actions.
+- Leather is supported by the documented `window.LeatherProvider.request` methods: `getAddresses`, `open`, `signMessage`, `signPsbt`, and `sendTransfer`. The authorization page uses `getAddresses` plus `signMessage`; `signPsbt` and `sendTransfer` are reserved for product BTC/fee flows and must remain user-approved wallet actions.
 
 GitHub installation
 - `/tps/github/app-install` is the GitHub App setup URL.

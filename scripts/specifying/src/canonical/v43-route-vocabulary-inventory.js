@@ -28,7 +28,7 @@ export const V43_ROUTE_VOCABULARY_TOKEN_IDS = Object.freeze([
   'route:/read',
   'route:/deposit',
   'symbol:Exchange',
-  'symbol:Terminal',
+  'symbol:product',
   'symbol:Packs',
   'symbol:Reading',
   'symbol:Depositing',
@@ -68,7 +68,7 @@ const TOKEN_SPECS = Object.freeze([
   ['route:/read', /\/read(?=$|[/?#"'`\s),\]}])/gu],
   ['route:/deposit', /\/deposit(?=$|[/?#"'`\s),\]}])/gu],
   ['symbol:Exchange', /\bExchange\b/gu],
-  ['symbol:Terminal', /\bTerminal\b/gu],
+  ['symbol:product', /\bTerminal\b/gu],
   ['symbol:Packs', /\bPacks\b/gu],
   ['symbol:Reading', /\bReading\b/gu],
   ['symbol:Depositing', /\bDepositing\b/gu],
@@ -316,7 +316,7 @@ export const V43_ROUTE_VOCABULARY_MIGRATION_ROWS = Object.freeze([
   }),
   migrationRow({
     rowId: 'read-route-five-step-reading',
-    fromVocabulary: ['/packs', 'Terminal Reading'],
+    fromVocabulary: ['/packs', 'Reading'],
     toVocabulary: ['/read', 'ReadRouteSession', 'Reading'],
     owningGate: 'V43 Gate 4 Read Route Extraction And Five-Step UX',
     compatibilityBoundary:
@@ -330,7 +330,7 @@ export const V43_ROUTE_VOCABULARY_MIGRATION_ROWS = Object.freeze([
   }),
   migrationRow({
     rowId: 'deposit-route-agentic-options',
-    fromVocabulary: ['/packs', 'Terminal Depositing'],
+    fromVocabulary: ['/packs', 'Depositing'],
     toVocabulary: ['/deposit', 'DepositAssetPackOption', 'Depositing'],
     owningGate: 'V43 Gate 5 Deposit Route And Agentic AssetPack Option Synthesis',
     compatibilityBoundary:
@@ -344,7 +344,7 @@ export const V43_ROUTE_VOCABULARY_MIGRATION_ROWS = Object.freeze([
   }),
   migrationRow({
     rowId: 'retained-debug-cockpit',
-    fromVocabulary: ['/packs', 'Terminal'],
+    fromVocabulary: ['/packs', 'product'],
     toVocabulary: ['internal cockpit', 'operator/debug surface'],
     owningGate: 'V43 Gate 8 UX/UI Product Excellence Pass',
     compatibilityBoundary:
@@ -423,7 +423,7 @@ function buildPredicateResults(repoRoot, scan) {
     predicateResult('checker-exists', 'scripts/check-v43-gate2-route-vocabulary-inventory.mjs', checker.includes('V43 Gate 2 route vocabulary inventory check')),
     predicateResult('protocol-test-exists', 'scripts/specifying/test/v43-route-vocabulary-inventory.test.js', test.includes('buildV43RouteVocabularyInventory')),
     predicateResult('legacy-exchange-inventory-nonempty', 'source scan', scan.tokenTotals['route:/exchange'] > 0 || scan.tokenTotals['symbol:Exchange'] > 0 || scan.tokenTotals['word:exchange'] > 0),
-    predicateResult('legacy-terminal-inventory-nonempty', 'source scan', scan.tokenTotals['route:/terminal'] > 0 || scan.tokenTotals['symbol:Terminal'] > 0 || scan.tokenTotals['word:terminal'] > 0),
+    predicateResult('legacy-cockpit-inventory-nonempty', 'source scan', scan.tokenTotals['route:/terminal'] > 0 || scan.tokenTotals['symbol:product'] > 0 || scan.tokenTotals['word:terminal'] > 0),
     predicateResult('target-route-vocabulary-present', 'source scan', scan.tokenTotals['route:/packs'] > 0 && scan.tokenTotals['route:/read'] > 0 && scan.tokenTotals['route:/deposit'] > 0),
     predicateResult('pack-activity-vocabulary-present', 'source scan', scan.tokenTotals['symbol:PackActivity'] > 0),
     predicateResult('deposit-option-vocabulary-present', 'source scan', scan.tokenTotals['symbol:DepositAssetPackOption'] > 0),

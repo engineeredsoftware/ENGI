@@ -1,5 +1,5 @@
 /**
- * Docs content module: terminal action guides.
+ * Docs content module: product action guides.
  */
 import type { ProductActionGuide } from '../bitcode-docs-types';
 import {
@@ -14,7 +14,7 @@ export const PRODUCT_ACTION_GUIDES = [
     action: 'Choose the active scenario',
     location: 'Command deck',
     write:
-      'Select the measured Read or operating frame the Terminal should honor before fit, branch, and closure work continues.',
+      'Select the measured Read or operating frame the product should honor before fit, branch, and closure work continues.',
     expectedRead:
       'Route readback rereads deposit, read, fit, and closure against the selected scenario rather than treating it as a cosmetic filter.',
     proofSignal: PRODUCT_INLINE_EXPLAINERS.scenario.summary,
@@ -26,7 +26,7 @@ export const PRODUCT_ACTION_GUIDES = [
     write:
       'Choose whether the current flow is previewing, staging, or readying a stronger materialized posture.',
     expectedRead:
-      'The rest of the Terminal should make clear which posture is being read before any state-changing work is trusted.',
+      'The rest of the product should make clear which posture is being read before any state-changing work is trusted.',
     proofSignal: PRODUCT_INLINE_EXPLAINERS.projection.summary,
   },
   {
@@ -44,7 +44,7 @@ export const PRODUCT_ACTION_GUIDES = [
     action: 'Select provider and repository',
     location: 'Repository context',
     write:
-      'Bind the deposit-side boundary to the provider and repository whose source supply the Terminal may search and cite.',
+      'Bind the deposit-side boundary to the provider and repository whose source supply the product may search and cite.',
     expectedRead:
       'Repository supply, deposit provenance, and later closure reads should all stay attached to that selected source perimeter.',
     proofSignal: PRODUCT_INLINE_EXPLAINERS.providerRepository.summary,
@@ -56,7 +56,7 @@ export const PRODUCT_ACTION_GUIDES = [
     write:
       'Write the selected source perimeter into Bitcode activity so it survives navigation and later rereads.',
     expectedRead:
-      'Recent Terminal activity shows repository posture beside deposit, read, proof, and settlement records.',
+      'Recent product activity shows repository posture beside deposit, read, proof, and settlement records.',
     proofSignal: PRODUCT_INLINE_EXPLAINERS.repositoryAnchor.summary,
   },
   {
@@ -86,7 +86,7 @@ export const PRODUCT_ACTION_GUIDES = [
     write:
       'Write the currently measured demand frame into the Bitcode activity ledger before fit and closure read against it.',
     expectedRead:
-      'The Terminal activity result can reopen the exact Read frame with parser posture, scenario, and review state intact.',
+      'The product activity result can reopen the exact Read frame with parser posture, scenario, and review state intact.',
     proofSignal: PRODUCT_INLINE_EXPLAINERS.activeNeed.summary,
   },
   {
@@ -126,7 +126,7 @@ export const PRODUCT_ACTION_GUIDES = [
     write:
       'Record whether connections, attachments, repository scope, and boundary services are live, modeled, blocked, or review-only.',
     expectedRead:
-      'The Terminal shows boundary truth before downstream AssetPacks or settlement are trusted.',
+      'The product shows boundary truth before downstream AssetPacks or settlement are trusted.',
     proofSignal: PRODUCT_WORKSPACE_EXPLAINERS.boundaryRuntime.summary,
   },
   {
@@ -146,7 +146,7 @@ export const PRODUCT_ACTION_GUIDES = [
     write:
       'Refresh the current closure read or reset closure state when the operator needs to rebuild the exact follow-through path.',
     expectedRead:
-      'The Terminal should make runtime status, visible artifacts, proof families, credited assets, and flow continuity explicit.',
+      'The product should make runtime status, visible artifacts, proof families, credited assets, and flow continuity explicit.',
     proofSignal: PRODUCT_WORKSPACE_EXPLAINERS.closureControls.summary,
   },
   {
@@ -156,7 +156,7 @@ export const PRODUCT_ACTION_GUIDES = [
     write:
       'Open natural-language drafting and coordination without losing the current Bitcode activity context.',
     expectedRead:
-      'The Terminal remains the primary ledger, while conversation output can assist drafting and follow-through.',
+      'The Packs remains the primary ledger, while conversation output can assist drafting and follow-through.',
     proofSignal: 'Conversations are a deliberate mode change, not a competing destination.',
   },
   {
@@ -166,7 +166,7 @@ export const PRODUCT_ACTION_GUIDES = [
     write:
       'Open profile, connects, interface defaults, wallet posture, and $BTD state when identity or interface posture must change.',
     expectedRead:
-      'The Terminal keeps its selected activity context while Auxillaries changes readiness and account posture.',
+      'The product keeps its selected activity context while Auxillaries changes readiness and account posture.',
     proofSignal: BITCODE_PUBLIC_EXPLAINERS.openOrbitals.summary,
   },
 ] as const satisfies readonly ProductActionGuide[];

@@ -36,7 +36,7 @@ test('V43 route vocabulary inventory binds source-safe route migration metadata'
   assert.equal(report.coverage.redirectCompatibilityPlanned, true);
   assert.equal(report.coverage.selfReferentialCopyRemovalPlanned, true);
   assert.equal(report.coverage.tokenTotals['route:/exchange'] > 0 || report.coverage.tokenTotals['symbol:Exchange'] > 0, true);
-  assert.equal(report.coverage.tokenTotals['route:/terminal'] > 0 || report.coverage.tokenTotals['symbol:Terminal'] > 0, true);
+  assert.equal(report.coverage.tokenTotals['route:/terminal'] > 0 || report.coverage.tokenTotals['symbol:product'] > 0, true);
   assert.equal(report.coverage.tokenTotals['route:/packs'] > 0, true);
   assert.equal(report.coverage.tokenTotals['route:/read'] > 0, true);
   assert.equal(report.coverage.tokenTotals['route:/deposit'] > 0, true);

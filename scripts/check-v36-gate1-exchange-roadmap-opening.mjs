@@ -188,7 +188,7 @@ function main() {
     'Gate 5: Pricing Liquidity Fee Quote And Wrapper Analysis',
     'Gate 6: Exchange Settlement Ledger Database Reconciliation',
     'Gate 7: Dispute Repair Revenue Route Operations',
-    'Gate 8: Exchange UX And Terminal Navigation Integration',
+    'Gate 8: Exchange UX And product Navigation Integration',
     'Gate 9: Local Staging Exchange Rehearsal And Proof Coverage',
     'Gate 10: V36 Promotion Readiness',
   ]) {

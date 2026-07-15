@@ -4,18 +4,18 @@ Status: internal operational runbook for V37 `ConversationTelemetryProofHooks`.
 
 Gate 9 adds `ConversationRehearsal` as the local/staging proof companion to
 telemetry hooks. Local and staging-testnet rehearsals exercise chat, streaming,
-writing, source selector, Terminal handoff, restore, retry, redaction, and
+writing, source selector, product handoff, restore, retry, redaction, and
 error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks,
 telemetry roots, and value-bearing mainnet blocking are visible through
 `.bitcode/v37-conversation-rehearsal.json` and
 `source-safe-conversation-rehearsal-metadata`.
 
-Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
+Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, product handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
 
 ## Source-Safe Boundary
 
 Conversation telemetry may expose event ids, conversation ids, message ids,
-run ids, source selector refs, Terminal transaction refs, counts, state enums,
+run ids, source selector refs, product transaction refs, counts, state enums,
 proof roots, dashboard panel ids, runbook ids, and redacted error classes.
 
 Conversation telemetry must not expose secret values, provider tokens, wallet
@@ -36,7 +36,7 @@ authority, or wallet signing authority.
  and policy proof posture.
 - `conversation.dashboard.source-policy`: source selector policy, rights, and
  disclosure posture.
-- `conversation.dashboard.terminal-handoff`: handoff proof, Terminal route
+- `conversation.dashboard.terminal-handoff`: handoff proof, product route
  context, and authority boundary posture.
 - `conversation.dashboard.retry-recovery`: retry admission, loop detection,
  branch repair, and history-root posture.
@@ -57,7 +57,7 @@ authority, or wallet signing authority.
  completion, and policy proof posture.
 - `runbook.conversation.source-selector-policy`: source selector policy,
  rights posture, and disclosure limit posture.
-- `runbook.conversation.terminal-handoff-repair`: Terminal route handoff,
+- `runbook.conversation.terminal-handoff-repair`: product route handoff,
  transaction context, and authority repair posture.
 - `runbook.conversation.retry-loop`: retry admission, loop detection, and
  route-local history repair posture.
@@ -87,7 +87,7 @@ Each runbook family follows the same operator sequence:
 - Tool policy denial checks tool call ids and policy roots, not raw arguments.
 - Source selector policy checks selector kind, rights posture, and denied
  states without source samples.
-- Terminal handoff repair checks handoff roots while preserving Terminal as
+- product handoff repair checks handoff roots while preserving product as
  the only transaction authority.
 - Retry loop repair branches from the last source-safe checkpoint.
 - Error recovery serializes only redacted error class and incident root.

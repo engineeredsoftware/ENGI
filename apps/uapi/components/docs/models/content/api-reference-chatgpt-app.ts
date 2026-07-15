@@ -29,7 +29,7 @@ export const chatGptAppApiReference = [
           'metadata.matches: structured match objects.',
           'metadata.matchCount and guidance: count and next-step framing.',
         ],
-        verifyInProduct: 'Use the resulting files as source context before a Terminal or connected-interface write.',
+        verifyInProduct: 'Use the resulting files as source context before a product or connected-interface write.',
       },
       {
         name: 'answer_codeweb_query',

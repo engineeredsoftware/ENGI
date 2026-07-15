@@ -437,7 +437,7 @@ function buildActionStatement(input: {
     memberId: input.source.memberId,
     organizationRole: input.source.organizationRole,
     organizationPermissionGrants: input.source.organizationPermissionGrants,
-    interfaceSurface: input.source.interfaceSurface || 'terminal',
+    interfaceSurface: input.source.interfaceSurface || 'product',
     action: input.action,
     walletId: input.wallet.walletAuthorityPresent ? input.wallet.walletId : null,
     readAccessDecision: input.source.readAccessDecision || null,

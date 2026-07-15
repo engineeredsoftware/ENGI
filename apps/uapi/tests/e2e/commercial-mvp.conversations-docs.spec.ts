@@ -1,6 +1,6 @@
 /**
  * Commercial MVP conversations + docs experiences for V48.
- * Product routes are /reads, /packs, /deposits — docs still teach Terminal map
+ * Product routes are /reads, /packs, /deposits — docs still teach product map
  * language for historical operator orientation, but CTAs land on /packs or /reads.
  */
 import { expect, test } from '@playwright/test';
@@ -25,7 +25,7 @@ test.describe('commercial MVP conversations and docs experiences', () => {
     await openCommercialRoute(
       page,
       '/conversations',
-      /Keep the Bitcode Terminal write path as a first-class Terminal interface mode/i,
+      /Keep the Bitcode write path as a first-class product interface mode/i,
     );
 
     await expect(page.getByRole('button', { name: /Add split pane/i })).toBeVisible();
@@ -46,7 +46,7 @@ test.describe('commercial MVP conversations and docs experiences', () => {
     await expect(page.getByText('2 messages').first()).toBeVisible();
     await expect(page.getByRole('button', { name: 'Close split' })).toHaveCount(2);
 
-    // V48: exit fullscreen returns to a product surface (packs), not /terminal.
+    // Exit fullscreen returns to a product surface (packs).
     await exitFullscreen.click();
     await expect(page).toHaveURL(/\/(packs|conversations|reads|deposits)/);
 
@@ -69,7 +69,7 @@ test.describe('commercial MVP conversations and docs experiences', () => {
     await expect(page.getByText(/Action manual/i)).toBeVisible();
 
     await page.getByRole('link', { name: /Action manual/i }).click();
-    await expect(page).toHaveURL(/\/docs\/terminal-actions$/);
+    await expect(page).toHaveURL(/\/docs\/product-actions$/);
     await expectCommercialRouteReady(page, /Actions: what writes and what should read back/i);
     await expect(
       page.getByText(/Every bounded write should have an expected read result/i),
@@ -90,15 +90,15 @@ test.describe('commercial MVP conversations and docs experiences', () => {
     );
 
     await expect(page.getByText(/\/exchange redirects to \/packs/i)).toBeVisible();
-    await page.getByRole('link', { name: /Orient inside the Bitcode Terminal/i }).click();
-    await expect(page).toHaveURL(/\/docs\/terminal$/);
-    await expectCommercialRouteReady(page, /Orient inside the Bitcode Terminal/i);
+    await page.getByRole('link', { name: /Orient inside the Bitcode/i }).click();
+    await expect(page).toHaveURL(/\/docs\/product-workspace$/);
+    await expectCommercialRouteReady(page, /Orient inside the Bitcode/i);
 
     await page.getByRole('link', { name: /Read action guide/i }).click();
-    await expect(page).toHaveURL(/\/docs\/terminal-actions$/);
+    await expect(page).toHaveURL(/\/docs\/product-actions$/);
     await expectCommercialRouteReady(page, /Actions: what writes and what should read back/i);
 
-    // Primary CTA on action manual is Use Read (product surface), not /terminal.
+    // Primary CTA on action manual is Use Read (product surface).
     await page.getByRole('link', { name: /^Use Read$/ }).click();
     await expect(page).toHaveURL(/\/reads/);
     await expectCommercialRouteReady(page, /Reading/i);

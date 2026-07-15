@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ExecutionContextPillRow } from '@/components/bitcode/pipeline/ExecutionContextPillRow/ExecutionContextPillRow';
 import {
   buildPipelineFailurePreviewFromEvents,
-  isTerminalFailureStatus,
+  isFinalFailureStatus,
   type PipelineFailurePreview,
 } from '@/components/bitcode/pipeline/PipelineFailurePreview/pipeline-failure-preview';
 
@@ -42,7 +42,7 @@ export function TransactionStatusHoverBadge({
   errorMessage,
   summary,
 }: TransactionStatusHoverBadgeProps) {
-  const showPreview = isTerminalFailureStatus(status);
+  const showPreview = isFinalFailureStatus(status);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState<PipelineFailurePreview | null>(null);

@@ -4,7 +4,7 @@ Status: non-canonical internal note. V27 is active canon; this note mirrors the 
 
 ## Purpose
 
-The database supports Bitcode Exchange and Bitcode Terminal state:
+The database supports Bitcode Exchange and Bitcode state:
 - identity and readiness,
 - source connections,
 - conversations and attachments,
@@ -38,7 +38,7 @@ Some physical table names still preserve compatibility vocabulary at the storage
 ## Exchange State Requirements
 
 The Exchange state model must support:
-- immediate reread of Terminal writes,
+- immediate reread of product writes,
 - one activity ledger for source-to-shares events,
 - selected-detail reconstruction of Read, fit, AssetPack, proof, history, and delivery evidence,
 - explicit accept/reject/remeasure decisions for measured Reads,
@@ -73,7 +73,7 @@ The V27 tables are:
 - `btd_asset_pack_ledger_anchors`
 - `btd_exchange_orders`
 - `btd_rights_transfer_receipts`
-- `btd_terminal_journal_entries`
+- `btd journal entries (see migrations for physical table names)`
 - `btd_ledger_database_reconciliation_repairs`
 - `btd_protocol_upgrade_receipts`
 - `btd_crypto_telemetry_events`
@@ -90,10 +90,10 @@ Required database truths:
 - `btd_contributor_allocations` preserves whole-cell allocation conservation for the minted range.
 - `btd_ancestor_edges` records late-bound non-supply dependency evidence; low-confidence, citation-only, disclosed-conflict, duplicate-source, reciprocal-loop, dependency-cycle, and claimant/reviewer-conflict outcomes remain auditable without changing supply.
 - `btd_licensed_read_revenue_routes` routes BTC sats locally across holders, admitted ancestors, treasury, explicit dispute holdback custody, and pending/failed route metadata.
-- `btc_fee_transactions.fee_asset` is always `BTC`; `server_custody` is always `false`; wallet authorization proof, PSBT/signed handoff state, txid, sats, Exchange sequence, and Terminal journal root remain in the receipt projection.
+- `btc_fee_transactions.fee_asset` is always `BTC`; `server_custody` is always `false`; wallet authorization proof, PSBT/signed handoff state, txid, sats, Exchange sequence, and BTD journal root remain in the receipt projection.
 - ledger anchors store commitments and finality projection only; ledgers remain source of truth for cryptographic finality.
 - Exchange orders and rights-transfer receipts use BTC prices and access-policy hashes; rights-transfer receipts require non-empty BTC fee and ledger-anchor evidence before ownership projection can move.
-- Terminal journal rows constrain the V27 transaction-family set and positive Exchange sequence; journal diffs and reconciliation repairs are projection/proof surfaces that prevent UI or API state from claiming unsupported finality. Reconciliation treats confirmed, reorged, and failed ledger facts as blocking truth when projections disagree, while private/metaphysical canonical database facts must remain hash-bound by canonical roots or receipt roots.
+- BTD journal rows constrain the V27 transaction-family set and positive Exchange sequence; journal diffs and reconciliation repairs are projection/proof surfaces that prevent UI or API state from claiming unsupported finality. Reconciliation treats confirmed, reorged, and failed ledger facts as blocking truth when projections disagree, while private/metaphysical canonical database facts must remain hash-bound by canonical roots or receipt roots.
 - `btd_protocol_upgrade_receipts` records deployment/migration state roots, approvals, rollback roots, and network scope.
 - `btd_crypto_telemetry_events` stores classified operational events from the deployment-readiness boundary; production alert sinks consume this projection and do not define tokenomics truth.
 - V27 registry tables enable row-level security without user-facing policies; writes are expected through service-role route/worker boundaries until a narrower policy set is specified.

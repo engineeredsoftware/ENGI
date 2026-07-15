@@ -1,7 +1,7 @@
 /**
  * @bitcode/conversations - Conversation domain types and utilities
  * 
- * This package provides Bitcode V26 Terminal conversation type definitions
+ * This package provides Bitcode V26 product conversation type definitions
  * for conversations, messages, and attachments. No database access here - that's in ORM.
  * 
  * Bitcode V26 version: 1.0.0
@@ -21,7 +21,7 @@ export * from './utils';
 // Export conversation agent
 export * from './agent/ConversationAgent';
 
-// Export Bitcode Terminal conversation system prompt
+// Export Bitcode conversation system prompt
 export {
   BitcodeConversationSystemPrompt,
   BITCODE_CONVERSATION_SYSTEM_PROMPT

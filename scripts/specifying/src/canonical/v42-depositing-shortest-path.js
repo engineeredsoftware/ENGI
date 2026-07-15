@@ -150,14 +150,14 @@ export const V42_DEPOSITING_SHORTEST_PATH_ROWS = Object.freeze([
   row({
     rowId: 'terminal:compensation-visibility-readback',
     purpose:
-      'Show source-safe compensation posture in Terminal and carry compensation roots through activity history and the deposit-to-read workbench.',
+      'Show source-safe compensation posture in product and carry compensation roots through activity history and the deposit-to-read workbench.',
     sourceRoots: [
       SOURCE_ROOTS.terminalDepositComposer,
       SOURCE_ROOTS.terminalActivityHistory,
       SOURCE_ROOTS.terminalWorkbench,
       SOURCE_ROOTS.terminalRunData,
     ],
-    emittedTypes: ['TerminalDepositResponseEvidence', 'WorkspaceRun', 'TerminalDepositedSourceRevision'],
+    emittedTypes: ['TerminalDepositResponseEvidence', 'WorkspaceRun', 'ProductDepositedSourceRevision'],
     requiredEvidence: ['compensationPreviewRoot', 'sourceToSharesPreviewRoot', 'Compensation route'],
   }),
   row({

@@ -99,12 +99,12 @@ function main() {
     'apps/chatgpt/package.json',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
-    'apps/uapi/app/terminal/terminal-organization-authority.ts',
-    'apps/uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx',
-    'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
-    'apps/uapi/app/terminal/terminal-transaction-read-model.ts',
-    'apps/uapi/app/terminal/terminal-transaction-query.ts',
-    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/ (removed cockpit tree) terminal-organization-authority.ts',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionOrganizationAuthorityCard.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-detail-snapshot.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-read-model.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-query.ts',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
     'apps/uapi/tests/terminalTransactionDetailCards.test.tsx',
     'apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts',
@@ -134,12 +134,12 @@ function main() {
   const chatgptPackage = read(root, 'apps/chatgpt/package.json');
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
   const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
-  const terminalProjection = read(root, 'apps/uapi/app/terminal/terminal-organization-authority.ts');
-  const terminalCard = read(root, 'apps/uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx');
-  const terminalSnapshot = read(root, 'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts');
-  const terminalReadModel = read(root, 'apps/uapi/app/terminal/terminal-transaction-read-model.ts');
-  const terminalQuery = read(root, 'apps/uapi/app/terminal/terminal-transaction-query.ts');
-  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const terminalProjection = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-organization-authority.ts');
+  const terminalCard = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalTransactionOrganizationAuthorityCard.tsx');
+  const terminalSnapshot = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-transaction-detail-snapshot.ts');
+  const terminalReadModel = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-transaction-read-model.ts');
+  const terminalQuery = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-transaction-query.ts');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   const terminalTest = read(root, 'apps/uapi/tests/terminalOrganizationAuthority.test.ts');
   const terminalCardTest = read(root, 'apps/uapi/tests/terminalTransactionDetailCards.test.tsx');
   const terminalSnapshotTest = read(root, 'apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts');
@@ -233,7 +233,7 @@ function main() {
       terminalCardTest.includes('Organization authority') &&
       terminalSnapshotTest.includes('organizationAuthority') &&
       terminalReadme.includes('Organization Authority section'),
-    'Terminal projection/card/read-model/docs/tests must expose authority detail.',
+    'product projection/card/read-model/docs/tests must expose authority detail.',
   );
   assertCheck(
     failures,

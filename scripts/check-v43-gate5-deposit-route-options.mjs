@@ -85,7 +85,7 @@ function main() {
     'apps/uapi/app/deposit/deposit-route-model.ts',
     'apps/uapi/app/deposit/page.tsx',
     'apps/uapi/app/deposit/DepositPageClient.tsx',
-    'apps/uapi/app/terminal/terminal-routes.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-routes.ts',
     'packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-options.test.ts',
     'apps/uapi/tests/depositRouteModel.test.ts',

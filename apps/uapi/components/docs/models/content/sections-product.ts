@@ -1,6 +1,6 @@
 /**
  * Docs: operator orientation across product routes.
- * Legacy "Terminal" naming in explainers is mapped to Packs / Deposit / Read language.
+ * Legacy "product" naming in explainers is mapped to Packs / Deposit / Read language.
  */
 import type { DocsGuideCard } from '../bitcode-docs-types';
 import { PRODUCT_INLINE_EXPLAINERS, PRODUCT_WORKSPACE_EXPLAINERS } from '@/components/bitcode/pipeline/models/workspace-explainers';

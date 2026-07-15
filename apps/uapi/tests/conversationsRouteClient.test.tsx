@@ -51,7 +51,7 @@ describe('ConversationsRouteClient', () => {
     expect(screen.getByText('Conversations fullscreen')).toBeTruthy();
     expect(
       screen.getByRole('heading', {
-        name: /Keep the Bitcode Terminal write path as a first-class Terminal interface mode\./i,
+        name: /Keep the Bitcode write path as a first-class product interface mode\./i,
       }),
     ).toBeTruthy();
     expect(screen.getByText(/Step back into the Bitcode activity ledger/i)).toBeTruthy();

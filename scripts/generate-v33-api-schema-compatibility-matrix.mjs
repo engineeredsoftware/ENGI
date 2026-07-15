@@ -159,7 +159,7 @@ export function buildV33ApiSchemaCompatibilityMatrixArtifact() {
       'chatgpt-app-deliver-assetpack-blocked',
     ]),
     scanTokens('apps/uapi/tests/terminalOrganizationAuthority.test.ts', [
-      'shares the package-owned API schema compatibility matrix for Terminal handoff rows',
+      'shares the package-owned API schema compatibility matrix for product handoff rows',
       'terminal-handoff-preview-blocked',
     ]),
   ];

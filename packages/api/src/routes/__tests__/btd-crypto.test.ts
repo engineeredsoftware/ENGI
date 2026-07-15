@@ -287,7 +287,7 @@ function interfaceIntegrationRegressionBody(overrides: Record<string, unknown> =
     records: [
       {
         ...recordBase,
-        surface: 'terminal',
+        surface: 'product',
         consumerId: 'terminal-transaction-cockpit',
         packageExport: '@bitcode/btd/interface-integration-contract',
         adapterPath: 'apps/uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts',
@@ -830,7 +830,7 @@ describe('BTD crypto API builders', () => {
           organizationId: 'org-api-1',
           organizationRole: 'member',
           organizationPermissionGrants: ['reading:request_finding_fits'],
-          interfaceSurface: 'terminal',
+          interfaceSurface: 'product',
           action: 'request_finding_fits',
           at: issuedAt,
         }),
@@ -1095,7 +1095,7 @@ describe('BTD crypto API builders', () => {
     expect(transfer.terminalJournalEntry.transactionKind).toBe('rights_transfer');
   });
 
-  it('builds Terminal journal coverage and blocking diff settlements', () => {
+  it('builds BTD journal coverage and blocking diff settlements', () => {
     const entry = buildBtdJournalSettlement({
       actorId: 'user-1',
       action: 'commit_entry',
@@ -1647,7 +1647,7 @@ describe('BTD crypto API builders', () => {
     expect(updateExchangeOrder).not.toHaveBeenCalled();
   });
 
-  it('returns JSON-safe Terminal journal settlements and persists explicit commits', async () => {
+  it('returns JSON-safe BTD journal settlements and persists explicit commits', async () => {
     const insertJournalEntry = jest.fn(async (row) => ({
       journal_entry_id: row.journal_entry_id,
       transaction_kind: row.transaction_kind,

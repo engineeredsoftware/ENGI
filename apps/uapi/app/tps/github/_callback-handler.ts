@@ -89,7 +89,7 @@ function buildConnectsRedirect(
 ) {
   // Land on /packs with the Auxillaries Externals overlay open (the
   // AuxillariesProvider reads the open-to param on any route), not the
-  // legacy /terminal overlay root (QA ledger F8).
+  // Auxillaries overlay roots on product routes (e.g. /packs).
   // Canonical origin: prefer NEXT_PUBLIC_APP_URL so apex/www callbacks both
   // return to the operator-facing host and keep session + claim cookies aligned.
   // Pending install uses cookies().set (App Router merges Set-Cookie onto this

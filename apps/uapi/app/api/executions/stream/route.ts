@@ -6,8 +6,8 @@ export const maxDuration = 300;
 
 const POLL_INTERVAL_MS = 1000;
 const MAX_TAIL_MS = 5 * 60 * 1000;
-const TERMINAL_EVENT_TYPES = new Set(['completion', 'error']);
-const TERMINAL_EXECUTION_STATUSES = new Set(['completed', 'failed', 'cancelled', 'interrupted']);
+const FINAL_EVENT_TYPES = new Set(['completion', 'error']);
+const FINAL_EXECUTION_STATUSES = new Set(['completed', 'failed', 'cancelled', 'interrupted']);
 
 /**
  * A 'validation'-namespace error row is the stitch failsafe recording the
@@ -136,7 +136,7 @@ export async function GET(request: Request) {
               cursor = event.created_at;
               send((event.event_data as Record<string, unknown>) || { type: event.event_type }, event.created_at);
               if (
-                TERMINAL_EVENT_TYPES.has(String(event.event_type)) &&
+                FINAL_EVENT_TYPES.has(String(event.event_type)) &&
                 !isLegacyRepairErrorRow(String(event.event_type), event.event_data)
               ) {
                 sawTerminalEvent = true;
@@ -150,7 +150,7 @@ export async function GET(request: Request) {
               .select('status')
               .eq('id', runId)
               .maybeSingle();
-            if (run && TERMINAL_EXECUTION_STATUSES.has(String(run.status))) {
+            if (run && FINAL_EXECUTION_STATUSES.has(String(run.status))) {
               // One more poll loop drains any final events, then ends.
               sawTerminalEvent = true;
               continue;

@@ -1,15 +1,15 @@
 /**
- * Embedded Terminal-style UI specimens within docs articles.
+ * Embedded product-style UI specimens within docs articles.
  */
 import React from 'react';
 
-import TerminalWorkspaceCard from '@/components/bitcode/pipeline/BitcodeWorkspaceCard/BitcodeWorkspaceCard';
+import BitcodeWorkspaceCard from '@/components/bitcode/pipeline/BitcodeWorkspaceCard/BitcodeWorkspaceCard';
 import type { DocsEmbeddedUiSpecimen } from '@/components/docs/models/bitcode-docs-types';
 import { signalToneClassName } from '@/components/docs/models/docs-signal-tone';
 
 function EmbeddedUiSpecimen({ specimen }: { specimen: DocsEmbeddedUiSpecimen }) {
   return (
-    <TerminalWorkspaceCard
+    <BitcodeWorkspaceCard
       id={specimen.id}
       kicker={specimen.eyebrow}
       title={specimen.title}
@@ -48,7 +48,7 @@ function EmbeddedUiSpecimen({ specimen }: { specimen: DocsEmbeddedUiSpecimen }) 
           ))}
         </div>
       ) : null}
-    </TerminalWorkspaceCard>
+    </BitcodeWorkspaceCard>
   );
 }
 

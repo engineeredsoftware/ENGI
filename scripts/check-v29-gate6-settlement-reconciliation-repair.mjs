@@ -93,10 +93,10 @@ function main() {
     'packages/api/package.json',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
-    'apps/uapi/app/terminal/terminal-journal-reconciliation.ts',
-    'apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx',
-    'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
-    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/ (removed cockpit tree) terminal-journal-reconciliation.ts',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionJournalReconciliationCard.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-detail-snapshot.ts',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'apps/uapi/tests/terminalJournalReconciliation.test.ts',
     'apps/uapi/tests/terminalTransactionDetailCards.test.tsx',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -118,10 +118,10 @@ function main() {
   const apiPackageJson = read(root, 'packages/api/package.json');
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
   const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
-  const terminalProjection = read(root, 'apps/uapi/app/terminal/terminal-journal-reconciliation.ts');
-  const terminalCard = read(root, 'apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx');
-  const terminalSnapshot = read(root, 'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts');
-  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const terminalProjection = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-journal-reconciliation.ts');
+  const terminalCard = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalTransactionJournalReconciliationCard.tsx');
+  const terminalSnapshot = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-transaction-detail-snapshot.ts');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   const terminalTest = read(root, 'apps/uapi/tests/terminalJournalReconciliation.test.ts');
   const terminalCardTest = read(root, 'apps/uapi/tests/terminalTransactionDetailCards.test.tsx');
   const packageJson = read(root, 'package.json');
@@ -189,7 +189,7 @@ function main() {
       terminalProjection.includes('recover_delivery') &&
       terminalSnapshot.includes('repairActionKind') &&
       terminalSnapshot.includes('proofRoot'),
-    'Terminal projection/snapshot must include repair actions, proof roots, drift classes, and conservation repair posture.',
+    'product projection/snapshot must include repair actions, proof roots, drift classes, and conservation repair posture.',
   );
   assertCheck(
     failures,
@@ -201,7 +201,7 @@ function main() {
       terminalCardTest.includes('Repair actions') &&
       terminalCardTest.includes('Proof roots') &&
       terminalReadme.includes('settlement reconciliation repair cockpit'),
-    'Terminal UI/docs/tests must expose Gate 6 repair visibility.',
+    'product UI/docs/tests must expose Gate 6 repair visibility.',
   );
   assertCheck(
     failures,

@@ -10,9 +10,9 @@ export type EnterpriseReadingStepId =
   | 'review-synthesized-asset-pack'
   | 'buy-asset-pack-settle';
 
-export type TerminalEnterpriseReadingStepState = 'complete' | 'current' | 'blocked';
+export type ProductEnterpriseReadingStepState = 'complete' | 'current' | 'blocked';
 
-export type TerminalEnterpriseReadingFailureKind =
+export type ProductEnterpriseReadingFailureKind =
   | 'none'
   | 'read_request_invalid'
   | 'need_review_required'
@@ -22,7 +22,7 @@ export type TerminalEnterpriseReadingFailureKind =
   | 'delivery_blocked'
   | 'source_safety_blocked';
 
-export type TerminalEnterpriseReadingSourceSafeField =
+export type ProductEnterpriseReadingSourceSafeField =
   | 'read_request_summary'
   | 'read_need_measurements'
   | 'need_feedback_history'
@@ -35,7 +35,7 @@ export type TerminalEnterpriseReadingSourceSafeField =
   | 'settlement_state'
   | 'delivery_posture';
 
-export type TerminalEnterpriseReadingForbiddenField =
+export type ProductEnterpriseReadingForbiddenField =
   | 'protected_source_payload'
   | 'raw_protected_prompt'
   | 'raw_provider_response'
@@ -44,19 +44,19 @@ export type TerminalEnterpriseReadingForbiddenField =
   | 'settlement_private_payload'
   | 'ledger_write_authority';
 
-export type TerminalEnterpriseReadingStepDefinition = {
+export type ProductEnterpriseReadingStepDefinition = {
   id: EnterpriseReadingStepId;
   ordinal: number;
   label: string;
   lowDetailGuidance: string;
   expandableDetail: string;
   primaryAction: string;
-  sourceSafeVisibleFields: TerminalEnterpriseReadingSourceSafeField[];
-  forbiddenFields: TerminalEnterpriseReadingForbiddenField[];
+  sourceSafeVisibleFields: ProductEnterpriseReadingSourceSafeField[];
+  forbiddenFields: ProductEnterpriseReadingForbiddenField[];
 };
 
-export type TerminalEnterpriseReadingStepView = TerminalEnterpriseReadingStepDefinition & {
-  state: TerminalEnterpriseReadingStepState;
+export type ProductEnterpriseReadingStepView = ProductEnterpriseReadingStepDefinition & {
+  state: ProductEnterpriseReadingStepState;
   blockers: string[];
 };
 
@@ -73,7 +73,7 @@ export type EnterpriseReadingUxStateInput = {
   hasDeliveryReadback?: boolean;
   retryRequested?: boolean;
   restartRequested?: boolean;
-  failureKind?: TerminalEnterpriseReadingFailureKind | null;
+  failureKind?: ProductEnterpriseReadingFailureKind | null;
   sourceSafePreviewBlocked?: boolean;
   disclosureLeakageDetected?: boolean;
 };
@@ -90,7 +90,7 @@ export type EnterpriseReadingRouteState = {
   retryRequested: boolean;
   retryPreservesNeedLineage: true;
   retryPreservesSettlementBoundary: true;
-  failureKind: TerminalEnterpriseReadingFailureKind;
+  failureKind: ProductEnterpriseReadingFailureKind;
   failureStateSourceSafe: true;
   failureRepairActions: string[];
 };
@@ -99,7 +99,7 @@ export type EnterpriseReadingUxState = {
   schema: 'bitcode.terminal.enterprise-reading-ux-state';
   activeStepId: EnterpriseReadingStepId;
   stageCount: 5;
-  steps: TerminalEnterpriseReadingStepView[];
+  steps: ProductEnterpriseReadingStepView[];
   disclosure: {
     sourceSafetyClass: 'source_safe_enterprise_reading_ux_metadata';
     lowDetailDefault: true;
@@ -109,8 +109,8 @@ export type EnterpriseReadingUxState = {
     walletPrivateMaterialVisible: false;
     settlementPrivatePayloadVisible: false;
     ledgerAuthorityClaimed: false;
-    visibleBeforeSettlement: TerminalEnterpriseReadingSourceSafeField[];
-    hiddenBeforeSettlement: TerminalEnterpriseReadingForbiddenField[];
+    visibleBeforeSettlement: ProductEnterpriseReadingSourceSafeField[];
+    hiddenBeforeSettlement: ProductEnterpriseReadingForbiddenField[];
   };
   routeContract: {
     terminalOwnsTransactionAuthority: true;
@@ -127,7 +127,7 @@ export type EnterpriseReadingUxState = {
   proofRoot: string;
 };
 
-export const TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS: TerminalEnterpriseReadingForbiddenField[] = [
+export const PRODUCT_ENTERPRISE_READING_FORBIDDEN_FIELDS: ProductEnterpriseReadingForbiddenField[] = [
   'protected_source_payload',
   'raw_protected_prompt',
   'raw_provider_response',
@@ -137,7 +137,7 @@ export const TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS: TerminalEnterpriseRea
   'ledger_write_authority',
 ];
 
-export const TERMINAL_ENTERPRISE_READING_STEPS: TerminalEnterpriseReadingStepDefinition[] = [
+export const PRODUCT_ENTERPRISE_READING_STEPS: ProductEnterpriseReadingStepDefinition[] = [
   {
     id: 'request-read',
     ordinal: 1,
@@ -147,7 +147,7 @@ export const TERMINAL_ENTERPRISE_READING_STEPS: TerminalEnterpriseReadingStepDef
       'Reading captures source anchors, enterprise intent, constraints, disclosure posture, target artifact kinds, and the measured Read posture that can be reviewed before Need synthesis.',
     primaryAction: 'Record read posture',
     sourceSafeVisibleFields: ['read_request_summary', 'proof_roots'],
-    forbiddenFields: TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
+    forbiddenFields: PRODUCT_ENTERPRISE_READING_FORBIDDEN_FIELDS,
   },
   {
     id: 'review-synthesized-need',
@@ -158,7 +158,7 @@ export const TERMINAL_ENTERPRISE_READING_STEPS: TerminalEnterpriseReadingStepDef
       'The reviewed Need exposes requirements, measurements, constraints, target artifact kinds, proof expectations, and feedback lineage; Finding Fits remains blocked until the Need is accepted.',
     primaryAction: 'Accept or resynthesize Need',
     sourceSafeVisibleFields: ['read_need_measurements', 'need_feedback_history', 'proof_roots'],
-    forbiddenFields: TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
+    forbiddenFields: PRODUCT_ENTERPRISE_READING_FORBIDDEN_FIELDS,
   },
   {
     id: 'request-fit',
@@ -169,7 +169,7 @@ export const TERMINAL_ENTERPRISE_READING_STEPS: TerminalEnterpriseReadingStepDef
       'Reading hands the accepted Need, deposit/source anchors, proof roots, measurement roots, and source-safe search posture to ReadFitsFindingSynthesis without exposing protected deposit source.',
     primaryAction: 'Request Finding Fits',
     sourceSafeVisibleFields: ['read_need_measurements', 'depository_candidate_counts', 'proof_roots'],
-    forbiddenFields: TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
+    forbiddenFields: PRODUCT_ENTERPRISE_READING_FORBIDDEN_FIELDS,
   },
   {
     id: 'review-synthesized-asset-pack',
@@ -187,7 +187,7 @@ export const TERMINAL_ENTERPRISE_READING_STEPS: TerminalEnterpriseReadingStepDef
       'btc_fee_quote',
       'delivery_posture',
     ],
-    forbiddenFields: TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
+    forbiddenFields: PRODUCT_ENTERPRISE_READING_FORBIDDEN_FIELDS,
   },
   {
     id: 'buy-asset-pack-settle',
@@ -198,6 +198,6 @@ export const TERMINAL_ENTERPRISE_READING_STEPS: TerminalEnterpriseReadingStepDef
       'Settlement readback, BTD rights transfer, ledger/database/storage synchronization, and pull-request delivery are visible after payment while private wallet and settlement payloads stay hidden.',
     primaryAction: 'Settle and unlock delivery',
     sourceSafeVisibleFields: ['btc_fee_quote', 'settlement_state', 'delivery_posture', 'proof_roots'],
-    forbiddenFields: TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
+    forbiddenFields: PRODUCT_ENTERPRISE_READING_FORBIDDEN_FIELDS,
   },
 ];

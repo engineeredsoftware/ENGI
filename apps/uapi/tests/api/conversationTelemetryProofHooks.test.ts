@@ -13,8 +13,8 @@ describe('conversation telemetry proof hook preview', () => {
     });
 
     expect(preview.eventFamily).toBe('product_handoff');
-    expect(preview.dashboardPanel).toBe('conversation.dashboard.terminal-handoff');
-    expect(preview.runbookId).toBe('runbook.conversation.terminal-handoff-repair');
+    expect(preview.dashboardPanel).toBe('conversation.dashboard.product-handoff');
+    expect(preview.runbookId).toBe('runbook.conversation.product-handoff-repair');
     expect(preview.proofRoot).toMatch(/^conversation-telemetry-proof:[a-f0-9]{8}$/);
     expect(preview.sourceSafePreview).toContain('[redacted:conversation-telemetry]');
     expect(preview.sourceSafePreview).not.toContain('abc12345678901234567890');

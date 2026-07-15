@@ -809,7 +809,7 @@ export function assertBtdMintDraft(draft: BtdMintDraft): BtdMintDraft {
     throw new Error('BTD mint draft requires a measuremint receipt.');
   }
   if (!draft.terminalJournalEntry?.journalEntryId) {
-    throw new Error('BTD mint draft requires a terminal journal entry.');
+    throw new Error('BTD mint draft requires a BTD journal entry.');
   }
   return draft;
 }
@@ -1220,7 +1220,7 @@ export function buildBtdJournalSettlement(
     case 'diff_projection': {
       const entry = normalizeJournalEntry(input.entry);
       if (!input.projection) {
-        throw new Error('Terminal journal diff requires projection.');
+        throw new Error('BTD journal diff requires projection.');
       }
 
       return {
@@ -1232,9 +1232,9 @@ export function buildBtdJournalSettlement(
       };
     }
     case 'coverage': {
-      if (!input.coverageId) throw new Error('Terminal journal coverage requires coverageId.');
+      if (!input.coverageId) throw new Error('BTD journal coverage requires coverageId.');
       if (!input.entries?.length) {
-        throw new Error('Terminal journal coverage requires entries.');
+        throw new Error('BTD journal coverage requires entries.');
       }
 
       return {
@@ -1250,7 +1250,7 @@ export function buildBtdJournalSettlement(
     }
     default:
       throw new Error(
-        `Unsupported Terminal journal action: ${(input as { action: string }).action}.`,
+        `Unsupported BTD journal action: ${(input as { action: string }).action}.`,
       );
   }
 }
@@ -2039,7 +2039,7 @@ function normalizeAssetPackExchangeOrder(
 
 function normalizeJournalEntry(entry: JournalEntry | undefined): JournalEntry {
   if (!entry) {
-    throw new Error('Terminal journal action requires entry.');
+    throw new Error('BTD journal action requires entry.');
   }
 
   return buildJournalEntry({
@@ -2052,7 +2052,7 @@ function requireJournalTransactionKind(
   kind: JournalTransactionKind | undefined,
 ): JournalTransactionKind {
   if (!kind) {
-    throw new Error('Terminal journal entry requires transactionKind.');
+    throw new Error('BTD journal entry requires transactionKind.');
   }
 
   return kind;

@@ -141,7 +141,7 @@ export const V47_FEATURE_EXCESS_AUDIT_ROWS = Object.freeze([
     owner: 'compatibility-routes',
     routeIds: ['/exchange', '/btd/[assetPackId]'],
     policy:
-      'Compatibility routes may preserve old links only when they redirect or point into Packs/Read and do not claim independent Exchange or Terminal product authority.',
+      'Compatibility routes may preserve old links only when they redirect or point into Packs/Read and do not claim independent Exchange or product authority.',
     requiredPolicyIds: ['exchange-compatibility-redirect-only', 'btd-detail-current-routes-only'],
   },
   {
@@ -150,7 +150,7 @@ export const V47_FEATURE_EXCESS_AUDIT_ROWS = Object.freeze([
     owner: 'retained-workspaces',
     routeIds: ['/packs', '/conversations'],
     policy:
-      'Terminal and Conversations remain retained operator/composition workspaces; they must not be primary launch CTAs and direct entry must be flaggable for launch mode.',
+      'product and Conversations remain retained operator/composition workspaces; they must not be primary launch CTAs and direct entry must be flaggable for launch mode.',
     requiredPolicyIds: ['terminal-direct-entry-flaggable', 'conversations-direct-entry-flaggable'],
   },
   {
@@ -265,7 +265,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult(
       'terminal-metadata-retained-operator-workspace',
       SOURCE_ROOTS.terminalPage,
-      sources.terminalPage.includes('Bitcode Terminal Operator Workspace') &&
+      sources.terminalPage.includes('Bitcode Operator Workspace') &&
         sources.terminalPage.includes('Retained Bitcode operator workspace'),
     ),
     predicateResult(

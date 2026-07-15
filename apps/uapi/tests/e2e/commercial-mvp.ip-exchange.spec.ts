@@ -35,7 +35,7 @@ function readAdmissionSeed(): SeedExecution {
       closureFocus: 'read measurement + Finding Fits admission',
     },
     context: {
-      source: 'terminal-deposit-read-workbench',
+      source: 'deposit-read-workbench',
       workbench: 'read-admission',
     },
     repo_snapshot: {
@@ -63,7 +63,7 @@ function settledAssetPackSeed(): SeedExecution {
     },
     processing_stats: { measuredBtd: 120 },
     context: {
-      source: 'terminal-deposit-read-workbench',
+      source: 'deposit-read-workbench',
       workbench: 'read-admission',
     },
     repo_snapshot: {

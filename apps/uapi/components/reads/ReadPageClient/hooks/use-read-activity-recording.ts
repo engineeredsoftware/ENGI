@@ -7,17 +7,17 @@ import { useCallback } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import type { PipelineExecution } from "@/types/api";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
-import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import {
-  buildTerminalExecutionHistoryRequest,
+  buildProductExecutionHistoryRequest,
   mapExecutionHistoryRunToWorkspaceRun,
-  readTerminalRouteError,
+  readProductRouteError,
   upsertWorkspaceRun,
-  type TerminalActivityRecordDraft,
+  type ProductActivityRecordDraft,
 } from "@/components/bitcode/pipeline/models/pipeline-activity-history";
 
 export function useReadActivityRecording(input: {
-  repositoryContext: TerminalRepositoryContextState | null;
+  repositoryContext: ProductRepositoryContextState | null;
   selectedRun: WorkspaceRun | null;
   setLiveRuns: Dispatch<SetStateAction<WorkspaceRun[]>>;
   refreshLiveRuns: () => void | Promise<unknown>;
@@ -32,14 +32,14 @@ export function useReadActivityRecording(input: {
   } = input;
 
   const handleRecordActivity = useCallback(
-    async (draft: TerminalActivityRecordDraft) => {
+    async (draft: ProductActivityRecordDraft) => {
       const response = await fetch("/api/executions/history", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(
-          buildTerminalExecutionHistoryRequest(draft, {
+          buildProductExecutionHistoryRequest(draft, {
             repositoryContext,
             fallbackRun: selectedRun,
           }),
@@ -48,7 +48,7 @@ export function useReadActivityRecording(input: {
 
       if (!response.ok) {
         throw new Error(
-          await readTerminalRouteError(
+          await readProductRouteError(
             response,
             "Unable to record Reading activity.",
           ),

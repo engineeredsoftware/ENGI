@@ -192,7 +192,7 @@ function main() {
     'Build against Bitcode without losing the Exchange contract',
     'MOCKED TERMINAL',
     'SOURCE SHARES',
-    'Open Bitcode Terminal',
+    'Open Bitcode',
   ], 'public docs and landing copy');
 
   assertIncludesAll(failures, exchangeReadme, [

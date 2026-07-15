@@ -47,7 +47,7 @@ function printHelp() {
     [
       'Usage: node scripts/check-v29-gate9-terminal-ux-browser-proof.mjs [--skip-branch-check] [--repo-root <path>]',
       '',
-      'Checks V29 Gate 9 Terminal UX quality and browser-proof closure.',
+      'Checks V29 Gate 9 product UX quality and browser-proof closure.',
     ].join('\n'),
   );
   process.stdout.write('\n');
@@ -85,19 +85,19 @@ function main() {
     'specifications/BITCODE_SPEC_V29_NOTES.md',
     'specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
     'scripts/check-v29-gate9-terminal-ux-browser-proof.mjs',
-    'apps/uapi/app/terminal/terminal-ux-browser-proof.ts',
-    'apps/uapi/app/terminal/TerminalPageClient.tsx',
-    'apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx',
-    'apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx',
-    'apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx',
-    'apps/uapi/app/terminal/TerminalTransactionDetailActionBar.tsx',
-    'apps/uapi/app/terminal/TerminalTransactionActivitySurface.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-ux-browser-proof.ts',
+    'apps/uapi/app/ (removed cockpit tree) TerminalPageClient.tsx',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionWorkspace.tsx',
+    'apps/uapi/app/ (removed cockpit tree) ProductTransactionDetailSurface.tsx',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionDetailHero.tsx',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionDetailActionBar.tsx',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionActivitySurface.tsx',
     'apps/uapi/components/bitcode/pipeline/BitcodeTransactionsTable.tsx',
     'apps/uapi/components/bitcode/pipeline/BitcodeTransactionsDataTable.tsx',
     'apps/uapi/tests/terminalUxBrowserProof.test.tsx',
     'apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
     'apps/uapi/playwright.config.ts',
-    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'apps/uapi/package.json',
     'apps/uapi/jest.config.cjs',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -112,29 +112,29 @@ function main() {
   const delta = read(root, 'specifications/BITCODE_SPEC_V29_DELTA.md');
   const notes = read(root, 'specifications/BITCODE_SPEC_V29_NOTES.md');
   const parity = read(root, 'specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
-  const contract = read(root, 'apps/uapi/app/terminal/terminal-ux-browser-proof.ts');
-  const pageClient = read(root, 'apps/uapi/app/terminal/TerminalPageClient.tsx');
-  const workspace = read(root, 'apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx');
-  const detailSurface = read(root, 'apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx');
-  const detailHero = read(root, 'apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx');
-  const actionBar = read(root, 'apps/uapi/app/terminal/TerminalTransactionDetailActionBar.tsx');
-  const activitySurface = read(root, 'apps/uapi/app/terminal/TerminalTransactionActivitySurface.tsx');
+  const contract = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-ux-browser-proof.ts');
+  const pageClient = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalPageClient.tsx');
+  const workspace = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalTransactionWorkspace.tsx');
+  const detailSurface = read(root, 'apps/uapi/app/ (removed cockpit tree) ProductTransactionDetailSurface.tsx');
+  const detailHero = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalTransactionDetailHero.tsx');
+  const actionBar = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalTransactionDetailActionBar.tsx');
+  const activitySurface = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalTransactionActivitySurface.tsx');
   const table = read(root, 'apps/uapi/components/bitcode/pipeline/BitcodeTransactionsTable.tsx');
   const dataTable = read(root, 'apps/uapi/components/bitcode/pipeline/BitcodeTransactionsDataTable.tsx');
   const jestTest = read(root, 'apps/uapi/tests/terminalUxBrowserProof.test.tsx');
   const e2eTest = read(root, 'apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts');
   const playwrightConfig = read(root, 'apps/uapi/playwright.config.ts');
-  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   const uapiPackage = read(root, 'apps/uapi/package.json');
   const jestConfig = read(root, 'apps/uapi/jest.config.cjs');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 
-  assertCheck(failures, spec.includes('V29 Terminal UX quality and browser-proof canon'), 'V29 SPEC must define the Terminal UX browser-proof canon.');
-  assertCheck(failures, delta.includes('Gate 9: Terminal UX Quality And Browser Proof') && delta.includes('focused Playwright spec'), 'V29 DELTA must define Gate 9 closure acceptance.');
+  assertCheck(failures, spec.includes('V29 product UX quality and browser-proof canon'), 'V29 SPEC must define the product UX browser-proof canon.');
+  assertCheck(failures, delta.includes('Gate 9: product UX Quality And Browser Proof') && delta.includes('focused Playwright spec'), 'V29 DELTA must define Gate 9 closure acceptance.');
   assertCheck(failures, notes.includes('Gate 9 working notes') && notes.includes('terminal-ux-browser-proof.ts'), 'V29 NOTES must carry Gate 9 working notes.');
   assertCheck(failures, parity.includes('## Gate 9 Parity') && parity.includes('Gate 9 completion condition'), 'V29 PARITY must include Gate 9 parity and completion condition.');
-  assertCheck(failures, terminalReadme.includes('V29 Terminal UX browser proof checkpoint') && terminalReadme.includes('terminal-ux-browser-proof.ts'), 'Terminal README must document the Gate 9 browser-proof checkpoint.');
+  assertCheck(failures, terminalReadme.includes('V29 product UX browser proof checkpoint') && terminalReadme.includes('terminal-ux-browser-proof.ts'), 'product README must document the Gate 9 browser-proof checkpoint.');
 
   for (const token of [
     'TERMINAL_UX_BROWSER_PROOF_CONTRACT',
@@ -150,16 +150,16 @@ function main() {
     'laptop',
     'widescreen',
   ]) {
-    assertCheck(failures, contract.includes(token), `Terminal UX browser-proof contract is missing ${token}.`);
+    assertCheck(failures, contract.includes(token), `product UX browser-proof contract is missing ${token}.`);
   }
 
   assertCheck(
     failures,
     pageClient.includes('id="terminalMain"') &&
       pageClient.includes('data-testid="terminal-cockpit-root"') &&
-      pageClient.includes('Skip to selected Terminal activity') &&
+      pageClient.includes('Skip to selected product activity') &&
       pageClient.includes('aria-labelledby="terminalPageTitle"'),
-    'Terminal page must expose named main landmark and skip link.',
+    'product page must expose named main landmark and skip link.',
   );
   assertCheck(
     failures,
@@ -170,7 +170,7 @@ function main() {
       workspace.includes('terminal-workspace-error-state') &&
       workspace.includes('role="alert"') &&
       workspace.includes('role="status"'),
-    'Terminal workspace must expose named region and loading/empty/error semantics.',
+    'product workspace must expose named region and loading/empty/error semantics.',
   );
   assertCheck(
     failures,
@@ -208,9 +208,9 @@ function main() {
   );
   assertCheck(
     failures,
-    e2eTest.includes('Terminal UX browser proof') &&
+    e2eTest.includes('product UX browser proof') &&
       e2eTest.includes('terminal-cockpit-root') &&
-      e2eTest.includes('Skip to selected Terminal activity') &&
+      e2eTest.includes('Skip to selected product activity') &&
       e2eTest.includes('terminal-selected-activity-hero') &&
       e2eTest.includes('documentOverflow') &&
       e2eTest.includes('phone') &&
@@ -222,7 +222,7 @@ function main() {
     playwrightConfig.includes('PLAYWRIGHT_READY_URL') &&
       playwrightConfig.includes('/packs') &&
       playwrightConfig.includes('url: appReadyUrl'),
-    'Playwright web server readiness must wait on the Terminal route, not only an open port.',
+    'Playwright web server readiness must wait on the product route, not only an open port.',
   );
   assertCheck(
     failures,
@@ -235,7 +235,7 @@ function main() {
       gateWorkflow.includes('terminalUxBrowserProof.test.tsx') &&
       gateWorkflow.includes('test:e2e:terminal-ux') &&
       gateWorkflow.includes('playwright install chromium --with-deps'),
-    'Package scripts and gate-quality workflow must invoke self-contained Gate 9 checker, focused Jest, and Terminal browser proof.',
+    'Package scripts and gate-quality workflow must invoke self-contained Gate 9 checker, focused Jest, and product browser proof.',
   );
 
   if (failures.length) {
@@ -244,7 +244,7 @@ function main() {
     process.exit(1);
   }
 
-  process.stdout.write('V29 Gate 9 Terminal UX quality and browser proof check passed.\n');
+  process.stdout.write('V29 Gate 9 product UX quality and browser proof check passed.\n');
 }
 
 main();

@@ -113,7 +113,7 @@ const rehearsalRows = Object.freeze([
     laneId: 'local',
     title: 'Local Conversations rehearsal',
     purpose:
-      'Exercise Website Conversations locally across chat, streaming, writing, source selection, Terminal handoff, restore, retry, redaction, and error flows.',
+      'Exercise Website Conversations locally across chat, streaming, writing, source selection, product handoff, restore, retry, redaction, and error flows.',
     phaseIds: CONVERSATION_REHEARSAL_PHASE_IDS,
     flowIds: CONVERSATION_REHEARSAL_FLOW_IDS,
     sourceRoots: [
@@ -157,7 +157,7 @@ const rehearsalRows = Object.freeze([
     laneId: 'staging-testnet',
     title: 'Staging-testnet Conversations rehearsal',
     purpose:
-      'Exercise Website Conversations against staging-testnet posture with source-safe telemetry, route restoration, and Terminal handoff evidence.',
+      'Exercise Website Conversations against staging-testnet posture with source-safe telemetry, route restoration, and product handoff evidence.',
     phaseIds: CONVERSATION_REHEARSAL_PHASE_IDS,
     flowIds: CONVERSATION_REHEARSAL_FLOW_IDS,
     sourceRoots: [
@@ -195,7 +195,7 @@ const rehearsalRows = Object.freeze([
     laneId: 'local',
     title: 'Stream, writing, source selector, and handoff rehearsal',
     purpose:
-      'Prove the user-visible path from chat stream to writing workspace, source selector, and Terminal handoff without crossing source or ledger authority boundaries.',
+      'Prove the user-visible path from chat stream to writing workspace, source selector, and product handoff without crossing source or ledger authority boundaries.',
     phaseIds: [
       'stream_event_rendering',
       'writing_workspace_review',

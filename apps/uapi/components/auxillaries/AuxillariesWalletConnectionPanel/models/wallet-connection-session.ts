@@ -1,6 +1,6 @@
 /**
  * Supabase session readiness and OAuth redirect for Bitcoin wallet auth.
- * Post-auth landing is /packs — never the deleted /terminal product route.
+ * Post-auth landing is /packs.
  */
 
 import { createClient } from '@bitcode/supabase/ssr/client';
@@ -37,8 +37,7 @@ export async function ensureWalletBackedSession(providerId?: BitcoinWalletProvid
       return { ready: true as const };
     }
 
-    // Post-auth landing is /packs (ledgerized activity), not the legacy
-    // /terminal overlay route that buildAuxillariesRoutePath still targets.
+    // Post-auth landing is /packs (ledgerized activity).
     const redirectTo = buildSupabaseAuthCallbackRedirect('/packs');
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: BITCODE_BITCOIN_SUPABASE_PROVIDER as any,

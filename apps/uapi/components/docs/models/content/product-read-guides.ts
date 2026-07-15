@@ -1,5 +1,5 @@
 /**
- * Docs content module: terminal read guides.
+ * Docs content module: product read guides.
  */
 import type { ProductReadGuide } from '../bitcode-docs-types';
 import { PRODUCT_INLINE_EXPLAINERS, PRODUCT_WORKSPACE_EXPLAINERS } from '@/components/bitcode/pipeline/models/workspace-explainers';
@@ -7,8 +7,8 @@ import { PRODUCT_INLINE_EXPLAINERS, PRODUCT_WORKSPACE_EXPLAINERS } from '@/compo
 export const PRODUCT_READ_GUIDES = [
   {
     id: 'activity-ledger',
-    read: 'Terminal activity results',
-    location: 'Bitcode Terminal',
+    read: 'product activity results',
+    location: 'Bitcode',
     tellsYou:
       'Which Bitcode activity is selected, how it is typed, and whether it reads as deposit, Read, closure, proof, or history posture.',
     expectedResult:
@@ -17,7 +17,7 @@ export const PRODUCT_READ_GUIDES = [
   {
     id: 'selected-detail',
     read: 'Selected activity detail',
-    location: 'Bitcode Terminal',
+    location: 'Bitcode',
     tellsYou:
       'The selected activity identity, source posture, AssetPacks, proof rows, closure state, and related history.',
     expectedResult:
@@ -69,7 +69,7 @@ export const PRODUCT_READ_GUIDES = [
     location: 'Demonstration witness detail',
     tellsYou: PRODUCT_WORKSPACE_EXPLAINERS.sourcePath.summary,
     expectedResult:
-      'Dense replay, proof, and settlement detail stays available without making the main Terminal feel like plumbing.',
+      'Dense replay, proof, and settlement detail stays available without making the main product feel like plumbing.',
   },
   {
     id: 'ledger-pulse',

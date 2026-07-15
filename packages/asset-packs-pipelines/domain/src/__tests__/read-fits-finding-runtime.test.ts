@@ -27,7 +27,7 @@ const readInput = {
   read: {
     id: 'read-fits-runtime',
     prompt:
-      'Find source-bound fit deposits for Terminal Deposit, Reading, AssetPack preview, proof root readback, and ledger reconciliation.',
+      'Find source-bound fit deposits for Deposit, Reading, AssetPack preview, proof root readback, and ledger reconciliation.',
   },
   sourceRevision,
   targetArtifactKinds: [
@@ -47,9 +47,9 @@ function depositoryAsset(overrides: Partial<DepositoryAsset> = {}): DepositoryAs
   const assetId = overrides.assetId || 'fit-deposit-runtime-1';
   return {
     assetId,
-    title: 'Terminal Reading source-bound fit deposit',
+    title: 'Reading source-bound fit deposit',
     summary:
-      'Source-safe summary for Terminal Deposit, Reading, AssetPack preview, proof root, and ledger reconciliation.',
+      'Source-safe summary for Deposit, Reading, AssetPack preview, proof root, and ledger reconciliation.',
     artifactKind: 'repository-revision',
     repositoryFullName: sourceRevision.repositoryFullName,
     sourceBranch: sourceRevision.branch,
@@ -60,7 +60,7 @@ function depositoryAsset(overrides: Partial<DepositoryAsset> = {}): DepositoryAs
         unitId: `${assetId}:unit-1`,
         unitKind: 'repository-revision',
         text:
-          'Terminal path Deposit Read Finding Fits AssetPack preview proof root finality readback Supabase ledger reconciliation.',
+          'product path Deposit Read Finding Fits AssetPack preview proof root finality readback Supabase ledger reconciliation.',
         unitHash: `sha256:${assetId}-unit`,
       },
     ],
@@ -91,7 +91,7 @@ describe('ReadFitsFinding runtime, ranking, and replay', () => {
       requireAcceptedReadNeed: true,
       depositoryAssets: [
         depositoryAsset({ assetId: 'fit-deposit-runtime-1' }),
-        depositoryAsset({ assetId: 'fit-deposit-runtime-2', title: 'Terminal proof readback second fit' }),
+        depositoryAsset({ assetId: 'fit-deposit-runtime-2', title: 'product proof readback second fit' }),
       ],
     });
     const fitResult = buildDepositoryFitResultEvidence(search);
@@ -192,7 +192,7 @@ describe('ReadFitsFinding runtime, ranking, and replay', () => {
       unpaidAssetPackSourceVisible: false,
       credentialsSerialized: false,
     });
-    expect(JSON.stringify(runtime)).not.toContain('Terminal path Deposit Read Finding Fits');
+    expect(JSON.stringify(runtime)).not.toContain('product path Deposit Read Finding Fits');
   });
 
   it('blocks and records repair posture when the accepted Need is missing', async () => {
@@ -322,6 +322,6 @@ describe('ReadFitsFinding runtime, ranking, and replay', () => {
         thinkingsGenerationCount: 96,
       },
     });
-    expect(JSON.stringify(summary)).not.toContain('Terminal path Deposit Read Finding Fits');
+    expect(JSON.stringify(summary)).not.toContain('product path Deposit Read Finding Fits');
   });
 });

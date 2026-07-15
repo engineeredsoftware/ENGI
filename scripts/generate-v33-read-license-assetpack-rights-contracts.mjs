@@ -155,7 +155,7 @@ export function buildV33ReadLicenseAssetPackRightsContractsArtifact() {
   ];
   const testEvidence = [
     scanTokens('packages/btd/__tests__/read-license-assetpack-rights-contract.test.ts', [
-      'publishes shared fixtures across API, MCP, ChatGPT App, and Terminal',
+      'publishes shared fixtures across API, MCP, ChatGPT App, and product',
       'denies locked AssetPack delivery when license, settlement, and rights transfer are missing',
       'admits paid delivery only after confirmed BTC finality and rights transfer',
     ]),
@@ -172,7 +172,7 @@ export function buildV33ReadLicenseAssetPackRightsContractsArtifact() {
       'chatgpt-unpaid-delivery-denied',
     ]),
     scanTokens('apps/uapi/tests/terminalOrganizationAuthority.test.ts', [
-      'shares the package-owned ReadLicense and AssetPackRights fixture for paid Terminal delivery',
+      'shares the package-owned ReadLicense and AssetPackRights fixture for paid product delivery',
       'terminal-paid-rights-delivery',
     ]),
   ];

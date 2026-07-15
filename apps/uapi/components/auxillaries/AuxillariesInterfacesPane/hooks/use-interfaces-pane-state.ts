@@ -15,7 +15,7 @@ import {
   type InterfacesDefaults,
   type ProofMode,
   type PromptTone,
-  type TerminalDetailDensity,
+  type ProductDetailDensity,
 } from '../models/interfaces-pane-defaults';
 
 export function useInterfacesPaneState({
@@ -79,14 +79,14 @@ export function useInterfacesPaneState({
   const preferenceCards = useMemo<AuxillariesPreferenceCardItem[]>(
     () => [
       {
-        id: 'terminal-detail-density',
-        title: 'Terminal detail density',
+        id: 'product-detail-density',
+        title: 'Pack detail density',
         description: 'Choose how much structured operator signal opens by default in transactions.',
         value: defaults.productDetailDensity,
         onChange: (value) =>
           setDefaults((current) => ({
             ...current,
-            productDetailDensity: value as TerminalDetailDensity,
+            productDetailDensity: value as ProductDetailDensity,
           })),
         options: [
           {
@@ -128,9 +128,9 @@ export function useInterfacesPaneState({
             hint: 'Prefer the integratable ChatGPT App path for conversational operators.',
           },
           {
-            value: 'terminal',
-            label: 'Terminal',
-            hint: 'Return to the website Terminal when the work should stay in-product.',
+            value: 'packs',
+            label: 'Packs',
+            hint: 'Return to the website Packs surface when the work should stay in-product.',
           },
         ],
       },

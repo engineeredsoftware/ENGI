@@ -41,7 +41,7 @@ Current exported commercial helpers include:
 - `OperatorRunbookCatalog` helpers for V35 dashboard, alert, runbook, incident, and escalation proof;
 - `DocsQaAlignmentReport` helpers for V35 code/spec/docs/proof/artifact/workflow alignment proof;
 - `TestnetRolloutReadinessGuide` helpers for V35 contributor, operator, enterprise reader, depositor, interface consumer, lane, settlement caveat, blocker, and rehearsal rollout proof;
-- `TelemetryDocumentationInterfaceIntegration` helpers for V35 Terminal, Auxillaries, API, MCP API, ChatGPT App, package README, internal docs, and public docs event/proof/docs/runbook/redaction proof;
+- `TelemetryDocumentationInterfaceIntegration` helpers for V35 product, Auxillaries, API, MCP API, ChatGPT App, package README, internal docs, and public docs event/proof/docs/runbook/redaction proof;
 - `LocalStagingTelemetryDocumentationRehearsal` helpers for V35 local/staging-testnet documentation discovery, telemetry event emission, dashboard/runbook lookup, docs QA, incident drill, source-safe proof-root review, redacted screenshot/log roots, and blocked value-bearing mainnet proof;
 - `ExchangeActivityBook` helpers for V36 market-wide activity rows, filters, detail sections, proof roots, event ids, redaction posture, and ledger/database projection references;
 - `ExchangeIntent` and `ExchangeOrder` helpers for V36 buy/sell/bid/ask/cancel/accept/settle/history transition contracts, authority, idempotency, policy, fail-closed, replay, and source-safety posture;
@@ -49,15 +49,15 @@ Current exported commercial helpers include:
 - `ExchangePricingQuote` helpers for V36 BTC amount, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury route, depositor route, reader route, quote root, and source-safety posture;
 - `ExchangeSettlementReceipt` helpers for V36 payment observation, finality, rights-transfer receipt, ledger/database/object-storage reconciliation, delivery state, repair id, and source-safety posture;
 - `ExchangeDisputeRepairCase` and `ExchangeRevenueRoute` helpers for V36 repair, escalation, revenue conservation, route allocation, and source-safety posture;
-- `ExchangeUxProof` helpers for V36 Exchange route usability, Terminal handoff, collapsed readable status, expanded source-safe detail, and telemetry dashboard proof roots;
+- `ExchangeUxProof` helpers for V36 Exchange route usability, product handoff, collapsed readable status, expanded source-safe detail, and telemetry dashboard proof roots;
 - `ExchangeRehearsal` helpers for V36 local/staging-testnet Exchange rehearsal coverage, source-safe log/screenshot roots, ledger/database synchronization checks, and blocked value-bearing mainnet proof;
 - `ConversationSession` route-history helpers for V37 route-local session identity, create/restore/branch/retry/redact/stream operations, proof roots, event ids, and persistence boundaries;
 - `ConversationStreamEvent` helpers for V37 model deltas, tool calls, retrieval summaries, proof roots, retry states, completion decisions, error rows, collapsed readable status, expanded metadata, redaction posture, prompt/result disclosure posture, and fail-closed stream telemetry;
-- `ConversationWritingWorkspace` helpers for V37 Read Request, Need feedback, AssetPack review note, and Terminal handoff summary drafting modes, save/restore/summarize/handoff actions, route-local draft keys, keyboard/responsive fullscreen behavior, recovery states, proof roots, event ids, and source-safe handoff summaries;
+- `ConversationWritingWorkspace` helpers for V37 Read Request, Need feedback, AssetPack review note, and product handoff summary drafting modes, save/restore/summarize/handoff actions, route-local draft keys, keyboard/responsive fullscreen behavior, recovery states, proof roots, event ids, and source-safe handoff summaries;
 - `ConversationSourceSelector` helpers for V37 repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation selectors governed by account, organization, wallet, rights, settlement, disclosure, and policy posture with allowed, denied, and retry-required source-safe preview states;
-- `ConversationProductHandoff` helpers for V37 Depositing, Reading, Finding Fits, Exchange, settlement, and delivery handoff workflows with conversation id, transaction id, repository anchor, source selector refs, source-safe summary, policy result, Terminal route, transaction detail, proof roots, event ids, ledger boundary, wallet boundary, and Terminal cockpit authority posture;
+- `ConversationProductHandoff` helpers for V37 Depositing, Reading, Finding Fits, Exchange, settlement, and delivery handoff workflows with conversation id, transaction id, repository anchor, source selector refs, source-safe summary, policy result, product route, transaction detail, proof roots, event ids, ledger boundary, wallet boundary, and product cockpit authority posture;
 - `ConversationPersistencePrivacyRedaction` helpers for V37 public, user-visible, organization-visible, buyer-visible, reviewer-visible, and operator-only visibility tier separation, persist/restore/export/delete/retention/replay/incident repair postures, proof roots, event ids, and source-safe durable storage privacy;
-- `ConversationTelemetryProofHooks` helpers for V37 session, message, stream, tool, source selector, Terminal handoff, retry, error, and completion telemetry families with source-safe dashboard panels, runbook ids, correlation ids, proof roots, redaction posture, and protected-payload exclusion;
+- `ConversationTelemetryProofHooks` helpers for V37 session, message, stream, tool, source selector, product handoff, retry, error, and completion telemetry families with source-safe dashboard panels, runbook ids, correlation ids, proof roots, redaction posture, and protected-payload exclusion;
 - `ConversationRehearsal` helpers for V37 local/staging-testnet conversation rehearsal coverage, source-safe log/screenshot roots, route/UI checks, telemetry roots, and blocked value-bearing mainnet proof;
 - `V38InferenceSurfaceInventory` helpers for V38 Reading, Conversation, tool-definition prompt, interface entrypoint, prompt registry, and execution primitive inference-surface inventory;
 - `V38PtrrFailsafeThricifiedStack` helpers for V38 practical PTRR agent stack proof, FailsafeGenerationSequence over ThricifiedGeneration binding, step-owned tool boundaries, source predicates, and source-safe generated metadata;
@@ -66,21 +66,21 @@ Current exported commercial helpers include:
 - `V38ReadFitsFindingSearchEmbeddings` helpers for V38 source-safe Finding Fits query plans, depository search channels, embedding policy, threshold ranking, selected-fit provenance, and search receipts;
 - `V38InferencePromotionReadinessReport` helpers for V38 source-safe promotion readiness across inference artifacts, generated proof support, workflow posture, and V38 active / V39 draft runtime preparation;
 - `V39DepositorySupplyIndexing` helpers for V39 source-safe Depository supply records, search documents, vector projections, storage readback posture, rights boundaries, repair actions, and Finding Fits handoff;
-- `V39EnterpriseReadingUxState` helpers for V39 source-safe Terminal Reading stages, low-detail defaults, expandable detail, Conversation `readingStage` handoff, rich stream-log integration, component tests, and opt-in browser proof workflow posture;
+- `V39EnterpriseReadingUxState` helpers for V39 source-safe Reading stages, low-detail defaults, expandable detail, Conversation `readingStage` handoff, rich stream-log integration, component tests, and opt-in browser proof workflow posture;
 - `V39ReadNeedReviewResynthesis` helpers for V39 source-safe ReadNeed review, feedback/resynthesis lineage, accepted-Need admission, rejected-Need posture, runtime storage projection, and telemetry receipt proof;
 - `V39ReadFitsFindingRuntime` helpers for V39 source-safe Finding Fits runtime storage, many-candidate ranking, selected-fit provenance, replay receipts, repair posture, and active embedding policy proof;
 - `V39AssetPackPreviewQuoteBoundary` helpers for V39 source-safe AssetPack preview, deterministic share-to-fee BTC quote, disclosure leak scanning, settlement instructions, delivery lock, replay receipt, and repair posture proof;
-- `V39InterfaceConversationProductParity` helpers for V39 source-safe Terminal, Conversation, public API, MCP API, ChatGPT App, and package-consumer Reading parity with no parallel authority or delivery bypass;
+- `V39InterfaceConversationProductParity` helpers for V39 source-safe product, Conversation, public API, MCP API, ChatGPT App, and package-consumer Reading parity with no parallel authority or delivery bypass;
 - `V39CommercialReadingPromotionReadinessReport` helpers for V39 source-safe commercial Reading promotion readiness across all V39 Reading artifacts, generated proof support, workflow posture, promotion dry-run support, and active V39 / draft V40 runtime preparation;
 - `V41PromptPartPromptInventory` helpers for V41 source-safe raw PromptPart and composed Prompt catalogue rows, registry owners, prompt families, template variables, benchmark fixture ids, validation commands, and V42 MVP roadmap posture;
 - `V41RegistryInterpolationContracts` helpers for V41 source-safe registry composition, interpolation key, execution ancestry, tool prompt injection, context handling, and parser target contracts;
 - `V41ReadingPromptBenchmarkBaselines` helpers for V41 source-safe Reading prompt baseline rows across `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, all five Reading UX steps, V38 benchmark fixtures, Gate 2 inventory roots, Gate 3 registry/interpolation roots, parser targets, deterministic scores, and source-safe disclosure tiers;
 - `V41PromotionReadinessReport` helpers for V41 source-safe prompt-program promotion readiness across all V41 prompt artifacts, generated proof support, workflow posture, promotion dry-run support, and active V41 / draft V42 runtime preparation;
-- `V42SettlementRightsDelivery` helpers for V42 source-safe BTC payment observation, finality gating, source-to-shares compensation, BTD read-right transfer, repository delivery unlock, ledger/database/object-storage reconciliation, Terminal readback, and source-safe paid-boundary proof;
+- `V42SettlementRightsDelivery` helpers for V42 source-safe BTC payment observation, finality gating, source-to-shares compensation, BTD read-right transfer, repository delivery unlock, ledger/database/object-storage reconciliation, product readback, and source-safe paid-boundary proof;
 - `V42AiReadingDemonstration` helpers for V42 source-safe AI-reading demonstration proof: public-data-only baseline, reviewed local Need, local Finding Fits, source-safe AssetPack preview, AssetPack-enhanced AI answer, deterministic benchmark uplift, self-contained demonstration boundary, and workflow wiring;
 - `V42LocalStagingMvpRehearsal` helpers for V42 source-safe local/staging-testnet full MVP rehearsal proof across Depositing, Reading, Finding Fits, preview/quote, settlement, BTD rights transfer, repository delivery, AI-reading uplift, telemetry/database readback, operator receipts, and blocked value-bearing mainnet;
 - `V42PromotionReadinessReport` helpers for V42 source-safe promotion readiness across all V42 reliable MVP artifacts, generated proof support, workflow posture, promotion dry-run support, value-bearing mainnet blocking, and `V42` active, `V43` draft runtime preparation;
-- `V43RouteVocabularyInventory` helpers for V43 source-safe route vocabulary inventory, source-safe file/token counts, `/exchange` to `/packs` planning, `/terminal` to `/read` and `/deposit` planning, retained debug cockpit boundary, redirect compatibility, self-referential copy cleanup, and migration matrix proof;
+- `V43RouteVocabularyInventory` helpers for V43 source-safe route vocabulary inventory, source-safe file/token counts, `/exchange` to `/packs` planning, `/packs` to `/read` and `/deposit` planning, retained debug cockpit boundary, redirect compatibility, self-referential copy cleanup, and migration matrix proof;
 - `V43PacksActivityMasterDetail` helpers for V43 source-safe PackActivity contracts, `/api/packs/activity`, `/packs` master-detail search/filter/sort/detail projection, proof roots, settlement/compensation/delivery/repair readback, and `/exchange` compatibility redirection;
 - `V46PublicOperatorClaimBoundaries` helpers for V46 source-safe public/operator claim boundary metadata across public docs, landing, operator docs, README surfaces, workflow checks, and forbidden overclaim scans;
 - `V46ProductRouteComprehensionReadback` helpers for V46 source-safe `/packs`, `/read`, and `/deposit` route comprehension metadata, low-detail defaults, expandable proof readback, route-owned state, and forbidden product-route overclaim scans;
@@ -90,7 +90,7 @@ Current exported commercial helpers include:
 - the package app/server context used by commercial interfaces.
 
 V43 Gate 1 opens the Packs, Read, Deposit draft over `V42` active, `V43`
-draft posture. It specifies `/exchange` to `/packs`, `/terminal` separation
+draft posture. It specifies `/exchange` to `/packs`, `/packs` separation
 into `/read` and `/deposit`, agentic deposit AssetPack option synthesis,
 searchable pack activity master-detail, source-safe option review, and product
 UX cleanup through `check:v43-gate1`.
@@ -454,7 +454,7 @@ the exhaustive testing specification family for active V39 / draft V40 work.
 must remain aligned to `V40` active, `V41` draft after V40 promotion.
 V40 Gate 1 is wired through `check:v40-gate1` and documents the exact browser
 E2E, visual/screenshot, API integration, pipeline integration, Conversation and
-Terminal integration, unit coverage, ledger/database/storage synchronization,
+product integration, unit coverage, ledger/database/storage synchronization,
 local/staging rehearsal, prompt benchmark smoke, and V41 prompt-program
 readiness scope that later V40 gates must implement.
 After V40 promotion this package is in the `V40` active, `V41` draft posture.
@@ -528,10 +528,10 @@ V41 Gate 7 adds `V41ConversationToolInterfacePromptRewrite` through
 `generate:v41-conversation-tool-interface-prompt-rewrite`,
 `check:v41-conversation-tool-interface-prompt-rewrite`, and `check:v41-gate7`.
 The artifact is source-safe metadata only and currently covers 9 rewrite rows
-with 60 passing predicates across Conversation PTRR PromptParts, Terminal
+with 60 passing predicates across Conversation PTRR PromptParts, product
 conversation system prompts, rich execution-log disclosure metadata,
 DocCodeToolPrompt and ToolPromptRegistry hierarchy, MCP API/public API tool
-schema posture, ChatGPT App action/tool prompt posture, Terminal/public
+schema posture, ChatGPT App action/tool prompt posture, product/public
 summary source-safety, V38 Conversation/tool parity, and Gate 2 through Gate 6
 dependency roots.
 V41 Gate 8 adds `V41PromptProgramBenchmarkReport` through
@@ -573,7 +573,7 @@ V42 Gate 2 adds `V42DepositingShortestPath` through
 `.bitcode/v42-depositing-shortest-path.json`, and `check:v42-gate2`.
 It proves deposit route readiness, Depository search/vector/storage projection,
 source-safe compensation preview roots, source-to-shares ledger readback keys,
-Terminal compensation visibility, and the pre-mint/no-pre-settlement-source
+product compensation visibility, and the pre-mint/no-pre-settlement-source
 boundary.
 V42 Gate 3 adds the V42 Reading shortest path state machine,
 `V42ReadingShortestPathStateMachine`, through
@@ -591,7 +591,7 @@ V42 Gate 4 adds `V42ReadNeedReviewResynthesisProductClosure` through
 `check:v42-gate4`. It proves ReadNeed review/resynthesis product closure:
 source-safe Read Request and Need storage, feedback lineage, Need measurement,
 accepted-Need admission, rejected Need blockers, PTRR/Failsafe/Thricified
-telemetry receipts, `/api/read-review` action coverage, Terminal runtime
+telemetry receipts, `/api/read-review` action coverage, product runtime
 readback, and source-safe disclosure boundaries.
 V42 Gate 5 adds `V42ReadFitsFindingPreviewQuote` through
 `scripts/specifying/src/canonical/v42-readfitsfinding-preview-quote.js`,
@@ -600,7 +600,7 @@ V42 Gate 5 adds `V42ReadFitsFindingPreviewQuote` through
 It proves accepted-Need-gated Finding Fits, many-channel Depository search,
 candidate ranking, selected-fit provenance, source-safe AssetPack preview,
 deterministic share-to-fee quote receipts, disclosure review, settlement
-instructions, delivery lock, harness route summaries, Terminal
+instructions, delivery lock, harness route summaries, product
 preview/quote/provenance readback, and no pre-settlement protected source or
 unpaid AssetPack source exposure.
 V42 Gate 6 adds `V42SettlementRightsDelivery` through
@@ -613,7 +613,7 @@ The artifact is source-safe metadata only and covers paid quote observation,
 BTC/testnet finality, BTD rights transfer, paid read receipts,
 source-to-shares compensation conservation, repository pull-request delivery
 unlock, ledger/database/object-storage reconciliation, fail-closed repair
-posture, harness route summaries, Terminal settlement readback, and workflow
+posture, harness route summaries, product settlement readback, and workflow
 proof wiring without serializing protected source, unpaid AssetPack source,
 wallet private material, private settlement payloads, credentials, raw
 protected prompts, or raw provider responses.
@@ -682,7 +682,7 @@ V40 Gate 5 adds `V40ReadingPipelineIntegrationCoverage` through
 The artifact is source-safe metadata only and closes integration coverage for
 the real Reading pipeline topology, Need runtime, Finding Fits search runtime,
 PTRR agents, preview/settlement/delivery boundaries, telemetry/readback,
-Terminal harness, generic primitives, host harnesses, and local/staging
+product harness, generic primitives, host harnesses, and local/staging
 rehearsal linkage.
 V40 Gate 6 adds `V40ConversationTerminalIntegration` through
 `scripts/specifying/src/canonical/v40-conversation-terminal-integration.js`,
@@ -692,7 +692,7 @@ V40 Gate 6 adds `V40ConversationTerminalIntegration` through
 The artifact is source-safe metadata only and closes integration coverage for
 Conversation handoff route contracts, Conversation stream-to-rich-log
 projection, route/API persistence and branch contracts, writing/source selector
-handoff, Terminal Reading state readback, Terminal harness log streaming,
+handoff, Reading state readback, product harness log streaming,
 transaction-cockpit authority boundaries, and rehearsal/docs/interface parity.
 V40 Gate 7 adds `V40BrowserE2eVisualProof` through
 `scripts/specifying/src/canonical/v40-browser-e2e-visual-proof.js`,
@@ -700,14 +700,14 @@ V40 Gate 7 adds `V40BrowserE2eVisualProof` through
 `.bitcode/v40-browser-e2e-visual-proof.json`, and `check:v40-gate7`.
 The artifact is source-safe metadata only and closes browser E2E, visual,
 accessibility, responsive, interaction-state, screenshot/trace, and overflow
-coverage for Terminal, Conversations, Auxillaries, Exchange, and Docs.
+coverage for product, Conversations, Auxillaries, Exchange, and Docs.
 V40 Gate 8 adds `V40LedgerStorageSync` through
 `scripts/specifying/src/canonical/v40-ledger-storage-sync.js`,
 `scripts/specifying/test/v40-ledger-storage-sync.test.js`,
 `.bitcode/v40-ledger-storage-sync.json`, and `check:v40-gate8`.
 The artifact is source-safe metadata only and closes ledger, database,
 object-storage, wallet, settlement, BTD rights, source-to-shares compensation,
-repair, Terminal readback, and post-settlement pull-request delivery
+repair, product readback, and post-settlement pull-request delivery
 synchronization coverage.
 V40 Gate 9 adds `V40LocalStagingRehearsalAutomation` through
 `scripts/specifying/src/canonical/v40-local-staging-rehearsal-automation.js`,
@@ -755,7 +755,7 @@ maintained commands are `pnpm run generate:v39-depository-supply-indexing` and
 V39 Gate 3 adds `V39EnterpriseReadingUxState` through
 `scripts/specifying/src/canonical/v39-enterprise-reading-ux-state.js` and the
 source-safe generated artifact `.bitcode/v39-enterprise-reading-ux-state.json`.
-The UX state report proves five Terminal Reading stages, source-safe disclosure
+The UX state report proves five Reading stages, source-safe disclosure
 defaults, Conversation `readingStage` handoff/readback, rich execution stream
 integration, component tests, and opt-in browser proof workflow wiring. The
 maintained commands are `pnpm run generate:v39-enterprise-reading-ux-state` and
@@ -812,7 +812,7 @@ V39 Gate 9 adds `V39InterfaceConversationProductParity` through
 `scripts/specifying/src/canonical/v39-interface-conversation-product-parity.js`
 and the source-safe generated artifact
 `.bitcode/v39-interface-conversation-product-parity.json`. The report proves
-Terminal authority, Conversation handoff, public API, MCP API, ChatGPT App,
+product authority, Conversation handoff, public API, MCP API, ChatGPT App,
 and package-consumer parity rows, accepted-Need gating, source-safe preview,
 settlement unlock, BTD rights, delivery boundaries, package tests, interface
 tests, protocol tests, and workflow wiring. The maintained commands are
@@ -1001,9 +1001,9 @@ V37 Gate 4 adds source-safe `ConversationWritingWorkspace` fullscreen composer
 contracts through `buildConversationWritingWorkspace` and
 `.bitcode/v37-conversation-writing-workspace.json`.
 The writing workspace artifact covers Read Request, Need feedback, AssetPack
-review note, and Terminal handoff summary modes with save, restore, summarize,
+review note, and product handoff summary modes with save, restore, summarize,
 and handoff actions while keeping emitted summaries source-safe and keeping
-Terminal as transaction authority.
+product as transaction authority.
 V37 Gate 5 adds source-safe `ConversationSourceSelector` context-policy
 contracts through `buildConversationSourceSelector` and
 `.bitcode/v37-conversation-source-selector.json`. The source selector artifact
@@ -1029,7 +1029,7 @@ AssetPack source before storage or source-safe export.
 V37 Gate 8 adds source-safe `ConversationTelemetryProofHooks` dashboard and
 runbook contracts through `buildConversationTelemetryProofHooks` and
 `.bitcode/v37-conversation-telemetry-proof-hooks.json`. The telemetry proof
-artifact covers session, message, stream, tool, source selector, Terminal
+artifact covers session, message, stream, tool, source selector, product
 handoff, retry, error, and completion families while keeping raw protected
 prompts, protected source, protected model responses, provider tokens, wallet
 private material, settlement private payloads, ledger authority, wallet
@@ -1037,7 +1037,7 @@ signing authority, and unpaid AssetPack source out of telemetry.
 V37 Gate 9 adds source-safe `ConversationRehearsal` local/staging proof
 contracts through `buildConversationRehearsal` and
 `.bitcode/v37-conversation-rehearsal.json`. Local and staging-testnet
-rehearsals exercise chat, streaming, writing, source selector, Terminal
+rehearsals exercise chat, streaming, writing, source selector, product
 handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots
 are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet
 blocking are visible through `source-safe-conversation-rehearsal-metadata`.
@@ -1052,7 +1052,7 @@ protected prompts, unpaid AssetPack source, and wallet private material out of
 generated metadata.
 This Gate 10 posture is `V37` active, `V38` draft after V37 promotion.
 
-Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
+Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, product handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
 V36 Gate 2 adds the source-safe Exchange activity book through
 `buildExchangeActivityBook` and `.bitcode/v36-exchange-activity-book.json`.
 The activity detail never exposes protected source or unpaid AssetPack content.
@@ -1094,7 +1094,7 @@ The source-safe verdict is
 V36 Gate 8 adds source-safe Exchange UX proof through `buildExchangeUxProof`
 and `.bitcode/v36-exchange-ux-proof.json`.
 `ExchangeUxProof` covers market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state.
-Terminal can hand off to Exchange without losing transaction context.
+product can hand off to Exchange without losing transaction context.
 collapsed UI gives readable status and expanded UI exposes source-safe detail.
 Exchange telemetry dashboards remain source-safe and proof-rooted.
 The source-safe verdict is `source-safe-exchange-ux-proof-metadata`.

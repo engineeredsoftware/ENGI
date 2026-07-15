@@ -1,3 +1,10 @@
+/**
+ * Reading interface product parity — source-safe contracts that bind product
+ * workspace, Conversation, API, MCP, ChatGPT App, and package consumers to one
+ * Reading authority spine (accepted Need → fits → preview → settlement → rights).
+ *
+ * Product vocabulary only: no legacy product surface aliases or handoff ids.
+ */
 import { createHash } from 'node:crypto';
 import {
   buildBtdInterfaceConsumerUxRegressionProof,
@@ -17,7 +24,7 @@ import type { ReadFitsFindingRuntime } from './read-fits-finding-runtime';
 import type { ReadNeedReviewResynthesisRuntime } from './read-need-review-resynthesis';
 
 export const READING_INTERFACE_PRODUCT_PARITY_SURFACES = [
-  'terminal',
+  'product',
   'conversation',
   'public_api',
   'mcp_api',
@@ -40,8 +47,8 @@ export type ReadingInterfaceProductParityStageId =
   (typeof READING_INTERFACE_PRODUCT_PARITY_STAGE_IDS)[number];
 
 export type ReadingInterfaceProductAuthorityMode =
-  | 'terminal-authority'
-  | 'terminal-delegated-handoff'
+  | 'product-authority'
+  | 'product-delegated-handoff'
   | 'package-contract-readback';
 
 export interface ReadingInterfaceProductParitySourceSafety {
@@ -83,7 +90,7 @@ export interface ReadingInterfaceProductParityRow {
   rowId: string;
   surface: ReadingInterfaceProductParitySurface;
   authorityMode: ReadingInterfaceProductAuthorityMode;
-  sameAuthorityAsTerminal: true;
+  sameAuthorityAsProduct: true;
   parallelAuthorityCreated: false;
   ownerPackage: string;
   entrypoint: string;
@@ -140,7 +147,7 @@ export interface ReadingInterfaceProductParity {
   rowCount: number;
   rows: ReadingInterfaceProductParityRow[];
   noBypassReadback: ReadingInterfaceProductNoBypassReadback & {
-    allSurfacesUseTerminalAuthority: true;
+    allSurfacesUseProductAuthority: true;
     allSourceBearingDeliveryLockedBeforeSettlement: true;
     packageConsumersReadContractsOnly: true;
   };
@@ -253,7 +260,7 @@ function jsonSafe<T>(value: T): Record<string, unknown> {
 function mapCatalogId(
   surface: ReadingInterfaceProductParitySurface,
 ): BtdInterfaceContractCatalogRow['interfaceId'] {
-  if (surface === 'terminal') return 'terminal_handoff';
+  if (surface === 'product') return 'product_handoff';
   if (surface === 'conversation') return 'conversations_hook';
   if (surface === 'public_api') return 'public_api';
   if (surface === 'mcp_api') return 'mcp_api';
@@ -264,7 +271,7 @@ function mapCatalogId(
 function mapConsumerUxSurface(
   surface: ReadingInterfaceProductParitySurface,
 ): BtdInterfaceConsumerUxRegressionRow['surface'] | null {
-  if (surface === 'terminal') return 'terminal_handoff';
+  if (surface === 'product') return 'product_handoff';
   if (surface === 'public_api') return 'public_api';
   if (surface === 'mcp_api') return 'mcp_api';
   if (surface === 'chatgpt_app') return 'chatgpt_app';
@@ -275,7 +282,7 @@ function mapConsumerUxSurface(
 function mapTelemetryInterfaceId(
   surface: ReadingInterfaceProductParitySurface,
 ): BtdInterfaceTelemetryProofHook['interfaceId'] | null {
-  if (surface === 'terminal') return 'terminal_handoff';
+  if (surface === 'product') return 'product_handoff';
   if (surface === 'public_api') return 'public_api';
   if (surface === 'mcp_api') return 'mcp_api';
   if (surface === 'chatgpt_app') return 'chatgpt_app';
@@ -286,7 +293,7 @@ function mapTelemetryInterfaceId(
 function mapRightsSurface(
   surface: ReadingInterfaceProductParitySurface,
 ): BtdReadLicenseInterfaceContract['interfaceSurface'] | null {
-  if (surface === 'terminal') return 'terminal';
+  if (surface === 'product') return 'product';
   if (surface === 'public_api') return 'api';
   if (surface === 'mcp_api') return 'mcp';
   if (surface === 'chatgpt_app') return 'chatgpt_app';
@@ -295,27 +302,27 @@ function mapRightsSurface(
 
 function ownerPackage(surface: ReadingInterfaceProductParitySurface): string {
   switch (surface) {
-    case 'terminal':
+    case 'product':
       return 'apps/uapi/components/bitcode/pipeline';
     case 'conversation':
-      return 'apps/uapi/app/conversations';
+      return 'apps/uapi/components/conversations';
     case 'public_api':
       return 'packages/api/src/routes';
     case 'mcp_api':
       return 'apps/mcp';
     case 'chatgpt_app':
-      return 'packages/chatgptapp';
+      return 'apps/chatgpt';
     case 'package_consumer':
-      return 'packages/pipelines/asset-pack';
+      return 'packages/asset-packs-pipelines/domain';
   }
 }
 
 function entrypoint(surface: ReadingInterfaceProductParitySurface): string {
   switch (surface) {
-    case 'terminal':
-      return 'terminal.reading.five-step-flow';
+    case 'product':
+      return 'product.reading.five-step-flow';
     case 'conversation':
-      return 'conversation.terminal-reading-handoff';
+      return 'conversation.product-reading-handoff';
     case 'public_api':
       return 'api.reading.interface';
     case 'mcp_api':
@@ -330,9 +337,9 @@ function entrypoint(surface: ReadingInterfaceProductParitySurface): string {
 function authorityMode(
   surface: ReadingInterfaceProductParitySurface,
 ): ReadingInterfaceProductAuthorityMode {
-  if (surface === 'terminal') return 'terminal-authority';
+  if (surface === 'product') return 'product-authority';
   if (surface === 'package_consumer') return 'package-contract-readback';
-  return 'terminal-delegated-handoff';
+  return 'product-delegated-handoff';
 }
 
 function firstContractRoot<T extends { proofRoot: string; interfaceSurface: string }>(
@@ -411,7 +418,7 @@ export function buildReadingInterfaceProductParity(
       rowId: `reading-interface-parity:${surface}`,
       surface,
       authorityMode: authorityMode(surface),
-      sameAuthorityAsTerminal: true as const,
+      sameAuthorityAsProduct: true as const,
       parallelAuthorityCreated: false as const,
       ownerPackage: ownerPackage(surface),
       entrypoint: entrypoint(surface),
@@ -481,7 +488,7 @@ export function buildReadingInterfaceProductParity(
     rows,
     noBypassReadback: {
       ...NO_BYPASS_READBACK,
-      allSurfacesUseTerminalAuthority: true as const,
+      allSurfacesUseProductAuthority: true as const,
       allSourceBearingDeliveryLockedBeforeSettlement: true as const,
       packageConsumersReadContractsOnly: true as const,
     },
@@ -556,7 +563,7 @@ export function summarizeReadingInterfaceProductParity(
     rowCount: parity.rowCount,
     missingSurfaces: parity.missingSurfaces,
     requiredStageIds: parity.requiredStageIds,
-    allSurfacesUseTerminalAuthority: parity.noBypassReadback.allSurfacesUseTerminalAuthority,
+    allSurfacesUseProductAuthority: parity.noBypassReadback.allSurfacesUseProductAuthority,
     allSourceBearingDeliveryLockedBeforeSettlement:
       parity.noBypassReadback.allSourceBearingDeliveryLockedBeforeSettlement,
     sourceSafeMetadataOnly: parity.sourceSafety.sourceSafeMetadataOnly,
@@ -584,7 +591,7 @@ export function assertReadingInterfaceProductParitySourceSafe(
     throw new Error('ReadingInterfaceProductParity must remain source-safe.');
   }
   for (const row of parity.rows) {
-    if (row.parallelAuthorityCreated || !row.sameAuthorityAsTerminal) {
+    if (row.parallelAuthorityCreated || !row.sameAuthorityAsProduct) {
       throw new Error(`${row.surface} must not create parallel Reading authority.`);
     }
     if (

@@ -113,7 +113,7 @@ const checks = [
     forbidden: ['READ_FINDING_FITS_SYNTHESIS', 'ReadFindingFitsSynthesis', 'findingFitsAdmission'],
   },
   {
-    file: 'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    file: 'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
     needles: [
       'Synthesize Read-Need',
       'Resynthesize with feedback',

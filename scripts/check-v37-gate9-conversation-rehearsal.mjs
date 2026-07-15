@@ -32,7 +32,7 @@ const REQUIRED_FLOW_IDS = [
 ];
 
 const REQUIRED_DOC_PHRASES = [
-  'local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows',
+  'local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, product handoff, restore, retry, redaction, and error flows',
   'rehearsal logs/screenshots are source-safe',
   'route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible',
 ];

@@ -8,7 +8,7 @@ const path = require('path');
 const fs = require('fs');
 const { buildPackageMap } = require('./jest.package-map.cjs');
 
-const packagesRoot = path.join(__dirname, 'packages');
+const packagesRoot = path.join(__dirname, '..', 'packages');
 const packageMap = buildPackageMap(packagesRoot); // regex key -> absolute entry
 
 /** @type {Record<string, string>} package name -> package directory */

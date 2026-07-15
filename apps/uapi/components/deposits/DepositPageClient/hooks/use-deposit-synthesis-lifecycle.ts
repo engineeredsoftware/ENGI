@@ -13,7 +13,7 @@ import {
 } from "@/components/deposits/models/deposit-run-status";
 import type { DepositSynthesisStatus } from "./use-deposit-synthesis-activity";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
-import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import type { DepositRealSynthesis } from "@/components/deposits/models/deposit-real-synthesis";
 
 export function useDepositSynthesisLifecycle(input: {
@@ -46,7 +46,7 @@ export function useDepositSynthesisLifecycle(input: {
   obfuscations: string;
   forcedInclusions: string[];
   forcedExclusions: string[];
-  repositoryContext: TerminalRepositoryContextState | null;
+  repositoryContext: ProductRepositoryContextState | null;
   depositoryDemandSignals: Array<{ label: string }>;
   readingDemandSignals: Array<{ label: string }>;
   existingDepositorySignals: unknown;

@@ -1,5 +1,5 @@
 /**
- * Operational health — non-Terminal naming for deployment/telemetry readback.
+ * Operational health — non-product naming for deployment/telemetry readback.
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
 import {
@@ -49,7 +49,7 @@ describe('operational-health', () => {
     expect(read.telemetry.severity).toBe('critical');
   });
 
-  it('keeps Terminal-named shim equivalent to canonical builder', () => {
+  it('keeps cockpit-named shim equivalent to canonical builder', () => {
     const canonical = buildOperationalHealthRead({ issuedAt });
     const shim = buildOperationalHealthRead({ issuedAt });
     expect(shim.lanes.map((l) => l.lane)).toEqual(canonical.lanes.map((l) => l.lane));

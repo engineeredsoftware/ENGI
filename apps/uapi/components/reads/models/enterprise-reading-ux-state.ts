@@ -4,33 +4,33 @@
  */
 
 import {
-  TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
-  TERMINAL_ENTERPRISE_READING_STEPS,
-  type TerminalEnterpriseReadingFailureKind,
+  PRODUCT_ENTERPRISE_READING_FORBIDDEN_FIELDS,
+  PRODUCT_ENTERPRISE_READING_STEPS,
+  type ProductEnterpriseReadingFailureKind,
   type EnterpriseReadingStepId,
-  type TerminalEnterpriseReadingStepState,
+  type ProductEnterpriseReadingStepState,
   type EnterpriseReadingUxState,
   type EnterpriseReadingUxStateInput,
 } from './enterprise-reading-ux-types';
 
 export type {
   EnterpriseReadingStepId,
-  TerminalEnterpriseReadingStepState,
-  TerminalEnterpriseReadingFailureKind,
-  TerminalEnterpriseReadingSourceSafeField,
-  TerminalEnterpriseReadingForbiddenField,
-  TerminalEnterpriseReadingStepDefinition,
-  TerminalEnterpriseReadingStepView,
+  ProductEnterpriseReadingStepState,
+  ProductEnterpriseReadingFailureKind,
+  ProductEnterpriseReadingSourceSafeField,
+  ProductEnterpriseReadingForbiddenField,
+  ProductEnterpriseReadingStepDefinition,
+  ProductEnterpriseReadingStepView,
   EnterpriseReadingUxStateInput,
   EnterpriseReadingRouteState,
   EnterpriseReadingUxState,
 } from './enterprise-reading-ux-types';
 export {
-  TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
-  TERMINAL_ENTERPRISE_READING_STEPS,
+  PRODUCT_ENTERPRISE_READING_FORBIDDEN_FIELDS,
+  PRODUCT_ENTERPRISE_READING_STEPS,
 } from './enterprise-reading-ux-types';
 
-const STEP_ORDER = TERMINAL_ENTERPRISE_READING_STEPS.map((step) => step.id);
+const STEP_ORDER = PRODUCT_ENTERPRISE_READING_STEPS.map((step) => step.id);
 
 function stableHash(value: string) {
   let hash = 2166136261;
@@ -80,13 +80,13 @@ function chooseActiveStep(input: EnterpriseReadingUxStateInput): {
   };
 }
 
-function failureKindFor(input: EnterpriseReadingUxStateInput): TerminalEnterpriseReadingFailureKind {
+function failureKindFor(input: EnterpriseReadingUxStateInput): ProductEnterpriseReadingFailureKind {
   if (input.disclosureLeakageDetected) return 'source_safety_blocked';
   if (input.sourceSafePreviewBlocked) return 'asset_pack_preview_blocked';
   return input.failureKind || 'none';
 }
 
-function repairActionsForFailure(kind: TerminalEnterpriseReadingFailureKind): string[] {
+function repairActionsForFailure(kind: ProductEnterpriseReadingFailureKind): string[] {
   if (kind === 'none') return [];
   if (kind === 'read_request_invalid') return ['repair-read-request'];
   if (kind === 'need_review_required') return ['review-or-resynthesize-need'];
@@ -126,9 +126,9 @@ export function buildEnterpriseReadingUxState(
   const activeIndex = STEP_ORDER.indexOf(activeStepId);
   const transactionId = normalizeTransactionId(input.transactionId);
   const failureKind = failureKindFor(input);
-  const steps = TERMINAL_ENTERPRISE_READING_STEPS.map((step, index) => {
+  const steps = PRODUCT_ENTERPRISE_READING_STEPS.map((step, index) => {
     const blockers = blockersFor(step.id, input);
-    const state: TerminalEnterpriseReadingStepState =
+    const state: ProductEnterpriseReadingStepState =
       step.id === activeStepId
         ? 'current'
         : index < activeIndex && blockers.length === 0
@@ -137,7 +137,7 @@ export function buildEnterpriseReadingUxState(
     return { ...step, state, blockers };
   });
   const visibleBeforeSettlement = Array.from(
-    new Set(TERMINAL_ENTERPRISE_READING_STEPS.flatMap((step) => step.sourceSafeVisibleFields)),
+    new Set(PRODUCT_ENTERPRISE_READING_STEPS.flatMap((step) => step.sourceSafeVisibleFields)),
   );
   const seed = JSON.stringify({
     activeStepId,
@@ -169,7 +169,7 @@ export function buildEnterpriseReadingUxState(
       settlementPrivatePayloadVisible: false,
       ledgerAuthorityClaimed: false,
       visibleBeforeSettlement,
-      hiddenBeforeSettlement: TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
+      hiddenBeforeSettlement: PRODUCT_ENTERPRISE_READING_FORBIDDEN_FIELDS,
     },
     routeContract: {
       terminalOwnsTransactionAuthority: true,
@@ -229,7 +229,7 @@ export function assertEnterpriseReadingUxStateSourceSafe(state: EnterpriseReadin
     state.routeState.retryPreservesNeedLineage === true &&
     state.routeState.retryPreservesSettlementBoundary === true &&
     state.routeState.failureStateSourceSafe === true &&
-    TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS.every((field) =>
+    PRODUCT_ENTERPRISE_READING_FORBIDDEN_FIELDS.every((field) =>
       state.disclosure.hiddenBeforeSettlement.includes(field),
     );
 

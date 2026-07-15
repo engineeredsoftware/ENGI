@@ -56,7 +56,7 @@ This package also owns (historical + continuing surfaces):
 - contiguous AssetPack range allocation and mint receipts
 - contributor allocation, access evaluation, ancestry review, and revenue routing
 - wallet-signed BTC fee receipts, ledger anchors, Exchange rights transfers,
- Terminal journals, reconciliation, telemetry, and upgrade receipts
+ BTD journals, reconciliation, telemetry, and upgrade receipts
 - typed AssetPack mint/read/rights-transfer receipts that bind BTD ranges,
  Reader and Depositor identities, source-safe preview roots, paid unlock,
  delivery admission, and ledger projection roots without leaking protected
@@ -76,7 +76,7 @@ This package also owns (historical + continuing surfaces):
 - Interface integration regression proof through
  `BtdInterfaceIntegrationRegressionProof`, the client-safe
  `@bitcode/btd/interface-integration-contract` subpath, and source-safe
- records proving Terminal, API, MCP, ChatGPT App, Auxillaries hooks, and
+ records proving product, API, MCP, ChatGPT App, Auxillaries hooks, and
  Exchange hooks consume package-owned Protocol/BTD objects without local
  policy copies
 - ledger/database/object-storage projection reconciliation, including
@@ -91,7 +91,7 @@ This package also owns (historical + continuing surfaces):
  signer posture, network readiness, source-safe BTD range/read-right counts,
  account treasury posture, settlement blockers, and roots without exposing
  protected source or wallet private material
-- Terminal operational health reads that compose deployment lanes, telemetry,
+- product operational health reads that compose deployment lanes, telemetry,
  upgrade posture, provider readiness, settlement-network posture, synthetic
  testnet minting, journal rows, ledger anchors, and reconciliation state
 - testnet/mainnet readiness rehearsal records that type local, staging-testnet,
@@ -142,7 +142,7 @@ import {
 ```
 
 Accepted imports point into `@bitcode/btd` or the documented
-`@bitcode/btd/operational-health` subpath. API routes, Terminal, MCP,
+`@bitcode/btd/operational-health` subpath. API routes, product, MCP,
 ChatGPT App, Auxillaries, and Exchange must not copy BTD admission, receipt,
 settlement, parser, validator, or serializer logic locally when this package
 exports the boundary object.
@@ -155,7 +155,7 @@ or source-disclosure law locally.
 The Auxillaries support projection is account-treasury support, not Exchange
 market state, and always keeps protected source invisible before paid unlock.
 
-Organization policy authority is also package-owned. Auxillaries and Terminal
+Organization policy authority is also package-owned. Auxillaries and product
 should consume `BtdOrganizationPolicyAuthority` from this package, including
 organization/team/member identity, role, explicit grant set, wallet binding,
 policy id/hash, multi-sig readiness, policy decision, denial reasons, recovery
@@ -163,14 +163,14 @@ route, source visibility, and authority root. Settlement-adjacent and
 protected-source actions must fail closed here before any interface renders or
 ships source-bearing output.
 
-Terminal should consume the operational-health subpath when it needs the
+product should consume the operational-health subpath when it needs the
 client-safe read model without importing storage-backed package entry points:
 
 ```ts
 import { buildTerminalOperationalHealthRead } from '@bitcode/btd/operational-health';
 ```
 
-Terminal and other browser-facing interfaces should consume
+product and other browser-facing interfaces should consume
 `@bitcode/btd/interface-integration-contract` when they only need source-safe
 surface and object-family contracts. Server-side boundaries can use
 `buildBtdInterfaceIntegrationRegressionProof` or

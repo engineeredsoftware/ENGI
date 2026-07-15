@@ -2,7 +2,7 @@
 
 /**
  * Shared workspace card chrome for pipeline/read panels.
- * Relocated from TerminalWorkspaceCard.
+ * Relocated from productWorkspaceCard.
  */
 
 
@@ -76,4 +76,4 @@ export default function BitcodeWorkspaceCard({
 }
 
 /** @deprecated Prefer BitcodeWorkspaceCard */
-export { BitcodeWorkspaceCard as TerminalWorkspaceCard };
+export { BitcodeWorkspaceCard as productWorkspaceCard };

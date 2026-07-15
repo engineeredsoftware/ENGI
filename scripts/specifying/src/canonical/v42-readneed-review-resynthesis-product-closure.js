@@ -181,7 +181,7 @@ export const V42_READNEED_REVIEW_RESYNTHESIS_PRODUCT_CLOSURE_ROWS = Object.freez
   row({
     rowId: 'ui:terminal-need-runtime-readback',
     purpose:
-      'Expose the reviewed Need, feedback loop, rejection path, storage projection, runtime roots, telemetry return type, and Finding Fits blocker/admission state in Terminal without protected source.',
+      'Expose the reviewed Need, feedback loop, rejection path, storage projection, runtime roots, telemetry return type, and Finding Fits blocker/admission state in product without protected source.',
     sourceRoots: [SOURCE_ROOTS.terminalWorkbench, SOURCE_ROOTS.terminalReadme],
     emittedTypes: ['TerminalReadNeedReviewRuntimeState', 'Need runtime, storage, and telemetry'],
     requiredEvidence: ['Reject Read-Need', 'readNeedStorageProjection', 'readNeedTelemetry', 'Need runtime, storage, and telemetry'],

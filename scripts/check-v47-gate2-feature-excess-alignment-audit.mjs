@@ -98,7 +98,7 @@ function main() {
     'apps/uapi/app/btd/[assetPackId]/page.tsx',
     'apps/uapi/app/exchange/page.tsx',
     'apps/uapi/app/exchange/README.md',
-    'apps/uapi/app/terminal/page.tsx',
+    'apps/uapi/app/ (removed cockpit tree) page.tsx',
     'apps/uapi/app/conversations/page.tsx',
     'scripts/specifying/src/index.js',
     'scripts/specifying/src/index.d.ts',

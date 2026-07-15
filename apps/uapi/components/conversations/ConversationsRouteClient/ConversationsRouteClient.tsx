@@ -6,7 +6,7 @@ import Link from 'next/link';
 import ConversationsOverlay from '@/components/conversations/ConversationsOverlay/ConversationsOverlay';
 
 export default function ConversationsRouteClient() {
-  const closeToTerminal = React.useCallback(() => {
+  const closeToProduct = React.useCallback(() => {
     window.location.assign('/packs');
   }, []);
 
@@ -21,11 +21,11 @@ export default function ConversationsRouteClient() {
                   Conversations fullscreen
                 </p>
                 <h1 className="text-[1.8rem] font-semibold tracking-[-0.04em] text-white tablet:text-[2.4rem]">
-                  Keep the Bitcode Terminal write path as a first-class Terminal interface mode.
+                  Keep the Bitcode write path as a first-class product interface mode.
                 </h1>
                 <p className="max-w-[48rem] text-sm leading-7 text-white/70 tablet:text-[15px]">
                   This direct route keeps the fullscreen conversations surface available without
-                  treating it as a separate product. Step back into Terminal when you read
+                  treating it as a separate product. Step back into product when you read
                   recent activity context, or into Exchange when you read the searchable
                   master-detail view; keep writing through rich
                   inputs, source attachments, output destinations, and agentic execution updates
@@ -37,7 +37,7 @@ export default function ConversationsRouteClient() {
                 href="/packs"
                 className="inline-flex items-center justify-center rounded-full border border-emerald-300/18 bg-emerald-400/8 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-200/32 hover:bg-emerald-400/12"
               >
-                Open Bitcode Terminal
+                Open Bitcode
               </Link>
             </div>
           </section>
@@ -47,7 +47,7 @@ export default function ConversationsRouteClient() {
       <ConversationsOverlay
         forceOpen
         forceFullscreen
-        onCloseRequest={closeToTerminal}
+        onCloseRequest={closeToProduct}
         showFloatingOrb={false}
       />
     </>

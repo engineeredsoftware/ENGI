@@ -6,7 +6,7 @@ Status: non-canonical internal note.
 
 Bitcode is the source-to-shares protocol for technical intelligence.
 
-From source, Bitcode measures Reads, finds fit, synthesizes AssetPacks, records proof, and enables settlement through Exchange and Terminal surfaces.
+From source, Bitcode measures Reads, finds fit, synthesizes AssetPacks, records proof, and enables settlement through Exchange and product surfaces.
 
 ## Product Commitments
 
@@ -16,7 +16,7 @@ From source, Bitcode measures Reads, finds fit, synthesizes AssetPacks, records 
 - AssetPacks are the stable output structure.
 - Delivery mechanisms are wrappers over AssetPacks.
 - Proof is a product requirement, not an afterthought.
-- Terminal, Exchange, MCP, ChatGPT App, and connected interfaces are views/admissions over one protocol state.
+- product, Exchange, MCP, ChatGPT App, and connected interfaces are views/admissions over one protocol state.
 
 ## Engineering Commitments
 

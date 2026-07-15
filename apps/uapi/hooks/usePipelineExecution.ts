@@ -183,7 +183,7 @@ export function usePipelineExecution(runId: string | null): UsePipelineExecution
                     if (payload.type === 'work-update') {
                       recordWorkUpdate(payload);
                     }
-                    // Terminal detection: completion, or a genuine error. A
+                    // product detection: completion, or a genuine error. A
                     // 'validation'-namespace error is the stitch failsafe
                     // recording the schema error it is actively repairing —
                     // new events stream as type 'repair', but rows persisted

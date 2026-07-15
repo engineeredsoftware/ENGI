@@ -61,7 +61,7 @@ const sourceFiles = Object.freeze([
   'packages/btd/src/interface-contract-regression.ts',
   'packages/btd/src/interface-integration-contract.ts',
   'packages/btd/src/interface-integration.ts',
-  'apps/uapi/app/terminal/terminal-interface-integration-regression.ts',
+  'apps/uapi/app/ (removed cockpit tree) terminal-interface-integration-regression.ts',
   'apps/mcp/src/interface-integration.ts',
   'apps/chatgpt/src/interface-integration.ts',
 ]);
@@ -81,13 +81,13 @@ const fixtureRows = Object.freeze([
   {
     surface: 'terminal',
     status: 'active_contract',
-    boundaryKind: 'terminal_ui',
+    boundaryKind: 'product_ui',
     fixturePath: 'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
     authBoundary: 'authenticated_route',
     policyDenial: 'terminal-detail-denies-protected-source-before-paid-unlock',
     sourceSafetyClass: 'protected-source-locked',
     objectFamilies: ['btd_registry', 'read_access', 'terminal_journal', 'protocol_telemetry'],
-    sharedFixtureBasis: ['TerminalTransactionReadModel', 'BtdReadAccessDecision'],
+    sharedFixtureBasis: ['ProductTransactionReadModel', 'BtdReadAccessDecision'],
     assertions: requiredAssertions,
   },
   {
@@ -220,7 +220,7 @@ export function buildV32InterfaceContractRegressionSuite() {
       'BTD_INTERFACE_INTEGRATION_REQUIRED_SURFACES',
       'conversations_hook',
     ]),
-    scanTokens('apps/uapi/app/terminal/terminal-interface-integration-regression.ts', [
+    scanTokens('apps/uapi/app/ (removed cockpit tree) terminal-interface-integration-regression.ts', [
       'conversations-interface-hook',
       'exchange-interface-hook',
     ]),

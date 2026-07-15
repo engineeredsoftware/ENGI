@@ -1793,7 +1793,7 @@ try {
       organizationId: manifest.organizationId || manifest.organization?.id || 'staging-testnet-organization',
       organizationRole: 'admin',
       organizationPermissionGrants: ['asset_pack:deliver'],
-      interfaceSurface: 'terminal',
+      interfaceSurface: 'product',
       action: 'deliver_asset_pack',
       walletId: readerWalletId,
       targetAnchor: pullRequestUrl || null,

@@ -22,7 +22,7 @@ The UI should distinguish:
 
 - Use `apps/uapi/components/bitcode/*` for first-party Bitcode primitives.
 - Use shared shadcn wrappers only as low-level UI substrate.
-- Keep Terminal and Exchange semantics in component names where possible.
+- Keep Packs and Exchange semantics in component names where possible.
 - Avoid styling that hides critical execution/proof state behind generic cards.
 - Keep compatibility components wrapped by Bitcode naming at their public boundary.
 
@@ -37,5 +37,5 @@ The UI should distinguish:
 
 - Component names expose Bitcode product meaning.
 - Source, Read, fit, AssetPack, proof, and settlement states are visible where relevant.
-- Styling supports Terminal and Exchange comprehension instead of hiding execution state.
+- Styling supports Packs and Exchange comprehension instead of hiding execution state.
 - Compatibility component names are wrapped by Bitcode-facing boundaries.

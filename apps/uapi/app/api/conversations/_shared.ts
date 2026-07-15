@@ -54,12 +54,12 @@ const MOCK_CONVERSATIONS: MockConversationRow[] = [
   {
     id: 'conv-terminal-convergence',
     user_id: MOCK_USER.id,
-    title: 'Terminal convergence',
+    title: 'product convergence',
     created_at: '2026-04-16T10:40:00.000Z',
     updated_at: '2026-04-16T11:42:00.000Z',
     message_count: 9,
     attachment_count: 1,
-    last_message: 'Keep fullscreen conversations, activity runs, and write-side reservoirs aligned with the Terminal route.',
+    last_message: 'Keep fullscreen conversations, activity runs, and write-side reservoirs aligned with the product route.',
   },
   {
     id: 'conv-run-shippable-reuse',
@@ -69,7 +69,7 @@ const MOCK_CONVERSATIONS: MockConversationRow[] = [
     updated_at: '2026-04-16T10:21:00.000Z',
     message_count: 7,
     attachment_count: 2,
-    last_message: 'Preserve Terminal and Exchange reading surfaces while removing peer-product routing and sealing output destinations.',
+    last_message: 'Preserve Packs and Exchange reading surfaces while removing peer-product routing and sealing output destinations.',
   },
 ];
 
@@ -123,7 +123,7 @@ export function createMockConversation(title?: string) {
   return {
     id: `conv-${Date.now()}`,
     user_id: MOCK_USER.id,
-    title: (title || 'New Bitcode Terminal conversation').trim(),
+    title: (title || 'New Bitcode conversation').trim(),
     created_at: timestamp,
     updated_at: timestamp,
     message_count: 0,
@@ -145,7 +145,7 @@ export function getMockConversation(conversationId?: string) {
         id: `msg-${row.id}-user`,
         conversation_id: row.id,
         role: 'user',
-        content: `Resume the ${row.title.toLowerCase()} workstream inside the Bitcode Terminal.`,
+        content: `Resume the ${row.title.toLowerCase()} workstream inside the Bitcode.`,
         created_at: row.created_at,
         message_attachments: [],
       },
@@ -191,13 +191,13 @@ function buildMockAssistantReply(content: string) {
     return 'Bitcode mock mode is active. Ask for read measurement, AssetPack execution, source attachment, or settlement-bound output to inspect the fullscreen conversation flow.';
   }
 
-  return `Bitcode mock mode received "${normalized}". The conversation surface is now mounted inside the Bitcode Terminal and can bind source attachments, asset packs, output destinations, and settlement-bound proofs as V26 converges.`;
+  return `Bitcode mock mode received "${normalized}". The conversation surface is now mounted inside the Bitcode and can bind source attachments, asset packs, output destinations, and settlement-bound proofs as V26 converges.`;
 }
 
 function deriveConversationTitle(content: string) {
   const normalized = content.trim();
   if (!normalized) {
-    return 'New Bitcode Terminal conversation';
+    return 'New Bitcode conversation';
   }
   return normalized.length <= 72 ? normalized : `${normalized.slice(0, 69)}...`;
 }
@@ -247,7 +247,7 @@ function buildPipelineEvents(tokens: ConversationToken[]) {
             type: 'phase',
             phase: 'mock_execution',
             title: 'Mock Bitcode agentic execution',
-            summary: `Prepared ${executionLabel} evidence under the current Bitcode Terminal.`,
+            summary: `Prepared ${executionLabel} evidence under the current Bitcode.`,
           },
         },
       },
@@ -256,7 +256,7 @@ function buildPipelineEvents(tokens: ConversationToken[]) {
         data: {
           runId,
           success: true,
-          summary: `Mock ${executionLabel} completed for the current Bitcode Terminal review.`,
+          summary: `Mock ${executionLabel} completed for the current Bitcode review.`,
         },
       },
     ],

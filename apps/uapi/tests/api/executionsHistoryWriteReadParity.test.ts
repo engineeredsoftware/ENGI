@@ -1,4 +1,4 @@
-type TerminalClosureState = any;
+type ProductClosureState = any;
 /**
  * @jest-environment node
  */
@@ -11,12 +11,12 @@ import { supabaseAdmin } from '@bitcode/supabase';
 
 import { GET as getHistory, POST as postHistory } from '@/app/api/executions/history/route';
 import {
-  buildTerminalExecutionHistoryRequest,
-  buildTerminalDepositWorkbenchDraft,
-  buildTerminalReadMeasurementDraft,
+  buildProductExecutionHistoryRequest,
+  buildProductDepositWorkbenchDraft,
+  buildProductReadMeasurementDraft,
   mapExecutionHistoryRunToWorkspaceRun,
 } from '@/components/bitcode/pipeline/models/pipeline-activity-history';
-import type { TerminalRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
+import type { ProductRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
 
 function createExecutionHistoryStore(userId = 'user-1') {
   const storedRows: any[] = [];
@@ -110,7 +110,7 @@ function createExecutionHistoryStore(userId = 'user-1') {
 }
 
 describe('Bitcode execution-history write/read parity', () => {
-  const repositoryContext: TerminalRepositoryContextState = {
+  const repositoryContext: ProductRepositoryContextState = {
     provider: 'github',
     connectionStatus: {
       connected: true,
@@ -124,11 +124,11 @@ describe('Bitcode execution-history write/read parity', () => {
     selectedRepository: {
       id: 'repo-1',
       name: 'terminal',
-      fullName: 'bitcode/terminal',
+      fullName: 'bitcode/product',
       private: true,
       defaultBranch: 'main',
-      url: 'https://github.com/bitcode/terminal',
-      cloneUrl: 'https://github.com/bitcode/terminal.git',
+      url: 'https://github.com/bitcode/product',
+      cloneUrl: 'https://github.com/bitcode/product.git',
       owner: {
         id: 'owner-1',
         username: 'bitcode',
@@ -137,7 +137,7 @@ describe('Bitcode execution-history write/read parity', () => {
     },
   };
 
-  const closureState: TerminalClosureState = {
+  const closureState: ProductClosureState = {
     canonLabel: 'Bitcode active posture',
     readReview: {
       id: 'read-review',
@@ -186,7 +186,7 @@ describe('Bitcode execution-history write/read parity', () => {
       metrics: [{ label: 'History count', value: '1' }],
       rows: [{ label: 'Buyer pool', value: '120 BTD' }],
       chips: [],
-      recentRuns: [{ label: 'run-001', summary: 'bitcode/terminal · completed · credited 2' }],
+      recentRuns: [{ label: 'run-001', summary: 'bitcode/product · completed · credited 2' }],
     },
   };
 
@@ -197,8 +197,8 @@ describe('Bitcode execution-history write/read parity', () => {
   it('round-trips deposit, read, and closure writes through the same Bitcode activity ledger', async () => {
     const { storedRows } = createExecutionHistoryStore();
 
-    const depositRequest = buildTerminalExecutionHistoryRequest(
-      buildTerminalDepositWorkbenchDraft({
+    const depositRequest = buildProductExecutionHistoryRequest(
+      buildProductDepositWorkbenchDraft({
         canonLabel: 'Bitcode active posture',
         projectionPrincipal: 'depositor',
         branchMode: 'patch',
@@ -208,7 +208,7 @@ describe('Bitcode execution-history write/read parity', () => {
         deposit: {
           summary: 'Record supply-bearing share posture.',
           metrics: [{ label: 'Selected refs', value: '2' }],
-          rows: [{ label: 'Repository', value: 'bitcode/terminal' }],
+          rows: [{ label: 'Repository', value: 'bitcode/product' }],
           selectedEntries: [
             { id: 'entry-1', label: 'rollback runbook' },
             { id: 'entry-2', label: 'issuer patch' },
@@ -230,8 +230,8 @@ describe('Bitcode execution-history write/read parity', () => {
       }),
       { repositoryContext },
     );
-    const readRequest = buildTerminalExecutionHistoryRequest(
-      buildTerminalReadMeasurementDraft({
+    const readRequest = buildProductExecutionHistoryRequest(
+      buildProductReadMeasurementDraft({
         parserKind: 'benchmark-parser',
         selectedScenarioId: 'read-auth',
         closureCriteriaCount: 2,
@@ -240,7 +240,7 @@ describe('Bitcode execution-history write/read parity', () => {
           {
             id: 'read-auth',
             label: 'auth-remediation',
-            repo: 'bitcode/terminal',
+            repo: 'bitcode/product',
             profile: 'Targeted deposit',
             selected: true,
           },
@@ -248,7 +248,7 @@ describe('Bitcode execution-history write/read parity', () => {
       }),
       { repositoryContext },
     );
-    const closureRequest = buildTerminalExecutionHistoryRequest(
+    const closureRequest = buildProductExecutionHistoryRequest(
       {
         type: 'agentic-execution:proof-refresh',
         detailSection: 'closure',
@@ -307,7 +307,7 @@ describe('Bitcode execution-history write/read parity', () => {
     expect(depositPayload.execution).toEqual(
       expect.objectContaining({
         status: 'completed',
-        summary: 'Recorded deposit-side share posture for bitcode/terminal.',
+        summary: 'Recorded deposit-side share posture for bitcode/product.',
         repo_snapshot: {
           org: 'bitcode',
           repo: 'terminal',
@@ -347,7 +347,7 @@ describe('Bitcode execution-history write/read parity', () => {
     expect(historyPayload.map((row: any) => row.summary)).toEqual([
       'Recorded closure posture.',
       'Recorded read measurement for auth-remediation.',
-      'Recorded deposit-side share posture for bitcode/terminal.',
+      'Recorded deposit-side share posture for bitcode/product.',
     ]);
     expect(historyPayload[0]).toEqual(
       expect.objectContaining({

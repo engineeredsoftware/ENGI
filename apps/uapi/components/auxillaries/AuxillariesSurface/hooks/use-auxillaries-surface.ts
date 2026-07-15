@@ -78,12 +78,12 @@ export function useAuxillariesSurface({
   const router = useRouter();
   const pathname = usePathname();
   const routeStep = useMemo(() => parseAuxillaryPath(pathname), [pathname]);
-  const isTerminalRoute = Boolean(pathname?.startsWith('/packs'));
+  const isProductRoute = Boolean(pathname?.startsWith('/packs'));
   const isDedicatedAuxillariesRoute = isAuxillariesPath(pathname) || isAuxillariesCompatPath(pathname);
-  const usesTerminalOverlay = isTerminalRoute;
+  const usesProductOverlay = isProductRoute;
   const usesPortalOverlay = Boolean(onClose);
   const usesContainedAuxillariesSurface =
-    usesPortalOverlay || usesTerminalOverlay || isDedicatedAuxillariesRoute || Boolean(sessionUser);
+    usesPortalOverlay || usesProductOverlay || isDedicatedAuxillariesRoute || Boolean(sessionUser);
   const treatsContainedSurfaceAsAuxillaries = usesContainedAuxillariesSurface;
 
   const [activeWindow, setActiveWindow] = useState<'ConnectWindow' | 'AuxillariesWindow'>(windowProp);
@@ -412,7 +412,7 @@ export function useAuxillariesSurface({
   const usesBitcodeAuxillariesSurface = usesContainedAuxillariesSurface;
   const auxillariesSurfaceClass = isDedicatedAuxillariesRoute ? 'orbital-system-route' : 'orbital-system-overlay';
   const auxillariesBackgroundClass = usesContainedAuxillariesSurface
-    ? 'orbital-terminal-background'
+    ? 'orbital-product-background'
     : showConnectPane
       ? 'login-background-glow'
       : 'account-background-highlight';

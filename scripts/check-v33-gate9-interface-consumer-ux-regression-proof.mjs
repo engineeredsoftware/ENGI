@@ -239,7 +239,7 @@ function main() {
   assertCheck(failures, apiTest.includes('InterfaceConsumerUxRegressionProof for public API denied states'), 'Gate 9 public API test must consume UX proof.');
   assertCheck(failures, mcpTest.includes('InterfaceConsumerUxRegressionProof for MCP Finding Fits readability'), 'Gate 9 MCP test must consume UX proof.');
   assertCheck(failures, chatgptTest.includes('InterfaceConsumerUxRegressionProof for ChatGPT App blocked delivery'), 'Gate 9 ChatGPT App test must consume UX proof.');
-  assertCheck(failures, terminalTest.includes('InterfaceConsumerUxRegressionProof for Terminal handoff readability'), 'Gate 9 Terminal test must consume UX proof.');
+  assertCheck(failures, terminalTest.includes('InterfaceConsumerUxRegressionProof for product handoff readability'), 'Gate 9 product test must consume UX proof.');
   assertCheck(failures, specs.includes('InterfaceConsumerUxRegressionProof'), 'Gate 9 specs must name InterfaceConsumerUxRegressionProof.');
   assertCheck(failures, specs.includes('source-safe summary, proof roots, repair steps, and fee/rights preview'), 'Gate 9 specs must preserve closure acceptance wording.');
   assertCheck(failures, packageJson.includes('generate:v33-interface-consumer-ux-regression-proof'), 'Gate 9 package script missing generator.');

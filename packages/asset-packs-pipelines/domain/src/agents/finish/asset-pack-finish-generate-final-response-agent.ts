@@ -10,11 +10,11 @@ const FinalResponseOutputSchema = z.object({ message: z.string(), summary: z.any
 
 export const AssetPackFinishGenerateFinalResponseAgent = factoryPTRRAgent<any, z.infer<typeof FinalResponseOutputSchema>>({
   name: 'finish:asset-pack-generate-final-response-agent',
-  description: 'Generate final AssetPack response payload for API and Terminal surfaces',
+  description: 'Generate final AssetPack response payload for API and product surfaces',
   outputSchema: FinalResponseOutputSchema,
   prompt: (() => { 
     const p = new Prompt(); 
-    p.set('agent:identity', createPromptPart('You prepare a concise AssetPack Finish response for Bitcode API and Terminal surfaces.'));
+    p.set('agent:identity', createPromptPart('You prepare a concise AssetPack Finish response for Bitcode API and product surfaces.'));
     p.set('generation:json_only_header', PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER as any);
     p.set('generation:use_this_structure', PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA as any);
     p.set('failsafe:prepare_context', PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT as any);

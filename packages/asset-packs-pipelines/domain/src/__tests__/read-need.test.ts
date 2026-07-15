@@ -18,7 +18,7 @@ const input = {
   read: {
     id: 'read-1',
     prompt:
-      'Find whether the deposited repository has a complete Terminal path through Deposit, Read/Fit, AssetPack evidence, proof readback, and ledger reconciliation.',
+      'Find whether the deposited repository has a complete product path through Deposit, Read/Fit, AssetPack evidence, proof readback, and ledger reconciliation.',
   },
   sourceRevision: {
     repositoryFullName: 'engineeredsoftware/ENGI',
@@ -41,7 +41,7 @@ function depositoryAsset() {
         unitId: 'deposit-asset-1:unit-1',
         unitKind: 'repository-revision',
         text:
-          'Terminal path Deposit Read Fit AssetPack evidence proof root finality readback Supabase ledger reconciliation.',
+          'product path Deposit Read Fit AssetPack evidence proof root finality readback Supabase ledger reconciliation.',
       },
     ],
     verificationEvidence: {
@@ -187,9 +187,9 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
       .fn()
       .mockResolvedValueOnce({
         content: JSON.stringify({
-          analysis: 'The reader needs a source-bound Terminal readiness AssetPack.',
+          analysis: 'The reader needs a source-bound product readiness AssetPack.',
           steps: ['read request', 'bound source revision', 'extract closure criteria'],
-          conclusion: 'Synthesize a narrow Need for Terminal readiness evidence.',
+          conclusion: 'Synthesize a narrow Need for product readiness evidence.',
           confidence: 0.91,
         }),
       })
@@ -204,7 +204,7 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
       .mockResolvedValueOnce({
         content: JSON.stringify({
           requirements: [
-            'Find source-bound evidence for the Terminal Deposit and Reading path.',
+            'Find source-bound evidence for the Deposit and Reading path.',
             'Keep the Need constrained to the selected repository revision.',
           ],
           closureCriteria: [
@@ -221,7 +221,7 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
     const need = await synthesizeReadNeedForPipelineInputWithInference(input, execution);
 
     expect(llm).toHaveBeenCalledTimes(3);
-    expect(need.requirements).toContain('Find source-bound evidence for the Terminal Deposit and Reading path.');
+    expect(need.requirements).toContain('Find source-bound evidence for the Deposit and Reading path.');
     expect(need.closureCriteria).toContain('Finding Fits discovery must return source-bound fit deposit ids.');
     expect(need.failureModes).toContain('protected_source_disclosed_before_settlement');
     expect(need.targetArtifactKinds).toEqual(['asset-pack-evidence', 'proof-root']);

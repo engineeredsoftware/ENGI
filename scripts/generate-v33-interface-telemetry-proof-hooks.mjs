@@ -253,7 +253,7 @@ export function buildV33InterfaceTelemetryProofHooksArtifact() {
   const testEvidence = [
     scanTokens('packages/btd/__tests__/interface-telemetry-proof-hook.test.ts', [
       'publishes source-safe hooks for every required interface and posture',
-      'records execution and replay roots for Terminal, API, MCP, ChatGPT App, and package consumers',
+      'records execution and replay roots for product, API, MCP, ChatGPT App, and package consumers',
       'rejects secrets, prompt bodies, and protected payloads',
     ]),
     scanTokens('packages/api/src/routes/__tests__/btd-crypto.test.ts', [
@@ -269,7 +269,7 @@ export function buildV33InterfaceTelemetryProofHooksArtifact() {
       'interface.telemetry.chatgpt-reading-action',
     ]),
     scanTokens('apps/uapi/tests/terminalOrganizationAuthority.test.ts', [
-      'shares the package-owned InterfaceTelemetryProofHook for Terminal handoff replay',
+      'shares the package-owned InterfaceTelemetryProofHook for product handoff replay',
       'interface.telemetry.terminal-reading-handoff',
     ]),
   ];

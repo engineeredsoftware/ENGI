@@ -19,7 +19,7 @@ export const V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_SOURCE_SAFETY_VERDICT =
   'source-safe-interface-conversation-product-parity';
 
 export const V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_SURFACES = Object.freeze([
-  'terminal',
+  'product',
   'conversation',
   'public_api',
   'mcp_api',
@@ -36,7 +36,7 @@ export const V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_STAGE_IDS = Object.freeze
 ]);
 
 export const V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_ROW_IDS = Object.freeze([
-  'surface:terminal-authority',
+  'surface:product-authority',
   'surface:conversation-product-handoff',
   'surface:public-api-contract',
   'surface:mcp-reading-pipeline',
@@ -112,27 +112,27 @@ function row(input) {
     settlementPrivatePayloadVisible: false,
     credentialsSerialized: false,
     parallelAuthorityCreated: false,
-    sameAuthorityAsTerminal: true,
+    sameAuthorityAsProduct: true,
     forbiddenPayloadClasses: [...FORBIDDEN_PAYLOAD_CLASSES],
   };
 }
 
 export const V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_ROWS = Object.freeze([
   row({
-    rowId: 'surface:terminal-authority',
-    surface: 'terminal',
+    rowId: 'surface:product-authority',
+    surface: 'product',
     purpose:
-      'Keep Terminal as the Reading transaction authority for the five-step enterprise Reading product path.',
+      'Keep product as the Reading transaction authority for the five-step enterprise Reading product path.',
     sourceRoots: [SOURCE_ROOTS.parity, SOURCE_ROOTS.parityTest, SOURCE_ROOTS.v39Spec],
-    requiredEvidence: ['terminal-authority', 'acceptedNeedRequired', 'btdRightsRequiredForDelivery'],
+    requiredEvidence: ['product-authority', 'acceptedNeedRequired', 'btdRightsRequiredForDelivery'],
   }),
   row({
     rowId: 'surface:conversation-product-handoff',
     surface: 'conversation',
     purpose:
-      'Make Conversation a source-safe handoff into Terminal Reading authority rather than a parallel buyer authority.',
+      'Make Conversation a source-safe handoff into Product Reading authority rather than a parallel buyer authority.',
     sourceRoots: [SOURCE_ROOTS.parity, SOURCE_ROOTS.conversationTest, SOURCE_ROOTS.v39Spec],
-    requiredEvidence: ['conversation.terminal-reading-handoff', 'terminal-delegated-handoff', 'readingStage'],
+    requiredEvidence: ['conversation.product-reading-handoff', 'product-delegated-handoff', 'readingStage'],
   }),
   row({
     rowId: 'surface:public-api-contract',
@@ -146,7 +146,7 @@ export const V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_ROWS = Object.freeze([
     rowId: 'surface:mcp-reading-pipeline',
     surface: 'mcp_api',
     purpose:
-      'Bind MCP Reading pipeline tools to source-safe queueing, accepted Need admission, and downstream Terminal authority.',
+      'Bind MCP Reading pipeline tools to source-safe queueing, accepted Need admission, and downstream product authority.',
     sourceRoots: [SOURCE_ROOTS.parity, SOURCE_ROOTS.mcpTest],
     requiredEvidence: ['mcp_api', 'mcp.reading.pipeline', 'assetPackRightsContractRoot'],
   }),
@@ -215,7 +215,7 @@ function buildPredicateResults(repoRoot) {
   return [
     predicateResult('parity-defines-required-surfaces', SOURCE_ROOTS.parity, V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_SURFACES.every((surface) => parity.includes(`'${surface}'`))),
     predicateResult('parity-defines-required-stages', SOURCE_ROOTS.parity, V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_STAGE_IDS.every((stage) => parity.includes(`'${stage}'`))),
-    predicateResult('parity-enforces-terminal-authority', SOURCE_ROOTS.parity, parity.includes('sameAuthorityAsTerminal: true') && parity.includes('parallelAuthorityCreated: false')),
+    predicateResult('parity-enforces-product-authority', SOURCE_ROOTS.parity, parity.includes('sameAuthorityAsProduct: true') && parity.includes('parallelAuthorityCreated: false')),
     predicateResult('parity-enforces-no-bypass', SOURCE_ROOTS.parity, parity.includes('denied_without_accepted_need') && parity.includes('source_bearing_delivery_locked_until_settlement_and_rights')),
     predicateResult('parity-source-safety', SOURCE_ROOTS.parity, parity.includes('source_safe_reading_interface_product_parity_metadata') && parity.includes('rawProviderResponseVisible: false') && parity.includes('credentialsSerialized: false')),
     predicateResult('parity-composes-btd-primitives', SOURCE_ROOTS.parity, parity.includes('buildBtdInterfaceContractCatalog') && parity.includes('buildBtdReadLicenseAssetPackRightsInterfaceRegistry') && parity.includes('buildBtdInterfaceConsumerUxRegressionProof')),
@@ -224,7 +224,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('postprocess-emits-parity', SOURCE_ROOTS.postprocess, postprocess.includes('ensureReadingInterfaceProductParity') && postprocess.includes('readingInterfaceNoBypassReadback')),
     predicateResult('package-tests-cover-surfaces', SOURCE_ROOTS.parityTest, parityTest.includes('Conversation, API, MCP, ChatGPT App, and package consumers') && parityTest.includes('READING_INTERFACE_PRODUCT_PARITY_SURFACES')),
     predicateResult('package-tests-cover-persistence', SOURCE_ROOTS.parityTest, parityTest.includes('persists parity rows') && parityTest.includes("'reading/interfaces'")),
-    predicateResult('conversation-test-covers-parity', SOURCE_ROOTS.conversationTest, conversationTest.includes('conversation.terminal-reading-handoff') && conversationTest.includes('ReadingInterfaceProductParity')),
+    predicateResult('conversation-test-covers-parity', SOURCE_ROOTS.conversationTest, conversationTest.includes('conversation.product-reading-handoff') && conversationTest.includes('ReadingInterfaceProductParity')),
     predicateResult('mcp-test-covers-parity', SOURCE_ROOTS.mcpTest, mcpTest.includes('ReadingInterfaceProductParity') && mcpTest.includes('mcp_api')),
     predicateResult('chatgpt-test-covers-parity', SOURCE_ROOTS.chatgptTest, chatgptTest.includes('Gate 9') && chatgptTest.includes('settle before delivery')),
     predicateResult('docs-cover-gate9', SOURCE_ROOTS.v39Spec, spec.includes('ReadingInterfaceProductParity') && spec.includes('v39-interface-conversation-product-parity')),

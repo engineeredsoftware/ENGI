@@ -22,14 +22,14 @@ import {
 } from "@/components/deposits/models/deposit-explainers";
 import AuxillariesOpenButton from "@/components/auxillaries/AuxillariesOpenButton/AuxillariesOpenButton";
 import {
-  buildTerminalRepositoryAnchorDraft,
-  type TerminalActivityRecordDraft,
+  buildProductRepositoryAnchorDraft,
+  type ProductActivityRecordDraft,
 } from "@/components/bitcode/pipeline/models/pipeline-activity-history";
 import {
   DEPOSIT_COMMIT_LATEST_REF,
   getProviderLabel,
   normalizeRepositoryProvider,
-  type TerminalRepositoryContextState,
+  type ProductRepositoryContextState,
 } from "@/components/bitcode/pipeline/models/repository-context";
 import type { DepositRepositoryAnchor } from "@/components/deposits/models/deposit-repository-anchor";
 import { DepositSourceFieldGrid } from "@/components/deposits/DepositSourceFieldGrid/DepositSourceFieldGrid";
@@ -39,8 +39,8 @@ export type { DepositRepositoryAnchor };
 
 type DepositSourceSelectionProps = {
   preferredRepository?: string | null;
-  onContextChange?: (context: TerminalRepositoryContextState) => void;
-  onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
+  onContextChange?: (context: ProductRepositoryContextState) => void;
+  onRecordActivity?: (draft: ProductActivityRecordDraft) => Promise<unknown>;
   routePath: string;
   buildRouteHref: (params?: URLSearchParams | string | null) => string;
   /** Full-repo earnings estimate (sats) for the selected source, if available. */
@@ -240,7 +240,7 @@ export default function DepositSourceSelection({
     setRecordMessage(null);
     try {
       await onRecordActivity(
-        buildTerminalRepositoryAnchorDraft({
+        buildProductRepositoryAnchorDraft({
           provider,
           connectionStatus,
           inventorySource,

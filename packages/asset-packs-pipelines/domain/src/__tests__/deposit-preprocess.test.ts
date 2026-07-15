@@ -199,7 +199,7 @@ describe('deposit-mode preprocess context assembly', () => {
     const execution = new PipelineExecution('pipeline:read-preprocess-lens');
     const input = {
       mode: 'read',
-      read: 'Determine whether the deposited repository satisfies Terminal Read/Fit QA.',
+      read: 'Determine whether the deposited repository satisfies Read/Fit QA.',
       repository: { owner: 'octo', name: 'repo-x', branch: 'main' },
     };
 
@@ -210,7 +210,7 @@ describe('deposit-mode preprocess context assembly', () => {
 
     expect(execution.get('deposit', 'repository')).toBeUndefined();
     // The read-lens preprocess products land on the SHARED execution too.
-    expect(execution.get('pipeline', 'expressedRead')).toContain('Terminal Read/Fit QA');
+    expect(execution.get('pipeline', 'expressedRead')).toContain('Read/Fit QA');
     expect(execution.get('read/need', 'current')).toBeDefined();
   });
 });

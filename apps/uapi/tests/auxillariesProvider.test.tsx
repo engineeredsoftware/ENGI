@@ -50,7 +50,7 @@ describe('AuxillariesProvider', () => {
   it('creates a portal container and renders auxillaries when opened through the shared event bridge', () => {
     render(
       <AuxillariesProvider>
-        <div>Terminal</div>
+        <div>product</div>
       </AuxillariesProvider>,
     );
 
@@ -73,7 +73,7 @@ describe('AuxillariesProvider', () => {
   it('clears deep-linked pane state after close so later opens do not reuse a stale auxillaries pane', () => {
     render(
       <AuxillariesProvider>
-        <div>Terminal</div>
+        <div>product</div>
       </AuxillariesProvider>,
     );
 
@@ -99,7 +99,7 @@ describe('AuxillariesProvider', () => {
 
     render(
       <AuxillariesProvider>
-        <div>Terminal</div>
+        <div>product</div>
       </AuxillariesProvider>,
     );
 

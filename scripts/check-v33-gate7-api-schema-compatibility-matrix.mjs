@@ -205,7 +205,7 @@ function main() {
   assertCheck(failures, apiTest.includes('shares the package-owned API schema compatibility matrix for versionless public routes'), 'API tests must share Gate 7 matrix.');
   assertCheck(failures, mcpTest.includes('shares the package-owned API schema compatibility matrix for MCP tool calls'), 'MCP tests must share Gate 7 matrix.');
   assertCheck(failures, chatgptTest.includes('shares the package-owned API schema compatibility matrix for ChatGPT App blocked delivery'), 'ChatGPT App tests must share Gate 7 matrix.');
-  assertCheck(failures, terminalTest.includes('shares the package-owned API schema compatibility matrix for Terminal handoff rows'), 'Terminal tests must share Gate 7 matrix.');
+  assertCheck(failures, terminalTest.includes('shares the package-owned API schema compatibility matrix for product handoff rows'), 'product tests must share Gate 7 matrix.');
   assertCheck(failures, specs.includes('V33 Gate 7 API Schemas Examples And Compatibility Matrix'), 'Spec/roadmap must describe Gate 7 as current work.');
   assertCheck(failures, packageJson.includes('check:v33-gate7'), 'package.json must expose check:v33-gate7.');
   assertCheck(failures, workflow.includes('check-v33-gate7-api-schema-compatibility-matrix.mjs'), 'Gate workflow must run Gate 7 checker.');

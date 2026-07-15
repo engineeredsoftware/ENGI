@@ -17,7 +17,7 @@ import type { StreamToken } from '@/hooks/useConversationStream';
 
 export interface ConversationsOverlaySidePanelsProps {
   showSourceSelector: boolean;
-  showTerminalHandoff: boolean;
+  showProductHandoff: boolean;
   showPersistencePrivacy: boolean;
   showTelemetryProof: boolean;
   showRehearsalProof: boolean;
@@ -37,7 +37,7 @@ export interface ConversationsOverlaySidePanelsProps {
 export function ConversationsOverlaySidePanels(props: ConversationsOverlaySidePanelsProps) {
   const {
     showSourceSelector,
-    showTerminalHandoff,
+    showProductHandoff,
     showPersistencePrivacy,
     showTelemetryProof,
     showRehearsalProof,
@@ -70,7 +70,7 @@ export function ConversationsOverlaySidePanels(props: ConversationsOverlaySidePa
         </div>
       )}
 
-      {showTerminalHandoff && (
+      {showProductHandoff && (
         <ConversationProductHandoff
           conversationId={conversationId}
           transactionId={activeRunId}

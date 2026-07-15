@@ -98,7 +98,7 @@ describe('/api/conversations/[conversationId]/stream POST (non-mock mode)', () =
         data: {
           id: 'conv-bitcode-proof-closure',
           user_id: 'user-1',
-          title: 'Bitcode Terminal conversation',
+          title: 'Bitcode conversation',
         },
         error: null,
       }),
@@ -162,7 +162,7 @@ describe('/api/conversations/[conversationId]/stream POST (non-mock mode)', () =
           tokens: [
             {
               type: 'source',
-              value: 'bitcode-labs/terminal',
+              value: 'bitcode-labs/product',
               metadata: { attachment_id: 'repo-1', category: 'external', type: 'github_repo' },
             },
             {

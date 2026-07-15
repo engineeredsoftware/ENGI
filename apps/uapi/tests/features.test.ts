@@ -65,7 +65,7 @@ function loadFeatureFlags(nodeEnv: string, overrides: FeatureFlagOverrides = {})
 }
 
 describe('FEATURE_FLAGS', () => {
-  it('defaults the Terminal debug widget on locally and off in production', () => {
+  it('defaults the product debug widget on locally and off in production', () => {
     expect(loadFeatureFlags('development')?.PIPELINE_DEBUG_WIDGET).toBe(true);
     expect(loadFeatureFlags('production')?.PIPELINE_DEBUG_WIDGET).toBe(false);
   });

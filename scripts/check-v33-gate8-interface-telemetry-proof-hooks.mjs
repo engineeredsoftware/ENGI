@@ -192,7 +192,7 @@ function main() {
     assertCheck(failures, artifact.coverage.generatedProofRootRecorded === true, 'Gate 8 must record generated proof root.');
     assertCheck(failures, artifact.coverage.rootSetRootRecorded === true, 'Gate 8 must record root-set root.');
     assertCheck(failures, artifact.coverage.replayCommandRecorded === true, 'Gate 8 must record replay command.');
-    assertCheck(failures, artifact.coverage.terminalApiMcpChatGptJoined === true, 'Gate 8 must join Terminal, API, MCP, and ChatGPT App activity.');
+    assertCheck(failures, artifact.coverage.terminalApiMcpChatGptJoined === true, 'Gate 8 must join product, API, MCP, and ChatGPT App activity.');
     assertCheck(failures, artifact.coverage.protectedPayloadSerialized === false, 'Gate 8 artifact must not serialize protected payloads.');
     assertCheck(failures, artifact.coverage.credentialsSerialized === false, 'Gate 8 artifact must not serialize credentials.');
     assertCheck(failures, artifact.hookRows.every((row) => typeof row.executionId === 'string' && row.executionId.startsWith('execution-')), 'Every Gate 8 row must serialize executionId.');
@@ -231,12 +231,12 @@ function main() {
   ]) {
     assertCheck(failures, btdSource.includes(sourcePhrase), `BTD source must include ${sourcePhrase}.`);
   }
-  assertCheck(failures, btdTest.includes('records execution and replay roots for Terminal, API, MCP, ChatGPT App, and package consumers'), 'BTD tests must cover cross-interface replay roots.');
+  assertCheck(failures, btdTest.includes('records execution and replay roots for product, API, MCP, ChatGPT App, and package consumers'), 'BTD tests must cover cross-interface replay roots.');
   assertCheck(failures, btdTest.includes('rejects secrets, prompt bodies, and protected payloads'), 'BTD tests must cover source-safe rejection.');
   assertCheck(failures, apiTest.includes('shares the package-owned InterfaceTelemetryProofHook for public API readback replay'), 'API tests must share Gate 8 hook.');
   assertCheck(failures, mcpTest.includes('shares the package-owned InterfaceTelemetryProofHook for MCP pipeline replay'), 'MCP tests must share Gate 8 hook.');
   assertCheck(failures, chatgptTest.includes('shares the package-owned InterfaceTelemetryProofHook for ChatGPT App delivery blockers'), 'ChatGPT App tests must share Gate 8 hook.');
-  assertCheck(failures, terminalTest.includes('shares the package-owned InterfaceTelemetryProofHook for Terminal handoff replay'), 'Terminal tests must share Gate 8 hook.');
+  assertCheck(failures, terminalTest.includes('shares the package-owned InterfaceTelemetryProofHook for product handoff replay'), 'product tests must share Gate 8 hook.');
   assertCheck(failures, specs.includes('V33 Gate 8 Interface Telemetry And Proof Replay Hooks'), 'Spec/roadmap must describe Gate 8 as current work.');
   assertCheck(failures, packageJson.includes('check:v33-gate8'), 'package.json must expose check:v33-gate8.');
   assertCheck(failures, workflow.includes('check-v33-gate8-interface-telemetry-proof-hooks.mjs'), 'Gate workflow must run Gate 8 checker.');

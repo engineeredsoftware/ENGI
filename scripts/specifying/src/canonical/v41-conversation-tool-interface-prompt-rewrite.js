@@ -228,8 +228,8 @@ export const V41_CONVERSATION_TOOL_INTERFACE_PROMPT_REWRITE_ROWS = Object.freeze
   }),
   row({
     rewriteId: 'conversation-terminal-system-prompt-boundary',
-    label: 'Terminal conversation system prompt remains registry-composed and source-safe across route handoffs',
-    surfaceFamilyIds: ['Conversation', 'Interface', 'Terminal'],
+    label: 'product conversation system prompt remains registry-composed and source-safe across route handoffs',
+    surfaceFamilyIds: ['Conversation', 'Interface', 'product'],
     sourceRoots: [
       SOURCE_ROOTS.conversationSystemPrompt,
       SOURCE_ROOTS.uapiTerminalSystemPrompt,
@@ -385,8 +385,8 @@ export const V41_CONVERSATION_TOOL_INTERFACE_PROMPT_REWRITE_ROWS = Object.freeze
   }),
   row({
     rewriteId: 'terminal-public-api-interface-summary-boundary',
-    label: 'Terminal and public API summaries keep Conversation and Reading prompt outputs source-safe before settlement',
-    surfaceFamilyIds: ['Terminal', 'Public API', 'Interface'],
+    label: 'product and public API summaries keep Conversation and Reading prompt outputs source-safe before settlement',
+    surfaceFamilyIds: ['product', 'Public API', 'Interface'],
     sourceRoots: [
       SOURCE_ROOTS.uapiTerminalSystemPrompt,
       SOURCE_ROOTS.conversationRouteShared,
@@ -833,7 +833,7 @@ function buildPredicateResults(repoRoot) {
       'public-docs-cover-mcp-chatgpt-api-terminal-boundaries',
       'terminal-public-api-interface-summary-boundary',
       SOURCE_ROOTS.publicDocs,
-      publicDocs.includes('MCP/API') && publicDocs.includes('ChatGPT App') && publicDocs.includes('Terminal'),
+      publicDocs.includes('MCP/API') && publicDocs.includes('ChatGPT App') && publicDocs.includes('product'),
     ),
     predicate('gate7-source-exists', 'conversation-tool-interface-tests-docs-workflows', SOURCE_ROOTS.packageSource, sourceExists(repoRoot, SOURCE_ROOTS.packageSource)),
     predicate('gate7-test-exists', 'conversation-tool-interface-tests-docs-workflows', SOURCE_ROOTS.packageTest, sourceExists(repoRoot, SOURCE_ROOTS.packageTest)),
@@ -859,7 +859,7 @@ function buildPredicateResults(repoRoot) {
       SOURCE_ROOTS.spec,
       spec.includes('Gate 7 is closed by') &&
         delta.includes('Gate 7 is package-backed') &&
-        notes.includes('Conversation, tool-definition, MCP API, ChatGPT App, public API, Terminal'),
+        notes.includes('Conversation, tool-definition, MCP API, ChatGPT App, public API, product'),
     ),
     predicate(
       'roadmap-documents-gate7-closure',

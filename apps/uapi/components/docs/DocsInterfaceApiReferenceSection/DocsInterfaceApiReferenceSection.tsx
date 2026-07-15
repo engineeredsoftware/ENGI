@@ -16,7 +16,7 @@ export function DocsInterfaceApiReferenceSection({ sections }: { sections: reado
         </h2>
         <p className="mt-3 max-w-3xl text-sm leading-7 text-emerald-50/72">
           These references are grounded in the package code. Read them like API docs: when to call
-          the feature, how to shape the payload, what should come back, and where Terminal or
+          the feature, how to shape the payload, what should come back, and where product or
           Exchange should verify the result.
         </p>
       </div>

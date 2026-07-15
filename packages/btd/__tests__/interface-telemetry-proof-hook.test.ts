@@ -37,7 +37,7 @@ describe('Interface telemetry proof hooks', () => {
     ]);
   });
 
-  it('records execution and replay roots for Terminal, API, MCP, ChatGPT App, and package consumers', () => {
+  it('records execution and replay roots for product, API, MCP, ChatGPT App, and package consumers', () => {
     const terminal = getBtdInterfaceTelemetryProofHook('interface.telemetry.terminal-reading-handoff');
     const publicApi = getBtdInterfaceTelemetryProofHook('interface.telemetry.public-api-reading');
     const mcp = getBtdInterfaceTelemetryProofHook('interface.telemetry.mcp-reading-tool');

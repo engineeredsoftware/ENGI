@@ -189,7 +189,7 @@ function main() {
     assertCheck(failures, includesAll(artifact.coverage.observedGuideIds, REQUIRED_GUIDE_IDS), 'Public docs usage guide coverage must observe every guide.');
     assertCheck(failures, artifact.coverage.guideCount === REQUIRED_GUIDE_IDS.length, 'Public docs usage guides must prove twelve guide rows.');
     for (const [field, label] of [
-      ['terminalRepresented', 'Terminal'],
+      ['terminalRepresented', 'product'],
       ['protocolRepresented', 'Protocol'],
       ['auxillariesRepresented', 'Auxillaries'],
       ['mcpApiRepresented', 'MCP API'],

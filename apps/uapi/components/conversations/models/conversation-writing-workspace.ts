@@ -58,10 +58,10 @@ export const CONVERSATION_WRITING_WORKSPACE_MODES: Array<{
   },
   {
     id: 'product_handoff_summary',
-    label: 'Terminal Handoff Summary',
+    label: 'product Handoff Summary',
     shortLabel: 'Handoff',
-    draftScope: 'source-safe Terminal transaction intent summary',
-    placeholder: 'Draft a source-safe handoff summary for Terminal transaction work.',
+    draftScope: 'source-safe product transaction intent summary',
+    placeholder: 'Draft a source-safe handoff summary for product transaction work.',
   },
 ];
 

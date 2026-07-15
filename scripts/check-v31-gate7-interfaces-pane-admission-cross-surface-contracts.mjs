@@ -182,7 +182,7 @@ function main() {
   for (const docPhrase of [
     'Gate 7',
     'Interface admission',
-    'Terminal',
+    'product',
     'API',
     'MCP',
     'ChatGPT App',

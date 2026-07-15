@@ -68,7 +68,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('scripts/prepare-bitcode-spec-family-promotion.mjs', [
     "if (version === 'V35')",
     'V35 canonical system specification for telemetry and documentation depth',
-    'specifications/BITCODE_SPEC_V35_PROVEN.md',
+    'BITCODE_SPEC_V35_PROVEN.md',
     DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   ]),
   source('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
@@ -133,7 +133,7 @@ const REQUIRED_DOCUMENTATION_EVIDENCE = Object.freeze([
   ]),
   source('specifications/SPECIFICATIONS_ROADMAP.md', [
     'V35 Gate 10 closure anchor',
-    'specifications/BITCODE_SPEC_V35_PROVEN.md',
+    'BITCODE_SPEC_V35_PROVEN.md',
   ]),
   source('README.md', [
     'check:v35-gate10',

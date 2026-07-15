@@ -205,7 +205,7 @@ export const V38_ASSETPACK_SYNTHESIS_ECONOMIC_TRACEABILITY_ROWS = Object.freeze(
     rowId: 'settlement:unlock-and-post-settlement-delivery',
     phaseId: 'ReadFitsFindingSynthesis.settle',
     purpose:
-      'Unlock protected source and pull-request delivery only when BTC fee, BTD range, ownership/license rows, terminal journal, ledger anchor, and database readback agree.',
+      'Unlock protected source and pull-request delivery only when BTC fee, BTD range, ownership/license rows, BTD journal, ledger anchor, and database readback agree.',
     sourceRoots: [SOURCE_ROOTS.btdSettlement, SOURCE_ROOTS.btdSettlementTest, SOURCE_ROOTS.harness],
     receiptFields: [
       'btcFeeReceiptId',

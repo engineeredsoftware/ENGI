@@ -1,9 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "../../..",
+    "baseUrl": "../..",
     "ignoreDeprecations": "5.0",
     "noEmit": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "types": ["node", "jest"],
     "paths": {
       "@bitcode/btd": ["packages/btd/src/authority.ts"],

@@ -131,7 +131,7 @@ describe('/api/read-review', () => {
         body: JSON.stringify({
           action: 'synthesize_read_need',
           readId: 'read-activity',
-          readPrompt: 'Find a source-bound Terminal AssetPack fit.',
+          readPrompt: 'Find a source-bound product AssetPack fit.',
           sourceRevision: {
             repositoryFullName: 'engineeredsoftware/ENGI',
             branch: 'main',
@@ -151,7 +151,7 @@ describe('/api/read-review', () => {
     expect(payload.readRequest).toMatchObject({
       schema: 'bitcode.read.request',
       requestId: 'read-activity',
-      prompt: 'Find a source-bound Terminal AssetPack fit.',
+      prompt: 'Find a source-bound product AssetPack fit.',
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
@@ -162,7 +162,7 @@ describe('/api/read-review', () => {
       reviewState: 'needs_acceptance',
       read: {
         id: 'read-activity',
-        prompt: 'Find a source-bound Terminal AssetPack fit.',
+        prompt: 'Find a source-bound product AssetPack fit.',
         repositoryFullName: 'engineeredsoftware/ENGI',
         sourceBranch: 'main',
         sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
@@ -237,7 +237,7 @@ describe('/api/read-review', () => {
         body: JSON.stringify({
           action: 'synthesize_read_need',
           readId: 'read-activity',
-          readPrompt: 'Find a source-bound Terminal AssetPack fit.',
+          readPrompt: 'Find a source-bound product AssetPack fit.',
           sourceRevision: {
             repositoryFullName: 'engineeredsoftware/ENGI',
             branch: 'main',
@@ -253,7 +253,7 @@ describe('/api/read-review', () => {
         method: 'POST',
         body: JSON.stringify({
           action: 'resynthesize_read_need',
-          readPrompt: 'Find a source-bound Terminal AssetPack fit.',
+          readPrompt: 'Find a source-bound product AssetPack fit.',
           sourceRevision: {
             repositoryFullName: 'engineeredsoftware/ENGI',
             branch: 'main',
@@ -294,7 +294,7 @@ describe('/api/read-review', () => {
         method: 'POST',
         body: JSON.stringify({
           action: 'synthesize_read_need',
-          readPrompt: 'Find a source-bound Terminal AssetPack fit.',
+          readPrompt: 'Find a source-bound product AssetPack fit.',
           sourceRevision: {
             repositoryFullName: 'engineeredsoftware/ENGI',
             branch: 'main',
@@ -362,7 +362,7 @@ describe('/api/read-review', () => {
         method: 'POST',
         body: JSON.stringify({
           action: 'synthesize_read_need',
-          readPrompt: 'Find a source-bound Terminal AssetPack fit.',
+          readPrompt: 'Find a source-bound product AssetPack fit.',
           sourceRevision: {
             repositoryFullName: 'engineeredsoftware/ENGI',
             branch: 'main',

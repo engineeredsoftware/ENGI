@@ -529,7 +529,7 @@ function predicatesForRow(repoRoot, rowData) {
       predicate('runtime.replay-mode', rowId, SOURCE_ROOTS.readFitsRuntime, /source-safe-query-ranking-selected-fit-replay/u.test(runtime)),
       predicate('runtime.telemetry-root', rowId, SOURCE_ROOTS.readFitsRuntime, /telemetryRoot/u.test(runtime)),
       predicate('runtime.source-safe-selected-fit-evidence', rowId, SOURCE_ROOTS.readFitsRuntime, /sourceSafeSelectedFitEvidence/u.test(runtime)),
-      predicate('runtime.no-source-leak-test', rowId, SOURCE_ROOTS.readFitsRuntimeTest, /not\.toContain\('Terminal path Deposit Read Finding Fits'\)/u.test(source)),
+      predicate('runtime.no-source-leak-test', rowId, SOURCE_ROOTS.readFitsRuntimeTest, /not\.toContain\('product path Deposit Read Finding Fits'\)/u.test(source)),
     ];
   }
 

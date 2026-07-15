@@ -59,19 +59,19 @@ describe('ConversationWritingWorkspace', () => {
     expect(screen.getByLabelText('Need Feedback draft')).toHaveValue('Need should mention rollback evidence.');
 
     fireEvent.click(screen.getByRole('tab', { name: 'Handoff' }));
-    expect(screen.getByLabelText('Terminal Handoff Summary draft')).toBeInTheDocument();
+    expect(screen.getByLabelText('product Handoff Summary draft')).toBeInTheDocument();
   });
 
   it('helper functions redact source-bearing draft text before preview or handoff', () => {
     const token = ['sb', 'secret'].join('_') + '__localunsafevalue';
-    const draft = `password: ${token}\nPlease prepare the Terminal summary.`;
+    const draft = `password: ${token}\nPlease prepare the product summary.`;
     const summary = summarizeConversationWritingWorkspaceDraft('product_handoff_summary', draft);
     const handoff = buildConversationWritingWorkspaceHandoff('product_handoff_summary', draft);
 
     expect(summary.redactionApplied).toBe(true);
     expect(summary.sourceSafePreview).toContain('[redacted-secret-field]');
     expect(summary.sourceSafePreview).not.toContain(token);
-    expect(handoff.message).toContain('Terminal Handoff Summary');
+    expect(handoff.message).toContain('product Handoff Summary');
     expect(handoff.message).not.toContain(token);
   });
 });

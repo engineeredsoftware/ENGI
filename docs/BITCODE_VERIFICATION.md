@@ -28,7 +28,7 @@ Required proof areas:
 ## Acceptance
 
 Verification is insufficient if it only proves names. Fifth-gate proof must also show:
-- Terminal and Exchange read/write coherence,
+- Packs and Exchange read/write coherence,
 - Read review before fit search,
 - AssetPack and settlement receipt persistence,
 - connected-interface write admission,

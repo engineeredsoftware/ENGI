@@ -1,6 +1,6 @@
 /**
  * Read scenario state model.
- * Relocated from app/terminal/terminal-read-scenarios.
+ * Relocated from product experience components/read-scenarios.
  */
 
 type ShellSnapshot = {
@@ -21,7 +21,7 @@ type ShellSnapshot = {
   } | null;
 } | null;
 
-export type TerminalReadScenariosState = {
+export type ProductReadScenariosState = {
   selectedScenarioId: string;
   parserKind: string;
   closureCriteriaCount: number;
@@ -35,7 +35,7 @@ export type TerminalReadScenariosState = {
   }>;
 };
 
-export type TerminalReadFittingReviewState = {
+export type ProductReadFittingReviewState = {
   scenarioId: string;
   readId: string;
   task: string;
@@ -58,7 +58,7 @@ export type TerminalReadFittingReviewState = {
   blockedUntil: string;
 };
 
-export function normalizeTerminalReadScenarios(snapshot: ShellSnapshot): TerminalReadScenariosState | null {
+export function normalizeTerminalReadScenarios(snapshot: ShellSnapshot): ProductReadScenariosState | null {
   if (!snapshot) return null;
 
   const scenarios = (snapshot.scenarios || [])
@@ -115,7 +115,7 @@ function stringList(value: unknown): string[] {
     : [];
 }
 
-export function normalizeTerminalReadFittingReview(payload: unknown): TerminalReadFittingReviewState | null {
+export function normalizeTerminalReadFittingReview(payload: unknown): ProductReadFittingReviewState | null {
   const root = recordValue(payload);
   const review = recordValue(root.readFittingReview);
   if (!review.artifactKind && !root.reviewableRead) return null;

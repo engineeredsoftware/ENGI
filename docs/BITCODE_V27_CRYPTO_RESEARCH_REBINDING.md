@@ -27,7 +27,7 @@ V27 does not freeze production library installation as protocol law. The current
 - viem is the preferred low-level TypeScript Ethereum client candidate because the official docs emphasize stateless primitives, type safety, and transport/client separation. Source: https://viem.sh/docs/getting-started
 - wagmi is the preferred React wallet/hook candidate for Ethereum-adjacent UI if that surface becomes active, because official docs bind it to viem and React hooks. Source: https://wagmi.sh/react/getting-started
 
-These are candidates, not hard protocol dependencies. V27 source keeps Bitcoin fee signing, AssetPack anchor receipts, Exchange rights transfers, Terminal journals, reconciliation, telemetry, and upgrade receipts behind Bitcode package/API boundaries so future adapter changes do not alter protocol law.
+These are candidates, not hard protocol dependencies. V27 source keeps Bitcoin fee signing, AssetPack anchor receipts, Exchange rights transfers, BTD journals, reconciliation, telemetry, and upgrade receipts behind Bitcode package/API boundaries so future adapter changes do not alter protocol law.
 
 ## Implementation Implications
 
@@ -37,4 +37,4 @@ These are candidates, not hard protocol dependencies. V27 source keeps Bitcoin f
 - AssetPack anchors must bind AssetPack id, range, source manifest root, proof root, access policy hash, ledger transaction id/hash, and finality.
 - Ethereum registry/event anchors must be explicit and secondary; no Ethereum route may imply ERC-20-like `$BTD` fungibility.
 - Signed orders and intents require nonces/deadlines/domain separation because EIP-712 itself does not supply replay protection.
-- UI product surfaces must describe Terminal Read minting and minimal Exchange range transfer as V27, while reserving broader market depth for later work.
+- UI product surfaces must describe Read minting and minimal Exchange range transfer as V27, while reserving broader market depth for later work.

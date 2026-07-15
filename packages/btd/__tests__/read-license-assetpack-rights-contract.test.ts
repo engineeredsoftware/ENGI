@@ -7,10 +7,10 @@ import {
 } from '../src/read-license-assetpack-rights-contract';
 
 describe('ReadLicense and AssetPackRights interface contracts', () => {
-  it('publishes shared fixtures across API, MCP, ChatGPT App, and Terminal', () => {
+  it('publishes shared fixtures across API, MCP, ChatGPT App, and product', () => {
     const registry = buildBtdReadLicenseAssetPackRightsInterfaceRegistry();
 
-    expect(registry.observedSurfaces).toEqual(['api', 'chatgpt_app', 'mcp', 'terminal']);
+    expect(registry.observedSurfaces).toEqual(['api', 'chatgpt_app', 'mcp', 'product']);
     expect(registry.missingSurfaces).toEqual([]);
     expect(registry.readLicenseContracts).toHaveLength(4);
     expect(registry.assetPackRightsContracts).toHaveLength(4);
@@ -62,7 +62,7 @@ describe('ReadLicense and AssetPackRights interface contracts', () => {
 
   it('admits paid delivery only after confirmed BTC finality and rights transfer', () => {
     const fixture = getBtdReadLicenseAssetPackRightsInterfaceFixture(
-      'terminal-paid-rights-delivery',
+      'product-paid-rights-delivery',
     );
     const readLicense = buildBtdReadLicenseInterfaceContract(fixture.readLicenseInput);
     const rights = buildBtdAssetPackRightsInterfaceContract(fixture.assetPackRightsInput);
@@ -84,12 +84,12 @@ describe('ReadLicense and AssetPackRights interface contracts', () => {
 
   it('fails closed when required surface fixtures are missing', () => {
     const fixtures = buildBtdReadLicenseAssetPackRightsInterfaceFixtures().filter(
-      (fixture) => fixture.interfaceSurface !== 'terminal',
+      (fixture) => fixture.interfaceSurface !== 'product',
     );
 
     expect(() =>
       buildBtdReadLicenseAssetPackRightsInterfaceRegistry({ fixtures }),
-    ).toThrow(/missing surfaces: terminal/);
+    ).toThrow(/missing surfaces: product/);
   });
 
   it('rejects secret-shaped fixture strings', () => {
@@ -107,7 +107,7 @@ describe('ReadLicense and AssetPackRights interface contracts', () => {
 
   it('rejects paid delivery contracts without rights transfer receipt', () => {
     const fixture = getBtdReadLicenseAssetPackRightsInterfaceFixture(
-      'terminal-paid-rights-delivery',
+      'product-paid-rights-delivery',
     );
     const rights = buildBtdAssetPackRightsInterfaceContract({
       ...fixture.assetPackRightsInput,

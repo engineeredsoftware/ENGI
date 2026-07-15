@@ -88,14 +88,14 @@ function main() {
     'packages/btd/src/index.ts',
     'packages/btd/__tests__/btc-fee-operation.test.ts',
     'packages/api/src/routes/btd-crypto.ts',
-    'apps/uapi/app/terminal/terminal-transaction-query.ts',
-    'apps/uapi/app/terminal/terminal-transaction-read-model.ts',
-    'apps/uapi/app/terminal/terminal-wallet-btc-operation.ts',
-    'apps/uapi/app/terminal/TerminalTransactionWalletBtcCard.tsx',
-    'apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-query.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-read-model.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-wallet-btc-operation.ts',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionWalletBtcCard.tsx',
+    'apps/uapi/app/ (removed cockpit tree) ProductTransactionDetailSurface.tsx',
     'apps/uapi/tests/terminalWalletBtcOperation.test.ts',
     'apps/uapi/tests/terminalTransactionReadModel.test.ts',
-    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -112,14 +112,14 @@ function main() {
   const btdIndex = read(root, 'packages/btd/src/index.ts');
   const btdTest = read(root, 'packages/btd/__tests__/btc-fee-operation.test.ts');
   const apiRoute = read(root, 'packages/api/src/routes/btd-crypto.ts');
-  const query = read(root, 'apps/uapi/app/terminal/terminal-transaction-query.ts');
-  const readModel = read(root, 'apps/uapi/app/terminal/terminal-transaction-read-model.ts');
-  const terminalOperation = read(root, 'apps/uapi/app/terminal/terminal-wallet-btc-operation.ts');
-  const terminalCard = read(root, 'apps/uapi/app/terminal/TerminalTransactionWalletBtcCard.tsx');
-  const detailSurface = read(root, 'apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx');
+  const query = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-transaction-query.ts');
+  const readModel = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-transaction-read-model.ts');
+  const terminalOperation = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-wallet-btc-operation.ts');
+  const terminalCard = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalTransactionWalletBtcCard.tsx');
+  const detailSurface = read(root, 'apps/uapi/app/ (removed cockpit tree) ProductTransactionDetailSurface.tsx');
   const terminalTest = read(root, 'apps/uapi/tests/terminalWalletBtcOperation.test.ts');
   const readModelTest = read(root, 'apps/uapi/tests/terminalTransactionReadModel.test.ts');
-  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 
@@ -165,21 +165,21 @@ function main() {
       readModel.includes("'wallet-btc'") &&
       readModel.includes('Wallet/BTC') &&
       readModel.includes('No wallet signer session, BTC fee quote, PSBT, or finality readback is attached yet.'),
-    'Terminal query/read model must expose the Wallet/BTC detail section and empty blocker.',
+    'product query/read model must expose the Wallet/BTC detail section and empty blocker.',
   );
   assertCheck(
     failures,
     terminalOperation.includes('buildTerminalWalletBtcOperationProjection') &&
       terminalOperation.includes('Server custody') &&
       terminalOperation.includes('Replacement transaction must be reconciled'),
-    'Terminal Wallet/BTC projection must expose state, custody, and replacement blockers.',
+    'product Wallet/BTC projection must expose state, custody, and replacement blockers.',
   );
   assertCheck(
     failures,
     terminalCard.includes('TerminalTransactionWalletBtcCard') &&
       terminalCard.includes('Blocked readiness') &&
       terminalCard.includes('Wallet and BTC payload'),
-    'Terminal Wallet/BTC card must render readable blockers and raw audit payload.',
+    'product Wallet/BTC card must render readable blockers and raw audit payload.',
   );
   assertCheck(
     failures,
@@ -192,7 +192,7 @@ function main() {
     terminalTest.includes('confirmed BTC fee settlement') &&
       terminalTest.includes('replacement') &&
       terminalTest.includes('missing quote readiness'),
-    'Terminal Wallet/BTC tests must cover confirmed and blocked states.',
+    'product Wallet/BTC tests must cover confirmed and blocked states.',
   );
   assertCheck(
     failures,
@@ -202,7 +202,7 @@ function main() {
   assertCheck(
     failures,
     terminalReadme.includes('Wallet/BTC') && terminalReadme.includes('quote root'),
-    'Terminal README must document the Wallet/BTC section.',
+    'product README must document the Wallet/BTC section.',
   );
   assertCheck(failures, packageJson.includes('"check:v29-gate3"'), 'package.json must expose check:v29-gate3.');
   assertCheck(

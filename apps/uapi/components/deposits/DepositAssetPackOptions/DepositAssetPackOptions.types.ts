@@ -32,7 +32,7 @@ export type DepositAssetPackOptionsProps = {
   onResynthesize: (optionId: string, instructions: string) => void | Promise<void>;
   onAnchorOption: (option: DepositRealSynthesisOption) => void | Promise<void>;
   // Activity draft shape is owned by the pipeline activity history model;
-  // keep this open so the page client can pass TerminalActivityRecordDraft.
+  // keep this open so the page client can pass ProductActivityRecordDraft.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onRecordActivity: (draft: any) => void | Promise<unknown>;
 };

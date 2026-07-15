@@ -13,7 +13,7 @@ import {
 const acceptedNeed = acceptReadNeed(
   synthesizeReadNeedForPipelineInput({
     read: {
-      prompt: 'Find a source-safe AssetPack fit for Terminal settlement proof.',
+      prompt: 'Find a source-safe AssetPack fit for product settlement proof.',
     },
     sourceRevision: {
       repositoryFullName: 'engineeredsoftware/ENGI',

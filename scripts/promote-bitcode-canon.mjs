@@ -1832,7 +1832,7 @@ async function buildDerivedV25CommitMessageBody(commit) {
  */
 async function buildDerivedV28CommitMessageBody(commit) {
   const { spec, delta, parity } = await readSpecFamily('V28');
-  const scope = extractStatusValue(spec, 'Scope') || 'V28 canonical system specification for commercial Protocol implementation and Terminal MVP QA';
+  const scope = extractStatusValue(spec, 'Scope') || 'V28 canonical system specification for commercial Protocol implementation and product MVP QA';
   const focus = deriveScopeFocus(scope);
   const decisionSection = extractSection(delta, 'Accepted V28 decisions');
   const acceptedDecisions = extractOrderedItems(decisionSection).map(stripMarkdown);
@@ -1852,7 +1852,7 @@ async function buildDerivedV28CommitMessageBody(commit) {
 
   const prioritizedAreas = [
     'Pipeline runtime deployment reality',
-    'Five-step Terminal Reading UX',
+    'Five-step Reading UX',
     'Depository Finding Fits discovery',
     'Source-safe preview and Share-to-Fee',
     'Buy AssetPack and settle',
@@ -1885,7 +1885,7 @@ async function buildDerivedV28CommitMessageBody(commit) {
  */
 async function buildDerivedV29CommitMessageBody(commit) {
   const { spec, delta, parity } = await readSpecFamily('V29');
-  const scope = extractStatusValue(spec, 'Scope') || 'V29 canonical system specification for Terminal transaction depth';
+  const scope = extractStatusValue(spec, 'Scope') || 'V29 canonical system specification for product transaction depth';
   const focus = deriveScopeFocus(scope);
   const decisionSection = extractSection(delta, 'Accepted V29 decisions');
   const acceptedDecisions = extractOrderedItems(decisionSection).map(stripMarkdown);
@@ -1901,14 +1901,14 @@ async function buildDerivedV29CommitMessageBody(commit) {
   }
 
   const prioritizedAreas = [
-    'Terminal transaction read models',
+    'product transaction read models',
     'Wallet signer/BTC operations',
     'Reading pipeline observability',
     'AssetPack disclosure rights',
     'Settlement reconciliation repair',
     'Organization permission authority',
     'Commercial formalization',
-    'Terminal UX quality',
+    'product UX quality',
     'Promotion readiness'
   ];
   for (const area of prioritizedAreas) {
@@ -2283,7 +2283,7 @@ async function buildDerivedV36CommitMessageBody(commit) {
     'Pricing quote',
     'Settlement reconciliation',
     'Dispute repair revenue routes',
-    'Exchange UX and Terminal integration',
+    'Exchange UX and product integration',
     'Local staging rehearsal',
     'Promotion readiness'
   ];
@@ -2336,7 +2336,7 @@ async function buildDerivedV37CommitMessageBody(commit) {
     'Conversation stream events',
     'Writing workspace',
     'Source selectors',
-    'Terminal handoff',
+    'product handoff',
     'Persistence privacy redaction',
     'Telemetry proof hooks docs',
     'Local staging rehearsal',
@@ -2503,7 +2503,7 @@ async function buildDerivedV40CommitMessageBody(commit) {
     'Unit coverage',
     'API integration contracts',
     'Reading pipeline integration',
-    'Conversation and Terminal integration',
+    'Conversation and product integration',
     'Browser E2E and visual proof',
     'Ledger storage synchronization',
     'Local staging rehearsal automation',

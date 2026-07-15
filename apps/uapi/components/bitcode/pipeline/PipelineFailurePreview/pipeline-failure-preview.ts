@@ -4,7 +4,7 @@
  * plus a source-safe error message.
  */
 
-export interface TerminalCallChainLine {
+export interface ProductCallChainLine {
   phase?: string | null;
   agent?: string | null;
   step?: string | null;
@@ -15,7 +15,7 @@ export interface TerminalCallChainLine {
 
 export interface PipelineFailurePreview {
   errorMessage: string | null;
-  lines: TerminalCallChainLine[];
+  lines: ProductCallChainLine[];
 }
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -36,7 +36,7 @@ function readExecutionState(payload: Record<string, unknown> | null): Record<str
   return nested || {};
 }
 
-function chainKey(line: TerminalCallChainLine): string {
+function chainKey(line: ProductCallChainLine): string {
   return [line.phase, line.agent, line.step, line.failsafe, line.generation]
     .map((part) => String(part || '').toLowerCase())
     .join('|');
@@ -51,7 +51,7 @@ export function buildPipelineFailurePreviewFromEvents(
   options: { errorMessage?: string | null; limit?: number } = {},
 ): PipelineFailurePreview {
   const limit = Math.max(1, Math.min(options.limit ?? 5, 12));
-  const collected: TerminalCallChainLine[] = [];
+  const collected: ProductCallChainLine[] = [];
   const list = Array.isArray(events) ? events : [];
 
   for (let i = list.length - 1; i >= 0 && collected.length < limit; i -= 1) {
@@ -62,7 +62,7 @@ export function buildPipelineFailurePreviewFromEvents(
     // Skip pure error rows as call-chain (error is surfaced separately).
     if (asString(payload.type) === 'error') continue;
     const state = readExecutionState(payload);
-    const line: TerminalCallChainLine = {
+    const line: ProductCallChainLine = {
       phase:
         asString(state.phase) ||
         asString(payload.phase) ||
@@ -88,7 +88,7 @@ export function buildPipelineFailurePreviewFromEvents(
   };
 }
 
-export function isTerminalFailureStatus(status: string | null | undefined): boolean {
+export function isFinalFailureStatus(status: string | null | undefined): boolean {
   const normalized = String(status || '').trim().toLowerCase();
   return (
     normalized === 'failed' ||

@@ -2,7 +2,6 @@
 
 /**
  * Demonstration / operator shell bridge context for product surfaces.
- * Relocated from app/terminal/terminal-shell-bridge.
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
 
@@ -18,7 +17,7 @@ import {
   type ReactNode,
 } from 'react';
 
-// Demonstration witness runtime (legacy shell bridge; product routes no longer host /terminal).
+// Demonstration witness runtime (shell bridge for product surfaces).
 import {
   readBitcodeDemonstrationShellControls,
   readBitcodeDemonstrationShellSnapshot,

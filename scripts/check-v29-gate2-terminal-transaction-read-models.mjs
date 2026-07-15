@@ -47,7 +47,7 @@ function printHelp() {
     [
       'Usage: node scripts/check-v29-gate2-terminal-transaction-read-models.mjs [--skip-branch-check] [--repo-root <path>]',
       '',
-      'Checks V29 Gate 2 Terminal transaction read-model and navigation closure.',
+      'Checks V29 Gate 2 product transaction read-model and navigation closure.',
     ].join('\n'),
   );
   process.stdout.write('\n');
@@ -84,15 +84,15 @@ function main() {
     'specifications/BITCODE_SPEC_V29_DELTA.md',
     'specifications/BITCODE_SPEC_V29_NOTES.md',
     'specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
-    'apps/uapi/app/terminal/terminal-transaction-read-model.ts',
-    'apps/uapi/app/terminal/terminal-transaction-query.ts',
-    'apps/uapi/app/terminal/TerminalPageClient.tsx',
-    'apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx',
-    'apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx',
-    'apps/uapi/app/terminal/TerminalTransactionDetailActionBar.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-read-model.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-query.ts',
+    'apps/uapi/app/ (removed cockpit tree) TerminalPageClient.tsx',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionWorkspace.tsx',
+    'apps/uapi/app/ (removed cockpit tree) ProductTransactionDetailSurface.tsx',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionDetailActionBar.tsx',
     'apps/uapi/tests/terminalTransactionReadModel.test.ts',
     'apps/uapi/tests/terminalTransactionQuery.test.ts',
-    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -105,27 +105,27 @@ function main() {
   const delta = read(root, 'specifications/BITCODE_SPEC_V29_DELTA.md');
   const notes = read(root, 'specifications/BITCODE_SPEC_V29_NOTES.md');
   const parity = read(root, 'specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
-  const readModel = read(root, 'apps/uapi/app/terminal/terminal-transaction-read-model.ts');
-  const query = read(root, 'apps/uapi/app/terminal/terminal-transaction-query.ts');
-  const pageClient = read(root, 'apps/uapi/app/terminal/TerminalPageClient.tsx');
-  const detailSurface = read(root, 'apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx');
-  const actionBar = read(root, 'apps/uapi/app/terminal/TerminalTransactionDetailActionBar.tsx');
+  const readModel = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-transaction-read-model.ts');
+  const query = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-transaction-query.ts');
+  const pageClient = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalPageClient.tsx');
+  const detailSurface = read(root, 'apps/uapi/app/ (removed cockpit tree) ProductTransactionDetailSurface.tsx');
+  const actionBar = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalTransactionDetailActionBar.tsx');
   const readModelTest = read(root, 'apps/uapi/tests/terminalTransactionReadModel.test.ts');
   const queryTest = read(root, 'apps/uapi/tests/terminalTransactionQuery.test.ts');
-  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 
-  assertCheck(failures, spec.includes('V29 Terminal transaction read-model canon'), 'V29 SPEC must define the Terminal transaction read-model canon.');
+  assertCheck(failures, spec.includes('V29 product transaction read-model canon'), 'V29 SPEC must define the product transaction read-model canon.');
   assertCheck(failures, delta.includes('Closure acceptance:'), 'V29 DELTA must list Gate 2 closure acceptance.');
   assertCheck(failures, notes.includes('Gate 2 working notes'), 'V29 NOTES must carry Gate 2 working notes.');
   assertCheck(failures, parity.includes('## Gate 2 Parity'), 'V29 PARITY must include Gate 2 parity.');
   assertCheck(failures, parity.includes('Gate 2 completion condition'), 'V29 PARITY must include Gate 2 completion condition.');
 
   for (const requiredSymbol of [
-    'TerminalTransactionReadModel',
+    'ProductTransactionReadModel',
     'TerminalTransactionSectionReadModel',
-    'buildTerminalTransactionReadModel',
+    'buildProductTransactionReadModel',
     'TerminalTransactionSectionAvailability',
     'routeHref',
     'payloadAvailable',
@@ -142,16 +142,16 @@ function main() {
   assertCheck(
     failures,
     query.includes('shouldRecoverTerminalTransactionRoute'),
-    'Terminal query helpers must expose default route recovery.',
+    'product query helpers must expose default route recovery.',
   );
   assertCheck(
     failures,
     pageClient.includes('shouldRecoverTerminalTransactionRoute'),
-    'Terminal page must use route recovery for the first selectable transaction.',
+    'product page must use route recovery for the first selectable transaction.',
   );
   assertCheck(
     failures,
-    detailSurface.includes('buildTerminalTransactionReadModel') &&
+    detailSurface.includes('buildProductTransactionReadModel') &&
       detailSurface.includes('detailActions={transactionReadModel.sections.map'),
     'Detail surface must derive and use the typed transaction read model.',
   );
@@ -162,7 +162,7 @@ function main() {
   );
   assertCheck(
     failures,
-    readModelTest.includes('buildTerminalTransactionReadModel') &&
+    readModelTest.includes('buildProductTransactionReadModel') &&
       readModelTest.includes('route.selectionRecoverable') &&
       readModelTest.includes("availability: 'blocked'"),
     'Read-model tests must cover route recovery and blocked sections.',
@@ -174,9 +174,9 @@ function main() {
   );
   assertCheck(
     failures,
-    terminalReadme.includes('TerminalTransactionReadModel') &&
+    terminalReadme.includes('ProductTransactionReadModel') &&
       terminalReadme.includes('Former `runId` links are still accepted on read and rewritten on write.'),
-    'Terminal README must document the Gate 2 read-model and legacy runId rewrite.',
+    'product README must document the Gate 2 read-model and legacy runId rewrite.',
   );
   assertCheck(failures, packageJson.includes('"check:v29-gate2"'), 'package.json must expose check:v29-gate2.');
   assertCheck(
@@ -197,17 +197,17 @@ function main() {
   assertCheck(
     failures,
     versionedTerminalSource.length === 0,
-    `Terminal source identifiers must remain unversioned. Found:\n${versionedTerminalSource}`,
+    `product source identifiers must remain unversioned. Found:\n${versionedTerminalSource}`,
   );
 
   if (failures.length > 0) {
-    process.stderr.write('V29 Gate 2 Terminal transaction read-model check failed:\n');
+    process.stderr.write('V29 Gate 2 product transaction read-model check failed:\n');
     for (const failure of failures) process.stderr.write(`- ${failure}\n`);
     process.exitCode = 1;
     return;
   }
 
-  process.stdout.write(`V29 Gate 2 Terminal transaction read-model ok pointer=${pointer}\n`);
+  process.stdout.write(`V29 Gate 2 product transaction read-model ok pointer=${pointer}\n`);
 }
 
 try {

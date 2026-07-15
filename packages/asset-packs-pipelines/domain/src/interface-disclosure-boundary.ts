@@ -63,7 +63,7 @@ export interface InterfaceDisclosureRouteVocabulary {
   };
   forbiddenCurrentProductLanguage: [
     'Exchange as current product',
-    'Terminal as current product authority',
+    'product as current product authority',
   ];
 }
 
@@ -164,7 +164,7 @@ const ROUTE_VOCABULARY: InterfaceDisclosureRouteVocabulary = {
   },
   forbiddenCurrentProductLanguage: [
     'Exchange as current product',
-    'Terminal as current product authority',
+    'product as current product authority',
   ],
 };
 

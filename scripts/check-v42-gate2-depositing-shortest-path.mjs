@@ -115,10 +115,10 @@ function main() {
     'scripts/specifying/server.js',
     'scripts/specifying/src/bitcode-demo.js',
     'apps/uapi/app/api/deposits/route.ts',
-    'apps/uapi/app/terminal/TerminalDepositComposer.tsx',
-    'apps/uapi/app/terminal/terminal-activity-history.ts',
-    'apps/uapi/app/terminal/terminal-deposit-read-workbench.ts',
-    'apps/uapi/app/terminal/terminal-run-data.ts',
+    'apps/uapi/app/ (removed cockpit tree) TerminalDepositComposer.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-activity-history.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-deposit-read-workbench.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-run-data.ts',
     'scripts/generate-v42-depositing-shortest-path.mjs',
     'scripts/check-v42-gate2-depositing-shortest-path.mjs',
     'specifications/BITCODE_SPEC_V42.md',
@@ -199,7 +199,7 @@ function main() {
     assertCheck(failures, artifact.coverage.storageProjectionCovered === true, 'Gate 2 must cover storage projection.');
     assertCheck(failures, artifact.coverage.depositorySearchDocumentCovered === true, 'Gate 2 must cover Depository search documents.');
     assertCheck(failures, artifact.coverage.sourceToSharesCompensationReadbackCovered === true, 'Gate 2 must cover source-to-shares compensation readback.');
-    assertCheck(failures, artifact.coverage.terminalCompensationVisibilityCovered === true, 'Gate 2 must cover Terminal compensation visibility.');
+    assertCheck(failures, artifact.coverage.terminalCompensationVisibilityCovered === true, 'Gate 2 must cover product compensation visibility.');
     assertCheck(failures, artifact.coverage.localStagingRehearsalCovered === true, 'Gate 2 must cover local/staging rehearsal posture.');
     assertCheck(failures, artifact.coverage.sourceSafeMetadataOnly === true, 'Gate 2 must remain source-safe metadata only.');
     assertCheck(failures, artifact.coverage.protectedSourceVisible === false, 'Gate 2 artifact must not expose protected source.');

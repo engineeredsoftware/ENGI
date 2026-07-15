@@ -10,7 +10,7 @@ import {
 import { fetchIssuesAndPRs as fetchIssuesAPI, fetchFiles as fetchFilesAPI, fetchAccounts } from '@/networking/api-client';
 
 /**
- * VCS data interface for Terminal repository context and Finish delivery
+ * VCS data interface for product repository context and Finish delivery
  * mechanism selectors.
  */
 export interface VCSData {

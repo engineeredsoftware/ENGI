@@ -306,7 +306,7 @@ function getScenarioFeatures(scenario) {
 - **GitHub:** Repository connection prompts
 - **Organizations:** Team invitation workflows
 - **Marketplace:** Discovery and browsing experience
-- **BTD holdings:** Initial BTD acquisition and Terminal minting previews`,
+- **BTD holdings:** Initial BTD acquisition and product minting previews`,
 
     empty: `
 ### Empty State Testing

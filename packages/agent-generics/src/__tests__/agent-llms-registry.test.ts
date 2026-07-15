@@ -55,6 +55,11 @@ const ENV_KEYS = [
   'BITCODE_LLM_MODEL',
   'BITCODE_LLM_CALL_TIMEOUT_MS',
   'OPENAI_API_KEY',
+  // Provider-key precedence is anthropic → google → openai (generic-llms defaults).
+  // Snapshot and clear these so host-shell keys cannot make fallback tests flake.
+  'ANTHROPIC_API_KEY',
+  'GOOGLE_API_KEY',
+  'GOOGLE_GENERATIVE_AI_API_KEY',
 ];
 let envSnapshot: Record<string, string | undefined>;
 
@@ -98,6 +103,9 @@ describe('AgentExecution — default-LLM env resolution (BITCODE_LLM_*)', () => 
   it('falls back to the API-key-derived provider and its default model when BITCODE_LLM_* are unset', async () => {
     delete process.env.BITCODE_LLM_PROVIDER;
     delete process.env.BITCODE_LLM_MODEL;
+    delete process.env.ANTHROPIC_API_KEY;
+    delete process.env.GOOGLE_API_KEY;
+    delete process.env.GOOGLE_GENERATIVE_AI_API_KEY;
     process.env.OPENAI_API_KEY = 'test-key-openai';
 
     const agentExec = new AgentExecution('agent:env-fallback');

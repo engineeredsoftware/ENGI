@@ -12,7 +12,7 @@ import {
 const input = {
   read: {
     id: 'read-1',
-    prompt: 'Find Terminal Reading proof evidence without leaking protected source.',
+    prompt: 'Find Reading proof evidence without leaking protected source.',
   },
   sourceRevision: {
     repositoryFullName: 'engineeredsoftware/ENGI',
@@ -88,7 +88,7 @@ describe('ReadNeed review, resynthesis, and admission runtime', () => {
     const second = synthesizeReadNeedForPipelineInput({
       ...input,
       previousReadNeed: first,
-      feedback: ['Narrow to Terminal proof readback.'],
+      feedback: ['Narrow to product proof readback.'],
     });
     const runtime = buildReadNeedReviewResynthesisRuntime({
       action: 'resynthesize_read_need',
@@ -104,7 +104,7 @@ describe('ReadNeed review, resynthesis, and admission runtime', () => {
     ).toMatchObject({
       feedbackHistory: [
         'Prefer source-safe proof language.',
-        'Narrow to Terminal proof readback.',
+        'Narrow to product proof readback.',
       ],
       feedbackCount: 2,
     });

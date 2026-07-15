@@ -72,7 +72,7 @@ const guideRows = Object.freeze([
   {
     guideId: 'terminal_usage',
     publicRoute: '/docs/product-workspace',
-    title: 'Terminal usage guide',
+    title: 'product usage guide',
     audience: ['enterprise_readers', 'depositors', 'operators'],
     guideIntent: 'Orient users inside the Deposit/Read operator surface before they write or trust a result.',
     canonicalTruth: ['specifications/BITCODE_SPEC_V35.md', 'DocumentationSurfaceCatalog', 'TelemetryTaxonomyCatalog'],
@@ -85,8 +85,8 @@ const guideRows = Object.freeze([
     docsSections: ['terminal', 'terminal-actions', 'read-results'],
     proofSignals: ['terminal activity detail', 'execution stream metadata', 'ledger reread posture'],
     disclosureNotes: [
-      'Terminal docs may describe source-safe status and proof posture.',
-      'Terminal docs must not reveal unpaid AssetPack source or raw protected prompts.',
+      'product docs may describe source-safe status and proof posture.',
+      'product docs must not reveal unpaid AssetPack source or raw protected prompts.',
     ],
   },
   {
@@ -158,7 +158,7 @@ const guideRows = Object.freeze([
     publicRoute: '/docs/chatgpt-app',
     title: 'ChatGPT App usage guide',
     audience: ['chatgpt_app_consumers', 'enterprise_readers', 'operators'],
-    guideIntent: 'Explain conversational Bitcode operation while preserving confirmation, write admission, and Terminal reread boundaries.',
+    guideIntent: 'Explain conversational Bitcode operation while preserving confirmation, write admission, and product reread boundaries.',
     canonicalTruth: ['specifications/BITCODE_SPEC_V35.md', 'packages/chatgptapp', 'TelemetryTaxonomyCatalog'],
     sourceRoots: [
       'apps/uapi/app/docs/bitcode-docs-content.ts',
@@ -167,7 +167,7 @@ const guideRows = Object.freeze([
     ],
     packageSurfaces: ['apps/chatgpt/src', 'apps/uapi/app/docs'],
     docsSections: ['chatgpt-app', 'commercial-interfaces'],
-    proofSignals: ['confirmation prompt', 'write admission', 'Terminal verification link'],
+    proofSignals: ['confirmation prompt', 'write admission', 'product verification link'],
     disclosureNotes: [
       'ChatGPT App docs may describe confirmation, action names, and source-safe response shapes.',
       'ChatGPT App docs must not expose raw model responses containing protected source.',
@@ -310,7 +310,7 @@ const guideRows = Object.freeze([
     ],
     packageSurfaces: ['apps/uapi/app/conversations', 'docs/api/conversations-openapi.yaml'],
     docsSections: ['conversations', 'chatgpt-app'],
-    proofSignals: ['attachment token', 'write confirmation', 'Terminal reread link'],
+    proofSignals: ['attachment token', 'write confirmation', 'product reread link'],
     disclosureNotes: [
       'Conversations docs may describe source-safe attachments, write intent, and reread links.',
       'Conversations docs must not imply V35 completes the full website conversation interface or expose protected source.',

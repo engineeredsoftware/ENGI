@@ -242,7 +242,7 @@ function main() {
   }
 
   for (const phrase of [
-    'catalogs Terminal handoff, public API, MCP API, ChatGPT App, package consumers, and deferred hooks',
+    'catalogs product handoff, public API, MCP API, ChatGPT App, package consumers, and deferred hooks',
     'fails closed when a required interface catalog row is missing',
     'fails closed when deferred hooks are accidentally admitted as compatible active contracts',
     'fails closed on secret-shaped or protected-source catalog text',

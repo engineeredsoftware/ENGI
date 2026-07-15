@@ -1,6 +1,6 @@
 /**
  * Wallet / repository readiness for pipeline actions (deposit, read, settle).
- * Relocated from app/terminal; product copy prefers experience language over Terminal.
+ * Relocated from app/terminal; product copy prefers experience language over product.
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
 

@@ -8,7 +8,7 @@ import {
 } from '../src/interface-contract-catalog';
 
 describe('interface contract catalog', () => {
-  it('catalogs Terminal handoff, public API, MCP API, ChatGPT App, package consumers, and deferred hooks', () => {
+  it('catalogs product handoff, public API, MCP API, ChatGPT App, package consumers, and deferred hooks', () => {
     const catalog = buildBtdInterfaceContractCatalog();
 
     expect(catalog.kind).toBe('btd.interface_contract_catalog');

@@ -473,7 +473,7 @@ function assertReceiptInvariants(
   }
   if (['succeeded', 'failed', 'blocked', 'repaired'].includes(receipt.status)) {
     if (!receipt.completedAt) {
-      throw new Error('Terminal distributed execution receipts require completedAt.');
+      throw new Error('product distributed execution receipts require completedAt.');
     }
   }
   if (['succeeded', 'repaired'].includes(receipt.status) && !receipt.outputRoot) {

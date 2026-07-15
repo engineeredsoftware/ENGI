@@ -81,7 +81,7 @@ const checks = [
     ],
   },
   {
-    file: 'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    file: 'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
     needles: [
       'protectedSourceUnlock',
       'Read license',
@@ -90,7 +90,7 @@ const checks = [
     ],
   },
   {
-    file: 'apps/uapi/app/terminal/terminal-pipeline-host-client.ts',
+    file: 'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
     needles: [
       'protectedSourceUnlock',
       'sourceAvailable',

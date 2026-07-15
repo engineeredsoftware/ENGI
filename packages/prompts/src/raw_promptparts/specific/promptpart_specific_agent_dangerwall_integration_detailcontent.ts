@@ -15,4 +15,4 @@ export const PROMPTPART_SPECIFIC_AGENT_DANGERWALL_INTEGRATION_DETAILCONTENT: Pro
 - Reads expressed read, repository evidence, external evidence, written-asset hints, AssetPack intent, proof-gap notes, and delivery mechanism requests
 - Writes risk-admission evidence into parent AgentExecution or PipelineExecution state for reread
 - May short-circuit the retained setup corridor when high-severity admission blockers exist
-- Does not mutate repository source, deliver third-party artifacts, generate proof closure, or define Exchange/Terminal product semantics` as PromptPart;
+- Does not mutate repository source, deliver third-party artifacts, generate proof closure, or define Exchange/product semantics` as PromptPart;

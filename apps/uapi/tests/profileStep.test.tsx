@@ -125,7 +125,7 @@ describe('ProfileStep (SSR)', () => {
             policyId: 'policy-1',
             policyHash: 'btd-proof-root:auxillaries-organization-policy:abc123',
             action: 'pay_btc_fee',
-            interfaceSurface: 'terminal',
+            interfaceSurface: 'product',
           },
           actionDecision: null,
           protectedSourceAction: false,

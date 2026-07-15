@@ -7,8 +7,8 @@ import {
   openCommercialRoute,
 } from './commercial-mvp.helpers';
 
-// V48: product routes are /reads, /packs, /deposits (no /terminal). Auxillaries
-// open as the packs support plane via query or /auxillaries/* overlays.
+// Product routes are /reads, /packs, /deposits. Auxillaries open as the packs
+// support plane via query or /auxillaries/* overlays.
 const ROUTE_SMOKE_MATRIX = [
   {
     path: '/',
@@ -52,8 +52,8 @@ const ROUTE_SMOKE_MATRIX = [
   },
   {
     path: '/docs/product-workspace',
-    expected: /Orient inside the Bitcode Terminal/i,
-    name: 'Terminal map docs',
+    expected: /Orient inside the Bitcode/i,
+    name: 'product map docs',
   },
   {
     path: '/docs/product-actions',

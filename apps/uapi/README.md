@@ -19,7 +19,7 @@ adapters, and React layers.
 | `/auxillaries/*` | Wallet, Externals, Profile, Interfaces |
 | `/conversations` | Structure retained; full UX deferred post-V48 |
 
-**Terminal is deleted** — there is no `/terminal` product surface.
+Product surfaces: Packs, Deposits, Reads, Docs.
 
 ## Source layers
 

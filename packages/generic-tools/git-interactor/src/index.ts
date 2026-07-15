@@ -2,10 +2,10 @@
  * Bitcode Git interactor tool suite.
  *
  * These tools expose Git-shaped repository operations for Bitcode AssetPack,
- * Terminal, and interface workflows while the operation implementations route
+ * product, and interface workflows while the operation implementations route
  * through `@bitcode/generic-vcs-git` and the provider-agnostic VCS layer.
  *
- * @purpose Git repository operations with Bitcode's distributed version control intelligence, VCS provider integration, atomic operation guarantees, and production-grade workflow automation for repository-bound AssetPack and Terminal flows
+ * @purpose Git repository operations with Bitcode's distributed version control intelligence, VCS provider integration, atomic operation guarantees, and production-grade workflow automation for repository-bound AssetPack and product flows
  * @capabilities Repository metadata, file listing, branch/reference lookup, pull request creation, issue/comment operations, file content mutation, and Git/VCS evidence retrieval through Bitcode repository anchors
  * @specificity Generic
  */

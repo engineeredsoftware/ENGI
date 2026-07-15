@@ -38,7 +38,7 @@ export interface ConversationsOverlayMainContentProps {
   iterationUpdates: unknown[];
   thinkingLog: Array<{ type: string; content: string; timestamp?: Date }>;
   showSourceSelector: boolean;
-  showTerminalHandoff: boolean;
+  showProductHandoff: boolean;
   showPersistencePrivacy: boolean;
   showTelemetryProof: boolean;
   showRehearsalProof: boolean;
@@ -58,7 +58,7 @@ export interface ConversationsOverlayMainContentProps {
   onToggleSplitScreen: () => void;
   onToggleWritingWorkspace: () => void;
   onToggleSourceSelector: () => void;
-  onToggleTerminalHandoff: () => void;
+  onToggleProductHandoff: () => void;
   onTogglePersistencePrivacy: () => void;
   onToggleTelemetryProof: () => void;
   onToggleRehearsalProof: () => void;
@@ -100,7 +100,7 @@ export function ConversationsOverlayMainContent(props: ConversationsOverlayMainC
     iterationUpdates,
     thinkingLog,
     showSourceSelector,
-    showTerminalHandoff,
+    showProductHandoff,
     showPersistencePrivacy,
     showTelemetryProof,
     showRehearsalProof,
@@ -120,7 +120,7 @@ export function ConversationsOverlayMainContent(props: ConversationsOverlayMainC
     onToggleSplitScreen,
     onToggleWritingWorkspace,
     onToggleSourceSelector,
-    onToggleTerminalHandoff,
+    onToggleProductHandoff,
     onTogglePersistencePrivacy,
     onToggleTelemetryProof,
     onToggleRehearsalProof,
@@ -162,7 +162,7 @@ export function ConversationsOverlayMainContent(props: ConversationsOverlayMainC
           showHistory={showHistory}
           showWritingWorkspace={showWritingWorkspace}
           showSourceSelector={showSourceSelector}
-          showTerminalHandoff={showTerminalHandoff}
+          showProductHandoff={showProductHandoff}
           showPersistencePrivacy={showPersistencePrivacy}
           showTelemetryProof={showTelemetryProof}
           showRehearsalProof={showRehearsalProof}
@@ -171,7 +171,7 @@ export function ConversationsOverlayMainContent(props: ConversationsOverlayMainC
           onToggleSplitScreen={onToggleSplitScreen}
           onToggleWritingWorkspace={onToggleWritingWorkspace}
           onToggleSourceSelector={onToggleSourceSelector}
-          onToggleTerminalHandoff={onToggleTerminalHandoff}
+          onToggleProductHandoff={onToggleProductHandoff}
           onTogglePersistencePrivacy={onTogglePersistencePrivacy}
           onToggleTelemetryProof={onToggleTelemetryProof}
           onToggleRehearsalProof={onToggleRehearsalProof}
@@ -181,7 +181,7 @@ export function ConversationsOverlayMainContent(props: ConversationsOverlayMainC
 
         <ConversationsOverlaySidePanels
           showSourceSelector={showSourceSelector}
-          showTerminalHandoff={showTerminalHandoff}
+          showProductHandoff={showProductHandoff}
           showPersistencePrivacy={showPersistencePrivacy}
           showTelemetryProof={showTelemetryProof}
           showRehearsalProof={showRehearsalProof}

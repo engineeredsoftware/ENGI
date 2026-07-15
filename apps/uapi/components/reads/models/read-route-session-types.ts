@@ -4,9 +4,9 @@
  */
 
 import type {
-  TerminalEnterpriseReadingForbiddenField,
+  ProductEnterpriseReadingForbiddenField,
   EnterpriseReadingStepId,
-  TerminalEnterpriseReadingStepView,
+  ProductEnterpriseReadingStepView,
   EnterpriseReadingUxStateInput,
 } from '@/components/reads/models/enterprise-reading-ux-state';
 import type {
@@ -210,7 +210,7 @@ export type ReadRouteSession = {
   route: '/reads';
   stageCount: 5;
   activeStepId: ReadRouteStepId;
-  steps: TerminalEnterpriseReadingStepView[];
+  steps: ProductEnterpriseReadingStepView[];
   readObjects: {
     readRequestRecorded: boolean;
     synthesizedNeedReviewed: boolean;
@@ -253,7 +253,7 @@ export type ReadRouteSession = {
     rawProviderResponseVisible: false;
     walletPrivateMaterialVisible: false;
     settlementPrivatePayloadVisible: false;
-    hiddenBeforeSettlement: TerminalEnterpriseReadingForbiddenField[];
+    hiddenBeforeSettlement: ProductEnterpriseReadingForbiddenField[];
   };
   proofRoot: string;
 };

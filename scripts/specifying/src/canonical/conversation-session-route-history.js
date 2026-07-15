@@ -214,7 +214,7 @@ const routeHistoryRows = Object.freeze([
         detailSection('stream_state', 'Restore does not replay live model output.'),
         detailSection('history_refs', 'History refs preserve message and attachment continuity.'),
         detailSection('proof_roots', 'Owner, history, attachment, session, and telemetry roots are required.'),
-        detailSection('persistence_boundary', 'Restored history cannot override ledger or Terminal state.'),
+        detailSection('persistence_boundary', 'Restored history cannot override ledger or product state.'),
         detailSection('redaction_posture', 'Protected payload classes remain blocked during restore.'),
       ],
     },

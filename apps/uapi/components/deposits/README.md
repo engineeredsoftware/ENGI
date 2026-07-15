@@ -85,4 +85,4 @@ Page shell: `apps/uapi/app/deposits/` (metadata + client mount only). App shims 
 
 - **Pipeline** for run surfaces (master table, telemetry log).
 - **Journal** for BTD ledger vocabulary.
-- No Terminal product surface.
+- No product surface.

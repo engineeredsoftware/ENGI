@@ -1,5 +1,5 @@
 /**
- * Docs content module: sections terminal actions.
+ * Docs content module: product action sections.
  */
 import type { DocsGuideCard } from '../bitcode-docs-types';
 import { PRODUCT_WORKSPACE_EXPLAINERS } from '@/components/bitcode/pipeline/models/workspace-explainers';

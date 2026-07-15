@@ -231,7 +231,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult(
       'read-route-model-binds-five-step-source-safe-session',
       SOURCE_ROOTS.readRouteModel,
-      sources.readRouteModel.includes('TERMINAL_ENTERPRISE_READING_STEPS') &&
+      sources.readRouteModel.includes('PRODUCT_ENTERPRISE_READING_STEPS') &&
         sources.readRouteModel.includes('stageCount: 5') &&
         sources.readRouteModel.includes('ReadNeedComprehensionSynthesis') &&
         sources.readRouteModel.includes('ReadFitsFindingSynthesis') &&

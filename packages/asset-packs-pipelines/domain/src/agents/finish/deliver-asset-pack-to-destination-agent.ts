@@ -315,7 +315,7 @@ function buildDeliveryContext(input: any, execution: any, repository: ReturnType
       `- Repository revision: ${repository.fullName}@${repository.branch}:${repository.commit.slice(0, 12)}`,
       `- Delivery path: ${path}`,
       '',
-      'The Terminal pipeline telemetry and ledger readback remain the authoritative audit trail for settlement.',
+      'The product pipeline telemetry and ledger readback remain the authoritative audit trail for settlement.',
     ].join('\n'),
     userId:
       findExecutionValue(execution, 'pipeline', 'userId') ||
@@ -381,7 +381,7 @@ function buildAssetPackDeliveryContent(
     `- Pipeline run: ${delivery.runId}`,
     `- Branch: ${delivery.sourceBranch}`,
     `- Delivery path: ${delivery.path}`,
-    '- Ledger settlement: performed by the Terminal harness after this pull request is created and read back.',
+    '- Ledger settlement: performed by the product harness after this pull request is created and read back.',
     '',
   ].join('\n');
 }

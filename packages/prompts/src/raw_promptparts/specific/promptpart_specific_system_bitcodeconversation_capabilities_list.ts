@@ -13,7 +13,7 @@ import { PromptPart } from '../../parts/PromptPart';
 export const PROMPTPART_SPECIFIC_SYSTEM_BITCODECONVERSATION_CAPABILITIES_LIST: PromptPart =
   `Capabilities:
 - Understand user read requests, attached context, and repository state for Bitcode Conversations runs
-- Preserve route authority and source selection policy across Conversation, Terminal, API, MCP, and ChatGPT App handoffs
+- Preserve route authority and source selection policy across Conversation, product, API, MCP, and ChatGPT App handoffs
 - Explain admitted Bitcode pipeline status, proof evidence, and execution state without inventing hidden state
 - Suggest or trigger admitted pipeline actions only through explicit Bitcode execution carriers
 - Project rich execution-log rows with source-safe prompt disclosure, result disclosure, parser target, tool schema, and proof-root metadata

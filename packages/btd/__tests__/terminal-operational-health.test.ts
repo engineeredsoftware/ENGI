@@ -6,7 +6,7 @@ import { buildV27CryptoTelemetryRecord } from '../src/telemetry';
 
 const issuedAt = 'terminal-operational-health-test';
 
-describe('Terminal operational health read', () => {
+describe('product operational health read', () => {
   it('surfaces all deployment lanes and blocks value-bearing mainnet without approval root', () => {
     const read = buildOperationalHealthRead({ issuedAt });
 
@@ -135,7 +135,7 @@ describe('Terminal operational health read', () => {
       commitmentMethod: 'taproot',
       finalityState: 'prepared',
     });
-    // Canonical field names (journalRows); Terminal-era terminalJournalRows removed.
+    // Canonical field names (journalRows); product-era terminalJournalRows removed.
     expect(read.testnetMinting.journalRows.map((row) => row.transactionKind)).toEqual([
       'asset_pack_mint',
       'asset_pack_anchor',

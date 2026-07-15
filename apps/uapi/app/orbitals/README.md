@@ -29,9 +29,9 @@ Those aliases are not the enduring naming model.
 - `../auxillaries/[pane]/page.tsx`
   Redirect-only support owner.
 - `page.tsx` plus focused `*/page.tsx`
-  Redirect-only support carriers from `/orbitals/*` into the Terminal overlay targets.
+  Redirect-only support carriers from `/orbitals/*` into the product overlay targets.
 - `components/orbital-pane-meta.ts`
-  Shared orbital naming, canonical auxillary overlay target building, redirect detection, and user-facing copy owner for entry buttons and Terminal return actions.
+  Shared orbital naming, canonical auxillary overlay target building, redirect detection, and user-facing copy owner for entry buttons and product return actions.
 - `components/OrbitalsProvider.tsx`
   Redirect-support wrapper over the canonical fullscreen auxillary provider and portal/event bridge.
 - `components/OrbitalsContent.tsx`
@@ -55,7 +55,7 @@ Those aliases are not the enduring naming model.
 
 Auxillaries are not generic settings/account furniture.
 They are Bitcode’s extra-network, non-transactional, still-proven companion surfaces around the core network and transaction system.
-The retained `/orbitals` route family survives only as redirect-only support. The merged-world naming target is `Auxillaries`, opened from the Terminal overlay query target.
+The retained `/orbitals` route family survives only as redirect-only support. The merged-world naming target is `Auxillaries`, opened from the product overlay query target.
 
 The contained auxillary shell used inside the commercial surface should:
 - stay visually stable,
@@ -64,7 +64,7 @@ The contained auxillary shell used inside the commercial surface should:
 - route contained navigation through shared orbital panels plus tabs instead of floating sequence cards and free-position ring labels,
 - keep a full-width contained operator shell instead of shrinking back to modal-width account furniture,
 - read as retained auxillaries access and contained auxillary reads rather than generic settings/account furniture,
-- keep shared entry labels such as `Open Auxillaries fullscreen`, targeted actions such as `Open Connects fullscreen`, and the Terminal return action `Open transactions` aligned across commercial surfaces,
+- keep shared entry labels such as `Open Auxillaries fullscreen`, targeted actions such as `Open Connects fullscreen`, and the product return action `Open transactions` aligned across commercial surfaces,
 - reopen signed-in overlays through `openAuxillaries('auxillaries', step?)` from active callers,
 - and remain aligned to the same operator atmosphere as `/packs`.
 

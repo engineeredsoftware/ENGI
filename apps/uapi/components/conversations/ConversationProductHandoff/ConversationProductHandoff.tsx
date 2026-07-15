@@ -61,7 +61,7 @@ export default function ConversationProductHandoff({
   const prepareEnvelope = useCallback(async () => {
     setPrepared(envelope);
     await onPrepared?.(envelope);
-    setStatus(`${workflowConfig.label} handoff prepared for Terminal.`);
+    setStatus(`${workflowConfig.label} handoff prepared for product.`);
   }, [envelope, onPrepared, workflowConfig.label]);
 
   const openTerminal = useCallback(async () => {
@@ -70,7 +70,7 @@ export default function ConversationProductHandoff({
     if (typeof window !== 'undefined') {
       window.open(envelope.packsRoute, '_blank', 'noopener');
     }
-    setStatus(`${workflowConfig.label} opened in Terminal.`);
+    setStatus(`${workflowConfig.label} opened in product.`);
   }, [envelope, onPrepared, workflowConfig.label]);
 
   const visibleEnvelope = prepared || envelope;
@@ -85,8 +85,8 @@ export default function ConversationProductHandoff({
         <div className="conversation-product-handoff__title">
           <Share1Icon aria-hidden="true" />
           <div>
-            <h2>Terminal Handoff</h2>
-            <p>source-safe transaction intent for the Terminal cockpit</p>
+            <h2>product Handoff</h2>
+            <p>source-safe transaction intent for the product cockpit</p>
           </div>
         </div>
         <div className="conversation-product-handoff__actions">
@@ -153,7 +153,7 @@ export default function ConversationProductHandoff({
           </div>
           <div>
             <dt>Authority</dt>
-            <dd>Terminal cockpit</dd>
+            <dd>product cockpit</dd>
           </div>
         </dl>
       </div>

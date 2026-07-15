@@ -563,8 +563,8 @@ function uiEvents(input: ReadingOperationalTelemetryRepairReadbackInput & {
     message: `${label} UI state ${progress}`,
     executionState: {
       phase: 'Finish',
-      outputSchema: 'TerminalEnterpriseReadingUxState',
-      returnType: 'TerminalEnterpriseReadingUxState',
+      outputSchema: 'ProductEnterpriseReadingUxState',
+      returnType: 'ProductEnterpriseReadingUxState',
       failClosedState: progress === 'blocked' || progress === 'repair-required' ? String(stageId) : undefined,
     },
     metadata: { readingStageId: stageId },

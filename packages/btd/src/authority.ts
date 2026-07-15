@@ -9,7 +9,7 @@ import type {
 export type BtdOrganizationRole = 'viewer' | 'member' | 'admin' | 'owner';
 
 export type BtdInterfaceAuthoritySurface =
-  | 'terminal'
+  | 'product'
   | 'api'
   | 'mcp'
   | 'chatgpt_app';
@@ -233,7 +233,7 @@ const ACTION_REQUIREMENTS: Record<
 > = {
   read_transaction: {
     minimumRole: 'viewer',
-    permissionGrants: ['terminal:read', 'activity:read'],
+    permissionGrants: ['product:read', 'activity:read'],
     requiresWalletBinding: false,
     requiresRegistryReadAccess: false,
     requiresSettledPayment: false,
@@ -367,7 +367,7 @@ const SURFACE_ACTIONS: Record<
   BtdInterfaceAuthoritySurface,
   BtdOrganizationPermissionAction[]
 > = {
-  terminal: [
+  product: [
     'read_transaction',
     'request_read',
     'review_need',
@@ -617,7 +617,7 @@ export function buildBtdOrganizationPolicyAuthority(
   const memberId = normalizeOptionalString(input.memberId);
   const organizationRole = normalizeOrganizationRole(input.organizationRole);
   const action = normalizePermissionAction(input.action) ?? 'deliver_asset_pack';
-  const interfaceSurface = normalizeAuthoritySurface(input.interfaceSurface) ?? 'terminal';
+  const interfaceSurface = normalizeAuthoritySurface(input.interfaceSurface) ?? 'product';
   const requirements = ACTION_REQUIREMENTS[action];
   const permissionGrants = uniqueStrings(input.organizationPermissionGrants ?? []);
   const explicitGrantSet = permissionGrants.filter((grant) =>
@@ -886,7 +886,7 @@ function normalizePermissionAction(value: BtdOrganizationPermissionAction | stri
 }
 
 function normalizeAuthoritySurface(value: BtdInterfaceAuthoritySurface | string | null | undefined): BtdInterfaceAuthoritySurface | null {
-  return value === 'terminal' || value === 'api' || value === 'mcp' || value === 'chatgpt_app'
+  return value === 'product' || value === 'api' || value === 'mcp' || value === 'chatgpt_app'
     ? value
     : null;
 }

@@ -3,7 +3,7 @@
 Conversations structure persists; full commercial web experience is deferred
 post-V48. Imports Bitcode only. Page shell: `apps/uapi/app/conversations/`.
 
-Do not expand product scope in the Terminal-eradication workstream beyond
+Do not expand product scope in the product-eradication workstream beyond
 relocation and naming cleanup.
 
 ## Layout

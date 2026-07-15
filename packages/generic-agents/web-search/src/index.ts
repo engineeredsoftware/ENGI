@@ -5,7 +5,7 @@
  * collect source-attributed external evidence, score source quality, surface
  * volatility, and hand unresolved questions to downstream read/proof owners.
  * This package does not own canonical read interpretation, proof generation,
- * mutation, delivery, Exchange product behavior, or Terminal product behavior.
+ * mutation, delivery, Exchange product behavior, or product behavior.
  */
 
 import {

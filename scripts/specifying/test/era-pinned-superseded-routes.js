@@ -38,7 +38,7 @@ export const SUPERSEDED = existsSync(
 );
 
 const SKIP_REASON =
-  'era-pinned: superseded by V48 sole-canon realization (plural product routes, Terminal retirement, components/* layout, hierarchy packages)';
+  'era-pinned: superseded by V48 sole-canon realization (plural product routes, product retirement, components/* layout, hierarchy packages)';
 
 /**
  * A `node:test` `test` shim. When the realization is superseded it registers

@@ -2,7 +2,7 @@
 
 /**
  * Master-detail pipelines table wrapper (filter + paginate WorkspaceRun rows).
- * Relocated from TerminalTransactionsTable — shared by Deposits, Reads, Auxillaries.
+ * Relocated from productTransactionsTable — shared by Deposits, Reads, Auxillaries.
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
 
@@ -16,9 +16,9 @@ import type {
 } from '@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types';
 
 import {
-  buildTerminalTransactionFilterOptions,
-  filterTerminalTransactions,
-  normalizeTerminalTransactions,
+  buildProductTransactionFilterOptions,
+  filterProductTransactions,
+  normalizeProductTransactions,
 } from '@/components/bitcode/pipeline/models/pipeline-transactions';
 import type { WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 
@@ -34,7 +34,7 @@ export interface BitcodePipelinesTableProps {
   isLoadingRuns: boolean;
   runsError: string | null;
   transactionDataMode: TransactionDataMode;
-  surface?: 'terminal' | 'exchange' | 'pipelines';
+  surface?: 'packs' | 'exchange' | 'pipelines';
   /** Optional refresh control pinned permanently on the active-filters row. */
   onRefresh?: () => void;
   refreshLabel?: string;
@@ -56,9 +56,9 @@ export default function BitcodePipelinesTable({
   onRefresh,
   refreshLabel,
 }: BitcodePipelinesTableProps) {
-  const records = useMemo(() => normalizeTerminalTransactions(runs), [runs]);
-  const options = useMemo(() => buildTerminalTransactionFilterOptions(records), [records]);
-  const filteredRecords = useMemo(() => filterTerminalTransactions(records, filters), [filters, records]);
+  const records = useMemo(() => normalizeProductTransactions(runs), [runs]);
+  const options = useMemo(() => buildProductTransactionFilterOptions(records), [records]);
+  const filteredRecords = useMemo(() => filterProductTransactions(records, filters), [filters, records]);
   const ownTransactionCount = useMemo(
     () => filteredRecords.filter((record) => record.isOwnTransaction).length,
     [filteredRecords],
@@ -119,4 +119,4 @@ export default function BitcodePipelinesTable({
 }
 
 /** @deprecated Prefer `BitcodePipelinesTable`. */
-export { BitcodePipelinesTable as TerminalTransactionsTable };
+export { BitcodePipelinesTable as productTransactionsTable };

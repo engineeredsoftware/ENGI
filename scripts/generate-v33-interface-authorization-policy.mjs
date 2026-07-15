@@ -132,7 +132,7 @@ export function buildV33InterfaceAuthorizationPolicyArtifact() {
   ];
   const testEvidence = [
     scanTokens('packages/btd/__tests__/interface-authorization-policy.test.ts', [
-      'publishes shared policy fixtures for API, MCP, ChatGPT App, and Terminal',
+      'publishes shared policy fixtures for API, MCP, ChatGPT App, and product',
       'fails closed with readable repair posture for stale authority',
       'fails closed before locked AssetPack delivery',
     ]),
@@ -146,8 +146,8 @@ export function buildV33InterfaceAuthorizationPolicyArtifact() {
       'shares the package-owned InterfaceAuthorizationPolicy fixture for ChatGPT App delivery',
     ]),
     scanTokens('apps/uapi/tests/terminalOrganizationAuthority.test.ts', [
-      'shares the package-owned InterfaceAuthorizationPolicy fixture for Terminal BTC fee admission',
-      'renders stale Terminal authority as a readable fail-closed denial',
+      'shares the package-owned InterfaceAuthorizationPolicy fixture for product BTC fee admission',
+      'renders stale product authority as a readable fail-closed denial',
     ]),
   ];
   const docsEvidence = [

@@ -2,7 +2,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode Terminal conversation Refine step purpose"
+ * intent: "Bitcode conversation Refine step purpose"
  * current_version: "BITCODE_V26_CONVERSATION_AGENT_PROMPTPART.1"
  * versions: []
  * benchmarks: [

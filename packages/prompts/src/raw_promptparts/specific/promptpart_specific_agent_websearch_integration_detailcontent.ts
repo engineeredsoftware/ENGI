@@ -15,4 +15,4 @@ export const PROMPTPART_SPECIFIC_AGENT_WEBSEARCH_INTEGRATION_DETAILCONTENT: Prom
 - consumes web-search and content retrieval tools only to gather external evidence for read synthesis
 - passes source-attributed findings to downstream read, proof, interface, and AssetPack owners
 - keeps stable web-search names as import and registry carriers
-- does not own canonical read interpretation, proof generation, source mutation, delivery mechanism selection, or live Exchange/Terminal product semantics` as PromptPart;
+- does not own canonical read interpretation, proof generation, source mutation, delivery mechanism selection, or live Exchange/product semantics` as PromptPart;

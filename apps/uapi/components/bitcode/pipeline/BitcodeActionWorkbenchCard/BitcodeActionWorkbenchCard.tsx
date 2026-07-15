@@ -2,7 +2,7 @@
 
 /**
  * Shared action workbench card chrome.
- * Relocated from TerminalActionWorkbenchCard.
+ * Relocated from productActionWorkbenchCard.
  */
 
 
@@ -65,7 +65,7 @@ export default function BitcodeActionWorkbenchCard({
         <div className="flex flex-wrap items-center justify-end gap-2">
           {secondaryAction && secondaryActionDisabled ? (
             <DisabledTooltipWrapper
-              tooltip="Disabled while another Terminal write is in progress. When enabled, this records the current posture into the Bitcode activity ledger."
+              tooltip="Disabled while another product write is in progress. When enabled, this records the current posture into the Bitcode activity ledger."
               placement="top"
             >
               {secondaryAction}
@@ -108,4 +108,4 @@ export default function BitcodeActionWorkbenchCard({
 }
 
 /** @deprecated Prefer BitcodeActionWorkbenchCard */
-export { BitcodeActionWorkbenchCard as TerminalActionWorkbenchCard };
+export { BitcodeActionWorkbenchCard as productActionWorkbenchCard };

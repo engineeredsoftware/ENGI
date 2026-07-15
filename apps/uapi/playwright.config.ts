@@ -6,7 +6,7 @@ import { defineConfig, devices } from '@playwright/test';
 // it here would accidentally launch / hit the admin interface instead of
 // the main product and make the tests fail with `ERR_CONNECTION_REFUSED`.
 const devPort = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
-// V48: /terminal product route is deleted. Ready-check a stable public route.
+// Ready-check a stable public product route.
 const appReadyUrl = process.env.PLAYWRIGHT_READY_URL || `http://127.0.0.1:${devPort}/`;
 // Port for Storybook server during Playwright tests; override via STORYBOOK_PORT env var or default to 6006
 const storybookPort = process.env.STORYBOOK_PORT ? parseInt(process.env.STORYBOOK_PORT, 10) : 6006;

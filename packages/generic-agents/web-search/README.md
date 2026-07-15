@@ -9,7 +9,7 @@ The compatibility exports `webSearch`, `quickWebSearch`, `webSearchPrompt`, and
 `webSearchStepPrompts` remain available only as carriers for the same Bitcode
 purpose. They must not be used to claim canonical read interpretation, proof
 closure, mutation authority, delivery selection, Bitcode Exchange ownership, or
-Bitcode Terminal ownership.
+Bitcode ownership.
 
 ## Scope
 
@@ -28,4 +28,4 @@ Bitcode Terminal ownership.
 - Production search-platform monitoring or enterprise search service ownership.
 - Canonical proof generation or final proof acceptance.
 - Source mutation, branch writing, PR creation, or delivery mechanism selection.
-- Exchange or Terminal product semantics.
+- Exchange or product semantics.

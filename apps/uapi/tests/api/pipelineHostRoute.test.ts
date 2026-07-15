@@ -403,7 +403,7 @@ function acceptedReadNeed() {
     measurementRoot: 'sha256:need-measurement-root',
     read: {
       id: 'read-activity',
-      prompt: 'Find a source-bound Terminal AssetPack fit.',
+      prompt: 'Find a source-bound product AssetPack fit.',
     },
     requirements: ['source-bound fit'],
     closureCriteria: ['Candidate is source-bound.'],

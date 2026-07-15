@@ -659,7 +659,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/generic-tools/web-search/src/index.ts',
         'packages/generic-tools/web-search/src/index.ts'
       ],
-      contract: 'Admitted web-search/content tools may collect source-attributed auxiliary evidence for discovery-phase read synthesis only; they do not mutate source, choose delivery mechanisms, assert proof completion, canonically interpret needs, or define Exchange/Terminal product semantics.'
+      contract: 'Admitted web-search/content tools may collect source-attributed auxiliary evidence for discovery-phase read synthesis only; they do not mutate source, choose delivery mechanisms, assert proof completion, canonically interpret needs, or define Exchange/product semantics.'
     },
     agentImplementation: {
       owners: [

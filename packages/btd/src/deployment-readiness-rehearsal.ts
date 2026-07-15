@@ -18,7 +18,7 @@ export type DeploymentReadinessRehearsalId =
   (typeof DEPLOYMENT_READINESS_REHEARSAL_IDS)[number];
 
 export type DeploymentReadinessRehearsalSurface =
-  | 'terminal'
+  | 'product'
   | 'public_api'
   | 'mcp_api'
   | 'chatgpt_app'
@@ -109,7 +109,7 @@ const SOURCE_SAFETY: BtdProtocolTelemetrySourceSafety = {
 };
 
 const FULL_STACK_SURFACES: DeploymentReadinessRehearsalSurface[] = [
-  'terminal',
+  'product',
   'public_api',
   'mcp_api',
   'chatgpt_app',

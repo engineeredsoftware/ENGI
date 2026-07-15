@@ -1,5 +1,5 @@
 -- Saved query name: v28_qa_terminal_04_deposit_repository_alignment
--- Purpose: run after the Terminal page loads, and again after "Record deposit
+-- Purpose: run after the product page loads, and again after "Record deposit
 -- selection" or "Record deposit posture". It verifies live GitHub repository
 -- inventory is the Deposit source and flags any protocol-demo frontier leakage.
 
@@ -49,7 +49,7 @@ BEGIN
         jsonb_build_array(
           jsonb_build_object(
             'missing_table', 'public.executions',
-            'impact', 'Terminal Deposit/Read activity cannot persist until the execution-history migration runs.'
+            'impact', 'product Deposit/Read activity cannot persist until the execution-history migration runs.'
           )
         );
   ELSE

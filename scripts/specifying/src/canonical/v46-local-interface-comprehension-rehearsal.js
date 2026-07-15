@@ -369,7 +369,7 @@ export const V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_ROWS = Object.freeze([
     requiredCopyTokens: [
       'BTD_CHATGPT_APP_ACTION_CONTRACT_IDS',
       'bitcode_request_read',
-      'terminal-delegated-handoff',
+      'product-delegated-handoff',
       'source_safe_conversation_telemetry_metadata',
       'source_bearing_delivery_locked_until_settlement_and_rights',
     ],

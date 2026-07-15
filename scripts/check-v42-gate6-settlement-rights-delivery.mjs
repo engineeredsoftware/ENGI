@@ -113,8 +113,8 @@ function main() {
     'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
     'apps/uapi/app/api/pipeline-host/asset-pack/runner.ts',
     'apps/uapi/tests/api/pipelineHostRoute.test.ts',
-    'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'apps/uapi/app/terminal/terminal-pipeline-host-client.ts',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
     'apps/uapi/tests/terminalPipelineHarnessClient.test.ts',
     'scripts/specifying/src/canonical/v42-settlement-rights-delivery.js',
     'scripts/specifying/test/v42-settlement-rights-delivery.test.js',
@@ -128,7 +128,7 @@ function main() {
     'README.md',
     'packages/asset-packs-pipelines/domain/README.md',
     'scripts/specifying/README.md',
-    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -232,7 +232,7 @@ function main() {
     assertCheck(failures, artifact.coverage.credentialsSerialized === false, 'Gate 6 artifact must not serialize credentials.');
     assertCheck(failures, artifact.coverage.hostBoundaryMaterializationCovered === true, 'Gate 6 must cover live harness boundary materialization.');
     assertCheck(failures, artifact.coverage.routeReadbackCovered === true, 'Gate 6 must cover route readback.');
-    assertCheck(failures, artifact.coverage.terminalReadbackCovered === true, 'Gate 6 must cover Terminal readback.');
+    assertCheck(failures, artifact.coverage.terminalReadbackCovered === true, 'Gate 6 must cover product readback.');
     assertCheck(failures, artifact.coverage.confirmedPaymentCovered === true, 'Gate 6 must cover confirmed payment.');
     assertCheck(failures, artifact.coverage.underpaymentBlockedCovered === true, 'Gate 6 must cover underpayment blocking.');
     assertCheck(failures, artifact.coverage.finalityBlockedCovered === true, 'Gate 6 must cover finality blocking.');

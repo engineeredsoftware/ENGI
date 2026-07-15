@@ -6,7 +6,7 @@
 
 import React from "react";
 import { VCSFileTreePicker } from "@/components/bitcode/vcs/VCSFileTreePicker/VCSFileTreePicker";
-import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 
 export type ReadsNeedPathPickersProps = {
   isConfigLocked: boolean;
@@ -14,7 +14,7 @@ export type ReadsNeedPathPickersProps = {
   onRelevantPathsChange: (paths: string[]) => void;
   irrelevantPaths: string[];
   onIrrelevantPathsChange: (paths: string[]) => void;
-  repositoryContext: TerminalRepositoryContextState | null;
+  repositoryContext: ProductRepositoryContextState | null;
 };
 
 export function ReadsNeedPathPickers({

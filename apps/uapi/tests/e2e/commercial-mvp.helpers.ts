@@ -86,7 +86,7 @@ const COMMERCIAL_MVP_AUXILLARY_DATA = {
     },
     {
       assetPackId: 'asset-pack-terminal-route-rendering',
-      label: 'Terminal Route Rendering',
+      label: 'product Route Rendering',
       rangeStart: 1178,
       rangeEndExclusive: 1190,
       acquiredAt: '2026-05-06T17:44:00.000Z',
@@ -121,7 +121,7 @@ const COMMERCIAL_MVP_VCS_REPOSITORY = {
   id: 'mock-repo-bitcode',
   name: 'bitcode',
   fullName: 'bitcode/bitcode',
-  description: 'Browser proof repository for Terminal Reading and AssetPack review.',
+  description: 'Browser proof repository for Reading and AssetPack review.',
   private: true,
   defaultBranch: 'main',
   url: 'https://github.com/bitcode/bitcode',
@@ -380,7 +380,7 @@ export async function installCommercialMvpApiMocks(page: Page) {
           user_id: 'mock-bitcode-review-user',
           type: 'asset_pack',
           title: 'AssetPack ready',
-          message: 'Run Branch Remediation is ready for Terminal review.',
+          message: 'Run Branch Remediation is ready for product review.',
           data: { assetPackId: 'asset-pack-run-branch-remediation' },
           read: false,
           created_at: '2026-05-06T18:12:00.000Z',
@@ -482,7 +482,7 @@ export async function installCommercialMvpApiMocks(page: Page) {
           : '';
     const reply =
       `Bitcode mock mode received "${content}". ` +
-      'The conversation surface remains mounted inside the Bitcode Terminal and can bind source attachments, AssetPacks, output destinations, and settlement-bound proofs.';
+      'The conversation surface remains mounted inside the Bitcode and can bind source attachments, AssetPacks, output destinations, and settlement-bound proofs.';
     const events = [
       { type: 'token', data: reply },
       {

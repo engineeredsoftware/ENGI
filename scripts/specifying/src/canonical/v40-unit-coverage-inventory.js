@@ -227,7 +227,7 @@ export const V40_UNIT_COVERAGE_ROWS = Object.freeze([
     ],
     commandIds: ['pnpm --dir apps/uapi exec jest'],
     coverageTier: 'existing-greenable',
-    closureRequirement: 'Isolated application helpers for payload rendering, pipeline logs, Terminal state, and harness route behavior are covered.',
+    closureRequirement: 'Isolated application helpers for payload rendering, pipeline logs, product state, and harness route behavior are covered.',
   }),
   row({
     unitSurfaceId: 'security:utility-package-primitives',

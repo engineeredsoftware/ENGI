@@ -108,7 +108,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('scripts/prepare-bitcode-spec-family-promotion.mjs', [
     "if (version === 'V44')",
     'V44 canonical system specification for scaled engineering economy',
-    'specifications/BITCODE_SPEC_V44_PROVEN.md',
+    'BITCODE_SPEC_V44_PROVEN.md',
     V44_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   ]),
   source('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
@@ -178,7 +178,7 @@ const REQUIRED_DOCUMENTATION_EVIDENCE = Object.freeze([
   ]),
   source('specifications/SPECIFICATIONS_ROADMAP.md', [
     'V44 Gate 10 closure anchor',
-    'specifications/BITCODE_SPEC_V44_PROVEN.md',
+    'BITCODE_SPEC_V44_PROVEN.md',
   ]),
   source('README.md', [
     'check:v44-gate10',

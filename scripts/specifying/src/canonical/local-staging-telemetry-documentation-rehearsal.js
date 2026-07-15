@@ -146,7 +146,7 @@ const rehearsalRows = Object.freeze([
     laneId: 'staging-testnet',
     title: 'Staging-testnet telemetry documentation rehearsal',
     purpose:
-      'Follow the staging-testnet path across Terminal, API, MCP API, ChatGPT App, docs, telemetry, dashboards, runbooks, and proof roots without value-bearing mainnet admission.',
+      'Follow the staging-testnet path across product, API, MCP API, ChatGPT App, docs, telemetry, dashboards, runbooks, and proof roots without value-bearing mainnet admission.',
     phases: REQUIRED_PHASES,
     docsSurfaceIds: [
       'public_docs_surface',

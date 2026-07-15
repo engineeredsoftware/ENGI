@@ -133,7 +133,7 @@ function main() {
     'Gate 3: Unit Coverage For Packages And Primitives',
     'Gate 4: API And Route Integration Contracts',
     'Gate 5: Reading Pipeline Integration Coverage',
-    'Gate 6: Conversation And Terminal Integration Coverage',
+    'Gate 6: Conversation And product Integration Coverage',
     'Gate 7: Browser E2E, Accessibility, Responsive, And Visual Proof',
     'Gate 8: Ledger, Database, Storage, Wallet, And Delivery Synchronization',
     'Gate 9: Local And Staging-Testnet Rehearsal Automation',

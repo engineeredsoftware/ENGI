@@ -11,13 +11,13 @@ import { PipelineExecutionLog } from "@/components/bitcode/pipeline/PipelineExec
 import { ExecutionContextPillRow } from "@/components/bitcode/pipeline/ExecutionContextPillRow/ExecutionContextPillRow";
 import { RunClock } from "@/components/bitcode/pipeline/RunClock/RunClock";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
-import type { TerminalRunActivitySnapshot } from "@/components/bitcode/pipeline/models/pipeline-run-activity";
+import type { ProductRunActivitySnapshot } from "@/components/bitcode/pipeline/models/pipeline-run-activity";
 import type { SelectedRunPackSummary } from "@/components/reads/ReadPageClient/hooks/use-read-pipeline-telemetry";
 
 export type ReadsPipelineTelemetryProps = {
   selectedRun: WorkspaceRun | null;
   selectedPipelineRunId: string;
-  readRunActivity: TerminalRunActivitySnapshot;
+  readRunActivity: ProductRunActivitySnapshot;
   readRunIsProcessing: boolean;
   readRunMode: "deposit" | "read" | string;
   readRunTelemetryError: string | null;

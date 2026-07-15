@@ -29,7 +29,7 @@ import {
 
 export default function RichTextInput({
   onSend,
-  placeholder = "Type a Bitcode Terminal instruction... Use @ + # ! for asset packs, attachments, source connects, and output destinations",
+  placeholder = "Type a Bitcode instruction... Use @ + # ! for asset packs, attachments, source connects, and output destinations",
   disabled = false,
   enablePickers = true,
   className = '',

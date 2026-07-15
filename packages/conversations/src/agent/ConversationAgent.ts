@@ -9,7 +9,7 @@
  * 
  * @doc-comment-developing
  * domain: conversation
- * intent: "Power Bitcode Terminal conversations with repository understanding and admitted pipeline triggers"
+ * intent: "Power Bitcode conversations with repository understanding and admitted pipeline triggers"
  * current_version: "BITCODE_V26_CONVERSATION_AGENT_PROMPT_REGISTRY.1"
  */
 

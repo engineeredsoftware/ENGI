@@ -9,7 +9,7 @@ import {
   buildConversationProductHandoff,
 } from '../src/index.js';
 
-test('ConversationProductHandoff covers every Terminal workflow source-safely', () => {
+test('ConversationProductHandoff covers every product workflow source-safely', () => {
   const artifact = buildConversationProductHandoff({
     generatedAt: '2026-05-24T00:00:00.000Z',
   });

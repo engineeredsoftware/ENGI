@@ -1,6 +1,6 @@
 /**
  * Build pipeline run activity snapshots from stream events or mock fixtures.
- * Relocated from app/terminal/terminal-run-activity.
+ * Relocated from product experience components/run-activity.
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
 import {
@@ -16,7 +16,7 @@ type ExecutionEvent = {
   event?: any;
 };
 
-export interface TerminalRunActivitySnapshot {
+export interface ProductRunActivitySnapshot {
   output: string;
   outputDetails: Record<string, any>;
   activityRecords: BitcodeActivityRecord[];
@@ -62,7 +62,7 @@ export interface TerminalRunActivitySnapshot {
 }
 
 /** Preferred product name (Pipeline) for the same snapshot shape. */
-export type PipelineRunActivitySnapshot = TerminalRunActivitySnapshot;
+export type PipelineRunActivitySnapshot = ProductRunActivitySnapshot;
 
 export interface ReadyToFinishVerdictView {
   /** DIV iteration the verdict gated (1-based; null when never latched). */
@@ -257,12 +257,12 @@ function classifyFormalLogLine(payload: any): FormalLogLineKind | null {
 }
 
 /** @deprecated Prefer `buildPipelineRunActivityFromEvents`. */
-export function buildTerminalRunActivityFromEvents(
+export function buildProductRunActivityFromEvents(
   events: ExecutionEvent[],
   latestWorkUpdate: any | null,
   iterationUpdates: any[],
   streamError: string | null,
-): TerminalRunActivitySnapshot {
+): ProductRunActivitySnapshot {
   return buildPipelineRunActivityFromEvents(
     events,
     latestWorkUpdate,
@@ -276,7 +276,7 @@ export function buildPipelineRunActivityFromEvents(
   latestWorkUpdate: any | null,
   iterationUpdates: any[],
   streamError: string | null,
-): TerminalRunActivitySnapshot {
+): ProductRunActivitySnapshot {
   const outputDetails: Record<string, any> = {};
   const outputLines: string[] = [];
   const activityRecords = events
@@ -510,15 +510,15 @@ export function buildPipelineRunActivityFromEvents(
 }
 
 /** @deprecated Prefer `buildPipelineRunActivityFromMock`. */
-export function buildTerminalRunActivityFromMock(
+export function buildProductRunActivityFromMock(
   snapshot: MockRunActivitySnapshot | null | undefined,
-): TerminalRunActivitySnapshot | null {
+): ProductRunActivitySnapshot | null {
   return buildPipelineRunActivityFromMock(snapshot);
 }
 
 export function buildPipelineRunActivityFromMock(
   snapshot: MockRunActivitySnapshot | null | undefined,
-): TerminalRunActivitySnapshot | null {
+): ProductRunActivitySnapshot | null {
   if (!snapshot) return null;
 
   const activityRecords = Object.values(snapshot.outputDetails || {})

@@ -3,7 +3,7 @@
  *
  * `/exchange` is a compatibility redirect into `/packs`. Assertions target
  * Pack activity, wallet auxillary, and BTD range disclosure rather than the
- * deleted Terminal/Exchange master-detail market UI.
+ * deleted Packs/Exchange master-detail market UI.
  */
 import { expect, test } from '@playwright/test';
 

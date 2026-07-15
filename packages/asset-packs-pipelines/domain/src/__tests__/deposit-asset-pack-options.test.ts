@@ -32,7 +32,7 @@ describe('Deposit AssetPack option synthesis', () => {
       existingDepositorySignals: [
         {
           id: 'existing-terminal-supply',
-          label: 'Terminal supply already has proof-root and compensation posture',
+          label: 'product supply already has proof-root and compensation posture',
           weight: 0.64,
         },
       ],

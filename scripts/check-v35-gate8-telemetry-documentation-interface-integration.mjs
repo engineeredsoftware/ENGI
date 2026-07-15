@@ -129,7 +129,7 @@ function main() {
     'specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
-    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'apps/uapi/app/auxillaries/README.md',
     'packages/api/README.md',
     'apps/mcp/README.md',
@@ -186,7 +186,7 @@ function main() {
     );
     assertCheck(failures, includesAll(artifact.coverage.observedIntegrationIds, REQUIRED_INTEGRATION_IDS), 'Interface integration must cover every required surface.');
     assertCheck(failures, artifact.coverage.integrationCount === REQUIRED_INTEGRATION_IDS.length, 'Interface integration must prove eight rows.');
-    assertCheck(failures, artifact.coverage.terminalCovered === true, 'Interface integration must cover Terminal.');
+    assertCheck(failures, artifact.coverage.terminalCovered === true, 'Interface integration must cover product.');
     assertCheck(failures, artifact.coverage.auxillariesCovered === true, 'Interface integration must cover Auxillaries.');
     assertCheck(failures, artifact.coverage.apiCovered === true, 'Interface integration must cover API.');
     assertCheck(failures, artifact.coverage.mcpApiCovered === true, 'Interface integration must cover MCP API.');
@@ -244,7 +244,7 @@ function main() {
   assertCheck(failures, roadmap.includes('V35 Gate 8 closure anchor'), 'Roadmap must include V35 Gate 8 closure anchor.');
 
   const activeSurfaceText = [
-    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'apps/uapi/app/auxillaries/README.md',
     'packages/api/README.md',
     'apps/mcp/README.md',

@@ -104,12 +104,12 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts',
-    'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'apps/uapi/app/terminal/terminal-deposit-read-workbench.ts',
-    'apps/uapi/app/terminal/terminal-pipeline-host-client.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-enterprise-reading-ux-state.ts',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-deposit-read-workbench.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
     'apps/uapi/app/conversations/conversation-product-handoff.ts',
-    'apps/uapi/app/terminal/terminal-transaction-query.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-query.ts',
     'apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts',
     'apps/uapi/tests/terminalDepositReadWorkbench.test.ts',
     'apps/uapi/tests/conversationTerminalHandoff.test.tsx',
@@ -128,7 +128,7 @@ function main() {
     'specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
     'specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'apps/uapi/app/conversations/README.md',
     'scripts/specifying/README.md',
     'package.json',
@@ -216,11 +216,11 @@ function main() {
 
   const spec = read(root, 'specifications/BITCODE_SPEC_V39.md');
   const parity = read(root, 'specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md');
-  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
-  assertCheck(failures, spec.includes('TerminalEnterpriseReadingUxState'), 'V39 spec must name TerminalEnterpriseReadingUxState.');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
+  assertCheck(failures, spec.includes('ProductEnterpriseReadingUxState'), 'V39 spec must name ProductEnterpriseReadingUxState.');
   assertCheck(failures, spec.includes('readingStage'), 'V39 spec must describe source-safe readingStage route state.');
   assertCheck(failures, parity.includes('Gate 3 Parity'), 'V39 parity matrix must include Gate 3 parity.');
-  assertCheck(failures, terminalReadme.includes('TerminalEnterpriseReadingUxState'), 'Terminal README must document Gate 3 state contract.');
+  assertCheck(failures, terminalReadme.includes('ProductEnterpriseReadingUxState'), 'product README must document Gate 3 state contract.');
 
   if (failures.length > 0) {
     process.stderr.write(`V39 Gate 3 enterprise Reading UX state check failed:\n- ${failures.join('\n- ')}\n`);

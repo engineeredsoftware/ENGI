@@ -26,10 +26,10 @@ class BitcodeMCPServer {
                 tools: {}
             },
             instructions: [
-                'Bitcode is the source-to-shares protocol surfaced through ChatGPT as a connected-interface Bitcode Terminal companion.',
+                'Bitcode is the source-to-shares protocol surfaced through ChatGPT as a connected-interface Bitcode product companion.',
                 'Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state.',
                 'Write tools (GitHub, AWS, Vercel) require confirmed: true and return write-admission receipts before connected-interface delivery mechanisms execute.',
-                'Always ensure `.ai/PRODUCT.md`, `.ai/AGENTS.md`, and `.ai/MCPS.md` stay in sync with Bitcode Exchange and Terminal decisions.'
+                'Always ensure `.ai/PRODUCT.md`, `.ai/AGENTS.md`, and `.ai/MCPS.md` stay in sync with Bitcode Exchange and product decisions.'
             ].join(' ')
         });
         this.tools = tools;

@@ -10,11 +10,11 @@ export const auxillaryPaneExplainers: Record<
     kicker: "Interfaces auxillary",
     title: "Interface defaults",
     summary:
-      "Keep the Bitcode Terminal, MCP API, ChatGPT App, and proof reading aligned to one operator posture.",
+      "Keep the Bitcode, MCP API, ChatGPT App, and proof reading aligned to one operator posture.",
     detail:
-      "These defaults shape how the Bitcode Terminal opens, how detail is emphasized, and how evidence is read before closure.",
+      "These defaults shape how the Bitcode opens, how detail is emphasized, and how evidence is read before closure.",
     points: [
-      "Choose the Terminal detail density you want to read first",
+      "Choose the Pack detail density you want to read first",
       "Keep MCP API and ChatGPT App entry posture predictable",
       "Decide whether proofs open visually, mixed, or as raw evidence",
     ],
@@ -50,7 +50,7 @@ export const auxillaryPaneExplainers: Record<
     summary:
       "Ledgerized Reading pipelines use protocol-owned model configuration rather than user-selected model defaults.",
     detail:
-      "Conversation-only model preferences may exist outside V28 closure, but Terminal Reading, Finding Fits, AssetPack synthesis, proof, and settlement paths remain deterministic.",
+      "Conversation-only model preferences may exist outside V28 closure, but Reading, Finding Fits, AssetPack synthesis, proof, and settlement paths remain deterministic.",
     points: [
       "Do not route ledgerized synthesis through user model preferences",
       "Keep provider and model evidence in telemetry",
@@ -92,7 +92,7 @@ export const auxillaryPaneExplainers: Record<
     points: [
       "Choose the share lens that matches the current operating context",
       "Keep settlement reading explicit before closure",
-      "Control how BTD-specific detail re-enters Terminal and interface surfaces",
+      "Control how BTD-specific detail re-enters product and interface surfaces",
     ],
     references: {
       source: [
@@ -107,7 +107,7 @@ export const auxillaryPaneExplainers: Record<
     summary:
       "Advanced $BTD defaults shape how the inner auxillary biases replay, automation, and settlement follow-through.",
     detail:
-      "These controls are for the operator who wants BTD-specific behavior to stay explicit and reusable without breaking Terminal or interface reading posture.",
+      "These controls are for the operator who wants BTD-specific behavior to stay explicit and reusable without breaking product or interface reading posture.",
     points: [
       "Bias toward review-first or more decisive settlement handling",
       "Decide how BTD detail should open back into transaction views",

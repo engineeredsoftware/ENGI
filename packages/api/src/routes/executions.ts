@@ -756,7 +756,7 @@ export async function getExecutionHistoryRunRoute(
  */
 const DELETABLE_ACTIVITY_ANCHOR_SOURCES = new Set([
   'deposit-obfuscations-anchor',
-  'terminal-repository-context-panel',
+  'repository-context-panel',
 ]);
 
 export async function deleteExecutionHistoryRunRoute(

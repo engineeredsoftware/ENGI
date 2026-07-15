@@ -34,7 +34,7 @@ apps/uapi/
 └── .storybook/stories/
 ```
 
-**Terminal is deleted.** Do not reintroduce `app/terminal` or `/terminal`.
+Product surfaces live under Packs, Deposits, Reads, and Docs.
 
 ## Component import direction
 
@@ -50,8 +50,8 @@ Shadcn*  →  Bitcode*  →  Experience*
 
 | Domain | Prefer | Avoid |
 | --- | --- | --- |
-| Product runs | Pipeline / `BitcodePipeline*` | Terminal, product “Executions” UI |
-| BTD ledger | journal | coupling journal names to Terminal |
+| Product runs | Pipeline / `BitcodePipeline*` | product, product “Executions” UI |
+| BTD ledger | journal | coupling journal names to product |
 | Agent packages | `execution-generics` (low-level) | conflating with product Pipeline |
 
 ## Package boundary

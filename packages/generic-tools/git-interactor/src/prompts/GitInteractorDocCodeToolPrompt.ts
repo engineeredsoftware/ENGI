@@ -21,7 +21,7 @@ import { PROMPTPART_SPECIFIC_TOOL_GITINTERACTOR_DOCCODETOOLMIGRATION } from '@bi
  * domain: tool
  * intent: "Git operations tool for comprehensive version control interactions"
  * 
- * Bitcode Git operation toolkit for repository-bound AssetPack and Terminal
+ * Bitcode Git operation toolkit for repository-bound AssetPack and product
  * workflows. Provider-generic behavior is routed through the VCS layer.
  */
 

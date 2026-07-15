@@ -3,7 +3,7 @@
 ## Overview
 
 This package admits the retained `web-researcher` path as a Bitcode read-synthesis web research agent for the discovery phase.
-It is not an autonomous web-scraping product, task-analysis product, citation manager, browser-automation system, proof engine, or Exchange/Terminal product owner.
+It is not an autonomous web-scraping product, task-analysis product, citation manager, browser-automation system, proof engine, or Exchange/product owner.
 Its V26 role is to collect bounded, source-attributed external context while a Bitcode read is being synthesized, so downstream Bitcode agents can measure the read, form proof-gap questions, understand third-party integration constraints, and plan AssetPack or written-asset work.
 
 The support package name remains `@bitcode/generic-agents-web-research`.

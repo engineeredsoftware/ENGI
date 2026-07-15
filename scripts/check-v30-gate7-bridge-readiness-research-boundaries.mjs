@@ -88,7 +88,7 @@ function main() {
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
     'apps/uapi/app/api/btd/bridge-readiness-research/route.ts',
     'packages/btd/README.md',
-    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'specifications/BITCODE_SPEC_V30.md',
     'specifications/BITCODE_SPEC_V30_DELTA.md',
     'specifications/BITCODE_SPEC_V30_NOTES.md',
@@ -105,7 +105,7 @@ function main() {
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
   const uapiRoute = read(root, 'apps/uapi/app/api/btd/bridge-readiness-research/route.ts');
   const btdReadme = read(root, 'packages/btd/README.md');
-  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   const spec = read(root, 'specifications/BITCODE_SPEC_V30.md');
   const delta = read(root, 'specifications/BITCODE_SPEC_V30_DELTA.md');
   const notes = read(root, 'specifications/BITCODE_SPEC_V30_NOTES.md');
@@ -180,7 +180,7 @@ function main() {
     failures,
     terminalReadme.includes('Bridge-readiness research evidence') &&
       terminalReadme.includes('no_bridge_chain_of_record'),
-    'Terminal README must document bridge-readiness research consumption.',
+    'product README must document bridge-readiness research consumption.',
   );
   assertCheck(
     failures,

@@ -207,7 +207,7 @@ function main() {
   assertCheck(failures, apiTest.includes('api-read-license-source-safe-preview'), 'API tests must share Gate 6 fixture.');
   assertCheck(failures, mcpTest.includes('mcp-finding-fits-source-safe-preview'), 'MCP tests must share Gate 6 fixture.');
   assertCheck(failures, chatgptTest.includes('chatgpt-unpaid-delivery-denied'), 'ChatGPT tests must share Gate 6 fixture.');
-  assertCheck(failures, terminalTest.includes('terminal-paid-rights-delivery'), 'Terminal tests must share Gate 6 fixture.');
+  assertCheck(failures, terminalTest.includes('terminal-paid-rights-delivery'), 'product tests must share Gate 6 fixture.');
   assertCheck(failures, specs.includes('V33 Gate 6 Read License And AssetPack Rights Interface Contracts'), 'Spec/roadmap must describe Gate 6 as current work.');
   assertCheck(failures, packageJson.includes('check:v33-gate6'), 'package.json must expose check:v33-gate6.');
   assertCheck(failures, workflow.includes('check-v33-gate6-read-license-assetpack-rights-contracts.mjs'), 'Gate workflow must run Gate 6 checker.');

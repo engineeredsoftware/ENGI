@@ -104,7 +104,7 @@ export const DISCOVERY_PHASE_TOOLS: Tool[] = [
 /**
  * Internal Read-measurement computer-use registry.
  *
- * This is intentionally not mounted in Terminal action controls and is not a
+ * This is intentionally not mounted in product action controls and is not a
  * general implementation/Delivering capability. The tool surface can expand
  * after the Read measurement contract is fully proven.
  */

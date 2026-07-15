@@ -92,7 +92,7 @@ const checks = [
     ],
   },
   {
-    file: 'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    file: 'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
     needles: [
       'sourceSafePreview',
       'Source-safe preview and settlement readback',

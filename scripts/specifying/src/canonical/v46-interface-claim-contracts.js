@@ -39,7 +39,7 @@ export const V46_INTERFACE_CLAIM_CAPABILITY_IDS = Object.freeze([
   'source-safe-schema-compatibility',
   'tool-registry-contract',
   'action-registry-contract',
-  'terminal-delegated-handoff',
+  'product-delegated-handoff',
   'proof-root-projection',
   'denied-state-repair',
   'no-parallel-state-authority',
@@ -368,7 +368,7 @@ export const V46_INTERFACE_CLAIM_CONTRACT_ROWS = Object.freeze([
     surfaceId: 'bitcode_chat',
     surfaceLabel: 'Bitcode Chat',
     surfaceRole:
-      'website conversation overlay for workflow assistance, stream readback, and Terminal-delegated Reading handoff',
+      'website conversation overlay for workflow assistance, stream readback, and product-delegated Reading handoff',
     sourcePaths: [
       SOURCE_PATHS.conversationRoute,
       SOURCE_PATHS.conversationParityTest,
@@ -396,7 +396,7 @@ export const V46_INTERFACE_CLAIM_CONTRACT_ROWS = Object.freeze([
     ],
     authorityIds: ['canonical-specification', 'generated-proof', 'telemetry-observability-only', 'interface-guidance-only'],
     capabilityIds: [
-      'terminal-delegated-handoff',
+      'product-delegated-handoff',
       'source-safe-response-rendering',
       'proof-root-projection',
       'denied-state-repair',
@@ -405,8 +405,8 @@ export const V46_INTERFACE_CLAIM_CONTRACT_ROWS = Object.freeze([
     ],
     requiredCopyTokens: [
       'Conversation Reading interface parity',
-      'terminal-delegated-handoff',
-      'conversation.terminal-reading-handoff',
+      'product-delegated-handoff',
+      'conversation.product-reading-handoff',
       'source_bearing_delivery_locked_until_settlement_and_rights',
       'Conversation stream proof roots anchored',
       'source_safe_conversation_stream_event_metadata',
@@ -416,7 +416,7 @@ export const V46_INTERFACE_CLAIM_CONTRACT_ROWS = Object.freeze([
     readbackRoots: ['proofRoot', 'conversationStreamEvent', 'persistencePrivacyProofRoot', 'terminalRoute'],
     deniedStateRoots: ['acceptedNeedGate', 'deliveryBoundary', 'Conversation write failed closed'],
     operatorReading:
-      'Bitcode Chat is a source-safe conversation and handoff surface; Terminal/product routes and proof-backed receipts remain state authority.',
+      'Bitcode Chat is a source-safe conversation and handoff surface; product/product routes and proof-backed receipts remain state authority.',
   }),
   interfaceRow({
     surfaceId: 'package_consumer',
@@ -447,7 +447,7 @@ export const V46_INTERFACE_CLAIM_CONTRACT_ROWS = Object.freeze([
       'deferred_not_admitted',
       'packageConsumersReadContractsOnly',
       'parallelAuthorityCreated: false',
-      'sameAuthorityAsTerminal: true',
+      'sameAuthorityAsProduct: true',
     ],
     readbackRoots: ['matrixRoot', 'rowRoot', 'registryRoot'],
     deniedStateRoots: ['deferred_not_admitted', 'packageConsumersReadContractsOnly'],
@@ -498,7 +498,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('btd-api-schema-binds-surfaces', SOURCE_PATHS.btdApiSchema, readSource(repoRoot, SOURCE_PATHS.btdApiSchema).includes('BTD_API_SCHEMA_COMPATIBILITY_CONSUMER_SURFACES')),
     predicateResult('mcp-contract-binds-tool', SOURCE_PATHS.btdMcpContract, readSource(repoRoot, SOURCE_PATHS.btdMcpContract).includes('bitcode://pipelines/asset-pack/create')),
     predicateResult('chatgpt-contract-binds-actions', SOURCE_PATHS.btdChatGptContract, readSource(repoRoot, SOURCE_PATHS.btdChatGptContract).includes('bitcode_request_finding_fits')),
-    predicateResult('conversation-binds-terminal-handoff', SOURCE_PATHS.conversationParityTest, readSource(repoRoot, SOURCE_PATHS.conversationParityTest).includes('conversation.terminal-reading-handoff')),
+    predicateResult('conversation-binds-terminal-handoff', SOURCE_PATHS.conversationParityTest, readSource(repoRoot, SOURCE_PATHS.conversationParityTest).includes('conversation.product-reading-handoff')),
   ];
 }
 

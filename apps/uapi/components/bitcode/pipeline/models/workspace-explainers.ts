@@ -1,5 +1,5 @@
 /**
- * Relocated from app/terminal/terminal-workspace-explainers.ts.
+ * Relocated from product experience components/workspace-explainers.ts.
  * @see BITCODE_SPEC_V48.md frontend architecture workstream
  */
 
@@ -9,27 +9,27 @@ function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
   return explainer;
 }
 
-const TERMINAL_CANON_REFS = [
-  'BITCODE_SPEC_V26.md § Terminal acceptance matrix',
+const PRODUCT_CANON_REFS = [
+  'BITCODE_SPEC_V26.md § product acceptance matrix',
   'BITCODE_SPEC_V26.md § Closure work packages',
-  'BITCODE_SPEC_V26_PARITY_MATRIX.md § Terminal acceptance parity matrix',
+  'BITCODE_SPEC_V26_PARITY_MATRIX.md § product acceptance parity matrix',
 ] as const;
 
-const TERMINAL_SOURCE_REFS = [
+const PRODUCT_SOURCE_REFS = [
   'apps/uapi/components/bitcode/pipeline/',
   'apps/uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
   'apps/uapi/components/bitcode/pipeline/BitcodeInlineExplainer.tsx',
   'scripts/specifying/public/app.js',
 ] as const;
 
-export const TERMINAL_SURFACE_EXPLAINERS = {
+export const PRODUCT_SURFACE_EXPLAINERS = {
   experienceMap: buildExplainer({
-    kicker: 'Bitcode Terminal operator model',
-    title: 'Bitcode Terminal experience map',
+    kicker: 'Bitcode operator model',
+    title: 'Bitcode experience map',
     summary:
-      'The Bitcode Terminal is the primary operator surface for Deposit, Read, closure, and recent activity results, while Exchange owns the market-wide master-detail view.',
+      'The Bitcode is the primary operator surface for Deposit, Read, closure, and recent activity results, while Exchange owns the market-wide master-detail view.',
     detail:
-      'Use this map to keep the main Bitcode Terminal working surface stable: Deposit, Read, recent activity, and selected results stay primary, while conversations and Auxillaries remain deliberate mode changes instead of parallel destinations, and every one of those reads stays grounded in Bitcode Exchange state and Bitcode Protocol canon.',
+      'Use this map to keep the main Bitcode working surface stable: Deposit, Read, recent activity, and selected results stay primary, while conversations and Auxillaries remain deliberate mode changes instead of parallel destinations, and every one of those reads stays grounded in Bitcode Exchange state and Bitcode Protocol canon.',
     points: [
       'Keeps the ledger and selected activity central',
       'Treats conversations and Auxillaries as deliberate follow-through modes',
@@ -37,11 +37,11 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/bitcode/pipeline/',
       ],
       canon: [
-        ...TERMINAL_CANON_REFS,
+        ...PRODUCT_CANON_REFS,
         'BITCODE_SPEC_V26.md § Minimum-functional north star',
       ],
     },
@@ -60,11 +60,11 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/bitcode/pipeline/',
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   readScenarios: buildExplainer({
@@ -76,16 +76,16 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
       'This surface keeps the currently measured demand visible as a first-class Bitcode choice. You should be able to change the scenario, review parser and target posture, and keep moving without dropping into execution plumbing.',
     points: [
       'Keeps the active demand frame explicit',
-      'Makes scenario switching part of the Bitcode Terminal',
+      'Makes scenario switching part of the Bitcode',
       'Preserves continuity into fit and closure reading',
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/reads/ReadsNeedComposePanel/ReadsNeedComposePanel.tsx',
         'apps/uapi/components/reads/models/read-scenarios.ts',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   supplyInventory: buildExplainer({
@@ -96,17 +96,17 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     detail:
       'Use this surface to bind the current auth session, narrow the inventory, and keep only the supply you want in the active deposit draft before moving into Depositing, fit, and closure.',
     points: [
-      'Keeps searchable supply inside the Bitcode Terminal',
+      'Keeps searchable supply inside the Bitcode',
       'Makes selected inventory explicit before Depositing drafting',
       'Preserves continuity into the deposit draft instead of forcing context rebuilds',
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/bitcode/pipeline/',
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   depositComposer: buildExplainer({
@@ -123,11 +123,11 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/bitcode/pipeline/',
         'apps/uapi/app/api/deposits/route.ts',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   depositReadChain: buildExplainer({
@@ -136,19 +136,19 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     summary:
       'Supply, read measurement, and fit should read as one operating chain so you can judge why the current Bitcode activity is or is not moving forward.',
     detail:
-      'The Bitcode Terminal is the short path for understanding what is being offered, what is being measured, and what still blocks a strong fit before closure work begins.',
+      'The Bitcode is the short path for understanding what is being offered, what is being measured, and what still blocks a strong fit before closure work begins.',
     points: [
-      'Keeps Deposit and Read in one Bitcode Terminal read',
+      'Keeps Deposit and Read in one Bitcode read',
       'Makes asset-pack fit legible before proof and settlement',
       'Supports quick orientation before opening the exact proof view',
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx',
         'apps/uapi/components/bitcode/pipeline/BitcodeActionWorkbenchCard/BitcodeActionWorkbenchCard.tsx',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   closureControls: buildExplainer({
@@ -165,11 +165,11 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/bitcode/pipeline/',
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   closureMap: buildExplainer({
@@ -181,16 +181,16 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
       'Use this map to preview the review-to-settlement sequence, inspect the strongest metrics and rows for each stage, and open the exact proof view only when you read deeper proof.',
     points: [
       'Keeps Read review and closure stages in one readable sequence',
-      'Brings proof and history closer to the Bitcode Terminal',
+      'Brings proof and history closer to the Bitcode',
       'Makes fit-quality and exact-detail reads deliberate instead of mandatory',
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/bitcode/pipeline/',
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   ledgerPulse: buildExplainer({
@@ -206,10 +206,10 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   boundaryRuntime: buildExplainer({
@@ -218,7 +218,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     summary:
       'Bitcode should show what is live, modeled, boundary-only, or blocked without making you infer that state from failures later in the flow.',
     detail:
-      'Use this read before trusting downstream asset packs or settlement. A healthy Bitcode Terminal keeps Bitcode Exchange boundary truth visible, makes third-party connections and attachments legible as ingress/input context, and stays aligned with Bitcode Protocol fail-closed rules.',
+      'Use this read before trusting downstream asset packs or settlement. A healthy Bitcode keeps Bitcode Exchange boundary truth visible, makes third-party connections and attachments legible as ingress/input context, and stays aligned with Bitcode Protocol fail-closed rules.',
     points: [
       'Shows blocked interfaces early',
       'Keeps modeled and live states separate',
@@ -226,33 +226,33 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/bitcode/pipeline/',
         'apps/uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx',
       ],
       canon: [
-        ...TERMINAL_CANON_REFS,
+        ...PRODUCT_CANON_REFS,
         'BITCODE_SPEC_V26.md § Auxillaries transactional readiness',
       ],
     },
   }),
   activityMap: buildExplainer({
     kicker: 'Section navigation',
-    title: 'Bitcode Terminal activity map',
+    title: 'Bitcode activity map',
     summary:
       'Preview the deeper deposit, read, fit, verification, artifact, settlement, and ledger sections before opening them in the exact proof view.',
     detail:
-      'The map should act like a readable table of contents for the lower Bitcode Terminal flow so you can move from recent activity results into Bitcode Protocol proof without losing context, not like an internal engineering note.',
+      'The map should act like a readable table of contents for the lower Bitcode flow so you can move from recent activity results into Bitcode Protocol proof without losing context, not like an internal engineering note.',
     points: [
       'Supports quick section discovery',
       'Keeps exact-detail navigation legible',
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   repositorySupply: buildExplainer({
@@ -269,12 +269,12 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/deposits/DepositSourceSelection/DepositSourceSelection.tsx',
         'apps/uapi/components/bitcode/pipeline/models/repository-context.ts',
       ],
       canon: [
-        ...TERMINAL_CANON_REFS,
+        ...PRODUCT_CANON_REFS,
         'BITCODE_SPEC_V26.md § Repository and VCS boundary',
       ],
     },
@@ -285,7 +285,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     summary:
       'You should be able to read the live deposit-side source, measured read, and fit posture without dropping immediately into the exact proof view.',
     detail:
-      'This is the high-level map of why a repository, demand frame, and fit posture belong together in the active Bitcode Terminal.',
+      'This is the high-level map of why a repository, demand frame, and fit posture belong together in the active Bitcode.',
     points: [
       'Deposit stays tied to searchable supply',
       'Read stays tied to measured demand',
@@ -293,10 +293,10 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   sourcePath: buildExplainer({
@@ -308,15 +308,15 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
       'This demonstration witness remains available for inspection, but it should feel like a deliberate follow-through surface rather than the main product experience.',
     points: [
       'Supports deep proof and flow inspection',
-      'Keeps the Bitcode Terminal uncluttered',
+      'Keeps the Bitcode uncluttered',
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/bitcode/pipeline/',
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   railModes: buildExplainer({
@@ -325,7 +325,7 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     summary:
       'The right rail should keep mode changes obvious without competing with the recent activity result window.',
     detail:
-      'Use the rail to open conversations or Auxillaries deliberately, while recent activity and the selected result remain the primary Terminal read surface.',
+      'Use the rail to open conversations or Auxillaries deliberately, while recent activity and the selected result remain the primary product read surface.',
     points: [
       'Keeps deeper drafting deliberate',
       'Avoids splitting attention away from recent activity results',
@@ -333,10 +333,10 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   railSupport: buildExplainer({
@@ -353,10 +353,10 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   railFocus: buildExplainer({
@@ -367,49 +367,49 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
     detail:
       'This card keeps the activity id and short summary close at hand so you can safely resume work after changing filters, modes, or detail tabs.',
     points: [
-      'Prevents context loss while moving around the Bitcode Terminal',
+      'Prevents context loss while moving around the Bitcode',
       'Keeps the active activity obvious',
       'Supports resumable work',
     ],
     references: {
       source: [
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/bitcode/pipeline/',
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
 } as const;
 
-export const PRODUCT_WORKSPACE_EXPLAINERS = TERMINAL_SURFACE_EXPLAINERS;
+export const PRODUCT_WORKSPACE_EXPLAINERS = PRODUCT_SURFACE_EXPLAINERS;
 
 export const PRODUCT_INLINE_EXPLAINERS = {
   readWindow: buildExplainer({
     kicker: 'Reading surface',
     title: 'Read window',
     summary:
-      'The main Bitcode Terminal read window is recent activity plus the selected Terminal result, not the Exchange master-detail table.',
+      'The main Bitcode read window is recent activity plus the selected product result, not the Exchange master-detail table.',
     detail:
-      'Exchange owns the market-wide master-detail loop. Terminal keeps a focused read/write loop for recent Deposit, Read, proof, and closure results; deeper proof, conversation, and auxillary surfaces should remain deliberate follow-through rather than parallel primaries.',
+      'Exchange owns the market-wide master-detail loop. product keeps a focused read/write loop for recent Deposit, Read, proof, and closure results; deeper proof, conversation, and auxillary surfaces should remain deliberate follow-through rather than parallel primaries.',
     points: [
-      'Read recent Deposit, Read, proof, and closure results without leaving the Terminal',
-      'Keep the selected Terminal result primary instead of the Exchange master-detail table',
+      'Read recent Deposit, Read, proof, and closure results without leaving the product',
+      'Keep the selected product result primary instead of the Exchange master-detail table',
       'Open deeper proof, conversation, and auxillary surfaces as deliberate follow-through',
     ],
     references: {
       source: [
         'apps/uapi/components/bitcode/pipeline/',
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   writePosture: buildExplainer({
     kicker: 'Ledger writes',
     title: 'Write posture',
     summary:
-      'Deposit, read, and transactional follow-through are the active write posture of the Bitcode Terminal.',
+      'Deposit, read, and transactional follow-through are the active write posture of the Bitcode.',
     detail:
       'This is where click-based and chat-based write paths meet. Conversations can draft, but the ledger-facing write posture still belongs to deposit, read, deposit, branch, and closure so writes land in Bitcode Exchange and remain auditable against Bitcode Protocol canon.',
     points: [
@@ -421,9 +421,9 @@ export const PRODUCT_INLINE_EXPLAINERS = {
       source: [
         'apps/uapi/components/bitcode/pipeline/',
         'apps/uapi/app/conversations/components/ConversationsOverlay.tsx',
-        ...TERMINAL_SOURCE_REFS,
+        ...PRODUCT_SOURCE_REFS,
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   scenario: buildExplainer({
@@ -442,7 +442,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
         'apps/uapi/components/bitcode/pipeline/',
         'apps/uapi/components/reads/ReadsNeedComposePanel/ReadsNeedComposePanel.tsx',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   projection: buildExplainer({
@@ -458,7 +458,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
     ],
     references: {
       source: ['apps/uapi/components/bitcode/pipeline/'],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   branchMode: buildExplainer({
@@ -477,7 +477,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
         'apps/uapi/components/bitcode/pipeline/',
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   transactionReadiness: buildExplainer({
@@ -501,7 +501,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
         'apps/uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx',
       ],
       canon: [
-        ...TERMINAL_CANON_REFS,
+        ...PRODUCT_CANON_REFS,
         'BITCODE_SPEC_V26.md § Wallet and signed transaction posture',
       ],
     },
@@ -522,18 +522,18 @@ export const PRODUCT_INLINE_EXPLAINERS = {
         'apps/uapi/components/deposits/DepositSourceSelection/DepositSourceSelection.tsx',
         'apps/uapi/components/bitcode/pipeline/models/repository-context.ts',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   repositoryAnchor: buildExplainer({
     kicker: 'Repository context',
     title: 'Record repository anchor',
     summary:
-      'Recording the repository anchor writes the selected source perimeter into recent Bitcode Terminal activity.',
+      'Recording the repository anchor writes the selected source perimeter into recent Bitcode activity.',
     detail:
-      'This keeps source posture rereadable in recent Terminal activity alongside deposit, read, proof, and settlement instead of leaving the repository choice as ephemeral UI state.',
+      'This keeps source posture rereadable in recent product activity alongside deposit, read, proof, and settlement instead of leaving the repository choice as ephemeral UI state.',
     points: [
-      'Write the selected source perimeter into recent Bitcode Terminal activity',
+      'Write the selected source perimeter into recent Bitcode activity',
       'Reread source posture later alongside deposit, read, proof, and settlement',
     ],
     references: {
@@ -541,7 +541,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
         'apps/uapi/components/deposits/DepositSourceSelection/DepositSourceSelection.tsx',
         'apps/uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   authSession: buildExplainer({
@@ -560,7 +560,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
         'apps/uapi/components/bitcode/pipeline/',
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   artifactKind: buildExplainer({
@@ -579,36 +579,36 @@ export const PRODUCT_INLINE_EXPLAINERS = {
         'apps/uapi/components/bitcode/pipeline/',
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   inventorySearch: buildExplainer({
     kicker: 'Supply search',
     title: 'Inventory search',
     summary:
-      'Inventory search is the fast path for narrowing repository supply inside the Bitcode Terminal.',
+      'Inventory search is the fast path for narrowing repository supply inside the Bitcode.',
     detail:
       'It should preserve continuity with repository anchor and selected supply so the operator can move from search straight into Deposit without rebuilding context.',
     points: [
-      'Narrow repository supply quickly inside the Bitcode Terminal',
+      'Narrow repository supply quickly inside the Bitcode',
       'Move from search straight into Deposit without rebuilding context',
     ],
     references: {
       source: [
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   activeNeed: buildExplainer({
     kicker: 'Read measurement',
     title: 'Record active read',
     summary:
-      'Recording the active read writes the currently measured demand frame into recent Bitcode Terminal activity.',
+      'Recording the active read writes the currently measured demand frame into recent Bitcode activity.',
     detail:
-      'This makes the selected read rereadable from the same Terminal activity result path that later shows fit, proof, and settlement.',
+      'This makes the selected read rereadable from the same product activity result path that later shows fit, proof, and settlement.',
     points: [
-      'Write the currently measured demand frame into recent Terminal activity',
+      'Write the currently measured demand frame into recent product activity',
       'Reread the selected read from the same result path that shows fit, proof, and settlement',
     ],
     references: {
@@ -616,7 +616,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
         'apps/uapi/components/reads/ReadsNeedComposePanel/ReadsNeedComposePanel.tsx',
         'apps/uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   sourceRepo: buildExplainer({
@@ -635,7 +635,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
         'apps/uapi/components/bitcode/pipeline/',
         'apps/uapi/components/deposits/DepositSourceSelection/DepositSourceSelection.tsx',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   sourceCommit: buildExplainer({
@@ -651,7 +651,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
     ],
     references: {
       source: ['apps/uapi/components/bitcode/pipeline/'],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   sourceBranch: buildExplainer({
@@ -660,7 +660,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
     summary:
       'Source branch scopes the commit list and keeps repository materialization tied to the branch the operator selected.',
     detail:
-      'Terminal source selection is repository, branch, and commit together. Changing repository re-reads branches; changing branch re-reads commits so downstream materialization can fetch the exact source snapshot.',
+      'product source selection is repository, branch, and commit together. Changing repository re-reads branches; changing branch re-reads commits so downstream materialization can fetch the exact source snapshot.',
     points: [
       'Scope the commit list to the branch the operator selected',
       'Re-read commits after a branch change so materialization fetches the exact snapshot',
@@ -670,7 +670,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
         'apps/uapi/components/deposits/DepositSourceSelection/DepositSourceSelection.tsx',
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   signerAddress: buildExplainer({
@@ -690,7 +690,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
         'apps/uapi/components/bitcode/pipeline/',
       ],
       canon: [
-        ...TERMINAL_CANON_REFS,
+        ...PRODUCT_CANON_REFS,
         'BITCODE_SPEC_V26.md § Wallet and signed transaction posture',
       ],
     },
@@ -701,7 +701,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
     summary:
       'Deposit submission should bind selected supply, provenance, and optional raw content into the same Bitcode activity chain.',
     detail:
-      'The operator should be able to submit, reread the ledger row, and continue into fit and closure without leaving the Bitcode Terminal model.',
+      'The operator should be able to submit, reread the ledger row, and continue into fit and closure without leaving the Bitcode model.',
     points: [
       'Bind selected supply, provenance, and optional raw content into one activity chain',
       'Submit, reread the ledger row, and continue into fit and closure in place',
@@ -712,7 +712,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
         'apps/uapi/app/api/deposits/route.ts',
         'apps/uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   assetTitleOverride: buildExplainer({
@@ -728,7 +728,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
     ],
     references: {
       source: ['apps/uapi/components/bitcode/pipeline/'],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   authorOverride: buildExplainer({
@@ -744,7 +744,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
     ],
     references: {
       source: ['apps/uapi/components/bitcode/pipeline/'],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   artifactType: buildExplainer({
@@ -760,7 +760,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
     ],
     references: {
       source: ['apps/uapi/components/bitcode/pipeline/'],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   workflowRunId: buildExplainer({
@@ -776,7 +776,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
     ],
     references: {
       source: ['apps/uapi/components/bitcode/pipeline/'],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   visualPreview: buildExplainer({
@@ -792,7 +792,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
     ],
     references: {
       source: ['apps/uapi/components/bitcode/pipeline/'],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   workingNote: buildExplainer({
@@ -808,7 +808,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
     ],
     references: {
       source: ['apps/uapi/components/bitcode/pipeline/'],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   tags: buildExplainer({
@@ -824,7 +824,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
     ],
     references: {
       source: ['apps/uapi/components/bitcode/pipeline/'],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   rawFallbackContent: buildExplainer({
@@ -841,7 +841,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
     ],
     references: {
       source: ['apps/uapi/components/bitcode/pipeline/'],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
   closureAction: buildExplainer({
@@ -860,7 +860,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
         'apps/uapi/components/bitcode/pipeline/',
         'apps/uapi/components/bitcode/pipeline/',
       ],
-      canon: TERMINAL_CANON_REFS,
+      canon: PRODUCT_CANON_REFS,
     },
   }),
 } as const;

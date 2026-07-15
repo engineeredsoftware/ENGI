@@ -115,9 +115,9 @@ export const V39_ENTERPRISE_READING_UX_ROWS = Object.freeze([
   row({
     rowId: 'stage:request-read',
     purpose:
-      'Represent the first Terminal Reading stage where the reader selects source anchors, frames the request, records measured Read posture, and keeps protected source hidden.',
+      'Represent the first Reading stage where the reader selects source anchors, frames the request, records measured Read posture, and keeps protected source hidden.',
     sourceRoots: [SOURCE_ROOTS.terminalUxState, SOURCE_ROOTS.terminalWorkbench],
-    emittedTypes: ['TerminalEnterpriseReadingStepView', 'TerminalEnterpriseReadingUxState'],
+    emittedTypes: ['ProductEnterpriseReadingStepView', 'ProductEnterpriseReadingUxState'],
     requiredEvidence: ['request-read', 'read_request_summary', 'repository source required'],
   }),
   row({
@@ -125,7 +125,7 @@ export const V39_ENTERPRISE_READING_UX_ROWS = Object.freeze([
     purpose:
       'Represent the reviewable ReadNeedComprehensionSynthesis output stage before any Depository search is admitted.',
     sourceRoots: [SOURCE_ROOTS.terminalUxState, SOURCE_ROOTS.terminalWorkbench],
-    emittedTypes: ['TerminalReadNeedState', 'TerminalEnterpriseReadingStepView'],
+    emittedTypes: ['TerminalReadNeedState', 'ProductEnterpriseReadingStepView'],
     requiredEvidence: ['review-synthesized-need', 'read_need_measurements', 'accepted Need required'],
   }),
   row({
@@ -141,7 +141,7 @@ export const V39_ENTERPRISE_READING_UX_ROWS = Object.freeze([
     purpose:
       'Represent source-safe AssetPack preview and quote review without disclosing source-bearing AssetPack contents before settlement.',
     sourceRoots: [SOURCE_ROOTS.terminalUxState, SOURCE_ROOTS.terminalWorkbench],
-    emittedTypes: ['TerminalEnterpriseReadingStepView'],
+    emittedTypes: ['ProductEnterpriseReadingStepView'],
     requiredEvidence: ['review-synthesized-asset-pack', 'asset_pack_measurements', 'unpaid_assetpack_source'],
   }),
   row({
@@ -149,15 +149,15 @@ export const V39_ENTERPRISE_READING_UX_ROWS = Object.freeze([
     purpose:
       'Represent BTC quote settlement, BTD rights unlock, ledger readback, and delivery posture while private wallet and settlement payloads remain hidden.',
     sourceRoots: [SOURCE_ROOTS.terminalUxState, SOURCE_ROOTS.terminalWorkbench],
-    emittedTypes: ['TerminalEnterpriseReadingStepView'],
+    emittedTypes: ['ProductEnterpriseReadingStepView'],
     requiredEvidence: ['buy-asset-pack-settle', 'settlement_state', 'delivery_posture'],
   }),
   row({
     rowId: 'route:conversation-terminal-reading-stage',
     purpose:
-      'Carry source-safe Reading stage intent from Conversation into Terminal route query state while Terminal remains the transaction authority.',
+      'Carry source-safe Reading stage intent from Conversation into product route query state while Packs remains the transaction authority.',
     sourceRoots: [SOURCE_ROOTS.conversationHandoff, SOURCE_ROOTS.terminalRouteQuery],
-    emittedTypes: ['ConversationProductHandoffEnvelope.readingStage', 'TerminalConversationHandoffContext.readingStage'],
+    emittedTypes: ['ConversationProductHandoffEnvelope.readingStage', 'ProductConversationHandoffContext.readingStage'],
     requiredEvidence: ['readingStage', 'productEnterpriseReadingStage', 'conversationMayHandoffIntent'],
   }),
   row({
@@ -173,13 +173,13 @@ export const V39_ENTERPRISE_READING_UX_ROWS = Object.freeze([
     purpose:
       'Default the Reading UX to low-detail guidance while expandable details remain source-safe and forbid protected source, raw prompts, provider responses, unpaid AssetPack source, credentials, and private settlement material.',
     sourceRoots: [SOURCE_ROOTS.terminalUxState, SOURCE_ROOTS.terminalWorkbench, SOURCE_ROOTS.uxStateTest],
-    emittedTypes: ['TerminalEnterpriseReadingUxState.disclosure'],
-    requiredEvidence: ['lowDetailDefault', 'expandableSourceSafeDetail', 'TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS'],
+    emittedTypes: ['ProductEnterpriseReadingUxState.disclosure'],
+    requiredEvidence: ['lowDetailDefault', 'expandableSourceSafeDetail', 'PRODUCT_ENTERPRISE_READING_FORBIDDEN_FIELDS'],
   }),
   row({
     rowId: 'proof:component-browser-workflow',
     purpose:
-      'Bind Gate 3 to component tests, route-state tests, source-safe disclosure tests, and the maintained opt-in Terminal browser proof workflow.',
+      'Bind Gate 3 to component tests, route-state tests, source-safe disclosure tests, and the maintained opt-in product browser proof workflow.',
     sourceRoots: [
       SOURCE_ROOTS.uxStateTest,
       SOURCE_ROOTS.workbenchTest,
@@ -190,7 +190,7 @@ export const V39_ENTERPRISE_READING_UX_ROWS = Object.freeze([
       SOURCE_ROOTS.gateWorkflow,
     ],
     emittedTypes: ['V39EnterpriseReadingUxStateProof'],
-    requiredEvidence: ['terminal-enterprise-reading-ux-state', 'Browser proof Terminal cockpit', 'BITCODE_ENABLE_GATE_BROWSER_PROOF'],
+    requiredEvidence: ['terminal-enterprise-reading-ux-state', 'Browser proof product cockpit', 'BITCODE_ENABLE_GATE_BROWSER_PROOF'],
   }),
 ]);
 
@@ -220,12 +220,12 @@ function buildPredicateResults(repoRoot) {
   const protocolReadme = readSource(repoRoot, SOURCE_ROOTS.protocolReadme);
 
   return [
-    predicateResult('ux-state-defines-five-stage-contract', SOURCE_ROOTS.terminalUxState, V39_ENTERPRISE_READING_STEP_IDS.every((id) => uxState.includes(id)) && uxState.includes('buildTerminalEnterpriseReadingUxState')),
+    predicateResult('ux-state-defines-five-stage-contract', SOURCE_ROOTS.terminalUxState, V39_ENTERPRISE_READING_STEP_IDS.every((id) => uxState.includes(id)) && uxState.includes('buildProductEnterpriseReadingUxState')),
     predicateResult('ux-state-source-safety-disclosure', SOURCE_ROOTS.terminalUxState, uxState.includes('source_safe_enterprise_reading_ux_metadata') && uxState.includes('protectedSourceVisible: false') && uxState.includes('unpaidAssetPackSourceVisible: false')),
     predicateResult(
       'ux-state-forbids-protected-payloads',
       SOURCE_ROOTS.terminalUxState,
-      uxState.includes('TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS') &&
+      uxState.includes('PRODUCT_ENTERPRISE_READING_FORBIDDEN_FIELDS') &&
         uxState.includes('protected_source_payload') &&
         uxState.includes('raw_protected_prompt') &&
         uxState.includes('raw_provider_response') &&
@@ -235,26 +235,26 @@ function buildPredicateResults(repoRoot) {
         uxState.includes('ledger_write_authority'),
     ),
     predicateResult('workbench-renders-stage-state-cards', SOURCE_ROOTS.terminalWorkbench, workbench.includes('terminal-enterprise-reading-step-${stage.id}') && workbench.includes('data-reading-step-state') && workbench.includes('Source-safe detail')),
-    predicateResult('workbench-renders-execution-stream-panel', SOURCE_ROOTS.terminalWorkbench, workbench.includes('BitcodeExecutionStreamPanel') && workbench.includes('buildTerminalEnterpriseReadingUxState')),
-    predicateResult('workbench-contract-reexports-stage-ids', SOURCE_ROOTS.terminalWorkbenchContract, workbenchContract.includes('TERMINAL_ENTERPRISE_READING_STEPS') && workbenchContract.includes('TerminalEnterpriseReadingStepId')),
+    predicateResult('workbench-renders-execution-stream-panel', SOURCE_ROOTS.terminalWorkbench, workbench.includes('BitcodeExecutionStreamPanel') && workbench.includes('buildProductEnterpriseReadingUxState')),
+    predicateResult('workbench-contract-reexports-stage-ids', SOURCE_ROOTS.terminalWorkbenchContract, workbenchContract.includes('PRODUCT_ENTERPRISE_READING_STEPS') && workbenchContract.includes('TerminalEnterpriseReadingStepId')),
     predicateResult('harness-projects-rich-reading-telemetry', SOURCE_ROOTS.terminalHarnessClient, harnessClient.includes('ReadFitsFindingSynthesis') && harnessClient.includes('ptrrStepId') && harnessClient.includes('thinkingsGenerationId') && harnessClient.includes('promptTemplateId') && harnessClient.includes('outputSchema')),
-    predicateResult('conversation-handoff-carries-reading-stage', SOURCE_ROOTS.conversationHandoff, handoff.includes('inferConversationTerminalReadingStage') && handoff.includes('productEnterpriseReadingStage') && handoff.includes("params.set('readingStage'")),
-    predicateResult('terminal-query-reads-reading-stage', SOURCE_ROOTS.terminalRouteQuery, query.includes('TERMINAL_ENTERPRISE_READING_STAGE_VALUES') && query.includes('readingStage: TerminalEnterpriseReadingStepId | null')),
+    predicateResult('conversation-handoff-carries-reading-stage', SOURCE_ROOTS.conversationHandoff, handoff.includes('inferConversationProductReadingStage') && handoff.includes('productEnterpriseReadingStage') && handoff.includes("params.set('readingStage'")),
+    predicateResult('terminal-query-reads-reading-stage', SOURCE_ROOTS.terminalRouteQuery, query.includes('PRODUCT_ENTERPRISE_READING_STAGE_VALUES') && query.includes('readingStage: TerminalEnterpriseReadingStepId | null')),
     predicateResult('ux-state-tests-cover-source-safety', SOURCE_ROOTS.uxStateTest, uxStateTest.includes('locks the enterprise Reading UX to five source-safe stages') && uxStateTest.includes('source_safe_enterprise_reading_ux_metadata')),
     predicateResult('workbench-tests-cover-five-stage-labels', SOURCE_ROOTS.workbenchTest, workbenchTest.includes('3. Request Finding Fits') && workbenchTest.includes('buy-asset-pack-settle')),
     predicateResult('handoff-tests-cover-reading-stage-route', SOURCE_ROOTS.handoffTest, handoffTest.includes('readingStage=request-fit') && handoffTest.includes('productEnterpriseReadingStage')),
     predicateResult('query-tests-cover-reading-stage-route', SOURCE_ROOTS.queryTest, queryTest.includes('reads source-safe enterprise Reading stage') && queryTest.includes('request-fit')),
     predicateResult('stream-tests-cover-rich-header', SOURCE_ROOTS.streamHeaderTest, streamHeaderTest.includes('ReadFitsFindingSynthesis') && streamHeaderTest.includes('outputSchema') && streamHeaderTest.includes('prompt_template_id_only')),
-    predicateResult('browser-proof-contract-retained', SOURCE_ROOTS.browserProofTest, browserProofTest.includes('Terminal UX browser proof contract') && browserProofTest.includes('apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts')),
-    predicateResult('browser-proof-e2e-retained', SOURCE_ROOTS.browserProofE2e, browserProofE2e.includes('commercial MVP Terminal UX browser proof') && browserProofE2e.includes('expectReadableViewport')),
-    predicateResult('workflow-keeps-browser-proof-opt-in', SOURCE_ROOTS.gateWorkflow, gateWorkflow.includes('Browser proof Terminal cockpit') && gateWorkflow.includes('BITCODE_ENABLE_GATE_BROWSER_PROOF')),
+    predicateResult('browser-proof-contract-retained', SOURCE_ROOTS.browserProofTest, browserProofTest.includes('product UX browser proof contract') && browserProofTest.includes('apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts')),
+    predicateResult('browser-proof-e2e-retained', SOURCE_ROOTS.browserProofE2e, browserProofE2e.includes('commercial MVP product UX browser proof') && browserProofE2e.includes('expectReadableViewport')),
+    predicateResult('workflow-keeps-browser-proof-opt-in', SOURCE_ROOTS.gateWorkflow, gateWorkflow.includes('Browser proof product cockpit') && gateWorkflow.includes('BITCODE_ENABLE_GATE_BROWSER_PROOF')),
     predicateResult('workflow-runs-gate3-check', SOURCE_ROOTS.gateWorkflow, gateWorkflow.includes('check-v39-gate3-enterprise-reading-ux-state.mjs')),
-    predicateResult('spec-gate3-expanded', SOURCE_ROOTS.v39Spec, v39Spec.includes('TerminalEnterpriseReadingUxState') && v39Spec.includes('v39-enterprise-reading-ux-state')),
-    predicateResult('delta-gate3-expanded', SOURCE_ROOTS.v39Delta, v39Delta.includes('Closure implementation:') && v39Delta.includes('TerminalEnterpriseReadingUxState')),
+    predicateResult('spec-gate3-expanded', SOURCE_ROOTS.v39Spec, v39Spec.includes('ProductEnterpriseReadingUxState') && v39Spec.includes('v39-enterprise-reading-ux-state')),
+    predicateResult('delta-gate3-expanded', SOURCE_ROOTS.v39Delta, v39Delta.includes('Closure implementation:') && v39Delta.includes('ProductEnterpriseReadingUxState')),
     predicateResult('notes-gate3-expanded', SOURCE_ROOTS.v39Notes, v39Notes.includes('Gate 3 implementation notes') && v39Notes.includes('readingStage')),
     predicateResult('parity-gate3-expanded', SOURCE_ROOTS.v39Parity, v39Parity.includes('Gate 3 Parity') && v39Parity.includes('v39-enterprise-reading-ux-state')),
-    predicateResult('roadmap-advanced-to-gate3', SOURCE_ROOTS.roadmap, roadmap.includes('V39 Gate 3 closure anchor') && roadmap.includes('TerminalEnterpriseReadingUxState')),
-    predicateResult('readmes-document-gate3', SOURCE_ROOTS.rootReadme, rootReadme.includes('V39 Gate 3') && terminalReadme.includes('TerminalEnterpriseReadingUxState') && conversationReadme.includes('readingStage') && protocolReadme.includes('V39EnterpriseReadingUxState')),
+    predicateResult('roadmap-advanced-to-gate3', SOURCE_ROOTS.roadmap, roadmap.includes('V39 Gate 3 closure anchor') && roadmap.includes('ProductEnterpriseReadingUxState')),
+    predicateResult('readmes-document-gate3', SOURCE_ROOTS.rootReadme, rootReadme.includes('V39 Gate 3') && terminalReadme.includes('ProductEnterpriseReadingUxState') && conversationReadme.includes('readingStage') && protocolReadme.includes('V39EnterpriseReadingUxState')),
   ];
 }
 

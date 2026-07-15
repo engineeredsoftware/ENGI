@@ -86,14 +86,14 @@ The ChatGPT App consumes the shared
 ChatGPT write carriers reuse package-owned read-access, organization-authority,
 and Protocol telemetry objects rather than copying BTD policy locally. The
 record is regression evidence for the same connected-interface contract the
-Terminal and API expose.
+product and API expose.
 
 V35 additionally binds ChatGPT App tool metadata to
 `TelemetryDocumentationInterfaceIntegration` and the source-safe generated
 artifact `.bitcode/v35-telemetry-documentation-interface-integration.json`.
 Tool results may include event ids, proof roots, docs links, runbook links,
 redaction posture, correlation ids, and safe state labels so a ChatGPT thread
-can hand the operator back to Terminal, docs, or a runbook without leaking
+can hand the operator back to product, docs, or a runbook without leaking
 source. Tool results must not include protected source, secret values,
 provider tokens, wallet private material, raw protected prompts, raw protected
 model responses with source, or unpaid AssetPack source.

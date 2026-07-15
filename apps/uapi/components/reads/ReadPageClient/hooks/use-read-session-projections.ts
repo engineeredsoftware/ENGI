@@ -5,8 +5,8 @@
 "use client";
 
 import { useMemo } from "react";
-import type { TerminalDepositedSourceRevision } from "@/components/reads/models/deposit-read-workbench";
-import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { ProductDepositedSourceRevision } from "@/components/reads/models/deposit-read-workbench";
+import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
 import {
   buildReadRouteSession,
@@ -16,12 +16,12 @@ import {
 
 export function useReadSessionProjections(input: {
   liveRuns: WorkspaceRun[];
-  repositoryContext: TerminalRepositoryContextState | null;
+  repositoryContext: ProductRepositoryContextState | null;
   selectedTransactionId: string | null;
   selectedRun: WorkspaceRun | null;
   routeReadingStage: ReadRouteStepId | null;
 }): {
-  depositedSourceRevision: TerminalDepositedSourceRevision | null;
+  depositedSourceRevision: ProductDepositedSourceRevision | null;
   admittedReadActivityId: string | null;
   readRouteSession: ReadRouteSession;
 } {
@@ -34,7 +34,7 @@ export function useReadSessionProjections(input: {
   } = input;
 
   const depositedSourceRevision =
-    useMemo<TerminalDepositedSourceRevision | null>(() => {
+    useMemo<ProductDepositedSourceRevision | null>(() => {
       const selectedRepository = repositoryContext?.selectedRepository || null;
       if (!selectedRepository) return null;
       const selectedBranch =

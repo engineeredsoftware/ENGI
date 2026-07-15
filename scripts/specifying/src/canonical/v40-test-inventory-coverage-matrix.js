@@ -162,7 +162,7 @@ export const V40_TEST_INVENTORY_COVERAGE_ROWS = Object.freeze([
     surfaceId: 'integration:conversation-terminal-surfaces',
     gateOwner: 'V40 Gate 6',
     requiredResult:
-      'Inventory Conversation, Terminal, handoff, stream telemetry, source-safe disclosure, and rich execution log integration suites.',
+      'Inventory Conversation, product, handoff, stream telemetry, source-safe disclosure, and rich execution log integration suites.',
     coverageTier: 'needs-new-v40-artifact',
     sourceRoots: [SOURCE_ROOTS.conversationTests, SOURCE_ROOTS.uapiTests],
     commandIds: ['pnpm --dir apps/uapi exec jest'],
@@ -271,7 +271,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('unit-sources-exist', SOURCE_ROOTS.btdTests, sourceExists(repoRoot, SOURCE_ROOTS.btdTests) && sourceExists(repoRoot, SOURCE_ROOTS.assetPackTests) && sourceExists(repoRoot, SOURCE_ROOTS.protocolTests)),
     predicateResult('api-uapi-sources-exist', SOURCE_ROOTS.uapiTests, sourceExists(repoRoot, SOURCE_ROOTS.uapiTests) && sourceExists(repoRoot, SOURCE_ROOTS.apiTests)),
     predicateResult('reading-pipeline-evidence-exists', SOURCE_ROOTS.pipelineTests, sourceExists(repoRoot, SOURCE_ROOTS.readNeedHardeningTest) && sourceExists(repoRoot, SOURCE_ROOTS.readFitsSearchTest) && sourceExists(repoRoot, SOURCE_ROOTS.v39ReadNeedTest) && sourceExists(repoRoot, SOURCE_ROOTS.v39ReadFitsTest)),
-    predicateResult('conversation-terminal-evidence-exists', SOURCE_ROOTS.uapiTests, readSource(repoRoot, 'apps/uapi/tests/conversationStreamPipelineLog.test.tsx').includes('PipelineExecutionLog') && readSource(repoRoot, 'apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts').includes('Terminal')),
+    predicateResult('conversation-terminal-evidence-exists', SOURCE_ROOTS.uapiTests, readSource(repoRoot, 'apps/uapi/tests/conversationStreamPipelineLog.test.tsx').includes('PipelineExecutionLog') && readSource(repoRoot, 'apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts').includes('product')),
     predicateResult('browser-proof-workflow-lane-exists', SOURCE_ROOTS.gateWorkflow, gateWorkflow.includes('BITCODE_ENABLE_GATE_BROWSER_PROOF') && gateWorkflow.includes('test:e2e:terminal-ux')),
     predicateResult('settlement-sync-tests-exist', SOURCE_ROOTS.v39SettlementTest, sourceExists(repoRoot, SOURCE_ROOTS.v39PreviewTest) && sourceExists(repoRoot, SOURCE_ROOTS.v39SettlementTest) && sourceExists(repoRoot, SOURCE_ROOTS.v39TelemetryTest)),
     predicateResult('local-staging-rehearsal-exists', SOURCE_ROOTS.v39LocalStagingTest, sourceExists(repoRoot, SOURCE_ROOTS.v39LocalStagingTest)),

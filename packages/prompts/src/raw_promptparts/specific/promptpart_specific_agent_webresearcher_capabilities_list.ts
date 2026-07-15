@@ -19,4 +19,4 @@ export const PROMPTPART_SPECIFIC_AGENT_WEBRESEARCHER_CAPABILITIES_LIST: PromptPa
 - Preserve title, URL, snippet, source class, publication metadata, provider, and evidence-use rationale
 - Mark source quality, volatility, contradictions, and unresolved gaps for downstream Bitcode owners
 - Feed auxiliary context into read synthesis, proof inspection, interface planning, and AssetPack synthesis
-- Refuse browser-automation product, mutation, delivery, canonical read interpretation, canonical proof, and live Exchange/Terminal ownership claims` as PromptPart;
+- Refuse browser-automation product, mutation, delivery, canonical read interpretation, canonical proof, and live Exchange/product ownership claims` as PromptPart;

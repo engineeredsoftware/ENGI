@@ -159,7 +159,7 @@ export const getBtdBalance = traceRoute('/user/btd', async (request: NextRequest
 /**
  * POST /api/user/btd
  * Closed in V26: $BTD is a non-fungible asset-pack share/read-right, not an
- * admin-mutable spend bucket. Acquisition must flow through Terminal Read
+ * admin-mutable spend bucket. Acquisition must flow through Read
  * minting or Exchange purchase surfaces.
  */
 export const rejectBtdBalanceMutation = traceRoute('/user/btd', async (_request: NextRequest) => {
@@ -184,7 +184,7 @@ export const rejectBtdBalanceMutation = traceRoute('/user/btd', async (_request:
 
     return createJsonResponse({
       error:
-        'Generic BTD balance mutation is closed. $BTD is a non-fungible asset-pack share/read-right; acquisition must flow through Terminal Read minting or Exchange purchase.',
+        'Generic BTD balance mutation is closed. $BTD is a non-fungible asset-pack share/read-right; acquisition must flow through Read minting or Exchange purchase.',
       acquisitionPaths: {
         terminalReadMinting: '/reads?intent=submit-read-for-btd',
         exchangePurchase: '/exchange?intent=buy-existing-btd',

@@ -109,7 +109,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('scripts/prepare-bitcode-spec-family-promotion.mjs', [
     "if (version === 'V39')",
     'V39 canonical system specification for commercial Reading readiness',
-    'specifications/BITCODE_SPEC_V39_PROVEN.md',
+    'BITCODE_SPEC_V39_PROVEN.md',
     V39_COMMERCIAL_READING_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   ]),
   source('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
@@ -175,7 +175,7 @@ const REQUIRED_DOCUMENTATION_EVIDENCE = Object.freeze([
   ]),
   source('specifications/SPECIFICATIONS_ROADMAP.md', [
     'V39 Gate 11 closure anchor',
-    'specifications/BITCODE_SPEC_V39_PROVEN.md',
+    'BITCODE_SPEC_V39_PROVEN.md',
   ]),
   source('README.md', [
     'check:v39-gate11',

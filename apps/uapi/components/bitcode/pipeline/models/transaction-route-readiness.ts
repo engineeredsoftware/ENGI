@@ -1,5 +1,5 @@
 /**
- * Relocated from app/terminal/bitcode-transaction-route-readiness.ts.
+ * Relocated from product experience components/bitcode-transaction-route-readiness.ts.
  * @see BITCODE_SPEC_V48.md frontend architecture workstream
  */
 

@@ -28,7 +28,7 @@ const REQUIRED_DASHBOARD_PANELS = [
   'conversation.dashboard.stream-quality',
   'conversation.dashboard.tool-policy',
   'conversation.dashboard.source-policy',
-  'conversation.dashboard.terminal-handoff',
+  'conversation.dashboard.product-handoff',
   'conversation.dashboard.retry-recovery',
   'conversation.dashboard.error-recovery',
   'conversation.dashboard.completion-quality',
@@ -40,7 +40,7 @@ const REQUIRED_RUNBOOK_IDS = [
   'runbook.conversation.stream-debug',
   'runbook.conversation.tool-policy-denial',
   'runbook.conversation.source-selector-policy',
-  'runbook.conversation.terminal-handoff-repair',
+  'runbook.conversation.product-handoff-repair',
   'runbook.conversation.retry-loop',
   'runbook.conversation.error-recovery',
   'runbook.conversation.completion-repair',
@@ -344,7 +344,7 @@ function main() {
   const docs = read(root, 'docs/conversations.md');
   assertCheck(failures, docs.includes('ConversationTelemetryProofHooks'), 'Public conversation docs must mention ConversationTelemetryProofHooks.');
   assertCheck(failures, docs.includes('Route-Local History'), 'Public conversation docs must document route-local history.');
-  assertCheck(failures, docs.includes('Terminal Handoff'), 'Public conversation docs must document Terminal handoff.');
+  assertCheck(failures, docs.includes('product Handoff'), 'Public conversation docs must document product handoff.');
   assertCheck(failures, docs.includes('source-safe'), 'Public conversation docs must document source-safe telemetry posture.');
 
   const runbook = read(root, 'docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md');

@@ -94,6 +94,6 @@ test('names each Exchange UX capability without exposing source-bearing payloads
     report.operationalBoundary.exchangeUxCovers,
     'market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state',
   );
-  assert.equal(report.operationalBoundary.terminalHandoff, 'Terminal can hand off to Exchange without losing transaction context');
+  assert.equal(report.operationalBoundary.terminalHandoff, 'product can hand off to Exchange without losing transaction context');
   assert.equal(report.operationalBoundary.disclosureBoundary, 'collapsed UI gives readable status and expanded UI exposes source-safe detail');
 });

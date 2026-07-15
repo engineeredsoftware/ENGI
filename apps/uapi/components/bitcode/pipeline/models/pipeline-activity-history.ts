@@ -1,6 +1,6 @@
 /**
  * Pipeline activity / execution-history draft builders and run mapping.
- * Relocated from app/terminal/terminal-activity-history.
+ * Relocated from product experience components/activity-history.
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
 
@@ -8,13 +8,13 @@ import { buildAgenticExecutionSummary } from '@bitcode/api/src/executions/agenti
 
 import type { PipelineExecution } from '@/types/api';
 
-import type { TerminalDepositReadWorkbench, TerminalSourceRevision } from '@/components/reads/models/deposit-read-workbench';
-import type { TerminalReadScenariosState } from '@/components/reads/models/read-scenarios';
+import type { ProductDepositReadWorkbench, ProductSourceRevision } from '@/components/reads/models/deposit-read-workbench';
+import type { ProductReadScenariosState } from '@/components/reads/models/read-scenarios';
 import type { WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
-import type { TerminalRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
+import type { ProductRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
 import type { PipelineTransactionDetailSection } from '@/components/bitcode/pipeline/models/pipeline-selection-query';
 
-/** Slim processing stats for history drafts (no Terminal detail snapshot dependency). */
+/** Slim processing stats for history drafts (no Pack detail snapshot dependency). */
 export type PipelineProcessingStats = {
   time?: unknown;
   tokenTotal?: number;
@@ -23,12 +23,12 @@ export type PipelineProcessingStats = {
   averageLatencyMs?: number;
 };
 
-export interface TerminalActivityRecordDraft {
+export interface ProductActivityRecordDraft {
   type: string;
   summary: string;
   detailSection?: PipelineTransactionDetailSection;
   selectAfterRecord?: boolean;
-  sourceRevision?: TerminalSourceRevision | null;
+  sourceRevision?: ProductSourceRevision | null;
   status?: string;
   input?: Record<string, unknown> | null;
   output?: Record<string, unknown> | null;
@@ -36,7 +36,7 @@ export interface TerminalActivityRecordDraft {
   items?: unknown[];
 }
 
-function buildBitcodeWorkbenchState(workbench: TerminalDepositReadWorkbench) {
+function buildBitcodeWorkbenchState(workbench: ProductDepositReadWorkbench) {
   return {
     canonLabel: workbench.canonLabel,
     projectionPrincipal: workbench.projectionPrincipal,
@@ -51,8 +51,8 @@ function buildBitcodeWorkbenchState(workbench: TerminalDepositReadWorkbench) {
 }
 
 function buildReadMeasurementState(
-  needState: TerminalReadScenariosState,
-  scenario: TerminalReadScenariosState['scenarios'][number],
+  needState: ProductReadScenariosState,
+  scenario: ProductReadScenariosState['scenarios'][number],
 ) {
   return {
     scenario,
@@ -63,7 +63,7 @@ function buildReadMeasurementState(
 }
 
 
-function buildRepositoryAnchorState(repositoryContext: TerminalRepositoryContextState, providerAccount: string) {
+function buildRepositoryAnchorState(repositoryContext: ProductRepositoryContextState, providerAccount: string) {
   const selectedRepository = repositoryContext.selectedRepository;
   const connectionStatus = repositoryContext.connectionStatus;
   const selectedBranch = repositoryContext.selectedBranch || selectedRepository?.defaultBranch || 'main';
@@ -121,7 +121,7 @@ function readRowValue(rows: Array<{ label: string; value: string }>, label: stri
   return rows.find((row) => row.label === label)?.value || '—';
 }
 
-function buildTerminalFitResultState(workbench: TerminalDepositReadWorkbench) {
+function buildProductFitResultState(workbench: ProductDepositReadWorkbench) {
   const rawResultState = normalizeWhitespace(readRowValue(workbench.fit.rows, 'Fit result')).toLowerCase();
   const resultState =
     rawResultState === 'worthy_fit' || rawResultState === 'no_worthy_fit' || rawResultState === 'blocked_readiness'
@@ -147,9 +147,9 @@ function buildTerminalFitResultState(workbench: TerminalDepositReadWorkbench) {
 }
 
 function buildRepoSnapshot(
-  repositoryContext?: TerminalRepositoryContextState | null,
+  repositoryContext?: ProductRepositoryContextState | null,
   fallbackRun?: WorkspaceRun | null,
-  sourceRevision?: TerminalSourceRevision | null,
+  sourceRevision?: ProductSourceRevision | null,
 ) {
   const sourceRevisionParts = splitRepositoryFullName(sourceRevision?.repositoryFullName);
   if (sourceRevisionParts) {
@@ -250,10 +250,10 @@ export function formatObfuscationsAnchorDescription(input: {
   return `${clipped} | ${hintsLabel} | ${exclusionsLabel}`;
 }
 
-export function buildTerminalExecutionHistoryRequest(
-  draft: TerminalActivityRecordDraft,
+export function buildProductExecutionHistoryRequest(
+  draft: ProductActivityRecordDraft,
   options: {
-    repositoryContext?: TerminalRepositoryContextState | null;
+    repositoryContext?: ProductRepositoryContextState | null;
     fallbackRun?: WorkspaceRun | null;
   },
 ) {
@@ -320,9 +320,9 @@ function serializeProcessingStats(
 }
 
 
-export function buildTerminalDepositWorkbenchDraft(
-  workbench: TerminalDepositReadWorkbench,
-): TerminalActivityRecordDraft {
+export function buildProductDepositWorkbenchDraft(
+  workbench: ProductDepositReadWorkbench,
+): ProductActivityRecordDraft {
   const repository = readRowValue(workbench.deposit.rows, 'Repository');
   const selectedEntryLabels = workbench.deposit.selectedEntries.map((entry) => entry.label);
 
@@ -348,7 +348,7 @@ export function buildTerminalDepositWorkbenchDraft(
       },
     },
     context: {
-      source: 'terminal-deposit-read-workbench',
+      source: 'deposit-read-workbench',
       workbench: 'deposit',
       canonLabel: workbench.canonLabel,
       projectionPrincipal: workbench.projectionPrincipal,
@@ -360,11 +360,11 @@ export function buildTerminalDepositWorkbenchDraft(
   };
 }
 
-export function buildTerminalReadMeasurementDraft(
-  needState: TerminalReadScenariosState,
-  scenarioOverride?: TerminalReadScenariosState['scenarios'][number],
-  options?: { sourceRevision?: TerminalSourceRevision | null },
-): TerminalActivityRecordDraft {
+export function buildProductReadMeasurementDraft(
+  needState: ProductReadScenariosState,
+  scenarioOverride?: ProductReadScenariosState['scenarios'][number],
+  options?: { sourceRevision?: ProductSourceRevision | null },
+): ProductActivityRecordDraft {
   const scenario =
     scenarioOverride ||
     needState.scenarios.find((entry) => entry.selected) ||
@@ -397,7 +397,7 @@ export function buildTerminalReadMeasurementDraft(
       },
     },
     context: {
-      source: 'terminal-read-scenario-panel',
+      source: 'read-scenario-panel',
       scenarioId: scenario.id,
       scenarioLabel: scenario.label,
       scenarioRepository: scenario.repo,
@@ -406,9 +406,9 @@ export function buildTerminalReadMeasurementDraft(
   };
 }
 
-export function buildTerminalReadAdmissionDraft(
-  workbench: TerminalDepositReadWorkbench,
-): TerminalActivityRecordDraft {
+export function buildProductReadAdmissionDraft(
+  workbench: ProductDepositReadWorkbench,
+): ProductActivityRecordDraft {
   const readMeasurement = {
     scenario: {
       id: workbench.scenarioLabel,
@@ -453,7 +453,7 @@ export function buildTerminalReadAdmissionDraft(
       },
     },
     context: {
-      source: 'terminal-deposit-read-workbench',
+      source: 'deposit-read-workbench',
       workbench: 'read-admission',
       scenarioLabel: workbench.scenarioLabel,
       fitSearchAdmitted: true,
@@ -463,10 +463,10 @@ export function buildTerminalReadAdmissionDraft(
 }
 
 
-export function buildTerminalFitWorkbenchDraft(
-  workbench: TerminalDepositReadWorkbench,
-): TerminalActivityRecordDraft {
-  const fitResult = buildTerminalFitResultState(workbench);
+export function buildProductFitWorkbenchDraft(
+  workbench: ProductDepositReadWorkbench,
+): ProductActivityRecordDraft {
+  const fitResult = buildProductFitResultState(workbench);
 
   return {
     type: 'agentic-execution:proof-refresh',
@@ -490,7 +490,7 @@ export function buildTerminalFitWorkbenchDraft(
       },
     },
     context: {
-      source: 'terminal-deposit-read-workbench',
+      source: 'deposit-read-workbench',
       workbench: 'fit',
       projectionPrincipal: workbench.projectionPrincipal,
       branchMode: workbench.branchMode,
@@ -501,9 +501,9 @@ export function buildTerminalFitWorkbenchDraft(
   };
 }
 
-export function buildTerminalRepositoryAnchorDraft(
-  repositoryContext: TerminalRepositoryContextState,
-): TerminalActivityRecordDraft {
+export function buildProductRepositoryAnchorDraft(
+  repositoryContext: ProductRepositoryContextState,
+): ProductActivityRecordDraft {
   const selectedRepository = repositoryContext.selectedRepository;
   const connectionStatus = repositoryContext.connectionStatus;
   const selectedBranch = repositoryContext.selectedBranch || selectedRepository?.defaultBranch || 'main';
@@ -553,7 +553,7 @@ export function buildTerminalRepositoryAnchorDraft(
       },
     },
     context: {
-      source: 'terminal-repository-context-panel',
+      source: 'repository-context-panel',
       provider: repositoryContext.provider,
       providerAccount,
       inventorySource: repositoryContext.inventorySource || null,
@@ -566,21 +566,21 @@ export function buildTerminalRepositoryAnchorDraft(
 
 /**
  * V48-Gate3-F13/F18: Obfuscations anchoring. Mirrors the repository anchor
- * pattern (`buildTerminalRepositoryAnchorDraft`) so a depositor can save the
+ * pattern (`buildProductRepositoryAnchorDraft`) so a depositor can save the
  * current Obfuscations configuration into the activity ledger and reload it
  * on a later run — for the same repository, or a fresh one. An optional
  * display `name` labels the anchor in the Load-anchor dropdown; the source-path
  * hints and protected-IP exclusions ride along so the dropdown sub-text can
  * show their counts and so a reload restores the full steering package.
  */
-export function buildTerminalObfuscationsAnchorDraft(input: {
+export function buildProductObfuscationsAnchorDraft(input: {
   obfuscations: string;
   /** Optional human label for the anchor (shown in the Load-anchor dropdown). */
   name?: string | null;
   repositoryFullName?: string | null;
   forcedInclusions?: string[] | null;
   forcedExclusions?: string[] | null;
-}): TerminalActivityRecordDraft {
+}): ProductActivityRecordDraft {
   const text = input.obfuscations.trim();
   const name =
     typeof input.name === 'string' && input.name.trim()
@@ -774,7 +774,7 @@ export function upsertWorkspaceRun(runs: WorkspaceRun[], nextRun: WorkspaceRun) 
   );
 }
 
-export async function readTerminalRouteError(response: Response, fallback: string) {
+export async function readProductRouteError(response: Response, fallback: string) {
   try {
     const payload = (await response.json()) as Record<string, unknown>;
     const message = typeof payload.error === 'string' ? payload.error : payload.message;

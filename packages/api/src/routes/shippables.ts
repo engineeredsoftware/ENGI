@@ -973,7 +973,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
         } catch {}
 
         // Execute pipeline directly. BTC fee settlement and non-fungible BTD
-        // share/read-right minting are separate wallet/Terminal/Exchange flows.
+        // share/read-right minting are separate wallet/Packs/Exchange flows.
         log('[asset-pack-route] Starting pipeline execution', 'info', {
           correlationId,
           phases: ['setup', 'discovery', 'implementation', 'validation', 'finish'],

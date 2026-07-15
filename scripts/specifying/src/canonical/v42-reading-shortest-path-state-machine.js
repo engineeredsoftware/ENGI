@@ -118,7 +118,7 @@ export const V42_READING_SHORTEST_PATH_ROWS = Object.freeze([
     purpose:
       'Preserve exactly five enterprise Reading steps from Read Request through Need review, Finding Fits, AssetPack preview, and settlement delivery.',
     sourceRoots: [SOURCE_ROOTS.terminalUxState, SOURCE_ROOTS.terminalWorkbench],
-    emittedTypes: ['TerminalEnterpriseReadingUxState', 'TerminalEnterpriseReadingStepView'],
+    emittedTypes: ['ProductEnterpriseReadingUxState', 'ProductEnterpriseReadingStepView'],
     requiredEvidence: V42_READING_SHORTEST_PATH_STEP_IDS,
   }),
   row({
@@ -131,7 +131,7 @@ export const V42_READING_SHORTEST_PATH_ROWS = Object.freeze([
       SOURCE_ROOTS.terminalPageClient,
       SOURCE_ROOTS.terminalWorkbench,
     ],
-    emittedTypes: ['TerminalEnterpriseReadingRouteState', 'TerminalConversationHandoffContext.readingStage'],
+    emittedTypes: ['TerminalEnterpriseReadingRouteState', 'ProductConversationHandoffContext.readingStage'],
     requiredEvidence: ['transactionIdRequiredForRecovery', 'readingStageQueryParam', 'activeStageHydratedFromRoute'],
   }),
   row({
@@ -147,7 +147,7 @@ export const V42_READING_SHORTEST_PATH_ROWS = Object.freeze([
     purpose:
       'Represent retry, restart, and failure repair posture as source-safe state metadata without exposing protected source, prompts, provider responses, wallet material, or settlement payloads.',
     sourceRoots: [SOURCE_ROOTS.terminalUxState, SOURCE_ROOTS.uxStateTest, SOURCE_ROOTS.terminalWorkbench],
-    emittedTypes: ['TerminalEnterpriseReadingFailureKind', 'TerminalEnterpriseReadingRouteState.failureRepairActions'],
+    emittedTypes: ['ProductEnterpriseReadingFailureKind', 'TerminalEnterpriseReadingRouteState.failureRepairActions'],
     requiredEvidence: ['retryPreservesNeedLineage', 'restartRestoresActiveStage', 'failureRepairActions'],
   }),
   row({
@@ -155,7 +155,7 @@ export const V42_READING_SHORTEST_PATH_ROWS = Object.freeze([
     purpose:
       'Keep the default Reading view guided and low-detail while details expand to source-safe proof roots, measurements, blockers, and visible field ids.',
     sourceRoots: [SOURCE_ROOTS.terminalUxState, SOURCE_ROOTS.terminalWorkbench, SOURCE_ROOTS.terminalReadme],
-    emittedTypes: ['TerminalEnterpriseReadingUxState.disclosure'],
+    emittedTypes: ['ProductEnterpriseReadingUxState.disclosure'],
     requiredEvidence: ['lowDetailDefault', 'expandableSourceSafeDetail', 'Source-safe detail'],
   }),
   row({
@@ -171,8 +171,8 @@ export const V42_READING_SHORTEST_PATH_ROWS = Object.freeze([
     purpose:
       'Project Reading state through activity history and workbench readback so transaction detail, proof roots, and compensation/settlement posture remain recoverable.',
     sourceRoots: [SOURCE_ROOTS.terminalActivityHistory, SOURCE_ROOTS.terminalWorkbench, SOURCE_ROOTS.terminalWorkbenchContract],
-    emittedTypes: ['WorkspaceRun', 'TerminalDepositReadWorkbench'],
-    requiredEvidence: ['assetPackCompletion', 'TerminalDepositedSourceRevision', 'sourceRevision'],
+    emittedTypes: ['WorkspaceRun', 'ProductDepositReadWorkbench'],
+    requiredEvidence: ['assetPackCompletion', 'ProductDepositedSourceRevision', 'sourceRevision'],
   }),
   row({
     rowId: 'tests:route-state-contracts',
@@ -187,7 +187,7 @@ export const V42_READING_SHORTEST_PATH_ROWS = Object.freeze([
       SOURCE_ROOTS.gateWorkflow,
     ],
     emittedTypes: ['V42ReadingShortestPathStateMachineReport'],
-    requiredEvidence: ['terminal-enterprise-reading-ux-state', 'readingStage=request-fit', 'Browser proof Terminal cockpit'],
+    requiredEvidence: ['terminal-enterprise-reading-ux-state', 'readingStage=request-fit', 'Browser proof product cockpit'],
   }),
   row({
     rowId: 'spec:v42-gate3-closure',
@@ -234,16 +234,16 @@ function buildPredicateResults(repoRoot) {
   return [
     predicateResult('ux-state-keeps-five-step-path', SOURCE_ROOTS.terminalUxState, V42_READING_SHORTEST_PATH_STEP_IDS.every((id) => uxState.includes(id)) && uxState.includes('stageCount: 5')),
     predicateResult('ux-state-defines-route-state', SOURCE_ROOTS.terminalUxState, uxState.includes('TerminalEnterpriseReadingRouteState') && uxState.includes('transactionIdRequiredForRecovery') && uxState.includes("readingStageQueryParam: 'readingStage'")),
-    predicateResult('ux-state-defines-retry-failure-source-safety', SOURCE_ROOTS.terminalUxState, uxState.includes('TerminalEnterpriseReadingFailureKind') && uxState.includes('retryPreservesNeedLineage') && uxState.includes('failureRepairActions') && uxState.includes('failureStateSourceSafe')),
+    predicateResult('ux-state-defines-retry-failure-source-safety', SOURCE_ROOTS.terminalUxState, uxState.includes('ProductEnterpriseReadingFailureKind') && uxState.includes('retryPreservesNeedLineage') && uxState.includes('failureRepairActions') && uxState.includes('failureStateSourceSafe')),
     predicateResult('ux-state-forbids-protected-payloads', SOURCE_ROOTS.terminalUxState, uxState.includes('protected_source_payload') && uxState.includes('raw_protected_prompt') && uxState.includes('raw_provider_response') && uxState.includes('unpaid_assetpack_source') && uxState.includes('wallet_private_material') && uxState.includes('settlement_private_payload')),
     predicateResult('terminal-page-passes-reading-stage', SOURCE_ROOTS.terminalPageClient, pageClient.includes('routeReadingStage={conversationHandoffContext.readingStage}')),
     predicateResult('workbench-projects-route-state', SOURCE_ROOTS.terminalWorkbench, workbench.includes('transactionId: recordedAdmittedReadActivityId') && workbench.includes('routeReadingStage') && workbench.includes('data-reading-transaction-present') && workbench.includes('data-reading-failure-kind')),
     predicateResult('workbench-keeps-low-detail-expandable-cards', SOURCE_ROOTS.terminalWorkbench, workbench.includes('terminal-enterprise-reading-step-${stage.id}') && workbench.includes('data-reading-step-state') && workbench.includes('Source-safe detail')),
-    predicateResult('workbench-contract-reexports-stage-ids', SOURCE_ROOTS.terminalWorkbenchContract, workbenchContract.includes('TERMINAL_ENTERPRISE_READING_STEPS') && workbenchContract.includes('TerminalEnterpriseReadingStepId')),
-    predicateResult('terminal-query-reads-reading-stage', SOURCE_ROOTS.terminalRouteQuery, query.includes('readingStage') && query.includes('TERMINAL_ENTERPRISE_READING_STAGE_VALUES') && query.includes('readTerminalTransactionId')),
+    predicateResult('workbench-contract-reexports-stage-ids', SOURCE_ROOTS.terminalWorkbenchContract, workbenchContract.includes('PRODUCT_ENTERPRISE_READING_STEPS') && workbenchContract.includes('TerminalEnterpriseReadingStepId')),
+    predicateResult('terminal-query-reads-reading-stage', SOURCE_ROOTS.terminalRouteQuery, query.includes('readingStage') && query.includes('PRODUCT_ENTERPRISE_READING_STAGE_VALUES') && query.includes('readProductTransactionId')),
     predicateResult('activity-history-keeps-reading-readback', SOURCE_ROOTS.terminalActivityHistory, activity.includes('assetPackCompletion') && activity.includes('sourceRevision')),
     predicateResult('harness-projects-rich-reading-telemetry', SOURCE_ROOTS.terminalHarnessClient, harness.includes('ReadFitsFindingSynthesis') && harness.includes('ptrrStepId') && harness.includes('thinkingsGenerationId') && harness.includes('promptTemplateId') && harness.includes('outputSchema')),
-    predicateResult('conversation-handoff-preserves-reading-stage', SOURCE_ROOTS.conversationHandoff, handoff.includes('inferConversationTerminalReadingStage') && handoff.includes('productEnterpriseReadingStage') && handoff.includes("params.set('readingStage'")),
+    predicateResult('conversation-handoff-preserves-reading-stage', SOURCE_ROOTS.conversationHandoff, handoff.includes('inferConversationProductReadingStage') && handoff.includes('productEnterpriseReadingStage') && handoff.includes("params.set('readingStage'")),
     predicateResult('ux-state-tests-cover-route-retry-failure', SOURCE_ROOTS.uxStateTest, uxStateTest.includes('hydrates later route stages') && uxStateTest.includes('repair-settlement-readback')),
     predicateResult('workbench-tests-cover-five-stage-labels', SOURCE_ROOTS.workbenchTest, workbenchTest.includes('3. Request Finding Fits') && workbenchTest.includes('buy-asset-pack-settle')),
     predicateResult('handoff-tests-cover-reading-stage-route', SOURCE_ROOTS.handoffTest, handoffTest.includes('readingStage=request-fit') && handoffTest.includes('productEnterpriseReadingStage')),
@@ -263,7 +263,7 @@ function buildPredicateResults(repoRoot) {
           roadmap.includes('Recent V42 canonical promotion anchor') ||
           roadmap.includes('Current working gate: V43 Gate')),
     ),
-    predicateResult('readmes-document-gate3', SOURCE_ROOTS.rootReadme, rootReadme.includes('V42 Gate 3') && terminalReadme.includes('TerminalEnterpriseReadingUxState') && protocolReadme.includes('V42 Reading shortest path')),
+    predicateResult('readmes-document-gate3', SOURCE_ROOTS.rootReadme, rootReadme.includes('V42 Gate 3') && terminalReadme.includes('ProductEnterpriseReadingUxState') && protocolReadme.includes('V42 Reading shortest path')),
   ];
 }
 

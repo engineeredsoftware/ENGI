@@ -6,7 +6,7 @@ Page shell: `apps/uapi/app/docs/`.
 **Voice:** customer-facing technical prose aligned to V48 product routes
 (`/packs`, `/reads`, `/deposits`), AssetPacks, BTD volume/rights, BTC settlement,
 and source safety. Public docs teach; Protocol canon legislates. Prefer Packs /
-Deposit / Read language over legacy Terminal product naming in new copy.
+Deposit / Read language over legacy product naming in new copy.
 
 ## Layout
 
@@ -20,7 +20,7 @@ apps/uapi/components/docs/
     content/                       # article sections, API refs, pages, chapters
       sections-*.ts
       api-reference-*.ts
-      terminal-*-guides.ts
+      product-*-guides.ts
       pages.ts
       chapters.ts
   DocsArticlePage/                 # thin article shell

@@ -42,7 +42,7 @@ import { useUserData } from "@/hooks/useUserData";
 import { trackProductEvent } from "@/lib/product-analytics";
 
 import DepositSourceSelection from "@/components/deposits/DepositSourceSelection/DepositSourceSelection";
-import type { TerminalRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import {
   DEFAULT_TRANSACTION_FILTERS,
   DEFAULT_TRANSACTION_PAGINATION,
@@ -109,7 +109,7 @@ export default function DepositPageClient() {
   const networkDepositoryCount = useDepositNetworkDepositoryCount();
 
   const [repositoryContext, setRepositoryContext] =
-    useState<TerminalRepositoryContextState | null>(null);
+    useState<ProductRepositoryContextState | null>(null);
   const [obfuscations, setObfuscations] = useState("");
   const [obfuscationsAnchorName, setObfuscationsAnchorName] = useState("");
   const [isObfuscationsAnchorPopoverOpen, setIsObfuscationsAnchorPopoverOpen] =

@@ -1,5 +1,5 @@
 /**
- * Conversation domain types - Bitcode V26 Terminal database mirror
+ * Conversation domain types - Bitcode V26 product database mirror
  * 
  * These types MUST match the database schema exactly as defined in:
  * - supabase/migrations/001_add_conversation_branching.sql (active alterations)

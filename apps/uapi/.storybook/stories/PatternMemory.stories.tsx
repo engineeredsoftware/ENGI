@@ -44,7 +44,7 @@ type Story = StoryObj<typeof PatternMemoryStoryPanel>;
 export const StablePatterns: Story = {
   args: {
     patterns: [
-      { name: 'Read decomposition', confidence: 0.92, source: 'Repeated across Terminal runs' },
+      { name: 'Read decomposition', confidence: 0.92, source: 'Repeated across product runs' },
       { name: 'AssetPack evidence review', confidence: 0.87, source: 'Observed in Finish receipts' },
       { name: 'BTC fee posture check', confidence: 0.81, source: 'Wallet readiness flow' },
     ],

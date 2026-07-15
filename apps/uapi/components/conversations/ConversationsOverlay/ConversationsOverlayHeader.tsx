@@ -28,7 +28,7 @@ export interface ConversationsOverlayHeaderProps {
   showHistory: boolean;
   showWritingWorkspace: boolean;
   showSourceSelector: boolean;
-  showTerminalHandoff: boolean;
+  showProductHandoff: boolean;
   showPersistencePrivacy: boolean;
   showTelemetryProof: boolean;
   showRehearsalProof: boolean;
@@ -37,7 +37,7 @@ export interface ConversationsOverlayHeaderProps {
   onToggleSplitScreen: () => void;
   onToggleWritingWorkspace: () => void;
   onToggleSourceSelector: () => void;
-  onToggleTerminalHandoff: () => void;
+  onToggleProductHandoff: () => void;
   onTogglePersistencePrivacy: () => void;
   onToggleTelemetryProof: () => void;
   onToggleRehearsalProof: () => void;
@@ -51,7 +51,7 @@ export function ConversationsOverlayHeader({
   showHistory,
   showWritingWorkspace,
   showSourceSelector,
-  showTerminalHandoff,
+  showProductHandoff,
   showPersistencePrivacy,
   showTelemetryProof,
   showRehearsalProof,
@@ -60,7 +60,7 @@ export function ConversationsOverlayHeader({
   onToggleSplitScreen,
   onToggleWritingWorkspace,
   onToggleSourceSelector,
-  onToggleTerminalHandoff,
+  onToggleProductHandoff,
   onTogglePersistencePrivacy,
   onToggleTelemetryProof,
   onToggleRehearsalProof,
@@ -113,9 +113,9 @@ export function ConversationsOverlayHeader({
           </button>
           <button
             className="fullscreen-button"
-            title={showTerminalHandoff ? 'Hide Terminal Handoff' : 'Open Terminal Handoff'}
-            aria-pressed={showTerminalHandoff}
-            onClick={onToggleTerminalHandoff}
+            title={showProductHandoff ? 'Hide product Handoff' : 'Open product Handoff'}
+            aria-pressed={showProductHandoff}
+            onClick={onToggleProductHandoff}
           >
             <Share1Icon />
           </button>

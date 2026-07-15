@@ -2,8 +2,8 @@
 
 Website Conversations are a source-safe drafting and coordination surface for
 Bitcode users. They help a user shape intent, attach context, review
-source-safe summaries, and hand work to the Terminal. They do not replace the
-Terminal, ledger, BTD ownership, wallet authority, Exchange, or Reading
+source-safe summaries, and hand work to the product. They do not replace the
+product, ledger, BTD ownership, wallet authority, Exchange, or Reading
 pipeline law.
 
 ## Route-Local History
@@ -26,7 +26,7 @@ never valid conversation telemetry payloads.
 ## Telemetry Proof Hooks
 
 `ConversationTelemetryProofHooks` cover session, message, stream, tool, source
-selector, Terminal handoff, retry, error, and completion event families. Each
+selector, product handoff, retry, error, and completion event families. Each
 hook may expose only source-safe ids, counts, state enums, proof roots,
 dashboard panel ids, runbook ids, and redacted error classes. Operators use
 the dashboard and runbook ids to debug health without seeing protected source,
@@ -37,13 +37,13 @@ settlement payloads.
 
 `ConversationRehearsal` covers source-safe local and staging-testnet
 conversation proof before promotion readiness. Local and staging-testnet
-rehearsals exercise chat, streaming, writing, source selector, Terminal
+rehearsals exercise chat, streaming, writing, source selector, product
 handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots
 are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet
 blocking are visible through `.bitcode/v37-conversation-rehearsal.json` and
 `source-safe-conversation-rehearsal-metadata`.
 
-Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
+Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, product handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
 
 The rehearsal surface may expose lane ids, flow ids, proof roots, route/UI
 roots, telemetry roots, source-safe screenshot/log roots, validation command
@@ -66,11 +66,11 @@ ranges, AssetPack previews, documents, and prior conversations. Selectors carry
 policy state, rights posture, and source-safe reference summaries only. They do
 not grant source visibility or BTD rights.
 
-## Terminal Handoff
+## product Handoff
 
-Terminal handoff turns conversation intent into source-safe Terminal context:
+product handoff turns conversation intent into source-safe product context:
 workflow id, selected conversation id, repository anchor, source selector
-summary, policy state, and handoff proof root. The Terminal remains the
+summary, policy state, and handoff proof root. The Packs remains the
 transaction cockpit for Depositing, Reading, Finding Fits, Exchange,
 settlement, delivery, wallet, and BTD ownership work.
 

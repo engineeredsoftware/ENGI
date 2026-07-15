@@ -7,7 +7,7 @@ describe('/api/client-error POST', () => {
     jest.resetModules();
   });
 
-  it('accepts client error telemetry without failing the Terminal route', async () => {
+  it('accepts client error telemetry without failing the product route', async () => {
     const { POST } = await import('@/app/api/client-error/route');
 
     const request = new Request('http://localhost/api/client-error', {
@@ -15,7 +15,7 @@ describe('/api/client-error POST', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         message: 'Rendered more hooks than during the previous render.',
-        source: 'TerminalTransactionDetailSurface.tsx',
+        source: 'ProductTransactionDetailSurface.tsx',
       }),
     });
 

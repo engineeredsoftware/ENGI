@@ -1,6 +1,6 @@
 -- Saved query name: v28_qa_terminal_02_activity_after_write
--- Purpose: run after each Terminal Deposit/Read/Fit/branch action. It reports
--- recent Terminal activity rows, runtime rows, and errors. Optional runtime
+-- Purpose: run after each product Deposit/Read/Fit/branch action. It reports
+-- recent product activity rows, runtime rows, and errors. Optional runtime
 -- tables are reported as missing instead of making the whole query fail.
 
 CREATE OR REPLACE FUNCTION pg_temp.v28_qa_terminal_activity_after_write()
@@ -15,7 +15,7 @@ BEGIN
         jsonb_build_array(
           jsonb_build_object(
             'missing_table', 'public.executions',
-            'impact', 'Terminal activity history and record buttons cannot persist readback rows.'
+            'impact', 'product activity history and record buttons cannot persist readback rows.'
           )
         );
   ELSE
@@ -83,7 +83,7 @@ BEGIN
         jsonb_build_array(
           jsonb_build_object(
             'missing_table', 'public.execution_events',
-            'impact', 'Selected Terminal runs cannot show step/event replay from this table.'
+            'impact', 'Selected product runs cannot show step/event replay from this table.'
           )
         );
   ELSE

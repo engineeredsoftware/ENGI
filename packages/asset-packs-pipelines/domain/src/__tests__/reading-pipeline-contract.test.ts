@@ -117,7 +117,7 @@ describe('Reading pipeline contracts', () => {
     );
   });
 
-  it('summarizes counts used by V28 promotion proof and Terminal telemetry QA', () => {
+  it('summarizes counts used by V28 promotion proof and product telemetry QA', () => {
     expect(listReadingPipelineContractSummaries()).toEqual([
       expect.objectContaining({
         pipelineName: READ_NEED_COMPREHENSION_SYNTHESIS,

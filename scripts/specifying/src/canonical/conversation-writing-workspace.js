@@ -240,18 +240,18 @@ export const CONVERSATION_WRITING_WORKSPACE_ROWS = Object.freeze([
   }),
   workspaceRow({
     modeId: 'terminal_handoff_summary',
-    label: 'Terminal handoff summary drafting',
+    label: 'product handoff summary drafting',
     draftScope: 'source_safe_terminal_transaction_intent_summary',
-    placeholder: 'Draft a source-safe handoff summary for Terminal transaction work.',
+    placeholder: 'Draft a source-safe handoff summary for product transaction work.',
     summaryPolicy: 'summarize_transaction_intent_refs_and_blockers_without_wallet_private_material',
     handoffPolicy: 'handoff_source_safe_terminal_intent_without_claiming_ledger_authority',
     recoveryStates: ['empty_draft', 'saved_locally', 'handoff_summary_ready', 'handoff_ready'],
     proofRootFields: ['workspaceRoot', 'terminalIntentRoot', 'summaryRoot', 'redactionRoot'],
     eventIds: ['conversation.writing.terminal_handoff_summary.saved', 'conversation.writing.terminal_handoff_summary.handoff'],
     detailSections: [
-      detailSection('draft_scope', 'Draft scope', 'The draft prepares Terminal intent, not ledger or wallet authority.'),
+      detailSection('draft_scope', 'Draft scope', 'The draft prepares product intent, not ledger or wallet authority.'),
       detailSection('summary_policy', 'Summary policy', 'Summaries omit private wallet material and settlement payloads.'),
-      detailSection('handoff_policy', 'Handoff policy', 'Terminal remains authoritative for transaction execution.'),
+      detailSection('handoff_policy', 'Handoff policy', 'product remains authoritative for transaction execution.'),
     ],
   }),
 ]);

@@ -1,5 +1,5 @@
 /**
- * Terminal-era export names for BTD journal.
+ * product-era export names for BTD journal.
  *
  * Prefer `./journal` (or `@bitcode/btd` journal exports).
  * Ledger rows use journal vocabulary, not a product cockpit name.

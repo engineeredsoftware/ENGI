@@ -1,6 +1,6 @@
 import {
   buildPipelineFailurePreviewFromEvents,
-  isTerminalFailureStatus,
+  isFinalFailureStatus,
 } from '@/components/bitcode/pipeline/PipelineFailurePreview/pipeline-failure-preview';
 
 describe('buildPipelineFailurePreviewFromEvents', () => {
@@ -76,10 +76,10 @@ describe('buildPipelineFailurePreviewFromEvents', () => {
   });
 
   it('recognizes terminal failure statuses for hover', () => {
-    expect(isTerminalFailureStatus('failed')).toBe(true);
-    expect(isTerminalFailureStatus('CANCELLED')).toBe(true);
-    expect(isTerminalFailureStatus('interrupted')).toBe(true);
-    expect(isTerminalFailureStatus('completed')).toBe(false);
-    expect(isTerminalFailureStatus('running')).toBe(false);
+    expect(isFinalFailureStatus('failed')).toBe(true);
+    expect(isFinalFailureStatus('CANCELLED')).toBe(true);
+    expect(isFinalFailureStatus('interrupted')).toBe(true);
+    expect(isFinalFailureStatus('completed')).toBe(false);
+    expect(isFinalFailureStatus('running')).toBe(false);
   });
 });

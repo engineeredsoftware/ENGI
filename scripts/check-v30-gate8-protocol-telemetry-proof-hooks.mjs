@@ -88,7 +88,7 @@ function main() {
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
     'apps/uapi/app/api/btd/protocol-telemetry/route.ts',
     'packages/btd/README.md',
-    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'specifications/BITCODE_SPEC_V30.md',
     'specifications/BITCODE_SPEC_V30_DELTA.md',
     'specifications/BITCODE_SPEC_V30_NOTES.md',
@@ -105,7 +105,7 @@ function main() {
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
   const uapiRoute = read(root, 'apps/uapi/app/api/btd/protocol-telemetry/route.ts');
   const btdReadme = read(root, 'packages/btd/README.md');
-  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   const spec = read(root, 'specifications/BITCODE_SPEC_V30.md');
   const delta = read(root, 'specifications/BITCODE_SPEC_V30_DELTA.md');
   const notes = read(root, 'specifications/BITCODE_SPEC_V30_NOTES.md');
@@ -181,7 +181,7 @@ function main() {
     failures,
     terminalReadme.includes('Protocol telemetry proof hooks') &&
       terminalReadme.includes('/btd/protocol-telemetry'),
-    'Terminal README must document Protocol telemetry proof-hook consumption.',
+    'product README must document Protocol telemetry proof-hook consumption.',
   );
   assertCheck(
     failures,

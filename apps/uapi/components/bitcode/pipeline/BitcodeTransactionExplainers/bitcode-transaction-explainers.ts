@@ -23,7 +23,7 @@ export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {
       'Use this first when you know the activity context but not the exact row position. The selected detail route stays intact while the master window narrows around it.',
     points: [
       'Searches across core surfaced activity fields',
-      'Keeps the Bitcode Terminal fast without route changes',
+      'Keeps the Bitcode fast without route changes',
     ],
     references: { source: [...TRANSACTION_EXPLAINER_SOURCE_REFS], canon: [...TRANSACTION_EXPLAINER_CANON_REFS] },
   }),
@@ -78,7 +78,7 @@ export const BITCODE_TRANSACTION_FILTER_EXPLAINERS = {
   sort: buildExplainer({
     kicker: 'Ordering control',
     title: 'Sort order',
-    summary: 'Re-order the Bitcode Terminal by recency or economic weight without changing what transaction is selected.',
+    summary: 'Re-order the Bitcode by recency or economic weight without changing what transaction is selected.',
     detail: 'Sorting changes the view, not the route. You can compare the ledger from multiple angles without losing detail context.',
     points: ['Supports newest, oldest, token-heavy, and BTC-fee-basis reads'],
     references: { source: [...TRANSACTION_EXPLAINER_SOURCE_REFS], canon: [...TRANSACTION_EXPLAINER_CANON_REFS] },

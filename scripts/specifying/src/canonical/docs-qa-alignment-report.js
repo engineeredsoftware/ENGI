@@ -199,7 +199,7 @@ const alignmentRows = Object.freeze([
     ],
     expectedTokens: [
       'Bitcode',
-      'Terminal',
+      'product',
       'Deployment',
       'proof',
       'DocumentationSurfaceCatalog',

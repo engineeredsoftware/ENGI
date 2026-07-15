@@ -104,14 +104,14 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'apps/uapi/app/terminal/TerminalPageClient.tsx',
-    'apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts',
-    'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'apps/uapi/app/terminal/terminal-deposit-read-workbench.ts',
-    'apps/uapi/app/terminal/terminal-pipeline-host-client.ts',
+    'apps/uapi/app/ (removed cockpit tree) TerminalPageClient.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-enterprise-reading-ux-state.ts',
+    'apps/uapi/app/ (removed cockpit tree) ProductDepositReadWorkbench.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-deposit-read-workbench.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
     'apps/uapi/app/conversations/conversation-product-handoff.ts',
-    'apps/uapi/app/terminal/terminal-transaction-query.ts',
-    'apps/uapi/app/terminal/terminal-activity-history.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-transaction-query.ts',
+    'apps/uapi/app/ (removed cockpit tree) terminal-activity-history.ts',
     'apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts',
     'apps/uapi/tests/terminalDepositReadWorkbench.test.ts',
     'apps/uapi/tests/conversationTerminalHandoff.test.tsx',
@@ -128,7 +128,7 @@ function main() {
     'specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
     'specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/ (removed cockpit tree) README.md',
     'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -223,10 +223,10 @@ function main() {
 
   const spec = read(root, 'specifications/BITCODE_SPEC_V42.md');
   const parity = read(root, 'specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md');
-  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   assertCheck(failures, spec.includes('V42 Gate 3') && spec.includes('reading shortest path state machine'), 'V42 spec must expand Gate 3 state machine.');
   assertCheck(failures, parity.includes('Reading state machine') && parity.includes('implemented'), 'V42 parity matrix must mark Reading state machine implemented.');
-  assertCheck(failures, terminalReadme.includes('V42 Gate 3') && terminalReadme.includes('TerminalEnterpriseReadingRouteState'), 'Terminal README must document Gate 3 route state.');
+  assertCheck(failures, terminalReadme.includes('V42 Gate 3') && terminalReadme.includes('TerminalEnterpriseReadingRouteState'), 'product README must document Gate 3 route state.');
 
   if (failures.length > 0) {
     process.stderr.write(`V42 Gate 3 Reading shortest path state machine check failed:\n- ${failures.join('\n- ')}\n`);

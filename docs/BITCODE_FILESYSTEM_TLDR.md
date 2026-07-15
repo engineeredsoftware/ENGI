@@ -457,7 +457,7 @@ Format: `path -- <1 sentence TL;DR>`.
  BITCODE_PROTOCOL_THESIS.md -- Internal engineering documentation.
  BITCODE_SOURCE_EVIDENCE_DOCUMENTS.md -- Internal engineering documentation.
  BITCODE_SOURCE_LAYOUT.md -- Filesystem contract: layers, units, experiences, SRP rules.
- BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md -- Internal engineering documentation.
+ BITCODE_OPERATOR_EXPERIENCE.md -- Internal engineering documentation.
  BITCODE_V26_GATE_NOTES.md -- Internal engineering documentation.
  BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md -- Internal engineering documentation.
  BITCODE_VERIFICATION.md -- Internal engineering documentation.
@@ -9311,14 +9311,14 @@ Format: `path -- <1 sentence TL;DR>`.
  styles/ -- Local styles for the parent component unit.
  .gitkeep -- UAPI file.
  telemetry-pill-explainers.ts -- Supporting module for unit `TelemetryPillExplainers`.
- TerminalFailurePreview/ -- Component unit `TerminalFailurePreview` (SRP entry + optional hooks/tests).
+ PipelineFailurePreview/ -- Component unit `PipelineFailurePreview` (SRP entry + optional hooks/tests).
  __tests__/ -- Co-located unit tests for the parent component unit.
  .gitkeep -- UAPI file.
  hooks/ -- Hooks owned by the parent component unit.
  .gitkeep -- UAPI file.
  styles/ -- Local styles for the parent component unit.
  .gitkeep -- UAPI file.
- terminal-failure-preview.ts -- Supporting module for unit `TerminalFailurePreview`.
+ terminal-failure-preview.ts -- Supporting module for unit `PipelineFailurePreview`.
  ToggleButtons/ -- Component unit `ToggleButtons` (SRP entry + optional hooks/tests).
  __tests__/ -- Co-located unit tests for the parent component unit.
  .gitkeep -- UAPI file.

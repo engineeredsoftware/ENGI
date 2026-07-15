@@ -1,7 +1,7 @@
 import { buildMockConversationStreamEnvelope } from '@/app/api/conversations/_shared';
 
 describe('conversation mock stream shared helpers', () => {
-  it('emits canonical AssetPack execution events and Bitcode Terminal write copy', () => {
+  it('emits canonical AssetPack execution events and Bitcode write copy', () => {
     const envelope = buildMockConversationStreamEnvelope({
       content: 'Attach the repository and synthesize the asset pack.',
       tokens: [

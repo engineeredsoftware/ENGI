@@ -87,7 +87,7 @@ console.log(technologyProfile);
 - Framework compatibility checking
 - Version tracking and Evidence Document planning
 - Technology recommendation systems
-- Shared classification for dependent Bitcode packages, APIs, and Terminal surfaces
+- Shared classification for dependent Bitcode packages, APIs, and product surfaces
 
 ## Architecture
 

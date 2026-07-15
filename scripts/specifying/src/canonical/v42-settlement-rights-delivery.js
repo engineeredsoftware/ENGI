@@ -190,7 +190,7 @@ export const V42_SETTLEMENT_RIGHTS_DELIVERY_ROWS = Object.freeze([
   row({
     rowId: 'ui:terminal-settlement-readback',
     purpose:
-      'Render settlement rights, compensation, delivery, replay, and reconciliation readback in Terminal expandable metadata.',
+      'Render settlement rights, compensation, delivery, replay, and reconciliation readback in product expandable metadata.',
     sourceRoots: [SOURCE_ROOTS.terminalWorkbench, SOURCE_ROOTS.terminalHarnessClient, SOURCE_ROOTS.terminalHarnessClientTest],
     emittedTypes: ['assetPackSettlementBoundaryRows', 'TerminalReadFitsFindingSynthesisHarnessStreamSnapshot'],
     requiredEvidence: ['Settlement rights, compensation, and delivery', 'settlement-boundary', 'delivery-unlock'],

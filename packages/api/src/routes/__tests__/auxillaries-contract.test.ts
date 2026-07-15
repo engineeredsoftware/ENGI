@@ -210,7 +210,7 @@ describe('Auxillaries package route contracts', () => {
       policy: {
         policyId: 'org-bitcode:auxillaries-policy',
         action: 'pay_btc_fee',
-        interfaceSurface: 'terminal',
+        interfaceSurface: 'product',
       },
       multiSigPosture: {
         state: 'ready',
@@ -224,7 +224,7 @@ describe('Auxillaries package route contracts', () => {
     expect(payload.organizationAuthority.actionDecision?.decision).toBe('allowed');
     expect(payload.organizationAuthority.authorityRoot).toMatch(/^btd-proof-root:organization-policy-authority:/);
     expect(payload.interfaceAdmissions.map((admission) => admission.interfaceId)).toEqual([
-      'terminal',
+      'product',
       'api',
       'mcp',
       'chatgpt-app',
@@ -235,8 +235,8 @@ describe('Auxillaries package route contracts', () => {
     expect(payload.interfaceAdmissions).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          interfaceId: 'terminal',
-          surface: 'terminal',
+          interfaceId: 'product',
+          surface: 'product',
           authMode: 'session',
           readiness: 'ready',
           policyRequirements: expect.arrayContaining([

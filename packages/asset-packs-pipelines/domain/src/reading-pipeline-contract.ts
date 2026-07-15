@@ -280,7 +280,7 @@ export const READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT: ReadingPipelineContract
           objectiveId: 'ReadNeedComprehensionSynthesis.request.normalize.objective',
           kind: 'deterministic',
           returnType: 'ReadNeedSourceInput',
-          inputType: 'TerminalReadRequest',
+          inputType: 'ProductReadRequest',
           stores: ['read/request.normalized', 'read/source-revision.normalized'],
           telemetry: [
             readNeedTelemetry('prompt-input'),

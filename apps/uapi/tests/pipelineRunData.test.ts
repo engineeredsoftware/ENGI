@@ -1,5 +1,5 @@
 /**
- * Pipeline run data model (relocated from Terminal).
+ * Pipeline run data model (relocated from product).
  */
 import {
   isMockWorkspaceRunId,

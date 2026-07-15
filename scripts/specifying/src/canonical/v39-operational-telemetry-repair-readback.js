@@ -160,7 +160,7 @@ export const V39_OPERATIONAL_TELEMETRY_REPAIR_READBACK_ROWS = Object.freeze([
   row({
     rowId: 'ui:terminal-stage-readback',
     purpose:
-      'Project the five-stage Terminal Reading flow into operator-readable UI telemetry.',
+      'Project the five-stage Reading flow into operator-readable UI telemetry.',
     sourceRoots: [SOURCE_ROOTS.readback, SOURCE_ROOTS.pipelineLog, SOURCE_ROOTS.v39Spec],
     emittedTypes: ['ReadingOperationalOperatorReadback'],
     requiredEvidence: ['requestRead', 'reviewSynthesizedNeed', 'requestFindingFits', 'reviewAssetPackPreview', 'buyAssetPackSettle'],

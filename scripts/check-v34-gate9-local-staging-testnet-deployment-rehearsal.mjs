@@ -151,7 +151,7 @@ function main() {
     assertCheck(failures, artifact.coverage.credentialsSerialized === false, 'Artifact must not serialize credentials.');
     assertCheck(failures, artifact.coverage.protectedSourceVisible === false, 'Artifact must not expose protected source.');
     assertCheck(failures, artifact.rehearsals.every((rehearsal) => /^deployment-readiness-rehearsal:[a-f0-9]{24}$/u.test(rehearsal.rehearsalRoot)), 'Rehearsal rows must have deterministic roots.');
-    assertCheck(failures, artifact.rehearsals.some((rehearsal) => rehearsal.laneId === 'local' && rehearsal.exercisedSurfaces.includes('terminal')), 'Local rehearsal must exercise Terminal.');
+    assertCheck(failures, artifact.rehearsals.some((rehearsal) => rehearsal.laneId === 'local' && rehearsal.exercisedSurfaces.includes('terminal')), 'Local rehearsal must exercise product.');
     assertCheck(failures, artifact.rehearsals.some((rehearsal) => rehearsal.laneId === 'staging-testnet' && rehearsal.exercisedSurfaces.includes('reading_pipeline_execution_receipts')), 'Staging-testnet rehearsal must exercise Reading pipeline receipts.');
     assertCheck(failures, artifact.rehearsals.some((rehearsal) => rehearsal.laneId === 'value-bearing-mainnet' && rehearsal.admissionVerdict === 'blocked_value_bearing_mainnet'), 'Value-bearing mainnet must be explicitly blocked.');
     assertCheck(failures, artifact.sourceEvidence.every((entry) => entry.requiredTokens.every((token) => token.present === true)), 'Source evidence tokens must all be present.');
@@ -170,7 +170,7 @@ function main() {
   const source = read(root, 'packages/btd/src/deployment-readiness-rehearsal.ts');
   const test = read(root, 'packages/btd/__tests__/deployment-readiness-rehearsal.test.ts');
   const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
-  const requiredTerms = ['DeploymentReadinessRehearsal', ARTIFACT, 'local full-stack deployment rehearsal', 'staging-testnet full-stack deployment rehearsal', 'value-bearing mainnet blocked rehearsal', 'Terminal', 'public API', 'MCP API', 'ChatGPT App', 'Reading pipeline execution receipts', 'settlement/finality simulation', 'storage posture', 'repair posture'];
+  const requiredTerms = ['DeploymentReadinessRehearsal', ARTIFACT, 'local full-stack deployment rehearsal', 'staging-testnet full-stack deployment rehearsal', 'value-bearing mainnet blocked rehearsal', 'product', 'public API', 'MCP API', 'ChatGPT App', 'Reading pipeline execution receipts', 'settlement/finality simulation', 'storage posture', 'repair posture'];
   for (const doc of [spec, delta, notes, parity]) {
     for (const term of requiredTerms) assertCheck(failures, doc.includes(term), `V34 docs must mention ${term}.`);
   }

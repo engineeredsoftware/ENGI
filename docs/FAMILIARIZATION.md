@@ -13,7 +13,8 @@ Companion docs (do not duplicate their contracts here):
 | `BITCODE_SPEC_V48.md` (+ NOTES / DELTA / PARITY / PROVEN) | Draft rebuild-alone SPEC for current work | **Yes** (draft family) |
 | `BITCODE_SPECIFYING.md` | Metaspec: Complete Implementation Derivability | Metaspec |
 | `AGENTS.md` | Contributor / agent engineering law (gates, commits, Bezalel craft) | No |
-| `README.md` | Product entry + local dev | No |
+| `README.md` | Product entry + quick start | No |
+| `CONTRIBUTING.md` | Developer guide (setup, canon, env, hosts, testing) | No |
 | `docs/ASSET_PACKS.md` | AssetPack / deposit-synthesis orientation summary | **No** — SPEC § measurement + G3 is law |
 | `docs/BITCODE_SOURCE_LAYOUT.md` | Filesystem / component unit contract | No |
 | `docs/TERMINOLOGY.md` | Product vs agent vocabulary | No |
@@ -64,7 +65,7 @@ receive **BTD** rights, then entitled delivery.
 | Measurement | Basis of price (absolute on deposit; Need-relative fit on read) |
 | Pipeline | Product run language (UI tables, logs, history) |
 | Journal | BTD ledger language |
-| Terminal | **Deleted** product surface — do not reintroduce |
+| product | **Deleted** product surface — do not reintroduce |
 
 Launch routes: `/deposits`, `/reads`, `/packs`, Auxillaries, `/`, `/docs`.
 
@@ -613,7 +614,7 @@ apps/uapi/app/* page shells only
 
 **Never:** experience → experience imports.
 **Never:** packages → uapi.
-**Never:** reintroduce `/terminal`.
+**Never:** invent product routes outside Packs, Deposits, Reads, and Docs.
 
 ### 6.2 Request path (typical deposit synthesis)
 
@@ -738,7 +739,7 @@ under `apps/uapi/components/conversations/`. Overlay orchestration is a thin she
 rich-text input uses co-located serialize/render helpers; GitHub source selector
 cascade lives in `use-github-source-selection`; edge-case handler is a facade
 over network/data-integrity/performance/validation modules. Prefer `/packs` as
-post-auth landing, not Terminal.
+post-auth landing, not product.
 
 ### 7.7 Auxillaries
 
@@ -946,7 +947,7 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | **Shippable** | Deliverable artifact shape (e.g. PR) — product template domain in `templates-generics`. |
 | **Source-safe** | Never product-expose protected/raw source, unpaid packs, raw prompts, credentials, private settlement payloads. |
 | **SynthesizeAssetPacks** | Deposit (and related) SDIVF product pipeline that produces measured AssetPack options. |
-| **Terminal** | **Deleted** product surface — do not reintroduce `/terminal` or Terminal-named product UI. |
+| **Product surfaces** | Packs, Deposits, Reads, Docs — no other product cockpit route. |
 | **Unestimatable** | Honest demand/price outcome when Depository supply cannot ground a figure (not invented %). |
 
 ### 12.3 Hierarchy packaging (`*-generics` / `generic-*`)
@@ -1107,7 +1108,7 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 | --- | --- |
 | “Context” as product run state | **Execution** (process-root Execution for process defaults) |
 | “Harness” for run boxes | **Host** (LocalHost / VercelSandboxHost) |
-| “Terminal” product UI | Experiences on `/deposits`, `/reads`, `/packs`, … |
+| “product” product UI | Experiences on `/deposits`, `/reads`, `/packs`, … |
 | “Pipeline” for BTD ledger rows | **Journal** |
 | Leaf-only type names for layered types | Full hierarchy names (`…SDIVFPipeline`, `…AbsolutesMeasureAgent`) |
 | New `*-generics` without `generic-*` peers | Plain domain package name |

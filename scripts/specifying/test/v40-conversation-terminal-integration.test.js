@@ -12,7 +12,7 @@ import {
   buildV40ConversationTerminalIntegration,
 } from '../src/canonical/v40-conversation-terminal-integration.js';
 
-test('V40 Conversation and Terminal integration coverage closes cross-surface handoff and logs', () => {
+test('V40 Conversation and product integration coverage closes cross-surface handoff and logs', () => {
   const report = buildV40ConversationTerminalIntegration();
 
   assert.equal(
@@ -49,7 +49,7 @@ test('V40 Conversation and Terminal integration coverage closes cross-surface ha
   assert.ok(report.artifactRoot.startsWith('v40-conversation-terminal-integration:'));
 });
 
-test('V40 Conversation and Terminal integration rows remain source-safe metadata only', () => {
+test('V40 Conversation and product integration rows remain source-safe metadata only', () => {
   for (const row of V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS) {
     assert.equal(row.verdict, 'covered');
     assert.ok(row.rowRoot.startsWith('v40-conversation-terminal-integration-row:'));

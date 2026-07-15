@@ -20,7 +20,7 @@ describe('useConversationStream first-write routing', () => {
         type: 'message_complete',
         data: {
           messageId: 'msg-1',
-          content: 'Bitcode Terminal write path accepted the instruction.',
+          content: 'Bitcode write path accepted the instruction.',
           conversationId: 'conv-persisted-1',
         },
       })}\n\n`,
@@ -65,7 +65,7 @@ describe('useConversationStream first-write routing', () => {
     await waitFor(() => {
       expect(onMessageComplete).toHaveBeenCalledWith(
         'msg-1',
-        'Bitcode Terminal write path accepted the instruction.',
+        'Bitcode write path accepted the instruction.',
         'conv-persisted-1',
       );
     });

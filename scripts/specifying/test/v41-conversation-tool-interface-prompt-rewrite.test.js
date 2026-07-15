@@ -34,7 +34,7 @@ test('builds source-safe V41 Conversation tool interface prompt rewrite artifact
   assert.equal(artifact.rows.length, V41_CONVERSATION_TOOL_INTERFACE_PROMPT_REWRITE_ROWS.length);
 });
 
-test('covers Conversation, tool-definition, MCP, ChatGPT, Terminal, and public API prompt surfaces', () => {
+test('covers Conversation, tool-definition, MCP, ChatGPT, product, and public API prompt surfaces', () => {
   const artifact = buildV41ConversationToolInterfacePromptRewrite({
     generatedAt: '2026-05-26T00:00:00.000Z',
     repoRoot,

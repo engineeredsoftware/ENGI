@@ -23,7 +23,7 @@ const REQUIRED_CAPABILITY_IDS = [
 ];
 const REQUIRED_DOC_PHRASES = [
   'market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state',
-  'Terminal can hand off to Exchange without losing transaction context',
+  'product can hand off to Exchange without losing transaction context',
   'collapsed UI gives readable status and expanded UI exposes source-safe detail',
   'Exchange telemetry dashboards remain source-safe and proof-rooted',
 ];
@@ -129,9 +129,9 @@ function main() {
     'scripts/generate-v36-exchange-ux-proof.mjs',
     'scripts/check-v36-gate8-exchange-ux-proof.mjs',
     'apps/uapi/app/exchange/ExchangePageClient.tsx',
-    'apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx',
-    'apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx',
-    'apps/uapi/app/terminal/terminal-routes.ts',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionWorkspace.tsx',
+    'apps/uapi/app/ (removed cockpit tree) TerminalTransactionDetailHero.tsx',
+    'apps/uapi/app/ (removed cockpit tree) terminal-routes.ts',
     'apps/uapi/tests/exchangePageClient.test.tsx',
     'apps/uapi/tests/exchangeTerminalHandoff.test.ts',
     'apps/uapi/jest.config.cjs',
@@ -193,7 +193,7 @@ function main() {
     assertCheck(failures, artifact.coverage.pricingQuoteCovered === true, 'Exchange pricing quote review must be covered.');
     assertCheck(failures, artifact.coverage.settlementStateCovered === true, 'Exchange settlement state must be covered.');
     assertCheck(failures, artifact.coverage.repairStateCovered === true, 'Exchange repair state must be covered.');
-    assertCheck(failures, artifact.coverage.terminalHandoffCovered === true, 'Terminal handoff must be covered.');
+    assertCheck(failures, artifact.coverage.terminalHandoffCovered === true, 'product handoff must be covered.');
     assertCheck(failures, artifact.coverage.collapsedStatusExpandedDetailCovered === true, 'Collapsed status and expanded detail must be covered.');
     assertCheck(failures, artifact.coverage.telemetryDashboardBindingCovered === true, 'Telemetry dashboard binding must be covered.');
     assertCheck(failures, artifact.coverage.routeContextPreserved === true, 'Route context must be preserved.');
@@ -230,8 +230,8 @@ function main() {
   const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
   const packageTest = read(root, 'scripts/specifying/test/v36-exchange-ux-proof.test.js');
   const exchangePage = read(root, 'apps/uapi/app/exchange/ExchangePageClient.tsx');
-  const terminalRoutes = read(root, 'apps/uapi/app/terminal/terminal-routes.ts');
-  const detailHero = read(root, 'apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx');
+  const terminalRoutes = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-routes.ts');
+  const detailHero = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalTransactionDetailHero.tsx');
   const handoffTest = read(root, 'apps/uapi/tests/exchangeTerminalHandoff.test.ts');
   const exchangePageTest = read(root, 'apps/uapi/tests/exchangePageClient.test.tsx');
   const uapiJestConfig = read(root, 'apps/uapi/jest.config.cjs');
@@ -253,7 +253,7 @@ function main() {
     }
   }
 
-  assertCheck(failures, docs[3].includes('| Exchange UX and Terminal integration | Gate 8 |') && docs[3].includes('| closed |'), 'V36 parity must close the Gate 8 matrix row.');
+  assertCheck(failures, docs[3].includes('| Exchange UX and product integration | Gate 8 |') && docs[3].includes('| closed |'), 'V36 parity must close the Gate 8 matrix row.');
   assertCheck(failures, docs[3].includes('## Gate 8 Parity') && docs[3].includes('closed'), 'V36 parity must mark Gate 8 closed.');
   assertCheck(
     failures,
@@ -262,15 +262,15 @@ function main() {
   );
   assertCheck(failures, roadmap.includes('V36 Gate 8 closure anchor'), 'Roadmap must include V36 Gate 8 closure anchor.');
   assertCheck(failures, source.includes('EXCHANGE_UX_PROOF_SOURCE_SAFETY_VERDICT'), 'Exchange UX source must export source-safety verdict.');
-  assertCheck(failures, source.includes('terminal_context_handoff'), 'Exchange UX source must cover Terminal handoff.');
+  assertCheck(failures, source.includes('terminal_context_handoff'), 'Exchange UX source must cover product handoff.');
   assertCheck(failures, index.includes("from './canonical/exchange-ux-proof.js'"), 'Protocol index must export Exchange UX source.');
   assertCheck(failures, typeDefs.includes('EXCHANGE_UX_PROOF_ARTIFACT_PATH'), 'Protocol type definitions must export Exchange UX artifact path.');
   assertCheck(failures, typeDefs.includes('buildExchangeUxProof'), 'Protocol type definitions must export Exchange UX builder.');
   assertCheck(failures, packageTest.includes('buildExchangeUxProof'), 'Gate 8 package test must exercise Exchange UX builder.');
   assertCheck(failures, exchangePage.includes('Read market activity, select an order, and inspect Exchange state'), 'Exchange route must expose the Gate 8 heading.');
   assertCheck(failures, exchangePage.includes('market filters') && exchangePage.includes('proof-rooted state'), 'Exchange hero must expose filters and proof-rooted state.');
-  assertCheck(failures, terminalRoutes.includes('EXCHANGE_ROUTE') && terminalRoutes.includes('buildExchangeHref'), 'Terminal routes must build Exchange handoff hrefs.');
-  assertCheck(failures, detailHero.includes('Open in Exchange') && detailHero.includes('Return to Terminal'), 'Detail hero must expose Exchange and Terminal handoff links.');
+  assertCheck(failures, terminalRoutes.includes('EXCHANGE_ROUTE') && terminalRoutes.includes('buildExchangeHref'), 'product routes must build Exchange handoff hrefs.');
+  assertCheck(failures, detailHero.includes('Open in Exchange') && detailHero.includes('Return to product'), 'Detail hero must expose Exchange and product handoff links.');
   assertCheck(failures, handoffTest.includes('buildExchangeHref') && handoffTest.includes('transactionDetail=proofs'), 'Handoff test must prove route context preservation.');
   assertCheck(failures, exchangePageTest.includes('market filters') && exchangePageTest.includes('proof-rooted state'), 'Exchange page test must cover Gate 8 header fields.');
   assertCheck(failures, uapiJestConfig.includes('exchangeTerminalHandoff.test.ts'), 'UAPI Jest config must include the Exchange handoff test.');

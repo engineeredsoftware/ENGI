@@ -402,7 +402,7 @@ export function buildPostAuxillaryBtdRoute(options: AuxillaryRouteBuilderOptions
     if (options.isMockMode?.()) {
       return createJsonResponse({
         error:
-          'Generic BTD balance mutation is closed. $BTD is a non-fungible asset-pack share/read-right; acquisition must flow through Terminal Read minting or Exchange purchase.',
+          'Generic BTD balance mutation is closed. $BTD is a non-fungible asset-pack share/read-right; acquisition must flow through Read minting or Exchange purchase.',
       }, 410);
     }
 
@@ -422,7 +422,7 @@ export function buildPostAuxillaryBtdRoute(options: AuxillaryRouteBuilderOptions
 
     return createJsonResponse({
       error:
-        'Generic BTD balance mutation is closed. $BTD is a non-fungible asset-pack share/read-right; acquisition must flow through Terminal Read minting or Exchange purchase.',
+        'Generic BTD balance mutation is closed. $BTD is a non-fungible asset-pack share/read-right; acquisition must flow through Read minting or Exchange purchase.',
       acquisitionPaths: {
         terminalReadMinting: '/reads?intent=submit-read-for-btd',
         exchangePurchase: '/exchange?intent=buy-existing-btd',

@@ -17,7 +17,7 @@ describe('deriveBitcodeTransactionReadiness', () => {
     ]);
   });
 
-  it('requires a repository anchor when the Bitcode Terminal is executing anchored work', () => {
+  it('requires a repository anchor when the Bitcode is executing anchored work', () => {
     const readiness = deriveBitcodeTransactionReadiness({
       signedIn: true,
       hasRepositoryProvider: true,
