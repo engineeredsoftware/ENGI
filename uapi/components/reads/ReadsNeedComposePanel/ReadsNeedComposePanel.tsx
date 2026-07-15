@@ -59,9 +59,8 @@ export function ReadsNeedComposePanel(props: {
       </p>
       <h2 className="mt-2 text-lg font-semibold text-white">Need</h2>
       <p className="mt-2 text-sm leading-6 text-neutral-400">
-        Same SDIVF shape as deposits: select a repository and SHA, write the Need,
-        steer with Relevant / Irrelevant paths (deposit Inclusion / Exclusion twin),
-        then synthesize measured options.
+        Select a repository and commit, describe the Need, optionally steer with
+        Relevant and Irrelevant paths, then synthesize measured AssetPack options.
       </p>
 
       <label htmlFor="reads-need-input" className="mt-4 block text-xs text-neutral-300">
@@ -87,23 +86,25 @@ export function ReadsNeedComposePanel(props: {
         repositoryContext={repositoryContext}
       />
 
-      <div className="mt-4 flex flex-wrap items-center gap-3">
-        <button
-          type="button"
-          data-testid="reads-synthesize-options"
-          onClick={() => void onSynthesize()}
-          disabled={!canSynthesize || running || !need.trim()}
-          className="border border-orange-300/40 bg-orange-400/15 px-4 py-2 text-sm font-medium text-orange-50 disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          {running ? "Synthesizing…" : "Synthesize options"}
-        </button>
-        {runId ? (
-          <span className="font-mono text-[0.65rem] text-neutral-500">{runId}</span>
-        ) : null}
-        <span className="text-xs uppercase tracking-wide text-neutral-500">
-          status: {status}
-        </span>
-      </div>
+      <button
+        type="button"
+        data-testid="reads-synthesize-options"
+        onClick={() => void onSynthesize()}
+        disabled={!canSynthesize || running || !need.trim()}
+        className="mt-4 inline-flex w-full items-center justify-center border border-emerald-300/25 bg-emerald-300/12 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/[0.03] disabled:text-neutral-500"
+      >
+        {running
+          ? "Synthesizing with AssetPacksSynthesis…"
+          : "Synthesize AssetPack Options"}
+      </button>
+      {runId || status !== "idle" ? (
+        <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-neutral-500">
+          {runId ? (
+            <span className="font-mono text-[0.65rem]">{runId}</span>
+          ) : null}
+          <span className="uppercase tracking-wide">status: {status}</span>
+        </div>
+      ) : null}
 
       {error ? (
         <p

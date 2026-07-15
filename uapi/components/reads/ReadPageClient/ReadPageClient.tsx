@@ -115,19 +115,21 @@ export default function ReadPageClient() {
         throw new Error(
           typeof payload?.error === "string"
             ? payload.error
-            : "SettleAssetPack failed.",
+            : "Settlement failed.",
         );
       }
       const runIds = Array.isArray(payload.settleRunIds)
         ? payload.settleRunIds.join(", ")
         : payload.settleRunId;
       setSettleMessage(
-        `Settled ${selected.length} option(s) — 1 settle pipeline per AssetPack. Run(s) ${runIds}. BTD from needinesses; see /packs.`,
+        `Settled ${selected.length} option(s). Track rights and delivery on Packs${
+          runIds ? ` (run ${runIds})` : ""
+        }.`,
       );
       void Promise.resolve(refreshLiveRuns() as unknown);
     } catch (err) {
       setSettleError(
-        err instanceof Error ? err.message : "SettleAssetPack failed.",
+        err instanceof Error ? err.message : "Settlement failed.",
       );
     } finally {
       setSettleBusy(false);
@@ -220,13 +222,13 @@ export default function ReadPageClient() {
         tone="orange"
         label="Read"
         title="Reading"
-        summary="Need → SynthesizeReadAssetPacks (SDIVF) → select options → SettleAssetPack → /packs."
+        summary="Describe a Need, synthesize measured AssetPack options, choose what fits, then settle and track delivery on Packs."
         icon={Workflow}
         metrics={[
           {
             label: "Stage",
             description:
-              "Where this reading session sits: compose Need, synthesize options, settle selected AssetPacks.",
+              "Where this reading session sits: compose a Need, synthesize options, or settle selected AssetPacks.",
             value: isComposeOpen
               ? "compose"
               : readRouteSession.activeStepId.replace(/-/g, " "),
@@ -234,7 +236,7 @@ export default function ReadPageClient() {
           {
             label: "Rows",
             description:
-              "How many pipeline runs this account can read in the Read pipelines table.",
+              "How many Read runs appear in the pipelines table for this account.",
             value: isLoadingRuns ? "reading" : String(liveRuns.length),
           },
           {
@@ -294,7 +296,7 @@ export default function ReadPageClient() {
                     repositoryAnchors={repositoryAnchors}
                     disabled={isConfigLocked}
                     heading="Select the repository you are reading"
-                    description="One connected repository, branch, and commit form the source package SynthesizeReadAssetPacks measures against."
+                    description="One connected repository, branch, and commit form the source package measured against your Need."
                     descriptionLocked="Source package for this read run — locked while reviewing run detail."
                     ariaLabel="Repository source selector"
                   />

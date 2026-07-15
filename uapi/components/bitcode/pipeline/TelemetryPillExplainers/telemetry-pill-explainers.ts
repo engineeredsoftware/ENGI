@@ -10,7 +10,7 @@
  *       / step / failsafe sources ("Prompted to comprehend the depositor's
  *       Obfuscations…; returns {comprehension} with …"), and
  *   (b) `generic` — BELOW: the type copy repeated across all tooltips of that
- *       kind ("Phases are the five SDIVF stages…").
+ *       kind ("Phases are the five stages every synthesis run works through…").
  * Unknown values fall back to a graceful specific sentence. All copy is
  * SOURCE-SAFE: it describes prompt purposes and output SHAPES — never
  * depositor content, raw source, or prompt text.
@@ -61,7 +61,7 @@ const PILL_SECTIONS: Record<
 > = {
   phase: {
     points: [
-      'Track which SDIVF stage the run is working through',
+      'Track which synthesis stage the run is working through',
       'Spot a stage that is looping or stalled before the clock does',
     ],
     references: {
@@ -71,7 +71,7 @@ const PILL_SECTIONS: Record<
   },
   agent: {
     points: [
-      'See which PTRR worker produced this row',
+      'See which worker produced this row',
       'Follow one agent across its Plan → Try → Refine → Retry moves',
     ],
     references: {
@@ -81,7 +81,7 @@ const PILL_SECTIONS: Record<
   },
   step: {
     points: [
-      'Verify PTRR ordering — Try must never follow Refine',
+      'Verify step ordering — Try must never follow Refine',
       'See which step schema this output validated against',
     ],
     references: {
@@ -147,9 +147,10 @@ export interface TelemetryExplainerContext {
 
 const GENERIC_COPY: Record<TelemetryExplainerKind, string> = {
   phase:
-    'Phases are the five SDIVF stages every synthesis runs: Setup, Discovery, Implementation, Validation, Finish.',
-  agent: "Agents are the PTRR workers that plan, try, refine, and retry a phase's work.",
-  step: 'Steps are the PTRR moves an agent works through in order: Plan, Try, Refine, and Retry.',
+    'Phases are the five stages every synthesis run works through: Setup, Discovery, Implementation, Validation, and Finish.',
+  agent:
+    "Agents are the workers that plan, try, refine, and retry a phase's work.",
+  step: 'Steps are the ordered moves an agent works through: Plan, Try, Refine, and Retry.',
   failsafe:
     'Failsafes are the guards wrapped around every LLM call: Prepare Context selects the context; Handle Prompts chunks oversized requests; Handle Completions repairs incomplete responses.',
   generation: 'Generations are the Thinkings sequence: Reason, Judge, Structured Output.',
