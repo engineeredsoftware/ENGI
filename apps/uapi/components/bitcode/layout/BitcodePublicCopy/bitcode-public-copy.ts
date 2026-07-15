@@ -80,12 +80,12 @@ export const BITCODE_PUBLIC_COPY = {
     rail: 'For Agents, Humans, Aliens...',
   },
   // Marketing presents the commercial product as production — no testnet language.
-  // Claim anchors in meaning: * ERC-1155 · ** AssetPacks · *** Measurements.
+  // Claim anchors in meaning: * ERC-1155 · ** Measured AssetPacks · *** Measurements (footnotes).
   testnetLaunch: {
     badge: 'Productionized Protocol',
     title: 'Exchange Bitcoins for Bitcodes.',
     meaning:
-      "Bitcode's protocol is implemented as a central system, such as the ERC-1155*, AssetPacks**, and Measurements***, accessible by engaging with our commercial applications.",
+      "Bitcode's central, canonical, commercial implementations are the mainnet ERC-1155 contract*, **Measured AssetPacks, and delightful applications.",
     flow: [
       {
         id: 'whitepaper',

@@ -164,27 +164,26 @@ export function ProductRouteShell({
   return (
     <main
       data-testid={testId}
-      className={`min-h-screen ${toneClasses.page} px-4 pb-24 pt-32 text-neutral-100 tablet:px-6 desktop:px-8`}
+      className={`min-h-screen overflow-x-clip ${toneClasses.page} px-3 pb-20 pt-28 text-neutral-100 phone:px-4 phone:pb-24 phone:pt-32 tablet:px-6 laptop:px-8 desktop:px-8`}
     >
-      <ProductRouteEntrance className="mx-auto grid w-full max-w-[1800px] gap-5">
-        {/* Compact route header — fixed height band shared by Packs / Reads /
-            Deposits: title left, metric chips right (never a second full-width
-            metric row that stretches one route taller than the others). */}
+      <ProductRouteEntrance className="mx-auto grid w-full min-w-0 max-w-[1800px] gap-4 phone:gap-5">
+        {/* Compact route header — title + wrapping metric chips (phone stacks;
+            tablet+ title left / chips right). Shared by Packs / Reads / Deposits. */}
         <ProductEntranceItem
           as="header"
-          className={`grid items-center gap-x-6 gap-y-2 border ${toneClasses.headerBorder} bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-5 py-3 shadow-[0_30px_100px_rgba(0,0,0,0.34)] tablet:grid-cols-[minmax(0,1fr)_auto] tablet:min-h-[5.75rem]`}
+          className={`grid min-w-0 items-center gap-x-4 gap-y-3 border ${toneClasses.headerBorder} bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-3 py-3 shadow-[0_30px_100px_rgba(0,0,0,0.34)] phone:px-5 phone:py-3.5 tablet:grid-cols-[minmax(0,1fr)_auto] tablet:min-h-[5.75rem] tablet:gap-x-6`}
         >
           <div className="min-w-0">
             <p
               className={`flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.3em] ${toneClasses.eyebrow}`}
             >
-              <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+              <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
               {label}
             </p>
-            <h1 className="mt-1 text-xl font-semibold tracking-tight text-white tablet:text-2xl">
+            <h1 className="mt-1 text-lg font-semibold tracking-tight text-white phone:text-xl tablet:text-2xl">
               {title}
             </h1>
-            <p className="mt-1 line-clamp-2 max-w-3xl text-xs leading-5 text-neutral-400 tablet:text-sm">
+            <p className="mt-1 line-clamp-3 max-w-3xl text-xs leading-5 text-neutral-400 phone:line-clamp-2 tablet:text-sm">
               {summary}
             </p>
           </div>
@@ -193,13 +192,13 @@ export function ProductRouteShell({
               const chipBody = (
                 <>
                   <dt className="text-neutral-500">{metric.label}</dt>
-                  <dd className="text-[0.7rem] font-semibold text-white">
+                  <dd className="max-w-[9rem] truncate text-[0.7rem] font-semibold text-white phone:max-w-none">
                     {metric.value}
                   </dd>
                 </>
               );
               const chipClass =
-                "flex shrink-0 items-baseline gap-1.5 border border-white/10 bg-white/[0.045] px-2 py-1";
+                "flex min-w-0 shrink-0 items-baseline gap-1.5 border border-white/10 bg-white/[0.045] px-2 py-1";
               return metric.description ? (
                 <TelemetryExplainerTrigger
                   key={metric.label}
@@ -256,7 +255,10 @@ export function ProductRouteStepGrid<StepId extends string>({
   const toneClasses = TONE_CLASSES[tone];
 
   return (
-    <section className="grid gap-3 md:grid-cols-5" aria-label={ariaLabel}>
+    <section
+      className="grid grid-cols-1 gap-3 phone:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-5"
+      aria-label={ariaLabel}
+    >
       {steps.map((step) => {
         const active = step.id === activeStepId;
         const stateAttribute = { [stateDataAttribute]: step.state };
@@ -267,8 +269,8 @@ export function ProductRouteStepGrid<StepId extends string>({
             data-testid={`${testIdPrefix}-${step.id}`}
             aria-current={active ? "step" : undefined}
             onClick={() => onSelect(step.id)}
-            className={`border text-left outline-none transition focus-visible:ring-2 ${
-              compact ? "px-3 py-2.5" : "min-h-[9rem] px-4 py-4"
+            className={`min-w-0 border text-left outline-none transition focus-visible:ring-2 ${
+              compact ? "px-3 py-2.5" : "min-h-[7.5rem] px-3 py-3 phone:min-h-[9rem] phone:px-4 phone:py-4"
             } ${toneClasses.focusRing} ${
               active ? toneClasses.activeStep : toneClasses.inactiveStep
             }`}
@@ -444,11 +446,11 @@ export function ProductRouteEnterpriseSummary({
           </h2>
         </div>
       </div>
-      <dl className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <dl className="mt-4 grid grid-cols-1 gap-3 phone:grid-cols-2 laptop:grid-cols-4">
         {metrics.map((metric) => (
           <div
             key={metric.label}
-            className="min-h-[6.5rem] border border-white/10 bg-black/20 px-3 py-3"
+            className="min-h-[6.5rem] min-w-0 border border-white/10 bg-black/20 px-3 py-3"
           >
             <dt className="text-[0.58rem] uppercase tracking-[0.16em] text-neutral-500">
               {metric.label}

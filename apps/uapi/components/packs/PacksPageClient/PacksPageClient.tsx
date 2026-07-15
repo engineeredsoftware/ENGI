@@ -141,7 +141,7 @@ export default function PacksPageClient() {
         open={isDetailOpen}
         stageKey={selectedId || "packs-detail"}
         testId="packs-run-detail"
-        className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]"
+        className="grid min-w-0 gap-4 phone:gap-5 laptop:grid-cols-[minmax(0,1.4fr)_minmax(16rem,0.55fr)]"
       >
         <PacksActivityDetail detail={detail} layout="main" />
         <PacksActivityDetail detail={detail} layout="aside" />

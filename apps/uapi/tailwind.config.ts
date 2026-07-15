@@ -40,19 +40,35 @@ const config = {
   prefix: "",
   theme: {
     screens: {
-      'phone': '480px',    // Mobile
-      'tablet': '768px',   // Tablet
-      'laptop': '1024px',  // Laptop
-      'desktop': '1280px', // Desktop
-      'wide': '1440px',    // Widescreen
-      '2xl': '1400px',     // Keep existing container breakpoint
+      // Canonical Bitcode device bands (mobile-first min-width).
+      phone: '480px',
+      tablet: '768px',
+      laptop: '1024px',
+      desktop: '1280px',
+      wide: '1440px',
+      // Standard Tailwind aliases — required so shadcn / legacy `sm|md|lg|xl`
+      // utilities resolve (theme.screens fully replaces defaults when set).
+      sm: '480px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1440px',
     },
     container: {
-      center: 'true',
-      padding: '2rem',
+      center: true,
+      padding: {
+        DEFAULT: '1rem',
+        phone: '1.25rem',
+        tablet: '1.5rem',
+        laptop: '2rem',
+      },
       screens: {
-        '2xl': '1400px'
-      }
+        tablet: '768px',
+        laptop: '1024px',
+        desktop: '1280px',
+        wide: '1440px',
+        '2xl': '1440px',
+      },
     },
     extend: {
       boxShadow: {

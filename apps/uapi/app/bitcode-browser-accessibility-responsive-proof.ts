@@ -1,7 +1,9 @@
 export const BITCODE_BROWSER_ACCESSIBILITY_RESPONSIVE_PROOF_VIEWPORTS = [
   { id: 'phone', width: 390, height: 844 },
+  { id: 'phone-lg', width: 480, height: 900 },
   { id: 'tablet', width: 768, height: 1024 },
-  { id: 'laptop', width: 1280, height: 900 },
+  { id: 'laptop', width: 1024, height: 900 },
+  { id: 'desktop', width: 1280, height: 900 },
   { id: 'widescreen', width: 1920, height: 1080 },
 ] as const;
 
@@ -17,6 +19,35 @@ export const BITCODE_BROWSER_ACCESSIBILITY_RESPONSIVE_PROOF_ASSERTIONS = [
 ] as const;
 
 export const BITCODE_BROWSER_ACCESSIBILITY_RESPONSIVE_PROOF_SURFACES = [
+  {
+    id: 'marketing',
+    label: 'Bitcode Marketing',
+    routes: [
+      { id: 'default', path: '/', state: 'default' },
+    ],
+    landmarks: ['main', 'navigation'],
+    evidenceFiles: [
+      'apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
+      'apps/uapi/tests/navPublicShell.test.tsx',
+    ],
+  },
+  {
+    id: 'packs',
+    label: 'Bitcode Packs',
+    routes: [
+      { id: 'default', path: '/packs', state: 'default' },
+      {
+        id: 'guided',
+        path: '/packs',
+        state: 'guided',
+        selector: '[data-testid="route-shell-packs"]',
+      },
+    ],
+    landmarks: ['main', 'region'],
+    evidenceFiles: [
+      'apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
+    ],
+  },
   {
     id: 'deposits',
     label: 'Bitcode Deposits',

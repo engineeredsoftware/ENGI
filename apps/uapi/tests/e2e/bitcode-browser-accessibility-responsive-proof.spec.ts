@@ -9,6 +9,8 @@ import {
 
 const PROOF_VIEWPORTS = [
   { id: 'phone', width: 390, height: 844 },
+  { id: 'tablet', width: 768, height: 1024 },
+  { id: 'laptop', width: 1024, height: 900 },
   { id: 'desktop', width: 1440, height: 900 },
 ] as const;
 
@@ -30,13 +32,21 @@ test.describe('Bitcode browser accessibility responsive proof', () => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
   });
 
-  test('Deposits and Reads default and selected states stay semantic and responsive', async ({
+  test('Marketing, Packs, Deposits, and Reads stay semantic and responsive', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
     for (const viewport of PROOF_VIEWPORTS) {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
+
+      await openCommercialRoute(page, '/', /Bitcode/i);
+      await expect(page.getByRole('navigation').or(page.locator('header')).first()).toBeVisible();
+      await expectNoHorizontalOverflow(page, `marketing-${viewport.id}-default`);
+
+      await openCommercialRoute(page, '/packs', /Pack activity|Packs/i);
+      await expect(page.getByTestId('route-shell-packs')).toBeVisible();
+      await expectNoHorizontalOverflow(page, `packs-${viewport.id}-default`);
 
       await openCommercialRoute(page, '/deposits', /Depositing/i);
       await expect(page.getByRole('main')).toBeVisible();

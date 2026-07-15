@@ -32,8 +32,8 @@ export default function AuxillariesPaneTabs({
   const isAuxillariesMode = mode === 'auxillaries';
 
   return (
-    <div className="orbital-pane-tabs mb-6 rounded-none border border-white/8 bg-black/20 px-4 py-4">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+    <div className="orbital-pane-tabs mb-4 rounded-none border border-white/8 bg-black/20 px-3 py-3 phone:mb-6 phone:px-4 phone:py-4">
+      <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between">
         <div className="min-w-0">
           <p className="text-[0.66rem] uppercase tracking-[0.22em] text-emerald-300/80">
             {isAuxillariesMode ? AUXILLARIES_LABEL : AUXILLARIES_ACCESS_LABEL}
@@ -52,11 +52,11 @@ export default function AuxillariesPaneTabs({
         </div>
       </div>
 
-      <div className="mt-4 rounded-none border border-white/8 bg-white/5 px-3 py-3 text-xs uppercase tracking-[0.18em] text-neutral-300">
+      <div className="mt-3 rounded-none border border-white/8 bg-white/5 px-3 py-3 text-xs uppercase tracking-[0.18em] text-neutral-300 phone:mt-4">
         Active auxillary: <span className="text-white">{labelForAuxillaryPane(currentStep)}</span>
       </div>
 
-      <div className="orbital-pane-tab-grid mt-4 flex flex-wrap gap-2">
+      <div className="orbital-pane-tab-grid mt-3 flex flex-wrap gap-1.5 phone:mt-4 phone:gap-2">
         {steps.map((step, index) => {
           if (!step) return null;
 

@@ -18,31 +18,36 @@ describe('Bitcode browser accessibility responsive proof contract', () => {
     'i',
   );
 
-  it('covers Deposits, Reads, and Auxillaries default, guided, and detail states across responsive viewports', () => {
+  it('covers Marketing, Packs, Deposits, Reads, and Auxillaries across device viewports', () => {
     expect(summarizeBitcodeBrowserAccessibilityResponsiveProofContract()).toEqual({
-      surfaceCount: 3,
-      routeCount: 9,
-      viewportCount: 4,
+      surfaceCount: 5,
+      routeCount: 12,
+      viewportCount: 6,
       assertionCount: 8,
       visualStrategyCount: 4,
-      evidenceFileCount: 6,
+      evidenceFileCount: 7,
       sourceSafe: true,
     });
     expect(BITCODE_BROWSER_ACCESSIBILITY_RESPONSIVE_PROOF_SURFACES.map((surface) => surface.id)).toEqual([
+      'marketing',
+      'packs',
       'deposits',
       'reads',
       'auxillaries',
     ]);
     for (const surface of BITCODE_BROWSER_ACCESSIBILITY_RESPONSIVE_PROOF_SURFACES) {
-      expect(surface.routes.map((route) => route.state)).toEqual(['default', 'guided', 'detail']);
+      expect(surface.routes.length).toBeGreaterThanOrEqual(1);
+      expect(surface.routes[0]?.state).toBe('default');
       expect(surface.evidenceFiles).toEqual(
         expect.arrayContaining(['apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts']),
       );
     }
     expect(BITCODE_BROWSER_ACCESSIBILITY_RESPONSIVE_PROOF_VIEWPORTS.map((viewport) => viewport.id)).toEqual([
       'phone',
+      'phone-lg',
       'tablet',
       'laptop',
+      'desktop',
       'widescreen',
     ]);
   });

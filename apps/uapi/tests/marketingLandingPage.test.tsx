@@ -158,10 +158,11 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('Bitcoins', { selector: 'h2 span' })).toBeInTheDocument();
     expect(
       screen.getByText(
-        /Bitcode's protocol is implemented as a central system, such as the ERC-1155/u,
+        /Bitcode's central, canonical, commercial implementations are the mainnet ERC-1155 contract/u,
       ),
     ).toBeInTheDocument();
-    expect(screen.getByText(/commercial applications/i)).toBeInTheDocument();
+    expect(screen.getByText(/Measured AssetPacks/u)).toBeInTheDocument();
+    expect(screen.getByText(/delightful applications/i)).toBeInTheDocument();
     expect(screen.queryByText(/testnet/i)).toBeNull();
     expect(screen.queryByText(/on Bitcoin/i)).toBeNull();
     expect(screen.getByText('Website Application')).toBeInTheDocument();
@@ -195,7 +196,7 @@ describe('MarketingLandingPage', () => {
     expect(interfaceLabels[0]).toMatch(/Bitcode Whitepaper/u);
     expect(
       screen.getByText(
-        /Bitcode's protocol is implemented as a central system, such as the ERC-1155/u,
+        /Bitcode's central, canonical, commercial implementations are the mainnet ERC-1155 contract/u,
       ),
     ).toBeInTheDocument();
     expect(
@@ -211,8 +212,9 @@ describe('MarketingLandingPage', () => {
     expect(
       screen.getByText(/Measurements are visible; IP is not\. Bitcode is source-safe knowledge trading/u),
     ).toBeInTheDocument();
-    // Claim anchors: * ERC-1155, ** AssetPacks, *** Measurements (body + footnotes).
-    expect(screen.getAllByText('***').length).toBeGreaterThanOrEqual(2);
+    // Claim anchors: * ERC-1155 (body + footnote), ** Measured AssetPacks (body + footnote),
+    // *** Measurements (footnote). Body folds measures into Measured AssetPacks.
+    expect(screen.getAllByText('***').length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText('**').length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText('*').length).toBeGreaterThanOrEqual(2);
     expect(screen.getByText('Public Measures')).toBeInTheDocument();
