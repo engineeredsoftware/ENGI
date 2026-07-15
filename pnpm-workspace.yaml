@@ -11,5 +11,8 @@ packages:
   - 'packages/*/*'
   - 'packages/*/*/*'
 
+  # Repo-level specifying machine (gate generators, canon posture)
+  - 'scripts/specifying'
+
   # OCI / appliance images (Pipeliner, …)
-  - 'containers/containers/images/*'
+  - 'containers/images/*'

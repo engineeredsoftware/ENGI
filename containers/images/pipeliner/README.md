@@ -84,7 +84,7 @@ GIT_SHA=$(git rev-parse --short HEAD)
 IMAGE=vcr.vercel.com/gerald-davis-projects/bitcode/pipeliner
 
 docker build \
-  -f containers/containers/images/pipeliner/Dockerfile \
+  -f containers/images/pipeliner/Dockerfile \
   -t "${IMAGE}:latest" \
   -t "${IMAGE}:v48-${GIT_SHA}" \
   .
@@ -97,7 +97,7 @@ Buildx + zstd (recommended by Vercel):
 ```bash
 docker buildx build \
   --platform linux/amd64 \
-  -f containers/containers/images/pipeliner/Dockerfile \
+  -f containers/images/pipeliner/Dockerfile \
   --output "type=image,name=${IMAGE}:latest,push=true,oci-mediatypes=true,compression=zstd,compression-level=3,force-compression=true" \
   --output "type=image,name=${IMAGE}:v48-${GIT_SHA},push=true,oci-mediatypes=true,compression=zstd,compression-level=3,force-compression=true" \
   .
@@ -112,7 +112,7 @@ docker run --rm \
   -e BITCODE_MONOREPO_ROOT=/opt/bitcode \
   -e BITCODE_PIPELINE_HOST_MANIFEST=/tmp/manifest.json \
   -e BITCODE_PIPELINE_HOST_ARTIFACT_DIR=/tmp/artifacts \
-  -v "$PWD/containers/containers/images/pipeliner/fixtures/smoke-manifest.json:/tmp/manifest.json:ro" \
+  -v "$PWD/containers/images/pipeliner/fixtures/smoke-manifest.json:/tmp/manifest.json:ro" \
   vcr.vercel.com/gerald-davis-projects/bitcode/pipeliner:latest
 ```
 

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V39_DEPOSITORY_SUPPLY_INDEXING_ARTIFACT_PATH,
   buildV39DepositorySupplyIndexing,
-} from '../packages/specifying/src/canonical/v39-depository-supply-indexing.js';
+} from '../scripts/specifying/src/canonical/v39-depository-supply-indexing.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

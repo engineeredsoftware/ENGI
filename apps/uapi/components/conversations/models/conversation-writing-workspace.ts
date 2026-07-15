@@ -2,7 +2,7 @@ export type ConversationWritingWorkspaceMode =
   | 'read_request'
   | 'need_feedback'
   | 'assetpack_review_note'
-  | 'terminal_handoff_summary';
+  | 'product_handoff_summary';
 
 export type ConversationWritingWorkspaceSummary = {
   modeId: ConversationWritingWorkspaceMode;
@@ -57,7 +57,7 @@ export const CONVERSATION_WRITING_WORKSPACE_MODES: Array<{
     placeholder: 'Draft review notes against source-safe AssetPack measurements and preview metadata.',
   },
   {
-    id: 'terminal_handoff_summary',
+    id: 'product_handoff_summary',
     label: 'Terminal Handoff Summary',
     shortLabel: 'Handoff',
     draftScope: 'source-safe Terminal transaction intent summary',

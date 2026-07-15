@@ -3,7 +3,7 @@
  * Builders live in enterprise-reading-ux-state.ts; this module owns pure shape only.
  */
 
-export type TerminalEnterpriseReadingStepId =
+export type EnterpriseReadingStepId =
   | 'request-read'
   | 'review-synthesized-need'
   | 'request-fit'
@@ -45,7 +45,7 @@ export type TerminalEnterpriseReadingForbiddenField =
   | 'ledger_write_authority';
 
 export type TerminalEnterpriseReadingStepDefinition = {
-  id: TerminalEnterpriseReadingStepId;
+  id: EnterpriseReadingStepId;
   ordinal: number;
   label: string;
   lowDetailGuidance: string;
@@ -60,9 +60,9 @@ export type TerminalEnterpriseReadingStepView = TerminalEnterpriseReadingStepDef
   blockers: string[];
 };
 
-export type TerminalEnterpriseReadingUxStateInput = {
+export type EnterpriseReadingUxStateInput = {
   transactionId?: string | null;
-  routeReadingStage?: TerminalEnterpriseReadingStepId | null;
+  routeReadingStage?: EnterpriseReadingStepId | null;
   hasRepositorySource?: boolean;
   hasReadMeasurement?: boolean;
   hasSynthesizedNeed?: boolean;
@@ -78,13 +78,13 @@ export type TerminalEnterpriseReadingUxStateInput = {
   disclosureLeakageDetected?: boolean;
 };
 
-export type TerminalEnterpriseReadingRouteState = {
+export type EnterpriseReadingRouteState = {
   transactionId: string | null;
   transactionIdPresent: boolean;
   transactionIdRequiredForRecovery: true;
   readingStageQueryParam: 'readingStage';
   activeStageHydratedFromRoute: boolean;
-  routeReadingStage: TerminalEnterpriseReadingStepId | null;
+  routeReadingStage: EnterpriseReadingStepId | null;
   restartRequested: boolean;
   restartRestoresActiveStage: true;
   retryRequested: boolean;
@@ -95,9 +95,9 @@ export type TerminalEnterpriseReadingRouteState = {
   failureRepairActions: string[];
 };
 
-export type TerminalEnterpriseReadingUxState = {
+export type EnterpriseReadingUxState = {
   schema: 'bitcode.terminal.enterprise-reading-ux-state';
-  activeStepId: TerminalEnterpriseReadingStepId;
+  activeStepId: EnterpriseReadingStepId;
   stageCount: 5;
   steps: TerminalEnterpriseReadingStepView[];
   disclosure: {
@@ -123,7 +123,7 @@ export type TerminalEnterpriseReadingUxState = {
     retryPreservesSourceSafeLineage: true;
     failureStatesSourceSafe: true;
   };
-  routeState: TerminalEnterpriseReadingRouteState;
+  routeState: EnterpriseReadingRouteState;
   proofRoot: string;
 };
 

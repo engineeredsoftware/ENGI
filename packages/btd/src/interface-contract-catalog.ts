@@ -3,7 +3,7 @@ import { assertNonEmptyString } from './constants';
 import type { BtdProtocolTelemetrySourceSafety } from './telemetry';
 
 export const BTD_INTERFACE_CONTRACT_CATALOG_INTERFACE_IDS = [
-  'terminal_handoff',
+  'product_handoff',
   'public_api',
   'mcp_api',
   'chatgpt_app',
@@ -20,7 +20,7 @@ export type BtdInterfaceContractCatalogStatus =
   | 'deferred_blocked';
 
 export type BtdInterfaceContractCatalogBindingKind =
-  | 'terminal_handoff'
+  | 'product_handoff'
   | 'api_route'
   | 'mcp_tool'
   | 'chatgpt_action'
@@ -142,9 +142,9 @@ export const BTD_INTERFACE_CONTRACT_CATALOG_REQUIRED_ROW_FIELDS = [
 export function buildBtdInterfaceContractCatalogRows(): BtdInterfaceContractCatalogRowInput[] {
   return [
     {
-      interfaceId: 'terminal_handoff',
+      interfaceId: 'product_handoff',
       status: 'active_contract',
-      bindingKind: 'terminal_handoff',
+      bindingKind: 'product_handoff',
       ownerPackage: 'apps/uapi/components/bitcode/pipeline',
       actionId: 'terminal.reading.handoff',
       schemaId: 'bitcode.interface.terminalReadingHandoff.v1',
@@ -410,7 +410,7 @@ function assertStatus(status: string): BtdInterfaceContractCatalogStatus {
 
 function assertBindingKind(bindingKind: string): BtdInterfaceContractCatalogBindingKind {
   const allowed: readonly BtdInterfaceContractCatalogBindingKind[] = [
-    'terminal_handoff',
+    'product_handoff',
     'api_route',
     'mcp_tool',
     'chatgpt_action',

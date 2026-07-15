@@ -103,7 +103,7 @@
         ".bitcode/v35-testnet-rollout-readiness-guide.json",
         ".bitcode/v35-telemetry-documentation-interface-integration.json",
         "README.md",
-        "packages/specifying/README.md",
+        "scripts/specifying/README.md",
         "apps/uapi/app/terminal/README.md",
         "internal-docs/README.md",
         "apps/uapi/app/docs/bitcode-docs-content.ts"
@@ -296,7 +296,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/README.md",
+          "sourceRoot": "scripts/specifying/README.md",
           "present": true
         },
         {
@@ -964,7 +964,7 @@
         ".bitcode/v35-testnet-rollout-readiness-guide.json",
         ".bitcode/v35-telemetry-documentation-interface-integration.json",
         "BITCODE_SPEC_V35_PARITY_MATRIX.md",
-        "packages/specifying/src/canonical/docs-qa-alignment-report.js"
+        "scripts/specifying/src/canonical/docs-qa-alignment-report.js"
       ],
       "docsLinks": [
         "/docs/what-is-bitcode",
@@ -1108,7 +1108,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/docs-qa-alignment-report.js",
+          "sourceRoot": "scripts/specifying/src/canonical/docs-qa-alignment-report.js",
           "present": true
         }
       ],
@@ -1186,7 +1186,7 @@
         ".bitcode/v35-testnet-rollout-readiness-guide.json",
         ".bitcode/v35-telemetry-documentation-interface-integration.json",
         ".github/workflows/bitcode-gate-quality.yml",
-        "packages/specifying/src/canonical/v21-specifying.js"
+        "scripts/specifying/src/canonical/v21-specifying.js"
       ],
       "docsLinks": [
         "/docs/proofs",
@@ -1360,7 +1360,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/v21-specifying.js",
+          "sourceRoot": "scripts/specifying/src/canonical/v21-specifying.js",
           "present": true
         }
       ],
@@ -1842,7 +1842,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/README.md",
+          "sourceRoot": "scripts/specifying/README.md",
           "present": true
         },
         {
@@ -2056,7 +2056,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/docs-qa-alignment-report.js",
+          "sourceRoot": "scripts/specifying/src/canonical/docs-qa-alignment-report.js",
           "present": true
         }
       ]
@@ -2118,7 +2118,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/v21-specifying.js",
+          "sourceRoot": "scripts/specifying/src/canonical/v21-specifying.js",
           "present": true
         }
       ]

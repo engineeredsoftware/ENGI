@@ -100,8 +100,8 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/v40-test-inventory-coverage-matrix.js',
-    'packages/specifying/test/v40-test-inventory-coverage-matrix.test.js',
+    'scripts/specifying/src/canonical/v40-test-inventory-coverage-matrix.js',
+    'scripts/specifying/test/v40-test-inventory-coverage-matrix.test.js',
     'scripts/generate-v40-test-inventory-coverage-matrix.mjs',
     'scripts/check-v40-gate2-test-inventory-coverage-matrix.mjs',
     'BITCODE_SPEC_V40.md',
@@ -110,7 +110,7 @@ function main() {
     'BITCODE_SPEC_V40_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -133,7 +133,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v40-test-inventory-coverage-matrix.test.js',
+        'scripts/specifying/test/v40-test-inventory-coverage-matrix.test.js',
       ]);
     } catch (error) {
       failures.push(`V40 test inventory protocol test failed: ${error.stderr || error.message}`);

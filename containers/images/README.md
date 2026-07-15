@@ -6,15 +6,15 @@ import from `/apps`.
 
 | Image | Path | Package name | Role |
 |-------|------|--------------|------|
-| **pipeliner** | `containers/containers/images/pipeliner` | `@bitcode/pipeline-image` | Vercel Sandbox pipeline appliance (VCR) |
+| **pipeliner** | `containers/images/pipeliner` | `@bitcode/pipeline-image` | Vercel Sandbox pipeline appliance (VCR) |
 
 ## Pipeliner
 
 ```bash
 pnpm --filter @bitcode/pipeline-image run materialize
-docker build -f containers/containers/images/pipeliner/Dockerfile \
+docker build -f containers/images/pipeliner/Dockerfile \
   -t vcr.vercel.com/gerald-davis-projects/bitcode/pipeliner:latest \
   .
 ```
 
-See `containers/containers/images/pipeliner/README.md`.
+See `containers/images/pipeliner/README.md`.

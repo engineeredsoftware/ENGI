@@ -377,7 +377,7 @@
         "BITCODE_SPEC_V35.md",
         "BITCODE_SPEC_V35_DELTA.md",
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
-        "packages/specifying/src/telemetry.js",
+        "scripts/specifying/src/telemetry.js",
         "apps/uapi/app/api/executions/route.ts",
         "apps/uapi/app/api/executions/stream/route.ts"
       ],
@@ -395,7 +395,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/telemetry.js",
+          "sourceRoot": "scripts/specifying/src/telemetry.js",
           "present": true
         },
         {
@@ -1677,7 +1677,7 @@
         "BITCODE_SPEC_V35.md",
         "BITCODE_SPEC_V35_DELTA.md",
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
-        "packages/specifying/src/canonical/documentation-surface-catalog.js",
+        "scripts/specifying/src/canonical/documentation-surface-catalog.js",
         "scripts/check-v35-gate2-documentation-surface-catalog.mjs",
         ".bitcode/v35-documentation-surface-catalog.json"
       ],
@@ -1695,7 +1695,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/documentation-surface-catalog.js",
+          "sourceRoot": "scripts/specifying/src/canonical/documentation-surface-catalog.js",
           "present": true
         },
         {
@@ -1891,7 +1891,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/telemetry.js",
+          "sourceRoot": "scripts/specifying/src/telemetry.js",
           "present": true
         },
         {
@@ -2232,7 +2232,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/documentation-surface-catalog.js",
+          "sourceRoot": "scripts/specifying/src/canonical/documentation-surface-catalog.js",
           "present": true
         },
         {

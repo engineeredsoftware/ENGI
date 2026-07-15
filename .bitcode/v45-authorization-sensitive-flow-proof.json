@@ -354,7 +354,7 @@
     "packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts",
     "packages/asset-packs-pipelines/domain/src/__tests__/interface-disclosure-boundary.test.ts",
     "packages/btd/__tests__/interface-authorization-policy.test.ts",
-    "packages/specifying/test/v45-proof-family-artifacts.test.js"
+    "scripts/specifying/test/v45-proof-family-artifacts.test.js"
   ],
   "failClosedConditions": [
     "secret exposure",

@@ -340,7 +340,7 @@
   "generatedArtifactAndTestBindings": [
     "scripts/check-v45-gate16-proof-families-generated-artifacts.mjs",
     "scripts/generate-v45-proof-family-artifacts.mjs",
-    "packages/specifying/test/v45-proof-family-artifacts.test.js",
+    "scripts/specifying/test/v45-proof-family-artifacts.test.js",
     ".github/workflows/bitcode-gate-quality.yml"
   ],
   "failClosedConditions": [

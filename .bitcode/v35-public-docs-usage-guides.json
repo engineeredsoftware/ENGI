@@ -196,17 +196,17 @@
       "canonicalTruth": [
         "BITCODE_SPEC.txt",
         "BITCODE_SPEC_V35.md",
-        "packages/specifying"
+        "scripts/specifying"
       ],
       "sourceRoots": [
         "BITCODE_SPEC.txt",
         "BITCODE_SPEC_V35.md",
-        "packages/specifying/README.md",
+        "scripts/specifying/README.md",
         "apps/uapi/app/docs/bitcode-docs-content.ts"
       ],
       "packageSurfaces": [
-        "packages/specifying/src/index.js",
-        "packages/specifying/src/canonical/v21-specifying.js"
+        "scripts/specifying/src/index.js",
+        "scripts/specifying/src/canonical/v21-specifying.js"
       ],
       "docsSections": [
         "protocol",
@@ -265,7 +265,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/README.md",
+          "sourceRoot": "scripts/specifying/README.md",
           "present": true
         },
         {
@@ -911,16 +911,16 @@
       "guideIntent": "Explain how public users read proof, witness, replay, redaction, and fail-closed posture.",
       "canonicalTruth": [
         "BITCODE_SPEC_V35.md",
-        "packages/specifying",
+        "scripts/specifying",
         "TelemetryTaxonomyCatalog"
       ],
       "sourceRoots": [
         "apps/uapi/app/docs/bitcode-docs-content.ts",
         "BITCODE_SPEC_V35.md",
-        "packages/specifying/README.md"
+        "scripts/specifying/README.md"
       ],
       "packageSurfaces": [
-        "packages/specifying/src",
+        "scripts/specifying/src",
         "scripts/generate-bitcode-proven.mjs"
       ],
       "docsSections": [
@@ -979,7 +979,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/README.md",
+          "sourceRoot": "scripts/specifying/README.md",
           "present": true
         }
       ],
@@ -1199,7 +1199,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/README.md",
+          "sourceRoot": "scripts/specifying/README.md",
           "present": true
         },
         {
@@ -1383,7 +1383,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/README.md",
+          "sourceRoot": "scripts/specifying/README.md",
           "present": true
         }
       ]

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V46_PROTOCOL_COMPREHENSION_OBJECT_MODEL_ARTIFACT_PATH,
   buildV46ProtocolComprehensionObjectModel,
-} from '../packages/specifying/src/canonical/v46-protocol-comprehension-object-model.js';
+} from '../scripts/specifying/src/canonical/v46-protocol-comprehension-object-model.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

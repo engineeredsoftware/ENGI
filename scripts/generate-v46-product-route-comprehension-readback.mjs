@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V46_PRODUCT_ROUTE_COMPREHENSION_READBACK_ARTIFACT_PATH,
   buildV46ProductRouteComprehensionReadback,
-} from '../packages/specifying/src/canonical/v46-product-route-comprehension-readback.js';
+} from '../scripts/specifying/src/canonical/v46-product-route-comprehension-readback.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

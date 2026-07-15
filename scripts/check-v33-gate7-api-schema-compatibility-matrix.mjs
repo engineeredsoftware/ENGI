@@ -130,7 +130,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
   for (const relativePath of requiredFiles) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V33 Gate 7 file: ${relativePath}`);
@@ -195,7 +195,7 @@ function main() {
   ].join('\n');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const packageJson = read(root, 'package.json');
-  const protocolSpecifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
+  const protocolSpecifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   assertCheck(failures, btdSource.includes('buildBtdApiSchemaCompatibilityMatrix'), 'BTD source must build APISchemaCompatibilityMatrix.');
   assertCheck(failures, btdSource.includes('BTD_API_SCHEMA_COMPATIBILITY_EXAMPLE_POSTURES'), 'BTD source must define required example postures.');

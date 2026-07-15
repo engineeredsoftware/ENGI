@@ -122,11 +122,11 @@ function main() {
   const requiredFiles = [
     ARTIFACT_PATH,
     '.bitcode/v38-inference-surface-inventory.json',
-    'packages/specifying/src/canonical/ptrr-failsafe-thricified-stack.js',
-    'packages/specifying/src/canonical/inference-surface-inventory.js',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
-    'packages/specifying/test/v38-ptrr-failsafe-thricified-stack.test.js',
+    'scripts/specifying/src/canonical/ptrr-failsafe-thricified-stack.js',
+    'scripts/specifying/src/canonical/inference-surface-inventory.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/v38-ptrr-failsafe-thricified-stack.test.js',
     'scripts/generate-v38-ptrr-failsafe-thricified-stack.mjs',
     'scripts/check-v38-gate3-ptrr-failsafe-thricified-stack.mjs',
     'packages/agent-generics/src/agents/factories.ts',
@@ -158,7 +158,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/v38-ptrr-failsafe-thricified-stack.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/v38-ptrr-failsafe-thricified-stack.test.js']);
     } catch (error) {
       failures.push(`V38 PTRR stack protocol test failed: ${error.stderr || error.message}`);
     }
@@ -217,14 +217,14 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/specifying/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const source = read(root, 'packages/specifying/src/canonical/ptrr-failsafe-thricified-stack.js');
-  const index = read(root, 'packages/specifying/src/index.js');
-  const typeDefs = read(root, 'packages/specifying/src/index.d.ts');
-  const test = read(root, 'packages/specifying/test/v38-ptrr-failsafe-thricified-stack.test.js');
+  const source = read(root, 'scripts/specifying/src/canonical/ptrr-failsafe-thricified-stack.js');
+  const index = read(root, 'scripts/specifying/src/index.js');
+  const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
+  const test = read(root, 'scripts/specifying/test/v38-ptrr-failsafe-thricified-stack.test.js');
 
   for (const doc of [spec, delta, notes, parity, readme, protocolReadme]) {
     assertCheck(failures, doc.includes(ARTIFACT_PATH), `V38 docs must mention ${ARTIFACT_PATH}.`);

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V39_COMMERCIAL_READING_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   buildV39CommercialReadingPromotionReadinessReport,
-} from '../packages/specifying/src/index.js';
+} from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

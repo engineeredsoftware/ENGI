@@ -7,23 +7,23 @@ import {
   TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
   TERMINAL_ENTERPRISE_READING_STEPS,
   type TerminalEnterpriseReadingFailureKind,
-  type TerminalEnterpriseReadingStepId,
+  type EnterpriseReadingStepId,
   type TerminalEnterpriseReadingStepState,
-  type TerminalEnterpriseReadingUxState,
-  type TerminalEnterpriseReadingUxStateInput,
+  type EnterpriseReadingUxState,
+  type EnterpriseReadingUxStateInput,
 } from './enterprise-reading-ux-types';
 
 export type {
-  TerminalEnterpriseReadingStepId,
+  EnterpriseReadingStepId,
   TerminalEnterpriseReadingStepState,
   TerminalEnterpriseReadingFailureKind,
   TerminalEnterpriseReadingSourceSafeField,
   TerminalEnterpriseReadingForbiddenField,
   TerminalEnterpriseReadingStepDefinition,
   TerminalEnterpriseReadingStepView,
-  TerminalEnterpriseReadingUxStateInput,
-  TerminalEnterpriseReadingRouteState,
-  TerminalEnterpriseReadingUxState,
+  EnterpriseReadingUxStateInput,
+  EnterpriseReadingRouteState,
+  EnterpriseReadingUxState,
 } from './enterprise-reading-ux-types';
 export {
   TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
@@ -42,8 +42,8 @@ function stableHash(value: string) {
 }
 
 export function inferTerminalEnterpriseReadingActiveStep(
-  input: TerminalEnterpriseReadingUxStateInput,
-): TerminalEnterpriseReadingStepId {
+  input: EnterpriseReadingUxStateInput,
+): EnterpriseReadingStepId {
   if (input.hasDeliveryReadback || input.hasSettlementReadback) return 'buy-asset-pack-settle';
   if (input.hasSourceSafePreview && !input.sourceSafePreviewBlocked && !input.disclosureLeakageDetected) {
     return 'review-synthesized-asset-pack';
@@ -59,14 +59,14 @@ function normalizeTransactionId(value: string | null | undefined): string | null
 }
 
 function routeStageOrNull(
-  value: TerminalEnterpriseReadingStepId | null | undefined,
-): TerminalEnterpriseReadingStepId | null {
+  value: EnterpriseReadingStepId | null | undefined,
+): EnterpriseReadingStepId | null {
   return value && STEP_ORDER.includes(value) ? value : null;
 }
 
-function chooseActiveStep(input: TerminalEnterpriseReadingUxStateInput): {
-  activeStepId: TerminalEnterpriseReadingStepId;
-  routeReadingStage: TerminalEnterpriseReadingStepId | null;
+function chooseActiveStep(input: EnterpriseReadingUxStateInput): {
+  activeStepId: EnterpriseReadingStepId;
+  routeReadingStage: EnterpriseReadingStepId | null;
 } {
   const inferredStep = inferTerminalEnterpriseReadingActiveStep(input);
   const routeReadingStage = routeStageOrNull(input.routeReadingStage);
@@ -80,7 +80,7 @@ function chooseActiveStep(input: TerminalEnterpriseReadingUxStateInput): {
   };
 }
 
-function failureKindFor(input: TerminalEnterpriseReadingUxStateInput): TerminalEnterpriseReadingFailureKind {
+function failureKindFor(input: EnterpriseReadingUxStateInput): TerminalEnterpriseReadingFailureKind {
   if (input.disclosureLeakageDetected) return 'source_safety_blocked';
   if (input.sourceSafePreviewBlocked) return 'asset_pack_preview_blocked';
   return input.failureKind || 'none';
@@ -97,7 +97,7 @@ function repairActionsForFailure(kind: TerminalEnterpriseReadingFailureKind): st
   return ['repair-source-safety-disclosure'];
 }
 
-function blockersFor(stepId: TerminalEnterpriseReadingStepId, input: TerminalEnterpriseReadingUxStateInput) {
+function blockersFor(stepId: EnterpriseReadingStepId, input: EnterpriseReadingUxStateInput) {
   const blockers: string[] = [];
   if (stepId === 'request-read' && !input.hasRepositorySource) blockers.push('repository source required');
   if (stepId !== 'request-read' && !input.hasReadMeasurement) blockers.push('measured Read required');
@@ -119,9 +119,9 @@ function blockersFor(stepId: TerminalEnterpriseReadingStepId, input: TerminalEnt
   return blockers;
 }
 
-export function buildTerminalEnterpriseReadingUxState(
-  input: TerminalEnterpriseReadingUxStateInput = {},
-): TerminalEnterpriseReadingUxState {
+export function buildEnterpriseReadingUxState(
+  input: EnterpriseReadingUxStateInput = {},
+): EnterpriseReadingUxState {
   const { activeStepId, routeReadingStage } = chooseActiveStep(input);
   const activeIndex = STEP_ORDER.indexOf(activeStepId);
   const transactionId = normalizeTransactionId(input.transactionId);
@@ -202,7 +202,7 @@ export function buildTerminalEnterpriseReadingUxState(
   };
 }
 
-export function assertTerminalEnterpriseReadingUxStateSourceSafe(state: TerminalEnterpriseReadingUxState) {
+export function assertEnterpriseReadingUxStateSourceSafe(state: EnterpriseReadingUxState) {
   const sourceSafe =
     state.schema === 'bitcode.terminal.enterprise-reading-ux-state' &&
     state.stageCount === 5 &&

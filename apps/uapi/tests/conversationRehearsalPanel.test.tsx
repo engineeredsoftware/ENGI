@@ -19,7 +19,7 @@ describe('ConversationRehearsalPanel', () => {
     expect(screen.getByDisplayValue(/protected source/)).toBeTruthy();
 
     await user.selectOptions(screen.getByLabelText(/conversation rehearsal lane/i), 'value-bearing-mainnet');
-    await user.selectOptions(screen.getByLabelText(/conversation rehearsal flow/i), 'terminal_handoff');
+    await user.selectOptions(screen.getByLabelText(/conversation rehearsal flow/i), 'product_handoff');
     await user.click(screen.getByRole('button', { name: /refresh conversation rehearsal preview/i }));
 
     expect(screen.getByText('Value-bearing mainnet blocked Terminal handoff rehearsal')).toBeTruthy();

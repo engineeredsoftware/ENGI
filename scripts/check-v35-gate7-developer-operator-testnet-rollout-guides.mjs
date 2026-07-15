@@ -125,20 +125,20 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/testnet-rollout-readiness-guide.js',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
-    'packages/specifying/test/v35-testnet-rollout-readiness-guide.test.js',
+    'scripts/specifying/src/canonical/testnet-rollout-readiness-guide.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/v35-testnet-rollout-readiness-guide.test.js',
     'scripts/generate-v35-testnet-rollout-readiness-guide.mjs',
     'scripts/check-v35-gate7-developer-operator-testnet-rollout-guides.mjs',
-    'packages/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
     'BITCODE_SPEC_V35.md',
     'BITCODE_SPEC_V35_DELTA.md',
     'BITCODE_SPEC_V35_NOTES.md',
     'BITCODE_SPEC_V35_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'apps/uapi/app/docs/bitcode-docs-content.ts',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -160,7 +160,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/specifying',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -225,10 +225,10 @@ function main() {
     );
   }
 
-  const protocolIndex = read(root, 'packages/specifying/src/index.js');
+  const protocolIndex = read(root, 'scripts/specifying/src/index.js');
   assertCheck(failures, protocolIndex.includes('buildTestnetRolloutReadinessGuide'), 'Protocol index must export buildTestnetRolloutReadinessGuide.');
 
-  const packageTypes = read(root, 'packages/specifying/src/index.d.ts');
+  const packageTypes = read(root, 'scripts/specifying/src/index.d.ts');
   assertCheck(failures, packageTypes.includes('buildTestnetRolloutReadinessGuide'), 'Protocol type surface must export buildTestnetRolloutReadinessGuide.');
 
   const packageJson = read(root, 'package.json');

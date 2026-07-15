@@ -5,7 +5,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { ACTIVE_CANON_VERSION, DRAFT_TARGET_VERSION } from '../packages/specifying/src/index.js';
+import { ACTIVE_CANON_VERSION, DRAFT_TARGET_VERSION } from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -179,8 +179,8 @@ function runBasicChecks(cwd) {
   // canon-posture / package-boundary proofs (not a separate demo tree).
   runNode(cwd, 'specifying package boundary and promotion posture tests', [
     '--test',
-    path.join(cwd, 'packages/specifying/test/specifying-package-boundary.test.js'),
-    path.join(cwd, 'packages/specifying/test/spec-family-promotion-posture.test.js')
+    path.join(cwd, 'scripts/specifying/test/specifying-package-boundary.test.js'),
+    path.join(cwd, 'scripts/specifying/test/spec-family-promotion-posture.test.js')
   ]);
 }
 

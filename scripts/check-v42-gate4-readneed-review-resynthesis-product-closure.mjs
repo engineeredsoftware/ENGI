@@ -117,8 +117,8 @@ function main() {
     'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
     'apps/uapi/tests/api/readReviewRoute.test.ts',
     'apps/uapi/tests/api/readReviewProtocolParity.test.ts',
-    'packages/specifying/src/canonical/v42-readneed-review-resynthesis-product-closure.js',
-    'packages/specifying/test/v42-readneed-review-resynthesis-product-closure.test.js',
+    'scripts/specifying/src/canonical/v42-readneed-review-resynthesis-product-closure.js',
+    'scripts/specifying/test/v42-readneed-review-resynthesis-product-closure.test.js',
     'scripts/generate-v42-readneed-review-resynthesis-product-closure.mjs',
     'scripts/check-v42-gate4-readneed-review-resynthesis-product-closure.mjs',
     'BITCODE_SPEC_V42.md',
@@ -129,7 +129,7 @@ function main() {
     'README.md',
     'apps/uapi/app/terminal/README.md',
     'packages/asset-packs-pipelines/domain/README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -152,7 +152,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v42-readneed-review-resynthesis-product-closure.test.js',
+        'scripts/specifying/test/v42-readneed-review-resynthesis-product-closure.test.js',
       ]);
     } catch (error) {
       failures.push(`V42 ReadNeed review/resynthesis protocol test failed: ${error.stderr || error.message}`);

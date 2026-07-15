@@ -298,7 +298,7 @@
       ]
     },
     {
-      "relativePath": "packages/specifying/src/canonical/proven-generator.js",
+      "relativePath": "scripts/specifying/src/canonical/proven-generator.js",
       "present": true,
       "digest": "sha256:2f6b8aa94f03c2980338239e94311fe9c3cbbef4b973665298bae9a6185e694c",
       "requiredTokens": [
@@ -317,7 +317,7 @@
       ]
     },
     {
-      "relativePath": "packages/specifying/test/v42-promotion-readiness.test.js",
+      "relativePath": "scripts/specifying/test/v42-promotion-readiness.test.js",
       "present": true,
       "digest": "sha256:8fa01fe49ec144161f74a10279eb2df764f7a4f912c2491f40d68b8296fec59c",
       "requiredTokens": [
@@ -336,7 +336,7 @@
       ]
     },
     {
-      "relativePath": "packages/specifying/src/canonical/v21-specifying.js",
+      "relativePath": "scripts/specifying/src/canonical/v21-specifying.js",
       "present": true,
       "digest": "sha256:c906d3607592026d02af6774b9c0e43b3c83496aa7925153daaf9e78127f5cf3",
       "requiredTokens": [
@@ -474,7 +474,7 @@
       ]
     },
     {
-      "relativePath": "packages/specifying/README.md",
+      "relativePath": "scripts/specifying/README.md",
       "present": true,
       "digest": "sha256:a8518e8e923c7f3752c6d51193f5efa2adfcf225a2bccd0f4de8153351918723",
       "requiredTokens": [

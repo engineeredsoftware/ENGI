@@ -601,7 +601,7 @@
       "surfaceLabel": "Proof, Telemetry, And Repair Readback",
       "sourcePaths": [
         "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
-        "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js",
+        "scripts/specifying/src/canonical/v39-operational-telemetry-repair-readback.js",
         "apps/uapi/app/bitcode-ledger-storage-sync.ts",
         ".bitcode/v46-proof-readback-operator-explanation.json"
       ],
@@ -686,7 +686,7 @@
       "rowRoot": "v46-local-interface-rehearsal-row:5dab113b96d09fc833b28ccc",
       "sourceRoots": [
         "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:9d88b27b51e6b4d3a15ce995",
-        "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
+        "scripts/specifying/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
         "apps/uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d",
         ".bitcode/v46-proof-readback-operator-explanation.json:5fb82dae1fac3711939dcd89"
       ],
@@ -769,12 +769,12 @@
     },
     {
       "id": "package-exports-gate7",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {
       "id": "package-test-covers-gate7",
-      "sourcePath": "packages/specifying/test/v46-local-interface-comprehension-rehearsal.test.js",
+      "sourcePath": "scripts/specifying/test/v46-local-interface-comprehension-rehearsal.test.js",
       "passed": true
     },
     {
@@ -801,12 +801,12 @@
     "parity": "BITCODE_SPEC_V46_PARITY_MATRIX.md:91b47eeaa106639d2d21856b",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
     "readme": "README.md:14085be712ec8e13c811c62a",
-    "protocolReadme": "packages/specifying/README.md:1a81b9507325d3a5da87f627",
+    "protocolReadme": "scripts/specifying/README.md:1a81b9507325d3a5da87f627",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
-    "packageIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
-    "packageTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
-    "packageSource": "packages/specifying/src/canonical/v46-local-interface-comprehension-rehearsal.js:ae2715a7deb5a01a3c415ba6",
-    "packageTest": "packages/specifying/test/v46-local-interface-comprehension-rehearsal.test.js:5b6ad282088791ea76ec2bbf",
+    "packageIndex": "scripts/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "packageTypes": "scripts/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "packageSource": "scripts/specifying/src/canonical/v46-local-interface-comprehension-rehearsal.js:ae2715a7deb5a01a3c415ba6",
+    "packageTest": "scripts/specifying/test/v46-local-interface-comprehension-rehearsal.test.js:5b6ad282088791ea76ec2bbf",
     "generator": "scripts/generate-v46-local-interface-comprehension-rehearsal.mjs:d6a9dadb6f8ee51de50a529f",
     "checker": "scripts/check-v46-gate7-local-interface-comprehension-rehearsal.mjs:beb49c72404e73e730640a72",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:379d7561d515468f9237bf02",
@@ -835,7 +835,7 @@
     "conversationTelemetry": "apps/uapi/app/conversations/conversation-telemetry-proof-hooks.ts:44c7ff1620bfa9f329f07c4d",
     "conversationParityTest": "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts:e31d05980a03ff7c966df485",
     "pipelineLogUi": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:9d88b27b51e6b4d3a15ce995",
-    "v39OperationalTelemetryReadback": "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
+    "v39OperationalTelemetryReadback": "scripts/specifying/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
     "uapiLedgerStorageSync": "apps/uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d"
   },
   "coverage": {

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_FEATURE_EXCESS_ALIGNMENT_AUDIT_ARTIFACT_PATH,
   buildV47FeatureExcessAlignmentAudit,
-} from '../packages/specifying/src/canonical/v47-feature-excess-alignment-audit.js';
+} from '../scripts/specifying/src/canonical/v47-feature-excess-alignment-audit.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -81,8 +81,8 @@ function main() {
 
   for (const relativePath of [
     V47_FEATURE_EXCESS_ALIGNMENT_AUDIT_ARTIFACT_PATH,
-    'packages/specifying/src/canonical/v47-feature-excess-alignment-audit.js',
-    'packages/specifying/test/v47-feature-excess-alignment-audit.test.js',
+    'scripts/specifying/src/canonical/v47-feature-excess-alignment-audit.js',
+    'scripts/specifying/test/v47-feature-excess-alignment-audit.test.js',
     'scripts/generate-v47-feature-excess-alignment-audit.mjs',
     'scripts/check-v47-gate2-feature-excess-alignment-audit.mjs',
     'BITCODE_SPEC_V47.md',
@@ -100,8 +100,8 @@ function main() {
     'apps/uapi/app/exchange/README.md',
     'apps/uapi/app/terminal/page.tsx',
     'apps/uapi/app/conversations/page.tsx',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',

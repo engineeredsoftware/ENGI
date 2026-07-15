@@ -358,7 +358,7 @@
     "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts",
     "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
     "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
-    "packages/specifying/test/v45-proof-family-artifacts.test.js"
+    "scripts/specifying/test/v45-proof-family-artifacts.test.js"
   ],
   "failClosedConditions": [
     "unauthorized actor",

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   EXCHANGE_ACTIVITY_BOOK_ARTIFACT_PATH,
   buildExchangeActivityBook,
-} from '../packages/specifying/src/index.js';
+} from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

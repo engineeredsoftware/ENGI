@@ -765,14 +765,14 @@
     "parity": "BITCODE_SPEC_V44_PARITY_MATRIX.md:533bbfe052c5c8469c31c1af",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
     "readme": "README.md:d28ec731634e03953d8adfe6",
-    "protocolReadme": "packages/specifying/README.md:f5b175049f4f4e8df179e184",
+    "protocolReadme": "scripts/specifying/README.md:f5b175049f4f4e8df179e184",
     "packageJson": "package.json:b79014968c556bc1b43ab341",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
-    "packageIndex": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
-    "packageTypes": "packages/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
-    "packageSource": "packages/specifying/src/canonical/v44-economic-domain-model.js:2376c461d422d5eb4cb62da4",
-    "packageTest": "packages/specifying/test/v44-economic-domain-model.test.js:b89f71aa0cf578dabbec3cd9",
+    "packageIndex": "scripts/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "packageTypes": "scripts/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "packageSource": "scripts/specifying/src/canonical/v44-economic-domain-model.js:2376c461d422d5eb4cb62da4",
+    "packageTest": "scripts/specifying/test/v44-economic-domain-model.test.js:b89f71aa0cf578dabbec3cd9",
     "generator": "scripts/generate-v44-economic-domain-model.mjs:3390fbc087e919bedb14550c",
     "checker": "scripts/check-v44-gate2-economic-domain-model.mjs:01a1d9b3df0f75545ddb7e12"
   },
@@ -829,22 +829,22 @@
     },
     {
       "id": "protocol-readme-records-gate2",
-      "sourcePath": "packages/specifying/README.md",
+      "sourcePath": "scripts/specifying/README.md",
       "passed": true
     },
     {
       "id": "package-exports-gate2",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {
       "id": "package-types-export-gate2",
-      "sourcePath": "packages/specifying/src/index.d.ts",
+      "sourcePath": "scripts/specifying/src/index.d.ts",
       "passed": true
     },
     {
       "id": "package-test-covers-gate2",
-      "sourcePath": "packages/specifying/test/v44-economic-domain-model.test.js",
+      "sourcePath": "scripts/specifying/test/v44-economic-domain-model.test.js",
       "passed": true
     },
     {

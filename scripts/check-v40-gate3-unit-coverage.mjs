@@ -120,8 +120,8 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/v40-unit-coverage-inventory.js',
-    'packages/specifying/test/v40-unit-coverage-inventory.test.js',
+    'scripts/specifying/src/canonical/v40-unit-coverage-inventory.js',
+    'scripts/specifying/test/v40-unit-coverage-inventory.test.js',
     'scripts/generate-v40-unit-coverage-inventory.mjs',
     'scripts/check-v40-gate3-unit-coverage.mjs',
     'BITCODE_SPEC_V40.md',
@@ -151,7 +151,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v40-unit-coverage-inventory.test.js',
+        'scripts/specifying/test/v40-unit-coverage-inventory.test.js',
       ]);
     } catch (error) {
       failures.push(`V40 unit coverage protocol test failed: ${error.stderr || error.message}`);

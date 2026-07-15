@@ -48,15 +48,15 @@ function collectSourceFiles(root: string): string[] {
 describe('commercial protocol boundary', () => {
   it('keeps formal protocol runtime sources present and unignored for deployment clones', () => {
     const requiredRuntimeFiles = [
-      'packages/specifying/package.json',
-      'packages/specifying/server.js',
-      'packages/specifying/src/index.js',
-      'packages/specifying/src/bitcode-runtime.js',
-      'packages/specifying/src/canon-posture.js',
-      'packages/specifying/src/canonical/v23-bitcoin-demonstration-service.js',
-      'packages/specifying/src/canonical/v24-external-realization.js',
-      'packages/specifying/src/canonical/v24-live-execution.js',
-      'packages/specifying/src/canonical/v24-local-executors.js',
+      'scripts/specifying/package.json',
+      'scripts/specifying/server.js',
+      'scripts/specifying/src/index.js',
+      'scripts/specifying/src/bitcode-runtime.js',
+      'scripts/specifying/src/canon-posture.js',
+      'scripts/specifying/src/canonical/v23-bitcoin-demonstration-service.js',
+      'scripts/specifying/src/canonical/v24-external-realization.js',
+      'scripts/specifying/src/canonical/v24-live-execution.js',
+      'scripts/specifying/src/canonical/v24-local-executors.js',
     ];
 
     const missingFiles = requiredRuntimeFiles.filter((filePath) => !existsSync(path.join(repoRoot, filePath)));
@@ -112,8 +112,8 @@ describe('commercial protocol boundary', () => {
     const nextConfigSource = readFileSync(path.join(uapiRoot, 'next.config.mjs'), 'utf8');
 
     expect(nextConfigSource).toContain("'@bitcode/specifying',");
-    expect(nextConfigSource).toContain("'@bitcode/specifying': path.resolve(__dirname, '..', '..', 'packages', 'specifying', 'src', 'index.js')");
-    expect(nextConfigSource).toContain("'@bitcode/specifying$': path.resolve(__dirname, '..', '..', 'packages', 'specifying', 'src', 'index.js')");
+    expect(nextConfigSource).toContain("'@bitcode/specifying': path.resolve(__dirname, '..', '..', 'scripts', 'specifying', 'src', 'index.js')");
+    expect(nextConfigSource).toContain("'@bitcode/specifying$': path.resolve(__dirname, '..', '..', 'scripts', 'specifying', 'src', 'index.js')");
   });
 
   it('keeps the standalone protocol demonstration outside the workspace build graph', () => {

@@ -135,7 +135,7 @@ function main() {
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
     'packages/btd/README.md',
     'packages/api/README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'BITCODE_SPEC_V30_DELTA.md',
     'BITCODE_SPEC_V30_PARITY_MATRIX.md',
     'BITCODE_SPEC_V30_NOTES.md'
@@ -150,7 +150,7 @@ function main() {
   const apiRouteTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
   const btdReadme = read(root, 'packages/btd/README.md');
   const apiReadme = read(root, 'packages/api/README.md');
-  const protocolReadme = read(root, 'packages/specifying/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const delta = read(root, 'BITCODE_SPEC_V30_DELTA.md');
   const parity = read(root, 'BITCODE_SPEC_V30_PARITY_MATRIX.md');
   const notes = read(root, 'BITCODE_SPEC_V30_NOTES.md');

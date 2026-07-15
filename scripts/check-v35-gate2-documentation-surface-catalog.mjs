@@ -119,13 +119,13 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/documentation-surface-catalog.js',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
-    'packages/specifying/test/v35-documentation-surface-catalog.test.js',
+    'scripts/specifying/src/canonical/documentation-surface-catalog.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/v35-documentation-surface-catalog.test.js',
     'scripts/generate-v35-documentation-surface-catalog.mjs',
     'scripts/check-v35-gate2-documentation-surface-catalog.mjs',
-    'packages/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
     'BITCODE_SPEC_V35.md',
     'BITCODE_SPEC_V35_DELTA.md',
     'BITCODE_SPEC_V35_NOTES.md',
@@ -149,7 +149,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'pnpm', ['--dir', 'packages/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v35-documentation-surface-catalog.test.js']);
+      run(root, 'pnpm', ['--dir', 'scripts/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v35-documentation-surface-catalog.test.js']);
     } catch (error) {
       failures.push(`V35 documentation surface package test failed: ${error.stderr || error.message}`);
     }
@@ -207,11 +207,11 @@ function main() {
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
-  const source = read(root, 'packages/specifying/src/canonical/documentation-surface-catalog.js');
-  const index = read(root, 'packages/specifying/src/index.js');
-  const typeDefs = read(root, 'packages/specifying/src/index.d.ts');
-  const test = read(root, 'packages/specifying/test/v35-documentation-surface-catalog.test.js');
-  const specifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
+  const source = read(root, 'scripts/specifying/src/canonical/documentation-surface-catalog.js');
+  const index = read(root, 'scripts/specifying/src/index.js');
+  const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
+  const test = read(root, 'scripts/specifying/test/v35-documentation-surface-catalog.test.js');
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   for (const doc of [spec, delta, notes, parity]) {
     assertCheck(failures, doc.includes(ARTIFACT_PATH), `V35 docs must mention ${ARTIFACT_PATH}.`);

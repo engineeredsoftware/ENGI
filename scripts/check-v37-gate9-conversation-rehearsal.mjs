@@ -138,10 +138,10 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/conversation-rehearsal.js',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
-    'packages/specifying/test/conversation-rehearsal.test.js',
+    'scripts/specifying/src/canonical/conversation-rehearsal.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/conversation-rehearsal.test.js',
     'scripts/generate-v37-conversation-rehearsal.mjs',
     'scripts/check-v37-gate9-conversation-rehearsal.mjs',
     'apps/uapi/app/conversations/conversation-rehearsal.ts',
@@ -160,7 +160,7 @@ function main() {
     'BITCODE_SPEC_V37_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -181,7 +181,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/conversation-rehearsal.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/conversation-rehearsal.test.js']);
     } catch (error) {
       failures.push(`V37 Conversation rehearsal package test failed: ${error.stderr || error.message}`);
     }
@@ -283,9 +283,9 @@ function main() {
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
   const rootPackage = read(root, 'package.json');
-  const protocolIndex = read(root, 'packages/specifying/src/index.js');
-  const protocolDts = read(root, 'packages/specifying/src/index.d.ts');
-  const protocolReadme = read(root, 'packages/specifying/README.md');
+  const protocolIndex = read(root, 'scripts/specifying/src/index.js');
+  const protocolDts = read(root, 'scripts/specifying/src/index.d.ts');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
   const conversationsReadme = read(root, 'apps/uapi/app/conversations/README.md');
   const publicDocs = read(root, 'docs/conversations.md');

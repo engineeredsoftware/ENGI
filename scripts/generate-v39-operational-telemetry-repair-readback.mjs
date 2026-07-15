@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V39_OPERATIONAL_TELEMETRY_REPAIR_READBACK_ARTIFACT_PATH,
   buildV39OperationalTelemetryRepairReadback,
-} from '../packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js';
+} from '../scripts/specifying/src/canonical/v39-operational-telemetry-repair-readback.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

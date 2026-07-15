@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V39_ASSETPACK_PREVIEW_QUOTE_BOUNDARY_ARTIFACT_PATH,
   buildV39AssetPackPreviewQuoteBoundary,
-} from '../packages/specifying/src/canonical/v39-assetpack-preview-quote-boundary.js';
+} from '../scripts/specifying/src/canonical/v39-assetpack-preview-quote-boundary.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

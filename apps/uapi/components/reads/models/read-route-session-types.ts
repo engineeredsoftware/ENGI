@@ -5,18 +5,18 @@
 
 import type {
   TerminalEnterpriseReadingForbiddenField,
-  TerminalEnterpriseReadingStepId,
+  EnterpriseReadingStepId,
   TerminalEnterpriseReadingStepView,
-  TerminalEnterpriseReadingUxStateInput,
+  EnterpriseReadingUxStateInput,
 } from '@/components/reads/models/enterprise-reading-ux-state';
 import type {
   OrganizationPolicyWalletAuthority,
   OrganizationPolicyWalletAuthorityInput,
 } from '@bitcode/asset-packs-pipelines-domain/organization-policy-wallet-authority';
 
-export type ReadRouteStepId = TerminalEnterpriseReadingStepId;
+export type ReadRouteStepId = EnterpriseReadingStepId;
 
-export type ReadRouteSessionInput = TerminalEnterpriseReadingUxStateInput & {
+export type ReadRouteSessionInput = EnterpriseReadingUxStateInput & {
   repositoryFullName?: string | null;
   sourceBranch?: string | null;
   sourceCommit?: string | null;

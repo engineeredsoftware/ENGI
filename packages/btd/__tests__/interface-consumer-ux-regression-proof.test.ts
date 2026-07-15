@@ -63,7 +63,7 @@ describe('Interface consumer UX regression proof', () => {
       denialCode: 'CONFIRMATION_OR_SETTLEMENT_REQUIRED',
     });
     expect(terminal).toMatchObject({
-      surface: 'terminal_handoff',
+      surface: 'product_handoff',
       visibilityBoundary: 'blocked_until_settlement',
       denialCode: 'ASSETPACK_SOURCE_LOCKED_UNTIL_SETTLEMENT',
     });

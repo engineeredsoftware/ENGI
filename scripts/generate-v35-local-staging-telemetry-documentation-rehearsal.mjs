@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_ARTIFACT_PATH,
   buildLocalStagingTelemetryDocumentationRehearsal,
-} from '../packages/specifying/src/index.js';
+} from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

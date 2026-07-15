@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V44_PACKS_PORTFOLIO_MARKET_INTELLIGENCE_ARTIFACT_PATH,
   buildV44PacksPortfolioMarketIntelligence,
-} from '../packages/specifying/src/canonical/v44-packs-portfolio-market-intelligence.js';
+} from '../scripts/specifying/src/canonical/v44-packs-portfolio-market-intelligence.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

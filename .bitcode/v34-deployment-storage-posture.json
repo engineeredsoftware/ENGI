@@ -178,7 +178,7 @@
       "retentionClass": "repository-retained-generated-proof-artifact",
       "rollbackMaterialPosture": "rollback restores prior generated artifact root before promotion",
       "storageClass": "proof_artifact",
-      "storageOwnerPackage": "packages/specifying",
+      "storageOwnerPackage": "scripts/specifying",
       "storesProtectedSourcePayload": false,
       "supportedLaneIds": [
         "local",

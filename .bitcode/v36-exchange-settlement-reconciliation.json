@@ -277,11 +277,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
           "present": true
         },
         {
@@ -500,11 +500,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
           "present": true
         },
         {
@@ -722,11 +722,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
           "present": true
         },
         {
@@ -944,11 +944,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
           "present": true
         },
         {
@@ -1167,11 +1167,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
           "present": true
         },
         {
@@ -1236,11 +1236,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
           "present": true
         },
         {
@@ -1290,11 +1290,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
           "present": true
         },
         {
@@ -1344,11 +1344,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
           "present": true
         },
         {
@@ -1398,11 +1398,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
           "present": true
         },
         {
@@ -1452,11 +1452,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-settlement-reconciliation.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-settlement-reconciliation.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-settlement-reconciliation.test.js",
           "present": true
         },
         {

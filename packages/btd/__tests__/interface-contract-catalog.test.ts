@@ -19,7 +19,7 @@ describe('interface contract catalog', () => {
     expect(catalog.missingInterfaceIds).toEqual([]);
     expect(catalog.observedInterfaceIds).toEqual([...BTD_INTERFACE_CONTRACT_CATALOG_INTERFACE_IDS].sort());
     expect(catalog.rows.map((row) => row.interfaceId)).toEqual([
-      'terminal_handoff',
+      'product_handoff',
       'public_api',
       'mcp_api',
       'chatgpt_app',
@@ -91,7 +91,7 @@ describe('interface contract catalog', () => {
     const rows = buildBtdInterfaceContractCatalogRows();
 
     expect(() => buildBtdInterfaceContractCatalog({ rows: [...rows, rows[0]] })).toThrow(
-      /duplicate interface ids: terminal_handoff/,
+      /duplicate interface ids: product_handoff/,
     );
   });
 

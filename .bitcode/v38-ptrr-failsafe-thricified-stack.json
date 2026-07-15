@@ -549,7 +549,7 @@
       "familyId": "reading_stack_totals",
       "label": "Gate 2 Reading and Conversation counts bound to Gate 3 stack law",
       "sourceRoots": [
-        "packages/specifying/src/canonical/inference-surface-inventory.js",
+        "scripts/specifying/src/canonical/inference-surface-inventory.js",
         "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
       ],
       "ptrrStepIds": [
@@ -934,17 +934,17 @@
     },
     {
       "id": "gate2.counts-52-ptrr-steps",
-      "sourcePath": "packages/specifying/src/canonical/inference-surface-inventory.js",
+      "sourcePath": "scripts/specifying/src/canonical/inference-surface-inventory.js",
       "passed": true
     },
     {
       "id": "gate2.counts-156-thricified-chains",
-      "sourcePath": "packages/specifying/src/canonical/inference-surface-inventory.js",
+      "sourcePath": "scripts/specifying/src/canonical/inference-surface-inventory.js",
       "passed": true
     },
     {
       "id": "gate2.counts-468-provider-call-slots",
-      "sourcePath": "packages/specifying/src/canonical/inference-surface-inventory.js",
+      "sourcePath": "scripts/specifying/src/canonical/inference-surface-inventory.js",
       "passed": true
     },
     {
@@ -985,7 +985,7 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/inference-surface-inventory.js",
+      "sourcePath": "scripts/specifying/src/canonical/inference-surface-inventory.js",
       "exists": true,
       "legacy": false
     }

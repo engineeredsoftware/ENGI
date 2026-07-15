@@ -90,7 +90,7 @@
     {
       "alignmentId": "spec_family_alignment",
       "alignmentClass": "spec_family",
-      "owner": "packages/specifying",
+      "owner": "scripts/specifying",
       "checkedSources": [
         "BITCODE_SPEC_V35.md",
         "BITCODE_SPEC_V35_DELTA.md",
@@ -159,7 +159,7 @@
       "checkedSources": [
         "SPECIFICATIONS_ROADMAP.md",
         "README.md",
-        "packages/specifying/README.md"
+        "scripts/specifying/README.md"
       ],
       "expectedTokens": [
         "V35 Gate 5 closure anchor",
@@ -185,7 +185,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/README.md",
+          "sourceRoot": "scripts/specifying/README.md",
           "present": true
         }
       ],
@@ -219,10 +219,10 @@
     {
       "alignmentId": "generated_artifact_inventory_alignment",
       "alignmentClass": "generated_artifact_inventory",
-      "owner": "packages/specifying",
+      "owner": "scripts/specifying",
       "checkedSources": [
         "BITCODE_SPEC_V35.md",
-        "packages/specifying/src/canonical/v21-specifying.js",
+        "scripts/specifying/src/canonical/v21-specifying.js",
         "package.json",
         ".bitcode/v35-documentation-surface-catalog.json",
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
@@ -264,7 +264,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/v21-specifying.js",
+          "sourceRoot": "scripts/specifying/src/canonical/v21-specifying.js",
           "present": true
         },
         {
@@ -336,17 +336,17 @@
     {
       "alignmentId": "catalog_implementation_alignment",
       "alignmentClass": "package_catalog_implementation",
-      "owner": "packages/specifying",
+      "owner": "scripts/specifying",
       "checkedSources": [
-        "packages/specifying/src/canonical/documentation-surface-catalog.js",
-        "packages/specifying/src/canonical/telemetry-taxonomy-catalog.js",
-        "packages/specifying/src/canonical/public-docs-usage-guide-catalog.js",
-        "packages/specifying/src/canonical/operator-runbook-catalog.js",
-        "packages/specifying/src/canonical/testnet-rollout-readiness-guide.js",
-        "packages/specifying/src/canonical/telemetry-documentation-interface-integration.js",
-        "packages/specifying/src/canonical/local-staging-telemetry-documentation-rehearsal.js",
-        "packages/specifying/src/index.js",
-        "packages/specifying/src/index.d.ts"
+        "scripts/specifying/src/canonical/documentation-surface-catalog.js",
+        "scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js",
+        "scripts/specifying/src/canonical/public-docs-usage-guide-catalog.js",
+        "scripts/specifying/src/canonical/operator-runbook-catalog.js",
+        "scripts/specifying/src/canonical/testnet-rollout-readiness-guide.js",
+        "scripts/specifying/src/canonical/telemetry-documentation-interface-integration.js",
+        "scripts/specifying/src/canonical/local-staging-telemetry-documentation-rehearsal.js",
+        "scripts/specifying/src/index.js",
+        "scripts/specifying/src/index.d.ts"
       ],
       "expectedTokens": [
         "buildDocumentationSurfaceCatalog",
@@ -362,39 +362,39 @@
       "repairCommand": "restore package exports and catalog builders, then rerun package tests and pnpm run check:v35-gate6",
       "sourceEvidence": [
         {
-          "sourceRoot": "packages/specifying/src/canonical/documentation-surface-catalog.js",
+          "sourceRoot": "scripts/specifying/src/canonical/documentation-surface-catalog.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/telemetry-taxonomy-catalog.js",
+          "sourceRoot": "scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/public-docs-usage-guide-catalog.js",
+          "sourceRoot": "scripts/specifying/src/canonical/public-docs-usage-guide-catalog.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/operator-runbook-catalog.js",
+          "sourceRoot": "scripts/specifying/src/canonical/operator-runbook-catalog.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/testnet-rollout-readiness-guide.js",
+          "sourceRoot": "scripts/specifying/src/canonical/testnet-rollout-readiness-guide.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/telemetry-documentation-interface-integration.js",
+          "sourceRoot": "scripts/specifying/src/canonical/telemetry-documentation-interface-integration.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/local-staging-telemetry-documentation-rehearsal.js",
+          "sourceRoot": "scripts/specifying/src/canonical/local-staging-telemetry-documentation-rehearsal.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/index.js",
+          "sourceRoot": "scripts/specifying/src/index.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/index.d.ts",
+          "sourceRoot": "scripts/specifying/src/index.d.ts",
           "present": true
         }
       ],
@@ -670,10 +670,10 @@
     {
       "alignmentId": "generated_proof_appendix_alignment",
       "alignmentClass": "generated_proof_appendix",
-      "owner": "packages/specifying",
+      "owner": "scripts/specifying",
       "checkedSources": [
         "BITCODE_SPEC_V35.md",
-        "packages/specifying/src/canonical/proven-generator.js",
+        "scripts/specifying/src/canonical/proven-generator.js",
         "BITCODE_SPEC_V34_PROVEN.md"
       ],
       "expectedTokens": [
@@ -690,7 +690,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/proven-generator.js",
+          "sourceRoot": "scripts/specifying/src/canonical/proven-generator.js",
           "present": true
         },
         {
@@ -732,9 +732,9 @@
         "scripts/generate-v35-docs-qa-alignment-report.mjs",
         "scripts/generate-v35-telemetry-documentation-interface-integration.mjs",
         "scripts/generate-v35-local-staging-telemetry-documentation-rehearsal.mjs",
-        "packages/specifying/test/v35-docs-qa-alignment-report.test.js",
-        "packages/specifying/test/v35-telemetry-documentation-interface-integration.test.js",
-        "packages/specifying/test/v35-local-staging-telemetry-documentation-rehearsal.test.js"
+        "scripts/specifying/test/v35-docs-qa-alignment-report.test.js",
+        "scripts/specifying/test/v35-telemetry-documentation-interface-integration.test.js",
+        "scripts/specifying/test/v35-local-staging-telemetry-documentation-rehearsal.test.js"
       ],
       "expectedTokens": [
         "check-v35-gate6-documentation-qa-alignment-proofs.mjs",
@@ -788,15 +788,15 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v35-docs-qa-alignment-report.test.js",
+          "sourceRoot": "scripts/specifying/test/v35-docs-qa-alignment-report.test.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v35-telemetry-documentation-interface-integration.test.js",
+          "sourceRoot": "scripts/specifying/test/v35-telemetry-documentation-interface-integration.test.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v35-local-staging-telemetry-documentation-rehearsal.test.js",
+          "sourceRoot": "scripts/specifying/test/v35-local-staging-telemetry-documentation-rehearsal.test.js",
           "present": true
         }
       ],
@@ -866,7 +866,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/README.md",
+          "sourceRoot": "scripts/specifying/README.md",
           "present": true
         }
       ]
@@ -880,7 +880,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/v21-specifying.js",
+          "sourceRoot": "scripts/specifying/src/canonical/v21-specifying.js",
           "present": true
         },
         {
@@ -926,39 +926,39 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "packages/specifying/src/canonical/documentation-surface-catalog.js",
+          "sourceRoot": "scripts/specifying/src/canonical/documentation-surface-catalog.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/telemetry-taxonomy-catalog.js",
+          "sourceRoot": "scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/public-docs-usage-guide-catalog.js",
+          "sourceRoot": "scripts/specifying/src/canonical/public-docs-usage-guide-catalog.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/operator-runbook-catalog.js",
+          "sourceRoot": "scripts/specifying/src/canonical/operator-runbook-catalog.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/testnet-rollout-readiness-guide.js",
+          "sourceRoot": "scripts/specifying/src/canonical/testnet-rollout-readiness-guide.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/telemetry-documentation-interface-integration.js",
+          "sourceRoot": "scripts/specifying/src/canonical/telemetry-documentation-interface-integration.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/local-staging-telemetry-documentation-rehearsal.js",
+          "sourceRoot": "scripts/specifying/src/canonical/local-staging-telemetry-documentation-rehearsal.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/index.js",
+          "sourceRoot": "scripts/specifying/src/index.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/index.d.ts",
+          "sourceRoot": "scripts/specifying/src/index.d.ts",
           "present": true
         }
       ]
@@ -1060,7 +1060,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/proven-generator.js",
+          "sourceRoot": "scripts/specifying/src/canonical/proven-generator.js",
           "present": true
         },
         {
@@ -1106,15 +1106,15 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v35-docs-qa-alignment-report.test.js",
+          "sourceRoot": "scripts/specifying/test/v35-docs-qa-alignment-report.test.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v35-telemetry-documentation-interface-integration.test.js",
+          "sourceRoot": "scripts/specifying/test/v35-telemetry-documentation-interface-integration.test.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v35-local-staging-telemetry-documentation-rehearsal.test.js",
+          "sourceRoot": "scripts/specifying/test/v35-local-staging-telemetry-documentation-rehearsal.test.js",
           "present": true
         }
       ]

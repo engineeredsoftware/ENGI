@@ -62,8 +62,8 @@ const coverageRows = Object.freeze([
   {
     surfaceId: 'protocol-btd',
     promotedBehavior: 'BTD ranges, read licenses, AssetPack mint/read/right-transfer receipts, BTC fee posture, and Protocol package canon helpers.',
-    owner: 'packages/btd; packages/specifying',
-    fixture: 'packages/btd/__tests__/btc-fee-operation.test.ts; packages/btd/__tests__/btd.test.ts; packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts; packages/specifying/test/specifying-package-boundary.test.js',
+    owner: 'packages/btd; scripts/specifying',
+    fixture: 'packages/btd/__tests__/btc-fee-operation.test.ts; packages/btd/__tests__/btd.test.ts; packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts; scripts/specifying/test/specifying-package-boundary.test.js',
     replayCommand: 'pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts __tests__/btd.test.ts __tests__/v32-ledger-btd-settlement-failure-states.test.ts && pnpm run check:v32-ledger-btd-settlement-failure-states && pnpm --filter @bitcode/specifying test',
     expectedArtifact: '.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json',
     sourceSafetyClass: 'source-safe-generated-proof',
@@ -175,8 +175,8 @@ const coverageRows = Object.freeze([
   {
     surfaceId: 'promotion',
     promotedBehavior: 'Gate PR quality, version promotion workflow, spec-family checks, canonical input checks, canon-posture drift checks, and generated proof appendix.',
-    owner: '.github/workflows; scripts; packages/specifying',
-    fixture: 'scripts/check-bitcode-spec-family.mjs; scripts/check-bitcode-canonical-inputs.mjs; scripts/check-bitcode-canon-posture-drift.mjs; scripts/generate-bitcode-proven.mjs; scripts/generate-v32-promotion-proof-generation-hardening.mjs; scripts/generate-v32-promotion-readiness-report.mjs; scripts/check-v32-gate10-promotion-readiness.mjs; packages/specifying/test/v32-promotion-proof-generation.test.js; .github/workflows/bitcode-gate-quality.yml; .github/workflows/v32-canon-promotion.yml',
+    owner: '.github/workflows; scripts; scripts/specifying',
+    fixture: 'scripts/check-bitcode-spec-family.mjs; scripts/check-bitcode-canonical-inputs.mjs; scripts/check-bitcode-canon-posture-drift.mjs; scripts/generate-bitcode-proven.mjs; scripts/generate-v32-promotion-proof-generation-hardening.mjs; scripts/generate-v32-promotion-readiness-report.mjs; scripts/check-v32-gate10-promotion-readiness.mjs; scripts/specifying/test/v32-promotion-proof-generation.test.js; .github/workflows/bitcode-gate-quality.yml; .github/workflows/v32-canon-promotion.yml',
     replayCommand: 'pnpm run check:v32-gate1 && pnpm run check:v32-gate2 && pnpm run check:v32-gate9 && pnpm run check:v32-gate10 && node scripts/check-bitcode-spec-family.mjs --version V32 --mode draft --current-target V31 && node scripts/check-bitcode-canonical-inputs.mjs --current-target V31',
     expectedArtifact: '.bitcode/v32-promotion-readiness-report.json',
     sourceSafetyClass: 'source-safe-generated-proof',

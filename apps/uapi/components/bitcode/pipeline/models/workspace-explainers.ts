@@ -19,7 +19,7 @@ const TERMINAL_SOURCE_REFS = [
   'apps/uapi/components/bitcode/pipeline/',
   'apps/uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
   'apps/uapi/components/bitcode/pipeline/BitcodeInlineExplainer.tsx',
-  'packages/specifying/public/app.js',
+  'scripts/specifying/public/app.js',
 ] as const;
 
 export const TERMINAL_SURFACE_EXPLAINERS = {
@@ -382,9 +382,9 @@ export const TERMINAL_SURFACE_EXPLAINERS = {
   }),
 } as const;
 
-export const TERMINAL_WORKSPACE_EXPLAINERS = TERMINAL_SURFACE_EXPLAINERS;
+export const PRODUCT_WORKSPACE_EXPLAINERS = TERMINAL_SURFACE_EXPLAINERS;
 
-export const TERMINAL_INLINE_EXPLAINERS = {
+export const PRODUCT_INLINE_EXPLAINERS = {
   readWindow: buildExplainer({
     kicker: 'Reading surface',
     title: 'Read window',

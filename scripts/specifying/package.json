@@ -1,0 +1,23 @@
+{
+  "name": "@bitcode/specifying",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./server.js": "./server.js",
+    "./public/*": "./public/*",
+    "./src/*": "./src/*"
+  },
+  "scripts": {
+    "test": "node --test --test-force-exit test/*.test.js",
+    "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.2",
+    "typescript": "^6.0.2"
+  },
+  "description": "Bitcode specifying machine (repo metadevelopment): gate proof generators, canon posture, and promotion helpers. Lives under scripts/specifying \u2014 not product domain. Specifying law: root BITCODE_SPECIFYING.md."
+}

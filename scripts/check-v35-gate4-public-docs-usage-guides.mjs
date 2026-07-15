@@ -119,24 +119,24 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/public-docs-usage-guide-catalog.js',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
-    'packages/specifying/test/v35-public-docs-usage-guide-catalog.test.js',
+    'scripts/specifying/src/canonical/public-docs-usage-guide-catalog.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/v35-public-docs-usage-guide-catalog.test.js',
     'scripts/generate-v35-public-docs-usage-guides.mjs',
     'scripts/check-v35-gate4-public-docs-usage-guides.mjs',
     'apps/uapi/app/docs/bitcode-docs-content.ts',
     'apps/uapi/app/docs/page.tsx',
     'apps/uapi/app/docs/[slug]/page.tsx',
     'apps/uapi/app/docs/DocsArticlePage.tsx',
-    'packages/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
     'BITCODE_SPEC_V35.md',
     'BITCODE_SPEC_V35_DELTA.md',
     'BITCODE_SPEC_V35_NOTES.md',
     'BITCODE_SPEC_V35_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -157,7 +157,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/specifying',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -237,15 +237,15 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V35_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/specifying/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const docsContent = read(root, 'apps/uapi/app/docs/bitcode-docs-content.ts');
-  const source = read(root, 'packages/specifying/src/canonical/public-docs-usage-guide-catalog.js');
-  const index = read(root, 'packages/specifying/src/index.js');
-  const typeDefs = read(root, 'packages/specifying/src/index.d.ts');
-  const test = read(root, 'packages/specifying/test/v35-public-docs-usage-guide-catalog.test.js');
-  const specifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
+  const source = read(root, 'scripts/specifying/src/canonical/public-docs-usage-guide-catalog.js');
+  const index = read(root, 'scripts/specifying/src/index.js');
+  const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
+  const test = read(root, 'scripts/specifying/test/v35-public-docs-usage-guide-catalog.test.js');
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   for (const doc of [spec, delta, notes, parity]) {
     assertCheck(failures, doc.includes(ARTIFACT_PATH), `V35 docs must mention ${ARTIFACT_PATH}.`);

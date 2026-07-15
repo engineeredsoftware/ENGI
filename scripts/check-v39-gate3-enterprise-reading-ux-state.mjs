@@ -118,8 +118,8 @@ function main() {
     'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx',
     'apps/uapi/tests/terminalUxBrowserProof.test.tsx',
     'apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
-    'packages/specifying/src/canonical/v39-enterprise-reading-ux-state.js',
-    'packages/specifying/test/v39-enterprise-reading-ux-state.test.js',
+    'scripts/specifying/src/canonical/v39-enterprise-reading-ux-state.js',
+    'scripts/specifying/test/v39-enterprise-reading-ux-state.test.js',
     'scripts/generate-v39-enterprise-reading-ux-state.mjs',
     'scripts/check-v39-gate3-enterprise-reading-ux-state.mjs',
     'BITCODE_SPEC_V39.md',
@@ -130,7 +130,7 @@ function main() {
     'README.md',
     'apps/uapi/app/terminal/README.md',
     'apps/uapi/app/conversations/README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -153,7 +153,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v39-enterprise-reading-ux-state.test.js',
+        'scripts/specifying/test/v39-enterprise-reading-ux-state.test.js',
       ]);
     } catch (error) {
       failures.push(`V39 enterprise Reading UX state protocol test failed: ${error.stderr || error.message}`);

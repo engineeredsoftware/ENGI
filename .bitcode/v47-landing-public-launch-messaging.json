@@ -267,7 +267,7 @@
     },
     {
       "id": "package-exports-gate8",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {
@@ -300,10 +300,10 @@
     "docsContent": "apps/uapi/app/docs/bitcode-docs-content.ts:5c7e56156db21c2d368277e6",
     "landingTest": "apps/uapi/tests/marketingLandingPage.test.tsx:4efa7e076b8716d87d8478c8",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
-    "protocolIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
-    "protocolTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
-    "protocolSource": "packages/specifying/src/canonical/v47-landing-public-launch-messaging.js:93aa33d0fd45739577cbc642",
-    "protocolTest": "packages/specifying/test/v47-landing-public-launch-messaging.test.js:4f2b7fee5b05b2ed9c34d3b9",
+    "protocolIndex": "scripts/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "protocolTypes": "scripts/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "protocolSource": "scripts/specifying/src/canonical/v47-landing-public-launch-messaging.js:93aa33d0fd45739577cbc642",
+    "protocolTest": "scripts/specifying/test/v47-landing-public-launch-messaging.test.js:4f2b7fee5b05b2ed9c34d3b9",
     "generator": "scripts/generate-v47-landing-public-launch-messaging.mjs:4b5cb939652aef2842e9264c",
     "checker": "scripts/check-v47-gate8-landing-public-launch-messaging.mjs:68b9701f73590bc466a589a7",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",

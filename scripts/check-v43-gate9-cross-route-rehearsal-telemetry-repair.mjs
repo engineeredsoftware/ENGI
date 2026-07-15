@@ -103,7 +103,7 @@ function parseJson(output, failures, label) {
 
 function runFocusedTests(root, failures, args) {
   const commands = [
-    ['node', ['--test', '--test-force-exit', 'packages/specifying/test/v43-cross-route-rehearsal-telemetry-repair.test.js']],
+    ['node', ['--test', '--test-force-exit', 'scripts/specifying/test/v43-cross-route-rehearsal-telemetry-repair.test.js']],
   ];
 
   if (!args.skipPackageTests && commandExists(root, 'pnpm')) {
@@ -159,8 +159,8 @@ function main() {
     'scripts/rehearse-v43-cross-route-product-flow.mjs',
     'scripts/generate-v43-cross-route-rehearsal-telemetry-repair.mjs',
     'scripts/check-v43-gate9-cross-route-rehearsal-telemetry-repair.mjs',
-    'packages/specifying/src/canonical/v43-cross-route-rehearsal-telemetry-repair.js',
-    'packages/specifying/test/v43-cross-route-rehearsal-telemetry-repair.test.js',
+    'scripts/specifying/src/canonical/v43-cross-route-rehearsal-telemetry-repair.js',
+    'scripts/specifying/test/v43-cross-route-rehearsal-telemetry-repair.test.js',
     'apps/uapi/app/deposit/DepositPageClient.tsx',
     'apps/uapi/app/read/ReadPageClient.tsx',
     'apps/uapi/app/packs/PacksPageClient.tsx',
@@ -172,7 +172,7 @@ function main() {
     'BITCODE_SPEC_V43_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',

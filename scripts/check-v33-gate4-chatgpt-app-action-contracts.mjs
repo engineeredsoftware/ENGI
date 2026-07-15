@@ -160,7 +160,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
 
   for (const relativePath of requiredFiles) {
@@ -239,7 +239,7 @@ function main() {
   const chatgptSource = read(root, 'apps/chatgpt/src/tools.ts');
   const btdTest = read(root, 'packages/btd/__tests__/chatgpt-app-action-contract.test.ts');
   const chatgptTest = read(root, 'apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts');
-  const specifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   for (const doc of [spec, delta, notes, parity]) {
     assertCheck(failures, doc.includes(ARTIFACT), `V33 docs must mention ${ARTIFACT}.`);

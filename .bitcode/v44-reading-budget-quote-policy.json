@@ -151,20 +151,20 @@
     "parity": "BITCODE_SPEC_V44_PARITY_MATRIX.md:533bbfe052c5c8469c31c1af",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
     "readme": "README.md:d28ec731634e03953d8adfe6",
-    "protocolReadme": "packages/specifying/README.md:f5b175049f4f4e8df179e184",
+    "protocolReadme": "scripts/specifying/README.md:f5b175049f4f4e8df179e184",
     "packageJson": "package.json:b79014968c556bc1b43ab341",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
-    "economicModel": "packages/specifying/src/canonical/v44-economic-domain-model.js:2376c461d422d5eb4cb62da4",
+    "economicModel": "scripts/specifying/src/canonical/v44-economic-domain-model.js:2376c461d422d5eb4cb62da4",
     "readModel": "apps/uapi/app/read/read-route-model.ts:670e1abd63cccea6365a491f",
     "readClient": "apps/uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",
     "readModelTest": "apps/uapi/tests/readRouteModel.test.ts:5ad610c538f65fb0c860777f",
     "sourceToShares": "packages/btd/src/source-to-shares.ts:6e2e84251b29ba2477766708",
     "btcFeeOperation": "packages/btd/src/btc-fee-operation.ts:65f910e8e471fe199939e9c4",
-    "packageIndex": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
-    "packageTypes": "packages/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
-    "packageSource": "packages/specifying/src/canonical/v44-reading-budget-quote-policy.js:d318cc52334da529f9de11a6",
-    "packageTest": "packages/specifying/test/v44-reading-budget-quote-policy.test.js:2d9b19c509e0b28a829c44a3",
+    "packageIndex": "scripts/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "packageTypes": "scripts/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "packageSource": "scripts/specifying/src/canonical/v44-reading-budget-quote-policy.js:d318cc52334da529f9de11a6",
+    "packageTest": "scripts/specifying/test/v44-reading-budget-quote-policy.test.js:2d9b19c509e0b28a829c44a3",
     "generator": "scripts/generate-v44-reading-budget-quote-policy.mjs:e2c376cb03ef80c210eef688",
     "checker": "scripts/check-v44-gate4-reading-budget-quote-policy.mjs:f61d5f8a81e2b1c55eb57c6c"
   },
@@ -211,12 +211,12 @@
     },
     {
       "id": "protocol-readme-records-gate4",
-      "sourcePath": "packages/specifying/README.md",
+      "sourcePath": "scripts/specifying/README.md",
       "passed": true
     },
     {
       "id": "economic-model-prerequisite-present",
-      "sourcePath": "packages/specifying/src/canonical/v44-economic-domain-model.js",
+      "sourcePath": "scripts/specifying/src/canonical/v44-economic-domain-model.js",
       "passed": true
     },
     {
@@ -271,17 +271,17 @@
     },
     {
       "id": "package-test-covers-gate4",
-      "sourcePath": "packages/specifying/test/v44-reading-budget-quote-policy.test.js",
+      "sourcePath": "scripts/specifying/test/v44-reading-budget-quote-policy.test.js",
       "passed": true
     },
     {
       "id": "package-exports-gate4",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {
       "id": "package-types-export-gate4",
-      "sourcePath": "packages/specifying/src/index.d.ts",
+      "sourcePath": "scripts/specifying/src/index.d.ts",
       "passed": true
     },
     {

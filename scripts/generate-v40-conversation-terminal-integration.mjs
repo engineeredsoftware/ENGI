@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V40_CONVERSATION_TERMINAL_INTEGRATION_ARTIFACT_PATH,
   buildV40ConversationTerminalIntegration,
-} from '../packages/specifying/src/canonical/v40-conversation-terminal-integration.js';
+} from '../scripts/specifying/src/canonical/v40-conversation-terminal-integration.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

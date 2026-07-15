@@ -83,11 +83,11 @@ describe('API schema compatibility matrix', () => {
 
   it('fails closed when required consumer surfaces are missing', () => {
     const rows = buildBtdApiSchemaCompatibilityRows().filter(
-      (row) => row.consumerSurface !== 'terminal_handoff',
+      (row) => row.consumerSurface !== 'product_handoff',
     );
 
     expect(() => buildBtdApiSchemaCompatibilityMatrix({ rows })).toThrow(
-      /missing consumer surfaces: terminal_handoff/,
+      /missing consumer surfaces: product_handoff/,
     );
   });
 

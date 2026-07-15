@@ -8,7 +8,7 @@ export type ConversationRehearsalFlow =
   | 'streaming'
   | 'writing'
   | 'source_selector'
-  | 'terminal_handoff'
+  | 'product_handoff'
   | 'restore'
   | 'retry'
   | 'redaction'
@@ -45,7 +45,7 @@ export const CONVERSATION_REHEARSAL_FLOW_OPTIONS: Array<{
   { flowId: 'streaming', label: 'Streaming' },
   { flowId: 'writing', label: 'Writing' },
   { flowId: 'source_selector', label: 'Source selector' },
-  { flowId: 'terminal_handoff', label: 'Terminal handoff' },
+  { flowId: 'product_handoff', label: 'Terminal handoff' },
   { flowId: 'restore', label: 'Restore' },
   { flowId: 'retry', label: 'Retry' },
   { flowId: 'redaction', label: 'Redaction' },

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_STAGING_TESTNET_REHEARSAL_ARTIFACT_PATH,
   buildV47StagingTestnetDeploymentRehearsal,
-} from '../packages/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js';
+} from '../scripts/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -86,8 +86,8 @@ function main() {
 
   for (const relativePath of [
     V47_STAGING_TESTNET_REHEARSAL_ARTIFACT_PATH,
-    'packages/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js',
-    'packages/specifying/test/v47-staging-testnet-deployment-rehearsal.test.js',
+    'scripts/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js',
+    'scripts/specifying/test/v47-staging-testnet-deployment-rehearsal.test.js',
     'scripts/generate-v47-staging-testnet-deployment-rehearsal.mjs',
     'scripts/check-v47-gate9-staging-testnet-deployment-rehearsal.mjs',
     'BITCODE_SPEC_V47.md',
@@ -104,8 +104,8 @@ function main() {
     'containers/k8/long-runner.yaml',
     'apps/uapi/package.json',
     'apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -165,7 +165,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/specifying',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -173,7 +173,7 @@ function main() {
         'test/v47-staging-testnet-deployment-rehearsal.test.js',
       ]);
     } catch {
-      failures.push('packages/specifying test/v47-staging-testnet-deployment-rehearsal.test.js must pass.');
+      failures.push('scripts/specifying test/v47-staging-testnet-deployment-rehearsal.test.js must pass.');
     }
   }
 

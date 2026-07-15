@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V44_SCALED_NETWORK_REHEARSAL_ARTIFACT_PATH,
   buildV44ScaledNetworkRehearsal,
-} from '../packages/specifying/src/canonical/v44-scaled-network-rehearsal.js';
+} from '../scripts/specifying/src/canonical/v44-scaled-network-rehearsal.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -471,7 +471,7 @@
         "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
         "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
-        "packages/specifying/src/canonical/prompt-benchmark-report.js"
+        "scripts/specifying/src/canonical/prompt-benchmark-report.js"
       ],
       "requiredTelemetryLevelIds": [
         "interpolated_prompt",
@@ -632,8 +632,8 @@
         "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
         "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
         "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
-        "packages/specifying/src/canonical/conversation-stream-event-contract.js",
-        "packages/specifying/src/canonical/telemetry-taxonomy-catalog.js"
+        "scripts/specifying/src/canonical/conversation-stream-event-contract.js",
+        "scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js"
       ],
       "requiredTelemetryLevelIds": [
         "agent",
@@ -845,27 +845,27 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/telemetry-taxonomy-catalog.js",
+      "sourcePath": "scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/conversation-stream-event-contract.js",
+      "sourcePath": "scripts/specifying/src/canonical/conversation-stream-event-contract.js",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/inference-surface-inventory.js",
+      "sourcePath": "scripts/specifying/src/canonical/inference-surface-inventory.js",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/ptrr-failsafe-thricified-stack.js",
+      "sourcePath": "scripts/specifying/src/canonical/ptrr-failsafe-thricified-stack.js",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/prompt-benchmark-report.js",
+      "sourcePath": "scripts/specifying/src/canonical/prompt-benchmark-report.js",
       "exists": true,
       "legacy": false
     }
@@ -1120,7 +1120,7 @@
     {
       "id": "telemetry:prompt-template-interpolation.source-roots-present",
       "rowId": "telemetry:prompt-template-interpolation",
-      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,apps/uapi/app/terminal/terminal-pipeline-harness-client.ts,apps/uapi/tests/terminalPipelineHarnessClient.test.ts,packages/specifying/src/canonical/prompt-benchmark-report.js",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,apps/uapi/app/terminal/terminal-pipeline-harness-client.ts,apps/uapi/tests/terminalPipelineHarnessClient.test.ts,scripts/specifying/src/canonical/prompt-benchmark-report.js",
       "passed": true
     },
     {
@@ -1162,7 +1162,7 @@
     {
       "id": "prompt.benchmark-report-bound-to-telemetry",
       "rowId": "telemetry:prompt-template-interpolation",
-      "sourcePath": "packages/specifying/src/canonical/prompt-benchmark-report.js",
+      "sourcePath": "scripts/specifying/src/canonical/prompt-benchmark-report.js",
       "passed": true
     },
     {
@@ -1216,7 +1216,7 @@
     {
       "id": "telemetry:stream-ui-storage-projection.source-roots-present",
       "rowId": "telemetry:stream-ui-storage-projection",
-      "sourcePath": "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts,packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,apps/uapi/app/terminal/terminal-pipeline-harness-client.ts,apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx,apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx,apps/uapi/tests/pipelineExecutionLogHeader.test.tsx,apps/uapi/tests/conversationStreamPipelineLog.test.tsx,packages/specifying/src/canonical/conversation-stream-event-contract.js,packages/specifying/src/canonical/telemetry-taxonomy-catalog.js",
+      "sourcePath": "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts,packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,apps/uapi/app/terminal/terminal-pipeline-harness-client.ts,apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx,apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx,apps/uapi/tests/pipelineExecutionLogHeader.test.tsx,apps/uapi/tests/conversationStreamPipelineLog.test.tsx,scripts/specifying/src/canonical/conversation-stream-event-contract.js,scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js",
       "passed": true
     },
     {
@@ -1264,7 +1264,7 @@
     {
       "id": "stream.v35-and-v37-catalogs-bound",
       "rowId": "telemetry:stream-ui-storage-projection",
-      "sourcePath": "packages/specifying/src/canonical/telemetry-taxonomy-catalog.js,packages/specifying/src/canonical/conversation-stream-event-contract.js",
+      "sourcePath": "scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js,scripts/specifying/src/canonical/conversation-stream-event-contract.js",
       "passed": true
     }
   ],

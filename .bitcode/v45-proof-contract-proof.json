@@ -293,7 +293,7 @@
       ]
     },
     {
-      "relativePath": "packages/specifying/src/canonical/v21-specifying.js",
+      "relativePath": "scripts/specifying/src/canonical/v21-specifying.js",
       "present": true,
       "digest": "sha256:fe0067ebcf5151993122a48e11181c8e6ab46c8d4ff66495e836e7910bf97af8",
       "byteLength": 71680,
@@ -386,7 +386,7 @@
   "generatedArtifactAndTestBindings": [
     "scripts/generate-v45-proof-family-artifacts.mjs",
     "scripts/check-v45-gate16-proof-families-generated-artifacts.mjs",
-    "packages/specifying/test/v45-proof-family-artifacts.test.js",
+    "scripts/specifying/test/v45-proof-family-artifacts.test.js",
     ".github/workflows/bitcode-gate-quality.yml",
     ".github/workflows/bitcode-canon-quality.yml"
   ],

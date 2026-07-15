@@ -145,7 +145,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
   for (const relativePath of requiredFiles) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V33 Gate 5 file: ${relativePath}`);
@@ -210,7 +210,7 @@ function main() {
   ].join('\n');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const packageJson = read(root, 'package.json');
-  const protocolSpecifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
+  const protocolSpecifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   assertCheck(failures, btdSource.includes('buildBtdInterfaceAuthorizationPolicy'), 'BTD source must build InterfaceAuthorizationPolicy.');
   assertCheck(failures, btdSource.includes('renderBtdInterfaceAuthorizationDeniedState'), 'BTD source must render readable denied states.');

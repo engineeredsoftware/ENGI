@@ -133,10 +133,10 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/conversation-stream-event-contract.js',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
-    'packages/specifying/test/conversation-stream-event-contract.test.js',
+    'scripts/specifying/src/canonical/conversation-stream-event-contract.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/conversation-stream-event-contract.test.js',
     'packages/api/src/conversations/stream-events.ts',
     'packages/api/src/conversations/__tests__/stream-events.test.ts',
     'packages/api/src/routes/conversations.ts',
@@ -157,7 +157,7 @@ function main() {
     'BITCODE_SPEC_V37_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -178,7 +178,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/conversation-stream-event-contract.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/conversation-stream-event-contract.test.js']);
     } catch (error) {
       failures.push(`V37 Conversation stream event package test failed: ${error.stderr || error.message}`);
     }
@@ -276,7 +276,7 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V37_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const rootReadme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/specifying/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const conversationsReadme = read(root, 'apps/uapi/app/conversations/README.md');
   const packageJson = read(root, 'package.json');
   const uapiJestConfig = read(root, 'apps/uapi/jest.config.cjs');

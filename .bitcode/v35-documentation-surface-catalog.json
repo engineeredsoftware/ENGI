@@ -91,7 +91,7 @@
         "operators",
         "protocol_reviewers"
       ],
-      "owner": "packages/specifying",
+      "owner": "scripts/specifying",
       "disclosureClass": "public_source_safe",
       "sourceRoots": [
         "BITCODE_SPEC.txt",
@@ -113,7 +113,7 @@
         ".bitcode/v35-documentation-surface-catalog.json"
       ],
       "routePackageBindings": [
-        "packages/specifying/src/canonical/v21-specifying.js"
+        "scripts/specifying/src/canonical/v21-specifying.js"
       ],
       "proofCoverage": [
         "spec-family-check",
@@ -427,7 +427,7 @@
       "owner": "package-workspaces",
       "disclosureClass": "public_source_safe",
       "sourceRoots": [
-        "packages/specifying/README.md",
+        "scripts/specifying/README.md",
         "packages/btd/README.md",
         "packages/api/README.md",
         "packages/asset-packs-pipelines/domain/README.md",
@@ -440,7 +440,7 @@
         ".bitcode/v35-documentation-surface-catalog.json"
       ],
       "routePackageBindings": [
-        "packages/specifying/src/index.js",
+        "scripts/specifying/src/index.js",
         "packages/btd/src/index.ts",
         "packages/api/src",
         "packages/asset-packs-pipelines/domain/src"
@@ -474,7 +474,7 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "packages/specifying/README.md",
+          "sourceRoot": "scripts/specifying/README.md",
           "present": true
         },
         {
@@ -663,13 +663,13 @@
         "protocol_reviewers",
         "operators"
       ],
-      "owner": "packages/specifying",
+      "owner": "scripts/specifying",
       "disclosureClass": "public_source_safe",
       "sourceRoots": [
         ".bitcode/v34-deployment-host-capability-catalog.json",
         ".bitcode/v34-distributed-execution-runtime-receipts.json",
         ".bitcode/v34-deployment-storage-posture.json",
-        "packages/specifying/src/canonical/v21-specifying.js",
+        "scripts/specifying/src/canonical/v21-specifying.js",
         "scripts/generate-bitcode-proven.mjs"
       ],
       "linkedSpecSections": [
@@ -726,7 +726,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/v21-specifying.js",
+          "sourceRoot": "scripts/specifying/src/canonical/v21-specifying.js",
           "present": true
         },
         {
@@ -827,7 +827,7 @@
       "owner": "observability-packages",
       "disclosureClass": "internal_source_safe",
       "sourceRoots": [
-        "packages/specifying/src/telemetry.js",
+        "scripts/specifying/src/telemetry.js",
         "internal-docs/BITCODE_EXECUTIONS.md",
         "internal-docs/BITCODE_PROMPT_TRACE.md",
         "packages/observability/README.md",
@@ -876,7 +876,7 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "packages/specifying/src/telemetry.js",
+          "sourceRoot": "scripts/specifying/src/telemetry.js",
           "present": true
         },
         {
@@ -920,7 +920,7 @@
         ".bitcode/v35-documentation-surface-catalog.json"
       ],
       "routePackageBindings": [
-        "packages/specifying/test/protocol-package-boundary.test.js"
+        "scripts/specifying/test/protocol-package-boundary.test.js"
       ],
       "proofCoverage": [
         "demonstration-boundary-test",
@@ -1173,7 +1173,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "packages/specifying/README.md",
+          "sourceRoot": "scripts/specifying/README.md",
           "present": true
         },
         {
@@ -1263,7 +1263,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/v21-specifying.js",
+          "sourceRoot": "scripts/specifying/src/canonical/v21-specifying.js",
           "present": true
         },
         {
@@ -1303,7 +1303,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "packages/specifying/src/telemetry.js",
+          "sourceRoot": "scripts/specifying/src/telemetry.js",
           "present": true
         },
         {

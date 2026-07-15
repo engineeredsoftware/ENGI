@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_DEPOSIT_ROUTE_OPTIONS_ARTIFACT_PATH,
   buildV43DepositRouteOptions,
-} from '../packages/specifying/src/canonical/v43-deposit-route-options.js';
+} from '../scripts/specifying/src/canonical/v43-deposit-route-options.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -90,8 +90,8 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-options.test.ts',
     'apps/uapi/tests/depositRouteModel.test.ts',
     'apps/uapi/tests/depositPageClient.test.tsx',
-    'packages/specifying/src/canonical/v43-deposit-route-options.js',
-    'packages/specifying/test/v43-deposit-route-options.test.js',
+    'scripts/specifying/src/canonical/v43-deposit-route-options.js',
+    'scripts/specifying/test/v43-deposit-route-options.test.js',
     'scripts/generate-v43-deposit-route-options.mjs',
     'scripts/check-v43-gate5-deposit-route-options.mjs',
     'BITCODE_SPEC_V43.md',
@@ -100,7 +100,7 @@ function main() {
     'BITCODE_SPEC_V43_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',

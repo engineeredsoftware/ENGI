@@ -3,7 +3,7 @@
  * Legacy "Terminal" naming in explainers is mapped to Packs / Deposit / Read language.
  */
 import type { DocsGuideCard } from '../bitcode-docs-types';
-import { TERMINAL_INLINE_EXPLAINERS, TERMINAL_WORKSPACE_EXPLAINERS } from '@/components/bitcode/pipeline/models/workspace-explainers';
+import { PRODUCT_INLINE_EXPLAINERS, PRODUCT_WORKSPACE_EXPLAINERS } from '@/components/bitcode/pipeline/models/workspace-explainers';
 
 export const productSections = [
   {
@@ -25,11 +25,11 @@ export const productSections = [
   {
     id: 'read-window',
     eyebrow: 'Read',
-    title: TERMINAL_INLINE_EXPLAINERS.readWindow.title,
+    title: PRODUCT_INLINE_EXPLAINERS.readWindow.title,
     summary:
       'The read surfaces on product routes show whether a Bitcode action actually changed proof-bearing state.',
     detail:
-      TERMINAL_INLINE_EXPLAINERS.readWindow.detail ??
+      PRODUCT_INLINE_EXPLAINERS.readWindow.detail ??
       'Prefer /packs selected detail and route-owned proof panels over ephemeral success toasts.',
     reason:
       'Operators learn whether work completed by rereading evidence, not by button feedback alone.',
@@ -37,33 +37,33 @@ export const productSections = [
   {
     id: 'write-posture',
     eyebrow: 'Write',
-    title: TERMINAL_INLINE_EXPLAINERS.writePosture.title,
+    title: PRODUCT_INLINE_EXPLAINERS.writePosture.title,
     summary:
       'Writes stay bounded because Bitcode has proof, wallet, repository, disclosure, and settlement consequences.',
-    detail: TERMINAL_INLINE_EXPLAINERS.writePosture.detail ?? '',
+    detail: PRODUCT_INLINE_EXPLAINERS.writePosture.detail ?? '',
     reason:
       'Bounded writes keep commercial and proof posture coherent across product and interface surfaces.',
   },
   {
     id: 'mode-rail',
-    eyebrow: TERMINAL_WORKSPACE_EXPLAINERS.railModes.kicker ?? 'Modes',
+    eyebrow: PRODUCT_WORKSPACE_EXPLAINERS.railModes.kicker ?? 'Modes',
     title: 'Auxillaries and Conversations must not erase pack activity context',
     summary:
       'Mode changes are useful only when the reader never loses the active /packs activity or deposit/read work context.',
-    detail: TERMINAL_WORKSPACE_EXPLAINERS.railModes.detail ?? '',
+    detail: PRODUCT_WORKSPACE_EXPLAINERS.railModes.detail ?? '',
     reason:
       'Supporting modes exist to configure or draft — not to replace the ledger.',
-    points: TERMINAL_WORKSPACE_EXPLAINERS.railModes.points,
+    points: PRODUCT_WORKSPACE_EXPLAINERS.railModes.points,
   },
   {
     id: 'repository-supply',
-    eyebrow: TERMINAL_WORKSPACE_EXPLAINERS.repositorySupply.kicker ?? 'Source',
+    eyebrow: PRODUCT_WORKSPACE_EXPLAINERS.repositorySupply.kicker ?? 'Source',
     title: 'Repository scope is the deposit-side boundary',
     summary:
       'Permitted source comes from authorized repositories. Every deposit and downstream proof depends on that scope staying explicit.',
-    detail: TERMINAL_WORKSPACE_EXPLAINERS.repositorySupply.detail ?? '',
+    detail: PRODUCT_WORKSPACE_EXPLAINERS.repositorySupply.detail ?? '',
     reason:
       'Without clear repository attachment, synthesis and settlement readiness cannot be trusted.',
-    points: TERMINAL_WORKSPACE_EXPLAINERS.repositorySupply.points,
+    points: PRODUCT_WORKSPACE_EXPLAINERS.repositorySupply.points,
   },
 ] as const satisfies readonly DocsGuideCard[];

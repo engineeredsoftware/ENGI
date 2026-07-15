@@ -566,7 +566,7 @@
       "stageId": null,
       "purpose": "Bind Gate 8 to deterministic artifact generation, protocol tests, package rehearsal tests, docs, workflows, and package scripts.",
       "sourceRoots": [
-        "packages/specifying/test/v42-local-staging-mvp-rehearsal.test.js",
+        "scripts/specifying/test/v42-local-staging-mvp-rehearsal.test.js",
         "package.json",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml"
@@ -696,12 +696,12 @@
     },
     {
       "id": "protocol-test-wired",
-      "sourcePath": "packages/specifying/test/v42-local-staging-mvp-rehearsal.test.js",
+      "sourcePath": "scripts/specifying/test/v42-local-staging-mvp-rehearsal.test.js",
       "passed": true
     },
     {
       "id": "protocol-exports-wired",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {

@@ -14,12 +14,12 @@
     "BITCODE_SPEC_V46_PARITY_MATRIX.md": "BITCODE_SPEC_V46_PARITY_MATRIX.md:91b47eeaa106639d2d21856b",
     "SPECIFICATIONS_ROADMAP.md": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
     "README.md": "README.md:d28ec731634e03953d8adfe6",
-    "packages/specifying/README.md": "packages/specifying/README.md:f5b175049f4f4e8df179e184",
+    "scripts/specifying/README.md": "scripts/specifying/README.md:f5b175049f4f4e8df179e184",
     "package.json": "package.json:b79014968c556bc1b43ab341",
-    "packages/specifying/src/index.js": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
-    "packages/specifying/src/index.d.ts": "packages/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
-    "packages/specifying/src/canonical/v46-interface-claim-contracts.js": "packages/specifying/src/canonical/v46-interface-claim-contracts.js:a7354af8be68328240207032",
-    "packages/specifying/test/v46-interface-claim-contracts.test.js": "packages/specifying/test/v46-interface-claim-contracts.test.js:f1dcb481edcbadee07f42127",
+    "scripts/specifying/src/index.js": "scripts/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "scripts/specifying/src/index.d.ts": "scripts/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "scripts/specifying/src/canonical/v46-interface-claim-contracts.js": "scripts/specifying/src/canonical/v46-interface-claim-contracts.js:a7354af8be68328240207032",
+    "scripts/specifying/test/v46-interface-claim-contracts.test.js": "scripts/specifying/test/v46-interface-claim-contracts.test.js:f1dcb481edcbadee07f42127",
     "scripts/generate-v46-interface-claim-contracts.mjs": "scripts/generate-v46-interface-claim-contracts.mjs:c6faeaf341acbb26e4e51179",
     "scripts/check-v46-gate5-interface-claim-contracts.mjs": "scripts/check-v46-gate5-interface-claim-contracts.mjs:b6be899067bc320750689824",
     ".github/workflows/bitcode-gate-quality.yml": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
@@ -39,7 +39,7 @@
     "apps/uapi/tests/conversationTerminalHandoff.test.tsx": "apps/uapi/tests/conversationTerminalHandoff.test.tsx:f86ac4ab726148a1a0fdcdc5",
     "apps/uapi/tests/conversationStreamPipelineLog.test.tsx": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx:73e3ba9c6f058ffe4418b3e4",
     "apps/uapi/app/conversations/conversation-session-route-history.ts": "apps/uapi/app/conversations/conversation-session-route-history.ts:d3d12ff13b464135f08599fc",
-    "packages/specifying/src/canonical/v39-interface-conversation-product-parity.js": "packages/specifying/src/canonical/v39-interface-conversation-product-parity.js:7037724fdab78cd00402fd02"
+    "scripts/specifying/src/canonical/v39-interface-conversation-product-parity.js": "scripts/specifying/src/canonical/v39-interface-conversation-product-parity.js:7037724fdab78cd00402fd02"
   },
   "surfaceIds": [
     "public_api",
@@ -546,7 +546,7 @@
       "sourcePaths": [
         "packages/btd/src/api-schema-compatibility-matrix.ts",
         "packages/btd/__tests__/api-schema-compatibility-matrix.test.ts",
-        "packages/specifying/src/canonical/v39-interface-conversation-product-parity.js"
+        "scripts/specifying/src/canonical/v39-interface-conversation-product-parity.js"
       ],
       "claimIds": [
         "assetpack-is-commodity",
@@ -642,7 +642,7 @@
       "sourceRoots": [
         "packages/btd/src/api-schema-compatibility-matrix.ts:21527a4ab84909ce72247fab",
         "packages/btd/__tests__/api-schema-compatibility-matrix.test.ts:32fa0cfd7301dc44808b3eac",
-        "packages/specifying/src/canonical/v39-interface-conversation-product-parity.js:7037724fdab78cd00402fd02"
+        "scripts/specifying/src/canonical/v39-interface-conversation-product-parity.js:7037724fdab78cd00402fd02"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -686,22 +686,22 @@
     },
     {
       "id": "package-source-defines-surfaces",
-      "sourcePath": "packages/specifying/src/canonical/v46-interface-claim-contracts.js",
+      "sourcePath": "scripts/specifying/src/canonical/v46-interface-claim-contracts.js",
       "passed": true
     },
     {
       "id": "package-source-defines-capabilities",
-      "sourcePath": "packages/specifying/src/canonical/v46-interface-claim-contracts.js",
+      "sourcePath": "scripts/specifying/src/canonical/v46-interface-claim-contracts.js",
       "passed": true
     },
     {
       "id": "package-exports-gate5",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {
       "id": "package-test-covers-gate5",
-      "sourcePath": "packages/specifying/test/v46-interface-claim-contracts.test.js",
+      "sourcePath": "scripts/specifying/test/v46-interface-claim-contracts.test.js",
       "passed": true
     },
     {

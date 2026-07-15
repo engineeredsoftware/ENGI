@@ -4,7 +4,7 @@ export type ConversationTelemetryEventFamily =
   | 'stream'
   | 'tool'
   | 'source_selector'
-  | 'terminal_handoff'
+  | 'product_handoff'
   | 'retry'
   | 'error'
   | 'completion';
@@ -84,11 +84,11 @@ export const CONVERSATION_TELEMETRY_EVENT_FAMILY_OPTIONS: Array<{
     defaultEventKind: 'conversation.source_selector.allowed',
   },
   {
-    eventFamily: 'terminal_handoff',
+    eventFamily: 'product_handoff',
     label: 'Terminal handoff',
     dashboardPanel: 'conversation.dashboard.terminal-handoff',
     runbookId: 'runbook.conversation.terminal-handoff-repair',
-    defaultEventKind: 'conversation.terminal_handoff.opened',
+    defaultEventKind: 'conversation.product_handoff.opened',
   },
   {
     eventFamily: 'retry',

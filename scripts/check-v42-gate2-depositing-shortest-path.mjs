@@ -109,11 +109,11 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/depository-supply-index.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts',
     'packages/asset-packs-pipelines/domain/README.md',
-    'packages/specifying/src/canonical/v42-depositing-shortest-path.js',
-    'packages/specifying/test/v42-depositing-shortest-path.test.js',
-    'packages/specifying/test/specifying-package-boundary.test.js',
-    'packages/specifying/server.js',
-    'packages/specifying/src/bitcode-demo.js',
+    'scripts/specifying/src/canonical/v42-depositing-shortest-path.js',
+    'scripts/specifying/test/v42-depositing-shortest-path.test.js',
+    'scripts/specifying/test/specifying-package-boundary.test.js',
+    'scripts/specifying/server.js',
+    'scripts/specifying/src/bitcode-demo.js',
     'apps/uapi/app/api/deposits/route.ts',
     'apps/uapi/app/terminal/TerminalDepositComposer.tsx',
     'apps/uapi/app/terminal/terminal-activity-history.ts',
@@ -127,7 +127,7 @@ function main() {
     'BITCODE_SPEC_V42_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -150,8 +150,8 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v42-depositing-shortest-path.test.js',
-        'packages/specifying/test/specifying-package-boundary.test.js',
+        'scripts/specifying/test/v42-depositing-shortest-path.test.js',
+        'scripts/specifying/test/specifying-package-boundary.test.js',
       ]);
     } catch (error) {
       failures.push(`V42 Depositing shortest path protocol tests failed: ${error.stderr || error.message}`);

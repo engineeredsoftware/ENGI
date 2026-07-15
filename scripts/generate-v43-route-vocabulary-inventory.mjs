@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_ROUTE_VOCABULARY_INVENTORY_ARTIFACT_PATH,
   buildV43RouteVocabularyInventory,
-} from '../packages/specifying/src/canonical/v43-route-vocabulary-inventory.js';
+} from '../scripts/specifying/src/canonical/v43-route-vocabulary-inventory.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

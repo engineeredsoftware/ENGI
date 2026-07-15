@@ -130,7 +130,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
 
   for (const relativePath of requiredFiles) {
@@ -224,7 +224,7 @@ function main() {
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const source = read(root, 'packages/btd/src/deployment-storage-posture.ts');
   const test = read(root, 'packages/btd/__tests__/deployment-storage-posture.test.ts');
-  const specifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   for (const doc of [spec, delta, notes, parity]) {
     assertCheck(failures, doc.includes(ARTIFACT), `V34 docs must mention ${ARTIFACT}.`);

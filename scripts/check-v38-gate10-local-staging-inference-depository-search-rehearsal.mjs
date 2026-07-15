@@ -135,8 +135,8 @@ function main() {
   const requiredFiles = [
     ARTIFACT_PATH,
     ...REQUIRED_PROOF_ARTIFACTS,
-    'packages/specifying/src/canonical/local-staging-inference-depository-search-rehearsal.js',
-    'packages/specifying/test/v38-local-staging-inference-depository-search-rehearsal.test.js',
+    'scripts/specifying/src/canonical/local-staging-inference-depository-search-rehearsal.js',
+    'scripts/specifying/test/v38-local-staging-inference-depository-search-rehearsal.test.js',
     'scripts/generate-v38-local-staging-inference-depository-search-rehearsal.mjs',
     'scripts/check-v38-gate10-local-staging-inference-depository-search-rehearsal.mjs',
     'packages/pipeline-hosts/src/dev/run-asset-pack-sandbox-host.ts',
@@ -161,7 +161,7 @@ function main() {
     'BITCODE_SPEC_V38_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -188,7 +188,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v38-local-staging-inference-depository-search-rehearsal.test.js',
+        'scripts/specifying/test/v38-local-staging-inference-depository-search-rehearsal.test.js',
       ]);
     } catch (error) {
       failures.push(`V38 local/staging inference rehearsal protocol test failed: ${error.stderr || error.message}`);
@@ -296,12 +296,12 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/specifying/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const index = read(root, 'packages/specifying/src/index.js');
-  const typeDefs = read(root, 'packages/specifying/src/index.d.ts');
+  const index = read(root, 'scripts/specifying/src/index.js');
+  const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
 
   assertCheck(failures, spec.includes('V38LocalStagingInferenceDepositorySearchRehearsal'), 'V38 spec must name the Gate 10 report.');
   assertCheck(failures, delta.includes('source-safe-local-staging-inference-depository-search-rehearsal-metadata'), 'V38 delta must include Gate 10 source-safety verdict.');

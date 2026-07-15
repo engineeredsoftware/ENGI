@@ -116,8 +116,8 @@ function main() {
     'packages/btd/src/source-to-shares.ts',
     'packages/btd/src/settlement.ts',
     'packages/btd/src/reconciliation.ts',
-    'packages/specifying/src/canonical/v39-settlement-rights-delivery.js',
-    'packages/specifying/test/v39-settlement-rights-delivery.test.js',
+    'scripts/specifying/src/canonical/v39-settlement-rights-delivery.js',
+    'scripts/specifying/test/v39-settlement-rights-delivery.test.js',
     'scripts/generate-v39-settlement-rights-delivery.mjs',
     'scripts/check-v39-gate7-settlement-rights-delivery.mjs',
     'BITCODE_SPEC_V39.md',
@@ -126,7 +126,7 @@ function main() {
     'BITCODE_SPEC_V39_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -149,7 +149,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v39-settlement-rights-delivery.test.js',
+        'scripts/specifying/test/v39-settlement-rights-delivery.test.js',
       ]);
     } catch (error) {
       failures.push(`V39 settlement rights delivery protocol test failed: ${error.stderr || error.message}`);

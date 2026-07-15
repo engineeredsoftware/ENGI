@@ -301,9 +301,9 @@
       "familyId": "interface_entrypoint",
       "purpose": "Make V38 inventory, prompt benchmarks, Conversation routes, UI stream rows, and ChatGPT tool surfaces prove that interface entrypoints do not bypass the inference stack.",
       "sourceRoots": [
-        "packages/specifying/src/canonical/inference-surface-inventory.js",
-        "packages/specifying/src/canonical/prompt-benchmark-report.js",
-        "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js",
+        "scripts/specifying/src/canonical/inference-surface-inventory.js",
+        "scripts/specifying/src/canonical/prompt-benchmark-report.js",
+        "scripts/specifying/src/canonical/inference-telemetry-disclosure-report.js",
         "packages/conversations/src/agent/ConversationAgent.ts",
         "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
         "apps/chatgpt/src/__tests__/tools.test.ts"
@@ -518,17 +518,17 @@
     },
     {
       "id": "inventory-removes-gate9-quick-response-gap",
-      "sourcePath": "packages/specifying/src/canonical/inference-surface-inventory.js",
+      "sourcePath": "scripts/specifying/src/canonical/inference-surface-inventory.js",
       "passed": true
     },
     {
       "id": "prompt-benchmark-removes-gate9-carryforward-gap",
-      "sourcePath": "packages/specifying/src/canonical/prompt-benchmark-report.js",
+      "sourcePath": "scripts/specifying/src/canonical/prompt-benchmark-report.js",
       "passed": true
     },
     {
       "id": "gate5-disclosure-covers-stream-ui-storage",
-      "sourcePath": "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js",
+      "sourcePath": "scripts/specifying/src/canonical/inference-telemetry-disclosure-report.js",
       "passed": true
     }
   ],
@@ -580,8 +580,8 @@
     "chatGptToolDocPrompts": "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
     "chatGptTools": "apps/chatgpt/src/tools.ts",
     "chatGptToolsTest": "apps/chatgpt/src/__tests__/tools.test.ts",
-    "gate2Inventory": "packages/specifying/src/canonical/inference-surface-inventory.js",
-    "gate4PromptBenchmark": "packages/specifying/src/canonical/prompt-benchmark-report.js",
-    "gate5Disclosure": "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js"
+    "gate2Inventory": "scripts/specifying/src/canonical/inference-surface-inventory.js",
+    "gate4PromptBenchmark": "scripts/specifying/src/canonical/prompt-benchmark-report.js",
+    "gate5Disclosure": "scripts/specifying/src/canonical/inference-telemetry-disclosure-report.js"
   }
 }

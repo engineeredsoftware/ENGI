@@ -136,8 +136,8 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/v40-reading-pipeline-integration-coverage.js',
-    'packages/specifying/test/v40-reading-pipeline-integration-coverage.test.js',
+    'scripts/specifying/src/canonical/v40-reading-pipeline-integration-coverage.js',
+    'scripts/specifying/test/v40-reading-pipeline-integration-coverage.test.js',
     'scripts/generate-v40-reading-pipeline-integration-coverage.mjs',
     'scripts/check-v40-gate5-reading-pipeline-integration.mjs',
     'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts',
@@ -168,7 +168,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v40-reading-pipeline-integration-coverage.test.js',
+        'scripts/specifying/test/v40-reading-pipeline-integration-coverage.test.js',
       ]);
     } catch (error) {
       failures.push(`V40 Reading pipeline integration protocol test failed: ${error.stderr || error.message}`);

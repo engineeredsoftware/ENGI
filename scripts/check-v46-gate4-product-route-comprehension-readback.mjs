@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V46_PRODUCT_ROUTE_COMPREHENSION_READBACK_ARTIFACT_PATH,
   buildV46ProductRouteComprehensionReadback,
-} from '../packages/specifying/src/canonical/v46-product-route-comprehension-readback.js';
+} from '../scripts/specifying/src/canonical/v46-product-route-comprehension-readback.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -81,8 +81,8 @@ function main() {
 
   for (const relativePath of [
     V46_PRODUCT_ROUTE_COMPREHENSION_READBACK_ARTIFACT_PATH,
-    'packages/specifying/src/canonical/v46-product-route-comprehension-readback.js',
-    'packages/specifying/test/v46-product-route-comprehension-readback.test.js',
+    'scripts/specifying/src/canonical/v46-product-route-comprehension-readback.js',
+    'scripts/specifying/test/v46-product-route-comprehension-readback.test.js',
     'scripts/generate-v46-product-route-comprehension-readback.mjs',
     'scripts/check-v46-gate4-product-route-comprehension-readback.mjs',
     'BITCODE_SPEC_V46.md',
@@ -157,7 +157,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/specifying',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -165,7 +165,7 @@ function main() {
         'test/v46-product-route-comprehension-readback.test.js',
       ]);
     } catch {
-      failures.push('packages/specifying/test/v46-product-route-comprehension-readback.test.js must pass.');
+      failures.push('scripts/specifying/test/v46-product-route-comprehension-readback.test.js must pass.');
     }
   }
 

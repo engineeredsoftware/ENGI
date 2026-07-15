@@ -121,15 +121,15 @@ function main() {
     'BITCODE_SPEC_V29_NOTES.md',
     'BITCODE_SPEC_V29_PARITY_MATRIX.md',
     'scripts/check-v29-gate8-demonstration-origin-formalization.mjs',
-    'packages/specifying/package.json',
-    'packages/specifying/README.md',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
-    'packages/specifying/src/canon-posture.js',
-    'packages/specifying/src/canonical/v21-specifying.js',
-    'packages/specifying/src/canonical/v22-canon-posture.js',
-    'packages/specifying/src/canonical/proven-generator.js',
-    'packages/specifying/test/specifying-package-boundary.test.js',
+    'scripts/specifying/package.json',
+    'scripts/specifying/README.md',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v22-canon-posture.js',
+    'scripts/specifying/src/canonical/proven-generator.js',
+    'scripts/specifying/test/specifying-package-boundary.test.js',
     'scripts/check-bitcode-canon-posture-drift.mjs',
     'scripts/check-bitcode-canonical-inputs.mjs',
     'scripts/check-bitcode-pre-commit.mjs',
@@ -148,11 +148,11 @@ function main() {
   const delta = read(root, 'BITCODE_SPEC_V29_DELTA.md');
   const notes = read(root, 'BITCODE_SPEC_V29_NOTES.md');
   const parity = read(root, 'BITCODE_SPEC_V29_PARITY_MATRIX.md');
-  const protocolReadme = read(root, 'packages/specifying/README.md');
-  const protocolIndex = read(root, 'packages/specifying/src/index.js');
-  const protocolTypes = read(root, 'packages/specifying/src/index.d.ts');
-  const protocolPosture = read(root, 'packages/specifying/src/canon-posture.js');
-  const protocolTest = read(root, 'packages/specifying/test/specifying-package-boundary.test.js');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
+  const protocolIndex = read(root, 'scripts/specifying/src/index.js');
+  const protocolTypes = read(root, 'scripts/specifying/src/index.d.ts');
+  const protocolPosture = read(root, 'scripts/specifying/src/canon-posture.js');
+  const protocolTest = read(root, 'scripts/specifying/test/specifying-package-boundary.test.js');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 

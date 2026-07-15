@@ -393,7 +393,7 @@
       "playbookId": "generated_artifact_repair",
       "label": "generated artifact repair playbook",
       "playbookClass": "generated_artifact_repair",
-      "ownerPackage": "packages/specifying",
+      "ownerPackage": "scripts/specifying",
       "requiredHostIds": [
         "proof_services",
         "repair_jobs"

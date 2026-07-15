@@ -478,7 +478,7 @@
         ".github/workflows/bitcode-canon-quality.yml"
       ],
       "testPaths": [
-        "packages/specifying/test/v40-ledger-storage-sync.test.js"
+        "scripts/specifying/test/v40-ledger-storage-sync.test.js"
       ],
       "commandIds": [
         "pnpm run check:v40-gate8"

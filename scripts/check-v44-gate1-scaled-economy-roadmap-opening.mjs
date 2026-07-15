@@ -66,8 +66,8 @@ function main() {
     'BITCODE_SPEC_V44_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
+    'scripts/specifying/README.md',
     '.github/pull_request_template.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -82,8 +82,8 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V44_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/specifying/README.md');
-  const demoReadme = read(root, 'packages/specifying/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
+  const demoReadme = read(root, 'scripts/specifying/README.md');
   const prTemplate = read(root, '.github/pull_request_template.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');

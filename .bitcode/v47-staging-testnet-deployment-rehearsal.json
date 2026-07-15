@@ -374,22 +374,22 @@
     },
     {
       "id": "realistic-data-contract-satisfied",
-      "sourcePath": "packages/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js",
+      "sourcePath": "scripts/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js",
       "passed": true
     },
     {
       "id": "settlement-ordering-law-rehearsed",
-      "sourcePath": "packages/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js",
+      "sourcePath": "scripts/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js",
       "passed": true
     },
     {
       "id": "mainnet-blocked-lane-rehearsed",
-      "sourcePath": "packages/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js",
+      "sourcePath": "scripts/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js",
       "passed": true
     },
     {
       "id": "package-exports-gate9",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {
@@ -425,10 +425,10 @@
     "uapiPackageJson": "apps/uapi/package.json:dc9773834cf101bb272eb07c",
     "ipExchangeSpec": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts:86af66133e5ede25935ffd9d",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
-    "protocolIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
-    "protocolTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
-    "protocolSource": "packages/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js:3ee5783282237f9b63adaa78",
-    "protocolTest": "packages/specifying/test/v47-staging-testnet-deployment-rehearsal.test.js:0e10871b258a333fa6ac2ef8",
+    "protocolIndex": "scripts/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "protocolTypes": "scripts/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "protocolSource": "scripts/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js:3ee5783282237f9b63adaa78",
+    "protocolTest": "scripts/specifying/test/v47-staging-testnet-deployment-rehearsal.test.js:0e10871b258a333fa6ac2ef8",
     "generator": "scripts/generate-v47-staging-testnet-deployment-rehearsal.mjs:da28f5767c50f2f383c2b890",
     "checker": "scripts/check-v47-gate9-staging-testnet-deployment-rehearsal.mjs:40b659dc66ac9de2d5bb4652",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_ARTIFACT_PATH,
   buildV46LocalInterfaceComprehensionRehearsal,
-} from '../packages/specifying/src/canonical/v46-local-interface-comprehension-rehearsal.js';
+} from '../scripts/specifying/src/canonical/v46-local-interface-comprehension-rehearsal.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -81,8 +81,8 @@ function main() {
 
   for (const relativePath of [
     V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_ARTIFACT_PATH,
-    'packages/specifying/src/canonical/v46-local-interface-comprehension-rehearsal.js',
-    'packages/specifying/test/v46-local-interface-comprehension-rehearsal.test.js',
+    'scripts/specifying/src/canonical/v46-local-interface-comprehension-rehearsal.js',
+    'scripts/specifying/test/v46-local-interface-comprehension-rehearsal.test.js',
     'scripts/generate-v46-local-interface-comprehension-rehearsal.mjs',
     'scripts/check-v46-gate7-local-interface-comprehension-rehearsal.mjs',
     'BITCODE_SPEC_V46.md',
@@ -158,7 +158,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/specifying',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -166,7 +166,7 @@ function main() {
         'test/v46-local-interface-comprehension-rehearsal.test.js',
       ]);
     } catch {
-      failures.push('packages/specifying/test/v46-local-interface-comprehension-rehearsal.test.js must pass.');
+      failures.push('scripts/specifying/test/v46-local-interface-comprehension-rehearsal.test.js must pass.');
     }
   }
 

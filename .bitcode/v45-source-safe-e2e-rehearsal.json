@@ -635,7 +635,7 @@
         "repair-posture-receipt"
       ],
       "sourceRoots": [
-        "packages/specifying/src/canonical/v45-proof-family-artifacts.js",
+        "scripts/specifying/src/canonical/v45-proof-family-artifacts.js",
         ".bitcode/v45-proof-contract-proof.json",
         "BITCODE_SPEC_V45.md"
       ],
@@ -999,7 +999,7 @@
     "parity": "BITCODE_SPEC_V45_PARITY_MATRIX.md:b60dac6cce013c4573c13423",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
     "readme": "README.md:d28ec731634e03953d8adfe6",
-    "protocolReadme": "packages/specifying/README.md:f5b175049f4f4e8df179e184",
+    "protocolReadme": "scripts/specifying/README.md:f5b175049f4f4e8df179e184",
     "packageJson": "package.json:b79014968c556bc1b43ab341",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
@@ -1017,14 +1017,14 @@
     "depositClient": "apps/uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
     "packsClient": "apps/uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
     "pipelineLogUi": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:bb7e1773303e04b9027ae2c7",
-    "proofFamilySource": "packages/specifying/src/canonical/v45-proof-family-artifacts.js:1a2c8975783ccdc0263c8c61",
-    "source": "packages/specifying/src/canonical/v45-source-safe-e2e-rehearsal.js:ae4bebb6c6e9902bc2630078",
-    "test": "packages/specifying/test/v45-source-safe-e2e-rehearsal.test.js:240a9eca76b583de67a0a309",
+    "proofFamilySource": "scripts/specifying/src/canonical/v45-proof-family-artifacts.js:1a2c8975783ccdc0263c8c61",
+    "source": "scripts/specifying/src/canonical/v45-source-safe-e2e-rehearsal.js:ae4bebb6c6e9902bc2630078",
+    "test": "scripts/specifying/test/v45-source-safe-e2e-rehearsal.test.js:240a9eca76b583de67a0a309",
     "generator": "scripts/generate-v45-source-safe-e2e-rehearsal.mjs:10042b6c852bb180b8de9fc3",
     "checker": "scripts/check-v45-gate17-source-safe-e2e-rehearsal.mjs:990c98b5753486f3064d145a",
     "operatorScript": "scripts/rehearse-v45-source-safe-e2e.mjs:286a094f831e672b7d9211d9",
-    "protocolIndex": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
-    "protocolTypes": "packages/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "protocolIndex": "scripts/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "protocolTypes": "scripts/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
     "v39ReadingRehearsal": ".bitcode/v39-local-staging-reading-rehearsal.json:48d485187a2d54fdd56a1d37",
     "v42MvpRehearsal": ".bitcode/v42-local-staging-mvp-rehearsal.json:1a7fc667adfd6cc6035c1bcc",
     "v44ScaledRehearsal": ".bitcode/v44-scaled-network-rehearsal.json:9e075e68baf3af55acf3ba73",
@@ -1131,12 +1131,12 @@
     },
     {
       "id": "protocol-test-wired",
-      "sourcePath": "packages/specifying/test/v45-source-safe-e2e-rehearsal.test.js",
+      "sourcePath": "scripts/specifying/test/v45-source-safe-e2e-rehearsal.test.js",
       "passed": true
     },
     {
       "id": "protocol-exports-wired",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {

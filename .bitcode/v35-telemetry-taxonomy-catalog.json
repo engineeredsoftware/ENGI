@@ -207,7 +207,7 @@
       "alertThreshold": "failed_or_orphaned_execution_warning",
       "runbookLink": "runbook.execution.orphan-repair",
       "sourceRoots": [
-        "packages/specifying/src/telemetry.js",
+        "scripts/specifying/src/telemetry.js",
         "apps/uapi/app/api/executions/route.ts",
         "apps/uapi/app/api/executions/stream/route.ts"
       ],
@@ -223,7 +223,7 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "packages/specifying/src/telemetry.js",
+          "sourceRoot": "scripts/specifying/src/telemetry.js",
           "present": true
         },
         {
@@ -947,7 +947,7 @@
         "docs_qa.alignment.failed",
         "docs_qa.alignment.repaired"
       ],
-      "sourceSurface": "packages/specifying",
+      "sourceSurface": "scripts/specifying",
       "lifecycleStage": "documentation_quality_lifecycle",
       "severity": "warning",
       "sourceSafetyClass": "source_safe_docs_qa_metadata",
@@ -968,7 +968,7 @@
       "alertThreshold": "alignment_failure_warning",
       "runbookLink": "runbook.docs.qa-repair",
       "sourceRoots": [
-        "packages/specifying/src/canonical/documentation-surface-catalog.js",
+        "scripts/specifying/src/canonical/documentation-surface-catalog.js",
         "scripts/check-v35-gate2-documentation-surface-catalog.mjs",
         ".bitcode/v35-documentation-surface-catalog.json"
       ],
@@ -984,7 +984,7 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "packages/specifying/src/canonical/documentation-surface-catalog.js",
+          "sourceRoot": "scripts/specifying/src/canonical/documentation-surface-catalog.js",
           "present": true
         },
         {
@@ -1102,7 +1102,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "packages/specifying/src/telemetry.js",
+          "sourceRoot": "scripts/specifying/src/telemetry.js",
           "present": true
         },
         {
@@ -1300,7 +1300,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "packages/specifying/src/canonical/documentation-surface-catalog.js",
+          "sourceRoot": "scripts/specifying/src/canonical/documentation-surface-catalog.js",
           "present": true
         },
         {

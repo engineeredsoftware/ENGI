@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V40_LEDGER_STORAGE_SYNC_ARTIFACT_PATH,
   buildV40LedgerStorageSync,
-} from '../packages/specifying/src/canonical/v40-ledger-storage-sync.js';
+} from '../scripts/specifying/src/canonical/v40-ledger-storage-sync.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

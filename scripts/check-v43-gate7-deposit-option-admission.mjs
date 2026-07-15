@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_DEPOSIT_OPTION_ADMISSION_ARTIFACT_PATH,
   buildV43DepositOptionAdmission,
-} from '../packages/specifying/src/canonical/v43-deposit-option-admission.js';
+} from '../scripts/specifying/src/canonical/v43-deposit-option-admission.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -91,8 +91,8 @@ function main() {
     'apps/uapi/tests/depositPageClient.test.tsx',
     'apps/uapi/tests/packActivityModel.test.ts',
     'apps/uapi/jest.config.cjs',
-    'packages/specifying/src/canonical/v43-deposit-option-admission.js',
-    'packages/specifying/test/v43-deposit-option-admission.test.js',
+    'scripts/specifying/src/canonical/v43-deposit-option-admission.js',
+    'scripts/specifying/test/v43-deposit-option-admission.test.js',
     'scripts/generate-v43-deposit-option-admission.mjs',
     'scripts/check-v43-gate7-deposit-option-admission.mjs',
     'BITCODE_SPEC_V43.md',
@@ -101,7 +101,7 @@ function main() {
     'BITCODE_SPEC_V43_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',

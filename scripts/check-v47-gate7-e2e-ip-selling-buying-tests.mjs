@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_E2E_IP_EXCHANGE_TESTS_ARTIFACT_PATH,
   buildV47E2eIpSellingBuyingTests,
-} from '../packages/specifying/src/canonical/v47-e2e-ip-selling-buying-tests.js';
+} from '../scripts/specifying/src/canonical/v47-e2e-ip-selling-buying-tests.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -88,8 +88,8 @@ function main() {
 
   for (const relativePath of [
     V47_E2E_IP_EXCHANGE_TESTS_ARTIFACT_PATH,
-    'packages/specifying/src/canonical/v47-e2e-ip-selling-buying-tests.js',
-    'packages/specifying/test/v47-e2e-ip-selling-buying-tests.test.js',
+    'scripts/specifying/src/canonical/v47-e2e-ip-selling-buying-tests.js',
+    'scripts/specifying/test/v47-e2e-ip-selling-buying-tests.test.js',
     'scripts/generate-v47-e2e-ip-selling-buying-tests.mjs',
     'scripts/check-v47-gate7-e2e-ip-selling-buying-tests.mjs',
     'BITCODE_SPEC_V47.md',
@@ -101,8 +101,8 @@ function main() {
     'apps/uapi/tests/e2e/commercial-mvp.helpers.ts',
     'apps/uapi/playwright.config.ts',
     'apps/uapi/package.json',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -148,7 +148,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/specifying',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -156,7 +156,7 @@ function main() {
         'test/v47-e2e-ip-selling-buying-tests.test.js',
       ]);
     } catch {
-      failures.push('packages/specifying test/v47-e2e-ip-selling-buying-tests.test.js must pass.');
+      failures.push('scripts/specifying test/v47-e2e-ip-selling-buying-tests.test.js must pass.');
     }
   }
 

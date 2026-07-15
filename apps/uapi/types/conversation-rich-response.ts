@@ -105,7 +105,7 @@ export type ConversationRichResponseType =
   | 'interactive_checklist'
   | 'form_builder'
   | 'command_palette'
-  | 'terminal_interface'
+  | 'product_interface'
   | 'debug_console'
   
   // Surprise & Delight

@@ -139,11 +139,11 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/postprocess.ts',
     'packages/asset-packs-pipelines/domain/package.json',
     'packages/asset-packs-pipelines/domain/README.md',
-    'packages/specifying/src/canonical/v39-local-staging-reading-rehearsal.js',
-    'packages/specifying/test/v39-local-staging-reading-rehearsal.test.js',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
-    'packages/specifying/README.md',
+    'scripts/specifying/src/canonical/v39-local-staging-reading-rehearsal.js',
+    'scripts/specifying/test/v39-local-staging-reading-rehearsal.test.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/README.md',
     'scripts/generate-v39-local-staging-reading-rehearsal.mjs',
     'scripts/check-v39-gate10-local-staging-reading-rehearsal.mjs',
     'BITCODE_SPEC_V39.md',
@@ -174,7 +174,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v39-local-staging-reading-rehearsal.test.js',
+        'scripts/specifying/test/v39-local-staging-reading-rehearsal.test.js',
       ]);
     } catch (error) {
       failures.push(`V39 local/staging Reading rehearsal protocol test failed: ${error.stderr || error.message}`);

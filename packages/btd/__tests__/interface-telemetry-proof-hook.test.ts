@@ -47,7 +47,7 @@ describe('Interface telemetry proof hooks', () => {
     );
 
     expect(terminal).toMatchObject({
-      interfaceId: 'terminal_handoff',
+      interfaceId: 'product_handoff',
       actionId: 'terminal.reading.assetPackPreview',
       posture: 'blocked',
       denialReason: 'assetpack-source-locked-until-settlement',

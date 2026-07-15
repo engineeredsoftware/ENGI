@@ -444,7 +444,7 @@
         "packages/web-search/exa/src/index.ts"
       ],
       "@bitcode/specifying": [
-        "packages/specifying/src/index.js"
+        "scripts/specifying/src/index.js"
       ],
       "@bitcode/api/responses": [
         "../../packages/api/src/responses/index.ts"

@@ -154,10 +154,10 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/conversation-persistence-privacy-redaction.js',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
-    'packages/specifying/test/conversation-persistence-privacy-redaction.test.js',
+    'scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/conversation-persistence-privacy-redaction.test.js',
     'scripts/generate-v37-conversation-persistence-privacy-redaction.mjs',
     'scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs',
     'packages/api/src/conversations/privacy.ts',
@@ -177,7 +177,7 @@ function main() {
     'BITCODE_SPEC_V37_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -201,7 +201,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/conversation-persistence-privacy-redaction.test.js',
+        'scripts/specifying/test/conversation-persistence-privacy-redaction.test.js',
       ]);
     } catch (error) {
       failures.push(`V37 Conversation persistence privacy package test failed: ${error.stderr || error.message}`);
@@ -314,7 +314,7 @@ function main() {
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const rootReadme = read(root, 'README.md');
   const uapiReadme = read(root, 'apps/uapi/app/conversations/README.md');
-  const protocolReadme = read(root, 'packages/specifying/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');

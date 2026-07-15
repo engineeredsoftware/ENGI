@@ -6,7 +6,7 @@ export const BTD_API_SCHEMA_COMPATIBILITY_CONSUMER_SURFACES = [
   'public_api',
   'mcp_api',
   'chatgpt_app',
-  'terminal_handoff',
+  'product_handoff',
   'package_consumer',
 ] as const;
 
@@ -273,7 +273,7 @@ export function buildBtdApiSchemaCompatibilityRows(): BtdApiSchemaCompatibilityR
     },
     {
       rowId: 'terminal-handoff-preview-blocked',
-      consumerSurface: 'terminal_handoff',
+      consumerSurface: 'product_handoff',
       routeId: 'terminal.reading.assetPackPreview',
       method: 'HANDOFF',
       path: 'terminal://reading/asset-pack-preview',

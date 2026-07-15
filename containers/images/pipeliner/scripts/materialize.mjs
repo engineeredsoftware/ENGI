@@ -1,5 +1,5 @@
 /**
- * Materialize in-box host runners into containers/containers/images/pipeliner/dist for the
+ * Materialize in-box host runners into containers/images/pipeliner/dist for the
  * VCR pipeline appliance image and local smoke checks.
  */
 

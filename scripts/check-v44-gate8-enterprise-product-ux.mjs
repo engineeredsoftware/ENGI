@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V44_ENTERPRISE_PRODUCT_UX_ARTIFACT_PATH,
   buildV44EnterpriseProductUx,
-} from '../packages/specifying/src/canonical/v44-enterprise-product-ux.js';
+} from '../scripts/specifying/src/canonical/v44-enterprise-product-ux.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -94,8 +94,8 @@ function main() {
     'apps/uapi/tests/packsPageClient.test.tsx',
     'apps/uapi/tests/readPageClient.test.tsx',
     'apps/uapi/tests/depositPageClient.test.tsx',
-    'packages/specifying/src/canonical/v44-enterprise-product-ux.js',
-    'packages/specifying/test/v44-enterprise-product-ux.test.js',
+    'scripts/specifying/src/canonical/v44-enterprise-product-ux.js',
+    'scripts/specifying/test/v44-enterprise-product-ux.test.js',
     'scripts/generate-v44-enterprise-product-ux.mjs',
     'scripts/check-v44-gate8-enterprise-product-ux.mjs',
     'BITCODE_SPEC_V44.md',
@@ -104,7 +104,7 @@ function main() {
     'BITCODE_SPEC_V44_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -155,9 +155,9 @@ function main() {
 
   if (!args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'packages/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-enterprise-product-ux.test.js']);
+      run(root, 'pnpm', ['--dir', 'scripts/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-enterprise-product-ux.test.js']);
     } catch {
-      failures.push('packages/specifying/test/v44-enterprise-product-ux.test.js must pass.');
+      failures.push('scripts/specifying/test/v44-enterprise-product-ux.test.js must pass.');
     }
   }
 

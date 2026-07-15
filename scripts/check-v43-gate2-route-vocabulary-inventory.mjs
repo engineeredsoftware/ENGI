@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_ROUTE_VOCABULARY_INVENTORY_ARTIFACT_PATH,
   buildV43RouteVocabularyInventory,
-} from '../packages/specifying/src/canonical/v43-route-vocabulary-inventory.js';
+} from '../scripts/specifying/src/canonical/v43-route-vocabulary-inventory.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -82,9 +82,9 @@ function main() {
     'BITCODE_SPEC_V43_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
-    'packages/specifying/src/canonical/v43-route-vocabulary-inventory.js',
-    'packages/specifying/test/v43-route-vocabulary-inventory.test.js',
+    'scripts/specifying/README.md',
+    'scripts/specifying/src/canonical/v43-route-vocabulary-inventory.js',
+    'scripts/specifying/test/v43-route-vocabulary-inventory.test.js',
     'scripts/generate-v43-route-vocabulary-inventory.mjs',
     'scripts/check-v43-gate2-route-vocabulary-inventory.mjs',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -120,7 +120,7 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V43_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/specifying/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');

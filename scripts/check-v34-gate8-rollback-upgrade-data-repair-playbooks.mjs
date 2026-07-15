@@ -103,7 +103,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
   for (const relativePath of requiredFiles) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V34 Gate 8 file: ${relativePath}`);
@@ -165,7 +165,7 @@ function main() {
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const source = read(root, 'packages/btd/src/rollback-upgrade-repair-playbook.ts');
   const test = read(root, 'packages/btd/__tests__/rollback-upgrade-repair-playbook.test.ts');
-  const specifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
   const requiredTerms = ['RollbackUpgradeRepairPlaybook', ARTIFACT, 'rollback', 'upgrade', 'migration rollback', 'object-storage repair', 'database repair', 'ledger projection repair', 'secret rotation incident response', 'generated artifact repair', 'operator approval', 'fail-closed'];
   for (const doc of [spec, delta, notes, parity]) {
     for (const term of requiredTerms) assertCheck(failures, doc.includes(term), `V34 docs must mention ${term}.`);

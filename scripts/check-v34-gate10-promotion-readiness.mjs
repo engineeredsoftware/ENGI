@@ -154,12 +154,12 @@ function main() {
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/workflows/v34-canon-promotion.yml',
-    'packages/specifying/src/canon-posture.js',
-    'packages/specifying/data/state.json',
-    'packages/specifying/README.md',
-    'packages/specifying/src/canonical/proven-generator.js',
-    'packages/specifying/test/v34-promotion-readiness.test.js',
-    'packages/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/data/state.json',
+    'scripts/specifying/README.md',
+    'scripts/specifying/src/canonical/proven-generator.js',
+    'scripts/specifying/test/v34-promotion-readiness.test.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
     'packages/btd/src/deployment-promotion-readiness-report.ts',
     'packages/btd/__tests__/deployment-promotion-readiness-report.test.ts',
     'package.json',
@@ -191,11 +191,11 @@ function main() {
   const promoteScript = read(root, 'scripts/promote-bitcode-canon.mjs');
   const prepareSpecScript = read(root, 'scripts/prepare-bitcode-spec-family-promotion.mjs');
   const prepareRuntimeScript = read(root, 'scripts/prepare-bitcode-runtime-canon-promotion.mjs');
-  const provenGenerator = read(root, 'packages/specifying/src/canonical/proven-generator.js');
-  const v21Specifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
-  const packageCanonPosture = read(root, 'packages/specifying/src/canon-posture.js');
-  const packageState = read(root, 'packages/specifying/data/state.json');
-  const protocolReadme = read(root, 'packages/specifying/README.md');
+  const provenGenerator = read(root, 'scripts/specifying/src/canonical/proven-generator.js');
+  const v21Specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
+  const packageCanonPosture = read(root, 'scripts/specifying/src/canon-posture.js');
+  const packageState = read(root, 'scripts/specifying/data/state.json');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
 

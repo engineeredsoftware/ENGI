@@ -284,7 +284,7 @@ authority, and source-safe claim boundaries without turning public guidance into
 protocol law.
 
 V46 Gate 3 adds `V46PublicOperatorClaimBoundaries` through
-`packages/specifying/src/canonical/v46-public-operator-claim-boundaries.js`,
+`scripts/specifying/src/canonical/v46-public-operator-claim-boundaries.js`,
 `.bitcode/v46-public-operator-claim-boundaries.json`,
 `generate:v46-public-operator-claim-boundaries`,
 `check:v46-public-operator-claim-boundaries`, and `check:v46-gate3`. It binds
@@ -295,7 +295,7 @@ responses, credentials, wallet private material, and value-bearing mainnet
 operation out of generated metadata.
 
 V46 Gate 4 adds `V46ProductRouteComprehensionReadback` through
-`packages/specifying/src/canonical/v46-product-route-comprehension-readback.js`,
+`scripts/specifying/src/canonical/v46-product-route-comprehension-readback.js`,
 `.bitcode/v46-product-route-comprehension-readback.json`,
 `generate:v46-product-route-comprehension-readback`,
 `check:v46-product-route-comprehension-readback`, and `check:v46-gate4`. It
@@ -305,7 +305,7 @@ five-step flows, expandable proof detail, settlement/delivery boundaries,
 compensation readback, and no-source/no-secret route metadata.
 
 V46 Gate 5 adds `V46InterfaceClaimContracts` through
-`packages/specifying/src/canonical/v46-interface-claim-contracts.js`,
+`scripts/specifying/src/canonical/v46-interface-claim-contracts.js`,
 `.bitcode/v46-interface-claim-contracts.json`,
 `generate:v46-interface-claim-contracts`,
 `check:v46-interface-claim-contracts`, and `check:v46-gate5`. It binds public
@@ -315,7 +315,7 @@ repair, no parallel state authority, and no-source/no-secret interface
 metadata.
 
 V46 Gate 6 adds `V46ProofReadbackOperatorExplanation` through
-`packages/specifying/src/canonical/v46-proof-readback-operator-explanation.js`,
+`scripts/specifying/src/canonical/v46-proof-readback-operator-explanation.js`,
 `.bitcode/v46-proof-readback-operator-explanation.json`,
 `generate:v46-proof-readback-operator-explanation`,
 `check:v46-proof-readback-operator-explanation`, and `check:v46-gate6`. It
@@ -325,7 +325,7 @@ wallet/provider receipts, repository delivery receipts, and repair
 reconciliation receipts into a source-safe operator authority ladder.
 
 V46 Gate 7 adds `V46LocalInterfaceComprehensionRehearsal` through
-`packages/specifying/src/canonical/v46-local-interface-comprehension-rehearsal.js`,
+`scripts/specifying/src/canonical/v46-local-interface-comprehension-rehearsal.js`,
 `.bitcode/v46-local-interface-comprehension-rehearsal.json`,
 `generate:v46-local-interface-comprehension-rehearsal`,
 `check:v46-local-interface-comprehension-rehearsal`, and `check:v46-gate7`.

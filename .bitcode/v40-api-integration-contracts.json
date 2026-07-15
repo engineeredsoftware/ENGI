@@ -508,7 +508,7 @@
     },
     {
       "id": "protocol-exports-gate4",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {

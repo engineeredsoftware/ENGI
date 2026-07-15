@@ -301,7 +301,7 @@ export function buildDeploymentStorageCarrierRows(): DeploymentStorageCarrierInp
       carrierId: 'generated_proof_artifacts',
       storageClass: 'proof_artifact',
       ownerHostId: 'proof_services',
-      storageOwnerPackage: 'packages/specifying',
+      storageOwnerPackage: 'scripts/specifying',
       supportedLaneIds: NON_VALUE_LANES,
       durabilityPosture: 'generated_replayable_artifact',
       disclosurePolicy: 'source_safe_proof_only',

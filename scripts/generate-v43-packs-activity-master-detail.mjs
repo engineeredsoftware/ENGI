@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_PACKS_ACTIVITY_MASTER_DETAIL_ARTIFACT_PATH,
   buildV43PacksActivityMasterDetail,
-} from '../packages/specifying/src/canonical/v43-packs-activity-master-detail.js';
+} from '../scripts/specifying/src/canonical/v43-packs-activity-master-detail.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

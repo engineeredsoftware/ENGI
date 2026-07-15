@@ -110,7 +110,7 @@ function main() {
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
   const readme = read(root, 'README.md');
   const agents = read(root, 'AGENTS.md');
-  const posture = read(root, 'packages/specifying/src/canon-posture.js');
+  const posture = read(root, 'scripts/specifying/src/canon-posture.js');
 
   assertCheck(failures, spec.includes('Current canonical/latest target: `V28`'), 'V29 SPEC must declare V28 as current canonical/latest target.');
   assertCheck(failures, delta.includes('Current canonical/latest target: `V28`'), 'V29 DELTA must declare V28 as current canonical/latest target.');

@@ -9,7 +9,7 @@ export type ConversationTelemetryEventFamily =
   | 'stream'
   | 'tool'
   | 'source_selector'
-  | 'terminal_handoff'
+  | 'product_handoff'
   | 'retry'
   | 'error'
   | 'completion';

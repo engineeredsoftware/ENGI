@@ -12,7 +12,7 @@ import type { TerminalDepositReadWorkbench, TerminalSourceRevision } from '@/com
 import type { TerminalReadScenariosState } from '@/components/reads/models/read-scenarios';
 import type { WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 import type { TerminalRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
-import type { TerminalTransactionDetailSection } from '@/components/bitcode/pipeline/models/pipeline-selection-query';
+import type { PipelineTransactionDetailSection } from '@/components/bitcode/pipeline/models/pipeline-selection-query';
 
 /** Slim processing stats for history drafts (no Terminal detail snapshot dependency). */
 export type PipelineProcessingStats = {
@@ -26,7 +26,7 @@ export type PipelineProcessingStats = {
 export interface TerminalActivityRecordDraft {
   type: string;
   summary: string;
-  detailSection?: TerminalTransactionDetailSection;
+  detailSection?: PipelineTransactionDetailSection;
   selectAfterRecord?: boolean;
   sourceRevision?: TerminalSourceRevision | null;
   status?: string;

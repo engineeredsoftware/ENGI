@@ -634,7 +634,7 @@
   ],
   "sourceEvidence": [
     {
-      "sourceRoot": "packages/specifying/src/canonical/conversation-stream-event-contract.js",
+      "sourceRoot": "scripts/specifying/src/canonical/conversation-stream-event-contract.js",
       "present": true
     },
     {

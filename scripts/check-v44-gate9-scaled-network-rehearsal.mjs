@@ -8,7 +8,7 @@ import {
   V44_SCALED_NETWORK_REHEARSAL_ARTIFACT_PATH,
   V44_SCALED_NETWORK_REHEARSAL_MINIMUM_COUNTS,
   buildV44ScaledNetworkRehearsal,
-} from '../packages/specifying/src/canonical/v44-scaled-network-rehearsal.js';
+} from '../scripts/specifying/src/canonical/v44-scaled-network-rehearsal.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -139,8 +139,8 @@ function main() {
 
   for (const relativePath of [
     V44_SCALED_NETWORK_REHEARSAL_ARTIFACT_PATH,
-    'packages/specifying/src/canonical/v44-scaled-network-rehearsal.js',
-    'packages/specifying/test/v44-scaled-network-rehearsal.test.js',
+    'scripts/specifying/src/canonical/v44-scaled-network-rehearsal.js',
+    'scripts/specifying/test/v44-scaled-network-rehearsal.test.js',
     'scripts/generate-v44-scaled-network-rehearsal.mjs',
     'scripts/check-v44-gate9-scaled-network-rehearsal.mjs',
     'scripts/rehearse-v44-scaled-network-flow.mjs',
@@ -150,7 +150,7 @@ function main() {
     'BITCODE_SPEC_V44_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -251,9 +251,9 @@ function main() {
 
   if (!args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'packages/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-scaled-network-rehearsal.test.js']);
+      run(root, 'pnpm', ['--dir', 'scripts/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v44-scaled-network-rehearsal.test.js']);
     } catch {
-      failures.push('packages/specifying/test/v44-scaled-network-rehearsal.test.js must pass.');
+      failures.push('scripts/specifying/test/v44-scaled-network-rehearsal.test.js must pass.');
     }
   }
 

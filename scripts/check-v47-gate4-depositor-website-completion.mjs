@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_DEPOSITOR_WEBSITE_COMPLETION_ARTIFACT_PATH,
   buildV47DepositorWebsiteCompletion,
-} from '../packages/specifying/src/canonical/v47-depositor-website-completion.js';
+} from '../scripts/specifying/src/canonical/v47-depositor-website-completion.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -87,8 +87,8 @@ function main() {
 
   for (const relativePath of [
     V47_DEPOSITOR_WEBSITE_COMPLETION_ARTIFACT_PATH,
-    'packages/specifying/src/canonical/v47-depositor-website-completion.js',
-    'packages/specifying/test/v47-depositor-website-completion.test.js',
+    'scripts/specifying/src/canonical/v47-depositor-website-completion.js',
+    'scripts/specifying/test/v47-depositor-website-completion.test.js',
     'scripts/generate-v47-depositor-website-completion.mjs',
     'scripts/check-v47-gate4-depositor-website-completion.mjs',
     'BITCODE_SPEC_V47.md',
@@ -105,8 +105,8 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts',
     'packages/asset-packs-pipelines/domain/src/depositor-earning-supply-intelligence.ts',
     'packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -151,7 +151,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/specifying',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -159,7 +159,7 @@ function main() {
         'test/v47-depositor-website-completion.test.js',
       ]);
     } catch {
-      failures.push('packages/specifying test/v47-depositor-website-completion.test.js must pass.');
+      failures.push('scripts/specifying test/v47-depositor-website-completion.test.js must pass.');
     }
   }
 

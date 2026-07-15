@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   EXCHANGE_PRICING_QUOTE_ARTIFACT_PATH,
   buildExchangePricingQuote,
-} from '../packages/specifying/src/index.js';
+} from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

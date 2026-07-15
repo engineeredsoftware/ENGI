@@ -68,7 +68,7 @@
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
         "AGENTS.md",
-        "packages/specifying/README.md"
+        "scripts/specifying/README.md"
       ],
       "reproducibleCommands": [
         "sed -n 1,80p BITCODE_SPEC.txt",
@@ -174,7 +174,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/README.md",
+          "sourceRoot": "scripts/specifying/README.md",
           "present": true
         }
       ],
@@ -1758,7 +1758,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/README.md",
+          "sourceRoot": "scripts/specifying/README.md",
           "present": true
         }
       ]

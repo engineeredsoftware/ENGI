@@ -3,7 +3,7 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { buildV21SpecFamilyReport } from '../packages/specifying/src/index.js';
+import { buildV21SpecFamilyReport } from '../scripts/specifying/src/index.js';
 
 function projectLabel(version) {
   return 'Bitcode';

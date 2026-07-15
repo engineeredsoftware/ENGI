@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V38_READ_NEED_COMPREHENSION_HARDENING_ARTIFACT_PATH,
   buildV38ReadNeedComprehensionInferenceHardening,
-} from '../packages/specifying/src/canonical/read-need-comprehension-inference-hardening.js';
+} from '../scripts/specifying/src/canonical/read-need-comprehension-inference-hardening.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -14,7 +14,6 @@ import {
   entranceEase,
   heroHighlightClass,
   measureCardAxes,
-  measureCardReadNeed,
   measuremintCandles,
   paintedMotionStyle,
   productPillars,
@@ -80,8 +79,7 @@ export function MarketingLandingPillarCard({
                       {title}
                     </p>
                     <p className="mt-1 max-w-[16ch] text-[9px] uppercase leading-snug tracking-[0.16em] text-violet-100/52 phone:text-[10px]">
-                      <span className="block whitespace-nowrap">Deposit Knowledge</span>
-                      <span className="block whitespace-nowrap">Supply</span>
+                      <span className="block whitespace-nowrap">Knowledge Supply</span>
                     </p>
                   </div>
                 </div>
@@ -96,18 +94,10 @@ export function MarketingLandingPillarCard({
             <div className="mt-auto space-y-3 border-t border-white/12 pt-4">
               <div className="border-l-4 border-purple-400 pl-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
-                  What you package
+                  What&apos;s Packaged
                 </p>
                 <p className="mt-1 text-[11px] leading-4 text-violet-100/72">
-                  code, files, designs, data, and notes
-                </p>
-              </div>
-              <div className="border-l-4 border-pink-400 pl-3">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
-                  Proven on deposit
-                </p>
-                <p className="mt-1 text-[11px] leading-4 text-violet-100/72">
-                  permitted source, obfuscations, and synthesized pack
+                  a patchfile, its absolute measurements, metadata
                 </p>
               </div>
             </div>
@@ -169,9 +159,8 @@ export function MarketingLandingPillarCard({
                     <p className="whitespace-nowrap bg-gradient-to-r from-orange-200 via-orange-300 to-amber-200 bg-clip-text pe-[0.2em] text-[11px] font-semibold uppercase tracking-[0.16em] text-transparent">
                       {title}
                     </p>
-                    <p className="mt-1 max-w-[16ch] text-[9px] uppercase leading-snug tracking-[0.16em] text-orange-100/52 phone:text-[10px]">
-                      <span className="block whitespace-nowrap">Options that</span>
-                      <span className="block whitespace-nowrap">fit Need</span>
+                    <p className="mt-1 max-w-[18ch] text-[9px] uppercase leading-snug tracking-[0.16em] text-orange-100/52 phone:text-[10px]">
+                      <span className="block">Search packs by fit.</span>
                     </p>
                   </div>
                 </div>
@@ -197,14 +186,6 @@ export function MarketingLandingPillarCard({
                   </div>
                 ))}
               </div>
-            </div>
-            <div className="mt-4 rounded-none border border-orange-200/12 bg-black/25 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
-              <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-orange-200/62">
-                example need
-              </p>
-              <p className="mt-1 font-mono text-[10px] leading-4 text-orange-50/84 phone:text-[11px]">
-                {measureCardReadNeed}
-              </p>
             </div>
           </div>
         </>
@@ -264,12 +245,7 @@ export function MarketingLandingPillarCard({
             <div className="mt-auto space-y-3 pt-4">
               <div className="rounded-none border border-emerald-200/12 bg-black/25 px-3 py-2">
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-50/76">
-                  {'buyer pays BTC · seller earns · rights transfer'}
-                </p>
-              </div>
-              <div className="rounded-none border border-emerald-200/12 bg-black/25 px-3 py-2">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-50/76">
-                  {'source unlocks only after finality + BTD rights'}
+                  {'· buy BTD · earn BTC · acquire knowledge'}
                 </p>
               </div>
             </div>

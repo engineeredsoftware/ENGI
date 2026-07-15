@@ -146,8 +146,8 @@ function main() {
     '.bitcode/v38-disclosure-boundary-report.json',
     '.bitcode/v38-read-need-comprehension-inference-hardening.json',
     '.bitcode/v38-read-fits-finding-search-embeddings.json',
-    'packages/specifying/src/canonical/assetpack-synthesis-economic-traceability.js',
-    'packages/specifying/test/v38-assetpack-synthesis-economic-traceability.test.js',
+    'scripts/specifying/src/canonical/assetpack-synthesis-economic-traceability.js',
+    'scripts/specifying/test/v38-assetpack-synthesis-economic-traceability.test.js',
     'scripts/generate-v38-assetpack-synthesis-economic-traceability.mjs',
     'scripts/check-v38-gate8-assetpack-synthesis-economic-traceability.mjs',
     'packages/asset-packs-pipelines/domain/src/read-need.ts',
@@ -172,7 +172,7 @@ function main() {
     'BITCODE_SPEC_V38_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -195,7 +195,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v38-assetpack-synthesis-economic-traceability.test.js',
+        'scripts/specifying/test/v38-assetpack-synthesis-economic-traceability.test.js',
       ]);
     } catch (error) {
       failures.push(`V38 AssetPack economic traceability protocol test failed: ${error.stderr || error.message}`);
@@ -297,12 +297,12 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/specifying/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const index = read(root, 'packages/specifying/src/index.js');
-  const typeDefs = read(root, 'packages/specifying/src/index.d.ts');
+  const index = read(root, 'scripts/specifying/src/index.js');
+  const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
 
   assertCheck(failures, spec.includes('V38AssetPackSynthesisEconomicTraceability'), 'V38 spec must name the Gate 8 report.');
   assertCheck(failures, delta.includes('Gate 8: AssetPack Synthesis Handoff And Economic Traceability'), 'V38 delta must include Gate 8.');

@@ -144,8 +144,8 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/v40-conversation-terminal-integration.js',
-    'packages/specifying/test/v40-conversation-terminal-integration.test.js',
+    'scripts/specifying/src/canonical/v40-conversation-terminal-integration.js',
+    'scripts/specifying/test/v40-conversation-terminal-integration.test.js',
     'scripts/generate-v40-conversation-terminal-integration.mjs',
     'scripts/check-v40-gate6-conversation-terminal-integration.mjs',
     'apps/uapi/tests/conversationTerminalIntegrationCoverage.test.tsx',
@@ -176,7 +176,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v40-conversation-terminal-integration.test.js',
+        'scripts/specifying/test/v40-conversation-terminal-integration.test.js',
       ]);
     } catch (error) {
       failures.push(`V40 Conversation/Terminal integration protocol test failed: ${error.stderr || error.message}`);

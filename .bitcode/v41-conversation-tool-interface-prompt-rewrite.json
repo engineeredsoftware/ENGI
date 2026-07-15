@@ -451,7 +451,7 @@
       "sourceRoots": [
         "packages/tools-generics/src/execution/ToolPromptRegistry.ts",
         "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts",
-        "packages/specifying/src/canonical/v41-registry-interpolation-contracts.js"
+        "scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js"
       ],
       "promptFamilyIds": [
         "ToolDefinition",
@@ -527,7 +527,7 @@
       "sourceHashes": {
         "packages/tools-generics/src/execution/ToolPromptRegistry.ts": "2458e94a4816b24aa3fe7275",
         "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts": "0a1f0025946b1a169c2e7f09",
-        "packages/specifying/src/canonical/v41-registry-interpolation-contracts.js": "768a5f3eb42a527d303c57f6"
+        "scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js": "768a5f3eb42a527d303c57f6"
       }
     },
     {
@@ -833,8 +833,8 @@
         "Documentation"
       ],
       "sourceRoots": [
-        "packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
-        "packages/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
+        "scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
+        "scripts/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
         "scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs",
         "scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs",
         "BITCODE_SPEC_V41.md",
@@ -843,7 +843,7 @@
         "BITCODE_SPEC_V41_PARITY_MATRIX.md",
         "SPECIFICATIONS_ROADMAP.md",
         "README.md",
-        "packages/specifying/README.md",
+        "scripts/specifying/README.md",
         "package.json",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml"
@@ -921,8 +921,8 @@
       "passed": true,
       "hardeningScore": 1,
       "sourceHashes": {
-        "packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "5d0746b8c2be1ef518496281",
-        "packages/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js": "0f36d8bf304ccc54f6eae328",
+        "scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "5d0746b8c2be1ef518496281",
+        "scripts/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js": "0f36d8bf304ccc54f6eae328",
         "scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs": "16b23544d652ac6d7e1afa81",
         "scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs": "b304b421d52d19c8de34e163",
         "BITCODE_SPEC_V41.md": "9174742d79d0b0045bb0eebf",
@@ -931,7 +931,7 @@
         "BITCODE_SPEC_V41_PARITY_MATRIX.md": "5f49852cfb6323d19db8be1c",
         "SPECIFICATIONS_ROADMAP.md": "2400ea79d304ff28b7fd8e7a",
         "README.md": "14085be712ec8e13c811c62a",
-        "packages/specifying/README.md": "1a81b9507325d3a5da87f627",
+        "scripts/specifying/README.md": "1a81b9507325d3a5da87f627",
         "package.json": "4d9f041eb01a920860a26f75",
         ".github/workflows/bitcode-gate-quality.yml": "379d7561d515468f9237bf02",
         ".github/workflows/bitcode-canon-quality.yml": "ab37403273c35c918071e3cd"
@@ -1128,7 +1128,7 @@
     {
       "id": "gate3-covers-tool-doc-code-injection",
       "rowId": "tool-prompt-registry-hierarchy-boundary",
-      "sourcePath": "packages/specifying/src/canonical/v41-registry-interpolation-contracts.js",
+      "sourcePath": "scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js",
       "passed": true
     },
     {
@@ -1248,13 +1248,13 @@
     {
       "id": "gate7-source-exists",
       "rowId": "conversation-tool-interface-tests-docs-workflows",
-      "sourcePath": "packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
+      "sourcePath": "scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
       "passed": true
     },
     {
       "id": "gate7-test-exists",
       "rowId": "conversation-tool-interface-tests-docs-workflows",
-      "sourcePath": "packages/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
+      "sourcePath": "scripts/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
       "passed": true
     },
     {
@@ -1296,7 +1296,7 @@
     {
       "id": "readmes-document-gate7-helpers",
       "rowId": "conversation-tool-interface-tests-docs-workflows",
-      "sourcePath": "packages/specifying/README.md",
+      "sourcePath": "scripts/specifying/README.md",
       "passed": true
     }
   ],
@@ -1401,20 +1401,20 @@
     "chatGptActionContractTest": "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
     "publicDocs": "apps/uapi/app/docs/bitcode-docs-content.ts",
     "terminalReadiness": "apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts",
-    "gate2InventorySource": "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
+    "gate2InventorySource": "scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
     "gate2InventoryArtifact": ".bitcode/v41-promptpart-prompt-inventory.json",
-    "gate3ContractsSource": "packages/specifying/src/canonical/v41-registry-interpolation-contracts.js",
+    "gate3ContractsSource": "scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js",
     "gate3ContractsArtifact": ".bitcode/v41-registry-interpolation-contracts.json",
-    "gate4BaselinesSource": "packages/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js",
+    "gate4BaselinesSource": "scripts/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js",
     "gate4BaselinesArtifact": ".bitcode/v41-reading-prompt-benchmark-baselines.json",
-    "gate5ReadNeedSource": "packages/specifying/src/canonical/v41-readneed-prompt-hardening.js",
+    "gate5ReadNeedSource": "scripts/specifying/src/canonical/v41-readneed-prompt-hardening.js",
     "gate5ReadNeedArtifact": ".bitcode/v41-readneed-prompt-hardening.json",
-    "gate6ReadFitsSource": "packages/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js",
+    "gate6ReadFitsSource": "scripts/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js",
     "gate6ReadFitsArtifact": ".bitcode/v41-readfitsfinding-prompt-hardening.json",
-    "v38ConversationToolParitySource": "packages/specifying/src/canonical/conversation-tool-prompt-inference-parity.js",
+    "v38ConversationToolParitySource": "scripts/specifying/src/canonical/conversation-tool-prompt-inference-parity.js",
     "v38ConversationToolParityArtifact": ".bitcode/v38-conversation-tool-prompt-inference-parity.json",
-    "packageSource": "packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
-    "packageTest": "packages/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
+    "packageSource": "scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
+    "packageTest": "scripts/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js",
     "generator": "scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs",
     "checker": "scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs",
     "spec": "BITCODE_SPEC_V41.md",
@@ -1423,7 +1423,7 @@
     "parity": "BITCODE_SPEC_V41_PARITY_MATRIX.md",
     "roadmap": "SPECIFICATIONS_ROADMAP.md",
     "readme": "README.md",
-    "protocolReadme": "packages/specifying/README.md",
+    "protocolReadme": "scripts/specifying/README.md",
     "packageJson": "package.json",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml"

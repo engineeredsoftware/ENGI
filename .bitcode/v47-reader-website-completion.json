@@ -343,7 +343,7 @@
     },
     {
       "id": "package-exports-gate5",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {
@@ -381,10 +381,10 @@
     "fitsFindingModel": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts:4e89eacdc2b73bd6bc70a085",
     "authorityModel": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts:ed6fa07bc3f69caaca598249",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
-    "protocolIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
-    "protocolTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
-    "protocolSource": "packages/specifying/src/canonical/v47-reader-website-completion.js:2487836bf4ac9fbd6c7159b1",
-    "protocolTest": "packages/specifying/test/v47-reader-website-completion.test.js:067393dc86876d820d83b6e3",
+    "protocolIndex": "scripts/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "protocolTypes": "scripts/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "protocolSource": "scripts/specifying/src/canonical/v47-reader-website-completion.js:2487836bf4ac9fbd6c7159b1",
+    "protocolTest": "scripts/specifying/test/v47-reader-website-completion.test.js:067393dc86876d820d83b6e3",
     "generator": "scripts/generate-v47-reader-website-completion.mjs:396705fdf05e3a58d2dd1c59",
     "checker": "scripts/check-v47-gate5-reader-website-completion.mjs:22d541c91d1666bc190dbbb4",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",

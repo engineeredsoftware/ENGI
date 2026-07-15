@@ -225,7 +225,7 @@
       ]
     },
     {
-      "relativePath": "packages/specifying/README.md",
+      "relativePath": "scripts/specifying/README.md",
       "present": true,
       "requiredTokens": [
         {

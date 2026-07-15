@@ -119,8 +119,8 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/v40-api-integration-contracts.js',
-    'packages/specifying/test/v40-api-integration-contracts.test.js',
+    'scripts/specifying/src/canonical/v40-api-integration-contracts.js',
+    'scripts/specifying/test/v40-api-integration-contracts.test.js',
     'scripts/generate-v40-api-integration-contracts.mjs',
     'scripts/check-v40-gate4-api-integration-contracts.mjs',
     'BITCODE_SPEC_V40.md',
@@ -150,7 +150,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v40-api-integration-contracts.test.js',
+        'scripts/specifying/test/v40-api-integration-contracts.test.js',
       ]);
     } catch (error) {
       failures.push(`V40 API integration contract protocol test failed: ${error.stderr || error.message}`);

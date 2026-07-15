@@ -580,8 +580,8 @@
     "btdSettlementTest": "packages/btd/__tests__/btd.test.ts",
     "assetPackPostprocessTest": "packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts",
     "assetPackDisclosureTest": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts",
-    "gate5Disclosure": "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js",
-    "gate6ReadNeed": "packages/specifying/src/canonical/read-need-comprehension-inference-hardening.js",
-    "gate7Search": "packages/specifying/src/canonical/read-fits-finding-search-embeddings.js"
+    "gate5Disclosure": "scripts/specifying/src/canonical/inference-telemetry-disclosure-report.js",
+    "gate6ReadNeed": "scripts/specifying/src/canonical/read-need-comprehension-inference-hardening.js",
+    "gate7Search": "scripts/specifying/src/canonical/read-fits-finding-search-embeddings.js"
   }
 }

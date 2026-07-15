@@ -132,7 +132,7 @@ function main() {
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/workflows/v33-canon-promotion.yml',
-    'packages/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
 
   for (const relativePath of requiredFiles) {
@@ -220,7 +220,7 @@ function main() {
   const promotionWorkflow = read(root, '.github/workflows/v33-canon-promotion.yml');
   const source = read(root, 'packages/btd/src/migration-approval-gate.ts');
   const test = read(root, 'packages/btd/__tests__/migration-approval-gate.test.ts');
-  const specifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
 
   for (const doc of [spec, delta, notes, parity]) {
     assertCheck(failures, doc.includes(ARTIFACT), `V34 docs must mention ${ARTIFACT}.`);

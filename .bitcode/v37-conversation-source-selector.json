@@ -269,11 +269,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {
@@ -448,11 +448,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {
@@ -627,11 +627,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {
@@ -807,11 +807,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {
@@ -987,11 +987,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {
@@ -1167,11 +1167,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {
@@ -1346,11 +1346,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {
@@ -1525,11 +1525,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {
@@ -1624,11 +1624,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {
@@ -1694,11 +1694,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {
@@ -1764,11 +1764,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {
@@ -1834,11 +1834,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {
@@ -1904,11 +1904,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {
@@ -1974,11 +1974,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {
@@ -2044,11 +2044,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {
@@ -2114,11 +2114,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-source-selector.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-source-selector.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-source-selector.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-source-selector.test.js",
           "present": true
         },
         {

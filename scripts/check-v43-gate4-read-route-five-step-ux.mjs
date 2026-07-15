@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_READ_ROUTE_FIVE_STEP_UX_ARTIFACT_PATH,
   buildV43ReadRouteFiveStepUx,
-} from '../packages/specifying/src/canonical/v43-read-route-five-step-ux.js';
+} from '../scripts/specifying/src/canonical/v43-read-route-five-step-ux.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -94,8 +94,8 @@ function main() {
     'apps/uapi/components/bitcode/layout/footer.tsx',
     'apps/uapi/tests/readRouteModel.test.ts',
     'apps/uapi/tests/readPageClient.test.tsx',
-    'packages/specifying/src/canonical/v43-read-route-five-step-ux.js',
-    'packages/specifying/test/v43-read-route-five-step-ux.test.js',
+    'scripts/specifying/src/canonical/v43-read-route-five-step-ux.js',
+    'scripts/specifying/test/v43-read-route-five-step-ux.test.js',
     'scripts/generate-v43-read-route-five-step-ux.mjs',
     'scripts/check-v43-gate4-read-route-five-step-ux.mjs',
     'BITCODE_SPEC_V43.md',
@@ -104,7 +104,7 @@ function main() {
     'BITCODE_SPEC_V43_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',

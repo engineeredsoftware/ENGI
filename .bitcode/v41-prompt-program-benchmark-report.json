@@ -47,7 +47,7 @@
       "reportRowId": "post-rewrite-prompt-inventory-delta",
       "label": "Gate 2 prompt inventory deltas are re-bound after Reading and Conversation prompt rewrites",
       "sourceRoots": [
-        "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
+        "scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
         ".bitcode/v41-promptpart-prompt-inventory.json",
         ".bitcode/v41-readneed-prompt-hardening.json",
         ".bitcode/v41-readfitsfinding-prompt-hardening.json",
@@ -135,7 +135,7 @@
           ".bitcode/v41-promptpart-prompt-inventory.json": "807e7d7d8b39786e32cd51e1",
           ".bitcode/v41-readfitsfinding-prompt-hardening.json": "e729ad0133513f67654ddae4",
           ".bitcode/v41-readneed-prompt-hardening.json": "d26d4bdca49dfe6505b9c9d2",
-          "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js": "75952a25cc72ee8b58d5a956"
+          "scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js": "75952a25cc72ee8b58d5a956"
         }
       },
       "requiredPredicateCount": 6,
@@ -147,9 +147,9 @@
       "reportRowId": "readneed-post-rewrite-benchmark-delta",
       "label": "ReadNeedComprehensionSynthesis benchmark deltas bind prompt revisions to typed Need outputs",
       "sourceRoots": [
-        "packages/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js",
+        "scripts/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js",
         ".bitcode/v41-reading-prompt-benchmark-baselines.json",
-        "packages/specifying/src/canonical/v41-readneed-prompt-hardening.js",
+        "scripts/specifying/src/canonical/v41-readneed-prompt-hardening.js",
         ".bitcode/v41-readneed-prompt-hardening.json",
         "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
         "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts"
@@ -234,8 +234,8 @@
           ".bitcode/v41-readneed-prompt-hardening.json": "d26d4bdca49dfe6505b9c9d2",
           "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
           "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
-          "packages/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32",
-          "packages/specifying/src/canonical/v41-readneed-prompt-hardening.js": "b27719097ae70a129c6fa5aa"
+          "scripts/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32",
+          "scripts/specifying/src/canonical/v41-readneed-prompt-hardening.js": "b27719097ae70a129c6fa5aa"
         }
       },
       "requiredPredicateCount": 5,
@@ -247,11 +247,11 @@
       "reportRowId": "readfitsfinding-post-rewrite-benchmark-delta",
       "label": "ReadFitsFindingSynthesis benchmark deltas bind many-candidate search, embeddings, and AssetPack preview metadata",
       "sourceRoots": [
-        "packages/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js",
+        "scripts/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js",
         ".bitcode/v41-reading-prompt-benchmark-baselines.json",
-        "packages/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js",
+        "scripts/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js",
         ".bitcode/v41-readfitsfinding-prompt-hardening.json",
-        "packages/specifying/src/canonical/read-fits-finding-search-embeddings.js",
+        "scripts/specifying/src/canonical/read-fits-finding-search-embeddings.js",
         "packages/asset-packs-pipelines/domain/src/depository-search.ts",
         "packages/asset-packs-pipelines/domain/src/embedding-config.ts",
         "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts"
@@ -338,9 +338,9 @@
           "packages/asset-packs-pipelines/domain/src/depository-search.ts": "8c79c6f9c479ba664206175d",
           "packages/asset-packs-pipelines/domain/src/embedding-config.ts": "e1dc97ae0aafc3cf8464ba4a",
           "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts": "6b91862fe0c4c802b9a19e15",
-          "packages/specifying/src/canonical/read-fits-finding-search-embeddings.js": "4b37e8da18a4838d825789b8",
-          "packages/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js": "a89d1e83c1eb187787d521f0",
-          "packages/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32"
+          "scripts/specifying/src/canonical/read-fits-finding-search-embeddings.js": "4b37e8da18a4838d825789b8",
+          "scripts/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js": "a89d1e83c1eb187787d521f0",
+          "scripts/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32"
         }
       },
       "requiredPredicateCount": 5,
@@ -352,7 +352,7 @@
       "reportRowId": "conversation-interface-post-rewrite-benchmark-delta",
       "label": "Conversation, tool-definition, MCP API, ChatGPT App, and Terminal prompt rewrites bind to benchmark metadata",
       "sourceRoots": [
-        "packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
+        "scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
         ".bitcode/v41-conversation-tool-interface-prompt-rewrite.json",
         "packages/api/src/conversations/stream-events.ts",
         "packages/api/src/conversations/telemetry.ts",
@@ -437,7 +437,7 @@
           ".bitcode/v41-conversation-tool-interface-prompt-rewrite.json": "727c9991d03969ad6b13bb9a",
           "packages/api/src/conversations/stream-events.ts": "049a26286565e121f20c6874",
           "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
-          "packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "5d0746b8c2be1ef518496281",
+          "scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "5d0746b8c2be1ef518496281",
           "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
           "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99"
         }
@@ -451,7 +451,7 @@
       "reportRowId": "registry-lineage-version-telemetry-binding",
       "label": "Prompt registry lineage and version metadata are projected as ids, roots, counts, and schema names",
       "sourceRoots": [
-        "packages/specifying/src/canonical/v41-registry-interpolation-contracts.js",
+        "scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js",
         ".bitcode/v41-registry-interpolation-contracts.json",
         "packages/prompts/src/benchmarking/types.ts",
         "packages/prompts/src/benchmarking/runner.ts",
@@ -537,7 +537,7 @@
           "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
           "packages/prompts/src/benchmarking/runner.ts": "dfe65501927783fca7cd3305",
           "packages/prompts/src/benchmarking/types.ts": "e996cfbbcf4906498f2821b0",
-          "packages/specifying/src/canonical/v41-registry-interpolation-contracts.js": "768a5f3eb42a527d303c57f6"
+          "scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js": "768a5f3eb42a527d303c57f6"
         }
       },
       "requiredPredicateCount": 5,
@@ -549,8 +549,8 @@
       "reportRowId": "failsafe-thricified-inference-receipt-projection",
       "label": "PTRR steps, Failsafe sequences, ThricifiedGeneration calls, raw-output roots, and parsed outputs remain traceable",
       "sourceRoots": [
-        "packages/specifying/src/canonical/ptrr-failsafe-thricified-stack.js",
-        "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js",
+        "scripts/specifying/src/canonical/ptrr-failsafe-thricified-stack.js",
+        "scripts/specifying/src/canonical/inference-telemetry-disclosure-report.js",
         ".bitcode/v38-disclosure-boundary-report.json",
         "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts"
@@ -641,8 +641,8 @@
           ".bitcode/v38-disclosure-boundary-report.json": "aca461f0fc6f08c221fe7be5",
           "packages/asset-packs-pipelines/domain/src/read-need.ts": "3d827283d8dc1234cc31d348",
           "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
-          "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js": "b254b893e52f30c9530b3718",
-          "packages/specifying/src/canonical/ptrr-failsafe-thricified-stack.js": "d60b3e5d7bde4d4ffe3a5fd6"
+          "scripts/specifying/src/canonical/inference-telemetry-disclosure-report.js": "b254b893e52f30c9530b3718",
+          "scripts/specifying/src/canonical/ptrr-failsafe-thricified-stack.js": "d60b3e5d7bde4d4ffe3a5fd6"
         }
       },
       "requiredPredicateCount": 6,
@@ -759,7 +759,7 @@
       "label": "Repair hooks and parsed output projections remain debuggable without leaking source, prompts, responses, or settlement payloads",
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
-        "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js",
+        "scripts/specifying/src/canonical/v39-operational-telemetry-repair-readback.js",
         ".bitcode/v39-operational-telemetry-repair-readback.json",
         "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
         "packages/api/src/conversations/telemetry.ts"
@@ -844,7 +844,7 @@
           "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
           "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
           "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
-          "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js": "bcb00519d05408c295c53d1c"
+          "scripts/specifying/src/canonical/v39-operational-telemetry-repair-readback.js": "bcb00519d05408c295c53d1c"
         }
       },
       "requiredPredicateCount": 5,
@@ -856,8 +856,8 @@
       "reportRowId": "gate8-tests-docs-workflows",
       "label": "Gate 8 tests, scripts, docs, generated artifact, package exports, and workflows close benchmark telemetry integration",
       "sourceRoots": [
-        "packages/specifying/src/canonical/v41-prompt-program-benchmark-report.js",
-        "packages/specifying/test/v41-prompt-program-benchmark-report.test.js",
+        "scripts/specifying/src/canonical/v41-prompt-program-benchmark-report.js",
+        "scripts/specifying/test/v41-prompt-program-benchmark-report.test.js",
         "scripts/generate-v41-prompt-program-benchmark-report.mjs",
         "scripts/check-v41-gate8-prompt-program-benchmark-report.mjs",
         "BITCODE_SPEC_V41.md",
@@ -866,7 +866,7 @@
         "BITCODE_SPEC_V41_PARITY_MATRIX.md",
         "SPECIFICATIONS_ROADMAP.md",
         "README.md",
-        "packages/specifying/README.md",
+        "scripts/specifying/README.md",
         "package.json",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml"
@@ -956,9 +956,9 @@
           "README.md": "14085be712ec8e13c811c62a",
           "SPECIFICATIONS_ROADMAP.md": "2400ea79d304ff28b7fd8e7a",
           "package.json": "4d9f041eb01a920860a26f75",
-          "packages/specifying/README.md": "1a81b9507325d3a5da87f627",
-          "packages/specifying/src/canonical/v41-prompt-program-benchmark-report.js": "e03ee6e821a7521283805568",
-          "packages/specifying/test/v41-prompt-program-benchmark-report.test.js": "d0d2609b55c61933ca16a63a",
+          "scripts/specifying/README.md": "1a81b9507325d3a5da87f627",
+          "scripts/specifying/src/canonical/v41-prompt-program-benchmark-report.js": "e03ee6e821a7521283805568",
+          "scripts/specifying/test/v41-prompt-program-benchmark-report.test.js": "d0d2609b55c61933ca16a63a",
           "scripts/check-v41-gate8-prompt-program-benchmark-report.mjs": "dc363ce2e84dbcd76a566995",
           "scripts/generate-v41-prompt-program-benchmark-report.mjs": "d3c64e23a5ce6cda60bec813"
         }
@@ -1167,91 +1167,91 @@
       "sourceRootHash": "c2abeb7018d71d242d41c87a"
     },
     {
-      "sourcePath": "packages/specifying/README.md",
+      "sourcePath": "scripts/specifying/README.md",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "02af4c4cf5c847306990943c"
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js",
+      "sourcePath": "scripts/specifying/src/canonical/inference-telemetry-disclosure-report.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "b6de9916dc293d41438da2ca"
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/ptrr-failsafe-thricified-stack.js",
+      "sourcePath": "scripts/specifying/src/canonical/ptrr-failsafe-thricified-stack.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "aabf4a83280a7f6ac27e4bc5"
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/read-fits-finding-search-embeddings.js",
+      "sourcePath": "scripts/specifying/src/canonical/read-fits-finding-search-embeddings.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "1e03594a99fafcde545b743b"
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js",
+      "sourcePath": "scripts/specifying/src/canonical/v39-operational-telemetry-repair-readback.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "da2a6968f864cdfcaa489b95"
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
+      "sourcePath": "scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "594beaf2f56e53202ff02f70"
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/v41-prompt-program-benchmark-report.js",
+      "sourcePath": "scripts/specifying/src/canonical/v41-prompt-program-benchmark-report.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "649d8a537c3fe63ef8ee21c7"
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
+      "sourcePath": "scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "a84b7d0b1f4783b727467564"
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js",
+      "sourcePath": "scripts/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "c8191a5956e85a7fcd1ff430"
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js",
+      "sourcePath": "scripts/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "8a506a2c0c412f6d182e6d5e"
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/v41-readneed-prompt-hardening.js",
+      "sourcePath": "scripts/specifying/src/canonical/v41-readneed-prompt-hardening.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "eb7a551315b37056810187c5"
     },
     {
-      "sourcePath": "packages/specifying/src/canonical/v41-registry-interpolation-contracts.js",
+      "sourcePath": "scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "ab20815066f8b1d5bf512aa7"
     },
     {
-      "sourcePath": "packages/specifying/test/v41-prompt-program-benchmark-report.test.js",
+      "sourcePath": "scripts/specifying/test/v41-prompt-program-benchmark-report.test.js",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
@@ -1310,7 +1310,7 @@
         ".bitcode/v41-promptpart-prompt-inventory.json": "807e7d7d8b39786e32cd51e1",
         ".bitcode/v41-readfitsfinding-prompt-hardening.json": "e729ad0133513f67654ddae4",
         ".bitcode/v41-readneed-prompt-hardening.json": "d26d4bdca49dfe6505b9c9d2",
-        "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js": "75952a25cc72ee8b58d5a956"
+        "scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js": "75952a25cc72ee8b58d5a956"
       }
     },
     "readneed-post-rewrite-benchmark-delta": {
@@ -1322,8 +1322,8 @@
         ".bitcode/v41-readneed-prompt-hardening.json": "d26d4bdca49dfe6505b9c9d2",
         "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
         "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
-        "packages/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32",
-        "packages/specifying/src/canonical/v41-readneed-prompt-hardening.js": "b27719097ae70a129c6fa5aa"
+        "scripts/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32",
+        "scripts/specifying/src/canonical/v41-readneed-prompt-hardening.js": "b27719097ae70a129c6fa5aa"
       }
     },
     "readfitsfinding-post-rewrite-benchmark-delta": {
@@ -1336,9 +1336,9 @@
         "packages/asset-packs-pipelines/domain/src/depository-search.ts": "8c79c6f9c479ba664206175d",
         "packages/asset-packs-pipelines/domain/src/embedding-config.ts": "e1dc97ae0aafc3cf8464ba4a",
         "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts": "6b91862fe0c4c802b9a19e15",
-        "packages/specifying/src/canonical/read-fits-finding-search-embeddings.js": "4b37e8da18a4838d825789b8",
-        "packages/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js": "a89d1e83c1eb187787d521f0",
-        "packages/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32"
+        "scripts/specifying/src/canonical/read-fits-finding-search-embeddings.js": "4b37e8da18a4838d825789b8",
+        "scripts/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js": "a89d1e83c1eb187787d521f0",
+        "scripts/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js": "1a7c6657a9018e9a0c235e32"
       }
     },
     "conversation-interface-post-rewrite-benchmark-delta": {
@@ -1349,7 +1349,7 @@
         ".bitcode/v41-conversation-tool-interface-prompt-rewrite.json": "727c9991d03969ad6b13bb9a",
         "packages/api/src/conversations/stream-events.ts": "049a26286565e121f20c6874",
         "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
-        "packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "5d0746b8c2be1ef518496281",
+        "scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "5d0746b8c2be1ef518496281",
         "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
         "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99"
       }
@@ -1363,7 +1363,7 @@
         "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts": "4a688c72b552579ba1373a74",
         "packages/prompts/src/benchmarking/runner.ts": "dfe65501927783fca7cd3305",
         "packages/prompts/src/benchmarking/types.ts": "e996cfbbcf4906498f2821b0",
-        "packages/specifying/src/canonical/v41-registry-interpolation-contracts.js": "768a5f3eb42a527d303c57f6"
+        "scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js": "768a5f3eb42a527d303c57f6"
       }
     },
     "failsafe-thricified-inference-receipt-projection": {
@@ -1374,8 +1374,8 @@
         ".bitcode/v38-disclosure-boundary-report.json": "aca461f0fc6f08c221fe7be5",
         "packages/asset-packs-pipelines/domain/src/read-need.ts": "3d827283d8dc1234cc31d348",
         "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
-        "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js": "b254b893e52f30c9530b3718",
-        "packages/specifying/src/canonical/ptrr-failsafe-thricified-stack.js": "d60b3e5d7bde4d4ffe3a5fd6"
+        "scripts/specifying/src/canonical/inference-telemetry-disclosure-report.js": "b254b893e52f30c9530b3718",
+        "scripts/specifying/src/canonical/ptrr-failsafe-thricified-stack.js": "d60b3e5d7bde4d4ffe3a5fd6"
       }
     },
     "rich-stream-source-safe-telemetry-projection": {
@@ -1402,7 +1402,7 @@
         "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
         "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
         "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
-        "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js": "bcb00519d05408c295c53d1c"
+        "scripts/specifying/src/canonical/v39-operational-telemetry-repair-readback.js": "bcb00519d05408c295c53d1c"
       }
     },
     "gate8-tests-docs-workflows": {
@@ -1419,9 +1419,9 @@
         "README.md": "14085be712ec8e13c811c62a",
         "SPECIFICATIONS_ROADMAP.md": "2400ea79d304ff28b7fd8e7a",
         "package.json": "4d9f041eb01a920860a26f75",
-        "packages/specifying/README.md": "1a81b9507325d3a5da87f627",
-        "packages/specifying/src/canonical/v41-prompt-program-benchmark-report.js": "e03ee6e821a7521283805568",
-        "packages/specifying/test/v41-prompt-program-benchmark-report.test.js": "d0d2609b55c61933ca16a63a",
+        "scripts/specifying/README.md": "1a81b9507325d3a5da87f627",
+        "scripts/specifying/src/canonical/v41-prompt-program-benchmark-report.js": "e03ee6e821a7521283805568",
+        "scripts/specifying/test/v41-prompt-program-benchmark-report.test.js": "d0d2609b55c61933ca16a63a",
         "scripts/check-v41-gate8-prompt-program-benchmark-report.mjs": "dc363ce2e84dbcd76a566995",
         "scripts/generate-v41-prompt-program-benchmark-report.mjs": "d3c64e23a5ce6cda60bec813"
       }
@@ -1515,7 +1515,7 @@
     {
       "id": "readfitsfinding-search-embeddings-passing",
       "rowId": "readfitsfinding-post-rewrite-benchmark-delta",
-      "sourcePath": "packages/specifying/src/canonical/read-fits-finding-search-embeddings.js",
+      "sourcePath": "scripts/specifying/src/canonical/read-fits-finding-search-embeddings.js",
       "passed": true
     },
     {
@@ -1575,7 +1575,7 @@
     {
       "id": "registry-contracts-bind-hierarchy",
       "rowId": "registry-lineage-version-telemetry-binding",
-      "sourcePath": "packages/specifying/src/canonical/v41-registry-interpolation-contracts.js",
+      "sourcePath": "scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js",
       "passed": true
     },
     {
@@ -1587,7 +1587,7 @@
     {
       "id": "v38-ptrr-stack-passing",
       "rowId": "failsafe-thricified-inference-receipt-projection",
-      "sourcePath": "packages/specifying/src/canonical/ptrr-failsafe-thricified-stack.js",
+      "sourcePath": "scripts/specifying/src/canonical/ptrr-failsafe-thricified-stack.js",
       "passed": true
     },
     {
@@ -1599,7 +1599,7 @@
     {
       "id": "inference-telemetry-has-required-levels",
       "rowId": "failsafe-thricified-inference-receipt-projection",
-      "sourcePath": "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js",
+      "sourcePath": "scripts/specifying/src/canonical/inference-telemetry-disclosure-report.js",
       "passed": true
     },
     {
@@ -1683,13 +1683,13 @@
     {
       "id": "gate8-source-exists",
       "rowId": "gate8-tests-docs-workflows",
-      "sourcePath": "packages/specifying/src/canonical/v41-prompt-program-benchmark-report.js",
+      "sourcePath": "scripts/specifying/src/canonical/v41-prompt-program-benchmark-report.js",
       "passed": true
     },
     {
       "id": "gate8-test-exists",
       "rowId": "gate8-tests-docs-workflows",
-      "sourcePath": "packages/specifying/test/v41-prompt-program-benchmark-report.test.js",
+      "sourcePath": "scripts/specifying/test/v41-prompt-program-benchmark-report.test.js",
       "passed": true
     },
     {
@@ -1731,7 +1731,7 @@
     {
       "id": "readmes-document-gate8-helpers",
       "rowId": "gate8-tests-docs-workflows",
-      "sourcePath": "README.md,packages/specifying/README.md",
+      "sourcePath": "README.md,scripts/specifying/README.md",
       "passed": true
     }
   ],

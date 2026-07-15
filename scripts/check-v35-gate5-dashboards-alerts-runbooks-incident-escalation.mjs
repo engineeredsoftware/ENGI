@@ -138,21 +138,21 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/operator-runbook-catalog.js',
-    'packages/specifying/src/canonical/telemetry-taxonomy-catalog.js',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
-    'packages/specifying/test/v35-operator-runbook-catalog.test.js',
+    'scripts/specifying/src/canonical/operator-runbook-catalog.js',
+    'scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/v35-operator-runbook-catalog.test.js',
     'scripts/generate-v35-operator-runbook-catalog.mjs',
     'scripts/check-v35-gate5-dashboards-alerts-runbooks-incident-escalation.mjs',
-    'packages/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
     'BITCODE_SPEC_V35.md',
     'BITCODE_SPEC_V35_DELTA.md',
     'BITCODE_SPEC_V35_NOTES.md',
     'BITCODE_SPEC_V35_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -173,7 +173,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/specifying',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -240,10 +240,10 @@ function main() {
     );
   }
 
-  const protocolIndex = read(root, 'packages/specifying/src/index.js');
+  const protocolIndex = read(root, 'scripts/specifying/src/index.js');
   assertCheck(failures, protocolIndex.includes('buildOperatorRunbookCatalog'), 'Protocol index must export buildOperatorRunbookCatalog.');
 
-  const packageTypes = read(root, 'packages/specifying/src/index.d.ts');
+  const packageTypes = read(root, 'scripts/specifying/src/index.d.ts');
   assertCheck(failures, packageTypes.includes('buildOperatorRunbookCatalog'), 'Protocol type surface must export buildOperatorRunbookCatalog.');
 
   const packageJson = read(root, 'package.json');

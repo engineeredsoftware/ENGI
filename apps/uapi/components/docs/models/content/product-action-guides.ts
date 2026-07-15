@@ -3,8 +3,8 @@
  */
 import type { ProductActionGuide } from '../bitcode-docs-types';
 import {
-  TERMINAL_INLINE_EXPLAINERS,
-  TERMINAL_WORKSPACE_EXPLAINERS,
+  PRODUCT_INLINE_EXPLAINERS,
+  PRODUCT_WORKSPACE_EXPLAINERS,
 } from '@/components/bitcode/pipeline/models/workspace-explainers';
 import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/bitcode/layout/BitcodePublicExplainers/bitcode-public-explainers';
 
@@ -17,7 +17,7 @@ export const PRODUCT_ACTION_GUIDES = [
       'Select the measured Read or operating frame the Terminal should honor before fit, branch, and closure work continues.',
     expectedRead:
       'Route readback rereads deposit, read, fit, and closure against the selected scenario rather than treating it as a cosmetic filter.',
-    proofSignal: TERMINAL_INLINE_EXPLAINERS.scenario.summary,
+    proofSignal: PRODUCT_INLINE_EXPLAINERS.scenario.summary,
   },
   {
     id: 'projection',
@@ -27,7 +27,7 @@ export const PRODUCT_ACTION_GUIDES = [
       'Choose whether the current flow is previewing, staging, or readying a stronger materialized posture.',
     expectedRead:
       'The rest of the Terminal should make clear which posture is being read before any state-changing work is trusted.',
-    proofSignal: TERMINAL_INLINE_EXPLAINERS.projection.summary,
+    proofSignal: PRODUCT_INLINE_EXPLAINERS.projection.summary,
   },
   {
     id: 'branch-mode',
@@ -37,7 +37,7 @@ export const PRODUCT_ACTION_GUIDES = [
       'Select the AssetPack execution posture that branch materialization should use when closure runs.',
     expectedRead:
       'Branch, settlement, and proof panels should reflect the selected mode as an operator-visible Bitcode decision.',
-    proofSignal: TERMINAL_INLINE_EXPLAINERS.branchMode.summary,
+    proofSignal: PRODUCT_INLINE_EXPLAINERS.branchMode.summary,
   },
   {
     id: 'provider-repository',
@@ -47,7 +47,7 @@ export const PRODUCT_ACTION_GUIDES = [
       'Bind the deposit-side boundary to the provider and repository whose source supply the Terminal may search and cite.',
     expectedRead:
       'Repository supply, deposit provenance, and later closure reads should all stay attached to that selected source perimeter.',
-    proofSignal: TERMINAL_INLINE_EXPLAINERS.providerRepository.summary,
+    proofSignal: PRODUCT_INLINE_EXPLAINERS.providerRepository.summary,
   },
   {
     id: 'repository-anchor',
@@ -57,7 +57,7 @@ export const PRODUCT_ACTION_GUIDES = [
       'Write the selected source perimeter into Bitcode activity so it survives navigation and later rereads.',
     expectedRead:
       'Recent Terminal activity shows repository posture beside deposit, read, proof, and settlement records.',
-    proofSignal: TERMINAL_INLINE_EXPLAINERS.repositoryAnchor.summary,
+    proofSignal: PRODUCT_INLINE_EXPLAINERS.repositoryAnchor.summary,
   },
   {
     id: 'supply-selection',
@@ -67,7 +67,7 @@ export const PRODUCT_ACTION_GUIDES = [
       'Use auth session, artifact kind, and inventory search to narrow the supply set before drafting a deposit.',
     expectedRead:
       'Selected inventory remains explicit and can be carried directly into deposit, deposit, fit, and closure.',
-    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.supplyInventory.summary,
+    proofSignal: PRODUCT_WORKSPACE_EXPLAINERS.supplyInventory.summary,
   },
   {
     id: 'deposit-posture',
@@ -77,7 +77,7 @@ export const PRODUCT_ACTION_GUIDES = [
       'Record the current deposit-side summary into the Bitcode activity ledger when supply posture is ready to be reread.',
     expectedRead:
       'The selected activity can show what was offered, where it came from, and how it relates to later fit.',
-    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.depositReadChain.summary,
+    proofSignal: PRODUCT_WORKSPACE_EXPLAINERS.depositReadChain.summary,
   },
   {
     id: 'active-read',
@@ -87,7 +87,7 @@ export const PRODUCT_ACTION_GUIDES = [
       'Write the currently measured demand frame into the Bitcode activity ledger before fit and closure read against it.',
     expectedRead:
       'The Terminal activity result can reopen the exact Read frame with parser posture, scenario, and review state intact.',
-    proofSignal: TERMINAL_INLINE_EXPLAINERS.activeNeed.summary,
+    proofSignal: PRODUCT_INLINE_EXPLAINERS.activeNeed.summary,
   },
   {
     id: 'read-review',
@@ -97,7 +97,7 @@ export const PRODUCT_ACTION_GUIDES = [
       'Choose whether the measured Read is admitted for Finding Fits, rejected, or sent back for remeasurement with feedback.',
     expectedRead:
       'Finding Fits stays blocked until Read review is accepted, and the closure map shows the current review posture.',
-    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.readScenarios.summary,
+    proofSignal: PRODUCT_WORKSPACE_EXPLAINERS.readScenarios.summary,
   },
   {
     id: 'deposit-draft',
@@ -107,7 +107,7 @@ export const PRODUCT_ACTION_GUIDES = [
       'Set source repo, source commit or ref, signer address, selected supply, and optional raw content where exact provenance is required.',
     expectedRead:
       'The deposit draft reads as source-backed supply rather than loose metadata, with readiness blockers visible before submit.',
-    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.depositComposer.summary,
+    proofSignal: PRODUCT_WORKSPACE_EXPLAINERS.depositComposer.summary,
   },
   {
     id: 'deposit-submit',
@@ -117,7 +117,7 @@ export const PRODUCT_ACTION_GUIDES = [
       'Submit selected supply, provenance, and content into the Bitcode activity chain.',
     expectedRead:
       'A ledger row should be rereadable immediately and should carry forward into fit, proof, settlement, and history.',
-    proofSignal: TERMINAL_INLINE_EXPLAINERS.depositSubmission.summary,
+    proofSignal: PRODUCT_INLINE_EXPLAINERS.depositSubmission.summary,
   },
   {
     id: 'external-readiness',
@@ -127,7 +127,7 @@ export const PRODUCT_ACTION_GUIDES = [
       'Record whether connections, attachments, repository scope, and boundary services are live, modeled, blocked, or review-only.',
     expectedRead:
       'The Terminal shows boundary truth before downstream AssetPacks or settlement are trusted.',
-    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.boundaryRuntime.summary,
+    proofSignal: PRODUCT_WORKSPACE_EXPLAINERS.boundaryRuntime.summary,
   },
   {
     id: 'closure-run',
@@ -137,7 +137,7 @@ export const PRODUCT_ACTION_GUIDES = [
       'Run the closure path from Read review through verification, branch materialization, settlement, and proof.',
     expectedRead:
       'Verification, branch artifacts, AssetPack settlement, ledger continuity, and history should read as one consequence chain.',
-    proofSignal: TERMINAL_INLINE_EXPLAINERS.closureAction.summary,
+    proofSignal: PRODUCT_INLINE_EXPLAINERS.closureAction.summary,
   },
   {
     id: 'closure-refresh-reset',
@@ -147,7 +147,7 @@ export const PRODUCT_ACTION_GUIDES = [
       'Refresh the current closure read or reset closure state when the operator needs to rebuild the exact follow-through path.',
     expectedRead:
       'The Terminal should make runtime status, visible artifacts, proof families, credited assets, and flow continuity explicit.',
-    proofSignal: TERMINAL_WORKSPACE_EXPLAINERS.closureControls.summary,
+    proofSignal: PRODUCT_WORKSPACE_EXPLAINERS.closureControls.summary,
   },
   {
     id: 'conversations-mode',

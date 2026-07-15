@@ -6,7 +6,7 @@
 #
 # Build from monorepo root (materialize first):
 #   pnpm --filter @bitcode/pipeline-image run materialize
-#   docker build -f containers/containers/images/pipeliner/Dockerfile \
+#   docker build -f containers/images/pipeliner/Dockerfile \
 #     -t vcr.vercel.com/gerald-davis-projects/bitcode/pipeliner:latest .
 
 FROM node:24-bookworm-slim AS base
@@ -21,7 +21,7 @@ RUN apt-get update \
 # Workspace manifests + packages + pipeliner image package
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc* ./
 COPY packages ./packages
-COPY containers/containers/images/pipeliner ./containers/containers/images/pipeliner
+COPY containers/images/pipeliner ./containers/images/pipeliner
 
 # Install workspace (filter when possible; full install fallback).
 RUN pnpm install --frozen-lockfile \
@@ -36,9 +36,9 @@ RUN pnpm install --frozen-lockfile \
 # Pre-materialized runners (built on host/CI before docker build).
 # Layout preserves live-runner relative imports: ../../packages → monorepo packages.
 RUN mkdir -p /opt/bitcode/.bitcode/pipeline-host /opt/bitcode/pipeline \
-  && cp containers/containers/images/pipeliner/dist/run-host-smoke.mjs /opt/bitcode/.bitcode/pipeline-host/ \
-  && cp containers/containers/images/pipeliner/dist/run-live-asset-pack-pipeline.mjs /opt/bitcode/.bitcode/pipeline-host/ \
-  && cp containers/containers/images/pipeliner/dist/run-pipeline.mjs /opt/bitcode/pipeline/run-pipeline.mjs
+  && cp containers/images/pipeliner/dist/run-host-smoke.mjs /opt/bitcode/.bitcode/pipeline-host/ \
+  && cp containers/images/pipeliner/dist/run-live-asset-pack-pipeline.mjs /opt/bitcode/.bitcode/pipeline-host/ \
+  && cp containers/images/pipeliner/dist/run-pipeline.mjs /opt/bitcode/pipeline/run-pipeline.mjs
 
 ENV BITCODE_MONOREPO_ROOT=/opt/bitcode
 ENV BITCODE_PIPELINE_IMAGE_ENTRY=/opt/bitcode/pipeline/run-pipeline.mjs

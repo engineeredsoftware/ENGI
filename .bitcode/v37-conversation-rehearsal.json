@@ -1117,8 +1117,8 @@
         ".bitcode/v37-conversation-persistence-privacy-redaction.json",
         ".bitcode/v37-conversation-telemetry-proof-hooks.json",
         "BITCODE_SPEC_V37.md",
-        "packages/specifying/src/canonical/conversation-terminal-handoff.js",
-        "packages/specifying/src/canonical/conversation-telemetry-proof-hooks.js",
+        "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
+        "scripts/specifying/src/canonical/conversation-telemetry-proof-hooks.js",
         "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx"
       ],
       "routeUiChecks": [
@@ -1251,11 +1251,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-telemetry-proof-hooks.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-telemetry-proof-hooks.js",
           "present": true
         },
         {
@@ -1821,11 +1821,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-telemetry-proof-hooks.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-telemetry-proof-hooks.js",
           "present": true
         },
         {

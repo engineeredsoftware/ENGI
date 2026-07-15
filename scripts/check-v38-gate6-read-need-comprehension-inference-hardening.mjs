@@ -135,8 +135,8 @@ function main() {
     '.bitcode/v38-ptrr-failsafe-thricified-stack.json',
     '.bitcode/v38-prompt-benchmark-report.json',
     '.bitcode/v38-disclosure-boundary-report.json',
-    'packages/specifying/src/canonical/read-need-comprehension-inference-hardening.js',
-    'packages/specifying/test/v38-read-need-comprehension-inference-hardening.test.js',
+    'scripts/specifying/src/canonical/read-need-comprehension-inference-hardening.js',
+    'scripts/specifying/test/v38-read-need-comprehension-inference-hardening.test.js',
     'scripts/generate-v38-read-need-comprehension-inference-hardening.mjs',
     'scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs',
     'packages/asset-packs-pipelines/domain/src/read-need.ts',
@@ -151,7 +151,7 @@ function main() {
     'BITCODE_SPEC_V38_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -174,7 +174,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v38-read-need-comprehension-inference-hardening.test.js',
+        'scripts/specifying/test/v38-read-need-comprehension-inference-hardening.test.js',
       ]);
     } catch (error) {
       failures.push(`V38 ReadNeedComprehensionSynthesis protocol test failed: ${error.stderr || error.message}`);
@@ -244,12 +244,12 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/specifying/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const index = read(root, 'packages/specifying/src/index.js');
-  const typeDefs = read(root, 'packages/specifying/src/index.d.ts');
+  const index = read(root, 'scripts/specifying/src/index.js');
+  const typeDefs = read(root, 'scripts/specifying/src/index.d.ts');
 
   assertCheck(failures, spec.includes('V38ReadNeedComprehensionInferenceHardening'), 'V38 spec must name the Gate 6 hardening report.');
   assertCheck(failures, delta.includes('Gate 6: ReadNeedComprehensionSynthesis Inference Hardening'), 'V38 delta must include Gate 6.');

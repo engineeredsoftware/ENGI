@@ -1200,7 +1200,7 @@
         "BITCODE_SPEC_V41_PARITY_MATRIX.md",
         "SPECIFICATIONS_ROADMAP.md",
         "README.md",
-        "packages/specifying/README.md",
+        "scripts/specifying/README.md",
         "package.json",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml"
@@ -1287,7 +1287,7 @@
         "BITCODE_SPEC_V41_PARITY_MATRIX.md",
         "SPECIFICATIONS_ROADMAP.md",
         "README.md",
-        "packages/specifying/README.md",
+        "scripts/specifying/README.md",
         "package.json",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml"
@@ -1330,7 +1330,7 @@
           "sourceHash": "14085be712ec8e13c811c62a"
         },
         {
-          "sourcePath": "packages/specifying/README.md",
+          "sourcePath": "scripts/specifying/README.md",
           "sourceHash": "1a81b9507325d3a5da87f627"
         },
         {

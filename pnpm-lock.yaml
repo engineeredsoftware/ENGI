@@ -265,7 +265,7 @@ importers:
         version: link:../../packages/prompts
       '@bitcode/specifying':
         specifier: workspace:*
-        version: link:../../packages/specifying
+        version: link:../../scripts/specifying
       '@bitcode/vcs-generics':
         specifier: workspace:*
         version: link:../../packages/vcs-generics
@@ -608,6 +608,16 @@ importers:
         version: 5.8.3
 
   apps/uapi/mocking/scripts: {}
+
+  containers/images/pipeliner:
+    dependencies:
+      '@bitcode/pipeline-hosts':
+        specifier: workspace:*
+        version: link:../../../packages/pipeline-hosts
+    devDependencies:
+      '@types/node':
+        specifier: ^25.0.0
+        version: 25.6.0
 
   packages/agent-generics:
     dependencies:
@@ -3736,15 +3746,6 @@ importers:
         specifier: ^3.25.76
         version: 3.25.76
 
-  packages/specifying:
-    devDependencies:
-      '@types/node':
-        specifier: ^25.5.2
-        version: 25.6.0
-      typescript:
-        specifier: ^6.0.2
-        version: 6.0.3
-
   packages/styling:
     dependencies:
       clsx:
@@ -3910,6 +3911,15 @@ importers:
       zod:
         specifier: ^3.22.4
         version: 3.25.76
+
+  scripts/specifying:
+    devDependencies:
+      '@types/node':
+        specifier: ^25.5.2
+        version: 25.6.0
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.3
 
 packages:
 

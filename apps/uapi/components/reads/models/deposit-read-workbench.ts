@@ -7,7 +7,7 @@
 
 export {
   TERMINAL_ENTERPRISE_READING_STEPS,
-  type TerminalEnterpriseReadingStepId,
+  type EnterpriseReadingStepId,
 } from '@/components/reads/models/enterprise-reading-ux-state';
 
 export type {

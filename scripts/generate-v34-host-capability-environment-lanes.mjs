@@ -143,7 +143,7 @@ const hostRows = Object.freeze([
   {
     hostId: 'proof_services',
     runtimeSurface: 'proof_service',
-    ownerPackage: 'packages/specifying',
+    ownerPackage: 'scripts/specifying',
     runtimeCarrier: 'proof-generation-job',
     outboundNetworkPosture: 'none',
     admissionStatus: 'admitted_non_value_lanes',

@@ -158,14 +158,14 @@ function main() {
     ARTIFACT_PATH,
     '.bitcode/v41-promptpart-prompt-inventory.json',
     '.bitcode/v41-registry-interpolation-contracts.json',
-    'packages/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js',
-    'packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js',
-    'packages/specifying/src/canonical/v41-registry-interpolation-contracts.js',
-    'packages/specifying/test/v41-reading-prompt-benchmark-baselines.test.js',
+    'scripts/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js',
+    'scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js',
+    'scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js',
+    'scripts/specifying/test/v41-reading-prompt-benchmark-baselines.test.js',
     'scripts/generate-v41-reading-prompt-benchmark-baselines.mjs',
     'scripts/check-v41-gate4-reading-prompt-benchmark-baselines.mjs',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
     'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
     'packages/asset-packs-pipelines/domain/src/read-need.ts',
     'packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts',
@@ -179,7 +179,7 @@ function main() {
     'BITCODE_SPEC_V41_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -199,7 +199,7 @@ function main() {
 
   if (!args.skipPackageTests && failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/v41-reading-prompt-benchmark-baselines.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/v41-reading-prompt-benchmark-baselines.test.js']);
     } catch (error) {
       failures.push(`V41 Reading prompt benchmark baseline protocol test failed: ${error.stderr || error.message}`);
     }

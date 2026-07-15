@@ -37,7 +37,8 @@
     "apps/*",
     "apps/uapi",
     "containers/images/*",
-    "admin"
+    "admin",
+    "scripts/specifying"
   ],
   "devDependencies": {
     "@modelcontextprotocol/inspector": "^0.17.2",

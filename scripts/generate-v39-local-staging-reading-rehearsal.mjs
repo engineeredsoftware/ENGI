@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V39_LOCAL_STAGING_READING_REHEARSAL_ARTIFACT_PATH,
   buildV39LocalStagingReadingRehearsal,
-} from '../packages/specifying/src/canonical/v39-local-staging-reading-rehearsal.js';
+} from '../scripts/specifying/src/canonical/v39-local-staging-reading-rehearsal.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

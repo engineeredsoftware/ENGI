@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V39_READ_FITS_FINDING_RUNTIME_ARTIFACT_PATH,
   buildV39ReadFitsFindingRuntime,
-} from '../packages/specifying/src/canonical/v39-read-fits-finding-runtime.js';
+} from '../scripts/specifying/src/canonical/v39-read-fits-finding-runtime.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -131,19 +131,19 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js',
-    'packages/specifying/test/v41-promptpart-prompt-inventory.test.js',
+    'scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js',
+    'scripts/specifying/test/v41-promptpart-prompt-inventory.test.js',
     'scripts/generate-v41-promptpart-prompt-inventory.mjs',
     'scripts/check-v41-gate2-promptpart-prompt-inventory.mjs',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
     'BITCODE_SPEC_V41.md',
     'BITCODE_SPEC_V41_DELTA.md',
     'BITCODE_SPEC_V41_NOTES.md',
     'BITCODE_SPEC_V41_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -169,7 +169,7 @@ function main() {
 
   if (!args.skipPackageTests && failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/v41-promptpart-prompt-inventory.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/v41-promptpart-prompt-inventory.test.js']);
     } catch (error) {
       failures.push(`V41 PromptPart/Prompt inventory protocol test failed: ${error.stderr || error.message}`);
     }

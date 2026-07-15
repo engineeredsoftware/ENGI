@@ -554,7 +554,7 @@
       ],
       "testPaths": [
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts",
-        "packages/specifying/test/v39-local-staging-reading-rehearsal.test.js",
+        "scripts/specifying/test/v39-local-staging-reading-rehearsal.test.js",
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts"
       ],
       "commandIds": [
@@ -630,7 +630,7 @@
     },
     {
       "id": "protocol-exports-gate5",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {

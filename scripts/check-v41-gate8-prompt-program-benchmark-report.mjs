@@ -160,8 +160,8 @@ function main() {
     '.bitcode/v41-readneed-prompt-hardening.json',
     '.bitcode/v41-readfitsfinding-prompt-hardening.json',
     '.bitcode/v41-conversation-tool-interface-prompt-rewrite.json',
-    'packages/specifying/src/canonical/v41-prompt-program-benchmark-report.js',
-    'packages/specifying/test/v41-prompt-program-benchmark-report.test.js',
+    'scripts/specifying/src/canonical/v41-prompt-program-benchmark-report.js',
+    'scripts/specifying/test/v41-prompt-program-benchmark-report.test.js',
     'scripts/generate-v41-prompt-program-benchmark-report.mjs',
     'scripts/check-v41-gate8-prompt-program-benchmark-report.mjs',
     'packages/prompts/src/benchmarking/runner.ts',
@@ -178,7 +178,7 @@ function main() {
     'BITCODE_SPEC_V41_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -201,7 +201,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v41-prompt-program-benchmark-report.test.js',
+        'scripts/specifying/test/v41-prompt-program-benchmark-report.test.js',
       ]);
     } catch (error) {
       failures.push(`V41 prompt-program benchmark report protocol test failed: ${error.stderr || error.message}`);

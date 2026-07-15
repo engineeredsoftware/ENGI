@@ -65,8 +65,8 @@ describe('ConversationWritingWorkspace', () => {
   it('helper functions redact source-bearing draft text before preview or handoff', () => {
     const token = ['sb', 'secret'].join('_') + '__localunsafevalue';
     const draft = `password: ${token}\nPlease prepare the Terminal summary.`;
-    const summary = summarizeConversationWritingWorkspaceDraft('terminal_handoff_summary', draft);
-    const handoff = buildConversationWritingWorkspaceHandoff('terminal_handoff_summary', draft);
+    const summary = summarizeConversationWritingWorkspaceDraft('product_handoff_summary', draft);
+    const handoff = buildConversationWritingWorkspaceHandoff('product_handoff_summary', draft);
 
     expect(summary.redactionApplied).toBe(true);
     expect(summary.sourceSafePreview).toContain('[redacted-secret-field]');

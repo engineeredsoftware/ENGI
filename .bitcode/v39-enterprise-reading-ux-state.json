@@ -553,6 +553,6 @@
     "rootReadme": "README.md",
     "terminalReadme": "apps/uapi/app/terminal/README.md",
     "conversationReadme": "apps/uapi/app/conversations/README.md",
-    "protocolReadme": "packages/specifying/README.md"
+    "protocolReadme": "scripts/specifying/README.md"
   }
 }

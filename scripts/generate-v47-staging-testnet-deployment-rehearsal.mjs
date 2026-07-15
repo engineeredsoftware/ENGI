@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_STAGING_TESTNET_REHEARSAL_ARTIFACT_PATH,
   buildV47StagingTestnetDeploymentRehearsal,
-} from '../packages/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js';
+} from '../scripts/specifying/src/canonical/v47-staging-testnet-deployment-rehearsal.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

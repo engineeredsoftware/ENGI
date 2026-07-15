@@ -392,7 +392,7 @@ export function buildDeploymentHostCapabilityRows(): DeploymentHostCapabilityRow
     {
       hostId: 'proof_services',
       runtimeSurface: 'proof_service',
-      ownerPackage: 'packages/specifying',
+      ownerPackage: 'scripts/specifying',
       runtimeCarrier: 'proof-generation-job',
       requiredPackages: ['@bitcode/specifying', '@bitcode/btd'],
       outboundNetworkPosture: 'none',

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V47_LANDING_PUBLIC_LAUNCH_MESSAGING_ARTIFACT_PATH,
   buildV47LandingPublicLaunchMessaging,
-} from '../packages/specifying/src/canonical/v47-landing-public-launch-messaging.js';
+} from '../scripts/specifying/src/canonical/v47-landing-public-launch-messaging.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -87,8 +87,8 @@ function main() {
 
   for (const relativePath of [
     V47_LANDING_PUBLIC_LAUNCH_MESSAGING_ARTIFACT_PATH,
-    'packages/specifying/src/canonical/v47-landing-public-launch-messaging.js',
-    'packages/specifying/test/v47-landing-public-launch-messaging.test.js',
+    'scripts/specifying/src/canonical/v47-landing-public-launch-messaging.js',
+    'scripts/specifying/test/v47-landing-public-launch-messaging.test.js',
     'scripts/generate-v47-landing-public-launch-messaging.mjs',
     'scripts/check-v47-gate8-landing-public-launch-messaging.mjs',
     'BITCODE_SPEC_V47.md',
@@ -101,8 +101,8 @@ function main() {
     'apps/uapi/app/(root)/components/landing/MarketingLandingTestnetSection.tsx',
     'apps/uapi/app/docs/bitcode-docs-content.ts',
     'apps/uapi/tests/marketingLandingPage.test.tsx',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',
@@ -154,7 +154,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/specifying',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -162,7 +162,7 @@ function main() {
         'test/v47-landing-public-launch-messaging.test.js',
       ]);
     } catch {
-      failures.push('packages/specifying test/v47-landing-public-launch-messaging.test.js must pass.');
+      failures.push('scripts/specifying test/v47-landing-public-launch-messaging.test.js must pass.');
     }
   }
 

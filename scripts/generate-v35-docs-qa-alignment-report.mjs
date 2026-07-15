@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   DOCS_QA_ALIGNMENT_REPORT_ARTIFACT_PATH,
   buildDocsQaAlignmentReport,
-} from '../packages/specifying/src/index.js';
+} from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

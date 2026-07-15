@@ -373,7 +373,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 ### F16 — Depository state persists into a git-tracked repo file, not the database
 
 - Severity: high (Gate 2 charter: pipeline-execution actualities — data)
-- Observed: the live deposit QA session wrote ~1,200 lines of runtime depository state (assets, options, roots for the "Some Python" deposit) into `packages/specifying/data/state.json`, a tracked file that historically changes only at canonical promotions. Runtime commerce state does not belong in git: it cannot serve concurrent users, deployments reset it, and QA sessions dirty the working tree (one such mutation was accidentally committed in `569c6e19` and reverted immediately after).
+- Observed: the live deposit QA session wrote ~1,200 lines of runtime depository state (assets, options, roots for the "Some Python" deposit) into `scripts/specifying/data/state.json`, a tracked file that historically changes only at canonical promotions. Runtime commerce state does not belong in git: it cannot serve concurrent users, deployments reset it, and QA sessions dirty the working tree (one such mutation was accidentally committed in `569c6e19` and reverted immediately after).
 - Gate 2 work: move depository/ledger runtime state to the database (executions/ledger tables + object storage roots already exist for this), keeping `state.json` as promotion-managed demonstration canon only.
 
 ### V48-Gate2-F15 — Packs master-detail rows are not selectable; type taxonomy unclear

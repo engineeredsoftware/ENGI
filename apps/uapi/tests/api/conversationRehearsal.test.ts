@@ -28,7 +28,7 @@ describe('conversation rehearsal preview', () => {
   it('keeps value-bearing mainnet blocked in rehearsal previews', () => {
     const preview = buildConversationRehearsalPreview({
       laneId: 'value-bearing-mainnet',
-      flowId: 'terminal_handoff',
+      flowId: 'product_handoff',
       conversationId: 'conv-2',
     });
 

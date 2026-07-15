@@ -143,9 +143,9 @@ jobs:
             BITCODE_SPEC_V43_PROVEN.md \
             protocol-demonstration/src/canon-posture.js \
             protocol-demonstration/README.md \
-            packages/specifying/src/canon-posture.js \
-            packages/specifying/data/state.json \
-            packages/specifying/README.md \
+            scripts/specifying/src/canon-posture.js \
+            scripts/specifying/data/state.json \
+            scripts/specifying/README.md \
             .bitcode
           git commit -m "Promote Bitcode canon to V43"
           git push origin "HEAD:$HEAD_BRANCH"

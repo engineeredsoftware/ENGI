@@ -118,8 +118,8 @@ function main() {
     'apps/uapi/tests/terminalTransactionQuery.test.ts',
     'apps/uapi/tests/terminalPipelineHarnessClient.test.ts',
     'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx',
-    'packages/specifying/src/canonical/v42-reading-shortest-path-state-machine.js',
-    'packages/specifying/test/v42-reading-shortest-path-state-machine.test.js',
+    'scripts/specifying/src/canonical/v42-reading-shortest-path-state-machine.js',
+    'scripts/specifying/test/v42-reading-shortest-path-state-machine.test.js',
     'scripts/generate-v42-reading-shortest-path-state-machine.mjs',
     'scripts/check-v42-gate3-reading-shortest-path-state-machine.mjs',
     'BITCODE_SPEC_V42.md',
@@ -129,7 +129,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'apps/uapi/app/terminal/README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -152,7 +152,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v42-reading-shortest-path-state-machine.test.js',
+        'scripts/specifying/test/v42-reading-shortest-path-state-machine.test.js',
       ]);
     } catch (error) {
       failures.push(`V42 Reading shortest path state machine protocol test failed: ${error.stderr || error.message}`);

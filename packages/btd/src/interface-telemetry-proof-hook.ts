@@ -3,7 +3,7 @@ import { assertNonEmptyString } from './constants';
 import type { BtdProtocolTelemetrySourceSafety } from './telemetry';
 
 export const BTD_INTERFACE_TELEMETRY_PROOF_HOOK_INTERFACE_IDS = [
-  'terminal_handoff',
+  'product_handoff',
   'public_api',
   'mcp_api',
   'chatgpt_app',
@@ -125,7 +125,7 @@ export function buildBtdInterfaceTelemetryProofHookInputs(): BtdInterfaceTelemet
   return [
     {
       hookId: 'interface.telemetry.terminal-reading-handoff',
-      interfaceId: 'terminal_handoff',
+      interfaceId: 'product_handoff',
       actionId: 'terminal.reading.assetPackPreview',
       executionId: 'execution-terminal-reading-preview',
       roots: rootSet('terminal-preview'),

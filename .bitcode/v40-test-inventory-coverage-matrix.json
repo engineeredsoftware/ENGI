@@ -34,7 +34,7 @@
       "sourceRoots": [
         "packages/btd/__tests__",
         "packages/asset-packs-pipelines/domain/src/__tests__",
-        "packages/specifying/test"
+        "scripts/specifying/test"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/btd test",
@@ -109,12 +109,12 @@
       "coverageTier": "needs-new-v40-artifact",
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/__tests__",
-        "packages/specifying/test/v38-read-need-comprehension-inference-hardening.test.js",
-        "packages/specifying/test/v38-read-fits-finding-search-embeddings.test.js"
+        "scripts/specifying/test/v38-read-need-comprehension-inference-hardening.test.js",
+        "scripts/specifying/test/v38-read-fits-finding-search-embeddings.test.js"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest",
-        "pnpm --dir packages/specifying exec node --test"
+        "pnpm --dir scripts/specifying exec node --test"
       ],
       "generatedArtifactPath": ".bitcode/v40-pipeline-integration-coverage.json",
       "missingCoverageClosesInGate": 5,
@@ -213,14 +213,14 @@
       "requiredResult": "Inventory settlement, BTC fee, BTD rights transfer, ledger, database, object storage, wallet, PR delivery, and repair synchronization tests.",
       "coverageTier": "needs-new-v40-artifact",
       "sourceRoots": [
-        "packages/specifying/test/v39-assetpack-preview-quote-boundary.test.js",
-        "packages/specifying/test/v39-settlement-rights-delivery.test.js",
-        "packages/specifying/test/v39-operational-telemetry-repair-readback.test.js"
+        "scripts/specifying/test/v39-assetpack-preview-quote-boundary.test.js",
+        "scripts/specifying/test/v39-settlement-rights-delivery.test.js",
+        "scripts/specifying/test/v39-operational-telemetry-repair-readback.test.js"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/btd exec jest",
         "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest",
-        "pnpm --dir packages/specifying exec node --test"
+        "pnpm --dir scripts/specifying exec node --test"
       ],
       "generatedArtifactPath": ".bitcode/v40-ledger-storage-sync.json",
       "missingCoverageClosesInGate": 8,
@@ -250,7 +250,7 @@
       "requiredResult": "Inventory local and staging-testnet rehearsals with lane-bound secrets, source-safe receipts, and blocked value-bearing mainnet posture.",
       "coverageTier": "opt-in-lane",
       "sourceRoots": [
-        "packages/specifying/test/v39-local-staging-reading-rehearsal.test.js",
+        "scripts/specifying/test/v39-local-staging-reading-rehearsal.test.js",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml"
       ],
@@ -286,12 +286,12 @@
       "requiredResult": "Inventory prompt and PromptPart benchmark smoke commands and fixture roots so V41 can safely rewrite prompts as programs.",
       "coverageTier": "needs-new-v40-artifact",
       "sourceRoots": [
-        "packages/specifying/src/canonical/prompt-benchmark-report.js",
-        "packages/specifying/test/v38-prompt-benchmark-report.test.js"
+        "scripts/specifying/src/canonical/prompt-benchmark-report.js",
+        "scripts/specifying/test/v38-prompt-benchmark-report.test.js"
       ],
       "commandIds": [
         "future pnpm run check:v40-prompt-benchmark-smoke",
-        "pnpm --dir packages/specifying exec node --test test/v38-prompt-benchmark-report.test.js"
+        "pnpm --dir scripts/specifying exec node --test test/v38-prompt-benchmark-report.test.js"
       ],
       "generatedArtifactPath": ".bitcode/v40-prompt-benchmark-smoke.json",
       "missingCoverageClosesInGate": 10,
@@ -323,11 +323,11 @@
       "sourceRoots": [
         "protocol-demonstration/README.md",
         "protocol-demonstration/package.json",
-        "packages/specifying/test/protocol-package-boundary.test.js"
+        "scripts/specifying/test/protocol-package-boundary.test.js"
       ],
       "commandIds": [
         "npm --prefix protocol-demonstration run test:v28-mvp-qa",
-        "node --test packages/specifying/test/protocol-package-boundary.test.js"
+        "node --test scripts/specifying/test/protocol-package-boundary.test.js"
       ],
       "generatedArtifactPath": ".bitcode/v40-demonstration-test-parity.json",
       "missingCoverageClosesInGate": 7,
@@ -444,7 +444,7 @@
     },
     {
       "id": "protocol-exports-gate2",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {
@@ -474,22 +474,22 @@
     },
     {
       "id": "settlement-sync-tests-exist",
-      "sourcePath": "packages/specifying/test/v39-settlement-rights-delivery.test.js",
+      "sourcePath": "scripts/specifying/test/v39-settlement-rights-delivery.test.js",
       "passed": true
     },
     {
       "id": "local-staging-rehearsal-exists",
-      "sourcePath": "packages/specifying/test/v39-local-staging-reading-rehearsal.test.js",
+      "sourcePath": "scripts/specifying/test/v39-local-staging-reading-rehearsal.test.js",
       "passed": true
     },
     {
       "id": "prompt-benchmark-smoke-basis-exists",
-      "sourcePath": "packages/specifying/src/canonical/prompt-benchmark-report.js",
+      "sourcePath": "scripts/specifying/src/canonical/prompt-benchmark-report.js",
       "passed": true
     },
     {
       "id": "demonstration-boundary-test-exists",
-      "sourcePath": "packages/specifying/test/protocol-package-boundary.test.js",
+      "sourcePath": "scripts/specifying/test/protocol-package-boundary.test.js",
       "passed": true
     },
     {

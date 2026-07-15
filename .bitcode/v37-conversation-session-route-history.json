@@ -310,11 +310,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-session-route-history.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
           "present": true
         },
         {
@@ -547,11 +547,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-session-route-history.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
           "present": true
         },
         {
@@ -783,11 +783,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-session-route-history.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
           "present": true
         },
         {
@@ -1020,11 +1020,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-session-route-history.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
           "present": true
         },
         {
@@ -1257,11 +1257,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-session-route-history.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
           "present": true
         },
         {
@@ -1492,11 +1492,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-session-route-history.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
           "present": true
         },
         {
@@ -1569,11 +1569,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-session-route-history.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
           "present": true
         },
         {
@@ -1635,11 +1635,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-session-route-history.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
           "present": true
         },
         {
@@ -1701,11 +1701,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-session-route-history.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
           "present": true
         },
         {
@@ -1767,11 +1767,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-session-route-history.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
           "present": true
         },
         {
@@ -1833,11 +1833,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-session-route-history.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
           "present": true
         },
         {
@@ -1899,11 +1899,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-session-route-history.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-session-route-history.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-session-route-history.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-session-route-history.test.js",
           "present": true
         },
         {

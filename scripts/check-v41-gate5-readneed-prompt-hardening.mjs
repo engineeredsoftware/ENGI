@@ -131,8 +131,8 @@ function main() {
     '.bitcode/v41-promptpart-prompt-inventory.json',
     '.bitcode/v41-registry-interpolation-contracts.json',
     '.bitcode/v41-reading-prompt-benchmark-baselines.json',
-    'packages/specifying/src/canonical/v41-readneed-prompt-hardening.js',
-    'packages/specifying/test/v41-readneed-prompt-hardening.test.js',
+    'scripts/specifying/src/canonical/v41-readneed-prompt-hardening.js',
+    'scripts/specifying/test/v41-readneed-prompt-hardening.test.js',
     'scripts/generate-v41-readneed-prompt-hardening.mjs',
     'scripts/check-v41-gate5-readneed-prompt-hardening.mjs',
     'packages/asset-packs-pipelines/domain/src/read-need.ts',
@@ -146,7 +146,7 @@ function main() {
     'BITCODE_SPEC_V41_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -166,7 +166,7 @@ function main() {
 
   if (!args.skipPackageTests && failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/v41-readneed-prompt-hardening.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/v41-readneed-prompt-hardening.test.js']);
     } catch (error) {
       failures.push(`V41 ReadNeed prompt hardening protocol test failed: ${error.stderr || error.message}`);
     }

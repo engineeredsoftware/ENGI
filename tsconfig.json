@@ -169,7 +169,7 @@
             "@bitcode/generic-measurements-tech-types": ["packages/generic-measurements/tech-types/src/index.ts"],
             "@bitcode/generic-llms-models": ["packages/generic-llms/models/src/index.ts"],
             "@bitcode/web-search-exa": ["packages/web-search/exa/src/index.ts"],
-            "@bitcode/specifying": ["packages/specifying/src/index.js"],
+            "@bitcode/specifying": ["scripts/specifying/src/index.js"],
             "@bitcode/api/responses": ["packages/api/src/responses/index.ts"],
             "@bitcode/obfuscation": ["packages/obfuscation/src/index.ts"],
             "@bitcode/conversations": ["packages/conversations/src/index.ts"],

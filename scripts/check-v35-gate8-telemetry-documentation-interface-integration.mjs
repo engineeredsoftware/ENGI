@@ -115,20 +115,20 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/telemetry-documentation-interface-integration.js',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
-    'packages/specifying/test/v35-telemetry-documentation-interface-integration.test.js',
+    'scripts/specifying/src/canonical/telemetry-documentation-interface-integration.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/v35-telemetry-documentation-interface-integration.test.js',
     'scripts/generate-v35-telemetry-documentation-interface-integration.mjs',
     'scripts/check-v35-gate8-telemetry-documentation-interface-integration.mjs',
-    'packages/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
     'BITCODE_SPEC_V35.md',
     'BITCODE_SPEC_V35_DELTA.md',
     'BITCODE_SPEC_V35_NOTES.md',
     'BITCODE_SPEC_V35_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'apps/uapi/app/terminal/README.md',
     'apps/uapi/app/auxillaries/README.md',
     'packages/api/README.md',
@@ -156,7 +156,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'packages/specifying',
+        'scripts/specifying',
         'exec',
         'node',
         '--test',
@@ -222,10 +222,10 @@ function main() {
     );
   }
 
-  const protocolIndex = read(root, 'packages/specifying/src/index.js');
+  const protocolIndex = read(root, 'scripts/specifying/src/index.js');
   assertCheck(failures, protocolIndex.includes('buildTelemetryDocumentationInterfaceIntegration'), 'Protocol index must export buildTelemetryDocumentationInterfaceIntegration.');
 
-  const packageTypes = read(root, 'packages/specifying/src/index.d.ts');
+  const packageTypes = read(root, 'scripts/specifying/src/index.d.ts');
   assertCheck(failures, packageTypes.includes('buildTelemetryDocumentationInterfaceIntegration'), 'Protocol type surface must export buildTelemetryDocumentationInterfaceIntegration.');
 
   const packageJson = read(root, 'package.json');

@@ -316,11 +316,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -534,11 +534,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -746,11 +746,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -957,11 +957,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -1174,11 +1174,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -1397,11 +1397,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -1614,11 +1614,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -1840,11 +1840,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -2053,11 +2053,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -2118,11 +2118,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -2172,11 +2172,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -2226,11 +2226,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -2280,11 +2280,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -2334,11 +2334,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -2388,11 +2388,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -2442,11 +2442,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -2496,11 +2496,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {
@@ -2550,11 +2550,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-activity-book.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-activity-book.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-activity-book.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-activity-book.test.js",
           "present": true
         },
         {

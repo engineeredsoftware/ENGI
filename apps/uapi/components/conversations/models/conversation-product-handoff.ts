@@ -1,7 +1,7 @@
-import type { TerminalTransactionDetailSection } from '@/components/bitcode/pipeline/models/pipeline-selection-query';
+import type { PipelineTransactionDetailSection } from '@/components/bitcode/pipeline/models/pipeline-selection-query';
 // Handoff opens Packs with source-safe selection query params.
 import { buildPacksHref } from '@/components/bitcode/routes/ProductRoutes/product-routes';
-import type { TerminalEnterpriseReadingStepId } from '@/components/reads/models/enterprise-reading-ux-state';
+import type { EnterpriseReadingStepId } from '@/components/reads/models/enterprise-reading-ux-state';
 
 import type { ConversationSourceSelectorPreview } from './conversation-source-selector';
 
@@ -18,7 +18,7 @@ export type ConversationProductHandoffPolicyState = 'allowed' | 'retry_required'
 export type ConversationProductHandoffInput = {
   conversationId?: string | null;
   workflow: ConversationProductHandoffWorkflow;
-  readingStage?: TerminalEnterpriseReadingStepId | null;
+  readingStage?: EnterpriseReadingStepId | null;
   transactionId?: string | null;
   repositoryAnchor?: string | null;
   sourceSelectors?: ConversationSourceSelectorPreview[];
@@ -33,10 +33,10 @@ export type ConversationProductHandoffEnvelope = {
   repositoryAnchor: string | null;
   sourceSelectorRefs: string[];
   sourceSafeSummary: string;
-  readingStage: TerminalEnterpriseReadingStepId | null;
+  readingStage: EnterpriseReadingStepId | null;
   policyResult: ConversationProductHandoffPolicyState;
   packsRoute: string;
-  transactionDetail: TerminalTransactionDetailSection;
+  transactionDetail: PipelineTransactionDetailSection;
   proofRoot: string;
   eventId: string;
   retryAction: string | null;
@@ -49,14 +49,14 @@ export type ConversationProductHandoffEnvelope = {
     ledgerAuthorityClaimed: false;
     walletSigningAuthorityClaimed: false;
     productRemainsTransactionWorkspace: true;
-    productEnterpriseReadingStage: TerminalEnterpriseReadingStepId | null;
+    productEnterpriseReadingStage: EnterpriseReadingStepId | null;
   };
 };
 
 export const CONVERSATION_PRODUCT_HANDOFF_WORKFLOWS: Array<{
   workflow: ConversationProductHandoffWorkflow;
   label: string;
-  productDetail: TerminalTransactionDetailSection;
+  productDetail: PipelineTransactionDetailSection;
   summaryPlaceholder: string;
 }> = [
   {
@@ -104,7 +104,7 @@ export function getConversationProductHandoffWorkflow(workflow: ConversationProd
 
 export function inferConversationTerminalReadingStage(
   workflow: ConversationProductHandoffWorkflow,
-): TerminalEnterpriseReadingStepId | null {
+): EnterpriseReadingStepId | null {
   if (workflow === 'depositing') return 'request-read';
   if (workflow === 'reading') return 'review-synthesized-need';
   if (workflow === 'finding_fits') return 'request-fit';
@@ -232,7 +232,7 @@ export function buildConversationProductHandoffEnvelope(
     packsRoute: buildPacksHref(productParams),
     transactionDetail: workflow.productDetail,
     proofRoot,
-    eventId: `conversation.terminal_handoff.${input.workflow}.${policy.policyResult}`,
+    eventId: `conversation.product_handoff.${input.workflow}.${policy.policyResult}`,
     retryAction: policy.retryAction,
     denialReason: policy.denialReason,
     redactionApplied: redactedSummary.redactionApplied,
@@ -255,9 +255,9 @@ export function buildConversationProductHandoffSearchParams(input: {
   repositoryAnchor: string | null;
   sourceSelectorRefs: string[];
   sourceSafeSummary: string;
-  readingStage?: TerminalEnterpriseReadingStepId | null;
+  readingStage?: EnterpriseReadingStepId | null;
   policyResult: ConversationProductHandoffPolicyState;
-  transactionDetail: TerminalTransactionDetailSection;
+  transactionDetail: PipelineTransactionDetailSection;
   proofRoot: string;
 }) {
   const params = new URLSearchParams();

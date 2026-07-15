@@ -132,10 +132,10 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/conversation-session-route-history.js',
-    'packages/specifying/src/index.js',
-    'packages/specifying/src/index.d.ts',
-    'packages/specifying/test/conversation-session-route-history.test.js',
+    'scripts/specifying/src/canonical/conversation-session-route-history.js',
+    'scripts/specifying/src/index.js',
+    'scripts/specifying/src/index.d.ts',
+    'scripts/specifying/test/conversation-session-route-history.test.js',
     'scripts/generate-v37-conversation-session-route-history.mjs',
     'scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs',
     'apps/uapi/app/conversations/conversation-session-route-history.ts',
@@ -154,7 +154,7 @@ function main() {
     'BITCODE_SPEC_V37_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -175,7 +175,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/conversation-session-route-history.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'scripts/specifying/test/conversation-session-route-history.test.js']);
     } catch (error) {
       failures.push(`V37 Conversation session route-history package test failed: ${error.stderr || error.message}`);
     }
@@ -274,7 +274,7 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V37_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const rootReadme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/specifying/README.md');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
   const conversationsReadme = read(root, 'apps/uapi/app/conversations/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');

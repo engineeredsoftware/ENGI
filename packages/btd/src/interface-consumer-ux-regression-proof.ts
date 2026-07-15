@@ -6,7 +6,7 @@ export const BTD_INTERFACE_CONSUMER_UX_REGRESSION_SURFACES = [
   'public_api',
   'mcp_api',
   'chatgpt_app',
-  'terminal_handoff',
+  'product_handoff',
   'package_consumer',
 ] as const;
 
@@ -217,7 +217,7 @@ export function buildBtdInterfaceConsumerUxRegressionInputs(): BtdInterfaceConsu
     },
     {
       rowId: 'interface.consumer.terminal-preview-blocked',
-      surface: 'terminal_handoff',
+      surface: 'product_handoff',
       consumerPath: 'terminal://reading/asset-pack-preview',
       actionLabel: 'Review AssetPack preview',
       posture: 'blocked_preview',

@@ -1,7 +1,7 @@
 /**
  * Canonical Bitcode docs page catalog (slug → article content).
  */
-import { TERMINAL_INLINE_EXPLAINERS, TERMINAL_WORKSPACE_EXPLAINERS } from '@/components/bitcode/pipeline/models/workspace-explainers';
+import { PRODUCT_INLINE_EXPLAINERS, PRODUCT_WORKSPACE_EXPLAINERS } from '@/components/bitcode/pipeline/models/workspace-explainers';
 import { docsPage } from '../bitcode-docs-helpers';
 import type { BitcodeDocsPage } from '../bitcode-docs-types';
 import { whatIsBitcodeSections } from './sections-what-is-bitcode';
@@ -44,7 +44,7 @@ export const BITCODE_DOCS_PAGES = [
         title: '/deposits, /reads, /packs, Protocol, interfaces',
         summary:
           'The docs use the same card and explainer pattern as the product routes so the mental model transfers into the commercial surfaces.',
-        explainer: TERMINAL_WORKSPACE_EXPLAINERS.experienceMap,
+        explainer: PRODUCT_WORKSPACE_EXPLAINERS.experienceMap,
         signals: [
           { label: 'Packs', value: 'Activity and proof readback', tone: 'emerald' },
           { label: 'Read/Deposit', value: 'User paths', tone: 'cyan' },
@@ -78,7 +78,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'AssetPack status card',
         summary:
           'This mirrors the compact status cards used on product routes: supply, Read, fit, and proof as related signals.',
-        explainer: TERMINAL_WORKSPACE_EXPLAINERS.supplyFit,
+        explainer: PRODUCT_WORKSPACE_EXPLAINERS.supplyFit,
         signals: [
           { label: 'Supply', value: 'Repository-backed', tone: 'emerald' },
           { label: 'Read', value: 'Measured and reviewable', tone: 'cyan' },
@@ -107,7 +107,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Packs activity master-detail',
         summary:
           '/packs uses a master-detail pattern: searchable activity rows as the master, selected AssetPack/proof/history state as detail.',
-        explainer: TERMINAL_INLINE_EXPLAINERS.readWindow,
+        explainer: PRODUCT_INLINE_EXPLAINERS.readWindow,
         signals: [
           { label: 'Search', value: 'Query-owned ledger', tone: 'default' },
           { label: 'Selected detail', value: 'Proof + history', tone: 'emerald' },
@@ -136,7 +136,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Command deck signals',
         summary:
           'Route control cards pair plain labels with explainers because every control changes how proof readback interprets work.',
-        explainer: TERMINAL_WORKSPACE_EXPLAINERS.controls,
+        explainer: PRODUCT_WORKSPACE_EXPLAINERS.controls,
         signals: [
           { label: 'Scenario', value: 'Read frame', tone: 'emerald' },
           { label: 'Projection', value: 'Read posture', tone: 'cyan' },
@@ -170,7 +170,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Action cards are bounded state changes',
         summary:
           'The action guide mirrors route controls: each write has a location, an expected read, and a proof signal.',
-        explainer: TERMINAL_INLINE_EXPLAINERS.closureAction,
+        explainer: PRODUCT_INLINE_EXPLAINERS.closureAction,
         signals: [
           { label: 'Write', value: 'Operator action', tone: 'emerald' },
           { label: 'Read', value: 'Proof readback', tone: 'cyan' },
@@ -199,7 +199,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Boundary and signed-transaction readiness',
         summary:
           'Readiness cards teach whether a flow is live, modeled, blocked, review-only, or ready for signed follow-through.',
-        explainer: TERMINAL_WORKSPACE_EXPLAINERS.boundaryRuntime,
+        explainer: PRODUCT_WORKSPACE_EXPLAINERS.boundaryRuntime,
         signals: [
           { label: 'Repository', value: 'Scoped', tone: 'emerald' },
           { label: 'Wallet', value: 'Staged', tone: 'amber' },
@@ -257,7 +257,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Conversation input should become proof readback evidence',
         summary:
           'Chat can be expressive, but Bitcode normalizes context so /packs can reread the outcome.',
-        explainer: TERMINAL_INLINE_EXPLAINERS.writePosture,
+        explainer: PRODUCT_INLINE_EXPLAINERS.writePosture,
         signals: [
           { label: 'Source', value: 'Attachment tokens', tone: 'emerald' },
           { label: 'Read', value: 'Measurement intent', tone: 'cyan' },
@@ -329,7 +329,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Proof families become readable product signals',
         summary:
           'Product routes keep dense proof detail available without forcing every reader to start in raw artifacts.',
-        explainer: TERMINAL_WORKSPACE_EXPLAINERS.sourcePath,
+        explainer: PRODUCT_WORKSPACE_EXPLAINERS.sourcePath,
         signals: [
           { label: 'Witness', value: 'Artifact-bound', tone: 'emerald' },
           { label: 'Replay', value: 'Step-bound', tone: 'cyan' },
@@ -372,7 +372,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Connected interfaces read admission and proof readback',
         summary:
           'Interface cards should tell users what is connected, what is staged, and where to verify effects in /packs.',
-        explainer: TERMINAL_WORKSPACE_EXPLAINERS.boundaryRuntime,
+        explainer: PRODUCT_WORKSPACE_EXPLAINERS.boundaryRuntime,
         signals: [
           { label: 'GitHub', value: 'Ingress + delivery', tone: 'emerald' },
           { label: 'Webhook', value: 'Automation trigger', tone: 'cyan' },
@@ -402,7 +402,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'A good tool result points back to proof readback',
         summary:
           'Programmable writes should never strand users in a tool transcript; the activity should be rereadable in /packs.',
-        explainer: TERMINAL_INLINE_EXPLAINERS.repositoryAnchor,
+        explainer: PRODUCT_INLINE_EXPLAINERS.repositoryAnchor,
         signals: [
           { label: 'Write admission', value: 'Confirmed', tone: 'emerald' },
           { label: 'Activity ID', value: 'Rereadable', tone: 'cyan' },
@@ -432,7 +432,7 @@ export const BITCODE_DOCS_PAGES = [
         title: 'Conversational writes still read proof-aware confirmation',
         summary:
           'The app can help a user draft, but state changes should clearly say what will be written and where to verify it.',
-        explainer: TERMINAL_INLINE_EXPLAINERS.writePosture,
+        explainer: PRODUCT_INLINE_EXPLAINERS.writePosture,
         signals: [
           { label: 'Draft', value: 'Natural language', tone: 'default' },
           { label: 'Confirm', value: 'Bounded write', tone: 'amber' },

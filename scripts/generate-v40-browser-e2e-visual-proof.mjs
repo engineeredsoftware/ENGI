@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V40_BROWSER_E2E_VISUAL_PROOF_ARTIFACT_PATH,
   buildV40BrowserE2eVisualProof,
-} from '../packages/specifying/src/canonical/v40-browser-e2e-visual-proof.js';
+} from '../scripts/specifying/src/canonical/v40-browser-e2e-visual-proof.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

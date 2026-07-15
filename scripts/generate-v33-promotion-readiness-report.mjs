@@ -150,12 +150,12 @@ export function buildV33PromotionReadinessReport() {
       'elif [ "$POINTER" = "V33" ]',
       '--active-canon V33 --draft-target V34',
     ]),
-    scanTokens('packages/specifying/src/canonical/proven-generator.js', [
+    scanTokens('scripts/specifying/src/canonical/proven-generator.js', [
       'buildV33ProvenPackage',
       'buildV33PromotionReadinessReport',
       '.bitcode/v33-promotion-readiness-report.json',
     ]),
-    scanTokens('packages/specifying/src/canonical/v21-specifying.js', [
+    scanTokens('scripts/specifying/src/canonical/v21-specifying.js', [
       '.bitcode/v33-promotion-readiness-report.json',
     ]),
     scanTokens('package.json', [
@@ -193,7 +193,7 @@ export function buildV33PromotionReadinessReport() {
       'check:v33-gate10',
       'v33-canon-promotion.yml',
     ]),
-    scanTokens('packages/specifying/README.md', [
+    scanTokens('scripts/specifying/README.md', [
       'V33 Gate 10',
       'V33` active, `V34` draft',
     ]),

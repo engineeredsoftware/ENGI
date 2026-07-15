@@ -34,13 +34,13 @@
         "@bitcode/specifying"
       ],
       "sourceRoots": [
-        "packages/specifying/src/canonical",
-        "packages/specifying/src/index.js"
+        "scripts/specifying/src/canonical",
+        "scripts/specifying/src/index.js"
       ],
       "testPaths": [
-        "packages/specifying/test/v40-test-inventory-coverage-matrix.test.js",
-        "packages/specifying/test/v39-promotion-readiness.test.js",
-        "packages/specifying/test/v38-promotion-readiness.test.js"
+        "scripts/specifying/test/v40-test-inventory-coverage-matrix.test.js",
+        "scripts/specifying/test/v39-promotion-readiness.test.js",
+        "scripts/specifying/test/v38-promotion-readiness.test.js"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/specifying test"
@@ -478,17 +478,17 @@
         "protocol-demonstration"
       ],
       "sourceRoots": [
-        "packages/specifying/test/protocol-package-boundary.test.js",
+        "scripts/specifying/test/protocol-package-boundary.test.js",
         "protocol-demonstration"
       ],
       "testPaths": [
-        "packages/specifying/test/protocol-package-boundary.test.js",
+        "scripts/specifying/test/protocol-package-boundary.test.js",
         "protocol-demonstration/test/v28-mvp-qa.test.js",
         "protocol-demonstration/test/v28-boundary-separation.test.js",
         "protocol-demonstration/test/local-fit-finding.test.js"
       ],
       "commandIds": [
-        "node --test packages/specifying/test/protocol-package-boundary.test.js",
+        "node --test scripts/specifying/test/protocol-package-boundary.test.js",
         "npm --prefix protocol-demonstration run test:v28-mvp-qa"
       ],
       "coverageTier": "promotion-required",
@@ -541,7 +541,7 @@
     },
     {
       "id": "protocol-exports-gate3",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {
@@ -571,12 +571,12 @@
     },
     {
       "id": "protocol-canonical-report-builders:source-roots-exist",
-      "sourcePath": "packages/specifying/src/canonical",
+      "sourcePath": "scripts/specifying/src/canonical",
       "passed": true
     },
     {
       "id": "protocol-canonical-report-builders:test-paths-exist",
-      "sourcePath": "packages/specifying/test/v40-test-inventory-coverage-matrix.test.js",
+      "sourcePath": "scripts/specifying/test/v40-test-inventory-coverage-matrix.test.js",
       "passed": true
     },
     {
@@ -681,12 +681,12 @@
     },
     {
       "id": "demonstration-commercial-boundary-unit:source-roots-exist",
-      "sourcePath": "packages/specifying/test/protocol-package-boundary.test.js",
+      "sourcePath": "scripts/specifying/test/protocol-package-boundary.test.js",
       "passed": true
     },
     {
       "id": "demonstration-commercial-boundary-unit:test-paths-exist",
-      "sourcePath": "packages/specifying/test/protocol-package-boundary.test.js",
+      "sourcePath": "scripts/specifying/test/protocol-package-boundary.test.js",
       "passed": true
     }
   ],

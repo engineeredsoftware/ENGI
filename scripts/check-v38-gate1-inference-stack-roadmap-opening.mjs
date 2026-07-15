@@ -98,11 +98,11 @@ function main() {
     'README.md',
     'AGENTS.md',
     'package.json',
-    'packages/specifying/README.md',
-    'packages/specifying/README.md',
-    'packages/specifying/src/canon-posture.js',
-    'packages/specifying/src/canon-posture.js',
-    'packages/specifying/data/state.json',
+    'scripts/specifying/README.md',
+    'scripts/specifying/README.md',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/src/canon-posture.js',
+    'scripts/specifying/data/state.json',
     'packages/agent-generics/src/steps/failsafe-sequence.ts',
     'packages/agent-generics/src/steps/thricified-generation.ts',
     'packages/agent-generics/src/agents/factories.ts',
@@ -129,11 +129,11 @@ function main() {
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
   const prTemplate = read(root, '.github/pull_request_template.md');
   const readme = read(root, 'README.md');
-  const protocolReadme = read(root, 'packages/specifying/README.md');
-  const demoReadme = read(root, 'packages/specifying/README.md');
-  const packagePosture = read(root, 'packages/specifying/src/canon-posture.js');
-  const demoPosture = read(root, 'packages/specifying/src/canon-posture.js');
-  const postureState = read(root, 'packages/specifying/data/state.json');
+  const protocolReadme = read(root, 'scripts/specifying/README.md');
+  const demoReadme = read(root, 'scripts/specifying/README.md');
+  const packagePosture = read(root, 'scripts/specifying/src/canon-posture.js');
+  const demoPosture = read(root, 'scripts/specifying/src/canon-posture.js');
+  const postureState = read(root, 'scripts/specifying/data/state.json');
   const failsafeSource = read(root, 'packages/agent-generics/src/steps/failsafe-sequence.ts');
   const thricifiedSource = read(root, 'packages/agent-generics/src/steps/thricified-generation.ts');
   const agentFactorySource = read(root, 'packages/agent-generics/src/agents/factories.ts');

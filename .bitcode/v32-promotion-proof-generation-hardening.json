@@ -98,7 +98,7 @@
       ]
     },
     {
-      "relativePath": "packages/specifying/src/canonical/proven-generator.js",
+      "relativePath": "scripts/specifying/src/canonical/proven-generator.js",
       "present": true,
       "requiredTokens": [
         {
@@ -116,7 +116,7 @@
       ]
     },
     {
-      "relativePath": "packages/specifying/src/canonical/v21-specifying.js",
+      "relativePath": "scripts/specifying/src/canonical/v21-specifying.js",
       "present": true,
       "requiredTokens": [
         {
@@ -126,7 +126,7 @@
       ]
     },
     {
-      "relativePath": "packages/specifying/test/v32-promotion-proof-generation.test.js",
+      "relativePath": "scripts/specifying/test/v32-promotion-proof-generation.test.js",
       "present": true,
       "requiredTokens": [
         {

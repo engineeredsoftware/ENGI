@@ -194,7 +194,7 @@
       "admissionStatus": "admitted_non_value_lanes",
       "hostId": "proof_services",
       "outboundNetworkPosture": "none",
-      "ownerPackage": "packages/specifying",
+      "ownerPackage": "scripts/specifying",
       "proofOutputPaths": [
         ".bitcode/v34-promotion-readiness-report.json"
       ],

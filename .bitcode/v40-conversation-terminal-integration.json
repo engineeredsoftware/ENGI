@@ -473,12 +473,12 @@
         "apps/uapi/app/conversations/components/ConversationRehearsalPanel.tsx",
         "apps/uapi/app/conversations/README.md",
         "apps/uapi/app/terminal/README.md",
-        "packages/specifying/src/canonical/v39-interface-conversation-product-parity.js"
+        "scripts/specifying/src/canonical/v39-interface-conversation-product-parity.js"
       ],
       "testPaths": [
         "apps/uapi/tests/api/conversationRehearsal.test.ts",
         "apps/uapi/tests/conversationRehearsalPanel.test.tsx",
-        "packages/specifying/test/v39-interface-conversation-product-parity.test.js",
+        "scripts/specifying/test/v39-interface-conversation-product-parity.test.js",
         "apps/uapi/tests/conversationTerminalIntegrationCoverage.test.tsx"
       ],
       "commandIds": [
@@ -562,7 +562,7 @@
     },
     {
       "id": "protocol-exports-gate6",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {

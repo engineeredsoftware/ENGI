@@ -791,25 +791,25 @@ jobs:
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/deployment-readiness-rehearsal.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/deployment-promotion-readiness-report.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts --runInBand --forceExit
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v32-promotion-proof-generation.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v35-documentation-surface-catalog.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v35-telemetry-taxonomy-catalog.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v35-public-docs-usage-guide-catalog.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v35-operator-runbook-catalog.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v35-docs-qa-alignment-report.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v35-testnet-rollout-readiness-guide.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v35-telemetry-documentation-interface-integration.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v35-local-staging-telemetry-documentation-rehearsal.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v35-promotion-readiness.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v36-exchange-activity-book.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v36-exchange-intent-order-contracts.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v36-exchange-rights-transfer-review.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v36-exchange-pricing-quote.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v36-exchange-settlement-reconciliation.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v36-exchange-dispute-repair-revenue-route.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v36-exchange-ux-proof.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v36-exchange-rehearsal.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v36-promotion-readiness.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v32-promotion-proof-generation.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v35-documentation-surface-catalog.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v35-telemetry-taxonomy-catalog.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v35-public-docs-usage-guide-catalog.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v35-operator-runbook-catalog.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v35-docs-qa-alignment-report.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v35-testnet-rollout-readiness-guide.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v35-telemetry-documentation-interface-integration.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v35-local-staging-telemetry-documentation-rehearsal.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v35-promotion-readiness.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v36-exchange-activity-book.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v36-exchange-intent-order-contracts.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v36-exchange-rights-transfer-review.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v36-exchange-pricing-quote.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v36-exchange-settlement-reconciliation.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v36-exchange-dispute-repair-revenue-route.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v36-exchange-ux-proof.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v36-exchange-rehearsal.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v36-promotion-readiness.test.js
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/generic-mcps-bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand --forceExit
@@ -825,62 +825,62 @@ jobs:
           pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-operational-telemetry-repair-readback.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-interface-product-parity.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/conversations/__tests__/stream-events.test.ts src/conversations/__tests__/privacy.test.ts src/conversations/__tests__/telemetry.test.ts --runInBand --forceExit
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/conversation-telemetry-proof-hooks.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/conversation-rehearsal.test.js
-          pnpm --dir packages/specifying exec node --test --test-force-exit test/v37-promotion-readiness.test.js
-          if [ -f packages/specifying/test/v38-inference-surface-inventory.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v38-inference-surface-inventory.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/conversation-telemetry-proof-hooks.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/conversation-rehearsal.test.js
+          pnpm --dir scripts/specifying exec node --test --test-force-exit test/v37-promotion-readiness.test.js
+          if [ -f scripts/specifying/test/v38-inference-surface-inventory.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v38-inference-surface-inventory.test.js
           fi
-          if [ -f packages/specifying/test/v38-ptrr-failsafe-thricified-stack.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v38-ptrr-failsafe-thricified-stack.test.js
+          if [ -f scripts/specifying/test/v38-ptrr-failsafe-thricified-stack.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v38-ptrr-failsafe-thricified-stack.test.js
           fi
-          if [ -f packages/specifying/test/v38-prompt-benchmark-report.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v38-prompt-benchmark-report.test.js
+          if [ -f scripts/specifying/test/v38-prompt-benchmark-report.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v38-prompt-benchmark-report.test.js
           fi
-          if [ -f packages/specifying/test/v38-inference-telemetry-disclosure-report.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v38-inference-telemetry-disclosure-report.test.js
+          if [ -f scripts/specifying/test/v38-inference-telemetry-disclosure-report.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v38-inference-telemetry-disclosure-report.test.js
           fi
-          if [ -f packages/specifying/test/v38-read-need-comprehension-inference-hardening.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v38-read-need-comprehension-inference-hardening.test.js
+          if [ -f scripts/specifying/test/v38-read-need-comprehension-inference-hardening.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v38-read-need-comprehension-inference-hardening.test.js
           fi
-          if [ -f packages/specifying/test/v38-read-fits-finding-search-embeddings.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v38-read-fits-finding-search-embeddings.test.js
+          if [ -f scripts/specifying/test/v38-read-fits-finding-search-embeddings.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v38-read-fits-finding-search-embeddings.test.js
           fi
-          if [ -f packages/specifying/test/v38-assetpack-synthesis-economic-traceability.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v38-assetpack-synthesis-economic-traceability.test.js
+          if [ -f scripts/specifying/test/v38-assetpack-synthesis-economic-traceability.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v38-assetpack-synthesis-economic-traceability.test.js
           fi
-          if [ -f packages/specifying/test/v38-conversation-tool-prompt-inference-parity.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v38-conversation-tool-prompt-inference-parity.test.js
+          if [ -f scripts/specifying/test/v38-conversation-tool-prompt-inference-parity.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v38-conversation-tool-prompt-inference-parity.test.js
           fi
-          if [ -f packages/specifying/test/v38-local-staging-inference-depository-search-rehearsal.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v38-local-staging-inference-depository-search-rehearsal.test.js
+          if [ -f scripts/specifying/test/v38-local-staging-inference-depository-search-rehearsal.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v38-local-staging-inference-depository-search-rehearsal.test.js
           fi
-          if [ -f packages/specifying/test/v38-promotion-readiness.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v38-promotion-readiness.test.js
+          if [ -f scripts/specifying/test/v38-promotion-readiness.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v38-promotion-readiness.test.js
           fi
-          if [ -f packages/specifying/test/v39-interface-conversation-product-parity.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v39-interface-conversation-product-parity.test.js
+          if [ -f scripts/specifying/test/v39-interface-conversation-product-parity.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v39-interface-conversation-product-parity.test.js
           fi
-          if [ -f packages/specifying/test/v39-local-staging-reading-rehearsal.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v39-local-staging-reading-rehearsal.test.js
+          if [ -f scripts/specifying/test/v39-local-staging-reading-rehearsal.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v39-local-staging-reading-rehearsal.test.js
           fi
-          if [ -f packages/specifying/test/v39-promotion-readiness.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v39-promotion-readiness.test.js
+          if [ -f scripts/specifying/test/v39-promotion-readiness.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v39-promotion-readiness.test.js
           fi
-          if [ -f packages/specifying/test/v40-conversation-terminal-integration.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v40-conversation-terminal-integration.test.js
+          if [ -f scripts/specifying/test/v40-conversation-terminal-integration.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v40-conversation-terminal-integration.test.js
           fi
-          if [ -f packages/specifying/test/v40-ledger-storage-sync.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v40-ledger-storage-sync.test.js
+          if [ -f scripts/specifying/test/v40-ledger-storage-sync.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v40-ledger-storage-sync.test.js
           fi
-          if [ -f packages/specifying/test/v40-local-staging-rehearsal-automation.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v40-local-staging-rehearsal-automation.test.js
+          if [ -f scripts/specifying/test/v40-local-staging-rehearsal-automation.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v40-local-staging-rehearsal-automation.test.js
           fi
-          if [ -f packages/specifying/test/v40-prompt-benchmark-smoke-v41-readiness.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v40-prompt-benchmark-smoke-v41-readiness.test.js
+          if [ -f scripts/specifying/test/v40-prompt-benchmark-smoke-v41-readiness.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v40-prompt-benchmark-smoke-v41-readiness.test.js
           fi
-          if [ -f packages/specifying/test/v40-promotion-readiness.test.js ]; then
-            pnpm --dir packages/specifying exec node --test --test-force-exit test/v40-promotion-readiness.test.js
+          if [ -f scripts/specifying/test/v40-promotion-readiness.test.js ]; then
+            pnpm --dir scripts/specifying exec node --test --test-force-exit test/v40-promotion-readiness.test.js
           fi
           pnpm --filter @bitcode/specifying test
 

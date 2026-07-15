@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V42_AI_READING_DEMONSTRATION_ARTIFACT_PATH,
   buildV42AiReadingDemonstration,
-} from '../packages/specifying/src/canonical/v42-ai-reading-demonstration.js';
+} from '../scripts/specifying/src/canonical/v42-ai-reading-demonstration.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

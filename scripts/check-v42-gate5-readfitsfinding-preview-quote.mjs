@@ -120,8 +120,8 @@ function main() {
     'apps/uapi/app/terminal/terminal-pipeline-host-client.ts',
     'apps/uapi/tests/api/pipelineHostRoute.test.ts',
     'apps/uapi/tests/terminalPipelineHarnessClient.test.ts',
-    'packages/specifying/src/canonical/v42-readfitsfinding-preview-quote.js',
-    'packages/specifying/test/v42-readfitsfinding-preview-quote.test.js',
+    'scripts/specifying/src/canonical/v42-readfitsfinding-preview-quote.js',
+    'scripts/specifying/test/v42-readfitsfinding-preview-quote.test.js',
     'scripts/generate-v42-readfitsfinding-preview-quote.mjs',
     'scripts/check-v42-gate5-readfitsfinding-preview-quote.mjs',
     'BITCODE_SPEC_V42.md',
@@ -132,7 +132,7 @@ function main() {
     'README.md',
     'apps/uapi/app/terminal/README.md',
     'packages/asset-packs-pipelines/domain/README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -155,7 +155,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v42-readfitsfinding-preview-quote.test.js',
+        'scripts/specifying/test/v42-readfitsfinding-preview-quote.test.js',
       ]);
     } catch (error) {
       failures.push(`V42 ReadFitsFinding preview/quote protocol test failed: ${error.stderr || error.message}`);

@@ -388,11 +388,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {
@@ -607,11 +607,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {
@@ -826,11 +826,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {
@@ -1045,11 +1045,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {
@@ -1264,11 +1264,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {
@@ -1483,11 +1483,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {
@@ -1703,11 +1703,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {
@@ -1922,11 +1922,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {
@@ -1990,11 +1990,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {
@@ -2044,11 +2044,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {
@@ -2098,11 +2098,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {
@@ -2152,11 +2152,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {
@@ -2206,11 +2206,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {
@@ -2260,11 +2260,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {
@@ -2314,11 +2314,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {
@@ -2368,11 +2368,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/exchange-intent-order-contracts.js",
+          "sourceRoot": "scripts/specifying/src/canonical/exchange-intent-order-contracts.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/v36-exchange-intent-order-contracts.test.js",
+          "sourceRoot": "scripts/specifying/test/v36-exchange-intent-order-contracts.test.js",
           "present": true
         },
         {

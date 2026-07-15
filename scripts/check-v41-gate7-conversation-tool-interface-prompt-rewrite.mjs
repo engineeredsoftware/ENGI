@@ -139,8 +139,8 @@ function main() {
     '.bitcode/v41-readneed-prompt-hardening.json',
     '.bitcode/v41-readfitsfinding-prompt-hardening.json',
     '.bitcode/v38-conversation-tool-prompt-inference-parity.json',
-    'packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js',
-    'packages/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js',
+    'scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js',
+    'scripts/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js',
     'scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs',
     'scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs',
     'packages/conversations/src/agent/ConversationAgent.ts',
@@ -160,7 +160,7 @@ function main() {
     'BITCODE_SPEC_V41_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'packages/specifying/README.md',
+    'scripts/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -183,7 +183,7 @@ function main() {
       run(root, 'node', [
         '--test',
         '--test-force-exit',
-        'packages/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js',
+        'scripts/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js',
       ]);
     } catch (error) {
       failures.push(`V41 Conversation/tool/interface prompt rewrite protocol test failed: ${error.stderr || error.message}`);

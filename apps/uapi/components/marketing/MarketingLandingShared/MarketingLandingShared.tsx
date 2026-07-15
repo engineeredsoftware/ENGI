@@ -30,22 +30,22 @@ export const paintedMotionStyle: React.CSSProperties = {
   contain: 'paint',
 };
 
-// Keep descriptions near-identical length (~79–80 chars) so all three wrap to four lines.
 // Color order: Deposit purple · Read orange · Settle green.
 export const productPillars = [
   {
     title: 'Deposit',
-    description: 'Deposit repositories as measured AssetPack supply buyers can find and settle.',
+    description: 'Provided source material is measured for searchability.',
     Icon: CubeTransparentIcon,
   },
   {
     title: 'Read',
-    description: 'State a Need, compare fit measurements, and pick source-safe AssetPack options.',
+    description: 'Describe your repositories needs to receive candidates to review.',
     Icon: ScaleIcon,
   },
   {
     title: 'Settle',
-    description: 'Pay in BTC; BTD rights and delivery unlock with proof-backed finality after pay.',
+    description:
+      'Exchanges are settled when the depositor receives BTC and the reader receives BTD.',
     Icon: CurrencyDollarIcon,
   },
 ] as const;
@@ -84,12 +84,10 @@ export const measurementFinalFit = {
   detail: 'BTD volume — weighted scalar over needinesses-fits for the settled AssetPack',
 } as const;
 
-export const measureCardReadNeed = 'Need: auth migration rollback for monorepo services';
-
 export const measureCardAxes = [
-  { label: 'Quality', value: 96 },
-  { label: 'Fit', value: 84 },
-  { label: 'Trust', value: 73 },
+  { label: 'Quantity', value: 73 },
+  { label: 'Quality', value: 84 },
+  { label: 'Fit', value: 96 },
 ] as const;
 
 /** Neon tone for highlighted mosaic chips (bullet + glowing label). */

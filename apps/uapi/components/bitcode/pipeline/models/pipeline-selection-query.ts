@@ -15,7 +15,7 @@ import {
   BITCODE_TRANSACTION_PAGE_SIZES,
   DEFAULT_TRANSACTION_PAGINATION,
 } from '@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types';
-import type { TerminalEnterpriseReadingStepId } from '@/components/reads/models/enterprise-reading-ux-state';
+import type { EnterpriseReadingStepId } from '@/components/reads/models/enterprise-reading-ux-state';
 
 import { buildTerminalTransactionFilters } from '@/components/bitcode/pipeline/models/pipeline-transactions';
 
@@ -77,14 +77,14 @@ const TERMINAL_CONVERSATION_HANDOFF_POLICY_VALUES: TerminalConversationHandoffPo
   'retry_required',
   'denied',
 ];
-const TERMINAL_ENTERPRISE_READING_STAGE_VALUES: TerminalEnterpriseReadingStepId[] = [
+const TERMINAL_ENTERPRISE_READING_STAGE_VALUES: EnterpriseReadingStepId[] = [
   'request-read',
   'review-synthesized-need',
   'request-fit',
   'review-synthesized-asset-pack',
   'buy-asset-pack-settle',
 ];
-export type TerminalTransactionDetailSection =
+export type PipelineTransactionDetailSection =
   | 'shippables'
   | 'transaction'
   | 'wallet-btc'
@@ -95,7 +95,7 @@ export type TerminalTransactionDetailSection =
   | 'journal'
   | 'activity'
   | 'console';
-const TRANSACTION_DETAIL_SECTION_VALUES: TerminalTransactionDetailSection[] = [
+const TRANSACTION_DETAIL_SECTION_VALUES: PipelineTransactionDetailSection[] = [
   'shippables',
   'transaction',
   'wallet-btc',
@@ -117,7 +117,7 @@ export type TerminalConversationHandoffContext = {
   repositoryAnchor: string | null;
   sourceSelectors: string[];
   summary: string | null;
-  readingStage: TerminalEnterpriseReadingStepId | null;
+  readingStage: EnterpriseReadingStepId | null;
 };
 
 function parseEnumValue<T extends string>(value: string | null, allowed: readonly T[], fallback: T): T {
@@ -155,7 +155,7 @@ export function readTerminalDebugEnabled(searchParams: URLSearchParams) {
   return searchParams.get(SEARCH_PARAM_KEYS.debug) === '1';
 }
 
-export function readTerminalTransactionDetailSection(searchParams: URLSearchParams) {
+export function readPipelineTransactionDetailSection(searchParams: URLSearchParams) {
   const rawValue = searchParams.get(SEARCH_PARAM_KEYS.detailSection);
   if (rawValue === 'identity') return 'transaction';
   return parseEnumValue(rawValue, TRANSACTION_DETAIL_SECTION_VALUES, 'shippables');
@@ -269,9 +269,9 @@ export function writeTerminalDebugEnabled(searchParams: URLSearchParams, enabled
   return nextParams;
 }
 
-export function writeTerminalTransactionDetailSection(
+export function writePipelineTransactionDetailSection(
   searchParams: URLSearchParams,
-  detailSection: TerminalTransactionDetailSection,
+  detailSection: PipelineTransactionDetailSection,
 ) {
   const nextParams = new URLSearchParams(searchParams.toString());
   if (detailSection === 'shippables') {
@@ -340,7 +340,7 @@ export function shouldRecoverTerminalTransactionRoute({
   return transactionIds.length > 0 && (!selectedTransactionId || !transactionIds.includes(selectedTransactionId));
 }
 
-export function resetTerminalTransactionFilters(searchParams: URLSearchParams) {
+export function resetWorkspaceTransactionFilters(searchParams: URLSearchParams) {
   const nextParams = new URLSearchParams(searchParams.toString());
   nextParams.delete(SEARCH_PARAM_KEYS.search);
   nextParams.delete(SEARCH_PARAM_KEYS.status);

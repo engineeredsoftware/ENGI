@@ -190,7 +190,7 @@
       "gateId": "generated_artifact_freshness",
       "label": "generated artifact freshness gate",
       "approvalClass": "generated_artifact_freshness",
-      "ownerPackage": "packages/specifying",
+      "ownerPackage": "scripts/specifying",
       "requiredHostIds": [
         "proof_services"
       ],
@@ -215,7 +215,7 @@
       "auditEventName": "migration_cicd_approval.generated_artifact_freshness",
       "proofRootBasis": [
         ".bitcode",
-        "packages/specifying/src/canonical/v21-specifying.js",
+        "scripts/specifying/src/canonical/v21-specifying.js",
         "check:spec-family"
       ],
       "gateRoot": "v34-migration-approval-gate:7196f402f2da796d66ac94ba",
@@ -314,7 +314,7 @@
       "gateId": "promotion_commit_approval",
       "label": "canonical promotion commit approval gate",
       "approvalClass": "promotion_commit",
-      "ownerPackage": "packages/specifying",
+      "ownerPackage": "scripts/specifying",
       "requiredHostIds": [
         "proof_services"
       ],

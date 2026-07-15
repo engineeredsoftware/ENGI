@@ -275,11 +275,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
           "present": true
         },
         {
@@ -470,11 +470,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
           "present": true
         },
         {
@@ -666,11 +666,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
           "present": true
         },
         {
@@ -861,11 +861,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
           "present": true
         },
         {
@@ -1056,11 +1056,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
           "present": true
         },
         {
@@ -1252,11 +1252,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
           "present": true
         },
         {
@@ -1364,11 +1364,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
           "present": true
         },
         {
@@ -1450,11 +1450,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
           "present": true
         },
         {
@@ -1536,11 +1536,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
           "present": true
         },
         {
@@ -1622,11 +1622,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
           "present": true
         },
         {
@@ -1708,11 +1708,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
           "present": true
         },
         {
@@ -1794,11 +1794,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "packages/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
           "present": true
         },
         {

@@ -114,7 +114,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
-    'packages/specifying/src/canonical/v21-specifying.js',
+    'scripts/specifying/src/canonical/v21-specifying.js',
   ];
   for (const relativePath of requiredFiles) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V34 Gate 9 file: ${relativePath}`);
@@ -169,7 +169,7 @@ function main() {
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const source = read(root, 'packages/btd/src/deployment-readiness-rehearsal.ts');
   const test = read(root, 'packages/btd/__tests__/deployment-readiness-rehearsal.test.ts');
-  const specifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
+  const specifying = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
   const requiredTerms = ['DeploymentReadinessRehearsal', ARTIFACT, 'local full-stack deployment rehearsal', 'staging-testnet full-stack deployment rehearsal', 'value-bearing mainnet blocked rehearsal', 'Terminal', 'public API', 'MCP API', 'ChatGPT App', 'Reading pipeline execution receipts', 'settlement/finality simulation', 'storage posture', 'repair posture'];
   for (const doc of [spec, delta, notes, parity]) {
     for (const term of requiredTerms) assertCheck(failures, doc.includes(term), `V34 docs must mention ${term}.`);

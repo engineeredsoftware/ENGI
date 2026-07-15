@@ -8,8 +8,8 @@
 import {
   TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
   TERMINAL_ENTERPRISE_READING_STEPS,
-  assertTerminalEnterpriseReadingUxStateSourceSafe,
-  buildTerminalEnterpriseReadingUxState,
+  assertEnterpriseReadingUxStateSourceSafe,
+  buildEnterpriseReadingUxState,
 } from '@/components/reads/models/enterprise-reading-ux-state';
 import {
   assertOrganizationPolicyWalletAuthoritySourceSafe,
@@ -61,7 +61,7 @@ export function writeReadRouteStage(params: URLSearchParams, stage: ReadRouteSte
 }
 
 export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRouteSession {
-  const enterpriseState = buildTerminalEnterpriseReadingUxState(input);
+  const enterpriseState = buildEnterpriseReadingUxState(input);
   const procurementGovernance = buildReadProcurementGovernance(input);
   const fitMeasurementReview = buildReadFitMeasurementReview(input);
   const settlementRightsDelivery = buildReadSettlementRightsDelivery(input);
@@ -170,8 +170,8 @@ export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRo
 }
 
 export function assertReadRouteSessionSourceSafe(session: ReadRouteSession) {
-  const enterpriseSafety = assertTerminalEnterpriseReadingUxStateSourceSafe(
-    buildTerminalEnterpriseReadingUxState({
+  const enterpriseSafety = assertEnterpriseReadingUxStateSourceSafe(
+    buildEnterpriseReadingUxState({
       transactionId: session.routeState.transactionId,
       routeReadingStage: session.routeState.readingStage,
       hasRepositorySource: Boolean(session.routeState.repositoryFullName),

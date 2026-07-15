@@ -144,7 +144,7 @@
     "parity": "BITCODE_SPEC_V43_PARITY_MATRIX.md:450948415f13c6732f50eb6e",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
     "readme": "README.md:d28ec731634e03953d8adfe6",
-    "protocolReadme": "packages/specifying/README.md:f5b175049f4f4e8df179e184",
+    "protocolReadme": "scripts/specifying/README.md:f5b175049f4f4e8df179e184",
     "packageJson": "package.json:b79014968c556bc1b43ab341",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
@@ -157,9 +157,9 @@
     "workspaceSurface": "apps/uapi/components/base/bitcode/layout/workspace-surface.ts:12418d5db9c3ddad6d10c841",
     "publicCopy": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts:9b39322f872b899e1c752701",
     "publicExplainers": "apps/uapi/components/base/bitcode/layout/bitcode-public-explainers.ts:4e3b84dda50607ea8ea2b73e",
-    "packageIndex": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
-    "packageTypes": "packages/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
-    "packageTest": "packages/specifying/test/v43-packs-activity-master-detail.test.js:baf3e44b2fbe4e62590c1824",
+    "packageIndex": "scripts/specifying/src/index.js:1f16ea428bd71351a1292cb6",
+    "packageTypes": "scripts/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "packageTest": "scripts/specifying/test/v43-packs-activity-master-detail.test.js:baf3e44b2fbe4e62590c1824",
     "uapiTest": "apps/uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
     "generator": "scripts/generate-v43-packs-activity-master-detail.mjs:f342bc9b3ebb8de4e7aa2882",
     "checker": "scripts/check-v43-gate3-packs-activity-master-detail.mjs:5914a444235ffb15bb3272ad"
@@ -207,7 +207,7 @@
     },
     {
       "id": "protocol-readme-records-gate3",
-      "sourcePath": "packages/specifying/README.md",
+      "sourcePath": "scripts/specifying/README.md",
       "passed": true
     },
     {
@@ -282,17 +282,17 @@
     },
     {
       "id": "protocol-test-covers-artifact",
-      "sourcePath": "packages/specifying/test/v43-packs-activity-master-detail.test.js",
+      "sourcePath": "scripts/specifying/test/v43-packs-activity-master-detail.test.js",
       "passed": true
     },
     {
       "id": "package-exports-gate3",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {
       "id": "package-types-export-gate3",
-      "sourcePath": "packages/specifying/src/index.d.ts",
+      "sourcePath": "scripts/specifying/src/index.d.ts",
       "passed": true
     },
     {

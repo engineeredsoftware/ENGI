@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V43_CROSS_ROUTE_REHEARSAL_ARTIFACT_PATH,
   buildV43CrossRouteRehearsalTelemetryRepair,
-} from '../packages/specifying/src/canonical/v43-cross-route-rehearsal-telemetry-repair.js';
+} from '../scripts/specifying/src/canonical/v43-cross-route-rehearsal-telemetry-repair.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

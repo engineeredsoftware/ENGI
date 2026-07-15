@@ -428,7 +428,7 @@
     },
     {
       "id": "package-exports-gate3",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {
@@ -462,10 +462,10 @@
     "btdSourceToShares": "packages/btd/src/source-to-shares.ts:6e2e84251b29ba2477766708",
     "btdSemanticVolume": "packages/btd/src/semantic-volume.ts:d428a420e7e1e2f2d958c5ea",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
-    "protocolIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
-    "protocolTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
-    "protocolSource": "packages/specifying/src/canonical/v47-seller-buyer-state-machine-law.js:4a6cbf385f24c673e9fee3fd",
-    "protocolTest": "packages/specifying/test/v47-seller-buyer-state-machine-law.test.js:de93bfe59fad2e7a9a2a3ce7",
+    "protocolIndex": "scripts/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "protocolTypes": "scripts/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "protocolSource": "scripts/specifying/src/canonical/v47-seller-buyer-state-machine-law.js:4a6cbf385f24c673e9fee3fd",
+    "protocolTest": "scripts/specifying/test/v47-seller-buyer-state-machine-law.test.js:de93bfe59fad2e7a9a2a3ce7",
     "generator": "scripts/generate-v47-seller-buyer-state-machine-law.mjs:256bbbf5ca089285f27fcad7",
     "checker": "scripts/check-v47-gate3-seller-buyer-state-machine-law.mjs:fa453f967b42423e4ee0bfc1",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",

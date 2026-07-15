@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   V38_INFERENCE_SURFACE_INVENTORY_ARTIFACT_PATH,
   buildV38InferenceSurfaceInventory,
-} from '../packages/specifying/src/index.js';
+} from '../scripts/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

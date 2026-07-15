@@ -116,8 +116,8 @@
         "rights-transfer-mismatch",
         "stale-canon-posture"
       ],
-      "fixture": "packages/btd/__tests__/btc-fee-operation.test.ts; packages/btd/__tests__/btd.test.ts; packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts; packages/specifying/test/protocol-package-boundary.test.js",
-      "owner": "packages/btd; packages/specifying",
+      "fixture": "packages/btd/__tests__/btc-fee-operation.test.ts; packages/btd/__tests__/btd.test.ts; packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts; scripts/specifying/test/protocol-package-boundary.test.js",
+      "owner": "packages/btd; scripts/specifying",
       "plannedGate": "Gate 5",
       "promotedBehavior": "BTD ranges, read licenses, AssetPack mint/read/right-transfer receipts, BTC fee posture, and Protocol package canon helpers.",
       "repairPosture": "Gate 5 adds success, blocked, and repair-state coverage over fee, range, receipt, source-to-shares, right-transfer, and source-safe disclosure state.",
@@ -322,8 +322,8 @@
         "workflow-branch-mismatch",
         "unsafe-main-push"
       ],
-      "fixture": "scripts/check-bitcode-spec-family.mjs; scripts/check-bitcode-canonical-inputs.mjs; scripts/check-bitcode-canon-posture-drift.mjs; scripts/generate-bitcode-proven.mjs; scripts/generate-v32-promotion-proof-generation-hardening.mjs; scripts/generate-v32-promotion-readiness-report.mjs; scripts/check-v32-gate10-promotion-readiness.mjs; packages/specifying/test/v32-promotion-proof-generation.test.js; .github/workflows/bitcode-gate-quality.yml; .github/workflows/v32-canon-promotion.yml",
-      "owner": ".github/workflows; scripts; packages/specifying",
+      "fixture": "scripts/check-bitcode-spec-family.mjs; scripts/check-bitcode-canonical-inputs.mjs; scripts/check-bitcode-canon-posture-drift.mjs; scripts/generate-bitcode-proven.mjs; scripts/generate-v32-promotion-proof-generation-hardening.mjs; scripts/generate-v32-promotion-readiness-report.mjs; scripts/check-v32-gate10-promotion-readiness.mjs; scripts/specifying/test/v32-promotion-proof-generation.test.js; .github/workflows/bitcode-gate-quality.yml; .github/workflows/v32-canon-promotion.yml",
+      "owner": ".github/workflows; scripts; scripts/specifying",
       "plannedGate": "Gate 9 and Gate 10",
       "promotedBehavior": "Gate PR quality, version promotion workflow, spec-family checks, canonical input checks, canon-posture drift checks, and generated proof appendix.",
       "repairPosture": "Gate 9 hardens generated-proof diagnostics through .bitcode/v32-promotion-proof-generation-hardening.json; Gate 10 wires V32 promotion and post-promotion V33 draft posture.",

@@ -6,13 +6,13 @@ import {
 describe('conversation telemetry proof hook preview', () => {
   it('binds source-safe telemetry families to dashboard and runbook posture', () => {
     const preview = buildConversationTelemetryProofPreview({
-      eventFamily: 'terminal_handoff',
+      eventFamily: 'product_handoff',
       visibilityTier: 'user_visible',
       conversationId: 'conv-1',
       sourceText: 'protected source with token=abc12345678901234567890 must never be visible',
     });
 
-    expect(preview.eventFamily).toBe('terminal_handoff');
+    expect(preview.eventFamily).toBe('product_handoff');
     expect(preview.dashboardPanel).toBe('conversation.dashboard.terminal-handoff');
     expect(preview.runbookId).toBe('runbook.conversation.terminal-handoff-repair');
     expect(preview.proofRoot).toMatch(/^conversation-telemetry-proof:[a-f0-9]{8}$/);

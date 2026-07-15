@@ -647,7 +647,7 @@
     },
     {
       "id": "protocol-exports-rehearsal",
-      "sourcePath": "packages/specifying/src/index.js",
+      "sourcePath": "scripts/specifying/src/index.js",
       "passed": true
     },
     {
