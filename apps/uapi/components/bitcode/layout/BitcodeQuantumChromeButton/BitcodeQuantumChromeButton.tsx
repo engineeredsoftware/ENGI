@@ -144,8 +144,8 @@ export default function BitcodeQuantumChromeButton({
 
       <span className="relative z-10 inline-flex items-center gap-2.5">
         <span
-          // Mark SSOT is tilted −17.5°. Hover +17° CSS (~upright, 0.5° under full cancel).
-          className="relative inline-flex h-3.5 w-3.5 origin-center transition-transform duration-300 ease-out group-hover:rotate-[17deg] group-hover:drop-shadow-[0_0_8px_rgba(103,254,183,0.85)] group-disabled:rotate-0"
+          // Mark SSOT is tilted −17.5°. Hover +13.5° CSS (~upright, 4° under full cancel).
+          className="relative inline-flex h-3.5 w-3.5 origin-center transition-transform duration-300 ease-out group-hover:rotate-[13.5deg] group-hover:drop-shadow-[0_0_8px_rgba(103,254,183,0.85)] group-disabled:rotate-0"
         >
           <Logo
             height="h-3.5"
