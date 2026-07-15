@@ -44,11 +44,12 @@ export const metadata: Metadata = {
   title: metadataTitle,
   description: metadataDescription,
   applicationName: 'Bitcode',
-  // Bitcode "B" mark only — never the legacy Engi circular-e assets.
+  // Logo SSOT: public/bitcode-logo.svg (+ bitcode-logo.pxd). Favicons/OG derived from it.
   icons: {
     icon: [
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/bitcode-logo.svg', type: 'image/svg+xml' },
       { url: '/logo.svg', type: 'image/svg+xml' },
     ],
     shortcut: '/favicon-32x32.png',
