@@ -3,13 +3,15 @@
 /**
  * Commercial product strip (left column).
  * Content-height only — parent stack equalizes space above/below via flex spacers.
- * Interface cards: Website + MCP live at launch; Conversational Extensions coming soon.
+ * Interface cards: Website + MCP live; Conversational Extensions coming soon;
+ * Forkable Repository open-source (live chrome, no body).
  */
 
 import React from 'react';
 import {
   ArrowsRightLeftIcon,
   ChatBubbleLeftRightIcon,
+  CodeBracketIcon,
   CodeBracketSquareIcon,
   ComputerDesktopIcon,
 } from '@heroicons/react/24/outline';
@@ -37,6 +39,7 @@ const FLOW_ICONS = {
   website: ComputerDesktopIcon,
   mcp: CodeBracketSquareIcon,
   extensions: ChatBubbleLeftRightIcon,
+  repository: CodeBracketIcon,
 } as const;
 
 function renderTitleWithHighlights(title: string) {
@@ -148,6 +151,9 @@ export function MarketingLandingTestnetSection() {
           {copy.flow.map((entry) => {
             const Icon = FLOW_ICONS[entry.id as keyof typeof FLOW_ICONS] ?? ComputerDesktopIcon;
             const isComingSoon = entry.status === 'coming_soon';
+            const isOpenSource = entry.status === 'open_source';
+            const isLiveChrome = entry.status === 'live' || isOpenSource;
+            const detail = typeof entry.detail === 'string' ? entry.detail.trim() : '';
 
             return (
               <li key={entry.id}>
@@ -182,19 +188,25 @@ export function MarketingLandingTestnetSection() {
                       <span className="shrink-0 rounded-none border border-amber-300/25 bg-amber-400/10 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.16em] text-amber-100/80">
                         Coming soon
                       </span>
-                    ) : (
+                    ) : isOpenSource ? (
+                      <span className="shrink-0 rounded-none border border-emerald-300/22 bg-emerald-400/10 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.16em] text-emerald-100/75">
+                        Open-Source
+                      </span>
+                    ) : isLiveChrome ? (
                       <span className="shrink-0 rounded-none border border-emerald-300/22 bg-emerald-400/10 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.16em] text-emerald-100/75">
                         Live
                       </span>
-                    )}
+                    ) : null}
                   </div>
-                  <p
-                    className={`mt-2 text-[12px] leading-5 phone:text-[13px] ${
-                      isComingSoon ? 'text-neutral-500' : 'text-neutral-400'
-                    }`}
-                  >
-                    {entry.detail}
-                  </p>
+                  {detail ? (
+                    <p
+                      className={`mt-2 text-[12px] leading-5 phone:text-[13px] ${
+                        isComingSoon ? 'text-neutral-500' : 'text-neutral-400'
+                      }`}
+                    >
+                      {detail}
+                    </p>
+                  ) : null}
                 </div>
               </li>
             );

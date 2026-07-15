@@ -100,6 +100,14 @@ export const BITCODE_PUBLIC_COPY = {
           "Bitcode's API is consumable virtually everywhere, whether it be via scripting or within your own applications. Most core experiences are supported.",
       },
       {
+        id: 'repository',
+        label: 'Forkable Repository',
+        href: null,
+        // Live emerald badge styling; badge text is Open-Source (not Live).
+        status: 'open_source' as const,
+        detail: '',
+      },
+      {
         id: 'extensions',
         label: 'Conversational Extensions',
         href: null,

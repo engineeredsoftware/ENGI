@@ -162,12 +162,15 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('Website Application')).toBeInTheDocument();
     expect(screen.getByText('MCP API')).toBeInTheDocument();
     expect(screen.getByText('Conversational Extensions')).toBeInTheDocument();
+    expect(screen.getByText('Forkable Repository')).toBeInTheDocument();
     expect(screen.getByText('Coming soon')).toBeInTheDocument();
+    expect(screen.getByText('Open-Source')).toBeInTheDocument();
     expect(screen.getAllByText('Live').length).toBe(2);
     // Interface cards are descriptive only — not navigable.
     expect(screen.queryByRole('link', { name: /Website Application/u })).toBeNull();
     expect(screen.queryByRole('link', { name: /MCP API/u })).toBeNull();
     expect(screen.queryByRole('link', { name: /Conversational Extensions/u })).toBeNull();
+    expect(screen.queryByRole('link', { name: /Forkable Repository/u })).toBeNull();
     expect(
       screen.getByText(/Measurements are visible; IP is not\. Bitcode is source-safe knowledge trading/u),
     ).toBeInTheDocument();
