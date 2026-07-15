@@ -99,7 +99,7 @@ export function MarketingLandingPillarCard({
                   What you package
                 </p>
                 <p className="mt-1 text-[11px] leading-4 text-violet-100/72">
-                  code, docs, diagrams, PDFs, and notes
+                  code, docs, designs, PDFs, and notes
                 </p>
               </div>
               <div className="border-l-4 border-pink-400 pl-3">
@@ -107,7 +107,7 @@ export function MarketingLandingPillarCard({
                   Proven on deposit
                 </p>
                 <p className="mt-1 text-[11px] leading-4 text-violet-100/72">
-                  commits, authorship, paths, and SHA
+                  commits, obfuscate, paths, and SHA
                 </p>
               </div>
             </div>

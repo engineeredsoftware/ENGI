@@ -109,7 +109,7 @@ export const previewValueNeonClass: Record<PreviewValueTone, string> = {
 export const previewRows = [
   {
     key: 'What sells?',
-    valueParts: ['code', 'docs', 'diagrams', 'PDFs'],
+    valueParts: ['code', 'docs', 'designs', 'PDFs'],
     accentClassName: 'from-cyan-400/18 via-sky-400/8 to-transparent',
     Icon: DocumentTextIcon,
     // 2×2 — short chips must stay single-line.
@@ -117,11 +117,11 @@ export const previewRows = [
     iconClassName: 'text-white/58',
   },
   {
-    key: 'Snapshots',
-    valueParts: ['commits', 'author', 'paths', 'SHA'],
+    key: "Seller's View",
+    valueParts: ['commits', 'obfuscate', 'paths', 'SHA'],
     accentClassName: 'from-fuchsia-400/18 via-purple-400/8 to-transparent',
     Icon: LinkIcon,
-    // 2×2 with short "author" (was authorship) so nothing wraps mid-word.
+    // 2×2 — short chips so nothing truncates mid-word.
     valuesGridClassName: 'grid-cols-2',
     iconClassName: 'text-white/58',
   },
