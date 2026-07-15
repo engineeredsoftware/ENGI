@@ -53,13 +53,22 @@ export class VercelSandboxPipelineHost {
       type: 'sandbox-create-started',
       timestamp: new Date().toISOString(),
       runtime: createOptions.runtime,
+      // Source-safe: image ref only (no tokens). Helps diagnose create 400s.
+      image: createOptions.image ?? null,
       mode: plan.manifest.hostMode,
-    });
-    const sandbox = await withTimeout(
-      this.sandboxFactory.create(withVercelAccessTokenAuth(createOptions)),
-      this.sandboxCreateTimeoutMs,
-      `Vercel Sandbox create did not complete within ${this.sandboxCreateTimeoutMs}ms.`
-    );
+      hasSource: Boolean(createOptions.source),
+      persistent: createOptions.persistent === true,
+    } as PipelineHostEvent);
+    let sandbox: SandboxSession;
+    try {
+      sandbox = await withTimeout(
+        this.sandboxFactory.create(withVercelAccessTokenAuth(createOptions)),
+        this.sandboxCreateTimeoutMs,
+        `Vercel Sandbox create did not complete within ${this.sandboxCreateTimeoutMs}ms.`,
+      );
+    } catch (error) {
+      throw new Error(formatSandboxApiError(error, 'Sandbox.create'), { cause: error });
+    }
     const sandboxIdentity = resolveSandboxIdentity(sandbox, createOptions.name);
     await this.emit({
       type: 'sandbox-created',
@@ -453,13 +462,77 @@ export function normalizeCreateOptions(
       ? createOptions.image.trim()
       : undefined;
   // Vercel SDK: runtime and image are mutually exclusive.
-  const { runtime: _runtime, ...rest } = createOptions;
+  const { runtime: _runtime, image: _image, ...rest } = createOptions;
+  // Cap session timeout — excessive values can yield API 400 from Sandbox create.
+  const rawTimeout =
+    typeof createOptions.timeout === 'number' && Number.isFinite(createOptions.timeout)
+      ? createOptions.timeout
+      : undefined;
+  const timeout =
+    typeof rawTimeout === 'number'
+      ? Math.min(Math.max(rawTimeout, 60_000), 45 * 60 * 1000)
+      : undefined;
   return {
     ...rest,
     persistent,
     name,
+    ...(typeof timeout === 'number' ? { timeout } : {}),
     ...(image ? { image } : { runtime: createOptions.runtime }),
   };
+}
+
+/**
+ * Expand Vercel Sandbox SDK APIError ("Status code 400 is not ok") with response
+ * body fields so Production logs / UI can show the real reject reason.
+ */
+export function formatSandboxApiError(error: unknown, phase: string): string {
+  if (!(error instanceof Error)) {
+    return `${phase} failed: ${String(error)}`;
+  }
+  const anyErr = error as Error & {
+    json?: unknown;
+    text?: string;
+    response?: { status?: number; statusText?: string };
+    sandboxName?: string;
+  };
+  const status = anyErr.response?.status;
+  const statusText = anyErr.response?.statusText;
+  let detail = '';
+  if (anyErr.json && typeof anyErr.json === 'object') {
+    const body = anyErr.json as Record<string, unknown>;
+    const msg =
+      (typeof body.message === 'string' && body.message) ||
+      (typeof body.error === 'string' && body.error) ||
+      (body.error &&
+        typeof body.error === 'object' &&
+        typeof (body.error as { message?: string }).message === 'string' &&
+        (body.error as { message: string }).message) ||
+      null;
+    const code =
+      (typeof body.code === 'string' && body.code) ||
+      (body.error &&
+        typeof body.error === 'object' &&
+        typeof (body.error as { code?: string }).code === 'string' &&
+        (body.error as { code: string }).code) ||
+      null;
+    detail = [code, msg].filter(Boolean).join(': ');
+    if (!detail) {
+      try {
+        detail = JSON.stringify(body).slice(0, 400);
+      } catch {
+        detail = '';
+      }
+    }
+  } else if (typeof anyErr.text === 'string' && anyErr.text.trim()) {
+    detail = anyErr.text.trim().slice(0, 400);
+  }
+  const base = error.message?.trim() || 'unknown error';
+  const statusPart =
+    typeof status === 'number' ? `HTTP ${status}${statusText ? ` ${statusText}` : ''}` : null;
+  const parts = [`${phase} failed`, statusPart, base !== `Status code ${status} is not ok` ? base : null, detail]
+    .filter(Boolean)
+    .filter((part, index, arr) => arr.indexOf(part) === index);
+  return parts.join(' — ');
 }
 
 function resolveSandboxIdentity(
