@@ -49,8 +49,8 @@ and validate the website E2E.
   `version/v48`):** three layers (`Shadcn*` → `Bitcode*` → seven experiences),
   components under `apps/uapi/components/{shadcn,bitcode,marketing,packs,reads,
   deposits,docs,conversations,auxillaries}`, Pipeline product naming over
-  Execution/Terminal UI names, generalizable utilities package-first, legacy
-  `/terminal` eradicated (deleted). Spec updates and implementation land
+  Execution/product UI names, generalizable utilities package-first, legacy
+  `/packs` eradicated (deleted). Spec updates and implementation land
   together as `(spec-impl)` commits.
 - **Deposit + Packs modularization (Phase 4 continue):** pure deposit models
   (activity ledger, demand, criticality, route-input builder, run status) and
@@ -124,7 +124,7 @@ Gate 2 owns `.bitcode/v48-feature-excess-alignment-audit.json`,
 `buildV48FeatureExcessAlignmentAudit`, and `check:v48-gate2`. The audit
 classifies `/deposits`, `/reads`, and `/packs` as launch routes; `/docs`,
 Auxillaries, `/btd/[assetPackId]`, execution readback, and required APIs as
-supporting surfaces; and `/terminal` direct product entry, `/conversations`
+supporting surfaces; and `/packs` direct product entry, `/conversations`
 direct commercial launch, `/exchange` direct product entry, `/orbitals`,
 `/edgetimes`, `/demo-video`, API/MCP commercialization, ChatGPT App
 commercialization, Bitcode Chat commercialization, value-bearing mainnet, and

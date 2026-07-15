@@ -28,7 +28,7 @@ Bitcode specifying exists so a correct implementation, audit, generated proof ap
 
 From V26 onward, that derivability requirement explicitly includes both:
 - Bitcode as protocol and canonical market semantics,
-- and Bitcode as formal product implementation surfaces when those surfaces are admitted canon, such as Bitcode Exchange, Bitcode Terminal, canonical APIs, Bitcode MCP, and other admitted interface families.
+- and Bitcode as formal product implementation surfaces when those surfaces are admitted canon, such as Bitcode Exchange, Bitcode, canonical APIs, Bitcode MCP, and other admitted interface families.
 
 The central rule is:
 
@@ -462,7 +462,7 @@ Stale status language is a canonical defect.
    - the hand-authored family (`BITCODE_SPEC_VN.md`, `NOTES`, `DELTA`, `PARITY_MATRIX` as promoted),
    - generated `BITCODE_SPEC_VN_PROVEN.md` and `.bitcode/vN-*` structured artifacts for that promotion,
    - version-bound gate checkers, package proof generators, and tests that attest **that era's** predicates against **that era's** source and route vocabulary.
-2. **Old version checks must never be edited** to chase later renames, package hierarchy moves, route pluralization, Terminal retirement, component layout moves, vocabulary renames, or sole-canon modularization of a future draft.
+2. **Old version checks must never be edited** to chase later renames, package hierarchy moves, route pluralization, product retirement, component layout moves, vocabulary renames, or sole-canon modularization of a future draft.
 3. **Historical promoted specs remain referenceable as canon-at-that-time.** Auditors, PROPER reconstructions, and provenance citations use them as fixed law for the era they closed — not as living code maps of the current tree.
 4. **The living full-system check is only for current canon** (the draft-target family while drafting, then the newly pointed family after promotion). That check must be:
    - all-encompassing (full-system, full re-implementability, full auditability — §2),
@@ -477,7 +477,7 @@ Stale status language is a canonical defect.
 
 ### Why this exists
 
-Bitcode treats each promotion as a closed ledger entry of system law. If V43–V47 checks were rewritten every time V48 moved `/read`→`/reads` or retired Terminal, "canon at V47" would cease to exist as an auditable artifact. Era-pinning preserves that ledger without blocking the living draft's obligation to be total and true.
+Bitcode treats each promotion as a closed ledger entry of system law. If V43–V47 checks were rewritten every time V48 moved `/read`→`/reads` or retired product, "canon at V47" would cease to exist as an auditable artifact. Era-pinning preserves that ledger without blocking the living draft's obligation to be total and true.
 
 ### Relation to drafting
 
@@ -1297,7 +1297,7 @@ Adjunct realization docs define:
 
 A demo or adjunct implementation may realize canon.
 An adjunct realization must not silently define canon.
-A formal implementation surface such as Bitcode Exchange, Bitcode Terminal, canonical APIs, or Bitcode MCP may be both implementation and canon when the active `SPEC` admits it as such.
+A formal implementation surface such as Bitcode Exchange, Bitcode, canonical APIs, or Bitcode MCP may be both implementation and canon when the active `SPEC` admits it as such.
 
 If current source only exists under a demo directory, the spec must still distinguish:
 - current implementation location,
@@ -1356,7 +1356,7 @@ They should identify:
 - function or builder,
 - generated output path,
 - test entrypoint,
-- and whether the surface is protocol, Exchange, Terminal, API, MCP, third-party interface, adjunct realization, generated, or operator-facing.
+- and whether the surface is protocol, Exchange, product, API, MCP, third-party interface, adjunct realization, generated, or operator-facing.
 
 ## 16.3 Code Documentation Patterns
 

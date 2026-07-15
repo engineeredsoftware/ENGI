@@ -97,11 +97,11 @@ Accepted findings converted to repairs so far:
  session's GoTrue-verified `custom:bitcode-bitcoin` identity
  (`source: 'oauth-identity'`), and `WalletSessionPersistenceBridge` triggers
  it whenever a wallet-backed session has no replayable local proof.
-- Post-auth landing is `/packs`, not the legacy `/terminal` overlay route.
+- Post-auth landing is `/packs`, not the prior overlay route.
 
 Specification intent surfaced for the eventual V48 family (decisions, not yet
 law): eradicate legacy email/phone authentication residue (`/login`,
-`LoginForm`, PhoneSSO) and the legacy `/terminal` route after verifying its
+`LoginForm`, PhoneSSO) and the prior product route after verifying its
 capabilities ported to `/packs`, `/read`, and `/deposit`; decide the
 solo-operator organization-authority posture (personal-organization bootstrap
 at wallet connect versus a neutral unconfigured state); complete the GitHub
@@ -117,7 +117,7 @@ of Bitcode: interactive depositing QA exposed that deposit AssetPack option
 F12), and the accepted repair is architectural, not cosmetic. Gate 2's
 charter (Garrett, 2026-06-12): consolidate Bitcode's pipelines into the
 single AssetPacksSynthesis pipeline (plural Packs — one run can create
-multiple packs), clean all legacy terminal code, and correct the incomplete
+multiple packs), clean all legacy cockpit code, and correct the incomplete
 pipeline-execution actualities (real data, the Vercel sandbox actually
 running pipelines, real accounting) so V48 QA reaches real demonstrability
 of information commoditization — the ability to exchange knowledge,
@@ -147,7 +147,7 @@ Accepted V48 architecture law (decided 2026-06-12):
 - Protected-IP exclusions are first-class synthesis steering: excluded paths
  and concepts never enter measurement, prompts, or option summaries, and
  candidates that touch them are dropped fail-closed (F14).
-- Legacy `/terminal` code is refactored out as it is encountered during gate
+- Prior product route code is refactored out as it is encountered during gate
  work (rule accepted 2026-06-12), with the dedicated F8 sweep retiring the
  remainder.
 
@@ -559,7 +559,7 @@ become MASTER-DETAIL:
  may supply the runId, the route guards the id BEFORE any write: an id
  colliding with an existing row (any owner) is rejected 409
  `run_id_conflict` — no hijack, no double-dispatch into one row.
-- **Terminal-state attribution:** the run tail resets on every runId change
+- **product-state attribution:** the run tail resets on every runId change
  and the detail only trusts terminal signals attributed to the attached run
  (execution-row match), with the persisted row status as the terminal
  fallback (completed rows without a completion event; interrupted rows via
@@ -571,7 +571,7 @@ become MASTER-DETAIL:
  the SSE tail entirely when the history row is already terminal). A
  synthesis run additionally resumes its synthesized AssetPack options into
  review; any other run is a telemetry-only detail (kicker 'Pipeline run')
- that completes without an options fetch. Terminal rows adopt AT their
+ that completes without an options fetch. product rows adopt AT their
  terminal status — never through a transient 'running' (which would
  disable the dispatch button and animate the orb until hydration). An
  actively dispatched run owns the detail until the user actually changes
@@ -603,9 +603,9 @@ The pin skips WITH A REASON when the current realization is present and would
 run unchanged on a tree that still held the historical realization. The proofs
 are NOT re-pointed — frozen proofs attest their own era (canon-at-that-time).
 
-### Legacy terminal browser-proof eradication (Garrett, 2026-07-05)
+### Legacy cockpit browser-proof eradication (Garrett, 2026-07-05)
 
-The legacy `/terminal` cockpit **browser proofs** are eradicated and the active
+The legacy `/packs` cockpit **browser proofs** are eradicated and the active
 browser-proof coverage is repointed at the current product surfaces:
 
 - The two ACTIVE browser-proof contracts (`apps/uapi/app/bitcode-browser-proof.ts`,
@@ -618,13 +618,13 @@ browser-proof coverage is repointed at the current product surfaces:
  `/packs?auxillary-open-to=`. Their jest contract tests and the (opt-in,
  gate-var-guarded) Playwright specs are repointed to match.
 - The V29-era terminal-ux browser proof is DELETED:
- `apps/uapi/app/terminal/terminal-ux-browser-proof.ts`,
+ `apps/uapi/app/ (removed cockpit tree) terminal-ux-browser-proof.ts`,
  `apps/uapi/tests/terminalUxBrowserProof.test.tsx`, and
  `apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts` — removed from the Gate
  Quality jest step, the `jest.config.cjs` allowlist, and the `test:e2e:terminal-ux`
  package script; the accessibility script is renamed
  `test:e2e:v32-browser-proof` → `test:e2e:accessibility-responsive-proof`, and the
- CI step names drop "Terminal".
+ CI step names drop "product".
 - Frozen V39/V40 canonical proofs that read those deleted files as evidence
  (`v39-enterprise-reading-ux-state`, `v40-browser-e2e-visual-proof`,
  `v40-test-inventory-coverage-matrix`) are era-pinned via a second shim,
@@ -632,7 +632,7 @@ browser-proof coverage is repointed at the current product surfaces:
  WITH A REASON once the terminal-ux proof is absent (and runs unchanged on the
  promoted V39/V40 canon). The era-pinned V29/V32 `.mjs` checker scripts and the
  historical canon-promotion workflows keep their references (inert at the current
- pointer) — their deep removal belongs to the broader F8 `/terminal` eradication.
+ pointer) — their deep removal belongs to the broader F8 `/packs` eradication.
 
 ### V28 demonstration MVP layout witnesses (era-pin + living V48 suite)
 
@@ -1100,7 +1100,7 @@ Deposit (and any agentic) runs are cancelable without killing mid-token LLM stre
 **Law**
 
 1. **User authority.** A depositor who owns the `executions` row may cancel while
- `status === 'running'`. Terminal rows (`completed` | `failed` | `interrupted` |
+ `status === 'running'`. product rows (`completed` | `failed` | `interrupted` |
  `cancelled`) are not re-cancelled (already-cancelled is idempotent 200).
 2. **Row is authority.** Cancel writes `executions.status = 'cancelled'`,
  `completed_at`, source-safe `error.message`, and `context.cancelledAt` /
@@ -1207,7 +1207,7 @@ These ops items do **not** block Gate 3 PR merge into `version/v48` once CI is g
 - Do not launch value-bearing mainnet settlement in V48 opening work.
 - Do not treat notes-only V48 material as stronger than active V47 protocol law.
 
-## Frontend component architecture + Terminal eradication workstream (Garrett, 2026-07-11)
+## Frontend component architecture + cockpit eradication workstream (Garrett, 2026-07-11)
 
 **Status:** active on `version/v48` (direct version-branch workstream, not a
 numbered product gate). Every commit for this workstream is
@@ -1228,19 +1228,19 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 3. **Directories:** `apps/uapi/components/{shadcn,bitcode,marketing,packs,reads,
  deposits,docs,conversations,auxillaries}/` (not under App Router pages as
  routes). Thin page shells remain under `apps/uapi/app/...`.
-4. **Pipeline** replaces product **Execution** / **Terminal** UI and domain
+4. **Pipeline** replaces product **Execution** / **product** UI and domain
  names for run surfaces (`BitcodePipeline*`, experience extensions). Ledger
  **journal/transaction** vocabulary stays for BTD journal rows.
  `execution-generics` (agent/PTRR) is not product Pipeline — do not blind-rename.
-5. **Terminal eradication:** ~96 modules under `apps/uapi/app/terminal/`; only ~15
+5. **cockpit eradication:** ~96 modules under `apps/uapi/app/ (removed cockpit tree) `; only ~15
  are live-imported by deposits/reads/auxillaries/conversations. Relocate live
- modules first, then delete cockpit-only residue. `/terminal` becomes
+ modules first, then delete cockpit-only residue. `/packs` becomes
  redirect-only (default `/packs`) then removable.
 6. **Package-first:** generalizable pure logic leaves uapi for `packages/`
  (wallet, cancel/orphan-sweep, analytics, pipeline read-models when non-React).
 7. **HTTP:** keep `/api/executions/*` stable until consumer audit; rename
  internal modules and UI first.
-8. **Conversations redirect target** after Terminal death: `/packs` (matches
+8. **Conversations redirect target** after product death: `/packs` (matches
  post-auth landing law) unless a later conversations shell ships.
 9. **God clients:** explode `DepositPageClient` / `ReadPageClient` / large
  marketing sections into experience subcomponents + hooks + models (SRP).
@@ -1252,12 +1252,12 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 | 0 | Law in SPEC/NOTES/DELTA/PARITY + docs; component dir scaffold; product routes + BTD journal/operational-health de-terminal naming with temporary aliases |
 | 1 | `components/base/{shadcn,bitcode}` → `components/{shadcn,bitcode}`; `Shadcn*` exports |
 | 2 | `bitcode/execution` → `bitcode/pipeline`; Pipeline naming in shared UI |
-| 3 | Relocate 15 live terminal modules into Bitcode/experience homes; deposits/reads import zero `@/app/terminal/*` |
+| 3 | Relocate 15 live terminal modules into Bitcode/experience homes; deposits/reads import zero `@/product experience components/*` |
 | 4 | Modularize god clients; move experience components into `components/{experience}` |
-| 5 | Kill Terminal page; redirects; delete ~81 dead modules + terminal-only tests |
+| 5 | Kill product page; redirects; delete ~81 dead modules + terminal-only tests |
 | 6 | Executions corridor → Pipeline (UI + internal API modules) |
 | 7 | Package extractions + hygiene |
-| 8 | Parity closeout + eslint bans on new Terminal imports |
+| 8 | Parity closeout + eslint bans on new product imports |
 
 ### Live terminal modules (must relocate, not delete first)
 
@@ -1271,14 +1271,14 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 
 ### Phase 0 landing
 
-- SPEC: frontend component + Terminal eradication law.
+- SPEC: frontend component + cockpit eradication law.
 - DELTA/NOTES/PARITY: workstream recorded.
 - Docs: `internal-docs/BITCODE_FRONTEND_ARCHITECTURE.md`,
  `apps/uapi/ARCHITECTURE.md`, `internal-docs/TERMINOLOGY.md` updated.
 - Scaffold: `apps/uapi/components/{shadcn,bitcode,...}` READMEs.
 - Implementation: `product-routes` as Bitcode-owned route helpers;
  `@bitcode/btd` `journal` + `operational-health` as canonical names with
- Terminal-named shims for callers.
+ cockpit-named shims for callers.
 
 ### Phase 1 landing (tree move)
 
@@ -1289,17 +1289,17 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 - Removed empty `apps/uapi/components/base/`.
 - Deferred: `Shadcn*` export renames; `execution/` → `pipeline/` (Phase 2).
 
-### Phase 3 progress (live Terminal module relocate)
+### Phase 3 progress (live product module relocate)
 
 - `repository-context` → `bitcode/pipeline/models/repository-context.ts`
 - `pipeline-run-data`, `pipeline-run-activity`, `pipeline-transactions`,
  `transaction-readiness` → `bitcode/pipeline/models/`
-- `BitcodePipelinesTable` (was TerminalTransactionsTable) →
+- `BitcodePipelinesTable` (was productTransactionsTable) →
  `bitcode/pipeline/`
-- `AuxillariesOpenButton` (was TerminalOpenAuxillariesButton) →
+- `AuxillariesOpenButton` (was productOpenAuxillariesButton) →
  `components/auxillaries/`
 - Deposits / Reads / Auxillaries product surfaces import the Bitcode paths for
- the above; `app/terminal/*` retains shims for residual cockpit callers.
+ the above; `product experience components/*` retains shims for residual cockpit callers.
 - `pipeline-selection-query` (was terminal-transaction-query) →
  `bitcode/pipeline/models/pipeline-selection-query.ts`
 - `enterprise-reading-ux-state` → `components/reads/models/`
@@ -1311,23 +1311,23 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
  - `reads/models/{deposit-read-workbench,read-scenarios,enterprise-reading-ux-state}`
  - `reads/panels/{ReadsDepositReadWorkbench,ReadsRepositoryContextPanel,ReadsReadScenarioPanel}`
  - supporting `bitcode/pipeline/{shell-reading,cards/*}`
-- **Still Terminal-only for product surfaces:** conversations
+- **Still product-only for product surfaces:** conversations
  `buildTerminalHref` until Phase 5 redirect/eradication. Deposits/reads
- product pages no longer import Terminal modules except via residual
+ product pages no longer import product modules except via residual
  transitive deps inside relocated panels (workspace explainers, pipeline
  host client, protocol projection).
 
-### Phase 5 landing (Terminal eradication)
+### Phase 5 landing (cockpit eradication)
 
-- `/terminal` page redirects to `/packs` (query-preserving); next.config also
- redirects `/terminal` and `/executions` → `/packs`.
+- `/packs` page redirects to `/packs` (query-preserving); next.config also
+ redirects `/packs` and `/executions` → `/packs`.
 - Auxillary overlay root, nav, login default, conversations, orbitals links,
  OAuth mock, and handoff hrefs target `/packs`.
 - Residual shared modules relocated: workspace-explainers, pipeline-host-client,
  transaction-route-readiness, demonstration-witness-runtime.
 - `TERMINAL_ROUTE` / `buildTerminalHref` alias Packs in product-routes.
-- Cockpit modules may remain as shims/dead residual under `app/terminal/` until
- fully deleted; no product surface depends on the Terminal page client.
+- Cockpit modules may remain as shims/dead residual under `product experience components/` until
+ fully deleted; no product surface depends on the product page client.
 
 ### Phase 2 landing (execution → pipeline UI tree)
 
@@ -1404,20 +1404,20 @@ and not page god-clients.
 | 0 Law + product-routes + BTD journal | closed |
 | 1 shadcn/bitcode tree move | closed |
 | 2 execution → pipeline UI tree | closed |
-| 3 live Terminal module relocate | closed |
+| 3 live product module relocate | closed |
 | 4 god-client modularization | in progress — deposits models/hooks + packs shell landed; deposit handlers/source inventory still thinning |
-| 5 Terminal product eradication | closed (redirect + entrypoint rewire; residual shims/dead cockpit files remain) |
+| 5 product eradication | closed (redirect + entrypoint rewire; residual shims/dead cockpit files remain) |
 | 6 Executions → Packs redirects | closed |
 | 7 Package extractions | deferred follow-up (wallet/lib package-ify still planned) |
 | 8 Spec/parity ledger | updated in lockstep each commit |
 
-### Phase 5 complete — Terminal deleted (no redirect)
+### Phase 5 complete — product deleted (no redirect)
 
-- **`apps/uapi/app/terminal/` removed entirely** — no page, no redirect, no shims.
+- **`apps/uapi/app/ (removed cockpit tree) ` removed entirely** — no page, no redirect, no shims.
 - Product entrypoints use Packs/Deposits/Reads only; `TERMINAL_ROUTE` /
  `buildTerminalHref` removed from product-routes.
-- Workspace surface no longer recognizes `/terminal`.
-- Terminal-only jest tests and e2e specs deleted; jest allowlist cleaned.
+- Workspace surface no longer recognizes `/packs`.
+- product-only jest tests and e2e specs deleted; jest allowlist cleaned.
 - Residual type coupling removed from pipeline-activity-history (local
  processing-stats type; dead draft builders removed).
 
@@ -1444,7 +1444,7 @@ Canonical filesystem and co-location rules live in
 - Component units: `ComponentName/ComponentName.tsx` (not `index.tsx`) with
  co-located `hooks/`, `styles/`, `__tests__/`
 - Domain pure logic prefers `packages/`; pages stay thin
-- Terminal remains deleted
+- product remains deleted
 
 
 ### Deposit full-stack modularization landing (Garrett, 2026-07-13 — aggressive pass)

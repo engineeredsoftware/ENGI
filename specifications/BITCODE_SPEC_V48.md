@@ -126,7 +126,7 @@ Goals:
 - Audit feature excess and defer or flag anything that distracts from launch.
 - Treat `/deposits`, `/reads`, and `/packs` as the website launch entrypoints;
   route `/exchange` compatibility into `/packs`; eradicate the legacy
-  `/terminal` cockpit as a product surface (compatibility redirect only during
+  `/packs` cockpit as a product surface (compatibility redirect only during
   migration); keep full Conversations commercialization, API/MCP, ChatGPT App,
   Bitcode Chat, value-bearing mainnet, and advanced market mechanics out of the
   launch path unless a later gate explicitly reopens them.
@@ -205,17 +205,17 @@ Naming law (types, classes, files, functions, variables — not only components)
 - **Execution** as a product UI name is retired in favor of Pipeline. Low-level
   agent/executor packages (`execution-generics`, PTRR executor primitives) are
   not product Pipeline surfaces and are not blindly renamed.
-- **Terminal** as a product surface name is eradicated. Live capabilities that
-  still live under `apps/uapi/app/terminal/` must relocate into Bitcode or the
-  owning experience; dead cockpit-only modules are deleted. `/terminal` may
+- **product** as a product surface name is eradicated. Live capabilities that
+  still live under `apps/uapi/app/ (removed cockpit tree) ` must relocate into Bitcode or the
+  owning experience; dead cockpit-only modules are deleted. `/packs` may
   remain only as a compatibility redirect (default `/packs`) during migration.
 - HTTP paths under `/api/executions/*` may remain stable during rename waves;
   internal TypeScript modules and UI labels move to Pipeline first.
 
 Package law: generalizable non-React domain logic belongs in `packages/`;
 uapi holds Next routes, React, and thin adapters. Shareable pure models that
-leave Terminal must land in packages or `components/bitcode` models — not
-remain under a Terminal path.
+leave product must land in packages or `components/bitcode` models — not
+remain under a product path.
 
 God-client modularization law (Phase 4, active on `version/v48`):
 
@@ -229,18 +229,18 @@ God-client modularization law (Phase 4, active on `version/v48`):
 - Unit tests for pure deposit models register under `apps/uapi/tests/` (and
   `apps/uapi/jest.config.cjs` testMatch) so CI proves modular projections.
 
-### Legacy Terminal eradication completion condition
+### Legacy cockpit eradication completion condition
 
-Terminal eradication is complete when:
+cockpit eradication is complete when:
 
-1. `apps/uapi/app/terminal/` does not exist.
-2. `/terminal` is not a route (no page, no redirect) and is not a nav/login CTA.
+1. `apps/uapi/app/ (removed cockpit tree) ` does not exist.
+2. `/packs` is not a route (no page, no redirect) and is not a nav/login CTA.
 3. Shared pipeline selection, history, repository context, and readiness
-   models live under Bitcode/experience names without `Terminal*` prefixes.
+   models live under Bitcode/experience names without `product*` prefixes.
 4. Browser proofs and commercial E2E remain on `/deposits`, `/reads`, `/packs`,
-   and Auxillaries — never requiring the Terminal cockpit.
-5. BTD journal and operational-health packages use non-Terminal names
-   (`journal`, `operational-health`), with temporary Terminal aliases only
+   and Auxillaries — never requiring the product cockpit.
+5. BTD journal and operational-health packages use non-product names
+   (`journal`, `operational-health`), with temporary product aliases only
    while callers migrate.
 
 ## V48 canonical domain model
@@ -1828,7 +1828,7 @@ draft V48, and the gate branch is committed, pushed, and pull-requested into
 V48 Gate 2 is complete when launch-facing entrypoints resolve to `/deposits`,
 `/reads`, and `/packs`; old `/exchange` entrypoints are compatibility redirects
 or rewritten into `/packs`; BTD acquisition and detail paths no longer send
-users to `/terminal` or `/exchange`; `/terminal` is not a launch CTA and is
+users to `/packs` or `/exchange`; `/packs` is not a launch CTA and is
 scheduled for eradication (compatibility redirect only); Conversations full
 commercial experience remains deferred while structure may persist; API/MCP,
 ChatGPT App, Bitcode Chat, value-bearing mainnet, source-bearing previews, and
@@ -1836,11 +1836,11 @@ advanced market mechanics are explicitly deferred; `.bitcode/v48-feature-excess-
 alignment-audit.json` is generated; `check:v48-gate2` validates the audit; and
 gate/canon workflows run the Gate 2 checker under promoted V48 canon.
 
-V48 frontend component architecture and Terminal eradication (implementation
+V48 frontend component architecture and cockpit eradication (implementation
 quality workstream on `version/v48`, not a separate product gate number) is
 complete when the three-layer / seven-experience component law above is
-realized in source, live modules no longer import `apps/uapi/app/terminal/`, product
-Pipeline naming replaces Execution/Terminal UI names, generalizable utilities
+realized in source, live modules no longer import `apps/uapi/app/ (removed cockpit tree) `, product
+Pipeline naming replaces Execution/product UI names, generalizable utilities
 prefer packages, and parity matrix rows for this workstream are closed.
 
 V48 Gate 3 is complete when the IP seller state machine covers source
