@@ -154,7 +154,8 @@ describe('VercelSandboxPipelineHost', () => {
     const result = await host.runHostPlan(plan);
 
     expect(createOptions[0].runtime).toBe('node24');
-    expect(fakeSandbox.writtenFiles).toHaveLength(3);
+    // manifest + live runner mjs (+ smoke/ts runners when not image mode)
+    expect(fakeSandbox.writtenFiles).toHaveLength(4);
     expect(fakeSandbox.commands.map((command) => command.cmd)).toEqual(['node', 'node']);
     expect(result.outcome).toBe('completed');
     expect(result.artifacts.evidence).toEqual({ resultState: 'blocked_readiness' });

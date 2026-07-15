@@ -207,13 +207,20 @@ export function buildAssetPackSandboxHostPlan(
       : { runtime: options.runtime ?? VERCEL_SANDBOX_HOST_CAPABILITIES.defaultRuntime }),
   };
 
-  // Image mode: only ship the run manifest (+ optional overlay). Runners live
-  // in the VCR image under /opt/bitcode.
+  // Always ship the live runner into the sandbox workspace so host plan fixes
+  // apply without waiting for a Pipeliner image rebuild. Image mode still uses
+  // /opt/bitcode packages; the runner is invoked with tsx from monorepo root.
+  const liveRunnerMjsPath = `${HOST_RUN_DIRECTORY}/run-live-asset-pack-pipeline.mjs`;
   const files: PipelineHostPlan['files'] = [
     {
       path: MANIFEST_PATH,
       content: Buffer.from(JSON.stringify(manifest, null, 2)),
       mode: 0o644,
+    },
+    {
+      path: liveRunnerMjsPath,
+      content: Buffer.from(createLiveAssetPackPipelineRunner()),
+      mode: 0o755,
     },
     ...(usePipelineImage
       ? []
@@ -284,13 +291,27 @@ function buildPipelineImageCommands(
     120000;
 
   if (mode === 'asset_pack_pipeline') {
+    // Prefer sandbox-uploaded runner (hot-fixed) over image-baked copy.
+    // tsx loads monorepo .ts package sources under BITCODE_MONOREPO_ROOT.
+    const sandboxLiveRunner = `${SANDBOX_WORKING_DIRECTORY}/${HOST_RUN_DIRECTORY}/run-live-asset-pack-pipeline.mjs`;
+    const monorepoRoot = PIPELINE_IMAGE_MONOREPO_ROOT_DEFAULT;
+    const pipelineRunScript = [
+      `cd ${shellQuote(monorepoRoot)}`,
+      // tsx loads monorepo .ts package sources (plain node cannot).
+      `if ! node --import tsx -e "process.exit(0)" >/dev/null 2>&1; then`,
+      `  npm install -g tsx@4.19.3 || npm install --no-save --prefix ${shellQuote(monorepoRoot)} tsx@4.19.3`,
+      `fi`,
+      `RUNNER=${shellQuote(sandboxLiveRunner)}`,
+      `if [ ! -f "$RUNNER" ]; then RUNNER=${shellQuote(`${monorepoRoot}/.bitcode/pipeline-host/run-live-asset-pack-pipeline.mjs`)}; fi`,
+      `if [ ! -f "$RUNNER" ]; then echo "live runner missing; falling back to image dispatcher" >&2; node ${shellQuote(pipelineImageEntry)}; else node --import tsx "$RUNNER"; fi`,
+    ].join(' && ');
     commands.push({
       label: 'asset-pack-pipeline-run',
       cmd: 'sh',
       args: [
         '-lc',
         [
-          `node ${shellQuote(pipelineImageEntry)} > ${shellQuote(PIPELINE_STDOUT_PATH)} 2> ${shellQuote(PIPELINE_STDERR_PATH)}`,
+          `( ${pipelineRunScript} ) > ${shellQuote(PIPELINE_STDOUT_PATH)} 2> ${shellQuote(PIPELINE_STDERR_PATH)}`,
           'code=$?',
           `printf "%s" "$code" > ${shellQuote(PIPELINE_EXIT_CODE_PATH)}`,
           'exit "$code"',

@@ -29,6 +29,7 @@ describe('asset-pack sandbox host plan', () => {
     ]);
     expect(plan.files.map((file) => file.path)).toEqual([
       '.bitcode/pipeline-host/manifest.json',
+      '.bitcode/pipeline-host/run-live-asset-pack-pipeline.mjs',
       '.bitcode/pipeline-host/run-host-smoke.mjs',
       '.bitcode/pipeline-host/run-live-asset-pack-pipeline.ts',
     ]);
@@ -98,13 +99,18 @@ describe('asset-pack sandbox host plan', () => {
     expect(plan.createOptions.persistent).toBe(false);
     expect(plan.files.map((file) => file.path)).toEqual([
       '.bitcode/pipeline-host/manifest.json',
+      '.bitcode/pipeline-host/run-live-asset-pack-pipeline.mjs',
     ]);
     expect(plan.commands.map((command) => command.label)).toEqual([
       'runtime-readiness',
       'asset-pack-pipeline-run',
     ]);
     const run = plan.commands.find((c) => c.label === 'asset-pack-pipeline-run');
-    expect(run?.args?.join(' ')).toContain('/opt/bitcode/pipeline/run-pipeline.mjs');
+    const runScript = run?.args?.join(' ') ?? '';
+    // Image path runs sandbox-uploaded runner with tsx (loads monorepo .ts packages).
+    expect(runScript).toContain('run-live-asset-pack-pipeline.mjs');
+    expect(runScript).toContain('tsx');
+    expect(runScript).toContain('/opt/bitcode');
   });
 
   it('plans dependency install and live runner commands for real pipeline mode', () => {

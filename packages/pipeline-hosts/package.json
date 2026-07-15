@@ -27,7 +27,8 @@
     "@vercel/sandbox": "2.6.0",
     "@bitcode/host-generics": "workspace:*",
     "@bitcode/generic-hosts-local": "workspace:*",
-    "@bitcode/generic-hosts-vercel-sandbox": "workspace:*"
+    "@bitcode/generic-hosts-vercel-sandbox": "workspace:*",
+    "tsx": "^4.19.3"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

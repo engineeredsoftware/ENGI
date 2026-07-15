@@ -34,12 +34,14 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const mode = (process.env.BITCODE_PIPELINE_HOST_MODE || 'host_smoke').trim();
 const monorepoRoot = (process.env.BITCODE_MONOREPO_ROOT || '/opt/bitcode').trim();
 
-// Prefer image layout (runners next to monorepo for relative imports).
+// Prefer sandbox-uploaded runners (hot-fixed by host plan), then image-baked.
+const sandboxRunnerDir = '/vercel/sandbox/.bitcode/pipeline-host';
 const imageRunnerDir = path.join(monorepoRoot, '.bitcode', 'pipeline-host');
 const localRunnerDir = __dirname;
 
 async function resolveRunner(name) {
   const candidates = [
+    path.join(sandboxRunnerDir, name),
     path.join(imageRunnerDir, name),
     path.join(localRunnerDir, name),
   ];
@@ -72,28 +74,21 @@ async function main() {
     monorepoRoot,
     'packages/pipeline-hosts/tsconfig.json',
   );
+  const hostsPkg = path.join(monorepoRoot, 'packages/pipeline-hosts');
+  const outAbs = path.resolve(distDir);
+  // shell:true so PATH resolves pnpm when invoked under pnpm recursive run.
   const result = spawnSync(
-    'pnpm',
-    [
-      '--filter',
-      '@bitcode/pipeline-hosts',
-      'exec',
-      'ts-node',
-      '--transpile-only',
-      '--project',
-      hostsTsconfig,
-      'src/dev/materialize-runners.ts',
-      distDir,
-    ],
+    `pnpm exec ts-node --transpile-only --project ${JSON.stringify(hostsTsconfig)} src/dev/materialize-runners.ts ${JSON.stringify(outAbs)}`,
     {
-      cwd: path.join(monorepoRoot, 'packages/pipeline-hosts'),
+      cwd: hostsPkg,
       encoding: 'utf8',
       env: process.env,
+      shell: true,
     },
   );
-  if (result.status !== 0) {
+  if (result.error || result.status !== 0) {
     throw new Error(
-      `materialize-runners failed (status ${result.status}): ${result.stderr || result.stdout}`,
+      `materialize-runners failed (status ${result.status}, error=${result.error?.message || 'none'}): ${result.stderr || result.stdout}`,
     );
   }
 

@@ -84,6 +84,14 @@ await writeFile(\`\${artifactDir}/evidence.json\`, JSON.stringify(evidence, null
 export function createLiveAssetPackPipelineRunner(): string {
   return `import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createHash, randomUUID } from 'node:crypto';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+
+const monorepoRoot = (process.env.BITCODE_MONOREPO_ROOT || '/opt/bitcode').trim();
+/** Absolute file URL into monorepo TypeScript sources (loaded via tsx/ts-node). */
+function pkgImport(relPath) {
+  return pathToFileURL(path.join(monorepoRoot, relPath)).href;
+}
 
 const manifestPath = process.env.BITCODE_PIPELINE_HOST_MANIFEST || '${MANIFEST_PATH}';
 const artifactDir = process.env.BITCODE_PIPELINE_HOST_ARTIFACT_DIR || '${HOST_RUN_DIRECTORY}';
@@ -1413,12 +1421,14 @@ try {
 	    { evaluateBtdOrganizationInterfaceAuthority },
       btdReceiptBuilders,
 	  ] = await Promise.all([
-	    import('../../packages/asset-packs-pipelines/domain/src/index'),
-	    import('../../packages/pipelines-generics/src/index'),
-	    import('../../packages/btd/src/settlement'),
-	    import('../../packages/btd/src/reconciliation'),
-	    import('../../packages/btd/src/authority'),
-      import('../../packages/btd/src/receipts'),
+	    // Resolve monorepo packages by absolute file URL + .ts (tsx/ts-node loaders).
+	    // Relative extensionless imports fail under plain node in the Pipeliner image.
+	    import(pkgImport('packages/asset-packs-pipelines/domain/src/index.ts')),
+	    import(pkgImport('packages/pipelines-generics/src/index.ts')),
+	    import(pkgImport('packages/btd/src/settlement.ts')),
+	    import(pkgImport('packages/btd/src/reconciliation.ts')),
+	    import(pkgImport('packages/btd/src/authority.ts')),
+	    import(pkgImport('packages/btd/src/receipts.ts')),
 	  ]);
   buildBtdAssetPackMintReceiptFn = btdReceiptBuilders.buildBtdAssetPackMintReceipt;
   buildBtdReadReceiptFn = btdReceiptBuilders.buildBtdReadReceipt;
@@ -1443,7 +1453,7 @@ try {
 
   const databaseStreamingRequested = process.env.BITCODE_PIPELINE_STREAM_TO_DATABASE === '1';
   if (databaseStreamingRequested) {
-    const { supabaseAdmin } = await import('../../packages/supabase/src/index');
+    const { supabaseAdmin } = await import(pkgImport('packages/supabase/src/index.ts'));
     supabase = supabaseAdmin;
     userId = await resolvePipelineUserId();
     execution.store('host', 'userId', userId);
