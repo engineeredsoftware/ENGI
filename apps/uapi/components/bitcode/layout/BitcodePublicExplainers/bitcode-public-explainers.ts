@@ -1,6 +1,6 @@
 /**
  * Public-facing rich explainers for nav, docs, and product chrome.
- * Aligned to V48 product routes: /packs, /reads, /deposits — not Terminal.
+ * Aligned to V48 product routes: /packs, /reads, /deposits — not product.
  */
 import type { BitcodeExplainer } from '@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types';
 

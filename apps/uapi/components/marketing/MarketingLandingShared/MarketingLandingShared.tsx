@@ -34,18 +34,18 @@ export const paintedMotionStyle: React.CSSProperties = {
 export const productPillars = [
   {
     title: 'Deposit',
-    description: 'Provided source material is measured for searchability.',
+    description: 'Provide source material to be measured for indexing.',
     Icon: CubeTransparentIcon,
   },
   {
     title: 'Read',
-    description: 'Describe your repositories needs to receive candidates to review.',
+    description: 'Describe your needs to receive candidates to review.',
     Icon: ScaleIcon,
   },
   {
     title: 'Settle',
     description:
-      'Exchanges are settled when the depositor receives BTC and the reader receives BTD.',
+      'Tokens are exchanged between depositor and reader.',
     Icon: CurrencyDollarIcon,
   },
 ] as const;
@@ -180,7 +180,7 @@ export const verificationRows = [
   {
     label: 'Reading',
     detail:
-      'Bitcode searches the depository for potential matches to synthesize candidate AssetPacks for review.',
+      'Bitcode finds deposited AssetPacks to synthesize new AssetPacks to satisfy your needs.',
     status: 'private',
     Icon: LockClosedIcon,
   },
@@ -311,13 +311,25 @@ export function renderTrailingOrangeAsterisk(value: string, asteriskClassName = 
 
 /**
  * Claim anchors in marketing body + footnotes.
- * - `*`  emerald — measurements / source-safe line
- * - `**` orange  — AssetPack BTD volume / market price line
- * Parse `**` before `*` so double markers are not split.
+ * - `*`   emerald — ERC-1155 / BTD token posture
+ * - `**`  orange  — AssetPacks
+ * - `***` cyan    — Measurements / source-safety
+ * Parse longest markers first so `***` is not split into `*` + `**`.
  */
 export function renderClaimAnchorMarkers(value: string, markerClassName = '') {
-  const parts = value.split(/(\*\*|\*)/g);
+  const parts = value.split(/(\*\*\*|\*\*|\*)/g);
   return parts.map((part, index) => {
+    if (part === '***') {
+      return (
+        <span
+          key={`claim-anchor-3-${index}`}
+          className={`mx-[0.06em] inline-block align-super text-[0.72em] font-semibold leading-none text-cyan-300 [text-shadow:0_0_10px_rgba(34,211,238,0.55)] ${markerClassName}`.trim()}
+          aria-hidden="true"
+        >
+          ***
+        </span>
+      );
+    }
     if (part === '**') {
       return (
         <span
@@ -345,12 +357,15 @@ export function renderClaimAnchorMarkers(value: string, markerClassName = '') {
   }) as React.ReactNode;
 }
 
-/** Leading claim marker only (`*` or `**`); body text without the marker. */
+/** Leading claim marker only (`*`, `**`, or `***`); body text without the marker. */
 export function splitLeadingClaimAnchor(value: string): {
-  marker: '*' | '**' | null;
+  marker: '*' | '**' | '***' | null;
   body: string;
 } {
   const trimmed = value.trimStart();
+  if (trimmed.startsWith('***')) {
+    return { marker: '***', body: trimmed.slice(3).trimStart() };
+  }
   if (trimmed.startsWith('**')) {
     return { marker: '**', body: trimmed.slice(2).trimStart() };
   }
@@ -370,7 +385,14 @@ export function renderLeadingClaimFootnote(value: string) {
     return <span>{body}</span>;
   }
   const markerNode =
-    marker === '**' ? (
+    marker === '***' ? (
+      <span
+        className="inline-block shrink-0 text-[0.85em] font-semibold leading-none text-cyan-300 [text-shadow:0_0_10px_rgba(34,211,238,0.55)]"
+        aria-hidden="true"
+      >
+        ***
+      </span>
+    ) : marker === '**' ? (
       <span
         className="inline-block shrink-0 text-[0.85em] font-semibold leading-none text-orange-300 [text-shadow:0_0_10px_rgba(251,146,60,0.55)]"
         aria-hidden="true"
@@ -388,7 +410,7 @@ export function renderLeadingClaimFootnote(value: string) {
 
   return (
     <span className="flex items-start gap-1.5">
-      <span className="mt-[0.15em] w-[1.1rem] shrink-0 text-left">{markerNode}</span>
+      <span className="mt-[0.15em] w-[1.35rem] shrink-0 text-left">{markerNode}</span>
       <span className="min-w-0 flex-1">{body}</span>
     </span>
   );

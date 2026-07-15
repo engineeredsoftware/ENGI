@@ -17,6 +17,7 @@ const baseShadow = '[text-shadow:_0_0_8px_rgba(255,255,255,0.66)]';
 // after hydration – the root cause of the earlier flash.
 
 import MarketingBannerHeightSync from '@/components/marketing/MarketingBannerHeightSync/MarketingBannerHeightSync';
+import { GLOBAL_CONSTANT_BITCODE_REPOSITORY_URL } from '@bitcode/global-constants';
 
 interface ReadLightpaperProps {
   reavealingSoon?: boolean;
@@ -86,7 +87,7 @@ export default function ReadLightpaper({ reavealingSoon = false }: ReadLightpape
 
         {/* X link */}
         <a
-          href="https://github.com/engineeredsoftware/bitcode"
+          href={GLOBAL_CONSTANT_BITCODE_REPOSITORY_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="group inline-flex items-center text-gray-500 hover:text-green-primary transition-colors"

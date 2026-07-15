@@ -1,3 +1,8 @@
+import {
+  GLOBAL_CONSTANT_BITCODE_REPOSITORY_URL,
+  GLOBAL_CONSTANT_BITCODE_WHITEPAPER_URL,
+} from '@bitcode/global-constants';
+
 export const BITCODE_PUBLIC_COPY = {
   eyebrow: 'Knowledge Exchange Made Possible',
   headline: "Trade technical data on the Bitcode marketplace.",
@@ -53,7 +58,7 @@ export const BITCODE_PUBLIC_COPY = {
         title: 'An Open-Source Exchange',
         meta: 'April 2026',
         body:
-          'April launched the Bitcode Protocol. It is available at our open-source repository which includes a commercially-ready whole-system specification (auditable, reproducible). The website now includes the first pieces of the $BTD Terminal along with documentation on the internals and interfaces of the ecosystem.',
+          'April launched the Bitcode Protocol. It is available at our open-source repository which includes a commercially-ready whole-system specification (auditable, reproducible). The website now includes the first pieces of the $BTD product along with documentation on the internals and interfaces of the ecosystem.',
         highlights: ['$BTD', 'Bitcode Protocol', 'Packs'],
       },
       {
@@ -75,18 +80,29 @@ export const BITCODE_PUBLIC_COPY = {
     rail: 'For Agents, Humans, Aliens...',
   },
   // Marketing presents the commercial product as production — no testnet language.
-  // AssetPacks + BTD are ERC-1155 on Ethereum; purchase/settlement money is Bitcoin.
+  // Claim anchors in meaning: * ERC-1155 · ** AssetPacks · *** Measurements.
   testnetLaunch: {
     badge: 'Productionized Protocol',
     title: 'Exchange Bitcoins for Bitcodes.',
-    // Claim anchors: * (emerald) → source-safety line 1; ** (orange) → BTD volume/price line 2.
     meaning:
-      'Measurements*, quotes, settlements, BTD, and delivery are protocol state—AssetPacks** and BTD are ERC-1155 on Ethereum; purchase with Bitcoin.',
+      "Bitcode's protocol is implemented as a central system, such as the ERC-1155*, AssetPacks**, and Measurements***, accessible by engaging with our commercial applications.",
     flow: [
+      {
+        id: 'whitepaper',
+        label: 'Bitcode Whitepaper',
+        // Whole-row link: public Whitepaper (canonical orientation).
+        href: GLOBAL_CONSTANT_BITCODE_WHITEPAPER_URL,
+        external: true,
+        // Compact emerald chrome (no body).
+        status: 'open_source' as const,
+        badge: 'Canonical Specification',
+        detail: '',
+      },
       {
         id: 'website',
         label: 'Website Application',
-        href: '/',
+        // Descriptive only — not a whole-row nav link (home is already the page).
+        href: null,
         status: 'live' as const,
         detail:
           'Connect your wallets, data-sources, etc.; a GUI for viewing, synthesizing, and trading AssetPacks, managing account authorities, and more.',
@@ -94,17 +110,21 @@ export const BITCODE_PUBLIC_COPY = {
       {
         id: 'mcp',
         label: 'MCP API',
-        href: '/docs',
+        // Whole-row link to MCP/API docs reference.
+        href: '/docs/mcp-api',
         status: 'live' as const,
         detail:
           "Bitcode's API is consumable virtually everywhere, whether it be via scripting or within your own applications. Most core experiences are supported.",
       },
       {
         id: 'repository',
-        label: 'Forkable Repository',
-        href: null,
-        // Live emerald badge styling; badge text is Open-Source (not Live).
+        label: 'Contributable Repository',
+        // Whole-row link to the open-source monorepo.
+        href: GLOBAL_CONSTANT_BITCODE_REPOSITORY_URL,
+        external: true,
+        // Compact emerald chrome (no body); badge is Open-Source, not Live.
         status: 'open_source' as const,
+        badge: 'Open-Source',
         detail: '',
       },
       {
@@ -117,13 +137,15 @@ export const BITCODE_PUBLIC_COPY = {
       },
     ],
     sourceSafety: [
-      '* Measurements are visible; IP is not. Bitcode is source-safe knowledge trading.',
+      '* Bitcode (BTD) tokens are an immutable, scarce, deflationary, data-backed digital asset.',
       "** An AssetPack's BTD volume is a protocol determination. The price of BTD is a market one.",
+      '*** Measurements are visible; IP is not. Bitcode is source-safe knowledge trading.',
     ],
   },
   operatorFrame: {
     title: 'Marketplace',
-    subtitle: 'Sell Supplies * Buys Reads * Settle Proofs',
+    // Rendered as flex segments + middle-dot bullets (not claim-anchor *).
+    subtitleParts: ['Sell Supplies', 'Buys Reads', 'Settle Proofs'] as const,
     badge: 'Packs',
     modes: ['Packs', 'Deposit', 'Read', 'Proofs'],
   },

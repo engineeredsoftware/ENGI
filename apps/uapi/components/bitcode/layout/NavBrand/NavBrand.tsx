@@ -13,6 +13,10 @@ import { FileText, Files } from "lucide-react";
 
 import Logo from "@/components/bitcode/branding/Logo/Logo";
 import XLogo from "@/components/bitcode/branding/XLogo/XLogo";
+import {
+  GLOBAL_CONSTANT_BITCODE_WHITEPAPER_URL,
+  GLOBAL_CONSTANT_BITCODE_X_URL,
+} from "@bitcode/global-constants";
 
 export type NavSurface = "packs" | "auxillaries" | "conversations" | null;
 export type NavBrandSurface =
@@ -32,14 +36,14 @@ interface NavBrandProps {
   surface: NavBrandSurface;
 }
 
-/** Protocol whitepaper (source-bearing public reference on the Bitcode repo). */
+/** Protocol whitepaper — SSOT: constants/global-constant-bitcode-whitepaper-url.txt */
 export const BITCODE_WHITEPAPER_URL =
   process.env.NEXT_PUBLIC_BITCODE_WHITEPAPER_URL?.trim() ||
-  "https://github.com/advancedengineeredsoftware/Bitcode/blob/version/v48/Whitepaper.md";
+  GLOBAL_CONSTANT_BITCODE_WHITEPAPER_URL;
 
-/** Bitcode on X — override with NEXT_PUBLIC_BITCODE_X_URL if the handle changes. */
+/** Bitcode on X — SSOT: constants/global-constant-bitcode-x-url.txt */
 export const BITCODE_X_URL =
-  process.env.NEXT_PUBLIC_BITCODE_X_URL?.trim() || "https://x.com/bitcodehq";
+  process.env.NEXT_PUBLIC_BITCODE_X_URL?.trim() || GLOBAL_CONSTANT_BITCODE_X_URL;
 
 const DOCS_HREF = "/docs";
 

@@ -156,31 +156,63 @@ describe('MarketingLandingPage', () => {
     ).toBeInTheDocument();
     expect(screen.getByText('Bitcodes', { selector: 'h2 span' })).toBeInTheDocument();
     expect(screen.getByText('Bitcoins', { selector: 'h2 span' })).toBeInTheDocument();
-    expect(screen.getByText(/ERC-1155 on Ethereum/i)).toBeInTheDocument();
-    expect(screen.getByText(/measurements, quotes, settlements, BTD, and delivery/iu)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Bitcode's protocol is implemented as a central system, such as the ERC-1155/u,
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/commercial applications/i)).toBeInTheDocument();
     expect(screen.queryByText(/testnet/i)).toBeNull();
     expect(screen.queryByText(/on Bitcoin/i)).toBeNull();
     expect(screen.getByText('Website Application')).toBeInTheDocument();
     expect(screen.getByText('MCP API')).toBeInTheDocument();
     expect(screen.getByText('Conversational Extensions')).toBeInTheDocument();
-    expect(screen.getByText('Forkable Repository')).toBeInTheDocument();
+    expect(screen.getByText('Contributable Repository')).toBeInTheDocument();
+    expect(screen.getByText('Bitcode Whitepaper')).toBeInTheDocument();
     expect(screen.getByText('Coming soon')).toBeInTheDocument();
     expect(screen.getByText('Open-Source')).toBeInTheDocument();
+    expect(screen.getByText('Canonical Specification')).toBeInTheDocument();
     expect(screen.getAllByText('Live').length).toBe(2);
-    // Interface cards are descriptive only — not navigable.
+    // Whitepaper, MCP API, and repository are whole-row links; Website / Extensions are not.
     expect(screen.queryByRole('link', { name: /Website Application/u })).toBeNull();
-    expect(screen.queryByRole('link', { name: /MCP API/u })).toBeNull();
     expect(screen.queryByRole('link', { name: /Conversational Extensions/u })).toBeNull();
-    expect(screen.queryByRole('link', { name: /Forkable Repository/u })).toBeNull();
+    const whitepaperLink = screen.getByRole('link', { name: /Bitcode Whitepaper/u });
+    expect(whitepaperLink).toHaveAttribute(
+      'href',
+      'https://github.com/advancedengineeredsoftware/Bitcode/blob/version/v48/Whitepaper.md',
+    );
+    expect(screen.getByRole('link', { name: 'MCP API' })).toHaveAttribute('href', '/docs/mcp-api');
+    const repoLink = screen.getByRole('link', { name: /Contributable Repository/u });
+    expect(repoLink).toHaveAttribute(
+      'href',
+      'https://github.com/advancedengineeredsoftware/Bitcode',
+    );
+    // Whitepaper is first in the product interfaces list.
+    const interfaceList = screen.getByRole('list', { name: 'Product interfaces' });
+    const interfaceLabels = Array.from(interfaceList.querySelectorAll('li')).map(
+      (li) => li.textContent ?? '',
+    );
+    expect(interfaceLabels[0]).toMatch(/Bitcode Whitepaper/u);
     expect(
-      screen.getByText(/Measurements are visible; IP is not\. Bitcode is source-safe knowledge trading/u),
+      screen.getByText(
+        /Bitcode's protocol is implemented as a central system, such as the ERC-1155/u,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Bitcode \(BTD\) tokens are an immutable, scarce, deflationary, data-backed digital asset/u,
+      ),
     ).toBeInTheDocument();
     expect(
       screen.getByText(
         /An AssetPack's BTD volume is a protocol determination\. The price of BTD is a market one/u,
       ),
     ).toBeInTheDocument();
-    // Claim anchors: * (measurements) and ** (AssetPacks) in body + footnotes.
+    expect(
+      screen.getByText(/Measurements are visible; IP is not\. Bitcode is source-safe knowledge trading/u),
+    ).toBeInTheDocument();
+    // Claim anchors: * ERC-1155, ** AssetPacks, *** Measurements (body + footnotes).
+    expect(screen.getAllByText('***').length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText('**').length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText('*').length).toBeGreaterThanOrEqual(2);
     expect(screen.getByText('Public Measures')).toBeInTheDocument();

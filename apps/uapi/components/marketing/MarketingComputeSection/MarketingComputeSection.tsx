@@ -39,7 +39,7 @@ const CARDS: Card[] = [
   },
   {
     icon: CommandLineIcon,
-    title: "Beyond the Terminal",
+    title: "Beyond the product",
     desc: "Read Chrome for UI tests or a custom debugger? Bitcode can run GUI apps or prepare helper tools when a Read requires workstation evidence.",
   },
 ];
@@ -376,7 +376,7 @@ export default function MarketingComputeSection() {
 
         {/* Split pane */}
         <div className="laptop:flex laptop:items-stretch gap-10">
-          {/* Terminal pane */}
+          {/* product pane */}
           <div className={terminalPaneClass}>
             {/* macOS style chrome */}
             <div className="flex items-center gap-2 px-3 py-2 bg-white/5 border-b border-white/10">

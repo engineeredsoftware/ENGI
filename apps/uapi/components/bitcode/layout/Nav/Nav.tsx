@@ -369,12 +369,52 @@ export default function Nav() {
     </div>
   ) : null;
 
+  // Product nav themes match pillar language: Read orange · Packs green · Deposit purple.
+  const publicRouteLinkThemes = {
+    read: {
+      active:
+        'border-orange-300/38 bg-orange-400/14 text-orange-100 shadow-[0_0_20px_rgba(251,146,60,0.18)]',
+      idle:
+        'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-orange-300/28 hover:bg-orange-400/[0.09] hover:text-orange-100',
+      disabledActive:
+        'border-orange-300/20 bg-orange-400/[0.06] text-orange-100/55',
+      explainer:
+        'h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-orange-300/30 hover:bg-orange-400/10 hover:text-orange-100',
+    },
+    packs: {
+      active:
+        'border-emerald-300/38 bg-emerald-400/14 text-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.16)]',
+      idle:
+        'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-emerald-300/24 hover:bg-emerald-400/[0.08] hover:text-emerald-100',
+      disabledActive:
+        'border-emerald-300/20 bg-emerald-400/[0.06] text-emerald-100/55',
+      explainer:
+        'h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100',
+    },
+    // Match Deposit pillar: purple/fuchsia (not Tailwind violet, which reads blue).
+    deposit: {
+      active:
+        'border-purple-300/42 bg-purple-500/16 text-purple-100 shadow-[0_0_20px_rgba(192,132,252,0.22)]',
+      idle:
+        'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-purple-300/30 hover:bg-purple-500/[0.10] hover:text-purple-100',
+      disabledActive:
+        'border-purple-300/22 bg-purple-500/[0.07] text-purple-100/55',
+      explainer:
+        'h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-purple-300/35 hover:bg-purple-500/12 hover:text-purple-100',
+    },
+  } as const;
+
   const publicRouteLinks = usesProductChrome ? (
     <ul className="flex w-full flex-wrap items-center gap-2 phone:gap-3 tablet:ml-8 tablet:w-auto tablet:flex-1 tablet:flex-nowrap tablet:justify-center tablet:gap-4 laptop:ml-12 laptop:gap-6">
       {BITCODE_PUBLIC_COPY.publicNav.links.map(({ href, label }, index) => {
         const isPacksRoute = href === '/packs';
         const isDepositRoute = href === '/deposits';
         const isReadRoute = href === '/reads';
+        const routeTheme = isReadRoute
+          ? publicRouteLinkThemes.read
+          : isDepositRoute
+            ? publicRouteLinkThemes.deposit
+            : publicRouteLinkThemes.packs;
         const isDisabledRoute = isPacksRoute && disableExchangeLink;
         const isActiveRoute = isPacksRoute
           ? pathname === '/packs' ||
@@ -401,7 +441,7 @@ export default function Nav() {
                     className={`
                       inline-flex cursor-not-allowed rounded-none border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition
                       ${isActiveRoute
-                        ? 'border-emerald-300/20 bg-emerald-400/[0.06] text-emerald-100/55'
+                        ? routeTheme.disabledActive
                         : 'border-white/10 bg-white/[0.025] text-neutral-500'}
                     `}
                   >
@@ -415,9 +455,7 @@ export default function Nav() {
                   className={`
                     rounded-none border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em]
                     transition-[color,background-color,border-color,box-shadow] duration-200
-                    ${isActiveRoute
-                      ? 'border-emerald-300/38 bg-emerald-400/14 text-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.16)]'
-                      : 'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-emerald-300/24 hover:bg-emerald-400/[0.08] hover:text-emerald-100'}
+                    ${isActiveRoute ? routeTheme.active : routeTheme.idle}
                   `}
                 >
                   {label}
@@ -427,19 +465,19 @@ export default function Nav() {
                 <BitcodeInlineExplainer
                   explainer={BITCODE_PUBLIC_EXPLAINERS.network}
                   side="bottom"
-                  triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                  triggerClassName={routeTheme.explainer}
                 />
               ) : isDepositRoute ? (
                 <BitcodeInlineExplainer
                   explainer={BITCODE_PUBLIC_EXPLAINERS.deposit}
                   side="bottom"
-                  triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                  triggerClassName={routeTheme.explainer}
                 />
               ) : isReadRoute ? (
                 <BitcodeInlineExplainer
                   explainer={BITCODE_PUBLIC_EXPLAINERS.read}
                   side="bottom"
-                  triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                  triggerClassName={routeTheme.explainer}
                 />
               ) : null}
             </span>

@@ -167,7 +167,7 @@ const MarketingFeaturesGrid = () => {
         </p>
       </div>
 
-      {/* Features Grid - Terminal-like cards */}
+      {/* Features Grid - product-like cards */}
       <div className="grid grid-cols-1 laptop:grid-cols-2 desktop:grid-cols-3 gap-6 mb-8">
         {features.map((feature, idx) => (
           <div
@@ -191,7 +191,7 @@ const MarketingFeaturesGrid = () => {
         ))}
       </div>
 
-      {/* Feature Showcase - Terminal-like display */}
+      {/* Feature Showcase - product-like display */}
       <motion.div
         className={terminalPanelClass}
         initial={{ opacity: 0, y: 20 }}
@@ -199,7 +199,7 @@ const MarketingFeaturesGrid = () => {
         transition={{ duration: 0.3 }}
         key={activeFeature}
       >
-        {/* Terminal header */}
+        {/* product header */}
         <div className={terminalHeaderClass}>
           <div className="flex items-center space-x-2">
             <div className="flex space-x-1.5">
@@ -222,7 +222,7 @@ const MarketingFeaturesGrid = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#030816]/90 via-transparent to-transparent"></div>
 
-              {/* Terminal-like overlay */}
+              {/* product-like overlay */}
               <div className="absolute bottom-0 left-0 right-0 p-3 font-mono text-xs text-emerald-400">
                 <div className="flex items-center">
                   <span className="text-gray-500 mr-1">$</span>
@@ -345,7 +345,7 @@ const MarketingFeaturesGrid = () => {
               </div>
             )}
 
-            {/* Terminal footer with blinking cursor */}
+            {/* product footer with blinking cursor */}
             <div className="mt-4 flex items-center">
               <span className="text-gray-500 mr-1.5">$</span>
               <span className="h-4 w-2 bg-emerald-400 animate-pulse"></span>

@@ -12,6 +12,7 @@ import {
 } from '@/app/docs/bitcode-docs-content';
 
 import MarketingOperatorGuideCard from '@/components/marketing/MarketingOperatorGuideCard/MarketingOperatorGuideCard';
+import { GLOBAL_CONSTANT_BITCODE_WHITEPAPER_URL } from '@bitcode/global-constants';
 
 type PublicDocsPageContentProps = {
   sourcePlayable: boolean;
@@ -81,7 +82,7 @@ const quickRouteCards = [
     summary: BITCODE_PUBLIC_EXPLAINERS.deposit.summary,
   },
   {
-    href: 'https://github.com/engineeredsoftware/bitcode/blob/main/BITCODE_SPEC.txt',
+    href: GLOBAL_CONSTANT_BITCODE_WHITEPAPER_URL,
     eyebrow: 'Protocol',
     title: 'Audit the canon',
     summary: BITCODE_PUBLIC_EXPLAINERS.protocolSpec.summary,

@@ -69,7 +69,7 @@ describe('Footer public shell', () => {
     );
     expect(screen.getByRole('link', { name: 'Bitcode on GitHub' })).toHaveAttribute(
       'href',
-      'https://github.com/engineeredsoftware/bitcode',
+      'https://github.com/advancedengineeredsoftware/Bitcode',
     );
     expect(screen.getByRole('button', { name: 'Explain Packs' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Deposit' })).toBeInTheDocument();
@@ -87,7 +87,7 @@ describe('Footer public shell', () => {
     expect(protocolSpecLink).not.toHaveAttribute('title');
     expect(protocolSpecLink).toHaveAttribute(
       'href',
-      'https://github.com/engineeredsoftware/ENGI/blob/main/BITCODE_SPEC.txt',
+      'https://github.com/advancedengineeredsoftware/Bitcode/blob/version/v48/Whitepaper.md',
     );
     expect(screen.getByRole('button', { name: 'Explain Protocol specification' })).toBeInTheDocument();
 

@@ -21,15 +21,24 @@ import BitcodeInlineExplainer from '@/components/bitcode/pipeline/BitcodeInlineE
 import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/bitcode/layout/BitcodePublicExplainers/bitcode-public-explainers';
 import { DisabledTooltipWrapper } from '@/components/bitcode/overlays/DisabledTooltipWrapper/DisabledTooltipWrapper';
 import { BITCODE_GITHUB_APP_PUBLIC_URL } from '@/lib/github-app-url';
+import {
+  GLOBAL_CONSTANT_BITCODE_REPOSITORY_URL,
+  GLOBAL_CONSTANT_BITCODE_WHITEPAPER_URL,
+  GLOBAL_CONSTANT_BITCODE_X_URL,
+} from '@bitcode/global-constants';
 
 const PACKS_URL = '/packs';
 const DEPOSIT_URL = '/deposits';
 const READ_URL = '/reads';
 const DEFAULT_OPERATOR_GUIDE_URL =
   process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() || '/docs';
-const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/BITCODE_SPEC.txt';
-const BITCODE_REPOSITORY_URL = 'https://github.com/engineeredsoftware/bitcode';
-const BITCODE_X_URL = 'https://x.com/bitcode';
+/** Public protocol orientation — SSOT whitepaper constant. */
+const CURRENT_PROTOCOL_SPEC_URL = GLOBAL_CONSTANT_BITCODE_WHITEPAPER_URL;
+/** Open-source monorepo — SSOT: constants/global-constant-bitcode-repository-url.txt */
+const BITCODE_REPOSITORY_URL = GLOBAL_CONSTANT_BITCODE_REPOSITORY_URL;
+/** Bitcode on X — SSOT: constants/global-constant-bitcode-x-url.txt */
+const BITCODE_X_URL =
+  process.env.NEXT_PUBLIC_BITCODE_X_URL?.trim() || GLOBAL_CONSTANT_BITCODE_X_URL;
 const BITCODE_SUPPORT_EMAIL_ADDRESS = 'support@bitcode.exchange';
 const BITCODE_SUPPORT_MAILTO = `mailto:${BITCODE_SUPPORT_EMAIL_ADDRESS}`;
 const DISABLED_FEATURE_TOOLTIPS = {

@@ -7,6 +7,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ArrowLeftRight } from 'lucide-react';
 
 import BitcodeSoftwareSvgLogo from '@/components/bitcode/branding/BitcodeSoftwareSvgLogo/BitcodeSoftwareSvgLogo';
 
@@ -88,10 +89,11 @@ export function MarketingLandingPillarCard({
                 </span>
               </div>
             </div>
-            <p className="mt-1.5 min-h-[4.5rem] text-[11px] leading-4 text-violet-50/88 phone:min-h-[5rem] phone:text-[13px] phone:leading-5">
+            <p className="mt-1.5 text-[11px] leading-4 text-violet-50/88 phone:text-[13px] phone:leading-5">
               {description}
             </p>
-            <div className="mt-auto space-y-3 border-t border-white/12 pt-4">
+            {/* mt-auto keeps lower chrome aligned with Read metrics + Settle list. */}
+            <div className="mt-auto border-t border-white/12 pt-2">
               <div className="border-l-4 border-purple-400 pl-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
                   What&apos;s Packaged
@@ -159,8 +161,8 @@ export function MarketingLandingPillarCard({
                     <p className="whitespace-nowrap bg-gradient-to-r from-orange-200 via-orange-300 to-amber-200 bg-clip-text pe-[0.2em] text-[11px] font-semibold uppercase tracking-[0.16em] text-transparent">
                       {title}
                     </p>
-                    <p className="mt-1 max-w-[18ch] text-[9px] uppercase leading-snug tracking-[0.16em] text-orange-100/52 phone:text-[10px]">
-                      <span className="block">Search packs by fit.</span>
+                    <p className="mt-1 whitespace-nowrap text-[9px] uppercase leading-snug tracking-[0.16em] text-orange-100/52 phone:text-[10px]">
+                      Perfect Packs
                     </p>
                   </div>
                 </div>
@@ -169,20 +171,29 @@ export function MarketingLandingPillarCard({
                 </span>
               </div>
             </div>
-            <p className="mt-1.5 min-h-[4.5rem] text-[11px] leading-4 text-orange-50/88 phone:min-h-[5rem] phone:text-[13px] phone:leading-5">
+            <p className="mt-1.5 text-[11px] leading-4 text-orange-50/88 phone:text-[13px] phone:leading-5">
               {description}
             </p>
-            <div className="relative mt-auto pt-4">
-              <div className="relative grid grid-cols-3 gap-2">
+            {/* mt-auto aligns metrics band with Deposit/Settle lower elements. */}
+            <div className="relative mt-auto border-t border-orange-200/12 pt-2">
+              <div className="relative grid grid-cols-3">
                 {measureCardAxes.map((axis, axisIndex) => (
                   <div
                     key={axis.label}
-                    className={`px-1 text-center ${axisIndex === 0 ? '' : 'border-l border-orange-200/12'}`}
+                    className={`flex min-w-0 flex-col items-center justify-center px-0.5 text-center ${
+                      axisIndex === 0 ? '' : 'border-l border-orange-200/12'
+                    }`}
                   >
-                    <p className="whitespace-nowrap text-[7px] uppercase leading-none tracking-[0.12em] text-orange-200/58">
+                    {/*
+                      Letter-spacing adds trailing space; pad start by the same
+                      amount so tracked labels optically center over values.
+                    */}
+                    <p className="w-full whitespace-nowrap text-center text-[7px] uppercase leading-none tracking-[0.12em] text-orange-200/58 [padding-inline-start:0.12em]">
                       {axis.label}
                     </p>
-                    <p className="mt-1 text-[2.2rem] font-semibold leading-none text-white">{axis.value}</p>
+                    <p className="mt-1 w-full text-center text-[2.2rem] font-semibold leading-none tabular-nums text-white">
+                      {axis.value}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -214,8 +225,8 @@ export function MarketingLandingPillarCard({
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.22),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(45,212,191,0.1),transparent_30%)]" />
           <div className="relative flex min-h-0 flex-1 flex-col">
             <div className="relative pr-14 text-emerald-100 phone:pr-16">
-              {/* Logo top-aligned with Settle title; icon size matches Deposit/Read title row. */}
-              <div className="absolute right-0 top-0">
+              {/* Logo slightly above title baseline; size matches Deposit/Read title row. */}
+              <div className="absolute right-0 -top-1">
                 <BitcodeSoftwareSvgLogo width="36px" softwareClassName="hidden" className="opacity-90" />
               </div>
               <div className="flex min-w-0 items-start gap-2">
@@ -224,14 +235,19 @@ export function MarketingLandingPillarCard({
                   <p className="bg-gradient-to-r from-emerald-200 via-emerald-300 to-teal-200 bg-clip-text text-[11px] font-semibold uppercase tracking-[0.18em] text-transparent">
                     {title}
                   </p>
-                  <p className="mt-1 max-w-[16ch] text-[9px] uppercase leading-snug tracking-[0.16em] text-emerald-100/52 phone:text-[10px]">
-                    <span className="block whitespace-nowrap">BTC · BTD</span>
-                    <span className="block whitespace-nowrap">On-Chain</span>
+                  <p className="mt-1 flex max-w-[16ch] items-center gap-1.5 text-[9px] uppercase leading-snug tracking-[0.16em] text-emerald-100/52 phone:text-[10px]">
+                    <span className="whitespace-nowrap">BTC</span>
+                    <ArrowLeftRight
+                      className="h-3 w-3 shrink-0 text-violet-300/85"
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
+                    <span className="whitespace-nowrap">BTD</span>
                   </p>
                 </div>
               </div>
             </div>
-            <p className="mt-1.5 min-h-[4.5rem] text-[11px] leading-4 text-emerald-50/88 phone:min-h-[5rem] phone:text-[13px] phone:leading-5">
+            <p className="mt-1.5 text-[11px] leading-4 text-emerald-50/88 phone:text-[13px] phone:leading-5">
               {hasBtdInDescription ? (
                 <>
                   {beforeBtd}
@@ -242,11 +258,14 @@ export function MarketingLandingPillarCard({
                 description
               )}
             </p>
-            <div className="mt-auto space-y-3 pt-4">
+            {/* mt-auto keeps settle list aligned with Deposit/Read lower chrome. */}
+            <div className="mt-auto pt-2">
               <div className="rounded-none border border-emerald-200/12 bg-black/25 px-3 py-2">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-50/76">
-                  {'· buy BTD · earn BTC · acquire knowledge'}
-                </p>
+                <ul className="space-y-1 font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-50/76">
+                  <li className="whitespace-nowrap">· buy BTD</li>
+                  <li className="whitespace-nowrap">· earn BTC</li>
+                  <li className="whitespace-nowrap">· acquire data</li>
+                </ul>
               </div>
             </div>
           </div>

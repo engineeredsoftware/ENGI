@@ -96,7 +96,7 @@ function OperatorDeviceShowcase() {
   );
 }
 
-function TerminalCurl() {
+function productCurl() {
   return (
     <div className="w-full max-w-md bg-[#0a132a]/40 border border-gray-400/30 rounded-lg p-6 font-mono text-gray-200 shadow-lg backdrop-blur-sm">
       <pre className="whitespace-pre-wrap text-[12px] leading-relaxed">
@@ -156,7 +156,7 @@ export default function MarketingHeadlessMobileShowcase() {
 
         {/* API Interface */}
         <div className="flex flex-col items-center text-center">
-          <TerminalCurl />
+          <ConsoleCurl />
           <h3 className="mt-4 text-2xl font-semibold text-white">MCP API</h3>
           <p className="mt-2 text-gray-300 leading-relaxed">
             Trigger Bitcode from any backend with a single signed curl request.

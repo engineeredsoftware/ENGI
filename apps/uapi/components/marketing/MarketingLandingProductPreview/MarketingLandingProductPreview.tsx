@@ -33,6 +33,28 @@ const OPERATOR_MODE_BULLET: Record<string, 'purple' | 'orange' | 'green' | 'whit
   Proofs: 'white',
 };
 
+/** Subtitle segments with middle-dot bullets vertically centered to the cap height. */
+function OperatorFrameSubtitle() {
+  const parts = BITCODE_PUBLIC_COPY.operatorFrame.subtitleParts;
+  return (
+    <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] uppercase leading-none tracking-[0.12em] text-emerald-100/58">
+      {parts.map((part, index) => (
+        <React.Fragment key={part}>
+          {index > 0 ? (
+            <span
+              className="inline-flex h-[1em] w-[0.35em] shrink-0 items-center justify-center text-[0.85em] leading-none text-emerald-100/42"
+              aria-hidden="true"
+            >
+              •
+            </span>
+          ) : null}
+          <span className="leading-none">{part}</span>
+        </React.Fragment>
+      ))}
+    </p>
+  );
+}
+
 export const MarketingLandingProductPreview = memo(function MarketingLandingProductPreview() {
   return (
     <motion.aside
@@ -109,9 +131,7 @@ export const MarketingLandingProductPreview = memo(function MarketingLandingProd
                   {BITCODE_PUBLIC_COPY.operatorFrame.badge}
                 </span>
               </div>
-              <p className="mt-1 text-[12px] uppercase leading-4 tracking-[0.12em] text-emerald-100/58">
-                {BITCODE_PUBLIC_COPY.operatorFrame.subtitle}
-              </p>
+              <OperatorFrameSubtitle />
               <div className="mt-4 flex flex-wrap gap-2">
                 {BITCODE_PUBLIC_COPY.operatorFrame.modes.map((surface) => (
                   <span
@@ -282,9 +302,7 @@ export const MarketingLandingProductPreview = memo(function MarketingLandingProd
                   </span>
                 </div>
                 {/* Full-width subtitle — avoids one-word-per-line squeeze beside the badge. */}
-                <p className="mt-1 text-[12px] uppercase leading-4 tracking-[0.12em] text-emerald-100/58">
-                  {BITCODE_PUBLIC_COPY.operatorFrame.subtitle}
-                </p>
+                <OperatorFrameSubtitle />
                 <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 laptop:gap-x-4 laptop:gap-y-3">
                   {BITCODE_PUBLIC_COPY.operatorFrame.modes.map((surface) => (
                     <li
@@ -306,9 +324,10 @@ export const MarketingLandingProductPreview = memo(function MarketingLandingProd
               <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-none border border-cyan-300/12 bg-[linear-gradient(135deg,rgba(6,13,24,0.96),rgba(4,22,31,0.92))] p-4 shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(103,254,183,0.14),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.12),transparent_34%)]" />
                 <div className="absolute inset-0 opacity-15 [background-image:linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:28px_28px]" />
-                <div className="pointer-events-none absolute right-8 top-8 h-[72px] w-[72px] overflow-visible">
+                {/* Top-right fixed; size reduced so measures copy does not collide. */}
+                <div className="pointer-events-none absolute right-8 top-8 h-[56px] w-[56px] overflow-visible">
                   <QuantumOrb
-                    size={72}
+                    size={56}
                     config={verifiedAccessOrbConfig}
                     initialState="active"
                     interactive={false}
@@ -317,7 +336,7 @@ export const MarketingLandingProductPreview = memo(function MarketingLandingProd
                 </div>
 
                 <div className="relative flex min-h-0 flex-1 flex-col">
-                  <div className="pr-20">
+                  <div className="pr-16">
                     <div className="min-w-0">
                       <p className="bg-gradient-to-r from-emerald-200 via-cyan-200 to-white bg-clip-text text-sm font-semibold text-transparent">
                         Source Safety
