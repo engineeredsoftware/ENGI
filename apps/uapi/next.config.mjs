@@ -69,6 +69,19 @@ let nextConfig = {
   // cannot leak between lanes.
   distDir: process.env.NEXT_DIST_DIR || '.next',
   productionBrowserSourceMaps: false,
+  // Keep retired demonstration/spec fixtures out of serverless traces.
+  // (Next does not honor vercel.json excludeFiles for App Router functions.)
+  outputFileTracingExcludes: {
+    '*': [
+      '**/protocol-demonstration/**',
+      '**/v23-bitcoin-demonstration-service.*',
+      '**/bitcode-demo.js',
+      '**/ai-reading-demonstration/**',
+      '**/.proofs/**',
+      '**/storybook-static/**',
+      '**/tmp/**',
+    ],
+  },
   experimental: {
     // Allow importing source files from outside the `uapi` package directory.
     externalDir: true,

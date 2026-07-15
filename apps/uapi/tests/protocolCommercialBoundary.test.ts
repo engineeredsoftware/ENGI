@@ -21,6 +21,9 @@ const DISALLOWED_DEMONSTRATION_BOUNDARY_PATTERNS = [
   /@bitcode\/protocol-demonstration/,
   /protocol-demonstration\/public/,
   /BITCODE_DEMONSTRATION_PUBLIC_DIR/,
+  // Removed product surface — do not reintroduce (Vercel 250mb function bombs).
+  /bitcoin-demonstration-service/,
+  /getBitcoinDemonstrationService\s*\(/,
 ];
 
 function collectSourceFiles(root: string): string[] {
@@ -95,6 +98,12 @@ describe('commercial protocol boundary', () => {
     );
 
     expect(violations).toEqual([]);
+  });
+
+  it('does not ship a bitcoin-demonstration-service product API route', () => {
+    expect(
+      existsSync(path.join(uapiRoot, 'app/api/bitcoin-demonstration-service')),
+    ).toBe(false);
   });
 
   it('depends on the formal protocol package instead of the standalone demonstration package', () => {

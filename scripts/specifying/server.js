@@ -130,7 +130,6 @@ import {
   SPEC_VERSION
 } from './src/bitcode-runtime.js';
 import { CURRENT_CANON_POSTURE } from './src/canon-posture.js';
-import { buildBitcoinDemonstrationServiceDescriptor } from './src/canonical/v23-bitcoin-demonstration-service.js';
 import {
   buildV24ExternalRealizationDescriptor,
   resolveV24ActiveExternalRuntime
@@ -896,17 +895,6 @@ export function createAppContext({
   }
 
   /**
-   * @returns {{ ok: true, specVersion: string, service: unknown }}
-   */
-  function getBitcoinDemonstrationService() {
-    return {
-      ok: true,
-      specVersion: SPEC_VERSION,
-      service: buildBitcoinDemonstrationServiceDescriptor()
-    };
-  }
-
-  /**
    * @param {{ environmentMode?: string | null | undefined }} [input]
    * @returns {{ ok: true, specVersion: string, externalRealization: unknown, activeRuntime: unknown }}
    */
@@ -983,10 +971,6 @@ export function createAppContext({
         return sendJson(res, 200, resetState());
       }
 
-      if (req.method === 'GET' && req.url === '/api/bitcoin-demonstration-service') {
-        return sendJson(res, 200, getBitcoinDemonstrationService());
-      }
-
       if (req.method === 'GET' && req.url?.startsWith('/api/external-realization')) {
         const url = new URL(req.url, 'http://127.0.0.1');
         return sendJson(
@@ -1042,7 +1026,6 @@ export function createAppContext({
     createDeposit,
     makeBitcodeBranch,
     resetState,
-    getBitcoinDemonstrationService,
     getExternalRealization,
     executeLocalExecutorById,
     handle

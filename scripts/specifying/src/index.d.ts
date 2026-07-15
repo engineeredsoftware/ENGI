@@ -2,7 +2,6 @@ export interface BitcodeAppContext {
   handle(req: unknown, res: unknown): Promise<void>;
   getState(principal?: string): unknown;
   resetState(): unknown;
-  getBitcoinDemonstrationService(): unknown;
   getExternalRealization(input?: Record<string, unknown>): unknown;
   getReadReview(input?: Record<string, unknown>): unknown;
   reviewRead(input?: Record<string, unknown>): unknown;
