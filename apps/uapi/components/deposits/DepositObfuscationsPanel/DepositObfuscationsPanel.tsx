@@ -7,6 +7,7 @@
 
 import React from "react";
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";
+import { ProductSynthesizeAssetPackOptionsButton } from "@/components/bitcode/routes/ProductSynthesizeAssetPackOptionsButton/ProductSynthesizeAssetPackOptionsButton";
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/components/deposits/models/deposit-explainers";
 import { DEPOSIT_OBFUSCATIONS_PLACEHOLDER } from "@/components/deposits/models/deposit-format";
 import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
@@ -165,18 +166,11 @@ export function DepositObfuscationsPanel(props: DepositObfuscationsPanelProps) {
           Deposit to start a new synthesis.
         </p>
       ) : (
-        <button
-          type="button"
-          onClick={() => {
-            void onSynthesize();
-          }}
-          disabled={!repositoryFullName || synthesisStatus === "running"}
-          className="mt-4 inline-flex w-full items-center justify-center border border-emerald-300/25 bg-emerald-300/12 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/[0.03] disabled:text-neutral-500"
-        >
-          {synthesisStatus === "running"
-            ? "Synthesizing with AssetPacksSynthesis…"
-            : "Synthesize AssetPack Options"}
-        </button>
+        <ProductSynthesizeAssetPackOptionsButton
+          onClick={onSynthesize}
+          disabled={!repositoryFullName}
+          running={synthesisStatus === "running"}
+        />
       )}
     </section>
   );

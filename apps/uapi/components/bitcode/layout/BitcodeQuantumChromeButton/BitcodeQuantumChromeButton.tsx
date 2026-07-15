@@ -18,6 +18,8 @@ export interface BitcodeQuantumChromeButtonProps {
   disabled?: boolean;
   className?: string;
   'aria-label'?: string;
+  'aria-busy'?: boolean;
+  'data-testid'?: string;
   type?: 'button' | 'submit' | 'reset';
 }
 
@@ -36,6 +38,8 @@ export default function BitcodeQuantumChromeButton({
   disabled = false,
   className = '',
   'aria-label': ariaLabel,
+  'aria-busy': ariaBusy,
+  'data-testid': dataTestId,
   type = 'button',
 }: BitcodeQuantumChromeButtonProps) {
   const [isHovered, setIsHovered] = useState(false);
@@ -81,6 +85,8 @@ export default function BitcodeQuantumChromeButton({
       disabled={disabled}
       aria-disabled={disabled}
       aria-label={ariaLabel}
+      aria-busy={ariaBusy}
+      data-testid={dataTestId}
       onClick={disabled ? undefined : onClick}
       onMouseEnter={() => {
         if (disabled) return;

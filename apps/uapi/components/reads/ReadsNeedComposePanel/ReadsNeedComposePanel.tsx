@@ -10,6 +10,7 @@ import type {
   ReadSynthesisStatus,
 } from "@/components/reads/ReadPageClient/hooks/use-read-option-synthesis";
 import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import { ProductSynthesizeAssetPackOptionsButton } from "@/components/bitcode/routes/ProductSynthesizeAssetPackOptionsButton/ProductSynthesizeAssetPackOptionsButton";
 import { ReadsNeedPathPickers } from "@/components/reads/ReadsNeedPathPickers/ReadsNeedPathPickers";
 
 export function ReadsNeedComposePanel(props: {
@@ -86,17 +87,12 @@ export function ReadsNeedComposePanel(props: {
         repositoryContext={repositoryContext}
       />
 
-      <button
-        type="button"
+      <ProductSynthesizeAssetPackOptionsButton
         data-testid="reads-synthesize-options"
-        onClick={() => void onSynthesize()}
-        disabled={!canSynthesize || running || !need.trim()}
-        className="mt-4 inline-flex w-full items-center justify-center border border-emerald-300/25 bg-emerald-300/12 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/[0.03] disabled:text-neutral-500"
-      >
-        {running
-          ? "Synthesizing with AssetPacksSynthesis…"
-          : "Synthesize AssetPack Options"}
-      </button>
+        onClick={onSynthesize}
+        disabled={!canSynthesize || !need.trim()}
+        running={running}
+      />
       {runId || status !== "idle" ? (
         <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-neutral-500">
           {runId ? (
