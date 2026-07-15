@@ -68,27 +68,23 @@ export function MarketingLandingTestnetSection() {
       <div className="relative overflow-visible rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-4 py-4 backdrop-blur-sm phone:px-5 phone:py-5">
         {/*
           Absolute so the larger exchange mark never expands card layout.
-          Bitcoin (orange) ⇄ Bitcode (green) — order matches title.
+          Bitcode (green) ⇄ Bitcoin (orange) — opposite of title word order.
         */}
         <div
           className="pointer-events-none absolute right-2 top-2 z-10 inline-flex items-center gap-1.5 phone:right-3 phone:top-3"
           aria-hidden="true"
-          title="Bitcoins for Bitcodes exchange"
+          title="Bitcodes for Bitcoins exchange"
         >
           {/*
             Larger marks; gap scales only with size (gap-1.5 ≈ prior gap/size ratio),
             not extra whitespace between arrows and icons.
           */}
-          <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center [filter:drop-shadow(0_0_10px_rgba(251,146,60,0.8))_drop-shadow(0_0_22px_rgba(251,191,36,0.45))]">
-            <span
-              className="inline-block h-14 w-14 origin-center scale-[1.28] bg-orange-300"
-              style={{
-                maskImage: 'url(/bitcoin-logo.svg)',
-                WebkitMaskImage: 'url(/bitcoin-logo.svg)',
-                maskSize: 'contain',
-                maskRepeat: 'no-repeat',
-                maskPosition: 'center',
-              }}
+          <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center [filter:drop-shadow(0_0_10px_rgba(103,254,183,0.75))_drop-shadow(0_0_22px_rgba(52,211,153,0.45))]">
+            <Logo
+              height="h-14"
+              width="w-14"
+              fill="#65FEB7"
+              className="opacity-95"
             />
           </span>
           {/* Filter on wrapper so purple glow paints outside the stroke. */}
@@ -98,12 +94,20 @@ export function MarketingLandingTestnetSection() {
               strokeWidth={2}
             />
           </span>
-          <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center [filter:drop-shadow(0_0_10px_rgba(103,254,183,0.75))_drop-shadow(0_0_22px_rgba(52,211,153,0.45))]">
-            <Logo
-              height="h-14"
-              width="w-14"
-              fill="#65FEB7"
-              className="opacity-95"
+          <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center [filter:drop-shadow(0_0_10px_rgba(251,146,60,0.8))_drop-shadow(0_0_22px_rgba(251,191,36,0.45))]">
+            {/*
+              Raw bitcoin-logo.svg paints smaller in the same h-14 box than the
+              Bitcode mark — scale only the mask so optical sizes match.
+            */}
+            <span
+              className="inline-block h-14 w-14 origin-center scale-[1.39] bg-orange-300"
+              style={{
+                maskImage: 'url(/bitcoin-logo.svg)',
+                WebkitMaskImage: 'url(/bitcoin-logo.svg)',
+                maskSize: 'contain',
+                maskRepeat: 'no-repeat',
+                maskPosition: 'center',
+              }}
             />
           </span>
         </div>
