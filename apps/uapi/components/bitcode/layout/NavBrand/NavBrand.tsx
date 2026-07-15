@@ -22,7 +22,6 @@ export type NavBrandSurface =
   | "deposit"
   | "read"
   | "docs"
-  | "terminal"
   | null;
 
 interface NavBrandProps {

@@ -25,7 +25,7 @@ apps/uapi/app/{page shells} → compose only; no heavy logic
 ```
 
 **Monorepo roots:** `packages/` (shared libs), `apps/` (uapi, mcp, chatgpt, claude),
-`images/` (pipeliner).
+`containers/` (`images/` for OCI appliances e.g. Pipeliner; `k8/` for Kubernetes manifests).
 
 **Tooling homes (not product runtime):**
 
@@ -33,6 +33,8 @@ apps/uapi/app/{page shells} → compose only; no heavy logic
 | --- | --- |
 | `scripts/` | Durable automation: gate checkers, canon/promotion, CI helpers |
 | `codemod/` | **Temporary** one-off code-modification scripts for this repo (see `codemod/README.md`) |
+| `containers/images/` | OCI / appliance images (Pipeliner VCR, …) |
+| `containers/k8/` | Kubernetes manifests (long-runner fleet, …) |
 
 Do not nest temporary codemods under `apps/uapi` or other app packages. Prefer
 deleting a codemod after its migration is merged and verified.
@@ -450,6 +452,9 @@ bitcode/
 │ └── .storybook/stories/
 ├── scripts/ # durable gate checkers, promotion, tooling
 ├── codemod/ # temporary one-off codemods (see codemod/README.md)
+├── containers/
+│   ├── images/ # OCI appliances (pipeliner, …)
+│   └── k8/ # Kubernetes manifests
 ├── supabase/
 └── _legacy/ # historical specs only — do not implement from
 ```

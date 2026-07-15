@@ -71,7 +71,7 @@ const SHARED_FRESHNESS_FAILURES = Object.freeze([
 const guideRows = Object.freeze([
   {
     guideId: 'terminal_usage',
-    publicRoute: '/docs/terminal',
+    publicRoute: '/docs/product-workspace',
     title: 'Terminal usage guide',
     audience: ['enterprise_readers', 'depositors', 'operators'],
     guideIntent: 'Orient users inside the Deposit/Read operator surface before they write or trust a result.',

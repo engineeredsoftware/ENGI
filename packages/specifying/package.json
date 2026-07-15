@@ -19,5 +19,5 @@
     "@types/node": "^25.5.2",
     "typescript": "^6.0.2"
   },
-  "description": "Bitcode specifying tooling: gate proof generators, canon posture, promotion helpers, and the commercialized demo-engine bridge still used by a few UAPI routes. The monorepo itself is protocol canon — this is not a product \"protocol\" package. Standalone demonstration lives only in protocol-demonstration/."
+  "description": "Bitcode specifying tooling: gate proof generators, canon posture, promotion helpers, and a transitional demo-engine bridge used by a few UAPI routes. Specifying law is BITCODE_SPECIFYING.md; this package is the executable commercial proof machine."
 }

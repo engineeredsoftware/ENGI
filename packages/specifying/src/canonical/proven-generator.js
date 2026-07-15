@@ -237,7 +237,7 @@ const V26_FOURTH_GATE_CONVERSATION_FILES = [
   'apps/uapi/app/api/conversations/_shared.ts',
   'packages/conversations/src/index.ts',
   'packages/conversations/src/agent/ConversationAgent.ts',
-  'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+  'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
   'packages/api/src/routes/conversations.ts',
   'packages/api/src/conversations/conversations.ts',
   'packages/api/src/conversations/messages.ts',
@@ -321,7 +321,7 @@ const V26_FOURTH_GATE_PROMPT_SYSTEM_FILES = [
   'packages/execution-generics/src/prompts/ExecutionPrompt.ts',
   'packages/agent-generics/src/prompts/AgentPrompt.ts',
   'packages/conversations/README.md',
-  'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+  'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
   'packages/generic-agents/jira-processor/src/prompts/system-prompt-jira-processor.ts',
   'packages/generic-agents/jira-processor/src/prompts/agent-prompt-jira-processor.ts',
   'packages/generic-agents/web-researcher/README.md',
@@ -489,7 +489,7 @@ const V26_RETAINED_PACKAGE_ADMISSIONS = [
       'packages/conversations/README.md',
       'packages/conversations/src/index.ts',
       'packages/conversations/src/agent/ConversationAgent.ts',
-      'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts'
+      'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts'
     ]
   },
   {
@@ -1997,7 +1997,7 @@ function buildV26TerminalCompositionProof({
     worktreeState: baseData.worktreeState,
     passed,
     routeWitnesses: [
-      '/terminal'
+      '/packs'
     ],
     checks
   };
@@ -2223,7 +2223,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/pipelines-generics/src/streaming/pipeline-stream-integration.ts',
         'packages/conversations/package.json',
         'packages/conversations/README.md',
-        'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+        'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
         'packages/conversations/src/agent/ConversationAgent.ts'
       ]
     ),
@@ -4102,11 +4102,11 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
       'packages/agent-generics/README.md',
       'packages/agent-generics/TLDR.md',
       'packages/linting/eslint/src/requirePromptHierarchy.ts',
-      'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+      'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
       'packages/conversations/src/agent/ConversationAgent.ts',
-      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts',
-      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts',
-      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_usage_guidance.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeconversation_identity_corestatement.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeconversation_capabilities_list.ts',
+      'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeconversation_usage_guidance.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_name.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_identity_definition.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrplan_purpose.ts',
@@ -4211,7 +4211,7 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
     fifthGateUse: 'Shows that Terminal conversations and admitted MCP ingress are prompt-bearing interfaces over Bitcode state, not parallel products.',
     laterGateRemaining: 'MCP and third-party app prompt quality, permissioning, and commercial readiness remain sixth/seventh-gate refinements.',
     requiredFiles: [
-      'apps/uapi/prompts/bitcode-terminal-system-prompt.ts',
+      'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
       'apps/uapi/app/api/conversations/stream/route.ts',
       'apps/uapi/app/api/conversations/[conversationId]/stream/route.ts',
       'packages/mcp-generics/package.json',
@@ -4390,7 +4390,7 @@ function buildV26ConversationsContinuityProof({
       [
         'packages/conversations/src/index.ts',
         'packages/conversations/src/agent/ConversationAgent.ts',
-        'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+        'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
         'packages/api/src/routes/conversations.ts',
         'packages/api/src/conversations/conversations.ts',
         'packages/api/src/conversations/messages.ts',
@@ -4478,7 +4478,7 @@ function buildV26ConversationsContinuityProof({
     passed,
     routeWitnesses: [
       '/conversations',
-      '/terminal'
+      '/packs'
     ],
     apiWitnesses: [
       '/api/conversations',
@@ -10272,7 +10272,7 @@ function buildV37ProvenPackage(baseData, {
     '.bitcode/v37-conversation-stream-event-contract.json',
     '.bitcode/v37-conversation-writing-workspace.json',
     '.bitcode/v37-conversation-source-selector.json',
-    '.bitcode/v37-conversation-terminal-handoff.json',
+    '.bitcode/v37-conversation-product-handoff.json',
     '.bitcode/v37-conversation-persistence-privacy-redaction.json',
     '.bitcode/v37-conversation-telemetry-proof-hooks.json',
     '.bitcode/v37-conversation-rehearsal.json',

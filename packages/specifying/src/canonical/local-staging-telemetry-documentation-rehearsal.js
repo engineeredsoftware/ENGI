@@ -123,7 +123,7 @@ const rehearsalRows = Object.freeze([
       'internal-docs/README.md',
       'apps/uapi/app/docs/bitcode-docs-content.ts',
     ],
-    docsLinks: ['/docs/terminal', '/docs/proofs', '/docs/configuration', '/docs/commercial-interfaces'],
+    docsLinks: ['/docs/product-workspace', '/docs/proofs', '/docs/configuration', '/docs/commercial-interfaces'],
     evidenceRoots: [
       'rehearsal.local.docs-discovery.root',
       'rehearsal.local.telemetry-event-emission.root',

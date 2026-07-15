@@ -62,9 +62,9 @@ export default function AuxillariesInterfacesPane({
                 {
                   label: 'Terminal detail',
                   value:
-                    defaults.terminalDetailDensity === 'signal'
+                    defaults.productDetailDensity === 'signal'
                       ? 'Dense signal'
-                      : defaults.terminalDetailDensity === 'full'
+                      : defaults.productDetailDensity === 'full'
                         ? 'Full read'
                         : 'Balanced read',
                   detail: 'How much structured detail opens first in transactions.',

@@ -7,8 +7,8 @@ import type { BitcodeDocsPage } from '../bitcode-docs-types';
 import { whatIsBitcodeSections } from './sections-what-is-bitcode';
 import { sourceSharesSections } from './sections-source-shares';
 import { exchangeSections } from './sections-exchange';
-import { terminalSections } from './sections-terminal';
-import { terminalActionSections } from './sections-terminal-actions';
+import { productSections } from './sections-product';
+import { productActionSections } from './sections-product-actions';
 import { readResultSections } from './sections-read-results';
 import { auxillariesSections } from './sections-auxillaries';
 import { conversationsSections } from './sections-conversations';
@@ -117,7 +117,7 @@ export const BITCODE_DOCS_PAGES = [
     ],
   }),
   docsPage({
-    slug: 'terminal',
+    slug: 'product-workspace',
     chapterId: 'experiences',
     eyebrow: 'Operator map',
     title: 'Orient on Packs, Deposit, and Read',
@@ -127,8 +127,8 @@ export const BITCODE_DOCS_PAGES = [
       'Use this page when you need to know where to write, where to buy, where to audit, and when to open Auxillaries or Conversations as supporting modes.',
     learningOutcome:
       'You can identify deposit write posture, read demand posture, packs activity reread, and when to open Auxillaries.',
-    primaryCta: { href: '/docs/terminal-actions', label: 'Read action guide' },
-    sections: terminalSections,
+    primaryCta: { href: '/docs/product-actions', label: 'Read action guide' },
+    sections: productSections,
     embeddedUi: [
       {
         id: 'command-deck',
@@ -151,7 +151,7 @@ export const BITCODE_DOCS_PAGES = [
     ],
   }),
   docsPage({
-    slug: 'terminal-actions',
+    slug: 'product-actions',
     chapterId: 'experiences',
     eyebrow: 'Write guide',
     title: 'Actions: what writes and what should read back',
@@ -162,7 +162,7 @@ export const BITCODE_DOCS_PAGES = [
     learningOutcome:
       'You can identify the write, the expected read, and the proof signal for each major action.',
     primaryCta: { href: '/reads', label: 'Use Read' },
-    sections: terminalActionSections,
+    sections: productActionSections,
     embeddedUi: [
       {
         id: 'write-read-loop',
@@ -190,7 +190,7 @@ export const BITCODE_DOCS_PAGES = [
       'This page is for experienced users auditing the result of Bitcode work. It separates quick operating signals from exact proof and closure follow-through.',
     learningOutcome:
       'You can tell which read surface answers orientation, readiness, proof, settlement, and history questions.',
-    primaryCta: { href: '/docs/terminal-actions', label: 'Compare write actions' },
+    primaryCta: { href: '/docs/product-actions', label: 'Compare write actions' },
     sections: readResultSections,
     embeddedUi: [
       {

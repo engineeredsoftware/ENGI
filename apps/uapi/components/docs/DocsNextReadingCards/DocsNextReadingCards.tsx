@@ -10,7 +10,7 @@ export function DocsNextReadingCards({ page }: { page: BitcodeDocsPage }) {
     return (
       <div className="grid gap-4 tablet:grid-cols-2">
         <Link
-          href="/docs/terminal-actions"
+          href="/docs/product-actions"
           className="rounded-none border border-emerald-300/14 bg-emerald-400/[0.06] p-5 transition hover:border-emerald-300/28 hover:bg-emerald-400/[0.1]"
         >
           <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-200/70">Next</p>

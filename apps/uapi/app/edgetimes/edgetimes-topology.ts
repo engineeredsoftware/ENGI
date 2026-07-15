@@ -14,7 +14,7 @@ export const EDGETIMES_TOPOLOGY = {
   eyebrow: 'Bitcode edgetimes',
   heading: 'Converge storage, schema, and retained package ownership.',
   body:
-    'Edgetimes is the storage and API read for PostgreSQL/Supabase, typed ORM/query ownership, generated database types, and the retained packages that still carry Bitcode state upward into Terminal, Exchange, and Auxillaries.',
+    'Edgetimes is the storage and API read for PostgreSQL/Supabase, typed ORM/query ownership, generated database types, and the retained packages that still carry Bitcode state upward into Packs, Reads, and Auxillaries.',
   baselineMigration: {
     label: 'Schema baseline',
     path: 'supabase/migrations/001_v26_production.sql',
@@ -49,7 +49,7 @@ export const EDGETIMES_TOPOLOGY = {
       ],
     },
     {
-      title: 'Terminal and API carriers',
+      title: 'Product and API carriers',
       detail:
         'These route owners expose the retained storage system upward into Bitcode and should converge on one explicit storage/API posture instead of ad-hoc access patterns.',
       owners: [

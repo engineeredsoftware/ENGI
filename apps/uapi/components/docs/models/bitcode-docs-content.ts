@@ -11,14 +11,14 @@ export type {
   BitcodeDocsPageSlug,
   BitcodeDocsPage,
   BitcodeDocsChapter,
-  TerminalActionGuide,
-  TerminalReadGuide,
+  ProductActionGuide,
+  ProductReadGuide,
 } from './bitcode-docs-types';
 
 export { withPublicDisclosureLimit, docsPage } from './bitcode-docs-helpers';
 
-export { TERMINAL_ACTION_GUIDES } from './content/terminal-action-guides';
-export { TERMINAL_READ_GUIDES } from './content/terminal-read-guides';
+export { PRODUCT_ACTION_GUIDES } from './content/product-action-guides';
+export { PRODUCT_READ_GUIDES } from './content/product-read-guides';
 export { BITCODE_DOCS_PAGES } from './content/pages';
 export {
   BITCODE_DOCS_CHAPTERS,

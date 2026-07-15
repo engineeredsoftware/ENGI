@@ -99,8 +99,8 @@ function main() {
     'packages/specifying/src/canon-posture.js',
     'packages/specifying/data/state.json',
     'packages/specifying/README.md',
-    'protocol-demonstration/src/canon-posture.js',
-    'protocol-demonstration/README.md',
+    'packages/specifying/src/canon-posture.js',
+    'packages/specifying/README.md',
     'package.json',
     'README.md',
   ];

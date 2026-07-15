@@ -99,9 +99,9 @@ function main() {
     'AGENTS.md',
     'package.json',
     'packages/specifying/README.md',
-    'protocol-demonstration/README.md',
+    'packages/specifying/README.md',
     'packages/specifying/src/canon-posture.js',
-    'protocol-demonstration/src/canon-posture.js',
+    'packages/specifying/src/canon-posture.js',
     'packages/specifying/data/state.json',
   ];
 
@@ -120,9 +120,9 @@ function main() {
   const prTemplate = read(root, '.github/pull_request_template.md');
   const readme = read(root, 'README.md');
   const protocolReadme = read(root, 'packages/specifying/README.md');
-  const demoReadme = read(root, 'protocol-demonstration/README.md');
+  const demoReadme = read(root, 'packages/specifying/README.md');
   const packagePosture = read(root, 'packages/specifying/src/canon-posture.js');
-  const demoPosture = read(root, 'protocol-demonstration/src/canon-posture.js');
+  const demoPosture = read(root, 'packages/specifying/src/canon-posture.js');
   const postureState = read(root, 'packages/specifying/data/state.json');
 
   for (const [label, content] of [

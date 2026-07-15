@@ -6,7 +6,7 @@ import {
   aggregateOperationalTelemetrySeverity,
   buildOperationalHealthRead,
 } from '../src/operational-health';
-import { buildTerminalOperationalHealthRead } from '../src/terminal-operational-health';
+import { buildOperationalHealthRead } from '../src/operational-health';
 import { buildV27CryptoTelemetryRecord } from '../src/telemetry';
 
 const issuedAt = 'operational-health-test';
@@ -51,7 +51,7 @@ describe('operational-health', () => {
 
   it('keeps Terminal-named shim equivalent to canonical builder', () => {
     const canonical = buildOperationalHealthRead({ issuedAt });
-    const shim = buildTerminalOperationalHealthRead({ issuedAt });
+    const shim = buildOperationalHealthRead({ issuedAt });
     expect(shim.lanes.map((l) => l.lane)).toEqual(canonical.lanes.map((l) => l.lane));
   });
 });

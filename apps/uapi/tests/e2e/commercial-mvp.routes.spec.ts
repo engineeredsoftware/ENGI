@@ -51,12 +51,12 @@ const ROUTE_SMOKE_MATRIX = [
     name: 'source-shares docs',
   },
   {
-    path: '/docs/terminal',
+    path: '/docs/product-workspace',
     expected: /Orient inside the Bitcode Terminal/i,
     name: 'Terminal map docs',
   },
   {
-    path: '/docs/terminal-actions',
+    path: '/docs/product-actions',
     expected: /Actions: what writes and what should read back/i,
     name: 'action manual docs',
   },

@@ -96,7 +96,7 @@ const SOURCE_ROOTS = Object.freeze({
   btdMigration: 'supabase/migrations/002_v27_btd_crypto_registry.sql',
   longRunnerDockerfile: 'Dockerfile.long-runner',
   longRunnerWorkerDockerfile: 'Dockerfile.long-runner-worker',
-  longRunnerK8s: 'infra/k8s/long-runner.yaml',
+  longRunnerK8s: 'containers/k8/long-runner.yaml',
   uapiPackageJson: 'apps/uapi/package.json',
   ipExchangeSpec: 'apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
   packageJson: 'package.json',

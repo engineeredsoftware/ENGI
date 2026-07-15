@@ -475,7 +475,7 @@ function buildCommandPlan(version, commit) {
   const v37Gate3Command = ['node', ['scripts/check-v37-gate3-conversation-stream-event-contracts.mjs', '--skip-branch-check']];
   const v37Gate4Command = ['node', ['scripts/check-v37-gate4-conversation-writing-workspace.mjs', '--skip-branch-check']];
   const v37Gate5Command = ['node', ['scripts/check-v37-gate5-conversation-source-selector.mjs', '--skip-branch-check']];
-  const v37Gate6Command = ['node', ['scripts/check-v37-gate6-conversation-terminal-handoff.mjs', '--skip-branch-check']];
+  const v37Gate6Command = ['node', ['scripts/check-v37-gate6-conversation-product-handoff.mjs', '--skip-branch-check']];
   const v37Gate7Command = ['node', ['scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs', '--skip-branch-check']];
   const v37Gate8Command = ['node', ['scripts/check-v37-gate8-conversation-telemetry-proof-hooks.mjs', '--skip-branch-check']];
   const v37Gate9Command = ['node', ['scripts/check-v37-gate9-conversation-rehearsal.mjs', '--skip-branch-check']];

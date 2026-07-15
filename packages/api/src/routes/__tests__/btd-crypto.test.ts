@@ -35,7 +35,7 @@ import {
   buildBtdProtocolTelemetrySettlement,
   buildBtdReadAccessDecision,
   buildBtdSourceToSharesProofSettlement,
-  buildBtdTerminalJournalSettlement,
+  buildBtdJournalSettlement,
   buildBtdProtocolTelemetryRecord,
   buildBtcFeeQuote,
   createBtdMeasureMintState,
@@ -61,7 +61,7 @@ import {
   buildPostBtdProtocolTelemetryRoute,
   buildPostBtdReadAccessRoute,
   buildPostBtdSourceToSharesProofRoute,
-  buildPostBtdTerminalJournalRoute,
+  buildPostBtdJournalRoute,
   postBtdInterfaceIntegrationRegression,
 } from '../btd-crypto';
 
@@ -1096,7 +1096,7 @@ describe('BTD crypto API builders', () => {
   });
 
   it('builds Terminal journal coverage and blocking diff settlements', () => {
-    const entry = buildBtdTerminalJournalSettlement({
+    const entry = buildBtdJournalSettlement({
       actorId: 'user-1',
       action: 'commit_entry',
       journalEntryId: 'journal-api-1',
@@ -1108,7 +1108,7 @@ describe('BTD crypto API builders', () => {
       exchangeSequence: 15n,
       issuedAt,
     });
-    const diff = buildBtdTerminalJournalSettlement({
+    const diff = buildBtdJournalSettlement({
       actorId: 'user-1',
       action: 'diff_projection',
       entry: entry.entry,
@@ -1120,7 +1120,7 @@ describe('BTD crypto API builders', () => {
       },
       issuedAt,
     });
-    const coverage = buildBtdTerminalJournalSettlement({
+    const coverage = buildBtdJournalSettlement({
       actorId: 'user-1',
       action: 'coverage',
       coverageId: 'terminal-coverage-api-1',
@@ -1648,18 +1648,18 @@ describe('BTD crypto API builders', () => {
   });
 
   it('returns JSON-safe Terminal journal settlements and persists explicit commits', async () => {
-    const insertTerminalJournalEntry = jest.fn(async (row) => ({
+    const insertJournalEntry = jest.fn(async (row) => ({
       journal_entry_id: row.journal_entry_id,
       transaction_kind: row.transaction_kind,
     }));
-    const route = buildPostBtdTerminalJournalRoute({
+    const route = buildPostBtdJournalRoute({
       resolveAuthenticatedUser: async () => ({ userId: 'user-1' }),
       registry: {
-        insertTerminalJournalEntry,
+        insertJournalEntry,
       } as any,
     });
     const commitResponse = await route(
-      new Request('https://bitcode.test/api/btd/terminal-journal', {
+      new Request('https://bitcode.test/api/btd/journal', {
         method: 'POST',
         body: JSON.stringify({
           action: 'commit_entry',
@@ -1677,7 +1677,7 @@ describe('BTD crypto API builders', () => {
     );
     const commitBody = await commitResponse.json();
     const diffResponse = await route(
-      new Request('https://bitcode.test/api/btd/terminal-journal', {
+      new Request('https://bitcode.test/api/btd/journal', {
         method: 'POST',
         body: JSON.stringify({
           action: 'diff_projection',
@@ -1699,7 +1699,7 @@ describe('BTD crypto API builders', () => {
     expect(commitBody.committed).toBe(true);
     expect(diffResponse.status).toBe(200);
     expect(diffBody.diff.blocking).toBe(true);
-    expect(insertTerminalJournalEntry).toHaveBeenCalledWith(
+    expect(insertJournalEntry).toHaveBeenCalledWith(
       expect.objectContaining({
         journal_entry_id: 'journal-api-1',
         transaction_kind: 'rights_transfer',

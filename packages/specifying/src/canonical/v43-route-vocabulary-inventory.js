@@ -317,7 +317,7 @@ export const V43_ROUTE_VOCABULARY_MIGRATION_ROWS = Object.freeze([
   }),
   migrationRow({
     rowId: 'read-route-five-step-reading',
-    fromVocabulary: ['/terminal', 'Terminal Reading'],
+    fromVocabulary: ['/packs', 'Terminal Reading'],
     toVocabulary: ['/read', 'ReadRouteSession', 'Reading'],
     owningGate: 'V43 Gate 4 Read Route Extraction And Five-Step UX',
     compatibilityBoundary:
@@ -331,7 +331,7 @@ export const V43_ROUTE_VOCABULARY_MIGRATION_ROWS = Object.freeze([
   }),
   migrationRow({
     rowId: 'deposit-route-agentic-options',
-    fromVocabulary: ['/terminal', 'Terminal Depositing'],
+    fromVocabulary: ['/packs', 'Terminal Depositing'],
     toVocabulary: ['/deposit', 'DepositAssetPackOption', 'Depositing'],
     owningGate: 'V43 Gate 5 Deposit Route And Agentic AssetPack Option Synthesis',
     compatibilityBoundary:
@@ -345,7 +345,7 @@ export const V43_ROUTE_VOCABULARY_MIGRATION_ROWS = Object.freeze([
   }),
   migrationRow({
     rowId: 'retained-debug-cockpit',
-    fromVocabulary: ['/terminal', 'Terminal'],
+    fromVocabulary: ['/packs', 'Terminal'],
     toVocabulary: ['internal cockpit', 'operator/debug surface'],
     owningGate: 'V43 Gate 8 UX/UI Product Excellence Pass',
     compatibilityBoundary:
@@ -358,7 +358,7 @@ export const V43_ROUTE_VOCABULARY_MIGRATION_ROWS = Object.freeze([
   }),
   migrationRow({
     rowId: 'redirect-compatibility',
-    fromVocabulary: ['/exchange', '/terminal'],
+    fromVocabulary: ['/exchange', '/packs'],
     toVocabulary: ['/packs', '/read', '/deposit'],
     owningGate: 'V43 Gate 9 Cross-Route Rehearsal, Telemetry, And Repair',
     compatibilityBoundary:

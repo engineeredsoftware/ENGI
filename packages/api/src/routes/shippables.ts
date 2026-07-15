@@ -1355,8 +1355,8 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
               FilesChanged: completionFilesChanged,
               DeliveryMechanism: completionDeliveryMechanism,
               runId,
-              runUrl: `${origin}/terminal?transactionId=${encodeURIComponent(runId)}`,
-              BitcodeURL: `${origin}/terminal?transactionId=${encodeURIComponent(runId)}`,
+              runUrl: `${origin}/packs?transactionId=${encodeURIComponent(runId)}`,
+              BitcodeURL: `${origin}/packs?transactionId=${encodeURIComponent(runId)}`,
               origin,
               year: new Date().getFullYear()
             }

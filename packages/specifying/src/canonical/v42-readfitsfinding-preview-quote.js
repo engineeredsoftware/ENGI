@@ -327,7 +327,7 @@ export function buildV42ReadFitsFindingPreviewQuote(options = {}) {
       deterministicQuoteRequired: true,
       noProtectedSourceBeforeSettlement: true,
       settlementInstructionsRequired: true,
-      terminalPreviewQuoteReadbackCovered: true,
+      productPreviewQuoteReadbackCovered: true,
       sourceSafeMetadataOnly: true,
       protectedSourceVisible: false,
       rawProtectedPromptVisible: false,

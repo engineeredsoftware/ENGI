@@ -115,8 +115,8 @@
       "@bitcode/prompts/raw_promptparts/*": [
         "../../packages/prompts/src/raw_promptparts/*"
       ],
-      "@bitcode/btd/terminal-operational-health": [
-        "../../packages/btd/src/terminal-operational-health.ts"
+      "@bitcode/btd/operational-health": [
+        "../../packages/btd/src/operational-health.ts"
       ],
       "@bitcode/btd/api-schema-compatibility-matrix": [
         "../../packages/btd/src/api-schema-compatibility-matrix.ts"

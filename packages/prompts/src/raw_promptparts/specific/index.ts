@@ -860,9 +860,9 @@ export * from "./promptpart_specific_pipeline_assetpackrun_divloop_detailcontent
 export * from "./promptpart_specific_pipeline_assetpackrun_executionpattern_detailcontent";
 export * from "./promptpart_specific_pipeline_assetpackrun_purpose_corestatement";
 export * from "./promptpart_specific_pipeline_assetpackrun_writtenassettype_list";
-export * from "./promptpart_specific_system_bitcodeterminalconversation_capabilities_list";
-export * from "./promptpart_specific_system_bitcodeterminalconversation_identity_corestatement";
-export * from "./promptpart_specific_system_bitcodeterminalconversation_usage_guidance";
+export * from "./promptpart_specific_system_bitcodeconversation_capabilities_list";
+export * from "./promptpart_specific_system_bitcodeconversation_identity_corestatement";
+export * from "./promptpart_specific_system_bitcodeconversation_usage_guidance";
 export * from "./promptpart_specific_tool_analyzereadsatisfactionimplementationcomplexity_doccodetoolcapabilities";
 export * from "./promptpart_specific_tool_analyzereadsatisfactionimplementationcomplexity_doccodetoolexample1";
 export * from "./promptpart_specific_tool_analyzereadsatisfactionimplementationcomplexity_doccodetoolexample2";

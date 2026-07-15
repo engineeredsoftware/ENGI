@@ -75,7 +75,7 @@ const SOURCE_ROOTS = Object.freeze({
   uapiContractTest: 'apps/uapi/tests/bitcodeLedgerStorageSync.test.ts',
   terminalWalletTest: 'apps/uapi/tests/terminalWalletBtcOperation.test.ts',
   terminalJournalTest: 'apps/uapi/tests/terminalJournalReconciliation.test.ts',
-  terminalDetailTest: 'apps/uapi/tests/terminalTransactionDetailCards.test.tsx',
+  productDetailTest: 'apps/uapi/tests/terminalTransactionDetailCards.test.tsx',
   transactionWriteReadinessTest: 'apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
   v40Spec: 'BITCODE_SPEC_V40.md',
   v40Delta: 'BITCODE_SPEC_V40_DELTA.md',
@@ -187,7 +187,7 @@ export const V40_LEDGER_STORAGE_SYNC_ROWS = Object.freeze([
     rowId: 'rights:btd-read-right-transfer-projection',
     surfaceKind: 'rights-transfer',
     sourceRoots: [SOURCE_ROOTS.settlementBoundary, SOURCE_ROOTS.btdReceipts, SOURCE_ROOTS.btdSettlement],
-    testPaths: [SOURCE_ROOTS.settlementBoundaryTest, SOURCE_ROOTS.terminalDetailTest],
+    testPaths: [SOURCE_ROOTS.settlementBoundaryTest, SOURCE_ROOTS.productDetailTest],
     commandIds: [
       'pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit',
     ],
@@ -271,8 +271,8 @@ export const V40_LEDGER_STORAGE_SYNC_ROWS = Object.freeze([
   row({
     rowId: 'terminal:route-and-interface-readback',
     surfaceKind: 'interface-readback',
-    sourceRoots: [SOURCE_ROOTS.uapiContract, SOURCE_ROOTS.terminalDetailTest, SOURCE_ROOTS.terminalJournalTest],
-    testPaths: [SOURCE_ROOTS.uapiContractTest, SOURCE_ROOTS.terminalDetailTest, SOURCE_ROOTS.terminalJournalTest],
+    sourceRoots: [SOURCE_ROOTS.uapiContract, SOURCE_ROOTS.productDetailTest, SOURCE_ROOTS.terminalJournalTest],
+    testPaths: [SOURCE_ROOTS.uapiContractTest, SOURCE_ROOTS.productDetailTest, SOURCE_ROOTS.terminalJournalTest],
     commandIds: [
       'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalTransactionDetailCards.test.tsx tests/terminalJournalReconciliation.test.ts --runInBand',
     ],
@@ -380,7 +380,7 @@ function buildPredicateResults(repoRoot) {
       sources.uapiContractTest.includes('summarizeBitcodeLedgerStorageSyncContract') &&
         sources.terminalWalletTest.includes('wallet') &&
         sources.terminalJournalTest.includes('reconciliation') &&
-        sources.terminalDetailTest.includes('settlement'),
+        sources.productDetailTest.includes('settlement'),
     ),
     predicateResult(
       'spec-docs-close-gate8',

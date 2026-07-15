@@ -3,7 +3,7 @@
 - All third‑party UI pages live under `/tps/[service]/...`.
 - Prefer explicit service names (e.g., `supabase`, `github`, `twilio`, `wallet`).
 - Child paths describe the surface (`callback`, `app-install`, `sms/[runId]`, `wallet/[flow]`).
-- Keep Bitcode product pages under `/terminal`, retained execution bridges under `/executions`, and admitted Evidence Document surfaces under Bitcode-owned routes — do not mix them with third-party service overlays.
+- Keep Bitcode product pages under `/packs`, retained execution bridges under `/executions`, and admitted Evidence Document surfaces under Bitcode-owned routes — do not mix them with third-party service overlays.
 
 Examples
 - `/tps/supabase/callback` – Auth OTP/OAuth callback overlay

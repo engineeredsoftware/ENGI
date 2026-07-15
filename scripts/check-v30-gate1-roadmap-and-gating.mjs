@@ -98,7 +98,7 @@ function main() {
     'README.md',
     'AGENTS.md',
     'packages/specifying/src/canon-posture.js',
-    'protocol-demonstration/src/canon-posture.js'
+    'packages/specifying/src/canon-posture.js'
   ];
 
   for (const relativePath of requiredFiles) {
@@ -116,9 +116,9 @@ function main() {
   const prTemplate = read(root, '.github/pull_request_template.md');
   const readme = read(root, 'README.md');
   const protocolReadme = read(root, 'packages/specifying/README.md');
-  const demoReadme = read(root, 'protocol-demonstration/README.md');
+  const demoReadme = read(root, 'packages/specifying/README.md');
   const packagePosture = read(root, 'packages/specifying/src/canon-posture.js');
-  const demoPosture = read(root, 'protocol-demonstration/src/canon-posture.js');
+  const demoPosture = read(root, 'packages/specifying/src/canon-posture.js');
 
   for (const [label, content] of [
     ['V30 SPEC', spec],

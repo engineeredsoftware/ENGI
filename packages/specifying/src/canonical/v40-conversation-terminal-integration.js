@@ -110,13 +110,13 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
     integrationSurfaceId: 'conversation:terminal-handoff-route-contract',
     integrationKind: 'handoff-route-contract',
     sourceRoots: [
-      'apps/uapi/components/conversations/models/conversation-terminal-handoff.ts',
-      'apps/uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
+      'apps/uapi/components/conversations/models/conversation-product-handoff.ts',
+      'apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx',
       'apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts',
       'apps/uapi/components/bitcode/routes/ProductRoutes/product-routes.ts',
     ],
     testPaths: [
-      'apps/uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
+      'apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx',
       'apps/uapi/tests/conversationTerminalIntegrationCoverage.test.tsx',
       'apps/uapi/tests/pipelineSelectionQuery.test.ts',
     ],
@@ -124,10 +124,10 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
       'pnpm --dir apps/uapi exec jest tests/conversationTerminalHandoff.test.tsx tests/conversationTerminalIntegrationCoverage.test.tsx tests/terminalTransactionQuery.test.ts --runInBand',
     ],
     requiredSourceMarkers: [
-      'buildConversationTerminalHandoffEnvelope',
+      'buildConversationProductHandoffEnvelope',
       'readTerminalConversationHandoffContext',
       'TERMINAL_ENTERPRISE_READING_STAGE_VALUES',
-      'terminalRemainsTransactionCockpit',
+      'productRemainsTransactionWorkspace',
     ],
     requiredTestMarkers: [
       'source-safe Conversation handoff',
@@ -252,7 +252,7 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
       'ConversationWritingWorkspace',
       'buildConversationWritingWorkspaceHandoff',
       'buildConversationSourceSelectorPreview',
-      'ConversationTerminalHandoff',
+      'ConversationProductHandoff',
     ],
     requiredTestMarkers: [
       'source-safe',
@@ -279,7 +279,7 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
     ],
     testPaths: [
       'apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts',
-      'apps/uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
+      'apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx',
       'apps/uapi/tests/conversationTerminalIntegrationCoverage.test.tsx',
     ],
     commandIds: [
@@ -401,7 +401,7 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
     ],
     requiredSourceMarkers: [
       'terminal_handoff',
-      'ConversationTerminalHandoff',
+      'ConversationProductHandoff',
       'source-safe',
       'buildV39InterfaceConversationProductParity',
     ],

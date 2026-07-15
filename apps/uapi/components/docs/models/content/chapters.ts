@@ -29,7 +29,7 @@ export const BITCODE_DOCS_CHAPTERS = [
     title: 'Product Routes',
     summary:
       'How operators write and reread: Packs activity ledger, deposit/read actions, and proof-bearing results.',
-    pages: docsPagesFor(['exchange', 'terminal', 'terminal-actions', 'read-results']),
+    pages: docsPagesFor(['exchange', 'product-workspace', 'product-actions', 'read-results']),
   },
   {
     id: 'modes',

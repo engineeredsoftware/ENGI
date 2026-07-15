@@ -83,7 +83,7 @@ test('binds active interface surfaces to docs telemetry runbooks and proof roots
   });
   const byIntegrationId = new Map(report.rows.map((row) => [row.integrationId, row]));
 
-  assert.ok(byIntegrationId.get('terminal')?.docsLinks.includes('/docs/terminal'));
+  assert.ok(byIntegrationId.get('terminal')?.docsLinks.includes('/docs/product-workspace'));
   assert.ok(byIntegrationId.get('terminal')?.eventFamilies.includes('pipeline'));
   assert.ok(byIntegrationId.get('auxillaries')?.docsLinks.includes('/docs/auxillaries'));
   assert.ok(byIntegrationId.get('api')?.sourceRoots.includes('packages/api/src/routes/btd-crypto.ts'));

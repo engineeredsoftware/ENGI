@@ -1,7 +1,7 @@
 # `/orbitals` Redirect-Only Bitcode Auxillaries Route
 
 The `/orbitals` path is a redirect-only support route converging on Bitcode `Auxillaries`.
-It no longer acts as a direct-route family. Canonical focused auxillary reads open as overlays through `/terminal?auxillary-open-to=<pane>`, while `/orbitals/*` preserves former deep links through redirects only.
+It no longer acts as a direct-route family. Canonical focused auxillary reads open as overlays through `/packs?auxillary-open-to=<pane>`, while `/orbitals/*` preserves former deep links through redirects only.
 
 The active orbital ring model is fixed:
 - `Connects`
@@ -12,10 +12,10 @@ The active orbital ring model is fixed:
 ## Route model
 
 Canonical overlay targets:
-- `/terminal?auxillary-open-to=externals`
-- `/terminal?auxillary-open-to=interfaces`
-- `/terminal?auxillary-open-to=profile`
-- `/terminal?auxillary-open-to=wallet`
+- `/packs?auxillary-open-to=externals`
+- `/packs?auxillary-open-to=interfaces`
+- `/packs?auxillary-open-to=profile`
+- `/packs?auxillary-open-to=wallet`
 
 Redirect-support paths may still exist for convergence:
 - `/orbitals/users` -> `profile`
@@ -66,11 +66,11 @@ The contained auxillary shell used inside the commercial surface should:
 - read as retained auxillaries access and contained auxillary reads rather than generic settings/account furniture,
 - keep shared entry labels such as `Open Auxillaries fullscreen`, targeted actions such as `Open Connects fullscreen`, and the Terminal return action `Open transactions` aligned across commercial surfaces,
 - reopen signed-in overlays through `openAuxillaries('auxillaries', step?)` from active callers,
-- and remain aligned to the same operator atmosphere as `/terminal`.
+- and remain aligned to the same operator atmosphere as `/packs`.
 
 ## Related files
 
 - `../auxillaries/README.md`
-- `../terminal/README.md`
+- `../packs/README.md`
 - `../../styles/orbital.css`
 - `../../styles/orbital-rings.css`

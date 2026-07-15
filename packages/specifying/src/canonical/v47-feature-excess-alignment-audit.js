@@ -61,7 +61,7 @@ export const V47_FORBIDDEN_LAUNCH_ENTRY_TARGETS = Object.freeze([
   '/terminal?intent=submit-read-for-btd',
   '/exchange?intent=buy-existing-btd',
   'router.push(\'/terminal\')',
-  'window.location.assign(\'/terminal',
+  'window.location.assign(\'/packs',
 ]);
 export const V47_FEATURE_EXCESS_FORBIDDEN_PAYLOAD_IDS = Object.freeze([
   'protected_source_payload',
@@ -148,7 +148,7 @@ export const V47_FEATURE_EXCESS_AUDIT_ROWS = Object.freeze([
     rowId: 'retained-workspaces-are-flagged-or-direct-only',
     classification: 'deferred',
     owner: 'retained-workspaces',
-    routeIds: ['/terminal', '/conversations'],
+    routeIds: ['/packs', '/conversations'],
     policy:
       'Terminal and Conversations remain retained operator/composition workspaces; they must not be primary launch CTAs and direct entry must be flaggable for launch mode.',
     requiredPolicyIds: ['terminal-direct-entry-flaggable', 'conversations-direct-entry-flaggable'],
@@ -223,13 +223,13 @@ function buildPredicateResults(repoRoot) {
       'public-nav-current-routes-only',
       SOURCE_ROOTS.publicCopy,
       V47_LAUNCH_ROUTE_IDS.every((routeId) => sources.publicCopy.includes(`href: '${routeId}'`)) &&
-        !sources.publicCopy.includes("href: '/terminal'") &&
+        !sources.publicCopy.includes("href: '/packs'") &&
         !sources.publicCopy.includes("href: '/exchange'"),
     ),
     predicateResult(
       'landing-cta-current-routes-only',
       SOURCE_ROOTS.heroClient,
-      sources.heroClient.includes("router.push('/read')") && !sources.heroClient.includes("router.push('/terminal')"),
+      sources.heroClient.includes("router.push('/read')") && !sources.heroClient.includes("router.push('/packs')"),
     ),
     predicateResult(
       'marketing-acquisition-current-routes-only',
@@ -258,9 +258,9 @@ function buildPredicateResults(repoRoot) {
     predicateResult(
       'terminal-direct-entry-flaggable',
       SOURCE_ROOTS.nav,
-      sources.nav.includes('DISABLE_TERMINAL_LINK') &&
-        sources.nav.includes('disableTerminalLink') &&
-        sources.nav.includes('DISABLED_FEATURE_TOOLTIPS.terminal'),
+      sources.nav.includes('DISABLE_PACKS_LINK') &&
+        sources.nav.includes('disablePacksLink') &&
+        sources.nav.includes('DISABLED_FEATURE_TOOLTIPS.packs'),
     ),
     predicateResult(
       'terminal-metadata-retained-operator-workspace',
@@ -277,7 +277,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult(
       'feature-config-owns-deferred-flags',
       SOURCE_ROOTS.features,
-      ['DISABLE_EXCHANGE_ROUTE', 'DISABLE_CONVERSATIONS_ROUTE', 'DISABLE_TERMINAL_LINK'].every((flag) =>
+      ['DISABLE_EXCHANGE_ROUTE', 'DISABLE_CONVERSATIONS_ROUTE', 'DISABLE_PACKS_LINK'].every((flag) =>
         sources.features.includes(flag),
       ),
     ),

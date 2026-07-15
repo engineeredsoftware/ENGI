@@ -47,7 +47,7 @@ test('V42 ReadFitsFinding preview and quote closure binds search, provenance, pr
   assert.equal(report.coverage.deterministicQuoteRequired, true);
   assert.equal(report.coverage.noProtectedSourceBeforeSettlement, true);
   assert.equal(report.coverage.settlementInstructionsRequired, true);
-  assert.equal(report.coverage.terminalPreviewQuoteReadbackCovered, true);
+  assert.equal(report.coverage.productPreviewQuoteReadbackCovered, true);
   assert.equal(report.coverage.sourceSafeMetadataOnly, true);
   assert.equal(report.coverage.protectedSourceVisible, false);
   assert.equal(report.coverage.rawProtectedPromptVisible, false);

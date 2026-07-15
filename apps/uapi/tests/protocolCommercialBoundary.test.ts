@@ -112,8 +112,8 @@ describe('commercial protocol boundary', () => {
     const nextConfigSource = readFileSync(path.join(uapiRoot, 'next.config.mjs'), 'utf8');
 
     expect(nextConfigSource).toContain("'@bitcode/specifying',");
-    expect(nextConfigSource).toContain("'@bitcode/specifying': path.resolve(__dirname, '..', '..', 'packages', 'protocol', 'src', 'index.js')");
-    expect(nextConfigSource).toContain("'@bitcode/specifying$': path.resolve(__dirname, '..', '..', 'packages', 'protocol', 'src', 'index.js')");
+    expect(nextConfigSource).toContain("'@bitcode/specifying': path.resolve(__dirname, '..', '..', 'packages', 'specifying', 'src', 'index.js')");
+    expect(nextConfigSource).toContain("'@bitcode/specifying$': path.resolve(__dirname, '..', '..', 'packages', 'specifying', 'src', 'index.js')");
   });
 
   it('keeps the standalone protocol demonstration outside the workspace build graph', () => {

@@ -74,7 +74,7 @@ test('binds public docs to Bitcode usage domains and deferred boundaries', () =>
   });
   const byGuideId = new Map(catalog.rows.map((row) => [row.guideId, row]));
 
-  assert.equal(byGuideId.get('terminal_usage')?.publicRoute, '/docs/terminal');
+  assert.equal(byGuideId.get('terminal_usage')?.publicRoute, '/docs/product-workspace');
   assert.equal(byGuideId.get('mcp_api_usage')?.publicRoute, '/docs/mcp-api');
   assert.equal(byGuideId.get('chatgpt_app_usage')?.publicRoute, '/docs/chatgpt-app');
   assert.equal(byGuideId.get('btd_usage')?.publicRoute, '/docs/settlement-btd');

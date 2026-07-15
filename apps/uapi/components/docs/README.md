@@ -28,8 +28,8 @@ apps/uapi/components/docs/
   DocsGuideCard/
   DocsEmbeddedUiSection/
   DocsInterfaceApiReferenceSection/
-  DocsTerminalActionsSection/
-  DocsTerminalReadsSection/
+  DocsProductActionsSection/
+  DocsProductReadsSection/
   DocsNextReadingCards/
 ```
 

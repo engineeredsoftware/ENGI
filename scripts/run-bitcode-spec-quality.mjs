@@ -175,10 +175,12 @@ function runBasicChecks(cwd) {
       ACTIVE_CANON_VERSION
     ]);
   }
-  runNode(cwd, 'specifying and canon-drift tests', [
+  // V48: protocol-demonstration removed. Specifying package owns commercial
+  // canon-posture / package-boundary proofs (not a separate demo tree).
+  runNode(cwd, 'specifying package boundary and promotion posture tests', [
     '--test',
-    path.join(cwd, 'protocol-demonstration/test/v21-specifying.test.js'),
-    path.join(cwd, 'protocol-demonstration/test/v22-canon-drift.test.js')
+    path.join(cwd, 'packages/specifying/test/specifying-package-boundary.test.js'),
+    path.join(cwd, 'packages/specifying/test/spec-family-promotion-posture.test.js')
   ]);
 }
 

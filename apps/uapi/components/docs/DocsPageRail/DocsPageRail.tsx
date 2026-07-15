@@ -73,9 +73,9 @@ export function DocsPageRail({ page }: { page: BitcodeDocsPage }) {
                               API / {section.title}
                             </a>
                           ))}
-                          {item.slug === 'terminal-actions' ? (
+                          {item.slug === 'product-actions' ? (
                             <a
-                              href="#terminal-actions"
+                              href="#product-actions"
                               className="rounded-none px-2 py-1.5 text-[0.76rem] leading-5 text-white/52 transition hover:bg-white/[0.04] hover:text-emerald-100"
                             >
                               Action manual
@@ -83,7 +83,7 @@ export function DocsPageRail({ page }: { page: BitcodeDocsPage }) {
                           ) : null}
                           {item.slug === 'read-results' ? (
                             <a
-                              href="#terminal-reads"
+                              href="#product-reads"
                               className="rounded-none px-2 py-1.5 text-[0.76rem] leading-5 text-white/52 transition hover:bg-white/[0.04] hover:text-emerald-100"
                             >
                               Read guide

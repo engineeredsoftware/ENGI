@@ -63,8 +63,8 @@ function shouldApplyCollapseAnimation(pathname: string | null): boolean {
 const DISABLED_FEATURE_TOOLTIPS = {
   exchange:
     'Disabled for launch mode. When enabled, Packs opens the public activity and pack-reading surface.',
-  terminal:
-    'Disabled for launch mode. When enabled, Terminal opens the full deposit-to-settle ledger, proofs, and history workspace.',
+  packs:
+    'Disabled for launch mode. When enabled, Packs opens the public activity and pack-reading surface.',
   auxillaries:
     'Disabled for launch mode. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture.',
   createAccount:
@@ -272,7 +272,7 @@ export default function Nav() {
   const disableAuxillaries = Boolean(FEATURE_FLAGS.DISABLE_AUXILLARIES);
   const disableCreateAccount = Boolean(FEATURE_FLAGS.DISABLE_CREATE_ACCOUNT);
   const disableExchangeLink = Boolean(FEATURE_FLAGS.DISABLE_EXCHANGE_LINK);
-  const disableTerminalLink = Boolean(FEATURE_FLAGS.DISABLE_TERMINAL_LINK);
+  const disablePacksLink = Boolean(FEATURE_FLAGS.DISABLE_PACKS_LINK);
   const containerEntranceClassName = showNavEntrance
     ? shouldAnimateNavEntrance
       ? 'nav-container-animated'
@@ -489,10 +489,10 @@ export default function Nav() {
                 {[
                   { href: '/packs', label: 'packs' },
                 ].map(({ href, label }, index) => {
-                  const isDisabled = disableTerminalLink;
+                  const isDisabled = disablePacksLink;
                   const shouldAnimate = showNavEntrance && shouldAnimateNavEntrance;
                   const isActiveRoute =
-                    pathname === '/packs' || pathname === '/terminal' ||
+                    pathname === '/packs' ||
                     pathname?.startsWith('/executions') ||
                     pathname?.startsWith('/conversations');
                   return (
@@ -502,7 +502,7 @@ export default function Nav() {
                     >
                       <div className="group relative">
                         {isDisabled ? (
-                          <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.terminal}>
+                          <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.packs}>
                             <span
                               data-testid={`nav-${label}-link`}
                               role="link"

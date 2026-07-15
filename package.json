@@ -36,7 +36,7 @@
     "packages/security/*",
     "apps/*",
     "apps/uapi",
-    "images/*",
+    "containers/images/*",
     "admin"
   ],
   "devDependencies": {
@@ -572,9 +572,9 @@
     "generate:v37-conversation-source-selector": "node scripts/generate-v37-conversation-source-selector.mjs",
     "check:v37-conversation-source-selector": "node scripts/generate-v37-conversation-source-selector.mjs --check",
     "check:v37-gate5": "node scripts/check-v37-gate5-conversation-source-selector.mjs",
-    "generate:v37-conversation-terminal-handoff": "node scripts/generate-v37-conversation-terminal-handoff.mjs",
-    "check:v37-conversation-terminal-handoff": "node scripts/generate-v37-conversation-terminal-handoff.mjs --check",
-    "check:v37-gate6": "node scripts/check-v37-gate6-conversation-terminal-handoff.mjs",
+    "generate:v37-conversation-product-handoff": "node scripts/generate-v37-conversation-product-handoff.mjs",
+    "check:v37-conversation-product-handoff": "node scripts/generate-v37-conversation-product-handoff.mjs --check",
+    "check:v37-gate6": "node scripts/check-v37-gate6-conversation-product-handoff.mjs",
     "generate:v37-conversation-persistence-privacy-redaction": "node scripts/generate-v37-conversation-persistence-privacy-redaction.mjs",
     "check:v37-conversation-persistence-privacy-redaction": "node scripts/generate-v37-conversation-persistence-privacy-redaction.mjs --check",
     "check:v37-gate7": "node scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs",

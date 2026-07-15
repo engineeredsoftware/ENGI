@@ -19,7 +19,7 @@ const faqs = [
   {
     question: "So... is this a crypto scam?",
     answer:
-      "No. BTC is the fee asset, and $BTD is not a checkout spend unit or fungible currency token. $BTD records non-fungible AssetPack share/read-right holdings and the measured Bitcode amount in accepted content. Terminal minting and Exchange purchase flows mature after V26, with wallet-readable balances keeping the distinction explicit.",
+      "No. BTC is the fee asset, and $BTD is not a checkout spend unit or fungible currency token. $BTD records non-fungible AssetPack share/read-right holdings and the measured Bitcode amount in accepted content. Read minting and Packs purchase flows mature after V26, with wallet-readable balances keeping the distinction explicit.",
   },
   {
     question: "Is this powerful tool easy to use?",

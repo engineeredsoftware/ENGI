@@ -25,7 +25,7 @@ type BitcodeDemonstrationGlobal = typeof globalThis & {
   >;
 };
 
-const BITCODE_DEMONSTRATION_WITNESS_SCRIPT_HREF = '/terminal/demonstration-witness-script';
+const BITCODE_DEMONSTRATION_WITNESS_SCRIPT_HREF = ''; // protocol-demonstration removed; witness script disabled
 
 async function waitForBitcodeDemonstrationHost() {
   if (typeof document === 'undefined') return false;
@@ -44,6 +44,7 @@ async function waitForBitcodeDemonstrationHost() {
 }
 
 async function loadBitcodeDemonstrationWitnessModule(): Promise<BitcodeDemonstrationModule | null> {
+  if (!BITCODE_DEMONSTRATION_WITNESS_SCRIPT_HREF) return null;
   const hostReady = await waitForBitcodeDemonstrationHost();
   if (!hostReady) return null;
 

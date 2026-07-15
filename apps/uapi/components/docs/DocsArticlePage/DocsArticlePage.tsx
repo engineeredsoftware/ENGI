@@ -14,8 +14,8 @@ import { DocsPageRail } from '@/components/docs/DocsPageRail/DocsPageRail';
 import { DocsGuideCard } from '@/components/docs/DocsGuideCard/DocsGuideCard';
 import { DocsEmbeddedUiSection } from '@/components/docs/DocsEmbeddedUiSection/DocsEmbeddedUiSection';
 import { DocsInterfaceApiReferenceSection } from '@/components/docs/DocsInterfaceApiReferenceSection/DocsInterfaceApiReferenceSection';
-import { DocsTerminalActionsSection } from '@/components/docs/DocsTerminalActionsSection/DocsTerminalActionsSection';
-import { DocsTerminalReadsSection } from '@/components/docs/DocsTerminalReadsSection/DocsTerminalReadsSection';
+import { DocsProductActionsSection } from '@/components/docs/DocsProductActionsSection/DocsProductActionsSection';
+import { DocsProductReadsSection } from '@/components/docs/DocsProductReadsSection/DocsProductReadsSection';
 import { DocsNextReadingCards } from '@/components/docs/DocsNextReadingCards/DocsNextReadingCards';
 
 type DocsArticlePageProps = {
@@ -84,8 +84,8 @@ export default function DocsArticlePage({ page }: DocsArticlePageProps) {
 
           <DocsEmbeddedUiSection specimens={page.embeddedUi ?? []} />
           <DocsInterfaceApiReferenceSection sections={page.apiReference ?? []} />
-          {page.slug === 'terminal-actions' ? <DocsTerminalActionsSection /> : null}
-          {page.slug === 'read-results' ? <DocsTerminalReadsSection /> : null}
+          {page.slug === 'product-actions' ? <DocsProductActionsSection /> : null}
+          {page.slug === 'read-results' ? <DocsProductReadsSection /> : null}
           <DocsNextReadingCards page={page} />
         </div>
       </main>

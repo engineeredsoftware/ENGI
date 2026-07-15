@@ -124,12 +124,12 @@ describe('AuxillariesInterfacesPane', () => {
             ledgerizedPipelineModels: 'registry_deterministic',
             modelSelectionScope: 'non_ledgerized_conversation_only',
             interfacesDefaults: expect.objectContaining({
-              terminalDetailDensity: 'signal',
+              productDetailDensity: 'signal',
               externalInterfaceEntry: 'chatgpt',
               proofMode: 'raw',
             }),
             workspaceDefaults: expect.objectContaining({
-              terminalDetailDensity: 'signal',
+              productDetailDensity: 'signal',
               externalInterfaceEntry: 'chatgpt',
               proofMode: 'raw',
             }),

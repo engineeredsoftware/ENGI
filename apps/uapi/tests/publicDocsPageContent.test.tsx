@@ -41,12 +41,12 @@ describe('PublicDocsPageContent', () => {
     ).toHaveAttribute('href', '/docs/exchange');
     expect(
       screen.getByRole('link', { name: /Orient on Packs, Deposit, and Read/ }),
-    ).toHaveAttribute('href', '/docs/terminal');
+    ).toHaveAttribute('href', '/docs/product-workspace');
     expect(
       screen.getByRole('link', {
         name: /Actions: what writes and what should read back/,
       }),
-    ).toHaveAttribute('href', '/docs/terminal-actions');
+    ).toHaveAttribute('href', '/docs/product-actions');
     expect(
       screen.getByRole('link', {
         name: /Reads, proofs, readiness, and expected results/,

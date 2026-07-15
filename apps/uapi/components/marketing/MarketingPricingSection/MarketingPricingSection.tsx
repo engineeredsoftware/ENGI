@@ -31,7 +31,7 @@ const MarketingPricingSection: React.FC = () => {
    * Packs reference: existing non-fungible $BTD range rights can transfer.
    */
 
-  const TERMINAL_READ_REFERENCE_USD_PER_BTD = 0.25;
+  const READ_REFERENCE_USD_PER_BTD = 0.25;
   const EXCHANGE_REFERENCE_USD_PER_BTD = 0.22;
 
   /* ------------------------------------------------------------------
@@ -44,7 +44,7 @@ const MarketingPricingSection: React.FC = () => {
 
   const referenceUsdPerBtd = isExchangePreview
     ? EXCHANGE_REFERENCE_USD_PER_BTD
-    : TERMINAL_READ_REFERENCE_USD_PER_BTD;
+    : READ_REFERENCE_USD_PER_BTD;
   // Acquisition flow state
   const [activatingPlan, setActivatingPlan] = useState<string | null>(null);
   const [acquisitionError, setAcquisitionError] = useState<string | null>(null);

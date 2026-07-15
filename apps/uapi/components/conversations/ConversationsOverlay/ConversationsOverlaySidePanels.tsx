@@ -6,7 +6,7 @@
 
 import React from 'react';
 import ConversationSourceSelector from '@/components/conversations/ConversationSourceSelector/ConversationSourceSelector';
-import ConversationTerminalHandoff from '@/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff';
+import ConversationProductHandoff from '@/components/conversations/ConversationProductHandoff/ConversationProductHandoff';
 import ConversationPersistencePrivacyPanel from '@/components/conversations/ConversationPersistencePrivacyPanel/ConversationPersistencePrivacyPanel';
 import ConversationTelemetryProofPanel from '@/components/conversations/ConversationTelemetryProofPanel/ConversationTelemetryProofPanel';
 import ConversationRehearsalPanel from '@/components/conversations/ConversationRehearsalPanel/ConversationRehearsalPanel';
@@ -71,7 +71,7 @@ export function ConversationsOverlaySidePanels(props: ConversationsOverlaySidePa
       )}
 
       {showTerminalHandoff && (
-        <ConversationTerminalHandoff
+        <ConversationProductHandoff
           conversationId={conversationId}
           transactionId={activeRunId}
           repositoryAnchor={repositoryAnchor || null}

@@ -7,8 +7,8 @@ import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/bitcode/layout/BitcodePu
 import {
   BITCODE_DOCS_CHAPTERS,
   BITCODE_DOCS_PAGES,
-  TERMINAL_ACTION_GUIDES,
-  TERMINAL_READ_GUIDES,
+  PRODUCT_ACTION_GUIDES,
+  PRODUCT_READ_GUIDES,
 } from '@/app/docs/bitcode-docs-content';
 
 import MarketingOperatorGuideCard from '@/components/marketing/MarketingOperatorGuideCard/MarketingOperatorGuideCard';
@@ -31,7 +31,7 @@ const firstReadingPath = [
   {
     label: 'Practice write/read discipline',
     body: 'Use the action guide to learn what every bounded write should make rereadable.',
-    href: '/docs/terminal-actions',
+    href: '/docs/product-actions',
   },
   {
     label: 'Audit the system',
@@ -155,7 +155,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
                 Start reading
               </Link>
               <Link
-                href="/docs/terminal-actions"
+                href="/docs/product-actions"
                 className="inline-flex rounded-none border border-white/12 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/78 transition hover:border-white/22 hover:bg-white/10"
               >
                 Action manual
@@ -313,14 +313,14 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
                 proof, settlement, or history.
               </p>
               <Link
-                href="/docs/terminal-actions"
+                href="/docs/product-actions"
                 className="mt-5 inline-flex rounded-none border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition hover:border-emerald-300/42 hover:bg-emerald-400/18"
               >
                 Open action guide
               </Link>
             </div>
             <div className="grid gap-3 tablet:grid-cols-2">
-              {TERMINAL_ACTION_GUIDES.slice(0, 6).map((item) => (
+              {PRODUCT_ACTION_GUIDES.slice(0, 6).map((item) => (
                 <article key={item.id} className="rounded-none border border-white/8 bg-white/[0.03] p-4">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-200/68">{item.location}</p>
                   <p className="mt-2 text-base font-semibold text-white">{item.action}</p>
@@ -340,7 +340,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
               Read what changed before trusting the flow.
             </h2>
             <div className="mt-5 grid gap-3">
-              {TERMINAL_READ_GUIDES.slice(0, 5).map((item) => (
+              {PRODUCT_READ_GUIDES.slice(0, 5).map((item) => (
                 <article key={item.id} className="rounded-none border border-white/8 bg-white/[0.03] p-4">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-200/68">{item.location}</p>
                   <p className="mt-2 text-base font-semibold text-white">{item.read}</p>

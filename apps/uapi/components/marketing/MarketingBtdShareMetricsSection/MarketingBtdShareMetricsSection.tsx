@@ -47,7 +47,7 @@ export default function MarketingBtdShareMetricsSection() {
       {
         t: "Measure Content Amount",
         c: <>
-          Accepted content records measured Bitcode amount and fit evidence before later Terminal minting flows.
+          Accepted content records measured Bitcode amount and fit evidence before later Read minting flows.
         </>,
       },
       {
@@ -60,7 +60,7 @@ export default function MarketingBtdShareMetricsSection() {
       {
         t: "Acquire Through Fit",
         c: <>
-          Future Terminal flows can mint after accepted Read/Fit work; Exchange flows can transfer existing holdings.
+          Future Read flows can mint after accepted Read/Fit work; Exchange flows can transfer existing holdings.
         </>,
       },
       {
@@ -406,7 +406,7 @@ export default function MarketingBtdShareMetricsSection() {
 
               <button className="relative overflow-hidden rounded-md w-full h-11 group">
                 <span className="absolute inset-0 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 transition-transform group-hover:scale-105" />
-                <span className="relative z-10 font-semibold text-black">Review in Terminal ↗</span>
+                <span className="relative z-10 font-semibold text-black">Review in Packs ↗</span>
               </button>
             </div>
 

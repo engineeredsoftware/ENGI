@@ -340,9 +340,9 @@ export const CONVERSATION_TELEMETRY_PROOF_HOOK_ROWS = Object.freeze([
     runbookId: 'runbook.conversation.terminal-handoff-repair',
     alertThreshold: 'handoff_blocked_or_terminal_context_missing_warning',
     sourceRoots: [
-      'packages/specifying/src/canonical/conversation-terminal-handoff.js',
-      'apps/uapi/components/conversations/models/conversation-terminal-handoff.ts',
-      'apps/uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
+      'packages/specifying/src/canonical/conversation-product-handoff.js',
+      'apps/uapi/components/conversations/models/conversation-product-handoff.ts',
+      'apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx',
       'internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md',
     ],
     publicDocsRefs: ['docs/conversations.md#terminal-handoff'],

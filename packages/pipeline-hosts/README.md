@@ -18,4 +18,4 @@ New host implementations belong under `generic-hosts/*`, not here.
 Set `BITCODE_PIPELINE_SANDBOX_IMAGE` to that image (sha tag preferred) so
 `buildAssetPackSandboxHostPlan` uses `Sandbox.create({ image })` instead of
 stock `node24` + in-box monorepo install. Serverless always selects sandbox
-host; LocalHost is local-machine only. See `images/pipeliner/README.md`.
+host; LocalHost is local-machine only. See `containers/images/pipeliner/README.md`.

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v37-conversation-terminal-handoff.json';
+const ARTIFACT_PATH = '.bitcode/v37-conversation-product-handoff.json';
 
 const REQUIRED_WORKFLOW_IDS = [
   'depositing',
@@ -106,9 +106,9 @@ function parseArgs(argv) {
 function printHelp() {
   process.stdout.write(
     [
-      'Usage: node scripts/check-v37-gate6-conversation-terminal-handoff.mjs [--skip-branch-check] [--repo-root <path>]',
+      'Usage: node scripts/check-v37-gate6-conversation-product-handoff.mjs [--skip-branch-check] [--repo-root <path>]',
       '',
-      'Checks V37 Gate 6 ConversationTerminalHandoff package source, generated artifact, Terminal route context, UI tests, docs, workflow wiring, and source-safety.',
+      'Checks V37 Gate 6 ConversationProductHandoff package source, generated artifact, Terminal route context, UI tests, docs, workflow wiring, and source-safety.',
     ].join('\n'),
   );
   process.stdout.write('\n');
@@ -142,14 +142,14 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/specifying/src/canonical/conversation-terminal-handoff.js',
+    'packages/specifying/src/canonical/conversation-product-handoff.js',
     'packages/specifying/src/index.js',
     'packages/specifying/src/index.d.ts',
-    'packages/specifying/test/conversation-terminal-handoff.test.js',
-    'scripts/generate-v37-conversation-terminal-handoff.mjs',
-    'scripts/check-v37-gate6-conversation-terminal-handoff.mjs',
-    'apps/uapi/app/conversations/conversation-terminal-handoff.ts',
-    'apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx',
+    'packages/specifying/test/conversation-product-handoff.test.js',
+    'scripts/generate-v37-conversation-product-handoff.mjs',
+    'scripts/check-v37-gate6-conversation-product-handoff.mjs',
+    'apps/uapi/app/conversations/conversation-product-handoff.ts',
+    'apps/uapi/app/conversations/components/ConversationProductHandoff.tsx',
     'apps/uapi/app/conversations/components/ConversationsOverlay.tsx',
     'apps/uapi/app/terminal/terminal-transaction-query.ts',
     'apps/uapi/app/terminal/TerminalPageClient.tsx',
@@ -177,7 +177,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['scripts/generate-v37-conversation-terminal-handoff.mjs', '--check']);
+      run(root, 'node', ['scripts/generate-v37-conversation-product-handoff.mjs', '--check']);
     } catch (error) {
       failures.push(`V37 Conversation terminal handoff artifact check failed: ${error.stderr || error.message}`);
     }
@@ -185,7 +185,7 @@ function main() {
 
   if (failures.length === 0) {
     try {
-      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/conversation-terminal-handoff.test.js']);
+      run(root, 'node', ['--test', '--test-force-exit', 'packages/specifying/test/conversation-product-handoff.test.js']);
     } catch (error) {
       failures.push(`V37 Conversation terminal handoff package test failed: ${error.stderr || error.message}`);
     }
@@ -214,34 +214,34 @@ function main() {
 
   const artifact = serializedArtifact ? JSON.parse(serializedArtifact) : null;
   if (artifact) {
-    assertCheck(failures, artifact.artifactId === 'v37-conversation-terminal-handoff', 'Conversation terminal handoff artifactId must match.');
+    assertCheck(failures, artifact.artifactId === 'v37-conversation-product-handoff', 'Conversation terminal handoff artifactId must match.');
     assertCheck(failures, artifact.schemaId === 'bitcode.v37.conversationTerminalHandoff.v1', 'Conversation terminal handoff schemaId must match.');
     assertCheck(failures, artifact.version === 'V37' && artifact.currentTarget === 'V36', 'Conversation terminal handoff must bind V37 over active V36.');
     assertCheck(failures, artifact.passed === true, 'Conversation terminal handoff artifact must pass.');
     assertCheck(
       failures,
-      artifact.sourceSafetyVerdict === 'source-safe-conversation-terminal-handoff-metadata',
+      artifact.sourceSafetyVerdict === 'source-safe-conversation-product-handoff-metadata',
       'Conversation terminal handoff must be source-safe metadata.',
     );
     assertCheck(
       failures,
       includesAll(artifact.requiredWorkflowIds, REQUIRED_WORKFLOW_IDS),
-      'ConversationTerminalHandoff must enumerate every required Terminal workflow.',
+      'ConversationProductHandoff must enumerate every required Terminal workflow.',
     );
     assertCheck(
       failures,
       includesAll(artifact.requiredFieldIds, REQUIRED_FIELD_IDS),
-      'ConversationTerminalHandoff must enumerate every required handoff field.',
+      'ConversationProductHandoff must enumerate every required handoff field.',
     );
     assertCheck(
       failures,
       includesAll(artifact.requiredAuthorityIds, REQUIRED_AUTHORITY_IDS),
-      'ConversationTerminalHandoff must enumerate every required authority boundary.',
+      'ConversationProductHandoff must enumerate every required authority boundary.',
     );
     assertCheck(
       failures,
       includesAll(artifact.requiredPolicyStates, REQUIRED_POLICY_STATES),
-      'ConversationTerminalHandoff must enumerate every policy state.',
+      'ConversationProductHandoff must enumerate every policy state.',
     );
     assertCheck(failures, artifact.coverage.workflowCount === REQUIRED_WORKFLOW_IDS.length, 'Conversation terminal handoff must prove six workflows.');
     assertCheck(failures, artifact.coverage.depositingCovered === true, 'Conversation terminal handoff must cover Depositing.');
@@ -264,7 +264,7 @@ function main() {
     assertCheck(failures, artifact.coverage.legacySourceRoots === false, 'Conversation terminal handoff must not point at _legacy source roots.');
     assertCheck(
       failures,
-      artifact.rows.every((row) => /^conversation-terminal-handoff-row:[a-f0-9]{24}$/u.test(row.rowRoot)),
+      artifact.rows.every((row) => /^conversation-product-handoff-row:[a-f0-9]{24}$/u.test(row.rowRoot)),
       'Conversation terminal handoff rows must have deterministic row roots.',
     );
   }
@@ -282,7 +282,7 @@ function main() {
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
 
   for (const text of [spec, delta, notes, parity, roadmap, uapiReadme, terminalReadme, protocolReadme]) {
-    assertCheck(failures, text.includes('ConversationTerminalHandoff'), 'V37 Gate 6 docs must name ConversationTerminalHandoff.');
+    assertCheck(failures, text.includes('ConversationProductHandoff'), 'V37 Gate 6 docs must name ConversationProductHandoff.');
     assertCheck(failures, text.includes('Terminal'), 'V37 Gate 6 docs must preserve Terminal cockpit language.');
     assertCheck(failures, text.includes('source-safe'), 'V37 Gate 6 docs must preserve source-safe language.');
     assertCheck(failures, text.includes('ledger'), 'V37 Gate 6 docs must describe ledger boundary.');
@@ -290,19 +290,19 @@ function main() {
   }
 
   assertCheck(failures, packageJson.includes('check:v37-gate6'), 'package.json must wire check:v37-gate6.');
-  assertCheck(failures, packageJson.includes('generate:v37-conversation-terminal-handoff'), 'package.json must wire Gate 6 artifact generation.');
-  assertCheck(failures, gateWorkflow.includes('check-v37-gate6-conversation-terminal-handoff'), 'Gate workflow must run Gate 6 checker.');
-  assertCheck(failures, canonWorkflow.includes('check-v37-gate6-conversation-terminal-handoff'), 'Canon workflow must run Gate 6 checker.');
-  assertCheck(failures, gateWorkflow.includes('conversationTerminalHandoff.test.tsx'), 'Gate workflow must run ConversationTerminalHandoff UI test.');
+  assertCheck(failures, packageJson.includes('generate:v37-conversation-product-handoff'), 'package.json must wire Gate 6 artifact generation.');
+  assertCheck(failures, gateWorkflow.includes('check-v37-gate6-conversation-product-handoff'), 'Gate workflow must run Gate 6 checker.');
+  assertCheck(failures, canonWorkflow.includes('check-v37-gate6-conversation-product-handoff'), 'Canon workflow must run Gate 6 checker.');
+  assertCheck(failures, gateWorkflow.includes('conversationTerminalHandoff.test.tsx'), 'Gate workflow must run ConversationProductHandoff UI test.');
   assertCheck(failures, gateWorkflow.includes('terminalTransactionQuery.test.ts'), 'Gate workflow must run Terminal handoff route test.');
 
   if (failures.length) {
-    process.stderr.write(`V37 Gate 6 ConversationTerminalHandoff check failed:\n${failures.map((failure) => `- ${failure}`).join('\n')}\n`);
+    process.stderr.write(`V37 Gate 6 ConversationProductHandoff check failed:\n${failures.map((failure) => `- ${failure}`).join('\n')}\n`);
     process.exitCode = 1;
     return;
   }
 
-  process.stdout.write('V37 Gate 6 ConversationTerminalHandoff check passed.\n');
+  process.stdout.write('V37 Gate 6 ConversationProductHandoff check passed.\n');
 }
 
 main();

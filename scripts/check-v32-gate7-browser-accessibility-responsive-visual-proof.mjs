@@ -208,9 +208,9 @@ function main() {
     'Terminal default, guided, and detail states stay semantic and responsive',
     'Auxillaries default, guided, and detail states stay semantic and responsive',
     'expectNoHorizontalOverflow',
-    '/terminal?auxillary-open-to=wallet',
-    '/terminal?auxillary-open-to=profile',
-    '/terminal?auxillary-open-to=interfaces',
+    '/packs?auxillary-open-to=wallet',
+    '/packs?auxillary-open-to=profile',
+    '/packs?auxillary-open-to=interfaces',
   ]) {
     assertCheck(failures, e2eTest.includes(phrase), `V32 Gate 7 browser test must assert: ${phrase}.`);
   }

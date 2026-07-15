@@ -54,7 +54,7 @@ export const BITCODE_PUBLIC_COPY = {
         meta: 'April 2026',
         body:
           'April launched the Bitcode Protocol. It is available at our open-source repository which includes a commercially-ready whole-system specification (auditable, reproducible). The website now includes the first pieces of the $BTD Terminal along with documentation on the internals and interfaces of the ecosystem.',
-        highlights: ['$BTD', 'Bitcode Protocol', 'Terminal'],
+        highlights: ['$BTD', 'Bitcode Protocol', 'Packs'],
       },
       {
         id: 'march-2026',
@@ -68,7 +68,7 @@ export const BITCODE_PUBLIC_COPY = {
       },
     ],
   },
-  terminalPreview: {
+  productPreview: {
     pill: 'Market',
     kicker: 'AssetPack commerce',
     // Single rail label (depot window chrome).

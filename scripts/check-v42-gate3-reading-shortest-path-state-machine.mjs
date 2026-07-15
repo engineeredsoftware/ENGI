@@ -109,7 +109,7 @@ function main() {
     'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
     'apps/uapi/app/terminal/terminal-deposit-read-workbench.ts',
     'apps/uapi/app/terminal/terminal-pipeline-host-client.ts',
-    'apps/uapi/app/conversations/conversation-terminal-handoff.ts',
+    'apps/uapi/app/conversations/conversation-product-handoff.ts',
     'apps/uapi/app/terminal/terminal-transaction-query.ts',
     'apps/uapi/app/terminal/terminal-activity-history.ts',
     'apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts',

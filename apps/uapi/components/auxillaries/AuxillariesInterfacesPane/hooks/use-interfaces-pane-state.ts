@@ -82,11 +82,11 @@ export function useInterfacesPaneState({
         id: 'terminal-detail-density',
         title: 'Terminal detail density',
         description: 'Choose how much structured operator signal opens by default in transactions.',
-        value: defaults.terminalDetailDensity,
+        value: defaults.productDetailDensity,
         onChange: (value) =>
           setDefaults((current) => ({
             ...current,
-            terminalDetailDensity: value as TerminalDetailDensity,
+            productDetailDensity: value as TerminalDetailDensity,
           })),
         options: [
           {

@@ -78,7 +78,7 @@ const SOURCE_PATHS = Object.freeze({
   chatGptToolsTest: 'apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts',
   conversationRoute: 'packages/api/src/routes/conversations.ts',
   conversationParityTest: 'apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts',
-  conversationHandoffTest: 'apps/uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
+  conversationHandoffTest: 'apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx',
   conversationStreamLogTest: 'apps/uapi/tests/conversationStreamPipelineLog.test.tsx',
   conversationSessionHistory: 'apps/uapi/components/conversations/models/conversation-session-route-history.ts',
   v39InterfaceParity: 'packages/specifying/src/canonical/v39-interface-conversation-product-parity.js',

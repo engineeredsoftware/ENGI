@@ -213,7 +213,7 @@ export class BtdRegistryModel {
     return this.insertReturning('btd_rights_transfer_receipts', row);
   }
 
-  insertTerminalJournalEntry(row: Record<string, unknown>): Promise<BtdRegistryInsertResult> {
+  insertJournalEntry(row: Record<string, unknown>): Promise<BtdRegistryInsertResult> {
     return this.insertReturning('btd_terminal_journal_entries', row);
   }
 

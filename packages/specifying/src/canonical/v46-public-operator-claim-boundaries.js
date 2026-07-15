@@ -69,7 +69,7 @@ const SOURCE_PATHS = Object.freeze({
   publicCopy: 'apps/uapi/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy.ts',
   publicExplainers: 'apps/uapi/components/bitcode/layout/BitcodePublicExplainers/bitcode-public-explainers.ts',
   landingShared: 'apps/uapi/app/(root)/components/landing/marketing-landing-shared.tsx',
-  landingPreview: 'apps/uapi/components/marketing/MarketingLandingTerminalPreview/MarketingLandingTerminalPreview.tsx',
+  landingPreview: 'apps/uapi/components/marketing/MarketingLandingProductPreview/MarketingLandingProductPreview.tsx',
   docsPage: 'apps/uapi/app/docs/page.tsx',
   docsHome: 'apps/uapi/components/marketing/PublicDocsPageContent/PublicDocsPageContent.tsx',
   docsContent: 'apps/uapi/app/docs/bitcode-docs-content.ts',

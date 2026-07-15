@@ -1,14 +1,14 @@
 # Bitcode Auxillaries Overlay
 
 Auxillaries are an overlay, not an application page.
-The active product entry URL is `/terminal?auxillary-open-to=<pane>`, which opens the requested pane in the global Auxillaries portal while leaving Terminal as the application surface.
+The active product entry URL is `/packs?auxillary-open-to=<pane>`, which opens the requested pane in the global Auxillaries portal while leaving the product workspace as the application surface.
 
 ## Canonical overlay targets
 
-- `/terminal?auxillary-open-to=wallet`
-- `/terminal?auxillary-open-to=externals`
-- `/terminal?auxillary-open-to=interfaces`
-- `/terminal?auxillary-open-to=profile`
+- `/packs?auxillary-open-to=wallet`
+- `/packs?auxillary-open-to=externals`
+- `/packs?auxillary-open-to=interfaces`
+- `/packs?auxillary-open-to=profile`
 
 The `/auxillaries/*` and `/orbitals/*` route families are redirect-only support paths.
 They must never render standalone Auxillaries HTML or the retired left-sidebar workspace chrome.
@@ -47,13 +47,13 @@ Legacy `/auxillaries/btd` and `/auxillaries/connects` aliases redirect into the 
 
 ## Canonical rule
 
-User-facing route and HTML posture should prefer `/terminal?auxillary-open-to=<pane>`.
+User-facing route and HTML posture should prefer `/packs?auxillary-open-to=<pane>`.
 Active product code should also prefer `/api/auxillaries/*`.
 `/auxillaries/*`, `/orbitals/*`, and `/api/orbitals/*` are redirect/support carriers only and should be retired entirely before fully commercial canon closure.
 
 ## V28 prerequisite posture
 
-Auxillaries is the V28 prerequisite control plane for Terminal:
+Auxillaries is the V28 prerequisite control plane for product workspace:
 
 - Wallet starts with Bitcoin wallet authentication. The wallet proof is the minimum identity origin for Supabase synchronization and local wallet readiness.
 - Externals comes second and owns GitHub App installation/source-provider scope needed for Deposit and Read.
@@ -83,7 +83,7 @@ Auxillaries is the V28 prerequisite control plane for Terminal:
   as value-bearing mainnet approval.
 - Interfaces consumes package-owned `interfaceAdmissions` from
   `/api/auxillaries/data`. The pane renders the source-safe admission catalog
-  for Terminal, API, MCP, ChatGPT App, Exchange hook, Conversations hook, and
+  for product workspace, API, MCP, ChatGPT App, Exchange hook, Conversations hook, and
   future interface hooks, including auth mode, supported actions, currently
   admitted actions, policy requirements, source-safety class, blockers,
   readiness, deferred-product depth, and interface-admission roots. It must not
@@ -122,7 +122,7 @@ The active Wallet pane and wallet utilities must:
 - prefer `p2tr` for the Bitcode auth address and retain `p2wpkh` as the payment address when both are returned;
 - derive the Leather account parameter from the BTC derivation path when available;
 - call `signMessage` with explicit `paymentType`, `network`, and `account` for the Bitcode authentication challenge;
-- keep `open`, `signPsbt`, and `sendTransfer` available as tested utilities for Terminal BTC/PSBT flows, without treating them as proof of wallet identity by themselves.
+- keep `open`, `signPsbt`, and `sendTransfer` available as tested utilities for product workspace BTC/PSBT flows, without treating them as proof of wallet identity by themselves.
 
 Leather's documented Bitcoin `network` values include `mainnet`, `testnet`, `signet`, `sbtcDevenv`, and `devnet`.
 The V28 staging Testnet4 lane currently calls Leather with `testnet` because that is the documented Leather browser-provider enum.

@@ -14,11 +14,11 @@ export type {
   OperationalProviderRead as TerminalOperationalProviderRead,
   OperationalSettlementNetworkRead as TerminalOperationalSettlementNetworkRead,
   OperationalMintingRead as TerminalOperationalMintingRead,
-  OperationalHealthRead as TerminalOperationalHealthRead,
-  BuildOperationalHealthReadInput as BuildTerminalOperationalHealthReadInput,
+  OperationalHealthRead as OperationalHealthRead,
+  BuildOperationalHealthReadInput as BuildOperationalHealthReadInput,
 } from './operational-health';
 
 export {
-  buildOperationalHealthRead as buildTerminalOperationalHealthRead,
-  aggregateOperationalTelemetrySeverity as aggregateTerminalOperationalTelemetrySeverity,
+  buildOperationalHealthRead as buildOperationalHealthRead,
+  aggregateOperationalTelemetrySeverity as aggregateOperationalTelemetrySeverity,
 } from './operational-health';

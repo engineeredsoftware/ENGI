@@ -36,11 +36,11 @@ import {
   settleAssetPackExchangeOrder,
 } from '../src/exchange';
 import {
-  REQUIRED_TERMINAL_TRANSACTION_KINDS,
-  buildTerminalJournalEntry,
-  buildTerminalJournalCoverageReceipt,
-  diffTerminalJournalProjection,
-} from '../src/terminal-journal';
+  REQUIRED_JOURNAL_TRANSACTION_KINDS,
+  buildJournalEntry,
+  buildJournalCoverageReceipt,
+  diffJournalProjection,
+} from '../src/journal';
 import { reconcileLedgerDatabaseProjection } from '../src/reconciliation';
 import { allocateBtdContributorCells } from '../src/allocation';
 import { reviewBtdAncestorEdges } from '../src/ancestry';
@@ -1373,8 +1373,8 @@ describe('V27 allocation, ancestry, and licensed-read revenue primitives', () =>
 
 describe('V27 Terminal journal and ledger/database reconciliation primitives', () => {
   it('covers every required Terminal transaction family before Gate 13 can close', () => {
-    const entries = REQUIRED_TERMINAL_TRANSACTION_KINDS.map((transactionKind, index) =>
-      buildTerminalJournalEntry({
+    const entries = REQUIRED_JOURNAL_TRANSACTION_KINDS.map((transactionKind, index) =>
+      buildJournalEntry({
         journalEntryId: `journal-${transactionKind}`,
         transactionKind,
         actorId: 'user-1',
@@ -1391,12 +1391,12 @@ describe('V27 Terminal journal and ledger/database reconciliation primitives', (
         issuedAt,
       }),
     );
-    const coverage = buildTerminalJournalCoverageReceipt({
+    const coverage = buildJournalCoverageReceipt({
       coverageId: 'terminal-coverage-1',
       entries,
       issuedAt,
     });
-    const missing = buildTerminalJournalCoverageReceipt({
+    const missing = buildJournalCoverageReceipt({
       coverageId: 'terminal-coverage-missing',
       entries: entries.filter((entry) => entry.transactionKind !== 'rights_transfer'),
       issuedAt,
@@ -1411,7 +1411,7 @@ describe('V27 Terminal journal and ledger/database reconciliation primitives', (
   });
 
   it('marks projection drift as blocking before UI can claim finality', () => {
-    const entry = buildTerminalJournalEntry({
+    const entry = buildJournalEntry({
       journalEntryId: 'journal-1',
       transactionKind: 'asset_pack_anchor',
       actorId: 'user-1',
@@ -1423,7 +1423,7 @@ describe('V27 Terminal journal and ledger/database reconciliation primitives', (
       issuedAt,
     });
 
-    const diff = diffTerminalJournalProjection(entry, {
+    const diff = diffJournalProjection(entry, {
       journalEntryId: 'journal-1',
       postStateRoot: 'stale-post-root',
       receiptRoots: ['fee-1', 'anchor-1'],

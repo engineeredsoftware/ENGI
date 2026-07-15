@@ -75,7 +75,7 @@ export const mcpApiReference = [
           'status, interfaceSurface, inputContext, writeAdmission, and outputMeaning.',
           'When completed: result, AssetPack synthesis artifacts, Shippables, measuredBtd, BTC-fee posture, timestamps, and events.',
         ],
-        verifyInTerminal: 'Open the returned run/activity and inspect AssetPack, proof, delivery, and settlement posture.',
+        verifyInProduct: 'Open the returned run/activity and inspect AssetPack, proof, delivery, and settlement posture.',
         failureModes: [
           'Requires pipelines.create permission.',
           'Rejects incoherent repository_connection ingress.',

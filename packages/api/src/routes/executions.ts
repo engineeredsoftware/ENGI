@@ -46,7 +46,7 @@ type ExecutionEventRow = {
   phase: string | null;
 };
 
-type TerminalJournalReadback = {
+type JournalReadback = {
   expectedJournalEntryIds: string[];
   entries: JsonRecord[];
   repairs: JsonRecord[];
@@ -734,7 +734,7 @@ export async function getExecutionHistoryRunRoute(
   const normalizedRun = normalizeExecutionHistoryRow(run);
   // Skip heavy journal join for lightweight tail previews (table hover).
   const terminalJournal =
-    tail !== null ? null : await fetchTerminalJournalReadback(run.id, normalizedRun);
+    tail !== null ? null : await fetchJournalReadback(run.id, normalizedRun);
 
   return createJsonResponse({
     run: {
@@ -909,7 +909,7 @@ async function readRecentRepairRows(runId: string, factIds: string[], readErrors
     .slice(0, 25);
 }
 
-async function fetchTerminalJournalReadback(runId: string, normalizedRun: JsonRecord): Promise<TerminalJournalReadback> {
+async function fetchJournalReadback(runId: string, normalizedRun: JsonRecord): Promise<JournalReadback> {
   const readErrors: string[] = [];
   const ledgerSettlement = readNormalizedLedgerSettlement(normalizedRun);
   const assetPackId = asString(ledgerSettlement?.assetPackId);

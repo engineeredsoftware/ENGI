@@ -29,7 +29,7 @@ export const EXCHANGE_UX_CAPABILITY_IDS = Object.freeze([
 
 export const EXCHANGE_UX_ROUTE_IDS = Object.freeze([
   '/exchange',
-  '/terminal',
+  '/packs',
   'transactionId',
   'transactionDetail',
   'transactionSearch',

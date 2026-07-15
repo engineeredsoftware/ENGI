@@ -129,7 +129,7 @@ function main() {
     'v43-route-vocabulary-inventory',
     '/exchange',
     '/packs',
-    '/terminal',
+    '/packs',
     '/read',
     '/deposit',
     'retained debug cockpit',

@@ -39,7 +39,7 @@ export type DocsInterfaceApiFeature = {
   howToUse: string;
   inputs: readonly string[];
   outputs: readonly string[];
-  verifyInTerminal?: string;
+  verifyInProduct?: string;
   failureModes?: readonly string[];
   requiresConfirmation?: boolean;
 };
@@ -80,7 +80,7 @@ export type BitcodeDocsChapter = {
   pages: readonly BitcodeDocsPage[];
 };
 
-export type TerminalActionGuide = {
+export type ProductActionGuide = {
   id: string;
   action: string;
   location: string;
@@ -89,7 +89,7 @@ export type TerminalActionGuide = {
   proofSignal: string;
 };
 
-export type TerminalReadGuide = {
+export type ProductReadGuide = {
   id: string;
   read: string;
   location: string;

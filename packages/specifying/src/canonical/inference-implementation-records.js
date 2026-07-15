@@ -324,8 +324,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     canonicalRead: 'Provide the rich-input Bitcode write surface that binds conversation prompts, attachments, tool registration, streams, and ad hoc execution continuity.',
     promptImplementation: {
       owners: [
-        'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
-        'apps/uapi/prompts/bitcode-terminal-system-prompt.ts'
+        'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
+        'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts'
       ],
       rawPromptPartBoundary: 'conversation system prompt plus app-level binding',
       registryLayering: 'Conversation prompt binding composes the conversation-specific implementation prompt with public prompt primitives and inherits the same Registry-backed Prompt contract.',
@@ -358,9 +358,9 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       '.bitcode/conversations-continuity-proof.json'
     ],
     sourceEvidenceRefs: [
-      'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+      'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
       'packages/conversations/src/agent/ConversationAgent.ts',
-      'apps/uapi/prompts/bitcode-terminal-system-prompt.ts',
+      'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
       'packages/api/src/conversations/conversations.ts',
       'packages/api/src/conversations/streaming.ts',
       'apps/uapi/app/api/conversations/stream/route.ts'

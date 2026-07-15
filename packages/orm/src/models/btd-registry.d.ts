@@ -59,7 +59,7 @@ export declare class BtdRegistryModel {
     insertExchangeOrder(row: Record<string, unknown>): Promise<BtdRegistryInsertResult>;
     updateExchangeOrder(orderId: string, row: Record<string, unknown>): Promise<BtdRegistryInsertResult>;
     insertRightsTransferReceipt(row: Record<string, unknown>): Promise<BtdRegistryInsertResult>;
-    insertTerminalJournalEntry(row: Record<string, unknown>): Promise<BtdRegistryInsertResult>;
+    insertJournalEntry(row: Record<string, unknown>): Promise<BtdRegistryInsertResult>;
     insertReconciliationRepair(row: Record<string, unknown>): Promise<BtdRegistryInsertResult>;
     insertProtocolUpgradeReceipt(row: Record<string, unknown>): Promise<BtdRegistryInsertResult>;
     insertCryptoTelemetryEvent(row: Record<string, unknown>): Promise<BtdRegistryInsertResult>;

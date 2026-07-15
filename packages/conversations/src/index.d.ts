@@ -12,4 +12,4 @@ export * from './types';
 export * from './validation';
 export * from './utils';
 export * from './agent/ConversationAgent';
-export { BitcodeTerminalConversationSystemPrompt, BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT } from './prompts/BitcodeTerminalConversationSystemPrompt';
+export { BitcodeConversationSystemPrompt, BITCODE_CONVERSATION_SYSTEM_PROMPT } from './prompts/BitcodeConversationSystemPrompt';

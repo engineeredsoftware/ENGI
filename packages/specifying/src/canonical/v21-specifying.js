@@ -427,7 +427,7 @@ function buildV21LikeProfile(version) {
           '.bitcode/v37-conversation-stream-event-contract.json',
           '.bitcode/v37-conversation-writing-workspace.json',
           '.bitcode/v37-conversation-source-selector.json',
-          '.bitcode/v37-conversation-terminal-handoff.json',
+          '.bitcode/v37-conversation-product-handoff.json',
           '.bitcode/v37-conversation-persistence-privacy-redaction.json',
           '.bitcode/v37-conversation-telemetry-proof-hooks.json',
           '.bitcode/v37-conversation-rehearsal.json',

@@ -203,7 +203,7 @@ export * from './supply';
 export * from './telemetry';
 export * from './journal';
 /** Terminal-era journal export names — prefer `./journal` symbols in new code. */
-export * from './terminal-journal';
+export * from './journal';
 export * from './operational-health';
 /** Terminal-era operational-health export names — prefer `./operational-health` in new code. */
 export * from './terminal-operational-health';

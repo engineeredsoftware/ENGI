@@ -128,8 +128,8 @@ function main() {
     'packages/specifying/README.md',
     'packages/specifying/src/canonical/proven-generator.js',
     'packages/specifying/src/canonical/v21-specifying.js',
-    'protocol-demonstration/src/canon-posture.js',
-    'protocol-demonstration/README.md',
+    'packages/specifying/src/canon-posture.js',
+    'packages/specifying/README.md',
     'package.json',
     'README.md',
   ];

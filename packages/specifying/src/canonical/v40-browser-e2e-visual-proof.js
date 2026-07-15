@@ -110,7 +110,7 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
   row({
     browserSurfaceId: 'terminal:enterprise-reading-transaction-browser-flow',
     proofKind: 'browser-e2e-interaction-state',
-    routeStates: ['/terminal', '/terminal?transactionId=mock-run-branch-remediation&transactionDetail=activity', '/terminal?transactionId=mock-run-branch-remediation&transactionDetail=console'],
+    routeStates: ['/packs', '/terminal?transactionId=mock-run-branch-remediation&transactionDetail=activity', '/terminal?transactionId=mock-run-branch-remediation&transactionDetail=console'],
     sourceRoots: [
       'apps/uapi/app/bitcode-browser-proof.ts',
       'apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx',
@@ -151,20 +151,20 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
   }),
   row({
     browserSurfaceId: 'conversations:writing-stream-log-browser-flow',
-    proofKind: 'browser-e2e-conversation-terminal-handoff',
+    proofKind: 'browser-e2e-conversation-product-handoff',
     routeStates: ['/conversations'],
     sourceRoots: [
       'apps/uapi/app/bitcode-browser-proof.ts',
       'apps/uapi/components/conversations/ConversationsRouteClient/ConversationsRouteClient.tsx',
       'apps/uapi/components/conversations/ConversationsFullscreenControls/ConversationsFullscreenControls.tsx',
-      'apps/uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
+      'apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx',
       'apps/uapi/components/conversations/ConversationsSidebarLogs/ConversationsSidebarLogs.tsx',
     ],
     testPaths: [
       'apps/uapi/tests/e2e/bitcode-browser-proof.spec.ts',
       'apps/uapi/tests/e2e/commercial-mvp.conversations-docs.spec.ts',
       'apps/uapi/tests/e2e/conversations.split-logs.spec.ts',
-      'apps/uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
+      'apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx',
       'apps/uapi/tests/conversationStreamPipelineLog.test.tsx',
     ],
     commandIds: [
@@ -175,7 +175,7 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
       'BITCODE_BROWSER_PROOF_CONTRACT',
       'ConversationsRouteClient',
       'Toggle pipeline log location',
-      'conversation-terminal-handoff',
+      'conversation-product-handoff',
     ],
     requiredTestMarkers: [
       'Conversations route opens fullscreen writing mode',
@@ -195,7 +195,7 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
   row({
     browserSurfaceId: 'auxillaries:contained-pane-accessibility-flow',
     proofKind: 'browser-e2e-accessibility-responsive',
-    routeStates: ['/terminal?auxillary-open-to=wallet', '/terminal?auxillary-open-to=profile', '/terminal?auxillary-open-to=interfaces'],
+    routeStates: ['/packs?auxillary-open-to=wallet', '/packs?auxillary-open-to=profile', '/packs?auxillary-open-to=interfaces'],
     sourceRoots: [
       'apps/uapi/app/bitcode-browser-proof.ts',
       'apps/uapi/app/bitcode-browser-accessibility-responsive-proof.ts',
@@ -281,7 +281,7 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
   row({
     browserSurfaceId: 'docs:public-learning-route-browser-flow',
     proofKind: 'browser-e2e-docs-navigation',
-    routeStates: ['/docs', '/docs/exchange', '/docs/terminal-actions'],
+    routeStates: ['/docs', '/docs/exchange', '/docs/product-actions'],
     sourceRoots: [
       'apps/uapi/app/bitcode-browser-proof.ts',
       'apps/uapi/components/marketing/PublicDocsPageContent/PublicDocsPageContent.tsx',

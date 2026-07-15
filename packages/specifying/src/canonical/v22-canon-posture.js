@@ -112,14 +112,15 @@ export function buildCanonPostureDriftReport({
   const pointerFilename = resolveSpecPointerFilename(resolvedRepoRoot, activeCanonVersion, draftTargetVersion);
   const activeProvenAppendixPath = `${activeSpecFamilyPrefix}_${activeCanonVersion}_PROVEN.md`;
   const pointerVersion = readFileSync(path.join(resolvedRepoRoot, pointerFilename), 'utf8').trim();
-  const readmePath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'README.md');
-  const indexPath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'public', 'index.html');
-  const appPath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'public', 'app.js');
-  const serverPath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'server.js');
-  const readmeContent = readFileSync(readmePath, 'utf8');
-  const indexContent = readFileSync(indexPath, 'utf8');
-  const appContent = readFileSync(appPath, 'utf8');
-  const serverContent = readFileSync(serverPath, 'utf8');
+  // V48: protocol-demonstration removed. Canon-posture drift is owned by packages/specifying.
+  const specifyingReadmePath = path.join(resolvedRepoRoot, 'packages', 'specifying', 'README.md');
+  const specifyingCanonPosturePath = path.join(resolvedRepoRoot, 'packages', 'specifying', 'src', 'canon-posture.js');
+  const specifyingPackagePath = path.join(resolvedRepoRoot, 'packages', 'specifying', 'package.json');
+  const specifyingIndexPath = path.join(resolvedRepoRoot, 'packages', 'specifying', 'src', 'index.js');
+  const specifyingReadmeContent = readFileSync(specifyingReadmePath, 'utf8');
+  const specifyingCanonPostureContent = readFileSync(specifyingCanonPosturePath, 'utf8');
+  const specifyingPackageContent = readFileSync(specifyingPackagePath, 'utf8');
+  const specifyingIndexContent = readFileSync(specifyingIndexPath, 'utf8');
   const activeProjectLabel = projectLabel(activeCanonVersion, draftTargetVersion);
 
   const initialState = buildInitialState();
@@ -176,42 +177,34 @@ export function buildCanonPostureDriftReport({
   );
   pushCheck(
     checks,
-    'server-api-alignment',
-    serverContent.includes("SPEC_VERSION")
-      && serverContent.includes('specVersion: SPEC_VERSION')
-      && serverContent.includes('const projectedState = buildPublicState')
-      && serverContent.includes("return sendJson(res, 200, { ok: true, state: buildPublicState(state) });"),
-    'server.js keeps API posture sourced from SPEC_VERSION and buildPublicState(...).'
+    'specifying-package-alignment',
+    specifyingPackageContent.includes('"@bitcode/specifying"')
+      && existsSync(specifyingCanonPosturePath)
+      && specifyingIndexContent.includes('buildCanonPostureDriftReport'),
+    'packages/specifying owns @bitcode/specifying and exports buildCanonPostureDriftReport.'
   );
   pushCheck(
     checks,
-    'browser-shell-placeholder-alignment',
-    indexContent.includes('id="heroEyebrow"')
-      && indexContent.includes('id="heroLede"')
-      && indexContent.includes('id="heroTip"')
-      && !indexContent.includes('V19 canonical deterministic local prototype')
-      && !indexContent.includes('V20 draft target'),
-    'public/index.html exposes canon-posture placeholders and no stale hardcoded hero posture.'
+    'specifying-canon-posture-source-alignment',
+    specifyingCanonPostureContent.includes(`ACTIVE_CANON_VERSION`)
+      && specifyingCanonPostureContent.includes(activeCanonVersion)
+      && specifyingCanonPostureContent.includes(draftTargetVersion)
+      && !specifyingCanonPostureContent.includes('protocol-demonstration/'),
+    `packages/specifying/src/canon-posture.js declares active ${activeCanonVersion} and draft ${draftTargetVersion} without protocol-demonstration coupling.`
   );
   pushCheck(
     checks,
-    'browser-shell-render-alignment',
-    appContent.includes('function renderCanonPosture(state)')
-      && appContent.includes('return canonPosture(state)')
-      && !appContent.includes('V15 §')
-      && !appContent.includes('v15-scenario-preview')
-      && !appContent.includes('v15-detailed-read-surface'),
-    'public/app.js renders canon posture from runtime state and omits stale V15 explainer keys.'
+    'specifying-readme-alignment',
+    specifyingReadmeContent.length > 0
+      && (specifyingReadmeContent.includes('specifying') || specifyingReadmeContent.includes('Specifying') || specifyingReadmeContent.includes('canon'))
+      && !specifyingReadmeContent.includes('V15 canonical deterministic local prototype'),
+    'packages/specifying/README.md is present as the commercial specifying owner after protocol-demonstration removal.'
   );
   pushCheck(
     checks,
-    'readme-alignment',
-    readmeContent.includes(`# ${activeProjectLabel} Protocol Demonstration - ${activeCanonVersion} canonical deterministic local prototype`)
-      && readmeContent.includes(`${pointerFilename} -> ${activeCanonVersion}`)
-      && readmeContent.includes(activeProvenAppendixPath)
-      && normalizeWhitespace(readmeContent).includes(normalizeWhitespace(`This demo is governed by the active ${activeCanonVersion} canonical spec`))
-      && !readmeContent.includes('V15 canonical deterministic local prototype'),
-    `README states ${activeCanonVersion} active canon and ${ACTIVE_PROVEN_APPENDIX_PATH} as the current generated appendix.`
+    'protocol-demonstration-removed',
+    !existsSync(path.join(resolvedRepoRoot, 'protocol-demonstration')),
+    'protocol-demonstration/ is removed; commercial specifying lives under packages/specifying.'
   );
 
   const blockingFailures = checks.filter((check) => !check.passed);
@@ -234,10 +227,10 @@ export function buildCanonPostureDriftReport({
     activeProvenAppendixPath: ACTIVE_PROVEN_APPENDIX_PATH,
     policyRef: CURRENT_POLICY_REF,
     checkedFiles: [
-      path.relative(resolvedRepoRoot, readmePath),
-      path.relative(resolvedRepoRoot, indexPath),
-      path.relative(resolvedRepoRoot, appPath),
-      path.relative(resolvedRepoRoot, serverPath)
+      path.relative(resolvedRepoRoot, specifyingReadmePath),
+      path.relative(resolvedRepoRoot, specifyingCanonPosturePath),
+      path.relative(resolvedRepoRoot, specifyingPackagePath),
+      path.relative(resolvedRepoRoot, specifyingIndexPath)
     ],
     checks
   };

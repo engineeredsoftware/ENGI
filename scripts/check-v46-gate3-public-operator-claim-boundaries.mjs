@@ -95,7 +95,7 @@ function main() {
     'apps/uapi/app/docs/bitcode-docs-content.ts',
     'apps/uapi/app/docs/[slug]/page.tsx',
     'apps/uapi/app/(root)/components/PublicDocsPageContent.tsx',
-    'apps/uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx',
+    'apps/uapi/app/(root)/components/landing/MarketingLandingProductPreview.tsx',
     'apps/uapi/app/(root)/components/landing/marketing-landing-shared.tsx',
     'internal-docs/README.md',
     '.github/workflows/bitcode-gate-quality.yml',

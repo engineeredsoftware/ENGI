@@ -220,7 +220,7 @@ function main() {
   assertCheck(
     failures,
     playwrightConfig.includes('PLAYWRIGHT_READY_URL') &&
-      playwrightConfig.includes('/terminal') &&
+      playwrightConfig.includes('/packs') &&
       playwrightConfig.includes('url: appReadyUrl'),
     'Playwright web server readiness must wait on the Terminal route, not only an open port.',
   );

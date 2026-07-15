@@ -142,7 +142,7 @@ import {
 ```
 
 Accepted imports point into `@bitcode/btd` or the documented
-`@bitcode/btd/terminal-operational-health` subpath. API routes, Terminal, MCP,
+`@bitcode/btd/operational-health` subpath. API routes, Terminal, MCP,
 ChatGPT App, Auxillaries, and Exchange must not copy BTD admission, receipt,
 settlement, parser, validator, or serializer logic locally when this package
 exports the boundary object.
@@ -167,7 +167,7 @@ Terminal should consume the operational-health subpath when it needs the
 client-safe read model without importing storage-backed package entry points:
 
 ```ts
-import { buildTerminalOperationalHealthRead } from '@bitcode/btd/terminal-operational-health';
+import { buildTerminalOperationalHealthRead } from '@bitcode/btd/operational-health';
 ```
 
 Terminal and other browser-facing interfaces should consume

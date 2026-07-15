@@ -1,9 +1,11 @@
 # @bitcode/specifying
 
-> **Naming law (V48):** the whole monorepo (except `protocol-demonstration/`) **is**
-> Bitcode protocol canon. This package is **`@bitcode/specifying`** — gate proof
-> generators, canon posture, promotion helpers, and a transitional demo-engine bridge.
-> It is **not** a product package named “protocol.”
+> **Naming law (V48):** the whole monorepo **is** Bitcode protocol canon.
+> This package is **`@bitcode/specifying`** — executable gate proof generators,
+> canon posture, promotion helpers, and a transitional demo-engine bridge still
+> used by a few UAPI routes. It is **not** a product package named “protocol.”
+> Specifying *law* lives in root `BITCODE_SPECIFYING.md`; this package is the
+> commercial *machine* that generates/checks `.bitcode/*` artifacts and gate proofs.
 
 Bitcode specifying tooling package (gate generators, canon posture, transitional demo-engine bridge). The monorepo itself is protocol canon.
 
@@ -22,9 +24,9 @@ canon posture, spec-family checks, canonical-input checks, canon-drift checks,
 and proven-generation helpers from `@bitcode/specifying` or
 `packages/specifying/src/index.js`.
 
-They must not import `protocol-demonstration/src/*`. The demonstration remains
-a standalone minimal witness and may still be executed or cited by proof
-inventories, but it is not a commercial runtime implementation dependency.
+The standalone `protocol-demonstration/` tree is **removed** (V48). Do not
+reintroduce it. Historical specs may still mention it; living checks must not
+require it.
 
 Current exported commercial helpers include:
 
@@ -51,7 +53,7 @@ Current exported commercial helpers include:
 - `ConversationStreamEvent` helpers for V37 model deltas, tool calls, retrieval summaries, proof roots, retry states, completion decisions, error rows, collapsed readable status, expanded metadata, redaction posture, prompt/result disclosure posture, and fail-closed stream telemetry;
 - `ConversationWritingWorkspace` helpers for V37 Read Request, Need feedback, AssetPack review note, and Terminal handoff summary drafting modes, save/restore/summarize/handoff actions, route-local draft keys, keyboard/responsive fullscreen behavior, recovery states, proof roots, event ids, and source-safe handoff summaries;
 - `ConversationSourceSelector` helpers for V37 repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation selectors governed by account, organization, wallet, rights, settlement, disclosure, and policy posture with allowed, denied, and retry-required source-safe preview states;
-- `ConversationTerminalHandoff` helpers for V37 Depositing, Reading, Finding Fits, Exchange, settlement, and delivery handoff workflows with conversation id, transaction id, repository anchor, source selector refs, source-safe summary, policy result, Terminal route, transaction detail, proof roots, event ids, ledger boundary, wallet boundary, and Terminal cockpit authority posture;
+- `ConversationProductHandoff` helpers for V37 Depositing, Reading, Finding Fits, Exchange, settlement, and delivery handoff workflows with conversation id, transaction id, repository anchor, source selector refs, source-safe summary, policy result, Terminal route, transaction detail, proof roots, event ids, ledger boundary, wallet boundary, and Terminal cockpit authority posture;
 - `ConversationPersistencePrivacyRedaction` helpers for V37 public, user-visible, organization-visible, buyer-visible, reviewer-visible, and operator-only visibility tier separation, persist/restore/export/delete/retention/replay/incident repair postures, proof roots, event ids, and source-safe durable storage privacy;
 - `ConversationTelemetryProofHooks` helpers for V37 session, message, stream, tool, source selector, Terminal handoff, retry, error, and completion telemetry families with source-safe dashboard panels, runbook ids, correlation ids, proof roots, redaction posture, and protected-payload exclusion;
 - `ConversationRehearsal` helpers for V37 local/staging-testnet conversation rehearsal coverage, source-safe log/screenshot roots, route/UI checks, telemetry roots, and blocked value-bearing mainnet proof;
@@ -1007,9 +1009,9 @@ covers repository, branch, commit, deposit, BTD range, AssetPack preview,
 document, and prior conversation selectors with account, organization, wallet,
 rights, settlement, disclosure, and policy governance while keeping protected
 source and unpaid AssetPack source outside Conversations.
-V37 Gate 6 adds source-safe `ConversationTerminalHandoff` transaction handoff
-contracts through `buildConversationTerminalHandoff` and
-`.bitcode/v37-conversation-terminal-handoff.json`. The handoff artifact covers
+V37 Gate 6 adds source-safe `ConversationProductHandoff` transaction handoff
+contracts through `buildConversationProductHandoff` and
+`.bitcode/v37-conversation-product-handoff.json`. The handoff artifact covers
 Depositing, Reading, Finding Fits, Exchange, settlement, and delivery
 workflows while preserving route context and keeping ledger writes, wallet
 signing, protected source, and unpaid AssetPack source outside Conversations.

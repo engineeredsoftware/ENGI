@@ -95,12 +95,12 @@ export function DocsInterfaceApiReferenceSection({ sections }: { sections: reado
                   </div>
                 </div>
 
-                {feature.verifyInTerminal || feature.failureModes?.length ? (
+                {feature.verifyInProduct || feature.failureModes?.length ? (
                   <div className="mt-4 grid gap-3 laptop:grid-cols-2">
-                    {feature.verifyInTerminal ? (
+                    {feature.verifyInProduct ? (
                       <div className="rounded-none border border-emerald-300/10 bg-emerald-400/[0.035] p-4">
                         <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-200/68">Verify</p>
-                        <p className="mt-2 text-sm leading-6 text-emerald-50/70">{feature.verifyInTerminal}</p>
+                        <p className="mt-2 text-sm leading-6 text-emerald-50/70">{feature.verifyInProduct}</p>
                       </div>
                     ) : null}
                     {feature.failureModes?.length ? (

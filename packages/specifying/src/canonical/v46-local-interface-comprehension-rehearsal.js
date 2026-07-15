@@ -92,7 +92,7 @@ const SOURCE_PATHS = Object.freeze({
   mcpDocsReference: 'apps/mcp/docs/mcp/mcp-api-reference.md',
   btdChatGptContract: 'packages/btd/src/chatgpt-app-action-contract.ts',
   chatGptTools: 'apps/chatgpt/src/tools.ts',
-  conversationHandoff: 'apps/uapi/components/conversations/models/conversation-terminal-handoff.ts',
+  conversationHandoff: 'apps/uapi/components/conversations/models/conversation-product-handoff.ts',
   conversationTelemetry: 'apps/uapi/components/conversations/models/conversation-telemetry-proof-hooks.ts',
   conversationParityTest: 'apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts',
   pipelineLogUi: 'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',

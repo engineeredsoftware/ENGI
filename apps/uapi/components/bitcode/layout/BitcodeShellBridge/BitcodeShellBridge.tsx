@@ -18,15 +18,13 @@ import {
   type ReactNode,
 } from 'react';
 
-// Demonstration witness runtime remains under terminal until its eradicate pass.
+// Demonstration witness runtime (legacy shell bridge; product routes no longer host /terminal).
 import {
   readBitcodeDemonstrationShellControls,
   readBitcodeDemonstrationShellSnapshot,
 } from '@/components/bitcode/layout/DemonstrationWitnessRuntime/demonstration-witness-runtime';
 
 export type BitcodeShellSnapshot = Awaited<ReturnType<typeof readBitcodeDemonstrationShellSnapshot>>;
-/** @deprecated Prefer BitcodeShellSnapshot */
-export type BitcodeTerminalShellSnapshot = BitcodeShellSnapshot;
 
 export type BitcodeShellControls = {
   setScenario?: (value: string) => unknown | Promise<unknown>;
@@ -39,12 +37,9 @@ export type BitcodeShellControls = {
   toggleFlowGuide?: () => unknown | Promise<unknown>;
   toggleTutorial?: () => unknown | Promise<unknown>;
   makeBranch?: () => unknown | Promise<unknown>;
-  resetTerminal?: () => unknown | Promise<unknown>;
+  resetWorkspace?: () => unknown | Promise<unknown>;
   refresh?: () => unknown | Promise<unknown>;
 } | null;
-
-/** @deprecated Prefer BitcodeShellControls */
-export type BitcodeTerminalShellControls = BitcodeShellControls;
 
 type ShellBridgeContextValue = {
   snapshot: BitcodeShellSnapshot;
@@ -134,22 +129,10 @@ export function BitcodeShellBridgeProvider({ children }: { children: ReactNode }
   return <ShellBridgeContext.Provider value={value}>{children}</ShellBridgeContext.Provider>;
 }
 
-/** @deprecated Prefer BitcodeShellBridgeProvider */
-export const TerminalShellBridgeProvider = BitcodeShellBridgeProvider;
-
 export function useBitcodeShellBridge() {
   const context = useContext(ShellBridgeContext);
   if (!context) {
     throw new Error('useBitcodeShellBridge must be used within a BitcodeShellBridgeProvider.');
-  }
-  return context;
-}
-
-/** @deprecated Prefer useBitcodeShellBridge */
-export function useTerminalShellBridge() {
-  const context = useContext(ShellBridgeContext);
-  if (!context) {
-    throw new Error('useTerminalShellBridge must be used within an TerminalShellBridgeProvider.');
   }
   return context;
 }

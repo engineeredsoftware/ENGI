@@ -12,4 +12,4 @@ packages:
   - 'packages/*/*/*'
 
   # OCI / appliance images (Pipeliner, …)
-  - 'images/*'
+  - 'containers/containers/images/*'

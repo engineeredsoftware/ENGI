@@ -91,7 +91,7 @@ const integrationRows = Object.freeze([
     integrationId: 'terminal',
     surfaceKind: 'application_surface',
     owner: 'apps/uapi',
-    docsLinks: ['/docs/terminal', '/docs/terminal-actions', '/docs/read-results'],
+    docsLinks: ['/docs/product-workspace', '/docs/product-actions', '/docs/read-results'],
     eventFamilies: ['pipeline', 'execution', 'ptrr_agent', 'thricified_generation', 'tool', 'ledger', 'wallet', 'interface'],
     sourceRoots: [
       'apps/uapi/components/README.md',

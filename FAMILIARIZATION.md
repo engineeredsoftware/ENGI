@@ -435,7 +435,7 @@ bitcode/
 ├── docs/ # public-facing API docs fragments
 ├── tests/ # root jest setup (limited)
 ├── _legacy/ # IGNORE — historical only
-└── codemod/, infra/, …
+└── codemod/, containers/k8/, …
 ```
 
 **pnpm workspace:** `packages/*` (+ nested), and `uapi` (app also listed for

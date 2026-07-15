@@ -236,7 +236,7 @@ function main() {
     assertCheck(failures, artifact.coverage.deterministicQuoteRequired === true, 'Gate 5 must require deterministic quote.');
     assertCheck(failures, artifact.coverage.noProtectedSourceBeforeSettlement === true, 'Gate 5 must block protected source before settlement.');
     assertCheck(failures, artifact.coverage.settlementInstructionsRequired === true, 'Gate 5 must require settlement instructions.');
-    assertCheck(failures, artifact.coverage.terminalPreviewQuoteReadbackCovered === true, 'Gate 5 must cover Terminal preview/quote readback.');
+    assertCheck(failures, artifact.coverage.productPreviewQuoteReadbackCovered === true, 'Gate 5 must cover Terminal preview/quote readback.');
     assertCheck(failures, artifact.coverage.sourceSafeMetadataOnly === true, 'Gate 5 must remain source-safe metadata only.');
     assertCheck(failures, artifact.coverage.protectedSourceVisible === false, 'Gate 5 artifact must not expose protected source.');
     assertCheck(failures, artifact.coverage.rawProtectedPromptVisible === false, 'Gate 5 artifact must not expose protected prompts.');

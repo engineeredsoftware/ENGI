@@ -639,7 +639,7 @@ describe('organization interface authority', () => {
         approverIds: ['member-operator', 'member-reviewer'],
         policyRoot: 'multisig-root-1',
       },
-      recoveryRoute: '/terminal?auxillary-open-to=profile',
+      recoveryRoute: '/packs?auxillary-open-to=profile',
       at: '2026-05-21T00:00:00.000Z',
     });
 

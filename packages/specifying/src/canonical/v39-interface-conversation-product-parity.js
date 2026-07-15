@@ -37,7 +37,7 @@ export const V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_STAGE_IDS = Object.freeze
 
 export const V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_ROW_IDS = Object.freeze([
   'surface:terminal-authority',
-  'surface:conversation-terminal-handoff',
+  'surface:conversation-product-handoff',
   'surface:public-api-contract',
   'surface:mcp-reading-pipeline',
   'surface:chatgpt-app-action',
@@ -127,7 +127,7 @@ export const V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_ROWS = Object.freeze([
     requiredEvidence: ['terminal-authority', 'acceptedNeedRequired', 'btdRightsRequiredForDelivery'],
   }),
   row({
-    rowId: 'surface:conversation-terminal-handoff',
+    rowId: 'surface:conversation-product-handoff',
     surface: 'conversation',
     purpose:
       'Make Conversation a source-safe handoff into Terminal Reading authority rather than a parallel buyer authority.',

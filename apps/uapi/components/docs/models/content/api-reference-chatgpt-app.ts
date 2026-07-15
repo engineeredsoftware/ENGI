@@ -29,7 +29,7 @@ export const chatGptAppApiReference = [
           'metadata.matches: structured match objects.',
           'metadata.matchCount and guidance: count and next-step framing.',
         ],
-        verifyInTerminal: 'Use the resulting files as source context before a Terminal or connected-interface write.',
+        verifyInProduct: 'Use the resulting files as source context before a Terminal or connected-interface write.',
       },
       {
         name: 'answer_codeweb_query',
@@ -84,7 +84,7 @@ export const chatGptAppApiReference = [
           'latest_design: full latest PRODUCT.md content.',
           'metadata.evidenceDocument, guidance, digestUsed, and prepared context stats.',
         ],
-        verifyInTerminal: 'Treat this as design context until a later write creates /packs-readable activity.',
+        verifyInProduct: 'Treat this as design context until a later write creates /packs-readable activity.',
       },
       {
         name: 'code_design',
@@ -142,7 +142,7 @@ export const chatGptAppApiReference = [
           'metadata.operation and optional sha.',
           'metadata.writeAdmission: interfaceSurface, permission basis, operation, and targetAnchor.',
         ],
-        verifyInTerminal: 'Reread the connected-interface result as a delivery mechanism, not independent product truth.',
+        verifyInProduct: 'Reread the connected-interface result as a delivery mechanism, not independent product truth.',
         failureModes: [
           'Throws if confirmed is not true.',
           'Throws if createOrUpdateFile lacks owner, repo, or path.',

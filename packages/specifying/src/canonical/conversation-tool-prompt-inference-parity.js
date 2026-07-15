@@ -52,7 +52,7 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 
 const SOURCE_ROOTS = Object.freeze({
   conversationAgent: 'packages/conversations/src/agent/ConversationAgent.ts',
-  conversationSystemPrompt: 'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+  conversationSystemPrompt: 'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
   conversationStreamEvents: 'packages/api/src/conversations/stream-events.ts',
   conversationTelemetry: 'packages/api/src/conversations/telemetry.ts',
   conversationStreamEventsTest: 'packages/api/src/conversations/__tests__/stream-events.test.ts',
@@ -236,7 +236,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('conversation-declares-agent-prompt-registry', SOURCE_ROOTS.conversationAgent, conversationAgent.includes('export const conversationAgentPrompt = new AgentPrompt')),
     predicateResult('conversation-declares-step-prompt-registry', SOURCE_ROOTS.conversationAgent, conversationAgent.includes('export const conversationStepPrompts') && conversationAgent.includes('plan: new AgentStepPrompt') && conversationAgent.includes('retry: new AgentStepPrompt')),
     predicateResult('conversation-uses-specific-promptparts', SOURCE_ROOTS.conversationAgent, conversationAgent.includes('PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRPLAN_PURPOSE') && conversationAgent.includes('PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRRETRY_PURPOSE')),
-    predicateResult('conversation-system-prompt-remains-source-owned', SOURCE_ROOTS.conversationSystemPrompt, conversationSystemPrompt.includes('BitcodeTerminalConversationSystemPrompt') || conversationSystemPrompt.includes('Conversation')),
+    predicateResult('conversation-system-prompt-remains-source-owned', SOURCE_ROOTS.conversationSystemPrompt, conversationSystemPrompt.includes('BitcodeConversationSystemPrompt') || conversationSystemPrompt.includes('Conversation')),
     predicateResult('conversation-typed-output-schemas-present', SOURCE_ROOTS.conversationAgent, ['ConversationPlanSchema', 'ConversationTrySchema', 'ConversationRefineSchema', 'ConversationRetrySchema'].every((schema) => conversationAgent.includes(schema))),
     predicateResult('conversation-stream-entrypoint-uses-agent', SOURCE_ROOTS.conversationAgent, conversationAgent.includes('processMessageStream') && conversationAgent.includes('conversationAgent(input, execution)')),
     predicateResult('conversation-stream-events-source-safe', SOURCE_ROOTS.conversationStreamEvents, streamEvents.includes("promptDisclosurePosture: 'prompt_template_id_only'") && streamEvents.includes("resultDisclosurePosture: 'parsed_result_shape_only'") && streamEvents.includes("sourceSafetyClass: 'source_safe_conversation_stream_event_metadata'")),

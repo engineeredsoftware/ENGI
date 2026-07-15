@@ -195,7 +195,7 @@ const taxonomyRows = Object.freeze([
     alertThreshold: 'signing_failure_warning',
     runbookLink: 'runbook.wallet.signing-failure',
     sourceRoots: [
-      'packages/btd/src/terminal-operational-health.ts',
+      'packages/btd/src/operational-health.ts',
       'apps/uapi/app/api/wallet/authenticate/route.ts',
       'apps/uapi/tests/terminalWalletBtcOperation.test.ts',
     ],

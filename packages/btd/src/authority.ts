@@ -783,15 +783,15 @@ function buildMultiSigPosture(input?: BtdOrganizationPolicyMultiSigInput | null)
 }
 
 function recoveryRouteForDenial(reason: BtdOrganizationPolicyDenialReason | undefined): string {
-  if (!reason) return '/terminal?auxillary-open-to=profile';
-  if (reason === 'wallet_binding_missing') return '/terminal?auxillary-open-to=wallet';
+  if (!reason) return '/packs?auxillary-open-to=profile';
+  if (reason === 'wallet_binding_missing') return '/packs?auxillary-open-to=wallet';
   if (reason === 'interface_not_admitted' || reason === 'interface_action_not_authorized') {
-    return '/terminal?auxillary-open-to=interfaces';
+    return '/packs?auxillary-open-to=interfaces';
   }
   if (reason === 'registry_read_access_required' || reason === 'registry_read_access_denied' || reason === 'settlement_required') {
-    return '/terminal?auxillary-open-to=wallet';
+    return '/packs?auxillary-open-to=wallet';
   }
-  return '/terminal?auxillary-open-to=profile';
+  return '/packs?auxillary-open-to=profile';
 }
 
 function roleSatisfies(

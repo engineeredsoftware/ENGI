@@ -72,7 +72,7 @@ const SOURCE_ROOTS = Object.freeze({
   readingPipelineContract: 'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
   readNeed: 'packages/asset-packs-pipelines/domain/src/read-need.ts',
   depositorySearch: 'packages/asset-packs-pipelines/domain/src/depository-search.ts',
-  conversationPrompt: 'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+  conversationPrompt: 'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
   docCodeToolPrompt: 'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
   formatUsableTools: 'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
   webSearchToolPrompts: 'packages/generic-tools/web-search/src/prompts',
@@ -413,7 +413,7 @@ export const V38_PROMPT_BENCHMARK_ROWS = Object.freeze([
     familyId: 'complete_prompt_suite',
     subjectKindId: 'Prompt',
     label: 'Website Conversation system Prompt',
-    surfaceIds: ['WebsiteConversations', 'BitcodeTerminalConversationSystemPrompt'],
+    surfaceIds: ['WebsiteConversations', 'BitcodeConversationSystemPrompt'],
     sourceRoots: [SOURCE_ROOTS.conversationPrompt],
     requiredMetricIds: [
       'intent_alignment',

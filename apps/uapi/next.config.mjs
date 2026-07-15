@@ -352,8 +352,8 @@ let nextConfig = {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
       // Single top-level alias for prompts – root-only import
-      '@bitcode/specifying': path.resolve(__dirname, '..', '..', 'packages', 'protocol', 'src', 'index.js'),
-      '@bitcode/specifying$': path.resolve(__dirname, '..', '..', 'packages', 'protocol', 'src', 'index.js'),
+      '@bitcode/specifying': path.resolve(__dirname, '..', '..', 'packages', 'specifying', 'src', 'index.js'),
+      '@bitcode/specifying$': path.resolve(__dirname, '..', '..', 'packages', 'specifying', 'src', 'index.js'),
       '@bitcode/prompts': path.resolve(__dirname, '..', '..', 'packages', 'prompts', 'src', 'index.ts'),
       '@bitcode/execution-generics': path.resolve(
         __dirname,

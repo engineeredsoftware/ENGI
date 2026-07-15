@@ -6,17 +6,17 @@
  */
 
 export type {
-  JournalTransactionKind as TerminalTransactionKind,
-  JournalEntry as TerminalJournalEntry,
-  JournalProjection as TerminalJournalProjection,
-  JournalDiff as TerminalJournalDiff,
-  JournalCoverageReceipt as TerminalJournalCoverageReceipt,
+  JournalTransactionKind as JournalTransactionKind,
+  JournalEntry as JournalEntry,
+  JournalProjection as JournalProjection,
+  JournalDiff as JournalDiff,
+  JournalCoverageReceipt as JournalCoverageReceipt,
 } from './journal';
 
 export {
-  REQUIRED_JOURNAL_TRANSACTION_KINDS as REQUIRED_TERMINAL_TRANSACTION_KINDS,
-  buildJournalEntry as buildTerminalJournalEntry,
-  buildJournalCoverageReceipt as buildTerminalJournalCoverageReceipt,
-  diffJournalProjection as diffTerminalJournalProjection,
-  assertJournalTransactionKind as assertTerminalTransactionKind,
+  REQUIRED_JOURNAL_TRANSACTION_KINDS as REQUIRED_JOURNAL_TRANSACTION_KINDS,
+  buildJournalEntry as buildJournalEntry,
+  buildJournalCoverageReceipt as buildJournalCoverageReceipt,
+  diffJournalProjection as diffJournalProjection,
+  assertJournalTransactionKind as assertJournalTransactionKind,
 } from './journal';

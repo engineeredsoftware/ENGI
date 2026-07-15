@@ -74,7 +74,7 @@ const SOURCE_ROOTS = Object.freeze({
   embeddingConfig: 'packages/asset-packs-pipelines/domain/src/embedding-config.ts',
   runtimeInferencePolicy: 'packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts',
   conversationAgent: 'packages/conversations/src/agent/ConversationAgent.ts',
-  conversationSystemPrompt: 'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+  conversationSystemPrompt: 'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
   conversationRoute: 'packages/api/src/routes/conversations.ts',
   conversationStreamEvents: 'packages/api/src/conversations/stream-events.ts',
   conversationStreamUi: 'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',

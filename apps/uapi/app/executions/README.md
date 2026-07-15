@@ -4,7 +4,7 @@
 
 It is not the final Bitcode product topology.
 Merged-world V26 keeps this retained route explicit as `executions`, where Bitcode execution primitives, pipelines, and measured-read follow-through remain inspectable while the broader `activity` family grows around transactions, executions, and notifications.
-The retained execution route must remain explicit and healthy while the strongest execution, Shippable, and inspection patterns continue porting inward to `/terminal`.
+The retained execution route must remain explicit and healthy while the strongest execution, Shippable, and inspection patterns continue porting inward to `/packs`.
 
 Current owners:
 - `page.tsx`
@@ -34,4 +34,4 @@ This route should stay explicit about:
 - Shippable, AssetPack evidence, and execution inspection semantics,
 - retained support API ownership required to keep the route healthy during inward convergence,
 - direct route/API ownership during fourth-gate,
-- and inward convergence toward `/terminal` plus merged-world `activity` ownership rather than peer-product permanence.
+- and inward convergence toward `/packs` plus merged-world `activity` ownership rather than peer-product permanence.

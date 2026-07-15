@@ -24,7 +24,7 @@ export interface InterfaceAdmissionRecord {
 }
 
 export interface InterfacesDefaults {
-  terminalDetailDensity: TerminalDetailDensity;
+  productDetailDensity: TerminalDetailDensity;
   externalInterfaceEntry: ExternalInterfaceEntry;
   proofMode: ProofMode;
   promptTone: PromptTone;
@@ -32,7 +32,7 @@ export interface InterfacesDefaults {
 }
 
 export const DEFAULT_INTERFACES_DEFAULTS: InterfacesDefaults = {
-  terminalDetailDensity: 'balanced',
+  productDetailDensity: 'balanced',
   externalInterfaceEntry: 'terminal',
   proofMode: 'mixed',
   promptTone: 'formal',

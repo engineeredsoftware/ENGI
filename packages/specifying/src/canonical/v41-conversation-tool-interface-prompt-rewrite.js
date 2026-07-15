@@ -72,9 +72,9 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 
 const SOURCE_ROOTS = Object.freeze({
   conversationAgent: 'packages/conversations/src/agent/ConversationAgent.ts',
-  conversationSystemPrompt: 'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
+  conversationSystemPrompt: 'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
   conversationPromptParts: 'packages/prompts/src/raw_promptparts/specific',
-  uapiTerminalSystemPrompt: 'apps/uapi/prompts/bitcode-terminal-system-prompt.ts',
+  uapiTerminalSystemPrompt: 'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
   conversationRouteShared: 'apps/uapi/app/api/conversations/_shared.ts',
   conversationApiRoute: 'packages/api/src/routes/conversations.ts',
   conversationStreamEvents: 'packages/api/src/conversations/stream-events.ts',
@@ -135,9 +135,9 @@ const CONVERSATION_PROMPTPART_FILES = Object.freeze([
   'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrtry_purpose.ts',
   'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrrefine_purpose.ts',
   'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrretry_purpose.ts',
-  'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts',
-  'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts',
-  'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_usage_guidance.ts',
+  'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeconversation_identity_corestatement.ts',
+  'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeconversation_capabilities_list.ts',
+  'packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeconversation_usage_guidance.ts',
 ]);
 
 function digest(value) {
@@ -236,7 +236,7 @@ export const V41_CONVERSATION_TOOL_INTERFACE_PROMPT_REWRITE_ROWS = Object.freeze
       ...CONVERSATION_PROMPTPART_FILES.slice(6),
     ],
     promptFamilyIds: ['Conversation', 'Interface'],
-    promptSurfaceIds: ['BitcodeTerminalConversationSystemPrompt', 'BITCODE_TERMINAL_APP_SYSTEM_PROMPT'],
+    promptSurfaceIds: ['BitcodeConversationSystemPrompt', 'BITCODE_TERMINAL_APP_SYSTEM_PROMPT'],
     parserTargetIds: ['ConversationStreamEvent', 'TerminalConversationSystemPrompt'],
     metricIds: [
       'route_authority_source_selection_policy',
@@ -556,14 +556,14 @@ function buildPredicateResults(repoRoot) {
       'system-prompt-uses-specific-promptparts',
       'conversation-terminal-system-prompt-boundary',
       SOURCE_ROOTS.conversationSystemPrompt,
-      conversationSystemPrompt.includes('PROMPTPART_SPECIFIC_SYSTEM_BITCODETERMINALCONVERSATION_IDENTITY_CORESTATEMENT') &&
-        conversationSystemPrompt.includes('PROMPTPART_SPECIFIC_SYSTEM_BITCODETERMINALCONVERSATION_USAGE_GUIDANCE'),
+      conversationSystemPrompt.includes('PROMPTPART_SPECIFIC_SYSTEM_BITCODECONVERSATION_IDENTITY_CORESTATEMENT') &&
+        conversationSystemPrompt.includes('PROMPTPART_SPECIFIC_SYSTEM_BITCODECONVERSATION_USAGE_GUIDANCE'),
     ),
     predicate(
       'uapi-terminal-prompt-imports-canonical-system-prompt',
       'conversation-terminal-system-prompt-boundary',
       SOURCE_ROOTS.uapiTerminalSystemPrompt,
-      uapiTerminalSystemPrompt.includes('BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT') &&
+      uapiTerminalSystemPrompt.includes('BITCODE_CONVERSATION_SYSTEM_PROMPT') &&
         uapiTerminalSystemPrompt.includes('formatStructured()'),
     ),
     predicate(
@@ -807,7 +807,7 @@ function buildPredicateResults(repoRoot) {
       'terminal-app-prompt-uses-canonical-conversation-prompt',
       'terminal-public-api-interface-summary-boundary',
       SOURCE_ROOTS.uapiTerminalSystemPrompt,
-      uapiTerminalSystemPrompt.includes('BITCODE_TERMINAL_CONVERSATION_SYSTEM_PROMPT'),
+      uapiTerminalSystemPrompt.includes('BITCODE_CONVERSATION_SYSTEM_PROMPT'),
     ),
     predicate(
       'conversation-route-shared-stream-events-source-safe',

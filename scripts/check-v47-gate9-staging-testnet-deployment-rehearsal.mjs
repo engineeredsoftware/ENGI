@@ -101,7 +101,7 @@ function main() {
     'supabase/migrations/002_v27_btd_crypto_registry.sql',
     'Dockerfile.long-runner',
     'Dockerfile.long-runner-worker',
-    'infra/k8s/long-runner.yaml',
+    'containers/k8/long-runner.yaml',
     'apps/uapi/package.json',
     'apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
     'packages/specifying/src/index.js',

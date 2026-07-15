@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import Footer from '@/components/bitcode/layout/Footer/Footer';
 
 import { MarketingLandingHero } from '@/components/marketing/MarketingLandingHero/MarketingLandingHero';
-import { MarketingLandingTerminalPreview } from '@/components/marketing/MarketingLandingTerminalPreview/MarketingLandingTerminalPreview';
+import { MarketingLandingProductPreview } from '@/components/marketing/MarketingLandingProductPreview/MarketingLandingProductPreview';
 import '@/styles/marketing-landing-shell.css';
 import '@/styles/marketing-landing-glow.css';
 import '@/styles/particle-effect.css';
@@ -174,7 +174,7 @@ export default function MarketingLandingPage() {
           <main className="relative z-20 mx-auto flex w-full max-w-7xl flex-1 items-start px-4 pb-8 pt-28 phone:pb-10 tablet:px-6 laptop:px-8 laptop:pb-10 laptop:pt-32 desktop:px-12 wide:px-16">
             <div className="grid w-full items-stretch gap-4 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] tablet:gap-5 laptop:gap-6">
               <MarketingLandingHero />
-              <MarketingLandingTerminalPreview />
+              <MarketingLandingProductPreview />
             </div>
           </main>
 

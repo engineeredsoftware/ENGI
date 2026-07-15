@@ -5,8 +5,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import {
-  CONVERSATION_TERMINAL_HANDOFF_ARTIFACT_PATH,
-  buildConversationTerminalHandoff,
+  CONVERSATION_PRODUCT_HANDOFF_ARTIFACT_PATH,
+  buildConversationProductHandoff,
 } from '../packages/specifying/src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -23,18 +23,18 @@ function parseArgs(argv) {
 
 function main() {
   const args = parseArgs(process.argv.slice(2));
-  const artifact = buildConversationTerminalHandoff({
+  const artifact = buildConversationProductHandoff({
     generatedAt: GENERATED_AT,
     repoRoot,
   });
-  const outputPath = path.join(repoRoot, CONVERSATION_TERMINAL_HANDOFF_ARTIFACT_PATH);
+  const outputPath = path.join(repoRoot, CONVERSATION_PRODUCT_HANDOFF_ARTIFACT_PATH);
   const serialized = `${JSON.stringify(artifact, null, 2)}\n`;
 
   if (args.check) {
     const current = readFileSync(outputPath, 'utf8');
     if (current !== serialized) {
       process.stderr.write(
-        `${CONVERSATION_TERMINAL_HANDOFF_ARTIFACT_PATH} is stale. Run pnpm run generate:v37-conversation-terminal-handoff.\n`,
+        `${CONVERSATION_PRODUCT_HANDOFF_ARTIFACT_PATH} is stale. Run pnpm run generate:v37-conversation-product-handoff.\n`,
       );
       process.exitCode = 1;
       return;
@@ -53,7 +53,7 @@ function main() {
   mkdirSync(path.dirname(outputPath), { recursive: true });
   writeFileSync(outputPath, serialized);
   process.stdout.write(
-    `Wrote ${CONVERSATION_TERMINAL_HANDOFF_ARTIFACT_PATH} rows=${artifact.rows.length} root=${artifact.artifactRoot}\n`,
+    `Wrote ${CONVERSATION_PRODUCT_HANDOFF_ARTIFACT_PATH} rows=${artifact.rows.length} root=${artifact.artifactRoot}\n`,
   );
 }
 

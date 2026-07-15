@@ -102,7 +102,7 @@ const SHARED_SOURCE_ROOTS = Object.freeze([
   '.bitcode/v37-conversation-stream-event-contract.json',
   '.bitcode/v37-conversation-writing-workspace.json',
   '.bitcode/v37-conversation-source-selector.json',
-  '.bitcode/v37-conversation-terminal-handoff.json',
+  '.bitcode/v37-conversation-product-handoff.json',
   '.bitcode/v37-conversation-persistence-privacy-redaction.json',
   '.bitcode/v37-conversation-telemetry-proof-hooks.json',
 ]);
@@ -123,7 +123,7 @@ const rehearsalRows = Object.freeze([
       'apps/uapi/tests/conversationStreamPipelineLog.test.tsx',
       'apps/uapi/tests/conversationWritingWorkspace.test.tsx',
       'apps/uapi/tests/conversationSourceSelector.test.tsx',
-      'apps/uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
+      'apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx',
     ],
     routeUiChecks: [
       'local.conversation.route-history-restored.root',
@@ -207,7 +207,7 @@ const rehearsalRows = Object.freeze([
     sourceRoots: [
       'apps/uapi/components/conversations/ConversationWritingWorkspace/ConversationWritingWorkspace.tsx',
       'apps/uapi/components/conversations/ConversationSourceSelector/ConversationSourceSelector.tsx',
-      'apps/uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
+      'apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx',
       'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
       'apps/uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
     ],
@@ -306,9 +306,9 @@ const rehearsalRows = Object.freeze([
     flowIds: CONVERSATION_REHEARSAL_FLOW_IDS,
     sourceRoots: [
       'BITCODE_SPEC_V37.md',
-      'packages/specifying/src/canonical/conversation-terminal-handoff.js',
+      'packages/specifying/src/canonical/conversation-product-handoff.js',
       'packages/specifying/src/canonical/conversation-telemetry-proof-hooks.js',
-      'apps/uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
+      'apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx',
     ],
     routeUiChecks: [
       'value-bearing-mainnet.conversation.non-admission.root',

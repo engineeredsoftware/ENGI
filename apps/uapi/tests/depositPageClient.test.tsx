@@ -84,7 +84,7 @@ jest.mock("@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge", (
   }: {
     children: React.ReactNode;
   }) => <>{children}</>,
-  useTerminalShellBridge: () => ({
+  useBitcodeShellBridge: () => ({
     snapshot: null,
     runControl: jest.fn(),
   }),

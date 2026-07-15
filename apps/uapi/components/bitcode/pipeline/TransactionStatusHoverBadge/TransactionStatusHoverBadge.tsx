@@ -4,10 +4,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ExecutionContextPillRow } from '@/components/bitcode/pipeline/ExecutionContextPillRow/ExecutionContextPillRow';
 import {
-  buildTerminalFailurePreviewFromEvents,
+  buildPipelineFailurePreviewFromEvents,
   isTerminalFailureStatus,
-  type TerminalFailurePreview,
-} from '@/components/bitcode/pipeline/TerminalFailurePreview/terminal-failure-preview';
+  type PipelineFailurePreview,
+} from '@/components/bitcode/pipeline/PipelineFailurePreview/pipeline-failure-preview';
 
 function statusTone(status: string) {
   const normalized = status.toLowerCase();
@@ -45,9 +45,9 @@ export function TransactionStatusHoverBadge({
   const showPreview = isTerminalFailureStatus(status);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [preview, setPreview] = useState<TerminalFailurePreview | null>(null);
+  const [preview, setPreview] = useState<PipelineFailurePreview | null>(null);
   const [fetchError, setFetchError] = useState<string | null>(null);
-  const cacheRef = useRef<TerminalFailurePreview | null>(null);
+  const cacheRef = useRef<PipelineFailurePreview | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const clearCloseTimer = () => {
@@ -83,7 +83,7 @@ export function TransactionStatusHoverBadge({
         errorMessage ||
         summary ||
         null;
-      const next = buildTerminalFailurePreviewFromEvents(data?.events || [], {
+      const next = buildPipelineFailurePreviewFromEvents(data?.events || [], {
         errorMessage: runError,
         limit: 5,
       });

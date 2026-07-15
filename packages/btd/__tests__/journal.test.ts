@@ -9,9 +9,9 @@ import {
   REQUIRED_JOURNAL_TRANSACTION_KINDS,
 } from '../src/journal';
 import {
-  buildTerminalJournalEntry,
-  REQUIRED_TERMINAL_TRANSACTION_KINDS,
-} from '../src/terminal-journal';
+  buildJournalEntry,
+  REQUIRED_JOURNAL_TRANSACTION_KINDS,
+} from '../src/journal';
 
 describe('journal', () => {
   it('builds a journal entry with required receipt roots', () => {
@@ -76,8 +76,8 @@ describe('journal', () => {
   });
 
   it('keeps Terminal-named shim symbols equivalent', () => {
-    expect(REQUIRED_TERMINAL_TRANSACTION_KINDS).toEqual(REQUIRED_JOURNAL_TRANSACTION_KINDS);
-    const viaShim = buildTerminalJournalEntry({
+    expect(REQUIRED_JOURNAL_TRANSACTION_KINDS).toEqual(REQUIRED_JOURNAL_TRANSACTION_KINDS);
+    const viaShim = buildJournalEntry({
       journalEntryId: 'je-shim',
       transactionKind: 'btc_fee_payment',
       actorId: 'actor-1',
