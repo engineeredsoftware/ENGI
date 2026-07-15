@@ -449,6 +449,9 @@
       "@bitcode/api/responses": [
         "../../packages/api/src/responses/index.ts"
       ],
+      "@bitcode/api/btd": [
+        "../../packages/api/src/routes/btd-crypto.ts"
+      ],
       "@bitcode/obfuscation": [
         "../../packages/obfuscation/src/index.ts"
       ],

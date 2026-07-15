@@ -138,7 +138,8 @@ export function factoryMeasureAgent(config: MeasureAgentConfig): MeasureAgent {
     description:
       config.description ??
       `Measures the ${config.category} measurements of ${config.subject}.`,
-    outputSchema: MeasurementOutputSchema,
+    // Zod preprocess widens _input; factory expects output-shaped ZodType.
+    outputSchema: MeasurementOutputSchema as z.ZodType<MeasurementOutput>,
     tools: [],
     prompt,
     stepPrompts: {

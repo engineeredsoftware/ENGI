@@ -175,7 +175,9 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
       ].filter(Boolean),
     );
     const scopedBodies =
-      pathScope.size > 0 ? bodies.filter((b) => pathScope.has(b.path)) : bodies;
+      pathScope.size > 0
+        ? bodies.filter((b: { path: string; content: string }) => pathScope.has(b.path))
+        : bodies;
 
     const patchDescriptor = {
       title: String((option as any)?.title ?? ''),

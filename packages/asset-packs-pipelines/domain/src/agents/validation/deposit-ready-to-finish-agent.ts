@@ -238,7 +238,7 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
         );
         const scopedBodies =
           pathScope.size > 0
-            ? inventorySources.filter((s) => pathScope.has(s.path))
+            ? inventorySources.filter((s: { path: string; content: string }) => pathScope.has(s.path))
             : inventorySources;
         const report = analyzeStaticSource({
           files: scopedBodies,
