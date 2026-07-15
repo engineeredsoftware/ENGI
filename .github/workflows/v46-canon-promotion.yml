@@ -72,7 +72,7 @@ jobs:
             echo "::endgroup::"
           }
 
-          POINTER="$(cat BITCODE_SPEC.txt)"
+          POINTER="$(cat specifications/BITCODE_SPEC.txt)"
           if [ "$POINTER" = "V45" ]; then
             run_checked node scripts/check-bitcode-spec-family.mjs --version V46 --mode draft --current-target V45
             run_checked node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V45 --draft-target V46
@@ -99,8 +99,8 @@ jobs:
           run_bounded 15m pnpm --filter @bitcode/specifying test
           run_bounded 5m pnpm --filter @bitcode/btd typecheck
           run_bounded 5m pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand --forceExit
-          run_bounded 15m npm --prefix protocol-demonstration test
-          run_bounded 5m npm --prefix protocol-demonstration run test:v28-mvp-qa
+          run_bounded 15m pnpm --dir scripts/specifying exec node --test --test-force-exit test/specifying-package-boundary.test.js
+          run_bounded 5m pnpm --dir scripts/specifying exec node --test --test-force-exit test/v42-ai-reading-demonstration.test.js
           run_bounded 5m pnpm --filter @bitcode/asset-packs-pipelines-domain typecheck
           run_bounded 5m pnpm --filter @bitcode/pipeline-hosts typecheck
           run_bounded 5m pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --passWithNoTests --forceExit
@@ -116,16 +116,16 @@ jobs:
         env:
           HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
-          if [ "$(cat BITCODE_SPEC.txt)" = "V46" ]; then
+          if [ "$(cat specifications/BITCODE_SPEC.txt)" = "V46" ]; then
             echo "BITCODE_SPEC.txt already points to V46."
             exit 0
           fi
           PROOF_SOURCE_COMMIT="$(git rev-parse HEAD)"
           node scripts/prepare-bitcode-spec-family-promotion.mjs --version V46 --commit "$PROOF_SOURCE_COMMIT"
           node scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V46 --next-draft V47
-          printf "V46\n" > BITCODE_SPEC.txt
-          node scripts/generate-bitcode-proven.mjs --version V46 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output BITCODE_SPEC_V46_PROVEN.md --allow-dirty
-          node scripts/generate-bitcode-proven.mjs --version V46 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output BITCODE_SPEC_V46_PROVEN.md --check --allow-dirty
+          printf "V46\n" > specifications/BITCODE_SPEC.txt
+          node scripts/generate-bitcode-proven.mjs --version V46 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output specifications/BITCODE_SPEC_V46_PROVEN.md --allow-dirty
+          node scripts/generate-bitcode-proven.mjs --version V46 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output specifications/BITCODE_SPEC_V46_PROVEN.md --check --allow-dirty
           node scripts/check-bitcode-canonical-inputs.mjs --current-target V46
           node scripts/check-bitcode-spec-family.mjs --version V46 --mode promoted --current-target V46
           node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V46 --draft-target V47
@@ -133,14 +133,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add \
-            BITCODE_SPEC.txt \
-            BITCODE_SPEC_V46.md \
-            BITCODE_SPEC_V46_DELTA.md \
-            BITCODE_SPEC_V46_NOTES.md \
-            BITCODE_SPEC_V46_PARITY_MATRIX.md \
-            BITCODE_SPEC_V46_PROVEN.md \
-            protocol-demonstration/src/canon-posture.js \
-            protocol-demonstration/README.md \
+            specifications/BITCODE_SPEC.txt \
+            specifications/BITCODE_SPEC_V46.md \
+            specifications/BITCODE_SPEC_V46_DELTA.md \
+            specifications/BITCODE_SPEC_V46_NOTES.md \
+            specifications/BITCODE_SPEC_V46_PARITY_MATRIX.md \
+            specifications/BITCODE_SPEC_V46_PROVEN.md \
             scripts/specifying/src/canon-posture.js \
             scripts/specifying/data/state.json \
             scripts/specifying/README.md \
