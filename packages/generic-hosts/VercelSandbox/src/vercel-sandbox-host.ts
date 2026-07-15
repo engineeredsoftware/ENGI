@@ -149,13 +149,27 @@ export class VercelSandboxPipelineHost {
 
           if (command.required !== false && commandResult.exitCode !== 0) {
             outcome = 'failed';
+            // Keep running artifact collection so UI/telemetry can show stderr
+            // and evidence.error — do not leave the operator with a blank fail.
             break;
           }
         }
 
-        if (outcome === 'completed') {
-          evidence = await this.readJsonArtifact(sandbox, plan.artifactPaths.evidence);
-          telemetry = await this.readTextArtifact(sandbox, plan.artifactPaths.telemetry);
+        // Collect artifacts on completed AND failed runs. Previously only
+        // completed runs read evidence/telemetry, so command failures returned
+        // empty artifacts and the product layer mislabeled them as Validation
+        // zero-options fail-closed.
+        if (outcome === 'completed' || outcome === 'failed') {
+          try {
+            evidence = await this.readJsonArtifact(sandbox, plan.artifactPaths.evidence);
+          } catch {
+            evidence = null;
+          }
+          try {
+            telemetry = await this.readTextArtifact(sandbox, plan.artifactPaths.telemetry);
+          } catch {
+            telemetry = null;
+          }
           await this.emit({
             type: 'artifacts-read',
             timestamp: new Date().toISOString(),

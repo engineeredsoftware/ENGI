@@ -208,6 +208,34 @@ export async function runDepositOptionSynthesis(
               void emitStatus(
                 `sandbox: created id=${event.sandboxId ?? event.name ?? 'unknown'} image=${event.image ?? 'none'}`,
               );
+            } else if (event.type === 'command-started') {
+              void emitStatus(`sandbox: command-started ${event.label}`);
+            } else if (event.type === 'command-completed') {
+              const ok = event.exitCode === 0;
+              void emitStatus(
+                `sandbox: command-completed ${event.label} exit=${event.exitCode ?? 'null'}` +
+                  (ok ? '' : ' (FAILED)'),
+              );
+            } else if (event.type === 'artifacts-read') {
+              void emitStatus(
+                `sandbox: artifacts-read evidence=${event.evidencePresent ? 'yes' : 'no'} telemetry=${event.telemetryPresent ? 'yes' : 'no'}`,
+              );
+            } else if (event.type === 'telemetry-artifact-event') {
+              // Surface in-box pipeline progress when the runner writes telemetry.jsonl
+              const te = event.telemetryEvent as {
+                type?: string;
+                stage?: string;
+                message?: string;
+                error?: { message?: string };
+              } | null;
+              const kind = te?.type || 'event';
+              const stage = te?.stage ? ` stage=${te.stage}` : '';
+              const msg = te?.error?.message || te?.message;
+              void emitStatus(
+                `pipeline: ${kind}${stage}${msg ? ` — ${String(msg).slice(0, 280)}` : ''}`,
+              );
+            } else if (event.type === 'sandbox-cancelled') {
+              void emitStatus(`sandbox: cancelled ${event.reason || ''}`.trim());
             } else {
               void emitStatus(`sandbox: ${event.type}`);
             }
@@ -225,6 +253,8 @@ export async function runDepositOptionSynthesis(
         if (hostResult.outcome === 'cancelled') {
           throw new ExecutionCancelledError(runId);
         }
+        // Host failures throw from runDepositInBoxHost with the real command/pipeline
+        // error — never fall through to Validation zero-options fail-closed.
         rawOptions = hostResult.options as Parameters<typeof validateDepositSynthesisOptions>[0];
         inventoryPaths = [
           ...new Set((rawOptions || []).flatMap((option: any) => option?.coveredSourcePaths || [])),
@@ -236,6 +266,9 @@ export async function runDepositOptionSynthesis(
           totalPathCount: inventoryPaths.length,
           excludedPathCount: 0,
         };
+        await emitStatus(
+          `Sandbox host completed with ${Array.isArray(rawOptions) ? rawOptions.length : 0} depositOptions; running fail-closed validation…`,
+        );
       } catch (sandboxError) {
         const message =
           sandboxError instanceof Error ? sandboxError.message : String(sandboxError);
@@ -244,8 +277,10 @@ export async function runDepositOptionSynthesis(
           repositoryFullName,
           runId,
           image: sandboxImage,
-          message: message.slice(0, 600),
+          message: message.slice(0, 800),
         });
+        // Always surface the real host/pipeline error in the execution stream (UI).
+        await emitStatus(`sandbox: failed — ${message.slice(0, 900)}`);
         throw sandboxError instanceof Error
           ? sandboxError
           : new Error(message);

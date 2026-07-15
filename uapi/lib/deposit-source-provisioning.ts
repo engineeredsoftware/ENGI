@@ -135,6 +135,92 @@ export interface DepositInBoxHostResult {
   options: unknown[];
   sandboxId: string | null;
   outcome: PipelineHostRunResult["outcome"];
+  /** Operator-safe failure summary when outcome is failed (no secrets). */
+  failureMessage?: string | null;
+}
+
+const HOST_FAILURE_SNIPPET = 800;
+
+/**
+ * Build an operator-visible failure message from a sandbox host run.
+ * Prefer command stderr, then evidence.error / resultReasons — never invent
+ * Validation "zero options" when the host/pipeline never completed.
+ */
+export function formatDepositHostFailure(result: {
+  outcome?: string | null;
+  sandboxId?: string | null;
+  commands?: Array<{
+    label?: string;
+    exitCode?: number | null;
+    stderr?: string;
+    stdout?: string;
+  }>;
+  artifacts?: {
+    evidence?: unknown | null;
+    telemetry?: string | null;
+  } | null;
+}): string {
+  const parts: string[] = [];
+  const failedCmd = [...(result.commands || [])]
+    .reverse()
+    .find((c) => c.exitCode != null && c.exitCode !== 0 && c.exitCode !== 130);
+  if (failedCmd) {
+    parts.push(
+      `host command "${failedCmd.label || 'unknown'}" exited ${failedCmd.exitCode}`,
+    );
+    const errTail = (failedCmd.stderr || failedCmd.stdout || "").trim();
+    if (errTail) {
+      parts.push(errTail.slice(-HOST_FAILURE_SNIPPET));
+    }
+  }
+
+  const evidence = result.artifacts?.evidence as {
+    error?: { message?: string; name?: string } | null;
+    resultReasons?: unknown;
+    resultState?: unknown;
+    depositOptions?: unknown;
+  } | null;
+
+  if (evidence?.error?.message) {
+    parts.push(
+      `pipeline error: ${String(evidence.error.name || "Error")}: ${String(evidence.error.message).slice(0, 400)}`,
+    );
+  }
+  if (Array.isArray(evidence?.resultReasons) && evidence!.resultReasons!.length > 0) {
+    parts.push(
+      `resultReasons: ${evidence!.resultReasons!.slice(0, 4).map(String).join("; ")}`.slice(
+        0,
+        500,
+      ),
+    );
+  }
+  if (evidence?.resultState) {
+    parts.push(`resultState=${String(evidence.resultState)}`);
+  }
+
+  // Last telemetry lines often hold the real Setup/pipeline stack.
+  const telemetry = result.artifacts?.telemetry;
+  if (typeof telemetry === "string" && telemetry.trim()) {
+    const lines = telemetry.trim().split(/\r?\n/).filter(Boolean);
+    const tail = lines.slice(-3);
+    for (const line of tail) {
+      try {
+        const parsed = JSON.parse(line) as { type?: string; message?: string; error?: { message?: string } };
+        const msg =
+          parsed.error?.message ||
+          parsed.message ||
+          (parsed.type ? `telemetry:${parsed.type}` : null);
+        if (msg) parts.push(String(msg).slice(0, 240));
+      } catch {
+        parts.push(line.slice(0, 240));
+      }
+    }
+  }
+
+  if (parts.length === 0) {
+    return `Sandbox deposit host run failed (outcome=${result.outcome || "failed"}, sandboxId=${result.sandboxId || "none"}). No command stderr or evidence was returned — rebuild Pipeliner image if Setup in-box clone is missing.`;
+  }
+  return `Sandbox deposit host failed: ${parts.join(" | ")}`.slice(0, 1800);
 }
 
 export type DepositSandboxGitRevisionStrategy = GitWorkingTreeStrategy;
@@ -295,16 +381,33 @@ export async function runDepositInBoxHost(input: {
     });
     throw error;
   }
+  const evidenceRaw = result?.artifacts?.evidence as {
+    depositOptions?: unknown;
+    error?: { message?: string } | null;
+    resultState?: unknown;
+  } | null;
+  const optionCount = Array.isArray(evidenceRaw?.depositOptions)
+    ? evidenceRaw!.depositOptions!.length
+    : null;
+  const failedCommands = (result?.commands || []).filter(
+    (c) => c.exitCode != null && c.exitCode !== 0 && c.exitCode !== 130,
+  );
+
   bitcodeServerTelemetry("info", "deposit-sandbox-host", "run-complete", {
     ...createSummary,
     outcome: result?.outcome ?? null,
     sandboxId: result?.sandboxId ?? null,
-    optionCount: Array.isArray(
-      (result?.artifacts?.evidence as { depositOptions?: unknown[] } | null)?.depositOptions,
-    )
-      ? (result!.artifacts!.evidence as { depositOptions: unknown[] }).depositOptions.length
+    optionCount,
+    failedCommandLabels: failedCommands.map((c) => c.label).slice(0, 8),
+    failedExitCodes: failedCommands.map((c) => c.exitCode).slice(0, 8),
+    evidenceResultState: evidenceRaw?.resultState ?? null,
+    evidenceError: evidenceRaw?.error?.message
+      ? String(evidenceRaw.error.message).slice(0, 300)
       : null,
+    hasEvidence: evidenceRaw != null,
+    hasTelemetry: Boolean(result?.artifacts?.telemetry),
   });
+
   if (result?.outcome === "cancelled") {
     return {
       options: [],
@@ -312,13 +415,45 @@ export async function runDepositInBoxHost(input: {
       outcome: "cancelled",
     };
   }
-  const evidence = result?.artifacts?.evidence as {
-    depositOptions?: unknown;
-  } | null;
+
+  if (result?.outcome === "failed") {
+    const failureMessage = formatDepositHostFailure(result);
+    bitcodeServerTelemetry("error", "deposit-sandbox-host", "host-outcome-failed", {
+      ...createSummary,
+      sandboxId: result.sandboxId ?? null,
+      message: failureMessage.slice(0, 800),
+      failedCommandLabels: failedCommands.map((c) => c.label).slice(0, 8),
+    });
+    const err = new Error(failureMessage) as Error & { hostOutcome?: string };
+    err.hostOutcome = "failed";
+    throw err;
+  }
+
   const options =
-    evidence && Array.isArray(evidence.depositOptions)
-      ? evidence.depositOptions
+    evidenceRaw && Array.isArray(evidenceRaw.depositOptions)
+      ? evidenceRaw.depositOptions
       : [];
+
+  // Completed host with no options is a pipeline/product miss — not Validation
+  // path-admission (that path only applies when options were produced).
+  if (options.length === 0) {
+    const detail = formatDepositHostFailure({
+      ...result,
+      outcome: "completed-empty-options",
+    });
+    const message =
+      `Sandbox deposit pipeline completed with zero depositOptions. ${detail}`.slice(
+        0,
+        1800,
+      );
+    bitcodeServerTelemetry("error", "deposit-sandbox-host", "empty-deposit-options", {
+      ...createSummary,
+      sandboxId: result?.sandboxId ?? null,
+      message: message.slice(0, 800),
+    });
+    throw new Error(message);
+  }
+
   return {
     options,
     sandboxId: result.sandboxId ?? null,

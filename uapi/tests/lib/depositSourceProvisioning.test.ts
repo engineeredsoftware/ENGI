@@ -4,6 +4,7 @@
 import {
   buildDepositSandboxGitSource,
   createDepositLocalHostCloneForRun,
+  formatDepositHostFailure,
   provisionDepositCheckout,
   provisionDepositSourceInventory,
   resolveDepositPipelineHost,
@@ -248,22 +249,86 @@ describe('runDepositInBoxHost (#25)', () => {
     expect(receivedPlan.createOptions.name).toMatch(/^bitcode-deposit-/);
   });
 
-  it('returns empty options when the evidence has no depositOptions', async () => {
+  it('throws a host/pipeline error (not Validation zero-options) when outcome is failed', async () => {
     const fakeHost = {
       runHostPlan: async () => ({
-        sandboxId: null,
-        artifacts: { evidence: {}, telemetry: null },
+        sandboxId: 'sbx_fail',
+        artifacts: {
+          evidence: {
+            error: { name: 'Error', message: 'Setup clone failed: Host git clone failed' },
+            resultReasons: ['AssetPack pipeline execution did not produce admissible result evidence.'],
+          },
+          telemetry: null,
+        },
+        outcome: 'failed',
+        stopped: true,
+        manifest: {},
+        commands: [
+          {
+            label: 'asset-pack-pipeline-run',
+            exitCode: 1,
+            stderr: 'Error: Setup clone failed: Host git clone failed\n',
+            stdout: '',
+          },
+        ],
+      }),
+    };
+    await expect(
+      runDepositInBoxHost({
+        repositoryFullName: 'o/r',
+        revision: 'main',
+        branch: 'main',
+        commit: null,
+        obfuscations: null,
+        forcedExclusions: [],
+        demandContext: [],
+        hostFactory: async () => fakeHost,
+      }),
+    ).rejects.toThrow(/Sandbox deposit host failed|Setup clone failed|asset-pack-pipeline-run/);
+  });
+
+  it('throws when host completed with zero depositOptions (distinct from Validation)', async () => {
+    const fakeHost = {
+      runHostPlan: async () => ({
+        sandboxId: 'sbx_empty',
+        artifacts: { evidence: { depositOptions: [], resultState: 'blocked_readiness' }, telemetry: null },
         outcome: 'completed',
         stopped: true,
         manifest: {},
         commands: [],
       }),
     };
-    const result = await runDepositInBoxHost({
-      repositoryFullName: 'o/r', revision: 'main', branch: 'main', commit: null,
-      obfuscations: null, forcedExclusions: [], demandContext: [], hostFactory: async () => fakeHost,
+    await expect(
+      runDepositInBoxHost({
+        repositoryFullName: 'o/r',
+        revision: 'main',
+        branch: 'main',
+        commit: null,
+        obfuscations: null,
+        forcedExclusions: [],
+        demandContext: [],
+        hostFactory: async () => fakeHost,
+      }),
+    ).rejects.toThrow(/zero depositOptions/);
+  });
+});
+
+describe('formatDepositHostFailure', () => {
+  it('prefers failed command stderr and evidence.error', () => {
+    const msg = formatDepositHostFailure({
+      outcome: 'failed',
+      sandboxId: 'sbx1',
+      commands: [
+        { label: 'runtime-readiness', exitCode: 0, stderr: '', stdout: '' },
+        { label: 'asset-pack-pipeline-run', exitCode: 1, stderr: 'boom stack', stdout: '' },
+      ],
+      artifacts: {
+        evidence: { error: { name: 'Error', message: 'clone failed' }, resultReasons: ['no tree'] },
+      },
     });
-    expect(result.options).toEqual([]);
-    expect(result.outcome).toBe('completed');
+    expect(msg).toMatch(/asset-pack-pipeline-run/);
+    expect(msg).toMatch(/boom stack/);
+    expect(msg).toMatch(/clone failed/);
+    expect(msg).not.toMatch(/Validation absolutes/);
   });
 });
