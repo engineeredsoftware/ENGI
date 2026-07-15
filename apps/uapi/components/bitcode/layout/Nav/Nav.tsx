@@ -370,37 +370,38 @@ export default function Nav() {
   ) : null;
 
   // Product nav themes match pillar language: Read orange · Packs green · Deposit purple.
+  // Idle hover border/glow strength is matched across all three (Deposit was the reference).
   const publicRouteLinkThemes = {
     read: {
       active:
-        'border-orange-300/38 bg-orange-400/14 text-orange-100 shadow-[0_0_20px_rgba(251,146,60,0.18)]',
+        'border-orange-300/42 bg-orange-400/16 text-orange-100 shadow-[0_0_20px_rgba(251,146,60,0.22)]',
       idle:
-        'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-orange-300/28 hover:bg-orange-400/[0.09] hover:text-orange-100',
+        'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-orange-300/42 hover:bg-orange-400/[0.12] hover:text-orange-100 hover:shadow-[0_0_18px_rgba(251,146,60,0.16)]',
       disabledActive:
         'border-orange-300/20 bg-orange-400/[0.06] text-orange-100/55',
       explainer:
-        'h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-orange-300/30 hover:bg-orange-400/10 hover:text-orange-100',
+        'h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-orange-300/42 hover:bg-orange-400/12 hover:text-orange-100',
     },
     packs: {
       active:
-        'border-emerald-300/38 bg-emerald-400/14 text-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.16)]',
+        'border-emerald-300/42 bg-emerald-400/16 text-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.20)]',
       idle:
-        'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-emerald-300/24 hover:bg-emerald-400/[0.08] hover:text-emerald-100',
+        'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-emerald-300/42 hover:bg-emerald-400/[0.12] hover:text-emerald-100 hover:shadow-[0_0_18px_rgba(16,185,129,0.16)]',
       disabledActive:
         'border-emerald-300/20 bg-emerald-400/[0.06] text-emerald-100/55',
       explainer:
-        'h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100',
+        'h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/42 hover:bg-emerald-400/12 hover:text-emerald-100',
     },
     // Match Deposit pillar: purple/fuchsia (not Tailwind violet, which reads blue).
     deposit: {
       active:
         'border-purple-300/42 bg-purple-500/16 text-purple-100 shadow-[0_0_20px_rgba(192,132,252,0.22)]',
       idle:
-        'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-purple-300/30 hover:bg-purple-500/[0.10] hover:text-purple-100',
+        'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-purple-300/42 hover:bg-purple-500/[0.12] hover:text-purple-100 hover:shadow-[0_0_18px_rgba(192,132,252,0.16)]',
       disabledActive:
         'border-purple-300/22 bg-purple-500/[0.07] text-purple-100/55',
       explainer:
-        'h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-purple-300/35 hover:bg-purple-500/12 hover:text-purple-100',
+        'h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-purple-300/42 hover:bg-purple-500/12 hover:text-purple-100',
     },
   } as const;
 
