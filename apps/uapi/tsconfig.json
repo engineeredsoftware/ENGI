@@ -24,6 +24,9 @@
       }
     ],
     "paths": {
+      "@bitcode/global-constants": [
+        "../../constants/global-constants.ts"
+      ],
       "@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline": [
         "../../packages/asset-packs-pipelines/settle-asset-pack-pipeline/src/index.ts"
       ],

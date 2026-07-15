@@ -9,6 +9,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
+      "@bitcode/global-constants": ["constants/global-constants.ts"],
       // Deep imports disabled: import only from package roots
       "@bitcode/pipeline-engine-generics/*": ["packages/pipelines-generics/src/*"],
       "@bitcode/pipeline-core/*": ["packages/pipelines-generics/src/*"],

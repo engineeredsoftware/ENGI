@@ -53,6 +53,8 @@ module.exports = {
     // possible we mirror the old explicit mappings to keep the runtime
     // resolution behaviour identical.
     // -------------------------------------------------------------------
+    // Repo-root constants/ (not under packages/)
+    '^@bitcode/global-constants$': '<rootDir>/../../constants/global-constants.ts',
     '^@bitcode/logger$': '<rootDir>/../../packages/logger/src/logger.ts',
     '^@bitcode/external-telemetry-sentry$': '<rootDir>/../../packages/external-telemetry/sentry/src/sentry.ts',
     '^@bitcode/observability$': '<rootDir>/tests/mocks/observability.js',
@@ -196,7 +198,7 @@ module.exports = {
     '<rootDir>/tests/depositSourceCriticality.test.ts',
     '<rootDir>/tests/depositRunStatus.test.ts',
     '<rootDir>/tests/productAnalytics.test.ts',
-    // V48 product route helpers (Packs/Reads/Deposits; not Terminal)
+    // V48 product route helpers (Packs/Reads/Deposits; not product)
     '<rootDir>/tests/productRoutes.test.ts',
     '<rootDir>/tests/repositoryContext.test.ts',
     '<rootDir>/tests/pipelineRunData.test.ts',
