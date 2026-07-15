@@ -6,6 +6,11 @@
  *
  * Runs the pipeline in the CURRENT process and provisions via real `git clone` +
  * Node filesystem. SandboxHost (Vercel | AWS) is the other HostKind.
+ *
+ * Host law: LocalHost is laptop-only. Never clone in a serverless function.
+ * Sandbox deposit clones inside the box during Setup using the same
+ * `provisionGitWorkingTree` strategy (multi-step branch/commit), not at
+ * Sandbox.create time.
  */
 
 import { execFile } from 'node:child_process';
@@ -21,6 +26,7 @@ import type {
   HostCommandResult,
   HostExec,
 } from '@bitcode/host-generics';
+import { provisionGitWorkingTree } from '@bitcode/host-generics';
 
 const CLONE_MAX_BUFFER = 64 * 1024 * 1024;
 
@@ -68,25 +74,6 @@ function workspaceId(): string {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-/** Inject clone credentials into an https URL (token in password). */
-function withAuth(url: string, username?: string, password?: string): string {
-  if (!password) return url;
-  try {
-    const parsed = new URL(url);
-    if (parsed.protocol !== 'https:') return url;
-    parsed.username = username || 'x-access-token';
-    parsed.password = password;
-    return parsed.toString();
-  } catch {
-    return url;
-  }
-}
-
-/** Redact a credentialed URL from any surfaced error text. */
-function redact(text: string): string {
-  return text.replace(/https:\/\/[^@\s]+@/g, 'https://***@');
-}
-
 class LocalHostWorkspace implements BitcodeHostWorkspace {
   constructor(
     readonly workspacePath: string,
@@ -127,6 +114,14 @@ class LocalHostWorkspace implements BitcodeHostWorkspace {
   }
 }
 
+/** Build a workspace handle over an existing checkout path (Setup in-box path). */
+export function createLocalHostWorkspace(
+  workspacePath: string,
+  exec: HostExec = defaultHostExec(),
+): BitcodeHostWorkspace {
+  return new LocalHostWorkspace(workspacePath, exec);
+}
+
 export class LocalHost implements BitcodePipelineHost {
   private readonly exec: HostExec;
   private readonly rootDir: string;
@@ -152,44 +147,16 @@ export class LocalHost implements BitcodePipelineHost {
       this.rootDir,
       `bitcode-local-host-${slug(source.repositoryFullName)}-${workspaceId()}`,
     );
-    const url = withAuth(source.url, source.username, source.password);
-    // Shallow clone: complete working tree at the revision (all files) without
-    // full git history. Fast and sufficient for Setup + every later agent.
-    const revision = (source.revision || '').trim();
-    const looksLikeCommit = /^[0-9a-f]{7,40}$/i.test(revision);
-    const cloneArgs = ['clone', '--depth', '1', '--single-branch'];
-    if (revision && !looksLikeCommit) {
-      cloneArgs.push('--branch', revision);
-    }
-    cloneArgs.push(url, workspacePath);
-    const clone = await this.exec('git', cloneArgs);
-    if (clone.exitCode !== 0) {
-      throw new Error(`LocalHost git clone failed (exit ${clone.exitCode}): ${redact(clone.stderr).trim()}`);
-    }
-    if (revision && looksLikeCommit) {
-      // Tip clone may not include an arbitrary SHA; fetch that commit shallowly.
-      const fetch = await this.exec('git', [
-        '-C',
-        workspacePath,
-        'fetch',
-        '--depth',
-        '1',
-        'origin',
-        revision,
-      ]);
-      if (fetch.exitCode !== 0) {
-        throw new Error(
-          `LocalHost fetch ${revision} failed (exit ${fetch.exitCode}): ${redact(fetch.stderr).trim()}`,
-        );
-      }
-      const checkout = await this.exec('git', ['-C', workspacePath, 'checkout', revision]);
-      if (checkout.exitCode !== 0) {
-        throw new Error(
-          `LocalHost checkout ${revision} failed (exit ${checkout.exitCode}): ${redact(checkout.stderr).trim()}`,
-        );
-      }
-    }
+    await provisionGitWorkingTree({
+      url: source.url,
+      username: source.username,
+      password: source.password,
+      branch: source.branch,
+      commit: source.commit,
+      revision: source.revision,
+      workspacePath,
+      exec: this.exec,
+    });
     return new LocalHostWorkspace(workspacePath, this.exec);
   }
 }
-

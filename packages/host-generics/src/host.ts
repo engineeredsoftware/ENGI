@@ -43,8 +43,15 @@ export interface BitcodeHostRepositorySource {
   repositoryFullName: string;
   /** Clone URL (e.g. https://github.com/owner/repo.git). */
   url: string;
-  /** Branch, tag, or commit to check out. */
+  /**
+   * Branch, tag, or commit. Prefer an advertised branch name for shallow clone;
+   * bare SHAs use multi-step fetch after tip clone (not `clone --depth 1 <sha>`).
+   */
   revision: string;
+  /** Optional advertised branch (preferred for shallow clone when set). */
+  branch?: string;
+  /** Optional pin commit after branch/tip clone. */
+  commit?: string;
   /** Optional clone credentials (token in password). Never logged. */
   username?: string;
   password?: string;

@@ -69,7 +69,8 @@
     "@bitcode/generic-measurements-absolutes": "workspace:*",
     "@bitcode/generic-measurements-needinesses": "workspace:*",
     "@bitcode/asset-packs-generics": "workspace:*",
-    "@bitcode/generic-asset-packs-synthesis": "workspace:*"
+    "@bitcode/generic-asset-packs-synthesis": "workspace:*",
+    "@bitcode/host-generics": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

@@ -11,3 +11,4 @@
 export * from './host';
 export * from './sandbox-host';
 export * from './types';
+export * from './git-working-tree';

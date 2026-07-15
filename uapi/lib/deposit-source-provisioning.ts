@@ -2,20 +2,21 @@
  * Deposit Host helpers (V48 Gate 3).
  *
  * Pipeline runs always execute on a Host (LocalHost, VercelSandboxHost, …).
- * **Cloning is not initialization.** Dispatch must not clone. Setup's
- * clone-repository agent ensures the repository for this run: if the Host
- * already has the tree (e.g. VercelSandboxHost image source), adopt it;
- * otherwise LocalHost clones via `deposit:cloneRepositoryForRun`.
+ * **Cloning is not initialization.** Dispatch must not clone. Cloning inside a
+ * serverless function process is forbidden. Customer-repo clone is Setup only.
  *
  * Host law:
- * - **LocalHost** — developer machine only (full system access). Never on
- *   serverless/Production. Used when iterating locally with the monorepo on disk.
- * - **Sandbox (VercelSandboxHost)** — always on serverless (Vercel / Lambda).
- *   Synthesis spawns a microVM; optional VCR pipeline image via
- *   `BITCODE_PIPELINE_SANDBOX_IMAGE`.
+ * - **LocalHost** — developer machine only. Never on serverless/Production.
+ *   Clones via `deposit:cloneRepositoryForRun` during Setup on the laptop.
+ * - **Sandbox** — always on serverless (Vercel / Lambda). Spawns a microVM from
+ *   the Pipeliner image (`BITCODE_PIPELINE_SANDBOX_IMAGE`). Create is **image
+ *   only** (no `source: git`) — create-time customer clone is outside the
+ *   pipeline and was the production `git clone failed` 400 mode. Clone specs
+ *   pass via `BITCODE_HOST_CLONE_*` env; Setup's clone-repository agent
+ *   multi-step clones **inside the box**.
  *
  * Host selection: `BITCODE_PIPELINE_HOST` (`local` | `sandbox`); serverless
- * runtimes always resolve to `sandbox` even if `local` is misconfigured.
+ * always resolves to `sandbox` even if `local` is misconfigured.
  */
 
 import {
@@ -23,11 +24,14 @@ import {
   VercelSandboxPipelineHost,
   assertVercelSandboxAuthAvailable,
   buildAssetPackSandboxHostPlan,
+  buildHostCloneEnvEntries,
   loadVercelSandboxFactory,
   readWorkspaceSources,
+  resolveGitClonePlan,
   type BitcodeHostKind,
   type BitcodeHostWorkspace,
   type BitcodePipelineHost,
+  type GitWorkingTreeStrategy,
   type HostSourceFile,
   type PipelineHostEvent,
   type PipelineHostRunResult,
@@ -133,33 +137,15 @@ export interface DepositInBoxHostResult {
   outcome: PipelineHostRunResult["outcome"];
 }
 
-/** Full or abbreviated git object id (7–40 hex). */
-const GIT_COMMIT_SHA_RE = /^[0-9a-f]{7,40}$/i;
-
-export type DepositSandboxGitRevisionStrategy =
-  | "branch-shallow"
-  | "commit-full"
-  | "ref-shallow";
+export type DepositSandboxGitRevisionStrategy = GitWorkingTreeStrategy;
 
 /**
- * Git source for `Sandbox.create` deposit clones.
- *
- * Vercel Sandbox performs a single git clone at create time. A common failure
- * is `bad_request: git clone failed` when `revision` is a commit SHA with
- * `depth: 1` — shallow clones fetch advertised refs (branches/tags), not
- * arbitrary SHAs (GitHub often rejects unadvertised objects).
- *
- * Strategy (mirrors LocalHost intent, adapted for create-time-only clone):
- * 1. **Branch present** → shallow clone that branch tip (`depth: 1`).
- * 2. **Commit SHA only** → full clone at that revision (omit `depth`).
- * 3. **Other ref** (tag / symbolic) → shallow clone that ref.
- *
- * Evidence still records the exact `commit` via `sourceRevision`; only the
- * create-time clone ref is adjusted for Vercel reachability.
+ * @deprecated Create-time Sandbox git source is Host-law illegal for deposit.
+ * Prefer `resolveGitClonePlan` + `buildHostCloneEnvEntries` (Setup in-box clone).
+ * Kept as a pure plan helper for tests / diagnostics of the old shape.
  */
 export function buildDepositSandboxGitSource(input: {
   repositoryFullName: string;
-  /** Preferred product revision (often the selected commit SHA). */
   revision: string;
   branch: string | null;
   commit: string | null;
@@ -174,78 +160,44 @@ export function buildDepositSandboxGitSource(input: {
     depth?: number;
   };
   strategy: DepositSandboxGitRevisionStrategy;
-  /** Ref actually passed to Sandbox.create (branch, SHA, or other). */
   cloneRevision: string;
   depth: number | null;
 } {
-  const branch = input.branch?.trim() || "";
-  const commit = (input.commit || "").trim();
-  const revision = (input.revision || "").trim();
+  const plan = resolveGitClonePlan({
+    branch: input.branch,
+    commit: input.commit,
+    revision: input.revision,
+  });
   const url = `https://github.com/${input.repositoryFullName}.git`;
-  const auth =
-    input.token
-      ? { username: "x-access-token" as const, password: input.token }
-      : {};
-
-  // Prefer a non-SHA branch name even when revision/commit is a full SHA.
-  if (branch && !GIT_COMMIT_SHA_RE.test(branch)) {
-    return {
-      source: {
-        type: "git",
-        url,
-        revision: branch,
-        depth: 1,
-        ...auth,
-      },
-      strategy: "branch-shallow",
-      cloneRevision: branch,
-      depth: 1,
-    };
-  }
-
-  const effective = commit || revision || "HEAD";
-  if (GIT_COMMIT_SHA_RE.test(effective)) {
-    // Omit depth: shallow + bare SHA is the create failure mode we hit in prod.
-    return {
-      source: {
-        type: "git",
-        url,
-        revision: effective,
-        ...auth,
-      },
-      strategy: "commit-full",
-      cloneRevision: effective,
-      depth: null,
-    };
-  }
-
+  const auth = input.token
+    ? { username: "x-access-token" as const, password: input.token }
+    : {};
+  // Diagnostic only — do not pass this to Sandbox.create for deposit.
+  const revision = plan.cloneBranch || plan.pinCommit || input.revision || "HEAD";
   return {
     source: {
       type: "git",
       url,
-      revision: effective,
+      revision,
       depth: 1,
       ...auth,
     },
-    strategy: "ref-shallow",
-    cloneRevision: effective,
+    strategy: plan.strategy,
+    cloneRevision: plan.cloneRevisionLabel,
     depth: 1,
   };
 }
 
 /**
- * Run the deposit synthesis IN the sandbox box (#25). Builds an asset-pack host in
- * DEPOSIT mode (git source for the revision + steering), dispatches it on the sandbox
- * host (the pipeline runs in the box, reading its local checkout), and returns the
- * synthesized options surfaced in the evidence (`depositOptions`). The host is
- * injectable so the dispatch is unit-tested without a real sandbox.
+ * Run the deposit synthesis IN the sandbox box (#25).
  *
- * Cooperative cancel: pass `shouldAbort` (typically polling executions.status).
+ * Host law for serverless:
+ * - Sandbox.create uses **Pipeliner image only** (no `source: git`).
+ * - Customer-repo clone specs go in env (`BITCODE_HOST_CLONE_*`).
+ * - Setup's clone-repository agent multi-step clones **inside the box**.
+ * - No git clone in the serverless function process.
  *
- * Vercel Sandbox v2 defaults to *persistent* sandboxes (auto-snapshot on stop,
- * Snapshot Storage billed separately). Deposit synthesis is a one-shot CI-style
- * workload — always `persistent: false` so stop discards the FS and we do not
- * accrue snapshot storage. The host also best-effort `delete()`s after stop.
+ * Vercel Sandbox v2: always `persistent: false` for one-shot deposit.
  */
 export async function runDepositInBoxHost(input: {
   repositoryFullName: string;
@@ -260,18 +212,26 @@ export async function runDepositInBoxHost(input: {
   shouldAbort?: () => boolean | Promise<boolean>;
   hostFactory?: () => Promise<DepositInBoxHost>;
 }): Promise<DepositInBoxHostResult> {
-  const gitSource = buildDepositSandboxGitSource({
-    repositoryFullName: input.repositoryFullName,
-    revision: input.revision,
+  const clonePlan = resolveGitClonePlan({
     branch: input.branch,
-    commit: input.commit,
-    token: input.token,
+    commit: input.commit || input.revision,
+    revision: input.revision,
   });
+  const hostCloneEnv = buildHostCloneEnvEntries({
+    repositoryFullName: input.repositoryFullName,
+    branch: input.branch,
+    commit: input.commit || input.revision,
+    token: input.token,
+    root: "/vercel/sandbox",
+  });
+
   const plan = buildAssetPackSandboxHostPlan({
     mode: "asset_pack_pipeline",
     synthesizeMode: "deposit",
     // Explicit opt-out of v2 default persistence (one-shot deposit synthesis).
     persistent: false,
+    // Create image only — Setup clones customer repo in-box (not create-time git).
+    assumeRepositoryPresent: true,
     // Production: BITCODE_PIPELINE_SANDBOX_IMAGE → VCR appliance (no stock runtime).
     read: {
       id: `deposit-read-${input.repositoryFullName}`,
@@ -283,7 +243,9 @@ export async function runDepositInBoxHost(input: {
       branch: input.branch || "main",
       commit: input.commit || input.revision,
     },
-    source: gitSource.source,
+    // Never pass source: git here — that clones outside the pipeline and failed
+    // production runs with bad_request: git clone failed.
+    commandEnvironment: hostCloneEnv,
     depositSteering: {
       obfuscations: input.obfuscations,
       forcedExclusions: input.forcedExclusions,
@@ -310,11 +272,13 @@ export async function runDepositInBoxHost(input: {
     persistent: plan.createOptions.persistent === true,
     timeoutMs: plan.createOptions.timeout ?? null,
     hasGitSource: Boolean(plan.createOptions.source),
+    cloneLocation: "setup-in-box" as const,
+    hasHostCloneEnv: Boolean(hostCloneEnv.BITCODE_HOST_CLONE_URL),
+    hasHostCloneToken: Boolean(input.token),
     synthesizeMode: plan.manifest.synthesizeMode ?? null,
     repositoryFullName: input.repositoryFullName,
-    gitRevisionStrategy: gitSource.strategy,
-    gitCloneRevision: gitSource.cloneRevision,
-    gitDepth: gitSource.depth,
+    gitRevisionStrategy: clonePlan.strategy,
+    gitCloneRevision: clonePlan.cloneRevisionLabel,
     sourceCommit: input.commit || null,
     sourceBranch: input.branch || null,
   };

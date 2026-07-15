@@ -86,6 +86,20 @@ describe('LocalHost (primitive Host implementation)', () => {
     await expect(fs.stat(ws.workspacePath)).rejects.toBeDefined(); // removed
   });
 
+  it('prefers branch --branch for shallow clone when branch is provided', async () => {
+    const { exec, calls } = fakeExec();
+    const host = new LocalHost({ exec, rootDir: await makeRoot() });
+    await host.provisionRepository({
+      repositoryFullName: 'o/r',
+      url: 'https://github.com/o/r.git',
+      revision: 'abc1234',
+      branch: 'version/v48',
+      commit: 'abc1234',
+    });
+    const cloneCall = calls.find((c) => c[0] === 'git' && c[1] === 'clone');
+    expect(cloneCall).toEqual(expect.arrayContaining(['--branch', 'version/v48']));
+  });
+
   it('readFile refuses path traversal outside the checkout', async () => {
     const host = new LocalHost({ exec: fakeExec().exec, rootDir: await makeRoot() });
     const ws = await host.provisionRepository({
@@ -131,7 +145,7 @@ describe('LocalHost (primitive Host implementation)', () => {
         revision: 'main',
         password: 'ghs_secrettoken',
       }),
-    ).rejects.toThrow(/LocalHost git clone failed/);
+    ).rejects.toThrow(/Host git clone failed/);
 
     const cloneCall = calls.find((c) => c[1] === 'clone')!;
     // cloneArgs: clone --depth 1 --single-branch [--branch rev] <url> <dest>

@@ -16,11 +16,18 @@ On serverless, synthesis always spawns a **Sandbox** microVM. Stock `node24`
 runtimes force cold install of the monorepo (slow/fragile). Pipeliner bakes
 Bitcode’s host runners + workspace packages into an OCI image so each run:
 
-1. Creates a sandbox from **Pipeliner** (`image`, not stock `runtime`)
-2. Clones the **customer** repo into `/vercel/sandbox` (git source + install token)
-3. Writes only the run **manifest** into the workspace
-4. Runs `node /opt/bitcode/pipeline/run-pipeline.mjs`
+1. Creates a sandbox from **Pipeliner** (`image`, not stock `runtime`) — **no**
+   `source: git` on create (create-time customer clone is outside the pipeline
+   and failed production with `bad_request: git clone failed`)
+2. Writes only the run **manifest** (+ host env including `BITCODE_HOST_CLONE_*`)
+3. Runs `node /opt/bitcode/pipeline/run-pipeline.mjs`
+4. **Setup** clone-repository agent multi-step clones the **customer** repo
+   **inside the box** (branch shallow + optional pin commit) using the install
+   token — never in the serverless function process
 5. Streams telemetry / writes evidence, then stop + delete (ephemeral)
+
+Host law: serverless dispatches only; Pipeliner is the program; customer source
+is Setup’s job inside the sandbox.
 
 ## Image layout
 

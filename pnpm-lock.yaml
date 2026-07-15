@@ -337,6 +337,9 @@ importers:
       '@bitcode/generic-tools-vcs':
         specifier: workspace:*
         version: link:../../generic-tools/vcs
+      '@bitcode/host-generics':
+        specifier: workspace:*
+        version: link:../../host-generics
       '@bitcode/llm-generics':
         specifier: workspace:*
         version: link:../../llm-generics

@@ -182,8 +182,8 @@ describe('resolveDepositPipelineHost', () => {
   });
 });
 
-describe('buildDepositSandboxGitSource', () => {
-  it('prefers branch shallow clone when branch is present (even if revision is a SHA)', () => {
+describe('buildDepositSandboxGitSource (diagnostic only)', () => {
+  it('plans branch-shallow-pin when branch + commit present', () => {
     const built = buildDepositSandboxGitSource({
       repositoryFullName: 'advancedengineeredsoftware/Bitcode',
       revision: 'f956577ce478e90d629db48c452102e582fa081c',
@@ -191,44 +191,13 @@ describe('buildDepositSandboxGitSource', () => {
       commit: 'f956577ce478e90d629db48c452102e582fa081c',
       token: 'ghs_tok',
     });
-    expect(built.strategy).toBe('branch-shallow');
-    expect(built.source).toMatchObject({
-      type: 'git',
-      url: 'https://github.com/advancedengineeredsoftware/Bitcode.git',
-      revision: 'version/v48',
-      depth: 1,
-      username: 'x-access-token',
-      password: 'ghs_tok',
-    });
-  });
-
-  it('omits depth for bare commit SHAs (avoid shallow unadvertised-object failure)', () => {
-    const built = buildDepositSandboxGitSource({
-      repositoryFullName: 'o/r',
-      revision: 'f956577ce478e90d629db48c452102e582fa081c',
-      branch: null,
-      commit: 'f956577ce478e90d629db48c452102e582fa081c',
-    });
-    expect(built.strategy).toBe('commit-full');
-    expect(built.source.revision).toBe('f956577ce478e90d629db48c452102e582fa081c');
-    expect(built.source.depth).toBeUndefined();
-    expect(built.depth).toBeNull();
-  });
-
-  it('shallow-clones non-SHA refs (tags / symbolic)', () => {
-    const built = buildDepositSandboxGitSource({
-      repositoryFullName: 'o/r',
-      revision: 'v1.2.3',
-      branch: null,
-      commit: null,
-    });
-    expect(built.strategy).toBe('ref-shallow');
-    expect(built.source).toMatchObject({ revision: 'v1.2.3', depth: 1 });
+    expect(built.strategy).toBe('branch-shallow-pin-commit');
+    expect(built.source.revision).toBe('version/v48');
   });
 });
 
 describe('runDepositInBoxHost (#25)', () => {
-  it('dispatches a deposit-mode host and returns evidence.depositOptions', async () => {
+  it('dispatches deposit host with image-only create + in-box clone env (Host law)', async () => {
     let receivedPlan: any;
     const fakeHost = {
       runHostPlan: async (plan: any) => {
@@ -258,21 +227,22 @@ describe('runDepositInBoxHost (#25)', () => {
     expect(result.options).toEqual([{ title: 'Auth slice', coveredSourcePaths: ['src/auth.ts'] }]);
     expect(result.sandboxId).toBe('sbx_test_1');
     expect(result.outcome).toBe('completed');
-    // The dispatched plan ran the deposit lens in-box, with a git source + steering.
     expect(receivedPlan.manifest.synthesizeMode).toBe('deposit');
     expect(receivedPlan.manifest.depositSteering).toMatchObject({ forcedExclusions: ['secret/'] });
-    // Clone uses the branch (shallow), not the bare SHA — avoids Sandbox create git-clone 400.
-    expect(receivedPlan.createOptions.source).toMatchObject({
-      type: 'git',
-      revision: 'main',
-      depth: 1,
+    // Host law: no create-time customer git source (that was the 400 git clone path).
+    expect(receivedPlan.createOptions.source).toBeUndefined();
+    // Clone specs for Setup in-box multi-step git (not serverless process clone).
+    expect(receivedPlan.createOptions.env).toMatchObject({
+      BITCODE_HOST_CLONE_URL: 'https://github.com/engineeredsoftware/demo.git',
+      BITCODE_HOST_CLONE_BRANCH: 'main',
+      BITCODE_HOST_CLONE_COMMIT: 'abc123def456',
+      BITCODE_HOST_CLONE_USERNAME: 'x-access-token',
+      BITCODE_HOST_CLONE_PASSWORD: 'ghs_tok',
     });
-    // Evidence still pins the selected commit.
     expect(receivedPlan.manifest.sourceRevision).toMatchObject({
       branch: 'main',
       commit: 'abc123def456',
     });
-    // Vercel Sandbox v2: persistence is default — deposit must opt out.
     expect(receivedPlan.createOptions.persistent).toBe(false);
     expect(typeof receivedPlan.createOptions.name).toBe('string');
     expect(receivedPlan.createOptions.name).toMatch(/^bitcode-deposit-/);
