@@ -1,13 +1,13 @@
 'use client';
 
 /**
- * Active filter chips row — always mounts when a trailing refresh control is
- * provided so that control permanently occupies the right side (near the
- * table's Started column alignment), even when no chips are active.
+ * Active filter chips row — chips on the left; trailing icon rail on the right
+ * (clear-all left of refresh). Refresh permanently occupies the far right when
+ * provided, even when no chips are active.
  */
 
 import React from 'react';
-import { RefreshCw } from 'lucide-react';
+import { FilterX, RefreshCw } from 'lucide-react';
 
 import {
   buildBitcodeTransactionActiveFilterChips,
@@ -23,6 +23,9 @@ interface BitcodeTransactionsActiveFiltersProps {
   refreshLabel?: string;
 }
 
+const ICON_BOX_CLASS =
+  'inline-flex h-9 w-9 shrink-0 items-center justify-center border border-white/10 bg-white/[0.04] text-neutral-200 transition hover:border-emerald-300/30 hover:bg-emerald-300/10';
+
 export default function BitcodeTransactionsActiveFilters({
   filters,
   onFiltersChange,
@@ -32,11 +35,12 @@ export default function BitcodeTransactionsActiveFilters({
 }: BitcodeTransactionsActiveFiltersProps) {
   const activeChips = buildBitcodeTransactionActiveFilterChips(filters);
   const hasChips = activeChips.length > 0;
+  const showClearAll = Boolean(hasChips && onResetFilters);
 
   if (!hasChips && !onRefresh) return null;
 
   return (
-    // Permanent row: chips (left) + optional refresh (right, sticky to trailing edge).
+    // Permanent row: chips (left) + icon rail (right: clear then refresh).
     <div className="mt-3 flex items-center gap-2 text-[0.64rem] uppercase tracking-[0.16em]">
       <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
         {hasChips ? (
@@ -54,34 +58,41 @@ export default function BitcodeTransactionsActiveFilters({
                 {chip.label}: {chip.value} ×
               </button>
             ))}
-            {onResetFilters ? (
-              <button
-                type="button"
-                onClick={onResetFilters}
-                className="border border-white/10 bg-black/20 px-2.5 py-1.5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
-              >
-                Clear all filters
-              </button>
-            ) : null}
           </>
         ) : (
           <span className="text-neutral-600" aria-hidden="true">
-            {/* Reserved left rail so refresh stays right-aligned even with no chips. */}
+            {/* Reserved left rail so trailing icons stay right-aligned. */}
           </span>
         )}
       </div>
 
-      {onRefresh ? (
-        <button
-          type="button"
-          onClick={onRefresh}
-          className="inline-flex h-9 w-9 shrink-0 items-center justify-center border border-white/10 bg-white/[0.04] text-neutral-200 transition hover:border-emerald-300/30 hover:bg-emerald-300/10"
-          aria-label={refreshLabel}
-          title={refreshLabel}
-          data-testid="bitcode-transactions-refresh"
-        >
-          <RefreshCw className="h-4 w-4" aria-hidden="true" />
-        </button>
+      {(showClearAll || onRefresh) ? (
+        <div className="flex shrink-0 items-center gap-1.5">
+          {showClearAll ? (
+            <button
+              type="button"
+              onClick={onResetFilters}
+              className={ICON_BOX_CLASS}
+              aria-label="Clear all filters"
+              title="Clear all filters"
+              data-testid="bitcode-transactions-clear-filters"
+            >
+              <FilterX className="h-4 w-4" aria-hidden="true" />
+            </button>
+          ) : null}
+          {onRefresh ? (
+            <button
+              type="button"
+              onClick={onRefresh}
+              className={ICON_BOX_CLASS}
+              aria-label={refreshLabel}
+              title={refreshLabel}
+              data-testid="bitcode-transactions-refresh"
+            >
+              <RefreshCw className="h-4 w-4" aria-hidden="true" />
+            </button>
+          ) : null}
+        </div>
       ) : null}
     </div>
   );

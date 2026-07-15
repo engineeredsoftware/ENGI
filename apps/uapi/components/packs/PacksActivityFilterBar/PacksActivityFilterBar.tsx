@@ -1,10 +1,8 @@
 'use client';
 
 /**
- * Packs master filter bar: search/type/state/sort and economic facets.
- * URL writes are owned by the parent via onWriteParams.
- * Each control carries a rich BitcodeInlineExplainer (same pattern as
- * BitcodeTransactionsFilterBar).
+ * Packs master filter bar — Deposit/Read twin of BitcodeTransactionsFilterBar.
+ * Flat mosaic (no nested card chrome). URL writes via onWriteParams.
  */
 
 import React from "react";
@@ -41,10 +39,11 @@ export type PacksActivityFilterBarProps = {
   onWriteParams: (updates: Record<string, string | null>) => void;
 };
 
+/** Match BitcodeTransactionsFilterBar field chrome. */
 const FIELD_CLASS =
-  "h-10 w-full min-w-0 border border-white/10 bg-black/30 px-3 text-sm text-neutral-100 outline-none transition placeholder:text-neutral-600 focus:border-emerald-300/45";
+  "mt-1.5 h-9 w-full min-w-0 border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40";
 
-function FilterField({
+function FilterCell({
   label,
   explainerKey,
   children,
@@ -57,9 +56,9 @@ function FilterField({
 }) {
   const explainer: BitcodeExplainer = PACKS_FILTER_EXPLAINERS[explainerKey];
   return (
-    <div className={`flex min-w-0 flex-col gap-1.5 ${className}`.trim()}>
-      <span className="flex min-h-[1rem] items-center gap-1.5 text-[0.6rem] font-medium uppercase tracking-[0.16em] text-neutral-500">
-        <span className="truncate">{label}</span>
+    <div className={className}>
+      <span className="flex items-center gap-2 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+        <span>{label}</span>
         <BitcodeInlineExplainer
           explainer={explainer}
           side="bottom"
@@ -81,123 +80,116 @@ export function PacksActivityFilterBar({
   onWriteParams,
 }: PacksActivityFilterBarProps) {
   return (
+    // Compact mosaic twin of BitcodeTransactionsFilterBar — no nested card.
     <div
-      className="space-y-2.5 border-b border-white/10 p-3"
+      className="mt-4 grid grid-cols-2 gap-2 tablet:grid-cols-4 xl:grid-cols-5"
       data-testid="packs-activity-filter-bar"
     >
-      {/*
-        One shared horizontal pad + equal gap so primary controls and facets
-        share the same left/right edges (previous p-3 vs px-4 drift).
-      */}
-      <div className="grid grid-cols-1 items-end gap-2.5 phone:grid-cols-2 laptop:grid-cols-[minmax(0,1.55fr)_minmax(9.5rem,0.72fr)_minmax(7.5rem,0.55fr)_minmax(8.5rem,0.62fr)_auto]">
-        <FilterField label="Search" explainerKey="search">
-          <label className="relative block min-w-0">
-            <span className="sr-only">Search pack activity</span>
-            <Search
-              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500"
-              aria-hidden="true"
-            />
-            <input
-              value={search}
-              onChange={(event) =>
-                onWriteParams({ q: event.currentTarget.value })
-              }
-              className={`${FIELD_CLASS} pl-10 pr-3`}
-              placeholder="Search packs, measurements, absolutes, proofs, states…"
-            />
-          </label>
-        </FilterField>
-
-        <FilterField label="Type" explainerKey="type">
-          <select
-            value={type}
-            onChange={(event) =>
-              onWriteParams({ type: event.currentTarget.value })
-            }
-            className={FIELD_CLASS}
-            aria-label="Activity type"
-          >
-            {TYPE_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </FilterField>
-
-        <FilterField label="State" explainerKey="state">
-          <input
-            value={state === "all" ? "" : state}
-            onChange={(event) =>
-              onWriteParams({ state: event.currentTarget.value || null })
-            }
-            className={FIELD_CLASS}
-            placeholder="State"
-            aria-label="State filter"
+      <FilterCell label="Search" explainerKey="search" className="col-span-2 tablet:col-span-2">
+        <label className="relative mt-1.5 block min-w-0">
+          <span className="sr-only">Search pack activity</span>
+          <Search
+            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500"
+            aria-hidden="true"
           />
-        </FilterField>
-
-        <FilterField label="Sort" explainerKey="sort">
-          <select
-            value={sort}
+          <input
+            value={search}
             onChange={(event) =>
-              onWriteParams({ sort: event.currentTarget.value })
+              onWriteParams({ q: event.currentTarget.value })
+            }
+            className={`${FIELD_CLASS} mt-0 pl-10 pr-3`}
+            placeholder="Search packs, measurements, absolutes, proofs, states…"
+          />
+        </label>
+      </FilterCell>
+
+      <FilterCell label="Type" explainerKey="type">
+        <select
+          value={type}
+          onChange={(event) =>
+            onWriteParams({ type: event.currentTarget.value })
+          }
+          className={FIELD_CLASS}
+          aria-label="Activity type"
+        >
+          {TYPE_OPTIONS.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </FilterCell>
+
+      <FilterCell label="State" explainerKey="state">
+        <input
+          value={state === "all" ? "" : state}
+          onChange={(event) =>
+            onWriteParams({ state: event.currentTarget.value || null })
+          }
+          className={FIELD_CLASS}
+          placeholder="State"
+          aria-label="State filter"
+        />
+      </FilterCell>
+
+      <FilterCell label="Sort" explainerKey="sort">
+        <select
+          value={sort}
+          onChange={(event) =>
+            onWriteParams({ sort: event.currentTarget.value })
+          }
+          className={FIELD_CLASS}
+          aria-label="Sort column"
+        >
+          {SORT_OPTIONS.map((option) => (
+            <option key={option.value} value={option.value}>
+              Sort: {option.label}
+            </option>
+          ))}
+        </select>
+      </FilterCell>
+
+      <FilterCell label="Direction" explainerKey="direction">
+        <button
+          type="button"
+          onClick={() =>
+            onWriteParams({
+              direction: direction === "asc" ? "desc" : "asc",
+            })
+          }
+          className="mt-1.5 inline-flex h-9 w-full items-center justify-center gap-2 border border-emerald-400/25 bg-emerald-400/10 px-3 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/16"
+          aria-label={`Sort direction ${direction}`}
+        >
+          {direction === "asc" ? (
+            <ArrowUpWideNarrow className="h-4 w-4" aria-hidden="true" />
+          ) : (
+            <ArrowDownWideNarrow className="h-4 w-4" aria-hidden="true" />
+          )}
+          {direction}
+        </button>
+      </FilterCell>
+
+      {PACKS_FACET_FILTERS.map(([key, label]) => (
+        <FilterCell
+          key={key}
+          label={label.replace(/ facet$/i, "")}
+          explainerKey={key as PacksFilterExplainerKey}
+        >
+          <input
+            value={
+              readParam(routeParams, key, "all") === "all"
+                ? ""
+                : readParam(routeParams, key)
+            }
+            onChange={(event) =>
+              onWriteParams({ [key]: event.currentTarget.value || null })
             }
             className={FIELD_CLASS}
-            aria-label="Sort column"
-          >
-            {SORT_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                Sort: {option.label}
-              </option>
-            ))}
-          </select>
-        </FilterField>
-
-        <FilterField label="Direction" explainerKey="direction" className="phone:col-span-2 laptop:col-span-1">
-          <button
-            type="button"
-            onClick={() =>
-              onWriteParams({
-                direction: direction === "asc" ? "desc" : "asc",
-              })
-            }
-            className="inline-flex h-10 w-full items-center justify-center gap-2 border border-emerald-400/25 bg-emerald-400/10 px-4 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/16 laptop:min-w-[5.75rem]"
-            aria-label={`Sort direction ${direction}`}
-          >
-            {direction === "asc" ? (
-              <ArrowUpWideNarrow className="h-4 w-4" aria-hidden="true" />
-            ) : (
-              <ArrowDownWideNarrow className="h-4 w-4" aria-hidden="true" />
-            )}
-            {direction}
-          </button>
-        </FilterField>
-      </div>
-
-      <div className="grid grid-cols-1 items-end gap-2.5 phone:grid-cols-2 tablet:grid-cols-4">
-        {PACKS_FACET_FILTERS.map(([key, label]) => (
-          <FilterField
-            key={key}
-            label={label.replace(/ facet$/i, "")}
-            explainerKey={key as PacksFilterExplainerKey}
-          >
-            <input
-              value={
-                readParam(routeParams, key, "all") === "all"
-                  ? ""
-                  : readParam(routeParams, key)
-              }
-              onChange={(event) =>
-                onWriteParams({ [key]: event.currentTarget.value || null })
-              }
-              className={`${FIELD_CLASS} text-xs`}
-              placeholder={label}
-              aria-label={label}
-            />
-          </FilterField>
-        ))}
-      </div>
+            placeholder={label}
+            aria-label={label}
+          />
+        </FilterCell>
+      ))}
     </div>
   );
 }

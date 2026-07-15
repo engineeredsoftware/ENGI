@@ -44,6 +44,7 @@ describe('BitcodeTransactionsActiveFilters', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Clear all filters' }));
     expect(onResetFilters).toHaveBeenCalled();
+    expect(screen.getByTestId('bitcode-transactions-clear-filters')).toBeTruthy();
   });
 
   it('renders nothing when the transaction filters are at default posture', () => {

@@ -103,18 +103,11 @@ export function ReadsPipelinesMaster({
             runsError={runsError}
             transactionDataMode="live"
             surface="pipelines"
+            onRefresh={onRefresh}
+            refreshLabel="Refresh Read"
           />
         </div>
       ) : null}
-      {/* Keep refresh available for keyboard/screen readers via table chrome when master is open. */}
-      <button
-        type="button"
-        onClick={onRefresh}
-        className="sr-only"
-        aria-label="Refresh Read pipelines"
-      >
-        Refresh
-      </button>
     </section>
   );
 }

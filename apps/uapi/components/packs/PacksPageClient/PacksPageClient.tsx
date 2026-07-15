@@ -70,14 +70,14 @@ export default function PacksPageClient() {
       title="Pack activity"
       summary="Network AssetPack ledger: select a row for source-safe proof, settlement, compensation, and delivery."
       icon={Package}
+      // Hold chips until activity summary loads so the set enters once.
+      metricsReady={!isLoading}
       metrics={[
         {
           label: "Rows",
           description:
             "How many PackActivity rows match the current filters in the network ledger.",
-          value: isLoading
-            ? "reading"
-            : formatCount(summary?.total || records.length),
+          value: formatCount(summary?.total || records.length),
         },
         {
           label: "Positions",

@@ -41,13 +41,17 @@ export function PacksActivityTable({
   onWriteParams,
 }: PacksActivityTableProps) {
   return (
-    <div className="overflow-x-auto">
+    // Deposit/Read data-table twin: bordered shell, not nested inside filters.
+    <div
+      data-testid="packs-activity-data-table-shell"
+      className="mt-4 min-h-[20rem] overflow-x-auto border border-white/8 bg-[rgba(4,8,18,0.84)]"
+    >
       <table
         data-testid="packs-enterprise-activity-grid"
         aria-label="Pack activity economic operation table"
         className="min-w-full border-separate border-spacing-0 text-left"
       >
-        <thead className="sticky top-0 z-10 bg-[#050915] text-[0.66rem] uppercase tracking-[0.18em] text-neutral-500">
+        <thead className="sticky top-0 z-10 bg-[rgba(4,8,18,0.96)] text-[0.66rem] uppercase tracking-[0.18em] text-neutral-500">
           <tr>
             <th className="border-b border-white/10 px-4 py-3 font-medium">
               Pack
