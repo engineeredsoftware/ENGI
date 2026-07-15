@@ -37,6 +37,7 @@ import {
   pickDepositSourceSamplePaths,
   pickDepositSourceSamples,
 } from "@/lib/deposit-source-samples";
+import { bitcodeServerTelemetry } from "@/lib/bitcode-server-telemetry";
 
 /**
  * Path/sample catalog for the depositor checkout (scope + prompts).
@@ -201,7 +202,40 @@ export async function runDepositInBoxHost(input: {
     });
   }
 
-  const result = await host.runHostPlan(plan);
+  // Source-safe create summary for always-on logs (no tokens / no full env).
+  const createSummary = {
+    image: plan.createOptions.image ?? null,
+    runtime: plan.createOptions.runtime ?? null,
+    name: plan.createOptions.name ?? null,
+    persistent: plan.createOptions.persistent === true,
+    timeoutMs: plan.createOptions.timeout ?? null,
+    hasGitSource: Boolean(plan.createOptions.source),
+    synthesizeMode: plan.manifest.synthesizeMode ?? null,
+    repositoryFullName: input.repositoryFullName,
+  };
+  bitcodeServerTelemetry("info", "deposit-sandbox-host", "plan-ready", createSummary);
+
+  let result: Awaited<ReturnType<DepositInBoxHost["runHostPlan"]>>;
+  try {
+    result = await host.runHostPlan(plan);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    bitcodeServerTelemetry("error", "deposit-sandbox-host", "run-failed", {
+      ...createSummary,
+      message: message.slice(0, 500),
+    });
+    throw error;
+  }
+  bitcodeServerTelemetry("info", "deposit-sandbox-host", "run-complete", {
+    ...createSummary,
+    outcome: result?.outcome ?? null,
+    sandboxId: result?.sandboxId ?? null,
+    optionCount: Array.isArray(
+      (result?.artifacts?.evidence as { depositOptions?: unknown[] } | null)?.depositOptions,
+    )
+      ? (result!.artifacts!.evidence as { depositOptions: unknown[] }).depositOptions.length
+      : null,
+  });
   if (result?.outcome === "cancelled") {
     return {
       options: [],

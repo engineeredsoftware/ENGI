@@ -317,7 +317,25 @@ export type PipelineHostEvent =
       type: 'sandbox-create-started';
       timestamp: string;
       runtime?: VercelSandboxRuntime;
+      /** VCR image ref when using Pipeliner (source-safe). */
+      image?: string | null;
       mode: PipelineHostMode;
+      hasSource?: boolean;
+      persistent?: boolean;
+      name?: string;
+      timeoutMs?: number;
+    }
+  | {
+      type: 'sandbox-create-failed';
+      timestamp: string;
+      mode: PipelineHostMode;
+      image?: string | null;
+      runtime?: VercelSandboxRuntime;
+      hasSource?: boolean;
+      name?: string;
+      /** Expanded API error (no secrets). */
+      message: string;
+      httpStatus?: number | null;
     }
   | {
       type: 'sandbox-created';
@@ -327,6 +345,7 @@ export type PipelineHostEvent =
       name?: string;
       persistent?: boolean;
       status?: string;
+      image?: string | null;
     }
   | {
       type: 'sandbox-cancelled';

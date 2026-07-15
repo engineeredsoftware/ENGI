@@ -49,16 +49,18 @@ export class VercelSandboxPipelineHost {
     // be explicit false for one-shot deposit/read hosts (Snapshot Storage
     // is billed separately). normalizeCreateOptions enforces that + a unique name.
     const createOptions = normalizeCreateOptions(plan.createOptions);
+    const createStartedAt = new Date().toISOString();
     await this.emit({
       type: 'sandbox-create-started',
-      timestamp: new Date().toISOString(),
+      timestamp: createStartedAt,
       runtime: createOptions.runtime,
-      // Source-safe: image ref only (no tokens). Helps diagnose create 400s.
       image: createOptions.image ?? null,
       mode: plan.manifest.hostMode,
       hasSource: Boolean(createOptions.source),
       persistent: createOptions.persistent === true,
-    } as PipelineHostEvent);
+      name: createOptions.name,
+      timeoutMs: createOptions.timeout,
+    });
     let sandbox: SandboxSession;
     try {
       sandbox = await withTimeout(
@@ -67,7 +69,20 @@ export class VercelSandboxPipelineHost {
         `Vercel Sandbox create did not complete within ${this.sandboxCreateTimeoutMs}ms.`,
       );
     } catch (error) {
-      throw new Error(formatSandboxApiError(error, 'Sandbox.create'), { cause: error });
+      const message = formatSandboxApiError(error, 'Sandbox.create');
+      const httpStatus = extractSandboxHttpStatus(error);
+      await this.emit({
+        type: 'sandbox-create-failed',
+        timestamp: new Date().toISOString(),
+        mode: plan.manifest.hostMode,
+        image: createOptions.image ?? null,
+        runtime: createOptions.runtime,
+        hasSource: Boolean(createOptions.source),
+        name: createOptions.name,
+        message,
+        httpStatus,
+      });
+      throw new Error(message, { cause: error });
     }
     const sandboxIdentity = resolveSandboxIdentity(sandbox, createOptions.name);
     await this.emit({
@@ -77,6 +92,7 @@ export class VercelSandboxPipelineHost {
       name: sandboxIdentity.name,
       persistent: createOptions.persistent === true,
       status: sandbox.status,
+      image: createOptions.image ?? null,
     });
     const commands: PipelineHostCommandResult[] = [];
     let stopped = false;
@@ -481,58 +497,125 @@ export function normalizeCreateOptions(
   };
 }
 
+type SandboxErrorShape = Error & {
+  json?: unknown;
+  text?: string;
+  response?: { status?: number; statusText?: string };
+  sandboxName?: string;
+  cause?: unknown;
+};
+
+function collectErrorChain(error: unknown, depth = 0): SandboxErrorShape[] {
+  if (depth > 5 || error == null) return [];
+  if (!(error instanceof Error)) return [];
+  const chain = [error as SandboxErrorShape];
+  const cause = (error as SandboxErrorShape).cause;
+  if (cause) chain.push(...collectErrorChain(cause, depth + 1));
+  return chain;
+}
+
+function detailFromJsonBody(body: Record<string, unknown>): string {
+  const msg =
+    (typeof body.message === 'string' && body.message) ||
+    (typeof body.error === 'string' && body.error) ||
+    (body.error &&
+      typeof body.error === 'object' &&
+      typeof (body.error as { message?: string }).message === 'string' &&
+      (body.error as { message: string }).message) ||
+    null;
+  const code =
+    (typeof body.code === 'string' && body.code) ||
+    (body.error &&
+      typeof body.error === 'object' &&
+      typeof (body.error as { code?: string }).code === 'string' &&
+      (body.error as { code: string }).code) ||
+    null;
+  const joined = [code, msg].filter(Boolean).join(': ');
+  if (joined) return joined;
+  try {
+    return JSON.stringify(body).slice(0, 500);
+  } catch {
+    return '';
+  }
+}
+
 /**
  * Expand Vercel Sandbox SDK APIError ("Status code 400 is not ok") with response
  * body fields so Production logs / UI can show the real reject reason.
+ * Walks `error.cause` so wrappers still expose the SDK body.
  */
 export function formatSandboxApiError(error: unknown, phase: string): string {
   if (!(error instanceof Error)) {
     return `${phase} failed: ${String(error)}`;
   }
-  const anyErr = error as Error & {
-    json?: unknown;
-    text?: string;
-    response?: { status?: number; statusText?: string };
-    sandboxName?: string;
-  };
-  const status = anyErr.response?.status;
-  const statusText = anyErr.response?.statusText;
+  const chain = collectErrorChain(error);
+  let status: number | undefined;
+  let statusText: string | undefined;
   let detail = '';
-  if (anyErr.json && typeof anyErr.json === 'object') {
-    const body = anyErr.json as Record<string, unknown>;
-    const msg =
-      (typeof body.message === 'string' && body.message) ||
-      (typeof body.error === 'string' && body.error) ||
-      (body.error &&
-        typeof body.error === 'object' &&
-        typeof (body.error as { message?: string }).message === 'string' &&
-        (body.error as { message: string }).message) ||
-      null;
-    const code =
-      (typeof body.code === 'string' && body.code) ||
-      (body.error &&
-        typeof body.error === 'object' &&
-        typeof (body.error as { code?: string }).code === 'string' &&
-        (body.error as { code: string }).code) ||
-      null;
-    detail = [code, msg].filter(Boolean).join(': ');
-    if (!detail) {
-      try {
-        detail = JSON.stringify(body).slice(0, 400);
-      } catch {
-        detail = '';
-      }
+  const messages: string[] = [];
+
+  for (const entry of chain) {
+    if (entry.message?.trim()) messages.push(entry.message.trim());
+    if (typeof entry.response?.status === 'number') {
+      status = entry.response.status;
+      statusText = entry.response.statusText;
     }
-  } else if (typeof anyErr.text === 'string' && anyErr.text.trim()) {
-    detail = anyErr.text.trim().slice(0, 400);
+    if (!detail && entry.json && typeof entry.json === 'object') {
+      detail = detailFromJsonBody(entry.json as Record<string, unknown>);
+    }
+    if (!detail && typeof entry.text === 'string' && entry.text.trim()) {
+      detail = entry.text.trim().slice(0, 500);
+    }
   }
-  const base = error.message?.trim() || 'unknown error';
+
+  const base =
+    messages.find((m) => !/^Status code \d+ is not ok$/.test(m)) ||
+    messages[0] ||
+    'unknown error';
   const statusPart =
     typeof status === 'number' ? `HTTP ${status}${statusText ? ` ${statusText}` : ''}` : null;
-  const parts = [`${phase} failed`, statusPart, base !== `Status code ${status} is not ok` ? base : null, detail]
+  const parts = [`${phase} failed`, statusPart, base, detail]
     .filter(Boolean)
     .filter((part, index, arr) => arr.indexOf(part) === index);
   return parts.join(' — ');
+}
+
+export function extractSandboxHttpStatus(error: unknown): number | null {
+  for (const entry of collectErrorChain(error)) {
+    if (typeof entry.response?.status === 'number') return entry.response.status;
+  }
+  return null;
+}
+
+/** Source-safe summary of create options for always-on server logs. */
+export function summarizeSandboxCreateOptions(
+  createOptions: PipelineHostPlan['createOptions'],
+): Record<string, unknown> {
+  const source = createOptions.source;
+  return {
+    name: createOptions.name ?? null,
+    image: createOptions.image ?? null,
+    runtime: createOptions.runtime ?? null,
+    persistent: createOptions.persistent === true,
+    timeoutMs: createOptions.timeout ?? null,
+    hasToken: Boolean(createOptions.token),
+    hasTeamId: Boolean(createOptions.teamId),
+    hasProjectId: Boolean(createOptions.projectId),
+    networkPolicy:
+      typeof createOptions.networkPolicy === 'string'
+        ? createOptions.networkPolicy
+        : createOptions.networkPolicy
+          ? 'custom'
+          : null,
+    sourceType: source && typeof source === 'object' && 'type' in source ? source.type : null,
+    sourceHasAuth: Boolean(
+      source &&
+        typeof source === 'object' &&
+        'password' in source &&
+        (source as { password?: string }).password,
+    ),
+    envKeyCount: createOptions.env ? Object.keys(createOptions.env).length : 0,
+  };
 }
 
 function resolveSandboxIdentity(

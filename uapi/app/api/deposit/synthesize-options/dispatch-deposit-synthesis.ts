@@ -172,45 +172,84 @@ export async function runDepositOptionSynthesis(
 
     if (hostKind === 'sandbox') {
       await assertNotCancelled();
-      await emitStatus(
-        `Dispatching deposit synthesis to the sandbox host (in-box) for ${repositoryFullName}@${reference}…`,
-      );
-      const hostResult = await runDepositInBoxHost({
+      const sandboxImage = process.env.BITCODE_PIPELINE_SANDBOX_IMAGE?.trim() || null;
+      bitcodeServerTelemetry('info', 'deposit-synthesize-options', 'sandbox-dispatch', {
+        userId: compactBitcodeServerId(userId),
         repositoryFullName,
+        runId,
+        hostKind,
+        image: sandboxImage,
         revision: reference,
-        branch: sourceBranch,
-        commit: sourceCommit,
-        token: auth.accessToken,
-        obfuscations,
-        forcedExclusions,
-        demandContext,
-        shouldAbort: () => isExecutionCancelled(supabaseAdmin, runId),
-        onEvent: (event) => {
-          void emitStatus(`sandbox: ${event.type}`);
-          if (event.type === 'sandbox-created' && event.sandboxId) {
-            boundSandboxId = event.sandboxId;
-            void mergeDispatchContext({
-              sandboxId: event.sandboxId,
-              hostKind: 'sandbox',
-            });
-          }
-        },
       });
-      boundSandboxId = hostResult.sandboxId ?? boundSandboxId;
-      if (hostResult.outcome === 'cancelled') {
-        throw new ExecutionCancelledError(runId);
+      await emitStatus(
+        `Dispatching deposit synthesis to the sandbox host (in-box) for ${repositoryFullName}@${reference}` +
+          (sandboxImage ? ` [image=${sandboxImage}]` : ' [stock runtime]') +
+          '…',
+      );
+      try {
+        const hostResult = await runDepositInBoxHost({
+          repositoryFullName,
+          revision: reference,
+          branch: sourceBranch,
+          commit: sourceCommit,
+          token: auth.accessToken,
+          obfuscations,
+          forcedExclusions,
+          demandContext,
+          shouldAbort: () => isExecutionCancelled(supabaseAdmin, runId),
+          onEvent: (event) => {
+            if (event.type === 'sandbox-create-started') {
+              void emitStatus(
+                `sandbox: create-started image=${event.image ?? 'none'} runtime=${event.runtime ?? 'none'} source=${event.hasSource ? 'git' : 'none'}`,
+              );
+            } else if (event.type === 'sandbox-create-failed') {
+              void emitStatus(`sandbox: create-failed ${event.message}`);
+            } else if (event.type === 'sandbox-created') {
+              void emitStatus(
+                `sandbox: created id=${event.sandboxId ?? event.name ?? 'unknown'} image=${event.image ?? 'none'}`,
+              );
+            } else {
+              void emitStatus(`sandbox: ${event.type}`);
+            }
+            if (event.type === 'sandbox-created' && event.sandboxId) {
+              boundSandboxId = event.sandboxId;
+              void mergeDispatchContext({
+                sandboxId: event.sandboxId,
+                hostKind: 'sandbox',
+                image: sandboxImage,
+              });
+            }
+          },
+        });
+        boundSandboxId = hostResult.sandboxId ?? boundSandboxId;
+        if (hostResult.outcome === 'cancelled') {
+          throw new ExecutionCancelledError(runId);
+        }
+        rawOptions = hostResult.options as Parameters<typeof validateDepositSynthesisOptions>[0];
+        inventoryPaths = [
+          ...new Set((rawOptions || []).flatMap((option: any) => option?.coveredSourcePaths || [])),
+        ] as string[];
+        sourceCatalog = {
+          paths: inventoryPaths,
+          samples: [],
+          sources: [],
+          totalPathCount: inventoryPaths.length,
+          excludedPathCount: 0,
+        };
+      } catch (sandboxError) {
+        const message =
+          sandboxError instanceof Error ? sandboxError.message : String(sandboxError);
+        bitcodeServerTelemetry('error', 'deposit-synthesize-options', 'sandbox-path-failed', {
+          userId: compactBitcodeServerId(userId),
+          repositoryFullName,
+          runId,
+          image: sandboxImage,
+          message: message.slice(0, 600),
+        });
+        throw sandboxError instanceof Error
+          ? sandboxError
+          : new Error(message);
       }
-      rawOptions = hostResult.options as Parameters<typeof validateDepositSynthesisOptions>[0];
-      inventoryPaths = [
-        ...new Set((rawOptions || []).flatMap((option: any) => option?.coveredSourcePaths || [])),
-      ] as string[];
-      sourceCatalog = {
-        paths: inventoryPaths,
-        samples: [],
-        sources: [],
-        totalPathCount: inventoryPaths.length,
-        excludedPathCount: 0,
-      };
     } else {
       await assertNotCancelled();
       // Init is not cloning: wire a run-scoped LocalHost cloner for Setup only.

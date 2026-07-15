@@ -5,6 +5,7 @@ import { pathToFileURL } from 'node:url';
 import { buildAssetPackSandboxHostPlan } from '@bitcode/pipeline-hosts';
 import {
   assertVercelSandboxAuthAvailable,
+  formatSandboxApiError,
   normalizeCreateOptions,
   resolveVercelSandboxEsmEntryHref,
   resolveVercelSandboxPackageRoot,
@@ -418,6 +419,19 @@ describe('VercelSandboxPipelineHost', () => {
     const href = resolveVercelSandboxEsmEntryHref();
     expect(href.startsWith('file:')).toBe(true);
     expect(href.endsWith('/dist/index.js') || href.endsWith('\\dist\\index.js')).toBe(true);
+  });
+
+  it('expands sandbox API 400 with response JSON for operators', () => {
+    const apiError = Object.assign(new Error('Status code 400 is not ok'), {
+      response: { status: 400, statusText: 'Bad Request' },
+      json: { error: { code: 'invalid_image', message: 'image not found in project' } },
+    });
+    const wrapped = new Error('wrapper', { cause: apiError });
+    const message = formatSandboxApiError(wrapped, 'Sandbox.create');
+    expect(message).toContain('Sandbox.create failed');
+    expect(message).toContain('HTTP 400');
+    expect(message).toContain('invalid_image');
+    expect(message).toContain('image not found in project');
   });
 
   it('accepts access-token auth when OIDC is absent', () => {
