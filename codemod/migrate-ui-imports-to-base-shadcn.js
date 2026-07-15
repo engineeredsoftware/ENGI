@@ -1,11 +1,15 @@
 /**
  * Codemod: migrate imports from `@/components/ui/<mod>` to `@/components/shadcn/<mod>`
  *
+ * Temporary script — lives under repo-root `codemod/` (see codemod/README.md).
+ *
  * Usage (dry run):
- *   npx jscodeshift -d -p -t scripts/codemods/migrate-ui-imports-to-base-shadcn.js  *     'apps/uapi/app/**/*.tsx' 'apps/uapi/components/vcs/**/*.tsx'
+ *   npx jscodeshift -d -p -t codemod/migrate-ui-imports-to-base-shadcn.js \
+ *     'apps/uapi/app/**/*.tsx' 'apps/uapi/components/**/*.tsx'
  *
  * Apply changes:
- *   npx jscodeshift -t scripts/codemods/migrate-ui-imports-to-base-shadcn.js  *     'apps/uapi/app/**/*.tsx' 'apps/uapi/components/vcs/**/*.tsx'
+ *   npx jscodeshift -t codemod/migrate-ui-imports-to-base-shadcn.js \
+ *     'apps/uapi/app/**/*.tsx' 'apps/uapi/components/**/*.tsx'
  */
 
 export default function transformer(fileInfo, api) {

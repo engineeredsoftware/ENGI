@@ -27,6 +27,16 @@ apps/uapi/app/{page shells} → compose only; no heavy logic
 **Monorepo roots:** `packages/` (shared libs), `apps/` (uapi, mcp, chatgpt, claude),
 `images/` (pipeliner).
 
+**Tooling homes (not product runtime):**
+
+| Path | Role |
+| --- | --- |
+| `scripts/` | Durable automation: gate checkers, canon/promotion, CI helpers |
+| `codemod/` | **Temporary** one-off code-modification scripts for this repo (see `codemod/README.md`) |
+
+Do not nest temporary codemods under `apps/uapi` or other app packages. Prefer
+deleting a codemod after its migration is merged and verified.
+
 **Never:** experience → experience. **Never:** page client → another page client.
 **Never:** packages → apps. **Never:** new Terminal product surface.
 
@@ -438,7 +448,8 @@ bitcode/
 │ ├── types/
 │ ├── tests/ # route/page contracts, e2e helpers
 │ └── .storybook/stories/
-├── scripts/ # gate checkers, promotion, tooling
+├── scripts/ # durable gate checkers, promotion, tooling
+├── codemod/ # temporary one-off codemods (see codemod/README.md)
 ├── supabase/
 └── _legacy/ # historical specs only — do not implement from
 ```
