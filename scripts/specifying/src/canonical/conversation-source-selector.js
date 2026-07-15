@@ -273,11 +273,11 @@ export function buildConversationSourceSelector(input = {}) {
   const repoRoot = input.repoRoot || path.resolve(__dirname, '../../../..');
   const generatedAt = input.generatedAt || '2026-05-24T00:00:00.000Z';
   const sharedSourceRoots = [
-    'BITCODE_SPEC_V37.md',
-    'BITCODE_SPEC_V37_DELTA.md',
-    'BITCODE_SPEC_V37_NOTES.md',
-    'BITCODE_SPEC_V37_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/BITCODE_SPEC_V37.md',
+    'specifications/BITCODE_SPEC_V37_DELTA.md',
+    'specifications/BITCODE_SPEC_V37_NOTES.md',
+    'specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
     'scripts/specifying/src/canonical/conversation-source-selector.js',
     'scripts/specifying/test/conversation-source-selector.test.js',
     'scripts/generate-v37-conversation-source-selector.mjs',

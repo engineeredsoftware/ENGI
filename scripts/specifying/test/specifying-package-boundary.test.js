@@ -45,7 +45,7 @@ test('@bitcode/specifying does not import the standalone protocol demonstration'
 
 test('@bitcode/specifying commercial formalization exports package-native canon helpers', async () => {
   const protocol = await import('../src/index.js');
-  const pointer = readFileSync(path.join(repoRoot, 'BITCODE_SPEC.txt'), 'utf8').trim();
+  const pointer = readFileSync(path.join(repoRoot, 'specifications/BITCODE_SPEC.txt'), 'utf8').trim();
   const expectedPostureByPointer = {
     V28: { activeCanon: 'V28', draftTarget: 'V29' },
     V29: { activeCanon: 'V29', draftTarget: 'V30' },

@@ -23,7 +23,7 @@ test('builds source-safe V47 PromotionReadinessReport for V47 Promotion Readines
   assert.equal(report.postPromotionPosture, 'V47 active / V48 draft');
   assert.equal(report.branchProtection.versionBranch, 'version/v47');
   assert.equal(report.branchProtection.versionPromotionPullRequestTitlePrefix, 'V47 Canonical Promotion');
-  assert.equal(report.generatedArtifactPolicy.provenAppendixPath, 'BITCODE_SPEC_V47_PROVEN.md');
+  assert.equal(report.generatedArtifactPolicy.provenAppendixPath, 'specifications/BITCODE_SPEC_V47_PROVEN.md');
   assert.equal(report.coverage.gateArtifactCount, V47_PROMOTION_READINESS_GATE_ARTIFACT_PATHS.length);
   assert.deepEqual(report.coverage.generatedProofOutputs, [...V47_PROMOTION_READINESS_GENERATED_OUTPUTS]);
   assert.ok(report.validationCommands.includes('pnpm run check:v47-gate10'));

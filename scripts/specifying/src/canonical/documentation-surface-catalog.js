@@ -66,13 +66,13 @@ const catalogRows = Object.freeze([
     owner: 'scripts/specifying',
     disclosureClass: 'public_source_safe',
     sourceRoots: [
-      'BITCODE_SPEC.txt',
-      'BITCODE_SPEC_V35.md',
-      'BITCODE_SPEC_V35_DELTA.md',
-      'BITCODE_SPEC_V35_NOTES.md',
-      'BITCODE_SPEC_V35_PARITY_MATRIX.md',
+      'specifications/BITCODE_SPEC.txt',
+      'specifications/BITCODE_SPEC_V35.md',
+      'specifications/BITCODE_SPEC_V35_DELTA.md',
+      'specifications/BITCODE_SPEC_V35_NOTES.md',
+      'specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
       'BITCODE_SPECIFYING.md',
-      'BITCODE_SPEC_TEMPLATEGUIDE.md',
+      'specifications/BITCODE_SPEC_TEMPLATEGUIDE.md',
     ],
     linkedSpecSections: ['V35 source-of-truth hierarchy', 'V35 generated canon', 'V35 validation canon'],
     linkedGeneratedArtifacts: [
@@ -90,7 +90,7 @@ const catalogRows = Object.freeze([
     owner: 'repository-governance',
     disclosureClass: 'public_source_safe',
     sourceRoots: [
-      'SPECIFICATIONS_ROADMAP.md',
+      'specifications/SPECIFICATIONS_ROADMAP.md',
       'AGENTS.md',
       'README.md',
       '.github/pull_request_template.md',

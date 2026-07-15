@@ -30,7 +30,7 @@ export const V39_COMMERCIAL_READING_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Ob
 ]);
 
 export const V39_COMMERCIAL_READING_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
-  'BITCODE_SPEC_V39_PROVEN.md',
+  'specifications/BITCODE_SPEC_V39_PROVEN.md',
   '.bitcode/v39-spec-family-report.json',
   '.bitcode/v39-canonical-input-report.json',
   '.bitcode/v39-canon-posture-drift-report.json',
@@ -109,7 +109,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('scripts/prepare-bitcode-spec-family-promotion.mjs', [
     "if (version === 'V39')",
     'V39 canonical system specification for commercial Reading readiness',
-    'BITCODE_SPEC_V39_PROVEN.md',
+    'specifications/BITCODE_SPEC_V39_PROVEN.md',
     V39_COMMERCIAL_READING_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   ]),
   source('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
@@ -120,7 +120,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('.github/workflows/v39-canon-promotion.yml', [
     "head.ref == 'version/v39'",
     'npm run promote:canon -- --version V39',
-    'BITCODE_SPEC_V39_PROVEN.md',
+    'specifications/BITCODE_SPEC_V39_PROVEN.md',
     'Promote V39 canon files',
   ]),
   source('.github/workflows/bitcode-gate-quality.yml', [
@@ -153,29 +153,29 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
 ]);
 
 const REQUIRED_DOCUMENTATION_EVIDENCE = Object.freeze([
-  source('BITCODE_SPEC_V39.md', [
+  source('specifications/BITCODE_SPEC_V39.md', [
     'V39 promotion readiness canon',
     V39_COMMERCIAL_READING_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'V39 active / draft V40',
   ]),
-  source('BITCODE_SPEC_V39_DELTA.md', [
+  source('specifications/BITCODE_SPEC_V39_DELTA.md', [
     'Gate 11: V39 Promotion Readiness',
     V39_COMMERCIAL_READING_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'promotion scripts support V39',
   ]),
-  source('BITCODE_SPEC_V39_NOTES.md', [
+  source('specifications/BITCODE_SPEC_V39_NOTES.md', [
     'Gate 11: V39 Promotion Readiness',
     V39_COMMERCIAL_READING_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'active V39 / draft V40',
   ]),
-  source('BITCODE_SPEC_V39_PARITY_MATRIX.md', [
+  source('specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md', [
     '## Gate 11 Promotion readiness parity',
     V39_COMMERCIAL_READING_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'closed',
   ]),
-  source('SPECIFICATIONS_ROADMAP.md', [
+  source('specifications/SPECIFICATIONS_ROADMAP.md', [
     'V39 Gate 11 closure anchor',
-    'BITCODE_SPEC_V39_PROVEN.md',
+    'specifications/BITCODE_SPEC_V39_PROVEN.md',
   ]),
   source('README.md', [
     'check:v39-gate11',
@@ -355,7 +355,7 @@ export function buildV39CommercialReadingPromotionReadinessReport(input = {}) {
     allGateArtifactsCovered: missingGateArtifacts.length === 0,
     allGateArtifactsParseable: unparseableGateArtifacts.length === 0,
     allGateArtifactsSourceSafe: sourceUnsafeGateArtifacts.length === 0,
-    generatedProofOutputsCovered: V39_COMMERCIAL_READING_PROMOTION_READINESS_GENERATED_OUTPUTS.includes('BITCODE_SPEC_V39_PROVEN.md'),
+    generatedProofOutputsCovered: V39_COMMERCIAL_READING_PROMOTION_READINESS_GENERATED_OUTPUTS.includes('specifications/BITCODE_SPEC_V39_PROVEN.md'),
     promotionWorkflowCovered: sourceEvidence.some((entry) => entry.relativePath === '.github/workflows/v39-canon-promotion.yml' && allTokensPresent(entry)),
     gateQualityWorkflowCovered: sourceEvidence.some((entry) => entry.relativePath === '.github/workflows/bitcode-gate-quality.yml' && allTokensPresent(entry)),
     canonQualityWorkflowCovered: sourceEvidence.some((entry) => entry.relativePath === '.github/workflows/bitcode-canon-quality.yml' && allTokensPresent(entry)),
@@ -397,7 +397,7 @@ export function buildV39CommercialReadingPromotionReadinessReport(input = {}) {
       versionPromotionPullRequestTitlePrefix: 'V39 Canonical Promotion',
     },
     generatedArtifactPolicy: {
-      provenAppendixPath: 'BITCODE_SPEC_V39_PROVEN.md',
+      provenAppendixPath: 'specifications/BITCODE_SPEC_V39_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
       generatedArtifactPrefix: '.bitcode/v39-',
       promotionOverwritesPreviewArtifacts: true,

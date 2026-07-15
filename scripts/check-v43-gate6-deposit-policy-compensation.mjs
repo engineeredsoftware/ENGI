@@ -67,7 +67,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V42', `BITCODE_SPEC.txt must remain V42 during V43 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -92,11 +92,11 @@ function main() {
     'scripts/specifying/test/v43-deposit-policy-compensation.test.js',
     'scripts/generate-v43-deposit-policy-compensation.mjs',
     'scripts/check-v43-gate6-deposit-policy-compensation.mjs',
-    'BITCODE_SPEC_V43.md',
-    'BITCODE_SPEC_V43_DELTA.md',
-    'BITCODE_SPEC_V43_NOTES.md',
-    'BITCODE_SPEC_V43_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/BITCODE_SPEC_V43.md',
+    'specifications/BITCODE_SPEC_V43_DELTA.md',
+    'specifications/BITCODE_SPEC_V43_NOTES.md',
+    'specifications/BITCODE_SPEC_V43_PARITY_MATRIX.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',

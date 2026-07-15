@@ -229,7 +229,7 @@ function categorizeFile(relativePath, content) {
   if (relativePath.startsWith('.github/workflows/')) categories.add('workflow');
   if (relativePath.startsWith('scripts/')) categories.add('script');
   if (relativePath.startsWith('packages/')) categories.add('package');
-  if (relativePath.startsWith('BITCODE_SPEC') || relativePath === 'SPECIFICATIONS_ROADMAP.md') {
+  if (relativePath.startsWith('specifications/BITCODE_SPEC') || relativePath === 'specifications/SPECIFICATIONS_ROADMAP.md') {
     categories.add('spec');
   }
   if (/(telemetry|stream|execution|log)/iu.test(relativePath) || /(telemetry|stream|execution|log)/iu.test(content)) {
@@ -386,11 +386,11 @@ export const V43_ROUTE_VOCABULARY_MIGRATION_ROWS = Object.freeze([
 ]);
 
 function buildPredicateResults(repoRoot, scan) {
-  const spec = readSource(repoRoot, 'BITCODE_SPEC_V43.md');
-  const delta = readSource(repoRoot, 'BITCODE_SPEC_V43_DELTA.md');
-  const notes = readSource(repoRoot, 'BITCODE_SPEC_V43_NOTES.md');
-  const parity = readSource(repoRoot, 'BITCODE_SPEC_V43_PARITY_MATRIX.md');
-  const roadmap = readSource(repoRoot, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = readSource(repoRoot, 'specifications/BITCODE_SPEC_V43.md');
+  const delta = readSource(repoRoot, 'specifications/BITCODE_SPEC_V43_DELTA.md');
+  const notes = readSource(repoRoot, 'specifications/BITCODE_SPEC_V43_NOTES.md');
+  const parity = readSource(repoRoot, 'specifications/BITCODE_SPEC_V43_PARITY_MATRIX.md');
+  const roadmap = readSource(repoRoot, 'specifications/SPECIFICATIONS_ROADMAP.md');
   const readme = readSource(repoRoot, 'README.md');
   const protocolReadme = readSource(repoRoot, 'scripts/specifying/README.md');
   const packageJson = readSource(repoRoot, 'package.json');
@@ -404,15 +404,15 @@ function buildPredicateResults(repoRoot, scan) {
   return [
     predicateResult(
       'active-canon-pointer-supports-v43-route-migration-posture',
-      'BITCODE_SPEC.txt',
-      bitcodeVersionAtLeast(readSource(repoRoot, 'BITCODE_SPEC.txt'), 'V42'),
+      'specifications/BITCODE_SPEC.txt',
+      bitcodeVersionAtLeast(readSource(repoRoot, 'specifications/BITCODE_SPEC.txt'), 'V42'),
     ),
-    predicateResult('spec-defines-gate2-inventory', 'BITCODE_SPEC_V43.md', spec.includes('V43 Gate 2') && spec.includes('route vocabulary inventory')),
-    predicateResult('spec-defines-migration-matrix', 'BITCODE_SPEC_V43.md', spec.includes('migration matrix') && spec.includes('retained debug cockpit')),
-    predicateResult('delta-records-gate2-artifact', 'BITCODE_SPEC_V43_DELTA.md', delta.includes('v43-route-vocabulary-inventory')),
-    predicateResult('notes-record-gate2-artifact', 'BITCODE_SPEC_V43_NOTES.md', notes.includes('v43-route-vocabulary-inventory')),
-    predicateResult('parity-records-gate2-artifact', 'BITCODE_SPEC_V43_PARITY_MATRIX.md', parity.includes('v43-route-vocabulary-inventory')),
-    predicateResult('roadmap-records-gate2-closure', 'SPECIFICATIONS_ROADMAP.md', roadmap.includes('V43 Gate 2 closure anchor')),
+    predicateResult('spec-defines-gate2-inventory', 'specifications/BITCODE_SPEC_V43.md', spec.includes('V43 Gate 2') && spec.includes('route vocabulary inventory')),
+    predicateResult('spec-defines-migration-matrix', 'specifications/BITCODE_SPEC_V43.md', spec.includes('migration matrix') && spec.includes('retained debug cockpit')),
+    predicateResult('delta-records-gate2-artifact', 'specifications/BITCODE_SPEC_V43_DELTA.md', delta.includes('v43-route-vocabulary-inventory')),
+    predicateResult('notes-record-gate2-artifact', 'specifications/BITCODE_SPEC_V43_NOTES.md', notes.includes('v43-route-vocabulary-inventory')),
+    predicateResult('parity-records-gate2-artifact', 'specifications/BITCODE_SPEC_V43_PARITY_MATRIX.md', parity.includes('v43-route-vocabulary-inventory')),
+    predicateResult('roadmap-records-gate2-closure', 'specifications/SPECIFICATIONS_ROADMAP.md', roadmap.includes('V43 Gate 2 closure anchor')),
     predicateResult('readme-records-gate2', 'README.md', readme.includes('V43 Gate 2')),
     predicateResult('protocol-readme-records-gate2', 'scripts/specifying/README.md', protocolReadme.includes('V43 Gate 2')),
     predicateResult('package-exposes-gate2-scripts', 'package.json', packageJson.includes('"generate:v43-route-vocabulary-inventory"') && packageJson.includes('"check:v43-gate2"')),

@@ -6,7 +6,7 @@ const repoRoot = process.cwd();
 
 const checks = [
   {
-    file: 'BITCODE_SPEC_V28.md',
+    file: 'specifications/BITCODE_SPEC_V28.md',
     needles: [
       'Gate 9: Commercial Depositing And Depository Evidence',
       'source-bound depository evidence',

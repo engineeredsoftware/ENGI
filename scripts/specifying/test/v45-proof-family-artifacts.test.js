@@ -77,7 +77,7 @@ test('keeps generated V45 proof artifacts source-safe', () => {
     assert.equal(artifact.theoremInventory.length > 0, true);
     assert.equal(artifact.replayStepInventory.length > 0, true);
     assert.equal(artifact.witnessArtifactInventory.length > 0, true);
-    assert.equal(artifact.generatedArtifactInventory.includes('BITCODE_SPEC_V45_PROVEN.md'), true);
+    assert.equal(artifact.generatedArtifactInventory.includes('specifications/BITCODE_SPEC_V45_PROVEN.md'), true);
     assertNoForbiddenMarkers(artifact);
   }
 });

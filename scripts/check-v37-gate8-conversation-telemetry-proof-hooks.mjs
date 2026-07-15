@@ -150,7 +150,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -190,11 +190,11 @@ function main() {
     'docs/conversations.md',
     'internal-docs/BITCODE_CONVERSATIONS.md',
     'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
-    'BITCODE_SPEC_V37.md',
-    'BITCODE_SPEC_V37_DELTA.md',
-    'BITCODE_SPEC_V37_NOTES.md',
-    'BITCODE_SPEC_V37_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/BITCODE_SPEC_V37.md',
+    'specifications/BITCODE_SPEC_V37_DELTA.md',
+    'specifications/BITCODE_SPEC_V37_NOTES.md',
+    'specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
     'apps/uapi/app/conversations/README.md',
@@ -368,7 +368,7 @@ function main() {
   assertCheck(failures, packageJson.scripts?.['check:v37-gate8'], 'package.json must expose check:v37-gate8.');
   assertCheck(failures, packageJson.scripts?.['generate:v37-conversation-telemetry-proof-hooks'], 'package.json must expose telemetry proof hook generation.');
 
-  const spec = read(root, 'BITCODE_SPEC_V37.md');
+  const spec = read(root, 'specifications/BITCODE_SPEC_V37.md');
   assertCheck(failures, spec.includes('ConversationTelemetryProofHooks'), 'V37 spec must document ConversationTelemetryProofHooks.');
   assertCheck(failures, spec.includes(ARTIFACT_PATH), 'V37 spec must list the telemetry proof hooks artifact.');
 

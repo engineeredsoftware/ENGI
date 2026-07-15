@@ -444,11 +444,11 @@ function buildPredicateResults(repoRoot) {
   const packageJson = readSource(repoRoot, 'package.json');
   const gateWorkflow = readSource(repoRoot, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = readSource(repoRoot, '.github/workflows/bitcode-canon-quality.yml');
-  const spec = readSource(repoRoot, 'BITCODE_SPEC_V40.md');
-  const delta = readSource(repoRoot, 'BITCODE_SPEC_V40_DELTA.md');
-  const notes = readSource(repoRoot, 'BITCODE_SPEC_V40_NOTES.md');
-  const parity = readSource(repoRoot, 'BITCODE_SPEC_V40_PARITY_MATRIX.md');
-  const roadmap = readSource(repoRoot, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40.md');
+  const delta = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40_DELTA.md');
+  const notes = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40_NOTES.md');
+  const parity = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md');
+  const roadmap = readSource(repoRoot, 'specifications/SPECIFICATIONS_ROADMAP.md');
   const protocolIndex = readSource(repoRoot, 'scripts/specifying/src/index.js');
   const protocolTypes = readSource(repoRoot, 'scripts/specifying/src/index.d.ts');
 
@@ -483,13 +483,13 @@ function buildPredicateResults(repoRoot) {
     predicateResult('workflows-run-gate5-check', '.github/workflows/bitcode-gate-quality.yml', gateWorkflow.includes('check-v40-gate5-reading-pipeline-integration.mjs') && canonWorkflow.includes('check-v40-gate5-reading-pipeline-integration.mjs')),
     predicateResult('gate-quality-runs-reading-integration-test', '.github/workflows/bitcode-gate-quality.yml', gateWorkflow.includes('reading-pipeline-integration-coverage.test.ts')),
     predicateResult('protocol-exports-gate5', 'scripts/specifying/src/index.js', protocolIndex.includes('buildV40ReadingPipelineIntegrationCoverage') && protocolTypes.includes('buildV40ReadingPipelineIntegrationCoverage')),
-    predicateResult('spec-documents-gate5', 'BITCODE_SPEC_V40.md', spec.includes('V40 Gate 5 Reading Pipeline Integration Coverage') && spec.includes(V40_READING_PIPELINE_INTEGRATION_COVERAGE_ARTIFACT_PATH)),
-    predicateResult('delta-documents-gate5', 'BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 5 closes with package-backed `V40ReadingPipelineIntegrationCoverage`')),
-    predicateResult('notes-document-gate5', 'BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 5 implementation notes') && notes.includes('Reading pipeline integration coverage')),
-    predicateResult('parity-documents-gate5', 'BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-reading-pipeline-integration-coverage') && parity.includes('| Gate 5 | Reading pipeline integration artifact | implemented |')),
+    predicateResult('spec-documents-gate5', 'specifications/BITCODE_SPEC_V40.md', spec.includes('V40 Gate 5 Reading Pipeline Integration Coverage') && spec.includes(V40_READING_PIPELINE_INTEGRATION_COVERAGE_ARTIFACT_PATH)),
+    predicateResult('delta-documents-gate5', 'specifications/BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 5 closes with package-backed `V40ReadingPipelineIntegrationCoverage`')),
+    predicateResult('notes-document-gate5', 'specifications/BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 5 implementation notes') && notes.includes('Reading pipeline integration coverage')),
+    predicateResult('parity-documents-gate5', 'specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-reading-pipeline-integration-coverage') && parity.includes('| Gate 5 | Reading pipeline integration artifact | implemented |')),
     predicateResult(
       'roadmap-advanced-through-gate5',
-      'SPECIFICATIONS_ROADMAP.md',
+      'specifications/SPECIFICATIONS_ROADMAP.md',
       roadmap.includes('V40 Gate 5 closure anchor') &&
         (/Current working gate: V40 Gate (?:5|6|7|8|9|10|11)\b/u.test(roadmap) ||
           roadmap.includes('Latest closed version: V40 Exhaustive Commercial Application Testing') ||
@@ -497,7 +497,7 @@ function buildPredicateResults(repoRoot) {
     ),
     predicateResult(
       'roadmap-preserves-v41-prompt-programs',
-      'SPECIFICATIONS_ROADMAP.md',
+      'specifications/SPECIFICATIONS_ROADMAP.md',
       roadmap.includes('| V41 | `BITCODE_SPEC_V41.md` |') &&
         roadmap.includes('Prompt and PromptPart excellence') &&
         roadmap.includes('prompts as programs'),

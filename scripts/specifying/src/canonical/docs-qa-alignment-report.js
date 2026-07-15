@@ -54,10 +54,10 @@ const alignmentRows = Object.freeze([
     alignmentClass: 'spec_family',
     owner: 'scripts/specifying',
     checkedSources: [
-      'BITCODE_SPEC_V35.md',
-      'BITCODE_SPEC_V35_DELTA.md',
-      'BITCODE_SPEC_V35_NOTES.md',
-      'BITCODE_SPEC_V35_PARITY_MATRIX.md',
+      'specifications/BITCODE_SPEC_V35.md',
+      'specifications/BITCODE_SPEC_V35_DELTA.md',
+      'specifications/BITCODE_SPEC_V35_NOTES.md',
+      'specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
     ],
     expectedTokens: [
       'DocsQaAlignmentReport',
@@ -77,7 +77,7 @@ const alignmentRows = Object.freeze([
     alignmentClass: 'roadmap_and_readme',
     owner: 'root-workspace',
     checkedSources: [
-      'SPECIFICATIONS_ROADMAP.md',
+      'specifications/SPECIFICATIONS_ROADMAP.md',
       'README.md',
       'scripts/specifying/README.md',
     ],
@@ -101,7 +101,7 @@ const alignmentRows = Object.freeze([
     alignmentClass: 'generated_artifact_inventory',
     owner: 'scripts/specifying',
     checkedSources: [
-      'BITCODE_SPEC_V35.md',
+      'specifications/BITCODE_SPEC_V35.md',
       'scripts/specifying/src/canonical/v21-specifying.js',
       'package.json',
       '.bitcode/v35-documentation-surface-catalog.json',
@@ -252,12 +252,12 @@ const alignmentRows = Object.freeze([
     alignmentClass: 'generated_proof_appendix',
     owner: 'scripts/specifying',
     checkedSources: [
-      'BITCODE_SPEC_V35.md',
+      'specifications/BITCODE_SPEC_V35.md',
       'scripts/specifying/src/canonical/proven-generator.js',
-      'BITCODE_SPEC_V34_PROVEN.md',
+      'specifications/BITCODE_SPEC_V34_PROVEN.md',
     ],
     expectedTokens: [
-      'BITCODE_SPEC_V35_PROVEN.md',
+      'specifications/BITCODE_SPEC_V35_PROVEN.md',
       'Generated proof appendix',
       'generateCanonicalProvenMarkdown',
       'generated artifact',

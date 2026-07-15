@@ -128,7 +128,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V44', `BITCODE_SPEC.txt must remain V44 during V45 Gate 17 work. Observed ${pointer || 'empty'}.`);
 
@@ -148,10 +148,10 @@ function main() {
     'scripts/generate-v45-source-safe-e2e-rehearsal.mjs',
     'scripts/check-v45-gate17-source-safe-e2e-rehearsal.mjs',
     'scripts/rehearse-v45-source-safe-e2e.mjs',
-    'BITCODE_SPEC_V45.md',
-    'BITCODE_SPEC_V45_DELTA.md',
-    'BITCODE_SPEC_V45_NOTES.md',
-    'BITCODE_SPEC_V45_PARITY_MATRIX.md',
+    'specifications/BITCODE_SPEC_V45.md',
+    'specifications/BITCODE_SPEC_V45_DELTA.md',
+    'specifications/BITCODE_SPEC_V45_NOTES.md',
+    'specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
     'README.md',
     'scripts/specifying/README.md',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -241,10 +241,10 @@ function main() {
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const spec = read(root, 'BITCODE_SPEC_V45.md');
-  const delta = read(root, 'BITCODE_SPEC_V45_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V45_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V45_PARITY_MATRIX.md');
+  const spec = read(root, 'specifications/BITCODE_SPEC_V45.md');
+  const delta = read(root, 'specifications/BITCODE_SPEC_V45_DELTA.md');
+  const notes = read(root, 'specifications/BITCODE_SPEC_V45_NOTES.md');
+  const parity = read(root, 'specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md');
   const rootReadme = read(root, 'README.md');
   const protocolReadme = read(root, 'scripts/specifying/README.md');
 

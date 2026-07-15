@@ -71,11 +71,11 @@ const SHARED_ALLOWED_DISCLOSURE = Object.freeze([
 ]);
 
 const SHARED_SOURCE_ROOTS = Object.freeze([
-  'BITCODE_SPEC_V35.md',
-  'BITCODE_SPEC_V35_DELTA.md',
-  'BITCODE_SPEC_V35_NOTES.md',
-  'BITCODE_SPEC_V35_PARITY_MATRIX.md',
-  'SPECIFICATIONS_ROADMAP.md',
+  'specifications/BITCODE_SPEC_V35.md',
+  'specifications/BITCODE_SPEC_V35_DELTA.md',
+  'specifications/BITCODE_SPEC_V35_NOTES.md',
+  'specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
+  'specifications/SPECIFICATIONS_ROADMAP.md',
   'README.md',
   '.bitcode/v34-environment-lane-contracts.json',
   '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
@@ -336,7 +336,7 @@ const guideRows = Object.freeze([
     purpose: 'Make rollout blockers auditable, source-safe, and fail-closed before public testnet or mainnet dry-run claims.',
     laneIds: ['staging-testnet', 'public-testnet', 'mainnet-ready-dry-run', 'value-bearing-mainnet'],
     workflowStages: ['blocker-inventory', 'docs-qa-check', 'runbook-check', 'rehearsal-check', 'promotion-decision'],
-    sourceRoots: ['SPECIFICATIONS_ROADMAP.md', 'internal-docs/README.md', '.bitcode/v35-docs-qa-alignment-report.json'],
+    sourceRoots: ['specifications/SPECIFICATIONS_ROADMAP.md', 'internal-docs/README.md', '.bitcode/v35-docs-qa-alignment-report.json'],
     reproducibleCommands: [
       'pnpm run check:v35-gate6',
       'pnpm run check:v35-gate7',
@@ -368,7 +368,7 @@ const guideRows = Object.freeze([
     sourceRoots: [
       '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
       '.bitcode/v34-promotion-readiness-report.json',
-      'BITCODE_SPEC_V34_PROVEN.md',
+      'specifications/BITCODE_SPEC_V34_PROVEN.md',
     ],
     reproducibleCommands: [
       'pnpm run check:v34-gate9',

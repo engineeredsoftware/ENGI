@@ -73,16 +73,20 @@ function specFamilyPrefix(activeCanonVersion, draftTargetVersion = '') {
  * @param {string} repoRoot
  * @param {string} activeCanonVersion
  * @param {string} [draftTargetVersion='']
- * @returns {string}
+ * @returns {string} path relative to repo root
  */
 function resolveSpecPointerFilename(repoRoot, activeCanonVersion, draftTargetVersion = '') {
-  const preferred = `${specFamilyPrefix(activeCanonVersion, draftTargetVersion)}.txt`;
-  if (existsSync(path.join(repoRoot, preferred))) return preferred;
+  const preferredBase = `${specFamilyPrefix(activeCanonVersion, draftTargetVersion)}.txt`;
+  const preferredUnderSpecs = path.join('specifications', preferredBase);
+  if (existsSync(path.join(repoRoot, preferredUnderSpecs))) return preferredUnderSpecs;
+  if (existsSync(path.join(repoRoot, preferredBase))) return preferredBase;
 
-  const fallback = preferred === 'BITCODE_SPEC.txt' ? 'ENGI_SPEC.txt' : 'BITCODE_SPEC.txt';
-  if (existsSync(path.join(repoRoot, fallback))) return fallback;
+  const fallbackBase = preferredBase === 'BITCODE_SPEC.txt' ? 'ENGI_SPEC.txt' : 'BITCODE_SPEC.txt';
+  const fallbackUnderSpecs = path.join('specifications', fallbackBase);
+  if (existsSync(path.join(repoRoot, fallbackUnderSpecs))) return fallbackUnderSpecs;
+  if (existsSync(path.join(repoRoot, fallbackBase))) return fallbackBase;
 
-  return preferred;
+  return preferredUnderSpecs;
 }
 
 /**

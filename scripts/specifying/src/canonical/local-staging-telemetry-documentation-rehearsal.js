@@ -80,11 +80,11 @@ const REQUIRED_PHASES = Object.freeze([
 ]);
 
 const SHARED_SOURCE_ROOTS = Object.freeze([
-  'BITCODE_SPEC_V35.md',
-  'BITCODE_SPEC_V35_DELTA.md',
-  'BITCODE_SPEC_V35_NOTES.md',
-  'BITCODE_SPEC_V35_PARITY_MATRIX.md',
-  'SPECIFICATIONS_ROADMAP.md',
+  'specifications/BITCODE_SPEC_V35.md',
+  'specifications/BITCODE_SPEC_V35_DELTA.md',
+  'specifications/BITCODE_SPEC_V35_NOTES.md',
+  'specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
+  'specifications/SPECIFICATIONS_ROADMAP.md',
   '.bitcode/v35-documentation-surface-catalog.json',
   '.bitcode/v35-telemetry-taxonomy-catalog.json',
   '.bitcode/v35-public-docs-usage-guides.json',
@@ -229,7 +229,7 @@ const rehearsalRows = Object.freeze([
       'workflow_checker_alignment',
     ],
     rolloutGuideIds: ['known_blockers', 'rehearsal_evidence'],
-    sourceRoots: ['BITCODE_SPEC_V35_PARITY_MATRIX.md', 'scripts/specifying/src/canonical/docs-qa-alignment-report.js'],
+    sourceRoots: ['specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md', 'scripts/specifying/src/canonical/docs-qa-alignment-report.js'],
     docsLinks: ['/docs/what-is-bitcode', '/docs/proofs', '/docs/auxillaries'],
     evidenceRoots: [
       'rehearsal.docs-qa.stale-token-blocker.root',

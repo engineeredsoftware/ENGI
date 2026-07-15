@@ -1164,10 +1164,10 @@ async function main() {
   const isRootBitcodeSpecFamily = /^V\d+$/.test(version) && Number(version.slice(1)) >= 26;
   const files = isRootBitcodeSpecFamily
     ? [
-        ['spec', path.join(resolvedRepoRoot, `BITCODE_SPEC_${version}.md`)],
-        ['delta', path.join(resolvedRepoRoot, `BITCODE_SPEC_${version}_DELTA.md`)],
-        ['notes', path.join(resolvedRepoRoot, `BITCODE_SPEC_${version}_NOTES.md`)],
-        ['parity', path.join(resolvedRepoRoot, `BITCODE_SPEC_${version}_PARITY_MATRIX.md`)]
+        ['spec', path.join(resolvedRepoRoot, 'specifications', `BITCODE_SPEC_${version}.md`)],
+        ['delta', path.join(resolvedRepoRoot, 'specifications', `BITCODE_SPEC_${version}_DELTA.md`)],
+        ['notes', path.join(resolvedRepoRoot, 'specifications', `BITCODE_SPEC_${version}_NOTES.md`)],
+        ['parity', path.join(resolvedRepoRoot, 'specifications', `BITCODE_SPEC_${version}_PARITY_MATRIX.md`)]
       ]
     : [
         ['spec', path.join(resolvedRepoRoot, `_legacy/ENGI_SPEC_${version}.md`)],

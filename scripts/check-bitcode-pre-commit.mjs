@@ -12,9 +12,10 @@ const defaultRepoRoot = path.resolve(__dirname, '..');
 const defaultQualityScript = path.join(defaultRepoRoot, 'scripts/run-bitcode-spec-quality.mjs');
 
 const SPEC_RELEVANT_PATHS = [
-  /^BITCODE_SPEC(?:IFYING)?(?:_.*)?\.md$/u,
-  /^BITCODE_SPEC\.txt$/u,
-  /^packages\/protocol\/src\/canonical\/v21-specifying\.js$/u,
+  /^specifications\/BITCODE_SPEC(?:IFYING)?(?:_.*)?\.md$/u,
+  /^specifications\/BITCODE_SPEC\.txt$/u,
+  /^specifications\/SPECIFICATIONS_ROADMAP\.md$/u,
+  /^scripts\/specifying\//u,
   /^package\.json$/u,
   /^scripts\/(?:check-bitcode-|check-v28-metadevelopment-readiness|check-v29-gate1-objectives-and-gating|prepare-bitcode-spec-family-promotion|prepare-bitcode-runtime-canon-promotion|promote-bitcode-canon|run-bitcode-spec-quality|setup-bitcode-git-hooks)/u,
   /^\.githooks\/(?:pre-commit|commit-msg)$/u,
@@ -55,7 +56,7 @@ export function isSpecRelevantPath(stagedPath) {
 export function runPreCommitCheck({ repoRoot, qualityScript }) {
   let activeVersion = ACTIVE_CANON_VERSION;
   try {
-    activeVersion = readFileSync(path.join(repoRoot, 'BITCODE_SPEC.txt'), 'utf8').trim() || ACTIVE_CANON_VERSION;
+    activeVersion = readFileSync(path.join(repoRoot, 'specifications/BITCODE_SPEC.txt'), 'utf8').trim() || ACTIVE_CANON_VERSION;
   } catch {
     activeVersion = ACTIVE_CANON_VERSION;
   }

@@ -112,7 +112,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -145,11 +145,11 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts',
     'apps/uapi/app/api/read-review/route.ts',
     'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'BITCODE_SPEC_V38.md',
-    'BITCODE_SPEC_V38_DELTA.md',
-    'BITCODE_SPEC_V38_NOTES.md',
-    'BITCODE_SPEC_V38_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/BITCODE_SPEC_V38.md',
+    'specifications/BITCODE_SPEC_V38_DELTA.md',
+    'specifications/BITCODE_SPEC_V38_NOTES.md',
+    'specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
     'package.json',
@@ -238,11 +238,11 @@ function main() {
     assertCheck(failures, artifact.coverage.legacySourceRoots === false, 'Gate 6 artifact must not point at _legacy roots.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V38.md');
-  const delta = read(root, 'BITCODE_SPEC_V38_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V38_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, 'specifications/BITCODE_SPEC_V38.md');
+  const delta = read(root, 'specifications/BITCODE_SPEC_V38_DELTA.md');
+  const notes = read(root, 'specifications/BITCODE_SPEC_V38_NOTES.md');
+  const parity = read(root, 'specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md');
+  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
   const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');

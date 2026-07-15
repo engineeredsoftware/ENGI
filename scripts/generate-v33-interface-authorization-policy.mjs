@@ -151,10 +151,10 @@ export function buildV33InterfaceAuthorizationPolicyArtifact() {
     ]),
   ];
   const docsEvidence = [
-    scanTokens('BITCODE_SPEC_V33.md', ['InterfaceAuthorizationPolicy', 'Gate 5']),
-    scanTokens('BITCODE_SPEC_V33_DELTA.md', ['Interface Authorization Policy Fail-Closed']),
-    scanTokens('BITCODE_SPEC_V33_PARITY_MATRIX.md', ['Interface authorization policy']),
-    scanTokens('SPECIFICATIONS_ROADMAP.md', ['V33 Gate 5 Interface Authorization Policy Fail-Closed']),
+    scanTokens('specifications/BITCODE_SPEC_V33.md', ['InterfaceAuthorizationPolicy', 'Gate 5']),
+    scanTokens('specifications/BITCODE_SPEC_V33_DELTA.md', ['Interface Authorization Policy Fail-Closed']),
+    scanTokens('specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md', ['Interface authorization policy']),
+    scanTokens('specifications/SPECIFICATIONS_ROADMAP.md', ['V33 Gate 5 Interface Authorization Policy Fail-Closed']),
   ];
   const observedSurfaces = Array.from(new Set(fixtureRows.map((row) => row.interfaceSurface))).sort();
   const missingSurfaces = requiredSurfaces.filter((surface) => !observedSurfaces.includes(surface));

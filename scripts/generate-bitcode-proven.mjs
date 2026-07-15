@@ -219,7 +219,7 @@ async function main() {
     throw new Error(`Unsupported worktree state ${worktreeState}. Expected clean or dirty-preview.`);
   }
 
-  const version = (args.version || (await fs.readFile(path.join(repoRoot, 'BITCODE_SPEC.txt'), 'utf8')).trim());
+  const version = (args.version || (await fs.readFile(path.join(repoRoot, 'specifications/BITCODE_SPEC.txt'), 'utf8')).trim());
   if (!/^V\d+$/.test(version)) {
     throw new Error(`Resolved canonical version must look like VN. Received ${version}.`);
   }

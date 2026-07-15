@@ -91,7 +91,7 @@ export function buildV32PromotionProofGenerationHardeningArtifact() {
     scanTokens('scripts/promote-bitcode-canon.mjs', [
       '--dry-run',
       'canonical promotion plan',
-      'BITCODE_SPEC.txt',
+      'specifications/BITCODE_SPEC.txt',
     ]),
     scanTokens('.github/workflows/bitcode-gate-quality.yml', [
       'check-v32-gate9-promotion-proof-generation-hardening.mjs',
@@ -111,25 +111,25 @@ export function buildV32PromotionProofGenerationHardeningArtifact() {
     ]),
   ];
   const documentationEvidence = [
-    scanTokens('BITCODE_SPEC_V32.md', [
+    scanTokens('specifications/BITCODE_SPEC_V32.md', [
       'Gate 9 promotion proof precision',
       '.bitcode/v32-promotion-proof-generation-hardening.json',
       'source-safe generated artifact diffs',
     ]),
-    scanTokens('BITCODE_SPEC_V32_DELTA.md', [
+    scanTokens('specifications/BITCODE_SPEC_V32_DELTA.md', [
       'Gate 9 hardens V32 promotion proof generation',
       '.bitcode/v32-promotion-proof-generation-hardening.json',
     ]),
-    scanTokens('BITCODE_SPEC_V32_NOTES.md', [
+    scanTokens('specifications/BITCODE_SPEC_V32_NOTES.md', [
       'dry-run and check modes',
       '.bitcode/v32-promotion-proof-generation-hardening.json',
     ]),
-    scanTokens('BITCODE_SPEC_V32_PARITY_MATRIX.md', [
+    scanTokens('specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md', [
       'V32 proof generation supports dry-run/check modes',
       '.bitcode/v32-promotion-proof-generation-hardening.json',
       'drafted',
     ]),
-    scanTokens('SPECIFICATIONS_ROADMAP.md', [
+    scanTokens('specifications/SPECIFICATIONS_ROADMAP.md', [
       'Current working gate: V32 Gate 10',
       'Promotion Readiness',
     ]),

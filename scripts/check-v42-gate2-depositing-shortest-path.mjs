@@ -87,7 +87,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -121,11 +121,11 @@ function main() {
     'apps/uapi/app/terminal/terminal-run-data.ts',
     'scripts/generate-v42-depositing-shortest-path.mjs',
     'scripts/check-v42-gate2-depositing-shortest-path.mjs',
-    'BITCODE_SPEC_V42.md',
-    'BITCODE_SPEC_V42_DELTA.md',
-    'BITCODE_SPEC_V42_NOTES.md',
-    'BITCODE_SPEC_V42_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/BITCODE_SPEC_V42.md',
+    'specifications/BITCODE_SPEC_V42_DELTA.md',
+    'specifications/BITCODE_SPEC_V42_NOTES.md',
+    'specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
     'package.json',
@@ -211,8 +211,8 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 2 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V42.md');
-  const parity = read(root, 'BITCODE_SPEC_V42_PARITY_MATRIX.md');
+  const spec = read(root, 'specifications/BITCODE_SPEC_V42.md');
+  const parity = read(root, 'specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md');
   const readme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('V42 Gate 2') && spec.includes('compensation route preview'), 'V42 spec must expand Gate 2 compensation route preview.');
   assertCheck(failures, parity.includes('Gate 2') && parity.includes('implemented'), 'V42 parity matrix must mark Gate 2 implemented.');

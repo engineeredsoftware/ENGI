@@ -107,7 +107,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -138,11 +138,11 @@ function main() {
     'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
     'scripts/generate-v33-interface-authorization-policy.mjs',
     'scripts/check-v33-gate5-interface-authorization-policy.mjs',
-    'BITCODE_SPEC_V33.md',
-    'BITCODE_SPEC_V33_DELTA.md',
-    'BITCODE_SPEC_V33_NOTES.md',
-    'BITCODE_SPEC_V33_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/BITCODE_SPEC_V33.md',
+    'specifications/BITCODE_SPEC_V33_DELTA.md',
+    'specifications/BITCODE_SPEC_V33_NOTES.md',
+    'specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     'scripts/specifying/src/canonical/v21-specifying.js',
@@ -202,11 +202,11 @@ function main() {
   const chatgptTest = read(root, 'apps/chatgpt/src/__tests__/tools.test.ts');
   const terminalTest = read(root, 'apps/uapi/tests/terminalOrganizationAuthority.test.ts');
   const specs = [
-    read(root, 'BITCODE_SPEC_V33.md'),
-    read(root, 'BITCODE_SPEC_V33_DELTA.md'),
-    read(root, 'BITCODE_SPEC_V33_NOTES.md'),
-    read(root, 'BITCODE_SPEC_V33_PARITY_MATRIX.md'),
-    read(root, 'SPECIFICATIONS_ROADMAP.md'),
+    read(root, 'specifications/BITCODE_SPEC_V33.md'),
+    read(root, 'specifications/BITCODE_SPEC_V33_DELTA.md'),
+    read(root, 'specifications/BITCODE_SPEC_V33_NOTES.md'),
+    read(root, 'specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md'),
+    read(root, 'specifications/SPECIFICATIONS_ROADMAP.md'),
   ].join('\n');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const packageJson = read(root, 'package.json');

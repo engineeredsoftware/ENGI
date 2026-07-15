@@ -66,7 +66,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V45', `BITCODE_SPEC.txt must remain V45 during V46 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -85,11 +85,11 @@ function main() {
     'scripts/specifying/test/v46-proof-readback-operator-explanation.test.js',
     'scripts/generate-v46-proof-readback-operator-explanation.mjs',
     'scripts/check-v46-gate6-proof-readback-operator-explanation.mjs',
-    'BITCODE_SPEC_V46.md',
-    'BITCODE_SPEC_V46_DELTA.md',
-    'BITCODE_SPEC_V46_NOTES.md',
-    'BITCODE_SPEC_V46_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/BITCODE_SPEC_V46.md',
+    'specifications/BITCODE_SPEC_V46_DELTA.md',
+    'specifications/BITCODE_SPEC_V46_NOTES.md',
+    'specifications/BITCODE_SPEC_V46_PARITY_MATRIX.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
     'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
     'packages/btd/src/reconciliation.ts',
     'packages/btd/src/wallet.ts',

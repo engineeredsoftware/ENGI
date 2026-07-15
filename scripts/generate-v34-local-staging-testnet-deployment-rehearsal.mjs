@@ -237,10 +237,10 @@ function buildArtifact() {
     ]),
   ];
   const docsEvidence = [
-    evidence('BITCODE_SPEC_V34.md', ['DeploymentReadinessRehearsal', ARTIFACT_PATH]),
-    evidence('BITCODE_SPEC_V34_DELTA.md', ['DeploymentReadinessRehearsal', ARTIFACT_PATH]),
-    evidence('BITCODE_SPEC_V34_PARITY_MATRIX.md', ['DeploymentReadinessRehearsal', ARTIFACT_PATH]),
-    evidence('SPECIFICATIONS_ROADMAP.md', ['V34 Gate 9 closure anchor']),
+    evidence('specifications/BITCODE_SPEC_V34.md', ['DeploymentReadinessRehearsal', ARTIFACT_PATH]),
+    evidence('specifications/BITCODE_SPEC_V34_DELTA.md', ['DeploymentReadinessRehearsal', ARTIFACT_PATH]),
+    evidence('specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md', ['DeploymentReadinessRehearsal', ARTIFACT_PATH]),
+    evidence('specifications/SPECIFICATIONS_ROADMAP.md', ['V34 Gate 9 closure anchor']),
   ];
   const workflowEvidence = [
     evidence('.github/workflows/bitcode-gate-quality.yml', ['check-v34-gate9-local-staging-testnet-deployment-rehearsal.mjs', 'deployment-readiness-rehearsal.test.ts']),

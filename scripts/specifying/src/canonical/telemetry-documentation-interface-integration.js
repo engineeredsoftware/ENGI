@@ -75,9 +75,9 @@ const SHARED_CONTRACTS = Object.freeze([
 ]);
 
 const SHARED_SOURCE_ROOTS = Object.freeze([
-  'BITCODE_SPEC_V35.md',
-  'BITCODE_SPEC_V35_DELTA.md',
-  'BITCODE_SPEC_V35_PARITY_MATRIX.md',
+  'specifications/BITCODE_SPEC_V35.md',
+  'specifications/BITCODE_SPEC_V35_DELTA.md',
+  'specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
   '.bitcode/v35-documentation-surface-catalog.json',
   '.bitcode/v35-telemetry-taxonomy-catalog.json',
   '.bitcode/v35-public-docs-usage-guides.json',

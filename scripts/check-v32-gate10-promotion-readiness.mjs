@@ -107,7 +107,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -127,10 +127,10 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V32.md',
-    'BITCODE_SPEC_V32_DELTA.md',
-    'BITCODE_SPEC_V32_NOTES.md',
-    'BITCODE_SPEC_V32_PARITY_MATRIX.md',
+    'specifications/BITCODE_SPEC_V32.md',
+    'specifications/BITCODE_SPEC_V32_DELTA.md',
+    'specifications/BITCODE_SPEC_V32_NOTES.md',
+    'specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md',
     'BITCODE_V32_QA.md',
     ARTIFACT,
     'scripts/generate-v32-promotion-readiness-report.mjs',
@@ -149,7 +149,7 @@ function main() {
     'scripts/specifying/src/canonical/v21-specifying.js',
     'package.json',
     'README.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
   ];
 
   for (const relativePath of requiredFiles) {
@@ -164,10 +164,10 @@ function main() {
     }
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V32.md');
-  const delta = read(root, 'BITCODE_SPEC_V32_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V32_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V32_PARITY_MATRIX.md');
+  const spec = read(root, 'specifications/BITCODE_SPEC_V32.md');
+  const delta = read(root, 'specifications/BITCODE_SPEC_V32_DELTA.md');
+  const notes = read(root, 'specifications/BITCODE_SPEC_V32_NOTES.md');
+  const parity = read(root, 'specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md');
   const qa = read(root, 'BITCODE_V32_QA.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
@@ -182,7 +182,7 @@ function main() {
   const packageState = read(root, 'scripts/specifying/data/state.json');
   const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
 
   assertCheck(failures, spec.includes('V32 local and staging promotion readiness canon'), 'V32 SPEC must define local/staging promotion readiness canon.');
   assertCheck(failures, delta.includes('Gate 10: V32 Promotion Readiness') && delta.includes(ARTIFACT), 'V32 DELTA must define Gate 10 closure acceptance and artifact.');
@@ -224,7 +224,7 @@ function main() {
     failures,
     promotionWorkflow.includes("head.ref == 'version/v32'") &&
       promotionWorkflow.includes('npm run promote:canon -- --version V32') &&
-      promotionWorkflow.includes('BITCODE_SPEC_V32_PROVEN.md') &&
+      promotionWorkflow.includes('specifications/BITCODE_SPEC_V32_PROVEN.md') &&
       promotionWorkflow.includes('.bitcode') &&
       promotionWorkflow.includes('Promote V32 canon files'),
     'V32 promotion workflow must validate version/v32 and commit V32 promotion artifacts.',
@@ -259,7 +259,7 @@ function main() {
     failures,
     prepareSpecScript.includes("if (version === 'V32')") &&
       prepareSpecScript.includes('V32 canonical system specification for provation/testing') &&
-      prepareSpecScript.includes('BITCODE_SPEC_V32_PROVEN.md') &&
+      prepareSpecScript.includes('specifications/BITCODE_SPEC_V32_PROVEN.md') &&
       prepareSpecScript.includes('.bitcode/v32-promotion-readiness-report.json') &&
       prepareSpecScript.includes('rewritePromotedParityJudgments'),
     'Spec-family promotion preparation must rewrite V32 hand-authored status truth and promoted parity judgments.',
@@ -331,8 +331,8 @@ function main() {
     }
   }
 
-  if (fileExists(root, 'BITCODE_SPEC_V32_PROVEN.md')) {
-    const proven = read(root, 'BITCODE_SPEC_V32_PROVEN.md');
+  if (fileExists(root, 'specifications/BITCODE_SPEC_V32_PROVEN.md')) {
+    const proven = read(root, 'specifications/BITCODE_SPEC_V32_PROVEN.md');
     assertCheck(failures, proven.includes('Bitcode Spec V32') || proven.includes('V32'), 'BITCODE_SPEC_V32_PROVEN.md must render V32 proof content.');
   }
 

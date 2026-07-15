@@ -88,7 +88,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -124,11 +124,11 @@ function main() {
     'scripts/specifying/test/v42-readfitsfinding-preview-quote.test.js',
     'scripts/generate-v42-readfitsfinding-preview-quote.mjs',
     'scripts/check-v42-gate5-readfitsfinding-preview-quote.mjs',
-    'BITCODE_SPEC_V42.md',
-    'BITCODE_SPEC_V42_DELTA.md',
-    'BITCODE_SPEC_V42_NOTES.md',
-    'BITCODE_SPEC_V42_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/BITCODE_SPEC_V42.md',
+    'specifications/BITCODE_SPEC_V42_DELTA.md',
+    'specifications/BITCODE_SPEC_V42_NOTES.md',
+    'specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'apps/uapi/app/terminal/README.md',
     'packages/asset-packs-pipelines/domain/README.md',
@@ -249,8 +249,8 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 5 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V42.md');
-  const parity = read(root, 'BITCODE_SPEC_V42_PARITY_MATRIX.md');
+  const spec = read(root, 'specifications/BITCODE_SPEC_V42.md');
+  const parity = read(root, 'specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md');
   const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
   assertCheck(failures, spec.includes('V42 Gate 5') && spec.includes('v42-readfitsfinding-preview-quote'), 'V42 spec must expand Gate 5 ReadFitsFinding preview/quote closure.');
   assertCheck(failures, parity.includes('Finding Fits preview and quote') && parity.includes('implemented'), 'V42 parity matrix must mark Finding Fits preview and quote implemented.');

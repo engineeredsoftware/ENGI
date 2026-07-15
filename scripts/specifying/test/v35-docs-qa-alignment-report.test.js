@@ -89,7 +89,7 @@ test('binds docs QA to spec docs artifacts routes interfaces and workflows', () 
   assert.ok(byAlignmentId.get('internal_docs_alignment')?.checkedSources.includes('internal-docs/README.md'));
   assert.ok(byAlignmentId.get('route_docs_alignment')?.checkedSources.includes('packages/api/README.md'));
   assert.ok(byAlignmentId.get('interface_docs_alignment')?.checkedSources.includes('apps/chatgpt/README.md'));
-  assert.ok(byAlignmentId.get('generated_proof_appendix_alignment')?.expectedTokens.includes('BITCODE_SPEC_V35_PROVEN.md'));
+  assert.ok(byAlignmentId.get('generated_proof_appendix_alignment')?.expectedTokens.includes('specifications/BITCODE_SPEC_V35_PROVEN.md'));
   assert.ok(byAlignmentId.get('workflow_checker_alignment')?.expectedTokens.includes('check:v35-gate6'));
   assert.ok(byAlignmentId.get('workflow_checker_alignment')?.expectedTokens.includes('check:v35-gate8'));
   assert.ok(byAlignmentId.get('workflow_checker_alignment')?.expectedTokens.includes('check:v35-gate9'));

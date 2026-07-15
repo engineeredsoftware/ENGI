@@ -55,12 +55,12 @@ export const V46_LOCAL_INTERFACE_REHEARSAL_REQUIRED_ARTIFACT_IDS = Object.freeze
 ]);
 
 const SOURCE_PATHS = Object.freeze({
-  activePointer: 'BITCODE_SPEC.txt',
-  spec: 'BITCODE_SPEC_V46.md',
-  delta: 'BITCODE_SPEC_V46_DELTA.md',
-  notes: 'BITCODE_SPEC_V46_NOTES.md',
-  parity: 'BITCODE_SPEC_V46_PARITY_MATRIX.md',
-  roadmap: 'SPECIFICATIONS_ROADMAP.md',
+  activePointer: 'specifications/BITCODE_SPEC.txt',
+  spec: 'specifications/BITCODE_SPEC_V46.md',
+  delta: 'specifications/BITCODE_SPEC_V46_DELTA.md',
+  notes: 'specifications/BITCODE_SPEC_V46_NOTES.md',
+  parity: 'specifications/BITCODE_SPEC_V46_PARITY_MATRIX.md',
+  roadmap: 'specifications/SPECIFICATIONS_ROADMAP.md',
   readme: 'README.md',
   protocolReadme: 'scripts/specifying/README.md',
   packageJson: 'package.json',

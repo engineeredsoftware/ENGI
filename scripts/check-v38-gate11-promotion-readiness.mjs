@@ -101,7 +101,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
   const promotedPointer = args.promotionMode && pointer === 'V38';
 
   assertCheck(
@@ -122,10 +122,10 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V38.md',
-    'BITCODE_SPEC_V38_DELTA.md',
-    'BITCODE_SPEC_V38_NOTES.md',
-    'BITCODE_SPEC_V38_PARITY_MATRIX.md',
+    'specifications/BITCODE_SPEC_V38.md',
+    'specifications/BITCODE_SPEC_V38_DELTA.md',
+    'specifications/BITCODE_SPEC_V38_NOTES.md',
+    'specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md',
     ARTIFACT_PATH,
     'scripts/generate-v38-promotion-readiness-report.mjs',
     'scripts/check-v38-gate11-promotion-readiness.mjs',
@@ -145,7 +145,7 @@ function main() {
     'scripts/specifying/src/canonical/v21-specifying.js',
     'package.json',
     'README.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
     ...V38_GATE_ARTIFACTS,
   ];
 
@@ -219,10 +219,10 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V38.md');
-  const delta = read(root, 'BITCODE_SPEC_V38_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V38_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V38_PARITY_MATRIX.md');
+  const spec = read(root, 'specifications/BITCODE_SPEC_V38.md');
+  const delta = read(root, 'specifications/BITCODE_SPEC_V38_DELTA.md');
+  const notes = read(root, 'specifications/BITCODE_SPEC_V38_NOTES.md');
+  const parity = read(root, 'specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
@@ -233,7 +233,7 @@ function main() {
   const provenGenerator = read(root, 'scripts/specifying/src/canonical/proven-generator.js');
   const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
 
   assertCheck(failures, spec.includes('V38 promotion readiness canon'), 'V38 SPEC must define promotion readiness canon.');
   assertCheck(failures, spec.includes(ARTIFACT_PATH) && spec.includes('V38 active / draft V39'), 'V38 SPEC must include Gate 11 artifact and post-promotion posture.');

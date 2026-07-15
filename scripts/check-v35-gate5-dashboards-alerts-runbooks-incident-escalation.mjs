@@ -119,7 +119,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -146,11 +146,11 @@ function main() {
     'scripts/generate-v35-operator-runbook-catalog.mjs',
     'scripts/check-v35-gate5-dashboards-alerts-runbooks-incident-escalation.mjs',
     'scripts/specifying/src/canonical/v21-specifying.js',
-    'BITCODE_SPEC_V35.md',
-    'BITCODE_SPEC_V35_DELTA.md',
-    'BITCODE_SPEC_V35_NOTES.md',
-    'BITCODE_SPEC_V35_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/BITCODE_SPEC_V35.md',
+    'specifications/BITCODE_SPEC_V35_DELTA.md',
+    'specifications/BITCODE_SPEC_V35_NOTES.md',
+    'specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
     'package.json',
@@ -254,11 +254,11 @@ function main() {
   assertCheck(failures, workflow.includes('check-v35-gate5-dashboards-alerts-runbooks-incident-escalation.mjs'), 'Gate workflow must run V35 Gate 5 checker when present.');
   assertCheck(failures, workflow.includes('test/v35-operator-runbook-catalog.test.js'), 'Gate workflow must run V35 operator runbook package test.');
 
-  const spec = read(root, 'BITCODE_SPEC_V35.md');
+  const spec = read(root, 'specifications/BITCODE_SPEC_V35.md');
   assertCheck(failures, spec.includes('V35 OperatorRunbookCatalog canon'), 'V35 spec must include OperatorRunbookCatalog canon section.');
   assertCheck(failures, spec.includes(ARTIFACT_PATH), 'V35 spec must name operator runbook artifact.');
 
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
   assertCheck(failures, roadmap.includes('V35 Gate 5 closure anchor'), 'Roadmap must include V35 Gate 5 closure anchor.');
 
   if (failures.length > 0) {

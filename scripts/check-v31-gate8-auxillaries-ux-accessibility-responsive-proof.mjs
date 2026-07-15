@@ -62,7 +62,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -86,11 +86,11 @@ function main() {
     'apps/uapi/styles/auxillaries-bitcode.css',
     'apps/uapi/tests/auxillariesContent.access.test.tsx',
     'apps/uapi/tests/auxillariesWorkspacePanels.access.test.tsx',
-    'BITCODE_SPEC_V31.md',
-    'BITCODE_SPEC_V31_DELTA.md',
-    'BITCODE_SPEC_V31_NOTES.md',
-    'BITCODE_SPEC_V31_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/BITCODE_SPEC_V31.md',
+    'specifications/BITCODE_SPEC_V31_DELTA.md',
+    'specifications/BITCODE_SPEC_V31_NOTES.md',
+    'specifications/BITCODE_SPEC_V31_PARITY_MATRIX.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
     'apps/uapi/app/auxillaries/README.md',
   ]) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V31 Gate 8 file: ${relativePath}`);
@@ -102,11 +102,11 @@ function main() {
   const css = read(root, 'apps/uapi/styles/auxillaries-bitcode.css');
   const contentTest = read(root, 'apps/uapi/tests/auxillariesContent.access.test.tsx');
   const panelsTest = read(root, 'apps/uapi/tests/auxillariesWorkspacePanels.access.test.tsx');
-  const spec = read(root, 'BITCODE_SPEC_V31.md');
-  const delta = read(root, 'BITCODE_SPEC_V31_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V31_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V31_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, 'specifications/BITCODE_SPEC_V31.md');
+  const delta = read(root, 'specifications/BITCODE_SPEC_V31_DELTA.md');
+  const notes = read(root, 'specifications/BITCODE_SPEC_V31_NOTES.md');
+  const parity = read(root, 'specifications/BITCODE_SPEC_V31_PARITY_MATRIX.md');
+  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
   const auxReadme = read(root, 'apps/uapi/app/auxillaries/README.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');

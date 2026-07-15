@@ -451,11 +451,11 @@ function buildPredicateResults(repoRoot) {
   const uapiPackageJson = readSource(repoRoot, 'apps/uapi/package.json');
   const gateWorkflow = readSource(repoRoot, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = readSource(repoRoot, '.github/workflows/bitcode-canon-quality.yml');
-  const spec = readSource(repoRoot, 'BITCODE_SPEC_V40.md');
-  const delta = readSource(repoRoot, 'BITCODE_SPEC_V40_DELTA.md');
-  const notes = readSource(repoRoot, 'BITCODE_SPEC_V40_NOTES.md');
-  const parity = readSource(repoRoot, 'BITCODE_SPEC_V40_PARITY_MATRIX.md');
-  const roadmap = readSource(repoRoot, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40.md');
+  const delta = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40_DELTA.md');
+  const notes = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40_NOTES.md');
+  const parity = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md');
+  const roadmap = readSource(repoRoot, 'specifications/SPECIFICATIONS_ROADMAP.md');
   const protocolReadme = readSource(repoRoot, 'scripts/specifying/README.md');
   const rootReadme = readSource(repoRoot, 'README.md');
   const protocolIndex = readSource(repoRoot, 'scripts/specifying/src/index.js');
@@ -496,13 +496,13 @@ function buildPredicateResults(repoRoot) {
     predicateResult('gate-quality-optionally-runs-browser-proof', '.github/workflows/bitcode-gate-quality.yml', gateWorkflow.includes('test:e2e:browser-proof') && gateWorkflow.includes('BITCODE_ENABLE_GATE_BROWSER_PROOF')),
     predicateResult('uapi-jest-includes-browser-proof-test', 'apps/uapi/jest.config.cjs', uapiJestConfig.includes('bitcodeBrowserProof.test.ts')),
     predicateResult('protocol-exports-gate7', 'scripts/specifying/src/index.js', protocolIndex.includes('buildV40BrowserE2eVisualProof') && protocolTypes.includes('buildV40BrowserE2eVisualProof')),
-    predicateResult('spec-documents-gate7', 'BITCODE_SPEC_V40.md', spec.includes('V40 Gate 7 Browser E2E, Accessibility, Responsive, And Visual Proof') && spec.includes(V40_BROWSER_E2E_VISUAL_PROOF_ARTIFACT_PATH)),
-    predicateResult('delta-documents-gate7', 'BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 7 closes with package-backed `V40BrowserE2eVisualProof`')),
-    predicateResult('notes-document-gate7', 'BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 7 implementation notes') && notes.includes('browser E2E, visual, accessibility, and responsive proof')),
-    predicateResult('parity-documents-gate7', 'BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-browser-e2e-visual-proof') && parity.includes('| Gate 7 | Browser/visual/accessibility/responsive artifact | implemented |')),
+    predicateResult('spec-documents-gate7', 'specifications/BITCODE_SPEC_V40.md', spec.includes('V40 Gate 7 Browser E2E, Accessibility, Responsive, And Visual Proof') && spec.includes(V40_BROWSER_E2E_VISUAL_PROOF_ARTIFACT_PATH)),
+    predicateResult('delta-documents-gate7', 'specifications/BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 7 closes with package-backed `V40BrowserE2eVisualProof`')),
+    predicateResult('notes-document-gate7', 'specifications/BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 7 implementation notes') && notes.includes('browser E2E, visual, accessibility, and responsive proof')),
+    predicateResult('parity-documents-gate7', 'specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-browser-e2e-visual-proof') && parity.includes('| Gate 7 | Browser/visual/accessibility/responsive artifact | implemented |')),
     predicateResult(
       'roadmap-advanced-through-gate7',
-      'SPECIFICATIONS_ROADMAP.md',
+      'specifications/SPECIFICATIONS_ROADMAP.md',
       (/Current working gate: V40 Gate (?:7|8|9|10|11)\b/u.test(roadmap) ||
         roadmap.includes('Latest closed version: V40') ||
         roadmap.includes('Recent V40 closure anchor')) &&

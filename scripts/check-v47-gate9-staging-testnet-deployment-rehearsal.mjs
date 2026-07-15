@@ -71,7 +71,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V46', `BITCODE_SPEC.txt must remain V46 during V47 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -90,11 +90,11 @@ function main() {
     'scripts/specifying/test/v47-staging-testnet-deployment-rehearsal.test.js',
     'scripts/generate-v47-staging-testnet-deployment-rehearsal.mjs',
     'scripts/check-v47-gate9-staging-testnet-deployment-rehearsal.mjs',
-    'BITCODE_SPEC_V47.md',
-    'BITCODE_SPEC_V47_DELTA.md',
-    'BITCODE_SPEC_V47_NOTES.md',
-    'BITCODE_SPEC_V47_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/BITCODE_SPEC_V47.md',
+    'specifications/BITCODE_SPEC_V47_DELTA.md',
+    'specifications/BITCODE_SPEC_V47_NOTES.md',
+    'specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
     'vercel.json',
     'supabase/config.toml',
     'supabase/migrations/001_v26_production.sql',

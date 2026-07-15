@@ -103,7 +103,7 @@ export function buildDeploymentPromotionReadinessReportInput(): DeploymentPromot
       'node scripts/promote-bitcode-canon.mjs --version V34 --commit HEAD --dry-run',
     ],
     generatedProofOutputs: [
-      'BITCODE_SPEC_V34_PROVEN.md',
+      'specifications/BITCODE_SPEC_V34_PROVEN.md',
       '.bitcode/v34-spec-family-report.json',
       '.bitcode/v34-canonical-input-report.json',
       '.bitcode/v34-canon-posture-drift-report.json',
@@ -225,7 +225,7 @@ function assertReportInvariants(
   if (!report.promotionValidationCommands.some((command) => command.includes('promote-bitcode-canon.mjs --version V34'))) {
     throw new Error('Deployment promotion readiness requires the V34 canonical promotion dry run.');
   }
-  if (!report.generatedProofOutputs.includes('BITCODE_SPEC_V34_PROVEN.md')) {
+  if (!report.generatedProofOutputs.includes('specifications/BITCODE_SPEC_V34_PROVEN.md')) {
     throw new Error('Deployment promotion readiness requires the V34 generated proof appendix.');
   }
   if (!report.generatedProofOutputs.includes('.bitcode/v34-promotion-readiness-report.json')) {

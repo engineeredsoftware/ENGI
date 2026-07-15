@@ -39,15 +39,15 @@ class ArchitectureReviewer {
 
   private validateCanonicalSpecFamily(): void {
     this.withResult('Canonical V26 specification family', (details, violations) => {
-      this.expectFile('BITCODE_SPEC.txt', details, violations);
-      this.expectFile('BITCODE_SPEC_V26.md', details, violations);
-      this.expectFile('BITCODE_SPEC_V26_NOTES.md', details, violations);
-      this.expectFile('BITCODE_SPEC_V26_PARITY_MATRIX.md', details, violations);
-      this.expectFile('BITCODE_SPEC_V26_PROVEN.md', details, violations);
+      this.expectFile('specifications/BITCODE_SPEC.txt', details, violations);
+      this.expectFile('specifications/BITCODE_SPEC_V26.md', details, violations);
+      this.expectFile('specifications/BITCODE_SPEC_V26_NOTES.md', details, violations);
+      this.expectFile('specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', details, violations);
+      this.expectFile('specifications/BITCODE_SPEC_V26_PROVEN.md', details, violations);
       this.expectFile('protocol-demonstration/V26_PROMPT_SURFACES.md', details, violations);
       this.expectFile('protocol-demonstration/V26_INFERENCE_SYSTEMS.md', details, violations);
 
-      const pointer = this.readText('BITCODE_SPEC.txt').trim();
+      const pointer = this.readText('specifications/BITCODE_SPEC.txt').trim();
       if (pointer === 'V26') {
         details.push('BITCODE_SPEC.txt points at V26.');
       } else {
@@ -460,7 +460,7 @@ function findRepoRoot(startPath: string): string {
   let current = path.resolve(startPath);
 
   while (true) {
-    if (fs.existsSync(path.join(current, 'BITCODE_SPEC.txt'))) {
+    if (fs.existsSync(path.join(current, 'specifications/BITCODE_SPEC.txt'))) {
       return current;
     }
 

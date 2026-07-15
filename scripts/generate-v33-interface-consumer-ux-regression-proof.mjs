@@ -293,11 +293,11 @@ export function buildV33InterfaceConsumerUxRegressionProofArtifact() {
     ]),
   ];
   const docsEvidence = [
-    scanTokens('BITCODE_SPEC_V33.md', ['InterfaceConsumerUxRegressionProof', 'Gate 9']),
-    scanTokens('BITCODE_SPEC_V33_DELTA.md', ['Interface Consumer UX Regression Proof']),
-    scanTokens('BITCODE_SPEC_V33_NOTES.md', ['Gate 9 closure notes']),
-    scanTokens('BITCODE_SPEC_V33_PARITY_MATRIX.md', ['Interface consumer UX regression proof']),
-    scanTokens('SPECIFICATIONS_ROADMAP.md', ['V33 Gate 9 Interface Consumer UX Regression Proof']),
+    scanTokens('specifications/BITCODE_SPEC_V33.md', ['InterfaceConsumerUxRegressionProof', 'Gate 9']),
+    scanTokens('specifications/BITCODE_SPEC_V33_DELTA.md', ['Interface Consumer UX Regression Proof']),
+    scanTokens('specifications/BITCODE_SPEC_V33_NOTES.md', ['Gate 9 closure notes']),
+    scanTokens('specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md', ['Interface consumer UX regression proof']),
+    scanTokens('specifications/SPECIFICATIONS_ROADMAP.md', ['V33 Gate 9 Interface Consumer UX Regression Proof']),
   ];
   const observedSurfaces = Array.from(new Set(rows.map((entry) => entry.surface))).sort();
   const observedPostures = Array.from(new Set(rows.map((entry) => entry.posture))).sort();

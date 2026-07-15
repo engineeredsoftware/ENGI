@@ -78,12 +78,12 @@ export const V47_READER_WEBSITE_FORBIDDEN_PAYLOAD_IDS = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  activePointer: 'BITCODE_SPEC.txt',
-  spec: 'BITCODE_SPEC_V47.md',
-  delta: 'BITCODE_SPEC_V47_DELTA.md',
-  notes: 'BITCODE_SPEC_V47_NOTES.md',
-  parity: 'BITCODE_SPEC_V47_PARITY_MATRIX.md',
-  roadmap: 'SPECIFICATIONS_ROADMAP.md',
+  activePointer: 'specifications/BITCODE_SPEC.txt',
+  spec: 'specifications/BITCODE_SPEC_V47.md',
+  delta: 'specifications/BITCODE_SPEC_V47_DELTA.md',
+  notes: 'specifications/BITCODE_SPEC_V47_NOTES.md',
+  parity: 'specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
+  roadmap: 'specifications/SPECIFICATIONS_ROADMAP.md',
   readRouteModel: 'apps/uapi/components/reads/models/read-route-model.ts',
   readClient: 'apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx',
   readPage: 'apps/uapi/app/read/page.tsx',

@@ -314,7 +314,7 @@ export function buildRuntimeObserverRepairJobRows(): RuntimeObserverRepairJobInp
       unsafeDriftPosture: 'blocks_projection_until_repaired',
       unlockBlockingPolicy: 'promotion and deployment admission stay blocked when proof artifacts are stale',
       auditEventName: 'runtime_observer.generated_proof_job',
-      proofRootBasis: ['BITCODE_SPEC_V34.md', 'v34-canonical-input-report', 'v34-spec-family-report'],
+      proofRootBasis: ['specifications/BITCODE_SPEC_V34.md', 'v34-canonical-input-report', 'v34-spec-family-report'],
     },
     {
       jobId: 'queue_consumer',

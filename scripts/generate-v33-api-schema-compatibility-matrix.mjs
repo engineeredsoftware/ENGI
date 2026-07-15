@@ -164,10 +164,10 @@ export function buildV33ApiSchemaCompatibilityMatrixArtifact() {
     ]),
   ];
   const docsEvidence = [
-    scanTokens('BITCODE_SPEC_V33.md', ['APISchemaCompatibilityMatrix', 'Gate 7']),
-    scanTokens('BITCODE_SPEC_V33_DELTA.md', ['API Schemas Examples And Compatibility Matrix']),
-    scanTokens('BITCODE_SPEC_V33_PARITY_MATRIX.md', ['API schema compatibility']),
-    scanTokens('SPECIFICATIONS_ROADMAP.md', ['V33 Gate 7 API Schemas Examples And Compatibility Matrix']),
+    scanTokens('specifications/BITCODE_SPEC_V33.md', ['APISchemaCompatibilityMatrix', 'Gate 7']),
+    scanTokens('specifications/BITCODE_SPEC_V33_DELTA.md', ['API Schemas Examples And Compatibility Matrix']),
+    scanTokens('specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md', ['API schema compatibility']),
+    scanTokens('specifications/SPECIFICATIONS_ROADMAP.md', ['V33 Gate 7 API Schemas Examples And Compatibility Matrix']),
   ];
   const observedConsumerSurfaces = Array.from(new Set(matrixRows.map((row) => row.consumerSurface))).sort();
   const observedExamplePostures = Array.from(new Set(matrixRows.map((row) => row.examplePosture))).sort();

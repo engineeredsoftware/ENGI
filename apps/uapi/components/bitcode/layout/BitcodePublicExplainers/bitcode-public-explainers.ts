@@ -132,7 +132,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'Value-bearing mainnet stays blocked until a promoted version authorizes it',
     ],
     references: {
-      source: ['BITCODE_SPEC.txt', 'BITCODE_SPEC_V48.md'],
+      source: ['specifications/BITCODE_SPEC.txt', 'specifications/BITCODE_SPEC_V48.md'],
       canon: [...V48_CANON],
     },
   }),

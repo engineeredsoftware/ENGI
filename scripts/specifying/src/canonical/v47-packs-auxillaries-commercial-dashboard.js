@@ -68,12 +68,12 @@ export const V47_PACKS_AUXILLARIES_FORBIDDEN_PAYLOAD_IDS = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  activePointer: 'BITCODE_SPEC.txt',
-  spec: 'BITCODE_SPEC_V47.md',
-  delta: 'BITCODE_SPEC_V47_DELTA.md',
-  notes: 'BITCODE_SPEC_V47_NOTES.md',
-  parity: 'BITCODE_SPEC_V47_PARITY_MATRIX.md',
-  roadmap: 'SPECIFICATIONS_ROADMAP.md',
+  activePointer: 'specifications/BITCODE_SPEC.txt',
+  spec: 'specifications/BITCODE_SPEC_V47.md',
+  delta: 'specifications/BITCODE_SPEC_V47_DELTA.md',
+  notes: 'specifications/BITCODE_SPEC_V47_NOTES.md',
+  parity: 'specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
+  roadmap: 'specifications/SPECIFICATIONS_ROADMAP.md',
   packsClient: 'apps/uapi/components/packs/PacksPageClient/PacksPageClient.tsx',
   packsActivityTable: 'apps/uapi/components/packs/PacksActivityTable/PacksActivityTable.tsx',
   packsActivityFilterBar: 'apps/uapi/components/packs/PacksActivityFilterBar/PacksActivityFilterBar.tsx',

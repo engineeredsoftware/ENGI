@@ -109,7 +109,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -140,11 +140,11 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
     'packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts',
     'packages/generic-tools/read-comprehension/src/prompts',
-    'BITCODE_SPEC_V41.md',
-    'BITCODE_SPEC_V41_DELTA.md',
-    'BITCODE_SPEC_V41_NOTES.md',
-    'BITCODE_SPEC_V41_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/BITCODE_SPEC_V41.md',
+    'specifications/BITCODE_SPEC_V41_DELTA.md',
+    'specifications/BITCODE_SPEC_V41_NOTES.md',
+    'specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
     'package.json',
@@ -233,7 +233,7 @@ function main() {
   assertCheck(failures, packageJson.includes('generate:v41-readneed-prompt-hardening'), 'package.json must expose generate:v41-readneed-prompt-hardening.');
   assertCheck(failures, packageJson.includes('check:v41-gate5'), 'package.json must expose check:v41-gate5.');
 
-  const roadmap = fileExists(root, 'SPECIFICATIONS_ROADMAP.md') ? read(root, 'SPECIFICATIONS_ROADMAP.md') : '';
+  const roadmap = fileExists(root, 'specifications/SPECIFICATIONS_ROADMAP.md') ? read(root, 'specifications/SPECIFICATIONS_ROADMAP.md') : '';
   assertCheck(
     failures,
     roadmap.includes('Current working gate: V41 Gate 5') ||

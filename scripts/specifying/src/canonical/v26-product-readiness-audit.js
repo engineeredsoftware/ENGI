@@ -19,7 +19,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['protocol-demonstration/src/canonical/read-measurement.js', 'reviewReadForFitSearch'],
       ['protocol-demonstration/src/canonical/settlement.js', 'quantizedFitQualities'],
       ['protocol-demonstration/test/v26-read-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities'],
-      ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Source-to-shares fifth-gate proof']
+      ['specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Source-to-shares fifth-gate proof']
     ],
     closureNotes: [
       'eighth-gate whole-repository provation is closed by the generated V26 total-closure proof'
@@ -37,7 +37,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['apps/uapi/app/api/read-review/route.ts', 'getBitcodeAppContext().getReadReview'],
       ['apps/uapi/app/api/make-bitcode-branch/route.ts', 'makeBitcodeBranch'],
       ['apps/uapi/tests/api/readReviewProtocolParity.test.ts', 'rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route'],
-      ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'App-owned protocol/API ownership']
+      ['specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', 'App-owned protocol/API ownership']
     ],
     closureNotes: [
       'broader Exchange marketplace breadth remains V28-style expansion work',
@@ -72,7 +72,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['apps/uapi/tests/terminalTransactionReadinessSource.test.ts', 'route_repository_context'],
       ['apps/uapi/tests/terminalRepositoryContextPanel.test.tsx', 'Saved GitHub attachment found, but the live provider session must reconnect'],
       ['apps/uapi/tests/terminalReadScenarios.test.ts', 'normalizes Exchange Read-fitting review state for Terminal review controls'],
-      ['BITCODE_SPEC_V26_PARITY_MATRIX.md', '`Bitcode Terminal` read/write loop']
+      ['specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', '`Bitcode Terminal` read/write loop']
     ],
     closureNotes: [
       'clean promotion and whole-flow browser provation are represented by the Gate 8 proof family',
@@ -89,7 +89,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['apps/uapi/components/reads/ReadsReadScenarioPanel/ReadsReadScenarioPanel.tsx', 'normalizeTerminalReadFittingReview'],
       ['apps/uapi/tests/api/readReviewRoute.test.ts', 'presents a reviewable Read before fit search'],
       ['apps/uapi/tests/api/readReviewProtocolParity.test.ts', 'readFittingReview'],
-      ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Read review before fit search']
+      ['specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Read review before fit search']
     ],
     closureNotes: [
       'fit-candidate marketplace UX remains V28-style Exchange expansion work',
@@ -106,7 +106,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts', 'finish:asset-pack'],
       ['packages/pipelines-generics/src/phases/sdivf-factory.ts', 'SDIVF'],
       ['protocol-demonstration/test/v26-pipeline-finish-reform.test.js', 'SDIVF'],
-      ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'retained execution/AssetPack readers no longer teach generic developer-platform meaning']
+      ['specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', 'retained execution/AssetPack readers no longer teach generic developer-platform meaning']
     ],
     closureNotes: [
       'broader asset-pack marketplace delivery breadth remains later-gate expansion work',
@@ -124,7 +124,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['packages/api/src/conversations/__tests__/branch-conversation.test.ts', 'copiedAttachmentCount'],
       ['apps/uapi/tests/api/conversationBranchRoute.test.ts', 'copiedAttachmentCount'],
       ['.bitcode/conversations-continuity-proof.json', 'rich_input'],
-      ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Conversations and rich-input continuity']
+      ['specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Conversations and rich-input continuity']
     ],
     closureNotes: [
       'whole-repository interface provation is closed by the Gate 8 prompt and repository proof family'
@@ -164,7 +164,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts', 'Reconnect GitHub'],
       ['apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts', 'live wallet-provider signing session is no longer available'],
       ['apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts', 'outside the connected provider inventory'],
-      ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Transactional readiness and signed-settlement admission']
+      ['specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Transactional readiness and signed-settlement admission']
     ],
     closureNotes: [
       'provider-backed wallet signing breadth remains V27+ Terminal/Exchange expansion work',
@@ -183,7 +183,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['apps/mcp/src/types/index.ts', 'RepositoryContextSchema'],
       ['apps/chatgpt/src/tools.ts', 'confirmed'],
       ['apps/chatgpt/src/__tests__/tools.test.ts', 'rejects ChatGPT App connected-interface writes without explicit confirmation'],
-      ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'API / MCP / third-party parity']
+      ['specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', 'API / MCP / third-party parity']
     ],
     closureNotes: [
       'broader third-party ingress breadth remains later-gate expansion work',
@@ -200,7 +200,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26FifthGateClosureDeepeningProof'],
       ['.bitcode/source-to-shares-fifth-gate-proof.json', 'v26-source-to-shares-fifth-gate-proof'],
       ['.bitcode/fifth-gate-closure-deepening-proof.json', 'v26-fifth-gate-closure-deepening-proof'],
-      ['BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Proof and generated-evidence parity matrix']
+      ['specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Proof and generated-evidence parity matrix']
     ],
     closureNotes: [
       'clean canonical regeneration is represented by the generated V26 total-closure artifact and promoted spec-family report'
@@ -210,7 +210,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
 
 const PRODUCT_MVP_EVIDENCE_BY_ID = {
   'bitcode-protocol': [
-    ['BITCODE_SPEC_V26.md', 'Sixth-gate is closed only when:'],
+    ['specifications/BITCODE_SPEC_V26.md', 'Sixth-gate is closed only when:'],
     ['protocol-demonstration/V26_PROOF_SURFACES.md', 'Gate 6: minimal viable product elevation'],
     ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SixthGateMvpClosureProof']
   ],
@@ -258,7 +258,7 @@ const PRODUCT_MVP_EVIDENCE_BY_ID = {
 
 const PRODUCT_LAUNCH_EVIDENCE_BY_ID = {
   'bitcode-protocol': [
-    ['BITCODE_SPEC_V26.md', 'Seventh-gate is closed only when:'],
+    ['specifications/BITCODE_SPEC_V26.md', 'Seventh-gate is closed only when:'],
     ['protocol-demonstration/V26_PROOF_SURFACES.md', 'Gate 7: initial commercially-viable testnet live-launch refinement'],
     ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SeventhGateCommercialTestnetLaunchProof']
   ],

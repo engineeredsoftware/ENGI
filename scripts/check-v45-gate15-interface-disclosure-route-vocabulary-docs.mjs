@@ -73,7 +73,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V44', `BITCODE_SPEC.txt must remain V44 during V45 Gate 15 work. Observed ${pointer || 'empty'}.`);
 
@@ -87,9 +87,9 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V45.md',
-    'BITCODE_SPEC_V45_PARITY_MATRIX.md',
-    'BITCODE_SPEC.txt',
+    'specifications/BITCODE_SPEC_V45.md',
+    'specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
+    'specifications/BITCODE_SPEC.txt',
     'package.json',
     'packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/interface-disclosure-boundary.test.ts',
@@ -115,7 +115,7 @@ function main() {
   const implementation = read(root, 'packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts');
   const implementationTest = read(root, 'packages/asset-packs-pipelines/domain/src/__tests__/interface-disclosure-boundary.test.ts');
   const packageJson = read(root, 'package.json');
-  const parity = read(root, 'BITCODE_SPEC_V45_PARITY_MATRIX.md');
+  const parity = read(root, 'specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md');
   const publicDocs = [
     read(root, 'apps/uapi/app/docs/bitcode-docs-content.ts'),
     read(root, 'apps/uapi/app/(root)/components/PublicDocsPageContent.tsx'),

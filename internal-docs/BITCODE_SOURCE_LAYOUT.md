@@ -32,7 +32,8 @@ apps/uapi/app/{page shells} → compose only; no heavy logic
 | Path | Role |
 | --- | --- |
 | `scripts/` | Durable automation: gate checkers, promotion, CI helpers |
-| `scripts/specifying/` | Repo specifying machine (`@bitcode/specifying`): gate generators, canon posture (law is `BITCODE_SPECIFYING.md`) |
+| `specifications/` | **All** living SPEC family docs (`BITCODE_SPEC*.md`, pointer, roadmap, specifying law) |
+| `scripts/specifying/` | Repo specifying machine (`@bitcode/specifying`): gate generators, canon posture (law is `specifications/BITCODE_SPECIFYING.md`) |
 | `codemod/` | **Temporary** one-off code-modification scripts for this repo (see `codemod/README.md`) |
 | `containers/images/` | OCI / appliance images (Pipeliner VCR, …) |
 | `containers/k8/` | Kubernetes manifests (long-runner fleet, …) |
@@ -451,6 +452,7 @@ bitcode/
 │ ├── types/
 │ ├── tests/ # route/page contracts, e2e helpers
 │ └── .storybook/stories/
+├── specifications/ # all living BITCODE_SPEC* family documents
 ├── scripts/ # durable gate checkers, promotion, tooling
 │   └── specifying/ # @bitcode/specifying machine (not product domain)
 ├── codemod/ # temporary one-off codemods (see codemod/README.md)

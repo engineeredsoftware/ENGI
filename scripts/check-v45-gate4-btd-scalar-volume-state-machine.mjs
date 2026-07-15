@@ -61,7 +61,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V44', `BITCODE_SPEC.txt must remain V44 during V45 atom work. Observed ${pointer || 'empty'}.`);
 
@@ -75,8 +75,8 @@ function main() {
   }
 
   for (const relativePath of [
-    'BITCODE_SPEC_V45_NOTES.md',
-    'BITCODE_SPEC_V44.md',
+    'specifications/BITCODE_SPEC_V45_NOTES.md',
+    'specifications/BITCODE_SPEC_V44.md',
     'packages/btd/src/semantic-volume.ts',
     'packages/btd/src/measuremint.ts',
     'packages/btd/src/range.ts',
@@ -87,7 +87,7 @@ function main() {
     assertCheck(failures, exists(root, relativePath), `Missing required V45 Gate 4 file: ${relativePath}`);
   }
 
-  const notes = read(root, 'BITCODE_SPEC_V45_NOTES.md');
+  const notes = read(root, 'specifications/BITCODE_SPEC_V45_NOTES.md');
   const normalizedNotes = normalize(notes);
   const packageJson = read(root, 'package.json');
 

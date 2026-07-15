@@ -74,7 +74,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V31', `BITCODE_SPEC.txt must remain V31 during V32 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -94,11 +94,11 @@ function main() {
     'packages/btd/src/testnet-mainnet-readiness-rehearsal.ts',
     'packages/btd/__tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts',
     'packages/btd/README.md',
-    'BITCODE_SPEC_V32.md',
-    'BITCODE_SPEC_V32_DELTA.md',
-    'BITCODE_SPEC_V32_NOTES.md',
-    'BITCODE_SPEC_V32_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/BITCODE_SPEC_V32.md',
+    'specifications/BITCODE_SPEC_V32_DELTA.md',
+    'specifications/BITCODE_SPEC_V32_NOTES.md',
+    'specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     'scripts/v32-proof-coverage-matrix.mjs',
@@ -151,11 +151,11 @@ function main() {
     );
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V32.md');
-  const delta = read(root, 'BITCODE_SPEC_V32_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V32_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V32_PARITY_MATRIX.md');
-  const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, 'specifications/BITCODE_SPEC_V32.md');
+  const delta = read(root, 'specifications/BITCODE_SPEC_V32_DELTA.md');
+  const notes = read(root, 'specifications/BITCODE_SPEC_V32_NOTES.md');
+  const parity = read(root, 'specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md');
+  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const matrix = read(root, 'scripts/v32-proof-coverage-matrix.mjs');

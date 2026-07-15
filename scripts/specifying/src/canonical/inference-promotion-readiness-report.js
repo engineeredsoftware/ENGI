@@ -30,7 +30,7 @@ export const V38_INFERENCE_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.free
 ]);
 
 export const V38_INFERENCE_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
-  'BITCODE_SPEC_V38_PROVEN.md',
+  'specifications/BITCODE_SPEC_V38_PROVEN.md',
   '.bitcode/v38-spec-family-report.json',
   '.bitcode/v38-canonical-input-report.json',
   '.bitcode/v38-canon-posture-drift-report.json',
@@ -70,7 +70,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('scripts/prepare-bitcode-spec-family-promotion.mjs', [
     "if (version === 'V38')",
     'V38 canonical system specification for inference correctness',
-    'BITCODE_SPEC_V38_PROVEN.md',
+    'specifications/BITCODE_SPEC_V38_PROVEN.md',
     V38_INFERENCE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   ]),
   source('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
@@ -81,7 +81,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('.github/workflows/v38-canon-promotion.yml', [
     "head.ref == 'version/v38'",
     'npm run promote:canon -- --version V38',
-    'BITCODE_SPEC_V38_PROVEN.md',
+    'specifications/BITCODE_SPEC_V38_PROVEN.md',
     'Promote V38 canon files',
   ]),
   source('.github/workflows/bitcode-gate-quality.yml', [
@@ -114,29 +114,29 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
 ]);
 
 const REQUIRED_DOCUMENTATION_EVIDENCE = Object.freeze([
-  source('BITCODE_SPEC_V38.md', [
+  source('specifications/BITCODE_SPEC_V38.md', [
     'V38 promotion readiness canon',
     V38_INFERENCE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'V38 active / draft V39',
   ]),
-  source('BITCODE_SPEC_V38_DELTA.md', [
+  source('specifications/BITCODE_SPEC_V38_DELTA.md', [
     'Gate 11: V38 Promotion Readiness',
     V38_INFERENCE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'promotion scripts support V38',
   ]),
-  source('BITCODE_SPEC_V38_NOTES.md', [
+  source('specifications/BITCODE_SPEC_V38_NOTES.md', [
     'Gate 11: V38 Promotion Readiness',
     V38_INFERENCE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'active V38 / draft V39',
   ]),
-  source('BITCODE_SPEC_V38_PARITY_MATRIX.md', [
+  source('specifications/BITCODE_SPEC_V38_PARITY_MATRIX.md', [
     '## Gate 11 Promotion readiness parity',
     V38_INFERENCE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'closed',
   ]),
-  source('SPECIFICATIONS_ROADMAP.md', [
+  source('specifications/SPECIFICATIONS_ROADMAP.md', [
     'V38 Gate 11 closure anchor',
-    'BITCODE_SPEC_V38_PROVEN.md',
+    'specifications/BITCODE_SPEC_V38_PROVEN.md',
   ]),
   source('README.md', [
     'check:v38-gate11',
@@ -316,7 +316,7 @@ export function buildV38InferencePromotionReadinessReport(input = {}) {
     allGateArtifactsCovered: missingGateArtifacts.length === 0,
     allGateArtifactsParseable: unparseableGateArtifacts.length === 0,
     allGateArtifactsSourceSafe: sourceUnsafeGateArtifacts.length === 0,
-    generatedProofOutputsCovered: V38_INFERENCE_PROMOTION_READINESS_GENERATED_OUTPUTS.includes('BITCODE_SPEC_V38_PROVEN.md'),
+    generatedProofOutputsCovered: V38_INFERENCE_PROMOTION_READINESS_GENERATED_OUTPUTS.includes('specifications/BITCODE_SPEC_V38_PROVEN.md'),
     promotionWorkflowCovered: sourceEvidence.some((entry) => entry.relativePath === '.github/workflows/v38-canon-promotion.yml' && allTokensPresent(entry)),
     gateQualityWorkflowCovered: sourceEvidence.some((entry) => entry.relativePath === '.github/workflows/bitcode-gate-quality.yml' && allTokensPresent(entry)),
     canonQualityWorkflowCovered: sourceEvidence.some((entry) => entry.relativePath === '.github/workflows/bitcode-canon-quality.yml' && allTokensPresent(entry)),
@@ -358,7 +358,7 @@ export function buildV38InferencePromotionReadinessReport(input = {}) {
       versionPromotionPullRequestTitlePrefix: 'V38 Canonical Promotion',
     },
     generatedArtifactPolicy: {
-      provenAppendixPath: 'BITCODE_SPEC_V38_PROVEN.md',
+      provenAppendixPath: 'specifications/BITCODE_SPEC_V38_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
       generatedArtifactPrefix: '.bitcode/v38-',
       promotionOverwritesPreviewArtifacts: true,

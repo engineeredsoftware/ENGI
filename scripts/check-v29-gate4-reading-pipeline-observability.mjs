@@ -62,7 +62,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -80,10 +80,10 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V29.md',
-    'BITCODE_SPEC_V29_DELTA.md',
-    'BITCODE_SPEC_V29_NOTES.md',
-    'BITCODE_SPEC_V29_PARITY_MATRIX.md',
+    'specifications/BITCODE_SPEC_V29.md',
+    'specifications/BITCODE_SPEC_V29_DELTA.md',
+    'specifications/BITCODE_SPEC_V29_NOTES.md',
+    'specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
     'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
     'packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts',
@@ -105,10 +105,10 @@ function main() {
     assertCheck(failures, fileExists(root, relativePath), `Missing Gate 4 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V29.md');
-  const delta = read(root, 'BITCODE_SPEC_V29_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V29_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V29_PARITY_MATRIX.md');
+  const spec = read(root, 'specifications/BITCODE_SPEC_V29.md');
+  const delta = read(root, 'specifications/BITCODE_SPEC_V29_DELTA.md');
+  const notes = read(root, 'specifications/BITCODE_SPEC_V29_NOTES.md');
+  const parity = read(root, 'specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
   const observability = read(root, 'packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts');
   const observabilityTest = read(root, 'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts');
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');

@@ -588,7 +588,17 @@
     "generate:v37-promotion-readiness": "node scripts/generate-v37-promotion-readiness-report.mjs",
     "check:v37-promotion-readiness": "node scripts/generate-v37-promotion-readiness-report.mjs --check",
     "check:v37-gate10": "node scripts/check-v37-gate10-promotion-readiness.mjs",
-    "typecheck:all": "node scripts/typecheck-all-packages.mjs"
+    "typecheck:all": "node scripts/typecheck-all-packages.mjs",
+    "dev": "pnpm --filter bitcode-uapi run dev",
+    "dev:remote": "pnpm --filter bitcode-uapi run dev:remote",
+    "dev:local": "pnpm --filter bitcode-uapi run dev:local",
+    "dev:debug": "pnpm --filter bitcode-uapi run dev:debug",
+    "dev:staging": "pnpm --filter bitcode-uapi run dev:staging",
+    "build:uapi": "pnpm --filter bitcode-uapi run build",
+    "lint:uapi": "pnpm --filter bitcode-uapi run lint",
+    "typecheck:uapi": "pnpm --filter bitcode-uapi run typecheck",
+    "test:uapi": "pnpm --filter bitcode-uapi run test",
+    "start:uapi": "pnpm --filter bitcode-uapi run start"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.10.0",

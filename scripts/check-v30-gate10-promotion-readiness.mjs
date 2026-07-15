@@ -90,7 +90,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -110,10 +110,10 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V30.md',
-    'BITCODE_SPEC_V30_DELTA.md',
-    'BITCODE_SPEC_V30_NOTES.md',
-    'BITCODE_SPEC_V30_PARITY_MATRIX.md',
+    'specifications/BITCODE_SPEC_V30.md',
+    'specifications/BITCODE_SPEC_V30_DELTA.md',
+    'specifications/BITCODE_SPEC_V30_NOTES.md',
+    'specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md',
     'BITCODE_V30_QA.md',
     'scripts/check-v30-gate10-promotion-readiness.mjs',
     'scripts/promote-bitcode-canon.mjs',
@@ -138,10 +138,10 @@ function main() {
     assertCheck(failures, fileExists(root, relativePath), `Missing Gate 10 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V30.md');
-  const delta = read(root, 'BITCODE_SPEC_V30_DELTA.md');
-  const notes = read(root, 'BITCODE_SPEC_V30_NOTES.md');
-  const parity = read(root, 'BITCODE_SPEC_V30_PARITY_MATRIX.md');
+  const spec = read(root, 'specifications/BITCODE_SPEC_V30.md');
+  const delta = read(root, 'specifications/BITCODE_SPEC_V30_DELTA.md');
+  const notes = read(root, 'specifications/BITCODE_SPEC_V30_NOTES.md');
+  const parity = read(root, 'specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md');
   const qa = read(root, 'BITCODE_V30_QA.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
@@ -186,7 +186,7 @@ function main() {
     failures,
     promotionWorkflow.includes("head.ref == 'version/v30'") &&
       promotionWorkflow.includes('npm run promote:canon -- --version V30') &&
-      promotionWorkflow.includes('BITCODE_SPEC_V30_PROVEN.md') &&
+      promotionWorkflow.includes('specifications/BITCODE_SPEC_V30_PROVEN.md') &&
       promotionWorkflow.includes('.bitcode') &&
       promotionWorkflow.includes('Promote V30 canon files'),
     'V30 promotion workflow must validate version/v30 and commit V30 promotion artifacts.',
@@ -221,7 +221,7 @@ function main() {
     failures,
     prepareSpecScript.includes("if (version === 'V30')") &&
       prepareSpecScript.includes('V30 canonical system specification for Protocol/BTD') &&
-      prepareSpecScript.includes('BITCODE_SPEC_V30_PROVEN.md') &&
+      prepareSpecScript.includes('specifications/BITCODE_SPEC_V30_PROVEN.md') &&
       prepareSpecScript.includes('v30-protocol-telemetry-proof-hooks.json') &&
       prepareSpecScript.includes('rewritePromotedParityJudgments'),
     'Spec-family promotion preparation must rewrite V30 hand-authored status truth and promoted parity judgments.',
@@ -273,8 +273,8 @@ function main() {
   assertJsonArtifact(failures, root, '.bitcode/v30-canon-posture-drift-report.json', ['"checkedActiveCanonVersion": "V30"', '"checkedDraftTargetVersion": "V31"']);
   assertJsonArtifact(failures, root, '.bitcode/v30-protocol-telemetry-proof-hooks.json', ['"reportId": "v30-protocol-telemetry-proof-hooks"', '"sourceSafe": true']);
 
-  if (fileExists(root, 'BITCODE_SPEC_V30_PROVEN.md')) {
-    const proven = read(root, 'BITCODE_SPEC_V30_PROVEN.md');
+  if (fileExists(root, 'specifications/BITCODE_SPEC_V30_PROVEN.md')) {
+    const proven = read(root, 'specifications/BITCODE_SPEC_V30_PROVEN.md');
     assertCheck(failures, proven.includes('Bitcode Spec V30') || proven.includes('V30'), 'BITCODE_SPEC_V30_PROVEN.md must render V30 proof content.');
   }
 

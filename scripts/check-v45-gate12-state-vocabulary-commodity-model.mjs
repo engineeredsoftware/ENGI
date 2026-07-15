@@ -127,7 +127,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V44', `BITCODE_SPEC.txt must remain V44 during V45 Gate 12 work. Observed ${pointer || 'empty'}.`);
 
@@ -141,9 +141,9 @@ function main() {
   }
 
   const requiredFiles = [
-    'BITCODE_SPEC_V45.md',
-    'BITCODE_SPEC_V45_PARITY_MATRIX.md',
-    'BITCODE_SPEC.txt',
+    'specifications/BITCODE_SPEC_V45.md',
+    'specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
+    'specifications/BITCODE_SPEC.txt',
     'package.json',
     'packages/asset-packs-pipelines/domain/package.json',
     'packages/asset-packs-pipelines/domain/src/index.ts',
@@ -166,7 +166,7 @@ function main() {
   const assetPackIndex = read(root, 'packages/asset-packs-pipelines/domain/src/index.ts');
   const uapiJestConfig = read(root, 'apps/uapi/jest.config.cjs');
   const packageJson = read(root, 'package.json');
-  const parity = read(root, 'BITCODE_SPEC_V45_PARITY_MATRIX.md');
+  const parity = read(root, 'specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md');
 
   assertLiterals(failures, commodityState, assetPackStates, 'AssetPack lifecycle state', 'asset-pack-commodity-state.ts');
   assertLiterals(failures, commodityState, btdStates, 'BTD scalar-volume state', 'asset-pack-commodity-state.ts');

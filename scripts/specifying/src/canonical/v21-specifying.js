@@ -236,24 +236,30 @@ function usesRequiredNotesCompanion(version) {
  * @returns {string}
  */
 function specPointerFilename(version) {
+  // Basename only — directory is supplied by specFamilyDirectory / resolveSpecPointerFilename.
   return usesBitcodeSpecFamily(version) ? 'BITCODE_SPEC.txt' : 'ENGI_SPEC.txt';
 }
 
 /**
  * @param {string} repoRoot
  * @param {string} version
- * @returns {string}
+ * @returns {string} path relative to repo root
  */
 function resolveSpecPointerFilename(repoRoot, version) {
   const preferred = specPointerFilename(version);
-  const preferredPath = path.join(repoRoot, preferred);
-  if (fileExists(preferredPath)) return preferred;
+  // V48+: all specification documents live under specifications/.
+  const preferredUnderSpecs = path.join('specifications', preferred);
+  if (fileExists(path.join(repoRoot, preferredUnderSpecs))) return preferredUnderSpecs;
+
+  // Root fallback for transitional trees.
+  if (fileExists(path.join(repoRoot, preferred))) return preferred;
 
   const fallback = preferred === 'BITCODE_SPEC.txt' ? 'ENGI_SPEC.txt' : 'BITCODE_SPEC.txt';
-  const fallbackPath = path.join(repoRoot, fallback);
-  if (fileExists(fallbackPath)) return fallback;
+  const fallbackUnderSpecs = path.join('specifications', fallback);
+  if (fileExists(path.join(repoRoot, fallbackUnderSpecs))) return fallbackUnderSpecs;
+  if (fileExists(path.join(repoRoot, fallback))) return fallback;
 
-  return preferred;
+  return preferredUnderSpecs;
 }
 
 /**
@@ -261,6 +267,7 @@ function resolveSpecPointerFilename(repoRoot, version) {
  * @returns {string}
  */
 function specSupportPrefix(version) {
+  // Basename prefix for BITCODE_SPECIFYING.md / TEMPLATEGUIDE companions.
   return usesBitcodeSpecFamily(version) ? 'BITCODE_SPEC' : 'ENGI_SPEC';
 }
 
@@ -269,6 +276,7 @@ function specSupportPrefix(version) {
  * @returns {string}
  */
 function specFamilyPrefix(version) {
+  // Basename prefix for BITCODE_SPEC_VNN.md family files.
   return usesBitcodeSpecFamily(version) ? 'BITCODE_SPEC' : 'ENGI_SPEC';
 }
 
@@ -277,7 +285,9 @@ function specFamilyPrefix(version) {
  * @returns {string}
  */
 function specFamilyDirectory(version) {
-  return usesBitcodeSpecFamily(version) ? '' : '_legacy';
+  // Bitcode specification documents live under specifications/ (V48 layout law).
+  // Historical ENGI family remains under _legacy/ when present.
+  return usesBitcodeSpecFamily(version) ? 'specifications' : '_legacy';
 }
 
 /**
@@ -605,7 +615,8 @@ function buildV21LikeProfile(version) {
       '.bitcode/source-to-shares.json',
       '.bitcode/projection-policy.json',
       '.bitcode/system-proof-bundle.json',
-      specRelativePath(version, '_PROVEN')
+      // Document prose cites basename; filesystem path is under specifications/.
+      specMarkdownFilename(version, '_PROVEN')
     ],
     requiredDeltaSections: [
       'Status',

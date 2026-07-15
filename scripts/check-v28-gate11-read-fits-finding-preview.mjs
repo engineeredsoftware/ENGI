@@ -6,7 +6,7 @@ const repoRoot = process.cwd();
 
 const checks = [
   {
-    file: 'BITCODE_SPEC_V28.md',
+    file: 'specifications/BITCODE_SPEC_V28.md',
     needles: [
       'Gate 11: Finding Fits And Source-Safe AssetPack Preview',
       'ReadFitsFindingSynthesis',
@@ -17,7 +17,7 @@ const checks = [
     forbidden: ['ReadFindingFitsSynthesis', 'findingFitsAdmission'],
   },
   {
-    file: 'BITCODE_SPEC_V28_PARITY_MATRIX.md',
+    file: 'specifications/BITCODE_SPEC_V28_PARITY_MATRIX.md',
     needles: [
       'Finding Fits over the depository',
       'AssetPack synthesis and preview',

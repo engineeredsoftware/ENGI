@@ -6,7 +6,7 @@ const repoRoot = process.cwd();
 
 const checks = [
   {
-    file: 'BITCODE_SPEC_V28.md',
+    file: 'specifications/BITCODE_SPEC_V28.md',
     needles: [
       'Gate 13: Commercial Product Closure And Promotion Readiness',
       'full `protocol-demonstration` proof suite',
@@ -17,7 +17,7 @@ const checks = [
     forbidden: ['ReadFindingFitsSynthesis', 'commercialSettlementAdmissible'],
   },
   {
-    file: 'BITCODE_SPEC_V28_PARITY_MATRIX.md',
+    file: 'specifications/BITCODE_SPEC_V28_PARITY_MATRIX.md',
     needles: [
       'Gate 13 closure closes the two final carryforward rows',
       'full `protocol-demonstration` suite',

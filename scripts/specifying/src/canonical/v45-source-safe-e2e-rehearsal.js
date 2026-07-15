@@ -90,12 +90,12 @@ export const V45_SOURCE_SAFE_E2E_REHEARSAL_FORBIDDEN_PAYLOAD_CLASSES = Object.fr
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  activePointer: 'BITCODE_SPEC.txt',
-  spec: 'BITCODE_SPEC_V45.md',
-  delta: 'BITCODE_SPEC_V45_DELTA.md',
-  notes: 'BITCODE_SPEC_V45_NOTES.md',
-  parity: 'BITCODE_SPEC_V45_PARITY_MATRIX.md',
-  roadmap: 'SPECIFICATIONS_ROADMAP.md',
+  activePointer: 'specifications/BITCODE_SPEC.txt',
+  spec: 'specifications/BITCODE_SPEC_V45.md',
+  delta: 'specifications/BITCODE_SPEC_V45_DELTA.md',
+  notes: 'specifications/BITCODE_SPEC_V45_NOTES.md',
+  parity: 'specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
+  roadmap: 'specifications/SPECIFICATIONS_ROADMAP.md',
   readme: 'README.md',
   protocolReadme: 'scripts/specifying/README.md',
   packageJson: 'package.json',

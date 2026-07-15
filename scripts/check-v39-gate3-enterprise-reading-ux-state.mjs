@@ -85,7 +85,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'BITCODE_SPEC.txt').trim();
+  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -122,11 +122,11 @@ function main() {
     'scripts/specifying/test/v39-enterprise-reading-ux-state.test.js',
     'scripts/generate-v39-enterprise-reading-ux-state.mjs',
     'scripts/check-v39-gate3-enterprise-reading-ux-state.mjs',
-    'BITCODE_SPEC_V39.md',
-    'BITCODE_SPEC_V39_DELTA.md',
-    'BITCODE_SPEC_V39_NOTES.md',
-    'BITCODE_SPEC_V39_PARITY_MATRIX.md',
-    'SPECIFICATIONS_ROADMAP.md',
+    'specifications/BITCODE_SPEC_V39.md',
+    'specifications/BITCODE_SPEC_V39_DELTA.md',
+    'specifications/BITCODE_SPEC_V39_NOTES.md',
+    'specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
+    'specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'apps/uapi/app/terminal/README.md',
     'apps/uapi/app/conversations/README.md',
@@ -214,8 +214,8 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 3 predicates must all pass.');
   }
 
-  const spec = read(root, 'BITCODE_SPEC_V39.md');
-  const parity = read(root, 'BITCODE_SPEC_V39_PARITY_MATRIX.md');
+  const spec = read(root, 'specifications/BITCODE_SPEC_V39.md');
+  const parity = read(root, 'specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md');
   const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
   assertCheck(failures, spec.includes('TerminalEnterpriseReadingUxState'), 'V39 spec must name TerminalEnterpriseReadingUxState.');
   assertCheck(failures, spec.includes('readingStage'), 'V39 spec must describe source-safe readingStage route state.');

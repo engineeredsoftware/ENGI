@@ -29,7 +29,7 @@ export const EXCHANGE_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
 ]);
 
 export const EXCHANGE_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
-  'BITCODE_SPEC_V36_PROVEN.md',
+  'specifications/BITCODE_SPEC_V36_PROVEN.md',
   '.bitcode/v36-spec-family-report.json',
   '.bitcode/v36-canonical-input-report.json',
   '.bitcode/v36-canon-posture-drift-report.json',
@@ -68,7 +68,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('scripts/prepare-bitcode-spec-family-promotion.mjs', [
     "if (version === 'V36')",
     'V36 canonical system specification for Exchange depth',
-    'BITCODE_SPEC_V36_PROVEN.md',
+    'specifications/BITCODE_SPEC_V36_PROVEN.md',
     EXCHANGE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
   ]),
   source('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
@@ -79,7 +79,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   source('.github/workflows/v36-canon-promotion.yml', [
     "head.ref == 'version/v36'",
     'npm run promote:canon -- --version V36',
-    'BITCODE_SPEC_V36_PROVEN.md',
+    'specifications/BITCODE_SPEC_V36_PROVEN.md',
     'Promote V36 canon files',
   ]),
   source('.github/workflows/bitcode-gate-quality.yml', [
@@ -111,29 +111,29 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
 ]);
 
 const REQUIRED_DOCUMENTATION_EVIDENCE = Object.freeze([
-  source('BITCODE_SPEC_V36.md', [
+  source('specifications/BITCODE_SPEC_V36.md', [
     'V36 promotion readiness canon',
     EXCHANGE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'V36 active / draft V37',
   ]),
-  source('BITCODE_SPEC_V36_DELTA.md', [
+  source('specifications/BITCODE_SPEC_V36_DELTA.md', [
     'Gate 10: V36 Promotion Readiness',
     EXCHANGE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'promotion scripts support V36',
   ]),
-  source('BITCODE_SPEC_V36_NOTES.md', [
+  source('specifications/BITCODE_SPEC_V36_NOTES.md', [
     'Gate 10: V36 Promotion Readiness',
     EXCHANGE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'active V36 / draft V37',
   ]),
-  source('BITCODE_SPEC_V36_PARITY_MATRIX.md', [
+  source('specifications/BITCODE_SPEC_V36_PARITY_MATRIX.md', [
     '## Gate 10 Parity',
     EXCHANGE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'closed',
   ]),
-  source('SPECIFICATIONS_ROADMAP.md', [
+  source('specifications/SPECIFICATIONS_ROADMAP.md', [
     'V36 Gate 10 closure anchor',
-    'BITCODE_SPEC_V36_PROVEN.md',
+    'specifications/BITCODE_SPEC_V36_PROVEN.md',
   ]),
   source('README.md', [
     'check:v36-gate10',
@@ -311,7 +311,7 @@ export function buildExchangePromotionReadinessReport(input = {}) {
     allGateArtifactsCovered: missingGateArtifacts.length === 0,
     allGateArtifactsParseable: unparseableGateArtifacts.length === 0,
     allGateArtifactsSourceSafe: sourceUnsafeGateArtifacts.length === 0,
-    generatedProofOutputsCovered: EXCHANGE_PROMOTION_READINESS_GENERATED_OUTPUTS.includes('BITCODE_SPEC_V36_PROVEN.md'),
+    generatedProofOutputsCovered: EXCHANGE_PROMOTION_READINESS_GENERATED_OUTPUTS.includes('specifications/BITCODE_SPEC_V36_PROVEN.md'),
     promotionWorkflowCovered: sourceEvidence.some((entry) => entry.relativePath === '.github/workflows/v36-canon-promotion.yml' && allTokensPresent(entry)),
     gateQualityWorkflowCovered: sourceEvidence.some((entry) => entry.relativePath === '.github/workflows/bitcode-gate-quality.yml' && allTokensPresent(entry)),
     canonQualityWorkflowCovered: sourceEvidence.some((entry) => entry.relativePath === '.github/workflows/bitcode-canon-quality.yml' && allTokensPresent(entry)),
@@ -352,7 +352,7 @@ export function buildExchangePromotionReadinessReport(input = {}) {
       versionPromotionPullRequestTitlePrefix: 'V36 Canonical Promotion',
     },
     generatedArtifactPolicy: {
-      provenAppendixPath: 'BITCODE_SPEC_V36_PROVEN.md',
+      provenAppendixPath: 'specifications/BITCODE_SPEC_V36_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
       generatedArtifactPrefix: '.bitcode/v36-',
       promotionOverwritesPreviewArtifacts: true,
