@@ -2,13 +2,13 @@ export const BITCODE_PUBLIC_COPY = {
   eyebrow: 'Knowledge Exchange Made Possible',
   headline: "Trade technical data on the Bitcode marketplace.",
   description:
-    'Deposit AssetPacks synthesized from source code, listing only your approved IP. Read AssetPacks that you need using Bitcoin. Settlements are fully proven on an on-chain, open-source, auditable ledger.',
+    'Deposit AssetPacks synthesized from source code, listing only your approved IP. Read AssetPacks that you need using Bitcoin. Settlements are fully provable on an on-chain, open-source, auditable ledger.',
   descriptionHighlights: [
     { text: 'AssetPacks', tone: 'purple' as const },
     { text: 'Bitcode', tone: 'green' as const },
     { text: 'Bitcoin', tone: 'orange' as const },
     // Settlement claim — green underline (distinct from neon word glow).
-    { text: 'fully proven', tone: 'greenUnderline' as const },
+    { text: 'fully provable', tone: 'greenUnderline' as const },
   ],
   capabilityChips: [
     'Synthesize Packs',
