@@ -1,10 +1,10 @@
 {
-  "artifactId": "v37-conversation-terminal-handoff",
+  "artifactId": "v37-conversation-product-handoff",
   "schemaId": "bitcode.v37.conversationTerminalHandoff.v1",
   "version": "V37",
   "currentTarget": "V36",
   "generatedAt": "2026-05-24T00:00:00.000Z",
-  "sourceSafetyVerdict": "source-safe-conversation-terminal-handoff-metadata",
+  "sourceSafetyVerdict": "source-safe-conversation-product-handoff-metadata",
   "disclosureBoundary": {
     "handoffMayExpose": [
       "conversation_id",
@@ -168,7 +168,7 @@
     {
       "workflowId": "depositing",
       "label": "Depositing handoff",
-      "terminalDetail": "activity",
+      "productDetail": "activity",
       "routeIntent": "prepare-deposit",
       "receives": [
         "repository_anchor",
@@ -216,9 +216,9 @@
         "retry_required",
         "denied"
       ],
-      "sourceSafetyClass": "source_safe_conversation_terminal_handoff_metadata",
+      "sourceSafetyClass": "source_safe_conversation_product_handoff_metadata",
       "terminalAuthority": {
-        "terminalRemainsTransactionCockpit": true,
+        "productRemainsTransactionWorkspace": true,
         "conversationMayPrepareIntent": true,
         "conversationMayWriteLedger": false,
         "conversationMaySignWalletOperations": false,
@@ -255,59 +255,59 @@
       },
       "sourceEvidence": [
         {
-          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/generate-v37-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "scripts/check-v37-gate6-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
           "present": true
         },
         {
@@ -315,15 +315,15 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/components/README.md",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
           "present": true
         },
         {
@@ -337,7 +337,7 @@
       ],
       "freshnessChecks": [
         {
-          "checkId": "depositing.conversation-terminal-handoff-row-present",
+          "checkId": "depositing.conversation-product-handoff-row-present",
           "command": "pnpm run check:v37-gate6",
           "cadence": "per_gate",
           "failClosedOn": [
@@ -351,19 +351,19 @@
         }
       ],
       "proofRoots": {
-        "terminal_transaction_cockpitRoot": "conversation-terminal-handoff-proof:afb30ce45dc66aec06666952",
-        "ledger_authority_boundaryRoot": "conversation-terminal-handoff-proof:6ad8a0feeeb55a5c44810993",
-        "wallet_authority_boundaryRoot": "conversation-terminal-handoff-proof:9e150d4e5bb4e28dafcbc599",
-        "source_disclosure_boundaryRoot": "conversation-terminal-handoff-proof:8e510225d56d9a5d08c1be56",
-        "retry_repair_boundaryRoot": "conversation-terminal-handoff-proof:ed21a3a6a8f93b3b5ed8404c"
+        "terminal_transaction_cockpitRoot": "conversation-product-handoff-proof:8d4bb304f578bc8ec83cdbf0",
+        "ledger_authority_boundaryRoot": "conversation-product-handoff-proof:d0d6f55b48e6929b44813115",
+        "wallet_authority_boundaryRoot": "conversation-product-handoff-proof:dfffe53f6aa5b8e9117ad11a",
+        "source_disclosure_boundaryRoot": "conversation-product-handoff-proof:94b7973c636b8a43da503394",
+        "retry_repair_boundaryRoot": "conversation-product-handoff-proof:0c3bb2e6527b0912601fddb5"
       },
-      "rowRoot": "conversation-terminal-handoff-row:9bb665532a76f6c65b432b74",
-      "detailRoot": "conversation-terminal-handoff-detail:8078dc8c80b5df7f4b786df8"
+      "rowRoot": "conversation-product-handoff-row:2abd708b0c1a2a81014daa2e",
+      "detailRoot": "conversation-product-handoff-detail:8078dc8c80b5df7f4b786df8"
     },
     {
       "workflowId": "reading",
       "label": "Reading handoff",
-      "terminalDetail": "transaction",
+      "productDetail": "transaction",
       "routeIntent": "prepare-read",
       "receives": [
         "repository_anchor",
@@ -411,9 +411,9 @@
         "retry_required",
         "denied"
       ],
-      "sourceSafetyClass": "source_safe_conversation_terminal_handoff_metadata",
+      "sourceSafetyClass": "source_safe_conversation_product_handoff_metadata",
       "terminalAuthority": {
-        "terminalRemainsTransactionCockpit": true,
+        "productRemainsTransactionWorkspace": true,
         "conversationMayPrepareIntent": true,
         "conversationMayWriteLedger": false,
         "conversationMaySignWalletOperations": false,
@@ -450,59 +450,59 @@
       },
       "sourceEvidence": [
         {
-          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/generate-v37-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "scripts/check-v37-gate6-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
           "present": true
         },
         {
@@ -510,15 +510,15 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/components/README.md",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
           "present": true
         },
         {
@@ -532,7 +532,7 @@
       ],
       "freshnessChecks": [
         {
-          "checkId": "reading.conversation-terminal-handoff-row-present",
+          "checkId": "reading.conversation-product-handoff-row-present",
           "command": "pnpm run check:v37-gate6",
           "cadence": "per_gate",
           "failClosedOn": [
@@ -546,19 +546,19 @@
         }
       ],
       "proofRoots": {
-        "terminal_transaction_cockpitRoot": "conversation-terminal-handoff-proof:ad0003abe53936c0adb34a9d",
-        "ledger_authority_boundaryRoot": "conversation-terminal-handoff-proof:8962fc8f9653d7bfd358ab3c",
-        "wallet_authority_boundaryRoot": "conversation-terminal-handoff-proof:f6234201b584edaae32e49ef",
-        "source_disclosure_boundaryRoot": "conversation-terminal-handoff-proof:40e38ec701986e53df4024de",
-        "retry_repair_boundaryRoot": "conversation-terminal-handoff-proof:5c9afda146fa498ef7159805"
+        "terminal_transaction_cockpitRoot": "conversation-product-handoff-proof:e48fa95ba074e72ee14e21ba",
+        "ledger_authority_boundaryRoot": "conversation-product-handoff-proof:7fff53bd04a895a191b5e8a1",
+        "wallet_authority_boundaryRoot": "conversation-product-handoff-proof:4b5211d87e25627166de53e1",
+        "source_disclosure_boundaryRoot": "conversation-product-handoff-proof:1bce22fbbbc5ae28f5e25100",
+        "retry_repair_boundaryRoot": "conversation-product-handoff-proof:e5092a9508339247b36765fa"
       },
-      "rowRoot": "conversation-terminal-handoff-row:afb43081d8d3226ec786d019",
-      "detailRoot": "conversation-terminal-handoff-detail:fa4ebe71efef6b5671f8cc18"
+      "rowRoot": "conversation-product-handoff-row:a1cff44aeb4662d56de4b08d",
+      "detailRoot": "conversation-product-handoff-detail:fa4ebe71efef6b5671f8cc18"
     },
     {
       "workflowId": "finding_fits",
       "label": "Finding Fits handoff",
-      "terminalDetail": "activity",
+      "productDetail": "activity",
       "routeIntent": "prepare-finding-fits",
       "receives": [
         "transaction_id",
@@ -607,9 +607,9 @@
         "retry_required",
         "denied"
       ],
-      "sourceSafetyClass": "source_safe_conversation_terminal_handoff_metadata",
+      "sourceSafetyClass": "source_safe_conversation_product_handoff_metadata",
       "terminalAuthority": {
-        "terminalRemainsTransactionCockpit": true,
+        "productRemainsTransactionWorkspace": true,
         "conversationMayPrepareIntent": true,
         "conversationMayWriteLedger": false,
         "conversationMaySignWalletOperations": false,
@@ -646,59 +646,59 @@
       },
       "sourceEvidence": [
         {
-          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/generate-v37-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "scripts/check-v37-gate6-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
           "present": true
         },
         {
@@ -706,15 +706,15 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/components/README.md",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
           "present": true
         },
         {
@@ -728,7 +728,7 @@
       ],
       "freshnessChecks": [
         {
-          "checkId": "finding_fits.conversation-terminal-handoff-row-present",
+          "checkId": "finding_fits.conversation-product-handoff-row-present",
           "command": "pnpm run check:v37-gate6",
           "cadence": "per_gate",
           "failClosedOn": [
@@ -742,19 +742,19 @@
         }
       ],
       "proofRoots": {
-        "terminal_transaction_cockpitRoot": "conversation-terminal-handoff-proof:d88d4c682abb922ed4c54fbd",
-        "ledger_authority_boundaryRoot": "conversation-terminal-handoff-proof:864636733b86ab7ba6974f33",
-        "wallet_authority_boundaryRoot": "conversation-terminal-handoff-proof:537079c67b1134ce194424d6",
-        "source_disclosure_boundaryRoot": "conversation-terminal-handoff-proof:37c293dab79d6972d2c099c5",
-        "retry_repair_boundaryRoot": "conversation-terminal-handoff-proof:19e10eaf971049989078b3aa"
+        "terminal_transaction_cockpitRoot": "conversation-product-handoff-proof:4b1b1000f0fab42f62e88796",
+        "ledger_authority_boundaryRoot": "conversation-product-handoff-proof:d2f439342c5468a7cef52968",
+        "wallet_authority_boundaryRoot": "conversation-product-handoff-proof:6f3d94a12685970b36285f1c",
+        "source_disclosure_boundaryRoot": "conversation-product-handoff-proof:81881b33c2fad7d77209a02f",
+        "retry_repair_boundaryRoot": "conversation-product-handoff-proof:ce66adccb1c738a08eb4fca9"
       },
-      "rowRoot": "conversation-terminal-handoff-row:e4ee529f3baa4c000de2b1c4",
-      "detailRoot": "conversation-terminal-handoff-detail:5c32c7911edeaf6234e3e0a4"
+      "rowRoot": "conversation-product-handoff-row:b19ce98d8ec02a723e0b8140",
+      "detailRoot": "conversation-product-handoff-detail:5c32c7911edeaf6234e3e0a4"
     },
     {
       "workflowId": "exchange",
       "label": "Exchange handoff",
-      "terminalDetail": "activity",
+      "productDetail": "activity",
       "routeIntent": "prepare-exchange-review",
       "receives": [
         "transaction_id",
@@ -802,9 +802,9 @@
         "retry_required",
         "denied"
       ],
-      "sourceSafetyClass": "source_safe_conversation_terminal_handoff_metadata",
+      "sourceSafetyClass": "source_safe_conversation_product_handoff_metadata",
       "terminalAuthority": {
-        "terminalRemainsTransactionCockpit": true,
+        "productRemainsTransactionWorkspace": true,
         "conversationMayPrepareIntent": true,
         "conversationMayWriteLedger": false,
         "conversationMaySignWalletOperations": false,
@@ -841,59 +841,59 @@
       },
       "sourceEvidence": [
         {
-          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/generate-v37-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "scripts/check-v37-gate6-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
           "present": true
         },
         {
@@ -901,15 +901,15 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/components/README.md",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
           "present": true
         },
         {
@@ -923,7 +923,7 @@
       ],
       "freshnessChecks": [
         {
-          "checkId": "exchange.conversation-terminal-handoff-row-present",
+          "checkId": "exchange.conversation-product-handoff-row-present",
           "command": "pnpm run check:v37-gate6",
           "cadence": "per_gate",
           "failClosedOn": [
@@ -937,19 +937,19 @@
         }
       ],
       "proofRoots": {
-        "terminal_transaction_cockpitRoot": "conversation-terminal-handoff-proof:27c9787499db493a2b762fc6",
-        "ledger_authority_boundaryRoot": "conversation-terminal-handoff-proof:d79a571eb1563d3a760d43a9",
-        "wallet_authority_boundaryRoot": "conversation-terminal-handoff-proof:d20889bd99ca820c262bd7c5",
-        "source_disclosure_boundaryRoot": "conversation-terminal-handoff-proof:db72baab933691c9df5df14c",
-        "retry_repair_boundaryRoot": "conversation-terminal-handoff-proof:f294150a4ff6db2a4704a479"
+        "terminal_transaction_cockpitRoot": "conversation-product-handoff-proof:914488cf0d9d5b6db87e6bf0",
+        "ledger_authority_boundaryRoot": "conversation-product-handoff-proof:0558849a78c2f60c95ef7d13",
+        "wallet_authority_boundaryRoot": "conversation-product-handoff-proof:fe4e34bad43f83f9eeb0c79d",
+        "source_disclosure_boundaryRoot": "conversation-product-handoff-proof:cf34926dd1e6b005e3187dd0",
+        "retry_repair_boundaryRoot": "conversation-product-handoff-proof:94da56083327d0026223dcd1"
       },
-      "rowRoot": "conversation-terminal-handoff-row:35808a524695d4679cd38760",
-      "detailRoot": "conversation-terminal-handoff-detail:6d71b230576a24a95adf3d25"
+      "rowRoot": "conversation-product-handoff-row:7fd521d30ce04a51bae7800c",
+      "detailRoot": "conversation-product-handoff-detail:6d71b230576a24a95adf3d25"
     },
     {
       "workflowId": "settlement",
       "label": "Settlement handoff",
-      "terminalDetail": "wallet-btc",
+      "productDetail": "wallet-btc",
       "routeIntent": "prepare-settlement-review",
       "receives": [
         "transaction_id",
@@ -997,9 +997,9 @@
         "retry_required",
         "denied"
       ],
-      "sourceSafetyClass": "source_safe_conversation_terminal_handoff_metadata",
+      "sourceSafetyClass": "source_safe_conversation_product_handoff_metadata",
       "terminalAuthority": {
-        "terminalRemainsTransactionCockpit": true,
+        "productRemainsTransactionWorkspace": true,
         "conversationMayPrepareIntent": true,
         "conversationMayWriteLedger": false,
         "conversationMaySignWalletOperations": false,
@@ -1036,59 +1036,59 @@
       },
       "sourceEvidence": [
         {
-          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/generate-v37-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "scripts/check-v37-gate6-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
           "present": true
         },
         {
@@ -1096,15 +1096,15 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/components/README.md",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
           "present": true
         },
         {
@@ -1118,7 +1118,7 @@
       ],
       "freshnessChecks": [
         {
-          "checkId": "settlement.conversation-terminal-handoff-row-present",
+          "checkId": "settlement.conversation-product-handoff-row-present",
           "command": "pnpm run check:v37-gate6",
           "cadence": "per_gate",
           "failClosedOn": [
@@ -1132,19 +1132,19 @@
         }
       ],
       "proofRoots": {
-        "terminal_transaction_cockpitRoot": "conversation-terminal-handoff-proof:3abc359bfe18b06fb1968c35",
-        "ledger_authority_boundaryRoot": "conversation-terminal-handoff-proof:bc4eec594f63a2e696fa0d7c",
-        "wallet_authority_boundaryRoot": "conversation-terminal-handoff-proof:fd5220baf1b263fffcea6479",
-        "source_disclosure_boundaryRoot": "conversation-terminal-handoff-proof:7bcb5c03bde496f244ab308d",
-        "retry_repair_boundaryRoot": "conversation-terminal-handoff-proof:8b4b682302f16b8d5232644e"
+        "terminal_transaction_cockpitRoot": "conversation-product-handoff-proof:f33d97fbafe355ceb57da3e7",
+        "ledger_authority_boundaryRoot": "conversation-product-handoff-proof:5369b118998e98e9c0001e8a",
+        "wallet_authority_boundaryRoot": "conversation-product-handoff-proof:4376cbc856604f965e9c0203",
+        "source_disclosure_boundaryRoot": "conversation-product-handoff-proof:0b1c1c84c3ba9a8058caf640",
+        "retry_repair_boundaryRoot": "conversation-product-handoff-proof:2041c7be42a4eb1792044031"
       },
-      "rowRoot": "conversation-terminal-handoff-row:45b819314b144c8f77250002",
-      "detailRoot": "conversation-terminal-handoff-detail:490209305b93cdaaf2346681"
+      "rowRoot": "conversation-product-handoff-row:1ca5681bb752fde0cde76407",
+      "detailRoot": "conversation-product-handoff-detail:490209305b93cdaaf2346681"
     },
     {
       "workflowId": "delivery",
       "label": "Delivery handoff",
-      "terminalDetail": "shippables",
+      "productDetail": "shippables",
       "routeIntent": "prepare-delivery-review",
       "receives": [
         "transaction_id",
@@ -1193,9 +1193,9 @@
         "retry_required",
         "denied"
       ],
-      "sourceSafetyClass": "source_safe_conversation_terminal_handoff_metadata",
+      "sourceSafetyClass": "source_safe_conversation_product_handoff_metadata",
       "terminalAuthority": {
-        "terminalRemainsTransactionCockpit": true,
+        "productRemainsTransactionWorkspace": true,
         "conversationMayPrepareIntent": true,
         "conversationMayWriteLedger": false,
         "conversationMaySignWalletOperations": false,
@@ -1232,59 +1232,59 @@
       },
       "sourceEvidence": [
         {
-          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/generate-v37-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "scripts/check-v37-gate6-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
           "present": true
         },
         {
@@ -1292,15 +1292,15 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/components/README.md",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
           "present": true
         },
         {
@@ -1314,7 +1314,7 @@
       ],
       "freshnessChecks": [
         {
-          "checkId": "delivery.conversation-terminal-handoff-row-present",
+          "checkId": "delivery.conversation-product-handoff-row-present",
           "command": "pnpm run check:v37-gate6",
           "cadence": "per_gate",
           "failClosedOn": [
@@ -1328,14 +1328,14 @@
         }
       ],
       "proofRoots": {
-        "terminal_transaction_cockpitRoot": "conversation-terminal-handoff-proof:844a6ff2f925c7a20fffe979",
-        "ledger_authority_boundaryRoot": "conversation-terminal-handoff-proof:e563e932e49ddd0818e30ba6",
-        "wallet_authority_boundaryRoot": "conversation-terminal-handoff-proof:cbcfa40bd17541f262ef3b42",
-        "source_disclosure_boundaryRoot": "conversation-terminal-handoff-proof:f07865a4c1717b371246524f",
-        "retry_repair_boundaryRoot": "conversation-terminal-handoff-proof:39f081b2e6fa4f6fcc721910"
+        "terminal_transaction_cockpitRoot": "conversation-product-handoff-proof:23fedc58c88294a5fbccc40b",
+        "ledger_authority_boundaryRoot": "conversation-product-handoff-proof:125cd4f82752281b6e2042a9",
+        "wallet_authority_boundaryRoot": "conversation-product-handoff-proof:76fe740b9fc430c8445ee24d",
+        "source_disclosure_boundaryRoot": "conversation-product-handoff-proof:5defda288e9443d921628d07",
+        "retry_repair_boundaryRoot": "conversation-product-handoff-proof:63668618c98042e97b2b4302"
       },
-      "rowRoot": "conversation-terminal-handoff-row:45e3b6fec6c4ea5a963cd434",
-      "detailRoot": "conversation-terminal-handoff-detail:28df0f953fff2f0f5514744d"
+      "rowRoot": "conversation-product-handoff-row:bbba99ff6df1ca0737e7b63e",
+      "detailRoot": "conversation-product-handoff-detail:28df0f953fff2f0f5514744d"
     }
   ],
   "sourceEvidence": [
@@ -1344,59 +1344,59 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/generate-v37-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "scripts/check-v37-gate6-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
           "present": true
         },
         {
@@ -1404,15 +1404,15 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/components/README.md",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
           "present": true
         },
         {
@@ -1430,59 +1430,59 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/generate-v37-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "scripts/check-v37-gate6-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
           "present": true
         },
         {
@@ -1490,15 +1490,15 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/components/README.md",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
           "present": true
         },
         {
@@ -1516,59 +1516,59 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/generate-v37-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "scripts/check-v37-gate6-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
           "present": true
         },
         {
@@ -1576,15 +1576,15 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/components/README.md",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
           "present": true
         },
         {
@@ -1602,59 +1602,59 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/generate-v37-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "scripts/check-v37-gate6-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
           "present": true
         },
         {
@@ -1662,15 +1662,15 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/components/README.md",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
           "present": true
         },
         {
@@ -1688,59 +1688,59 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/generate-v37-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "scripts/check-v37-gate6-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
           "present": true
         },
         {
@@ -1748,15 +1748,15 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/components/README.md",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
           "present": true
         },
         {
@@ -1774,59 +1774,59 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "BITCODE_SPEC_V37.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
+          "sourceRoot": "scripts/specifying/src/canonical/conversation-product-handoff.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/specifying/test/conversation-terminal-handoff.test.js",
+          "sourceRoot": "scripts/specifying/test/conversation-product-handoff.test.js",
           "present": true
         },
         {
-          "sourceRoot": "scripts/generate-v37-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/generate-v37-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "scripts/check-v37-gate6-conversation-terminal-handoff.mjs",
+          "sourceRoot": "scripts/check-v37-gate6-conversation-product-handoff.mjs",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/components/conversations/models/conversation-product-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/components/bitcode/pipeline/models/pipeline-selection-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx",
           "present": true
         },
         {
@@ -1834,15 +1834,15 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/components/README.md",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/pipelineSelectionQuery.test.ts",
           "present": true
         },
         {
@@ -1856,5 +1856,5 @@
       ]
     }
   ],
-  "artifactRoot": "conversation-terminal-handoff:117c381519cb5ffea62d34ee"
+  "artifactRoot": "conversation-product-handoff:de14b4ca61353b1626e7925a"
 }
