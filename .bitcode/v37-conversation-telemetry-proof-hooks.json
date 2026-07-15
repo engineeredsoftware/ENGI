@@ -380,7 +380,7 @@
         "scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js",
         "packages/api/src/conversations/privacy.ts",
         "packages/api/src/conversations/messages.ts",
-        "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md"
+        "docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md"
       ],
       "hookRoot": "conversation-telemetry-hook:91dbccac9a5cfb51335ccba6",
       "rowRoot": "conversation-telemetry-row:c4a530ef502c7d6a8567351d",
@@ -398,7 +398,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
+          "sourceRoot": "docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
           "present": true
         }
       ],
@@ -507,7 +507,7 @@
         "scripts/specifying/src/canonical/conversation-stream-event-contract.js",
         "packages/api/src/conversations/stream-events.ts",
         "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
-        "internal-docs/BITCODE_CONVERSATIONS.md"
+        "docs/BITCODE_CONVERSATIONS.md"
       ],
       "hookRoot": "conversation-telemetry-hook:8fc2c0e8275300de595fbe13",
       "rowRoot": "conversation-telemetry-row:e516615f0fb1c63c34da6d93",
@@ -525,7 +525,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CONVERSATIONS.md",
+          "sourceRoot": "docs/BITCODE_CONVERSATIONS.md",
           "present": true
         }
       ],
@@ -633,8 +633,8 @@
       "sourceRoots": [
         "packages/api/src/conversations/stream-events.ts",
         "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
-        "internal-docs/BITCODE_AGENTIC_EXECUTION.md",
-        "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md"
+        "docs/BITCODE_AGENTIC_EXECUTION.md",
+        "docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md"
       ],
       "hookRoot": "conversation-telemetry-hook:6c8717bae4b0b83557db0855",
       "rowRoot": "conversation-telemetry-row:04b251a9d24be3b71911dcf3",
@@ -648,11 +648,11 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_AGENTIC_EXECUTION.md",
+          "sourceRoot": "docs/BITCODE_AGENTIC_EXECUTION.md",
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
+          "sourceRoot": "docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
           "present": true
         }
       ],
@@ -888,7 +888,7 @@
         "scripts/specifying/src/canonical/conversation-terminal-handoff.js",
         "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
         "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
-        "internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md"
+        "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md"
       ],
       "hookRoot": "conversation-telemetry-hook:b532c56367bed26a56cb6147",
       "rowRoot": "conversation-telemetry-row:fedd177d0686bb337214a17f",
@@ -906,7 +906,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+          "sourceRoot": "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
           "present": true
         }
       ],
@@ -1015,7 +1015,7 @@
         "scripts/specifying/src/canonical/conversation-session-route-history.js",
         "packages/api/src/routes/conversations.ts",
         "apps/uapi/app/conversations/components/ConversationsBranchMenuButton.tsx",
-        "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md"
+        "docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md"
       ],
       "hookRoot": "conversation-telemetry-hook:985e0baf2ea890421b559100",
       "rowRoot": "conversation-telemetry-row:eb8ec415291f8fe6d877892e",
@@ -1033,7 +1033,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
+          "sourceRoot": "docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
           "present": true
         }
       ],
@@ -1142,7 +1142,7 @@
         "packages/api/src/conversations/privacy.ts",
         "packages/api/src/conversations/stream-events.ts",
         "apps/uapi/lib/bitcode-server-telemetry.ts",
-        "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md"
+        "docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md"
       ],
       "hookRoot": "conversation-telemetry-hook:6e589f032dc72de9f9df1043",
       "rowRoot": "conversation-telemetry-row:13ed5c563b7afabe1eb7958b",
@@ -1160,7 +1160,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
+          "sourceRoot": "docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
           "present": true
         }
       ],
@@ -1344,7 +1344,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
+          "sourceRoot": "docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
           "present": true
         }
       ]
@@ -1366,7 +1366,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CONVERSATIONS.md",
+          "sourceRoot": "docs/BITCODE_CONVERSATIONS.md",
           "present": true
         }
       ]
@@ -1384,11 +1384,11 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_AGENTIC_EXECUTION.md",
+          "sourceRoot": "docs/BITCODE_AGENTIC_EXECUTION.md",
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
+          "sourceRoot": "docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
           "present": true
         }
       ]
@@ -1432,7 +1432,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+          "sourceRoot": "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
           "present": true
         }
       ]
@@ -1454,7 +1454,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
+          "sourceRoot": "docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
           "present": true
         }
       ]
@@ -1476,7 +1476,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
+          "sourceRoot": "docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
           "present": true
         }
       ]

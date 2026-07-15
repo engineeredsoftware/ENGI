@@ -111,7 +111,7 @@
     "packages/orm/src/client.ts",
     "packages/orm/src/models/btd-registry.ts",
     "packages/orm/src/__tests__/btd-registry.test.ts",
-    "internal-docs/BITCODE_EXCHANGE_DATABASE.md",
+    "docs/BITCODE_EXCHANGE_DATABASE.md",
     ".bitcode/v27-gate-3-supply-range-proof.json",
     ".bitcode/v27-source-to-shares-mint-admission-proof.json",
     ".bitcode/v27-gate-4-mint-admission-proof.json",

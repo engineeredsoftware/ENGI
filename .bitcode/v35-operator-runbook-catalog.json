@@ -497,7 +497,7 @@
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
         "packages/agent-generics/README.md",
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
-        "internal-docs/BITCODE_AGENTIC_EXECUTION.md"
+        "docs/BITCODE_AGENTIC_EXECUTION.md"
       ],
       "sourceEvidence": [
         {
@@ -521,7 +521,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_AGENTIC_EXECUTION.md",
+          "sourceRoot": "docs/BITCODE_AGENTIC_EXECUTION.md",
           "present": true
         }
       ],
@@ -617,7 +617,7 @@
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
         "packages/llm-generics/README.md",
         "packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
-        "internal-docs/BITCODE_PROMPT_TRACE.md"
+        "docs/BITCODE_PROMPT_TRACE.md"
       ],
       "sourceEvidence": [
         {
@@ -641,7 +641,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_PROMPT_TRACE.md",
+          "sourceRoot": "docs/BITCODE_PROMPT_TRACE.md",
           "present": true
         }
       ],
@@ -1561,7 +1561,7 @@
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
         "packages/btd/src/rollback-upgrade-repair-playbook.ts",
         ".bitcode/v34-rollback-upgrade-data-repair-playbooks.json",
-        "internal-docs/DEPLOYMENT.md"
+        "docs/DEPLOYMENT.md"
       ],
       "sourceEvidence": [
         {
@@ -1585,7 +1585,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/DEPLOYMENT.md",
+          "sourceRoot": "docs/DEPLOYMENT.md",
           "present": true
         }
       ],
@@ -1930,7 +1930,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_AGENTIC_EXECUTION.md",
+          "sourceRoot": "docs/BITCODE_AGENTIC_EXECUTION.md",
           "present": true
         }
       ]
@@ -1961,7 +1961,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_PROMPT_TRACE.md",
+          "sourceRoot": "docs/BITCODE_PROMPT_TRACE.md",
           "present": true
         }
       ]
@@ -2209,7 +2209,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/DEPLOYMENT.md",
+          "sourceRoot": "docs/DEPLOYMENT.md",
           "present": true
         }
       ]

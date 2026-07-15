@@ -192,10 +192,10 @@ const alignmentRows = Object.freeze([
     alignmentClass: 'internal_docs',
     owner: 'internal-docs',
     checkedSources: [
-      'internal-docs/README.md',
-      'internal-docs/BITCODE_AGENTIC_EXECUTION.md',
-      'internal-docs/DEPLOYMENT.md',
-      'internal-docs/BITCODE_VERIFICATION.md',
+      'docs/README.md',
+      'docs/BITCODE_AGENTIC_EXECUTION.md',
+      'docs/DEPLOYMENT.md',
+      'docs/BITCODE_VERIFICATION.md',
     ],
     expectedTokens: [
       'Bitcode',
@@ -213,7 +213,7 @@ const alignmentRows = Object.freeze([
     owner: 'packages/api',
     checkedSources: [
       'packages/api/README.md',
-      'internal-docs/BITCODE_API.md',
+      'docs/BITCODE_API.md',
       'apps/uapi/app/api/read-review/route.ts',
       'apps/uapi/app/api/pipeline-host/asset-pack/route.ts',
     ],
@@ -235,7 +235,7 @@ const alignmentRows = Object.freeze([
       'apps/mcp/README.md',
       'apps/mcp/docs/public/mcp-overview.md',
       'apps/chatgpt/README.md',
-      'internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md',
+      'docs/BITCODE_CHATGPT_APP_INTERFACE.md',
     ],
     expectedTokens: [
       'MCP',

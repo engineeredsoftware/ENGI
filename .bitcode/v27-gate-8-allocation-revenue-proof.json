@@ -25,7 +25,7 @@
       "evidence": [
         "supabase/migrations/002_v27_btd_crypto_registry.sql now records direct_sats, ancestor_sats, treasury_sats, dispute_holdback_sats, direct_routes, ancestor_routes, treasury_routes, pending_routes, failed_routes, and route_state",
         "the migration constraint btd_revenue_route_conserved requires gross_sats = direct_sats + ancestor_sats + treasury_sats + dispute_holdback_sats",
-        "internal-docs/BITCODE_EXCHANGE_DATABASE.md documents the expanded licensed-read revenue-route settlement row"
+        "docs/BITCODE_EXCHANGE_DATABASE.md documents the expanded licensed-read revenue-route settlement row"
       ]
     },
     {
@@ -105,7 +105,7 @@
     "apps/uapi/app/api/btd/licensed-read-revenue/route.ts",
     "supabase/migrations/002_v27_btd_crypto_registry.sql",
     "packages/orm/src/__tests__/btd-registry.test.ts",
-    "internal-docs/BITCODE_EXCHANGE_DATABASE.md",
+    "docs/BITCODE_EXCHANGE_DATABASE.md",
     "protocol-demonstration/src/receipt-schemas.js",
     "protocol-demonstration/src/v27-crypto-primitives.js",
     "protocol-demonstration/test/v27-crypto-primitives.test.js"

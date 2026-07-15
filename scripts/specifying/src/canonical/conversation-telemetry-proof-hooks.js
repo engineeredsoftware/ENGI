@@ -255,7 +255,7 @@ export const CONVERSATION_TELEMETRY_PROOF_HOOK_ROWS = Object.freeze([
       'scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js',
       'packages/api/src/conversations/privacy.ts',
       'packages/api/src/conversations/messages.ts',
-      'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
+      'docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
     ],
     publicDocsRefs: ['docs/conversations.md#privacy-and-exports'],
     operatorRunbookSteps: [
@@ -277,7 +277,7 @@ export const CONVERSATION_TELEMETRY_PROOF_HOOK_ROWS = Object.freeze([
       'scripts/specifying/src/canonical/conversation-stream-event-contract.js',
       'packages/api/src/conversations/stream-events.ts',
       'apps/uapi/tests/conversationStreamPipelineLog.test.tsx',
-      'internal-docs/BITCODE_CONVERSATIONS.md',
+      'docs/BITCODE_CONVERSATIONS.md',
     ],
     publicDocsRefs: ['docs/conversations.md#streaming-and-proof-roots'],
     operatorRunbookSteps: [
@@ -298,8 +298,8 @@ export const CONVERSATION_TELEMETRY_PROOF_HOOK_ROWS = Object.freeze([
     sourceRoots: [
       'packages/api/src/conversations/stream-events.ts',
       'apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx',
-      'internal-docs/BITCODE_AGENTIC_EXECUTION.md',
-      'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
+      'docs/BITCODE_AGENTIC_EXECUTION.md',
+      'docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
     ],
     publicDocsRefs: ['docs/conversations.md#tools-and-source-context'],
     operatorRunbookSteps: [
@@ -343,7 +343,7 @@ export const CONVERSATION_TELEMETRY_PROOF_HOOK_ROWS = Object.freeze([
       'scripts/specifying/src/canonical/conversation-product-handoff.js',
       'apps/uapi/components/conversations/models/conversation-product-handoff.ts',
       'apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx',
-      'internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md',
+      'docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md',
     ],
     publicDocsRefs: ['docs/conversations.md#terminal-handoff'],
     operatorRunbookSteps: [
@@ -365,7 +365,7 @@ export const CONVERSATION_TELEMETRY_PROOF_HOOK_ROWS = Object.freeze([
       'scripts/specifying/src/canonical/conversation-session-route-history.js',
       'packages/api/src/routes/conversations.ts',
       'apps/uapi/components/conversations/ConversationsBranchMenuButton/ConversationsBranchMenuButton.tsx',
-      'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
+      'docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
     ],
     publicDocsRefs: ['docs/conversations.md#retry-and-recovery'],
     operatorRunbookSteps: [
@@ -387,7 +387,7 @@ export const CONVERSATION_TELEMETRY_PROOF_HOOK_ROWS = Object.freeze([
       'packages/api/src/conversations/privacy.ts',
       'packages/api/src/conversations/stream-events.ts',
       'apps/uapi/lib/bitcode-server-telemetry.ts',
-      'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
+      'docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
     ],
     publicDocsRefs: ['docs/conversations.md#retry-and-recovery'],
     operatorRunbookSteps: [

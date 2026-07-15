@@ -359,7 +359,7 @@
     },
     {
       "id": "pipeline-host-truth-present",
-      "sourcePath": "Dockerfile.long-runner",
+      "sourcePath": "containers/Dockerfile.long-runner",
       "passed": true
     },
     {
@@ -419,8 +419,8 @@
     "supabaseConfig": "supabase/config.toml:326a24c75a5e01be200cbc43",
     "baseMigration": "supabase/migrations/001_v26_production.sql:a5a5b7a51d989ebe7fb77d04",
     "btdMigration": "supabase/migrations/002_v27_btd_crypto_registry.sql:5f04f14975b2dc200e3a88d7",
-    "longRunnerDockerfile": "Dockerfile.long-runner:2b4e6ff1937c65e463774cca",
-    "longRunnerWorkerDockerfile": "Dockerfile.long-runner-worker:4791dc2c7fc6fb4727111c3d",
+    "longRunnerDockerfile": "containers/Dockerfile.long-runner:2b4e6ff1937c65e463774cca",
+    "longRunnerWorkerDockerfile": "containers/Dockerfile.long-runner-worker:4791dc2c7fc6fb4727111c3d",
     "longRunnerK8s": "infra/k8s/long-runner.yaml:443a427e14e668d8109c84e5",
     "uapiPackageJson": "apps/uapi/package.json:dc9773834cf101bb272eb07c",
     "ipExchangeSpec": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts:86af66133e5ede25935ffd9d",

@@ -3,7 +3,7 @@
   "version": "V27",
   "generatedAt": "2026-05-06T00:00:00.000Z",
   "state": "promotion-support-proof",
-  "researchRebindingDocument": "internal-docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md",
+  "researchRebindingDocument": "docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md",
   "primarySources": [
     {
       "name": "Bitcoin Core validation",

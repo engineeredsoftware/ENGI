@@ -6,7 +6,7 @@ Page shell: `apps/uapi/app/page.tsx` and `apps/uapi/app/(root)/`.
 ## Layout
 
 Named component directories under `apps/uapi/components/marketing/` follow
-`internal-docs/BITCODE_SOURCE_LAYOUT.md` (`ComponentName/ComponentName.tsx`).
+`docs/BITCODE_SOURCE_LAYOUT.md` (`ComponentName/ComponentName.tsx`).
 
 Large sections keep **shell + co-located modules**:
 

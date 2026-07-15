@@ -34,7 +34,7 @@
     "docsRoute": "apps/uapi/app/docs/[slug]/page.tsx:af7f8bedcf6b3016f73046e8",
     "publicDocsUnitTest": "apps/uapi/tests/publicDocsPageContent.test.tsx:f4605b2a539a93b9e1e1e36a",
     "docsContentUnitTest": "apps/uapi/tests/bitcodeDocsContent.test.tsx:2ec2330df086eb414078ef45",
-    "operatorReadme": "internal-docs/README.md:b723dde2988124dc8de83c56"
+    "operatorReadme": "docs/README.md:b723dde2988124dc8de83c56"
   },
   "surfaceIds": [
     "landing-page",
@@ -445,7 +445,7 @@
         "incident-reviewer"
       ],
       "sourcePaths": [
-        "internal-docs/README.md"
+        "docs/README.md"
       ],
       "claimIds": [
         "telemetry-is-observability-only",
@@ -837,7 +837,7 @@
       },
       {
         "id": "operator-readme-uses-current-claim-boundary",
-        "sourcePath": "internal-docs/README.md",
+        "sourcePath": "docs/README.md",
         "passed": true
       },
       {

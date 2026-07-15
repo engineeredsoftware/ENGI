@@ -134,7 +134,7 @@ function main() {
     'packages/api/README.md',
     'apps/mcp/README.md',
     'apps/chatgpt/README.md',
-    'internal-docs/README.md',
+    'docs/README.md',
     'apps/uapi/app/docs/bitcode-docs-content.ts',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -249,7 +249,7 @@ function main() {
     'packages/api/README.md',
     'apps/mcp/README.md',
     'apps/chatgpt/README.md',
-    'internal-docs/README.md',
+    'docs/README.md',
     'apps/uapi/app/docs/bitcode-docs-content.ts',
   ].map((relativePath) => read(root, relativePath)).join('\n');
   for (const token of ['event ids', 'proof roots', 'docs links', 'runbook links', 'redaction posture']) {

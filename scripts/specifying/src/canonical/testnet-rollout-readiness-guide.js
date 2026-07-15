@@ -152,7 +152,7 @@ const guideRows = Object.freeze([
     purpose: 'Trace telemetry, dashboards, alerts, runbooks, and repair commands from a source-safe rollout view.',
     laneIds: ['staging-testnet', 'public-testnet', 'mainnet-ready-dry-run'],
     workflowStages: ['event-review', 'dashboard-check', 'alert-threshold-check', 'runbook-execution', 'post-incident-doc-update'],
-    sourceRoots: ['internal-docs/DEPLOYMENT.md', 'internal-docs/BITCODE_VERIFICATION.md'],
+    sourceRoots: ['docs/DEPLOYMENT.md', 'docs/BITCODE_VERIFICATION.md'],
     reproducibleCommands: [
       'pnpm run check:v35-telemetry-taxonomy-catalog',
       'pnpm run check:v35-operator-runbook-catalog',
@@ -336,7 +336,7 @@ const guideRows = Object.freeze([
     purpose: 'Make rollout blockers auditable, source-safe, and fail-closed before public testnet or mainnet dry-run claims.',
     laneIds: ['staging-testnet', 'public-testnet', 'mainnet-ready-dry-run', 'value-bearing-mainnet'],
     workflowStages: ['blocker-inventory', 'docs-qa-check', 'runbook-check', 'rehearsal-check', 'promotion-decision'],
-    sourceRoots: ['specifications/SPECIFICATIONS_ROADMAP.md', 'internal-docs/README.md', '.bitcode/v35-docs-qa-alignment-report.json'],
+    sourceRoots: ['specifications/SPECIFICATIONS_ROADMAP.md', 'docs/README.md', '.bitcode/v35-docs-qa-alignment-report.json'],
     reproducibleCommands: [
       'pnpm run check:v35-gate6',
       'pnpm run check:v35-gate7',

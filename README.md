@@ -18,14 +18,14 @@ in paths** — always the single current Bitcode system under the active canon.
 | `BITCODE_SPEC_V48.md` (+ family) | **Draft** full-stack rebuild-alone SPEC for V48 work (sole Gate 3 rebuild law) |
 | `BITCODE_SPEC_V48_NOTES.md` | V48 architecture decisions + Gate 3 depositing parity matrix |
 | `BITCODE_SPEC_V48_PARITY_MATRIX.md` | Spec ↔ source ↔ tests (incl. deposit SDIVF algorithm rows) |
-| `BITCODE_V48_QA.md` | Interactive QA ledger and Gate 3 runbook |
+| `qa/BITCODE_V48_QA.md` | Interactive QA ledger and Gate 3 runbook |
 | `BITCODE_SPECIFYING.md` | Metaspec: Complete Implementation Derivability |
 | `AGENTS.md` | Agent/contributor engineering rules (gates, commits, Bezalel craft) |
-| `FAMILIARIZATION.md` | **Non-canonical** codebase walkthrough — packages, uapi, hierarchies |
-| `ASSET_PACKS.md` | **Non-canonical** AssetPack / deposit-synthesis orientation summary |
+| `docs/FAMILIARIZATION.md` | **Non-canonical** codebase walkthrough — packages, uapi, hierarchies |
+| `docs/ASSET_PACKS.md` | **Non-canonical** AssetPack / deposit-synthesis orientation summary |
 
 **Canonical truth:** only `BITCODE_SPEC_*` (and generated PROVEN / `.bitcode/vN-*`
-when part of the family). `README.md`, `FAMILIARIZATION.md`, `ASSET_PACKS.md`,
+when part of the family). `README.md`, `docs/FAMILIARIZATION.md`, `docs/ASSET_PACKS.md`,
 and `AGENTS.md` must **not** be required to rebuild the system; they link and
 orient only.
 
@@ -63,9 +63,9 @@ product routes (`/deposits`, `/reads`, `/packs`).
 
 **Component units:** `ComponentName/ComponentName.tsx` (not `index.tsx`) with
 co-located `hooks/`, `styles/`, `__tests__/`. Full contract:
-[`internal-docs/BITCODE_SOURCE_LAYOUT.md`](internal-docs/BITCODE_SOURCE_LAYOUT.md).
+[`docs/BITCODE_SOURCE_LAYOUT.md`](docs/BITCODE_SOURCE_LAYOUT.md).
 
-**Conventions for agents:** [`AGENTS.md`](AGENTS.md) · [`FAMILIARIZATION.md`](FAMILIARIZATION.md) · [`apps/uapi/ARCHITECTURE.md`](apps/uapi/ARCHITECTURE.md) · [`apps/uapi/components/README.md`](apps/uapi/components/README.md).
+**Conventions for agents:** [`AGENTS.md`](AGENTS.md) · [`docs/FAMILIARIZATION.md`](docs/FAMILIARIZATION.md) · [`apps/uapi/ARCHITECTURE.md`](apps/uapi/ARCHITECTURE.md) · [`apps/uapi/components/README.md`](apps/uapi/components/README.md).
 
 ---
 
@@ -86,7 +86,7 @@ Branch: `v48/gate-3-synthesis-pipeline-correctness` → PR into `version/v48`.
 | UI | `/deposits` master-detail, option cards, telemetry, cancel, authority/earnings |
 
 Rebuild law: `BITCODE_SPEC_V48.md` measurement law + §G3 (deposit) + **§G4 (read/settle/packs)**.
-Orientation only: [`ASSET_PACKS.md`](ASSET_PACKS.md) (non-canonical).
+Orientation only: [`docs/ASSET_PACKS.md`](ASSET_PACKS.md) (non-canonical).
 
 ### Three commercial pipelines
 
@@ -104,7 +104,7 @@ Orientation only: [`ASSET_PACKS.md`](ASSET_PACKS.md) (non-canonical).
 
 - Node **≥ 21**, **pnpm** (see root `packageManager`)
 - Docker (for local Supabase)
-- GitHub App + wallet setup for real deposit runs (see `BITCODE_V48_QA.md`)
+- GitHub App + wallet setup for real deposit runs (see `qa/BITCODE_V48_QA.md`)
 
 ### Install
 
@@ -155,7 +155,7 @@ Open `http://127.0.0.1:3000/deposits` after wallet + GitHub connect.
 5. Demand panel may show **Unestimatable** until settled Depository supply exists (honest).
 6. Optional: **Cancel run** mid-flight to verify cooperative cancel.
 
-Full QA checklist: `BITCODE_V48_QA.md` → Gate 3 depositing runbook.
+Full QA checklist: `qa/BITCODE_V48_QA.md` → Gate 3 depositing runbook.
 
 ---
 
@@ -195,8 +195,8 @@ Plain names (`obfuscation`, `conversations`, `file-editing`) when there is no
 parallel implementor family. The current tree is the **sole canon** — import
 hierarchy package names only (no dual package homes or compatibility package aliases).
 
-Full package walkthrough: [`FAMILIARIZATION.md`](FAMILIARIZATION.md) §3–§5.
-Filesystem contract: [`internal-docs/BITCODE_SOURCE_LAYOUT.md`](internal-docs/BITCODE_SOURCE_LAYOUT.md).
+Full package walkthrough: [`docs/FAMILIARIZATION.md`](docs/FAMILIARIZATION.md) §3–§5.
+Filesystem contract: [`docs/BITCODE_SOURCE_LAYOUT.md`](docs/BITCODE_SOURCE_LAYOUT.md).
 
 ---
 

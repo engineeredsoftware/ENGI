@@ -30,7 +30,7 @@
       "criterion": "web research agenda for cryptographic concepts and library optionality is complete and rebound",
       "status": "closed",
       "evidence": [
-        "internal-docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md records official-source rebinding",
+        "docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md records official-source rebinding",
         ".bitcode/v27-crypto-library-research-proof.json records primary-source choices and adapter-level optionality"
       ]
     },
@@ -115,7 +115,7 @@
     "BITCODE_SPEC_V27_PARITY_MATRIX.md",
     "BITCODE_SPEC_V27_PROVEN.md",
     "BITCODE_SPEC.txt",
-    "internal-docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md",
+    "docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md",
     "apps/uapi/components/base/bitcode/btd/BTDPrices.tsx",
     "apps/uapi/app/(root)/components/MarketingPricingSection.tsx",
     "apps/uapi/components/base/bitcode/btd/btd-tracker.tsx",
@@ -125,7 +125,7 @@
     "protocol-demonstration/server.js",
     "protocol-demonstration/src/canonical/v24-local-executors.js",
     "protocol-demonstration/src/canonical/v24-external-realization.js",
-    "internal-docs/BITCODE_API.md",
+    "docs/BITCODE_API.md",
     ".bitcode/v27-crypto-library-research-proof.json",
     ".bitcode/v27-total-closure-proof.json"
   ],

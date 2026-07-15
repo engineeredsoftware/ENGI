@@ -114,7 +114,7 @@
       "sourceRoots": [
         "apps/uapi/app/docs/bitcode-docs-content.ts",
         "apps/uapi/app/terminal/README.md",
-        "internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md"
+        "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md"
       ],
       "packageSurfaces": [
         "apps/uapi/app/terminal",
@@ -177,7 +177,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+          "sourceRoot": "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
           "present": true
         }
       ],
@@ -480,7 +480,7 @@
       "sourceRoots": [
         "apps/uapi/app/docs/bitcode-docs-content.ts",
         "apps/chatgpt/README.md",
-        "internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md"
+        "docs/BITCODE_CHATGPT_APP_INTERFACE.md"
       ],
       "packageSurfaces": [
         "apps/chatgpt/src",
@@ -542,7 +542,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md",
+          "sourceRoot": "docs/BITCODE_CHATGPT_APP_INTERFACE.md",
           "present": true
         }
       ],
@@ -650,7 +650,7 @@
       ],
       "sourceRoots": [
         "apps/uapi/app/docs/bitcode-docs-content.ts",
-        "internal-docs/ASSETPACK_EXECUTION.md",
+        "docs/ASSETPACK_EXECUTION.md",
         "packages/asset-packs-pipelines/domain/README.md",
         "packages/btd/README.md"
       ],
@@ -711,7 +711,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/ASSETPACK_EXECUTION.md",
+          "sourceRoot": "docs/ASSETPACK_EXECUTION.md",
           "present": true
         },
         {
@@ -741,7 +741,7 @@
       "sourceRoots": [
         "apps/uapi/app/docs/bitcode-docs-content.ts",
         "packages/asset-packs-pipelines/domain/README.md",
-        "internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md"
+        "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md"
       ],
       "packageSurfaces": [
         "packages/asset-packs-pipelines/domain/src",
@@ -803,7 +803,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+          "sourceRoot": "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
           "present": true
         }
       ],
@@ -1089,7 +1089,7 @@
       "sourceRoots": [
         "apps/uapi/app/docs/bitcode-docs-content.ts",
         "apps/uapi/app/conversations/README.md",
-        "internal-docs/BITCODE_CONVERSATIONS.md",
+        "docs/BITCODE_CONVERSATIONS.md",
         "SPECIFICATIONS_ROADMAP.md"
       ],
       "packageSurfaces": [
@@ -1152,7 +1152,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CONVERSATIONS.md",
+          "sourceRoot": "docs/BITCODE_CONVERSATIONS.md",
           "present": true
         },
         {
@@ -1179,7 +1179,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+          "sourceRoot": "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
           "present": true
         }
       ]
@@ -1275,7 +1275,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md",
+          "sourceRoot": "docs/BITCODE_CHATGPT_APP_INTERFACE.md",
           "present": true
         }
       ]
@@ -1311,7 +1311,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/ASSETPACK_EXECUTION.md",
+          "sourceRoot": "docs/ASSETPACK_EXECUTION.md",
           "present": true
         },
         {
@@ -1339,7 +1339,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+          "sourceRoot": "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
           "present": true
         }
       ]
@@ -1423,7 +1423,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CONVERSATIONS.md",
+          "sourceRoot": "docs/BITCODE_CONVERSATIONS.md",
           "present": true
         },
         {

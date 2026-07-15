@@ -435,7 +435,7 @@ Format: `path -- <1 sentence TL;DR>`.
  k8s/ -- Directory `k8s`.
  long-runner.yaml -- Configuration file.
  README.md -- Human orientation for this directory.
- internal-docs/ -- Engineering layout, terminology, filesystem guides.
+ docs/ -- Engineering layout, terminology, filesystem guides.
  ASSETPACK_EXECUTION.md -- Internal engineering documentation.
  BITCODE_AGENTIC_EXECUTION.md -- Internal engineering documentation.
  BITCODE_API.md -- Internal engineering documentation.
@@ -11299,15 +11299,15 @@ Format: `path -- <1 sentence TL;DR>`.
  BITCODE_SPECIFYING.md -- Bitcode system specification (draft or canon pointer family).
  BITCODE_V10_PREP_MEMO.md -- Documentation or specification text.
  BITCODE_V11_PREP_MEMO.md -- Documentation or specification text.
- BITCODE_V26_QA.md -- Documentation or specification text.
- BITCODE_V28_QA.md -- Documentation or specification text.
- BITCODE_V29_QA.md -- Documentation or specification text.
- BITCODE_V30_QA.md -- Documentation or specification text.
- BITCODE_V31_QA.md -- Documentation or specification text.
- BITCODE_V32_QA.md -- Documentation or specification text.
- BITCODE_V48_QA.md -- V48 draft notes, delta, parity, or QA ledger entry.
- Dockerfile.long-runner -- Container image build definition.
- Dockerfile.long-runner-worker -- Container image build definition.
+ qa/BITCODE_V26_QA.md -- Documentation or specification text.
+ qa/BITCODE_V28_QA.md -- Documentation or specification text.
+ qa/BITCODE_V29_QA.md -- Documentation or specification text.
+ qa/BITCODE_V30_QA.md -- Documentation or specification text.
+ qa/BITCODE_V31_QA.md -- Documentation or specification text.
+ qa/BITCODE_V32_QA.md -- Documentation or specification text.
+ qa/BITCODE_V48_QA.md -- V48 draft notes, delta, parity, or QA ledger entry.
+ containers/Dockerfile.long-runner -- Container image build definition.
+ containers/Dockerfile.long-runner-worker -- Container image build definition.
  INVESTOR_MEMO.md -- Documentation or specification text.
  jest.base.cjs -- Jest unit-test runner configuration.
  Makefile -- Repository file.

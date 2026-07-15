@@ -58,7 +58,7 @@ Page shell: `apps/uapi/app/reads/`.
 
 Import Bitcode bases + shared deposit source selection only where the product
 law is one source package control. Full filesystem contract:
-`internal-docs/BITCODE_SOURCE_LAYOUT.md`.
+`docs/BITCODE_SOURCE_LAYOUT.md`.
 
 Stable external import for workbench **types** remains:
 `@/components/reads/models/deposit-read-workbench`.

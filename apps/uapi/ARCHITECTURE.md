@@ -2,7 +2,7 @@
 
 Status: active for the V48 website application layer.
 
-Authoritative layout contract: [`internal-docs/BITCODE_SOURCE_LAYOUT.md`](../internal-docs/BITCODE_SOURCE_LAYOUT.md).  
+Authoritative layout contract: [`docs/BITCODE_SOURCE_LAYOUT.md`](../docs/BITCODE_SOURCE_LAYOUT.md).  
 Product UI law: `BITCODE_SPEC_V48.md` § Frontend component and naming architecture.
 
 ## Overview

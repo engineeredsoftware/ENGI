@@ -188,8 +188,8 @@ function main() {
     'apps/uapi/tests/conversationStreamPipelineLog.test.tsx',
     'apps/uapi/jest.config.cjs',
     'docs/conversations.md',
-    'internal-docs/BITCODE_CONVERSATIONS.md',
-    'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
+    'docs/BITCODE_CONVERSATIONS.md',
+    'docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
     'specifications/BITCODE_SPEC_V37.md',
     'specifications/BITCODE_SPEC_V37_DELTA.md',
     'specifications/BITCODE_SPEC_V37_NOTES.md',
@@ -347,7 +347,7 @@ function main() {
   assertCheck(failures, docs.includes('Terminal Handoff'), 'Public conversation docs must document Terminal handoff.');
   assertCheck(failures, docs.includes('source-safe'), 'Public conversation docs must document source-safe telemetry posture.');
 
-  const runbook = read(root, 'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md');
+  const runbook = read(root, 'docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md');
   assertCheck(failures, runbook.includes('ConversationTelemetryProofHooks'), 'Internal runbook must mention ConversationTelemetryProofHooks.');
   assertCheck(failures, includesAll(runbook, REQUIRED_DASHBOARD_PANELS), 'Internal runbook must list every dashboard panel.');
   assertCheck(failures, includesAll(runbook, REQUIRED_RUNBOOK_IDS), 'Internal runbook must list every runbook id.');

@@ -56,7 +56,7 @@ Promotes the specification family:
 - adds V27 Gate 16, crypto-library research, total-closure, and promotion
   review proof artifacts;
 - binds official-source crypto research in
-  `internal-docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md`.
+  `docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md`.
 
 Updates product and route surfaces:
 

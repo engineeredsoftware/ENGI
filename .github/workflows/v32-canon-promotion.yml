@@ -148,7 +148,7 @@ jobs:
             BITCODE_SPEC_V32_NOTES.md \
             BITCODE_SPEC_V32_PARITY_MATRIX.md \
             BITCODE_SPEC_V32_PROVEN.md \
-            BITCODE_V32_QA.md \
+            qa/BITCODE_V32_QA.md \
             protocol-demonstration/src/canon-posture.js \
             protocol-demonstration/README.md \
             scripts/specifying/src/canon-posture.js \

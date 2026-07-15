@@ -167,7 +167,7 @@ const rehearsalRows = Object.freeze([
       'packages/api/src/conversations/stream-events.ts',
       'packages/api/src/conversations/telemetry.ts',
       'apps/uapi/app/conversations/README.md',
-      'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
+      'docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
     ],
     routeUiChecks: [
       'staging-testnet.conversation.api-create-restore-branch-retry.root',
@@ -274,7 +274,7 @@ const rehearsalRows = Object.freeze([
       'apps/uapi/components/conversations/models/conversation-telemetry-proof-hooks.ts',
       'apps/uapi/tests/conversationTelemetryProofPanel.test.tsx',
       'docs/conversations.md',
-      'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
+      'docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
     ],
     routeUiChecks: [
       'conversation.telemetry-proof-panel-source-safe.root',

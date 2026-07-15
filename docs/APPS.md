@@ -1,48 +1,41 @@
-# PRODUCT: BITCODE V26 COMMERCIAL SYSTEM
+# Bitcode Apps (primarily `apps/uapi`)
 
-**Auditable market infrastructure for technical knowledge exchange**
+This guide describes the **commercial application surfaces** of Bitcode—especially
+the Next.js website and API under `apps/uapi`. Package domain law lives under
+`packages/`; specification law under `specifications/`.
 
-## I. CORE PARADIGM: DEPOSIT -> READ -> FIT -> FINISH
+For agent engineering rules see [`AGENTS.md`](./AGENTS.md). For package catalog
+and inheritance, see [`docs/FAMILIARIZATION.md`](./docs/FAMILIARIZATION.md). For AssetPack
+domain depth see [`docs/ASSET_PACKS.md`](./ASSET_PACKS.md).
 
-### The Core Operating Chain
+## Product apps in this monorepo
 
-```typescript
-interface BitcodeExperience {
-  DESIGN: "Transform instructions into architectural intelligence"
-  DEVELOP: "Execute with industrial precision and measurable excellence"
-  DIGEST: "Learn from every pattern, optimize every interaction"
-}
+| App | Path | Role |
+| --- | --- | --- |
+| **uapi** | `apps/uapi` | Primary commercial website + HTTP APIs (`/deposits`, `/reads`, `/packs`, Auxillaries, Docs, Conversations) |
+| **mcp** | `apps/mcp` | Bitcode MCP server surface |
+| **chatgpt** | `apps/chatgpt` | ChatGPT App actions |
+| **claude** | `apps/claude` | Claude App surface |
+
+**Run uapi:** from repo root `pnpm run dev:remote` or `pnpm -C apps/uapi dev:remote` (symlink `uapi/` also works).
+
+## Architecture (uapi)
+
+Dependency direction:
+
+```
+packages/* (domain)
+  → apps/uapi/lib, networking, hooks
+  → components/shadcn → Bitcode*
+  → experiences: marketing | packs | reads | deposits | docs | conversations | auxillaries
+  → app/* thin page shells
 ```
 
-### 1. DESIGN: Instructions As Architecture
+Product run language is **Pipeline**. BTD ledger language is **journal**.
+No `/terminal` product route.
 
-**THE TRUTH**: Every instruction contains architectural intelligence waiting to be discovered.
+## Commercial loop (Deposit → Read → Settle)
 
-Instructions are not requests - they are specifications. They contain:
-- Implicit patterns that must be discovered
-- Architectural requirements that must be extracted
-- Quality metrics that must be inferred
-- Excellence standards that must be achieved
-
-### 2. DEVELOP: Industrial Execution
-
-**THE TRUTH**: Development is manufacturing at scale with zero defects.
-
-Every line of code must be:
-- **Deterministic**: Same input, same output, every time
-- **Measurable**: Performance metrics on every operation
-- **Versioned**: 10,000+ PromptParts at V26 scale
-- **Traceable**: Complete execution graph visibility
-
-### 3. DIGEST: Continuous Evolution
-
-**THE TRUTH**: Every execution teaches, every pattern evolves, every interaction improves.
-
-The system digests:
-- **Execution Patterns**: What worked, what didn't, why
-- **Performance Metrics**: Every operation measured and optimized
-- **User Patterns**: Anticipate needs before they're expressed
-- **Code Patterns**: Learn architectural preferences per repository
 
 ## Evidence Documents System
 
@@ -450,3 +443,4 @@ Make every AssetPack auditable.
 Make every share traceable.
 
 V26 is the first commercial Bitcode promotion baseline.
+

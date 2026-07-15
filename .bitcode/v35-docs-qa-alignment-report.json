@@ -489,10 +489,10 @@
       "alignmentClass": "internal_docs",
       "owner": "internal-docs",
       "checkedSources": [
-        "internal-docs/README.md",
-        "internal-docs/BITCODE_AGENTIC_EXECUTION.md",
-        "internal-docs/DEPLOYMENT.md",
-        "internal-docs/BITCODE_VERIFICATION.md"
+        "docs/README.md",
+        "docs/BITCODE_AGENTIC_EXECUTION.md",
+        "docs/DEPLOYMENT.md",
+        "docs/BITCODE_VERIFICATION.md"
       ],
       "expectedTokens": [
         "Bitcode",
@@ -507,19 +507,19 @@
       "repairCommand": "refresh internal docs source ownership and rerun pnpm run check:v35-gate2 and pnpm run check:v35-gate6",
       "sourceEvidence": [
         {
-          "sourceRoot": "internal-docs/README.md",
+          "sourceRoot": "docs/README.md",
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_AGENTIC_EXECUTION.md",
+          "sourceRoot": "docs/BITCODE_AGENTIC_EXECUTION.md",
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/DEPLOYMENT.md",
+          "sourceRoot": "docs/DEPLOYMENT.md",
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_VERIFICATION.md",
+          "sourceRoot": "docs/BITCODE_VERIFICATION.md",
           "present": true
         }
       ],
@@ -551,7 +551,7 @@
       "owner": "packages/api",
       "checkedSources": [
         "packages/api/README.md",
-        "internal-docs/BITCODE_API.md",
+        "docs/BITCODE_API.md",
         "apps/uapi/app/api/read-review/route.ts",
         "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts"
       ],
@@ -572,7 +572,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_API.md",
+          "sourceRoot": "docs/BITCODE_API.md",
           "present": true
         },
         {
@@ -614,7 +614,7 @@
         "packages/mcp-generics/src/mcp-server/README.md",
         "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
         "apps/chatgpt/README.md",
-        "internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md"
+        "docs/BITCODE_CHATGPT_APP_INTERFACE.md"
       ],
       "expectedTokens": [
         "MCP",
@@ -641,7 +641,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md",
+          "sourceRoot": "docs/BITCODE_CHATGPT_APP_INTERFACE.md",
           "present": true
         }
       ],
@@ -990,19 +990,19 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "internal-docs/README.md",
+          "sourceRoot": "docs/README.md",
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_AGENTIC_EXECUTION.md",
+          "sourceRoot": "docs/BITCODE_AGENTIC_EXECUTION.md",
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/DEPLOYMENT.md",
+          "sourceRoot": "docs/DEPLOYMENT.md",
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_VERIFICATION.md",
+          "sourceRoot": "docs/BITCODE_VERIFICATION.md",
           "present": true
         }
       ]
@@ -1016,7 +1016,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_API.md",
+          "sourceRoot": "docs/BITCODE_API.md",
           "present": true
         },
         {
@@ -1046,7 +1046,7 @@
           "present": true
         },
         {
-          "sourceRoot": "internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md",
+          "sourceRoot": "docs/BITCODE_CHATGPT_APP_INTERFACE.md",
           "present": true
         }
       ]

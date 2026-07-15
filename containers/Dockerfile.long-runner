@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------------
 # Long-runner image - executes a single AssetPack pipeline
 # ---------------------------------------------------------------------------
-# Usage: docker build -f Dockerfile.long-runner -t bitcode/long-runner:latest .
+# Usage: docker build -f containers/Dockerfile.long-runner -t bitcode/long-runner:latest .
 #        docker run -e SUPABASE_SERVICE_ROLE_KEY=... -e RUN_ID=<uuid> bitcode/long-runner
 #
 # The container expects a RUN_ID env or arg and will automatically stream

@@ -127,7 +127,7 @@ function main() {
     'specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
-    'internal-docs/README.md',
+    'docs/README.md',
     'apps/uapi/app/terminal/README.md',
     'apps/uapi/app/docs/bitcode-docs-content.ts',
     'package.json',
@@ -236,7 +236,7 @@ function main() {
   const protocolDts = read(root, 'scripts/specifying/src/index.d.ts');
   const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
-  const internalDocs = read(root, 'internal-docs/README.md');
+  const internalDocs = read(root, 'docs/README.md');
   const terminalDocs = read(root, 'apps/uapi/app/terminal/README.md');
   const publicDocs = read(root, 'apps/uapi/app/docs/bitcode-docs-content.ts');
 

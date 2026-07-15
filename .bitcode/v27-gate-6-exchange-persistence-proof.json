@@ -44,7 +44,7 @@
       "evidence": [
         "packages/orm/src/models/user-btd-balances.ts documents user_credits as a non-canonical compatibility read corridor only",
         "packages/orm/src/models/user-btd-transactions.ts documents user_credit_usages as a non-canonical compatibility read corridor only",
-        "internal-docs/BITCODE_EXCHANGE_DATABASE.md states compatibility tables cannot mint BTD or settle AssetPack rights",
+        "docs/BITCODE_EXCHANGE_DATABASE.md states compatibility tables cannot mint BTD or settle AssetPack rights",
         "packages/orm/src/__tests__/btd-registry.test.ts verifies those non-canonical compatibility assertions"
       ]
     }
@@ -70,7 +70,7 @@
     "packages/orm/src/models/user-btd-transactions.ts",
     "packages/orm/src/models/user-btd-balances.d.ts",
     "packages/orm/src/models/user-btd-transactions.d.ts",
-    "internal-docs/BITCODE_EXCHANGE_DATABASE.md",
+    "docs/BITCODE_EXCHANGE_DATABASE.md",
     "BITCODE_SPEC_V27.md",
     "BITCODE_SPEC_V27_DELTA.md",
     "BITCODE_SPEC_V27_PARITY_MATRIX.md"

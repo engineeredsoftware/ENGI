@@ -3,7 +3,7 @@
 Next.js App Router owner for the commercial website: product routes, thin API
 adapters, and React layers.
 
-**Layout contract:** [`../internal-docs/BITCODE_SOURCE_LAYOUT.md`](../internal-docs/BITCODE_SOURCE_LAYOUT.md)  
+**Layout contract:** [`../docs/BITCODE_SOURCE_LAYOUT.md`](../docs/BITCODE_SOURCE_LAYOUT.md)  
 **This package architecture:** [`ARCHITECTURE.md`](ARCHITECTURE.md)  
 **Components:** [`components/README.md`](components/README.md)
 

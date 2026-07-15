@@ -114,7 +114,7 @@
       "supabase/migrations/002_v27_btd_crypto_registry.sql",
       "protocol-demonstration/src/v27-crypto-primitives.js",
       "protocol-demonstration/test/v27-crypto-primitives.test.js",
-      "internal-docs/BITCODE_EXCHANGE_DATABASE.md",
+      "docs/BITCODE_EXCHANGE_DATABASE.md",
       ".bitcode/v27-crypto-primitives-proof.json",
       ".bitcode/v27-gate-2-ontology-cap-proof.json",
       ".bitcode/v27-gate-3-supply-range-proof.json",

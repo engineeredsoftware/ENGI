@@ -265,7 +265,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       source: DEPOSIT_SOURCE_REFS,
       canon: [
         ...DEPOSIT_CANON_REFS,
-        'BITCODE_V48_QA.md § F14 — No protected-IP exclusion instructions for deposit synthesis',
+        'qa/BITCODE_V48_QA.md § F14 — No protected-IP exclusion instructions for deposit synthesis',
       ],
     },
   }),
@@ -337,7 +337,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       ],
       canon: [
         ...DEPOSIT_CANON_REFS,
-        'BITCODE_V48_QA.md § F24 — Neediness v0: deposit-side preview of read Need-fit (depository search during depositing)',
+        'qa/BITCODE_V48_QA.md § F24 — Neediness v0: deposit-side preview of read Need-fit (depository search during depositing)',
       ],
     },
   }),
@@ -357,7 +357,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       source: [...DEPOSIT_SOURCE_REFS, 'packages/btd/src/authority.ts'],
       canon: [
         ...DEPOSIT_CANON_REFS,
-        'BITCODE_V48_QA.md § F9 — Organization Authority permanently Denied for solo operators; no bootstrap path exists',
+        'qa/BITCODE_V48_QA.md § F9 — Organization Authority permanently Denied for solo operators; no bootstrap path exists',
       ],
     },
   }),
@@ -377,7 +377,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       source: DEPOSIT_SOURCE_REFS,
       canon: [
         ...DEPOSIT_CANON_REFS,
-        'BITCODE_V48_QA.md § Gate 3 depositing — QA finalization runbook',
+        'qa/BITCODE_V48_QA.md § Gate 3 depositing — QA finalization runbook',
       ],
     },
   }),

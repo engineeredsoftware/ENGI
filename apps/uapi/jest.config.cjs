@@ -1,9 +1,9 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 const path = require('path');
-const { buildPackageMap } = require('../../jest.package-map.cjs');
+const { buildPackageMap } = require('../../tests/jest.package-map.cjs');
 const hierarchyPackageMapper = buildPackageMap(path.join(__dirname, '../../packages'));
 module.exports = {
-  resolver: path.join(__dirname, '../../jest.bitcode-resolver.cjs'),
+  resolver: path.join(__dirname, '../../tests/jest.bitcode-resolver.cjs'),
   preset: 'ts-jest',
   // Use jsdom environment for DOM-based component tests
   testEnvironment: 'jsdom',

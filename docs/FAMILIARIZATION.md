@@ -14,12 +14,12 @@ Companion docs (do not duplicate their contracts here):
 | `BITCODE_SPECIFYING.md` | Metaspec: Complete Implementation Derivability | Metaspec |
 | `AGENTS.md` | Contributor / agent engineering law (gates, commits, Bezalel craft) | No |
 | `README.md` | Product entry + local dev | No |
-| `ASSET_PACKS.md` | AssetPack / deposit-synthesis orientation summary | **No** — SPEC § measurement + G3 is law |
-| `internal-docs/BITCODE_SOURCE_LAYOUT.md` | Filesystem / component unit contract | No |
-| `internal-docs/TERMINOLOGY.md` | Product vs agent vocabulary | No |
+| `docs/ASSET_PACKS.md` | AssetPack / deposit-synthesis orientation summary | **No** — SPEC § measurement + G3 is law |
+| `docs/BITCODE_SOURCE_LAYOUT.md` | Filesystem / component unit contract | No |
+| `docs/TERMINOLOGY.md` | Product vs agent vocabulary | No |
 | `apps/uapi/ARCHITECTURE.md` | Next app architecture notes | No |
 
-**This file (`FAMILIARIZATION.md`) is non-canonical.** If it conflicts with
+**This file (`docs/FAMILIARIZATION.md`) is non-canonical.** If it conflicts with
 `BITCODE_SPEC_V48.md`, the SPEC wins. Never omit system semantics from SPEC on
 the assumption that FAMILIARIZATION or ASSET_PACKS carries them.
 
@@ -68,7 +68,7 @@ receive **BTD** rights, then entitled delivery.
 
 Launch routes: `/deposits`, `/reads`, `/packs`, Auxillaries, `/`, `/docs`.
 
-AssetPack / deposit SDIVF orientation (non-canonical): [`ASSET_PACKS.md`](ASSET_PACKS.md).  
+AssetPack / deposit SDIVF orientation (non-canonical): [`docs/ASSET_PACKS.md`](ASSET_PACKS.md).  
 Binding rebuild law: `BITCODE_SPEC_V48.md` measurement law + §G3-1…G3-15.
 
 ---
@@ -421,7 +421,7 @@ they do not scatter ad-hoc mega-strings across the app without the registry.
 
 ```
 bitcode/
-├── AGENTS.md, README.md, FAMILIARIZATION.md # this guide
+├── AGENTS.md, README.md, docs/FAMILIARIZATION.md # this guide
 ├── BITCODE_SPEC*.md / BITCODE_SPEC.txt # canon family
 ├── BITCODE_SPECIFYING.md
 ├── packages/ # domain monorepo (pnpm workspace)
@@ -431,7 +431,7 @@ bitcode/
 ├── .bitcode/ # generated structured artifacts
 ├── protocol-demonstration/ # protocol realization (not V48 UI truth)
 ├── fixtures/ # JSON fixtures
-├── internal-docs/ # engineering docs
+├── docs/ # engineering docs
 ├── docs/ # public-facing API docs fragments
 ├── tests/ # root jest setup (limited)
 └── codemod/, containers/k8/, …
@@ -721,7 +721,7 @@ Home: `apps/uapi/components/packs/`.
 | Cross-route activity projection | `bitcode/activity/PackActivityModel/pack-activity-model` (leave under Bitcode; not packs-only) |
 
 App shell: `apps/uapi/app/packs/` re-exports the page client. Layout contract:
-`internal-docs/BITCODE_SOURCE_LAYOUT.md` § Packs experience.
+`docs/BITCODE_SOURCE_LAYOUT.md` § Packs experience.
 
 ### 7.5 Docs (`/docs`)
 
@@ -756,7 +756,7 @@ Route: `/auxillaries/[pane]`. Overlays can open from product pages.
 | Shared chrome | `headers/`, `shared/` (tabs, stat grids, preference cards, workspace sections) |
 
 Layout contract: `apps/uapi/components/auxillaries/README.md` and
-`internal-docs/BITCODE_SOURCE_LAYOUT.md`.
+`docs/BITCODE_SOURCE_LAYOUT.md`.
 
 ### 7.8 Bitcode base
 
@@ -776,7 +776,7 @@ Radix/shadcn primitives re-exported with explicit `Shadcn` prefix direction
 
 Migrations under `supabase/migrations/`. Executions / events / BTD / connections
 are core. Local vs staging-testnet vs production projects are documented in
-`BITCODE_V48_QA.md` (do not mix project IDs casually).
+`qa/BITCODE_V48_QA.md` (do not mix project IDs casually).
 
 ### 8.2 Pipeline hosts
 
@@ -867,7 +867,7 @@ as if they were source of product law.
 kept up to date with structural changes. Stale content here is a defect relative
 to Complete Implementation Derivability.
 
-Update `FAMILIARIZATION.md` when:
+Update `docs/FAMILIARIZATION.md` when:
 
 - A new package family, nested `generic-*` package, or product pipeline is introduced or removed
 - Experience modularization changes the primary entry paths
@@ -886,8 +886,8 @@ Land the edit with the structural change (same commit or accompanying
 
 Lookup dictionary for this guide and the commercial tree. Prefer these spellings
 in new code and docs. Deeper product law lives in the SPEC; packaging law in
-`internal-docs/BITCODE_SOURCE_LAYOUT.md`; agent step vocabulary also in
-`internal-docs/TERMINOLOGY.md`.
+`docs/BITCODE_SOURCE_LAYOUT.md`; agent step vocabulary also in
+`docs/TERMINOLOGY.md`.
 
 ### 12.1 Acronyms and abbreviations
 
@@ -908,7 +908,7 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | **PCC** | **Prepare Concise Context** — first FailsafeGeneration kind: select Execution state *keys* (not values). |
 | **PR** | Pull request — GitHub/GitLab/Bitbucket shippable; also “gate PR” into `version/vN`. |
 | **PTRR** | **Plan → Try → Refine → Retry** — base agent step model (`@bitcode/generic-agents-ptrr`). |
-| **QA** | Quality assurance — interactive ledgers (`BITCODE_V48_QA.md`), runbooks, findings tags `V48-GateN-F*`. |
+| **QA** | Quality assurance — interactive ledgers (`qa/BITCODE_V48_QA.md`), runbooks, findings tags `V48-GateN-F*`. |
 | **RLS** | Row Level Security — Supabase/Postgres access policies. |
 | **SDIV** | Informal shorthand for the SDIVF middle phases (Discover–Implement–Validate). Prefer **SDIVF** for the full pipeline shape. |
 | **SDIVF** | **Setup → [Discover → Implement → Validate]\* → Finish** — base product pipeline shape (`SDIVFPipeline`). |

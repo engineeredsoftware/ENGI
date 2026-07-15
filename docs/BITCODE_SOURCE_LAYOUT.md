@@ -32,7 +32,10 @@ apps/uapi/app/{page shells} → compose only; no heavy logic
 | Path | Role |
 | --- | --- |
 | `scripts/` | Durable automation: gate checkers, promotion, CI helpers |
-| `specifications/` | **All** living SPEC family docs (`BITCODE_SPEC*.md`, pointer, roadmap, specifying law) |
+| `specifications/` | **All** living SPEC family docs (`BITCODE_SPEC*`, roadmap, specifying law)
+| `docs/` | Engineering docs (layout, apps, familiarization, agent rules)
+| `qa/` | Version QA ledgers (`BITCODE_VN_QA.md`) (`BITCODE_SPEC*.md`, pointer, roadmap, specifying law) |
+| `tests/` | Shared Jest helpers (`jest.base.cjs`, package map, resolver) and root test stubs
 | `scripts/specifying/` | Repo specifying machine (`@bitcode/specifying`): gate generators, canon posture (law is `specifications/BITCODE_SPECIFYING.md`) |
 | `codemod/` | **Temporary** one-off code-modification scripts for this repo (see `codemod/README.md`) |
 | `containers/images/` | OCI / appliance images (Pipeliner VCR, …) |
@@ -303,11 +306,11 @@ packages/
 bitcode/
 ├── AGENTS.md # agent/contributor engineering rules
 ├── README.md # product + layout pointer
-├── FAMILIARIZATION.md # full codebase walkthrough (packages + uapi)
+├── docs/FAMILIARIZATION.md # full codebase walkthrough (packages + uapi)
 ├── BITCODE_SPEC.txt # active canon pointer (main)
 ├── BITCODE_SPEC_V48.md # draft rebuild-alone SPEC (+ family)
 ├── BITCODE_SPECIFYING.md
-├── internal-docs/
+├── docs/
 │ ├── BITCODE_SOURCE_LAYOUT.md # this file
 │ ├── BITCODE_FRONTEND_ARCHITECTURE.md
 │ ├── TERMINOLOGY.md
@@ -453,12 +456,16 @@ bitcode/
 │ ├── tests/ # route/page contracts, e2e helpers
 │ └── .storybook/stories/
 ├── specifications/ # all living BITCODE_SPEC* family documents
+├── docs/ # engineering docs (AGENTS, APPS, FAMILIARIZATION, layout, …)
+├── qa/ # version QA ledgers
+├── tests/ # shared Jest helpers + root test stubs
 ├── scripts/ # durable gate checkers, promotion, tooling
 │   └── specifying/ # @bitcode/specifying machine (not product domain)
 ├── codemod/ # temporary one-off codemods (see codemod/README.md)
 ├── containers/
 │   ├── images/ # OCI appliances (pipeliner, …)
-│   └── k8/ # Kubernetes manifests
+│   ├── k8/ # Kubernetes manifests
+│   └── Dockerfile.long-runner* # long-runner images
 ├── supabase/
 ```
 

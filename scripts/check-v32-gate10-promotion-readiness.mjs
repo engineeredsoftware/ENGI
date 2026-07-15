@@ -131,7 +131,7 @@ function main() {
     'specifications/BITCODE_SPEC_V32_DELTA.md',
     'specifications/BITCODE_SPEC_V32_NOTES.md',
     'specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md',
-    'BITCODE_V32_QA.md',
+    'qa/BITCODE_V32_QA.md',
     ARTIFACT,
     'scripts/generate-v32-promotion-readiness-report.mjs',
     'scripts/check-v32-gate10-promotion-readiness.mjs',
@@ -168,7 +168,7 @@ function main() {
   const delta = read(root, 'specifications/BITCODE_SPEC_V32_DELTA.md');
   const notes = read(root, 'specifications/BITCODE_SPEC_V32_NOTES.md');
   const parity = read(root, 'specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md');
-  const qa = read(root, 'BITCODE_V32_QA.md');
+  const qa = read(root, 'qa/BITCODE_V32_QA.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
