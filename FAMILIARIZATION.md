@@ -434,7 +434,6 @@ bitcode/
 ├── internal-docs/ # engineering docs
 ├── docs/ # public-facing API docs fragments
 ├── tests/ # root jest setup (limited)
-├── _legacy/ # IGNORE — historical only
 └── codemod/, containers/k8/, …
 ```
 
@@ -589,7 +588,6 @@ helpers live in `deposit-source-safe-utils.ts`.
 | `externals/*` | `external-telemetry/*` (product APIs vs analytics) |
 | `*-generics` alone | A full stack — expect a matching `generic-*` family when the name is used |
 | `protocol-demonstration/` | Live V48 website measurement source of truth |
-| `_legacy/` | Anything current |
 
 ---
 
@@ -842,7 +840,6 @@ as if they were source of product law.
 
 ### 9.5 “Where must I not look?”
 
-- `_legacy/`
 - Superseded `BITCODE_SPEC_V{n<draft}.md` as live product law
 - `protocol-demonstration/` as V48 measurement canon (realization only)
 

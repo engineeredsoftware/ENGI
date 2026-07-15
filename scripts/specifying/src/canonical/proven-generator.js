@@ -100,9 +100,8 @@ function usesBitcodeSpecFamily(version) {
  * @returns {string}
  */
 function defaultSpecProvenPath(version) {
-  return usesBitcodeSpecFamily(version)
-    ? `BITCODE_SPEC_${version}_PROVEN.md`
-    : `_legacy/ENGI_SPEC_${version}_PROVEN.md`;
+  // Always under specifications/ (ENGI/_legacy tree removed).
+  return `specifications/BITCODE_SPEC_${version}_PROVEN.md`;
 }
 const V26_SECOND_GATE_TERMINAL_FILES = [
   'apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx',
@@ -7832,7 +7831,7 @@ function buildV21ProvenPackage(baseData, {
   const canonicalInputReport = buildV21CanonicalInputReport({
     currentTarget: 'V21',
     assumeExistingRelativePaths: [
-      '_legacy/ENGI_SPEC_V21_PROVEN.md',
+      'specifications/BITCODE_SPEC_V21_PROVEN.md',
       '.bitcode/v21-spec-family-report.json',
       '.bitcode/v21-canonical-input-report.json'
     ]
@@ -7897,7 +7896,7 @@ function buildV22ProvenPackage(baseData, {
     currentTarget: 'V22',
     reportVersion: 'V22',
     assumeExistingRelativePaths: [
-      '_legacy/ENGI_SPEC_V22_PROVEN.md',
+      'specifications/BITCODE_SPEC_V22_PROVEN.md',
       '.bitcode/v22-spec-family-report.json',
       '.bitcode/v22-canonical-input-report.json',
       '.bitcode/v22-canon-posture-drift-report.json'
@@ -7975,7 +7974,7 @@ function buildV23ProvenPackage(baseData, {
     currentTarget: 'V23',
     reportVersion: 'V23',
     assumeExistingRelativePaths: [
-      '_legacy/ENGI_SPEC_V23_PROVEN.md',
+      'specifications/BITCODE_SPEC_V23_PROVEN.md',
       '.bitcode/v23-spec-family-report.json',
       '.bitcode/v23-canonical-input-report.json',
       '.bitcode/v23-canon-posture-drift-report.json'
@@ -8053,7 +8052,7 @@ function buildV24ProvenPackage(baseData, {
     currentTarget: 'V24',
     reportVersion: 'V24',
     assumeExistingRelativePaths: [
-      '_legacy/ENGI_SPEC_V24_PROVEN.md',
+      'specifications/BITCODE_SPEC_V24_PROVEN.md',
       '.bitcode/v24-spec-family-report.json',
       '.bitcode/v24-canonical-input-report.json',
       '.bitcode/v24-canon-posture-drift-report.json'
@@ -8130,7 +8129,7 @@ function buildV25ProvenPackage(baseData, {
     currentTarget: 'V25',
     reportVersion: 'V25',
     assumeExistingRelativePaths: [
-      '_legacy/ENGI_SPEC_V25_PROVEN.md',
+      'specifications/BITCODE_SPEC_V25_PROVEN.md',
       '.bitcode/v25-spec-family-report.json',
       '.bitcode/v25-canonical-input-report.json',
       '.bitcode/v25-canon-posture-drift-report.json'

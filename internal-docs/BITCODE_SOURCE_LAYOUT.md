@@ -460,7 +460,6 @@ bitcode/
 │   ├── images/ # OCI appliances (pipeliner, …)
 │   └── k8/ # Kubernetes manifests
 ├── supabase/
-└── _legacy/ # historical specs only — do not implement from
 ```
 
 ---
@@ -485,7 +484,7 @@ bitcode/
 - God clients that own models + UI + fetch + formatting in one file
 - Cross-experience imports
 - Versioned path names (`v48-*`, `api/v1`) unless explicitly directed
-- Implementing from `_legacy/` or superseded SPEC files
+- Implementing from superseded SPEC files or removed historical trees
 
 ---
 

@@ -2,7 +2,7 @@
 
 Status: historical prep memo for the V10 draft + implementation pass
 Date: 2026-04-03
-Baseline preserved: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V9.md`
+Baseline preserved: `(removed monorepo path, formerly _legacy/)ENGI_SPEC_V9.md`
 Historical pointer note: this memo was authored before the Bitcode root-family cut-over, when the canonical pointer still remained on `V8`
 
 ## Purpose
@@ -137,8 +137,8 @@ Therefore V10 should make the live boundary explicit while still improving the l
 Required outputs:
 
 1. `/Users/garrettmaring/Developer/ENGI/BITCODE_V10_PREP_MEMO.md`
-2. `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V10.md`
-3. `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V10_NOTES.md`
+2. `(removed monorepo path, formerly _legacy/)ENGI_SPEC_V10.md`
+3. `(removed monorepo path, formerly _legacy/)ENGI_SPEC_V10_NOTES.md`
 4. `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/SPEC_V10_IMPLEMENTATION_MATRIX.md`
 5. initial V10 implementation in `protocol-demonstration`
 6. tests run

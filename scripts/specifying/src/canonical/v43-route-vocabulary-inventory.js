@@ -105,7 +105,6 @@ const EXCLUDED_DIRECTORIES = new Set([
   '.turbo',
   '.vercel',
   '.workbench',
-  '_legacy',
   'coverage',
   'dist',
   'node_modules',

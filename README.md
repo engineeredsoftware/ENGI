@@ -188,7 +188,7 @@ Full QA checklist: `BITCODE_V48_QA.md` → Gate 3 depositing runbook.
 | `packages/obfuscation/` | Privacy transforms (`@bitcode/obfuscation`) |
 | `supabase/migrations/` | `executions`, `execution_events`, RLS |
 | `scripts/` | Spec quality, canon checks, promotion |
-| `_legacy/`, `protocol-demonstration/` | **Not** active product canon for V48 gates |
+| `protocol-demonstration/` (removed) | **Not** active product canon for V48 gates |
 
 **Hierarchy law:** `*-generics` primitives pair with `generic-*/*` implementors.
 Plain names (`obfuscation`, `conversations`, `file-editing`) when there is no
@@ -231,7 +231,7 @@ grounded is **Unestimatable**, not invented.
 ## What not to do
 
 - Do not version source paths (`api/v1`, `v48-*` product modules) unless directed.
-- Do not implement from `protocol-demonstration/` or `_legacy/` as product law.
+- Do not implement from `protocol-demonstration/` as product law.
 - Do not open value-bearing mainnet settlement in V48 draft work.
 - Do not expand Gate 3 into full Reading settlement product (later gates).
 
@@ -1239,7 +1239,6 @@ App.
 ## Repository Rules
 
 - Ground new work in `BITCODE_SPEC.txt` and the active specification family.
-- Treat `_legacy/` as non-canonical.
 - Do not add explicit versioned source routes or compatibility source names.
 - Update source in-place to match the active canon and current draft target.
 - Keep specification notes, QA ledgers, tests, and implementation synchronized.

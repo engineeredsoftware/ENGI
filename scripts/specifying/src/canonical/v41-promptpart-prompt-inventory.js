@@ -144,8 +144,7 @@ function listFiles(repoRoot, sourcePath, options = {}) {
         entry.name === 'dist' ||
         entry.name === 'node_modules' ||
         entry.name === '.next' ||
-        entry.name === 'tmp' ||
-        entry.name === '_legacy'
+        entry.name === 'tmp'
       ) {
         continue;
       }

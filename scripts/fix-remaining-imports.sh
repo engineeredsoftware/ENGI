@@ -25,7 +25,6 @@ done < <(
 remaining=$(
   rg "} from.*} from" "$pipeline_dir" \
     --glob '*.ts' \
-    --glob '!_legacy/**' \
     --glob '!node_modules/**' \
     --count-matches || true
 )

@@ -235,9 +235,10 @@ function usesRequiredNotesCompanion(version) {
  * @param {string} version
  * @returns {string}
  */
-function specPointerFilename(version) {
+function specPointerFilename(_version) {
   // Basename only — directory is supplied by specFamilyDirectory / resolveSpecPointerFilename.
-  return usesBitcodeSpecFamily(version) ? 'BITCODE_SPEC.txt' : 'ENGI_SPEC.txt';
+  // ENGI/_legacy family removed; only Bitcode specifications/ remains.
+  return 'BITCODE_SPEC.txt';
 }
 
 /**
@@ -254,11 +255,6 @@ function resolveSpecPointerFilename(repoRoot, version) {
   // Root fallback for transitional trees.
   if (fileExists(path.join(repoRoot, preferred))) return preferred;
 
-  const fallback = preferred === 'BITCODE_SPEC.txt' ? 'ENGI_SPEC.txt' : 'BITCODE_SPEC.txt';
-  const fallbackUnderSpecs = path.join('specifications', fallback);
-  if (fileExists(path.join(repoRoot, fallbackUnderSpecs))) return fallbackUnderSpecs;
-  if (fileExists(path.join(repoRoot, fallback))) return fallback;
-
   return preferredUnderSpecs;
 }
 
@@ -266,28 +262,28 @@ function resolveSpecPointerFilename(repoRoot, version) {
  * @param {string} version
  * @returns {string}
  */
-function specSupportPrefix(version) {
+function specSupportPrefix(_version) {
   // Basename prefix for BITCODE_SPECIFYING.md / TEMPLATEGUIDE companions.
-  return usesBitcodeSpecFamily(version) ? 'BITCODE_SPEC' : 'ENGI_SPEC';
+  return 'BITCODE_SPEC';
 }
 
 /**
  * @param {string} version
  * @returns {string}
  */
-function specFamilyPrefix(version) {
+function specFamilyPrefix(_version) {
   // Basename prefix for BITCODE_SPEC_VNN.md family files.
-  return usesBitcodeSpecFamily(version) ? 'BITCODE_SPEC' : 'ENGI_SPEC';
+  return 'BITCODE_SPEC';
 }
 
 /**
  * @param {string} version
  * @returns {string}
  */
-function specFamilyDirectory(version) {
-  // Bitcode specification documents live under specifications/ (V48 layout law).
-  // Historical ENGI family remains under _legacy/ when present.
-  return usesBitcodeSpecFamily(version) ? 'specifications' : '_legacy';
+function specFamilyDirectory(_version) {
+  // All living Bitcode specification documents live under specifications/.
+  // The historical `_legacy/` ENGI tree has been removed from the monorepo.
+  return 'specifications';
 }
 
 /**

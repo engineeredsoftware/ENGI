@@ -107,7 +107,7 @@ function listFiles(repoRoot, sourceRoot) {
   const found = [];
   const walk = (currentAbsolute, currentRelative) => {
     for (const entry of readdirSync(currentAbsolute, { withFileTypes: true })) {
-      if (entry.name === 'dist' || entry.name === 'node_modules' || entry.name === '_legacy') continue;
+      if (entry.name === 'dist' || entry.name === 'node_modules') continue;
       const nextAbsolute = path.join(currentAbsolute, entry.name);
       const nextRelative = path.join(currentRelative, entry.name);
       if (entry.isDirectory()) walk(nextAbsolute, nextRelative);

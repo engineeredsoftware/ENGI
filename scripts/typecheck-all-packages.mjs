@@ -17,7 +17,7 @@ function walkPackageJson(dir, acc = []) {
     return acc;
   }
   for (const entry of entries) {
-    if (['node_modules', 'dist', '.git', '_legacy', 'coverage', '.next', 'storybook-static', '.turbo'].includes(entry.name)) {
+    if (['node_modules', 'dist', '.git', 'coverage', '.next', 'storybook-static', '.turbo'].includes(entry.name)) {
       continue;
     }
     const full = path.join(dir, entry.name);

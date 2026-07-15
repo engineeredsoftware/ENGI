@@ -66,7 +66,7 @@ function projectLabel(activeCanonVersion, draftTargetVersion = '') {
  * @returns {string}
  */
 function specFamilyPrefix(activeCanonVersion, draftTargetVersion = '') {
-  return projectLabel(activeCanonVersion, draftTargetVersion) === 'Bitcode' ? 'BITCODE_SPEC' : 'ENGI_SPEC';
+  return 'BITCODE_SPEC';
 }
 
 /**
@@ -81,7 +81,7 @@ function resolveSpecPointerFilename(repoRoot, activeCanonVersion, draftTargetVer
   if (existsSync(path.join(repoRoot, preferredUnderSpecs))) return preferredUnderSpecs;
   if (existsSync(path.join(repoRoot, preferredBase))) return preferredBase;
 
-  const fallbackBase = preferredBase === 'BITCODE_SPEC.txt' ? 'ENGI_SPEC.txt' : 'BITCODE_SPEC.txt';
+  const fallbackBase = preferredBase;
   const fallbackUnderSpecs = path.join('specifications', fallbackBase);
   if (existsSync(path.join(repoRoot, fallbackUnderSpecs))) return fallbackUnderSpecs;
   if (existsSync(path.join(repoRoot, fallbackBase))) return fallbackBase;

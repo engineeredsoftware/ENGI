@@ -52,10 +52,7 @@ function projectLabel(version) {
 }
 
 function promotedProvenPath(version) {
-  const numeric = Number(String(version || '').replace(/^V/u, ''));
-  return Number.isInteger(numeric) && numeric >= 26
-    ? `BITCODE_SPEC_${version}_PROVEN.md`
-    : `_legacy/ENGI_SPEC_${version}_PROVEN.md`;
+  return `BITCODE_SPEC_${version}_PROVEN.md`;
 }
 
 /**
@@ -107,7 +104,7 @@ function rewriteReadme(content, version, nextDraft) {
     `\`BITCODE_SPEC.txt -> ${version}\`.`
   );
   rewritten = rewritten.replace(
-    /^- current generated appendix: `(?:BITCODE_SPEC_V\d+_PROVEN\.md|_legacy\/ENGI_SPEC_V\d+_PROVEN\.md)`$/m,
+    /^- current generated appendix: `BITCODE_SPEC_V\d+_PROVEN\.md`$/m,
     `- current generated appendix: \`${promotedProvenPath(version)}\``
   );
   rewritten = rewritten.replace(
@@ -115,11 +112,11 @@ function rewriteReadme(content, version, nextDraft) {
     `resolves to \`${version}\`; ${nextDraft} is the next draft target after this promotion.`
   );
   rewritten = rewritten.replace(
-    /`BITCODE_SPEC\.txt -> V\d+`\.\s+This\s+demo is governed by the active V\d+ canonical\s+spec and\s+`(?:BITCODE_SPEC_V\d+_PROVEN\.md|_legacy\/ENGI_SPEC_V\d+_PROVEN\.md)` as the current generated appendix(?:\s+while\s+[^.]+)?\./m,
+    /`BITCODE_SPEC\.txt -> V\d+`\.\s+This\s+demo is governed by the active V\d+ canonical\s+spec and\s+`(?:BITCODE_SPEC_V\d+_PROVEN\.md)` as the current generated appendix(?:\s+while\s+[^.]+)?\./m,
     `\`BITCODE_SPEC.txt -> ${version}\`. This demo is governed by the active ${version} canonical\nspec and \`${promotedProvenPath(version)}\` as the current generated appendix.`
   );
   rewritten = rewritten.replace(
-    /This\s+demo is governed by the active V\d+ canonical\s+spec and\s+`(?:BITCODE_SPEC_V\d+_PROVEN\.md|_legacy\/ENGI_SPEC_V\d+_PROVEN\.md)` as the current generated appendix(?:\s+while\s+[^.]+)?\./m,
+    /This\s+demo is governed by the active V\d+ canonical\s+spec and\s+`(?:BITCODE_SPEC_V\d+_PROVEN\.md)` as the current generated appendix(?:\s+while\s+[^.]+)?\./m,
     `This demo is governed by the active ${version} canonical\nspec and \`${promotedProvenPath(version)}\` as the current generated appendix.`
   );
   rewritten = rewritten.replace(

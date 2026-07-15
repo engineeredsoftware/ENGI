@@ -145,7 +145,7 @@ function listFiles(repoRoot, sourcePath) {
     const entries = readdirSync(currentAbsolute, { withFileTypes: true });
     const entryNames = new Set(entries.map((entry) => entry.name));
     for (const entry of entries) {
-      if (entry.name === 'dist' || entry.name === 'node_modules' || entry.name === '_legacy') continue;
+      if (entry.name === 'dist' || entry.name === 'node_modules') continue;
       const nextAbsolute = path.join(currentAbsolute, entry.name);
       const nextRelative = path.join(currentRelative, entry.name);
       if (entry.isDirectory()) {

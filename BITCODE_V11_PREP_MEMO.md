@@ -2,7 +2,7 @@
 
 Status: historical prep memo for the V11 draft + implementation pass
 Date: 2026-04-03
-Baseline preserved: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V10.md`
+Baseline preserved: `(removed monorepo path, formerly _legacy/)ENGI_SPEC_V10.md`
 Historical pointer note: this memo was authored before the Bitcode root-family cut-over, when the canonical pointer still remained on `V8`
 
 ## Purpose
@@ -168,8 +168,8 @@ Profile A MUST NOT:
 Required outputs:
 
 1. `/Users/garrettmaring/Developer/ENGI/BITCODE_V11_PREP_MEMO.md`
-2. `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V11.md`
-3. `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V11_NOTES.md`
+2. `(removed monorepo path, formerly _legacy/)ENGI_SPEC_V11.md`
+3. `(removed monorepo path, formerly _legacy/)ENGI_SPEC_V11_NOTES.md`
 4. `/Users/garrettmaring/Developer/ENGI/protocol-demonstration/SPEC_V11_IMPLEMENTATION_MATRIX.md`
 5. initial V11 implementation in `protocol-demonstration`
 6. tests run

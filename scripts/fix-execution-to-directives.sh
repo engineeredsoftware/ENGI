@@ -26,7 +26,6 @@ done < <(
   rg -l "_TRY_EXECUTION" "$repo_root/packages" \
     --glob '*.ts' \
     --glob '*.tsx' \
-    --glob '!_legacy/**' \
     --glob '!node_modules/**' || true
 )
 
@@ -37,7 +36,6 @@ done < <(
   rg -l "_try_execution" "$repo_root/packages" \
     --glob '*.ts' \
     --glob '*.tsx' \
-    --glob '!_legacy/**' \
     --glob '!node_modules/**' || true
 )
 

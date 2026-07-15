@@ -83,7 +83,10 @@ test('@bitcode/specifying commercial formalization exports package-native canon 
   assert.equal(typeof protocol.generateCanonicalProvenMarkdown, 'function');
   assert.equal(typeof protocol.buildV40PromotionReadinessReport, 'function');
   assert.equal(typeof protocol.V40_PROMOTION_READINESS_REPORT_ARTIFACT_PATH, 'string');
-  assert.equal(protocol.defaultProvenOutputPath(expectedPosture.activeCanon), `BITCODE_SPEC_${expectedPosture.activeCanon}_PROVEN.md`);
+  assert.equal(
+    protocol.defaultProvenOutputPath(expectedPosture.activeCanon),
+    `specifications/BITCODE_SPEC_${expectedPosture.activeCanon}_PROVEN.md`,
+  );
   const specFamilyReport = protocol.buildV21SpecFamilyReport({
     version: expectedPosture.activeCanon,
     mode: 'promoted',

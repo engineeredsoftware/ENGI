@@ -10,17 +10,12 @@ const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
 
 function archivedSpecPath(version, suffix = '') {
-  const numeric = Number(String(version || '').replace(/^V/u, ''));
-  return Number.isInteger(numeric) && numeric >= 26
-    ? path.join(repoRoot, `BITCODE_SPEC_${version}${suffix}.md`)
-    : path.join(repoRoot, `_legacy/ENGI_SPEC_${version}${suffix}.md`);
+  // Living SPEC family is under specifications/ only (ENGI/_legacy removed).
+  return path.join(repoRoot, 'specifications', `BITCODE_SPEC_${version}${suffix}.md`);
 }
 
 function archivedProvenOutput(version) {
-  const numeric = Number(String(version || '').replace(/^V/u, ''));
-  return Number.isInteger(numeric) && numeric >= 26
-    ? `BITCODE_SPEC_${version}_PROVEN.md`
-    : `_legacy/ENGI_SPEC_${version}_PROVEN.md`;
+  return path.join('specifications', `BITCODE_SPEC_${version}_PROVEN.md`);
 }
 
 /**

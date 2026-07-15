@@ -331,7 +331,7 @@ Format: `path -- <1 sentence TL;DR>`.
  .vercel/ -- Directory `.vercel`.
  project.json -- Configuration file.
  README.txt -- Documentation or specification text.
- _legacy/ -- Historical specs only — never implement from here.
+ (removed) _legacy/ was historical ENGI specs; deleted from monorepo.
  field-intelligence/ -- Legacy historical artifact (do not implement from).
  README.md -- Human orientation for this directory.
  internal-docs-experimental/ -- Legacy historical artifact (do not implement from).
