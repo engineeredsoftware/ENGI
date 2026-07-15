@@ -19,7 +19,7 @@ describe('MarketingOperatorGuideCard', () => {
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        'Use the walkthrough when you want the Bitcode flow narrated before you move into Deposit, Read, and Packs.',
+        'Use the walkthrough when you want the commercial flow narrated before you open Deposit, Read, or Packs.',
       ),
     ).toBeInTheDocument();
   });
@@ -30,7 +30,7 @@ describe('MarketingOperatorGuideCard', () => {
     expect(await screen.findByText('Walkthrough')).toBeInTheDocument();
     expect(
       await screen.findByText(
-        'The recorded walkthrough is being refreshed. Use the docs panels and the Packs activity route while the next capture is published.',
+        'The recorded walkthrough is being refreshed. Use the docs chapters and the Packs activity ledger while the next capture is published.',
       ),
     ).toBeInTheDocument();
     expect(

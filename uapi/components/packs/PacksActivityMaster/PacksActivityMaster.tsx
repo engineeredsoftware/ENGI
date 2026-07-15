@@ -124,7 +124,7 @@ export function PacksActivityMaster({
                     key={activityType}
                     className="border border-white/10 bg-white/[0.035] px-2.5 py-1"
                   >
-                    {formatType(activityType as PackActivityType)} {count}
+                    {formatType(activityType as PacksTypeFilter)} {count}
                   </span>
                 ))
               ) : (

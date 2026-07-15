@@ -137,18 +137,19 @@ test('V48 commercial MVP Playwright suite files remain present', () => {
 
   assert.match(suiteSource, /\/packs/u);
   assert.match(suiteSource, /\/exchange/u);
-  assert.match(suiteSource, /\/auxillaries\/profile/u);
-  assert.match(suiteSource, /\/auxillaries\/externals/u);
-  assert.match(suiteSource, /\/auxillaries\/interfaces/u);
-  assert.match(suiteSource, /\/auxillaries\/wallet/u);
+  // V48: Auxillaries open as the Packs support plane (query), not legacy
+  // /auxillaries/{pane} product routes.
+  assert.match(suiteSource, /auxillary-open-to=profile/u);
+  assert.match(suiteSource, /auxillary-open-to=externals/u);
+  assert.match(suiteSource, /auxillary-open-to=interfaces/u);
+  assert.match(suiteSource, /auxillary-open-to=wallet/u);
   assert.match(suiteSource, /\/btd\/asset-pack-run-branch-remediation/u);
   assert.match(suiteSource, /\/conversations/u);
   assert.match(suiteSource, /\/docs/u);
   assert.match(suiteSource, /Open BTD wallet auxillary|bitcode:btd-wallet-intent/u);
-  assert.match(suiteSource, /Search transactions/u);
-  assert.match(suiteSource, /transactionSearch/u);
-  assert.match(suiteSource, /transactionOwnership/u);
-  assert.match(suiteSource, /Clear all filters/u);
+  // Packs master filters (Terminal transaction filters retired from product MVP).
+  assert.match(suiteSource, /Pack activity/u);
+  assert.match(suiteSource, /my-assetpacks|settled-assetpack|depository-assetpack/u);
   assert.match(suiteSource, /data-share/u);
   assert.match(suiteSource, /\/docs\/mcp-api/u);
   assert.match(suiteSource, /\/docs\/chatgpt-app/u);
