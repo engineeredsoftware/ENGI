@@ -402,8 +402,9 @@ export function BTDTracker({
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
               >
                 <div
-                  className="tracker-logo relative w-4 h-4 transform rotate-0 origin-center transition-all duration-300 ease-out filter group-hover:rotate-90 group-hover:drop-shadow-[0_0_8px_rgba(103,254,183,0.8)]"
-                  style={{ backfaceVisibility: 'hidden', willChange: 'transform', transformBox: 'fill-box', transformOrigin: 'center center' }}
+                  // Mark SSOT is tilted −17.5°. Hover +17° CSS (~upright, 0.5° under full cancel).
+                  className="tracker-logo relative h-4 w-4 origin-center transition-transform duration-300 ease-out group-hover:rotate-[17deg] group-hover:drop-shadow-[0_0_8px_rgba(103,254,183,0.8)]"
+                  style={{ backfaceVisibility: 'hidden' }}
                 >
                   <Logo height="h-4" width="w-4" fill={isHovered ? '#67feb7' : '#67feb780'} />
                 </div>
