@@ -12,7 +12,7 @@ These notes accompany the promoted V27 canon and do not reopen V26.
 They record the tokenomics handoff that V26 intentionally deferred after proving the commercial Bitcode baseline.
 
 The source research memo that seeded this file contained external citation handles and prior-work references.
-Those references are rebound in `internal-docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` before promotion.
+Those references are rebound in `internal-.docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` before promotion.
 This file remains an internal specification note, not a cited public paper.
 
 ## WDRR Digest Incorporated
@@ -131,7 +131,7 @@ The V26 repository already contains reliable anchors for formal `$BTD` tokenomic
 | `packages/btd/src/index.ts` | Current package surface | `BTD_MAX_MINTABLE_SUPPLY`, BTC fee basis, measured `$BTD`, fungible-mutation rejection |
 | `packages/btd/src/plans.ts` | Future bundle posture | V28 reference bundles must not imply V26 checkout or fungible token sale |
 | `.bitcode/source-to-shares-fifth-gate-proof.json` | Existing proof artifact | Future minted range roots, source roots, measurement roots, and allocation roots |
-| `internal-docs/BITCODE_EXCHANGE_DATABASE.md` | Exchange schema target | Supply state, ranges, cells, receipts, licenses, ancestry, revenue routes |
+| `internal-.docs/BITCODE_EXCHANGE_DATABASE.md` | Exchange schema target | Supply state, ranges, cells, receipts, licenses, ancestry, revenue routes |
 | `apps/uapi/components/base/bitcode/btd/*` | Current UI posture | BTC fee asset vs non-fungible `$BTD` holding/read-right disclosure |
 | `apps/uapi/app/[token]/page.tsx` or successor route | Future token/range route | Owner-read, licensed-read, range boundaries, supply remaining, legal-right disclosure |
 
@@ -865,7 +865,7 @@ Gate 16 closes product-surface, research, and promotion proof readiness:
 - Terminal Read minting and minimal Exchange range-right acquisition are both V27 product surfaces;
 - broader Exchange market depth and broader Terminal product workflows remain later-version work;
 - `/btd/[assetPackId]` is the unversioned AssetPack range disclosure route for range, access policy, read branch, proof root, and source manifest root;
-- `internal-docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` binds official-source crypto research to V27 choices without freezing candidate adapter libraries as protocol law;
+- `internal-.docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` binds official-source crypto research to V27 choices without freezing candidate adapter libraries as protocol law;
 - `BITCODE_SPEC_V27_PROVEN.md` and `.bitcode/v27-total-closure-proof.json` map required proof families to gate artifacts or accepted equivalents.
 
 The key truth split:

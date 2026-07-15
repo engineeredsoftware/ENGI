@@ -408,7 +408,7 @@
   ],
   "sourceFiles": [
     {
-      "path": ".ai/PRODUCT.md",
+      "path": ".docs/PRODUCT.md",
       "pathRoot": "v43-route-vocabulary-file:d7d02ce6b8059c5fdff24d84",
       "categories": [
         "doc",
@@ -2621,7 +2621,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/conversations.md",
+      "path": ".docs/conversations.md",
       "pathRoot": "v43-route-vocabulary-file:ceebcec7ea32633f37a6c692",
       "categories": [
         "doc",
@@ -2639,7 +2639,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/ASSETPACK_EXECUTION.md",
+      "path": ".docs/ASSETPACK_EXECUTION.md",
       "pathRoot": "v43-route-vocabulary-file:83303a87f7546909f57cceff",
       "categories": [
         "doc",
@@ -2655,7 +2655,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_AGENTIC_EXECUTION.md",
+      "path": ".docs/BITCODE_AGENTIC_EXECUTION.md",
       "pathRoot": "v43-route-vocabulary-file:677cb5ec9edf663619861e85",
       "categories": [
         "doc",
@@ -2670,7 +2670,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_API.md",
+      "path": ".docs/BITCODE_API.md",
       "pathRoot": "v43-route-vocabulary-file:99f18a1fe95386ae51c67bda",
       "categories": [
         "doc",
@@ -2686,7 +2686,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_ARCHITECTURE_PATTERNS.md",
+      "path": ".docs/BITCODE_ARCHITECTURE_PATTERNS.md",
       "pathRoot": "v43-route-vocabulary-file:2ff3fa77822943c21b83b08d",
       "categories": [
         "doc"
@@ -2701,7 +2701,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_CHATGPT_APP_INTERFACE.md",
+      "path": ".docs/BITCODE_CHATGPT_APP_INTERFACE.md",
       "pathRoot": "v43-route-vocabulary-file:adbaabe00bb53288a52a357f",
       "categories": [
         "doc"
@@ -2716,7 +2716,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_CONNECTED_SERVICES.md",
+      "path": ".docs/BITCODE_CONNECTED_SERVICES.md",
       "pathRoot": "v43-route-vocabulary-file:9c1e53cf4fd69109e304c61f",
       "categories": [
         "doc",
@@ -2731,7 +2731,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_CONVERSATIONS.md",
+      "path": ".docs/BITCODE_CONVERSATIONS.md",
       "pathRoot": "v43-route-vocabulary-file:9bb807134797d384238707ca",
       "categories": [
         "doc",
@@ -2748,7 +2748,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
+      "path": ".docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md",
       "pathRoot": "v43-route-vocabulary-file:84e9e70bf32f367dba8e0361",
       "categories": [
         "doc",
@@ -2764,7 +2764,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_EXCHANGE_DATABASE.md",
+      "path": ".docs/BITCODE_EXCHANGE_DATABASE.md",
       "pathRoot": "v43-route-vocabulary-file:b5ea15f6827e74ccf972c950",
       "categories": [
         "doc",
@@ -2780,7 +2780,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_EXECUTIONS.md",
+      "path": ".docs/BITCODE_EXECUTIONS.md",
       "pathRoot": "v43-route-vocabulary-file:c2ce36ef00416e803b4aab09",
       "categories": [
         "doc",
@@ -2798,7 +2798,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_EXECUTION_WORK_SUMMARIES.md",
+      "path": ".docs/BITCODE_EXECUTION_WORK_SUMMARIES.md",
       "pathRoot": "v43-route-vocabulary-file:c10bf2fa20df773f683483cb",
       "categories": [
         "doc",
@@ -2813,7 +2813,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_FRONTEND_ARCHITECTURE.md",
+      "path": ".docs/BITCODE_FRONTEND_ARCHITECTURE.md",
       "pathRoot": "v43-route-vocabulary-file:22a5a65e323ccaba04186c65",
       "categories": [
         "doc",
@@ -2831,7 +2831,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_INTERFACE_STYLE.md",
+      "path": ".docs/BITCODE_INTERFACE_STYLE.md",
       "pathRoot": "v43-route-vocabulary-file:8ac4fef9aaeb1e31e10afcf6",
       "categories": [
         "doc",
@@ -2847,7 +2847,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_PROTOCOL_THESIS.md",
+      "path": ".docs/BITCODE_PROTOCOL_THESIS.md",
       "pathRoot": "v43-route-vocabulary-file:e5027b1c45af14d2789ac192",
       "categories": [
         "doc"
@@ -2862,7 +2862,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_SOURCE_EVIDENCE_DOCUMENTS.md",
+      "path": ".docs/BITCODE_SOURCE_EVIDENCE_DOCUMENTS.md",
       "pathRoot": "v43-route-vocabulary-file:7c0256d29e2dbbecde837550",
       "categories": [
         "doc"
@@ -2877,7 +2877,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+      "path": ".docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
       "pathRoot": "v43-route-vocabulary-file:9d1b321e1a2e389e27294fd8",
       "categories": [
         "doc"
@@ -2892,7 +2892,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_V26_GATE_NOTES.md",
+      "path": ".docs/BITCODE_V26_GATE_NOTES.md",
       "pathRoot": "v43-route-vocabulary-file:829c95c83bbd424f9bce49ae",
       "categories": [
         "doc"
@@ -2907,7 +2907,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md",
+      "path": ".docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md",
       "pathRoot": "v43-route-vocabulary-file:0970b59ab53e324d171e049d",
       "categories": [
         "doc",
@@ -2923,7 +2923,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/BITCODE_VERIFICATION.md",
+      "path": ".docs/BITCODE_VERIFICATION.md",
       "pathRoot": "v43-route-vocabulary-file:53e9901d14214ff511b2d748",
       "categories": [
         "doc",
@@ -2939,7 +2939,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/INTEGRATIONS.md",
+      "path": ".docs/INTEGRATIONS.md",
       "pathRoot": "v43-route-vocabulary-file:30fb9eab40e7c9d74b14454f",
       "categories": [
         "doc",
@@ -2956,7 +2956,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "docs/README.md",
+      "path": ".docs/README.md",
       "pathRoot": "v43-route-vocabulary-file:4e051716427d106284dbba20",
       "categories": [
         "doc",

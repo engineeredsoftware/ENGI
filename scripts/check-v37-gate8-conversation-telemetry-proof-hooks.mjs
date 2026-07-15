@@ -187,9 +187,9 @@ function main() {
     'apps/uapi/tests/conversationTelemetryProofPanel.test.tsx',
     'apps/uapi/tests/conversationStreamPipelineLog.test.tsx',
     'apps/uapi/jest.config.cjs',
-    'docs/conversations.md',
-    'docs/BITCODE_CONVERSATIONS.md',
-    'docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
+    '.docs/conversations.md',
+    '.docs/BITCODE_CONVERSATIONS.md',
+    '.docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
     '.specifications/BITCODE_SPEC_V37.md',
     '.specifications/BITCODE_SPEC_V37_DELTA.md',
     '.specifications/BITCODE_SPEC_V37_NOTES.md',
@@ -341,13 +341,13 @@ function main() {
   const overlay = read(root, 'apps/uapi/app/conversations/components/ConversationsOverlay.tsx');
   assertCheck(failures, overlay.includes('ConversationTelemetryProofPanel'), 'Conversations overlay must expose the telemetry proof panel.');
 
-  const docs = read(root, 'docs/conversations.md');
+  const docs = read(root, '.docs/conversations.md');
   assertCheck(failures, docs.includes('ConversationTelemetryProofHooks'), 'Public conversation docs must mention ConversationTelemetryProofHooks.');
   assertCheck(failures, docs.includes('Route-Local History'), 'Public conversation docs must document route-local history.');
   assertCheck(failures, docs.includes('product Handoff'), 'Public conversation docs must document product handoff.');
   assertCheck(failures, docs.includes('source-safe'), 'Public conversation docs must document source-safe telemetry posture.');
 
-  const runbook = read(root, 'docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md');
+  const runbook = read(root, '.docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md');
   assertCheck(failures, runbook.includes('ConversationTelemetryProofHooks'), 'Internal runbook must mention ConversationTelemetryProofHooks.');
   assertCheck(failures, includesAll(runbook, REQUIRED_DASHBOARD_PANELS), 'Internal runbook must list every dashboard panel.');
   assertCheck(failures, includesAll(runbook, REQUIRED_RUNBOOK_IDS), 'Internal runbook must list every runbook id.');

@@ -86,7 +86,7 @@ test('binds docs QA to spec docs artifacts routes interfaces and workflows', () 
   assert.ok(byAlignmentId.get('catalog_implementation_alignment')?.expectedTokens.includes('buildTelemetryDocumentationInterfaceIntegration'));
   assert.ok(byAlignmentId.get('catalog_implementation_alignment')?.expectedTokens.includes('buildLocalStagingTelemetryDocumentationRehearsal'));
   assert.ok(byAlignmentId.get('public_docs_disclosure_alignment')?.checkedSources.includes('apps/uapi/app/docs/bitcode-docs-content.ts'));
-  assert.ok(byAlignmentId.get('internal_docs_alignment')?.checkedSources.includes('docs/README.md'));
+  assert.ok(byAlignmentId.get('internal_docs_alignment')?.checkedSources.includes('.docs/README.md'));
   assert.ok(byAlignmentId.get('route_docs_alignment')?.checkedSources.includes('packages/api/README.md'));
   assert.ok(byAlignmentId.get('interface_docs_alignment')?.checkedSources.includes('apps/chatgpt/README.md'));
   assert.ok(byAlignmentId.get('generated_proof_appendix_alignment')?.expectedTokens.includes('.specifications/BITCODE_SPEC_V35_PROVEN.md'));

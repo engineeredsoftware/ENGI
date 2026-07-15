@@ -9,5 +9,5 @@ import { PromptPart } from '../../parts/PromptPart';
  */
 export const PROMPTPART_SPECIFIC_TOOL_IMPROVEDEVELOPINGBEHAVIOR_DOCCODETOOLOUTPUT: PromptPart =
   `Output:
-- updates (string): Markdown snippet ready to append to .ai/AGENTS.md
+- updates (string): Markdown snippet ready to append to .docs/AGENTS.md
 - metadata: evidenceDocument reference, instruction/seeking counts, digest usage flags` as PromptPart;

@@ -215,7 +215,7 @@ function main() {
         roadmap.includes(docPhrase) ||
         apiReadme.includes(docPhrase) ||
         auxReadme.includes(docPhrase),
-      `V31 Gate 4 docs/spec must describe ${docPhrase}.`,
+      `V31 Gate 4 .docs/spec must describe ${docPhrase}.`,
     );
   }
 

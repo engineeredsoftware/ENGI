@@ -6,7 +6,7 @@
 
 2. **Improve `code_design` output**
    - Funnel generated patch stubs into an automated diff synthesiser so demos can show realistic edits.
-   - Add regression checks that the tool always references `.ai/PRODUCT.md` sections it implements.
+   - Add regression checks that the tool always references `.docs/PRODUCT.md` sections it implements.
 
 3. **Author reusable design assets**
    - Capture a canonical Yapper wireframe (PNG + base64 snippet) for `depict_design_asset`.

@@ -79,7 +79,7 @@ const guideRows = Object.freeze([
     sourceRoots: [
       'apps/uapi/app/docs/bitcode-docs-content.ts',
       'apps/uapi/components/README.md',
-      'docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md',
+      '.docs/BITCODE_OPERATOR_EXPERIENCE.md',
     ],
     packageSurfaces: ['apps/uapi/app/terminal', 'packages/pipelines/asset-pack'],
     docsSections: ['terminal', 'terminal-actions', 'read-results'],
@@ -143,7 +143,7 @@ const guideRows = Object.freeze([
       'packages/mcp-generics/README.md',
       'apps/mcp/docs/public/mcp-overview.md',
       'apps/mcp/docs/public/mcp-api-reference.md',
-      'docs/api/conversations-openapi.yaml',
+      '.docs/api/conversations-openapi.yaml',
     ],
     packageSurfaces: ['apps/mcp', 'packages/api/src'],
     docsSections: ['mcp-api', 'commercial-interfaces'],
@@ -163,7 +163,7 @@ const guideRows = Object.freeze([
     sourceRoots: [
       'apps/uapi/app/docs/bitcode-docs-content.ts',
       'apps/chatgpt/README.md',
-      'docs/BITCODE_CHATGPT_APP_INTERFACE.md',
+      '.docs/BITCODE_CHATGPT_APP_INTERFACE.md',
     ],
     packageSurfaces: ['apps/chatgpt/src', 'apps/uapi/app/docs'],
     docsSections: ['chatgpt-app', 'commercial-interfaces'],
@@ -202,7 +202,7 @@ const guideRows = Object.freeze([
     canonicalTruth: ['.specifications/BITCODE_SPEC_V35.md', 'packages/pipelines/asset-pack', 'packages/btd'],
     sourceRoots: [
       'apps/uapi/app/docs/bitcode-docs-content.ts',
-      'docs/ASSETPACK_EXECUTION.md',
+      '.docs/ASSETPACK_EXECUTION.md',
       'packages/asset-packs-pipelines/domain/README.md',
       'packages/btd/README.md',
     ],
@@ -224,7 +224,7 @@ const guideRows = Object.freeze([
     sourceRoots: [
       'apps/uapi/app/docs/bitcode-docs-content.ts',
       'packages/asset-packs-pipelines/domain/README.md',
-      'docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md',
+      '.docs/BITCODE_OPERATOR_EXPERIENCE.md',
     ],
     packageSurfaces: ['packages/asset-packs-pipelines/domain/src', 'apps/uapi/app/api/read-review/route.ts'],
     docsSections: ['read-results', 'terminal-actions'],
@@ -305,10 +305,10 @@ const guideRows = Object.freeze([
     sourceRoots: [
       'apps/uapi/app/docs/bitcode-docs-content.ts',
       'apps/uapi/app/conversations/README.md',
-      'docs/BITCODE_CONVERSATIONS.md',
+      '.docs/BITCODE_CONVERSATIONS.md',
       '.specifications/SPECIFICATIONS_ROADMAP.md',
     ],
-    packageSurfaces: ['apps/uapi/app/conversations', 'docs/api/conversations-openapi.yaml'],
+    packageSurfaces: ['apps/uapi/app/conversations', '.docs/api/conversations-openapi.yaml'],
     docsSections: ['conversations', 'chatgpt-app'],
     proofSignals: ['attachment token', 'write confirmation', 'product reread link'],
     disclosureNotes: [

@@ -270,11 +270,11 @@
       "owner": "internal-docs",
       "disclosureClass": "internal_source_safe",
       "sourceRoots": [
-        "docs/README.md",
-        "docs/BITCODE_ARCHITECTURE_PATTERNS.md",
-        "docs/BITCODE_AGENTIC_EXECUTION.md",
-        "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
-        "docs/DEPLOYMENT.md"
+        ".docs/README.md",
+        ".docs/BITCODE_ARCHITECTURE_PATTERNS.md",
+        ".docs/BITCODE_AGENTIC_EXECUTION.md",
+        ".docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+        ".docs/DEPLOYMENT.md"
       ],
       "linkedSpecSections": [
         "V35 system architecture and layer boundaries",
@@ -316,23 +316,23 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "docs/README.md",
+          "sourceRoot": ".docs/README.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_ARCHITECTURE_PATTERNS.md",
+          "sourceRoot": ".docs/BITCODE_ARCHITECTURE_PATTERNS.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_AGENTIC_EXECUTION.md",
+          "sourceRoot": ".docs/BITCODE_AGENTIC_EXECUTION.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+          "sourceRoot": ".docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/DEPLOYMENT.md",
+          "sourceRoot": ".docs/DEPLOYMENT.md",
           "present": true
         }
       ],
@@ -364,7 +364,7 @@
       ],
       "routePackageBindings": [
         "apps/uapi/app/docs/[slug]/page.tsx",
-        "docs/api/conversations-openapi.yaml"
+        ".docs/api/conversations-openapi.yaml"
       ],
       "proofCoverage": [
         "public-docs-disclosure-check",
@@ -510,7 +510,7 @@
         "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts",
         "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
         "apps/uapi/app/api/executions/stream/route.ts",
-        "docs/api/conversations-openapi.yaml"
+        ".docs/api/conversations-openapi.yaml"
       ],
       "linkedSpecSections": [
         "V35 system architecture and layer boundaries",
@@ -568,7 +568,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/api/conversations-openapi.yaml",
+          "sourceRoot": ".docs/api/conversations-openapi.yaml",
           "present": true
         }
       ],
@@ -589,7 +589,7 @@
         "packages/mcp-generics/README.md",
         "apps/chatgpt/README.md",
         "apps/uapi/README.md",
-        "docs/api/conversations-openapi.yaml"
+        ".docs/api/conversations-openapi.yaml"
       ],
       "linkedSpecSections": [
         "V35 system architecture and layer boundaries",
@@ -650,7 +650,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/api/conversations-openapi.yaml",
+          "sourceRoot": ".docs/api/conversations-openapi.yaml",
           "present": true
         }
       ],
@@ -747,7 +747,7 @@
       "disclosureClass": "internal_source_safe",
       "sourceRoots": [
         "infra/README.md",
-        "docs/DEPLOYMENT.md",
+        ".docs/DEPLOYMENT.md",
         "packages/externals/vercel/README.md",
         "packages/supabase/README.md",
         "packages/pipeline-hosts/README.md"
@@ -798,7 +798,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/DEPLOYMENT.md",
+          "sourceRoot": ".docs/DEPLOYMENT.md",
           "present": true
         },
         {
@@ -828,8 +828,8 @@
       "disclosureClass": "internal_source_safe",
       "sourceRoots": [
         "scripts/specifying/src/telemetry.js",
-        "docs/BITCODE_EXECUTIONS.md",
-        "docs/BITCODE_PROMPT_TRACE.md",
+        ".docs/BITCODE_EXECUTIONS.md",
+        ".docs/BITCODE_PROMPT_TRACE.md",
         "packages/observability/README.md",
         "packages/api/src/streams/README.md"
       ],
@@ -880,11 +880,11 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_EXECUTIONS.md",
+          "sourceRoot": ".docs/BITCODE_EXECUTIONS.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_PROMPT_TRACE.md",
+          "sourceRoot": ".docs/BITCODE_PROMPT_TRACE.md",
           "present": true
         },
         {
@@ -980,11 +980,11 @@
       "owner": "security-boundary",
       "disclosureClass": "internal_source_safe",
       "sourceRoots": [
-        "docs/SECURITY.md",
+        ".docs/SECURITY.md",
         "packages/security/README.md",
         "packages/auth/README.md",
         "packages/btd/README.md",
-        "apps/uapi/.ai/AGENTS.md"
+        "apps/uapi/.docs/AGENTS.md"
       ],
       "linkedSpecSections": [
         "Identity, authorization, and sensitive flow",
@@ -1028,7 +1028,7 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "docs/SECURITY.md",
+          "sourceRoot": ".docs/SECURITY.md",
           "present": true
         },
         {
@@ -1044,7 +1044,7 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/.ai/AGENTS.md",
+          "sourceRoot": "apps/uapi/.docs/AGENTS.md",
           "present": true
         }
       ],
@@ -1121,23 +1121,23 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "docs/README.md",
+          "sourceRoot": ".docs/README.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_ARCHITECTURE_PATTERNS.md",
+          "sourceRoot": ".docs/BITCODE_ARCHITECTURE_PATTERNS.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_AGENTIC_EXECUTION.md",
+          "sourceRoot": ".docs/BITCODE_AGENTIC_EXECUTION.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+          "sourceRoot": ".docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/DEPLOYMENT.md",
+          "sourceRoot": ".docs/DEPLOYMENT.md",
           "present": true
         }
       ]
@@ -1215,7 +1215,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/api/conversations-openapi.yaml",
+          "sourceRoot": ".docs/api/conversations-openapi.yaml",
           "present": true
         }
       ]
@@ -1241,7 +1241,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/api/conversations-openapi.yaml",
+          "sourceRoot": ".docs/api/conversations-openapi.yaml",
           "present": true
         }
       ]
@@ -1281,7 +1281,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/DEPLOYMENT.md",
+          "sourceRoot": ".docs/DEPLOYMENT.md",
           "present": true
         },
         {
@@ -1307,11 +1307,11 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_EXECUTIONS.md",
+          "sourceRoot": ".docs/BITCODE_EXECUTIONS.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_PROMPT_TRACE.md",
+          "sourceRoot": ".docs/BITCODE_PROMPT_TRACE.md",
           "present": true
         },
         {
@@ -1351,7 +1351,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "docs/SECURITY.md",
+          "sourceRoot": ".docs/SECURITY.md",
           "present": true
         },
         {
@@ -1367,7 +1367,7 @@
           "present": true
         },
         {
-          "sourceRoot": "apps/uapi/.ai/AGENTS.md",
+          "sourceRoot": "apps/uapi/.docs/AGENTS.md",
           "present": true
         }
       ]

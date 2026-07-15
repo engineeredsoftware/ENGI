@@ -25,10 +25,10 @@
     "apps/uapi/app/application",
     "apps/uapi/app/exchange",
     "apps/uapi/app/btd/[assetPackId]",
-    "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
-    "docs/BITCODE_FRONTEND_ARCHITECTURE.md",
-    "docs/BITCODE_AUXILLARIES_READINESS.md",
-    "docs/BITCODE_EXCHANGE_DATABASE.md"
+    ".docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+    ".docs/BITCODE_FRONTEND_ARCHITECTURE.md",
+    ".docs/BITCODE_AUXILLARIES_READINESS.md",
+    ".docs/BITCODE_EXCHANGE_DATABASE.md"
   ],
   "closedCriteria": [
     "BITCODE_SPEC.txt points to V27 during V28 draft opening.",

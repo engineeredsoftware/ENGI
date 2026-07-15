@@ -15,12 +15,12 @@ Companion docs (do not duplicate their contracts here):
 | `AGENTS.md` | Contributor / agent engineering law (gates, commits, Bezalel craft) | No |
 | `README.md` | Product entry + quick start | No |
 | `CONTRIBUTING.md` | Developer guide (setup, canon, env, hosts, testing) | No |
-| `docs/ASSET_PACKS.md` | AssetPack / deposit-synthesis orientation summary | **No** — SPEC § measurement + G3 is law |
-| `docs/BITCODE_SOURCE_LAYOUT.md` | Filesystem / component unit contract | No |
-| `docs/TERMINOLOGY.md` | Product vs agent vocabulary | No |
+| `.docs/ASSET_PACKS.md` | AssetPack / deposit-synthesis orientation summary | **No** — SPEC § measurement + G3 is law |
+| `.docs/BITCODE_SOURCE_LAYOUT.md` | Filesystem / component unit contract | No |
+| `.docs/TERMINOLOGY.md` | Product vs agent vocabulary | No |
 | `apps/uapi/ARCHITECTURE.md` | Next app architecture notes | No |
 
-**This file (`docs/FAMILIARIZATION.md`) is non-canonical.** If it conflicts with
+**This file (`.docs/FAMILIARIZATION.md`) is non-canonical.** If it conflicts with
 `BITCODE_SPEC_V48.md`, the SPEC wins. Never omit system semantics from SPEC on
 the assumption that FAMILIARIZATION or ASSET_PACKS carries them.
 
@@ -69,7 +69,7 @@ receive **BTD** rights, then entitled delivery.
 
 Launch routes: `/deposits`, `/reads`, `/packs`, Auxillaries, `/`, `/docs`.
 
-AssetPack / deposit SDIVF orientation (non-canonical): [`docs/ASSET_PACKS.md`](ASSET_PACKS.md).  
+AssetPack / deposit SDIVF orientation (non-canonical): [`.docs/ASSET_PACKS.md`](ASSET_PACKS.md).  
 Binding rebuild law: `BITCODE_SPEC_V48.md` measurement law + §G3-1…G3-15.
 
 ---
@@ -422,7 +422,7 @@ they do not scatter ad-hoc mega-strings across the app without the registry.
 
 ```
 bitcode/
-├── AGENTS.md, README.md, docs/FAMILIARIZATION.md # this guide
+├── AGENTS.md, README.md, .docs/FAMILIARIZATION.md # this guide
 ├── BITCODE_SPEC*.md / BITCODE_SPEC.txt # canon family
 ├── BITCODE_SPECIFYING.md
 ├── packages/ # domain monorepo (pnpm workspace)
@@ -432,8 +432,8 @@ bitcode/
 ├── .bitcode/ # generated structured artifacts
 ├── protocol-demonstration/ # protocol realization (not V48 UI truth)
 ├── .fixtures/ # JSON fixtures
-├── docs/ # engineering docs
-├── docs/ # public-facing API docs fragments
+├── .docs/ # engineering docs
+├── .docs/ # public-facing API docs fragments
 ├── tests/ # root jest setup (limited)
 └── codemod/, containers/k8/, …
 ```
@@ -722,12 +722,12 @@ Home: `apps/uapi/components/packs/`.
 | Cross-route activity projection | `bitcode/activity/PackActivityModel/pack-activity-model` (leave under Bitcode; not packs-only) |
 
 App shell: `apps/uapi/app/packs/` re-exports the page client. Layout contract:
-`docs/BITCODE_SOURCE_LAYOUT.md` § Packs experience.
+`.docs/BITCODE_SOURCE_LAYOUT.md` § Packs experience.
 
 ### 7.5 Docs (`/docs`)
 
 Public documentation articles. Content is modular under
-`docs/models/` (`bitcode-docs-types`, `bitcode-docs-helpers`, `content/*`) with
+`.docs/models/` (`bitcode-docs-types`, `bitcode-docs-helpers`, `content/*`) with
 stable re-export `bitcode-docs-content.ts`. UI: thin `DocsArticlePage` plus
 rail/card/specimen/API/manual subcomponents.
 
@@ -757,7 +757,7 @@ Route: `/auxillaries/[pane]`. Overlays can open from product pages.
 | Shared chrome | `headers/`, `shared/` (tabs, stat grids, preference cards, workspace sections) |
 
 Layout contract: `apps/uapi/components/auxillaries/README.md` and
-`docs/BITCODE_SOURCE_LAYOUT.md`.
+`.docs/BITCODE_SOURCE_LAYOUT.md`.
 
 ### 7.8 Bitcode base
 
@@ -868,7 +868,7 @@ as if they were source of product law.
 kept up to date with structural changes. Stale content here is a defect relative
 to Complete Implementation Derivability.
 
-Update `docs/FAMILIARIZATION.md` when:
+Update `.docs/FAMILIARIZATION.md` when:
 
 - A new package family, nested `generic-*` package, or product pipeline is introduced or removed
 - Experience modularization changes the primary entry paths
@@ -887,8 +887,8 @@ Land the edit with the structural change (same commit or accompanying
 
 Lookup dictionary for this guide and the commercial tree. Prefer these spellings
 in new code and docs. Deeper product law lives in the SPEC; packaging law in
-`docs/BITCODE_SOURCE_LAYOUT.md`; agent step vocabulary also in
-`docs/TERMINOLOGY.md`.
+`.docs/BITCODE_SOURCE_LAYOUT.md`; agent step vocabulary also in
+`.docs/TERMINOLOGY.md`.
 
 ### 12.1 Acronyms and abbreviations
 

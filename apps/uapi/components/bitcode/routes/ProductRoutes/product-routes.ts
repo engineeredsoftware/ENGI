@@ -8,7 +8,7 @@
  * strings in experience code.
  *
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
- * @see docs/BITCODE_FRONTEND_ARCHITECTURE.md
+ * @see .docs/BITCODE_FRONTEND_ARCHITECTURE.md
  */
 
 /** Packs dashboard — post-auth default and exchange activity surface. */

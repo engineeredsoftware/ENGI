@@ -160,7 +160,7 @@
             ],
             "paths": [
               "config/auth/issuer-compat.yml",
-              "docs/incidents/auth-issuer-mismatch.md",
+              ".docs/incidents/auth-issuer-mismatch.md",
               "services/auth/rollback.ts"
             ],
             "configKeys": [
@@ -295,7 +295,7 @@
               "evidenceRefs": [
                 "sha256:292dff702be6f15851ebdc4925652489d211d16969ad4865610a7b8f1e7cf60d",
                 "config/auth/issuer-compat.yml",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "services/auth/rollback.ts",
                 "auth.issuer.compatibilityWindow",
                 "auth.rollback.killSwitch",
@@ -319,7 +319,7 @@
                 "evidenceRefs": [
                   "sha256:292dff702be6f15851ebdc4925652489d211d16969ad4865610a7b8f1e7cf60d",
                   "config/auth/issuer-compat.yml",
-                  "docs/incidents/auth-issuer-mismatch.md",
+                  ".docs/incidents/auth-issuer-mismatch.md",
                   "services/auth/rollback.ts",
                   "auth.issuer.compatibilityWindow",
                   "auth.rollback.killSwitch",
@@ -370,7 +370,7 @@
               "evidenceRefs": [
                 "sha256:292dff702be6f15851ebdc4925652489d211d16969ad4865610a7b8f1e7cf60d",
                 "config/auth/issuer-compat.yml",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "services/auth/rollback.ts",
                 "auth.issuer.compatibilityWindow",
                 "auth.rollback.killSwitch",
@@ -393,7 +393,7 @@
                 ],
                 "paths": [
                   "config/auth/issuer-compat.yml",
-                  "docs/incidents/auth-issuer-mismatch.md",
+                  ".docs/incidents/auth-issuer-mismatch.md",
                   "services/auth/rollback.ts"
                 ],
                 "configKeys": [
@@ -458,7 +458,7 @@
             ],
             "paths": [
               "config/auth/issuer-compat.yml",
-              "docs/incidents/auth-issuer-mismatch.md",
+              ".docs/incidents/auth-issuer-mismatch.md",
               "services/auth/rollback.ts"
             ],
             "configKeys": [
@@ -593,7 +593,7 @@
               "evidenceRefs": [
                 "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b",
                 "config/auth/issuer-compat.yml",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "services/auth/rollback.ts",
                 "auth.issuer.compatibilityWindow",
                 "auth.rollback.killSwitch",
@@ -617,7 +617,7 @@
                 "evidenceRefs": [
                   "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b",
                   "config/auth/issuer-compat.yml",
-                  "docs/incidents/auth-issuer-mismatch.md",
+                  ".docs/incidents/auth-issuer-mismatch.md",
                   "services/auth/rollback.ts",
                   "auth.issuer.compatibilityWindow",
                   "auth.rollback.killSwitch",
@@ -668,7 +668,7 @@
               "evidenceRefs": [
                 "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b",
                 "config/auth/issuer-compat.yml",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "services/auth/rollback.ts",
                 "auth.issuer.compatibilityWindow",
                 "auth.rollback.killSwitch",
@@ -691,7 +691,7 @@
                 ],
                 "paths": [
                   "config/auth/issuer-compat.yml",
-                  "docs/incidents/auth-issuer-mismatch.md",
+                  ".docs/incidents/auth-issuer-mismatch.md",
                   "services/auth/rollback.ts"
                 ],
                 "configKeys": [
@@ -756,7 +756,7 @@
             ],
             "paths": [
               "config/auth/issuer-compat.yml",
-              "docs/incidents/auth-issuer-mismatch.md",
+              ".docs/incidents/auth-issuer-mismatch.md",
               "services/auth/rollback.ts"
             ],
             "configKeys": [
@@ -891,7 +891,7 @@
               "evidenceRefs": [
                 "sha256:500ca3ab756fa16a67cb2f5cbee7694aa18ae9f6738dfb6da26ed89e3aca5a37",
                 "config/auth/issuer-compat.yml",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "services/auth/rollback.ts",
                 "auth.issuer.compatibilityWindow",
                 "auth.rollback.killSwitch",
@@ -915,7 +915,7 @@
                 "evidenceRefs": [
                   "sha256:500ca3ab756fa16a67cb2f5cbee7694aa18ae9f6738dfb6da26ed89e3aca5a37",
                   "config/auth/issuer-compat.yml",
-                  "docs/incidents/auth-issuer-mismatch.md",
+                  ".docs/incidents/auth-issuer-mismatch.md",
                   "services/auth/rollback.ts",
                   "auth.issuer.compatibilityWindow",
                   "auth.rollback.killSwitch",
@@ -966,7 +966,7 @@
               "evidenceRefs": [
                 "sha256:500ca3ab756fa16a67cb2f5cbee7694aa18ae9f6738dfb6da26ed89e3aca5a37",
                 "config/auth/issuer-compat.yml",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "services/auth/rollback.ts",
                 "auth.issuer.compatibilityWindow",
                 "auth.rollback.killSwitch",
@@ -989,7 +989,7 @@
                 ],
                 "paths": [
                   "config/auth/issuer-compat.yml",
-                  "docs/incidents/auth-issuer-mismatch.md",
+                  ".docs/incidents/auth-issuer-mismatch.md",
                   "services/auth/rollback.ts"
                 ],
                 "configKeys": [
@@ -1054,7 +1054,7 @@
             ],
             "paths": [
               "config/auth/issuer-compat.yml",
-              "docs/incidents/auth-issuer-mismatch.md",
+              ".docs/incidents/auth-issuer-mismatch.md",
               "services/auth/rollback.ts"
             ],
             "configKeys": [
@@ -1189,7 +1189,7 @@
               "evidenceRefs": [
                 "sha256:566d2871517e0f2c8a7f5d9f0a4a66a099667cfffc29da6cc31448aeb77310a5",
                 "config/auth/issuer-compat.yml",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "services/auth/rollback.ts",
                 "auth.issuer.compatibilityWindow",
                 "auth.rollback.killSwitch",
@@ -1213,7 +1213,7 @@
                 "evidenceRefs": [
                   "sha256:566d2871517e0f2c8a7f5d9f0a4a66a099667cfffc29da6cc31448aeb77310a5",
                   "config/auth/issuer-compat.yml",
-                  "docs/incidents/auth-issuer-mismatch.md",
+                  ".docs/incidents/auth-issuer-mismatch.md",
                   "services/auth/rollback.ts",
                   "auth.issuer.compatibilityWindow",
                   "auth.rollback.killSwitch",
@@ -1264,7 +1264,7 @@
               "evidenceRefs": [
                 "sha256:566d2871517e0f2c8a7f5d9f0a4a66a099667cfffc29da6cc31448aeb77310a5",
                 "config/auth/issuer-compat.yml",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "services/auth/rollback.ts",
                 "auth.issuer.compatibilityWindow",
                 "auth.rollback.killSwitch",
@@ -1287,7 +1287,7 @@
                 ],
                 "paths": [
                   "config/auth/issuer-compat.yml",
-                  "docs/incidents/auth-issuer-mismatch.md",
+                  ".docs/incidents/auth-issuer-mismatch.md",
                   "services/auth/rollback.ts"
                 ],
                 "configKeys": [
@@ -1406,7 +1406,7 @@
               "installationId": "gh_inst_bitcode_001",
               "contentRoot": "sha256:76b2104ea55eba8b7d66f5a291ce427f28c6c8f09ea555cc7842861bdb530572",
               "addressingScope": "repo-file",
-              "primaryAddressRef": "docs/incidents/auth-issuer-mismatch.md",
+              "primaryAddressRef": ".docs/incidents/auth-issuer-mismatch.md",
               "addressingRoot": "sha256:33a72cb8f09cad42880e29ecf07470b1c279b934c81e7e0dca1ed92898791a1c"
             }
           ],
@@ -1554,7 +1554,7 @@
             "installationId": "gh_inst_bitcode_001",
             "contentRoot": "sha256:76b2104ea55eba8b7d66f5a291ce427f28c6c8f09ea555cc7842861bdb530572",
             "addressingScope": "repo-file",
-            "primaryAddressRef": "docs/incidents/auth-issuer-mismatch.md",
+            "primaryAddressRef": ".docs/incidents/auth-issuer-mismatch.md",
             "addressingRoot": "sha256:33a72cb8f09cad42880e29ecf07470b1c279b934c81e7e0dca1ed92898791a1c"
           }
         ],
@@ -1597,7 +1597,7 @@
         "workflowJobName": "benchmark-auth-remediation",
         "sourcePaths": [
           "config/auth/issuer-compat.yml",
-          "docs/incidents/auth-issuer-mismatch.md",
+          ".docs/incidents/auth-issuer-mismatch.md",
           "services/auth/rollback.ts"
         ],
         "selectedInventoryEntryIds": [
@@ -1608,7 +1608,7 @@
         "selectedInventoryAddressRefs": [
           "auth-remediation-report.json",
           "config/auth/issuer-compat.yml",
-          "docs/incidents/auth-issuer-mismatch.md"
+          ".docs/incidents/auth-issuer-mismatch.md"
         ],
         "addressedInventoryEntries": [
           {
@@ -1634,7 +1634,7 @@
             "artifactKind": "incident-note",
             "artifactType": "notes/incident-retrospective",
             "originKind": "incident-document",
-            "primaryAddressRef": "docs/incidents/auth-issuer-mismatch.md",
+            "primaryAddressRef": ".docs/incidents/auth-issuer-mismatch.md",
             "contentRoot": "sha256:76b2104ea55eba8b7d66f5a291ce427f28c6c8f09ea555cc7842861bdb530572",
             "addressingRoot": "sha256:33a72cb8f09cad42880e29ecf07470b1c279b934c81e7e0dca1ed92898791a1c"
           }
@@ -1766,7 +1766,7 @@
         "commit": "auth001abc",
         "paths": [
           "config/auth/issuer-compat.yml",
-          "docs/incidents/auth-issuer-mismatch.md",
+          ".docs/incidents/auth-issuer-mismatch.md",
           "services/auth/rollback.ts"
         ],
         "workflowPath": ".github/workflows/benchmark-auth.yml",
@@ -1794,7 +1794,7 @@
         "sourceCommit": "auth001abc",
         "sourcePaths": [
           "config/auth/issuer-compat.yml",
-          "docs/incidents/auth-issuer-mismatch.md",
+          ".docs/incidents/auth-issuer-mismatch.md",
           "services/auth/rollback.ts"
         ],
         "tags": [
@@ -1847,7 +1847,7 @@
           ],
           "paths": [
             "config/auth/issuer-compat.yml",
-            "docs/incidents/auth-issuer-mismatch.md",
+            ".docs/incidents/auth-issuer-mismatch.md",
             "services/auth/rollback.ts"
           ],
           "configKeys": [
@@ -2136,7 +2136,7 @@
             "evidenceRefs": [
               "sha256:0ec19a8e5cdf8720dccceb012348063622ada898009193107a12455f7b8f1e51",
               "config/auth/issuer-compat.yml",
-              "docs/incidents/auth-issuer-mismatch.md",
+              ".docs/incidents/auth-issuer-mismatch.md",
               "services/auth/rollback.ts"
             ],
             "replayInputClosure": [
@@ -2159,7 +2159,7 @@
               ],
               "paths": [
                 "config/auth/issuer-compat.yml",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "services/auth/rollback.ts"
               ],
               "configKeys": [
@@ -2196,7 +2196,7 @@
             "evidenceRefs": [
               "sha256:292dff702be6f15851ebdc4925652489d211d16969ad4865610a7b8f1e7cf60d",
               "config/auth/issuer-compat.yml",
-              "docs/incidents/auth-issuer-mismatch.md",
+              ".docs/incidents/auth-issuer-mismatch.md",
               "services/auth/rollback.ts",
               "auth.issuer.compatibilityWindow",
               "auth.rollback.killSwitch",
@@ -2219,7 +2219,7 @@
               ],
               "paths": [
                 "config/auth/issuer-compat.yml",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "services/auth/rollback.ts"
               ],
               "configKeys": [
@@ -2262,7 +2262,7 @@
             "evidenceRefs": [
               "sha256:622a138deacb64dd57afc87c524f1f44bdb55f7f47b63638faa819d0832e5d0b",
               "config/auth/issuer-compat.yml",
-              "docs/incidents/auth-issuer-mismatch.md",
+              ".docs/incidents/auth-issuer-mismatch.md",
               "services/auth/rollback.ts",
               "auth.issuer.compatibilityWindow",
               "auth.rollback.killSwitch",
@@ -2285,7 +2285,7 @@
               ],
               "paths": [
                 "config/auth/issuer-compat.yml",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "services/auth/rollback.ts"
               ],
               "configKeys": [
@@ -2328,7 +2328,7 @@
             "evidenceRefs": [
               "sha256:500ca3ab756fa16a67cb2f5cbee7694aa18ae9f6738dfb6da26ed89e3aca5a37",
               "config/auth/issuer-compat.yml",
-              "docs/incidents/auth-issuer-mismatch.md",
+              ".docs/incidents/auth-issuer-mismatch.md",
               "services/auth/rollback.ts",
               "auth.issuer.compatibilityWindow",
               "auth.rollback.killSwitch",
@@ -2351,7 +2351,7 @@
               ],
               "paths": [
                 "config/auth/issuer-compat.yml",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "services/auth/rollback.ts"
               ],
               "configKeys": [
@@ -2394,7 +2394,7 @@
             "evidenceRefs": [
               "sha256:566d2871517e0f2c8a7f5d9f0a4a66a099667cfffc29da6cc31448aeb77310a5",
               "config/auth/issuer-compat.yml",
-              "docs/incidents/auth-issuer-mismatch.md",
+              ".docs/incidents/auth-issuer-mismatch.md",
               "services/auth/rollback.ts",
               "auth.issuer.compatibilityWindow",
               "auth.rollback.killSwitch",
@@ -2417,7 +2417,7 @@
               ],
               "paths": [
                 "config/auth/issuer-compat.yml",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "services/auth/rollback.ts"
               ],
               "configKeys": [
@@ -5281,7 +5281,7 @@
             "paths": [
               "crates/validator/src/session_guard.rs",
               "crates/validator/src/replay_window.rs",
-              "docs/runbooks/validator-proof-recovery.md",
+              ".docs/runbooks/validator-proof-recovery.md",
               "proofs/session_guard.creusot"
             ],
             "configKeys": [
@@ -5413,7 +5413,7 @@
                 "sha256:ca62e4c160bd45e2aa2a5ee8e2bcad9d1a431b679e689709b9e877e6930edb5e",
                 "crates/validator/src/session_guard.rs",
                 "crates/validator/src/replay_window.rs",
-                "docs/runbooks/validator-proof-recovery.md",
+                ".docs/runbooks/validator-proof-recovery.md",
                 "proofs/session_guard.creusot",
                 "validator.replayWindow.maxNonces",
                 "validator.proof.requireNoUncheckedMath",
@@ -5437,7 +5437,7 @@
                   "sha256:ca62e4c160bd45e2aa2a5ee8e2bcad9d1a431b679e689709b9e877e6930edb5e",
                   "crates/validator/src/session_guard.rs",
                   "crates/validator/src/replay_window.rs",
-                  "docs/runbooks/validator-proof-recovery.md",
+                  ".docs/runbooks/validator-proof-recovery.md",
                   "proofs/session_guard.creusot",
                   "validator.replayWindow.maxNonces",
                   "validator.proof.requireNoUncheckedMath",
@@ -5488,7 +5488,7 @@
                 "sha256:ca62e4c160bd45e2aa2a5ee8e2bcad9d1a431b679e689709b9e877e6930edb5e",
                 "crates/validator/src/session_guard.rs",
                 "crates/validator/src/replay_window.rs",
-                "docs/runbooks/validator-proof-recovery.md",
+                ".docs/runbooks/validator-proof-recovery.md",
                 "proofs/session_guard.creusot",
                 "validator.replayWindow.maxNonces",
                 "validator.proof.requireNoUncheckedMath",
@@ -5509,7 +5509,7 @@
                 "paths": [
                   "crates/validator/src/session_guard.rs",
                   "crates/validator/src/replay_window.rs",
-                  "docs/runbooks/validator-proof-recovery.md",
+                  ".docs/runbooks/validator-proof-recovery.md",
                   "proofs/session_guard.creusot"
                 ],
                 "configKeys": [
@@ -5569,7 +5569,7 @@
             "paths": [
               "crates/validator/src/session_guard.rs",
               "crates/validator/src/replay_window.rs",
-              "docs/runbooks/validator-proof-recovery.md",
+              ".docs/runbooks/validator-proof-recovery.md",
               "proofs/session_guard.creusot"
             ],
             "configKeys": [
@@ -5701,7 +5701,7 @@
                 "sha256:78f0dc52eb914d8bbfa45ca76e0bfe6b7d874e38299085a99e46965d8244c6d3",
                 "crates/validator/src/session_guard.rs",
                 "crates/validator/src/replay_window.rs",
-                "docs/runbooks/validator-proof-recovery.md",
+                ".docs/runbooks/validator-proof-recovery.md",
                 "proofs/session_guard.creusot",
                 "validator.replayWindow.maxNonces",
                 "validator.proof.requireNoUncheckedMath",
@@ -5725,7 +5725,7 @@
                   "sha256:78f0dc52eb914d8bbfa45ca76e0bfe6b7d874e38299085a99e46965d8244c6d3",
                   "crates/validator/src/session_guard.rs",
                   "crates/validator/src/replay_window.rs",
-                  "docs/runbooks/validator-proof-recovery.md",
+                  ".docs/runbooks/validator-proof-recovery.md",
                   "proofs/session_guard.creusot",
                   "validator.replayWindow.maxNonces",
                   "validator.proof.requireNoUncheckedMath",
@@ -5776,7 +5776,7 @@
                 "sha256:78f0dc52eb914d8bbfa45ca76e0bfe6b7d874e38299085a99e46965d8244c6d3",
                 "crates/validator/src/session_guard.rs",
                 "crates/validator/src/replay_window.rs",
-                "docs/runbooks/validator-proof-recovery.md",
+                ".docs/runbooks/validator-proof-recovery.md",
                 "proofs/session_guard.creusot",
                 "validator.replayWindow.maxNonces",
                 "validator.proof.requireNoUncheckedMath",
@@ -5797,7 +5797,7 @@
                 "paths": [
                   "crates/validator/src/session_guard.rs",
                   "crates/validator/src/replay_window.rs",
-                  "docs/runbooks/validator-proof-recovery.md",
+                  ".docs/runbooks/validator-proof-recovery.md",
                   "proofs/session_guard.creusot"
                 ],
                 "configKeys": [
@@ -5857,7 +5857,7 @@
             "paths": [
               "crates/validator/src/session_guard.rs",
               "crates/validator/src/replay_window.rs",
-              "docs/runbooks/validator-proof-recovery.md",
+              ".docs/runbooks/validator-proof-recovery.md",
               "proofs/session_guard.creusot"
             ],
             "configKeys": [
@@ -5989,7 +5989,7 @@
                 "sha256:a2062cde1b6a40f327b06cad9179a06c3e6a723e17d5e91902e9f7e2bcf10264",
                 "crates/validator/src/session_guard.rs",
                 "crates/validator/src/replay_window.rs",
-                "docs/runbooks/validator-proof-recovery.md",
+                ".docs/runbooks/validator-proof-recovery.md",
                 "proofs/session_guard.creusot",
                 "validator.replayWindow.maxNonces",
                 "validator.proof.requireNoUncheckedMath",
@@ -6013,7 +6013,7 @@
                   "sha256:a2062cde1b6a40f327b06cad9179a06c3e6a723e17d5e91902e9f7e2bcf10264",
                   "crates/validator/src/session_guard.rs",
                   "crates/validator/src/replay_window.rs",
-                  "docs/runbooks/validator-proof-recovery.md",
+                  ".docs/runbooks/validator-proof-recovery.md",
                   "proofs/session_guard.creusot",
                   "validator.replayWindow.maxNonces",
                   "validator.proof.requireNoUncheckedMath",
@@ -6064,7 +6064,7 @@
                 "sha256:a2062cde1b6a40f327b06cad9179a06c3e6a723e17d5e91902e9f7e2bcf10264",
                 "crates/validator/src/session_guard.rs",
                 "crates/validator/src/replay_window.rs",
-                "docs/runbooks/validator-proof-recovery.md",
+                ".docs/runbooks/validator-proof-recovery.md",
                 "proofs/session_guard.creusot",
                 "validator.replayWindow.maxNonces",
                 "validator.proof.requireNoUncheckedMath",
@@ -6085,7 +6085,7 @@
                 "paths": [
                   "crates/validator/src/session_guard.rs",
                   "crates/validator/src/replay_window.rs",
-                  "docs/runbooks/validator-proof-recovery.md",
+                  ".docs/runbooks/validator-proof-recovery.md",
                   "proofs/session_guard.creusot"
                 ],
                 "configKeys": [
@@ -6200,7 +6200,7 @@
               "installationId": "gh_inst_bitcode_001",
               "contentRoot": "sha256:6899af8a11a0ee23a36ceabcca9b4824b79c52ca5f58c08600bf07f64773e091",
               "addressingScope": "repo-file",
-              "primaryAddressRef": "docs/runbooks/validator-proof-recovery.md",
+              "primaryAddressRef": ".docs/runbooks/validator-proof-recovery.md",
               "addressingRoot": "sha256:61abd826aa8bf795246cc106f21d7d5b71a5f1312ba327c0d3ea807e7a8ff2a8"
             }
           ],
@@ -6348,7 +6348,7 @@
             "installationId": "gh_inst_bitcode_001",
             "contentRoot": "sha256:6899af8a11a0ee23a36ceabcca9b4824b79c52ca5f58c08600bf07f64773e091",
             "addressingScope": "repo-file",
-            "primaryAddressRef": "docs/runbooks/validator-proof-recovery.md",
+            "primaryAddressRef": ".docs/runbooks/validator-proof-recovery.md",
             "addressingRoot": "sha256:61abd826aa8bf795246cc106f21d7d5b71a5f1312ba327c0d3ea807e7a8ff2a8"
           }
         ],
@@ -6392,7 +6392,7 @@
         "sourcePaths": [
           "crates/validator/src/session_guard.rs",
           "crates/validator/src/replay_window.rs",
-          "docs/runbooks/validator-proof-recovery.md",
+          ".docs/runbooks/validator-proof-recovery.md",
           "proofs/session_guard.creusot"
         ],
         "selectedInventoryEntryIds": [
@@ -6403,7 +6403,7 @@
         "selectedInventoryAddressRefs": [
           "validator-proof-bundle.json",
           "crates/validator/src/session_guard.rs",
-          "docs/runbooks/validator-proof-recovery.md"
+          ".docs/runbooks/validator-proof-recovery.md"
         ],
         "addressedInventoryEntries": [
           {
@@ -6429,7 +6429,7 @@
             "artifactKind": "runbook",
             "artifactType": "runbook/operator-playbook",
             "originKind": "incident-document",
-            "primaryAddressRef": "docs/runbooks/validator-proof-recovery.md",
+            "primaryAddressRef": ".docs/runbooks/validator-proof-recovery.md",
             "contentRoot": "sha256:6899af8a11a0ee23a36ceabcca9b4824b79c52ca5f58c08600bf07f64773e091",
             "addressingRoot": "sha256:61abd826aa8bf795246cc106f21d7d5b71a5f1312ba327c0d3ea807e7a8ff2a8"
           }
@@ -6562,7 +6562,7 @@
         "paths": [
           "crates/validator/src/session_guard.rs",
           "crates/validator/src/replay_window.rs",
-          "docs/runbooks/validator-proof-recovery.md",
+          ".docs/runbooks/validator-proof-recovery.md",
           "proofs/session_guard.creusot"
         ],
         "workflowPath": ".github/workflows/validator-proof.yml",
@@ -6591,7 +6591,7 @@
         "sourcePaths": [
           "crates/validator/src/session_guard.rs",
           "crates/validator/src/replay_window.rs",
-          "docs/runbooks/validator-proof-recovery.md",
+          ".docs/runbooks/validator-proof-recovery.md",
           "proofs/session_guard.creusot"
         ],
         "tags": [
@@ -6637,7 +6637,7 @@
           "paths": [
             "crates/validator/src/session_guard.rs",
             "crates/validator/src/replay_window.rs",
-            "docs/runbooks/validator-proof-recovery.md",
+            ".docs/runbooks/validator-proof-recovery.md",
             "proofs/session_guard.creusot"
           ],
           "configKeys": [
@@ -6881,7 +6881,7 @@
               "sha256:822f59eaccb5475f5459209801d1c2c6582ff4c32000ef539d897c085ec6a842",
               "crates/validator/src/session_guard.rs",
               "crates/validator/src/replay_window.rs",
-              "docs/runbooks/validator-proof-recovery.md",
+              ".docs/runbooks/validator-proof-recovery.md",
               "proofs/session_guard.creusot"
             ],
             "replayInputClosure": [
@@ -6902,7 +6902,7 @@
               "paths": [
                 "crates/validator/src/session_guard.rs",
                 "crates/validator/src/replay_window.rs",
-                "docs/runbooks/validator-proof-recovery.md",
+                ".docs/runbooks/validator-proof-recovery.md",
                 "proofs/session_guard.creusot"
               ],
               "configKeys": [
@@ -6938,7 +6938,7 @@
               "sha256:ca62e4c160bd45e2aa2a5ee8e2bcad9d1a431b679e689709b9e877e6930edb5e",
               "crates/validator/src/session_guard.rs",
               "crates/validator/src/replay_window.rs",
-              "docs/runbooks/validator-proof-recovery.md",
+              ".docs/runbooks/validator-proof-recovery.md",
               "proofs/session_guard.creusot",
               "validator.replayWindow.maxNonces",
               "validator.proof.requireNoUncheckedMath",
@@ -6959,7 +6959,7 @@
               "paths": [
                 "crates/validator/src/session_guard.rs",
                 "crates/validator/src/replay_window.rs",
-                "docs/runbooks/validator-proof-recovery.md",
+                ".docs/runbooks/validator-proof-recovery.md",
                 "proofs/session_guard.creusot"
               ],
               "configKeys": [
@@ -6999,7 +6999,7 @@
               "sha256:78f0dc52eb914d8bbfa45ca76e0bfe6b7d874e38299085a99e46965d8244c6d3",
               "crates/validator/src/session_guard.rs",
               "crates/validator/src/replay_window.rs",
-              "docs/runbooks/validator-proof-recovery.md",
+              ".docs/runbooks/validator-proof-recovery.md",
               "proofs/session_guard.creusot",
               "validator.replayWindow.maxNonces",
               "validator.proof.requireNoUncheckedMath",
@@ -7020,7 +7020,7 @@
               "paths": [
                 "crates/validator/src/session_guard.rs",
                 "crates/validator/src/replay_window.rs",
-                "docs/runbooks/validator-proof-recovery.md",
+                ".docs/runbooks/validator-proof-recovery.md",
                 "proofs/session_guard.creusot"
               ],
               "configKeys": [
@@ -7060,7 +7060,7 @@
               "sha256:a2062cde1b6a40f327b06cad9179a06c3e6a723e17d5e91902e9f7e2bcf10264",
               "crates/validator/src/session_guard.rs",
               "crates/validator/src/replay_window.rs",
-              "docs/runbooks/validator-proof-recovery.md",
+              ".docs/runbooks/validator-proof-recovery.md",
               "proofs/session_guard.creusot",
               "validator.replayWindow.maxNonces",
               "validator.proof.requireNoUncheckedMath",
@@ -7081,7 +7081,7 @@
               "paths": [
                 "crates/validator/src/session_guard.rs",
                 "crates/validator/src/replay_window.rs",
-                "docs/runbooks/validator-proof-recovery.md",
+                ".docs/runbooks/validator-proof-recovery.md",
                 "proofs/session_guard.creusot"
               ],
               "configKeys": [
@@ -7406,7 +7406,7 @@
               "Operator"
             ],
             "paths": [
-              "docs/incidents/auth-issuer-mismatch.md"
+              ".docs/incidents/auth-issuer-mismatch.md"
             ],
             "configKeys": [
               "auth.issuer.previousJwksUrl"
@@ -7531,7 +7531,7 @@
               "version": "demo-v15.0",
               "evidenceRefs": [
                 "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "auth.issuer.previousJwksUrl"
               ],
               "receiptRefs": [
@@ -7550,7 +7550,7 @@
                 "standIn": false,
                 "evidenceRefs": [
                   "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1",
-                  "docs/incidents/auth-issuer-mismatch.md",
+                  ".docs/incidents/auth-issuer-mismatch.md",
                   "auth.issuer.previousJwksUrl"
                 ]
               }
@@ -7596,7 +7596,7 @@
               "outputHash": "sha256:cefd1818c479975ca3c1710ffa61dec2ff17ab66d51369f745549c7cc0a26bf3",
               "evidenceRefs": [
                 "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "auth.issuer.previousJwksUrl"
               ],
               "replayInputClosure": [
@@ -7611,7 +7611,7 @@
                   "Operator"
                 ],
                 "paths": [
-                  "docs/incidents/auth-issuer-mismatch.md"
+                  ".docs/incidents/auth-issuer-mismatch.md"
                 ],
                 "configKeys": [
                   "auth.issuer.previousJwksUrl"
@@ -7663,7 +7663,7 @@
               "Operator"
             ],
             "paths": [
-              "docs/incidents/auth-issuer-mismatch.md"
+              ".docs/incidents/auth-issuer-mismatch.md"
             ],
             "configKeys": [
               "auth.issuer.previousJwksUrl"
@@ -7788,7 +7788,7 @@
               "version": "demo-v15.0",
               "evidenceRefs": [
                 "sha256:87c30eb2f583fe4f2e296b6927372e9beb2ace145adde969499fe315cea0861b",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "auth.issuer.previousJwksUrl"
               ],
               "receiptRefs": [
@@ -7807,7 +7807,7 @@
                 "standIn": false,
                 "evidenceRefs": [
                   "sha256:87c30eb2f583fe4f2e296b6927372e9beb2ace145adde969499fe315cea0861b",
-                  "docs/incidents/auth-issuer-mismatch.md",
+                  ".docs/incidents/auth-issuer-mismatch.md",
                   "auth.issuer.previousJwksUrl"
                 ]
               }
@@ -7853,7 +7853,7 @@
               "outputHash": "sha256:cefd1818c479975ca3c1710ffa61dec2ff17ab66d51369f745549c7cc0a26bf3",
               "evidenceRefs": [
                 "sha256:87c30eb2f583fe4f2e296b6927372e9beb2ace145adde969499fe315cea0861b",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "auth.issuer.previousJwksUrl"
               ],
               "replayInputClosure": [
@@ -7868,7 +7868,7 @@
                   "Operator"
                 ],
                 "paths": [
-                  "docs/incidents/auth-issuer-mismatch.md"
+                  ".docs/incidents/auth-issuer-mismatch.md"
                 ],
                 "configKeys": [
                   "auth.issuer.previousJwksUrl"
@@ -7920,7 +7920,7 @@
               "Operator"
             ],
             "paths": [
-              "docs/incidents/auth-issuer-mismatch.md"
+              ".docs/incidents/auth-issuer-mismatch.md"
             ],
             "configKeys": [
               "auth.issuer.previousJwksUrl"
@@ -8045,7 +8045,7 @@
               "version": "demo-v15.0",
               "evidenceRefs": [
                 "sha256:46903c5bb8bdd70156be8bc120ba97233a6b6860fadf072f799fcdb3b9a796d2",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "auth.issuer.previousJwksUrl"
               ],
               "receiptRefs": [
@@ -8064,7 +8064,7 @@
                 "standIn": false,
                 "evidenceRefs": [
                   "sha256:46903c5bb8bdd70156be8bc120ba97233a6b6860fadf072f799fcdb3b9a796d2",
-                  "docs/incidents/auth-issuer-mismatch.md",
+                  ".docs/incidents/auth-issuer-mismatch.md",
                   "auth.issuer.previousJwksUrl"
                 ]
               }
@@ -8110,7 +8110,7 @@
               "outputHash": "sha256:cefd1818c479975ca3c1710ffa61dec2ff17ab66d51369f745549c7cc0a26bf3",
               "evidenceRefs": [
                 "sha256:46903c5bb8bdd70156be8bc120ba97233a6b6860fadf072f799fcdb3b9a796d2",
-                "docs/incidents/auth-issuer-mismatch.md",
+                ".docs/incidents/auth-issuer-mismatch.md",
                 "auth.issuer.previousJwksUrl"
               ],
               "replayInputClosure": [
@@ -8125,7 +8125,7 @@
                   "Operator"
                 ],
                 "paths": [
-                  "docs/incidents/auth-issuer-mismatch.md"
+                  ".docs/incidents/auth-issuer-mismatch.md"
                 ],
                 "configKeys": [
                   "auth.issuer.previousJwksUrl"
@@ -8201,7 +8201,7 @@
               "installationId": "gh_inst_bitcode_001",
               "contentRoot": "sha256:76b2104ea55eba8b7d66f5a291ce427f28c6c8f09ea555cc7842861bdb530572",
               "addressingScope": "repo-file",
-              "primaryAddressRef": "docs/incidents/auth-issuer-mismatch.md",
+              "primaryAddressRef": ".docs/incidents/auth-issuer-mismatch.md",
               "addressingRoot": "sha256:33a72cb8f09cad42880e29ecf07470b1c279b934c81e7e0dca1ed92898791a1c"
             }
           ],
@@ -8305,7 +8305,7 @@
             "installationId": "gh_inst_bitcode_001",
             "contentRoot": "sha256:76b2104ea55eba8b7d66f5a291ce427f28c6c8f09ea555cc7842861bdb530572",
             "addressingScope": "repo-file",
-            "primaryAddressRef": "docs/incidents/auth-issuer-mismatch.md",
+            "primaryAddressRef": ".docs/incidents/auth-issuer-mismatch.md",
             "addressingRoot": "sha256:33a72cb8f09cad42880e29ecf07470b1c279b934c81e7e0dca1ed92898791a1c"
           }
         ],
@@ -8339,13 +8339,13 @@
         "workflowPath": null,
         "workflowJobName": null,
         "sourcePaths": [
-          "docs/incidents/auth-issuer-mismatch.md"
+          ".docs/incidents/auth-issuer-mismatch.md"
         ],
         "selectedInventoryEntryIds": [
           "inv_frontier-demo-auth_incident-document_cc12c2fd0f"
         ],
         "selectedInventoryAddressRefs": [
-          "docs/incidents/auth-issuer-mismatch.md"
+          ".docs/incidents/auth-issuer-mismatch.md"
         ],
         "addressedInventoryEntries": [
           {
@@ -8353,12 +8353,12 @@
             "artifactKind": "incident-note",
             "artifactType": "notes/incident-retrospective",
             "originKind": "incident-document",
-            "primaryAddressRef": "docs/incidents/auth-issuer-mismatch.md",
+            "primaryAddressRef": ".docs/incidents/auth-issuer-mismatch.md",
             "contentRoot": "sha256:76b2104ea55eba8b7d66f5a291ce427f28c6c8f09ea555cc7842861bdb530572",
             "addressingRoot": "sha256:33a72cb8f09cad42880e29ecf07470b1c279b934c81e7e0dca1ed92898791a1c"
           }
         ],
-        "primaryAddressRef": "docs/incidents/auth-issuer-mismatch.md",
+        "primaryAddressRef": ".docs/incidents/auth-issuer-mismatch.md",
         "addressingRoot": "sha256:ac818a9a21000c7052579acc66abf79932fa1bf33cd02d0e9640e82c8d42cb09"
       },
       "signingSurface": {
@@ -8482,7 +8482,7 @@
         "repo": "frontier/demo-auth",
         "commit": "auth001abc",
         "paths": [
-          "docs/incidents/auth-issuer-mismatch.md"
+          ".docs/incidents/auth-issuer-mismatch.md"
         ],
         "workflowPath": ".github/workflows/benchmark.yml",
         "workflowRunId": "gha_run_auth_001"
@@ -8506,7 +8506,7 @@
         "sourceRepo": "frontier/demo-auth",
         "sourceCommit": "auth001abc",
         "sourcePaths": [
-          "docs/incidents/auth-issuer-mismatch.md"
+          ".docs/incidents/auth-issuer-mismatch.md"
         ],
         "tags": [
           "issuer",
@@ -8539,7 +8539,7 @@
             "Operator"
           ],
           "paths": [
-            "docs/incidents/auth-issuer-mismatch.md"
+            ".docs/incidents/auth-issuer-mismatch.md"
           ],
           "configKeys": [
             "auth.issuer.previousJwksUrl"
@@ -8702,7 +8702,7 @@
             "version": "demo-v15.0",
             "evidenceRefs": [
               "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
-              "docs/incidents/auth-issuer-mismatch.md"
+              ".docs/incidents/auth-issuer-mismatch.md"
             ],
             "receiptRefs": [
               "static_receipt_0b09b194d5cd"
@@ -8720,7 +8720,7 @@
               "standIn": false,
               "evidenceRefs": [
                 "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
-                "docs/incidents/auth-issuer-mismatch.md"
+                ".docs/incidents/auth-issuer-mismatch.md"
               ]
             }
           },
@@ -8771,7 +8771,7 @@
             "outputHash": "sha256:ef5dab9f0ed770bac55b37053b303b194589daab8ed3b3be8d4905622953eb74",
             "evidenceRefs": [
               "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
-              "docs/incidents/auth-issuer-mismatch.md"
+              ".docs/incidents/auth-issuer-mismatch.md"
             ],
             "replayInputClosure": [
               "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
@@ -8788,7 +8788,7 @@
                 "Operator"
               ],
               "paths": [
-                "docs/incidents/auth-issuer-mismatch.md"
+                ".docs/incidents/auth-issuer-mismatch.md"
               ],
               "configKeys": [
                 "auth.issuer.previousJwksUrl"
@@ -8816,7 +8816,7 @@
             "outputHash": "sha256:cefd1818c479975ca3c1710ffa61dec2ff17ab66d51369f745549c7cc0a26bf3",
             "evidenceRefs": [
               "sha256:e837a3f655c9efaeb84512bfa73e526b6c89edbeb6ee145c57db6a5f07cd2ca1",
-              "docs/incidents/auth-issuer-mismatch.md",
+              ".docs/incidents/auth-issuer-mismatch.md",
               "auth.issuer.previousJwksUrl"
             ],
             "replayInputClosure": [
@@ -8831,7 +8831,7 @@
                 "Operator"
               ],
               "paths": [
-                "docs/incidents/auth-issuer-mismatch.md"
+                ".docs/incidents/auth-issuer-mismatch.md"
               ],
               "configKeys": [
                 "auth.issuer.previousJwksUrl"
@@ -8864,7 +8864,7 @@
             "outputHash": "sha256:cefd1818c479975ca3c1710ffa61dec2ff17ab66d51369f745549c7cc0a26bf3",
             "evidenceRefs": [
               "sha256:87c30eb2f583fe4f2e296b6927372e9beb2ace145adde969499fe315cea0861b",
-              "docs/incidents/auth-issuer-mismatch.md",
+              ".docs/incidents/auth-issuer-mismatch.md",
               "auth.issuer.previousJwksUrl"
             ],
             "replayInputClosure": [
@@ -8879,7 +8879,7 @@
                 "Operator"
               ],
               "paths": [
-                "docs/incidents/auth-issuer-mismatch.md"
+                ".docs/incidents/auth-issuer-mismatch.md"
               ],
               "configKeys": [
                 "auth.issuer.previousJwksUrl"
@@ -8912,7 +8912,7 @@
             "outputHash": "sha256:cefd1818c479975ca3c1710ffa61dec2ff17ab66d51369f745549c7cc0a26bf3",
             "evidenceRefs": [
               "sha256:46903c5bb8bdd70156be8bc120ba97233a6b6860fadf072f799fcdb3b9a796d2",
-              "docs/incidents/auth-issuer-mismatch.md",
+              ".docs/incidents/auth-issuer-mismatch.md",
               "auth.issuer.previousJwksUrl"
             ],
             "replayInputClosure": [
@@ -8927,7 +8927,7 @@
                 "Operator"
               ],
               "paths": [
-                "docs/incidents/auth-issuer-mismatch.md"
+                ".docs/incidents/auth-issuer-mismatch.md"
               ],
               "configKeys": [
                 "auth.issuer.previousJwksUrl"
@@ -9159,7 +9159,7 @@
           "version": "demo-v15.0",
           "evidenceRefs": [
             "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
-            "docs/incidents/auth-issuer-mismatch.md"
+            ".docs/incidents/auth-issuer-mismatch.md"
           ],
           "receiptRefs": [
             "static_receipt_0b09b194d5cd"
@@ -9177,7 +9177,7 @@
             "standIn": false,
             "evidenceRefs": [
               "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
-              "docs/incidents/auth-issuer-mismatch.md"
+              ".docs/incidents/auth-issuer-mismatch.md"
             ]
           }
         },
@@ -9245,7 +9245,7 @@
             ],
             "paths": [
               "services/policy/evaluate_rollout.ts",
-              "docs/runbooks/policy-incident.md",
+              ".docs/runbooks/policy-incident.md",
               "config/policy/issuer-precedence.yml"
             ],
             "configKeys": [
@@ -9375,7 +9375,7 @@
               "evidenceRefs": [
                 "sha256:bde4b6c8f68583cfd45ea4c1d2f136a5d4f3fbb2e56c770c8ee33533e11d9fe5",
                 "services/policy/evaluate_rollout.ts",
-                "docs/runbooks/policy-incident.md",
+                ".docs/runbooks/policy-incident.md",
                 "config/policy/issuer-precedence.yml",
                 "policy.rollout.precedence",
                 "policy.rollout.approvalWindowHours"
@@ -9397,7 +9397,7 @@
                 "evidenceRefs": [
                   "sha256:bde4b6c8f68583cfd45ea4c1d2f136a5d4f3fbb2e56c770c8ee33533e11d9fe5",
                   "services/policy/evaluate_rollout.ts",
-                  "docs/runbooks/policy-incident.md",
+                  ".docs/runbooks/policy-incident.md",
                   "config/policy/issuer-precedence.yml",
                   "policy.rollout.precedence",
                   "policy.rollout.approvalWindowHours"
@@ -9446,7 +9446,7 @@
               "evidenceRefs": [
                 "sha256:bde4b6c8f68583cfd45ea4c1d2f136a5d4f3fbb2e56c770c8ee33533e11d9fe5",
                 "services/policy/evaluate_rollout.ts",
-                "docs/runbooks/policy-incident.md",
+                ".docs/runbooks/policy-incident.md",
                 "config/policy/issuer-precedence.yml",
                 "policy.rollout.precedence",
                 "policy.rollout.approvalWindowHours"
@@ -9465,7 +9465,7 @@
                 ],
                 "paths": [
                   "services/policy/evaluate_rollout.ts",
-                  "docs/runbooks/policy-incident.md",
+                  ".docs/runbooks/policy-incident.md",
                   "config/policy/issuer-precedence.yml"
                 ],
                 "configKeys": [
@@ -9523,7 +9523,7 @@
             ],
             "paths": [
               "services/policy/evaluate_rollout.ts",
-              "docs/runbooks/policy-incident.md",
+              ".docs/runbooks/policy-incident.md",
               "config/policy/issuer-precedence.yml"
             ],
             "configKeys": [
@@ -9653,7 +9653,7 @@
               "evidenceRefs": [
                 "sha256:330d735a2dc8658e29e2504baed4a395cd21e0363c00e02f0aafb779670665e0",
                 "services/policy/evaluate_rollout.ts",
-                "docs/runbooks/policy-incident.md",
+                ".docs/runbooks/policy-incident.md",
                 "config/policy/issuer-precedence.yml",
                 "policy.rollout.precedence",
                 "policy.rollout.approvalWindowHours"
@@ -9675,7 +9675,7 @@
                 "evidenceRefs": [
                   "sha256:330d735a2dc8658e29e2504baed4a395cd21e0363c00e02f0aafb779670665e0",
                   "services/policy/evaluate_rollout.ts",
-                  "docs/runbooks/policy-incident.md",
+                  ".docs/runbooks/policy-incident.md",
                   "config/policy/issuer-precedence.yml",
                   "policy.rollout.precedence",
                   "policy.rollout.approvalWindowHours"
@@ -9724,7 +9724,7 @@
               "evidenceRefs": [
                 "sha256:330d735a2dc8658e29e2504baed4a395cd21e0363c00e02f0aafb779670665e0",
                 "services/policy/evaluate_rollout.ts",
-                "docs/runbooks/policy-incident.md",
+                ".docs/runbooks/policy-incident.md",
                 "config/policy/issuer-precedence.yml",
                 "policy.rollout.precedence",
                 "policy.rollout.approvalWindowHours"
@@ -9743,7 +9743,7 @@
                 ],
                 "paths": [
                   "services/policy/evaluate_rollout.ts",
-                  "docs/runbooks/policy-incident.md",
+                  ".docs/runbooks/policy-incident.md",
                   "config/policy/issuer-precedence.yml"
                 ],
                 "configKeys": [
@@ -9801,7 +9801,7 @@
             ],
             "paths": [
               "services/policy/evaluate_rollout.ts",
-              "docs/runbooks/policy-incident.md",
+              ".docs/runbooks/policy-incident.md",
               "config/policy/issuer-precedence.yml"
             ],
             "configKeys": [
@@ -9931,7 +9931,7 @@
               "evidenceRefs": [
                 "sha256:c8c14bfb78dbe78fc563894ab246bdc039ebf7a0021ccf6411c4c222ab24a457",
                 "services/policy/evaluate_rollout.ts",
-                "docs/runbooks/policy-incident.md",
+                ".docs/runbooks/policy-incident.md",
                 "config/policy/issuer-precedence.yml",
                 "policy.rollout.precedence",
                 "policy.rollout.approvalWindowHours"
@@ -9953,7 +9953,7 @@
                 "evidenceRefs": [
                   "sha256:c8c14bfb78dbe78fc563894ab246bdc039ebf7a0021ccf6411c4c222ab24a457",
                   "services/policy/evaluate_rollout.ts",
-                  "docs/runbooks/policy-incident.md",
+                  ".docs/runbooks/policy-incident.md",
                   "config/policy/issuer-precedence.yml",
                   "policy.rollout.precedence",
                   "policy.rollout.approvalWindowHours"
@@ -10002,7 +10002,7 @@
               "evidenceRefs": [
                 "sha256:c8c14bfb78dbe78fc563894ab246bdc039ebf7a0021ccf6411c4c222ab24a457",
                 "services/policy/evaluate_rollout.ts",
-                "docs/runbooks/policy-incident.md",
+                ".docs/runbooks/policy-incident.md",
                 "config/policy/issuer-precedence.yml",
                 "policy.rollout.precedence",
                 "policy.rollout.approvalWindowHours"
@@ -10021,7 +10021,7 @@
                 ],
                 "paths": [
                   "services/policy/evaluate_rollout.ts",
-                  "docs/runbooks/policy-incident.md",
+                  ".docs/runbooks/policy-incident.md",
                   "config/policy/issuer-precedence.yml"
                 ],
                 "configKeys": [
@@ -10135,7 +10135,7 @@
               "installationId": "gh_inst_bitcode_001",
               "contentRoot": "sha256:0c58ee70046c4dc0ca52c52cca3c1e2b68a91ae535763ea5426c1b61dd0d87f5",
               "addressingScope": "repo-file",
-              "primaryAddressRef": "docs/runbooks/policy-incident.md",
+              "primaryAddressRef": ".docs/runbooks/policy-incident.md",
               "addressingRoot": "sha256:0ea629e1b19eaabdc9d44c1676a1cb50680b469a4868f775877c5cf9a8f55bed"
             }
           ],
@@ -10283,7 +10283,7 @@
             "installationId": "gh_inst_bitcode_001",
             "contentRoot": "sha256:0c58ee70046c4dc0ca52c52cca3c1e2b68a91ae535763ea5426c1b61dd0d87f5",
             "addressingScope": "repo-file",
-            "primaryAddressRef": "docs/runbooks/policy-incident.md",
+            "primaryAddressRef": ".docs/runbooks/policy-incident.md",
             "addressingRoot": "sha256:0ea629e1b19eaabdc9d44c1676a1cb50680b469a4868f775877c5cf9a8f55bed"
           }
         ],
@@ -10326,7 +10326,7 @@
         "workflowJobName": "policy-benchmark",
         "sourcePaths": [
           "services/policy/evaluate_rollout.ts",
-          "docs/runbooks/policy-incident.md",
+          ".docs/runbooks/policy-incident.md",
           "config/policy/issuer-precedence.yml"
         ],
         "selectedInventoryEntryIds": [
@@ -10337,7 +10337,7 @@
         "selectedInventoryAddressRefs": [
           "policy-precedence-report.json",
           "services/policy/evaluate_rollout.ts",
-          "docs/runbooks/policy-incident.md"
+          ".docs/runbooks/policy-incident.md"
         ],
         "addressedInventoryEntries": [
           {
@@ -10363,7 +10363,7 @@
             "artifactKind": "runbook",
             "artifactType": "runbook/operator-playbook",
             "originKind": "incident-document",
-            "primaryAddressRef": "docs/runbooks/policy-incident.md",
+            "primaryAddressRef": ".docs/runbooks/policy-incident.md",
             "contentRoot": "sha256:0c58ee70046c4dc0ca52c52cca3c1e2b68a91ae535763ea5426c1b61dd0d87f5",
             "addressingRoot": "sha256:0ea629e1b19eaabdc9d44c1676a1cb50680b469a4868f775877c5cf9a8f55bed"
           }
@@ -10495,7 +10495,7 @@
         "commit": "policy031fix",
         "paths": [
           "services/policy/evaluate_rollout.ts",
-          "docs/runbooks/policy-incident.md",
+          ".docs/runbooks/policy-incident.md",
           "config/policy/issuer-precedence.yml"
         ],
         "workflowPath": ".github/workflows/policy-benchmark.yml",
@@ -10521,7 +10521,7 @@
         "sourceCommit": "policy031fix",
         "sourcePaths": [
           "services/policy/evaluate_rollout.ts",
-          "docs/runbooks/policy-incident.md",
+          ".docs/runbooks/policy-incident.md",
           "config/policy/issuer-precedence.yml"
         ],
         "tags": [
@@ -10566,7 +10566,7 @@
           ],
           "paths": [
             "services/policy/evaluate_rollout.ts",
-            "docs/runbooks/policy-incident.md",
+            ".docs/runbooks/policy-incident.md",
             "config/policy/issuer-precedence.yml"
           ],
           "configKeys": [
@@ -10807,7 +10807,7 @@
             "evidenceRefs": [
               "sha256:52c0ba30d6b3a9704516a8b6f544f0be0db1823373035a9e1db279186ce04532",
               "services/policy/evaluate_rollout.ts",
-              "docs/runbooks/policy-incident.md",
+              ".docs/runbooks/policy-incident.md",
               "config/policy/issuer-precedence.yml"
             ],
             "replayInputClosure": [
@@ -10827,7 +10827,7 @@
               ],
               "paths": [
                 "services/policy/evaluate_rollout.ts",
-                "docs/runbooks/policy-incident.md",
+                ".docs/runbooks/policy-incident.md",
                 "config/policy/issuer-precedence.yml"
               ],
               "configKeys": [
@@ -10862,7 +10862,7 @@
             "evidenceRefs": [
               "sha256:bde4b6c8f68583cfd45ea4c1d2f136a5d4f3fbb2e56c770c8ee33533e11d9fe5",
               "services/policy/evaluate_rollout.ts",
-              "docs/runbooks/policy-incident.md",
+              ".docs/runbooks/policy-incident.md",
               "config/policy/issuer-precedence.yml",
               "policy.rollout.precedence",
               "policy.rollout.approvalWindowHours"
@@ -10881,7 +10881,7 @@
               ],
               "paths": [
                 "services/policy/evaluate_rollout.ts",
-                "docs/runbooks/policy-incident.md",
+                ".docs/runbooks/policy-incident.md",
                 "config/policy/issuer-precedence.yml"
               ],
               "configKeys": [
@@ -10919,7 +10919,7 @@
             "evidenceRefs": [
               "sha256:330d735a2dc8658e29e2504baed4a395cd21e0363c00e02f0aafb779670665e0",
               "services/policy/evaluate_rollout.ts",
-              "docs/runbooks/policy-incident.md",
+              ".docs/runbooks/policy-incident.md",
               "config/policy/issuer-precedence.yml",
               "policy.rollout.precedence",
               "policy.rollout.approvalWindowHours"
@@ -10938,7 +10938,7 @@
               ],
               "paths": [
                 "services/policy/evaluate_rollout.ts",
-                "docs/runbooks/policy-incident.md",
+                ".docs/runbooks/policy-incident.md",
                 "config/policy/issuer-precedence.yml"
               ],
               "configKeys": [
@@ -10976,7 +10976,7 @@
             "evidenceRefs": [
               "sha256:c8c14bfb78dbe78fc563894ab246bdc039ebf7a0021ccf6411c4c222ab24a457",
               "services/policy/evaluate_rollout.ts",
-              "docs/runbooks/policy-incident.md",
+              ".docs/runbooks/policy-incident.md",
               "config/policy/issuer-precedence.yml",
               "policy.rollout.precedence",
               "policy.rollout.approvalWindowHours"
@@ -10995,7 +10995,7 @@
               ],
               "paths": [
                 "services/policy/evaluate_rollout.ts",
-                "docs/runbooks/policy-incident.md",
+                ".docs/runbooks/policy-incident.md",
                 "config/policy/issuer-precedence.yml"
               ],
               "configKeys": [
@@ -11319,7 +11319,7 @@
             ],
             "paths": [
               "services/review/recovery.ts",
-              "docs/reviews/unsafe_patch_containment.md",
+              ".docs/reviews/unsafe_patch_containment.md",
               "proofs/review_gate.log",
               "services/review/review_gate.ts"
             ],
@@ -11450,7 +11450,7 @@
               "evidenceRefs": [
                 "sha256:5514ba9b2719dcae2a906d8bfe3ddab0d775b5fb94f5e0785e953e562af8249b",
                 "services/review/recovery.ts",
-                "docs/reviews/unsafe_patch_containment.md",
+                ".docs/reviews/unsafe_patch_containment.md",
                 "proofs/review_gate.log",
                 "services/review/review_gate.ts",
                 "review.patch.maxTouchedFiles",
@@ -11475,7 +11475,7 @@
                 "evidenceRefs": [
                   "sha256:5514ba9b2719dcae2a906d8bfe3ddab0d775b5fb94f5e0785e953e562af8249b",
                   "services/review/recovery.ts",
-                  "docs/reviews/unsafe_patch_containment.md",
+                  ".docs/reviews/unsafe_patch_containment.md",
                   "proofs/review_gate.log",
                   "services/review/review_gate.ts",
                   "review.patch.maxTouchedFiles",
@@ -11527,7 +11527,7 @@
               "evidenceRefs": [
                 "sha256:5514ba9b2719dcae2a906d8bfe3ddab0d775b5fb94f5e0785e953e562af8249b",
                 "services/review/recovery.ts",
-                "docs/reviews/unsafe_patch_containment.md",
+                ".docs/reviews/unsafe_patch_containment.md",
                 "proofs/review_gate.log",
                 "services/review/review_gate.ts",
                 "review.patch.maxTouchedFiles",
@@ -11549,7 +11549,7 @@
                 ],
                 "paths": [
                   "services/review/recovery.ts",
-                  "docs/reviews/unsafe_patch_containment.md",
+                  ".docs/reviews/unsafe_patch_containment.md",
                   "proofs/review_gate.log",
                   "services/review/review_gate.ts"
                 ],
@@ -11608,7 +11608,7 @@
             ],
             "paths": [
               "services/review/recovery.ts",
-              "docs/reviews/unsafe_patch_containment.md",
+              ".docs/reviews/unsafe_patch_containment.md",
               "proofs/review_gate.log",
               "services/review/review_gate.ts"
             ],
@@ -11739,7 +11739,7 @@
               "evidenceRefs": [
                 "sha256:3ceb152c0354547faa8ef53ae6edda50380a90e034c3a49575c6f80718b01f5e",
                 "services/review/recovery.ts",
-                "docs/reviews/unsafe_patch_containment.md",
+                ".docs/reviews/unsafe_patch_containment.md",
                 "proofs/review_gate.log",
                 "services/review/review_gate.ts",
                 "review.patch.maxTouchedFiles",
@@ -11764,7 +11764,7 @@
                 "evidenceRefs": [
                   "sha256:3ceb152c0354547faa8ef53ae6edda50380a90e034c3a49575c6f80718b01f5e",
                   "services/review/recovery.ts",
-                  "docs/reviews/unsafe_patch_containment.md",
+                  ".docs/reviews/unsafe_patch_containment.md",
                   "proofs/review_gate.log",
                   "services/review/review_gate.ts",
                   "review.patch.maxTouchedFiles",
@@ -11816,7 +11816,7 @@
               "evidenceRefs": [
                 "sha256:3ceb152c0354547faa8ef53ae6edda50380a90e034c3a49575c6f80718b01f5e",
                 "services/review/recovery.ts",
-                "docs/reviews/unsafe_patch_containment.md",
+                ".docs/reviews/unsafe_patch_containment.md",
                 "proofs/review_gate.log",
                 "services/review/review_gate.ts",
                 "review.patch.maxTouchedFiles",
@@ -11838,7 +11838,7 @@
                 ],
                 "paths": [
                   "services/review/recovery.ts",
-                  "docs/reviews/unsafe_patch_containment.md",
+                  ".docs/reviews/unsafe_patch_containment.md",
                   "proofs/review_gate.log",
                   "services/review/review_gate.ts"
                 ],
@@ -11885,7 +11885,7 @@
           "unitId": "asset_unsafe-patch-review-containment-checklist_d755cefe57:unit-3",
           "assetId": "asset_unsafe-patch-review-containment-checklist_d755cefe57",
           "unitKind": "text",
-          "text": "Expected touched areas: services/review/review_gate.ts, docs/reviews/unsafe_patch_containment.md.",
+          "text": "Expected touched areas: services/review/review_gate.ts, .docs/reviews/unsafe_patch_containment.md.",
           "codeAnalysisFacts": {
             "symbols": [
               "ReviewGate",
@@ -11897,7 +11897,7 @@
             ],
             "paths": [
               "services/review/recovery.ts",
-              "docs/reviews/unsafe_patch_containment.md",
+              ".docs/reviews/unsafe_patch_containment.md",
               "proofs/review_gate.log",
               "services/review/review_gate.ts"
             ],
@@ -12028,7 +12028,7 @@
               "evidenceRefs": [
                 "sha256:a6e1e4bc92cd01f8bbcd46e21a23fb016e6cf0de86daa2d98efd08fe51d3a3b7",
                 "services/review/recovery.ts",
-                "docs/reviews/unsafe_patch_containment.md",
+                ".docs/reviews/unsafe_patch_containment.md",
                 "proofs/review_gate.log",
                 "services/review/review_gate.ts",
                 "review.patch.maxTouchedFiles",
@@ -12053,7 +12053,7 @@
                 "evidenceRefs": [
                   "sha256:a6e1e4bc92cd01f8bbcd46e21a23fb016e6cf0de86daa2d98efd08fe51d3a3b7",
                   "services/review/recovery.ts",
-                  "docs/reviews/unsafe_patch_containment.md",
+                  ".docs/reviews/unsafe_patch_containment.md",
                   "proofs/review_gate.log",
                   "services/review/review_gate.ts",
                   "review.patch.maxTouchedFiles",
@@ -12105,7 +12105,7 @@
               "evidenceRefs": [
                 "sha256:a6e1e4bc92cd01f8bbcd46e21a23fb016e6cf0de86daa2d98efd08fe51d3a3b7",
                 "services/review/recovery.ts",
-                "docs/reviews/unsafe_patch_containment.md",
+                ".docs/reviews/unsafe_patch_containment.md",
                 "proofs/review_gate.log",
                 "services/review/review_gate.ts",
                 "review.patch.maxTouchedFiles",
@@ -12127,7 +12127,7 @@
                 ],
                 "paths": [
                   "services/review/recovery.ts",
-                  "docs/reviews/unsafe_patch_containment.md",
+                  ".docs/reviews/unsafe_patch_containment.md",
                   "proofs/review_gate.log",
                   "services/review/review_gate.ts"
                 ],
@@ -12226,7 +12226,7 @@
               "installationId": "gh_inst_bitcode_001",
               "contentRoot": "sha256:e7f9d9ecda8c585ab2062962760de973370a704674e7a48721e76bb799f6c796",
               "addressingScope": "repo-file",
-              "primaryAddressRef": "docs/reviews/unsafe_patch_containment.md",
+              "primaryAddressRef": ".docs/reviews/unsafe_patch_containment.md",
               "addressingRoot": "sha256:7f404024de73c81931bb63c129858ab96ea5cf1f7b65fc425ba7d04a3a82e5a8"
             },
             {
@@ -12374,7 +12374,7 @@
             "installationId": "gh_inst_bitcode_001",
             "contentRoot": "sha256:e7f9d9ecda8c585ab2062962760de973370a704674e7a48721e76bb799f6c796",
             "addressingScope": "repo-file",
-            "primaryAddressRef": "docs/reviews/unsafe_patch_containment.md",
+            "primaryAddressRef": ".docs/reviews/unsafe_patch_containment.md",
             "addressingRoot": "sha256:7f404024de73c81931bb63c129858ab96ea5cf1f7b65fc425ba7d04a3a82e5a8"
           },
           {
@@ -12433,7 +12433,7 @@
         "workflowJobName": "prove-review-gate",
         "sourcePaths": [
           "services/review/recovery.ts",
-          "docs/reviews/unsafe_patch_containment.md",
+          ".docs/reviews/unsafe_patch_containment.md",
           "proofs/review_gate.log",
           "services/review/review_gate.ts"
         ],
@@ -12444,7 +12444,7 @@
         ],
         "selectedInventoryAddressRefs": [
           "services/review/recovery.ts",
-          "docs/reviews/unsafe_patch_containment.md",
+          ".docs/reviews/unsafe_patch_containment.md",
           "proofs/review_gate.log"
         ],
         "addressedInventoryEntries": [
@@ -12462,7 +12462,7 @@
             "artifactKind": "runbook",
             "artifactType": "runbook/operator-playbook",
             "originKind": "incident-document",
-            "primaryAddressRef": "docs/reviews/unsafe_patch_containment.md",
+            "primaryAddressRef": ".docs/reviews/unsafe_patch_containment.md",
             "contentRoot": "sha256:e7f9d9ecda8c585ab2062962760de973370a704674e7a48721e76bb799f6c796",
             "addressingRoot": "sha256:7f404024de73c81931bb63c129858ab96ea5cf1f7b65fc425ba7d04a3a82e5a8"
           },
@@ -12603,7 +12603,7 @@
         "commit": "review009contain",
         "paths": [
           "services/review/recovery.ts",
-          "docs/reviews/unsafe_patch_containment.md",
+          ".docs/reviews/unsafe_patch_containment.md",
           "proofs/review_gate.log",
           "services/review/review_gate.ts"
         ],
@@ -12630,7 +12630,7 @@
         "sourceCommit": "review009contain",
         "sourcePaths": [
           "services/review/recovery.ts",
-          "docs/reviews/unsafe_patch_containment.md",
+          ".docs/reviews/unsafe_patch_containment.md",
           "proofs/review_gate.log",
           "services/review/review_gate.ts"
         ],
@@ -12659,7 +12659,7 @@
           "revert unsafe grant path"
         ],
         "summary": "Unsafe patch containment: reject broad patch drops that bypass review gates, force an explicit rationale, and attach the touched-file budget to the review receipt.\n\nOperator steps: diff the candidate patch against allowe",
-        "privateContent": "Unsafe patch containment: reject broad patch drops that bypass review gates, force an explicit rationale, and attach the touched-file budget to the review receipt.\n\nOperator steps: diff the candidate patch against allowed file boundaries, require reviewer rationale before apply, and reopen the benchmark workflow if the patch exceeds policy scope.\n\nExpected touched areas: services/review/review_gate.ts, docs/reviews/unsafe_patch_containment.md.",
+        "privateContent": "Unsafe patch containment: reject broad patch drops that bypass review gates, force an explicit rationale, and attach the touched-file budget to the review receipt.\n\nOperator steps: diff the candidate patch against allowed file boundaries, require reviewer rationale before apply, and reopen the benchmark workflow if the patch exceeds policy scope.\n\nExpected touched areas: services/review/review_gate.ts, .docs/reviews/unsafe_patch_containment.md.",
         "issuerPolicyStatus": "allowed"
       },
       "assetMeasurement": {
@@ -12675,7 +12675,7 @@
           ],
           "paths": [
             "services/review/recovery.ts",
-            "docs/reviews/unsafe_patch_containment.md",
+            ".docs/reviews/unsafe_patch_containment.md",
             "proofs/review_gate.log",
             "services/review/review_gate.ts"
           ],
@@ -12844,7 +12844,7 @@
             "version": "demo-v15.0",
             "evidenceRefs": [
               "sha256:03a86093f6c9514f3993a48d79ab915f8097c6c7aac9acd6121a2b1f04915ee6",
-              "docs/reviews/unsafe_patch_containment.md",
+              ".docs/reviews/unsafe_patch_containment.md",
               "services/review/review_gate.ts"
             ],
             "receiptRefs": [
@@ -12863,7 +12863,7 @@
               "standIn": false,
               "evidenceRefs": [
                 "sha256:03a86093f6c9514f3993a48d79ab915f8097c6c7aac9acd6121a2b1f04915ee6",
-                "docs/reviews/unsafe_patch_containment.md",
+                ".docs/reviews/unsafe_patch_containment.md",
                 "services/review/review_gate.ts"
               ]
             }
@@ -12916,7 +12916,7 @@
             "evidenceRefs": [
               "sha256:03a86093f6c9514f3993a48d79ab915f8097c6c7aac9acd6121a2b1f04915ee6",
               "services/review/recovery.ts",
-              "docs/reviews/unsafe_patch_containment.md",
+              ".docs/reviews/unsafe_patch_containment.md",
               "proofs/review_gate.log",
               "services/review/review_gate.ts"
             ],
@@ -12937,7 +12937,7 @@
               ],
               "paths": [
                 "services/review/recovery.ts",
-                "docs/reviews/unsafe_patch_containment.md",
+                ".docs/reviews/unsafe_patch_containment.md",
                 "proofs/review_gate.log",
                 "services/review/review_gate.ts"
               ],
@@ -12972,7 +12972,7 @@
             "evidenceRefs": [
               "sha256:5514ba9b2719dcae2a906d8bfe3ddab0d775b5fb94f5e0785e953e562af8249b",
               "services/review/recovery.ts",
-              "docs/reviews/unsafe_patch_containment.md",
+              ".docs/reviews/unsafe_patch_containment.md",
               "proofs/review_gate.log",
               "services/review/review_gate.ts",
               "review.patch.maxTouchedFiles",
@@ -12994,7 +12994,7 @@
               ],
               "paths": [
                 "services/review/recovery.ts",
-                "docs/reviews/unsafe_patch_containment.md",
+                ".docs/reviews/unsafe_patch_containment.md",
                 "proofs/review_gate.log",
                 "services/review/review_gate.ts"
               ],
@@ -13033,7 +13033,7 @@
             "evidenceRefs": [
               "sha256:3ceb152c0354547faa8ef53ae6edda50380a90e034c3a49575c6f80718b01f5e",
               "services/review/recovery.ts",
-              "docs/reviews/unsafe_patch_containment.md",
+              ".docs/reviews/unsafe_patch_containment.md",
               "proofs/review_gate.log",
               "services/review/review_gate.ts",
               "review.patch.maxTouchedFiles",
@@ -13055,7 +13055,7 @@
               ],
               "paths": [
                 "services/review/recovery.ts",
-                "docs/reviews/unsafe_patch_containment.md",
+                ".docs/reviews/unsafe_patch_containment.md",
                 "proofs/review_gate.log",
                 "services/review/review_gate.ts"
               ],
@@ -13094,7 +13094,7 @@
             "evidenceRefs": [
               "sha256:a6e1e4bc92cd01f8bbcd46e21a23fb016e6cf0de86daa2d98efd08fe51d3a3b7",
               "services/review/recovery.ts",
-              "docs/reviews/unsafe_patch_containment.md",
+              ".docs/reviews/unsafe_patch_containment.md",
               "proofs/review_gate.log",
               "services/review/review_gate.ts",
               "review.patch.maxTouchedFiles",
@@ -13116,7 +13116,7 @@
               ],
               "paths": [
                 "services/review/recovery.ts",
-                "docs/reviews/unsafe_patch_containment.md",
+                ".docs/reviews/unsafe_patch_containment.md",
                 "proofs/review_gate.log",
                 "services/review/review_gate.ts"
               ],
@@ -13353,7 +13353,7 @@
           "version": "demo-v15.0",
           "evidenceRefs": [
             "sha256:03a86093f6c9514f3993a48d79ab915f8097c6c7aac9acd6121a2b1f04915ee6",
-            "docs/reviews/unsafe_patch_containment.md",
+            ".docs/reviews/unsafe_patch_containment.md",
             "services/review/review_gate.ts"
           ],
           "receiptRefs": [
@@ -13372,7 +13372,7 @@
             "standIn": false,
             "evidenceRefs": [
               "sha256:03a86093f6c9514f3993a48d79ab915f8097c6c7aac9acd6121a2b1f04915ee6",
-              "docs/reviews/unsafe_patch_containment.md",
+              ".docs/reviews/unsafe_patch_containment.md",
               "services/review/review_gate.ts"
             ]
           }
@@ -15559,7 +15559,7 @@
             ],
             "paths": [
               "services/redaction/project_public_proof.ts",
-              "docs/runbooks/public-proof-disclosure.md",
+              ".docs/runbooks/public-proof-disclosure.md",
               "policies/disclosure/bounded_public.yml"
             ],
             "configKeys": [
@@ -15688,7 +15688,7 @@
               "evidenceRefs": [
                 "sha256:a99a420efe270027d62f5c69c194ecffe7e73f583337f0e172df9ff2afcfd358",
                 "services/redaction/project_public_proof.ts",
-                "docs/runbooks/public-proof-disclosure.md",
+                ".docs/runbooks/public-proof-disclosure.md",
                 "policies/disclosure/bounded_public.yml",
                 "projection.public.allowedArtifacts",
                 "projection.redaction.defaultMode"
@@ -15710,7 +15710,7 @@
                 "evidenceRefs": [
                   "sha256:a99a420efe270027d62f5c69c194ecffe7e73f583337f0e172df9ff2afcfd358",
                   "services/redaction/project_public_proof.ts",
-                  "docs/runbooks/public-proof-disclosure.md",
+                  ".docs/runbooks/public-proof-disclosure.md",
                   "policies/disclosure/bounded_public.yml",
                   "projection.public.allowedArtifacts",
                   "projection.redaction.defaultMode"
@@ -15759,7 +15759,7 @@
               "evidenceRefs": [
                 "sha256:a99a420efe270027d62f5c69c194ecffe7e73f583337f0e172df9ff2afcfd358",
                 "services/redaction/project_public_proof.ts",
-                "docs/runbooks/public-proof-disclosure.md",
+                ".docs/runbooks/public-proof-disclosure.md",
                 "policies/disclosure/bounded_public.yml",
                 "projection.public.allowedArtifacts",
                 "projection.redaction.defaultMode"
@@ -15777,7 +15777,7 @@
                 ],
                 "paths": [
                   "services/redaction/project_public_proof.ts",
-                  "docs/runbooks/public-proof-disclosure.md",
+                  ".docs/runbooks/public-proof-disclosure.md",
                   "policies/disclosure/bounded_public.yml"
                 ],
                 "configKeys": [
@@ -15833,7 +15833,7 @@
             ],
             "paths": [
               "services/redaction/project_public_proof.ts",
-              "docs/runbooks/public-proof-disclosure.md",
+              ".docs/runbooks/public-proof-disclosure.md",
               "policies/disclosure/bounded_public.yml"
             ],
             "configKeys": [
@@ -15962,7 +15962,7 @@
               "evidenceRefs": [
                 "sha256:c0a6026857c61325395984c2dabc67e17607c4b5ce72e8d246a913a68456591c",
                 "services/redaction/project_public_proof.ts",
-                "docs/runbooks/public-proof-disclosure.md",
+                ".docs/runbooks/public-proof-disclosure.md",
                 "policies/disclosure/bounded_public.yml",
                 "projection.public.allowedArtifacts",
                 "projection.redaction.defaultMode"
@@ -15984,7 +15984,7 @@
                 "evidenceRefs": [
                   "sha256:c0a6026857c61325395984c2dabc67e17607c4b5ce72e8d246a913a68456591c",
                   "services/redaction/project_public_proof.ts",
-                  "docs/runbooks/public-proof-disclosure.md",
+                  ".docs/runbooks/public-proof-disclosure.md",
                   "policies/disclosure/bounded_public.yml",
                   "projection.public.allowedArtifacts",
                   "projection.redaction.defaultMode"
@@ -16033,7 +16033,7 @@
               "evidenceRefs": [
                 "sha256:c0a6026857c61325395984c2dabc67e17607c4b5ce72e8d246a913a68456591c",
                 "services/redaction/project_public_proof.ts",
-                "docs/runbooks/public-proof-disclosure.md",
+                ".docs/runbooks/public-proof-disclosure.md",
                 "policies/disclosure/bounded_public.yml",
                 "projection.public.allowedArtifacts",
                 "projection.redaction.defaultMode"
@@ -16051,7 +16051,7 @@
                 ],
                 "paths": [
                   "services/redaction/project_public_proof.ts",
-                  "docs/runbooks/public-proof-disclosure.md",
+                  ".docs/runbooks/public-proof-disclosure.md",
                   "policies/disclosure/bounded_public.yml"
                 ],
                 "configKeys": [
@@ -16164,7 +16164,7 @@
               "installationId": "gh_inst_bitcode_001",
               "contentRoot": "sha256:2a2272220726cbbd3191a11154591410f13e41e2960ca293b7ee6b723ab700c0",
               "addressingScope": "repo-file",
-              "primaryAddressRef": "docs/runbooks/public-proof-disclosure.md",
+              "primaryAddressRef": ".docs/runbooks/public-proof-disclosure.md",
               "addressingRoot": "sha256:4fa0645e408e460a457430ed274ee21e323af365ad895586053d47b182ea5393"
             }
           ],
@@ -16312,7 +16312,7 @@
             "installationId": "gh_inst_bitcode_001",
             "contentRoot": "sha256:2a2272220726cbbd3191a11154591410f13e41e2960ca293b7ee6b723ab700c0",
             "addressingScope": "repo-file",
-            "primaryAddressRef": "docs/runbooks/public-proof-disclosure.md",
+            "primaryAddressRef": ".docs/runbooks/public-proof-disclosure.md",
             "addressingRoot": "sha256:4fa0645e408e460a457430ed274ee21e323af365ad895586053d47b182ea5393"
           }
         ],
@@ -16355,7 +16355,7 @@
         "workflowJobName": "bounded-proof-export",
         "sourcePaths": [
           "services/redaction/project_public_proof.ts",
-          "docs/runbooks/public-proof-disclosure.md",
+          ".docs/runbooks/public-proof-disclosure.md",
           "policies/disclosure/bounded_public.yml"
         ],
         "selectedInventoryEntryIds": [
@@ -16366,7 +16366,7 @@
         "selectedInventoryAddressRefs": [
           "bounded-proof-export.json",
           "services/redaction/project_public_proof.ts",
-          "docs/runbooks/public-proof-disclosure.md"
+          ".docs/runbooks/public-proof-disclosure.md"
         ],
         "addressedInventoryEntries": [
           {
@@ -16392,7 +16392,7 @@
             "artifactKind": "runbook",
             "artifactType": "runbook/operator-playbook",
             "originKind": "incident-document",
-            "primaryAddressRef": "docs/runbooks/public-proof-disclosure.md",
+            "primaryAddressRef": ".docs/runbooks/public-proof-disclosure.md",
             "contentRoot": "sha256:2a2272220726cbbd3191a11154591410f13e41e2960ca293b7ee6b723ab700c0",
             "addressingRoot": "sha256:4fa0645e408e460a457430ed274ee21e323af365ad895586053d47b182ea5393"
           }
@@ -16524,7 +16524,7 @@
         "commit": "projection006bound",
         "paths": [
           "services/redaction/project_public_proof.ts",
-          "docs/runbooks/public-proof-disclosure.md",
+          ".docs/runbooks/public-proof-disclosure.md",
           "policies/disclosure/bounded_public.yml"
         ],
         "workflowPath": ".github/workflows/privacy-proof.yml",
@@ -16550,7 +16550,7 @@
         "sourceCommit": "projection006bound",
         "sourcePaths": [
           "services/redaction/project_public_proof.ts",
-          "docs/runbooks/public-proof-disclosure.md",
+          ".docs/runbooks/public-proof-disclosure.md",
           "policies/disclosure/bounded_public.yml"
         ],
         "tags": [
@@ -16591,7 +16591,7 @@
           ],
           "paths": [
             "services/redaction/project_public_proof.ts",
-            "docs/runbooks/public-proof-disclosure.md",
+            ".docs/runbooks/public-proof-disclosure.md",
             "policies/disclosure/bounded_public.yml"
           ],
           "configKeys": [
@@ -16785,7 +16785,7 @@
             "evidenceRefs": [
               "sha256:5644701f286b778c298232364547a0532583b6fa8efe43fded4a6057e402e983",
               "services/redaction/project_public_proof.ts",
-              "docs/runbooks/public-proof-disclosure.md",
+              ".docs/runbooks/public-proof-disclosure.md",
               "policies/disclosure/bounded_public.yml"
             ],
             "replayInputClosure": [
@@ -16803,7 +16803,7 @@
               ],
               "paths": [
                 "services/redaction/project_public_proof.ts",
-                "docs/runbooks/public-proof-disclosure.md",
+                ".docs/runbooks/public-proof-disclosure.md",
                 "policies/disclosure/bounded_public.yml"
               ],
               "configKeys": [
@@ -16837,7 +16837,7 @@
             "evidenceRefs": [
               "sha256:a99a420efe270027d62f5c69c194ecffe7e73f583337f0e172df9ff2afcfd358",
               "services/redaction/project_public_proof.ts",
-              "docs/runbooks/public-proof-disclosure.md",
+              ".docs/runbooks/public-proof-disclosure.md",
               "policies/disclosure/bounded_public.yml",
               "projection.public.allowedArtifacts",
               "projection.redaction.defaultMode"
@@ -16855,7 +16855,7 @@
               ],
               "paths": [
                 "services/redaction/project_public_proof.ts",
-                "docs/runbooks/public-proof-disclosure.md",
+                ".docs/runbooks/public-proof-disclosure.md",
                 "policies/disclosure/bounded_public.yml"
               ],
               "configKeys": [
@@ -16892,7 +16892,7 @@
             "evidenceRefs": [
               "sha256:c0a6026857c61325395984c2dabc67e17607c4b5ce72e8d246a913a68456591c",
               "services/redaction/project_public_proof.ts",
-              "docs/runbooks/public-proof-disclosure.md",
+              ".docs/runbooks/public-proof-disclosure.md",
               "policies/disclosure/bounded_public.yml",
               "projection.public.allowedArtifacts",
               "projection.redaction.defaultMode"
@@ -16910,7 +16910,7 @@
               ],
               "paths": [
                 "services/redaction/project_public_proof.ts",
-                "docs/runbooks/public-proof-disclosure.md",
+                ".docs/runbooks/public-proof-disclosure.md",
                 "policies/disclosure/bounded_public.yml"
               ],
               "configKeys": [
@@ -21639,7 +21639,7 @@
               "api/server.ts",
               "workers/session_replay.py",
               "crates/token_bridge/src/lib.rs",
-              "docs/runbooks/polyglot_gateway_rollback.md",
+              ".docs/runbooks/polyglot_gateway_rollback.md",
               "config/gateway/issuer_policy.yml",
               "proofs/gateway_parity.log",
               "gateway/api/server.ts",
@@ -21778,7 +21778,7 @@
                 "api/server.ts",
                 "workers/session_replay.py",
                 "crates/token_bridge/src/lib.rs",
-                "docs/runbooks/polyglot_gateway_rollback.md",
+                ".docs/runbooks/polyglot_gateway_rollback.md",
                 "config/gateway/issuer_policy.yml",
                 "proofs/gateway_parity.log",
                 "gateway/api/server.ts",
@@ -21809,7 +21809,7 @@
                   "api/server.ts",
                   "workers/session_replay.py",
                   "crates/token_bridge/src/lib.rs",
-                  "docs/runbooks/polyglot_gateway_rollback.md",
+                  ".docs/runbooks/polyglot_gateway_rollback.md",
                   "config/gateway/issuer_policy.yml",
                   "proofs/gateway_parity.log",
                   "gateway/api/server.ts",
@@ -21866,7 +21866,7 @@
                 "api/server.ts",
                 "workers/session_replay.py",
                 "crates/token_bridge/src/lib.rs",
-                "docs/runbooks/polyglot_gateway_rollback.md",
+                ".docs/runbooks/polyglot_gateway_rollback.md",
                 "config/gateway/issuer_policy.yml",
                 "proofs/gateway_parity.log",
                 "gateway/api/server.ts",
@@ -21897,7 +21897,7 @@
                   "api/server.ts",
                   "workers/session_replay.py",
                   "crates/token_bridge/src/lib.rs",
-                  "docs/runbooks/polyglot_gateway_rollback.md",
+                  ".docs/runbooks/polyglot_gateway_rollback.md",
                   "config/gateway/issuer_policy.yml",
                   "proofs/gateway_parity.log",
                   "gateway/api/server.ts",
@@ -21968,7 +21968,7 @@
               "api/server.ts",
               "workers/session_replay.py",
               "crates/token_bridge/src/lib.rs",
-              "docs/runbooks/polyglot_gateway_rollback.md",
+              ".docs/runbooks/polyglot_gateway_rollback.md",
               "config/gateway/issuer_policy.yml",
               "proofs/gateway_parity.log",
               "gateway/api/server.ts",
@@ -22107,7 +22107,7 @@
                 "api/server.ts",
                 "workers/session_replay.py",
                 "crates/token_bridge/src/lib.rs",
-                "docs/runbooks/polyglot_gateway_rollback.md",
+                ".docs/runbooks/polyglot_gateway_rollback.md",
                 "config/gateway/issuer_policy.yml",
                 "proofs/gateway_parity.log",
                 "gateway/api/server.ts",
@@ -22138,7 +22138,7 @@
                   "api/server.ts",
                   "workers/session_replay.py",
                   "crates/token_bridge/src/lib.rs",
-                  "docs/runbooks/polyglot_gateway_rollback.md",
+                  ".docs/runbooks/polyglot_gateway_rollback.md",
                   "config/gateway/issuer_policy.yml",
                   "proofs/gateway_parity.log",
                   "gateway/api/server.ts",
@@ -22195,7 +22195,7 @@
                 "api/server.ts",
                 "workers/session_replay.py",
                 "crates/token_bridge/src/lib.rs",
-                "docs/runbooks/polyglot_gateway_rollback.md",
+                ".docs/runbooks/polyglot_gateway_rollback.md",
                 "config/gateway/issuer_policy.yml",
                 "proofs/gateway_parity.log",
                 "gateway/api/server.ts",
@@ -22226,7 +22226,7 @@
                   "api/server.ts",
                   "workers/session_replay.py",
                   "crates/token_bridge/src/lib.rs",
-                  "docs/runbooks/polyglot_gateway_rollback.md",
+                  ".docs/runbooks/polyglot_gateway_rollback.md",
                   "config/gateway/issuer_policy.yml",
                   "proofs/gateway_parity.log",
                   "gateway/api/server.ts",
@@ -22297,7 +22297,7 @@
               "api/server.ts",
               "workers/session_replay.py",
               "crates/token_bridge/src/lib.rs",
-              "docs/runbooks/polyglot_gateway_rollback.md",
+              ".docs/runbooks/polyglot_gateway_rollback.md",
               "config/gateway/issuer_policy.yml",
               "proofs/gateway_parity.log",
               "gateway/api/server.ts",
@@ -22436,7 +22436,7 @@
                 "api/server.ts",
                 "workers/session_replay.py",
                 "crates/token_bridge/src/lib.rs",
-                "docs/runbooks/polyglot_gateway_rollback.md",
+                ".docs/runbooks/polyglot_gateway_rollback.md",
                 "config/gateway/issuer_policy.yml",
                 "proofs/gateway_parity.log",
                 "gateway/api/server.ts",
@@ -22467,7 +22467,7 @@
                   "api/server.ts",
                   "workers/session_replay.py",
                   "crates/token_bridge/src/lib.rs",
-                  "docs/runbooks/polyglot_gateway_rollback.md",
+                  ".docs/runbooks/polyglot_gateway_rollback.md",
                   "config/gateway/issuer_policy.yml",
                   "proofs/gateway_parity.log",
                   "gateway/api/server.ts",
@@ -22524,7 +22524,7 @@
                 "api/server.ts",
                 "workers/session_replay.py",
                 "crates/token_bridge/src/lib.rs",
-                "docs/runbooks/polyglot_gateway_rollback.md",
+                ".docs/runbooks/polyglot_gateway_rollback.md",
                 "config/gateway/issuer_policy.yml",
                 "proofs/gateway_parity.log",
                 "gateway/api/server.ts",
@@ -22555,7 +22555,7 @@
                   "api/server.ts",
                   "workers/session_replay.py",
                   "crates/token_bridge/src/lib.rs",
-                  "docs/runbooks/polyglot_gateway_rollback.md",
+                  ".docs/runbooks/polyglot_gateway_rollback.md",
                   "config/gateway/issuer_policy.yml",
                   "proofs/gateway_parity.log",
                   "gateway/api/server.ts",
@@ -22661,7 +22661,7 @@
               "installationId": "gh_inst_bitcode_001",
               "contentRoot": "sha256:8bf8e84d89db2a227d4e77a38bb2fb2c773c2afcdbf4cc67fe5dafd91350d960",
               "addressingScope": "repo-file",
-              "primaryAddressRef": "docs/runbooks/polyglot_gateway_rollback.md",
+              "primaryAddressRef": ".docs/runbooks/polyglot_gateway_rollback.md",
               "addressingRoot": "sha256:d3845232c5861ab7c9fd70d38805cda245c527dd7491a19046391cc63a8959c1"
             },
             {
@@ -22831,7 +22831,7 @@
             "installationId": "gh_inst_bitcode_001",
             "contentRoot": "sha256:8bf8e84d89db2a227d4e77a38bb2fb2c773c2afcdbf4cc67fe5dafd91350d960",
             "addressingScope": "repo-file",
-            "primaryAddressRef": "docs/runbooks/polyglot_gateway_rollback.md",
+            "primaryAddressRef": ".docs/runbooks/polyglot_gateway_rollback.md",
             "addressingRoot": "sha256:d3845232c5861ab7c9fd70d38805cda245c527dd7491a19046391cc63a8959c1"
           },
           {
@@ -22912,7 +22912,7 @@
           "api/server.ts",
           "workers/session_replay.py",
           "crates/token_bridge/src/lib.rs",
-          "docs/runbooks/polyglot_gateway_rollback.md",
+          ".docs/runbooks/polyglot_gateway_rollback.md",
           "config/gateway/issuer_policy.yml",
           "proofs/gateway_parity.log",
           "gateway/api/server.ts"
@@ -22925,7 +22925,7 @@
         ],
         "selectedInventoryAddressRefs": [
           "api/server.ts",
-          "docs/runbooks/polyglot_gateway_rollback.md",
+          ".docs/runbooks/polyglot_gateway_rollback.md",
           "config/gateway/issuer_policy.yml",
           "proofs/gateway_parity.log"
         ],
@@ -22944,7 +22944,7 @@
             "artifactKind": "runbook",
             "artifactType": "runbook/operator-playbook",
             "originKind": "incident-document",
-            "primaryAddressRef": "docs/runbooks/polyglot_gateway_rollback.md",
+            "primaryAddressRef": ".docs/runbooks/polyglot_gateway_rollback.md",
             "contentRoot": "sha256:8bf8e84d89db2a227d4e77a38bb2fb2c773c2afcdbf4cc67fe5dafd91350d960",
             "addressingRoot": "sha256:d3845232c5861ab7c9fd70d38805cda245c527dd7491a19046391cc63a8959c1"
           },
@@ -23097,7 +23097,7 @@
           "api/server.ts",
           "workers/session_replay.py",
           "crates/token_bridge/src/lib.rs",
-          "docs/runbooks/polyglot_gateway_rollback.md",
+          ".docs/runbooks/polyglot_gateway_rollback.md",
           "config/gateway/issuer_policy.yml",
           "proofs/gateway_parity.log",
           "gateway/api/server.ts"
@@ -23127,7 +23127,7 @@
           "api/server.ts",
           "workers/session_replay.py",
           "crates/token_bridge/src/lib.rs",
-          "docs/runbooks/polyglot_gateway_rollback.md",
+          ".docs/runbooks/polyglot_gateway_rollback.md",
           "config/gateway/issuer_policy.yml",
           "proofs/gateway_parity.log",
           "gateway/api/server.ts"
@@ -23181,7 +23181,7 @@
             "api/server.ts",
             "workers/session_replay.py",
             "crates/token_bridge/src/lib.rs",
-            "docs/runbooks/polyglot_gateway_rollback.md",
+            ".docs/runbooks/polyglot_gateway_rollback.md",
             "config/gateway/issuer_policy.yml",
             "proofs/gateway_parity.log",
             "gateway/api/server.ts"
@@ -23431,7 +23431,7 @@
               "api/server.ts",
               "workers/session_replay.py",
               "crates/token_bridge/src/lib.rs",
-              "docs/runbooks/polyglot_gateway_rollback.md",
+              ".docs/runbooks/polyglot_gateway_rollback.md",
               "config/gateway/issuer_policy.yml",
               "proofs/gateway_parity.log",
               "gateway/api/server.ts"
@@ -23459,7 +23459,7 @@
                 "api/server.ts",
                 "workers/session_replay.py",
                 "crates/token_bridge/src/lib.rs",
-                "docs/runbooks/polyglot_gateway_rollback.md",
+                ".docs/runbooks/polyglot_gateway_rollback.md",
                 "config/gateway/issuer_policy.yml",
                 "proofs/gateway_parity.log",
                 "gateway/api/server.ts"
@@ -23499,7 +23499,7 @@
               "api/server.ts",
               "workers/session_replay.py",
               "crates/token_bridge/src/lib.rs",
-              "docs/runbooks/polyglot_gateway_rollback.md",
+              ".docs/runbooks/polyglot_gateway_rollback.md",
               "config/gateway/issuer_policy.yml",
               "proofs/gateway_parity.log",
               "gateway/api/server.ts",
@@ -23530,7 +23530,7 @@
                 "api/server.ts",
                 "workers/session_replay.py",
                 "crates/token_bridge/src/lib.rs",
-                "docs/runbooks/polyglot_gateway_rollback.md",
+                ".docs/runbooks/polyglot_gateway_rollback.md",
                 "config/gateway/issuer_policy.yml",
                 "proofs/gateway_parity.log",
                 "gateway/api/server.ts",
@@ -23577,7 +23577,7 @@
               "api/server.ts",
               "workers/session_replay.py",
               "crates/token_bridge/src/lib.rs",
-              "docs/runbooks/polyglot_gateway_rollback.md",
+              ".docs/runbooks/polyglot_gateway_rollback.md",
               "config/gateway/issuer_policy.yml",
               "proofs/gateway_parity.log",
               "gateway/api/server.ts",
@@ -23608,7 +23608,7 @@
                 "api/server.ts",
                 "workers/session_replay.py",
                 "crates/token_bridge/src/lib.rs",
-                "docs/runbooks/polyglot_gateway_rollback.md",
+                ".docs/runbooks/polyglot_gateway_rollback.md",
                 "config/gateway/issuer_policy.yml",
                 "proofs/gateway_parity.log",
                 "gateway/api/server.ts",
@@ -23655,7 +23655,7 @@
               "api/server.ts",
               "workers/session_replay.py",
               "crates/token_bridge/src/lib.rs",
-              "docs/runbooks/polyglot_gateway_rollback.md",
+              ".docs/runbooks/polyglot_gateway_rollback.md",
               "config/gateway/issuer_policy.yml",
               "proofs/gateway_parity.log",
               "gateway/api/server.ts",
@@ -23686,7 +23686,7 @@
                 "api/server.ts",
                 "workers/session_replay.py",
                 "crates/token_bridge/src/lib.rs",
-                "docs/runbooks/polyglot_gateway_rollback.md",
+                ".docs/runbooks/polyglot_gateway_rollback.md",
                 "config/gateway/issuer_policy.yml",
                 "proofs/gateway_parity.log",
                 "gateway/api/server.ts",
@@ -24279,7 +24279,7 @@
         "repoTree": [
           "config/policy/issuer-precedence.yml",
           "services/policy/evaluate_rollout.ts",
-          "docs/runbooks/policy-incident.md",
+          ".docs/runbooks/policy-incident.md",
           "benchmarks/policy_precedence.yaml"
         ],
         "stackHints": [
@@ -24363,7 +24363,7 @@
           "touchedPaths": [
             "config/policy/issuer-precedence.yml",
             "services/policy/evaluate_rollout.ts",
-            "docs/runbooks/policy-incident.md"
+            ".docs/runbooks/policy-incident.md"
           ],
           "symbols": [
             "evaluateRolloutPolicy",
@@ -24401,7 +24401,7 @@
         "repoTree": [
           "services/review/apply_patch.ts",
           "services/review/review_gate.ts",
-          "docs/reviews/unsafe_patch_containment.md",
+          ".docs/reviews/unsafe_patch_containment.md",
           "benchmarks/review_guard.yaml"
         ],
         "stackHints": [
@@ -24484,7 +24484,7 @@
           "touchedPaths": [
             "services/review/apply_patch.ts",
             "services/review/review_gate.ts",
-            "docs/reviews/unsafe_patch_containment.md"
+            ".docs/reviews/unsafe_patch_containment.md"
           ],
           "symbols": [
             "applyPatchSafely",
@@ -24645,7 +24645,7 @@
         "repoTree": [
           "services/redaction/project_public_proof.ts",
           "policies/disclosure/bounded_public.yml",
-          "docs/privacy/remediation.md",
+          ".docs/privacy/remediation.md",
           "benchmarks/projection_privacy.yaml"
         ],
         "stackHints": [
@@ -24728,7 +24728,7 @@
           "touchedPaths": [
             "services/redaction/project_public_proof.ts",
             "policies/disclosure/bounded_public.yml",
-            "docs/privacy/remediation.md"
+            ".docs/privacy/remediation.md"
           ],
           "symbols": [
             "projectBoundedPublicProof",
@@ -25917,9 +25917,9 @@
       "summary": "Incident note capturing operator ordering mistakes and recovery guidance.",
       "ref": "BITCODE-auth-issuer-rollback",
       "sourceCommit": "auth001abc",
-      "sourcePath": "docs/incidents/auth-issuer-mismatch.md",
+      "sourcePath": ".docs/incidents/auth-issuer-mismatch.md",
       "sourcePaths": [
-        "docs/incidents/auth-issuer-mismatch.md"
+        ".docs/incidents/auth-issuer-mismatch.md"
       ],
       "workflowRunId": null,
       "workflowPath": null,
@@ -25938,7 +25938,7 @@
       "declaredConstraints": [
         "record operator ordering"
       ],
-      "previewSurface": "docs/incidents/auth-issuer-mismatch.md",
+      "previewSurface": ".docs/incidents/auth-issuer-mismatch.md",
       "content": "Incident note\n- failures came from replaying schema before restoring verifier compatibility\n- public proof should omit private verifier details",
       "signerAddress": "did:key:frontier-ci-signer",
       "authSessionId": "ghapp_frontier-demo-auth_gh-inst-bitcode-001",
@@ -25962,9 +25962,9 @@
         "checkSuiteId": null,
         "artifactName": null,
         "sourcePaths": [
-          "docs/incidents/auth-issuer-mismatch.md"
+          ".docs/incidents/auth-issuer-mismatch.md"
         ],
-        "primaryAddressRef": "docs/incidents/auth-issuer-mismatch.md",
+        "primaryAddressRef": ".docs/incidents/auth-issuer-mismatch.md",
         "addressingRoot": "sha256:33a72cb8f09cad42880e29ecf07470b1c279b934c81e7e0dca1ed92898791a1c"
       },
       "authBinding": {
@@ -26011,7 +26011,7 @@
         }
       },
       "provenance": {
-        "selectionLabel": "incident-note · incident-document · docs/incidents/auth-issuer-mismatch.md",
+        "selectionLabel": "incident-note · incident-document · .docs/incidents/auth-issuer-mismatch.md",
         "previewHash": "sha256:455342d00462a899c024f9c2179fc6ec7e428027de81b6571c733165d94a4cbe",
         "contentRoot": "sha256:76b2104ea55eba8b7d66f5a291ce427f28c6c8f09ea555cc7842861bdb530572",
         "addressingRoot": "sha256:33a72cb8f09cad42880e29ecf07470b1c279b934c81e7e0dca1ed92898791a1c",
@@ -26387,9 +26387,9 @@
       "summary": "Operator playbook for rerunning proof plus benchmark after replay-window repair.",
       "ref": "BITCODE-proof-validator-gap",
       "sourceCommit": "validator014proof",
-      "sourcePath": "docs/runbooks/validator-proof-recovery.md",
+      "sourcePath": ".docs/runbooks/validator-proof-recovery.md",
       "sourcePaths": [
-        "docs/runbooks/validator-proof-recovery.md"
+        ".docs/runbooks/validator-proof-recovery.md"
       ],
       "workflowRunId": null,
       "workflowPath": null,
@@ -26409,7 +26409,7 @@
       "declaredConstraints": [
         "rerun proof plus benchmark"
       ],
-      "previewSurface": "docs/runbooks/validator-proof-recovery.md",
+      "previewSurface": ".docs/runbooks/validator-proof-recovery.md",
       "content": "Runbook\n- rerun cargo creusot after the patch\n- compare proof hash to benchmark rerun before delivery",
       "signerAddress": "did:key:frontier-ci-signer",
       "authSessionId": "ghapp_frontier-payments-ledger_gh-inst-bitcode-001",
@@ -26433,9 +26433,9 @@
         "checkSuiteId": null,
         "artifactName": null,
         "sourcePaths": [
-          "docs/runbooks/validator-proof-recovery.md"
+          ".docs/runbooks/validator-proof-recovery.md"
         ],
-        "primaryAddressRef": "docs/runbooks/validator-proof-recovery.md",
+        "primaryAddressRef": ".docs/runbooks/validator-proof-recovery.md",
         "addressingRoot": "sha256:61abd826aa8bf795246cc106f21d7d5b71a5f1312ba327c0d3ea807e7a8ff2a8"
       },
       "authBinding": {
@@ -26482,7 +26482,7 @@
         }
       },
       "provenance": {
-        "selectionLabel": "runbook · incident-document · docs/runbooks/validator-proof-recovery.md",
+        "selectionLabel": "runbook · incident-document · .docs/runbooks/validator-proof-recovery.md",
         "previewHash": "sha256:b5048e3c4507677b5fd61bbff84b1bbb54af4befea6dac19ae36dba89551e271",
         "contentRoot": "sha256:6899af8a11a0ee23a36ceabcca9b4824b79c52ca5f58c08600bf07f64773e091",
         "addressingRoot": "sha256:61abd826aa8bf795246cc106f21d7d5b71a5f1312ba327c0d3ea807e7a8ff2a8",
@@ -26735,9 +26735,9 @@
       "summary": "Runbook for recovering precedence drift without reopening the governance incident.",
       "ref": "BITCODE-config-policy-precedence",
       "sourceCommit": "policy031fix",
-      "sourcePath": "docs/runbooks/policy-incident.md",
+      "sourcePath": ".docs/runbooks/policy-incident.md",
       "sourcePaths": [
-        "docs/runbooks/policy-incident.md"
+        ".docs/runbooks/policy-incident.md"
       ],
       "workflowRunId": null,
       "workflowPath": null,
@@ -26756,7 +26756,7 @@
       "declaredConstraints": [
         "preserve approval ordering"
       ],
-      "previewSurface": "docs/runbooks/policy-incident.md",
+      "previewSurface": ".docs/runbooks/policy-incident.md",
       "content": "Runbook\n- inspect precedence matrix first\n- reject undeclared defaults before rollout resume",
       "signerAddress": "did:key:frontier-ci-signer",
       "authSessionId": "ghapp_frontier-policy-control-plane_gh-inst-bitcode-001",
@@ -26780,9 +26780,9 @@
         "checkSuiteId": null,
         "artifactName": null,
         "sourcePaths": [
-          "docs/runbooks/policy-incident.md"
+          ".docs/runbooks/policy-incident.md"
         ],
-        "primaryAddressRef": "docs/runbooks/policy-incident.md",
+        "primaryAddressRef": ".docs/runbooks/policy-incident.md",
         "addressingRoot": "sha256:0ea629e1b19eaabdc9d44c1676a1cb50680b469a4868f775877c5cf9a8f55bed"
       },
       "authBinding": {
@@ -26829,7 +26829,7 @@
         }
       },
       "provenance": {
-        "selectionLabel": "runbook · incident-document · docs/runbooks/policy-incident.md",
+        "selectionLabel": "runbook · incident-document · .docs/runbooks/policy-incident.md",
         "previewHash": "sha256:60951d218d18690b7d44a39df3d137ef0cde595af81ea7270a9bdcb34a8cd01a",
         "contentRoot": "sha256:0c58ee70046c4dc0ca52c52cca3c1e2b68a91ae535763ea5426c1b61dd0d87f5",
         "addressingRoot": "sha256:0ea629e1b19eaabdc9d44c1676a1cb50680b469a4868f775877c5cf9a8f55bed",
@@ -26967,9 +26967,9 @@
       "summary": "Checklist for applying touched-file budgets and reviewer rationale requirements.",
       "ref": "BITCODE-unsafe-patch-review",
       "sourceCommit": "review022safe",
-      "sourcePath": "docs/reviews/unsafe_patch_containment.md",
+      "sourcePath": ".docs/reviews/unsafe_patch_containment.md",
       "sourcePaths": [
-        "docs/reviews/unsafe_patch_containment.md"
+        ".docs/reviews/unsafe_patch_containment.md"
       ],
       "workflowRunId": null,
       "workflowPath": null,
@@ -26990,7 +26990,7 @@
         "require review rationale",
         "preserve rollback path"
       ],
-      "previewSurface": "docs/reviews/unsafe_patch_containment.md",
+      "previewSurface": ".docs/reviews/unsafe_patch_containment.md",
       "content": "Checklist\n- confirm touched-file scope\n- require reviewer rationale\n- reopen the guard benchmark when the patch expands",
       "signerAddress": "did:key:frontier-ci-signer",
       "authSessionId": "ghapp_frontier-review-gateway_gh-inst-bitcode-001",
@@ -27014,9 +27014,9 @@
         "checkSuiteId": null,
         "artifactName": null,
         "sourcePaths": [
-          "docs/reviews/unsafe_patch_containment.md"
+          ".docs/reviews/unsafe_patch_containment.md"
         ],
-        "primaryAddressRef": "docs/reviews/unsafe_patch_containment.md",
+        "primaryAddressRef": ".docs/reviews/unsafe_patch_containment.md",
         "addressingRoot": "sha256:7f404024de73c81931bb63c129858ab96ea5cf1f7b65fc425ba7d04a3a82e5a8"
       },
       "authBinding": {
@@ -27063,7 +27063,7 @@
         }
       },
       "provenance": {
-        "selectionLabel": "runbook · incident-document · docs/reviews/unsafe_patch_containment.md",
+        "selectionLabel": "runbook · incident-document · .docs/reviews/unsafe_patch_containment.md",
         "previewHash": "sha256:76b0d63b730d8369ac8cbd81607920bd545c776e01b717fad89ee4a45a46d556",
         "contentRoot": "sha256:e7f9d9ecda8c585ab2062962760de973370a704674e7a48721e76bb799f6c796",
         "addressingRoot": "sha256:7f404024de73c81931bb63c129858ab96ea5cf1f7b65fc425ba7d04a3a82e5a8",
@@ -27782,9 +27782,9 @@
       "summary": "Runbook for replaying disclosure decisions before publishing bounded proof output.",
       "ref": "BITCODE-bounded-proof-export",
       "sourceCommit": "projection006bound",
-      "sourcePath": "docs/runbooks/public-proof-disclosure.md",
+      "sourcePath": ".docs/runbooks/public-proof-disclosure.md",
       "sourcePaths": [
-        "docs/runbooks/public-proof-disclosure.md"
+        ".docs/runbooks/public-proof-disclosure.md"
       ],
       "workflowRunId": null,
       "workflowPath": null,
@@ -27804,7 +27804,7 @@
       "declaredConstraints": [
         "replay disclosure decisions"
       ],
-      "previewSurface": "docs/runbooks/public-proof-disclosure.md",
+      "previewSurface": ".docs/runbooks/public-proof-disclosure.md",
       "content": "Runbook\n- compare projection policy to public artifact inventory\n- publish only after disclosure proof hashes replay cleanly",
       "signerAddress": "did:key:frontier-ci-signer",
       "authSessionId": "ghapp_frontier-private-proof-service_gh-inst-bitcode-001",
@@ -27828,9 +27828,9 @@
         "checkSuiteId": null,
         "artifactName": null,
         "sourcePaths": [
-          "docs/runbooks/public-proof-disclosure.md"
+          ".docs/runbooks/public-proof-disclosure.md"
         ],
-        "primaryAddressRef": "docs/runbooks/public-proof-disclosure.md",
+        "primaryAddressRef": ".docs/runbooks/public-proof-disclosure.md",
         "addressingRoot": "sha256:4fa0645e408e460a457430ed274ee21e323af365ad895586053d47b182ea5393"
       },
       "authBinding": {
@@ -27877,7 +27877,7 @@
         }
       },
       "provenance": {
-        "selectionLabel": "runbook · incident-document · docs/runbooks/public-proof-disclosure.md",
+        "selectionLabel": "runbook · incident-document · .docs/runbooks/public-proof-disclosure.md",
         "previewHash": "sha256:ff44ed44dbf69c30f229f4e324f13d206a408188cfb8e9d447081fcec452edfb",
         "contentRoot": "sha256:2a2272220726cbbd3191a11154591410f13e41e2960ca293b7ee6b723ab700c0",
         "addressingRoot": "sha256:4fa0645e408e460a457430ed274ee21e323af365ad895586053d47b182ea5393",
@@ -28022,9 +28022,9 @@
       "summary": "Runbook for coordinating TypeScript, Python, and Rust rollback sequencing.",
       "ref": "BITCODE-polyglot-gateway-remediation",
       "sourceCommit": "gateway117poly",
-      "sourcePath": "docs/runbooks/polyglot_gateway_rollback.md",
+      "sourcePath": ".docs/runbooks/polyglot_gateway_rollback.md",
       "sourcePaths": [
-        "docs/runbooks/polyglot_gateway_rollback.md"
+        ".docs/runbooks/polyglot_gateway_rollback.md"
       ],
       "workflowRunId": null,
       "workflowPath": null,
@@ -28046,7 +28046,7 @@
         "preserve cross-language parity",
         "keep rollback reversible"
       ],
-      "previewSurface": "docs/runbooks/polyglot_gateway_rollback.md",
+      "previewSurface": ".docs/runbooks/polyglot_gateway_rollback.md",
       "content": "Runbook\n- freeze session replay\n- coordinate rollback across API, worker, and bridge\n- reopen only after parity rerun",
       "signerAddress": "did:key:frontier-ci-signer",
       "authSessionId": "ghapp_frontier-polyglot-gateway_gh-inst-bitcode-001",
@@ -28070,9 +28070,9 @@
         "checkSuiteId": null,
         "artifactName": null,
         "sourcePaths": [
-          "docs/runbooks/polyglot_gateway_rollback.md"
+          ".docs/runbooks/polyglot_gateway_rollback.md"
         ],
-        "primaryAddressRef": "docs/runbooks/polyglot_gateway_rollback.md",
+        "primaryAddressRef": ".docs/runbooks/polyglot_gateway_rollback.md",
         "addressingRoot": "sha256:d3845232c5861ab7c9fd70d38805cda245c527dd7491a19046391cc63a8959c1"
       },
       "authBinding": {
@@ -28119,7 +28119,7 @@
         }
       },
       "provenance": {
-        "selectionLabel": "runbook · incident-document · docs/runbooks/polyglot_gateway_rollback.md",
+        "selectionLabel": "runbook · incident-document · .docs/runbooks/polyglot_gateway_rollback.md",
         "previewHash": "sha256:2f420e8fbb5eb1fdc9059d3a0f3c2d6994749023e4ad05158809f5186e92ee07",
         "contentRoot": "sha256:8bf8e84d89db2a227d4e77a38bb2fb2c773c2afcdbf4cc67fe5dafd91350d960",
         "addressingRoot": "sha256:d3845232c5861ab7c9fd70d38805cda245c527dd7491a19046391cc63a8959c1",

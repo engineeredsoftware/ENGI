@@ -43,7 +43,7 @@ function buildChatGptAppWriteAdmission(input) {
 }
 const PRODUCT_MD_TEMPLATE = `###### What is this document?
 
-\`.ai/PRODUCT.md\` *Design Document* is the **"design of source code"** and is the canonical, complete, and precise software product reference for this repository.
+\`.docs/PRODUCT.md\` *Design Document* is the **"design of source code"** and is the canonical, complete, and precise software product reference for this repository.
 
 # PRODUCT'S PURPOSE:
 
@@ -59,7 +59,7 @@ const PRODUCT_MD_TEMPLATE = `###### What is this document?
 `;
 const AGENTS_MD_TEMPLATE = `###### What is this document?
 
-\`.ai/AGENTS.md\` *Design Document* is the **design of the agent(s)** which includes instructions for it/them to follow and high-quality (“seeking”) questions.
+\`.docs/AGENTS.md\` *Design Document* is the **design of the agent(s)** which includes instructions for it/them to follow and high-quality (“seeking”) questions.
 
 # AGENTS' INSTRUCTIONS:
 
@@ -82,8 +82,8 @@ const WRITE_CODE_CHANGES_VCS_DOC = chatgpt_tool_doc_prompts_1.WRITE_CODE_CHANGES
 const IMPROVE_DEVELOPING_BEHAVIOR_DOC = chatgpt_tool_doc_prompts_1.IMPROVE_DEVELOPING_BEHAVIOR_DOC_CODE_TOOL_PROMPT.format();
 function buildPreparedContextMetadata(input) {
     const files = [
-        input.productDocument ? '.ai/PRODUCT.md' : null,
-        input.agentDocument ? '.ai/AGENTS.md' : null
+        input.productDocument ? '.docs/PRODUCT.md' : null,
+        input.agentDocument ? '.docs/AGENTS.md' : null
     ].filter(Boolean);
     if (files.length === 0)
         return undefined;
@@ -363,7 +363,7 @@ async function executeDesignCode(args) {
         metadata: {
             sections,
             created: !args.currentProductMd,
-            aiDocument: '.ai/PRODUCT.md',
+            aiDocument: '.docs/PRODUCT.md',
             guidance,
             digestUsed,
             digestError,
@@ -431,7 +431,7 @@ async function executeCodeDesign(args) {
         metadata: {
             taskCount: tasks.length,
             fileCount: files.length,
-            aiDocument: '.ai/PRODUCT.md',
+            aiDocument: '.docs/PRODUCT.md',
             guidance,
             ...(contextMetadata ?? {})
         }
@@ -739,7 +739,7 @@ async function executeImproveDevelopingBehavior(args) {
         metadata: {
             focus,
             created,
-            aiDocument: '.ai/AGENTS.md',
+            aiDocument: '.docs/AGENTS.md',
             digestUsed,
             digestError,
             guidance,
@@ -844,7 +844,7 @@ async function executeUseVercelReadExternalMcp(args) {
         metadata: {
             provider: 'vercel',
             request: args.request,
-            aiDocument: '.ai/MCPS.md',
+            aiDocument: '.docs/MCPS.md',
             guidance
         }
     };
@@ -923,7 +923,7 @@ async function executeUseVercelWriteExternalMcp(args) {
         metadata: {
             provider: 'vercel',
             request: args.request,
-            aiDocument: '.ai/MCPS.md',
+            aiDocument: '.docs/MCPS.md',
             guidance,
             writeAdmission: buildChatGptAppWriteAdmission({
                 connectedInterface: 'vercel',
@@ -988,7 +988,7 @@ async function executeUseAwsReadExternalMcp(args) {
         metadata: {
             provider: 'aws',
             request: args.request,
-            aiDocument: '.ai/MCPS.md',
+            aiDocument: '.docs/MCPS.md',
             guidance
         }
     };
@@ -1038,7 +1038,7 @@ async function executeUseAwsWriteExternalMcp(args) {
         metadata: {
             provider: 'aws',
             request: args.request,
-            aiDocument: '.ai/MCPS.md',
+            aiDocument: '.docs/MCPS.md',
             guidance,
             writeAdmission: buildChatGptAppWriteAdmission({
                 connectedInterface: 'aws',
@@ -1112,7 +1112,7 @@ function getBitcodeTools() {
         },
         {
             name: 'design_code',
-            description: 'Update `.ai/PRODUCT.md` based on new ideas or requirements provided in conversation.',
+            description: 'Update `.docs/PRODUCT.md` based on new ideas or requirements provided in conversation.',
             inputSchema: DESIGN_CODE_SCHEMA,
             validator: DESIGN_CODE_VALIDATOR,
             execute: executeDesignCode,
@@ -1159,7 +1159,7 @@ function getBitcodeTools() {
         },
         {
             name: 'improve_developing_behavior',
-            description: 'Evolve `.ai/AGENTS.md` with new behavioral guidance based on session learnings.',
+            description: 'Evolve `.docs/AGENTS.md` with new behavioral guidance based on session learnings.',
             inputSchema: IMPROVE_BEHAVIOR_SCHEMA,
             validator: IMPROVE_BEHAVIOR_VALIDATOR,
             execute: executeImproveDevelopingBehavior,

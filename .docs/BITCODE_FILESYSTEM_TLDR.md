@@ -417,7 +417,7 @@ Format: `path -- <1 sentence TL;DR>`.
  ENGI_SPEC_V9.md -- Legacy historical artifact (do not implement from).
  codemod/ -- Directory `codemod`.
  README.md -- Human orientation for this directory.
- docs/ -- Top-level documentation artifacts.
+ .docs/ -- Top-level documentation artifacts.
  api/ -- Directory `api`.
  conversations-openapi.yaml -- Configuration file.
  conversations.md -- Documentation or specification text.
@@ -435,7 +435,7 @@ Format: `path -- <1 sentence TL;DR>`.
  k8s/ -- Directory `k8s`.
  long-runner.yaml -- Configuration file.
  README.md -- Human orientation for this directory.
- docs/ -- Engineering layout, terminology, filesystem guides.
+ .docs/ -- Engineering layout, terminology, filesystem guides.
  ASSETPACK_EXECUTION.md -- Internal engineering documentation.
  BITCODE_AGENTIC_EXECUTION.md -- Internal engineering documentation.
  BITCODE_API.md -- Internal engineering documentation.
@@ -1160,7 +1160,7 @@ Format: `path -- <1 sentence TL;DR>`.
  noWriteToolsOutsideImplementation.test.ts -- Package tests for this module.
  requirePromptHierarchy.test.js -- Package tests for this module.
  requirePromptHierarchy.test.ts -- Package tests for this module.
- docs/ -- Subfolder of package `eslint-plugin-bitcode`.
+ .docs/ -- Subfolder of package `eslint-plugin-bitcode`.
  no-write-tools-outside-implementation.md -- Package `eslint-plugin-bitcode` artifact.
  require-prompt-hierarchy.md -- Package `eslint-plugin-bitcode` artifact.
  src/ -- Subfolder of package `eslint-plugin-bitcode`.
@@ -1292,7 +1292,7 @@ Format: `path -- <1 sentence TL;DR>`.
  Dockerfile -- Container image build definition.
  kubernetes/ -- Subfolder of package `executions-mcp`.
  deployment.yaml -- Package `executions-mcp` artifact.
- docs/ -- Subfolder of package `executions-mcp`.
+ .docs/ -- Subfolder of package `executions-mcp`.
  mcp/ -- Subfolder of package `executions-mcp`.
  mcp-api-reference.md -- Package `executions-mcp` artifact.
  mcp-integration-examples.md -- Package `executions-mcp` artifact.
@@ -1351,7 +1351,7 @@ Format: `path -- <1 sentence TL;DR>`.
  error-recovery.ts -- Source module in package `executions-mcp`.
  lru-cache.js -- Package `executions-mcp` artifact.
  lru-cache.ts -- Source module in package `executions-mcp`.
- docs/ -- Subfolder of package `executions-mcp`.
+ .docs/ -- Subfolder of package `executions-mcp`.
  mcp-spec-generator.js -- Package `executions-mcp` artifact.
  mcp-spec-generator.ts -- Source module in package `executions-mcp`.
  openapi-build.js -- Package `executions-mcp` artifact.
@@ -2416,7 +2416,7 @@ Format: `path -- <1 sentence TL;DR>`.
  package.json -- Package/workspace manifest and dependency exports.
  README.md -- Human orientation for this directory.
  lsp/ -- Domain package `lsp` (pure reusable logic).
- docs/ -- Subfolder of package `lsp`.
+ .docs/ -- Subfolder of package `lsp`.
  pipeline-optimization-guide.md -- Package `lsp` artifact.
  src/ -- Subfolder of package `lsp`.
  __tests__/ -- Package tests for this module.
@@ -7654,7 +7654,7 @@ Format: `path -- <1 sentence TL;DR>`.
  DepositPageClient.tsx -- App Router shell or thin re-export.
  DepositSourceSelection.tsx -- App Router shell or thin re-export.
  page.tsx -- Thin Next.js page shell (metadata + compose/re-export).
- docs/ -- App route segment `docs`.
+ .docs/ -- App route segment `docs`.
  [slug]/ -- App route segment `[slug]`.
  page.tsx -- Thin Next.js page shell (metadata + compose/re-export).
  bitcode-docs-content.ts -- App Router shell or thin re-export.
@@ -8031,7 +8031,7 @@ Format: `path -- <1 sentence TL;DR>`.
  styles/ -- Local styles for the parent component unit.
  .gitkeep -- UAPI file.
  Dock.tsx -- Primary entry for unit `Dock`.
- docs/ -- Docs* product documentation experience units.
+ .docs/ -- Docs* product documentation experience units.
  ConversationsLearningDemo/ -- Component unit `ConversationsLearningDemo` (SRP entry + optional hooks/tests).
  __tests__/ -- Co-located unit tests for the parent component unit.
  .gitkeep -- UAPI file.
@@ -9693,7 +9693,7 @@ Format: `path -- <1 sentence TL;DR>`.
  deposit-route-model.ts -- Supporting module for unit `models`.
  deposit-stat-explainers.ts -- Supporting module for unit `models`.
  README.md -- Human orientation for this directory.
- docs/ -- Docs* product documentation experience units.
+ .docs/ -- Docs* product documentation experience units.
  DocsArticlePage/ -- Component unit `DocsArticlePage` (SRP entry + optional hooks/tests).
  DocsArticlePage.tsx -- Primary entry for unit `DocsArticlePage`.
  models/ -- Pure models/helpers for this experience or unit.
@@ -10599,7 +10599,7 @@ Format: `path -- <1 sentence TL;DR>`.
  demos/ -- UAPI directory `demos`.
  CompletedShippables.stories.js -- UAPI file.
  CompletedShippables.stories.tsx -- UAPI source module.
- docs/ -- UAPI directory `docs`.
+ .docs/ -- UAPI directory `docs`.
  MarkdownElements.stories.js -- UAPI file.
  MarkdownElements.stories.tsx -- UAPI source module.
  email-templates/ -- UAPI directory `email-templates`.

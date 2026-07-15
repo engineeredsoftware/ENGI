@@ -114,7 +114,7 @@
       "sourceRoots": [
         "apps/uapi/app/docs/bitcode-docs-content.ts",
         "apps/uapi/app/terminal/README.md",
-        "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md"
+        ".docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md"
       ],
       "packageSurfaces": [
         "apps/uapi/app/terminal",
@@ -177,7 +177,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+          "sourceRoot": ".docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
           "present": true
         }
       ],
@@ -386,7 +386,7 @@
         "packages/mcp-generics/README.md",
         "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
         "packages/mcp-generics/src/mcp-server/docs/public/mcp-api-reference.md",
-        "docs/api/conversations-openapi.yaml"
+        ".docs/api/conversations-openapi.yaml"
       ],
       "packageSurfaces": [
         "packages/mcp-generics/src/mcp-server",
@@ -456,7 +456,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/api/conversations-openapi.yaml",
+          "sourceRoot": ".docs/api/conversations-openapi.yaml",
           "present": true
         }
       ],
@@ -480,7 +480,7 @@
       "sourceRoots": [
         "apps/uapi/app/docs/bitcode-docs-content.ts",
         "apps/chatgpt/README.md",
-        "docs/BITCODE_CHATGPT_APP_INTERFACE.md"
+        ".docs/BITCODE_CHATGPT_APP_INTERFACE.md"
       ],
       "packageSurfaces": [
         "apps/chatgpt/src",
@@ -542,7 +542,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_CHATGPT_APP_INTERFACE.md",
+          "sourceRoot": ".docs/BITCODE_CHATGPT_APP_INTERFACE.md",
           "present": true
         }
       ],
@@ -650,7 +650,7 @@
       ],
       "sourceRoots": [
         "apps/uapi/app/docs/bitcode-docs-content.ts",
-        "docs/ASSETPACK_EXECUTION.md",
+        ".docs/ASSETPACK_EXECUTION.md",
         "packages/asset-packs-pipelines/domain/README.md",
         "packages/btd/README.md"
       ],
@@ -711,7 +711,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/ASSETPACK_EXECUTION.md",
+          "sourceRoot": ".docs/ASSETPACK_EXECUTION.md",
           "present": true
         },
         {
@@ -741,7 +741,7 @@
       "sourceRoots": [
         "apps/uapi/app/docs/bitcode-docs-content.ts",
         "packages/asset-packs-pipelines/domain/README.md",
-        "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md"
+        ".docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md"
       ],
       "packageSurfaces": [
         "packages/asset-packs-pipelines/domain/src",
@@ -803,7 +803,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+          "sourceRoot": ".docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
           "present": true
         }
       ],
@@ -1089,12 +1089,12 @@
       "sourceRoots": [
         "apps/uapi/app/docs/bitcode-docs-content.ts",
         "apps/uapi/app/conversations/README.md",
-        "docs/BITCODE_CONVERSATIONS.md",
+        ".docs/BITCODE_CONVERSATIONS.md",
         "SPECIFICATIONS_ROADMAP.md"
       ],
       "packageSurfaces": [
         "apps/uapi/app/conversations",
-        "docs/api/conversations-openapi.yaml"
+        ".docs/api/conversations-openapi.yaml"
       ],
       "docsSections": [
         "conversations",
@@ -1152,7 +1152,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_CONVERSATIONS.md",
+          "sourceRoot": ".docs/BITCODE_CONVERSATIONS.md",
           "present": true
         },
         {
@@ -1179,7 +1179,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+          "sourceRoot": ".docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
           "present": true
         }
       ]
@@ -1255,7 +1255,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/api/conversations-openapi.yaml",
+          "sourceRoot": ".docs/api/conversations-openapi.yaml",
           "present": true
         }
       ]
@@ -1275,7 +1275,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_CHATGPT_APP_INTERFACE.md",
+          "sourceRoot": ".docs/BITCODE_CHATGPT_APP_INTERFACE.md",
           "present": true
         }
       ]
@@ -1311,7 +1311,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/ASSETPACK_EXECUTION.md",
+          "sourceRoot": ".docs/ASSETPACK_EXECUTION.md",
           "present": true
         },
         {
@@ -1339,7 +1339,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+          "sourceRoot": ".docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
           "present": true
         }
       ]
@@ -1423,7 +1423,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_CONVERSATIONS.md",
+          "sourceRoot": ".docs/BITCODE_CONVERSATIONS.md",
           "present": true
         },
         {

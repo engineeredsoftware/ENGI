@@ -1975,11 +1975,11 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       summary: 'Incident note capturing operator ordering mistakes and recovery guidance.',
       sourceCommit: 'auth001abc',
       ref: AUTH_ISSUER_ROLLBACK_REF,
-      sourcePath: 'docs/incidents/auth-issuer-mismatch.md',
+      sourcePath: '.docs/incidents/auth-issuer-mismatch.md',
       tags: ['incident-response', 'auth', 'runbook'],
       declaredStacks: ['markdown', 'auth'],
       declaredConstraints: ['record operator ordering'],
-      previewSurface: 'docs/incidents/auth-issuer-mismatch.md',
+      previewSurface: '.docs/incidents/auth-issuer-mismatch.md',
       content: 'Incident note\n- failures came from replaying schema before restoring verifier compatibility\n- public proof should omit private verifier details'
     }),
     withSession('frontier/demo-auth', {
@@ -2034,11 +2034,11 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       summary: 'Operator playbook for rerunning proof plus benchmark after replay-window repair.',
       sourceCommit: 'validator014proof',
       ref: PROOF_VALIDATOR_GAP_REF,
-      sourcePath: 'docs/runbooks/validator-proof-recovery.md',
+      sourcePath: '.docs/runbooks/validator-proof-recovery.md',
       tags: ['validator', 'runbook', 'formal-methods'],
       declaredStacks: ['markdown', 'rust', 'formal-methods'],
       declaredConstraints: ['rerun proof plus benchmark'],
-      previewSurface: 'docs/runbooks/validator-proof-recovery.md',
+      previewSurface: '.docs/runbooks/validator-proof-recovery.md',
       content: 'Runbook\n- rerun cargo creusot after the patch\n- compare proof hash to benchmark rerun before delivery'
     }),
     withSession('frontier/policy-control-plane', {
@@ -2079,11 +2079,11 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       summary: 'Runbook for recovering precedence drift without reopening the governance incident.',
       sourceCommit: 'policy031fix',
       ref: CONFIG_POLICY_PRECEDENCE_REF,
-      sourcePath: 'docs/runbooks/policy-incident.md',
+      sourcePath: '.docs/runbooks/policy-incident.md',
       tags: ['policy', 'runbook', 'incident-response'],
       declaredStacks: ['markdown', 'policy'],
       declaredConstraints: ['preserve approval ordering'],
-      previewSurface: 'docs/runbooks/policy-incident.md',
+      previewSurface: '.docs/runbooks/policy-incident.md',
       content: 'Runbook\n- inspect precedence matrix first\n- reject undeclared defaults before rollout resume'
     }),
     withSession('frontier/review-gateway', {
@@ -2108,11 +2108,11 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       summary: 'Checklist for applying touched-file budgets and reviewer rationale requirements.',
       sourceCommit: 'review022safe',
       ref: UNSAFE_PATCH_REVIEW_REF,
-      sourcePath: 'docs/reviews/unsafe_patch_containment.md',
+      sourcePath: '.docs/reviews/unsafe_patch_containment.md',
       tags: ['review', 'runbook', 'security'],
       declaredStacks: ['markdown', 'security', 'review'],
       declaredConstraints: ['require review rationale', 'preserve rollback path'],
-      previewSurface: 'docs/reviews/unsafe_patch_containment.md',
+      previewSurface: '.docs/reviews/unsafe_patch_containment.md',
       content: 'Checklist\n- confirm touched-file scope\n- require reviewer rationale\n- reopen the guard benchmark when the patch expands'
     }),
     withSession('frontier/review-gateway', {
@@ -2215,11 +2215,11 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       summary: 'Runbook for replaying disclosure decisions before publishing bounded proof output.',
       sourceCommit: 'projection006bound',
       ref: BOUNDED_PROOF_EXPORT_REF,
-      sourcePath: 'docs/runbooks/public-proof-disclosure.md',
+      sourcePath: '.docs/runbooks/public-proof-disclosure.md',
       tags: ['privacy', 'runbook', 'disclosure'],
       declaredStacks: ['markdown', 'privacy', 'policy'],
       declaredConstraints: ['replay disclosure decisions'],
-      previewSurface: 'docs/runbooks/public-proof-disclosure.md',
+      previewSurface: '.docs/runbooks/public-proof-disclosure.md',
       content: 'Runbook\n- compare projection policy to public artifact inventory\n- publish only after disclosure proof hashes replay cleanly'
     }),
     withSession('frontier/polyglot-gateway', {
@@ -2243,11 +2243,11 @@ function buildSeedRepoArtifactInventoryEntries(sessions = buildSeedGitHubAppSess
       summary: 'Runbook for coordinating TypeScript, Python, and Rust rollback sequencing.',
       sourceCommit: 'gateway117poly',
       ref: POLYGLOT_GATEWAY_REMEDIATION_REF,
-      sourcePath: 'docs/runbooks/polyglot_gateway_rollback.md',
+      sourcePath: '.docs/runbooks/polyglot_gateway_rollback.md',
       tags: ['polyglot', 'runbook', 'gateway'],
       declaredStacks: ['markdown', 'typescript', 'python', 'rust'],
       declaredConstraints: ['preserve cross-language parity', 'keep rollback reversible'],
-      previewSurface: 'docs/runbooks/polyglot_gateway_rollback.md',
+      previewSurface: '.docs/runbooks/polyglot_gateway_rollback.md',
       content: 'Runbook\n- freeze session replay\n- coordinate rollback across API, worker, and bridge\n- reopen only after parity rerun'
     }),
     withSession('frontier/polyglot-gateway', {
@@ -3483,7 +3483,7 @@ export function buildInitialState() {
       author: 'Avery',
       organization: `$${ACTIVE_DENOMINATION_LABEL}`,
       artifactKind: 'incident-note',
-      sourcePaths: ['docs/incidents/auth-issuer-mismatch.md'],
+      sourcePaths: ['.docs/incidents/auth-issuer-mismatch.md'],
       symbols: ['issuerCompatibilityWindow'],
       configKeys: ['auth.issuer.previousJwksUrl'],
       tags: ['issuer', 'incident-response', 'runbook', 'escalation'],
@@ -3524,13 +3524,13 @@ export function buildInitialState() {
       sourceCommit: 'review009contain',
       workflowRunId: 'gha_run_review_009',
       benchmarkRunId: 'gha_run_review_009',
-      sourcePaths: ['docs/reviews/unsafe_patch_containment.md', 'services/review/review_gate.ts'],
+      sourcePaths: ['.docs/reviews/unsafe_patch_containment.md', 'services/review/review_gate.ts'],
       symbols: ['ReviewGate', 'emitReviewRationale', 'enforceTouchedFileBudget'],
       configKeys: ['review.patch.maxTouchedFiles', 'review.patch.requireRationale'],
       tags: ['code-review', 'security', 'containment', 'patch'],
       declaredStacks: ['typescript', 'security', 'code-review'],
       declaredConstraints: ['require review rationale', 'preserve rollback path', 'block unsafe patch bypass'],
-      content: `Unsafe patch containment: reject broad patch drops that bypass review gates, force an explicit rationale, and attach the touched-file budget to the review receipt.\n\nOperator steps: diff the candidate patch against allowed file boundaries, require reviewer rationale before apply, and reopen the benchmark workflow if the patch exceeds policy scope.\n\nExpected touched areas: services/review/review_gate.ts, docs/reviews/unsafe_patch_containment.md.`,
+      content: `Unsafe patch containment: reject broad patch drops that bypass review gates, force an explicit rationale, and attach the touched-file budget to the review receipt.\n\nOperator steps: diff the candidate patch against allowed file boundaries, require reviewer rationale before apply, and reopen the benchmark workflow if the patch exceeds policy scope.\n\nExpected touched areas: services/review/review_gate.ts, .docs/reviews/unsafe_patch_containment.md.`,
       benchmarkRan: false,
       pinnedEnvironment: 'ubuntu-24.04 + node 22'
     }, ['Unsafe review recovery diff note', 'Unsafe review containment checklist', 'Review gate proof log'])),
@@ -3804,7 +3804,7 @@ export function buildInitialState() {
         repoTree: [
           'config/policy/issuer-precedence.yml',
           'services/policy/evaluate_rollout.ts',
-          'docs/runbooks/policy-incident.md',
+          '.docs/runbooks/policy-incident.md',
           'benchmarks/policy_precedence.yaml'
         ],
         stackHints: ['typescript', 'node', 'policy', 'yaml', 'github-actions'],
@@ -3851,7 +3851,7 @@ export function buildInitialState() {
             precedenceSafety: 0.42,
             rolloutGovernance: 0.47
           },
-          touchedPaths: ['config/policy/issuer-precedence.yml', 'services/policy/evaluate_rollout.ts', 'docs/runbooks/policy-incident.md'],
+          touchedPaths: ['config/policy/issuer-precedence.yml', 'services/policy/evaluate_rollout.ts', '.docs/runbooks/policy-incident.md'],
           symbols: ['evaluateRolloutPolicy', 'PolicyPrecedenceMatrix', 'emitPolicyAuditReceipt'],
           configKeys: ['policy.rollout.precedence', 'policy.rollout.approvalWindowHours'],
           parserKind: 'github-actions.auth-remediation.v3',
@@ -3876,7 +3876,7 @@ export function buildInitialState() {
         repoTree: [
           'services/review/apply_patch.ts',
           'services/review/review_gate.ts',
-          'docs/reviews/unsafe_patch_containment.md',
+          '.docs/reviews/unsafe_patch_containment.md',
           'benchmarks/review_guard.yaml'
         ],
         stackHints: ['typescript', 'security', 'code-review', 'github-actions'],
@@ -3923,7 +3923,7 @@ export function buildInitialState() {
             reviewAuditability: 0.36,
             rollbackDiscipline: 0.43
           },
-          touchedPaths: ['services/review/apply_patch.ts', 'services/review/review_gate.ts', 'docs/reviews/unsafe_patch_containment.md'],
+          touchedPaths: ['services/review/apply_patch.ts', 'services/review/review_gate.ts', '.docs/reviews/unsafe_patch_containment.md'],
           symbols: ['applyPatchSafely', 'ReviewGate', 'emitReviewRationale'],
           configKeys: ['review.patch.maxTouchedFiles', 'review.patch.requireRationale'],
           parserKind: 'github-actions.auth-remediation.v3',
@@ -4020,7 +4020,7 @@ export function buildInitialState() {
         repoTree: [
           'services/redaction/project_public_proof.ts',
           'policies/disclosure/bounded_public.yml',
-          'docs/privacy/remediation.md',
+          '.docs/privacy/remediation.md',
           'benchmarks/projection_privacy.yaml'
         ],
         stackHints: ['typescript', 'policy', 'privacy', 'github-actions'],
@@ -4067,7 +4067,7 @@ export function buildInitialState() {
             redactionCorrectness: 0.35,
             auditability: 0.48
           },
-          touchedPaths: ['services/redaction/project_public_proof.ts', 'policies/disclosure/bounded_public.yml', 'docs/privacy/remediation.md'],
+          touchedPaths: ['services/redaction/project_public_proof.ts', 'policies/disclosure/bounded_public.yml', '.docs/privacy/remediation.md'],
           symbols: ['projectBoundedPublicProof', 'redactPrivateArtifacts', 'allowBoundedDisclosure'],
           configKeys: ['projection.public.allowedArtifacts', 'projection.redaction.defaultMode'],
           parserKind: 'github-actions.auth-remediation.v3',

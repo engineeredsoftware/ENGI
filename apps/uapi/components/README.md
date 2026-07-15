@@ -1,7 +1,7 @@
 # UAPI Components
 
 Canonical UI layers for Bitcode. Full filesystem contract:
-`docs/BITCODE_SOURCE_LAYOUT.md`.
+`.docs/BITCODE_SOURCE_LAYOUT.md`.
 
 ## Layers
 

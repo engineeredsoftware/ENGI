@@ -428,7 +428,7 @@ Closure evidence:
 - product acquisition surfaces route Terminal Read minting and minimal Exchange range-right transfer as V27 while leaving broader market depth to later versions;
 - `apps/uapi/app/btd/[assetPackId]/page.tsx` provides an unversioned range/policy/read-right disclosure route;
 - the former version-prefixed UAPI protocol corridors are ported to unversioned `/api/external-realization` and `/api/executors/[interfaceId]`;
-- `internal-docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` binds Bitcoin, BIP 174, BIP 341, Filecoin, EIPs, and adapter-library research to V27 implementation choices;
+- `internal-.docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` binds Bitcoin, BIP 174, BIP 341, Filecoin, EIPs, and adapter-library research to V27 implementation choices;
 - `BITCODE_SPEC_V27_PROVEN.md`, `.bitcode/v27-crypto-library-research-proof.json`, and `.bitcode/v27-total-closure-proof.json` provide the proof appendix and accepted generated-family map.
 
 ## Current Source Audit Summary
@@ -484,7 +484,7 @@ Partial baseline:
 
 - `packages/orm/src/models/user-btd-balances.ts` and `user-btd-transactions.ts` wrap compatibility tables `user_credits` and `user_credit_usages`.
 - `packages/orm/src/models/organization-btd-treasury.ts` aggregates user holdings but does not own registry supply.
-- `internal-docs/BITCODE_EXCHANGE_DATABASE.md` now names the V27 registry/projection table set, but deployment must still apply and prove it.
+- `internal-.docs/BITCODE_EXCHANGE_DATABASE.md` now names the V27 registry/projection table set, but deployment must still apply and prove it.
 - `supabase/migrations/001_v26_production.sql` contains compatibility storage and RLS; `002_v27_btd_crypto_registry.sql` starts the V27 range/cell registry and crypto projection constraints.
 - UI surfaces can now show holdings, intent, policy id/hash, and AssetPack range posture in the $BTD auxillary.
 - auxillary wallet UI can display wallet posture; the V27 signer/session/transaction lifecycle exists in package primitives but is not wired to live adapters.

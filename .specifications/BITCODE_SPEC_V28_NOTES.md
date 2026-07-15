@@ -285,7 +285,7 @@ Commercial QA also exposed a provider-package dependency boundary issue: `@bitco
 
 Manual QA resumed on May 7, 2026 as a big-picture commercial application MVP pass.
 The running collaborative QA document is `BITCODE_V28_QA.md`.
-This pass explicitly de-scopes marketing-page critique except for navigation-entry regressions and now focuses on identity/auth, Terminal, Protocol/BTD, Auxillaries, MCP API, ChatGPT App, docs/API/interface claims, and testnet-readiness honesty.
+This pass explicitly de-scopes marketing-page critique except for navigation-entry regressions and now focuses on identity/auth, Terminal, Protocol/BTD, Auxillaries, MCP API, ChatGPT App, .docs/API/interface claims, and testnet-readiness honesty.
 The first resumed pass confirmed the top navigation, notifications, profile menu, logo/page indicator, BTD/BTC balance posture, Auxillaries opening, pane selectability, no console errors, and no old orbital shell collision.
 It also opened an Auxillaries V28 polish issue: selector cards must replace visible `lane ready` / `lane active` prose with clearer indicators, and the overlay/panes read minor hierarchy, legibility, spacing, and border cleanup before Auxillaries shell closure.
 The first Terminal big-picture pass found the Terminal acceptable as the primary operator surface for V28 MVP orientation and reported no console errors.

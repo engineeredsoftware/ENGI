@@ -31,7 +31,7 @@ Each step lists:
   }
   ```
 - **Bitcode Reply Outline**  
-  Confirms `.ai/PRODUCT.md` scaffold, highlights key sections, shares next discovery questions.
+  Confirms `.docs/PRODUCT.md` scaffold, highlights key sections, shares next discovery questions.
 
 ---
 
@@ -355,7 +355,7 @@ Each step lists:
   }
   ```
 - **Bitcode Reply Outline**  
-  Confirms `.ai/AGENTS.md` has been updated, reiterates the new behavioural expectation, and closes the session.
+  Confirms `.docs/AGENTS.md` has been updated, reiterates the new behavioural expectation, and closes the session.
 
 ---
 

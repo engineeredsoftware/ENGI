@@ -23,7 +23,7 @@
     "type-check": "pnpm run typecheck",
     "docs:generate": "tsx src/docs/mcp-spec-generator.ts",
     "docs:openapi": "tsx src/docs/openapi-build.ts",
-    "docs:serve": "http-server docs/mcp -p 8080 -o",
+    "docs:serve": "http-server .docs/mcp -p 8080 -o",
     "docs:build": "npm run docs:generate && npm run docs:openapi && npm run docs:serve",
     "prepublishOnly": "npm run build && npm run docs:generate && npm run docs:openapi",
     "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit"

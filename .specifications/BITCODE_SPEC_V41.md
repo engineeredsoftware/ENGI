@@ -519,7 +519,7 @@ Demonstration-only prompt examples live only under `protocol-demonstration/`.
 | settlement, source-to-shares, journals, and exact accounting | quote explanation prompts | V41 Gate 6 | BTD checks | check:v41-gate6 | no law change |
 | telemetry, persistence, state, and failure semantics | rich stream prompt metadata | V41 Gate 8 | telemetry rows | check:v41-gate8 | no raw responses |
 | host/runtime capability truth | benchmark lanes | V41 Gate 4 | run receipts | check:v41-gate4 | opt-in live lanes |
-| operator experience and pedagogy | prompt report docs | V41 Gate 8 | docs/readback | check:v41-gate8 | source-safe summaries |
+| operator experience and pedagogy | prompt report docs | V41 Gate 8 | .docs/readback | check:v41-gate8 | source-safe summaries |
 | validation and test stack | gate checks | V41 Gate 9 | workflow proof | check:v41-gate9 | greenable CI |
 | generated artifacts and canonical promotion | V41 artifact family | V41 Gate 9 | promotion report | check:v41-gate9 | no stale status truth |
 

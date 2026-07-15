@@ -218,7 +218,7 @@ function main() {
         apiReadme.includes(docPhrase) ||
         auxReadme.includes(docPhrase) ||
         btdReadme.includes(docPhrase),
-      `V31 Gate 5 docs/spec must describe ${docPhrase}.`,
+      `V31 Gate 5 .docs/spec must describe ${docPhrase}.`,
     );
   }
 

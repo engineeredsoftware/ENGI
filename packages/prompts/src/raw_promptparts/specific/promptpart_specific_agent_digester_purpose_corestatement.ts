@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DIGESTER_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Execute extractive and abstractive document summarization using transformer-based NLP models, generating concise summaries with factual accuracy ≥0.85, processing throughput ≥1000 docs/hour, supporting multi-format input (PDF/DOCX/TXT/HTML) with structured JSON output containing key entities, sentiment scores, and topic classifications' as PromptPart;
+  'Execute extractive and abstractive document summarization using transformer-based NLP models, generating concise summaries with factual accuracy ≥0.85, processing throughput ≥1000 .docs/hour, supporting multi-format input (PDF/DOCX/TXT/HTML) with structured JSON output containing key entities, sentiment scores, and topic classifications' as PromptPart;

@@ -1273,8 +1273,8 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 
 - SPEC: frontend component + cockpit eradication law.
 - DELTA/NOTES/PARITY: workstream recorded.
-- Docs: `internal-docs/BITCODE_FRONTEND_ARCHITECTURE.md`,
- `apps/uapi/ARCHITECTURE.md`, `internal-docs/TERMINOLOGY.md` updated.
+- Docs: `internal-.docs/BITCODE_FRONTEND_ARCHITECTURE.md`,
+ `apps/uapi/ARCHITECTURE.md`, `internal-.docs/TERMINOLOGY.md` updated.
 - Scaffold: `apps/uapi/components/{shadcn,bitcode,...}` READMEs.
 - Implementation: `product-routes` as Bitcode-owned route helpers;
  `@bitcode/btd` `journal` + `operational-health` as canonical names with
@@ -1437,7 +1437,7 @@ apps/uapi/lib retains thin re-export shims (or full analytics copy) for import s
 ### Modular source layout convention (Garrett, 2026-07-11)
 
 Canonical filesystem and co-location rules live in
-`internal-docs/BITCODE_SOURCE_LAYOUT.md` (also pointed from README, AGENTS.md,
+`internal-.docs/BITCODE_SOURCE_LAYOUT.md` (also pointed from README, AGENTS.md,
 `apps/uapi/ARCHITECTURE.md`, `apps/uapi/components/README.md`).
 
 - Seven experiences + Shadcn/Bitcode bases
@@ -1516,7 +1516,7 @@ SOURCE_LAYOUT:
 | `ConversationsGithubSourceSelector` | Selection cascade hook |
 | Edge-case handler | Real concern modules + thin class facade |
 
-Navigation map: `FAMILIARIZATION.md`. Layout contract: `internal-docs/BITCODE_SOURCE_LAYOUT.md`.
+Navigation map: `FAMILIARIZATION.md`. Layout contract: `internal-.docs/BITCODE_SOURCE_LAYOUT.md`.
 
 
 ## generic-* nested-package rule (Garrett, 2026-07-13)
@@ -1892,7 +1892,7 @@ demo/runtime shell; generators/proof tooling prefer `@bitcode/specifying`.
 - `FAMILIARIZATION.md` §3–§5 rewritten for current package hierarchy (AssetPacks,
  security split, api primitives, removals, `*-generics` law).
 - Root `README.md` monorepo map updated to hierarchy families (no dual package homes).
-- `internal-docs/BITCODE_SOURCE_LAYOUT.md` family table deduped and expanded.
+- `internal-.docs/BITCODE_SOURCE_LAYOUT.md` family table deduped and expanded.
 - Per-package READMEs refreshed for `api`, `asset-packs-generics`, `obfuscation`,
  `conversations`, `security`, `generic-measurements`, `files`, `templates-generics`,
  `protocol`, and family folders already introduced during modularization.

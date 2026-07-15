@@ -12,9 +12,9 @@ always the single current Bitcode system under the active canon.
 | **Active canon on `main`** | **V47** (`.specifications/BITCODE_SPEC.txt`) |
 | **Draft target** | **V48** (`version/v48`, full-stack rebuild-alone SPEC) |
 | **How to develop** | **[`CONTRIBUTING.md`](CONTRIBUTING.md)** — setup, canon, env, hosts, GitHub App, testing |
-| **How the tree is organized** | [`docs/FAMILIARIZATION.md`](docs/FAMILIARIZATION.md) |
-| **Filesystem / component law** | [`docs/BITCODE_SOURCE_LAYOUT.md`](docs/BITCODE_SOURCE_LAYOUT.md) |
-| **Agent / craft rules** | [`docs/AGENTS.md`](docs/AGENTS.md) (entry: [`Agents.md`](Agents.md)) |
+| **How the tree is organized** | [`.docs/FAMILIARIZATION.md`](.docs/FAMILIARIZATION.md) |
+| **Filesystem / component law** | [`.docs/BITCODE_SOURCE_LAYOUT.md`](.docs/BITCODE_SOURCE_LAYOUT.md) |
+| **Agent / craft rules** | [`.docs/AGENTS.md`](.docs/AGENTS.md) (entry: [`Agents.md`](Agents.md)) |
 
 ---
 
@@ -58,8 +58,8 @@ Product routes are `/packs`, `/deposits`, `/reads`, and `/docs`.
 | `.specifications/BITCODE_SPEC_V48.md` (+ family) | **Draft** rebuild-alone SPEC for V48 gate work |
 | `.specifications/BITCODE_SPECIFYING.md` | Metaspec: Complete Implementation Derivability |
 | [`qa/BITCODE_V48_QA.md`](qa/BITCODE_V48_QA.md) | Interactive QA ledger / gate runbooks |
-| [`docs/FAMILIARIZATION.md`](docs/FAMILIARIZATION.md) | **Non-canonical** codebase walkthrough |
-| [`docs/ASSET_PACKS.md`](docs/ASSET_PACKS.md) | **Non-canonical** AssetPack orientation |
+| [`.docs/FAMILIARIZATION.md`](.docs/FAMILIARIZATION.md) | **Non-canonical** codebase walkthrough |
+| [`.docs/ASSET_PACKS.md`](.docs/ASSET_PACKS.md) | **Non-canonical** AssetPack orientation |
 
 **Canonical truth** is only the `.specifications/BITCODE_SPEC_*` family (plus
 generated PROVEN / `.bitcode/vN-*` when part of that family). README,
@@ -93,7 +93,7 @@ then product specializations. Full map: FAMILIARIZATION §3–§5.
 
 **Component units:** `ComponentName/ComponentName.tsx` (not `index.tsx`) with
 co-located `hooks/`, `styles/`, `__tests__/`. Contract:
-[`docs/BITCODE_SOURCE_LAYOUT.md`](docs/BITCODE_SOURCE_LAYOUT.md).
+[`.docs/BITCODE_SOURCE_LAYOUT.md`](.docs/BITCODE_SOURCE_LAYOUT.md).
 
 There is **no** root `uapi/` or `mcp/` symlink — always use `apps/uapi` and
 `apps/mcp` (or `pnpm --filter bitcode-uapi` / `@bitcode/generic-mcps-bitcode`).
@@ -134,9 +134,9 @@ node scripts/check-bitcode-spec-family.mjs --version V47 --mode promoted --curre
 Deep setup (hosts, Pipeliner, GitHub App, preview vs local, mock modes, gate
 workflow): **[`CONTRIBUTING.md`](CONTRIBUTING.md)**.
 
-Infrastructure depth: [`docs/SUPABASE.md`](docs/SUPABASE.md) ·
-[`docs/VERCEL.md`](docs/VERCEL.md) · [`docs/ETHEREUM.md`](docs/ETHEREUM.md) ·
-[`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) ·
+Infrastructure depth: [`.docs/SUPABASE.md`](.docs/SUPABASE.md) ·
+[`.docs/VERCEL.md`](.docs/VERCEL.md) · [`.docs/ETHEREUM.md`](.docs/ETHEREUM.md) ·
+[`.docs/DEPLOYMENT.md`](.docs/DEPLOYMENT.md) ·
 [`containers/images/pipeliner/README.md`](containers/images/pipeliner/README.md).
 
 ---
@@ -165,11 +165,11 @@ grounded is **Unestimatable**, not invented.
 | Doc | Audience |
 | --- | --- |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | New developers — day-to-day development |
-| [`docs/FAMILIARIZATION.md`](docs/FAMILIARIZATION.md) | Full package / experience map |
-| [`docs/APPS.md`](docs/APPS.md) | Commercial apps orientation |
-| [`docs/AGENTS.md`](docs/AGENTS.md) | Engineering craft + gate/commit law |
-| [`docs/BITCODE_SOURCE_LAYOUT.md`](docs/BITCODE_SOURCE_LAYOUT.md) | Filesystem / modularity contract |
-| [`docs/TERMINOLOGY.md`](docs/TERMINOLOGY.md) | Product vs agent vocabulary |
+| [`.docs/FAMILIARIZATION.md`](.docs/FAMILIARIZATION.md) | Full package / experience map |
+| [`.docs/APPS.md`](.docs/APPS.md) | Commercial apps orientation |
+| [`.docs/AGENTS.md`](.docs/AGENTS.md) | Engineering craft + gate/commit law |
+| [`.docs/BITCODE_SOURCE_LAYOUT.md`](.docs/BITCODE_SOURCE_LAYOUT.md) | Filesystem / modularity contract |
+| [`.docs/TERMINOLOGY.md`](.docs/TERMINOLOGY.md) | Product vs agent vocabulary |
 | [`qa/`](qa/) | Version QA ledgers |
 | [`scripts/specifying/README.md`](scripts/specifying/README.md) | Specifying package / proof machine |
 

@@ -2,9 +2,9 @@
  * File Gates - Enforce meta-phase file editing restrictions
  *
  * Ensures that each meta-phase can only edit its designated files:
- * - Design: Only .ai/PRODUCT.md
- * - Develop: Codebase files (not .ai/, except PRODUCT.md updates)
- * - Digest: Only .ai/AGENTS.md and .ai/PRODUCT.md
+ * - Design: Only .docs/PRODUCT.md
+ * - Develop: Codebase files (not .docs/, except PRODUCT.md updates)
+ * - Digest: Only .docs/AGENTS.md and .docs/PRODUCT.md
  *
  * @package @bitcode/pipelines-generics
  */
@@ -103,13 +103,13 @@ export function getAllowedFilesMessage(metaPhase: MetaPhase): string {
 
   switch (metaPhase) {
     case 'Design':
-      return 'In Design phase, you can only edit .ai/PRODUCT.md to specify what should be built.';
+      return 'In Design phase, you can only edit .docs/PRODUCT.md to specify what should be built.';
 
     case 'Develop':
       return 'In Develop phase, you can edit codebase files to implement the design. PRODUCT.md can be updated with refinements.';
 
     case 'Digest':
-      return 'In Digest phase, update .ai/AGENTS.md with learnings and finalize .ai/PRODUCT.md.';
+      return 'In Digest phase, update .docs/AGENTS.md with learnings and finalize .docs/PRODUCT.md.';
 
     default:
       return `Allowed files: ${config.allowedFilePatterns.join(', ')}`;

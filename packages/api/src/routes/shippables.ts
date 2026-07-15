@@ -1161,7 +1161,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           try {
             const digestProposal = (execution as any).get?.('digest', 'proposal');
             const fileChanges = ((execution as any).get?.('file-changes', 'all') || []) as Array<{ path?: string }>;
-            const agentsDocUpdated = Array.isArray(fileChanges) && fileChanges.some((change) => typeof change?.path === 'string' && change.path.endsWith('.ai/AGENTS.md'));
+            const agentsDocUpdated = Array.isArray(fileChanges) && fileChanges.some((change) => typeof change?.path === 'string' && change.path.endsWith('.docs/AGENTS.md'));
             try {
               execution?.store?.('digest', 'agentsDocUpdated', agentsDocUpdated);
             } catch {}

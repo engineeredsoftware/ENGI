@@ -201,7 +201,7 @@ function main() {
         parity.includes(docPhrase) ||
         roadmap.includes(docPhrase) ||
         auxReadme.includes(docPhrase),
-      `V31 Gate 8 docs/spec must describe ${docPhrase}.`,
+      `V31 Gate 8 .docs/spec must describe ${docPhrase}.`,
     );
   }
 

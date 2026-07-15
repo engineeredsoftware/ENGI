@@ -74,7 +74,7 @@ Fresh audit inputs:
 - `packages/supabase/src/asset-pack-evidence.ts`
 - `supabase/migrations/001_v26_production.sql`
 - `supabase/migrations/002_v27_btd_crypto_registry.sql`
-- `internal-docs/BITCODE_EXCHANGE_DATABASE.md`
+- `internal-.docs/BITCODE_EXCHANGE_DATABASE.md`
 - `protocol-demonstration/src/receipt-schemas.js`
 - `protocol-demonstration/src/v27-crypto-primitives.js`
 - `protocol-demonstration/src/canonical/settlement.js`
@@ -157,7 +157,7 @@ Audit query classes:
 | Ancestry | late-bound, non-supply ancestry module | `packages/btd/src/ancestry.ts`, `/api/btd/ancestry-review`, `protocol-demonstration/src/v27-crypto-primitives.js`, and `btd_ancestor_edges` review and persist payable, unpaid, and rejected edges with `supplyEffect: 'none'` and `mintCountDelta: 0` | closed for Gate 9 | generated proof-family promotion and live revenue-route consumption remain later |
 | Anti-game | dedupe, disputes, loop/collusion checks | ancestry review rejects duplicate edges, duplicate source roots, self edges, child mismatches, pre-fit claims, reciprocal loops, dependency cycles, and claimant/reviewer conflicts; low-confidence, citation-only, and disclosed-conflict edges remain unpaid | closed for Gate 9 | broader graph anomaly telemetry and fragmentation proof remain later |
 | Tail behavior | zero-cell receipts then refit-only tail | measuremint package/demo tests cover below-integer zero-cell receipt and the proof appendix records tail policy | closed | richer refit product workflows remain later-version work |
-| Exchange DB docs | DB target names BTD registry tables | `internal-docs/BITCODE_EXCHANGE_DATABASE.md` documents V27 registry/projection tables, service-role/RLS posture, and compatibility-table noncanonical limits | partial | Gate 6 documentation closure is proved; keep synchronized as later gates add live writes |
+| Exchange DB docs | DB target names BTD registry tables | `internal-.docs/BITCODE_EXCHANGE_DATABASE.md` documents V27 registry/projection tables, service-role/RLS posture, and compatibility-table noncanonical limits | partial | Gate 6 documentation closure is proved; keep synchronized as later gates add live writes |
 | SQL migration | DB constraints for supply/range/cells/crypto receipts | `supabase/migrations/002_v27_btd_crypto_registry.sql` adds V27 registry, allocation, ancestry, revenue, upgrade, crypto projection, RLS, access-policy, cap, unique token, and no-overlap constraints | partial | Gate 6 migration closure is proved; live migration execution and generated DB type refresh remain later work |
 | ORM models | Bitcode-native BTD registry models | `packages/orm/src/models/btd-registry.ts` exposes the V27 registry/allocation/revenue/upgrade boundary; `packages/orm/src/client.ts` exposes `btdRegistry` on standard/admin clients; ORM tests verify table routing | partial | Gate 6 ORM boundary closure is proved; replace raw V27 table boundary with generated types after DB codegen |
 | BTD API route boundary | authenticated commercial routes expose registry, mint-draft, fee, anchor, ancestry, revenue, and minimal Exchange projections | `packages/api/src/routes/btd-crypto.ts`, Next wrappers under `apps/uapi/app/api/btd/*`, and `btd-crypto.test.ts` cover registry snapshots, JSON-safe mint drafts, read access, revenue, ancestry, BTC fee, ledger anchor, and minimal Exchange route paths without versioned route paths | closed through Gate 12 | generated proof-family promotion and full live value-bearing rollout remain later |
@@ -184,7 +184,7 @@ Audit query classes:
 | Mainnet-ready lane | mainnet controls exist without automatic launch | `packages/btd/src/deployment-lanes.ts` models local/regtest/signet/testnet/mainnet-ready/value-bearing lanes, environment keys, rollback roots, and approval roots; tests reject value-bearing mainnet without approval | closed for Gate 15 | value-bearing launch still requires separate operational approval |
 | Crypto telemetry | wallet/chain/reconciler failures are observable | `packages/btd/src/telemetry.ts` and `/api/btd/deployment-readiness` classify and optionally persist wallet, fee, ledger, provider, journal, database, access, settlement, and upgrade telemetry | closed for Gate 15 | production alert sinks remain operational rollout work |
 | Upgrade receipts | ledgerized migrations/upgrades are versioned | `packages/btd/src/upgrade.ts`, migration table, ORM boundary, API route, and demo schema model planned/applied/verified/rolled-back/failed upgrade receipts with rollback posture | closed for Gate 15 | generated proof-family promotion remains later |
-| Library selection proof | external crypto dependencies are researched and rebound | `internal-docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` and `.bitcode/v27-crypto-library-research-proof.json` bind primary/official sources | closed | library candidates remain adapter-level, not protocol law |
+| Library selection proof | external crypto dependencies are researched and rebound | `internal-.docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` and `.bitcode/v27-crypto-library-research-proof.json` bind primary/official sources | closed | library candidates remain adapter-level, not protocol law |
 | Marketplace royalty posture | recurring economics are local Exchange settlement, not third-party royalty signaling | `packages/btd/src/revenue.ts`, rights-transfer receipts, and minimal Exchange routes route BTC locally; no third-party royalty dependency is introduced | closed | external marketplace depth is later-version work |
 | Threat model | knowledge-market distortion and crypto-finality failures are specified | SPEC/NOTES, telemetry, ancestry anti-game tests, journal diffing, reconciliation repairs, and gate proofs map threats to source behavior | closed | production anomaly analytics can deepen later |
 | Demonstration state | draft target points to V27 files | `protocol-demonstration/data/state.json` lists draft V27 paths | implemented baseline | ensure files now exist and tests stay green |
@@ -308,7 +308,7 @@ This does not close live Supabase migration execution, generated DB type refresh
 | `packages/orm/src/models/organization-btd-usage.ts` | placeholder usage owner |
 | `packages/orm/src/models/asset-pack-evidence.ts` | AssetPack evidence storage-edge translation |
 | `supabase/migrations/001_v26_production.sql` | V26 compatibility tables and RLS |
-| `internal-docs/BITCODE_EXCHANGE_DATABASE.md` | Exchange DB note that needs V27 registry expansion |
+| `internal-.docs/BITCODE_EXCHANGE_DATABASE.md` | Exchange DB note that needs V27 registry expansion |
 | `protocol-demonstration/src/receipt-schemas.js` | current receipt family to extend |
 | `protocol-demonstration/src/canonical/settlement.js` | current source-to-shares fit and settlement primitive |
 | `protocol-demonstration/src/settlement-structs.js` | settlement participation structures |

@@ -270,7 +270,7 @@ spec. The Spec↔Impl relationship of every change is thereby auditable from the
 commit history alone.
 
 When a change alters package families, inheritance hierarchy, experience entry
-paths, product routes, or other structure that `docs/FAMILIARIZATION.md` teaches,
+paths, product routes, or other structure that `.docs/FAMILIARIZATION.md` teaches,
 that map must be updated with the change (see §16.3.1). Leaving the
 familiarization map stale while source moves is the same class of failure as
 leaving implementation undocumentable from the active teaching surface.
@@ -1376,18 +1376,18 @@ When a code-documentation surface teaches active behavior, the current `SPEC` mu
 - what product posture it carries,
 - and what parity or proof surface validates it.
 
-### 16.3.1 Repository Familiarization Map (`docs/FAMILIARIZATION.md`)
+### 16.3.1 Repository Familiarization Map (`.docs/FAMILIARIZATION.md`)
 
-`docs/FAMILIARIZATION.md` is the required in-repo deep map of current Bitcode
+`.docs/FAMILIARIZATION.md` is the required in-repo deep map of current Bitcode
 implementation structure: package catalog, `uapi` request path, experience
 layout, and the inheritance pattern `*-generics` primitives → `generic-*` base
 implementations → product specializations (agents, tools, pipelines, prompts,
 LLMs, and related families).
 
-**Law:** `docs/FAMILIARIZATION.md` must be kept up to date with changes.
+**Law:** `.docs/FAMILIARIZATION.md` must be kept up to date with changes.
 
 Any change that alters how a reader must find or understand current
-implementation structure must update `docs/FAMILIARIZATION.md` in the same change
+implementation structure must update `.docs/FAMILIARIZATION.md` in the same change
 set (or in a immediately accompanying `(spec-impl)` /
 documentation commit that lands with that work), including at least:
 
@@ -1400,16 +1400,16 @@ documentation commit that lands with that work), including at least:
  hierarchy diagrams stale.
 
 Prefer accurate, short section edits over full rewrites. Stale
-`docs/FAMILIARIZATION.md` content that contradicts current source is a specifying
+`.docs/FAMILIARIZATION.md` content that contradicts current source is a specifying
 defect relative to Complete Implementation Derivability: implementers and
 agents must not recover structure only from chat history or ad-hoc exploration
 when the repository already claims a walkthrough map.
 
-`docs/FAMILIARIZATION.md` is explanatory/operational teaching of current structure,
+`.docs/FAMILIARIZATION.md` is explanatory/operational teaching of current structure,
 not a parallel product-semantics canon. Product law remains in the active
 `BITCODE_SPEC_VN` family. Layout contracts that bind filesystem placement
-remain in `docs/BITCODE_SOURCE_LAYOUT.md` and related architecture
-docs; those surfaces and `docs/FAMILIARIZATION.md` must not diverge on named paths
+remain in `.docs/BITCODE_SOURCE_LAYOUT.md` and related architecture
+docs; those surfaces and `.docs/FAMILIARIZATION.md` must not diverge on named paths
 or hierarchy without an intentional, documented update.
 
 ## 16.4 Boundary Honesty

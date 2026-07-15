@@ -293,7 +293,7 @@ export const PipelineFailureError: Story = {
           details: {
             repository: 'mycompany/api-service',
             operation: 'create_file',
-            path: 'docs/api.md',
+            path: '.docs/api.md',
             requiredPermissions: ['contents:write']
           }
         },

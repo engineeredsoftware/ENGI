@@ -71,12 +71,12 @@ export const chatGptAppApiReference = [
         name: 'design_code',
         method: 'tools/call',
         packagePath: 'apps/chatgpt/src/tools.ts',
-        useWhen: 'Capture conversational product intent into .ai/PRODUCT.md before planning implementation.',
+        useWhen: 'Capture conversational product intent into .docs/PRODUCT.md before planning implementation.',
         howToUse:
           'Pass raw ideas. Optionally include current PRODUCT.md or request digest regeneration before appending proposed updates.',
         inputs: [
           'ideas: required raw ideas or requirements.',
-          'currentProductMd: optional current .ai/PRODUCT.md snapshot.',
+          'currentProductMd: optional current .docs/PRODUCT.md snapshot.',
           'regenerateFromDigest: optional boolean to rebuild the baseline from digest.',
         ],
         outputs: [
@@ -153,7 +153,7 @@ export const chatGptAppApiReference = [
         name: 'improve_developing_behavior',
         method: 'tools/call',
         packagePath: 'apps/chatgpt/src/tools.ts',
-        useWhen: 'Record collaboration rules or development behavior preferences into .ai/AGENTS.md.',
+        useWhen: 'Record collaboration rules or development behavior preferences into .docs/AGENTS.md.',
         howToUse:
           'Pass behaviorImprovement and optional current AGENTS.md. Use regenerateFromDigest when the baseline should be rebuilt first.',
         inputs: [

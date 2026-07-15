@@ -378,8 +378,8 @@
         ".bitcode/v35-public-docs-usage-guides.json",
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
-        "docs/DEPLOYMENT.md",
-        "docs/BITCODE_VERIFICATION.md"
+        ".docs/DEPLOYMENT.md",
+        ".docs/BITCODE_VERIFICATION.md"
       ],
       "reproducibleCommands": [
         "pnpm run check:v35-telemetry-taxonomy-catalog",
@@ -482,11 +482,11 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/DEPLOYMENT.md",
+          "sourceRoot": ".docs/DEPLOYMENT.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_VERIFICATION.md",
+          "sourceRoot": ".docs/BITCODE_VERIFICATION.md",
           "present": true
         }
       ],
@@ -1337,7 +1337,7 @@
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
         "SPECIFICATIONS_ROADMAP.md",
-        "docs/README.md",
+        ".docs/README.md",
         ".bitcode/v35-docs-qa-alignment-report.json"
       ],
       "reproducibleCommands": [
@@ -1445,7 +1445,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/README.md",
+          "sourceRoot": ".docs/README.md",
           "present": true
         },
         {
@@ -1886,11 +1886,11 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/DEPLOYMENT.md",
+          "sourceRoot": ".docs/DEPLOYMENT.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_VERIFICATION.md",
+          "sourceRoot": ".docs/BITCODE_VERIFICATION.md",
           "present": true
         }
       ]
@@ -2298,7 +2298,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/README.md",
+          "sourceRoot": ".docs/README.md",
           "present": true
         },
         {

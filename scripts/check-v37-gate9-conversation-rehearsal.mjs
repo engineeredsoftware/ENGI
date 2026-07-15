@@ -151,9 +151,9 @@ function main() {
     'apps/uapi/tests/api/conversationRehearsal.test.ts',
     'apps/uapi/tests/conversationRehearsalPanel.test.tsx',
     'apps/uapi/jest.config.cjs',
-    'docs/conversations.md',
-    'docs/BITCODE_CONVERSATIONS.md',
-    'docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
+    '.docs/conversations.md',
+    '.docs/BITCODE_CONVERSATIONS.md',
+    '.docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
     '.specifications/BITCODE_SPEC_V37.md',
     '.specifications/BITCODE_SPEC_V37_DELTA.md',
     '.specifications/BITCODE_SPEC_V37_NOTES.md',
@@ -288,9 +288,9 @@ function main() {
   const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
   const conversationsReadme = read(root, 'apps/uapi/app/conversations/README.md');
-  const publicDocs = read(root, 'docs/conversations.md');
-  const internalDocs = read(root, 'docs/BITCODE_CONVERSATIONS.md');
-  const runbook = read(root, 'docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md');
+  const publicDocs = read(root, '.docs/conversations.md');
+  const internalDocs = read(root, '.docs/BITCODE_CONVERSATIONS.md');
+  const runbook = read(root, '.docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md');
 
   for (const doc of [spec, delta, notes, parity, roadmap, protocolReadme, rootReadme, conversationsReadme, publicDocs, internalDocs, runbook]) {
     const normalizedDoc = doc.toLowerCase();

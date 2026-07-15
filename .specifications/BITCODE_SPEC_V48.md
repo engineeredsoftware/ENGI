@@ -72,7 +72,7 @@ The V48 **draft** family is the sole rebuild authority for all V48 gate work:
 | `BITCODE_SPEC_V48_PROVEN.md` | Generated proof appendix (draft) |
 
 **Non-canonical companions** (`README.md`, `FAMILIARIZATION.md`, `ASSET_PACKS.md`,
-`AGENTS.md`, `internal-docs/*` except when explicitly named by this SPEC):
+`AGENTS.md`, `internal-.docs/*` except when explicitly named by this SPEC):
 orientation and craft only. They **must not** be required to supply omitted
 system semantics. Adjuncts may link SPEC; SPEC must not depend on them.
 
@@ -185,7 +185,7 @@ Shadcn*  →  Bitcode*  →  {Marketing|Packs|Reads|Deposits|Docs|Conversations|
 | Bitcode | `Bitcode*` | Shadcn + Bitcode theme/tokens only | App-wide base: layout, nav, pipeline table/log/telemetry, auth chrome, explainers, route shell |
 | Experience (7) | `Marketing*`, `Packs*`, `Reads*`, `Deposits*`, `Docs*`, `Conversations*`, `Auxillaries*` | Bitcode only (not raw Shadcn; not other experiences) | Page-specific composition |
 
-Filesystem and co-location convention (named component directories, hooks/styles/__tests__, packages vs uapi): `internal-docs/BITCODE_SOURCE_LAYOUT.md`.
+Filesystem and co-location convention (named component directories, hooks/styles/__tests__, packages vs uapi): `internal-.docs/BITCODE_SOURCE_LAYOUT.md`.
 
 Canonical directories (under the Next app root `apps/uapi/`):
 
@@ -955,7 +955,7 @@ Rebuild order in `buildDepositRouteSession` / `DepositPageClient`:
 | UI pure models | `apps/uapi/components/deposits/models/` |
 | UI hooks | `apps/uapi/components/deposits/DepositPageClient/hooks/` |
 | UI units | `DepositSourceSelection`, `DepositObfuscationsPanel`, `DepositAssetPackOptions`, `DepositPipelinesMaster`, `DepositSynthesisTelemetry`, `DepositActivityLedgerDetail`, `DepositRouteStateAside` under `apps/uapi/components/deposits/` |
-| Layout contract | `internal-docs/BITCODE_SOURCE_LAYOUT.md`, `apps/uapi/components/deposits/README.md` |
+| Layout contract | `internal-.docs/BITCODE_SOURCE_LAYOUT.md`, `apps/uapi/components/deposits/README.md` |
 | LLM defaults | `packages/generic-llms/src/defaults.ts` |
 | DB | `supabase/migrations/20260515010000_terminal_execution_history.sql` |
 | Prompt contracts (test) | `…/__tests__/deposit-agent-prompt-contracts.test.ts` |
@@ -978,7 +978,7 @@ The `/deposits` commercial surface is modular by SRP, not a single god client:
    synthesis activity/stream clocks.
 5. **Models** own activity-ledger projections, route-session input assembly,
    criticality, demand shapes, and run-status mapping — unit-tested without React.
-6. Rebuilders must follow `internal-docs/BITCODE_SOURCE_LAYOUT.md`; do not
+6. Rebuilders must follow `internal-.docs/BITCODE_SOURCE_LAYOUT.md`; do not
    reassemble deposit law into a single multi-thousand-line page client.
 
 Package modularization (deposit domain): depository-search, deposit option

@@ -328,7 +328,7 @@ function stableChatGptAuthorizationRoot(scope: string, payload: unknown): string
 
 const PRODUCT_MD_TEMPLATE = `###### What is this document?
 
-\`.ai/PRODUCT.md\` *Design Document* is the **"design of source code"** and is the canonical, complete, and precise software product reference for this repository.
+\`.docs/PRODUCT.md\` *Design Document* is the **"design of source code"** and is the canonical, complete, and precise software product reference for this repository.
 
 # PRODUCT'S PURPOSE:
 
@@ -345,7 +345,7 @@ const PRODUCT_MD_TEMPLATE = `###### What is this document?
 
 const AGENTS_MD_TEMPLATE = `###### What is this document?
 
-\`.ai/AGENTS.md\` *Design Document* is the **design of the agent(s)** which includes instructions for it/them to follow and high-quality (“seeking”) questions.
+\`.docs/AGENTS.md\` *Design Document* is the **design of the agent(s)** which includes instructions for it/them to follow and high-quality (“seeking”) questions.
 
 # AGENTS' INSTRUCTIONS:
 
@@ -376,8 +376,8 @@ function buildPreparedContextMetadata(input: {
   tokenLimit?: number;
 }) {
   const files = [
-    input.productDocument ? '.ai/PRODUCT.md' : null,
-    input.agentDocument ? '.ai/AGENTS.md' : null
+    input.productDocument ? '.docs/PRODUCT.md' : null,
+    input.agentDocument ? '.docs/AGENTS.md' : null
   ].filter(Boolean) as string[];
 
   if (files.length === 0) return undefined;
@@ -705,7 +705,7 @@ async function executeDesignCode(args: z.infer<typeof DESIGN_CODE_VALIDATOR>) {
     metadata: {
       sections,
       created: !args.currentProductMd,
-      evidenceDocument: '.ai/PRODUCT.md',
+      evidenceDocument: '.docs/PRODUCT.md',
       guidance,
       digestUsed,
       digestError,
@@ -783,7 +783,7 @@ async function executeCodeDesign(args: z.infer<typeof CODE_DESIGN_VALIDATOR>) {
     metadata: {
       taskCount: tasks.length,
       fileCount: files.length,
-      evidenceDocument: '.ai/PRODUCT.md',
+      evidenceDocument: '.docs/PRODUCT.md',
       guidance,
       ...(contextMetadata ?? {})
     }
@@ -1140,7 +1140,7 @@ async function executeImproveDevelopingBehavior(args: z.infer<typeof IMPROVE_BEH
     metadata: {
       focus,
       created,
-      evidenceDocument: '.ai/AGENTS.md',
+      evidenceDocument: '.docs/AGENTS.md',
       digestUsed,
       digestError,
       guidance,
@@ -1250,7 +1250,7 @@ async function executeUseVercelReadExternalMcp(args: z.infer<typeof VERCEL_READ_
     metadata: {
       provider: 'vercel',
       request: args.request,
-      evidenceDocument: '.ai/MCPS.md',
+      evidenceDocument: '.docs/MCPS.md',
       guidance
     }
   };
@@ -1354,7 +1354,7 @@ async function executeUseVercelWriteExternalMcp(args: z.infer<typeof VERCEL_WRIT
     metadata: {
       provider: 'vercel',
       request: args.request,
-      evidenceDocument: '.ai/MCPS.md',
+      evidenceDocument: '.docs/MCPS.md',
       guidance,
       writeAdmission: buildChatGptAppWriteAdmission({
         connectedInterface: 'vercel',
@@ -1433,7 +1433,7 @@ async function executeUseAwsReadExternalMcp(args: z.infer<typeof AWS_READ_VALIDA
     metadata: {
       provider: 'aws',
       request: args.request,
-      evidenceDocument: '.ai/MCPS.md',
+      evidenceDocument: '.docs/MCPS.md',
       guidance
     }
   };
@@ -1504,7 +1504,7 @@ async function executeUseAwsWriteExternalMcp(args: z.infer<typeof AWS_WRITE_VALI
     metadata: {
       provider: 'aws',
       request: args.request,
-      evidenceDocument: '.ai/MCPS.md',
+      evidenceDocument: '.docs/MCPS.md',
       guidance,
       writeAdmission: buildChatGptAppWriteAdmission({
         connectedInterface: 'aws',
@@ -1725,7 +1725,7 @@ export function getBitcodeTools(): BitcodeTool[] {
     },
     {
       name: 'design_code',
-      description: 'Update `.ai/PRODUCT.md` based on new ideas or requirements provided in conversation.',
+      description: 'Update `.docs/PRODUCT.md` based on new ideas or requirements provided in conversation.',
       inputSchema: DESIGN_CODE_SCHEMA,
       validator: DESIGN_CODE_VALIDATOR,
       execute: executeDesignCode,
@@ -1772,7 +1772,7 @@ export function getBitcodeTools(): BitcodeTool[] {
     },
     {
       name: 'improve_developing_behavior',
-      description: 'Evolve `.ai/AGENTS.md` with new behavioral guidance based on session learnings.',
+      description: 'Evolve `.docs/AGENTS.md` with new behavioral guidance based on session learnings.',
       inputSchema: IMPROVE_BEHAVIOR_SCHEMA,
       validator: IMPROVE_BEHAVIOR_VALIDATOR,
       execute: executeImproveDevelopingBehavior,

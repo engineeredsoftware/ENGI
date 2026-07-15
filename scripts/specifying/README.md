@@ -414,7 +414,7 @@ V46 Gate 7 adds `V46LocalInterfaceComprehensionRehearsal` through
 `.bitcode/v46-local-interface-comprehension-rehearsal.json`,
 `generate:v46-local-interface-comprehension-rehearsal`,
 `check:v46-local-interface-comprehension-rehearsal`, and `check:v46-gate7`.
-It rehearses local docs/landing, `/packs`, `/read`, `/deposit`, API/MCP,
+It rehearses local .docs/landing, `/packs`, `/read`, `/deposit`, API/MCP,
 ChatGPT App, Bitcode Chat, proof telemetry, and repair readback against Gate 2
 through Gate 6 generated artifacts while remaining local-only and
 source-safe.

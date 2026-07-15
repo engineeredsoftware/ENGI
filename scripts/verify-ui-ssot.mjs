@@ -83,7 +83,7 @@ assertSome(
 );
 
 // 7) Bitcode interface style note contains the Style PR Checklist
-assertSome("rg -n " + JSON.stringify("Style PR Checklist") + " docs/BITCODE_INTERFACE_STYLE.md || true", "BITCODE_INTERFACE_STYLE.md includes Style PR Checklist");
+assertSome("rg -n " + JSON.stringify("Style PR Checklist") + " .docs/BITCODE_INTERFACE_STYLE.md || true", "BITCODE_INTERFACE_STYLE.md includes Style PR Checklist");
 
 console.log('Bitcode UI SSOT verification passed');
 process.exit(0);

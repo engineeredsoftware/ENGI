@@ -510,7 +510,7 @@ The V36 whole-system operator chain is:
 - Current invariants and fail-closed conditions: public projection overexposure, protected source leakage, raw protected prompt leakage, or unpaid source exposure blocks the response.
 - Current proof obligations: disclosure root, redaction root, docs root, and telemetry root.
 - Current source-bearing implementation basis: UAPI, public docs, protocol contracts, and telemetry taxonomy.
-- Current validating commands and parity basis: V35 docs/telemetry checks plus V36 UX and rehearsal checks.
+- Current validating commands and parity basis: V35 .docs/telemetry checks plus V36 UX and rehearsal checks.
 - Current accepted boundaries: source-safe previews are not source delivery.
 
 ### Settlement and exact accounting

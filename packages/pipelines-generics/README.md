@@ -24,7 +24,7 @@ Clean pipeline execution primitives for orchestrating phase sequences.
 - Pipelines and phases rely on Execution identity and store namespaces defined in `@bitcode/execution-generics`:
  - Use `execution/id` (not former `runId`) and `execution/correlationId`.
  - Use canonical agent namespaces for pipeline/phase/agent stores: `execution-<pipeline>-pipeline-phase-<phase>-<agent>`.
- - See `docs/BITCODE_AGENTIC_EXECUTION.md` for SDIVF sequencing, pre/post processing, and the postprocessed SSOT.
+ - See `.docs/BITCODE_AGENTIC_EXECUTION.md` for SDIVF sequencing, pre/post processing, and the postprocessed SSOT.
 
 ### Everything is an Executor
 

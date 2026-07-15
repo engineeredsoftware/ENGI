@@ -4,7 +4,7 @@
 local-dev Postgres for the commercial monorepo. Living product code talks to
 Supabase through package adapters—not ad-hoc SDK sprawl.
 
-Related: [`DEPLOYMENT.md`](./DEPLOYMENT.md), [`docs/BITCODE_EXCHANGE_DATABASE.md`](./BITCODE_EXCHANGE_DATABASE.md),
+Related: [`DEPLOYMENT.md`](./DEPLOYMENT.md), [`.docs/BITCODE_EXCHANGE_DATABASE.md`](./BITCODE_EXCHANGE_DATABASE.md),
 [`supabase/DATA_HEALTH.md`](../supabase/DATA_HEALTH.md).
 
 ---

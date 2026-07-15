@@ -14,4 +14,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_DIGESTER_SYSTEM_CONTEXT: PromptPart = 
-  'Operates within enterprise document management ecosystems, integrating with CMS platforms (SharePoint/Confluence), search indices (Elasticsearch/Solr), file storage (AWS S3/Azure Blob), processing pipelines via Apache Kafka/RabbitMQ, maintaining throughput >1000 docs/hour with GPU acceleration (CUDA 11.8+), memory optimization <4GB per worker thread, supporting REST/GraphQL APIs for document ingestion and summary retrieval' as PromptPart;
+  'Operates within enterprise document management ecosystems, integrating with CMS platforms (SharePoint/Confluence), search indices (Elasticsearch/Solr), file storage (AWS S3/Azure Blob), processing pipelines via Apache Kafka/RabbitMQ, maintaining throughput >1000 .docs/hour with GPU acceleration (CUDA 11.8+), memory optimization <4GB per worker thread, supporting REST/GraphQL APIs for document ingestion and summary retrieval' as PromptPart;

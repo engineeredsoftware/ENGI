@@ -112,7 +112,7 @@ const taxonomyRows = Object.freeze([
     sourceRoots: [
       'packages/agent-generics/README.md',
       'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts',
-      'docs/BITCODE_AGENTIC_EXECUTION.md',
+      '.docs/BITCODE_AGENTIC_EXECUTION.md',
     ],
   },
   {
@@ -137,7 +137,7 @@ const taxonomyRows = Object.freeze([
     sourceRoots: [
       'packages/llm-generics/README.md',
       'packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts',
-      'docs/BITCODE_PROMPT_TRACE.md',
+      '.docs/BITCODE_PROMPT_TRACE.md',
     ],
   },
   {
@@ -297,7 +297,7 @@ const taxonomyRows = Object.freeze([
     sourceRoots: [
       'packages/btd/src/rollback-upgrade-repair-playbook.ts',
       '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json',
-      'docs/DEPLOYMENT.md',
+      '.docs/DEPLOYMENT.md',
     ],
   },
   {

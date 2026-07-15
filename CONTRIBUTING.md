@@ -7,9 +7,9 @@ local / staging / sandbox hosts, and what “done” means for tests and proof.
 | Start here | Then |
 | --- | --- |
 | This file | Day-to-day development |
-| [`docs/FAMILIARIZATION.md`](docs/FAMILIARIZATION.md) | Package catalog, inheritance, experiences, request paths |
-| [`docs/AGENTS.md`](docs/AGENTS.md) | Gate/commit law and craft expectations (agents + humans) |
-| [`docs/BITCODE_SOURCE_LAYOUT.md`](docs/BITCODE_SOURCE_LAYOUT.md) | Filesystem / component unit contract |
+| [`.docs/FAMILIARIZATION.md`](.docs/FAMILIARIZATION.md) | Package catalog, inheritance, experiences, request paths |
+| [`.docs/AGENTS.md`](.docs/AGENTS.md) | Gate/commit law and craft expectations (agents + humans) |
+| [`.docs/BITCODE_SOURCE_LAYOUT.md`](.docs/BITCODE_SOURCE_LAYOUT.md) | Filesystem / component unit contract |
 | [`.specifications/BITCODE_SPEC.txt`](.specifications/BITCODE_SPEC.txt) | Active canon pointer |
 | [`README.md`](README.md) | Product summary + quick start |
 
@@ -37,7 +37,7 @@ sellable unit.
 - Settlement money is **BTC-testnet** in current commercial posture; value-bearing
   mainnet is blocked until a future canon admits it.
 
-Orientation only: [`docs/ASSET_PACKS.md`](docs/ASSET_PACKS.md).  
+Orientation only: [`.docs/ASSET_PACKS.md`](.docs/ASSET_PACKS.md).  
 Binding law: `.specifications/BITCODE_SPEC_V48.md` (draft) / active `V47` family.
 
 ---
@@ -112,7 +112,7 @@ commands and file lists in the **body**.
 Gate PR titles: `V48 Gate N (impl-only): Short topical title`  
 Version promotion PRs: uppercase version + “canonical promotion” wording.
 
-Full craft rules: [`docs/AGENTS.md`](docs/AGENTS.md).
+Full craft rules: [`.docs/AGENTS.md`](.docs/AGENTS.md).
 
 ### 2.4 QA finding tags
 
@@ -136,7 +136,7 @@ scripts/specifying  Package-native proof / promotion readiness machine
 supabase/           Migrations, local config, data-health
 containers/         Pipeliner OCI image, long-runner Docker, k8s
 qa/                 Version QA ledgers
-docs/               Non-canonical guides (this tree)
+.docs/               Non-canonical guides (this tree)
 .bitcode/           Generated proof artifacts
 ```
 
@@ -225,8 +225,8 @@ material. Prefer team secret stores / Vercel env for shared values.
 | **Staging-testnet** | Near-production protocol posture | Testnet4 wallet, real inference, GitHub App, no mainnet value |
 | **Production** | Live commercial site | Same host law as preview; still testnet settlement until canon says otherwise |
 
-Detail: [`docs/SUPABASE.md`](docs/SUPABASE.md) · [`docs/VERCEL.md`](docs/VERCEL.md) ·
-[`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
+Detail: [`.docs/SUPABASE.md`](.docs/SUPABASE.md) · [`.docs/VERCEL.md`](.docs/VERCEL.md) ·
+[`.docs/DEPLOYMENT.md`](.docs/DEPLOYMENT.md).
 
 ### 4.4 Core env groups (uapi)
 
@@ -319,7 +319,7 @@ the OCI appliance used when Sandbox runs deposit/read synthesis:
 | --- | --- |
 | Registry (example) | `vcr.vercel.com/gerald-davis-projects/bitcode/pipeliner` |
 | Docs | [`containers/images/pipeliner/README.md`](containers/images/pipeliner/README.md) |
-| Related | [`docs/VERCEL.md`](docs/VERCEL.md), [`containers/README.md`](containers/README.md) |
+| Related | [`.docs/VERCEL.md`](.docs/VERCEL.md), [`containers/README.md`](containers/README.md) |
 
 Other container surfaces: long-runner Dockerfiles under `containers/`, k8s under
 `containers/k8/`, and `packages/containerizations/*` (docker/kubernetes helpers).
@@ -365,7 +365,7 @@ Set the same family of vars everywhere (see `.env.example`):
 | Sandbox clone fails | Install token scope, private key format, host clone env inside Pipeliner |
 | Mock repos only | Mocks still enabled (`NEXT_PUBLIC_MOCK_GITHUB_*`) |
 
-Connected-services orientation: [`docs/BITCODE_CONNECTED_SERVICES.md`](docs/BITCODE_CONNECTED_SERVICES.md).
+Connected-services orientation: [`.docs/BITCODE_CONNECTED_SERVICES.md`](.docs/BITCODE_CONNECTED_SERVICES.md).
 
 ---
 
@@ -441,7 +441,7 @@ invented demand numbers.
 
 If you change package families, inheritance, experience entry paths, product
 routes, or other structure FAMILIARIZATION teaches, update
-`docs/FAMILIARIZATION.md` in the **same** change set (SPECIFYING §16.3.1).
+`.docs/FAMILIARIZATION.md` in the **same** change set (SPECIFYING §16.3.1).
 
 ---
 

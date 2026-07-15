@@ -1157,7 +1157,7 @@ Closure evidence:
 - `BTDPrices.tsx`, `MarketingPricingSection.tsx`, and `btd-tracker.tsx` treat Terminal Read minting and minimal Exchange range acquisition as V27 functionality while reserving broader market depth for later-version work.
 - `apps/uapi/app/btd/[assetPackId]/page.tsx` provides an unversioned range disclosure route for AssetPack range, access policy id/hash, owner-read/licensed-read branch, proof root, and source manifest root.
 - the former version-prefixed UAPI protocol corridors are ported to unversioned `/api/external-realization` and `/api/executors/[interfaceId]`, and no `apps/uapi/app/api/v*` route remains.
-- `internal-docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` and `.bitcode/v27-crypto-library-research-proof.json` bind official-source crypto and library research into V27 without turning candidate libraries into protocol law.
+- `internal-.docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` and `.bitcode/v27-crypto-library-research-proof.json` bind official-source crypto and library research into V27 without turning candidate libraries into protocol law.
 - `BITCODE_SPEC_V27_PROVEN.md` and `.bitcode/v27-total-closure-proof.json` map all required V27 proof families to gate artifacts or accepted equivalents.
 
 ## V27 Proof Expectations

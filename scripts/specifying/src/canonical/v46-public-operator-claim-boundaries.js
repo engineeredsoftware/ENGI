@@ -76,7 +76,7 @@ const SOURCE_PATHS = Object.freeze({
   docsRoute: 'apps/uapi/app/docs/[slug]/page.tsx',
   publicDocsUnitTest: 'apps/uapi/tests/publicDocsPageContent.test.tsx',
   docsContentUnitTest: 'apps/uapi/tests/bitcodeDocsContent.test.tsx',
-  operatorReadme: 'docs/README.md',
+  operatorReadme: '.docs/README.md',
 });
 
 const SECRET_MARKERS = Object.freeze([

@@ -1,6 +1,6 @@
 # Deployment Configuration
 
-See `docs/BITCODE_CONNECTED_SERVICES.md` for connected-service notes. This guide focuses on environment variables and external settings (OAuth callbacks, webhooks, allowed return URLs) required to deploy Bitcode.
+See `.docs/BITCODE_CONNECTED_SERVICES.md` for connected-service notes. This guide focuses on environment variables and external settings (OAuth callbacks, webhooks, allowed return URLs) required to deploy Bitcode.
 
 ## V35 Testnet Rollout Readiness
 

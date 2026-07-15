@@ -492,7 +492,7 @@
         ".bitcode/v35-docs-qa-alignment-report.json",
         ".bitcode/v35-testnet-rollout-readiness-guide.json",
         "packages/api/README.md",
-        "docs/BITCODE_API.md",
+        ".docs/BITCODE_API.md",
         "packages/api/src/routes/btd-crypto.ts",
         "packages/api/src/routes/__tests__/btd-crypto.test.ts"
       ],
@@ -645,7 +645,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_API.md",
+          "sourceRoot": ".docs/BITCODE_API.md",
           "present": true
         },
         {
@@ -892,7 +892,7 @@
         ".bitcode/v35-docs-qa-alignment-report.json",
         ".bitcode/v35-testnet-rollout-readiness-guide.json",
         "apps/chatgpt/README.md",
-        "docs/BITCODE_CHATGPT_APP_INTERFACE.md",
+        ".docs/BITCODE_CHATGPT_APP_INTERFACE.md",
         "apps/chatgpt/src/interface-integration.ts",
         "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
       ],
@@ -1035,7 +1035,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_CHATGPT_APP_INTERFACE.md",
+          "sourceRoot": ".docs/BITCODE_CHATGPT_APP_INTERFACE.md",
           "present": true
         },
         {
@@ -1292,11 +1292,11 @@
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
         ".bitcode/v35-testnet-rollout-readiness-guide.json",
-        "docs/README.md",
-        "docs/DEPLOYMENT.md",
-        "docs/BITCODE_AGENTIC_EXECUTION.md",
-        "docs/BITCODE_VERIFICATION.md",
-        "docs/BITCODE_API.md"
+        ".docs/README.md",
+        ".docs/DEPLOYMENT.md",
+        ".docs/BITCODE_AGENTIC_EXECUTION.md",
+        ".docs/BITCODE_VERIFICATION.md",
+        ".docs/BITCODE_API.md"
       ],
       "routePayloadSurfaces": [
         "internal operator guide",
@@ -1447,23 +1447,23 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/README.md",
+          "sourceRoot": ".docs/README.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/DEPLOYMENT.md",
+          "sourceRoot": ".docs/DEPLOYMENT.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_AGENTIC_EXECUTION.md",
+          "sourceRoot": ".docs/BITCODE_AGENTIC_EXECUTION.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_VERIFICATION.md",
+          "sourceRoot": ".docs/BITCODE_VERIFICATION.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_API.md",
+          "sourceRoot": ".docs/BITCODE_API.md",
           "present": true
         }
       ],
@@ -1920,7 +1920,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_API.md",
+          "sourceRoot": ".docs/BITCODE_API.md",
           "present": true
         },
         {
@@ -2036,7 +2036,7 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_CHATGPT_APP_INTERFACE.md",
+          "sourceRoot": ".docs/BITCODE_CHATGPT_APP_INTERFACE.md",
           "present": true
         },
         {
@@ -2152,23 +2152,23 @@
           "present": true
         },
         {
-          "sourceRoot": "docs/README.md",
+          "sourceRoot": ".docs/README.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/DEPLOYMENT.md",
+          "sourceRoot": ".docs/DEPLOYMENT.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_AGENTIC_EXECUTION.md",
+          "sourceRoot": ".docs/BITCODE_AGENTIC_EXECUTION.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_VERIFICATION.md",
+          "sourceRoot": ".docs/BITCODE_VERIFICATION.md",
           "present": true
         },
         {
-          "sourceRoot": "docs/BITCODE_API.md",
+          "sourceRoot": ".docs/BITCODE_API.md",
           "present": true
         }
       ]

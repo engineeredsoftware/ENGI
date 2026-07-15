@@ -752,8 +752,8 @@ export default function ExecutionsPageHeader({
                         <div className="rounded-none border border-sky-500/20 bg-sky-500/5 px-3 py-2 text-sm text-sky-100">
                           <p className="font-semibold text-sky-200">
                             {digestStatus.agentsDocUpdated
-                              ? '.ai/AGENTS.md update detected'
-                              : 'Awaiting .ai/AGENTS.md update before Delivering'}
+                              ? '.docs/AGENTS.md update detected'
+                              : 'Awaiting .docs/AGENTS.md update before Delivering'}
                           </p>
                           {digestStatus.summary && (
                             <p className="mt-1 text-sky-100/80 whitespace-pre-wrap">{digestStatus.summary}</p>

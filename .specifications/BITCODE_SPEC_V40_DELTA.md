@@ -55,7 +55,7 @@ Gate 5 closes with package-backed `V40ReadingPipelineIntegrationCoverage`, deter
 ### Gate 6: Conversation And Terminal Integration Coverage
 
 Close cross-surface tests for Conversation, Terminal handoff, Reading state, telemetry, and source-safe disclosure.
-Gate 6 closes with package-backed `V40ConversationTerminalIntegration`, deterministic `.bitcode/v40-conversation-terminal-integration.json`, protocol exports, a focused Conversation-to-Terminal integration test, source-safe rows for handoff, stream-log projection, route/API contracts, writing/source selector handoff, Terminal Reading state, harness streaming, authority boundaries, docs/rehearsal parity, and `check:v40-gate6`.
+Gate 6 closes with package-backed `V40ConversationTerminalIntegration`, deterministic `.bitcode/v40-conversation-terminal-integration.json`, protocol exports, a focused Conversation-to-Terminal integration test, source-safe rows for handoff, stream-log projection, route/API contracts, writing/source selector handoff, Terminal Reading state, harness streaming, authority boundaries, .docs/rehearsal parity, and `check:v40-gate6`.
 
 ### Gate 7: Browser E2E, Accessibility, Responsive, And Visual Proof
 

@@ -71,7 +71,7 @@ touched apps.
 
 ## Related docs
 
-- Repo layout contract: `docs/BITCODE_SOURCE_LAYOUT.md` (§ monorepo roots
+- Repo layout contract: `.docs/BITCODE_SOURCE_LAYOUT.md` (§ monorepo roots
   and tooling homes).
 - Agents: temporary codemods are **implementation tooling**, not product
   surface; do not version-prefix them (`v48-codemod-*`).

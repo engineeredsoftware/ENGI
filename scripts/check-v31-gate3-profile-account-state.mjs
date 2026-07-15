@@ -189,7 +189,7 @@ function main() {
     assertCheck(
       failures,
       spec.includes(docPhrase) || delta.includes(docPhrase) || notes.includes(docPhrase) || apiReadme.includes(docPhrase) || ormReadme.includes(docPhrase) || auxReadme.includes(docPhrase),
-      `V31 Gate 3 docs/spec must describe ${docPhrase}.`,
+      `V31 Gate 3 .docs/spec must describe ${docPhrase}.`,
     );
   }
 

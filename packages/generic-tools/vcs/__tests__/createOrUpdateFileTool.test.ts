@@ -73,12 +73,12 @@ describe('createOrUpdateFileTool gating', () => {
   it('throws gate violation when file operation not allowed', async () => {
     (validateFileOperation as jest.Mock).mockReturnValue({
       allowed: false,
-      reason: 'Design phase can only modify .ai/PRODUCT.md',
+      reason: 'Design phase can only modify .docs/PRODUCT.md',
     });
 
     await expect(
       createOrUpdateFileTool.use({ ...baseInput })
-    ).rejects.toThrow('Design phase can only modify .ai/PRODUCT.md');
+    ).rejects.toThrow('Design phase can only modify .docs/PRODUCT.md');
 
     expect(VCSConnections).not.toHaveBeenCalled();
     expect(VCSProviderFactory.create).not.toHaveBeenCalled();

@@ -14,7 +14,7 @@ describe('codebase-analysis-helpers', () => {
       'src/app.ts',
       'src/util.ts',
       'src/nested/deep.ts',
-      'docs/guide.md',
+      '.docs/guide.md',
     ]);
     expect(tree.pathCount).toBe(6);
     expect(tree.topLevelFiles).toEqual(expect.arrayContaining(['README.md', 'package.json']));

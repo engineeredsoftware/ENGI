@@ -16,7 +16,7 @@ export const digestPhase = createPhaseRunner({
       input: {
         executionResults: '{{develop.results}}',
         fileChanges: '{{file-changes.stats}}',
-        currentAgentsMd: '{{file:.ai/AGENTS.md}}',
+        currentAgentsMd: '{{file:.docs/AGENTS.md}}',
         userFeedback: '{{digest.feedback}}'
       }
     }

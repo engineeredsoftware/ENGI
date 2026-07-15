@@ -187,7 +187,7 @@ export const GuideIndicator: React.FC<GuideIndicatorProps> = ({
           className="mt-2 pt-2 border-t border-gray-700/50"
         >
           <p className="text-xs text-sky-300/80">
-            📝 Editing <span className="font-mono">.ai/PRODUCT.md</span> only
+            📝 Editing <span className="font-mono">.docs/PRODUCT.md</span> only
           </p>
         </motion.div>
       )}
@@ -199,7 +199,7 @@ export const GuideIndicator: React.FC<GuideIndicatorProps> = ({
           className="mt-2 pt-2 border-t border-gray-700/50"
         >
           <p className="text-xs text-amber-300/80">
-            🧠 Update <span className="font-mono">.ai/AGENTS.md</span> with new learnings
+            🧠 Update <span className="font-mono">.docs/AGENTS.md</span> with new learnings
           </p>
         </motion.div>
       )}

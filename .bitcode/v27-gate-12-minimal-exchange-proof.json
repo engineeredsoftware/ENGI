@@ -96,7 +96,7 @@
     "supabase/migrations/002_v27_btd_crypto_registry.sql",
     "packages/orm/src/models/btd-registry.ts",
     "packages/orm/src/__tests__/btd-registry.test.ts",
-    "docs/BITCODE_EXCHANGE_DATABASE.md",
+    ".docs/BITCODE_EXCHANGE_DATABASE.md",
     "protocol-demonstration/src/receipt-schemas.js",
     "protocol-demonstration/src/v27-crypto-primitives.js",
     "protocol-demonstration/test/v27-crypto-primitives.test.js"

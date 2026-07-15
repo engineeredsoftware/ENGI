@@ -249,7 +249,7 @@ function main() {
         auxReadme.includes(docPhrase) ||
         btdReadme.includes(docPhrase) ||
         terminalReadme.includes(docPhrase),
-      `V31 Gate 6 docs/spec must describe ${docPhrase}.`,
+      `V31 Gate 6 .docs/spec must describe ${docPhrase}.`,
     );
   }
 

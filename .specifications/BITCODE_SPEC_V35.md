@@ -818,7 +818,7 @@ Promotion rewrites `BITCODE_SPEC.txt` only after promotion-grade validations pas
 ## Appendix H. Operator surface and quality contract catalog
 
 Operator surfaces include GitHub workflows, local scripts, Vercel deployments, Supabase lanes, object-storage carriers, CLI proof commands, Terminal runtime views, MCP API actions, ChatGPT App actions, public API routes, dashboards, runbooks, public docs, and internal docs.
-Quality contracts require greenable CI, deterministic generated artifacts, readable docs/runbook posture, source-safe logs, and no direct `main` pushes.
+Quality contracts require greenable CI, deterministic generated artifacts, readable .docs/runbook posture, source-safe logs, and no direct `main` pushes.
 
 ## Appendix I. Scenario, workflow, and cross-product contract catalog
 

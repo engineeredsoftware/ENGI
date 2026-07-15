@@ -5,8 +5,8 @@ the Next.js website and API under `apps/uapi`. Package domain law lives under
 `packages/`; specification law under `.specifications/`.
 
 For agent engineering rules see [`AGENTS.md`](./AGENTS.md). For package catalog
-and inheritance, see [`docs/FAMILIARIZATION.md`](./docs/FAMILIARIZATION.md). For AssetPack
-domain depth see [`docs/ASSET_PACKS.md`](./ASSET_PACKS.md).
+and inheritance, see [`.docs/FAMILIARIZATION.md`](./FAMILIARIZATION.md). For AssetPack
+domain depth see [`.docs/ASSET_PACKS.md`](./ASSET_PACKS.md).
 
 ## Product apps in this monorepo
 
@@ -45,9 +45,9 @@ Product routes: `/packs`, `/deposits`, `/reads`, `/docs`.
 
 ```typescript
 interface CodebaseIntelligence {
-  ".ai/AGENTS.md": "Questions about how to design in THIS codebase"
-  ".ai/PRODUCT.md": "Implementation truth of THIS product"
-  ".ai/MCPS.md": "Tools and integrations THIS codebase uses"
+  ".docs/AGENTS.md": "Questions about how to design in THIS codebase"
+  ".docs/PRODUCT.md": "Implementation truth of THIS product"
+  ".docs/MCPS.md": "Tools and integrations THIS codebase uses"
 }
 ```
 
@@ -56,7 +56,7 @@ interface CodebaseIntelligence {
 **Rich Response Diffs**: When AI learns something new about your codebase:
 
 ```diff
-## .ai/AGENTS.md changes proposed:
+## .docs/AGENTS.md changes proposed:
 
 + ### How should I handle authentication in this codebase?
 + Use the existing AuthService with JWT refresh rotation pattern.
@@ -80,8 +80,8 @@ interface CodebaseIntelligence {
 Execution generates Unknowledge
   → Unknowledge becomes Questions
     → Questions drive Discovery
-      → Discovery updates .ai/
-        → .ai/ drives next Execution
+      → Discovery updates .docs/
+        → .docs/ drives next Execution
           → (Exponential Learning)
 ```
 
@@ -90,7 +90,7 @@ Execution generates Unknowledge
 **The Humility Protocol**: AI must document what it DOESN'T know:
 
 ```markdown
-## .ai/AGENTS.md - Unknowledge Section
+## .docs/AGENTS.md - Unknowledge Section
 
 ### Questions I Cannot Yet Answer:
 - How does this codebase handle distributed transactions?
@@ -105,17 +105,17 @@ Execution generates Unknowledge
 
 ### Highly Amenable Instructions
 
-Instructions that ADAPT based on .ai/ knowledge:
+Instructions that ADAPT based on .docs/ knowledge:
 
 ```typescript
 // Same instruction: "Add user authentication"
 
-// Codebase A (from .ai/AGENTS.md):
+// Codebase A (from .docs/AGENTS.md):
 → Implements OAuth2 with existing Google provider
 → Extends current SessionManager
 → Follows established JWT refresh pattern
 
-// Codebase B (from different .ai/AGENTS.md):
+// Codebase B (from different .docs/AGENTS.md):
 → Implements basic auth with bcrypt
 → Creates new auth middleware
 → Uses cookie-based sessions

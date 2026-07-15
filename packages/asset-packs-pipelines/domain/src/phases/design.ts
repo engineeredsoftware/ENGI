@@ -15,7 +15,7 @@ export const designPhase = createPhaseRunner({
       agent: 'design:iterate-product-md',
       input: {
         requirements: '{{input.requirements}}',
-        currentProductMd: '{{file:.ai/PRODUCT.md}}',
+        currentProductMd: '{{file:.docs/PRODUCT.md}}',
         userFeedback: '{{design.feedback}}'
       }
     }

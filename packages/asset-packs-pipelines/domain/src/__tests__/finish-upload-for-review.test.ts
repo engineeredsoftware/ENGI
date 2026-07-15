@@ -96,7 +96,7 @@ describe('upload-asset-packs-for-review Finish agent', () => {
   it('falls back to writtenAssets and null options when Implementation stored neither', async () => {
     const root = new Execution('pipeline:finish-upload-fallback');
     storeSynthesizeAssetPacksMode(root, 'read');
-    const writtenAssets = [{ path: 'docs/asset-pack.md' }];
+    const writtenAssets = [{ path: '.docs/asset-pack.md' }];
     root.store('implementation', 'writtenAssets', writtenAssets);
 
     const result = await runUploadAssetPacksForReviewAgent({}, root.child('seq-3'));

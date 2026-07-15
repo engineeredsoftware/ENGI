@@ -210,7 +210,7 @@ Accepted Gate 6 decisions:
 
 Gate 7 adds `V46LocalInterfaceComprehensionRehearsal` as a source-safe
 generated artifact at `.bitcode/v46-local-interface-comprehension-rehearsal.json`.
-It rehearses local docs/landing, `/packs`, `/read`, `/deposit`, API/MCP,
+It rehearses local .docs/landing, `/packs`, `/read`, `/deposit`, API/MCP,
 ChatGPT App, Bitcode Chat, proof telemetry, and repair readback surfaces
 against the Gate 2 through Gate 6 claim and authority artifacts.
 

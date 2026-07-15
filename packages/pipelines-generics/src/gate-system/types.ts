@@ -48,25 +48,25 @@ export type MetaPhaseConfig = GateConfig;
  */
 export const GATE_CONFIGS: Record<Gate, GateConfig> = {
   Design: {
-    allowedFilePatterns: ['.ai/PRODUCT.md'],
+    allowedFilePatterns: ['.docs/PRODUCT.md'],
     collaborative: true,
-    primaryDocument: '.ai/PRODUCT.md',
+    primaryDocument: '.docs/PRODUCT.md',
   },
 
   Develop: {
     allowedFilePatterns: [
       '**/*',           // All files
-      '!.ai/**',        // Except .ai/ directory
-      '.ai/PRODUCT.md'  // But allow PRODUCT.md updates
+      '!.docs/**',        // Except .docs/ directory
+      '.docs/PRODUCT.md'  // But allow PRODUCT.md updates
     ],
     collaborative: false,
     selfInstructThreshold: 0.6,
   },
 
   Digest: {
-    allowedFilePatterns: ['.ai/AGENTS.md', '.ai/PRODUCT.md'],
+    allowedFilePatterns: ['.docs/AGENTS.md', '.docs/PRODUCT.md'],
     collaborative: true,
-    primaryDocument: '.ai/AGENTS.md',
+    primaryDocument: '.docs/AGENTS.md',
   },
 };
 
