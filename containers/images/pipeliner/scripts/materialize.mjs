@@ -11,7 +11,8 @@ import { spawnSync } from 'node:child_process';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const packageRoot = path.resolve(__dirname, '..');
 const distDir = path.join(packageRoot, 'dist');
-const monorepoRoot = path.resolve(packageRoot, '../..');
+// package lives at containers/images/pipeliner — monorepo root is three levels up.
+const monorepoRoot = path.resolve(packageRoot, '../../..');
 
 function buildDispatcherSource() {
   return `/**
@@ -75,6 +76,14 @@ async function main() {
     'packages/pipeline-hosts/tsconfig.json',
   );
   const hostsPkg = path.join(monorepoRoot, 'packages/pipeline-hosts');
+  try {
+    await access(hostsTsconfig);
+  } catch {
+    throw new Error(
+      `pipeline-hosts not found under monorepoRoot=${monorepoRoot} (expected packages/pipeline-hosts). ` +
+        `materialize.mjs monorepo depth is wrong for containers/images/pipeliner.`,
+    );
+  }
   const outAbs = path.resolve(distDir);
   // shell:true so PATH resolves pnpm when invoked under pnpm recursive run.
   const result = spawnSync(
@@ -88,7 +97,7 @@ async function main() {
   );
   if (result.error || result.status !== 0) {
     throw new Error(
-      `materialize-runners failed (status ${result.status}, error=${result.error?.message || 'none'}): ${result.stderr || result.stdout}`,
+      `materialize-runners failed (status ${result.status}, error=${result.error?.message || 'none'}, cwd=${hostsPkg}): ${result.stderr || result.stdout}`,
     );
   }
 
