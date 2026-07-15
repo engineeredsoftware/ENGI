@@ -90,13 +90,14 @@ export function MarketingLandingTestnetSection() {
                   <div className="flex items-start justify-between gap-3">
                     <div className="inline-flex min-w-0 items-center gap-2.5">
                       <span
-                        className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-none border ${
+                        className={`inline-flex h-[2.125rem] w-[2.125rem] shrink-0 items-center justify-center rounded-none border ${
                           isComingSoon
                             ? 'border-white/8 bg-white/[0.03] text-neutral-500'
                             : 'border-emerald-300/25 bg-emerald-400/10 text-emerald-200'
                         }`}
                       >
-                        <Icon className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
+                        {/* Mid size shared with Selling Knowledge squares (~34px square, 20px glyph). */}
+                        <Icon className="h-5 w-5" strokeWidth={1.5} aria-hidden="true" />
                       </span>
                       <span
                         className={`text-[13px] font-semibold ${

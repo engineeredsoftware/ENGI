@@ -360,10 +360,10 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                         <div className="relative">
                           <div className="flex items-center gap-3">
                             <span
-                              className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/[0.04] ${iconClassName}`}
+                              className={`inline-flex h-[2.125rem] w-[2.125rem] shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/[0.04] ${iconClassName}`}
                             >
-                              {/* Larger glyph; square chrome stays h-9 w-9. */}
-                              <RowIcon className="h-6 w-6" strokeWidth={1.5} />
+                              {/* Mid size shared with product interface cards (~34px square, 20px glyph). */}
+                              <RowIcon className="h-5 w-5" strokeWidth={1.5} />
                             </span>
                             <p className="text-[12px] uppercase tracking-[0.18em] text-emerald-200/62 tablet:text-[13px] laptop:text-[12px]">
                               {key}
