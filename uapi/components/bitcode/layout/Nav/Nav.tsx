@@ -77,6 +77,15 @@ const publicActionClassName =
 const publicSecondaryActionClassName =
   'flex-1 rounded-none border border-white/12 bg-white/5 px-4 py-2 text-center text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10 tablet:flex-none';
 
+/**
+ * Fixed right-chrome band for product / workspace nav.
+ * Reserves the wider of: Connect Wallet CTA, "Reading wallet", or
+ * BTD tracker + notification + profile (h-8 siblings). Prevents center
+ * route links from shifting when wallet readiness resolves.
+ */
+const NAV_RIGHT_CHROME_SLOT_CLASS =
+  'nav-right-chrome-slot flex w-full shrink-0 items-center justify-end tablet:w-[21rem] tablet:min-w-[21rem] tablet:max-w-[21rem]';
+
 const disabledActionClassName =
   'cursor-not-allowed border-white/10 bg-white/[0.025] text-neutral-400 opacity-65 grayscale hover:border-white/10 hover:bg-white/[0.025] hover:text-neutral-400';
 
@@ -304,11 +313,11 @@ export default function Nav() {
   const walletReadinessLoadingActions =
     (usesProductChrome || usesWorkspaceOnlyChrome) && isWalletReadinessLoading ? (
       <div
-        className={`${controlsEntranceClassName} flex items-center justify-end`}
+        className={`${controlsEntranceClassName} flex h-8 w-full items-center justify-end`}
         data-testid="nav-wallet-readiness-loading"
         aria-live="polite"
       >
-        <span className="inline-flex items-center gap-2 rounded-none border border-white/10 bg-white/[0.045] px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-200 shadow-[0_0_20px_rgba(255,255,255,0.06)]">
+        <span className="inline-flex h-8 max-h-8 min-h-8 items-center gap-2 rounded-none border border-white/10 bg-white/[0.045] px-4 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-200 shadow-[0_0_20px_rgba(255,255,255,0.06)]">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-300 shadow-[0_0_10px_rgba(110,231,183,0.8)]" />
           Reading wallet
         </span>
@@ -337,7 +346,7 @@ export default function Nav() {
   );
 
   const workspaceGuestActions = usesWorkspaceOnlyChrome && !hasChromeWalletIdentity && !isWalletReadinessLoading ? (
-    <div className={`${controlsEntranceClassName} flex items-center gap-2.5`}>
+    <div className={`${controlsEntranceClassName} flex h-8 w-full items-center justify-end`}>
       {disableCreateAccount ? (
         <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.createAccount}>
           {renderConnectWalletCta()}
@@ -349,9 +358,9 @@ export default function Nav() {
   ) : null;
 
   const publicGuestActions = usesProductChrome && !hasChromeWalletIdentity && !isWalletReadinessLoading ? (
-    <div className={`${controlsEntranceClassName} flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-2.5`}>
+    <div className={`${controlsEntranceClassName} flex h-8 w-full items-center justify-end`}>
       {disableCreateAccount ? (
-        <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.createAccount} className="flex-1 tablet:flex-none">
+        <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.createAccount}>
           {renderConnectWalletCta()}
         </DisabledTooltipWrapper>
       ) : (
@@ -538,7 +547,14 @@ export default function Nav() {
             )}
           </div>
 
-          <div className={usesProductChrome ? 'flex w-full flex-wrap items-center gap-2 tablet:w-auto tablet:flex-nowrap tablet:justify-end tablet:gap-4' : 'flex items-center justify-center space-x-4'}>
+          <div
+            data-testid="nav-right-chrome"
+            className={
+              usesProductChrome || usesWorkspaceOnlyChrome
+                ? NAV_RIGHT_CHROME_SLOT_CLASS
+                : 'flex items-center justify-center space-x-4'
+            }
+          >
             {walletReadinessLoadingActions ? (
               walletReadinessLoadingActions
             ) : workspaceGuestActions ? (
@@ -546,7 +562,7 @@ export default function Nav() {
             ) : publicGuestActions ? (
               publicGuestActions
             ) : hasChromeWalletIdentity ? (
-              <div className={`${controlsEntranceClassName} flex h-8 items-center gap-3.5`}>
+              <div className={`${controlsEntranceClassName} flex h-8 w-full items-center justify-end gap-3.5`}>
                 {!FEATURE_FLAGS.HIDE_BTD_TRACKER && (
                   <MemoBTDTracker
                     btdBalance={btdBalance}

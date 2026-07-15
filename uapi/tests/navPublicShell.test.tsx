@@ -107,6 +107,7 @@ describe('Nav public shell', () => {
     render(<Nav />);
 
     const createButton = screen.getByRole('button', { name: 'Connect Wallet' });
+    const rightChrome = screen.getByTestId('nav-right-chrome');
 
     expect(screen.getByText('Brand home')).toBeInTheDocument();
     // Product order: Read | Packs | Deposit (docs lives in logo-area NavBrand).
@@ -120,6 +121,9 @@ describe('Nav public shell', () => {
     expect(screen.getByRole('button', { name: 'Explain Read' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Explain Docs' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
+    // Fixed right band so Reading wallet ↔ Connect ↔ balances never reflow links.
+    expect(rightChrome.className).toMatch(/tablet:w-\[21rem\]/);
+    expect(rightChrome.className).toMatch(/tablet:min-w-\[21rem\]/);
 
     fireEvent.mouseEnter(createButton);
     fireEvent.click(createButton);
@@ -144,6 +148,9 @@ describe('Nav public shell', () => {
     render(<Nav />);
 
     expect(screen.getByTestId('nav-wallet-readiness-loading')).toHaveTextContent('Reading wallet');
+    expect(screen.getByTestId('nav-right-chrome')).toContainElement(
+      screen.getByTestId('nav-wallet-readiness-loading'),
+    );
     expect(screen.queryByRole('button', { name: 'Connect Wallet' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
   });
