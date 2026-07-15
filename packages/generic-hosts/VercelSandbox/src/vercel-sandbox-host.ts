@@ -1,3 +1,8 @@
+import fs from 'node:fs';
+import { createRequire } from 'node:module';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+
 import type {
   PipelineHostCommand,
   PipelineHostEvent,
@@ -487,12 +492,76 @@ export function assertVercelSandboxAuthAvailable(
   );
 }
 
-export async function loadVercelSandboxFactory(): Promise<SandboxFactory> {
-  const module = await import('@vercel/sandbox') as { Sandbox?: SandboxFactory };
-  if (!module.Sandbox?.create) {
-    throw new Error('@vercel/sandbox did not expose Sandbox.create().');
+/**
+ * Resolve the pure-ESM entry of `@vercel/sandbox` as a file:// URL.
+ *
+ * Package root resolution under Next/CJS serverless can load `dist/index.cjs`
+ * → `command.cjs`, which does `require('@workflow/serde')`. That package is
+ * pure ESM, so Node throws ERR_REQUIRE_ESM on Vercel `/var/task`. The ESM
+ * graph (`dist/index.js`) imports serde correctly.
+ */
+export function resolveVercelSandboxEsmEntryHref(
+  resolveId: (id: string) => string = defaultResolvePackageId,
+): string {
+  const root = resolveVercelSandboxPackageRoot(resolveId);
+  const esmIndex = path.join(root, 'dist', 'index.js');
+  return pathToFileURL(esmIndex).href;
+}
+
+export function resolveVercelSandboxPackageRoot(
+  resolveId: (id: string) => string = defaultResolvePackageId,
+): string {
+  try {
+    return path.dirname(resolveId('@vercel/sandbox/package.json'));
+  } catch {
+    // Incomplete exports / hoisting: resolve a runtime file and walk up until
+    // package.json name is @vercel/sandbox.
+    let dir = path.dirname(resolveId('@vercel/sandbox'));
+    for (let i = 0; i < 8; i++) {
+      const candidate = path.join(dir, 'package.json');
+      try {
+        const pkg = JSON.parse(fs.readFileSync(candidate, 'utf8')) as { name?: string };
+        if (pkg.name === '@vercel/sandbox') return dir;
+      } catch {
+        // keep walking
+      }
+      const parent = path.dirname(dir);
+      if (parent === dir) break;
+      dir = parent;
+    }
+    throw new Error('Could not resolve @vercel/sandbox package root for ESM load.');
   }
-  return module.Sandbox;
+}
+
+function defaultResolvePackageId(id: string): string {
+  // createRequire needs a filepath anchor; cwd package.json works under Next,
+  // Jest, and monorepo package tests without import.meta.
+  const req = createRequire(path.join(process.cwd(), 'package.json'));
+  return req.resolve(id);
+}
+
+export async function loadVercelSandboxFactory(): Promise<SandboxFactory> {
+  const esmHref = resolveVercelSandboxEsmEntryHref();
+  // webpackIgnore: do not rewrite to a CJS interop chunk; load Node-native ESM.
+  const module = (await import(
+    /* webpackIgnore: true */
+    esmHref
+  )) as {
+    Sandbox?: SandboxFactory;
+    default?: SandboxFactory | { Sandbox?: SandboxFactory };
+  };
+
+  const fromDefault =
+    module.default && typeof module.default === 'object'
+      ? module.default.Sandbox
+      : undefined;
+  const Sandbox = module.Sandbox ?? fromDefault;
+  if (!Sandbox?.create) {
+    throw new Error(
+      `@vercel/sandbox did not expose Sandbox.create() (ESM entry ${esmHref}).`,
+    );
+  }
+  return Sandbox;
 }
 
 async function readCommandOutput(

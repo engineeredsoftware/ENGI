@@ -23,7 +23,7 @@
     "type-check": "pnpm run typecheck"
   },
   "dependencies": {
-    "@vercel/sandbox": "^1.10.2",
+    "@vercel/sandbox": "2.6.0",
     "@bitcode/host-generics": "workspace:*",
     "@bitcode/generic-hosts-local": "workspace:*",
     "@bitcode/generic-hosts-vercel-sandbox": "workspace:*"

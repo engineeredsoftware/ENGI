@@ -73,8 +73,14 @@ let nextConfig = {
     // Allow importing source files from outside the `uapi` package directory.
     externalDir: true,
     // Keep the Vercel Sandbox SDK as a traced Node runtime package. Bundling it
-    // pulls in undici syntax newer than this Next/SWC build pipeline accepts.
-    serverComponentsExternalPackages: ['@vercel/sandbox'],
+    // pulls in undici syntax newer than this Next/SWC build pipeline accepts,
+    // and can force the CJS graph (command.cjs → require(@workflow/serde) →
+    // ERR_REQUIRE_ESM on Vercel). Host code loads the pure-ESM entry at runtime.
+    serverComponentsExternalPackages: [
+      '@vercel/sandbox',
+      '@workflow/serde',
+      '@vercel/oidc',
+    ],
   },
   // Transpile workspace packages that the Next app imports directly or
   // transitively so webpack/SWC can handle TS/ESM + monorepo paths.

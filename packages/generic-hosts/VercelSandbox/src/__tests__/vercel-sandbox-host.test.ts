@@ -1,6 +1,11 @@
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+
 import { buildAssetPackSandboxHostPlan } from '@bitcode/pipeline-hosts';
 import {
+  assertVercelSandboxAuthAvailable,
   normalizeCreateOptions,
+  resolveVercelSandboxEsmEntryHref,
   VercelSandboxPipelineHost,
 } from '../vercel-sandbox-host';
 import type {
@@ -387,6 +392,44 @@ describe('VercelSandboxPipelineHost', () => {
     await expect(host.runHostPlan(plan)).rejects.toThrow(
       'Vercel Sandbox create did not complete within 5ms.'
     );
+  });
+
+  it('resolves the pure-ESM @vercel/sandbox entry (not dist/index.cjs)', () => {
+    const href = resolveVercelSandboxEsmEntryHref((id) => {
+      if (id === '@vercel/sandbox/package.json') {
+        return path.join('/virtual/node_modules/@vercel/sandbox', 'package.json');
+      }
+      throw new Error(`unexpected resolve: ${id}`);
+    });
+    expect(href).toBe(
+      pathToFileURL(path.join('/virtual/node_modules/@vercel/sandbox/dist/index.js')).href,
+    );
+    expect(href.endsWith('/dist/index.js')).toBe(true);
+    expect(href.includes('index.cjs')).toBe(false);
+  });
+
+  it('accepts access-token auth when OIDC is absent', () => {
+    const previous = {
+      VERCEL_TOKEN: process.env.VERCEL_TOKEN,
+      VERCEL_TEAM_ID: process.env.VERCEL_TEAM_ID,
+      VERCEL_PROJECT_ID: process.env.VERCEL_PROJECT_ID,
+      VERCEL_OIDC_TOKEN: process.env.VERCEL_OIDC_TOKEN,
+    };
+    try {
+      delete process.env.VERCEL_OIDC_TOKEN;
+      process.env.VERCEL_TOKEN = 'tok';
+      process.env.VERCEL_TEAM_ID = 'team';
+      process.env.VERCEL_PROJECT_ID = 'prj';
+      expect(() => assertVercelSandboxAuthAvailable()).not.toThrow();
+
+      delete process.env.VERCEL_TOKEN;
+      expect(() => assertVercelSandboxAuthAvailable()).toThrow(/Sandbox auth is not configured/);
+    } finally {
+      restoreEnv('VERCEL_TOKEN', previous.VERCEL_TOKEN);
+      restoreEnv('VERCEL_TEAM_ID', previous.VERCEL_TEAM_ID);
+      restoreEnv('VERCEL_PROJECT_ID', previous.VERCEL_PROJECT_ID);
+      restoreEnv('VERCEL_OIDC_TOKEN', previous.VERCEL_OIDC_TOKEN);
+    }
   });
 });
 
