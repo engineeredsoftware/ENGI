@@ -83,7 +83,7 @@ Binding rebuild law: `BITCODE_SPEC_V48.md` measurement law + §G3-1…G3-15.
 3. `NOTES` — architecture intent (not stronger than SPEC)
 4. `DELTA` — version decisions
 5. `PARITY_MATRIX` — spec ↔ source ↔ tests ↔ gates
-6. `_PROVEN_` + `.bitcode/vN-*` — generated proof artifacts
+6. `_PROVEN_` + `.proofs/vN-*` — generated proof artifacts
 
 **Complete Implementation Derivability:** a reader must rebuild current Bitcode
 from the active family alone — no silent inheritance from older specs or source.
@@ -438,7 +438,7 @@ bitcode/
 ├── apps/ # uapi, mcp, chatgpt, claude
 ├── supabase/ # migrations, queries, seed
 ├── scripts/ # gate checkers, promotion, generators (+ specifying/)
-├── .bitcode/ # generated structured artifacts
+├── .proofs/ # generated structured artifacts
 ├── .fixtures/ # monorepo JSON fixtures
 ├── .fundraising/ # non-product fundraising materials
 ├── .codemods/ # temporary one-off codemods
@@ -810,7 +810,7 @@ or provider payloads.
 
 ### 8.5 Generated canon
 
-`.bitcode/vN-*.json` + `BITCODE_SPEC_VN_PROVEN.md` are generated; do not hand-edit
+`.proofs/vN-*.json` + `BITCODE_SPEC_VN_PROVEN.md` are generated; do not hand-edit
 as if they were source of product law.
 
 ---
@@ -941,7 +941,7 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | **Deposit** | IP-seller path: connect source → synthesize options → review → admit. Route `/deposits`. |
 | **Delivery** | Post-settlement entitled handoff of AssetPack material under rights. |
 | **Finding Fits** | Read path step: match Need against Depository supply. |
-| **Forced Inclusions / Exclusions** | Deposit inputs that force path include/exclude sets (and secret exclusion). |
+| **Permissible sources / Exclusions** | Deposit inputs that force path include/exclude sets (and secret exclusion). |
 | **Journal** | BTD ledger language (rows, reconciliation) — not “Pipeline”. |
 | **Measurement** | Grounded basis of price: absolute on deposit; Need-relative fit on read. |
 | **Need** | Reader-side demand descriptor synthesized for finding fits. |
@@ -1080,7 +1080,7 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 | **NOTES** | Architecture intent ledger (`BITCODE_SPEC_VN_NOTES.md`) — weaker than SPEC body. |
 | **Parity matrix** | Spec claim ↔ source ↔ tests ↔ gates ledger. |
 | **Promotion** | Version PR to `main` after all gates closed; updates `BITCODE_SPEC.txt` pointer under workflow rules. |
-| **PROVEN** | Generated proof appendix / `.bitcode/vN-*` artifacts. |
+| **PROVEN** | Generated proof appendix / `.proofs/vN-*` artifacts. |
 | **QA finding tag** | Fully-qualified `V48-GateN-F*` in code comments and QA ledger (never bare `F26-B`). |
 | **Spec family** | Hand-authored SPEC + DELTA + NOTES + PARITY (+ PROVEN) for a version. |
 | **`(spec-only)` / `(impl-only)` / `(spec-impl)`** | Only legal Spec/Impl commit/PR subject labels (abbreviated; never expanded forms). |

@@ -79,11 +79,11 @@ export const mcpApiReference = [
         useWhen:
           'Synthesize Deposit AssetPack options from a repository with obfuscations — same law as /deposits.',
         howToUse:
-          'Pass repository, obfuscations (empty allowed), optional forced inclusions/exclusions, streaming. Requires confirmation (write).',
+          'Pass repository, obfuscations (empty allowed), optional permissible sources/exclusions, streaming. Requires confirmation (write).',
         inputs: [
           'repository: required RepositoryContext.',
           'obfuscations: required string (may be empty).',
-          'forcedInclusions, forcedExclusions, streaming, organizationId, connections, attachments.',
+          'permissibleSources, impermissibleSources, streaming, organizationId, connections, attachments.',
         ],
         outputs: [
           'runId and assetPackEvidenceId for /packs reread.',

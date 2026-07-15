@@ -71,7 +71,7 @@ These are commercially legible **knowledge groups**, not file dumps.
 
 - Prompts and review surfaces reason over **paths, samples, measurements, and natural-language summaries**.
 - Full checkout **file bodies** live on the Host / `deposit:sourceCheckoutCatalog.sources` for measurement tools — they are **not** dual-written into telemetried `pipeline:input` and are **not** the default durable Finish bundle.
-- Obfuscations + Forced Exclusions never appear as pack content; violators are dropped or flagged.
+- Obfuscations + Impermissible sources never appear as pack content; violators are dropped or flagged.
 
 ### 1.4 Deposit vs read (product split)
 
@@ -207,7 +207,7 @@ There is **no** separate “inventory agent” and **no** Fits Finding under dep
 | Host | Isolated workspace; full-tree clone or adopt |
 | **sourceCheckoutCatalog** | Canonical path list + samples + optional full `sources[]` for measurement |
 | Obfuscations | Free-text “what to withhold” |
-| Forced Inclusions / Exclusions | Path bounds (exclusions fail-closed) |
+| Permissible sources / Exclusions | Path bounds (exclusions fail-closed) |
 | demandContext | Optional demand signals for depository search / neediness |
 | Hooks (optional) | `deposit:persistArtifacts`, `deposit:ledgerWrite` |
 
@@ -287,7 +287,7 @@ Implementation lives in `packages/asset-packs-pipelines/domain/src/phases/deposi
 | | |
 |--|--|
 | **Objective** | Map free-text Obfuscations onto **sourceCheckoutCatalog** paths/concepts |
-| **Empty Obfuscations** | Skip LLM; empty guidance; Forced Exclusions remain authoritative |
+| **Empty Obfuscations** | Skip LLM; empty guidance; Impermissible sources remain authoritative |
 | **Prompt parts** | `agent:identity`, `agent:requirements`, `ptrr:plan|try|refine|retry` |
 | **Output schema** | `{ comprehension: { summary, obfuscatedPaths?, obfuscatedConcepts?, honorNotes? } }` |
 | **Stores** | `setup:inputComprehension`, `setup:obfuscationComprehension` (shared root) |
@@ -444,7 +444,7 @@ One agent. Three check families (A/B/C), plus DIV gate.
 |-------|---------|
 | **A Prior phase sanity** | workspacePath; danger-wall admission; sourceCheckoutCatalog.paths; Discovery products; non-empty Implementation options |
 | **B Pack quality** | Each pack = patch + measurements + metadata; distinctness; source-safety; absolute kinds present |
-| **C Obfuscations / Forced Exclusions** | covered paths + patch paths vs blocked prefixes |
+| **C Obfuscations / Impermissible sources** | covered paths + patch paths vs blocked prefixes |
 
 #### Qualitative PTRR output schema
 
@@ -570,7 +570,7 @@ Without this law, Setup obfuscation guidance would be invisible to Implementatio
 | Namespace | Examples |
 |-----------|----------|
 | `pipeline` | `input` (projected), `synthesizeMode` |
-| `deposit` | `repository`, `obfuscations`, `forcedExclusions`, `forcedInclusions`, `demandContext`, **`sourceCheckoutCatalog`**, hooks |
+| `deposit` | `repository`, `obfuscations`, `impermissibleSources`, `permissibleSources`, `demandContext`, **`sourceCheckoutCatalog`**, hooks |
 | `repository` | `workspacePath` |
 | `setup` | `inputComprehension`, `admission`, `dangerWall` |
 | `setup/lsp` | `initialized`, `workspacePath` |
@@ -636,7 +636,7 @@ Tools map (roster keys) lives under `packages/asset-packs-pipelines/domain/src/t
 
 Bitcode does **not** claim a global optimum. It optimizes **depositor-facing supply quality** through stacked constraints:
 
-1. **Scope control** — Forced Inclusion/Exclusion + Obfuscations shrink admissible knowledge.  
+1. **Scope control** — Permissible sources/Exclusion + Obfuscations shrink admissible knowledge.  
 2. **Measured structure** — Checkout absolutes + tree + LSP reveal real capability density.  
 3. **Demand alignment** — Depository search + needinessSignal bias packs toward underserved, buyable topics.  
 4. **Pattern prior** — Inherent regurgitation avoids naive or anti-pattern groupings.  

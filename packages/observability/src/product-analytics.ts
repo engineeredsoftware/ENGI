@@ -40,9 +40,9 @@ export type ProductEvent =
       name: "deposit_synthesis_dispatched";
       data: {
         hasObfuscations: boolean;
-        /** Forced Inclusion path count (scope shape only). */
-        forcedInclusionCount: number;
-        forcedExclusionCount: number;
+        /** Permissible sources path count (scope shape only). */
+        permissibleSourceCount: number;
+        impermissibleSourceCount: number;
         demandSignalCount: number;
       };
     }

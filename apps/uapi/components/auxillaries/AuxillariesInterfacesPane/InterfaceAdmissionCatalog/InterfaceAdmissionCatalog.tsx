@@ -12,7 +12,7 @@ export interface InterfaceAdmissionCatalogProps {
 
 export default function InterfaceAdmissionCatalog({ admissionRecords }: InterfaceAdmissionCatalogProps) {
   return (
-    <div className="grid gap-3 lg:grid-cols-2" data-testid="auxillaries-interface-admission-catalog">
+    <div className="grid min-w-0 gap-3 laptop:grid-cols-2" data-testid="auxillaries-interface-admission-catalog">
       {admissionRecords.length > 0 ? (
         admissionRecords.map((admission) => {
           const admissionRoot =
@@ -60,7 +60,7 @@ export default function InterfaceAdmissionCatalog({ admissionRecords }: Interfac
                 </span>
               </div>
 
-              <dl className="mt-4 grid gap-3 text-sm text-white/72 sm:grid-cols-2">
+              <dl className="mt-4 grid min-w-0 gap-3 text-sm text-white/72 phone:grid-cols-2">
                 <div>
                   <dt className="text-xs uppercase tracking-[0.18em] text-white/40">Auth</dt>
                   <dd className="mt-1 font-medium text-white/86">
@@ -73,23 +73,23 @@ export default function InterfaceAdmissionCatalog({ admissionRecords }: Interfac
                     {formatAdmissionValue(admission.sourceSafetyClass)}
                   </dd>
                 </div>
-                <div className="sm:col-span-2">
+                <div className="phone:col-span-2">
                   <dt className="text-xs uppercase tracking-[0.18em] text-white/40">Supported</dt>
                   <dd className="mt-1">{formatAdmissionList(supportedActions)}</dd>
                 </div>
-                <div className="sm:col-span-2">
+                <div className="phone:col-span-2">
                   <dt className="text-xs uppercase tracking-[0.18em] text-white/40">Admitted now</dt>
                   <dd className="mt-1">{formatAdmissionList(allowedActions)}</dd>
                 </div>
-                <div className="sm:col-span-2">
+                <div className="phone:col-span-2">
                   <dt className="text-xs uppercase tracking-[0.18em] text-white/40">Policy</dt>
                   <dd className="mt-1">{formatAdmissionList(policyRequirements)}</dd>
                 </div>
-                <div className="sm:col-span-2">
+                <div className="phone:col-span-2">
                   <dt className="text-xs uppercase tracking-[0.18em] text-white/40">Blockers</dt>
                   <dd className="mt-1">{formatAdmissionList(blockers)}</dd>
                 </div>
-                <div className="sm:col-span-2">
+                <div className="phone:col-span-2">
                   <dt className="text-xs uppercase tracking-[0.18em] text-white/40">Root</dt>
                   <dd className="mt-1 break-all font-mono text-xs text-white/60">{admissionRoot}</dd>
                 </div>

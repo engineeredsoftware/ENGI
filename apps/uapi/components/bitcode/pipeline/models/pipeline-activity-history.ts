@@ -230,8 +230,8 @@ export function normalizeObfuscationsAnchorPaths(
  */
 export function formatObfuscationsAnchorDescription(input: {
   text: string;
-  forcedInclusions?: string[] | null;
-  forcedExclusions?: string[] | null;
+  permissibleSources?: string[] | null;
+  impermissibleSources?: string[] | null;
   /** Max characters of the Obfuscations body before an ellipsis (default 40). */
   textClipLength?: number;
 }): string {
@@ -239,9 +239,9 @@ export function formatObfuscationsAnchorDescription(input: {
   const raw = typeof input.text === 'string' ? input.text.trim().replace(/\s+/g, ' ') : '';
   const clipped =
     raw.length > clipAt ? `${raw.slice(0, clipAt).trimEnd()}…` : raw || '(empty)';
-  const hintCount = normalizeObfuscationsAnchorPaths(input.forcedInclusions).length;
+  const hintCount = normalizeObfuscationsAnchorPaths(input.permissibleSources).length;
   const exclusionCount = normalizeObfuscationsAnchorPaths(
-    input.forcedExclusions,
+    input.impermissibleSources,
   ).length;
   const hintsLabel = `${hintCount} hint ${hintCount === 1 ? 'file' : 'files'}`;
   const exclusionsLabel = `${exclusionCount} exclusion ${
@@ -578,17 +578,17 @@ export function buildProductObfuscationsAnchorDraft(input: {
   /** Optional human label for the anchor (shown in the Load-anchor dropdown). */
   name?: string | null;
   repositoryFullName?: string | null;
-  forcedInclusions?: string[] | null;
-  forcedExclusions?: string[] | null;
+  permissibleSources?: string[] | null;
+  impermissibleSources?: string[] | null;
 }): ProductActivityRecordDraft {
   const text = input.obfuscations.trim();
   const name =
     typeof input.name === 'string' && input.name.trim()
       ? input.name.trim().slice(0, 80)
       : null;
-  const forcedInclusions = normalizeObfuscationsAnchorPaths(input.forcedInclusions);
-  const forcedExclusions = normalizeObfuscationsAnchorPaths(
-    input.forcedExclusions,
+  const permissibleSources = normalizeObfuscationsAnchorPaths(input.permissibleSources);
+  const impermissibleSources = normalizeObfuscationsAnchorPaths(
+    input.impermissibleSources,
   );
   const namedPrefix = name ? `"${name}" ` : '';
   const repoSuffix = input.repositoryFullName
@@ -602,10 +602,10 @@ export function buildProductObfuscationsAnchorDraft(input: {
       obfuscationsAnchor: {
         text,
         name,
-        forcedInclusions,
-        forcedExclusions,
-        forcedInclusionCount: forcedInclusions.length,
-        forcedExclusionCount: forcedExclusions.length,
+        permissibleSources,
+        impermissibleSources,
+        permissibleSourceCount: permissibleSources.length,
+        impermissibleSourceCount: impermissibleSources.length,
         repositoryFullName: input.repositoryFullName || null,
         anchoredAt: new Date().toISOString(),
       },
@@ -615,8 +615,8 @@ export function buildProductObfuscationsAnchorDraft(input: {
       repositoryFullName: input.repositoryFullName || null,
       // Source-safe label + counts only — never the full Obfuscations body.
       obfuscationsAnchorName: name,
-      forcedInclusionCount: forcedInclusions.length,
-      forcedExclusionCount: forcedExclusions.length,
+      permissibleSourceCount: permissibleSources.length,
+      impermissibleSourceCount: impermissibleSources.length,
     },
   };
 }
@@ -686,19 +686,19 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
       readNestedString(run.output, ['obfuscationsAnchor', 'name']) ||
       contextString('obfuscationsAnchorName'),
     // Prefer renamed keys; fall back to pre-rename anchor payloads still on disk.
-    obfuscationsAnchorForcedInclusions: (() => {
+    obfuscationsAnchorPermissibleSources: (() => {
       const next = readNestedStringArray(run.output, [
         'obfuscationsAnchor',
-        'forcedInclusions',
+        'permissibleSources',
       ]);
       return next.length
         ? next
         : readNestedStringArray(run.output, ['obfuscationsAnchor', 'sourcePathHints']);
     })(),
-    obfuscationsAnchorForcedExclusions: (() => {
+    obfuscationsAnchorImpermissibleSources: (() => {
       const next = readNestedStringArray(run.output, [
         'obfuscationsAnchor',
-        'forcedExclusions',
+        'impermissibleSources',
       ]);
       return next.length
         ? next

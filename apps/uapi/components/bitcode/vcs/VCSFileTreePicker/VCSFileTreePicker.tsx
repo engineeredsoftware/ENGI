@@ -29,7 +29,7 @@ interface VCSFileTreePickerProps {
   onChange: (nextPaths: string[]) => void;
   /** Paths selected by the counterpart picker — disabled here. */
   conflictingPaths?: string[];
-  /** Why a conflicting row is disabled (e.g. 'Already a Forced Inclusion'). */
+  /** Why a conflicting row is disabled (e.g. 'Already a Permissible sources'). */
   conflictLabel?: string;
   emptyLabel?: string;
   /** When true, selection is frozen (run-detail lock). Expand still works. */

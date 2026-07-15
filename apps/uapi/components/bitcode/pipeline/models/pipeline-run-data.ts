@@ -48,8 +48,8 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   // "load a previous anchor" selector.
   obfuscationsAnchorText?: string | null;
   obfuscationsAnchorName?: string | null;
-  obfuscationsAnchorForcedInclusions?: string[] | null;
-  obfuscationsAnchorForcedExclusions?: string[] | null;
+  obfuscationsAnchorPermissibleSources?: string[] | null;
+  obfuscationsAnchorImpermissibleSources?: string[] | null;
 };
 
 export const MOCK_RUNS: WorkspaceRun[] = [

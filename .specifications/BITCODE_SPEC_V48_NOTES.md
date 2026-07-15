@@ -10,7 +10,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V47.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md`
 - V48 state: draft full-stack single-canon family open; Gate 3 synthesis pipeline correctness closing
-- Generated structured artifact inventory: draft V48 family (`.bitcode/v48-spec-family-report.json`, `.bitcode/v48-canonical-input-report.json`, `.bitcode/v48-canon-posture-drift-report.json` when regenerated), Gate 3 depositing parity evidence, and `BITCODE_SPEC_V48_PROVEN.md`
+- Generated structured artifact inventory: draft V48 family (`.proofs/v48/spec-family-report.json`, `.proofs/v48/canonical-input-report.json`, `.proofs/v48/canon-posture-drift-report.json` when regenerated), Gate 3 depositing parity evidence, and `BITCODE_SPEC_V48_PROVEN.md`
 - Source parity state: V48 Gate 1–3 identity, deposit SDIVF synthesis, telemetry, demand honesty, organization/wallet authority, and commercial website surfaces are specified for rebuild from `BITCODE_SPEC_V48.md`; this notes companion records architecture decisions and the depositing parity matrix
 - Scope: V48 full-system draft notes companion for Complete Implementation Derivability through Gate 3
 - QA findings ledger: `BITCODE_V48_QA.md`
@@ -592,7 +592,7 @@ Checker posture (meta specifying — `BITCODE_SPECIFYING.md` §4.3 / §13.1):
 canon-at-that-time**; the **living full-system check** for the draft/active
 pointer must be all-encompassing and completely correct for present sole-canon.
 Gate checkers literal-matching the old routes are era-pinned (V43–V47) and do
-not run at the current pointer; frozen `.bitcode/` era artifacts and promoted
+not run at the current pointer; frozen `.proofs/` era artifacts and promoted
 spec families keep the historical route names. The standalone `.mjs` gate
 checkers are pointer-gated in the workflow; the `@bitcode/specifying` **test
 suite** (`node --test test/*.test.js`, run unconditionally by Gate Quality)
@@ -1191,7 +1191,7 @@ option projection); real in-sandbox execution is verified against deployed sandb
 **Gate 3 closed for product law + implementation.** Remaining ops (optional):
 - **Deployment config**: set `BITCODE_PIPELINE_HOST=sandbox` on prod when durable
  in-box runs are desired (`@vercel/sandbox`, OIDC or token+team+project).
-- **Live operator smoke**: one scoped deposit (Forced Inclusions recommended on
+- **Live operator smoke**: one scoped deposit (Permissible sources recommended on
  large monorepos) + cancel smoke; fill `BITCODE_V48_QA.md` §6 runbook when convenient.
 
 These ops items do **not** block Gate 3 PR merge into `version/v48` once CI is green.
@@ -1812,7 +1812,7 @@ Product/runtime Host-domain identifiers no longer use the word **Harness**
 - `buildAssetPackSandboxHarness` → `buildAssetPackSandboxHostPlan`
 - `runDepositInBoxHarness` → `runDepositInBoxHost`
 - API route `/api/pipeline-harness` → `/api/pipeline-host`
-- Paths `.bitcode/pipeline-harness` → `.bitcode/pipeline-host`
+- Paths `.proofs/pipeline-harness` → `.proofs/pipeline-host`
 - Env: `BITCODE_*_HARNESS_*` → `BITCODE_*_HOST_*` / `BITCODE_PIPELINE_HOST_*` for run settings
 
 Historical V2x–V47 specs retain prior wording.

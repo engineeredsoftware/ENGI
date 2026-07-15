@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V47`
 - Prior canonical anchor: `BITCODE_SPEC_V47.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md`
-- Generated structured artifact inventory: draft V48 family (`.bitcode/v48-spec-family-report.json`, `.bitcode/v48-canonical-input-report.json`, `.bitcode/v48-canon-posture-drift-report.json` when regenerated), Gate 3 depositing parity evidence, and `BITCODE_SPEC_V48_PROVEN.md` as the draft generated proof appendix
+- Generated structured artifact inventory: draft V48 family (`.proofs/v48/spec-family-report.json`, `.proofs/v48/canonical-input-report.json`, `.proofs/v48/canon-posture-drift-report.json` when regenerated), Gate 3 depositing parity evidence, and `BITCODE_SPEC_V48_PROVEN.md` as the draft generated proof appendix
 - Source parity state: V48 Gate 1–3 source-side identity, deposit SDIVF synthesis, telemetry, demand honesty, organization/wallet authority, and commercial website surfaces are specified for rebuild from this single SPEC; later gates extend reading/settlement without silent inheritance from superseded files
 - Notes companion: `BITCODE_SPEC_V48_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V48_DELTA.md`
@@ -36,7 +36,7 @@ Gate 3 product defaults that must appear in any rebuild: Anthropic model
 `claude-haiku-4-5`, deposit-native SDIVF roster (no lens), DIV `maxIterations=1`,
 LLM call timeout 180s, **sourceCheckoutCatalog** (not inventory), AssetPack =
 patch + measurements + metadata with formal **ASSET_PACK_ABSOLUTES_CATALOG**,
-empty Obfuscations skip Setup LLM, Forced Inclusions/Exclusions path scope,
+empty Obfuscations skip Setup LLM, Permissible sources/Exclusions path scope,
 Unestimatable demand when settled Depository search cannot ground estimates.
 
 ## Canonical Bitcode executive summary
@@ -504,7 +504,7 @@ keys for the same agent loader.
 
 Bitcode optimizes **depositor-facing supply quality**, not a claimed global optimum:
 
-1. Scope control — Forced Inclusion/Exclusion + Obfuscations bound admissible knowledge.
+1. Scope control — Permissible sources/Exclusion + Obfuscations bound admissible knowledge.
 2. Measured structure — checkout absolutes + tree + LSP reveal capability density.
 3. Demand alignment — depository search + needinessSignal bias toward buyable topics.
 4. Pattern prior — inherent regurgitation avoids naive groupings.
@@ -553,7 +553,7 @@ Settled demand search may scan `executions` for admitted/settled AssetPack rows 
 
 | Method | Path | Law |
 |---|---|---|
-| POST | `/api/deposit/synthesize-options` | Auth required. Validate body (`repositoryFullName`, branch, commit, obfuscations, forcedInclusions, forcedExclusions, demand signals). Create `executions` row `running`. Register `waitUntil` continuation. Return `{ runId, status: 'dispatched' }` immediately. `maxDuration` high enough for deposit (800s class). Background: provision host → run SDIVF or sandbox host → validate candidates → build real option synthesis → ground neediness from settled packs → persist `output` **before** completion event. Fail-closed messages on zero options / cancel / timeout. |
+| POST | `/api/deposit/synthesize-options` | Auth required. Validate body (`repositoryFullName`, branch, commit, obfuscations, permissibleSources, impermissibleSources, demand signals). Create `executions` row `running`. Register `waitUntil` continuation. Return `{ runId, status: 'dispatched' }` immediately. `maxDuration` high enough for deposit (800s class). Background: provision host → run SDIVF or sandbox host → validate candidates → build real option synthesis → ground neediness from settled packs → persist `output` **before** completion event. Fail-closed messages on zero options / cancel / timeout. |
 | GET | `/api/deposit/demand-estimate` | Auth required. Query settled Depository packs; return `{ ok, estimate, signals }`. `estimatable:false` when corpus thin. |
 | GET | `/api/executions/history` | List owner runs (deposit-mode / deposit pipeline filters). |
 | GET | `/api/executions/history/[runId]` | Full row + optional event page; support `?tail=N` for last N events. |
@@ -569,7 +569,7 @@ Dispatch must use Vercel `waitUntil` (QA F31) — bare `void` after response is 
 | `local` | LocalHost + `apps/uapi/lib/deposit-source-provisioning` | Default when `BITCODE_PIPELINE_HOST` unset. Host **adopt this-run tree or clone** complete tree at SHA; Node fs workspace; build **sourceCheckoutCatalog** `{ paths, samples, sources? }`. |
 | `sandbox` | VercelSandbox host family | When `BITCODE_PIPELINE_HOST=sandbox`. Auth fail-closed. Deposit boxes **`persistent: false`**. Persist `context.sandboxId` for cancel. |
 
-Scope after provision: Forced Inclusions/Exclusions applied to catalog. Prompt path uses projection of **paths + samples only** — never full `sources` in prompts or telemetried `pipeline:input`.
+Scope after provision: Permissible sources/Exclusions applied to catalog. Prompt path uses projection of **paths + samples only** — never full `sources` in prompts or telemetried `pipeline:input`.
 
 **Host-only clone law:** Setup clone agent is the checkout authority for the SDIVF run; pre-Setup host provision may seed the Host, but deposit Setup does not use Fits Finding harness keys.
 
@@ -578,9 +578,9 @@ Scope after provision: Forced Inclusions/Exclusions applied to catalog. Prompt p
 | Input | Law |
 |---|---|
 | `repositoryFullName`, `sourceBranch`, `sourceCommit` | Required for synthesis |
-| `obfuscations` | Free-text withhold guidance. **Empty/whitespace → skip Setup obfuscation LLM**; store empty guidance (`comprehensionMode: empty-obfuscations-skip-llm`). Forced Exclusions remain authoritative. |
-| `forcedInclusions` | Non-empty → only those roots in-scope |
-| `forcedExclusions` | Fail-closed exclusion from catalog before prompts/measurement |
+| `obfuscations` | Free-text withhold guidance. **Empty/whitespace → skip Setup obfuscation LLM**; store empty guidance (`comprehensionMode: empty-obfuscations-skip-llm`). Impermissible sources remain authoritative. |
+| `permissibleSources` | Non-empty → only those roots in-scope |
+| `impermissibleSources` | Fail-closed exclusion from catalog before prompts/measurement |
 | `demandContext` | Optional demand signals; settled-Depository estimate preferred for earnings UI |
 | Hooks (optional) | `deposit:persistArtifacts`, `deposit:ledgerWrite` injected by dispatch |
 
@@ -600,8 +600,8 @@ Scope after provision: Forced Inclusions/Exclusions applied to catalog. Prompt p
 | `pipeline:synthesizeMode` | `deposit` |
 | `deposit:repository` | `{ url, owner, name, branch, commit, fullName }` |
 | `deposit:obfuscations` | string \| null |
-| `deposit:forcedInclusions` | string[] |
-| `deposit:forcedExclusions` | string[] |
+| `deposit:permissibleSources` | string[] |
+| `deposit:impermissibleSources` | string[] |
 | `deposit:demandContext` | array |
 | `deposit:sourceCheckoutCatalog` | Full catalog for measurement tools (when available) |
 
@@ -707,7 +707,7 @@ Stores: `implementation:options` **and** `implementation:assetPacks` (same array
 |---|---|
 | A Prior phase / tool sanity | workspacePath; danger-wall admission; sourceCheckoutCatalog.paths; Discovery products; non-empty options |
 | B Pack quality | Each pack = patch + measurements + metadata; distinctness; source-safety; absolute kinds present |
-| C Obfuscations / Forced Exclusions | covered paths + patch paths vs blocked prefixes |
+| C Obfuscations / Impermissible sources | covered paths + patch paths vs blocked prefixes |
 
 **Qualitative PTRR schema:**
 `{ issues: string[]; qualityScore: number; coverageGaps: string[]; recommendation: 'complete'|'iterate' }`.
@@ -893,7 +893,7 @@ Rebuild order in `buildDepositRouteSession` / `DepositPageClient`:
 |---|---|
 | Master table | Deposit pipeline runs; filters; select → URL `transactionId` |
 | Compose (+) | Open new deposit configuration |
-| Config | Editable until synthesis dispatched; Obfuscations + Forced Inclusions + Forced Exclusions |
+| Config | Editable until synthesis dispatched; Obfuscations + Permissible sources + Impermissible sources |
 | Telemetry accordion | Source-safe SDIVF stream for attached run |
 | Options cards | Kind, title, summary, contents panel, absolutes, neediness, policy, earning estimate, approve/archive |
 | Earnings panel | All-repos supply: Likely demand / Unfit Need / Expected compensation — Unestimatable when required |
@@ -1320,19 +1320,19 @@ roots only; no raw source.
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v48-spec-family-report.json` | `measurement-prompt`, `need-synthesis`, `fit-synthesis` | `typed-measurement-output` | `v48-inference-readback` | `BITCODE_SPEC_V48_PROVEN.md` | V46 inference and V48 measurement law |
-| Prompt-completeness | `.bitcode/v48-spec-family-report.json` | `measurement-prompts`, `visualization-prompts` | `prompt-identity-bound` | `v48-prompt-readback` | `BITCODE_SPEC_V48_PROVEN.md` | Prompt registry and V41/V46 canon |
-| Static-code-analysis | `.bitcode/v48-canonical-input-report.json` | `route-static-contracts`, `workflow-hooks` | `source-safety-static` | `v48-static-readback` | `BITCODE_SPEC_V48_PROVEN.md` | Current website source and workflows |
-| Verification-decisions | `.bitcode/v48-spec-family-report.json` | `seller-decision`, `buyer-decision` | `measurement-before-price` | `v48-decision-readback` | `BITCODE_SPEC_V48_PROVEN.md` | V48 state machine law |
-| Selection-and-materialization | `.bitcode/v48-spec-family-report.json` | `fit-selection`, `delivery-materialization` | `settlement-before-source` | `v48-materialization-readback` | `BITCODE_SPEC_V48_PROVEN.md` | Reading and delivery packages |
-| Authorization-and-sensitive-flow | `.bitcode/v48-canonical-input-report.json` | `identity`, `wallet`, `source-connection` | `authority-required` | `v48-authority-readback` | `BITCODE_SPEC_V48_PROVEN.md` | Auxillaries and route authority |
-| Settlement-source-to-shares | `.bitcode/v48-spec-family-report.json` | `quote`, `settlement`, `compensation` | `btctestnet-conservation` | `v48-settlement-readback` | `BITCODE_SPEC_V48_PROVEN.md` | BTD/BTC accounting canon |
-| Disclosure-boundary | `.bitcode/v48-canonical-input-report.json` | `preview`, `measurement-visualization` | `no-unpaid-source` | `v48-disclosure-readback` | `BITCODE_SPEC_V48_PROVEN.md` | V45/V46 source-safety canon |
-| Proof-contract | `.bitcode/v48-spec-family-report.json` | `proof-root`, `replay`, `repair` | `proof-readback-decides` | `v48-proof-readback` | `BITCODE_SPEC_V48_PROVEN.md` | Generated proof and workflow canon |
+| Inference-synthesis | `.proofs/v48/spec-family-report.json` | `measurement-prompt`, `need-synthesis`, `fit-synthesis` | `typed-measurement-output` | `v48-inference-readback` | `BITCODE_SPEC_V48_PROVEN.md` | V46 inference and V48 measurement law |
+| Prompt-completeness | `.proofs/v48/spec-family-report.json` | `measurement-prompts`, `visualization-prompts` | `prompt-identity-bound` | `v48-prompt-readback` | `BITCODE_SPEC_V48_PROVEN.md` | Prompt registry and V41/V46 canon |
+| Static-code-analysis | `.proofs/v48/canonical-input-report.json` | `route-static-contracts`, `workflow-hooks` | `source-safety-static` | `v48-static-readback` | `BITCODE_SPEC_V48_PROVEN.md` | Current website source and workflows |
+| Verification-decisions | `.proofs/v48/spec-family-report.json` | `seller-decision`, `buyer-decision` | `measurement-before-price` | `v48-decision-readback` | `BITCODE_SPEC_V48_PROVEN.md` | V48 state machine law |
+| Selection-and-materialization | `.proofs/v48/spec-family-report.json` | `fit-selection`, `delivery-materialization` | `settlement-before-source` | `v48-materialization-readback` | `BITCODE_SPEC_V48_PROVEN.md` | Reading and delivery packages |
+| Authorization-and-sensitive-flow | `.proofs/v48/canonical-input-report.json` | `identity`, `wallet`, `source-connection` | `authority-required` | `v48-authority-readback` | `BITCODE_SPEC_V48_PROVEN.md` | Auxillaries and route authority |
+| Settlement-source-to-shares | `.proofs/v48/spec-family-report.json` | `quote`, `settlement`, `compensation` | `btctestnet-conservation` | `v48-settlement-readback` | `BITCODE_SPEC_V48_PROVEN.md` | BTD/BTC accounting canon |
+| Disclosure-boundary | `.proofs/v48/canonical-input-report.json` | `preview`, `measurement-visualization` | `no-unpaid-source` | `v48-disclosure-readback` | `BITCODE_SPEC_V48_PROVEN.md` | V45/V46 source-safety canon |
+| Proof-contract | `.proofs/v48/spec-family-report.json` | `proof-root`, `replay`, `repair` | `proof-readback-decides` | `v48-proof-readback` | `BITCODE_SPEC_V48_PROVEN.md` | Generated proof and workflow canon |
 
 ### Inference-synthesis
 
-- proofArtifactPath: `.bitcode/v48-spec-family-report.json`
+- proofArtifactPath: `.proofs/v48/spec-family-report.json`
 - members: measurement prompts, Need synthesis, deposit option synthesis, Finding Fits, AssetPack synthesis
 - theoremIds: typed-measurement-output, inference-source-safety, measurement-before-price
 - replayStepIds: v48-inference-readback
@@ -1348,7 +1348,7 @@ roots only; no raw source.
 
 ### Prompt-completeness
 
-- proofArtifactPath: `.bitcode/v48-spec-family-report.json`
+- proofArtifactPath: `.proofs/v48/spec-family-report.json`
 - members: measurement PromptParts, seller visualization prompts, buyer visualization prompts
 - theoremIds: prompt-identity-bound, prompt-output-typed
 - replayStepIds: v48-prompt-readback
@@ -1364,7 +1364,7 @@ roots only; no raw source.
 
 ### Static-code-analysis
 
-- proofArtifactPath: `.bitcode/v48-canonical-input-report.json`
+- proofArtifactPath: `.proofs/v48/canonical-input-report.json`
 - members: route contracts, workflow hooks, no-source scans
 - theoremIds: source-safety-static, route-state-static
 - replayStepIds: v48-static-readback
@@ -1380,7 +1380,7 @@ roots only; no raw source.
 
 ### Verification-decisions
 
-- proofArtifactPath: `.bitcode/v48-spec-family-report.json`
+- proofArtifactPath: `.proofs/v48/spec-family-report.json`
 - members: seller approval, buyer payment, operator repair
 - theoremIds: measurement-before-price, proof-before-state
 - replayStepIds: v48-decision-readback
@@ -1396,7 +1396,7 @@ roots only; no raw source.
 
 ### Selection-and-materialization
 
-- proofArtifactPath: `.bitcode/v48-spec-family-report.json`
+- proofArtifactPath: `.proofs/v48/spec-family-report.json`
 - members: Fit selection, AssetPack preview, repository delivery
 - theoremIds: settlement-before-source, selected-fit-proof
 - replayStepIds: v48-materialization-readback
@@ -1412,7 +1412,7 @@ roots only; no raw source.
 
 ### Authorization-and-sensitive-flow
 
-- proofArtifactPath: `.bitcode/v48-canonical-input-report.json`
+- proofArtifactPath: `.proofs/v48/canonical-input-report.json`
 - members: identity, organization, wallet, source connection, repository connection
 - theoremIds: authority-required, secrets-never-projected
 - replayStepIds: v48-authority-readback
@@ -1428,7 +1428,7 @@ roots only; no raw source.
 
 ### Settlement-source-to-shares
 
-- proofArtifactPath: `.bitcode/v48-spec-family-report.json`
+- proofArtifactPath: `.proofs/v48/spec-family-report.json`
 - members: quote, BTC-testnet observation, finality, BTD rights, compensation
 - theoremIds: btctestnet-conservation, source-to-shares-conservation
 - replayStepIds: v48-settlement-readback
@@ -1444,7 +1444,7 @@ roots only; no raw source.
 
 ### Disclosure-boundary
 
-- proofArtifactPath: `.bitcode/v48-canonical-input-report.json`
+- proofArtifactPath: `.proofs/v48/canonical-input-report.json`
 - members: preview, measurement visualization, proof projection
 - theoremIds: no-unpaid-source, measurement-visible-source-hidden
 - replayStepIds: v48-disclosure-readback
@@ -1460,7 +1460,7 @@ roots only; no raw source.
 
 ### Proof-contract
 
-- proofArtifactPath: `.bitcode/v48-spec-family-report.json`
+- proofArtifactPath: `.proofs/v48/spec-family-report.json`
 - members: proof root, workflow receipt, replay receipt, repair receipt
 - theoremIds: proof-readback-decides, stale-truth-fails
 - replayStepIds: v48-proof-readback
@@ -1480,37 +1480,37 @@ roots only; no raw source.
 
 #### Inherited V19 reproducible-canon artifacts
 
-`.bitcode/v19-contract-change-ledger.json`,
-`.bitcode/v19-negative-proof-mutation-matrix.json`,
-`.bitcode/v19-proof-member-semantic-matrix.json`,
-`.bitcode/v19-theorem-evidence-matrix.json`,
-`.bitcode/v19-state-machine-matrix.json`,
-`.bitcode/v19-deterministic-replay-report.json`, and
-`.bitcode/v19-volatility-inventory.json` remain historical reproducibility
+`.proofs/v19/contract-change-ledger.json`,
+`.proofs/v19/negative-proof-mutation-matrix.json`,
+`.proofs/v19/proof-member-semantic-matrix.json`,
+`.proofs/v19/theorem-evidence-matrix.json`,
+`.proofs/v19/state-machine-matrix.json`,
+`.proofs/v19/deterministic-replay-report.json`, and
+`.proofs/v19/volatility-inventory.json` remain historical reproducibility
 inputs.
 
 #### Inherited V20 operator-quality artifacts
 
-`.bitcode/v20-operator-acceptance-transcript.json`,
-`.bitcode/v20-visual-regression-report.json`,
-`.bitcode/v20-accessibility-report.json`,
-`.bitcode/v20-performance-budget-report.json`,
-`.bitcode/v20-projection-quality-smoke-matrix.json`,
-`.bitcode/v20-quality-summary.json`, and `ENGI_SPEC_V20_PROVEN.md` remain
+`.proofs/v20/operator-acceptance-transcript.json`,
+`.proofs/v20/visual-regression-report.json`,
+`.proofs/v20/accessibility-report.json`,
+`.proofs/v20/performance-budget-report.json`,
+`.proofs/v20/projection-quality-smoke-matrix.json`,
+`.proofs/v20/quality-summary.json`, and `ENGI_SPEC_V20_PROVEN.md` remain
 historical operator-quality inputs.
 
 #### Exact generated-artifact inventory matrix
 
 | artifactPath | role | disclosability |
 | --- | --- | --- |
-| `.bitcode/v48-spec-family-report.json` | V48 spec-family validation report | source-safe |
-| `.bitcode/v48-canonical-input-report.json` | V48 canonical-input validation report | source-safe |
+| `.proofs/v48/spec-family-report.json` | V48 spec-family validation report | source-safe |
+| `.proofs/v48/canonical-input-report.json` | V48 canonical-input validation report | source-safe |
 | `BITCODE_SPEC_V48_PROVEN.md` | V48 generated proof appendix after promotion readiness | source-safe |
 
 #### V48 specifying generated artifacts
 
-V48 Gate 1 reserves `.bitcode/v48-spec-family-report.json` and
-`.bitcode/v48-canonical-input-report.json`. Later gates may add launch,
+V48 Gate 1 reserves `.proofs/v48/spec-family-report.json` and
+`.proofs/v48/canonical-input-report.json`. Later gates may add launch,
 measurement, route, and E2E rehearsal artifacts.
 
 #### Shared generated-artifact fields
@@ -1565,7 +1565,7 @@ seller and buyer E2E flows, and the maintained promotion workflow advances
 `BITCODE_SPEC.txt` to `V48`.
 
 V48 promotion readiness canon: Gate 10 owns
-`.bitcode/v48-promotion-readiness-report.json`, the
+`.proofs/v48/promotion-readiness-report.json`, the
 `buildV48PromotionReadinessReport` package object, and `check:v48-gate10`
 (with `--promotion-mode` accepting V46 pre-promotion or V48 post-promotion
 pointer truth). The readiness report binds every accepted V48 launch artifact
@@ -1599,39 +1599,39 @@ V48 gates:
 
 1. Scope, Testnet Semantics, Measurement Law, And Launch Freeze.
 2. Feature Excess And Gate Alignment Audit. Gate 2 owns
-   `.bitcode/v48-feature-excess-alignment-audit.json`, the
+   `.proofs/v48/feature-excess-alignment-audit.json`, the
    `buildV48FeatureExcessAlignmentAudit` package object, and
    `check:v48-gate2`.
 3. Seller And Buyer State Machine Law. Gate 3 owns
-   `.bitcode/v48-seller-buyer-state-machine-law.json`, the
+   `.proofs/v48/seller-buyer-state-machine-law.json`, the
    `buildV48SellerBuyerStateMachineLaw` package object, and
    `check:v48-gate3`.
 4. Depositor Website Completion. Gate 4 owns
-   `.bitcode/v48-depositor-website-completion.json`, the
+   `.proofs/v48/depositor-website-completion.json`, the
    `buildV48DepositorWebsiteCompletion` package object, and
    `check:v48-gate4`.
 5. Reader Website Completion. Gate 5 owns
-   `.bitcode/v48-reader-website-completion.json`, the
+   `.proofs/v48/reader-website-completion.json`, the
    `buildV48ReaderWebsiteCompletion` package object, and
    `check:v48-gate5`.
 6. Packs And Auxillaries Commercial Dashboard. Gate 6 owns
-   `.bitcode/v48-packs-auxillaries-commercial-dashboard.json`, the
+   `.proofs/v48/packs-auxillaries-commercial-dashboard.json`, the
    `buildV48PacksAuxillariesCommercialDashboard` package object, and
    `check:v48-gate6`.
 7. E2E IP Selling And Buying Tests. Gate 7 owns
-   `.bitcode/v48-e2e-ip-selling-buying-tests.json`, the
+   `.proofs/v48/e2e-ip-selling-buying-tests.json`, the
    `buildV48E2eIpSellingBuyingTests` package object, and
    `check:v48-gate7`.
 8. Landing Page And Public Launch Messaging. Gate 8 owns
-   `.bitcode/v48-landing-public-launch-messaging.json`, the
+   `.proofs/v48/landing-public-launch-messaging.json`, the
    `buildV48LandingPublicLaunchMessaging` package object, and
    `check:v48-gate8`.
 9. Staging-Testnet Deployment Rehearsal. Gate 9 owns
-   `.bitcode/v48-staging-testnet-deployment-rehearsal.json`, the
+   `.proofs/v48/staging-testnet-deployment-rehearsal.json`, the
    `buildV48StagingTestnetDeploymentRehearsal` package object, and
    `check:v48-gate9`.
 10. Promotion Readiness. Gate 10 owns
-    `.bitcode/v48-promotion-readiness-report.json`, the
+    `.proofs/v48/promotion-readiness-report.json`, the
     `buildV48PromotionReadinessReport` package object, and
     `check:v48-gate10`.
 
@@ -1641,17 +1641,17 @@ Current source map roots include `uapi`, `packages/btd`,
 `packages/pipeline-asset-pack`, `packages/pipeline-hosts`,
 `packages/specifying`, `packages/prompts`, `packages/executions-mcp`,
 `packages/chatgptapp`, `protocol-demonstration`, `.github/workflows`, and
-`.bitcode` generated artifacts.
+`.proofs` generated artifacts.
 
 V48 Gate 2 source-safe generated artifact:
-`.bitcode/v48-feature-excess-alignment-audit.json`. It records launch routes,
+`.proofs/v48/feature-excess-alignment-audit.json`. It records launch routes,
 supporting surfaces, deferred surfaces, feature policies, forbidden launch
 entry targets, source-safe payload boundaries, source-root digests, and
 predicate results without serializing source, prompt payloads, wallet private
 material, settlement private payloads, or mainnet value-bearing authority.
 
 V48 Gate 3 source-safe generated artifact:
-`.bitcode/v48-seller-buyer-state-machine-law.json`. It records IP seller
+`.proofs/v48/seller-buyer-state-machine-law.json`. It records IP seller
 states, IP buyer states, transition guards, measurement ids, source-safe field
 ids, forbidden payload classes, source-root digests, and predicate results.
 The law requires measurement-before-price, proof-before-state, accepted Need
@@ -1660,7 +1660,7 @@ BTD rights before source delivery, `/packs` history projection after each
 transition, and fail-closed repair on missing evidence.
 
 V48 Gate 4 source-safe generated artifact:
-`.bitcode/v48-depositor-website-completion.json`. It records the five-step
+`.proofs/v48/depositor-website-completion.json`. It records the five-step
 `/deposits` route session steps, journaled pipeline and event ids, visible
 seller decision ids (measurement catalog, criticality, demand, ROI, BTD
 potential, BTC source-to-shares preview, admission, `/packs` activity sync,
@@ -1672,7 +1672,7 @@ serializing protected source, unpaid AssetPack source, raw prompts, raw
 provider responses, wallet private material, or settlement private payloads.
 
 V48 Gate 5 source-safe generated artifact:
-`.bitcode/v48-reader-website-completion.json`. It records the five-step
+`.proofs/v48/reader-website-completion.json`. It records the five-step
 `/reads` route session steps, owned pipeline ids, source-safe readback ids
 (fit measurement review, quote basis, payment observation, settlement
 finality, BTD rights receipt, delivery receipt), visible buyer decision ids
@@ -1687,7 +1687,7 @@ serializing protected source, unpaid AssetPack source, raw prompts, raw
 provider responses, wallet private material, or settlement private payloads.
 
 V48 Gate 6 source-safe generated artifact:
-`.bitcode/v48-packs-auxillaries-commercial-dashboard.json`. It records the
+`.proofs/v48/packs-auxillaries-commercial-dashboard.json`. It records the
 `/packs` master-detail dashboard contract (searchable activity table,
 type/state facets, saved market-intelligence filters, and a row-owned detail
 surface covering overview, measurements, state readback, repair surface,
@@ -1702,7 +1702,7 @@ protected source, unpaid AssetPack source, raw prompts, raw provider
 responses, wallet private material, or settlement private payloads.
 
 V48 Gate 7 source-safe generated artifact:
-`.bitcode/v48-e2e-ip-selling-buying-tests.json`. It records the browser-proof
+`.proofs/v48/e2e-ip-selling-buying-tests.json`. It records the browser-proof
 scenarios (IP seller deposits an AssetPack on `/deposits`; IP buyer reviews
 fit measurements, quote basis, settlement finality, BTD rights, and
 repository delivery on `/reads`; `/packs` reads back settlement, rights,
@@ -1717,7 +1717,7 @@ settlement private payloads. The browser proof runs on BTC-testnet semantics
 only.
 
 V48 Gate 8 source-safe generated artifact:
-`.bitcode/v48-landing-public-launch-messaging.json`. It records the public
+`.proofs/v48/landing-public-launch-messaging.json`. It records the public
 launch narrative law: the landing testnet section stating the meaning of
 commercial testnet (BTC amounts are testnet and free; measurements, quotes,
 settlement ordering, BTD rights, and repository delivery stay
@@ -1731,7 +1731,7 @@ AssetPack source, raw prompts, raw provider responses, wallet private
 material, or settlement private payloads.
 
 V48 Gate 9 source-safe generated artifact:
-`.bitcode/v48-staging-testnet-deployment-rehearsal.json`. It records the
+`.proofs/v48/staging-testnet-deployment-rehearsal.json`. It records the
 staging-testnet rehearsal law: dry-run lane receipts for the full-stack
 deployment (Vercel website host, Supabase database/ledger projections,
 object-storage roots, long-runner pipeline host, BTC-testnet settlement
@@ -1795,10 +1795,10 @@ repository delivery failure.
 
 ### Appendix K. Source-bearing AssetPack and artifact contract catalog
 
-Source-bearing artifacts include `.bitcode/asset-pack.lock.json`,
-`.bitcode/selected-source-material.json`,
-`.bitcode/verification-report.json`, `.bitcode/source-to-shares.json`,
-`.bitcode/projection-policy.json`, `.bitcode/system-proof-bundle.json`, and
+Source-bearing artifacts include `.proofs/_shared/asset-pack.lock.json`,
+`.proofs/_shared/selected-source-material.json`,
+`.proofs/_shared/verification-report.json`, `.proofs/_shared/source-to-shares.json`,
+`.proofs/_shared/projection-policy.json`, `.proofs/_shared/system-proof-bundle.json`, and
 `BITCODE_SPEC_V48_PROVEN.md`. Source-bearing payloads remain protected until
 entitlement; source-safe receipts may be projected.
 
@@ -1832,7 +1832,7 @@ users to `/packs` or `/exchange`; `/packs` is not a launch CTA and is
 scheduled for eradication (compatibility redirect only); Conversations full
 commercial experience remains deferred while structure may persist; API/MCP,
 ChatGPT App, Bitcode Chat, value-bearing mainnet, source-bearing previews, and
-advanced market mechanics are explicitly deferred; `.bitcode/v48-feature-excess-
+advanced market mechanics are explicitly deferred; `.proofs/v48/feature-excess-
 alignment-audit.json` is generated; `check:v48-gate2` validates the audit; and
 gate/canon workflows run the Gate 2 checker under promoted V48 canon.
 
@@ -1851,7 +1851,7 @@ AssetPack preview, BTC-testnet settlement, BTD rights, and repository delivery;
 the guards enforce measurement-before-price, proof-before-state, accepted Need
 before Finding Fits, quote-before-settlement, BTC finality before BTD rights,
 BTD rights before source delivery, `/packs` history projection, and
-fail-closed repair; `.bitcode/v48-seller-buyer-state-machine-law.json` is
+fail-closed repair; `.proofs/v48/seller-buyer-state-machine-law.json` is
 generated; `check:v48-gate3` validates the law; and gate/canon workflows run
 the Gate 3 checker under promoted V48 canon.
 
@@ -1862,7 +1862,7 @@ criticality, demand, ROI, BTD potential, BTC source-to-shares preview, and
 option roots before approval; approved policy-eligible options emit admission
 readback synchronized to `/packs`; compensation estimates, supply
 recommendations, and organization/wallet authority state are visible as
-source-safe metadata; `.bitcode/v48-depositor-website-completion.json` is
+source-safe metadata; `.proofs/v48/depositor-website-completion.json` is
 generated; `check:v48-gate4` validates the completion; and gate/canon
 workflows run the Gate 4 checker under promoted V48 canon.
 
@@ -1875,7 +1875,7 @@ contributions; payment observation, BTC-testnet finality, BTD rights transfer
 receipt, and repository PR delivery render as ordered fail-closed readback
 with delivery locked until rights transfer; Reading activity and settled
 AssetPacks remain reachable through `/packs`;
-`.bitcode/v48-reader-website-completion.json` is generated; `check:v48-gate5`
+`.proofs/v48/reader-website-completion.json` is generated; `check:v48-gate5`
 validates the completion; and gate/canon workflows run the Gate 5 checker
 under promoted V48 canon.
 
@@ -1889,7 +1889,7 @@ activity exposes a fail-closed repair surface listing commodity-state
 blockers; Auxillaries panes cover identity profile, external source
 connections, interfaces, wallet authority with BTD history readback, and
 organization team and treasury settings;
-`.bitcode/v48-packs-auxillaries-commercial-dashboard.json` is generated;
+`.proofs/v48/packs-auxillaries-commercial-dashboard.json` is generated;
 `check:v48-gate6` validates the completion; and gate/canon workflows run the
 Gate 6 checker under promoted V48 canon.
 
@@ -1903,7 +1903,7 @@ payment observation, finality, BTD rights receipt, and repository PR delivery
 read back in order; auditing settlement, rights, compensation, delivery, and
 the fail-closed repair surface on `/packs`; the browser error trap stays
 clean; `uapi` exposes `test:e2e:ip-exchange`;
-`.bitcode/v48-e2e-ip-selling-buying-tests.json` is generated;
+`.proofs/v48/e2e-ip-selling-buying-tests.json` is generated;
 `check:v48-gate7` validates the coverage; and gate/canon workflows run the
 Gate 7 checker under promoted V48 canon.
 
@@ -1914,7 +1914,7 @@ documented with launch-route links; proof-backed trust and source-safe IP
 exchange positioning are stated; public docs carry the testnet-meaning card
 with blocked value-bearing mainnet posture; promoted V46 claim-boundary
 tokens and launch navigation remain intact;
-`.bitcode/v48-landing-public-launch-messaging.json` is generated;
+`.proofs/v48/landing-public-launch-messaging.json` is generated;
 `check:v48-gate8` validates the messaging; and gate/canon workflows run the
 Gate 8 checker under promoted V48 canon.
 
@@ -1924,7 +1924,7 @@ contract minimums are satisfied by the rehearsed population; the BTC-testnet
 settlement observation lane preserves the production ordering law; the
 value-bearing mainnet lane rehearses as blocked; lane receipts remain dry-run
 with live execution operator opt-in and no serialized live credentials;
-`.bitcode/v48-staging-testnet-deployment-rehearsal.json` is generated;
+`.proofs/v48/staging-testnet-deployment-rehearsal.json` is generated;
 `check:v48-gate9` validates the rehearsal; and gate/canon workflows run the
 Gate 9 checker under promoted V48 canon.
 
@@ -1934,7 +1934,7 @@ scripts, spec-family and runtime promotion preparation, proven generation, and
 `v48-canon-promotion.yml` support V48; gate/canon workflows validate both the
 V46 pre-promotion and V48 post-promotion pointer postures; a draft-preview
 `BITCODE_SPEC_V48_PROVEN.md` is generated; the V48 promotion dry-run passes;
-`.bitcode/v48-promotion-readiness-report.json` is generated; `check:v48-gate10`
+`.proofs/v48/promotion-readiness-report.json` is generated; `check:v48-gate10`
 validates the readiness; and the prepared post-promotion posture is
 V48 active / draft V48 under promoted V48 canon until the promotion
 workflow advances `BITCODE_SPEC.txt`.

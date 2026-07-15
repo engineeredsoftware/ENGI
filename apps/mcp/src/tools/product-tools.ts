@@ -42,8 +42,8 @@ const DepositSynthesizeSchema = z.object({
     .describe(
       'Obfuscations policy text. Empty string skips Setup obfuscation LLM (same as website Deposit).',
     ),
-  forcedInclusions: z.array(z.string()).optional(),
-  forcedExclusions: z.array(z.string()).optional(),
+  permissibleSources: z.array(z.string()).optional(),
+  impermissibleSources: z.array(z.string()).optional(),
   streaming: z.boolean().optional().default(true),
   organizationId: z.string().optional(),
   attachments: z.array(z.any()).optional(),
@@ -187,8 +187,8 @@ export function registerProductTools(): MCPTool[] {
             options: {
               productSurface: 'deposit',
               obfuscations: args.obfuscations ?? '',
-              forcedInclusions: args.forcedInclusions ?? [],
-              forcedExclusions: args.forcedExclusions ?? [],
+              permissibleSources: args.permissibleSources ?? [],
+              impermissibleSources: args.impermissibleSources ?? [],
             },
           },
           context,

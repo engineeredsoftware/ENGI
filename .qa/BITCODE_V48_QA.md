@@ -284,7 +284,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
   3. `components/base/bitcode/auth/PhoneSSO.tsx` — phone-OTP sign-in, routes to `/login`.
   4. `AuxillariesProfilePane.tsx:283-289` — `signInWithOtp` used for the optional-email flow; needs disambiguation from authentication semantics.
   5. `SocialAccountLinker.tsx` — generic `signInWithOAuth`; keep only if scoped to account linking, not session minting.
-  6. Root cause: `/login` was never classified by the V47 Gate 2 feature-excess audit (absent from `.bitcode/v47-feature-excess-alignment-audit.json`), so it escaped the launch freeze.
+  6. Root cause: `/login` was never classified by the V47 Gate 2 feature-excess audit (absent from `.proofs/v47/feature-excess-alignment-audit.json`), so it escaped the launch freeze.
 - Production note: deployed launch requires `NEXT_PUBLIC_BITCODE_ENV=testnet` (or explicit flag) or `DISABLE_CREATE_ACCOUNT` defaults ON and the Connect Wallet CTA is disabled.
 
 ### F5 — Query string on `redirect_to` defeats GoTrue allow-list matching; auth code strands on the Site URL origin; no session is ever minted (FIXED in code)
@@ -497,11 +497,11 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
   structured_output, ~14s/14s/2s, small selection output); CS measured the composed
   request (6,582 chars vs the 600k budget → correctly non-triggering, single task
   generation); cross-phase `deposit:*`/`pipeline:*` stores landed on the ROOT node;
-  the per-run sidecar dir `~/.bitcode/logs/executions/<runId>/` materialized; and the
+  the per-run sidecar dir `~/.proofs/logs/executions/<runId>/` materialized; and the
   Implementation plan step converged in ONE stitch cycle whose repair request carried
   the literal schema-validation error (vs the pre-fix five-cycles-to-death).
 - Defect: the selection model chose exactly the right context (deposit obfuscations/
-  inventory/forcedExclusions/demandContext + mode) but emitted `deposit#obfuscations`
+  inventory/impermissibleSources/demandContext + mode) but emitted `deposit#obfuscations`
   shorthand (`<namespace>#<key>`), while the resolver demanded the canonical
   `<execution-path>#<namespace>:<key>` — all five selected keys missed, `selectedContext`
   came back empty (fail-soft), and every downstream generation ran without its selected
@@ -637,7 +637,7 @@ the streaming accordion log.
 | Card payload | option card emerald panel "If deposited, Bitcode receives": patchSummary + "Synthesized contents · N file(s)" (op-colored create/modify/delete) + "Provenant source · N files available to Bitcode" | `…options[i].contents` (patchSummary, fileChanges, provenantSourcePaths, provenantSourceCount) + screenshot | BOTH the synthesized contents AND the provenant source files shown prominently; fileChanges are path+op only (no raw code) |
 | Neediness | amber tile `Neediness · est. read demand <v>% · demand <d>% · saturation <s>%` + rationale | `…options[i].neediness` | present on deposit options; `volume = clamp01(demand×(0.5+0.5(1−saturation)))`; rationale source-safe |
 | Completion | `Validated candidates fail-closed: A admissible, D dropped.` then `Synthesized X measured AssetPack options (T tokens, Ds s).` | the `executions` row (id=runId): `context` (pipelineCore=`AssetPacksSynthesis`, synthesisMode, optionCount, excludedPathCount, inventoryPathCount) + `output` | status=`completed`; optionCount ≥ 1; options carry absolutes + contents + neediness. The options MUST materialize from the route's completion read (`GET /api/executions/history/<runId>` → `.output.depositOptionSynthesis.options`) — zero options with a completed pipeline = the store-topology regression (fixed 2026-07-03, test-pinned) |
-| Sidecar | `~/.bitcode/logs/executions/<runId>/` exists (the REAL run id, not `run`), files named `NNNNN-phase-agent-step-failsafe-generation.{request\|response\|error}.json` | `ls` the dir | per-run dir present; any failure writes `.error.json` with the literal request on disk |
+| Sidecar | `~/.proofs/logs/executions/<runId>/` exists (the REAL run id, not `run`), files named `NNNNN-phase-agent-step-failsafe-generation.{request\|response\|error}.json` | `ls` the dir | per-run dir present; any failure writes `.error.json` with the literal request on disk |
 | PCC selection | telemetry shows the `prepare_concise_context` selection generations then `context:selectedKeys` non-empty; `context:missingKeys` absent or small | the `context` namespace events | selected keys resolve (lenient resolver, 2026-07-03); an all-missing selection = the shorthand-resolution regression |
 | Failsafe badges | failsafe pills read `handle large inputs` / `handle large outputs`; real failsafe work badges as `· chunk N` / `· sum` / `· stitch ×N` | screenshot of a badged row (if any triggered) | stitch ×N converges in ≤2 (self-repair carries the schema error); no `exceeded maximum stitch attempts` failure |
 

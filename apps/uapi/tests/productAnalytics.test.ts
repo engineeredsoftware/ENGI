@@ -26,23 +26,23 @@ describe("trackProductEvent", () => {
       name: "deposit_synthesis_dispatched",
       data: {
         hasObfuscations: true,
-        forcedInclusionCount: 1,
-        forcedExclusionCount: 2,
+        permissibleSourceCount: 1,
+        impermissibleSourceCount: 2,
         demandSignalCount: 3,
       },
     });
 
     expect(mockTrack).toHaveBeenCalledWith("deposit_synthesis_dispatched", {
       hasObfuscations: true,
-      forcedInclusionCount: 1,
-      forcedExclusionCount: 2,
+      permissibleSourceCount: 1,
+      impermissibleSourceCount: 2,
       demandSignalCount: 3,
     });
     expect(mockTrackEvent).toHaveBeenCalledWith("deposit_synthesis_dispatched", {
       event_category: "product",
       hasObfuscations: true,
-      forcedInclusionCount: 1,
-      forcedExclusionCount: 2,
+      permissibleSourceCount: 1,
+      impermissibleSourceCount: 2,
       demandSignalCount: 3,
     });
   });

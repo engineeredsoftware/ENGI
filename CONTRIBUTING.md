@@ -56,7 +56,7 @@ law from UI vibes or from older version folklore.
 | **Draft target** | Next version family (e.g. **V48**) edited on `version/v48` while pointer stays on promoted version |
 | **Family** | For version `VN`: `BITCODE_SPEC_VN.md`, `_DELTA`, `_NOTES`, `_PARITY_MATRIX`, optional `_PROVEN` |
 | **Metaspec** | `.specifications/BITCODE_SPECIFYING.md` — how specifying works (Complete Implementation Derivability) |
-| **Proof artifacts** | Generated under `.bitcode/vN-*` and PROVEN appendices — source-safe metadata only |
+| **Proof artifacts** | Generated under `.proofs/vN/` and PROVEN appendices — source-safe metadata only |
 
 **Complete Implementation Derivability:** a competent reader must rebuild the
 current system from the **active** (or explicitly draft-target) family alone —
@@ -156,7 +156,7 @@ containers/         Pipeliner OCI image, long-runner Docker, k8s
 .fixtures/          Monorepo JSON fixtures
 .fundraising/       Non-product fundraising materials
 .codemods/          Temporary one-off codemods
-.bitcode/           Generated proof artifacts
+.proofs/           Generated proof artifacts (versioned: `.proofs/v48/…`)
 ```
 
 **Dependency direction (strict):**
@@ -372,7 +372,7 @@ Set the same family of vars everywhere (see `.env.example`):
    installation linkage for the signed-in user.
 3. Callback / setup routes live under uapi TPS / GitHub install paths — redirects
    must allow your local origin (`127.0.0.1`).
-4. For monorepos, prefer **Forced Inclusions** during deposit smoke so synthesis
+4. For monorepos, prefer **Permissible sources** during deposit smoke so synthesis
    stays bounded.
 
 ### 7.3 Common pitfalls

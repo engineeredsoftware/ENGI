@@ -421,8 +421,8 @@ export function buildBtdMcpToolContractInputs(): BtdMcpToolContractInput[] {
       requestRootFields: [
         'repository',
         'obfuscations',
-        'forcedInclusions',
-        'forcedExclusions',
+        'permissibleSources',
+        'impermissibleSources',
         'streaming',
         'attachments',
         'connections',
