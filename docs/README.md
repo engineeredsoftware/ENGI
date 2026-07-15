@@ -8,6 +8,9 @@
 | [ASSET_PACKS.md](./ASSET_PACKS.md) | AssetPack domain guide |
 | [BITCODE_SOURCE_LAYOUT.md](./BITCODE_SOURCE_LAYOUT.md) | Filesystem / component layout contract |
 | [DEPLOYMENT.md](./DEPLOYMENT.md) | Deployment notes |
+| [SUPABASE.md](./SUPABASE.md) | Postgres, auth, storage, migrations, env |
+| [VERCEL.md](./VERCEL.md) | Deploy, Sandbox pipeline host, Blob, analytics |
+| [ETHEREUM.md](./ETHEREUM.md) | BitcodeERC1155 dual-maintain + ledger anchors |
 
 Living **specifications** live under [`../specifications/`](../specifications/).  
 **QA ledgers** live under [`../qa/`](../qa/).
