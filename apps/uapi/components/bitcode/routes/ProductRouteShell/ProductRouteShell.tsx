@@ -186,10 +186,10 @@ function ProductRouteMetricChips({
 }) {
   const reduceMotion = shouldReduceMetricMotion(useReducedMotion());
 
-  // Content-sized value; UA stylesheet gives `dd` a large margin-inline-start
-  // which looked like space-between — always reset dt/dd margins.
+  // Content-sized value (no truncate — e.g. CONNECT SOURCE must fully show).
+  // UA stylesheet gives `dd` a large margin-inline-start — always reset.
   const valueClass =
-    "inline-block max-w-[6.5rem] truncate text-left text-[0.7rem] font-semibold leading-none tabular-nums text-white";
+    "inline-block whitespace-nowrap text-left text-[0.7rem] font-semibold leading-none tabular-nums text-white";
 
   const chips = metrics.map((metric) => {
     const valueSlot = !ready ? (
@@ -214,7 +214,7 @@ function ProductRouteMetricChips({
     const chipBody = (
       <>
         <dt className="m-0 leading-none text-neutral-500">{metric.label}</dt>
-        <dd className="m-0 flex min-w-0 shrink-0 items-center p-0">
+        <dd className="m-0 flex shrink-0 items-center p-0">
           {valueSlot}
         </dd>
       </>
