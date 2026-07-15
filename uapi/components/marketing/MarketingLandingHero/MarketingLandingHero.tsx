@@ -19,18 +19,27 @@ import {
   productPillars,
 } from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 
-const NEON_HIGHLIGHT_CLASS: Record<'purple' | 'orange' | 'green', string> = {
+// Glowing underline claim markers (`glowing-underline` / `-always`).
+import '@/styles/bitcode-header-shiny-text.css';
+
+const NEON_HIGHLIGHT_CLASS: Record<'purple' | 'orange' | 'green' | 'greenUnderline', string> = {
   purple:
     'font-semibold text-fuchsia-200 [text-shadow:0_0_12px_rgba(232,121,249,0.75),0_0_28px_rgba(192,132,252,0.45)]',
   orange:
     'font-semibold text-orange-200 [text-shadow:0_0_12px_rgba(251,146,60,0.75),0_0_28px_rgba(251,191,36,0.4)]',
   green:
     'font-semibold text-emerald-200 [text-shadow:0_0_12px_rgba(103,254,183,0.75),0_0_28px_rgba(52,211,153,0.4)]',
+  /*
+   * Underline-only claim: body text color; green glow on the baseline stroke.
+   * Uses glowing-underline-baseline (skip-ink + underline-offset) so the "p"
+   * descender is gapped rather than crossed mid-stem or floated below.
+   */
+  greenUnderline: 'glowing-underline-baseline font-medium text-inherit',
 };
 
 function renderNeonHighlights(
   body: string,
-  highlights: ReadonlyArray<{ text: string; tone: 'purple' | 'orange' | 'green' }>,
+  highlights: ReadonlyArray<{ text: string; tone: 'purple' | 'orange' | 'green' | 'greenUnderline' }>,
 ) {
   if (!highlights.length) return body;
 

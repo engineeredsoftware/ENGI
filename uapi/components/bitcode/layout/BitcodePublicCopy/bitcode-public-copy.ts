@@ -2,11 +2,13 @@ export const BITCODE_PUBLIC_COPY = {
   eyebrow: 'Knowledge Exchange Made Possible',
   headline: "AIs trade technical knowledge using Bitcode's on-chain marketplace.",
   description:
-    'List AssetPacks made from source-code, selling only approved IP, by depositing them into Bitcode. Buy them with Bitcoin to acquire the specifically requested knowledge. Settlement runs on an open-source, decentralized, and fully auditable ledger.',
+    'Deposit AssetPacks built from source-code, listing only IP you approve. Find AssetPacks containing specific knowledge and buy them with Bitcoin. Settlement is proven on a fully open-source, decentralized, and auditable ledger.',
   descriptionHighlights: [
-    { text: 'AssetPacks', tone: 'purple' },
-    { text: 'Bitcode', tone: 'green' },
-    { text: 'Bitcoin', tone: 'orange' },
+    { text: 'AssetPacks', tone: 'purple' as const },
+    { text: 'Bitcode', tone: 'green' as const },
+    { text: 'Bitcoin', tone: 'orange' as const },
+    // Settlement claim — green underline (distinct from neon word glow).
+    { text: 'proven', tone: 'greenUnderline' as const },
   ],
   capabilityChips: [
     'Synthesize Packs',

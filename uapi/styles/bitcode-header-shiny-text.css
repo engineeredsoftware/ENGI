@@ -195,6 +195,40 @@
   transform: scaleX(1);
 }
 
+/*
+ * Always-visible glowing underline (claim markers, static marketing terms).
+ * Same descender clearance (bottom: -0.05em) and green glow as the base class;
+ * skips the hover scaleX(0) reveal so the stroke stays painted.
+ */
+.glowing-underline-always::after {
+  transform: scaleX(1);
+}
+
+/*
+ * Baseline claim underline: native decoration sits on the alphabetic baseline
+ * with skip-ink so descenders (e.g. "p" in proven) are gapped — no mid-stem
+ * overlap and no float under the full descender box. Glow is offset downward
+ * so the word fill stays body color.
+ */
+.glowing-underline-baseline {
+  position: relative;
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-color: rgba(34, 255, 143, 0.95);
+  text-decoration-thickness: 0.085em;
+  text-underline-offset: 0.07em;
+  text-decoration-skip-ink: auto;
+  text-shadow:
+    0 0.16em 0.18em rgba(0, 255, 170, 0.7),
+    0 0.2em 0.38em rgba(0, 255, 170, 0.45),
+    0 0.24em 0.55em rgba(52, 211, 153, 0.3);
+}
+
+.glowing-underline-baseline::after {
+  content: none;
+}
+
 @keyframes glow-pulse {
 
   0%,
