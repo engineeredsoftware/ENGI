@@ -3,10 +3,15 @@
 /**
  * Commercial product strip (left column).
  * Content-height only — parent stack equalizes space above/below via flex spacers.
+ * Interface cards: Website + MCP live at launch; Conversational Extensions coming soon.
  */
 
 import React from 'react';
-import Link from 'next/link';
+import {
+  ChatBubbleLeftRightIcon,
+  CodeBracketSquareIcon,
+  ComputerDesktopIcon,
+} from '@heroicons/react/24/outline';
 
 import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy';
 
@@ -21,6 +26,12 @@ const TITLE_HIGHLIGHT_CLASS: Record<'green' | 'orange', string> = {
   orange:
     'font-semibold text-orange-200 [text-shadow:0_0_14px_rgba(251,146,60,0.8),0_0_30px_rgba(251,191,36,0.4)]',
 };
+
+const FLOW_ICONS = {
+  website: ComputerDesktopIcon,
+  mcp: CodeBracketSquareIcon,
+  extensions: ChatBubbleLeftRightIcon,
+} as const;
 
 function renderTitleWithHighlights(title: string) {
   const pattern = new RegExp(
@@ -62,26 +73,61 @@ export function MarketingLandingTestnetSection() {
           {renderTitleWithHighlights(copy.title)}
         </h2>
         <p className="mt-2 text-[14px] leading-6 text-neutral-300 phone:text-[15px]">{copy.meaning}</p>
-        <ol className="mt-3 grid grid-cols-1 gap-2.5" aria-label="Core product flow">
-          {copy.flow.map((entry) => (
-            <li key={entry.step}>
-              <Link
-                href={entry.href}
-                className="block rounded-none border border-white/10 bg-black/25 px-3 py-3 transition hover:border-emerald-300/35 hover:bg-emerald-300/[0.07]"
-              >
-                <span className="inline-flex items-baseline gap-2">
-                  <span className="text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-200/85">
-                    {entry.step}
-                  </span>
-                  <span className="text-[13px] font-semibold text-white">{entry.label}</span>
-                </span>
-                <span className="mt-1 block text-[12px] leading-5 text-neutral-400 phone:text-[13px]">
-                  {entry.detail}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ol>
+        <ul className="mt-3 grid grid-cols-1 gap-2.5" aria-label="Product interfaces">
+          {copy.flow.map((entry) => {
+            const Icon = FLOW_ICONS[entry.id as keyof typeof FLOW_ICONS] ?? ComputerDesktopIcon;
+            const isComingSoon = entry.status === 'coming_soon';
+
+            return (
+              <li key={entry.id}>
+                <div
+                  className={
+                    isComingSoon
+                      ? 'rounded-none border border-dashed border-white/12 bg-black/15 px-3 py-3 opacity-90'
+                      : 'rounded-none border border-white/10 bg-black/25 px-3 py-3'
+                  }
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="inline-flex min-w-0 items-center gap-2.5">
+                      <span
+                        className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-none border ${
+                          isComingSoon
+                            ? 'border-white/8 bg-white/[0.03] text-neutral-500'
+                            : 'border-emerald-300/25 bg-emerald-400/10 text-emerald-200'
+                        }`}
+                      >
+                        <Icon className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
+                      </span>
+                      <span
+                        className={`text-[13px] font-semibold ${
+                          isComingSoon ? 'text-neutral-400' : 'text-white'
+                        }`}
+                      >
+                        {entry.label}
+                      </span>
+                    </div>
+                    {isComingSoon ? (
+                      <span className="shrink-0 rounded-none border border-amber-300/25 bg-amber-400/10 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.16em] text-amber-100/80">
+                        Coming soon
+                      </span>
+                    ) : (
+                      <span className="shrink-0 rounded-none border border-emerald-300/22 bg-emerald-400/10 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.16em] text-emerald-100/75">
+                        Live
+                      </span>
+                    )}
+                  </div>
+                  <p
+                    className={`mt-2 text-[12px] leading-5 phone:text-[13px] ${
+                      isComingSoon ? 'text-neutral-500' : 'text-neutral-400'
+                    }`}
+                  >
+                    {entry.detail}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
         <p className="mt-3 text-[11px] leading-5 text-neutral-400">{copy.sourceSafety}</p>
       </div>
     </section>

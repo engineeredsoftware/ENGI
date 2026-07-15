@@ -146,7 +146,7 @@ describe('MarketingLandingPage', () => {
 
     const section = screen.getByTestId('landing-testnet-launch');
     expect(section).toBeInTheDocument();
-    expect(screen.getByText('Commercial Product')).toBeInTheDocument();
+    expect(screen.getByText('Productionized Protocol')).toBeInTheDocument();
     expect(
       screen.getByText((_, node) => {
         if (node?.tagName !== 'H2') return false;
@@ -159,25 +159,19 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText(/measurements, quotes, settlements, BTD, and delivery/iu)).toBeInTheDocument();
     expect(screen.queryByText(/testnet/i)).toBeNull();
     expect(screen.queryByText(/on Bitcoin/i)).toBeNull();
-    expect(screen.getByRole('link', { name: /01\s*Sell \(Deposit\)/u })).toHaveAttribute(
-      'href',
-      '/deposits',
-    );
-    expect(screen.getByRole('link', { name: /02\s*Buy \(Read\)/u })).toHaveAttribute(
-      'href',
-      '/reads',
-    );
-    expect(screen.getByRole('link', { name: /03\s*Audit \(Packs\)/u })).toHaveAttribute(
-      'href',
-      '/packs',
-    );
+    expect(screen.getByText('Website Application')).toBeInTheDocument();
+    expect(screen.getByText('MCP API')).toBeInTheDocument();
+    expect(screen.getByText('Conversational Extensions')).toBeInTheDocument();
+    expect(screen.getByText('Coming soon')).toBeInTheDocument();
+    expect(screen.getAllByText('Live').length).toBe(2);
+    // Interface cards are descriptive only — not navigable.
+    expect(screen.queryByRole('link', { name: /Website Application/u })).toBeNull();
+    expect(screen.queryByRole('link', { name: /MCP API/u })).toBeNull();
+    expect(screen.queryByRole('link', { name: /Conversational Extensions/u })).toBeNull();
     expect(
       screen.getByText(
-        /source is never exposed before settlement finality/u,
+        /On the exchange, measurements are visible; IP is not\. Bitcode is source-safe knowledge trading\./u,
       ),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Unlock Source-Safe Trade/u),
     ).toBeInTheDocument();
     expect(screen.getByText('Public Measures')).toBeInTheDocument();
     expect(screen.getByText('Private Source')).toBeInTheDocument();

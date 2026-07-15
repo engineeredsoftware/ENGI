@@ -75,35 +75,38 @@ export const BITCODE_PUBLIC_COPY = {
   // Marketing presents the commercial product as production — no testnet language.
   // AssetPacks + BTD are ERC-1155 on Ethereum; purchase/settlement money is Bitcoin.
   testnetLaunch: {
-    badge: 'Commercial Product',
+    badge: 'Productionized Protocol',
     title: 'Exchanging Bitcode for Bitcoin.',
     meaning:
       'Measurements, quotes, settlements, BTD, and delivery are protocol state—AssetPacks and BTD are ERC-1155 on Ethereum; purchase with Bitcoin.',
     flow: [
       {
-        step: '01',
-        label: 'Sell (Deposit)',
-        href: '/deposits',
+        id: 'website',
+        label: 'Website Application',
+        href: '/',
+        status: 'live' as const,
         detail:
-          'Connect a repository, synthesize measured AssetPack options, and admit supply to the Depository.',
+          'Connect your wallets, data-sources, etc.; a GUI for viewing, synthesizing, and trading AssetPacks, managing account authorities, and more.',
       },
       {
-        step: '02',
-        label: 'Buy (Read)',
-        href: '/reads',
+        id: 'mcp',
+        label: 'MCP API',
+        href: '/docs',
+        status: 'live' as const,
         detail:
-          'Write a Need, review fit measurements and the quote, then SettleAssetPack with Bitcoin.',
+          "Bitcode's API consumable virtually everywhere, whether it be via scripting or within your own applications. Most core experiences are supported with more on the way.",
       },
       {
-        step: '03',
-        label: 'Audit (Packs)',
-        href: '/packs',
+        id: 'extensions',
+        label: 'Conversational Extensions',
+        href: null,
+        status: 'coming_soon' as const,
         detail:
-          'Inspect canonical deployment, settlement, rights, delivery, and compensation with expandable proof roots.',
+          "Extensions for Claude, ChatGPT, Grok, and any application that communicates over MCP. Effortlessly use Bitcode within the chat experiences you're already used to.",
       },
     ],
     sourceSafety:
-      'Unlock Source-Safe Trade: readers see rich measurements enough to confidently decide to purchase; source is never exposed before settlement finality.',
+      'On the exchange, measurements are visible; IP is not. Bitcode is source-safe knowledge trading.',
   },
   operatorFrame: {
     title: 'Marketplace',
@@ -115,9 +118,9 @@ export const BITCODE_PUBLIC_COPY = {
     title: 'Selling Knowledge',
   },
   sourceToSettlement: {
-    title: 'From Source to Delivery',
+    title: 'Source to Delivery',
     subtitle: 'Seller → Deposits → Buyer → Fits → Settle',
-    badge: '6 stages',
+    badge: 'Stages',
     stages: [
       { number: '01', stage: 'deposit' },
       { number: '02', stage: 'read' },
