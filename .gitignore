@@ -5,6 +5,7 @@ app/app/__pychache__
 apps/uapi/tmp
 
 # Local environment files
+.v26.env
 .env
 .env.*
 !.env.example
@@ -100,3 +101,6 @@ apps/uapi/tailwind.config.js
 scripts/.env.staging-testnet
 .aider**
 .env*
+
+# Local fundraising materials (not product source)
+.fundraising/

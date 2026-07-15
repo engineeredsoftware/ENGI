@@ -20,9 +20,8 @@ load_env() {
   local files=(
     "$REPO_ROOT/.env.local"
     "$REPO_ROOT/.env"
-    "$REPO_ROOT/.v26.env"
-    "$REPO_ROOT/uapi/.env.local"
-    "$REPO_ROOT/uapi/.env"
+    "$REPO_ROOT/apps/uapi/.env.local"
+    "$REPO_ROOT/apps/uapi/.env"
   )
   local allow_re='^(SUPABASE_URL|NEXT_PUBLIC_SUPABASE_URL|SUPABASE_SERVICE_ROLE_KEY|NEXT_PUBLIC_SUPABASE_ANON_KEY|SUPABASE_ANON_KEY|SUPABASE_JWT_SECRET|SUPABASE_AUTH_GOOGLE_CLIENT_ID|SUPABASE_AUTH_GOOGLE_CLIENT_SECRET|SUPABASE_AUTH_GITHUB_CLIENT_ID|SUPABASE_AUTH_GITHUB_CLIENT_SECRET)='
   for f in "${files[@]}"; do
@@ -123,7 +122,7 @@ EOF
   env:debug)
     # Verbose diagnostics: which files exist and which keys are set
     echo "[supabase.sh] Candidate env files:"
-    for f in "$REPO_ROOT/.env.local" "$REPO_ROOT/.env" "$REPO_ROOT/.v26.env" "$REPO_ROOT/uapi/.env.local" "$REPO_ROOT/uapi/.env"; do
+    for f in "$REPO_ROOT/.env.local" "$REPO_ROOT/.env" "$REPO_ROOT/apps/uapi/.env.local" "$REPO_ROOT/apps/uapi/.env"; do
       if [[ -f "$f" ]]; then echo "  [found]  $f"; else echo "  [missing] $f"; fi
     done
     load_env

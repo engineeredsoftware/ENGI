@@ -11175,7 +11175,6 @@ Format: `path -- <1 sentence TL;DR>`.
  .gitignore -- Git ignore rules for build and local artifacts.
  .gitmodules -- Repository file.
  .nvmrc -- Repository file.
- .v26.env -- Repository file.
  AGENTS.md -- Agent engineering contract for Bitcode contributions.
  BITCODE_LIGHTPAPER.md -- Documentation or specification text.
  Bitcode_Pre-Seed_Pitch_Deck__DRAFT1 copy.key -- Repository file.
