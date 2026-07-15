@@ -80,7 +80,12 @@ const publicSecondaryActionClassName =
 const disabledActionClassName =
   'cursor-not-allowed border-white/10 bg-white/[0.025] text-neutral-400 opacity-65 grayscale hover:border-white/10 hover:bg-white/[0.025] hover:text-neutral-400';
 
-const NAV_ENTRANCE_STORAGE_KEY = 'bitcode.navEntrancePlayed';
+/**
+ * Module flag only (not sessionStorage): full page reloads re-run the entrance.
+ * Survives SPA remounts of Nav so client route changes don’t replay it.
+ * Must not be set until the entrance actually starts — React Strict Mode
+ * double-invokes effects and would otherwise skip the real play.
+ */
 let navEntrancePlayedInRuntime = false;
 
 function disabledClassName(className: string) {
@@ -146,31 +151,36 @@ export default function Nav() {
     };
   }, []);
 
-  // Entrance animation should happen once per tab/session, not on every route remount.
+  // Hold opacity-0, then cascade brand → links → wallet with marketing ease.
+  // Full reload always animates; SPA remounts of Nav are suppressed by the module flag.
   useEffect(() => {
-    let shouldAnimate = !navEntrancePlayedInRuntime;
-
+    // Drop legacy session gate so reloads actually show the entrance again.
     try {
-      const hasPlayedInSession = window.sessionStorage.getItem(NAV_ENTRANCE_STORAGE_KEY) === 'true';
-      shouldAnimate = shouldAnimate && !hasPlayedInSession;
-      if (shouldAnimate) {
-        window.sessionStorage.setItem(NAV_ENTRANCE_STORAGE_KEY, 'true');
-      }
+      window.sessionStorage.removeItem('bitcode.navEntrancePlayed');
     } catch {
-      shouldAnimate = !navEntrancePlayedInRuntime;
+      /* ignore */
     }
 
-    navEntrancePlayedInRuntime = true;
-
-    if (!shouldAnimate) {
+    if (navEntrancePlayedInRuntime) {
       setShowNavEntrance(true);
       setShouldAnimateNavEntrance(false);
       return;
     }
 
+    let cancelled = false;
     setShouldAnimateNavEntrance(true);
-    const timer = setTimeout(() => setShowNavEntrance(true), 100);
-    return () => clearTimeout(timer);
+
+    // Align with marketing hero start so the bar feels part of the same sequence.
+    const startTimer = setTimeout(() => {
+      if (cancelled) return;
+      navEntrancePlayedInRuntime = true;
+      setShowNavEntrance(true);
+    }, 100);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(startTimer);
+    };
   }, []);
 
   const isScrolled = useScrollPosition();
@@ -264,9 +274,12 @@ export default function Nav() {
       ? 'nav-controls-animated'
       : 'opacity-100'
     : 'opacity-0';
-  const navItemEntranceClassName = showNavEntrance && shouldAnimateNavEntrance
-    ? 'nav-item-animated'
-    : '';
+  // Hold links invisible until stagger starts (avoids flash before delay).
+  const navItemEntranceClassName = !showNavEntrance
+    ? 'opacity-0'
+    : shouldAnimateNavEntrance
+      ? 'nav-item-animated'
+      : '';
 
   // Compute positioning class
   const positionClass = usesWorkspaceOnlyChrome
@@ -391,7 +404,8 @@ export default function Nav() {
                   href={href}
                   aria-current={isActiveRoute ? 'page' : undefined}
                   className={`
-                    rounded-none border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition
+                    rounded-none border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em]
+                    transition-[color,background-color,border-color,box-shadow] duration-200
                     ${isActiveRoute
                       ? 'border-emerald-300/38 bg-emerald-400/14 text-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.16)]'
                       : 'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-emerald-300/24 hover:bg-emerald-400/[0.08] hover:text-emerald-100'}

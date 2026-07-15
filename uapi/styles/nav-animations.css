@@ -51,58 +51,57 @@
   }
 }
 
-/* Navigation entrance animations – restored subtle lift + blur */
-
-/* Initial nav fade-in without affecting position transform */
+/*
+ * Navigation entrance — marketing-aligned cascade (opacity + pure Y lift).
+ *
+ * - No transform on `.nav-container-global` (shell uses inline translateY).
+ * - No scale() on children (subpixel jitter on flex nav links).
+ * - fill-mode: both holds 0% through stagger delays (no opaque flash).
+ * - transform only on children; translateZ(0) for a stable compositor layer.
+ */
 @keyframes nav-container-emerge {
   0% {
     opacity: 0;
-    filter: blur(6px);
   }
 
   100% {
     opacity: 1;
-    filter: blur(0);
   }
 }
 
-/* Logo entrance animation – keeps the original X-axis slide but also matches
-   the vertical drift so it moves in concert with the container. */
 @keyframes nav-logo-emerge {
   0% {
     opacity: 0;
-    transform: translate(-10px, -8px);
+    transform: translate3d(0, 14px, 0);
   }
 
   100% {
     opacity: 1;
-    transform: translate(0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
-/* Nav items staggered entrance – subtle upward drift with fade */
 @keyframes nav-item-emerge {
   0% {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translate3d(0, 12px, 0);
   }
 
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
-/* User controls entrance (right side) */
 @keyframes nav-controls-emerge {
   0% {
     opacity: 0;
-    transform: translateY(-8px) translateX(10px);
+    transform: translate3d(0, 12px, 0);
   }
 
   100% {
     opacity: 1;
-    transform: translateY(0) translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -119,29 +118,33 @@
   }
 }
 
-/* Apply animations to elements */
+/* ease matches marketing entranceEase [0.16, 1, 0.3, 1] */
 .nav-container-animated {
-  animation: nav-container-emerge 0.8s ease-out forwards;
-  will-change: opacity, filter;
+  animation: nav-container-emerge 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .nav-logo-animated {
-  animation: nav-logo-emerge 0.9s ease-out forwards;
-  will-change: opacity, transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  animation: nav-logo-emerge 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.08s;
 }
 
 .nav-item-animated {
-  /* Remove static opacity override to ensure visibility even if animation fails */
-  animation: nav-item-emerge 0.7s ease-out forwards;
-  animation-delay: calc(var(--item-index, 0) * 0.08s + 0.2s);
-  will-change: opacity, transform;
+  opacity: 0;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  /* Animate the list item as a unit so border boxes don’t reflow mid-rise. */
+  animation: nav-item-emerge 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--item-index, 0) * 0.09s + 0.22s);
 }
 
 .nav-controls-animated {
-  animation: nav-controls-emerge 0.9s ease-out forwards;
-  animation-delay: 0.3s;
-  animation-fill-mode: both;
-  will-change: opacity, transform;
+  opacity: 0;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  animation: nav-controls-emerge 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.52s;
 }
 
 /* Dynamic hover effects */
@@ -184,6 +187,8 @@
   .nav-item-animated,
   .nav-controls-animated {
     animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .nav-item-hover-effect:hover {
