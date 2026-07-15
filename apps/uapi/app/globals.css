@@ -1477,12 +1477,13 @@ nextjs-portal {
 }
 
 /* --------------------------------------------------------------------------
- * Radix <DropdownMenu.Content> spacing reset
+ * Radix <DropdownMenu.Content> spacing + geometry reset
  * --------------------------------------------------------------------------
  * Force-remove any user-agent or library-injected margins so the menu aligns
- * flush with its trigger element. This targets only the menu content itself
- * by leveraging the automatically added data attribute.
+ * flush with its trigger element. Keep panels fully squared (product chrome).
  */
-[data-radix-menu-content] {
+[data-radix-menu-content],
+[data-radix-dropdown-menu-content] {
   margin: 0 !important;
+  border-radius: 0 !important;
 }

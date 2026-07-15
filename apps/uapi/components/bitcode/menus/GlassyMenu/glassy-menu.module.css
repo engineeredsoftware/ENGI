@@ -2,6 +2,7 @@
   min-width: 230px;
   max-width: 90vw;
   max-height: 80vh;
+  overflow-x: hidden;
   overflow-y: auto;
   margin: 0;
   background: rgba(10, 12, 20, 0.86);
@@ -10,7 +11,11 @@
                     linear-gradient(180deg, rgba(8, 18, 28, 0.52), rgba(10, 12, 20, 0.9));
   backdrop-filter: blur(12px) saturate(140%);
   -webkit-backdrop-filter: blur(12px) saturate(140%);
-  border-radius: 12px;
+  /*
+   * Fully squared chrome — match Nav account trigger / product controls.
+   * !important so Tailwind/Radix animation utilities cannot reintroduce radius.
+   */
+  border-radius: 0 !important;
   border: 1px solid rgba(101, 254, 183, 0.14);
   box-shadow: 0 10px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(101, 254, 183, 0.07), inset 0 0 24px rgba(101, 254, 183, 0.04);
   padding: 0;
@@ -40,25 +45,44 @@
   width: 100%;
   text-align: left;
   cursor: pointer;
-  transition: color 0.15s ease, transform 0.08s ease;
+  outline: none;
+  transition: color 0.15s ease, background-color 0.15s ease, transform 0.08s ease;
 }
 
+/* Emerald-only frame — no sky-blue stop (was reading as a blue hover ring). */
 .item::before { 
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 8px;
+  border-radius: 0;
   padding: 1px;
-  background: linear-gradient(120deg, rgba(101, 254, 183, 0.22), rgba(56, 189, 248, 0.26));
+  background: linear-gradient(
+    120deg,
+    rgba(101, 254, 183, 0.42),
+    rgba(52, 211, 153, 0.28) 55%,
+    rgba(101, 254, 183, 0.34)
+  );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: 0;
   transition: opacity 0.15s ease;
+  pointer-events: none;
 }
 
-.item:hover { color: #ffffff; }
-.item:hover::before { opacity: 1; }
+.item:hover,
+.item:focus-visible,
+.item[data-highlighted] {
+  color: #ffffff;
+  background: rgba(101, 254, 183, 0.08);
+}
+
+.item:hover::before,
+.item:focus-visible::before,
+.item[data-highlighted]::before {
+  opacity: 1;
+}
+
 .item:active { transform: scale(0.98); }
 
 .auxillariesSolarIcon {
@@ -166,34 +190,59 @@
     0 0 11px rgba(101, 254, 183, 0.22);
 }
 
-.item:hover .auxillariesSolarIcon {
+.item:hover .auxillariesSolarIcon,
+.item:focus-visible .auxillariesSolarIcon,
+.item[data-highlighted] .auxillariesSolarIcon {
   filter:
-    drop-shadow(0 0 12px rgba(101, 254, 183, 0.44))
-    drop-shadow(0 0 18px rgba(56, 189, 248, 0.16));
+    drop-shadow(0 0 12px rgba(101, 254, 183, 0.5))
+    drop-shadow(0 0 18px rgba(101, 254, 183, 0.22));
 }
 
-.item:hover .auxillariesSolarHalo {
+.item:hover .auxillariesSolarHalo,
+.item:focus-visible .auxillariesSolarHalo,
+.item[data-highlighted] .auxillariesSolarHalo {
   opacity: 1;
   transform: scale(1.05);
 }
 
-.item:hover .auxillariesSolarRing[data-ring='outer'] {
+.item:hover .auxillariesSolarRing[data-ring='outer'],
+.item:focus-visible .auxillariesSolarRing[data-ring='outer'],
+.item[data-highlighted] .auxillariesSolarRing[data-ring='outer'] {
   border-color: rgba(101, 254, 183, 0.58);
   animation-duration: 7.2s;
 }
 
-.item:hover .auxillariesSolarRing[data-ring='middle'] {
-  border-color: rgba(34, 211, 238, 0.52);
+.item:hover .auxillariesSolarRing[data-ring='middle'],
+.item:focus-visible .auxillariesSolarRing[data-ring='middle'],
+.item[data-highlighted] .auxillariesSolarRing[data-ring='middle'] {
+  border-color: rgba(110, 231, 183, 0.48);
   animation-duration: 5.8s;
 }
 
-.item:hover .auxillariesSolarRing[data-ring='inner'] {
-  border-color: rgba(251, 191, 36, 0.44);
+.item:hover .auxillariesSolarRing[data-ring='inner'],
+.item:focus-visible .auxillariesSolarRing[data-ring='inner'],
+.item[data-highlighted] .auxillariesSolarRing[data-ring='inner'] {
+  border-color: rgba(167, 243, 208, 0.5);
   animation-duration: 4.6s;
 }
 
 .danger { color: #f87171; }
-.danger:hover { background: rgba(248, 113, 113, 0.08); }
+.danger:hover,
+.danger:focus-visible,
+.danger[data-highlighted] {
+  color: #fca5a5;
+  background: rgba(248, 113, 113, 0.1);
+}
+.danger:hover::before,
+.danger:focus-visible::before,
+.danger[data-highlighted]::before {
+  background: linear-gradient(
+    120deg,
+    rgba(248, 113, 113, 0.45),
+    rgba(239, 68, 68, 0.28) 55%,
+    rgba(248, 113, 113, 0.38)
+  );
+}
 .dangerIcon { color: #f87171; }
 
 /* Picker containers in Conversations can adopt this for visual consistency */

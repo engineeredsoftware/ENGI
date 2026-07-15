@@ -6,31 +6,45 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-jest.mock('@radix-ui/react-dropdown-menu', () => {
+jest.mock('@radix-ui/react-popover', () => {
   const React = require('react');
 
   return {
-    Root: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-    Trigger: ({ asChild, children }: { asChild?: boolean; children: React.ReactNode }) =>
-      asChild ? children : <button type="button">{children}</button>,
-    Portal: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-    Content: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-    Item: ({
+    Root: ({
       children,
-      onSelect,
-      className,
+      open,
+      onOpenChange,
     }: {
       children: React.ReactNode;
-      onSelect?: (event: { preventDefault: () => void }) => void;
-      className?: string;
+      open?: boolean;
+      onOpenChange?: (open: boolean) => void;
     }) => (
-      <button
-        type="button"
-        className={className}
-        onClick={() => onSelect?.({ preventDefault: () => {} })}
-      >
-        {children}
-      </button>
+      <div data-testid="chrome-menu-root" data-open={open ? 'true' : 'false'}>
+        {React.Children.map(children, (child: any) =>
+          React.isValidElement(child)
+            ? React.cloneElement(child as React.ReactElement<any>, { open, onOpenChange })
+            : child,
+        )}
+      </div>
+    ),
+    Trigger: ({ asChild, children, onOpenChange }: any) => {
+      if (asChild && React.isValidElement(children)) {
+        return React.cloneElement(children as React.ReactElement<any>, {
+          onClick: (event: React.MouseEvent) => {
+            (children as any).props?.onClick?.(event);
+            onOpenChange?.(true);
+          },
+        });
+      }
+      return (
+        <button type="button" onClick={() => onOpenChange?.(true)}>
+          {children}
+        </button>
+      );
+    },
+    Portal: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+    Content: ({ children }: { children: React.ReactNode }) => (
+      <div role="dialog">{children}</div>
     ),
   };
 });

@@ -262,86 +262,10 @@
   }
 }
 
-/* Dropdown */
-.notifications-dropdown {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: -10px;
-  width: min(410px, calc(100vw - 2rem));
-  max-height: min(520px, calc(100vh - 8rem));
-  background:
-    radial-gradient(circle at top left, rgba(101, 254, 183, 0.09), transparent 34%),
-    radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.07), transparent 28%),
-    rgba(3, 8, 22, 0.95);
-  backdrop-filter: blur(12px);
-  border-radius: 0;
-  border: 1px solid rgba(103, 254, 183, 0.14);
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(103, 254, 183, 0.05),
-    0 0 30px rgba(103, 254, 183, 0.05);
-  overflow: hidden;
-  z-index: 100;
-  animation: dropdown-emerge 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  transform-origin: top right;
-}
-
-@keyframes dropdown-emerge {
-  0% {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.95);
-    filter: blur(8px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-}
-
-/* Dropdown Header */
-.notifications-header {
-  display: flex;
-  gap: 0.9rem;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 16px;
-  border-bottom: 1px solid rgba(103, 254, 183, 0.1);
-}
-
-.notifications-header > div {
-  min-width: 0;
-}
-
-.notifications-header h3 {
-  font-size: 16px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0;
-}
-
-.notifications-header p {
-  max-width: 18rem;
-  line-height: 1.35;
-}
-
-.mark-all-read {
-  background: none;
-  border: none;
-  font-size: 12px;
-  color: rgba(103, 254, 183, 0.8);
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 0;
-  white-space: nowrap;
-  transition: all 0.2s ease;
-}
-
-.mark-all-read:hover {
-  background: rgba(103, 254, 183, 0.1);
-  color: rgba(103, 254, 183, 1);
-}
+/*
+ * Panel chrome (surface, enter/exit, header) lives on ChromeMenu.
+ * Keep only notification-list domain styles below.
+ */
 
 /* Notifications List */
 .notifications-list {

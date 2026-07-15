@@ -1,20 +1,40 @@
-Glassy Menus
+# Bitcode menus
 
-Purpose
-- A reusable purple-glassy dropdown surface that unifies menus across the app while keeping the Evidence Document inline template selector unchanged.
+## ChromeMenu (nav chrome — required for account + notifications)
 
-Usage
-- Import CSS module and apply to the container surface.
-  - Radix DropdownMenu: pass className to Content.
-  - Custom popovers: wrap content with a div using `.menu`.
+Shared presentation stack for nav right-chrome panels:
 
-File
-- glassy-menu.module.css
-  - `.menu`: container surface with blur, gradient and subtle purple ring.
-  - `.item`: interactive row styling with gradient border on hover.
-  - `.danger`/`.dangerIcon`: red variant for destructive actions.
-  - `.pickerSurface`: surface for Big‑O pickers.
+- Squared glass surface
+- Enter / exit motion
+- `modal={false}` (no body-scroll lock / page shift)
+- Header, body, item, empty slots
 
-Notes
-- Keep the Evidence Document inline template selector unmodified.
-- Use reduced motion where applicable for animated menus.
+**Use this** for `UserMenu`, `NotificationsWidget`, and any peer nav chrome menu.
+
+```tsx
+import {
+  ChromeMenu,
+  ChromeMenuHeader,
+  ChromeMenuBody,
+  ChromeMenuItem,
+} from '@/components/bitcode/menus/ChromeMenu/ChromeMenu';
+
+<ChromeMenu trigger={<button type="button">…</button>} size="narrow" contentLabel="Account">
+  <ChromeMenuHeader title="…" />
+  <ChromeMenuBody>…</ChromeMenuBody>
+</ChromeMenu>
+```
+
+- `size="narrow"` — account menu
+- `size="wide"` — notifications panel
+
+Files:
+
+- `ChromeMenu/ChromeMenu.tsx`
+- `ChromeMenu/chrome-menu.module.css`
+
+## GlassyMenu (legacy surface tokens)
+
+CSS module used by non-chrome pickers (Conversations attachment, team management). Prefer **ChromeMenu** for nav account/notifications so enter/exit/presentation stay unified.
+
+- `GlassyMenu/glassy-menu.module.css` — `.menu`, `.item`, `.danger`, `.pickerSurface`
