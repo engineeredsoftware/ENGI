@@ -27,4 +27,6 @@ pnpm --dir apps/chatgpt test
 
 ## Vercel
 
-Set the Vercel project **Root Directory** to `apps/uapi` (was `uapi`).
+Project **Root Directory** must be `apps/uapi`. Monorepo install/build
+commands live in `apps/uapi/vercel.json` (install from repo root via pnpm
+workspace, then `pnpm run build` in the app).

@@ -75,7 +75,10 @@ Failure telemetry for sandbox create/run is surfaced through deposit pipeline UI
 ## 3. App deploy (`apps/uapi`)
 
 - Next.js App Router commercial site: packs, reads, deposits, docs, conversations, auxillaries, APIs.
-- Vercel project **Root Directory** must be `apps/uapi` after monorepo reorg.
+- Vercel project **Root Directory** = `apps/uapi` (required; monorepo layout).
+- In-repo deploy config: `apps/uapi/vercel.json`
+  - **Install:** monorepo root `pnpm install --frozen-lockfile` (workspace packages)
+  - **Build:** `pnpm run build` in `apps/uapi`
 - Serverless/edge constraints: force sandbox host on serverless; LocalHost is local-only.
 
 Env of interest (non-exhaustive): public product flags, Supabase public keys,
