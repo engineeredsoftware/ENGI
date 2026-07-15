@@ -70,21 +70,24 @@ export function MarketingLandingPillarCard({
             }}
           />
           <div className="relative flex min-h-0 flex-1 flex-col">
-            <div className="relative pr-16 text-violet-100 phone:pr-20">
-              <span className="absolute right-0 top-0 inline-flex min-w-[64px] items-center justify-center rounded-none border border-white/12 bg-white/8 px-2.5 py-1 text-center text-[8px] uppercase tracking-[0.16em] text-violet-100/70 phone:min-w-[72px]">
-                deposit
-              </span>
-              <div className="flex min-w-0 items-start gap-2">
-                <Icon className="h-4 w-4 text-purple-300" />
-                <div className="min-w-0">
-                  <p className="bg-gradient-to-r from-purple-300 via-pink-300 to-red-300 bg-clip-text text-[11px] font-semibold uppercase tracking-[0.18em] text-transparent">
-                    {title}
-                  </p>
-                  <p className="mt-1 max-w-[16ch] text-[9px] uppercase leading-snug tracking-[0.16em] text-violet-100/52 phone:text-[10px]">
-                    <span className="block whitespace-nowrap">Deposit Knowledge</span>
-                    <span className="block whitespace-nowrap">Supply</span>
-                  </p>
+            <div className="relative text-violet-100">
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex min-w-0 items-start gap-2">
+                  <Icon className="mt-0.5 h-4 w-4 shrink-0 text-purple-300" />
+                  <div className="min-w-0">
+                    {/* pe avoids bg-clip-text clipping the last glyph on wide tracking. */}
+                    <p className="whitespace-nowrap bg-gradient-to-r from-purple-300 via-pink-300 to-red-300 bg-clip-text pe-[0.2em] text-[11px] font-semibold uppercase tracking-[0.16em] text-transparent">
+                      {title}
+                    </p>
+                    <p className="mt-1 max-w-[16ch] text-[9px] uppercase leading-snug tracking-[0.16em] text-violet-100/52 phone:text-[10px]">
+                      <span className="block whitespace-nowrap">Deposit Knowledge</span>
+                      <span className="block whitespace-nowrap">Supply</span>
+                    </p>
+                  </div>
                 </div>
+                <span className="inline-flex shrink-0 items-center justify-center rounded-none border border-white/12 bg-white/8 px-2 py-1 text-center text-[8px] uppercase tracking-[0.14em] text-violet-100/70">
+                  deposit
+                </span>
               </div>
             </div>
             <p className="mt-1.5 min-h-[4.5rem] text-[11px] leading-4 text-violet-50/88 phone:min-h-[5rem] phone:text-[13px] phone:leading-5">
@@ -158,21 +161,23 @@ export function MarketingLandingPillarCard({
           <div className="absolute inset-0 -z-10 opacity-10 [mask-image:linear-gradient(to_bottom,transparent,white,white,transparent)] bg-[repeating-linear-gradient(90deg,#ffffff0d_0_40px,transparent_40px_80px)] bg-[length:160px_160px]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(251,146,60,0.22),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(251,191,36,0.1),transparent_30%)]" />
           <div className="relative flex min-h-0 flex-1 flex-col">
-            <div className="relative pr-16 text-orange-100 phone:pr-20">
-              <span className="absolute right-0 top-0 inline-flex min-w-[64px] items-center justify-center rounded-none border border-orange-200/12 bg-orange-400/8 px-2.5 py-1 text-center text-[8px] uppercase tracking-[0.16em] text-orange-50/72 phone:min-w-[72px]">
-                read
-              </span>
-              <div className="flex min-w-0 items-start gap-2">
-                <Icon className="h-4 w-4 text-orange-300" />
-                <div className="min-w-0">
-                  <p className="bg-gradient-to-r from-orange-200 via-orange-300 to-amber-200 bg-clip-text text-[11px] font-semibold uppercase tracking-[0.18em] text-transparent">
-                    {title}
-                  </p>
-                  <p className="mt-1 max-w-[16ch] text-[9px] uppercase leading-snug tracking-[0.16em] text-orange-100/52 phone:text-[10px]">
-                    <span className="block whitespace-nowrap">Options that</span>
-                    <span className="block whitespace-nowrap">fit Need</span>
-                  </p>
+            <div className="relative text-orange-100">
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex min-w-0 items-start gap-2">
+                  <Icon className="mt-0.5 h-4 w-4 shrink-0 text-orange-300" />
+                  <div className="min-w-0">
+                    <p className="whitespace-nowrap bg-gradient-to-r from-orange-200 via-orange-300 to-amber-200 bg-clip-text pe-[0.2em] text-[11px] font-semibold uppercase tracking-[0.16em] text-transparent">
+                      {title}
+                    </p>
+                    <p className="mt-1 max-w-[16ch] text-[9px] uppercase leading-snug tracking-[0.16em] text-orange-100/52 phone:text-[10px]">
+                      <span className="block whitespace-nowrap">Options that</span>
+                      <span className="block whitespace-nowrap">fit Need</span>
+                    </p>
+                  </div>
                 </div>
+                <span className="inline-flex shrink-0 items-center justify-center rounded-none border border-orange-200/12 bg-orange-400/8 px-2 py-1 text-center text-[8px] uppercase tracking-[0.14em] text-orange-50/72">
+                  read
+                </span>
               </div>
             </div>
             <p className="mt-1.5 min-h-[4.5rem] text-[11px] leading-4 text-orange-50/88 phone:min-h-[5rem] phone:text-[13px] phone:leading-5">

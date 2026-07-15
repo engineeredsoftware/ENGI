@@ -52,7 +52,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
             <CircleStackIcon className="h-3.5 w-3.5" />
             A Data Marketplace
           </BitcodePill>
-          <p className="max-w-[14rem] text-right text-[10px] uppercase leading-snug tracking-[0.14em] text-emerald-200/58 phone:max-w-[18rem] phone:text-[11px] phone:tracking-[0.18em]">
+          <p className="whitespace-nowrap text-right text-[10px] uppercase tracking-[0.14em] text-emerald-200/58 phone:text-[11px] phone:tracking-[0.18em]">
             A Knowledge Depot, An Endless Economy
           </p>
         </div>
@@ -102,14 +102,14 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
 
             <div className="rounded-none border border-white/8 bg-white/5 p-4">
               <div className="flex items-center justify-between gap-3">
-                <p className="min-w-0 bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold leading-none text-transparent">
+                <p className="min-w-0 bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-[15px] font-semibold leading-none text-transparent">
                   {BITCODE_PUBLIC_COPY.operatorFrame.title}
                 </p>
                 <span className="inline-flex min-w-[92px] shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 px-2.5 py-1.5 text-center text-[10px] uppercase leading-4 tracking-[0.16em] text-white/60">
                   {BITCODE_PUBLIC_COPY.operatorFrame.badge}
                 </span>
               </div>
-              <p className="mt-1 text-[10px] uppercase leading-4 tracking-[0.12em] text-emerald-100/52">
+              <p className="mt-1 text-[12px] uppercase leading-4 tracking-[0.12em] text-emerald-100/58">
                 {BITCODE_PUBLIC_COPY.operatorFrame.subtitle}
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
@@ -240,7 +240,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
 
               <div className="shrink-0 rounded-none border border-white/8 bg-white/5 p-4">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="min-w-0 bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-sm font-semibold leading-none text-transparent">
+                  <p className="min-w-0 bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-[15px] font-semibold leading-none text-transparent">
                     {BITCODE_PUBLIC_COPY.operatorFrame.title}
                   </p>
                   <span className="inline-flex min-w-[92px] shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 px-2.5 py-1.5 text-center text-[10px] uppercase leading-4 tracking-[0.16em] text-white/60">
@@ -248,7 +248,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                   </span>
                 </div>
                 {/* Full-width subtitle — avoids one-word-per-line squeeze beside the badge. */}
-                <p className="mt-1 text-[10px] uppercase leading-4 tracking-[0.12em] text-emerald-100/58">
+                <p className="mt-1 text-[12px] uppercase leading-4 tracking-[0.12em] text-emerald-100/58">
                   {BITCODE_PUBLIC_COPY.operatorFrame.subtitle}
                 </p>
                 <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 laptop:gap-x-4 laptop:gap-y-3">
@@ -362,7 +362,8 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                             <span
                               className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/[0.04] ${iconClassName}`}
                             >
-                              <RowIcon className="h-4 w-4" />
+                              {/* Larger glyph; square chrome stays h-9 w-9. */}
+                              <RowIcon className="h-6 w-6" strokeWidth={1.5} />
                             </span>
                             <p className="text-[12px] uppercase tracking-[0.18em] text-emerald-200/62 tablet:text-[13px] laptop:text-[12px]">
                               {key}
@@ -404,11 +405,12 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
               </div>
 
               <div className="shrink-0 rounded-none border border-white/8 bg-white/5 p-4">
-                <div className="flex items-start justify-between gap-3">
-                  <p className="min-w-0 bg-gradient-to-r from-emerald-200 via-white to-orange-200 bg-clip-text text-sm font-semibold text-transparent">
+                <div className="flex items-center justify-between gap-3">
+                  {/* Same chrome as Marketplace title/badge; keep emerald→orange gradient unique. */}
+                  <p className="min-w-0 whitespace-nowrap bg-gradient-to-r from-emerald-200 via-white to-orange-200 bg-clip-text text-[15px] font-semibold leading-none text-transparent">
                     {BITCODE_PUBLIC_COPY.sourceToSettlement.title}
                   </p>
-                  <span className="inline-flex min-w-[92px] shrink-0 items-center justify-center rounded-none border border-emerald-300/12 bg-emerald-400/6 px-2.5 py-1 font-mono text-center text-[10px] uppercase tracking-[0.18em] text-emerald-50/72">
+                  <span className="inline-flex shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 px-1.5 py-1.5 text-center text-[10px] uppercase leading-4 tracking-[0.14em] text-white/60">
                     {BITCODE_PUBLIC_COPY.sourceToSettlement.badge}
                   </span>
                 </div>
