@@ -28,22 +28,8 @@ function renderMicroBlogBody(body: string, highlights: readonly string[]) {
 }
 
 function renderMicroBlogMeta(meta: string) {
-  const parts = meta.split(/\s+\*\s+|\s+•\s+/);
-  if (parts.length !== 2) return <span>{meta}</span>;
-
-  return (
-    <span aria-hidden="true" className="inline-flex items-center gap-2.5">
-      <span>{parts[0]}</span>
-      <span
-        className="mt-px size-1 rounded-full"
-        style={{
-          backgroundColor: 'rgba(255,255,255,0.88)',
-          boxShadow: '0 0 10px rgba(255,255,255,0.32), 0 0 16px rgba(101,254,183,0.35)',
-        }}
-      />
-      <span>{parts[1]}</span>
-    </span>
-  );
+  // Date-only chip (author name removed from public micro-blog meta).
+  return <span>{meta}</span>;
 }
 
 export const MarketingLandingGuideCard = memo(function MarketingLandingGuideCard() {
@@ -84,16 +70,17 @@ export const MarketingLandingGuideCard = memo(function MarketingLandingGuideCard
         })}
       </div>
 
-      <div className="border-b border-emerald-300/10 pb-3 laptop:grid laptop:grid-cols-[minmax(0,1fr)_auto] laptop:items-center laptop:gap-4">
-        <div className="min-w-0 laptop:pr-2">
-          <p className="whitespace-nowrap bg-gradient-to-r from-emerald-200 via-emerald-100 to-white bg-clip-text text-[11px] font-semibold uppercase leading-[1.35] tracking-[0.18em] text-transparent phone:text-[12px] phone:tracking-[0.22em]">
+      <div className="border-b border-emerald-300/10 pb-3 laptop:grid laptop:grid-cols-[minmax(0,1fr)_auto] laptop:items-center laptop:gap-2">
+        <div className="min-w-0">
+          {/* Tighter tracking + gap so longer titles (e.g. Source-to-Shares) stay one line. */}
+          <p className="whitespace-nowrap bg-gradient-to-r from-emerald-200 via-emerald-100 to-white bg-clip-text pe-[0.12em] text-[11px] font-semibold uppercase leading-[1.35] tracking-[0.12em] text-transparent phone:text-[12px] phone:tracking-[0.14em]">
             {activePost.title}
           </p>
         </div>
         <div
           aria-label={activePost.meta}
           data-testid="micro-blog-meta"
-          className="mt-3 inline-flex max-w-full flex-wrap items-center rounded-none border border-emerald-300/10 bg-emerald-400/[0.05] px-2.5 py-1 text-[9px] uppercase leading-4 tracking-[0.18em] text-emerald-100/58 phone:text-[10px] laptop:mt-0 laptop:justify-self-start"
+          className="mt-3 inline-flex max-w-full flex-wrap items-center rounded-none border border-emerald-300/10 bg-emerald-400/[0.05] px-2 py-1 text-[9px] uppercase leading-4 tracking-[0.12em] text-emerald-100/58 phone:text-[10px] laptop:mt-0 laptop:justify-self-start"
         >
           {renderMicroBlogMeta(activePost.meta)}
         </div>

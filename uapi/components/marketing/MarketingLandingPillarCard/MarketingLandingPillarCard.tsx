@@ -86,7 +86,7 @@ export function MarketingLandingPillarCard({
                   </div>
                 </div>
                 <span className="inline-flex shrink-0 items-center justify-center rounded-none border border-white/12 bg-white/8 px-2 py-1 text-center text-[8px] uppercase tracking-[0.14em] text-violet-100/70">
-                  deposit
+                  Sell
                 </span>
               </div>
             </div>
@@ -176,7 +176,7 @@ export function MarketingLandingPillarCard({
                   </div>
                 </div>
                 <span className="inline-flex shrink-0 items-center justify-center rounded-none border border-orange-200/12 bg-orange-400/8 px-2 py-1 text-center text-[8px] uppercase tracking-[0.14em] text-orange-50/72">
-                  read
+                  Buy
                 </span>
               </div>
             </div>

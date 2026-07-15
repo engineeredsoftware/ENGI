@@ -97,7 +97,7 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('Developing an MVP')).toBeInTheDocument();
     expect(screen.getByTestId('micro-blog-meta')).toHaveAttribute(
       'aria-label',
-      'May–July 2026 * Garrett Maring',
+      'May–July 2026',
     );
     expect(screen.getByText('A Data Marketplace')).toBeInTheDocument();
     expect(
@@ -150,11 +150,11 @@ describe('MarketingLandingPage', () => {
     expect(
       screen.getByText((_, node) => {
         if (node?.tagName !== 'H2') return false;
-        return (node.textContent ?? '').includes('Exchanging Bitcode for Bitcoin.');
+        return (node.textContent ?? '').includes('Exchanging Bitcoins for Bitcodes.');
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText('Bitcode', { selector: 'h2 span' })).toBeInTheDocument();
-    expect(screen.getByText('Bitcoin', { selector: 'h2 span' })).toBeInTheDocument();
+    expect(screen.getByText('Bitcodes', { selector: 'h2 span' })).toBeInTheDocument();
+    expect(screen.getByText('Bitcoins', { selector: 'h2 span' })).toBeInTheDocument();
     expect(screen.getByText(/ERC-1155 on Ethereum/i)).toBeInTheDocument();
     expect(screen.getByText(/measurements, quotes, settlements, BTD, and delivery/iu)).toBeInTheDocument();
     expect(screen.queryByText(/testnet/i)).toBeNull();
