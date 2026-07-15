@@ -303,3 +303,88 @@ export function renderTrailingOrangeAsterisk(value: string, asteriskClassName = 
     </>
   ) as React.ReactNode;
 }
+
+/**
+ * Claim anchors in marketing body + footnotes.
+ * - `*`  emerald — measurements / source-safe line
+ * - `**` orange  — AssetPack BTD volume / market price line
+ * Parse `**` before `*` so double markers are not split.
+ */
+export function renderClaimAnchorMarkers(value: string, markerClassName = '') {
+  const parts = value.split(/(\*\*|\*)/g);
+  return parts.map((part, index) => {
+    if (part === '**') {
+      return (
+        <span
+          key={`claim-anchor-2-${index}`}
+          className={`mx-[0.06em] inline-block align-super text-[0.72em] font-semibold leading-none text-orange-300 [text-shadow:0_0_10px_rgba(251,146,60,0.55)] ${markerClassName}`.trim()}
+          aria-hidden="true"
+        >
+          **
+        </span>
+      );
+    }
+    if (part === '*') {
+      return (
+        <span
+          key={`claim-anchor-1-${index}`}
+          className={`mx-[0.06em] inline-block align-super text-[0.72em] font-semibold leading-none text-emerald-300 [text-shadow:0_0_10px_rgba(103,254,183,0.55)] ${markerClassName}`.trim()}
+          aria-hidden="true"
+        >
+          *
+        </span>
+      );
+    }
+    if (!part) return null;
+    return <React.Fragment key={`claim-anchor-text-${index}`}>{part}</React.Fragment>;
+  }) as React.ReactNode;
+}
+
+/** Leading claim marker only (`*` or `**`); body text without the marker. */
+export function splitLeadingClaimAnchor(value: string): {
+  marker: '*' | '**' | null;
+  body: string;
+} {
+  const trimmed = value.trimStart();
+  if (trimmed.startsWith('**')) {
+    return { marker: '**', body: trimmed.slice(2).trimStart() };
+  }
+  if (trimmed.startsWith('*')) {
+    return { marker: '*', body: trimmed.slice(1).trimStart() };
+  }
+  return { marker: null, body: value };
+}
+
+/**
+ * Footnote line with the claim marker fixed at the start (left column),
+ * so multi-line wrap never leaves the asterisk trailing.
+ */
+export function renderLeadingClaimFootnote(value: string) {
+  const { marker, body } = splitLeadingClaimAnchor(value);
+  if (!marker) {
+    return <span>{body}</span>;
+  }
+  const markerNode =
+    marker === '**' ? (
+      <span
+        className="inline-block shrink-0 text-[0.85em] font-semibold leading-none text-orange-300 [text-shadow:0_0_10px_rgba(251,146,60,0.55)]"
+        aria-hidden="true"
+      >
+        **
+      </span>
+    ) : (
+      <span
+        className="inline-block shrink-0 text-[0.85em] font-semibold leading-none text-emerald-300 [text-shadow:0_0_10px_rgba(103,254,183,0.55)]"
+        aria-hidden="true"
+      >
+        *
+      </span>
+    );
+
+  return (
+    <span className="flex items-start gap-1.5">
+      <span className="mt-[0.15em] w-[1.1rem] shrink-0 text-left">{markerNode}</span>
+      <span className="min-w-0 flex-1">{body}</span>
+    </span>
+  );
+}

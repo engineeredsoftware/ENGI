@@ -104,7 +104,7 @@ describe('MarketingLandingPage', () => {
       screen.getByText('A Knowledge Depot, An Endless Economy'),
     ).toBeInTheDocument();
     expect(
-      screen.getByText('For Humans, Agents, Aliens...'),
+      screen.getByText('For Agents, Humans, Aliens...'),
     ).toBeInTheDocument();
     expect(screen.getByText('Source Measurements')).toBeInTheDocument();
     expect(screen.getByText('Absolutes')).toBeInTheDocument();
@@ -169,10 +169,16 @@ describe('MarketingLandingPage', () => {
     expect(screen.queryByRole('link', { name: /MCP API/u })).toBeNull();
     expect(screen.queryByRole('link', { name: /Conversational Extensions/u })).toBeNull();
     expect(
+      screen.getByText(/Measurements are visible; IP is not\. Bitcode is source-safe knowledge trading/u),
+    ).toBeInTheDocument();
+    expect(
       screen.getByText(
-        /Measurements are visible; IP is not\. Bitcode is source-safe knowledge trading\./u,
+        /An AssetPack's BTD volume is a protocol determination\. The price of BTD is a market one/u,
       ),
     ).toBeInTheDocument();
+    // Claim anchors: * (measurements) and ** (AssetPacks) in body + footnotes.
+    expect(screen.getAllByText('**').length).toBeGreaterThanOrEqual(2);
+    expect(screen.getAllByText('*').length).toBeGreaterThanOrEqual(2);
     expect(screen.getByText('Public Measures')).toBeInTheDocument();
     expect(screen.getByText('Private Source')).toBeInTheDocument();
     expect(screen.getByText('Auditable Trade')).toBeInTheDocument();

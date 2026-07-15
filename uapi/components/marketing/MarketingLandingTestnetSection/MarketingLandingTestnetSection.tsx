@@ -16,6 +16,10 @@ import {
 
 import Logo from '@/components/bitcode/branding/Logo/Logo';
 import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy';
+import {
+  renderClaimAnchorMarkers,
+  renderLeadingClaimFootnote,
+} from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 
 const TITLE_HIGHLIGHTS = [
   { text: 'Bitcodes', tone: 'green' as const },
@@ -119,7 +123,9 @@ export function MarketingLandingTestnetSection() {
         <h2 className="mt-3 text-lg font-semibold leading-snug text-white phone:text-xl">
           {renderTitleWithHighlights(copy.title)}
         </h2>
-        <p className="mt-2 text-[14px] leading-6 text-neutral-300 phone:text-[15px]">{copy.meaning}</p>
+        <p className="mt-2 text-[14px] leading-6 text-neutral-300 phone:text-[15px]">
+          {renderClaimAnchorMarkers(copy.meaning)}
+        </p>
         <ul className="mt-3 grid grid-cols-1 gap-2.5" aria-label="Product interfaces">
           {copy.flow.map((entry) => {
             const Icon = FLOW_ICONS[entry.id as keyof typeof FLOW_ICONS] ?? ComputerDesktopIcon;
@@ -176,7 +182,13 @@ export function MarketingLandingTestnetSection() {
             );
           })}
         </ul>
-        <p className="mt-3 text-[11px] leading-5 text-neutral-400">{copy.sourceSafety}</p>
+        <div className="mt-3 space-y-1" aria-label="Product claim notes">
+          {copy.sourceSafety.map((line) => (
+            <p key={line} className="text-[11px] leading-5 text-neutral-400">
+              {renderLeadingClaimFootnote(line)}
+            </p>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -70,15 +70,16 @@ export const BITCODE_PUBLIC_COPY = {
     pill: 'Market',
     kicker: 'AssetPack commerce',
     // Single rail label (depot window chrome).
-    rail: 'For Humans, Agents, Aliens...',
+    rail: 'For Agents, Humans, Aliens...',
   },
   // Marketing presents the commercial product as production — no testnet language.
   // AssetPacks + BTD are ERC-1155 on Ethereum; purchase/settlement money is Bitcoin.
   testnetLaunch: {
     badge: 'Productionized Protocol',
     title: 'Exchanging Bitcoins for Bitcodes.',
+    // Claim anchors: * (emerald) → source-safety line 1; ** (orange) → BTD volume/price line 2.
     meaning:
-      'Measurements, quotes, settlements, BTD, and delivery are protocol state—AssetPacks and BTD are ERC-1155 on Ethereum; purchase with Bitcoin.',
+      'Measurements*, quotes, settlements, BTD, and delivery are protocol state—AssetPacks** and BTD are ERC-1155 on Ethereum; purchase with Bitcoin.',
     flow: [
       {
         id: 'website',
@@ -105,8 +106,10 @@ export const BITCODE_PUBLIC_COPY = {
           "Extensions for Claude, ChatGPT, Grok, and any application that communicates over MCP. Effortlessly use Bitcode within the chat experiences you're already used to.",
       },
     ],
-    sourceSafety:
-      'Measurements are visible; IP is not. Bitcode is source-safe knowledge trading.',
+    sourceSafety: [
+      '* Measurements are visible; IP is not. Bitcode is source-safe knowledge trading.',
+      "** An AssetPack's BTD volume is a protocol determination. The price of BTD is a market one.",
+    ],
   },
   operatorFrame: {
     title: 'Marketplace',
