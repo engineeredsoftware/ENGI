@@ -493,79 +493,201 @@ export function assertVercelSandboxAuthAvailable(
 }
 
 /**
- * Resolve the pure-ESM entry of `@vercel/sandbox` as a file:// URL.
+ * Locate the installed `@vercel/sandbox` package root.
  *
- * Package root resolution under Next/CJS serverless can load `dist/index.cjs`
- * → `command.cjs`, which does `require('@workflow/serde')`. That package is
- * pure ESM, so Node throws ERR_REQUIRE_ESM on Vercel `/var/task`. The ESM
- * graph (`dist/index.js`) imports serde correctly.
+ * Avoids `createRequire(...).resolve` as the only strategy: Next/webpack can
+ * leave `createRequire` unusable on Vercel (`undefined.resolve` → immediate
+ * "Cannot read properties of undefined (reading 'resolve')"). Prefer
+ * filesystem discovery under cwd `node_modules` (and pnpm layout), then a
+ * guarded createRequire fallback for local/Jest.
  */
-export function resolveVercelSandboxEsmEntryHref(
-  resolveId: (id: string) => string = defaultResolvePackageId,
-): string {
-  const root = resolveVercelSandboxPackageRoot(resolveId);
-  const esmIndex = path.join(root, 'dist', 'index.js');
-  return pathToFileURL(esmIndex).href;
-}
-
 export function resolveVercelSandboxPackageRoot(
-  resolveId: (id: string) => string = defaultResolvePackageId,
+  resolveId?: (id: string) => string,
 ): string {
-  try {
-    return path.dirname(resolveId('@vercel/sandbox/package.json'));
-  } catch {
-    // Incomplete exports / hoisting: resolve a runtime file and walk up until
-    // package.json name is @vercel/sandbox.
-    let dir = path.dirname(resolveId('@vercel/sandbox'));
+  if (resolveId) {
+    try {
+      return path.dirname(resolveId('@vercel/sandbox/package.json'));
+    } catch {
+      let dir = path.dirname(resolveId('@vercel/sandbox'));
+      for (let i = 0; i < 8; i++) {
+        const candidate = path.join(dir, 'package.json');
+        if (readPackageName(candidate) === '@vercel/sandbox') return dir;
+        const parent = path.dirname(dir);
+        if (parent === dir) break;
+        dir = parent;
+      }
+    }
+  }
+
+  const cwd = process.cwd();
+  const directCandidates = [
+    path.join(cwd, 'node_modules', '@vercel', 'sandbox'),
+    path.join(cwd, '..', 'node_modules', '@vercel', 'sandbox'),
+    // Next standalone / monorepo traces sometimes nest under .next
+    path.join(cwd, '.next', 'standalone', 'node_modules', '@vercel', 'sandbox'),
+    path.join(cwd, '.next', 'server', 'node_modules', '@vercel', 'sandbox'),
+  ];
+  for (const dir of directCandidates) {
+    if (readPackageName(path.join(dir, 'package.json')) === '@vercel/sandbox') {
+      return dir;
+    }
+  }
+
+  // pnpm virtual store: node_modules/.pnpm/@vercel+sandbox@*/node_modules/@vercel/sandbox
+  for (const base of [cwd, path.join(cwd, '..')]) {
+    const pnpmRoot = path.join(base, 'node_modules', '.pnpm');
+    if (!fs.existsSync(pnpmRoot)) continue;
+    let entries: string[] = [];
+    try {
+      entries = fs.readdirSync(pnpmRoot);
+    } catch {
+      continue;
+    }
+    const matches = entries
+      .filter((name) => name.startsWith('@vercel+sandbox@'))
+      .sort()
+      .reverse();
+    for (const name of matches) {
+      const dir = path.join(pnpmRoot, name, 'node_modules', '@vercel', 'sandbox');
+      if (readPackageName(path.join(dir, 'package.json')) === '@vercel/sandbox') {
+        return dir;
+      }
+    }
+  }
+
+  const fromRequire = tryCreateRequireResolve('@vercel/sandbox/package.json');
+  if (fromRequire) return path.dirname(fromRequire);
+
+  const fromRuntime = tryCreateRequireResolve('@vercel/sandbox');
+  if (fromRuntime) {
+    let dir = path.dirname(fromRuntime);
     for (let i = 0; i < 8; i++) {
-      const candidate = path.join(dir, 'package.json');
-      try {
-        const pkg = JSON.parse(fs.readFileSync(candidate, 'utf8')) as { name?: string };
-        if (pkg.name === '@vercel/sandbox') return dir;
-      } catch {
-        // keep walking
+      if (readPackageName(path.join(dir, 'package.json')) === '@vercel/sandbox') {
+        return dir;
       }
       const parent = path.dirname(dir);
       if (parent === dir) break;
       dir = parent;
     }
-    throw new Error('Could not resolve @vercel/sandbox package root for ESM load.');
   }
+
+  throw new Error(
+    'Could not resolve @vercel/sandbox package root for ESM load ' +
+      `(cwd=${cwd}). Ensure @vercel/sandbox is installed for the server runtime.`,
+  );
 }
 
-function defaultResolvePackageId(id: string): string {
-  // createRequire needs a filepath anchor; cwd package.json works under Next,
-  // Jest, and monorepo package tests without import.meta.
-  const req = createRequire(path.join(process.cwd(), 'package.json'));
-  return req.resolve(id);
-}
-
-export async function loadVercelSandboxFactory(): Promise<SandboxFactory> {
-  const esmHref = resolveVercelSandboxEsmEntryHref();
-  // webpackIgnore: do not rewrite to a CJS interop chunk; load Node-native ESM.
-  const loaded = (await import(
-    /* webpackIgnore: true */
-    esmHref
-  )) as {
-    Sandbox?: SandboxFactory;
-    default?: unknown;
-  };
-
-  let Sandbox = loaded.Sandbox;
-  if (!Sandbox?.create && loaded.default && typeof loaded.default === 'object') {
-    const defaultExport = loaded.default as { Sandbox?: SandboxFactory; create?: SandboxFactory['create'] };
-    if (defaultExport.Sandbox?.create) {
-      Sandbox = defaultExport.Sandbox;
-    } else if (typeof defaultExport.create === 'function') {
-      Sandbox = defaultExport as SandboxFactory;
-    }
-  }
-  if (!Sandbox?.create) {
+export function resolveVercelSandboxEsmEntryHref(
+  resolveId?: (id: string) => string,
+): string {
+  const root = resolveVercelSandboxPackageRoot(resolveId);
+  const esmIndex = path.join(root, 'dist', 'index.js');
+  // Only enforce on-disk presence for live discovery (not unit-test injectors).
+  if (!resolveId && !fs.existsSync(esmIndex)) {
     throw new Error(
-      `@vercel/sandbox did not expose Sandbox.create() (ESM entry ${esmHref}).`,
+      `@vercel/sandbox ESM entry missing at ${esmIndex} (package root ${root}).`,
     );
   }
-  return Sandbox;
+  return pathToFileURL(esmIndex).href;
+}
+
+function readPackageName(packageJsonPath: string): string | null {
+  try {
+    const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')) as { name?: string };
+    return typeof pkg.name === 'string' ? pkg.name : null;
+  } catch {
+    return null;
+  }
+}
+
+function tryCreateRequireResolve(id: string): string | null {
+  try {
+    const createReq = createRequire as unknown as
+      | ((filename: string) => NodeRequire)
+      | undefined;
+    if (typeof createReq !== 'function') return null;
+
+    const anchors = [
+      path.join(process.cwd(), 'package.json'),
+      path.join(process.cwd(), 'node_modules', '@vercel', 'sandbox', 'package.json'),
+      // Prefer a real file when present so createRequire is valid under Next.
+      path.join(process.cwd(), 'node_modules', '@vercel', 'sandbox', 'dist', 'index.js'),
+    ];
+    for (const anchor of anchors) {
+      try {
+        const req = createReq(anchor);
+        if (!req || typeof req.resolve !== 'function') continue;
+        return req.resolve(id);
+      } catch {
+        // try next anchor
+      }
+    }
+  } catch {
+    // createRequire unavailable in this runtime
+  }
+  return null;
+}
+
+function extractSandboxFactory(loaded: {
+  Sandbox?: SandboxFactory;
+  default?: unknown;
+}): SandboxFactory | null {
+  if (loaded.Sandbox?.create) return loaded.Sandbox;
+  if (loaded.default && typeof loaded.default === 'object') {
+    const defaultExport = loaded.default as {
+      Sandbox?: SandboxFactory;
+      create?: SandboxFactory['create'];
+    };
+    if (defaultExport.Sandbox?.create) return defaultExport.Sandbox;
+    if (typeof defaultExport.create === 'function') {
+      return defaultExport as SandboxFactory;
+    }
+  }
+  return null;
+}
+
+/**
+ * Load Sandbox.create without hitting the dual-package CJS hazard.
+ *
+ * 1) webpackIgnore import of package name (Node uses the ESM "import" export)
+ * 2) file:// import of dist/index.js after filesystem root discovery
+ *
+ * Plain `import('@vercel/sandbox')` without webpackIgnore can be rewritten to
+ * CJS require → command.cjs → require(@workflow/serde) → ERR_REQUIRE_ESM.
+ */
+export async function loadVercelSandboxFactory(): Promise<SandboxFactory> {
+  const errors: string[] = [];
+
+  try {
+    const loaded = (await import(
+      /* webpackIgnore: true */
+      '@vercel/sandbox'
+    )) as { Sandbox?: SandboxFactory; default?: unknown };
+    const factory = extractSandboxFactory(loaded);
+    if (factory) return factory;
+    errors.push('package import missing Sandbox.create');
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    errors.push(`package import: ${message.slice(0, 240)}`);
+  }
+
+  try {
+    const esmHref = resolveVercelSandboxEsmEntryHref();
+    const loaded = (await import(
+      /* webpackIgnore: true */
+      esmHref
+    )) as { Sandbox?: SandboxFactory; default?: unknown };
+    const factory = extractSandboxFactory(loaded);
+    if (factory) return factory;
+    errors.push(`file import missing Sandbox.create (${esmHref})`);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    errors.push(`file import: ${message.slice(0, 240)}`);
+  }
+
+  throw new Error(
+    `@vercel/sandbox could not be loaded for host dispatch. ${errors.join(' | ')}`,
+  );
 }
 
 async function readCommandOutput(

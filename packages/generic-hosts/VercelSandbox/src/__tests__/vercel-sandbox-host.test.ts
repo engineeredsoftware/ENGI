@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -6,6 +7,7 @@ import {
   assertVercelSandboxAuthAvailable,
   normalizeCreateOptions,
   resolveVercelSandboxEsmEntryHref,
+  resolveVercelSandboxPackageRoot,
   VercelSandboxPipelineHost,
 } from '../vercel-sandbox-host';
 import type {
@@ -406,6 +408,16 @@ describe('VercelSandboxPipelineHost', () => {
     );
     expect(href.endsWith('/dist/index.js')).toBe(true);
     expect(href.includes('index.cjs')).toBe(false);
+  });
+
+  it('discovers @vercel/sandbox from node_modules without createRequire.resolve', () => {
+    // Live install path used on Vercel /var/task and local monorepo.
+    const root = resolveVercelSandboxPackageRoot();
+    expect(root.includes(`${path.sep}@vercel${path.sep}sandbox`)).toBe(true);
+    expect(fs.existsSync(path.join(root, 'dist', 'index.js'))).toBe(true);
+    const href = resolveVercelSandboxEsmEntryHref();
+    expect(href.startsWith('file:')).toBe(true);
+    expect(href.endsWith('/dist/index.js') || href.endsWith('\\dist\\index.js')).toBe(true);
   });
 
   it('accepts access-token auth when OIDC is absent', () => {
