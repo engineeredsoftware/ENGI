@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  BITCODE_LOGO_FILL_RULE,
   BITCODE_LOGO_INTRINSIC_HEIGHT,
   BITCODE_LOGO_INTRINSIC_WIDTH,
   BITCODE_LOGO_PATH,
@@ -72,8 +73,13 @@ export default function BitcodeSoftwareSvgLogo({
         color: resolvedFill,
       }}
     >
-      <g transform={BITCODE_LOGO_TRANSFORM}>
-        <path fill="currentColor" d={BITCODE_LOGO_PATH} />
+      <g transform={BITCODE_LOGO_TRANSFORM || undefined}>
+        <path
+          fill="currentColor"
+          fillRule={BITCODE_LOGO_FILL_RULE}
+          clipRule={BITCODE_LOGO_FILL_RULE}
+          d={BITCODE_LOGO_PATH}
+        />
       </g>
     </svg>
   );

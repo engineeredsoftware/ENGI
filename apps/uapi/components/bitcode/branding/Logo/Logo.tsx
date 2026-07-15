@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  BITCODE_LOGO_FILL_RULE,
   BITCODE_LOGO_PATH,
   BITCODE_LOGO_TRANSFORM,
   BITCODE_LOGO_VIEW_BOX,
@@ -34,8 +35,13 @@ export default function Logo({
         className={`block ${height} ${width} z-20`}
         style={{ color: resolvedFill }}
       >
-        <g transform={BITCODE_LOGO_TRANSFORM}>
-          <path fill="currentColor" d={BITCODE_LOGO_PATH} />
+        <g transform={BITCODE_LOGO_TRANSFORM || undefined}>
+          <path
+            fill="currentColor"
+            fillRule={BITCODE_LOGO_FILL_RULE}
+            clipRule={BITCODE_LOGO_FILL_RULE}
+            d={BITCODE_LOGO_PATH}
+          />
         </g>
       </svg>
       {beta && (
