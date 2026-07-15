@@ -292,8 +292,11 @@ export async function validateStoredConnection(
   provider: VCSProviderType,
   connection: NonNullable<StoredConnection>,
   instanceUrl?: string,
+  options?: { forceRegenerate?: boolean },
 ) {
-  const auth = await manager.getAuthFromConnection(connection.id);
+  const auth = await manager.getAuthFromConnection(connection.id, {
+    forceRegenerate: options?.forceRegenerate,
+  });
   if (!auth) {
     return false;
   }

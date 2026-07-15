@@ -144,11 +144,19 @@ export class VCSConnections {
   }
   
   /**
-   * Get auth data from connection
+   * Get auth data from connection.
+   * @param options.forceRegenerate When true, always re-mint a GitHub App
+   * installation token even if the stored token has not expired yet. Used by
+   * explicit Refresh when the connection is Invalid (revoked install / bad
+   * token that still has a future expiry).
    */
-  async getAuthFromConnection(connectionId: string): Promise<VCSAuth | null> {
+  async getAuthFromConnection(
+    connectionId: string,
+    options?: { forceRegenerate?: boolean },
+  ): Promise<VCSAuth | null> {
     try {
       log('Getting auth from connection', 'debug', { connectionId });
+      const forceRegenerate = Boolean(options?.forceRegenerate);
       
       // Check if connectionId is a valid UUID (format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
       const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(connectionId);
@@ -190,18 +198,19 @@ export class VCSConnections {
       // Check for access_token or ability to generate one
       let accessToken = readString(connectionData.access_token);
       
-      // For GitHub App installations, regenerate token if expired or missing
+      // For GitHub App installations, regenerate token if expired, missing, or forced
       const installationConnectionId = readString(connectionData.connectionId);
       if (connection.provider === 'github' && installationConnectionId) {
         const tokenExpiresAt = readString(connectionData.installation_token_expires_at);
         const isExpired = tokenExpiresAt ? new Date(tokenExpiresAt) < new Date() : true;
         
-        if (!accessToken || accessToken === '' || isExpired) {
-          log('GitHub installation token missing or expired, regenerating', 'info', {
+        if (!accessToken || accessToken === '' || isExpired || forceRegenerate) {
+          log('GitHub installation token missing, expired, or force-regenerate, regenerating', 'info', {
             connectionId,
             installationId: installationConnectionId,
             hadToken: !!accessToken,
-            isExpired
+            isExpired,
+            forceRegenerate,
           });
           
           // Regenerate installation token

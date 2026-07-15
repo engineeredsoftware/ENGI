@@ -85,12 +85,21 @@ export function VCSConnectionCard({
     return response.json().catch(() => null);
   };
   
-  const checkConnection = async () => {
+  const checkConnection = async (options?: { forceRefresh?: boolean; toastOutcome?: boolean }) => {
+    const forceRefresh = Boolean(options?.forceRefresh);
+    const toastOutcome = Boolean(options?.toastOutcome);
     try {
-      let url = `/api/vcs/${provider}/connection`;
+      const params = new URLSearchParams();
       if (instanceUrl) {
-        url += `?instance_url=${encodeURIComponent(instanceUrl)}`;
+        params.set('instance_url', instanceUrl);
       }
+      // Force re-mint of the GitHub App installation token (not just re-read
+      // a still-unexpired but Invalid token).
+      if (forceRefresh) {
+        params.set('force_refresh', '1');
+      }
+      const query = params.toString();
+      const url = `/api/vcs/${provider}/connection${query ? `?${query}` : ''}`;
       
       const response = await fetch(url);
       const data = await readJsonResponse(response);
@@ -104,6 +113,9 @@ export function VCSConnectionCard({
         });
         setStatus({ connected: false, valid: false });
         onConnectionChange?.(false);
+        if (toastOutcome) {
+          toast.error(`Could not refresh ${config.label} connection`);
+        }
         return;
       }
 
@@ -111,6 +123,9 @@ export function VCSConnectionCard({
         console.error('[bitcode-github-connection] malformed response', { data });
         setStatus({ connected: false, valid: false });
         onConnectionChange?.(false);
+        if (toastOutcome) {
+          toast.error(`Could not refresh ${config.label} connection`);
+        }
         return;
       }
 
@@ -145,10 +160,35 @@ export function VCSConnectionCard({
       setStatus(data);
       // Report attached (even if invalid) so Externals can show reconnect UX.
       onConnectionChange?.(Boolean(data.connected));
+
+      if (toastOutcome) {
+        if (data.connected && data.valid) {
+          toast.success(`${config.label} connection refreshed`);
+        } else if (data.connected && !data.valid) {
+          const regenError =
+            data.metadata && typeof data.metadata.last_regeneration_error === 'string'
+              ? data.metadata.last_regeneration_error
+              : null;
+          toast.error(
+            regenError
+              ? `Refresh failed: ${regenError.slice(0, 180)}`
+              : `${config.label} is still invalid. Disconnect and Install GitHub App again.`,
+          );
+        } else {
+          toast.error(`${config.label} is not connected`);
+        }
+      }
     } catch (error) {
       console.error('[bitcode-github-connection] check failed', error);
       setStatus({ connected: false, valid: false });
       onConnectionChange?.(false);
+      if (toastOutcome) {
+        toast.error(
+          error instanceof Error
+            ? error.message
+            : `Could not refresh ${config.label} connection`,
+        );
+      }
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
@@ -186,7 +226,8 @@ export function VCSConnectionCard({
   
   const handleRefresh = () => {
     setIsRefreshing(true);
-    checkConnection();
+    // Force installation-token regeneration, then surface success/failure.
+    void checkConnection({ forceRefresh: true, toastOutcome: true });
   };
   
   useEffect(() => {
@@ -345,13 +386,11 @@ export function VCSConnectionCard({
               )}
             </div>
 
-            {/* V48-Gate3-F34/F35: Refresh retries installation-token
-                regeneration silently — if it still fails, surface WHY
-                (source-safe: GitHub's own API error text, no tokens).
-                Bitcode uses ONE GitHub App (`bitcode-github-auxiliary`) on
-                every environment; a 404 usually means the installation was
-                removed or credentials on this deploy do not match that app.
-                Disconnect + reconnect against the same app is the recovery. */}
+            {/* V48-Gate3-F34/F35: Refresh force-remints the installation
+                token (even when not expired) and surfaces WHY if mint fails
+                (source-safe GitHub API text). A 404 usually means the
+                installation is gone or app credentials are wrong — Disconnect
+                then Install GitHub App again. */}
             {!status.valid && status.metadata?.last_regeneration_error && (
               <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">
                 <p className="font-medium">Last reconnect attempt failed:</p>

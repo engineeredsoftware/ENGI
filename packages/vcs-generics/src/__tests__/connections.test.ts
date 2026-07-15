@@ -98,4 +98,28 @@ describe('VCSConnections.getAuthFromConnection — GitHub installation token reg
     expect(mockGenerateInstallationToken).not.toHaveBeenCalled();
     expect(mockUpdate).not.toHaveBeenCalled();
   });
+
+  it('forceRegenerate re-mints even when the stored token is not expired', async () => {
+    mockGetById.mockResolvedValue({
+      id: CONNECTION_ID,
+      provider: 'github',
+      connection_data: {
+        connectionId: '99999',
+        access_token: 'still-unexpired-but-invalid',
+        installation_token_expires_at: FAR_FUTURE_ISO,
+      },
+    });
+    mockGenerateInstallationToken.mockResolvedValue({
+      token: 'forced-fresh-token',
+      expiresAt: new Date(FAR_FUTURE_ISO),
+    });
+
+    const connections = new VCSConnections({} as never);
+    const auth = await connections.getAuthFromConnection(CONNECTION_ID, {
+      forceRegenerate: true,
+    });
+
+    expect(auth?.accessToken).toBe('forced-fresh-token');
+    expect(mockGenerateInstallationToken).toHaveBeenCalledWith(99999);
+  });
 });
