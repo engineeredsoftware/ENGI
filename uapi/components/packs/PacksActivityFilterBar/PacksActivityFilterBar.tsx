@@ -16,7 +16,6 @@ import {
 import type {
   PackActivitySortDirection,
   PackActivitySortKey,
-  PackActivityType,
 } from "@/components/bitcode/activity/PackActivityModel/pack-activity-model";
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";
 import type { BitcodeExplainer } from "@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types";
@@ -25,6 +24,7 @@ import {
   PACKS_SORT_OPTIONS as SORT_OPTIONS,
   PACKS_TYPE_OPTIONS as TYPE_OPTIONS,
   readParam,
+  type PacksTypeFilter,
 } from "@/components/packs/models/packs-format";
 import {
   PACKS_FILTER_EXPLAINERS,
@@ -34,7 +34,7 @@ import {
 export type PacksActivityFilterBarProps = {
   routeParams: URLSearchParams;
   search: string;
-  type: PackActivityType | "all";
+  type: PacksTypeFilter;
   state: string;
   sort: PackActivitySortKey;
   direction: PackActivitySortDirection;

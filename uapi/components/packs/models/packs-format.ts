@@ -8,15 +8,49 @@ import type {
   PackActivityType,
 } from "@/components/bitcode/activity/PackActivityModel/pack-activity-model";
 
-/** Network-scope AssetPack commodity filters (not personal pipeline activity). */
+/**
+ * Type filter values for /packs master. Includes synthetic "My" ownership lenses
+ * (read bought, deposited unsettled/settled) plus network commodity cuts.
+ */
+export type PacksTypeFilter =
+  | PackActivityType
+  | "all"
+  | "my-assetpacks"
+  | "my-read-bought"
+  | "my-deposited-unsettled"
+  | "my-deposited-settled";
+
+/** Commodity + ownership filters for the Packs type control. */
 export const PACKS_TYPE_OPTIONS: Array<{
-  value: PackActivityType | "all";
+  value: PacksTypeFilter;
   label: string;
 }> = [
   { value: "all", label: "All AssetPacks" },
+  { value: "my-assetpacks", label: "My AssetPacks" },
+  { value: "my-read-bought", label: "My reads (bought)" },
+  { value: "my-deposited-unsettled", label: "My deposits (unsettled)" },
+  { value: "my-deposited-settled", label: "My deposits (settled)" },
   { value: "depository-assetpack", label: "Depository AssetPacks" },
   { value: "settled-assetpack", label: "Settled AssetPacks" },
 ];
+
+/** Synthetic ownership filters — matched against the signed-in account's packs. */
+export const PACKS_MY_TYPE_FILTERS = new Set<PacksTypeFilter>([
+  "my-assetpacks",
+  "my-read-bought",
+  "my-deposited-unsettled",
+  "my-deposited-settled",
+]);
+
+export function isPacksMyTypeFilter(
+  value: string | null | undefined,
+): value is
+  | "my-assetpacks"
+  | "my-read-bought"
+  | "my-deposited-unsettled"
+  | "my-deposited-settled" {
+  return Boolean(value && PACKS_MY_TYPE_FILTERS.has(value as PacksTypeFilter));
+}
 
 export const PACKS_SORT_OPTIONS: Array<{
   value: PackActivitySortKey;
@@ -65,7 +99,7 @@ export function formatSats(value: number) {
   return `${new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(value)} sats`;
 }
 
-export function formatType(value: PackActivityType) {
+export function formatType(value: PacksTypeFilter | PackActivityType) {
   return (
     PACKS_TYPE_OPTIONS.find((option) => option.value === value)?.label || value
   );

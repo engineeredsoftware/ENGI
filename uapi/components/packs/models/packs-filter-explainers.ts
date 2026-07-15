@@ -44,12 +44,13 @@ export const PACKS_FILTER_EXPLAINERS = {
     kicker: 'Commodity lens',
     title: 'AssetPack type',
     summary:
-      'Limit the ledger to depository (admitted supply) or settled AssetPacks, or keep the full network commodity set.',
+      'Limit the ledger to your packs, network depository supply, settled commodity, or keep the full window.',
     detail:
-      'Type is the coarsest commercial cut: depository rows are still supply-side inventory; settled rows have crossed settlement finality. “All AssetPacks” restores the unscoped commodity window.',
+      '“My AssetPacks” is your ownership cut: reads you bought, deposits still unsettled in the depository, and deposits that have settled. Network Depository / Settled cuts show the public commodity ledger. “All AssetPacks” restores the unscoped window.',
     points: [
-      'Depository AssetPacks emphasize admitted supply',
-      'Settled AssetPacks emphasize post-settlement posture',
+      'My AssetPacks = read (bought) + deposited (unsettled) + deposited (settled)',
+      'My reads / My deposits subtypes narrow that ownership cut further',
+      'Depository / Settled network cuts are market-wide commodity posture',
       'Does not replace settlement / compensation / delivery / repair facets',
     ],
     references: refs,

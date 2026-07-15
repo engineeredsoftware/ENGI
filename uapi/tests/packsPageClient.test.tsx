@@ -338,9 +338,15 @@ describe("PacksPageClient", () => {
       { scroll: false },
     );
 
-    // /packs is the actual-AssetPacks ledger (V48 Gate 3): the type dropdown
-    // only offers the two real-AssetPack types, not every pipeline activity
-    // kind (those stay on /deposits).
+    // /packs type control: commodity cuts + My ownership lenses (not every
+    // pipeline activity kind — those stay on /deposits).
+    fireEvent.change(screen.getByLabelText("Activity type"), {
+      target: { value: "my-assetpacks" },
+    });
+    expect(mockReplace).toHaveBeenCalledWith(
+      "/packs?q=rollback&type=my-assetpacks",
+      { scroll: false },
+    );
     fireEvent.change(screen.getByLabelText("Activity type"), {
       target: { value: "settled-assetpack" },
     });

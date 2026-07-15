@@ -11,9 +11,11 @@ import type {
   PackActivityRecord,
   PackActivitySortDirection,
   PackActivitySortKey,
-  PackActivityType,
 } from "@/components/bitcode/activity/PackActivityModel/pack-activity-model";
-import { formatType } from "@/components/packs/models/packs-format";
+import {
+  formatType,
+  type PacksTypeFilter,
+} from "@/components/packs/models/packs-format";
 import { PacksActivityFilterBar } from "@/components/packs/PacksActivityFilterBar/PacksActivityFilterBar";
 import { PacksActivityTable } from "@/components/packs/PacksActivityTable/PacksActivityTable";
 
@@ -22,7 +24,7 @@ export type PacksActivityMasterProps = {
   onCloseDetail: () => void;
   routeParams: URLSearchParams;
   search: string;
-  type: PackActivityType | "all";
+  type: PacksTypeFilter;
   state: string;
   sort: PackActivitySortKey;
   direction: PackActivitySortDirection;

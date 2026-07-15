@@ -9,9 +9,11 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type {
   PackActivitySortDirection,
   PackActivitySortKey,
-  PackActivityType,
 } from "@/components/bitcode/activity/PackActivityModel/pack-activity-model";
-import { readParam } from "@/components/packs/models/packs-format";
+import {
+  readParam,
+  type PacksTypeFilter,
+} from "@/components/packs/models/packs-format";
 
 export function usePacksRouteParams() {
   const router = useRouter();
@@ -24,9 +26,7 @@ export function usePacksRouteParams() {
   );
 
   const search = readParam(routeParams, "q");
-  const type = readParam(routeParams, "type", "all") as
-    | PackActivityType
-    | "all";
+  const type = readParam(routeParams, "type", "all") as PacksTypeFilter;
   const state = readParam(routeParams, "state", "all");
   const sort = readParam(
     routeParams,

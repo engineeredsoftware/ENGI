@@ -15,8 +15,10 @@ import {
   type PackActivitySortDirection,
   type PackActivitySortKey,
   type PackActivityType,
+  type PackActivityTypeFilter,
 } from '@/components/bitcode/activity/PackActivityModel/pack-activity-model';
 import type { BitcodeActivityRecord } from '@/components/bitcode/activity/BitcodeActivityModel/bitcode-activity-model';
+import { isPacksMyTypeFilter } from '@/components/packs/models/packs-format';
 
 export const runtime = 'nodejs';
 
@@ -31,6 +33,15 @@ const PACK_ACTIVITY_TYPES = new Set<PackActivityType>([
   'repair',
   'execution',
   'notification',
+]);
+
+/** Synthetic My-ownership filters + real activity types. */
+const PACK_TYPE_FILTERS = new Set<PackActivityTypeFilter>([
+  ...PACK_ACTIVITY_TYPES,
+  'my-assetpacks',
+  'my-read-bought',
+  'my-deposited-unsettled',
+  'my-deposited-settled',
 ]);
 
 const PACK_ACTIVITY_SORT_KEYS = new Set<PackActivitySortKey>([
@@ -55,7 +66,10 @@ function readFilterParam(params: URLSearchParams, key: string) {
 function buildFilters(params: URLSearchParams): PackActivityFilters {
   const requestedType = readFilterParam(params, 'type');
   return {
-    type: requestedType === 'all' ? 'all' : readEnum(requestedType, PACK_ACTIVITY_TYPES, 'execution'),
+    type:
+      requestedType === 'all'
+        ? 'all'
+        : readEnum(requestedType, PACK_TYPE_FILTERS, 'execution'),
     scope: readFilterParam(params, 'scope') as PackActivityFilters['scope'],
     state: readFilterParam(params, 'state'),
     settlementState: readFilterParam(params, 'settlementState'),
@@ -205,14 +219,23 @@ export async function GET(request: Request) {
   const baseRecords = Array.isArray(payload?.records)
     ? (payload.records as BitcodeActivityRecord[])
     : [];
-  const globalRecords = await readGlobalDepositoryRecords(limit);
-  const settledRecords = await readSettledAssetPackRecords(limit);
-  const seenIds = new Set(baseRecords.map((record) => String(record.id)));
-  const mergedRecords = [
-    ...baseRecords,
-    ...globalRecords.filter((record) => !seenIds.has(String(record.id))),
-    ...settledRecords.filter((record) => !seenIds.has(String(record.id))),
-  ];
+  // "My AssetPacks" (+ subtypes) is ownership-scoped: only the signed-in
+  // account's base activity. Network depository/settled merges would include
+  // other accounts' commodity rows and break the ownership lens.
+  const mineOnly = isPacksMyTypeFilter(String(filters.type || ''));
+  let mergedRecords: BitcodeActivityRecord[];
+  if (mineOnly) {
+    mergedRecords = baseRecords;
+  } else {
+    const globalRecords = await readGlobalDepositoryRecords(limit);
+    const settledRecords = await readSettledAssetPackRecords(limit);
+    const seenIds = new Set(baseRecords.map((record) => String(record.id)));
+    mergedRecords = [
+      ...baseRecords,
+      ...globalRecords.filter((record) => !seenIds.has(String(record.id))),
+      ...settledRecords.filter((record) => !seenIds.has(String(record.id))),
+    ];
+  }
   const packRecords = mergedRecords.map(normalizePackActivityRecord);
   const query = queryPackActivityRecords(packRecords, {
     search: params.get('q') || params.get('search') || '',

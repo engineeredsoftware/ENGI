@@ -116,8 +116,20 @@ export interface PackActivityRecord {
   metadata: Record<string, unknown>;
 }
 
+/**
+ * Type filter includes real PackActivityType values plus synthetic ownership
+ * lenses used by /packs "My AssetPacks" (and its read/deposit subtypes).
+ */
+export type PackActivityTypeFilter =
+  | PackActivityType
+  | 'all'
+  | 'my-assetpacks'
+  | 'my-read-bought'
+  | 'my-deposited-unsettled'
+  | 'my-deposited-settled';
+
 export interface PackActivityFilters {
-  type?: PackActivityType | 'all';
+  type?: PackActivityTypeFilter;
   scope?: BitcodeActivityScope | 'all';
   state?: string | 'all';
   settlementState?: string | 'all';
@@ -1002,6 +1014,56 @@ function incrementFacet(target: Record<string, number>, value: string | null) {
   target[key] = (target[key] || 0) + 1;
 }
 
+/**
+ * Deposit-side pack looks commercially settled (sold / finality / delivery),
+ * as opposed to still-unsettled depository inventory.
+ */
+export function depositPackLooksSettled(record: PackActivityRecord): boolean {
+  const haystack = [
+    record.settlementState,
+    record.rightsState,
+    record.compensationState,
+    record.deliveryState,
+    record.state,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+  return /settled|finalit|paid|compensat|source-unlocked|delivered|rights-transferred|btd-rights/.test(
+    haystack,
+  );
+}
+
+/**
+ * Match type filter including synthetic ownership lenses.
+ * "My" filters assume the record set is already scoped to the signed-in user
+ * (caller must not mix in foreign network rows).
+ */
+export function matchesPackActivityTypeFilter(
+  record: PackActivityRecord,
+  type: PackActivityTypeFilter | undefined,
+): boolean {
+  if (!type || type === 'all') return true;
+
+  if (type === 'my-assetpacks') {
+    // Union: read (bought) + deposited (unsettled) + deposited (settled).
+    return (
+      record.type === 'settled-assetpack' || record.type === 'depository-assetpack'
+    );
+  }
+  if (type === 'my-read-bought') {
+    return record.type === 'settled-assetpack';
+  }
+  if (type === 'my-deposited-unsettled') {
+    return record.type === 'depository-assetpack' && !depositPackLooksSettled(record);
+  }
+  if (type === 'my-deposited-settled') {
+    return record.type === 'depository-assetpack' && depositPackLooksSettled(record);
+  }
+
+  return record.type === type;
+}
+
 export function filterPackActivityRecords(
   records: PackActivityRecord[],
   filters: PackActivityFilters = {},
@@ -1009,7 +1071,7 @@ export function filterPackActivityRecords(
 ) {
   const normalizedSearch = String(search || '').trim().toLowerCase();
   return records.filter((record) => {
-    if (filters.type && filters.type !== 'all' && record.type !== filters.type) return false;
+    if (!matchesPackActivityTypeFilter(record, filters.type)) return false;
     if (filters.scope && filters.scope !== 'all' && record.scope !== filters.scope) return false;
     if (!matchesFilter(record.state, filters.state)) return false;
     if (!matchesFilter(record.settlementState, filters.settlementState)) return false;
@@ -1216,6 +1278,14 @@ export function buildPackPortfolioMarketIntelligence(
       .slice(0, 24),
     signals: signals.sort((left, right) => right.strength - left.strength).slice(0, 32),
     savedFilters: [
+      {
+        id: 'my-assetpacks',
+        label: 'My AssetPacks',
+        description:
+          'Your reads (bought), deposits still unsettled, and deposits that have settled.',
+        query: { type: 'my-assetpacks' },
+        signalKind: 'supply',
+      },
       {
         id: 'portfolio-open-repair',
         label: 'Repair cases',

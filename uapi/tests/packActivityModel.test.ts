@@ -392,6 +392,98 @@ describe('pack-activity-model', () => {
     expect(record.type).toBe('settled-assetpack');
   });
 
+  it('supports My AssetPacks ownership filters: bought, deposited unsettled, deposited settled', () => {
+    const bought = normalizePackActivityRecord({
+      id: 'mine-bought',
+      kind: 'execution',
+      scope: 'network',
+      channel: 'system-surface',
+      label: 'Executions',
+      title: 'Settled AssetPack',
+      summary: 'Settled AssetPack: Buyer pack',
+      timestamp: '2026-07-14T12:00:00.000Z',
+      state: 'completed',
+      read: null,
+      payload: {
+        context: {
+          source: 'read-settle-asset-pack',
+          packActivityType: 'settled-assetpack',
+          settlementState: 'settled',
+        },
+        packActivityType: 'settled-assetpack',
+      },
+    });
+    const depositedUnsettled = normalizePackActivityRecord({
+      id: 'mine-deposit-open',
+      kind: 'execution',
+      scope: 'network',
+      channel: 'system-surface',
+      label: 'Executions',
+      title: 'Depository AssetPack',
+      summary: 'Admitted to the Depository',
+      timestamp: '2026-07-14T11:00:00.000Z',
+      state: 'completed',
+      read: null,
+      payload: {
+        context: {
+          source: 'deposit-option-review-admission',
+          admissionState: 'admitted-to-depository',
+          packActivityType: 'depository-assetpack',
+          settlementState: 'awaiting_buyer',
+        },
+        packActivityType: 'depository-assetpack',
+      },
+    });
+    const depositedSettled = normalizePackActivityRecord({
+      id: 'mine-deposit-sold',
+      kind: 'execution',
+      scope: 'network',
+      channel: 'system-surface',
+      label: 'Executions',
+      title: 'Depository AssetPack sold',
+      summary: 'Depository AssetPack with settlement finality',
+      timestamp: '2026-07-14T10:00:00.000Z',
+      state: 'completed',
+      read: null,
+      payload: {
+        context: {
+          source: 'deposit-option-review-admission',
+          admissionState: 'admitted-to-depository',
+          packActivityType: 'depository-assetpack',
+          settlementState: 'settled',
+          rightsState: 'btd-rights-transferred',
+        },
+        packActivityType: 'depository-assetpack',
+      },
+    });
+    const previewNoise = normalizePackActivityRecord(baseRecord);
+    const records = [bought, depositedUnsettled, depositedSettled, previewNoise];
+
+    expect(
+      queryPackActivityRecords(records, { filters: { type: 'my-assetpacks' } }).records.map(
+        (row) => row.id,
+      ),
+    ).toEqual(['mine-bought', 'mine-deposit-open', 'mine-deposit-sold']);
+
+    expect(
+      queryPackActivityRecords(records, {
+        filters: { type: 'my-read-bought' },
+      }).records.map((row) => row.id),
+    ).toEqual(['mine-bought']);
+
+    expect(
+      queryPackActivityRecords(records, {
+        filters: { type: 'my-deposited-unsettled' },
+      }).records.map((row) => row.id),
+    ).toEqual(['mine-deposit-open']);
+
+    expect(
+      queryPackActivityRecords(records, {
+        filters: { type: 'my-deposited-settled' },
+      }).records.map((row) => row.id),
+    ).toEqual(['mine-deposit-sold']);
+  });
+
   it('builds source-safe portfolio positions, saved filters, market signals, and facets', () => {
     const records = [
       normalizePackActivityRecord(baseRecord),
