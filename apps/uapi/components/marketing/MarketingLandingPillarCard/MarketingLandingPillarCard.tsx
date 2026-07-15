@@ -92,14 +92,14 @@ export function MarketingLandingPillarCard({
             <p className="mt-1.5 text-[11px] leading-4 text-violet-50/88 phone:text-[13px] phone:leading-5">
               {description}
             </p>
-            {/* mt-auto keeps lower chrome aligned with Read metrics + Settle list. */}
-            <div className="mt-auto border-t border-white/12 pt-2">
+            {/* mt-auto keeps lower chrome aligned with Read metrics + Settle list (no divider). */}
+            <div className="mt-auto pt-2">
               <div className="border-l-4 border-purple-400 pl-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
                   What&apos;s Packaged
                 </p>
                 <p className="mt-1 text-[11px] leading-4 text-violet-100/72">
-                  a patchfile, its absolute measurements, metadata
+                  patchfile, absolute measurements, metadata
                 </p>
               </div>
             </div>
@@ -125,11 +125,20 @@ export function MarketingLandingPillarCard({
                   'linear-gradient(180deg, transparent 0%, white 18%, white 82%, transparent 100%)',
               }}
             />
-            <div className="absolute inset-0 translate-y-[5%] overflow-hidden opacity-80">
+            {/*
+              Full-card sizing so wick/body % match the original visual scale.
+              Shifted so the cluster is vertically centered on the metrics band.
+            */}
+            <div
+              className="pointer-events-none absolute inset-0 overflow-hidden opacity-80"
+              style={{ transform: 'translateY(27%)' }}
+              aria-hidden="true"
+            >
               {measuremintCandles.map((candle, candleIndex) => (
                 <React.Fragment key={`measuremint-candle-${candleIndex}`}>
+                  {/* Wick + body share the same left anchor and -50% X so lines center on boxes. */}
                   <span
-                    className={`absolute w-[1px] ${candle.bullish ? 'bg-orange-300/50' : 'bg-rose-300/40'}`}
+                    className={`absolute w-px -translate-x-1/2 ${candle.bullish ? 'bg-orange-300/50' : 'bg-rose-300/40'}`}
                     style={{
                       left: candle.left,
                       top: candle.wickTop,
@@ -137,9 +146,9 @@ export function MarketingLandingPillarCard({
                     }}
                   />
                   <span
-                    className={`absolute w-[6px] rounded-none ${candle.bullish ? 'bg-orange-300/40' : 'bg-rose-300/30'}`}
+                    className={`absolute w-1.5 -translate-x-1/2 rounded-none ${candle.bullish ? 'bg-orange-300/40' : 'bg-rose-300/30'}`}
                     style={{
-                      left: `calc(${candle.left} - 2px)`,
+                      left: candle.left,
                       top: candle.bodyTop,
                       height: candle.bodyHeight,
                     }}
@@ -174,8 +183,8 @@ export function MarketingLandingPillarCard({
             <p className="mt-1.5 text-[11px] leading-4 text-orange-50/88 phone:text-[13px] phone:leading-5">
               {description}
             </p>
-            {/* mt-auto aligns metrics band with Deposit/Settle lower elements. */}
-            <div className="relative mt-auto border-t border-orange-200/12 pt-2">
+            {/* Metrics band lifted toward body copy (no divider). */}
+            <div className="relative z-[1] mt-auto -translate-y-3 pt-2">
               <div className="relative grid grid-cols-3">
                 {measureCardAxes.map((axis, axisIndex) => (
                   <div

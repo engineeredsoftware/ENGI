@@ -159,15 +159,16 @@ export const previewRows = [
   },
 ] as const;
 
+/** Measuremint underlay — vertical scale 1.4× vs original, centers preserved; width/left unchanged. */
 export const measuremintCandles = [
-  { left: '8%', wickTop: '38%', wickHeight: '28%', bodyTop: '49%', bodyHeight: '12%', bullish: true },
-  { left: '18%', wickTop: '44%', wickHeight: '20%', bodyTop: '52%', bodyHeight: '10%', bullish: false },
-  { left: '30%', wickTop: '34%', wickHeight: '30%', bodyTop: '45%', bodyHeight: '14%', bullish: true },
-  { left: '42%', wickTop: '46%', wickHeight: '18%', bodyTop: '53%', bodyHeight: '8%', bullish: false },
-  { left: '56%', wickTop: '40%', wickHeight: '26%', bodyTop: '48%', bodyHeight: '12%', bullish: true },
-  { left: '68%', wickTop: '48%', wickHeight: '18%', bodyTop: '55%', bodyHeight: '9%', bullish: false },
-  { left: '80%', wickTop: '36%', wickHeight: '30%', bodyTop: '46%', bodyHeight: '15%', bullish: true },
-  { left: '90%', wickTop: '45%', wickHeight: '22%', bodyTop: '52%', bodyHeight: '10%', bullish: false },
+  { left: '8%', wickTop: '32.4%', wickHeight: '39.2%', bodyTop: '46.6%', bodyHeight: '16.8%', bullish: true },
+  { left: '18%', wickTop: '40%', wickHeight: '28%', bodyTop: '50%', bodyHeight: '14%', bullish: false },
+  { left: '30%', wickTop: '28%', wickHeight: '42%', bodyTop: '42.2%', bodyHeight: '19.6%', bullish: true },
+  { left: '42%', wickTop: '42.4%', wickHeight: '25.2%', bodyTop: '51.4%', bodyHeight: '11.2%', bullish: false },
+  { left: '56%', wickTop: '34.8%', wickHeight: '36.4%', bodyTop: '45.6%', bodyHeight: '16.8%', bullish: true },
+  { left: '68%', wickTop: '44.4%', wickHeight: '25.2%', bodyTop: '53.2%', bodyHeight: '12.6%', bullish: false },
+  { left: '80%', wickTop: '30%', wickHeight: '42%', bodyTop: '43%', bodyHeight: '21%', bullish: true },
+  { left: '90%', wickTop: '40.6%', wickHeight: '30.8%', bodyTop: '50%', bodyHeight: '14%', bullish: false },
 ] as const;
 
 export const verificationRows = [
