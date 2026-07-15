@@ -590,7 +590,7 @@ export default function Nav() {
                     type="button"
                     onMouseEnter={() => prefetchAuxillaries()}
                     onClick={() => openAuxillaries('auxillaries', 'profile')}
-                    className="rounded-none border border-white/12 bg-white/5 px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
+                    className="inline-flex h-8 items-center justify-center rounded-none border border-white/12 bg-white/5 px-4 text-[0.68rem] font-medium uppercase leading-none tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
                   >
                     Profile
                   </button>
