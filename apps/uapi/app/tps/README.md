@@ -1,9 +1,16 @@
 # /tps Naming Conventions
 
-- All third‑party UI pages live under `/tps/[service]/...`.
+Third-party **UI overlays** for external auth and install flows — not product
+experiences and **not payment checkout**.
+
+**V48 settlement is BTC-testnet via wallet + BTD rights. Stripe is not used.**
+Do not add `/tps/stripe/*` or prepaid credit surfaces.
+
+- All third-party UI pages live under `/tps/[service]/...`.
 - Prefer explicit service names (e.g., `supabase`, `github`, `twilio`, `wallet`).
 - Child paths describe the surface (`callback`, `app-install`, `sms/[runId]`, `wallet/[flow]`).
-- Keep Bitcode product pages under `/packs`, retained execution bridges under `/executions`, and admitted Evidence Document surfaces under Bitcode-owned routes — do not mix them with third-party service overlays.
+- Keep Bitcode product pages under `/packs`, `/deposits`, `/reads`, Auxillaries —
+  do not mix them with third-party service overlays.
 
 Examples
 - `/tps/supabase/callback` – Auth OTP/OAuth callback overlay

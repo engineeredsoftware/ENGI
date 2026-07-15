@@ -262,7 +262,7 @@ if (process.env.USE_REAL_DB !== 'true') {
   };
   // Query builder stub
   // Wrap the query builder factory in `jest.fn` so callers can use Jest helper
-  // methods like `.mockImplementation()` in their tests (e.g. Stripe route
+  // methods like `.mockImplementation()` in their tests (e.g. route
   // unit tests).  Without this, `supabaseAdmin.from` would be a plain
   // function and attempts to stub it would throw "mockImplementation is not a
   // function" errors.

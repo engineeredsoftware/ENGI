@@ -98,7 +98,9 @@ page client → page client; **never** packages → apps.
 
 Login / TPS wallet authorize and Supabase callbacks live under app shells such as
 `/login` and `app/tps/*` — infrastructure for identity, not separate product
-experiences.
+experiences. **TPS is not Stripe:** third-party overlays are wallet OAuth,
+Supabase auth callback, GitHub App install/callback, etc. Settlement money is
+**BTC-testnet**; prepaid Stripe checkout is **not** a V48 product path.
 
 ### 3.3 Commercial loop (website MVP)
 

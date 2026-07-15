@@ -101,16 +101,13 @@ ANTHROPIC_API_KEY=YOUR_ANTHROPIC_API_KEY
 DEEPSEEK_API_KEY=YOUR_DEEPSEEK_API_KEY
 
 # ============================================
-# PAYMENT PROCESSING (REQUIRED)
+# SETTLEMENT (V48 — BTC-testnet, NOT Stripe)
 # ============================================
-STRIPE_SECRET_KEY=YOUR_STRIPE_SECRET_KEY
-STRIPE_WEBHOOK_SECRET=YOUR_STRIPE_WEBHOOK_SECRET
-# V26 does not sell prepaid usage products. BTC pays fees; $BTD is a non-fungible share/read-right.
-STRIPE_PRODUCT_ID_FLEXIBLE=YOUR_STRIPE_FLEXIBLE_PRODUCT_ID
-STRIPE_PRODUCT_ID_INDUSTRIAL=YOUR_STRIPE_INDUSTRIAL_PRODUCT_ID
-# Optional bundle overrides
-STRIPE_PRODUCT_ID_MICRO=prod_P0987654321
-STRIPE_PRODUCT_ID=prod_P5555555555
+# Bitcode does not use Stripe checkout, prepaid credits, or fiat subscription
+# products. Settlement money is BTC (testnet4 by default); $BTD is non-fungible
+# share/read-right language. Configure wallet auth (BITCODE_BITCOIN_OAUTH_*)
+# and NEXT_PUBLIC_BITCODE_BITCOIN_NETWORK=testnet4 — see .env.example.
+# Do not set STRIPE_* for commercial V48.
 
 # ============================================
 # MONITORING & ANALYTICS (OPTIONAL)
@@ -271,24 +268,20 @@ NEXT_PUBLIC_MOCK_GITHUB_COMMITS=false
 - **Description**: DeepSeek API key
 - **Format**: `sk-[alphanumeric]`
 
-### Payment Processing
+### Settlement (V48 — not Stripe)
 
-#### `STRIPE_SECRET_KEY`
-- **Required**: For payments
-- **Description**: Stripe secret API key
-- **Security**: ⚠️ Use test key in development
-- **Format**: `sk_live_[alphanumeric]` or `sk_test_[alphanumeric]`
+Bitcode **does not use Stripe**. There is no checkout product, prepaid credit
+bundle, or subscription SKU for commercial V48.
 
-#### `STRIPE_WEBHOOK_SECRET`
-- **Required**: For Stripe webhooks
-- **Description**: Webhook endpoint secret
-- **Format**: `whsec_[alphanumeric]`
-- **Setup**: Stripe Dashboard → Webhooks → Add endpoint
+| Concern | V48 truth |
+| --- | --- |
+| Settlement money | **BTC-testnet** (`NEXT_PUBLIC_BITCODE_BITCOIN_NETWORK=testnet4`) |
+| Rights / shares | **$BTD** (non-fungible share / read-right language on the ledger) |
+| Wallet auth | `BITCODE_BITCOIN_OAUTH_*` + wallet authorize under `/tps/wallet/*` |
+| Mainnet value | **Blocked** until future canon admits it |
 
-#### `STRIPE_PRODUCT_ID_*`
-- **Required**: Not required for V26 Bitcode economics.
-- **Description**: Historical payment-provider placeholders only. V26 commercial posture uses BTC fee liquidity and non-fungible `$BTD` share/read-right holdings; do not model these as credit tiers.
-- **Format**: `prod_[alphanumeric]`
+Do not configure `STRIPE_*` env vars for product deploy. Any legacy DB columns
+or historical placeholders are not the commercial payment path.
 
 ## Third‑Party Service External Settings (Callbacks/Webhooks)
 
@@ -299,9 +292,9 @@ Configure these in provider dashboards. Replace `https://app.example.com` with y
  - Email OTP links use `NEXT_PUBLIC_APP_URL` to construct the above.
  - Supabase Auth → Providers (Google/GitHub): authorized redirect is Supabase’s default `https://<your-supabase-domain>/auth/v1/callback`.
 
-- Stripe (Checkout)
- - Allowed return URL: `https://app.example.com/tps/stripe/checkout`
- - Webhook: configure in Stripe Dashboard; set `STRIPE_WEBHOOK_SECRET` here.
+- Bitcoin wallet (TPS — not Stripe)
+ - Wallet authorize / OAuth return under `/tps/wallet/*` (see `apps/uapi/app/tps/`)
+ - Network default: testnet4; no Stripe checkout return URL
 
 - GitHub App (VCS)
  - OAuth callback: `https://app.example.com/api/vcs/github/callback`
@@ -332,11 +325,10 @@ Use this quick checklist when promoting an environment.
  - [ ] UI callback allowed: `https://<app-domain>/tps/supabase/callback`
  - [ ] Providers (Google/GitHub) configured in Supabase; redirect: `https://<supabase-domain>/auth/v1/callback`
 
-- Stripe (Checkout)
- - [ ] `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` set
- - [ ] `STRIPE_PRODUCT_ID_FLEXIBLE`, `STRIPE_PRODUCT_ID_INDUSTRIAL` set
- - [ ] Optional bundle overrides set as required
- - [ ] Allowed return URL: `https://<app-domain>/tps/stripe/checkout`
+- Settlement / wallet (not Stripe)
+ - [ ] `BITCODE_BITCOIN_OAUTH_*` and `NEXT_PUBLIC_BITCODE_BITCOIN_NETWORK=testnet4` set
+ - [ ] Wallet authorize callbacks under `/tps/wallet/*` allow-listed as needed
+ - [ ] Confirm **no** Stripe/prepaid credit env required for commercial path
 
 - GitHub App (VCS)
  - [ ] `GITHUB_APP_ID`, `GITHUB_PRIVATE_KEY`, client creds set
@@ -359,9 +351,8 @@ Use this quick checklist when promoting an environment.
 
 - Former UI alias redirects (for safety)
  - [ ] `/login/callback` → `/tps/supabase/callback`
- - [ ] `/checkout/callback` → `/tps/stripe/checkout`
- - [ ] `/github/callback` → `/tps/github/app-install`
- - [ ] `/sms/view/<runId>` → `/tps/twilio/sms/<runId>`
+ - [ ] `/github/callback` → `/tps/github/app-install` (if retained)
+ - [ ] Do **not** deploy Stripe checkout aliases — Stripe is not used
 
 ## Deployment Checklist
 
@@ -371,7 +362,7 @@ Use this quick checklist when promoting an environment.
 - [ ] GitHub OAuth App created (for SSO)
 - [ ] GitHub App created (for repo access)
 - [ ] Google OAuth credentials configured
-- [ ] Stripe products and webhooks configured
+- [ ] Wallet / BTC-testnet settlement posture configured (no Stripe)
 - [ ] Database migrations run
 
 ### Security Verification
@@ -387,8 +378,8 @@ Use this quick checklist when promoting an environment.
 - [ ] Google SSO works
 - [ ] GitHub SSO works
 - [ ] GitHub App installation works
-- [ ] Payment processing works
-- [ ] Webhooks are received
+- [ ] Wallet auth / BTC-testnet settlement path works (no Stripe checkout)
+- [ ] GitHub App / provider webhooks are received (if used)
 
 ## Common Issues
 
@@ -418,15 +409,9 @@ Use this quick checklist when promoting an environment.
 5. **Use environment-specific** Supabase projects
 6. **Implement rate limiting** on API endpoints
 7. **Audit OAuth app permissions** regularly
-## CI/CD (GA‑1)
+## CI/CD (orientation)
 
-We ship with a minimal, fast CI for pre‑prod:
-
-- Workflow: `.github/workflows/v26.yml`
-- Jobs:
- - core: pnpm install, lint (core), typecheck (core), AssetPack execution bring-up tests
- - db-verify (optional, commented): apply `000_squashed.sql` to a Postgres service once populated
-
-Notes:
-- Keep CI Node at 20.x to match local dev and tests.
-- Run codegen locally after squashing (`generate-types`, `codegen:db`) and commit changes; CI intentionally avoids mutating the repo.
+Maintained workflows live under `.github/workflows/` (gate quality, canon quality,
+version promotion, application CI). Prefer current `bitcode-gate-quality` /
+`bitcode-canon-quality` and app package scripts over historical `v26.yml`
+folklore. See [`CONTRIBUTING.md`](../CONTRIBUTING.md) §8.
