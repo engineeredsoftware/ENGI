@@ -226,8 +226,11 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     summary:
       'Free-text guidance on what synthesis should avoid surfacing — naming, business logic, or concepts you would rather AssetPack summaries not reference directly.',
     detail:
-      'This is guidance for the model\'s framing, not a hard technical boundary — for a guaranteed, fail-closed exclusion, use Forced Exclusions below instead. The Setup phase\'s input-comprehension agent turns this into structured guidance the rest of the pipeline honors.',
-    points: ['Shapes how synthesized options are framed and worded', 'Pair with Forced Exclusions for a hard boundary'],
+      'This is guidance for the model\'s framing, not a hard technical boundary — for a guaranteed, fail-closed exclusion, use Impermissible sources below instead. The Setup phase\'s input-comprehension agent turns this into structured guidance the rest of the pipeline honors.',
+    points: [
+      'Shapes how synthesized options are framed and worded',
+      'Pair with Impermissible sources for a hard boundary',
+    ],
     references: {
       source: ['packages/asset-packs-pipelines/domain/src/agents/setup/deposit-input-comprehension-agent.ts'],
       canon: DEPOSIT_CANON_REFS,
@@ -235,11 +238,11 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
   }),
   forcedInclusions: buildExplainer({
     kicker: 'Option synthesis',
-    title: 'Forced Inclusion',
+    title: 'Permissible sources',
     summary:
       'Paths picked from the repository file tree that bound measurement scope — when set, only these roots (and their descendants) enter the deposit inventory.',
     detail:
-      'Forced Inclusion scopes the host checkout before measurement and prompts: out-of-root files never enter inventory.sources or candidates. Empty Forced Inclusion leaves the full tree in-scope (minus Forced Exclusions). Sensitive-sounding paths raise a review warning and nudge estimated development cost and expected settlement upward. Mutually exclusive with Forced Exclusions: a path cannot be both included and excluded.',
+      'Permissible sources scope the host checkout before measurement and prompts: out-of-root files never enter inventory.sources or candidates. Empty permissible sources leave the full tree in-scope (minus impermissible sources). Sensitive-sounding paths raise a review warning and nudge estimated development cost and expected settlement upward. Mutually exclusive with impermissible sources: a path cannot be both permissible and impermissible.',
     points: [
       'When non-empty, inventory is scoped to these roots only (prefix match)',
       'Use this on monorepos to keep measurement bounded (e.g. uapi/)',
@@ -249,11 +252,11 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
   }),
   forcedExclusions: buildExplainer({
     kicker: 'Option synthesis',
-    title: 'Forced Exclusions',
+    title: 'Impermissible sources',
     summary:
       'The hard, fail-closed boundary: paths listed here never enter AssetPack knowledge synthesis at all.',
     detail:
-      'Forced Exclusion paths are removed from the source inventory before any prompt is built, and any candidate whose covered paths touch an exclusion (or cite paths outside the real inventory) is dropped after inference — enforced independently at both ends of the pipeline. Mutually exclusive with Forced Inclusion.',
+      'Impermissible sources are removed from the source inventory before any prompt is built, and any candidate whose covered paths touch them (or cite paths outside the real inventory) is dropped after inference — enforced independently at both ends of the pipeline. Mutually exclusive with permissible sources.',
     points: [
       'Excluded content never reaches the model, not even as a prompt reference',
       'Violating candidates are dropped after synthesis as a second, independent check',

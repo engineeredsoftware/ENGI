@@ -1,9 +1,9 @@
 /**
  * Shared include/exclude path icons for the deposit Obfuscations surface.
  *
- * Used on the Forced Inclusion / Forced Exclusions section headers and again
- * in the saved-anchors dropdown sub-text so the two surfaces share one visual
- * language.
+ * Used on the Permissible sources / Impermissible sources section headers and
+ * again in the saved-anchors dropdown sub-text so both surfaces share one
+ * visual language.
  */
 
 import React from 'react';
@@ -13,10 +13,10 @@ import { normalizeObfuscationsAnchorPaths } from '@/components/bitcode/pipeline/
 
 const ICON_CLASS = 'h-3.5 w-3.5 shrink-0';
 
-/** Forced Inclusion affordance (emerald). */
+/** Permissible sources affordance (emerald). */
 export function DepositIncludePathsIcon({
   className,
-  title = 'Forced Inclusion',
+  title = 'Permissible sources',
 }: {
   className?: string;
   title?: string;
@@ -32,10 +32,10 @@ export function DepositIncludePathsIcon({
   );
 }
 
-/** Forced Exclusions affordance (rose). */
+/** Impermissible sources affordance (rose). */
 export function DepositExcludePathsIcon({
   className,
-  title = 'Forced Exclusions',
+  title = 'Impermissible sources',
 }: {
   className?: string;
   title?: string;
@@ -81,12 +81,10 @@ export function ObfuscationsAnchorDescription({
   const exclusionCount = normalizeObfuscationsAnchorPaths(
     forcedExclusions,
   ).length;
-  const hintsAria = `${hintCount} forced inclusion ${
-    hintCount === 1 ? 'path' : 'paths'
-  }`;
-  const exclusionsAria = `${exclusionCount} forced exclusion ${
-    exclusionCount === 1 ? 'path' : 'paths'
-  }`;
+  const hintsAria = `${hintCount} path${hintCount === 1 ? '' : 's'} in permissible sources`;
+  const exclusionsAria = `${exclusionCount} path${
+    exclusionCount === 1 ? '' : 's'
+  } in impermissible sources`;
 
   // Single line always: clipped body truncates; icon counts stay pinned on the right.
   return (

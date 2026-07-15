@@ -1,8 +1,9 @@
 'use client';
 
 /**
- * Forced Inclusion / Forced Exclusion file-tree pickers for deposit synthesis.
+ * Permissible sources / Impermissible sources file-tree pickers for deposit synthesis.
  * Paths are mutually exclusive; concept-level withholding stays in Obfuscations.
+ * Internal state still uses forcedInclusions / forcedExclusions field names.
  */
 
 import React from "react";
@@ -45,24 +46,24 @@ export function DepositObfuscationsPathPickers({
       <div className="block">
         <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
           <DepositIncludePathsIcon />
-          <span>Forced Inclusion</span>
+          <span>Permissible sources</span>
           <span onClick={(event) => event.stopPropagation()}>
             <BitcodeInlineExplainer
               explainer={DEPOSIT_SECTION_EXPLAINERS.forcedInclusions}
-              triggerAriaLabel="More info about this field"
+              triggerAriaLabel="More info about permissible sources"
             />
           </span>
         </span>
         <div className="mt-2">
           <VCSFileTreePicker
-            aria-label="Forced Inclusion file tree"
+            aria-label="Permissible sources file tree"
             provider={provider}
             repositoryFullName={repositoryFullName}
             treeRef={treeRef}
             selectedPaths={forcedInclusions}
             onChange={onForcedInclusionsChange}
             conflictingPaths={forcedExclusions}
-            conflictLabel="Already a Forced Exclusion"
+            conflictLabel="Already in impermissible sources"
             disabled={isConfigLocked}
           />
         </div>
@@ -70,32 +71,32 @@ export function DepositObfuscationsPathPickers({
       <div className="block">
         <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
           <DepositExcludePathsIcon />
-          <span>Forced Exclusions</span>
+          <span>Impermissible sources</span>
           <span onClick={(event) => event.stopPropagation()}>
             <BitcodeInlineExplainer
               explainer={DEPOSIT_SECTION_EXPLAINERS.forcedExclusions}
-              triggerAriaLabel="More info about this field"
+              triggerAriaLabel="More info about impermissible sources"
             />
           </span>
         </span>
         <div className="mt-2">
           <VCSFileTreePicker
-            aria-label="Forced Exclusions file tree"
+            aria-label="Impermissible sources file tree"
             provider={provider}
             repositoryFullName={repositoryFullName}
             treeRef={treeRef}
             selectedPaths={forcedExclusions}
             onChange={onForcedExclusionsChange}
             conflictingPaths={forcedInclusions}
-            conflictLabel="Already a Forced Inclusion"
+            conflictLabel="Already in permissible sources"
             disabled={isConfigLocked}
           />
         </div>
         <span className="mt-1 block text-xs leading-5 text-neutral-500">
-          Forced Exclusions never enter AssetPack knowledge synthesis: they are
-          removed from the source inventory before measurement, and candidates
-          that touch them are dropped fail-closed. Concept-level withholding
-          belongs in Obfuscations above.
+          Impermissible sources never enter AssetPack knowledge synthesis: they
+          are removed from the source inventory before measurement, and
+          candidates that touch them are dropped fail-closed. Concept-level
+          withholding belongs in Obfuscations above.
         </span>
       </div>
     </div>
