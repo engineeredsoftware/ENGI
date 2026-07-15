@@ -3,6 +3,7 @@ import {
   createBitcoinWalletAuthorizationCode,
 } from '@bitcode/auth/bitcoin-wallet-oauth-provider';
 import {
+  bitcodeServerLifecycleTelemetry,
   bitcodeServerTelemetry,
   compactBitcodeServerId,
 } from '@/lib/bitcode-server-telemetry';
@@ -70,6 +71,11 @@ export async function POST(request: Request) {
       wallet: (body.wallet ?? {}) as any,
     });
 
+    bitcodeServerLifecycleTelemetry('info', 'wallet-oauth', 'authorization-code-issued', {
+      wallet: readWalletTelemetry(body.wallet),
+      expiresIn: 300,
+      codeLength: code.length,
+    });
     bitcodeServerTelemetry('info', 'wallet-oauth', 'authorization-code-issued', {
       wallet: readWalletTelemetry(body.wallet),
       expiresIn: 300,
@@ -79,6 +85,10 @@ export async function POST(request: Request) {
       expires_in: 300,
     });
   } catch (error) {
+    bitcodeServerLifecycleTelemetry('warn', 'wallet-oauth', 'authorization-code-failed', {
+      message: error instanceof Error ? error.message.slice(0, 200) : String(error),
+      wallet: readWalletTelemetry(body.wallet),
+    });
     bitcodeServerTelemetry('warn', 'wallet-oauth', 'authorization-code-failed', {
       message: error instanceof Error ? error.message : String(error),
       wallet: readWalletTelemetry(body.wallet),

@@ -209,12 +209,16 @@ export default function LoginCallbackClient({
           await new Promise((resolve) => setTimeout(resolve, 300));
           if (await completeIfSessionExists()) return;
 
-          const message =
+          const rawMessage =
             exchangeError instanceof Error ? exchangeError.message : String(exchangeError);
+          const message = /unable to exchange external code/i.test(rawMessage)
+            ? 'Wallet signed, but Supabase could not exchange the Bitcode OAuth code. Confirm Token/Userinfo URLs and BITCODE_BITCOIN_OAUTH_CLIENT_SECRET match the Supabase custom provider on this deploy.'
+            : rawMessage;
           try {
             const { bitcodeQaTelemetry } = await import('@bitcode/auth/qa-telemetry');
             bitcodeQaTelemetry('error', 'supabase-callback', 'exchange-unrecoverable', {
-              message,
+              message: rawMessage,
+              operatorMessage: message,
               codeKind,
             });
           } catch {

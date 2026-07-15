@@ -44,7 +44,17 @@ function useConnectErrorToast() {
       import('@/components/shadcn/Sonner/Sonner')
         .then(({ toast }) => {
           const errorLabel = decodeURIComponent(err);
-          const detail = description ? decodeURIComponent(description) : '';
+          let detail = description ? decodeURIComponent(description) : '';
+          // Supabase wraps custom-provider token failures as this string and
+          // appends a truncated Bitcode auth code (starts with eyJ…). Surface
+          // the real operator action instead of the opaque GoTrue text.
+          if (/unable to exchange external code/i.test(detail)) {
+            detail =
+              'Wallet signed, but Supabase could not exchange the Bitcode OAuth code. ' +
+              'Confirm the custom provider Token/Userinfo URLs hit this deploy, and that ' +
+              'BITCODE_BITCOIN_OAUTH_CLIENT_SECRET matches the provider Client Secret on that host. ' +
+              'Check Vercel logs for [Bitcode Server] wallet-oauth:token-*.';
+          }
           toast.error(detail ? `${errorLabel}: ${detail}` : errorLabel);
         })
         .catch(() => {});
