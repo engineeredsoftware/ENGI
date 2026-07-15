@@ -223,8 +223,10 @@ export default function ReadPageClient() {
         tone="orange"
         label="Read"
         title="Reading"
-        summary="Describe a Need, synthesize measured AssetPack options, choose what fits, then settle and track delivery on Packs."
+        summary="Reading from the Bitcode Depository means expressing a desired patch to your repository and reviewing synthesized options for purchase."
         icon={Workflow}
+        // Hold chips until run history loads so the set enters once with final values.
+        metricsReady={!isLoadingRuns}
         metrics={[
           {
             label: "Stage",
@@ -238,7 +240,7 @@ export default function ReadPageClient() {
             label: "Rows",
             description:
               "How many Read runs appear in the pipelines table for this account.",
-            value: isLoadingRuns ? "reading" : String(liveRuns.length),
+            value: String(liveRuns.length),
           },
           {
             label: "Options",
@@ -286,14 +288,16 @@ export default function ReadPageClient() {
               : selectedPipelineRunId || "reads-detail"
           }
           testId="reads-run-configuration"
-          className="grid min-w-0 gap-4 phone:gap-5 laptop:grid-cols-[minmax(0,1.4fr)_minmax(16rem,0.55fr)]"
+          // Full-width stack: repository + Need as full rows, then
+          // route-state panels as one 3-col row (never main|aside columns).
+          className="grid min-w-0 gap-4 phone:gap-5"
           dataAttrs={{
             "data-compose": isComposeOpen ? "true" : "false",
             "data-locked": isConfigLocked ? "true" : "false",
           }}
         >
           <div className="grid min-w-0 gap-5">
-            <div className="grid min-w-0 gap-4 phone:gap-5 tablet:grid-cols-2">
+            <div className="grid min-w-0 gap-4 phone:gap-5">
               <div id="reads-section-source" className="min-w-0">
                 <DepositSourceSelection
                   preferredRepository={selectedRun?.repository || null}

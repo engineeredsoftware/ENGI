@@ -1,9 +1,9 @@
 'use client';
 
 /**
- * Deposit route state aside — Earnings, Governance, and Session panels.
- * Presentational only; parent owns route session and estimate state.
- * Section bodies live in DepositAsideEarningsPanel / DepositAsideRowsSection.
+ * Deposit route state band — Earnings, Governance, and Session panels.
+ * Full-width row under compose (laptop: 1×3). Presentational only; parent
+ * owns route session and estimate state.
  */
 
 import React from "react";
@@ -44,7 +44,8 @@ export function DepositRouteStateAside({
 }: DepositRouteStateAsideProps) {
   return (
     <aside
-      className="grid h-fit min-w-0 items-start gap-4 phone:gap-5 tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-1"
+      // Full-width band under compose: one row, three equal panels on laptop+.
+      className="grid h-fit min-w-0 items-start gap-4 phone:gap-5 laptop:grid-cols-3"
       aria-label="Deposit route state"
     >
       <DepositAsideEarningsPanel

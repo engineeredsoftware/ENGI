@@ -461,8 +461,10 @@ export default function DepositPageClient() {
         tone="violet"
         label="Deposit"
         title="Depositing"
-        summary="Synthesize, review, and deposit AssetPacks from your repository."
+        summary="Depositing means stating your repository's impermissible IP and then reviewing synthesized options for deposit."
         icon={Boxes}
+        // Hold chips until runs + network aggregate settle so the set enters once.
+        metricsReady={!isLoadingRuns && networkDepositoryCount !== null}
         metrics={[
           {
             label: "Stage",
@@ -487,8 +489,7 @@ export default function DepositPageClient() {
           {
             label: "Network",
             description: DEPOSIT_HEADER_METRIC_EXPLAINERS["Network"],
-            value:
-              networkDepositoryCount === null ? "—" : networkDepositoryCount,
+            value: networkDepositoryCount ?? 0,
           },
           {
             label: "Authority",
@@ -533,7 +534,9 @@ export default function DepositPageClient() {
               : synthesisRunId || "deposit-detail"
           }
           testId="deposit-run-configuration"
-          className="grid min-w-0 gap-4 phone:gap-5 laptop:grid-cols-[minmax(0,1.4fr)_minmax(16rem,0.55fr)]"
+          // Full-width stack: repository + synthesis as full rows, then
+          // route-state panels as one 3-col row (never main|aside columns).
+          className="grid min-w-0 gap-4 phone:gap-5"
           dataAttrs={{
             "data-locked": isConfigLocked ? "true" : "false",
             "data-compose":
@@ -541,7 +544,7 @@ export default function DepositPageClient() {
           }}
         >
           <div className="grid min-w-0 gap-5">
-            <div className="grid min-w-0 gap-4 phone:gap-5 tablet:grid-cols-2">
+            <div className="grid min-w-0 gap-4 phone:gap-5">
               <div id="deposit-section-source" className="min-w-0">
                 <DepositSourceSelection
                   preferredRepository={selectedRun?.repository || null}

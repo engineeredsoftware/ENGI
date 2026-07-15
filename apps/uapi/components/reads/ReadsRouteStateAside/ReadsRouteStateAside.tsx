@@ -1,10 +1,9 @@
 'use client';
 
 /**
- * Reading route state aside — Session / Governance / Procurement only.
- * Deposit-style collapsible row (tablet 3-col, xl stack). Measurement,
- * settlement, and pack activity review live on AssetPack options (main column),
- * matching Deposits.
+ * Reading route state band — Session / Governance / Procurement only.
+ * Full-width row under compose (laptop: 1×3). Measurement, settlement, and
+ * pack activity review live on AssetPack options, matching Deposits.
  */
 
 import React from "react";
@@ -32,7 +31,8 @@ export function ReadsRouteStateAside({
 }: ReadsRouteStateAsideProps) {
   return (
     <aside
-      className="grid h-fit min-w-0 items-start gap-4 phone:gap-5 tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-1"
+      // Full-width band under compose: one row, three equal panels on laptop+.
+      className="grid h-fit min-w-0 items-start gap-4 phone:gap-5 laptop:grid-cols-3"
       aria-label="Reading route state"
     >
       <ReadsAsideRowsSection
