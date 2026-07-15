@@ -99,7 +99,7 @@ export function useDepositSourceVcs(input: {
           throw new Error("Unable to load repository connection posture.");
         }
         if (!disposed) {
-          setConnectionStatus(payload as productRepositoryConnectionStatus);
+          setConnectionStatus(payload as ProductRepositoryConnectionStatus);
         }
       })
       .catch((nextError) => {

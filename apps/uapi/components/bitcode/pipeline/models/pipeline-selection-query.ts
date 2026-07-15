@@ -146,8 +146,8 @@ export function readProductTransactionId(searchParams: URLSearchParams) {
 
 export function readProductEnvironmentMode(searchParams: URLSearchParams): ProductEnvironmentMode | null {
   const rawValue = searchParams.get(SEARCH_PARAM_KEYS.environmentMode);
-  return PRODUCT_ENVIRONMENT_MODE_VALUES.includes(rawValue as productEnvironmentMode)
-    ? (rawValue as productEnvironmentMode)
+  return PRODUCT_ENVIRONMENT_MODE_VALUES.includes(rawValue as ProductEnvironmentMode)
+    ? (rawValue as ProductEnvironmentMode)
     : null;
 }
 
@@ -212,11 +212,11 @@ export function readProductConversationHandoffContext(searchParams: URLSearchPar
   return {
     present,
     conversationId: parseTextValue(searchParams.get(SEARCH_PARAM_KEYS.conversationId), '') || null,
-    workflow: workflow && PRODUCT_CONVERSATION_HANDOFF_WORKFLOW_VALUES.includes(workflow as productConversationHandoffWorkflow)
-      ? (workflow as productConversationHandoffWorkflow)
+    workflow: workflow && PRODUCT_CONVERSATION_HANDOFF_WORKFLOW_VALUES.includes(workflow as ProductConversationHandoffWorkflow)
+      ? (workflow as ProductConversationHandoffWorkflow)
       : null,
-    policy: policy && PRODUCT_CONVERSATION_HANDOFF_POLICY_VALUES.includes(policy as productConversationHandoffPolicy)
-      ? (policy as productConversationHandoffPolicy)
+    policy: policy && PRODUCT_CONVERSATION_HANDOFF_POLICY_VALUES.includes(policy as ProductConversationHandoffPolicy)
+      ? (policy as ProductConversationHandoffPolicy)
       : null,
     proofRoot: parseTextValue(searchParams.get(SEARCH_PARAM_KEYS.handoffProofRoot), '') || null,
     repositoryAnchor: parseTextValue(searchParams.get(SEARCH_PARAM_KEYS.handoffRepositoryAnchor), '') || null,

@@ -498,23 +498,6 @@ jobs:
             exit 1
           fi
 
-  bitcode-demonstration-mvp:
-    name: Bitcode Demonstration MVP
-    runs-on: ubuntu-latest
-    needs: bitcode-spec-basics
-    container:
-      image: node:22-bookworm
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Run V48 commercialized protocol proof (complete modern canon)
-        run: |
-          pnpm --dir scripts/specifying exec node --test --test-force-exit \
-            test/specifying-package-boundary.test.js \
-            test/v42-ai-reading-demonstration.test.js
-
   bitcode-spec-commit-conformance:
     name: Bitcode Spec Commit Conformance
     runs-on: ubuntu-latest

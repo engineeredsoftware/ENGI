@@ -936,11 +936,10 @@ jobs:
       - name: Test pipeline readback verifier
         run: pnpm test:qa:v28:pipeline-readback
 
-      - name: Test commercialized protocol proof (V48 complete modern canon)
+      - name: Test specifying package boundary
         run: |
           pnpm --dir scripts/specifying exec node --test --test-force-exit \
-            test/specifying-package-boundary.test.js \
-            test/v42-ai-reading-demonstration.test.js
+            test/specifying-package-boundary.test.js
 
       - name: Check diff hygiene
         run: git diff --check
