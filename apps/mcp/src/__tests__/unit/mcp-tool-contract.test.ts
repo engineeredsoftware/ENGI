@@ -11,78 +11,80 @@ jest.mock('../../pipeline-execution/adapter', () => ({
 import {
   getBtdMcpToolContract,
   buildBtdMcpToolContractRegistry,
+  BTD_MCP_TOOL_CONTRACT_IDS,
 } from '@bitcode/btd';
-import { registerPipelineTools } from '../../tools/pipeline-tools.ts';
-import { AssetPackPipelineToolSchema } from '../../types';
+import { registerProductTools } from '../../tools/product-tools.ts';
 
 describe('MCP API tool registry contracts', () => {
-  it('discovers the AssetPack create tool from the package-owned BTD contract', () => {
-    const contract = getBtdMcpToolContract('bitcode://pipelines/asset-pack/create');
-    const tool = registerPipelineTools().find((candidate) => candidate.name === contract.toolId);
+  it('registers exactly the eight product tools from package-owned BTD contracts', () => {
+    const tools = registerProductTools();
+    expect(tools).toHaveLength(8);
+    expect(tools.map((tool) => tool.name).sort()).toEqual(
+      [...BTD_MCP_TOOL_CONTRACT_IDS].sort(),
+    );
 
-    expect(tool).toBeDefined();
-    expect(tool?.name).toBe(contract.toolId);
-    expect(tool?.description).toBe(contract.description);
-    expect(contract.authPolicyId).toBe('interface.authorization.pipeline-permission');
-    expect(contract.requiredPermissions).toEqual(['pipelines.create']);
+    for (const toolId of BTD_MCP_TOOL_CONTRACT_IDS) {
+      const contract = getBtdMcpToolContract(toolId);
+      const tool = tools.find((candidate) => candidate.name === contract.toolId);
+      expect(tool).toBeDefined();
+      expect(tool?.description).toBe(contract.description);
+    }
   });
 
-  it('keeps MCP tool input schemas aligned to the package-owned contract fields', () => {
-    const contract = getBtdMcpToolContract('bitcode://pipelines/asset-pack/create');
-    const parsed = AssetPackPipelineToolSchema.safeParse({
-      task: 'Create a settlement-ready AssetPack preview and delivery plan',
+  it('keeps deposit synthesize schemas aligned to contract fields', () => {
+    const contract = getBtdMcpToolContract('bitcode://synthesize-asset-packs-for-deposit');
+    const tool = registerProductTools().find(
+      (candidate) => candidate.name === contract.toolId,
+    );
+    const parsed = tool!.inputSchema.safeParse({
       repository: {
         owner: 'bitcode-labs',
-        name: 'terminal',
+        name: 'bitcode',
         provider: 'github',
       },
-      connections: [
-        {
-          kind: 'repository_connection',
-          provider: 'github',
-          owner: 'bitcode-labs',
-          name: 'terminal',
-        },
-      ],
-      subtype: 'pull_request',
+      obfuscations: '',
       streaming: true,
     });
 
     expect(parsed.success).toBe(true);
-    expect(contract.inputSchemaId).toBe('bitcode.mcp.assetPackCreate.input.v1');
+    expect(contract.inputSchemaId).toBe('bitcode.mcp.synthesizeAssetPacksForDeposit.input.v1');
     expect(contract.requestRootFields).toEqual(
-      expect.arrayContaining(['task', 'repository', 'connections', 'subtype', 'streaming']),
+      expect.arrayContaining(['repository', 'obfuscations']),
     );
   });
 
-  it('rejects invalid MCP tool input before execution and maps that to schema-validation denial posture', () => {
-    const contract = getBtdMcpToolContract('bitcode://pipelines/asset-pack/create');
-    const parsed = AssetPackPipelineToolSchema.safeParse({
-      task: 'too short',
+  it('rejects invalid read synthesize input before execution', () => {
+    const contract = getBtdMcpToolContract('bitcode://synthesize-asset-packs-for-reads');
+    const tool = registerProductTools().find(
+      (candidate) => candidate.name === contract.toolId,
+    );
+    const parsed = tool!.inputSchema.safeParse({
       repository: {
         owner: 'bitcode-labs',
-        name: 'terminal',
+        name: 'bitcode',
         provider: 'github',
       },
-      subtype: 'pull_request',
+      need: { prompt: 'too short' },
     });
 
     expect(parsed.success).toBe(false);
     expect(contract.deniedStates.map((state) => state.code)).toContain('SCHEMA_VALIDATION_FAILED');
   });
 
-  it('declares source-safe output fields and proof roots for MCP responses', () => {
+  it('declares source-safe output fields and proof roots for product MCP responses', () => {
     const registry = buildBtdMcpToolContractRegistry();
-    const [contract] = registry.tools;
+    const deposit = registry.tools.find(
+      (tool) => tool.toolId === 'bitcode://synthesize-asset-packs-for-deposit',
+    );
+    const measure = registry.tools.find((tool) => tool.toolId === 'bitcode://measure');
 
+    expect(registry.toolCount).toBe(8);
     expect(registry.sourceSafety.protectedSourceVisible).toBe(false);
-    expect(contract.sourceSafetyClass).toBe('protected-source-locked');
-    expect(contract.protectedSourcePolicy).toBe('source-safe-preview-and-metadata-before-settlement');
-    expect(contract.responseRootFields).toEqual(
+    expect(deposit?.sourceSafetyClass).toBe('protected-source-locked');
+    expect(deposit?.responseRootFields).toEqual(
       expect.arrayContaining(['runId', 'assetPackEvidenceId', 'writeAdmission', 'outputMeaning']),
     );
-    expect(contract.proofRootFields).toEqual(
-      expect.arrayContaining(['toolId', 'inputSchemaId', 'outputSchemaId', 'requestRoot', 'responseRoot']),
-    );
+    expect(measure?.requiredPermissions).toEqual(['measure.read']);
+    expect(measure?.sourceSafetyClass).toBe('source-safe-public');
   });
 });

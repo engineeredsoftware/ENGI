@@ -180,7 +180,7 @@ export function buildBtdInterfaceConsumerUxRegressionInputs(): BtdInterfaceConsu
     {
       rowId: 'interface.consumer.mcp-finding-fits-readable',
       surface: 'mcp_api',
-      consumerPath: 'bitcode://pipelines/asset-pack/create',
+      consumerPath: 'bitcode://synthesize-asset-packs-for-deposit',
       actionLabel: 'Request Finding Fits',
       posture: 'success_readable',
       visibilityBoundary: 'source_safe_preview',
@@ -218,12 +218,12 @@ export function buildBtdInterfaceConsumerUxRegressionInputs(): BtdInterfaceConsu
     {
       rowId: 'interface.consumer.terminal-preview-blocked',
       surface: 'product_handoff',
-      consumerPath: 'terminal://reading/asset-pack-preview',
+      consumerPath: 'packs://reading/asset-pack-preview',
       actionLabel: 'Review AssetPack preview',
       posture: 'blocked_preview',
       visibilityBoundary: 'blocked_until_settlement',
       sourceSafeSummary:
-        'Terminal handoff shows AssetPack measurements, fee posture, proof roots, and settlement repair steps only.',
+        'product handoff shows AssetPack measurements, fee posture, proof roots, and settlement repair steps only.',
       proofRoots: ['preview-root:terminal-reading', 'settlement-root:terminal-reading'],
       repairSteps: ['review-source-safe-preview', 'settle-btc-fee-to-unlock-rights'],
       feeRightsPreview: feeRightsPreview('terminal-preview', 'blocked_until_rights', 'settlement_pending'),

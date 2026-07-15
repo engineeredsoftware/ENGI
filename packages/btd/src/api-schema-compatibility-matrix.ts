@@ -199,7 +199,7 @@ export function buildBtdApiSchemaCompatibilityRows(): BtdApiSchemaCompatibilityR
         'pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand',
       example: {
         request: {
-          interfaceSurface: 'terminal',
+          interfaceSurface: 'product',
           action: 'deliver_asset_pack',
           authorityObservedAt: '2026-05-21T00:00:00.000Z',
         },
@@ -216,7 +216,7 @@ export function buildBtdApiSchemaCompatibilityRows(): BtdApiSchemaCompatibilityR
       consumerSurface: 'mcp_api',
       routeId: 'mcp.tool.assetPackCreate',
       method: 'TOOL_CALL',
-      path: 'bitcode://pipelines/asset-pack/create',
+      path: 'bitcode://synthesize-asset-packs-for-deposit',
       schemaId: 'bitcode.mcp.assetPackCreate.v1',
       requestSchemaId: 'bitcode.mcp.assetPackCreate.input.v1',
       responseSchemaId: 'bitcode.mcp.assetPackCreate.output.v1',
@@ -285,10 +285,10 @@ export function buildBtdApiSchemaCompatibilityRows(): BtdApiSchemaCompatibilityR
       breakingChangePolicy: 'gate_review_required',
       examplePosture: 'blocked',
       exampleId: 'terminal-assetpack-preview-blocked',
-      examplePath: 'apps/uapi/tests/terminalOrganizationAuthority.test.ts#terminal-paid-delivery-rights-fixture',
-      fixturePath: 'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
+      examplePath: 'apps/uapi/tests/productOrganizationAuthority.test.ts#product-paid-delivery-rights-fixture',
+      fixturePath: 'apps/uapi/tests/productOrganizationAuthority.test.ts',
       validationCommand:
-        'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand',
+        'pnpm --dir apps/uapi exec jest --runTestsByPath tests/productOrganizationAuthority.test.ts --runInBand',
       example: {
         request: { transactionId: 'terminal-schema-preview', assetPackId: 'asset-pack-schema-preview' },
         response: {

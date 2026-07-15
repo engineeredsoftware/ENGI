@@ -2,8 +2,20 @@ import { createHash } from 'crypto';
 import { assertNonEmptyString } from './constants';
 import type { BtdProtocolTelemetrySourceSafety } from './telemetry';
 
+/**
+ * Product MCP tools (exactly eight):
+ * measure, synthesize-asset-packs-for-deposit|reads, packs,
+ * auxiliary-profile|wallet|interfaces|externals.
+ */
 export const BTD_MCP_TOOL_CONTRACT_IDS = [
-  'bitcode://pipelines/asset-pack/create',
+  'bitcode://measure',
+  'bitcode://synthesize-asset-packs-for-deposit',
+  'bitcode://synthesize-asset-packs-for-reads',
+  'bitcode://packs',
+  'bitcode://auxiliary-profile',
+  'bitcode://auxiliary-wallet',
+  'bitcode://auxiliary-interfaces',
+  'bitcode://auxiliary-externals',
 ] as const;
 
 export type BtdMcpToolContractId = (typeof BTD_MCP_TOOL_CONTRACT_IDS)[number];
@@ -137,44 +149,220 @@ export const BTD_MCP_TOOL_CONTRACT_REQUIRED_PROOF_ROOT_FIELDS = [
   ...REQUIRED_PROOF_ROOT_FIELDS,
 ] as const;
 
+const PIPELINE_INGRESS_FIXTURE =
+  'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts';
+const PIPELINE_INGRESS_VALIDATION =
+  'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand';
+const AUTH_FIXTURE = 'apps/mcp/src/__tests__/unit/auth.test.ts';
+const AUTH_VALIDATION =
+  'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand';
+const MCP_CONTRACT_FIXTURE = 'packages/btd/__tests__/mcp-tool-contract.test.ts';
+const MCP_CONTRACT_VALIDATION =
+  'pnpm --dir packages/btd exec jest --runTestsByPath __tests__/mcp-tool-contract.test.ts --runInBand';
+
+const SHARED_PIPELINE_DENIED_STATES: readonly BtdMcpToolDeniedStateInput[] = [
+  {
+    code: 'MISSING_API_KEY',
+    statusCode: 401,
+    reason: 'MCP request did not include an admissible Bearer API key.',
+    repairPosture: 'supply-bearer-api-key',
+  },
+  {
+    code: 'INSUFFICIENT_PERMISSIONS',
+    statusCode: 403,
+    reason: 'MCP context lacks pipelines.create permission.',
+    repairPosture: 'grant-pipelines-create-or-use-readonly-tool',
+  },
+  {
+    code: 'PROVIDER_BINDING_REQUIRED',
+    statusCode: 403,
+    reason: 'MCP write admission lacks repository-scoped provider binding.',
+    repairPosture: 'provide-matching-repository-connection-or-provider-credential',
+  },
+  {
+    code: 'SCHEMA_VALIDATION_FAILED',
+    statusCode: 400,
+    reason: 'MCP tool arguments failed package-owned input schema validation.',
+    repairPosture: 'repair-tool-arguments-to-match-input-schema',
+  },
+  {
+    code: 'RATE_LIMITED',
+    statusCode: 429,
+    reason: 'MCP user or pipeline creation limit is temporarily exceeded.',
+    repairPosture: 'retry-after-rate-limit-reset',
+  },
+  {
+    code: 'UNKNOWN_TOOL',
+    statusCode: 404,
+    reason: 'MCP tool id is not present in the package-owned registry.',
+    repairPosture: 'refresh-tool-discovery-from-registry',
+  },
+];
+
+const SHARED_PIPELINE_EXAMPLES: readonly BtdMcpToolExampleInput[] = [
+  {
+    exampleId: 'mcp-pipeline-success-queued',
+    posture: 'success_queued',
+    fixturePath: PIPELINE_INGRESS_FIXTURE,
+    validationCommand: PIPELINE_INGRESS_VALIDATION,
+    sourceSafetyClass: 'source-safe-internal',
+  },
+  {
+    exampleId: 'mcp-pipeline-denied-permission',
+    posture: 'denied_permission',
+    fixturePath: PIPELINE_INGRESS_FIXTURE,
+    validationCommand: PIPELINE_INGRESS_VALIDATION,
+    sourceSafetyClass: 'source-safe-internal',
+  },
+  {
+    exampleId: 'mcp-pipeline-denied-auth',
+    posture: 'denied_auth',
+    fixturePath: AUTH_FIXTURE,
+    validationCommand: AUTH_VALIDATION,
+    sourceSafetyClass: 'source-safe-internal',
+  },
+  {
+    exampleId: 'mcp-pipeline-denied-provider-binding',
+    posture: 'denied_provider_binding',
+    fixturePath: PIPELINE_INGRESS_FIXTURE,
+    validationCommand: PIPELINE_INGRESS_VALIDATION,
+    sourceSafetyClass: 'source-safe-internal',
+  },
+];
+
+const PIPELINE_RESPONSE_ROOT_FIELDS = [
+  'runId',
+  'assetPackEvidenceId',
+  'status',
+  'interfaceSurface',
+  'writeAdmission',
+  'outputMeaning',
+  'monitoringUrl',
+] as const;
+
 export function buildBtdMcpToolContractInputs(): BtdMcpToolContractInput[] {
+  const writeDenied = SHARED_PIPELINE_DENIED_STATES;
+  const writeExamples = SHARED_PIPELINE_EXAMPLES;
+  const readDenied: readonly BtdMcpToolDeniedStateInput[] = [
+    {
+      code: 'MISSING_API_KEY',
+      statusCode: 401,
+      reason: 'MCP request did not include an admissible Bearer API key.',
+      repairPosture: 'supply-bearer-api-key',
+    },
+    {
+      code: 'INSUFFICIENT_PERMISSIONS',
+      statusCode: 403,
+      reason: 'MCP context lacks product.read permission.',
+      repairPosture: 'grant-product-read-permission',
+    },
+    {
+      code: 'SCHEMA_VALIDATION_FAILED',
+      statusCode: 400,
+      reason: 'MCP tool arguments failed package-owned input schema validation.',
+      repairPosture: 'repair-tool-arguments-to-match-input-schema',
+    },
+    {
+      code: 'RATE_LIMITED',
+      statusCode: 429,
+      reason: 'MCP user limit is temporarily exceeded.',
+      repairPosture: 'retry-after-rate-limit-reset',
+    },
+    {
+      code: 'UNKNOWN_TOOL',
+      statusCode: 404,
+      reason: 'MCP tool id is not present in the package-owned registry.',
+      repairPosture: 'refresh-tool-discovery-from-registry',
+    },
+  ];
+  const readExamples: readonly BtdMcpToolExampleInput[] = [
+    {
+      exampleId: 'mcp-product-read-success',
+      posture: 'success_queued',
+      fixturePath: MCP_CONTRACT_FIXTURE,
+      validationCommand: MCP_CONTRACT_VALIDATION,
+      sourceSafetyClass: 'source-safe-public',
+    },
+    {
+      exampleId: 'mcp-product-read-denied-auth',
+      posture: 'denied_auth',
+      fixturePath: AUTH_FIXTURE,
+      validationCommand: AUTH_VALIDATION,
+      sourceSafetyClass: 'source-safe-internal',
+    },
+    {
+      exampleId: 'mcp-product-read-denied-permission',
+      posture: 'denied_permission',
+      fixturePath: MCP_CONTRACT_FIXTURE,
+      validationCommand: MCP_CONTRACT_VALIDATION,
+      sourceSafetyClass: 'source-safe-internal',
+    },
+  ];
+
+  const auxiliary = (pane: string): BtdMcpToolContractInput => ({
+    toolId: `bitcode://auxiliary-${pane}` as BtdMcpToolContractId,
+    category: 'auxiliary',
+    summary: `Open or reread Auxillaries ${pane} posture (source-safe).`,
+    description: [
+      `Product Auxillaries ${pane} pane via MCP.`,
+      `Returns source-safe open posture and productRoute /packs?auxillary-open-to=${pane}.`,
+      'Does not expose credentials, wallet private material, or unsettled AssetPack bodies.',
+    ].join(' '),
+    inputSchemaId: `bitcode.mcp.auxiliary${pane[0].toUpperCase()}${pane.slice(1)}.input.v1`,
+    outputSchemaId: `bitcode.mcp.auxiliary${pane[0].toUpperCase()}${pane.slice(1)}.output.v1`,
+    authPolicyId: 'interface.authorization.product-read',
+    requiredPermissions: ['product.read'],
+    sourceSafetyClass: 'source-safe-public',
+    protectedSourcePolicy: 'source-safe-auxillary-posture-only',
+    proofRootFields: REQUIRED_PROOF_ROOT_FIELDS,
+    requestRootFields: ['organizationId', 'confirmOpen'],
+    responseRootFields: [
+      'toolId',
+      'pane',
+      'productRoute',
+      'status',
+      'writeAdmission',
+      'outputMeaning',
+    ],
+    deniedStates: readDenied,
+    examples: readExamples.map((example) => ({
+      ...example,
+      exampleId: example.exampleId.replace('mcp-product-read-', `mcp-auxiliary-${pane}-`),
+    })),
+  });
+
   return [
     {
-      toolId: 'bitcode://pipelines/asset-pack/create',
-      category: 'pipelines',
-      summary: 'Create and execute a Bitcode AssetPack pipeline for Reading workflows.',
+      toolId: 'bitcode://measure',
+      category: 'measure',
+      summary: 'Measure a repository for product measurement dimensions (source-safe).',
       description: [
-        'Create and execute a Bitcode AssetPack pipeline for complete software engineering Reads.',
-        '',
-        'This is Bitcode\'s primary Reading pipeline entry point for feature implementation, review, bug repair, technical writing, architecture diagrams, API specifications, frontend scaffolding, scope analysis, implementation planning, and refactor proposals.',
-        'It admits source-safe Reading requests, repository/provider ingress, attachments, streaming preference, and Shippable subtype focus.',
-        'Supported subtypes include pull_request, pr_review, issue, comment, blog_post, diagram, api_spec, frontend_scaffolder, scope_analysis, implementation_plan, and refactor_proposal.',
-        'It queues the package-owned AssetPack pipeline and returns source-safe execution, preview, and monitoring metadata.',
-        'Protected AssetPack contents remain locked until settlement and rights transfer are admitted by the Protocol/BTD layer.',
-      ].join('\n'),
-      inputSchemaId: 'bitcode.mcp.assetPackCreate.input.v1',
-      outputSchemaId: 'bitcode.mcp.assetPackCreate.output.v1',
-      authPolicyId: 'interface.authorization.pipeline-permission',
-      requiredPermissions: ['pipelines.create'],
-      sourceSafetyClass: 'protected-source-locked',
-      protectedSourcePolicy: 'source-safe-preview-and-metadata-before-settlement',
+        'Single product measure tool for Deposit/Read measurement law.',
+        'Returns source-safe measurement evidence: metrics, confidence, and measure roots only.',
+        'Measure types: architecture, dependencies, security, performance, quality, complexity, patterns, technical_debt.',
+      ].join(' '),
+      inputSchemaId: 'bitcode.mcp.measure.input.v1',
+      outputSchemaId: 'bitcode.mcp.measure.output.v1',
+      authPolicyId: 'interface.authorization.measure-permission',
+      requiredPermissions: ['measure.read'],
+      sourceSafetyClass: 'source-safe-public',
+      protectedSourcePolicy: 'source-safe-metrics-and-roots-only',
       proofRootFields: REQUIRED_PROOF_ROOT_FIELDS,
       requestRootFields: [
-        'task',
         'repository',
-        'attachments',
-        'connections',
-        'subtype',
-        'streaming',
+        'measureType',
+        'depth',
+        'includeMetrics',
+        'outputFormat',
       ],
       responseRootFields: [
-        'runId',
-        'assetPackEvidenceId',
-        'status',
-        'interfaceSurface',
+        'repository',
+        'branch',
+        'measureType',
+        'results',
+        'metadata',
         'writeAdmission',
         'outputMeaning',
-        'monitoringUrl',
       ],
       deniedStates: [
         {
@@ -186,14 +374,8 @@ export function buildBtdMcpToolContractInputs(): BtdMcpToolContractInput[] {
         {
           code: 'INSUFFICIENT_PERMISSIONS',
           statusCode: 403,
-          reason: 'MCP context lacks pipelines.create permission.',
-          repairPosture: 'grant-pipelines-create-or-use-readonly-tool',
-        },
-        {
-          code: 'PROVIDER_BINDING_REQUIRED',
-          statusCode: 403,
-          reason: 'MCP write admission lacks repository-scoped provider binding.',
-          repairPosture: 'provide-matching-repository-connection-or-provider-credential',
+          reason: 'MCP context lacks measure.read permission.',
+          repairPosture: 'grant-measure-read-permission',
         },
         {
           code: 'SCHEMA_VALIDATION_FAILED',
@@ -204,7 +386,7 @@ export function buildBtdMcpToolContractInputs(): BtdMcpToolContractInput[] {
         {
           code: 'RATE_LIMITED',
           statusCode: 429,
-          reason: 'MCP user or pipeline creation limit is temporarily exceeded.',
+          reason: 'MCP user measure limit is temporarily exceeded.',
           repairPosture: 'retry-after-rate-limit-reset',
         },
         {
@@ -214,44 +396,110 @@ export function buildBtdMcpToolContractInputs(): BtdMcpToolContractInput[] {
           repairPosture: 'refresh-tool-discovery-from-registry',
         },
       ],
-      examples: [
-        {
-          exampleId: 'mcp-asset-pack-create-success-queued',
-          posture: 'success_queued',
-          fixturePath:
-            'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-          validationCommand:
-            'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
-          sourceSafetyClass: 'source-safe-internal',
-        },
-        {
-          exampleId: 'mcp-asset-pack-create-denied-permission',
-          posture: 'denied_permission',
-          fixturePath:
-            'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-          validationCommand:
-            'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
-          sourceSafetyClass: 'source-safe-internal',
-        },
-        {
-          exampleId: 'mcp-asset-pack-create-denied-auth',
-          posture: 'denied_auth',
-          fixturePath: 'apps/mcp/src/__tests__/unit/auth.test.ts',
-          validationCommand:
-            'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand',
-          sourceSafetyClass: 'source-safe-internal',
-        },
-        {
-          exampleId: 'mcp-asset-pack-create-denied-provider-binding',
-          posture: 'denied_provider_binding',
-          fixturePath:
-            'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-          validationCommand:
-            'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
-          sourceSafetyClass: 'source-safe-internal',
-        },
-      ],
+      examples: readExamples.map((example) => ({
+        ...example,
+        exampleId: example.exampleId.replace('mcp-product-read-', 'mcp-measure-'),
+      })),
     },
+    {
+      toolId: 'bitcode://synthesize-asset-packs-for-deposit',
+      category: 'pipelines',
+      summary:
+        'Synthesize Deposit AssetPack options from a repository with obfuscations configuration.',
+      description: [
+        'Synthesize Deposit AssetPack options from a repository with obfuscations configuration.',
+        'Product equivalent of website /deposits Synthesize AssetPacks.',
+        'Empty obfuscations skips Setup obfuscation LLM. Returns source-safe run/admission metadata for Packs reread.',
+      ].join(' '),
+      inputSchemaId: 'bitcode.mcp.synthesizeAssetPacksForDeposit.input.v1',
+      outputSchemaId: 'bitcode.mcp.synthesizeAssetPacksForDeposit.output.v1',
+      authPolicyId: 'interface.authorization.pipeline-permission',
+      requiredPermissions: ['pipelines.create'],
+      sourceSafetyClass: 'protected-source-locked',
+      protectedSourcePolicy: 'source-safe-preview-and-metadata-before-settlement',
+      proofRootFields: REQUIRED_PROOF_ROOT_FIELDS,
+      requestRootFields: [
+        'repository',
+        'obfuscations',
+        'forcedInclusions',
+        'forcedExclusions',
+        'streaming',
+        'attachments',
+        'connections',
+      ],
+      responseRootFields: [...PIPELINE_RESPONSE_ROOT_FIELDS],
+      deniedStates: writeDenied,
+      examples: writeExamples.map((example) => ({
+        ...example,
+        exampleId: example.exampleId.replace('mcp-pipeline-', 'mcp-deposit-synthesize-'),
+      })),
+    },
+    {
+      toolId: 'bitcode://synthesize-asset-packs-for-reads',
+      category: 'pipelines',
+      summary:
+        'Synthesize Read AssetPack options from Need configuration and repository context.',
+      description: [
+        'Synthesize Read AssetPack options from Need configuration and repository context.',
+        'Product equivalent of website /reads Synthesize AssetPacks.',
+        'Requires Need.prompt. Returns source-safe run/admission metadata for Packs reread.',
+      ].join(' '),
+      inputSchemaId: 'bitcode.mcp.synthesizeAssetPacksForReads.input.v1',
+      outputSchemaId: 'bitcode.mcp.synthesizeAssetPacksForReads.output.v1',
+      authPolicyId: 'interface.authorization.pipeline-permission',
+      requiredPermissions: ['pipelines.create'],
+      sourceSafetyClass: 'protected-source-locked',
+      protectedSourcePolicy: 'source-safe-preview-and-metadata-before-settlement',
+      proofRootFields: REQUIRED_PROOF_ROOT_FIELDS,
+      requestRootFields: [
+        'repository',
+        'need',
+        'streaming',
+        'attachments',
+        'connections',
+      ],
+      responseRootFields: [...PIPELINE_RESPONSE_ROOT_FIELDS],
+      deniedStates: writeDenied,
+      examples: writeExamples.map((example) => ({
+        ...example,
+        exampleId: example.exampleId.replace('mcp-pipeline-', 'mcp-read-synthesize-'),
+      })),
+    },
+    {
+      toolId: 'bitcode://packs',
+      category: 'packs',
+      summary: 'Reread Packs activity (source-safe options, measurements, settlement posture).',
+      description: [
+        'Product Packs surface via MCP.',
+        'Returns source-safe pack/activity posture for /packs reread. Never unpaid AssetPack bodies or credentials.',
+      ].join(' '),
+      inputSchemaId: 'bitcode.mcp.packs.input.v1',
+      outputSchemaId: 'bitcode.mcp.packs.output.v1',
+      authPolicyId: 'interface.authorization.product-read',
+      requiredPermissions: ['product.read'],
+      sourceSafetyClass: 'source-safe-public',
+      protectedSourcePolicy: 'source-safe-pack-activity-only',
+      proofRootFields: REQUIRED_PROOF_ROOT_FIELDS,
+      requestRootFields: ['activityId', 'limit', 'organizationId'],
+      responseRootFields: [
+        'toolId',
+        'productRoute',
+        'activityId',
+        'status',
+        'writeAdmission',
+        'outputMeaning',
+        'packs',
+      ],
+      deniedStates: readDenied,
+      examples: readExamples.map((example) => ({
+        ...example,
+        exampleId: example.exampleId.replace('mcp-product-read-', 'mcp-packs-'),
+      })),
+    },
+    auxiliary('profile'),
+    auxiliary('wallet'),
+    auxiliary('interfaces'),
+    auxiliary('externals'),
   ];
 }
 
@@ -265,8 +513,27 @@ export function buildBtdMcpToolContract(
   const requestRootFields = assertStringList(input.requestRootFields, 'requestRootField');
   const responseRootFields = assertStringList(input.responseRootFields, 'responseRootField');
 
-  if (!input.requiredPermissions.includes('pipelines.create')) {
+  const isWriteSynthesize =
+    input.category === 'pipelines' ||
+    toolId === 'bitcode://synthesize-asset-packs-for-deposit' ||
+    toolId === 'bitcode://synthesize-asset-packs-for-reads';
+  const isMeasureTool = input.category === 'measure' || toolId === 'bitcode://measure';
+  const isProductReadTool =
+    input.category === 'packs' ||
+    input.category === 'auxiliary' ||
+    toolId === 'bitcode://packs' ||
+    toolId.startsWith('bitcode://auxiliary-');
+  if (isWriteSynthesize && !input.requiredPermissions.includes('pipelines.create')) {
     throw new Error(`${toolId} must require pipelines.create permission.`);
+  }
+  if (isMeasureTool && !input.requiredPermissions.includes('measure.read')) {
+    throw new Error(`${toolId} must require measure.read permission.`);
+  }
+  if (isProductReadTool && !input.requiredPermissions.includes('product.read')) {
+    throw new Error(`${toolId} must require product.read permission.`);
+  }
+  if (input.requiredPermissions.length === 0) {
+    throw new Error(`${toolId} must declare at least one required permission.`);
   }
   if (!deniedStates.some((state) => state.code === 'INSUFFICIENT_PERMISSIONS')) {
     throw new Error(`${toolId} must carry an insufficient-permissions denied state.`);

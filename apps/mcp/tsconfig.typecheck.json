@@ -2,7 +2,9 @@
   "extends": "../../tsconfig.typecheck.base.json",
   "compilerOptions": {
     "noEmit": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler"
   },
   "include": [
     "src/**/*.ts",

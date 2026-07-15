@@ -18,8 +18,8 @@ The **Bitcode MCP Server** is the Exchange-facing Model Context Protocol interfa
 
 - `Bitcode Protocol`: the canonical specification, proofs, tests, and promotional audit system
 - `Bitcode Exchange`: the backend implementation of Bitcode mainnet, including ledgers, transactions, schemas, routes, and utilities
-- `Bitcode Terminal`: the primary UX/UI for reading and writing Bitcode Exchange activity
-- `Bitcode MCP Server`: one machine interface over Bitcode Exchange for MCP-capable clients and admitted third-party Terminal surfaces
+- `Bitcode`: the primary UX/UI for reading and writing Bitcode Exchange activity
+- `Bitcode MCP Server`: one machine interface over Bitcode Exchange for MCP-capable clients and admitted third-party product surfaces
 
 This server should teach Bitcode activity, repository scope, attachments/connections as ingress/input context, and asset packs as output meaning. It should not read like a parallel product or a generic engineering-intelligence platform.
 
@@ -34,7 +34,7 @@ The V35 MCP API surface also consumes
 artifact `.bitcode/v35-telemetry-documentation-interface-integration.json`.
 Tool responses may expose event ids, proof roots, docs links, runbook links,
 redaction posture, correlation ids, and source-safe state labels so MCP clients
-can correlate a run with Terminal-visible documentation and repair guidance.
+can correlate a run with product-visible documentation and repair guidance.
 Tool responses must not expose protected source, secret values, provider
 tokens, wallet private material, raw protected prompts, raw protected model
 responses with source, or unpaid AssetPack source.

@@ -74,7 +74,7 @@ describe('MCP prompt asset-pack canon', () => {
                 requirements: []
   }),
             renderPromptContent(prompts[1], {
-                projectName: 'Bitcode Terminal Review Surface',
+                projectName: 'Bitcode Review Surface',
                 description: 'Show reviewable Reads and settlement fit qualities.',
                 repository,
                 framework: 'react',

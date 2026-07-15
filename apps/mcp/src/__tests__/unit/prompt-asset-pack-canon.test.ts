@@ -78,7 +78,7 @@ describe('MCP prompt asset-pack canon', () => {
         requirements: [],
       }),
       renderPromptContent(prompts[1], {
-        projectName: 'Bitcode Terminal Review Surface',
+        projectName: 'Bitcode Review Surface',
         description: 'Show reviewable Reads and settlement fit qualities.',
         repository,
         framework: 'react',
@@ -102,14 +102,14 @@ describe('MCP prompt asset-pack canon', () => {
     expect(rendered).not.toMatch(/deliverable pipeline/i);
   });
 
-  it('describes the retained pipeline tool as an asset-pack pipeline', () => {
-    const source = readFileSync(join(__dirname, '../../tools/pipeline-tools.ts'), 'utf8');
+  it('registers product deposit synthesize via product-tools', () => {
+    const source = readFileSync(join(__dirname, '../../tools/product-tools.ts'), 'utf8');
 
-    expect(source).toContain("getBtdMcpToolContract('bitcode://pipelines/asset-pack/create')");
-    expect(source).toContain('name: assetPackCreateContract.toolId');
-    expect(source).toContain('description: assetPackCreateContract.description');
-    expect(source).toContain('AssetPackPipelineToolSchema');
-    expect(source).toContain("outputMeaning: 'asset_packs'");
+    expect(source).toContain('synthesize-asset-packs-for-deposit');
+    expect(source).toContain('synthesize-asset-packs-for-reads');
+    expect(source).toContain('bitcode://measure');
+    expect(source).toContain('bitcode://packs');
+    expect(source).toContain('registerProductTools');
     expect(source).not.toMatch(/deliverable pipeline/i);
   });
 });

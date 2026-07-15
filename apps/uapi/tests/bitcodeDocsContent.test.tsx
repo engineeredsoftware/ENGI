@@ -58,15 +58,24 @@ describe('Bitcode docs content model', () => {
       expect.arrayContaining([
         'tools/list',
         'tools/call',
-        'bitcode://pipelines/asset-pack/create',
-        'bitcode://analysis/repository/analyze',
-        'bitcode://intelligence/multimodal/process',
-        'bitcode://enterprise/webhook/orchestrate',
-        'bitcode://lsp/workspace/intelligence',
-        'bitcode://observability/logs/analytics',
+        'bitcode://measure',
+        'bitcode://synthesize-asset-packs-for-deposit',
+        'bitcode://synthesize-asset-packs-for-reads',
+        'bitcode://packs',
+        'bitcode://auxiliary-profile',
+        'bitcode://auxiliary-wallet',
+        'bitcode://auxiliary-interfaces',
+        'bitcode://auxiliary-externals',
       ]),
     );
-    expect(features.find((feature) => feature.name === 'bitcode://pipelines/asset-pack/create')?.outputs.join(' ')).toContain('writeAdmission');
+    expect(
+      features.find((feature) => feature.name === 'bitcode://synthesize-asset-packs-for-deposit')
+        ?.outputs.join(' '),
+    ).toContain('writeAdmission');
+    expect(
+      features.find((feature) => feature.name === 'bitcode://synthesize-asset-packs-for-reads')
+        ?.outputs.join(' '),
+    ).toContain('writeAdmission');
     expect(features.every((feature) => feature.inputs.length > 0 && feature.outputs.length > 0)).toBe(true);
   });
 });

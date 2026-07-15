@@ -8,7 +8,7 @@ Bitcode MCP is not a separate product. Under V26 it is one of the formal Bitcode
 
 - `Bitcode Protocol`: the specification, proofs, tests, and promotional audit system
 - `Bitcode Exchange`: the backend implementation of Bitcode mainnet, including ledgers, transactions, schemas, routes, and utilities
-- `Bitcode Terminal`: the primary UX/UI for reading and writing Bitcode Exchange activity
+- `Bitcode`: the primary UX/UI for reading and writing Bitcode Exchange activity
 - `Bitcode MCP`: an Exchange-facing machine interface for MCP-capable clients
 
 That distinction matters:
@@ -103,7 +103,7 @@ docker run -d \
 
 ## Interface boundary reminders
 
-- Bitcode Terminal remains the primary human UX/UI
+- Bitcode remains the primary human UX/UI
 - Bitcode MCP remains an Exchange-facing machine interface
 - third-party MCPs remain ingress/input carriers unless explicitly admitted as Bitcode interfaces
 - attachments and connections remain inputs; asset packs remain outputs

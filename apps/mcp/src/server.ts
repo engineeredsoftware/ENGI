@@ -26,13 +26,8 @@ import {
 import { logger } from '@bitcode/logger';
 import { observability } from '@bitcode/observability';
 
-// Import our MCP implementations
-import { registerPipelineTools } from './tools/pipeline-tools';
-import { registerAnalysisTools } from './tools/analysis-tools';
-import { registerIntelligenceTools } from './tools/intelligence-tools';
-import { registerEnterpriseTools } from './tools/enterprise-tools';
-import { registerLspTools } from './tools/lsp-tools';
-import { registerObservabilityTools } from './tools/observability-tools';
+// Import our MCP implementations — product tools are the sole default tools/list surface.
+import { listProductToolIds, registerProductTools } from './tools/product-tools';
 import { registerPipelineResources } from './resources/pipeline-resources';
 import { registerIntelligenceResources } from './resources/intelligence-resources';
 import { registerOrganizationResources } from './resources/organization-resources';
@@ -319,14 +314,9 @@ export class BitcodeMCPServer {
       const tools = [];
       const failedCategories: string[] = [];
       
-      // Safely register each tool category
+      // Sole product surface: eight tools (measure, deposit/read synthesize, packs, auxiliaries).
       const toolCategories = [
-        { name: 'pipeline', register: registerPipelineTools },
-        { name: 'analysis', register: registerAnalysisTools },
-        { name: 'intelligence', register: registerIntelligenceTools },
-        { name: 'enterprise', register: registerEnterpriseTools },
-        { name: 'lsp', register: registerLspTools },
-        { name: 'observability', register: registerObservabilityTools }
+        { name: 'product', register: registerProductTools },
       ];
       
       for (const category of toolCategories) {
@@ -382,8 +372,8 @@ export class BitcodeMCPServer {
           throw new Error(`Rate limit exceeded. Retry after ${rateLimitCheck.resetAt}`);
         }
         
-        // Special rate limit for pipeline creation
-        if (name.includes('/create') || name.includes('/analyze')) {
+        // Product tools (all eight) share the pipeline rate limiter — no create/analyze names.
+        if (listProductToolIds().includes(name)) {
           const pipelineRateLimit = await this.rateLimiters.pipelineCreation.checkLimit(auth.context!);
           if (!pipelineRateLimit.allowed) {
             throw new Error(`Pipeline creation rate limit exceeded. Retry after ${pipelineRateLimit.resetAt}`);
@@ -408,41 +398,13 @@ export class BitcodeMCPServer {
                 };
               }
               
-              // Route tool execution based on name prefix
-              const toolRoutes = [
-                { prefix: 'bitcode://pipelines/', register: registerPipelineTools },
-                { prefix: 'bitcode://analysis/', register: registerAnalysisTools },
-                { prefix: 'bitcode://intelligence/', register: registerIntelligenceTools },
-                { prefix: 'bitcode://enterprise/', register: registerEnterpriseTools },
-                { prefix: 'bitcode://lsp/', register: registerLspTools },
-                { prefix: 'bitcode://observability/', register: registerObservabilityTools }
-              ];
-              
-              let toolExecuted = false;
-              
-              for (const route of toolRoutes) {
-                if (name.startsWith(route.prefix)) {
-                  try {
-                    const tools = route.register();
-                    const tool = tools.find(t => t.name === name);
-                    if (tool) {
-                      result = await this.executeToolWithValidation(tool, args, auth.context!);
-                      toolExecuted = true;
-                      break;
-                    }
-                  } catch (error) {
-                    logger.error(`Failed to execute tool from ${route.prefix}`, { 
-                      tool: name, 
-                      error: error instanceof Error ? error.message : error 
-                    });
-                    throw error;
-                  }
-                }
-              }
-              
-              if (!toolExecuted) {
+              // Dispatch only product tools (exactly eight).
+              const productTools = registerProductTools();
+              const tool = productTools.find((candidate) => candidate.name === name);
+              if (!tool) {
                 throw new Error(`Unknown tool: ${name}`);
               }
+              result = await this.executeToolWithValidation(tool, args, auth.context!);
               
               return result;
             },

@@ -14,7 +14,6 @@ import { z } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
 import {
   buildBtdInterfaceAuthorizationPolicy,
-  getBtdMcpToolContract,
 } from '@bitcode/btd';
 import { logger } from '@bitcode/logger';
 import { observability } from '@bitcode/observability';
@@ -286,7 +285,7 @@ function assertPipelineWriteAdmission(
 /**
  * Execute pipeline with comprehensive error handling and monitoring
  */
-async function executePipelineWithMonitoring(
+export async function executePipelineWithMonitoring(
   params: any,
   context: MCPAuthContext,
   pipelineType: PipelineName
@@ -431,26 +430,18 @@ async function executePipelineWithMonitoring(
 }
 
 /**
- * Register all pipeline tools
+ * @deprecated Prefer registerProductTools(). Kept only for pipeline ingress unit tests
+ * that exercise executePipelineWithMonitoring via a thin wrapper.
  */
 export function registerPipelineTools(): MCPTool[] {
-  const assetPackCreateContract = getBtdMcpToolContract('bitcode://pipelines/asset-pack/create');
-
   return [
-    // AssetPack pipeline tool.
     {
-      name: assetPackCreateContract.toolId,
-      description: assetPackCreateContract.description,
-
+      name: 'bitcode://synthesize-asset-packs-for-deposit',
+      description: 'Test harness wrapper for deposit AssetPack synthesis ingress.',
       inputSchema: AssetPackPipelineToolSchema,
-      
       execute: async (args: z.infer<typeof AssetPackPipelineToolSchema>, context: MCPAuthContext) => {
-        return executePipelineWithMonitoring(
-          args,
-          context,
-          'asset-pack'
-        );
-      }
-    }
+        return executePipelineWithMonitoring(args, context, 'asset-pack');
+      },
+    },
   ];
 }

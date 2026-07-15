@@ -19,7 +19,7 @@ export type InterfaceIngressSurface =
   | 'bitcode_mcp'
   | 'third_party_mcp'
   | 'rest_api'
-  | 'terminal'
+  | 'packs'
   | 'conversation';
 
 // Supported pipeline names exposed via MCP (align with supported pipelines only)
