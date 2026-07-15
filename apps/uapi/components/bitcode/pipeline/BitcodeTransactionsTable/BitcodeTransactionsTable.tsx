@@ -147,8 +147,17 @@ export default function BitcodeTransactionsTable({
         error={error}
       />
 
-      {!isLoading && !error ? (
-        <BitcodeTransactionsPagination pagination={pagination} onPaginationChange={onPaginationChange} />
+      {/* Always mount pagination chrome so load → data does not reflow the rail. */}
+      {!error ? (
+        <div
+          className={isLoading ? 'invisible pointer-events-none' : undefined}
+          aria-hidden={isLoading || undefined}
+        >
+          <BitcodeTransactionsPagination
+            pagination={pagination}
+            onPaginationChange={onPaginationChange}
+          />
+        </div>
       ) : null}
     </section>
   );
