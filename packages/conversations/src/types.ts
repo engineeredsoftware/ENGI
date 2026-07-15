@@ -2,7 +2,6 @@
  * Conversation domain types - Bitcode V26 Terminal database mirror
  * 
  * These types MUST match the database schema exactly as defined in:
- * - supabase/migrations-archive/20250903_172526/004_conversations_tables.sql (archived creation)
  * - supabase/migrations/001_add_conversation_branching.sql (active alterations)
  * 
  * Type: domain-types

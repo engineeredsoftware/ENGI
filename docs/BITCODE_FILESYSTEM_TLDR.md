@@ -7298,7 +7298,7 @@ Format: `path -- <1 sentence TL;DR>`.
  20260515143000_v28_deposit_read_data_contract.sql -- Supabase migration or config artifact.
  20260625120000_drop_otf_instructions_table.sql -- Supabase migration or config artifact.
  20260705190000_asset_pack_artifacts_bucket.sql -- Supabase migration or config artifact.
- migrations-archive/ -- Supabase migration or config artifact.
+ (removed) migrations-archive/ — historical legacy migrations deleted with _legacy.
  20250903_171628/ -- Supabase migration or config artifact.
  001_v26_production_pre_squash.sql -- Supabase migration or config artifact.
  20250903_172526/ -- Supabase migration or config artifact.
