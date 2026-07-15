@@ -40,14 +40,32 @@ const FLOW_ICONS = {
 } as const;
 
 function renderTitleWithHighlights(title: string) {
-  const pattern = new RegExp(
-    `(${TITLE_HIGHLIGHTS.map((entry) => entry.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`,
-    'g',
-  );
+  // Split on highlight nouns and the exchange "for" so the word can become a
+  // smaller inline ⇄ mark (same purple exchange glyph as the corner stack).
+  const highlightAlt = TITLE_HIGHLIGHTS.map((entry) =>
+    entry.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+  ).join('|');
+  const pattern = new RegExp(`(${highlightAlt}|\\bfor\\b)`, 'g');
   const toneByText = new Map(TITLE_HIGHLIGHTS.map((entry) => [entry.text, entry.tone]));
 
   return title.split(pattern).map((part, index) => {
     if (!part) return null;
+    if (part === 'for') {
+      return (
+        <span
+          key={`title-exchange-${index}`}
+          className="mx-[0.2em] inline-flex translate-y-[-0.05em] items-center align-middle [filter:drop-shadow(0_0_8px_rgba(232,121,249,0.65))]"
+          title="for"
+        >
+          <span className="sr-only">for</span>
+          <ArrowsRightLeftIcon
+            className="h-[0.72em] w-[0.72em] text-fuchsia-300"
+            strokeWidth={2.25}
+            aria-hidden="true"
+          />
+        </span>
+      );
+    }
     const tone = toneByText.get(part);
     if (!tone) {
       return <React.Fragment key={`title-${index}`}>{part}</React.Fragment>;

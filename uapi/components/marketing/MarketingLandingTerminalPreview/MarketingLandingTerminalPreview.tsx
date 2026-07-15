@@ -193,7 +193,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                                 <span
                                   className={
                                     isDynamic
-                                      ? 'font-semibold uppercase tracking-[0.12em] text-fuchsia-200/90 [text-shadow:0_0_10px_rgba(232,121,249,0.4)]'
+                                      ? 'bg-gradient-to-r from-fuchsia-300 via-violet-300 to-orange-300 bg-clip-text font-semibold uppercase tracking-[0.12em] text-transparent'
                                       : 'text-emerald-100/48'
                                   }
                                 >
@@ -201,7 +201,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                                 </span>
                                 <span
                                   className={`mx-1 ${
-                                    isDynamic ? 'text-fuchsia-200/55' : 'text-emerald-100/28'
+                                    isDynamic ? 'text-orange-300/60' : 'text-emerald-100/28'
                                   }`}
                                 >
                                   {isDynamic ? '*' : '·'}
@@ -210,7 +210,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                               </p>
                               <span
                                 className={`shrink-0 font-mono text-[10px] tabular-nums ${
-                                  isDynamic ? 'text-emerald-100/90' : 'text-emerald-200/68'
+                                  isDynamic ? 'text-orange-100/90' : 'text-emerald-200/68'
                                 }`}
                               >
                                 {item.value}
@@ -228,7 +228,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                                   }}
                                   className={`h-full rounded-none ${
                                     isDynamic
-                                      ? 'bg-gradient-to-r from-fuchsia-500/55 via-emerald-300/75 to-emerald-100/85 shadow-[0_0_10px_rgba(232,121,249,0.25)]'
+                                      ? 'bg-gradient-to-r from-fuchsia-500/60 via-violet-400/70 to-orange-300/90 shadow-[0_0_10px_rgba(251,146,60,0.28)]'
                                       : 'bg-gradient-to-r from-emerald-500/55 via-emerald-300/70 to-emerald-100/80'
                                   }`}
                                   style={{ ...animatedMotionStyle, transformOrigin: 'left center' }}

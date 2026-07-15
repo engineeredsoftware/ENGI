@@ -43,20 +43,20 @@ const firstReadingPath = [
 const specCoverageCards = [
   {
     eyebrow: 'Protocol',
-    title: 'V45 knowledge-commoditization law',
-    body: 'AssetPack lifecycle, BTD scalar volume and rights, BTC settlement, proof readback authority, interface disclosure, and promotion truth.',
+    title: 'Commercial protocol map (V48)',
+    body: 'AssetPack lifecycle, BTD volume and rights, Bitcoin settlement, proof readback, interface disclosure, and promotion truth.',
     href: '/docs/protocol',
   },
   {
     eyebrow: 'Proofs',
     title: 'Witnesses, replay, and disclosure',
-    body: 'Proof families, theorem IDs, witness artifacts, generated appendices, projection, redaction, and fail-closed posture.',
+    body: 'Proof families, witness artifacts, generated appendices, projection, redaction, and fail-closed posture.',
     href: '/docs/proofs',
   },
   {
     eyebrow: 'Settlement',
-    title: 'BTD volume and BTC settlement',
-    body: 'Scalar-volume quotes, finality receipts, rights transfer, repository delivery, compensation, and proof-backed readback.',
+    title: 'BTD volume and Bitcoin settlement',
+    body: 'Needs-fits scores, volume and rights, finality receipts, delivery unlock, compensation, and /packs reread.',
     href: '/docs/settlement-btd',
   },
 ] as const;
@@ -109,12 +109,12 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
     <div className="min-h-screen bg-[radial-gradient(circle_at_16%_0%,rgba(16,185,129,0.18),transparent_32%),radial-gradient(circle_at_86%_12%,rgba(34,211,238,0.1),transparent_28%),linear-gradient(180deg,#04101a_0%,#030816_45%,#02060d_100%)] text-white">
       <main className="mx-auto flex w-full max-w-[1400px] flex-col gap-8 px-4 pb-16 pt-32 phone:px-5 tablet:px-6 laptop:px-8">
         <section className="grid gap-6 laptop:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.95fr)]">
-          <div className="rounded-[36px] border border-white/10 bg-black/28 p-6 shadow-[0_34px_110px_rgba(0,0,0,0.44)] backdrop-blur-xl tablet:p-8">
+          <div className="rounded-none border border-white/10 bg-black/28 p-6 shadow-[0_34px_110px_rgba(0,0,0,0.44)] backdrop-blur-xl tablet:p-8">
             <div className="flex flex-wrap gap-2">
-              <span className="rounded-full border border-emerald-300/14 bg-emerald-400/[0.06] px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-emerald-100/70">
+              <span className="rounded-none border border-emerald-300/14 bg-emerald-400/[0.06] px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-emerald-100/70">
                 {BITCODE_PUBLIC_COPY.guideRoute.eyebrow}
               </span>
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/55">
+              <span className="rounded-none border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/55">
                 Zero-to-hero
               </span>
             </div>
@@ -128,19 +128,19 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
               ChatGPT App, and Bitcode Chat stay source-safe.
             </p>
             <div className="mt-6 grid gap-3 tablet:grid-cols-3">
-              <div className="rounded-[22px] border border-emerald-300/12 bg-emerald-400/[0.055] px-4 py-4">
+              <div className="rounded-none border border-emerald-300/12 bg-emerald-400/[0.055] px-4 py-4">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-200/70">For new readers</p>
                 <p className="mt-2 text-sm leading-6 text-emerald-50/76">
                   Start from the AssetPack before touching value-bearing controls.
                 </p>
               </div>
-              <div className="rounded-[22px] border border-cyan-300/12 bg-cyan-400/[0.045] px-4 py-4">
+              <div className="rounded-none border border-cyan-300/12 bg-cyan-400/[0.045] px-4 py-4">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-200/70">For operators</p>
                 <p className="mt-2 text-sm leading-6 text-cyan-50/76">
                   Learn every write, expected read, proof signal, and readiness blocker.
                 </p>
               </div>
-              <div className="rounded-[22px] border border-amber-300/12 bg-amber-400/[0.045] px-4 py-4">
+              <div className="rounded-none border border-amber-300/12 bg-amber-400/[0.045] px-4 py-4">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-amber-200/70">For builders</p>
                 <p className="mt-2 text-sm leading-6 text-amber-50/76">
                   Map MCP, ChatGPT App, Bitcode Chat, GitHub, webhooks, compute, and storage into proof readback.
@@ -150,13 +150,13 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="/docs/what-is-bitcode"
-                className="inline-flex rounded-full border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition hover:border-emerald-300/42 hover:bg-emerald-400/18"
+                className="inline-flex rounded-none border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition hover:border-emerald-300/42 hover:bg-emerald-400/18"
               >
                 Start reading
               </Link>
               <Link
                 href="/docs/terminal-actions"
-                className="inline-flex rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/78 transition hover:border-white/22 hover:bg-white/10"
+                className="inline-flex rounded-none border border-white/12 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/78 transition hover:border-white/22 hover:bg-white/10"
               >
                 Action manual
               </Link>
@@ -165,7 +165,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
 
           <section
             id="walkthrough"
-            className="overflow-hidden rounded-[36px] border border-white/10 bg-black/28 p-4 shadow-[0_30px_100px_rgba(0,0,0,0.42)] backdrop-blur-xl"
+            className="overflow-hidden rounded-none border border-white/10 bg-black/28 p-4 shadow-[0_30px_100px_rgba(0,0,0,0.42)] backdrop-blur-xl"
           >
             <MarketingOperatorGuideCard
               initialSourcePlayable={sourcePlayable}
@@ -174,7 +174,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
           </section>
         </section>
 
-        <section className="rounded-[34px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+        <section className="rounded-none border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
           <div className="max-w-3xl">
             <p className="text-[10px] uppercase tracking-[0.24em] text-emerald-200/72">
               First-time path
@@ -192,7 +192,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-[24px] border border-white/8 bg-white/[0.03] p-4 transition hover:border-emerald-300/22 hover:bg-emerald-400/[0.06]"
+                className="rounded-none border border-white/8 bg-white/[0.03] p-4 transition hover:border-emerald-300/22 hover:bg-emerald-400/[0.06]"
               >
                 <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-200/68">
                   {String(index + 1).padStart(2, '0')}
@@ -205,18 +205,18 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
         </section>
 
         <section className="grid gap-5 laptop:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.98fr)]">
-          <div className="rounded-[34px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+          <div className="rounded-none border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center rounded-full border border-emerald-300/12 bg-emerald-400/6 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-emerald-100/70">
+              <span className="inline-flex items-center rounded-none border border-emerald-300/12 bg-emerald-400/6 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-emerald-100/70">
                 Chapters
               </span>
-              <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-white/55">
+              <span className="inline-flex items-center rounded-none border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-white/55">
                 {BITCODE_DOCS_PAGES.length} pages
               </span>
             </div>
             <div className="mt-5 grid gap-4">
               {BITCODE_DOCS_CHAPTERS.map((chapter) => (
-                <article key={chapter.id} className="rounded-[26px] border border-white/8 bg-white/[0.03] p-4">
+                <article key={chapter.id} className="rounded-none border border-white/8 bg-white/[0.03] p-4">
                   <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-200/70">
                     {chapter.number} / {chapter.title}
                   </p>
@@ -226,7 +226,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
                       <Link
                         key={page.href}
                         href={page.href}
-                        className="rounded-[18px] border border-white/8 bg-black/18 px-3 py-3 transition hover:border-emerald-300/22 hover:bg-emerald-400/[0.06]"
+                        className="rounded-none border border-white/8 bg-black/18 px-3 py-3 transition hover:border-emerald-300/22 hover:bg-emerald-400/[0.06]"
                       >
                         <p className="text-[10px] uppercase tracking-[0.18em] text-white/45">
                           {page.eyebrow}
@@ -240,7 +240,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
             </div>
           </div>
 
-          <div className="rounded-[34px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+          <div className="rounded-none border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
             <p className="text-[10px] uppercase tracking-[0.24em] text-cyan-200/72">
               V45 / V46 claim boundary
             </p>
@@ -258,7 +258,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
                 <Link
                   key={card.href}
                   href={card.href}
-                  className="rounded-[24px] border border-cyan-300/10 bg-cyan-400/[0.035] p-4 transition hover:border-cyan-300/22 hover:bg-cyan-400/[0.06]"
+                  className="rounded-none border border-cyan-300/10 bg-cyan-400/[0.035] p-4 transition hover:border-cyan-300/22 hover:bg-cyan-400/[0.06]"
                 >
                   <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-200/68">{card.eyebrow}</p>
                   <p className="mt-2 text-base font-semibold text-white">{card.title}</p>
@@ -269,7 +269,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
           </div>
         </section>
 
-        <section className="rounded-[34px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+        <section className="rounded-none border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
           <div className="max-w-3xl">
             <p className="text-[10px] uppercase tracking-[0.24em] text-amber-200/72">
               Interface API references
@@ -288,7 +288,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
               <Link
                 key={card.href}
                 href={card.href}
-                className="rounded-[24px] border border-amber-300/10 bg-amber-400/[0.035] p-4 transition hover:border-amber-300/22 hover:bg-amber-400/[0.06]"
+                className="rounded-none border border-amber-300/10 bg-amber-400/[0.035] p-4 transition hover:border-amber-300/22 hover:bg-amber-400/[0.06]"
               >
                 <p className="text-[10px] uppercase tracking-[0.2em] text-amber-100/68">{card.eyebrow}</p>
                 <p className="mt-2 text-base font-semibold text-white">{card.title}</p>
@@ -298,7 +298,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
           </div>
         </section>
 
-        <section className="rounded-[34px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+        <section className="rounded-none border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
           <div className="grid gap-6 laptop:grid-cols-[0.72fr_1.28fr]">
             <div>
               <p className="text-[10px] uppercase tracking-[0.24em] text-emerald-200/72">
@@ -314,14 +314,14 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
               </p>
               <Link
                 href="/docs/terminal-actions"
-                className="mt-5 inline-flex rounded-full border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition hover:border-emerald-300/42 hover:bg-emerald-400/18"
+                className="mt-5 inline-flex rounded-none border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition hover:border-emerald-300/42 hover:bg-emerald-400/18"
               >
                 Open action guide
               </Link>
             </div>
             <div className="grid gap-3 tablet:grid-cols-2">
               {TERMINAL_ACTION_GUIDES.slice(0, 6).map((item) => (
-                <article key={item.id} className="rounded-[24px] border border-white/8 bg-white/[0.03] p-4">
+                <article key={item.id} className="rounded-none border border-white/8 bg-white/[0.03] p-4">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-200/68">{item.location}</p>
                   <p className="mt-2 text-base font-semibold text-white">{item.action}</p>
                   <p className="mt-2 text-sm leading-6 text-white/68">{item.expectedRead}</p>
@@ -332,7 +332,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
         </section>
 
         <section className="grid gap-5 laptop:grid-cols-[minmax(0,1.1fr)_minmax(340px,0.9fr)]">
-          <div className="rounded-[34px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+          <div className="rounded-none border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
             <p className="text-[10px] uppercase tracking-[0.24em] text-cyan-200/72">
               Proof and readiness reads
             </p>
@@ -341,7 +341,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
             </h2>
             <div className="mt-5 grid gap-3">
               {TERMINAL_READ_GUIDES.slice(0, 5).map((item) => (
-                <article key={item.id} className="rounded-[22px] border border-white/8 bg-white/[0.03] p-4">
+                <article key={item.id} className="rounded-none border border-white/8 bg-white/[0.03] p-4">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-200/68">{item.location}</p>
                   <p className="mt-2 text-base font-semibold text-white">{item.read}</p>
                   <p className="mt-2 text-sm leading-6 text-white/68">{item.expectedResult}</p>
@@ -350,14 +350,14 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
             </div>
           </div>
 
-          <div className="rounded-[34px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+          <div className="rounded-none border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
             <p className="text-[10px] uppercase tracking-[0.24em] text-emerald-200/72">
               Fast routes
             </p>
             <div className="mt-4 grid gap-3">
               {quickRouteCards.map((card) => {
                 const className =
-                  'block rounded-[24px] border border-white/8 bg-white/[0.03] p-4 transition hover:border-emerald-300/22 hover:bg-emerald-400/[0.06]';
+                  'block rounded-none border border-white/8 bg-white/[0.03] p-4 transition hover:border-emerald-300/22 hover:bg-emerald-400/[0.06]';
 
                 return 'external' in card && card.external ? (
                   <a
