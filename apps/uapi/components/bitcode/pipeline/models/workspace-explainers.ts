@@ -125,7 +125,7 @@ export const PRODUCT_SURFACE_EXPLAINERS = {
       source: [
         ...PRODUCT_SOURCE_REFS,
         'apps/uapi/components/bitcode/pipeline/',
-        'apps/uapi/app/api/deposits/route.ts',
+        'apps/uapi/app/api/deposit/synthesize-options/',
       ],
       canon: PRODUCT_CANON_REFS,
     },
@@ -709,7 +709,7 @@ export const PRODUCT_INLINE_EXPLAINERS = {
     references: {
       source: [
         'apps/uapi/components/bitcode/pipeline/',
-        'apps/uapi/app/api/deposits/route.ts',
+        'apps/uapi/app/api/deposit/synthesize-options/',
         'apps/uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
       ],
       canon: PRODUCT_CANON_REFS,

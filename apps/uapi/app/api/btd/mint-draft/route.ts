@@ -1,1 +1,1 @@
-export { postBtdMintDraft as POST } from '@bitcode/api/src/routes/btd-crypto';
+export { postBtdMintDraft as POST } from '@bitcode/api/btd';

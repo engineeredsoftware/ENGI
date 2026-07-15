@@ -48,7 +48,7 @@ const SOURCE_ROOTS = Object.freeze({
   protocolServer: 'scripts/specifying/server.js',
   protocolRuntime: 'scripts/specifying/src/bitcode-demo.js',
   protocolBoundaryTest: 'scripts/specifying/test/protocol-package-boundary.test.js',
-  uapiDepositRoute: 'apps/uapi/app/api/deposits/route.ts',
+  uapiDepositRoute: 'apps/uapi/app/api/deposit/synthesize-options',
   terminalDepositComposer: 'apps/uapi/components/deposits/DepositPageClient/DepositPageClient.tsx',
   terminalActivityHistory: 'apps/uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
   terminalWorkbench: 'apps/uapi/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench.tsx',

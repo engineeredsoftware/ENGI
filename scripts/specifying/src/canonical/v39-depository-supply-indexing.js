@@ -47,7 +47,7 @@ const SOURCE_ROOTS = Object.freeze({
   assetPackPackage: 'packages/asset-packs-pipelines/domain/package.json',
   assetPackIndex: 'packages/asset-packs-pipelines/domain/src/index.ts',
   assetPackReadme: 'packages/asset-packs-pipelines/domain/README.md',
-  uapiDepositRoute: 'apps/uapi/app/api/deposits/route.ts',
+  uapiDepositRoute: 'apps/uapi/app/api/deposit/synthesize-options',
   terminalDepositComposer: 'apps/uapi/components/deposits/DepositPageClient/DepositPageClient.tsx',
   ormAssetPackEvidence: 'packages/orm/src/models/asset-pack-evidence.ts',
   ormExecutionStorage: 'packages/orm/src/models/bitcode-execution-storage.ts',

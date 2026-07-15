@@ -1,30 +1,20 @@
-import { NextResponse } from 'next/server';
+/**
+ * Commercial Read-Need review API.
+ *
+ * Owns product Read-Need synthesis / accept / reject actions used by the Reads
+ * experience. Protocol-demo host shims (scenario GET, specifying reviewRead)
+ * are intentionally absent — those lived under the specifying machine only.
+ */
 
-import {
-  getBitcodeAppContext,
-  readBitcodeRequestBody,
-  toBitcodeErrorResponse,
-} from '@/lib/bitcode-app-context';
+import { NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
 
-export async function GET(request: Request) {
-  try {
-    const url = new URL(request.url);
-    return NextResponse.json(
-      getBitcodeAppContext().getReadReview({
-        scenarioId: url.searchParams.get('scenarioId') || undefined,
-      }),
-    );
-  } catch (error) {
-    console.error(error);
-    return toBitcodeErrorResponse(error);
-  }
-}
+type StatusError = Error & { statusCode?: number | undefined };
 
 export async function POST(request: Request) {
   try {
-    const body = await readBitcodeRequestBody(request);
+    const body = await readJsonBody(request);
     const action = readNeedAction(body);
     if (action === 'synthesize_read_need' || action === 'resynthesize_read_need') {
       const { synthesizeReadNeedForPipelineInputWithInference } = await import('@bitcode/asset-packs-pipelines-domain/read-need');
@@ -274,10 +264,42 @@ export async function POST(request: Request) {
       });
     }
 
-    return NextResponse.json(getBitcodeAppContext().reviewRead(body));
+    return NextResponse.json(
+      {
+        error:
+          'Unsupported read-review action. Use synthesize_read_need, resynthesize_read_need, accept_read_need, or reject_read_need.',
+      },
+      { status: 400 },
+    );
   } catch (error) {
-    return toBitcodeErrorResponse(error);
+    return toRouteErrorResponse(error);
   }
+}
+
+async function readJsonBody(request: Request): Promise<Record<string, unknown>> {
+  const text = await request.text();
+  if (!text.trim()) return {};
+  try {
+    return JSON.parse(text) as Record<string, unknown>;
+  } catch {
+    const err = new Error('Invalid JSON body.') as StatusError;
+    err.statusCode = 400;
+    throw err;
+  }
+}
+
+function toRouteErrorResponse(error: unknown) {
+  const resolved = error instanceof Error ? (error as StatusError) : (new Error('Unknown error.') as StatusError);
+  if (!resolved.statusCode && /No candidates survived into the asset pack/i.test(resolved.message || '')) {
+    resolved.statusCode = 409;
+  }
+  if (!resolved.statusCode && /(Finding Fits|fit search) cannot proceed/i.test(resolved.message || '')) {
+    resolved.statusCode = 409;
+  }
+  return NextResponse.json(
+    { error: resolved.message || 'Unknown error.' },
+    { status: resolved.statusCode || 500 },
+  );
 }
 
 function objectValue(value: unknown): Record<string, unknown> | null {

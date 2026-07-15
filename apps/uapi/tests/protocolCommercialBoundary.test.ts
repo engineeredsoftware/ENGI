@@ -24,6 +24,12 @@ const DISALLOWED_DEMONSTRATION_BOUNDARY_PATTERNS = [
   // Removed product surface — do not reintroduce (Vercel 250mb function bombs).
   /bitcoin-demonstration-service/,
   /getBitcoinDemonstrationService\s*\(/,
+  // Specifying is repo metadevelopment only — never product Next/Vercel runtime.
+  /@bitcode\/specifying/,
+  /from ['"]@bitcode\/specifying/,
+  // Removed protocol-demo host residue.
+  /bitcode-app-context/,
+  /getBitcodeAppContext/,
 ];
 
 function collectSourceFiles(root: string): string[] {
@@ -106,23 +112,47 @@ describe('commercial protocol boundary', () => {
     ).toBe(false);
   });
 
-  it('depends on the formal protocol package instead of the standalone demonstration package', () => {
+  it('does not ship specifying protocol-demo host shim API routes', () => {
+    const removedShimRoutes = [
+      'app/api/state',
+      'app/api/reset',
+      'app/api/deposits',
+      'app/api/external-realization',
+      'app/api/make-bitcode-branch',
+      'app/api/executors',
+      'lib/bitcode-app-context.ts',
+      'lib/bitcode-app-context-options.ts',
+    ];
+
+    for (const relativePath of removedShimRoutes) {
+      expect(existsSync(path.join(uapiRoot, relativePath))).toBe(false);
+    }
+
+    // Product deposit surface remains under /api/deposit/* (singular).
+    expect(existsSync(path.join(uapiRoot, 'app/api/deposit'))).toBe(true);
+  });
+
+  it('does not depend on specifying or standalone demonstration in the commercial package graph', () => {
     const uapiPackageJson = JSON.parse(readFileSync(path.join(uapiRoot, 'package.json'), 'utf8'));
     const dependencies = {
       ...(uapiPackageJson.dependencies ?? {}),
       ...(uapiPackageJson.devDependencies ?? {}),
     };
 
-    expect(dependencies['@bitcode/specifying']).toBe('workspace:*');
+    // Specifying stays in the monorepo for gates/canon work; it must not be a
+    // product dependency (Vercel NFT packs monorepo walks past 250 MB).
+    expect(dependencies['@bitcode/specifying']).toBeUndefined();
     expect(dependencies['@bitcode/protocol-demonstration']).toBeUndefined();
   });
 
-  it('teaches Next webpack how to resolve the formal protocol package during Vercel builds', () => {
+  it('keeps Next/Vercel product config free of specifying transpile and webpack aliases', () => {
     const nextConfigSource = readFileSync(path.join(uapiRoot, 'next.config.mjs'), 'utf8');
 
-    expect(nextConfigSource).toContain("'@bitcode/specifying',");
-    expect(nextConfigSource).toContain("'@bitcode/specifying': path.resolve(__dirname, '..', '..', 'scripts', 'specifying', 'src', 'index.js')");
-    expect(nextConfigSource).toContain("'@bitcode/specifying$': path.resolve(__dirname, '..', '..', 'scripts', 'specifying', 'src', 'index.js')");
+    expect(nextConfigSource).not.toMatch(/['"]@bitcode\/specifying['"]/);
+    expect(nextConfigSource).not.toContain("scripts', 'specifying'");
+    expect(nextConfigSource).toContain('outputFileTracingRoot');
+    expect(nextConfigSource).toContain('scripts/specifying/**');
+    expect(nextConfigSource).toContain('**/tests/**');
   });
 
   it('keeps the standalone protocol demonstration outside the workspace build graph', () => {

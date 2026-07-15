@@ -56,7 +56,6 @@
     "@bitcode/generic-vcs-git": "workspace:*",
     "@bitcode/pipeline-hosts": "workspace:*",
     "@bitcode/prompts": "workspace:*",
-    "@bitcode/specifying": "workspace:*",
     "@bitcode/vcs-generics": "workspace:*",
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",

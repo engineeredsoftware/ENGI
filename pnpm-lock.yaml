@@ -263,9 +263,6 @@ importers:
       '@bitcode/prompts':
         specifier: workspace:*
         version: link:../../packages/prompts
-      '@bitcode/specifying':
-        specifier: workspace:*
-        version: link:../../scripts/specifying
       '@bitcode/vcs-generics':
         specifier: workspace:*
         version: link:../../packages/vcs-generics

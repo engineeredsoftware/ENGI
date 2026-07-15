@@ -93,22 +93,21 @@ export const V40_API_INTEGRATION_CONTRACT_ROWS = Object.freeze([
     routeFamilies: [
       'apps/uapi/app/api/read-review',
       'apps/uapi/app/api/pipeline-host/asset-pack',
-      'apps/uapi/app/api/deposits',
+      'apps/uapi/app/api/deposit',
     ],
     sourceRoots: [
       'apps/uapi/app/api/read-review/route.ts',
       'apps/uapi/app/api/pipeline-host/asset-pack/route.ts',
-      'apps/uapi/app/api/deposits/route.ts',
+      'apps/uapi/app/api/deposit/synthesize-options',
     ],
     testPaths: [
       'apps/uapi/tests/api/readReviewRoute.test.ts',
-      'apps/uapi/tests/api/readReviewProtocolParity.test.ts',
       'apps/uapi/tests/api/pipelineHostRoute.test.ts',
       'apps/uapi/tests/api/pipelineHostPreflight.test.ts',
     ],
     commandIds: ['pnpm --dir apps/uapi exec jest tests/api/readReviewRoute.test.ts tests/api/pipelineHostRoute.test.ts'],
     coverageTier: 'promotion-required',
-    closureRequirement: 'Reading request review, pipeline harness admission, preflight, and deposit route contracts are integration-covered.',
+    closureRequirement: 'Reading request review, pipeline harness admission, preflight, and deposit synthesis contracts are integration-covered.',
   }),
   row({
     integrationSurfaceId: 'uapi:execution-stream-routes',
@@ -214,21 +213,18 @@ export const V40_API_INTEGRATION_CONTRACT_ROWS = Object.freeze([
     integrationSurfaceId: 'uapi:public-activity-template-routes',
     routeFamilies: [
       'apps/uapi/app/api/activity',
-      'apps/uapi/app/api/external-realization',
       'apps/uapi/app/api/edgetimes',
       'apps/uapi/app/api/templates',
       'apps/uapi/app/api/notifications',
     ],
     sourceRoots: [
       'apps/uapi/app/api/activity/route.ts',
-      'apps/uapi/app/api/external-realization/route.ts',
       'apps/uapi/app/api/edgetimes/route.ts',
       'apps/uapi/app/api/templates/shippables/route.ts',
       'apps/uapi/app/api/notifications/btd-transfer/route.ts',
     ],
     testPaths: [
       'apps/uapi/tests/api/activityRoute.test.ts',
-      'apps/uapi/tests/api/externalRealizationRoute.test.ts',
       'apps/uapi/tests/api/edgetimesRoute.test.ts',
       'apps/uapi/tests/api/shippableTemplatesRoute.test.ts',
       'apps/uapi/tests/api/assetPack.notifications.test.ts',
@@ -236,7 +232,7 @@ export const V40_API_INTEGRATION_CONTRACT_ROWS = Object.freeze([
     ],
     commandIds: ['pnpm --dir apps/uapi exec jest tests/api/activityRoute.test.ts tests/api/shippableTemplatesRoute.test.ts'],
     coverageTier: 'existing-greenable',
-    closureRequirement: 'Activity, external-realization, public template, notification, and client-error route contracts are integration-covered.',
+    closureRequirement: 'Activity, public template, notification, and client-error route contracts are integration-covered.',
   }),
   row({
     integrationSurfaceId: 'packages-api:route-orchestration',

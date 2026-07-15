@@ -1,3 +1,3 @@
-import { postBtdBtcFeeTransaction } from '@bitcode/api';
+import { postBtdBtcFeeTransaction } from '@bitcode/api/btd';
 
 export const POST = postBtdBtcFeeTransaction;

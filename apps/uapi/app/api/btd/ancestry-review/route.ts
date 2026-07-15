@@ -1,3 +1,3 @@
-import { postBtdAncestryReview } from '@bitcode/api';
+import { postBtdAncestryReview } from '@bitcode/api/btd';
 
 export const POST = postBtdAncestryReview;

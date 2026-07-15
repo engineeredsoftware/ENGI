@@ -1,16 +1,11 @@
 /**
  * @jest-environment node
+ *
+ * Settlement readiness gate unit tests. Formerly exercised through deleted
+ * protocol-demo host shims (/api/deposits, /api/make-bitcode-branch); those
+ * routes are gone. Product deposit/read APIs use their own write surfaces.
  */
 
-const mockCreateDeposit = jest.fn((body?: Record<string, unknown>) => ({
-  ok: true,
-  asset: { assetId: 'asset-1', repositoryAnchor: body?.repositoryAnchor ?? null },
-}));
-const mockMakeBitcodeBranch = jest.fn(async (body?: Record<string, unknown>) => ({
-  ok: true,
-  specVersion: 'V26',
-  latestRun: { id: 'run-1', repositoryAnchor: body?.repositoryAnchor ?? null },
-}));
 const mockGetConnection = jest.fn();
 const mockGetAuthFromConnection = jest.fn();
 const mockValidateToken = jest.fn();
@@ -43,32 +38,8 @@ jest.mock('@bitcode/vcs-generics', () => ({
   },
 }));
 
-jest.mock('@/lib/bitcode-app-context', () => {
-  return {
-    getBitcodeAppContext: () => ({
-      createDeposit: mockCreateDeposit,
-      makeBitcodeBranch: mockMakeBitcodeBranch,
-    }),
-    readBitcodeRequestBody: async (request: Request) => {
-      const text = await request.text();
-      return text.trim() ? (JSON.parse(text) as Record<string, unknown>) : {};
-    },
-    toBitcodeErrorResponse: (error: unknown) => {
-      const resolvedError = error instanceof Error ? (error as Error & { statusCode?: number }) : new Error('Unknown error.');
-      return new Response(
-        JSON.stringify({ error: resolvedError.message || 'Unknown error.' }),
-        {
-          status: resolvedError.statusCode || 500,
-          headers: { 'Content-Type': 'application/json' },
-        },
-      );
-    },
-  };
-});
-
 import { createClient } from '@bitcode/supabase/ssr/server';
-import { POST as postDeposit } from '@/app/api/deposits/route';
-import { POST as postMakeBitcodeBranch } from '@/app/api/make-bitcode-branch/route';
+import { requireBitcodeSignedTransactionReadiness } from '@/components/bitcode/pipeline/models/transaction-route-readiness';
 
 type MockSupabaseBuilder = {
   select: jest.Mock;
@@ -199,11 +170,23 @@ function installSupabaseReadinessMocks(options: {
             }
           : null),
   );
-
-  return { from, profileBuilder, connectionBuilder };
 }
 
-describe('Bitcode transaction write routes', () => {
+async function expectReadinessRejection(
+  body: Record<string, unknown>,
+  expected: { statusCode: number; messageIncludes: string },
+) {
+  try {
+    await requireBitcodeSignedTransactionReadiness(body, { requiresRepositoryAnchor: true });
+    throw new Error('expected requireBitcodeSignedTransactionReadiness to reject');
+  } catch (error) {
+    const resolved = error as Error & { statusCode?: number };
+    expect(resolved.statusCode).toBe(expected.statusCode);
+    expect(resolved.message).toContain(expected.messageIncludes);
+  }
+}
+
+describe('requireBitcodeSignedTransactionReadiness', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockValidateToken.mockResolvedValue(true);
@@ -211,26 +194,19 @@ describe('Bitcode transaction write routes', () => {
     mockReadBitcodeWalletConnectionStatus.mockResolvedValue(null);
   });
 
-  it('rejects deposit writes when the operator is unauthenticated', async () => {
+  it('rejects when the operator is unauthenticated', async () => {
     installSupabaseReadinessMocks({
       user: null,
       userError: { message: 'no auth' },
     });
 
-    const response = await postDeposit(
-      new Request('http://localhost/api/deposits', {
-        method: 'POST',
-        body: JSON.stringify({ repositoryAnchor: 'bitcode/bitcode', title: 'asset draft' }),
-      }),
+    await expectReadinessRejection(
+      { repositoryAnchor: 'bitcode/bitcode', title: 'asset draft' },
+      { statusCode: 401, messageIncludes: 'review-only mode' },
     );
-    const payload = await response.json();
-
-    expect(response.status).toBe(401);
-    expect(payload.error).toContain('review-only mode');
-    expect(mockCreateDeposit).not.toHaveBeenCalled();
   });
 
-  it('rejects deposit writes while wallet verification remains staged', async () => {
+  it('rejects while wallet verification remains staged', async () => {
     installSupabaseReadinessMocks({
       user: { id: 'user-1' },
       githubConnection: { installationId: 123 },
@@ -249,20 +225,13 @@ describe('Bitcode transaction write routes', () => {
       },
     });
 
-    const response = await postDeposit(
-      new Request('http://localhost/api/deposits', {
-        method: 'POST',
-        body: JSON.stringify({ repositoryAnchor: 'bitcode/bitcode', title: 'asset draft' }),
-      }),
+    await expectReadinessRejection(
+      { repositoryAnchor: 'bitcode/bitcode', title: 'asset draft' },
+      { statusCode: 409, messageIncludes: 'signed settlement remains staged' },
     );
-    const payload = await response.json();
-
-    expect(response.status).toBe(409);
-    expect(payload.error).toContain('signed settlement remains staged');
-    expect(mockCreateDeposit).not.toHaveBeenCalled();
   });
 
-  it('accepts deposit writes for provider-backed pending wallet signatures during V28 staging', async () => {
+  it('accepts provider-backed pending wallet signatures during V28 staging', async () => {
     installSupabaseReadinessMocks({
       user: { id: 'user-1' },
       githubConnection: { installationId: 123 },
@@ -294,23 +263,17 @@ describe('Bitcode transaction write routes', () => {
       },
     });
 
-    const response = await postDeposit(
-      new Request('http://localhost/api/deposits', {
-        method: 'POST',
-        body: JSON.stringify({ repositoryAnchor: 'bitcode/bitcode', title: 'asset draft' }),
-      }),
+    const result = await requireBitcodeSignedTransactionReadiness(
+      { repositoryAnchor: 'bitcode/bitcode', title: 'asset draft' },
+      { requiresRepositoryAnchor: true },
     );
 
-    expect(response.status).toBe(200);
-    expect(mockCreateDeposit).toHaveBeenCalledWith(
-      expect.objectContaining({
-        repositoryAnchor: 'bitcode/bitcode',
-        repositoryProvider: 'github',
-      }),
-    );
+    expect(result.userId).toBe('user-1');
+    expect(result.repositoryProvider).toBe('github');
+    expect(result.repositoryAnchor).toBe('bitcode/bitcode');
   });
 
-  it('rejects branch writes when the repository anchor is missing', async () => {
+  it('rejects when the repository anchor is missing', async () => {
     installSupabaseReadinessMocks({
       user: { id: 'user-1' },
       githubConnection: { installationId: 123 },
@@ -329,20 +292,13 @@ describe('Bitcode transaction write routes', () => {
       },
     });
 
-    const response = await postMakeBitcodeBranch(
-      new Request('http://localhost/api/make-bitcode-branch', {
-        method: 'POST',
-        body: JSON.stringify({ scenarioId: 'read-1', branchMode: 'patch', principal: 'reviewer' }),
-      }),
+    await expectReadinessRejection(
+      { scenarioId: 'read-1', branchMode: 'patch', principal: 'reviewer' },
+      { statusCode: 409, messageIncludes: 'Select a repository anchor' },
     );
-    const payload = await response.json();
-
-    expect(response.status).toBe(409);
-    expect(payload.error).toContain('Select a repository anchor');
-    expect(mockMakeBitcodeBranch).not.toHaveBeenCalled();
   });
 
-  it('accepts ready deposit and branch writes once verified signing and repository scope are present', async () => {
+  it('accepts once verified signing and repository scope are present', async () => {
     installSupabaseReadinessMocks({
       user: { id: 'user-1' },
       githubConnection: { installationId: 123 },
@@ -362,45 +318,20 @@ describe('Bitcode transaction write routes', () => {
       },
     });
 
-    const depositResponse = await postDeposit(
-      new Request('http://localhost/api/deposits', {
-        method: 'POST',
-        body: JSON.stringify({
-          repositoryAnchor: 'bitcode/bitcode',
-          sourceRepo: 'bitcode/bitcode',
-          title: 'asset draft',
-        }),
-      }),
-    );
-    const branchResponse = await postMakeBitcodeBranch(
-      new Request('http://localhost/api/make-bitcode-branch', {
-        method: 'POST',
-        body: JSON.stringify({
-          repositoryAnchor: 'bitcode/bitcode',
-          scenarioId: 'read-1',
-          branchMode: 'patch',
-          principal: 'reviewer',
-        }),
-      }),
+    const result = await requireBitcodeSignedTransactionReadiness(
+      {
+        repositoryAnchor: 'bitcode/bitcode',
+        sourceRepo: 'bitcode/bitcode',
+        title: 'asset draft',
+      },
+      { requiresRepositoryAnchor: true },
     );
 
-    expect(depositResponse.status).toBe(200);
-    expect(branchResponse.status).toBe(200);
-    expect(mockCreateDeposit).toHaveBeenCalledWith(
-      expect.objectContaining({
-        repositoryAnchor: 'bitcode/bitcode',
-        repositoryProvider: 'github',
-      }),
-    );
-    expect(mockMakeBitcodeBranch).toHaveBeenCalledWith(
-      expect.objectContaining({
-        repositoryAnchor: 'bitcode/bitcode',
-        repositoryProvider: 'github',
-      }),
-    );
+    expect(result.repositoryAnchor).toBe('bitcode/bitcode');
+    expect(result.repositoryProvider).toBe('github');
   });
 
-  it('rejects deposit writes when the requested repository anchor is outside the connected provider inventory', async () => {
+  it('rejects when the requested repository anchor is outside the connected provider inventory', async () => {
     installSupabaseReadinessMocks({
       user: { id: 'user-1' },
       githubConnection: { installationId: 123 },
@@ -420,24 +351,17 @@ describe('Bitcode transaction write routes', () => {
       },
     });
 
-    const response = await postDeposit(
-      new Request('http://localhost/api/deposits', {
-        method: 'POST',
-        body: JSON.stringify({
-          repositoryAnchor: 'bitcode/not-admitted',
-          repositoryProvider: 'github',
-          title: 'asset draft',
-        }),
-      }),
+    await expectReadinessRejection(
+      {
+        repositoryAnchor: 'bitcode/not-admitted',
+        repositoryProvider: 'github',
+        title: 'asset draft',
+      },
+      { statusCode: 409, messageIncludes: 'not present in the connected GitHub repository inventory' },
     );
-    const payload = await response.json();
-
-    expect(response.status).toBe(409);
-    expect(payload.error).toContain('not present in the connected GitHub repository inventory');
-    expect(mockCreateDeposit).not.toHaveBeenCalled();
   });
 
-  it('rejects settlement-bearing writes when the saved repository provider session is no longer valid', async () => {
+  it('rejects when the saved repository provider session is no longer valid', async () => {
     installSupabaseReadinessMocks({
       user: { id: 'user-1' },
       githubConnection: { installationId: 123 },
@@ -458,24 +382,17 @@ describe('Bitcode transaction write routes', () => {
       },
     });
 
-    const response = await postDeposit(
-      new Request('http://localhost/api/deposits', {
-        method: 'POST',
-        body: JSON.stringify({
-          repositoryAnchor: 'bitcode/bitcode',
-          repositoryProvider: 'github',
-          title: 'asset draft',
-        }),
-      }),
+    await expectReadinessRejection(
+      {
+        repositoryAnchor: 'bitcode/bitcode',
+        repositoryProvider: 'github',
+        title: 'asset draft',
+      },
+      { statusCode: 409, messageIncludes: 'Reconnect GitHub' },
     );
-    const payload = await response.json();
-
-    expect(response.status).toBe(409);
-    expect(payload.error).toContain('Reconnect GitHub');
-    expect(mockCreateDeposit).not.toHaveBeenCalled();
   });
 
-  it('rejects settlement-bearing writes when saved verified wallet signer posture lacks a live wallet-provider session', async () => {
+  it('rejects when saved verified wallet signer posture lacks a live wallet-provider session', async () => {
     installSupabaseReadinessMocks({
       user: { id: 'user-1' },
       githubConnection: { installationId: 123 },
@@ -502,20 +419,13 @@ describe('Bitcode transaction write routes', () => {
       },
     });
 
-    const response = await postDeposit(
-      new Request('http://localhost/api/deposits', {
-        method: 'POST',
-        body: JSON.stringify({
-          repositoryAnchor: 'bitcode/bitcode',
-          repositoryProvider: 'github',
-          title: 'asset draft',
-        }),
-      }),
+    await expectReadinessRejection(
+      {
+        repositoryAnchor: 'bitcode/bitcode',
+        repositoryProvider: 'github',
+        title: 'asset draft',
+      },
+      { statusCode: 409, messageIncludes: 'live wallet-provider signing session is no longer available' },
     );
-    const payload = await response.json();
-
-    expect(response.status).toBe(409);
-    expect(payload.error).toContain('live wallet-provider signing session is no longer available');
-    expect(mockCreateDeposit).not.toHaveBeenCalled();
   });
 });

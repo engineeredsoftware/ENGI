@@ -52,6 +52,7 @@
   },
   "exports": {
     ".": "./src/index.ts",
+    "./btd": "./src/routes/btd-crypto.ts",
     "./pipelines/cancel": "./src/pipelines/cancel.ts",
     "./pipelines/orphan-sweep": "./src/pipelines/orphan-sweep.ts",
     "./responses": "./src/responses/index.ts",

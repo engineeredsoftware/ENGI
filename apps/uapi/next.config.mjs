@@ -81,9 +81,13 @@ let nextConfig = {
       '@workflow/serde',
       '@vercel/oidc',
     ],
+    // Monorepo root so workspace packages outside apps/uapi trace correctly
+    // without falling back to over-broad project trees on Vercel.
+    outputFileTracingRoot: path.join(__dirname, '../..'),
     // Next 14.x: tracing excludes live under experimental (stable top-level
-    // only in later majors). Keep retired demo/spec fixtures out of serverless
-    // traces so product APIs do not re-inflate after demonstration removal.
+    // only in later majors). Specifying is repo metadevelopment only — never
+    // product runtime. Tests/snapshots and other non-runtime trees must stay
+    // out of serverless NFT packages (250 MB uncompressed limit).
     outputFileTracingExcludes: {
       '*': [
         '**/protocol-demonstration/**',
@@ -93,9 +97,29 @@ let nextConfig = {
         '**/.proofs/**',
         '**/storybook-static/**',
         '**/tmp/**',
+        // Specifying machine (canon/gates/proofs) — not commercial product.
+        '**/scripts/specifying/**',
+
+        // Unit/e2e/fixture trees (incl. committed Playwright PNG snapshots).
+        '**/tests/**',
+        '**/__tests__/**',
+        '**/*.{test,spec}.{js,jsx,ts,tsx}',
+        '**/*-snapshots/**',
+        '**/playwright-report/**',
+        '**/coverage/**',
+        '**/.next/cache/**',
+        '**/.next-*/**',
+        // Sibling apps and non-product monorepo surfaces.
+        '**/apps/mcp/**',
+        '**/apps/chatgpt/**',
+        '**/apps/admin/**',
+        '**/containers/**',
+        '**/.git/**',
+        '**/_legacy/**',
       ],
     },
   },
+
   // Transpile workspace packages that the Next app imports directly or
   // transitively so webpack/SWC can handle TS/ESM + monorepo paths.
   transpilePackages: [
@@ -132,7 +156,8 @@ let nextConfig = {
     '@bitcode/generic-tools-lsp-query',
     '@bitcode/generic-tools-vcs',
     // Core shared libs commonly imported in app/server code
-    '@bitcode/specifying',
+    // Do not transpile the specifying machine — not product runtime; must not
+    // enter the Next/Vercel serverless graph.
     '@bitcode/btd',
     '@bitcode/generic-llms-models',
     '@bitcode/files',
@@ -366,8 +391,8 @@ let nextConfig = {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
       // Single top-level alias for prompts – root-only import
-      '@bitcode/specifying': path.resolve(__dirname, '..', '..', 'scripts', 'specifying', 'src', 'index.js'),
-      '@bitcode/specifying$': path.resolve(__dirname, '..', '..', 'scripts', 'specifying', 'src', 'index.js'),
+      // No specifying webpack alias: commercial product must not resolve the
+      // specifying machine into serverless bundles.
       '@bitcode/prompts': path.resolve(__dirname, '..', '..', 'packages', 'prompts', 'src', 'index.ts'),
       '@bitcode/execution-generics': path.resolve(
         __dirname,

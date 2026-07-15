@@ -15,24 +15,40 @@ API surfaces must:
 - stream execution state to product and admitted interfaces,
 - support MCP and ChatGPT-style connected interfaces without letting those interfaces own Exchange state.
 
-## Active Interface Families
+## Active commercial interface families (`apps/uapi`)
 
-Current Bitcode API families:
-- `/api/state`
-- `/api/activity`
-- `/api/deposits`
-- `/api/read-review`
-- `/api/make-bitcode-branch`
+Current product Next API families (not exhaustive):
+- `/api/deposit/*` — deposit synthesis and demand estimate (product Deposits)
+- `/api/read-review` — Read-Need synthesis / accept / reject (product Reads)
+- `/api/read/*` — read settlement and option synthesis
+- `/api/packs/*` — pack activity
+- `/api/btd/*` — BTD journal, registry, settlement-adjacent handlers (`@bitcode/api/btd`)
 - `/api/conversations/*`
 - `/api/executions/*`
 - `/api/vcs/*`
 - `/api/auxillaries/*`
-- `/api/*` in-place protocol realization corridors; versioned route prefixes are not canonical
+- `/api/wallet/*`
 - package API route owners under `packages/api/src/routes/*`
+
+## Removed protocol-demo host residue
+
+The following commercial Next shims that once mirrored the specifying standalone
+host are **deleted** and must not be reintroduced on `apps/uapi`:
+
+- `/api/state`
+- `/api/reset`
+- `/api/deposits` (plural host create — product uses `/api/deposit/*`)
+- `/api/make-bitcode-branch`
+- `/api/external-realization`
+- `/api/executors/*`
+- `lib/bitcode-app-context*` (createAppContext bridge)
+
+Those surfaces, if needed at all, belong only under `scripts/specifying` (repo
+metadevelopment), never in the Vercel product graph.
 
 ## Execution and AssetPack Routes
 
-The current execution route corridor uses `agentic-execution:asset-pack` for V26 AssetPack execution.
+The current execution route corridor uses `agentic-execution:asset-pack` for AssetPack execution.
 
 Route behavior must preserve:
 - typed input normalization,
@@ -45,28 +61,6 @@ Route behavior must preserve:
 
 ## Read Review Boundary
 
-`/api/read-review` is the pre-fit admission boundary:
-- `GET` presents the measured Read and source-to-shares context.
-- `POST` records accept, reject, or remeasure-with-feedback.
-- downstream fit or branch materialization must fail closed unless the Read is accepted.
-
-## Connected Interfaces
-
-MCP, ChatGPT App, VCS, Jira, and other connected interfaces are ingress or delivery mechanisms. They do not replace Exchange state.
-
-Rules:
-- writes must emit admission receipts,
-- unconfirmed writes fail closed,
-- output payloads normalize toward AssetPacks, AssetPack partials, or connected-interface written assets,
-- proof/state must remain rereadable from Packs and Exchange routes.
-
-## Environment Keys
-
-Current Bitcode keys include:
-- `BITCODE_LLM_PROVIDER`
-- `BITCODE_LLM_MODEL`
-- `BITCODE_LOG_TO_FILE`
-- `BITCODE_ENABLE_NOTIFICATIONS`
-- `BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT`
-
-Removed compute and orchestration toggle keys are not admitted API contract.
+`/api/read-review` is the commercial pre-fit Read-Need admission boundary:
+- `POST` with `action=synthesize_read_need` | `resynthesize_read_need` | `accept_read_need` | `reject_read_need`.
+- Legacy protocol-demo GET/scenario review and specifying `reviewRead` fallbacks are removed.

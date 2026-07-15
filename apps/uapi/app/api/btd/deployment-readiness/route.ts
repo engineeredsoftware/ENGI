@@ -1,3 +1,3 @@
-import { postBtdDeploymentReadiness } from '@bitcode/api';
+import { postBtdDeploymentReadiness } from '@bitcode/api/btd';
 
 export const POST = postBtdDeploymentReadiness;

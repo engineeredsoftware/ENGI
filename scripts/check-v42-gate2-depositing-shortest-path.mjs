@@ -114,7 +114,7 @@ function main() {
     'scripts/specifying/test/specifying-package-boundary.test.js',
     'scripts/specifying/server.js',
     'scripts/specifying/src/bitcode-demo.js',
-    'apps/uapi/app/api/deposits/route.ts',
+    'apps/uapi/app/api/deposit/synthesize-options',
     'apps/uapi/app/ (removed cockpit tree) TerminalDepositComposer.tsx',
     'apps/uapi/app/ (removed cockpit tree) terminal-activity-history.ts',
     'apps/uapi/app/ (removed cockpit tree) terminal-deposit-read-workbench.ts',
