@@ -3,9 +3,22 @@ import { cookies } from 'next/headers';
 import { createGitHubAppAuth } from '@bitcode/generic-vcs-github';
 import { VCSConnections, VCSProviderFactory, type VCSAuth, type VCSProviderType } from '@bitcode/vcs-generics';
 import {
+  bitcodeServerLifecycleTelemetry,
   bitcodeServerTelemetry,
   compactBitcodeServerId,
 } from '@/lib/bitcode-server-telemetry';
+import {
+  buildBitcodeCookieOptions,
+  readRequestHostname,
+  resolveCanonicalAppOrigin,
+} from '@/lib/bitcode-request-host';
+import {
+  buildGitHubInstallDiagnostic,
+  classifyGitHubInstallError,
+  extractGitHubHttpStatus,
+  hasGitHubAppPrivateKeyConfigured,
+  readConfiguredGitHubAppId,
+} from '@/lib/github-install-diagnostics';
 
 import {
   getRouteSupabaseUser,
@@ -23,6 +36,16 @@ type GitHubInstallationToken = {
   permissions: Record<string, string>;
   repositorySelection?: 'all' | 'selected';
   repositories?: Array<Record<string, unknown>>;
+};
+
+export type ClaimPendingGitHubInstallationResult = {
+  claimed: boolean;
+  installationId?: number;
+  account?: string | null;
+  error?: string;
+  /** Source-safe classification for UI / always-on logs. */
+  errorClass?: string;
+  diagnostic?: ReturnType<typeof buildGitHubInstallDiagnostic>;
 };
 
 function readString(value: unknown) {
@@ -54,9 +77,12 @@ function buildConnectsRedirect(
   // Land on /packs with the Auxillaries Externals overlay open (the
   // AuxillariesProvider reads the open-to param on any route), not the
   // legacy /terminal overlay root (QA ledger F8).
+  // Canonical origin: prefer NEXT_PUBLIC_APP_URL so apex/www callbacks both
+  // return to the operator-facing host and keep session + claim cookies aligned.
+  const origin = resolveCanonicalAppOrigin(request);
   const redirectUrl = new URL(
     `/packs?${AUXILLARY_OPEN_QUERY_PARAM}=externals`,
-    request.url,
+    origin.endsWith('/') ? origin : `${origin}/`,
   );
   redirectUrl.searchParams.set('pane', 'externals');
 
@@ -73,25 +99,37 @@ function buildConnectsRedirect(
   });
 }
 
-function clearOAuthCookies(provider: VCSProviderType) {
+function clearOAuthCookies(provider: VCSProviderType, request?: Request) {
   const cookieStore = cookies();
+  const base = request
+    ? buildBitcodeCookieOptions(request, { maxAge: 0 })
+    : {
+        httpOnly: true as const,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax' as const,
+        maxAge: 0,
+        path: '/' as const,
+      };
   for (const name of [`vcs_oauth_state_${provider}`, `vcs_oauth_instance_${provider}`]) {
-    cookieStore.set(name, '', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 0,
-      path: '/',
-    });
+    cookieStore.set(name, '', base);
   }
 }
 
-async function readOptionalUser(): Promise<OptionalUserContext | null> {
+type OptionalUserResult = {
+  context: OptionalUserContext | null;
+  resolveError: string | null;
+};
+
+async function readOptionalUser(): Promise<OptionalUserResult> {
   try {
     const context = await getRouteSupabaseUser();
-    return context.user ? context : null;
-  } catch {
-    return null;
+    return {
+      context: context.user ? context : null,
+      resolveError: null,
+    };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'session_resolve_failed';
+    return { context: null, resolveError: message };
   }
 }
 
@@ -170,6 +208,11 @@ async function persistGitHubInstallationConnection({
       repositories: tokenData.repositories?.map(mapRepositorySummary).filter(Boolean) || [],
       connected_at: connectedAt,
       callback_fields: setupFields,
+      // Source-safe install claim markers for later triage (no secrets).
+      last_install_at: connectedAt,
+      last_install_app_id: readConfiguredGitHubAppId(),
+      last_install_error: null,
+      last_install_error_class: null,
     },
   });
 
@@ -205,21 +248,25 @@ function readPendingInstallationCookie(): PendingInstallationCookie | null {
   }
 }
 
-function clearPendingInstallationCookie() {
+function clearPendingInstallationCookie(request?: Request) {
   try {
-    cookies().set(PENDING_INSTALLATION_COOKIE, '', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 0,
-      path: '/',
-    });
+    const options = request
+      ? buildBitcodeCookieOptions(request, { maxAge: 0 })
+      : {
+          httpOnly: true as const,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax' as const,
+          maxAge: 0,
+          path: '/' as const,
+        };
+    cookies().set(PENDING_INSTALLATION_COOKIE, '', options);
   } catch {
     // ignore missing request cookie store
   }
 }
 
 function stagePendingInstallation(
+  request: Request,
   installationId: number,
   setupFields: ReturnType<typeof collectInstallationCallbackFields>,
   account: ReturnType<typeof resolveInstallationAccount>,
@@ -234,36 +281,53 @@ function stagePendingInstallation(
         account,
         captured_at: new Date().toISOString(),
       }),
-      {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 15 * 60,
-        path: '/',
-      },
+      buildBitcodeCookieOptions(request, { maxAge: 15 * 60 }),
     );
   } catch {
     // ignore missing request cookie store
   }
 }
 
+function logInstallLifecycle(
+  level: 'info' | 'warn' | 'error',
+  event: Parameters<typeof buildGitHubInstallDiagnostic>[0]['event'],
+  detail: Omit<Parameters<typeof buildGitHubInstallDiagnostic>[0], 'event'>,
+) {
+  const diagnostic = buildGitHubInstallDiagnostic({ event, ...detail });
+  bitcodeServerLifecycleTelemetry(level, 'github-install', event, diagnostic);
+  return diagnostic;
+}
+
 /**
  * Complete a GitHub App installation that was staged while the operator had
  * no Bitcode session (common after fresh install/reinstall). Safe to call
  * repeatedly: no-ops when cookie absent or user missing.
+ *
+ * Optional `request` enables shared cookie Domain clear on apex/www product hosts.
  */
-export async function claimPendingGitHubInstallation(): Promise<{
-  claimed: boolean;
-  installationId?: number;
-  account?: string | null;
-  error?: string;
-}> {
+export async function claimPendingGitHubInstallation(
+  request?: Request,
+): Promise<ClaimPendingGitHubInstallationResult> {
+  const host = request ? readRequestHostname(request) : null;
   const pending = readPendingInstallationCookie();
   if (!pending) {
+    const diagnostic = logInstallLifecycle('info', 'claim-no-pending-cookie', {
+      host,
+      hasPendingCookie: false,
+      hasSession: null,
+    });
+    // Keep verbose channel for historical listeners.
     bitcodeServerTelemetry('debug', 'github-callback', 'claim-no-pending-cookie');
-    return { claimed: false };
+    return { claimed: false, diagnostic };
   }
 
+  logInstallLifecycle('info', 'claim-start', {
+    installationId: pending.installation_id,
+    host,
+    hasPendingCookie: true,
+    account: pending.account?.login ?? null,
+    setupAction: pending.setup_action,
+  });
   bitcodeServerTelemetry('info', 'github-callback', 'claim-pending-start', {
     installationId: pending.installation_id,
     setupAction: pending.setup_action,
@@ -271,29 +335,60 @@ export async function claimPendingGitHubInstallation(): Promise<{
     capturedAt: pending.captured_at ?? null,
   });
 
-  const userContext = await readOptionalUser();
-  if (!userContext?.user) {
-    bitcodeServerTelemetry('warn', 'github-callback', 'claim-session-required', {
+  const { context: userContext, resolveError } = await readOptionalUser();
+  if (resolveError) {
+    const diagnostic = logInstallLifecycle('error', 'session-resolve-failed', {
       installationId: pending.installation_id,
+      host,
+      hasPendingCookie: true,
+      hasSession: false,
+      message: resolveError,
+      errorClass: 'session',
+    });
+    return {
+      claimed: false,
+      installationId: pending.installation_id,
+      error: resolveError,
+      errorClass: 'session',
+      diagnostic,
+    };
+  }
+
+  if (!userContext?.user) {
+    const diagnostic = logInstallLifecycle('warn', 'claim-result', {
+      installationId: pending.installation_id,
+      host,
+      hasPendingCookie: true,
+      hasSession: false,
+      message: 'session_required',
+      errorClass: 'session',
+      claimed: false,
     });
     return {
       claimed: false,
       installationId: pending.installation_id,
       error: 'session_required',
+      errorClass: 'session',
+      diagnostic,
     };
   }
 
   const githubApp = createGitHubAppAuth();
   if (!githubApp) {
-    bitcodeServerTelemetry('error', 'github-callback', 'claim-app-not-configured', {
+    const diagnostic = logInstallLifecycle('error', 'app-not-configured', {
       installationId: pending.installation_id,
-      hasAppId: Boolean(process.env.GITHUB_APP_ID?.trim()),
-      hasPrivateKey: Boolean(process.env.GITHUB_PRIVATE_KEY?.trim()),
+      host,
+      hasPendingCookie: true,
+      hasSession: true,
+      message: 'github_app_not_configured',
+      errorClass: 'credentials',
     });
     return {
       claimed: false,
       installationId: pending.installation_id,
       error: 'github_app_not_configured',
+      errorClass: 'credentials',
+      diagnostic,
     };
   }
 
@@ -326,7 +421,15 @@ export async function claimPendingGitHubInstallation(): Promise<{
       setupFields,
       tokenData,
     });
-    clearPendingInstallationCookie();
+    clearPendingInstallationCookie(request);
+    const diagnostic = logInstallLifecycle('info', 'claim-result', {
+      installationId: pending.installation_id,
+      host,
+      hasPendingCookie: false,
+      hasSession: true,
+      account: account.login,
+      claimed: true,
+    });
     bitcodeServerTelemetry('info', 'github-callback', 'installation-claimed', {
       userId: compactBitcodeServerId(userContext.user.id),
       installationId: pending.installation_id,
@@ -336,36 +439,62 @@ export async function claimPendingGitHubInstallation(): Promise<{
       claimed: true,
       installationId: pending.installation_id,
       account: account.login,
+      diagnostic,
     };
   } catch (error) {
     const message = error instanceof Error ? error.message : 'claim_failed';
     const stack = error instanceof Error ? error.stack?.slice(0, 500) : null;
+    const errorClass = classifyGitHubInstallError(message, {
+      hasAppId: Boolean(readConfiguredGitHubAppId()),
+      hasPrivateKey: hasGitHubAppPrivateKeyConfigured(),
+      sessionPresent: true,
+      hasPendingCookie: true,
+    });
+    const diagnostic = logInstallLifecycle('error', 'claim-result', {
+      installationId: pending.installation_id,
+      host,
+      hasPendingCookie: true,
+      hasSession: true,
+      message,
+      errorClass,
+      githubStatus: extractGitHubHttpStatus(message),
+      claimed: false,
+    });
     bitcodeServerTelemetry('error', 'github-callback', 'installation-claim-failed', {
       installationId: pending.installation_id,
       message,
       stack,
+      errorClass,
     });
     // Drop a dead staged install (uninstalled / wrong app) so the UI can recover.
-    if (/\b40[134]\b/.test(message) || /not found/i.test(message)) {
-      clearPendingInstallationCookie();
-      bitcodeServerTelemetry('warn', 'github-callback', 'claim-pending-cookie-cleared', {
+    if (errorClass === 'app_mismatch') {
+      clearPendingInstallationCookie(request);
+      bitcodeServerLifecycleTelemetry('warn', 'github-install', 'claim-pending-cookie-cleared', {
         installationId: pending.installation_id,
-        reason: message,
+        errorClass,
+        message: message.slice(0, 180),
       });
     }
     return {
       claimed: false,
       installationId: pending.installation_id,
       error: message,
+      errorClass,
+      diagnostic,
     };
   }
 }
 
 async function handleInstallationCallback(request: Request) {
   const url = new URL(request.url);
+  const host = readRequestHostname(request);
   const installationId = readPositiveInteger(url.searchParams.get('installation_id'));
   if (!installationId) {
-    bitcodeServerTelemetry('warn', 'github-callback', 'installation-missing-id');
+    logInstallLifecycle('warn', 'installation-callback-failed', {
+      host,
+      message: 'missing_installation_id',
+      errorClass: 'provider',
+    });
     return buildConnectsRedirect(request, {
       vcsProvider: 'github',
       vcsConnection: 'failed',
@@ -375,35 +504,52 @@ async function handleInstallationCallback(request: Request) {
 
   const githubApp = createGitHubAppAuth();
   if (!githubApp) {
-    bitcodeServerTelemetry('warn', 'github-callback', 'installation-app-not-configured', {
+    logInstallLifecycle('error', 'app-not-configured', {
       installationId,
+      host,
+      message: 'github_app_not_configured',
+      errorClass: 'credentials',
     });
     return buildConnectsRedirect(request, {
       vcsProvider: 'github',
       vcsConnection: 'failed',
       vcsError: 'github_app_not_configured',
+      vcsErrorClass: 'credentials',
       installation_id: installationId,
     });
   }
 
   const setupFields = collectInstallationCallbackFields(url.searchParams);
-  bitcodeServerTelemetry('info', 'github-callback', 'installation-received', {
+  logInstallLifecycle('info', 'installation-received', {
     installationId,
+    host,
     setupAction: setupFields.setup_action,
-    targetId: setupFields.target_id,
-    targetType: setupFields.target_type,
   });
 
   try {
     const installation = await githubApp.getInstallation(installationId);
-    const userContext = await readOptionalUser();
+    const { context: userContext, resolveError } = await readOptionalUser();
+
+    if (resolveError) {
+      logInstallLifecycle('error', 'session-resolve-failed', {
+        installationId,
+        host,
+        hasSession: false,
+        message: resolveError,
+        errorClass: 'session',
+      });
+    }
 
     if (!userContext) {
       const account = resolveInstallationAccount(installation);
-      stagePendingInstallation(installationId, setupFields, account);
-      bitcodeServerTelemetry('info', 'github-callback', 'installation-staged', {
+      stagePendingInstallation(request, installationId, setupFields, account);
+      logInstallLifecycle('info', 'installation-staged', {
         installationId,
+        host,
+        hasSession: false,
+        hasPendingCookie: true,
         account: account.login,
+        setupAction: setupFields.setup_action,
       });
       return buildConnectsRedirect(request, {
         vcsProvider: 'github',
@@ -423,8 +569,17 @@ async function handleInstallationCallback(request: Request) {
       setupFields,
       tokenData,
     });
-    clearPendingInstallationCookie();
+    clearPendingInstallationCookie(request);
 
+    logInstallLifecycle('info', 'installation-connected', {
+      installationId,
+      host,
+      hasSession: true,
+      hasPendingCookie: false,
+      account: account.login,
+      setupAction: setupFields.setup_action,
+      claimed: true,
+    });
     bitcodeServerTelemetry('info', 'github-callback', 'installation-connected', {
       userId: compactBitcodeServerId(userContext.user?.id),
       installationId,
@@ -444,23 +599,30 @@ async function handleInstallationCallback(request: Request) {
   } catch (error) {
     const message = error instanceof Error ? error.message : 'installation_callback_failed';
     const stack = error instanceof Error ? error.stack?.slice(0, 800) : null;
-    bitcodeServerTelemetry('error', 'github-callback', 'installation-callback-failed', {
+    const errorClass = classifyGitHubInstallError(message, {
+      hasAppId: Boolean(readConfiguredGitHubAppId()),
+      hasPrivateKey: hasGitHubAppPrivateKeyConfigured(),
+    });
+    logInstallLifecycle('error', 'installation-callback-failed', {
       installationId,
+      host,
       message,
-      stack,
+      errorClass,
+      githubStatus: extractGitHubHttpStatus(message),
       setupAction: setupFields.setup_action,
-      hasAppId: Boolean(process.env.GITHUB_APP_ID?.trim()),
-      hasPrivateKey: Boolean(process.env.GITHUB_PRIVATE_KEY?.trim()),
     });
     console.error('[bitcode-github-callback] installation callback failed', {
       installationId,
       message,
       stack,
+      errorClass,
+      configuredAppId: readConfiguredGitHubAppId(),
     });
     return buildConnectsRedirect(request, {
       vcsProvider: 'github',
       vcsConnection: 'failed',
       vcsError: 'installation_callback_failed',
+      vcsErrorClass: errorClass,
       vcsErrorDescription: message.slice(0, 180),
       installation_id: installationId,
     });
@@ -478,7 +640,7 @@ async function saveOAuthConnection({
   auth: VCSAuth;
   instanceUrl?: string;
 }) {
-  const userContext = await readOptionalUser();
+  const { context: userContext } = await readOptionalUser();
   const vcsProvider = await VCSProviderFactory.createFromEnvironment(provider, instanceUrl);
   const providerUser = await vcsProvider.getCurrentUser(auth);
 
@@ -552,7 +714,7 @@ async function handleOAuthCallback(
   }
 
   if (expectedState && state !== expectedState) {
-    clearOAuthCookies(provider);
+    clearOAuthCookies(provider, request);
     bitcodeServerTelemetry('warn', 'github-callback', 'oauth-state-mismatch', {
       provider,
     });
@@ -565,7 +727,7 @@ async function handleOAuthCallback(
 
   const vcsProvider = await VCSProviderFactory.createFromEnvironment(provider, instanceUrl);
   const auth = await vcsProvider.exchangeCodeForToken(code);
-  clearOAuthCookies(provider);
+  clearOAuthCookies(provider, request);
 
   return saveOAuthConnection({ request, provider, auth, instanceUrl });
 }
@@ -573,11 +735,21 @@ async function handleOAuthCallback(
 export async function handleGitHubCallback(request: Request, context?: ProviderRouteContext) {
   const provider = await resolveProvider(context);
   const url = new URL(request.url);
+  const host = readRequestHostname(request);
+
+  logInstallLifecycle('info', 'received', {
+    host,
+    hasSession: null,
+    message: null,
+    setupAction: null,
+  });
   bitcodeServerTelemetry('info', 'github-callback', 'received', {
     provider,
+    host,
     hasInstallationId: url.searchParams.has('installation_id'),
     hasCode: Boolean(readString(url.searchParams.get('code'))),
     hasError: Boolean(readString(url.searchParams.get('error'))),
+    canonicalOrigin: resolveCanonicalAppOrigin(request),
   });
 
   if (isMockVcsMode()) {

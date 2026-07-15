@@ -125,8 +125,20 @@ export function VCSConnectionCard({
           'GitHub App is installed but Bitcode still needs a Connected identity to finish linking. Connect wallet/session, then Refresh.',
         );
       } else if (data.claimedInstallation?.error) {
+        const errorClass =
+          typeof data.claimedInstallation.errorClass === 'string'
+            ? data.claimedInstallation.errorClass
+            : null;
+        const classHint =
+          errorClass === 'app_mismatch'
+            ? ' (this install is not visible to this deployment’s GitHub App — Disconnect and reconnect)'
+            : errorClass === 'credentials'
+              ? ' (GitHub App credentials missing or invalid on this deploy)'
+              : errorClass === 'cookie'
+                ? ' (staged install cookie missing — retry Install from this host)'
+                : '';
         toast.error(
-          `Could not finish GitHub App install: ${String(data.claimedInstallation.error).slice(0, 160)}`,
+          `Could not finish GitHub App install: ${String(data.claimedInstallation.error).slice(0, 160)}${classHint}`,
         );
       }
       
@@ -206,16 +218,24 @@ export function VCSConnectionCard({
         void checkConnection();
       } else if (vcsConnection === 'failed') {
         const vcsErrorDescription = params.get('vcsErrorDescription');
+        const vcsErrorClass = params.get('vcsErrorClass');
+        const classHint =
+          vcsErrorClass === 'app_mismatch'
+            ? ' This installation is not owned by the GitHub App configured on this deploy — Disconnect in Bitcode and reinstall against the current app.'
+            : vcsErrorClass === 'credentials'
+              ? ' GitHub App credentials are missing or invalid on this deploy.'
+              : '';
         const detail = [vcsError, vcsErrorDescription].filter(Boolean).join(' — ');
         console.error('[bitcode-github-connection] callback failed', {
           vcsError,
           vcsErrorDescription,
+          vcsErrorClass,
           installationId: params.get('installation_id'),
         });
         toast.error(
           detail
-            ? `GitHub connection failed: ${detail}`
-            : 'GitHub connection failed. Try reconnect or a personal access token.',
+            ? `GitHub connection failed: ${detail}.${classHint}`
+            : `GitHub connection failed. Try reconnect or a personal access token.${classHint}`,
         );
       }
 
@@ -223,6 +243,7 @@ export function VCSConnectionCard({
       params.delete('vcsConnection');
       params.delete('vcsError');
       params.delete('vcsErrorDescription');
+      params.delete('vcsErrorClass');
       params.delete('vcsSession');
       params.delete('vcsProvider');
       params.delete('installation_id');

@@ -48,16 +48,19 @@ export const GET = createRouteWrapper(async (request: Request, context: Provider
       installationId?: number;
       account?: string | null;
       error?: string;
+      errorClass?: string;
+      diagnostic?: unknown;
     } | null = null;
     if (provider === 'github') {
       try {
         const { claimPendingGitHubInstallation } = await import(
           '@/app/tps/github/_callback-handler'
         );
-        claimedInstallation = await claimPendingGitHubInstallation();
+        claimedInstallation = await claimPendingGitHubInstallation(request);
         if (claimedInstallation?.error === 'session_required') {
           bitcodeServerTelemetry('info', 'github-connection', 'claim-needs-session', {
             installationId: claimedInstallation.installationId ?? null,
+            errorClass: claimedInstallation.errorClass ?? 'session',
           });
         }
       } catch (error) {
@@ -68,6 +71,7 @@ export const GET = createRouteWrapper(async (request: Request, context: Provider
         claimedInstallation = {
           claimed: false,
           error: message,
+          errorClass: 'unknown',
         };
       }
     }
@@ -89,18 +93,21 @@ export const GET = createRouteWrapper(async (request: Request, context: Provider
     installationId?: number;
     account?: string | null;
     error?: string;
+    errorClass?: string;
+    diagnostic?: unknown;
   } | null = null;
   if (provider === 'github') {
     try {
       const { claimPendingGitHubInstallation } = await import(
         '@/app/tps/github/_callback-handler'
       );
-      claimedInstallation = await claimPendingGitHubInstallation();
+      claimedInstallation = await claimPendingGitHubInstallation(request);
       bitcodeServerTelemetry('info', 'github-connection', 'claim-result', {
         claimed: claimedInstallation.claimed,
         installationId: claimedInstallation.installationId ?? null,
         account: claimedInstallation.account ?? null,
         error: claimedInstallation.error ?? null,
+        errorClass: claimedInstallation.errorClass ?? null,
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -110,6 +117,7 @@ export const GET = createRouteWrapper(async (request: Request, context: Provider
       claimedInstallation = {
         claimed: false,
         error: message,
+        errorClass: 'unknown',
       };
     }
   }

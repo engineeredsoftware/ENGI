@@ -161,4 +161,35 @@ describe('GitHub App callback handling', () => {
     expect(stagedLocation).toContain('vcsSession=required');
     expect(mockSaveConnection).not.toHaveBeenCalled();
   });
+
+  it('classifies installation API 404 as app_mismatch on the redirect', async () => {
+    mockGetInstallation.mockRejectedValueOnce(
+      new Error('Failed to get installation: 404 {"message":"Not Found"}'),
+    );
+
+    const { GET } = await import('@/app/tps/github/app-install/route');
+    const response = await GET(
+      new Request(
+        'https://bitcode.exchange/tps/github/app-install?installation_id=999&setup_action=install',
+      ) as any,
+    );
+    const location = readHeader(response, 'location') || '';
+    expect(location).toContain('vcsConnection=failed');
+    expect(location).toContain('vcsErrorClass=app_mismatch');
+    expect(location).toContain('installation_id=999');
+  });
+
+  it('redirects install outcomes to NEXT_PUBLIC_APP_URL origin when set', async () => {
+    process.env.NEXT_PUBLIC_APP_URL = 'https://www.bitcode.exchange';
+
+    const { GET } = await import('@/app/tps/github/app-install/route');
+    const response = await GET(
+      new Request(
+        'https://bitcode.exchange/tps/github/app-install?installation_id=131722518&setup_action=install',
+      ) as any,
+    );
+    const location = readHeader(response, 'location') || '';
+    expect(location.startsWith('https://www.bitcode.exchange/packs?')).toBe(true);
+    expect(location).toContain('vcsConnection=installation_connected');
+  });
 });
