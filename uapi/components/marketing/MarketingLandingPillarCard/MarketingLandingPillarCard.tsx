@@ -107,7 +107,7 @@ export function MarketingLandingPillarCard({
                   Proven on deposit
                 </p>
                 <p className="mt-1 text-[11px] leading-4 text-violet-100/72">
-                  source inclusions, obfuscations, and pack's contents
+                  permitted source, obfuscations, and synthesized pack
                 </p>
               </div>
             </div>

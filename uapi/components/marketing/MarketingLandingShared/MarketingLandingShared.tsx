@@ -120,7 +120,7 @@ export const previewRows = [
   },
   {
     key: "Seller's View",
-    valueParts: ["source inclusions", 'obfuscations', "pack's contents"],
+    valueParts: ['permitted source', 'obfuscations', 'synthesized pack'],
     bulletTone: 'purple' as PreviewValueTone,
     valueTones: {
       obfuscations: 'purple',
@@ -133,10 +133,10 @@ export const previewRows = [
   },
   {
     key: "Buyer's View",
-    valueParts: ['measurements', 'fits-for-needs', 'knowledge volume'],
+    valueParts: ['measurements', 'needs-fits scores', 'knowledge volume'],
     bulletTone: 'orange' as PreviewValueTone,
     valueTones: {
-      'fits-for-needs': 'orange',
+      'needs-fits scores': 'orange',
     } satisfies Partial<Record<string, PreviewValueTone>>,
     accentClassName: 'from-orange-400/18 via-amber-300/8 to-transparent',
     Icon: Squares2X2Icon,
